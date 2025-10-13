@@ -76,15 +76,6 @@ references:
 ---
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-<<<<<<< HEAD
-- [js-to-lisp-reverse-compiler]
-- [set-assignment-in-lisp-ast]
-- [language-agnostic-mirror-system]
-## Sources
-- [js-to-lisp-reverse-compiler#^ref-58a50f5a-4-0|js-to-lisp-reverse-compiler — L4] (line 4, col 0, score 1)
-- [js-to-lisp-reverse-compiler#^ref-58a50f5a-5-0|js-to-lisp-reverse-compiler — L5] (line 5, col 0, score 1)
-```
-=======
 ```
 - [chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]
 - [Diagrams]chunks/diagrams.md
@@ -104,6 +95,5 @@ references:
 - [Services — L440]chunks/services.md#^ref-75ea4a6a-440-0 (line 440, col 0, score 1)
 - [Shared — L370]chunks/shared.md#^ref-623a55f7-370-0 (line 370, col 0, score 1)
 ```
->>>>>>> stealth/obsidian
 ```
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

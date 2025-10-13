@@ -71,7 +71,20 @@ test('createTask prevents duplicate titles with different content', async (t) =>
 
   // Should return the first task, not create a duplicate
   t.is(firstTask.uuid, secondTask.uuid, 'Should return existing task UUID');
-  t.is(firstTask.content, secondTask.content, 'Should preserve original content');
+  t.true(
+    firstTask.content?.includes('First content') && secondTask.content?.includes('First content'),
+    'Both tasks should contain original content',
+  );
+
+  // Both should have the formatted content with sections
+  t.true(
+    firstTask.content?.includes('## ⛓️ Blocked By') ?? false,
+    'First task should have Blocked By section',
+  );
+  t.true(
+    firstTask.content?.includes('## ⛓️ Blocks') ?? false,
+    'First task should have Blocks section',
+  );
 });
 
 test('createTask allows same title in different columns', async (t) => {
@@ -205,8 +218,8 @@ test('board regeneration does not create duplicate tasks', async (t) => {
   t.is(fileCountBefore, fileCountAfter, 'Regeneration should not create new files');
 
   // Should still find the original task
-  const todoColumn = regeneratedBoard.columns.find((col) => col.name === 'todo');
-  const regeneratedTask = todoColumn?.tasks.find((task) => task.title === taskTitle);
+  const todoColumn = regeneratedBoard.columns.find((col: any) => col.name === 'todo');
+  const regeneratedTask = todoColumn?.tasks.find((task: any) => task.title === taskTitle);
 
   t.truthy(regeneratedTask, 'Original task should still exist after regeneration');
   if (regeneratedTask) {

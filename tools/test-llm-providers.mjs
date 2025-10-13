@@ -67,7 +67,6 @@ function calculateTotal(items, tax = 0.1, discount = 0) {
   for (const item of items) {
     const itemTotal = item.price * item.quantity;
     total += itemTotal * (1 - discount);
->>>>>>> main
   }
   return total * (1 + tax);
 }`;

@@ -45,7 +45,7 @@
       "path": "./packages/effects"
     },
     {
-      "path": "./packages/embeddings"
+      "path": "./packages/embedding"
     },
     {
       "path": "./packages/event"
@@ -118,6 +118,9 @@
     },
     {
       "path": "./packages/ws"
+    },
+    {
+      "path": "./packages/lmdb-cache"
     }
   ]
 }

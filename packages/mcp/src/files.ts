@@ -11,6 +11,17 @@ export const getMcpRoot = (): string => {
 /** Strip a leading "../" etc. and never return a path outside the root. */
 export const normalizeToRoot = (ROOT_PATH: string, rel: string | undefined = '.'): string => {
   const base = path.resolve(ROOT_PATH);
+  
+  // If rel is already absolute, check if it's inside the root
+  if (rel && path.isAbsolute(rel)) {
+    const abs = path.resolve(rel);
+    if (isInsideRoot(ROOT_PATH, abs)) {
+      return abs;
+    }
+    throw new Error('path outside root');
+  }
+  
+  // Otherwise resolve relative to the base
   const abs = path.resolve(base, rel || '.');
   const relToBase = path.relative(base, abs);
   if (relToBase.startsWith('..') || path.isAbsolute(relToBase)) {
@@ -22,7 +33,8 @@ export const normalizeToRoot = (ROOT_PATH: string, rel: string | undefined = '.'
 /** Check if an absolute path is still inside the sandbox root. */
 export const isInsideRoot = (ROOT_PATH: string, absOrRel: string): boolean => {
   const base = path.resolve(ROOT_PATH);
-  const abs = path.resolve(base, absOrRel);
+  // If absOrRel is already absolute, use it directly
+  const abs = path.isAbsolute(absOrRel) ? path.resolve(absOrRel) : path.resolve(base, absOrRel);
   const relToBase = path.relative(base, abs);
   return !(relToBase.startsWith('..') || path.isAbsolute(relToBase));
 };

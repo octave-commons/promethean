@@ -33,6 +33,24 @@ const developmentOverrides = {
 };
 
 export const apps = [
+  // Core Infrastructure Services
+  {
+    name: 'heartbeat-service',
+    script: 'index.js',
+    cwd: './packages/heartbeat',
+    out_file: './logs/heartbeat-service-out.log',
+    error_file: './logs/heartbeat-service-err.log',
+    env: {
+      ...agentDefaults.env,
+      PM2_PROCESS_NAME: 'heartbeat-service',
+      PORT: '7000',
+      BROKER_URL: 'ws://localhost:7000',
+      HEARTBEAT_TIMEOUT: '600000', // 10 minutes
+      CHECK_INTERVAL: '300000', // 5 minutes
+    },
+    ...agentDefaults,
+  },
+
   // Core Discord Agent
   {
     name: 'cephalon',
@@ -51,14 +69,14 @@ export const apps = [
   // Web Interface
   {
     name: 'duck-web',
-    script: 'dist/index.js', // Vite build output
+    script: 'server.js',
     cwd: './packages/duck-web',
     out_file: './logs/duck-web-out.log',
     error_file: './logs/duck-web-err.log',
     env: {
       ...agentDefaults.env,
       PM2_PROCESS_NAME: 'duck-web',
-      PORT: '3000',
+      PORT: '3001',
       HOST: '0.0.0.0',
     },
     ...agentDefaults,
@@ -103,7 +121,7 @@ export const apps = [
   // Supporting Services
   {
     name: 'broker',
-    script: 'dist/index.js',
+    script: 'index.js',
     cwd: './packages/broker',
     out_file: './logs/broker-out.log',
     error_file: './logs/broker-err.log',
@@ -139,6 +157,22 @@ export const apps = [
       ...agentDefaults.env,
       PM2_PROCESS_NAME: 'voice-service',
       PORT: '8083',
+    },
+    ...agentDefaults,
+  },
+
+  // OpenCode Session Manager
+  {
+    name: 'opencode-session-manager',
+    script: 'public/js/main.js',
+    cwd: './packages/opencode-session-manager',
+    out_file: './logs/opencode-session-manager-out.log',
+    error_file: './logs/opencode-session-manager-err.log',
+    env: {
+      ...agentDefaults.env,
+      PM2_PROCESS_NAME: 'opencode-session-manager',
+      PORT: '8084',
+      HOST: '0.0.0.0',
     },
     ...agentDefaults,
   },

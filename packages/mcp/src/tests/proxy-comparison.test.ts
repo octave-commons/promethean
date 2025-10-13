@@ -1,4 +1,5 @@
-import { test, describe } from 'node:test';
+import test from 'ava';
+import { describe } from 'node:test';
 import assert from 'node:assert';
 import { StdioHttpProxy } from '../proxy/stdio-proxy.js';
 import { SdkStdioProxy } from '../proxy/sdk-stdio-proxy.js';

@@ -707,7 +707,7 @@ const writeBoard = async (boardPath: string, board: Board): Promise<void> => {
   }
   segments.push(footer.trimEnd());
   const output = `${segments.join('\n\n')}\n`;
-  await fs.mkdir(boardPath.split('/').slice(0, -1).join('/'), { recursive: true }).catch(() => {});
+  await fs.mkdir(path.dirname(boardPath), { recursive: true }).catch(() => {});
   await fs.writeFile(boardPath, output, 'utf8');
 };
 
@@ -1069,13 +1069,20 @@ export const pullFromTasks = async (
       added++;
     } else {
       const currentTask = loc.col.tasks[loc.idx];
+
+      // *** ENHANCED PULL LOGIC ***
+      // For pull operation, task file is source of truth
+      // Update board task with file data, but preserve board's column context
       loc.col.tasks[loc.idx] = {
         ...currentTask,
         ...normalizedTask,
+        // Preserve board's column name for display, but track file status for conflict detection
         status: loc.col.name,
       };
+
       const currentKey = columnKey(loc.col.name);
       if (currentKey !== statusKey) {
+        // Task file status differs from board column - move the task
         // remove from old
         loc.col.tasks = loc.col.tasks.filter((x) => x.uuid !== t.uuid);
         loc.col.count = loc.col.tasks.length;
@@ -1090,6 +1097,10 @@ export const pullFromTasks = async (
         dest.tasks = [...dest.tasks, { ...normalizedTask, status: dest.name }];
         dest.count = dest.tasks.length;
         moved++;
+
+        console.log(
+          `📝 Pulled status change for task "${normalizedTask.title}": ${loc.col.name} → ${normalizedStatus}`,
+        );
       }
     }
   }
@@ -1122,17 +1133,25 @@ export const pullFromTasks = async (
     column.count = filteredTasks.length;
   }
   await writeBoard(boardPath, board);
+
+  if (moved > 0) {
+    console.log(`✅ Pulled ${moved} status change(s) from files to board`);
+  }
+
   return { added, moved };
 };
 
 export const pushToTasks = async (
   board: Board,
   tasksDir: string,
-): Promise<{ added: number; moved: number }> => {
+): Promise<{ added: number; moved: number; statusUpdated: number }> => {
   let added = 0,
-    moved = 0;
+    moved = 0,
+    statusUpdated = 0;
   const existingTasks = await readTasksFolder(tasksDir);
   const existingByUuid = new Map(existingTasks.map((task) => [task.uuid, task]));
+
+  // Create a map of existing file bases to their UUIDs, checking actual files on disk
   const usedNames = new Map<string, string>();
   for (const task of existingTasks) {
     const base = ensureTaskFileBase(task);
@@ -1141,15 +1160,83 @@ export const pushToTasks = async (
 
   await fs.mkdir(tasksDir, { recursive: true }).catch(() => {});
 
+  // Get all existing files in the tasks directory to check for actual file existence
+  const existingFiles = new Set<string>();
+  try {
+    const files = await fs.readdir(tasksDir);
+    for (const file of files) {
+      if (file.endsWith('.md')) {
+        existingFiles.add(file);
+      }
+    }
+  } catch (error) {
+    // If we can't read the directory, continue with empty set
+    console.warn(`Warning: Could not read tasks directory ${tasksDir}: ${error}`);
+  }
+
   for (const col of board.columns) {
     for (const task of col.tasks) {
       const baseName = ensureTaskFileBase(task);
-      const uniqueBase = ensureUniqueFileBase(baseName, usedNames, task.uuid);
-      if (task.slug !== uniqueBase) {
-        task.slug = uniqueBase;
+
+      // Check if the exact file already exists for this UUID
+      const existingTask = existingByUuid.get(task.uuid);
+      const existingFileBase = existingTask ? ensureTaskFileBase(existingTask) : null;
+      const existingFileName = existingFileBase ? `${existingFileBase}.md` : null;
+
+      // *** MANUAL EDIT DETECTION LOGIC ***
+      // Detect if the task's status in the board differs from the task file's status
+      // This indicates a manual edit through the Obsidian UI that needs to be preserved
+      let boardStatus = col.name;
+      let fileStatus = existingTask?.status;
+
+      // Normalize statuses for comparison
+      const normalizedBoardStatus = normalizeColumnDisplayName(boardStatus);
+      const normalizedFileStatus = fileStatus ? normalizeColumnDisplayName(fileStatus) : null;
+
+      if (existingTask && normalizedFileStatus && normalizedBoardStatus !== normalizedFileStatus) {
+        statusUpdated++;
+        console.log(
+          `📝 Detected manual status change for task "${task.title}": ${normalizedFileStatus} → ${normalizedBoardStatus}`,
+        );
       }
-      usedNames.set(uniqueBase, task.uuid);
-      const filename = `${uniqueBase}.md`;
+
+      // If we have an existing file for this UUID, check if the title has changed
+      let targetBase = baseName;
+      if (existingFileName && existingFiles.has(existingFileName)) {
+        // If the title changed, use the new base name to rename the file
+        // Otherwise, keep the existing base name
+        if (existingTask && existingTask.title === task.title) {
+          targetBase = existingFileBase!;
+        }
+        // If title changed, we'll use the new baseName (which may trigger file rename)
+      } else {
+        // Check if there's already a file with this base name for any UUID
+        const conflictingFileName = `${baseName}.md`;
+        if (existingFiles.has(conflictingFileName)) {
+          // Find the UUID that owns this conflicting file
+          const conflictingUuid = usedNames.get(baseName);
+          if (conflictingUuid && conflictingUuid !== task.uuid) {
+            // Only create a new unique name if this is a different UUID
+            // This prevents the " 2.md" suffix issue when it's the same task
+            let attempt = 1;
+            let uniqueCandidate = `${baseName} ${attempt}`;
+            while (existingFiles.has(`${uniqueCandidate}.md`)) {
+              attempt++;
+              uniqueCandidate = `${baseName} ${attempt}`;
+            }
+            targetBase = uniqueCandidate;
+          }
+        }
+      }
+
+      if (task.slug !== targetBase) {
+        task.slug = targetBase;
+      }
+
+      // Update usedNames to reflect the final choice
+      usedNames.set(targetBase, task.uuid);
+
+      const filename = `${targetBase}.md`;
       const targetPath = path.join(tasksDir, filename);
       const previous = existingByUuid.get(task.uuid);
       const previousPath = previous?.sourcePath;
@@ -1169,17 +1256,28 @@ export const pushToTasks = async (
         }
       }
 
-      // Use task's own content, falling back to existing content for backwards compatibility
-      const finalContent = task.content || existingContent;
+      // *** ENHANCED CONTENT PRESERVATION LOGIC ***
+      // Use board task content if available (board is source of truth for push operation)
+      // This ensures manual UI edits are preserved when pushing to files
+      let finalContent = task.content || existingContent;
+
+      // For push operation, board content takes precedence to preserve manual edits
+      if (task.content) {
+        finalContent = task.content;
+      }
+
       // Preserve original created_at timestamp if it exists, otherwise use task's timestamp
       const preservedCreatedAt = existingCreatedAt || task.created_at;
+
       const content = toFrontmatter({
         ...task,
-        status: col.name,
+        status: normalizedBoardStatus, // Always use the normalized board column name as authoritative status
         content: finalContent,
         created_at: preservedCreatedAt,
       });
+
       await fs.writeFile(targetPath, content, 'utf8');
+
       if (!previous) {
         added += 1;
       } else {
@@ -1191,20 +1289,28 @@ export const pushToTasks = async (
       existingByUuid.delete(task.uuid);
     }
   }
-  return { added, moved };
+
+  // Log summary of manual edits detected and preserved
+  if (statusUpdated > 0) {
+    console.log(`✅ Preserved ${statusUpdated} manual status change(s) from board to files`);
+  }
+
+  return { added, moved, statusUpdated };
 };
 
 const persistBoardAndTasks = async (
   board: Board,
   boardPath: string | undefined,
   tasksDir: string | undefined,
-): Promise<void> => {
+): Promise<{ tasks: { added: number; moved: number; statusUpdated: number } }> => {
   if (boardPath) {
     await writeBoard(boardPath, board);
   }
+  let tasksResult = { added: 0, moved: 0, statusUpdated: 0 };
   if (tasksDir) {
-    await pushToTasks(board, tasksDir);
+    tasksResult = await pushToTasks(board, tasksDir);
   }
+  return { tasks: tasksResult };
 };
 
 const BLOCKED_BY_HEADING = '## ⛓️ Blocked By';
@@ -1272,11 +1378,45 @@ const mergeSectionItems = (
 const applyTemplateReplacements = (
   template: string,
   replacements: Record<string, string>,
-): string =>
-  template.replace(/{{\s*([\w-]+)\s*}}/g, (_match, key: string) => {
-    const replacement = replacements[key];
+): string => {
+  // Security: Validate template input to prevent injection attacks
+  if (typeof template !== 'string') {
+    throw new Error('Template must be a string');
+  }
+
+  // Security: Sanitize replacement values to prevent code injection
+  const sanitizedReplacements: Record<string, string> = {};
+  for (const [key, value] of Object.entries(replacements)) {
+    // Only allow alphanumeric keys
+    if (!/^[a-zA-Z_][a-zA-Z0-9_-]*$/.test(key)) {
+      throw new Error(`Invalid replacement key: ${key}`);
+    }
+
+    // Sanitize replacement values to prevent injection
+    if (typeof value !== 'string') {
+      sanitizedReplacements[key] = String(value);
+    } else {
+      // Escape HTML special characters and remove dangerous patterns
+      sanitizedReplacements[key] = value
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#x27;')
+        .replace(/`/g, '&#x60;')
+        // Remove potential JavaScript execution patterns
+        .replace(/javascript:/gi, '')
+        .replace(/vbscript:/gi, '')
+        .replace(/on\w+\s*=/gi, '');
+    }
+  }
+
+  // Safe template replacement with validation
+  return template.replace(/\{\{\s*([a-zA-Z_][a-zA-Z0-9_-]*)\s*\}\}/g, (_match, key: string) => {
+    const replacement = sanitizedReplacements[key];
     return typeof replacement === 'string' ? replacement : '';
   });
+};
 
 const uniqueStrings = (values: ReadonlyArray<string> | undefined): string[] =>
   Array.from(
@@ -1337,12 +1477,13 @@ export const createTask = async (
   );
 
   if (boardTaskInColumn) {
-    // Try to get full content from existing tasks or use board task
+    // Always try to get full content from existing tasks (file-based)
     const fullTask = existingTasks.find((t) => t.uuid === boardTaskInColumn.uuid);
     if (fullTask) {
       return fullTask;
     }
-    // Fallback to board task if no file version found
+    // If no file version found, this shouldn't happen, but fallback to board task
+    // Ensure board task has consistent content formatting
     return boardTaskInColumn;
   }
   // *** END CRITICAL FIX ***
@@ -1575,7 +1716,11 @@ export const renameTask = async (
   };
   column.tasks = [...column.tasks.slice(0, index), updated, ...column.tasks.slice(index + 1)];
   await persistBoardAndTasks(board, boardPath, tasksDir);
-  return updated;
+
+  // After persisting, the task's slug will be updated by pushToTasks
+  // Find the updated task and return it
+  const finalLocated = locateTask(board, uuid);
+  return finalLocated?.task;
 };
 
 export const syncBoardAndTasks = async (
@@ -1584,7 +1729,7 @@ export const syncBoardAndTasks = async (
   boardPath: string,
 ): Promise<{
   board: { added: number; moved: number };
-  tasks: { added: number; moved: number };
+  tasks: { added: number; moved: number; statusUpdated: number };
   conflicting: string[];
 }> => {
   const taskFiles = await readTasksFolder(tasksDir);
@@ -1594,18 +1739,68 @@ export const syncBoardAndTasks = async (
   const tasksById = new Map(taskFiles.map((t) => [t.uuid, t]));
 
   const conflicting: string[] = [];
-  for (const [id, t] of tasksById) {
-    const b = boardById.get(id);
-    if (!b) continue;
-    if (
-      (b.title ?? '') !== (t.title ?? '') ||
-      columnKey(String(b.status ?? '')) !== columnKey(String(t.status ?? ''))
-    )
+
+  // *** ENHANCED CONFLICT DETECTION ***
+  // Detect conflicts between board and file states
+  for (const [id, fileTask] of tasksById) {
+    const boardTask = boardById.get(id);
+    if (!boardTask) continue;
+
+    const fileTitle = (fileTask.title ?? '').trim();
+    const boardTitle = (boardTask.title ?? '').trim();
+    const fileStatus = normalizeColumnDisplayName(String(fileTask.status ?? ''));
+    const boardStatus = normalizeColumnDisplayName(String(boardTask.status ?? ''));
+
+    // Check for title conflicts
+    if (fileTitle !== boardTitle) {
       conflicting.push(id);
+      console.log(
+        `⚠️  Title conflict for task ${id}: board="${boardTitle}" vs file="${fileTitle}"`,
+      );
+    }
+
+    // Check for status conflicts
+    if (fileStatus !== boardStatus) {
+      conflicting.push(id);
+      console.log(
+        `⚠️  Status conflict for task ${id}: board="${boardStatus}" vs file="${fileStatus}"`,
+      );
+    }
   }
+
+  // *** BIDIRECTIONAL SYNC WITH CONFLICT RESOLUTION ***
+  // Strategy: Pull from files first (files have ground truth), then push board changes back
+  // This preserves manual file edits while also preserving board manual edits
+
+  console.log('🔄 Sync: Pulling changes from files to board...');
   const boardRes = await pullFromTasks(board, tasksDir, boardPath);
+
+  console.log('🔄 Sync: Pushing changes from board to files...');
   const tasksRes = await pushToTasks(board, tasksDir);
-  return { board: boardRes, tasks: tasksRes, conflicting };
+
+  // Write the board again after pushToTasks to ensure links match updated filenames
+  if (boardPath) {
+    await writeBoard(boardPath, board);
+  }
+
+  // Enhanced logging for manual edit detection during sync
+  if (tasksRes.statusUpdated > 0) {
+    console.log(`📝 Sync preserved ${tasksRes.statusUpdated} manual status change(s) from board`);
+  }
+
+  if (boardRes.moved > 0) {
+    console.log(`📝 Sync applied ${boardRes.moved} status change(s) from files`);
+  }
+
+  if (conflicting.length > 0) {
+    console.log(`⚠️  Resolved ${conflicting.length} conflict(s) during sync`);
+  }
+
+  // Combine status changes from both pull and push phases
+  const totalStatusUpdated = boardRes.moved + tasksRes.statusUpdated;
+  const combinedTasksRes = { ...tasksRes, statusUpdated: totalStatusUpdated };
+
+  return { board: boardRes, tasks: combinedTasksRes, conflicting };
 };
 
 export const regenerateBoard = async (
@@ -1633,8 +1828,9 @@ export const regenerateBoard = async (
     }
   }
 
-  // Create columns for ALL configured statuses, even if empty
-  const columns: ColumnData[] = Array.from(config.statusValues).map((statusValue) => {
+  // Create columns for configured statuses
+  const configuredStatusKeys = new Set(Array.from(config.statusValues).map(columnKey));
+  const configuredColumns: ColumnData[] = Array.from(config.statusValues).map((statusValue) => {
     const displayName = normalizeColumnDisplayName(statusValue);
     const key = columnKey(statusValue);
     const existingGroup = statusGroups.get(key);
@@ -1646,6 +1842,19 @@ export const regenerateBoard = async (
       tasks: existingGroup?.tasks || [],
     };
   });
+
+  // Create columns for any additional task statuses that aren't configured
+  const additionalColumns: ColumnData[] = Array.from(statusGroups.entries())
+    .filter(([key]) => !configuredStatusKeys.has(key))
+    .map(([, group]) => ({
+      name: group.name,
+      count: group.tasks.length,
+      limit: null, // No WIP limit for unconfigured columns
+      tasks: group.tasks,
+    }));
+
+  // Combine configured columns with additional columns
+  const columns = [...configuredColumns, ...additionalColumns];
 
   await maybeRefreshIndex(tasksDir);
   await writeBoard(boardPath, { columns });

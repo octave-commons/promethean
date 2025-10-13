@@ -139,7 +139,8 @@
           "inputs": ["docs/labeled/**/*.md"],
           "outputs": [".cache/readmes/outline.json"],
           "inputSchema": "packages/readmeflow/schemas/io.schema.json",
-          "outputSchema": "packages/readmeflow/schemas/io.schema.json"
+          "outputSchema": "packages/readmeflow/schemas/io.schema.json",
+        }
       ]
     },
     {

@@ -69,7 +69,8 @@
     "shadow:build": "pnpm --filter @promethean/shadow-ui run build && pnpm --filter '@promethean/*-frontend' run build:shadow",
     "shadow:watch": "pnpm --filter @promethean/shadow-ui run watch",
     "shadow:watch:frontends": "pnpm --parallel --filter '@promethean/*-frontend' run watch:shadow",
-    "create-mutaant": "pnpm exec buildfix create-mutaant"
+    "create-mutaant": "pnpm exec buildfix create-mutaant",
+    "kanban": "node packages/kanban/dist/cli.js"
   },
   "bin": {
     "prom": "./packages/promethean-cli/dist/promethean_cli.cjs",
@@ -157,7 +158,7 @@
       "@fastify/rate-limit": "10.3.0",
       "@fastify/swagger": "9.5.1",
       "@fastify/swagger-ui": "5.2.3",
-      "typescript": "5.4.5",
+      "typescript": "5.7.2",
       "ts-node": "10.9.2",
       "@types/node": "20.19.11"
     }

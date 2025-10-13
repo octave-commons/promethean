@@ -101,12 +101,6 @@ jobs:
 ```
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-<<<<<<< HEAD
-- [promethean-notes]
-## Sources
-- [promethean-notes#^ref-c54611b2-2-0|promethean-notes — L2] (line 2, col 0, score 1)
-```
-=======
 ```
 - [ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]
 - [ai-first-os-model-context-protocol]
@@ -122,6 +116,5 @@ jobs:
 - [balanced-bst#L297|balanced-bst — L297] (line 297, col 1, score 1)
 - [balanced-bst#L297|balanced-bst — L297] (line 297, col 3, score 1)
 ```
->>>>>>> stealth/obsidian
 ```
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

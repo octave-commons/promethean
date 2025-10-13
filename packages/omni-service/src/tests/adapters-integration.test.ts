@@ -8,7 +8,7 @@ test('app: Fastify app creation with all adapters', async (t) => {
     adapters: {
       rest: { enabled: true, prefix: '/api', version: 'v1' },
       graphql: { enabled: true, endpoint: '/graphql', playground: false },
-      websocket: { enabled: true, path: '/ws', enableSubscriptions: false },
+      websocket: { enabled: true, path: '/ws' },
       mcp: { enabled: true, prefix: '/mcp' },
     },
   });
@@ -61,7 +61,7 @@ test('app: adapter configuration validation', async (t) => {
     createApp({
       ...config,
       adapters: {
-        graphql: { enabled: true, endpoint: '/conflict' },
+        graphql: { enabled: true, endpoint: '/conflict', playground: false },
         websocket: { enabled: true, path: '/conflict' },
         rest: { enabled: true, prefix: '/api', version: 'v1' },
         mcp: { enabled: true, prefix: '/mcp' },
@@ -69,7 +69,7 @@ test('app: adapter configuration validation', async (t) => {
     });
 
     t.fail('Should have thrown error for conflicting endpoints');
-  } catch (error) {
+  } catch (error: any) {
     t.true(error instanceof Error, 'Should throw Error for conflicting endpoints');
     t.true(
       error.message.includes('Adapter configuration invalid'),
@@ -85,12 +85,12 @@ test('app: adapter configuration validation', async (t) => {
         rest: { enabled: true, prefix: '/mcp', version: 'v1' },
         mcp: { enabled: true, prefix: '/mcp' },
         graphql: { enabled: true, endpoint: '/graphql', playground: false },
-        websocket: { enabled: true, path: '/ws', enableSubscriptions: false },
+        websocket: { enabled: true, path: '/ws' },
       },
     });
 
     t.fail('Should have thrown error for prefix conflicts');
-  } catch (error) {
+  } catch (error: any) {
     t.true(error instanceof Error, 'Should throw Error for prefix conflicts');
     t.true(
       error.message.includes('Adapter configuration invalid'),
@@ -105,7 +105,7 @@ test('app: adapter configuration validation', async (t) => {
       adapters: {
         rest: { enabled: true, prefix: '/api', version: 'v1' },
         graphql: { enabled: true, endpoint: '/graphql', playground: false },
-        websocket: { enabled: true, path: '/ws', enableSubscriptions: false },
+        websocket: { enabled: true, path: '/ws' },
         mcp: { enabled: true, prefix: '/mcp' },
       },
     });
@@ -123,6 +123,7 @@ test('app: authentication integration across adapters', async (t) => {
     adapters: {
       rest: { enabled: true, prefix: '/api', version: 'v1' },
       graphql: { enabled: true, endpoint: '/graphql', playground: false },
+      websocket: { enabled: true, path: '/ws' },
       mcp: { enabled: true, prefix: '/mcp' },
     },
   });
@@ -212,7 +213,7 @@ test('app: adapter configuration and mounting', async (t) => {
     adapters: {
       rest: { enabled: true, prefix: '/api', version: 'v1' },
       graphql: { enabled: false, endpoint: '/graphql', playground: false },
-      websocket: { enabled: false, path: '/ws', enableSubscriptions: false },
+      websocket: { enabled: false, path: '/ws' },
       mcp: { enabled: false, prefix: '/mcp' },
     },
   });
@@ -257,7 +258,7 @@ test('app: adapter configuration and mounting', async (t) => {
     adapters: {
       rest: { enabled: false, prefix: '/api', version: 'v1' },
       graphql: { enabled: false, endpoint: '/graphql', playground: false },
-      websocket: { enabled: false, path: '/ws', enableSubscriptions: false },
+      websocket: { enabled: false, path: '/ws' },
       mcp: { enabled: false, prefix: '/mcp' },
     },
   });
@@ -290,11 +291,23 @@ test('app: request correlation and context sharing', async (t) => {
     ...config,
     adapters: {
       rest: { enabled: true, prefix: '/api', version: 'v1' },
+      graphql: { enabled: false, endpoint: '/graphql', playground: false },
+      websocket: { enabled: false, path: '/ws' },
       mcp: { enabled: true, prefix: '/mcp' },
     },
   });
 
-  const authManager = createAuthManager();
+  const { AuthManager } = await import('../auth/auth-manager.js');
+  const authManager = new AuthManager({
+    jwt: config.jwt,
+    apikey: config.apikey || { enabled: true, headerName: 'x-api-key' },
+    rbac: config.rbac || { defaultRoles: ['readonly'], permissionsCacheTTL: 300 },
+    session: config.session || {
+      enabled: true,
+      cookieName: 'omni-token',
+      cookieOptions: { httpOnly: true, secure: false, sameSite: 'strict', maxAge: 86400 },
+    },
+  });
   const testUser = {
     id: 'context-test-user',
     username: 'contexttest',
@@ -361,6 +374,8 @@ test('app: error handling and graceful degradation', async (t) => {
     ...config,
     adapters: {
       rest: { enabled: true, prefix: '/api', version: 'v1' },
+      graphql: { enabled: true, endpoint: '/graphql', playground: false },
+      websocket: { enabled: true, path: '/ws' },
       mcp: { enabled: true, prefix: '/mcp' },
     },
   });

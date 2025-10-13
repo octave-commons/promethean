@@ -103,7 +103,12 @@ function applyLayout(world: WorldLike, ctype: ComponentRef, cols: CompColumns, s
         const cur = world.get(eid, ctype) ?? {};
         const updated: ComponentData = { ...cur };
         for (const [field, arr] of Object.entries(cols.fields)) {
-            updated[field] = arr[i]!;
+            if (i < arr.length) {
+                const value = arr[i];
+                if (value !== undefined) {
+                    updated[field] = value;
+                }
+            }
         }
         world.set(eid, ctype, updated);
     });

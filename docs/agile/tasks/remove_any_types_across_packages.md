@@ -1,5 +1,5 @@
 ---
-uuid: "cc373a25-f288-4def-8ced-b824cc72c06a"
+uuid: "fde8c516-a293-44e5-bab9-51a41ead5bb0"
 title: "Remove `any` types across packages"
 slug: "remove_any_types_across_packages"
 status: "done"
@@ -11,6 +11,25 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## Task Completion Summary
@@ -54,4 +73,23 @@ Made significant progress removing `any` types across packages:
 - Some test files and utility functions may still use `any` for flexibility
 
 The most critical packages now have proper typing, making the codebase more maintainable and type-safe.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

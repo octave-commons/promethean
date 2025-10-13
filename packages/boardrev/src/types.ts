@@ -1,9 +1,9 @@
 export enum Priority {
-  P0 = "P0",
-  P1 = "P1",
-  P2 = "P2",
-  P3 = "P3",
-  P4 = "P4",
+  P0 = 'P0',
+  P1 = 'P1',
+  P2 = 'P2',
+  P3 = 'P3',
+  P4 = 'P4',
 }
 
 export type TaskFM = {
@@ -29,7 +29,7 @@ export type PromptChunk = {
 
 export type RepoDoc = {
   path: string; // repo-relative
-  kind: "code" | "doc";
+  kind: 'code' | 'doc';
   size: number;
   excerpt: string; // first N lines
 };
@@ -56,7 +56,7 @@ export type Embeddings = Record<string, number[]>; // key -> vector
 export type ContextHit = {
   path: string;
   score: number;
-  kind: "code" | "doc" | "test-results";
+  kind: 'code' | 'doc' | 'test-results';
   excerpt: string;
 };
 
@@ -64,6 +64,9 @@ export type TaskContext = {
   taskFile: string;
   hits: ContextHit[];
   links: string[]; // explicit links found in task
+  task: TaskFM & { content?: string; tags?: string[] };
+  relatedContext?: Array<{ type: string; title: string; content: string }>;
+  buildTestResults?: Array<{ name: string; status: string; output?: string }>;
 };
 
 export type EvalItem = {

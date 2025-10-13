@@ -62,7 +62,25 @@ const applyLegacyEnv = (env: Readonly<NodeJS.ProcessEnv>): Readonly<NodeJS.Proce
 const COMMAND_LIST = AVAILABLE_COMMANDS;
 const HELP_TEXT =
   `Usage: kanban [--kanban path] [--tasks path] <subcommand> [args...]\n` +
-  `Subcommands: ${[...COMMAND_LIST, 'process_sync', 'doccheck'].join(', ')}`;
+  `Subcommands: ${[...COMMAND_LIST, 'process_sync', 'doccheck'].join(', ')}\n\n` +
+  `Core Operations:\n` +
+  `  push     - Push board state to task files (board → files)\n` +
+  `  pull     - Pull task file state to board (files → board)\n` +
+  `  sync     - Bidirectional sync with conflict detection\n` +
+  `  regenerate - Regenerate board from task files\n\n` +
+  `Task Management:\n` +
+  `  create   - Create new task\n` +
+  `  update   - Update existing task\n` +
+  `  delete   - Delete task\n` +
+  `  list     - List tasks with status\n\n` +
+  `Search & Navigation:\n` +
+  `  find     - Find task by UUID\n` +
+  `  search   - Search tasks by content\n` +
+  `  count    - Count tasks in columns\n\n` +
+  `Advanced:\n` +
+  `  audit    - Audit board consistency\n` +
+  `  ui       - Start web UI\n` +
+  `  dev      - Start development server`;
 
 async function main(): Promise<void> {
   const rawArgs = process.argv.slice(2);

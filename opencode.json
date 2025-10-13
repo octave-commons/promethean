@@ -8,6 +8,11 @@
         "baseURL": "http://localhost:11434/v1"
       },
       "models": {
+
+        "error/gpt-oss:20b-128k": {
+          "name": "GPT-OSS 20B 128K",
+          "tools":true
+        },
         "qwen3:8b": {
           "name": "Qwen3 8B",
           "reasoning_effort": "high",
@@ -48,6 +53,9 @@
           "reasoning_effort": "high",
           "reasoning_summary": "detailed"
         },
+        "gpt-oss:20b-cloud": {
+          "name": "GPT-OSS 20B (cloud)"
+        },
         "qwen3-coder:408b-cloud": {
           "name": "Qwen3 Coder 408B (cloud)",
           "reasoning_effort": "high",
@@ -74,9 +82,10 @@
       },
       "models": {
         "gpt-oss:120b": {
-          "name": "GPT-OSS 120B (cloud)",
-          "reasoning_effort": "high",
-          "reasoning_summary": "detailed"
+          "name": "GPT-OSS 120B (cloud)"
+        },
+        "gpt-oss:20b": {
+          "name": "GPT-OSS 20B (cloud)"
         },
         "qwen3-coder:408b": {
           "name": "Qwen3 Coder 408B (cloud)",

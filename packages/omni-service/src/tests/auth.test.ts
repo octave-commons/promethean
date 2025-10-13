@@ -3,8 +3,31 @@ import { createApp } from '../app.js';
 import { createAuthManager } from '../auth/index.js';
 import { config } from '../config.js';
 
+// Create a proper auth config for testing
+const authConfig = {
+  jwt: config.jwt,
+  apikey: {
+    enabled: true,
+    headerName: 'x-api-key',
+  },
+  rbac: {
+    defaultRoles: ['readonly'],
+    permissionsCacheTTL: 300,
+  },
+  session: {
+    enabled: true,
+    cookieName: 'omni-token',
+    cookieOptions: {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'strict' as const,
+      maxAge: 86400,
+    },
+  },
+};
+
 test('auth-manager: configuration validation', async (t) => {
-  const authManager = createAuthManager();
+  const authManager = createAuthManager(authConfig);
 
   t.truthy(authManager, 'Auth manager should be created');
   t.truthy(authManager.getTokenManager(), 'Token manager should be available');
@@ -12,7 +35,7 @@ test('auth-manager: configuration validation', async (t) => {
 });
 
 test('auth-manager: JWT token generation and validation', async (t) => {
-  const authManager = createAuthManager();
+  const authManager = createAuthManager(authConfig);
 
   const user = {
     id: 'test-user-123',
@@ -36,7 +59,7 @@ test('auth-manager: JWT token generation and validation', async (t) => {
   t.is(accessResult.user?.id, user.id, 'User ID should match');
   t.is(accessResult.user?.username, user.username, 'Username should match');
   t.deepEqual(accessResult.user?.roles, user.roles, 'Roles should match');
-  t.true(accessResult.user?.permissions.size > 0, 'Permissions should be present');
+  t.true((accessResult.user?.permissions?.size || 0) > 0, 'Permissions should be present');
 
   // Validate refresh token
   const refreshResult = authManager.getTokenManager().validateToken(tokens.refreshToken, 'refresh');
@@ -46,7 +69,7 @@ test('auth-manager: JWT token generation and validation', async (t) => {
 });
 
 test('auth-manager: API key generation and validation', async (t) => {
-  const authManager = createAuthManager();
+  const authManager = createAuthManager(authConfig);
 
   const serviceId = 'test-service';
   const permissions = ['api:*:read', 'api:*:write', 'health:*:read'];
@@ -74,7 +97,7 @@ test('auth-manager: API key generation and validation', async (t) => {
 });
 
 test('rbac-manager: role and permission management', async (t) => {
-  const authManager = createAuthManager();
+  const authManager = createAuthManager(authConfig);
   const rbac = authManager.getRBACManager();
 
   // Test default roles
@@ -109,14 +132,16 @@ test('rbac-manager: role and permission management', async (t) => {
 });
 
 test('rbac-manager: role inheritance', async (t) => {
-  const authManager = createAuthManager();
+  const authManager = createAuthManager(authConfig);
   const rbac = authManager.getRBACManager();
 
   // Add custom role with inheritance
   const managerRole = {
     name: 'manager',
     description: 'Manager role with inherited user permissions',
-    permissions: [{ resource: 'team:*', actions: ['read', 'write', 'admin'] }],
+    permissions: [
+      { resource: 'team:*', actions: ['read', 'write', 'admin'] as ('read' | 'write' | 'admin')[] },
+    ],
     inherits: ['user'],
   };
 
@@ -139,7 +164,7 @@ test('rbac-manager: role inheritance', async (t) => {
 });
 
 test('rbac-manager: permission utilities', async (t) => {
-  const authManager = createAuthManager();
+  const authManager = createAuthManager(authConfig);
   const rbac = authManager.getRBACManager();
 
   // Test wildcard permissions
@@ -206,7 +231,7 @@ test('app: Fastify app creation with authentication', async (t) => {
 
 test('app: protected routes with authentication', async (t) => {
   const app = createApp();
-  const authManager = createAuthManager();
+  const authManager = createAuthManager(authConfig);
 
   // Test protected route without authentication
   const protectedResponse = await app.inject({

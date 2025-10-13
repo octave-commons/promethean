@@ -6,7 +6,8 @@
         "composite": true,
         "declaration": true,
         "noUncheckedIndexedAccess": false,
-        "exactOptionalPropertyTypes": false
+        "exactOptionalPropertyTypes": false,
+        "skipLibCheck": true
     },
     "include": ["src/**/*"],
     "references": [

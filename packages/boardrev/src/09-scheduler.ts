@@ -4,7 +4,7 @@
  */
 
 import { EventEmitter } from 'node:events';
-import { createLogger, type Logger } from '@promethean/utils';
+import { createLogger } from '@promethean/utils';
 import { setInterval, clearInterval, setTimeout } from 'node:timers';
 
 export interface ScheduleConfig {
@@ -54,7 +54,7 @@ export interface JobStats {
 
 export class Scheduler extends EventEmitter {
   private config: ScheduleConfig;
-  private logger: Logger;
+  private logger: ReturnType<typeof createLogger>;
   private jobs: Map<string, JobDefinition> = new Map();
   private schedules: Map<string, any> = new Map();
   private executions: Map<string, JobExecution> = new Map();
@@ -62,6 +62,8 @@ export class Scheduler extends EventEmitter {
   private jobStats: Map<string, JobStats> = new Map();
 
   constructor(config: ScheduleConfig = {}) {
+    super();
+
     this.config = {
       timezone: 'UTC',
       maxConcurrentJobs: 3,
@@ -274,7 +276,7 @@ export class Scheduler extends EventEmitter {
       this.schedules.set(job.id, scheduler);
       this.logger.debug(`Scheduled job: ${job.name} (${job.id})`);
     } catch (error) {
-      this.logger.error(`Failed to schedule job ${job.id}:`, error);
+      this.logger.error(`Failed to schedule job ${job.id}:`, error as Record<string, unknown>);
       throw error;
     }
   }
@@ -299,7 +301,7 @@ export class Scheduler extends EventEmitter {
     const { default: cron } = await import('node-cron');
 
     const scheduledJob = cron.schedule(
-      job.schedule,
+      job.schedule as string,
       () => {
         this.executeJob(job);
       },
@@ -313,9 +315,10 @@ export class Scheduler extends EventEmitter {
   }
 
   private createIntervalScheduler(job: JobDefinition): any {
+    const interval = typeof job.schedule === 'number' ? job.schedule : 5000; // Default 5s if somehow string gets here
     return setInterval(() => {
       this.executeJob(job);
-    }, job.schedule);
+    }, interval);
   }
 
   private async executeJob(job: JobDefinition): Promise<void> {
@@ -330,7 +333,7 @@ export class Scheduler extends EventEmitter {
     }
 
     // Check concurrent job limit
-    if (this.activeJobs.size >= this.config.maxConcurrentJobs) {
+    if (this.activeJobs.size >= (this.config.maxConcurrentJobs || 3)) {
       this.logger.warn(
         `Max concurrent jobs reached (${this.config.maxConcurrentJobs}), queuing job ${job.id}`,
       );
@@ -355,7 +358,7 @@ export class Scheduler extends EventEmitter {
     this.emit('job-start', { executionId, job, execution });
 
     try {
-      const timeoutMs = job.timeoutMs || this.config.jobTimeoutMs;
+      const timeoutMs = job.timeoutMs || this.config.jobTimeoutMs || 10 * 60 * 1000;
       const result = await this.executeWithTimeout(job.handler, timeoutMs);
 
       // Execution completed successfully
@@ -374,13 +377,15 @@ export class Scheduler extends EventEmitter {
       execution.duration = execution.endTime.getTime() - execution.startTime.getTime();
       execution.status =
         error instanceof Error && error.message === 'Timeout' ? 'timeout' : 'failed';
-      execution.error = error as Error;
+      execution.error = error instanceof Error ? error : new Error(String(error));
 
       this.updateJobStats(job.id, execution, false);
-      this.logger.error(`Job execution failed: ${job.name} (${executionId}): ${error.message}`);
+      this.logger.error(
+        `Job execution failed: ${job.name} (${executionId}): ${execution.error?.message}`,
+      );
 
       // Retry logic
-      const retryAttempts = job.retryAttempts ?? this.config.retryAttempts;
+      const retryAttempts = job.retryAttempts ?? this.config.retryAttempts ?? 3;
       if (execution.attempt < retryAttempts) {
         this.logger.info(
           `Retrying job ${job.id} (attempt ${execution.attempt + 1}/${retryAttempts})`,

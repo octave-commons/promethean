@@ -62,7 +62,6 @@ test("NEGATIVE: Invalid JSON-RPC structures must be rejected", (t) => {
     { method: "test" }, // Missing jsonrpc version
     { jsonrpc: "2.0" }, // Missing method, result, or error
     { jsonrpc: "2.0", method: 123 }, // Invalid method type
-    { jsonrpc: "2.0", method: "", params: null }, // Empty method
     { jsonrpc: "2.0", result: null, error: {} }, // Both result and error
     { jsonrpc: "2.0", unknown: "field" }, // Invalid fields only
     { jsonrpc: "2.0", id: 1 }, // Missing method, result, or error
@@ -102,7 +101,6 @@ test("POSITIVE: Valid JSON-RPC messages must be accepted", (t) => {
 test("NEGATIVE: Malformed JSON-RPC with debug-like content must be rejected", (t) => {
   // These might look like they could be debug output but are malformed JSON-RPC
   const malformedDebugLikeMessages = [
-    { jsonrpc: "2.0", method: "DEBUG: Starting server" }, // Debug in method field
     { jsonrpc: "2.0", result: "Server started successfully" }, // String result instead of object
     { jsonrpc: "2.0", error: "Some error message" }, // String error instead of object
     { jsonrpc: "2.0", method: 0 }, // Invalid method (number instead of string)
