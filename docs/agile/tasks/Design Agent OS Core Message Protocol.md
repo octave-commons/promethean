@@ -2,7 +2,7 @@
 uuid: "0c3189e4-4c58-4be4-b9b0-8e69474e0047"
 title: "Design Agent OS Core Message Protocol"
 slug: "Design Agent OS Core Message Protocol"
-status: "accepted"
+status: "breakdown"
 priority: "P0"
 labels: ["agent-os", "protocol", "messaging", "core", "design", "critical"]
 created_at: "2025-10-13T18:49:02.728Z"
@@ -11,6 +11,7 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
+
 
 
 
@@ -31,6 +32,7 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
+
 
 
 

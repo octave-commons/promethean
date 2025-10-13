@@ -26,8 +26,6 @@ kanban-plugin: board
 
 ## incoming
 
-- [ ] [[2025.10.12.16.00.00.migrate-kanban-to-lmdb-cache 25|Migrate Kanban Package from @promethean/level-cache to @promethean/lmdb-cache]] #migration #kanban #cache #lmdb #performance #concurrency #drop-in-replacement prio:P1 (uuid:b0ed3163-e0f6-4fbd-be67-9de457202e9c)
-- [ ] [[2025.10.12.16.30.00-implement-caching-layer-task-operations 25|Implement Caching Layer for Task Operations]] #performance #caching #optimization #kanban #database #scalability prio:P1 (uuid:582a6685-c69b-4d60-8df1-56cee01b1f5e)
 - [ ] [[2025.10.12.16.35.00-refactor-complex-functions-createTask 25|Refactor Complex Functions - Break Down createTask Function (200+ lines)]] #refactoring #code-quality #maintainability #complexity #testing #clean-code prio:P1 (uuid:9e95c608-c80e-4a1e-b8ac-59cf26103870)
 - [ ] [[2025.10.12.16.40.00-add-performance-monitoring-optimization 25|Add Performance Monitoring and Optimization Framework]] #performance #monitoring #optimization #profiling #metrics #observability prio:P1 (uuid:c4fa4709-59c8-41fd-8a43-ac0489f57b4c)
 - [ ] [[2025.10.12.16.45.00-extract-magic-numbers-named-constants 25|Extract Magic Numbers to Named Constants]] #code-quality #refactoring #constants #maintainability #clean-code #readability prio:P1 (uuid:e025f257-b64f-46bc-b4b4-c408537b8026)
@@ -89,10 +87,6 @@ kanban-plugin: board
 ## accepted
 
 - [ ] [[cleanup-done-column-incomplete-tasks|Cleanup done column incomplete tasks and implement completion verification]] #cleanup #done-column #governance #kanban #quality prio:P1 (uuid:bdbdfe2b-7f32-4833-8f11-58dc704c0d30)
-- [ ] [[2025.10.12.16.15.00-fix-template-injection-vulnerability-applyTemplateReplacements 25|Fix Template Injection Vulnerability in applyTemplateReplacements Function]] #security #critical #template-injection #code-execution #vulnerability prio:P0 (uuid:aa409067-2609-4262-aae8-bf27697eb37c)
-- [ ] [[2025.10.12.16.20.00-add-missing-authorization-mcp-tools 25|Add Missing Authorization/Access Control for Destructive Operations in MCP Tools]] #security #critical #authorization #access-control #mcp #destructive-operations prio:P0 (uuid:a394e11e-a8ca-407c-bb9f-56958c789f67)
-- [ ] [[2025.10.12.16.25.00-improve-input-validation-file-paths 25|Implement Comprehensive Input Validation for File Paths]] #security #critical #input-validation #path-traversal #file-system #sanitization prio:P0 (uuid:f44bbb50-c896-407c-b4fb-718fa658a3e2)
-- [ ] [[Fix critical path traversal vulnerability in indexer-service]] #security #critical #indexer-service #path-traversal prio:P0 (uuid:3c6a52c7-ee4d-4aa5-9d51-69e3eb1fdf4a)
 - [ ] [[Add Epic Functionality to Kanban Board]] #[epic #kanban #feature #implementation] prio:P0 (uuid:07bc6e1c-4f3f-49fe-8a21-088017cb17fa)
 - [ ] [[Create DirectoryAdapter for task file operations]] #directoryadapter #create #file #operations prio:P0 (uuid:d01ed682-a571-441b-a550-d1de3957c523)
 - [ ] [[Create adapter factory and registry system]] #create #adapter #factory #registry prio:P0 (uuid:ff7ac92c-ff43-4078-9631-329cd9f2601b)
@@ -101,15 +95,21 @@ kanban-plugin: board
 - [ ] [[Prevent invalid starting status creation in kanban CLI]] #prevent #invalid #starting #status prio:P0 (uuid:45ad22b1-d5b9-4c21-887c-c22f8ca6395e)
 - [ ] [[Refactor existing board logic into BoardAdapter implementation]] #board #logic #boardadapter #existing prio:P0 (uuid:1c88185e-9bfb-42d0-9388-3ac4bf688960)
 - [ ] [[Update CLI commands to use adapter pattern]] #update #use #cli #commands prio:P0 (uuid:71d30e75-0fae-433d-ab7c-0dab868bba2b)
-- [ ] [[Implement MCP Authentication & Authorization Layer]] #mcp #kanban #security #authentication #authorization #critical prio:P0 (uuid:86765f2a-9539-4443-baa2-a0bd37195385)
 - [ ] [[Create MCP-Kanban Bridge API]] #mcp #kanban #api #bridge #synchronization #critical prio:P0 (uuid:07b10989-e06c-4c6b-87b9-80ce169b7660)
 - [ ] [[Implement MCP Security Hardening & Validation]] #mcp #kanban #security #validation #hardening #critical prio:P0 (uuid:d794213f-853d-41e4-863c-27e83dd5221c)
-- [ ] [[Design Agent OS Core Message Protocol]] #agent-os #protocol #messaging #core #design #critical prio:P0 (uuid:0c3189e4-4c58-4be4-b9b0-8e69474e0047)
 - [ ] [[Implement Natural Language Command Parser]] #agent-os #nlp #parser #commands #natural-language #critical prio:P0 (uuid:52c48585-42e1-47ce-bc2c-c46686c1ca53)
 - [ ] [[Create Agent OS Context Management System]] #agent-os #context #management #state #persistence #critical prio:P0 (uuid:1544d523-1c93-499c-92a1-eecc4f88f69a)
+- [ ] [[2025.10.12.16.30.00-implement-caching-layer-task-operations 25|Implement Caching Layer for Task Operations]] #performance #caching #optimization #kanban #database #scalability prio:P1 (uuid:582a6685-c69b-4d60-8df1-56cee01b1f5e)
 
 ## breakdown
 
+- [ ] [[2025.10.12.16.15.00-fix-template-injection-vulnerability-applyTemplateReplacements 25|Fix Template Injection Vulnerability in applyTemplateReplacements Function]] #security #critical #template-injection #code-execution #vulnerability prio:P0 (uuid:aa409067-2609-4262-aae8-bf27697eb37c)
+- [ ] [[2025.10.12.16.20.00-add-missing-authorization-mcp-tools 25|Add Missing Authorization/Access Control for Destructive Operations in MCP Tools]] #security #critical #authorization #access-control #mcp #destructive-operations prio:P0 (uuid:a394e11e-a8ca-407c-bb9f-56958c789f67)
+- [ ] [[2025.10.12.16.25.00-improve-input-validation-file-paths 25|Implement Comprehensive Input Validation for File Paths]] #security #critical #input-validation #path-traversal #file-system #sanitization prio:P0 (uuid:f44bbb50-c896-407c-b4fb-718fa658a3e2)
+- [ ] [[Fix critical path traversal vulnerability in indexer-service]] #security #critical #indexer-service #path-traversal prio:P0 (uuid:3c6a52c7-ee4d-4aa5-9d51-69e3eb1fdf4a)
+- [ ] [[Implement MCP Authentication & Authorization Layer]] #mcp #kanban #security #authentication #authorization #critical prio:P0 (uuid:86765f2a-9539-4443-baa2-a0bd37195385)
+- [ ] [[Design Agent OS Core Message Protocol]] #agent-os #protocol #messaging #core #design #critical prio:P0 (uuid:0c3189e4-4c58-4be4-b9b0-8e69474e0047)
+- [ ] [[2025.10.12.16.00.00.migrate-kanban-to-lmdb-cache 25|Migrate Kanban Package from @promethean/level-cache to @promethean/lmdb-cache]] #migration #kanban #cache #lmdb #performance #concurrency #drop-in-replacement prio:P1 (uuid:b0ed3163-e0f6-4fbd-be67-9de457202e9c)
 
 ## blocked
 
