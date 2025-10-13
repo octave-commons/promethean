@@ -1,0 +1,49 @@
+{
+  "name": "@promethean/test-classifier",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.cjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./dist/*": "./dist/*",
+    "./*": "./dist/*"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf dist",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
+    "test:unit": "pnpm run build && ava --config ../../config/ava.unit.config.mjs",
+    "test:integration": "pnpm run build && ava --config ../../config/ava.integration.config.mjs",
+    "test:e2e": "pnpm run build && ava --config ../../config/ava.e2e.config.mjs",
+    "lint": "pnpm exec eslint .",
+    "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",
+    "coverage:unit": "pnpm run build && c8 --config ../../config/c8.unit.config.js ava --config ../../config/ava.unit.config.mjs",
+    "coverage:integration": "pnpm run build && c8 --config ../../config/c8.integration.config.js ava --config ../../config/ava.integration.config.mjs",
+    "coverage:e2e": "pnpm run build && c8 --config ../../config/c8.e2e.config.js ava --config ../../config/ava.e2e.config.mjs",
+    "coverage:all": "pnpm run coverage:unit && pnpm run coverage:integration && pnpm run coverage:e2e && node ../../scripts/merge-coverage.js",
+    "format": "pnpm exec prettier --write .",
+    "cli": "node dist/cli.js"
+  },
+  "module": "dist/index.js",
+  "dependencies": {
+    "fast-glob": "^3.3.3",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.6",
+    "ava": "^6.2.0",
+    "c8": "^10.1.3",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.7.2"
+  }
+}
