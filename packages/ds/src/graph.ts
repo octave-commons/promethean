@@ -8,6 +8,27 @@ export type NodeRecord<ND = unknown> = {
     data?: ND;
 };
 
+// FSM-specific node data types
+export interface StateNodeData {
+    type: 'state';
+    accepting?: boolean;
+    initial?: boolean;
+    final?: boolean;
+    metadata?: Record<string, unknown>;
+}
+
+export interface TransitionEventData {
+    type: 'transition';
+    event?: string;
+    guard?: string;
+    action?: string;
+    weight?: number;
+    condition?: string;
+}
+
+// FSM-specific edge data type
+export type TransitionEdgeData = TransitionEventData | undefined;
+
 export type EdgeRecord<ED = unknown> = {
     u: Id;
     v: Id;
@@ -314,6 +335,92 @@ export class Graph<ND = unknown, ED = unknown> {
     }
     //#endregion
 }
+
+//#region FSM-specific utility functions
+/**
+ * Create an FSM graph from basic Graph with state and transition data
+ */
+export function createFSMGraph<ND extends StateNodeData, ED extends TransitionEventData>(
+    graph?: Graph<ND, ED>
+): Graph<ND, ED> {
+    return graph || new Graph<ND, ED>({ directed: true });
+}
+
+/**
+ * Validate that a graph can be used as an FSM (has initial state, no cycles, etc.)
+ */
+export function validateFSMStructure<ND extends StateNodeData, ED extends TransitionEventData>(
+    graph: Graph<ND, ED>
+): { valid: boolean; errors: string[] } {
+    const errors: string[] = [];
+    const nodes = Array.from(graph.nodes());
+
+    // Check for initial state
+    const initialStates = nodes.filter(({ data }) => data?.initial);
+    if (initialStates.length === 0) {
+        errors.push('FSM must have exactly one initial state');
+    } else if (initialStates.length > 1) {
+        errors.push(`FSM must have exactly one initial state, found ${initialStates.length}`);
+    }
+
+    // Check for cycles in directed graph
+    if (graph.directed) {
+        try {
+            graph.topologicalSort();
+        } catch {
+            errors.push('FSM contains cycles, which makes it non-deterministic');
+        }
+    }
+
+    // Check for unreachable states
+    if (initialStates.length === 1) {
+        const initialId = initialStates[0].id;
+        const reachable = graph.bfs(initialId).order;
+        const unreachable = nodes.filter(({ id }) => !reachable.includes(id));
+        if (unreachable.length > 0) {
+            errors.push(`Unreachable states: ${unreachable.map(n => n.id).join(', ')}`);
+        }
+    }
+
+    return {
+        valid: errors.length === 0,
+        errors
+    };
+}
+
+/**
+ * Export a graph as Mermaid flowchart for FSM visualization
+ */
+export function graphToMermaid<ND extends StateNodeData, ED extends TransitionEventData>(
+    graph: Graph<ND, ED>
+): string {
+    const lines: string[] = graph.directed ? ['graph TD'] : ['graph LR'];
+
+    // Add state definitions
+    for (const { id, data } of graph.nodes()) {
+        let label = id.toString();
+        if (data?.initial) label = `((${label}))`; // Circle for initial
+        else if (data?.accepting || data?.final) label = `(${label})`; // Rounded for final
+        else label = `[${label}]`; // Square for regular states
+
+        lines.push(`    ${id}${label}`);
+    }
+
+    // Add transitions
+    for (const edge of graph.edges()) {
+        let label = '';
+        if (edge.data?.event) {
+            label = `| ${edge.data.event}`;
+            if (edge.data?.guard) label += ` [${edge.data.guard}]`;
+            if (edge.data?.action) label += ` / ${edge.data.action}`;
+        }
+        const arrow = graph.directed ? '-->' : '---';
+        lines.push(`    ${edge.u} ${arrow}${label} ${edge.v}`);
+    }
+
+    return lines.join('\n');
+}
+//#endregion
 
 // Tiny binary heap for Dijkstra/A*
 class MinHeap<T> {

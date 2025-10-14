@@ -45,6 +45,7 @@ kanban-plugin: board
 - [ ] [[Enhance Test Coverage for agents-workflow Package]] #tool:codex #cap:codegen #agents-workflow #testing #quality #p1 prio:P1 (uuid:de02df2d-04df-4c64-919d-3f8bc3e46213)
 - [ ] [[Fix Critical Linting Violations in agents-workflow Package]] #tool:codex #cap:codegen #agents-workflow #linting #code-quality #p0 #critical prio:P0 (uuid:1b14781e-0dae-4521-b4f9-d509efcbee6c)
 - [ ] [[Implement Agent OS Pipeline Integration]] #agent-os #pipeline #integration #automation #workflow #critical prio:P1 (uuid:7528d106-159d-404c-8544-908c863d8a86)
+- [ ] [[Implement Automated Code Review Rule for Kanban Transitions]] #feature #kanban #automation #code-review #agents-workflow #transition-rules prio:P1 (uuid:8f792b37-8095-4cfd-b5ec-4ca75db5f71b)
 - [ ] [[Implement GitHub adapter for GitHub Issues integration]] #github #issues #implement #adapter prio:P1 (uuid:a2e4a088-5b7c-4205-af67-316443311f80)
 - [ ] [[Implement LLM-powered kanban explain command]] #llm #explain #command #kanban prio:P1 (uuid:6866f097-f4c8-485a-8c1d-78de260459d2)
 - [ ] [[Implement Trello adapter for Trello board integration]] #trello #implement #board #adapter prio:P1 (uuid:d76c1d77-7b8f-4c54-9262-56a30d0d2bd7)
@@ -67,6 +68,7 @@ kanban-plugin: board
 - [ ] [[Update configuration system for adapter support]] #adapter #support #configuration #update prio:P1 (uuid:abdbe6a2-f471-4d6d-9378-42bbeb608145)
 - [ ] [[Update documentation for adapter architecture]] #adapter #documentation #update #architecture prio:P2 (uuid:3fd89bbb-2baf-4306-a30c-c014e3cc6b7f)
 - [ ] [[Workflow Optimization & Bottleneck Resolution]] #kanban #workflow #optimization #bottlenecks #automation #triage #flow #healing prio:P1 (uuid:8bc378ff-25f0-40ca-9af4-31d146fc8880)
+- [ ] [[add-documentation-transition-rule-for-mirror-docs-validation|Add documentation transition rule for mirror docs validation]] #kanban #documentation #quality-control #transition-rules #validation #process prio:P1 (uuid:f15c4a88-8c58-4c02-8660-18bef97e8ce1)
 - [ ] [[advanced-features-cluster 25|Advanced Features Cluster - AI Integration & Task Intelligence]] #ai-integration #automation #cluster #mcp-server #task-intelligence prio:P2 (uuid:5ac87d1a-96c6-4bcd-88c0-46b06d9bdbc1)
 - [ ] [[comprehensive-board-analysis 25|Comprehensive Kanban Board Analysis - Strategic Insights & Recommendations]] #analysis #governance #health-check #recommendations #strategy prio:P1 (uuid:bac7cd41-7bf8-4698-84b3-db6b31b966ed)
 - [ ] [[design-agent-os-clojure-dsl-implementation-os|Design Agent OS Clojure DSL Implementation -os]] #agent-os #clojure #design #dsl #implementation prio:p1 (uuid:cea06ddd-8c86-4be9-bb61-c7b553318942)
@@ -92,6 +94,9 @@ kanban-plugin: board
 - [ ] [[fix-kanban-ui-mime-type-issue 22|Fix Kanban UI MIME Type Issue for JavaScript Modules       )]] #bug #kanban #ui #mime-type #frontend prio:P1 (uuid:2eea2778-4549-4979-a98a-69cf6a6c32d6)
 - [ ] [[fix-kanban-ui-mime-type-issue 23|Fix Kanban UI MIME Type Issue for JavaScript Modules       )]] #bug #kanban #ui #mime-type #frontend prio:P1 (uuid:1212ee26-3a01-42fe-a1b7-b57c2e045e0b)
 - [ ] [[fix-kanban-ui-mime-type-issue 24|Fix Kanban UI MIME Type Issue for JavaScript Modules       )]] #bug #kanban #ui #mime-type #frontend prio:P1 (uuid:7e131c2d-54b6-4845-b639-b9eef99af03f)
+- [ ] [[fix-kanban-ui-mime-type-issue 25|Fix Kanban UI MIME Type Issue for JavaScript Modules       )]] #bug #kanban #ui #mime-type #frontend prio:P1 (uuid:31ec4d57-efb5-4ff5-a08d-dfa45b32f725)
+- [ ] [[fix-kanban-ui-mime-type-issue 26|Fix Kanban UI MIME Type Issue for JavaScript Modules       )]] #bug #kanban #ui #mime-type #frontend prio:P1 (uuid:8cadd22e-8c75-4d81-8983-dbaa56170633)
+- [ ] [[fix-kanban-ui-mime-type-issue 27|Fix Kanban UI MIME Type Issue for JavaScript Modules       )]] #bug #kanban #ui #mime-type #frontend prio:P1 (uuid:24898ecb-1227-4509-b550-f1c528262a8f)
 - [ ] [[fix-kanban-ui-mime-type-issue 3|Fix Kanban UI MIME Type Issue for JavaScript Modules       )]] #bug #kanban #ui #mime-type #frontend prio:P1 (uuid:f429f8ff-f958-4626-8fc0-e5d53860c665)
 - [ ] [[fix-kanban-ui-mime-type-issue 4|Fix Kanban UI MIME Type Issue for JavaScript Modules       )]] #bug #kanban #ui #mime-type #frontend prio:P1 (uuid:c7415d67-898c-4ddd-9c4e-7bcf61809051)
 - [ ] [[fix-kanban-ui-mime-type-issue 5|Fix Kanban UI MIME Type Issue for JavaScript Modules       )]] #bug #kanban #ui #mime-type #frontend prio:P1 (uuid:1f43af60-af32-42fe-92b8-a46b2ccd5988)
@@ -99,11 +104,12 @@ kanban-plugin: board
 - [ ] [[fix-kanban-ui-mime-type-issue 7|Fix Kanban UI MIME Type Issue for JavaScript Modules       )]] #bug #kanban #ui #mime-type #frontend prio:P1 (uuid:c4789104-64b0-48d5-a1f8-6f4095de374b)
 - [ ] [[fix-kanban-ui-mime-type-issue 8|Fix Kanban UI MIME Type Issue for JavaScript Modules       )]] #bug #kanban #ui #mime-type #frontend prio:P1 (uuid:57d040e7-b13a-497a-b0a0-bcf3884f5e27)
 - [ ] [[fix-kanban-ui-mime-type-issue 9|Fix Kanban UI MIME Type Issue for JavaScript Modules       )]] #bug #kanban #ui #mime-type #frontend prio:P1 (uuid:e7a0877b-6716-461b-907c-b065bf38ae04)
-- [ ] [[fix-kanban-ui-mime-type-issue|Fix Kanban UI MIME Type Issue for JavaScript Modules]] #bug #kanban #ui #mime-type #frontend prio:P1 (uuid:$(uuidgen))
+- [ ] [[fix-kanban-ui-mime-type-issue|Fix Kanban UI MIME Type Issue for JavaScript Modules       )]] #bug #kanban #ui #mime-type #frontend prio:P1 (uuid:0f1d191b-1326-48c2-a122-b37f8d1199fd)
 - [ ] [[fix-symdocs-pipeline-file-reference-issue 25|Fix symdocs pipeline file reference issue]] #automation #bug #pipeline #symdocs prio:P2 (uuid:9672cc5a-a8be-4f2c-bfda-e79dba04bd81)
 - [ ] [[fix-test-failure-in-symdocs-pipeline-pipeline-test-timeout-after-2-minutes-fix-pipeline|Fix test failure in symdocs-pipeline: Pipeline timeout after 2 minutes -fix]] #automation #symdocs-pipeline #test-fix #testing prio:P1 (uuid:9c4f98e7-ffbf-4fcc-80c6-ebb952230d4a)
 - [ ] [[fix-test-gap-pipeline-timeout-configuration-for-tg-analysis-step-timeout-step-gap|Fix test-gap pipeline timeout configuration for tg-analysis step -gap]] #automation #pipeline #test-gap #timeout prio:P2 (uuid:89be3c4d-47d2-4815-aebf-adf7b7091403)
 - [ ] [[fix-typescript-type-mismatch-in-packagescephalonsrcactionsstart-dialogscopets 25|Fix TypeScript type mismatch in packages/cephalon/src/actions/start-dialog.scope.ts]] #automation #build #type-fix #typescript prio:P2 (uuid:20dc7416-d447-41a3-9bc9-d853b424da0d)
+- [ ] [[implement-automated-documentation-review-system-with-quality-scoring|Implement automated documentation review system with quality scoring]] #automation #documentation #quality-control #agents-workflow #scoring #review #ai-evaluation prio:P1 (uuid:3c8a2557-2cef-4d7b-bff6-ed5ce91ceb83)
 - [ ] [[implement-task-grading-rule-for-breakdown-ready-transition|Implement Comprehensive Testing Transition Rule from Testing to Review]] #kanban #transition-rules #testing-coverage #quality-gates #agents-workflow #test-analysis #fsm prio:P1 (uuid:9c8d7e6f-5a4b-3c2d-1e0f-9a8b7c6d5e4f)
 - [ ] [[implement-kanban-conflict-detection-rule|Implement Kanban Conflict Detection Rule for Todo → In Progress Transitions]] #kanban #transition-rules #conflict-detection #rag #symbolic-search #workflow-automation prio:P1 (uuid:7b8a9c2d-4e5f-6a7b-8c9d-0e1f2a3b4c5d)
 - [ ] [[implement-separate-test-coverage-pipelines|Implement Separate Test Coverage Pipelines for Integration, E2E, and Unit Testing]] #devops #testing #coverage #pipelines #ci-cd #type:infrastructure prio:P1 (uuid:550e8400-e29b-41d4-a716-446655440000)
@@ -129,6 +135,9 @@ kanban-plugin: board
 
 ## breakdown
 
+- [ ] [[Create adapter factory and registry system]] #create #adapter #factory #registry prio:P0 (uuid:ff7ac92c-ff43-4078-9631-329cd9f2601b)
+- [ ] [[Design abstract KanbanAdapter interface and base class]] #abstract #kanbanadapter #interface #design prio:P0 (uuid:da0a7f20-15d9-45fd-b2d8-ba3101c1e0d7)
+- [ ] [[Refactor existing board logic into BoardAdapter implementation]] #board #logic #boardadapter #existing prio:P0 (uuid:1c88185e-9bfb-42d0-9388-3ac4bf688960)
 
 ## blocked
 
@@ -143,9 +152,7 @@ kanban-plugin: board
 - [ ] [[Create Agent OS Context Management System]] #agent-os #context #management #state #persistence #critical prio:P0 (uuid:1544d523-1c93-499c-92a1-eecc4f88f69a)
 - [ ] [[Create DirectoryAdapter for task file operations]] #directoryadapter #create #file #operations prio:P0 (uuid:d01ed682-a571-441b-a550-d1de3957c523)
 - [ ] [[Create MCP-Kanban Bridge API]] #mcp #kanban #api #bridge #synchronization #critical prio:P0 (uuid:07b10989-e06c-4c6b-87b9-80ce169b7660)
-- [ ] [[Create adapter factory and registry system]] #create #adapter #factory #registry prio:P0 (uuid:ff7ac92c-ff43-4078-9631-329cd9f2601b)
 - [ ] [[Design Agent OS Core Message Protocol]] #agent-os #protocol #messaging #core #design #critical prio:P0 (uuid:0c3189e4-4c58-4be4-b9b0-8e69474e0047)
-- [ ] [[Design abstract KanbanAdapter interface and base class]] #abstract #kanbanadapter #interface #design prio:P0 (uuid:da0a7f20-15d9-45fd-b2d8-ba3101c1e0d7)
 - [ ] [[Fix Kanban Column Underscore Normalization Bug]] #kanban #column #bug #fix prio:P0 (uuid:02c78938-cf9c-45a0-b5ff-6e7a212fb043)
 - [ ] [[Fix critical path traversal vulnerability in indexer-service]] #security #critical #indexer-service #path-traversal prio:P0 (uuid:3c6a52c7-ee4d-4aa5-9d51-69e3eb1fdf4a)
 - [ ] [[Implement MCP Authentication & Authorization Layer]] #mcp #kanban #security #authentication #authorization #critical prio:P0 (uuid:86765f2a-9539-4443-baa2-a0bd37195385)
@@ -153,8 +160,8 @@ kanban-plugin: board
 - [ ] [[Implement Natural Language Command Parser]] #agent-os #nlp #parser #commands #natural-language #critical prio:P0 (uuid:52c48585-42e1-47ce-bc2c-c46686c1ca53)
 - [ ] [[Kanban Healing Epic - Coordination & Integration]] #epic #kanban #healing #coordination #integration #automation #monitoring #quality prio:P0 (uuid:ae67a6bb-1192-4439-a1ce-347824ce7eb7)
 - [ ] [[Prevent invalid starting status creation in kanban CLI]] #prevent #invalid #starting #status prio:P0 (uuid:45ad22b1-d5b9-4c21-887c-c22f8ca6395e)
-- [ ] [[Refactor existing board logic into BoardAdapter implementation]] #board #logic #boardadapter #existing prio:P0 (uuid:1c88185e-9bfb-42d0-9388-3ac4bf688960)
 - [ ] [[emergency-pipeline-fix-eslint-tasks 25|Fix eslint-tasks pipeline missing dependency: Missing @typescript-eslint/parser]] #automation #dependency #emergency #pipeline prio:P1 (uuid:864b2172-e006-44fe-9ef0-0af3bbab6235)
+- [ ] [[rewrite-shadow-conf-as-nbb|Rewrite @packages/shadow-conf/ as nbb script for program generation]] #migration #clojure #nbb #shadow-conf #program-generation prio:P1 (uuid:46d9372a-65f1-42b8-a024-3ce4449f67ec)
 
 ## todo
 
@@ -179,10 +186,10 @@ kanban-plugin: board
 
 ## in_progress
 
-- [ ] [[2025.10.12.15.30.00-fix-kanban-ui-virtual-scroll-mime-error 26|Fix Kanban UI Virtual Scroll MIME Type Error]] #bug #frontend #kanban #ui #virtual-scroll #mime-type prio:P1 (uuid:ba443be8-4eba-4b18-b9c3-58573f2d845a)
 - [ ] [[20251011235145|Implement Scar Context Core Types and Interfaces]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #scar-context #typescript #phase-1 prio:P1 (uuid:2e73e798-7023-45cc-9733-e9d0037f0525)
 - [ ] [[Design unified FSM architecture using existing foundations]] #fsm #packages #design #architecture #tool:analysis #env:no-egress prio:P0 (uuid:8b1add71-be76-4a34-8f24-b3f0eaac69d5)
 - [ ] [[infrastructure-stability-cluster|Infrastructure Stability Cluster - Build System & Type Safety]] #automation #build-system #cluster #infrastructure #typescript #delegated #devops-orchestrator prio:P0 (uuid:3716d59f-0ddf-47d4-a603-5b7620ca941f)
+- [ ] [[Complete breakdown for P0 security tasks]] #breakdown #tasks #complete #security prio:P0 (uuid:b6c5f483-0893-4144-a0cf-f97ffd2b6b74)
 
 ## testing
 
@@ -206,6 +213,7 @@ kanban-plugin: board
 - [x] [[2025.10.08.16.10.00-mount-omni-adapters|Task c04967e5]] #adapters #integration #omni #service prio:P2 (uuid:c04967e5-0295-4711-b8a3-6a1e5e104c17)
 - [x] [[2025.10.08.16.15.00-omni-service-integration-tests|Task 0e98fc4f]] #ci #deployment #omni #service #testing prio:P2 (uuid:0e98fc4f-3c53-4f86-8470-096437b4ff62)
 - [x] [[2025.10.08.16.20.00-reproduce-grep-test-failure|Task 3b354c7c]] #debugging #grep #smartgpt-bridge #testing prio:P2 (uuid:3b354c7c-d394-4e1b-8f91-46ce60d3f5b7)
+- [x] [[2025.10.12.15.30.00-fix-kanban-ui-virtual-scroll-mime-error 26|Fix Kanban UI Virtual Scroll MIME Type Error]] #bug #frontend #kanban #ui #virtual-scroll #mime-type prio:P1 (uuid:ba443be8-4eba-4b18-b9c3-58573f2d845a)
 - [x] [[Extend @packages ds graph.ts for FSM-specific operations|Extend @packages/ds/graph.ts for FSM-specific operations]] #fsm #packages #ds #graph #implementation #tool:codegen #env:no-egress prio:P1 (uuid:1bc3c26b-5a73-4292-95d9-9d9195dad92a)
 - [x] [[add-donereview-transition-for-audit-corrections-and-quality-control-control|Add done→review transition for audit corrections and quality control -control]] #audit #fsm #kanban #quality-control #transitions prio:P2 (uuid:9af83f86-3639-4c9f-a28f-45690fb7a8ea)
 - [x] [[comprehensive-mcp-files-endpoint-testing|Comprehensive MCP Files Endpoint Testing]] #mcp #security #testing prio:P2 (uuid:45011172-e37f-4597-8ee0-e408a8c881b9)
@@ -227,7 +235,6 @@ kanban-plugin: board
 ## rejected
 
 - [ ] [[0-why-these-building-blocks-quick-receipts|0) Why these building blocks (quick receipts)]] #docops #labeled prio:P3 (uuid:747260c6-3eb4-4fe8-b4e0-c576519c1df6)
-- [ ] [[Complete breakdown for P0 security tasks]] #breakdown #tasks #complete #security prio:P0 (uuid:b6c5f483-0893-4144-a0cf-f97ffd2b6b74)
 - [ ] [[design-agent-os-comprehensive-review-and-enhancement-5e6f7g8h|Agent OS Comprehensive Review and Enhancement]] #agent-os #comprehensive-review #enhancement #final-design #gaps-analysis prio:high (uuid:c0ab3f60-0a9c-4929-a1e6-f046db4aec06)
 - [ ] [[infrastructure-stability-cluster-build-system-type-safety-system|Infrastructure Stability Cluster - Build System & Type Safety -system]] #automation #build-system #cluster #infrastructure #typescript prio:P0 (uuid:b82a75e4-260b-4f20-ad06-94db01cd8eb2)
 

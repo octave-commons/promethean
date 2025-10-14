@@ -1,20 +1,60 @@
-`# Promethean Project: Suggested Commands
+# Development Commands
 
-## Kanban Operations
-- `pnpm kanban regenerate`: Update the kanban board
-- `pnpm kanban list`: List all tasks
-- `pnpm kanban search <query>`: Search tasks by title
+## Core Development Workflow
+```bash
+# Build the package
+pnpm build
 
-## Development
-- `pnpm --filter @promethean/cephalon start:dev`: Start development server
-- `pnpm --filter @promethean/cephalon build`: Build the project
+# Run type checking
+pnpm typecheck
 
-## Testing
-- `pnpm run test`: Run AVA tests
+# Run linting (currently has violations)
+pnpm lint
 
-## Project Structure
-- `src/`: Source code
-- `tests/`: Unit and integration tests
-- `packages/`: JavaScript/TypeScript modules
-- `docs/`: Documentation
-- `configs/`: Configuration files`
+# Auto-fix linting issues where possible
+pnpm lint --fix
+
+# Run tests
+pnpm test
+
+# Run tests with coverage
+pnpm coverage
+
+# Format code
+pnpm format
+
+# Clean build artifacts
+pnpm clean
+```
+
+## Development Process
+1. **Before Making Changes**: Run `pnpm lint` to understand current issues
+2. **During Development**: Use `pnpm typecheck` for immediate feedback
+3. **Before Committing**: Run `pnpm test` to ensure functionality
+4. **Final Check**: Run `pnpm lint` and `pnpm format` for code quality
+
+## Testing Commands
+```bash
+# Run specific test file
+pnpm test src/tests/markdown.test.ts
+
+# Run tests in watch mode (if supported)
+pnpm test --watch
+
+# Generate coverage report
+pnpm coverage
+```
+
+## Build System
+- **TypeScript Compilation**: `tsc -p tsconfig.json`
+- **Output Directory**: `dist/`
+- **Module Formats**: ESM (primary) and CommonJS (fallback)
+- **Declaration Files**: Generated with source maps
+
+## Quality Assurance
+The package currently has 44 linting violations (34 errors, 10 warnings) that should be addressed:
+- Convert interfaces to types
+- Reduce function complexity
+- Split large files
+- Fix unsafe type operations
+- Improve import organization

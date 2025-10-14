@@ -79,19 +79,13 @@ const createAssetDescriptor = (relativePath: string, contentType: string): Front
 const FRONTEND_ASSETS: ReadonlyMap<string, FrontendAsset> = new Map([
   [
     '/assets/kanban-ui.js',
-    createAssetDescriptor('../frontend/kanban-ui.js', 'application/javascript; charset=utf-8'),
+    createAssetDescriptor('../../dist/frontend/kanban-ui.js', 'text/javascript'),
   ],
-  [
-    '/assets/render.js',
-    createAssetDescriptor('../frontend/render.js', 'application/javascript; charset=utf-8'),
-  ],
-  [
-    '/assets/styles.js',
-    createAssetDescriptor('../frontend/styles.js', 'application/javascript; charset=utf-8'),
-  ],
+  ['/assets/render.js', createAssetDescriptor('../../dist/frontend/render.js', 'text/javascript')],
+  ['/assets/styles.js', createAssetDescriptor('../../dist/frontend/styles.js', 'text/javascript')],
   [
     '/assets/virtual-scroll.js',
-    createAssetDescriptor('../frontend/virtual-scroll.js', 'application/javascript; charset=utf-8'),
+    createAssetDescriptor('../../dist/frontend/virtual-scroll.js', 'text/javascript'),
   ],
 ]);
 
@@ -242,10 +236,21 @@ const getAssetForUrl = (url: string): FrontendAsset | undefined => {
 const handleAssetRequest = async (res: HttpResponse, asset: FrontendAsset): Promise<void> => {
   try {
     const contents = await readFile(asset.path, 'utf8');
-    send(res, 200, contents, {
+    const headers: Record<string, string> = {
       'Content-Type': asset.contentType,
       'Cache-Control': 'no-store',
-    });
+    };
+
+    // Add CORS headers for ES modules
+    if (asset.path.endsWith('.js')) {
+      headers['Access-Control-Allow-Origin'] = '*';
+      headers['Access-Control-Allow-Methods'] = 'GET, OPTIONS';
+      headers['Access-Control-Allow-Headers'] = 'Content-Type, X-Requested-With';
+      headers['Cross-Origin-Embedder-Policy'] = 'unsafe-none';
+      headers['Cross-Origin-Resource-Policy'] = 'cross-origin';
+    }
+
+    send(res, 200, contents, headers);
   } catch (error) {
     internalError(res, error);
   }

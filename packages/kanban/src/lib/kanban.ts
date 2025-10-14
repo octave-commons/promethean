@@ -1186,8 +1186,27 @@ export const pushToTasks = async (
     for (const task of col.tasks) {
       const baseName = ensureTaskFileBase(task);
 
+      // *** UUID MISMATCH DETECTION AND FIX ***
+      // Check if this board task has a corresponding file task with a different UUID
+      // This happens when board regeneration creates new UUIDs
+      let finalTask = { ...task };
+      const existingTaskForSlug = Array.from(existingByUuid.values()).find(
+        (t) => t.slug === baseName || ensureTaskFileBase(t) === baseName,
+      );
+
+      if (existingTaskForSlug && existingTaskForSlug.uuid !== task.uuid) {
+        // Found a task file with the same slug but different UUID
+        // Use the file's UUID instead of the board's UUID
+        console.log(
+          `🔧 UUID mismatch detected: board has ${task.uuid} but file has ${existingTaskForSlug.uuid}. Using file UUID.`,
+        );
+        finalTask.uuid = existingTaskForSlug.uuid;
+        finalTask.created_at = existingTaskForSlug.created_at;
+        finalTask.content = existingTaskForSlug.content || finalTask.content;
+      }
+
       // Check if the exact file already exists for this UUID
-      const existingTask = existingByUuid.get(task.uuid);
+      const existingTask = existingByUuid.get(finalTask.uuid);
       const existingFileBase = existingTask ? ensureTaskFileBase(existingTask) : null;
       const existingFileName = existingFileBase ? `${existingFileBase}.md` : null;
 
@@ -1204,50 +1223,85 @@ export const pushToTasks = async (
       if (existingTask && normalizedFileStatus && normalizedBoardStatus !== normalizedFileStatus) {
         statusUpdated++;
         console.log(
-          `📝 Detected manual status change for task "${task.title}": ${normalizedFileStatus} → ${normalizedBoardStatus}`,
+          `📝 Detected manual status change for task "${finalTask.title}": ${normalizedFileStatus} → ${normalizedBoardStatus}`,
         );
       }
 
-      // If we have an existing file for this UUID, check if the title has changed
+      // *** ENHANCED FILE CONFLICT DETECTION ***
+      // Check for existing files with this base name, including files without proper frontmatter
       let targetBase = baseName;
-      if (existingFileName && existingFiles.has(existingFileName)) {
+      const conflictingFileName = `${baseName}.md`;
+
+      if (existingFiles.has(conflictingFileName)) {
+        // Find the UUID that owns this conflicting file (if any)
+        const conflictingUuid = usedNames.get(baseName);
+
+        if (conflictingUuid && conflictingUuid !== finalTask.uuid) {
+          // Different UUID owns this file - this is a duplicate task scenario
+          // We should merge into the existing file rather than creating a new one
+          console.log(
+            `🔄 Duplicate task detected: UUID ${finalTask.uuid} conflicts with existing UUID ${conflictingUuid}. Using existing file "${conflictingFileName}"`,
+          );
+
+          // Use the existing file base and update the task's slug to match
+          targetBase = baseName;
+          finalTask.slug = targetBase;
+
+          // We'll update the existing file with the board task's content
+          // This effectively merges the duplicate into the existing task
+        } else if (!conflictingUuid) {
+          // File exists but has no proper frontmatter (ghost file)
+          // Create a unique name to avoid overwriting the ghost file
+          let attempt = 1;
+          let uniqueCandidate = `${baseName} ${attempt}`;
+          while (existingFiles.has(`${uniqueCandidate}.md`)) {
+            attempt++;
+            uniqueCandidate = `${baseName} ${attempt}`;
+          }
+          targetBase = uniqueCandidate;
+          console.log(
+            `👻 Ghost file detected: "${conflictingFileName}" has no frontmatter. Using "${targetBase}.md"`,
+          );
+        }
+        // If conflictingUuid === finalTask.uuid, we keep the existing baseName
+      } else if (existingFileName && existingFiles.has(existingFileName)) {
         // If the title changed, use the new base name to rename the file
         // Otherwise, keep the existing base name
-        if (existingTask && existingTask.title === task.title) {
+        if (existingTask && existingTask.title === finalTask.title) {
           targetBase = existingFileBase!;
         }
         // If title changed, we'll use the new baseName (which may trigger file rename)
-      } else {
-        // Check if there's already a file with this base name for any UUID
-        const conflictingFileName = `${baseName}.md`;
-        if (existingFiles.has(conflictingFileName)) {
-          // Find the UUID that owns this conflicting file
-          const conflictingUuid = usedNames.get(baseName);
-          if (conflictingUuid && conflictingUuid !== task.uuid) {
-            // Only create a new unique name if this is a different UUID
-            // This prevents the " 2.md" suffix issue when it's the same task
-            let attempt = 1;
-            let uniqueCandidate = `${baseName} ${attempt}`;
-            while (existingFiles.has(`${uniqueCandidate}.md`)) {
-              attempt++;
-              uniqueCandidate = `${baseName} ${attempt}`;
-            }
-            targetBase = uniqueCandidate;
-          }
-        }
       }
 
-      if (task.slug !== targetBase) {
-        task.slug = targetBase;
+      if (finalTask.slug !== targetBase) {
+        finalTask.slug = targetBase;
       }
 
       // Update usedNames to reflect the final choice
-      usedNames.set(targetBase, task.uuid);
+      usedNames.set(targetBase, finalTask.uuid);
 
       const filename = `${targetBase}.md`;
       const targetPath = path.join(tasksDir, filename);
-      const previous = existingByUuid.get(task.uuid);
+      const previous = existingByUuid.get(finalTask.uuid);
       const previousPath = previous?.sourcePath;
+
+      // *** DUPLICATE TASK MERGE LOGIC ***
+      // If we detected a duplicate (different UUID with same filename),
+      // we should update the existing file rather than creating a new one
+      let finalTargetPath = targetPath;
+      let shouldDeletePrevious = true;
+
+      const conflictingUuid = usedNames.get(baseName);
+      if (
+        conflictingUuid &&
+        conflictingUuid !== finalTask.uuid &&
+        existingFiles.has(conflictingFileName)
+      ) {
+        // Use the existing file path instead of creating a new one
+        finalTargetPath = path.join(tasksDir, conflictingFileName);
+        shouldDeletePrevious = false; // Don't delete the existing file
+        console.log(`🔗 Merging task ${finalTask.uuid} into existing file ${conflictingFileName}`);
+      }
 
       // Preserve existing task content if available
       let existingContent = '';
@@ -1267,35 +1321,49 @@ export const pushToTasks = async (
       // *** ENHANCED CONTENT PRESERVATION LOGIC ***
       // Use board task content if available (board is source of truth for push operation)
       // This ensures manual UI edits are preserved when pushing to files
-      let finalContent = task.content || existingContent;
+      let finalContent = finalTask.content || existingContent;
 
       // For push operation, board content takes precedence to preserve manual edits
-      if (task.content) {
-        finalContent = task.content;
+      if (finalTask.content) {
+        finalContent = finalTask.content;
       }
 
       // Preserve original created_at timestamp if it exists, otherwise use task's timestamp
       // Ensure we always have a timestamp to prevent data loss
-      const preservedCreatedAt = existingCreatedAt || task.created_at || NOW_ISO();
+      const preservedCreatedAt = existingCreatedAt || finalTask.created_at || NOW_ISO();
 
       const content = toFrontmatter({
-        ...task,
+        ...finalTask,
         status: normalizedBoardStatus, // Always use the normalized board column name as authoritative status
         content: finalContent,
         created_at: preservedCreatedAt,
       });
 
-      await fs.writeFile(targetPath, content, 'utf8');
+      await fs.writeFile(finalTargetPath, content, 'utf8');
 
       if (!previous) {
-        added += 1;
+        // Check if this was actually a merge (duplicate detected)
+        if (
+          conflictingUuid &&
+          conflictingUuid !== finalTask.uuid &&
+          existingFiles.has(conflictingFileName)
+        ) {
+          // This was a merge, not a new addition
+          console.log(`✅ Merged duplicate task, no new file created`);
+        } else {
+          added += 1;
+        }
       } else {
         moved += 1;
-        if (previousPath && path.resolve(previousPath) !== path.resolve(targetPath)) {
+        if (
+          shouldDeletePrevious &&
+          previousPath &&
+          path.resolve(previousPath) !== path.resolve(finalTargetPath)
+        ) {
           await fs.unlink(previousPath).catch(() => {});
         }
       }
-      existingByUuid.delete(task.uuid);
+      existingByUuid.delete(finalTask.uuid);
     }
   }
 

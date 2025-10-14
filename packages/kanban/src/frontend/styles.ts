@@ -13,8 +13,8 @@ export const KANBAN_STYLES = String.raw`
   }
 
   .kanban-app {
-    max-width: 1200px;
-    margin: 0 auto;
+    width: 100%;
+    margin: 0;
     padding: 2.5rem 1.5rem 3rem;
     display: flex;
     flex-direction: column;

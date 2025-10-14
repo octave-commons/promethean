@@ -8,10 +8,9 @@
         "baseURL": "http://localhost:11434/v1"
       },
       "models": {
-
         "error/gpt-oss:20b-128k": {
           "name": "GPT-OSS 20B 128K",
-          "tools":true
+          "tools": true
         },
         "qwen3:8b": {
           "name": "Qwen3 8B",
@@ -136,24 +135,28 @@
       ],
       "enabled": true
     },
-
     "serena": {
       "type": "local",
       "command": [
         "uvx",
-"--from",
-"git+https://github.com/oraios/serena",
-"serena",
-"start-mcp-server"
+        "--from",
+        "git+https://github.com/oraios/serena",
+        "serena",
+        "start-mcp-server"
       ],
       "enabled": true
     }
-
   },
   "tools": {
     "webfetch": true,
     "web-search-prime": true,
     "playwright": true,
-    "serena": true
+    "serena": true,
+    "process_start": true,
+    "process_stop": true,
+    "process_err": true,
+    "process_tail": true,
+    "process_list": true,
+    "process_status": true
   }
 }
