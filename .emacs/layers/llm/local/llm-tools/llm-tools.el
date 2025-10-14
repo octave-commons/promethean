@@ -212,7 +212,7 @@ Return JSON {name,pid,buffer}."
                :description "Cap on bytes to read (default ~200KB)"))
     :function
     (lambda (path &optional max_bytes)
-      (setq path (err--ensure-under-project path))
+      (setq path (gptel--ensure-under-project path))
       (unless (file-exists-p path) (error "No such file: %s" path))
       ;; gptel’s helper turns non-text into base64 + mime-ish metadata.
       (if (fboundp 'gptel--safe-file-payload)
@@ -232,7 +232,7 @@ Return JSON {name,pid,buffer}."
             '(:name "overwrite" :type boolean :optional t :description "Allow overwrite?"))
     :function
     (lambda (path content &optional overwrite)
-      (setq path (err--ensure-under-project path))
+      (setq path (gptel--ensure-under-project path))
       (when (and (file-exists-p path) (not overwrite))
         (error "File exists: %s (set overwrite=true)" path))
       (make-directory (file-name-directory path) t)
@@ -241,7 +241,7 @@ Return JSON {name,pid,buffer}."
       (list :ok t :path (expand-file-name path))))
 
   ;; --- root detection ----------------------------------------------------
-  (defun err--safe-root (&optional dir)
+  (defun gptel--safe-root (&optional dir)
     "Best-effort project root for DIR (or `default-directory`)."
     (let* ((dir (file-name-as-directory (or dir default-directory)))
             ;; Prefer VC root if under Git/other VCS
@@ -260,7 +260,7 @@ Return JSON {name,pid,buffer}."
             '(:name "strip" :type integer :optional t :description "Strip prefix components for -pN"))
     :function
     (lambda (unified_diff &optional root strip)
-      (let* ((root (file-name-as-directory (or root (err--safe-root))))
+      (let* ((root (file-name-as-directory (or root (gptel--safe-root))))
               (default-directory root)
               (tmp   (make-temp-file "gptel-patch-" nil ".diff"))
               (strip (or strip 1))                ;; 1 is best for git-style diffs (a/ b/)
@@ -305,7 +305,7 @@ Return JSON {name,pid,buffer}."
             '(:name "pattern" :type string :description "Regexp or fixed string"))
     :function
     (lambda (root pattern)
-      (setq root (err--ensure-under-project root))
+      (setq root (gptel--ensure-under-project root))
       (let ((rg (executable-find "rg")))
         (if rg
           (with-temp-buffer
@@ -335,7 +335,7 @@ Return JSON {name,pid,buffer}."
             '(:name "dotfiles" :type boolean :optional t :description "Include dotfiles?"))
     :function
     (lambda (dir &optional dotfiles)
-      (setq dir (err--ensure-under-project dir))
+      (setq dir (gptel--ensure-under-project dir))
       (unless (file-directory-p dir) (error "Not a directory: %s" dir))
       (list :dir (expand-file-name dir)
         :entries (seq-filter (lambda (f) (or dotfiles (not (string-match-p "/\\." f))))
@@ -349,7 +349,7 @@ Return JSON {name,pid,buffer}."
             '(:name "depth" :type integer :optional t :description "Max depth (default 3)"))
     :function
     (lambda (root &optional depth)
-      (setq root (err--ensure-under-project root))
+      (setq root (gptel--ensure-under-project root))
       (let ((depth (or depth 3)))
         (cl-labels ((tree (dir d)
                       (when (>= d 0)
@@ -374,7 +374,7 @@ Return JSON {name,pid,buffer}."
             '(:name "parents" :type boolean :optional t :description "Create parents?"))
     :function
     (lambda (dir &optional parents)
-      (setq dir (err--ensure-under-project dir))
+      (setq dir (gptel--ensure-under-project dir))
       (make-directory dir parents)
       (list :ok t :dir (expand-file-name dir))))
 
@@ -386,7 +386,7 @@ Return JSON {name,pid,buffer}."
             '(:name "recursive" :type boolean :optional t :description "Recurse?"))
     :function
     (lambda (dir &optional recursive)
-      (setq dir (err--ensure-under-project dir))
+      (setq dir (gptel--ensure-under-project dir))
       (cond ((and recursive (file-directory-p dir)) (delete-directory dir t))
         ((file-directory-p dir) (delete-directory dir))
         (t (error "Not a directory: %s" dir)))
