@@ -129,11 +129,9 @@
   (let [task-id (:uuid task)
         priority (:priority task)
         labels (:labels task)]
-    (create-element "li" {:class "task-card"
+    (create-element "li" {:class (str "task-card" (when selected? " is-selected"))
                           :data-role "task-card"
-                          :data-task-id task-id}
-      (when selected?
-        (gclass/add (.-lastChild js/document.body) "is-selected"))
+                          :data-task-id task-id})
       (create-element "div" {:class "task-header"}
         (create-element "h3" {} (escape-html (:title task)))
         (when priority
@@ -387,6 +385,144 @@
           (create-element "pre" {} (escape-html (js/JSON.stringify (clj->js (:result last-action)) nil 2))))
         (create-element "p" {:class "muted"} "Run a command to view its response.")))))
 
+;; Task creation panel
+(defn task-creation-panel []
+  "Panel for creating new tasks"
+  (let [app-state (state/get-state)
+        column-names (state/column-names app-state)]
+    (create-element "section" {:class "panel"}
+      (create-element "h2" {} "Create Task")
+      (create-element "form" {:class "task-form"
+                              :data-form "create-task"}
+        (create-element "label" {:class "visually-hidden"
+                                 :for "task-title"} "Task title")
+        (create-element "input" {:id "task-title"
+                                 :name "title"
+                                 :type "text"
+                                 :placeholder "Task title"
+                                 :required true})
+        (create-element "label" {:class "visually-hidden"
+                                 :for "task-content"} "Task content")
+        (create-element "textarea" {:id "task-content"
+                                    :name "content"
+                                    :placeholder "Task description (optional)"
+                                    :rows 3})
+        (create-element "div" {:class "form-row"}
+          (create-element "select" {:id "task-priority"
+                                    :name "priority"
+                                    :default-value "P3"}
+            (create-element "option" {:value "P0"} "P0 - Critical")
+            (create-element "option" {:value "P1"} "P1 - High")
+            (create-element "option" {:value "P2"} "P2 - Medium")
+            (create-element "option" {:value "P3"} "P3 - Low")
+            (create-element "option" {:value "P4"} "P4 - Lowest"))
+          (create-element "select" {:id "task-status"
+                                    :name "status"
+                                    :disabled (empty? column-names)}
+            (apply concat
+              (for [column-name column-names]
+                [(create-element "option" {:value column-name}
+                   (escape-html column-name))]))))
+        (create-element "label" {:class "visually-hidden"
+                                 :for "task-labels"} "Labels (comma-separated)")
+        (create-element "input" {:id "task-labels"
+                                 :name "labels"
+                                 :type "text"
+                                 :placeholder "Labels (comma-separated, optional)"})
+        (create-element "div" {:class "form-buttons"}
+          (create-element "button" {:class "command-button"
+                                    :type "submit"
+                                    :data-command "create-task"}
+            "Create Task"))))))
+
+;; Task editing panel
+(defn task-editing-panel []
+  "Panel for editing selected task"
+  (let [selected-task (state/selected-task (state/get-state))
+        column-names (state/column-names (state/get-state))]
+    (create-element "section" {:class "panel"}
+      (create-element "h2" {} "Edit Task")
+      (if selected-task
+        (create-element "form" {:class "task-form"
+                                :data-form "edit-task"
+                                :data-task-id (:uuid selected-task)}
+          (create-element "label" {:class "visually-hidden"
+                                   :for "edit-task-title"} "Task title")
+          (create-element "input" {:id "edit-task-title"
+                                   :name "title"
+                                   :type "text"
+                                   :value (:title selected-task)
+                                   :required true})
+          (create-element "label" {:class "visually-hidden"
+                                   :for "edit-task-content"} "Task content")
+          (create-element "textarea" {:id "edit-task-content"
+                                      :name "content"
+                                      :placeholder "Task description"
+                                      :rows 5}
+            (or (:content selected-task) ""))
+          (create-element "div" {:class "form-row"}
+            (create-element "select" {:id "edit-task-priority"
+                                      :name "priority"
+                                      :default-value (str (:priority selected-task))}
+              (create-element "option" {:value "P0"} "P0 - Critical")
+              (create-element "option" {:value "P1"} "P1 - High")
+              (create-element "option" {:value "P2"} "P2 - Medium")
+              (create-element "option" {:value "P3"} "P3 - Low")
+              (create-element "option" {:value "P4"} "P4 - Lowest"))
+            (create-element "select" {:id "edit-task-status"
+                                      :name "status"
+                                      :default-value (:status selected-task)
+                                      :disabled (empty? column-names)}
+              (apply concat
+                (for [column-name column-names]
+                  [(create-element "option" {:value column-name}
+                     (escape-html column-name))]))))
+          (create-element "label" {:class "visually-hidden"
+                                   :for "edit-task-labels"} "Labels (comma-separated)")
+          (create-element "input" {:id "edit-task-labels"
+                                   :name "labels"
+                                   :type "text"
+                                   :value (if (:labels selected-task)
+                                           (clojure.string/join "," (:labels selected-task))
+                                           "")
+                                   :placeholder "Labels (comma-separated)"})
+          (create-element "div" {:class "form-buttons"}
+            (create-element "button" {:class "command-button"
+                                      :type "submit"
+                                      :data-command "update-task"}
+              "Update Task")
+            (create-element "button" {:class "command-button delete-button"
+                                      :type "button"
+                                      :data-command "delete-task"
+                                      :data-task-id (:uuid selected-task)}
+              "Delete Task")))
+        (create-element "p" {:class "muted"} "Select a task to edit it.")))))
+
+;; Advanced tools panel
+(defn advanced-tools-panel []
+  "Panel with advanced kanban tools"
+  (create-element "section" {:class "panel"}
+    (create-element "h2" {} "Advanced Tools")
+    (create-element "div" {:class "button-grid"}
+      (create-element "button" {:class "command-button"
+                                :data-command "audit"}
+        "Audit Board")
+      (create-element "button" {:class "command-button"
+                                :data-command "enforce-wip-limits"}
+        "Check WIP Limits")
+      (create-element "button" {:class "command-button"
+                                :data-command "list"}
+        "List All Tasks")
+      (create-element "button" {:class "command-button"
+                                :data-command "show-process"}
+        "Show Process")
+      (create-element "button" {:class "command-button"
+                                :data-command "show-transitions"}
+        "Show Transitions")
+      (create-element "button" {:class "command-button"
+                                :data-command "indexForSearch"}
+        "Index for Search"))))
+
 ;; Activity log panel
 (defn activity-log-panel []
   "Panel showing command activity log"
@@ -415,9 +551,12 @@
       (create-element "div" {:class "board-container"}
         (kanban-board))
       (create-element "aside" {:class "kanban-sidebar"}
+        (task-creation-panel)
+        (task-editing-panel)
         (selected-task-panel)
         (search-panel)
         (column-inspector-panel)
+        (advanced-tools-panel)
         (board-maintenance-panel)
         (last-action-panel)
         (activity-log-panel)))))
@@ -425,7 +564,8 @@
 ;; Render function to mount the app
 (defn render []
   "Render the application to the DOM"
-  (let [app-element (.getElementById js/document "app")]
+  (let [app-element (or (.getElementById js/document "app")
+                       (.getElementById js/document "kanban-root"))]
     (when app-element
       ;; Clear existing content
       (gdom/removeChildren app-element)

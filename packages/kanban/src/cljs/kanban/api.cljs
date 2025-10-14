@@ -157,3 +157,70 @@
 (defn index-for-search! []
   "Index tasks for search"
   (execute-command! "indexForSearch" [] :refresh-after? false))
+
+;; Task CRUD operations
+(defn create-task! [title & {:keys [content priority status labels]
+                              :or {content "" priority "P3" status "incoming" labels []}}]
+  "Create a new task"
+  (let [args (cond-> [title]
+               content (conj "--content" content)
+               priority (conj "--priority" priority)
+               status (conj "--status" status)
+               (seq labels) (conj "--labels" (clojure.string/join "," labels)))]
+    (execute-command! "create" args)))
+
+(defn update-task! [uuid & {:keys [title content priority status labels]
+                            :or {title nil content nil priority nil status nil labels nil}}]
+  "Update an existing task"
+  (let [args (cond-> [uuid]
+               title (conj "--title" title)
+               content (conj "--content" content)
+               priority (conj "--priority" priority)
+               status (conj "--status" status)
+               (seq labels) (conj "--labels" (clojure.string/join "," labels)))]
+    (execute-command! "update" args)))
+
+(defn delete-task! [uuid & {:keys [confirm]
+                             :or {confirm false}}]
+  "Delete a task"
+  (let [args (cond-> [uuid]
+               confirm (conj "--confirm"))]
+    (execute-command! "delete" args)))
+
+;; Advanced operations
+(defn audit-board! []
+  "Audit board for consistency issues"
+  (execute-command! "audit" [] :refresh-after? false))
+
+(defn enforce-wip-limits! []
+  "Check and report WIP limit violations"
+  (execute-command! "enforce-wip-limits" [] :refresh-after? false))
+
+(defn generate-by-tags! [tags]
+  "Generate filtered board by tags"
+  (execute-command! "generate-by-tags" [tags] :refresh-after? false))
+
+(defn compare-tasks! [task-uuids]
+  "Compare multiple tasks"
+  (execute-command! "compare-tasks" [(clojure.string/join "," task-uuids)] :refresh-after? false))
+
+(defn breakdown-task! [task-uuid]
+  "Get AI-powered task breakdown"
+  (execute-command! "breakdown-task" [task-uuid] :refresh-after? false))
+
+(defn prioritize-tasks! [task-uuids]
+  "Get task prioritization analysis"
+  (execute-command! "prioritize-tasks" [(clojure.string/join "," task-uuids)] :refresh-after? false))
+
+(defn list-tasks! []
+  "List all tasks with status"
+  (execute-command! "list" [] :refresh-after? false))
+
+(defn show-process! [& [section]]
+  "Show development process information"
+  (let [args (if section [section] [])]
+    (execute-command! "show-process" args :refresh-after? false)))
+
+(defn show-transitions! []
+  "Show valid state transitions"
+  (execute-command! "show-transitions" [] :refresh-after? false))

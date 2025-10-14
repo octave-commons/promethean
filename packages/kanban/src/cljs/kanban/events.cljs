@@ -37,7 +37,14 @@
           ("indexForSearch")
           (api/index-for-search!)
           
-          ;; Default command execution
+          ("audit" "enforce-wip-limits" "list" "show-process" "show-transitions")
+           (api/execute-command! command [])
+           
+           ("delete-task")
+           (when task-id
+             (api/delete-task! task-id))
+           
+           ;; Default command execution
           (api/execute-command! command [])))
       
       ;; Search result selection
@@ -111,6 +118,41 @@
                                          :column column
                                          :executedAt (js/Date.)
                                          :payload result})))))
+          
+          :create-task
+          (let [form-data (js/FormData. form)
+                title (.. form-data (get "title") (trim))
+                content (.. form-data (get "content") (trim))
+                priority (.. form-data (get "priority") (trim))
+                status (.. form-data (get "status") (trim))
+                labels (.. form-data (get "labels") (trim))]
+            (if (empty? title)
+              (state/set-status! "Task title is required" :error)
+              (let [labels-vec (if (empty? labels) [] (clojure.string/split labels #","))]
+                (api/create-task! title 
+                                  :content content 
+                                  :priority priority 
+                                  :status status 
+                                  :labels labels-vec)
+                (.reset form))))
+          
+          :edit-task
+          (let [form-data (js/FormData. form)
+                task-id (.-taskId (.-dataset form))
+                title (.. form-data (get "title") (trim))
+                content (.. form-data (get "content") (trim))
+                priority (.. form-data (get "priority") (trim))
+                status (.. form-data (get "status") (trim))
+                labels (.. form-data (get "labels") (trim))]
+            (if (empty? title)
+              (state/set-status! "Task title is required" :error)
+              (let [labels-vec (if (empty? labels) [] (clojure.string/split labels #","))]
+                (api/update-task! task-id
+                                  :title title
+                                  :content content
+                                  :priority priority
+                                  :status status
+                                  :labels labels-vec))))
           
           :else
           nil)))))

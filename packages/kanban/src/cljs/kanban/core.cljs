@@ -6,9 +6,13 @@
             [kanban.styles :as styles]
             [goog.dom :as gdom]))
 
+;; Core kanban board application module
+;; Handles initialization, cleanup, and DOM lifecycle management
+
 (defn ^:export init []
   "Initialize the kanban application"
-  (let [root (gdom/getElement "app")]
+  (let [root (or (gdom/getElement "app")
+                 (gdom/getElement "kanban-root"))]
     (when root
       (let [board-path (or (.-boardPath (.-dataset root)) "")
             tasks-path (or (.-tasksPath (.-dataset root)) "")]

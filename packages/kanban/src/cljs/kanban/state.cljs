@@ -209,7 +209,7 @@
       (.removeAttribute root "data-theme"))))
 
 (defn initialize-dark-mode! []
-  "Initialize dark mode from stored preference"
-  (let [dark-mode? (get-stored-dark-mode)]
+  "Initialize dark mode from stored preference, defaulting to Monokai dark mode"
+  (let [dark-mode? (or (get-stored-dark-mode) true)] ; Default to true (dark mode)
     (update-state! assoc :dark-mode? dark-mode?)
     (apply-dark-mode dark-mode?)))
