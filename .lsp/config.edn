@@ -1,2 +1,42 @@
-{:source-paths ["bb/src"]
- :source-paths-ignore-regex ["resources.*" "target.*" "node_modules.*" "dist.*" "build.*" "\\.direnv.*" "\\.venv.*" "\\.cache.*"]}
+{:source-paths ["bb/src"
+                 "mk"
+                 "packages/*/src"
+                 "packages/*/src/cljs"
+                 "packages/*/src/main"
+                 "packages/*/src/test"
+                 "docs/agile/rules"]
+:source-paths-ignore-regex ["resources.*" 
+                              "target.*" 
+                              "node_modules.*" 
+                              "dist.*" 
+                              "build.*" 
+                              "\\.direnv.*" 
+                              "\\.venv.*" 
+                              "\\.cache.*"
+                              "packages/*/dist.*"
+                              "packages/*/out.*"
+                              "\\.clj-kondo.*"
+                              "test-comprehensive.*"
+                              "test-kanban.*"
+                              "test-timestamp.*"
+                              "simple-test.*"]
+ :clj-kondo {:config-dir ".clj-kondo"}
+:clojure-lsp {:additional-suffixes [".cljs" ".cljc" ".clj" ".bb"]
+                :source-paths ["bb/src"
+                               "mk"
+                               "packages/*/src"
+                               "packages/*/src/cljs"
+                               "packages/*/src/main"
+                               "docs/agile/rules"
+                               "packages/clj-hacks/src"
+                               "packages/clj-hacks/verify.clj"]
+                :test-paths ["packages/*/test"
+                             "bb/test"
+                             "packages/clj-hacks/test"]
+                :dependencies ["src/main"]
+                :project-specs {:shadow-cljs {:project-type "shadow-cljs"
+                                              :shadow-cljs-config "shadow-cljs.edn"}
+                               :clj-hacks {:project-type "gradle"
+                                          :root "packages/clj-hacks"
+                                          :source-paths ["src"]
+                                          :test-paths ["test"]}}}
