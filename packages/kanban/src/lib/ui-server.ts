@@ -77,6 +77,7 @@ const createAssetDescriptor = (relativePath: string, contentType: string): Front
   }) satisfies FrontendAsset;
 
 const FRONTEND_ASSETS: ReadonlyMap<string, FrontendAsset> = new Map([
+  ['/frontend/main.js', createAssetDescriptor('../../dist/frontend/main.js', 'text/javascript')],
   [
     '/assets/kanban-ui.js',
     createAssetDescriptor('../../dist/frontend/kanban-ui.js', 'text/javascript'),
@@ -141,7 +142,7 @@ const htmlTemplate = (options: ImmutableOptions): string => {
         This dashboard requires JavaScript to render the kanban board.
       </noscript>
     </div>
-    <script type="module" src="/assets/kanban-ui.js"></script>
+    <script type="module" src="/frontend/main.js"></script>
   </body>
 </html>`;
 };

@@ -38,6 +38,15 @@
       ],
       "cwd": "/home/err/devel/promethean",
       "command": "npx"
+    },
+    "zai-mcp-server": {
+      "args": ["-y", "@z_ai/mcp-server"],
+      "cwd": "/home/err/devel/promethean",
+      "command": "npx",
+      "env": {
+        "Z_AI_API_KEY": "e4a3832bfd5840c9a8646d14f775c0d9.DOLtlGxqHmdw0D5",
+        "Z_AI_MODE": "ZAI"
+      }
     }
   },
   "transport": "http",
@@ -79,7 +88,9 @@
     "pnpm.install",
     "pnpm.add",
     "pnpm.remove",
-    "pnpm.runScript"
+    "pnpm.runScript",
+    "zai-mcp-server_analyze_image",
+    "zai-mcp-server_analyze_video"
   ],
   "includeHelp": true,
   "stdioMeta": {
@@ -215,6 +226,36 @@
     "workspace": {
       "tools": ["pnpm.install", "pnpm.add", "pnpm.remove", "pnpm.runScript"],
       "includeHelp": true
+    },
+    "vision": {
+      "tools": ["zai-mcp-server_analyze_image", "zai-mcp-server_analyze_video"],
+      "includeHelp": true,
+      "meta": {
+        "title": "Vision Analysis Tools",
+        "description": "AI-powered image and video analysis using Z.AI's GLM-4.5V model.",
+        "workflow": [
+          "zai-mcp-server_analyze_image -> analyze image content",
+          "zai-mcp-server_analyze_video -> analyze video content"
+        ],
+        "expectations": {
+          "usage": [
+            "Use zai-mcp-server_analyze_image to analyze images",
+            "Use zai-mcp-server_analyze_video to analyze videos",
+            "Provide file paths or URLs to media files",
+            "Include detailed prompts for specific analysis needs"
+          ],
+          "pitfalls": [
+            "Large files may take longer to process",
+            "URLs must be accessible and publicly available",
+            "Local files must exist and be readable"
+          ],
+          "prerequisites": [
+            "Valid Z.AI API key configured",
+            "Network access for remote URLs",
+            "Sufficient file permissions for local files"
+          ]
+        }
+      }
     }
   }
 }

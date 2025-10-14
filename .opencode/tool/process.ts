@@ -5,7 +5,6 @@ import { tool } from '@opencode-ai/plugin';
 import { spawn, execFile, type ChildProcess } from 'child_process';
 import * as path from 'node:path';
 import * as fs from 'node:fs/promises';
-import * as os from 'node:os';
 
 type RingBuffer = {
   size: number;
@@ -219,11 +218,33 @@ const attachLogging = (info: ProcInfo) => {
   attach(child.stdout, stdoutBuf);
   attach(child.stderr, stderrBuf);
 };
+// add once at top
+import stringArgv from 'string-argv';
+
+// pure, side-effect-free
+const coerceCommandArgs = (
+  inputCommand: string,
+  inputArgs: readonly string[] | undefined,
+): { cmd: string; argv: string[] } => {
+  if (inputArgs && inputArgs.length > 0) {
+    return { cmd: inputCommand, argv: [...inputArgs] };
+  }
+  if (/\s/.test(inputCommand)) {
+    const tokens = stringArgv(inputCommand);
+    if (tokens.length === 0) throw new Error('Empty command after parsing');
+    const [cmd, ...rest] = tokens;
+    return { cmd, argv: rest };
+  }
+  return { cmd: inputCommand, argv: [] };
+};
+
+// inside start.execute(...)
 
 // ---------------- Tools ----------------
 
 export const start = tool({
-  description: 'Spawn a long running process in the background (hardened)',
+  description:
+    'Asyncronously spawn a long running process in the background (hardened). Use this for servers, watchers, etc.',
   args: {
     command: tool.schema.string().describe('Allowed executable basename (e.g. "node")'),
     args: tool.schema.array(tool.schema.string()).default([]).describe('Arguments'),
@@ -240,14 +261,19 @@ export const start = tool({
   async execute(args, _context) {
     const { command, args: cmdArgs = [], cwd, uid, gid } = args;
 
-    const [exePath, safeCwd] = await Promise.all([resolveExecutable(command), resolveCwd(cwd)]);
+    // NEW: split only when args are missing
+    const { cmd, argv } = coerceCommandArgs(command, cmdArgs);
 
-    // Spawn with hardened options
-    // NOTE: detached=true gives the child its own process group on POSIX; we keep a handle but can kill the group.
-    const child = spawn(exePath, cmdArgs, {
+    // existing: resolves + validates basename-only executable from allowlisted dirs
+    const [exePath, safeCwd] = await Promise.all([
+      resolveExecutable(cmd), // still enforces basename + allowlist
+      resolveCwd(cwd),
+    ]);
+
+    const child = spawn(exePath, argv, {
       cwd: safeCwd,
       detached: process.platform !== 'win32',
-      shell: false,
+      shell: false, // keep shell OFF
       windowsHide: true,
       stdio: ['ignore', 'pipe', 'pipe'],
       env: sanitizeEnv(),
@@ -257,23 +283,14 @@ export const start = tool({
 
     if (!child.pid) throw new Error('Failed to start process: no PID');
 
-    const info = makeProcInfo(child, command, cmdArgs, safeCwd);
+    const info = makeProcInfo(child, cmd, argv, safeCwd);
     attachLogging(info);
 
-    child.on('error', () => {
-      activeProcesses.delete(child.pid!);
-    });
-
-    child.on('exit', () => {
-      activeProcesses.delete(child.pid!);
-    });
-
-    // Do NOT unref here if you want the parent to keep lifecycle control.
-    // If you truly need orphaned background, keep detached+unref, but accept you may lose control.
-    // child.unref();
+    child.on('error', () => activeProcesses.delete(child.pid!));
+    child.on('exit', () => activeProcesses.delete(child.pid!));
 
     activeProcesses.set(child.pid!, info);
-    return `Started ${command} (PID ${child.pid}) in ${safeCwd}`;
+    return `Started ${cmd} (PID ${child.pid}) in ${safeCwd}`;
   },
 });
 

@@ -29,15 +29,17 @@
   },
   "scripts": {
     "build": "tsc -b tsconfig.json --force",
+    "build:cljs": "shadow-cljs release kanban-frontend",
     "build:docs": "typedoc --options typedoc.json",
-    "prepack": "pnpm run build",
+    "dev:cljs": "shadow-cljs watch kanban-frontend",
+    "prepack": "pnpm run build && pnpm run build:cljs",
     "test": "pnpm run build && ava"
   },
   "dependencies": {
     "@promethean/markdown": "workspace:*",
     "@promethean/utils": "workspace:*",
-    "globby": "^14.0.2",
     "chokidar": "^4.0.1",
+    "globby": "^14.0.2",
     "gray-matter": "^4.0.3",
     "mongodb": "^6.18.0",
     "simple-git": "^3.27.0",
@@ -45,11 +47,16 @@
     "yaml": "^2.5.0"
   },
   "devDependencies": {
+    "@cljs-oss/module-deps": "^1.1.1",
     "@microsoft/tsdoc": "^0.15.1",
     "@types/ws": "^8.5.0",
+    "esmock": "^2.7.3",
+    "garden": "^0.52.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "shadow-cljs": "^2.28.17",
     "typedoc": "^0.28.13",
     "typedoc-plugin-markdown": "^4.9.0",
-    "esmock": "^2.7.3",
     "typescript": "^5.4.0"
   }
 }

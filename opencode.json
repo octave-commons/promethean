@@ -115,24 +115,16 @@
     },
     "zai-mcp-server": {
       "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@z_ai/mcp-server"
-      ],
+      "command": ["npx", "-y", "@z_ai/mcp-server"],
       "environment": {
-        "Z_AI_API_KEY": "Bearer {env:Z_AI_API_KEY}",
+        "Z_AI_API_KEY": "{env:Z_AI_API_KEY}",
         "Z_AI_MODE": "ZAI"
       },
       "enabled": true
     },
     "playwright": {
       "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@playwright/mcp@latest"
-      ],
+      "command": ["npx", "-y", "@playwright/mcp@latest"],
       "enabled": true
     },
     "serena": {
@@ -147,11 +139,14 @@
       "enabled": true
     }
   },
+  "instructions": ["./docs/agents/opencode.md"],
   "tools": {
     "webfetch": true,
     "web-search-prime": true,
     "playwright": true,
     "serena": true,
+    "zai-mcp-server_analyze_image": true,
+    "zai-mcp-server_analyze_video": true,
     "process_start": true,
     "process_stop": true,
     "process_err": true,
