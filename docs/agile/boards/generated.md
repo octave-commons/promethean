@@ -121,8 +121,8 @@ kanban-plugin: board
 
 - [ ] [[2025.10.08.15.30.00-fix-kanban-config-resolution|Task 2c7e9d46]] #bug #cli #config #kanban prio:P1 (uuid:2c7e9d46-09b2-4670-a3ac-381cb4f0c21e)
 - [ ] [[2025.10.12.16.30.00-implement-caching-layer-task-operations 25|Implement Caching Layer for Task Operations]] #performance #caching #optimization #kanban #database #scalability prio:P1 (uuid:582a6685-c69b-4d60-8df1-56cee01b1f5e)
-- [ ] [[2025.10.12.16.35.00-refactor-complex-functions-createTask 25|Refactor Complex Functions - Break Down createTask Function (200+ lines)]] #refactoring #code-quality #maintainability #complexity #testing #clean-code prio:P1 (uuid:9e95c608-c80e-4a1e-b8ac-59cf26103870)
 - [ ] [[2025.10.12.16.40.00-add-performance-monitoring-optimization 25|Add Performance Monitoring and Optimization Framework]] #performance #monitoring #optimization #profiling #metrics #observability prio:P1 (uuid:c4fa4709-59c8-41fd-8a43-ac0489f57b4c)
+- [ ] [[2025.10.12.16.35.00-refactor-complex-functions-createTask 25|Refactor Complex Functions - Break Down createTask Function (200+ lines)]] #refactoring #code-quality #maintainability #complexity #testing #clean-code prio:P1 (uuid:9e95c608-c80e-4a1e-b8ac-59cf26103870)
 - [ ] [[2025.10.12.16.45.00-extract-magic-numbers-named-constants 25|Extract Magic Numbers to Named Constants]] #code-quality #refactoring #constants #maintainability #clean-code #readability prio:P1 (uuid:e025f257-b64f-46bc-b4b4-c408537b8026)
 - [ ] [[2025.10.12.17.01.00-implement-agent-management-commands 25|Implement Agent Management Commands]] #kanban #cli #agent-management #monitoring #frontend prio:P1 (uuid:c0c65ae5-6f89-4460-9808-0e8c08454528)
 - [ ] [[2025.10.12.17.02.00-add-task-unassignment-functionality 25|Add Task Unassignment Functionality]] #kanban #cli #agent-management #cleanup #frontend prio:P1 (uuid:cab3f618-c0af-40b0-b677-12b0e88d6595)
