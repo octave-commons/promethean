@@ -1,38 +1,14 @@
 
-{
-  :apps [
-    {
-      :name "opencode"
-      :script "public/js/main.js"
-      :script_type "node"
-      :args []
-      :exec_mode "fork"
-      :out_file "./logs/opencode-out.log"
-      :error_file "./logs/opencode-err.log"
-      :merge_logs true
-      :instances 1
-      :autorestart true
-      :restart_delay 10000
-      :kill_timeout 10000
-      :env {
-        :PM2_PROCESS_NAME "opencode"
-        :HEARTBEAT_PORT "5006"
-        :PYTHONUNBUFFERED "1"
-        :PYTHONPATH "./packages/pm2-helpers"
-        :CHECK_INTERVAL "300000"
-        :HEARTBEAT_TIMEOUT "600000"
-        :NODE_ENV "development"
-      }
-      :cwd "./opencode-session-manager"
-      :watch [
-        "./opencode-session-manager"
-      ]
-      :ignore_watch [
-        "node_modules"
-        "logs"
-        "tmp"
-        ".git"
-      ]
-    }
-  ]
-}
+{:apps [{:name "opencode"
+         :script "opencode"
+         :args ["serve" "--port" 4096]
+         :interpreter "/usr/bin/env"
+         :out_file "./logs/opencode-out.log"
+         :error_file "./logs/opencode-err.log"
+         :merge_logs true
+         :instances 1
+         :autorestart true
+         :restart_delay 10000
+         :kill_timeout 10000
+         :env {:PM2_PROCESS_NAME "opencode"}
+         :cwd "."}]}
