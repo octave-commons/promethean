@@ -1,0 +1,14 @@
+{:allowed-directories ["."
+                       "src"
+                       "test"
+                       "resources"
+                       "dev"
+                       "packages"
+                       "docs"
+                       "bb"
+                       "scripts"]
+ :write-file-guard :full-read
+ :cljfmt true
+ :bash-over-nrepl true
+ :scratch-pad-load false
+ :scratch-pad-file "scratch_pad.edn"}
