@@ -1,7 +1,6 @@
 {
   "name": "@promethean/shadow-conf",
   "version": "0.0.0",
-  "private": true,
   "type": "module",
   "main": "dist/index.cjs",
   "types": "dist/index.d.ts",
@@ -26,7 +25,7 @@
     "shadow-conf": "./dist/bin/shadow-conf.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -b",
     "clean": "rimraf dist",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
