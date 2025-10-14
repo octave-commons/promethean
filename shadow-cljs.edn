@@ -8,6 +8,10 @@
                  "packages/frontends/portfolio-frontend/src/cljs"
                  "packages/frontends/smart-chat-frontend/src/cljs"
                  "packages/frontends/smartgpt-dashboard-frontend/src/cljs"]
+ :dependencies [[binaryage/devtools "1.0.7"]
+                [nrepl "1.3.1"]]
+ :nrepl {:port 9000
+         :host "0.0.0.0"}
  :builds
  {:promethean-cli
   {:target :node-script
