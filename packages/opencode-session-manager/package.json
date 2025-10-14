@@ -4,10 +4,8 @@
   "private": true,
   "type": "module",
   "main": "public/js/main.js",
-  "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
       "import": "./public/js/main.js",
       "require": "./public/js/main.js"
     },
@@ -15,13 +13,11 @@
     "./*": "./public/*"
   },
   "files": [
-    "public",
-    "dist"
+    "public"
   ],
   "scripts": {
     "build": "shadow-cljs release app",
-    "clean": "rimraf public/js dist",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "clean": "rimraf public/js",
     "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
     "lint": "pnpm exec eslint .",
     "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",
@@ -34,13 +30,19 @@
   },
   "module": "public/js/main.js",
   "dependencies": {
+    "@opencode-ai/sdk": "^0.15.2",
     "@promethean/ds": "workspace:*",
-    "@promethean/utils": "workspace:*"
+    "@promethean/utils": "workspace:*",
+    "object-assign": "^4.1.1",
+    "prop-types": "^15.8.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "scheduler": "^0.27.0"
   },
   "devDependencies": {
     "@promethean/test-utils": "workspace:*",
-    "shadow-cljs": "^2.28.17",
+    "concurrently": "^8.2.2",
     "rimraf": "^5.0.5",
-    "concurrently": "^8.2.2"
+    "shadow-cljs": "^2.28.17"
   }
 }
