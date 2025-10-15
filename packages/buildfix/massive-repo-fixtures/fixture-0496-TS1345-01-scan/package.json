@@ -1,0 +1,8 @@
+{
+  "name": "buildfix-massive-fixture-fixture-0496-TS1345-01-scan",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "ts-morph": "^23.0.0"
+  }
+}

@@ -164,3 +164,132 @@ export function sanitizeBranch(s: string) {
     .replace(/^-+|-+$/g, '')
     .slice(0, 120);
 }
+
+// Performance: Improved ollama integration using npm package with fallback
+let ollamaPackage: any = null;
+let ollamaPackageChecked = false;
+
+async function initializeOllamaPackage() {
+  if (ollamaPackageChecked) return ollamaPackage;
+  ollamaPackageChecked = true;
+
+  try {
+    // Try to import the ollama package only if available
+    const ollamaModule = await import('ollama').catch(() => null);
+    if (ollamaModule) {
+      ollamaPackage = ollamaModule.default;
+      console.log('Using ollama npm package for improved performance');
+    } else {
+      ollamaPackage = false;
+    }
+  } catch (error) {
+    console.warn('Ollama npm package not available, using HTTP fallback:', error);
+    ollamaPackage = false;
+  }
+
+  return ollamaPackage;
+}
+
+export async function callOllama(
+  model: string,
+  prompt: string,
+  options: {
+    temperature?: number;
+    schema?: object;
+    system?: string;
+  } = {},
+): Promise<unknown> {
+  const ollama = await initializeOllamaPackage();
+
+  if (ollama && ollama !== false) {
+    // Use npm package
+    try {
+      const response = await ollama.generate({
+        model,
+        prompt,
+        system: options.system,
+        format: options.schema ? 'json' : undefined,
+        options: {
+          temperature: options.temperature ?? 0,
+        },
+      });
+
+      const raw = response.response;
+      return JSON.parse(
+        String(raw)
+          .replace(/```json\s*/g, '')
+          .replace(/```\s*$/g, '')
+          .trim(),
+      );
+    } catch (error) {
+      console.warn('Ollama npm package failed, falling back to HTTP:', error);
+      // Fall back to HTTP implementation
+    }
+  }
+
+  // Fallback to existing HTTP implementation via @promethean/utils
+  const { ollamaJSON } = await import('@promethean/utils');
+  return ollamaJSON(model, prompt, options);
+}
+
+// Performance: Git-based snapshot management for faster rollbacks
+export class GitSnapshotManager {
+  private constructor(private readonly workdir: string) {}
+
+  static async create(workdir: string): Promise<GitSnapshotManager | null> {
+    try {
+      // Check if we're in a git repo
+      const { code } = await run('git', ['rev-parse', '--is-inside-work-tree'], { cwd: workdir });
+      if (code !== 0) return null;
+
+      return new GitSnapshotManager(workdir);
+    } catch {
+      return null;
+    }
+  }
+
+  async createSnapshot(): Promise<string> {
+    // Create a git stash with a unique message
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const stashMessage = `buildfix-snapshot-${timestamp}`;
+
+    const { code } = await run('git', ['stash', 'push', '-m', stashMessage], { cwd: this.workdir });
+    if (code !== 0) {
+      throw new Error('Failed to create git stash snapshot');
+    }
+
+    // Get the stash ref for later restoration
+    const { out } = await run(
+      'git',
+      ['stash', 'list', '--grep=^buildfix-snapshot-', '--format=%H'],
+      { cwd: this.workdir },
+    );
+    const lines = out.trim().split('\n');
+    const latestStash = lines[0];
+
+    if (!latestStash) {
+      throw new Error('Failed to retrieve stash reference');
+    }
+
+    return latestStash;
+  }
+
+  async restoreSnapshot(stashRef: string): Promise<void> {
+    // Restore from the specific stash
+    const { code } = await run('git', ['stash', 'pop', stashRef], { cwd: this.workdir });
+    if (code !== 0) {
+      throw new Error(`Failed to restore from stash ${stashRef}`);
+    }
+  }
+
+  async cleanup(): Promise<void> {
+    // No specific cleanup needed for git-based snapshots
+    // Stashes are automatically removed when restored
+  }
+}
+
+export async function createGitSnapshotManager(
+  workdir: string,
+): Promise<GitSnapshotManager | null> {
+  return GitSnapshotManager.create(workdir);
+}

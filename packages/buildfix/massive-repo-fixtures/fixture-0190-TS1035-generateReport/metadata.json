@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0190-TS1035-generateReport",
+  "description": "Massive fixture for TS1035 from packages/report-forge/src/lib/generateReport.ts",
+  "originalPath": "packages/report-forge/src/lib/generateReport.ts",
+  "targetErrorCode": "TS1035",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 190,
+  "generatedAt": "2025-10-15T06:38:49.381Z"
+}

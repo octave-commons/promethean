@@ -172,6 +172,34 @@ export const apps =
     ]
   },
   {
+    "name": "frontend-service",
+    "description": "Frontend service with ClojureScript DSL and server capabilities",
+    "script": "node",
+    "args": [
+      "-r",
+      "esbuild-register",
+      "packages/frontend-service/dist/index.js"
+    ],
+    "cwd": "..",
+    "env": {
+      "NODE_ENV": "production",
+      "PORT": "3002",
+      "LOG_LEVEL": "info"
+    },
+    "instances": 1,
+    "max-memory-restart": "1G",
+    "autorestart": true,
+    "watch": false,
+    "merge-logs": true,
+    "log-date-format": "YYYY-MM-DD HH:mm:ss Z",
+    "error-file": "logs/frontend-service-error.log",
+    "out-file": "logs/frontend-service-out.log",
+    "log-file": "logs/frontend-service-combined.log",
+    "time": true,
+    "kill-timeout": 5000,
+    "restart-delay": 4000
+  },
+  {
     "name": "health",
     "script": "index.js",
     "args": [],
@@ -357,6 +385,34 @@ export const apps =
       "tmp",
       ".git"
     ]
+  },
+  {
+    "id": "openai-server",
+    "description": "OpenAI-compatible API server with Ollama integration and task queuing",
+    "script": "node",
+    "args": [
+      "-r",
+      "esbuild-register",
+      "packages/openai-server/dist/index.js"
+    ],
+    "cwd": "..",
+    "env": {
+      "NODE_ENV": "production",
+      "PORT": "3001",
+      "LOG_LEVEL": "info"
+    },
+    "instances": 1,
+    "max-memory-restart": "1G",
+    "autorestart": true,
+    "watch": false,
+    "merge-logs": true,
+    "log-date-format": "YYYY-MM-DD HH:mm:ss Z",
+    "error-file": "logs/openai-server-error.log",
+    "out-file": "logs/openai-server-out.log",
+    "log-file": "logs/openai-server-combined.log",
+    "time": true,
+    "kill-timeout": 5000,
+    "restart-delay": 4000
   },
   {
     "name": "opencode-session-manager",

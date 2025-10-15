@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0177-TS1128-core",
+  "description": "Massive fixture for TS1128 from packages/web-utils/src/core.ts",
+  "originalPath": "packages/web-utils/src/core.ts",
+  "targetErrorCode": "TS1128",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 177,
+  "generatedAt": "2025-10-15T06:38:49.374Z"
+}

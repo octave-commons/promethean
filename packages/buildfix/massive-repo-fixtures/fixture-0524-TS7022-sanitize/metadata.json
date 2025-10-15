@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0524-TS7022-sanitize",
+  "description": "Massive fixture for TS7022 from packages/apply-patch/src/sanitize.ts",
+  "originalPath": "packages/apply-patch/src/sanitize.ts",
+  "targetErrorCode": "TS7022",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 524,
+  "generatedAt": "2025-10-15T06:38:49.526Z"
+}

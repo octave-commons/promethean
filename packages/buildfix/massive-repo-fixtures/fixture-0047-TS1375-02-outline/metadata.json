@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0047-TS1375-02-outline",
+  "description": "Massive fixture for TS1375 from packages/readmeflow/src/02-outline.ts",
+  "originalPath": "packages/readmeflow/src/02-outline.ts",
+  "targetErrorCode": "TS1375",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 47,
+  "generatedAt": "2025-10-15T06:38:49.321Z"
+}

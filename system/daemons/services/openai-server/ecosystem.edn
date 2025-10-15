@@ -1,0 +1,20 @@
+{:apps [{:id "openai-server"
+         :description "OpenAI-compatible API server with Ollama integration and task queuing"
+         :script "node"
+         :args ["-r" "esbuild-register" "packages/openai-server/dist/index.js"]
+         :cwd ".."
+         :env {:NODE_ENV "production"
+               :PORT "3001"
+               :LOG_LEVEL "info"}
+         :instances 1
+         :max-memory-restart "1G"
+         :autorestart true
+         :watch false
+         :merge-logs true
+         :log-date-format "YYYY-MM-DD HH:mm:ss Z"
+         :error-file "logs/openai-server-error.log"
+         :out-file "logs/openai-server-out.log"
+         :log-file "logs/openai-server-combined.log"
+         :time true
+         :kill-timeout 5000
+         :restart-delay 4000}]}

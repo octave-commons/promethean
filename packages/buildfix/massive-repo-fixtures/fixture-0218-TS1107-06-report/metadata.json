@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0218-TS1107-06-report",
+  "description": "Massive fixture for TS1107 from packages/boardrev/src/06-report.ts",
+  "originalPath": "packages/boardrev/src/06-report.ts",
+  "targetErrorCode": "TS1107",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 218,
+  "generatedAt": "2025-10-15T06:38:49.393Z"
+}

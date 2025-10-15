@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0325-TS1005-helpers",
+  "description": "Massive fixture for TS1005 from packages/kanban/src/test-utils/helpers.ts",
+  "originalPath": "packages/kanban/src/test-utils/helpers.ts",
+  "targetErrorCode": "TS1005",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 325,
+  "generatedAt": "2025-10-15T06:38:49.442Z"
+}

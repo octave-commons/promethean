@@ -1,0 +1,8 @@
+{
+  "name": "buildfix-massive-fixture-fixture-0037-TS1055-02-outline",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "ts-morph": "^23.0.0"
+  }
+}

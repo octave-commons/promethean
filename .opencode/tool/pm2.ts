@@ -524,6 +524,7 @@ export const showLogs = tool({
   async execute({ nameOrId, lines = 100, type = 'combined', raw = false }) {
     try {
       const pm2Args = ['logs'];
+      pm2Args.push('--nostream');
 
       if (nameOrId) {
         pm2Args.push(nameOrId);

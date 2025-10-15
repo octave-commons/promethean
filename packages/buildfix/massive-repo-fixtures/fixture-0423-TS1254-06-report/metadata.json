@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0423-TS1254-06-report",
+  "description": "Massive fixture for TS1254 from packages/boardrev/src/06-report.ts",
+  "originalPath": "packages/boardrev/src/06-report.ts",
+  "targetErrorCode": "TS1254",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 423,
+  "generatedAt": "2025-10-15T06:38:49.484Z"
+}

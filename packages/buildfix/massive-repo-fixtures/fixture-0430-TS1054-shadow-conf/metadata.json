@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0430-TS1054-shadow-conf",
+  "description": "Massive fixture for TS1054 from packages/shadow-conf/src/bin/shadow-conf.ts",
+  "originalPath": "packages/shadow-conf/src/bin/shadow-conf.ts",
+  "targetErrorCode": "TS1054",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 430,
+  "generatedAt": "2025-10-15T06:38:49.488Z"
+}

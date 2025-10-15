@@ -3,6 +3,7 @@
 
 import { tool } from '@opencode-ai/plugin';
 import { randomUUID } from 'node:crypto';
+import { ollamaEmbed, InMemoryChroma } from '@promethean/utils';
 
 const OLLAMA_URL = process.env.OLLAMA_URL ?? 'http://localhost:11434';
 
@@ -71,13 +72,112 @@ const jobQueue: Job[] = [];
 const activeJobs = new Map<UUID, Job>();
 const processing = new Set<UUID>();
 
+// Prompt cache configuration
+const CACHE_SIMILARITY_THRESHOLD = 0.85; // Cosine similarity threshold for cache hits
+const CACHE_MAX_AGE_MS = 24 * 60 * 60 * 1000; // 24 hours
+const modelCaches = new Map<string, InMemoryChroma<CacheEntry>>();
+
 // Queue processing configuration
-const MAX_CONCURRENT_JOBS = 2;
+const MAX_CONCURRENT_JOBS = 6;
 const POLL_INTERVAL = 5000; // 5 seconds
 
 let processingInterval: NodeJS.Timeout | null = null;
 
 const now = () => Date.now();
+
+// Prompt cache functions
+type CacheEntry = {
+  prompt: string;
+  response: unknown;
+  modelName: string;
+  jobType: JobType;
+  createdAt: number;
+  embedding?: number[];
+};
+
+async function initializeCache(modelName: string): Promise<InMemoryChroma<CacheEntry>> {
+  if (!modelCaches.has(modelName)) {
+    modelCaches.set(modelName, new InMemoryChroma<CacheEntry>());
+  }
+  return modelCaches.get(modelName)!;
+}
+
+async function getPromptEmbedding(prompt: string, modelName: string): Promise<number[]> {
+  try {
+    return await ollamaEmbed(modelName, prompt);
+  } catch (error) {
+    console.warn('Failed to generate embedding for prompt caching:', error);
+    throw error;
+  }
+}
+
+function createCacheKey(prompt: string, modelName: string, jobType: JobType): string {
+  return `${jobType}:${modelName}:${Buffer.from(prompt).toString('base64').slice(0, 32)}`;
+}
+
+async function checkCache(
+  prompt: string,
+  modelName: string,
+  jobType: JobType,
+): Promise<unknown | null> {
+  try {
+    const cache = await initializeCache(modelName);
+    const queryEmbedding = await getPromptEmbedding(prompt, modelName);
+
+    const hits = cache.queryByEmbedding(queryEmbedding, {
+      k: 1,
+      filter: (metadata) =>
+        metadata.modelName === modelName &&
+        metadata.jobType === jobType &&
+        now() - (metadata.createdAt as number) < CACHE_MAX_AGE_MS,
+    });
+
+    if (hits.length > 0 && hits[0].score >= CACHE_SIMILARITY_THRESHOLD) {
+      console.log(
+        `Cache hit for ${modelName} ${jobType} job with similarity ${hits[0].score.toFixed(3)}`,
+      );
+      return hits[0].metadata.response;
+    }
+  } catch (error) {
+    console.warn('Cache lookup failed:', error);
+  }
+
+  return null;
+}
+
+async function storeInCache(
+  prompt: string,
+  response: unknown,
+  modelName: string,
+  jobType: JobType,
+): Promise<void> {
+  try {
+    const cache = await initializeCache(modelName);
+    const embedding = await getPromptEmbedding(prompt, modelName);
+    const cacheKey = createCacheKey(prompt, modelName, jobType);
+
+    const cacheEntry: CacheEntry = {
+      prompt,
+      response,
+      modelName,
+      jobType,
+      createdAt: now(),
+      embedding,
+    };
+
+    cache.add([
+      {
+        id: cacheKey,
+        embedding,
+        metadata: cacheEntry,
+      },
+    ]);
+
+    console.log(`Stored ${modelName} ${jobType} result in cache (size: ${cache.size})`);
+  } catch (error) {
+    console.warn('Failed to store in cache:', error);
+  }
+}
 
 // Helper functions
 const getJobsByAgent = (agentId?: string, sessionId?: string): Job[] => {
@@ -218,22 +318,59 @@ async function processJob(job: Job): Promise<void> {
 
   try {
     let result: unknown;
+    let cacheKey: string | null = null;
 
     switch (job.type) {
       case 'generate':
         if (!job.prompt) throw new Error('Generate job missing prompt');
+
+        // Check cache first
+        const cachedResult = await checkCache(job.prompt, job.modelName, job.type);
+        if (cachedResult !== null) {
+          result = cachedResult;
+          updateJobStatus(job.id, 'completed', {
+            result,
+            completedAt: now(),
+          });
+          return;
+        }
+
         result = await callOllamaGenerate(job.modelName, job.prompt, job.options);
+        cacheKey = job.prompt;
         break;
+
       case 'chat':
         if (!job.messages) throw new Error('Chat job missing messages');
+
+        // For chat jobs, create a string representation for caching
+        const chatString = job.messages.map((m) => `${m.role}: ${m.content}`).join('\n');
+        const cachedChatResult = await checkCache(chatString, job.modelName, job.type);
+        if (cachedChatResult !== null) {
+          result = cachedChatResult;
+          updateJobStatus(job.id, 'completed', {
+            result,
+            completedAt: now(),
+          });
+          return;
+        }
+
         result = await callOllamaChat(job.modelName, job.messages, job.options);
+        cacheKey = chatString;
         break;
+
       case 'embedding':
         if (!job.input) throw new Error('Embedding job missing input');
         result = await callOllamaEmbed(job.modelName, job.input);
+        // Don't cache embedding jobs as they're typically fast and context-specific
         break;
+
       default:
         throw new Error(`Unknown job type: ${job.type}`);
+    }
+
+    // Store successful results in cache (except embeddings)
+    if (cacheKey && result) {
+      await storeInCache(cacheKey, result, job.modelName, job.type);
     }
 
     updateJobStatus(job.id, 'completed', {
@@ -596,13 +733,75 @@ export const getQueueInfo = tool({
       total: jobQueue.length,
       maxConcurrent: MAX_CONCURRENT_JOBS,
       processorActive: !!processingInterval,
+      cacheSize: Array.from(modelCaches.values()).reduce((sum, cache) => sum + cache.size, 0),
     };
 
     return JSON.stringify(result);
   },
 });
 
-// Initialize queue processor on module load
+export const manageCache = tool({
+  description: 'Manage the prompt cache (clear, get stats, etc.)',
+  args: {
+    action: tool.schema
+      .enum(['stats', 'clear', 'clear-expired'])
+      .describe('Cache management action'),
+  },
+  async execute({ action }) {
+    switch (action) {
+      case 'stats':
+        const totalSize = Array.from(modelCaches.values()).reduce(
+          (sum, cache) => sum + cache.size,
+          0,
+        );
+        const modelStats = Array.from(modelCaches.entries()).map(([model, cache]) => ({
+          model,
+          size: cache.size,
+        }));
+
+        const stats = {
+          totalSize,
+          modelCount: modelCaches.size,
+          models: modelStats,
+          similarityThreshold: CACHE_SIMILARITY_THRESHOLD,
+          maxAgeMs: CACHE_MAX_AGE_MS,
+          maxAgeHours: CACHE_MAX_AGE_MS / (1000 * 60 * 60),
+        };
+        return JSON.stringify(stats);
+
+      case 'clear':
+        const totalCleared = Array.from(modelCaches.values()).reduce(
+          (sum, cache) => sum + cache.size,
+          0,
+        );
+        modelCaches.clear();
+        console.log(`Prompt cache cleared for all models (${totalCleared} entries)`);
+        return JSON.stringify({
+          message: 'Cache cleared successfully',
+          clearedEntries: totalCleared,
+          size: 0,
+        });
+
+      case 'clear-expired':
+        // For in-memory cache, we'd need to iterate and remove expired entries
+        // For now, just return info about this limitation
+        const currentSize = Array.from(modelCaches.values()).reduce(
+          (sum, cache) => sum + cache.size,
+          0,
+        );
+        return JSON.stringify({
+          message:
+            'Clear expired not implemented for in-memory cache. Use "clear" to remove all entries.',
+          size: currentSize,
+        });
+
+      default:
+        throw new Error(`Unknown cache action: ${action}`);
+    }
+  },
+});
+
+// Initialize queue processor on module load (cache initialized per model on demand)
 startQueueProcessor();
 
 // Cleanup on process exit

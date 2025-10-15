@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0153-TS1127-05-pr",
+  "description": "Massive fixture for TS1127 from packages/semverguard/src/05-pr.ts",
+  "originalPath": "packages/semverguard/src/05-pr.ts",
+  "targetErrorCode": "TS1127",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 153,
+  "generatedAt": "2025-10-15T06:38:49.363Z"
+}

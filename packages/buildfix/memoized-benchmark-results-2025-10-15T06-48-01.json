@@ -1,0 +1,92 @@
+{
+  "results": [
+    {
+      "fixture": "missing-export",
+      "model": "qwen3:8b",
+      "success": true,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": true,
+      "planGenerated": true,
+      "duration": 6173,
+      "attempts": 1,
+      "planTitle": "Fix missing export for helper function"
+    },
+    {
+      "fixture": "optional-parameter",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 1,
+      "errorsResolved": false,
+      "planGenerated": true,
+      "duration": 14238,
+      "attempts": 3,
+      "planTitle": "Fix missing required parameter"
+    },
+    {
+      "fixture": "type-annotation-missing",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 1,
+      "errorsResolved": false,
+      "planGenerated": true,
+      "duration": 14601,
+      "attempts": 3,
+      "planTitle": "Fix missing type annotation for 'someUnknownFunction'"
+    },
+    {
+      "fixture": "missing-return-type",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 0,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 1536,
+      "attempts": 0,
+      "errorMessage": "No errors found in fixture"
+    },
+    {
+      "fixture": "class-not-exported",
+      "model": "qwen3:8b",
+      "success": true,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": true,
+      "planGenerated": true,
+      "duration": 5575,
+      "attempts": 1,
+      "planTitle": "Export Helper class"
+    },
+    {
+      "fixture": "interface-missing",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 0,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 1582,
+      "attempts": 0,
+      "errorMessage": "No errors found in fixture"
+    }
+  ],
+  "summary": {
+    "totalTests": 6,
+    "successfulTests": 2,
+    "errorsResolved": 2,
+    "averageDuration": 7.284166666666667,
+    "modelResults": {
+      "qwen3:8b": {
+        "successRate": 33.33333333333333,
+        "errorResolution": 33.33333333333333,
+        "avgDuration": 7.284166666666667,
+        "totalErrors": 4,
+        "errorsFixed": 2
+      }
+    }
+  },
+  "timestamp": "2025-10-15T06:48:01.935Z"
+}

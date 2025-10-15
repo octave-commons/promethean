@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0575-TS4060-task-operations",
+  "description": "Massive fixture for TS4060 from packages/kanban/src/board/task-operations.ts",
+  "originalPath": "packages/kanban/src/board/task-operations.ts",
+  "targetErrorCode": "TS4060",
+  "errorCategory": "Declaration Error",
+  "fixtureNumber": 575,
+  "generatedAt": "2025-10-15T06:38:49.546Z"
+}

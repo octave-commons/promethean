@@ -7,6 +7,259 @@
                        "docs"
                        "bb"
                        "scripts"]
+ :models {:qwen/qwen3-coder:free
+          {:provider :openai
+           :model-name "qwen/qwen3-coder:free"
+           :api-key [:env "OPENROUTER_API_KEY"]
+           :base-url "https://openrouter.ai/api/v1/chat/completions"
+           :temperature 1}
+
+          :openai/gpt-oss:20b
+          {:provider :openai
+           :model-name "openai/gpt-oss-20b:free"
+           :api-key [:env "OPENROUTER_API_KEY"]
+           :base-url "https://openrouter.ai/api/v1/chat/completions"
+           :temperature 1}
+          :deepseek/deep-seek-chat-v3.1:free
+          {:provider :openai
+           :model-name "deepseek/deepseek-chat-v3.1:free"
+           :api-key [:env "OPENROUTER_API_KEY"]
+           :base-url "https://openrouter.ai/api/v1/chat/completions"
+           :temperature 1}
+          :glm-4-5
+          {:provider :openai
+           :model-name "z-ai/glm-4.5"
+           :api-key [:env "OPENROUTER_API_KEY"]
+           :base-url "https://openrouter.ai/api/v1/chat/completions"
+           :temperature 1}
+          :glm-4-6
+          {:provider :openai
+           :model-name "glm-4.6"
+           :api-key [:env "Z_AI_API_KEY"]
+           :base-url "https://api.z.ai/api/coding/paas/v4"
+           :temperature 1}
+          :gpt-5-nano
+          {:provider :openai
+           :model-name "openai/gpt-5-nano"
+           :api-key [:env "OPENROUTER_API_KEY"]
+           :base-url "https://openrouter.ai/api/v1/chat/completions"
+           :temperature 1}
+
+          :gpt-oss-120
+          {:provider :openai
+           :model-name "openai/gpt-oss-120b"
+           :api-key [:env "OPENROUTER_API_KEY"]
+           :base-url "https://openrouter.ai/api/v1/chat/completions"
+           :temperature 1}
+
+          :qwen3-turbo
+          {:provider :openai
+           :model-name "qwen/qwen-turbo"
+           :api-key [:env "OPENROUTER_API_KEY"]
+           :base-url "https://openrouter.ai/api/v1/chat/completions"
+           :temperature 1}
+
+           :gemini-2.0-flash-exp
+           {:provider :openai
+            :model-name "google/gemini-2.0-flash-exp:free"
+            :api-key [:env "OPENROUTER_API_KEY"]
+            :base-url "https://openrouter.ai/api/v1/chat/completions"
+            :temperature 1}
+
+           ;; Ollama local models
+           :qwen3-codex-local
+           {:provider :openai
+            :model-name "qwen3-codex:latest"
+            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :temperature 0.7}
+
+           :qwen3-codex-4b
+           {:provider :openai
+            :model-name "qwen3-codex:4b-128k"
+            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :temperature 0.7}
+
+           :qwen3-codex-promethean
+           {:provider :openai
+            :model-name "qwen3-codex:promethean"
+            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :temperature 0.7}
+
+           :qwen2.5-coder-7b
+           {:provider :openai
+            :model-name "qwen2.5-coder:7b-instruct"
+            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :temperature 0.7}
+
+           :qwen3-8b
+           {:provider :openai
+            :model-name "qwen3:8b"
+            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :temperature 0.7}
+
+           :qwen3-4b
+           {:provider :openai
+            :model-name "qwen3:4b"
+            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :temperature 0.7}
+
+           :llama3.1-8b
+           {:provider :openai
+            :model-name "llama3.1:8b"
+            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :temperature 0.7}
+
+           :llama3-8b
+           {:provider :openai
+            :model-name "llama3:8b"
+            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :temperature 0.7}
+
+           :deepseek-r1
+           {:provider :openai
+            :model-name "deepseek-r1:latest"
+            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :temperature 0.7}
+
+           :gpt-oss-20b
+           {:provider :openai
+            :model-name "gpt-oss:20b"
+            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :temperature 0.7}
+
+           :qwen3-14b
+           {:provider :openai
+            :model-name "qwen3:14b"
+            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :temperature 0.7}
+
+           :promethean-planner
+           {:provider :openai
+            :model-name "promethean-planner:latest"
+            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :temperature 0.7}
+
+           :qwen2.5-7b
+           {:provider :openai
+            :model-name "qwen2.5:7b"
+            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :temperature 0.7}
+
+           :qwen2.5-3b
+           {:provider :openai
+            :model-name "qwen2.5:3b-instruct"
+            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :temperature 0.7}
+
+           :llama3.2-latest
+           {:provider :openai
+            :model-name "llama3.2:latest"
+            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :temperature 0.7}
+
+           :gemma2-2b
+           {:provider :openai
+            :model-name "gemma2:2b"
+            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :temperature 0.7}
+
+           :gemma3-latest
+           {:provider :openai
+            :model-name "gemma3:latest"
+            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :temperature 0.7}}
+ :agents [;; Enhanced advisor - strategic planning with memory
+          {:id :advisor
+           :name "advisor"
+           :description "Strategic technical advisor with planning capabilities"
+           :system-message "You are a senior technical advisor and architect. Provide strategic guidance, break down complex problems into actionable steps, and help plan multi-step approaches. Focus on best practices, architectural decisions, and risk assessment. Ask clarifying questions to understand the full context before providing recommendations."
+           :model :gpt-5-nano
+           :context true
+           :memory-size 25  ; Remember conversation context for better advice
+           :enable-tools [:read_file :grep :glob_files :clojure_inspect_project]
+           :disable-tools [:file_write :file_edit :clojure_edit :bash :clojure_eval]}
+
+          ;; Enhanced research agent - comprehensive analysis
+          {:id :research-agent
+           :name "research_agent"
+           :description "Advanced research specialist with pattern analysis"
+           :system-message "You are a research specialist with expertise in code analysis and pattern recognition. Find relevant examples, analyze code structures, identify patterns, and provide comprehensive insights. Always include specific file locations, line numbers, and code snippets in your findings. Cross-reference multiple sources to provide thorough analysis."
+           :model :qwen3-turbo
+           :context true
+           :memory-size 15  ; Remember research context across queries
+           :enable-tools [:grep :glob_files :read_file :clojure_inspect_project]
+            :disable-tools [:file_write :file_edit :clojure_edit :bash :clojure_eval]}
+
+          ;; Enhanced documentation specialist - comprehensive docs
+          {:id :doc-reader
+           :name "doc_reader"
+           :description "Comprehensive documentation specialist"
+           :system-message "You are a documentation expert specializing in technical documentation analysis and synthesis. Read, analyze, and summarize documentation clearly. Focus on practical usage, API patterns, configuration examples, and integration guides. Structure your responses with clear sections and actionable insights."
+           :model :glm-4-5
+           :context ["README.md" "doc/" "docs/" "*.md"]
+           :memory-size 20  ; Remember documentation context
+           :enable-tools [:read_file :glob_files :grep]
+            :disable-tools [:file_write :file_edit :clojure_edit :bash :clojure_eval]}
+
+          ;; Enhanced test runner - comprehensive testing
+          {:id :test-runner
+           :name "test_runner"
+           :description "Comprehensive test execution and analysis specialist"
+           :system-message "You are a testing specialist focused on test execution, analysis, and debugging. Run tests, analyze failures, identify root causes, and suggest fixes. You can execute code and run test suites but cannot modify source files. Provide detailed test reports with specific failure locations and recommended solutions."
+           :model :qwen/qwen3-coder:free
+           :context ["test/" "tests/" "*.test.*" "*test*"]
+           :memory-size 30  ; Remember test context and results
+           :enable-tools [:read_file :grep :glob_files :clojure_eval :bash]
+             :disable-tools [:file_write :file_edit :clojure_edit :clojure_edit_replace_sexp]}
+
+          ;; Enhanced code writer - advanced development
+          {:id :code-writer
+           :name "code_writer"
+           :description "Advanced code development and refactoring specialist"
+           :system-message "You are a senior software engineer specializing in code development, refactoring, and optimization. Write clean, maintainable, and well-tested code. Always analyze existing code patterns before making changes. Use TDD approaches when possible. Explain your changes clearly and provide rationale for architectural decisions. Test your code before committing changes."
+           :model :qwen/qwen3-coder:free
+           :context true
+           :memory-size 75  ; Enhanced memory for complex refactoring
+            :enable-tools [:read_file :grep :glob_files
+                            :clojure_eval :bash
+                            :file_write :file_edit
+                            :clojure_edit :clojure_edit_replace_sexp]
+           :disable-tools nil}
+
+          ;; Enhanced admin agent - system management
+          {:id :admin-agent
+           :name "admin_agent"
+           :description "Advanced system administration and operations specialist"
+           :system-message "You are a DevOps and system administration expert with full system access. Always explain risks before taking actions, confirm destructive operations, and provide rollback procedures. Focus on system reliability, security, and maintainability. Document all administrative actions and their impacts."
+           :model :gpt-oss-120
+           :context true
+           :memory-size 150  ; Large memory for complex operations
+           :enable-tools [:all]  ; Full system access
+           :disable-tools nil}
+
+          ;; NEW: Security specialist - focused on security analysis
+          {:id :security-specialist
+           :name "security_specialist"
+           :description "Security analysis and vulnerability assessment specialist"
+           :system-message "You are a cybersecurity specialist focused on identifying vulnerabilities, security risks, and implementing security best practices. Analyze code for security issues, suggest improvements, and ensure compliance with security standards. You have read-only access for analysis and can provide security recommendations, but cannot modify critical system files without explicit approval."
+           :model :gpt-5-nano
+           :context ["src/" "packages/" "config/" "*.clj" "*.cljs" "*.ts" "*.js" "*.json"]
+           :memory-size 40  ; Remember security context
+            :enable-tools [:read_file :grep :glob_files :clojure_inspect_project
+                            :bash]
+             :disable-tools [:file_write :file_edit :clojure_edit :clojure_edit_replace_sexp]}
+
+           ;; NEW: Code reviewer - quality assurance specialist
+          {:id :code-reviewer
+           :name "code_reviewer"
+           :description "Code quality and review specialist"
+           :system-message "You are a code review specialist focused on code quality, best practices, and maintainability. Review code changes for correctness, performance, style, and architectural alignment. Provide constructive feedback with specific examples and improvement suggestions. You can read all code and run analysis tools, but cannot modify files directly - only provide recommendations."
+           :model :glm-4-6
+           :context true
+           :memory-size 35  ; Remember review context
+            :enable-tools [:read_file :grep :glob_files :clojure_inspect_project
+                            :clojure_eval :bash]
+            :disable-tools [:file_write :file_edit :clojure_edit :clojure_edit_replace_sexp]}]
  :write-file-guard :full-read
  :cljfmt true
  :bash-over-nrepl true

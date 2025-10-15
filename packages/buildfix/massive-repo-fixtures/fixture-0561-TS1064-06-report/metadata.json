@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0561-TS1064-06-report",
+  "description": "Massive fixture for TS1064 from packages/boardrev/src/06-report.ts",
+  "originalPath": "packages/boardrev/src/06-report.ts",
+  "targetErrorCode": "TS1064",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 561,
+  "generatedAt": "2025-10-15T06:38:49.540Z"
+}

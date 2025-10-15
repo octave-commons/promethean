@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0415-TS1363-kanban-ui",
+  "description": "Massive fixture for TS1363 from packages/kanban/src/frontend/kanban-ui.ts",
+  "originalPath": "packages/kanban/src/frontend/kanban-ui.ts",
+  "targetErrorCode": "TS1363",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 415,
+  "generatedAt": "2025-10-15T06:38:49.481Z"
+}

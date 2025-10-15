@@ -1,0 +1,9 @@
+{
+  "name": "repo-file-3-image-links",
+  "description": "Repository file: packages/web-utils/src/image-links.ts",
+  "originalPath": "packages/web-utils/src/image-links.ts",
+  "errorPattern": [],
+  "files": [
+    "src.ts"
+  ]
+}

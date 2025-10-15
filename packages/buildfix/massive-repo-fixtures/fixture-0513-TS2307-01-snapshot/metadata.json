@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0513-TS2307-01-snapshot",
+  "description": "Massive fixture for TS2307 from packages/semverguard/src/01-snapshot.ts",
+  "originalPath": "packages/semverguard/src/01-snapshot.ts",
+  "targetErrorCode": "TS2307",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 513,
+  "generatedAt": "2025-10-15T06:38:49.523Z"
+}

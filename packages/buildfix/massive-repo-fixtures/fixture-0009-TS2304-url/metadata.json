@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0009-TS2304-url",
+  "description": "Massive fixture for TS2304 from packages/web-utils/src/url.ts",
+  "originalPath": "packages/web-utils/src/url.ts",
+  "targetErrorCode": "TS2304",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 9,
+  "generatedAt": "2025-10-15T06:38:49.299Z"
+}

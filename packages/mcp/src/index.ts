@@ -92,6 +92,15 @@ import {
   kanbanRewriteTask,
   kanbanBreakdownTask,
 } from './tools/kanban.js';
+import {
+  kanbanSubscribeToEvents,
+  kanbanGetEventHistory,
+  kanbanCreateTask,
+  kanbanBulkUpdateTasks,
+  kanbanGetBoardSchema,
+  kanbanRealtimeSync,
+  kanbanBroadcastEvent,
+} from './tools/kanban-bridge.js';
 import { pnpmAdd, pnpmInstall, pnpmRemove, pnpmRunScript } from './tools/pnpm.js';
 import { nxGeneratePackage } from './tools/nx.js';
 import type { ToolFactory } from './core/types.js';
@@ -207,6 +216,13 @@ const toolCatalog = new Map<string, ToolFactory>([
   ['kanban_analyze_task', kanbanAnalyzeTask],
   ['kanban_rewrite_task', kanbanRewriteTask],
   ['kanban_breakdown_task', kanbanBreakdownTask],
+  ['kanban_subscribe_to_events', kanbanSubscribeToEvents],
+  ['kanban_get_event_history', kanbanGetEventHistory],
+  ['kanban_create_task', kanbanCreateTask],
+  ['kanban_bulk_update_tasks', kanbanBulkUpdateTasks],
+  ['kanban_get_board_schema', kanbanGetBoardSchema],
+  ['kanban_realtime_sync', kanbanRealtimeSync],
+  ['kanban_broadcast_event', kanbanBroadcastEvent],
   ['discord_send_message', discordSendMessage],
   ['discord_list_messages', discordListMessages],
   ['sandbox_create', sandboxCreateTool],

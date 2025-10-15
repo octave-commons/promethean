@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0602-TS2571-runner",
+  "description": "Massive fixture for TS2571 from packages/piper/src/runner.ts",
+  "originalPath": "packages/piper/src/runner.ts",
+  "targetErrorCode": "TS2571",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 602,
+  "generatedAt": "2025-10-15T06:38:49.564Z"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0453-TS1029-runner",
+  "description": "Massive fixture for TS1029 from packages/piper/src/runner.ts",
+  "originalPath": "packages/piper/src/runner.ts",
+  "targetErrorCode": "TS1029",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 453,
+  "generatedAt": "2025-10-15T06:38:49.497Z"
+}

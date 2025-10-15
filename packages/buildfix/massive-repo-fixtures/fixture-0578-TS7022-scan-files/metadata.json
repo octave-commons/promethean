@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0578-TS7022-scan-files",
+  "description": "Massive fixture for TS7022 from packages/file-indexer/src/scan-files.ts",
+  "originalPath": "packages/file-indexer/src/scan-files.ts",
+  "targetErrorCode": "TS7022",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 578,
+  "generatedAt": "2025-10-15T06:38:49.547Z"
+}

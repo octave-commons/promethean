@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0200-TS1029-state",
+  "description": "Massive fixture for TS1029 from packages/piper/src/lib/state.ts",
+  "originalPath": "packages/piper/src/lib/state.ts",
+  "targetErrorCode": "TS1029",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 200,
+  "generatedAt": "2025-10-15T06:38:49.385Z"
+}

@@ -1,0 +1,8 @@
+{
+  "name": "buildfix-massive-fixture-fixture-0434-TS2395-file-watcher",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "ts-morph": "^23.0.0"
+  }
+}

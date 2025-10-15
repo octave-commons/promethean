@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0019-TS1218-damage-pattern-dsl",
+  "description": "Massive fixture for TS1218 from packages/kanban/src/lib/heal/damage-pattern-dsl.ts",
+  "originalPath": "packages/kanban/src/lib/heal/damage-pattern-dsl.ts",
+  "targetErrorCode": "TS1218",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 19,
+  "generatedAt": "2025-10-15T06:38:49.304Z"
+}

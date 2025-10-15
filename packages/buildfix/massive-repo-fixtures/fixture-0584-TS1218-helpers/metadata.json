@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0584-TS1218-helpers",
+  "description": "Massive fixture for TS1218 from packages/kanban/src/test-utils/helpers.ts",
+  "originalPath": "packages/kanban/src/test-utils/helpers.ts",
+  "targetErrorCode": "TS1218",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 584,
+  "generatedAt": "2025-10-15T06:38:49.553Z"
+}

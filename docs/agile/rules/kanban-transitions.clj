@@ -124,6 +124,25 @@
   [_task _board]
   true)
 
+;; Missing custom check implementations
+(defn ^:export task-selected-for-work?
+  "Task has been selected for active work (agent assignment or manual selection)"
+  [task board]
+  ;; For now, allow any properly prioritized task to be selected
+  ;; In real implementation, this would check for agent assignment or explicit selection
+  (and (:title task)
+       (<= (get-priority-numeric (:priority task)) 2)
+       (has-tool-env-tags? task)))
+
+(defn ^:export task-needs-archiving?
+  "Task should be archived to icebox (completed, obsolete, or reference material)"
+  [task board]
+  ;; For now, allow archival of any completed task
+  ;; In real implementation, this would check for archival flags or completion status
+  (and (:title task)
+       (or (= (:status task) "done")
+           (contains? task :archive-reason))))
+
 ;; Global rule functions
 (defn wip-limits
   "Enforce WIP limits on target column"
@@ -249,5 +268,4 @@
   (def sample-board {:columns [{:name "todo" :tasks [] :limit 20}]})
 
   (valid-transitions-from "todo" sample-board)
-  (evaluate-transition "todo" "in_progress" sample-task sample-board)
-  )
+  (evaluate-transition "todo" "in_progress" sample-task sample-board))

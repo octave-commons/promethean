@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0211-TS1378-01-snapshot",
+  "description": "Massive fixture for TS1378 from packages/semverguard/src/01-snapshot.ts",
+  "originalPath": "packages/semverguard/src/01-snapshot.ts",
+  "targetErrorCode": "TS1378",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 211,
+  "generatedAt": "2025-10-15T06:38:49.390Z"
+}

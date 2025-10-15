@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0283-TS1368-01-scan",
+  "description": "Massive fixture for TS1368 from packages/readmeflow/src/01-scan.ts",
+  "originalPath": "packages/readmeflow/src/01-scan.ts",
+  "targetErrorCode": "TS1368",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 283,
+  "generatedAt": "2025-10-15T06:38:49.421Z"
+}

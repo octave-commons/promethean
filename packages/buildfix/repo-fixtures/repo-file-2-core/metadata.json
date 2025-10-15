@@ -1,0 +1,9 @@
+{
+  "name": "repo-file-2-core",
+  "description": "Repository file: packages/web-utils/src/core.ts",
+  "originalPath": "packages/web-utils/src/core.ts",
+  "errorPattern": [],
+  "files": [
+    "src.ts"
+  ]
+}

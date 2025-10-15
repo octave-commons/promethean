@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0013-TS1309-07-monitor",
+  "description": "Massive fixture for TS1309 from packages/boardrev/src/07-monitor.ts",
+  "originalPath": "packages/boardrev/src/07-monitor.ts",
+  "targetErrorCode": "TS1309",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 13,
+  "generatedAt": "2025-10-15T06:38:49.301Z"
+}

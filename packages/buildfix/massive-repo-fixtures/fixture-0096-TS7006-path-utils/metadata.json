@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0096-TS7006-path-utils",
+  "description": "Massive fixture for TS7006 from packages/file-indexer/src/path-utils.ts",
+  "originalPath": "packages/file-indexer/src/path-utils.ts",
+  "targetErrorCode": "TS7006",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 96,
+  "generatedAt": "2025-10-15T06:38:49.342Z"
+}

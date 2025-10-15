@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0149-TS2551-command-handlers",
+  "description": "Massive fixture for TS2551 from packages/kanban/src/cli/command-handlers.ts",
+  "originalPath": "packages/kanban/src/cli/command-handlers.ts",
+  "targetErrorCode": "TS2551",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 149,
+  "generatedAt": "2025-10-15T06:38:49.361Z"
+}

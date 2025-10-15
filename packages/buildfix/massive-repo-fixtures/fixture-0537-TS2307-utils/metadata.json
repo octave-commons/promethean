@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0537-TS2307-utils",
+  "description": "Massive fixture for TS2307 from packages/boardrev/src/utils.ts",
+  "originalPath": "packages/boardrev/src/utils.ts",
+  "targetErrorCode": "TS2307",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 537,
+  "generatedAt": "2025-10-15T06:38:49.532Z"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0438-TS1183-render",
+  "description": "Massive fixture for TS1183 from packages/kanban/src/frontend/render.ts",
+  "originalPath": "packages/kanban/src/frontend/render.ts",
+  "targetErrorCode": "TS1183",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 438,
+  "generatedAt": "2025-10-15T06:38:49.491Z"
+}

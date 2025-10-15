@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0229-TS1225-lisp",
+  "description": "Massive fixture for TS1225 from packages/cli/src/lisp.ts",
+  "originalPath": "packages/cli/src/lisp.ts",
+  "targetErrorCode": "TS1225",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 229,
+  "generatedAt": "2025-10-15T06:38:49.396Z"
+}

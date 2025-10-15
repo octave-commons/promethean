@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0277-TS1308-diff",
+  "description": "Massive fixture for TS1308 from packages/apply-patch/src/diff.ts",
+  "originalPath": "packages/apply-patch/src/diff.ts",
+  "targetErrorCode": "TS1308",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 277,
+  "generatedAt": "2025-10-15T06:38:49.417Z"
+}

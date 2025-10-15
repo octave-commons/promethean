@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0217-TS7008-render",
+  "description": "Massive fixture for TS7008 from packages/kanban/src/frontend/render.ts",
+  "originalPath": "packages/kanban/src/frontend/render.ts",
+  "targetErrorCode": "TS7008",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 217,
+  "generatedAt": "2025-10-15T06:38:49.393Z"
+}

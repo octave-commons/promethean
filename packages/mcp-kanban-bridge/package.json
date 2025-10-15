@@ -1,0 +1,31 @@
+{
+  "name": "@promethean/mcp-kanban-bridge",
+  "version": "1.0.0",
+  "description": "Two-way synchronization bridge between MCP and Kanban systems",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "ava",
+    "clean": "rm -rf dist",
+    "dev": "tsc --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@promethean/agent-protocol": "workspace:*",
+    "@promethean/agent-context": "workspace:*",
+    "fastify": "^4.24.3",
+    "uuid": "^9.0.1",
+    "zod": "^3.22.4",
+    "node-cron": "^3.0.3",
+    "ioredis": "^5.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "@types/uuid": "^9.0.7",
+    "@types/node-cron": "^3.0.11",
+    "ava": "^5.3.1",
+    "typescript": "^5.3.3"
+  }
+}

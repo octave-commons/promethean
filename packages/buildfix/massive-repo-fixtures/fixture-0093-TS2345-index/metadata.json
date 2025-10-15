@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0093-TS2345-index",
+  "description": "Massive fixture for TS2345 from packages/auth-service/src/index.ts",
+  "originalPath": "packages/auth-service/src/index.ts",
+  "targetErrorCode": "TS2345",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 93,
+  "generatedAt": "2025-10-15T06:38:49.341Z"
+}

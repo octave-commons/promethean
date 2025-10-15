@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0203-TS7053-kanban-ui",
+  "description": "Massive fixture for TS7053 from packages/kanban/src/frontend/kanban-ui.ts",
+  "originalPath": "packages/kanban/src/frontend/kanban-ui.ts",
+  "targetErrorCode": "TS7053",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 203,
+  "generatedAt": "2025-10-15T06:38:49.387Z"
+}

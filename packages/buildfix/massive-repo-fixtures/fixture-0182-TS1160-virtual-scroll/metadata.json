@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0182-TS1160-virtual-scroll",
+  "description": "Massive fixture for TS1160 from packages/kanban/src/frontend/virtual-scroll.ts",
+  "originalPath": "packages/kanban/src/frontend/virtual-scroll.ts",
+  "targetErrorCode": "TS1160",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 182,
+  "generatedAt": "2025-10-15T06:38:49.377Z"
+}

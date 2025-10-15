@@ -1,7 +1,13 @@
 import * as nodePath from 'path';
 import { promises as fs } from 'fs';
 
-import { applySnippetToProject, codeFrame, tsc, WORKSPACE_ROOT } from './utils.js';
+import {
+  applySnippetToProject,
+  codeFrame,
+  tsc,
+  WORKSPACE_ROOT,
+  createGitSnapshotManager,
+} from './utils.js';
 import { requestPlan, writePlanFile } from './iter/plan.js';
 import { materializeSnippet, type Plan } from './iter/dsl.js';
 import { buildAndJudge, errorStillPresent } from './iter/eval.js';
@@ -129,8 +135,16 @@ export class BuildFix {
     const options = { ...this.defaults, ...rawOptions };
     const absoluteFile = nodePath.resolve(options.filePath);
     const workdir = nodePath.dirname(absoluteFile);
+
+    // Performance: Try git-based snapshot first, fallback to file-based snapshot
+    const gitManager = await createGitSnapshotManager(workdir);
+    const gitSnapshot = gitManager ? await gitManager.createSnapshot() : null;
+    const useGitSnapshot = gitSnapshot !== null;
+
     const snapshot: Snapshot = new Map();
-    await takeSnapshot(workdir, snapshot);
+    if (!useGitSnapshot) {
+      await takeSnapshot(workdir, snapshot);
+    }
 
     const attemptDetails: AttemptDetail[] = [];
     let finalContent: string | undefined;
@@ -166,8 +180,9 @@ export class BuildFix {
       }
 
       const targetDiagCandidate =
-        initial.diags.find((d) => resolveDiagnosticFile(resolvedTsconfig, d.file) === absoluteFile) ??
-        initial.diags[0];
+        initial.diags.find(
+          (d) => resolveDiagnosticFile(resolvedTsconfig, d.file) === absoluteFile,
+        ) ?? initial.diags[0];
       if (!targetDiagCandidate) {
         result.error = 'No diagnostic information available for requested file.';
         return result;
@@ -298,7 +313,12 @@ export class BuildFix {
               frame: nextFrame,
               key: `${nextDiag.code}|${absoluteFile}|${nextDiag.line}`,
             };
-            history = { ...history, key: buildError.key, file: buildError.file, code: buildError.code };
+            history = {
+              ...history,
+              key: buildError.key,
+              file: buildError.file,
+              code: buildError.code,
+            };
           }
         }
       }
@@ -313,7 +333,15 @@ export class BuildFix {
       if (finalContent !== undefined) {
         result.finalContent = finalContent;
       }
-      await restoreSnapshot(workdir, snapshot);
+
+      // Performance: Use git-based restore if available, otherwise file-based restore
+      if (useGitSnapshot && gitManager) {
+        await gitManager.restoreSnapshot(gitSnapshot);
+        await gitManager.cleanup();
+      } else {
+        await restoreSnapshot(workdir, snapshot);
+      }
+
       result.duration = Date.now() - start;
     }
 

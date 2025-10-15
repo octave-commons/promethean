@@ -11,6 +11,7 @@
 - `pnpm kanban update-status <uuid> <column>` — FSM transition respecting WIP.
 - `pnpm kanban enforce-wip-limits [--report|--fix]` — detect/fix WIP violations.
 - `pnpm kanban generate-by-tags "<tag> [<tag> ...]" --kanban <out.md>` — write a filtered board view by tags.
+
 # Kanban CLI Reference
 
 Complete reference for all `@promethean/kanban` CLI commands.
@@ -201,7 +202,15 @@ pnpm kanban update-status <uuid> <column>
 # Examples:
 pnpm kanban update-status abc-123 in_progress
 pnpm kanban update-status abc-123 done
+pnpm kanban update-status abc-123 "in progress"  # Spaces are normalized to underscores
+pnpm kanban update-status abc-123 "in-progress"  # Hyphens are normalized to underscores
 ```
+
+**Column Name Normalization:**
+
+- Spaces and hyphens are automatically converted to underscores
+- `"in progress"`, `"in-progress"`, and `"in_progress"` all access the same column
+- Use quotes for column names with spaces or special characters
 
 **Features:**
 

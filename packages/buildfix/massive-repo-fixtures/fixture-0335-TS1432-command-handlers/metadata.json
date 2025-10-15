@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0335-TS1432-command-handlers",
+  "description": "Massive fixture for TS1432 from packages/kanban/src/cli/command-handlers.ts",
+  "originalPath": "packages/kanban/src/cli/command-handlers.ts",
+  "targetErrorCode": "TS1432",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 335,
+  "generatedAt": "2025-10-15T06:38:49.447Z"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0478-TS7006-rewrite",
+  "description": "Massive fixture for TS7006 from packages/naming/src/rewrite.ts",
+  "originalPath": "packages/naming/src/rewrite.ts",
+  "targetErrorCode": "TS7006",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 478,
+  "generatedAt": "2025-10-15T06:38:49.508Z"
+}

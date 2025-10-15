@@ -22,6 +22,11 @@ export type Task = {
       reason: string;
     }>;
   };
+  // Epic functionality
+  type?: 'task' | 'epic';
+  epicId?: string; // If this is a subtask, references the epic UUID
+  subtaskIds?: string[]; // If this is an epic, contains array of subtask UUIDs
+  epicStatus?: 'pending' | 'in_progress' | 'completed' | 'blocked'; // Aggregate status of epic
 };
 
 export type ColumnData = {
@@ -34,3 +39,42 @@ export type ColumnData = {
 export type Board = {
   columns: ColumnData[];
 };
+
+// Epic-specific types
+export type EpicTask = Task & {
+  type: 'epic';
+  subtaskIds: string[];
+  epicStatus: 'pending' | 'in_progress' | 'completed' | 'blocked';
+};
+
+export type Subtask = Task & {
+  type: 'task';
+  epicId: string;
+};
+
+export type EpicValidationResult = {
+  allowed: boolean;
+  reason?: string;
+  blockedBy?: string[]; // UUIDs of subtasks blocking the transition
+  warnings?: string[];
+};
+
+export type EpicTransitionRule = {
+  fromStatus: string;
+  toStatus: string;
+  requiredSubtaskStatuses: string[];
+  allowPartialCompletion: boolean;
+};
+
+// Re-export scar context types for convenience
+export type {
+  ScarContext,
+  EventLogEntry,
+  ScarRecord,
+  SearchResult,
+  LLMOperation,
+  GitCommit,
+  ScarContextOptions,
+  HealingStatus,
+  HealingResult,
+} from './heal/scar-context-types.js';

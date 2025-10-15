@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0374-TS2395-core",
+  "description": "Massive fixture for TS2395 from packages/web-utils/src/core.ts",
+  "originalPath": "packages/web-utils/src/core.ts",
+  "targetErrorCode": "TS2395",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 374,
+  "generatedAt": "2025-10-15T06:38:49.464Z"
+}

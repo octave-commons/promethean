@@ -28,8 +28,10 @@
   },
   "dependencies": {
     "@promethean/utils": "workspace:*",
+    "commander": "^12.1.0",
     "diff": "5.2.0",
     "globby": "14.0.2",
+    "ollama": "^0.5.18",
     "ts-morph": "22.0.0",
     "zod": "3.23.8"
   },

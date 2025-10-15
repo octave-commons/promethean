@@ -1,0 +1,45 @@
+{
+  "name": "@promethean/mcp-dev-ui-frontend",
+  "version": "1.0.0",
+  "description": "Frontend components for MCP Dev UI",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "shadow-cljs release dev-ui",
+    "dev": "shadow-cljs watch dev-ui",
+    "clean": "rm -rf dist",
+    "test": "echo \"No tests specified\"",
+    "typecheck": "echo \"No TypeScript to check\"",
+    "lint": "echo \"No linting configured\"",
+    "serve": "shadow-cljs watch dev-ui"
+  },
+  "keywords": [
+    "frontend",
+    "clojurescript",
+    "mcp",
+    "dev-ui"
+  ],
+  "author": "Promethean Framework",
+  "license": "MIT",
+  "dependencies": {
+    "@promethean/mcp": "workspace:*"
+  },
+  "devDependencies": {
+    "shadow-cljs": "^2.28.17"
+  },
+  "files": [
+    "dist",
+    "src",
+    "*.cljs",
+    "*.clj",
+    "*.edn"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/promethean-framework/promethean.git",
+    "directory": "packages/mcp-dev-ui-frontend"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0057-TS1355-04-match-context",
+  "description": "Massive fixture for TS1355 from packages/boardrev/src/04-match-context.ts",
+  "originalPath": "packages/boardrev/src/04-match-context.ts",
+  "targetErrorCode": "TS1355",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 57,
+  "generatedAt": "2025-10-15T06:38:49.326Z"
+}

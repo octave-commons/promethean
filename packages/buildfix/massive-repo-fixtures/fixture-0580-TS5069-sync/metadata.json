@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0580-TS5069-sync",
+  "description": "Massive fixture for TS5069 from packages/kanban/src/process/sync.ts",
+  "originalPath": "packages/kanban/src/process/sync.ts",
+  "targetErrorCode": "TS5069",
+  "errorCategory": "Compiler Options Error",
+  "fixtureNumber": 580,
+  "generatedAt": "2025-10-15T06:38:49.549Z"
+}

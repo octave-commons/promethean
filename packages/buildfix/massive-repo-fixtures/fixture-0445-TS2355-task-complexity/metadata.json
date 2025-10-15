@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0445-TS2355-task-complexity",
+  "description": "Massive fixture for TS2355 from packages/kanban/src/lib/task-complexity.ts",
+  "originalPath": "packages/kanban/src/lib/task-complexity.ts",
+  "targetErrorCode": "TS2355",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 445,
+  "generatedAt": "2025-10-15T06:38:49.493Z"
+}

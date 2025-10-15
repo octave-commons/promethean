@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0481-TS1471-helpers",
+  "description": "Massive fixture for TS1471 from packages/kanban/src/test-utils/helpers.ts",
+  "originalPath": "packages/kanban/src/test-utils/helpers.ts",
+  "targetErrorCode": "TS1471",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 481,
+  "generatedAt": "2025-10-15T06:38:49.509Z"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0091-TS1248-status",
+  "description": "Massive fixture for TS1248 from packages/piper/src/status.ts",
+  "originalPath": "packages/piper/src/status.ts",
+  "targetErrorCode": "TS1248",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 91,
+  "generatedAt": "2025-10-15T06:38:49.340Z"
+}

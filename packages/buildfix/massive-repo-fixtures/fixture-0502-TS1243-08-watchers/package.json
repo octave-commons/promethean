@@ -1,0 +1,8 @@
+{
+  "name": "buildfix-massive-fixture-fixture-0502-TS1243-08-watchers",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "ts-morph": "^23.0.0"
+  }
+}

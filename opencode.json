@@ -2,34 +2,44 @@
   "$schema": "https://opencode.ai/config.json",
   "provider": {
     "ollama": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "Ollama Local",
-      "options": {
-        "baseURL": "http://localhost:11434/v1"
-      },
-      "models": {
-        "error/gpt-oss:20b-128k": {
-          "name": "GPT-OSS 20B 128K",
-          "tools": true
-        },
+      "npm": "ollama-ai-provider-v2",
+      "models":{
         "qwen3:8b": {
           "name": "Qwen3 8B",
-          "reasoning_effort": "high",
-          "reasoning_summary": "detailed",
-          "supports_reasoning_summaries": true,
-          "context_window": 32000,
-          "approval_policy": "never"
+          "options":{
+            "think":true,
+            "numx_ctx":40000
+          }
         },
         "error/qwen3-codex": {
           "name": "Qwen3 Codex",
-          "reasoning_effort": "low",
-          "context_window": 100000,
-          "approval_policy": "never"
+          "options":{
+            "think":true
+          }
+        },
+        "error/gpt-oss:20b-128k": {
+          "name": "GPT-OSS 20B 128K",
+          "options":{
+            "think":true
+          }
+        },
+        "qwen3:8b": {
+          "name": "Qwen3 8B",
+          "options":{
+            "think":true
+          }
+        },
+        "error/qwen3-codex": {
+          "name": "Qwen3 Codex",
+          "options":{
+            "think":true
+          }
         },
         "qwen3:14b": {
           "name": "Qwen3 14B",
-          "reasoning_effort": "high",
-          "reasoning_summary": "detailed"
+          "options":{
+            "think":true
+          }
         },
         "qwen2.5:7b": {
           "name": "Qwen2.5 7B"
@@ -39,76 +49,69 @@
         },
         "error/qwen2.5-codex": {
           "name": "Qwen2.5 Codex",
-          "context_window": 100000,
-          "approval_policy": "never"
+          "options":{
+            "think":true
+          }
         },
         "error/llama3.1-codex": {
           "name": "Llama3.1 Codex",
-          "context_window": 128000,
-          "approval_policy": "never"
+          "options":{
+            "think":true
+          }
         },
         "gpt-oss:120b-cloud": {
           "name": "GPT-OSS 120B (cloud)",
-          "reasoning_effort": "high",
-          "reasoning_summary": "detailed"
+          "options":{
+            "think":true
+          }
         },
         "gpt-oss:20b-cloud": {
-          "name": "GPT-OSS 20B (cloud)"
+          "name": "GPT-OSS 20B (cloud)",
+          "options":{
+            "think":true
+          }
         },
         "qwen3-coder:408b-cloud": {
           "name": "Qwen3 Coder 408B (cloud)",
-          "reasoning_effort": "high",
-          "reasoning_summary": "detailed"
+          "options":{
+            "think":true
+          }
         },
         "kimi-k2:1t-cloud": {
           "name": "Kimi K2 1T (cloud)",
-          "reasoning_effort": "high",
-          "reasoning_summary": "detailed"
+          "options":{
+            "think":true
+          }
         },
         "deepseek-v3.1:671b-cloud": {
           "name": "Deepseek v3.1 671B (cloud)",
-          "reasoning_effort": "high",
-          "reasoning_summary": "detailed"
+          "options":{
+            "think":true
+          }
         }
+
       }
     },
+
     "zai-coding-plan": {
-      "thinking": {
-        "type": "enabled",
-        "budgetTokens": 25000
-      }
-    },
-    "ollama_cloud": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "Ollama Cloud",
-      "options": {
-        "baseURL": "https://ollama.com",
-        "env_key": "OLLAMA_API_KEY"
+      "models":{
+
+      "glm-4.6": {
+        "options": {
+          "thinking": {
+            "type": "enabled"
+          }
+        }
       },
-      "models": {
-        "gpt-oss:120b": {
-          "name": "GPT-OSS 120B (cloud)"
-        },
-        "gpt-oss:20b": {
-          "name": "GPT-OSS 20B (cloud)"
-        },
-        "qwen3-coder:408b": {
-          "name": "Qwen3 Coder 408B (cloud)",
-          "reasoning_effort": "high",
-          "reasoning_summary": "detailed"
-        },
-        "kimi-k2:1t": {
-          "name": "Kimi K2 1T (cloud)",
-          "reasoning_effort": "high",
-          "reasoning_summary": "detailed"
-        },
-        "deepseek-v3.1:671b": {
-          "name": "Deepseek v3.1 671B (cloud)",
-          "reasoning_effort": "high",
-          "reasoning_summary": "detailed"
+      "glm-4.5v": {
+        "options": {
+          "thinking": {
+            "type": "enabled"
+          }
         }
       }
     }
+  }
   },
   "mcp": {
     "web-search-prime": {

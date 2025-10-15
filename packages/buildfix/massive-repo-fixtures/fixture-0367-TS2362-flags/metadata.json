@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0367-TS2362-flags",
+  "description": "Massive fixture for TS2362 from packages/duck-utils/src/flags.ts",
+  "originalPath": "packages/duck-utils/src/flags.ts",
+  "targetErrorCode": "TS2362",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 367,
+  "generatedAt": "2025-10-15T06:38:49.461Z"
+}

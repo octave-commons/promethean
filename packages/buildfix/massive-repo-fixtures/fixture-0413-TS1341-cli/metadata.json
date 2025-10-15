@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0413-TS1341-cli",
+  "description": "Massive fixture for TS1341 from packages/kanban/src/cli.ts",
+  "originalPath": "packages/kanban/src/cli.ts",
+  "targetErrorCode": "TS1341",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 413,
+  "generatedAt": "2025-10-15T06:38:49.480Z"
+}

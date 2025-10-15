@@ -217,6 +217,22 @@
       "always-allow?": {
         "description": "Always allow transition",
         "impl": "true"
+      },
+      "task-selected-for-work?": {
+        "description": "Task has been selected for active work",
+        "impl": "(task-selected-for-work? task board)"
+      },
+      "change-approved?": {
+        "description": "Review has been approved and changes can proceed",
+        "impl": "(review-approved? task board)"
+      },
+      "documentation-complete?": {
+        "description": "Documentation and evidence are complete",
+        "impl": "(documentation-complete? task board)"
+      },
+      "task-needs-archiving?": {
+        "description": "Task should be archived to icebox",
+        "impl": "(task-needs-archiving? task board)"
       }
     },
     "globalRules": [

@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0420-TS1103-types",
+  "description": "Massive fixture for TS1103 from packages/semverguard/src/types.ts",
+  "originalPath": "packages/semverguard/src/types.ts",
+  "targetErrorCode": "TS1103",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 420,
+  "generatedAt": "2025-10-15T06:38:49.483Z"
+}

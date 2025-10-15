@@ -6,7 +6,8 @@ import { loadKanbanConfig } from '../board/config.js';
 import { refreshTaskIndex, indexTasks, writeIndexFile, serializeTasks } from '../board/indexer.js';
 import { EventLogManager } from '../board/event-log.js';
 import type { IndexTasksOptions } from '../board/indexer.js';
-import type { Board, ColumnData, Task } from './types.js';
+import type { Board, ColumnData, Task, EpicTask } from './types.js';
+import { getEpicSubtasks, calculateEpicStatus } from './epic.js';
 
 const NOW_ISO = () => new Date().toISOString();
 
@@ -55,11 +56,12 @@ const normalizeColumnDisplayName = (value: string): string => {
   return trimmed.length > 0 ? trimmed : 'Todo';
 };
 
-const columnKey = (name: string): string =>
+export const columnKey = (name: string): string =>
   normalizeColumnDisplayName(name)
     .normalize('NFKD')
     .toLowerCase()
-    .replace(/[^a-z0-9_]+/g, '');
+    .replace(/[\s-]+/g, '_') // Convert spaces and hyphens to underscores
+    .replace(/[^a-z0-9_]+/g, ''); // Remove other special chars
 
 const tokenizeForLabels = (text: string): ReadonlyArray<string> =>
   text
@@ -645,7 +647,21 @@ const serializeBoard = (board: Board): string => {
           ? String(task.priority).trim()
           : '';
       const prioritySegment = priorityValue.length > 0 ? `prio:${priorityValue}` : '';
+
+      // Add epic-specific information
+      let epicSegment = '';
+      if (task.type === 'epic') {
+        const subtasks = getEpicSubtasks(board, task as EpicTask);
+        const epicStatus = calculateEpicStatus(subtasks);
+        epicSegment = `📋 epic:${epicStatus} (${subtasks.length} tasks)`;
+      } else if (task.epicId) {
+        epicSegment = `🔗 subtask of:${task.epicId.slice(0, 8)}...`;
+      }
+
       const segments = [`- [${done}]`, wikiLink];
+      if (epicSegment.length > 0) {
+        segments.push(epicSegment);
+      }
       if (labelSegment.length > 0) {
         segments.push(labelSegment);
       }
@@ -739,10 +755,45 @@ export const updateStatus = async (
   // Transition Rules Validation (if engine is provided)
   if (transitionRulesEngine) {
     try {
+      // Enrich task data with full content and estimates from indexed tasks
+      let enrichedTask = found;
+      if (tasksDir) {
+        try {
+          const configResult = await loadKanbanConfig();
+          const indexedTasks = await indexTasks({
+            tasksDir: configResult.config.tasksDir,
+            exts: configResult.config.exts,
+            repoRoot: configResult.config.repo,
+          });
+          const fullTaskData = indexedTasks.find((task) => task.uuid === found.uuid);
+          if (fullTaskData) {
+            // Convert estimates to match Task type expectations
+            const convertedEstimates = fullTaskData.estimates
+              ? {
+                  complexity: fullTaskData.estimates.complexity,
+                  scale: fullTaskData.estimates.scale
+                    ? Number(fullTaskData.estimates.scale) || undefined
+                    : undefined,
+                  time_to_completion: fullTaskData.estimates.time_to_completion,
+                }
+              : undefined;
+
+            // Merge full task data with board task, preserving board-specific fields
+            enrichedTask = {
+              ...found,
+              content: fullTaskData.content,
+              estimates: convertedEstimates,
+            };
+          }
+        } catch (error) {
+          console.warn('Warning: Failed to enrich task data for transition validation:', error);
+        }
+      }
+
       const transitionResult = await transitionRulesEngine.validateTransition(
         currentStatus,
         normalizedStatus,
-        found,
+        enrichedTask,
         board,
       );
 
@@ -1470,7 +1521,9 @@ const applyTemplateReplacements = (
     }
 
     // Sanitize replacement values to prevent injection
-    if (typeof value !== 'string') {
+    if (value === null || value === undefined) {
+      sanitizedReplacements[key] = '';
+    } else if (typeof value !== 'string') {
       sanitizedReplacements[key] = String(value);
     } else {
       // Escape HTML special characters and remove dangerous patterns
@@ -1484,7 +1537,8 @@ const applyTemplateReplacements = (
         // Remove potential JavaScript execution patterns
         .replace(/javascript:/gi, '')
         .replace(/vbscript:/gi, '')
-        .replace(/on\w+\s*=/gi, '');
+        .replace(/on\w+\s*=/gi, '')
+        .replace(/on\w+/gi, '');
     }
   }
 
@@ -1494,6 +1548,8 @@ const applyTemplateReplacements = (
     return typeof replacement === 'string' ? replacement : '';
   });
 };
+
+export { applyTemplateReplacements };
 
 const uniqueStrings = (values: ReadonlyArray<string> | undefined): string[] =>
   Array.from(

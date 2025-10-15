@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0254-TS1345-utils",
+  "description": "Massive fixture for TS1345 from packages/boardrev/src/utils.ts",
+  "originalPath": "packages/boardrev/src/utils.ts",
+  "targetErrorCode": "TS1345",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 254,
+  "generatedAt": "2025-10-15T06:38:49.405Z"
+}

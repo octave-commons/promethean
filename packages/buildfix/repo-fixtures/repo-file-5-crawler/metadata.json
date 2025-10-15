@@ -1,0 +1,9 @@
+{
+  "name": "repo-file-5-crawler",
+  "description": "Repository file: packages/web-utils/src/crawler.ts",
+  "originalPath": "packages/web-utils/src/crawler.ts",
+  "errorPattern": [],
+  "files": [
+    "src.ts"
+  ]
+}
