@@ -2,7 +2,7 @@
 uuid: "f9ad27bf-ad51-43fe-ac17-253e67f1eecb"
 title: "Ensure backward compatibility and migration path"
 slug: "Ensure backward compatibility and migration path"
-status: "accepted"
+status: "icebox"
 priority: "P0"
 labels: ["backward", "compatibility", "migration", "path"]
 created_at: "2025-10-13T08:09:01.584Z"

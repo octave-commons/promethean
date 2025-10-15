@@ -1,7 +1,11 @@
 import { spawn } from 'child_process';
 import { promises as fs } from 'fs';
 import * as path from 'path';
-import { pathToFileURL } from 'url';
+import { pathToFileURL, fileURLToPath } from 'url';
+
+// ESM equivalent of __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 import { Project } from 'ts-morph';
 export { sha1 } from '@promethean/utils';

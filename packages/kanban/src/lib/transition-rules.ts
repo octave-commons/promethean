@@ -5,10 +5,13 @@
  * - JSON configuration rules
  * - Clojure NBB DSL for custom logic
  * - Built-in JavaScript rule validators
+ * - Testing→review transition validation with coverage and quality gates
  */
 
 import { readFile, access } from 'fs/promises';
 import type { Task, Board } from './types.js';
+import { runTestingTransition } from './testing-transition/index.js';
+import type { TestingTransitionConfig } from './testing-transition/types.js';
 
 export interface TransitionRule {
   from: string[];
@@ -65,6 +68,7 @@ export interface TransitionDebug {
 export class TransitionRulesEngine {
   private config: TransitionRulesConfig;
   private dslAvailable: boolean = false;
+  private testingConfig: TestingTransitionConfig;
 
   constructor(config?: TransitionRulesConfig) {
     // Default configuration if none provided
@@ -75,6 +79,14 @@ export class TransitionRulesEngine {
       rules: [],
       customChecks: {},
       globalRules: [],
+    };
+
+    // Default testing transition configuration
+    this.testingConfig = {
+      hardBlockCoverageThreshold: 90,
+      softBlockQualityScoreThreshold: 75,
+      supportedFormats: ['lcov', 'cobertura', 'json'],
+      performanceTimeoutSeconds: 30,
     };
   }
 
@@ -160,7 +172,22 @@ export class TransitionRulesEngine {
       }
     }
 
-    // Check 3: Custom transition-specific rules
+    // Check 3: Testing→review specific validation
+    if (fromNormalized === 'testing' && toNormalized === 'review') {
+      try {
+        const testingResult = await this.validateTestingToReviewTransition(task, board);
+        if (!testingResult.allowed) {
+          violations.push(...testingResult.violations);
+        }
+      } catch (error) {
+        console.warn(`Failed to validate testing→review transition:`, error);
+        violations.push(
+          `Testing transition validation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        );
+      }
+    }
+
+    // Check 4: Custom transition-specific rules
     if (transitionRule && transitionRule.check) {
       try {
         const passes = await this.evaluateCustomCheck(transitionRule.check, task, board);
@@ -262,6 +289,136 @@ export class TransitionRulesEngine {
     });
 
     return lines.join('\n');
+  }
+
+  /**
+   * Validate testing→review transition with coverage and quality gates
+   */
+  private async validateTestingToReviewTransition(
+    task: Task,
+    _board: Board,
+  ): Promise<{ allowed: boolean; violations: string[] }> {
+    const violations: string[] = [];
+
+    try {
+      // Extract testing information from task content or metadata
+      const testingInfo = this.extractTestingInfo(task);
+
+      if (!testingInfo.coverageReportPath) {
+        violations.push('No coverage report path specified in task');
+        return { allowed: false, violations };
+      }
+
+      // Set up timeout for performance validation
+      const timeoutPromise = new Promise<never>((_, reject) => {
+        setTimeout(
+          () => reject(new Error('Testing transition validation timeout')),
+          this.testingConfig.performanceTimeoutSeconds * 1000,
+        );
+      });
+
+      // Run testing transition validation with timeout
+      const validationPromise = this.runTestingValidation(task, testingInfo);
+
+      await Promise.race([validationPromise, timeoutPromise]);
+
+      return { allowed: true, violations };
+    } catch (error) {
+      if (error instanceof Error) {
+        violations.push(error.message);
+      } else {
+        violations.push('Unknown error during testing transition validation');
+      }
+      return { allowed: false, violations };
+    }
+  }
+
+  /**
+   * Extract testing information from task
+   */
+  private extractTestingInfo(task: Task): {
+    coverageReportPath?: string;
+    executedTests?: string[];
+    requirementMappings?: Array<{ requirementId: string; testIds: string[] }>;
+  } {
+    const content = task.content || '';
+
+    // Look for coverage report path in task content
+    const coverageMatch = content.match(/coverage[_-]?report[:\s]+([^\s\n]+)/i);
+    const coverageReportPath = coverageMatch ? coverageMatch[1] : undefined;
+
+    // Look for executed tests
+    const testsMatch = content.match(/executed[_-]?tests[:\s]+([^\n]+)/i);
+    const executedTests = testsMatch ? testsMatch[1]?.split(',').map((t) => t.trim()) : [];
+
+    // Look for requirement mappings
+    const mappingsMatch = content.match(/requirement[_-]?mappings[:\s]+([^\n]+)/i);
+    const requirementMappings = mappingsMatch
+      ? (JSON.parse(mappingsMatch[1] || '[]') as Array<{
+          requirementId: string;
+          testIds: string[];
+        }>)
+      : [];
+
+    return {
+      coverageReportPath,
+      executedTests,
+      requirementMappings,
+    };
+  }
+
+  /**
+   * Run the actual testing validation
+   */
+  private async runTestingValidation(
+    task: Task,
+    testingInfo: {
+      coverageReportPath?: string;
+      executedTests?: string[];
+      requirementMappings?: Array<{ requirementId: string; testIds: string[] }>;
+    },
+  ): Promise<void> {
+    if (!testingInfo.coverageReportPath) {
+      throw new Error('Coverage report path is required for testing→review transition');
+    }
+
+    // Determine coverage format from file extension
+    const format = this.getCoverageFormat(testingInfo.coverageReportPath);
+    if (!this.testingConfig.supportedFormats.includes(format)) {
+      throw new Error(
+        `Unsupported coverage format: ${format}. Supported formats: ${this.testingConfig.supportedFormats.join(', ')}`,
+      );
+    }
+
+    // Run testing transition validation
+    await runTestingTransition(
+      {
+        format,
+        reportPath: testingInfo.coverageReportPath,
+      },
+      testingInfo.executedTests || [],
+      testingInfo.requirementMappings || [],
+      this.testingConfig,
+      [], // tests - will be extracted from task content
+      `docs/agile/tasks/${task.uuid}`, // output directory for report
+    );
+  }
+
+  /**
+   * Determine coverage format from file path
+   */
+  private getCoverageFormat(filePath: string): 'lcov' | 'cobertura' | 'json' {
+    if (filePath.endsWith('.lcov') || filePath.includes('lcov.info')) {
+      return 'lcov';
+    }
+    if (filePath.endsWith('.xml') || filePath.includes('cobertura')) {
+      return 'cobertura';
+    }
+    if (filePath.endsWith('.json')) {
+      return 'json';
+    }
+    // Default to lcov for unknown formats
+    return 'lcov';
   }
 
   // Private helper methods
@@ -382,9 +539,12 @@ export class TransitionRulesEngine {
       const estimate = task.estimates?.complexity;
       return typeof estimate === 'number' && estimate <= 5;
     }
-    
+
     // Handle the config expression: "(and (:estimates task) (<= (get-in task [:estimates :complexity]) 5))"
-    if (expression.includes('(:estimates task)') && expression.includes('get-in task [:estimates :complexity]')) {
+    if (
+      expression.includes('(:estimates task)') &&
+      expression.includes('get-in task [:estimates :complexity]')
+    ) {
       const [task] = args as [Task];
       console.log('DEBUG: Config expression check:', {
         uuid: task.uuid,
@@ -393,7 +553,7 @@ export class TransitionRulesEngine {
         estimates: task.estimates,
         complexity: task.estimates?.complexity,
         complexityType: typeof task.estimates?.complexity,
-        hasEstimates: !!task.estimates
+        hasEstimates: !!task.estimates,
       });
       const hasEstimates = !!task.estimates;
       const estimate = task.estimates?.complexity;
@@ -403,7 +563,10 @@ export class TransitionRulesEngine {
     }
 
     // Handle task-properly-broken-down? check from config
-    if (expression.includes('(:estimates task)') && expression.includes('get-in task [:estimates :complexity]')) {
+    if (
+      expression.includes('(:estimates task)') &&
+      expression.includes('get-in task [:estimates :complexity]')
+    ) {
       const [task] = args as [Task];
       const hasEstimates = !!task.estimates;
       const estimate = task.estimates?.complexity;

@@ -1,0 +1,32 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/api/kanban/tasks"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": [
+      {
+        "id": "task-1",
+        "title": "Integration Test Task 1",
+        "description": "First integration test task",
+        "priority": "P1",
+        "status": "incoming",
+        "created_at": "2024-01-01T00:00:00Z",
+        "updated_at": "2024-01-01T00:00:00Z"
+      },
+      {
+        "id": "task-2",
+        "title": "Integration Test Task 2",
+        "description": "Second integration test task",
+        "priority": "P2",
+        "status": "in_progress",
+        "created_at": "2024-01-01T00:00:00Z",
+        "updated_at": "2024-01-01T00:00:00Z"
+      }
+    ]
+  }
+}

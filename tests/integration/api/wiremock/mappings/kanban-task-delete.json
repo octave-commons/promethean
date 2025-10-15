@@ -1,0 +1,12 @@
+{
+  "request": {
+    "method": "DELETE",
+    "urlPattern": "/api/kanban/tasks/([a-fA-F0-9-]+)"
+  },
+  "response": {
+    "status": 204,
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

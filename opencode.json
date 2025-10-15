@@ -92,6 +92,17 @@
 
       }
     },
+    "perplexity":{
+      "npm": "@ai-sdk/perplexity",
+      "models":{
+        "sonar": {
+          "name": "Perplexity Sonar",
+          "options":{
+            "style":"balanced"
+          }
+        }
+      }
+    },
 
     "zai-coding-plan": {
       "models":{
@@ -233,52 +244,17 @@
   "tools": {
     "webfetch": true,
     "web-search-prime": true,
-    "playwright": true,
+    "playwright_*": true,
+    "playwright_browser_install":false,
+    "bash":false,
+    "serena_execute_shell_command":false,
     "zai-mcp-server_analyze_image": true,
     "zai-mcp-server_analyze_video": true,
-    "process_start": true,
-    "process_stop": true,
-    "process_err": true,
-    "process_tail": true,
-    "process_list": true,
-    "process_status": true,
-    "clojure-lsp": true,
-    "clojure-mcp_clojure_eval": true,
-    "clojure-mcp_clojure_edit": true,
-    "clojure-mcp_read_file": true,
-    "clojure-mcp_ls": true,
-    "clojure-mcp_grep": true,
-    "clojure-mcp_glob_files": true,
-    "clj-kondo-mcp_lint_clojure": true,
-    "ollama-queue_submitJob": true,
-    "ollama-queue_getJobStatus": true,
-    "ollama-queue_getJobResult": true,
-    "ollama-queue_listJobs": true,
-    "ollama-queue_cancelJob": true,
-    "ollama-queue_listModels": true,
-    "ollama-queue_getQueueInfo": true,
-    "pm2_startProcess": true,
-    "pm2_stopProcess": true,
-    "pm2_restartProcess": true,
-    "pm2_deleteProcess": true,
-    "pm2_listProcesses": true,
-    "pm2_showProcessInfo": true,
-    "pm2_showLogs": true,
-    "pm2_flushLogs": true,
-    "pm2_reloadLogs": true,
-    "pm2_monitor": true,
-    "pm2_saveProcessList": true,
-    "pm2_resurrectProcesses": true,
-    "pm2_startup": true,
-    "pm2_generateStartupScript": true,
-    "pm2_getPM2Version": true,
-    "pm2_resetMetadata": true,
-    "pm2_describeProcess": true,
-    "pm2_scaleProcess": true,
-    "pm2_reloadProcess": true,
-    "pm2_gracefulReload": true,
-    "pm2_killPM2": true,
-    "pm2_getPM2Status": true,
+    "process_*": true,
+    "clojure-mcp*": true,
+    "clj-kondo-mcp*": false,
+    "ollama-queue_": true,
+    "pm2_*": true,
     "session-info": true
   }
 }

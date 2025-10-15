@@ -1,0 +1,43 @@
+{
+  "name": "@promethean/ai-learning",
+  "version": "1.0.0",
+  "description": "AI learning system for intelligent model routing and performance tracking",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "ava",
+    "clean": "rm -rf dist",
+    "dev": "tsc --watch",
+    "lint": "eslint src --ext .ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "ai",
+    "learning",
+    "routing",
+    "performance",
+    "cache",
+    "llm"
+  ],
+  "author": "Promethean Framework",
+  "license": "GPL-3.0-only",
+  "dependencies": {
+    "@promethean/utils": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ava": "^6.0.0",
+    "typescript": "^5.0.0",
+    "eslint": "^8.0.0"
+  },
+  "ava": {
+    "files": [
+      "src/**/*.test.ts"
+    ],
+    "nodeArguments": [
+      "--loader=ts-node/esm"
+    ]
+  }
+}

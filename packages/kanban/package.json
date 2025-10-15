@@ -63,18 +63,23 @@
   "dependencies": {
     "@promethean/markdown": "workspace:*",
     "@promethean/utils": "workspace:*",
+    "@promethean/agents-workflow": "workspace:*",
     "chokidar": "^4.0.1",
     "globby": "^14.0.2",
     "gray-matter": "^4.0.3",
     "mongodb": "^6.18.0",
     "simple-git": "^3.27.0",
     "ws": "^8.18.0",
+    "xml2js": "^0.6.2",
+    "js-yaml": "^4.1.0",
     "yaml": "^2.5.0"
   },
   "devDependencies": {
     "@cljs-oss/module-deps": "^1.1.1",
     "@microsoft/tsdoc": "^0.15.1",
+    "@types/js-yaml": "^4.0.5",
     "@types/ws": "^8.5.0",
+    "@types/xml2js": "^0.4.11",
     "esmock": "^2.7.3",
     "garden": "^0.52.0",
     "react": "^18.2.0",
@@ -82,6 +87,7 @@
     "shadow-cljs": "^2.28.17",
     "typedoc": "^0.28.13",
     "typedoc-plugin-markdown": "^4.9.0",
-    "typescript": "^5.4.0"
+    "typescript": "^5.4.0",
+    "vitest": "^1.0.0"
   }
 }

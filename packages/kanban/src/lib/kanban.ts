@@ -544,6 +544,46 @@ export const findTaskByTitle = (board: Board, title: string): Task | undefined =
   return undefined;
 };
 
+/**
+ * Validates that a status is a valid starting status for new tasks.
+ *
+ * Based on kanban workflow rules, tasks should only be created in icebox or incoming
+ * to ensure proper workflow adherence and prevent bypassing of intake/planning stages.
+ *
+ * @param column - The column name to validate as a starting status
+ * @throws {Error} When the column is not a valid starting status. The error message
+ *                 includes the invalid status, list of valid statuses, and usage guidance.
+ *
+ * @example
+ * // Valid usage - no error thrown
+ * validateStartingStatus('icebox');
+ * validateStartingStatus('incoming');
+ *
+ * @example
+ * // Invalid usage - throws error
+ * try {
+ *   validateStartingStatus('todo');
+ * } catch (error) {
+ *   console.log(error.message);
+ *   // Output: Invalid starting status: "todo". Tasks can only be created with starting statuses: icebox, incoming. Use --status flag to specify a valid starting status when creating tasks.
+ * }
+ *
+ * @since 2025.10.15
+ * @see {@link createTask} - Function that uses this validation
+ * @see {@link https://github.com/promethean/docs/agile/process.md} - Kanban workflow documentation
+ */
+export const validateStartingStatus = (column: string): void => {
+  const validStartingStatuses = ['icebox', 'incoming'];
+  const normalizedColumn = columnKey(column);
+
+  if (!validStartingStatuses.includes(normalizedColumn)) {
+    throw new Error(
+      `Invalid starting status: "${column}". Tasks can only be created with starting statuses: ${validStartingStatuses.join(', ')}. ` +
+        `Use --status flag to specify a valid starting status when creating tasks.`,
+    );
+  }
+};
+
 const ensureColumn = (board: Board, column: string): ColumnData => {
   const key = columnKey(column);
   let existing = board.columns.find((col) => columnKey(col.name) === key);
@@ -1583,6 +1623,10 @@ export const createTask = async (
   const uuid = input.uuid ?? cryptoRandomUUID();
   const baseTitle = input.title?.trim() ?? '';
   const title = baseTitle.length > 0 ? baseTitle : `Task ${uuid.slice(0, 8)}`;
+
+  // Validate that the starting status is allowed
+  validateStartingStatus(column);
+
   const targetColumn = ensureColumn(board, column);
 
   const existingTasks = await readTasksFolder(tasksDir);

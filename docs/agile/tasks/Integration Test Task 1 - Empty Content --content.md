@@ -2,7 +2,7 @@
 uuid: "5fdccd97-2e4c-4cdd-ad92-6f800a925f79"
 title: "Integration Test Task 1 - Empty Content --content"
 slug: "Integration Test Task 1 - Empty Content --content"
-status: "todo"
+status: "icebox"
 priority: ""
 labels: ["integration-test", "delete-test"]
 created_at: "2025-10-13T21:01:17.655Z"

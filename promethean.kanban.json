@@ -44,7 +44,8 @@
     "review": "🔍 In Review - Coherent, reviewable change exists (execution lane)",
     "document": "📚 Document - Recording evidence and summaries (execution lane)",
     "done": "✅ Done - Complete with documentation/evidence (execution lane)",
-    "rejected": "❌ Rejected - Non-viable, may be moved to Ice Box (abandoned lane)"
+    "rejected": "❌ Rejected - Non-viable, may be moved to Ice Box (abandoned lane)",
+    "archived": "📦 Archived - Preserved completed or obsolete tasks, preferred over deletion for historical reference (terminal state)"
   },
 
   "wipLimits": {
@@ -60,9 +61,10 @@
     "done": 500,
     "rejected": 9999,
     "icebox": 9999,
-    "incoming": 9999
+    "incoming": 9999,
+    "archived": 9999
   },
-  "_wip_rationale": "Aligned to multi-agent workflow scale: accepted(21), breakdown(20), blocked(8), ready(55), todo(25), in_progress(13), testing(8), review(8), document(8), done(500), rejected(20); icebox/incoming unbounded. Scaled WIP limits for 6-18 AI agents working in parallel while preserving FSM integrity.",
+  "_wip_rationale": "Aligned to multi-agent workflow scale: accepted(21), breakdown(20), blocked(8), ready(55), todo(25), in_progress(13), testing(8), review(8), document(8), done(500), rejected(20); icebox/incoming/archived unbounded. Scaled WIP limits for 6-18 AI agents working in parallel while preserving FSM integrity.",
 
   "transitionRules": {
     "enabled": true,
@@ -120,8 +122,8 @@
       {
         "from": ["testing"],
         "to": ["review", "in_progress", "todo"],
-        "description": "Submit for review, fix bugs, or return for rework",
-        "check": "tests-passing?"
+        "description": "Submit for review with comprehensive testing validation, fix bugs, or return for rework",
+        "check": "comprehensive-testing-validation?"
       },
       {
         "from": ["review"],
@@ -172,6 +174,26 @@
         "to": ["icebox"],
         "description": "Send task to icebox regardless of current state",
         "check": "always-allow?"
+      },
+      {
+        "from": [
+          "icebox",
+          "incoming",
+          "accepted",
+          "breakdown",
+          "blocked",
+          "ready",
+          "todo",
+          "in_progress",
+          "testing",
+          "review",
+          "document",
+          "done",
+          "rejected"
+        ],
+        "to": ["archived"],
+        "description": "Archive task from any status (preferred over deletion)",
+        "check": "always-allow?"
       }
     ],
     "customChecks": {
@@ -194,6 +216,10 @@
       "tests-passing?": {
         "description": "All automated and manual tests are passing",
         "impl": "(and (:title task) (<= (get-priority-numeric (:priority task)) 2))"
+      },
+      "comprehensive-testing-validation?": {
+        "description": "Comprehensive testing validation with coverage (90%), quality (75%), AI analysis, and requirement mapping",
+        "impl": "(comprehensive-testing-validation? task board)"
       },
       "reviewable-change-exists?": {
         "description": "A coherent, reviewable change exists",
@@ -246,5 +272,5 @@
     ]
   },
 
-  "_transition_rules_note": "See docs/agile/process.md for complete FSM transition rules. Key rules: Incoming→Accepted→Breakdown→Ready→Todo→In Progress→Testing→Review→Document→Done. Tasks with score >5 must cycle back through Breakdown until slice is small enough (≤5)."
+  "_transition_rules_note": "See docs/agile/process.md for complete FSM transition rules. Key rules: Incoming→Accepted→Breakdown→Ready→Todo→In Progress→Testing→Review→Document→Done. Tasks with score >5 must cycle back through Breakdown until slice is small enough (≤5). Archived is a terminal state accessible from any status, preferred over deletion for historical preservation."
 }

@@ -2,7 +2,7 @@
 uuid: "45d21355-7834-402a-b22f-e1af23e59f60"
 title: "Migration & Cleanup Automation Framework"
 slug: "Migration & Cleanup Automation Framework"
-status: "incoming"
+status: "accepted"
 priority: "P1"
 labels: ["kanban", "migration", "automation", "cleanup", "schema", "content", "healing", "maintenance"]
 created_at: "2025-10-13T05:12:45.093Z"

@@ -1,30 +1,67 @@
 {
   "name": "@promethean/mcp-kanban-bridge",
   "version": "1.0.0",
-  "description": "Two-way synchronization bridge between MCP and Kanban systems",
+  "description": "MCP server bridge for kanban operations - enables AI assistants to manipulate kanban boards through Model Context Protocol",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "keywords": [
+    "mcp",
+    "kanban",
+    "ai",
+    "bridge",
+    "api",
+    "model-context-protocol"
+  ],
+  "author": "Promethean Framework",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/promethean-framework/promethean.git",
+    "directory": "packages/mcp-kanban-bridge"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.js"
+    }
+  },
+  "bin": {
+    "mcp-kanban-server": "dist/server.js"
+  },
   "scripts": {
     "build": "tsc",
     "test": "ava",
     "clean": "rm -rf dist",
     "dev": "tsc --watch",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "start": "node dist/server.js"
   },
   "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
     "@promethean/agent-protocol": "workspace:*",
     "@promethean/agent-context": "workspace:*",
+    "@promethean/kanban": "workspace:*",
+    "@promethean/utils": "workspace:*",
     "fastify": "^4.24.3",
     "uuid": "^9.0.1",
     "zod": "^3.22.4",
     "node-cron": "^3.0.3",
-    "ioredis": "^5.3.2"
+    "ioredis": "^5.3.2",
+    "ws": "^8.18.0"
   },
   "devDependencies": {
     "@types/node": "^20.10.5",
     "@types/uuid": "^9.0.7",
     "@types/node-cron": "^3.0.11",
+    "@types/ws": "^8.5.0",
     "ava": "^5.3.1",
     "typescript": "^5.3.3"
   }

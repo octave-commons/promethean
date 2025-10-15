@@ -93,6 +93,13 @@ type CacheEntry = {
   jobType: JobType;
   createdAt: number;
   embedding?: number[];
+  // AI Learning System - Performance Tracking
+  score?: number; // -1 to 1 (negative = failed, positive = succeeded)
+  scoreSource?: 'deterministic' | 'user-feedback' | 'auto-eval';
+  scoreReason?: string; // Why it got this score
+  taskCategory?: string; // e.g., 'buildfix-ts-errors', 'code-review', 'tdd-analysis'
+  executionTime?: number; // How long the response took to generate
+  tokensUsed?: number; // Token usage for cost tracking
 };
 
 async function initializeCache(modelName: string): Promise<InMemoryChroma<CacheEntry>> {
@@ -150,6 +157,14 @@ async function storeInCache(
   response: unknown,
   modelName: string,
   jobType: JobType,
+  performanceData?: {
+    score?: number;
+    scoreSource?: 'deterministic' | 'user-feedback' | 'auto-eval';
+    scoreReason?: string;
+    taskCategory?: string;
+    executionTime?: number;
+    tokensUsed?: number;
+  },
 ): Promise<void> {
   try {
     const cache = await initializeCache(modelName);
@@ -163,6 +178,7 @@ async function storeInCache(
       jobType,
       createdAt: now(),
       embedding,
+      ...performanceData,
     };
 
     cache.add([
@@ -173,10 +189,123 @@ async function storeInCache(
       },
     ]);
 
-    console.log(`Stored ${modelName} ${jobType} result in cache (size: ${cache.size})`);
+    const scoreInfo =
+      performanceData?.score !== undefined ? ` (score: ${performanceData.score.toFixed(2)})` : '';
+    console.log(`Stored ${modelName} ${jobType} result in cache (size: ${cache.size})${scoreInfo}`);
   } catch (error) {
     console.warn('Failed to store in cache:', error);
   }
+}
+
+// AI Learning System - Performance Analysis Functions
+
+function inferTaskCategory(job: Job): string {
+  const prompt = job.prompt || job.messages?.map((m) => m.content).join(' ') || '';
+  const lowerPrompt = prompt.toLowerCase();
+
+  // BuildFix detection
+  if (lowerPrompt.includes('typescript') && lowerPrompt.includes('error')) {
+    return 'buildfix-ts-errors';
+  }
+  if (lowerPrompt.includes('fix the error') || lowerPrompt.includes('compilation error')) {
+    return 'buildfix-general';
+  }
+
+  // Code review detection
+  if (
+    lowerPrompt.includes('review') ||
+    lowerPrompt.includes('critique') ||
+    lowerPrompt.includes('improve')
+  ) {
+    return 'code-review';
+  }
+
+  // TDD detection
+  if (lowerPrompt.includes('test') || lowerPrompt.includes('tdd') || lowerPrompt.includes('spec')) {
+    return 'tdd-analysis';
+  }
+
+  // Documentation generation
+  if (
+    lowerPrompt.includes('document') ||
+    lowerPrompt.includes('readme') ||
+    lowerPrompt.includes('explain')
+  ) {
+    return 'documentation';
+  }
+
+  // General coding
+  if (
+    lowerPrompt.includes('code') ||
+    lowerPrompt.includes('function') ||
+    lowerPrompt.includes('implement')
+  ) {
+    return 'coding';
+  }
+
+  return 'general';
+}
+
+async function calculatePerformanceScore(
+  job: Job,
+  result: unknown,
+  executionTime: number,
+): Promise<{
+  score?: number;
+  scoreSource?: 'deterministic' | 'user-feedback' | 'auto-eval';
+  scoreReason?: string;
+  taskCategory?: string;
+  executionTime?: number;
+  tokensUsed?: number;
+}> {
+  const taskCategory = inferTaskCategory(job);
+
+  // Default performance data
+  const performanceData = {
+    taskCategory,
+    executionTime,
+  };
+
+  // BuildFix deterministic scoring
+  if (taskCategory.startsWith('buildfix-')) {
+    return {
+      ...performanceData,
+      score: 1.0, // Success = positive score
+      scoreSource: 'deterministic' as const,
+      scoreReason: 'BuildFix job completed successfully',
+    };
+  }
+
+  // Performance-based scoring for other tasks
+  let score = 0.5; // Neutral baseline
+  let scoreReason = 'Job completed successfully';
+
+  // Fast execution bonus
+  if (executionTime < 5000) {
+    // Under 5 seconds
+    score += 0.2;
+    scoreReason += ' (fast execution)';
+  } else if (executionTime > 30000) {
+    // Over 30 seconds
+    score -= 0.1;
+    scoreReason += ' (slow execution)';
+  }
+
+  // Task-specific scoring
+  if (taskCategory === 'code-review') {
+    // Code reviews should be thorough but not too long
+    if (executionTime > 10000 && executionTime < 60000) {
+      score += 0.1;
+      scoreReason += ' (appropriate review time)';
+    }
+  }
+
+  return {
+    ...performanceData,
+    score: Math.max(-1, Math.min(1, score)), // Clamp to [-1, 1]
+    scoreSource: 'auto-eval' as const,
+    scoreReason,
+  };
 }
 
 // Helper functions
@@ -319,6 +448,7 @@ async function processJob(job: Job): Promise<void> {
   try {
     let result: unknown;
     let cacheKey: string | null = null;
+    const startTime = now();
 
     switch (job.type) {
       case 'generate':
@@ -368,9 +498,14 @@ async function processJob(job: Job): Promise<void> {
         throw new Error(`Unknown job type: ${job.type}`);
     }
 
+    const executionTime = now() - startTime;
+
+    // Calculate performance score based on job characteristics
+    const performanceData = await calculatePerformanceScore(job, result, executionTime);
+
     // Store successful results in cache (except embeddings)
     if (cacheKey && result) {
-      await storeInCache(cacheKey, result, job.modelName, job.type);
+      await storeInCache(cacheKey, result, job.modelName, job.type, performanceData);
     }
 
     updateJobStatus(job.id, 'completed', {
@@ -378,6 +513,28 @@ async function processJob(job: Job): Promise<void> {
       completedAt: now(),
     });
   } catch (error) {
+    // Store failure in cache with negative score for learning
+    const executionTime = now() - (job.startedAt || job.createdAt);
+    const failurePerformance = {
+      score: -1.0,
+      scoreSource: 'deterministic' as const,
+      scoreReason: `Job failed: ${error instanceof Error ? error.message : String(error)}`,
+      taskCategory: inferTaskCategory(job),
+      executionTime,
+    };
+
+    if (job.type !== 'embedding' && (job.prompt || job.messages)) {
+      const failureKey =
+        job.prompt || job.messages?.map((m) => `${m.role}: ${m.content}`).join('\n') || '';
+      await storeInCache(
+        failureKey,
+        { error: failurePerformance.scoreReason },
+        job.modelName,
+        job.type,
+        failurePerformance,
+      );
+    }
+
     updateJobStatus(job.id, 'failed', {
       error: {
         message: error instanceof Error ? error.message : String(error),
@@ -744,7 +901,7 @@ export const manageCache = tool({
   description: 'Manage the prompt cache (clear, get stats, etc.)',
   args: {
     action: tool.schema
-      .enum(['stats', 'clear', 'clear-expired'])
+      .enum(['stats', 'clear', 'clear-expired', 'performance-analysis'])
       .describe('Cache management action'),
   },
   async execute({ action }) {
@@ -795,8 +952,151 @@ export const manageCache = tool({
           size: currentSize,
         });
 
+      case 'performance-analysis':
+        // Analyze performance across all cached entries
+        const analysis: any = {
+          totalEntries: 0,
+          models: {},
+          taskCategories: {},
+          averageScores: {},
+          performanceByCategory: {},
+        };
+
+        for (const [modelName, cache] of modelCaches.entries()) {
+          const entries = cache.getAll();
+          analysis.models[modelName] = {
+            entries: entries.length,
+            averageScore: 0,
+            taskDistribution: {},
+          };
+
+          let totalScore = 0;
+          let scoredEntries = 0;
+
+          for (const entry of entries) {
+            const metadata = entry.metadata as CacheEntry;
+            if (metadata.score !== undefined) {
+              totalScore += metadata.score;
+              scoredEntries++;
+            }
+
+            if (metadata.taskCategory) {
+              analysis.models[modelName].taskDistribution[metadata.taskCategory] =
+                (analysis.models[modelName].taskDistribution[metadata.taskCategory] || 0) + 1;
+
+              if (!analysis.performanceByCategory[metadata.taskCategory]) {
+                analysis.performanceByCategory[metadata.taskCategory] = {
+                  totalScore: 0,
+                  count: 0,
+                  models: {},
+                };
+              }
+
+              analysis.performanceByCategory[metadata.taskCategory].totalScore +=
+                metadata.score || 0;
+              analysis.performanceByCategory[metadata.taskCategory].count++;
+
+              if (!analysis.performanceByCategory[metadata.taskCategory].models[modelName]) {
+                analysis.performanceByCategory[metadata.taskCategory].models[modelName] = {
+                  totalScore: 0,
+                  count: 0,
+                };
+              }
+
+              analysis.performanceByCategory[metadata.taskCategory].models[modelName].totalScore +=
+                metadata.score || 0;
+              analysis.performanceByCategory[metadata.taskCategory].models[modelName].count++;
+            }
+          }
+
+          analysis.models[modelName].averageScore =
+            scoredEntries > 0 ? totalScore / scoredEntries : 0;
+          analysis.totalEntries += entries.length;
+        }
+
+        // Calculate category averages
+        for (const [category, data] of Object.entries(analysis.performanceByCategory)) {
+          analysis.performanceByCategory[category].averageScore =
+            data.count > 0 ? data.totalScore / data.count : 0;
+
+          for (const [model, modelData] of Object.entries(data.models)) {
+            analysis.performanceByCategory[category].models[model].averageScore =
+              modelData.count > 0 ? modelData.totalScore / modelData.count : 0;
+          }
+        }
+
+        return JSON.stringify(analysis, null, 2);
+
       default:
         throw new Error(`Unknown cache action: ${action}`);
+    }
+  },
+});
+
+export const submitFeedback = tool({
+  description: 'Submit feedback on a cached result to improve model routing',
+  args: {
+    prompt: tool.schema.string().describe('The original prompt that generated the result'),
+    modelName: tool.schema.string().describe('The model that generated the result'),
+    jobType: tool.schema.enum(['generate', 'chat']).describe('The type of job'),
+    score: tool.schema
+      .number()
+      .min(-1)
+      .max(1)
+      .describe('Feedback score from -1 (terrible) to 1 (excellent)'),
+    reason: tool.schema.string().optional().describe('Reason for the feedback'),
+    taskCategory: tool.schema.string().optional().describe('Task category for better routing'),
+  },
+  async execute({ prompt, modelName, jobType, score, reason, taskCategory }) {
+    try {
+      const cache = await initializeCache(modelName);
+      const embedding = await getPromptEmbedding(prompt, modelName);
+
+      // Find the existing cache entry
+      const hits = cache.queryByEmbedding(embedding, {
+        k: 1,
+        filter: (metadata) => metadata.modelName === modelName && metadata.jobType === jobType,
+      });
+
+      if (hits.length === 0) {
+        throw new Error('No matching cache entry found for feedback');
+      }
+
+      const existingEntry = hits[0].metadata as CacheEntry;
+      const cacheKey = hits[0].id;
+
+      // Update the entry with feedback
+      const updatedEntry: CacheEntry = {
+        ...existingEntry,
+        score,
+        scoreSource: 'user-feedback',
+        scoreReason: reason || `User feedback: ${score}`,
+        taskCategory: taskCategory || existingEntry.taskCategory,
+      };
+
+      // Remove old entry and add updated one
+      cache.remove([cacheKey]);
+      cache.add([
+        {
+          id: cacheKey,
+          embedding,
+          metadata: updatedEntry,
+        },
+      ]);
+
+      console.log(`Updated cache entry with user feedback: score=${score}, reason="${reason}"`);
+
+      return JSON.stringify({
+        message: 'Feedback submitted successfully',
+        score,
+        modelName,
+        jobType,
+        taskCategory: updatedEntry.taskCategory,
+      });
+    } catch (error) {
+      throw new Error(
+        `Failed to submit feedback: ${error instanceof Error ? error.message : String(error)}`,
+      );
     }
   },
 });

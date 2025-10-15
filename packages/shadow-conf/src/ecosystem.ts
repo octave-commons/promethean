@@ -30,24 +30,24 @@ export const DEFAULT_OUTPUT_FILE_NAME = 'ecosystem.config.mjs';
 
 /**
  * Generates a PM2 ecosystem configuration from EDN files.
- * 
+ *
  * This function recursively discovers all `.edn` files in the input directory,
  * parses them to extract application and automation configurations, normalizes
  * relative paths, and generates a PM2-compatible JavaScript module.
- * 
+ *
  * @param options - Configuration options for generation
  * @param options.inputDir - Directory containing `.edn` files (default: current working directory)
  * @param options.outputDir - Output directory for generated file (default: current working directory)
  * @param options.fileName - Name of the generated file (default: 'ecosystem.config.mjs')
- * 
+ *
  * @returns Promise resolving to generation result containing all extracted configurations
- * 
+ *
  * @example
  * ```typescript
  * // Basic usage
  * const result = await generateEcosystem();
  * console.log(`Generated ${result.outputPath} with ${result.apps.length} apps`);
- * 
+ *
  * // Custom configuration
  * const result = await generateEcosystem({
  *   inputDir: './services',
@@ -55,7 +55,7 @@ export const DEFAULT_OUTPUT_FILE_NAME = 'ecosystem.config.mjs';
  *   fileName: 'production.ecosystem.mjs'
  * });
  * ```
- * 
+ *
  * @throws {Error} When input directory doesn't exist or contains invalid EDN
  * @throws {Error} When EDN documents are missing required sections
  * @throws {Error} When file system operations fail
@@ -101,21 +101,71 @@ async function loadDocuments(files: readonly string[]): Promise<readonly LoadedD
 
 /**
  * Recursively collects all `.edn` files from a directory tree.
- * 
+ *
  * @param rootDir - Root directory to search for EDN files
  * @returns Promise resolving to array of absolute file paths
- * 
+ *
  * @throws {Error} When directory cannot be read
  */
+/**
+ * Validates that a path is safe and doesn't escape the intended directory.
+ *
+ * @param requestedPath - The path to validate
+ * @param allowedBase - The base directory that the path must stay within
+ * @throws {Error} When path attempts directory traversal
+ */
+function validatePathSecurity(requestedPath: string, allowedBase: string): void {
+  const resolvedPath = path.resolve(requestedPath);
+  const resolvedBase = path.resolve(allowedBase);
+
+  if (!resolvedPath.startsWith(resolvedBase)) {
+    throw new Error(
+      `Path traversal detected: ${requestedPath} attempts to access outside ${allowedBase}`,
+    );
+  }
+}
+
+/**
+ * Safely joins path components while preventing directory traversal.
+ *
+ * @param base - The base directory
+ * @param name - The file or directory name to join
+ * @returns Safe joined path
+ * @throws {Error} When path traversal is detected
+ */
+function safePathJoin(base: string, name: string): string {
+  // Reject obvious traversal attempts
+  if (
+    name.includes('..') ||
+    (name.includes(path.sep) === false && name.includes('/')) ||
+    name.includes('\\')
+  ) {
+    throw new Error(`Unsafe path component detected: ${name}`);
+  }
+
+  const fullPath = path.join(base, name);
+  validatePathSecurity(fullPath, base);
+  return fullPath;
+}
+
 async function collectEdnFiles(rootDir: string): Promise<readonly string[]> {
+  // Validate the root directory itself
+  validatePathSecurity(rootDir, rootDir);
+
   const entries = await readdir(rootDir, { withFileTypes: true });
   const nested: readonly (readonly string[])[] = await Promise.all(
     entries.map(async (entry): Promise<readonly string[]> => {
-      const fullPath = path.join(rootDir, entry.name);
-      if (entry.isDirectory()) {
-        return collectEdnFiles(fullPath);
+      try {
+        const fullPath = safePathJoin(rootDir, entry.name);
+        if (entry.isDirectory()) {
+          return collectEdnFiles(fullPath);
+        }
+        return entry.isFile() && entry.name.endsWith('.edn') ? [fullPath] : [];
+      } catch {
+        // Skip suspicious entries but log the issue
+        console.warn(`Skipping suspicious entry: ${entry.name} in ${rootDir}`);
+        return [];
       }
-      return entry.isFile() && entry.name.endsWith('.edn') ? [fullPath] : [];
     }),
   );
   return nested.reduce<readonly string[]>(
@@ -126,11 +176,11 @@ async function collectEdnFiles(rootDir: string): Promise<readonly string[]> {
 
 /**
  * Extracts application configurations from an EDN document.
- * 
+ *
  * @param value - The parsed EDN document
  * @param source - Source file path for error reporting
  * @returns Array of application records
- * 
+ *
  * @throws {Error} When document is missing :apps vector or contains invalid app definitions
  */
 function extractApps(value: DocumentRecord, source: string): readonly AppRecord[] {
@@ -203,14 +253,14 @@ function collectAutomationSections(documents: readonly LoadedDocument[]): Automa
 
 /**
  * Normalizes relative paths in an application configuration against the base directory.
- * 
+ *
  * This function processes the following path fields:
  * - `cwd`: Current working directory
  * - `script`: Script file path
  * - `env_file`: Environment file path
  * - `watch`: Watch directories/files (string or array)
  * - `env`: Environment variables with string values
- * 
+ *
  * @param app - Application configuration to normalize
  * @param baseDir - Base directory for resolving relative paths
  * @returns Application configuration with normalized paths
@@ -254,11 +304,11 @@ function normalizeAppPaths(app: AppRecord, baseDir: string): AppRecord {
 
 /**
  * Resolves a relative path against a base directory and normalizes it.
- * 
+ *
  * @param value - Path to resolve (must be relative)
  * @param baseDir - Base directory for resolution
  * @returns Normalized relative path
- * 
+ *
  * @throws {Error} When path is not relative
  */
 function resolveRelativePath(value: string, baseDir: string): string {
@@ -323,35 +373,6 @@ function formatOutput({ apps, triggers, schedules, actions }: FormatOutputSectio
     '}',
     '',
     'configDotenv();',
-    '',
-    'export const apps = ',
-    `${JSON.stringify(apps, null, 2)};`,
-    '',
-    'export const triggers = ',
-    `${JSON.stringify(triggers, null, 2)};`,
-    '',
-    'export const schedules = ',
-    `${JSON.stringify(schedules, null, 2)};`,
-    '',
-    'export const actions = ',
-    `${JSON.stringify(actions, null, 2)};`,
-    '',
-  ];
-
-  return lines.join('
-');
-}
-  const lines = [
-    '// Generated by @promethean/shadow-conf',
-    'import dotenv from "dotenv";',
-    '',
-    'try {',
-    '  dotenv.config();',
-    '} catch (error) {',
-    '  if (error?.code !== "ERR_MODULE_NOT_FOUND") {',
-    '    throw error;',
-    '  }',
-    '}',
     '',
     'export const apps = ',
     `${JSON.stringify(apps, null, 2)};`,

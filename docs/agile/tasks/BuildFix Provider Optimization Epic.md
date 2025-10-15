@@ -2,7 +2,7 @@
 uuid: "8ec5fd9d-f58a-46a1-abd2-da4f56b2ffa7"
 title: "BuildFix Provider Optimization Epic"
 slug: "BuildFix Provider Optimization Epic"
-status: "todo"
+status: "ready"
 priority: "P0"
 labels: ["buildfix", "epic", "optimization", "provider"]
 created_at: "2025-10-15T13:56:14.332Z"

@@ -1,0 +1,26 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/api/kanban/tasks",
+    "headers": {
+      "Content-Type": {
+        "equalTo": "application/json"
+      }
+    },
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": "$.?[?(@.title == null || @.title == '')]"
+      }
+    ]
+  },
+  "response": {
+    "status": 400,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "error": "Invalid request",
+      "message": "Title is required"
+    }
+  }
+}

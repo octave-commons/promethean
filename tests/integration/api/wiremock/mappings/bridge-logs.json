@@ -1,0 +1,26 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/api/bridge/logs",
+    "headers": {
+      "Content-Type": {
+        "equalTo": "application/json"
+      }
+    }
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "id": "{{randomValue length=8 type='ALPHANUMERIC'}}",
+      "event_type": "{{jsonPath request.body '$.event_type'}}",
+      "source": "{{jsonPath request.body '$.source'}}",
+      "target": "{{jsonPath request.body '$.target'}}",
+      "payload": "{{jsonPath request.body '$.payload'}}",
+      "timestamp": "{{now}}"
+    },
+    "transformers": ["response-template"]
+  }
+}

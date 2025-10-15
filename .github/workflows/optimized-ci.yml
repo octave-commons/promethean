@@ -22,7 +22,7 @@ jobs:
     timeout-minutes: 15
     outputs:
       cache-hit: ${{ steps.cache-deps.outputs.cache-hit }}
-      
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -63,7 +63,7 @@ jobs:
 
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
-        with: { node-version: ${{ env.NODE_VERSION }}, cache: pnpm }
+        with: { node-version: "${{ env.NODE_VERSION }}", cache: pnpm }
 
       - name: Install Clojure toolchain
         run: bash run/install-clojure.sh
@@ -87,7 +87,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     needs: setup
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -98,7 +98,7 @@ jobs:
 
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
-        with: { node-version: ${{ env.NODE_VERSION }}, cache: pnpm }
+        with: { node-version: "${{ env.NODE_VERSION }}", cache: pnpm }
 
       - name: Download dependencies
         uses: actions/download-artifact@v4
@@ -136,7 +136,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: setup
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -147,7 +147,7 @@ jobs:
 
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
-        with: { node-version: ${{ env.NODE_VERSION }}, cache: pnpm }
+        with: { node-version: "${{ env.NODE_VERSION }}", cache: pnpm }
 
       - name: Download dependencies
         uses: actions/download-artifact@v4
@@ -173,19 +173,19 @@ jobs:
 
       - name: Run linting (relaxed)
         run: >-
-          pnpm exec nx affected -t lint --parallel --base="$NX_BASE" --head="$NX_HEAD" -- 
-          --max-warnings=100000 
-          --rule "@typescript-eslint/no-explicit-any:warn" 
-          --rule "@typescript-eslint/no-unsafe-assignment:warn" 
-          --rule "@typescript-eslint/no-unsafe-call:warn" 
-          --rule "@typescript-eslint/no-unsafe-member-access:warn" 
-          --rule "@typescript-eslint/no-unsafe-argument:warn" 
-          --rule "@typescript-eslint/explicit-module-boundary-types:warn" 
-          --rule "functional/no-let:warn" 
-          --rule "sonarjs/cognitive-complexity:warn" 
-          --rule "complexity:warn" 
-          --rule "max-lines:warn" 
-          --rule "max-lines-per-function:warn" 
+          pnpm exec nx affected -t lint --parallel --base="$NX_BASE" --head="$NX_HEAD" --
+          --max-warnings=100000
+          --rule "@typescript-eslint/no-explicit-any:warn"
+          --rule "@typescript-eslint/no-unsafe-assignment:warn"
+          --rule "@typescript-eslint/no-unsafe-call:warn"
+          --rule "@typescript-eslint/no-unsafe-member-access:warn"
+          --rule "@typescript-eslint/no-unsafe-argument:warn"
+          --rule "@typescript-eslint/explicit-module-boundary-types:warn"
+          --rule "functional/no-let:warn"
+          --rule "sonarjs/cognitive-complexity:warn"
+          --rule "complexity:warn"
+          --rule "max-lines:warn"
+          --rule "max-lines-per-function:warn"
           --rule "max-params:warn"
 
   # Parallel build job
@@ -194,7 +194,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     needs: setup
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -205,7 +205,7 @@ jobs:
 
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
-        with: { node-version: ${{ env.NODE_VERSION }}, cache: pnpm }
+        with: { node-version: "${{ env.NODE_VERSION }}", cache: pnpm }
 
       - name: Download dependencies
         uses: actions/download-artifact@v4
@@ -253,7 +253,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     needs: [setup, build]
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -261,7 +261,7 @@ jobs:
 
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
-        with: { node-version: ${{ env.NODE_VERSION }}, cache: pnpm }
+        with: { node-version: "${{ env.NODE_VERSION }}", cache: pnpm }
 
       - name: Download dependencies
         uses: actions/download-artifact@v4
@@ -305,7 +305,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     needs: [setup, build]
-    
+
     services:
       mongodb:
         image: mongo:7.0
@@ -324,7 +324,7 @@ jobs:
 
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
-        with: { node-version: ${{ env.NODE_VERSION }}, cache: pnpm }
+        with: { node-version: "${{ env.NODE_VERSION }}", cache: pnpm }
 
       - name: Download dependencies
         uses: actions/download-artifact@v4
@@ -376,7 +376,7 @@ jobs:
     timeout-minutes: 5
     needs: [typecheck, lint, build, test-unit, test-integration]
     if: always()
-    
+
     steps:
       - name: Check job statuses
         run: |
@@ -385,11 +385,11 @@ jobs:
           echo "Build: ${{ needs.build.result }}"
           echo "Unit Tests: ${{ needs.test-unit.result }}"
           echo "Integration Tests: ${{ needs.test-integration.result }}"
-          
-          if [[ "${{ needs.typecheck.result }}" == "failure" || 
-                "${{ needs.lint.result }}" == "failure" || 
-                "${{ needs.build.result }}" == "failure" || 
-                "${{ needs.test-unit.result }}" == "failure" || 
+
+          if [[ "${{ needs.typecheck.result }}" == "failure" ||
+                "${{ needs.lint.result }}" == "failure" ||
+                "${{ needs.build.result }}" == "failure" ||
+                "${{ needs.test-unit.result }}" == "failure" ||
                 "${{ needs.test-integration.result }}" == "failure" ]]; then
             echo "❌ CI pipeline failed"
             exit 1

@@ -2,7 +2,7 @@
 uuid: "4fd0188e-177f-4f7a-8a12-4ec3178f6690"
 title: "Fix misleading BuildFix error recovery"
 slug: "Fix misleading BuildFix error recovery"
-status: "todo"
+status: "ready"
 priority: "P0"
 labels: ["buildfix", "critical", "error-handling", "provider"]
 created_at: "2025-10-15T13:54:53.099Z"

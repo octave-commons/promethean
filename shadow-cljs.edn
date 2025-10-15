@@ -107,4 +107,4 @@
     :compiler-options {:infer-externs :auto
                        :source-map true
                        :output-feature-set :es-next}
-    :ns-regexp {".*-test"}}}}
+     :ns-regexp ".*-test"}}}}

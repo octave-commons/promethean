@@ -1,0 +1,770 @@
+version: '3.8'
+
+services:
+  # ESLint stub service
+  eslint-stub:
+    image: node:22-alpine
+    working_dir: /app
+    command: >
+      sh -lc "
+        npm install -g eslint &&
+        cat > eslint-stub.js << 'EOF'
+        const http = require('http');
+        const { execSync } = require('child_process');
+        const fs = require('fs');
+        const path = require('path');
+
+        class ESLintStub {
+          constructor() {
+            this.cache = new Map();
+            this.rules = {
+              'no-unused-vars': 'error',
+              'no-console': 'warn',
+              'prefer-const': 'error',
+              'no-var': 'error',
+              'object-shorthand': 'warn'
+            };
+          }
+
+          async lintFile(filePath, content) {
+            const cacheKey = `${filePath}:${content.length}`;
+            
+            if (this.cache.has(cacheKey)) {
+              return this.cache.get(cacheKey);
+            }
+
+            // Simulate ESLint processing
+            const startTime = Date.now();
+            
+            const issues = [];
+            const lines = content.split('\n');
+            
+            lines.forEach((line, index) => {
+              const lineNum = index + 1;
+              
+              // Check for common ESLint rules
+              if (line.includes('var ')) {
+                issues.push({
+                  rule: 'no-var',
+                  severity: 'error',
+                  line: lineNum,
+                  column: line.indexOf('var ') + 1,
+                  message: 'Unexpected var, use let or const instead'
+                });
+              }
+              
+              if (line.includes('console.') && !line.includes('// eslint-disable')) {
+                issues.push({
+                  rule: 'no-console',
+                  severity: 'warn',
+                  line: lineNum,
+                  column: line.indexOf('console.') + 1,
+                  message: 'Unexpected console statement'
+                });
+              }
+              
+              if (line.match(/\\b\\w+\\s*=\\s*[^=]/) && !line.includes('const') && !line.includes('let')) {
+                issues.push({
+                  rule: 'prefer-const',
+                  severity: 'error',
+                  line: lineNum,
+                  column: 1,
+                  message: "'const' is preferred over assignment"
+                });
+              }
+            });
+
+            const result = {
+              filePath,
+              issues,
+              metrics: {
+                processingTime: Date.now() - startTime,
+                linesOfCode: lines.length,
+                issueCount: issues.length
+              }
+            };
+
+            this.cache.set(cacheKey, result);
+            return result;
+          }
+        }
+
+        const eslintStub = new ESLintStub();
+
+        const requestHandler = async (req, res) => {
+          const setCORS = (res) => {
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+            res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+          };
+
+          setCORS(res);
+
+          if (req.method === 'OPTIONS') {
+            res.writeHead(200);
+            res.end();
+            return;
+          }
+
+          const url = new URL(req.url, 'http://localhost');
+
+          if (req.method === 'GET' && url.pathname === '/health') {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ 
+              status: 'ok', 
+              service: 'eslint-stub',
+              cacheSize: eslintStub.cache.size
+            }));
+            return;
+          }
+
+          if (req.method === 'POST' && url.pathname === '/lint') {
+            let body = '';
+            req.on('data', chunk => body += chunk);
+            req.on('end', async () => {
+              try {
+                const { filePath, content } = JSON.parse(body);
+                const result = await eslintStub.lintFile(filePath, content);
+                
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(result));
+              } catch (error) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: error.message }));
+              }
+            });
+            return;
+          }
+
+          if (req.method === 'POST' && url.pathname === '/clear-cache') {
+            eslintStub.cache.clear();
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ message: 'Cache cleared' }));
+            return;
+          }
+
+          res.writeHead(404, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Not found' }));
+        };
+
+        const server = http.createServer(requestHandler);
+        server.listen(5000, '0.0.0.0', () => {
+          console.log('ESLint stub listening on port 5000');
+        });
+        EOF
+        node eslint-stub.js
+      "
+    ports:
+      - "5000:5000"
+    networks:
+      - buildfix-test
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:5000/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # MinIO stub for build artifacts
+  minio-stub:
+    image: minio/minio:latest
+    container_name: minio-stub
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin123
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio-data:/data
+    networks:
+      - buildfix-test
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9000/minio/health/live || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Deploy stub service
+  deploy-stub:
+    image: node:22-alpine
+    working_dir: /app
+    command: >
+      sh -lc "
+        cat > deploy-stub.js << 'EOF'
+        const http = require('http');
+        const { execSync } = require('child_process');
+
+        class DeployStub {
+          constructor() {
+            this.deployments = new Map();
+            this.buildCache = new Map();
+          }
+
+          async simulateBuild(projectName, sourceCode) {
+            const cacheKey = `${projectName}:${sourceCode.length}`;
+            
+            if (this.buildCache.has(cacheKey)) {
+              return {
+                ...this.buildCache.get(cacheKey),
+                cached: true
+              };
+            }
+
+            const startTime = Date.now();
+            
+            // Simulate build process
+            await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 200));
+            
+            const buildResult = {
+              id: `build-${Date.now()}`,
+              projectName,
+              status: Math.random() > 0.1 ? 'success' : 'failed',
+              buildTime: Date.now() - startTime,
+              artifacts: [
+                `${projectName}.js`,
+                `${projectName}.css`,
+                `${projectName}.html`
+              ],
+              cached: false
+            };
+
+            this.buildCache.set(cacheKey, buildResult);
+            return buildResult;
+          }
+
+          async simulateDeployment(buildId, environment) {
+            const startTime = Date.now();
+            
+            // Simulate deployment process
+            await new Promise(resolve => setTimeout(resolve, 200 + Math.random() * 300));
+            
+            const deployment = {
+              id: `deploy-${Date.now()}`,
+              buildId,
+              environment,
+              status: Math.random() > 0.05 ? 'success' : 'failed',
+              deployTime: Date.now() - startTime,
+              url: `https://${environment}-${buildId}.example.com`
+            };
+
+            this.deployments.set(deployment.id, deployment);
+            return deployment;
+          }
+
+          getCacheStats() {
+            const total = this.buildCache.size;
+            const hits = Array.from(this.buildCache.values()).filter(build => build.cached).length;
+            const hitRatio = total > 0 ? (hits / total) * 100 : 0;
+            
+            return { total, hits, hitRatio };
+          }
+        }
+
+        const deployStub = new DeployStub();
+
+        const requestHandler = async (req, res) => {
+          const setCORS = (res) => {
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+            res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+          };
+
+          setCORS(res);
+
+          if (req.method === 'OPTIONS') {
+            res.writeHead(200);
+            res.end();
+            return;
+          }
+
+          const url = new URL(req.url, 'http://localhost');
+
+          if (req.method === 'GET' && url.pathname === '/health') {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ 
+              status: 'ok', 
+              service: 'deploy-stub',
+              deployments: deployStub.deployments.size,
+              cacheStats: deployStub.getCacheStats()
+            }));
+            return;
+          }
+
+          if (req.method === 'POST' && url.pathname === '/build') {
+            let body = '';
+            req.on('data', chunk => body += chunk);
+            req.on('end', async () => {
+              try {
+                const { projectName, sourceCode } = JSON.parse(body);
+                const result = await deployStub.simulateBuild(projectName, sourceCode);
+                
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(result));
+              } catch (error) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: error.message }));
+              }
+            });
+            return;
+          }
+
+          if (req.method === 'POST' && url.pathname === '/deploy') {
+            let body = '';
+            req.on('data', chunk => body += chunk);
+            req.on('end', async () => {
+              try {
+                const { buildId, environment } = JSON.parse(body);
+                const result = await deployStub.simulateDeployment(buildId, environment);
+                
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(result));
+              } catch (error) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: error.message }));
+              }
+            });
+            return;
+          }
+
+          if (req.method === 'GET' && url.pathname === '/cache-stats') {
+            const stats = deployStub.getCacheStats();
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(stats));
+            return;
+          }
+
+          res.writeHead(404, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Not found' }));
+        };
+
+        const server = http.createServer(requestHandler);
+        server.listen(6000, '0.0.0.0', () => {
+          console.log('Deploy stub listening on port 6000');
+        });
+        EOF
+        node deploy-stub.js
+      "
+    ports:
+      - "6000:6000"
+    networks:
+      - buildfix-test
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:6000/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Pipeline orchestrator
+  pipeline-orchestrator:
+    image: node:22-alpine
+    working_dir: /app
+    command: >
+      sh -lc "
+        npm install -g axios &&
+        cat > orchestrator.js << 'EOF'
+        const axios = require('axios');
+
+        class PipelineOrchestrator {
+          constructor() {
+            this.eslintUrl = 'http://eslint-stub:5000';
+            this.deployUrl = 'http://deploy-stub:6000';
+            this.pipelines = new Map();
+          }
+
+          async runPipeline(projectName, sourceCode, environment = 'staging') {
+            const pipelineId = `pipeline-${Date.now()}`;
+            const startTime = Date.now();
+            
+            const pipeline = {
+              id: pipelineId,
+              projectName,
+              environment,
+              status: 'running',
+              startTime,
+              stages: []
+            };
+
+            this.pipelines.set(pipelineId, pipeline);
+
+            try {
+              // Stage 1: Lint
+              console.log(\`Running lint for \${projectName}...\`);
+              const lintResponse = await axios.post(\`\${this.eslintUrl}/lint\`, {
+                filePath: \`\${projectName}/index.js\`,
+                content: sourceCode
+              });
+              
+              const lintResult = lintResponse.data;
+              pipeline.stages.push({
+                name: 'lint',
+                status: 'success',
+                duration: lintResult.metrics.processingTime,
+                issues: lintResult.issues.length
+              });
+
+              // Fail pipeline if there are lint errors
+              const lintErrors = lintResult.issues.filter(issue => issue.severity === 'error');
+              if (lintErrors.length > 0) {
+                pipeline.status = 'failed';
+                pipeline.error = 'Lint errors detected';
+                pipeline.endTime = Date.now();
+                return pipeline;
+              }
+
+              // Stage 2: Build
+              console.log(\`Building \${projectName}...\`);
+              const buildResponse = await axios.post(\`\${this.deployUrl}/build\`, {
+                projectName,
+                sourceCode
+              });
+              
+              const buildResult = buildResponse.data;
+              pipeline.stages.push({
+                name: 'build',
+                status: buildResult.status,
+                duration: buildResult.buildTime,
+                cached: buildResult.cached
+              });
+
+              if (buildResult.status === 'failed') {
+                pipeline.status = 'failed';
+                pipeline.error = 'Build failed';
+                pipeline.endTime = Date.now();
+                return pipeline;
+              }
+
+              // Stage 3: Deploy
+              console.log(\`Deploying \${projectName} to \${environment}...\`);
+              const deployResponse = await axios.post(\`\${this.deployUrl}/deploy\`, {
+                buildId: buildResult.id,
+                environment
+              });
+              
+              const deployResult = deployResponse.data;
+              pipeline.stages.push({
+                name: 'deploy',
+                status: deployResult.status,
+                duration: deployResult.deployTime,
+                url: deployResult.url
+              });
+
+              if (deployResult.status === 'failed') {
+                pipeline.status = 'failed';
+                pipeline.error = 'Deployment failed';
+              } else {
+                pipeline.status = 'success';
+                pipeline.url = deployResult.url;
+              }
+
+            } catch (error) {
+              pipeline.status = 'failed';
+              pipeline.error = error.message;
+            }
+
+            pipeline.endTime = Date.now();
+            pipeline.duration = pipeline.endTime - startTime;
+            
+            return pipeline;
+          }
+
+          async getCacheStats() {
+            const response = await axios.get(\`\${this.deployUrl}/cache-stats\`);
+            return response.data;
+          }
+        }
+
+        const orchestrator = new PipelineOrchestrator();
+        const http = require('http');
+
+        const requestHandler = async (req, res) => {
+          const setCORS = (res) => {
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+            res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+          };
+
+          setCORS(res);
+
+          if (req.method === 'OPTIONS') {
+            res.writeHead(200);
+            res.end();
+            return;
+          }
+
+          const url = new URL(req.url, 'http://localhost');
+
+          if (req.method === 'GET' && url.pathname === '/health') {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ 
+              status: 'ok', 
+              service: 'pipeline-orchestrator',
+              pipelines: orchestrator.pipelines.size
+            }));
+            return;
+          }
+
+          if (req.method === 'POST' && url.pathname === '/pipeline') {
+            let body = '';
+            req.on('data', chunk => body += chunk);
+            req.on('end', async () => {
+              try {
+                const { projectName, sourceCode, environment } = JSON.parse(body);
+                const result = await orchestrator.runPipeline(projectName, sourceCode, environment);
+                
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(result));
+              } catch (error) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: error.message }));
+              }
+            });
+            return;
+          }
+
+          if (req.method === 'GET' && url.pathname === '/cache-stats') {
+            try {
+              const stats = await orchestrator.getCacheStats();
+              res.writeHead(200, { 'Content-Type': 'application/json' });
+              res.end(JSON.stringify(stats));
+            } catch (error) {
+              res.writeHead(500, { 'Content-Type': 'application/json' });
+              res.end(JSON.stringify({ error: error.message }));
+            }
+            return;
+          }
+
+          res.writeHead(404, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Not found' }));
+        };
+
+        const server = http.createServer(requestHandler);
+        server.listen(7000, '0.0.0.0', () => {
+          console.log('Pipeline orchestrator listening on port 7000');
+        });
+        EOF
+        node orchestrator.js
+      "
+    ports:
+      - "7000:7000"
+    networks:
+      - buildfix-test
+    depends_on:
+      eslint-stub:
+        condition: service_healthy
+      deploy-stub:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:7000/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # BuildFix integration test runner
+  buildfix-test-runner:
+    image: node:22-alpine
+    working_dir: /app
+    command: >
+      sh -lc "
+        npm install -g axios &&
+        cat > buildfix-tests.js << 'EOF'
+        const axios = require('axios');
+
+        const ORCHESTRATOR_URL = 'http://pipeline-orchestrator:7000';
+        const ESLINT_URL = 'http://eslint-stub:5000';
+        const DEPLOY_URL = 'http://deploy-stub:6000';
+
+        async function sleep(ms) {
+          return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function waitForService(url, maxAttempts = 30) {
+          for (let i = 0; i < maxAttempts; i++) {
+            try {
+              await axios.get(url, { timeout: 2000 });
+              return true;
+            } catch (error) {
+              if (i === maxAttempts - 1) throw error;
+              await sleep(1000);
+            }
+          }
+        }
+
+        async function runBuildFixTests() {
+          console.log('Starting BuildFix integration tests...');
+          
+          try {
+            // Wait for all services to be ready
+            console.log('Waiting for services to be ready...');
+            await waitForService(`${ORCHESTRATOR_URL}/health`);
+            await waitForService(`${ESLINT_URL}/health`);
+            await waitForService(`${DEPLOY_URL}/health`);
+            console.log('All services are ready!');
+
+            // Test 1: ESLint functionality
+            console.log('\\nTest 1: ESLint functionality');
+            const lintResponse = await axios.post(`${ESLINT_URL}/lint`, {
+              filePath: 'test.js',
+              content: \`
+                var message = 'hello';
+                console.log(message);
+                unused = 'variable';
+              \`
+            });
+
+            const lintResult = lintResponse.data;
+            console.log(\`✓ Lint completed: \${lintResult.issues.length} issues found\`);
+            
+            const hasVarIssue = lintResult.issues.some(issue => issue.rule === 'no-var');
+            const hasConsoleIssue = lintResult.issues.some(issue => issue.rule === 'no-console');
+            
+            if (hasVarIssue && hasConsoleIssue) {
+              console.log('✓ ESLint rules working correctly');
+            } else {
+              throw new Error('ESLint rules not working as expected');
+            }
+
+            // Test 2: Build caching
+            console.log('\\nTest 2: Build caching');
+            
+            const testSourceCode = \`
+              const message = 'hello world';
+              console.log(message);
+            \`;
+
+            // First build (should not be cached)
+            const build1Response = await axios.post(`${DEPLOY_URL}/build`, {
+              projectName: 'test-project',
+              sourceCode: testSourceCode
+            });
+            
+            const build1 = build1Response.data;
+            console.log(\`✓ First build completed: \${build1.cached ? 'cached' : 'not cached'}\`);
+
+            // Second build with same code (should be cached)
+            const build2Response = await axios.post(`${DEPLOY_URL}/build`, {
+              projectName: 'test-project',
+              sourceCode: testSourceCode
+            });
+            
+            const build2 = build2Response.data;
+            console.log(\`✓ Second build completed: \${build2.cached ? 'cached' : 'not cached'}\`);
+
+            if (!build1.cached && build2.cached) {
+              console.log('✓ Build caching working correctly');
+            } else {
+              throw new Error('Build caching not working as expected');
+            }
+
+            // Test 3: Full pipeline execution
+            console.log('\\nTest 3: Full pipeline execution');
+            
+            const pipelineResponse = await axios.post(`${ORCHESTRATOR_URL}/pipeline`, {
+              projectName: 'pipeline-test',
+              sourceCode: \`
+                const app = () => {
+                  console.log('Hello from pipeline test');
+                  return 'success';
+                };
+                export default app;
+              \`,
+              environment: 'staging'
+            });
+
+            const pipeline = pipelineResponse.data;
+            console.log(\`✓ Pipeline completed: \${pipeline.status}\`);
+            
+            if (pipeline.status === 'success') {
+              console.log(\`✓ All stages completed: \${pipeline.stages.map(s => s.name).join(', ')}\`);
+              console.log(\`✓ Deployment URL: \${pipeline.url}\`);
+            } else {
+              throw new Error(\`Pipeline failed: \${pipeline.error}\`);
+            }
+
+            // Test 4: Pipeline with lint errors
+            console.log('\\nTest 4: Pipeline with lint errors');
+            
+            const errorPipelineResponse = await axios.post(`${ORCHESTRATOR_URL}/pipeline`, {
+              projectName: 'error-test',
+              sourceCode: \`
+                var bad = 'code';
+                unused_var = 'should fail';
+              \`,
+              environment: 'staging'
+            });
+
+            const errorPipeline = errorPipelineResponse.data;
+            console.log(\`✓ Error pipeline completed: \${errorPipeline.status}\`);
+            
+            if (errorPipeline.status === 'failed' && errorPipeline.error === 'Lint errors detected') {
+              console.log('✓ Pipeline correctly failed on lint errors');
+            } else {
+              throw new Error('Pipeline should have failed on lint errors');
+            }
+
+            // Test 5: Cache performance under load
+            console.log('\\nTest 5: Cache performance under load');
+            
+            const cachePromises = [];
+            for (let i = 0; i < 20; i++) {
+              cachePromises.push(
+                axios.post(`${DEPLOY_URL}/build`, {
+                  projectName: \`load-test-\${i}\`,
+                  sourceCode: \`const test\${i} = () => 'test\${i}';\`
+                })
+              );
+            }
+
+            const cacheResults = await Promise.all(cachePromises);
+            const cachedBuilds = cacheResults.filter(r => r.data.cached).length;
+            const totalBuilds = cacheResults.length;
+            
+            console.log(\`✓ Load test completed: \${cachedBuilds}/\${totalBuilds} builds cached\`);
+
+            // Get final cache stats
+            const cacheStatsResponse = await axios.get(`${DEPLOY_URL}/cache-stats`);
+            const cacheStats = cacheStatsResponse.data;
+            
+            console.log(\`✓ Final cache stats: \${cacheStats.hitRatio.toFixed(1)}% hit ratio\`);
+
+            // Verify cache performance target (>95% hit ratio under load)
+            if (cacheStats.hitRatio > 95) {
+              console.log('✓ Cache performance target met');
+            } else {
+              throw new Error(\`Cache performance target missed: \${cacheStats.hitRatio}% < 95%\`);
+            }
+
+            console.log('\\n🎉 All BuildFix integration tests passed!');
+            
+          } catch (error) {
+            console.error('❌ BuildFix test failed:', error.message);
+            if (error.response) {
+              console.error('Response status:', error.response.status);
+              console.error('Response data:', error.response.data);
+            }
+            process.exit(1);
+          }
+        }
+
+        runBuildFixTests();
+        EOF
+        node buildfix-tests.js
+      "
+    networks:
+      - buildfix-test
+    depends_on:
+      pipeline-orchestrator:
+        condition: service_healthy
+      eslint-stub:
+        condition: service_healthy
+      deploy-stub:
+        condition: service_healthy
+    environment:
+      - NODE_ENV=test
+
+volumes:
+  minio-data:
+
+networks:
+  buildfix-test:
+    driver: bridge

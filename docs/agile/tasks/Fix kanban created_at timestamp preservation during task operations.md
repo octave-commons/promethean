@@ -2,7 +2,7 @@
 uuid: "07358cf3-317b-492d-a37e-51eb45ea8ec9"
 title: "Fix kanban created_at timestamp preservation during task operations"
 slug: "Fix kanban created_at timestamp preservation during task operations"
-status: "testing"
+status: "review"
 priority: "P0"
 labels: ["bugfix", "critical", "kanban", "timestamp", "data-integrity", "typescript"]
 created_at: "2025-10-12T23:41:48.142Z"

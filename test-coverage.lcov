@@ -1,0 +1,16 @@
+TN:
+SF:src/main.ts
+FN:10,calculateTotal
+FN:15,validateInput
+FNDA:2,calculateTotal
+FNDA:1,validateInput
+FNF:2
+FNH:2
+DA:10,2
+DA:11,2
+DA:12,1
+DA:15,1
+DA:16,1
+LF:5
+LH:4
+end_of_record

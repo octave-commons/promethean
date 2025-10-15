@@ -128,12 +128,17 @@ flowchart TD
 
 ### Minimal transition rules (only what matters)
 
-- START STATE = Incoming
+- START STATES = Ice Box | Incoming
 
-  - All new tasks start as incoming
+  - All new tasks must start in either **Ice Box** (for future work) or **Incoming** (for immediate triage)
+  - This constraint is enforced by the CLI to ensure proper workflow adherence
+  - Tasks cannot be created directly in active columns (todo, in_progress, etc.)
 
 - **Incoming → Accepted | Rejected | Ice Box**
   Relevance/priority triage; allow defer to Ice Box.
+
+- **Ice Box → Incoming**
+  When deferred work is ready for triage and prioritization.
 
 - **Accepted → Breakdown | Ice Box**
   Ready to analyze, or consciously deferred.

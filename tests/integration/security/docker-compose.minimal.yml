@@ -1,0 +1,71 @@
+services:
+  # Basic HTTP server
+  auth-service:
+    image: node:22-alpine
+    working_dir: /app
+    command: >
+      sh -c "
+        cat > server.js << 'EOF'
+        const http = require('http');
+
+        const server = http.createServer((req, res) => {
+          console.log('Request received:', req.method, req.url);
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ status: 'ok', service: 'auth-service' }));
+        });
+
+        server.listen(3003, '0.0.0.0', () => {
+          console.log('Auth service listening on port 3003');
+        });
+        EOF
+        echo 'Starting auth service...'
+        node server.js
+      "
+    ports:
+      - '3003:3003'
+    networks:
+      - security-test
+
+  # Basic Fastify server
+  fastify-gateway:
+    image: node:22-alpine
+    working_dir: /app
+    command: >
+      sh -c "
+        npm install -g fastify &&
+        cat > gateway.js << 'EOF'
+        const fastify = require('fastify');
+
+        const app = fastify({ logger: true });
+
+        app.get('/health', async (request, reply) => {
+          return { status: 'ok', timestamp: new Date().toISOString() };
+        });
+
+        app.get('/api/public', async (request, reply) => {
+          return { message: 'Public endpoint accessible' };
+        });
+
+        const start = async () => {
+          try {
+            await app.listen({ port: 3000, host: '0.0.0.0' });
+            console.log('Fastify gateway listening on port 3000');
+          } catch (err) {
+            console.error(err);
+            process.exit(1);
+          }
+        };
+
+        start();
+        EOF
+        echo 'Starting gateway...'
+        node gateway.js
+      "
+    ports:
+      - '3001:3000'
+    networks:
+      - security-test
+
+networks:
+  security-test:
+    driver: bridge

@@ -2,7 +2,7 @@
 uuid: "44d293b0-6d6b-4e85-8453-ea03be231c83"
 title: "MCP-Kanban Integration Healing & Enhancement"
 slug: "MCP-Kanban Integration Healing & Enhancement"
-status: "ready"
+status: "todo"
 priority: "P0"
 labels: ["mcp", "kanban", "security", "critical", "healing", "authorization", "automation", "integration"]
 created_at: "2025-10-13T05:11:11.423Z"

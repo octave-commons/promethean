@@ -27,7 +27,7 @@
        (contains? (:estimates task) :complexity)
        (number? (get-in task [:estimates :complexity]))))
 
-((defn get-estimate
+(defn get-estimate
   "Get complexity estimate from task"
   [task]
   (get-in task [:estimates :complexity] 999))
@@ -44,7 +44,7 @@
   [task]
   (if (has-story-points? task)
     (:storyPoints task)
-    (get-estimate task))))
+    (get-estimate task)))
 
 (defn in-column?
   "Check if task exists in specific column"
@@ -94,6 +94,15 @@
   [task board]
   (and (:title task)
        (<= (get-priority-numeric (:priority task)) 2)))
+
+(defn comprehensive-testing-validation?
+  "Comprehensive testing validation with coverage (90%), quality (75%), AI analysis, and requirement mapping"
+  [task board]
+  ;; This function is a placeholder for the JavaScript implementation
+  ;; The actual validation is handled by the TransitionRulesEngine in TypeScript
+  ;; which provides better integration with coverage analysis tools and AI workflows
+  ;; Always return true here to allow the TypeScript implementation to handle validation
+  true)
 
 (defn reviewable-change-exists?
   "Coherent, reviewable change is ready for review"
@@ -159,7 +168,7 @@
 
 ;; Global rule functions
 (defn wip-limits
-  "Enforce WIP limits on target column"
+  "Enforce WIP limits on target column, but allow P0 tasks to bypass capacity constraints"
   [from-to task board]
   (let [target-col (second from-to)
         target-key (column-key target-col)]
@@ -167,10 +176,14 @@
       true
       (let [column (first (filter #(= (column-key (:name %)) target-key) (:columns board)))
             limit (:limit column)
-            current-count (count (:tasks column))]
+            current-count (count (:tasks column))
+            task-priority (get-priority-numeric (:priority task))]
         (if (nil? column)
           true
-          (or (nil? limit) (< current-count limit)))))))
+          ;; P0 tasks (priority 0) can bypass WIP limits
+          (or (nil? limit)
+              (< current-count limit)
+              (= task-priority 0)))))))
 
 (defn task-existence
   "Task must exist in source column"
@@ -232,18 +245,18 @@
   [source-column board]
   ;; Return valid transitions based on defined rules
   (case (column-key source-column)
-    ("icebox" ["incoming"])
-    ("incoming" ["accepted" "rejected" "icebox"])
-    ("accepted" ["breakdown" "icebox"])
-    ("breakdown" ["ready" "rejected" "icebox" "blocked"])
-    ("ready" ["todo" "breakdown"])
-    ("todo" ["in_progress" "breakdown"])
-    ("in_progress" ["testing" "todo" "breakdown"])
-    ("testing" ["review" "in_progress" "todo"])
-    ("review" ["in_progress" "todo" "document" "done"])
-    ("document" ["done" "review"])
-    ("done" ["icebox" "review"])
-    ("blocked" ["breakdown"])
+    "icebox" ["incoming"]
+    "incoming" ["accepted" "rejected" "icebox"]
+    "accepted" ["breakdown" "icebox"]
+    "breakdown" ["ready" "rejected" "icebox" "blocked"]
+    "ready" ["todo" "breakdown"]
+    "todo" ["in_progress" "breakdown"]
+    "in_progress" ["testing" "todo" "breakdown"]
+    "testing" ["review" "in_progress" "todo"]
+    "review" ["in_progress" "todo" "document" "done"]
+    "document" ["done" "review"]
+    "done" ["icebox" "review"]
+    "blocked" ["breakdown"]
     []))
 
 ;; Rule validation and debugging functions

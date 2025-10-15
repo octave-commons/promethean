@@ -2,7 +2,7 @@
 uuid: "d794213f-853d-41e4-863c-27e83dd5221c"
 title: "Implement MCP Security Hardening & Validation"
 slug: "Implement MCP Security Hardening & Validation"
-status: "todo"
+status: "ready"
 priority: "P0"
 labels: ["mcp", "kanban", "security", "validation", "hardening", "critical"]
 created_at: "2025-10-13T18:48:42.809Z"

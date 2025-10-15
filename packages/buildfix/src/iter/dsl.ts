@@ -1,7 +1,12 @@
 import * as path from 'path';
 import { promises as fs } from 'fs';
+import { fileURLToPath } from 'url';
 
 import { z } from 'zod';
+
+// ESM equivalent of __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export const Op = z.discriminatedUnion('op', [
   z.object({

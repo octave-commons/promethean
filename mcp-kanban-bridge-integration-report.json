@@ -1,0 +1,188 @@
+{
+  "summary": {
+    "totalTests": 5,
+    "successfulTests": 5,
+    "successRate": 100,
+    "readinessScore": 4,
+    "overallReadiness": 100,
+    "timestamp": "2025-10-15T19:01:55.042Z"
+  },
+  "results": {
+    "kanban-cli-operations": {
+      "success": true,
+      "totalOperations": 17,
+      "availableOperations": 17,
+      "missingOperations": [],
+      "helpOutput": "\n> promethean@ kanban /home/err/devel/promethean\n> node packages/kanban/dist/cli.js \"--help\"\n\nUsage: kanban [--kanban path] [--tasks path] <subcommand> [args...]\nSubcommands: count, getColumn, getByColumn, find, find-by-title, update_status, update-status, move_up, move_down, pull, push, sync, regenerate, generate-by-tags, indexForSearch, search, ui, dev, process, show-process, show-transitions, compare-tasks, breakdown-task, prioritize-tasks, list, audit, enforce-wip-limits, create, update, delete, create-epic, add-task, remove-task, list-epics, epic-status, process_sync, doccheck\n\nCore Operations:\n  push     - Push board state to task files (board → files)\n  pull     - Pull task file state to board (files → board)\n  sync     - Bidirectional sync with conflict detection\n  regenerate - Regenerate board from task files\n\nTask Management:\n  create   - Create new task\n  update   - Update existing task\n  delete   - Delete task\n  list     - List tasks with status\n\nSearch & Navigation:\n  find",
+      "timestamp": "2025-10-15T19:01:44.958Z"
+    },
+    "core-kanban-operations": {
+      "success": true,
+      "results": [
+        {
+          "name": "list",
+          "success": true,
+          "duration": 659,
+          "outputLength": 1121,
+          "hasOutput": true
+        },
+        {
+          "name": "count",
+          "success": true,
+          "duration": 645,
+          "outputLength": 107,
+          "hasOutput": true
+        },
+        {
+          "name": "search",
+          "success": true,
+          "duration": 667,
+          "outputLength": 9693,
+          "hasOutput": true
+        },
+        {
+          "name": "board",
+          "success": true,
+          "duration": 723,
+          "outputLength": 117,
+          "hasOutput": true
+        }
+      ],
+      "successRate": 100,
+      "timestamp": "2025-10-15T19:01:47.653Z"
+    },
+    "mcp-tool-mapping": {
+      "success": true,
+      "totalTools": 10,
+      "paramAnalysis": {
+        "simple": 8,
+        "moderate": 0,
+        "complex": 2
+      },
+      "namingConsistency": true,
+      "tools": [
+        {
+          "name": "kanban_create_task",
+          "description": "Create a new kanban task",
+          "paramCount": 5
+        },
+        {
+          "name": "kanban_list_tasks",
+          "description": "List kanban tasks",
+          "paramCount": 2
+        },
+        {
+          "name": "kanban_get_task",
+          "description": "Get specific task details",
+          "paramCount": 1
+        },
+        {
+          "name": "kanban_update_task",
+          "description": "Update existing task",
+          "paramCount": 6
+        },
+        {
+          "name": "kanban_delete_task",
+          "description": "Delete a task",
+          "paramCount": 1
+        },
+        {
+          "name": "kanban_search_tasks",
+          "description": "Search tasks",
+          "paramCount": 2
+        },
+        {
+          "name": "kanban_get_column",
+          "description": "Get column tasks",
+          "paramCount": 2
+        },
+        {
+          "name": "kanban_move_task",
+          "description": "Move task in column",
+          "paramCount": 2
+        },
+        {
+          "name": "kanban_update_status",
+          "description": "Update task status",
+          "paramCount": 2
+        },
+        {
+          "name": "kanban_get_board",
+          "description": "Get board overview",
+          "paramCount": 1
+        }
+      ],
+      "timestamp": "2025-10-15T19:01:47.653Z"
+    },
+    "schema-validation": {
+      "success": true,
+      "expectedSchema": {
+        "uuid": "string (required)",
+        "title": "string (required)",
+        "status": "string (required)",
+        "priority": "string (optional: P0, P1, P2, P3)",
+        "labels": "array<string> (optional)",
+        "created_at": "string (ISO date, optional)",
+        "content": "string (optional)",
+        "estimates": "object (optional)",
+        "type": "string (optional: task, epic)",
+        "epicId": "string (optional)",
+        "subtaskIds": "array<string> (optional)"
+      },
+      "requiredFields": [
+        "uuid",
+        "title",
+        "status"
+      ],
+      "optionalFields": [
+        "priority",
+        "labels",
+        "created_at",
+        "content",
+        "estimates",
+        "type",
+        "epicId",
+        "subtaskIds"
+      ],
+      "isStructured": true,
+      "hasSampleData": true,
+      "timestamp": "2025-10-15T19:01:48.273Z"
+    },
+    "integration-requirements": {
+      "success": true,
+      "requirements": {
+        "mcpSdk": {
+          "available": true,
+          "version": null,
+          "installation": "npm install @modelcontextprotocol/sdk"
+        },
+        "kanbanPackage": {
+          "available": true,
+          "version": "0.2.0",
+          "path": "packages/kanban"
+        },
+        "transports": {
+          "stdio": "Supported - Standard MCP transport",
+          "http": "Could be implemented with Fastify",
+          "websocket": "Could be implemented with ws library"
+        },
+        "security": {
+          "authentication": "Needs implementation",
+          "authorization": "Needs implementation",
+          "rateLimit": "Needs implementation"
+        },
+        "performance": {
+          "responseTime": "Target: <100ms for simple operations",
+          "throughput": "Target: 100+ operations/second",
+          "concurrency": "Needs implementation"
+        }
+      },
+      "readiness": {
+        "mcpSdk": true,
+        "kanbanPackage": true,
+        "overall": true
+      },
+      "timestamp": "2025-10-15T19:01:55.042Z"
+    }
+  }
+}

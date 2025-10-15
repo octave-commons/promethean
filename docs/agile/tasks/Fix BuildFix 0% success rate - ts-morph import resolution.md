@@ -2,7 +2,7 @@
 uuid: "27341799-4895-4d00-a6cb-17b06e2d7134"
 title: "Fix BuildFix 0% success rate - ts-morph import resolution"
 slug: "Fix BuildFix 0% success rate - ts-morph import resolution"
-status: "todo"
+status: "breakdown"
 priority: "P0"
 labels: ["buildfix", "critical", "ts-morph", "success-rate"]
 created_at: "2025-10-15T13:55:46.758Z"

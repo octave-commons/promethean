@@ -149,17 +149,57 @@ Create a new task.
 pnpm kanban create <title> [options]
 
 # Examples:
-pnpm kanban create "Fix kanban bug" --priority P1 --status todo
+pnpm kanban create "Fix kanban bug" --priority P1 --status incoming
 pnpm kanban create "New feature" --content "Description here" --labels feature,backend
-pnpm kanban create "Documentation" --status incoming --priority P2 --labels docs
+pnpm kanban create "Documentation" --status icebox --priority P2 --labels docs
 ```
 
 **Options:**
 
 - `--content <text>` - Task description/content
 - `--priority <P0|P1|P2|P3>` - Task priority
-- `--status <column>` - Initial status (default: incoming)
+- `--status <column>` - Initial status (default: incoming, **only icebox or incoming allowed**)
 - `--labels <tag1,tag2>` - Comma-separated tags
+
+**Starting Status Validation:**
+
+New tasks can only be created with starting statuses that follow kanban workflow rules:
+
+- ✅ **Valid starting statuses**: `icebox`, `incoming`
+- ❌ **Invalid starting statuses**: `todo`, `in_progress`, `testing`, `review`, `done`, etc.
+
+**Examples of valid usage:**
+
+```bash
+# Valid: Creates task in incoming (default)
+pnpm kanban create "Fix login bug" --priority P1
+
+# Valid: Creates task in icebox
+pnpm kanban create "Future feature" --status icebox
+
+# Valid: Creates task in incoming explicitly
+pnpm kanban create "Urgent fix" --status incoming --priority P0
+```
+
+**Validation Errors:**
+
+```bash
+# Invalid: Will show validation error
+pnpm kanban create "Bug fix" --status todo
+
+# Error output:
+# ❌ Invalid starting status: "todo". Tasks can only be created with starting statuses: icebox, incoming.
+# 💡 Use --status flag to specify a valid starting status when creating tasks.
+```
+
+**Why this restriction exists:**
+
+The kanban workflow is designed as a finite state machine where tasks must pass through proper intake and planning stages before entering active work. This ensures:
+
+- Proper triage and prioritization of new work
+- Consistent workflow adherence
+- Prevention of work bypassing planning stages
+- Clear task lifecycle management
 
 #### `update`
 
@@ -379,6 +419,13 @@ The kanban CLI automatically resolves paths:
 ## Error Handling
 
 ### Common Errors
+
+**Invalid Starting Status:**
+
+```
+❌ Invalid starting status: "todo". Tasks can only be created with starting statuses: icebox, incoming.
+💡 Use --status flag to specify a valid starting status when creating tasks.
+```
 
 **WIP Limit Violation:**
 

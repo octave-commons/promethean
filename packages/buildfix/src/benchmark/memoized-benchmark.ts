@@ -411,6 +411,11 @@ export class MemoizedBuildFixBenchmark {
       // Process all fixtures with this model
       for (let i = 0; i < fixtureList.length; i++) {
         const fixture = fixtureList[i];
+        if (!fixture) {
+          console.warn(`⚠️  Fixture at index ${i} is undefined, skipping`);
+          continue;
+        }
+        
         const progress = Math.round(((i + 1) / fixtureList.length) * 100);
 
         process.stdout.write(

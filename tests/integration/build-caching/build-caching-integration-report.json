@@ -1,0 +1,53 @@
+{
+  "summary": {
+    "totalTests": 5,
+    "successfulTests": 2,
+    "successRate": 40,
+    "timestamp": "2025-10-15T18:51:52.455Z"
+  },
+  "results": {
+    "pnpm-cache-key": {
+      "success": true,
+      "storePath": "/home/err/.local/share/pnpm/store/v3",
+      "cacheKey": "linux-pnpm-store-e3b0c44298fc1c14-e3b0c44298fc1c14",
+      "restoreKeys": [
+        "linux-pnpm-store-e3b0c44298fc1c14-",
+        "linux-pnpm-store-"
+      ],
+      "timestamp": "2025-10-15T18:49:50.214Z"
+    },
+    "clojure-cache-key": {
+      "success": true,
+      "depsFiles": 0,
+      "bbFiles": 0,
+      "cacheKey": "cljdeps-linux-e3b0c44298fc1c14-e3b0c44298fc1c14",
+      "restoreKeys": [
+        "cljdeps-linux-e3b0c44298fc1c14-",
+        "cljdeps-linux-"
+      ],
+      "cachePaths": [
+        "~/.m2/repository",
+        "~/.gitlibs",
+        "~/.clojure",
+        "~/.cpcache"
+      ],
+      "timestamp": "2025-10-15T18:49:50.230Z"
+    },
+    "cold-cache-build": {
+      "success": false,
+      "error": "Command failed: pnpm install --frozen-lockfile",
+      "timestamp": "2025-10-15T18:49:52.350Z"
+    },
+    "cache-invalidation": {
+      "success": false,
+      "error": "ENOENT: no such file or directory, open 'pnpm-lock.yaml'",
+      "timestamp": "2025-10-15T18:49:52.352Z"
+    },
+    "buildfix-caching": {
+      "success": false,
+      "error": "spawnSync /bin/sh ETIMEDOUT",
+      "timestamp": "2025-10-15T18:51:52.454Z"
+    }
+  },
+  "baselineMetrics": null
+}

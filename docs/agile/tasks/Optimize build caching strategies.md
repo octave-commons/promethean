@@ -2,7 +2,7 @@
 uuid: "e134bc1d-222a-4e8c-9bbb-48f786986b5f"
 title: "Optimize build caching strategies"
 slug: "Optimize build caching strategies"
-status: "testing"
+status: "review"
 priority: "P1"
 labels: ["automation", "buildfix", "pipeline", "cache"]
 created_at: "2025-10-13T21:50:09.574Z"

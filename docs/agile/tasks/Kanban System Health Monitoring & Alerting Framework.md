@@ -5,7 +5,7 @@ slug: "Kanban System Health Monitoring & Alerting Framework"
 status: "breakdown"
 priority: "P1"
 labels: ["kanban", "health-monitoring", "automation", "alerting", "framework", "mcp-integration", "healing"]
-created_at: "2025-10-15T14:22:59.097Z"
+created_at: "2025-10-15T20:58:27.123Z"
 estimates:
   complexity: ""
   scale: ""
