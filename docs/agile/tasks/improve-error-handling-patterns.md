@@ -7,9 +7,9 @@ priority: "P1"
 labels: ["error-handling", "reliability", "code-quality", "logging"]
 created_at: "2025-10-14T10:45:00.000Z"
 estimates:
-  complexity: "8"
-  scale: "large"
-  time_to_completion: "8h"
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 ## Description

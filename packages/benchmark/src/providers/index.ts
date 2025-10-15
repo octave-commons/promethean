@@ -2,11 +2,13 @@ export { BaseProvider } from './base.js';
 export { OllamaProvider } from './ollama.js';
 export { VLLMProvider } from './vllm.js';
 export { OpenAIProvider } from './openai.js';
+export { BuildFixProvider } from './buildfix.js';
 
 import { BaseProvider } from './base.js';
 import { OllamaProvider } from './ollama.js';
 import { VLLMProvider } from './vllm.js';
 import { OpenAIProvider } from './openai.js';
+import { BuildFixProvider } from './buildfix.js';
 import { ProviderConfig, ProviderType } from '../types/index.js';
 
 export function createProvider(config: ProviderConfig): BaseProvider {
@@ -17,11 +19,13 @@ export function createProvider(config: ProviderConfig): BaseProvider {
       return new VLLMProvider(config);
     case 'openai':
       return new OpenAIProvider(config);
+    case 'buildfix':
+      return new BuildFixProvider(config);
     default:
       throw new Error(`Unsupported provider type: ${config.type}`);
   }
 }
 
 export function getSupportedProviders(): ProviderType[] {
-  return ['ollama', 'vllm', 'openai'];
+  return ['ollama', 'vllm', 'openai', 'buildfix'];
 }

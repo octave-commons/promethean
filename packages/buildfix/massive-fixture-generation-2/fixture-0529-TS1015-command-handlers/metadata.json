@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0529-TS1015-command-handlers",
+  "description": "Massive fixture for TS1015 from packages/kanban/src/cli/command-handlers.ts",
+  "originalPath": "packages/kanban/src/cli/command-handlers.ts",
+  "targetErrorCode": "TS1015",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 529,
+  "generatedAt": "2025-10-15T06:55:37.865Z"
+}

@@ -7,7 +7,7 @@ import { materializeSnippet } from '../iter/dsl.js';
 import { buildAndJudge } from '../iter/eval.js';
 import { applySnippetToProject } from '../utils.js';
 
-import { createFixtures, fixtures } from './fixtures.js';
+import { createFixtures, fixtures, loadMassiveFixtures } from './fixtures.js';
 import type { Fixture } from './fixtures.js';
 import type { BenchmarkResult, ModelConfig } from './index.js';
 
@@ -35,13 +35,20 @@ export class MemoizedBuildFixBenchmark {
   private cacheFile: string;
   private metadataFile: string;
   private metadata: CacheMetadata;
+  private useMassiveFixtures: boolean;
+  private allFixtures: Fixture[] = [];
 
-  constructor(tempDir = './benchmark-temp', cacheDir = './benchmark-cache') {
+  constructor(
+    tempDir = './benchmark-temp',
+    cacheDir = './benchmark-cache',
+    useMassiveFixtures = false,
+  ) {
     this.tempDir = path.resolve(tempDir);
     this.fixturesDir = path.join(this.tempDir, 'fixtures');
     this.cacheDir = path.resolve(cacheDir);
     this.cacheFile = path.join(this.cacheDir, 'benchmark-cache.json');
     this.metadataFile = path.join(this.cacheDir, 'metadata.json');
+    this.useMassiveFixtures = useMassiveFixtures;
 
     this.metadata = {
       version: '1.0.0',
@@ -57,7 +64,20 @@ export class MemoizedBuildFixBenchmark {
     await fs.rm(this.tempDir, { recursive: true, force: true });
     await fs.mkdir(this.tempDir, { recursive: true });
     await fs.mkdir(this.cacheDir, { recursive: true });
-    await createFixtures(this.fixturesDir);
+
+    if (this.useMassiveFixtures) {
+      // Load massive fixtures
+      const massiveFixturesDir = path.resolve(
+        process.cwd(),
+        'packages/buildfix/massive-fixture-generation-2',
+      );
+      this.allFixtures = await loadMassiveFixtures(massiveFixturesDir);
+      // Copy massive fixtures to the temp directory
+      await this.copyMassiveFixtures(massiveFixturesDir);
+    } else {
+      await createFixtures(this.fixturesDir);
+      this.allFixtures = fixtures;
+    }
 
     // Load existing cache metadata
     await this.loadCacheMetadata();
@@ -369,25 +389,42 @@ export class MemoizedBuildFixBenchmark {
     forceRefresh = false,
   ): Promise<BenchmarkResult[]> {
     const results: BenchmarkResult[] = [];
+    const fixtureList = this.allFixtures;
 
-    console.log(`🚀 Starting memoized benchmark with ${modelConfigs.length} models`);
+    console.log(`🚀 Starting optimized memoized benchmark`);
     console.log(`📁 Cache directory: ${this.cacheDir}`);
     console.log(`🎯 Force refresh: ${forceRefresh}`);
+    console.log(
+      `\n🎯 Running ${fixtureList.length} fixtures against ${modelConfigs.length} models`,
+    );
+    console.log(
+      `📊 Optimized batching: ${modelConfigs.length} model batches instead of ${fixtureList.length * modelConfigs.length} individual loads`,
+    );
 
+    // Process each model separately (load once, test all fixtures)
     for (const modelConfig of modelConfigs) {
-      console.log(`\n🤖 Testing model: ${modelConfig.name}`);
+      console.log(`\n🤖 Loading model: ${modelConfig.name}`);
+      console.log(`📋 Processing ${fixtureList.length} fixtures with ${modelConfig.name}...`);
 
-      for (const fixture of fixtures) {
+      const modelResults: BenchmarkResult[] = [];
+
+      // Process all fixtures with this model
+      for (let i = 0; i < fixtureList.length; i++) {
+        const fixture = fixtureList[i];
+        const progress = Math.round(((i + 1) / fixtureList.length) * 100);
+
+        process.stdout.write(
+          `\r⚡ ${modelConfig.name}: ${i + 1}/${fixtureList.length} fixtures (${progress}%)`,
+        );
+
         const result = await this.runSingleBenchmark(fixture, modelConfig, 3, forceRefresh);
-        results.push(result);
-
-        const status = result.success ? '✅' : '❌';
-        const errors = `${result.errorCountBefore}→${result.errorCountAfter}`;
-        const resolved = result.errorsResolved ? 'RESOLVED' : 'NOT RESOLVED';
-        const cached = result.duration < 100 ? '(cached)' : '';
-
-        console.log(`  ${status} ${fixture.name}: ${errors} errors (${resolved}) ${cached}`);
+        modelResults.push(result);
       }
+
+      console.log(
+        `\n✅ Completed ${modelConfig.name}: ${modelResults.filter((r) => r.success).length}/${modelResults.length} successful`,
+      );
+      results.push(...modelResults);
     }
 
     // Print cache statistics
@@ -446,6 +483,28 @@ export class MemoizedBuildFixBenchmark {
     } catch {
       console.log(`  Cache file size: Not available`);
     }
+  }
+
+  private async copyMassiveFixtures(massiveFixturesDir: string): Promise<void> {
+    const fixtureDirs = await fs.readdir(massiveFixturesDir);
+    const fixtureNames = fixtureDirs.filter((name) => name.startsWith('fixture-'));
+
+    for (const fixtureName of fixtureNames) {
+      const sourceDir = path.join(massiveFixturesDir, fixtureName);
+      const targetDir = path.join(this.fixturesDir, fixtureName);
+
+      // Copy fixture directory
+      await fs.mkdir(targetDir, { recursive: true });
+      const files = await fs.readdir(sourceDir);
+
+      for (const file of files) {
+        const sourceFile = path.join(sourceDir, file);
+        const targetFile = path.join(targetDir, file);
+        await fs.copyFile(sourceFile, targetFile);
+      }
+    }
+
+    console.log(`Copied ${fixtureNames.length} massive fixtures to ${this.fixturesDir}`);
   }
 
   async exportCache(exportPath: string): Promise<void> {

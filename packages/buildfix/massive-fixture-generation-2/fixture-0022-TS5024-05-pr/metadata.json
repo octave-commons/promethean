@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0022-TS5024-05-pr",
+  "description": "Massive fixture for TS5024 from packages/semverguard/src/05-pr.ts",
+  "originalPath": "packages/semverguard/src/05-pr.ts",
+  "targetErrorCode": "TS5024",
+  "errorCategory": "Compiler Options Error",
+  "fixtureNumber": 22,
+  "generatedAt": "2025-10-15T06:55:37.659Z"
+}

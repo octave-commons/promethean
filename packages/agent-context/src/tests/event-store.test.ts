@@ -1,8 +1,10 @@
 import test from 'ava';
+
 import { PostgresEventStore } from '../event-store.js';
+import { ContextEvent } from '../types.js';
+
 import { MockEventStore } from './utils/mocks.js';
 import { createMockEvent } from './utils/fixtures.js';
-import { ContextEvent } from '../types.js';
 
 // Mock database for testing PostgresEventStore
 const createMockDb = () => ({

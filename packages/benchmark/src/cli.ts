@@ -387,6 +387,11 @@ class BenchmarkCLI {
         endpoint: 'http://localhost:8000',
         model: 'Qwen/Qwen2.5-Coder-7B-Instruct',
       },
+      {
+        name: 'buildfix-local',
+        type: 'buildfix',
+        model: 'qwen2.5-coder:7b',
+      },
     ];
   }
 

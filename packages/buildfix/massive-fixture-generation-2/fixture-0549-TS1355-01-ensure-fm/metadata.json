@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0549-TS1355-01-ensure-fm",
+  "description": "Massive fixture for TS1355 from packages/boardrev/src/01-ensure-fm.ts",
+  "originalPath": "packages/boardrev/src/01-ensure-fm.ts",
+  "targetErrorCode": "TS1355",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 549,
+  "generatedAt": "2025-10-15T06:55:37.872Z"
+}

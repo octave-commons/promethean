@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0505-TS1354-index",
+  "description": "Massive fixture for TS1354 from packages/auth-service/src/index.ts",
+  "originalPath": "packages/auth-service/src/index.ts",
+  "targetErrorCode": "TS1354",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 505,
+  "generatedAt": "2025-10-15T06:55:37.856Z"
+}

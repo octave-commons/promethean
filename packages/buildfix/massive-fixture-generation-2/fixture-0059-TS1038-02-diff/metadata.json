@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0059-TS1038-02-diff",
+  "description": "Massive fixture for TS1038 from packages/semverguard/src/02-diff.ts",
+  "originalPath": "packages/semverguard/src/02-diff.ts",
+  "targetErrorCode": "TS1038",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 59,
+  "generatedAt": "2025-10-15T06:55:37.679Z"
+}

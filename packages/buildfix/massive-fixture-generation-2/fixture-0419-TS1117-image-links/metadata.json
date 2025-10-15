@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0419-TS1117-image-links",
+  "description": "Massive fixture for TS1117 from packages/web-utils/src/image-links.ts",
+  "originalPath": "packages/web-utils/src/image-links.ts",
+  "targetErrorCode": "TS1117",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 419,
+  "generatedAt": "2025-10-15T06:55:37.823Z"
+}

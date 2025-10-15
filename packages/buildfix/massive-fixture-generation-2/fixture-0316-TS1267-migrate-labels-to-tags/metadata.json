@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0316-TS1267-migrate-labels-to-tags",
+  "description": "Massive fixture for TS1267 from packages/kanban/src/scripts/migrate-labels-to-tags.ts",
+  "originalPath": "packages/kanban/src/scripts/migrate-labels-to-tags.ts",
+  "targetErrorCode": "TS1267",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 316,
+  "generatedAt": "2025-10-15T06:55:37.784Z"
+}

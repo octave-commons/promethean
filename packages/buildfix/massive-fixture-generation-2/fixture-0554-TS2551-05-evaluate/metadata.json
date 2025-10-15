@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0554-TS2551-05-evaluate",
+  "description": "Massive fixture for TS2551 from packages/boardrev/src/05-evaluate.ts",
+  "originalPath": "packages/boardrev/src/05-evaluate.ts",
+  "targetErrorCode": "TS2551",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 554,
+  "generatedAt": "2025-10-15T06:55:37.874Z"
+}

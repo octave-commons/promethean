@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0265-TS1196-editor",
+  "description": "Massive fixture for TS1196 from packages/kanban/src/lib/task-content/editor.ts",
+  "originalPath": "packages/kanban/src/lib/task-content/editor.ts",
+  "targetErrorCode": "TS1196",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 265,
+  "generatedAt": "2025-10-15T06:55:37.760Z"
+}

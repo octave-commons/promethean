@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0525-TS1055-ai",
+  "description": "Massive fixture for TS1055 from packages/kanban/src/lib/task-content/ai.ts",
+  "originalPath": "packages/kanban/src/lib/task-content/ai.ts",
+  "targetErrorCode": "TS1055",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 525,
+  "generatedAt": "2025-10-15T06:55:37.863Z"
+}

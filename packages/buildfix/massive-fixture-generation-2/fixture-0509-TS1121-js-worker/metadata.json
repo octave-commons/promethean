@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0509-TS1121-js-worker",
+  "description": "Massive fixture for TS1121 from packages/piper/src/lib/js-worker.ts",
+  "originalPath": "packages/piper/src/lib/js-worker.ts",
+  "targetErrorCode": "TS1121",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 509,
+  "generatedAt": "2025-10-15T06:55:37.857Z"
+}

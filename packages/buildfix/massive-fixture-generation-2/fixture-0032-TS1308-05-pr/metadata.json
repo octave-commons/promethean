@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0032-TS1308-05-pr",
+  "description": "Massive fixture for TS1308 from packages/semverguard/src/05-pr.ts",
+  "originalPath": "packages/semverguard/src/05-pr.ts",
+  "targetErrorCode": "TS1308",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 32,
+  "generatedAt": "2025-10-15T06:55:37.663Z"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0089-TS1155-task-complexity",
+  "description": "Massive fixture for TS1155 from packages/kanban/src/lib/task-complexity.ts",
+  "originalPath": "packages/kanban/src/lib/task-complexity.ts",
+  "targetErrorCode": "TS1155",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 89,
+  "generatedAt": "2025-10-15T06:55:37.694Z"
+}

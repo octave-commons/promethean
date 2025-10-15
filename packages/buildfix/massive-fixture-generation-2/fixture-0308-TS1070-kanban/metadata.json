@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0308-TS1070-kanban",
+  "description": "Massive fixture for TS1070 from packages/kanban/src/lib/kanban.ts",
+  "originalPath": "packages/kanban/src/lib/kanban.ts",
+  "targetErrorCode": "TS1070",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 308,
+  "generatedAt": "2025-10-15T06:55:37.778Z"
+}

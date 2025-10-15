@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0519-TS1056-projector",
+  "description": "Massive fixture for TS1056 from packages/kanban/src/board/projector.ts",
+  "originalPath": "packages/kanban/src/board/projector.ts",
+  "targetErrorCode": "TS1056",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 519,
+  "generatedAt": "2025-10-15T06:55:37.861Z"
+}

@@ -19,6 +19,15 @@ Options for ecosystem:
   --filename <name>    Name of the generated file (default: ${DEFAULT_OUTPUT_FILE_NAME})
 `;
 
+/**
+ * Main CLI entry point for shadow-conf.
+ * 
+ * Parses command line arguments and executes the appropriate command.
+ * Currently supports only the 'ecosystem' command for generating PM2 configurations.
+ * 
+ * @throws {Error} When invalid arguments are provided
+ * @throws {Error} When command execution fails
+ */
 async function main(): Promise<void> {
   const [, , ...argv] = process.argv;
   const [command, ...rest] = argv;
@@ -48,6 +57,25 @@ type ParseState = {
   readonly skipNext: boolean;
 };
 
+/**
+ * Parses command line options for the ecosystem command.
+ * 
+ * Supports both space-separated and equals notation for options:
+ * - `--input-dir ./config` (space-separated)
+ * - `--input-dir=./config` (equals notation)
+ * 
+ * @param args - Command line arguments (excluding command name)
+ * @returns Parsed options object
+ * 
+ * @throws {Error} When unknown options are encountered
+ * @throws {Error} When option values are missing
+ * 
+ * @example
+ * ```typescript
+ * parseOptions(['--input-dir', './config', '--filename', 'ecosystem.mjs']);
+ * // Returns: { inputDir: '/absolute/path/to/config', fileName: 'ecosystem.mjs' }
+ * ```
+ */
 function parseOptions(args: readonly string[]): GenerateEcosystemOptions {
   const recognizedFlags: readonly Flag[] = [
     "--input-dir",

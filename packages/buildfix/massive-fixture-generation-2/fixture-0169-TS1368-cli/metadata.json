@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0169-TS1368-cli",
+  "description": "Massive fixture for TS1368 from packages/kanban/src/cli.ts",
+  "originalPath": "packages/kanban/src/cli.ts",
+  "targetErrorCode": "TS1368",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 169,
+  "generatedAt": "2025-10-15T06:55:37.730Z"
+}

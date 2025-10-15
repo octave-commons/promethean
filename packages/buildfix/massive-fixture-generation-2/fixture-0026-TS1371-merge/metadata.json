@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0026-TS1371-merge",
+  "description": "Massive fixture for TS1371 from packages/kanban/src/board/config/merge.ts",
+  "originalPath": "packages/kanban/src/board/config/merge.ts",
+  "targetErrorCode": "TS1371",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 26,
+  "generatedAt": "2025-10-15T06:55:37.661Z"
+}

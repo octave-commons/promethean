@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0111-TS1035-mongo",
+  "description": "Massive fixture for TS1035 from packages/changefeed/src/mongo.ts",
+  "originalPath": "packages/changefeed/src/mongo.ts",
+  "targetErrorCode": "TS1035",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 111,
+  "generatedAt": "2025-10-15T06:55:37.706Z"
+}

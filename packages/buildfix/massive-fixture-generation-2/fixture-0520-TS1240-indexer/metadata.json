@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0520-TS1240-indexer",
+  "description": "Massive fixture for TS1240 from packages/kanban/src/board/indexer.ts",
+  "originalPath": "packages/kanban/src/board/indexer.ts",
+  "targetErrorCode": "TS1240",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 520,
+  "generatedAt": "2025-10-15T06:55:37.861Z"
+}

@@ -1,13 +1,29 @@
 import { ContextMetadata, ContextMetadataStore, ContextQuery } from './types';
 import { openLevelCache, Cache } from '@promethean/level-cache';
 
+// Database interface definitions
+export interface DatabaseConnection {
+  query(text: string, params?: any[]): Promise<DatabaseResult>;
+}
+
+export interface DatabaseResult {
+  rows: any[];
+  rowCount?: number;
+}
+
+export interface CacheOptions {
+  path?: string;
+  namespace?: string;
+  ttl?: number;
+}
+
 export class PostgresContextMetadataStore implements ContextMetadataStore {
   private cache: Cache<ContextMetadata> | null = null;
   private cachePromise: Promise<void> | null = null;
 
   constructor(
-    private db: any,
-    private cacheOptions?: any,
+    private db: DatabaseConnection,
+    private cacheOptions?: CacheOptions,
   ) {
     this.cachePromise = this.initializeCache();
   }
@@ -104,7 +120,7 @@ export class PostgresContextMetadataStore implements ContextMetadataStore {
     const metadataList = result.rows.map(this.mapRowToMetadata);
 
     // Update cache
-    if (key && metadataList.length > 0) {
+    if (key && metadataList.length > 0 && metadataList[0]) {
       await cache.set(`${agentId}:${key}`, metadataList[0]);
     }
 

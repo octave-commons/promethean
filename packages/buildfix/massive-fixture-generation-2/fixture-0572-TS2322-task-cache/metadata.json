@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0572-TS2322-task-cache",
+  "description": "Massive fixture for TS2322 from packages/kanban/src/board/task-cache.ts",
+  "originalPath": "packages/kanban/src/board/task-cache.ts",
+  "targetErrorCode": "TS2322",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 572,
+  "generatedAt": "2025-10-15T06:55:37.883Z"
+}

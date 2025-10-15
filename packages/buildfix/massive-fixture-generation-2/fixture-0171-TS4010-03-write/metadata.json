@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0171-TS4010-03-write",
+  "description": "Massive fixture for TS4010 from packages/readmeflow/src/03-write.ts",
+  "originalPath": "packages/readmeflow/src/03-write.ts",
+  "targetErrorCode": "TS4010",
+  "errorCategory": "Declaration Error",
+  "fixtureNumber": 171,
+  "generatedAt": "2025-10-15T06:55:37.731Z"
+}

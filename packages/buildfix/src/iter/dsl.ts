@@ -58,7 +58,8 @@ export function decodeB64(s: string): string {
 
 // Turn DSL ops into a safe ESM snippet.
 export async function dslToSnippet(ops: OpT[]): Promise<string> {
-  const hdr = `import { SyntaxKind } from "ts-morph";
+  const tsMorphPath = path.resolve(__dirname, '../../node_modules/ts-morph');
+  const hdr = `import { SyntaxKind } from "${tsMorphPath}";
 export async function apply(project){
   const by = (p)=>project.getSourceFile(p) || project.getSourceFiles().find(f=>f.getFilePath().endsWith(p));
   const not = (x,msg)=>{ if(!x) throw new Error(msg); };

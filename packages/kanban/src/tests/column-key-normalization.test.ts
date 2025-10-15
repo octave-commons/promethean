@@ -1,5 +1,5 @@
 import test from 'ava';
-import { columnKey } from '../../dist/lib/kanban.js';
+import { columnKey } from '../lib/kanban.js';
 
 test('columnKey normalization consistency', (t: any) => {
   const testCases = [

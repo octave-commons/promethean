@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0285-TS7009-state",
+  "description": "Massive fixture for TS7009 from packages/piper/src/lib/state.ts",
+  "originalPath": "packages/piper/src/lib/state.ts",
+  "targetErrorCode": "TS7009",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 285,
+  "generatedAt": "2025-10-15T06:55:37.769Z"
+}

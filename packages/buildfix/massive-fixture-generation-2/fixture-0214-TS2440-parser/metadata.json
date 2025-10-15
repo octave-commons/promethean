@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0214-TS2440-parser",
+  "description": "Massive fixture for TS2440 from packages/kanban/src/lib/task-content/parser.ts",
+  "originalPath": "packages/kanban/src/lib/task-content/parser.ts",
+  "targetErrorCode": "TS2440",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 214,
+  "generatedAt": "2025-10-15T06:55:37.745Z"
+}

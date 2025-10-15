@@ -1,0 +1,257 @@
+{
+  "be14abf5a07ecc5b663a515020f4477e2bcdff55d10f11d04922211278dcceb4-dfb626eff5f4ba834bca6fdbfa6573df": {
+    "result": {
+      "fixture": "missing-export",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 38290,
+      "attempts": 3,
+      "errorMessage": "ollama generate 500: {\"error\":\"model runner has unexpectedly stopped, this may be due to resource limitations or an internal error, check ollama server logs for details\"}"
+    },
+    "timestamp": 1760533788479,
+    "inputHash": "3d53034cb59a83a28dc5920c9e2b8d9c0228cf997743c7ec654a949e0edf9783",
+    "modelConfig": {
+      "name": "qwen3:8b",
+      "model": "qwen3:8b"
+    },
+    "fixtureHash": "be14abf5a07ecc5b663a515020f4477e2bcdff55d10f11d04922211278dcceb4"
+  },
+  "87e4490d9b420792b9d6113591b38dbccb118598797e3f84236ea356e1ea1be0-dfb626eff5f4ba834bca6fdbfa6573df": {
+    "result": {
+      "fixture": "optional-parameter",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": true,
+      "duration": 81004,
+      "attempts": 3,
+      "errorMessage": "__dirname is not defined",
+      "planTitle": "Fix missing required parameter"
+    },
+    "timestamp": 1760533869484,
+    "inputHash": "c8d08beb4f1083b93361f333e8c4d402401d267222f8e8cc9a6962a3d10b80ae",
+    "modelConfig": {
+      "name": "qwen3:8b",
+      "model": "qwen3:8b"
+    },
+    "fixtureHash": "87e4490d9b420792b9d6113591b38dbccb118598797e3f84236ea356e1ea1be0"
+  },
+  "29f76d27980e996d3c95213ccca449a709be0f87dc61e91379873d5752803638-dfb626eff5f4ba834bca6fdbfa6573df": {
+    "result": {
+      "fixture": "type-annotation-missing",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": true,
+      "duration": 66946,
+      "attempts": 3,
+      "errorMessage": "__dirname is not defined",
+      "planTitle": "Fix missing type annotation for 'someUnknownFunction'"
+    },
+    "timestamp": 1760533936431,
+    "inputHash": "0ca9a5718bb6cec2242e109f4cafd7ceab5950fb9460291f80414b1ff71b97a7",
+    "modelConfig": {
+      "name": "qwen3:8b",
+      "model": "qwen3:8b"
+    },
+    "fixtureHash": "29f76d27980e996d3c95213ccca449a709be0f87dc61e91379873d5752803638"
+  },
+  "8a819c8deb6d18c5e9c1492328216eb9b55f60918d62c578249fc6478fd8ee5a-dfb626eff5f4ba834bca6fdbfa6573df": {
+    "result": {
+      "fixture": "missing-return-type",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 0,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 1420,
+      "attempts": 0,
+      "errorMessage": "No errors found in fixture"
+    },
+    "timestamp": 1760533937852,
+    "inputHash": "e59d2e5bdb710579844cae2c91d274c1829538c31c446e867e919729e3033bb8",
+    "modelConfig": {
+      "name": "qwen3:8b",
+      "model": "qwen3:8b"
+    },
+    "fixtureHash": "8a819c8deb6d18c5e9c1492328216eb9b55f60918d62c578249fc6478fd8ee5a"
+  },
+  "c49bec9964b01a2c2f025ef16fb7a9527c6c08b2ec7f9297b5b5545afb17ba89-dfb626eff5f4ba834bca6fdbfa6573df": {
+    "result": {
+      "fixture": "class-not-exported",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": true,
+      "duration": 48516,
+      "attempts": 3,
+      "planTitle": "Export Helper class",
+      "errorMessage": "__dirname is not defined"
+    },
+    "timestamp": 1760533986395,
+    "inputHash": "b69a12ddad93765d781f28478989511e5bb2d3473dde65089dd82e8c12d2c16a",
+    "modelConfig": {
+      "name": "qwen3:8b",
+      "model": "qwen3:8b"
+    },
+    "fixtureHash": "c49bec9964b01a2c2f025ef16fb7a9527c6c08b2ec7f9297b5b5545afb17ba89"
+  },
+  "5b683daee63f19fe220aa0fde91c07e021305570e4b7b1d39e63c067635fc202-dfb626eff5f4ba834bca6fdbfa6573df": {
+    "result": {
+      "fixture": "interface-missing",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 0,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 1596,
+      "attempts": 0,
+      "errorMessage": "No errors found in fixture"
+    },
+    "timestamp": 1760533987992,
+    "inputHash": "50c0a9bee3858f6ef67b9c7a58d30b891cb6682a69633398fd787a2d3c578523",
+    "modelConfig": {
+      "name": "qwen3:8b",
+      "model": "qwen3:8b"
+    },
+    "fixtureHash": "5b683daee63f19fe220aa0fde91c07e021305570e4b7b1d39e63c067635fc202"
+  },
+  "be14abf5a07ecc5b663a515020f4477e2bcdff55d10f11d04922211278dcceb4-7cf8b5e99c08bc65e5fb84670db55b5c": {
+    "result": {
+      "fixture": "missing-export",
+      "model": "qwen2.5-coder:7b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 10349,
+      "attempts": 3,
+      "errorMessage": "ollama generate 500: {\"error\":\"llama runner process has terminated: exit status 2\"}"
+    },
+    "timestamp": 1760534876871,
+    "inputHash": "3b0b257e3b1993791ddb6de52fe0e27c7f143dc277500d6ad20a27af95f72ad7",
+    "modelConfig": {
+      "name": "qwen2.5-coder:7b",
+      "model": "qwen2.5-coder:7b"
+    },
+    "fixtureHash": "be14abf5a07ecc5b663a515020f4477e2bcdff55d10f11d04922211278dcceb4"
+  },
+  "87e4490d9b420792b9d6113591b38dbccb118598797e3f84236ea356e1ea1be0-7cf8b5e99c08bc65e5fb84670db55b5c": {
+    "result": {
+      "fixture": "optional-parameter",
+      "model": "qwen2.5-coder:7b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 6961,
+      "attempts": 3,
+      "errorMessage": "ollama generate 500: {\"error\":\"llama runner process has terminated: GGML_ASSERT(ctx-\\u003emem_buffer != NULL) failed\"}"
+    },
+    "timestamp": 1760534883832,
+    "inputHash": "ebf3909622d0f2f80ee1e5288d7d5d0c799e509aac4b5550a5786df3adde9665",
+    "modelConfig": {
+      "name": "qwen2.5-coder:7b",
+      "model": "qwen2.5-coder:7b"
+    },
+    "fixtureHash": "87e4490d9b420792b9d6113591b38dbccb118598797e3f84236ea356e1ea1be0"
+  },
+  "29f76d27980e996d3c95213ccca449a709be0f87dc61e91379873d5752803638-7cf8b5e99c08bc65e5fb84670db55b5c": {
+    "result": {
+      "fixture": "type-annotation-missing",
+      "model": "qwen2.5-coder:7b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 41629,
+      "attempts": 3,
+      "errorMessage": "Unterminated string in JSON at position 252 (line 4 column 233)"
+    },
+    "timestamp": 1760534925463,
+    "inputHash": "fa0fa9bf6daf3d66f42bf3a9edf614d15db889499f0c6f029cf798b9b6026141",
+    "modelConfig": {
+      "name": "qwen2.5-coder:7b",
+      "model": "qwen2.5-coder:7b"
+    },
+    "fixtureHash": "29f76d27980e996d3c95213ccca449a709be0f87dc61e91379873d5752803638"
+  },
+  "8a819c8deb6d18c5e9c1492328216eb9b55f60918d62c578249fc6478fd8ee5a-7cf8b5e99c08bc65e5fb84670db55b5c": {
+    "result": {
+      "fixture": "missing-return-type",
+      "model": "qwen2.5-coder:7b",
+      "success": false,
+      "errorCountBefore": 0,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 1835,
+      "attempts": 0,
+      "errorMessage": "No errors found in fixture"
+    },
+    "timestamp": 1760534927300,
+    "inputHash": "f91b6cf0ede76035143c5f18fe1b6221fdebfc513a5d9678edddb14288a3b226",
+    "modelConfig": {
+      "name": "qwen2.5-coder:7b",
+      "model": "qwen2.5-coder:7b"
+    },
+    "fixtureHash": "8a819c8deb6d18c5e9c1492328216eb9b55f60918d62c578249fc6478fd8ee5a"
+  },
+  "c49bec9964b01a2c2f025ef16fb7a9527c6c08b2ec7f9297b5b5545afb17ba89-7cf8b5e99c08bc65e5fb84670db55b5c": {
+    "result": {
+      "fixture": "class-not-exported",
+      "model": "qwen2.5-coder:7b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 30819,
+      "attempts": 3,
+      "errorMessage": "Unterminated string in JSON at position 218 (line 4 column 208)"
+    },
+    "timestamp": 1760534958120,
+    "inputHash": "15203c95801601b2e5fb13dc2b960cc9e084ad4150cf6553b77e369ad54111ca",
+    "modelConfig": {
+      "name": "qwen2.5-coder:7b",
+      "model": "qwen2.5-coder:7b"
+    },
+    "fixtureHash": "c49bec9964b01a2c2f025ef16fb7a9527c6c08b2ec7f9297b5b5545afb17ba89"
+  },
+  "5b683daee63f19fe220aa0fde91c07e021305570e4b7b1d39e63c067635fc202-7cf8b5e99c08bc65e5fb84670db55b5c": {
+    "result": {
+      "fixture": "interface-missing",
+      "model": "qwen2.5-coder:7b",
+      "success": false,
+      "errorCountBefore": 0,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 1919,
+      "attempts": 0,
+      "errorMessage": "No errors found in fixture"
+    },
+    "timestamp": 1760534960041,
+    "inputHash": "49f2114d591247d09f13ccd706f7159dcd52d06f9ac3b37b82b8802826e455d5",
+    "modelConfig": {
+      "name": "qwen2.5-coder:7b",
+      "model": "qwen2.5-coder:7b"
+    },
+    "fixtureHash": "5b683daee63f19fe220aa0fde91c07e021305570e4b7b1d39e63c067635fc202"
+  }
+}

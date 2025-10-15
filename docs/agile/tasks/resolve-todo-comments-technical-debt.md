@@ -7,9 +7,9 @@ priority: "P2"
 labels: ["technical-debt", "todo-comments", "cleanup", "maintenance"]
 created_at: "2025-10-14T11:00:00.000Z"
 estimates:
-  complexity: "5"
-  scale: "medium"
-  time_to_completion: "4h"
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 ## Description

@@ -1,5 +1,7 @@
 import test from 'ava';
+
 import { ContextMetadataService } from '../context-metadata.js';
+
 import { MockMetadataStore } from './utils/mocks.js';
 
 test.serial('ContextMetadataService: should set and retrieve metadata', async (t) => {

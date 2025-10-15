@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0487-TS1323-04-enhanced-context",
+  "description": "Massive fixture for TS1323 from packages/boardrev/src/04-enhanced-context.ts",
+  "originalPath": "packages/boardrev/src/04-enhanced-context.ts",
+  "targetErrorCode": "TS1323",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 487,
+  "generatedAt": "2025-10-15T06:55:37.849Z"
+}

@@ -131,10 +131,30 @@ export async function readJSON<T>(p: string): Promise<T | undefined> {
 }
 
 export async function importSnippet(snippetPath: string) {
-  const mod = await import(pathToFileURL(path.resolve(snippetPath)).toString());
-  if (typeof mod.apply !== 'function')
-    throw new Error('snippet must export async function apply(project)');
-  return mod.apply as (project: Project) => Promise<void>;
+  // Create a temporary module with proper ts-morph resolution
+  const snippetContent = await fs.readFile(snippetPath, 'utf8');
+
+  // Replace ts-morph import with absolute path
+  const tsMorphPath = path.resolve(__dirname, '../../node_modules/ts-morph');
+  const patchedContent = snippetContent.replace(/from ["']ts-morph["']/, `from "${tsMorphPath}"`);
+
+  // Write patched version to temp file
+  const tempPath = snippetPath + '.patched.mjs';
+  await fs.writeFile(tempPath, patchedContent, 'utf8');
+
+  try {
+    const mod = await import(pathToFileURL(path.resolve(tempPath)).toString());
+    if (typeof mod.apply !== 'function')
+      throw new Error('snippet must export async function apply(project)');
+    return mod.apply as (project: Project) => Promise<void>;
+  } finally {
+    // Clean up temp file
+    try {
+      await fs.unlink(tempPath);
+    } catch {
+      // Ignore cleanup errors
+    }
+  }
 }
 
 export async function applySnippetToProject(tsconfigPath: string, snippetPath: string) {

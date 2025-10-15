@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0267-TS1247-event-log",
+  "description": "Massive fixture for TS1247 from packages/kanban/src/board/event-log.ts",
+  "originalPath": "packages/kanban/src/board/event-log.ts",
+  "targetErrorCode": "TS1247",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 267,
+  "generatedAt": "2025-10-15T06:55:37.761Z"
+}

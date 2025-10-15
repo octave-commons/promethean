@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0512-TS1016-05-evaluate",
+  "description": "Massive fixture for TS1016 from packages/boardrev/src/05-evaluate.ts",
+  "originalPath": "packages/boardrev/src/05-evaluate.ts",
+  "targetErrorCode": "TS1016",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 512,
+  "generatedAt": "2025-10-15T06:55:37.858Z"
+}

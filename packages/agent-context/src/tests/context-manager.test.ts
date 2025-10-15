@@ -1,5 +1,7 @@
 import test from 'ava';
+
 import { DefaultContextManager } from '../context-manager.js';
+
 import { MockEventStore, MockSnapshotStore } from './utils/mocks.js';
 import { createMockEvent } from './utils/fixtures.js';
 

@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0434-TS2395-file-watcher",
+  "description": "Massive fixture for TS2395 from packages/kanban/src/lib/file-watcher.ts",
+  "originalPath": "packages/kanban/src/lib/file-watcher.ts",
+  "targetErrorCode": "TS2395",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 434,
+  "generatedAt": "2025-10-15T06:55:37.829Z"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0545-TS1355-types",
+  "description": "Massive fixture for TS1355 from packages/readmeflow/src/types.ts",
+  "originalPath": "packages/readmeflow/src/types.ts",
+  "targetErrorCode": "TS1355",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 545,
+  "generatedAt": "2025-10-15T06:55:37.871Z"
+}

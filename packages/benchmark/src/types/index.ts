@@ -54,6 +54,7 @@ export const ProviderTypeSchema = z.enum([
   'mistral',
   'anthropic',
   'huggingface',
+  'buildfix',
 ]);
 
 export type ProviderType = z.infer<typeof ProviderTypeSchema>;

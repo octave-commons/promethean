@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0225-TS1241-utils",
+  "description": "Massive fixture for TS1241 from packages/semverguard/src/utils.ts",
+  "originalPath": "packages/semverguard/src/utils.ts",
+  "targetErrorCode": "TS1241",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 225,
+  "generatedAt": "2025-10-15T06:55:37.749Z"
+}

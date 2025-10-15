@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0397-TS4081-types",
+  "description": "Massive fixture for TS4081 from packages/kanban/src/lib/types.ts",
+  "originalPath": "packages/kanban/src/lib/types.ts",
+  "targetErrorCode": "TS4081",
+  "errorCategory": "Declaration Error",
+  "fixtureNumber": 397,
+  "generatedAt": "2025-10-15T06:55:37.814Z"
+}

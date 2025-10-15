@@ -8,11 +8,11 @@
       "errorCountAfter": 0,
       "errorsResolved": true,
       "planGenerated": true,
-      "duration": 6173,
+      "duration": 9826,
       "attempts": 1,
       "planTitle": "Fix missing export for helper function"
     },
-    "timestamp": 1760510844397,
+    "timestamp": 1760511358356,
     "inputHash": "3d53034cb59a83a28dc5920c9e2b8d9c0228cf997743c7ec654a949e0edf9783",
     "modelConfig": {
       "name": "qwen3:8b",
@@ -29,11 +29,11 @@
       "errorCountAfter": 1,
       "errorsResolved": false,
       "planGenerated": true,
-      "duration": 14238,
+      "duration": 14875,
       "attempts": 3,
       "planTitle": "Fix missing required parameter"
     },
-    "timestamp": 1760510858636,
+    "timestamp": 1760511373232,
     "inputHash": "c8d08beb4f1083b93361f333e8c4d402401d267222f8e8cc9a6962a3d10b80ae",
     "modelConfig": {
       "name": "qwen3:8b",
@@ -50,11 +50,11 @@
       "errorCountAfter": 1,
       "errorsResolved": false,
       "planGenerated": true,
-      "duration": 14601,
+      "duration": 17077,
       "attempts": 3,
-      "planTitle": "Fix missing type annotation for 'someUnknownFunction'"
+      "planTitle": "Add missing type annotation for 'someUnknownFunction'"
     },
-    "timestamp": 1760510873238,
+    "timestamp": 1760511390310,
     "inputHash": "0ca9a5718bb6cec2242e109f4cafd7ceab5950fb9460291f80414b1ff71b97a7",
     "modelConfig": {
       "name": "qwen3:8b",
@@ -71,11 +71,11 @@
       "errorCountAfter": 0,
       "errorsResolved": false,
       "planGenerated": false,
-      "duration": 1536,
+      "duration": 1700,
       "attempts": 0,
       "errorMessage": "No errors found in fixture"
     },
-    "timestamp": 1760510874775,
+    "timestamp": 1760511392012,
     "inputHash": "e59d2e5bdb710579844cae2c91d274c1829538c31c446e867e919729e3033bb8",
     "modelConfig": {
       "name": "qwen3:8b",
@@ -92,11 +92,11 @@
       "errorCountAfter": 0,
       "errorsResolved": true,
       "planGenerated": true,
-      "duration": 5575,
+      "duration": 5482,
       "attempts": 1,
       "planTitle": "Export Helper class"
     },
-    "timestamp": 1760510880350,
+    "timestamp": 1760511397495,
     "inputHash": "b69a12ddad93765d781f28478989511e5bb2d3473dde65089dd82e8c12d2c16a",
     "modelConfig": {
       "name": "qwen3:8b",
@@ -113,15 +113,653 @@
       "errorCountAfter": 0,
       "errorsResolved": false,
       "planGenerated": false,
-      "duration": 1582,
+      "duration": 1566,
       "attempts": 0,
       "errorMessage": "No errors found in fixture"
     },
-    "timestamp": 1760510881933,
+    "timestamp": 1760511399063,
     "inputHash": "50c0a9bee3858f6ef67b9c7a58d30b891cb6682a69633398fd787a2d3c578523",
     "modelConfig": {
       "name": "qwen3:8b",
       "model": "qwen3:8b"
+    },
+    "fixtureHash": "5b683daee63f19fe220aa0fde91c07e021305570e4b7b1d39e63c067635fc202"
+  },
+  "be14abf5a07ecc5b663a515020f4477e2bcdff55d10f11d04922211278dcceb4-addc381685cec3d52ca0e1c6c5160dc5": {
+    "result": {
+      "fixture": "missing-export",
+      "model": "qwen3:14b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 40340,
+      "attempts": 3,
+      "errorMessage": "ollama generate 500: {\"error\":\"model runner has unexpectedly stopped, this may be due to resource limitations or an internal error, check ollama server logs for details\"}"
+    },
+    "timestamp": 1760511934571,
+    "inputHash": "fc9d6154bd5da946d4708f62e822a87734251bae2f025dc91128007e045433bf",
+    "modelConfig": {
+      "name": "qwen3:14b",
+      "model": "qwen3:14b"
+    },
+    "fixtureHash": "be14abf5a07ecc5b663a515020f4477e2bcdff55d10f11d04922211278dcceb4"
+  },
+  "87e4490d9b420792b9d6113591b38dbccb118598797e3f84236ea356e1ea1be0-addc381685cec3d52ca0e1c6c5160dc5": {
+    "result": {
+      "fixture": "optional-parameter",
+      "model": "qwen3:14b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 52922,
+      "attempts": 3,
+      "errorMessage": "ollama generate 500: {\"error\":\"model runner has unexpectedly stopped, this may be due to resource limitations or an internal error, check ollama server logs for details\"}"
+    },
+    "timestamp": 1760511987495,
+    "inputHash": "4fc1641a91982773619df07d5a6114307394568a62b66292a0a9e108ae04758a",
+    "modelConfig": {
+      "name": "qwen3:14b",
+      "model": "qwen3:14b"
+    },
+    "fixtureHash": "87e4490d9b420792b9d6113591b38dbccb118598797e3f84236ea356e1ea1be0"
+  },
+  "29f76d27980e996d3c95213ccca449a709be0f87dc61e91379873d5752803638-addc381685cec3d52ca0e1c6c5160dc5": {
+    "result": {
+      "fixture": "type-annotation-missing",
+      "model": "qwen3:14b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 52845,
+      "attempts": 3,
+      "errorMessage": "ollama generate 500: {\"error\":\"model runner has unexpectedly stopped, this may be due to resource limitations or an internal error, check ollama server logs for details\"}"
+    },
+    "timestamp": 1760512040342,
+    "inputHash": "7310d8840666bcac332bc72b0a959614640db8b298564b77a6f191ea15526271",
+    "modelConfig": {
+      "name": "qwen3:14b",
+      "model": "qwen3:14b"
+    },
+    "fixtureHash": "29f76d27980e996d3c95213ccca449a709be0f87dc61e91379873d5752803638"
+  },
+  "8a819c8deb6d18c5e9c1492328216eb9b55f60918d62c578249fc6478fd8ee5a-addc381685cec3d52ca0e1c6c5160dc5": {
+    "result": {
+      "fixture": "missing-return-type",
+      "model": "qwen3:14b",
+      "success": false,
+      "errorCountBefore": 0,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 1625,
+      "attempts": 0,
+      "errorMessage": "No errors found in fixture"
+    },
+    "timestamp": 1760512041968,
+    "inputHash": "3e80095410e5fdabba00f84639a4ab94ba651ed7c87fc41572580a7e0259fe16",
+    "modelConfig": {
+      "name": "qwen3:14b",
+      "model": "qwen3:14b"
+    },
+    "fixtureHash": "8a819c8deb6d18c5e9c1492328216eb9b55f60918d62c578249fc6478fd8ee5a"
+  },
+  "c49bec9964b01a2c2f025ef16fb7a9527c6c08b2ec7f9297b5b5545afb17ba89-addc381685cec3d52ca0e1c6c5160dc5": {
+    "result": {
+      "fixture": "class-not-exported",
+      "model": "qwen3:14b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 53332,
+      "attempts": 3,
+      "errorMessage": "ollama generate 500: {\"error\":\"model runner has unexpectedly stopped, this may be due to resource limitations or an internal error, check ollama server logs for details\"}"
+    },
+    "timestamp": 1760512095300,
+    "inputHash": "0e9a2e51a47c5583bc215701c1622e60ea82dd7a1b3d9a8ff3180e672b563aed",
+    "modelConfig": {
+      "name": "qwen3:14b",
+      "model": "qwen3:14b"
+    },
+    "fixtureHash": "c49bec9964b01a2c2f025ef16fb7a9527c6c08b2ec7f9297b5b5545afb17ba89"
+  },
+  "5b683daee63f19fe220aa0fde91c07e021305570e4b7b1d39e63c067635fc202-addc381685cec3d52ca0e1c6c5160dc5": {
+    "result": {
+      "fixture": "interface-missing",
+      "model": "qwen3:14b",
+      "success": false,
+      "errorCountBefore": 0,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 1816,
+      "attempts": 0,
+      "errorMessage": "No errors found in fixture"
+    },
+    "timestamp": 1760512097118,
+    "inputHash": "6e2b88723e2571376e0cec57b6cae4269c4f7f3d2a67e924507eb4899382350a",
+    "modelConfig": {
+      "name": "qwen3:14b",
+      "model": "qwen3:14b"
+    },
+    "fixtureHash": "5b683daee63f19fe220aa0fde91c07e021305570e4b7b1d39e63c067635fc202"
+  },
+  "be14abf5a07ecc5b663a515020f4477e2bcdff55d10f11d04922211278dcceb4-7cf8b5e99c08bc65e5fb84670db55b5c": {
+    "result": {
+      "fixture": "missing-export",
+      "model": "qwen2.5-coder:7b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 55331,
+      "attempts": 3,
+      "errorMessage": "Unterminated string in JSON at position 248 (line 6 column 226)"
+    },
+    "timestamp": 1760512152449,
+    "inputHash": "3b0b257e3b1993791ddb6de52fe0e27c7f143dc277500d6ad20a27af95f72ad7",
+    "modelConfig": {
+      "name": "qwen2.5-coder:7b",
+      "model": "qwen2.5-coder:7b"
+    },
+    "fixtureHash": "be14abf5a07ecc5b663a515020f4477e2bcdff55d10f11d04922211278dcceb4"
+  },
+  "87e4490d9b420792b9d6113591b38dbccb118598797e3f84236ea356e1ea1be0-7cf8b5e99c08bc65e5fb84670db55b5c": {
+    "result": {
+      "fixture": "optional-parameter",
+      "model": "qwen2.5-coder:7b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": true,
+      "duration": 9173,
+      "attempts": 3,
+      "planTitle": "addImport",
+      "errorMessage": "file"
+    },
+    "timestamp": 1760512161624,
+    "inputHash": "ebf3909622d0f2f80ee1e5288d7d5d0c799e509aac4b5550a5786df3adde9665",
+    "modelConfig": {
+      "name": "qwen2.5-coder:7b",
+      "model": "qwen2.5-coder:7b"
+    },
+    "fixtureHash": "87e4490d9b420792b9d6113591b38dbccb118598797e3f84236ea356e1ea1be0"
+  },
+  "29f76d27980e996d3c95213ccca449a709be0f87dc61e91379873d5752803638-7cf8b5e99c08bc65e5fb84670db55b5c": {
+    "result": {
+      "fixture": "type-annotation-missing",
+      "model": "qwen2.5-coder:7b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": true,
+      "duration": 13410,
+      "attempts": 3,
+      "planTitle": "someFix",
+      "errorMessage": "Unterminated string in JSON at position 437 (line 10 column 171)"
+    },
+    "timestamp": 1760512175035,
+    "inputHash": "fa0fa9bf6daf3d66f42bf3a9edf614d15db889499f0c6f029cf798b9b6026141",
+    "modelConfig": {
+      "name": "qwen2.5-coder:7b",
+      "model": "qwen2.5-coder:7b"
+    },
+    "fixtureHash": "29f76d27980e996d3c95213ccca449a709be0f87dc61e91379873d5752803638"
+  },
+  "8a819c8deb6d18c5e9c1492328216eb9b55f60918d62c578249fc6478fd8ee5a-7cf8b5e99c08bc65e5fb84670db55b5c": {
+    "result": {
+      "fixture": "missing-return-type",
+      "model": "qwen2.5-coder:7b",
+      "success": false,
+      "errorCountBefore": 0,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 1659,
+      "attempts": 0,
+      "errorMessage": "No errors found in fixture"
+    },
+    "timestamp": 1760512176696,
+    "inputHash": "f91b6cf0ede76035143c5f18fe1b6221fdebfc513a5d9678edddb14288a3b226",
+    "modelConfig": {
+      "name": "qwen2.5-coder:7b",
+      "model": "qwen2.5-coder:7b"
+    },
+    "fixtureHash": "8a819c8deb6d18c5e9c1492328216eb9b55f60918d62c578249fc6478fd8ee5a"
+  },
+  "c49bec9964b01a2c2f025ef16fb7a9527c6c08b2ec7f9297b5b5545afb17ba89-7cf8b5e99c08bc65e5fb84670db55b5c": {
+    "result": {
+      "fixture": "class-not-exported",
+      "model": "qwen2.5-coder:7b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 6498,
+      "attempts": 3,
+      "errorMessage": "Unterminated string in JSON at position 245 (line 7 column 211)"
+    },
+    "timestamp": 1760512183195,
+    "inputHash": "15203c95801601b2e5fb13dc2b960cc9e084ad4150cf6553b77e369ad54111ca",
+    "modelConfig": {
+      "name": "qwen2.5-coder:7b",
+      "model": "qwen2.5-coder:7b"
+    },
+    "fixtureHash": "c49bec9964b01a2c2f025ef16fb7a9527c6c08b2ec7f9297b5b5545afb17ba89"
+  },
+  "5b683daee63f19fe220aa0fde91c07e021305570e4b7b1d39e63c067635fc202-7cf8b5e99c08bc65e5fb84670db55b5c": {
+    "result": {
+      "fixture": "interface-missing",
+      "model": "qwen2.5-coder:7b",
+      "success": false,
+      "errorCountBefore": 0,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 1586,
+      "attempts": 0,
+      "errorMessage": "No errors found in fixture"
+    },
+    "timestamp": 1760512184783,
+    "inputHash": "49f2114d591247d09f13ccd706f7159dcd52d06f9ac3b37b82b8802826e455d5",
+    "modelConfig": {
+      "name": "qwen2.5-coder:7b",
+      "model": "qwen2.5-coder:7b"
+    },
+    "fixtureHash": "5b683daee63f19fe220aa0fde91c07e021305570e4b7b1d39e63c067635fc202"
+  },
+  "be14abf5a07ecc5b663a515020f4477e2bcdff55d10f11d04922211278dcceb4-239a7b7aac645de6183c2522176f135c": {
+    "result": {
+      "fixture": "missing-export",
+      "model": "promethean-planner",
+      "success": true,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": true,
+      "planGenerated": true,
+      "duration": 15290,
+      "attempts": 1,
+      "planTitle": "Export helper function from src module"
+    },
+    "timestamp": 1760512200074,
+    "inputHash": "0310630a847aee69c1b7dbcc8d3100b0bae443f4e280d67bf96a3a901deb4b89",
+    "modelConfig": {
+      "name": "promethean-planner",
+      "model": "promethean-planner:latest"
+    },
+    "fixtureHash": "be14abf5a07ecc5b663a515020f4477e2bcdff55d10f11d04922211278dcceb4"
+  },
+  "87e4490d9b420792b9d6113591b38dbccb118598797e3f84236ea356e1ea1be0-239a7b7aac645de6183c2522176f135c": {
+    "result": {
+      "fixture": "optional-parameter",
+      "model": "promethean-planner",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": true,
+      "duration": 8857,
+      "attempts": 3,
+      "planTitle": "Fix missing required parameter",
+      "errorMessage": "file"
+    },
+    "timestamp": 1760512208932,
+    "inputHash": "0d5aeb12db35c1016dcc0821f5d61231654eac3bad8c4d6c6d0a9999c744916e",
+    "modelConfig": {
+      "name": "promethean-planner",
+      "model": "promethean-planner:latest"
+    },
+    "fixtureHash": "87e4490d9b420792b9d6113591b38dbccb118598797e3f84236ea356e1ea1be0"
+  },
+  "29f76d27980e996d3c95213ccca449a709be0f87dc61e91379873d5752803638-239a7b7aac645de6183c2522176f135c": {
+    "result": {
+      "fixture": "type-annotation-missing",
+      "model": "promethean-planner",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 1,
+      "errorsResolved": false,
+      "planGenerated": true,
+      "duration": 12390,
+      "attempts": 3,
+      "planTitle": "Fix missing type annotation",
+      "errorMessage": "snippet must export async function apply(project)"
+    },
+    "timestamp": 1760512221322,
+    "inputHash": "3fd6eecbc9e772fd32c26d3e53a4b38a210185376ce6d847e545703d33ec7bf8",
+    "modelConfig": {
+      "name": "promethean-planner",
+      "model": "promethean-planner:latest"
+    },
+    "fixtureHash": "29f76d27980e996d3c95213ccca449a709be0f87dc61e91379873d5752803638"
+  },
+  "8a819c8deb6d18c5e9c1492328216eb9b55f60918d62c578249fc6478fd8ee5a-239a7b7aac645de6183c2522176f135c": {
+    "result": {
+      "fixture": "missing-return-type",
+      "model": "promethean-planner",
+      "success": false,
+      "errorCountBefore": 0,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 1633,
+      "attempts": 0,
+      "errorMessage": "No errors found in fixture"
+    },
+    "timestamp": 1760512222956,
+    "inputHash": "3f042df02ba5a9ea0e9fe541ff83f05cd43c49b34ea78682759d24ededf31b91",
+    "modelConfig": {
+      "name": "promethean-planner",
+      "model": "promethean-planner:latest"
+    },
+    "fixtureHash": "8a819c8deb6d18c5e9c1492328216eb9b55f60918d62c578249fc6478fd8ee5a"
+  },
+  "c49bec9964b01a2c2f025ef16fb7a9527c6c08b2ec7f9297b5b5545afb17ba89-239a7b7aac645de6183c2522176f135c": {
+    "result": {
+      "fixture": "class-not-exported",
+      "model": "promethean-planner",
+      "success": true,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": true,
+      "planGenerated": true,
+      "duration": 6312,
+      "attempts": 1,
+      "planTitle": "Export Helper class from src module"
+    },
+    "timestamp": 1760512229270,
+    "inputHash": "5fea80801ce9396bea2844271d0191d587dbe87ce583e23d2838c9f2626cb83b",
+    "modelConfig": {
+      "name": "promethean-planner",
+      "model": "promethean-planner:latest"
+    },
+    "fixtureHash": "c49bec9964b01a2c2f025ef16fb7a9527c6c08b2ec7f9297b5b5545afb17ba89"
+  },
+  "5b683daee63f19fe220aa0fde91c07e021305570e4b7b1d39e63c067635fc202-239a7b7aac645de6183c2522176f135c": {
+    "result": {
+      "fixture": "interface-missing",
+      "model": "promethean-planner",
+      "success": false,
+      "errorCountBefore": 0,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 1599,
+      "attempts": 0,
+      "errorMessage": "No errors found in fixture"
+    },
+    "timestamp": 1760512230870,
+    "inputHash": "e42c3555d201afc041511bea7aebdfb5aaa1eff5c695e7d37a19ed98f4fb64f1",
+    "modelConfig": {
+      "name": "promethean-planner",
+      "model": "promethean-planner:latest"
+    },
+    "fixtureHash": "5b683daee63f19fe220aa0fde91c07e021305570e4b7b1d39e63c067635fc202"
+  },
+  "be14abf5a07ecc5b663a515020f4477e2bcdff55d10f11d04922211278dcceb4-a3c4aaee1591f420189a81e235fac8fc": {
+    "result": {
+      "fixture": "missing-export",
+      "model": "qwen3:4b",
+      "success": true,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": true,
+      "planGenerated": true,
+      "duration": 9043,
+      "attempts": 1,
+      "planTitle": "Fix missing export for helper function"
+    },
+    "timestamp": 1760512239915,
+    "inputHash": "b0c98cd5d2c96e6a7a90b47bcb851815d118a3878788a7635726e57f96d665a2",
+    "modelConfig": {
+      "name": "qwen3:4b",
+      "model": "qwen3:4b"
+    },
+    "fixtureHash": "be14abf5a07ecc5b663a515020f4477e2bcdff55d10f11d04922211278dcceb4"
+  },
+  "87e4490d9b420792b9d6113591b38dbccb118598797e3f84236ea356e1ea1be0-a3c4aaee1591f420189a81e235fac8fc": {
+    "result": {
+      "fixture": "optional-parameter",
+      "model": "qwen3:4b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": true,
+      "duration": 8092,
+      "attempts": 3,
+      "planTitle": "Fix optional parameter error",
+      "errorMessage": "file"
+    },
+    "timestamp": 1760512248007,
+    "inputHash": "56010a887bd16312caac7b2f59f363c881e0f5f5118b18c650567ba19a414623",
+    "modelConfig": {
+      "name": "qwen3:4b",
+      "model": "qwen3:4b"
+    },
+    "fixtureHash": "87e4490d9b420792b9d6113591b38dbccb118598797e3f84236ea356e1ea1be0"
+  },
+  "29f76d27980e996d3c95213ccca449a709be0f87dc61e91379873d5752803638-a3c4aaee1591f420189a81e235fac8fc": {
+    "result": {
+      "fixture": "type-annotation-missing",
+      "model": "qwen3:4b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 1,
+      "errorsResolved": false,
+      "planGenerated": true,
+      "duration": 11616,
+      "attempts": 3,
+      "planTitle": "Fix missing type annotation for 'someUnknownFunction'",
+      "errorMessage": "snippet must export async function apply(project)"
+    },
+    "timestamp": 1760512259624,
+    "inputHash": "d61a51df5422837fb230cf86fe557667ed45931ef3c7ffc47021308c5599bf43",
+    "modelConfig": {
+      "name": "qwen3:4b",
+      "model": "qwen3:4b"
+    },
+    "fixtureHash": "29f76d27980e996d3c95213ccca449a709be0f87dc61e91379873d5752803638"
+  },
+  "8a819c8deb6d18c5e9c1492328216eb9b55f60918d62c578249fc6478fd8ee5a-a3c4aaee1591f420189a81e235fac8fc": {
+    "result": {
+      "fixture": "missing-return-type",
+      "model": "qwen3:4b",
+      "success": false,
+      "errorCountBefore": 0,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 1570,
+      "attempts": 0,
+      "errorMessage": "No errors found in fixture"
+    },
+    "timestamp": 1760512261195,
+    "inputHash": "e06366b9f83975b4c4a57ceaeba30927e1059c6947d70e1c465c34e86f613534",
+    "modelConfig": {
+      "name": "qwen3:4b",
+      "model": "qwen3:4b"
+    },
+    "fixtureHash": "8a819c8deb6d18c5e9c1492328216eb9b55f60918d62c578249fc6478fd8ee5a"
+  },
+  "c49bec9964b01a2c2f025ef16fb7a9527c6c08b2ec7f9297b5b5545afb17ba89-a3c4aaee1591f420189a81e235fac8fc": {
+    "result": {
+      "fixture": "class-not-exported",
+      "model": "qwen3:4b",
+      "success": true,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": true,
+      "planGenerated": true,
+      "duration": 5427,
+      "attempts": 1,
+      "planTitle": "Fix class not exported in module"
+    },
+    "timestamp": 1760512266624,
+    "inputHash": "953e3bd391ef1e376ffdb2349632da8db4588b578b5e54d8345938c4723bd8c8",
+    "modelConfig": {
+      "name": "qwen3:4b",
+      "model": "qwen3:4b"
+    },
+    "fixtureHash": "c49bec9964b01a2c2f025ef16fb7a9527c6c08b2ec7f9297b5b5545afb17ba89"
+  },
+  "5b683daee63f19fe220aa0fde91c07e021305570e4b7b1d39e63c067635fc202-a3c4aaee1591f420189a81e235fac8fc": {
+    "result": {
+      "fixture": "interface-missing",
+      "model": "qwen3:4b",
+      "success": false,
+      "errorCountBefore": 0,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 1607,
+      "attempts": 0,
+      "errorMessage": "No errors found in fixture"
+    },
+    "timestamp": 1760512268232,
+    "inputHash": "02372841625f13b94546067a71733d583e7a6d51606928fee47fa9a1d364640b",
+    "modelConfig": {
+      "name": "qwen3:4b",
+      "model": "qwen3:4b"
+    },
+    "fixtureHash": "5b683daee63f19fe220aa0fde91c07e021305570e4b7b1d39e63c067635fc202"
+  },
+  "be14abf5a07ecc5b663a515020f4477e2bcdff55d10f11d04922211278dcceb4-8d6c1ab2fed451ca1c63be3e751e1b54": {
+    "result": {
+      "fixture": "missing-export",
+      "model": "llama3:8b",
+      "success": true,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": true,
+      "planGenerated": true,
+      "duration": 18537,
+      "attempts": 1,
+      "planTitle": "Fix Missing Export"
+    },
+    "timestamp": 1760512286770,
+    "inputHash": "c7678aa24d012d73ce019fd3dfd2cea8d1baa1d29d19eb794dbc96e084996484",
+    "modelConfig": {
+      "name": "llama3:8b",
+      "model": "llama3:8b"
+    },
+    "fixtureHash": "be14abf5a07ecc5b663a515020f4477e2bcdff55d10f11d04922211278dcceb4"
+  },
+  "87e4490d9b420792b9d6113591b38dbccb118598797e3f84236ea356e1ea1be0-8d6c1ab2fed451ca1c63be3e751e1b54": {
+    "result": {
+      "fixture": "optional-parameter",
+      "model": "llama3:8b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": true,
+      "duration": 7447,
+      "attempts": 3,
+      "planTitle": "Optional Parameter Fix",
+      "errorMessage": "file"
+    },
+    "timestamp": 1760512294217,
+    "inputHash": "9a59075f8d3420fa224249660ceba379cd4ecfca5805cbeec46e1d70128d1d07",
+    "modelConfig": {
+      "name": "llama3:8b",
+      "model": "llama3:8b"
+    },
+    "fixtureHash": "87e4490d9b420792b9d6113591b38dbccb118598797e3f84236ea356e1ea1be0"
+  },
+  "29f76d27980e996d3c95213ccca449a709be0f87dc61e91379873d5752803638-8d6c1ab2fed451ca1c63be3e751e1b54": {
+    "result": {
+      "fixture": "type-annotation-missing",
+      "model": "llama3:8b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 1,
+      "errorsResolved": false,
+      "planGenerated": true,
+      "duration": 11784,
+      "attempts": 3,
+      "planTitle": "Fix type annotation missing",
+      "errorMessage": "snippet must export async function apply(project)"
+    },
+    "timestamp": 1760512306003,
+    "inputHash": "eab2905b4c430f92515d50bc5d4b03d406bb3344089d4ca664d4082157b66d36",
+    "modelConfig": {
+      "name": "llama3:8b",
+      "model": "llama3:8b"
+    },
+    "fixtureHash": "29f76d27980e996d3c95213ccca449a709be0f87dc61e91379873d5752803638"
+  },
+  "8a819c8deb6d18c5e9c1492328216eb9b55f60918d62c578249fc6478fd8ee5a-8d6c1ab2fed451ca1c63be3e751e1b54": {
+    "result": {
+      "fixture": "missing-return-type",
+      "model": "llama3:8b",
+      "success": false,
+      "errorCountBefore": 0,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 1659,
+      "attempts": 0,
+      "errorMessage": "No errors found in fixture"
+    },
+    "timestamp": 1760512307663,
+    "inputHash": "7d980ed448dc2b0f6aa89e817f4bf4cf2e1fe2fb69eaf9e36f7f349348916267",
+    "modelConfig": {
+      "name": "llama3:8b",
+      "model": "llama3:8b"
+    },
+    "fixtureHash": "8a819c8deb6d18c5e9c1492328216eb9b55f60918d62c578249fc6478fd8ee5a"
+  },
+  "c49bec9964b01a2c2f025ef16fb7a9527c6c08b2ec7f9297b5b5545afb17ba89-8d6c1ab2fed451ca1c63be3e751e1b54": {
+    "result": {
+      "fixture": "class-not-exported",
+      "model": "llama3:8b",
+      "success": true,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": true,
+      "planGenerated": true,
+      "duration": 5606,
+      "attempts": 1,
+      "planTitle": "Export Unexported Symbol"
+    },
+    "timestamp": 1760512313271,
+    "inputHash": "432cb6a5a2797dbf8821c46059ddc5b6a046230946e6942afbc75b9616f54f05",
+    "modelConfig": {
+      "name": "llama3:8b",
+      "model": "llama3:8b"
+    },
+    "fixtureHash": "c49bec9964b01a2c2f025ef16fb7a9527c6c08b2ec7f9297b5b5545afb17ba89"
+  },
+  "5b683daee63f19fe220aa0fde91c07e021305570e4b7b1d39e63c067635fc202-8d6c1ab2fed451ca1c63be3e751e1b54": {
+    "result": {
+      "fixture": "interface-missing",
+      "model": "llama3:8b",
+      "success": false,
+      "errorCountBefore": 0,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 1687,
+      "attempts": 0,
+      "errorMessage": "No errors found in fixture"
+    },
+    "timestamp": 1760512314958,
+    "inputHash": "50186e7e5cea16a5b85c0901f832468658b3d2c91c1cb9b87ea5ae729e2017db",
+    "modelConfig": {
+      "name": "llama3:8b",
+      "model": "llama3:8b"
     },
     "fixtureHash": "5b683daee63f19fe220aa0fde91c07e021305570e4b7b1d39e63c067635fc202"
   }

@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0291-TS1254-index",
+  "description": "Massive fixture for TS1254 from packages/image-link-generator/src/index.ts",
+  "originalPath": "packages/image-link-generator/src/index.ts",
+  "targetErrorCode": "TS1254",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 291,
+  "generatedAt": "2025-10-15T06:55:37.771Z"
+}

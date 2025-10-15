@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0083-TS1245-sources",
+  "description": "Massive fixture for TS1245 from packages/kanban/src/board/config/sources.ts",
+  "originalPath": "packages/kanban/src/board/config/sources.ts",
+  "targetErrorCode": "TS1245",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 83,
+  "generatedAt": "2025-10-15T06:55:37.691Z"
+}

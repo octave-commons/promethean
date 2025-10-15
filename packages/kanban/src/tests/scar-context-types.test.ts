@@ -8,7 +8,7 @@ import type {
   GitCommit,
   HealingStatus,
   HealingResult,
-} from '../../dist/lib/heal/scar-context-types.js';
+} from '../lib/heal/scar-context-types.js';
 import {
   isEventLogEntry,
   isScarRecord,
@@ -21,7 +21,7 @@ import {
   validateScarContextIntegrity,
   createEventLogEntry,
   createScarRecord,
-} from '../../dist/lib/heal/type-guards.js';
+} from '../lib/heal/type-guards.js';
 
 test('EventLogEntry type validation', (t) => {
   const validEntry: EventLogEntry = {

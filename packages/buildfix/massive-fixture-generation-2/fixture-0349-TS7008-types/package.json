@@ -1,0 +1,8 @@
+{
+  "name": "buildfix-massive-fixture-fixture-0349-TS7008-types",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "ts-morph": "^23.0.0"
+  }
+}

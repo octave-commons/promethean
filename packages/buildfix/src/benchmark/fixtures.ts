@@ -170,14 +170,102 @@ export function processUser(user: User) {
   },
 ];
 
-export async function createFixtures(baseDir: string): Promise<void> {
+// Load massive fixture set from the generated fixtures directory
+export async function loadMassiveFixtures(massiveFixturesDir: string): Promise<Fixture[]> {
+  const fixtureDirs = await fs.readdir(massiveFixturesDir);
+  const fixtureNames: string[] = [];
+
+  // Filter for fixture directories synchronously
+  for (const name of fixtureDirs) {
+    if (name.startsWith('fixture-')) {
+      const fixturePath = path.join(massiveFixturesDir, name);
+      try {
+        const stat = await fs.stat(fixturePath);
+        if (stat.isDirectory()) {
+          fixtureNames.push(name);
+        }
+      } catch {
+        // Ignore errors
+      }
+    }
+  }
+
+  const massiveFixtures: Fixture[] = [];
+
+  for (const fixtureName of fixtureNames) {
+    const fixtureDir = path.join(massiveFixturesDir, fixtureName);
+
+    try {
+      // Read metadata if available
+      let metadata: any = {};
+      try {
+        const metadataPath = path.join(fixtureDir, 'metadata.json');
+        metadata = JSON.parse(await fs.readFile(metadataPath, 'utf8'));
+      } catch {
+        // No metadata file, that's ok
+        console.log(`No metadata for ${fixtureName}, using defaults`);
+      }
+
+      // Read source files
+      const files: Record<string, string> = {};
+      const srcFiles = await fs.readdir(fixtureDir);
+
+      for (const srcFile of srcFiles) {
+        if (srcFile.endsWith('.ts')) {
+          const filePath = path.join(fixtureDir, srcFile);
+          const content = await fs.readFile(filePath, 'utf8');
+          files[srcFile] = content;
+        }
+      }
+
+      // Skip fixtures without TypeScript files
+      if (Object.keys(files).length === 0) {
+        console.warn(`Warning: No TypeScript files found in ${fixtureName}, skipping`);
+        continue;
+      }
+
+      // Extract error code from fixture name if no metadata
+      let errorCode = 'UNKNOWN';
+      if (fixtureName.includes('TS')) {
+        const match = fixtureName.match(/TS(\d+)/);
+        if (match) {
+          errorCode = `TS${match[1]}`;
+        }
+      }
+
+      // Create fixture object
+      const fixture: Fixture = {
+        name: fixtureName,
+        description: metadata.description || `Massive fixture for ${errorCode}`,
+        files,
+        expectedFixes: {}, // We don't have expected fixes for massive fixtures
+        errorPattern: [metadata.targetErrorCode || errorCode],
+      };
+
+      massiveFixtures.push(fixture);
+    } catch (error) {
+      console.warn(`Warning: Failed to load fixture ${fixtureName}:`, error);
+    }
+  }
+
+  console.log(`Loaded ${massiveFixtures.length} massive fixtures from ${massiveFixturesDir}`);
+  return massiveFixtures;
+}
+
+export async function createFixtures(baseDir: string, useMassiveFixtures = false): Promise<void> {
   await fs.mkdir(baseDir, { recursive: true });
 
   // Find the base tsconfig to extend from
   const baseTsconfigPath = path.resolve('../../../tsconfig.json');
   const relativeBaseTsconfig = path.relative(baseDir, baseTsconfigPath);
 
-  for (const fixture of fixtures) {
+  const fixturesToUse = useMassiveFixtures
+    ? await loadMassiveFixtures(
+        path.resolve(process.cwd(), 'packages/buildfix/massive-fixture-generation-2'),
+      )
+    : fixtures;
+
+  for (const fixture of fixturesToUse) {
     const fixtureDir = path.join(baseDir, fixture.name);
     await fs.mkdir(fixtureDir, { recursive: true });
 

@@ -22,17 +22,33 @@ export class JWTAuthService implements AuthService {
         },
     tokenExpiry: string = '24h',
   ) {
+    // Get JWT secret from config or environment variable
+    let jwtSecret: string | undefined;
     if (typeof configOrSecret === 'string') {
-      this.jwtSecret =
-        configOrSecret || process.env.JWT_SECRET || 'default-secret-change-in-production';
+      jwtSecret = configOrSecret || process.env.JWT_SECRET;
       this.tokenExpiry = tokenExpiry;
     } else {
-      this.jwtSecret =
-        configOrSecret?.jwtSecret ||
-        process.env.JWT_SECRET ||
-        'default-secret-change-in-production';
+      jwtSecret = configOrSecret?.jwtSecret || process.env.JWT_SECRET;
       this.tokenExpiry = configOrSecret?.tokenExpiry || tokenExpiry;
     }
+
+    // Enforce JWT secret requirement - no default fallback for security
+    if (!jwtSecret) {
+      throw new Error(
+        'JWT_SECRET is required. Set it as an environment variable or pass it in the config. ' +
+          'Using a default secret would be a security vulnerability.',
+      );
+    }
+
+    // Validate secret strength
+    if (jwtSecret.length < 32) {
+      throw new Error(
+        'JWT_SECRET must be at least 32 characters long for security. ' +
+          `Current length: ${jwtSecret.length}`,
+      );
+    }
+
+    this.jwtSecret = jwtSecret;
   }
 
   async generateToken(agentId: string, permissions: string[]): Promise<AuthToken> {

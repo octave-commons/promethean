@@ -1,0 +1,8 @@
+{
+  "name": "buildfix-massive-fixture-fixture-0133-TS7044-sync",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "ts-morph": "^23.0.0"
+  }
+}

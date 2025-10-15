@@ -59,16 +59,16 @@ kanban-plugin: board
 - [ ] [[2025.10.12.17.09.00-add-assignment-visualization-features 25|Add Assignment Visualization Features]] #kanban #visualization #ui #analytics #frontend prio:P3 (uuid:df9a9ea7-652a-48f8-9aea-752ead1fafc6)
 - [ ] [[2025.10.12.17.10.00-implement-assignment-feedback-loop 25|Implement Assignment Feedback Loop]] #kanban #feedback #machine-learning #optimization #frontend prio:P3 (uuid:b9ba2b00-366d-4b3e-9898-1e76a45da2f8)
 - [ ] [[2025.10.14.agent-instruction-generator-epic 2|Epic: Build Cross-Platform Clojure Agent Instruction Generator]] #epic #clojure #agent #tool #cross-platform #bb #nbb #jvm #shadow-cljs prio:P0 (uuid:58d8c8f1-08a9-4c35-80c2-0f31ede77fde)
-- [ ] [[2025.10.14.agent-instruction-generator-epic|Epic: Build Cross-Platform Clojure Agent Instruction Generator]] #epic #clojure #agent #tool #cross-platform #bb #nbb #jvm #shadow-cljs prio:P0 (uuid:d61e390d-af3c-4aff-8fd3-42e4295a2e59)
+- [ ] [[2025.10.14.agent-instruction-generator-epic|Epic: Build Cross-Platform Clojure Agent Instruction Generator]] #epic #clojure #agent #tool #cross-platform #bb #nbb #jvm #shadow-cljs prio:P0 (uuid:epic-agent-instruction-generator-2025-10-14)
 - [ ] [[2025.10.14.agent-instruction-generator-summary 2|Agent Instruction Generator Epic - Implementation Summary]] #summary #epic #agent-instruction-generator #implementation-plan prio:P0 (uuid:ce708d5b-a1f4-4074-be97-485974563ce2)
-- [ ] [[2025.10.14.agent-instruction-generator-summary|Agent Instruction Generator Epic - Implementation Summary]] #summary #epic #agent-instruction-generator #implementation-plan prio:P0 (uuid:5142c697-2a59-4c77-a137-68117fec858a)
+- [ ] [[2025.10.14.agent-instruction-generator-summary|Agent Instruction Generator Epic - Implementation Summary]] #summary #epic #agent-instruction-generator #implementation-plan prio:P0 (uuid:agent-generator-summary-2025-10-14)
 - [ ] [[2025.10.14.design-cross-platform-architecture 2|Design Cross-Platform Clojure Architecture for Agent Generator]] #architecture #design #clojure #cross-platform #bb #nbb #jvm #shadow-cljs #epic:agent-instruction-generator prio:P0 (uuid:988227e0-6f94-4820-9b40-2e77da9bd299)
-- [ ] [[2025.10.14.design-cross-platform-architecture|Design Cross-Platform Clojure Architecture for Agent Generator]] #architecture #design #clojure #cross-platform #bb #nbb #jvm #shadow-cljs #epic:agent-instruction-generator prio:P0 (uuid:17b6e3e1-2b16-478c-88d2-7942f69e540a)
+- [ ] [[2025.10.14.design-cross-platform-architecture|Design Cross-Platform Clojure Architecture for Agent Generator]] #architecture #design #clojure #cross-platform #bb #nbb #jvm #shadow-cljs #epic:agent-instruction-generator prio:P0 (uuid:design-cross-platform-arch-2025-10-14)
 - [ ] [[implement-separate-test-coverage-pipelines|Consolidate Frontend Projects into Unified Architecture]] #frontend #consolidation #architecture #migration #epic prio:P0 (uuid:550e8400-e29b-41d4-a716-446655440000)
 - [ ] [[2025.10.14.research-agent-instruction-patterns 2|Research & Analyze Existing Agent Instruction File Patterns]] #research #analysis #agent #documentation #epic:agent-instruction-generator prio:P0 (uuid:0bdf2a18-48e2-453d-8be8-bd40f40ab4bc)
-- [ ] [[2025.10.14.research-agent-instruction-patterns|Research & Analyze Existing Agent Instruction File Patterns]] #research #analysis #agent #documentation #epic:agent-instruction-generator prio:P0 (uuid:b5293ffd-0760-405c-827f-fcf36243afa0)
+- [ ] [[2025.10.14.research-agent-instruction-patterns|Research & Analyze Existing Agent Instruction File Patterns]] #research #analysis #agent #documentation #epic:agent-instruction-generator prio:P0 (uuid:research-agent-patterns-2025-10-14)
 - [ ] [[2025.10.14.setup-generator-project-infrastructure 2|Setup Agent Generator Project Infrastructure & Build System]] #infrastructure #setup #build-system #clojure #cross-platform #epic:agent-instruction-generator prio:P0 (uuid:9f478baa-09bf-4aa0-854a-cd9896ce28ff)
-- [ ] [[2025.10.14.setup-generator-project-infrastructure|Setup Agent Generator Project Infrastructure & Build System]] #infrastructure #setup #build-system #clojure #cross-platform #epic:agent-instruction-generator prio:P0 (uuid:7db527ec-1042-4670-954d-19ccf91aa8d1)
+- [ ] [[2025.10.14.setup-generator-project-infrastructure|Setup Agent Generator Project Infrastructure & Build System]] #infrastructure #setup #build-system #clojure #cross-platform #epic:agent-instruction-generator prio:P0 (uuid:setup-generator-infrastructure-2025-10-14)
 - [ ] [[Add Comprehensive Error Handling and Security Fixes to agents-workflow]] #tool:codex #cap:codegen #agents-workflow #security #error-handling #p0 #critical prio:P0 (uuid:ae42a21a-ff14-44be-9296-7c9edbae6cde)
 - [ ] [[Agent Workflow Enhancement & Healing Integration]] #agents #workflow #healing #automation #monitoring #coordination #kanban #integration prio:P1 (uuid:39e0890b-e7bd-45eb-88ff-292157d0cf54)
 - [ ] [[Configure Typed ClojureScript Dependencies]] #migration #dependencies #typed-clojure #shadow-cljs #configuration prio:P0 (uuid:50eb1cd3-3b93-40c1-8acd-05d41d8fe37e)
@@ -92,7 +92,7 @@ kanban-plugin: board
 - [ ] [[Fix Critical Linting Violations in agents-workflow Package]] #tool:codex #cap:codegen #agents-workflow #linting #code-quality #p0 #critical prio:P0 (uuid:1b14781e-0dae-4521-b4f9-d509efcbee6c)
 - [ ] [[Implement Agent OS Pipeline Integration]] #agent-os #pipeline #integration #automation #workflow #critical prio:P1 (uuid:7528d106-159d-404c-8544-908c863d8a86)
 - [ ] [[Implement Automated Code Review Rule for Kanban Transitions 2|Implement Automated Code Review Rule for Kanban Transitions]] #feature #kanban #automation #code-review #agents-workflow #transition-rules prio:P1 (uuid:acfdd925-70f5-4f23-8813-ddd0daa2129d)
-- [ ] [[Implement Automated Code Review Rule for Kanban Transitions]] #feature #kanban #automation #code-review #agents-workflow #transition-rules prio:P1 (uuid:ea51432e-9cf4-48e1-950a-a36d17ac9a64)
+- [ ] [[Implement Automated Code Review Rule for Kanban Transitions]] #feature #kanban #automation #code-review #agents-workflow #transition-rules prio:P1 (uuid:2025.10.13.17.00.00-implement-automated-code-review-rule-for-kanban-transitions)
 - [ ] [[Implement Cross-Language Integration Tests]] #migration #testing #integration #cross-language #validation prio:P1 (uuid:d93eb870-7893-40b1-9716-5eda05474b66)
 - [ ] [[Implement GitHub adapter for GitHub Issues integration]] #github #issues #implement #adapter prio:P1 (uuid:a2e4a088-5b7c-4205-af67-316443311f80)
 - [ ] [[Implement Trello adapter for Trello board integration]] #trello #implement #board #adapter prio:P1 (uuid:d76c1d77-7b8f-4c54-9262-56a30d0d2bd7)
@@ -153,7 +153,7 @@ kanban-plugin: board
 - [ ] [[Update documentation for adapter architecture]] #adapter #documentation #update #architecture prio:P2 (uuid:3fd89bbb-2baf-4306-a30c-c014e3cc6b7f)
 - [ ] [[Workflow Optimization & Bottleneck Resolution]] #kanban #workflow #optimization #bottlenecks #automation #triage #flow #healing prio:P1 (uuid:8bc378ff-25f0-40ca-9af4-31d146fc8880)
 - [ ] [[add-documentation-transition-rule-for-mirror-docs-validation 2|Add documentation transition rule for mirror docs validation]] #kanban #documentation #quality-control #transition-rules #validation #process prio:P1 (uuid:c34d1578-8f1c-4d36-9835-bfa56c6a591a)
-- [ ] [[add-documentation-transition-rule-for-mirror-docs-validation|Add documentation transition rule for mirror docs validation]] #kanban #documentation #quality-control #transition-rules #validation #process prio:P1 (uuid:cfc534e2-564e-44f1-bcfc-8c205b88367a)
+- [ ] [[add-documentation-transition-rule-for-mirror-docs-validation|Add documentation transition rule for mirror docs validation]] #kanban #documentation #quality-control #transition-rules #validation #process prio:P1 (uuid:doc-transition-rule-001)
 - [ ] [[advanced-features-cluster 25|Advanced Features Cluster - AI Integration & Task Intelligence]] #ai-integration #automation #cluster #mcp-server #task-intelligence prio:P2 (uuid:5ac87d1a-96c6-4bcd-88c0-46b06d9bdbc1)
 - [ ] [[design-agent-os-clojure-dsl-implementation-os|Design Agent OS Clojure DSL Implementation -os]] #agent-os #clojure #design #dsl #implementation prio:p1 (uuid:cea06ddd-8c86-4be9-bb61-c7b553318942)
 - [ ] [[design-agent-os-clojure-dsl-macros-and-patterns-os|Design Agent OS Clojure DSL Macros and Patterns -os]] #agent-os #clojure #dsl #macros #patterns prio:p1 (uuid:1dd0a871-e3da-4706-987b-6d471132383c)
@@ -167,7 +167,7 @@ kanban-plugin: board
 - [ ] [[fix-test-gap-pipeline-timeout-configuration-for-tg-analysis-step-timeout-step-gap|Fix test-gap pipeline timeout configuration for tg-analysis step -gap]] #automation #pipeline #test-gap #timeout prio:P2 (uuid:89be3c4d-47d2-4815-aebf-adf7b7091403)
 - [ ] [[fix-typescript-type-mismatch-in-packagescephalonsrcactionsstart-dialogscopets 25|Fix TypeScript type mismatch in packages/cephalon/src/actions/start-dialog.scope.ts]] #automation #build #type-fix #typescript prio:P2 (uuid:20dc7416-d447-41a3-9bc9-d853b424da0d)
 - [ ] [[implement-automated-documentation-review-system-with-quality-scoring 2|Implement automated documentation review system with quality scoring]] #automation #documentation #quality-control #agents-workflow #scoring #review #ai-evaluation prio:P1 (uuid:053235b3-1c91-49b9-8f36-4b0c8faf20c3)
-- [ ] [[implement-automated-documentation-review-system-with-quality-scoring|Implement automated documentation review system with quality scoring]] #automation #documentation #quality-control #agents-workflow #scoring #review #ai-evaluation prio:P1 (uuid:80dce742-b65c-4787-a93c-eddf0e8f3c9a)
+- [ ] [[implement-automated-documentation-review-system-with-quality-scoring|Implement automated documentation review system with quality scoring]] #automation #documentation #quality-control #agents-workflow #scoring #review #ai-evaluation prio:P1 (uuid:doc-review-system-001)
 - [ ] [[implement-task-grading-rule-for-breakdown-ready-transition|Implement Comprehensive Testing Transition Rule from Testing to Review]] #kanban #transition-rules #testing-coverage #quality-gates #agents-workflow #test-analysis #fsm prio:P1 (uuid:9c8d7e6f-5a4b-3c2d-1e0f-9a8b7c6d5e4f)
 - [ ] [[implement-separate-test-coverage-pipelines|Implement Separate Test Coverage Pipelines for Integration, E2E, and Unit Testing]] #devops #testing #coverage #pipelines #ci-cd #type:infrastructure prio:P1 (uuid:550e8400-e29b-41d4-a716-446655440000)
 - [ ] [[implement-task-grading-rule-for-breakdown-ready-transition|Implement Task Grading Rule for Breakdown → Ready Transition]] #kanban #transition-rules #task-grading #rag #agent-workflow #quality-assurance #workflow-automation prio:P1 (uuid:9c8d7e6f-5a4b-3c2d-1e0f-9a8b7c6d5e4f)
@@ -190,8 +190,11 @@ kanban-plugin: board
 - [ ] [[Add CLI with subcommands to file-indexer package]] #cli #subcommands #file #indexer prio:P1 (uuid:ff96d6cc-f436-40e2-a9ae-af69fd33e6d8)
 - [ ] [[Add comprehensive input validation to indexer-core]] #security #validation #indexer-core #input-sanitization prio:P1 (uuid:275a6b80-0c0c-4c78-a6d0-bc3d9b098b40)
 - [ ] [[Ensure backward compatibility and migration path]] #backward #compatibility #migration #path prio:P0 (uuid:f9ad27bf-ad51-43fe-ac17-253e67f1eecb)
+- [ ] [[Fix Critical Security and Code Quality Issues in Agent OS Context System]] #security #critical #code-quality #agent-context #eslint #typescript prio:P0 (uuid:aaffe416-954f-466e-8d9d-bf70cb521529)
 - [ ] [[Update CLI commands to use adapter pattern]] #update #use #cli #commands prio:P0 (uuid:71d30e75-0fae-433d-ab7c-0dab868bba2b)
 - [ ] [[cleanup-done-column-incomplete-tasks|Cleanup done column incomplete tasks and implement completion verification]] #cleanup #done-column #governance #kanban #quality prio:P1 (uuid:bdbdfe2b-7f32-4833-8f11-58dc704c0d30)
+- [ ] [[epic-benchmark-migration-unification|Epic: Benchmark Migration & Unification]] #epic #benchmark #migration #unification #infrastructure #performance prio:P0 (uuid:epic-benchmark-migration-unification-001)
+- [ ] [[epic-pipeline-cli-decoupling|Epic: Pipeline Package CLI Decoupling]] #epic #pipeline #cli #decoupling #independence #refactoring prio:P0 (uuid:epic-pipeline-cli-decoupling-002)
 - [ ] [[fix-kanban-ui-mime-type-issue 1|Fix Kanban UI MIME Type Issue for JavaScript Modules       )]] #bug #kanban #ui #mime-type #frontend prio:P1 (uuid:6d046b5d-c2ba-4344-bc99-c0581ac3c991)
 - [ ] [[implement-kanban-conflict-detection-rule|Implement Kanban Conflict Detection Rule for Todo → In Progress Transitions]] #kanban #transition-rules #conflict-detection #rag #symbolic-search #workflow-automation prio:P1 (uuid:7b8a9c2d-4e5f-6a7b-8c9d-0e1f2a3b4c5d)
 - [ ] [[implement-smart-incoming-to-accepted-transition-rule|Implement Smart Incoming → Accepted Transition Rule with AI-Powered Task Quality Analysis]] #kanban #transition-rules #ai-analysis #quality-gate #agents-workflow #task-validation #workflow-automation prio:P1 (uuid:a8b9c3d4-5e6f-7a8b-9c0d-1e2f3a4b5c6d)
@@ -212,13 +215,9 @@ kanban-plugin: board
 - [ ] [[Migrate @promethean kanban to ClojureScript|Migrate @promethean/kanban to ClojureScript]] #migration #clojurescript #typed-clojure #kanban #tooling prio:P2 (uuid:d9967354-205b-4682-87e1-678074cfe065)
 - [ ] [[Refactor existing board logic into BoardAdapter implementation]] #board #logic #boardadapter #existing prio:P0 (uuid:1c88185e-9bfb-42d0-9388-3ac4bf688960)
 - [ ] [[Standardize Health Check Utilities Across Services]] #refactoring #duplication #health #monitoring #web-utils #standardization prio:P1 (uuid:eeb1fc4d-26bc-4128-88c6-1c871c6f4bd0)
-- [ ] [[Centralize Prettier Configuration - Eliminate 40+ Duplicate Files]] #refactoring #duplication #config #prettier #critical prio:P0 (uuid:a12de118-2133-4a6d-af9f-b8f63fca7ec3)
+- [ ] [[Test story points validation]] #story #test #points #validation prio:P2 (uuid:2ce6286f-82b7-4b87-92d0-72e98588b221)
 - [ ] [[comprehensive-board-analysis 25|Comprehensive Kanban Board Analysis - Strategic Insights & Recommendations]] #analysis #governance #health-check #recommendations #strategy prio:P1 (uuid:bac7cd41-7bf8-4698-84b3-db6b31b966ed)
-- [ ] [[Create MCP-Kanban Integration Tests & Documentation]] #mcp #kanban #testing #documentation #integration #critical prio:P1 (uuid:bedd20cd-34c0-46a1-962f-71eeb36a278f)
 - [ ] [[comprehensive-board-analysis 25|Comprehensive Kanban Board Analysis - Strategic Insights & Recommendations]] #analysis #governance #health-check #recommendations #strategy prio:P1 (uuid:bac7cd41-7bf8-4698-84b3-db6b31b966ed)
-- [ ] [[Migrate @promethean kanban to ClojureScript|Migrate @promethean/kanban to ClojureScript]] #migration #clojurescript #typed-clojure #kanban #tooling prio:P2 (uuid:d9967354-205b-4682-87e1-678074cfe065)
-- [ ] [[Create Mermaid-to-FSM config generator for kanban workflows]] #mermaid #fsm #kanban #create prio:P1 (uuid:ecee2a47-d4dc-42da-95db-eb1359d00425)
-- [ ] [[Standardize Health Check Utilities Across Services]] #refactoring #duplication #health #monitoring #web-utils #standardization prio:P1 (uuid:eeb1fc4d-26bc-4128-88c6-1c871c6f4bd0)
 
 ## blocked
 
@@ -227,12 +226,12 @@ kanban-plugin: board
 
 - [ ] [[Create DirectoryAdapter for task file operations]] #directoryadapter #create #file #operations prio:P0 (uuid:d01ed682-a571-441b-a550-d1de3957c523)
 - [ ] [[Design Agent OS Core Message Protocol]] #agent-os #protocol #messaging #core #design #critical prio:P0 (uuid:0c3189e4-4c58-4be4-b9b0-8e69474e0047)
+- [ ] [[Fix Kanban Column Underscore Normalization Bug]] #kanban #column #bug #fix prio:P0 (uuid:02c78938-cf9c-45a0-b5ff-6e7a212fb043)
 - [ ] [[Kanban Healing Epic - Coordination & Integration]] #epic #kanban #healing #coordination #integration #automation #monitoring #quality prio:P0 (uuid:ae67a6bb-1192-4439-a1ce-347824ce7eb7)
 - [ ] [[MCP-Kanban Integration Healing & Enhancement]] #mcp #kanban #security #critical #healing #authorization #automation #integration prio:P0 (uuid:44d293b0-6d6b-4e85-8453-ea03be231c83)
 - [ ] [[Prevent invalid starting status creation in kanban CLI]] #prevent #invalid #starting #status prio:P0 (uuid:45ad22b1-d5b9-4c21-887c-c22f8ca6395e)
 - [ ] [[emergency-pipeline-fix-eslint-tasks 25|Fix eslint-tasks pipeline missing dependency: Missing @typescript-eslint/parser]] #automation #dependency #emergency #pipeline prio:P1 (uuid:864b2172-e006-44fe-9ef0-0af3bbab6235)
 - [ ] [[rewrite-shadow-conf-as-nbb|Rewrite @packages/shadow-conf/ as nbb script for program generation]] #migration #clojure #nbb #shadow-conf #program-generation prio:P1 (uuid:46d9372a-65f1-42b8-a024-3ce4449f67ec)
-- [ ] [[Fix Kanban Column Underscore Normalization Bug]] #kanban #column #bug #fix prio:P0 (uuid:02c78938-cf9c-45a0-b5ff-6e7a212fb043)
 
 ## todo
 
@@ -247,13 +246,27 @@ kanban-plugin: board
 - [ ] [[20251011235236|Extend Git Sync for Heal Operations]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #git-workflow #git-sync #phase-1 prio:P1 (uuid:4e88db40-884c-4aed-8412-3de9fd78bd02)
 - [ ] [[20251011235256|Implement Git Tag Management and Scar History]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #git-workflow #tag-management #scar-history #phase-1 prio:P1 (uuid:86e86422-5956-4df9-97f7-90a7256b744d)
 - [ ] [[20251011235486|Phase 1 Integration and Testing - Core Infrastructure]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #integration #testing #phase-1 #milestone prio:P1 (uuid:020318e4-9934-4e5d-85d7-3bb4a55f6ee2)
+- [ ] [[Add BuildFix JSDoc comments and documentation]] #buildfix #documentation #medium #provider prio:P2 (uuid:e9bc3b09-b31e-468a-9e0e-5257db68bb72)
+- [ ] [[Add BuildFix input validation for fixture types]] #buildfix #validation #high #provider prio:P1 (uuid:7e8cd435-394a-45e1-b865-9e9ac854c47a)
+- [ ] [[Add BuildFix process timeout handling]] #buildfix #critical #timeout #provider prio:P0 (uuid:e02ca039-c992-431d-81ff-bdabddb2502d)
+- [ ] [[BuildFix Provider Optimization Epic]] #buildfix #epic #optimization #provider prio:P0 (uuid:8ec5fd9d-f58a-46a1-abd2-da4f56b2ffa7)
+- [ ] [[BuildFix Success Rate Improvement Epic]] #buildfix #epic #success-rate #functionality prio:P0 (uuid:6f392c81-d71b-48d9-ba68-1ff13ae8d0c4)
 - [ ] [[Document kanban process improvements and lessons learned]] #kanban #process #improvements #lessons prio:P2 (uuid:de92d39f-eabb-4da3-ba02-4947f4a1f168)
+- [ ] [[Fix BuildFix 0% success rate - ts-morph import resolution]] #buildfix #critical #ts-morph #success-rate prio:P0 (uuid:27341799-4895-4d00-a6cb-17b06e2d7134)
+- [ ] [[Fix BuildFix __dirname undefined in ESM modules]] #buildfix #esm #path-resolution #high prio:P1 (uuid:7a2b69bc-0042-4eb5-b866-ef51046032d2)
+- [ ] [[Fix BuildFix path resolution logic duplication]] #buildfix #critical #bug #provider prio:P0 (uuid:fc5dc875-cd6c-47fb-b02b-56138c06b2fb)
+- [ ] [[Fix BuildFix type safety issues]] #buildfix #typescript #high #provider prio:P1 (uuid:a01e6108-4e1e-499c-bca4-7a54235638a1)
 - [ ] [[Fix kanban delete command adding extra whitespace to tasks]] #kanban #delete #command #extra prio:P2 (uuid:0cad93b8-211f-419b-bf48-e5186ab13df1)
+- [ ] [[Fix misleading BuildFix error recovery]] #buildfix #critical #error-handling #provider prio:P0 (uuid:4fd0188e-177f-4f7a-8a12-4ec3178f6690)
+- [ ] [[Implement BuildFix model list caching]] #buildfix #performance #medium #provider prio:P2 (uuid:8c9f2127-c0e9-4075-aa0a-73739933fa50)
 - [ ] [[Implement MCP Security Hardening & Validation]] #mcp #kanban #security #validation #hardening #critical prio:P0 (uuid:d794213f-853d-41e4-863c-27e83dd5221c)
 - [ ] [[Implement parallel job execution]] #automation #buildfix #pipeline #parallel prio:P1 (uuid:255818f5-cc36-467f-82b7-9978638fa321)
+- [ ] [[Improve BuildFix error message consistency]] #buildfix #error-handling #medium #provider prio:P2 (uuid:8633270e-f36e-4e31-a9d1-2e53977f1633)
 - [ ] [[Integration Test Task 1 - Empty Content --content]] #integration-test #delete-test (uuid:5fdccd97-2e4c-4cdd-ad92-6f800a925f79)
 - [ ] [[Investigate kanban estimates parsing issue]] #estimates #parsing #kanban #investigate prio:P1 (uuid:63170945-c1e5-488e-886a-9a38624274b5)
 - [ ] [[Optimize kanban board flow and WIP limits]] #flow #board #wip #optimize prio:P1 (uuid:39880f3a-3ddb-4346-828d-40393d747687)
+- [ ] [[Resolve BuildFix Ollama resource limitations and OOM issues]] #buildfix #ollama #memory #high prio:P1 (uuid:5b15c395-fc63-457f-97cc-7d528c559e9b)
+- [ ] [[Secure BuildFix command execution]] #buildfix #security #high #provider prio:P1 (uuid:6dae395f-31aa-42c7-b9c8-2dc1d750ddc9)
 - [ ] [[fix-readmes-pipeline-timeout-issues-and-optimize-performance-optimization|Fix readmes pipeline timeout issues and optimize performance -optimization]] #ai-optimization #performance #piper #readmes #timeout prio:P2 (uuid:c8f82173-cf3b-4f0c-9fcf-fec5a1e8f237)
 - [ ] [[update-kanban-statuses-to-fsm 25|Update existing kanban tasks to use FSM statuses]] #cleanup #fsm #kanban #process prio:P2 (uuid:fc8fd632-47b8-4f46-adea-24e68e3aeeba)
 
@@ -265,14 +278,12 @@ kanban-plugin: board
 - [ ] [[Create MCP-Kanban Bridge API]] #mcp #kanban #api #bridge #synchronization #critical prio:P0 (uuid:07b10989-e06c-4c6b-87b9-80ce169b7660)
 - [ ] [[Fix critical path traversal vulnerability in indexer-service]] #security #critical #indexer-service #path-traversal prio:P0 (uuid:3c6a52c7-ee4d-4aa5-9d51-69e3eb1fdf4a)
 - [ ] [[Implement MCP Authentication & Authorization Layer]] #mcp #kanban #security #authentication #authorization #critical prio:P0 (uuid:86765f2a-9539-4443-baa2-a0bd37195385)
-- [ ] [[Create Agent OS Context Management System]] #agent-os #context #management #state #persistence #critical prio:P0 (uuid:1544d523-1c93-499c-92a1-eecc4f88f69a)
 - [ ] [[Implement Natural Language Command Parser]] #agent-os #nlp #parser #commands #natural-language #critical prio:P0 (uuid:52c48585-42e1-47ce-bc2c-c46686c1ca53)
 
 ## testing
 
-- [ ] [[2025.10.12.16.15.00-fix-template-injection-vulnerability-applyTemplateReplacements 25|Fix Template Injection Vulnerability in applyTemplateReplacements Function]] #security #critical #template-injection #code-execution #vulnerability prio:P0 (uuid:aa409067-2609-4262-aae8-bf27697eb37c)
-- [ ] [[20251011235145|Implement Scar Context Core Types and Interfaces]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #scar-context #typescript #phase-1 prio:P1 (uuid:2e73e798-7023-45cc-9733-e9d0037f0525)
 - [ ] [[Add job-level timeouts to all workflows]] #automation #buildfix #pipeline #timeout prio:P0 (uuid:6f34ddef-fdc8-4fe9-ad60-89c10ca6bac7)
+- [ ] [[Create Agent OS Context Management System]] #agent-os #context #management #state #persistence #critical prio:P0 (uuid:1544d523-1c93-499c-92a1-eecc4f88f69a)
 - [ ] [[Create optimized build pipeline with parallel jobs]] #automation #buildfix #pipeline #parallel prio:P1 (uuid:2f160835-dd8b-4a25-a512-d5fde95bcd6c)
 - [ ] [[Fix kanban created_at timestamp preservation during task operations]] #bugfix #critical #kanban #timestamp #data-integrity #typescript prio:P0 (uuid:07358cf3-317b-492d-a37e-51eb45ea8ec9)
 - [ ] [[Optimize build caching strategies]] #automation #buildfix #pipeline #cache prio:P1 (uuid:e134bc1d-222a-4e8c-9bbb-48f786986b5f)
@@ -281,10 +292,12 @@ kanban-plugin: board
 
 ## review
 
-- [ ] [[Design unified FSM architecture using existing foundations]] #fsm #packages #design #architecture #tool:analysis #env:no-egress prio:P0 (uuid:8b1add71-be76-4a34-8f24-b3f0eaac69d5)
+- [ ] [[2025.10.12.16.15.00-fix-template-injection-vulnerability-applyTemplateReplacements 25|Fix Template Injection Vulnerability in applyTemplateReplacements Function]] #security #critical #template-injection #code-execution #vulnerability prio:P0 (uuid:aa409067-2609-4262-aae8-bf27697eb37c)
+- [ ] [[20251011235145|Implement Scar Context Core Types and Interfaces]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #scar-context #typescript #phase-1 prio:P1 (uuid:2e73e798-7023-45cc-9733-e9d0037f0525)
 
 ## document
 
+- [ ] [[Design unified FSM architecture using existing foundations]] #fsm #packages #design #architecture #tool:analysis #env:no-egress prio:P0 (uuid:8b1add71-be76-4a34-8f24-b3f0eaac69d5)
 - [ ] [[resolve_biome_lint_errors_in_compiler|Resolve Biome lint errors in compiler package]] #biome #compiler #errors #lint prio:P3 (uuid:f758495c-717a-4455-9e08-8b3eae385e5e)
 
 ## done

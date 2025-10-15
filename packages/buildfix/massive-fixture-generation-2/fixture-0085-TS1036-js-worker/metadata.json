@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0085-TS1036-js-worker",
+  "description": "Massive fixture for TS1036 from packages/piper/src/lib/js-worker.ts",
+  "originalPath": "packages/piper/src/lib/js-worker.ts",
+  "targetErrorCode": "TS1036",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 85,
+  "generatedAt": "2025-10-15T06:55:37.692Z"
+}

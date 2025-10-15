@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0411-TS2688-kanban-ui",
+  "description": "Massive fixture for TS2688 from packages/kanban/src/frontend/kanban-ui.ts",
+  "originalPath": "packages/kanban/src/frontend/kanban-ui.ts",
+  "targetErrorCode": "TS2688",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 411,
+  "generatedAt": "2025-10-15T06:55:37.821Z"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0015-TS1232-lints",
+  "description": "Massive fixture for TS1232 from packages/kanban/src/board/lints.ts",
+  "originalPath": "packages/kanban/src/board/lints.ts",
+  "targetErrorCode": "TS1232",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 15,
+  "generatedAt": "2025-10-15T06:55:37.656Z"
+}

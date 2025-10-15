@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0354-TS1068-cache",
+  "description": "Massive fixture for TS1068 from packages/lmdb-cache/src/cache.ts",
+  "originalPath": "packages/lmdb-cache/src/cache.ts",
+  "targetErrorCode": "TS1068",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 354,
+  "generatedAt": "2025-10-15T06:55:37.799Z"
+}

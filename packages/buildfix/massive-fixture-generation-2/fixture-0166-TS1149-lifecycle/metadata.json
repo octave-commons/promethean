@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0166-TS1149-lifecycle",
+  "description": "Massive fixture for TS1149 from packages/kanban/src/lib/task-content/lifecycle.ts",
+  "originalPath": "packages/kanban/src/lib/task-content/lifecycle.ts",
+  "targetErrorCode": "TS1149",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 166,
+  "generatedAt": "2025-10-15T06:55:37.729Z"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0427-TS1308-kanban",
+  "description": "Massive fixture for TS1308 from packages/kanban/src/lib/kanban.ts",
+  "originalPath": "packages/kanban/src/lib/kanban.ts",
+  "targetErrorCode": "TS1308",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 427,
+  "generatedAt": "2025-10-15T06:55:37.827Z"
+}

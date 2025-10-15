@@ -1,0 +1,8 @@
+{
+  "name": "buildfix-massive-fixture-fixture-0554-TS2551-05-evaluate",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "ts-morph": "^23.0.0"
+  }
+}

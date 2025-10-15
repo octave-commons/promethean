@@ -1,5 +1,7 @@
 # Buildfix
 
+> **🎉 Integration Complete**: BuildFix is now fully integrated into the unified benchmark CLI system! Use `pnpm --filter @promethean/benchmark benchmark --providers buildfix-local` to run BuildFix benchmarks. See the [Unified CLI Usage](#unified-cli-usage) section below for details.
+
 Buildfix automates fixing TypeScript build errors using AI models. The system can detect TypeScript errors, generate fix plans using AI, and automatically apply code modifications.
 
 ## 🚀 Quick Start
@@ -22,7 +24,25 @@ Buildfix automates fixing TypeScript build errors using AI models. The system ca
    pnpm install
    ```
 
-### Running AI-Powered Fixes
+### Unified CLI Usage ⭐ (Recommended)
+
+The BuildFix provider is now integrated into the unified benchmark CLI system:
+
+```bash
+# Quick BuildFix benchmark
+pnpm --filter @promethean/benchmark benchmark --providers buildfix-local --iterations 3
+
+# BuildFix with massive fixture set
+pnpm --filter @promethean/benchmark benchmark --providers buildfix-local --suite buildfix-massive
+
+# Compare BuildFix models
+pnpm --filter @promethean/benchmark benchmark --providers buildfix-local --models qwen3:8b,qwen3:14b
+
+# BuildFix with resource monitoring
+pnpm --filter @promethean/benchmark benchmark --providers buildfix-local --monitor-resources --verbose
+```
+
+### Direct BuildFix Usage (Legacy)
 
 #### Option 1: Quick Test (Recommended for first run)
 
@@ -731,5 +751,76 @@ flowchart LR
   _promethean_ws --> _promethean_event
   _promethean_ws --> _promethean_monitoring
 ```
+
+## 🔄 Migration Guide
+
+### ✅ Integration Complete
+
+BuildFix is now fully integrated into the unified benchmark CLI system! The migration provides:
+
+- **Unified Interface**: Single CLI for all benchmarking needs across providers
+- **Enhanced Features**: Multi-provider comparison, resource monitoring, improved reporting
+- **Better Architecture**: Separated concerns with dedicated benchmark framework
+- **Consistent Experience**: Standardized benchmark interface across all providers
+
+### What's Integrated
+
+The following BuildFix components are now available via `@promethean/benchmark`:
+
+- ✅ **BuildFix Provider** - Full BuildFix integration as a benchmark provider
+- ✅ **Model Comparison** - Compare BuildFix performance across different AI models
+- ✅ **Fixture Support** - Both small test fixtures and massive real-world fixture sets
+- ✅ **Resource Monitoring** - Track memory, CPU, and performance during BuildFix operations
+- ✅ **Unified Reporting** - Standardized reports with BuildFix-specific metrics
+- ✅ **CLI Integration** - Use BuildFix via the unified benchmark CLI
+
+### What Stays in BuildFix
+
+The core buildfix functionality remains in this package:
+
+- ✅ **Error Detection** - TypeScript error scanning and analysis
+- ✅ **AI Plan Generation** - DSL-based fix planning and generation
+- ✅ **Code Materialization** - AST-based code modification and application
+- ✅ **Fix Validation** - Solution verification and testing
+- ✅ **Pipeline Integration** - Piper workflow support and automation
+
+### Migration Examples
+
+**Quick BuildFix Benchmark (New Unified CLI):**
+
+```bash
+# Recommended: Use unified benchmark CLI
+pnpm --filter @promethean/benchmark benchmark --providers buildfix-local --iterations 3
+
+# With massive fixture set
+pnpm --filter @promethean/benchmark benchmark --providers buildfix-local --suite buildfix-massive
+
+# Compare models
+pnpm --filter @promethean/benchmark benchmark --providers buildfix-local --models qwen3:8b,qwen3:14b
+```
+
+**Legacy Direct Usage (Still Supported):**
+
+```bash
+# Still works for direct BuildFix testing
+cd packages/buildfix
+pnpm tsx src/benchmark/run-simple.ts --no-bail
+```
+
+### Recommended Usage
+
+1. **For Benchmarking**: Use `@promethean/benchmark` with BuildFix provider
+2. **For Development**: Use direct BuildFix tools for testing and debugging
+3. **For CI/CD**: Use unified benchmark CLI for consistent automation
+
+### Benefits of Integration
+
+- **Standardized Interface**: Same CLI patterns across all providers
+- **Enhanced Monitoring**: Resource usage tracking for BuildFix operations
+- **Better Comparisons**: Compare BuildFix with other providers side-by-side
+- **Improved Reporting**: Rich, detailed reports with BuildFix-specific metrics
+- **Easier Automation**: Consistent interface for CI/CD pipelines
+
+See `@promethean/benchmark` documentation for complete unified CLI usage.
 
 <!-- READMEFLOW:END -->

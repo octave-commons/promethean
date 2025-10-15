@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0599-TS5069-utils",
+  "description": "Massive fixture for TS5069 from packages/boardrev/src/utils.ts",
+  "originalPath": "packages/boardrev/src/utils.ts",
+  "targetErrorCode": "TS5069",
+  "errorCategory": "Compiler Options Error",
+  "fixtureNumber": 599,
+  "generatedAt": "2025-10-15T06:55:37.896Z"
+}

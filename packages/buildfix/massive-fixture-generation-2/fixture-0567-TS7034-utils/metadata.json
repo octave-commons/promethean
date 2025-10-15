@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0567-TS7034-utils",
+  "description": "Massive fixture for TS7034 from packages/semverguard/src/utils.ts",
+  "originalPath": "packages/semverguard/src/utils.ts",
+  "targetErrorCode": "TS7034",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 567,
+  "generatedAt": "2025-10-15T06:55:37.882Z"
+}

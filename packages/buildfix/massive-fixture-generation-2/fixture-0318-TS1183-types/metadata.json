@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0318-TS1183-types",
+  "description": "Massive fixture for TS1183 from packages/report-forge/src/lib/types.ts",
+  "originalPath": "packages/report-forge/src/lib/types.ts",
+  "targetErrorCode": "TS1183",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 318,
+  "generatedAt": "2025-10-15T06:55:37.785Z"
+}

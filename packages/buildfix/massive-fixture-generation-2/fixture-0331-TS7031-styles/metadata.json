@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0331-TS7031-styles",
+  "description": "Massive fixture for TS7031 from packages/kanban/src/frontend/styles.ts",
+  "originalPath": "packages/kanban/src/frontend/styles.ts",
+  "targetErrorCode": "TS7031",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 331,
+  "generatedAt": "2025-10-15T06:55:37.790Z"
+}

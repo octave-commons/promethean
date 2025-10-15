@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0407-TS7022-task-cache",
+  "description": "Massive fixture for TS7022 from packages/kanban/src/board/task-cache.ts",
+  "originalPath": "packages/kanban/src/board/task-cache.ts",
+  "targetErrorCode": "TS7022",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 407,
+  "generatedAt": "2025-10-15T06:55:37.819Z"
+}

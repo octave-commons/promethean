@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0240-TS7041-ecosystem",
+  "description": "Massive fixture for TS7041 from packages/shadow-conf/src/ecosystem.ts",
+  "originalPath": "packages/shadow-conf/src/ecosystem.ts",
+  "targetErrorCode": "TS7041",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 240,
+  "generatedAt": "2025-10-15T06:55:37.753Z"
+}

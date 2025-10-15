@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0256-TS1046-types",
+  "description": "Massive fixture for TS1046 from packages/readmeflow/src/types.ts",
+  "originalPath": "packages/readmeflow/src/types.ts",
+  "targetErrorCode": "TS1046",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 256,
+  "generatedAt": "2025-10-15T06:55:37.758Z"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0491-TS1183-task-cache",
+  "description": "Massive fixture for TS1183 from packages/kanban/src/board/task-cache.ts",
+  "originalPath": "packages/kanban/src/board/task-cache.ts",
+  "targetErrorCode": "TS1183",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 491,
+  "generatedAt": "2025-10-15T06:55:37.851Z"
+}

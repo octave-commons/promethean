@@ -328,7 +328,7 @@ export class MockMetadataStore implements ContextMetadataStore {
       results = this.metadata.get(query.agentId) || [];
     } else {
       // Get all metadata from all agents
-      for (const agentMetadata of this.metadata.values()) {
+      for (const agentMetadata of Array.from(this.metadata.values())) {
         results.push(...agentMetadata);
       }
     }
@@ -365,7 +365,7 @@ export class MockMetadataStore implements ContextMetadataStore {
 
   async cleanupExpired(): Promise<void> {
     const now = new Date();
-    for (const [agentId, agentMetadata] of this.metadata.entries()) {
+    for (const [agentId, agentMetadata] of Array.from(this.metadata.entries())) {
       const validMetadata = agentMetadata.filter((meta) => !meta.expiresAt || meta.expiresAt > now);
       this.metadata.set(agentId, validMetadata);
     }
@@ -378,7 +378,7 @@ export class MockMetadataStore implements ContextMetadataStore {
 
   getMetadataCount(): number {
     let count = 0;
-    for (const agentMetadata of this.metadata.values()) {
+    for (const agentMetadata of Array.from(this.metadata.values())) {
       count += agentMetadata.length;
     }
     return count;
@@ -391,7 +391,7 @@ export class MockMetadataStore implements ContextMetadataStore {
   // Get all metadata without expiration filtering (for testing cleanup)
   getAllMetadataRaw(): ContextMetadata[] {
     const allMetadata: ContextMetadata[] = [];
-    for (const agentMetadata of this.metadata.values()) {
+    for (const agentMetadata of Array.from(this.metadata.values())) {
       allMetadata.push(...agentMetadata);
     }
     return allMetadata;

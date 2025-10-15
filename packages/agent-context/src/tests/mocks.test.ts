@@ -1,4 +1,5 @@
 import test from 'ava';
+
 import { MockEventStore, MockSnapshotStore, MockAuthService } from './utils/mocks.js';
 import { createMockEvent, createMockSnapshot } from './utils/fixtures.js';
 

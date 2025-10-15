@@ -1,6 +1,8 @@
 import test from 'ava';
+
 import { ContextLifecycleManager } from '../context-lifecycle.js';
 import { DefaultContextManager } from '../context-manager.js';
+
 import {
   MockEventStore,
   MockSnapshotStore,
@@ -263,8 +265,10 @@ test.serial('ContextLifecycleManager: should export and import context', async (
     targetMetadataStore,
   );
 
-  const importedContext = await targetLifecycleManager.importContext(targetAgentId, exportData);
+  await targetLifecycleManager.importContext(targetAgentId, exportData);
 
+  // Get the imported context to verify
+  const importedContext = await targetContextManager.getContext(targetAgentId);
   t.is(importedContext.agentId, targetAgentId);
   t.deepEqual(importedContext.state, initialState);
 
@@ -371,13 +375,6 @@ test.serial('ContextLifecycleManager: should handle errors gracefully', async (t
   const uniqueAgentId =
     'error-test-agent-' + Date.now() + '-' + Math.random().toString(36).substring(2, 9);
 
-  // Verify stores are empty before test
-  console.log('Before test - Event store agents:', Array.from((eventStore as any).events.keys()));
-  console.log(
-    'Before test - Snapshot store agents:',
-    Array.from((snapshotStore as any).snapshots.keys()),
-  );
-
   // Try to archive non-existent context (should not throw)
   await t.notThrowsAsync(async () => {
     await lifecycleManager.archiveContext(uniqueAgentId);
@@ -390,18 +387,6 @@ test.serial('ContextLifecycleManager: should handle errors gracefully', async (t
 
   // Try to export non-existent context
   const exportData = await lifecycleManager.exportContext(uniqueAgentId);
-  console.log('Export data for unique agent:', {
-    agentId: uniqueAgentId,
-    events: exportData.events.length,
-    snapshots: exportData.snapshots.length,
-    metadata: exportData.metadata.length,
-    shares: exportData.shares.length,
-  });
-  console.log('After test - Event store agents:', Array.from((eventStore as any).events.keys()));
-  console.log(
-    'Events for unique agent:',
-    (eventStore as any).events.get(uniqueAgentId)?.length || 0,
-  );
 
   t.truthy(exportData.context);
   t.is(exportData.events.length, 0);

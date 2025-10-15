@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0536-TS1354-index",
+  "description": "Massive fixture for TS1354 from packages/kanban/src/lib/task-content/index.ts",
+  "originalPath": "packages/kanban/src/lib/task-content/index.ts",
+  "targetErrorCode": "TS1354",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 536,
+  "generatedAt": "2025-10-15T06:55:37.868Z"
+}

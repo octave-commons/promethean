@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0228-TS7009-task-operations",
+  "description": "Massive fixture for TS7009 from packages/kanban/src/board/task-operations.ts",
+  "originalPath": "packages/kanban/src/board/task-operations.ts",
+  "targetErrorCode": "TS7009",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 228,
+  "generatedAt": "2025-10-15T06:55:37.750Z"
+}

@@ -7,9 +7,9 @@ priority: "P1"
 labels: ["typescript", "type-safety", "omni-service", "any-types"]
 created_at: "2025-10-14T10:30:00.000Z"
 estimates:
-  complexity: "6"
-  scale: "large"
-  time_to_completion: "6h"
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 ## Description

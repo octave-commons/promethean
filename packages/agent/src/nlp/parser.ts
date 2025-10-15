@@ -191,7 +191,7 @@ export class NaturalLanguageCommandParser implements CommandParser {
         const suggestions: string[] = [];
 
         // Simple keyword matching for now
-        for (const [type, config] of this.commands) {
+        for (const [, config] of this.commands) {
             for (const example of config.examples) {
                 if (this.calculateSimilarity(normalizedInput, example) > 0.5) {
                     suggestions.push(example);
@@ -245,7 +245,7 @@ export class NaturalLanguageCommandParser implements CommandParser {
         );
 
         if (commandIndex >= 0 && commandIndex < words.length - 1) {
-            return words[commandIndex + 1];
+            return words[commandIndex + 1] || 'unknown';
         }
 
         return 'unknown';
@@ -258,7 +258,9 @@ export class NaturalLanguageCommandParser implements CommandParser {
         const kvPattern = /(\w+)[\s=]+(\w+)/g;
         let match;
         while ((match = kvPattern.exec(input)) !== null) {
-            parameters[match[1]] = match[2];
+            if (match[1] && match[2]) {
+                parameters[match[1]] = match[2];
+            }
         }
 
         return parameters;

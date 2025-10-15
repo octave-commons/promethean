@@ -39,14 +39,38 @@ export class ContextSharingService {
     agentId: string,
   ): Promise<Array<ContextShare & { snapshot: ContextSnapshot }>> {
     const shares = await this.shareStore.getSharedContexts(agentId);
-    const result = [];
 
-    for (const share of shares) {
-      const snapshot = await this.snapshotStore.getSnapshot(share.contextSnapshotId);
-      if (snapshot) {
-        result.push({ ...share, snapshot });
-      }
+    if (shares.length === 0) {
+      return [];
     }
+
+    // Extract all unique snapshot IDs to batch fetch
+    const snapshotIds = [...new Set(shares.map((share) => share.contextSnapshotId))];
+
+    // Batch fetch all snapshots at once
+    const snapshotPromises = snapshotIds.map((id) => this.snapshotStore.getSnapshot(id));
+    const snapshots = await Promise.all(snapshotPromises);
+
+    // Create a map of snapshot ID to snapshot for quick lookup
+    const snapshotMap = new Map<string, ContextSnapshot | null>();
+    snapshotIds.forEach((id, index) => {
+      const snapshot = snapshots[index];
+      if (snapshot !== undefined) {
+        snapshotMap.set(id, snapshot);
+      }
+    });
+
+    // Combine shares with their snapshots
+    const result = shares.reduce(
+      (acc, share) => {
+        const snapshot = snapshotMap.get(share.contextSnapshotId);
+        if (snapshot) {
+          acc.push({ ...share, snapshot });
+        }
+        return acc;
+      },
+      [] as Array<ContextShare & { snapshot: ContextSnapshot }>,
+    );
 
     return result;
   }

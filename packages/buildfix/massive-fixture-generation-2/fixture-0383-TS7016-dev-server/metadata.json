@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0383-TS7016-dev-server",
+  "description": "Massive fixture for TS7016 from packages/kanban/src/lib/dev-server.ts",
+  "originalPath": "packages/kanban/src/lib/dev-server.ts",
+  "targetErrorCode": "TS7016",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 383,
+  "generatedAt": "2025-10-15T06:55:37.809Z"
+}

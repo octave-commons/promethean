@@ -27,10 +27,24 @@
        (contains? (:estimates task) :complexity)
        (number? (get-in task [:estimates :complexity]))))
 
-(defn get-estimate
+((defn get-estimate
   "Get complexity estimate from task"
   [task]
   (get-in task [:estimates :complexity] 999))
+
+(defn has-story-points?
+  "Check if task has Fibonacci story point estimate"
+  [task]
+  (and (:storyPoints task)
+       (number? (:storyPoints task))
+       (contains? #{1 2 3 5 8 13 21} (:storyPoints task))))
+
+(defn get-story-points
+  "Get story points from task, fallback to legacy estimates"
+  [task]
+  (if (has-story-points? task)
+    (:storyPoints task)
+    (get-estimate task))))
 
 (defn in-column?
   "Check if task exists in specific column"
@@ -54,10 +68,10 @@
   (contains? task :title))
 
 (defn breakdown-complete?
-  "Task has Fibonacci estimate ≤5 and clear implementation plan"
+  "Task has Fibonacci story point estimate and clear implementation plan"
   [task board]
-  (and (has-estimate? task)
-       (<= (get-estimate task) 5)))
+  (and (or (has-story-points? task) (has-estimate? task))
+       (<= (get-story-points task) 5)))
 
 (defn task-prioritized?
   "Task is properly prioritized in execution queue"
@@ -201,6 +215,10 @@
      ;; Process safety: enforce tool/env tags for entering in_progress
      (if (= (column-key to) "in_progress")
        (has-tool-env-tags? task)
+       true)
+     ;; Story point validation: require story points for breakdown→ready transitions
+     (if (and (= (column-key from) "breakdown") (= (column-key to) "ready"))
+       (has-story-points? task)
        true)
      ;; Backward transitions are always valid unless WIP violation
      (or (backward-transition? from to)

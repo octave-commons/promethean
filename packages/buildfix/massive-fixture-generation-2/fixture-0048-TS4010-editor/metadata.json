@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0048-TS4010-editor",
+  "description": "Massive fixture for TS4010 from packages/kanban/src/lib/task-content/editor.ts",
+  "originalPath": "packages/kanban/src/lib/task-content/editor.ts",
+  "targetErrorCode": "TS4010",
+  "errorCategory": "Declaration Error",
+  "fixtureNumber": 48,
+  "generatedAt": "2025-10-15T06:55:37.673Z"
+}

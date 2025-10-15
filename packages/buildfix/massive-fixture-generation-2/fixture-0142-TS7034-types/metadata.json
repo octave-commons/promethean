@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0142-TS7034-types",
+  "description": "Massive fixture for TS7034 from packages/piper/src/types.ts",
+  "originalPath": "packages/piper/src/types.ts",
+  "targetErrorCode": "TS7034",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 142,
+  "generatedAt": "2025-10-15T06:55:37.720Z"
+}

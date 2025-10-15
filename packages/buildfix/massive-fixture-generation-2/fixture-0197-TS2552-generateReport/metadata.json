@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0197-TS2552-generateReport",
+  "description": "Massive fixture for TS2552 from packages/report-forge/src/lib/generateReport.ts",
+  "originalPath": "packages/report-forge/src/lib/generateReport.ts",
+  "targetErrorCode": "TS2552",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 197,
+  "generatedAt": "2025-10-15T06:55:37.740Z"
+}

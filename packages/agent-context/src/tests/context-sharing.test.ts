@@ -1,5 +1,7 @@
 import test from 'ava';
+
 import { ContextSharingService } from '../context-sharing.js';
+
 import { MockShareStore, MockSnapshotStore } from './utils/mocks.js';
 import { createMockSnapshot } from './utils/fixtures.js';
 

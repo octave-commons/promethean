@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0530-TS2305-sources",
+  "description": "Massive fixture for TS2305 from packages/kanban/src/board/config/sources.ts",
+  "originalPath": "packages/kanban/src/board/config/sources.ts",
+  "targetErrorCode": "TS2305",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 530,
+  "generatedAt": "2025-10-15T06:55:37.865Z"
+}

@@ -1,9 +1,13 @@
 import test from 'ava';
+
+import { sleep } from '@promethean/test-utils';
+
 import { JWTAuthService } from '../auth.js';
+
 import { createMockToken } from './utils/fixtures.js';
 
 test.serial('JWTAuthService: should generate JWT token', async (t) => {
-  const authService = new JWTAuthService('test-secret');
+  const authService = new JWTAuthService('test-secret-must-be-at-least-32-chars');
 
   const agentId = 'agent-123';
   const permissions = ['read', 'write', 'execute'];
@@ -17,7 +21,7 @@ test.serial('JWTAuthService: should generate JWT token', async (t) => {
 });
 
 test.serial('JWTAuthService: should validate valid token', async (t) => {
-  const authService = new JWTAuthService('test-secret');
+  const authService = new JWTAuthService('test-secret-must-be-at-least-32-chars');
 
   const agentId = 'agent-123';
   const permissions = ['read', 'write'];
@@ -31,15 +35,15 @@ test.serial('JWTAuthService: should validate valid token', async (t) => {
 });
 
 test.serial('JWTAuthService: should reject invalid token', async (t) => {
-  const authService = new JWTAuthService('test-secret');
+  const authService = new JWTAuthService('test-secret-must-be-at-least-32-chars');
 
   const validated = await authService.validateToken('invalid-token');
   t.is(validated, null);
 });
 
 test.serial('JWTAuthService: should reject token with wrong secret', async (t) => {
-  const authService1 = new JWTAuthService('secret1');
-  const authService2 = new JWTAuthService('secret2');
+  const authService1 = new JWTAuthService('secret1-must-be-at-least-32-chars-long');
+  const authService2 = new JWTAuthService('secret2-must-be-at-least-32-chars-long');
 
   const token = await authService1.generateToken('agent-123', ['read']);
 
@@ -49,12 +53,12 @@ test.serial('JWTAuthService: should reject token with wrong secret', async (t) =
 });
 
 test.serial('JWTAuthService: should revoke token (placeholder)', async (t) => {
-  const authService = new JWTAuthService('test-secret');
+  const authService = new JWTAuthService('test-secret-must-be-at-least-32-chars');
 
   const token = await authService.generateToken('agent-123', ['read']);
 
   // Token should be valid initially
-  let validated = await authService.validateToken(token.token);
+  const validated = await authService.validateToken(token.token);
   t.not(validated, null);
 
   // Revoke token (currently just logs warning)
@@ -66,7 +70,7 @@ test.serial('JWTAuthService: should revoke token (placeholder)', async (t) => {
 });
 
 test.serial('JWTAuthService: should hash and verify passwords', async (t) => {
-  const authService = new JWTAuthService('test-secret');
+  const authService = new JWTAuthService('test-secret-must-be-at-least-32-chars');
 
   const password = 'secure-password-123';
   const hashedPassword = await authService.hashPassword(password);
@@ -80,7 +84,7 @@ test.serial('JWTAuthService: should hash and verify passwords', async (t) => {
 });
 
 test.serial('JWTAuthService: should generate and validate API keys', async (t) => {
-  const authService = new JWTAuthService('test-secret');
+  const authService = new JWTAuthService('test-secret-must-be-at-least-32-chars');
 
   const agentId = 'agent-123';
   const apiKey = authService.generateApiKey(agentId);
@@ -101,7 +105,7 @@ test.serial('JWTAuthService: should use default secret from environment', async 
   const originalSecret = process.env.JWT_SECRET;
 
   // Set test secret
-  process.env.JWT_SECRET = 'test-env-secret';
+  process.env.JWT_SECRET = 'test-env-secret-must-be-32-chars-minimum';
 
   const authService = new JWTAuthService();
   const token = await authService.generateToken('agent-123', ['read']);
@@ -119,7 +123,7 @@ test.serial('JWTAuthService: should use default secret from environment', async 
 });
 
 test.serial('JWTAuthService: should handle custom token expiry', async (t) => {
-  const authService = new JWTAuthService('test-secret', '1h');
+  const authService = new JWTAuthService('test-secret-must-be-at-least-32-chars', '1h');
 
   const token = await authService.generateToken('agent-123', ['read']);
 
@@ -135,7 +139,7 @@ test.serial('JWTAuthService: should handle custom token expiry', async (t) => {
 });
 
 test.serial('AuthService: should validate valid token', async (t) => {
-  const authService = new JWTAuthService('test-secret');
+  const authService = new JWTAuthService('test-secret-must-be-at-least-32-chars');
 
   const agentId = 'agent-123';
   const permissions = ['read', 'write'];
@@ -149,14 +153,14 @@ test.serial('AuthService: should validate valid token', async (t) => {
 });
 
 test.serial('AuthService: should reject invalid token', async (t) => {
-  const authService = new JWTAuthService('test-secret');
+  const authService = new JWTAuthService('test-secret-must-be-at-least-32-chars');
 
   const validated = await authService.validateToken('invalid-token');
   t.is(validated, null);
 });
 
 test.serial('AuthService: should reject expired token', async (t) => {
-  const authService = new JWTAuthService('test-secret');
+  const authService = new JWTAuthService('test-secret-must-be-at-least-32-chars');
 
   // Create expired token
   const expiredToken = createMockToken({
@@ -168,7 +172,7 @@ test.serial('AuthService: should reject expired token', async (t) => {
 });
 
 test.serial('AuthService: should revoke token', async (t) => {
-  const authService = new JWTAuthService('test-secret');
+  const authService = new JWTAuthService('test-secret-must-be-at-least-32-chars');
 
   const token = await authService.generateToken('agent-123', ['read']);
 
@@ -185,13 +189,13 @@ test.serial('AuthService: should revoke token', async (t) => {
 });
 
 test.serial('AuthService: should handle token refresh', async (t) => {
-  const authService = new JWTAuthService('test-secret');
+  const authService = new JWTAuthService('test-secret-must-be-at-least-32-chars');
 
   const agentId = 'agent-123';
   const originalToken = await authService.generateToken(agentId, ['read']);
 
   // Wait a bit to ensure different timestamps
-  await new Promise((resolve) => setTimeout(resolve, 10));
+  await sleep(10);
 
   const refreshedToken = await authService.refreshToken(originalToken.token);
 
@@ -202,20 +206,20 @@ test.serial('AuthService: should handle token refresh', async (t) => {
 });
 
 test.serial('AuthService: should validate permissions', async (t) => {
-  const authService = new JWTAuthService('test-secret');
+  const authService = new JWTAuthService('test-secret-must-be-at-least-32-chars');
 
   const token = await authService.generateToken('agent-123', ['read', 'write']);
 
-  t.true(await authService.hasPermission(token.token, 'read'));
-  t.true(await authService.hasPermission(token.token, 'write'));
-  t.false(await authService.hasPermission(token.token, 'execute'));
+  t.true(authService.hasPermission(token.token, 'read'));
+  t.true(authService.hasPermission(token.token, 'write'));
+  t.false(authService.hasPermission(token.token, 'execute'));
 
   // Test with invalid token
-  t.false(await authService.hasPermission('invalid-token', 'read'));
+  t.false(authService.hasPermission('invalid-token', 'read'));
 });
 
 test.serial('AuthService: should hash passwords securely', async (t) => {
-  const authService = new JWTAuthService('test-secret');
+  const authService = new JWTAuthService('test-secret-must-be-at-least-32-chars');
 
   const password = 'secure-password-123';
   const hashedPassword = await authService.hashPassword(password);
@@ -230,7 +234,7 @@ test.serial('AuthService: should hash passwords securely', async (t) => {
 
 test.serial('AuthService: should handle rate limiting', async (t) => {
   const authService = new JWTAuthService({
-    jwtSecret: 'test-secret',
+    jwtSecret: 'test-secret-must-be-at-least-32-chars',
     rateLimitWindow: 60000, // 1 minute
     maxAttempts: 3,
   });

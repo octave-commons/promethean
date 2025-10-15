@@ -1,0 +1,8 @@
+{
+  "name": "buildfix-massive-fixture-fixture-0185-TS1232-04-match-context",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "ts-morph": "^23.0.0"
+  }
+}

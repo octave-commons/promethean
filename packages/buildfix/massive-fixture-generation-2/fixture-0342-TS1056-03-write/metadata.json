@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0342-TS1056-03-write",
+  "description": "Massive fixture for TS1056 from packages/readmeflow/src/03-write.ts",
+  "originalPath": "packages/readmeflow/src/03-write.ts",
+  "targetErrorCode": "TS1056",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 342,
+  "generatedAt": "2025-10-15T06:55:37.795Z"
+}

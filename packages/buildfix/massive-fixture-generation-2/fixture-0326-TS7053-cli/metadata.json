@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0326-TS7053-cli",
+  "description": "Massive fixture for TS7053 from packages/apply-patch/src/cli.ts",
+  "originalPath": "packages/apply-patch/src/cli.ts",
+  "targetErrorCode": "TS7053",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 326,
+  "generatedAt": "2025-10-15T06:55:37.788Z"
+}

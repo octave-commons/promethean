@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0387-TS1064-sync",
+  "description": "Massive fixture for TS1064 from packages/kanban/src/process/sync.ts",
+  "originalPath": "packages/kanban/src/process/sync.ts",
+  "targetErrorCode": "TS1064",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 387,
+  "generatedAt": "2025-10-15T06:55:37.811Z"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0359-TS1005-render",
+  "description": "Massive fixture for TS1005 from packages/report-forge/src/lib/render.ts",
+  "originalPath": "packages/report-forge/src/lib/render.ts",
+  "targetErrorCode": "TS1005",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 359,
+  "generatedAt": "2025-10-15T06:55:37.800Z"
+}

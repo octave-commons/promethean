@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0152-TS1273-types",
+  "description": "Massive fixture for TS1273 from packages/lmdb-cache/src/types.ts",
+  "originalPath": "packages/lmdb-cache/src/types.ts",
+  "targetErrorCode": "TS1273",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 152,
+  "generatedAt": "2025-10-15T06:55:37.724Z"
+}

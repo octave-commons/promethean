@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0508-TS1066-task-cache",
+  "description": "Massive fixture for TS1066 from packages/kanban/src/board/task-cache.ts",
+  "originalPath": "packages/kanban/src/board/task-cache.ts",
+  "targetErrorCode": "TS1066",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 508,
+  "generatedAt": "2025-10-15T06:55:37.857Z"
+}

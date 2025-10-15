@@ -1,0 +1,92 @@
+{
+  "results": [
+    {
+      "fixture": "missing-export",
+      "model": "qwen2.5-coder:7b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 10349,
+      "attempts": 3,
+      "errorMessage": "ollama generate 500: {\"error\":\"llama runner process has terminated: exit status 2\"}"
+    },
+    {
+      "fixture": "optional-parameter",
+      "model": "qwen2.5-coder:7b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 6961,
+      "attempts": 3,
+      "errorMessage": "ollama generate 500: {\"error\":\"llama runner process has terminated: GGML_ASSERT(ctx-\\u003emem_buffer != NULL) failed\"}"
+    },
+    {
+      "fixture": "type-annotation-missing",
+      "model": "qwen2.5-coder:7b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 41629,
+      "attempts": 3,
+      "errorMessage": "Unterminated string in JSON at position 252 (line 4 column 233)"
+    },
+    {
+      "fixture": "missing-return-type",
+      "model": "qwen2.5-coder:7b",
+      "success": false,
+      "errorCountBefore": 0,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 1835,
+      "attempts": 0,
+      "errorMessage": "No errors found in fixture"
+    },
+    {
+      "fixture": "class-not-exported",
+      "model": "qwen2.5-coder:7b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 30819,
+      "attempts": 3,
+      "errorMessage": "Unterminated string in JSON at position 218 (line 4 column 208)"
+    },
+    {
+      "fixture": "interface-missing",
+      "model": "qwen2.5-coder:7b",
+      "success": false,
+      "errorCountBefore": 0,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 1919,
+      "attempts": 0,
+      "errorMessage": "No errors found in fixture"
+    }
+  ],
+  "summary": {
+    "totalTests": 6,
+    "successfulTests": 0,
+    "errorsResolved": 0,
+    "averageDuration": 15.585333333333335,
+    "modelResults": {
+      "qwen2.5-coder:7b": {
+        "successRate": 0,
+        "errorResolution": 0,
+        "avgDuration": 15.585333333333335,
+        "totalErrors": 4,
+        "errorsFixed": 4
+      }
+    }
+  },
+  "timestamp": "2025-10-15T13:29:20.043Z"
+}

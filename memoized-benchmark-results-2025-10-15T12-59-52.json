@@ -1,0 +1,96 @@
+{
+  "results": [
+    {
+      "fixture": "missing-export",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": true,
+      "duration": 8549,
+      "attempts": 3,
+      "planTitle": "Export helper function",
+      "errorMessage": "Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/missing-export/attempt-3.mjs\nDid you mean to import \"ts-morph/dist/ts-morph.js\"?"
+    },
+    {
+      "fixture": "optional-parameter",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": true,
+      "duration": 8116,
+      "attempts": 3,
+      "planTitle": "Fix missing required parameter",
+      "errorMessage": "Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/optional-parameter/attempt-3.mjs\nDid you mean to import \"ts-morph/dist/ts-morph.js\"?"
+    },
+    {
+      "fixture": "type-annotation-missing",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": true,
+      "duration": 9089,
+      "attempts": 3,
+      "planTitle": "Add missing type annotation for 'someUnknownFunction'",
+      "errorMessage": "Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/type-annotation-missing/attempt-3.mjs\nDid you mean to import \"ts-morph/dist/ts-morph.js\"?"
+    },
+    {
+      "fixture": "missing-return-type",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 0,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 1532,
+      "attempts": 0,
+      "errorMessage": "No errors found in fixture"
+    },
+    {
+      "fixture": "class-not-exported",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": true,
+      "duration": 7977,
+      "attempts": 3,
+      "planTitle": "Export Helper class",
+      "errorMessage": "Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/class-not-exported/attempt-3.mjs\nDid you mean to import \"ts-morph/dist/ts-morph.js\"?"
+    },
+    {
+      "fixture": "interface-missing",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 0,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 1652,
+      "attempts": 0,
+      "errorMessage": "No errors found in fixture"
+    }
+  ],
+  "summary": {
+    "totalTests": 6,
+    "successfulTests": 0,
+    "errorsResolved": 0,
+    "averageDuration": 6.1525,
+    "modelResults": {
+      "qwen3:8b": {
+        "successRate": 0,
+        "errorResolution": 0,
+        "avgDuration": 6.1525,
+        "totalErrors": 4,
+        "errorsFixed": 4
+      }
+    }
+  },
+  "timestamp": "2025-10-15T12:59:52.825Z"
+}

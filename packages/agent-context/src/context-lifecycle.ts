@@ -103,16 +103,31 @@ export class ContextLifecycleManager implements IContextLifecycleManager {
         deletedBy: 'system',
       },
     });
+
+    // Clean up metadata
+    if (this.metadataStore) {
+      const metadata = await this.metadataStore.getMetadata(agentId);
+      for (const meta of metadata) {
+        await this.metadataStore.deleteMetadata(agentId, meta.contextKey);
+      }
+    }
+
+    // Clean up shares
+    if (this.shareStore) {
+      const shares = await this.shareStore.getSharesForAgent(agentId);
+      for (const share of shares) {
+        await this.shareStore.revokeShare(share.id);
+      }
+    }
   }
 
   async cleanupExpiredContexts(): Promise<void> {
-    // This would require metadata store to track expiration
     if (!this.metadataStore) {
       return;
     }
 
-    // Implementation would depend on metadata structure
-    // For now, this is a placeholder
+    // Use the metadata store's built-in cleanup method
+    await this.metadataStore.cleanupExpired();
   }
 
   async getContextStatistics(agentId: string): Promise<ContextStatistics> {
@@ -251,6 +266,15 @@ export class ContextLifecycleManager implements IContextLifecycleManager {
       const context = await this.contextManager.getContext(agentId);
       const events = await this.eventStore.getEvents(agentId);
       const latestSnapshot = await this.snapshotStore.getLatestSnapshot(agentId);
+
+      // Check if context exists at all
+      if (events.length === 0 && !latestSnapshot) {
+        issues.push('Context does not exist - no events or snapshots found');
+        return {
+          isValid: false,
+          issues,
+        };
+      }
 
       // Check if context version matches events + snapshot version
       if (latestSnapshot) {

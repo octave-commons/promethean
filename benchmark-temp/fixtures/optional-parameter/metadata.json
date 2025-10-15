@@ -1,0 +1,12 @@
+{
+  "name": "optional-parameter",
+  "description": "Function parameter should be optional",
+  "errorPattern": [
+    "TS2554",
+    "greet",
+    "expected"
+  ],
+  "files": [
+    "src.ts"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0186-TS5023-helpers",
+  "description": "Massive fixture for TS5023 from packages/kanban/src/test-utils/helpers.ts",
+  "originalPath": "packages/kanban/src/test-utils/helpers.ts",
+  "targetErrorCode": "TS5023",
+  "errorCategory": "Compiler Options Error",
+  "fixtureNumber": 186,
+  "generatedAt": "2025-10-15T06:55:37.737Z"
+}

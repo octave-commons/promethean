@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0204-TS1280-types",
+  "description": "Massive fixture for TS1280 from packages/kanban/src/lib/types.ts",
+  "originalPath": "packages/kanban/src/lib/types.ts",
+  "targetErrorCode": "TS1280",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 204,
+  "generatedAt": "2025-10-15T06:55:37.743Z"
+}

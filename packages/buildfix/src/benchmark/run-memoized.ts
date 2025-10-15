@@ -255,6 +255,7 @@ async function main() {
         'cache-info': { type: 'boolean' },
         'export-cache': { type: 'string' },
         'import-cache': { type: 'string' },
+        'small-fixtures': { type: 'boolean' },
         help: { type: 'boolean' },
       },
     });
@@ -272,20 +273,27 @@ Options:
   --cache-info                Show cache information and statistics
   --export-cache <path>       Export cache to specified file
   --import-cache <path>       Import cache from specified file
+  --small-fixtures             Use the small 6 fixture set instead of massive fixtures
   --help                      Show this help message
 
 Examples:
-  tsx run-memoized.ts                           # Run all models with cache
+  tsx run-memoized.ts                           # Run all models with massive fixtures
   tsx run-memoized.ts --models "qwen3:8b,qwen3:14b"  # Test specific models
   tsx run-memoized.ts --force-refresh           # Ignore cache and re-run
   tsx run-memoized.ts --clear-cache             # Clear cache first
   tsx run-memoized.ts --cache-info              # Show cache statistics
   tsx run-memoized.ts --export-cache backup.json  # Export cache
+  tsx run-memoized.ts --small-fixtures           # Use small fixture set
       `);
       process.exit(0);
     }
 
-    const benchmark = new MemoizedBuildFixBenchmark();
+    const useMassiveFixtures = !args.values['small-fixtures']; // Default to massive fixtures unless small-fixtures is specified
+    const benchmark = new MemoizedBuildFixBenchmark(
+      './benchmark-temp',
+      './benchmark-cache',
+      useMassiveFixtures,
+    );
 
     // Handle cache operations
     if (args.values['clear-cache']) {
@@ -330,6 +338,9 @@ Examples:
     console.log(`🤖 Models to test: ${selectedModels.map((m) => m.name).join(', ')}`);
     console.log(`🔄 Force refresh: ${forceRefresh}`);
     console.log(`📊 Cache enabled: Yes`);
+    console.log(
+      `📁 Fixture set: ${useMassiveFixtures ? 'Massive (700+ fixtures)' : 'Small (6 fixtures)'}`,
+    );
 
     // Setup benchmark
     await benchmark.setup();

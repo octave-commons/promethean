@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0195-TS1225-07-wip-resolution",
+  "description": "Massive fixture for TS1225 from packages/boardrev/src/07-wip-resolution.ts",
+  "originalPath": "packages/boardrev/src/07-wip-resolution.ts",
+  "targetErrorCode": "TS1225",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 195,
+  "generatedAt": "2025-10-15T06:55:37.740Z"
+}

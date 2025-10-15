@@ -10,7 +10,7 @@
   "cachePath": "docs/agile/boards/.cache",
   "exts": [".md"],
 
-  "requiredFields": ["title", "status", "priority"],
+  "requiredFields": ["title", "status", "priority", "storyPoints"],
 
   "statusValues": [
     "icebox",
@@ -25,7 +25,8 @@
     "review",
     "document",
     "done",
-    "rejected"
+    "rejected",
+    "archived"
   ],
 
   "priorityValues": ["P0", "P1", "P2", "P3", "p3", "low", "medium", "high", "critical"],
@@ -34,7 +35,7 @@
     "icebox": "🧊 Ice Box - Deferred/archived tasks, not actively being worked on (brainstorm lane)",
     "incoming": "💭 Incoming - New tasks enter here (initial state) (brainstorm lane)",
     "accepted": "✅ Accepted - Triage complete, ready for breakdown analysis (planning lane)",
-    "breakdown": "🧩 Breakdown - Task being broken into small, testable slices with Fibonacci estimates (planning lane)",
+    "breakdown": "🧩 Breakdown - Task being broken into small, testable slices with Fibonacci story points (planning lane)",
     "blocked": "🚧 Blocked - Explicit dependency on another task (bidirectional links required) (planning lane)",
     "ready": "🛠 Ready - Scoped, estimated (≤5), ready for execution queue (execution lane)",
     "todo": "🟢 To Do - Prioritized in execution queue, ready to pull (execution lane)",

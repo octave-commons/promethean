@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0566-TS2688-sources",
+  "description": "Massive fixture for TS2688 from packages/kanban/src/board/config/sources.ts",
+  "originalPath": "packages/kanban/src/board/config/sources.ts",
+  "targetErrorCode": "TS2688",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 566,
+  "generatedAt": "2025-10-15T06:55:37.881Z"
+}

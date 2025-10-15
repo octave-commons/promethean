@@ -1,0 +1,9 @@
+{
+  "name": "repo-file-4-url",
+  "description": "Repository file: packages/web-utils/src/url.ts",
+  "originalPath": "packages/web-utils/src/url.ts",
+  "errorPattern": [],
+  "files": [
+    "src.ts"
+  ]
+}

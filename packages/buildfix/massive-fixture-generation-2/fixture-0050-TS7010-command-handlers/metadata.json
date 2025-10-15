@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0050-TS7010-command-handlers",
+  "description": "Massive fixture for TS7010 from packages/kanban/src/cli/command-handlers.ts",
+  "originalPath": "packages/kanban/src/cli/command-handlers.ts",
+  "targetErrorCode": "TS7010",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 50,
+  "generatedAt": "2025-10-15T06:55:37.674Z"
+}

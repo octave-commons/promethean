@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0324-TS7009-ecosystem",
+  "description": "Massive fixture for TS7009 from packages/shadow-conf/src/ecosystem.ts",
+  "originalPath": "packages/shadow-conf/src/ecosystem.ts",
+  "targetErrorCode": "TS7009",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 324,
+  "generatedAt": "2025-10-15T06:55:37.788Z"
+}

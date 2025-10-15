@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0288-TS4081-task-cache",
+  "description": "Massive fixture for TS4081 from packages/kanban/src/board/task-cache.ts",
+  "originalPath": "packages/kanban/src/board/task-cache.ts",
+  "targetErrorCode": "TS4081",
+  "errorCategory": "Declaration Error",
+  "fixtureNumber": 288,
+  "generatedAt": "2025-10-15T06:55:37.770Z"
+}

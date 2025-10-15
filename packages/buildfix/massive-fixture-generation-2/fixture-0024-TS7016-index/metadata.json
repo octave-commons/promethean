@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0024-TS7016-index",
+  "description": "Massive fixture for TS7016 from packages/kanban/src/lib/task-content/index.ts",
+  "originalPath": "packages/kanban/src/lib/task-content/index.ts",
+  "targetErrorCode": "TS7016",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 24,
+  "generatedAt": "2025-10-15T06:55:37.660Z"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0292-TS1218-cli",
+  "description": "Massive fixture for TS1218 from packages/apply-patch/src/cli.ts",
+  "originalPath": "packages/apply-patch/src/cli.ts",
+  "targetErrorCode": "TS1218",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 292,
+  "generatedAt": "2025-10-15T06:55:37.772Z"
+}

@@ -7,9 +7,9 @@ priority: "P0"
 labels: ["refactoring", "complexity", "boardrev", "code-quality"]
 created_at: "2025-10-14T10:15:00.000Z"
 estimates:
-  complexity: "7"
-  scale: "medium"
-  time_to_completion: "3h"
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 ## Description

@@ -5,7 +5,7 @@ slug: "implement-task-grading-rule-for-breakdown-ready-transition"
 status: "incoming"
 priority: "P1"
 labels: ["kanban", "transition-rules", "task-grading", "rag", "agent-workflow", "quality-assurance", "workflow-automation"]
-created_at: "2025-10-14T07:34:24.709Z"
+created_at: "2025-10-15T14:22:59.097Z"
 estimates:
   complexity: ""
   scale: ""

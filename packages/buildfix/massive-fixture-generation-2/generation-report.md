@@ -1,0 +1,140 @@
+# Massive Fixture Generation Report
+
+## Summary
+- **Generated**: 610 errors across 610 fixtures
+- **Coverage**: 122/122 error types
+- **Generated At**: 2025-10-15T06:55:37.906Z
+
+## Error Distribution by Category
+- **Syntax Error**: 405 errors
+- **Semantic Error**: 95 errors
+- **Unknown Error**: 60 errors
+- **Compiler Options Error**: 25 errors
+- **Declaration Error**: 25 errors
+
+## Error Codes Generated
+- **TS1371**: 5 fixtures
+- **TS1389**: 5 fixtures
+- **TS2339**: 5 fixtures
+- **TS2403**: 5 fixtures
+- **TS7053**: 5 fixtures
+- **TS1109**: 5 fixtures
+- **TS1479**: 5 fixtures
+- **TS1099**: 5 fixtures
+- **TS1219**: 5 fixtures
+- **TS2304**: 5 fixtures
+- **TS1363**: 5 fixtures
+- **TS1273**: 5 fixtures
+- **TS1064**: 5 fixtures
+- **TS1309**: 5 fixtures
+- **TS5054**: 5 fixtures
+- **TS1232**: 5 fixtures
+- **TS1196**: 5 fixtures
+- **TS7041**: 5 fixtures
+- **TS1484**: 5 fixtures
+- **TS1218**: 5 fixtures
+- **TS1038**: 5 fixtures
+- **TS1267**: 5 fixtures
+- **TS5024**: 5 fixtures
+- **TS1337**: 5 fixtures
+- **TS7016**: 5 fixtures
+- **TS1225**: 5 fixtures
+- **TS1375**: 5 fixtures
+- **TS1470**: 5 fixtures
+- **TS1117**: 5 fixtures
+- **TS1006**: 5 fixtures
+- **TS1308**: 5 fixtures
+- **TS1192**: 5 fixtures
+- **TS1036**: 5 fixtures
+- **TS1248**: 5 fixtures
+- **TS1378**: 5 fixtures
+- **TS1055**: 5 fixtures
+- **TS2454**: 5 fixtures
+- **TS5097**: 5 fixtures
+- **TS1070**: 5 fixtures
+- **TS1323**: 5 fixtures
+- **TS1068**: 5 fixtures
+- **TS1046**: 5 fixtures
+- **TS4010**: 5 fixtures
+- **TS1163**: 5 fixtures
+- **TS7010**: 5 fixtures
+- **TS2769**: 5 fixtures
+- **TS2571**: 5 fixtures
+- **TS1354**: 5 fixtures
+- **TS2584**: 5 fixtures
+- **TS1355**: 5 fixtures
+- **TS1434**: 5 fixtures
+- **TS1208**: 5 fixtures
+- **TS2345**: 5 fixtures
+- **TS1155**: 5 fixtures
+- **TS4115**: 5 fixtures
+- **TS1280**: 5 fixtures
+- **TS1254**: 5 fixtures
+- **TS2688**: 5 fixtures
+- **TS1183**: 5 fixtures
+- **TS1202**: 5 fixtures
+- **TS1128**: 5 fixtures
+- **TS1228**: 5 fixtures
+- **TS1274**: 5 fixtures
+- **TS1245**: 5 fixtures
+- **TS4023**: 5 fixtures
+- **TS1039**: 5 fixtures
+- **TS1160**: 5 fixtures
+- **TS1432**: 5 fixtures
+- **TS7006**: 5 fixtures
+- **TS7044**: 5 fixtures
+- **TS1431**: 5 fixtures
+- **TS2355**: 5 fixtures
+- **TS1035**: 5 fixtures
+- **TS7031**: 5 fixtures
+- **TS1149**: 5 fixtures
+- **TS1450**: 5 fixtures
+- **TS1054**: 5 fixtures
+- **TS1357**: 5 fixtures
+- **TS7034**: 5 fixtures
+- **TS7008**: 5 fixtures
+- **TS1385**: 5 fixtures
+- **TS2551**: 5 fixtures
+- **TS1127**: 5 fixtures
+- **TS1175**: 5 fixtures
+- **TS2395**: 5 fixtures
+- **TS7005**: 5 fixtures
+- **TS1368**: 5 fixtures
+- **TS1121**: 5 fixtures
+- **TS1002**: 5 fixtures
+- **TS1241**: 5 fixtures
+- **TS1240**: 5 fixtures
+- **TS1005**: 5 fixtures
+- **TS5023**: 5 fixtures
+- **TS1056**: 5 fixtures
+- **TS1294**: 5 fixtures
+- **TS2552**: 5 fixtures
+- **TS1029**: 5 fixtures
+- **TS1107**: 5 fixtures
+- **TS1361**: 5 fixtures
+- **TS1259**: 5 fixtures
+- **TS2440**: 5 fixtures
+- **TS2322**: 5 fixtures
+- **TS5069**: 5 fixtures
+- **TS1341**: 5 fixtures
+- **TS7009**: 5 fixtures
+- **TS4081**: 5 fixtures
+- **TS1066**: 5 fixtures
+- **TS1345**: 5 fixtures
+- **TS1095**: 5 fixtures
+- **TS1244**: 5 fixtures
+- **TS1247**: 5 fixtures
+- **TS4060**: 5 fixtures
+- **TS1016**: 5 fixtures
+- **TS1471**: 5 fixtures
+- **TS2362**: 5 fixtures
+- **TS7022**: 5 fixtures
+- **TS2564**: 5 fixtures
+- **TS1103**: 5 fixtures
+- **TS1243**: 5 fixtures
+- **TS2305**: 5 fixtures
+- **TS1015**: 5 fixtures
+- **TS2307**: 5 fixtures
+
+## Missing Error Types
+None - All error types covered!

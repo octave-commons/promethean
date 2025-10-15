@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0058-TS1470-render",
+  "description": "Massive fixture for TS1470 from packages/kanban/src/frontend/render.ts",
+  "originalPath": "packages/kanban/src/frontend/render.ts",
+  "targetErrorCode": "TS1470",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 58,
+  "generatedAt": "2025-10-15T06:55:37.678Z"
+}

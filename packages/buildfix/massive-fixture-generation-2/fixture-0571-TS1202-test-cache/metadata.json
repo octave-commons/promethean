@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0571-TS1202-test-cache",
+  "description": "Massive fixture for TS1202 from packages/kanban/src/board/test-cache.ts",
+  "originalPath": "packages/kanban/src/board/test-cache.ts",
+  "targetErrorCode": "TS1202",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 571,
+  "generatedAt": "2025-10-15T06:55:37.883Z"
+}
