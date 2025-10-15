@@ -1,0 +1,40 @@
+{
+  "name": "openai-server-frontend",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/frontends/openai-server-frontend/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/frontends/openai-server-frontend",
+        "main": "packages/frontends/openai-server-frontend/src/index.ts",
+        "tsConfig": "packages/frontends/openai-server-frontend/tsconfig.json",
+        "assets": ["packages/frontends/openai-server-frontend/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/frontends/openai-server-frontend/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/frontends/openai-server-frontend/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "coverageReporters": ["text"]
+        }
+      }
+    }
+  },
+  "tags": ["scope:frontend", "type:ui"]
+}
