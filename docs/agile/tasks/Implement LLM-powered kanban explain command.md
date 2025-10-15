@@ -2,12 +2,12 @@
 uuid: "6866f097-f4c8-485a-8c1d-78de260459d2"
 title: "Implement LLM-powered kanban explain command"
 slug: "Implement LLM-powered kanban explain command"
-status: "incoming"
+status: "breakdown"
 priority: "P1"
 labels: ["llm", "explain", "command", "kanban"]
 created_at: "2025-10-13T08:29:44.485Z"
 estimates:
-  complexity: ""
+  complexity: 3
   scale: ""
   time_to_completion: ""
 ---

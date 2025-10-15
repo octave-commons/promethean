@@ -2,7 +2,7 @@
 uuid: "7b8a9c2d-4e5f-6a7b-8c9d-0e1f2a3b4c5d"
 title: "Implement Kanban Conflict Detection Rule for Todo → In Progress Transitions"
 slug: "implement-kanban-conflict-detection-rule"
-status: "incoming"
+status: "accepted"
 priority: "P1"
 labels: ["kanban", "transition-rules", "conflict-detection", "rag", "symbolic-search", "workflow-automation"]
 created_at: "Mon Oct 13 2025 10:30:00 GMT-0500 (Central Daylight Time)"

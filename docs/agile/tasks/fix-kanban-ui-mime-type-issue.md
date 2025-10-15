@@ -2,7 +2,7 @@
 uuid: "0f1d191b-1326-48c2-a122-b37f8d1199fd"
 title: "Fix Kanban UI MIME Type Issue for JavaScript Modules       )"
 slug: "fix-kanban-ui-mime-type-issue"
-status: "incoming"
+status: "icebox"
 priority: "P1"
 labels: ["bug", "kanban", "ui", "mime-type", "frontend"]
 created_at: "2025-10-13T23:32:36.411Z"

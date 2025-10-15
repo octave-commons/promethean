@@ -2,7 +2,7 @@
 uuid: "8b1add71-be76-4a34-8f24-b3f0eaac69d5"
 title: "Design unified FSM architecture using existing foundations"
 slug: "Design unified FSM architecture using existing foundations"
-status: "in_progress"
+status: "review"
 priority: "P0"
 labels: ["fsm", "packages", "design", "architecture", "tool:analysis", "env:no-egress"]
 created_at: "2025-10-13T16:26:36.572Z"

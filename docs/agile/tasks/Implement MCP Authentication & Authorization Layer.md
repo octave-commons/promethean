@@ -2,7 +2,7 @@
 uuid: "86765f2a-9539-4443-baa2-a0bd37195385"
 title: "Implement MCP Authentication & Authorization Layer"
 slug: "Implement MCP Authentication & Authorization Layer"
-status: "ready"
+status: "todo"
 priority: "P0"
 labels: ["mcp", "kanban", "security", "authentication", "authorization", "critical"]
 created_at: "2025-10-13T18:48:14.034Z"
