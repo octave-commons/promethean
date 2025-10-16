@@ -8,6 +8,7 @@ export * from './context-metadata';
 export * from './context-lifecycle';
 export * from './share-store';
 export * from './metadata-store';
+export * from './security';
 
 // Convenience exports for common use cases
 export { DefaultContextManager } from './context-manager';

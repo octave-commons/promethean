@@ -103,7 +103,7 @@ function isGenerateResponse(val: unknown): val is GenerateResponse {
 export async function ollamaJSON(
   model: string,
   prompt: string,
-  options?: { schema?: object },
+  options?: { schema?: object; timeout?: number },
 ): Promise<unknown> {
   if (String(process.env.OLLAMA_DISABLE ?? 'false').toLowerCase() === 'true') {
     throw new Error('ollama disabled');
@@ -123,19 +123,35 @@ export async function ollamaJSON(
     requestBody.format = 'json';
   }
 
-  const res = await fetch(`${OLLAMA_URL}/api/generate`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(requestBody),
-  });
-  await check(res, 'generate');
-  const data: unknown = await res.json();
-  if (!isGenerateResponse(data)) throw new Error('invalid generate response');
-  const raw = typeof data.response === 'string' ? data.response : JSON.stringify(data.response);
-  return JSON.parse(
-    String(raw)
-      .replace(/```json\s*/g, '')
-      .replace(/```\s*$/g, '')
-      .trim(),
-  );
+  // Set up timeout
+  const timeout = options?.timeout || 120000; // Default 2 minutes
+  const ac = new AbortController();
+  const timer = setTimeout(() => ac.abort(), timeout);
+
+  try {
+    const res = await fetch(`${OLLAMA_URL}/api/generate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(requestBody),
+      signal: ac.signal,
+    });
+
+    clearTimeout(timer);
+    await check(res, 'generate');
+    const data: unknown = await res.json();
+    if (!isGenerateResponse(data)) throw new Error('invalid generate response');
+    const raw = typeof data.response === 'string' ? data.response : JSON.stringify(data.response);
+    return JSON.parse(
+      String(raw)
+        .replace(/```json\s*/g, '')
+        .replace(/```\s*$/g, '')
+        .trim(),
+    );
+  } catch (error) {
+    clearTimeout(timer);
+    if (error instanceof Error && error.name === 'AbortError') {
+      throw new Error(`Ollama request timed out after ${timeout}ms`);
+    }
+    throw error;
+  }
 }

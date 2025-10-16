@@ -294,7 +294,7 @@ export class PerformanceTracker {
   /**
    * Get default capabilities for unknown models
    */
-  private getDefaultCapabilities(modelName: string): ModelCapabilities {
+  private getDefaultCapabilities(_modelName: string): ModelCapabilities {
     return {
       maxTokens: 4096,
       supportsStreaming: true,
@@ -350,7 +350,11 @@ export class PerformanceTracker {
    * Analyze performance trends
    */
   private analyzeTrends(): { improving: string[]; declining: string[]; stable: string[] } {
-    const trends = { improving: [], declining: [], stable: [] };
+    const trends: { improving: string[]; declining: string[]; stable: string[] } = {
+      improving: [],
+      declining: [],
+      stable: [],
+    };
 
     for (const modelName of [...new Set(this.scores.map((score) => score.modelName))]) {
       const recentScores = this.getRecentScores(modelName, 20);

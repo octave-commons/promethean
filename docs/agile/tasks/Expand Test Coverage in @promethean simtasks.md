@@ -2,7 +2,7 @@
 uuid: "26361940-0add-4120-9f9f-c0f8da73b465"
 title: "Expand Test Coverage in @promethean/simtasks"
 slug: "Expand Test Coverage in @promethean simtasks"
-status: "incoming"
+status: "icebox"
 priority: "P1"
 labels: ["simtasks", "testing", "high-priority", "coverage"]
 created_at: "2025-10-15T17:57:53.777Z"

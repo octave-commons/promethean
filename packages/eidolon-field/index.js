@@ -1,4 +1,4 @@
-import { getMongoClient } from "@promethean/persistence/clients.js";
+import { getMongoClient } from '@promethean/persistence/clients.js';
 
 export class VectorN {
   constructor(values) {
@@ -24,7 +24,10 @@ export class VectorN {
     return m === 0 ? this : this.scale(1 / m);
   }
   toIndexKey() {
-    return this.values.map(Math.floor).join(",");
+    return this.values.map(Math.floor).join(',');
+  }
+  clone() {
+    return new VectorN([...this.values]);
   }
 }
 
@@ -91,8 +94,8 @@ export class VectorFieldService {
     this.tickMs = tickMs;
     this.timer = null;
     this.tickCount = 0;
-    this.dbName = process.env.DB_NAME || "eidolon_field";
-    this.collectionName = process.env.COLLECTION || "fields";
+    this.dbName = process.env.DB_NAME || 'eidolon_field';
+    this.collectionName = process.env.COLLECTION || 'fields';
     this.client = null;
     this.collection = null;
     this.currentSave = Promise.resolve();
@@ -102,9 +105,7 @@ export class VectorFieldService {
   }
   async connect() {
     this.client = await getMongoClient();
-    this.collection = this.client
-      .db(this.dbName)
-      .collection(this.collectionName);
+    this.collection = this.client.db(this.dbName).collection(this.collectionName);
   }
   async saveField() {
     if (!this.collection) return;
@@ -121,9 +122,7 @@ export class VectorFieldService {
     this.field.decayAll();
     for (const node of this.nodes) node.apply(this.field);
     this.tickCount += 1;
-    this.currentSave = this.saveField().catch((err) =>
-      console.error("failed to save field", err),
-    );
+    this.currentSave = this.saveField().catch((err) => console.error('failed to save field', err));
   }
   async start() {
     if (!this.timer) {
@@ -151,42 +150,30 @@ export async function start() {
   await service.start();
 
   try {
-    const { startService } = await import(
-      "@promethean/legacy/serviceTemplate.js"
-    );
+    const { startService } = await import('@promethean/legacy/serviceTemplate.js');
     await startService({
-      id: "eidolon-field",
-      queues: ["eidolon-field"],
+      id: 'eidolon-field',
+      queues: ['eidolon-field'],
       handleTask: async (task) => {
-        const {
-          action,
-          position,
-          strength = 1.0,
-          radius = 1,
-        } = task.payload || {};
-        if (action === "add-node" && Array.isArray(position)) {
-          service.addNode(
-            new FieldNode(new VectorN(position), strength, radius),
-          );
-        } else if (action === "tick") {
+        const { action, position, strength = 1.0, radius = 1 } = task.payload || {};
+        if (action === 'add-node' && Array.isArray(position)) {
+          service.addNode(new FieldNode(new VectorN(position), strength, radius));
+        } else if (action === 'tick') {
           service.tick();
         }
       },
     });
   } catch (err) {
-    console.warn(
-      "eidolon-field broker bridge unavailable, running without task queue",
-      err,
-    );
+    console.warn('eidolon-field broker bridge unavailable, running without task queue', err);
   }
 
-  console.log("eidolon-field service started");
+  console.log('eidolon-field service started');
   return service;
 }
 
-if (process.env.NODE_ENV !== "test") {
+if (process.env.NODE_ENV !== 'test') {
   start().catch((err) => {
-    console.error("failed to start service", err);
+    console.error('failed to start service', err);
     process.exit(1);
   });
 }

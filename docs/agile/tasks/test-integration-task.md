@@ -1,11 +1,15 @@
 ---
-title: 'Test Integration Task for Testing→Review Transition'
-uuid: 'test-integration-123'
-status: 'testing'
-priority: 'P0'
-labels: ['testing', 'integration', 'coverage-validation']
-storyPoints: 3
-created_at: '2025-10-15T20:00:00.000Z'
+uuid: "test-integration-123"
+title: "Test Integration Task for Testing→Review Transition"
+slug: "test-integration-task"
+status: "testing"
+priority: "P0"
+labels: ["testing", "integration", "coverage-validation"]
+created_at: "2025-10-15T20:00:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Test Integration Task

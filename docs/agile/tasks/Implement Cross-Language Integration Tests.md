@@ -2,7 +2,7 @@
 uuid: "d93eb870-7893-40b1-9716-5eda05474b66"
 title: "Implement Cross-Language Integration Tests"
 slug: "Implement Cross-Language Integration Tests"
-status: "incoming"
+status: "icebox"
 priority: "P1"
 labels: ["migration", "testing", "integration", "cross-language", "validation"]
 created_at: "2025-10-14T06:37:33.625Z"

@@ -3,42 +3,42 @@
   "provider": {
     "ollama": {
       "npm": "ollama-ai-provider-v2",
-      "models":{
+      "models": {
         "qwen3:8b": {
           "name": "Qwen3 8B",
-          "options":{
-            "think":true,
-            "numx_ctx":40000
+          "options": {
+            "think": true,
+            "numx_ctx": 40000
           }
         },
         "error/qwen3-codex": {
           "name": "Qwen3 Codex",
-          "options":{
-            "think":true
+          "options": {
+            "think": true
           }
         },
         "error/gpt-oss:20b-128k": {
           "name": "GPT-OSS 20B 128K",
-          "options":{
-            "think":true
+          "options": {
+            "think": true
           }
         },
         "qwen3:8b": {
           "name": "Qwen3 8B",
-          "options":{
-            "think":true
+          "options": {
+            "think": true
           }
         },
         "error/qwen3-codex": {
           "name": "Qwen3 Codex",
-          "options":{
-            "think":true
+          "options": {
+            "think": true
           }
         },
         "qwen3:14b": {
           "name": "Qwen3 14B",
-          "options":{
-            "think":true
+          "options": {
+            "think": true
           }
         },
         "qwen2.5:7b": {
@@ -49,80 +49,66 @@
         },
         "error/qwen2.5-codex": {
           "name": "Qwen2.5 Codex",
-          "options":{
-            "think":true
+          "options": {
+            "think": true
           }
         },
         "error/llama3.1-codex": {
           "name": "Llama3.1 Codex",
-          "options":{
-            "think":true
+          "options": {
+            "think": true
           }
         },
         "gpt-oss:120b-cloud": {
           "name": "GPT-OSS 120B (cloud)",
-          "options":{
-            "think":true
+          "options": {
+            "think": true
           }
         },
         "gpt-oss:20b-cloud": {
           "name": "GPT-OSS 20B (cloud)",
-          "options":{
-            "think":true
+          "options": {
+            "think": true
           }
         },
         "qwen3-coder:408b-cloud": {
           "name": "Qwen3 Coder 408B (cloud)",
-          "options":{
-            "think":true
+          "options": {
+            "think": true
           }
         },
         "kimi-k2:1t-cloud": {
           "name": "Kimi K2 1T (cloud)",
-          "options":{
-            "think":true
+          "options": {
+            "think": true
           }
         },
         "deepseek-v3.1:671b-cloud": {
           "name": "Deepseek v3.1 671B (cloud)",
-          "options":{
-            "think":true
-          }
-        }
-
-      }
-    },
-    "perplexity":{
-      "npm": "@ai-sdk/perplexity",
-      "models":{
-        "sonar": {
-          "name": "Perplexity Sonar",
-          "options":{
-            "style":"balanced"
+          "options": {
+            "think": true
           }
         }
       }
     },
-
     "zai-coding-plan": {
-      "models":{
-
-      "glm-4.6": {
-        "options": {
-          "thinking": {
-            "type": "enabled"
+      "models": {
+        "glm-4.6": {
+          "options": {
+            "thinking": {
+              "type": "enabled"
+            }
           }
-        }
-      },
-      "glm-4.5v": {
-        "options": {
-          "thinking": {
-            "type": "enabled"
+        },
+        "glm-4.5v": {
+          "options": {
+            "thinking": {
+              "type": "enabled"
+            }
           }
         }
       }
     }
-  }
   },
   "mcp": {
     "web-search-prime": {
@@ -135,7 +121,11 @@
     },
     "zai-mcp-server": {
       "type": "local",
-      "command": ["npx", "-y", "@z_ai/mcp-server"],
+      "command": [
+        "npx",
+        "-y",
+        "@z_ai/mcp-server"
+      ],
       "environment": {
         "Z_AI_API_KEY": "{env:Z_AI_API_KEY}",
         "Z_AI_MODE": "ZAI"
@@ -143,8 +133,8 @@
       "enabled": true
     },
     "playwright": {
-      "type": "local",
-      "command": ["npx", "-y", "@playwright/mcp@latest"],
+      "type": "remote",
+      "url": "http://localhost:8931/mcp",
       "enabled": true
     },
     "serena": {
@@ -158,17 +148,23 @@
       ],
       "enabled": true
     },
-    "clojure-mcp": {
+    "clj": {
       "type": "local",
-      "command": ["clojure", "-X:mcp"],
+      "command": [
+        "clojure",
+        "-X:mcp"
+      ],
       "environment": {
         "CLOJURE_MCP_PORT": "7888"
       },
       "enabled": true
     },
-    "clj-kondo-mcp": {
+    "clj-kondo": {
       "type": "local",
-      "command": ["npx", "clj-kondo-mcp"],
+      "command": [
+        "npx",
+        "clj-kondo-mcp"
+      ],
       "enabled": true
     },
     "context7": {
@@ -181,80 +177,24 @@
     },
     "gh_grep": {
       "type": "remote",
-      "url": "https://mcp.grep.app"
+      "url": "https://mcp.grep.app",
+      "enabled": true
     }
   },
   "lsp": {
     "clojure-lsp": {
-      "command": ["clojure-lsp"],
-      "extensions": [".clj", ".cljs", ".cljc", ".bb"],
-      "initialization": {
-        "settings": {
-          "clojure-lsp": {
-            "additional-suffixes": [".cljs", ".cljc", ".clj", ".bb"],
-            "source-paths": [
-              "bb/src",
-              "mk",
-              "packages/*/src",
-              "packages/*/src/cljs",
-              "packages/*/src/main",
-              "docs/agile/rules",
-              "packages/clj-hacks/src",
-              "packages/clj-hacks/verify.clj"
-            ],
-            "test-paths": ["packages/*/test", "bb/test", "packages/clj-hacks/test"],
-            "source-paths-ignore-regex": [
-              "resources.*",
-              "target.*",
-              "node_modules.*",
-              "dist.*",
-              "build.*",
-              "\\.direnv.*",
-              "\\.venv.*",
-              "\\.cache.*",
-              "packages/*/dist.*",
-              "packages/*/out.*",
-              "\\.clj-kondo.*",
-              "test-comprehensive.*",
-              "test-kanban.*",
-              "test-timestamp.*",
-              "simple-test.*"
-            ],
-            "clj-kondo": {
-              "config-dir": ".clj-kondo"
-            },
-            "project-specs": {
-              "shadow-cljs": {
-                "project-type": "shadow-cljs",
-                "shadow-cljs-config": "shadow-cljs.edn"
-              },
-              "clj-hacks": {
-                "project-type": "gradle",
-                "root": "packages/clj-hacks",
-                "source-paths": ["src"],
-                "test-paths": ["test"]
-              }
-            }
-          }
-        }
-      }
+      "command": [
+        "clojure-lsp"
+      ],
+      "extensions": [
+        ".clj",
+        ".cljs",
+        ".cljc",
+        ".bb"
+      ]
     }
   },
-  "instructions": ["./docs/agents/opencode.md"],
-  "tools": {
-    "webfetch": true,
-    "web-search-prime": true,
-    "playwright_*": true,
-    "playwright_browser_install":false,
-    "bash":false,
-    "serena_execute_shell_command":false,
-    "zai-mcp-server_analyze_image": true,
-    "zai-mcp-server_analyze_video": true,
-    "process_*": true,
-    "clojure-mcp*": true,
-    "clj-kondo-mcp*": false,
-    "ollama-queue_": true,
-    "pm2_*": true,
-    "session-info": true
-  }
+  "instructions": [
+    "./docs/agents/platforms/opencode/AGENTS.md"
+  ]
 }

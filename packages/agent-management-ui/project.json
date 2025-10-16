@@ -1,0 +1,32 @@
+{
+  "name": "agent-management-ui",
+  "sourceRoot": "packages/agent-management-ui/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "packages/agent-management-ui/dist",
+        "main": "packages/agent-management-ui/src/index.ts",
+        "tsConfig": "packages/agent-management-ui/tsconfig.json",
+        "assets": ["packages/agent-management-ui/*.md"]
+      }
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "../../coverage/packages/agent-management-ui"
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/agent-management-ui/**/*.ts"]
+      }
+    }
+  },
+  "tags": ["scope:frontend", "scope:ui", "scope:agents"]
+}

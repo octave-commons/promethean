@@ -78,7 +78,7 @@ const CACHE_MAX_AGE_MS = 24 * 60 * 60 * 1000; // 24 hours
 const modelCaches = new Map<string, InMemoryChroma<CacheEntry>>();
 
 // Queue processing configuration
-const MAX_CONCURRENT_JOBS = 6;
+const MAX_CONCURRENT_JOBS = 2;
 const POLL_INTERVAL = 5000; // 5 seconds
 
 let processingInterval: NodeJS.Timeout | null = null;

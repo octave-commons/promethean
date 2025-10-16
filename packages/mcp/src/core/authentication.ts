@@ -6,7 +6,7 @@
  */
 
 import crypto from 'node:crypto';
-import { sign, verify, type JwtPayload } from 'jsonwebtoken';
+import jwt, { type JwtPayload } from 'jsonwebtoken';
 import type { FastifyRequest, FastifyReply } from 'fastify';
 import type { ToolContext } from './types.js';
 import type { UserRole } from './authorization.js';
@@ -101,7 +101,6 @@ class RateLimiter {
     }
 
     // Check minute limit
-    const minuteWindowStart = now - minuteMs;
     if (
       entry.count > 0 &&
       now - entry.windowStart < minuteMs &&
@@ -137,10 +136,10 @@ export class AuthenticationManager {
 
   constructor(jwtConfig: Partial<JwtConfig> = {}, apiKeyConfig: Partial<ApiKeyConfig> = {}) {
     this.jwtConfig = {
-      secret: process.env.JWT_SECRET || crypto.randomBytes(64).toString('hex'),
-      expiresIn: process.env.JWT_EXPIRES_IN || '1h',
-      issuer: process.env.JWT_ISSUER || 'promethean-mcp',
-      audience: process.env.JWT_AUDIENCE || 'promethean-mcp-clients',
+      secret: jwtConfig.secret || process.env.JWT_SECRET || crypto.randomBytes(64).toString('hex'),
+      expiresIn: jwtConfig.expiresIn || process.env.JWT_EXPIRES_IN || '1h',
+      issuer: jwtConfig.issuer || process.env.JWT_ISSUER || 'promethean-mcp',
+      audience: jwtConfig.audience || process.env.JWT_AUDIENCE || 'promethean-mcp-clients',
       ...jwtConfig,
     };
 
@@ -209,14 +208,14 @@ export class AuthenticationManager {
       aud: this.jwtConfig.audience,
     };
 
-    return sign(jwtPayload, this.jwtConfig.secret, {
+    return jwt.sign(jwtPayload, this.jwtConfig.secret, {
       expiresIn: this.jwtConfig.expiresIn,
-    });
+    } as jwt.SignOptions);
   }
 
   verifyToken(token: string): JwtPayload | null {
     try {
-      const decoded = verify(token, this.jwtConfig.secret, {
+      const decoded = jwt.verify(token, this.jwtConfig.secret, {
         issuer: this.jwtConfig.issuer,
         audience: this.jwtConfig.audience,
       }) as JwtPayload;
@@ -332,7 +331,8 @@ export class AuthenticationManager {
     }
 
     // Try query parameter
-    const queryKey = request.query[this.apiKeyConfig.queryParam] as string;
+    const query = request.query as Record<string, unknown>;
+    const queryKey = query[this.apiKeyConfig.queryParam] as string;
     if (queryKey && typeof queryKey === 'string') {
       return queryKey;
     }
@@ -352,6 +352,7 @@ export class AuthenticationManager {
     }
 
     const keyId = parts[1];
+    if (!keyId) return null;
     const keyInfo = this.apiKeyConfig.keys.get(keyId);
 
     if (!keyInfo) {

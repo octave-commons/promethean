@@ -1,0 +1,346 @@
+# Claude Code Agent Instructions
+
+## 🤖 Agent Identity
+
+**Name**: {{agent.name | default "Claude Assistant"}}
+**Type**: {{agent.type | default "AI Coding Assistant"}}
+**Platform**: {{platform}}
+**Capabilities**: {{#each agent.capabilities}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
+
+---
+
+## 🎯 Current Context
+
+### Project Overview
+You are working in the **Promethean Framework** - a modular cognitive architecture for AI agents.
+
+**Current State**:
+- **Platform**: {{platform}}
+- **Active Tasks**: {{#if kanban.active-tasks}}{{count kanban.active-tasks}}{{else}}0{{/if}}
+- **Total Tasks**: {{#if kanban.statistics}}{{kanban.statistics.total-tasks}}{{else}}0{{/if}}
+- **Last Updated**: {{#if kanban.statistics}}{{kanban.statistics.last-updated}}{{else}}Unknown{{/if}}
+
+### Environment Configuration
+{{#if environment}}
+{{#each environment}}
+- **{{@key}}**: {{this}}
+{{/each}}
+{{/if}}
+
+---
+
+## 🛠️ Available Tools & Integrations
+
+### Core Development Tools
+{{#if project.tools}}
+{{#each project.tools}}
+#### {{category}}
+{{#each tools}}
+- `{{this}}`
+{{/each}}
+{{/each}}
+{{/if}}
+
+### Platform-Specific Tools
+
+{{#platform bb}}
+**Babashka Environment**:
+- Native Clojure interpreter
+- Fast startup (<100ms)
+- File system operations
+- Process execution
+- HTTP client
+{{/platform}}
+
+{{#platform jvm}}
+**JVM Environment**:
+- Full Clojure runtime
+- Multi-threading support
+- Database connectivity
+- Advanced libraries
+- Performance monitoring
+{{/platform}}
+
+{{#platform node-babashka}}
+**Node.js Environment**:
+- JavaScript runtime
+- NPM package management
+- Async I/O operations
+- File system access
+- HTTP/HTTPS support
+{{/platform}}
+
+{{#platform clojurescript}}
+**ClojureScript Environment**:
+- Browser compatibility
+- Google Closure optimization
+- Source map support
+- Web APIs
+- JavaScript interop
+{{/platform}}
+
+---
+
+## 📋 Active Work Items
+
+### Current Tasks
+{{#if kanban.active-tasks}}
+{{#each kanban.active-tasks}}
+#### {{title}}
+- **Status**: {{status | upper}}
+- **Priority**: {{priority}}
+- **Tags**: {{#each tags}}#{{this}}{{#unless @last}} {{/unless}}{{/each}}
+{{/each}}
+{{else}}
+No active tasks currently.
+{{/if}}
+
+### Task Board Statistics
+{{#if kanban.statistics}}
+- **Total Tasks**: {{kanban.statistics.total-tasks}}
+- **Sections**: {{kanban.statistics.sections}}
+- **Completion Rate**: {{#if kanban.statistics.completion-rate}}{{kanban.statistics.completion-rate}}{{else}}N/A{{/if}}
+{{/if}}
+
+---
+
+## 🔧 Development Workflow
+
+### Code Generation Guidelines
+1. **Follow Conventions**: Use existing code patterns and styles
+2. **Test First**: Write tests before implementation when possible
+3. **Document**: Add clear documentation for new features
+4. **Validate**: Use the agent generator to validate outputs
+
+### Build Commands
+
+{{#platform bb}}
+```bash
+# Generate agent instructions
+bb agent-generator:generate
+
+# Validate configuration
+bb agent-generator:validate
+
+# Run tests
+bb agent-generator:test
+```
+{{/platform}}
+
+{{#platform jvm}}
+```bash
+# Generate agent instructions
+clojure -M:run generate
+
+# Validate configuration
+clojure -M:run validate
+
+# Run tests
+clojure -M:test
+```
+{{/platform}}
+
+{{#platform node-babashka}}
+```bash
+# Generate agent instructions
+nbb -m promethean.agent-generator.cli.core generate
+
+# Validate configuration
+nbb -m promethean.agent_generator.cli.core validate
+```
+{{/platform}}
+
+{{#platform clojurescript}}
+```bash
+# Build for production
+shadow-cljs release agent-generator
+
+# Run generation
+node dist/agent_generator.cjs generate
+```
+{{/platform}}
+
+---
+
+## 🎨 Template System
+
+### Available Templates
+- **agents.md.template**: General agent framework documentation
+- **claude.md.template**: Claude-specific instructions (this file)
+- **crush.md.template**: Development quick reference
+
+### Template Variables
+Common variables available in templates:
+- `{{agent.name}}`: Agent name
+- `{{platform}}`: Current platform
+- `{{timestamp}}`: Generation timestamp
+- `{{kanban.*}}`: Kanban board data
+- `{{project.*}}`: Project structure data
+- `{{environment.*}}`: Environment variables
+
+### Conditional Rendering
+Templates support conditional blocks:
+```handlebars
+{{#platform bb}}
+Babashka-specific content
+{{/platform}}
+
+{{#if kanban.active-tasks}}
+Active tasks section
+{{/if}}
+```
+
+---
+
+## 🔍 Debugging & Troubleshooting
+
+### Common Issues
+
+#### Template Validation Errors
+- Check template syntax with `agent-generator validate`
+- Ensure all variables are properly formatted
+- Verify conditional blocks are balanced
+
+#### Platform Compatibility
+- Confirm required features are available
+- Check platform-specific implementations
+- Validate file system permissions
+
+#### Data Collection Issues
+- Verify kanban board file exists
+- Check environment variable configuration
+- Ensure project structure is accessible
+
+### Debug Commands
+```bash
+# Validate everything
+agent-generator validate --verbose
+
+# Check platform compatibility
+agent-generator version
+
+# List available templates
+agent-generator list-templates
+```
+
+---
+
+## 📊 Performance Considerations
+
+### Platform Optimizations
+
+{{#platform bb}}
+- **Startup**: <100ms
+- **Memory**: Low footprint
+- **Deployment**: Single binary
+{{/platform}}
+
+{{#platform jvm}}
+- **Startup**: 1-3s
+- **Memory**: Higher usage
+- **Deployment**: JAR file
+{{/platform}}
+
+{{#platform node-babashka}}
+- **Startup**: ~200ms
+- **Memory**: Medium usage
+- **Deployment**: Node.js package
+{{/platform}}
+
+{{#platform clojurescript}}
+- **Startup**: ~500ms
+- **Memory**: Medium usage
+- **Deployment**: JavaScript bundle
+{{/platform}}
+
+### Caching Strategy
+- Template caching enabled by default
+- Data collection caching for performance
+- Platform-specific optimizations
+
+---
+
+## 🚀 Advanced Usage
+
+### Custom Templates
+Create custom templates in the template directory:
+```handlebars
+# {{agent.name}} Custom Instructions
+
+## Context
+Generated on {{timestamp}} for {{platform}} platform.
+
+{{#if kanban.active-tasks}}
+## Current Tasks
+{{#each kanban.active-tasks}}
+- {{title}} ({{status}})
+{{/each}}
+{{/if}}
+```
+
+### Configuration Override
+Use environment variables with `AGENT_GENERATOR_` prefix:
+```bash
+export AGENT_GENERATOR_AGENT_NAME="custom-agent"
+export AGENT_GENERATOR_OUTPUT_DIR="./custom-output"
+export AGENT_GENERATOR_VERBOSE=true
+```
+
+### Programmatic Usage
+```clojure
+(require '[promethean.agent-generator.generator.core :as generator])
+
+;; Generate with custom config
+(generator/generate-and-write 
+  {:agent-name "custom-agent"
+   :output-dir "./output"
+   :verbose true})
+```
+
+---
+
+## 📚 Reference Materials
+
+### Key Files
+- `AGENTS.md`: General agent framework documentation
+- `CLAUDE.md`: This file - Claude-specific instructions
+- `CRUSH.md`: Development quick reference
+- `promethean.kanban.json`: Kanban configuration
+
+### Documentation
+- `docs/architecture/`: System architecture documentation
+- `docs/agents/`: Agent-specific documentation
+- `docs/agile/`: Process and workflow documentation
+
+### Configuration
+- `agent-generator.config.edn`: Generator configuration
+- `promethean.kanban.json`: Kanban board configuration
+- `.env.example`: Environment variable template
+
+---
+
+## 🎯 Success Criteria
+
+When working with this agent configuration:
+
+✅ **Requirements Met**:
+- Cross-platform compatibility achieved
+- Dynamic content generation working
+- Template system functional
+- Integration with existing systems
+
+✅ **Quality Standards**:
+- Generated files are valid and well-formatted
+- Configuration validation passes
+- Error handling is graceful
+- Performance is acceptable
+
+✅ **Developer Experience**:
+- Clear documentation provided
+- Easy to customize and extend
+- Consistent with existing patterns
+- Good debugging support
+
+---
+
+*This instruction file was generated by the Promethean Agent Instruction Generator on {{timestamp}} for the {{platform}} platform.*

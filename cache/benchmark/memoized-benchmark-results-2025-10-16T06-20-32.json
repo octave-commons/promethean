@@ -1,0 +1,94 @@
+{
+  "results": [
+    {
+      "fixture": "missing-export",
+      "model": "qwen2.5-coder:7b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 144730,
+      "attempts": 3,
+      "errorMessage": "Unterminated string in JSON at position 7251 (line 12 column 4679)"
+    },
+    {
+      "fixture": "optional-parameter",
+      "model": "qwen2.5-coder:7b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": true,
+      "duration": 105194,
+      "attempts": 3,
+      "planTitle": "addParamParam",
+      "errorMessage": "Cannot find module '/home/err/devel/promethean/packages/buildfix/node_modules/ts-morph/index.jsx' imported from /home/err/devel/promethean/benchmark-temp/fixtures/optional-parameter/attempt-3.mjs.patched.mjs"
+    },
+    {
+      "fixture": "type-annotation-missing",
+      "model": "qwen2.5-coder:7b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": true,
+      "duration": 103807,
+      "attempts": 3,
+      "planTitle": "Add Ref for Adding Missing Module",
+      "errorMessage": "Cannot find module '/home/err/devel/promethean/packages/buildfix/node_modules/ts-morph/index.jsx' imported from /home/err/devel/promethean/benchmark-temp/fixtures/type-annotation-missing/attempt-3.mjs.patched.mjs"
+    },
+    {
+      "fixture": "missing-return-type",
+      "model": "qwen2.5-coder:7b",
+      "success": false,
+      "errorCountBefore": 0,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 2276,
+      "attempts": 0,
+      "errorMessage": "No errors found in fixture"
+    },
+    {
+      "fixture": "class-not-exported",
+      "model": "qwen2.5-coder:7b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 145962,
+      "attempts": 3,
+      "errorMessage": "Unterminated string in JSON at position 242 (line 6 column 220)"
+    },
+    {
+      "fixture": "interface-missing",
+      "model": "qwen2.5-coder:7b",
+      "success": false,
+      "errorCountBefore": 0,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 1482,
+      "attempts": 0,
+      "errorMessage": "No errors found in fixture"
+    }
+  ],
+  "summary": {
+    "totalTests": 6,
+    "successfulTests": 0,
+    "errorsResolved": 0,
+    "averageDuration": 83.9085,
+    "modelResults": {
+      "qwen2.5-coder:7b": {
+        "successRate": 0,
+        "errorResolution": 0,
+        "avgDuration": 83.9085,
+        "totalErrors": 4,
+        "errorsFixed": 4
+      }
+    }
+  },
+  "timestamp": "2025-10-16T06:20:32.460Z"
+}

@@ -1,0 +1,175 @@
+{
+  "$schema": "https://json.schemastore.org/nx.json",
+  "npmScope": "promethean",
+  "workspaceLayout": {
+    "appsDir": "services",
+    "libsDir": "packages"
+  },
+  "affected": {
+    "defaultBase": "work"
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "nx/tasks-runners/default",
+      "options": {
+        "cacheableOperations": [
+          "build",
+          "test",
+          "test:unit",
+          "test:integration",
+          "test:e2e",
+          "lint",
+          "typecheck",
+          "coverage"
+        ],
+        "cacheDirectory": "node_modules/.cache/nx",
+        "useDaemonProcess": true,
+        "parallel": 4,
+        "maxParallel": 6,
+        "runtimeCacheInputs": ["node -v", "npm -v"],
+        "captureStderr": true
+      }
+    }
+  },
+  "targetDefaults": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["{projectRoot}/dist", "{projectRoot}/build"],
+      "cache": true,
+      "inputs": [
+        "default",
+        "^default",
+        {
+          "runtime": "node -v"
+        },
+        {
+          "runtime": "npm -v"
+        }
+      ]
+    },
+    "test": {
+      "dependsOn": ["build"],
+      "cache": true,
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/jest.preset.js",
+        "{workspaceRoot}/ava.config.mjs"
+      ]
+    },
+    "test:unit": {
+      "dependsOn": ["build"],
+      "outputs": ["{projectRoot}/coverage/unit"],
+      "cache": true,
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/jest.preset.js",
+        "{workspaceRoot}/ava.config.mjs"
+      ]
+    },
+    "test:integration": {
+      "dependsOn": ["build", "^build"],
+      "outputs": ["{projectRoot}/coverage/integration"],
+      "cache": true,
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/jest.preset.js",
+        "{workspaceRoot}/ava.config.mjs"
+      ]
+    },
+    "test:e2e": {
+      "dependsOn": ["build", "^build"],
+      "outputs": ["{projectRoot}/coverage/e2e"],
+      "cache": true,
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/jest.preset.js",
+        "{workspaceRoot}/ava.config.mjs"
+      ]
+    },
+    "coverage": {
+      "dependsOn": ["test:unit", "test:integration", "test:e2e"],
+      "outputs": ["{projectRoot}/coverage"],
+      "cache": true
+    },
+    "lint": {
+      "cache": true,
+      "inputs": [
+        "default",
+        "{workspaceRoot}/.eslintrc.json",
+        "{workspaceRoot}/.eslintignore",
+        "{workspaceRoot}/eslint.config.*"
+      ],
+      "options": {
+        "forwardAllArgs": false,
+        "maxWarnings": 100
+      }
+    },
+    "typecheck": {
+      "cache": true,
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/tsconfig*.json",
+        "{workspaceRoot}/config/tsconfig*.json"
+      ],
+      "outputs": ["{projectRoot}/*.tsbuildinfo"]
+    }
+  },
+  "generators": {
+    "@nx/js:library": {
+      "buildable": true,
+      "publishable": true,
+      "importPath": "@promethean/{name}"
+    }
+  },
+  "plugins": [
+    {
+      "plugin": "@nx/webpack/plugin",
+      "options": {
+        "buildTargetName": "build",
+        "serveTargetName": "serve"
+      }
+    },
+    {
+      "plugin": "@nx/jest/plugin",
+      "options": {
+        "targetName": "test"
+      }
+    },
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "lint"
+      }
+    }
+  ],
+  "release": {
+    "version": {
+      "preVersionCommand": "pnpm build:all",
+      "generatorOptions": {
+        "packageRoot": "dist/{projectRoot}",
+        "currentVersionResolver": "git-tag"
+      }
+    },
+    "changelog": {
+      "workspaceChangelog": {
+        "createRelease": "github",
+        "file": "CHANGELOG.md",
+        "entryWhenNoChanges": false
+      },
+      "projectChangelogs": {
+        "createRelease": "github",
+        "file": "{projectRoot}/CHANGELOG.md",
+        "entryWhenNoChanges": false
+      }
+    }
+  },
+  "parallel": 4,
+  "maxParallel": 6,
+  "useDaemonProcess": true,
+  "cacheDirectory": "node_modules/.cache/nx"
+}

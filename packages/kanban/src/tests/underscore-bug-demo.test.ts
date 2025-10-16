@@ -1,13 +1,29 @@
 #!/usr/bin/env node
 
 /**
- * Test to demonstrate the underscore normalization bug
+ * Test to verify the underscore normalization fix
  */
 
 import { columnKey as boardColumnKey } from '../lib/kanban.js';
 
-// CLI version of columnKey (from command-handlers.ts)
-const cliColumnKey = (name: string): string => name.toLowerCase().replace(/\s+/g, '');
+// Import the transition rules to test the actual normalizeColumnName method
+import { TransitionRulesEngine } from '../lib/transition-rules.js';
+
+// Create a minimal transition rules engine to access normalizeColumnName
+const testEngine = new TransitionRulesEngine({
+  enabled: false,
+  enforcement: 'warn',
+  rules: [],
+  globalRules: [],
+  customChecks: {},
+});
+
+// Access the private normalizeColumnName method via reflection
+const getNormalizeColumnName = (engine: TransitionRulesEngine) => {
+  return (engine as any).normalizeColumnName.bind(engine);
+};
+
+const transitionRulesColumnKey = getNormalizeColumnName(testEngine);
 
 console.log('🔍 Testing underscore normalization bug\n');
 
@@ -23,18 +39,20 @@ const testCases = [
   'in review',
 ];
 
-console.log('Column Name | Board columnKey() | CLI columnKey() | Match?');
-console.log('------------|------------------|-----------------|--------');
+console.log('Column Name | Board columnKey() | Transition Rules normalize() | Match?');
+console.log('------------|------------------|---------------------------|--------');
 
 testCases.forEach((name) => {
   const boardKey = boardColumnKey(name);
-  const cliKey = cliColumnKey(name);
-  const match = boardKey === cliKey ? '✅' : '❌';
-  console.log(`${name.padEnd(11)} | ${boardKey.padEnd(16)} | ${cliKey.padEnd(15)} | ${match}`);
+  const transitionKey = transitionRulesColumnKey(name);
+  const match = boardKey === transitionKey ? '✅' : '❌';
+  console.log(
+    `${name.padEnd(11)} | ${boardKey.padEnd(16)} | ${transitionKey.padEnd(25)} | ${match}`,
+  );
 });
 
-console.log('\n🐛 Bug Analysis:');
-console.log('- Board columnKey preserves underscores: "in_progress" → "in_progress"');
-console.log('- CLI columnKey only handles spaces: "in_progress" → "in_progress"');
-console.log('- But "in progress" → "inprogress" in CLI, while board → "in_progress"');
-console.log('- This creates mismatches between CLI commands and board operations');
+console.log('\n🔧 Fix Analysis:');
+console.log('- Board columnKey: converts spaces/hyphens to underscores');
+console.log('- Transition Rules normalize: NOW also converts spaces/hyphens to underscores');
+console.log('- Both functions should now produce identical results');
+console.log('- This ensures consistent behavior between CLI commands and transition rules');

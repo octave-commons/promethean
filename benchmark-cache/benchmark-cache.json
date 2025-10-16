@@ -137,11 +137,11 @@
       "errorCountAfter": 0,
       "errorsResolved": false,
       "planGenerated": false,
-      "duration": 25531,
+      "duration": 147709,
       "attempts": 3,
-      "errorMessage": "Unterminated string in JSON at position 224 (line 7 column 190)"
+      "errorMessage": "Unterminated string in JSON at position 7319 (line 7 column 7285)"
     },
-    "timestamp": 1760554441492,
+    "timestamp": 1760595482329,
     "inputHash": "3b0b257e3b1993791ddb6de52fe0e27c7f143dc277500d6ad20a27af95f72ad7",
     "modelConfig": {
       "name": "qwen2.5-coder:7b",
@@ -158,12 +158,12 @@
       "errorCountAfter": 0,
       "errorsResolved": false,
       "planGenerated": true,
-      "duration": 33648,
+      "duration": 157951,
       "attempts": 3,
       "planTitle": "addParamParam",
-      "errorMessage": "Invalid or unexpected token"
+      "errorMessage": "Cannot find module '/home/err/devel/promethean/packages/buildfix/node_modules/ts-morph/index.jsx' imported from /home/err/devel/promethean/benchmark-temp/fixtures/optional-parameter/attempt-3.mjs.patched.mjs"
     },
-    "timestamp": 1760554475141,
+    "timestamp": 1760595331889,
     "inputHash": "ebf3909622d0f2f80ee1e5288d7d5d0c799e509aac4b5550a5786df3adde9665",
     "modelConfig": {
       "name": "qwen2.5-coder:7b",
@@ -179,12 +179,13 @@
       "errorCountBefore": 1,
       "errorCountAfter": 0,
       "errorsResolved": false,
-      "planGenerated": false,
-      "duration": 41466,
+      "planGenerated": true,
+      "duration": 8627,
       "attempts": 3,
-      "errorMessage": "Unterminated string in JSON at position 252 (line 4 column 233)"
+      "planTitle": "Add Ref for Adding Missing Module",
+      "errorMessage": "Unterminated string in JSON at position 575 (line 4 column 526)"
     },
-    "timestamp": 1760554516609,
+    "timestamp": 1760592454756,
     "inputHash": "fa0fa9bf6daf3d66f42bf3a9edf614d15db889499f0c6f029cf798b9b6026141",
     "modelConfig": {
       "name": "qwen2.5-coder:7b",
@@ -201,11 +202,11 @@
       "errorCountAfter": 0,
       "errorsResolved": false,
       "planGenerated": false,
-      "duration": 1429,
+      "duration": 1373,
       "attempts": 0,
       "errorMessage": "No errors found in fixture"
     },
-    "timestamp": 1760554518039,
+    "timestamp": 1760592456131,
     "inputHash": "f91b6cf0ede76035143c5f18fe1b6221fdebfc513a5d9678edddb14288a3b226",
     "modelConfig": {
       "name": "qwen2.5-coder:7b",
@@ -222,11 +223,11 @@
       "errorCountAfter": 0,
       "errorsResolved": false,
       "planGenerated": false,
-      "duration": 24788,
+      "duration": 145962,
       "attempts": 3,
-      "errorMessage": "Unterminated string in JSON at position 218 (line 4 column 208)"
+      "errorMessage": "Unterminated string in JSON at position 242 (line 6 column 220)"
     },
-    "timestamp": 1760554542829,
+    "timestamp": 1760595630876,
     "inputHash": "15203c95801601b2e5fb13dc2b960cc9e084ad4150cf6553b77e369ad54111ca",
     "modelConfig": {
       "name": "qwen2.5-coder:7b",
@@ -243,11 +244,11 @@
       "errorCountAfter": 0,
       "errorsResolved": false,
       "planGenerated": false,
-      "duration": 1537,
+      "duration": 1482,
       "attempts": 0,
       "errorMessage": "No errors found in fixture"
     },
-    "timestamp": 1760554544367,
+    "timestamp": 1760595632460,
     "inputHash": "49f2114d591247d09f13ccd706f7159dcd52d06f9ac3b37b82b8802826e455d5",
     "modelConfig": {
       "name": "qwen2.5-coder:7b",

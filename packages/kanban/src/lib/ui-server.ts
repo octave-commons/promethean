@@ -1,7 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 
 import { escapeHtml } from '../frontend/render.js';
@@ -72,21 +71,18 @@ type FrontendAsset = Readonly<{
 
 const createAssetDescriptor = (relativePath: string, contentType: string): FrontendAsset =>
   ({
-    path: fileURLToPath(new URL(relativePath, import.meta.url)),
+    path: path.resolve(process.cwd(), 'packages/kanban/dist/frontend', path.basename(relativePath)),
     contentType,
   }) satisfies FrontendAsset;
 
 const FRONTEND_ASSETS: ReadonlyMap<string, FrontendAsset> = new Map([
-  ['/frontend/main.js', createAssetDescriptor('../../dist/frontend/main.js', 'text/javascript')],
-  [
-    '/assets/kanban-ui.js',
-    createAssetDescriptor('../../dist/frontend/kanban-ui.js', 'text/javascript'),
-  ],
-  ['/assets/render.js', createAssetDescriptor('../../dist/frontend/render.js', 'text/javascript')],
-  ['/assets/styles.js', createAssetDescriptor('../../dist/frontend/styles.js', 'text/javascript')],
+  ['/frontend/main.js', createAssetDescriptor('main.js', 'application/javascript')],
+  ['/assets/kanban-ui.js', createAssetDescriptor('kanban-ui.js', 'application/javascript')],
+  ['/assets/render.js', createAssetDescriptor('render.js', 'application/javascript')],
+  ['/assets/styles.js', createAssetDescriptor('styles.js', 'application/javascript')],
   [
     '/assets/virtual-scroll.js',
-    createAssetDescriptor('../../dist/frontend/virtual-scroll.js', 'text/javascript'),
+    createAssetDescriptor('virtual-scroll.js', 'application/javascript'),
   ],
 ]);
 
@@ -249,6 +245,8 @@ const handleAssetRequest = async (res: HttpResponse, asset: FrontendAsset): Prom
       headers['Access-Control-Allow-Headers'] = 'Content-Type, X-Requested-With';
       headers['Cross-Origin-Embedder-Policy'] = 'unsafe-none';
       headers['Cross-Origin-Resource-Policy'] = 'cross-origin';
+      // Ensure proper ES module handling
+      headers['Content-Type'] = 'application/javascript; charset=utf-8';
     }
 
     send(res, 200, contents, headers);

@@ -1,4 +1,4 @@
-# Kanban Board Audit Report
+-# Kanban Board Audit Report
 
 ## 📊 Executive Summary
 

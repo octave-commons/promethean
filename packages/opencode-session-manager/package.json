@@ -42,6 +42,7 @@
   "devDependencies": {
     "@promethean/test-utils": "workspace:*",
     "concurrently": "^8.2.2",
+    "esbuild-register": "^3.5.0",
     "rimraf": "^5.0.5",
     "shadow-cljs": "^2.28.17"
   }

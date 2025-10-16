@@ -1,25 +1,15 @@
 ---
-uuid: '9c8d7e6f-5a4b-3c2d-1e0f-9a8b7c6d5e4f'
-title: 'Implement Comprehensive Testing Transition Rule from Testing to Review'
-slug: 'implement-comprehensive-testing-transition-rule'
-status: 'incoming'
-priority: 'P0'
-tags:
-  [
-    'kanban',
-    'transition-rules',
-    'testing-coverage',
-    'quality-gates',
-    'agents-workflow',
-    'test-analysis',
-    'fsm',
-  ]
-created_at: 'Mon Oct 13 2025 14:45:00 GMT-0500 (Central Daylight Time)'
+uuid: "9c8d7e6f-5a4b-3c2d-1e0f-9a8b7c6d5e4f"
+title: "Implement Comprehensive Testing Transition Rule from Testing to Review"
+slug: "implement-comprehensive-testing-transition-rule"
+status: "accepted"
+priority: "P0"
+labels: ["kanban", "transition-rules", "testing-coverage", "quality-gates", "agents-workflow", "test-analysis", "fsm"]
+created_at: "Mon Oct 13 2025 14:45:00 GMT-0500 (Central Daylight Time)"
 estimates:
-  complexity: '8'
-  scale: 'medium'
-  time_to_completion: '3 sessions'
-storyPoints: 8
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Implement Comprehensive Testing Transition Rule from Testing to Review

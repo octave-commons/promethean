@@ -2,7 +2,7 @@
 uuid: "b460b1e8-e9c5-446e-b737-497594b5c57d"
 title: "Create ClojureScript Test Migration Framework"
 slug: "Create ClojureScript Test Migration Framework"
-status: "incoming"
+status: "icebox"
 priority: "P1"
 labels: ["migration", "testing", "framework", "clojurescript", "test-automation"]
 created_at: "2025-10-14T06:37:25.717Z"

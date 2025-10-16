@@ -2,7 +2,7 @@
 uuid: "88854bc2-4df9-4320-85e2-761badef22d4"
 title: "Epic: Improve @promethean/simtasks Package - Code Review Implementation"
 slug: "Epic Improve @promethean simtasks Package - Code Review Implementation"
-status: "incoming"
+status: "icebox"
 priority: "P0"
 labels: ["epic", "simtasks", "code-review", "type-safety", "testing", "documentation"]
 created_at: "2025-10-15T17:55:31.805Z"

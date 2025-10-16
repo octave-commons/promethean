@@ -127,16 +127,59 @@ export class MemoizedBuildFixBenchmark {
     }
   }
 
-  private async saveCache(cache: Map<string, CacheEntry>): Promise<void> {
-    const cacheData: Record<string, CacheEntry> = {};
+  private async saveCache(cache: Map<string, CacheEntry>, incremental = false): Promise<void> {
+    if (incremental) {
+      // For incremental updates, only save new/modified entries
+      await this.saveCacheIncremental(cache);
+    } else {
+      // Full cache save
+      const cacheData: Record<string, CacheEntry> = {};
 
-    for (const [key, entry] of cache.entries()) {
-      cacheData[key] = entry;
+      for (const [key, entry] of cache.entries()) {
+        cacheData[key] = entry;
+      }
+
+      await fs.writeFile(this.cacheFile, JSON.stringify(cacheData, null, 2));
+      this.metadata.totalEntries = cache.size;
+      await this.saveCacheMetadata();
     }
+  }
 
-    await fs.writeFile(this.cacheFile, JSON.stringify(cacheData, null, 2));
-    this.metadata.totalEntries = cache.size;
-    await this.saveCacheMetadata();
+  private async saveCacheIncremental(cache: Map<string, CacheEntry>): Promise<void> {
+    try {
+      // Load existing cache to compare
+      const existingCache = await this.loadCache();
+      const updates: Record<string, CacheEntry> = {};
+      let hasUpdates = false;
+
+      // Find new or modified entries
+      for (const [key, entry] of cache.entries()) {
+        const existingEntry = existingCache.get(key);
+        if (!existingEntry || existingEntry.timestamp !== entry.timestamp) {
+          updates[key] = entry;
+          hasUpdates = true;
+        }
+      }
+
+      if (hasUpdates) {
+        // Append updates to a separate file for incremental changes
+        const incrementalFile = path.join(this.cacheDir, `cache-updates-${Date.now()}.json`);
+        await fs.writeFile(incrementalFile, JSON.stringify(updates, null, 2));
+
+        // Also update the main cache file periodically
+        if (cache.size % 10 === 0) {
+          // Every 10 entries
+          await this.saveCache(cache, false); // Full save
+        }
+      }
+
+      this.metadata.totalEntries = cache.size;
+      await this.saveCacheMetadata();
+    } catch (error) {
+      // Fallback to full save if incremental fails
+      console.warn('Incremental cache save failed, falling back to full save:', error);
+      await this.saveCache(cache, false);
+    }
   }
 
   private generateInputHash(fixture: Fixture, modelConfig: ModelConfig): string {
@@ -226,6 +269,50 @@ export class MemoizedBuildFixBenchmark {
     };
 
     cache.set(cacheKey, entry);
+
+    // Cleanup cache if it's getting too large
+    if (cache.size > 500) {
+      this.cleanupCache(cache);
+    }
+  }
+
+  private cleanupCache(cache: Map<string, CacheEntry>): void {
+    const now = Date.now();
+    const entries = Array.from(cache.entries());
+
+    // Sort by timestamp (oldest first) for LRU eviction
+    entries.sort((a, b) => a[1].timestamp - b[1].timestamp);
+
+    let evictedCount = 0;
+    const maxCacheSize = 500; // Maximum cache entries
+    const ttlMs = 300000; // 5 minutes TTL
+
+    // First, remove expired entries
+    for (const [key, entry] of entries) {
+      if (now - entry.timestamp > ttlMs) {
+        cache.delete(key);
+        evictedCount++;
+      }
+    }
+
+    // If still too large, remove oldest entries (LRU)
+    if (cache.size > maxCacheSize) {
+      const currentEntries = Array.from(cache.entries());
+      currentEntries.sort((a, b) => a[1].timestamp - b[1].timestamp);
+
+      const toRemove = cache.size - maxCacheSize;
+      for (let i = 0; i < toRemove; i++) {
+        const entry = currentEntries[i];
+        if (entry) {
+          cache.delete(entry[0]);
+          evictedCount++;
+        }
+      }
+    }
+
+    if (evictedCount > 0) {
+      console.log(`🗑️  Cache cleanup: evicted ${evictedCount} entries (${cache.size} remaining)`);
+    }
   }
 
   async runSingleBenchmark(
@@ -391,7 +478,7 @@ export class MemoizedBuildFixBenchmark {
     const results: BenchmarkResult[] = [];
     const fixtureList = this.allFixtures;
 
-    console.log(`🚀 Starting optimized memoized benchmark`);
+    console.log(`🚀 Starting optimized memoized benchmark with parallel processing`);
     console.log(`📁 Cache directory: ${this.cacheDir}`);
     console.log(`🎯 Force refresh: ${forceRefresh}`);
     console.log(
@@ -406,25 +493,12 @@ export class MemoizedBuildFixBenchmark {
       console.log(`\n🤖 Loading model: ${modelConfig.name}`);
       console.log(`📋 Processing ${fixtureList.length} fixtures with ${modelConfig.name}...`);
 
-      const modelResults: BenchmarkResult[] = [];
-
-      // Process all fixtures with this model
-      for (let i = 0; i < fixtureList.length; i++) {
-        const fixture = fixtureList[i];
-        if (!fixture) {
-          console.warn(`⚠️  Fixture at index ${i} is undefined, skipping`);
-          continue;
-        }
-        
-        const progress = Math.round(((i + 1) / fixtureList.length) * 100);
-
-        process.stdout.write(
-          `\r⚡ ${modelConfig.name}: ${i + 1}/${fixtureList.length} fixtures (${progress}%)`,
-        );
-
-        const result = await this.runSingleBenchmark(fixture, modelConfig, 3, forceRefresh);
-        modelResults.push(result);
-      }
+      // Use parallel processing for fixtures with controlled concurrency
+      const modelResults = await this.processFixturesInParallel(
+        fixtureList,
+        modelConfig,
+        forceRefresh,
+      );
 
       console.log(
         `\n✅ Completed ${modelConfig.name}: ${modelResults.filter((r) => r.success).length}/${modelResults.length} successful`,
@@ -441,6 +515,88 @@ export class MemoizedBuildFixBenchmark {
     );
     console.log(`  Total entries: ${this.metadata.totalEntries}`);
 
+    return results;
+  }
+
+  private async processFixturesInParallel(
+    fixtures: Fixture[],
+    modelConfig: ModelConfig,
+    forceRefresh: boolean,
+    concurrency = 5, // Process up to 5 fixtures in parallel
+  ): Promise<BenchmarkResult[]> {
+    const results: BenchmarkResult[] = [];
+    const totalFixtures = fixtures.length;
+    let completed = 0;
+
+    // Create batches of fixtures for parallel processing
+    const batches: Fixture[][] = [];
+    for (let i = 0; i < fixtures.length; i += concurrency) {
+      batches.push(fixtures.slice(i, i + concurrency));
+    }
+
+    console.log(
+      `🔄 Processing ${totalFixtures} fixtures in ${batches.length} batches (concurrency: ${concurrency})`,
+    );
+
+    for (let batchIndex = 0; batchIndex < batches.length; batchIndex++) {
+      const batch = batches[batchIndex];
+
+      // Process all fixtures in this batch in parallel
+      const batchPromises = (batch || []).map(async (fixture) => {
+        if (!fixture) {
+          console.warn(`⚠️  Fixture is undefined, skipping`);
+          return null;
+        }
+
+        try {
+          const result = await this.runSingleBenchmark(fixture, modelConfig, 3, forceRefresh);
+          completed++;
+
+          const progress = Math.round((completed / totalFixtures) * 100);
+          process.stdout.write(
+            `\r⚡ ${modelConfig.name}: ${completed}/${totalFixtures} fixtures (${progress}%) - Batch ${batchIndex + 1}/${batches.length}`,
+          );
+
+          return result;
+        } catch (error) {
+          completed++;
+          console.error(`❌ Error processing fixture ${fixture.name}:`, error);
+
+          // Return a failed result instead of null to maintain consistency
+          return {
+            fixture: fixture.name,
+            model: modelConfig.name,
+            success: false,
+            errorCountBefore: 0,
+            errorCountAfter: 0,
+            errorsResolved: false,
+            planGenerated: false,
+            duration: 0,
+            attempts: 1,
+            errorMessage: error instanceof Error ? error.message : String(error),
+          };
+        }
+      });
+
+      // Wait for all fixtures in this batch to complete
+      const batchResults = await Promise.allSettled(batchPromises);
+
+      // Aggregate results from this batch
+      batchResults.forEach((result) => {
+        if (result.status === 'fulfilled' && result.value !== null) {
+          results.push(result.value);
+        } else if (result.status === 'rejected') {
+          console.error(`❌ Batch promise rejected:`, result.reason);
+        }
+      });
+
+      // Small delay between batches to prevent overwhelming the system
+      if (batchIndex < batches.length - 1) {
+        await new Promise((resolve) => setTimeout(resolve, 100));
+      }
+    }
+
+    console.log(); // New line after progress indicator
     return results;
   }
 

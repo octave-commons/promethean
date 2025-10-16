@@ -2,7 +2,7 @@
 uuid: "7133028b-03ea-41b8-8de3-c7c35a80190d"
 title: "Create comprehensive test suite for adapter system"
 slug: "Create comprehensive test suite for adapter system"
-status: "incoming"
+status: "icebox"
 priority: "P1"
 labels: ["adapter", "comprehensive", "test", "suite"]
 created_at: "2025-10-13T08:08:10.813Z"

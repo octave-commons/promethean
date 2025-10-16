@@ -1,6 +1,6 @@
 {:source-paths ["packages/promethean-cli/src"
                 "packages/shadow-ui/src"
-                "packages/kanban/src/cljs"
+                 "packages/frontends/kanban-frontend/src/cljs"
                 "packages/duck-utils/src/cljs"
                 "packages/frontend-service/src/cljs"
                 "packages/frontends/docops-frontend/src/cljs"
@@ -83,13 +83,13 @@
    :modules {:main {:entries [promethean.frontends.smartgpt_dashboard.app]}}
    :devtools {:watch-dir "packages/frontends/smartgpt-dashboard-frontend/static"}}
 
-  :kanban-frontend
-  {:target :browser
-   :output-dir "packages/kanban/dist/frontend"
-   :asset-path "/frontend"
-   :modules {:main {:entries [kanban.core]}}
-   :devtools {:watch-dir "packages/kanban/static"
-              :compiler-options {:output-feature-set :es-next}}}
+   :kanban-frontend
+   {:target :browser
+    :output-dir "packages/kanban/dist/frontend"
+    :asset-path "/frontend"
+    :modules {:main {:entries [kanban.core]}}
+    :devtools {:watch-dir "packages/frontends/kanban-frontend/static"
+               :compiler-options {:output-feature-set :es-next}}}
 
    :frontend-service
    {:target :node-script

@@ -48,6 +48,8 @@ const ALLOWED_COMMANDS = new Set<string>([
   'pm2',
   'bb',
   'nbb',
+  'npx',
+  'uvx',
   'tsx',
   'deno',
   'git',

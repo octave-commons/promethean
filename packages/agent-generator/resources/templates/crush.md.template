@@ -1,0 +1,362 @@
+# 🚀 Promethean Development Quick Reference (CRUSH)
+
+## ⚡ Quick Start
+
+**Platform**: {{platform}} | **Agent**: {{agent.name | default "Promethean Agent"}} | **Generated**: {{timestamp}}
+
+---
+
+## 🎯 Current Sprint Status
+
+### Active Tasks ({{#if kanban.active-tasks}}{{count kanban.active-tasks}}{{else}}0{{/if}})
+{{#if kanban.active-tasks}}
+{{#each kanban.active-tasks}}
+- **{{title}}** - {{priority}} ({{status | upper}})
+{{/each}}
+{{else}}
+No active tasks this sprint.
+{{/if}}
+
+### Board Statistics
+- **Total Tasks**: {{#if kanban.statistics}}{{kanban.statistics.total-tasks}}{{else}}0{{/if}}
+- **In Progress**: {{#if kanban.statistics.by-status.in_progress}}{{count kanban.statistics.by-status.in_progress}}{{else}}0{{/if}}
+- **Ready**: {{#if kanban.statistics.by-status.ready}}{{count kanban.statistics.by-status.ready}}{{else}}0{{/if}}
+
+---
+
+## 🛠️ Essential Commands
+
+### Agent Generator
+{{#platform bb}}
+```bash
+bb agent-generator:generate    # Generate instructions
+bb agent-generator:validate    # Validate config
+bb agent-generator:test        # Run tests
+bb agent-generator:clean       # Clean artifacts
+```
+{{/platform}}
+
+{{#platform jvm}}
+```bash
+clojure -M:run generate        # Generate instructions
+clojure -M:run validate        # Validate config
+clojure -M:test                # Run tests
+clojure -T:build clean         # Clean artifacts
+```
+{{/platform}}
+
+{{#platform node-babashka}}
+```bash
+nbb -m promethean.agent-generator.cli.core generate
+nbb -m promethean.agent-generator.cli.core validate
+npm test                       # Run tests
+npm run clean                  # Clean artifacts
+```
+{{/platform}}
+
+{{#platform clojurescript}}
+```bash
+shadow-cljs release agent-generator
+node dist/agent_generator.cjs generate
+shadow-cljs compile agent-generator
+```
+{{/platform}}
+
+### Project Management
+```bash
+# Kanban operations
+pnpm kanban regenerate         # Regenerate board
+pnpm kanban list               # List all tasks
+pnpm kanban search <query>     # Search tasks
+pnpm kanban update-status <uuid> <column>  # Update task
+
+# Build system
+pnpm build                     # Build all packages
+pnpm test                      # Run all tests
+pnpm lint                      # Lint code
+pnpm format                    # Format code
+```
+
+---
+
+## 📁 Project Structure
+
+### Key Directories
+```
+packages/agent-generator/      # Agent generator package
+├── src/                       # Source code
+├── resources/templates/       # Template files
+├── test/                      # Test files
+└── docs/                      # Documentation
+
+docs/agile/                    # Agile process docs
+├── tasks/                     # Task definitions
+├── boards/                    # Generated kanban boards
+└── process.md                 # Process documentation
+
+packages/                      # All packages
+├── agent/                     # Agent framework
+├── kanban/                    # Kanban system
+├── markdown/                  # Markdown processing
+└── clj-hacks/                 # Clojure utilities
+```
+
+### Configuration Files
+- `promethean.kanban.json` - Kanban board configuration
+- `agent-generator.config.edn` - Generator configuration
+- `deps.edn` - JVM dependencies
+- `bb.edn` - Babashka tasks
+- `shadow-cljs.edn` - ClojureScript build
+
+---
+
+## 🔧 Development Workflow
+
+### 1. Setup & Validation
+```bash
+# Validate environment
+agent-generator validate --verbose
+
+# Check platform compatibility
+agent-generator version
+
+# List available templates
+agent-generator list-templates
+```
+
+### 2. Make Changes
+```bash
+# Edit code/templates
+vim src/promethean/agent_generator/...
+
+# Regenerate documentation
+agent-generator generate --verbose
+
+# Run tests
+agent-generator:test
+```
+
+### 3. Validate & Deploy
+```bash
+# Validate outputs
+agent-generator validate
+
+# Check kanban integration
+pnpm kanban regenerate
+
+# Build for deployment
+bb agent-generator:build  # or platform equivalent
+```
+
+---
+
+## 🎨 Template Quick Reference
+
+### Template Syntax
+```handlebars
+{{variable}}                    # Simple variable
+{{variable | filter}}           # With filter
+{{#if condition}}...{{/if}}     # Conditional
+{{#each collection}}...{{/each}} # Loop
+{{#platform bb}}...{{/platform}} # Platform-specific
+```
+
+### Common Variables
+- `{{agent.name}}` - Agent name
+- `{{platform}}` - Current platform
+- `{{timestamp}}` - Generation time
+- `{{kanban.*}}` - Kanban board data
+- `{{project.*}}` - Project structure
+- `{{environment.*}}` - Environment vars
+
+### Available Filters
+- `| upper` - Uppercase
+- `| lower` - Lowercase
+- `| title` - Title case
+- `| trim` - Trim whitespace
+- `| count` - Count items
+- `| join` - Join collection
+
+---
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+#### Template Errors
+```bash
+# Validate templates
+agent-generator validate
+
+# Check template syntax
+agent-generator list-templates --verbose
+```
+
+#### Platform Issues
+```bash
+# Check platform detection
+agent-generator version
+
+# Verify features
+# Check platform capabilities in docs
+```
+
+#### Kanban Integration
+```bash
+# Regenerate board
+pnpm kanban regenerate
+
+# Check board file
+ls docs/agile/boards/generated.md
+
+# Validate kanban config
+cat promethean.kanban.json
+```
+
+### Debug Mode
+```bash
+# Enable verbose output
+agent-generator generate --verbose
+
+# Check configuration
+agent-generator validate --verbose
+
+# Environment debug
+env | grep AGENT_GENERATOR
+```
+
+---
+
+## 📊 Performance Tips
+
+### Platform Optimizations
+
+{{#platform bb}}
+- **Startup**: <100ms native binary
+- **Memory**: Keep <50MB for scripts
+- **Deployment**: Single binary distribution
+{{/platform}}
+
+{{#platform jvm}}
+- **Startup**: 1-3s JVM warmup
+- **Memory**: Configure heap with `-Xms512m -Xmx2g`
+- **Deployment**: UberJAR distribution
+{{/platform}}
+
+{{#platform node-babashka}}
+- **Startup**: ~200ms Node.js runtime
+- **Memory**: Moderate Node.js usage
+- **Deployment**: NPM package distribution
+{{/platform}}
+
+{{#platform clojurescript}}
+- **Startup**: ~500ms compilation
+- **Memory**: Browser/Node.js constraints
+- **Deployment**: JavaScript bundle
+{{/platform}}
+
+### Caching
+- Template caching enabled by default
+- Data collection cached for performance
+- Use `--force` to bypass cache when needed
+
+---
+
+## 🔗 Integration Points
+
+### Kanban System
+{{#if kanban}}
+- **Board File**: {{kanban.board-file}}
+- **Active Tasks**: {{#if kanban.active-tasks}}{{count kanban.active-tasks}}{{else}}0{{/if}}
+- **Statistics**: {{#if kanban.include-statistics}}Enabled{{else}}Disabled{{/if}}
+{{/if}}
+
+### File System
+{{#if project}}
+- **Root**: {{project.root-dir}}
+- **Packages**: {{#if project.packages}}{{count project.packages}}{{else}}0{{/if}}
+- **Tools**: {{#if project.tools}}{{count project.tools}}{{else}}0{{/if}}
+{{/if}}
+
+### Environment
+{{#if environment}}
+- **Variables**: {{count environment}}
+- **Key Vars**: AGENT_NAME, ENVIRONMENT, DEBUG_LEVEL
+{{/if}}
+
+---
+
+## 📚 Quick Links
+
+### Documentation
+- **Architecture**: `docs/architecture/`
+- **Agents**: `docs/agents/`
+- **Process**: `docs/agile/process.md`
+- **Templates**: `resources/templates/`
+
+### Configuration
+- **Kanban**: `promethean.kanban.json`
+- **Generator**: `agent-generator.config.edn`
+- **Environment**: `.env.example`
+
+### Tools & Commands
+- **Agent Generator**: `packages/agent-generator/`
+- **Kanban CLI**: `packages/kanban/`
+- **Build System**: Root `package.json`, `bb.edn`
+
+---
+
+## 🎯 Current Focus Areas
+
+### Based on Active Tasks
+{{#if kanban.active-tasks}}
+{{#each kanban.active-tasks}}
+#### {{priority}}: {{title}}
+- **Status**: {{status | upper}}
+- **Context**: {{#if tags}}{{#each tags}}#{{this}} {{/each}}{{/if}}
+{{/each}}
+{{else}}
+#### No Active Tasks
+- Check kanban board for current work items
+- Use `pnpm kanban list` to see all tasks
+- Consider picking up ready tasks from the board
+{{/if}}
+
+### Platform Priorities
+{{#platform bb}}
+- Optimize for fast startup and low memory
+- Focus on script automation and CLI tools
+- Maintain native binary compatibility
+{{/platform}}
+
+{{#platform jvm}}
+- Leverage full ecosystem and libraries
+- Optimize for performance and monitoring
+- Support advanced features and integrations
+{{/platform}}
+
+{{#platform node-babashka}}
+- Integrate with Node.js ecosystem
+- Support async operations and NPM packages
+- Enable web-focused development
+{{/platform}}
+
+{{#platform clojurescript}}
+- Ensure browser compatibility
+- Optimize for advanced compilation
+- Support web and Node.js deployment
+{{/platform}}
+
+---
+
+## 🚀 Next Steps
+
+1. **Validate Setup**: Run `agent-generator validate`
+2. **Check Tasks**: Review active kanban tasks
+3. **Generate**: Create updated instruction files
+4. **Test**: Verify generated outputs
+5. **Commit**: Save changes with proper documentation
+
+---
+
+*This quick reference was generated by the Promethean Agent Instruction Generator on {{timestamp}}.*

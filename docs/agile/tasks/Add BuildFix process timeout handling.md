@@ -18,8 +18,6 @@ Critical issue: BuildFix provider is missing process timeout handling and could 
 
 Nothing
 
-
-
 ## ⛓️ Blocks
 
 Nothing

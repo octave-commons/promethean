@@ -144,7 +144,6 @@ class MassiveBenchmarkRunner {
 
       for (let i = 0; i < fixturePaths.length; i++) {
         const fixturePath = fixturePaths[i];
-        const fixtureName = path.basename(fixturePath);
         const progress = Math.round(((i + 1) / fixturePaths.length) * 100);
 
         process.stdout.write(
@@ -152,7 +151,7 @@ class MassiveBenchmarkRunner {
         );
 
         // Create fixture object from path
-        const fixture = await this.createFixtureFromPath(fixturePath);
+        const fixture = await this.createFixtureFromPath(fixturePath!);
         const result = await this.benchmark.runSingleBenchmark(
           fixture,
           modelConfig,
@@ -268,7 +267,7 @@ class MassiveBenchmarkRunner {
   }
 
   private generateMarkdownReport(data: any): string {
-    const { results, summary, timestamp, config } = data;
+    const { summary, timestamp, config } = data;
 
     const lines = [
       '# Massive BuildFix Benchmark Report',
@@ -288,11 +287,12 @@ class MassiveBenchmarkRunner {
     ];
 
     for (const [modelName, stats] of Object.entries(summary.modelStats)) {
+      const typedStats = stats as any;
       lines.push(`### ${modelName}`);
-      lines.push(`- **Tests**: ${stats.total}`);
-      lines.push(`- **Success Rate**: ${stats.successRate.toFixed(1)}%`);
-      lines.push(`- **Error Resolution Rate**: ${stats.resolutionRate.toFixed(1)}%`);
-      lines.push(`- **Average Duration**: ${stats.avgDuration.toFixed(2)} seconds`);
+      lines.push(`- **Tests**: ${typedStats.total}`);
+      lines.push(`- **Success Rate**: ${typedStats.successRate.toFixed(1)}%`);
+      lines.push(`- **Error Resolution Rate**: ${typedStats.resolutionRate.toFixed(1)}%`);
+      lines.push(`- **Average Duration**: ${typedStats.avgDuration.toFixed(2)} seconds`);
       lines.push('');
     }
 
@@ -301,9 +301,10 @@ class MassiveBenchmarkRunner {
 
     // Find best performing model
     const bestModel = Object.entries(summary.modelStats).reduce(
-      (best, [name, stats]: [string, any]) => {
-        if (!best || stats.resolutionRate > best.resolutionRate) {
-          return { name, ...stats };
+      (best: any, [name, stats]: [string, any]) => {
+        const typedStats = stats as any;
+        if (!best || typedStats.resolutionRate > best.resolutionRate) {
+          return { name, ...typedStats };
         }
         return best;
       },

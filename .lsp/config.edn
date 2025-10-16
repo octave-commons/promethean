@@ -5,13 +5,13 @@
                  "packages/*/src/main"
                  "packages/*/src/test"
                  "docs/agile/rules"]
-:source-paths-ignore-regex ["resources.*" 
-                              "target.*" 
-                              "node_modules.*" 
-                              "dist.*" 
-                              "build.*" 
-                              "\\.direnv.*" 
-                              "\\.venv.*" 
+:source-paths-ignore-regex ["resources.*"
+                              "target.*"
+                              "node_modules.*"
+                              "dist.*"
+                              "build.*"
+                              "\\.direnv.*"
+                              "\\.venv.*"
                               "\\.cache.*"
                               "packages/*/dist.*"
                               "packages/*/out.*"
@@ -39,4 +39,4 @@
                                :clj-hacks {:project-type "gradle"
                                           :root "packages/clj-hacks"
                                           :source-paths ["src"]
-                                          :test-paths ["test"]}}}
+                                          :test-paths ["test"]}}}}

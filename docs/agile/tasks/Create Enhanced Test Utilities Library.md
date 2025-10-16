@@ -2,7 +2,7 @@
 uuid: "d1218f11-79bd-4f57-9ca2-4379483fec64"
 title: "Create Enhanced Test Utilities Library"
 slug: "Create Enhanced Test Utilities Library"
-status: "incoming"
+status: "icebox"
 priority: "P2"
 labels: ["refactoring", "duplication", "testing", "test-utils", "quality", "medium"]
 created_at: "2025-10-14T07:31:43.784Z"

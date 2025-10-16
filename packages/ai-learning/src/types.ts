@@ -146,3 +146,42 @@ export type LearningMetrics = {
   categoryDistribution: Record<TaskCategory, number>;
   performanceTrend: 'improving' | 'stable' | 'declining';
 };
+
+// Eidolon Field Classifier Types
+export interface TaskEmbedding {
+  taskId: string;
+  prompt: string;
+  embedding: number[];
+  category?: string;
+  timestamp: number;
+  performance?: number;
+}
+
+export interface ClusterAttractor {
+  id: string;
+  center: any; // VectorN from eidolon-field
+  strength: number;
+  category: string;
+  taskCount: number;
+  averagePerformance: number;
+}
+
+export interface EidolonClassificationResult {
+  taskId: string;
+  prompt: string;
+  embedding: number[];
+  predictedCategory: string;
+  confidence: number;
+  nearestAttractor?: ClusterAttractor;
+  distanceToCenter: number;
+  clusterMembership: number[];
+  reasoning: string;
+}
+
+export interface LearningStats {
+  totalTasks: number;
+  attractorCount: number;
+  fieldGridSize: number;
+  averageFieldStrength: number;
+  attractors: ClusterAttractor[];
+}

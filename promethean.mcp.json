@@ -3,52 +3,6 @@
     "generatedBy": "clj-hacks"
   },
   "version": "2025-06-18",
-  "mcpServers": {
-    "duckduckgo": {
-      "command": "/home/err/devel/promethean/scripts/mcp/bin/duck.sh"
-    },
-    "eslint": {
-      "args": ["-y", "@uplinq/mcp-eslint"],
-      "cwd": "/home/err/devel/promethean",
-      "command": "npx"
-    },
-    "github": {
-      "command": "/home/err/devel/promethean/scripts/mcp/bin/github.sh"
-    },
-    "github-chat": {
-      "command": "/home/err/devel/promethean/scripts/mcp/bin/github_chat.sh"
-    },
-    "playwright": {
-      "args": ["@playwright/mcp@latest"],
-      "cwd": "/home/err/devel/promethean",
-      "command": "npx"
-    },
-    "serena": {
-      "args": ["--from", "git+https://github.com/oraios/serena", "serena", "start-mcp-server"],
-      "cwd": "/home/err/devel/promethean",
-      "command": "uvx",
-      "proxy": "sdk"
-    },
-    "ts-ls-lsp": {
-      "args": [
-        "tritlo/lsp-mcp",
-        "typescript",
-        "/home/err/.volta/bin/typescript-language-server",
-        "--stdio"
-      ],
-      "cwd": "/home/err/devel/promethean",
-      "command": "npx"
-    },
-    "zai-mcp-server": {
-      "args": ["-y", "@z_ai/mcp-server"],
-      "cwd": "/home/err/devel/promethean",
-      "command": "npx",
-      "env": {
-        "Z_AI_API_KEY": "e4a3832bfd5840c9a8646d14f775c0d9.DOLtlGxqHmdw0D5",
-        "Z_AI_MODE": "ZAI"
-      }
-    }
-  },
   "transport": "http",
   "tools": [
     "mcp.help",

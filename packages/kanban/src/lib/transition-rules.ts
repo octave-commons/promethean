@@ -428,7 +428,8 @@ export class TransitionRulesEngine {
     return column
       .normalize('NFKD')
       .toLowerCase()
-      .replace(/[^a-z0-9_]+/g, '');
+      .replace(/[\s-]+/g, '_') // Convert spaces and hyphens to underscores
+      .replace(/[^a-z0-9_]+/g, ''); // Remove other special chars
   }
 
   private findTransitionRule(from: string, to: string): TransitionRule | undefined {

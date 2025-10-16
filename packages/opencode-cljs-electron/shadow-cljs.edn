@@ -1,0 +1,19 @@
+{:source-paths ["src" "electron"]
+ :dependencies [[reagent/reagent "1.2.0"]
+                [re-frame/re-frame "1.4.3"]]
+ :js-options {:entry-keys ["module" "browser" "main"]
+              :js-provider :require}
+ :builds
+ {:renderer {:target :browser
+             :output-dir "public/renderer"
+             :asset-path "/renderer"
+             :modules {:main {:init-fn main/init}}
+             :devtools {:http-root "public" :http-port 8080}}
+  :main     {:target :node-script
+             :output-to "dist/main.js"
+             :main electron.main/start
+             :nodejs {:runtime :node}}
+  :preload  {:target :node-script
+             :output-to "dist/preload.js"
+             :main electron.preload/start
+             :nodejs {:runtime :node}}}}

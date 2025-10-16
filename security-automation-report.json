@@ -1,0 +1,61 @@
+{
+  "timestamp": "2025-10-16T06:10:10.104Z",
+  "status": "BLOCKED",
+  "securityScore": 42,
+  "issues": [
+    {
+      "type": "MISSING_FILE",
+      "severity": "HIGH",
+      "file": "packages/auth-service/src/middleware/auth.ts",
+      "description": "Critical security file missing"
+    }
+  ],
+  "tests": {
+    "total": 11,
+    "passed": 11,
+    "failed": 0
+  },
+  "deployment": {
+    "ready": false,
+    "blockers": [
+      "Security score >= 80",
+      "No high-severity security issues"
+    ]
+  },
+  "config": {
+    "securityFiles": [
+      "packages/omni-service/src/adapters/mcp.ts",
+      "packages/indexer-service/src/routes/indexer.ts",
+      "packages/auth-service/src/middleware/auth.ts"
+    ],
+    "requiredFunctions": [
+      "isSafeRelPath",
+      "validateFilePath",
+      "detectPathTraversal",
+      "containsDangerousCharacters",
+      "validateWindowsPathSecurity",
+      "validateUnixPathSecurity",
+      "isAllowedFileExtension"
+    ],
+    "thresholds": {
+      "minSecurityScore": 80,
+      "maxCriticalIssues": 0,
+      "maxHighIssues": 0,
+      "minTestCoverage": 85
+    }
+  },
+  "summary": {
+    "securityScore": 42,
+    "testPassRate": "100.00",
+    "issueCount": 1,
+    "criticalIssues": 0,
+    "highIssues": 1
+  },
+  "recommendations": [
+    "🔧 Improve security code quality to meet 80/100 threshold",
+    "⚠️  Resolve high-severity security issues",
+    "📊 Integrate security automation into CI/CD pipeline",
+    "🔄 Schedule regular security assessments",
+    "📚 Maintain security documentation"
+  ]
+}

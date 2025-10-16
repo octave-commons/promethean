@@ -1,8 +1,9 @@
 {
-  "name": "eidolon-field",
+  "name": "@promethean/eidolon-field",
   "version": "0.0.1",
   "type": "module",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "start": "node index.js",
     "test": "ava --config ../../../config/ava.config.mjs",

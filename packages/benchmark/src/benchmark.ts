@@ -8,14 +8,31 @@ import {
   ProviderConfig,
 } from './types/index.js';
 import { MetricsCalculator } from './metrics/index.js';
+import { OptimizedBenchmarkRunner } from './benchmark-optimized.js';
 
 export class BenchmarkRunner {
   private providers: Map<string, BaseProvider> = new Map();
+  private optimizedRunner: OptimizedBenchmarkRunner;
+
+  constructor(enableOptimizations = true) {
+    this.optimizedRunner = new OptimizedBenchmarkRunner({
+      parallelProviders: enableOptimizations,
+      maxConcurrentRequests: enableOptimizations ? 10 : 1,
+      timeoutMs: 300000,
+      retryAttempts: 3,
+      circuitBreakerThreshold: 5,
+      enableMemoryMonitoring: enableOptimizations,
+      enablePerformanceTracking: enableOptimizations,
+    });
+  }
 
   async addProvider(config: ProviderConfig): Promise<void> {
     const provider = createProvider(config);
     await provider.connect();
     this.providers.set(config.name, provider);
+
+    // Also add to optimized runner
+    await this.optimizedRunner.addProvider(config);
   }
 
   async removeProvider(name: string): Promise<void> {

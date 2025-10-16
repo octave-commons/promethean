@@ -1,4 +1,6 @@
 import type { FastifyInstance, FastifyRequest } from 'fastify';
+import * as path from 'node:path';
+import { promises as fs } from 'node:fs';
 
 /**
  * MCP (Model Context Protocol) message types
@@ -57,6 +59,323 @@ interface MCPAdapterOptions {
   enableTools?: boolean;
   enableResources?: boolean;
   enablePrompts?: boolean;
+  allowedBasePaths?: string[];
+  maxFileSize?: number;
+  enableSecurityLogging?: boolean;
+  enableAuditLogging?: boolean;
+  enableRateLimit?: boolean;
+  rateLimitWindow?: number; // in seconds
+  rateLimitMax?: number; // max requests per window
+}
+
+// ============================================================================
+// Security Validation Constants (from indexer-service)
+// ============================================================================
+
+const DANGEROUS_CHARS = ['<', '>', '|', '&', ';', '`', '$', '"', "'", '\r', '\n'];
+const WINDOWS_RESERVED_NAMES = [
+  'CON',
+  'PRN',
+  'AUX',
+  'NUL',
+  'COM1',
+  'COM2',
+  'COM3',
+  'COM4',
+  'COM5',
+  'COM6',
+  'COM7',
+  'COM8',
+  'COM9',
+  'LPT1',
+  'LPT2',
+  'LPT3',
+  'LPT4',
+  'LPT5',
+  'LPT6',
+  'LPT7',
+  'LPT8',
+  'LPT9',
+];
+
+const GLOB_ATTACK_PATTERNS = [
+  /\*\*.*\.\./, // ** followed by ..
+  /\.\.\/\*\*/, // ../**
+  /\{\.\./, // {.. in brace expansion
+  /\.\.\}/, // ..} in brace expansion
+];
+
+const UNIX_DANGEROUS_PATHS = ['/dev/', '/proc/', '/sys/', '/etc/', '/root/', '/var/log/'];
+
+// Dangerous path patterns including tilde expansion
+const DANGEROUS_PATH_PATTERNS = [
+  /^~\//, // Home directory access
+  /^~[^\/]/, // Other user home directories
+  /\.ssh\//, // SSH directory access
+  /\.gnupg\//, // GPG directory access
+  /\/\.ssh\//, // SSH paths anywhere
+  /\/\.gnupg\//, // GPG paths anywhere
+];
+
+// ============================================================================
+// Security Validation Functions (from indexer-service)
+// ============================================================================
+
+/**
+ * Validates basic path properties
+ */
+function validateBasicPathProperties(rel: string): boolean {
+  if (typeof rel !== 'string') {
+    return false;
+  }
+
+  if (rel.length === 0 || rel.length > 256) {
+    return false;
+  }
+
+  if (rel.includes('\0')) {
+    return false;
+  }
+
+  const trimmed = rel.trim();
+  if (trimmed !== rel) {
+    return false;
+  }
+
+  return true;
+}
+
+/**
+ * Detects path traversal attempts with Unicode normalization protection
+ */
+function detectPathTraversal(trimmed: string): boolean {
+  // Normalize Unicode first to prevent homograph attacks
+  const normalized = trimmed.normalize('NFKC');
+
+  const pathComponents = normalized.split(/[\\/]/);
+  if (pathComponents.includes('..') || pathComponents.includes('.')) {
+    return true;
+  }
+
+  if (path.isAbsolute(normalized)) {
+    return true;
+  }
+
+  // Check for Unicode homograph attacks that can normalize to traversal
+  // Expanded to catch more Unicode variants
+  if (/[‥﹒．．．]/.test(normalized) || /[‥﹒．]/.test(trimmed)) {
+    return true;
+  }
+
+  // Check for encoded traversal attempts
+  if (/%2e%2e/i.test(normalized) || /%2e%2e%2f/i.test(normalized)) {
+    return true;
+  }
+
+  return false;
+}
+
+/**
+ * Checks for dangerous characters
+ */
+function containsDangerousCharacters(trimmed: string): boolean {
+  return DANGEROUS_CHARS.some((char) => trimmed.includes(char));
+}
+
+/**
+ * Validates Windows-specific path security
+ */
+function validateWindowsPathSecurity(trimmed: string): boolean {
+  // Block drive letters
+  if (/^[a-zA-Z]:/.test(trimmed)) {
+    return false;
+  }
+
+  // Block UNC paths
+  if (trimmed.startsWith('\\\\')) {
+    return false;
+  }
+
+  // Block backslash paths
+  if (trimmed.includes('\\')) {
+    return false;
+  }
+
+  // Block reserved device names
+  const baseName = path.basename(trimmed).toUpperCase();
+  if (WINDOWS_RESERVED_NAMES.includes(baseName)) {
+    return false;
+  }
+
+  return true;
+}
+
+/**
+ * Validates Unix-specific path security
+ */
+function validateUnixPathSecurity(trimmed: string): boolean {
+  if (process.platform !== 'win32') {
+    // Block dangerous system paths
+    if (UNIX_DANGEROUS_PATHS.some((dangerous) => trimmed.startsWith(dangerous))) {
+      return false;
+    }
+
+    // Block dangerous path patterns including tilde expansion
+    if (DANGEROUS_PATH_PATTERNS.some((pattern) => pattern.test(trimmed))) {
+      return false;
+    }
+  }
+  return true;
+}
+
+/**
+ * Validates path normalization
+ */
+function validatePathNormalization(trimmed: string): boolean {
+  try {
+    const normalized = path.normalize(trimmed);
+    if (path.isAbsolute(normalized) || normalized.includes('..')) {
+      return false;
+    }
+
+    // Additional check: resolve against a fake root
+    const fakeRoot = '/fake/root';
+    const resolved = path.resolve(fakeRoot, normalized);
+    if (!resolved.startsWith(fakeRoot)) {
+      return false;
+    }
+  } catch {
+    return false;
+  }
+  return true;
+}
+
+/**
+ * Detects glob pattern attacks
+ */
+function containsGlobAttackPatterns(trimmed: string): boolean {
+  return GLOB_ATTACK_PATTERNS.some((pattern) => pattern.test(trimmed));
+}
+
+/**
+ * Comprehensive path security validation - isSafeRelPath() implementation
+ * This is the critical security function that prevents path traversal attacks
+ */
+function isSafeRelPath(rel: string): boolean {
+  if (!validateBasicPathProperties(rel)) {
+    return false;
+  }
+
+  const trimmed = rel.trim();
+
+  if (detectPathTraversal(trimmed)) {
+    return false;
+  }
+
+  if (containsDangerousCharacters(trimmed)) {
+    return false;
+  }
+
+  if (!validateWindowsPathSecurity(trimmed)) {
+    return false;
+  }
+
+  if (!validateUnixPathSecurity(trimmed)) {
+    return false;
+  }
+
+  if (!validatePathNormalization(trimmed)) {
+    return false;
+  }
+
+  if (containsGlobAttackPatterns(trimmed)) {
+    return false;
+  }
+
+  return true;
+}
+
+/**
+ * Validates and sanitizes file path input
+ */
+function validateFilePath(
+  inputPath: unknown,
+  allowedBasePaths: string[] = [],
+): { valid: boolean; sanitizedPath?: string; error?: string } {
+  if (typeof inputPath !== 'string') {
+    return { valid: false, error: 'Path must be a string' };
+  }
+
+  // Apply comprehensive security validation
+  if (!isSafeRelPath(inputPath)) {
+    return { valid: false, error: 'Invalid or unsafe path' };
+  }
+
+  const sanitizedPath = inputPath.trim();
+
+  // If allowed base paths are specified, ensure the path is within bounds
+  if (allowedBasePaths.length > 0) {
+    const isWithinAllowedPath = allowedBasePaths.some((basePath) => {
+      const resolvedBase = path.resolve(basePath);
+      const resolvedPath = path.resolve(basePath, sanitizedPath);
+      return resolvedPath.startsWith(resolvedBase);
+    });
+
+    if (!isWithinAllowedPath) {
+      return { valid: false, error: 'Path outside allowed directories' };
+    }
+  }
+
+  return { valid: true, sanitizedPath };
+}
+
+/**
+ * Checks if file extension is allowed for reading
+ */
+function isAllowedFileExtension(filePath: string): boolean {
+  const allowedExtensions = [
+    '.txt',
+    '.md',
+    '.json',
+    '.js',
+    '.ts',
+    '.jsx',
+    '.tsx',
+    '.html',
+    '.css',
+    '.xml',
+    '.yaml',
+    '.yml',
+    '.toml',
+    '.ini',
+    '.log',
+    '.csv',
+    '.env',
+    '.gitignore',
+    '.eslintrc',
+    '.prettierrc',
+  ];
+
+  const ext = path.extname(filePath).toLowerCase();
+
+  // Block dangerous files without extensions
+  const dangerousFiles = [
+    'rootkit',
+    'backdoor',
+    'payload',
+    'exploit',
+    'malware',
+    'virus',
+    'trojan',
+    'keylogger',
+  ];
+
+  const baseName = path.basename(filePath).toLowerCase();
+  if (dangerousFiles.includes(baseName)) {
+    return false;
+  }
+
+  return allowedExtensions.includes(ext) || ext === '';
 }
 
 /**
@@ -134,6 +453,31 @@ const defaultTools: MCPTool[] = [
 ];
 
 /**
+ * Security audit log entry
+ */
+interface SecurityAuditLog {
+  timestamp: Date;
+  userId?: string;
+  role?: string;
+  action: string;
+  resource: string;
+  result: 'allowed' | 'denied';
+  reason?: string;
+  ipAddress?: string;
+  userAgent?: string;
+  details?: any;
+}
+
+/**
+ * Rate limit entry
+ */
+interface RateLimitEntry {
+  count: number;
+  windowStart: Date;
+  blocked: boolean;
+}
+
+/**
  * MCP adapter class
  */
 class MCPAdapter {
@@ -141,15 +485,189 @@ class MCPAdapter {
   private options: MCPAdapterOptions;
   private tools: Map<string, MCPTool> = new Map();
   private resources: Map<string, any> = new Map();
+  private auditLog: SecurityAuditLog[] = [];
+  private rateLimitMap: Map<string, RateLimitEntry> = new Map();
+  private readonly maxAuditLogSize = 10000;
 
   constructor(app: FastifyInstance, options: MCPAdapterOptions) {
     this.app = app;
-    this.options = options;
+
+    // Apply secure defaults
+    this.options = {
+      enableAuth: true, // Secure by default
+      enableSecurityLogging: true, // Enable security logging by default
+      enableAuditLogging: true, // Enable audit logging by default
+      enableRateLimit: true, // Enable rate limiting by default
+      rateLimitWindow: 60, // 1 minute window
+      rateLimitMax: 100, // 100 requests per minute
+      maxFileSize: 1024 * 1024, // 1MB default file size limit
+      ...options, // Allow overrides but with secure defaults
+    };
 
     // Register default tools
     defaultTools.forEach((tool) => {
       this.tools.set(tool.name, tool);
     });
+  }
+
+  /**
+   * Log security events
+   */
+  private logSecurityEvent(entry: Omit<SecurityAuditLog, 'timestamp'>): void {
+    if (!this.options.enableSecurityLogging && !this.options.enableAuditLogging) {
+      return;
+    }
+
+    const logEntry: SecurityAuditLog = {
+      timestamp: new Date(),
+      ...entry,
+    };
+
+    // Add to in-memory log
+    this.auditLog.push(logEntry);
+
+    // Trim log if too large
+    if (this.auditLog.length > this.maxAuditLogSize) {
+      this.auditLog = this.auditLog.slice(-this.maxAuditLogSize);
+    }
+
+    // Log to console for immediate visibility
+    const level = entry.result === 'denied' ? 'WARN' : 'INFO';
+    const message = `[MCP-SECURITY:${level}] ${logEntry.timestamp.toISOString()} ${entry.userId || 'anonymous'}:${entry.role || 'guest'} ${entry.action} on ${entry.resource} - ${entry.result}${entry.reason ? ` (${entry.reason})` : ''}`;
+
+    if (entry.result === 'denied') {
+      this.app.log.warn(message);
+    } else {
+      this.app.log.info(message);
+    }
+  }
+
+  /**
+   * Check rate limits
+   */
+  private checkRateLimit(request: FastifyRequest): { allowed: boolean; remaining?: number } {
+    if (!this.options.enableRateLimit) {
+      return { allowed: true };
+    }
+
+    const clientId =
+      (request.headers['x-forwarded-for'] as string) ||
+      (request.headers['x-real-ip'] as string) ||
+      request.ip ||
+      'unknown';
+
+    const now = new Date();
+    const windowMs = (this.options.rateLimitWindow || 60) * 1000;
+    const maxRequests = this.options.rateLimitMax || 100;
+
+    let entry = this.rateLimitMap.get(clientId);
+
+    if (!entry || now.getTime() - entry.windowStart.getTime() > windowMs) {
+      // New window
+      entry = {
+        count: 1,
+        windowStart: now,
+        blocked: false,
+      };
+      this.rateLimitMap.set(clientId, entry);
+      return { allowed: true, remaining: maxRequests - 1 };
+    }
+
+    if (entry.blocked) {
+      // Still in blocked period
+      return { allowed: false, remaining: 0 };
+    }
+
+    entry.count++;
+
+    if (entry.count > maxRequests) {
+      // Block for the remainder of the window
+      entry.blocked = true;
+      this.logSecurityEvent({
+        userId: this.extractUserId(request),
+        action: 'rate_limit_exceeded',
+        resource: 'mcp_adapter',
+        result: 'denied',
+        reason: `Too many requests: ${entry.count}/${maxRequests}`,
+        ipAddress: request.ip,
+        userAgent: request.headers['user-agent'],
+        details: { clientId, requestCount: entry.count, maxRequests },
+      });
+      return { allowed: false, remaining: 0 };
+    }
+
+    return { allowed: true, remaining: maxRequests - entry.count };
+  }
+
+  /**
+   * Extract user ID from request
+   */
+  private extractUserId(request: FastifyRequest): string | undefined {
+    const user = (request as any).user;
+    return user?.id || user?.userId;
+  }
+
+  /**
+   * Extract user role from request
+   */
+  private extractUserRole(request: FastifyRequest): string {
+    const user = (request as any).user;
+    return user?.role || user?.userType || 'guest';
+  }
+
+  /**
+   * Validate tool access based on user role
+   */
+  private validateToolAccess(
+    toolName: string,
+    request: FastifyRequest,
+  ): { allowed: boolean; reason?: string } {
+    if (!this.options.enableAuth) {
+      return { allowed: true };
+    }
+
+    const userRole = this.extractUserRole(request);
+    const userId = this.extractUserId(request);
+
+    // Define role-based tool permissions
+    const rolePermissions: Record<string, string[]> = {
+      guest: ['echo', 'get_time', 'ping'],
+      user: ['echo', 'get_time', 'get_user_info', 'ping', 'list_files', 'read_file'],
+      developer: ['echo', 'get_time', 'get_user_info', 'ping', 'list_files', 'read_file'],
+      admin: Array.from(this.tools.keys()), // All tools
+    };
+
+    const allowedTools = rolePermissions[userRole] || [];
+
+    if (!allowedTools.includes(toolName)) {
+      this.logSecurityEvent({
+        userId,
+        role: userRole,
+        action: 'tool_access_denied',
+        resource: toolName,
+        result: 'denied',
+        reason: `Role '${userRole}' not authorized for tool '${toolName}'`,
+        ipAddress: request.ip,
+        userAgent: request.headers['user-agent'],
+      });
+
+      return {
+        allowed: false,
+        reason: `Role '${userRole}' not authorized for tool '${toolName}'`,
+      };
+    }
+
+    this.logSecurityEvent({
+      userId,
+      role: userRole,
+      action: 'tool_access_granted',
+      resource: toolName,
+      result: 'allowed',
+      ipAddress: request.ip,
+      userAgent: request.headers['user-agent'],
+    });
+
+    return { allowed: true };
   }
 
   /**
@@ -237,7 +755,7 @@ class MCPAdapter {
       },
     );
 
-    this.app.log.info(`MCP adapter mounted at ${fullPrefix}`);
+    this.app.log.debug(`MCP adapter mounted at ${fullPrefix}`);
   }
 
   /**
@@ -307,8 +825,44 @@ class MCPAdapter {
   ): Promise<MCPMessage> {
     const { method, params, id } = message;
 
+    // Rate limiting check
+    const rateLimitResult = this.checkRateLimit(request);
+    if (!rateLimitResult.allowed) {
+      this.logSecurityEvent({
+        userId: this.extractUserId(request),
+        role: this.extractUserRole(request),
+        action: 'request_rate_limited',
+        resource: 'mcp_endpoint',
+        result: 'denied',
+        reason: 'Rate limit exceeded',
+        ipAddress: request.ip,
+        userAgent: request.headers['user-agent'],
+        details: { method, params },
+      });
+
+      return {
+        jsonrpc: '2.0',
+        id,
+        error: {
+          code: -32000,
+          message: 'Rate limit exceeded. Please try again later.',
+          data: { remaining: rateLimitResult.remaining },
+        },
+      };
+    }
+
     switch (method) {
       case 'initialize':
+        this.logSecurityEvent({
+          userId: this.extractUserId(request),
+          role: this.extractUserRole(request),
+          action: 'mcp_initialize',
+          resource: 'mcp_session',
+          result: 'allowed',
+          ipAddress: request.ip,
+          userAgent: request.headers['user-agent'],
+        });
+
         return {
           jsonrpc: '2.0',
           id,
@@ -338,6 +892,19 @@ class MCPAdapter {
       case 'tools/call':
         if (!params?.name) {
           throw new Error('Tool name is required');
+        }
+
+        // Validate tool access
+        const toolAccess = this.validateToolAccess(params.name, request);
+        if (!toolAccess.allowed) {
+          return {
+            jsonrpc: '2.0',
+            id,
+            error: {
+              code: -32001,
+              message: toolAccess.reason || 'Tool access denied',
+            },
+          };
         }
 
         return {
@@ -447,10 +1014,10 @@ class MCPAdapter {
         };
 
       case 'list_files':
-        return await this.listFiles(args.path, args.recursive || false);
+        return await this.listFiles(args.path, args.recursive || false, request);
 
       case 'read_file':
-        return await this.readFile(args.path, args.encoding || 'utf8');
+        return await this.readFile(args.path, args.encoding || 'utf8', request);
 
       default:
         throw new Error(`Tool ${toolName} not implemented`);
@@ -460,7 +1027,7 @@ class MCPAdapter {
   /**
    * Read MCP resource
    */
-  private async readResource(uri: string, _request: FastifyRequest): Promise<any> {
+  private async readResource(uri: string, request: FastifyRequest): Promise<any> {
     const resource = this.resources.get(uri);
     if (!resource) {
       throw new Error(`Resource not found: ${uri}`);
@@ -469,80 +1036,163 @@ class MCPAdapter {
     // For file resources, read the actual file
     if (uri.startsWith('file://')) {
       const filePath = uri.substring(7); // Remove "file://" prefix
-      return await this.readFile(filePath);
+      return await this.readFile(filePath, 'utf8', request);
     }
 
     return resource;
   }
 
   /**
-   * List files (mock implementation)
+   * List files with comprehensive security validation
    */
-  private async listFiles(path: string, recursive: boolean = false): Promise<any> {
-    // Mock file listing
-    const mockFiles = [
-      {
-        name: 'README.md',
-        path: 'README.md',
-        type: 'file',
-        size: 1024,
-        modified: new Date().toISOString(),
-      },
-      {
-        name: 'package.json',
-        path: 'package.json',
-        type: 'file',
-        size: 2048,
-        modified: new Date().toISOString(),
-      },
-    ];
-
-    if (recursive) {
-      mockFiles.push({
-        name: 'src',
-        path: 'src',
-        type: 'directory',
-        size: 4096,
-        modified: new Date().toISOString(),
-      });
+  private async listFiles(
+    filePath: string,
+    recursive: boolean = false,
+    request: FastifyRequest,
+  ): Promise<any> {
+    // Authentication check
+    if (this.options.enableAuth && !(request as any).user) {
+      throw new Error('Authentication required for file operations');
     }
 
-    return {
-      path,
-      recursive,
-      files: mockFiles,
-    };
+    // Validate and sanitize the path
+    const pathValidation = validateFilePath(filePath, this.options.allowedBasePaths || []);
+    if (!pathValidation.valid) {
+      throw new Error(`Invalid path: ${pathValidation.error}`);
+    }
+
+    const safePath = pathValidation.sanitizedPath!;
+
+    try {
+      // For security, we'll implement a restricted file listing
+      // Only allow listing within configured base paths or current working directory
+      const basePath = this.options.allowedBasePaths?.[0] || process.cwd();
+      const fullPath = path.resolve(basePath, safePath);
+
+      // Additional security: ensure we're still within bounds after resolution
+      if (!fullPath.startsWith(path.resolve(basePath))) {
+        throw new Error('Path traversal attempt detected');
+      }
+
+      // Check if path exists and is accessible
+      let stats;
+      try {
+        stats = await fs.stat(fullPath);
+      } catch {
+        stats = null;
+      }
+      if (!stats) {
+        throw new Error(`Path not found: ${safePath}`);
+      }
+
+      if (!stats.isDirectory()) {
+        throw new Error(`Path is not a directory: ${safePath}`);
+      }
+
+      // List directory contents with security restrictions
+      const entries = await fs.readdir(fullPath, { withFileTypes: true });
+
+      const files = entries
+        .filter((entry) => {
+          // Filter out hidden files and system files for security
+          return !entry.name.startsWith('.') && entry.name !== 'node_modules';
+        })
+        .map((entry) => ({
+          name: entry.name,
+          path: path.join(safePath, entry.name).replace(/\\/g, '/'),
+          type: entry.isDirectory() ? 'directory' : 'file',
+          size: 0, // Will be populated for files only if needed
+          modified: new Date().toISOString(), // Simplified for security
+        }));
+
+      return {
+        path: safePath,
+        recursive,
+        files,
+        securityValidated: true,
+      };
+    } catch (error) {
+      // Log security violations without exposing sensitive information
+      this.app.log.warn(`Security violation in listFiles: ${safePath}`);
+
+      if (error instanceof Error) {
+        throw new Error(`File listing failed: ${error.message}`);
+      }
+      throw new Error('File listing failed');
+    }
   }
 
   /**
-   * Read file (mock implementation)
+   * Read file with comprehensive security validation
    */
-  private async readFile(path: string, encoding: string = 'utf8'): Promise<any> {
-    // Mock file reading
-    const mockFiles: Record<string, string> = {
-      'README.md': '# README\nThis is a mock README file for the MCP adapter.',
-      'package.json': JSON.stringify(
-        {
-          name: '@promethean/omni-service',
-          version: '1.0.0',
-          description: 'Omni Service with MCP support',
-        },
-        null,
-        2,
-      ),
-    };
-
-    const content = mockFiles[path];
-    if (content === undefined) {
-      throw new Error(`File not found: ${path}`);
+  private async readFile(
+    filePath: string,
+    encoding: string = 'utf8',
+    request: FastifyRequest,
+  ): Promise<any> {
+    // Authentication check
+    if (this.options.enableAuth && !(request as any).user) {
+      throw new Error('Authentication required for file operations');
     }
 
-    return {
-      path,
-      encoding,
-      content,
-      size: content.length,
-    };
+    // Validate and sanitize the path
+    const pathValidation = validateFilePath(filePath, this.options.allowedBasePaths || []);
+    if (!pathValidation.valid) {
+      throw new Error(`Invalid path: ${pathValidation.error}`);
+    }
+
+    const safePath = pathValidation.sanitizedPath!;
+
+    // Additional security: check file extension
+    if (!isAllowedFileExtension(safePath)) {
+      throw new Error('File type not allowed for reading');
+    }
+
+    try {
+      // Resolve the full path within allowed boundaries
+      const basePath = this.options.allowedBasePaths?.[0] || process.cwd();
+      const fullPath = path.resolve(basePath, safePath);
+
+      // Security: ensure we're still within bounds after resolution
+      if (!fullPath.startsWith(path.resolve(basePath))) {
+        throw new Error('Path traversal attempt detected');
+      }
+
+      // Check if path exists and is a file
+      const stats = await fs.stat(fullPath).catch(() => null);
+      if (!stats) {
+        throw new Error(`File not found: ${safePath}`);
+      }
+
+      if (!stats.isFile()) {
+        throw new Error(`Path is not a file: ${safePath}`);
+      }
+
+      // Validate file size
+      const maxSize = this.options.maxFileSize || 1024 * 1024; // 1MB default
+      if (stats.size > maxSize) {
+        throw new Error(`File too large: ${stats.size} bytes (max: ${maxSize})`);
+      }
+
+      // Read file content
+      const content = await fs.readFile(fullPath, encoding as BufferEncoding);
+
+      return {
+        path: safePath,
+        encoding,
+        content: content.toString(),
+        size: stats.size,
+        securityValidated: true,
+      };
+    } catch (error) {
+      // Log security violations without exposing sensitive information
+      this.app.log.warn(`Security violation in readFile: ${safePath}`);
+
+      if (error instanceof Error) {
+        throw new Error(`File read failed: ${error.message}`);
+      }
+      throw new Error('File read failed');
+    }
   }
 
   /**
@@ -851,4 +1501,5 @@ export function mountMCPAdapter(
   mcpAdapter.mount();
 }
 
+export { MCPAdapter };
 export default MCPAdapter;

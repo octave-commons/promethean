@@ -14,12 +14,16 @@ export type PlanRequestOptions = {
 };
 
 // eslint-disable-next-line max-lines-per-function
+// eslint-disable-next-line max-lines-per-function
 export async function requestPlan(
   model: string,
   err: BuildError,
   history: History,
   options: PlanRequestOptions = {},
 ): Promise<Plan> {
+  const { withTimeout } = await import('../timeout/timeout-manager.js');
+  const { globalOllamaWrapper } = await import('../timeout/ollama-wrapper.js');
+
   // Define the JSON schema for Ollama
   const planSchema = {
     type: 'object',
@@ -100,16 +104,57 @@ export async function requestPlan(
     required: ['title', 'rationale'],
   };
 
-  const ollamaOptions: Record<string, unknown> = { schema: planSchema };
-  if (options.system) {
-    ollamaOptions.system = options.system;
+  try {
+    // Use timeout-protected Ollama wrapper with extended timeout for planning
+    const response = await withTimeout(
+      'ollama',
+      async () => {
+        return await globalOllamaWrapper.generateJSON(
+          model,
+          buildPrompt(err, history, options.prompt),
+          {
+            schema: planSchema,
+            system: options.system,
+            temperature: 0,
+          },
+        );
+      },
+      {
+        model,
+        error: err,
+        historyLength: history.attempts.length,
+        operation: 'plan-generation',
+      },
+    );
+
+    if (response.timedOut) {
+      throw new Error(`Plan generation timed out after ${response.duration}ms`);
+    }
+
+    const raw = response.data;
+    const parsed = PlanSchema.safeParse(raw);
+    if (!parsed.success) {
+      throw new Error(`invalid plan JSON: ${parsed.error.message}`);
+    }
+    return parsed.data;
+  } catch (error) {
+    // Fallback to original implementation if timeout wrapper fails
+    console.warn(
+      'Plan generation timeout wrapper failed, falling back to original implementation:',
+      error,
+    );
+
+    const ollamaOptions: Record<string, unknown> = { schema: planSchema };
+    if (options.system) {
+      ollamaOptions.system = options.system;
+    }
+    const raw = await ollamaJSON(model, buildPrompt(err, history, options.prompt), ollamaOptions);
+    const parsed = PlanSchema.safeParse(raw);
+    if (!parsed.success) {
+      throw new Error(`invalid plan JSON: ${parsed.error.message}`);
+    }
+    return parsed.data;
   }
-  const raw = await ollamaJSON(model, buildPrompt(err, history, options.prompt), ollamaOptions);
-  const parsed = PlanSchema.safeParse(raw);
-  if (!parsed.success) {
-    throw new Error(`invalid plan JSON: ${parsed.error.message}`);
-  }
-  return parsed.data;
 }
 
 export async function writePlanFile(dir: string, n: number, plan: Plan): Promise<string> {

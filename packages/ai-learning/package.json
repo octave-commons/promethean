@@ -24,7 +24,8 @@
   "author": "Promethean Framework",
   "license": "GPL-3.0-only",
   "dependencies": {
-    "@promethean/utils": "workspace:*"
+    "@promethean/utils": "workspace:*",
+    "@promethean/eidolon-field": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

@@ -1,0 +1,1 @@
+;; This was a test file for LSP integration - cleaned up

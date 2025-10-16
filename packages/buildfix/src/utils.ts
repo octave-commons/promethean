@@ -9,10 +9,11 @@ const __dirname = path.dirname(__filename);
 
 import { Project } from 'ts-morph';
 export { sha1 } from '@promethean/utils';
+import { getWorkspaceRoot } from './path-resolution.js';
 
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? 'http://localhost:11434';
 
-export const WORKSPACE_ROOT = path.resolve(process.env.INIT_CWD ?? process.cwd());
+export const WORKSPACE_ROOT = getWorkspaceRoot();
 
 export function resolveFromWorkspace(p: string): string {
   return path.isAbsolute(p) ? p : path.resolve(WORKSPACE_ROOT, p);
@@ -32,36 +33,56 @@ export type RunOptions = {
 export async function run(
   command: string,
   args: ReadonlyArray<string> = [],
-  options: RunOptions = {},
+  options: RunOptions & { timeout?: number } = {},
 ): Promise<RunResult> {
-  const cwd = options.cwd ?? process.cwd();
-  return new Promise((resolve) => {
-    const child = spawn(command, [...args], {
-      cwd,
-      env: { ...process.env, ...options.env },
-      stdio: ['ignore', 'pipe', 'pipe'],
+  const { ProcessWrapper } = await import('./timeout/process-wrapper.js');
+
+  try {
+    const result = await ProcessWrapper.execute(command, args, {
+      cwd: options.cwd,
+      env: options.env,
+      timeout: options.timeout,
+      validateCommand: true,
     });
-    let stdout = '';
-    let stderr = '';
-    let settled = false;
-    const finalize = (code: number | null) => {
-      if (settled) return;
-      settled = true;
-      resolve({ code, out: stdout, err: stderr });
+
+    return {
+      code: result.code,
+      out: result.out,
+      err: result.err,
     };
-    child.stdout?.on('data', (chunk) => {
-      stdout += String(chunk);
+  } catch (error) {
+    // Fallback to original implementation if wrapper fails
+    console.warn('Process wrapper failed, falling back to original implementation:', error);
+
+    const cwd = options.cwd ?? process.cwd();
+    return new Promise((resolve) => {
+      const child = spawn(command, [...args], {
+        cwd,
+        env: { ...process.env, ...options.env },
+        stdio: ['ignore', 'pipe', 'pipe'],
+      });
+      let stdout = '';
+      let stderr = '';
+      let settled = false;
+      const finalize = (code: number | null) => {
+        if (settled) return;
+        settled = true;
+        resolve({ code, out: stdout, err: stderr });
+      };
+      child.stdout?.on('data', (chunk) => {
+        stdout += String(chunk);
+      });
+      child.stderr?.on('data', (chunk) => {
+        stderr += String(chunk);
+      });
+      child.on('error', (err) => {
+        const message = String(err?.message ?? err);
+        stderr = stderr ? `${stderr}\n${message}` : message;
+        finalize(127);
+      });
+      child.on('close', finalize);
     });
-    child.stderr?.on('data', (chunk) => {
-      stderr += String(chunk);
-    });
-    child.on('error', (err) => {
-      const message = String(err?.message ?? err);
-      stderr = stderr ? `${stderr}\n${message}` : message;
-      finalize(127);
-    });
-    child.on('close', finalize);
-  });
+  }
 }
 
 export function parseTsc(text: string) {
@@ -103,18 +124,50 @@ export async function codeFrame(file: string, line: number, span = 3) {
   }
 }
 
-export async function tsc(tsconfig: string) {
-  const { code, out, err } = await run('npx', [
-    'tsc',
-    '-p',
-    tsconfig,
-    '--noEmit',
-    '--pretty',
-    'false',
-  ]);
-  const text = out + '\n' + err;
-  const diags = parseTsc(text);
-  return { ok: code === 0, text, diags };
+export async function tsc(
+  tsconfig: string,
+  options?: { timeout?: number },
+): Promise<{
+  ok: boolean;
+  text: string;
+  diags: Array<{ file: string; line: number; col: number; code: string; message: string }>;
+}> {
+  const { globalTimeoutManager } = await import('./timeout/timeout-manager.js');
+  const timeout = options?.timeout || globalTimeoutManager.getTimeout('tsc');
+
+  try {
+    const { withTimeout } = await import('./timeout/timeout-manager.js');
+
+    return await withTimeout(
+      'tsc',
+      async () => {
+        const { code, out, err } = await run(
+          'npx',
+          ['tsc', '-p', tsconfig, '--noEmit', '--pretty', 'false'],
+          { timeout },
+        );
+        const text = out + '\n' + err;
+        const diags = parseTsc(text);
+        return { ok: code === 0, text, diags };
+      },
+      { tsconfig },
+    );
+  } catch (error) {
+    // Fallback to original implementation if timeout wrapper fails
+    console.warn('TSC timeout wrapper failed, falling back to original implementation:', error);
+
+    const { code, out, err } = await run('npx', [
+      'tsc',
+      '-p',
+      tsconfig,
+      '--noEmit',
+      '--pretty',
+      'false',
+    ]);
+    const text = out + '\n' + err;
+    const diags = parseTsc(text);
+    return { ok: code === 0, text, diags };
+  }
 }
 
 export async function ensureDir(p: string) {
@@ -171,9 +224,32 @@ export async function applySnippetToProject(tsconfigPath: string, snippetPath: s
 // TODO: Refactor all of these calls to ollama to use the ollama npm package.
 // ...
 
-export async function git(args: ReadonlyArray<string>, cwd = process.cwd()): Promise<RunResult> {
-  const { code, out, err } = await run('git', args, { cwd });
-  return { code, out: out.trim(), err: err.trim() };
+export async function git(
+  args: ReadonlyArray<string>,
+  cwd = process.cwd(),
+  options?: { timeout?: number },
+): Promise<RunResult> {
+  const { globalTimeoutManager } = await import('./timeout/timeout-manager.js');
+  const timeout = options?.timeout || globalTimeoutManager.getTimeout('git');
+
+  try {
+    const { withTimeout } = await import('./timeout/timeout-manager.js');
+
+    return await withTimeout(
+      'git',
+      async () => {
+        const { code, out, err } = await run('git', args, { cwd, timeout });
+        return { code, out: out.trim(), err: err.trim() };
+      },
+      { args, cwd },
+    );
+  } catch (error) {
+    // Fallback to original implementation if timeout wrapper fails
+    console.warn('Git timeout wrapper failed, falling back to original implementation:', error);
+
+    const { code, out, err } = await run('git', args, { cwd });
+    return { code, out: out.trim(), err: err.trim() };
+  }
 }
 
 export async function isGitRepo() {
@@ -221,39 +297,59 @@ export async function callOllama(
     temperature?: number;
     schema?: object;
     system?: string;
+    timeout?: number;
   } = {},
 ): Promise<unknown> {
-  const ollama = await initializeOllamaPackage();
+  const { globalOllamaWrapper } = await import('./timeout/ollama-wrapper.js');
 
-  if (ollama && ollama !== false) {
-    // Use npm package
-    try {
-      const response = await ollama.generate({
-        model,
-        prompt,
-        system: options.system,
-        format: options.schema ? 'json' : undefined,
-        options: {
-          temperature: options.temperature ?? 0,
-        },
-      });
+  try {
+    const response = await globalOllamaWrapper.generateJSON(model, prompt, {
+      temperature: options.temperature,
+      system: options.system,
+      schema: options.schema,
+    });
 
-      const raw = response.response;
-      return JSON.parse(
-        String(raw)
-          .replace(/```json\s*/g, '')
-          .replace(/```\s*$/g, '')
-          .trim(),
-      );
-    } catch (error) {
-      console.warn('Ollama npm package failed, falling back to HTTP:', error);
-      // Fall back to HTTP implementation
+    if (response.timedOut) {
+      throw new Error(`Ollama call timed out after ${response.duration}ms`);
     }
-  }
 
-  // Fallback to existing HTTP implementation via @promethean/utils
-  const { ollamaJSON } = await import('@promethean/utils');
-  return ollamaJSON(model, prompt, options);
+    return response.data;
+  } catch (error) {
+    // Fallback to original implementation if wrapper fails
+    console.warn('Ollama wrapper failed, falling back to original implementation:', error);
+
+    const ollama = await initializeOllamaPackage();
+
+    if (ollama && ollama !== false) {
+      // Use npm package
+      try {
+        const response = await ollama.generate({
+          model,
+          prompt,
+          system: options.system,
+          format: options.schema ? 'json' : undefined,
+          options: {
+            temperature: options.temperature ?? 0,
+          },
+        });
+
+        const raw = response.response;
+        return JSON.parse(
+          String(raw)
+            .replace(/```json\s*/g, '')
+            .replace(/```\s*$/g, '')
+            .trim(),
+        );
+      } catch (error) {
+        console.warn('Ollama npm package failed, falling back to HTTP:', error);
+        // Fall back to HTTP implementation
+      }
+    }
+
+    // Fallback to existing HTTP implementation via @promethean/utils
+    const { ollamaJSON } = await import('@promethean/utils');
+    return ollamaJSON(model, prompt, options);
+  }
 }
 
 // Performance: Git-based snapshot management for faster rollbacks

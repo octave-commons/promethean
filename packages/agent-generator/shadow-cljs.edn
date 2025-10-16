@@ -1,0 +1,14 @@
+{:source-paths ["src" "resources"]
+ :dependencies [[binaryage/devtools "1.0.7"]
+                [nrepl "1.3.1"]]
+ :nrepl {:port 9000
+         :host "0.0.0.0"}
+ :builds
+ {:agent-generator
+  {:target :node-script
+   :main promethean.agent_generator.cli.core/-main
+   :output-to "dist/agent_generator.cjs"
+   :compiler-options {:infer-externs :auto
+                      :source-map true
+                      :output-feature-set :es-next}
+   :devtools {:watch-dir "resources"}}}}

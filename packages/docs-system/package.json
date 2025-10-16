@@ -1,0 +1,167 @@
+{
+  "name": "@promethean/docs-system",
+  "version": "0.1.0",
+  "description": "Comprehensive fullstack documentation system for Promethean Framework with asynchronous Ollama access",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "keywords": [
+    "documentation",
+    "ollama",
+    "ai",
+    "search",
+    "knowledge-base",
+    "promethean",
+    "fullstack",
+    "api",
+    "dashboard"
+  ],
+  "author": "Promethean Framework",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/promethean-framework/promethean.git",
+    "directory": "packages/docs-system"
+  },
+  "bugs": {
+    "url": "https://github.com/promethean-framework/promethean/issues"
+  },
+  "homepage": "https://github.com/promethean-framework/promethean/tree/main/packages/docs-system",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./backend": {
+      "types": "./dist/backend/index.d.ts",
+      "import": "./dist/backend/index.js"
+    },
+    "./frontend": {
+      "types": "./dist/frontend/index.d.ts",
+      "import": "./dist/frontend/index.js"
+    },
+    "./database": {
+      "types": "./dist/database/index.d.ts",
+      "import": "./dist/database/index.js"
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/types/index.js"
+    },
+    "./shared": {
+      "types": "./dist/shared/index.d.ts",
+      "import": "./dist/shared/index.js"
+    }
+  },
+  "bin": {
+    "docs-system": "dist/cli.js",
+    "docs-server": "dist/server.js"
+  },
+  "scripts": {
+    "dev": "concurrently \"pnpm dev:backend\" \"pnpm dev:frontend\"",
+    "dev:backend": "tsx watch src/backend/index.ts",
+    "dev:frontend": "vite",
+    "build": "pnpm build:backend && pnpm build:frontend",
+    "build:backend": "tsc -p tsconfig.backend.json",
+    "build:frontend": "vite build",
+    "start": "node dist/backend/index.js",
+    "test": "ava",
+    "test:watch": "ava --watch",
+    "test:coverage": "c8 ava",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist",
+    "docker:build": "docker build -t promethean-docs-system .",
+    "docker:run": "docker run -p 3000:3000 -p 5173:5173 promethean-docs-system"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.0",
+    "antd": "^5.12.0",
+    "@tanstack/react-query": "^5.0.0",
+    "@ant-design/icons": "^5.2.0",
+    "zustand": "^4.4.7",
+    "dayjs": "^1.11.10",
+    "recharts": "^2.8.0",
+    "react-syntax-highlighter": "^15.5.0",
+    "react-markdown": "^9.0.1",
+    "remark-gfm": "^4.0.0",
+    "react-hotkeys-hook": "^4.4.4",
+    "framer-motion": "^10.16.16",
+    "react-beautiful-dnd": "^13.1.1",
+    "@monaco-editor/react": "^4.6.0",
+    "@promethean/kanban": "workspace:*",
+    "@promethean/agents-workflow": "workspace:*",
+    "@promethean/ollama-queue": "workspace:*",
+    "@promethean/utils": "workspace:*",
+    "@promethean/markdown": "workspace:*",
+    "express": "^4.18.2",
+    "socket.io": "^4.7.2",
+    "mongodb": "^6.18.0",
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "express-rate-limit": "^7.1.5",
+    "compression": "^1.7.4",
+    "morgan": "^1.10.0",
+    "dotenv": "^16.3.1",
+    "zod": "^3.22.4",
+    "node-cron": "^3.0.3",
+    "winston": "^3.11.0",
+    "multer": "^1.4.5-lts.1",
+    "sharp": "^0.33.1",
+    "ws": "^8.14.2",
+    "axios": "^1.6.2",
+    "form-data": "^4.0.0",
+    "marked": "^11.1.1",
+    "dompurify": "^3.0.7",
+    "js-yaml": "^4.1.0",
+    "ioredis": "^5.3.2",
+    "joi": "^17.11.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.0",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.17",
+    "@types/compression": "^1.7.5",
+    "@types/morgan": "^1.9.9",
+    "@types/node-cron": "^3.0.11",
+    "@types/multer": "^1.4.11",
+    "@types/ws": "^8.5.0",
+    "typescript": "^5.4.0",
+    "tsx": "^4.6.2",
+    "vite": "^5.0.10",
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite-plugin-eslint": "^1.8.1",
+    "ava": "^6.0.0",
+    "c8": "^8.0.1",
+    "@ava/typescript": "^4.0.0",
+    "sinon": "^17.0.1",
+    "@types/sinon": "^17.0.3",
+    "rimraf": "^5.0.5",
+    "esmock": "^2.7.3",
+    "typedoc": "^0.28.13",
+    "typedoc-plugin-markdown": "^4.9.0",
+    "eslint": "^8.55.0",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.0.2"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}

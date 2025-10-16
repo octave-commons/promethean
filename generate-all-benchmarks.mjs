@@ -1,8 +1,56 @@
 import fs from 'fs/promises';
 import path from 'path';
 
+/**
+ * Validates and sanitizes benchmark file inputs to prevent path traversal attacks
+ */
+function validateBenchmarkInput(category, name) {
+  // Validate category - prevent path traversal
+  if (typeof category !== 'string' || !category.trim()) {
+    throw new Error('Category must be a non-empty string');
+  }
+
+  // Sanitize category - remove dangerous characters and path traversal
+  const sanitizedCategory = category
+    .trim()
+    .replace(/[<>:"|?*]/g, '_')
+    .replace(/\.\./g, '')
+    .replace(/[\/\\]/g, '_')
+    .toLowerCase();
+
+  if (!sanitizedCategory || sanitizedCategory !== category) {
+    throw new Error(
+      `Invalid category: ${category}. Only alphanumeric characters and hyphens allowed.`,
+    );
+  }
+
+  // Validate name - prevent path traversal
+  if (typeof name !== 'string' || !name.trim()) {
+    throw new Error('Name must be a non-empty string');
+  }
+
+  // Sanitize name - remove dangerous characters and path traversal
+  const sanitizedName = name
+    .trim()
+    .replace(/[<>:"|?*]/g, '_')
+    .replace(/\.\./g, '')
+    .replace(/[\/\\]/g, '_')
+    .toLowerCase();
+
+  if (!sanitizedName || sanitizedName !== name) {
+    throw new Error(`Invalid name: ${name}. Only alphanumeric characters and hyphens allowed.`);
+  }
+
+  return { sanitizedCategory, sanitizedName };
+}
+
 async function createBenchmarkFile(category, name, difficulty, scale, complexity, content, answer) {
-  const dir = `/home/err/devel/promethean/docs/benchmarks/prompts/${category}`;
+  // Validate and sanitize inputs to prevent path injection
+  const { sanitizedCategory, sanitizedName } = validateBenchmarkInput(category, name);
+
+  // Use safe, hardcoded base path with validated components
+  const basePath = '/home/err/devel/promethean/docs/benchmarks/prompts';
+  const dir = path.join(basePath, sanitizedCategory);
 
   // Ensure directory exists
   try {
@@ -11,7 +59,7 @@ async function createBenchmarkFile(category, name, difficulty, scale, complexity
     // Directory might already exist
   }
 
-  const filePath = path.join(dir, `${name}.md`);
+  const filePath = path.join(dir, `${sanitizedName}.md`);
 
   const fileContent = `---
 difficulty: ${difficulty}
