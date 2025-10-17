@@ -1,175 +1,204 @@
-// import type { Plugin } from '@opencode-ai/plugin';
+import type { Plugin } from '@opencode-ai/plugin';
 
-// export const TypeCheckerPlugin: Plugin = async ({ $ }) => {
-//   // Helper function to determine if a file should be type checked
-//   function shouldTypeCheckFile(filePath: string): boolean {
-//     const typeCheckableExtensions = [
-//       '.ts',
-//       '.tsx',
-//       '.js',
-//       '.jsx', // TypeScript/JavaScript
-//       '.clj',
-//       '.cljs',
-//       '.cljc', // Clojure
-//       '.edn',
-//       '.bb', // Clojure data/babashka
-//     ];
+// Language checker configurations
+interface CheckerConfig {
+  command: string;
+  args: string[];
+  parseOutput: (output: string) => { errors: string[]; warnings: string[] };
+}
 
-//     // Also check for specific config files
-//     const specialFiles = ['shadow-cljs.edn', 'deps.edn', 'bb.edn'];
+// Language pattern interface
+interface LanguagePattern {
+  extensions: string[];
+  specialFiles?: string[];
+  config: CheckerConfig;
+}
 
-//     const fileName = filePath.split('/').pop() || '';
+// File type patterns for different languages
+const LANGUAGE_PATTERNS: Record<string, LanguagePattern> = {
+  typescript: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    config: {
+      command: 'pnpm',
+      args: ['tsc', '--noEmit', '--skipLibCheck'],
+      parseOutput: (output: string) => {
+        const lines = output.split('\n');
+        const errors: string[] = [];
+        const warnings: string[] = [];
 
-//     return (
-//       typeCheckableExtensions.some((ext) => filePath.endsWith(ext)) ||
-//       specialFiles.includes(fileName)
-//     );
-//   }
+        lines.forEach((line) => {
+          if (line.includes('error') || line.match(/^\d+:\d+/)) {
+            errors.push(line);
+          } else if (line.includes('warning')) {
+            warnings.push(line);
+          }
+        });
 
-//   // Helper function to detect project type and choose appropriate type checker
-//   function getTypeChecker(filePath: string): string {
-//     if (
-//       filePath.endsWith('.clj') ||
-//       filePath.endsWith('.cljs') ||
-//       filePath.endsWith('.cljc') ||
-//       filePath.endsWith('.edn') ||
-//       filePath.endsWith('shadow-cljs.edn')
-//     ) {
-//       return 'clj-kondo';
-//     }
+        return { errors, warnings };
+      },
+    },
+  },
+  clojure: {
+    extensions: ['.clj', '.cljs', '.cljc', '.edn'],
+    specialFiles: ['shadow-cljs.edn', 'deps.edn'],
+    config: {
+      command: 'clj-kondo',
+      args: ['--lint'],
+      parseOutput: (output: string) => {
+        const lines = output.split('\n');
+        const errors: string[] = [];
+        const warnings: string[] = [];
 
-//     if (filePath.endsWith('.bb')) {
-//       return 'babashka';
-//     }
+        lines.forEach((line) => {
+          if (line.includes('error') || line.includes('✗')) {
+            errors.push(line);
+          } else if (line.includes('warning') || line.includes('⚠')) {
+            warnings.push(line);
+          }
+        });
 
-//     if (
-//       filePath.endsWith('.ts') ||
-//       filePath.endsWith('.tsx') ||
-//       filePath.endsWith('.js') ||
-//       filePath.endsWith('.jsx')
-//     ) {
-//       return 'typescript';
-//     }
+        return { errors, warnings };
+      },
+    },
+  },
+  babashka: {
+    extensions: ['.bb'],
+    specialFiles: ['bb.edn'],
+    config: {
+      command: 'bb',
+      args: ['--check'],
+      parseOutput: (output: string) => {
+        const lines = output.split('\n');
+        const errors: string[] = [];
+        const warnings: string[] = [];
 
-//     return 'none';
-//   }
+        lines.forEach((line) => {
+          if (line.includes('error') || line.includes('Exception')) {
+            errors.push(line);
+          } else if (line.includes('warning')) {
+            warnings.push(line);
+          }
+        });
 
-//   // Helper function to run type checker based on file type
-//   async function runTypeChecker(filePath: string): Promise<{
-//     success: boolean;
-//     output: string;
-//     errors: string[];
-//     warnings: string[];
-//   }> {
-//     const checker = getTypeChecker(filePath);
+        return { errors, warnings };
+      },
+    },
+  },
+};
 
-//     try {
-//       let result;
+// Simplified file type detection
+function detectLanguage(filePath: string): string | null {
+  const fileName = filePath.split('/').pop() || '';
 
-//       switch (checker) {
-//         case 'typescript':
-//           result = await $`pnpm tsc --noEmit --skipLibCheck ${filePath}`.text();
-//           break;
+  for (const [language, pattern] of Object.entries(LANGUAGE_PATTERNS)) {
+    if (pattern.extensions.some((ext) => filePath.endsWith(ext))) {
+      return language;
+    }
 
-//         case 'clj-kondo':
-//           result = await $`clj-kondo --lint ${filePath}`.text();
-//           break;
+    if (pattern.specialFiles?.includes(fileName)) {
+      return language;
+    }
+  }
 
-//         case 'babashka':
-//           result = await $`bb --check ${filePath}`.text();
-//           break;
+  return null;
+}
 
-//         case 'shadow-cljs':
-//           result = await $`npx shadow-cljs compile app`.text();
-//           break;
+// Simplified type checker execution
+async function runTypeChecker(
+  filePath: string,
+  config: CheckerConfig,
+  $: any,
+): Promise<{
+  success: boolean;
+  output: string;
+  errors: string[];
+  warnings: string[];
+}> {
+  try {
+    const result = await $`${config.command} ${[...config.args, filePath].join(' ')}`.text();
+    const { errors, warnings } = config.parseOutput(result);
 
-//         default:
-//           return {
-//             success: true,
-//             output: `No type checker available for ${filePath}`,
-//             errors: [],
-//             warnings: [],
-//           };
-//       }
+    return {
+      success: errors.length === 0,
+      output: result,
+      errors,
+      warnings,
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      output: error.stderr || error.stdout || error.message || 'Unknown error',
+      errors: [error.message || 'Type checker failed'],
+      warnings: [],
+    };
+  }
+}
 
-//       // Parse results to extract errors and warnings
-//       const lines = result.split('\n');
-//       const errors: string[] = [];
-//       const warnings: string[] = [];
+// Metadata helper
+function addTypeCheckMetadata(output: any, result: any): void {
+  const baseMetadata = output.metadata || {};
 
-//       lines.forEach((line: string) => {
-//         if (line.toLowerCase().includes('error') || line.includes('✗')) {
-//           errors.push(line);
-//         } else if (line.toLowerCase().includes('warning') || line.includes('⚠')) {
-//           warnings.push(line);
-//         }
-//       });
+  if (result.success) {
+    output.metadata = {
+      ...baseMetadata,
+      typeCheckSuccess: true,
+      typeCheckWarnings: result.warnings,
+    };
+  } else {
+    output.metadata = {
+      ...baseMetadata,
+      typeCheckSuccess: false,
+      typeCheckErrors: result.errors,
+      typeCheckWarnings: result.warnings,
+      typeCheckOutput: result.output,
+    };
+  }
+}
 
-//       return {
-//         success: errors.length === 0,
-//         output: result,
-//         errors,
-//         warnings,
-//       };
-//     } catch (error: any) {
-//       return {
-//         success: false,
-//         output: error.stderr || error.stdout || error.message || 'Unknown error',
-//         errors: [error.message || 'Type checker failed'],
-//         warnings: [],
-//       };
-//     }
-//   }
+export const TypeCheckerPlugin: Plugin = async ({ $ }) => {
+  return {
+    'tool.execute.after': async (input, output) => {
+      // Only run type checking after write operations
+      if (input.tool === 'write') {
+        const filePath = (output as any).args?.filePath;
 
-//   return {
-//     'tool.execute.after': async (input, output) => {
-//       // Only run type checking after write operations
-//       if (input.tool === 'write') {
-//         const filePath = (output as any).args?.filePath;
+        if (!filePath) {
+          return;
+        }
 
-//         if (!filePath) {
-//           console.log('No file path found in write operation');
-//           return;
-//         }
+        // Detect language and get checker config
+        const language = detectLanguage(filePath);
+        if (!language) {
+          return;
+        }
 
-//         // Check if file should be type checked
-//         if (!shouldTypeCheckFile(filePath)) {
-//           return;
-//         }
+        const config = LANGUAGE_PATTERNS[language]?.config;
+        if (!config) {
+          return;
+        }
 
-//         console.log(`Running type checking for ${filePath}...`);
+        console.log(`Running ${language} type checking for ${filePath}...`);
 
-//         try {
-//           const result = await runTypeChecker(filePath);
-//           if (!result.success) {
-//             console.error(`Type errors found in ${filePath}:`);
-//             console.error(result.output);
+        try {
+          const result = await runTypeChecker(filePath, config, $);
 
-//             // Add type check results to metadata
-//             (output as any).metadata = {
-//               ...(output as any).metadata,
-//               typeCheckErrors: result.errors,
-//               typeCheckWarnings: result.warnings,
-//               typeCheckOutput: result.output,
-//               typeCheckSuccess: result.success,
-//             };
-//           } else {
-//             console.log(`✅ No type errors in ${filePath}`);
-//             (output as any).metadata = {
-//               ...(output as any).metadata,
-//               typeCheckSuccess: true,
-//               typeCheckWarnings: result.warnings,
-//             };
-//           }
-//         } catch (error) {
-//           console.error(`Failed to run type checker on ${filePath}:`, error);
-//           (output as any).metadata = {
-//             ...(output as any).metadata,
-//             typeCheckError: error instanceof Error ? error.message : 'Unknown error',
-//             typeCheckSuccess: false,
-//           };
-//         }
-//       }
-//     },
-//   };
-// };
+          if (!result.success) {
+            console.error(`Type errors found in ${filePath}:`);
+            console.error(result.output);
+          } else {
+            console.log(`✅ No type errors in ${filePath}`);
+          }
+
+          addTypeCheckMetadata(output, result);
+        } catch (error) {
+          console.error(`Failed to run type checker on ${filePath}:`, error);
+          addTypeCheckMetadata(output, {
+            success: false,
+            errors: [error instanceof Error ? error.message : 'Unknown error'],
+            warnings: [],
+          });
+        }
+      }
+    },
+  };
+};

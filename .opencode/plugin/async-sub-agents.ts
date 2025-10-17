@@ -161,11 +161,8 @@ export const MyPlugin: Plugin = async ({ client }) => {
 
       for await (const event of events.stream) {
         try {
-          console.log('📡 Event received:', event.type, event.properties);
-
           const sessionID = getSessionID(event);
           if (!sessionID) {
-            console.log('⏭️ Skipping event - no session ID found');
             continue;
           }
 
