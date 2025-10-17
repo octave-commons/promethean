@@ -39,7 +39,7 @@ importers:
         version: link:packages/image-link-generator
       '@promethean/kanban':
         specifier: workspace:*
-        version: link:packages/kanban
+        version: link:packages/kanban/dist
       '@promethean/legacy':
         specifier: workspace:*
         version: link:packages/legacy
@@ -500,7 +500,7 @@ importers:
         version: link:../agents-workflow
       '@promethean/kanban':
         specifier: workspace:*
-        version: link:../kanban
+        version: link:../kanban/dist
       '@promethean/monitoring':
         specifier: workspace:*
         version: link:../monitoring
@@ -743,7 +743,7 @@ importers:
     dependencies:
       '@promethean/kanban':
         specifier: workspace:*
-        version: link:../kanban
+        version: link:../kanban/dist
       '@promethean/level-cache':
         specifier: workspace:*
         version: link:../level-cache
@@ -1776,7 +1776,7 @@ importers:
         version: link:../agents-workflow
       '@promethean/kanban':
         specifier: workspace:*
-        version: link:../kanban
+        version: link:../kanban/dist
       '@promethean/markdown':
         specifier: workspace:*
         version: link:../markdown
@@ -2085,6 +2085,46 @@ importers:
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
+
+  packages/dualstore-http:
+    dependencies:
+      '@fastify/bearer-auth':
+        specifier: ^9.4.0
+        version: 9.4.0
+      '@fastify/cors':
+        specifier: ^10.0.0
+        version: 10.1.0
+      '@fastify/swagger':
+        specifier: 9.5.1
+        version: 9.5.1
+      '@fastify/swagger-ui':
+        specifier: 5.2.3
+        version: 5.2.3
+      '@promethean/persistence':
+        specifier: workspace:*
+        version: link:../persistence
+      dotenv:
+        specifier: ^17.2.1
+        version: 17.2.1
+      fastify:
+        specifier: 5.0.0
+        version: 5.0.0
+      zod:
+        specifier: ^3.25.76
+        version: 3.25.76
+    devDependencies:
+      '@types/node':
+        specifier: 20.19.11
+        version: 20.19.11
+      ava:
+        specifier: ^6.4.1
+        version: 6.4.1(@ava/typescript@4.1.0)(encoding@0.1.13)(rollup@4.52.3)
+      c8:
+        specifier: ^10.1.3
+        version: 10.1.3
+      tsx:
+        specifier: ^4.20.3
+        version: 4.20.3
 
   packages/duck-audio: {}
 
@@ -2778,7 +2818,7 @@ importers:
     dependencies:
       '@promethean/kanban':
         specifier: workspace:*
-        version: link:../kanban
+        version: link:../kanban/dist
       '@promethean/utils':
         specifier: workspace:*
         version: link:../utils
@@ -2961,6 +3001,8 @@ importers:
       ts-node:
         specifier: 10.9.2
         version: 10.9.2(@types/node@24.3.1)(typescript@5.9.3)
+
+  packages/indexer-client: {}
 
   packages/indexer-core:
     dependencies:
@@ -3167,6 +3209,7 @@ importers:
       vitest:
         specifier: ^1.0.0
         version: 1.6.1(@types/node@20.19.11)(happy-dom@18.0.1)
+    publishDirectory: dist
 
   packages/legacy:
     dependencies:
@@ -3362,7 +3405,7 @@ importers:
         version: link:../github-sync
       '@promethean/kanban':
         specifier: workspace:*
-        version: link:../kanban
+        version: link:../kanban/dist
       '@promethean/trello':
         specifier: workspace:*
         version: link:../trello
@@ -3557,7 +3600,7 @@ importers:
         version: link:../discord
       '@promethean/kanban':
         specifier: workspace:*
-        version: link:../kanban
+        version: link:../kanban/dist
       '@stryker-mutator/core':
         specifier: ^8.7.1
         version: 8.7.1
@@ -3637,7 +3680,7 @@ importers:
         version: link:../agent-protocol
       '@promethean/kanban':
         specifier: workspace:*
-        version: link:../kanban
+        version: link:../kanban/dist
       '@promethean/utils':
         specifier: workspace:*
         version: link:../utils
@@ -5320,7 +5363,7 @@ importers:
     dependencies:
       '@promethean/kanban':
         specifier: workspace:*
-        version: link:../kanban
+        version: link:../kanban/dist
       '@promethean/utils':
         specifier: workspace:*
         version: link:../utils
@@ -7574,6 +7617,9 @@ packages:
 
   '@fastify/ajv-compiler@4.0.2':
     resolution: {integrity: sha512-Rkiu/8wIjpsf46Rr+Fitd3HRP+VsxUFDDeag0hs9L0ksfnwx2g7SPQQTFL0E8Qv+rfXzQOxBJnjUB9ITUDjfWQ==}
+
+  '@fastify/bearer-auth@9.4.0':
+    resolution: {integrity: sha512-+xn8UCKhJiBP3SsbCjzhfq+Dtf/pl1BDVrgb0/o6WcgNDUZ+bcEZnJ0P2e6FQEtE2nMYonLD/aVa9Ku8N9Cfbw==}
 
   '@fastify/busboy@2.1.1':
     resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
@@ -22060,6 +22106,11 @@ snapshots:
       ajv-formats: 3.0.1(ajv@8.17.1)
       fast-uri: 3.1.0
 
+  '@fastify/bearer-auth@9.4.0':
+    dependencies:
+      '@fastify/error': 3.4.1
+      fastify-plugin: 4.5.1
+
   '@fastify/busboy@2.1.1': {}
 
   '@fastify/cors@10.1.0':
@@ -29365,7 +29416,7 @@ snapshots:
       proxy-addr: 2.0.7
       rfdc: 1.4.1
       secure-json-parse: 2.7.0
-      semver: 7.7.2
+      semver: 7.7.3
       toad-cache: 3.7.0
 
   fastparallel@2.4.1:

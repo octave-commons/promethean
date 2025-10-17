@@ -139,7 +139,7 @@
           "inputs": ["docs/labeled/**/*.md"],
           "outputs": [".cache/readmes/outline.json"],
           "inputSchema": "packages/readmeflow/schemas/io.schema.json",
-          "outputSchema": "packages/readmeflow/schemas/io.schema.json",
+          "outputSchema": "packages/readmeflow/schemas/io.schema.json"
         }
       ]
     },
@@ -503,7 +503,7 @@
           "inputs": ["packages/**/package.json", "packages/**/tsconfig.json"],
           "outputs": [".cache/readmes/scan.json"],
           "inputSchema": "packages/readmeflow/schemas/io.schema.json",
-          "outputSchema": "packages/readmeflow/schemas/io.schema.json"
+          "outputSchema": "packages/readmeflow/schemas/io.schema.json",
           "inputSchema": "packages/readmeflow/schemas/io.schema.json"
         },
         {
@@ -534,7 +534,7 @@
           },
           "outputs": ["packages/**/README.md"],
           "inputSchema": "packages/readmeflow/schemas/io.schema.json",
-          "outputSchema": "packages/readmeflow/schemas/io.schema.json"
+          "outputSchema": "packages/readmeflow/schemas/io.schema.json",
           "outputSchema": "packages/readmeflow/schemas/io.schema.json"
         },
         {

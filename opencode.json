@@ -1,6 +1,18 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "provider": {
+    "ollama_openai":{
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama OpenAI Compatible",
+      "options": {
+        "baseURL": "http://localhost:11434/v1"
+      },
+      "models":{
+        "error/qwen3:4b-instruct-100k": {
+          "name": "Qwen3 4B Instruct"
+        },
+      }
+    },
     "ollama": {
       "npm": "ollama-ai-provider-v2",
       "models": {
@@ -8,7 +20,51 @@
           "name": "Qwen3 8B",
           "options": {
             "think": true,
-            "numx_ctx": 40000
+            "num_ctx": 40000
+          }
+        },
+        "qwen3:8b-instruct": {
+          "name": "Qwen3 8B",
+          "options": {
+            "think": true,
+            "num_ctx": 40000
+          }
+
+        },
+        "qwen3:4b-instruct-2507-q4_K_M":{
+          "name": "Qwen3 4B Instruct 25607 q4_K_M",
+          "options": {
+            "temperature": 0.1,
+            "top_k": 1,
+            "top_p": 0.1,
+            "repeat_penalty": 1.1,
+          }
+        },
+        "qwen3:4b-instruct": {
+          "name": "Qwen3 4B Instruct",
+          "options": {
+            "num_ctx": 100000,
+            "temperature": 0.1,
+            "top_k": 1,
+            "top_p": 0.1,
+            "repeat_penalty": 1.1,
+          }
+        },
+        "qwen3:4b-thinking": {
+          "name": "Qwen3 4B thinking",
+          "options": {
+            "temperature": 0.1,
+            "top_k": 1,
+            "top_p": 0.1,
+            "repeat_penalty": 1.1,
+            "num_ctx": 120000
+          }
+        },
+        "qwen3:4b": {
+          "name": "Qwen3 4B",
+          "options": {
+            "think": false,
+            "num_ctx": 120000
           }
         },
         "error/qwen3-codex": {
@@ -23,32 +79,8 @@
             "think": true
           }
         },
-        "qwen3:8b": {
-          "name": "Qwen3 8B",
-          "options": {
-            "think": true
-          }
-        },
-        "error/qwen3-codex": {
-          "name": "Qwen3 Codex",
-          "options": {
-            "think": true
-          }
-        },
         "qwen3:14b": {
           "name": "Qwen3 14B",
-          "options": {
-            "think": true
-          }
-        },
-        "qwen2.5:7b": {
-          "name": "Qwen2.5 7B"
-        },
-        "qwen2.5-coder:7b": {
-          "name": "Qwen2.5 Coder 7B"
-        },
-        "error/qwen2.5-codex": {
-          "name": "Qwen2.5 Codex",
           "options": {
             "think": true
           }
@@ -94,6 +126,14 @@
     "zai-coding-plan": {
       "models": {
         "glm-4.6": {
+          "options": {
+            "thinking": {
+              "type": "enabled"
+            }
+          }
+        },
+
+        "glm-4.5": {
           "options": {
             "thinking": {
               "type": "enabled"
@@ -196,5 +236,9 @@
   },
   "instructions": [
     "./docs/agents/platforms/opencode/AGENTS.md"
-  ]
+  ],
+  "tools":{
+    "clj*":false,
+  }
+
 }

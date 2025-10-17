@@ -84,12 +84,12 @@
    :devtools {:watch-dir "packages/frontends/smartgpt-dashboard-frontend/static"}}
 
    :kanban-frontend
-   {:target :browser
-    :output-dir "packages/kanban/dist/frontend"
-    :asset-path "/frontend"
-    :modules {:main {:entries [kanban.core]}}
-    :devtools {:watch-dir "packages/frontends/kanban-frontend/static"
-               :compiler-options {:output-feature-set :es-next}}}
+    {:target :browser
+     :output-dir "packages/kanban/dist/frontend"
+     :asset-path "/frontend"
+     :modules {:main {:entries [core]}}
+     :devtools {:watch-dir "packages/frontends/kanban-frontend/static"
+                :compiler-options {:output-feature-set :es-next}}}
 
    :frontend-service
    {:target :node-script
