@@ -10,14 +10,20 @@
             "module": "scripts/piper-symdocs.mjs",
             "export": "scan"
           },
-          "inputs": ["packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"],
-          "outputs": [".cache/symdocs.level"],
+          "inputs": [
+            "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
+          ],
+          "outputs": [
+            ".cache/symdocs.level"
+          ],
           "inputSchema": "packages/symdocs/schemas/io.schema.json",
           "outputSchema": "packages/symdocs/schemas/io.schema.json"
         },
         {
           "id": "symdocs-docs",
-          "deps": ["symdocs-scan"],
+          "deps": [
+            "symdocs-scan"
+          ],
           "js": {
             "module": "scripts/piper-symdocs.mjs",
             "export": "docs",
@@ -25,15 +31,23 @@
               "model": "gpt-oss:20b"
             }
           },
-          "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
-          "inputs": [".cache/symdocs.level"],
-          "outputs": [".cache/symdocs.level"],
+          "env": {
+            "OLLAMA_URL": "${OLLAMA_URL}"
+          },
+          "inputs": [
+            ".cache/symdocs.level"
+          ],
+          "outputs": [
+            ".cache/symdocs.level"
+          ],
           "inputSchema": "packages/symdocs/schemas/io.schema.json",
           "outputSchema": "packages/symdocs/schemas/io.schema.json"
         },
         {
           "id": "symdocs-write",
-          "deps": ["symdocs-docs"],
+          "deps": [
+            "symdocs-docs"
+          ],
           "js": {
             "module": "scripts/piper-symdocs.mjs",
             "export": "write",
@@ -42,17 +56,29 @@
               "granularity": "module"
             }
           },
-          "inputs": [".cache/symdocs.level"],
-          "outputs": ["docs/packages/**/*.md"],
+          "inputs": [
+            ".cache/symdocs.level"
+          ],
+          "outputs": [
+            "docs/packages/**/*.md"
+          ],
           "inputSchema": "packages/symdocs/schemas/io.schema.json",
           "outputSchema": "packages/symdocs/schemas/io.schema.json"
         },
         {
           "id": "symdocs-graph",
-          "deps": ["symdocs-scan"],
+          "deps": [
+            "symdocs-scan"
+          ],
           "shell": "npx tsx packages/symdocs/src/04-graph.ts --root packages --out docs/packages",
-          "inputs": ["packages/**/package.json", "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"],
-          "outputs": ["docs/packages/README.md", "docs/packages/**/README.md"],
+          "inputs": [
+            "packages/**/package.json",
+            "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
+          ],
+          "outputs": [
+            "docs/packages/README.md",
+            "docs/packages/**/README.md"
+          ],
           "inputSchema": "packages/symdocs/schemas/io.schema.json",
           "outputSchema": "packages/symdocs/schemas/io.schema.json"
         }
@@ -73,14 +99,20 @@
             },
             "isolate": "worker"
           },
-          "inputs": ["packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"],
-          "outputs": [".cache/simtasks/functions"],
+          "inputs": [
+            "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
+          ],
+          "outputs": [
+            ".cache/simtasks/functions"
+          ],
           "inputSchema": "packages/simtask/schemas/io.schema.json",
           "outputSchema": "packages/simtask/schemas/io.schema.json"
         },
         {
           "id": "simtasks-embed",
-          "deps": ["simtasks-scan"],
+          "deps": [
+            "simtasks-scan"
+          ],
           "js": {
             "module": "packages/simtask/dist/02-embed.js",
             "export": "embed",
@@ -91,15 +123,23 @@
             },
             "isolate": "worker"
           },
-          "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
-          "inputs": [".cache/simtasks/functions"],
-          "outputs": [".cache/simtasks/embeddings"],
+          "env": {
+            "OLLAMA_URL": "${OLLAMA_URL}"
+          },
+          "inputs": [
+            ".cache/simtasks/functions"
+          ],
+          "outputs": [
+            ".cache/simtasks/embeddings"
+          ],
           "inputSchema": "packages/simtask/schemas/io.schema.json",
           "outputSchema": "packages/simtask/schemas/io.schema.json"
         },
         {
           "id": "simtasks-cluster",
-          "deps": ["simtasks-embed"],
+          "deps": [
+            "simtasks-embed"
+          ],
           "js": {
             "module": "packages/simtask/dist/03-cluster.js",
             "export": "cluster",
@@ -113,14 +153,20 @@
             },
             "isolate": "worker"
           },
-          "inputs": [".cache/simtasks/embeddings"],
-          "outputs": [".cache/simtasks/clusters.json"],
+          "inputs": [
+            ".cache/simtasks/embeddings"
+          ],
+          "outputs": [
+            ".cache/simtasks/clusters.json"
+          ],
           "inputSchema": "packages/simtask/schemas/io.schema.json",
           "outputSchema": "packages/simtask/schemas/io.schema.json"
         },
         {
           "id": "simtasks-plan",
-          "deps": ["simtasks-cluster"],
+          "deps": [
+            "simtasks-cluster"
+          ],
           "js": {
             "module": "packages/simtask/dist/04-plan.js",
             "export": "plan",
@@ -136,10 +182,15 @@
           "env": {
             "OLLAMA_URL": "${OLLAMA_URL}"
           },
-          "inputs": ["docs/labeled/**/*.md"],
-          "outputs": [".cache/readmes/outline.json"],
-          "inputSchema": "packages/readmeflow/schemas/io.schema.json",
-          "outputSchema": "packages/readmeflow/schemas/io.schema.json"
+          "inputs": [
+            ".cache/simtasks/functions",
+            ".cache/simtasks/clusters.json"
+          ],
+          "outputs": [
+            ".cache/simtasks/plans.json"
+          ],
+          "inputSchema": "packages/simtask/schemas/io.schema.json",
+          "outputSchema": "packages/simtask/schemas/io.schema.json"
         }
       ]
     },
@@ -159,49 +210,76 @@
         },
         {
           "id": "mods-spec",
-          "deps": ["mods-simtasks"],
+          "deps": [
+            "mods-simtasks"
+          ],
           "shell": "pnpm --filter @promethean/codemods mods:01-spec --tsconfig ./tsconfig.json",
           "inputs": [
             ".cache/simtasks/functions",
             ".cache/simtasks/clusters.json",
             ".cache/simtasks/plans.json"
           ],
-          "outputs": [".cache/codemods/specs.json"],
+          "outputs": [
+            ".cache/codemods/specs.json"
+          ],
           "inputSchema": "packages/codemods/schemas/io.schema.json",
           "outputSchema": "packages/codemods/schemas/io.schema.json"
         },
         {
           "id": "mods-generate",
-          "deps": ["mods-spec"],
+          "deps": [
+            "mods-spec"
+          ],
           "shell": "pnpm --filter @promethean/codemods mods:02-generate",
-          "inputs": [".cache/codemods/specs.json"],
-          "outputs": ["codemods/**/transform.ts"],
+          "inputs": [
+            ".cache/codemods/specs.json"
+          ],
+          "outputs": [
+            "codemods/**/transform.ts"
+          ],
           "inputSchema": "packages/codemods/schemas/io.schema.json",
           "outputSchema": "packages/codemods/schemas/io.schema.json"
         },
         {
           "id": "mods-dry-run",
-          "deps": ["mods-generate"],
+          "deps": [
+            "mods-generate"
+          ],
           "shell": "pnpm --filter @promethean/codemods mods:03-dry-run --root packages --report docs/agile/tasks/codemods --specs .cache/codemods/specs.json --delete-duplicates true",
-          "inputs": ["codemods/**/transform.ts", "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"],
-          "outputs": ["docs/agile/tasks/codemods/*.md"],
+          "inputs": [
+            "codemods/**/transform.ts",
+            "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
+          ],
+          "outputs": [
+            "docs/agile/tasks/codemods/*.md"
+          ],
           "inputSchema": "packages/codemods/schemas/io.schema.json",
           "outputSchema": "packages/codemods/schemas/io.schema.json"
         },
         {
           "id": "mods-apply",
-          "deps": ["mods-dry-run"],
+          "deps": [
+            "mods-dry-run"
+          ],
           "shell": "pnpm --filter @promethean/codemods mods:03-apply --root packages --report docs/agile/tasks/codemods --specs .cache/codemods/specs.json --delete-duplicates true",
-          "inputs": ["codemods/**/transform.ts"],
-          "outputs": [".cache/codemods/run-apply.json"],
+          "inputs": [
+            "codemods/**/transform.ts"
+          ],
+          "outputs": [
+            ".cache/codemods/run-apply.json"
+          ],
           "inputSchema": "packages/codemods/schemas/io.schema.json",
           "outputSchema": "packages/codemods/schemas/io.schema.json"
         },
         {
           "id": "mods-verify",
-          "deps": ["mods-apply"],
+          "deps": [
+            "mods-apply"
+          ],
           "shell": "pnpm --filter @promethean/codemods mods:04-verify:after --stage after --test \"pnpm -w -r test\"",
-          "inputs": [".cache/codemods/run-apply.json"],
+          "inputs": [
+            ".cache/codemods/run-apply.json"
+          ],
           "outputs": [
             "docs/agile/tasks/codemods/verify-after.md",
             "docs/agile/tasks/codemods/VERIFY.md"
@@ -226,14 +304,19 @@
               "ns": "snapshot"
             }
           },
-          "inputs": ["packages/**/package.json", "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"],
+          "inputs": [
+            "packages/**/package.json",
+            "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
+          ],
           "outputs": [],
           "inputSchema": "packages/semverguard/schemas/io.schema.json",
           "outputSchema": "packages/semverguard/schemas/io.schema.json"
         },
         {
           "id": "sv-diff",
-          "deps": ["sv-snapshot"],
+          "deps": [
+            "sv-snapshot"
+          ],
           "js": {
             "module": "scripts/piper-semverguard.mjs",
             "export": "diff",
@@ -251,7 +334,9 @@
         },
         {
           "id": "sv-plan",
-          "deps": ["sv-diff"],
+          "deps": [
+            "sv-diff"
+          ],
           "js": {
             "module": "scripts/piper-semverguard.mjs",
             "export": "plan",
@@ -262,7 +347,9 @@
               "model": "gpt-oss:20b"
             }
           },
-          "env": { "OLLAMA_URL": "${OLLAMA_URL}" },
+          "env": {
+            "OLLAMA_URL": "${OLLAMA_URL}"
+          },
           "inputs": [],
           "outputs": [],
           "inputSchema": "packages/semverguard/schemas/io.schema.json",
@@ -270,7 +357,9 @@
         },
         {
           "id": "sv-write",
-          "deps": ["sv-plan"],
+          "deps": [
+            "sv-plan"
+          ],
           "js": {
             "module": "scripts/piper-semverguard.mjs",
             "export": "write",
@@ -281,13 +370,17 @@
             }
           },
           "inputs": [],
-          "outputs": ["docs/agile/tasks/semver/*.md"],
+          "outputs": [
+            "docs/agile/tasks/semver/*.md"
+          ],
           "inputSchema": "packages/semverguard/schemas/io.schema.json",
           "outputSchema": "packages/semverguard/schemas/io.schema.json"
         },
         {
           "id": "sv-pr",
-          "deps": ["sv-write"],
+          "deps": [
+            "sv-write"
+          ],
           "js": {
             "module": "scripts/piper-semverguard.mjs",
             "export": "pr",
@@ -300,8 +393,12 @@
               "depRange": "preserve"
             }
           },
-          "inputs": ["packages/**/package.json"],
-          "outputs": [".cache/semverguard/pr/summary.json"],
+          "inputs": [
+            "packages/**/package.json"
+          ],
+          "outputs": [
+            ".cache/semverguard/pr/summary.json"
+          ],
           "inputSchema": "packages/semverguard/schemas/io.schema.json",
           "outputSchema": "packages/semverguard/schemas/io.schema.json"
         }
@@ -322,14 +419,20 @@
             },
             "isolate": "worker"
           },
-          "inputs": ["docs/agile/tasks/**/*.md"],
-          "outputs": ["docs/agile/tasks/**/*.md"],
+          "inputs": [
+            "docs/agile/tasks/**/*.md"
+          ],
+          "outputs": [
+            "docs/agile/tasks/**/*.md"
+          ],
           "inputSchema": "packages/boardrev/schemas/io.schema.json",
           "outputSchema": "packages/boardrev/schemas/io.schema.json"
         },
         {
           "id": "br-prompts",
-          "deps": ["br-fm"],
+          "deps": [
+            "br-fm"
+          ],
           "js": {
             "module": "packages/boardrev/dist/02-process-prompts.js",
             "export": "processPrompts",
@@ -340,14 +443,20 @@
             },
             "isolate": "worker"
           },
-          "inputs": ["docs/agile/process.md"],
-          "outputs": [".cache/boardrev/prompts.json"],
+          "inputs": [
+            "docs/agile/process.md"
+          ],
+          "outputs": [
+            ".cache/boardrev/prompts.json"
+          ],
           "inputSchema": "packages/boardrev/schemas/io.schema.json",
           "outputSchema": "packages/boardrev/schemas/io.schema.json"
         },
         {
           "id": "br-index",
-          "deps": ["br-fm"],
+          "deps": [
+            "br-fm"
+          ],
           "js": {
             "module": "packages/boardrev/dist/03-index-repo.js",
             "export": "indexRepo",
@@ -363,14 +472,23 @@
           "env": {
             "OLLAMA_URL": "${OLLAMA_URL}"
           },
-          "inputs": ["README.md", "docs/**/*.md", "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"],
-          "outputs": [".cache/boardrev/repo-cache"],
+          "inputs": [
+            "README.md",
+            "docs/**/*.md",
+            "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
+          ],
+          "outputs": [
+            ".cache/boardrev/repo-cache"
+          ],
           "inputSchema": "packages/boardrev/schemas/io.schema.json",
           "outputSchema": "packages/boardrev/schemas/io.schema.json"
         },
         {
           "id": "br-match",
-          "deps": ["br-prompts", "br-index"],
+          "deps": [
+            "br-prompts",
+            "br-index"
+          ],
           "js": {
             "module": "packages/boardrev/dist/04-match-context.js",
             "export": "matchContext",
@@ -383,14 +501,21 @@
             },
             "isolate": "worker"
           },
-          "inputs": ["docs/agile/tasks/**/*.md", ".cache/boardrev/repo-cache"],
-          "outputs": [".cache/boardrev/context.json"],
+          "inputs": [
+            "docs/agile/tasks/**/*.md",
+            ".cache/boardrev/repo-cache"
+          ],
+          "outputs": [
+            ".cache/boardrev/context.json"
+          ],
           "inputSchema": "packages/boardrev/schemas/io.schema.json",
           "outputSchema": "packages/boardrev/schemas/io.schema.json"
         },
         {
           "id": "br-eval",
-          "deps": ["br-match"],
+          "deps": [
+            "br-match"
+          ],
           "js": {
             "module": "packages/boardrev/dist/05-evaluate.js",
             "export": "evaluate",
@@ -405,14 +530,21 @@
           "env": {
             "OLLAMA_URL": "${OLLAMA_URL}"
           },
-          "inputs": [".cache/boardrev/prompts.json", ".cache/boardrev/context.json"],
-          "outputs": [".cache/boardrev/evals.json"],
+          "inputs": [
+            ".cache/boardrev/prompts.json",
+            ".cache/boardrev/context.json"
+          ],
+          "outputs": [
+            ".cache/boardrev/evals.json"
+          ],
           "inputSchema": "packages/boardrev/schemas/io.schema.json",
           "outputSchema": "packages/boardrev/schemas/io.schema.json"
         },
         {
           "id": "br-report",
-          "deps": ["br-eval"],
+          "deps": [
+            "br-eval"
+          ],
           "js": {
             "module": "packages/boardrev/dist/06-report.js",
             "export": "report",
@@ -422,8 +554,12 @@
             },
             "isolate": "worker"
           },
-          "inputs": [".cache/boardrev/evals.json"],
-          "outputs": ["docs/agile/reports/*.md"],
+          "inputs": [
+            ".cache/boardrev/evals.json"
+          ],
+          "outputs": [
+            "docs/agile/reports/*.md"
+          ],
           "inputSchema": "packages/boardrev/schemas/io.schema.json",
           "outputSchema": "packages/boardrev/schemas/io.schema.json"
         }
@@ -441,14 +577,21 @@
             "SONAR_TOKEN": "${SONAR_TOKEN}",
             "SONAR_PROJECT_KEY": "${SONAR_PROJECT_KEY}"
           },
-          "inputs": ["packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}", "sonar-project.properties"],
-          "outputs": [".cache/sonar/scan.touch"],
+          "inputs": [
+            "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}",
+            "sonar-project.properties"
+          ],
+          "outputs": [
+            ".cache/sonar/scan.touch"
+          ],
           "inputSchema": "packages/sonarflow/schemas/io.schema.json",
           "outputSchema": "packages/sonarflow/schemas/io.schema.json"
         },
         {
           "id": "sonar-fetch",
-          "deps": ["sonar-scan"],
+          "deps": [
+            "sonar-scan"
+          ],
           "env": {
             "SONAR_HOST_URL": "${SONAR_HOST_URL}",
             "SONAR_TOKEN": "${SONAR_TOKEN}",
@@ -456,13 +599,17 @@
           },
           "shell": "pnpm --filter @promethean/sonarflow sonar:fetch --project ${SONAR_PROJECT_KEY} --out .cache/sonar/issues",
           "inputs": [],
-          "outputs": [".cache/sonar/issues"],
+          "outputs": [
+            ".cache/sonar/issues"
+          ],
           "inputSchema": "packages/sonarflow/schemas/io.schema.json",
           "outputSchema": "packages/sonarflow/schemas/io.schema.json"
         },
         {
           "id": "sonar-plan",
-          "deps": ["sonar-fetch"],
+          "deps": [
+            "sonar-fetch"
+          ],
           "env": {
             "OLLAMA_URL": "${OLLAMA_URL}",
             "SONAR_HOST_URL": "${SONAR_HOST_URL}",
@@ -470,17 +617,27 @@
             "SONAR_PROJECT_KEY": "${SONAR_PROJECT_KEY}"
           },
           "shell": "pnpm --filter @promethean/sonarflow sonar:plan --in .cache/sonar/issues --out .cache/sonar/plans --group-by rule+prefix --prefix-depth 2 --min-group 2 --model gpt-oss:20b",
-          "inputs": [".cache/sonar/issues"],
-          "outputs": [".cache/sonar/plans"],
+          "inputs": [
+            ".cache/sonar/issues"
+          ],
+          "outputs": [
+            ".cache/sonar/plans"
+          ],
           "inputSchema": "packages/sonarflow/schemas/io.schema.json",
           "outputSchema": "packages/sonarflow/schemas/io.schema.json"
         },
         {
           "id": "sonar-write",
-          "deps": ["sonar-plan"],
+          "deps": [
+            "sonar-plan"
+          ],
           "shell": "pnpm --filter @promethean/sonarflow sonar:write --in .cache/sonar/plans --out docs/agile/tasks/sonar",
-          "inputs": [".cache/sonar/plans"],
-          "outputs": ["docs/agile/tasks/sonar/*.md"],
+          "inputs": [
+            ".cache/sonar/plans"
+          ],
+          "outputs": [
+            "docs/agile/tasks/sonar/*.md"
+          ],
           "inputSchema": "packages/sonarflow/schemas/io.schema.json",
           "outputSchema": "packages/sonarflow/schemas/io.schema.json"
         }
@@ -500,17 +657,24 @@
             },
             "isolate": "worker"
           },
-          "inputs": ["packages/**/package.json", "packages/**/tsconfig.json"],
-          "outputs": [".cache/readmes/scan.json"],
+          "inputs": [
+            "packages/**/package.json",
+            "packages/**/tsconfig.json"
+          ],
+          "outputs": [
+            ".cache/readmes/scan.json"
+          ],
           "inputSchema": "packages/readmeflow/schemas/io.schema.json",
-          "outputSchema": "packages/readmeflow/schemas/io.schema.json",
-          "inputSchema": "packages/readmeflow/schemas/io.schema.json"
+          "outputSchema": "packages/readmeflow/schemas/io.schema.json"
         },
         {
           "id": "rm-outline",
-          "deps": ["rm-scan"],
+          "deps": [
+            "rm-scan"
+          ],
           "js": {
             "module": "packages/readmeflow/dist/02-outline.js",
+            "export": "outline",
             "args": {
               "cache": ".cache/readmes",
               "model": "gpt-oss:20b"
@@ -519,29 +683,47 @@
           },
           "env": {
             "OLLAMA_URL": "${OLLAMA_URL}"
-          }
+          },
+          "inputs": [
+            ".cache/readmes/scan.json"
+          ],
+          "outputs": [
+            ".cache/readmes/outline.json"
+          ],
+          "inputSchema": "packages/readmeflow/schemas/io.schema.json",
+          "outputSchema": "packages/readmeflow/schemas/io.schema.json"
         },
         {
           "id": "rm-write",
-          "deps": ["rm-outline"],
+          "deps": [
+            "rm-outline"
+          ],
           "js": {
             "module": "packages/readmeflow/dist/03-write.js",
+            "export": "write",
             "args": {
               "cache": ".cache/readmes",
               "mermaid": true
             },
             "isolate": "worker"
           },
-          "outputs": ["packages/**/README.md"],
+          "inputs": [
+            ".cache/readmes/outline.json"
+          ],
+          "outputs": [
+            "packages/**/README.md"
+          ],
           "inputSchema": "packages/readmeflow/schemas/io.schema.json",
-          "outputSchema": "packages/readmeflow/schemas/io.schema.json",
           "outputSchema": "packages/readmeflow/schemas/io.schema.json"
         },
         {
           "id": "rm-verify",
-          "deps": ["rm-write"],
+          "deps": [
+            "rm-write"
+          ],
           "js": {
             "module": "packages/readmeflow/dist/04-verify.js",
+            "export": "verify",
             "args": {
               "root": "packages",
               "out": "docs/agile/reports/readmes",
@@ -549,9 +731,13 @@
             },
             "isolate": "worker"
           },
-          "inputs": ["packages/**/README.md"],
+          "inputs": [
+            "packages/**/README.md"
+          ],
+          "outputs": [
+            "docs/agile/reports/readmes/*.md"
+          ],
           "inputSchema": "packages/readmeflow/schemas/io.schema.json",
-          "outputs": ["docs/agile/reports/readmes/*.md"],
           "outputSchema": "packages/readmeflow/schemas/io.schema.json"
         }
       ]
@@ -562,24 +748,39 @@
         {
           "id": "bf-build",
           "shell": "pnpm --filter @promethean/buildfix build",
-          "inputs": ["packages/buildfix/tsconfig.json", "packages/buildfix/src/**/*"],
-          "outputs": ["packages/buildfix/dist/**"],
+          "inputs": [
+            "packages/buildfix/tsconfig.json",
+            "packages/buildfix/src/**/*"
+          ],
+          "outputs": [
+            "packages/buildfix/dist/**"
+          ],
           "inputSchema": "packages/buildfix/schemas/io.schema.json",
           "outputSchema": "packages/buildfix/schemas/io.schema.json"
         },
         {
           "id": "bf-errors",
-          "deps": ["bf-build"],
+          "deps": [
+            "bf-build"
+          ],
           "shell": "pnpm --filter @promethean/buildfix bf:01-errors --tsconfig tsconfig.json --out .cache/buildfix/errors.json",
-          "inputs": ["tsconfig.json", "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"],
-          "outputs": [".cache/buildfix/errors.json"],
+          "inputs": [
+            "tsconfig.json",
+            "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
+          ],
+          "outputs": [
+            ".cache/buildfix/errors.json"
+          ],
           "inputSchema": "packages/buildfix/schemas/io.schema.json",
           "outputSchema": "packages/buildfix/schemas/io.schema.json",
           "timeout": 300000
         },
         {
           "id": "bf-iterate",
-          "deps": ["bf-build", "bf-errors"],
+          "deps": [
+            "bf-build",
+            "bf-errors"
+          ],
           "shell": "pnpm --filter @promethean/buildfix bf:02-iterate --errors .cache/buildfix/errors.json --out .cache/buildfix --model gpt-oss:120b-cloud --max-cycles 3 --git batch --commit-on success --branch-prefix buildfix --remote origin --push false --use-gh false --rollback-on-regress true --max-errors-per-branch 10",
           "env": {
             "OLLAMA_URL": "${OLLAMA_URL}"
@@ -600,10 +801,17 @@
         },
         {
           "id": "bf-report",
-          "deps": ["bf-build", "bf-iterate"],
+          "deps": [
+            "bf-build",
+            "bf-iterate"
+          ],
           "shell": "pnpm --filter @promethean/buildfix bf:03-report --summary .cache/buildfix/summary.json --history-root .cache/buildfix/history --out docs/agile/reports/buildfix",
-          "inputs": [".cache/buildfix/summary.json"],
-          "outputs": ["docs/agile/reports/buildfix/*.md"],
+          "inputs": [
+            ".cache/buildfix/summary.json"
+          ],
+          "outputs": [
+            "docs/agile/reports/buildfix/*.md"
+          ],
           "inputSchema": "packages/buildfix/schemas/io.schema.json",
           "outputSchema": "packages/buildfix/schemas/io.schema.json"
         }
@@ -615,82 +823,136 @@
         {
           "id": "tg-exports",
           "shell": "pnpm --filter @promethean/testgap tg:01-scan-exports --root \"packages\" --out \".cache/testgap/exports.json\"",
-          "inputs": ["packages/**/package.json", "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"],
-          "outputs": [".cache/testgap/exports.json"],
+          "inputs": [
+            "packages/**/package.json",
+            "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
+          ],
+          "outputs": [
+            ".cache/testgap/exports.json"
+          ],
           "inputSchema": "packages/testgap/schemas/io.schema.json",
           "outputSchema": "packages/testgap/schemas/io.schema.json"
         },
         {
           "id": "tg-tests",
           "shell": "node tools/unified-test-coverage.mjs",
-          "inputs": ["packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"],
-          "outputs": ["coverage/lcov.info"],
+          "inputs": [
+            "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
+          ],
+          "outputs": [
+            "coverage/lcov.info"
+          ],
           "inputSchema": "packages/testgap/schemas/io.schema.json",
           "outputSchema": "packages/testgap/schemas/io.schema.json"
         },
         {
           "id": "tg-coverage",
-          "deps": ["tg-tests"],
+          "deps": [
+            "tg-tests"
+          ],
           "shell": "pnpm --filter @promethean/testgap tg:02-read-coverage --lcov-globs \"coverage/lcov.info\" --out \".cache/testgap/coverage.json\"",
-          "inputs": ["coverage/lcov.info"],
-          "outputs": [".cache/testgap/coverage.json"],
+          "inputs": [
+            "coverage/lcov.info"
+          ],
+          "outputs": [
+            ".cache/testgap/coverage.json"
+          ],
           "inputSchema": "packages/testgap/schemas/io.schema.json",
           "outputSchema": "packages/testgap/schemas/io.schema.json"
         },
         {
           "id": "tg-map",
-          "deps": ["tg-exports", "tg-coverage"],
+          "deps": [
+            "tg-exports",
+            "tg-coverage"
+          ],
           "shell": "pnpm --filter @promethean/testgap tg:03-map-gaps --exports \".cache/testgap/exports.json\" --coverage \".cache/testgap/coverage.json\" --min-lines 3 --out \".cache/testgap/gaps.json\"",
-          "inputs": [".cache/testgap/exports.json", ".cache/testgap/coverage.json"],
-          "outputs": [".cache/testgap/gaps.json"],
+          "inputs": [
+            ".cache/testgap/exports.json",
+            ".cache/testgap/coverage.json"
+          ],
+          "outputs": [
+            ".cache/testgap/gaps.json"
+          ],
           "inputSchema": "packages/testgap/schemas/io.schema.json",
           "outputSchema": "packages/testgap/schemas/io.schema.json"
         },
         {
           "id": "tg-gate",
-          "deps": ["tg-map"],
+          "deps": [
+            "tg-map"
+          ],
           "shell": "pnpm --filter @promethean/testgap tg:08-gate --gaps \".cache/testgap/gaps.json\" --out \".cache/testgap/gate.json\" --threshold 0.70 --metric symbols",
-          "inputs": [".cache/testgap/gaps.json"],
-          "outputs": [".cache/testgap/gate.json"],
+          "inputs": [
+            ".cache/testgap/gaps.json"
+          ],
+          "outputs": [
+            ".cache/testgap/gate.json"
+          ],
           "inputSchema": "packages/testgap/schemas/io.schema.json",
           "outputSchema": "packages/testgap/schemas/io.schema.json"
         },
         {
           "id": "tg-cookbook",
-          "deps": ["tg-map"],
+          "deps": [
+            "tg-map"
+          ],
           "shell": "pnpm --filter @promethean/testgap tg:04-cookbook-cross --recipes \"docs/cookbook/**/*.md\" --out \".cache/testgap/cookbook.json\"",
-          "inputs": ["docs/cookbook/**/*.md"],
-          "outputs": [".cache/testgap/cookbook.json"],
+          "inputs": [
+            "docs/cookbook/**/*.md"
+          ],
+          "outputs": [
+            ".cache/testgap/cookbook.json"
+          ],
           "inputSchema": "packages/testgap/schemas/io.schema.json",
           "outputSchema": "packages/testgap/schemas/io.schema.json"
         },
         {
           "id": "tg-plan",
-          "deps": ["tg-cookbook"],
+          "deps": [
+            "tg-cookbook"
+          ],
           "shell": "pnpm --filter @promethean/testgap tg:05-plan --gaps \".cache/testgap/gaps.json\" --cookbook \".cache/testgap/cookbook.json\" --out \".cache/testgap/plans.json\" --model gpt-oss:20b --threshold 0.5 --max-per-pkg 15",
           "env": {
             "OLLAMA_URL": "${OLLAMA_URL}"
           },
-          "inputs": [".cache/testgap/gaps.json", ".cache/testgap/cookbook.json"],
-          "outputs": [".cache/testgap/plans.json"],
+          "inputs": [
+            ".cache/testgap/gaps.json",
+            ".cache/testgap/cookbook.json"
+          ],
+          "outputs": [
+            ".cache/testgap/plans.json"
+          ],
           "inputSchema": "packages/testgap/schemas/io.schema.json",
           "outputSchema": "packages/testgap/schemas/io.schema.json"
         },
         {
           "id": "tg-write",
-          "deps": ["tg-plan"],
+          "deps": [
+            "tg-plan"
+          ],
           "shell": "pnpm --filter @promethean/testgap tg:06-write --plans \".cache/testgap/plans.json\" --out \"docs/agile/tasks/test-gaps\"",
-          "inputs": [".cache/testgap/plans.json"],
-          "outputs": ["docs/agile/tasks/test-gaps/*.md"],
+          "inputs": [
+            ".cache/testgap/plans.json"
+          ],
+          "outputs": [
+            "docs/agile/tasks/test-gaps/*.md"
+          ],
           "inputSchema": "packages/testgap/schemas/io.schema.json",
           "outputSchema": "packages/testgap/schemas/io.schema.json"
         },
         {
           "id": "tg-report",
-          "deps": ["tg-map"],
+          "deps": [
+            "tg-map"
+          ],
           "shell": "pnpm --filter @promethean/testgap tg:07-report --gaps \".cache/testgap/gaps.json\" --out \"docs/agile/reports/test-gaps\"",
-          "inputs": [".cache/testgap/gaps.json"],
-          "outputs": ["docs/agile/reports/test-gaps/*.md"],
+          "inputs": [
+            ".cache/testgap/gaps.json"
+          ],
+          "outputs": [
+            "docs/agile/reports/test-gaps/*.md"
+          ],
           "inputSchema": "packages/testgap/schemas/io.schema.json",
           "outputSchema": "packages/testgap/schemas/io.schema.json"
         }
@@ -702,12 +964,18 @@
         {
           "id": "doc-stage",
           "shell": "if [ -d docs/inbox ]; then mkdir -p docs/labeled && rsync -a docs/inbox/ docs/labeled/; else echo 'doc-stage: docs/inbox directory missing' >&2; fi",
-          "inputs": ["docs/inbox/**/*"],
-          "outputs": ["docs/labeled/**/*"]
+          "inputs": [
+            "docs/inbox/**/*"
+          ],
+          "outputs": [
+            "docs/labeled/**/*"
+          ]
         },
         {
           "id": "doc-fm",
-          "deps": ["doc-stage"],
+          "deps": [
+            "doc-stage"
+          ],
           "js": {
             "module": "scripts/piper-docops.mjs",
             "export": "frontmatter",
@@ -719,14 +987,18 @@
           "env": {
             "OLLAMA_URL": "${OLLAMA_URL}"
           },
-          "inputs": ["docs/labeled/**/*.md"],
+          "inputs": [
+            "docs/labeled/**/*.md"
+          ],
           "outputs": [],
           "inputSchema": "packages/docops/schemas/io.schema.json",
           "outputSchema": "packages/docops/schemas/io.schema.json"
         },
         {
           "id": "doc-index",
-          "deps": ["doc-fm"],
+          "deps": [
+            "doc-fm"
+          ],
           "js": {
             "module": "scripts/piper-docops.mjs",
             "export": "embed",
@@ -739,14 +1011,18 @@
           "env": {
             "OLLAMA_URL": "${OLLAMA_URL}"
           },
-          "inputs": ["docs/labeled/**/*.md"],
+          "inputs": [
+            "docs/labeled/**/*.md"
+          ],
           "outputs": [],
           "inputSchema": "packages/docops/schemas/io.schema.json",
           "outputSchema": "packages/docops/schemas/io.schema.json"
         },
         {
           "id": "doc-similarity",
-          "deps": ["doc-index"],
+          "deps": [
+            "doc-index"
+          ],
           "js": {
             "module": "scripts/piper-docops.mjs",
             "export": "query",
@@ -766,7 +1042,9 @@
         },
         {
           "id": "doc-related",
-          "deps": ["doc-similarity"],
+          "deps": [
+            "doc-similarity"
+          ],
           "js": {
             "module": "scripts/piper-docops.mjs",
             "export": "relations",
@@ -776,14 +1054,18 @@
               "refThreshold": 0.6
             }
           },
-          "inputs": ["docs/labeled/**/*.md"],
+          "inputs": [
+            "docs/labeled/**/*.md"
+          ],
           "outputs": [],
           "inputSchema": "packages/docops/schemas/io.schema.json",
           "outputSchema": "packages/docops/schemas/io.schema.json"
         },
         {
           "id": "doc-footer",
-          "deps": ["doc-rename"],
+          "deps": [
+            "doc-rename"
+          ],
           "js": {
             "module": "scripts/piper-docops.mjs",
             "export": "footers",
@@ -794,14 +1076,18 @@
               "includeSources": true
             }
           },
-          "inputs": ["docs/labeled/**/*.md"],
+          "inputs": [
+            "docs/labeled/**/*.md"
+          ],
           "outputs": [],
           "inputSchema": "packages/docops/schemas/io.schema.json",
           "outputSchema": "packages/docops/schemas/io.schema.json"
         },
         {
           "id": "doc-rename",
-          "deps": ["doc-related"],
+          "deps": [
+            "doc-related"
+          ],
           "js": {
             "module": "scripts/piper-docops.mjs",
             "export": "rename",
@@ -809,7 +1095,9 @@
               "dir": "docs/labeled"
             }
           },
-          "inputs": ["docs/labeled/**/*.md"],
+          "inputs": [
+            "docs/labeled/**/*.md"
+          ],
           "outputs": [],
           "inputSchema": "packages/docops/schemas/io.schema.json",
           "outputSchema": "packages/docops/schemas/io.schema.json"
@@ -822,13 +1110,19 @@
         {
           "id": "eslint-report",
           "shell": "pnpm exec eslint packages --format json > .cache/eslint/report.json",
-          "inputs": ["packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"],
-          "outputs": [".cache/eslint/report.json"],
+          "inputs": [
+            "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
+          ],
+          "outputs": [
+            ".cache/eslint/report.json"
+          ],
           "outputSchema": "scripts/eslint.schema.json"
         },
         {
           "id": "eslint-tasks",
-          "deps": ["eslint-report"],
+          "deps": [
+            "eslint-report"
+          ],
           "js": {
             "module": "scripts/piper-eslint-tasks.mjs",
             "export": "tasks",
@@ -842,10 +1136,15 @@
           "env": {
             "OLLAMA_URL": "${OLLAMA_URL}"
           },
-          "inputs": [".cache/eslint/report.json"],
+          "inputs": [
+            ".cache/eslint/report.json"
+          ],
           "inputSchema": "scripts/eslint.schema.json",
-          "outputs": ["docs/agile/tasks/*.md"]
+          "outputs": [
+            "docs/agile/tasks/*.md"
+          ]
         }
       ]
     }
+  ]
 }

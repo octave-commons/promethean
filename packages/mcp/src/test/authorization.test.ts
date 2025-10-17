@@ -630,64 +630,63 @@ describe('Authorization Framework', () => {
         assert(typeof config.enableAuditLog === 'boolean', 'Should include enableAuditLog');
       });
 
-it('should identify tools denied under strict mode', () => {
+      it('should identify tools denied under strict mode', () => {
         const deniedTools = getStrictModeDeniedTools();
-        
+
         // Should return array of tool names
         assert(Array.isArray(deniedTools), 'Should return array of tool names');
-        
+
         // The function should return tools that are not configured in the authorization system
         // Since we have many tools configured, this should be empty or contain only non-configured tools
         assert(deniedTools.length >= 0, 'Should return array (possibly empty)');
-        
+
         // Test that some known configured tools are not in the denied list
         const knownConfiguredTools = ['files_view_file', 'exec_run', 'kanban_delete_task'];
-        knownConfiguredTools.forEach(tool => {
+        knownConfiguredTools.forEach((tool) => {
           assert(!deniedTools.includes(tool), `Should not include configured tool: ${tool}`);
         });
       });
-      });
     });
+  });
 
-    describe('Backward Compatibility', () => {
-      it('should maintain existing role hierarchy', async () => {
-        // Test that all existing role permissions still work
-        const testCases = [
-          { role: 'guest', tool: 'files_view_file', shouldAllow: true },
-          { role: 'guest', tool: 'files_write_content', shouldAllow: false },
-          { role: 'user', tool: 'kanban_update_status', shouldAllow: true },
-          { role: 'user', tool: 'kanban_delete_task', shouldAllow: false },
-          { role: 'developer', tool: 'kanban_delete_task', shouldAllow: true },
-          { role: 'developer', tool: 'exec_run', shouldAllow: true },
-          { role: 'admin', tool: 'exec_run', shouldAllow: true },
-        ];
+  describe('Backward Compatibility', () => {
+    it('should maintain existing role hierarchy', async () => {
+      // Test that all existing role permissions still work
+      const testCases = [
+        { role: 'guest', tool: 'files_view_file', shouldAllow: true },
+        { role: 'guest', tool: 'files_write_content', shouldAllow: false },
+        { role: 'user', tool: 'kanban_update_status', shouldAllow: true },
+        { role: 'user', tool: 'kanban_delete_task', shouldAllow: false },
+        { role: 'developer', tool: 'kanban_delete_task', shouldAllow: true },
+        { role: 'developer', tool: 'exec_run', shouldAllow: true },
+        { role: 'admin', tool: 'exec_run', shouldAllow: true },
+      ];
 
-        for (const testCase of testCases) {
-          const context = createMockContext({
-            MCP_USER_ID: `${testCase.role}-user`,
-            MCP_USER_ROLE: testCase.role,
-            REMOTE_ADDR: '127.0.0.1', // Whitelisted IP for admin tests
-          });
+      for (const testCase of testCases) {
+        const context = createMockContext({
+          MCP_USER_ID: `${testCase.role}-user`,
+          MCP_USER_ROLE: testCase.role,
+          REMOTE_ADDR: '127.0.0.1', // Whitelisted IP for admin tests
+        });
 
-          const toolFactory = createAuthorizedToolFactory(
-            createMockTool(testCase.tool),
-            testCase.tool,
+        const toolFactory = createAuthorizedToolFactory(
+          createMockTool(testCase.tool),
+          testCase.tool,
+        );
+
+        const tool = toolFactory(context);
+
+        if (testCase.shouldAllow) {
+          const result = (await tool.invoke({ test: 'data' })) as any;
+          assert(result.success, `${testCase.role} should be able to use ${testCase.tool}`);
+        } else {
+          await assert.rejects(
+            () => tool.invoke({ test: 'data' }),
+            new RegExp(`Authorization denied`),
+            `${testCase.role} should not be able to use ${testCase.tool}`,
           );
-
-          const tool = toolFactory(context);
-
-          if (testCase.shouldAllow) {
-            const result = (await tool.invoke({ test: 'data' })) as any;
-            assert(result.success, `${testCase.role} should be able to use ${testCase.tool}`);
-          } else {
-            await assert.rejects(
-              () => tool.invoke({ test: 'data' }),
-              new RegExp(`Authorization denied`),
-              `${testCase.role} should not be able to use ${testCase.tool}`,
-            );
-          }
         }
-      });
+      }
     });
   });
 });

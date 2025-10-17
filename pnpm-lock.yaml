@@ -4059,6 +4059,15 @@ importers:
         specifier: 5.0.0
         version: 5.0.0
 
+  packages/opencode-client:
+    dependencies:
+      '@opencode-ai/plugin':
+        specifier: ^0.15.7
+        version: 0.15.7
+      '@opencode-ai/sdk':
+        specifier: ^0.15.7
+        version: 0.15.7
+
   packages/opencode-cljs-electron:
     dependencies:
       '@opencode-ai/sdk':
@@ -8544,11 +8553,17 @@ packages:
     peerDependencies:
       zod: ^3.25.40
 
+  '@opencode-ai/plugin@0.15.7':
+    resolution: {integrity: sha512-tWvM/H+VhwHxXK6ffYpw9KSbCJn8vMmuuN7jilXDrc1YylzRvp2RYrFYSn+TRikAq/wKafNsbhq91OFmoWMjTQ==}
+
   '@opencode-ai/sdk@0.15.2':
     resolution: {integrity: sha512-m2aU0TiZj7/o1JvYmoqF7ichrKZcWi4UTx3WYlDXpRJvfZX0gnLKLJAlTKfHkisytGlrlgmST2kt/YQrAjc0wQ==}
 
   '@opencode-ai/sdk@0.15.5':
     resolution: {integrity: sha512-V29hOqlUT0yuCA2dIkU1Sub9RjceaJug0UowEpIJKCU4kdFxHyl4HGGCdWA8UOPUMIQ+HHNoYhnMSdTlN/kLgg==}
+
+  '@opencode-ai/sdk@0.15.7':
+    resolution: {integrity: sha512-3i3VPENjYL+so4vJOsDfVIJfQQKm5DpDYqvVfCT5fl49T8phVzoAQCLdT1CABVwunn+oFTzrd+TpJaQ5XkrjTQ==}
 
   '@opentelemetry/api-logs@0.41.2':
     resolution: {integrity: sha512-JEV2RAqijAFdWeT6HddYymfnkiRu2ASxoTBr4WsnGJhOjWZkEy6vp+Sx9ozr1NaIODOa2HUyckExIqQjn6qywQ==}
@@ -18762,6 +18777,9 @@ packages:
   zod@4.1.5:
     resolution: {integrity: sha512-rcUUZqlLJgBC33IT3PNMgsCq6TzLQEG/Ei/KTCU0PedSWRMAXoOUN+4t/0H+Q8bdnLPdqUYnvboJT0bn/229qg==}
 
+  zod@4.1.8:
+    resolution: {integrity: sha512-5R1P+WwQqmmMIEACyzSvo4JXHY5WiAFHRMg+zBZKgKS+Q1viRa0C1hmUKtHltoIFKtIdki3pRxkmpP74jnNYHQ==}
+
   zustand@4.5.7:
     resolution: {integrity: sha512-CHOUy7mu3lbD6o6LJLfllpjkzhHXSBlX8B9+qPddUsIfeF5S/UZ5q0kmCsnRqT1UHFQZchNFDDzMbQsuesHWlw==}
     engines: {node: '>=12.7.0'}
@@ -23403,9 +23421,16 @@ snapshots:
       - utf-8-validate
       - ws
 
+  '@opencode-ai/plugin@0.15.7':
+    dependencies:
+      '@opencode-ai/sdk': 0.15.7
+      zod: 4.1.8
+
   '@opencode-ai/sdk@0.15.2': {}
 
   '@opencode-ai/sdk@0.15.5': {}
+
+  '@opencode-ai/sdk@0.15.7': {}
 
   '@opentelemetry/api-logs@0.41.2':
     dependencies:
@@ -26392,7 +26417,7 @@ snapshots:
 
   axios@1.11.0:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.3.7)
+      follow-redirects: 1.15.11(debug@4.4.3)
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -26400,7 +26425,7 @@ snapshots:
 
   axios@1.12.2:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.3.7)
+      follow-redirects: 1.15.11(debug@4.4.3)
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -30143,7 +30168,7 @@ snapshots:
   http-proxy@1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.11(debug@4.3.7)
+      follow-redirects: 1.15.11(debug@4.4.3)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -36486,6 +36511,8 @@ snapshots:
   zod@3.25.76: {}
 
   zod@4.1.5: {}
+
+  zod@4.1.8: {}
 
   zustand@4.5.7(@types/react@18.3.26)(react@18.3.1):
     dependencies:
