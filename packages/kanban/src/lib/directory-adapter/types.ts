@@ -3,7 +3,7 @@
  * Provides secure, standardized file operations for task management
  */
 
-import type { IndexedTask } from '../board/types.js';
+import type { IndexedTask } from '../../board/types.js';
 import type { TaskValidationResult } from '../task-content/types.js';
 
 /**
@@ -14,7 +14,7 @@ export type SecurityLevel = 'strict' | 'moderate' | 'permissive';
 /**
  * File operation types
  */
-export type FileOperationType = 
+export type FileOperationType =
   | 'read'
   | 'write'
   | 'create'
@@ -108,31 +108,34 @@ export interface FileOperationResult<T = any> {
 export interface TaskFileOperations {
   /** Read a task file */
   readTaskFile(uuid: string): Promise<FileOperationResult<IndexedTask>>;
-  
+
   /** Write a task file */
   writeTaskFile(task: IndexedTask): Promise<FileOperationResult<void>>;
-  
+
   /** Create a new task file */
   createTaskFile(task: IndexedTask): Promise<FileOperationResult<void>>;
-  
+
   /** Update an existing task file */
   updateTaskFile(uuid: string, updates: Partial<IndexedTask>): Promise<FileOperationResult<void>>;
-  
+
   /** Delete a task file */
   deleteTaskFile(uuid: string): Promise<FileOperationResult<void>>;
-  
+
   /** Move/rename a task file */
   moveTaskFile(uuid: string, newTitle: string): Promise<FileOperationResult<void>>;
-  
+
   /** List task files */
   listTaskFiles(options?: ListOptions): Promise<FileOperationResult<IndexedTask[]>>;
-  
+
   /** Search task files */
-  searchTaskFiles(query: string, options?: SearchOptions): Promise<FileOperationResult<IndexedTask[]>>;
-  
+  searchTaskFiles(
+    query: string,
+    options?: SearchOptions,
+  ): Promise<FileOperationResult<IndexedTask[]>>;
+
   /** Validate task file structure */
   validateTaskFile(uuid: string): Promise<FileOperationResult<TaskValidationResult>>;
-  
+
   /** Backup a task file */
   backupTaskFile(uuid: string, reason?: string): Promise<FileOperationResult<string>>;
 }
@@ -187,7 +190,10 @@ export interface AuditLogEntry {
  */
 export interface SecurityValidator {
   validatePath(path: string, context: FileOperationContext): Promise<PathValidationResult>;
-  validateFileContent(content: string, context: FileOperationContext): Promise<PathValidationResult>;
+  validateFileContent(
+    content: string,
+    context: FileOperationContext,
+  ): Promise<PathValidationResult>;
   validateOperation(context: FileOperationContext): Promise<boolean>;
 }
 
@@ -235,7 +241,7 @@ export class DirectoryAdapterError extends Error {
     public readonly code: string,
     public readonly operation?: FileOperationType,
     public readonly path?: string,
-    public readonly cause?: Error
+    public readonly cause?: Error,
   ) {
     super(message);
     this.name = 'DirectoryAdapterError';
@@ -247,7 +253,7 @@ export class SecurityValidationError extends DirectoryAdapterError {
     message: string,
     public readonly securityIssues: string[],
     path?: string,
-    operation?: FileOperationType
+    operation?: FileOperationType,
   ) {
     super(message, 'SECURITY_VALIDATION_ERROR', operation, path);
     this.name = 'SecurityValidationError';
@@ -270,7 +276,12 @@ export class FilePermissionError extends DirectoryAdapterError {
 
 export class FileCorruptionError extends DirectoryAdapterError {
   constructor(path: string, reason: string, operation?: FileOperationType) {
-    super(`File corruption detected: ${path} - ${reason}`, 'FILE_CORRUPTION_ERROR', operation, path);
+    super(
+      `File corruption detected: ${path} - ${reason}`,
+      'FILE_CORRUPTION_ERROR',
+      operation,
+      path,
+    );
     this.name = 'FileCorruptionError';
   }
 }

@@ -6,11 +6,8 @@
  */
 
 import type { Task, Board } from '../../types.js';
-import type { 
-  CodeReviewRulesEngine, 
-  KanbanTransitionReviewRequest,
-  KanbanTransitionReviewResult 
-} from '../types.js';
+import type { KanbanTransitionReviewRequest, KanbanTransitionReviewResult } from '../types.js';
+import { CodeReviewRulesEngine } from '../rules-engine.js';
 import type { TransitionResult } from '../../transition-rules.js';
 
 /**
@@ -31,7 +28,7 @@ export class KanbanCodeReviewIntegration {
     to: string,
     task: Task,
     board: Board,
-    actor: 'agent' | 'human' | 'system' = 'agent'
+    actor: 'agent' | 'human' | 'system' = 'agent',
   ): Promise<TransitionResult> {
     try {
       const request: KanbanTransitionReviewRequest = {
@@ -48,15 +45,14 @@ export class KanbanCodeReviewIntegration {
       return {
         allowed: result.allowed,
         reason: result.reason,
-        ruleViolations: result.reviewResult?.violations.map(v => v.message) || [],
+        ruleViolations: result.reviewResult?.violations.map((v) => v.message) || [],
         suggestions: result.suggestions,
         suggestedAlternatives: [],
         warnings: result.warnings,
       };
-
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      
+
       return {
         allowed: true, // Allow transition on error to avoid blocking workflow
         reason: `Code review validation failed: ${errorMessage}`,
@@ -80,9 +76,9 @@ export class KanbanCodeReviewIntegration {
   }> {
     // This would integrate with task metadata to track review history
     // For now, return basic information
-    
+
     const reviewHistory = task.frontmatter?.codeReviewHistory;
-    
+
     if (!reviewHistory || !Array.isArray(reviewHistory) || reviewHistory.length === 0) {
       return {
         hasReview: false,
@@ -90,7 +86,7 @@ export class KanbanCodeReviewIntegration {
     }
 
     const lastReview = reviewHistory[reviewHistory.length - 1];
-    
+
     return {
       hasReview: true,
       lastReviewScore: lastReview.score,
@@ -106,11 +102,11 @@ export class KanbanCodeReviewIntegration {
   async updateTaskWithReviewResults(
     task: Task,
     reviewResult: any,
-    transition: string
+    transition: string,
   ): Promise<Task> {
     // Add review results to task frontmatter
     const reviewHistory = task.frontmatter?.codeReviewHistory || [];
-    
+
     const reviewEntry = {
       timestamp: new Date().toISOString(),
       transition,
@@ -155,7 +151,7 @@ export class KanbanCodeReviewIntegration {
 
     // Check if task has code changes
     const hasCodeChanges = this.taskHasCodeChanges(task);
-    
+
     return hasCodeChanges;
   }
 
@@ -164,7 +160,7 @@ export class KanbanCodeReviewIntegration {
    */
   private taskHasCodeChanges(task: Task): boolean {
     const content = task.content || '';
-    
+
     // Look for indicators of code changes
     const codeIndicators = [
       /changed[_-]?files[:\s]+([^\n]+)/i,
@@ -177,20 +173,23 @@ export class KanbanCodeReviewIntegration {
       /refactor/i,
     ];
 
-    return codeIndicators.some(indicator => indicator.test(content));
+    return codeIndicators.some((indicator) => indicator.test(content));
   }
 
   /**
    * Get code review configuration for transition
    */
-  getTransitionReviewConfig(from: string, to: string): {
+  getTransitionReviewConfig(
+    from: string,
+    to: string,
+  ): {
     enabled: boolean;
     required: boolean;
     rules: string[];
     thresholds: any;
   } | null {
     const transitionKey = `${from}->${to}`;
-    
+
     // Default configurations for common transitions
     const defaultConfigs: Record<string, any> = {
       'in_progress->testing': {
@@ -246,10 +245,10 @@ export class KanbanCodeReviewIntegration {
     if (reviewResult.violations && reviewResult.violations.length > 0) {
       report.push(`## Violations (${reviewResult.violations.length})`);
       report.push(``);
-      
+
       for (const violation of reviewResult.violations) {
-        const severity = violation.severity === 'error' ? '🚨' : 
-                        violation.severity === 'warning' ? '⚠️' : 'ℹ️';
+        const severity =
+          violation.severity === 'error' ? '🚨' : violation.severity === 'warning' ? '⚠️' : 'ℹ️';
         report.push(`${severity} **${violation.rule}** - ${violation.message}`);
         if (violation.file) {
           report.push(`   File: ${violation.file}${violation.line ? `:${violation.line}` : ''}`);
@@ -261,10 +260,10 @@ export class KanbanCodeReviewIntegration {
     if (reviewResult.suggestions && reviewResult.suggestions.length > 0) {
       report.push(`## Suggestions (${reviewResult.suggestions.length})`);
       report.push(``);
-      
+
       for (const suggestion of reviewResult.suggestions) {
-        const impact = suggestion.impact === 'high' ? '🔴' : 
-                      suggestion.impact === 'medium' ? '🟡' : '🟢';
+        const impact =
+          suggestion.impact === 'high' ? '🔴' : suggestion.impact === 'medium' ? '🟡' : '🟢';
         report.push(`${impact} **${suggestion.message}**`);
         if (suggestion.file) {
           report.push(`   File: ${suggestion.file}${suggestion.line ? `:${suggestion.line}` : ''}`);
@@ -279,10 +278,10 @@ export class KanbanCodeReviewIntegration {
     if (reviewResult.actionItems && reviewResult.actionItems.length > 0) {
       report.push(`## Action Items (${reviewResult.actionItems.length})`);
       report.push(``);
-      
+
       for (const actionItem of reviewResult.actionItems) {
-        const priority = actionItem.priority === 'high' ? '🔴' : 
-                        actionItem.priority === 'medium' ? '🟡' : '🟢';
+        const priority =
+          actionItem.priority === 'high' ? '🔴' : actionItem.priority === 'medium' ? '🟡' : '🟢';
         const automated = actionItem.automated ? '🤖' : '👤';
         report.push(`${priority} ${automated} **${actionItem.description}**`);
         report.push(`   Effort: ${actionItem.estimatedEffort}`);

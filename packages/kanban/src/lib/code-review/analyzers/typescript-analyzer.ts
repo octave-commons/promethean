@@ -7,8 +7,7 @@
 
 import { exec } from 'child_process';
 import { promisify } from 'util';
-import { access, readFile } from 'fs/promises';
-import path from 'path';
+import { readFile } from 'fs/promises';
 import type { TypeScriptResult, TypeScriptDiagnostic } from '../types.js';
 
 const execAsync = promisify(exec);
@@ -53,9 +52,7 @@ export class TypeScriptAnalyzer {
     }
 
     // Filter TypeScript files
-    const tsFiles = files.filter(file => 
-      file.endsWith('.ts') || file.endsWith('.tsx')
-    );
+    const tsFiles = files.filter((file) => file.endsWith('.ts') || file.endsWith('.tsx'));
 
     if (tsFiles.length === 0) {
       return [];
@@ -82,7 +79,8 @@ export class TypeScriptAnalyzer {
   private async analyzeFile(filePath: string): Promise<TypeScriptResult> {
     const args = [
       '--noEmit', // Don't generate output files
-      '--pretty', 'false', // Don't use colors and formatting
+      '--pretty',
+      'false', // Don't use colors and formatting
     ];
 
     // Add strict mode if enabled
@@ -98,7 +96,7 @@ export class TypeScriptAnalyzer {
     args.push(filePath);
 
     try {
-      const { stdout, stderr } = await execAsync(`npx tsc ${args.join(' ')}`, {
+      const { stderr } = await execAsync(`npx tsc ${args.join(' ')}`, {
         timeout: this.config.timeout,
         cwd: process.cwd(),
       });
@@ -116,9 +114,9 @@ export class TypeScriptAnalyzer {
       }
 
       const diagnostics = this.parseTypeScriptOutput(output, filePath);
-      const errorCount = diagnostics.filter(d => d.category === 1).length;
-      const warningCount = diagnostics.filter(d => d.category === 2).length;
-      const suggestionCount = diagnostics.filter(d => d.category === 3).length;
+      const errorCount = diagnostics.filter((d) => d.category === 1).length;
+      const warningCount = diagnostics.filter((d) => d.category === 2).length;
+      const suggestionCount = diagnostics.filter((d) => d.category === 3).length;
 
       return {
         filePath,
@@ -127,16 +125,15 @@ export class TypeScriptAnalyzer {
         warningCount,
         suggestionCount,
       };
-
     } catch (error) {
       // TypeScript returns non-zero exit code on type errors
       if (error instanceof Error && 'stderr' in error) {
         const stderr = (error as any).stderr;
         if (stderr) {
           const diagnostics = this.parseTypeScriptOutput(stderr, filePath);
-          const errorCount = diagnostics.filter(d => d.category === 1).length;
-          const warningCount = diagnostics.filter(d => d.category === 2).length;
-          const suggestionCount = diagnostics.filter(d => d.category === 3).length;
+          const errorCount = diagnostics.filter((d) => d.category === 1).length;
+          const warningCount = diagnostics.filter((d) => d.category === 2).length;
+          const suggestionCount = diagnostics.filter((d) => d.category === 3).length;
 
           return {
             filePath,
@@ -154,7 +151,7 @@ export class TypeScriptAnalyzer {
   /**
    * Parse TypeScript compiler output
    */
-  private parseTypeScriptOutput(output: string, filePath: string): TypeScriptDiagnostic[] {
+  private parseTypeScriptOutput(output: string, _filePath: string): TypeScriptDiagnostic[] {
     const diagnostics: TypeScriptDiagnostic[] = [];
     const lines = output.split('\n');
 
@@ -163,19 +160,21 @@ export class TypeScriptAnalyzer {
 
       // Parse TypeScript error format:
       // filename(line,column): error TScode: message
-      const match = line.match(/^(.+)\((\d+),(\d+)\):\s+(error|warning|suggestion)\s+TS(\d+):\s+(.+)$/);
-      
+      const match = line.match(
+        /^(.+)\((\d+),(\d+)\):\s+(error|warning|suggestion)\s+TS(\d+):\s+(.+)$/,
+      );
+
       if (match) {
-        const [, file, lineStr, columnStr, severity, code, message] = match;
-        
+        const [, file, _lineStr, _columnStr, severity, code, message] = match;
+
         const diagnostic: TypeScriptDiagnostic = {
-          category: this.getCategoryNumber(severity),
-          code: parseInt(code, 10),
-          file: file.trim(),
+          category: this.getCategoryNumber(severity!),
+          code: parseInt(code!, 10),
+          file: file!.trim(),
           start: 0, // TypeScript doesn't provide exact position
           length: 0,
-          messageText: message.trim(),
-          categoryText: severity,
+          messageText: message!.trim(),
+          categoryText: severity!,
         };
 
         diagnostics.push(diagnostic);
@@ -248,9 +247,7 @@ export class TypeScriptAnalyzer {
     coverage: number;
     untypedFiles: string[];
   }> {
-    const tsFiles = files.filter(file => 
-      file.endsWith('.ts') || file.endsWith('.tsx')
-    );
+    const tsFiles = files.filter((file) => file.endsWith('.ts') || file.endsWith('.tsx'));
 
     if (tsFiles.length === 0) {
       return {
@@ -267,10 +264,13 @@ export class TypeScriptAnalyzer {
     for (const file of tsFiles) {
       try {
         const content = await readFile(file, 'utf-8');
-        
+
         // Simple heuristic: check for explicit type annotations
-        const hasTypeAnnotations = /:\s*(string|number|boolean|void|any|unknown|never|[A-Z]\w*|Array<[^>]+>|{[^}]+})/.test(content);
-        
+        const hasTypeAnnotations =
+          /:\s*(string|number|boolean|void|any|unknown|never|[A-Z]\w*|Array<[^>]+>|{[^}]+})/.test(
+            content,
+          );
+
         if (hasTypeAnnotations) {
           typedFiles++;
         } else {

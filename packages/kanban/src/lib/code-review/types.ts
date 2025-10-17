@@ -5,17 +5,11 @@
  * integrated with kanban workflow transitions.
  */
 
-// Re-export Task type from main kanban types
-export interface Task {
-  uuid: string;
-  title: string;
-  content?: string;
-  status: string;
-  priority?: string;
-  tags?: string[];
-  frontmatter?: Record<string, any>;
-  [key: string]: any;
-}
+// Import Task type from main kanban types
+import type { Task } from '../types.js';
+
+// Re-export Task type for convenience
+export type { Task };
 
 // === Core Code Review Interfaces ===
 

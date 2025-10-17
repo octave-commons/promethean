@@ -1,6 +1,6 @@
 {
   "name": "@promethean/kanban",
-  "version": "0.2.0",
+  "version": "0.2.0-alpha",
   "description": "Automation for local markdown kanban and process-as-code. Functional TS, native ESM, no side effects.",
   "type": "module",
   "main": "./dist/index.js",
@@ -89,5 +89,10 @@
     "typedoc-plugin-markdown": "^4.9.0",
     "typescript": "^5.4.0",
     "vitest": "^1.0.0"
-  }
+  },
+"publishConfig": {
+  "access": "public",
+  "directory": "dist"
+}
+
 }

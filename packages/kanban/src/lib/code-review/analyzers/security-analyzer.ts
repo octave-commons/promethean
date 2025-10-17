@@ -7,7 +7,7 @@
 
 import { exec } from 'child_process';
 import { promisify } from 'util';
-import { access } from 'fs/promises';
+
 import path from 'path';
 import type { SecurityResult, SecurityFinding } from '../types.js';
 
@@ -105,11 +105,12 @@ export class SecurityAnalyzer {
     ];
 
     // Filter relevant files
-    const relevantFiles = files.filter(file => 
-      file.endsWith('.ts') || 
-      file.endsWith('.tsx') || 
-      file.endsWith('.js') || 
-      file.endsWith('.jsx')
+    const relevantFiles = files.filter(
+      (file) =>
+        file.endsWith('.ts') ||
+        file.endsWith('.tsx') ||
+        file.endsWith('.js') ||
+        file.endsWith('.jsx'),
     );
 
     if (relevantFiles.length === 0) {
@@ -150,7 +151,6 @@ export class SecurityAnalyzer {
         findings,
         summary,
       };
-
     } catch (error) {
       if (error instanceof Error && 'stdout' in error) {
         const stdout = (error as any).stdout;
@@ -177,7 +177,7 @@ export class SecurityAnalyzer {
   /**
    * Run Snyk security analysis
    */
-  private async runSnyk(files: string[]): Promise<SecurityResult> {
+  private async runSnyk(_files: string[]): Promise<SecurityResult> {
     try {
       const { stdout, stderr } = await execAsync('snyk test --json', {
         timeout: this.config.timeout,
@@ -206,7 +206,6 @@ export class SecurityAnalyzer {
         findings,
         summary,
       };
-
     } catch (error) {
       // Snyk returns non-zero exit code on vulnerabilities
       if (error instanceof Error && 'stdout' in error) {
@@ -235,16 +234,14 @@ export class SecurityAnalyzer {
    * Run ESLint security rules
    */
   private async runESLintSecurity(files: string[]): Promise<SecurityResult> {
-    const args = [
-      '--format', 'json',
-      '--config', this.getESLintSecurityConfigPath(),
-    ];
+    const args = ['--format', 'json', '--config', this.getESLintSecurityConfigPath()];
 
-    const relevantFiles = files.filter(file => 
-      file.endsWith('.ts') || 
-      file.endsWith('.tsx') || 
-      file.endsWith('.js') || 
-      file.endsWith('.jsx')
+    const relevantFiles = files.filter(
+      (file) =>
+        file.endsWith('.ts') ||
+        file.endsWith('.tsx') ||
+        file.endsWith('.js') ||
+        file.endsWith('.jsx'),
     );
 
     if (relevantFiles.length === 0) {
@@ -285,7 +282,6 @@ export class SecurityAnalyzer {
         findings,
         summary,
       };
-
     } catch (error) {
       if (error instanceof Error && 'stdout' in error) {
         const stdout = (error as any).stdout;
@@ -332,7 +328,7 @@ export class SecurityAnalyzer {
    * Parse Semgrep findings
    */
   private parseSemgrepFindings(results: any[]): SecurityFinding[] {
-    return results.map(result => ({
+    return results.map((result) => ({
       id: result.check_id || 'unknown',
       ruleId: result.metadata?.name || result.check_id,
       severity: this.mapSemgrepSeverity(result.metadata?.severity || 'INFO'),
@@ -353,7 +349,7 @@ export class SecurityAnalyzer {
    * Parse Snyk findings
    */
   private parseSnykFindings(vulnerabilities: any[]): SecurityFinding[] {
-    return vulnerabilities.map(vuln => ({
+    return vulnerabilities.map((vuln) => ({
       id: vuln.id || 'unknown',
       ruleId: vuln.title || vuln.name,
       severity: this.mapSnykSeverity(vuln.severity || 'medium'),

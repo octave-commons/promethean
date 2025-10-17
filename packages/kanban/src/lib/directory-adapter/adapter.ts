@@ -8,8 +8,8 @@ import path from 'path';
 import { performance } from 'perf_hooks';
 import { createLogger } from '@promethean/utils';
 import matter from 'gray-matter';
-import type { IndexedTask } from '../board/types.js';
-import type { TaskCache } from '../board/task-cache.js';
+import type { IndexedTask } from '../../board/types.js';
+import type { TaskCache } from '../../board/task-cache.js';
 import type {
   DirectoryAdapterConfig,
   TaskFileOperations,
@@ -26,7 +26,7 @@ import type {
   SecurityValidationError,
   FileNotFoundError,
   FilePermissionError,
-  FileCorruptionError
+  FileCorruptionError,
 } from './types.js';
 import { createSecurityValidator } from './security.js';
 import { createBackupManager } from './backup.js';
@@ -48,7 +48,7 @@ export class DirectoryAdapter implements TaskFileOperations {
     errorRates: {} as any,
     cacheHitRate: 0,
     totalOperations: 0,
-    lastReset: new Date()
+    lastReset: new Date(),
   };
 
   constructor(config: DirectoryAdapterConfig, cache?: TaskCache) {
@@ -94,7 +94,7 @@ export class DirectoryAdapter implements TaskFileOperations {
           'Content validation failed',
           contentValidation.securityIssues,
           filePath,
-          'read'
+          'read',
         );
       }
 
@@ -111,7 +111,7 @@ export class DirectoryAdapter implements TaskFileOperations {
         created: parsed.data.created || stats.birthtime.toISOString(),
         updated: parsed.data.updated || stats.mtime.toISOString(),
         path: filePath,
-        content: parsed.content
+        content: parsed.content,
       };
 
       // Update cache
@@ -120,7 +120,6 @@ export class DirectoryAdapter implements TaskFileOperations {
       }
 
       return this.createSuccessResult(task, context, startTime);
-
     } catch (error) {
       return this.handleError(error, context, startTime);
     }
@@ -152,7 +151,7 @@ export class DirectoryAdapter implements TaskFileOperations {
         owner: task.owner,
         labels: task.labels,
         created: task.created,
-        updated: new Date().toISOString()
+        updated: new Date().toISOString(),
       };
 
       const content = matter.stringify(task.content || '', frontmatter);
@@ -164,7 +163,7 @@ export class DirectoryAdapter implements TaskFileOperations {
           'Content validation failed',
           contentValidation.securityIssues,
           context.path,
-          'write'
+          'write',
         );
       }
 
@@ -186,7 +185,6 @@ export class DirectoryAdapter implements TaskFileOperations {
       }
 
       return result;
-
     } catch (error) {
       return this.handleError(error, context, startTime);
     }
@@ -207,7 +205,7 @@ export class DirectoryAdapter implements TaskFileOperations {
           'Task file already exists',
           'FILE_EXISTS',
           'create',
-          context.path
+          context.path,
         );
       } catch (error) {
         if ((error as any).code !== 'ENOENT') {
@@ -227,7 +225,7 @@ export class DirectoryAdapter implements TaskFileOperations {
         owner: task.owner || '',
         labels: task.labels || [],
         created: new Date().toISOString(),
-        updated: new Date().toISOString()
+        updated: new Date().toISOString(),
       };
 
       const content = matter.stringify(task.content || '', frontmatter);
@@ -239,7 +237,7 @@ export class DirectoryAdapter implements TaskFileOperations {
           'Content validation failed',
           contentValidation.securityIssues,
           context.path,
-          'create'
+          'create',
         );
       }
 
@@ -256,7 +254,6 @@ export class DirectoryAdapter implements TaskFileOperations {
       }
 
       return this.createSuccessResult(undefined, context, startTime);
-
     } catch (error) {
       return this.handleError(error, context, startTime);
     }
@@ -265,7 +262,10 @@ export class DirectoryAdapter implements TaskFileOperations {
   /**
    * Update an existing task file
    */
-  async updateTaskFile(uuid: string, updates: Partial<IndexedTask>): Promise<FileOperationResult<void>> {
+  async updateTaskFile(
+    uuid: string,
+    updates: Partial<IndexedTask>,
+  ): Promise<FileOperationResult<void>> {
     const context = this.createContext('update', this.getTaskPath(uuid));
     const startTime = performance.now();
 
@@ -289,13 +289,15 @@ export class DirectoryAdapter implements TaskFileOperations {
         ...existingTask,
         ...updates,
         uuid, // Ensure UUID is preserved
-        updated: new Date().toISOString()
+        updated: new Date().toISOString(),
       };
 
       // Write updated task
       const writeResult = await this.writeTaskFile(updatedTask);
       if (!writeResult.success) {
-        throw writeResult.error ? new Error(writeResult.error) : new Error('Write operation failed');
+        throw writeResult.error
+          ? new Error(writeResult.error)
+          : new Error('Write operation failed');
       }
 
       const result = this.createSuccessResult(undefined, context, startTime);
@@ -304,7 +306,6 @@ export class DirectoryAdapter implements TaskFileOperations {
       }
 
       return result;
-
     } catch (error) {
       return this.handleError(error, context, startTime);
     }
@@ -344,7 +345,6 @@ export class DirectoryAdapter implements TaskFileOperations {
       }
 
       return result;
-
     } catch (error) {
       return this.handleError(error, context, startTime);
     }
@@ -373,7 +373,7 @@ export class DirectoryAdapter implements TaskFileOperations {
           'Destination file already exists',
           'DESTINATION_EXISTS',
           'move',
-          newPath
+          newPath,
         );
       } catch (error) {
         if ((error as any).code !== 'ENOENT') {
@@ -400,7 +400,9 @@ export class DirectoryAdapter implements TaskFileOperations {
       // Write to new location
       const writeResult = await this.writeTaskFile(task);
       if (!writeResult.success) {
-        throw writeResult.error ? new Error(writeResult.error) : new Error('Write operation failed');
+        throw writeResult.error
+          ? new Error(writeResult.error)
+          : new Error('Write operation failed');
       }
 
       // Delete old file
@@ -418,7 +420,6 @@ export class DirectoryAdapter implements TaskFileOperations {
       }
 
       return result;
-
     } catch (error) {
       return this.handleError(error, context, startTime);
     }
@@ -450,7 +451,7 @@ export class DirectoryAdapter implements TaskFileOperations {
       // Fallback to file system listing
       const tasks: IndexedTask[] = [];
       const files = await fs.readdir(this.config.baseDirectory);
-      const markdownFiles = files.filter(file => file.endsWith('.md'));
+      const markdownFiles = files.filter((file) => file.endsWith('.md'));
 
       for (const file of markdownFiles) {
         const filePath = path.join(this.config.baseDirectory, file);
@@ -470,7 +471,7 @@ export class DirectoryAdapter implements TaskFileOperations {
             created: parsed.data.created || stats.birthtime.toISOString(),
             updated: parsed.data.updated || stats.mtime.toISOString(),
             path: filePath,
-            content: parsed.content
+            content: parsed.content,
           };
 
           // Apply filters
@@ -488,7 +489,7 @@ export class DirectoryAdapter implements TaskFileOperations {
           const aValue = a[options.sort!.field];
           const bValue = b[options.sort!.field];
           const order = options.sort!.order === 'desc' ? -1 : 1;
-          
+
           if (aValue < bValue) return -1 * order;
           if (aValue > bValue) return 1 * order;
           return 0;
@@ -502,7 +503,6 @@ export class DirectoryAdapter implements TaskFileOperations {
       }
 
       return this.createSuccessResult(tasks, context, startTime);
-
     } catch (error) {
       return this.handleError(error, context, startTime);
     }
@@ -511,7 +511,10 @@ export class DirectoryAdapter implements TaskFileOperations {
   /**
    * Search task files
    */
-  async searchTaskFiles(query: string, options?: SearchOptions): Promise<FileOperationResult<IndexedTask[]>> {
+  async searchTaskFiles(
+    query: string,
+    options?: SearchOptions,
+  ): Promise<FileOperationResult<IndexedTask[]>> {
     const context = this.createContext('search', this.config.baseDirectory, { query });
     const startTime = performance.now();
 
@@ -539,18 +542,16 @@ export class DirectoryAdapter implements TaskFileOperations {
 
       const queryLower = query.toLowerCase();
       const fields = options?.fields || ['title', 'content'];
-      const matchedTasks = allTasksResult.data.filter(task => {
-        return fields.some(field => {
+      const matchedTasks = allTasksResult.data.filter((task) => {
+        return fields.some((field) => {
           const value = task[field as keyof IndexedTask];
           return value && String(value).toLowerCase().includes(queryLower);
         });
       });
 
-      const limitedTasks = options?.limit ? 
-        matchedTasks.slice(0, options.limit) : matchedTasks;
+      const limitedTasks = options?.limit ? matchedTasks.slice(0, options.limit) : matchedTasks;
 
       return this.createSuccessResult(limitedTasks, context, startTime);
-
     } catch (error) {
       return this.handleError(error, context, startTime);
     }
@@ -583,11 +584,10 @@ export class DirectoryAdapter implements TaskFileOperations {
         valid: errors.length === 0,
         errors,
         warnings,
-        suggestions: []
+        suggestions: [],
       };
 
       return this.createSuccessResult(validation, context, startTime);
-
     } catch (error) {
       return this.handleError(error, context, startTime);
     }
@@ -604,11 +604,10 @@ export class DirectoryAdapter implements TaskFileOperations {
       const backupPath = await this.backupManager.createBackup(
         this.getTaskPath(uuid),
         reason,
-        context
+        context,
       );
 
       return this.createSuccessResult(backupPath, context, startTime);
-
     } catch (error) {
       return this.handleError(error, context, startTime);
     }
@@ -659,7 +658,7 @@ export class DirectoryAdapter implements TaskFileOperations {
   private createContext(
     operation: FileOperationType,
     filePath: string,
-    additionalMetadata?: Record<string, any>
+    additionalMetadata?: Record<string, any>,
   ): FileOperationContext {
     return {
       operation,
@@ -668,8 +667,8 @@ export class DirectoryAdapter implements TaskFileOperations {
       requestId: this.generateRequestId(),
       metadata: {
         ...additionalMetadata,
-        baseDirectory: this.config.baseDirectory
-      }
+        baseDirectory: this.config.baseDirectory,
+      },
     };
   }
 
@@ -681,7 +680,7 @@ export class DirectoryAdapter implements TaskFileOperations {
         'Path validation failed',
         pathValidation.securityIssues,
         context.path,
-        context.operation
+        context.operation,
       );
     }
 
@@ -692,7 +691,7 @@ export class DirectoryAdapter implements TaskFileOperations {
         'Operation validation failed',
         ['Operation not allowed'],
         context.path,
-        context.operation
+        context.operation,
       );
     }
   }
@@ -700,10 +699,10 @@ export class DirectoryAdapter implements TaskFileOperations {
   private createSuccessResult<T>(
     data: T,
     context: FileOperationContext,
-    startTime: number
+    startTime: number,
   ): FileOperationResult<T> {
     const duration = performance.now() - startTime;
-    
+
     this.updateMetrics(context.operation, duration, true);
     this.logAuditEntry(context, true, undefined, duration);
 
@@ -715,19 +714,24 @@ export class DirectoryAdapter implements TaskFileOperations {
         path: context.path,
         duration,
         timestamp: context.timestamp,
-        securityValidations: { valid: true, normalizedPath: context.path, securityIssues: [], warnings: [] }
-      }
+        securityValidations: {
+          valid: true,
+          normalizedPath: context.path,
+          securityIssues: [],
+          warnings: [],
+        },
+      },
     };
   }
 
   private handleError(
     error: unknown,
     context: FileOperationContext,
-    startTime: number
+    startTime: number,
   ): FileOperationResult {
     const duration = performance.now() - startTime;
     const errorMessage = error instanceof Error ? error.message : String(error);
-    
+
     this.updateMetrics(context.operation, duration, false);
     this.logAuditEntry(context, false, errorMessage, duration);
 
@@ -741,20 +745,25 @@ export class DirectoryAdapter implements TaskFileOperations {
         path: context.path,
         duration,
         timestamp: context.timestamp,
-        securityValidations: { valid: true, normalizedPath: context.path, securityIssues: [], warnings: [] }
-      }
+        securityValidations: {
+          valid: true,
+          normalizedPath: context.path,
+          securityIssues: [],
+          warnings: [],
+        },
+      },
     };
   }
 
   private updateMetrics(operation: FileOperationType, duration: number, success: boolean): void {
     this.performanceMetrics.totalOperations++;
-    this.performanceMetrics.operationCounts[operation] = 
+    this.performanceMetrics.operationCounts[operation] =
       (this.performanceMetrics.operationCounts[operation] || 0) + 1;
 
     // Update average duration
     const currentAvg = this.performanceMetrics.averageDurations[operation] || 0;
     const count = this.performanceMetrics.operationCounts[operation];
-    this.performanceMetrics.averageDurations[operation] = 
+    this.performanceMetrics.averageDurations[operation] =
       (currentAvg * (count - 1) + duration) / count;
 
     // Update error rate
@@ -768,7 +777,7 @@ export class DirectoryAdapter implements TaskFileOperations {
     context: FileOperationContext,
     success: boolean,
     error?: string,
-    duration?: number
+    duration?: number,
   ): void {
     if (!this.config.security.auditLog) return;
 
@@ -782,7 +791,7 @@ export class DirectoryAdapter implements TaskFileOperations {
       error,
       securityIssues: [],
       duration: duration || 0,
-      metadata: context.metadata
+      metadata: context.metadata,
     };
 
     this.auditLog.push(entry);
@@ -794,13 +803,11 @@ export class DirectoryAdapter implements TaskFileOperations {
   }
 
   private recordCacheHit(operation: FileOperationType, path: string): void {
-    this.performanceMetrics.cacheHitRate = 
-      (this.performanceMetrics.cacheHitRate + 1) / 2; // Simple moving average
+    this.performanceMetrics.cacheHitRate = (this.performanceMetrics.cacheHitRate + 1) / 2; // Simple moving average
   }
 
   private recordCacheMiss(operation: FileOperationType, path: string): void {
-    this.performanceMetrics.cacheHitRate = 
-      this.performanceMetrics.cacheHitRate * 0.9; // Decay
+    this.performanceMetrics.cacheHitRate = this.performanceMetrics.cacheHitRate * 0.9; // Decay
   }
 
   private passesFilters(task: IndexedTask, filter?: ListOptions['filter']): boolean {
@@ -808,7 +815,7 @@ export class DirectoryAdapter implements TaskFileOperations {
 
     if (filter.status && !filter.status.includes(task.status)) return false;
     if (filter.priority && !filter.priority.includes(task.priority)) return false;
-    if (filter.labels && !filter.labels.some(label => task.labels.includes(label))) return false;
+    if (filter.labels && !filter.labels.some((label) => task.labels.includes(label))) return false;
     if (filter.dateRange) {
       const created = new Date(task.created);
       if (created < filter.dateRange.start || created > filter.dateRange.end) return false;
@@ -818,8 +825,9 @@ export class DirectoryAdapter implements TaskFileOperations {
   }
 
   private generateRequestId(): string {
-    return Math.random().toString(36).substring(2, 15) + 
-           Math.random().toString(36).substring(2, 15);
+    return (
+      Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+    );
   }
 }
 
@@ -828,7 +836,7 @@ export class DirectoryAdapter implements TaskFileOperations {
  */
 export const createDirectoryAdapter = (
   config: DirectoryAdapterConfig,
-  cache?: TaskCache
+  cache?: TaskCache,
 ): DirectoryAdapter => {
   return new DirectoryAdapter(config, cache);
 };

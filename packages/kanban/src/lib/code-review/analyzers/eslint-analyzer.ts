@@ -7,7 +7,7 @@
 
 import { exec } from 'child_process';
 import { promisify } from 'util';
-import { access } from 'fs/promises';
+
 import path from 'path';
 import type { ESLintResult, ESLintMessage } from '../types.js';
 
@@ -53,8 +53,8 @@ export class ESLintAnalyzer {
     }
 
     // Filter files by extension
-    const relevantFiles = files.filter(file => 
-      this.config.extensions.some(ext => file.endsWith(ext))
+    const relevantFiles = files.filter((file) =>
+      this.config.extensions.some((ext) => file.endsWith(ext)),
     );
 
     if (relevantFiles.length === 0) {
@@ -81,7 +81,8 @@ export class ESLintAnalyzer {
    */
   private async analyzeFile(filePath: string): Promise<ESLintResult> {
     const args = [
-      '--format', 'json',
+      '--format',
+      'json',
       '--no-eslintrc', // Ignore local config files
     ];
 
@@ -121,10 +122,14 @@ export class ESLintAnalyzer {
       const eslintResult = Array.isArray(eslintResults) ? eslintResults[0] : eslintResults;
 
       const messages = eslintResult.messages || [];
-      const errorCount = messages.filter(m => m.severity === 2).length;
-      const warningCount = messages.filter(m => m.severity === 1).length;
-      const fixableErrorCount = messages.filter(m => m.severity === 2 && m.fix).length;
-      const fixableWarningCount = messages.filter(m => m.severity === 1 && m.fix).length;
+      const errorCount = messages.filter((m: ESLintMessage) => m.severity === 2).length;
+      const warningCount = messages.filter((m: ESLintMessage) => m.severity === 1).length;
+      const fixableErrorCount = messages.filter(
+        (m: ESLintMessage) => m.severity === 2 && m.fix,
+      ).length;
+      const fixableWarningCount = messages.filter(
+        (m: ESLintMessage) => m.severity === 1 && m.fix,
+      ).length;
 
       return {
         filePath,
@@ -134,7 +139,6 @@ export class ESLintAnalyzer {
         fixableErrorCount,
         fixableWarningCount,
       };
-
     } catch (error) {
       // ESLint returns non-zero exit code on violations
       if (error instanceof Error && 'stdout' in error) {
@@ -145,10 +149,14 @@ export class ESLintAnalyzer {
             const eslintResult = Array.isArray(eslintResults) ? eslintResults[0] : eslintResults;
 
             const messages = eslintResult.messages || [];
-            const errorCount = messages.filter(m => m.severity === 2).length;
-            const warningCount = messages.filter(m => m.severity === 1).length;
-            const fixableErrorCount = messages.filter(m => m.severity === 2 && m.fix).length;
-            const fixableWarningCount = messages.filter(m => m.severity === 1 && m.fix).length;
+            const errorCount = messages.filter((m: ESLintMessage) => m.severity === 2).length;
+            const warningCount = messages.filter((m: ESLintMessage) => m.severity === 1).length;
+            const fixableErrorCount = messages.filter(
+              (m: ESLintMessage) => m.severity === 2 && m.fix,
+            ).length;
+            const fixableWarningCount = messages.filter(
+              (m: ESLintMessage) => m.severity === 1 && m.fix,
+            ).length;
 
             return {
               filePath,
@@ -201,19 +209,15 @@ export class ESLintAnalyzer {
       throw new Error('ESLint analyzer is not available');
     }
 
-    const relevantFiles = files.filter(file => 
-      this.config.extensions.some(ext => file.endsWith(ext))
+    const relevantFiles = files.filter((file) =>
+      this.config.extensions.some((ext) => file.endsWith(ext)),
     );
 
     if (relevantFiles.length === 0) {
       return { fixed: [], remaining: [] };
     }
 
-    const args = [
-      '--fix',
-      '--format', 'json',
-      '--no-eslintrc',
-    ];
+    const args = ['--fix', '--format', 'json', '--no-eslintrc'];
 
     if (this.config.configPath) {
       args.push('--config', this.config.configPath);
@@ -232,13 +236,12 @@ export class ESLintAnalyzer {
       // Check which files still have issues
       const remainingResults = await this.analyze(relevantFiles);
       const remaining = remainingResults
-        .filter(result => result.messages.length > 0)
-        .map(result => result.filePath);
+        .filter((result) => result.messages.length > 0)
+        .map((result) => result.filePath);
 
-      const fixed = relevantFiles.filter(file => !remaining.includes(file));
+      const fixed = relevantFiles.filter((file) => !remaining.includes(file));
 
       return { fixed, remaining };
-
     } catch (error) {
       console.warn('ESLint auto-fix failed:', error);
       return { fixed: [], remaining: relevantFiles };

@@ -64,6 +64,8 @@ export type Task = {
   // AI Learning System
   aiPerformance?: AIPerformanceScore[];
   aiRouting?: AIRoutingDecision;
+  // Frontmatter for file-based metadata
+  frontmatter?: Record<string, any>;
 };
 
 export type ColumnData = {
