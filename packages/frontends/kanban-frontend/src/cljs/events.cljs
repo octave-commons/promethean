@@ -1,7 +1,7 @@
-(ns kanban.events
-  (:require [kanban.state :as state]
-            [kanban.api :as api]
-            [kanban.components :as components]
+(ns events
+  (:require [state :as state]
+            [api :as api]
+            [components :as components]
             [goog.events :as gevents]))
 
 (defn handle-click [event]

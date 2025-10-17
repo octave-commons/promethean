@@ -1,5 +1,5 @@
-(ns kanban.api
-  (:require [kanban.state :as state]
+(ns api
+  (:require [state :as state]
             [cljs.core.async :refer [<! >! put! take! chan close! timeout]]
             [goog.string :as gstring])
   (:require-macros [cljs.core.async.macros :refer [go]]))

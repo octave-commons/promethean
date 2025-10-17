@@ -1,9 +1,9 @@
-(ns kanban.core
-  (:require [kanban.state :as state]
-            [kanban.api :as api]
-            [kanban.components :as components]
-            [kanban.events :as events]
-            [kanban.styles :as styles]
+(ns core
+  (:require [state :as state]
+            [api :as api]
+            [components :as components]
+            [events :as events]
+            [styles :as styles]
             [goog.dom :as gdom]))
 
 ;; Core kanban board application module

@@ -20,11 +20,11 @@
     "static"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "shadow-cljs release kanban-frontend",
     "build:shadow": "shadow-cljs release kanban-frontend",
     "watch:shadow": "shadow-cljs watch kanban-frontend",
     "clean": "rimraf dist dist/frontend",
-    "typecheck": "tsc -p tsconfig.json",
+    "typecheck": "shadow-cljs check kanban-frontend",
     "test": "pnpm run build && ava",
     "lint": "pnpm exec eslint .",
     "coverage": "pnpm run build && c8 ava",

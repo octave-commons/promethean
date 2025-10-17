@@ -5,34 +5,26 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
+      "executor": "@nx/workspace:run-commands",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/frontends/kanban-frontend",
-        "main": "packages/frontends/kanban-frontend/src/index.ts",
-        "tsConfig": "packages/frontends/kanban-frontend/tsconfig.json",
-        "assets": ["packages/frontends/kanban-frontend/*.md"]
+        "command": "shadow-cljs release kanban-frontend",
+        "cwd": "packages/frontends/kanban-frontend"
       }
     },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/frontends/kanban-frontend/**/*.ts"]
+        "lintFilePatterns": ["packages/frontends/kanban-frontend/**/*.{js,cljs,ts}"]
       }
     },
     "test": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/workspace:run-commands",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "packages/frontends/kanban-frontend/jest.config.ts",
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "coverageReporters": ["text"]
-        }
+        "command": "pnpm run test",
+        "cwd": "packages/frontends/kanban-frontend"
       }
     }
   },

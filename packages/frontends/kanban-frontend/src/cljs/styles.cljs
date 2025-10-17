@@ -1,4 +1,4 @@
-(ns kanban.styles)
+(ns styles)
 
 (def kanban-styles
   (str ":root {
@@ -1089,7 +1089,7 @@ button[data-action='refresh']:active {
     padding: var(--space-2) var(--space-3);
     font-size: var(--font-size-xs);
   }
-}")
+}"))
 
 (defn inject-styles! []
   "Inject the kanban styles into the document"

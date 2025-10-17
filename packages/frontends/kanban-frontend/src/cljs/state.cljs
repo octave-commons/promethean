@@ -1,4 +1,4 @@
-(ns kanban.state)
+(ns state)
 
 ;; Global application state using a simple atom
 (defonce app-state

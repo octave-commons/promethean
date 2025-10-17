@@ -1,7 +1,7 @@
-(ns kanban.components
-  (:require [kanban.state :as state]
-            [kanban.api :as api]
-            [kanban.styles :as styles]
+(ns components
+  (:require [state :as state]
+            [api :as api]
+            [styles :as styles]
             [goog.string :as gstring]
             [goog.dom :as gdom]
             [goog.dom.classlist :as gclass]
@@ -170,8 +170,8 @@
                                     :default-value (:status task)}
             (apply concat
               (for [column column-names]
-                [(create-element "option" {:value column}
-                   (escape-html column))]))))))))
+                 [(create-element "option" {:value column}
+                   (escape-html))])))))))
 
 ;; Column component
 (defn kanban-column [column & {:keys [selected-task-id]}]
