@@ -4,7 +4,6 @@ description: >-
   requirements, or manage task lifecycle from requirements to actionable work
   items. Examples: <example>Context: User has described a new feature for a web
   application. user: 'We need to add user authentication with social login options'
-  assistant: 'I'll use the task-architect agent to create properly structured tasks
   and break down this authentication feature into manageable work items'
   <commentary>Since the user described a feature that needs to be broken down into
   manageable tasks, use the task-architect agent to create comprehensive task

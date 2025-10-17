@@ -2,7 +2,6 @@
 description: >-
   Use this agent when you need comprehensive documentation for code, including
   inline comments, README files, API documentation, or technical guides.
-  Examples: <example>Context: User has just implemented a new API endpoint and
   needs it documented. user: 'I just finished implementing the user
   authentication endpoint' assistant: 'Let me use the code-documenter agent to
   create comprehensive documentation for your authentication endpoint'</example>

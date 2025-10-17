@@ -4,7 +4,6 @@ description: >-
   ensure agent roles remain distinct and relevant, or analyze tool usage across
   agents to minimize complexity. Examples: <example>Context: The team has added
   several new agents and suspects there might be overlap in responsibilities.
-  user: 'I think our code-reviewer and code-documenter agents might be doing
   similar work. Can you check?' assistant: 'I'll use the
   agent-architecture-analyst to review the agent configurations and identify any
   overlap or redundancy.' <commentary>Since the user needs analysis of agent
