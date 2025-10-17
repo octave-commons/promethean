@@ -1,15 +1,15 @@
 ---
-uuid: '2412a975-296e-49e9-96d6-cc2330c09be2'
-title: 'Migrate @promethean/changefeed to ClojureScript'
-slug: 'Migrate @promethean changefeed to ClojureScript'
-status: 'breakdown'
-priority: 'P2'
-labels: ['migration', 'clojurescript', 'typed-clojure', 'changefeed', 'data-processing']
-created_at: '2025-10-14T06:38:31.184Z'
+uuid: "2412a975-296e-49e9-96d6-cc2330c09be2"
+title: "Migrate @promethean/changefeed to ClojureScript"
+slug: "Migrate @promethean changefeed to ClojureScript"
+status: "breakdown"
+priority: "P2"
+labels: ["migration", "clojurescript", "typed-clojure", "changefeed", "data-processing"]
+created_at: "2025-10-14T06:38:31.184Z"
 estimates:
-  complexity: 'Medium'
-  scale: '8'
-  time_to_completion: '2-3 days'
+  complexity: "Medium"
+  scale: "8"
+  time_to_completion: "2-3 days"
 ---
 
 Migrate the @promethean/changefeed package from TypeScript to typed ClojureScript, maintaining identical functionality and test coverage. Copy existing TypeScript tests and ensure they pass with the new ClojureScript implementation.

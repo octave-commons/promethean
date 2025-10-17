@@ -2,7 +2,7 @@
 uuid: "84c230b5-be44-40b2-b210-cfd8635b7af8"
 title: "Eliminate All 'any' Type Usage in @promethean/simtasks"
 slug: "Eliminate All 'any' Type Usage in @promethean simtasks"
-status: "in_progress"
+status: "accepted"
 priority: "P0"
 labels: ["simtasks", "type-safety", "critical", "typescript"]
 created_at: "2025-10-15T17:55:46.483Z"

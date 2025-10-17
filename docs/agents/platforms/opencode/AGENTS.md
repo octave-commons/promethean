@@ -31,9 +31,6 @@ when you are done, evaluate:
 :cljs/quit
 ```
 
-
-
-
 Switching Back to Clojure
 
 To exit the ClojureScript REPL and return to Clojure, have Claude evaluate:
