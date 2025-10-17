@@ -13,6 +13,9 @@ tags:
   - AI integration
   - user experience
   - AI arms race
+related_to_uuid: []
+related_to_title: []
+references: []
 ---
 this stuff all just feels... we're still trying to shove AI into workflows that only made sense before AI... we're like 5 years into the AI times, and no operating system as satisfactorily integrated AI into an experience that did not feel like it was just a separate app tacked onto something no one really thought about. We're 5 years in, and there is no clear winners of the AI arms race. In fact, more competitors are coming into play every day. 
 
