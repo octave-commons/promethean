@@ -325,55 +325,129 @@ test.serial('MCP Security: Null bytes should be blocked', async (t) => {
   t.pass();
 });
 
-test.serial('MCP Security: Authentication should be enforced when enabled', async (t) => {
-  const mockApp = createMockFastify();
-  const adapter = new MCPAdapter(mockApp, {
-    prefix: '/mcp',
-    enableAuth: true, // Enable authentication
-  });
+test.serial(
+  'MCP Security: AUTH-BYPASS-003 - Authentication should be enforced when enabled',
+  async (t) => {
+    // Test 1: AuthManager requirement
+    const mockAppWithoutAuth = createMockFastify();
 
-  const mockRequest = createMockRequest(); // No user provided
+    try {
+      new MCPAdapter(mockAppWithoutAuth, {
+        prefix: '/mcp',
+        enableAuth: true, // Enable authentication but no AuthManager
+      });
+      t.fail('Should throw error when AuthManager is required but not present');
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : '';
+      t.true(
+        errorMessage.includes('AuthManager is required'),
+        'Should require AuthManager when enableAuth=true',
+      );
+    }
 
-  try {
-    await adapter['listFiles']('src', false, mockRequest);
-    t.fail('Unauthenticated request should have been blocked');
-  } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : '';
+    // Test 2: With AuthManager but unauthenticated request
+    const mockAppWithAuth = createMockFastify();
+    (mockAppWithAuth as any).authManager = {
+      createAuthMiddleware: () => async (_request: any, _reply: any) => {
+        // No authentication provided - should block
+        throw new Error('Authentication required');
+      },
+    };
+
+    const adapter = new MCPAdapter(mockAppWithAuth, {
+      prefix: '/mcp',
+      enableAuth: true,
+    });
+
+    const mockRequest = createMockRequest(); // No user provided
+
+    try {
+      await adapter['listFiles']('src', false, mockRequest);
+      t.fail('Unauthenticated request should have been blocked');
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : '';
+      t.true(
+        errorMessage.includes('Authentication required'),
+        'Should require authentication for file operations',
+      );
+    }
+
+    t.pass();
+  },
+);
+
+test.serial(
+  'MCP Security: ARBITRARY-FILE-ACCESS-004 - Base path restrictions should be enforced',
+  async (t) => {
+    // Test 1: Default secure base path when none specified
+    const mockAppDefault = createMockFastify();
+    (mockAppDefault as any).authManager = {
+      createAuthMiddleware: () => async (_request: any, _reply: any) => {},
+    };
+
+    const adapterDefault = new MCPAdapter(mockAppDefault, {
+      prefix: '/mcp',
+      enableAuth: true,
+      // No allowedBasePaths specified - should use secure default
+    });
+
+    const options = adapterDefault['options'];
     t.true(
-      errorMessage.includes('Authentication required'),
-      'Should require authentication for file operations',
+      Array.isArray(options.allowedBasePaths) && options.allowedBasePaths.length > 0,
+      'Should have secure default base paths',
     );
-  }
 
-  t.pass();
-});
+    // Test 2: Explicit base path restrictions
+    const mockApp = createMockFastify();
+    const adapter = new MCPAdapter(mockApp, {
+      prefix: '/mcp',
+      enableAuth: false,
+      allowedBasePaths: ['/home/err/devel/promethean/packages'], // Restrict to packages directory
+    });
 
-test.serial('MCP Security: Base path restrictions should be enforced', async (t) => {
-  const mockApp = createMockFastify();
-  const adapter = new MCPAdapter(mockApp, {
-    prefix: '/mcp',
-    enableAuth: false,
-    allowedBasePaths: ['/home/err/devel/promethean/packages'], // Restrict to packages directory
-  });
+    const mockRequest = createMockRequest();
 
-  const mockRequest = createMockRequest();
+    try {
+      // Try to access outside the allowed base path
+      await adapter['listFiles']('../../../etc', false, mockRequest);
+      t.fail('Path outside allowed base paths should have been blocked');
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : '';
+      t.true(
+        errorMessage.includes('Invalid path') ||
+          errorMessage.includes('outside allowed') ||
+          errorMessage.includes('traversal'),
+        'Should enforce base path restrictions',
+      );
+    }
 
-  try {
-    // Try to access outside the allowed base path
-    await adapter['listFiles']('../../../etc', false, mockRequest);
-    t.fail('Path outside allowed base paths should have been blocked');
-  } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : '';
-    t.true(
-      errorMessage.includes('Invalid path') ||
-        errorMessage.includes('outside allowed') ||
-        errorMessage.includes('traversal'),
-      'Should enforce base path restrictions',
-    );
-  }
+    // Test 3: Block absolute file paths
+    try {
+      await adapter['readFile']('/etc/passwd', 'utf8', mockRequest);
+      t.fail('Absolute path should have been blocked');
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : '';
+      t.true(
+        errorMessage.includes('Invalid path') || errorMessage.includes('unsafe'),
+        'Should block absolute paths',
+      );
+    }
 
-  t.pass();
-});
+    // Test 4: Block URI scheme access
+    try {
+      await adapter['readResource']('file:///etc/passwd', mockRequest);
+      t.fail('URI scheme file access should have been blocked');
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : '';
+      t.true(
+        errorMessage.includes('Invalid path') || errorMessage.includes('unsafe'),
+        'Should block URI scheme access',
+      );
+    }
+
+    t.pass();
+  },
+);
 
 test.serial('MCP Security: File size limits should be enforced', async (t) => {
   const mockApp = createMockFastify();

@@ -110,19 +110,69 @@ function validateBasicPathProperties(rel: string): boolean {
 }
 
 /**
- * Detects path traversal attempts
+ * Detects path traversal attempts with URI decoding & Unicode normalization
+ * Returns an object indicating the type of threat detected
  */
-function detectPathTraversal(trimmed: string): boolean {
-  const pathComponents = trimmed.split(/[\\/]/);
+function detectPathTraversal(trimmed: string): {
+  isTraversal: boolean;
+  isAbsolutePath: boolean;
+  hasUnicodeAttack: boolean;
+} {
+  let decoded = trimmed;
+  try {
+    decoded = decodeURIComponent(trimmed);
+  } catch {
+    // If decoding fails, continue with original
+  }
+
+  let hasUnicodeAttack = false;
+  let hasTraversal = false;
+
+  // Check for %2e%2e patterns in both encoded and decoded forms
+  if (/%2e%2e/i.test(trimmed) || /%2e%2e/i.test(decoded)) {
+    hasTraversal = true;
+  }
+
+  // Apply Unicode normalization to catch homograph attacks
+  const normalized = decoded.normalize('NFKC');
+
+  // Check for unicode homograph characters in both original and normalized forms
+  const unicodeHomographs = [
+    '‥', // Unicode two-dot leader (U+2025)
+    '﹒', // Unicode small full stop (U+FE52)
+    '．', // Unicode fullwidth full stop (U+FF0E)
+    '．．', // Double fullwidth full stop
+    '‥．', // Mixed unicode dots
+    '．‥', // Mixed unicode dots
+  ];
+
+  // Check original string for unicode homographs
+  for (const homograph of unicodeHomographs) {
+    if (decoded.includes(homograph)) {
+      hasUnicodeAttack = true;
+      hasTraversal = true;
+      break;
+    }
+  }
+
+  // Check normalized string for dangerous patterns that may result from homograph normalization
+  if (/\.\.\./.test(normalized)) {
+    hasUnicodeAttack = true;
+    hasTraversal = true;
+  }
+
+  const pathComponents = normalized.split(/[\\/]/);
   if (pathComponents.includes('..') || pathComponents.includes('.')) {
-    return true;
+    hasTraversal = true;
   }
 
-  if (path.isAbsolute(trimmed)) {
-    return true;
-  }
+  const isAbsolutePath = path.isAbsolute(normalized);
 
-  return false;
+  return {
+    isTraversal: hasTraversal,
+    isAbsolutePath,
+    hasUnicodeAttack,
+  };
 }
 
 /**
@@ -164,6 +214,12 @@ function validateWindowsPathSecurity(trimmed: string): boolean {
  * Validates Unix-specific path security
  */
 function validateUnixPathSecurity(trimmed: string): boolean {
+  // Block tilde expansion attempts to access home directory
+  // This includes both ~/ and ~user/ patterns
+  if (/^~[^\/]*\//.test(trimmed)) {
+    return false;
+  }
+
   if (process.platform !== 'win32') {
     // Block dangerous system paths
     if (UNIX_DANGEROUS_PATHS.some((dangerous) => trimmed.startsWith(dangerous))) {
@@ -209,49 +265,68 @@ export function validatePathSecurity(rel: string): PathValidationResult {
   const securityIssues: string[] = [];
   let riskLevel: 'low' | 'medium' | 'high' | 'critical' = 'low';
 
-  // Basic validation
-  if (!validateBasicPathProperties(rel)) {
-    securityIssues.push('Invalid basic path properties');
-    riskLevel = 'critical';
-    return { valid: false, riskLevel, securityIssues };
-  }
-
   const trimmed = rel.trim();
 
-  // Path traversal detection
-  if (detectPathTraversal(trimmed)) {
+  // CRITICAL: Path traversal detection must run FIRST to catch Unicode bypasses
+  const traversalResult = detectPathTraversal(trimmed);
+  if (traversalResult.isTraversal) {
     securityIssues.push('Path traversal attempt detected');
-    riskLevel = 'critical';
+    // Only mark as critical if it's actual traversal, not just absolute path
+    if (traversalResult.hasUnicodeAttack || !traversalResult.isAbsolutePath) {
+      riskLevel = 'critical';
+    } else {
+      // Absolute paths without traversal are 'high'
+      riskLevel = 'high';
+    }
+  } else if (traversalResult.isAbsolutePath) {
+    // Standalone absolute path (no traversal) is 'high'
+    securityIssues.push('Absolute path access detected');
+    riskLevel = 'high';
+  }
+
+  // Basic validation (after traversal detection to catch encoded attacks)
+  if (!validateBasicPathProperties(rel)) {
+    securityIssues.push('Invalid basic path properties');
+    if (riskLevel !== 'critical') riskLevel = 'critical';
   }
 
   // Dangerous characters
   if (containsDangerousCharacters(trimmed)) {
     securityIssues.push('Dangerous characters detected');
-    riskLevel = 'high';
+    if (riskLevel !== 'critical') riskLevel = 'high';
   }
 
   // Windows-specific validation
   if (!validateWindowsPathSecurity(trimmed)) {
     securityIssues.push('Windows path security violation');
-    riskLevel = 'high';
+    if (riskLevel !== 'critical') riskLevel = 'high';
   }
 
-  // Unix-specific validation
+  // Unix-specific validation - but system paths should be 'high', not 'critical'
   if (!validateUnixPathSecurity(trimmed)) {
     securityIssues.push('Unix path security violation');
-    riskLevel = 'high';
+    // Only elevate to critical if it's a tilde expansion (home directory access)
+    if (trimmed.startsWith('~') && riskLevel !== 'critical') {
+      riskLevel = 'critical';
+    } else if (riskLevel !== 'critical') {
+      riskLevel = 'high';
+    }
   }
 
-  // Path normalization
+  // Path normalization - preserve higher risk levels from earlier checks
   if (!validatePathNormalization(trimmed)) {
     securityIssues.push('Path normalization failed');
-    riskLevel = 'medium';
+    // Only set to 'medium' if no higher risk level was already established
+    if (riskLevel === 'low') {
+      riskLevel = 'medium';
+    }
+    // If risk level is already 'high' or 'critical', preserve it
   }
 
   // Glob pattern attacks
   if (containsGlobAttackPatterns(trimmed)) {
     securityIssues.push('Glob pattern attack detected');
-    riskLevel = 'medium';
+    if (riskLevel !== 'critical') riskLevel = 'medium';
   }
 
   const valid = securityIssues.length === 0;

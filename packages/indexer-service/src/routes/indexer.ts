@@ -63,11 +63,35 @@ function validateBasicPathProperties(rel: string): boolean {
  */
 function detectPathTraversal(trimmed: string): boolean {
   const pathComponents = trimmed.split(/[\\/]/);
-  if (pathComponents.includes('..') || pathComponents.includes('.')) {
+
+  // Check for explicit traversal attempts
+  if (pathComponents.includes('..')) {
     return true;
   }
 
-  if (path.isAbsolute(trimmed)) {
+  // Check for encoded traversal attempts (including double encoding)
+  if (
+    pathComponents.some(
+      (comp) =>
+        comp.toLowerCase().includes('%2e%2e') ||
+        comp.toLowerCase().includes('..') ||
+        comp.includes('%2e') ||
+        comp.includes('%2E') ||
+        comp.toLowerCase().includes('%252e%252e') || // Double encoded
+        comp.includes('%255c') ||
+        comp.includes('%255C'), // Double encoded backslash
+    )
+  ) {
+    return true;
+  }
+
+  // Check for absolute paths (both Unix and Windows)
+  if (path.isAbsolute(trimmed) || /^[a-zA-Z]:/.test(trimmed)) {
+    return true;
+  }
+
+  // Check for UNC paths
+  if (trimmed.startsWith('\\\\')) {
     return true;
   }
 
@@ -78,7 +102,7 @@ function detectPathTraversal(trimmed: string): boolean {
  * Filters dangerous characters that could lead to command injection
  */
 function containsDangerousCharacters(trimmed: string): boolean {
-  const dangerousChars = ['<', '>', '|', '&', ';', '`', '$', '"', "'"];
+  const dangerousChars = ['<', '>', '|', '&', ';', '`', '$', '"', "'", '\n', '\r', '\t', ':'];
   return dangerousChars.some((char) => trimmed.includes(char));
 }
 
@@ -160,7 +184,10 @@ function validateUnixPathSecurity(trimmed: string): boolean {
  */
 function validatePathNormalization(trimmed: string): boolean {
   try {
+    // First normalize the path
     const normalized = path.normalize(trimmed);
+
+    // Check for absolute paths or traversal after normalization
     if (path.isAbsolute(normalized) || normalized.includes('..')) {
       return false;
     }
@@ -171,10 +198,54 @@ function validatePathNormalization(trimmed: string): boolean {
     if (!resolved.startsWith(fakeRoot)) {
       return false;
     }
+
+    // Check for double slashes which might indicate bypass attempts
+    if (normalized.includes('//') || normalized.includes('\\\\')) {
+      return false;
+    }
+
+    // Final check: ensure no null bytes after normalization
+    if (normalized.includes('\0')) {
+      return false;
+    }
   } catch {
     return false;
   }
   return true;
+}
+
+/**
+ * Detects symlink attack patterns and suspicious file names
+ */
+function containsSuspiciousPatterns(trimmed: string): boolean {
+  // Check for common symlink attack patterns
+  const suspiciousPatterns = [
+    /symlink.*to/i,
+    /link.*to/i,
+    /mount.*point/i,
+    /bind.*mount/i,
+    /device/i,
+    /proc/i,
+    /sys/i,
+    /dev/i,
+  ];
+
+  // Check for suspicious file names that might indicate symlinks
+  const suspiciousNames = [
+    'symlink_to_etc',
+    'symlink_to_dev',
+    'symlink_to_proc',
+    'symlink_to_sys',
+    'link_to_etc',
+    'link_to_dev',
+    'mount_point',
+    'device_link',
+  ];
+
+  return (
+    suspiciousPatterns.some((pattern) => pattern.test(trimmed)) ||
+    suspiciousNames.some((name) => trimmed.toLowerCase().includes(name))
+  );
 }
 
 /**
@@ -186,6 +257,9 @@ function containsGlobAttackPatterns(trimmed: string): boolean {
     /\.\.\/\*\*/, // ../**
     /\{\.\./, // {.. in brace expansion
     /\.\.\}/, // ..} in brace expansion
+    /\*\*/, // ** pattern (can be dangerous)
+    /\*.*\*/, // Wildcard patterns
+    /\{.*\}/, // Brace expansion patterns
   ];
 
   return attackPatterns.some((pattern) => pattern.test(trimmed));
@@ -229,6 +303,10 @@ function isSafeRelPath(rel: string): boolean {
   }
 
   if (!validatePathNormalization(trimmed)) {
+    return false;
+  }
+
+  if (containsSuspiciousPatterns(trimmed)) {
     return false;
   }
 
@@ -322,21 +400,23 @@ function registerIndexRoute(app: FastifyInstance, manager: IndexerManager): void
   app.post(
     '/indexer/index',
     async (request: FastifyRequest<{ Body: PathBody }>, reply: FastifyReply) => {
-      const validation = validatePathArray(request.body?.path);
+      const pathInput = request.body?.path;
 
-      if (!validation.valid) {
-        handleSecureError(reply, new Error(validation.error || 'Invalid path'), 400);
+      // First check: Only accept single paths for this endpoint (security-first approach)
+      if (Array.isArray(pathInput)) {
+        handleSecureError(reply, new Error('Invalid request'), 400);
         return;
       }
 
-      // Only accept single paths for this endpoint
-      if (Array.isArray(request.body?.path)) {
-        handleSecureError(reply, new Error('Array input not allowed for this endpoint'), 400);
+      // Second check: Validate the single path
+      const validation = validatePathArray(pathInput);
+      if (!validation.valid) {
+        handleSecureError(reply, new Error('Invalid request'), 400);
         return;
       }
 
       try {
-        const result = await manager.scheduleIndexFile(request.body!.path as string);
+        const result = await manager.scheduleIndexFile(pathInput as string);
         reply.send(result);
       } catch (error: unknown) {
         handleSecureError(reply, error as Error);
@@ -349,21 +429,23 @@ function registerRemoveRoute(app: FastifyInstance, manager: IndexerManager): voi
   app.post(
     '/indexer/remove',
     async (request: FastifyRequest<{ Body: PathBody }>, reply: FastifyReply) => {
-      const validation = validatePathArray(request.body?.path);
+      const pathInput = request.body?.path;
 
-      if (!validation.valid) {
-        handleSecureError(reply, new Error(validation.error || 'Invalid path'), 400);
+      // First check: Only accept single paths for this endpoint (security-first approach)
+      if (Array.isArray(pathInput)) {
+        handleSecureError(reply, new Error('Invalid request'), 400);
         return;
       }
 
-      // Only accept single paths for this endpoint
-      if (Array.isArray(request.body?.path)) {
-        handleSecureError(reply, new Error('Array input not allowed for this endpoint'), 400);
+      // Second check: Validate the single path
+      const validation = validatePathArray(pathInput);
+      if (!validation.valid) {
+        handleSecureError(reply, new Error('Invalid request'), 400);
         return;
       }
 
       try {
-        const result = await manager.removeFile(request.body!.path as string);
+        const result = await manager.removeFile(pathInput as string);
         reply.send(result);
       } catch (error: unknown) {
         handleSecureError(reply, error as Error);

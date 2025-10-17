@@ -501,6 +501,9 @@ class MCPAdapter {
       rateLimitWindow: 60, // 1 minute window
       rateLimitMax: 100, // 100 requests per minute
       maxFileSize: 1024 * 1024, // 1MB default file size limit
+      allowedBasePaths: options.allowedBasePaths?.length
+        ? options.allowedBasePaths
+        : [path.resolve(__dirname, '../../..')], // Safe default base path
       ...options, // Allow overrides but with secure defaults
     };
 
@@ -1475,11 +1478,11 @@ class MCPAdapter {
   private createAuthMiddleware() {
     const authManager = (this.app as any).authManager;
     if (!authManager) {
-      return undefined;
+      throw new Error('[SECURITY] AuthManager is required when enableAuth=true');
     }
 
     return authManager.createAuthMiddleware({
-      required: this.options.enableAuth,
+      required: true, // Always require authentication for security
     });
   }
 }

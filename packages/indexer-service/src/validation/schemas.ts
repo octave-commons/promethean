@@ -6,7 +6,6 @@ import { z } from 'zod';
 
 // Re-export types from types.js for convenience
 export type { ValidationResult, PathValidationResult, ValidationErrorDetails } from './types.js';
-import type { ValidationResult, PathValidationResult, ValidationErrorDetails } from './types.js';
 
 // ============================================================================
 // Base Schemas
@@ -107,6 +106,7 @@ export const BaseSuccessResponseSchema = z.object({
  */
 export const BaseErrorResponseSchema = z.object({
   ok: z.literal(false),
+  type: z.literal('error'),
   error: z.string(),
   requestId: z.string().optional(),
 });
@@ -114,7 +114,9 @@ export const BaseErrorResponseSchema = z.object({
 /**
  * Indexer status response schema
  */
-export const IndexerStatusResponseSchema = BaseSuccessResponseSchema.extend({
+export const IndexerStatusResponseSchema = z.object({
+  ok: z.literal(true),
+  type: z.literal('indexer_status'),
   status: z.object({
     state: z.enum(['idle', 'busy', 'error']),
     progress: z.number().min(0).max(1).optional(),
@@ -126,7 +128,9 @@ export const IndexerStatusResponseSchema = BaseSuccessResponseSchema.extend({
 /**
  * Operation result response schema
  */
-export const OperationResultResponseSchema = BaseSuccessResponseSchema.extend({
+export const OperationResultResponseSchema = z.object({
+  ok: z.literal(true),
+  type: z.literal('operation_result'),
   scheduled: z.boolean(),
   operationId: UUIDSchema.optional(),
   estimatedDuration: z.number().optional(),
@@ -135,7 +139,9 @@ export const OperationResultResponseSchema = BaseSuccessResponseSchema.extend({
 /**
  * Search response schema
  */
-export const SearchResponseSchema = BaseSuccessResponseSchema.extend({
+export const SearchResponseSchema = z.object({
+  ok: z.literal(true),
+  type: z.literal('search_results'),
   results: z.array(
     z.object({
       path: SafePathSchema,
@@ -230,8 +236,7 @@ export const RateLimitInfoSchema = z.object({
 /**
  * All possible response schemas
  */
-export const ResponseUnionSchema = z.discriminatedUnion('ok', [
-  BaseSuccessResponseSchema,
+export const ResponseUnionSchema = z.discriminatedUnion('type', [
   BaseErrorResponseSchema,
   IndexerStatusResponseSchema,
   OperationResultResponseSchema,
