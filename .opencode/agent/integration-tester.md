@@ -4,7 +4,6 @@ description: >-
   modules work together correctly as a complete system. Examples:
   <example>Context: User has just implemented a new API endpoint and wants to
   ensure it integrates properly with the database and authentication service.
-  user: 'I've created the new user registration endpoint. Can you help me verify
   it works with the auth service and database?' assistant: 'I'll use the
   integration-tester agent to verify the endpoint's integration with the auth
   service and database.'</example> <example>Context: User has connected a

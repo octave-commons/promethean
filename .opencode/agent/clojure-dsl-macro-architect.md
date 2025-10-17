@@ -13,7 +13,6 @@ description: >-
   hygiene issues.'</example> <example>Context: User wants to create a
   language-specific DSL for configuration files. user: 'I need to create a
   mini-language for defining REST API routes that compiles to Ring handlers'
-  assistant: 'I'll have the clojure-dsl-macro-architect agent design a
   comprehensive routing DSL with compile-time validation.'</example>
 mode: all
 ---

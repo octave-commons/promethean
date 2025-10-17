@@ -12,7 +12,6 @@ description: >-
   prioritization.</commentary></example> <example>Context: Team is planning
   their sprint and needs to prioritize the backlog. user: 'Our team has 15 items
   in the backlog. Can you help us prioritize them for the next sprint?'
-  assistant: 'Let me use the work-prioritizer agent to help you prioritize
   your backlog items effectively.' <commentary>The team needs prioritization
   help for sprint planning, so use the work-prioritizer
   agent.</commentary></example>

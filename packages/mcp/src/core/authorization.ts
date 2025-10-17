@@ -7,6 +7,7 @@
  */
 
 import type { Tool, ToolFactory, ToolContext } from './types.js';
+import { getAuthConfig, type AuthConfig } from '../config/auth-config.js';
 
 /**
  * User roles with increasing privileges
@@ -462,11 +463,12 @@ function extractAuthContext(ctx: ToolContext): AuthContext {
   // API keys, or other authentication mechanisms
 
   const env = ctx.env;
+  const config = getAuthConfig();
 
   // For now, use environment variables as a simple auth mechanism
   // In production, replace with proper authentication
   const userId = env.MCP_USER_ID || 'anonymous';
-  const userRole = (env.MCP_USER_ROLE as UserRole) || 'guest';
+  const userRole = (env.MCP_USER_ROLE as UserRole) || config.defaultRole;
   const sessionToken = env.MCP_SESSION_TOKEN;
   const ipAddress = env.REMOTE_ADDR;
   const userAgent = env.USER_AGENT;
@@ -487,21 +489,51 @@ function extractAuthContext(ctx: ToolContext): AuthContext {
 }
 
 /**
- * Authorize a tool invocation
+ * Authorize a tool invocation with enhanced security controls
  */
 function authorizeTool(
   toolName: string,
   authContext: AuthContext,
   _args: unknown,
 ): { allowed: boolean; reason?: string } {
+  const config = getAuthConfig();
   const requirements = TOOL_AUTH_REQUIREMENTS[toolName];
 
+  // 1. Strict mode: deny by default for unknown tools
   if (!requirements) {
-    // Default to safe if tool not explicitly configured
+    if (config.strictMode) {
+      return {
+        allowed: false,
+        reason: `Tool '${toolName}' not found in authorization configuration (strict mode enabled)`,
+      };
+    }
+    // Default to safe if tool not explicitly configured and strict mode is disabled
     return { allowed: true };
   }
 
-  // Check role requirements
+  // 2. Enforce requireAuthForDangerous for dangerous operations
+  if (requirements.dangerous && config.requireAuthForDangerous) {
+    // Require authentication (non-guest role) for dangerous operations
+    if (authContext.role === 'guest' || authContext.userId === 'anonymous') {
+      return {
+        allowed: false,
+        reason: `Authentication required for dangerous operation '${toolName}' (requireAuthForDangerous enabled)`,
+      };
+    }
+  }
+
+  // 3. Admin IP whitelist validation for admin operations
+  if (authContext.role === 'admin' && config.adminIpWhitelist.length > 0) {
+    const clientIp = authContext.ipAddress || 'unknown';
+    if (!config.adminIpWhitelist.includes(clientIp)) {
+      return {
+        allowed: false,
+        reason: `Admin access denied from IP ${clientIp}. Whitelisted IPs: ${config.adminIpWhitelist.join(', ')}`,
+      };
+    }
+  }
+
+  // 4. Check role requirements (existing logic)
   if (!hasRequiredRole(authContext.role, requirements.requiredRoles)) {
     return {
       allowed: false,
@@ -509,7 +541,7 @@ function authorizeTool(
     };
   }
 
-  // Check permission level
+  // 5. Check permission level (existing logic)
   if (!hasRequiredPermission(authContext.role, requirements.requiredLevel)) {
     return {
       allowed: false,
@@ -517,7 +549,7 @@ function authorizeTool(
     };
   }
 
-  // Additional checks for dangerous operations
+  // 6. Additional checks for dangerous operations (existing logic, now redundant with #2 but kept for compatibility)
   if (requirements.dangerous && authContext.role === 'guest') {
     return {
       allowed: false,
@@ -540,6 +572,7 @@ export function createAuthorizedToolFactory(
 
     const authorizedInvoke = async (args: unknown): Promise<unknown> => {
       const authContext = extractAuthContext(ctx);
+      const config = getAuthConfig();
       const authResult = authorizeTool(toolName, authContext, args);
 
       const auditEntry: AuditLogEntry = {
@@ -555,8 +588,10 @@ export function createAuthorizedToolFactory(
         userAgent: authContext.userAgent,
       };
 
-      // Always log the attempt
-      auditLogger.log(auditEntry);
+      // Respect audit logging configuration
+      if (config.enableAuditLog) {
+        auditLogger.log(auditEntry);
+      }
 
       if (!authResult.allowed) {
         throw new Error(`Authorization denied: ${authResult.reason}`);
@@ -566,9 +601,9 @@ export function createAuthorizedToolFactory(
       try {
         const result = await originalTool.invoke(args);
 
-        // Log successful completion for dangerous operations
+        // Log successful completion for dangerous operations if audit is enabled
         const requirements = TOOL_AUTH_REQUIREMENTS[toolName];
-        if (requirements?.auditLog) {
+        if (config.enableAuditLog && requirements?.auditLog) {
           auditLogger.log({
             ...auditEntry,
             action: 'complete',
@@ -578,9 +613,9 @@ export function createAuthorizedToolFactory(
 
         return result;
       } catch (error) {
-        // Log errors for dangerous operations
+        // Log errors for dangerous operations if audit is enabled
         const requirements = TOOL_AUTH_REQUIREMENTS[toolName];
-        if (requirements?.auditLog) {
+        if (config.enableAuditLog && requirements?.auditLog) {
           auditLogger.log({
             ...auditEntry,
             action: 'error',
@@ -641,4 +676,90 @@ export function getDangerousTools(): readonly string[] {
   return Object.entries(TOOL_AUTH_REQUIREMENTS)
     .filter(([, req]) => req.dangerous)
     .map(([name]) => name);
+}
+
+/**
+ * Get current authorization configuration
+ */
+export function getCurrentAuthConfig(): AuthConfig {
+  return getAuthConfig();
+}
+
+/**
+ * Check if strict mode is enabled
+ */
+export function isStrictModeEnabled(): boolean {
+  return getAuthConfig().strictMode;
+}
+
+/**
+ * Check if authentication is required for dangerous operations
+ */
+export function isAuthRequiredForDangerous(): boolean {
+  return getAuthConfig().requireAuthForDangerous;
+}
+
+/**
+ * Check if an IP address is whitelisted for admin access
+ */
+export function isAdminIpWhitelisted(ipAddress: string): boolean {
+  const config = getAuthConfig();
+  return config.adminIpWhitelist.includes(ipAddress);
+}
+
+/**
+ * Validate admin IP address against whitelist
+ */
+export function validateAdminIp(ipAddress?: string): { valid: boolean; reason?: string } {
+  if (!ipAddress) {
+    return { valid: false, reason: 'IP address not provided' };
+  }
+
+  const config = getAuthConfig();
+  if (config.adminIpWhitelist.length === 0) {
+    return { valid: true }; // No whitelist configured
+  }
+
+  if (!config.adminIpWhitelist.includes(ipAddress)) {
+    return {
+      valid: false,
+      reason: `IP ${ipAddress} not in admin whitelist: ${config.adminIpWhitelist.join(', ')}`,
+    };
+  }
+
+  return { valid: true };
+}
+
+/**
+ * Get all tools that would be denied under strict mode
+ */
+export function getStrictModeDeniedTools(): readonly string[] {
+  return Object.keys(TOOL_AUTH_REQUIREMENTS).filter(
+    (toolName) => !TOOL_AUTH_REQUIREMENTS[toolName],
+  );
+}
+
+/**
+ * Authorization health check - returns configuration status
+ */
+export function getAuthorizationHealth(): {
+  strictMode: boolean;
+  requireAuthForDangerous: boolean;
+  adminIpWhitelistSize: number;
+  auditLogEnabled: boolean;
+  configuredTools: number;
+  dangerousTools: number;
+} {
+  const config = getAuthConfig();
+  const configuredTools = Object.keys(TOOL_AUTH_REQUIREMENTS).length;
+  const dangerousTools = getDangerousTools().length;
+
+  return {
+    strictMode: config.strictMode,
+    requireAuthForDangerous: config.requireAuthForDangerous,
+    adminIpWhitelistSize: config.adminIpWhitelist.length,
+    auditLogEnabled: config.enableAuditLog,
+    configuredTools,
+    dangerousTools,
+  };
 }

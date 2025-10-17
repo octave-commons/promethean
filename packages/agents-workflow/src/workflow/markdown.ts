@@ -5,30 +5,42 @@ import { parseMermaidGraph } from "./mermaid.js";
 import type {
   MarkdownWorkflowDocument,
   MarkdownWorkflowOptions,
+  WorkflowDefinition,
 } from "./types.js";
 
-type HeadingNode = {
+type MdNode = {
   type: string;
   children?: Array<{ value?: string }>;
-};
-
-type CodeNode = {
-  type: "code";
   lang?: string;
   meta?: string | null;
-  value: string;
+  value?: string;
+  [key: string]: unknown;
 };
 
-type MarkdownNode =
-  | HeadingNode
-  | CodeNode
-  | { type: string; [key: string]: unknown };
-
-function headingText(node: HeadingNode): string {
+function headingText(node: MdNode): string {
   return (node.children ?? [])
     .map((child) => (typeof child.value === "string" ? child.value : ""))
     .join("")
     .trim();
+}
+
+function isMermaidLang(lang?: string | null): boolean {
+  return lang === "mermaid";
+}
+
+function isJsonLang(lang?: string | null): boolean {
+  return ["json", "jsonc", "application/json"].includes(lang ?? "");
+}
+
+function processMermaidNode(
+  code: MdNode,
+  currentHeading: string | undefined,
+  index: number,
+): WorkflowDefinition {
+  const id = (code.meta?.trim() || currentHeading || `workflow-${index}`).toString();
+  const graph = parseMermaidGraph(code.value ?? "", id);
+  graph.metadata = currentHeading ? { heading: currentHeading } : undefined;
+  return graph;
 }
 
 function parseJson(value: string, label: string): unknown {
@@ -49,10 +61,8 @@ export function parseMarkdownWorkflows(
   content: string,
   _options: MarkdownWorkflowOptions = {},
 ): MarkdownWorkflowDocument {
-  const tree = unified().use(remarkParse).parse(content) as {
-    children?: MarkdownNode[];
-  };
-  const workflows = [] as MarkdownWorkflowDocument["workflows"];
+  const tree = unified().use(remarkParse).parse(content) as { children?: MdNode[] };
+  const workflows: WorkflowDefinition[] = [];
   const jsonBlocks: Record<string, unknown> = {};
 
   let currentHeading: string | undefined;
@@ -61,31 +71,21 @@ export function parseMarkdownWorkflows(
 
   for (const node of tree.children ?? []) {
     if (node.type === "heading") {
-      currentHeading = headingText(node as HeadingNode);
+      currentHeading = headingText(node);
       continue;
     }
     if (node.type !== "code") {
       continue;
     }
-    const code = node as CodeNode;
+    const code = node;
     const lang = code.lang?.toLowerCase();
-    if (lang === "mermaid") {
+    if (isMermaidLang(lang)) {
       workflowIndex += 1;
-      const id = (
-        code.meta?.trim() ||
-        currentHeading ||
-        `workflow-${workflowIndex}`
-      ).toString();
-      const graph = parseMermaidGraph(code.value, id);
-      graph.metadata = currentHeading ? { heading: currentHeading } : undefined;
-      workflows.push(graph);
-    } else if (
-      lang &&
-      (lang === "json" || lang === "jsonc" || lang === "application/json")
-    ) {
+      workflows.push(processMermaidNode(code, currentHeading, workflowIndex));
+    } else if (isJsonLang(lang)) {
       jsonIndex += 1;
       const key = code.meta?.trim() || `config-${jsonIndex}`;
-      jsonBlocks[key] = parseJson(code.value, key);
+      jsonBlocks[key] = parseJson(code.value ?? "", key);
     }
   }
 

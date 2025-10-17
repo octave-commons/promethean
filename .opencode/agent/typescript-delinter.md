@@ -10,7 +10,6 @@ description: >-
   problems.</commentary></example> <example>Context: User wants to ensure their
   TypeScript codebase follows consistent formatting standards. user: 'Can you
   help me make sure all my TypeScript files follow the same formatting rules?'
-  assistant: 'I'll use the typescript-delinter agent to review and standardize
   the formatting across your TypeScript files.' <commentary>The user wants
   consistent formatting across TypeScript files, so use the typescript-delinter
   agent to enforce style standards.</commentary></example>

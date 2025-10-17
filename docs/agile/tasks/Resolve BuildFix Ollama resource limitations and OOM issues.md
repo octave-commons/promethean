@@ -5,7 +5,7 @@ slug: "Resolve BuildFix Ollama resource limitations and OOM issues"
 status: "ready"
 priority: "P1"
 labels: ["buildfix", "ollama", "memory", "high"]
-created_at: "2025-10-17T00:55:33.040Z"
+created_at: "2025-10-17T02:56:21.062Z"
 estimates:
   complexity: ""
   scale: ""

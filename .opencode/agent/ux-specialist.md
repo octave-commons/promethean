@@ -15,7 +15,7 @@ description: >-
 mode: all
 tools:
   bash: false
-  process_start: false
+  process_start:false
   process_stop: false
   pm2_startProcess: false
   pm2_stopProcess: false

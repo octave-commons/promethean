@@ -2,7 +2,7 @@
 uuid: "052d991b-3f5d-482d-8a44-8176f4091e5a"
 title: "Refactor global state to dependency injection in indexer-core"
 slug: "Refactor global state to dependency injection in indexer-core"
-status: "icebox"
+status: "incoming"
 priority: "P2"
 labels: ["architecture", "dependency-injection", "testing", "indexer-core", "refactoring"]
 created_at: "2025-10-13T05:52:12.657Z"

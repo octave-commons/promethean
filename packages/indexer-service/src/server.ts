@@ -1,4 +1,4 @@
-import Fastify from 'fastify';
+import Fastify, type { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 import rateLimit from '@fastify/rate-limit';
 import { createLogger, type Level } from '@promethean/utils';
 import {
@@ -9,6 +9,7 @@ import {
 } from '@promethean/indexer-core';
 
 import { loadConfig, type ServiceConfig } from './config.js';
+import type { IndexerManager } from '@promethean/indexer-core';
 import { registerIndexerRoutes } from './routes/indexer.js';
 import { registerSearchRoutes } from './routes/search.js';
 
@@ -21,7 +22,7 @@ function normalizeLevel(raw: string): Level {
   return LEVELS.has(value) ? value : 'info';
 }
 
-async function setupRateLimiting(app: any, config: ServiceConfig): Promise<void> {
+async function setupRateLimiting(app: FastifyInstance, config: ServiceConfig): Promise<void> {
   if (config.enableRateLimit) {
     try {
       await app.register(rateLimit, { max: 100, timeWindow: '1 minute' });
@@ -31,13 +32,13 @@ async function setupRateLimiting(app: any, config: ServiceConfig): Promise<void>
   }
 }
 
-function setupHealthRoute(app: any): void {
+function setupHealthRoute(app: FastifyInstance): void {
   app.get('/health', async (_req: any, reply: any) => {
     reply.send({ ok: true });
   });
 }
 
-function setupDocsRoute(app: any): void {
+function setupDocsRoute(app: FastifyInstance): void {
   app.get('/openapi.json', async (_req: any, reply: any) => {
     reply.send({
       openapi: '3.1.0',
@@ -56,7 +57,7 @@ function setupDocsRoute(app: any): void {
   });
 }
 
-function setupBootstrap(manager: any, app: any, rootPath: string): void {
+function setupBootstrap(manager: IndexerManager, app: FastifyInstance, rootPath: string): void {
   void manager.ensureBootstrap(rootPath).catch((error: any) => {
     app.log.error({ err: error }, 'Indexer bootstrap failed');
   });

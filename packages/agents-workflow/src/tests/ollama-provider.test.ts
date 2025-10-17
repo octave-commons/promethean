@@ -1,15 +1,15 @@
 import test from "ava";
-
-import type { ModelRequest } from "@openai/agents";
 import type { ChatRequest, ChatResponse } from "ollama";
+import type { ModelRequest } from "@openai/agents";
 
+import type { OllamaModelProviderOptions } from "../providers/ollama.js";
 import { createOllamaModelProvider } from "../index.js";
 
-interface RecordedRequest extends ChatRequest {
-  stream?: boolean;
-}
+// Helper types
+ type RecordedRequest = ChatRequest & { stream?: boolean };
 
-test("ollama provider issues chat requests with expected payload", async (t) => {
+// Shared setup for tests
+async function setup() {
   const calls: RecordedRequest[] = [];
   const responses: ChatResponse = {
     model: "test-model",
@@ -25,71 +25,74 @@ test("ollama provider issues chat requests with expected payload", async (t) => 
     eval_duration: 0,
   };
 
-  const client = {
-    async chat(request: ChatRequest & { stream?: boolean }): Promise<any> {
+  const client: OllamaModelProviderOptions["client"] = {
+    async chat(request) {
       calls.push({ ...request });
       if (request.stream) {
-        async function* generator(): AsyncIterable<ChatResponse> {
-          yield {
-            ...responses,
-            message: { role: "assistant", content: "hel" },
-            done: false,
-          };
-          yield {
-            ...responses,
-            message: { role: "assistant", content: "lo" },
-          };
+        async function* gen(): AsyncIterable<ChatResponse> {
+          yield { ...responses, message: { role: "assistant", content: "hel" }, done: false };
+          yield { ...responses, message: { role: "assistant", content: "lo" }, done: true };
         }
-        return generator();
+        return gen();
       }
       return responses;
     },
   };
 
-  const provider = createOllamaModelProvider({ client: client as any });
+  const provider = createOllamaModelProvider({ client });
   const model = await provider.getModel("test-model");
 
-  const baseRequest = {
+  const baseRequest: ModelRequest = {
     input: "hi",
     systemInstructions: "system prompt",
     modelSettings: { temperature: 0.5 },
     tools: [],
-    outputType: "text" as const,
+    outputType: "text",
     handoffs: [],
     tracing: false,
-  } satisfies ModelRequest;
+  };
 
+  return { calls, responses, model, baseRequest };
+}
+
+// Test getResponse returns transformed output and usage
+ test("getResponse returns correct output and usage", async (t) => {
+  const { model, responses, baseRequest } = await setup();
   const result = await model.getResponse(baseRequest);
-  const message = result.output[0];
-  if (!message || !("role" in message) || message.role !== "assistant") {
-    t.fail("expected assistant message output");
-    return;
-  }
-  const contentEntry = Array.isArray(message.content)
-    ? message.content[0]
-    : undefined;
-  if (!contentEntry || contentEntry.type !== "output_text") {
-    t.fail("expected output_text content");
-    return;
-  }
-  t.is(contentEntry.text, "hello");
-  t.is(result.usage.totalTokens, 10);
 
-  const streamEvents: string[] = [];
-  for await (const event of model.getStreamedResponse(baseRequest)) {
-    streamEvents.push(event.type);
-  }
-  t.is(streamEvents[0], "response_started");
-  t.true(
-    streamEvents.slice(1, -1).every((event) => event === "output_text_delta"),
-  );
-  t.is(streamEvents.at(-1), "response_done");
+  const output = result.output[0];
+  t.truthy(output && output.role === "assistant");
+  t.is(output.content, "hello");
+  t.is(result.usage.inputTokens, responses.prompt_eval_count);
+  t.is(result.usage.outputTokens, responses.eval_count);
+});
 
-  t.is(calls.length, 2);
-  t.deepEqual(calls[0]!.messages, [
+// Test getResponse sends correct chat request payload
+ test("getResponse sends correct chat request payload", async (t) => {
+  const { calls, model, baseRequest } = await setup();
+  await model.getResponse(baseRequest);
+
+  t.is(calls.length, 1);
+  t.deepEqual(calls[0].messages, [
     { role: "system", content: "system prompt" },
     { role: "user", content: "hi" },
   ]);
-  t.is(calls[0]!.options?.temperature, 0.5);
-  t.true(calls[1]!.stream ?? false);
+  t.is((calls[0].options?.temperature), 0.5);
+});
+
+// Test getStreamedResponse emits correct events sequence
+ test("getStreamedResponse emits expected stream events", async (t) => {
+  const { calls, model, baseRequest } = await setup();
+  const events: string[] = [];
+  for await (const ev of model.getStreamedResponse(baseRequest)) {
+    events.push(ev.type);
+  }
+
+  t.is(events[0], "response_started");
+  t.true(events.slice(1, -1).every((e) => e === "output_text_delta"));
+  t.is(events.at(-1), "response_done");
+
+  // Streaming should have been called once
+  t.is(calls.length, 1);
+  t.true(calls[0].stream ?? false);
 });

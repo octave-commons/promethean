@@ -5,7 +5,7 @@ slug: "Agent Workflow Enhancement & Healing Integration"
 status: "ready"
 priority: "P1"
 labels: ["agents", "workflow", "healing", "automation", "monitoring", "coordination", "kanban", "integration"]
-created_at: "2025-10-17T00:55:33.040Z"
+created_at: "2025-10-17T03:09:44.149Z"
 estimates:
   complexity: ""
   scale: ""

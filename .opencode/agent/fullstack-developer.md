@@ -5,7 +5,6 @@ description: >-
   architecture, or end-to-end feature development. Examples: <example>Context:
   User needs to build a complete user authentication system with frontend login
   form and backend API. user: 'I need to add user authentication to my web app'
-  assistant: 'I'll use the fullstack-developer agent to design and implement a
   complete authentication system with frontend forms, backend APIs, and database
   schema' <commentary>Since this requires both frontend and backend work, use
   the fullstack-developer agent to handle the complete

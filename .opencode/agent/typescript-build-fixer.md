@@ -9,7 +9,6 @@ description: >-
   typescript-build-fixer agent to diagnose and fix them.</commentary></example>
   <example>Context: After making changes to a TypeScript package, the build
   breaks. user: 'I updated some interfaces and now the build won't compile'
-  assistant: 'Let me use the typescript-build-fixer agent to identify and fix
   the compilation issues.' <commentary>The build is broken after TypeScript
   changes, so use the typescript-build-fixer agent to resolve the compilation
   errors.</commentary></example>

@@ -8,22 +8,25 @@ export const EventCapturePluginSimplified: Plugin = async ({ client }) => {
   // Initialize DualStore manager for events
   eventStore = await DualStoreManager.create('opencode_events', 'text', 'timestamp');
 
-  console.log('🔍 Event Capture Plugin (Simplified) initialized - storing all events for searchability');
+  console.log(
+    '🔍 Event Capture Plugin (Simplified) initialized - storing all events for searchability',
+  );
 
   // ===== SIMPLIFIED EXTRACTOR FUNCTIONS =====
 
   /** Extract session ID from various event structures */
   function extractSessionId(event: any): string | undefined {
-    return event.properties?.sessionID ||
-           event.properties?.session?.id ||
-           event.properties?.message?.session_id ||
-           event.properties?.sessionId;
+    return (
+      event.properties?.sessionID ||
+      event.properties?.session?.id ||
+      event.properties?.message?.session_id ||
+      event.properties?.sessionId
+    );
   }
 
   /** Extract user ID from event */
   function extractUserId(event: any): string | undefined {
-    return event.properties?.userId ||
-           event.properties?.user?.id;
+    return event.properties?.userId || event.properties?.user?.id;
   }
 
   /** Extract message data with text truncation */
@@ -36,9 +39,7 @@ export const EventCapturePluginSimplified: Plugin = async ({ client }) => {
       session_id: message.session_id,
       parts: message.parts?.map((part: any) => ({
         type: part.type,
-        text: part.type === 'text' 
-          ? truncateText(part.text, 500) 
-          : undefined,
+        text: part.type === 'text' ? truncateText(part.text, 500) : undefined,
         metadata: part.metadata,
       })),
       role: message.role,
@@ -69,10 +70,10 @@ export const EventCapturePluginSimplified: Plugin = async ({ client }) => {
     return {
       name: tool.name,
       args: tool.args,
-      result: tool.result 
-        ? (typeof tool.result === 'string' 
-            ? truncateText(tool.result, 1000) 
-            : 'Complex result object')
+      result: tool.result
+        ? typeof tool.result === 'string'
+          ? truncateText(tool.result, 1000)
+          : 'Complex result object'
         : undefined,
       error: tool.error,
     };
@@ -114,15 +115,15 @@ export const EventCapturePluginSimplified: Plugin = async ({ client }) => {
   /** Create searchable text components */
   function createTextComponents(eventData: ReturnType<typeof extractEventData>): string[] {
     const components: string[] = [];
-    
+
     // Basic info
     components.push(`Event: ${eventData.eventType}`);
     components.push(`Timestamp: ${eventData.timestamp}`);
-    
+
     // Optional identifiers
     if (eventData.sessionId) components.push(`Session: ${eventData.sessionId}`);
     if (eventData.userId) components.push(`User: ${eventData.userId}`);
-    
+
     // Message content
     if (eventData.messageData) {
       components.push(`Message ID: ${eventData.messageData.id}`);
@@ -132,7 +133,7 @@ export const EventCapturePluginSimplified: Plugin = async ({ client }) => {
         ?.join(' ');
       if (messageText) components.push(`Content: ${messageText}`);
     }
-    
+
     // Session info
     if (eventData.sessionData) {
       components.push(`Session Title: ${eventData.sessionData.title}`);
@@ -140,7 +141,7 @@ export const EventCapturePluginSimplified: Plugin = async ({ client }) => {
         components.push(`Message Count: ${eventData.sessionData.message_count}`);
       }
     }
-    
+
     // Tool info
     if (eventData.toolData) {
       components.push(`Tool: ${eventData.toolData.name}`);
@@ -154,7 +155,7 @@ export const EventCapturePluginSimplified: Plugin = async ({ client }) => {
         components.push(`Tool Error: ${eventData.toolData.error}`);
       }
     }
-    
+
     return components;
   }
 
@@ -166,7 +167,12 @@ export const EventCapturePluginSimplified: Plugin = async ({ client }) => {
   // ===== COMMON UTILITIES FOR TOOLS =====
 
   /** Build filter object for queries */
-  function buildFilter(eventType?: string, sessionId?: string, hasTool?: boolean, isAgentTask?: boolean): any {
+  function buildFilter(
+    eventType?: string,
+    sessionId?: string,
+    hasTool?: boolean,
+    isAgentTask?: boolean,
+  ): any {
     const filter: any = {};
     if (eventType) filter.eventType = eventType;
     if (sessionId) filter.sessionId = sessionId;
@@ -176,7 +182,12 @@ export const EventCapturePluginSimplified: Plugin = async ({ client }) => {
   }
 
   /** Build MongoDB filter for recent events queries */
-  function buildMongoFilter(eventType?: string, sessionId?: string, hasTool?: boolean, isAgentTask?: boolean): any {
+  function buildMongoFilter(
+    eventType?: string,
+    sessionId?: string,
+    hasTool?: boolean,
+    isAgentTask?: boolean,
+  ): any {
     const filter: any = {};
     if (eventType) filter['metadata.eventType'] = eventType;
     if (sessionId) filter['metadata.sessionId'] = sessionId;
@@ -235,7 +246,7 @@ export const EventCapturePluginSimplified: Plugin = async ({ client }) => {
         },
       });
 
-      console.log(`📝 Captured event: ${eventData.eventType} (${eventData.sessionId || 'no-session'})`);
+      // console.log(`📝 Captured event: ${eventData.eventType} (${eventData.sessionId || 'no-session'})`);
     } catch (error) {
       console.error('Error processing event:', error);
     }
@@ -273,12 +284,16 @@ export const EventCapturePluginSimplified: Plugin = async ({ client }) => {
             const results = await eventStore.getMostRelevant([query], k, filter);
             const enhancedResults = results.map((event, index) => enhanceEventResult(event, index));
 
-            return JSON.stringify({
-              query,
-              totalResults: enhancedResults.length,
-              filters: { eventType, sessionId, hasTool, isAgentTask },
-              events: enhancedResults,
-            }, null, 2);
+            return JSON.stringify(
+              {
+                query,
+                totalResults: enhancedResults.length,
+                filters: { eventType, sessionId, hasTool, isAgentTask },
+                events: enhancedResults,
+              },
+              null,
+              2,
+            );
           } catch (error) {
             console.error('Error searching events:', error);
             return `Failed to search events: ${error}`;
@@ -299,13 +314,19 @@ export const EventCapturePluginSimplified: Plugin = async ({ client }) => {
           try {
             const filter = buildMongoFilter(eventType, sessionId, hasTool, isAgentTask);
             const results = await eventStore.getMostRecent(limit, filter);
-            const enhancedResults = results.map((event, index) => enhanceEventResult(event, index, 300));
+            const enhancedResults = results.map((event, index) =>
+              enhanceEventResult(event, index, 300),
+            );
 
-            return JSON.stringify({
-              totalResults: enhancedResults.length,
-              filters: { eventType, sessionId, hasTool, isAgentTask },
-              events: enhancedResults,
-            }, null, 2);
+            return JSON.stringify(
+              {
+                totalResults: enhancedResults.length,
+                filters: { eventType, sessionId, hasTool, isAgentTask },
+                events: enhancedResults,
+              },
+              null,
+              2,
+            );
           } catch (error) {
             console.error('Error getting recent events:', error);
             return `Failed to get recent events: ${error}`;
@@ -364,16 +385,23 @@ export const EventCapturePluginSimplified: Plugin = async ({ client }) => {
               hasMessage: event.metadata?.hasMessage,
               hasTool: event.metadata?.hasTool,
               toolName: (event.metadata?.toolData as any)?.name,
-              messagePreview: truncateText((event.metadata?.messageData as any)?.parts?.[0]?.text, 100),
+              messagePreview: truncateText(
+                (event.metadata?.messageData as any)?.parts?.[0]?.text,
+                100,
+              ),
             }));
 
             const insights = extractSessionInsights(organizedEvents);
 
-            return JSON.stringify({
-              sessionId,
-              insights,
-              events: organizedEvents,
-            }, null, 2);
+            return JSON.stringify(
+              {
+                sessionId,
+                insights,
+                events: organizedEvents,
+              },
+              null,
+              2,
+            );
           } catch (error) {
             console.error('Error tracing session activity:', error);
             return `Failed to trace session activity: ${error}`;
@@ -446,9 +474,7 @@ function extractSessionInsights(events: any[]) {
     lastEvent: events[events.length - 1]?.timestamp,
     toolUsageCount: events.filter((e) => e.hasTool).length,
     messageCount: events.filter((e) => e.hasMessage).length,
-    uniqueToolsUsed: Array.from(
-      new Set(events.filter((e) => e.toolName).map((e) => e.toolName))
-    ),
+    uniqueToolsUsed: Array.from(new Set(events.filter((e) => e.toolName).map((e) => e.toolName))),
     eventTypes: Array.from(new Set(events.map((e) => e.eventType))),
   };
 }

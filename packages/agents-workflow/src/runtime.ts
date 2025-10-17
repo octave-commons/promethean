@@ -11,10 +11,9 @@ import {
   type DefinitionResolutionOptions,
 } from "./workflow/loader.js";
 
-export interface WorkflowRuntimeOptions
-  extends MarkdownWorkflowOptions,
-    DefinitionResolutionOptions,
-    AgentFactoryOptions {}
+export type WorkflowRuntimeOptions = MarkdownWorkflowOptions &
+  DefinitionResolutionOptions &
+  AgentFactoryOptions;
 
 export async function loadAgentWorkflowsFromMarkdown(
   content: string,

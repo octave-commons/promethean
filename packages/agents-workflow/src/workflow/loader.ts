@@ -2,6 +2,14 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 
 import type {
+  JsonSchemaDefinition,
+  Model,
+  ModelProvider,
+  ModelSettings,
+  Tool,
+} from "@openai/agents";
+
+import type {
   AgentDefinition,
   AgentGraphNode,
   AgentWorkflowGraph,
@@ -12,13 +20,6 @@ import type {
   WorkflowNode,
 } from "./types.js";
 import { AgentDefinitionSchema } from "./types.js";
-import type {
-  JsonSchemaDefinition,
-  Model,
-  ModelProvider,
-  ModelSettings,
-  Tool,
-} from "@openai/agents";
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -28,36 +29,17 @@ function mergeDefinitions(
   base: Partial<AgentDefinition>,
   update?: Partial<AgentDefinition>,
 ): Partial<AgentDefinition> {
-  if (!update) {
-    return base;
-  }
-  const merged: Partial<AgentDefinition> = {
-    ...base,
-    ...update,
+  if (!update) return base;
+  const merged: Partial<AgentDefinition> = { ...base, ...update };
+  const mergeObjects = <T>(a?: T, b?: T): T | undefined => {
+    if (!isRecord(a) && !isRecord(b)) return undefined;
+    return { ...(isRecord(a) ? (a as object) : {}), ...(isRecord(b) ? (b as object) : {}) } as T;
   };
-  if (base?.modelSettings || update?.modelSettings) {
-    merged.modelSettings = {
-      ...(isRecord(base?.modelSettings)
-        ? (base?.modelSettings as Record<string, unknown>)
-        : {}),
-      ...(isRecord(update?.modelSettings)
-        ? (update?.modelSettings as Record<string, unknown>)
-        : {}),
-    };
-  }
-  if (base?.metadata || update?.metadata) {
-    merged.metadata = {
-      ...(isRecord(base?.metadata)
-        ? (base?.metadata as Record<string, unknown>)
-        : {}),
-      ...(isRecord(update?.metadata)
-        ? (update?.metadata as Record<string, unknown>)
-        : {}),
-    };
-  }
-  if (update?.tools) {
-    merged.tools = update.tools;
-  }
+  const ms = mergeObjects(base.modelSettings, update.modelSettings);
+  if (ms) merged.modelSettings = ms;
+  const md = mergeObjects(base.metadata, update.metadata);
+  if (md) merged.metadata = md;
+  if (update.tools) merged.tools = update.tools;
   return merged;
 }
 
@@ -133,7 +115,7 @@ function gatherConfigDefinition(
   return definition;
 }
 
-export interface DefinitionResolutionOptions {
+export type DefinitionResolutionOptions = {
   baseDir?: string;
 }
 
@@ -269,14 +251,12 @@ function resolveTools(
 function mergeModelSettings(
   definition: AgentDefinition,
 ): ModelSettings | undefined {
-  const explicit = definition.modelSettings as
-    | Record<string, unknown>
-    | undefined;
+  const explicit = definition.modelSettings;
   if (!definition.model || typeof definition.model === "string") {
     return explicit as ModelSettings | undefined;
   }
   const providerSettings = isRecord(definition.model.settings)
-    ? (definition.model.settings as Record<string, unknown>)
+    ? (definition.model.settings)
     : undefined;
   if (!providerSettings && !explicit) {
     return undefined;

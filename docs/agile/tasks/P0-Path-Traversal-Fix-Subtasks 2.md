@@ -5,7 +5,7 @@ slug: "P0-Path-Traversal-Fix-Subtasks 2"
 status: "ready"
 priority: "P0"
 labels: ["security", "critical", "path-traversal", "urgent", "indexer-service", "vulnerability-fix"]
-created_at: "2025-10-17T00:52:47.711Z"
+created_at: "2025-10-17T02:56:21.062Z"
 estimates:
   complexity: ""
   scale: ""

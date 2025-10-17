@@ -4,42 +4,23 @@ import type {
   WorkflowNode,
 } from "./types.js";
 
-const NODE_REGEX =
-  /^(?<id>[A-Za-z0-9_]+)\s*(?:\((?<round>[^)]*)\)|\[(?<square>[^\]]*)\]|\{(?<curly>[^}]*)\}|"(?<quoted>[^"]*)"|\s+"(?<standalone>[^"]*)")?/;
-const EDGE_REGEX =
-  /^(?<from>[A-Za-z0-9_]+)\s*--[->]+\s*(?:\|(?<label>[^|]+)\|\s*)?(?<to>[A-Za-z0-9_]+)/;
+const NODE_REGEX = /^(?<id>[A-Za-z0-9_]+)\s*(?:\((?<round>[^)]*)\)|\[(?<square>[^\]]*)\]|\{(?<curly>[^}]*)\}|"(?<quoted>[^"]*)"|\s+"(?<standalone>[^"]*)")?/;
+const EDGE_REGEX = /^(?<from>[A-Za-z0-9_]+)\s*--[->]+\s*(?:\|(?<label>[^|]+)\|\s*)?(?<to>[A-Za-z0-9_]+)/;
 
 const COMMENT_PREFIX = "%%";
 const DIRECTIVE_REGEX = /^(?:graph|flowchart|classDef|linkStyle|style)\b/i;
 
 function decodeLabel(raw: string | undefined): string | undefined {
-  if (!raw) {
-    return undefined;
-  }
-  const text = raw
-    .replace(/&quot;/gu, '"')
-    .replace(/\\n/gu, "\n")
-    .replace(/\\"/gu, '"');
+  if (!raw) return undefined;
+  const text = raw.replace(/&quot;/gu, '"').replace(/\\n/gu, "\n").replace(/\\\"/gu, '"');
   const trimmed = text.trim();
-  if (trimmed.startsWith('"') && trimmed.endsWith('"')) {
-    return trimmed.slice(1, -1);
-  }
-  return trimmed;
+  return trimmed.startsWith('"') && trimmed.endsWith('"') ? trimmed.slice(1, -1) : trimmed;
 }
 
 function parseNode(line: string): WorkflowNode | undefined {
-  const trimmed = line.trim();
-  if (
-    !trimmed ||
-    trimmed.startsWith(COMMENT_PREFIX) ||
-    DIRECTIVE_REGEX.test(trimmed)
-  ) {
-    return undefined;
-  }
-  const match = trimmed.match(NODE_REGEX);
-  if (!match || !match.groups || !match.groups.id) {
-    return undefined;
-  }
+  if (!line || line.startsWith(COMMENT_PREFIX) || DIRECTIVE_REGEX.test(line)) return undefined;
+  const match = line.match(NODE_REGEX);
+  if (!match?.groups?.id) return undefined;
   const { id, round, square, curly, quoted, standalone } = match.groups;
   const rawLabel = round ?? square ?? curly ?? quoted ?? standalone;
   const label = decodeLabel(rawLabel);
@@ -47,24 +28,41 @@ function parseNode(line: string): WorkflowNode | undefined {
 }
 
 function parseEdge(line: string): WorkflowEdge | undefined {
-  const trimmed = line.trim();
-  if (
-    !trimmed ||
-    trimmed.startsWith(COMMENT_PREFIX) ||
-    DIRECTIVE_REGEX.test(trimmed)
-  ) {
-    return undefined;
-  }
-  const match = trimmed.match(EDGE_REGEX);
-  if (!match || !match.groups || !match.groups.from || !match.groups.to) {
-    return undefined;
-  }
+  if (!line || line.startsWith(COMMENT_PREFIX) || DIRECTIVE_REGEX.test(line)) return undefined;
+  const match = line.match(EDGE_REGEX);
+  if (!match?.groups?.from || !match.groups.to) return undefined;
   const { from, to, label } = match.groups;
-  return {
-    from,
-    to,
-    label: label?.trim(),
-  };
+  return { from, to, label: label?.trim() };
+}
+
+// Helpers for processing lines
+function addNode(nodes: Map<string, WorkflowNode>, node: WorkflowNode): void {
+  if (!nodes.has(node.id) || (node.label && !nodes.get(node.id)?.label)) {
+    nodes.set(node.id, node);
+  }
+}
+
+function addEdge(
+  nodes: Map<string, WorkflowNode>,
+  edges: WorkflowEdge[],
+  edge: WorkflowEdge,
+): void {
+  edges.push(edge);
+  if (!nodes.has(edge.from)) nodes.set(edge.from, { id: edge.from });
+  if (!nodes.has(edge.to)) nodes.set(edge.to, { id: edge.to });
+}
+
+function processLine(
+  rawLine: string,
+  nodes: Map<string, WorkflowNode>,
+  edges: WorkflowEdge[],
+): void {
+  const line = rawLine.trim();
+  if (!line) return;
+  const node = parseNode(line);
+  if (node) addNode(nodes, node);
+  const edge = parseEdge(line);
+  if (edge) addEdge(nodes, edges, edge);
 }
 
 export function parseMermaidGraph(
@@ -73,35 +71,6 @@ export function parseMermaidGraph(
 ): WorkflowDefinition {
   const nodes = new Map<string, WorkflowNode>();
   const edges: WorkflowEdge[] = [];
-
-  for (const rawLine of source.split("\n")) {
-    const line = rawLine.trim();
-    if (!line || line.startsWith(COMMENT_PREFIX)) {
-      continue;
-    }
-    const node = parseNode(line);
-    if (node) {
-      if (!nodes.has(node.id)) {
-        nodes.set(node.id, node);
-      } else if (node.label && !nodes.get(node.id)?.label) {
-        nodes.set(node.id, node);
-      }
-    }
-    const edge = parseEdge(line);
-    if (edge) {
-      edges.push(edge);
-      if (!nodes.has(edge.from)) {
-        nodes.set(edge.from, { id: edge.from });
-      }
-      if (!nodes.has(edge.to)) {
-        nodes.set(edge.to, { id: edge.to });
-      }
-    }
-  }
-
-  return {
-    id,
-    nodes: Array.from(nodes.values()),
-    edges,
-  };
+  source.split("\n").forEach((rawLine) => processLine(rawLine, nodes, edges));
+  return { id, nodes: Array.from(nodes.values()), edges };
 }

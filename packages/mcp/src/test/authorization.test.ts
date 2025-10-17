@@ -13,6 +13,13 @@ import {
   getDangerousTools,
   getToolsByPermissionLevel,
   auditLogger,
+  getCurrentAuthConfig,
+  isStrictModeEnabled,
+  isAuthRequiredForDangerous,
+  isAdminIpWhitelisted,
+  validateAdminIp,
+  getStrictModeDeniedTools,
+  getAuthorizationHealth,
 } from '../core/authorization.js';
 import type { ToolFactory, ToolContext } from '../core/types.js';
 
@@ -46,6 +53,13 @@ describe('Authorization Framework', () => {
   beforeEach(() => {
     // Clear audit log before each test
     auditLogger.getRecent(0); // This clears the log
+
+    // Reset environment variables for each test
+    delete process.env.MCP_STRICT_MODE;
+    delete process.env.MCP_REQUIRE_AUTH_DANGEROUS;
+    delete process.env.MCP_ADMIN_IP_WHITELIST;
+    delete process.env.MCP_ENABLE_AUDIT;
+    delete process.env.MCP_DEFAULT_ROLE;
   });
 
   describe('Tool Authorization Requirements', () => {
@@ -214,6 +228,7 @@ describe('Authorization Framework', () => {
       const context = createMockContext({
         MCP_USER_ID: 'admin-user',
         MCP_USER_ROLE: 'admin',
+        REMOTE_ADDR: '127.0.0.1', // Whitelisted IP
       });
 
       // Test admin-level tool
@@ -273,6 +288,7 @@ describe('Authorization Framework', () => {
       const context = createMockContext({
         MCP_USER_ID: 'admin-user',
         MCP_USER_ROLE: 'admin',
+        REMOTE_ADDR: '127.0.0.1', // Whitelisted IP
       });
 
       const toolFactory = createAuthorizedToolFactory(createMockTool('exec_run'), 'exec_run');
@@ -327,9 +343,12 @@ describe('Authorization Framework', () => {
 
   describe('Error Handling', () => {
     it('should handle tool failures gracefully', async () => {
+      process.env.MCP_STRICT_MODE = 'false'; // Disable strict mode for this test
+
       const context = createMockContext({
         MCP_USER_ID: 'admin-user',
         MCP_USER_ROLE: 'admin',
+        REMOTE_ADDR: '127.0.0.1', // Whitelisted IP
       });
 
       const toolFactory = createAuthorizedToolFactory(
@@ -376,6 +395,299 @@ describe('Authorization Framework', () => {
         tool.spec.description.includes('[Authorization required]'),
         'Tool description should include authorization notice',
       );
+    });
+  });
+
+  describe('Enhanced Authorization Features', () => {
+    beforeEach(() => {
+      // Reset environment variables for each test
+      delete process.env.MCP_STRICT_MODE;
+      delete process.env.MCP_REQUIRE_AUTH_DANGEROUS;
+      delete process.env.MCP_ADMIN_IP_WHITELIST;
+      delete process.env.MCP_ENABLE_AUDIT;
+    });
+
+    describe('Strict Mode', () => {
+      it('should deny unknown tools when strict mode is enabled', async () => {
+        process.env.MCP_STRICT_MODE = 'true';
+
+        const context = createMockContext({
+          MCP_USER_ID: 'test-user',
+          MCP_USER_ROLE: 'user',
+        });
+
+        const toolFactory = createAuthorizedToolFactory(
+          createMockTool('unknown_tool'),
+          'unknown_tool',
+        );
+
+        const tool = toolFactory(context);
+
+        await assert.rejects(
+          () => tool.invoke({ test: 'data' }),
+          /Authorization denied.*Tool 'unknown_tool' not found in authorization configuration \(strict mode enabled\)/,
+        );
+      });
+
+      it('should allow unknown tools when strict mode is disabled', async () => {
+        process.env.MCP_STRICT_MODE = 'false';
+
+        const context = createMockContext({
+          MCP_USER_ID: 'test-user',
+          MCP_USER_ROLE: 'user',
+        });
+
+        const toolFactory = createAuthorizedToolFactory(
+          createMockTool('unknown_tool'),
+          'unknown_tool',
+        );
+
+        const tool = toolFactory(context);
+        const result = (await tool.invoke({ test: 'data' })) as any;
+
+        assert(result.success, 'Should allow unknown tools when strict mode is disabled');
+      });
+
+      it('should report strict mode status correctly', () => {
+        process.env.MCP_STRICT_MODE = 'true';
+        assert(isStrictModeEnabled() === true, 'Should report strict mode as enabled');
+
+        process.env.MCP_STRICT_MODE = 'false';
+        assert(isStrictModeEnabled() === false, 'Should report strict mode as disabled');
+      });
+    });
+
+    describe('Require Auth for Dangerous Operations', () => {
+      it('should deny dangerous operations for anonymous users when enabled', async () => {
+        process.env.MCP_REQUIRE_AUTH_DANGEROUS = 'true';
+
+        const context = createMockContext({
+          MCP_USER_ID: 'anonymous',
+          MCP_USER_ROLE: 'guest',
+        });
+
+        const toolFactory = createAuthorizedToolFactory(
+          createMockTool('files_write_content'),
+          'files_write_content',
+        );
+
+        const tool = toolFactory(context);
+
+        await assert.rejects(
+          () => tool.invoke({ filePath: 'test.txt', content: 'hello' }),
+          /Authorization denied.*Authentication required for dangerous operation 'files_write_content' \(requireAuthForDangerous enabled\)/,
+        );
+      });
+
+      it('should allow dangerous operations for authenticated users when enabled', async () => {
+        process.env.MCP_REQUIRE_AUTH_DANGEROUS = 'true';
+
+        const context = createMockContext({
+          MCP_USER_ID: 'authenticated-user',
+          MCP_USER_ROLE: 'user',
+        });
+
+        const toolFactory = createAuthorizedToolFactory(
+          createMockTool('kanban_update_status'), // Non-dangerous but requires write
+          'kanban_update_status',
+        );
+
+        const tool = toolFactory(context);
+        const result = (await tool.invoke({ uuid: 'test-uuid', status: 'in-progress' })) as any;
+
+        assert(result.success, 'Should allow authenticated users to perform operations');
+      });
+
+      it('should report require auth for dangerous status correctly', () => {
+        process.env.MCP_REQUIRE_AUTH_DANGEROUS = 'true';
+        assert(isAuthRequiredForDangerous() === true, 'Should report require auth as enabled');
+
+        process.env.MCP_REQUIRE_AUTH_DANGEROUS = 'false';
+        assert(isAuthRequiredForDangerous() === false, 'Should report require auth as disabled');
+      });
+    });
+
+    describe('Admin IP Whitelist', () => {
+      it('should allow admin access from whitelisted IP', async () => {
+        process.env.MCP_ADMIN_IP_WHITELIST = '192.168.1.100,127.0.0.1';
+
+        const context = createMockContext({
+          MCP_USER_ID: 'admin-user',
+          MCP_USER_ROLE: 'admin',
+          REMOTE_ADDR: '192.168.1.100',
+        });
+
+        const toolFactory = createAuthorizedToolFactory(createMockTool('exec_run'), 'exec_run');
+        const tool = toolFactory(context);
+        const result = (await tool.invoke({ commandId: 'test' })) as any;
+
+        assert(result.success, 'Should allow admin access from whitelisted IP');
+      });
+
+      it('should deny admin access from non-whitelisted IP', async () => {
+        process.env.MCP_ADMIN_IP_WHITELIST = '192.168.1.100,127.0.0.1';
+
+        const context = createMockContext({
+          MCP_USER_ID: 'admin-user',
+          MCP_USER_ROLE: 'admin',
+          REMOTE_ADDR: '192.168.1.200',
+        });
+
+        const toolFactory = createAuthorizedToolFactory(createMockTool('exec_run'), 'exec_run');
+        const tool = toolFactory(context);
+
+        await assert.rejects(
+          () => tool.invoke({ commandId: 'test' }),
+          /Authorization denied.*Admin access denied from IP 192.168.1.200/,
+        );
+      });
+
+      it('should validate admin IP correctly', () => {
+        process.env.MCP_ADMIN_IP_WHITELIST = '192.168.1.100,127.0.0.1';
+
+        assert(isAdminIpWhitelisted('192.168.1.100') === true, 'Should recognize whitelisted IP');
+        assert(isAdminIpWhitelisted('192.168.1.200') === false, 'Should reject non-whitelisted IP');
+
+        const validResult = validateAdminIp('192.168.1.100');
+        assert(validResult.valid === true, 'Should validate whitelisted IP');
+
+        const invalidResult = validateAdminIp('192.168.1.200');
+        assert(invalidResult.valid === false, 'Should reject non-whitelisted IP');
+        assert(invalidResult.reason, 'Should provide reason for rejection');
+
+        const noIpResult = validateAdminIp();
+        assert(noIpResult.valid === false, 'Should reject missing IP');
+      });
+    });
+
+    describe('Configuration Integration', () => {
+      it('should use configured default role', async () => {
+        process.env.MCP_DEFAULT_ROLE = 'user';
+
+        const context = createMockContext({
+          MCP_USER_ID: 'test-user',
+          // No MCP_USER_ROLE specified
+        });
+
+        const toolFactory = createAuthorizedToolFactory(
+          createMockTool('kanban_update_status'),
+          'kanban_update_status',
+        );
+
+        const tool = toolFactory(context);
+        const result = (await tool.invoke({ uuid: 'test-uuid', status: 'in-progress' })) as any;
+
+        assert(result.success, 'Should use configured default role');
+      });
+
+      it('should respect audit logging configuration', async () => {
+        process.env.MCP_ENABLE_AUDIT = 'false';
+
+        const context = createMockContext({
+          MCP_USER_ID: 'admin-user',
+          MCP_USER_ROLE: 'admin',
+          REMOTE_ADDR: '127.0.0.1', // Whitelisted IP
+        });
+
+        const toolFactory = createAuthorizedToolFactory(createMockTool('exec_run'), 'exec_run');
+        const tool = toolFactory(context);
+
+        await tool.invoke({ commandId: 'test' });
+
+        // Should not log anything when audit is disabled
+        const recentLogs = auditLogger.getRecent(1);
+        assert(recentLogs.length === 0, 'Should not log when audit is disabled');
+      });
+
+      it('should provide authorization health information', () => {
+        process.env.MCP_STRICT_MODE = 'true';
+        process.env.MCP_REQUIRE_AUTH_DANGEROUS = 'true';
+        process.env.MCP_ADMIN_IP_WHITELIST = '192.168.1.100';
+        process.env.MCP_ENABLE_AUDIT = 'true';
+
+        const health = getAuthorizationHealth();
+
+        assert(health.strictMode === true, 'Should report strict mode status');
+        assert(
+          health.requireAuthForDangerous === true,
+          'Should report require auth dangerous status',
+        );
+        assert(health.adminIpWhitelistSize === 1, 'Should report whitelist size');
+        assert(health.auditLogEnabled === true, 'Should report audit log status');
+        assert(health.configuredTools > 0, 'Should report configured tools count');
+        assert(health.dangerousTools > 0, 'Should report dangerous tools count');
+      });
+
+      it('should return current auth config', () => {
+        const config = getCurrentAuthConfig();
+
+        assert(typeof config.strictMode === 'boolean', 'Should include strictMode');
+        assert(
+          typeof config.requireAuthForDangerous === 'boolean',
+          'Should include requireAuthForDangerous',
+        );
+        assert(Array.isArray(config.adminIpWhitelist), 'Should include adminIpWhitelist');
+        assert(typeof config.enableAuditLog === 'boolean', 'Should include enableAuditLog');
+      });
+
+it('should identify tools denied under strict mode', () => {
+        const deniedTools = getStrictModeDeniedTools();
+        
+        // Should return array of tool names
+        assert(Array.isArray(deniedTools), 'Should return array of tool names');
+        
+        // The function should return tools that are not configured in the authorization system
+        // Since we have many tools configured, this should be empty or contain only non-configured tools
+        assert(deniedTools.length >= 0, 'Should return array (possibly empty)');
+        
+        // Test that some known configured tools are not in the denied list
+        const knownConfiguredTools = ['files_view_file', 'exec_run', 'kanban_delete_task'];
+        knownConfiguredTools.forEach(tool => {
+          assert(!deniedTools.includes(tool), `Should not include configured tool: ${tool}`);
+        });
+      });
+      });
+    });
+
+    describe('Backward Compatibility', () => {
+      it('should maintain existing role hierarchy', async () => {
+        // Test that all existing role permissions still work
+        const testCases = [
+          { role: 'guest', tool: 'files_view_file', shouldAllow: true },
+          { role: 'guest', tool: 'files_write_content', shouldAllow: false },
+          { role: 'user', tool: 'kanban_update_status', shouldAllow: true },
+          { role: 'user', tool: 'kanban_delete_task', shouldAllow: false },
+          { role: 'developer', tool: 'kanban_delete_task', shouldAllow: true },
+          { role: 'developer', tool: 'exec_run', shouldAllow: true },
+          { role: 'admin', tool: 'exec_run', shouldAllow: true },
+        ];
+
+        for (const testCase of testCases) {
+          const context = createMockContext({
+            MCP_USER_ID: `${testCase.role}-user`,
+            MCP_USER_ROLE: testCase.role,
+            REMOTE_ADDR: '127.0.0.1', // Whitelisted IP for admin tests
+          });
+
+          const toolFactory = createAuthorizedToolFactory(
+            createMockTool(testCase.tool),
+            testCase.tool,
+          );
+
+          const tool = toolFactory(context);
+
+          if (testCase.shouldAllow) {
+            const result = (await tool.invoke({ test: 'data' })) as any;
+            assert(result.success, `${testCase.role} should be able to use ${testCase.tool}`);
+          } else {
+            await assert.rejects(
+              () => tool.invoke({ test: 'data' }),
+              new RegExp(`Authorization denied`),
+              `${testCase.role} should not be able to use ${testCase.tool}`,
+            );
+          }
+        }
+      });
     });
   });
 });

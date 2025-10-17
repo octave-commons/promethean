@@ -1,330 +1,58 @@
-import path from 'node:path';
-
-import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+import type { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 import type { IndexerManager } from '@promethean/indexer-core';
-type PathBody = { path?: string | string[] };
+import { validatePathArray } from '../validation/index.js';
+
+/**
+ * Generic error messages for secure error handling
+ */
+const genericErrorMessages: Record<number, string> = {
+  400: 'Invalid request',
+  401: 'Unauthorized',
+  403: 'Forbidden',
+  404: 'Not found',
+  409: 'Conflict',
+  429: 'Too many requests',
+  500: 'Internal server error',
+  503: 'Service unavailable',
+};
 
 /**
  * Secure error handler that prevents information disclosure
  */
-function handleSecureError(reply: FastifyReply, error: Error, statusCode: number = 500): void {
+function handleSecureError(
+  reply: FastifyReply,
+  error: Error,
+  statusCode: number = 500,
+): void {
   // Log the full error for debugging purposes
   reply.log.error({ err: error }, 'Indexer operation failed');
 
-  // Send generic error message to client
-  const genericMessages = {
-    400: 'Invalid request',
-    401: 'Unauthorized',
-    403: 'Forbidden',
-    404: 'Not found',
-    409: 'Conflict',
-    429: 'Too many requests',
-    500: 'Internal server error',
-    503: 'Service unavailable',
-  };
-
-  const message =
-    genericMessages[statusCode as keyof typeof genericMessages] || 'Internal server error';
-
+  const message = genericErrorMessages[statusCode] || genericErrorMessages[500];
   reply.code(statusCode).send({
     ok: false,
     error: message,
-    // Include request ID for tracing in production
     ...(reply.request.id && { requestId: reply.request.id }),
   });
 }
 
 /**
- * Validates basic path properties: type, length, null bytes, and whitespace
+ * Registers GET /indexer/status
  */
-function validateBasicPathProperties(rel: string): boolean {
-  if (typeof rel !== 'string') {
-    return false;
-  }
-
-  if (rel.length === 0 || rel.length > 256) {
-    return false;
-  }
-
-  if (rel.includes('\0')) {
-    return false;
-  }
-
-  const trimmed = rel.trim();
-  if (trimmed !== rel) {
-    return false;
-  }
-
-  return true;
-}
-
-/**
- * Detects path traversal attempts through ".." components and absolute paths
- */
-function detectPathTraversal(trimmed: string): boolean {
-  const pathComponents = trimmed.split(/[\\/]/);
-
-  // Check for explicit traversal attempts
-  if (pathComponents.includes('..')) {
-    return true;
-  }
-
-  // Check for encoded traversal attempts (including double encoding)
-  if (
-    pathComponents.some(
-      (comp) =>
-        comp.toLowerCase().includes('%2e%2e') ||
-        comp.toLowerCase().includes('..') ||
-        comp.includes('%2e') ||
-        comp.includes('%2E') ||
-        comp.toLowerCase().includes('%252e%252e') || // Double encoded
-        comp.includes('%255c') ||
-        comp.includes('%255C'), // Double encoded backslash
-    )
-  ) {
-    return true;
-  }
-
-  // Check for absolute paths (both Unix and Windows)
-  if (path.isAbsolute(trimmed) || /^[a-zA-Z]:/.test(trimmed)) {
-    return true;
-  }
-
-  // Check for UNC paths
-  if (trimmed.startsWith('\\\\')) {
-    return true;
-  }
-
-  return false;
-}
-
-/**
- * Filters dangerous characters that could lead to command injection
- */
-function containsDangerousCharacters(trimmed: string): boolean {
-  const dangerousChars = ['<', '>', '|', '&', ';', '`', '$', '"', "'", '\n', '\r', '\t', ':'];
-  return dangerousChars.some((char) => trimmed.includes(char));
-}
-
-/**
- * Validates Windows-specific path attack prevention
- */
-function validateWindowsPathSecurity(trimmed: string): boolean {
-  // Block drive letters (C:, D:, etc.)
-  if (/^[a-zA-Z]:/.test(trimmed)) {
-    return false;
-  }
-
-  // Block UNC paths
-  if (trimmed.startsWith('\\\\')) {
-    return false;
-  }
-
-  // Block Windows-style backslash paths
-  if (trimmed.includes('\\')) {
-    return false;
-  }
-
-  // Block reserved device names
-  const reservedNames = [
-    'CON',
-    'PRN',
-    'AUX',
-    'NUL',
-    'COM1',
-    'COM2',
-    'COM3',
-    'COM4',
-    'COM5',
-    'COM6',
-    'COM7',
-    'COM8',
-    'COM9',
-    'LPT1',
-    'LPT2',
-    'LPT3',
-    'LPT4',
-    'LPT5',
-    'LPT6',
-    'LPT7',
-    'LPT8',
-    'LPT9',
-  ];
-  const baseName = path.basename(trimmed).toUpperCase();
-  if (reservedNames.includes(baseName)) {
-    return false;
-  }
-
-  return true;
-}
-
-/**
- * Validates Unix-specific path attack prevention
- */
-function validateUnixPathSecurity(trimmed: string): boolean {
-  if (process.platform !== 'win32') {
-    // Block device paths
-    if (trimmed.startsWith('/dev/')) {
-      return false;
-    }
-    // Block proc filesystem
-    if (trimmed.startsWith('/proc/')) {
-      return false;
-    }
-    // Block sys filesystem
-    if (trimmed.startsWith('/sys/')) {
-      return false;
-    }
-  }
-  return true;
-}
-
-/**
- * Validates path normalization and resolution
- */
-function validatePathNormalization(trimmed: string): boolean {
-  try {
-    // First normalize the path
-    const normalized = path.normalize(trimmed);
-
-    // Check for absolute paths or traversal after normalization
-    if (path.isAbsolute(normalized) || normalized.includes('..')) {
-      return false;
-    }
-
-    // Additional check: resolve against a fake root to ensure no traversal
-    const fakeRoot = '/fake/root';
-    const resolved = path.resolve(fakeRoot, normalized);
-    if (!resolved.startsWith(fakeRoot)) {
-      return false;
-    }
-
-    // Check for double slashes which might indicate bypass attempts
-    if (normalized.includes('//') || normalized.includes('\\\\')) {
-      return false;
-    }
-
-    // Final check: ensure no null bytes after normalization
-    if (normalized.includes('\0')) {
-      return false;
-    }
-  } catch {
-    return false;
-  }
-  return true;
-}
-
-/**
- * Detects symlink attack patterns and suspicious file names
- */
-function containsSuspiciousPatterns(trimmed: string): boolean {
-  // Check for common symlink attack patterns
-  const suspiciousPatterns = [
-    /symlink.*to/i,
-    /link.*to/i,
-    /mount.*point/i,
-    /bind.*mount/i,
-    /device/i,
-    /proc/i,
-    /sys/i,
-    /dev/i,
-  ];
-
-  // Check for suspicious file names that might indicate symlinks
-  const suspiciousNames = [
-    'symlink_to_etc',
-    'symlink_to_dev',
-    'symlink_to_proc',
-    'symlink_to_sys',
-    'link_to_etc',
-    'link_to_dev',
-    'mount_point',
-    'device_link',
-  ];
-
-  return (
-    suspiciousPatterns.some((pattern) => pattern.test(trimmed)) ||
-    suspiciousNames.some((name) => trimmed.toLowerCase().includes(name))
-  );
-}
-
-/**
- * Detects glob pattern attack patterns
- */
-function containsGlobAttackPatterns(trimmed: string): boolean {
-  const attackPatterns = [
-    /\*\*.*\.\./, // ** followed by ..
-    /\.\.\/\*\*/, // ../**
-    /\{\.\./, // {.. in brace expansion
-    /\.\.\}/, // ..} in brace expansion
-    /\*\*/, // ** pattern (can be dangerous)
-    /\*.*\*/, // Wildcard patterns
-    /\{.*\}/, // Brace expansion patterns
-  ];
-
-  return attackPatterns.some((pattern) => pattern.test(trimmed));
-}
-
-/**
- * Comprehensive path traversal prevention for single files and globs
- *
- * Security checks performed:
- * 1. Type and length validation
- * 2. Null byte injection prevention
- * 3. Path traversal detection (.. components)
- * 4. Absolute path rejection
- * 5. Dangerous character filtering
- * 6. Path normalization and resolution validation
- * 7. Windows-specific path attack prevention
- * 8. Unix-specific path attack prevention
- * 9. Glob pattern attack prevention
- */
-function isSafeRelPath(rel: string): boolean {
-  if (!validateBasicPathProperties(rel)) {
-    return false;
-  }
-
-  const trimmed = rel.trim();
-
-  if (detectPathTraversal(trimmed)) {
-    return false;
-  }
-
-  if (containsDangerousCharacters(trimmed)) {
-    return false;
-  }
-
-  if (!validateWindowsPathSecurity(trimmed)) {
-    return false;
-  }
-
-  if (!validateUnixPathSecurity(trimmed)) {
-    return false;
-  }
-
-  if (!validatePathNormalization(trimmed)) {
-    return false;
-  }
-
-  if (containsSuspiciousPatterns(trimmed)) {
-    return false;
-  }
-
-  if (containsGlobAttackPatterns(trimmed)) {
-    return false;
-  }
-
-  return true;
-}
-
 function registerStatusRoute(app: FastifyInstance, manager: IndexerManager): void {
-  app.get('/indexer/status', async (_req, reply: FastifyReply) => {
+  app.get('/indexer/status', async (_req, reply) => {
     reply.send({ ok: true, status: manager.status() });
   });
 }
 
-function registerResetRoute(app: FastifyInstance, manager: IndexerManager, rootPath: string): void {
-  app.post('/indexer/reset', async (_req: FastifyRequest, reply: FastifyReply) => {
+/**
+ * Registers POST /indexer/reset
+ */
+function registerResetRoute(
+  app: FastifyInstance,
+  manager: IndexerManager,
+  rootPath: string,
+): void {
+  app.post('/indexer/reset', async (_req, reply) => {
     try {
       if (manager.isBusy()) {
         reply.code(409).send({ ok: false, error: 'Indexer busy' });
@@ -338,8 +66,14 @@ function registerResetRoute(app: FastifyInstance, manager: IndexerManager, rootP
   });
 }
 
-function registerReindexRoute(app: FastifyInstance, manager: IndexerManager): void {
-  app.post('/indexer/reindex', async (_req: FastifyRequest, reply: FastifyReply) => {
+/**
+ * Registers POST /indexer/reindex
+ */
+function registerReindexRoute(
+  app: FastifyInstance,
+  manager: IndexerManager,
+): void {
+  app.post('/indexer/reindex', async (_req, reply) => {
     try {
       const result = await manager.scheduleReindexAll();
       reply.send(result);
@@ -349,43 +83,25 @@ function registerReindexRoute(app: FastifyInstance, manager: IndexerManager): vo
   });
 }
 
-function validatePathArray(globs: string | string[] | undefined): {
-  valid: boolean;
-  error?: string;
-} {
-  if (!globs) {
-    return { valid: false, error: "Missing 'path'" };
-  }
-
-  if (typeof globs === 'string') {
-    if (!isSafeRelPath(globs)) {
-      return { valid: false, error: 'Invalid path' };
-    }
-  } else if (Array.isArray(globs)) {
-    for (const glob of globs) {
-      if (!isSafeRelPath(glob)) {
-        return { valid: false, error: 'Invalid path' };
-      }
-    }
-  } else {
-    return { valid: false, error: 'Invalid path format' };
-  }
-
-  return { valid: true };
-}
-
-function registerReindexFilesRoute(app: FastifyInstance, manager: IndexerManager): void {
+/**
+ * Registers POST /indexer/files/reindex
+ */
+function registerReindexFilesRoute(
+  app: FastifyInstance,
+  manager: IndexerManager,
+): void {
   app.post(
     '/indexer/files/reindex',
-    async (request: FastifyRequest<{ Body: PathBody }>, reply: FastifyReply) => {
+    async (
+      request: FastifyRequest<{ Body: PathBody }>,
+      reply: FastifyReply,
+    ) => {
       const globs = request.body?.path;
-      const validation = validatePathArray(globs);
-
-      if (!validation.valid) {
-        reply.code(400).send({ ok: false, error: validation.error });
+      const { valid, error } = validatePathArray(globs);
+      if (!valid) {
+        reply.code(400).send({ ok: false, error });
         return;
       }
-
       try {
         const result = await manager.scheduleReindexSubset(globs!);
         reply.send(result);
@@ -396,22 +112,28 @@ function registerReindexFilesRoute(app: FastifyInstance, manager: IndexerManager
   );
 }
 
-function registerIndexRoute(app: FastifyInstance, manager: IndexerManager): void {
+/**
+ * Registers POST /indexer/index
+ */
+function registerIndexRoute(
+  app: FastifyInstance,
+  manager: IndexerManager,
+): void {
   app.post(
     '/indexer/index',
-    async (request: FastifyRequest<{ Body: PathBody }>, reply: FastifyReply) => {
+    async (
+      request: FastifyRequest<{ Body: PathBody }>,
+      reply: FastifyReply,
+    ) => {
       const pathInput = request.body?.path;
-
-      // First check: Only accept single paths for this endpoint (security-first approach)
       if (Array.isArray(pathInput)) {
         handleSecureError(reply, new Error('Invalid request'), 400);
         return;
       }
 
-      // Second check: Validate the single path
-      const validation = validatePathArray(pathInput);
-      if (!validation.valid) {
-        handleSecureError(reply, new Error('Invalid request'), 400);
+      const { valid, error } = validatePathArray(pathInput);
+      if (!valid) {
+        handleSecureError(reply, new Error(error), 400);
         return;
       }
 
@@ -425,22 +147,28 @@ function registerIndexRoute(app: FastifyInstance, manager: IndexerManager): void
   );
 }
 
-function registerRemoveRoute(app: FastifyInstance, manager: IndexerManager): void {
+/**
+ * Registers POST /indexer/remove
+ */
+function registerRemoveRoute(
+  app: FastifyInstance,
+  manager: IndexerManager,
+): void {
   app.post(
     '/indexer/remove',
-    async (request: FastifyRequest<{ Body: PathBody }>, reply: FastifyReply) => {
+    async (
+      request: FastifyRequest<{ Body: PathBody }>,
+      reply: FastifyReply,
+    ) => {
       const pathInput = request.body?.path;
-
-      // First check: Only accept single paths for this endpoint (security-first approach)
       if (Array.isArray(pathInput)) {
         handleSecureError(reply, new Error('Invalid request'), 400);
         return;
       }
 
-      // Second check: Validate the single path
-      const validation = validatePathArray(pathInput);
-      if (!validation.valid) {
-        handleSecureError(reply, new Error('Invalid request'), 400);
+      const { valid, error } = validatePathArray(pathInput);
+      if (!valid) {
+        handleSecureError(reply, new Error(error), 400);
         return;
       }
 
@@ -454,6 +182,9 @@ function registerRemoveRoute(app: FastifyInstance, manager: IndexerManager): voi
   );
 }
 
+/**
+ * Registers all indexer routes
+ */
 export function registerIndexerRoutes(
   app: FastifyInstance,
   manager: IndexerManager,

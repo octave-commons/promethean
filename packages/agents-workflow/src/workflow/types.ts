@@ -1,3 +1,5 @@
+ 
+
 import type {
   JsonSchemaDefinition,
   Model,
@@ -47,32 +49,32 @@ export type ResolvedAgentDefinition = AgentDefinition & {
   instructions: string;
 };
 
-export interface WorkflowNode {
+export type WorkflowNode = {
   id: string;
   label?: string;
   definition?: ResolvedAgentDefinition;
   source?: "inline" | "reference" | "config";
-}
+};
 
-export interface WorkflowEdge {
+export type WorkflowEdge = {
   from: string;
   to: string;
   label?: string;
-}
+};
 
-export interface WorkflowDefinition {
+export type WorkflowDefinition = {
   id: string;
   nodes: WorkflowNode[];
   edges: WorkflowEdge[];
   metadata?: Record<string, unknown>;
-}
+};
 
-export interface MarkdownWorkflowDocument {
+export type MarkdownWorkflowDocument = {
   workflows: WorkflowDefinition[];
   jsonBlocks: Record<string, unknown>;
-}
+};
 
-export interface ResolvedAgentConfig {
+export type ResolvedAgentConfig = {
   name: string;
   instructions: string;
   handoffDescription: string;
@@ -80,33 +82,33 @@ export interface ResolvedAgentConfig {
   modelSettings?: ModelSettings;
   tools: Tool[];
   outputType?: JsonSchemaDefinition | "text";
-}
+};
 
-export interface AgentGraphNode {
+export type AgentGraphNode = {
   id: string;
   definition: ResolvedAgentDefinition;
   config: ResolvedAgentConfig;
-}
+};
 
-export interface AgentWorkflowGraph {
+export type AgentWorkflowGraph = {
   id: string;
   nodes: Map<string, AgentGraphNode>;
   edges: WorkflowEdge[];
   metadata?: Record<string, unknown>;
-}
+};
 
-export interface ModelResolverMap {
+export type ModelResolverMap = {
   [provider: string]:
     | ModelProvider
     | ((name: string, definition: AgentDefinition) => Promise<Model | string>);
-}
+};
 
-export interface AgentFactoryOptions {
+export type AgentFactoryOptions = {
   defaultModel?: string;
   modelResolvers?: ModelResolverMap;
   toolRegistry?: Record<string, Tool>;
-}
+};
 
-export interface MarkdownWorkflowOptions {
+export type MarkdownWorkflowOptions = {
   baseDir?: string;
-}
+};

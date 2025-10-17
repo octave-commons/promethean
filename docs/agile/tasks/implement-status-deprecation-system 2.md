@@ -5,7 +5,7 @@ slug: "implement-status-deprecation-system 2"
 status: "incoming"
 priority: "P1"
 labels: ["kanban", "deprecation", "aliasing", "migration"]
-created_at: "2025-10-17T00:52:47.710Z"
+created_at: "2025-10-17T02:31:43.953Z"
 estimates:
   complexity: ""
   scale: ""

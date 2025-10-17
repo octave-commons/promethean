@@ -2,7 +2,7 @@
 uuid: "9f37c3a8-7bc4-42f7-bb83-f460fb095aae"
 title: "--title Deep dive kanban tasks analysis and optimization --storyPoints 2"
 slug: "--title Deep dive kanban tasks analysis and optimization --storyPoints 2"
-status: "incoming"
+status: "blocked"
 priority: "P1"
 labels: ["title", "deep", "dive", "kanban"]
 created_at: "2025-10-17T00:55:33.090Z"
@@ -12,12 +12,19 @@ estimates:
   time_to_completion: ""
 ---
 
-## ⛓️ Blocked By
+## Estimates
 
-Nothing
+- Complexity: 2 (small analysis task)
+- Time: 4 hours
+- Confidence: 80%
 
+## Subtasks Created
 
+- Analyze task distribution across kanban columns (23bd6059)
+- Audit WIP limit effectiveness and compliance (cc620ab3)
+- Fix transition rule inconsistencies and orphaned events (c19acb65)
+- Generate optimization recommendations and roadmap (b4f9287c)
 
-## ⛓️ Blocks
+## Analysis Complete
 
-Nothing
+Task has been broken down into manageable subtasks with clear deliverables.

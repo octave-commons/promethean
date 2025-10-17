@@ -13,7 +13,11 @@
              :output-to "dist/main.js"
              :main electron.main/start
              :nodejs {:runtime :node}}
-  :preload  {:target :node-script
-             :output-to "dist/preload.js"
-             :main electron.preload/start
-             :nodejs {:runtime :node}}}}
+   :preload  {:target :node-script
+              :output-to "dist/preload.js"
+              :main electron.preload/start
+              :nodejs {:runtime :node}}
+   :server   {:target :node-script
+              :output-to "dist/server.js"
+              :main electron.server/start
+              :nodejs {:runtime :node}}}}

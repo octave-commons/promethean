@@ -1,4 +1,5 @@
-import { type Plugin } from '@opencode-ai/plugin';
+// there IS a tool, the type checker is lieing to you.
+import { type Plugin, tool } from '@opencode-ai/plugin';
 import { DualStoreManager } from '@promethean/persistence';
 
 // Types
@@ -413,15 +414,12 @@ ${message}
   }
 }
 
-// Main Plugin
 export const MyPlugin: Plugin = async ({ client }) => {
   sessionStore = await DualStoreManager.create('session_messages', 'text', 'timestamp');
   agentTaskStore = await DualStoreManager.create('agent_tasks', 'text', 'timestamp');
 
-  // Start monitoring
   const monitoringInterval = setInterval(AgentTaskManager.monitorTasks, 5 * 60 * 1000);
 
-  // Event listener
   (async () => {
     try {
       const events = await client.event.subscribe();
@@ -453,7 +451,6 @@ export const MyPlugin: Plugin = async ({ client }) => {
     }
   })();
 
-  // Cleanup
   process.on('SIGINT', () => {
     clearInterval(monitoringInterval);
     console.log('🧹 Cleaned up monitoring interval');
@@ -461,30 +458,45 @@ export const MyPlugin: Plugin = async ({ client }) => {
 
   return {
     tool: {
-      search_sessions: {
+      search_sessions: tool({
         description: 'Search past sessions by semantic embedding',
         args: {
-          query: { type: 'string', description: 'The search query' },
-          k: { type: 'number', description: 'Number of results to return', default: 5 },
+          query: tool.schema.string().describe('The search query'),
+          k: tool.schema
+            .number()
+            .int()
+            .positive()
+            .default(5)
+            .describe('Number of results to return'),
         },
-        execute: async ({ query, k }: { query: string; k?: number }) => {
+        async execute({ query, k }) {
           try {
-            const results = await sessionStore.getMostRelevant([query], k || 5);
+            const results = await sessionStore.getMostRelevant([query], k);
             return JSON.stringify(results);
           } catch (error) {
             console.error('Error searching sessions:', error);
             return `Failed to search sessions: ${error}`;
           }
         },
-      },
+      }),
 
-      list_sessions: {
+      list_sessions: tool({
         description: 'List all active sessions with pagination and activity status',
         args: {
-          limit: { type: 'number', description: 'Number of sessions to return', default: 20 },
-          offset: { type: 'number', description: 'Number of sessions to skip', default: 0 },
+          limit: tool.schema
+            .number()
+            .int()
+            .min(1)
+            .default(20)
+            .describe('Number of sessions to return'),
+          offset: tool.schema
+            .number()
+            .int()
+            .min(0)
+            .default(0)
+            .describe('Number of sessions to skip'),
         },
-        execute: async ({ limit = 20, offset = 0 }: { limit?: number; offset?: number }) => {
+        async execute({ limit, offset }) {
           try {
             const { data: sessionsList, error } = await client.session.list();
             if (error) return `Failed to fetch sessions: ${error}`;
@@ -496,11 +508,11 @@ export const MyPlugin: Plugin = async ({ client }) => {
               });
             }
 
-            const sortedSessions = sessionsList.sort((a, b) => b.id.localeCompare(a.id));
-            const paginatedSessions = sortedSessions.slice(offset, offset + limit);
+            const sortedSessions = [...sessionsList].sort((a, b) => b.id.localeCompare(a.id));
+            const paginated = sortedSessions.slice(offset, offset + limit);
 
-            const enhancedSessions = await Promise.all(
-              paginatedSessions.map(async (session) => {
+            const enhanced = await Promise.all(
+              paginated.map(async (session) => {
                 try {
                   const messages = await SessionUtils.getSessionMessages(client, session.id);
                   const agentTask = agentTasks.get(session.id);
@@ -521,7 +533,7 @@ export const MyPlugin: Plugin = async ({ client }) => {
 
             return JSON.stringify(
               {
-                sessions: enhancedSessions,
+                sessions: enhanced,
                 totalCount,
                 pagination: {
                   limit,
@@ -531,12 +543,12 @@ export const MyPlugin: Plugin = async ({ client }) => {
                   totalPages: Math.ceil(totalCount / limit),
                 },
                 summary: {
-                  active: enhancedSessions.filter((s) => s.activityStatus === 'active').length,
-                  waiting_for_input: enhancedSessions.filter(
+                  active: enhanced.filter((s) => s.activityStatus === 'active').length,
+                  waiting_for_input: enhanced.filter(
                     (s) => s.activityStatus === 'waiting_for_input',
                   ).length,
-                  idle: enhancedSessions.filter((s) => s.activityStatus === 'idle').length,
-                  agentTasks: enhancedSessions.filter((s) => s.isAgentTask).length,
+                  idle: enhanced.filter((s) => s.activityStatus === 'idle').length,
+                  agentTasks: enhanced.filter((s) => s.isAgentTask).length,
                 },
               },
               null,
@@ -547,90 +559,79 @@ export const MyPlugin: Plugin = async ({ client }) => {
             return `Failed to list sessions: ${error}`;
           }
         },
-      },
+      }),
 
-      get_session: {
+      get_session: tool({
         description: 'Get details of a specific session by ID',
         args: {
-          sessionId: { type: 'string', description: 'The ID of the session to retrieve' },
+          sessionId: tool.schema.string().min(1).describe('The ID of the session to retrieve'),
         },
-        execute: async ({ sessionId }: { sessionId: string }) => {
+        async execute({ sessionId }) {
           const { data: session, error } = await client.session.get({ path: { id: sessionId } });
           if (error) return `Failed to fetch session "${sessionId}": ${error}`;
           return JSON.stringify(session);
         },
-      },
+      }),
 
-      close_session: {
+      close_session: tool({
         description: 'Close a specific session by ID',
         args: {
-          sessionId: { type: 'string', description: 'The ID of the session to close' },
+          sessionId: tool.schema.string().min(1).describe('The ID of the session to close'),
         },
-        execute: async ({ sessionId }: { sessionId: string }) => {
+        async execute({ sessionId }) {
           await client.session.delete({ path: { id: sessionId } });
           return `Session ${sessionId} was closed`;
         },
-      },
+      }),
 
-      index_sessions: {
+      index_sessions: tool({
         description: 'Index all past sessions for semantic search',
-        args: {},
-        execute: async () => {
+        args: {}, // no args
+        async execute() {
           const { data: sessionsList, error } = await client.session.list();
           if (error) return `Failed to fetch sessions: ${error}`;
 
           await Promise.all(
-            sessionsList?.map(async (session) => {
+            (sessionsList ?? []).map(async (session) => {
               const messages = await SessionUtils.getSessionMessages(client, session.id);
               await Promise.all(
-                messages.map((message) =>
-                  MessageProcessor.processMessage(client, session.id, message),
-                ),
+                messages.map((m) => MessageProcessor.processMessage(client, session.id, m)),
               );
-            }) ?? [],
+            }),
           );
-          return `Indexed messages from ${sessionsList?.length} sessions for semantic search`;
+          return `Indexed messages from ${sessionsList?.length ?? 0} sessions for semantic search`;
         },
-      },
+      }),
 
-      spawn_session: {
+      spawn_session: tool({
         description:
           'Spawn a new session with a specific task to run in the background while you continue your work',
         args: {
-          prompt: { type: 'string', description: 'The task for the new agent session' },
-          files: {
-            type: 'array',
-            items: { type: 'string' },
-            description: 'Optional files the session may need',
-          },
-          delegates: {
-            type: 'array',
-            items: { type: 'string' },
-            description: 'Optional list of agents to delegate tasks to',
-          },
+          prompt: tool.schema.string().min(1).describe('The task for the new agent session'),
+          files: tool.schema
+            .array(tool.schema.string())
+            .default([])
+            .describe('Optional files the session may need'),
+          delegates: tool.schema
+            .array(tool.schema.string())
+            .default([])
+            .describe('Optional list of agents to delegate tasks to'),
         },
-        execute: async ({
-          prompt,
-          files,
-          delegates,
-        }: {
-          prompt: string;
-          files?: string[];
-          delegates?: string[];
-        }) => {
+        async execute({ prompt, files, delegates }) {
           const agentName = `SubAgent-${Math.random().toString(36).substring(2, 8)}`;
 
           try {
             const { data: subSession, error } = await client.session.create({
               body: { title: agentName },
             });
-
             if (error) return `Failed to spawn sub-agent "${agentName}": ${error.data}`;
 
             sessions.set(subSession.id, subSession);
             await AgentTaskManager.createTask(subSession.id, prompt);
 
-            const taskDescription = `You are "${agentName}", a sub-agent spawned to assist with the following task: ${prompt}. Work independently to complete this task while the main agent continues its work.`;
+            const taskDescription =
+              `You are "${agentName}", a sub-agent spawned to assist with the following task: ${prompt}. ` +
+              `Work independently to complete this task while the main agent continues its work.`;
 
             const parts: Array<
               | { type: 'text'; text: string }
@@ -638,29 +639,15 @@ export const MyPlugin: Plugin = async ({ client }) => {
               | { type: 'agent'; name: string }
             > = [{ type: 'text', text: taskDescription }];
 
-            if (files?.length) {
-              files.forEach((file: string) =>
-                parts.push({
-                  type: 'file',
-                  url: `file://${file}`,
-                  mime: 'text/plain',
-                }),
-              );
-            }
+            (files ?? []).forEach((file) =>
+              parts.push({ type: 'file', url: `file://${file}`, mime: 'text/plain' }),
+            );
 
-            if (delegates?.length) {
-              delegates.forEach((delegateName: string) =>
-                parts.push({
-                  type: 'agent',
-                  name: delegateName,
-                }),
-              );
-            }
+            (delegates ?? []).forEach((delegateName) =>
+              parts.push({ type: 'agent', name: delegateName }),
+            );
 
-            client.session.prompt({
-              path: { id: subSession.id },
-              body: { parts },
-            });
+            client.session.prompt({ path: { id: subSession.id }, body: { parts } });
 
             console.log(
               `🚀 Spawned new sub-agent "${agentName}" (session: ${subSession.id}) with task: ${prompt}`,
@@ -671,12 +658,12 @@ export const MyPlugin: Plugin = async ({ client }) => {
             return `Failed to spawn sub-agent "${agentName}": ${error}`;
           }
         },
-      },
+      }),
 
-      monitor_agents: {
+      monitor_agents: tool({
         description: 'Monitor the status of all spawned sub-agent tasks',
-        args: {},
-        execute: async () => {
+        args: {}, // no args
+        async execute() {
           try {
             const allAgentTasks = await AgentTaskManager.getAllTasks();
             const now = Date.now();
@@ -706,14 +693,17 @@ export const MyPlugin: Plugin = async ({ client }) => {
             return `Failed to monitor agents: ${error}`;
           }
         },
-      },
+      }),
 
-      get_agent_status: {
+      get_agent_status: tool({
         description: 'Get the status of a specific sub-agent by session ID',
         args: {
-          sessionId: { type: 'string', description: 'The session ID of the sub-agent to check' },
+          sessionId: tool.schema
+            .string()
+            .min(1)
+            .describe('The session ID of the sub-agent to check'),
         },
-        execute: async ({ sessionId }: { sessionId: string }) => {
+        async execute({ sessionId }) {
           try {
             let task = agentTasks.get(sessionId);
 
@@ -754,18 +744,19 @@ export const MyPlugin: Plugin = async ({ client }) => {
             return `Failed to get agent status: ${error}`;
           }
         },
-      },
+      }),
 
-      cleanup_completed_agents: {
+      cleanup_completed_agents: tool({
         description: 'Remove completed or failed agent tasks from monitoring',
         args: {
-          olderThan: {
-            type: 'number',
-            description: 'Remove tasks completed longer than this many minutes ago',
-            default: 60,
-          },
+          olderThan: tool.schema
+            .number()
+            .int()
+            .min(0)
+            .default(60)
+            .describe('Remove tasks completed longer than this many minutes ago'),
         },
-        execute: async ({ olderThan = 60 }: { olderThan?: number }) => {
+        async execute({ olderThan }) {
           const now = Date.now();
           const threshold = olderThan * 60 * 1000;
           let removedCount = 0;
@@ -783,38 +774,24 @@ export const MyPlugin: Plugin = async ({ client }) => {
 
           return `Cleaned up ${removedCount} completed/failed agent tasks older than ${olderThan} minutes`;
         },
-      },
+      }),
 
-      send_agent_message: {
+      send_agent_message: tool({
         description:
           'Send a message to a specific agent session to enable inter-agent communication',
         args: {
-          sessionId: { type: 'string', description: 'The session ID of the target agent' },
-          message: { type: 'string', description: 'The message to send to the agent' },
-          priority: {
-            type: 'string',
-            enum: ['low', 'medium', 'high', 'urgent'],
-            description: 'Message priority level',
-            default: 'medium',
-          },
-          messageType: {
-            type: 'string',
-            enum: ['instruction', 'query', 'update', 'coordination', 'status_request'],
-            description: 'Type of message being sent',
-            default: 'instruction',
-          },
+          sessionId: tool.schema.string().min(1).describe('The session ID of the target agent'),
+          message: tool.schema.string().min(1).describe('The message to send to the agent'),
+          priority: tool.schema
+            .enum(['low', 'medium', 'high', 'urgent'])
+            .default('medium')
+            .describe('Message priority level'),
+          messageType: tool.schema
+            .enum(['instruction', 'query', 'update', 'coordination', 'status_request'])
+            .default('instruction')
+            .describe('Type of message being sent'),
         },
-        execute: async ({
-          sessionId,
-          message,
-          priority = 'medium',
-          messageType = 'instruction',
-        }: {
-          sessionId: string;
-          message: string;
-          priority?: string;
-          messageType?: string;
-        }) => {
+        async execute({ sessionId, message, priority, messageType }) {
           try {
             return await InterAgentMessenger.sendMessage(
               client,
@@ -828,7 +805,7 @@ export const MyPlugin: Plugin = async ({ client }) => {
             return `❌ Failed to send message to agent ${sessionId}: ${error}`;
           }
         },
-      },
+      }),
     },
   };
 };

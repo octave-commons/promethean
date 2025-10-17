@@ -5,7 +5,7 @@ slug: "Implement LLM-powered kanban explain command"
 status: "breakdown"
 priority: "P1"
 labels: ["llm", "explain", "command", "kanban"]
-created_at: "2025-10-17T00:55:33.040Z"
+created_at: "2025-10-17T03:09:44.149Z"
 estimates:
   complexity: ""
   scale: ""
