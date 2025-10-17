@@ -1,6 +1,7 @@
 import type { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 import type { IndexerManager } from '@promethean/indexer-core';
 import { validatePathArray } from '../validation/index.js';
+import type { PathBody } from '../validation/types.js';
 
 /**
  * Generic error messages for secure error handling
@@ -19,11 +20,7 @@ const genericErrorMessages: Record<number, string> = {
 /**
  * Secure error handler that prevents information disclosure
  */
-function handleSecureError(
-  reply: FastifyReply,
-  error: Error,
-  statusCode: number = 500,
-): void {
+function handleSecureError(reply: FastifyReply, error: Error, statusCode: number = 500): void {
   // Log the full error for debugging purposes
   reply.log.error({ err: error }, 'Indexer operation failed');
 
@@ -47,11 +44,7 @@ function registerStatusRoute(app: FastifyInstance, manager: IndexerManager): voi
 /**
  * Registers POST /indexer/reset
  */
-function registerResetRoute(
-  app: FastifyInstance,
-  manager: IndexerManager,
-  rootPath: string,
-): void {
+function registerResetRoute(app: FastifyInstance, manager: IndexerManager, rootPath: string): void {
   app.post('/indexer/reset', async (_req, reply) => {
     try {
       if (manager.isBusy()) {
@@ -69,10 +62,7 @@ function registerResetRoute(
 /**
  * Registers POST /indexer/reindex
  */
-function registerReindexRoute(
-  app: FastifyInstance,
-  manager: IndexerManager,
-): void {
+function registerReindexRoute(app: FastifyInstance, manager: IndexerManager): void {
   app.post('/indexer/reindex', async (_req, reply) => {
     try {
       const result = await manager.scheduleReindexAll();
@@ -86,16 +76,10 @@ function registerReindexRoute(
 /**
  * Registers POST /indexer/files/reindex
  */
-function registerReindexFilesRoute(
-  app: FastifyInstance,
-  manager: IndexerManager,
-): void {
+function registerReindexFilesRoute(app: FastifyInstance, manager: IndexerManager): void {
   app.post(
     '/indexer/files/reindex',
-    async (
-      request: FastifyRequest<{ Body: PathBody }>,
-      reply: FastifyReply,
-    ) => {
+    async (request: FastifyRequest<{ Body: PathBody }>, reply: FastifyReply) => {
       const globs = request.body?.path;
       const { valid, error } = validatePathArray(globs);
       if (!valid) {
@@ -115,16 +99,10 @@ function registerReindexFilesRoute(
 /**
  * Registers POST /indexer/index
  */
-function registerIndexRoute(
-  app: FastifyInstance,
-  manager: IndexerManager,
-): void {
+function registerIndexRoute(app: FastifyInstance, manager: IndexerManager): void {
   app.post(
     '/indexer/index',
-    async (
-      request: FastifyRequest<{ Body: PathBody }>,
-      reply: FastifyReply,
-    ) => {
+    async (request: FastifyRequest<{ Body: PathBody }>, reply: FastifyReply) => {
       const pathInput = request.body?.path;
       if (Array.isArray(pathInput)) {
         handleSecureError(reply, new Error('Invalid request'), 400);
@@ -150,16 +128,10 @@ function registerIndexRoute(
 /**
  * Registers POST /indexer/remove
  */
-function registerRemoveRoute(
-  app: FastifyInstance,
-  manager: IndexerManager,
-): void {
+function registerRemoveRoute(app: FastifyInstance, manager: IndexerManager): void {
   app.post(
     '/indexer/remove',
-    async (
-      request: FastifyRequest<{ Body: PathBody }>,
-      reply: FastifyReply,
-    ) => {
+    async (request: FastifyRequest<{ Body: PathBody }>, reply: FastifyReply) => {
       const pathInput = request.body?.path;
       if (Array.isArray(pathInput)) {
         handleSecureError(reply, new Error('Invalid request'), 400);

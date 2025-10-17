@@ -43,6 +43,15 @@ const GLOB_ATTACK_PATTERNS = [
   /\.\.\/\*\*/, // ../**
   /\{\.\./, // {.. in brace expansion
   /\.\.\}/, // ..} in brace expansion
+  /\{.*\.\..*\}/, // {..} anywhere in braces
+  /\*\*\/\.\./, // **/../
+  /\.\.\/\*\*\/.*/, // ../**/
+  /\{.*,.*\.\..*,.*\}/, // {..} in comma-separated braces
+  /^\.\./, // Starts with ..
+  /\/\.\./, // Contains /..
+  /\.\.$/, // Ends with ..
+  /\{\s*\.\./, // { .. with spaces
+  /\.\.\s*\}/, // .. } with spaces
 ];
 
 const UNIX_DANGEROUS_PATHS = ['/dev/', '/proc/', '/sys/', '/etc/', '/root/', '/var/log/'];
@@ -259,6 +268,46 @@ function containsGlobAttackPatterns(trimmed: string): boolean {
 }
 
 /**
+ * Validates glob-specific security constraints
+ */
+function validateGlobSecurity(trimmed: string): boolean {
+  // Check for brace expansion attacks
+  if (trimmed.includes('{')) {
+    // Look for dangerous brace expansions
+    const braceMatch = trimmed.match(/\{([^}]+)\}/);
+    if (braceMatch && braceMatch[1]) {
+      const braceContent = braceMatch[1];
+      // Check for traversal patterns in braces
+      if (
+        braceContent.includes('..') ||
+        braceContent.includes('../') ||
+        braceContent.includes('..\\')
+      ) {
+        return false;
+      }
+      // Check for excessive brace expansion (DoS protection)
+      const options = braceContent.split(',').length;
+      if (options > 100) {
+        return false;
+      }
+    }
+  }
+
+  // Check for nested double asterisks that could escape
+  const doubleAsteriskMatches = trimmed.match(/\*\*/g);
+  if (doubleAsteriskMatches && doubleAsteriskMatches.length > 10) {
+    return false;
+  }
+
+  // Check for patterns that could match outside repository
+  if (trimmed.startsWith('**/') && trimmed.includes('..')) {
+    return false;
+  }
+
+  return true;
+}
+
+/**
  * Comprehensive path security validation
  */
 export function validatePathSecurity(rel: string): PathValidationResult {
@@ -327,6 +376,18 @@ export function validatePathSecurity(rel: string): PathValidationResult {
   if (containsGlobAttackPatterns(trimmed)) {
     securityIssues.push('Glob pattern attack detected');
     if (riskLevel !== 'critical') riskLevel = 'medium';
+  }
+
+  // Glob-specific security validation
+  if (!validateGlobSecurity(trimmed)) {
+    securityIssues.push('Glob security validation failed');
+    if (riskLevel !== 'critical') riskLevel = 'high';
+  }
+
+  // Glob-specific security validation
+  if (!validateGlobSecurity(trimmed)) {
+    securityIssues.push('Glob security validation failed');
+    if (riskLevel !== 'critical') riskLevel = 'high';
   }
 
   const valid = securityIssues.length === 0;

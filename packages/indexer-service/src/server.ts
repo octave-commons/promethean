@@ -1,4 +1,4 @@
-import Fastify, type { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
+import Fastify, { type FastifyInstance } from 'fastify';
 import rateLimit from '@fastify/rate-limit';
 import { createLogger, type Level } from '@promethean/utils';
 import {
@@ -9,7 +9,7 @@ import {
 } from '@promethean/indexer-core';
 
 import { loadConfig, type ServiceConfig } from './config.js';
-import type { IndexerManager } from '@promethean/indexer-core';
+
 import { registerIndexerRoutes } from './routes/indexer.js';
 import { registerSearchRoutes } from './routes/search.js';
 
@@ -22,75 +22,44 @@ function normalizeLevel(raw: string): Level {
   return LEVELS.has(value) ? value : 'info';
 }
 
-async function setupRateLimiting(app: FastifyInstance, config: ServiceConfig): Promise<void> {
+function setupRateLimiting(app: FastifyInstance, config: ServiceConfig): void {
   if (config.enableRateLimit) {
     try {
-      await app.register(rateLimit, { max: 100, timeWindow: '1 minute' });
+      app.register(rateLimit, { max: 100, timeWindow: '1 minute' });
     } catch (error) {
       app.log.warn({ err: error }, 'Failed to register rate limit plugin');
     }
   }
 }
 
-function setupHealthRoute(app: FastifyInstance): void {
-  app.get('/health', async (_req: any, reply: any) => {
-    reply.send({ ok: true });
-  });
-}
-
-function setupDocsRoute(app: FastifyInstance): void {
-  app.get('/openapi.json', async (_req: any, reply: any) => {
-    reply.send({
-      openapi: '3.1.0',
-      info: { title: 'Promethean Indexer Service', version: '0.1.0' },
-      paths: {
-        '/health': { get: { summary: 'Liveness' } },
-        '/indexer/status': { get: { summary: 'Indexer status' } },
-        '/indexer/reset': { post: { summary: 'Reset indexer' } },
-        '/indexer/reindex': { post: { summary: 'Reindex all' } },
-        '/indexer/files/reindex': { post: { summary: 'Reindex subset' } },
-        '/indexer/index': { post: { summary: 'Index single file' } },
-        '/indexer/remove': { post: { summary: 'Remove indexed file' } },
-        '/search': { post: { summary: 'Semantic search' } },
-      },
-    });
-  });
-}
-
-function setupBootstrap(manager: IndexerManager, app: FastifyInstance, rootPath: string): void {
-  void manager.ensureBootstrap(rootPath).catch((error: any) => {
-    app.log.error({ err: error }, 'Indexer bootstrap failed');
-  });
-}
-
-export async function buildServer(
-  options: BuildServerOptions = {},
-): Promise<{ app: any; manager: any; config: ServiceConfig }> {
-  const config = Object.keys(options).length > 0 ? { ...loadConfig(), ...options } : loadConfig();
-
-  const level = normalizeLevel(config.logLevel);
-  const logger = createLogger({ level, service: 'indexer-service' });
+export async function buildServer(options: BuildServerOptions = {}): Promise<FastifyInstance> {
+  const config = await loadConfig(options);
+  const logger = createLogger('indexer-service', normalizeLevel(config.logLevel));
 
   setIndexerLogger(logger);
-  setIndexerStateStore(createLevelCacheStateStore(config.cachePath));
+  const stateStore = createLevelCacheStateStore(config.cachePath);
+  setIndexerStateStore(stateStore);
 
-  const manager = createIndexerManager();
+  const indexerManager = createIndexerManager();
 
   const app = Fastify({
-    logger: { level },
-    trustProxy: true,
+    logger: {
+      level: config.logLevel,
+      transport: {
+        target: 'pino-pretty',
+        options: { colorize: true },
+      },
+    },
   });
 
-  await setupRateLimiting(app, config);
-  setupHealthRoute(app);
-  registerIndexerRoutes(app, manager, config.rootPath);
+  setupRateLimiting(app, config);
+
+  app.get('/health', async (_req, reply) => {
+    reply.send({ ok: true });
+  });
+
+  registerIndexerRoutes(app, indexerManager, config.rootPath);
   registerSearchRoutes(app, config.rootPath);
 
-  if (config.enableDocs) {
-    setupDocsRoute(app);
-  }
-
-  setupBootstrap(manager, app, config.rootPath);
-
-  return { app, manager, config };
+  return app;
 }

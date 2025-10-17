@@ -93,3 +93,10 @@ export interface ValidationErrorDetails {
   clientIp?: string;
   userAgent?: string;
 }
+
+/**
+ * Path body interface for indexer routes
+ */
+export interface PathBody {
+  path?: string | string[];
+}
