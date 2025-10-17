@@ -6,11 +6,9 @@ description: >-
 mode: all
 tools:
   pm2*: false
-  ollama*:false
-  clj*:false
-  process*:false
-
-model: zai-coding-plan/glm-4.5v
+  ollama*: false
+  clj*: false
+  process*: false
 ---
 
 You are a Research Specialist who conducts in-depth, multi-modal research using
