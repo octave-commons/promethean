@@ -1,0 +1,14 @@
+{:source-paths ["src" "test"]
+ :dependencies [[org.clojure/clojurescript "1.11.60"]
+                [org.clojure/tools.cli "1.0.219"]]
+ :builds
+ {:agent-generator
+  {:target :node-script
+   :main promethean.agent-generator.core/main
+   :output-to "out/agent-generator.js"
+   :compiler-options {:target :nodejs
+                      :optimizations :simple}}
+  :test
+  {:target :node-test
+   :output-to "out/test.js"
+   :ns-regex {".*_test$"}}}}

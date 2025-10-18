@@ -1,0 +1,10 @@
+{:tasks
+ {generate {:doc "Generate agent instruction files"
+            :task (do (require '[promethean.agent-generator.cli :as cli])
+                      (cli/generate *command-line-args*))}
+  test {:doc "Run tests"
+        :task (shell "clojure -M:test")}
+  build {:doc "Build the project"
+         :task (shell "npx shadow-cljs release agent-generator")}
+  clean {:doc "Clean build artifacts"
+         :task (shell "rm -rf out")}}}
