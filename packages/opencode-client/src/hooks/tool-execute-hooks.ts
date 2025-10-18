@@ -144,7 +144,7 @@ export class ToolExecuteHookManager implements HookManager {
     let currentResult = result.result;
 
     for (const hook of hooks.slice(0, opts.maxHooks)) {
-      const hookMetrics = await this.executeHook(
+      const hookResult = await this.executeHook(
         hook,
         toolName,
         { args, result: { ...result, result: currentResult } },
@@ -153,34 +153,19 @@ export class ToolExecuteHookManager implements HookManager {
         opts,
       );
 
-      metrics.push(hookMetrics);
+      metrics.push(hookResult.metrics);
 
-      if (hookMetrics.success && hookMetrics.executionTime > 0) {
-        // Hook may have modified the result
-        const hookResult = await this.safeHookExecution(
-          hook.hook,
-          {
-            toolName,
-            args,
-            phase: 'after',
-            timestamp: new Date(),
-            executionId: this.generateExecutionId(),
-            pluginContext: context.pluginContext,
-            metadata: context.metadata || {},
-          },
-          opts.timeout,
-        );
+      if (hookResult.result !== undefined && hookResult.result !== null) {
+        currentResult = hookResult.result as R;
+      }
 
-        if (hookResult !== undefined && hookResult !== null) {
-          currentResult = hookResult as R;
-        }
-      } else if (!opts.continueOnError) {
+      if (!hookResult.metrics.success && !opts.continueOnError) {
         throw new HookExecutionError(
           `After hook '${hook.id}' failed for tool '${toolName}'`,
           hook.id,
           toolName,
           'after',
-          hookMetrics.error,
+          hookResult.metrics.error,
         );
       }
     }
