@@ -336,11 +336,11 @@ export class McpSecurityMiddleware {
 
     // Security headers
     if (this.config.enableSecurityHeaders) {
-      app.addHook('onSend', async (request, reply, payload, done) => {
+      app.addHook('onSend', async (request, reply, payload) => {
         console.log(`🔒 SECURITY HOOK: addSecurityHeaders START`);
         const start = Date.now();
         try {
-          this.addSecurityHeaders(request, reply, payload, done);
+          await this.addSecurityHeaders(request, reply, payload);
           console.log(`🔒 SECURITY HOOK: addSecurityHeaders END (${Date.now() - start}ms)`);
         } catch (error) {
           console.log(
@@ -684,12 +684,11 @@ export class McpSecurityMiddleware {
   // Security Headers
   // ============================================================================
 
-  private addSecurityHeaders(
+  private async addSecurityHeaders(
     request: FastifyRequest,
     reply: FastifyReply,
     _payload: any,
-    done: any,
-  ): void {
+  ): Promise<void> {
     const context = (request as any).securityContext as SecurityContext;
 
     // Use context to avoid unused variable warning
@@ -733,8 +732,6 @@ export class McpSecurityMiddleware {
       reply.header('Access-Control-Allow-Credentials', 'true');
       reply.header('Access-Control-Max-Age', '86400');
     }
-
-    done();
   }
 
   // ============================================================================
