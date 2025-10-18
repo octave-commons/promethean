@@ -9,19 +9,19 @@
  */
 
 // Export main server functionality
-export * from './server';
+export * from './server/index.js';
 
 // Export client functionality
-export * from './client';
+export * from './client/index.js';
 
 // Export shared utilities and types
-export * from './shared';
+export * from './shared/index.js';
 
 // Export Electron main process utilities
-export * from './electron';
+export * from './electron/index.js';
 
 // Export schemas
-export * from '../schemas';
+export * from '../schemas/index.js';
 
 // Version information
 export const VERSION = '1.0.0';
