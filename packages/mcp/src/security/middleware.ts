@@ -274,27 +274,121 @@ export class McpSecurityMiddleware {
 
   register(app: FastifyInstance): void {
     // Add security context to each request
-    app.addHook('onRequest', this.createSecurityContext.bind(this));
+    app.addHook('onRequest', async (request, reply) => {
+      console.log(`🔒 SECURITY HOOK: createSecurityContext START`);
+      const start = Date.now();
+      try {
+        this.createSecurityContext(request, reply);
+        console.log(`🔒 SECURITY HOOK: createSecurityContext END (${Date.now() - start}ms)`);
+      } catch (error) {
+        console.log(
+          `🔒 SECURITY HOOK: createSecurityContext ERROR (${Date.now() - start}ms):`,
+          error,
+        );
+        throw error;
+      }
+    });
 
     // Suspicious pattern detection
-    app.addHook('onRequest', this.detectSuspiciousPatterns.bind(this));
+    app.addHook('onRequest', async (request, reply) => {
+      console.log(`🔒 SECURITY HOOK: detectSuspiciousPatterns START`);
+      const start = Date.now();
+      try {
+        this.detectSuspiciousPatterns(request, reply);
+        console.log(`🔒 SECURITY HOOK: detectSuspiciousPatterns END (${Date.now() - start}ms)`);
+      } catch (error) {
+        console.log(
+          `🔒 SECURITY HOOK: detectSuspiciousPatterns ERROR (${Date.now() - start}ms):`,
+          error,
+        );
+        throw error;
+      }
+    });
 
     // Rate limiting and IP blocking
-    app.addHook('onRequest', this.enforceRateLimit.bind(this));
+    app.addHook('onRequest', async (request, reply) => {
+      console.log(`🔒 SECURITY HOOK: enforceRateLimit START`);
+      const start = Date.now();
+      try {
+        this.enforceRateLimit(request, reply);
+        console.log(`🔒 SECURITY HOOK: enforceRateLimit END (${Date.now() - start}ms)`);
+      } catch (error) {
+        console.log(`🔒 SECURITY HOOK: enforceRateLimit ERROR (${Date.now() - start}ms):`, error);
+        throw error;
+      }
+    });
 
     // Request size and URL validation
-    app.addHook('onRequest', this.validateRequestSize.bind(this));
+    app.addHook('onRequest', async (request, reply) => {
+      console.log(`🔒 SECURITY HOOK: validateRequestSize START`);
+      const start = Date.now();
+      try {
+        this.validateRequestSize(request, reply);
+        console.log(`🔒 SECURITY HOOK: validateRequestSize END (${Date.now() - start}ms)`);
+      } catch (error) {
+        console.log(
+          `🔒 SECURITY HOOK: validateRequestSize ERROR (${Date.now() - start}ms):`,
+          error,
+        );
+        throw error;
+      }
+    });
 
     // Security headers
     if (this.config.enableSecurityHeaders) {
-      app.addHook('onSend', this.addSecurityHeaders.bind(this));
+      app.addHook('onSend', async (request, reply, payload, done) => {
+        console.log(`🔒 SECURITY HOOK: addSecurityHeaders START`);
+        const start = Date.now();
+        try {
+          this.addSecurityHeaders(request, reply, payload, done);
+          console.log(`🔒 SECURITY HOOK: addSecurityHeaders END (${Date.now() - start}ms)`);
+        } catch (error) {
+          console.log(
+            `🔒 SECURITY HOOK: addSecurityHeaders ERROR (${Date.now() - start}ms):`,
+            error,
+          );
+          throw error;
+        }
+      });
     }
 
     // Audit logging
     if (this.config.enableAuditLog) {
-      app.addHook('onRequest', this.logRequestStart.bind(this));
-      app.addHook('onResponse', this.logRequestEnd.bind(this));
-      app.addHook('onError', this.logError.bind(this));
+      app.addHook('onRequest', async (request, reply) => {
+        console.log(`🔒 SECURITY HOOK: logRequestStart START`);
+        const start = Date.now();
+        try {
+          this.logRequestStart(request, reply);
+          console.log(`🔒 SECURITY HOOK: logRequestStart END (${Date.now() - start}ms)`);
+        } catch (error) {
+          console.log(`🔒 SECURITY HOOK: logRequestStart ERROR (${Date.now() - start}ms):`, error);
+          throw error;
+        }
+      });
+
+      app.addHook('onResponse', async (request, reply) => {
+        console.log(`🔒 SECURITY HOOK: logRequestEnd START`);
+        const start = Date.now();
+        try {
+          this.logRequestEnd(request, reply);
+          console.log(`🔒 SECURITY HOOK: logRequestEnd END (${Date.now() - start}ms)`);
+        } catch (error) {
+          console.log(`🔒 SECURITY HOOK: logRequestEnd ERROR (${Date.now() - start}ms):`, error);
+          throw error;
+        }
+      });
+
+      app.addHook('onError', async (request, reply, error) => {
+        console.log(`🔒 SECURITY HOOK: logError START`);
+        const start = Date.now();
+        try {
+          this.logError(request, reply, error);
+          console.log(`🔒 SECURITY HOOK: logError END (${Date.now() - start}ms)`);
+        } catch (error) {
+          console.log(`🔒 SECURITY HOOK: logError ERROR (${Date.now() - start}ms):`, error);
+          throw error;
+        }
+      });
     }
   }
 
