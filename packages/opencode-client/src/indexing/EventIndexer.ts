@@ -159,7 +159,7 @@ export class EventIndexer {
     hookManager.registerHook({
       id: 'realtime-tool-capture',
       type: 'before',
-      hook: async (context) => {
+      hook: async (context: any) => {
         await this.captureToolExecution(context, 'before');
         return context.args;
       },
@@ -171,7 +171,7 @@ export class EventIndexer {
     hookManager.registerHook({
       id: 'realtime-tool-capture-after',
       type: 'after',
-      hook: async (context) => {
+      hook: async (context: any) => {
         await this.captureToolExecution(context, 'after');
         return context.result;
       },
