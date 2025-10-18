@@ -7,7 +7,11 @@
  */
 
 import { EventHooksPlugin } from '../src/plugins/event-hooks.js';
-import { hookManager } from '../src/hooks/tool-execute-hooks.js';
+import {
+  hookManager,
+  registerBeforeHook,
+  registerAfterHook,
+} from '../src/hooks/tool-execute-hooks.js';
 
 async function demonstrateEventHooks() {
   console.log('🚀 Event Hooks Integration Example');
