@@ -409,21 +409,43 @@ export class EventIndexer {
     try {
       // Store event in dual store with event: prefix
       const eventId = `event:${event.indexedId}`;
-      await sessionStore.set(
-        eventId,
-        JSON.stringify({
+      await sessionStore.insert({
+        id: eventId,
+        text: JSON.stringify({
           ...event,
           processed: true,
         }),
-      );
+        timestamp: new Date().toISOString(),
+        metadata: {
+          type: 'indexed_event',
+          originalEventId: event.indexedId,
+          sessionId: event.sessionId,
+        },
+      });
 
       // Store additional data if available
       if (event.sessionData) {
-        await sessionStore.set(`session:${event.sessionId}`, JSON.stringify(event.sessionData));
+        await sessionStore.insert({
+          id: `session:${event.sessionId}`,
+          text: JSON.stringify(event.sessionData),
+          timestamp: new Date().toISOString(),
+          metadata: {
+            type: 'session_data',
+            sessionId: event.sessionId,
+          },
+        });
       }
 
       if (event.toolData) {
-        await agentTaskStore.set(`tool:${event.indexedId}`, JSON.stringify(event.toolData));
+        await agentTaskStore.insert({
+          id: `tool:${event.indexedId}`,
+          text: JSON.stringify(event.toolData),
+          timestamp: new Date().toISOString(),
+          metadata: {
+            type: 'tool_data',
+            eventId: event.indexedId,
+          },
+        });
       }
 
       console.log(`📝 Processed event: ${event.type} (${event.indexedId})`);
