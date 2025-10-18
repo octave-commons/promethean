@@ -394,7 +394,7 @@ export class ToolExecuteHookManager implements HookManager {
    * Generate a unique execution ID
    */
   private generateExecutionId(): string {
-    return `exec_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    return `exec_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
   }
 }
 
