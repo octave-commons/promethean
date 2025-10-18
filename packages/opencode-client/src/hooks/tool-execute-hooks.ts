@@ -240,7 +240,7 @@ export class ToolExecuteHookManager implements HookManager {
     context: Partial<HookContext>,
     phase: 'before' | 'after',
     options: Required<HookExecutionOptions>,
-  ): Promise<HookMetrics> {
+  ): Promise<{ metrics: HookMetrics; result?: any }> {
     const startTime = Date.now();
     const timeout = hook.timeout || options.timeout;
 
