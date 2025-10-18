@@ -83,7 +83,9 @@ export const apps =
     "instances": 1,
     "interpreter": "/usr/bin/env",
     "autorestart": true,
-    "watch": false,
+    "watch": [
+      "./packages/autocommit/dist"
+    ],
     "max_memory_restart": "1G",
     "error_file": "/home/err/devel/promethean/logs/autocommit-error.log",
     "out_file": "/home/err/devel/promethean/logs/autocommit-out.log",
