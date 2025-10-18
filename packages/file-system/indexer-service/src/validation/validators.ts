@@ -188,7 +188,28 @@ function detectPathTraversal(trimmed: string): {
  * Checks for dangerous characters
  */
 function containsDangerousCharacters(trimmed: string): boolean {
-  return DANGEROUS_CHARS.some((char) => trimmed.includes(char));
+  // Check for dangerous characters from the array
+  if (DANGEROUS_CHARS.some((char) => trimmed.includes(char))) {
+    return true;
+  }
+
+  // Additional checks for control characters and injection patterns
+  // Null bytes and control characters
+  if (/\0|[\x01-\x1f\x7f]/.test(trimmed)) {
+    return true;
+  }
+
+  // Command injection patterns
+  if /(\$\(.*\)|`.*`|\$\{.*\}|;\s*.*\||\|\s*.*;)/.test(trimmed)) {
+    return true;
+  }
+
+  // HTTP header injection patterns
+  if (/\r?\n\s*[\w-]+:/i.test(trimmed)) {
+    return true;
+  }
+
+  return false;
 }
 
 /**

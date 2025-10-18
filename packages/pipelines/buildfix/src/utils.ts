@@ -1,11 +1,7 @@
 import { spawn } from 'child_process';
 import { promises as fs } from 'fs';
 import * as path from 'path';
-import { pathToFileURL, fileURLToPath } from 'url';
-
-// ESM equivalent of __dirname
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { pathToFileURL } from 'url';
 
 import { Project } from 'ts-morph';
 export { sha1 } from '@promethean/utils';
@@ -191,9 +187,11 @@ export async function importSnippet(snippetPath: string) {
   // Create a temporary module with proper ts-morph resolution
   const snippetContent = await fs.readFile(snippetPath, 'utf8');
 
-  // Replace ts-morph import with absolute path
-  const tsMorphPath = path.resolve(__dirname, '../../node_modules/ts-morph');
-  const patchedContent = snippetContent.replace(/from ["']ts-morph["']/, `from "${tsMorphPath}"`);
+  // Replace ts-morph import with correct ESM-compatible path
+  const patchedContent = snippetContent.replace(
+    /from ["']ts-morph["']/,
+    'from "ts-morph/dist/ts-morph.js"',
+  );
 
   // Write patched version to temp file
   const tempPath = snippetPath + '.patched.mjs';
