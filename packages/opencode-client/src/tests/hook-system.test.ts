@@ -34,7 +34,7 @@ describe('Hook System', () => {
     assert.deepStrictEqual(receivedArgs!, { test: 'value' });
     assert.deepStrictEqual(result.args, { test: 'value', modified: true });
     assert.strictEqual(result.metrics.length, 1);
-    assert.strictEqual(result.metrics[0].success, true);
+    assert.strictEqual(result.metrics[0]!.success, true);
   });
 
   it('should register and execute after hooks', async () => {
@@ -50,7 +50,7 @@ describe('Hook System', () => {
     const result = await hookManager.executeAfterHooks(
       'test-tool',
       { test: 'value' },
-      { result: { success: true }, executionTime: 100 },
+      { success: true, result: { success: true }, metadata: {}, executionTime: 100 },
       { pluginContext: {} },
     );
 
@@ -58,7 +58,7 @@ describe('Hook System', () => {
     assert.deepStrictEqual(receivedResult, { success: true });
     assert.deepStrictEqual(result.result, { success: true, modified: true });
     assert.strictEqual(result.metrics.length, 1);
-    assert.strictEqual(result.metrics[0].success, true);
+    assert.strictEqual(result.metrics[0]!.success, true);
   });
 
   it('should handle hook execution errors', async () => {
@@ -74,8 +74,8 @@ describe('Hook System', () => {
     );
 
     assert.strictEqual(result.metrics.length, 1);
-    assert.strictEqual(result.metrics[0].success, false);
-    assert.strictEqual(result.metrics[0].error?.message, 'Hook failed');
+    assert.strictEqual(result.metrics[0]!.success, false);
+    assert.strictEqual(result.metrics[0]!.error?.message, 'Hook failed');
   });
 
   it('should respect tool pattern matching', async () => {

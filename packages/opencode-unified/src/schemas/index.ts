@@ -19,3 +19,6 @@ export interface ConfigSchema extends BaseSchema {
   description: string;
   properties: Record<string, any>;
 }
+
+// Export types for use in tests
+export type { BaseSchema, ConfigSchema };
