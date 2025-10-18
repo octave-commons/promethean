@@ -17,11 +17,6 @@ type OpenCodeEventType =
   | 'permission.updated'
   | 'ide.installed';
 
-interface OpenCodeEvent {
-  type: OpenCodeEventType;
-  properties: Record<string, any>;
-}
-
 /**
  * Event-Driven Plugin Hooks
  *
