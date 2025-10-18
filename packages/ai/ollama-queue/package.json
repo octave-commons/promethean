@@ -2,6 +2,7 @@
   "name": "@promethean/ollama-queue",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -13,6 +14,7 @@
   "author": "",
   "license": "GPL-3.0-only",
   "dependencies": {
-    "@promethean/utils": "workspace:*"
+    "@promethean/utils": "workspace:*",
+    "@promethean/lmdb-cache": "workspace:*"
   }
 }

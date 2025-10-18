@@ -6,7 +6,10 @@ import { ollamaEmbed, InMemoryChroma } from '@promethean/utils';
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? 'http://localhost:11434';
 
 export class OllamaError extends Error {
-  constructor(public readonly status: number, message: string) {
+  constructor(
+    public readonly status: number,
+    message: string,
+  ) {
     super(message);
   }
 }
@@ -171,9 +174,7 @@ export async function callOllamaEmbed(model: string, input: string | string[]): 
   return Array.isArray(input) ? data.embeddings : data.embeddings[0];
 }
 
-export async function initializeCache(
-  modelName: string,
-): Promise<InMemoryChroma<CacheEntry>> {
+export async function initializeCache(modelName: string): Promise<InMemoryChroma<CacheEntry>> {
   if (!modelCaches.has(modelName)) {
     modelCaches.set(modelName, new InMemoryChroma<CacheEntry>());
   }
@@ -261,16 +262,29 @@ export async function storeInCache(
 export function inferTaskCategory(job: Job): string {
   const prompt = job.prompt || job.messages?.map((m) => m.content).join(' ') || '';
   const lowerPrompt = prompt.toLowerCase();
-  if (lowerPrompt.includes('typescript') && lowerPrompt.includes('error')) return 'buildfix-ts-errors';
+  if (lowerPrompt.includes('typescript') && lowerPrompt.includes('error'))
+    return 'buildfix-ts-errors';
   if (lowerPrompt.includes('fix the error') || lowerPrompt.includes('compilation error'))
     return 'buildfix-general';
-  if (lowerPrompt.includes('review') || lowerPrompt.includes('critique') || lowerPrompt.includes('improve'))
+  if (
+    lowerPrompt.includes('review') ||
+    lowerPrompt.includes('critique') ||
+    lowerPrompt.includes('improve')
+  )
     return 'code-review';
   if (lowerPrompt.includes('test') || lowerPrompt.includes('tdd') || lowerPrompt.includes('spec'))
     return 'tdd-analysis';
-  if (lowerPrompt.includes('document') || lowerPrompt.includes('readme') || lowerPrompt.includes('explain'))
+  if (
+    lowerPrompt.includes('document') ||
+    lowerPrompt.includes('readme') ||
+    lowerPrompt.includes('explain')
+  )
     return 'documentation';
-  if (lowerPrompt.includes('code') || lowerPrompt.includes('function') || lowerPrompt.includes('implement'))
+  if (
+    lowerPrompt.includes('code') ||
+    lowerPrompt.includes('function') ||
+    lowerPrompt.includes('implement')
+  )
     return 'coding';
   return 'general';
 }
@@ -312,7 +326,12 @@ export async function calculatePerformanceScore(
       scoreReason += ' (appropriate review time)';
     }
   }
-  return { ...performanceData, score: Math.max(-1, Math.min(1, score)), scoreSource: 'auto-eval', scoreReason };
+  return {
+    ...performanceData,
+    score: Math.max(-1, Math.min(1, score)),
+    scoreSource: 'auto-eval',
+    scoreReason,
+  };
 }
 
 export const getJobsByAgent = (agentId?: string, sessionId?: string): Job[] => {
@@ -398,10 +417,20 @@ export async function processJob(job: Job): Promise<void> {
       executionTime,
     };
     if (job.type !== 'embedding' && (job.prompt || job.messages)) {
-      const failureKey = job.prompt || job.messages?.map((m) => `${m.role}: ${m.content}`).join('\n') || '';
-      await storeInCache(failureKey, { error: failurePerformance.scoreReason }, job.modelName, job.type, failurePerformance);
+      const failureKey =
+        job.prompt || job.messages?.map((m) => `${m.role}: ${m.content}`).join('\n') || '';
+      await storeInCache(
+        failureKey,
+        { error: failurePerformance.scoreReason },
+        job.modelName,
+        job.type,
+        failurePerformance,
+      );
     }
-    updateJobStatus(job.id, 'failed', { error: { message: error instanceof Error ? error.message : String(error) }, completedAt: now() });
+    updateJobStatus(job.id, 'failed', {
+      error: { message: error instanceof Error ? error.message : String(error) },
+      completedAt: now(),
+    });
   }
 }
 
@@ -430,3 +459,21 @@ export function startQueueProcessor(): void {
 export function stopQueueProcessor(): void {
   clearProcessingInterval();
 }
+
+// Export persistent queue functionality
+export {
+  initializePersistentStore,
+  getPersistentStore,
+  submitJob as submitJobPersistent,
+  getJob as getJobPersistent,
+  listJobs as listJobsPersistent,
+  deleteJob as deleteJobPersistent,
+  getQueueStats as getQueueStatsPersistent,
+  processJob as processJobPersistent,
+  processQueue as processQueuePersistent,
+  startQueueProcessor as startQueueProcessorPersistent,
+  stopQueueProcessor as stopQueueProcessorPersistent,
+  closePersistentStore,
+} from './persistent-queue.js';
+
+export { PersistentJobStore } from './persistent-store.js';
