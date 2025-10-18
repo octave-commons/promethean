@@ -30,7 +30,7 @@ export async function create({
       session: {
         id: session.id,
         title: session.title,
-        createdAt: session.createdAt,
+        createdAt: session.time?.created || session.createdAt,
       },
     });
   } catch (error: any) {
