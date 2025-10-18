@@ -9,11 +9,11 @@ import {
 // Global state for backward compatibility
 let taskContext: any;
 
-export function initializeEventContext(_client: any, _taskContext: any) {
+function initializeEventContext(_client: any, _taskContext: any) {
   taskContext = _taskContext;
 }
 
-export async function handleSessionIdle(client: any, sessionId: string) {
+async function handleSessionIdle(client: any, sessionId: string) {
   const context: EventContext = {
     client,
     taskContext,
@@ -21,7 +21,7 @@ export async function handleSessionIdle(client: any, sessionId: string) {
   return handleSessionIdleAction(context, sessionId);
 }
 
-export async function handleSessionUpdated(client: any, sessionId: string) {
+async function handleSessionUpdated(client: any, sessionId: string) {
   const context: EventContext = {
     client,
     taskContext,
@@ -29,7 +29,7 @@ export async function handleSessionUpdated(client: any, sessionId: string) {
   return handleSessionUpdatedAction(context, sessionId);
 }
 
-export async function handleMessageUpdated(client: any, sessionId: string) {
+async function handleMessageUpdated(client: any, sessionId: string) {
   const context: EventContext = {
     client,
     taskContext,
@@ -37,10 +37,19 @@ export async function handleMessageUpdated(client: any, sessionId: string) {
   return handleMessageUpdatedAction(context, sessionId);
 }
 
-export async function processSessionMessages(client: any, sessionId: string) {
+async function processSessionMessages(client: any, sessionId: string) {
   const context: EventContext = {
     client,
     taskContext,
   };
   return processSessionMessagesAction(context, sessionId);
 }
+
+// Create a class-like export for backward compatibility
+export const EventProcessor = {
+  initializeEventContext,
+  handleSessionIdle,
+  handleSessionUpdated,
+  handleMessageUpdated,
+  processSessionMessages,
+};

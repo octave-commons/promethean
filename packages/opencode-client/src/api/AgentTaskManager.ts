@@ -80,3 +80,16 @@ export async function getAllTasks(): Promise<Map<string, AgentTask>> {
 
 // Export the agent tasks map for backward compatibility
 export { agentTasks };
+
+// Create a class-like export for backward compatibility
+export const AgentTaskManager = {
+  initializeStores,
+  loadPersistedTasks,
+  verifySessionExists,
+  cleanupOrphanedTask,
+  updateTaskStatus,
+  monitorTasks,
+  createTask,
+  getAllTasks,
+  agentTasks,
+};

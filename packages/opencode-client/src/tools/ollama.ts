@@ -3,9 +3,25 @@
 
 import { tool } from '@opencode-ai/plugin/tool';
 import { randomUUID } from 'node:crypto';
-import { InMemoryChroma } from '@promethean/utils';
-import { Job } from './Job.js';
-import { OllamaModel } from './OllamaModel.js';
+import {
+  OLLAMA_URL,
+  jobQueue,
+  activeJobs,
+  modelCaches,
+  CACHE_SIMILARITY_THRESHOLD,
+  CACHE_MAX_AGE_MS,
+  MAX_CONCURRENT_JOBS,
+  getProcessingInterval,
+  setProcessingInterval,
+  POLL_INTERVAL,
+  now,
+  processing,
+  type UUID,
+  type JobStatus,
+  type JobPriority,
+  type JobType,
+} from '@promethean/ollama-queue';
+import { Job, OllamaModel, OllamaOptions } from './Job.js';
 import { CacheEntry } from './CacheEntry.js';
 import { initializeCache } from './initializeCache.js';
 import { getPromptEmbedding } from './getPromptEmbedding.js';
@@ -13,47 +29,14 @@ import { getJobById } from './getJobById.js';
 import { updateJobStatus } from './updateJobStatus.js';
 import { check } from './check.js';
 import { startQueueProcessor } from './startQueueProcessor.js';
-
-export const OLLAMA_URL = process.env.OLLAMA_URL ?? 'http://localhost:11434';
-
-export class OllamaError extends Error {
-  constructor(
-    public readonly status: number,
-    message: string,
-  ) {
-    super(message);
-  }
-}
-
-// Types for job management
-export type UUID = string;
-export type JobStatus = 'pending' | 'running' | 'completed' | 'failed' | 'canceled';
-export type JobPriority = 'low' | 'medium' | 'high' | 'urgent';
-export type JobType = 'generate' | 'chat' | 'embedding';
-
-// In-memory store with persistence to LevelDB (simplified for MVP)
-export const jobQueue: Job[] = [];
-export const activeJobs = new Map<UUID, Job>();
-export const processing = new Set<UUID>();
-
-// Prompt cache configuration
-export const CACHE_SIMILARITY_THRESHOLD = 0.85; // Cosine similarity threshold for cache hits
-export const CACHE_MAX_AGE_MS = 24 * 60 * 60 * 1000; // 24 hours
-export const modelCaches = new Map<string, InMemoryChroma<CacheEntry>>();
-
-// Queue processing configuration
-export const MAX_CONCURRENT_JOBS = 2;
-export const POLL_INTERVAL = 5000; // 5 seconds
-
-export let processingInterval: NodeJS.Timeout | null = null;
-
-export const now = () => Date.now();
+import { OllamaError } from '@promethean/ollama-queue';
 
 // Stop queue processor
 function stopQueueProcessor(): void {
+  const processingInterval = getProcessingInterval();
   if (processingInterval) {
     clearInterval(processingInterval);
-    processingInterval = null;
+    setProcessingInterval(null);
   }
 }
 
@@ -165,7 +148,7 @@ export const submitJob: any = tool({
     jobQueue.push(job);
 
     // Start processor if not running
-    if (!processingInterval) {
+    if (!getProcessingInterval()) {
       startQueueProcessor();
     }
 
@@ -181,7 +164,7 @@ export const submitJob: any = tool({
 });
 
 export const getJobStatus: any = tool({
-  description: 'Get the status of a specific job',
+  description: 'Get status of a specific job',
   args: {
     jobId: tool.schema.string().describe('Job ID to check'),
   },
@@ -208,7 +191,7 @@ export const getJobStatus: any = tool({
 });
 
 export const getJobResult: any = tool({
-  description: 'Get the result of a completed job',
+  description: 'Get result of a completed job',
   args: {
     jobId: tool.schema.string().describe('Job ID to get result from'),
   },
@@ -372,7 +355,7 @@ export const getQueueInfo = tool({
       canceled,
       total: jobQueue.length,
       maxConcurrent: MAX_CONCURRENT_JOBS,
-      processorActive: !!processingInterval,
+      processorActive: !!getProcessingInterval(),
       cacheSize: Array.from(modelCaches.values()).reduce((sum, cache) => sum + cache.size, 0),
     };
 
@@ -381,7 +364,7 @@ export const getQueueInfo = tool({
 });
 
 export const manageCache: any = tool({
-  description: 'Manage the prompt cache (clear, get stats, etc.)',
+  description: 'Manage prompt cache (clear, get stats, etc.)',
   args: {
     action: tool.schema
       .enum(['stats', 'clear', 'clear-expired', 'performance-analysis'])
@@ -529,7 +512,7 @@ export const submitFeedback: any = tool({
       .min(-1)
       .max(1)
       .describe('Feedback score from -1 (terrible) to 1 (excellent)'),
-    reason: tool.schema.string().optional().describe('Reason for the feedback'),
+    reason: tool.schema.string().optional().describe('Reason for feedback'),
     taskCategory: tool.schema.string().optional().describe('Task category for better routing'),
   },
   async execute({ prompt, modelName, jobType, score, reason, taskCategory }) {
@@ -537,7 +520,7 @@ export const submitFeedback: any = tool({
       const cache = await initializeCache(modelName);
       const embedding = await getPromptEmbedding(prompt, modelName);
 
-      // Find the existing cache entry
+      // Find existing cache entry
       const hits = cache.queryByEmbedding(embedding, {
         k: 1,
         filter: (metadata) => metadata.modelName === modelName && metadata.jobType === jobType,

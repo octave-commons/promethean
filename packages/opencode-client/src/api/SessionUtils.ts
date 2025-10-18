@@ -30,3 +30,11 @@ export function createSessionInfo(
 ): SessionInfo {
   return createSessionInfoAction(session, messageCount, agentTask);
 }
+
+// Create a class-like export for backward compatibility
+export const SessionUtils = {
+  extractSessionId,
+  getSessionMessages,
+  determineActivityStatus,
+  createSessionInfo,
+};
