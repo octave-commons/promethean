@@ -156,33 +156,29 @@ export class EventIndexer {
     console.log('📡 Setting up real-time event capture...');
 
     // Hook into tool execution for real-time capture
-    hookManager.registerHook(
-      'realtime-tool-capture',
-      'before',
-      async (context) => {
+    hookManager.registerHook({
+      id: 'realtime-tool-capture',
+      type: 'before',
+      hook: async (context) => {
         await this.captureToolExecution(context, 'before');
         return context.args;
       },
-      {
-        tools: ['*'],
-        priority: 1,
-        timeout: 5000,
-      },
-    );
+      tools: ['*'],
+      priority: 1,
+      timeout: 5000,
+    });
 
-    hookManager.registerHook(
-      'realtime-tool-capture-after',
-      'after',
-      async (context) => {
+    hookManager.registerHook({
+      id: 'realtime-tool-capture-after',
+      type: 'after',
+      hook: async (context) => {
         await this.captureToolExecution(context, 'after');
         return context.result;
       },
-      {
-        tools: ['*'],
-        priority: 1,
-        timeout: 5000,
-      },
-    );
+      tools: ['*'],
+      priority: 1,
+      timeout: 5000,
+    });
 
     console.log('✅ Real-time event capture configured');
   }
@@ -551,7 +547,7 @@ export const eventIndexer = new EventIndexer();
 /**
  * Helper function to start event indexing with default configuration
  */
-export async function startEventIndexing(config?: EventIndexerConfig): Promise<void> {
+export async function startEventIndexing(_config?: EventIndexerConfig): Promise<void> {
   await eventIndexer.start();
 }
 
