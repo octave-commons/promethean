@@ -446,7 +446,6 @@ kanban-plugin: board
 - [ ] [[2025.10.16.implement-kanban-board-collector.md 3|Implement Kanban Board Collector]] #implementation #kanban #data-collection #core prio:P0 (uuid:50b424d5-782f-4e80-ab32-95cd5b96f64f)
 - [ ] [[2025.10.16.implement-kanban-board-collector.md 4|Implement Kanban Board Collector]] #implementation #kanban #data-collection #core prio:P0 (uuid:de43a0c5-c07f-4482-91a6-662008097c72)
 - [ ] [[2025.10.16.implement-kanban-board-collector.md 5|Implement Kanban Board Collector]] #implementation #kanban #data-collection #core prio:P0 (uuid:5d7428a1-7a11-440d-bdfb-79849ab34a1c)
-- [ ] [[create-consolidated-package-structure|Create Consolidated Package Structure]] #package-structure #consolidation #setup #foundation #epic1 prio:P0 (uuid:4f276b91-5107-4a58-9499-e93424ba2edd)
 - [ ] [[20251011235256|Implement Git Tag Management and Scar History]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #git-workflow #tag-management #scar-history #phase-1 prio:P1 (uuid:86e86422-5956-4df9-97f7-90a7256b744d)
 - [ ] [[Create MCP-Kanban Bridge API]] #mcp #kanban #api #bridge #synchronization #critical prio:P0 (uuid:07b10989-e06c-4c6b-87b9-80ce169b7660)
 - [ ] [[Implement MCP Authentication & Authorization Layer]] #mcp #kanban #security #authentication #authorization #critical prio:P0 (uuid:86765f2a-9539-4443-baa2-a0bd37195385)
@@ -462,6 +461,7 @@ kanban-plugin: board
 
 ## review
 
+- [ ] [[create-consolidated-package-structure|Create Consolidated Package Structure]] #package-structure #consolidation #setup #foundation #epic1 prio:P0 (uuid:4f276b91-5107-4a58-9499-e93424ba2edd)
 - [ ] [[Address security vulnerabilities in @packages shadow-conf|Address security vulnerabilities in @packages/shadow-conf/]] #security #critical #shadow-conf #p0 #vulnerability #path-traversal prio:P0 (uuid:e3473da0-b7a0-4704-9a20-3b6adf3fa3f5)
 - [ ] [[Create optimized build pipeline with parallel jobs]] #automation #buildfix #pipeline #parallel prio:P1 (uuid:2f160835-dd8b-4a25-a512-d5fde95bcd6c)
 - [ ] [[Fix TypeScript compilation errors in @packages shadow-conf|Fix TypeScript compilation errors in @packages/shadow-conf/]] #critical #typescript #compilation #shadow-conf #p0 #build-fix prio:P0 (uuid:530efcaa-d246-4a44-a27c-e66633216d7d)
