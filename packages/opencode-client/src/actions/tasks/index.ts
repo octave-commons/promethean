@@ -8,7 +8,7 @@ export interface TaskContext {
 
 export async function loadPersistedTasks(
   context: TaskContext,
-  client?: any,
+  client?: { session: { get: (params: { path: { id: string } }) => Promise<{ data?: unknown }> } },
 ): Promise<{ loadedCount: number; cleanedCount: number }> {
   try {
     console.log('🔄 Loading persisted agent tasks...');
@@ -51,7 +51,10 @@ export async function loadPersistedTasks(
   }
 }
 
-export async function verifySessionExists(client: any, sessionId: string): Promise<boolean> {
+export async function verifySessionExists(
+  client: { session: { get: (params: { path: { id: string } }) => Promise<{ data?: unknown }> } },
+  sessionId: string,
+): Promise<boolean> {
   try {
     const { data: session } = await client.session.get({ path: { id: sessionId } });
     return !!session;
@@ -189,7 +192,7 @@ export async function getAllTasks(context: TaskContext): Promise<Map<string, Age
   }
 }
 
-export function parseTimestamp(timestamp: any): number {
+export function parseTimestamp(timestamp: string | number | Date): number {
   if (typeof timestamp === 'number') return timestamp;
   if (typeof timestamp === 'string') return new Date(timestamp).getTime();
   return Date.now();
