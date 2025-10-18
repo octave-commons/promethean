@@ -56,17 +56,17 @@ test('AsyncSubAgentsPlugin initializes correctly', async (t) => {
 
   t.truthy(plugin);
   t.truthy(plugin.tool);
-  t.truthy(plugin.tool.search_sessions);
-  t.truthy(plugin.tool.list_sessions);
-  t.truthy(plugin.tool.get_session);
-  t.truthy(plugin.tool.close_session);
-  t.truthy(plugin.tool.index_sessions);
-  t.truthy(plugin.tool.spawn_session);
-  t.truthy(plugin.tool.monitor_agents);
-  t.truthy(plugin.tool.get_agent_status);
-  t.truthy(plugin.tool.cleanup_completed_agents);
-  t.truthy(plugin.tool.send_agent_message);
-  t.truthy(plugin.tool.clear_agent_cache);
+  t.truthy(plugin.tool!.search_sessions);
+  t.truthy(plugin.tool!.list_sessions);
+  t.truthy(plugin.tool!.get_session);
+  t.truthy(plugin.tool!.close_session);
+  t.truthy(plugin.tool!.index_sessions);
+  t.truthy(plugin.tool!.spawn_session);
+  t.truthy(plugin.tool!.monitor_agents);
+  t.truthy(plugin.tool!.get_agent_status);
+  t.truthy(plugin.tool!.cleanup_completed_agents);
+  t.truthy(plugin.tool!.send_agent_message);
+  t.truthy(plugin.tool!.clear_agent_cache);
 });
 
 test('AsyncSubAgentsPlugin search_sessions tool works', async (t) => {
