@@ -39,7 +39,7 @@ async function demonstrateEventHooks() {
   registerAfterHook(
     'performance-monitor',
     async (context) => {
-      const execTime = context.executionTime || 0;
+      const execTime = context.result.executionTime || 0;
       console.log(
         `⚡ Performance: ${context.metadata?.originalTool || 'unknown tool'} took ${execTime}ms`,
       );
