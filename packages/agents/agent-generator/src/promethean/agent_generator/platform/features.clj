@@ -35,26 +35,26 @@
                        :available (available-features)
                        :platform (detection/current-platform)})))))
 
-;; Core feature definitions
-(register-feature! :file-system
+;; Core feature definitions - matching detection capabilities
+(register-feature! :fs
   {:description "File system operations"
    :platforms #{:babashka :node-babashka :jvm}
    :dependencies []
    :implementation 'promethean.agent-generator.platform.adapters.file-system})
 
-(register-feature! :http-client
+(register-feature! :http
   {:description "HTTP client functionality"
    :platforms #{:babashka :node-babashka :jvm :clojurescript}
    :dependencies []
    :implementation 'promethean.agent-generator.platform.adapters.http-client})
 
-(register-feature! :json-processing
+(register-feature! :json
   {:description "JSON parsing and generation"
    :platforms #{:babashka :node-babashka :jvm :clojurescript}
    :dependencies []
    :implementation 'promethean.agent-generator.platform.adapters.json})
 
-(register-feature! :yaml-processing
+(register-feature! :yaml
   {:description "YAML parsing and generation"
    :platforms #{:babashka :node-babashka :jvm :clojurescript}
    :dependencies []
@@ -69,19 +69,19 @@
 (register-feature! :template-engine
   {:description "Template processing engine"
    :platforms #{:babashka :node-babashka :jvm :clojurescript}
-   :dependencies [:json-processing :file-system]
+   :dependencies [:json :fs]
    :implementation 'promethean.agent-generator.platform.adapters.template-engine})
 
 (register-feature! :kanban-integration
   {:description "Kanban system integration"
    :platforms #{:babashka :node-babashka :jvm :clojurescript}
-   :dependencies [:http-client :json-processing]
+   :dependencies [:http :json]
    :implementation 'promethean.agent-generator.platform.adapters.kanban})
 
 (register-feature! :file-indexing
   {:description "File indexing and analysis"
    :platforms #{:babashka :node-babashka :jvm}
-   :dependencies [:file-system :json-processing]
+   :dependencies [:fs :json]
    :implementation 'promethean.agent-generator.platform.adapters.file-indexing})
 
 (defn initialize-features! []
@@ -127,4 +127,15 @@
   "Load and return feature implementation"
   (when-let [impl-ns (get-feature-implementation feature-name)]
     (require impl-ns)
-    (find-ns impl-ns)))
+    (let [ns (find-ns impl-ns)]
+      (when ns
+        (case feature-name
+          :fs (ns-resolve ns 'file-system)
+          :http (ns-resolve ns 'http-client)
+          :json (ns-resolve ns 'json-parse)
+          :yaml (ns-resolve ns 'yaml-parse)
+          :template-engine (ns-resolve ns 'main)
+          :kanban-integration (ns-resolve ns 'main)
+          :file-indexing (ns-resolve ns 'main)
+          :process-execution (ns-resolve ns 'main)
+          (ns-resolve ns 'main))))))

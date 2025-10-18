@@ -8,43 +8,65 @@ import {
   ContextMetadataStore,
 } from './types';
 
-export interface IContextLifecycleManager {
-  createContext(agentId: string, initialState?: any): Promise<AgentContext>;
+export type ContextExportData = {
+  context: AgentContext;
+  events: import('./types').ContextEvent[];
+  snapshots: import('./types').ContextSnapshot[];
+  metadata: import('./types').ContextMetadata[];
+  shares: import('./types').ContextShare[];
+};
+
+export type SystemStatistics = {
+  totalContexts: number;
+  totalEvents: number;
+  totalSnapshots: number;
+  totalShares: number;
+  activeContexts: number;
+};
+
+export type ContextValidationResult = {
+  isValid: boolean;
+  issues: string[];
+};
+
+export type ContextInitialState = Record<string, unknown>;
+
+export type IContextLifecycleManager = {
+  createContext(agentId: string, initialState?: ContextInitialState): Promise<AgentContext>;
   archiveContext(agentId: string): Promise<void>;
   deleteContext(agentId: string): Promise<void>;
   cleanupExpiredContexts(): Promise<void>;
   getContextStatistics(agentId: string): Promise<ContextStatistics>;
-  getSystemStatistics(): Promise<{
-    totalContexts: number;
-    totalEvents: number;
-    totalSnapshots: number;
-    totalShares: number;
-    activeContexts: number;
-  }>;
-  exportContext(agentId: string): Promise<{
-    context: AgentContext;
-    events: any[];
-    snapshots: any[];
-    metadata: any[];
-    shares: any[];
-  }>;
-  importContext(agentId: string, exportData: any): Promise<void>;
-  validateContextIntegrity(agentId: string): Promise<{
-    isValid: boolean;
-    issues: string[];
-  }>;
-}
+  getSystemStatistics(): Promise<SystemStatistics>;
+  exportContext(agentId: string): Promise<ContextExportData>;
+  importContext(agentId: string, exportData: ContextExportData): Promise<void>;
+  validateContextIntegrity(agentId: string): Promise<ContextValidationResult>;
+};
+
+export type ContextLifecycleConfig = {
+  contextManager: ContextManager;
+  eventStore: EventStore;
+  snapshotStore: SnapshotStore;
+  shareStore?: ContextShareStore;
+  metadataStore?: ContextMetadataStore;
+};
 
 export class ContextLifecycleManager implements IContextLifecycleManager {
-  constructor(
-    private contextManager: ContextManager,
-    private eventStore: EventStore,
-    private snapshotStore: SnapshotStore,
-    private shareStore?: ContextShareStore,
-    private metadataStore?: ContextMetadataStore,
-  ) {}
+  private readonly contextManager: ContextManager;
+  private readonly eventStore: EventStore;
+  private readonly snapshotStore: SnapshotStore;
+  private readonly shareStore?: ContextShareStore;
+  private readonly metadataStore?: ContextMetadataStore;
 
-  async createContext(agentId: string, initialState?: any): Promise<AgentContext> {
+  constructor(config: ContextLifecycleConfig) {
+    this.contextManager = config.contextManager;
+    this.eventStore = config.eventStore;
+    this.snapshotStore = config.snapshotStore;
+    this.shareStore = config.shareStore;
+    this.metadataStore = config.metadataStore;
+  }
+
+  async createContext(agentId: string, initialState?: ContextInitialState): Promise<AgentContext> {
     // Create initial context with provided state
     const context = await this.contextManager.getContext(agentId);
 
@@ -159,38 +181,26 @@ export class ContextLifecycleManager implements IContextLifecycleManager {
     };
   }
 
-  async getSystemStatistics(): Promise<{
-    totalContexts: number;
-    totalEvents: number;
-    totalSnapshots: number;
-    totalShares: number;
-    activeContexts: number;
-  }> {
+  getSystemStatistics(): Promise<SystemStatistics> {
     // This would require iterating over all agents
     // For now, return placeholder values
-    return {
+    return Promise.resolve({
       totalContexts: 0,
       totalEvents: 0,
       totalSnapshots: 0,
       totalShares: 0,
       activeContexts: 0,
-    };
+    });
   }
 
-  async exportContext(agentId: string): Promise<{
-    context: AgentContext;
-    events: any[];
-    snapshots: any[];
-    metadata: any[];
-    shares: any[];
-  }> {
+  async exportContext(agentId: string): Promise<ContextExportData> {
     const context = await this.contextManager.getContext(agentId);
     const events = await this.eventStore.getEvents(agentId);
     const latestSnapshot = await this.snapshotStore.getLatestSnapshot(agentId);
     const snapshots = latestSnapshot ? [latestSnapshot] : [];
 
-    let metadata: any[] = [];
-    let shares: any[] = [];
+    let metadata: import('./types').ContextMetadata[] = [];
+    let shares: import('./types').ContextShare[] = [];
 
     if (this.metadataStore) {
       metadata = await this.metadataStore.getMetadata(agentId);
@@ -209,16 +219,7 @@ export class ContextLifecycleManager implements IContextLifecycleManager {
     };
   }
 
-  async importContext(
-    agentId: string,
-    exportData: {
-      context: AgentContext;
-      events: any[];
-      snapshots: any[];
-      metadata: any[];
-      shares: any[];
-    },
-  ): Promise<void> {
+  async importContext(agentId: string, exportData: ContextExportData): Promise<void> {
     // Import context state
     await this.contextManager.updateContext(agentId, {
       state: exportData.context.state,
@@ -240,7 +241,7 @@ export class ContextLifecycleManager implements IContextLifecycleManager {
         await this.metadataStore.setMetadata({
           agentId,
           contextKey: metadata.contextKey,
-          contextValue: metadata.contextValue,
+          contextValue: metadata.contextValue as unknown,
           contextType: metadata.contextType || 'imported',
           visibility: metadata.visibility || 'private',
           expiresAt: metadata.expiresAt,
@@ -256,10 +257,84 @@ export class ContextLifecycleManager implements IContextLifecycleManager {
     }
   }
 
-  async validateContextIntegrity(agentId: string): Promise<{
-    isValid: boolean;
-    issues: string[];
-  }> {
+  private validateContextExistence(
+    events: import('./types').ContextEvent[],
+    latestSnapshot: import('./types').ContextSnapshot | null,
+  ): string[] {
+    const issues: string[] = [];
+
+    if (events.length === 0 && !latestSnapshot) {
+      issues.push('Context does not exist - no events or snapshots found');
+    }
+
+    return issues;
+  }
+
+  private validateVersionConsistency(
+    context: AgentContext,
+    events: import('./types').ContextEvent[],
+    latestSnapshot: import('./types').ContextSnapshot | null,
+  ): string[] {
+    const issues: string[] = [];
+
+    if (latestSnapshot) {
+      const eventsSinceSnapshot = events.filter((event) => {
+        if (!event.data || typeof event.data !== 'object') {
+          return false;
+        }
+        const eventData = event.data as { version?: number };
+        return eventData.version && eventData.version > latestSnapshot.version;
+      });
+      const expectedVersion = latestSnapshot.version + eventsSinceSnapshot.length;
+
+      if (context.version !== expectedVersion) {
+        issues.push(
+          `Context version mismatch: expected ${expectedVersion}, got ${context.version}`,
+        );
+      }
+
+      // Check snapshot integrity
+      if (
+        latestSnapshot.state &&
+        typeof latestSnapshot.state === 'object' &&
+        Object.keys(latestSnapshot.state).length === 0
+      ) {
+        issues.push('Snapshot state is empty');
+      }
+    } else {
+      // No snapshot, version should match events count
+      if (context.version !== events.length) {
+        issues.push(`Context version mismatch: expected ${events.length}, got ${context.version}`);
+      }
+    }
+
+    return issues;
+  }
+
+  private validateEventIntegrity(events: import('./types').ContextEvent[]): string[] {
+    const issues: string[] = [];
+
+    // Check for duplicate event IDs
+    const eventIds = events.map((e) => e.id);
+    const uniqueEventIds = new Set(eventIds);
+    if (eventIds.length !== uniqueEventIds.size) {
+      issues.push('Duplicate event IDs found');
+    }
+
+    // Check event order
+    for (let i = 1; i < events.length; i++) {
+      const currentEvent = events[i];
+      const previousEvent = events[i - 1];
+      if (currentEvent && previousEvent && currentEvent.timestamp < previousEvent.timestamp) {
+        issues.push(`Event order violation at index ${i}`);
+        break;
+      }
+    }
+
+    return issues;
+  }
+
+  async validateContextIntegrity(agentId: string): Promise<ContextValidationResult> {
     const issues: string[] = [];
 
     try {
@@ -268,61 +343,27 @@ export class ContextLifecycleManager implements IContextLifecycleManager {
       const latestSnapshot = await this.snapshotStore.getLatestSnapshot(agentId);
 
       // Check if context exists at all
-      if (events.length === 0 && !latestSnapshot) {
-        issues.push('Context does not exist - no events or snapshots found');
+      issues.push(...this.validateContextExistence(events, latestSnapshot));
+
+      const existenceIssues = issues.filter((issue) =>
+        issue.includes('Context does not exist - no events or snapshots found'),
+      );
+      if (existenceIssues.length > 0) {
         return {
           isValid: false,
           issues,
         };
       }
 
-      // Check if context version matches events + snapshot version
-      if (latestSnapshot) {
-        const eventsSinceSnapshot = events.filter(
-          (event) => event.data && event.data.version > latestSnapshot.version,
-        );
-        const expectedVersion = latestSnapshot.version + eventsSinceSnapshot.length;
+      // Check version consistency
+      issues.push(...this.validateVersionConsistency(context, events, latestSnapshot));
 
-        if (context.version !== expectedVersion) {
-          issues.push(
-            `Context version mismatch: expected ${expectedVersion}, got ${context.version}`,
-          );
-        }
-
-        // Check snapshot integrity
-        if (latestSnapshot.state && typeof latestSnapshot.state === 'object') {
-          // Basic state validation
-          if (Object.keys(latestSnapshot.state).length === 0) {
-            issues.push('Snapshot state is empty');
-          }
-        }
-      } else {
-        // No snapshot, version should match events count
-        if (context.version !== events.length) {
-          issues.push(
-            `Context version mismatch: expected ${events.length}, got ${context.version}`,
-          );
-        }
-      }
-
-      // Check for duplicate event IDs
-      const eventIds = events.map((e) => e.id);
-      const uniqueEventIds = new Set(eventIds);
-      if (eventIds.length !== uniqueEventIds.size) {
-        issues.push('Duplicate event IDs found');
-      }
-
-      // Check event order
-      for (let i = 1; i < events.length; i++) {
-        const currentEvent = events[i];
-        const previousEvent = events[i - 1];
-        if (currentEvent && previousEvent && currentEvent.timestamp < previousEvent.timestamp) {
-          issues.push(`Event order violation at index ${i}`);
-          break;
-        }
-      }
+      // Check event integrity
+      issues.push(...this.validateEventIntegrity(events));
     } catch (error) {
-      issues.push(`Error during validation: ${error}`);
+      issues.push(
+        `Error during validation: ${error instanceof Error ? error.message : String(error)}`,
+      );
     }
 
     return {

@@ -5,17 +5,18 @@
   "Detect current Clojure platform runtime"
   (cond
     ;; Check for Babashka first (most restrictive)
-    #?(:bb true :default false) :babashka
+    #?(:bb true :default false)
+    :babashka
     
     ;; Check for ClojureScript (browser or Node.js)
-    #?(:cljs true :default false) 
+    #?(:cljs true :default false)
     (if #?(:cljs (exists? js/process) :default false)
       :node-babashka
       :clojurescript)
     
     ;; Check for Node.js environment (nbb)
     (and #?(:clj true :default false)
-         (contains? (System/getenv) "NODE_ENV")) 
+         (contains? (System/getenv) "NODE_ENV"))
     :node-babashka
     
     ;; Check for Babashka classpath (alternative detection)
@@ -24,6 +25,7 @@
     :babashka
     
     ;; Default to JVM
+    :else
     :jvm))
 
 (defn platform-capabilities [platform]
@@ -35,6 +37,9 @@
      :json true 
      :yaml true 
      :process true 
+     :template-engine true
+     :kanban-integration true
+     :file-indexing true
      :cli true
      :native-binary true
      :fast-startup true
@@ -45,6 +50,9 @@
      :http true 
      :json true 
      :yaml true 
+     :template-engine true
+     :kanban-integration true
+     :file-indexing true
      :nodejs true 
      :npm true
      :cli true
@@ -56,6 +64,9 @@
      :json true 
      :yaml true 
      :process true 
+     :template-engine true
+     :kanban-integration true
+     :file-indexing true
      :database true 
      :threads true
      :full-clojure true
@@ -67,6 +78,9 @@
      :http true 
      :json true 
      :yaml true 
+     :template-engine true
+     :kanban-integration true
+     :file-indexing true
      :browser true 
      :javascript-runtime true
      :async true
@@ -75,18 +89,12 @@
 (def ^:dynamic *platform* (detect-platform))
 
 (defn current-platform []
-  "Get the current platform"
+  "Get current platform"
   *platform*)
 
 (defn feature-available? [feature]
   "Check if feature is available on current platform"
   (get (platform-capabilities *platform*) feature false))
-
-(defn platform-info []
-  "Get comprehensive platform information"
-  {:platform *platform*
-   :capabilities (platform-capabilities *platform*)
-   :properties (platform-properties *platform*)})
 
 (defn platform-properties [platform]
   "Get platform-specific properties"
@@ -119,6 +127,12 @@
      :memory-usage "Medium"
      :deployment "JavaScript bundle"}))
 
+(defn platform-info []
+  "Get comprehensive platform information"
+  {:platform *platform*
+   :capabilities (platform-capabilities *platform*)
+   :properties (platform-properties *platform*)})
+
 (defmacro when-platform [platform & body]
   "Execute body only if running on specified platform"
   `(when (= *platform* ~platform)
@@ -141,9 +155,14 @@
 (defn require-platform-implementation! [feature-symbol]
   "Require platform-specific implementation"
   (let [ns-sym (platform-implementation feature-symbol)]
-    (when-let [ns-obj (find-ns ns-sym)]
-      (require ns-obj))
-    ns-obj))
+    (try
+      (require ns-sym)
+      ns-sym
+      (catch Exception e
+        (throw (ex-info "Failed to require platform implementation" 
+                       {:feature-symbol feature-symbol 
+                        :namespace ns-sym 
+                        :error (.getMessage e)}))))))
 
 (defn validate-platform-compatibility [required-features]
   "Validate that current platform supports required features"

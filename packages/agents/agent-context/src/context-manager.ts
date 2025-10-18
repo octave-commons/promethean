@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 import {
   AgentContext,
   ContextEvent,
@@ -6,8 +8,8 @@ import {
   EventStore,
   SnapshotStore,
 } from './types';
-import { v4 as uuidv4 } from 'uuid';
 import { SecurityValidator, SecurityLogger, RateLimiter } from './security';
+import { ContextManagerHelpers } from './context-manager-helpers';
 
 export class DefaultContextManager implements ContextManager {
   private versionCounters: Map<string, number> = new Map();
@@ -27,121 +29,54 @@ export class DefaultContextManager implements ContextManager {
       const validatedAgentId = SecurityValidator.validateAgentId(agentId);
 
       // Rate limiting
-      if (!this.rateLimiter.isAllowed(`getContext:${validatedAgentId}`)) {
-        SecurityLogger.log({
-          type: 'rate_limit',
-          severity: 'medium',
-          agentId: validatedAgentId,
-          action: 'getContext',
-          details: { reason: 'Rate limit exceeded' },
-        });
-        throw new Error('Rate limit exceeded. Please try again later.');
-      }
+      await ContextManagerHelpers.checkRateLimit(this.rateLimiter, validatedAgentId, 'getContext');
 
       // Try to get latest snapshot first
       const latestSnapshot = await this.snapshotStore.getLatestSnapshot(validatedAgentId);
 
       if (latestSnapshot) {
-        // Get events since snapshot
-        const eventsSinceSnapshot = await this.eventStore.getEvents(
+        return await ContextManagerHelpers.buildContextFromSnapshot(
           validatedAgentId,
-          latestSnapshot.version + 1,
+          latestSnapshot,
+          this.eventStore,
         );
-
-        // Apply events to snapshot state
-        const currentState = this.applyEventsToState(latestSnapshot.state, eventsSinceSnapshot);
-
-        return {
-          id: uuidv4(),
-          agentId: validatedAgentId,
-          state: currentState as Record<string, unknown>,
-          version: latestSnapshot.version + eventsSinceSnapshot.length,
-          createdAt: latestSnapshot.timestamp,
-          updatedAt: new Date(),
-          metadata: {
-            snapshotId: latestSnapshot.id,
-            eventsSinceSnapshot: eventsSinceSnapshot.length,
-          },
-        };
       }
 
       // No snapshot exists, build from all events
-      const allEvents = await this.eventStore.getEvents(validatedAgentId);
-      const initialState = {};
-      const currentState = this.applyEventsToState(initialState, allEvents);
-
-      return {
-        id: uuidv4(),
-        agentId: validatedAgentId,
-        state: currentState as Record<string, unknown>,
-        version: allEvents.length,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        metadata: {
-          totalEvents: allEvents.length,
-        },
-      };
+      return await ContextManagerHelpers.buildContextFromEvents(validatedAgentId, this.eventStore);
     } catch (error) {
-      SecurityLogger.log({
-        type: 'data_access',
-        severity: 'medium',
-        agentId,
-        action: 'getContext',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' },
-      });
+      ContextManagerHelpers.logSecurityError(agentId, 'getContext', error);
       throw error;
     }
   }
 
   async updateContext(agentId: string, updates: Partial<AgentContext>): Promise<AgentContext> {
     try {
-      // Validate and sanitize input
       const validatedAgentId = SecurityValidator.validateAgentId(agentId);
 
-      // Rate limiting
-      if (!this.rateLimiter.isAllowed(`updateContext:${validatedAgentId}`)) {
-        SecurityLogger.log({
-          type: 'rate_limit',
-          severity: 'medium',
-          agentId: validatedAgentId,
-          action: 'updateContext',
-          details: { reason: 'Rate limit exceeded' },
-        });
-        throw new Error('Rate limit exceeded. Please try again later.');
-      }
+      await ContextManagerHelpers.checkRateLimit(
+        this.rateLimiter,
+        validatedAgentId,
+        'updateContext',
+      );
 
-      // Validate and sanitize updates
       const sanitizedUpdates = SecurityValidator.sanitizeObject(updates);
-
       const currentContext = await this.getContext(validatedAgentId);
+      const nextVersion = this.getNextVersion(validatedAgentId, currentContext.version);
 
-      // Get next version number (handles concurrent updates)
-      const currentVersion = this.versionCounters.get(validatedAgentId) || currentContext.version;
-      const nextVersion = currentVersion + 1;
-      this.versionCounters.set(validatedAgentId, nextVersion);
+      const updatedContext = this.buildUpdatedContext(
+        currentContext,
+        validatedAgentId,
+        sanitizedUpdates,
+        nextVersion,
+      );
 
-      const updatedContext: AgentContext = {
-        ...currentContext,
-        ...(sanitizedUpdates as Partial<AgentContext>),
-        id: currentContext.id, // Preserve original ID
-        agentId: validatedAgentId, // Preserve agent ID
-        version: nextVersion,
-        updatedAt: new Date(),
-      };
-
-      // Create an event for this update
-      await this.appendEvent({
-        type: 'context_updated',
-        agentId: validatedAgentId,
-        data: SecurityValidator.validateEventData({
-          updates: sanitizedUpdates,
-          previousVersion: currentContext.version,
-          newVersion: updatedContext.version,
-        }),
-        metadata: {
-          timestamp: new Date(),
-        },
-      });
+      await this.createUpdateEvent(
+        validatedAgentId,
+        sanitizedUpdates,
+        currentContext.version,
+        updatedContext.version,
+      );
 
       return updatedContext;
     } catch (error) {
@@ -156,6 +91,49 @@ export class DefaultContextManager implements ContextManager {
     }
   }
 
+  private getNextVersion(agentId: string, currentVersion: number): number {
+    const storedVersion = this.versionCounters.get(agentId) || currentVersion;
+    const nextVersion = storedVersion + 1;
+    this.versionCounters.set(agentId, nextVersion);
+    return nextVersion;
+  }
+
+  private buildUpdatedContext(
+    currentContext: AgentContext,
+    agentId: string,
+    updates: unknown,
+    version: number,
+  ): AgentContext {
+    return {
+      ...currentContext,
+      ...(updates as Partial<AgentContext>),
+      id: currentContext.id,
+      agentId,
+      version,
+      updatedAt: new Date(),
+    };
+  }
+
+  private async createUpdateEvent(
+    agentId: string,
+    updates: unknown,
+    previousVersion: number,
+    newVersion: number,
+  ): Promise<void> {
+    await this.appendEvent({
+      type: 'context_updated',
+      agentId,
+      data: SecurityValidator.validateEventData({
+        updates,
+        previousVersion,
+        newVersion,
+      }),
+      metadata: {
+        timestamp: new Date(),
+      },
+    });
+  }
+
   async appendEvent(event: Omit<ContextEvent, 'id' | 'timestamp'>): Promise<ContextEvent> {
     try {
       // Validate and sanitize input
@@ -163,16 +141,7 @@ export class DefaultContextManager implements ContextManager {
       const validatedData = SecurityValidator.validateEventData(event.data);
 
       // Rate limiting
-      if (!this.rateLimiter.isAllowed(`appendEvent:${validatedAgentId}`)) {
-        SecurityLogger.log({
-          type: 'rate_limit',
-          severity: 'medium',
-          agentId: validatedAgentId,
-          action: 'appendEvent',
-          details: { reason: 'Rate limit exceeded' },
-        });
-        throw new Error('Rate limit exceeded. Please try again later.');
-      }
+      await ContextManagerHelpers.checkRateLimit(this.rateLimiter, validatedAgentId, 'appendEvent');
 
       const fullEvent: ContextEvent = {
         ...event,
@@ -224,13 +193,7 @@ export class DefaultContextManager implements ContextManager {
       await this.snapshotStore.saveSnapshot(snapshot);
       return snapshot;
     } catch (error) {
-      SecurityLogger.log({
-        type: 'data_access',
-        severity: 'medium',
-        agentId,
-        action: 'createSnapshot',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' },
-      });
+      ContextManagerHelpers.logSecurityError(agentId, 'createSnapshot', error);
       throw error;
     }
   }
@@ -264,52 +227,7 @@ export class DefaultContextManager implements ContextManager {
         },
       };
     } catch (error) {
-      SecurityLogger.log({
-        type: 'data_access',
-        severity: 'medium',
-        action: 'restoreFromSnapshot',
-        details: {
-          snapshotId,
-          error: error instanceof Error ? error.message : 'Unknown error',
-        },
-      });
-      throw error;
-    }
-  }
-
-  private applyEventsToState(initialState: unknown, events: ContextEvent[]): unknown {
-    try {
-      return events.reduce(
-        (state: Record<string, unknown>, event) => {
-          // Validate event data before applying
-          const validatedData = SecurityValidator.validateEventData(event.data);
-
-          switch (event.type) {
-            case 'context_updated':
-              // If updates has a 'state' property, merge that, otherwise merge the whole updates
-              if (validatedData.updates && (validatedData.updates as any).state) {
-                return { ...state, ...(validatedData.updates as any).state };
-              }
-              return { ...state, ...(validatedData.updates as Record<string, unknown>) };
-            case 'state_set':
-              return { ...state, ...(validatedData as Record<string, unknown>) };
-            case 'state_delete':
-              const newState = { ...state };
-              delete newState[(validatedData as any).key];
-              return newState;
-            default:
-              return state;
-          }
-        },
-        initialState as Record<string, unknown>,
-      );
-    } catch (error) {
-      SecurityLogger.log({
-        type: 'input_validation',
-        severity: 'high',
-        action: 'applyEventsToState',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' },
-      });
+      ContextManagerHelpers.logSecurityError(snapshotId, 'restoreFromSnapshot', error);
       throw error;
     }
   }
@@ -338,13 +256,7 @@ export class DefaultContextManager implements ContextManager {
         },
       });
     } catch (error) {
-      SecurityLogger.log({
-        type: 'data_access',
-        severity: 'high',
-        agentId,
-        action: 'deleteContext',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' },
-      });
+      ContextManagerHelpers.logSecurityError(agentId, 'deleteContext', error);
       throw error;
     }
   }
@@ -357,13 +269,7 @@ export class DefaultContextManager implements ContextManager {
       const events = await this.eventStore.getEvents(validatedAgentId);
       return limit ? events.slice(-limit) : events;
     } catch (error) {
-      SecurityLogger.log({
-        type: 'data_access',
-        severity: 'medium',
-        agentId,
-        action: 'getContextHistory',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' },
-      });
+      ContextManagerHelpers.logSecurityError(agentId, 'getContextHistory', error);
       throw error;
     }
   }

@@ -39,16 +39,26 @@
   (try
     (let [content (slurp config-file)
           parsed (if (str/ends-with? config-file ".json")
-                   (features/use-feature! :json-processing)
-                   (features/use-feature! :yaml-processing))]
-      (merge default-config parsed))
+                   (when-let [parse-fn (features/use-feature! :json)]
+                     ((parse-fn content) :parse))
+                   (when-let [parse-fn (features/use-feature! :yaml)]
+                     ((parse-fn content) :parse)))]
+      (if (map? parsed)
+        parsed
+        {}))
     (catch Exception e
       (println (str "Warning: Failed to load config from " config-file ": " (.getMessage e)))
-      default-config)))
+      {})))
 
 (defn merge-config [base-config override-config]
   "Merge configuration with overrides"
-  (merge-with merge base-config override-config))
+  (if (and override-config (map? override-config))
+    (try
+      (merge-with merge base-config override-config)
+      (catch Exception e
+        ;; If merge fails due to type conflicts, fall back to simple merge
+        (merge base-config override-config)))
+    base-config))
 
 (defn validate-config [config]
   "Validate configuration"
@@ -63,7 +73,7 @@
     
     ;; Validate platform compatibility
     (let [platform (detection/current-platform)
-          required-features [:file-system :json-processing :template-engine]]
+          required-features [:fs :json :template-engine]]
       (when-let [validation (detection/validate-platform-compatibility required-features)]
         (when-not (:compatible validation)
           (swap! errors conj (str "Platform " platform " not compatible: " 
@@ -75,12 +85,24 @@
 
 (defn resolve-config-paths [config]
   "Resolve relative paths in configuration to absolute paths"
-  (let [base-dir (detection/current-directory)]
-    (update-in config [:template-dirs] 
-               #(map (fn [path] 
-                       (if (str/starts-with? path "/")
-                         path
-                         (str base-dir "/" path))) %))))
+  (let [base-dir (System/getProperty "user.dir")
+        template-dirs (:template-dirs config)]
+    (cond
+      (and template-dirs (coll? template-dirs))
+      (assoc config :template-dirs
+             (map (fn [path] 
+                     (if (str/starts-with? path "/")
+                       path
+                       (str base-dir "/" path))) template-dirs))
+      
+      (and template-dirs (string? template-dirs))
+      (assoc config :template-dirs
+             [(if (str/starts-with? template-dirs "/")
+                template-dirs
+                (str base-dir "/" template-dirs))])
+      
+      :else
+      config)))
 
 (defn get-template-path [config template-name]
   "Get full path for template file"
@@ -110,8 +132,15 @@
     (reduce-kv 
       (fn [config k v]
         (if (str/starts-with? k env-prefix)
-          (let [config-key (keyword (str/lower-case (str/replace (subs k (count env-prefix)) "_" "-")))]
-            (assoc config config-key v))
+          (let [config-key (keyword (str/lower-case (str/replace (subs k (count env-prefix)) "_" "-")))
+                ;; Handle special cases where env vars should be parsed as collections
+                processed-value (case config-key
+                                :template-dirs (str/split v #",")
+                                :include-patterns (str/split v #",")
+                                :exclude-patterns (str/split v #",")
+                                :environment-variables (str/split v #",")
+                                v)]
+            (assoc config config-key processed-value))
           config))
       {}
       env-vars)))
@@ -122,12 +151,18 @@
         config-file (or (:config-file overrides) 
                         (:config-file env-config) 
                         "agent-generator.config.edn")
-        file-config (when ((features/use-feature! :file-system) config-file)
-                      (load-config config-file))]
+        file-config (when ((features/use-feature! :fs) config-file)
+                      (load-config config-file))
+        ;; Handle template-dir -> template-dirs conversion
+        normalized-overrides (if (:template-dir overrides)
+                              (-> overrides
+                                  (assoc :template-dirs [(:template-dir overrides)])
+                                  (dissoc :template-dir))
+                              overrides)]
     (-> default-config
         (merge-config file-config)
         (merge-config env-config)
-        (merge-config overrides)
+        (merge-config normalized-overrides)
         (resolve-config-paths))))
 
 (defn config-summary [config]

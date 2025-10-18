@@ -1,5 +1,6 @@
 import { ContextShare, ContextShareStore, ContextSnapshot, SnapshotStore } from './types';
 import { SecurityValidator, SecurityLogger, RateLimiter } from './security';
+import { ContextSharingHelpers } from './context-sharing-helpers';
 
 export class ContextSharingService {
   private rateLimiter: RateLimiter;
@@ -16,141 +17,80 @@ export class ContextSharingService {
     targetAgentId: string,
     shareType: 'read' | 'write' | 'admin' = 'read',
     options: {
-      permissions?: Record<string, any>;
+      permissions?: Record<string, unknown>;
       expiresAt?: Date;
       createdBy?: string;
     } = {},
   ): Promise<ContextShare> {
     try {
-      // Validate and sanitize inputs
-      const validatedSourceAgentId = SecurityValidator.validateAgentId(sourceAgentId);
-      const validatedTargetAgentId = SecurityValidator.validateAgentId(targetAgentId);
-      const validatedShareType = SecurityValidator.validateShareType(shareType);
+      const { sourceId, targetId, type } = await ContextSharingHelpers.validateShareInputs(
+        sourceAgentId,
+        targetAgentId,
+        shareType,
+      );
 
-      // Rate limiting
-      if (!this.rateLimiter.isAllowed(`shareContext:${validatedSourceAgentId}`)) {
-        SecurityLogger.log({
-          type: 'rate_limit',
-          severity: 'medium',
-          agentId: validatedSourceAgentId,
-          action: 'shareContext',
-          details: { reason: 'Rate limit exceeded' },
-        });
-        throw new Error('Rate limit exceeded. Please try again later.');
-      }
+      await ContextSharingHelpers.checkRateLimit(this.rateLimiter, sourceId, 'shareContext');
 
-      // Authorization check - ensure source agent can share their context
-      // This would typically involve checking permissions or ownership
-
-      // Get the latest snapshot for the source agent
-      const latestSnapshot = await this.snapshotStore.getLatestSnapshot(validatedSourceAgentId);
-      if (!latestSnapshot) {
-        SecurityLogger.log({
-          type: 'authorization',
-          severity: 'medium',
-          agentId: validatedSourceAgentId,
-          action: 'shareContext',
-          details: { reason: 'No context found', targetAgentId: validatedTargetAgentId },
-        });
-        throw new Error(`No context found for agent ${validatedSourceAgentId}`);
-      }
-
-      // Validate and sanitize permissions
+      const latestSnapshot = await this.getLatestSnapshotForAgent(sourceId);
       const sanitizedPermissions = options.permissions
-        ? (SecurityValidator.sanitizeObject(options.permissions) as Record<string, any>)
+        ? SecurityValidator.sanitizeObject(options.permissions)
         : {};
 
-      const share: Omit<ContextShare, 'id' | 'createdAt'> = {
-        sourceAgentId: validatedSourceAgentId,
-        targetAgentId: validatedTargetAgentId,
-        contextSnapshotId: latestSnapshot.id,
-        shareType: validatedShareType,
-        permissions: sanitizedPermissions,
-        expiresAt: options.expiresAt,
-        createdBy: options.createdBy,
-      };
-
-      SecurityLogger.log({
-        type: 'authorization',
-        severity: 'low',
-        agentId: validatedSourceAgentId,
-        action: 'shareContext',
-        details: {
-          targetAgentId: validatedTargetAgentId,
-          shareType: validatedShareType,
-          snapshotId: latestSnapshot.id,
+      const share = ContextSharingHelpers.createShareRecord(
+        sourceId,
+        targetId,
+        type,
+        latestSnapshot.id,
+        {
+          permissions: sanitizedPermissions as Record<string, unknown>,
+          expiresAt: options.expiresAt,
+          createdBy: options.createdBy,
         },
-      });
+      );
+
+      ContextSharingHelpers.logShareSuccess(sourceId, targetId, '', type);
 
       return await this.shareStore.createShare(share);
     } catch (error) {
+      ContextSharingHelpers.logSecurityError(sourceAgentId, 'shareContext', error);
+      throw error;
+    }
+  }
+
+  private async getLatestSnapshotForAgent(agentId: string): Promise<ContextSnapshot> {
+    const latestSnapshot = await this.snapshotStore.getLatestSnapshot(agentId);
+    if (!latestSnapshot) {
       SecurityLogger.log({
         type: 'authorization',
         severity: 'medium',
-        agentId: sourceAgentId,
-        action: 'shareContext',
-        details: {
-          targetAgentId,
-          shareType,
-          error: error instanceof Error ? error.message : 'Unknown error',
-        },
+        agentId,
+        action: 'getLatestSnapshotForAgent',
+        details: { reason: 'No context found to share' },
       });
-      throw error;
+      throw new Error('No context found to share.');
     }
+    return latestSnapshot;
   }
 
   async getSharedContexts(
     agentId: string,
   ): Promise<Array<ContextShare & { snapshot: ContextSnapshot }>> {
     try {
-      // Validate and sanitize input
       const validatedAgentId = SecurityValidator.validateAgentId(agentId);
 
-      // Rate limiting
-      if (!this.rateLimiter.isAllowed(`getSharedContexts:${validatedAgentId}`)) {
-        SecurityLogger.log({
-          type: 'rate_limit',
-          severity: 'medium',
-          agentId: validatedAgentId,
-          action: 'getSharedContexts',
-          details: { reason: 'Rate limit exceeded' },
-        });
-        throw new Error('Rate limit exceeded. Please try again later.');
-      }
+      await ContextSharingHelpers.checkRateLimit(
+        this.rateLimiter,
+        validatedAgentId,
+        'getSharedContexts',
+      );
 
       const shares = await this.shareStore.getSharedContexts(validatedAgentId);
-
       if (shares.length === 0) {
         return [];
       }
 
-      // Extract all unique snapshot IDs to batch fetch
-      const snapshotIds = [...new Set(shares.map((share) => share.contextSnapshotId))];
-
-      // Batch fetch all snapshots at once
-      const snapshotPromises = snapshotIds.map((id) => this.snapshotStore.getSnapshot(id));
-      const snapshots = await Promise.all(snapshotPromises);
-
-      // Create a map of snapshot ID to snapshot for quick lookup
-      const snapshotMap = new Map<string, ContextSnapshot | null>();
-      snapshotIds.forEach((id, index) => {
-        const snapshot = snapshots[index];
-        if (snapshot !== undefined) {
-          snapshotMap.set(id, snapshot);
-        }
-      });
-
-      // Combine shares with their snapshots
-      const result = shares.reduce(
-        (acc, share) => {
-          const snapshot = snapshotMap.get(share.contextSnapshotId);
-          if (snapshot) {
-            acc.push({ ...share, snapshot });
-          }
-          return acc;
-        },
-        [] as Array<ContextShare & { snapshot: ContextSnapshot }>,
-      );
+      const snapshotMap = await this.batchFetchSnapshots(shares);
+      const result = this.combineSharesWithSnapshots(shares, snapshotMap);
 
       SecurityLogger.log({
         type: 'data_access',
@@ -162,50 +102,53 @@ export class ContextSharingService {
 
       return result;
     } catch (error) {
-      SecurityLogger.log({
-        type: 'data_access',
-        severity: 'medium',
-        agentId,
-        action: 'getSharedContexts',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' },
-      });
+      ContextSharingHelpers.logSecurityError(agentId, 'getSharedContexts', error);
       throw error;
     }
   }
 
+  private async batchFetchSnapshots(
+    shares: ContextShare[],
+  ): Promise<Map<string, ContextSnapshot | null>> {
+    const snapshotIds = [...new Set(shares.map((share) => share.contextSnapshotId))];
+    const snapshotPromises = snapshotIds.map((id) => this.snapshotStore.getSnapshot(id));
+    const snapshots = await Promise.all(snapshotPromises);
+
+    const snapshotMap = new Map<string, ContextSnapshot | null>();
+    snapshotIds.forEach((id, index) => {
+      const snapshot = snapshots[index];
+      if (snapshot !== undefined) {
+        snapshotMap.set(id, snapshot);
+      }
+    });
+
+    return snapshotMap;
+  }
+
+  private combineSharesWithSnapshots(
+    shares: ContextShare[],
+    snapshotMap: Map<string, ContextSnapshot | null>,
+  ): Array<ContextShare & { snapshot: ContextSnapshot }> {
+    return shares.reduce(
+      (acc, share) => {
+        const snapshot = snapshotMap.get(share.contextSnapshotId);
+        if (snapshot) {
+          acc.push({ ...share, snapshot });
+        }
+        return acc;
+      },
+      [] as Array<ContextShare & { snapshot: ContextSnapshot }>,
+    );
+  }
+
   async revokeShare(shareId: string, requestingAgentId: string): Promise<void> {
     try {
-      // Validate and sanitize inputs
       const validatedShareId = SecurityValidator.validateSnapshotId(shareId);
       const validatedAgentId = SecurityValidator.validateAgentId(requestingAgentId);
 
-      // Rate limiting
-      if (!this.rateLimiter.isAllowed(`revokeShare:${validatedAgentId}`)) {
-        SecurityLogger.log({
-          type: 'rate_limit',
-          severity: 'medium',
-          agentId: validatedAgentId,
-          action: 'revokeShare',
-          details: { reason: 'Rate limit exceeded' },
-        });
-        throw new Error('Rate limit exceeded. Please try again later.');
-      }
+      await ContextSharingHelpers.checkRateLimit(this.rateLimiter, validatedAgentId, 'revokeShare');
 
-      // Verify the requesting agent owns this share
-      const shares = await this.shareStore.getSharesForAgent(validatedAgentId);
-      const share = shares.find((s) => s.id === validatedShareId);
-
-      if (!share) {
-        SecurityLogger.log({
-          type: 'authorization',
-          severity: 'medium',
-          agentId: validatedAgentId,
-          action: 'revokeShare',
-          details: { shareId: validatedShareId, reason: 'Share not found or access denied' },
-        });
-        throw new Error('Share not found or access denied');
-      }
-
+      const share = await this.findShareForAgent(validatedShareId, validatedAgentId);
       await this.shareStore.revokeShare(validatedShareId);
 
       SecurityLogger.log({
@@ -216,18 +159,27 @@ export class ContextSharingService {
         details: { shareId: validatedShareId, targetAgentId: share.targetAgentId },
       });
     } catch (error) {
+      ContextSharingHelpers.logSecurityError(requestingAgentId, 'revokeShare', error);
+      throw error;
+    }
+  }
+
+  private async findShareForAgent(shareId: string, agentId: string): Promise<ContextShare> {
+    const shares = await this.shareStore.getSharesForAgent(agentId);
+    const share = shares.find((s) => s.id === shareId);
+
+    if (!share) {
       SecurityLogger.log({
         type: 'authorization',
         severity: 'medium',
-        agentId: requestingAgentId,
-        action: 'revokeShare',
-        details: {
-          shareId,
-          error: error instanceof Error ? error.message : 'Unknown error',
-        },
+        agentId,
+        action: 'findShareForAgent',
+        details: { shareId, reason: 'Share not found or access denied' },
       });
-      throw error;
+      throw new Error('Share not found or access denied');
     }
+
+    return share;
   }
 
   async updateSharePermissions(
@@ -236,38 +188,16 @@ export class ContextSharingService {
     requestingAgentId: string,
   ): Promise<ContextShare> {
     try {
-      // Validate and sanitize inputs
       const validatedShareId = SecurityValidator.validateSnapshotId(shareId);
       const validatedAgentId = SecurityValidator.validateAgentId(requestingAgentId);
 
-      // Rate limiting
-      if (!this.rateLimiter.isAllowed(`updateSharePermissions:${validatedAgentId}`)) {
-        SecurityLogger.log({
-          type: 'rate_limit',
-          severity: 'medium',
-          agentId: validatedAgentId,
-          action: 'updateSharePermissions',
-          details: { reason: 'Rate limit exceeded' },
-        });
-        throw new Error('Rate limit exceeded. Please try again later.');
-      }
+      await ContextSharingHelpers.checkRateLimit(
+        this.rateLimiter,
+        validatedAgentId,
+        'updateSharePermissions',
+      );
 
-      // Verify the requesting agent owns this share
-      const shares = await this.shareStore.getSharesForAgent(validatedAgentId);
-      const existingShare = shares.find((s) => s.id === validatedShareId);
-
-      if (!existingShare) {
-        SecurityLogger.log({
-          type: 'authorization',
-          severity: 'medium',
-          agentId: validatedAgentId,
-          action: 'updateSharePermissions',
-          details: { shareId: validatedShareId, reason: 'Share not found or access denied' },
-        });
-        throw new Error('Share not found or access denied');
-      }
-
-      // Validate and sanitize updates
+      await this.findShareForAgent(validatedShareId, validatedAgentId);
       const sanitizedUpdates = SecurityValidator.sanitizeObject(updates);
 
       const result = await this.shareStore.updateShare(
@@ -285,16 +215,7 @@ export class ContextSharingService {
 
       return result;
     } catch (error) {
-      SecurityLogger.log({
-        type: 'authorization',
-        severity: 'medium',
-        agentId: requestingAgentId,
-        action: 'updateSharePermissions',
-        details: {
-          shareId,
-          error: error instanceof Error ? error.message : 'Unknown error',
-        },
-      });
+      ContextSharingHelpers.logSecurityError(requestingAgentId, 'updateSharePermissions', error);
       throw error;
     }
   }
@@ -305,53 +226,25 @@ export class ContextSharingService {
     requiredPermission: 'read' | 'write' | 'admin' = 'read',
   ): Promise<boolean> {
     try {
-      // Validate and sanitize inputs
       const validatedAgentId = SecurityValidator.validateAgentId(agentId);
       const validatedSnapshotId = SecurityValidator.validateSnapshotId(snapshotId);
       const validatedPermission = SecurityValidator.validateShareType(requiredPermission);
 
-      // Rate limiting
-      if (!this.rateLimiter.isAllowed(`checkShareAccess:${validatedAgentId}`)) {
-        SecurityLogger.log({
-          type: 'rate_limit',
-          severity: 'medium',
-          agentId: validatedAgentId,
-          action: 'checkShareAccess',
-          details: { reason: 'Rate limit exceeded' },
-        });
-        throw new Error('Rate limit exceeded. Please try again later.');
-      }
-
-      const sharedContexts = await this.shareStore.getSharedContexts(validatedAgentId);
-      const sharesForSnapshot = sharedContexts.filter(
-        (s) => s.contextSnapshotId === validatedSnapshotId,
+      await ContextSharingHelpers.checkRateLimit(
+        this.rateLimiter,
+        validatedAgentId,
+        'checkShareAccess',
       );
 
+      const sharesForSnapshot = await this.getSharesForSnapshot(
+        validatedAgentId,
+        validatedSnapshotId,
+      );
       if (sharesForSnapshot.length === 0) {
         return false;
       }
 
-      // Find the share with the highest permission level that hasn't expired
-      const permissionLevels = { read: 1, write: 2, admin: 3 };
-      const requiredLevel = permissionLevels[validatedPermission];
-
-      const validShares = sharesForSnapshot.filter(
-        (share) => !share.expiresAt || share.expiresAt >= new Date(),
-      );
-
-      if (validShares.length === 0) {
-        return false;
-      }
-
-      // Find the share with the highest permission level
-      const highestPermissionShare = validShares.reduce((highest, current) => {
-        const highestLevel = permissionLevels[highest.shareType];
-        const currentLevel = permissionLevels[current.shareType];
-        return currentLevel > highestLevel ? current : highest;
-      });
-
-      const shareLevel = permissionLevels[highestPermissionShare.shareType];
-      const hasAccess = shareLevel >= requiredLevel;
+      const hasAccess = this.checkPermissionLevel(sharesForSnapshot, validatedPermission);
 
       SecurityLogger.log({
         type: 'authorization',
@@ -367,19 +260,37 @@ export class ContextSharingService {
 
       return hasAccess;
     } catch (error) {
-      SecurityLogger.log({
-        type: 'authorization',
-        severity: 'medium',
-        agentId,
-        action: 'checkShareAccess',
-        details: {
-          snapshotId,
-          requiredPermission,
-          error: error instanceof Error ? error.message : 'Unknown error',
-        },
-      });
+      ContextSharingHelpers.logSecurityError(agentId, 'checkShareAccess', error);
       throw error;
     }
+  }
+
+  private async getSharesForSnapshot(agentId: string, snapshotId: string): Promise<ContextShare[]> {
+    const sharedContexts = await this.shareStore.getSharedContexts(agentId);
+    return sharedContexts.filter((s) => s.contextSnapshotId === snapshotId);
+  }
+
+  private checkPermissionLevel(
+    shares: ContextShare[],
+    requiredPermission: 'read' | 'write' | 'admin',
+  ): boolean {
+    const permissionLevels = { read: 1, write: 2, admin: 3 };
+    const requiredLevel = permissionLevels[requiredPermission];
+
+    const validShares = shares.filter((share) => !share.expiresAt || share.expiresAt >= new Date());
+
+    if (validShares.length === 0) {
+      return false;
+    }
+
+    const highestPermissionShare = validShares.reduce((highest, current) => {
+      const highestLevel = permissionLevels[highest.shareType];
+      const currentLevel = permissionLevels[current.shareType];
+      return currentLevel > highestLevel ? current : highest;
+    });
+
+    const shareLevel = permissionLevels[highestPermissionShare.shareType];
+    return shareLevel >= requiredLevel;
   }
 
   async getShareStatistics(agentId: string): Promise<{

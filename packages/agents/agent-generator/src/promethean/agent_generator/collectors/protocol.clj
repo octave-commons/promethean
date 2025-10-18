@@ -14,19 +14,16 @@
   (collect-async! [this config callback] "Collect data asynchronously")
   (cancel! [this] "Cancel ongoing collection"))
 
-(defrecord CollectionResult [success data errors metadata]
-  "Result of data collection operation"
-  clojure.lang.ILookup
-  (val [this k] (get this k))
-  (val [this k not-found] (get this k not-found)))
+;; Simple defrecord with basic field names
+(defrecord CollectionResult [success data errors metadata])
 
 (defn success-result [data & [metadata]]
   "Create successful collection result"
-  ->CollectionResult [true data nil metadata])
+  (->CollectionResult true data nil metadata))
 
 (defn error-result [errors & [metadata]]
   "Create error collection result"
-  ->CollectionResult [false nil errors metadata))
+  (->CollectionResult false nil errors metadata))
 
 (defn merge-results [results]
   "Merge multiple collection results"

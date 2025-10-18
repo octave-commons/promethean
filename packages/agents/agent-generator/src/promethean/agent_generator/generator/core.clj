@@ -2,9 +2,9 @@
   "Core generation orchestration for agent instruction generator"
   (:require [promethean.agent-generator.collectors.protocol :as collectors]
             [promethean.agent-generator.collectors.kanban :as kanban-collector]
-            [promethean.agent-generator.collectors.file-index :as file-index-collector]
+            [promethean.agent-generator.collectors.file-index-simple :as file-index-collector]
             [promethean.agent-generator.collectors.environment :as environment-collector]
-            [promethean.agent-generator.templates.engine :as templates]
+            [promethean.agent-generator.templates.engine-simple :as templates]
             [promethean.agent-generator.config.core :as config]
             [promethean.agent-generator.platform.features :as features]
             [promethean.agent-generator.platform.detection :as detection]

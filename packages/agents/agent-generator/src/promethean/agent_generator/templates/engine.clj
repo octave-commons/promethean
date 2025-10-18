@@ -2,7 +2,8 @@
   "Template processing engine for agent instruction generation"
   (:require [clojure.string :as str]
             [clojure.walk :as walk]
-            [promethean.agent-generator.platform.features :as features]))
+            [promethean.agent-generator.platform.features :as features]
+            [promethean.agent-generator.platform.detection :as detection]))
 
 (defn parse-template [template-content]
   "Parse template content into AST"
@@ -180,7 +181,7 @@
       :unless (if (not (evaluate-condition condition-expr context))
                  (render-ast children context)
                  (render-ast (or else-children []) context))
-      :platform (if (= condition-expr (name (features/detection/current-platform)))
+      :platform (if (= condition-expr (name (detection/current-platform)))
                    (render-ast children context)
                    (render-ast (or else-children []) context))
       (render-ast children context))))

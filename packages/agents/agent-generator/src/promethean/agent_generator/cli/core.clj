@@ -1,11 +1,12 @@
 (ns promethean.agent-generator.cli.core
   "Command-line interface for agent generator"
   (:require [clojure.tools.cli :as cli]
-            [promethean.agent-generator.generator.core :as generator]
+            [clojure.string :as str]
+            [promethean.agent-generator.generator.core-simple :as generator]
             [promethean.agent-generator.config.core :as config]
             [promethean.agent-generator.platform.detection :as detection]
             [promethean.agent-generator.platform.features :as features]
-            [promethean.agent-generator.templates.engine :as templates])
+            [promethean.agent-generator.templates.engine-simple :as templates])
   (:gen-class))
 
 (def cli-options
@@ -69,34 +70,27 @@
 (defn initialize-platform []
   "Initialize platform-specific features"
   (println (str "Initializing for platform: " (detection/current-platform)))
-  (features/initialize-features!)
-  (case (detection/current-platform)
-    :babashka (features/use-feature! :babashka-optimizations)
-    :jvm (features/use-feature! :jvm-optimizations)
-    :node-babashka (features/use-feature! :nodejs-optimizations)
-    :clojurescript (features/use-feature! :cljs-optimizations)))
+  (features/initialize-features!))
 
 (defn handle-generate [options]
   "Handle generate command"
   (println "Generating agent instruction files...")
   (let [config-overrides (merge options
                                 {:verbose (:verbose options)})
-        result (generator/generate-with-report config-overrides)]
-    (if (:overall-success result)
+        result (generator/generate-and-write config-overrides)]
+    (if (:success result)
       (do
         (println "Generation completed successfully!")
         (when (:verbose options)
           (println "\nGeneration Report:")
           (println "==================")
-          (println (str "Platform: " (get-in result [:report :platform])))
-          (println (str "Outputs generated: " (get-in result [:report :outputs-generated])))
-          (println (str "Outputs written: " (get-in result [:report :outputs-written])))
-          (println (str "Success rate: " (get-in result [:report :outputs-successful]) 
-                       "/" (get-in result [:report :outputs-written]))))
+          (println (str "Platform: " (get-in result [:context :platform])))
+          (println (str "Outputs generated: " (count (:results result))))
+          (println (str "Success: " (:success result))))
         0)
       (do
         (println "Generation failed!")
-        (when-let [errors (seq (get-in result [:report :errors]))]
+        (when-let [errors (seq (:errors result))]
           (println "\nErrors:")
           (doseq [error errors]
             (println (str "  - " error))))
@@ -126,9 +120,9 @@
   "Handle list-templates command"
   (println "Available templates:")
   (let [template-dir (:template-dir options)
-        file-impl (features/use-feature! :file-system)]
+        file-impl (features/use-feature! :fs)]
     (if (and file-impl (file-impl template-dir))
-      (let [template-files (file-impl template-dir "*.template")]
+      (let [template-files ((file-impl template-dir) :list)]
         (if (seq template-files)
           (doseq [template-file template-files]
             (println (str "  - " template-file)))
@@ -172,6 +166,6 @@
         (.printStackTrace e))
       1)))
 
-(defn main [command & args]
-  "Alternative main function for programmatic use"
-  (apply -main (into [command] args)))
+(defn main [& args]
+  "Main entry point for babashka tasks"
+  (apply -main args))

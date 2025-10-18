@@ -11,28 +11,28 @@ export type {
   WorkflowDefinition,
   WorkflowEdge,
   WorkflowNode,
-} from "./workflow/types.js";
+} from './workflow/types.js';
 export {
   AgentDefinitionSchema,
   ModelReferenceSchema,
   ToolDefinitionSchema,
-} from "./workflow/types.js";
-export { parseMarkdownWorkflows } from "./workflow/markdown.js";
+} from './workflow/types.js';
+export { parseMarkdownWorkflows } from './workflow/markdown.js';
 export {
   resolveWorkflowDefinitions,
   createAgentWorkflowGraph,
   type DefinitionResolutionOptions,
-} from "./workflow/loader.js";
-export {
-  loadAgentWorkflowsFromMarkdown,
-  type WorkflowRuntimeOptions,
-} from "./runtime.js";
+} from './workflow/loader.js';
+export { loadAgentWorkflowsFromMarkdown, type WorkflowRuntimeOptions } from './runtime.js';
 export {
   createOpenAIModelProvider,
   registerOpenAIDefaultModelProvider,
-} from "./providers/openai.js";
+} from './providers/openai.js';
 export {
   createOllamaModelProvider,
   OllamaModelProvider,
   type OllamaModelProviderOptions,
-} from "./providers/ollama.js";
+} from './providers/ollama.js';
+
+// Healing System exports
+export * from './healing/index.js';
