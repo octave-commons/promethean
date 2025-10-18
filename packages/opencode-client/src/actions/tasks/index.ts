@@ -26,10 +26,11 @@ export async function loadPersistedTasks(
           const agentTask: AgentTask = {
             sessionId,
             task: task.text,
-            startTime: parseTimestamp(task.timestamp),
+            startTime: parseTimestamp(task.timestamp as string | number | Date),
             status: (task.metadata?.status as AgentTask['status']) || 'idle',
             lastActivity:
-              parseTimestamp(task.metadata?.lastActivity) || parseTimestamp(task.timestamp),
+              parseTimestamp(task.metadata?.lastActivity as string | number | Date) ||
+              parseTimestamp(task.timestamp as string | number | Date),
             completionMessage: task.metadata?.completionMessage as string | undefined,
           };
 
@@ -171,7 +172,8 @@ export async function getAllTasks(context: TaskContext): Promise<Map<string, Age
         const sessionId = (task.metadata?.sessionId as string) || task.id || 'unknown';
         const startTime = parseTimestamp(task.timestamp);
         const status = (task.metadata?.status as AgentTask['status']) || 'idle';
-        const lastActivity = parseTimestamp(task.metadata?.lastActivity) || startTime;
+        const lastActivity =
+          parseTimestamp(task.metadata?.lastActivity as string | number | Date) || startTime;
         const completionMessage = task.metadata?.completionMessage as string | undefined;
 
         allTasks.set(task.id || '', {
