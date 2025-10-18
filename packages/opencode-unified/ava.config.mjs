@@ -1,9 +1,13 @@
-import { createConfig } from '../../config/ava.config.mjs';
+import fs from 'node:fs';
+import path from 'node:path';
 
-export default createConfig({
-  files: ['src/tests/**/*.test.ts', 'tests/**/*.test.ts'],
-  nodeArguments: ['--loader=tsx'],
+// Simple AVA config for this package
+export default {
+  files: ['dist/tests/**/*.js', 'dist/**/*.test.js', 'tests/**/*.test.js'],
+  timeout: '30s',
+  failFast: false,
+  nodeArguments: ['--enable-source-maps'],
   environmentVariables: {
     NODE_ENV: 'test',
   },
-});
+};
