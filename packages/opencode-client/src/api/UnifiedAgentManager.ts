@@ -76,6 +76,13 @@ export class UnifiedAgentManager {
       // Step 2: Create and assign the task
       const task = await AgentTaskManager.createTask(sessionId, taskDescription);
 
+      // Send the task description as the first message
+      await MessageProcessor.processMessage(null, sessionId, {
+        type: 'user',
+        content: taskDescription,
+        timestamp: new Date().toISOString(),
+      });
+
       // Step 3: Send initial message if provided
       if (initialMessage) {
         await MessageProcessor.processMessage(null, sessionId, {
