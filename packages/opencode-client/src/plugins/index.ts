@@ -50,6 +50,10 @@ export const AllToolsPlugin = async (context: any) => {
   const tasksPlugin = await TasksPlugin(context);
   const sessionInfoPlugin = await SessionInfoPlugin(context);
   const agentManagementPlugin = await AgentManagementPlugin(context);
+  // New parity plugins
+  const asyncSubAgentsPlugin = await AsyncSubAgentsPlugin(context);
+  const eventCapturePlugin = await EventCapturePlugin(context);
+  const typeCheckerPlugin = await TypeCheckerPlugin(context);
 
   return {
     tool: {
