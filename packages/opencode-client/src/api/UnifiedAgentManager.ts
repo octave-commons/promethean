@@ -266,11 +266,7 @@ export class UnifiedAgentManager {
   /**
    * Add event listener for a session
    */
-  addEventListener(
-    sessionId: string,
-    _eventType: string,
-    listener: (...args: unknown[]) => void,
-  ): void {
+  addEventListener(sessionId: string, _eventType: string, listener: Function): void {
     if (!this.eventListeners.has(sessionId)) {
       this.eventListeners.set(sessionId, new Set());
     }
