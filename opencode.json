@@ -1,16 +1,16 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "provider": {
-    "ollama_openai":{
+    "ollama_openai": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "Ollama OpenAI Compatible",
       "options": {
         "baseURL": "http://localhost:11434/v1"
       },
-      "models":{
+      "models": {
         "error/qwen3:4b-instruct-100k": {
           "name": "Qwen3 4B Instruct"
-        },
+        }
       }
     },
     "ollama": {
@@ -29,15 +29,14 @@
             "think": true,
             "num_ctx": 40000
           }
-
         },
-        "qwen3:4b-instruct-2507-q4_K_M":{
+        "qwen3:4b-instruct-2507-q4_K_M": {
           "name": "Qwen3 4B Instruct 25607 q4_K_M",
           "options": {
             "temperature": 0.1,
             "top_k": 1,
             "top_p": 0.1,
-            "repeat_penalty": 1.1,
+            "repeat_penalty": 1.1
           }
         },
         "qwen3:4b-instruct": {
@@ -47,7 +46,7 @@
             "temperature": 0.1,
             "top_k": 1,
             "top_p": 0.1,
-            "repeat_penalty": 1.1,
+            "repeat_penalty": 1.1
           }
         },
         "qwen3:4b-thinking": {
@@ -161,11 +160,7 @@
     },
     "zai-mcp-server": {
       "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@z_ai/mcp-server"
-      ],
+      "command": ["npx", "-y", "@z_ai/mcp-server"],
       "environment": {
         "Z_AI_API_KEY": "{env:Z_AI_API_KEY}",
         "Z_AI_MODE": "ZAI"
@@ -174,9 +169,10 @@
     },
     "playwright": {
       "type": "remote",
-      "url": "http://localhost:8931/mcp",
+      "url": "http://localhost:8931",
       "enabled": true
     },
+    "chrome-devtools":{"type":"local","command":["npx", "-y", "chrome-devtools-mcp@latest"]},
     "serena": {
       "type": "local",
       "command": [
@@ -190,10 +186,7 @@
     },
     "clj": {
       "type": "local",
-      "command": [
-        "clojure",
-        "-X:mcp"
-      ],
+      "command": ["clojure", "-X:mcp"],
       "environment": {
         "CLOJURE_MCP_PORT": "7888"
       },
@@ -201,10 +194,7 @@
     },
     "clj-kondo": {
       "type": "local",
-      "command": [
-        "npx",
-        "clj-kondo-mcp"
-      ],
+      "command": ["npx", "clj-kondo-mcp"],
       "enabled": true
     },
     "context7": {
@@ -223,22 +213,21 @@
   },
   "lsp": {
     "clojure-lsp": {
-      "command": [
-        "clojure-lsp"
-      ],
-      "extensions": [
-        ".clj",
-        ".cljs",
-        ".cljc",
-        ".bb"
-      ]
+      "command": ["clojure-lsp"],
+      "extensions": [".clj", ".cljs", ".cljc", ".bb"]
     }
   },
-  "instructions": [
-    "./docs/agents/platforms/opencode/AGENTS.md"
-  ],
-  "tools":{
-    "clj*":false,
+  "instructions": ["./docs/agents/platforms/opencode/AGENTS.md"],
+  "tools": {
+    "clj*": false,
+    "playwright*":false,
+    "process.*":false,
+    "processDirect.*":false,
+    "events.*":false,
+    "messaging.*":false,
+    "messages.*":false,
+    "ollama.*":false,
+    "cache.*":false,
+    "sessions.*": false
   }
-
 }

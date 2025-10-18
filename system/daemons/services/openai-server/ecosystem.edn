@@ -1,4 +1,4 @@
-{:apps [{:id "openai-server"
+{:apps [{:name "openai-server"
          :description "OpenAI-compatible API server with Ollama integration and task queuing"
          :script "node"
          :args ["-r" "esbuild-register" "packages/openai-server/dist/index.js"]

@@ -12,38 +12,55 @@ try {
 export const apps = 
 [
   {
-    "name": "auth-service",
-    "script": "./packages/auth-service/dist/index.js",
-    "args": [],
-    "exec_mode": "fork",
-    "out_file": "./logs/auth-service-out.log",
-    "error_file": "./logs/auth-service-err.log",
+    "name": "lein-repl",
+    "script": "lein",
+    "interpreter": "/usr/bin/env",
+    "args": [
+      "repl",
+      ":headless",
+      ":port",
+      "7888"
+    ],
+    "out_file": "./logs/lein-repl-out.log",
+    "error_file": "./logs/lein-repl-err.log",
     "merge_logs": true,
     "instances": 1,
     "autorestart": true,
     "restart_delay": 10000,
     "kill_timeout": 10000,
     "env": {
-      "NODE_ENV": "production",
-      "PORT": "8088",
-      "AUTH_ISSUER": "http://localhost:8088",
-      "PM2_PROCESS_NAME": "auth-service",
-      "HEARTBEAT_PORT": "5005",
-      "PYTHONUNBUFFERED": "1",
-      "PYTHONPATH": "./packages/pm2-helpers",
-      "CHECK_INTERVAL": "300000",
-      "HEARTBEAT_TIMEOUT": "600000"
+      "LEIN_REPL_PORT": "7888",
+      "JAVA_OPTS": "-Xmx2g -XX:+UseG1GC"
     },
-    "cwd": "./packages/auth-service",
-    "watch": [
-      "./packages/auth-service"
-    ],
     "ignore_watch": [
       "node_modules",
       "logs",
       "tmp",
-      ".git"
+      ".git",
+      "target",
+      ".cpcache"
     ]
+  },
+  {
+    "name": "opencode",
+    "script": "opencode",
+    "args": [
+      "serve",
+      "--port",
+      4096
+    ],
+    "interpreter": "/usr/bin/env",
+    "out_file": "./logs/opencode-out.log",
+    "error_file": "./logs/opencode-err.log",
+    "merge_logs": true,
+    "instances": 1,
+    "autorestart": true,
+    "restart_delay": 10000,
+    "kill_timeout": 10000,
+    "env": {
+      "PM2_PROCESS_NAME": "opencode"
+    },
+    "cwd": "."
   },
   {
     "name": "broker",
@@ -60,8 +77,6 @@ export const apps =
     "env": {
       "PM2_PROCESS_NAME": "broker",
       "HEARTBEAT_PORT": "5005",
-      "PYTHONUNBUFFERED": "1",
-      "PYTHONPATH": "./packages/pm2-helpers",
       "CHECK_INTERVAL": "300000",
       "HEARTBEAT_TIMEOUT": "600000"
     },
@@ -77,99 +92,34 @@ export const apps =
     ]
   },
   {
-    "name": "cephalon",
-    "script": "dist/index.js",
-    "args": [],
-    "exec_mode": "fork",
-    "out_file": "./logs/cephalon-out.log",
-    "error_file": "./logs/cephalon-err.log",
-    "merge_logs": true,
-    "instances": 1,
-    "autorestart": true,
-    "restart_delay": 10000,
-    "kill_timeout": 10000,
-    "env": {
-      "PM2_PROCESS_NAME": "cephalon",
-      "HEARTBEAT_PORT": "5005",
-      "PYTHONUNBUFFERED": "1",
-      "PYTHONPATH": "./packages/pm2-helpers",
-      "CHECK_INTERVAL": "300000",
-      "HEARTBEAT_TIMEOUT": "600000"
-    },
-    "cwd": "./packages/cephalon",
-    "watch": [
-      "./packages/cephalon"
+    "name": "dualstore-http",
+    "description": "Dual-store HTTP API server for events and agent tasks",
+    "script": "node",
+    "args": [
+      "packages/dualstore-http/dist/index-simple.js"
     ],
-    "ignore_watch": [
-      "node_modules",
-      "logs",
-      "tmp",
-      ".git"
-    ]
-  },
-  {
-    "name": "eidolon-field",
-    "script": "index.js",
-    "args": [],
-    "exec_mode": "fork",
-    "out_file": "./logs/eidolon-field-out.log",
-    "error_file": "./logs/eidolon-field-err.log",
-    "merge_logs": true,
-    "instances": 1,
-    "autorestart": true,
-    "restart_delay": 10000,
-    "kill_timeout": 10000,
-    "env": {
-      "PM2_PROCESS_NAME": "eidolon-field",
-      "HEARTBEAT_PORT": "5005",
-      "PYTHONUNBUFFERED": "1",
-      "PYTHONPATH": "./packages/pm2-helpers",
-      "CHECK_INTERVAL": "300000",
-      "HEARTBEAT_TIMEOUT": "600000"
-    },
-    "cwd": "./packages/eidolon-field",
-    "watch": [
-      "./packages/eidolon-field"
-    ],
-    "ignore_watch": [
-      "node_modules",
-      "logs",
-      "tmp",
-      ".git"
-    ]
-  },
-  {
-    "name": "file-watcher",
-    "script": "dist/index.js",
-    "args": [],
-    "exec_mode": "fork",
-    "out_file": "./logs/file-watcher-out.log",
-    "error_file": "./logs/file-watcher-err.log",
-    "merge_logs": true,
-    "instances": 1,
-    "autorestart": true,
-    "restart_delay": 10000,
-    "kill_timeout": 10000,
+    "cwd": "..",
     "env": {
       "NODE_ENV": "production",
-      "REPO_ROOT": "./system",
-      "PM2_PROCESS_NAME": "file-watcher",
-      "HEARTBEAT_PORT": "5005",
-      "PYTHONUNBUFFERED": "1",
-      "PYTHONPATH": "./packages/pm2-helpers",
-      "CHECK_INTERVAL": "300000",
-      "HEARTBEAT_TIMEOUT": "600000"
+      "PORT": "3000",
+      "LOG_LEVEL": "info",
+      "DUALSTORE_HTTP_HOST": "localhost",
+      "DUALSTORE_HTTP_PORT": "3000"
     },
-    "cwd": "./packages/file-watcher",
+    "instances": 1,
+    "max-memory-restart": "512M",
+    "autorestart": true,
     "watch": [
-      "./packages/file-watcher"
+      "packages/dualstore-http/dist"
     ],
-    "ignore_watch": [
-      "node_modules",
-      "logs",
-      "tmp",
-      ".git"
-    ]
+    "merge-logs": true,
+    "log-date-format": "YYYY-MM-DD HH:mm:ss Z",
+    "error-file": "logs/dualstore-http-error.log",
+    "out-file": "logs/dualstore-http-out.log",
+    "log-file": "logs/dualstore-http-combined.log",
+    "time": true,
+    "kill-timeout": 5000,
+    "restart-delay": 4000
   },
   {
     "name": "frontend-service",
@@ -262,132 +212,7 @@ export const apps =
     ]
   },
   {
-    "name": "kanban-processor",
-    "script": "dist/src/index.js",
-    "args": [],
-    "exec_mode": "fork",
-    "out_file": "./logs/kanban-processor-out.log",
-    "error_file": "./logs/kanban-processor-err.log",
-    "merge_logs": true,
-    "instances": 1,
-    "autorestart": true,
-    "restart_delay": 10000,
-    "kill_timeout": 10000,
-    "env": {
-      "PM2_PROCESS_NAME": "kanban-processor",
-      "HEARTBEAT_PORT": "5005",
-      "PYTHONUNBUFFERED": "1",
-      "PYTHONPATH": "./packages/pm2-helpers",
-      "CHECK_INTERVAL": "300000",
-      "HEARTBEAT_TIMEOUT": "600000"
-    },
-    "cwd": "./packages/kanban-processor",
-    "watch": [
-      "./packages/kanban-processor"
-    ],
-    "ignore_watch": [
-      "node_modules",
-      "logs",
-      "tmp",
-      ".git"
-    ]
-  },
-  {
-    "name": "lein-repl",
-    "script": "lein",
-    "interpreter": "/usr/bin/env",
-    "args": [
-      "repl",
-      ":headless",
-      ":port",
-      "7888"
-    ],
-    "out_file": "./logs/lein-repl-out.log",
-    "error_file": "./logs/lein-repl-err.log",
-    "merge_logs": true,
-    "instances": 1,
-    "autorestart": true,
-    "restart_delay": 10000,
-    "kill_timeout": 10000,
-    "env": {
-      "LEIN_REPL_PORT": "7888",
-      "JAVA_OPTS": "-Xmx2g -XX:+UseG1GC"
-    },
-    "ignore_watch": [
-      "node_modules",
-      "logs",
-      "tmp",
-      ".git",
-      "target",
-      ".cpcache"
-    ]
-  },
-  {
-    "name": "llm",
-    "script": "dist/index.js",
-    "args": [],
-    "exec_mode": "fork",
-    "out_file": "./logs/llm-out.log",
-    "error_file": "./logs/llm-err.log",
-    "merge_logs": true,
-    "instances": 1,
-    "autorestart": true,
-    "restart_delay": 10000,
-    "kill_timeout": 10000,
-    "env": {
-      "LLM_PORT": "8888",
-      "PM2_PROCESS_NAME": "llm",
-      "HEARTBEAT_PORT": "5005",
-      "PYTHONUNBUFFERED": "1",
-      "PYTHONPATH": "./packages/pm2-helpers",
-      "CHECK_INTERVAL": "300000",
-      "HEARTBEAT_TIMEOUT": "600000"
-    },
-    "cwd": "./packages/llm",
-    "watch": [
-      "./packages/llm/src"
-    ],
-    "ignore_watch": [
-      "node_modules",
-      "logs",
-      "tmp",
-      ".git"
-    ]
-  },
-  {
-    "name": "markdown-graph",
-    "script": "dist/src/index.js",
-    "args": [],
-    "exec_mode": "fork",
-    "out_file": "./logs/markdown-graph-out.log",
-    "error_file": "./logs/markdown-graph-err.log",
-    "merge_logs": true,
-    "instances": 1,
-    "autorestart": true,
-    "restart_delay": 10000,
-    "kill_timeout": 10000,
-    "env": {
-      "PORT": "8123",
-      "PM2_PROCESS_NAME": "markdown-graph",
-      "HEARTBEAT_PORT": "5005",
-      "PYTHONUNBUFFERED": "1",
-      "PYTHONPATH": "./packages/pm2-helpers",
-      "CHECK_INTERVAL": "300000",
-      "HEARTBEAT_TIMEOUT": "600000"
-    },
-    "cwd": "./packages/markdown-graph",
-    "watch": [
-      "./packages/markdown-graph/src"
-    ],
-    "ignore_watch": [
-      "node_modules",
-      "logs",
-      "tmp",
-      ".git"
-    ]
-  },
-  {
-    "id": "openai-server",
+    "name": "openai-server",
     "description": "OpenAI-compatible API server with Ollama integration and task queuing",
     "script": "node",
     "args": [
@@ -413,173 +238,6 @@ export const apps =
     "time": true,
     "kill-timeout": 5000,
     "restart-delay": 4000
-  },
-  {
-    "name": "opencode-session-manager",
-    "script": "public/js/main.js",
-    "script_type": "node",
-    "args": [],
-    "exec_mode": "fork",
-    "out_file": "./logs/opencode-session-manager-out.log",
-    "error_file": "./logs/opencode-session-manager-err.log",
-    "merge_logs": true,
-    "instances": 1,
-    "autorestart": true,
-    "restart_delay": 10000,
-    "kill_timeout": 10000,
-    "env": {
-      "PM2_PROCESS_NAME": "opencode-session-manager",
-      "HEARTBEAT_PORT": "5007",
-      "PORT": "8084",
-      "HOST": "0.0.0.0",
-      "NODE_ENV": "development",
-      "CHECK_INTERVAL": "300000",
-      "HEARTBEAT_TIMEOUT": "600000"
-    },
-    "cwd": "./packages/opencode-session-manager",
-    "watch": [
-      "src",
-      "public"
-    ],
-    "ignore_watch": [
-      "node_modules",
-      "logs",
-      "tmp",
-      ".git",
-      "dist"
-    ]
-  },
-  {
-    "name": "opencode",
-    "script": "opencode",
-    "args": [
-      "serve",
-      "--port",
-      4096
-    ],
-    "interpreter": "/usr/bin/env",
-    "out_file": "./logs/opencode-out.log",
-    "error_file": "./logs/opencode-err.log",
-    "merge_logs": true,
-    "instances": 1,
-    "autorestart": true,
-    "restart_delay": 10000,
-    "kill_timeout": 10000,
-    "env": {
-      "PM2_PROCESS_NAME": "opencode"
-    },
-    "cwd": "."
-  },
-  {
-    "name": "smartgpt-bridge",
-    "script": "dist/fastifyServer.js",
-    "args": [],
-    "exec_mode": "fork",
-    "out_file": "./logs/smartgpt-bridge-out.log",
-    "error_file": "./logs/smartgpt-bridge-err.log",
-    "merge_logs": true,
-    "instances": 1,
-    "autorestart": true,
-    "restart_delay": 10000,
-    "kill_timeout": 10000,
-    "env": {
-      "NODE_ENV": "development",
-      "ROOT_PATH": "./system",
-      "HOST": "0.0.0.0",
-      "PORT": "3210",
-      "PUBLIC_BASE_URL": "https://err-stealth-16-ai-studio-a1vgg.tailbe888a.ts.net",
-      "EXCLUDE_GLOBS": "**/node_modules/**,**/.git/**,**/dist/**,**/build/**,**/.obsidian/**,**/.smart_env/**,**/.pnpm/**,**/.cache/**,**/coverage/**",
-      "COLLECTION_FAMILY": "repo_files",
-      "EMBED_VERSION": "dev",
-      "PM2_PROCESS_NAME": "smartgpt-bridge",
-      "EMBEDDING_DRIVER": "ollama",
-      "EMBEDDING_FUNCTION": "nomic-embed-text",
-      "EMBED_DIMS": "768",
-      "BROKER_URL": "ws://localhost:7000",
-      "SHARED_IMPORT": "@promethean/legacy/brokerClient.js",
-      "CODEX_BIN": "/home/err/.volta/bin/codex",
-      "CODEX_ARGS": "",
-      "AGENT_MAX_LOG_BYTES": "524288",
-      "AGENT_SHELL": "true",
-      "HEARTBEAT_PORT": "5005",
-      "PYTHONUNBUFFERED": "1",
-      "PYTHONPATH": "./packages/pm2-helpers",
-      "CHECK_INTERVAL": "300000",
-      "HEARTBEAT_TIMEOUT": "600000"
-    },
-    "cwd": "./packages/smartgpt-bridge",
-    "watch": [
-      "./packages/smartgpt-bridge/src"
-    ],
-    "ignore_watch": [
-      "node_modules",
-      "logs",
-      "tmp",
-      ".git"
-    ]
-  },
-  {
-    "name": "vision",
-    "script": "index.js",
-    "args": [],
-    "exec_mode": "fork",
-    "out_file": "./logs/vision-out.log",
-    "error_file": "./logs/vision-err.log",
-    "merge_logs": true,
-    "instances": 1,
-    "autorestart": true,
-    "restart_delay": 10000,
-    "kill_timeout": 10000,
-    "env": {
-      "PORT": "9999",
-      "PM2_PROCESS_NAME": "vision",
-      "HEARTBEAT_PORT": "5005",
-      "PYTHONUNBUFFERED": "1",
-      "PYTHONPATH": "./packages/pm2-helpers",
-      "CHECK_INTERVAL": "300000",
-      "HEARTBEAT_TIMEOUT": "600000"
-    },
-    "cwd": "./packages/vision",
-    "watch": [
-      "./packages/vision"
-    ],
-    "ignore_watch": [
-      "node_modules",
-      "logs",
-      "tmp",
-      ".git"
-    ]
-  },
-  {
-    "name": "voice",
-    "script": "dist/index.js",
-    "args": [],
-    "exec_mode": "fork",
-    "out_file": "./logs/voice-out.log",
-    "error_file": "./logs/voice-err.log",
-    "merge_logs": true,
-    "instances": 1,
-    "autorestart": true,
-    "restart_delay": 10000,
-    "kill_timeout": 10000,
-    "env": {
-      "PM2_PROCESS_NAME": "voice",
-      "HEARTBEAT_PORT": "5005",
-      "PYTHONUNBUFFERED": "1",
-      "PYTHONPATH": "./packages/pm2-helpers",
-      "CHECK_INTERVAL": "300000",
-      "HEARTBEAT_TIMEOUT": "600000"
-    },
-    "cwd": "./packages/voice",
-    "watch": [
-      "./packages/voice"
-    ],
-    "ignore_watch": [
-      "node_modules",
-      "logs",
-      "tmp",
-      ".git"
-    ]
   }
 ];
 

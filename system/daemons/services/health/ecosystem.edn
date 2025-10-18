@@ -1,4 +1,3 @@
-; Generated from system/daemons/services/health/ecosystem.config.js
 {
   :apps [
     {

@@ -20,17 +20,29 @@ import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import bearerAuthPlugin from '@fastify/bearer-auth';
 import { createServerConfig, getLogLevel } from './utils/config.js';
-import { collectionRoutes } from './routes/collections.js';
+import {
+  collectionRoutes as dualStoreRoutes,
+  initializeDataProvider,
+} from './routes/collections-dualstore.js';
 import SSEService from './services/sse.js';
+import { DualStoreManager } from '@promethean/persistence';
 
 // Create SSE service instance
 const sseService = new SSEService(5000);
 
 /**
- * Create and configure the Fastify server
+ * Create and configure Fastify server
  */
 async function createServer() {
   const config = createServerConfig();
+
+  // Initialize dual stores
+  const sessionStore = await DualStoreManager.create('session_messages', 'text', 'timestamp');
+  const agentTaskStore = await DualStoreManager.create('agent_tasks', 'text', 'timestamp');
+  const eventStore = await DualStoreManager.create('opencode_events', 'text', 'timestamp');
+
+  // Initialize data provider with dual stores
+  await initializeDataProvider(sessionStore, agentTaskStore, eventStore);
 
   const server = Fastify({
     logger: {
@@ -132,8 +144,8 @@ async function createServer() {
     },
   );
 
-  // Register collection routes under /api/v1
-  await server.register(collectionRoutes, { prefix: '/api/v1' });
+  // Register collection routes under /api/v1 (using dual store integration)
+  await server.register(dualStoreRoutes, { prefix: '/api/v1' });
 
   // Register SSE streaming routes
   await server.register(

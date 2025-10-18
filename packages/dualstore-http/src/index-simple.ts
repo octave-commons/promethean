@@ -58,31 +58,38 @@ async function initializeStores() {
  * Extract task type from content or raw event
  */
 function extractTaskType(entry: any): string | null {
-  // Try to extract from raw event first
-  if (entry.rawEvent) {
-    try {
-      const rawEvent = JSON.parse(entry.rawEvent);
-      if (rawEvent.type) {
-        return rawEvent.type.replace(/\./g, '_');
-      }
-    } catch (e) {
-      // Fall back to content parsing
-    }
+  const content = entry.content || entry.text || '';
+
+  // Look for TASK: pattern
+  const taskMatch = content.match(/TASK:\s*([^\n]+)/i);
+  if (taskMatch) {
+    return taskMatch[1].trim();
   }
 
-  // Try to extract from content
-  if (entry.content) {
-    // Look for TASK: pattern
-    const taskMatch = entry.content.match(/TASK:\s*([^(]+)/i);
-    if (taskMatch) {
-      return taskMatch[1].trim();
-    }
+  // Look for UUID pattern for task identification
+  const uuidMatch = content.match(/UUID:\s*([a-f0-9-]+)/i);
+  if (uuidMatch) {
+    return `task_${uuidMatch[1].substring(0, 8)}`;
+  }
 
-    // Look for UUID pattern for task identification
-    const uuidMatch = entry.content.match(/UUID:\s*([a-f0-9-]+)/i);
-    if (uuidMatch) {
-      return `task_${uuidMatch[1].substring(0, 8)}`;
-    }
+  // Look for specialist role pattern (case insensitive)
+  const specialistMatch = content.match(/You are a ([A-Z\s]+SPECIALIST)/i);
+  if (specialistMatch) {
+    return `${specialistMatch[1].toLowerCase().replace(/\s+/g, '_')}_task`;
+  }
+
+  // Look for specific task patterns in content
+  if (content.includes('integration of a comprehensive input validation framework')) {
+    return 'input_validation_integration';
+  }
+  if (content.includes('resolution of a critical path traversal')) {
+    return 'path_traversal_fix';
+  }
+  if (content.includes('board monitoring and management')) {
+    return 'board_monitoring';
+  }
+  if (content.includes('kanban_column_normalization_bug')) {
+    return 'kanban_column_fix';
   }
 
   return null;
@@ -92,6 +99,8 @@ function extractTaskType(entry: any): string | null {
  * Extract agent ID from content or raw event
  */
 function extractAgentId(entry: any): string | null {
+  const content = entry.content || entry.text || '';
+
   // Try to extract from raw event first
   if (entry.rawEvent) {
     try {
@@ -108,21 +117,21 @@ function extractAgentId(entry: any): string | null {
   }
 
   // Try to extract from content
-  if (entry.content) {
-    // Look for specialist role
-    const specialistMatch = entry.content.match(/You are a ([A-Z\s]+SPECIALIST)/i);
+  if (content) {
+    // Look for specialist role pattern (case insensitive, handles "You are a SECURITY INTEGRATION specialist")
+    const specialistMatch = content.match(/You are a ([A-Z\s]+SPECIALIST)/i);
     if (specialistMatch) {
       return specialistMatch[1].toLowerCase().replace(/\s+/g, '_');
     }
 
     // Look for agent pattern
-    const agentMatch = entry.content.match(/agent[:\s]+([a-zA-Z0-9_-]+)/i);
+    const agentMatch = content.match(/agent[:\s]+([a-zA-Z0-9_-]+)/i);
     if (agentMatch) {
       return agentMatch[1].trim();
     }
 
     // Look for session ID pattern
-    const sessionMatch = entry.content.match(/ses_[a-zA-Z0-9]+/);
+    const sessionMatch = content.match(/ses_[a-zA-Z0-9]+/);
     if (sessionMatch) {
       return sessionMatch[0];
     }
@@ -418,7 +427,7 @@ async function createServer() {
           event_type: (formatted as any).eventType?.replace(/\./g, '_') || 'unknown',
           source: extractSource(formatted),
           severity: extractSeverity(formatted),
-          event_data: (formatted as any).rawEvent || {},
+          event_data: (formatted as any).rawEvent ? JSON.parse((formatted as any).rawEvent) : {},
         };
       });
 

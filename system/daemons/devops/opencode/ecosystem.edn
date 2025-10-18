@@ -8,12 +8,6 @@
          :merge_logs true
          :instances 1
 
-         :watch ["./.opencode","opencode.json","docs/agents/platforms/opencode/"]
-
-         :ignore_watch ["node_modules"
-                        "logs"
-                        "tmp"
-                        ".git"]
          :autorestart true
          :restart_delay 10000
          :kill_timeout 10000

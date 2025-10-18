@@ -8,8 +8,19 @@ import {
   createAgentSession,
   unifiedAgentManager,
 } from '../api/UnifiedAgentManager.js';
+import { DualStoreManager } from '@promethean/persistence';
+import { initializeStores } from '../index.js';
+import { AgentTaskManager } from '../api/AgentTaskManager.js';
 
-test.beforeEach(() => {
+test.before(async () => {
+  // Initialize dual stores for testing
+  const sessionStore = await DualStoreManager.create('sessions', 'text', 'timestamp');
+  const agentTaskStore = await DualStoreManager.create('agent-tasks', 'text', 'timestamp');
+  initializeStores(sessionStore, agentTaskStore);
+
+  // Load any existing persisted tasks
+  await AgentTaskManager.loadPersistedTasks();
+
   // Clear any existing sessions for clean testing
   const sessions = unifiedAgentManager.listAgentSessions();
   sessions.forEach((session) => {
