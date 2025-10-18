@@ -17,8 +17,9 @@ async function demonstrateEventHooks() {
   console.log('\n📝 Registering example hooks...');
 
   // Security logging hook
-  hookManager.registerBeforeHook(
+  hookManager.registerHook(
     'security-audit',
+    'before',
     async (context) => {
       console.log(`🔒 Security audit: ${context.metadata?.originalTool || 'unknown tool'}`);
       console.log(`   Args: ${JSON.stringify(context.args)}`);
@@ -32,8 +33,9 @@ async function demonstrateEventHooks() {
   );
 
   // Performance monitoring hook
-  hookManager.registerAfterHook(
+  hookManager.registerHook(
     'performance-monitor',
+    'after',
     async (context) => {
       const execTime = context.executionTime || 0;
       console.log(
@@ -49,8 +51,9 @@ async function demonstrateEventHooks() {
   );
 
   // Tool-specific enhancement hook
-  hookManager.registerAfterHook(
+  hookManager.registerHook(
     'result-enhancer',
+    'after',
     async (context) => {
       if (context.metadata?.originalTool === 'example.tool') {
         return {
@@ -67,26 +70,6 @@ async function demonstrateEventHooks() {
       timeout: 2000,
     },
   );
-
-  // 2. Show hook statistics
-  console.log('\n📊 Current hook statistics:');
-  const stats = hookManager.getStatistics();
-  console.log(JSON.stringify(stats, null, 2));
-
-  // 3. Simulate tool execution (this would normally be done by OpenCode)
-  console.log('\n🔧 Simulating tool execution...');
-
-  // Simulate before hooks
-  const beforeResult = await hookManager.executeBeforeHooks(
-    'example.tool',
-    { input: 'test data' },
-    { pluginContext: { client: null } },
-  );
-
-  console.log('Before hooks result:', {
-    argsModified: beforeResult.args,
-    metricsCount: beforeResult.metrics.length,
-  });
 
   // Simulate after hooks
   const afterResult = await hookManager.executeAfterHooks(
