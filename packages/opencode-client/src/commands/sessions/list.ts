@@ -47,7 +47,7 @@ export const listCommand = new Command('list')
         cliTable.push([
           session.id.substring(0, 12) + '...',
           session.title,
-          session.messageCount.toString(),
+          (session.messageCount || 0).toString(),
           session.activityStatus,
           session.isAgentTask ? 'Yes' : 'No',
         ]);
@@ -55,7 +55,10 @@ export const listCommand = new Command('list')
 
       console.log(cliTable.toString());
     } catch (error) {
-      console.error(chalk.red('Error listing sessions:'), error.message);
+      console.error(
+        chalk.red('Error listing sessions:'),
+        error instanceof Error ? error.message : String(error),
+      );
       process.exit(1);
     }
   });

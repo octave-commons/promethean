@@ -1,5 +1,6 @@
 /**
- * API abstraction layer for OpenCode session operations (unmocked)
+ * API abstraction layer for OpenCode session operations
+ * Thin wrapper around actions layer
  */
 
 export interface Session {
@@ -29,7 +30,7 @@ export interface SearchSessionsOptions {
   k?: number;
 }
 
-// Eagerly capture env for client config
+// Client management
 const baseURL = process.env.OPENCODE_SERVER_URL;
 const timeout = process.env.OPENCODE_TIMEOUT ? Number(process.env.OPENCODE_TIMEOUT) : undefined;
 const maxRetries = process.env.OPENCODE_RETRIES ? Number(process.env.OPENCODE_RETRIES) : undefined;
@@ -44,7 +45,6 @@ async function getClient(): Promise<any> {
   if (clientPromise) return clientPromise;
   const sdk: any = await import('@opencode-ai/sdk');
 
-  // Prefer factory helpers when available
   if (typeof sdk.createOpencode === 'function') {
     clientPromise = sdk
       .createOpencode({
@@ -69,7 +69,6 @@ async function getClient(): Promise<any> {
     );
     return clientPromise;
   }
-  // Fallback: default export constructor
   if (typeof sdk.default === 'function') {
     clientPromise = Promise.resolve(
       new sdk.default({
@@ -90,24 +89,16 @@ async function getClient(): Promise<any> {
  */
 export async function listSessions(options: ListSessionsOptions = {}): Promise<Session[]> {
   const client = await getClient();
-  if (typeof client.session?.list === 'function') {
-    const res = await client.session.list({
-      // Some SDK variants accept pagination directly; harmless if ignored
-      limit: options.limit,
-      offset: options.offset,
-    });
-    // Normalize
-    return (res as any).sessions ?? (res as any) ?? [];
-  }
-  // Raw fallback
-  const { data } = (await client
-    .get('/session', {
-      query: { limit: options.limit, offset: options.offset },
-    })
-    .withResponse?.()) ?? {
-    data: await client.get('/session', { query: { limit: options.limit, offset: options.offset } }),
-  };
-  return (data as any).sessions ?? (data as any) ?? [];
+  const { list } = await import('../actions/sessions/list.js');
+
+  const result = await list({
+    limit: options.limit || 20,
+    offset: options.offset || 0,
+    client,
+  });
+
+  const parsed = JSON.parse(result);
+  return parsed.sessions || [];
 }
 
 /**
@@ -115,57 +106,59 @@ export async function listSessions(options: ListSessionsOptions = {}): Promise<S
  */
 export async function getSession(sessionId: string): Promise<Session> {
   const client = await getClient();
-  if (typeof client.session?.get === 'function') {
-    return (await client.session.get(sessionId)) as any;
-  }
-  return (await client.get(`/session/${encodeURIComponent(sessionId)}`)) as any;
+  const { get } = await import('../actions/sessions/get.js');
+
+  const result = await get({
+    sessionId,
+    client,
+  });
+
+  return JSON.parse(result);
 }
 
 /**
- * Create a new session (optionally initialize with title/files/delegates)
+ * Create a new session
  */
 export async function createSession(options: CreateSessionOptions = {}): Promise<Session> {
   const client = await getClient();
-  const session = (await client.session.create({
-    body: options.title ? { title: options.title } : undefined,
-  })) as any;
+  const { create } = await import('../actions/sessions/create.js');
 
-  const { title, files, delegates } = options;
-  if (title || (files && files.length) || (delegates && delegates.length)) {
-    if (typeof client.session?.init === 'function') {
-      await client.session.init(session.id, { title, files, delegates } as any);
-    } else {
-      await client.post(`/session/${encodeURIComponent(session.id)}/init`, {
-        body: { title, files, delegates },
-      });
-    }
-  }
-  return getSession(session.id);
+  const result = await create({
+    title: options.title,
+    files: options.files,
+    delegates: options.delegates,
+    client,
+  });
+
+  return JSON.parse(result);
 }
 
 /**
- * Close a session (maps to delete)
+ * Close a session
  */
 export async function closeSession(sessionId: string): Promise<void> {
   const client = await getClient();
-  if (typeof client.session?.delete === 'function') {
-    await client.session.delete(sessionId);
-    return;
-  }
-  (await client.delete?.(`/session/${encodeURIComponent(sessionId)}`)) ??
-    client.post(`/session/${encodeURIComponent(sessionId)}/delete`);
+  const { close } = await import('../actions/sessions/close.js');
+
+  await close({
+    sessionId,
+    client,
+  });
 }
 
 /**
- * Search past sessions by semantic embedding (fallback to raw endpoint if provided by server)
+ * Search sessions
  */
 export async function searchSessions(options: SearchSessionsOptions): Promise<Session[]> {
   const client = await getClient();
-  const { query, k } = options;
-  if (typeof client.session?.search === 'function') {
-    const out = await client.session.search({ query, k });
-    return (out as any).results ?? (out as any) ?? [];
-  }
-  const resp = await client.get?.('/session/search', { query: { q: query, k } });
-  return (resp as any).results ?? (resp as any) ?? [];
+  const { search } = await import('../actions/sessions/search.js');
+
+  const result = await search({
+    query: options.query,
+    k: options.k,
+    client,
+  });
+
+  const parsed = JSON.parse(result);
+  return parsed.sessions || [];
 }

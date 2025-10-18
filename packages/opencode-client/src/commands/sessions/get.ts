@@ -24,7 +24,10 @@ export const getSessionCommand = new Command('get')
       console.log(`Created: ${session.createdAt}`);
       console.log(`Last Activity: ${session.lastActivityTime}`);
     } catch (error) {
-      console.error(chalk.red('Error getting session:'), error.message);
+      console.error(
+        chalk.red('Error getting session:'),
+        error instanceof Error ? error.message : String(error),
+      );
       process.exit(1);
     }
   });

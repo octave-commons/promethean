@@ -17,7 +17,7 @@ export const createSession = new Command('create')
       console.log(`ID: ${sessionId}`);
       console.log(`Title: ${sessionTitle}`);
       console.log(`Type: ${options.agent ? 'Agent' : 'Regular'} Session`);
-      
+
       if (options.files) {
         try {
           const files = JSON.parse(options.files);
@@ -30,7 +30,7 @@ export const createSession = new Command('create')
           process.exit(1);
         }
       }
-      
+
       if (options.delegates) {
         try {
           const delegates = JSON.parse(options.delegates);
@@ -40,7 +40,10 @@ export const createSession = new Command('create')
         }
       }
     } catch (error) {
-      console.error(chalk.red('Error creating session:'), error.message);
+      console.error(
+        chalk.red('Error creating session:'),
+        error instanceof Error ? error.message : String(error),
+      );
       process.exit(1);
     }
   });

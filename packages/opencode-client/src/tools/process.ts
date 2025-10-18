@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Safer long-running process tools for an agent.
 
-import { tool } from '@opencode-ai/plugin';
-import { spawn, execFile, type ChildProcess } from 'child_process';
+import { tool } from '@opencode-ai/plugin/tool';
+import { spawn, type ChildProcess } from 'child_process';
 import * as path from 'node:path';
 import * as fs from 'node:fs/promises';
 
@@ -235,7 +235,7 @@ const coerceCommandArgs = (
     const tokens = stringArgv(inputCommand);
     if (tokens.length === 0) throw new Error('Empty command after parsing');
     const [cmd, ...rest] = tokens;
-    return { cmd, argv: rest };
+    return { cmd: cmd || '', argv: rest };
   }
   return { cmd: inputCommand, argv: [] };
 };
@@ -244,7 +244,7 @@ const coerceCommandArgs = (
 
 // ---------------- Tools ----------------
 
-export const start = tool({
+export const start: any = tool({
   description:
     'Asyncronously spawn a long running process in the background (hardened). Use this for servers, watchers, etc.',
   args: {
@@ -296,7 +296,7 @@ export const start = tool({
   },
 });
 
-export const stop = tool({
+export const stop: any = tool({
   description: 'Stop a long running process by PID (group-aware, cross-platform)',
   args: {
     pid: tool.schema.number().describe('PID to stop'),
@@ -331,7 +331,7 @@ export const list = tool({
   },
 });
 
-export const status = tool({
+export const status: any = tool({
   description: 'Check the status of a process by PID',
   args: { pid: tool.schema.number().describe('PID to check') },
   async execute({ pid }) {
@@ -339,7 +339,7 @@ export const status = tool({
   },
 });
 
-export const tail = tool({
+export const tail: any = tool({
   description: 'Tail the stdout (ring buffer) of a process by PID',
   args: {
     pid: tool.schema.number().describe('PID to tail'),
@@ -353,7 +353,7 @@ export const tail = tool({
   },
 });
 
-export const err = tool({
+export const err: any = tool({
   description: 'Tail the stderr (ring buffer) of a process by PID',
   args: {
     pid: tool.schema.number().describe('PID to tail'),

@@ -1,5 +1,4 @@
 import { Command } from 'commander';
-import chalk from 'chalk';
 import { listCommand } from './list.js';
 import { getSessionCommand } from './get.js';
 import { createSession } from './create.js';

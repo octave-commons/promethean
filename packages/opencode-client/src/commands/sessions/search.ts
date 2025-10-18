@@ -20,7 +20,10 @@ export const searchSessions = new Command('search')
         console.log(`${result.id}: ${result.title} (${(result.relevance * 100).toFixed(1)}%)`);
       });
     } catch (error) {
-      console.error(chalk.red('Error searching sessions:'), error.message);
+      console.error(
+        chalk.red('Error searching sessions:'),
+        error instanceof Error ? error.message : String(error),
+      );
       process.exit(1);
     }
   });

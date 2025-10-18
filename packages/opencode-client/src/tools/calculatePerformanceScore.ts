@@ -4,7 +4,7 @@ import { Job } from './Job.js';
 // eslint-disable-next-line max-lines-per-function
 export async function calculatePerformanceScore(
   job: Job,
-  result: unknown,
+  _result: unknown,
   executionTime: number,
 ): Promise<{
   score?: number;
