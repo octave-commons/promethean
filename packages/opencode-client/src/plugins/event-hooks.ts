@@ -30,9 +30,86 @@ export const EventHooksPlugin: Plugin = async ({ client, project, $, directory, 
         if (JSON.stringify(hookResult.args) !== JSON.stringify(args)) {
           return { args: hookResult.args };
         }
+        return; // Return undefined for no changes
       } catch (error) {
         console.error('Before hook execution failed:', error);
         throw error;
+      }
+    },
+
+    // Hook into tool execution after tools complete
+    'tool.execute.after': async (input, output) => {
+      const { tool } = input;
+      const { args, result } = output;
+
+      try {
+        const hookResult = await hookManager.executeAfterHooks(
+          tool,
+          args,
+          {
+            success: true,
+            result,
+            metadata: {},
+            executionTime: 0,
+          },
+          {
+            pluginContext,
+            metadata: { originalTool: tool },
+          },
+        );
+
+        // Return modified result if hooks changed it
+        if (JSON.stringify(hookResult.result) !== JSON.stringify(result)) {
+          return { result: hookResult.result };
+        }
+        return; // Return undefined for no changes
+      } catch (error) {
+        console.error('After hook execution failed:', error);
+        throw error;
+      }
+    },
+
+    // Listen to real OpenCode events
+    event: async ({ event }) => {
+      const { type, properties } = event;
+
+      try {
+        switch (type) {
+          case 'session.idle':
+            console.log('Session became idle:', properties);
+            break;
+          case 'session.compacted':
+            console.log('Session compacted:', properties);
+            break;
+          case 'message.updated':
+            console.log('Message updated:', properties);
+            break;
+          case 'message.removed':
+            console.log('Message removed:', properties);
+            break;
+          case 'message.part.updated':
+            console.log('Message part updated:', properties);
+            break;
+          case 'message.part.removed':
+            console.log('Message part removed:', properties);
+            break;
+          case 'lsp.client.diagnostics':
+            console.log('LSP diagnostics:', properties);
+            break;
+          case 'installation.updated':
+            console.log('Installation updated:', properties);
+            break;
+          case 'permission.updated':
+            console.log('Permissions updated:', properties);
+            break;
+          case 'ide.installed':
+            console.log('IDE installed:', properties);
+            break;
+          default:
+            console.log(`Unhandled event type: ${type}`);
+        }
+      } catch (error) {
+        console.error(`Event handler failed for ${type}:`, error);
       }
     },
 
