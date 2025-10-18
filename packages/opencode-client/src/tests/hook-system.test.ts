@@ -3,7 +3,7 @@
 
 import { describe, it, beforeEach, afterEach } from 'node:test';
 import assert from 'node:assert';
-import { hookManager, registerBeforeHook, registerAfterHook } from '../hooks/tool-execute-hooks.js';
+import { hookManager, registerBeforeHook, registerAfterHook } from '../hooks/tool-execute-hooks';
 
 describe('Hook System', () => {
   beforeEach(() => {
