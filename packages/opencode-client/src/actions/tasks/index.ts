@@ -143,21 +143,17 @@ export async function createTask(
 
   context.agentTasks.set(sessionId, agentTask);
 
-  try {
-    await context.agentTaskStore.insert({
-      id: sessionId,
-      text: task,
-      timestamp: new Date().toISOString(),
-      metadata: {
-        sessionId,
-        startTime,
-        status: 'running',
-        lastActivity: startTime,
-      },
-    });
-  } catch (error) {
-    console.error('Error storing agent task in dual store:', error);
-  }
+  await context.agentTaskStore.insert({
+    id: sessionId,
+    text: task,
+    timestamp: new Date().toISOString(),
+    metadata: {
+      sessionId,
+      startTime,
+      status: 'running',
+      lastActivity: startTime,
+    },
+  });
 
   return agentTask;
 }
