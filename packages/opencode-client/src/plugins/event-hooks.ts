@@ -57,36 +57,20 @@ export const EventHooksPlugin: Plugin = async ({ client, project, $, directory, 
     // Hook into tool execution after tools complete
     'tool.execute.after': async (input, output) => {
       const { tool } = input;
-      const { args, result } = output;
+      // OpenCode output structure: { title: string; output: string; metadata: any; }
+      const { title: resultTitle, output: resultOutput, metadata: resultMetadata } = output;
 
       try {
-        // Execute our internal after hooks for monitoring/extension
-        const hookResult = await hookManager.executeAfterHooks(
-          tool,
-          args,
-          {
-            success: true,
-            result,
-            metadata: {},
-            executionTime: 0,
-          },
-          {
-            pluginContext,
-            metadata: { originalTool: tool, phase: 'opencode-after' },
-          },
-        );
+        // For OpenCode hooks, we run internal hooks for side-effects only
+        console.log(`After tool execution: ${tool}`, {
+          title: resultTitle,
+          outputLength: resultOutput?.length || 0,
+          metadata: resultMetadata,
+        });
 
-        // Log hook execution for debugging
-        if (hookResult.metrics.length > 0) {
-          console.log(`After hooks executed for ${tool}:`, {
-            metrics: hookResult.metrics,
-            resultModified: JSON.stringify(hookResult.result) !== JSON.stringify(result),
-          });
-        }
-
-        // Note: OpenCode hooks don't return modified results,
-        // they can only observe/monitor
-        // Our hooks run for side-effects (logging, notifications, etc.)
+        // Note: OpenCode hooks are observational - they can observe results but not modify them
+        // Our internal hooks would process the results if we could modify them
+        // But OpenCode plugin hooks are designed for monitoring/logging only
       } catch (error) {
         console.error('After hook execution failed:', error);
         throw error;
