@@ -21,16 +21,23 @@ export const EventHooksPlugin: Plugin = async ({ client, project, $, directory, 
       const { args } = output;
 
       try {
+        // Execute our internal before hooks for monitoring/extension
         const hookResult = await hookManager.executeBeforeHooks(tool, args, {
           pluginContext,
-          metadata: { originalTool: tool },
+          metadata: { originalTool: tool, phase: 'opencode-before' },
         });
 
-        // Return modified arguments if hooks changed them
-        if (JSON.stringify(hookResult.args) !== JSON.stringify(args)) {
-          return { args: hookResult.args };
+        // Log hook execution for debugging
+        if (hookResult.metrics.length > 0) {
+          console.log(`Before hooks executed for ${tool}:`, {
+            metrics: hookResult.metrics,
+            argsModified: JSON.stringify(hookResult.args) !== JSON.stringify(args),
+          });
         }
-        return; // Return undefined for no changes
+
+        // Note: OpenCode hooks don't return modified args,
+        // they can only throw errors to prevent execution
+        // Our hooks run for side-effects (logging, monitoring, etc.)
       } catch (error) {
         console.error('Before hook execution failed:', error);
         throw error;
@@ -43,6 +50,7 @@ export const EventHooksPlugin: Plugin = async ({ client, project, $, directory, 
       const { args, result } = output;
 
       try {
+        // Execute our internal after hooks for monitoring/extension
         const hookResult = await hookManager.executeAfterHooks(
           tool,
           args,
@@ -54,15 +62,21 @@ export const EventHooksPlugin: Plugin = async ({ client, project, $, directory, 
           },
           {
             pluginContext,
-            metadata: { originalTool: tool },
+            metadata: { originalTool: tool, phase: 'opencode-after' },
           },
         );
 
-        // Return modified result if hooks changed it
-        if (JSON.stringify(hookResult.result) !== JSON.stringify(result)) {
-          return { result: hookResult.result };
+        // Log hook execution for debugging
+        if (hookResult.metrics.length > 0) {
+          console.log(`After hooks executed for ${tool}:`, {
+            metrics: hookResult.metrics,
+            resultModified: JSON.stringify(hookResult.result) !== JSON.stringify(result),
+          });
         }
-        return; // Return undefined for no changes
+
+        // Note: OpenCode hooks don't return modified results,
+        // they can only observe/monitor
+        // Our hooks run for side-effects (logging, notifications, etc.)
       } catch (error) {
         console.error('After hook execution failed:', error);
         throw error;
@@ -104,72 +118,6 @@ export const EventHooksPlugin: Plugin = async ({ client, project, $, directory, 
             break;
           case 'ide.installed':
             console.log('IDE installed:', properties);
-            break;
-          default:
-            console.log(`Unhandled event type: ${type}`);
-        }
-      } catch (error) {
-        console.error(`Event handler failed for ${type}:`, error);
-      }
-    },
-
-    // Hook into tool execution after tools complete
-    'tool.execute.after': async (input, output) => {
-      const { tool } = input;
-      const { args, result } = output;
-
-      try {
-        const hookResult = await hookManager.executeAfterHooks(
-          tool,
-          args,
-          {
-            success: true,
-            result,
-            metadata: {},
-            executionTime: 0,
-          },
-          {
-            pluginContext,
-            metadata: { originalTool: tool },
-          },
-        );
-
-        // Return modified result if hooks changed it
-        if (JSON.stringify(hookResult.result) !== JSON.stringify(result)) {
-          return { result: hookResult.result };
-        }
-      } catch (error) {
-        console.error('After hook execution failed:', error);
-        throw error;
-      }
-    },
-
-    // Listen to session events
-    event: async ({ event }) => {
-      const { type, properties } = event;
-
-      try {
-        switch (type) {
-          case 'session.idle':
-            console.log('Session became idle:', properties);
-            break;
-          case 'session.start':
-            console.log('Session started:', properties);
-            break;
-          case 'session.end':
-            console.log('Session ended:', properties);
-            break;
-          case 'message.new':
-            console.log('New message:', properties);
-            break;
-          case 'tool.start':
-            console.log('Tool execution started:', properties);
-            break;
-          case 'tool.complete':
-            console.log('Tool execution completed:', properties);
-            break;
-          case 'tool.error':
-            console.log('Tool execution failed:', properties);
             break;
           default:
             console.log(`Unhandled event type: ${type}`);
