@@ -600,6 +600,13 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
     console.log(`   IP: ${request.ip}`);
   });
 
+  // Add diagnostic logging before security middleware
+  app.addHook('onRequest', async (request, _reply) => {
+    console.log(`🔍 DIAGNOSTIC: Request received: ${request.method} ${request.url}`);
+    console.log(`   Headers:`, JSON.stringify(request.headers, null, 2));
+    console.log(`   IP: ${request.ip}`);
+  });
+
   // Initialize and register security middleware with minimal config
   const securityMiddleware = createSecurityMiddleware({
     enableSecurityHeaders: false, // Disable headers first
