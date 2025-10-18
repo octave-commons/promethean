@@ -1,4 +1,9 @@
+import { type Plugin, tool } from '@opencode-ai/plugin';
+import { DualStoreManager } from '@promethean/persistence';
+
 export const EventCapturePluginSimplified: Plugin = async ({ client }) => {
+  // Initialize event store
+  const eventStore = await DualStoreManager.create('opencode_events', 'text', 'timestamp');
   return {
     tool: {
       search_events: tool({

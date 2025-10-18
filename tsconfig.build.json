@@ -9,7 +9,10 @@
       "path": "./packages/level-cache"
     },
     {
-      "path": "./packages/piper"
+      "path": "./packages/pipelines/piper"
+    },
+    {
+      "path": "./packages/pipelines/pipeline-automation"
     },
     {
       "path": "./packages/agent"
@@ -30,10 +33,10 @@
       "path": "./packages/benchmark"
     },
     {
-      "path": "./packages/boardrev"
+      "path": "./packages/pipelines/boardrev"
     },
     {
-      "path": "./packages/buildfix"
+      "path": "./packages/pipelines/buildfix"
     },
     {
       "path": "./packages/cephalon"
@@ -45,10 +48,10 @@
       "path": "./packages/cli"
     },
     {
-      "path": "./packages/codemods"
+      "path": "./packages/pipelines/codemods"
     },
     {
-      "path": "./packages/codepack"
+      "path": "./packages/pipelines/codepack"
     },
     {
       "path": "./packages/compaction"
@@ -69,7 +72,7 @@
       "path": "./packages/dlq"
     },
     {
-      "path": "./packages/docops"
+      "path": "./packages/pipelines/docops"
     },
     {
       "path": "./packages/ds"
@@ -87,10 +90,16 @@
       "path": "./packages/effects"
     },
     {
-      "path": "./packages/embedding"
+      "path": "./packages/ai/embedding"
     },
     {
-      "path": "./packages/enso-protocol"
+      "path": "./packages/enso/enso-protocol"
+    },
+    {
+      "path": "./packages/enso/enso-agent-communication"
+    },
+    {
+      "path": "./packages/enso/enso-browser-gateway"
     },
     {
       "path": "./packages/event"
@@ -99,16 +108,16 @@
       "path": "./packages/examples"
     },
     {
-      "path": "./packages/file-indexer"
+      "path": "./packages/file-system/file-indexer"
     },
     {
-      "path": "./packages/file-watcher"
+      "path": "./packages/file-system/file-watcher"
     },
     {
       "path": "./packages/frontend-service"
     },
     {
-      "path": "./packages/fs"
+      "path": "./packages/file-system/fs"
     },
     {
       "path": "./packages/fsm"
@@ -123,10 +132,13 @@
       "path": "./packages/image-link-generator"
     },
     {
-      "path": "./packages/indexer-core"
+      "path": "./packages/file-system/indexer-core"
     },
     {
-      "path": "./packages/indexer-service"
+      "path": "./packages/file-system/indexer-service"
+    },
+    {
+      "path": "./packages/file-system/indexer-client"
     },
     {
       "path": "./packages/intention"
@@ -138,7 +150,7 @@
       "path": "./packages/kanban-processor"
     },
     {
-      "path": "./packages/lint-taskgen"
+      "path": "./packages/pipelines/lint-taskgen"
     },
     {
       "path": "./packages/llm"
@@ -168,10 +180,10 @@
       "path": "./packages/naming"
     },
     {
-      "path": "./packages/omni-protocol"
+      "path": "./packages/omni/omni-protocol"
     },
     {
-      "path": "./packages/omni-service"
+      "path": "./packages/omni/omni-service"
     },
     {
       "path": "./packages/openai-server"
@@ -210,7 +222,7 @@
       "path": "./packages/security"
     },
     {
-      "path": "./packages/semverguard"
+      "path": "./packages/pipelines/semverguard"
     },
     {
       "path": "./packages/shadow-conf"
