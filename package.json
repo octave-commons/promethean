@@ -170,24 +170,12 @@
     "typescript-language-server": "4.4.1"
   },
   "license": "GPL-3.0-only",
+  "packageManager": "pnpm@10.16.1",
   "volta": {
     "node": "22.20.0",
-    "pnpm": "9.0.0"
+    "pnpm": "10.16.1"
   },
   "engines": {
     "node": "22.20.0"
-  },
-  "pnpm": {
-    "overrides": {
-      "fastify": "5.0.0",
-      "@fastify/static": "8.2.0",
-      "@fastify/websocket": "11.2.0",
-      "@fastify/rate-limit": "10.3.0",
-      "@fastify/swagger": "9.5.1",
-      "@fastify/swagger-ui": "5.2.3",
-      "typescript": "5.7.2",
-      "ts-node": "10.9.2",
-      "@types/node": "20.19.11"
-    }
   }
 }

@@ -2,7 +2,10 @@ import * as url from "node:url";
 import * as path from "node:path";
 import { promises as fs } from "node:fs";
 
-import fastifyFactory from "fastify";
+import fastifyFactory, {
+  type FastifyReply,
+  type FastifyRequest,
+} from "fastify";
 import fastifyStatic from "@fastify/static";
 import rateLimit from "@fastify/rate-limit";
 import swagger from "@fastify/swagger";
@@ -59,13 +62,13 @@ function errToString(e: unknown): string {
   return String((e as { message?: unknown })?.message ?? e);
 }
 
-const app = fastifyFactory({ logger: false });
+const app = fastifyFactory({ logger: false }) as any;
 // Enforce a modest per-client ceiling while allowing asset and SSE streams to flow.
-await app.register(rateLimit, {
+await app.register(rateLimit as any, {
   max: 120,
   timeWindow: "1 minute",
   skipOnError: true,
-  allowList: (request) => {
+  allowList: (request: FastifyRequest) => {
     const acceptHeader = request.headers.accept;
     if (
       typeof acceptHeader === "string" &&
@@ -84,7 +87,7 @@ const WATCH_GLOBS = () => {
   const ui = path.resolve(process.cwd(), "packages/piper/ui");
   return [`${root}/**/*.ts`, `${root}/**/*.css`, `${ui}/**/*`];
 };
-app.get("/api/dev-events", async (_req, reply) => {
+app.get("/api/dev-events", async (_req: FastifyRequest, reply: FastifyReply) => {
   const send = sseInit(reply);
   // Do NOT emit an immediate update; only on file changes.
   const watcher = chokidar.watch(WATCH_GLOBS(), { ignoreInitial: true });
@@ -124,20 +127,23 @@ await app.register(swaggerUi, { routePrefix: "/docs" });
 // Optional auth: set PIPER_DEV_TOKEN env or pass --token to require a Bearer token.
 const TOKEN = process.env.PIPER_DEV_TOKEN ?? getArg("--token", "");
 if (TOKEN) {
-  app.addHook("onRequest", async (req, reply) => {
-    const auth = req.headers.authorization ?? "";
-    if (!auth.startsWith("Bearer ") || auth.slice(7) !== TOKEN) {
-      reply.header("WWW-Authenticate", "Bearer");
-      return reply.code(401).send({ error: "unauthorized" });
-    }
-  });
+  app.addHook(
+    "onRequest",
+    async (req: FastifyRequest, reply: FastifyReply) => {
+      const auth = req.headers.authorization ?? "";
+      if (!auth.startsWith("Bearer ") || auth.slice(7) !== TOKEN) {
+        reply.header("WWW-Authenticate", "Bearer");
+        return reply.code(401).send({ error: "unauthorized" });
+      }
+    },
+  );
 }
-app.get("/health", async (_req, reply) => {
+app.get("/health", async (_req: FastifyRequest, reply: FastifyReply) => {
   reply.header("content-type", "application/json");
   return reply.send({ ok: true });
 });
 
-app.get("/", async (_req, reply) => {
+app.get("/", async (_req: FastifyRequest, reply: FastifyReply) => {
   const html = await fs.readFile(path.join(UI_ROOT, "index.html"), "utf8");
   reply.header("content-type", "text/html; charset=utf-8");
   return reply.send(html);
@@ -157,7 +163,7 @@ app
     const shownHost = HOST === "0.0.0.0" ? "localhost" : HOST;
     console.log(`Piper Dev UI running on http://${shownHost}:${PORT}`);
   })
-  .catch((err) => {
+  .catch((err: unknown) => {
     console.error("Failed to start server:", err);
     process.exit(1);
   });

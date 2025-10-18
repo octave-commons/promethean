@@ -1,6 +1,6 @@
 import { getPromptEmbedding } from './getPromptEmbedding.js';
 import { initializeCache } from './initializeCache.js';
-import { JobType, now, CACHE_MAX_AGE_MS, CACHE_SIMILARITY_THRESHOLD } from './ollama-queue.js';
+import { JobType, now, CACHE_MAX_AGE_MS, CACHE_SIMILARITY_THRESHOLD } from '@promethean/ollama-queue';
 
 export async function checkCache(
   prompt: string,

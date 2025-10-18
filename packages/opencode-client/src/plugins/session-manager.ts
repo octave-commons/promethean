@@ -1,6 +1,31 @@
+import { type Plugin, tool } from '@opencode-ai/plugin';
+import { DualStoreManager } from '@promethean/persistence';
+
+// Import the classes we need
+import {
+  sessions,
+  agentTasks,
+  SessionUtils,
+  MessageProcessor,
+  AgentTaskManager,
+  EventProcessor,
+  InterAgentMessenger,
+  type AgentTask,
+  type SessionInfo,
+} from '../index';
+
 export const MyPlugin: Plugin = async ({ client }) => {
-  sessionStore = await DualStoreManager.create('session_messages', 'text', 'timestamp');
-  agentTaskStore = await DualStoreManager.create('agent_tasks', 'text', 'timestamp');
+  // Initialize stores locally in the plugin
+  const sessionStore = await DualStoreManager.create('session_messages', 'text', 'timestamp');
+  const agentTaskStore = await DualStoreManager.create('agent_tasks', 'text', 'timestamp');
+
+  // Initialize all classes with stores
+  AgentTaskManager.initializeStores(sessionStore, agentTaskStore);
+  MessageProcessor.initializeStore(sessionStore);
+  InterAgentMessenger.initializeStore(sessionStore);
+
+  // Load persisted tasks on startup
+  await AgentTaskManager.loadPersistedTasks(client);
 
   const monitoringInterval = setInterval(AgentTaskManager.monitorTasks, 5 * 60 * 1000);
 

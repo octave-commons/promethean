@@ -4,12 +4,15 @@ import { Command } from 'commander';
 import chalk from 'chalk';
 import { sessionCommands } from './commands/sessions/index.js';
 import { ollamaCommands } from './commands/ollama/index.js';
-import { pm2Commands } from './commands/pm2/index.js';
+import { pm2Command } from './commands/pm2/index.js';
 import { version } from '../package.json';
 
 const program = new Command();
 
-program.name('opencode').description('CLI client for OpenCode plugins and tools').version(version);
+program
+  .name('opencode-client')
+  .description('CLI client for OpenCode plugins and tools')
+  .version(version);
 
 // Global options
 program
@@ -25,10 +28,11 @@ program
 // Add command groups
 program.addCommand(sessionCommands);
 program.addCommand(ollamaCommands);
-program.addCommand(pm2Commands);
+program.addCommand(pm2Command);
+// Events CLI
+import('./commands/events/index.js').then(m => program.addCommand(m.eventCommands));
 
-// Error handling
-program.exitOverride();
+// Error handling - let commander handle help/version normally
 
 process.on('uncaughtException', (error) => {
   console.error(chalk.red('Unexpected error:'), error.message);

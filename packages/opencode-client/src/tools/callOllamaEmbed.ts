@@ -1,5 +1,5 @@
 import { check } from './check.js';
-import { OLLAMA_URL } from './ollama-queue.js';
+import { OLLAMA_URL } from '@promethean/ollama-queue';
 
 export async function callOllamaEmbed(model: string, input: string | string[]): Promise<number[]> {
   const requestBody = {

@@ -1,8 +1,9 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
-import { table } from 'table';
+import Table from 'cli-table3';
+import { listSessions } from '../../api/sessions.js';
 
-export const listSessions = new Command('list')
+export const listCommand = new Command('list')
   .description('List all active sessions')
   .alias('ls')
   .option('-l, --limit <number>', 'Number of sessions to return', '20')
@@ -10,65 +11,49 @@ export const listSessions = new Command('list')
   .option('--format <format>', 'Output format (table|json)', 'table')
   .action(async (options) => {
     try {
-      // Mock data for now - will integrate with actual session API
-      const mockSessions = [
-        {
-          id: 'sess_1234567890',
-          title: 'Code Review Session',
-          messageCount: 15,
-          lastActivityTime: new Date().toISOString(),
-          activityStatus: 'active',
-          isAgentTask: true,
-          agentTaskStatus: 'running',
-        },
-        {
-          id: 'sess_0987654321',
-          title: 'Documentation Generation',
-          messageCount: 8,
-          lastActivityTime: new Date(Date.now() - 300000).toISOString(),
-          activityStatus: 'waiting_for_input',
-          isAgentTask: false,
-        },
-      ];
+      const sessions = await listSessions({
+        limit: parseInt(options.limit),
+        offset: parseInt(options.offset),
+      });
 
       if (options.format === 'json') {
-        console.log(JSON.stringify(mockSessions, null, 2));
+        console.log(JSON.stringify(sessions, null, 2));
         return;
       }
 
-      const data = [
-        ['ID', 'Title', 'Messages', 'Status', 'Agent Task'],
-        ...mockSessions.map((session) => [
+      console.log(chalk.blue('Active Sessions:'));
+      const cliTable = new Table({
+        head: ['ID', 'Title', 'Messages', 'Status', 'Agent Task'],
+        chars: {
+          top: '─',
+          'top-mid': '┬',
+          'top-left': '┌',
+          'top-right': '┐',
+          bottom: '─',
+          'bottom-mid': '┴',
+          'bottom-left': '└',
+          'bottom-right': '┘',
+          left: '│',
+          'left-mid': '├',
+          mid: '─',
+          'mid-mid': '┼',
+          right: '│',
+          'right-mid': '┤',
+          middle: '│',
+        },
+      });
+
+      sessions.forEach((session) => {
+        cliTable.push([
           session.id.substring(0, 12) + '...',
           session.title,
           session.messageCount.toString(),
           session.activityStatus,
           session.isAgentTask ? 'Yes' : 'No',
-        ]),
-      ];
+        ]);
+      });
 
-      console.log(chalk.blue('Active Sessions:'));
-      console.log(
-        table(data, {
-          border: {
-            topBody: '─',
-            topJoin: '┬',
-            topLeft: '┌',
-            topRight: '┐',
-            bottomBody: '─',
-            bottomJoin: '┴',
-            bottomLeft: '└',
-            bottomRight: '┘',
-            bodyLeft: '│',
-            bodyRight: '│',
-            bodyJoin: '│',
-            joinBody: '─',
-            joinLeft: '├',
-            joinRight: '┤',
-            joinJoin: '┼',
-          },
-        }),
-      );
+      console.log(cliTable.toString());
     } catch (error) {
       console.error(chalk.red('Error listing sessions:'), error.message);
       process.exit(1);

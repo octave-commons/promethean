@@ -9,7 +9,7 @@
     "include": ["src/**/*"],
     "references": [
         {
-            "path": "../embedding"
+            "path": "../ai/embedding"
         }
     ]
 }

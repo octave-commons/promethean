@@ -11,6 +11,7 @@ export const listCommand = new Command('list')
   )
   .option('-l, --limit <limit>', 'Limit number of results', '50')
   .option('-a, --all', 'Include all jobs (not just agent jobs)', false)
+  .option('-f, --format <format>', 'Output format (table|json)', 'table')
   .action(async (options) => {
     try {
       const spinner = ora('Fetching jobs...').start();
@@ -28,7 +29,14 @@ export const listCommand = new Command('list')
         return;
       }
 
-      console.log(chalk.blue(`\nFound ${jobs.length} jobs:\n`));
+      if (options.format === 'json') {
+        console.log(JSON.stringify(jobs, null, 2));
+        return;
+      }
+
+      console.log(chalk.blue(`
+Found ${jobs.length} jobs:
+`));
 
       // Create a simple table
       console.log('ID\t\tStatus\t\tModel\t\tName');

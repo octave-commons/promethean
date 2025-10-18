@@ -25,10 +25,10 @@ interface SessionInfo {
 }
 
 // Storage
-const sessions = new Map<string, any>();
-let sessionStore: DualStoreManager<'text', 'timestamp'>;
-let agentTaskStore: DualStoreManager<'text', 'timestamp'>;
-const agentTasks = new Map<string, AgentTask>();
+export const sessions = new Map<string, any>();
+export let sessionStore: DualStoreManager<'text', 'timestamp'>;
+export let agentTaskStore: DualStoreManager<'text', 'timestamp'>;
+export const agentTasks = new Map<string, AgentTask>();
 
 // Utility Functions
 class SessionUtils {
@@ -95,6 +95,12 @@ class SessionUtils {
 }
 
 class MessageProcessor {
+  private static _sessionStore: DualStoreManager<'text', 'timestamp'>;
+
+  static initializeStore(sessionStore: DualStoreManager<'text', 'timestamp'>) {
+    this._sessionStore = sessionStore;
+  }
+
   private static readonly COMPLETION_PATTERNS = [
     /task.*completed/i,
     /finished.*task/i,
@@ -132,7 +138,7 @@ class MessageProcessor {
       message.parts.map(async (part: any) => {
         if (part.type === 'text' && part.text.trim()) {
           try {
-            await sessionStore.insert({
+            await this._sessionStore.insert({
               id: message.info.id,
               text: part.text,
               timestamp: new Date().toISOString(),
@@ -158,6 +164,75 @@ class MessageProcessor {
 }
 
 class AgentTaskManager {
+  private static _sessionStore: DualStoreManager<'text', 'timestamp'>;
+  private static _agentTaskStore: DualStoreManager<'text', 'timestamp'>;
+
+  static initializeStores(
+    sessionStore: DualStoreManager<'text', 'timestamp'>,
+    agentTaskStore: DualStoreManager<'text', 'timestamp'>,
+  ) {
+    this._sessionStore = sessionStore;
+    this._agentTaskStore = agentTaskStore;
+  }
+
+  static async loadPersistedTasks(client?: any) {
+    try {
+      console.log('🔄 Loading persisted agent tasks...');
+      const storedTasks = await this._agentTaskStore.getMostRecent(100);
+      let loadedCount = 0;
+      let cleanedCount = 0;
+
+      for (const task of storedTasks) {
+        const sessionId = task.metadata?.sessionId as string;
+        if (sessionId) {
+          // Verify session still exists before restoring
+          const sessionExists = client ? await this.verifySessionExists(client, sessionId) : true;
+          if (sessionExists) {
+            // Restore task to memory
+            const agentTask: AgentTask = {
+              sessionId,
+              task: task.text,
+              startTime: this.parseTimestamp(task.timestamp),
+              status: (task.metadata?.status as AgentTask['status']) || 'idle',
+              lastActivity:
+                this.parseTimestamp(task.metadata?.lastActivity) ||
+                this.parseTimestamp(task.timestamp),
+              completionMessage: task.metadata?.completionMessage as string | undefined,
+            };
+
+            agentTasks.set(sessionId, agentTask);
+            loadedCount++;
+          } else {
+            // Clean up orphaned task
+            await this.cleanupOrphanedTask(sessionId);
+            cleanedCount++;
+          }
+        }
+      }
+
+      console.log(
+        `✅ Loaded ${loadedCount} agent tasks, cleaned up ${cleanedCount} orphaned tasks`,
+      );
+    } catch (error) {
+      console.error('Error loading persisted tasks:', error);
+    }
+  }
+
+  static async verifySessionExists(client: any, sessionId: string): Promise<boolean> {
+    try {
+      const { data: session } = await client.session.get({ path: { id: sessionId } });
+      return !!session;
+    } catch {
+      return false;
+    }
+  }
+
+  static async cleanupOrphanedTask(sessionId: string) {
+    console.log(`🧹 Cleaning up orphaned agent task: ${sessionId}`);
+    agentTasks.delete(sessionId);
+    // Note: We keep the persistent record for audit purposes
+  }
+
   static async updateTaskStatus(
     sessionId: string,
     status: AgentTask['status'],
@@ -173,7 +248,7 @@ class AgentTaskManager {
     console.log(`Agent task status updated for session ${sessionId}: ${status}`);
 
     try {
-      await agentTaskStore.insert({
+      await this._agentTaskStore.insert({
         id: sessionId,
         text: task.task,
         timestamp: task.startTime,
@@ -226,7 +301,7 @@ class AgentTaskManager {
     agentTasks.set(sessionId, agentTask);
 
     try {
-      await agentTaskStore.insert({
+      await this._agentTaskStore.insert({
         id: sessionId,
         text: task,
         timestamp: new Date().toISOString(),
@@ -246,7 +321,7 @@ class AgentTaskManager {
 
   static async getAllTasks(): Promise<Map<string, AgentTask>> {
     try {
-      const storedTasks = await agentTaskStore.getMostRecent(100);
+      const storedTasks = await this._agentTaskStore.getMostRecent(100);
       const allTasks = new Map(agentTasks);
 
       for (const task of storedTasks) {
@@ -310,6 +385,12 @@ class EventProcessor {
 }
 
 class InterAgentMessenger {
+  private static _sessionStore: DualStoreManager<'text', 'timestamp'>;
+
+  static initializeStore(sessionStore: DualStoreManager<'text', 'timestamp'>) {
+    this._sessionStore = sessionStore;
+  }
+
   static async sendMessage(
     client: any,
     sessionId: string,
@@ -396,7 +477,7 @@ ${message}
     console.log(`📝 Message type: ${messageType}, Priority: ${priority}`);
 
     try {
-      await sessionStore.insert({
+      await this._sessionStore.insert({
         id: `inter_agent_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`,
         text: `Inter-agent message: ${message}`,
         timestamp: new Date().toISOString(),
@@ -413,3 +494,7 @@ ${message}
     }
   }
 }
+
+// Export all classes and utilities
+export { SessionUtils, MessageProcessor, AgentTaskManager, EventProcessor, InterAgentMessenger };
+export type { AgentTask, SessionInfo };

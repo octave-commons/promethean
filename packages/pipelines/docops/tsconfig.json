@@ -1,5 +1,5 @@
 {
-  "extends": "../../config/tsconfig.base.json",
+  "extends": "../../../config/tsconfig.base.json",
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "dist",
@@ -7,24 +7,24 @@
     "types": ["node", "ws", "ava"],
     "declaration": true,
     "paths": {
-      "@shared/ts/*": ["../shared/ts/dist/*"],
-      "@promethean/test-utils/*": ["../packages/test-utils/dist/*"],
-      "@promethean/legacy/*": ["../packages/legacy/*"]
+      "@shared/ts/*": ["../../shared/ts/dist/*"],
+      "@promethean/test-utils/*": ["../../packages/test-utils/dist/*"],
+      "@promethean/legacy/*": ["../../packages/legacy/*"]
     }
   },
   "include": ["src/**/*"],
   "references": [
     {
-      "path": "../test-utils"
+      "path": "../../test-utils"
     },
     {
-      "path": "../frontends/docops-frontend"
+      "path": "../../frontends/docops-frontend"
     },
     {
-      "path": "../file-indexer"
+      "path": "../../file-system/file-indexer"
     },
     {
-      "path": "../markdown"
+      "path": "../../markdown"
     }
   ]
 }

@@ -1,4 +1,4 @@
-import { OllamaError } from './ollama-queue.js';
+import { OllamaError } from '@promethean/ollama-queue';
 
 // Ollama API integration
 export async function check(res: Readonly<Response>, ctx: string): Promise<Response> {

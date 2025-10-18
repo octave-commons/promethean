@@ -6,7 +6,9 @@
         "composite": true,
         "declaration": true,
         "noUncheckedIndexedAccess": false,
-        "exactOptionalPropertyTypes": false
+        "exactOptionalPropertyTypes": false,
+        "downlevelIteration": true,
+        "target": "ES2022"
     },
     "include": ["src/**/*"],
     "references": []

@@ -5,7 +5,7 @@ import { callOllamaGenerate } from './callOllamaGenerate.js';
 import { checkCache } from './checkCache.js';
 import { inferTaskCategory } from './inferTaskCategory.js';
 import { Job } from './Job.js';
-import { now } from './ollama-queue.js';
+import { now } from '@promethean/ollama-queue';
 import { storeInCache } from './storeInCache.js';
 import { updateJobStatus } from './updateJobStatus.js';
 

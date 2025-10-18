@@ -20,8 +20,8 @@
     "src"
   ],
   "scripts": {
-    "build": "node ../../node_modules/.pnpm/shadow-cljs@2.28.17/node_modules/shadow-cljs/cli/dist.js compile duck-utils",
-    "build:watch": "node ../../node_modules/.pnpm/shadow-cljs@2.28.17/node_modules/shadow-cljs/cli/dist.js watch duck-utils",
+    "build": "shadow-cljs compile duck-utils",
+    "build:watch": "shadow-cljs watch duck-utils",
     "clean": "rimraf dist",
     "typecheck": "tsc --noEmit",
     "test": "pnpm run build && ava --config ../../config/ava.config.mjs",

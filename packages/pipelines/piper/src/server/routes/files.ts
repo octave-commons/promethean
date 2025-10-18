@@ -138,9 +138,14 @@ async function writeFileHandler(
   }
 }
 
+type RateLimitedFastify = FastifyInstance & {
+  rateLimit: (options?: RateLimitOptions) => unknown;
+};
+
 export async function registerFileRoutes(app: FastifyInstance): Promise<void> {
+  const rateLimitedApp = app as RateLimitedFastify;
   // Register rate limit plugin for local route settings (not global)
-  await app.register(rateLimit, { global: false });
+  await rateLimitedApp.register(rateLimit as any, { global: false });
 
   const listFilesLimit = Object.freeze({
     max: 120,
@@ -161,7 +166,7 @@ export async function registerFileRoutes(app: FastifyInstance): Promise<void> {
   }>(
     "/api/files",
     {
-      preHandler: app.rateLimit({ ...listFilesLimit }),
+      preHandler: rateLimitedApp.rateLimit({ ...listFilesLimit }) as any,
       config: { rateLimit: { ...listFilesLimit } },
     },
     listFilesHandler,
@@ -171,7 +176,7 @@ export async function registerFileRoutes(app: FastifyInstance): Promise<void> {
   app.get<{ Querystring: { path?: string } }>(
     "/api/read-file",
     {
-      preHandler: app.rateLimit({ ...readFileLimit }),
+      preHandler: rateLimitedApp.rateLimit({ ...readFileLimit }) as any,
       config: { rateLimit: { ...readFileLimit } },
     },
     readFileHandler,
@@ -181,7 +186,7 @@ export async function registerFileRoutes(app: FastifyInstance): Promise<void> {
   app.post<{ Body: { path?: string; content?: string } }>(
     "/api/write-file",
     {
-      preHandler: app.rateLimit({ ...writeFileLimit }),
+      preHandler: rateLimitedApp.rateLimit({ ...writeFileLimit }) as any,
       config: { rateLimit: { ...writeFileLimit } },
     },
     writeFileHandler,

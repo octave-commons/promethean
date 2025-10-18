@@ -1,6 +1,6 @@
 import { getJobById } from './getJobById.js';
 import { Job } from './Job.js';
-import { UUID, JobStatus, jobQueue, now, activeJobs, processing } from './ollama-queue.js';
+import { UUID, JobStatus, jobQueue, now, activeJobs, processing } from '@promethean/ollama-queue';
 
 export function updateJobStatus(id: UUID, status: JobStatus, updates: Partial<Job> = {}): void {
   const job = getJobById(id);

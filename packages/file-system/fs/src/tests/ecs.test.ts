@@ -3,7 +3,7 @@ import { mkdtemp, readFile, rm, writeFile } from 'fs/promises';
 import * as path from 'path';
 import { tmpdir } from 'os';
 
-import { World } from '@promethean/ds/ecs.js';
+import { World } from '@promethean/ds';
 
 import {
     initFsEcs,

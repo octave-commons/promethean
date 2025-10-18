@@ -92,6 +92,17 @@ export async function getQueueInfo(): Promise<any> {
 
 export async function manageCache(action: string): Promise<any> {
   // TODO: Implement actual API call
+  const validActions = ['stats', 'clear', 'clear-expired', 'performance-analysis'];
+  
+  if (!validActions.includes(action)) {
+    throw new Error(`Invalid action: ${action}. Valid actions: ${validActions.join(', ')}`);
+  }
+  
   console.log('Mock: Managing cache with action:', action);
-  return {};
+  return {
+    action,
+    timestamp: new Date().toISOString(),
+    status: 'success',
+    message: `Cache ${action} completed successfully`
+  };
 }

@@ -10,6 +10,22 @@ export const submitJobCommand = new Command('submit')
   .option('--priority <priority>', 'Job priority (low|medium|high|urgent)', 'medium')
   .action(async (model, type, options) => {
     try {
+      // Validate job type
+      const validTypes = ['generate', 'chat', 'embedding'];
+      if (!validTypes.includes(type)) {
+        console.error(chalk.red(`Invalid job type: ${type}`));
+        console.log(chalk.yellow(`Valid types: ${validTypes.join(', ')}`));
+        process.exit(1);
+      }
+
+      // Validate priority
+      const validPriorities = ['low', 'medium', 'high', 'urgent'];
+      if (!validPriorities.includes(options.priority)) {
+        console.error(chalk.red(`Invalid priority: ${options.priority}`));
+        console.log(chalk.yellow(`Valid priorities: ${validPriorities.join(', ')}`));
+        process.exit(1);
+      }
+
       const jobId = `job_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
 
       console.log(chalk.green('✓ Job submitted successfully'));

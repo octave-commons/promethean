@@ -1,5 +1,5 @@
 {
-  "extends": "../../config/tsconfig.base.json",
+  "extends": "../../../config/tsconfig.base.json",
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "dist",
@@ -8,14 +8,14 @@
     "baseUrl": ".",
     "skipLibCheck": true,
     "paths": {
-      "@promethean/utils": ["../utils/dist/index"],
-      "@promethean/utils/*": ["../utils/dist/*"],
-      "@promethean/embedding": ["../embedding/dist/index"],
-      "@promethean/embedding/*": ["../embedding/dist/*"],
+      "@promethean/utils": ["../../utils/dist/index"],
+      "@promethean/utils/*": ["../../utils/dist/*"],
+      "@promethean/embedding": ["../../ai/embedding/dist/index"],
+      "@promethean/embedding/*": ["../../ai/embedding/dist/*"],
       "@promethean/file-indexer": ["../file-indexer/dist/index"],
       "@promethean/file-indexer/*": ["../file-indexer/dist/*"],
-      "@promethean/level-cache": ["../level-cache/dist/index"],
-      "@promethean/level-cache/*": ["../level-cache/dist/*"]
+      "@promethean/level-cache": ["../../level-cache/dist/index"],
+      "@promethean/level-cache/*": ["../../level-cache/dist/*"]
     }
   },
   "include": ["src/**/*"]

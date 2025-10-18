@@ -2,7 +2,7 @@ import { CacheEntry } from './CacheEntry.js';
 import { createCacheKey } from './createCacheKey.js';
 import { getPromptEmbedding } from './getPromptEmbedding.js';
 import { initializeCache } from './initializeCache.js';
-import { JobType, now, undefined } from './ollama-queue.js';
+import { JobType, now } from '@promethean/ollama-queue';
 
 // eslint-disable-next-line max-params
 export async function storeInCache(

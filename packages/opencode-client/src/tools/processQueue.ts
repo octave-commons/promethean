@@ -1,4 +1,4 @@
-import { processing, MAX_CONCURRENT_JOBS, jobQueue } from './ollama-queue.js';
+import { processing, MAX_CONCURRENT_JOBS, jobQueue } from '@promethean/ollama-queue';
 import { processJob } from './processJob.js';
 
 // Queue processor

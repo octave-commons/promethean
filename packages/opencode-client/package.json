@@ -1,10 +1,10 @@
 {
-  "name": "opencode-client",
+  "name": "@promethean/opencode-client",
   "version": "1.0.0",
   "description": "CLI client for OpenCode plugins and tools",
   "main": "dist/index.js",
   "bin": {
-    "opencode": "dist/cli.js"
+    "opencode-client": "dist/cli.js"
   },
   "scripts": {
     "build": "tsc",
@@ -21,11 +21,15 @@
   "author": "",
   "license": "GPL-3.0-only",
   "dependencies": {
-    "commander": "^12.0.0",
+    "@opencode-ai/plugin": "^0.15.7",
+    "@opencode-ai/sdk": "^0.15.7",
+    "@promethean/ollama-queue": "workspace:*",
+    "@promethean/persistence": "workspace:*",
     "chalk": "^5.3.0",
+    "cli-table3": "^0.6.3",
+    "commander": "^12.0.0",
     "inquirer": "^9.2.0",
-    "ora": "^7.0.0",
-    "cli-table3": "^0.6.3"
+    "ora": "^7.0.0"
   },
   "devDependencies": {
     "@types/inquirer": "^8.2.10",

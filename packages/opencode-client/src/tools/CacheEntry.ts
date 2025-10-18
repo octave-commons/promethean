@@ -1,4 +1,4 @@
-import { JobType } from './ollama-queue.js';
+import { JobType } from '@promethean/ollama-queue';
 
 // Prompt cache functions
 export type CacheEntry = {

@@ -19,7 +19,7 @@
     "resources"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "shadow-cljs release agent-generator",
     "clean": "rimraf dist",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "pnpm run build && ava --config ../../config/ava.config.mjs",

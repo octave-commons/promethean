@@ -1,0 +1,13 @@
+{
+  "extends": "../../../config/tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "composite": true,
+    "declaration": true,
+    "allowJs": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*", "*.mjs"],
+  "exclude": ["node_modules", "dist"]
+}

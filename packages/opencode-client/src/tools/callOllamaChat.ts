@@ -1,5 +1,5 @@
 import { check } from './check.js';
-import { OLLAMA_URL } from './ollama-queue.js';
+import { OLLAMA_URL } from '@promethean/ollama-queue';
 import { OllamaOptions } from './OllamaOptions.js';
 
 export async function callOllamaChat(

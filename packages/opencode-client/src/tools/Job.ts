@@ -1,4 +1,4 @@
-import { UUID, JobStatus, JobPriority, JobType } from './ollama-queue.js';
+import { UUID, JobStatus, JobPriority, JobType } from '@promethean/ollama-queue';
 import { OllamaOptions } from './OllamaOptions.js';
 
 export type Job = Readonly<{

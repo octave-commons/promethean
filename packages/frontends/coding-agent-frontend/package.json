@@ -20,7 +20,7 @@
     "static"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "shadow-cljs release coding-agent-frontend",
     "build:shadow": "shadow-cljs release coding-agent-frontend",
     "watch:shadow": "shadow-cljs watch coding-agent-frontend",
     "clean": "rimraf dist dist/frontend",

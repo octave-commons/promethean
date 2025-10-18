@@ -58,7 +58,7 @@ export interface AuthConfig {
 }
 
 export const defaultAuthConfig: AuthConfig = {
-  defaultRole: 'guest',
+  defaultRole: 'user',
   strictMode: true,
   requireAuthForDangerous: true,
   sessionTimeout: 60, // 1 hour

@@ -191,7 +191,7 @@ export async function registerPipelineRoutes(
 ): Promise<void> {
   const { CONFIG_PATH, errToString } = opts;
   // Register the rate limit plugin globally if not already registered
-  await app.register(rateLimit, {
+  await app.register(rateLimit as any, {
     max: 100, // Default: max 100 requests per 15 min window
     timeWindow: "15 minutes",
     allowList: [], // Adjust as needed

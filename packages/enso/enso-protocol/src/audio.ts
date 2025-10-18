@@ -1,6 +1,6 @@
-import { Buffer } from "node:buffer";
-import { Readable } from "node:stream";
-import type { StreamFrame } from "./types/streams.js";
+import { Buffer } from 'node:buffer';
+import { Readable } from 'node:stream';
+import type { StreamFrame } from './types/streams.js';
 
 export interface AudioCapture {
   frames: AsyncIterable<StreamFrame>;
@@ -10,7 +10,7 @@ export interface AudioCapture {
 export interface NodeAudioCaptureOptions {
   stream: Readable;
   streamId?: string;
-  codec?: StreamFrame["codec"];
+  codec?: StreamFrame['codec'];
   frameDurationMs?: number;
   bytesPerFrame?: number;
   startSeq?: number;
@@ -18,16 +18,16 @@ export interface NodeAudioCaptureOptions {
   emitEof?: boolean;
 }
 
-const DEFAULT_CODEC: StreamFrame["codec"] = "pcm16le/16000/1";
+const DEFAULT_CODEC: StreamFrame['codec'] = 'pcm16le/16000/1';
 const DEFAULT_FRAME_BYTES = 640; // 20ms of PCM16 at 16kHz mono
 const DEFAULT_FRAME_DURATION = 20;
 
 function toUint8Array(chunk: unknown): Uint8Array {
   if (chunk instanceof Uint8Array) {
-    return chunk;
+    return chunk as Uint8Array<ArrayBuffer>;
   }
-  if (typeof chunk === "string") {
-    return Uint8Array.from(Buffer.from(chunk, "utf8"));
+  if (typeof chunk === 'string') {
+    return Uint8Array.from(Buffer.from(chunk, 'utf8'));
   }
   if (chunk instanceof ArrayBuffer) {
     return new Uint8Array(chunk);
@@ -38,12 +38,15 @@ function toUint8Array(chunk: unknown): Uint8Array {
   return new Uint8Array(0);
 }
 
-function concatBuffers(a: Uint8Array, b: Uint8Array): Uint8Array {
+function concatBuffers(
+  a: Uint8Array<ArrayBufferLike>,
+  b: Uint8Array<ArrayBufferLike>,
+): Uint8Array<ArrayBuffer> {
   if (a.length === 0) {
-    return b;
+    return new Uint8Array(b);
   }
   if (b.length === 0) {
-    return a;
+    return new Uint8Array(a);
   }
   const merged = new Uint8Array(a.length + b.length);
   merged.set(a, 0);
@@ -51,10 +54,8 @@ function concatBuffers(a: Uint8Array, b: Uint8Array): Uint8Array {
   return merged;
 }
 
-export function createNodeAudioCapture(
-  options: NodeAudioCaptureOptions,
-): AudioCapture {
-  const streamId = options.streamId ?? "mic";
+export function createNodeAudioCapture(options: NodeAudioCaptureOptions): AudioCapture {
+  const streamId = options.streamId ?? 'mic';
   const codec = options.codec ?? DEFAULT_CODEC;
   const bytesPerFrame = options.bytesPerFrame ?? DEFAULT_FRAME_BYTES;
   const frameDurationMs = options.frameDurationMs ?? DEFAULT_FRAME_DURATION;
@@ -62,18 +63,14 @@ export function createNodeAudioCapture(
   const basePts = options.basePts ?? 0;
   let stopped = false;
 
-  const frames = (async function* (): AsyncGenerator<
-    StreamFrame,
-    void,
-    unknown
-  > {
+  const frames = (async function* (): AsyncGenerator<StreamFrame, void, unknown> {
     let buffer = new Uint8Array(0);
     let seq = startSeq;
     for await (const chunk of options.stream) {
       if (stopped) {
         break;
       }
-      buffer = concatBuffers(buffer, toUint8Array(chunk));
+      buffer = concatBuffers(buffer, toUint8Array(chunk) as Uint8Array<ArrayBuffer>);
       while (buffer.length >= bytesPerFrame && !stopped) {
         const slice = buffer.slice(0, bytesPerFrame);
         buffer = buffer.slice(bytesPerFrame);
@@ -111,7 +108,7 @@ export function createNodeAudioCapture(
       return;
     }
     stopped = true;
-    if (typeof options.stream.pause === "function") {
+    if (typeof options.stream.pause === 'function') {
       options.stream.pause();
     }
   };
@@ -121,11 +118,7 @@ export function createNodeAudioCapture(
 
 export function createStaticCapture(frames: StreamFrame[]): AudioCapture {
   let stopped = false;
-  const iterator = (async function* (): AsyncGenerator<
-    StreamFrame,
-    void,
-    unknown
-  > {
+  const iterator = (async function* (): AsyncGenerator<StreamFrame, void, unknown> {
     for (const frame of frames) {
       if (stopped) {
         break;

@@ -6,6 +6,7 @@ import { listModels } from '../../api/ollama.js';
 export const modelsCommand = new Command('models')
   .description('List available models')
   .option('-d, --detailed', 'Show detailed model information', false)
+  .option('-f, --format <format>', 'Output format (table|json)', 'table')
   .action(async (options) => {
     try {
       const spinner = ora('Fetching models...').start();
@@ -21,7 +22,9 @@ export const modelsCommand = new Command('models')
 
       console.log(chalk.blue(`\nAvailable Models:\n`));
 
-      if (options.detailed) {
+      if (options.format === 'json') {
+        console.log(JSON.stringify(models, null, 2));
+      } else if (options.detailed) {
         console.log(JSON.stringify(models, null, 2));
       } else {
         console.log('Name\t\tSize\tModified');
