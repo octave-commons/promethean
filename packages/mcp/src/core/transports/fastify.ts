@@ -593,21 +593,7 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
 
   const app = Fastify({ logger: false });
 
-  // Add diagnostic logging before security middleware
-  app.addHook('onRequest', async (request, reply) => {
-    console.log(`🔍 DIAGNOSTIC: Request received: ${request.method} ${request.url}`);
-    console.log(`   Headers:`, JSON.stringify(request.headers, null, 2));
-    console.log(`   IP: ${request.ip}`);
-  });
-
-  // Add diagnostic logging before security middleware
-  app.addHook('onRequest', async (request, _reply) => {
-    console.log(`🔍 DIAGNOSTIC: Request received: ${request.method} ${request.url}`);
-    console.log(`   Headers:`, JSON.stringify(request.headers, null, 2));
-    console.log(`   IP: ${request.ip}`);
-  });
-
-  // Initialize and register security middleware with minimal config
+  // Initialize and register security middleware with diagnostic hooks
   const securityMiddleware = createSecurityMiddleware({
     enableSecurityHeaders: false, // Disable headers first
     enableAuditLog: false, // Disable audit logging to avoid conflicts
@@ -618,7 +604,24 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
     globalRateLimitMaxPerHour: 100000, // Much higher limit
   });
 
+  // Add diagnostic logging BEFORE security middleware registration
+  app.addHook('onRequest', async (request, _reply) => {
+    console.log(`🔍 PRE-SECURITY: Request received: ${request.method} ${request.url}`);
+    console.log(`   Headers:`, JSON.stringify(request.headers, null, 2));
+    console.log(`   IP: ${request.ip}`);
+    console.log(`   Timestamp: ${new Date().toISOString()}`);
+  });
+
+  // Register security middleware
   securityMiddleware.register(app);
+
+  // Add diagnostic logging AFTER security middleware registration
+  app.addHook('onRequest', async (request, _reply) => {
+    console.log(
+      `🔍 POST-SECURITY: Request passed security checks: ${request.method} ${request.url}`,
+    );
+    console.log(`   Timestamp: ${new Date().toISOString()}`);
+  });
 
   // Add comprehensive request logging middleware
   if (isVerboseLogging) {
