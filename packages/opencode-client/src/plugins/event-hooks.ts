@@ -124,7 +124,7 @@ export const EventHooksPlugin: Plugin = async ({ client, project, $, directory, 
     },
 
     // Event handlers for reactive processing
-    event: async ({ event }: any) => {
+    event: async ({ event }) => {
       const { type, data } = event;
 
       try {
