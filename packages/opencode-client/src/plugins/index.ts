@@ -102,6 +102,13 @@ export const ManagementPlugins = {
   agentManagement: AgentManagementPlugin,
 };
 
+// New parity plugins from pseudo/opencode-plugins/
+export const ParityPlugins = {
+  asyncSubAgents: AsyncSubAgentsPlugin,
+  eventCapture: EventCapturePlugin,
+  typeChecker: TypeCheckerPlugin,
+};
+
 // Plugin metadata
 export const PluginRegistry = {
   ollama: {
@@ -169,6 +176,28 @@ export const PluginRegistry = {
     description: 'Unified agent session management tools',
     toolCount: 9,
     plugin: AgentManagementPlugin,
+  },
+  // New parity plugins from pseudo/opencode-plugins/
+  asyncSubAgents: {
+    name: 'Async Sub-Agents Plugin',
+    description: 'Asynchronous sub-agent spawning, monitoring, and inter-agent communication',
+    toolCount: 11,
+    plugin: AsyncSubAgentsPlugin,
+    source: 'pseudo/opencode-plugins/async-sub-agents-final.ts',
+  },
+  eventCapture: {
+    name: 'Event Capture Plugin',
+    description: 'Comprehensive event capture and semantic search functionality',
+    toolCount: 4,
+    plugin: EventCapturePlugin,
+    source: 'pseudo/opencode-plugins/event-capture-simplified.ts',
+  },
+  typeChecker: {
+    name: 'Type Checker Plugin',
+    description: 'Automatic type checking for TypeScript, Clojure, and Babashka files',
+    toolCount: 0, // Hook-based plugin
+    plugin: TypeCheckerPlugin,
+    source: 'pseudo/opencode-plugins/type-checker.ts',
   },
 };
 
