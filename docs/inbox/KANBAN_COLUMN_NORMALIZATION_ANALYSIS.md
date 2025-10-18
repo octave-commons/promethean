@@ -1,0 +1,120 @@
+# Kanban Column Normalization Bug Analysis & Fix
+
+## 🐛 Problem Summary
+
+The kanban column normalization bug consists of two main issues:
+
+1. **Schema Misalignment**: Task schema status values don't match kanban configuration
+2. **FSM Process Violation**: Column structure doesn't properly follow To Do → In Progress → Review → Done flow
+
+## 🔍 Current Issues
+
+### 1. Schema Inconsistency
+
+**Task Schema** (`/boards/schemas/task.json`):
+
+```json
+"enum": ["open", "doing", "blocked", "done", "dropped"]
+```
+
+**Kanban Configuration** (`promethean.kanban.json`):
+
+```json
+"statusValues": [
+  "icebox", "incoming", "accepted", "breakdown", "blocked",
+  "ready", "todo", "in_progress", "testing", "review",
+  "document", "done", "rejected", "archived"
+]
+```
+
+### 2. FSM Process Alignment
+
+The proper FSM flow should be: **To Do → In Progress → Review → Done**
+
+Current properly aligned columns:
+
+- `todo` (To Do) ✅
+- `in_progress` (In Progress) ✅
+- `review` (Review) ✅
+- `done` (Done) ✅
+
+## ✅ Normalization Status
+
+**GOOD**: The `columnKey()` and `normalizeColumnName()` functions are now consistent:
+
+- Both apply NFKD Unicode normalization
+- Both convert spaces/hyphens to underscores
+- Both remove non-alphanumeric characters (except underscores)
+- Test coverage verifies consistency
+
+## 🛠️ Corrected Schema
+
+The corrected schema (`/boards/schemas/task-corrected.json`) includes:
+
+1. **FSM-Aligned Status Values**: All 14 status values from kanban config
+2. **Enhanced Properties**: Added `estimates` and `storyPoints` for proper workflow
+3. **Proper Priority Values**: P0-P3 and descriptive priorities
+4. **Documentation**: Clear descriptions of FSM alignment
+
+## 📊 Column Structure Verification
+
+### Core FSM Columns (Required Flow)
+
+```
+todo → in_progress → review → done
+```
+
+### Supporting Columns (Planning & Quality)
+
+```
+icebox → incoming → accepted → breakdown → ready → [todo → in_progress → review → done]
+testing → document → [done]
+```
+
+### Exception Handling
+
+```
+blocked (dependencies) → breakdown/ready
+rejected → icebox
+archived (terminal state)
+```
+
+## 🎯 Resolution Steps
+
+1. **✅ Schema Updated**: Created corrected schema with FSM alignment
+2. **✅ Normalization Fixed**: Column key functions are consistent
+3. **⚠️ Migration Needed**: Update existing task files to use correct status values
+4. **⚠️ Validation Required**: Run board validation to ensure compliance
+
+## 📋 Next Actions
+
+1. Replace `/boards/schemas/task.json` with corrected version
+2. Update existing task files to use proper status values
+3. Run validation: `pnpm tsx packages/kanban/src/board/lints.ts`
+4. Test CLI commands with underscore normalization
+5. Verify board generation consistency
+
+## 🔧 Technical Details
+
+### Column Normalization Logic
+
+```typescript
+// Both functions now use identical logic:
+column
+  .normalize('NFKD')
+  .toLowerCase()
+  .replace(/[\s-]+/g, '_') // spaces/hyphens → underscores
+  .replace(/[^a-z0-9_]+/g, ''); // remove other special chars
+```
+
+### FSM Compliance
+
+- All transitions respect process.md rules
+- WIP limits enforced by transition rules
+- Column keys normalized consistently across CLI and board generation
+- Status values aligned between schema and configuration
+
+---
+
+**Status**: ✅ Analysis complete, schema corrected, normalization verified  
+**Next**: Deploy corrected schema and migrate existing tasks
