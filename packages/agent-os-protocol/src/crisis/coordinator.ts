@@ -570,6 +570,11 @@ export class CrisisCoordinator {
     }
   }
 
+  // Public method for testing
+  emit(event: string, data: any): void {
+    this.emitEvent(event, data);
+  }
+
   // ============================================================================
   // Status and Monitoring
   // ============================================================================
