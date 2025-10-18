@@ -4,6 +4,24 @@
 import type { Plugin } from '@opencode-ai/plugin';
 import { hookManager } from '../hooks/tool-execute-hooks.js';
 
+// OpenCode event types (from documentation)
+type OpenCodeEventType =
+  | 'session.idle'
+  | 'session.compacted'
+  | 'message.updated'
+  | 'message.removed'
+  | 'message.part.updated'
+  | 'message.part.removed'
+  | 'lsp.client.diagnostics'
+  | 'installation.updated'
+  | 'permission.updated'
+  | 'ide.installed';
+
+interface OpenCodeEvent {
+  type: OpenCodeEventType;
+  properties: Record<string, any>;
+}
+
 /**
  * Event-Driven Plugin Hooks
  *
