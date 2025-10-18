@@ -351,7 +351,6 @@ kanban-plugin: board
 - [ ] [[URGENT Complete Critical Path Traversal Vulnerability Fix - Task c732b2de|URGENT: Complete Critical Path Traversal Vulnerability Fix - Task c732b2de]] #vulnerability #fix #complete #critical prio:P0 (uuid:43967720-d1b6-4ae2-88f7-92ecdaa04a97)
 - [ ] [[comprehensive-board-analysis 25|Comprehensive Kanban Board Analysis - Strategic Insights & Recommendations]] #analysis #governance #health-check #recommendations #strategy prio:P1 (uuid:bac7cd41-7bf8-4698-84b3-db6b31b966ed)
 - [ ] [[comprehensive-board-analysis 25|Comprehensive Kanban Board Analysis - Strategic Insights & Recommendations]] #analysis #governance #health-check #recommendations #strategy prio:P1 (uuid:bac7cd41-7bf8-4698-84b3-db6b31b966ed)
-- [ ] [[create-consolidated-package-structure|Create Consolidated Package Structure]] #package-structure #consolidation #setup #foundation #epic1 prio:P0 (uuid:4f276b91-5107-4a58-9499-e93424ba2edd)
 - [ ] [[design-unified-package-architecture|Design Unified Package Architecture]] #architecture #consolidation #design #foundation #epic1 prio:P0 (uuid:5a7949c6-07c8-44bf-95e9-5ef4ded69ec6)
 - [ ] [[establish-unified-build-system|Establish Unified Build System]] #build-system #consolidation #tooling #foundation #epic1 prio:P0 (uuid:e56b48d5-ae37-414b-afda-146f5affa492)
 - [ ] [[setup-unified-testing-framework|Set Up Unified Testing Framework]] #testing #framework #consolidation #quality #epic1 prio:P1 (uuid:bd317cc6-e645-4343-9f56-d927d9763cb1)
@@ -397,6 +396,7 @@ kanban-plugin: board
 - [ ] [[Secure BuildFix command execution]] #buildfix #security #high #provider prio:P1 (uuid:6dae395f-31aa-42c7-b9c8-2dc1d750ddc9)
 - [ ] [[emergency-pipeline-fix-eslint-tasks 25|Fix eslint-tasks pipeline missing dependency: Missing @typescript-eslint/parser]] #automation #dependency #emergency #pipeline prio:P1 (uuid:864b2172-e006-44fe-9ef0-0af3bbab6235)
 - [ ] [[rewrite-shadow-conf-as-nbb|Rewrite @packages/shadow-conf/ as nbb script for program generation]] #migration #clojure #nbb #shadow-conf #program-generation prio:P1 (uuid:46d9372a-65f1-42b8-a024-3ce4449f67ec)
+- [ ] [[create-consolidated-package-structure|Create Consolidated Package Structure]] #package-structure #consolidation #setup #foundation #epic1 prio:P0 (uuid:4f276b91-5107-4a58-9499-e93424ba2edd)
 
 ## todo
 
