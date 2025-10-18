@@ -1,0 +1,41 @@
+{
+  "extends": "../../config/tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"],
+      "@/server/*": ["typescript/server/*"],
+      "@/client/*": ["typescript/client/*"],
+      "@/shared/*": ["typescript/shared/*"],
+      "@/electron/*": ["typescript/electron/*"],
+      "@/schemas/*": ["schemas/*"],
+      "@promethean/opencode-unified": ["./"],
+      "@promethean/opencode-unified/server": ["./typescript/server"],
+      "@promethean/opencode-unified/client": ["./typescript/client"],
+      "@promethean/opencode-unified/electron": ["./typescript/electron"]
+    },
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "removeComments": false,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true
+  },
+  "include": ["src/typescript/**/*", "src/schemas/**/*"],
+  "exclude": ["node_modules", "dist", "src/clojurescript", "tests", "**/*.test.ts", "**/*.spec.ts"],
+  "ts-node": {
+    "require": ["tsx/cjs"]
+  }
+}
