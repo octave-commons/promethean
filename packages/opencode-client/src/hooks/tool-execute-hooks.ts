@@ -147,7 +147,7 @@ export class ToolExecuteHookManager implements HookManager {
       const hookResult = await this.executeHook(
         hook,
         toolName,
-        { args, result: { ...result, result: currentResult } },
+        { args, result: currentResult },
         context,
         'after',
         opts,
