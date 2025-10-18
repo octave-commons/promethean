@@ -98,7 +98,7 @@ test('EventCapturePlugin initializes correctly', async (t) => {
 
 test('EventCapturePlugin search_events tool works', async (t) => {
   const plugin = await EventCapturePlugin(mockContext);
-  const result = await plugin.tool.search_events.execute({
+  const result = await plugin.tool!.search_events.execute({
     query: 'test',
     k: 5,
     eventType: 'session.idle',
@@ -110,7 +110,7 @@ test('EventCapturePlugin search_events tool works', async (t) => {
 
 test('EventCapturePlugin get_recent_events tool works', async (t) => {
   const plugin = await EventCapturePlugin(mockContext);
-  const result = await plugin.tool.get_recent_events.execute({
+  const result = await plugin.tool!.get_recent_events.execute({
     limit: 10,
     eventType: 'session.idle',
   });
@@ -129,14 +129,15 @@ test('TypeCheckerPlugin initializes correctly', async (t) => {
 
 test('TypeCheckerPlugin hook processes write operations', async (t) => {
   const plugin = await TypeCheckerPlugin(mockContext);
-  const mockInput = { tool: 'write' };
+  const mockInput = { tool: 'write', sessionID: 'test-session', callID: 'test-call' };
   const mockOutput = {
-    args: { filePath: 'test.ts' },
+    title: 'Write operation',
+    output: 'File written',
     metadata: {},
   };
 
   // Should not throw
-  await plugin['tool.execute.after'](mockInput, mockOutput);
+  await plugin['tool.execute.after']!(mockInput, mockOutput);
 
   // Should have added metadata
   t.truthy(mockOutput.metadata);
@@ -144,13 +145,14 @@ test('TypeCheckerPlugin hook processes write operations', async (t) => {
 
 test('TypeCheckerPlugin ignores non-write operations', async (t) => {
   const plugin = await TypeCheckerPlugin(mockContext);
-  const mockInput = { tool: 'read' };
+  const mockInput = { tool: 'read', sessionID: 'test-session', callID: 'test-call' };
   const mockOutput = {
-    args: { filePath: 'test.ts' },
+    title: 'Read operation',
+    output: 'File read',
     metadata: {},
   };
 
-  await plugin['tool.execute.after'](mockInput, mockOutput);
+  await plugin['tool.execute.after']!(mockInput, mockOutput);
 
   // Should not have modified metadata for non-write operations
   t.deepEqual(mockOutput.metadata, {});
