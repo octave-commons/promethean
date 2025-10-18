@@ -38,22 +38,23 @@ export {
 };
 
 // Combined plugin that includes all tools
-export const AllToolsPlugin = async (context: Record<string, unknown>) => {
-  const ollamaPlugin = await OllamaPlugin(context);
-  const processPlugin = await ProcessPlugin(context);
-  const directProcessPlugin = await DirectProcessPlugin(context);
-  const cachePlugin = await CachePlugin(context);
-  const sessionsPlugin = await SessionsPlugin(context);
-  const eventsPlugin = await EventsPlugin(context);
-  const messagesPlugin = await MessagesPlugin(context);
-  const messagingPlugin = await MessagingPlugin(context);
-  const tasksPlugin = await TasksPlugin(context);
-  const sessionInfoPlugin = await SessionInfoPlugin(context);
-  const agentManagementPlugin = await AgentManagementPlugin(context);
+export const AllToolsPlugin = async (context: unknown) => {
+  const ctx = context as Record<string, unknown>;
+  const ollamaPlugin = await OllamaPlugin(ctx as any);
+  const processPlugin = await ProcessPlugin(ctx as any);
+  const directProcessPlugin = await DirectProcessPlugin(ctx as any);
+  const cachePlugin = await CachePlugin(ctx as any);
+  const sessionsPlugin = await SessionsPlugin(ctx as any);
+  const eventsPlugin = await EventsPlugin(ctx as any);
+  const messagesPlugin = await MessagesPlugin(ctx as any);
+  const messagingPlugin = await MessagingPlugin(ctx as any);
+  const tasksPlugin = await TasksPlugin(ctx as any);
+  const sessionInfoPlugin = await SessionInfoPlugin(ctx as any);
+  const agentManagementPlugin = await AgentManagementPlugin(ctx as any);
   // New parity plugins
-  const asyncSubAgentsPlugin = await AsyncSubAgentsPlugin(context);
-  const eventCapturePlugin = await EventCapturePlugin(context);
-  const typeCheckerPlugin = await TypeCheckerPlugin(context);
+  const asyncSubAgentsPlugin = await AsyncSubAgentsPlugin(ctx as any);
+  const eventCapturePlugin = await EventCapturePlugin(ctx as any);
+  const typeCheckerPlugin = await TypeCheckerPlugin(ctx as any);
 
   return {
     tool: {
@@ -202,16 +203,16 @@ export const PluginRegistry = {
 };
 
 // Helper function to create plugins by category
-export async function createPlugin(category: keyof typeof PluginRegistry, context: any) {
+export async function createPlugin(category: keyof typeof PluginRegistry, context: unknown) {
   const pluginConfig = PluginRegistry[category];
   if (!pluginConfig) {
     throw new Error(`Unknown plugin category: ${category}`);
   }
-  return pluginConfig.plugin(context);
+  return pluginConfig.plugin(context as any);
 }
 
 // Helper function to create multiple plugins
-export async function createPlugins(categories: (keyof typeof PluginRegistry)[], context: any) {
+export async function createPlugins(categories: (keyof typeof PluginRegistry)[], context: unknown) {
   const plugins = await Promise.all(categories.map((category) => createPlugin(category, context)));
 
   return {
