@@ -1,0 +1,31 @@
+{
+    "total": {
+        "lines": {
+            "total": 320,
+            "covered": 288,
+            "pct": 90
+        },
+        "functions": {
+            "total": 12,
+            "covered": 12,
+            "pct": 100
+        },
+        "branches": {
+            "total": 45,
+            "covered": 38,
+            "pct": 84.4
+        },
+        "statements": {
+            "total": 350,
+            "covered": 315,
+            "pct": 90
+        }
+    },
+    "coverageMap": {
+        "packages/markdown/src/template.ts": {
+            "lines": {
+                "pct": 89.1
+            }
+        }
+    }
+}
