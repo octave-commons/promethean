@@ -12,7 +12,6 @@ import {
   InterAgentMessenger,
   agentTasks,
   type AgentTask,
-  type SessionInfo,
 } from '../index.js';
 
 // Cache for agent status markdown

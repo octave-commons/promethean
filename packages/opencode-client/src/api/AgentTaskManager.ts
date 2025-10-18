@@ -97,5 +97,6 @@ export const AgentTaskManager = {
   monitorTasks,
   createTask,
   getAllTasks,
+  parseTimestamp,
   agentTasks,
 };
