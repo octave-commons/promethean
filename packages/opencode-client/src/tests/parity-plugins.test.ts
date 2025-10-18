@@ -6,10 +6,9 @@ import { AsyncSubAgentsPlugin } from '../plugins/async-sub-agents.js';
 import { EventCapturePlugin } from '../plugins/event-capture.js';
 import { TypeCheckerPlugin } from '../plugins/type-checker.js';
 
-// Mock context for testing - minimal implementation of PluginInput
+// Mock context for testing - using type assertion to bypass strict checking
 const mockContext = {
   client: {
-    // Minimal OpencodeClient implementation
     event: {
       subscribe: async () => ({
         stream: async function* () {
@@ -23,14 +22,8 @@ const mockContext = {
       create: async () => ({ data: { id: 'new-session', title: 'New Session' } }),
       delete: async () => ({}),
       prompt: async () => ({}),
-      // Add missing required properties with mock implementations
-      post: async () => ({}),
-      get: async () => ({}),
-      put: async () => ({}),
-      patch: async () => ({}),
-      del: async () => ({}),
     },
-    // Add all other required OpencodeClient properties as no-ops
+    // Add minimal mocks for other required OpencodeClient properties
     postSessionIdPermissionsPermissionId: async () => ({}),
     project: async () => ({}),
     config: async () => ({}),
@@ -41,6 +34,10 @@ const mockContext = {
     user: async () => ({}),
     auth: async () => ({}),
     chat: async () => ({}),
+    path: async () => ({}),
+    command: async () => ({}),
+    find: async () => ({}),
+    file: async () => ({}),
   },
   project: {
     id: 'test-project',
@@ -52,7 +49,7 @@ const mockContext = {
     text: async () => 'mock output',
     $: async () => 'mock output',
   },
-};
+} as any; // Use type assertion for testing
 
 test('AsyncSubAgentsPlugin initializes correctly', async (t) => {
   const plugin = await AsyncSubAgentsPlugin(mockContext);
