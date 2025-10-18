@@ -98,7 +98,7 @@ export class ToolExecuteHookManager implements HookManager {
     let currentArgs = args;
 
     for (const hook of hooks.slice(0, opts.maxHooks)) {
-      const hookMetrics = await this.executeHook(
+      const hookResult = await this.executeHook(
         hook,
         toolName,
         currentArgs,
@@ -107,15 +107,19 @@ export class ToolExecuteHookManager implements HookManager {
         opts,
       );
 
-      metrics.push(hookMetrics);
+      metrics.push(hookResult.metrics);
 
-      if (!hookMetrics.success && !opts.continueOnError) {
+      if (hookResult.result !== undefined && hookResult.result !== null) {
+        currentArgs = hookResult.result as T;
+      }
+
+      if (!hookResult.metrics.success && !opts.continueOnError) {
         throw new HookExecutionError(
           `Before hook '${hook.id}' failed for tool '${toolName}'`,
           hook.id,
           toolName,
           'before',
-          hookMetrics.error,
+          hookResult.metrics.error,
         );
       }
     }
