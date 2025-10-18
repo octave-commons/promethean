@@ -1,18 +1,27 @@
 // Refactored to integrate with centralized persistence system
 import type { Plugin } from '@opencode-ai/plugin';
 import { DualStoreManager } from '@promethean/persistence';
+import { z } from 'zod';
 
 // DualStore manager for all opencode events
 let eventStore: DualStoreManager<'text', 'timestamp'>;
 
-// Tool helper function
-function tool(config: {
+// Tool helper function with zod-backed schema
+// Attach zod instance to `tool.schema` as requested
+
+type ToolConfig<I extends z.ZodTypeAny> = {
   description: string;
-  args?: any;
-  execute: (args: any) => Promise<string> | string;
-}) {
-  return config;
-}
+  schema: I;
+  execute: (args: z.infer<I>) => Promise<string> | string;
+};
+
+type ToolFn = {
+  <I extends z.ZodTypeAny>(config: ToolConfig<I>): ToolConfig<I>;
+  schema: typeof z;
+};
+
+export const tool: ToolFn = ((config: ToolConfig<any>) => config) as ToolFn;
+tool.schema = z;
 
 export const EventCapturePluginSimplified: Plugin = async ({ client }) => {
   // Initialize DualStore manager for events
@@ -280,31 +289,15 @@ export const EventCapturePluginSimplified: Plugin = async ({ client }) => {
     tool: {
       search_events: tool({
         description: 'Search captured opencode events by semantic embedding',
-        args: {
-          query: { type: 'string', description: 'The search query for events' },
-          k: { type: 'number', default: 10, description: 'Number of results to return' },
-          eventType: {
-            type: 'string',
-            optional: true,
-            description: 'Filter by specific event type',
-          },
-          sessionId: {
-            type: 'string',
-            optional: true,
-            description: 'Filter by specific session ID',
-          },
-          hasTool: {
-            type: 'boolean',
-            optional: true,
-            description: 'Filter for events with tool usage',
-          },
-          isAgentTask: {
-            type: 'boolean',
-            optional: true,
-            description: 'Filter for agent task events',
-          },
-        },
-        async execute({ query, k, eventType, sessionId, hasTool, isAgentTask }) {
+        schema: tool.schema.object({
+          query: tool.schema.string().describe('The search query for events'),
+          k: tool.schema.number().default(10).describe('Number of results to return'),
+          eventType: tool.schema.string().optional().describe('Filter by specific event type'),
+          sessionId: tool.schema.string().optional().describe('Filter by specific session ID'),
+          hasTool: tool.schema.boolean().optional().describe('Filter for events with tool usage'),
+          isAgentTask: tool.schema.boolean().optional().describe('Filter for agent task events'),
+        }),
+        async execute({ query, k = 10, eventType, sessionId, hasTool, isAgentTask }) {
           try {
             const filter = buildFilter(eventType, sessionId, hasTool, isAgentTask);
             const results = await eventStore.getMostRelevant([query], k, filter);
@@ -331,30 +324,14 @@ export const EventCapturePluginSimplified: Plugin = async ({ client }) => {
 
       get_recent_events: tool({
         description: 'Get the most recent events with optional filtering',
-        args: {
-          limit: { type: 'number', default: 20, description: 'Number of events to return' },
-          eventType: {
-            type: 'string',
-            optional: true,
-            description: 'Filter by specific event type',
-          },
-          sessionId: {
-            type: 'string',
-            optional: true,
-            description: 'Filter by specific session ID',
-          },
-          hasTool: {
-            type: 'boolean',
-            optional: true,
-            description: 'Filter for events with tool usage',
-          },
-          isAgentTask: {
-            type: 'boolean',
-            optional: true,
-            description: 'Filter for agent task events',
-          },
-        },
-        async execute({ limit, eventType, sessionId, hasTool, isAgentTask }) {
+        schema: tool.schema.object({
+          limit: tool.schema.number().default(20).describe('Number of events to return'),
+          eventType: tool.schema.string().optional().describe('Filter by specific event type'),
+          sessionId: tool.schema.string().optional().describe('Filter by specific session ID'),
+          hasTool: tool.schema.boolean().optional().describe('Filter for events with tool usage'),
+          isAgentTask: tool.schema.boolean().optional().describe('Filter for agent task events'),
+        }),
+        async execute({ limit = 20, eventType, sessionId, hasTool, isAgentTask }) {
           try {
             const filter = buildMongoFilter(eventType, sessionId, hasTool, isAgentTask);
             const results = await eventStore.getMostRecent(limit, filter);
@@ -380,14 +357,12 @@ export const EventCapturePluginSimplified: Plugin = async ({ client }) => {
 
       get_event_statistics: tool({
         description: 'Get statistics about captured events',
-        args: {
-          timeRange: {
-            type: 'string',
-            enum: ['1h', '6h', '24h', '7d'],
-            default: '24h',
-            description: 'Time range for statistics',
-          },
-        },
+        schema: tool.schema.object({
+          timeRange: tool.schema
+            .enum(['1h', '6h', '24h', '7d'])
+            .default('24h')
+            .describe('Time range for statistics'),
+        }),
         async execute({ timeRange }) {
           try {
             const timeThreshold = getTimeThreshold(timeRange);
@@ -405,11 +380,11 @@ export const EventCapturePluginSimplified: Plugin = async ({ client }) => {
 
       trace_session_activity: tool({
         description: 'Trace all activity for a specific session',
-        args: {
-          sessionId: { type: 'string', description: 'The session ID to trace' },
-          limit: { type: 'number', default: 50, description: 'Maximum events to return' },
-        },
-        async execute({ sessionId, limit }) {
+        schema: tool.schema.object({
+          sessionId: tool.schema.string().describe('The session ID to trace'),
+          limit: tool.schema.number().default(50).describe('Maximum events to return'),
+        }),
+        async execute({ sessionId, limit = 50 }) {
           try {
             const filter = { 'metadata.sessionId': sessionId };
             const sessionEvents = await eventStore.getMostRecent(limit, filter);
@@ -461,8 +436,8 @@ export const EventCapturePluginSimplified: Plugin = async ({ client }) => {
 
 function getTimeThreshold(timeRange: string): number {
   const now = Date.now();
-  const multipliers = { '1h': 1, '6h': 6, '24h': 24, '7d': 168 };
-  const hours = multipliers[timeRange as keyof typeof multipliers] || 24;
+  const multipliers = { '1h': 1, '6h': 6, '24h': 24, '7d': 168 } as const;
+  const hours = (multipliers as any)[timeRange] ?? 24;
   return now - hours * 60 * 60 * 1000;
 }
 
