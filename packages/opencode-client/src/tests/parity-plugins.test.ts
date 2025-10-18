@@ -25,6 +25,9 @@ const mockContext = {
       prompt: async () => ({}),
     },
   },
+  project: {},
+  directory: '/test',
+  worktree: '/test',
   $: {
     text: async () => 'mock output',
   },
