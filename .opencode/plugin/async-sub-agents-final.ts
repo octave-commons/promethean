@@ -470,7 +470,6 @@ class InterAgentMessenger {
     priority: string,
     messageType: string,
   ): string {
-    // they need the full sessoin id if they areg oing to respond.
     return `🔔 **INTER-AGENT MESSAGE** 🔔
 
 **From:** Agent ${senderId}...
