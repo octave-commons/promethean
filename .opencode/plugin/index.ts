@@ -11,7 +11,7 @@ export {
   // MessagingPlugin,
   // TasksPlugin,
   AsyncSubAgentsPlugin,
-  EventCapturePlugin,
+  // EventCapturePlugin,
   // SessionInfoPlugin,
   // CommunicationPlugins,
   // ManagementPlugins,
