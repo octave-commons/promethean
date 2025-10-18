@@ -6,6 +6,11 @@ import { sessionCommands } from './commands/sessions/index.js';
 import { ollamaCommands } from './commands/ollama/index.js';
 import { pm2Command } from './commands/pm2/index.js';
 import { eventCommands } from './commands/events/index.js';
+import { processCommands } from './commands/process/index.js';
+import { cacheCommands } from './commands/cache/index.js';
+import { tasksCommands } from './commands/tasks/index.js';
+import { messagesCommands } from './commands/messages/index.js';
+import { agentCommands } from './commands/agents/index.js';
 import { initializeStores } from './index.js';
 import { DualStoreManager } from '@promethean/persistence';
 const version = '1.0.0';
@@ -63,6 +68,11 @@ program.addCommand(sessionCommands);
 program.addCommand(ollamaCommands);
 program.addCommand(pm2Command);
 program.addCommand(eventCommands);
+program.addCommand(processCommands);
+program.addCommand(cacheCommands);
+program.addCommand(tasksCommands);
+program.addCommand(messagesCommands);
+program.addCommand(agentCommands);
 
 // Error handling - let commander handle help/version normally
 
