@@ -321,6 +321,7 @@ kanban-plugin: board
 - [ ] [[Centralize Prettier Configuration - Eliminate 40+ Duplicate Files]] #refactoring #duplication #config #prettier #critical prio:P0 (uuid:a12de118-2133-4a6d-af9f-b8f63fca7ec3)
 - [ ] [[Create Mermaid-to-FSM config generator for kanban workflows]] #mermaid #fsm #kanban #create prio:P1 (uuid:ecee2a47-d4dc-42da-95db-eb1359d00425)
 - [ ] [[Create adapter factory and registry system]] #create #adapter #factory #registry prio:P0 (uuid:ff7ac92c-ff43-4078-9631-329cd9f2601b)
+- [ ] [[Design Agent OS Core Message Protocol]] #agent-os #protocol #messaging #core #design #critical prio:P0 (uuid:0c3189e4-4c58-4be4-b9b0-8e69474e0047)
 - [ ] [[Design abstract KanbanAdapter interface and base class]] #abstract #kanbanadapter #interface #design prio:P0 (uuid:da0a7f20-15d9-45fd-b2d8-ba3101c1e0d7)
 - [ ] [[Fix BuildFix 0% success rate - ts-morph import resolution]] #buildfix #critical #ts-morph #success-rate prio:P0 (uuid:27341799-4895-4d00-a6cb-17b06e2d7134)
 - [ ] [[Fix-@promethean-agent-entrypoint-exports-to-match-emitted-build-artifacts|Fix @promethean/agent entrypoint/exports to match emitted build artifacts]] #release-blocker #package-fix #build-system #critical prio:P1 (uuid:3c306b0e-da10-4047-bbee-ef1df37f763f)
@@ -403,6 +404,7 @@ kanban-plugin: board
 ## todo
 
 - [ ] [[2025.10.12.16.00.00.migrate-kanban-to-lmdb-cache 25|Migrate Kanban Package from @promethean/level-cache to @promethean/lmdb-cache]] #migration #kanban #cache #lmdb #performance #concurrency #drop-in-replacement prio:P1 (uuid:b0ed3163-e0f6-4fbd-be67-9de457202e9c)
+- [ ] [[2025.10.12.16.25.00-improve-input-validation-file-paths 25.md|Implement Comprehensive Input Validation for File Paths]] #security #critical #input-validation #path-traversal #file-system #sanitization #process-violation #needs-integration prio:P0 (uuid:f44bbb50-c896-407c-b4fb-718fa658a3e2)
 - [ ] [[20251011235168|Implement Scar Context Builder]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #scar-context #context-builder #phase-1 prio:P1 (uuid:ca84477b-20d4-4d49-8457-96d3e9749b6a)
 - [ ] [[20251011235189|Implement LLM Integration for Context Enhancement]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #scar-context #llm-integration #phase-1 prio:P1 (uuid:3ca4b85d-0c71-4e45-bf4a-01a16b990a70)
 - [ ] [[20251011235213|Implement Git Workflow Core Implementation]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #git-workflow #version-control #phase-1 prio:P1 (uuid:5791f7ad-8954-4204-932d-1f1383e90732)
@@ -410,10 +412,15 @@ kanban-plugin: board
 - [ ] [[20251011235256|Implement Git Tag Management and Scar History]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #git-workflow #tag-management #scar-history #phase-1 prio:P1 (uuid:86e86422-5956-4df9-97f7-90a7256b744d)
 - [ ] [[Add BuildFix JSDoc comments and documentation]] #buildfix #documentation #medium #provider prio:P2 (uuid:e9bc3b09-b31e-468a-9e0e-5257db68bb72)
 - [ ] [[Add BuildFix input validation for fixture types]] #buildfix #validation #high #provider prio:P1 (uuid:7e8cd435-394a-45e1-b865-9e9ac854c47a)
+- [ ] [[Coordinate Security Gates and Monitoring Integration]] #coordination #integration #security-gates #monitoring #project-management prio:P0 (uuid:security-gates-integration-2025-10-17)
 - [ ] [[Document kanban process improvements and lessons learned]] #kanban #process #improvements #lessons prio:P2 (uuid:de92d39f-eabb-4da3-ba02-4947f4a1f168)
 - [ ] [[Fix BuildFix type safety issues]] #buildfix #typescript #high #provider prio:P1 (uuid:a01e6108-4e1e-499c-bca4-7a54235638a1)
+- [ ] [[Fix critical path traversal vulnerability in indexer-service]] #security #critical #indexer-service #path-traversal #process-violation #critical-vulnerability prio:P0 (uuid:3c6a52c7-ee4d-4aa5-9d51-69e3eb1fdf4a)
 - [ ] [[Fix kanban delete command adding extra whitespace to tasks]] #kanban #delete #command #extra prio:P2 (uuid:0cad93b8-211f-419b-bf48-e5186ab13df1)
+- [ ] [[Implement Automated Compliance Monitoring System]] #monitoring #automation #compliance #real-time #alerting prio:P0 (uuid:compliance-monitoring-system-2025-10-17)
 - [ ] [[Implement BuildFix model list caching]] #buildfix #performance #medium #provider prio:P2 (uuid:8c9f2127-c0e9-4075-aa0a-73739933fa50)
+- [ ] [[Implement P0 Security Task Validation Gate]] #security-gates #automation #p0-validation #kanban-cli #process-compliance prio:P0 (uuid:security-gate-p0-validation-2025-10-17)
+- [ ] [[Implement WIP Limit Enforcement Gate]] #security-gates #wip-limits #automation #kanban-cli #capacity-management prio:P0 (uuid:wip-limit-enforcement-gate-2025-10-17)
 - [ ] [[Implement parallel job execution]] #automation #buildfix #pipeline #parallel prio:P1 (uuid:255818f5-cc36-467f-82b7-9978638fa321)
 - [ ] [[Improve BuildFix error message consistency]] #buildfix #error-handling #medium #provider prio:P2 (uuid:8633270e-f36e-4e31-a9d1-2e53977f1633)
 - [ ] [[Investigate kanban estimates parsing issue]] #estimates #parsing #kanban #investigate prio:P1 (uuid:63170945-c1e5-488e-886a-9a38624274b5)
@@ -425,11 +432,7 @@ kanban-plugin: board
 
 ## in_progress
 
-- [ ] [[2025.10.12.16.25.00-improve-input-validation-file-paths 25.md|Implement Comprehensive Input Validation for File Paths]] #security #critical #input-validation #path-traversal #file-system #sanitization #process-violation #needs-integration prio:P0 (uuid:f44bbb50-c896-407c-b4fb-718fa658a3e2)
-- [ ] [[Complete breakdown for P0 security tasks]] #breakdown #tasks #complete #security #coordination prio:P0 (uuid:b6c5f483-0893-4144-a0cf-f97ffd2b6b74)
-- [ ] [[Design Agent OS Core Message Protocol]] #agent-os #protocol #messaging #core #design #critical prio:P0 (uuid:0c3189e4-4c58-4be4-b9b0-8e69474e0047)
 - [ ] [[Fix Kanban Column Underscore Normalization Bug]] #kanban #column #bug #fix prio:P0 (uuid:02c78938-cf9c-45a0-b5ff-6e7a212fb043)
-- [ ] [[Fix critical path traversal vulnerability in indexer-service]] #security #critical #indexer-service #path-traversal #process-violation #critical-vulnerability prio:P0 (uuid:3c6a52c7-ee4d-4aa5-9d51-69e3eb1fdf4a)
 
 ## testing
 
@@ -479,6 +482,7 @@ kanban-plugin: board
 - [x] [[2025.10.16.research-existing-instruction-file-patterns.md 4|Research Existing Instruction File Patterns]] #research #documentation #analysis #foundation prio:P0 (uuid:6605b16e-9e65-4649-a751-e8c84dc6dc70)
 - [x] [[2025.10.16.research-existing-instruction-file-patterns.md 5|Research Existing Instruction File Patterns]] #research #documentation #analysis #foundation prio:P0 (uuid:33075a2e-262b-48f3-9e7f-becb63076d68)
 - [x] [[2025.10.16.research-existing-instruction-file-patterns.md|Research Existing Instruction File Patterns]] #research #documentation #analysis #foundation prio:P0 (uuid:task-research-instruction-patterns-2025-10-16)
+- [x] [[Complete breakdown for P0 security tasks]] #breakdown #tasks #complete #security #coordination prio:P0 (uuid:b6c5f483-0893-4144-a0cf-f97ffd2b6b74)
 - [x] [[Create Agent OS Context Management System]] #agent-os #context #management #state #persistence #critical prio:P0 (uuid:1544d523-1c93-499c-92a1-eecc4f88f69a)
 - [x] [[Extend @packages ds graph.ts for FSM-specific operations|Extend @packages/ds/graph.ts for FSM-specific operations]] #fsm #packages #ds #graph #implementation #tool:codegen #env:no-egress prio:P1 (uuid:1bc3c26b-5a73-4292-95d9-9d9195dad92a)
 - [x] [[Fix BuildFix __dirname undefined in ESM modules]] #buildfix #esm #path-resolution #high prio:P1 (uuid:7a2b69bc-0042-4eb5-b866-ef51046032d2)

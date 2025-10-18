@@ -10,5 +10,7 @@ export {
   validatePathArrayFull,
   validatePathSecurity,
   validateSinglePath,
+  validateSearchQuery,
+  validateWithSchema,
 } from './validators.js';
 export * from './types.js';

@@ -167,12 +167,21 @@ test('validatePath: batch validation with mixed inputs', async (t) => {
   const results = await validatePaths(sandbox, mixedPaths);
 
   t.is(results.length, 6);
-  t.true(results[0].isValid); // valid.txt
-  t.true(results[1].isValid); // dir/valid.md
-  t.false(results[2].isValid); // malicious
-  t.true(results[3].isValid); // another-valid.js
-  t.false(results[4].isValid); // dangerous characters
-  t.true(results[5].isValid); // normal-file.json
+  
+  // Helper function to safely access array elements
+  const getResult = (index: number) => {
+    if (index >= results.length) {
+      throw new Error(`Result index ${index} is out of bounds`);
+    }
+    return results[index];
+  };
+
+  t.true(getResult(0)?.isValid ?? false); // valid.txt
+  t.true(getResult(1)?.isValid ?? false); // dir/valid.md
+  t.false(getResult(2)?.isValid ?? true); // malicious
+  t.true(getResult(3)?.isValid ?? false); // another-valid.js
+  t.false(getResult(4)?.isValid ?? true); // dangerous characters
+  t.true(getResult(5)?.isValid ?? false); // normal-file.json
 
   // Cleanup
   await fs.rmdir(sandbox, { recursive: true });

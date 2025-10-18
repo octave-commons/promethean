@@ -1,29 +1,10 @@
+
 {
+  "extends": "../../config/tsconfig.base.json",
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "CommonJS",
-    "moduleResolution": "node16",
-    "lib": ["ES2020"],
     "outDir": "./dist",
-    "rootDir": "./src",
-    "strict": false,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "declaration": false,
-    "sourceMap": false,
-    "downlevelIteration": true,
-    "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true
+    "rootDir": "./src"
   },
-  "include": ["src/cli.ts", "src/api/**/*", "src/commands/**/*"],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "src/tools/**/*",
-    "src/plugins/**/*",
-    "src/actions/**/*",
-    "src/events.ts",
-    "src/index.ts"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["dist", "node_modules"]
 }

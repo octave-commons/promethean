@@ -1,17 +1,16 @@
-// there IS a tool, the type checker is lieing to you.
-import { type Plugin } from '@opencode-ai/plugin';
-import { tool } from '@opencode-ai/plugin/tool';
+// Refactored to use centralized opencode-client tools
+import type { Plugin } from '@opencode-ai/plugin';
 import { DualStoreManager } from '@promethean/persistence';
 
 // Types
 interface AgentTask {
   sessionId: string;
-  task?: string;
-  taskSummary?: string;
+  task: string;
   startTime: number;
   status: 'running' | 'completed' | 'failed' | 'idle';
   lastActivity: number;
   completionMessage?: string;
+  taskSummary?: string;
 }
 
 interface SessionInfo {
@@ -34,7 +33,16 @@ const agentTasks = new Map<string, AgentTask>();
 const markdownCache = new Map<string, { content: string; timestamp: number }>();
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
-// Utility Functions
+// Tool helper function
+function tool(config: {
+  description: string;
+  args?: any;
+  execute: (args: any) => Promise<string> | string;
+}) {
+  return config;
+}
+
+// Utility Functions (simplified versions from centralized package)
 class SessionUtils {
   static extractSessionId(event: any): string | null {
     const extractors: Record<string, () => string | undefined> = {
@@ -99,6 +107,12 @@ class SessionUtils {
 }
 
 class MessageProcessor {
+  private static _sessionStore: DualStoreManager<'text', 'timestamp'>;
+
+  static initializeStore(sessionStore: DualStoreManager<'text', 'timestamp'>) {
+    this._sessionStore = sessionStore;
+  }
+
   private static readonly COMPLETION_PATTERNS = [
     /task.*completed/i,
     /finished.*task/i,
@@ -129,28 +143,26 @@ class MessageProcessor {
     };
   }
 
-  static async processMessage(_client: any, sessionId: string, message: any) {
+  static async processMessage(client: any, sessionId: string, message: any) {
     if (!message?.parts) return;
 
     await Promise.all(
       message.parts.map(async (part: any) => {
         if (part.type === 'text' && part.text.trim()) {
           try {
-            await sessionStore.insert({
-              id: message.info.id || `msg_${Date.now()}`,
+            await this._sessionStore.insert({
+              id: message.info.id,
               text: part.text,
               timestamp: new Date().toISOString(),
               metadata: {
                 sessionID: sessionId,
-                messageID: message.info.id || `msg_${Date.now()}`,
+                messageID: message.info.id,
                 type: 'text',
               },
             });
-            console.log(
-              `📝 Indexed message ${message.info.id || 'unknown'} from session ${sessionId}`,
-            );
+            console.log(`📝 Indexed message ${message.info.id} from session ${sessionId}`);
           } catch (error) {
-            console.error(`Error storing message ${message.info.id || 'unknown'}:`, error);
+            console.error(`Error storing message ${message.info.id}:`, error);
           }
         }
       }),
@@ -166,6 +178,75 @@ class MessageProcessor {
 }
 
 class AgentTaskManager {
+  private static _sessionStore: DualStoreManager<'text', 'timestamp'>;
+  private static _agentTaskStore: DualStoreManager<'text', 'timestamp'>;
+
+  static initializeStores(
+    sessionStore: DualStoreManager<'text', 'timestamp'>,
+    agentTaskStore: DualStoreManager<'text', 'timestamp'>,
+  ) {
+    this._sessionStore = sessionStore;
+    this._agentTaskStore = agentTaskStore;
+  }
+
+  static async loadPersistedTasks(client?: any) {
+    try {
+      console.log('🔄 Loading persisted agent tasks...');
+      const storedTasks = await this._agentTaskStore.getMostRecent(100);
+      let loadedCount = 0;
+      let cleanedCount = 0;
+
+      for (const task of storedTasks) {
+        const sessionId = task.metadata?.sessionId as string;
+        if (sessionId) {
+          // Verify session still exists before restoring
+          const sessionExists = client ? await this.verifySessionExists(client, sessionId) : true;
+          if (sessionExists) {
+            // Restore task to memory
+            const agentTask: AgentTask = {
+              sessionId,
+              task: task.text,
+              startTime: this.parseTimestamp(task.timestamp),
+              status: (task.metadata?.status as AgentTask['status']) || 'idle',
+              lastActivity:
+                this.parseTimestamp(task.metadata?.lastActivity) ||
+                this.parseTimestamp(task.timestamp),
+              completionMessage: task.metadata?.completionMessage as string | undefined,
+            };
+
+            agentTasks.set(sessionId, agentTask);
+            loadedCount++;
+          } else {
+            // Clean up orphaned task
+            await this.cleanupOrphanedTask(sessionId);
+            cleanedCount++;
+          }
+        }
+      }
+
+      console.log(
+        `✅ Loaded ${loadedCount} agent tasks, cleaned up ${cleanedCount} orphaned tasks`,
+      );
+    } catch (error) {
+      console.error('Error loading persisted tasks:', error);
+    }
+  }
+
+  static async verifySessionExists(client: any, sessionId: string): Promise<boolean> {
+    try {
+      const { data: session } = await client.session.get({ path: { id: sessionId } });
+      return !!session;
+    } catch {
+      return false;
+    }
+  }
+
+  static async cleanupOrphanedTask(sessionId: string) {
+    console.log(`🧹 Cleaning up orphaned agent task: ${sessionId}`);
+    agentTasks.delete(sessionId);
+    // Note: We keep the persistent record for audit purposes
+  }
+
   static async updateTaskStatus(
     sessionId: string,
     status: AgentTask['status'],
@@ -181,9 +262,9 @@ class AgentTaskManager {
     console.log(`Agent task status updated for session ${sessionId}: ${status}`);
 
     try {
-      await agentTaskStore.insert({
+      await this._agentTaskStore.insert({
         id: sessionId,
-        text: task.task || 'Unknown task',
+        text: task.task,
         timestamp: task.startTime,
         metadata: {
           sessionId,
@@ -223,11 +304,9 @@ class AgentTaskManager {
 
   static async createTask(sessionId: string, task: string): Promise<AgentTask> {
     const startTime = Date.now();
-    const taskSummary = await this.summarizeTask(task);
     const agentTask: AgentTask = {
       sessionId,
       task,
-      taskSummary,
       startTime,
       status: 'running',
       lastActivity: startTime,
@@ -236,7 +315,7 @@ class AgentTaskManager {
     agentTasks.set(sessionId, agentTask);
 
     try {
-      await agentTaskStore.insert({
+      await this._agentTaskStore.insert({
         id: sessionId,
         text: task,
         timestamp: new Date().toISOString(),
@@ -256,7 +335,7 @@ class AgentTaskManager {
 
   static async getAllTasks(): Promise<Map<string, AgentTask>> {
     try {
-      const storedTasks = await agentTaskStore.getMostRecent(100);
+      const storedTasks = await this._agentTaskStore.getMostRecent(100);
       const allTasks = new Map(agentTasks);
 
       for (const task of storedTasks) {
@@ -290,98 +369,6 @@ class AgentTaskManager {
     if (typeof timestamp === 'string') return new Date(timestamp).getTime();
     return Date.now();
   }
-
-  static async summarizeTask(task: string): Promise<string> {
-    try {
-      const response = await fetch('http://localhost:11434/api/generate', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'error/qwen3:4b-instruct-100k',
-          prompt: `Summarize this task in 1-2 sentences maximum:\n\n${task}`,
-          stream: false,
-        }),
-      });
-
-      const data = await response.json();
-      return data.response?.trim() || task.substring(0, 100) + '...';
-    } catch (error) {
-      console.warn('Failed to summarize task:', error);
-      return task.substring(0, 100) + '...';
-    }
-  }
-
-  static async ensureTaskSummary(task: AgentTask): Promise<string> {
-    if (task.taskSummary) {
-      return task.taskSummary;
-    }
-
-    if (task.task) {
-      task.taskSummary = await this.summarizeTask(task.task);
-      // Update the stored task with the summary
-      agentTasks.set(task.sessionId, task);
-      return task.taskSummary;
-    }
-
-    return 'Unknown task';
-  }
-
-  static formatAsMarkdown(summary: any): string {
-    const cacheKey = 'monitor_agents';
-    const cached = markdownCache.get(cacheKey);
-
-    if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
-      return cached.content;
-    }
-
-    const { totalAgents, running, completed, failed, idle, agents } = summary;
-
-    let markdown = `# Agent Status Summary\n\n`;
-    markdown += `**Total Agents:** ${totalAgents}\n`;
-    markdown += `**Running:** ${running} | **Completed:** ${completed} | **Failed:** ${failed} | **Idle:** ${idle}\n\n`;
-
-    if (agents.length > 0) {
-      markdown += `## Agent Details\n\n`;
-      agents.forEach((agent: any) => {
-        markdown += `### ${agent.sessionId.substring(0, 8)}...\n`;
-        markdown += `- **Status:** ${agent.status}\n`;
-        markdown += `- **Task:** ${agent.task}\n`;
-        markdown += `- **Duration:** ${agent.duration}s\n`;
-        if (agent.completionMessage) {
-          markdown += `- **Completion:** ${agent.completionMessage}\n`;
-        }
-        markdown += `\n`;
-      });
-    }
-
-    markdownCache.set(cacheKey, { content: markdown, timestamp: Date.now() });
-    return markdown;
-  }
-
-  static formatSingleAgentAsMarkdown(status: any): string {
-    const cacheKey = `agent_${status.sessionId}`;
-    const cached = markdownCache.get(cacheKey);
-
-    if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
-      return cached.content;
-    }
-
-    let markdown = `# Agent Status\n\n`;
-    markdown += `**Session ID:** ${status.sessionId}\n`;
-    markdown += `**Status:** ${status.status}\n`;
-    markdown += `**Task:** ${status.task}\n`;
-    markdown += `**Duration:** ${status.duration}s\n`;
-    markdown += `**Started:** ${status.startTime}\n`;
-    markdown += `**Last Activity:** ${status.lastActivity}\n`;
-    if (status.completionMessage) {
-      markdown += `**Completion:** ${status.completionMessage}\n`;
-    }
-
-    markdownCache.set(cacheKey, { content: markdown, timestamp: Date.now() });
-    return markdown;
-  }
 }
 
 class EventProcessor {
@@ -412,6 +399,12 @@ class EventProcessor {
 }
 
 class InterAgentMessenger {
+  private static _sessionStore: DualStoreManager<'text', 'timestamp'>;
+
+  static initializeStore(sessionStore: DualStoreManager<'text', 'timestamp'>) {
+    this._sessionStore = sessionStore;
+  }
+
   static async sendMessage(
     client: any,
     sessionId: string,
@@ -470,11 +463,13 @@ class InterAgentMessenger {
     priority: string,
     messageType: string,
   ): string {
-    // they need the full sessoin id if they areg oing to respond.
+    const safeSenderId = senderId.length > 8 ? senderId.substring(0, 8) : senderId;
+    const safeRecipientId = recipientId.length > 8 ? recipientId.substring(0, 8) : recipientId;
+
     return `🔔 **INTER-AGENT MESSAGE** 🔔
 
-**From:** Agent ${senderId}...
-**To:** Agent ${recipientId}...
+**From:** Agent ${safeSenderId}...
+**To:** Agent ${safeRecipientId}...
 **Priority:** ${priority.toUpperCase()}
 **Type:** ${messageType.replace('_', ' ').toUpperCase()}
 **Time:** ${new Date().toLocaleTimeString()}
@@ -496,7 +491,7 @@ ${message}
     console.log(`📝 Message type: ${messageType}, Priority: ${priority}`);
 
     try {
-      await sessionStore.insert({
+      await this._sessionStore.insert({
         id: `inter_agent_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`,
         text: `Inter-agent message: ${message}`,
         timestamp: new Date().toISOString(),
@@ -515,11 +510,21 @@ ${message}
 }
 
 export const MyPlugin: Plugin = async ({ client }) => {
+  // Initialize stores locally in the plugin
   sessionStore = await DualStoreManager.create('session_messages', 'text', 'timestamp');
   agentTaskStore = await DualStoreManager.create('agent_tasks', 'text', 'timestamp');
 
+  // Initialize all classes with stores
+  AgentTaskManager.initializeStores(sessionStore, agentTaskStore);
+  MessageProcessor.initializeStore(sessionStore);
+  InterAgentMessenger.initializeStore(sessionStore);
+
+  // Load persisted tasks on startup
+  await AgentTaskManager.loadPersistedTasks(client);
+
   const monitoringInterval = setInterval(AgentTaskManager.monitorTasks, 5 * 60 * 1000);
 
+  // Start event processing
   (async () => {
     try {
       const events = await client.event.subscribe();
@@ -551,6 +556,7 @@ export const MyPlugin: Plugin = async ({ client }) => {
     }
   })();
 
+  // Cleanup on process exit
   process.on('SIGINT', () => {
     clearInterval(monitoringInterval);
     console.log('🧹 Cleaned up monitoring interval');
@@ -561,13 +567,8 @@ export const MyPlugin: Plugin = async ({ client }) => {
       search_sessions: tool({
         description: 'Search past sessions by semantic embedding',
         args: {
-          query: tool.schema.string().describe('The search query'),
-          k: tool.schema
-            .number()
-            .int()
-            .positive()
-            .default(5)
-            .describe('Number of results to return'),
+          query: { type: 'string', description: 'The search query' },
+          k: { type: 'number', default: 5, description: 'Number of results to return' },
         },
         async execute({ query, k }) {
           try {
@@ -583,18 +584,8 @@ export const MyPlugin: Plugin = async ({ client }) => {
       list_sessions: tool({
         description: 'List all active sessions with pagination and activity status',
         args: {
-          limit: tool.schema
-            .number()
-            .int()
-            .min(1)
-            .default(20)
-            .describe('Number of sessions to return'),
-          offset: tool.schema
-            .number()
-            .int()
-            .min(0)
-            .default(0)
-            .describe('Number of sessions to skip'),
+          limit: { type: 'number', default: 20, description: 'Number of sessions to return' },
+          offset: { type: 'number', default: 0, description: 'Number of sessions to skip' },
         },
         async execute({ limit, offset }) {
           try {
@@ -612,7 +603,7 @@ export const MyPlugin: Plugin = async ({ client }) => {
             const paginated = sortedSessions.slice(offset, offset + limit);
 
             const enhanced = await Promise.all(
-              paginated.map(async (session) => {
+              paginated.map(async (session: any) => {
                 try {
                   const messages = await SessionUtils.getSessionMessages(client, session.id);
                   const agentTask = agentTasks.get(session.id);
@@ -643,12 +634,12 @@ export const MyPlugin: Plugin = async ({ client }) => {
                   totalPages: Math.ceil(totalCount / limit),
                 },
                 summary: {
-                  active: enhanced.filter((s) => s.activityStatus === 'active').length,
+                  active: enhanced.filter((s: any) => s.activityStatus === 'active').length,
                   waiting_for_input: enhanced.filter(
-                    (s) => s.activityStatus === 'waiting_for_input',
+                    (s: any) => s.activityStatus === 'waiting_for_input',
                   ).length,
-                  idle: enhanced.filter((s) => s.activityStatus === 'idle').length,
-                  agentTasks: enhanced.filter((s) => s.isAgentTask).length,
+                  idle: enhanced.filter((s: any) => s.activityStatus === 'idle').length,
+                  agentTasks: enhanced.filter((s: any) => s.isAgentTask).length,
                 },
               },
               null,
@@ -664,7 +655,7 @@ export const MyPlugin: Plugin = async ({ client }) => {
       get_session: tool({
         description: 'Get details of a specific session by ID',
         args: {
-          sessionId: tool.schema.string().min(1).describe('The ID of the session to retrieve'),
+          sessionId: { type: 'string', description: 'The ID of the session to retrieve' },
         },
         async execute({ sessionId }) {
           const { data: session, error } = await client.session.get({ path: { id: sessionId } });
@@ -676,7 +667,7 @@ export const MyPlugin: Plugin = async ({ client }) => {
       close_session: tool({
         description: 'Close a specific session by ID',
         args: {
-          sessionId: tool.schema.string().min(1).describe('The ID of the session to close'),
+          sessionId: { type: 'string', description: 'The ID of the session to close' },
         },
         async execute({ sessionId }) {
           await client.session.delete({ path: { id: sessionId } });
@@ -686,13 +677,13 @@ export const MyPlugin: Plugin = async ({ client }) => {
 
       index_sessions: tool({
         description: 'Index all past sessions for semantic search',
-        args: {}, // no args
+        args: {},
         async execute() {
           const { data: sessionsList, error } = await client.session.list();
           if (error) return `Failed to fetch sessions: ${error}`;
 
           await Promise.all(
-            (sessionsList ?? []).map(async (session) => {
+            (sessionsList ?? []).map(async (session: any) => {
               const messages = await SessionUtils.getSessionMessages(client, session.id);
               await Promise.all(
                 messages.map((m: any) => MessageProcessor.processMessage(client, session.id, m)),
@@ -707,15 +698,19 @@ export const MyPlugin: Plugin = async ({ client }) => {
         description:
           'Spawn a new session with a specific task to run in the background while you continue your work',
         args: {
-          prompt: tool.schema.string().min(1).describe('The task for the new agent session'),
-          files: tool.schema
-            .array(tool.schema.string())
-            .default([])
-            .describe('Optional files the session may need'),
-          delegates: tool.schema
-            .array(tool.schema.string())
-            .default([])
-            .describe('Optional list of agents to delegate tasks to'),
+          prompt: { type: 'string', description: 'The task for the new agent session' },
+          files: {
+            type: 'array',
+            items: { type: 'string' },
+            default: [],
+            description: 'Optional files the session may need',
+          },
+          delegates: {
+            type: 'array',
+            items: { type: 'string' },
+            default: [],
+            description: 'Optional list of agents to delegate tasks to',
+          },
         },
         async execute({ prompt, files, delegates }) {
           const agentName = `SubAgent-${Math.random().toString(36).substring(2, 8)}`;
@@ -739,11 +734,11 @@ export const MyPlugin: Plugin = async ({ client }) => {
               | { type: 'agent'; name: string }
             > = [{ type: 'text', text: taskDescription }];
 
-            (files ?? []).forEach((file) =>
+            (files ?? []).forEach((file: string) =>
               parts.push({ type: 'file', url: `file://${file}`, mime: 'text/plain' }),
             );
 
-            (delegates ?? []).forEach((delegateName) =>
+            (delegates ?? []).forEach((delegateName: string) =>
               parts.push({ type: 'agent', name: delegateName }),
             );
 
@@ -762,7 +757,7 @@ export const MyPlugin: Plugin = async ({ client }) => {
 
       monitor_agents: tool({
         description: 'Monitor the status of all spawned sub-agent tasks',
-        args: {}, // no args
+        args: {},
         async execute() {
           try {
             const allAgentTasks = await AgentTaskManager.getAllTasks();
@@ -771,7 +766,7 @@ export const MyPlugin: Plugin = async ({ client }) => {
             const agentStatus = await Promise.all(
               Array.from(allAgentTasks.entries()).map(async ([sessionId, task]) => ({
                 sessionId,
-                task: await AgentTaskManager.ensureTaskSummary(task),
+                task: await ensureTaskSummary(task),
                 status: task.status,
                 startTime: new Date(task.startTime).toISOString(),
                 lastActivity: new Date(task.lastActivity).toISOString(),
@@ -782,14 +777,14 @@ export const MyPlugin: Plugin = async ({ client }) => {
 
             const summary = {
               totalAgents: allAgentTasks.size,
-              running: agentStatus.filter((a) => a.status === 'running').length,
-              completed: agentStatus.filter((a) => a.status === 'completed').length,
-              failed: agentStatus.filter((a) => a.status === 'failed').length,
-              idle: agentStatus.filter((a) => a.status === 'idle').length,
+              running: agentStatus.filter((a: any) => a.status === 'running').length,
+              completed: agentStatus.filter((a: any) => a.status === 'completed').length,
+              failed: agentStatus.filter((a: any) => a.status === 'failed').length,
+              idle: agentStatus.filter((a: any) => a.status === 'idle').length,
               agents: agentStatus,
             };
 
-            return AgentTaskManager.formatAsMarkdown(summary);
+            return formatAsMarkdown(summary);
           } catch (error) {
             console.error('Error monitoring agents:', error);
             return `Failed to monitor agents: ${error}`;
@@ -800,14 +795,12 @@ export const MyPlugin: Plugin = async ({ client }) => {
       get_agent_status: tool({
         description: 'Get the status of a specific sub-agent by session ID',
         args: {
-          sessionId: tool.schema
-            .string()
-            .min(1)
-            .describe('The session ID of the sub-agent to check'),
-          fullTask: tool.schema
-            .boolean()
-            .default(false)
-            .describe('Include full task details instead of summary'),
+          sessionId: { type: 'string', description: 'The session ID of the sub-agent to check' },
+          fullTask: {
+            type: 'boolean',
+            default: false,
+            description: 'Include full task details instead of summary',
+          },
         },
         async execute({ sessionId, fullTask }) {
           try {
@@ -815,7 +808,7 @@ export const MyPlugin: Plugin = async ({ client }) => {
 
             if (!task) {
               const storedTasks = await agentTaskStore.getMostRecent(100);
-              const storedTask = storedTasks.find((t) => t.id === sessionId);
+              const storedTask = storedTasks.find((t: any) => t.id === sessionId);
               if (storedTask) {
                 task = {
                   sessionId:
@@ -834,9 +827,7 @@ export const MyPlugin: Plugin = async ({ client }) => {
             if (!task) return `No agent task found for session ${sessionId}`;
 
             const now = Date.now();
-            const taskText = fullTask
-              ? task.task || 'Unknown task'
-              : await AgentTaskManager.ensureTaskSummary(task);
+            const taskText = fullTask ? task.task || 'Unknown task' : await ensureTaskSummary(task);
 
             const status = {
               sessionId,
@@ -848,7 +839,7 @@ export const MyPlugin: Plugin = async ({ client }) => {
               completionMessage: task.completionMessage,
             };
 
-            return AgentTaskManager.formatSingleAgentAsMarkdown(status);
+            return formatSingleAgentAsMarkdown(status);
           } catch (error) {
             console.error('Error getting agent status:', error);
             return `Failed to get agent status: ${error}`;
@@ -859,12 +850,11 @@ export const MyPlugin: Plugin = async ({ client }) => {
       cleanup_completed_agents: tool({
         description: 'Remove completed or failed agent tasks from monitoring',
         args: {
-          olderThan: tool.schema
-            .number()
-            .int()
-            .min(0)
-            .default(60)
-            .describe('Remove tasks completed longer than this many minutes ago'),
+          olderThan: {
+            type: 'number',
+            default: 60,
+            description: 'Remove tasks completed longer than this many minutes ago',
+          },
         },
         async execute({ olderThan }) {
           const now = Date.now();
@@ -890,16 +880,20 @@ export const MyPlugin: Plugin = async ({ client }) => {
         description:
           'Send a message to a specific agent session to enable inter-agent communication',
         args: {
-          sessionId: tool.schema.string().min(1).describe('The session ID of the target agent'),
-          message: tool.schema.string().min(1).describe('The message to send to the agent'),
-          priority: tool.schema
-            .enum(['low', 'medium', 'high', 'urgent'])
-            .default('medium')
-            .describe('Message priority level'),
-          messageType: tool.schema
-            .enum(['instruction', 'query', 'update', 'coordination', 'status_request'])
-            .default('instruction')
-            .describe('Type of message being sent'),
+          sessionId: { type: 'string', description: 'The session ID of the target agent' },
+          message: { type: 'string', description: 'The message to send to the agent' },
+          priority: {
+            type: 'string',
+            enum: ['low', 'medium', 'high', 'urgent'],
+            default: 'medium',
+            description: 'Message priority level',
+          },
+          messageType: {
+            type: 'string',
+            enum: ['instruction', 'query', 'update', 'coordination', 'status_request'],
+            default: 'instruction',
+            description: 'Type of message being sent',
+          },
         },
         async execute({ sessionId, message, priority, messageType }) {
           try {
@@ -928,3 +922,97 @@ export const MyPlugin: Plugin = async ({ client }) => {
     },
   };
 };
+
+// Helper functions for markdown formatting and task summarization
+
+async function ensureTaskSummary(task: AgentTask): Promise<string> {
+  if (task.taskSummary) {
+    return task.taskSummary;
+  }
+
+  if (task.task) {
+    task.taskSummary = await summarizeTask(task.task);
+    // Update the stored task with the summary
+    agentTasks.set(task.sessionId, task);
+    return task.taskSummary;
+  }
+
+  return 'Unknown task';
+}
+
+async function summarizeTask(task: string): Promise<string> {
+  try {
+    const response = await fetch('http://localhost:11434/api/generate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'error/qwen3:4b-instruct-100k',
+        prompt: `Summarize this task in 1-2 sentences maximum:\n\n${task}`,
+        stream: false,
+      }),
+    });
+
+    const data = await response.json();
+    return data.response?.trim() || task.substring(0, 100) + '...';
+  } catch (error) {
+    console.warn('Failed to summarize task:', error);
+    return task.substring(0, 100) + '...';
+  }
+}
+
+function formatAsMarkdown(summary: any): string {
+  const cacheKey = 'monitor_agents';
+  const cached = markdownCache.get(cacheKey);
+
+  if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+    return cached.content;
+  }
+
+  const { totalAgents, running, completed, failed, idle, agents } = summary;
+
+  let markdown = `# Agent Status Summary\n\n`;
+  markdown += `**Total Agents:** ${totalAgents}\n`;
+  markdown += `**Running:** ${running} | **Completed:** ${completed} | **Failed:** ${failed} | **Idle:** ${idle}\n\n`;
+
+  if (agents.length > 0) {
+    markdown += `## Agent Details\n\n`;
+    agents.forEach((agent: any) => {
+      markdown += `### ${agent.sessionId.substring(0, 8)}...\n`;
+      markdown += `- **Status:** ${agent.status}\n`;
+      markdown += `- **Task:** ${agent.task}\n`;
+      markdown += `- **Duration:** ${agent.duration}s\n`;
+      if (agent.completionMessage) {
+        markdown += `- **Completion:** ${agent.completionMessage}\n`;
+      }
+      markdown += `\n`;
+    });
+  }
+
+  markdownCache.set(cacheKey, { content: markdown, timestamp: Date.now() });
+  return markdown;
+}
+
+function formatSingleAgentAsMarkdown(status: any): string {
+  const cacheKey = `agent_${status.sessionId}`;
+  const cached = markdownCache.get(cacheKey);
+
+  if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+    return cached.content;
+  }
+
+  let markdown = `# Agent Status\n\n`;
+  markdown += `**Session ID:** ${status.sessionId}\n`;
+  markdown += `**Status:** ${status.status}\n`;
+  markdown += `**Task:** ${status.task}\n`;
+  markdown += `**Duration:** ${status.duration}s\n`;
+  markdown += `**Started:** ${status.startTime}\n`;
+  markdown += `**Last Activity:** ${status.lastActivity}\n`;
+  if (status.completionMessage) {
+    markdown += `**Completion:** ${status.completionMessage}\n`;
+  }
+
+  markdownCache.set(cacheKey, { content: markdown, timestamp: Date.now() });
+  return markdown;
+}

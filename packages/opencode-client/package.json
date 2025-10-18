@@ -2,7 +2,14 @@
   "name": "@promethean/opencode-client",
   "version": "1.0.0",
   "description": "CLI client for OpenCode plugins and tools",
+  "type": "module",
   "main": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
   "bin": {
     "opencode-client": "dist/cli.js"
   },

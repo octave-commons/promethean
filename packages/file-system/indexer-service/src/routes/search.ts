@@ -1,5 +1,7 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import { search as semanticSearch } from '@promethean/indexer-core';
+import { validateSearchQuery, validateWithSchema } from '../validation/index.js';
+import { ResultCountSchema } from '../validation/schemas.js';
 
 type SearchBody = { q?: string; n?: number };
 
@@ -38,12 +40,33 @@ export function registerSearchRoutes(app: FastifyInstance, rootPath: string): vo
     '/search',
     async (request: FastifyRequest<{ Body: SearchBody }>, reply: FastifyReply) => {
       const body = request.body;
+
+      // CRITICAL SECURITY: Validate search query using comprehensive framework
       if (!body?.q) {
         reply.code(400).send({ ok: false, error: "Missing 'q'" });
         return;
       }
+
+      // Validate search query against injection attacks and security threats
+      const queryValidation = validateSearchQuery(body.q);
+      if (!queryValidation.success) {
+        handleSecureError(reply, new Error('Invalid search query'), 400);
+        return;
+      }
+
+      // Validate result count parameter
+      const resultCountValidation = validateWithSchema(ResultCountSchema, body.n ?? 8);
+      if (!resultCountValidation.success) {
+        handleSecureError(reply, new Error('Invalid result count'), 400);
+        return;
+      }
+
       try {
-        const results = await semanticSearch(rootPath, body.q, body.n ?? 8);
+        const results = await semanticSearch(
+          rootPath,
+          queryValidation.data,
+          resultCountValidation.data,
+        );
         reply.send({ ok: true, results });
       } catch (error: unknown) {
         handleSecureError(reply, error as Error);

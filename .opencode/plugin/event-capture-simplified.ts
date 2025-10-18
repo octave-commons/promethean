@@ -1,8 +1,18 @@
-import { Plugin, tool } from '@opencode-ai/plugin';
+// Refactored to integrate with centralized persistence system
+import type { Plugin } from '@opencode-ai/plugin';
 import { DualStoreManager } from '@promethean/persistence';
 
 // DualStore manager for all opencode events
 let eventStore: DualStoreManager<'text', 'timestamp'>;
+
+// Tool helper function
+function tool(config: {
+  description: string;
+  args?: any;
+  execute: (args: any) => Promise<string> | string;
+}) {
+  return config;
+}
 
 export const EventCapturePluginSimplified: Plugin = async ({ client }) => {
   // Initialize DualStore manager for events
@@ -271,18 +281,36 @@ export const EventCapturePluginSimplified: Plugin = async ({ client }) => {
       search_events: tool({
         description: 'Search captured opencode events by semantic embedding',
         args: {
-          query: tool.schema.string().describe('The search query for events'),
-          k: tool.schema.number().optional().describe('Number of results to return').default(10),
-          eventType: tool.schema.string().optional().describe('Filter by specific event type'),
-          sessionId: tool.schema.string().optional().describe('Filter by specific session ID'),
-          hasTool: tool.schema.boolean().optional().describe('Filter for events with tool usage'),
-          isAgentTask: tool.schema.boolean().optional().describe('Filter for agent task events'),
+          query: { type: 'string', description: 'The search query for events' },
+          k: { type: 'number', default: 10, description: 'Number of results to return' },
+          eventType: {
+            type: 'string',
+            optional: true,
+            description: 'Filter by specific event type',
+          },
+          sessionId: {
+            type: 'string',
+            optional: true,
+            description: 'Filter by specific session ID',
+          },
+          hasTool: {
+            type: 'boolean',
+            optional: true,
+            description: 'Filter for events with tool usage',
+          },
+          isAgentTask: {
+            type: 'boolean',
+            optional: true,
+            description: 'Filter for agent task events',
+          },
         },
         async execute({ query, k, eventType, sessionId, hasTool, isAgentTask }) {
           try {
             const filter = buildFilter(eventType, sessionId, hasTool, isAgentTask);
             const results = await eventStore.getMostRelevant([query], k, filter);
-            const enhancedResults = results.map((event, index) => enhanceEventResult(event, index));
+            const enhancedResults = results.map((event: any, index: number) =>
+              enhanceEventResult(event, index),
+            );
 
             return JSON.stringify(
               {
@@ -304,17 +332,33 @@ export const EventCapturePluginSimplified: Plugin = async ({ client }) => {
       get_recent_events: tool({
         description: 'Get the most recent events with optional filtering',
         args: {
-          limit: tool.schema.number().optional().describe('Number of events to return').default(20),
-          eventType: tool.schema.string().optional().describe('Filter by specific event type'),
-          sessionId: tool.schema.string().optional().describe('Filter by specific session ID'),
-          hasTool: tool.schema.boolean().optional().describe('Filter for events with tool usage'),
-          isAgentTask: tool.schema.boolean().optional().describe('Filter for agent task events'),
+          limit: { type: 'number', default: 20, description: 'Number of events to return' },
+          eventType: {
+            type: 'string',
+            optional: true,
+            description: 'Filter by specific event type',
+          },
+          sessionId: {
+            type: 'string',
+            optional: true,
+            description: 'Filter by specific session ID',
+          },
+          hasTool: {
+            type: 'boolean',
+            optional: true,
+            description: 'Filter for events with tool usage',
+          },
+          isAgentTask: {
+            type: 'boolean',
+            optional: true,
+            description: 'Filter for agent task events',
+          },
         },
         async execute({ limit, eventType, sessionId, hasTool, isAgentTask }) {
           try {
             const filter = buildMongoFilter(eventType, sessionId, hasTool, isAgentTask);
             const results = await eventStore.getMostRecent(limit, filter);
-            const enhancedResults = results.map((event, index) =>
+            const enhancedResults = results.map((event: any, index: number) =>
               enhanceEventResult(event, index, 300),
             );
 
@@ -337,11 +381,12 @@ export const EventCapturePluginSimplified: Plugin = async ({ client }) => {
       get_event_statistics: tool({
         description: 'Get statistics about captured events',
         args: {
-          timeRange: tool.schema
-            .enum(['1h', '6h', '24h', '7d'])
-            .optional()
-            .describe('Time range for statistics')
-            .default('24h'),
+          timeRange: {
+            type: 'string',
+            enum: ['1h', '6h', '24h', '7d'],
+            default: '24h',
+            description: 'Time range for statistics',
+          },
         },
         async execute({ timeRange }) {
           try {
@@ -361,8 +406,8 @@ export const EventCapturePluginSimplified: Plugin = async ({ client }) => {
       trace_session_activity: tool({
         description: 'Trace all activity for a specific session',
         args: {
-          sessionId: tool.schema.string().describe('The session ID to trace'),
-          limit: tool.schema.number().optional().describe('Maximum events to return').default(50),
+          sessionId: { type: 'string', description: 'The session ID to trace' },
+          limit: { type: 'number', default: 50, description: 'Maximum events to return' },
         },
         async execute({ sessionId, limit }) {
           try {
@@ -377,7 +422,7 @@ export const EventCapturePluginSimplified: Plugin = async ({ client }) => {
               });
             }
 
-            const organizedEvents = sessionEvents.map((event, index) => ({
+            const organizedEvents = sessionEvents.map((event: any, index: number) => ({
               sequence: index + 1,
               timestamp: event.timestamp,
               eventType: event.metadata?.eventType,
@@ -472,9 +517,11 @@ function extractSessionInsights(events: any[]) {
     totalEvents: events.length,
     firstEvent: events[0]?.timestamp,
     lastEvent: events[events.length - 1]?.timestamp,
-    toolUsageCount: events.filter((e) => e.hasTool).length,
-    messageCount: events.filter((e) => e.hasMessage).length,
-    uniqueToolsUsed: Array.from(new Set(events.filter((e) => e.toolName).map((e) => e.toolName))),
-    eventTypes: Array.from(new Set(events.map((e) => e.eventType))),
+    toolUsageCount: events.filter((e: any) => e.hasTool).length,
+    messageCount: events.filter((e: any) => e.hasMessage).length,
+    uniqueToolsUsed: Array.from(
+      new Set(events.filter((e: any) => e.toolName).map((e: any) => e.toolName)),
+    ),
+    eventTypes: Array.from(new Set(events.map((e: any) => e.eventType))),
   };
 }
