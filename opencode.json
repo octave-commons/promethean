@@ -223,11 +223,11 @@
     "playwright*":false,
     "process.*":false,
     "processDirect.*":false,
-    "events.*":false,
-    "messaging.*":false,
-    "messages.*":false,
+    // "events.*":false,
+    // "messaging.*":false,
+    // "messages.*":false,
     "ollama.*":false,
     "cache.*":false,
-    "sessions.*": false
+    // "sessions.*": false
   }
 }
