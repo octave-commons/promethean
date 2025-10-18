@@ -39,49 +39,25 @@ const authHeader = process.env.OPENCODE_AUTH_TOKEN
   ? { Authorization: `Bearer ${process.env.OPENCODE_AUTH_TOKEN}` }
   : undefined;
 
+// Prevent server auto-start
+process.env.OPENCODE_NO_SERVER = 'true';
+
 let clientPromise: Promise<any> | null = null;
 
 async function getClient(): Promise<any> {
   if (clientPromise) return clientPromise;
-  const sdk: any = await import('@opencode-ai/sdk');
+  const { createOpencodeClient }: any = await import('@opencode-ai/sdk');
 
-  if (typeof sdk.createOpencode === 'function') {
-    clientPromise = sdk
-      .createOpencode({
-        serverUrl: baseURL,
-        timeout,
-        maxRetries,
-        logLevel,
-        fetchOptions: { headers: authHeader },
-      })
-      .then((r: any) => r.client ?? r);
-    return clientPromise;
-  }
-  if (typeof sdk.createOpencodeClient === 'function') {
-    clientPromise = Promise.resolve(
-      sdk.createOpencodeClient({
-        serverUrl: baseURL,
-        timeout,
-        maxRetries,
-        logLevel,
-        fetchOptions: { headers: authHeader },
-      }),
-    );
-    return clientPromise;
-  }
-  if (typeof sdk.default === 'function') {
-    clientPromise = Promise.resolve(
-      new sdk.default({
-        baseURL,
-        timeout,
-        maxRetries,
-        logLevel,
-        fetchOptions: { headers: authHeader },
-      }),
-    );
-    return clientPromise;
-  }
-  throw new Error('Unable to initialize @opencode-ai/sdk client');
+  clientPromise = Promise.resolve(
+    createOpencodeClient({
+      baseUrl: baseURL,
+      timeout,
+      maxRetries,
+      logLevel,
+      fetchOptions: { headers: authHeader },
+    }),
+  );
+  return clientPromise;
 }
 
 /**
@@ -105,13 +81,20 @@ export async function getSession(sessionId: string): Promise<Session> {
   const client = await getClient();
 
   const response = await client.session.get(sessionId);
-  return response.data;
+  return response.data || response;
 }
 
 /**
  * Create a new session
  */
-export async function createSession(options: CreateSessionOptions = {}): Promise<Session> {
+export interface CreateSessionResponse {
+  success: boolean;
+  session: Session;
+}
+
+export async function createSession(
+  options: CreateSessionOptions = {},
+): Promise<CreateSessionResponse> {
   const client = await getClient();
   const { create } = await import('../actions/sessions/create.js');
 
@@ -129,12 +112,10 @@ export async function createSession(options: CreateSessionOptions = {}): Promise
  * Close a session
  */
 export async function closeSession(sessionId: string): Promise<void> {
-  const client = await getClient();
   const { close } = await import('../actions/sessions/close.js');
 
   await close({
     sessionId,
-    client,
   });
 }
 
@@ -142,13 +123,11 @@ export async function closeSession(sessionId: string): Promise<void> {
  * Search sessions
  */
 export async function searchSessions(options: SearchSessionsOptions): Promise<Session[]> {
-  const client = await getClient();
   const { search } = await import('../actions/sessions/search.js');
 
   const result = await search({
     query: options.query,
     k: options.k,
-    client,
   });
 
   const parsed = JSON.parse(result);

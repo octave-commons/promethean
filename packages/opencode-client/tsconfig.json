@@ -5,11 +5,10 @@
     "rootDir": "./src"
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["dist", "node_modules"],
+  "exclude": ["dist", "node_modules", "src/tests-disabled"],
   "references": [
     {
       "path": "../persistence"
     }
-
   ]
 }

@@ -16,13 +16,21 @@ export const statusCommand = new Command('status')
 
       console.log(chalk.blue(`\nJob Status:\n`));
       console.log(`ID:       ${job.id}`);
-      console.log(`Model:    ${job.modelName}`);
-      console.log(`Type:     ${job.jobType}`);
+      console.log(`Name:     ${job.name || 'N/A'}`);
       console.log(`Status:   ${job.status}`);
-      console.log(`Name:     ${job.jobName || 'N/A'}`);
-      console.log(`Created:  ${job.createdAt}`);
+      console.log(`Priority: ${job.priority || 'N/A'}`);
+      console.log(`Created:  ${new Date(job.createdAt).toISOString()}`);
       if (job.updatedAt) {
-        console.log(`Updated:  ${job.updatedAt}`);
+        console.log(`Updated:  ${new Date(job.updatedAt).toISOString()}`);
+      }
+      if (job.startedAt) {
+        console.log(`Started:  ${new Date(job.startedAt).toISOString()}`);
+      }
+      if (job.completedAt) {
+        console.log(`Completed: ${new Date(job.completedAt).toISOString()}`);
+      }
+      if (job.error) {
+        console.log(`Error:    ${job.error.message}`);
       }
     } catch (error) {
       console.error(

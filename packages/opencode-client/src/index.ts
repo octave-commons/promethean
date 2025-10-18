@@ -32,3 +32,19 @@ export function initializeStores(
 // Export all API classes and utilities
 export { SessionUtils, MessageProcessor, AgentTaskManager, EventProcessor, InterAgentMessenger };
 export type { AgentTask, SessionInfo };
+
+// Export the new Unified Agent Management API
+export {
+  UnifiedAgentManager,
+  unifiedAgentManager,
+  createAgentSession,
+  startAgentSession,
+  stopAgentSession,
+  sendMessageToAgent,
+  closeAgentSession,
+} from './api/UnifiedAgentManager.js';
+export type {
+  AgentSession,
+  CreateAgentSessionOptions,
+  AgentSessionOptions,
+} from './api/UnifiedAgentManager.js';

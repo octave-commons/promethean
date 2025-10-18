@@ -8,16 +8,25 @@
     ".": {
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
+    },
+    "./plugins": {
+      "import": "./dist/plugins/index.js",
+      "require": "./dist/plugins/index.cjs"
+    },
+    "./plugins/*": {
+      "import": "./dist/plugins/*.js",
+      "require": "./dist/plugins/*.cjs"
     }
   },
   "bin": {
-    "opencode-client": "dist/cli.js"
+    "opencode-client": "dist/cli.js",
+    "agent-cli": "dist/cli/AgentCLI.js"
   },
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "test": "ava",
-    "test:unit": "ava src/tests/**/*.test.ts",
+    "test": "pnpm build && ava",
+    "test:unit": "pnpm build && ava src/tests/**/*.test.ts",
     "test:watch": "ava --watch",
     "test:coverage": "c8 ava",
     "start": "node dist/cli.js"

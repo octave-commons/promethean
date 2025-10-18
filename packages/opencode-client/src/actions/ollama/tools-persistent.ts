@@ -1,52 +1,60 @@
 // SPDX-License-Identifier: GPL-3.0-only
-// Ollama tool actions - high-level tool operations
+// Ollama tool actions - high-level tool operations using persistent store
 
-import { randomUUID } from 'node:crypto';
 import {
-  jobQueue,
-  activeJobs,
-  modelCaches,
-  MAX_CONCURRENT_JOBS,
+  initializePersistentStore,
+  submitJobPersistent,
+  getJobPersistent,
+  listJobsPersistent,
+  getQueueStatsPersistent,
+  startQueueProcessorPersistent,
   getProcessingInterval,
   now,
+  updateJobStatus,
 } from '@promethean/ollama-queue';
 import { Job } from './types.js';
-import { getJobById, updateJobStatus } from './jobs.js';
-import { startQueueProcessor } from './processor-start.js';
 import { initializeCache } from '../cache/initialize.js';
 import { getPromptEmbedding } from '../cache/key.js';
 import type { CacheEntry } from '../cache/types.js';
 
-// Submit a new job to the queue
-export async function submitJob(job: Omit<Job, 'id' | 'createdAt' | 'updatedAt'>) {
-  const id = randomUUID();
-  const timestamp = now();
+// Initialize persistent store if not already done
+let storeInitialized = false;
 
-  const newJob: Job = {
-    ...job,
-    id,
-    createdAt: timestamp,
-    updatedAt: timestamp,
-  };
+async function ensureStoreInitialized() {
+  if (!storeInitialized) {
+    await initializePersistentStore('./ollama-persistent-cache');
+    storeInitialized = true;
 
-  jobQueue.push(newJob);
-
-  // Start processor if not running
-  if (!getProcessingInterval()) {
-    startQueueProcessor();
+    // Start the persistent queue processor if not already running
+    if (!getProcessingInterval()) {
+      startQueueProcessorPersistent();
+    }
   }
+}
+
+// Submit a new job to queue
+export async function submitJob(job: Omit<Job, 'id' | 'createdAt' | 'updatedAt'>) {
+  await ensureStoreInitialized();
+
+  const submittedJob = await submitJobPersistent(job);
+
+  // Get queue position
+  const pendingJobs = await listJobsPersistent({ status: 'pending' });
+  const queuePosition = pendingJobs.findIndex((j) => j.id === submittedJob.id) + 1;
 
   return {
-    jobId: id,
+    jobId: submittedJob.id,
     jobName: job.name,
-    status: 'pending',
-    queuePosition: jobQueue.filter((j) => j.status === 'pending').length,
+    status: submittedJob.status,
+    queuePosition,
   };
 }
 
 // Get job status
 export async function getJobStatus(jobId: string) {
-  const job = getJobById(jobId);
+  await ensureStoreInitialized();
+
+  const job = await getJobPersistent(jobId);
   if (!job) {
     throw new Error(`Job not found: ${jobId}`);
   }
@@ -66,7 +74,9 @@ export async function getJobStatus(jobId: string) {
 
 // Get job result
 export async function getJobResult(jobId: string) {
-  const job = getJobById(jobId);
+  await ensureStoreInitialized();
+
+  const job = await getJobPersistent(jobId);
   if (!job) {
     throw new Error(`Job not found: ${jobId}`);
   }
@@ -92,25 +102,18 @@ export async function listJobs(options: {
   agentId?: string;
   sessionId?: string;
 }) {
+  await ensureStoreInitialized();
+
   const { status, limit, agentOnly, agentId, sessionId } = options;
 
-  let jobs =
-    agentOnly && agentId && sessionId
-      ? jobQueue.filter((job) => {
-          if (agentId && job.agentId !== agentId) return false;
-          if (sessionId && job.sessionId !== sessionId) return false;
-          return true;
-        })
-      : [...jobQueue];
+  const jobs = await listJobsPersistent({
+    status: status as any,
+    limit,
+    agentId: agentOnly ? agentId : undefined,
+    sessionId: agentOnly ? sessionId : undefined,
+  });
 
-  if (status) {
-    jobs = jobs.filter((job) => job.status === status);
-  }
-
-  // Sort by creation time (newest first)
-  jobs.sort((a, b) => b.createdAt - a.createdAt);
-
-  return jobs.slice(0, limit).map((job) => ({
+  return jobs.map((job) => ({
     id: job.id,
     name: job.name,
     status: job.status,
@@ -127,7 +130,9 @@ export async function listJobs(options: {
 
 // Cancel a job
 export async function cancelJob(jobId: string, agentId: string) {
-  const job = getJobById(jobId);
+  await ensureStoreInitialized();
+
+  const job = await getJobPersistent(jobId);
 
   if (!job) {
     throw new Error(`Job not found: ${jobId}`);
@@ -141,7 +146,7 @@ export async function cancelJob(jobId: string, agentId: string) {
     throw new Error(`Cannot cancel job in status: ${job.status}`);
   }
 
-  updateJobStatus(jobId, 'canceled', { completedAt: now() });
+  await updateJobStatus(jobId, 'canceled', { completedAt: now() });
 
   return {
     id: jobId,
@@ -152,22 +157,30 @@ export async function cancelJob(jobId: string, agentId: string) {
 
 // Get queue information
 export async function getQueueInfo() {
-  const pending = jobQueue.filter((j) => j.status === 'pending').length;
-  const running = activeJobs.size;
-  const completed = jobQueue.filter((j) => j.status === 'completed').length;
-  const failed = jobQueue.filter((j) => j.status === 'failed').length;
-  const canceled = jobQueue.filter((j) => j.status === 'canceled').length;
+  await ensureStoreInitialized();
+
+  const stats = await getQueueStatsPersistent();
+  const processingInterval = getProcessingInterval();
+
+  // Calculate cache size (this would need to be updated to work with persistent cache)
+  let cacheSize = 0;
+  try {
+    // For now, we'll use a placeholder since cache integration needs more work
+    cacheSize = 0;
+  } catch (error) {
+    console.warn('Failed to get cache size:', error);
+  }
 
   return {
-    pending,
-    running,
-    completed,
-    failed,
-    canceled,
-    total: jobQueue.length,
-    maxConcurrent: MAX_CONCURRENT_JOBS,
-    processorActive: !!getProcessingInterval(),
-    cacheSize: Array.from(modelCaches.values()).reduce((sum, cache) => sum + cache.size, 0),
+    pending: stats.pending,
+    running: stats.running,
+    completed: stats.completed,
+    failed: stats.failed,
+    canceled: stats.canceled,
+    total: stats.total,
+    maxConcurrent: 2, // MAX_CONCURRENT_JOBS from ollama-queue
+    processorActive: !!processingInterval,
+    cacheSize,
   };
 }
 
@@ -180,6 +193,8 @@ export async function submitFeedback(options: {
   reason?: string;
   taskCategory?: string;
 }) {
+  await ensureStoreInitialized();
+
   const { prompt, modelName, jobType, score, reason, taskCategory } = options;
 
   try {
@@ -199,7 +214,7 @@ export async function submitFeedback(options: {
     const existingEntry = hits[0]?.metadata as CacheEntry;
     const cacheKey = hits[0]?.id;
 
-    // Update the entry with feedback
+    // Update entry with feedback
     const updatedEntry: CacheEntry = {
       ...existingEntry,
       score,

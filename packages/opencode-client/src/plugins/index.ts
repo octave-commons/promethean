@@ -11,6 +11,7 @@ import { MessagesPlugin } from './messages.js';
 import { MessagingPlugin } from './messaging.js';
 import { TasksPlugin } from './tasks.js';
 import { SessionInfoPlugin } from './session-info.js';
+import { AgentManagementPlugin } from './agent-management.js';
 
 // Individual plugin exports
 export {
@@ -24,6 +25,7 @@ export {
   MessagingPlugin,
   TasksPlugin,
   SessionInfoPlugin,
+  AgentManagementPlugin,
 };
 
 // Combined plugin that includes all tools
@@ -38,6 +40,7 @@ export const AllToolsPlugin = async (context: any) => {
   const messagingPlugin = await MessagingPlugin(context);
   const tasksPlugin = await TasksPlugin(context);
   const sessionInfoPlugin = await SessionInfoPlugin(context);
+  const agentManagementPlugin = await AgentManagementPlugin(context);
 
   return {
     tool: {
@@ -52,6 +55,7 @@ export const AllToolsPlugin = async (context: any) => {
       ...messagingPlugin.tool,
       ...tasksPlugin.tool,
       ...sessionInfoPlugin.tool,
+      ...agentManagementPlugin.tool,
     },
   };
 };
@@ -74,6 +78,7 @@ export const CommunicationPlugins = {
 
 export const ManagementPlugins = {
   tasks: TasksPlugin,
+  agentManagement: AgentManagementPlugin,
 };
 
 // Plugin metadata
@@ -137,6 +142,12 @@ export const PluginRegistry = {
     description: 'Task management and monitoring tools',
     toolCount: 8,
     plugin: TasksPlugin,
+  },
+  agentManagement: {
+    name: 'Agent Management Plugin',
+    description: 'Unified agent session management tools',
+    toolCount: 9,
+    plugin: AgentManagementPlugin,
   },
 };
 

@@ -1,17 +1,19 @@
-import { SessionUtils, agentTasks } from '../../index.js';
+import { SessionUtils, agentTasks, sessionStore } from '../../index.js';
 
-export async function list({
-  limit,
-  offset,
-  client,
-}: {
-  limit: number;
-  offset: number;
-  client: any;
-}) {
+export async function list({ limit, offset }: { limit: number; offset: number }) {
   try {
-    const { data: sessionsList, error } = await client.session.list();
-    if (error) return `Failed to fetch sessions: ${error}`;
+    // Get sessions from dual store - fail fast if not available
+    const storedSessions = await sessionStore.getMostRecent(1000); // Get a large number
+    if (!storedSessions?.length) {
+      return JSON.stringify({
+        sessions: [],
+        totalCount: 0,
+        pagination: { limit, offset, hasMore: false },
+      });
+    }
+
+    const sessionsList = storedSessions.map((session) => JSON.parse(session.text));
+
     if (!sessionsList?.length) {
       return JSON.stringify({
         sessions: [],
@@ -20,13 +22,25 @@ export async function list({
       });
     }
 
-    const sortedSessions = [...sessionsList].sort((a: any, b: any) => b.id.localeCompare(a.id));
+    const sortedSessions = [...sessionsList].sort((a: any, b: any) => {
+      const aId = a.id || '';
+      const bId = b.id || '';
+      return bId.localeCompare(aId);
+    });
     const paginated = sortedSessions.slice(offset, offset + limit);
 
     const enhanced = await Promise.all(
       paginated.map(async (session: any) => {
         try {
-          const messages = await SessionUtils.getSessionMessages(client, session.id);
+          // Get messages from dual store - fail fast if not available
+          const messageKey = `session:${session.id}:messages`;
+          const allStored = await sessionStore.getMostRecent(1000);
+          const messageEntry = allStored.find((entry) => entry.id === messageKey);
+          let messages: any[] = [];
+          if (messageEntry) {
+            messages = JSON.parse(messageEntry.text);
+          }
+
           const agentTask = agentTasks.get(session.id);
           return SessionUtils.createSessionInfo(session, messages.length, agentTask);
         } catch (error: any) {

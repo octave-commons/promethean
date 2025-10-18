@@ -1,22 +1,39 @@
-import { SessionUtils, agentTasks } from '../../index.js';
+import { SessionUtils, agentTasks, sessionStore } from '../../index.js';
 
 export async function get({
   sessionId,
   limit,
   offset,
-  client,
 }: {
   sessionId: string;
   limit?: number;
   offset?: number;
-  client: any;
 }) {
   try {
-    const { data: session, error } = await client.session.get(sessionId);
-    if (error) return `Failed to fetch session: ${error}`;
-    if (!session) return 'Session not found';
+    // Get session from dual store - fail fast if not available
+    const sessionEntry = await sessionStore.get(`session:${sessionId}`);
+    if (!sessionEntry) {
+      return 'Session not found in dual store';
+    }
 
-    const messages = await SessionUtils.getSessionMessages(client, sessionId);
+    const session = JSON.parse(sessionEntry.text);
+
+    // Get messages from dual store - fail fast if not available
+    const messageKey = `session:${sessionId}:messages`;
+    const messageEntry = await sessionStore.get(messageKey);
+    if (!messageEntry) {
+      // Return session with empty messages array - no fallback
+      const agentTask = agentTasks.get(sessionId);
+      const sessionInfo = SessionUtils.createSessionInfo(session, 0, agentTask);
+
+      return JSON.stringify({
+        session: sessionInfo,
+        messages: [],
+      });
+    }
+
+    const messages = JSON.parse(messageEntry.text);
+
     const agentTask = agentTasks.get(sessionId);
     const sessionInfo = SessionUtils.createSessionInfo(session, messages.length, agentTask);
 

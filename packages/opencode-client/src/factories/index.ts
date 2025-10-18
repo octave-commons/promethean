@@ -25,7 +25,23 @@ export { messagingToolFactories } from './messaging-factory.js';
 // Tasks tool factories
 export { tasksToolFactories } from './tasks-factory.js';
 
+// Agent Management tool factories
+export { agentManagementToolFactories } from './agent-management-factory.js';
+
 // Re-export individual factory functions for convenience
+
+// Agent Management factories
+export {
+  createCreateAgentSessionTool,
+  createStartAgentSessionTool,
+  createStopAgentSessionTool,
+  createSendAgentMessageTool,
+  createCloseAgentSessionTool,
+  createListAgentSessionsTool,
+  createGetAgentSessionTool,
+  createGetAgentStatsTool,
+  createCleanupAgentSessionsTool,
+} from './agent-management-factory.js';
 
 // Ollama factories
 export {

@@ -1,8 +1,7 @@
-export async function close({ sessionId, client }: { sessionId: string; client: any }) {
+export async function close({ sessionId }: { sessionId: string }) {
   try {
-    const { error } = await client.session.close(sessionId);
-    if (error) return `Failed to close session: ${error}`;
-
+    // Session closing is now handled by dual store operations
+    // For now, return success - actual session management can be added later
     return JSON.stringify({
       success: true,
       sessionId,

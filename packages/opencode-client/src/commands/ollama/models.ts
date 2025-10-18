@@ -3,7 +3,7 @@ import chalk from 'chalk';
 import ora from 'ora';
 import { listModels } from '../../api/ollama.js';
 
-export const modelsCommand = new Command('models')
+const modelsCommand = new Command('models')
   .description('List available models')
   .option('-d, --detailed', 'Show detailed model information', false)
   .option('-f, --format <format>', 'Output format (table|json)', 'table')
@@ -17,7 +17,7 @@ export const modelsCommand = new Command('models')
 
       if (models.length === 0) {
         console.log(chalk.yellow('No models found'));
-        return;
+        process.exit(0);
       }
 
       console.log(chalk.blue(`\nAvailable Models:\n`));
@@ -31,9 +31,23 @@ export const modelsCommand = new Command('models')
         console.log('-'.repeat(50));
 
         models.forEach((model: any) => {
-          console.log(`${model.name}\t${model.size || 'N/A'}\t${model.modified_at || 'N/A'}`);
+          if (typeof model === 'string') {
+            // When detailed=false, models is an array of strings
+            console.log(`${model}\tN/A\tN/A`);
+          } else {
+            // When detailed=true, models is an array of objects
+            const name = model.name || 'N/A';
+            const size = model.size ? formatBytes(model.size) : 'N/A';
+            const modified = model.modified_at
+              ? new Date(model.modified_at).toLocaleDateString()
+              : 'N/A';
+            console.log(`${name}\t${size}\t${modified}`);
+          }
         });
       }
+
+      // Explicit process exit to prevent hanging
+      process.exit(0);
     } catch (error) {
       console.error(
         chalk.red('Error listing models:'),
@@ -42,3 +56,14 @@ export const modelsCommand = new Command('models')
       process.exit(1);
     }
   });
+
+// Helper function to format bytes
+function formatBytes(bytes: number): string {
+  if (bytes === 0) return '0 B';
+  const k = 1024;
+  const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
+
+export { modelsCommand };

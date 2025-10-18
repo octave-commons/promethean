@@ -12,13 +12,9 @@ export function createListSessionsTool(): any {
       limit: tool.schema.number().default(20).describe('Maximum number of sessions to return'),
       offset: tool.schema.number().default(0).describe('Number of sessions to skip'),
     },
-    async execute(args, context) {
+    async execute(args) {
       const { limit, offset } = args;
-      // Note: client needs to be passed from the calling context
-      // This is a placeholder - actual client injection depends on the system architecture
-      const client = (context as any).client;
-
-      const result = await listSessions({ limit, offset, client });
+      const result = await listSessions({ limit, offset });
       return result;
     },
   });
@@ -56,11 +52,9 @@ export function createCloseSessionTool(): any {
     args: {
       sessionId: tool.schema.string().describe('ID of the session to close'),
     },
-    async execute(args, context) {
+    async execute(args) {
       const { sessionId } = args;
-      const client = (context as any).client;
-
-      const result = await close({ sessionId, client });
+      const result = await close({ sessionId });
       return result;
     },
   });
@@ -75,11 +69,9 @@ export function createGetSessionTool(): any {
       limit: tool.schema.number().optional().describe('Limit number of messages to return'),
       offset: tool.schema.number().optional().describe('Offset for messages pagination'),
     },
-    async execute(args, context) {
+    async execute(args) {
       const { sessionId, limit, offset } = args;
-      const client = (context as any).client;
-
-      const result = await get({ sessionId, limit, offset, client });
+      const result = await get({ sessionId, limit, offset });
       return result;
     },
   });
@@ -94,11 +86,9 @@ export function createSearchSessionsTool(): any {
       k: tool.schema.number().optional().describe('Maximum number of results to return'),
       sessionId: tool.schema.string().optional().describe('Specific session ID to search within'),
     },
-    async execute(args, context) {
+    async execute(args) {
       const { query, k, sessionId } = args;
-      const client = (context as any).client;
-
-      const result = await search({ query, k, sessionId, client });
+      const result = await search({ query, k, sessionId });
       return result;
     },
   });
