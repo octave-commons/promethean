@@ -71,7 +71,7 @@ test('AsyncSubAgentsPlugin initializes correctly', async (t) => {
 
 test('AsyncSubAgentsPlugin search_sessions tool works', async (t) => {
   const plugin = await AsyncSubAgentsPlugin(mockContext);
-  const result = await plugin.tool.search_sessions.execute({ query: 'test', k: 5 });
+  const result = await plugin.tool!.search_sessions.execute({ query: 'test', k: 5 });
 
   t.is(typeof result, 'string');
   t.true(result.includes('Failed to search sessions') || result.includes('"results"'));
@@ -79,7 +79,7 @@ test('AsyncSubAgentsPlugin search_sessions tool works', async (t) => {
 
 test('AsyncSubAgentsPlugin list_sessions tool works', async (t) => {
   const plugin = await AsyncSubAgentsPlugin(mockContext);
-  const result = await plugin.tool.list_sessions.execute({ limit: 10, offset: 0 });
+  const result = await plugin.tool!.list_sessions.execute({ limit: 10, offset: 0 });
 
   t.is(typeof result, 'string');
   t.true(result.includes('sessions') || result.includes('Failed to list sessions'));
@@ -90,10 +90,10 @@ test('EventCapturePlugin initializes correctly', async (t) => {
 
   t.truthy(plugin);
   t.truthy(plugin.tool);
-  t.truthy(plugin.tool.search_events);
-  t.truthy(plugin.tool.get_recent_events);
-  t.truthy(plugin.tool.get_event_statistics);
-  t.truthy(plugin.tool.trace_session_activity);
+  t.truthy(plugin.tool!.search_events);
+  t.truthy(plugin.tool!.get_recent_events);
+  t.truthy(plugin.tool!.get_event_statistics);
+  t.truthy(plugin.tool!.trace_session_activity);
 });
 
 test('EventCapturePlugin search_events tool works', async (t) => {
