@@ -55,14 +55,7 @@ test.serial('indexer service resets and reports status', async (t) => {
   await fs.mkdir(cachePath, { recursive: true });
   await fs.writeFile(path.join(root, 'doc.md'), '# hello\n');
 
-  const { app, manager } = await buildServer({
-    rootPath: root,
-    cachePath,
-    port: 0,
-    host: '127.0.0.1',
-    enableDocs: false,
-    enableRateLimit: false,
-  });
+  const { app, manager } = await buildServer();
   await waitForIdle(manager);
   t.teardown(async () => {
     await waitForIdle(manager).catch(() => {});
@@ -108,14 +101,7 @@ test.serial('rejects path traversal attacks in single file operations', async (t
   await fs.mkdir(cachePath, { recursive: true });
   await fs.writeFile(path.join(root, 'doc.md'), '# hello\n');
 
-  const { app, manager } = await buildServer({
-    rootPath: root,
-    cachePath,
-    port: 0,
-    host: '127.0.0.1',
-    enableDocs: false,
-    enableRateLimit: false,
-  });
+  const { app, manager } = await buildServer();
   await waitForIdle(manager);
   t.teardown(async () => {
     await waitForIdle(manager).catch(() => {});
@@ -161,14 +147,7 @@ test.serial('rejects path traversal attacks in batch reindex operations', async 
   await fs.mkdir(cachePath, { recursive: true });
   await fs.writeFile(path.join(root, 'doc.md'), '# hello\n');
 
-  const { app, manager } = await buildServer({
-    rootPath: root,
-    cachePath,
-    port: 0,
-    host: '127.0.0.1',
-    enableDocs: false,
-    enableRateLimit: false,
-  });
+  const { app, manager } = await buildServer();
   await waitForIdle(manager);
   t.teardown(async () => {
     await waitForIdle(manager).catch(() => {});
@@ -204,14 +183,7 @@ test.serial('rejects null byte injection attacks', async (t) => {
   const cachePath = path.join(root, '.cache');
   await fs.mkdir(cachePath, { recursive: true });
 
-  const { app, manager } = await buildServer({
-    rootPath: root,
-    cachePath,
-    port: 0,
-    host: '127.0.0.1',
-    enableDocs: false,
-    enableRateLimit: false,
-  });
+  const { app, manager } = await buildServer();
   await waitForIdle(manager);
   t.teardown(async () => {
     await waitForIdle(manager).catch(() => {});
@@ -236,14 +208,7 @@ test.serial('rejects dangerous character injection', async (t) => {
   const cachePath = path.join(root, '.cache');
   await fs.mkdir(cachePath, { recursive: true });
 
-  const { app, manager } = await buildServer({
-    rootPath: root,
-    cachePath,
-    port: 0,
-    host: '127.0.0.1',
-    enableDocs: false,
-    enableRateLimit: false,
-  });
+  const { app, manager } = await buildServer();
   await waitForIdle(manager);
   t.teardown(async () => {
     await waitForIdle(manager).catch(() => {});
@@ -277,14 +242,7 @@ test.serial('rejects Windows-specific path attacks', async (t) => {
   const cachePath = path.join(root, '.cache');
   await fs.mkdir(cachePath, { recursive: true });
 
-  const { app, manager } = await buildServer({
-    rootPath: root,
-    cachePath,
-    port: 0,
-    host: '127.0.0.1',
-    enableDocs: false,
-    enableRateLimit: false,
-  });
+  const { app, manager } = await buildServer();
   await waitForIdle(manager);
   t.teardown(async () => {
     await waitForIdle(manager).catch(() => {});
@@ -319,14 +277,7 @@ test.serial('rejects Unix-specific system path attacks', async (t) => {
   const cachePath = path.join(root, '.cache');
   await fs.mkdir(cachePath, { recursive: true });
 
-  const { app, manager } = await buildServer({
-    rootPath: root,
-    cachePath,
-    port: 0,
-    host: '127.0.0.1',
-    enableDocs: false,
-    enableRateLimit: false,
-  });
+  const { app, manager } = await buildServer();
   await waitForIdle(manager);
   t.teardown(async () => {
     await waitForIdle(manager).catch(() => {});
@@ -359,14 +310,7 @@ test.serial('prevents information disclosure in error messages', async (t) => {
   const cachePath = path.join(root, '.cache');
   await fs.mkdir(cachePath, { recursive: true });
 
-  const { app, manager } = await buildServer({
-    rootPath: root,
-    cachePath,
-    port: 0,
-    host: '127.0.0.1',
-    enableDocs: false,
-    enableRateLimit: false,
-  });
+  const { app, manager } = await buildServer();
   await waitForIdle(manager);
   t.teardown(async () => {
     await waitForIdle(manager).catch(() => {});
@@ -395,14 +339,7 @@ test.serial('prevents array bypass vulnerability in single file operations', asy
   await fs.mkdir(cachePath, { recursive: true });
   await fs.writeFile(path.join(root, 'doc.md'), '# hello\n');
 
-  const { app, manager } = await buildServer({
-    rootPath: root,
-    cachePath,
-    port: 0,
-    host: '127.0.0.1',
-    enableDocs: false,
-    enableRateLimit: false,
-  });
+  const { app, manager } = await buildServer();
   await waitForIdle(manager);
   t.teardown(async () => {
     await waitForIdle(manager).catch(() => {});
@@ -467,14 +404,7 @@ test.serial('allows legitimate file operations', async (t) => {
   await fs.writeFile(path.join(root, 'doc.md'), '# hello\n');
   await fs.writeFile(path.join(root, 'src', 'test.ts'), "console.log('test');\n");
 
-  const { app, manager } = await buildServer({
-    rootPath: root,
-    cachePath,
-    port: 0,
-    host: '127.0.0.1',
-    enableDocs: false,
-    enableRateLimit: false,
-  });
+  const { app, manager } = await buildServer();
   await waitForIdle(manager);
   t.teardown(async () => {
     await waitForIdle(manager).catch(() => {});

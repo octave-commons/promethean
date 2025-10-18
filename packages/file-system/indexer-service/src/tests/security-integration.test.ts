@@ -12,10 +12,8 @@ import type { InjectOptions } from 'fastify';
 let app: FastifyInstance;
 
 test.before(async () => {
-  app = await buildServer({
-    rootPath: '/tmp/test-indexer',
-    logLevel: 'error', // Reduce noise in tests
-  });
+  const server = await buildServer();
+  app = server.app;
 });
 
 test.after.always(async () => {
@@ -292,4 +290,50 @@ test.serial('SECURITY-COVERAGE-002: Framework integration must be comprehensive'
 
   // Should be caught by the comprehensive validation, not just basic checks
   t.true(body.error.length > 0);
+});
+
+test.serial('SECURITY-BYPASS-001b: Array inputs must not bypass security validation', async (t) => {
+  // CRITICAL: Test for the path traversal vulnerability fix
+  // Array inputs should be validated for security threats BEFORE type checking
+  const maliciousArrays = [
+    { path: ['../../../etc/passwd'] },
+    { path: ['%2e%2e/secret', 'config/app.json'] },
+    { path: ['<script>alert(1)</script>', 'docs/readme.md'] },
+    { path: ['file|cat /etc/passwd', 'normal.txt'] },
+    { path: ['/etc/passwd', '/proc/version'] },
+  ];
+
+  // Test index endpoint
+  for (const payload of maliciousArrays) {
+    const response = await app.inject({
+      method: 'POST',
+      url: '/indexer/index',
+      payload,
+    });
+
+    t.is(
+      response.statusCode,
+      400,
+      `Index endpoint should reject malicious array: ${JSON.stringify(payload)}`,
+    );
+    const body = JSON.parse(response.payload);
+    t.false(body.ok);
+  }
+
+  // Test remove endpoint
+  for (const payload of maliciousArrays) {
+    const response = await app.inject({
+      method: 'POST',
+      url: '/indexer/remove',
+      payload,
+    });
+
+    t.is(
+      response.statusCode,
+      400,
+      `Remove endpoint should reject malicious array: ${JSON.stringify(payload)}`,
+    );
+    const body = JSON.parse(response.payload);
+    t.false(body.ok);
+  }
 });

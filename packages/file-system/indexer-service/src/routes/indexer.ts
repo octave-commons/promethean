@@ -99,19 +99,27 @@ function registerReindexFilesRoute(app: FastifyInstance, manager: IndexerManager
 /**
  * Registers POST /indexer/index
  */
+/**
+ * Registers POST /indexer/index
+ */
 function registerIndexRoute(app: FastifyInstance, manager: IndexerManager): void {
   app.post(
     '/indexer/index',
     async (request: FastifyRequest<{ Body: PathBody }>, reply: FastifyReply) => {
       const pathInput = request.body?.path;
-      if (Array.isArray(pathInput)) {
-        handleSecureError(reply, new Error('Invalid request'), 400);
-        return;
-      }
 
+      // SECURITY: Validate all inputs first before any type checking
+      // This prevents array inputs from bypassing security validation
       const { valid, error } = validatePathArray(pathInput);
       if (!valid) {
         handleSecureError(reply, new Error(error), 400);
+        return;
+      }
+
+      // SECURITY: Now check if input is array after validation has run
+      // This ensures array inputs are logged as security violations
+      if (Array.isArray(pathInput)) {
+        handleSecureError(reply, new Error('Invalid request: Array input not supported'), 400);
         return;
       }
 
@@ -128,19 +136,27 @@ function registerIndexRoute(app: FastifyInstance, manager: IndexerManager): void
 /**
  * Registers POST /indexer/remove
  */
+/**
+ * Registers POST /indexer/remove
+ */
 function registerRemoveRoute(app: FastifyInstance, manager: IndexerManager): void {
   app.post(
     '/indexer/remove',
     async (request: FastifyRequest<{ Body: PathBody }>, reply: FastifyReply) => {
       const pathInput = request.body?.path;
-      if (Array.isArray(pathInput)) {
-        handleSecureError(reply, new Error('Invalid request'), 400);
-        return;
-      }
 
+      // SECURITY: Validate all inputs first before any type checking
+      // This prevents array inputs from bypassing security validation
       const { valid, error } = validatePathArray(pathInput);
       if (!valid) {
         handleSecureError(reply, new Error(error), 400);
+        return;
+      }
+
+      // SECURITY: Now check if input is array after validation has run
+      // This ensures array inputs are logged as security violations
+      if (Array.isArray(pathInput)) {
+        handleSecureError(reply, new Error('Invalid request: Array input not supported'), 400);
         return;
       }
 

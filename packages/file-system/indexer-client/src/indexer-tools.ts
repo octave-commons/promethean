@@ -1,5 +1,6 @@
 import { tool } from '@opencode-ai/plugin/tool';
 import { IndexerServiceClient, type IndexerServiceConfig } from './indexer-client';
+import { validateAndNormalizePath, validateFilePatterns } from './path-validation.js';
 
 // --- Helpers ---
 function formatError(err: unknown): string {
@@ -81,11 +82,13 @@ export function indexTool(client: IndexerServiceClient) {
     args: { path: tool.schema.string().min(1) },
     async execute({ path }) {
       try {
-        const resp = await client.indexPath(path);
+        // Validate path to prevent traversal attacks
+        const validatedPath = validateAndNormalizePath(path);
+        const resp = await client.indexPath(validatedPath);
         if (!resp.ok) return `❌ Index error: ${(resp as { error: string }).error}`;
         const r = resp as { queued?: number; ignored?: number; mode?: string };
         const msg = r.queued ? `queued` : `ignored`;
-        return `✅ ${path} ${msg} (mode ${r.mode || 'single'})`;
+        return `✅ ${validatedPath} ${msg} (mode ${r.mode || 'single'})`;
       } catch (e) {
         return `❌ Index failed: ${formatError(e)}`;
       }
@@ -99,10 +102,12 @@ export function reindexFilesTool(client: IndexerServiceClient) {
     args: { patterns: tool.schema.array(tool.schema.string()).min(1) },
     async execute({ patterns }) {
       try {
-        const resp = await client.reindexFiles(patterns);
+        // Validate patterns to prevent traversal attacks
+        const validatedPatterns = validateFilePatterns(patterns);
+        const resp = await client.reindexFiles(validatedPatterns);
         if (!resp.ok) return `❌ Reindex error: ${(resp as { error: string }).error}`;
         const r = resp as { queued?: number; ignored?: number };
-        return `✅ Scheduled: ${patterns.join(', ')} (queued ${r.queued || 0}, ignored ${r.ignored || 0})`;
+        return `✅ Scheduled: ${validatedPatterns.join(', ')} (queued ${r.queued || 0}, ignored ${r.ignored || 0})`;
       } catch (e) {
         return `❌ Reindex failed: ${formatError(e)}`;
       }
@@ -135,9 +140,11 @@ export function removeTool(client: IndexerServiceClient) {
     args: { path: tool.schema.string().min(1) },
     async execute({ path }) {
       try {
-        const resp = await client.removePath(path);
+        // Validate path to prevent traversal attacks
+        const validatedPath = validateAndNormalizePath(path);
+        const resp = await client.removePath(validatedPath);
         if (!resp.ok) return `❌ Remove error: ${(resp as { error: string }).error}`;
-        return `✅ Removed ${path}`;
+        return `✅ Removed ${validatedPath}`;
       } catch (e) {
         return `❌ Remove failed: ${formatError(e)}`;
       }
@@ -203,10 +210,26 @@ export function batchTool(client: IndexerServiceClient) {
         operations.map(async (op) => {
           try {
             let res;
-            if (op.type === 'index') res = await client.indexPath(op.path);
-            else if (op.type === 'reindex')
-              res = await client.reindexFiles(op.patterns || [op.path]);
-            else res = await client.removePath(op.path);
+            if (op.type === 'index') {
+              // Validate path to prevent traversal attacks
+              const validatedPath = validateAndNormalizePath(op.path);
+              res = await client.indexPath(validatedPath);
+              // Update op path for reporting
+              op.path = validatedPath;
+            } else if (op.type === 'reindex') {
+              // Validate patterns to prevent traversal attacks
+              const patterns = op.patterns || [op.path];
+              const validatedPatterns = validateFilePatterns(patterns);
+              res = await client.reindexFiles(validatedPatterns);
+              // Update op patterns for reporting
+              op.patterns = validatedPatterns;
+            } else {
+              // Validate path to prevent traversal attacks
+              const validatedPath = validateAndNormalizePath(op.path);
+              res = await client.removePath(validatedPath);
+              // Update op path for reporting
+              op.path = validatedPath;
+            }
             return { op, success: (res as { ok: boolean }).ok, res };
           } catch (e) {
             return { op, success: false, error: formatError(e) };
@@ -219,7 +242,10 @@ export function batchTool(client: IndexerServiceClient) {
         msg +
         '\n' +
         results
-          .map((r, i) => `${i + 1}. ${r.op.type} ${r.op.path} - ${r.success ? 'OK' : r.error}`)
+          .map(
+            (r, i) =>
+              `${i + 1}. ${r.op.type} ${r.op.path || r.op.patterns?.join(', ')} - ${r.success ? 'OK' : r.error}`,
+          )
           .join('\n')
       );
     },

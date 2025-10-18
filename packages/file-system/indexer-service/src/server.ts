@@ -6,6 +6,7 @@ import {
   setIndexerLogger,
   setIndexerStateStore,
   createLevelCacheStateStore,
+  type IndexerManager,
 } from '@promethean/indexer-core';
 
 import { loadConfig, type ServiceConfig } from './config.js';
@@ -32,12 +33,19 @@ function setupRateLimiting(app: FastifyInstance, config: ServiceConfig): void {
   }
 }
 
-export async function buildServer(options: BuildServerOptions = {}): Promise<FastifyInstance> {
-  const config = await loadConfig(options);
-  const logger = createLogger('indexer-service', normalizeLevel(config.logLevel));
+export async function buildServer(): Promise<{
+  app: FastifyInstance;
+  config: ServiceConfig;
+  manager: IndexerManager;
+}> {
+  const config = loadConfig();
+  const logger = createLogger({
+    service: 'indexer-service',
+    level: normalizeLevel(config.logLevel),
+  });
 
   setIndexerLogger(logger);
-  const stateStore = createLevelCacheStateStore(config.cachePath);
+  const stateStore = createLevelCacheStateStore();
   setIndexerStateStore(stateStore);
 
   const indexerManager = createIndexerManager();
@@ -61,5 +69,5 @@ export async function buildServer(options: BuildServerOptions = {}): Promise<Fas
   registerIndexerRoutes(app, indexerManager, config.rootPath);
   registerSearchRoutes(app, config.rootPath);
 
-  return app;
+  return { app, config, manager: indexerManager };
 }
