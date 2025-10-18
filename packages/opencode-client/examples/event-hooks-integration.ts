@@ -21,9 +21,8 @@ async function demonstrateEventHooks() {
   console.log('\n📝 Registering example hooks...');
 
   // Security logging hook
-  hookManager.registerHook(
+  registerBeforeHook(
     'security-audit',
-    'before',
     async (context) => {
       console.log(`🔒 Security audit: ${context.metadata?.originalTool || 'unknown tool'}`);
       console.log(`   Args: ${JSON.stringify(context.args)}`);
@@ -37,9 +36,8 @@ async function demonstrateEventHooks() {
   );
 
   // Performance monitoring hook
-  hookManager.registerHook(
+  registerAfterHook(
     'performance-monitor',
-    'after',
     async (context) => {
       const execTime = context.executionTime || 0;
       console.log(
@@ -55,9 +53,8 @@ async function demonstrateEventHooks() {
   );
 
   // Tool-specific enhancement hook
-  hookManager.registerHook(
+  registerAfterHook(
     'result-enhancer',
-    'after',
     async (context) => {
       if (context.metadata?.originalTool === 'example.tool') {
         return {
@@ -74,24 +71,6 @@ async function demonstrateEventHooks() {
       timeout: 2000,
     },
   );
-
-  // Simulate after hooks
-  const afterResult = await hookManager.executeAfterHooks(
-    'example.tool',
-    { input: 'test data' },
-    {
-      success: true,
-      result: { output: 'tool result' },
-      metadata: {},
-      executionTime: 150,
-    },
-    { pluginContext: { client: null } },
-  );
-
-  console.log('After hooks result:', {
-    result: afterResult.result,
-    metricsCount: afterResult.metrics.length,
-  });
 
   // 4. Show final statistics
   console.log('\n📈 Final hook statistics:');
