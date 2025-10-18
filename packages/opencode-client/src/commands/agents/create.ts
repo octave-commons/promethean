@@ -5,7 +5,7 @@ export const createAgentCommand = new Command('create')
   .description('Create a new agent')
   .argument('<task>', 'task description')
   .option('-t, --title <title>', 'agent title')
-  .action(async (task: string, options) => {
+  .action(async (task: string, _options) => {
     try {
       console.log(chalk.blue(`➕ Creating agent with task: ${task}`));
       // TODO: Implement agent create logic

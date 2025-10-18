@@ -5,7 +5,7 @@ export const listMessagesCommand = new Command('list')
   .description('List messages')
   .argument('<sessionId>', 'session ID')
   .option('-l, --limit <number>', 'limit number of messages')
-  .action(async (sessionId: string, options) => {
+  .action(async (sessionId: string, _options) => {
     try {
       console.log(chalk.blue(`📋 Listing messages for session: ${sessionId}`));
       // TODO: Implement message listing logic

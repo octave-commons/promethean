@@ -6,7 +6,7 @@ export const sendMessageCommand = new Command('send')
   .argument('<sessionId>', 'session ID')
   .argument('<content>', 'message content')
   .option('-t, --type <type>', 'message type', 'user')
-  .action(async (sessionId: string, content: string, options) => {
+  .action(async (sessionId: string, _content: string, _options) => {
     try {
       console.log(chalk.blue(`📤 Sending message to session ${sessionId}`));
       // TODO: Implement message send logic

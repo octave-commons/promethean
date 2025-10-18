@@ -4,7 +4,7 @@ import chalk from 'chalk';
 export const listAgentsCommand = new Command('list')
   .description('List all agents')
   .option('-s, --status <status>', 'filter by status')
-  .action(async (options) => {
+  .action(async (_options) => {
     try {
       console.log(chalk.blue('📋 Listing agents...'));
       // TODO: Implement agent listing logic

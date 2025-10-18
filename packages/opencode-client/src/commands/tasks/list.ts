@@ -4,7 +4,7 @@ import chalk from 'chalk';
 export const listTasksCommand = new Command('list')
   .description('List all tasks')
   .option('-s, --status <status>', 'filter by status')
-  .action(async (options) => {
+  .action(async (_options) => {
     try {
       console.log(chalk.blue('📋 Listing tasks...'));
       // TODO: Implement task listing logic
