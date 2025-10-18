@@ -746,7 +746,16 @@ export const MyPlugin: Plugin = async ({ client }) => {
               parts.push({ type: 'agent', name: delegateName }),
             );
 
-            client.session.prompt({ path: { id: subSession.id }, body: { parts } });
+            client.session
+              .prompt({ path: { id: subSession.id }, body: { parts } })
+              .then(() => {
+                console.log(
+                  `🚀 Initial prompt sent to sub-agent "${agentName}" (session: ${subSession.id})`,
+                );
+              })
+              .catch((err) => {
+                console.error(`Error sending initial prompt to sub-agent "${agentName}":`, err);
+              });
 
             console.log(
               `🚀 Spawned new sub-agent "${agentName}" (session: ${subSession.id}) with task: ${prompt}`,
