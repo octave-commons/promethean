@@ -76,7 +76,7 @@ export const apps =
       "llama3.1:8b"
     ],
     "env": {
-      "OPENAI_BASE_URL": "http://localhost:11434/v1",
+      "OPENAI_BASE_URL": "http://localhost:11434",
       "AUTOCOMMIT_MODEL": "error/qwen3:4b-instruct-100k",
       "NODE_ENV": "production"
     },

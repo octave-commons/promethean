@@ -109,26 +109,7 @@ export class ToolExecuteHookManager implements HookManager {
 
       metrics.push(hookMetrics);
 
-      if (hookMetrics.success && hookMetrics.executionTime > 0) {
-        // Hook may have modified the arguments
-        const result = await this.safeHookExecution(
-          hook.hook,
-          {
-            toolName,
-            args: currentArgs,
-            phase: 'before',
-            timestamp: new Date(),
-            executionId: this.generateExecutionId(),
-            pluginContext: context.pluginContext,
-            metadata: context.metadata || {},
-          },
-          opts.timeout,
-        );
-
-        if (result !== undefined && result !== null) {
-          currentArgs = result as T;
-        }
-      } else if (!opts.continueOnError) {
+      if (!hookMetrics.success && !opts.continueOnError) {
         throw new HookExecutionError(
           `Before hook '${hook.id}' failed for tool '${toolName}'`,
           hook.id,
