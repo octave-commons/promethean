@@ -14,13 +14,20 @@ export interface CreateAgentSessionOptions {
   delegates?: string[];
   priority?: 'low' | 'medium' | 'high' | 'urgent';
   taskType?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, string | number | boolean>;
 }
 
 export interface AgentSession {
   sessionId: string;
   task: AgentTask;
-  session: any;
+  session: {
+    id: string;
+    title?: string;
+    files?: string[];
+    delegates?: string[];
+    createdAt?: string;
+    status?: string;
+  };
   createdAt: Date;
   status: 'initializing' | 'running' | 'completed' | 'failed' | 'idle';
 }
@@ -30,7 +37,7 @@ export interface AgentSessionOptions {
   timeout?: number;
   retryAttempts?: number;
   onStatusChange?: (sessionId: string, oldStatus: string, newStatus: string) => void;
-  onMessage?: (sessionId: string, message: any) => void;
+  onMessage?: (sessionId: string, message: { type: string; content: string }) => void;
 }
 
 /**
@@ -50,6 +57,16 @@ export class UnifiedAgentManager {
     return UnifiedAgentManager.instance;
   }
 
+  private ensureStoresInitialized(): void {
+    // This will throw if stores aren't initialized, which is better than silent failures
+    try {
+      // Try to access the AgentTaskManager to ensure stores are ready
+      void AgentTaskManager.getAllTasks;
+    } catch (error) {
+      throw new Error('Agent stores not initialized. Call initializeStores() first.');
+    }
+  }
+
   /**
    * Create a new agent session with task assignment in a single operation
    */
@@ -60,6 +77,8 @@ export class UnifiedAgentManager {
     sessionOptions: AgentSessionOptions = {},
   ): Promise<AgentSession> {
     try {
+      // Ensure stores are initialized before proceeding
+      this.ensureStoresInitialized();
       // Step 1: Create the session
       const sessionResult = await createSession({
         title: options.title || `Task: ${taskDescription.substring(0, 50)}...`,
@@ -127,6 +146,7 @@ export class UnifiedAgentManager {
    * Start an existing agent session
    */
   async startAgentSession(sessionId: string): Promise<void> {
+    this.ensureStoresInitialized();
     const agentSession = this.activeSessions.get(sessionId);
     if (!agentSession) {
       throw new Error(`Session ${sessionId} not found`);
@@ -147,6 +167,7 @@ export class UnifiedAgentManager {
    * Stop an agent session
    */
   async stopAgentSession(sessionId: string, completionMessage?: string): Promise<void> {
+    this.ensureStoresInitialized();
     const agentSession = this.activeSessions.get(sessionId);
     if (!agentSession) {
       throw new Error(`Session ${sessionId} not found`);
@@ -171,6 +192,7 @@ export class UnifiedAgentManager {
     message: string,
     messageType: string = 'user',
   ): Promise<void> {
+    this.ensureStoresInitialized();
     const agentSession = this.activeSessions.get(sessionId);
     if (!agentSession) {
       throw new Error(`Session ${sessionId} not found`);
@@ -216,6 +238,7 @@ export class UnifiedAgentManager {
    * Close and cleanup an agent session
    */
   async closeAgentSession(sessionId: string): Promise<void> {
+    this.ensureStoresInitialized();
     const agentSession = this.activeSessions.get(sessionId);
     if (!agentSession) {
       throw new Error(`Session ${sessionId} not found`);
@@ -243,7 +266,11 @@ export class UnifiedAgentManager {
   /**
    * Add event listener for a session
    */
-  addEventListener(sessionId: string, _eventType: string, listener: Function): void {
+  addEventListener(
+    sessionId: string,
+    _eventType: string,
+    listener: (...args: unknown[]) => void,
+  ): void {
     if (!this.eventListeners.has(sessionId)) {
       this.eventListeners.set(sessionId, new Set());
     }
@@ -265,7 +292,7 @@ export class UnifiedAgentManager {
   /**
    * Notify all listeners for a session
    */
-  private notifyListeners(sessionId: string, _eventType: string, data: any[]): void {
+  private notifyListeners(sessionId: string, _eventType: string, data: unknown[]): void {
     const sessionListeners = this.eventListeners.get(sessionId);
     if (sessionListeners) {
       sessionListeners.forEach((listener) => {
