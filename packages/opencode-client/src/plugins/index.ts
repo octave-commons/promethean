@@ -38,7 +38,7 @@ export {
 };
 
 // Combined plugin that includes all tools
-export const AllToolsPlugin = async (context: { client?: unknown; [key: string]: unknown }) => {
+export const AllToolsPlugin = async (context: Record<string, unknown>) => {
   const ollamaPlugin = await OllamaPlugin(context);
   const processPlugin = await ProcessPlugin(context);
   const directProcessPlugin = await DirectProcessPlugin(context);
