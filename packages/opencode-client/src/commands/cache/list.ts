@@ -4,7 +4,7 @@ import chalk from 'chalk';
 export const listCacheCommand = new Command('list')
   .description('List cache entries')
   .option('-k, --key <key>', 'filter by key pattern')
-  .action(async (options) => {
+  .action(async (_options) => {
     try {
       console.log(chalk.blue('📋 Listing cache entries...'));
       // TODO: Implement cache listing logic

@@ -5,7 +5,7 @@ export const clearCacheCommand = new Command('clear')
   .description('Clear cache entries')
   .option('-k, --key <key>', 'clear specific key')
   .option('-a, --all', 'clear all cache entries')
-  .action(async (options) => {
+  .action(async (_options) => {
     try {
       console.log(chalk.blue('🧹 Clearing cache...'));
       // TODO: Implement cache clear logic

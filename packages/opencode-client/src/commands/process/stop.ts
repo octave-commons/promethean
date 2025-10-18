@@ -5,7 +5,7 @@ export const stopProcessCommand = new Command('stop')
   .description('Stop a running process')
   .argument('<pid>', 'process ID to stop')
   .option('-f, --force', 'force stop the process')
-  .action(async (pid: string, options) => {
+  .action(async (pid: string, _options) => {
     try {
       console.log(chalk.blue(`🛑 Stopping process: ${pid}`));
       // TODO: Implement process stop logic

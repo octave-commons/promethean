@@ -6,7 +6,7 @@ export const startProcessCommand = new Command('start')
   .argument('<command>', 'command to execute')
   .argument('[args...]', 'arguments for the command')
   .option('-d, --daemon', 'run as daemon process')
-  .action(async (command: string, args: string[], options) => {
+  .action(async (command: string, args: string[], _options) => {
     try {
       console.log(chalk.blue(`🚀 Starting process: ${command}`));
       if (args.length > 0) {

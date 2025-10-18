@@ -4,7 +4,7 @@ import chalk from 'chalk';
 export const listProcessesCommand = new Command('list')
   .description('List all running processes')
   .option('-a, --all', 'show all processes including inactive ones')
-  .action(async (options) => {
+  .action(async (_options) => {
     try {
       console.log(chalk.blue('📋 Listing processes...'));
       // TODO: Implement process listing logic
