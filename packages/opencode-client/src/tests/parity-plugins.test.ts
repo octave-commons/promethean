@@ -6,13 +6,13 @@ import { AsyncSubAgentsPlugin } from '../plugins/async-sub-agents.js';
 import { EventCapturePlugin } from '../plugins/event-capture.js';
 import { TypeCheckerPlugin } from '../plugins/type-checker.js';
 
-// Mock context for testing
+// Mock context for testing - minimal implementation of PluginInput
 const mockContext = {
   client: {
+    // Minimal OpencodeClient implementation
     event: {
       subscribe: async () => ({
         stream: async function* () {
-          // Mock event stream
           yield { type: 'session.idle', properties: { sessionID: 'test-session' } };
         },
       }),
@@ -23,13 +23,34 @@ const mockContext = {
       create: async () => ({ data: { id: 'new-session', title: 'New Session' } }),
       delete: async () => ({}),
       prompt: async () => ({}),
+      // Add missing required properties with mock implementations
+      post: async () => ({}),
+      get: async () => ({}),
+      put: async () => ({}),
+      patch: async () => ({}),
+      del: async () => ({}),
     },
+    // Add all other required OpencodeClient properties as no-ops
+    postSessionIdPermissionsPermissionId: async () => ({}),
+    project: async () => ({}),
+    config: async () => ({}),
+    tool: async () => ({}),
+    model: async () => ({}),
+    provider: async () => ({}),
+    permission: async () => ({}),
+    user: async () => ({}),
+    auth: async () => ({}),
+    chat: async () => ({}),
   },
-  project: {},
+  project: {
+    id: 'test-project',
+    name: 'Test Project',
+  },
   directory: '/test',
   worktree: '/test',
   $: {
     text: async () => 'mock output',
+    $: async () => 'mock output',
   },
 };
 
