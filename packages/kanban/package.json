@@ -61,6 +61,7 @@
     "test": "pnpm run build && ava"
   },
   "dependencies": {
+    "@promethean/lmdb-cache": "workspace:*",
     "@promethean/markdown": "workspace:*",
     "@promethean/utils": "workspace:*",
     "@promethean/agents-workflow": "workspace:*",

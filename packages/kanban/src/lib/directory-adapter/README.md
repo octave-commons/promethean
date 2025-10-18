@@ -20,7 +20,7 @@ The DirectoryAdapter provides a secure, centralized interface for all task file 
 - **Restore Operations**: Full restore capabilities with verification
 
 ### ⚡ Performance
-- **Caching Integration**: Seamless integration with `@promethean/level-cache`
+- **Caching Integration**: Seamless integration with `@promethean/lmdb-cache`
 - **Streaming Support**: Efficient handling of large result sets
 - **Batch Operations**: Optimized batch processing capabilities
 - **Metrics Tracking**: Detailed performance metrics and monitoring

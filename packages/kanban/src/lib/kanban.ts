@@ -792,6 +792,58 @@ export const updateStatus = async (
   const currentStatus = found.status;
   const normalizedStatus = normalizeColumnDisplayName(newStatus);
 
+  // P0 Security Task Validation Gate
+  try {
+    const { validateP0SecurityTask } = await import('./validation/index.js');
+    const p0Validation = await validateP0SecurityTask(
+      found,
+      currentStatus,
+      normalizedStatus,
+      {
+        repoRoot: process.cwd(),
+        tasksDir: tasksDir,
+        skipGitChecks: false,
+        skipFileChecks: false
+      }
+    );
+
+    if (!p0Validation.valid) {
+      // Restore task to its original column
+      let originalColumn = board.columns.find(
+        (c) => columnKey(c.name) === columnKey(currentStatus),
+      );
+      if (originalColumn) {
+        originalColumn.tasks = [...originalColumn.tasks, found];
+        originalColumn.count += 1;
+      }
+
+      const errorMessage = `🚨 P0 Security Validation Failed:\n${p0Validation.errors.map(error => `  ❌ ${error}`).join('\n')}`;
+      const warningMessage = p0Validation.warnings.length > 0 
+        ? `\n⚠️  Warnings:\n${p0Validation.warnings.map(warning => `  ⚡ ${warning}`).join('\n')}`
+        : '';
+
+      throw new Error(errorMessage + warningMessage);
+    }
+
+    // Log warnings if present
+    if (p0Validation.warnings.length > 0) {
+      console.warn(`⚠️  P0 Security Task Warnings:`);
+      p0Validation.warnings.forEach(warning => {
+        console.warn(`  ⚡ ${warning}`);
+      });
+    }
+  } catch (error) {
+    // If P0 validation fails, restore task and re-throw
+    let originalColumn = board.columns.find(
+      (c) => columnKey(c.name) === columnKey(currentStatus),
+    );
+    if (originalColumn) {
+      originalColumn.tasks = [...originalColumn.tasks, found];
+      originalColumn.count += 1;
+    }
+    throw error;
+  }
+
   // Transition Rules Validation (if engine is provided)
   if (transitionRulesEngine) {
     try {
@@ -847,17 +899,17 @@ export const updateStatus = async (
           originalColumn.count += 1;
         }
 
-        const errorMessage = `❌ Transition blocked: ${transitionResult.reason}`;
+        const errorMessage = `\u274c Transition blocked: ${transitionResult.reason}`;
         const suggestionMessage =
           transitionResult.suggestedAlternatives.length > 0
-            ? `\n💡 Suggested alternatives: ${transitionResult.suggestedAlternatives.join(', ')}`
+            ? `\n\ud83d\udca1 Suggested alternatives: ${transitionResult.suggestedAlternatives.join(', ')}`
             : '';
 
         throw new Error(errorMessage + suggestionMessage);
       }
 
       if (transitionResult.warnings.length > 0) {
-        console.warn(`⚠️  Transition warnings: ${transitionResult.warnings.join(', ')}`);
+        console.warn(`\u26a0\ufe0f  Transition warnings: ${transitionResult.warnings.join(', ')}`);
       }
     } catch (error) {
       // If transition validation fails, restore task and re-throw
@@ -906,10 +958,10 @@ export const updateStatus = async (
     });
     found.corrections = corrections;
 
-    console.log(`🔍 Audit correction logged: ${correctionReason}`);
+    console.log(`\ud83d\udd0d Audit correction logged: ${correctionReason}`);
   }
 
-  // Log the transition to event log
+  // Log transition to event log
   if (eventLogManager) {
     try {
       await eventLogManager.logTransition(
@@ -925,12 +977,12 @@ export const updateStatus = async (
         },
       );
     } catch (error) {
-      // Log warning but don't fail the status update
+      // Log warning but don't fail status update
       console.warn(`Warning: Could not log transition for ${uuid}: ${error}`);
     }
   }
 
-  // Update the task file if tasksDir is provided
+  // Update task file if tasksDir is provided
   if (tasksDir) {
     try {
       const taskFilePath = await resolveTaskFilePath(found, tasksDir);
@@ -955,13 +1007,13 @@ export const updateStatus = async (
         await fs.writeFile(taskFilePath, updatedContent, 'utf8');
       }
     } catch (error) {
-      // Log warning but don't fail the status update
+      // Log warning but don't fail status update
       console.warn(`Warning: Could not update task file for ${uuid}: ${error}`);
     }
   }
 
   return found;
-};
+};;
 
 export const moveTask = async (
   board: Board,

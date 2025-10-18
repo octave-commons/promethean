@@ -18,7 +18,7 @@ const isCliExecution = (): boolean => {
 };
 
 const runMigration = async (): Promise<void> => {
-  console.log("Starting migration from JSONL to level-cache...");
+  console.log("Starting migration from JSONL to lmdb-cache...");
 
   const { config } = await loadKanbanConfig();
 

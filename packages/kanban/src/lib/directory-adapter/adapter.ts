@@ -22,12 +22,15 @@ import type {
   DirectoryAdapterEvents,
   ListOptions,
   SearchOptions,
+} from './types.js';
+import {
   DirectoryAdapterError,
   SecurityValidationError,
   FileNotFoundError,
   FilePermissionError,
   FileCorruptionError,
 } from './types.js';
+import type { FileOperationType } from './types.js';
 import { createSecurityValidator } from './security.js';
 import { createBackupManager } from './backup.js';
 
