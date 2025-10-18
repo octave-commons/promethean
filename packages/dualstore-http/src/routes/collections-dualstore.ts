@@ -150,31 +150,39 @@ class DualStoreDataProvider {
       const offset = params.offset || 0;
 
       // Get all session messages from dual store
-      const allMessages = await this.sessionStore.getMostRecent(1000);
+      const allMessages = await this.sessionStore.getMostRecent(100);
+      console.log('SAMPLE: First item from store:', JSON.stringify(allMessages[0], null, 2));
 
       // Filter for session messages (they have session_id in metadata)
       const sessionMessages: SessionMessage[] = [];
       let messageCounter = 0;
       for (const item of allMessages) {
-        if (!item.metadata?.session_id) continue;
+        // Try multiple possible metadata field names for session ID
+        const sessionId =
+          item.metadata?.session_id ||
+          item.metadata?.sessionId ||
+          item.metadata?.sessionID ||
+          item.metadata?.session;
+
+        if (!sessionId) {
+          continue;
+        }
 
         // Generate unique ID by combining session ID with counter and timestamp
-        const uniqueId = `msg_${item.metadata.session_id}_${messageCounter++}_${Date.now()}`;
+        const uniqueId = `msg_${sessionId}_${messageCounter++}_${Date.now()}`;
 
-        sessionMessages.push({
+        const message: SessionMessage = {
           id: uniqueId,
           created_at: convertTimestamp(item.timestamp),
-          updated_at:
-            item.metadata?.updated_at &&
-            typeof item.metadata.updated_at !== 'object' &&
-            item.metadata.updated_at !== null
-              ? convertTimestamp(item.metadata.updated_at as DualStoreTimestamp)
-              : convertTimestamp(item.timestamp),
-          session_id: String(item.metadata.session_id),
-          role: safeGet<'user' | 'assistant' | 'system'>(item.metadata, 'role', 'user'),
-          content: item.text,
+          updated_at: convertTimestamp(item.timestamp),
+          session_id: String(sessionId),
+          role: (item.metadata?.role as any) || 'user',
+          content: item.text || '',
           metadata: item.metadata || {},
-        });
+        };
+
+        sessionMessages.push(message);
+        console.log('TRANSFORMED:', JSON.stringify(message, null, 2));
       }
 
       // Apply filters
@@ -213,6 +221,7 @@ class DualStoreDataProvider {
       const total = filteredMessages.length;
       const items = filteredMessages.slice(offset, offset + limit);
 
+      console.log('FINAL RETURNING:', JSON.stringify(sessionMessages.slice(0, 3), null, 2));
       return { items, total };
     } catch (error) {
       console.error('Error getting session messages:', error);
@@ -335,7 +344,7 @@ class DualStoreDataProvider {
       const offset = params.offset || 0;
 
       // Get all agent tasks from dual store
-      const allTasks = await this.agentTaskStore.getMostRecent(1000);
+      const allTasks = await this.agentTaskStore.getMostRecent(100);
 
       // Transform to AgentTask format
       const agentTasks: AgentTask[] = [];
@@ -402,6 +411,7 @@ class DualStoreDataProvider {
       const total = filteredTasks.length;
       const items = filteredTasks.slice(offset, offset + limit);
 
+      console.log('FINAL RETURNING:', JSON.stringify(agentTasks.slice(0, 3), null, 2));
       return { items, total };
     } catch (error) {
       console.error('Error getting agent tasks:', error);
@@ -549,16 +559,20 @@ class DualStoreDataProvider {
       const offset = params.offset || 0;
 
       // Get all events from dual store
-      const allEvents = await this.eventStore.getMostRecent(1000);
+      const allEvents = await this.eventStore.getMostRecent(100);
 
       // Transform to OpencodeEvent format
       const opencodeEvents: OpencodeEvent[] = [];
       let eventCounter = 0;
       for (const item of allEvents) {
-        if (!item.metadata?.event_type) continue;
+        // Try multiple possible metadata field names for event type
+        const eventTypeRaw =
+          item.metadata?.event_type || item.metadata?.eventType || item.metadata?.type;
+        const eventType = typeof eventTypeRaw === 'string' ? eventTypeRaw : undefined;
+        if (!eventType) continue;
 
         // Generate unique ID by combining event type with counter and timestamp
-        const uniqueId = `event_${item.metadata.event_type}_${eventCounter++}_${Date.now()}`;
+        const uniqueId = `event_${eventType}_${eventCounter++}_${Date.now()}`;
 
         opencodeEvents.push({
           id: uniqueId,
@@ -569,8 +583,8 @@ class DualStoreDataProvider {
             item.metadata.updated_at !== null
               ? convertTimestamp(item.metadata.updated_at as DualStoreTimestamp)
               : convertTimestamp(item.timestamp),
-          session_id: safeGet<string | undefined>(item.metadata, 'session_id', undefined),
-          event_type: String(item.metadata.event_type),
+          session_id: safeGet<string>(item.metadata, 'session_id', '') || undefined,
+          event_type: eventType,
           event_data: safeGet<object>(item.metadata, 'event_data', {}),
           source: safeGet<string>(item.metadata, 'source', 'opencode'),
           severity: safeGet<'info' | 'warning' | 'error' | 'debug'>(
@@ -613,6 +627,7 @@ class DualStoreDataProvider {
       const total = filteredEvents.length;
       const items = filteredEvents.slice(offset, offset + limit);
 
+      console.log('FINAL RETURNING:', JSON.stringify(opencodeEvents.slice(0, 3), null, 2));
       return { items, total };
     } catch (error) {
       console.error('Error getting opencode events:', error);
@@ -810,6 +825,19 @@ export async function collectionRoutes(fastify: FastifyInstance): Promise<void> 
           },
         };
 
+        console.log('Final response data:', response.data?.length || 0, 'items');
+        console.log(
+          'First item keys:',
+          response.data && response.data.length > 0
+            ? Object.keys(response.data[0] as any)
+            : 'no items',
+        );
+        console.log(
+          'First item sample:',
+          response.data && response.data.length > 0
+            ? JSON.stringify(response.data[0], null, 2)
+            : 'no items',
+        );
         return reply.send(response);
       } catch (error) {
         const response: ApiResponse = {
@@ -1265,131 +1293,6 @@ export async function collectionRoutes(fastify: FastifyInstance): Promise<void> 
       }
     },
   );
-}
-
-/**
- * Debug endpoint to inspect raw dual store data
- */
-export async function debugRoutes(fastify: FastifyInstance): Promise<void> {
-  if (!dataProvider) {
-    throw new Error('Data provider not initialized. Call initializeDataProvider first.');
-  }
-
-  fastify.get('/debug/dualstore-data', async (_request, reply) => {
-    try {
-      // Get raw data from all stores
-      const sessionStore = (dataProvider as any).sessionStore;
-      const agentTaskStore = (dataProvider as any).agentTaskStore;
-      const eventStore = (dataProvider as any).eventStore;
-
-      const sessionData = await sessionStore.getMostRecent(10);
-      const taskData = await agentTaskStore.getMostRecent(10);
-      const eventData = await eventStore.getMostRecent(10);
-
-      return reply.send({
-        session_messages: sessionData.map((item: any) => ({
-          id: item.id,
-          text: item.text,
-          metadata: item.metadata,
-          timestamp: item.timestamp
-        })),
-        agent_tasks: taskData.map((item: any) => ({
-          id: item.id,
-          text: item.text,
-          metadata: item.metadata,
-          timestamp: item.timestamp
-        })),
-        opencode_events: eventData.map((item: any) => ({
-          id: item.id,
-          text: item.text,
-          metadata: item.metadata,
-          timestamp: item.timestamp
-        }))
-      });
-    } catch (error) {
-      return reply.status(500).send({
-        error: error instanceof Error ? error.message : 'Unknown error'
-      });
-    }
-  });
-}
-
-  fastify.get('/debug/dualstore-data', async (request, reply) => {
-    try {
-      // Get raw data from all stores
-      const sessionStore = (dataProvider as any).sessionStore;
-      const agentTaskStore = (dataProvider as any).agentTaskStore;
-      const eventStore = (dataProvider as any).eventStore;
-
-      const sessionData = await sessionStore.getMostRecent(10);
-      const taskData = await agentTaskStore.getMostRecent(10);
-      const eventData = await eventStore.getMostRecent(10);
-
-      return reply.send({
-        session_messages: sessionData.map((item) => ({
-          id: item.id,
-          text: item.text,
-          metadata: item.metadata,
-          timestamp: item.timestamp,
-        })),
-        agent_tasks: taskData.map((item) => ({
-          id: item.id,
-          text: item.text,
-          metadata: item.metadata,
-          timestamp: item.timestamp,
-        })),
-        opencode_events: eventData.map((item) => ({
-          id: item.id,
-          text: item.text,
-          metadata: item.metadata,
-          timestamp: item.timestamp,
-        })),
-      });
-    } catch (error) {
-      return reply.status(500).send({
-        error: error instanceof Error ? error.message : 'Unknown error',
-      });
-    }
-  });
-
-  // Debug endpoint to inspect raw dual store data
-  fastify.get('/debug/dualstore-data', async (_request, reply) => {
-    try {
-      // Get raw data from all stores
-      const sessionStore = (dataProvider as any).sessionStore;
-      const agentTaskStore = (dataProvider as any).agentTaskStore;
-      const eventStore = (dataProvider as any).eventStore;
-
-      const sessionData = await sessionStore.getMostRecent(10);
-      const taskData = await agentTaskStore.getMostRecent(10);
-      const eventData = await eventStore.getMostRecent(10);
-
-      return reply.send({
-        session_messages: sessionData.map((item: any) => ({
-          id: item.id,
-          text: item.text,
-          metadata: item.metadata,
-          timestamp: item.timestamp
-        })),
-        agent_tasks: taskData.map((item: any) => ({
-          id: item.id,
-          text: item.text,
-          metadata: item.metadata,
-          timestamp: item.timestamp
-        })),
-        opencode_events: eventData.map((item: any) => ({
-          id: item.id,
-          text: item.text,
-          metadata: item.metadata,
-          timestamp: item.timestamp
-        }))
-      });
-    } catch (error) {
-      return reply.status(500).send({
-        error: error instanceof Error ? error.message : 'Unknown error'
-      });
-    }
-  });
 }
 
 export default collectionRoutes;

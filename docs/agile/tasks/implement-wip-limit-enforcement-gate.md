@@ -1,15 +1,15 @@
 ---
-uuid: 'f48b4765-bf7c-4d8e-9a3b-5d6e7f8a9b0c'
-title: 'Implement WIP Limit Enforcement Gate'
-slug: 'implement-wip-limit-enforcement-gate'
-status: 'incoming'
-priority: 'P0'
-labels: ['security-gates', 'wip-limits', 'automation', 'kanban-cli', 'capacity-management']
-created_at: '2025-10-18T13:12:00.000Z'
+uuid: "f48b4765-bf7c-4d8e-9a3b-5d6e7f8a9b0c"
+title: "Implement WIP Limit Enforcement Gate"
+slug: "implement-wip-limit-enforcement-gate"
+status: "incoming"
+priority: "P0"
+labels: ["security-gates", "wip-limits", "automation", "kanban-cli", "capacity-management"]
+created_at: "2025-10-18T13:12:00.000Z"
 estimates:
-  complexity: 'high'
-  scale: 'system'
-  time_to_completion: '3 hours'
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 ## 🚨 WIP Limit Enforcement Gate Implementation

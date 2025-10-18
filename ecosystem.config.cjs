@@ -177,7 +177,7 @@ module.exports = {
       description: 'Dual-store HTTP API server for events and agent tasks',
       script: 'node',
       args: ['packages/dualstore-http/dist/index-simple.js'],
-      cwd: '..',
+      cwd: '/home/err/devel/promethean',
       env: {
         NODE_ENV: 'production',
         PORT: '3000',

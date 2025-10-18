@@ -5,7 +5,7 @@ slug: "implement-comprehensive-testing-transition-rule"
 status: "accepted"
 priority: "P0"
 labels: ["kanban", "transition-rules", "testing-coverage", "quality-gates", "agents-workflow", "test-analysis", "fsm"]
-created_at: "2025-10-18T12:45:27.321Z"
+created_at: "2025-10-18T18:50:46.027Z"
 estimates:
   complexity: ""
   scale: ""

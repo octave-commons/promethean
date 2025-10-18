@@ -63,6 +63,38 @@ export const apps =
     "cwd": "."
   },
   {
+    "id": "autocommit",
+    "name": "@promethean/autocommit",
+    "script": "autocommit",
+    "cwd": "/home/err/devel/promethean",
+    "args": [
+      "--path",
+      ".",
+      "--debounce-ms",
+      "10000",
+      "--model",
+      "llama3.1:8b"
+    ],
+    "env": {
+      "OPENAI_BASE_URL": "http://localhost:11434/v1",
+      "AUTOCOMMIT_MODEL": "llama3.1:8b",
+      "NODE_ENV": "production"
+    },
+    "instances": 1,
+    "exec_mode": "fork",
+    "autorestart": true,
+    "watch": false,
+    "max_memory_restart": "1G",
+    "error_file": "/home/err/devel/promethean/logs/autocommit-error.log",
+    "out_file": "/home/err/devel/promethean/logs/autocommit-out.log",
+    "log_file": "/home/err/devel/promethean/logs/autocommit.log",
+    "time": true,
+    "kill_timeout": 5000,
+    "restart_delay": 5000,
+    "max_restarts": 10,
+    "min_uptime": 10000
+  },
+  {
     "name": "broker",
     "script": "index.js",
     "args": [],

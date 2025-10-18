@@ -1,0 +1,533 @@
+# Package Consolidation Plan: Story Point-Based Estimation
+
+## 📋 Executive Summary
+
+This document outlines the consolidation of three packages into a unified `@promethean/opencode-unified` package using story point estimation for agile planning.
+
+**Target Packages:**
+
+1. `@promethean/opencode-client` - TypeScript client for agent management
+2. `opencode-cljs-electron` - Electron-based ClojureScript editor
+3. `@promethean/dualstore-http` - HTTP service for dual-store functionality
+
+**Total Estimated Story Points: 89**
+
+---
+
+## 🎯 Story Point Scale
+
+| Points | Description                                  | Example Tasks                                          |
+| ------ | -------------------------------------------- | ------------------------------------------------------ |
+| **1**  | Simple, well-understood, minimal complexity  | Update import paths, basic config changes              |
+| **2**  | Straightforward with minor complexity        | Simple refactoring, basic integration                  |
+| **3**  | Moderate complexity, some unknowns           | API consolidation, basic testing                       |
+| **5**  | Complex, multiple components/unknowns        | Architecture design, complex integration               |
+| **8**  | Very complex, requires research/multi-system | Cross-platform compatibility, performance optimization |
+| **13** | Highly complex, affects core architecture    | Major refactoring, fundamental redesign                |
+| **21** | Epic-level, multiple epics combined          | Complete system redesign, migration strategy           |
+
+---
+
+## 📊 Epic Breakdown
+
+### Epic 1: Foundation & Architecture (21 points)
+
+**Goal**: Establish unified architecture and development foundation
+
+| Task                                  | Story Points | Priority | Dependencies        |
+| ------------------------------------- | ------------ | -------- | ------------------- |
+| Design unified package architecture   | 8            | P0       | -                   |
+| Create consolidated package structure | 5            | P0       | Architecture design |
+| Establish unified build system        | 5            | P0       | Package structure   |
+| Set up unified testing framework      | 3            | P1       | Build system        |
+
+### Epic 2: Core Service Integration (21 points)
+
+**Goal**: Integrate dualstore-http functionality as core service layer
+
+| Task                                 | Story Points | Priority | Dependencies           |
+| ------------------------------------ | ------------ | -------- | ---------------------- |
+| Migrate HTTP server infrastructure   | 8            | P0       | Foundation             |
+| Integrate dual-store management      | 5            | P0       | HTTP server            |
+| Consolidate API routes and endpoints | 5            | P0       | Dual-store integration |
+| Implement unified SSE streaming      | 3            | P1       | API routes             |
+
+### Epic 3: Client Library Unification (21 points)
+
+**Goal**: Merge opencode-client functionality into unified client
+
+| Task                                 | Story Points | Priority | Dependencies     |
+| ------------------------------------ | ------------ | -------- | ---------------- |
+| Consolidate agent management APIs    | 8            | P0       | Core service     |
+| Merge session and messaging systems  | 5            | P0       | Agent management |
+| Integrate Ollama queue functionality | 5            | P0       | Session systems  |
+| Unify CLI and tool interfaces        | 3            | P1       | Core integration |
+
+### Epic 4: Electron & ClojureScript Integration (13 points)
+
+**Goal**: Integrate Electron editor capabilities
+
+| Task                                    | Story Points | Priority | Dependencies         |
+| --------------------------------------- | ------------ | -------- | -------------------- |
+| Migrate ClojureScript editor components | 8            | P1       | Client library       |
+| Integrate Electron main process         | 3            | P1       | Editor components    |
+| Consolidate web UI components           | 2            | P2       | Electron integration |
+
+### Epic 5: Testing & Quality Assurance (13 points)
+
+**Goal**: Ensure comprehensive testing and quality
+
+| Task                                 | Story Points | Priority | Dependencies      |
+| ------------------------------------ | ------------ | -------- | ----------------- |
+| Create integration test suite        | 5            | P1       | All epics         |
+| Implement end-to-end testing         | 5            | P1       | Integration tests |
+| Performance testing and optimization | 3            | P2       | E2E tests         |
+
+---
+
+## 🔄 Detailed Task Breakdown
+
+### Phase 1: Foundation (Sprint 1-2) - 21 points
+
+#### 1.1 Design Unified Architecture (8 points)
+
+**Complexity**: High - Requires understanding of all three systems
+**Acceptance Criteria**:
+
+- [ ] Architecture document showing component relationships
+- [ ] Decision matrix for technology choices
+- [ ] Migration strategy document
+- [ ] Risk assessment and mitigation plan
+
+**Sub-tasks**:
+
+- Analyze existing architectures (2 points)
+- Design unified component model (3 points)
+- Define integration patterns (2 points)
+- Create migration roadmap (1 point)
+
+#### 1.2 Create Consolidated Package Structure (5 points)
+
+**Complexity**: Medium - Well-understood but requires careful planning
+**Acceptance Criteria**:
+
+- [ ] New package directory structure
+- [ ] Unified package.json configuration
+- [ ] TypeScript configuration for all components
+- [ ] ClojureScript build integration
+
+**Sub-tasks**:
+
+- Design directory layout (2 points)
+- Create package configuration (2 points)
+- Set up build toolchain (1 point)
+
+#### 1.3 Establish Unified Build System (5 points)
+
+**Complexity**: Medium - Multiple build systems to integrate
+**Acceptance Criteria**:
+
+- [ ] Single build command for all components
+- [ ] Development server with hot reload
+- [ ] Production build optimization
+- [ ] CI/CD pipeline integration
+
+**Sub-tasks**:
+
+- Integrate TypeScript compilation (2 points)
+- Add ClojureScript shadow-cljs integration (2 points)
+- Configure unified scripts (1 point)
+
+#### 1.4 Set Up Unified Testing Framework (3 points)
+
+**Complexity**: Low - Standard testing setup
+**Acceptance Criteria**:
+
+- [ ] Test configuration for all languages
+- [ ] Coverage reporting
+- [ ] Test scripts in package.json
+
+### Phase 2: Core Service Integration (Sprint 2-3) - 21 points
+
+#### 2.1 Migrate HTTP Server Infrastructure (8 points)
+
+**Complexity**: High - Complex server with multiple integrations
+**Acceptance Criteria**:
+
+- [ ] Fastify server with all existing routes
+- [ ] Authentication and authorization
+- [ ] CORS and security configuration
+- [ ] Health check endpoints
+
+**Sub-tasks**:
+
+- Extract server configuration (3 points)
+- Migrate route handlers (3 points)
+- Implement middleware (2 points)
+
+#### 2.2 Integrate Dual-Store Management (5 points)
+
+**Complexity**: Medium - Well-defined integration
+**Acceptance Criteria**:
+
+- [ ] Dual-store initialization
+- [ ] Collection management
+- [ ] Data provider integration
+- [ ] Error handling
+
+#### 2.3 Consolidate API Routes and Endpoints (5 points)
+
+**Complexity**: Medium - Multiple API versions to unify
+**Acceptance Criteria**:
+
+- [ ] Unified API versioning
+- [ ] Consistent response formats
+- [ ] OpenAPI documentation
+- [ ] Route validation
+
+#### 2.4 Implement Unified SSE Streaming (3 points)
+
+**Complexity**: Low - Standard SSE implementation
+**Acceptance Criteria**:
+
+- [ ] Server-sent events for all collections
+- [ ] Client connection management
+- [ ] Event filtering and routing
+
+### Phase 3: Client Library Unification (Sprint 3-4) - 21 points
+
+#### 3.1 Consolidate Agent Management APIs (8 points)
+
+**Complexity**: High - Complex agent lifecycle management
+**Acceptance Criteria**:
+
+- [ ] Unified agent task management
+- [ ] Session management
+- [ ] Inter-agent messaging
+- [ ] Process management
+
+**Sub-tasks**:
+
+- Merge AgentTaskManager (3 points)
+- Consolidate session handling (3 points)
+- Integrate messaging systems (2 points)
+
+#### 3.2 Merge Session and Messaging Systems (5 points)
+
+**Complexity**: Medium - Well-defined systems to merge
+**Acceptance Criteria**:
+
+- [ ] Unified session storage
+- [ ] Message processing pipeline
+- [ ] Event handling
+- [ ] Cache integration
+
+#### 3.3 Integrate Ollama Queue Functionality (5 points)
+
+**Complexity**: Medium - External service integration
+**Acceptance Criteria**:
+
+- [ ] Queue management
+- [ ] Model inference
+- [ ] Job processing
+- [ ] Performance monitoring
+
+#### 3.4 Unify CLI and Tool Interfaces (3 points)
+
+**Complexity**: Low - Command consolidation
+**Acceptance Criteria**:
+
+- [ ] Single CLI entry point
+- [ ] Unified command structure
+- [ ] Consistent help and documentation
+
+### Phase 4: Electron & ClojureScript Integration (Sprint 4-5) - 13 points
+
+#### 4.1 Migrate ClojureScript Editor Components (8 points)
+
+**Complexity**: High - Complex editor with multiple subsystems
+**Acceptance Criteria**:
+
+- [ ] Editor core functionality
+- [ ] Keymap and evil mode
+- [ ] UI components
+- [ ] State management
+
+**Sub-tasks**:
+
+- Migrate core editor (4 points)
+- Integrate keymap system (2 points)
+- Port UI components (2 points)
+
+#### 4.2 Integrate Electron Main Process (3 points)
+
+**Complexity**: Medium - Electron-specific integration
+**Acceptance Criteria**:
+
+- [ ] Main process setup
+- [ ] IPC communication
+- [ ] Menu and window management
+
+#### 4.3 Consolidate Web UI Components (2 points)
+
+**Complexity**: Low - Simple UI consolidation
+**Acceptance Criteria**:
+
+- [ ] Web UI server
+- [ ] Static asset serving
+- [ ] Development tools
+
+### Phase 5: Testing & Quality Assurance (Sprint 5-6) - 13 points
+
+#### 5.1 Create Integration Test Suite (5 points)
+
+**Complexity**: Medium - Complex system interactions
+**Acceptance Criteria**:
+
+- [ ] API integration tests
+- [ ] Database integration tests
+- [ ] Service interaction tests
+
+#### 5.2 Implement End-to-End Testing (5 points)
+
+**Complexity**: Medium - Full system testing
+**Acceptance Criteria**:
+
+- [ ] User journey tests
+- [ ] Cross-platform tests
+- [ ] Performance benchmarks
+
+#### 5.3 Performance Testing and Optimization (3 points)
+
+**Complexity**: Low - Standard performance testing
+**Acceptance Criteria**:
+
+- [ ] Load testing
+- [ ] Memory profiling
+- [ ] Optimization recommendations
+
+---
+
+## 📈 Priority Matrix
+
+### Must Have (P0) - 54 points
+
+- Foundation & Architecture (21 points)
+- Core Service Integration (21 points)
+- Client Library Unification (12 points - critical parts)
+
+**Sprint Allocation**: 3 sprints (18 points per sprint)
+
+### Should Have (P1) - 26 points
+
+- Client Library Unification (9 points - remaining)
+- Electron & ClojureScript Integration (11 points)
+- Testing & Quality Assurance (6 points - critical tests)
+
+**Sprint Allocation**: 2 sprints (13 points per sprint)
+
+### Could Have (P2) - 9 points
+
+- Electron & ClojureScript Integration (2 points - remaining)
+- Testing & Quality Assurance (7 points - optimization)
+
+**Sprint Allocation**: 1 sprint (9 points)
+
+---
+
+## 🚀 Sprint Recommendations
+
+### Sprint 1 (20 points capacity)
+
+**Focus**: Foundation
+
+- Design unified architecture (8 points)
+- Create consolidated package structure (5 points)
+- Establish unified build system (5 points)
+- Set up unified testing framework (2 points - partial)
+
+### Sprint 2 (20 points capacity)
+
+**Focus**: Core Services
+
+- Migrate HTTP server infrastructure (8 points)
+- Integrate dual-store management (5 points)
+- Consolidate API routes (5 points)
+- Complete testing framework (2 points)
+
+### Sprint 3 (20 points capacity)
+
+**Focus**: Client Integration
+
+- Consolidate agent management APIs (8 points)
+- Merge session and messaging systems (5 points)
+- Integrate Ollama queue functionality (5 points)
+- Unified SSE streaming (2 points)
+
+### Sprint 4 (20 points capacity)
+
+**Focus**: Editor Integration
+
+- Migrate ClojureScript editor components (8 points)
+- Integrate Electron main process (3 points)
+- Create integration test suite (5 points)
+- Unify CLI interfaces (4 points)
+
+### Sprint 5 (20 points capacity)
+
+**Focus**: Quality & Polish
+
+- Implement end-to-end testing (5 points)
+- Complete Electron integration (2 points)
+- Consolidate web UI components (2 points)
+- Performance testing (3 points)
+- Documentation and cleanup (8 points)
+
+### Sprint 6 (9 points capacity)
+
+**Focus**: Final Optimization
+
+- Performance optimization (3 points)
+- Final testing and bug fixes (6 points)
+
+---
+
+## ⚠️ Risk Assessment by Story Point Range
+
+### High Risk (8+ point tasks)
+
+1. **Design Unified Architecture (8 points)**
+
+   - Risk: Architectural decisions may impact entire project
+   - Mitigation: Incremental validation, prototype first
+
+2. **Migrate HTTP Server Infrastructure (8 points)**
+
+   - Risk: Breaking existing API contracts
+   - Mitigation: Comprehensive testing, backward compatibility
+
+3. **Consolidate Agent Management APIs (8 points)**
+
+   - Risk: Complex state management issues
+   - Mitigation: State machine validation, thorough testing
+
+4. **Migrate ClojureScript Editor Components (8 points)**
+   - Risk: Editor functionality regression
+   - Mitigation: Feature parity testing, user validation
+
+### Medium Risk (5-point tasks)
+
+- Integration points between systems
+- API consolidation tasks
+- Testing framework setup
+
+### Low Risk (1-3 point tasks)
+
+- Configuration changes
+- Documentation updates
+- Simple refactoring
+
+---
+
+## 📊 Velocity Planning
+
+### Assumptions
+
+- 2-week sprints
+- 3-person team (1 senior, 2 mid-level)
+- 80% velocity (accounting for interruptions)
+- ~20 story points per sprint capacity
+
+### Timeline
+
+- **Total Duration**: 6 sprints (12 weeks)
+- **Buffer**: 1 additional sprint for unforeseen issues
+- **Total Project Duration**: 14 weeks
+
+### Milestones
+
+- **Sprint 2**: Foundation complete, core services integrated
+- **Sprint 4**: Client unification complete, editor integration started
+- **Sprint 6**: All functionality complete, testing done
+- **Sprint 7**: Buffer and final polish
+
+---
+
+## 🎯 Success Metrics
+
+### Technical Metrics
+
+- [ ] All tests passing (>90% coverage)
+- [ ] Build time < 5 minutes
+- [ ] Zero breaking changes for existing APIs
+- [ ] Performance benchmarks met or exceeded
+
+### Process Metrics
+
+- [ ] On-time sprint completion
+- [ ] Velocity stability (+/- 20%)
+- [ ] Zero critical bugs in production
+- [ ] Documentation completeness > 95%
+
+---
+
+## 📝 Dependencies & Blockers
+
+### External Dependencies
+
+- `@promethean/persistence` package stability
+- Electron version compatibility
+- ClojureScript shadow-cljs updates
+
+### Internal Dependencies
+
+- Team availability and expertise
+- Testing environment setup
+- CI/CD pipeline capacity
+
+### Potential Blockers
+
+- Complex state management between systems
+- Cross-platform compatibility issues
+- Performance regression in editor
+- API contract conflicts
+
+---
+
+## 🔄 Iteration Strategy
+
+### Incremental Delivery
+
+1. **Sprint 2**: Core HTTP service available
+2. **Sprint 3**: Unified client library ready
+3. **Sprint 4**: Basic editor integration functional
+4. **Sprint 6**: Full system integration complete
+
+### Rollback Strategy
+
+- Feature flags for major components
+- Parallel deployment capability
+- Comprehensive monitoring and alerting
+- Automated rollback procedures
+
+---
+
+## 📚 Documentation Requirements
+
+### Technical Documentation
+
+- Architecture decision records (ADRs)
+- API documentation (OpenAPI)
+- Component interaction diagrams
+- Deployment guides
+
+### User Documentation
+
+- Migration guides for existing users
+- New feature documentation
+- Troubleshooting guides
+- Best practices documentation
+
+---
+
+_This plan provides a comprehensive story point-based approach to package consolidation, enabling accurate sprint planning and velocity tracking throughout the project lifecycle._

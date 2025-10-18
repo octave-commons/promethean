@@ -1,3 +1,46 @@
 {
-  "extends": "./tsconfig.build.json"
+  "$schema": "https://json.schemastore.org/tsconfig.json",
+  "compilerOptions": {
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": false,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "allowArbitraryExtensions": false,
+    "allowImportingTsExtensions": false,
+    "declaration": true,
+    "declarationMap": true,
+    "importHelpers": false,
+    "newLine": "lf",
+    "noEmitHelpers": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "experimentalDecorators": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable", "esnext.disposable"],
+    "target": "esnext",
+    "useDefineForClassFields": true,
+    "baseUrl": ".",
+    "paths": {
+      "@shared/ts/*": ["../shared/ts/dist/*"],
+      "@promethean/test-utils/*": ["../packages/test-utils/dist/*"],
+      "@promethean/legacy/*": ["../packages/legacy/*"]
+    },
+    "types": ["node", "ava"],
+    "rootDir": ".",
+    "outDir": "dist",
+    "composite": true
+  },
+  "include": ["*.ts", "bin/*.ts"],
+  "exclude": ["dist", "node_modules", "tests"]
 }

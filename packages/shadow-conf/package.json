@@ -25,9 +25,9 @@
     "shadow-conf": "./dist/bin/shadow-conf.js"
   },
   "scripts": {
-    "build": "tsc -b",
+    "build": "NODE_OPTIONS=\"--max-old-space-size=4096\" tsc -b",
     "clean": "rimraf dist",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "typecheck": "NODE_OPTIONS=\"--max-old-space-size=4096\" tsc -p tsconfig.json --noEmit",
     "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
     "lint": "pnpm exec eslint .",
     "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",

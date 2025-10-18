@@ -1,0 +1,32 @@
+{
+  "transport": "http",
+  "tools": [
+    "mcp.help",
+    "mcp.toolset",
+    "mcp.endpoints",
+    "files.list-directory",
+    "files.view-file",
+    "files.write-content",
+    "exec.list",
+    "exec.run",
+    "pnpm.install",
+    "pnpm.add",
+    "pnpm.remove"
+  ],
+  "includeHelp": true,
+  "stdioProxies": [],
+  "endpoints": {
+    "files": {
+      "tools": ["files.list-directory", "files.view-file", "files.write-content"],
+      "includeHelp": true
+    },
+    "exec": {
+      "tools": ["exec.list", "exec.run"],
+      "includeHelp": true
+    },
+    "workspace": {
+      "tools": ["pnpm.install", "pnpm.add", "pnpm.remove"],
+      "includeHelp": true
+    }
+  }
+}
