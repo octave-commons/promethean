@@ -31,6 +31,10 @@ export {
   TasksPlugin,
   SessionInfoPlugin,
   AgentManagementPlugin,
+  // New parity plugins
+  AsyncSubAgentsPlugin,
+  EventCapturePlugin,
+  TypeCheckerPlugin,
 };
 
 // Combined plugin that includes all tools
