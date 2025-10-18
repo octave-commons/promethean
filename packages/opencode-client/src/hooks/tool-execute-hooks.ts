@@ -315,29 +315,21 @@ export class ToolExecuteHookManager implements HookManager {
     }
   }
 
-/**
+  /**
    * Safely execute a hook function
    */
   private async safeHookExecution(
     hook: HookFunction,
     context: HookContext,
-    timeout: number
+    timeout: number,
   ): Promise<any> {
     try {
       const result = await this.withTimeout(Promise.resolve(hook(context as any)), timeout);
       return result;
     } catch (error) {
       if (error instanceof Error && error.message.includes('timed out')) {
-        throw new HookTimeoutError(
-          'unknown',
-          context.toolName,
-          context.phase,
-          timeout
-        );
+        throw new HookTimeoutError('unknown', context.toolName, context.phase, timeout);
       }
-      throw error;
-    }
-  }
       throw error;
     }
   }
