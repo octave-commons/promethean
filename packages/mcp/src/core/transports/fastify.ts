@@ -593,17 +593,18 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
 
   const app = Fastify({ logger: false });
 
-  // Initialize and register security middleware
+  // Initialize and register security middleware with minimal config
   const securityMiddleware = createSecurityMiddleware({
-    enableSecurityHeaders: true,
+    enableSecurityHeaders: false, // Disable headers first
     enableAuditLog: true,
     allowedOrigins: ['*'], // Configure based on your needs
-    rateLimitMaxRequests: 1000,
+    rateLimitMaxRequests: 10000, // Much higher limit
     rateLimitWindowMs: 15 * 60 * 1000, // 15 minutes
+    globalRateLimitMaxPerMinute: 10000, // Much higher limit
+    globalRateLimitMaxPerHour: 100000, // Much higher limit
   });
 
-  // Temporarily disable security middleware to debug timeout issues
-  // securityMiddleware.register(app);
+  securityMiddleware.register(app);
 
   // Add comprehensive request logging middleware
   if (isVerboseLogging) {
