@@ -63,11 +63,11 @@ export const apps =
     "cwd": "."
   },
   {
-    "id": "autocommit",
-    "name": "@promethean/autocommit",
-    "script": "autocommit",
+    "name": "autocommit",
+    "script": "pnpm",
     "cwd": "/home/err/devel/promethean",
     "args": [
+      "autocommit",
       "--path",
       ".",
       "--debounce-ms",
@@ -77,11 +77,11 @@ export const apps =
     ],
     "env": {
       "OPENAI_BASE_URL": "http://localhost:11434/v1",
-      "AUTOCOMMIT_MODEL": "llama3.1:8b",
+      "AUTOCOMMIT_MODEL": "error/qwen3:4b-instruct-100k",
       "NODE_ENV": "production"
     },
     "instances": 1,
-    "exec_mode": "fork",
+    "interpreter": "/usr/bin/env",
     "autorestart": true,
     "watch": false,
     "max_memory_restart": "1G",
