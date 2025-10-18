@@ -69,7 +69,15 @@ export const AllToolsPlugin = async (context: any) => {
       ...tasksPlugin.tool,
       ...sessionInfoPlugin.tool,
       ...agentManagementPlugin.tool,
+      // New parity plugins
+      ...asyncSubAgentsPlugin.tool,
+      ...eventCapturePlugin.tool,
+      ...typeCheckerPlugin.tool,
     },
+    // Merge hooks from all plugins
+    ...asyncSubAgentsPlugin,
+    ...eventCapturePlugin,
+    ...typeCheckerPlugin,
   };
 };
 
