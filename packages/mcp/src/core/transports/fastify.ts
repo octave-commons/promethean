@@ -602,7 +602,8 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
     rateLimitWindowMs: 15 * 60 * 1000, // 15 minutes
   });
 
-  securityMiddleware.register(app);
+  // Temporarily disable security middleware to debug timeout issues
+  // securityMiddleware.register(app);
 
   // Add comprehensive request logging middleware
   if (isVerboseLogging) {
