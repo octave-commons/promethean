@@ -43,6 +43,7 @@ describe('Hook System', () => {
 
     registerAfterHook('test-after', async (context) => {
       called = true;
+      console.log('After hook context:', JSON.stringify(context, null, 2));
       receivedResult = context.result;
       return { ...context.result, modified: true };
     });
