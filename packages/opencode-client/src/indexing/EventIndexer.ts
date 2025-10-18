@@ -469,7 +469,15 @@ export class EventIndexer {
 
     // Store stats in dual store for monitoring
     try {
-      await sessionStore.set('event-indexer-stats', JSON.stringify(this.stats));
+      await sessionStore.insert({
+        id: 'event-indexer-stats',
+        text: JSON.stringify(this.stats),
+        timestamp: new Date().toISOString(),
+        metadata: {
+          type: 'indexer_stats',
+          lastUpdated: new Date().toISOString(),
+        },
+      });
     } catch (error) {
       console.warn('Failed to store indexer stats:', error);
     }
