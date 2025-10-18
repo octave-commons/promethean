@@ -911,13 +911,8 @@ export const MyPlugin: Plugin = async ({ client }) => {
         },
         async execute({ sessionId, message, priority, messageType }) {
           try {
-            return await InterAgentMessenger.sendMessage(
-              client,
-              sessionId,
-              message,
-              priority,
-              messageType,
-            );
+            InterAgentMessenger.sendMessage(client, sessionId, message, priority, messageType);
+            return `✅ Message sent to agent ${sessionId} (Priority: ${priority}, Type: ${messageType})`;
           } catch (error) {
             console.error('Error sending agent message:', error);
             return `❌ Failed to send message to agent ${sessionId}: ${error}`;
