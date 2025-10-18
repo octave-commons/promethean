@@ -14,6 +14,35 @@ export const EventHooksPlugin: Plugin = async ({ client, project, $, directory, 
   // Initialize hook manager with plugin context
   const pluginContext = { client, project, $, directory, worktree };
 
+  // Event handler functions
+  const handleToolExecuteBefore = async (data: any, context: any) => {
+    const { toolName, args, context: toolContext } = data;
+    try {
+      const hookResult = await hookManager.executeBeforeHooks(toolName, args, {
+        ...toolContext,
+        pluginContext: context,
+      });
+      return { modifiedArgs: hookResult.args, metrics: hookResult.metrics };
+    } catch (error) {
+      console.error('Before hook execution failed:', error);
+      throw error;
+    }
+  };
+
+  const handleToolExecuteAfter = async (data: any, context: any) => {
+    const { toolName, args, result, context: toolContext } = data;
+    try {
+      const hookResult = await hookManager.executeAfterHooks(toolName, args, result, {
+        ...toolContext,
+        pluginContext: context,
+      });
+      return { modifiedResult: hookResult.result, metrics: hookResult.metrics };
+    } catch (error) {
+      console.error('After hook execution failed:', error);
+      throw error;
+    }
+  };
+
   return {
     tool: {
       // Hook management tools
@@ -30,7 +59,7 @@ export const EventHooksPlugin: Plugin = async ({ client, project, $, directory, 
           priority: { type: 'number', description: 'Execution priority (lower = first)' },
           timeout: { type: 'number', description: 'Hook timeout in milliseconds' },
         },
-        async execute(args: any, context: any) {
+        async execute(args: any) {
           // This would need to be implemented with a hook registry
           // For now, return a placeholder response
           return {
@@ -94,10 +123,10 @@ export const EventHooksPlugin: Plugin = async ({ client, project, $, directory, 
       },
     },
 
-// Event handlers for reactive processing
+    // Event handlers for reactive processing
     event: async ({ event }: any) => {
       const { type, data } = event;
-      
+
       try {
         switch (type) {
           case 'tool.execute.before':
@@ -136,64 +165,6 @@ export const EventHooksPlugin: Plugin = async ({ client, project, $, directory, 
       } catch (error) {
         console.error(`Event handler failed for ${type}:`, error);
       }
-    },
-
-      'tool.execute.after': async (event: any) => {
-        const { toolName, args, result, context } = event;
-        try {
-          const hookResult = await hookManager.executeAfterHooks(toolName, args, result, {
-            ...context,
-            pluginContext,
-          });
-          return { modifiedResult: hookResult.result, metrics: hookResult.metrics };
-        } catch (error) {
-          console.error('After hook execution failed:', error);
-          throw error;
-        }
-      },
-
-      // Session lifecycle events
-      'session.created': async (event: any) => {
-        console.log(`Session created: ${event.sessionId}`);
-        // Could trigger indexing, notifications, etc.
-      },
-
-      'session.completed': async (event: any) => {
-        console.log(`Session completed: ${event.sessionId}`);
-        // Could trigger cleanup, notifications, etc.
-      },
-
-      'session.error': async (event: any) => {
-        console.error(`Session error: ${event.sessionId}`, event.error);
-        // Could trigger error handling, notifications, etc.
-      },
-
-      // Task lifecycle events
-      'task.created': async (event: any) => {
-        console.log(`Task created: ${event.taskId}`);
-        // Could trigger task indexing, assignment, etc.
-      },
-
-      'task.completed': async (event: any) => {
-        console.log(`Task completed: ${event.taskId}`);
-        // Could trigger cleanup, notifications, etc.
-      },
-
-      'task.failed': async (event: any) => {
-        console.error(`Task failed: ${event.taskId}`, event.error);
-        // Could trigger error handling, retry logic, etc.
-      },
-
-      // System events
-      'system.startup': async (event: any) => {
-        console.log('System startup detected');
-        // Could trigger initialization routines
-      },
-
-      'system.shutdown': async (event: any) => {
-        console.log('System shutdown detected');
-        // Could trigger cleanup, data persistence, etc.
-      },
     },
   };
 };
