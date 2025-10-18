@@ -128,7 +128,7 @@ export const EventHooksPlugin: Plugin = async ({ client, project, $, directory, 
       'hooks.list': {
         description: 'List all registered hooks',
         args: {},
-        async execute(args, context) {
+        async execute(_args: any, _context: any) {
           const hooks = hookManager.getHooks();
           return {
             hooks: hooks.map((h) => ({
@@ -148,7 +148,7 @@ export const EventHooksPlugin: Plugin = async ({ client, project, $, directory, 
         args: {
           id: { type: 'string', description: 'Hook identifier to remove' },
         },
-        async execute(args, context) {
+        async execute(args: any, _context: any) {
           const removed = hookManager.unregisterHook(args.id);
           return {
             success: removed,
@@ -160,7 +160,7 @@ export const EventHooksPlugin: Plugin = async ({ client, project, $, directory, 
       'hooks.clear': {
         description: 'Clear all registered hooks',
         args: {},
-        async execute(args, context) {
+        async execute(_args: any, _context: any) {
           hookManager.clearHooks();
           return {
             success: true,
@@ -172,7 +172,7 @@ export const EventHooksPlugin: Plugin = async ({ client, project, $, directory, 
       'hooks.statistics': {
         description: 'Get hook execution statistics',
         args: {},
-        async execute(args, context) {
+        async execute(_args: any, _context: any) {
           return hookManager.getStatistics();
         },
       },
