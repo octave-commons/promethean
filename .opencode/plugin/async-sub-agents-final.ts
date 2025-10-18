@@ -470,10 +470,12 @@ class InterAgentMessenger {
     priority: string,
     messageType: string,
   ): string {
+    const safeRecipientId = recipientId.length > 8 ? recipientId.substring(0, 8) : recipientId;
+
     return `🔔 **INTER-AGENT MESSAGE** 🔔
 
 **From:** Agent ${senderId}...
-**To:** Agent ${recipientId}...
+**To:** Agent ${safeRecipientId}...
 **Priority:** ${priority.toUpperCase()}
 **Type:** ${messageType.replace('_', ' ').toUpperCase()}
 **Time:** ${new Date().toLocaleTimeString()}
