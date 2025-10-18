@@ -3,7 +3,8 @@
 
 import { describe, it, beforeEach, afterEach } from 'node:test';
 import assert from 'node:assert';
-import { hookManager, registerBeforeHook, registerAfterHook } from '../hooks/tool-execute-hooks';
+import { hookManager, registerBeforeHook, registerAfterHook } from '../hooks/tool-execute-hooks.js';
+import type { HookContext } from '../types/plugin-hooks.js';
 
 describe('Hook System', () => {
   beforeEach(() => {
@@ -18,7 +19,7 @@ describe('Hook System', () => {
     let called = false;
     let receivedArgs: any = null;
 
-    registerBeforeHook('test-before', async (context) => {
+    registerBeforeHook('test-before', async (context: HookContext) => {
       called = true;
       receivedArgs = context.args;
       return { ...context.args, modified: true };
