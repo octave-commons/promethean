@@ -3,13 +3,13 @@
 
 import { tool } from '@opencode-ai/plugin/tool';
 import { randomUUID } from 'node:crypto';
-import { now } from '@promethean/ollama-queue';
-import * as ollamaActions from '../actions/ollama/index.js';
-import * as cacheActions from '../actions/cache/index.js';
-import type { Job, JobStatus, JobPriority, JobType } from '../actions/ollama/types.js';
+import { now, JobStatus } from '@promethean/ollama-queue';
+import * as ollamaActions from '../actions/index.js';
+import * as cacheActions from '../actions/index.js';
+import type { Job } from '../actions/index.js';
 
 // Factory for submitJob tool
-export function createSubmitJobTool() {
+export function createSubmitJobTool(): any {
   return tool({
     description: 'Submit a new LLM job to the queue',
     args: {
@@ -124,7 +124,7 @@ export function createSubmitJobTool() {
 }
 
 // Factory for getJobStatus tool
-export function createGetJobStatusTool() {
+export function createGetJobStatusTool(): any {
   return tool({
     description: 'Get status of a specific job',
     args: {
@@ -138,7 +138,7 @@ export function createGetJobStatusTool() {
 }
 
 // Factory for getJobResult tool
-export function createGetJobResultTool() {
+export function createGetJobResultTool(): any {
   return tool({
     description: 'Get result of a completed job',
     args: {
@@ -152,7 +152,7 @@ export function createGetJobResultTool() {
 }
 
 // Factory for listJobs tool
-export function createListJobsTool() {
+export function createListJobsTool(): any {
   return tool({
     description: 'List jobs with optional filtering',
     args: {
@@ -181,7 +181,7 @@ export function createListJobsTool() {
 }
 
 // Factory for cancelJob tool
-export function createCancelJobTool() {
+export function createCancelJobTool(): any {
   return tool({
     description: 'Cancel a pending job',
     args: {
@@ -196,7 +196,7 @@ export function createCancelJobTool() {
 }
 
 // Factory for listModels tool
-export function createListModelsTool() {
+export function createListModelsTool(): any {
   return tool({
     description: 'List available Ollama models',
     args: {
@@ -210,7 +210,7 @@ export function createListModelsTool() {
 }
 
 // Factory for getQueueInfo tool
-export function createGetQueueInfoTool() {
+export function createGetQueueInfoTool(): any {
   return tool({
     description: 'Get queue statistics and information',
     args: {},
@@ -222,7 +222,7 @@ export function createGetQueueInfoTool() {
 }
 
 // Factory for manageCache tool
-export function createManageCacheTool() {
+export function createManageCacheTool(): any {
   return tool({
     description: 'Manage prompt cache (clear, get stats, etc.)',
     args: {
@@ -238,7 +238,7 @@ export function createManageCacheTool() {
 }
 
 // Factory for submitFeedback tool
-export function createSubmitFeedbackTool() {
+export function createSubmitFeedbackTool(): any {
   return tool({
     description: 'Submit feedback on a cached result to improve model routing',
     args: {

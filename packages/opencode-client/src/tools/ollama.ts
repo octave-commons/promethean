@@ -12,16 +12,11 @@ import {
   CACHE_MAX_AGE_MS,
   MAX_CONCURRENT_JOBS,
   getProcessingInterval,
-  setProcessingInterval,
-  POLL_INTERVAL,
+  clearProcessingInterval,
   now,
-  processing,
-  type UUID,
-  type JobStatus,
-  type JobPriority,
-  type JobType,
 } from '@promethean/ollama-queue';
-import { Job, OllamaModel, OllamaOptions } from './Job.js';
+import { Job } from './Job.js';
+import { OllamaModel } from './OllamaModel.js';
 import { CacheEntry } from './CacheEntry.js';
 import { initializeCache } from './initializeCache.js';
 import { getPromptEmbedding } from './getPromptEmbedding.js';
@@ -33,11 +28,7 @@ import { OllamaError } from '@promethean/ollama-queue';
 
 // Stop queue processor
 function stopQueueProcessor(): void {
-  const processingInterval = getProcessingInterval();
-  if (processingInterval) {
-    clearInterval(processingInterval);
-    setProcessingInterval(null);
-  }
+  clearProcessingInterval();
 }
 
 // Tools

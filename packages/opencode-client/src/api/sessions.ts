@@ -31,10 +31,10 @@ export interface SearchSessionsOptions {
 }
 
 // Client management
-const baseURL = process.env.OPENCODE_SERVER_URL;
-const timeout = process.env.OPENCODE_TIMEOUT ? Number(process.env.OPENCODE_TIMEOUT) : undefined;
-const maxRetries = process.env.OPENCODE_RETRIES ? Number(process.env.OPENCODE_RETRIES) : undefined;
-const logLevel = (process.env.OPENCODE_LOG_LEVEL as any) || undefined;
+const baseURL = process.env.OPENCODE_SERVER_URL || 'http://localhost:4096';
+const timeout = process.env.OPENCODE_TIMEOUT ? Number(process.env.OPENCODE_TIMEOUT) : 10000;
+const maxRetries = process.env.OPENCODE_RETRIES ? Number(process.env.OPENCODE_RETRIES) : 3;
+const logLevel = (process.env.OPENCODE_LOG_LEVEL as any) || 'info';
 const authHeader = process.env.OPENCODE_AUTH_TOKEN
   ? { Authorization: `Bearer ${process.env.OPENCODE_AUTH_TOKEN}` }
   : undefined;
@@ -89,16 +89,13 @@ async function getClient(): Promise<any> {
  */
 export async function listSessions(options: ListSessionsOptions = {}): Promise<Session[]> {
   const client = await getClient();
-  const { list } = await import('../actions/sessions/list.js');
 
-  const result = await list({
+  const response = await client.session.list({
     limit: options.limit || 20,
     offset: options.offset || 0,
-    client,
   });
 
-  const parsed = JSON.parse(result);
-  return parsed.sessions || [];
+  return response.data || [];
 }
 
 /**
@@ -106,14 +103,9 @@ export async function listSessions(options: ListSessionsOptions = {}): Promise<S
  */
 export async function getSession(sessionId: string): Promise<Session> {
   const client = await getClient();
-  const { get } = await import('../actions/sessions/get.js');
 
-  const result = await get({
-    sessionId,
-    client,
-  });
-
-  return JSON.parse(result);
+  const response = await client.session.get(sessionId);
+  return response.data;
 }
 
 /**

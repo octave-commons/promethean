@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Process status action
 
-import { tool } from '@opencode-ai/plugin/tool';
 import { isRunning } from './utils.js';
 
-export const status: any = tool({
-  description: 'Check the status of a process by PID',
-  args: { pid: tool.schema.number().describe('PID to check') },
-  async execute({ pid }) {
-    return isRunning(pid) ? `Process ${pid} is running` : `Process ${pid} is not running`;
-  },
-});
+export interface StatusOptions {
+  pid: number;
+}
+
+// Pure action function for checking process status
+export async function checkProcessStatus(options: StatusOptions): Promise<string> {
+  const { pid } = options;
+  return isRunning(pid) ? `Process ${pid} is running` : `Process ${pid} is not running`;
+}

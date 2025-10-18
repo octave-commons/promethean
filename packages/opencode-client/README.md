@@ -2,6 +2,25 @@
 
 A comprehensive command-line interface for interacting with OpenCode plugins, tools, and services. This client provides easy access to Ollama LLM operations, session management, and process monitoring through a unified CLI interface.
 
+## 🎉 Recent Updates
+
+### TypeScript Compilation Fixes (October 2025)
+
+The package has undergone significant TypeScript compilation fixes to resolve build errors and improve type safety:
+
+- ✅ **Fixed `setProcessingInterval(null)` type mismatch** - Now uses proper `clearProcessingInterval()` function
+- ✅ **Updated imports and removed unused functions** - Clean, type-safe codebase
+- ✅ **Enhanced queue management** - Proper processor lifecycle management
+- ✅ **All builds succeed without errors** - Zero TypeScript compilation errors
+
+**Key Changes:**
+
+- Updated `src/tools/ollama.ts` to use proper queue management functions
+- Cleaned up `src/actions/ollama/tools.ts` imports and implementations
+- Established best practices for queue processor lifecycle management
+
+For detailed technical information, see the [TypeScript Compilation Fixes](./docs/typescript-compilation-fixes.md) documentation.
+
 ## 🚀 Quick Start
 
 ### Installation
@@ -424,9 +443,19 @@ GPL-3.0-only - see LICENSE file for details.
 
 ## 🔗 Related Documentation
 
+### Comprehensive Documentation
+
+- **[Documentation Overview](./docs/README.md)** - Complete documentation index and getting started guide
+- **[TypeScript Compilation Fixes](./docs/typescript-compilation-fixes.md)** - Recent fixes and type safety improvements
+- **[API Reference](./docs/api-reference.md)** - Complete API documentation for all functions and tools
+- **[Ollama Queue Integration](./docs/ollama-queue-integration.md)** - Comprehensive guide to queue management
+- **[Development Guide](./docs/development-guide.md)** - Setup, development workflows, and contribution guidelines
+- **[Troubleshooting Guide](./docs/troubleshooting.md)** - Common issues and solutions
+- **[Code Examples](./docs/code-examples.md)** - Practical examples and usage patterns
+
+### Related Project Documentation
+
 - [OpenCode Server Documentation](../../docs/)
-- [API Reference](./docs/api.md)
-- [Development Guide](./docs/development.md)
 - [Integration Guide](./docs/integration.md)
 
 ## 📞 Support

@@ -6,22 +6,16 @@ import {
   jobQueue,
   activeJobs,
   modelCaches,
-  CACHE_SIMILARITY_THRESHOLD,
-  CACHE_MAX_AGE_MS,
   MAX_CONCURRENT_JOBS,
   getProcessingInterval,
   setProcessingInterval,
   now,
-  OLLAMA_URL,
 } from '@promethean/ollama-queue';
 import { Job } from './types.js';
 import { getJobById, updateJobStatus } from './jobs.js';
-import { listModels } from './models.js';
 import { processQueue } from './queue.js';
 import { initializeCache } from '../cache/initialize.js';
 import { getPromptEmbedding } from '../cache/key.js';
-import { check } from './api.js';
-import { OllamaError } from '@promethean/ollama-queue';
 import type { CacheEntry } from '../cache/types.js';
 
 // Submit a new job to the queue
@@ -246,14 +240,5 @@ function startQueueProcessor(): void {
   if (!getProcessingInterval()) {
     const interval = setInterval(processQueue, 1000); // Process every second
     setProcessingInterval(interval);
-  }
-}
-
-// Stop queue processor
-function stopQueueProcessor(): void {
-  const processingInterval = getProcessingInterval();
-  if (processingInterval) {
-    clearInterval(processingInterval);
-    setProcessingInterval(null);
   }
 }
