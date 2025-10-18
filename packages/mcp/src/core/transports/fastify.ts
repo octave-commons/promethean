@@ -593,7 +593,15 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
 
   const app = Fastify({ logger: false });
 
-  // Initialize and register security middleware with diagnostic hooks
+  // Test each security component individually by disabling them one by one
+  console.log(`🧪 TESTING: Starting with NO security middleware to establish baseline`);
+
+  // Add diagnostic logging to track request flow
+  app.addHook('onRequest', async (request, _reply) => {
+    console.log(`🔍 REQUEST: ${request.method} ${request.url} at ${new Date().toISOString()}`);
+  });
+
+  // Initialize security middleware but DON'T register it yet
   const securityMiddleware = createSecurityMiddleware({
     enableSecurityHeaders: false, // Disable headers first
     enableAuditLog: false, // Disable audit logging to avoid conflicts
@@ -604,24 +612,9 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
     globalRateLimitMaxPerHour: 100000, // Much higher limit
   });
 
-  // Add diagnostic logging BEFORE security middleware registration
-  app.addHook('onRequest', async (request, _reply) => {
-    console.log(`🔍 PRE-SECURITY: Request received: ${request.method} ${request.url}`);
-    console.log(`   Headers:`, JSON.stringify(request.headers, null, 2));
-    console.log(`   IP: ${request.ip}`);
-    console.log(`   Timestamp: ${new Date().toISOString()}`);
-  });
-
-  // Register security middleware
-  securityMiddleware.register(app);
-
-  // Add diagnostic logging AFTER security middleware registration
-  app.addHook('onRequest', async (request, _reply) => {
-    console.log(
-      `🔍 POST-SECURITY: Request passed security checks: ${request.method} ${request.url}`,
-    );
-    console.log(`   Timestamp: ${new Date().toISOString()}`);
-  });
+  // We'll register security middleware step by step to identify the problematic hook
+  console.log(`🧪 TESTING: Security middleware created but NOT registered yet`);
+  console.log(`🧪 TESTING: Test baseline first, then we'll add security hooks one by one`);
 
   // Add comprehensive request logging middleware
   if (isVerboseLogging) {
