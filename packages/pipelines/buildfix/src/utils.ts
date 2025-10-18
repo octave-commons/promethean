@@ -187,10 +187,14 @@ export async function importSnippet(snippetPath: string) {
   // Create a temporary module with proper ts-morph resolution
   const snippetContent = await fs.readFile(snippetPath, 'utf8');
 
-  // Replace ts-morph import with correct ESM-compatible path
+  // Replace ts-morph import with absolute path to ensure resolution
+  const tsMorphAbsolutePath = path.resolve(
+    WORKSPACE_ROOT,
+    'node_modules/.pnpm/ts-morph@22.0.0/node_modules/ts-morph/dist/ts-morph.js',
+  );
   const patchedContent = snippetContent.replace(
     /from ["']ts-morph["']/,
-    'from "ts-morph/dist/ts-morph.js"',
+    `from "${tsMorphAbsolutePath}"`,
   );
 
   // Write patched version to temp file

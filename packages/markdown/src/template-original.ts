@@ -11,14 +11,6 @@ export interface TemplateContext {
 }
 
 /**
- * Template filter interface
- */
-export interface TemplateFilter {
-    readonly name: string;
-    readonly fn: (value: unknown, ...args: string[]) => string;
-}
-
-/**
  * Template processing options
  */
 export interface TemplateOptions {
@@ -27,7 +19,6 @@ export interface TemplateOptions {
     readonly loopPattern?: RegExp;
     readonly strictMode?: boolean;
     readonly preserveWhitespace?: boolean;
-    readonly filters?: Record<string, TemplateFilter['fn']>;
 }
 
 /**
@@ -41,179 +32,13 @@ export interface TemplateResult {
 }
 
 /**
- * Built-in template filters
- */
-const BUILTIN_FILTERS: Record<string, TemplateFilter['fn']> = {
-    // String filters
-    upper: (value: unknown) => String(value || '').toUpperCase(),
-    lower: (value: unknown) => String(value || '').toLowerCase(),
-    title: (value: unknown) => String(value || '').replace(/\b\w/g, (char) => char.toUpperCase()),
-    trim: (value: unknown) => String(value || '').trim(),
-    capitalize: (value: unknown) => {
-        const str = String(value || '');
-        return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-    },
-
-    // Number filters
-    number: (value: unknown) => {
-        const num = Number(value);
-        return isNaN(num) ? '0' : String(num);
-    },
-    round: (value: unknown, digits: string = '0') => {
-        const num = Number(value);
-        if (isNaN(num)) return '0';
-        const decimalPlaces = parseInt(digits, 10);
-        return String(num.toFixed(decimalPlaces));
-    },
-
-    // Date filters
-    date: (value: unknown) => {
-        const date = value instanceof Date ? value : new Date(String(value || ''));
-        return isNaN(date.getTime()) ? '' : date.toISOString().split('T')[0];
-    },
-    'date-format': (value: unknown, format: string = 'YYYY-MM-DD') => {
-        const date = value instanceof Date ? value : new Date(String(value || ''));
-        if (isNaN(date.getTime())) return '';
-
-        return format
-            .replace('YYYY', String(date.getFullYear()))
-            .replace('MM', String(date.getMonth() + 1).padStart(2, '0'))
-            .replace('DD', String(date.getDate()).padStart(2, '0'))
-            .replace('HH', String(date.getHours()).padStart(2, '0'))
-            .replace('mm', String(date.getMinutes()).padStart(2, '0'))
-            .replace('ss', String(date.getSeconds()).padStart(2, '0'));
-    },
-
-    // JSON filters
-    json: (value: unknown, indent: string = '0') => {
-        try {
-            const spaces = indent === '0' ? 0 : parseInt(indent, 10) || 2;
-            return JSON.stringify(value, null, spaces);
-        } catch {
-            return String(value || '');
-        }
-    },
-
-    // Utility filters
-    default: (value: unknown, defaultValue: string) => {
-        return value === null || value === undefined || value === '' ? defaultValue : String(value);
-    },
-    length: (value: unknown) => {
-        if (Array.isArray(value)) return String(value.length);
-        if (typeof value === 'string') return String(value.length);
-        if (typeof value === 'object' && value !== null) return String(Object.keys(value).length);
-        return '0';
-    },
-    join: (value: unknown, separator: string = ', ') => {
-        if (Array.isArray(value)) return value.join(separator);
-        return String(value || '');
-    },
-};
-
-/**
- * Default template patterns (enhanced to support filters and defaults)
+ * Default template patterns
  */
 const DEFAULT_PATTERNS = {
-    variable: /\{\{(\w+(?:\.\w+)*)(?:\s*\|\s*([^}]+))?\}\}/g,
+    variable: /\{\{(\w+(?:\.\w+)*)\}\}/g,
     conditional: /\{\{\#if\s+(\w+)\}\}(.*?)\{\{\/if\}\}/gs,
     loop: /\{\{\#each\s+(\w+)\}\}(.*?)\{\{\/each\}\}/gs,
 } as const;
-
-/**
- * Parse filter chain from filter string
- */
-const parseFilterChain = (filterString: string): Array<{ name: string; args: string[] }> => {
-    if (!filterString || filterString.trim() === '') {
-        return [];
-    }
-
-    return filterString.split('|').map((filter) => {
-        const trimmed = filter.trim();
-        const match = trimmed.match(/^(\w+)(?:\s*:\s*(.+))?$/);
-        if (!match) {
-            return { name: trimmed.trim(), args: [] };
-        }
-
-        const name = match[1]!.trim();
-        const argsString = match[2];
-        if (!argsString) {
-            return { name, args: [] };
-        }
-
-        // Parse arguments, handling quoted strings
-        const args: string[] = [];
-        let current = '';
-        let inQuotes = false;
-        let quoteChar = '';
-
-        for (let i = 0; i < argsString.length; i++) {
-            const char = argsString[i];
-
-            if ((char === '"' || char === "'") && !inQuotes) {
-                inQuotes = true;
-                quoteChar = char;
-            } else if (char === quoteChar && inQuotes) {
-                inQuotes = false;
-                quoteChar = '';
-            } else if (char === ',' && !inQuotes) {
-                args.push(current.trim());
-                current = '';
-            } else {
-                current += char;
-            }
-        }
-
-        if (current.trim()) {
-            args.push(current.trim());
-        }
-
-        return {
-            name,
-            args: args.map((arg) => {
-                // Remove quotes from quoted arguments
-                if ((arg.startsWith('"') && arg.endsWith('"')) || (arg.startsWith("'") && arg.endsWith("'"))) {
-                    return arg.slice(1, -1);
-                }
-                return arg;
-            }),
-        };
-    });
-};
-
-/**
- * Apply filters to a value
- */
-const applyFilters = (
-    value: unknown,
-    filters: Array<{ name: string; args: string[] }>,
-    customFilters: Record<string, TemplateFilter['fn']> = {},
-): { result: string; errors: string[] } => {
-    const errors: string[] = [];
-    let currentValue = value;
-
-    for (const filter of filters) {
-        const allFilters = { ...BUILTIN_FILTERS, ...customFilters };
-        const filterFn = allFilters[filter.name];
-
-        if (!filterFn) {
-            errors.push(`Unknown filter: ${filter.name}`);
-            continue;
-        }
-
-        try {
-            currentValue = filterFn(currentValue, ...filter.args);
-        } catch (error) {
-            errors.push(
-                `Error applying filter ${filter.name}: ${error instanceof Error ? error.message : String(error)}`,
-            );
-        }
-    }
-
-    return {
-        result: String(currentValue || ''),
-        errors,
-    };
-};
 
 /**
  * Extract variable path from template syntax
@@ -238,14 +63,35 @@ const getContextValue = (context: TemplateContext, path: string[]): unknown => {
 };
 
 /**
- * Process template variables in text content with filter support
+ * Convert value to string for template substitution
+ */
+const valueToString = (value: unknown): string => {
+    if (value === null || value === undefined) {
+        return '';
+    }
+    if (typeof value === 'string') {
+        return value;
+    }
+    if (typeof value === 'number' || typeof value === 'boolean') {
+        return String(value);
+    }
+    if (Array.isArray(value)) {
+        return value.join(', ');
+    }
+    if (typeof value === 'object') {
+        return JSON.stringify(value);
+    }
+    return String(value);
+};
+
+/**
+ * Process template variables in text content
  */
 const processVariables = (
     text: string,
     context: TemplateContext,
     pattern: RegExp,
     strictMode: boolean,
-    customFilters: Record<string, TemplateFilter['fn']> = {},
 ): { processed: string; variablesUsed: Set<string>; errors: string[] } => {
     const variablesUsed = new Set<string>();
     const errors: string[] = [];
@@ -255,21 +101,18 @@ const processVariables = (
     const matches = [...text.matchAll(pattern)];
 
     for (const match of matches) {
-        const [fullMatch, variablePath, filterString] = match;
+        const [fullMatch, variablePath] = match;
         const path = extractVariablePath(variablePath);
         const value = getContextValue(context, path);
-        const filters = parseFilterChain(filterString || '');
 
         variablesUsed.add(variablePath);
 
-        if (value === undefined && strictMode && !filters.some((f) => f.name === 'default')) {
+        if (value === undefined && strictMode) {
             errors.push(`Undefined variable: ${variablePath}`);
             continue;
         }
 
-        const { result: replacement, errors: filterErrors } = applyFilters(value, filters, customFilters);
-        errors.push(...filterErrors);
-
+        const replacement = valueToString(value);
         processed = processed.replace(fullMatch, replacement);
     }
 
@@ -284,7 +127,6 @@ const processConditionals = (
     context: TemplateContext,
     pattern: RegExp,
     strictMode: boolean,
-    customFilters: Record<string, TemplateFilter['fn']> = {},
 ): { processed: string; variablesUsed: Set<string>; errors: string[] } => {
     const variablesUsed = new Set<string>();
     const errors: string[] = [];
@@ -324,7 +166,6 @@ const processLoops = (
     context: TemplateContext,
     pattern: RegExp,
     strictMode: boolean,
-    customFilters: Record<string, TemplateFilter['fn']> = {},
 ): { processed: string; variablesUsed: Set<string>; errors: string[] } => {
     const variablesUsed = new Set<string>();
     const errors: string[] = [];
@@ -355,14 +196,7 @@ const processLoops = (
                     };
 
                     // Process variables within the loop block
-                    const result = processVariables(
-                        blockContent,
-                        loopContext,
-                        DEFAULT_PATTERNS.variable,
-                        strictMode,
-                        customFilters,
-                    );
-                    errors.push(...result.errors);
+                    const result = processVariables(blockContent, loopContext, DEFAULT_PATTERNS.variable, strictMode);
                     return result.processed;
                 })
                 .join('');
@@ -383,14 +217,7 @@ const processLoops = (
                         [`${variable}_last`]: index === entries.length - 1,
                     };
 
-                    const result = processVariables(
-                        blockContent,
-                        loopContext,
-                        DEFAULT_PATTERNS.variable,
-                        strictMode,
-                        customFilters,
-                    );
-                    errors.push(...result.errors);
+                    const result = processVariables(blockContent, loopContext, DEFAULT_PATTERNS.variable, strictMode);
                     return result.processed;
                 })
                 .join('');
@@ -416,7 +243,6 @@ const processTemplateText = (
     const warnings: string[] = [];
     const allVariablesUsed = new Set<string>();
     const allErrors: string[] = [];
-    const customFilters = options.filters || {};
 
     let processed = text;
 
@@ -426,7 +252,6 @@ const processTemplateText = (
         context,
         options.conditionalPattern || DEFAULT_PATTERNS.conditional,
         options.strictMode ?? false,
-        customFilters,
     );
 
     processed = conditionalResult.processed;
@@ -439,7 +264,6 @@ const processTemplateText = (
         context,
         options.loopPattern || DEFAULT_PATTERNS.loop,
         options.strictMode ?? false,
-        customFilters,
     );
 
     processed = loopResult.processed;
@@ -452,7 +276,6 @@ const processTemplateText = (
         context,
         options.variablePattern || DEFAULT_PATTERNS.variable,
         options.strictMode ?? false,
-        customFilters,
     );
 
     processed = variableResult.processed;
@@ -628,42 +451,9 @@ export const validateTemplate = (
         warnings.push('Nested conditionals or loops detected - ensure proper closing order');
     }
 
-    // Check for filter syntax errors
-    const variableMatches = markdown.match(patterns.variable);
-    if (variableMatches) {
-        for (const match of variableMatches) {
-            const filterMatch = match.match(/\{\{\w+(?:\.\w+)*\s*\|\s*([^}]+)\}\}/);
-            if (filterMatch) {
-                const filterString = filterMatch[1];
-                const filters = filterString.split('|');
-
-                for (const filter of filters) {
-                    const trimmed = filter.trim();
-                    if (trimmed && !trimmed.match(/^\w+(?:\s*:\s*.+)?$/)) {
-                        errors.push(`Invalid filter syntax: ${trimmed} in ${match}`);
-                    }
-                }
-            }
-        }
-    }
-
     return {
         isValid: errors.length === 0,
         errors,
         warnings,
     };
-};
-
-/**
- * Get all available built-in filters
- */
-export const getBuiltinFilters = (): Record<string, TemplateFilter['fn']> => {
-    return { ...BUILTIN_FILTERS };
-};
-
-/**
- * Register a custom filter
- */
-export const registerFilter = (name: string, fn: TemplateFilter['fn']): TemplateFilter => {
-    return { name, fn };
 };
