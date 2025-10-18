@@ -438,7 +438,6 @@ kanban-plugin: board
 - [ ] [[P0-MCP-Security-Hardening-Subtasks 2|P0: MCP Security Hardening & Validation - Subtask Breakdown]] #security #critical #mcp #hardening #validation #comprehensive prio:P0 (uuid:2c03f827-5b8f-46b0-868f-de6c67c8eb75)
 - [ ] [[plugin-parity-001-event-driven-hooks|Event-Driven Plugin Hooks]] #plugin #event-driven #hooks #architecture #critical prio:P0 (uuid:a845f37c-3859-4605-bc14-f2b03bc4c970)
 - [ ] [[security-gates-monitoring-coordination-status|Security Gates & Monitoring Integration - Coordination Status      )      )      )      )]] #coordination #security-gates #monitoring #integration-status prio:P0 (uuid:d72377a7-6367-4a3c-bd18-599e210ddf2f)
-- [ ] [[create-consolidated-package-structure|Create Consolidated Package Structure]] #package-structure #consolidation #setup #foundation #epic1 prio:P0 (uuid:4f276b91-5107-4a58-9499-e93424ba2edd)
 
 ## testing
 
@@ -459,6 +458,7 @@ kanban-plugin: board
 - [ ] [[test-integration-task 5|Test Integration Task for Testing→Review Transition]] #testing #integration #coverage-validation prio:P0 (uuid:3fcca38b-2d7c-4814-92c5-73ec63a1eb17)
 - [ ] [[test-integration-task 6|Test Integration Task for Testing→Review Transition]] #testing #integration #coverage-validation prio:P0 (uuid:b5c3bc25-e5fd-495c-9a82-54df65488005)
 - [ ] [[test-integration-task|Test Integration Task for Testing→Review Transition]] #testing #integration #coverage-validation prio:P0 (uuid:e4602116-1774-4d1d-af79-dc7422d168a2)
+- [ ] [[create-consolidated-package-structure|Create Consolidated Package Structure]] #package-structure #consolidation #setup #foundation #epic1 prio:P0 (uuid:4f276b91-5107-4a58-9499-e93424ba2edd)
 
 ## review
 
