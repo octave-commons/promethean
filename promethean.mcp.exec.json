@@ -1,6 +1,6 @@
 {
   "defaultCwd": ".",
-  "defaultTimeoutMs": 60000,
+  "defaultTimeoutMs": 120000,
   "forceKillDelayMs": 5000,
   "commands": [
     {
