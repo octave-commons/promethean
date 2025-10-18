@@ -1,4 +1,5 @@
-import { type Plugin, tool } from '@opencode-ai/plugin';
+import { type Plugin } from '@opencode-ai/plugin';
+import { tool } from '@opencode-ai/plugin/tool';
 import { DualStoreManager } from '@promethean/persistence';
 
 // Import the classes we need
@@ -12,7 +13,7 @@ import {
   InterAgentMessenger,
   type AgentTask,
   type SessionInfo,
-} from '../index';
+} from '../index.js';
 
 export const MyPlugin: Plugin = async ({ client }) => {
   // Initialize stores locally in the plugin

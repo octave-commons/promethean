@@ -26,10 +26,8 @@ interface SessionInfo {
 }
 
 // Storage
-const sessions = new Map<string, any>();
 let sessionStore: DualStoreManager<'text', 'timestamp'>;
 let agentTaskStore: DualStoreManager<'text', 'timestamp'>;
-const agentTasks = new Map<string, AgentTask>();
 const markdownCache = new Map<string, { content: string; timestamp: number }>();
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
@@ -187,49 +185,6 @@ class AgentTaskManager {
   ) {
     this._sessionStore = sessionStore;
     this._agentTaskStore = agentTaskStore;
-  }
-
-  static async loadPersistedTasks(client?: any) {
-    try {
-      console.log('🔄 Loading persisted agent tasks...');
-      const storedTasks = await this._agentTaskStore.getMostRecent(100);
-      let loadedCount = 0;
-      let cleanedCount = 0;
-
-      for (const task of storedTasks) {
-        const sessionId = task.metadata?.sessionId as string;
-        if (sessionId) {
-          // Verify session still exists before restoring
-          const sessionExists = client ? await this.verifySessionExists(client, sessionId) : true;
-          if (sessionExists) {
-            // Restore task to memory
-            const agentTask: AgentTask = {
-              sessionId,
-              task: task.text,
-              startTime: this.parseTimestamp(task.timestamp),
-              status: (task.metadata?.status as AgentTask['status']) || 'idle',
-              lastActivity:
-                this.parseTimestamp(task.metadata?.lastActivity) ||
-                this.parseTimestamp(task.timestamp),
-              completionMessage: task.metadata?.completionMessage as string | undefined,
-            };
-
-            agentTasks.set(sessionId, agentTask);
-            loadedCount++;
-          } else {
-            // Clean up orphaned task
-            await this.cleanupOrphanedTask(sessionId);
-            cleanedCount++;
-          }
-        }
-      }
-
-      console.log(
-        `✅ Loaded ${loadedCount} agent tasks, cleaned up ${cleanedCount} orphaned tasks`,
-      );
-    } catch (error) {
-      console.error('Error loading persisted tasks:', error);
-    }
   }
 
   static async verifySessionExists(client: any, sessionId: string): Promise<boolean> {
@@ -520,7 +475,6 @@ export const MyPlugin: Plugin = async ({ client }) => {
   InterAgentMessenger.initializeStore(sessionStore);
 
   // Load persisted tasks on startup
-  await AgentTaskManager.loadPersistedTasks(client);
 
   const monitoringInterval = setInterval(AgentTaskManager.monitorTasks, 5 * 60 * 1000);
 

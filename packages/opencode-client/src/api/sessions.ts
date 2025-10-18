@@ -47,20 +47,38 @@ async function getClient(): Promise<any> {
   // Prefer factory helpers when available
   if (typeof sdk.createOpencode === 'function') {
     clientPromise = sdk
-      .createOpencode({ serverUrl: baseURL, timeout, maxRetries, logLevel, fetchOptions: { headers: authHeader } })
+      .createOpencode({
+        serverUrl: baseURL,
+        timeout,
+        maxRetries,
+        logLevel,
+        fetchOptions: { headers: authHeader },
+      })
       .then((r: any) => r.client ?? r);
     return clientPromise;
   }
   if (typeof sdk.createOpencodeClient === 'function') {
     clientPromise = Promise.resolve(
-      sdk.createOpencodeClient({ serverUrl: baseURL, timeout, maxRetries, logLevel, fetchOptions: { headers: authHeader } }),
+      sdk.createOpencodeClient({
+        serverUrl: baseURL,
+        timeout,
+        maxRetries,
+        logLevel,
+        fetchOptions: { headers: authHeader },
+      }),
     );
     return clientPromise;
   }
   // Fallback: default export constructor
   if (typeof sdk.default === 'function') {
     clientPromise = Promise.resolve(
-      new sdk.default({ baseURL, timeout, maxRetries, logLevel, fetchOptions: { headers: authHeader } }),
+      new sdk.default({
+        baseURL,
+        timeout,
+        maxRetries,
+        logLevel,
+        fetchOptions: { headers: authHeader },
+      }),
     );
     return clientPromise;
   }
@@ -75,7 +93,6 @@ export async function listSessions(options: ListSessionsOptions = {}): Promise<S
   if (typeof client.session?.list === 'function') {
     const res = await client.session.list({
       // Some SDK variants accept pagination directly; harmless if ignored
-      // @ts-expect-error potential undocumented params
       limit: options.limit,
       offset: options.offset,
     });
@@ -83,9 +100,13 @@ export async function listSessions(options: ListSessionsOptions = {}): Promise<S
     return (res as any).sessions ?? (res as any) ?? [];
   }
   // Raw fallback
-  const { data } = await client.get('/session', {
-    query: { limit: options.limit, offset: options.offset },
-  }).withResponse?.() ?? { data: await client.get('/session', { query: { limit: options.limit, offset: options.offset } }) };
+  const { data } = (await client
+    .get('/session', {
+      query: { limit: options.limit, offset: options.offset },
+    })
+    .withResponse?.()) ?? {
+    data: await client.get('/session', { query: { limit: options.limit, offset: options.offset } }),
+  };
   return (data as any).sessions ?? (data as any) ?? [];
 }
 
@@ -105,7 +126,9 @@ export async function getSession(sessionId: string): Promise<Session> {
  */
 export async function createSession(options: CreateSessionOptions = {}): Promise<Session> {
   const client = await getClient();
-  const session = (await client.session.create({ body: options.title ? { title: options.title } : undefined })) as any;
+  const session = (await client.session.create({
+    body: options.title ? { title: options.title } : undefined,
+  })) as any;
 
   const { title, files, delegates } = options;
   if (title || (files && files.length) || (delegates && delegates.length)) {
@@ -129,7 +152,8 @@ export async function closeSession(sessionId: string): Promise<void> {
     await client.session.delete(sessionId);
     return;
   }
-  await client.delete?.(`/session/${encodeURIComponent(sessionId)}`) ?? client.post(`/session/${encodeURIComponent(sessionId)}/delete`);
+  (await client.delete?.(`/session/${encodeURIComponent(sessionId)}`)) ??
+    client.post(`/session/${encodeURIComponent(sessionId)}/delete`);
 }
 
 /**

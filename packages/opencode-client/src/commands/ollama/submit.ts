@@ -34,7 +34,7 @@ export const submitJobCommand = new Command('submit')
       console.log(`Type: ${type}`);
       console.log(`Priority: ${options.priority}`);
       console.log(`Queue Position: 1`);
-    } catch (error) {
+    } catch (error: any) {
       console.error(chalk.red('Error submitting job:'), error.message);
       process.exit(1);
     }

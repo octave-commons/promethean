@@ -1,4 +1,14 @@
-export async function list({ limit, offset }) {
+import { SessionUtils, agentTasks } from '../../index.js';
+
+export async function list({
+  limit,
+  offset,
+  client,
+}: {
+  limit: number;
+  offset: number;
+  client: any;
+}) {
   try {
     const { data: sessionsList, error } = await client.session.list();
     if (error) return `Failed to fetch sessions: ${error}`;
@@ -55,8 +65,8 @@ export async function list({ limit, offset }) {
       null,
       2,
     );
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error in list_sessions:', error);
-    return `Failed to list sessions: ${error}`;
+    return `Failed to list sessions: ${error.message}`;
   }
 }

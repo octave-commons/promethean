@@ -5,7 +5,7 @@ import chalk from 'chalk';
 import { sessionCommands } from './commands/sessions/index.js';
 import { ollamaCommands } from './commands/ollama/index.js';
 import { pm2Command } from './commands/pm2/index.js';
-import { version } from '../package.json';
+const version = '1.0.0';
 
 const program = new Command();
 
@@ -30,7 +30,7 @@ program.addCommand(sessionCommands);
 program.addCommand(ollamaCommands);
 program.addCommand(pm2Command);
 // Events CLI
-import('./commands/events/index.js').then(m => program.addCommand(m.eventCommands));
+import('./commands/events/index.js').then((m) => program.addCommand(m.eventCommands));
 
 // Error handling - let commander handle help/version normally
 
