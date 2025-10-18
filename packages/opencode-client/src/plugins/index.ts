@@ -13,6 +13,11 @@ import { TasksPlugin } from './tasks.js';
 import { SessionInfoPlugin } from './session-info.js';
 import { AgentManagementPlugin } from './agent-management.js';
 
+// New parity plugins from pseudo/opencode-plugins/
+import { AsyncSubAgentsPlugin } from './async-sub-agents.js';
+import { EventCapturePlugin } from './event-capture.js';
+import { TypeCheckerPlugin } from './type-checker.js';
+
 // Individual plugin exports
 export {
   OllamaPlugin,
