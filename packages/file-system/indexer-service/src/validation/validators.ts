@@ -210,9 +210,15 @@ function validateWindowsPathSecurity(trimmed: string): boolean {
     return false;
   }
 
-  // Block reserved device names
-  const baseName = path.basename(trimmed).toUpperCase();
+  // Block reserved device names (even without extension)
+  const baseName = path.basename(trimmed).toUpperCase().split('.')[0]; // Remove extension if present
   if (WINDOWS_RESERVED_NAMES.includes(baseName)) {
+    return false;
+  }
+
+  // Block Windows device names with any extension or path
+  const windowsDevicePattern = /^(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(\..*|\/.*)?$/i;
+  if (windowsDevicePattern.test(trimmed)) {
     return false;
   }
 
