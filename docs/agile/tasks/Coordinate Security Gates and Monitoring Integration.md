@@ -1,15 +1,15 @@
 ---
-uuid: "security-gates-integration-2025-10-17"
+uuid: "89e4b7e6-feec-41c1-927c-c401ffa35f55"
 title: "Coordinate Security Gates and Monitoring Integration"
 slug: "Coordinate Security Gates and Monitoring Integration"
-status: "todo"
+status: "archived"
 priority: "P0"
 labels: ["coordination", "integration", "security-gates", "monitoring", "project-management"]
 created_at: "2025-10-17T01:30:00.000Z"
 estimates:
-  complexity: "High"
-  scale: "3"
-  time_to_completion: "2 hours"
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 ## 🚨 Security Gates and Monitoring Integration Coordination

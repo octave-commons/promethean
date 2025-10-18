@@ -15,44 +15,52 @@ estimates:
 ## 🐛 Critical: Kanban Column Underscore Normalization Bug
 
 ### Problem Summary
+
 Kanban column underscore normalization bug exists in CLI commands and board generation, causing inconsistent column name handling.
 
 ### Technical Details
+
 - **Component**: Kanban CLI and Board Generation
 - **Issue Type**: Bug - String Processing
 - **Impact**: Column name inconsistencies in operations
 - **Priority**: P0 (Critical for CLI reliability)
 
 ### Bug Description
+
 Underscore normalization in column names is not working correctly across CLI commands and board generation, leading to inconsistent behavior.
 
 ### Breakdown Tasks
 
 #### Phase 1: Investigation (1 hour)
+
 - [ ] Locate underscore normalization code in CLI
 - [ ] Identify board generation column handling
 - [ ] Document current inconsistent behavior
 - [ ] Find all affected CLI commands
 
 #### Phase 2: Fix Implementation (1 hour)
+
 - [ ] Fix underscore normalization logic
 - [ ] Ensure consistent column name handling
 - [ ] Update CLI command processing
 - [ ] Fix board generation column names
 
 #### Phase 3: Testing (1 hour)
+
 - [ ] Create test cases for column normalization
 - [ ] Test all CLI commands with underscore columns
 - [ ] Verify board generation consistency
 - [ ] Test edge cases and special characters
 
 #### Phase 4: Deployment (1 hour)
+
 - [ ] Deploy fix to production
 - [ ] Update documentation
 - [ ] Test with existing boards
 - [ ] Monitor for any issues
 
 ### Acceptance Criteria
+
 - [ ] Column underscore normalization works consistently
 - [ ] All CLI commands handle underscore columns correctly
 - [ ] Board generation shows consistent column names
@@ -60,6 +68,7 @@ Underscore normalization in column names is not working correctly across CLI com
 - [ ] Test coverage for normalization scenarios
 
 ### Definition of Done
+
 - Underscore normalization bug is completely fixed
 - All CLI commands work consistently with underscore columns
 - Board generation handles column names correctly

@@ -1,15 +1,15 @@
 ---
-uuid: "wip-limit-enforcement-gate-2025-10-17"
+uuid: "a666f910-5767-47b8-a8a8-d210411784f9"
 title: "Implement WIP Limit Enforcement Gate"
 slug: "Implement WIP Limit Enforcement Gate"
-status: "todo"
+status: "in_progress"
 priority: "P0"
 labels: ["security-gates", "wip-limits", "automation", "kanban-cli", "capacity-management"]
 created_at: "2025-10-17T01:20:00.000Z"
 estimates:
-  complexity: "Medium"
-  scale: "2"
-  time_to_completion: "3 hours"
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 ## 🚨 WIP Limit Enforcement Gate Implementation
