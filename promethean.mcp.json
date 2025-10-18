@@ -42,9 +42,7 @@
     "pnpm.install",
     "pnpm.add",
     "pnpm.remove",
-    "pnpm.runScript",
-    "zai-mcp-server_analyze_image",
-    "zai-mcp-server_analyze_video"
+    "pnpm.runScript"
   ],
   "includeHelp": true,
   "stdioMeta": {
@@ -117,25 +115,7 @@
       "includeHelp": true
     },
     "kanban": {
-      "tools": [
-        "kanban.get-board",
-        "kanban.get-column",
-        "kanban.find-task-by-id",
-        "kanban.find-task-by-title",
-        "kanban.update-status",
-        "kanban.move-task",
-        "kanban.sync-board",
-        "kanban.search-tasks",
-        "kanban.update-task-description",
-        "kanban.rename-task",
-        "kanban.archive-task",
-        "kanban.delete-task",
-        "kanban.merge-tasks",
-        "kanban.bulk-archive",
-        "kanban.analyze-task",
-        "kanban.rewrite-task",
-        "kanban.breakdown-task"
-      ],
+      "tools": [],
       "includeHelp": true,
       "meta": {
         "title": "Kanban Task Management",
@@ -182,7 +162,7 @@
       "includeHelp": true
     },
     "vision": {
-      "tools": ["zai-mcp-server_analyze_image", "zai-mcp-server_analyze_video"],
+      "tools": [],
       "includeHelp": true,
       "meta": {
         "title": "Vision Analysis Tools",
