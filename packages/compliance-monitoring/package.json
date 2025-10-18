@@ -1,0 +1,100 @@
+{
+  "name": "@promethean/compliance-monitoring",
+  "version": "1.0.0",
+  "description": "Automated compliance monitoring system for real-time violation detection and alerting",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "ava",
+    "test:coverage": "c8 ava",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "clean": "rm -rf dist",
+    "start": "node dist/index.js",
+    "start:dev": "tsx watch src/index.ts"
+  },
+  "dependencies": {
+    "@promethean/kanban": "workspace:*",
+    "fastify": "^4.24.3",
+    "@fastify/static": "^6.12.0",
+    "ws": "^8.14.2",
+    "node-cron": "^3.0.3",
+    "chokidar": "^3.5.3",
+    "redis": "^4.6.10",
+    "pg": "^8.11.3",
+    "nodemailer": "^6.9.7",
+    "@slack/web-api": "^6.9.0",
+    "winston": "^3.11.0",
+    "joi": "^17.11.0",
+    "lodash": "^4.17.21",
+    "date-fns": "^2.30.0",
+    "commander": "^11.1.0"
+    "@promethean/kanban": "workspace:*",
+    "fastify": "^4.24.3",
+    "ws": "^8.14.2",
+    "node-cron": "^3.0.3",
+    "chokidar": "^3.5.3",
+    "redis": "^4.6.10",
+    "pg": "^8.11.3",
+    "nodemailer": "^6.9.7",
+    "@slack/web-api": "^6.9.0",
+    "winston": "^3.11.0",
+    "joi": "^17.11.0",
+    "lodash": "^4.17.21",
+    "date-fns": "^2.30.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.7",
+    "@types/ws": "^8.5.8",
+    "@types/node-cron": "^3.0.11",
+    "@types/pg": "^8.10.7",
+    "@types/nodemailer": "^6.4.14",
+    "@types/lodash": "^4.14.201",
+    "ava": "^5.3.1",
+    "c8": "^8.0.1",
+    "tsx": "^4.6.0",
+    "typescript": "^5.2.2"
+    "@types/node": "^20.8.7",
+    "@types/ws": "^8.5.8",
+    "@types/node-cron": "^3.0.11",
+    "@types/pg": "^8.10.7",
+    "@types/nodemailer": "^6.4.14",
+    "@types/lodash": "^4.14.201",
+    "ava": "^5.3.1",
+    "c8": "^8.0.1",
+    "tsx": "^4.6.0",
+    "typescript": "^5.2.2"
+  },
+  "ava": {
+    "files": [
+      "src/tests/**/*.test.ts"
+    ],
+    "nodeArguments": [
+      "--loader=tsx"
+    ]
+  },
+  "c8": {
+    "reporter": [
+      "text",
+      "lcov",
+      "html"
+    ],
+    "exclude": [
+      "src/tests/**",
+      "dist/**"
+    ]
+  },
+  "keywords": [
+    "compliance",
+    "monitoring",
+    "kanban",
+    "automation",
+    "alerting",
+    "security"
+  ],
+  "author": "Promethean Compliance Team",
+  "license": "MIT"
+}
