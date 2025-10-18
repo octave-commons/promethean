@@ -62,24 +62,27 @@ function extractTaskType(entry: any): string | null {
   if (entry.rawEvent) {
     try {
       const rawEvent = JSON.parse(entry.rawEvent);
-      console.log('DEBUG: rawEvent.type =', rawEvent.type);
       if (rawEvent.type) {
-        const result = rawEvent.type.replace(/\./g, '_');
-        console.log('DEBUG: returning event type =', result);
-        return result;
+        return rawEvent.type.replace(/\./g, '_');
       }
     } catch (e) {
-      console.error('Error parsing rawEvent:', e);
       // Fall back to content parsing
     }
   }
 
-  console.log('DEBUG: no rawEvent.type found, entry.rawEvent =', entry.rawEvent);
-
   // Try to extract from content
   if (entry.content) {
-    const match = entry.content.match(/TASK:\s*([^:\n]+)/i);
-    return match?.[1]?.trim() || null;
+    // Look for TASK: pattern
+    const taskMatch = entry.content.match(/TASK:\s*([^(]+)/i);
+    if (taskMatch) {
+      return taskMatch[1].trim();
+    }
+
+    // Look for UUID pattern for task identification
+    const uuidMatch = entry.content.match(/UUID:\s*([a-f0-9-]+)/i);
+    if (uuidMatch) {
+      return `task_${uuidMatch[1].substring(0, 8)}`;
+    }
   }
 
   return null;
@@ -106,8 +109,23 @@ function extractAgentId(entry: any): string | null {
 
   // Try to extract from content
   if (entry.content) {
-    const match = entry.content.match(/agent[:\s]+([a-zA-Z0-9_-]+)/i);
-    return match?.[1]?.trim() || null;
+    // Look for specialist role
+    const specialistMatch = entry.content.match(/You are a ([A-Z\s]+SPECIALIST)/i);
+    if (specialistMatch) {
+      return specialistMatch[1].toLowerCase().replace(/\s+/g, '_');
+    }
+
+    // Look for agent pattern
+    const agentMatch = entry.content.match(/agent[:\s]+([a-zA-Z0-9_-]+)/i);
+    if (agentMatch) {
+      return agentMatch[1].trim();
+    }
+
+    // Look for session ID pattern
+    const sessionMatch = entry.content.match(/ses_[a-zA-Z0-9]+/);
+    if (sessionMatch) {
+      return sessionMatch[0];
+    }
   }
 
   return null;

@@ -1,0 +1,40 @@
+{
+  "rateLimitWindowMs": 900000,
+  "rateLimitMaxRequests": 1000,
+  "maxFailedAttempts": 5,
+  "ipBlockDurationMs": 7200000,
+  "maxRequestSizeBytes": 5242880,
+  "maxUrlLength": 1024,
+  "enableSecurityHeaders": true,
+  "allowedOrigins": [
+    "http://localhost:3000",
+    "http://localhost:3001"
+  ],
+  "strictTransportSecurity": true,
+  "contentSecurityPolicy": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'",
+  "enableAuditLog": true,
+  "auditLogSensitiveData": false,
+  "enableRealTimeMonitoring": false,
+  "maxFileSizeBytes": 10485760,
+  "allowedFileExtensions": [
+    ".txt",
+    ".md",
+    ".json",
+    ".js",
+    ".ts",
+    ".py",
+    ".yaml",
+    ".yml"
+  ],
+  "blockedFilePatterns": [
+    "*.exe",
+    "*.bat",
+    "*.cmd",
+    "*.scr",
+    "*.pif",
+    "*.com"
+  ],
+  "sessionTimeoutMs": 1800000,
+  "requireHttps": false,
+  "enableSessionRotation": true
+}

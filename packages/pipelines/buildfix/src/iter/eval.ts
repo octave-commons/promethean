@@ -15,7 +15,7 @@ export function errorStillPresent(diags: RawTscDiagnostic[], key: string) {
   );
 }
 
-export async function buildAndJudge(tsconfig: string, key: string) {
+export async function buildAndJudge(tsconfig: string, key: string, options?: { timeout?: number }) {
   // Check if tsconfig exists before running tsc
   try {
     await fs.access(tsconfig);
@@ -26,7 +26,7 @@ export async function buildAndJudge(tsconfig: string, key: string) {
     throw error;
   }
 
-  const r = await tsc(tsconfig);
+  const r = await tsc(tsconfig, options);
   const present = errorStillPresent(r.diags, key);
   return { r, present };
 }

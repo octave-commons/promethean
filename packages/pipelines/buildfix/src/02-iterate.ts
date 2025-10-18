@@ -40,6 +40,8 @@ export type IterateOptions = {
   readonly push?: boolean;
   readonly useGh?: boolean;
   readonly rollbackOnRegress?: boolean;
+  readonly timeout?: number;
+  readonly tscTimeout?: number;
 };
 
 function makeBranch(err: BuildError, branchPrefix: string): string {
@@ -60,6 +62,7 @@ interface IterateContext {
   push: boolean;
   useGh: boolean;
   doRollback: boolean;
+  tscTimeout?: number;
 }
 
 async function initializeContext(opts: IterateOptions): Promise<IterateContext> {
@@ -94,6 +97,7 @@ async function initializeContext(opts: IterateOptions): Promise<IterateContext> 
     push,
     useGh,
     doRollback,
+    tscTimeout: opts.tscTimeout,
   };
 }
 
@@ -141,7 +145,7 @@ async function executeFixAttempt(
   branch: string | undefined,
 ): Promise<{ attempt: Attempt; resolved: boolean }> {
   // Baseline
-  const { r: before, present: presentBefore } = await buildAndJudge(ctx.tsconfig, err.key);
+  const { r: before, present: presentBefore } = await buildAndJudge(ctx.tsconfig, err.key, { timeout: ctx.tscTimeout });
   const beforeCount = before.diags.length;
   if (!presentBefore) {
     return { attempt: { n: attemptNumber, resolved: true } as Attempt, resolved: true };
@@ -174,7 +178,7 @@ async function executeFixAttempt(
   }
 
   // 4) Evaluate
-  const { r: after, present } = await buildAndJudge(ctx.tsconfig, err.key);
+  const { r: after, present } = await buildAndJudge(ctx.tsconfig, err.key, { timeout: ctx.tscTimeout });
   const afterCount = after.diags.length;
   const regressed = afterCount > beforeCount;
 
@@ -185,7 +189,7 @@ async function executeFixAttempt(
       await rollbackWorktree();
       rolledBack = true;
       // recompute to keep history consistent with tree
-      const { r: re } = await buildAndJudge(ctx.tsconfig, err.key);
+      const { r: re } = await buildAndJudge(ctx.tsconfig, err.key, { timeout: ctx.tscTimeout });
       // replace "after" snapshot with the post-rollback state
       (after as any).diags = re.diags;
     } else {

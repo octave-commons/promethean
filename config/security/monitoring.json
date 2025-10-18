@@ -1,0 +1,23 @@
+{
+  "enableThreatDetection": true,
+  "threatThresholds": {
+    "failedAuthAttempts": 10,
+    "suspiciousRequestsPerMinute": 50,
+    "largeFileUploadAttempts": 3,
+    "pathTraversalAttempts": 5
+  },
+  "enableAutomatedResponse": true,
+  "automatedResponses": {
+    "temporaryIpBlock": true,
+    "rateLimitReduction": true,
+    "alertSecurityTeam": true,
+    "logSecurityEvent": true
+  },
+  "enablePerformanceMonitoring": true,
+  "performanceThresholds": {
+    "responseTimeMs": 2000,
+    "memoryUsagePercent": 80,
+    "cpuUsagePercent": 70,
+    "diskUsagePercent": 85
+  }
+}

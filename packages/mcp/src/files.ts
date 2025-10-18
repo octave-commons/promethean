@@ -1,5 +1,6 @@
 import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
+import { validateMcpOperation } from './validation/index.js';
 
 // Resolve base path from env or CWD,
 // this is the 'sandbox' root.
@@ -11,7 +12,7 @@ export const getMcpRoot = (): string => {
 /** Strip a leading "../" etc. and never return a path outside the root. */
 export const normalizeToRoot = (ROOT_PATH: string, rel: string | undefined = '.'): string => {
   const base = path.resolve(ROOT_PATH);
-  
+
   // If rel is already absolute, check if it's inside the root
   if (rel && path.isAbsolute(rel)) {
     const abs = path.resolve(rel);
@@ -20,7 +21,7 @@ export const normalizeToRoot = (ROOT_PATH: string, rel: string | undefined = '.'
     }
     throw new Error('path outside root');
   }
-  
+
   // Otherwise resolve relative to the base
   const abs = path.resolve(base, rel || '.');
   const relToBase = path.relative(base, abs);
@@ -45,8 +46,15 @@ export const resolvePath = async (
   p: string | null | undefined,
 ): Promise<string | null> => {
   if (!p) return null;
+
+  // Use comprehensive validation first
+  const validationResult = await validateMcpOperation(ROOT_PATH, p, 'read');
+  if (!validationResult.valid) {
+    return null;
+  }
+
   try {
-    const absCandidate = normalizeToRoot(ROOT_PATH, p);
+    const absCandidate = normalizeToRoot(ROOT_PATH, validationResult.sanitizedPath!);
     if (!isInsideRoot(ROOT_PATH, absCandidate)) return null;
     const st = await fs.stat(absCandidate);
     if (st.isFile()) return absCandidate;
@@ -63,7 +71,13 @@ export const viewFile = async (
   line: number = 1,
   context: number = 25,
 ) => {
-  const abs = await resolvePath(ROOT_PATH, relOrFuzzy);
+  // Validate input using comprehensive framework
+  const validationResult = await validateMcpOperation(ROOT_PATH, relOrFuzzy, 'read');
+  if (!validationResult.valid) {
+    throw new Error(`Invalid path: ${validationResult.error}`);
+  }
+
+  const abs = await resolvePath(ROOT_PATH, validationResult.sanitizedPath!);
   if (!abs) throw new Error('file not found');
   const rel = path.relative(ROOT_PATH, abs).replace(/\\/g, '/');
   const raw = await fs.readFile(abs, 'utf8');
@@ -98,8 +112,14 @@ export const listDirectory = async (
   rel: string,
   options: ListDirOptions = {},
 ) => {
+  // Validate input using comprehensive framework
+  const validationResult = await validateMcpOperation(ROOT_PATH, rel || '.', 'list');
+  if (!validationResult.valid) {
+    throw new Error(`Invalid path: ${validationResult.error}`);
+  }
+
   const includeHidden = Boolean(options.hidden ?? options.includeHidden);
-  const abs = normalizeToRoot(ROOT_PATH, rel || '.');
+  const abs = normalizeToRoot(ROOT_PATH, validationResult.sanitizedPath!);
   const dirents = await fs.readdir(abs, { withFileTypes: true });
   const entries = dirents
     .filter((entry) => !entry.name.startsWith('.') || includeHidden)
@@ -141,9 +161,15 @@ type TreeNode = {
 
 // Depth-tree with filters (basic version of bridge's tree)
 export const treeDirectory = async (ROOT_PATH: string, sel: string, options: TreeOptions = {}) => {
+  // Validate input using comprehensive framework
+  const validationResult = await validateMcpOperation(ROOT_PATH, sel || '.', 'tree');
+  if (!validationResult.valid) {
+    throw new Error(`Invalid path: ${validationResult.error}`);
+  }
+
   const includeHidden = options.includeHidden ?? false;
   const maxDepth = Math.max(1, Number(options.depth || 1));
-  const abs = normalizeToRoot(ROOT_PATH, sel || '.');
+  const abs = normalizeToRoot(ROOT_PATH, validationResult.sanitizedPath!);
   const baseRel = (path.relative(ROOT_PATH, abs) || '.').replace(/\\/g, '/');
 
   const walk = async (
@@ -251,7 +277,13 @@ const validatePathSecurity = async (ROOT_PATH: string, targetPath: string): Prom
 
 // Write a file with utf8 encoding.
 export const writeFileContent = async (ROOT_PATH: string, filePath: string, content: string) => {
-  const abs = normalizeToRoot(ROOT_PATH, filePath);
+  // Validate input using comprehensive framework first
+  const validationResult = await validateMcpOperation(ROOT_PATH, filePath, 'write');
+  if (!validationResult.valid) {
+    throw new Error(`Invalid path: ${validationResult.error}`);
+  }
+
+  const abs = normalizeToRoot(ROOT_PATH, validationResult.sanitizedPath!);
 
   // Validate path security before any file operations
   await validatePathSecurity(ROOT_PATH, abs);
@@ -274,7 +306,13 @@ export const writeFileLines = async (
   lines: string[],
   startLine: number,
 ) => {
-  const abs = normalizeToRoot(ROOT_PATH, filePath);
+  // Validate input using comprehensive framework first
+  const validationResult = await validateMcpOperation(ROOT_PATH, filePath, 'write');
+  if (!validationResult.valid) {
+    throw new Error(`Invalid path: ${validationResult.error}`);
+  }
+
+  const abs = normalizeToRoot(ROOT_PATH, validationResult.sanitizedPath!);
 
   // Validate path security before writing
   await validatePathSecurity(ROOT_PATH, abs);

@@ -5,6 +5,7 @@ import { requestPlan } from '../iter/plan.js';
 import { materializeSnippet } from '../iter/dsl.js';
 import { buildAndJudge } from '../iter/eval.js';
 import { applySnippetToProject } from '../utils.js';
+import { globalTimeoutManager } from '../timeout/timeout-manager.js';
 
 import { createFixtures, fixtures } from './fixtures.js';
 import type { Fixture } from './fixtures.js';
@@ -93,7 +94,7 @@ export class BuildFixBenchmark {
 
     try {
       // Get initial error count
-      const { r: beforeBuild } = await buildAndJudge(tsconfigPath, '');
+      const { r: beforeBuild } = await buildAndJudge(tsconfigPath, '', { timeout: globalTimeoutManager.getTimeout('tsc') });
       result.errorCountBefore = beforeBuild.diags.length;
 
       if (result.errorCountBefore === 0) {
@@ -144,7 +145,7 @@ export class BuildFixBenchmark {
           await applySnippetToProject(tsconfigPath, snippetPath);
 
           // Check if fixed
-          const { r: afterBuild, present } = await buildAndJudge(tsconfigPath, mockError.key);
+          const { r: afterBuild, present } = await buildAndJudge(tsconfigPath, mockError.key, { timeout: globalTimeoutManager.getTimeout('tsc') });
           result.errorCountAfter = afterBuild.diags.length;
           result.errorsResolved = !present;
 

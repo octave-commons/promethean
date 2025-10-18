@@ -8,8 +8,6 @@ import assert from 'node:assert';
 import {
   createAuthorizedToolFactory,
   getCurrentAuthConfig,
-  isStrictModeEnabled,
-  isAuthRequiredForDangerous,
   validateAdminIp,
   getAuthorizationHealth,
 } from '../core/authorization.js';
@@ -99,7 +97,7 @@ describe('Authorization Core Functionality', () => {
       assert.fail('Should have thrown an error');
     } catch (error) {
       assert(
-        error.message.includes('not found in authorization configuration'),
+        (error as Error).message.includes('not found in authorization configuration'),
         'Should deny unknown tools in strict mode',
       );
     }
@@ -119,7 +117,7 @@ describe('Authorization Core Functionality', () => {
     );
 
     const tool = toolFactory(context);
-    const result = await tool.invoke({ test: 'data' });
+    const result = (await tool.invoke({ test: 'data' })) as any;
 
     assert(result.success, 'Should allow known tools in strict mode');
   });
@@ -144,7 +142,7 @@ describe('Authorization Core Functionality', () => {
       assert.fail('Should have thrown an error');
     } catch (error) {
       assert(
-        error.message.includes('Authentication required for dangerous operation'),
+        (error as Error).message.includes('Authentication required for dangerous operation'),
         'Should require auth for dangerous operations',
       );
     }
@@ -164,7 +162,7 @@ describe('Authorization Core Functionality', () => {
     );
 
     const tool = toolFactory(context);
-    const result = await tool.invoke({ test: 'data' });
+    const result = (await tool.invoke({ test: 'data' })) as any;
 
     assert(result.success, 'Should allow authenticated users');
   });
@@ -185,7 +183,10 @@ describe('Authorization Core Functionality', () => {
       await tool.invoke({ test: 'data' });
       assert.fail('Should have thrown an error');
     } catch (error) {
-      assert(error.message.includes('Admin access denied from IP'), 'Should enforce IP whitelist');
+      assert(
+        (error as Error).message.includes('Admin access denied from IP'),
+        'Should enforce IP whitelist',
+      );
     }
   });
 
@@ -200,7 +201,7 @@ describe('Authorization Core Functionality', () => {
 
     const toolFactory = createAuthorizedToolFactory(createMockTool('exec_run'), 'exec_run');
     const tool = toolFactory(context);
-    const result = await tool.invoke({ test: 'data' });
+    const result = (await tool.invoke({ test: 'data' })) as any;
 
     assert(result.success, 'Should allow admin from whitelisted IP');
   });

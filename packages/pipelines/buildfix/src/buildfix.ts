@@ -257,6 +257,7 @@ export class BuildFix {
           const { r: before, present: presentBefore } = await buildAndJudge(
             resolvedTsconfig,
             buildError.key,
+            { timeout: timeoutConfig.tsc }
           );
           const beforeCount = before.diags.length;
           if (!presentBefore) {
@@ -321,7 +322,7 @@ export class BuildFix {
             afterContent = undefined;
           }
 
-          const { r: after, present } = await buildAndJudge(resolvedTsconfig, buildError.key);
+          const { r: after, present } = await buildAndJudge(resolvedTsconfig, buildError.key, { timeout: timeoutConfig.tsc });
           const afterCount = after.diags.length;
           const regressed = afterCount > beforeCount;
 

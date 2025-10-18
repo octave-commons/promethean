@@ -1,0 +1,39 @@
+{
+  "rateLimitWindowMs": 900000,
+  "rateLimitMaxRequests": 500,
+  "maxFailedAttempts": 5,
+  "ipBlockDurationMs": 7200000,
+  "maxRequestSizeBytes": 5242880,
+  "maxUrlLength": 1024,
+  "enableSecurityHeaders": true,
+  "allowedOrigins": [
+    "https://promethean.ai"
+  ],
+  "strictTransportSecurity": true,
+  "contentSecurityPolicy": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'",
+  "enableAuditLog": true,
+  "auditLogSensitiveData": false,
+  "enableRealTimeMonitoring": true,
+  "maxFileSizeBytes": 10485760,
+  "allowedFileExtensions": [
+    ".txt",
+    ".md",
+    ".json",
+    ".js",
+    ".ts",
+    ".py",
+    ".yaml",
+    ".yml"
+  ],
+  "blockedFilePatterns": [
+    "*.exe",
+    "*.bat",
+    "*.cmd",
+    "*.scr",
+    "*.pif",
+    "*.com"
+  ],
+  "sessionTimeoutMs": 1800000,
+  "requireHttps": true,
+  "enableSessionRotation": true
+}

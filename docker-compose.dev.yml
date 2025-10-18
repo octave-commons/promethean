@@ -1,0 +1,127 @@
+version: '3.8'
+
+services:
+  # Main development environment
+  promethean-dev:
+    build:
+      context: .
+      target: development
+      platforms:
+        - linux/amd64
+        - linux/arm64
+    container_name: promethean-dev
+    ports:
+      - '3000:3000' # Duck Web
+      - '8080:8080' # Various services
+      - '8081:8081' # Cephalon
+      - '3210:3210' # SmartGPT Bridge
+      - '9229:9229' # Node.js debugging
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - promethean_pnpm_store:/root/.local/share/pnpm
+      - promethean_m2:/root/.m2
+      - promethean_gitlibs:/root/.gitlibs
+      - promethean_cpcache:/root/.cpcache
+    environment:
+      - NODE_ENV=development
+      - DEBUG=*
+      - CI=false
+    networks:
+      - promethean-network
+    stdin_open: true
+    tty: true
+    command: pnpm dev:all
+
+  # Database services
+  mongodb:
+    image: mongo:7
+    container_name: promethean-mongodb
+    ports:
+      - '27017:27017'
+    volumes:
+      - promethean_mongodb_data:/data/db
+      - promethean_mongodb_config:/data/configdb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_DATABASE=promethean
+    networks:
+      - promethean-network
+
+  # Redis for caching
+  redis:
+    image: redis:7-alpine
+    container_name: promethean-redis
+    ports:
+      - '6379:6379'
+    volumes:
+      - promethean_redis_data:/data
+    command: redis-server --appendonly yes
+    networks:
+      - promethean-network
+
+  # Ollama for AI services
+  ollama:
+    image: ollama/ollama:latest
+    container_name: promethean-ollama
+    ports:
+      - '11434:11434'
+    volumes:
+      - promethean_ollama_data:/root/.ollama
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+    networks:
+      - promethean-network
+    command: serve
+
+  # Development tools
+  adminer:
+    image: adminer:latest
+    container_name: promethean-adminer
+    ports:
+      - '8082:8080'
+    environment:
+      - ADMINER_DEFAULT_SERVER=mongodb
+    networks:
+      - promethean-network
+    depends_on:
+      - mongodb
+
+  # Redis Commander for Redis management
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: promethean-redis-commander
+    ports:
+      - '8083:8081'
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    networks:
+      - promethean-network
+    depends_on:
+      - redis
+
+volumes:
+  promethean_pnpm_store:
+    driver: local
+  promethean_m2:
+    driver: local
+  promethean_gitlibs:
+    driver: local
+  promethean_cpcache:
+    driver: local
+  promethean_mongodb_data:
+    driver: local
+  promethean_mongodb_config:
+    driver: local
+  promethean_redis_data:
+    driver: local
+  promethean_ollama_data:
+    driver: local
+
+networks:
+  promethean-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

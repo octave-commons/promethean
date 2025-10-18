@@ -1,26 +1,27 @@
 import path from 'node:path';
 
 import { z } from 'zod';
-import {
-  loadBoard,
-  loadKanbanConfig,
-  getColumn,
-  findTaskById,
-  findTaskByTitle,
-  updateStatus,
-  moveTask,
-  syncBoardAndTasks,
-  searchTasks,
-  updateTaskDescription,
-  renameTask,
-  archiveTask,
-  deleteTask,
-  mergeTasks,
-  analyzeTask,
-  rewriteTask,
-  breakdownTask,
-} from '@promethean/kanban';
-import type { Board } from '@promethean/kanban';
+// Temporarily disabled for security testing
+// import {
+//   loadBoard,
+//   loadKanbanConfig,
+//   getColumn,
+//   findTaskById,
+//   findTaskByTitle,
+//   updateStatus,
+//   moveTask,
+//   syncBoardAndTasks,
+//   searchTasks,
+//   updateTaskDescription,
+//   renameTask,
+//   archiveTask,
+//   deleteTask,
+//   mergeTasks,
+//   analyzeTask,
+//   rewriteTask,
+//   breakdownTask,
+// } from '@promethean/kanban';
+// import type { Board } from '@promethean/kanban';
 
 import type { ToolFactory, ToolSpec } from '../core/types.js';
 

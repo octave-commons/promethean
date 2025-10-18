@@ -212,6 +212,7 @@ export const loadConfigWithSource = (
  * 1) --config / -c path (relative to cwd)
  * 2) nearest promethean.mcp.json from cwd upward
  * 3) legacy env MCP_CONFIG_JSON (object)
+
  * 4) defaults
  */
 export const loadConfig = (

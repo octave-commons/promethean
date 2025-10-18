@@ -5,7 +5,12 @@ permissions:
   contents: read
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [20]
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
@@ -44,10 +49,23 @@ jobs:
             cljdeps-${{ runner.os }}-${{ hashFiles('**/deps.edn', '**/bb.edn') }}-
             cljdeps-${{ runner.os }}-
 
+      - name: Install Clojure toolchain (Unix)
+        if: runner.os != 'Windows'
+        run: bash run/install-clojure.sh
+
+      - name: Install Clojure toolchain (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          powershell -Command "& {iwr -useb https://raw.githubusercontent.com/clojure/brew-install/latest/posix-install.sh | bash}"
+          echo "C:\Program Files\clojure\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
       - name: Install Clojure toolchain
         run: bash run/install-clojure.sh
       - name: Install deps
         run: pnpm install --frozen-lockfile
+        env:
+          # Ensure consistent behavior across platforms
+          npm_config_target_platform: ${{ runner.os }}
       - uses: nrwl/nx-set-shas@v4
       - name: Configure Nx base/head for PR
         if: github.event_name == 'pull_request'
@@ -63,6 +81,7 @@ jobs:
             git fetch --no-tags origin "${NX_BASE}" || true
           fi
       - name: Run type checking
+        shell: bash
         run: |
           if [ -n "${NX_BASE:-}" ] && [ -n "${NX_HEAD:-}" ]; then
             pnpm exec nx affected -t typecheck --parallel --base="$NX_BASE" --head="$NX_HEAD"
@@ -70,6 +89,7 @@ jobs:
             pnpm -r exec tsc --noEmit --strict
           fi
       - name: Run linting
+        shell: bash
         run: |
           if [ -n "${NX_BASE:-}" ] && [ -n "${NX_HEAD:-}" ]; then
             pnpm exec nx affected -t lint --parallel --base="$NX_BASE" --head="$NX_HEAD"
@@ -77,6 +97,7 @@ jobs:
             pnpm -r lint
           fi
       - name: Run affected builds
+        shell: bash
         run: |
           if [ -n "${NX_BASE:-}" ] && [ -n "${NX_HEAD:-}" ]; then
             pnpm exec nx affected -t build --parallel --base="$NX_BASE" --head="$NX_HEAD"

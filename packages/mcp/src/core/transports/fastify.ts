@@ -6,6 +6,9 @@ import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 
+// Import security middleware
+import { createSecurityMiddleware } from '../../security/index.js';
+
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { isInitializeRequest } from '@modelcontextprotocol/sdk/types.js';
@@ -357,14 +360,17 @@ const hasInitializeRequest = (payload: unknown): boolean => {
   return isInitializeRequest(payload as JSONRPCMessage);
 };
 
-
 const ROUTE_METHODS = ['POST', 'GET', 'DELETE'] as const;
 const PROXY_METHODS = ['POST', 'GET'] as const;
 
 const ensureAcceptHeader = (headers: IncomingMessage['headers'], includeSse = true): string => {
   const current = headers['accept'];
   if (typeof current === 'string') {
-    if (includeSse && current.includes('application/json') && current.includes('text/event-stream')) {
+    if (
+      includeSse &&
+      current.includes('application/json') &&
+      current.includes('text/event-stream')
+    ) {
       return current;
     }
     if (!includeSse && current.includes('application/json')) {
@@ -408,18 +414,22 @@ const createProxyHandler = (proxy: ProxyLifecycle) => {
       const isHealthy = true; // TODO: Add actual health check
       const status = isHealthy ? 'ready' : 'initializing';
 
-      rawRes.writeHead(200, {
-        'content-type': 'application/json',
-        'access-control-allow-origin': '*',
-      }).end(JSON.stringify({
-        name: proxy.spec.name,
-        status,
-        type: 'stdio-proxy',
-        httpPath: proxy.spec.httpPath,
-        message: isHealthy
-          ? 'Proxy server is running. Use POST for JSON-RPC requests.'
-          : 'Proxy server is initializing. Please wait before making POST requests.',
-      }));
+      rawRes
+        .writeHead(200, {
+          'content-type': 'application/json',
+          'access-control-allow-origin': '*',
+        })
+        .end(
+          JSON.stringify({
+            name: proxy.spec.name,
+            status,
+            type: 'stdio-proxy',
+            httpPath: proxy.spec.httpPath,
+            message: isHealthy
+              ? 'Proxy server is running. Use POST for JSON-RPC requests.'
+              : 'Proxy server is initializing. Please wait before making POST requests.',
+          }),
+        );
       return;
     }
 
@@ -439,11 +449,13 @@ const createProxyHandler = (proxy: ProxyLifecycle) => {
     try {
       normalizedBody = ensureInitializeDefaults(mustParseJson(request.body));
     } catch {
-      rawRes.writeHead(400).end(JSON.stringify({
-        jsonrpc: '2.0',
-        error: { code: -32700, message: 'Parse error' },
-        id: null,
-      }));
+      rawRes.writeHead(400).end(
+        JSON.stringify({
+          jsonrpc: '2.0',
+          error: { code: -32700, message: 'Parse error' },
+          id: null,
+        }),
+      );
       return;
     }
 
@@ -576,9 +588,21 @@ const respondWithCors = (reply: FastifyReply, status: number, payload: unknown):
 export const fastifyTransport = (opts?: { port?: number; host?: string }): Transport => {
   const port = opts?.port ?? Number(process.env.PORT ?? 3210);
   const host = opts?.host ?? process.env.HOST ?? '0.0.0.0';
-  const isVerboseLogging = process.env.MCP_VERBOSE_LOGGING === 'true' || process.env.MCP_DEBUG === 'true';
+  const isVerboseLogging =
+    process.env.MCP_VERBOSE_LOGGING === 'true' || process.env.MCP_DEBUG === 'true';
 
   const app = Fastify({ logger: false });
+
+  // Initialize and register security middleware
+  const securityMiddleware = createSecurityMiddleware({
+    enableSecurityHeaders: true,
+    enableAuditLog: true,
+    allowedOrigins: ['*'], // Configure based on your needs
+    rateLimitMaxRequests: 1000,
+    rateLimitWindowMs: 15 * 60 * 1000, // 15 minutes
+  });
+
+  securityMiddleware.register(app);
 
   // Add comprehensive request logging middleware
   if (isVerboseLogging) {
@@ -619,7 +643,8 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
             if (Buffer.isBuffer(body)) {
               const bodyStr = body.toString('utf8');
               // Truncate large bodies
-              const displayBody = bodyStr.length > 500 ? bodyStr.substring(0, 500) + '...' : bodyStr;
+              const displayBody =
+                bodyStr.length > 500 ? bodyStr.substring(0, 500) + '...' : bodyStr;
               console.log(`   Body (${body.length} bytes):`, displayBody);
             } else if (typeof body === 'string') {
               const displayBody = body.length > 500 ? body.substring(0, 500) + '...' : body;
@@ -649,7 +674,11 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
 
       // Log response body for successful requests (sample only)
       const contentType = reply.getHeader('content-type');
-      if (reply.statusCode < 300 && typeof contentType === 'string' && contentType.includes('application/json')) {
+      if (
+        reply.statusCode < 300 &&
+        typeof contentType === 'string' &&
+        contentType.includes('application/json')
+      ) {
         try {
           // We can't easily access the response body here without buffering
           // but we can note that a JSON response was sent
@@ -685,6 +714,38 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
 
   app.get('/healthz', (_req, rep) => rep.send({ ok: true }));
 
+  // Security endpoints
+  app.get('/security/stats', (_req, reply) => {
+    const stats = securityMiddleware.getSecurityStats();
+    respondWithCors(reply, 200, {
+      ...stats,
+      timestamp: new Date().toISOString(),
+    });
+  });
+
+  app.get('/security/audit-log', (req, reply) => {
+    const query = req.query as any;
+    const options: any = {
+      limit: query.limit ? parseInt(query.limit, 10) : 100,
+      clientIp: query.clientIp as string,
+      onlyViolations: query.onlyViolations === 'true',
+    };
+
+    if (query.startTime) {
+      options.startTime = new Date(query.startTime as string);
+    }
+    if (query.endTime) {
+      options.endTime = new Date(query.endTime as string);
+    }
+
+    const auditLog = securityMiddleware.getAuditLog(options);
+    respondWithCors(reply, 200, {
+      entries: auditLog,
+      total: auditLog.length,
+      timestamp: new Date().toISOString(),
+    });
+  });
+
   const sessionStores = new Map<string, Map<string, StreamableHTTPServerTransport>>();
   const activeProxies: ProxyLifecycle[] = [];
 
@@ -695,7 +756,7 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
 
       const devUiDir = path.resolve(process.cwd(), 'packages/mcp/static/dev-ui');
       if (fs.existsSync(devUiDir)) {
-        await app.register(fastifyStatic, {
+        await app.register(fastifyStatic as any, {
           root: devUiDir,
           prefix: '/ui/assets/',
           decorateReply: false,
@@ -1509,8 +1570,8 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
 
         if (consoleAllowedOrigins.length > 0) {
           await app.register(async (instance) => {
-            await instance.register(fastifyCors, {
-              origin: (origin, cb) => {
+            await instance.register(fastifyCors as any, {
+              origin: (origin: any, cb: any) => {
                 if (!origin) {
                   cb(null, false);
                   return;
@@ -1559,42 +1620,45 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
           }
         }
 
-      // Add catch-all route for 404 logging when verbose logging is enabled
-      if (isVerboseLogging) {
-        app.setNotFoundHandler(async (request, reply) => {
-          const requestId = (request as any).requestId || Math.random().toString(36).substr(2, 9);
-          const timestamp = new Date().toISOString();
+        // Add catch-all route for 404 logging when verbose logging is enabled
+        if (isVerboseLogging) {
+          app.setNotFoundHandler(async (request, reply) => {
+            const requestId = (request as any).requestId || Math.random().toString(36).substr(2, 9);
+            const timestamp = new Date().toISOString();
 
-          console.log(`\n❌ [${timestamp}] [${requestId}] 404 NOT FOUND`);
-          console.log(`   Method: ${request.method}`);
-          console.log(`   URL: ${request.url}`);
-          console.log(`   Headers:`, JSON.stringify(request.headers, null, 2));
-          console.log(`   Query:`, JSON.stringify(request.query, null, 2));
-          console.log(`   Available endpoints:`);
+            console.log(`\n❌ [${timestamp}] [${requestId}] 404 NOT FOUND`);
+            console.log(`   Method: ${request.method}`);
+            console.log(`   URL: ${request.url}`);
+            console.log(`   Headers:`, JSON.stringify(request.headers, null, 2));
+            console.log(`   Query:`, JSON.stringify(request.query, null, 2));
+            console.log(`   Available endpoints:`);
 
-          // List all registered routes
-          const registeredRoutes: string[] = [];
-          for (const descriptor of normalized) {
-            registeredRoutes.push(`${descriptor.path} (${descriptor.kind})`);
-          }
-          registeredRoutes.push('/healthz');
-          registeredRoutes.push('/ui*');
+            // List all registered routes
+            const registeredRoutes: string[] = [];
+            for (const descriptor of normalized) {
+              registeredRoutes.push(`${descriptor.path} (${descriptor.kind})`);
+            }
+            registeredRoutes.push('/healthz');
+            registeredRoutes.push('/ui*');
 
-          registeredRoutes.forEach(route => {
-            console.log(`     - ${route}`);
+            registeredRoutes.forEach((route) => {
+              console.log(`     - ${route}`);
+            });
+
+            // Send JSON response instead of default Fastify 404
+            reply
+              .status(404)
+              .header('content-type', 'application/json')
+              .send({
+                error: 'Not Found',
+                message: `No route found for ${request.method} ${request.url}`,
+                availableEndpoints: registeredRoutes,
+                timestamp,
+              });
+
+            console.log(`═══════════════════════════════════════════════════════════════`);
           });
-
-          // Send JSON response instead of default Fastify 404
-          reply.status(404).header('content-type', 'application/json').send({
-            error: 'Not Found',
-            message: `No route found for ${request.method} ${request.url}`,
-            availableEndpoints: registeredRoutes,
-            timestamp,
-          });
-
-          console.log(`═══════════════════════════════════════════════════════════════`);
-        });
-      }
+        }
 
         const listenOptions: FastifyListenOptions = { port, host };
         await app.listen(listenOptions);
@@ -1606,7 +1670,9 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
           console.log(`\n🔍 MCP Verbose Logging Enabled`);
           console.log(`🌐 Server listening on http://${host}:${port}`);
           console.log(`📝 All requests will be logged with full details`);
-          console.log(`🚀 Use MCP_VERBOSE_LOGGING=true to enable, MCP_VERBOSE_LOGGING=false to disable\n`);
+          console.log(
+            `🚀 Use MCP_VERBOSE_LOGGING=true to enable, MCP_VERBOSE_LOGGING=false to disable\n`,
+          );
         } else {
           console.log(`[mcp:http] listening on http://${host}:${port}`);
           console.log(`💡 Tip: Set MCP_VERBOSE_LOGGING=true to enable request logging`);
@@ -1626,6 +1692,8 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
     },
     stop: async () => {
       await app.close();
+      // Cleanup security middleware
+      securityMiddleware.destroy();
       /* eslint-disable functional/immutable-data */
       const toStop = activeProxies.splice(0, activeProxies.length);
       /* eslint-enable functional/immutable-data */

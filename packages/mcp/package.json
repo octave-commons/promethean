@@ -45,6 +45,7 @@
     "@fastify/static": "^7.0.4",
     "@modelcontextprotocol/sdk": "^1.17.5",
     "@promethean/discord": "workspace:*",
+    
     "@promethean/kanban": "workspace:*",
     "@stryker-mutator/core": "^8.7.1",
     "bcryptjs": "^2.4.3",
