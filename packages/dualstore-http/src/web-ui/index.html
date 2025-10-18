@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dual Store Explorer - Promethean</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      [x-cloak] {
+        display: none !important;
+      }
+      .fade-in {
+        animation: fadeIn 0.3s ease-in;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .loading-skeleton {
+        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+        background-size: 200% 100%;
+        animation: loading 1.5s infinite;
+      }
+      @keyframes loading {
+        0% {
+          background-position: 200% 0;
+        }
+        100% {
+          background-position: -200% 0;
+        }
+      }
+      .status-badge {
+        @apply px-2 py-1 rounded-full text-xs font-medium;
+      }
+      .status-running {
+        @apply bg-green-100 text-green-800;
+      }
+      .status-completed {
+        @apply bg-blue-100 text-blue-800;
+      }
+      .status-failed {
+        @apply bg-red-100 text-red-800;
+      }
+      .status-pending {
+        @apply bg-yellow-100 text-yellow-800;
+      }
+      .status-idle {
+        @apply bg-gray-100 text-gray-800;
+      }
+      .severity-info {
+        @apply bg-blue-50 text-blue-700 border-blue-200;
+      }
+      .severity-warning {
+        @apply bg-yellow-50 text-yellow-700 border-yellow-200;
+      }
+      .severity-error {
+        @apply bg-red-50 text-red-700 border-red-200;
+      }
+      .severity-critical {
+        @apply bg-purple-50 text-purple-700 border-purple-200;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50" x-data="dualStoreExplorer()">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-gray-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <div class="flex items-center">
+            <i class="fas fa-database text-indigo-600 text-2xl mr-3"></i>
+            <h1 class="text-xl font-semibold text-gray-900">Dual Store Explorer</h1>
+            <span class="ml-3 px-2 py-1 bg-indigo-100 text-indigo-800 text-xs rounded-full"
+              >Promethean</span
+            >
+          </div>
+          <div class="flex items-center space-x-4">
+            <button
+              @click="refreshAll()"
+              class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors flex items-center"
+            >
+              <i class="fas fa-sync-alt mr-2" :class="{'animate-spin': refreshing}"></i>
+              Refresh
+            </button>
+            <div class="flex items-center space-x-2">
+              <label class="text-sm text-gray-600">API Endpoint:</label>
+              <input
+                x-model="apiEndpoint"
+                @change="updateApiEndpoint()"
+                class="px-3 py-1 border border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- Stats Overview -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-lg shadow p-6">
+          <div class="flex items-center">
+            <div class="p-3 bg-blue-100 rounded-lg">
+              <i class="fas fa-comments text-blue-600 text-xl"></i>
+            </div>
+            <div class="ml-4">
+              <p class="text-sm text-gray-600">Session Messages</p>
+              <p class="text-2xl font-semibold text-gray-900" x-text="stats.sessionMessages"></p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white rounded-lg shadow p-6">
+          <div class="flex items-center">
+            <div class="p-3 bg-green-100 rounded-lg">
+              <i class="fas fa-tasks text-green-600 text-xl"></i>
+            </div>
+            <div class="ml-4">
+              <p class="text-sm text-gray-600">Agent Tasks</p>
+              <p class="text-2xl font-semibold text-gray-900" x-text="stats.agentTasks"></p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white rounded-lg shadow p-6">
+          <div class="flex items-center">
+            <div class="p-3 bg-purple-100 rounded-lg">
+              <i class="fas fa-bolt text-purple-600 text-xl"></i>
+            </div>
+            <div class="ml-4">
+              <p class="text-sm text-gray-600">OpenCode Events</p>
+              <p class="text-2xl font-semibold text-gray-900" x-text="stats.opencodeEvents"></p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white rounded-lg shadow p-6">
+          <div class="flex items-center">
+            <div class="p-3 bg-yellow-100 rounded-lg">
+              <i class="fas fa-clock text-yellow-600 text-xl"></i>
+            </div>
+            <div class="ml-4">
+              <p class="text-sm text-gray-600">Last Updated</p>
+              <p class="text-lg font-semibold text-gray-900" x-text="lastUpdated"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search and Filters -->
+      <div class="bg-white rounded-lg shadow p-6 mb-8">
+        <h2 class="text-lg font-semibold text-gray-900 mb-4">Search & Filters</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Search Query</label>
+            <div class="relative">
+              <input
+                x-model="searchQuery"
+                @input="debouncedSearch()"
+                type="text"
+                placeholder="Search across all stores..."
+                class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Collection</label>
+            <select
+              x-model="selectedCollection"
+              @change="loadData()"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+            >
+              <option value="all">All Collections</option>
+              <option value="session_messages">Session Messages</option>
+              <option value="agent_tasks">Agent Tasks</option>
+              <option value="opencode_events">OpenCode Events</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Session ID</label>
+            <input
+              x-model="filters.sessionId"
+              @input="debouncedSearch()"
+              type="text"
+              placeholder="Filter by session ID..."
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Date Range</label>
+            <div class="flex space-x-2">
+              <input
+                x-model="filters.dateFrom"
+                @change="loadData()"
+                type="date"
+                class="flex-1 px-2 py-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <input
+                x-model="filters.dateTo"
+                @change="loadData()"
+                type="date"
+                class="flex-1 px-2 py-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Tabs -->
+      <div class="bg-white rounded-lg shadow">
+        <div class="border-b border-gray-200">
+          <nav class="flex -mb-px">
+            <button
+              @click="activeTab = 'messages'"
+              :class="activeTab === 'messages' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700'"
+              class="py-3 px-6 border-b-2 font-medium text-sm transition-colors"
+            >
+              <i class="fas fa-comments mr-2"></i>
+              Session Messages
+              <span
+                class="ml-2 px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full"
+                x-text="data.messages.length"
+              ></span>
+            </button>
+            <button
+              @click="activeTab = 'tasks'"
+              :class="activeTab === 'tasks' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700'"
+              class="py-3 px-6 border-b-2 font-medium text-sm transition-colors"
+            >
+              <i class="fas fa-tasks mr-2"></i>
+              Agent Tasks
+              <span
+                class="ml-2 px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full"
+                x-text="data.tasks.length"
+              ></span>
+            </button>
+            <button
+              @click="activeTab = 'events'"
+              :class="activeTab === 'events' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700'"
+              class="py-3 px-6 border-b-2 font-medium text-sm transition-colors"
+            >
+              <i class="fas fa-bolt mr-2"></i>
+              OpenCode Events
+              <span
+                class="ml-2 px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full"
+                x-text="data.events.length"
+              ></span>
+            </button>
+          </nav>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="p-6">
+          <!-- Loading State -->
+          <div x-show="loading" x-cloak class="text-center py-12">
+            <div class="inline-flex items-center">
+              <div
+                class="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mr-3"
+              ></div>
+              <span class="text-gray-600">Loading data...</span>
+            </div>
+          </div>
+
+          <!-- Session Messages Tab -->
+          <div x-show="activeTab === 'messages' && !loading" x-cloak>
+            <div class="space-y-4">
+              <template x-for="message in filteredMessages" :key="message.id">
+                <div
+                  class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow fade-in"
+                >
+                  <div class="flex justify-between items-start mb-3">
+                    <div class="flex items-center space-x-3">
+                      <div
+                        class="w-8 h-8 rounded-full flex items-center justify-center"
+                        :class="message.role === 'user' ? 'bg-blue-100 text-blue-600' : 'bg-green-100 text-green-600'"
+                      >
+                        <i
+                          :class="message.role === 'user' ? 'fas fa-user' : 'fas fa-robot'"
+                          class="text-sm"
+                        ></i>
+                      </div>
+                      <div>
+                        <p
+                          class="font-medium text-gray-900"
+                          x-text="message.role === 'user' ? 'User' : 'Assistant'"
+                        ></p>
+                        <p class="text-sm text-gray-500" x-text="message.session_id"></p>
+                      </div>
+                    </div>
+                    <div class="text-right">
+                      <p class="text-sm text-gray-500" x-text="formatDate(message.created_at)"></p>
+                    </div>
+                  </div>
+                  <div class="bg-gray-50 rounded-lg p-3">
+                    <p class="text-gray-800 whitespace-pre-wrap" x-text="message.content"></p>
+                  </div>
+                </div>
+              </template>
+            </div>
+          </div>
+
+          <!-- Agent Tasks Tab -->
+          <div x-show="activeTab === 'tasks' && !loading" x-cloak>
+            <div class="space-y-4">
+              <template x-for="task in filteredTasks" :key="task.id">
+                <div
+                  class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow fade-in"
+                >
+                  <div class="flex justify-between items-start mb-3">
+                    <div class="flex items-center space-x-3">
+                      <div
+                        class="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center"
+                      >
+                        <i class="fas fa-cog text-sm"></i>
+                      </div>
+                      <div>
+                        <p class="font-medium text-gray-900" x-text="task.task_type"></p>
+                        <p
+                          class="text-sm text-gray-500"
+                          x-text="task.session_id + ' • ' + task.agent_id"
+                        ></p>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                      <span
+                        class="status-badge"
+                        :class="'status-' + task.status"
+                        x-text="task.status"
+                      ></span>
+                      <p class="text-sm text-gray-500" x-text="formatDate(task.created_at)"></p>
+                    </div>
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+                    <div>
+                      <p class="text-sm font-medium text-gray-700 mb-1">Progress</p>
+                      <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div
+                          class="bg-green-600 h-2 rounded-full transition-all duration-300"
+                          :style="'width: ' + task.progress + '%'"
+                        ></div>
+                      </div>
+                      <p class="text-xs text-gray-500 mt-1" x-text="task.progress + '%'"></p>
+                    </div>
+                  </div>
+                  <div x-show="task.input_data" class="mb-3">
+                    <p class="text-sm font-medium text-gray-700 mb-1">Input Data</p>
+                    <div class="bg-gray-50 rounded-lg p-3">
+                      <pre
+                        class="text-sm text-gray-800 overflow-x-auto"
+                        x-text="JSON.stringify(task.input_data, null, 2)"
+                      ></pre>
+                    </div>
+                  </div>
+                  <div x-show="task.output_data">
+                    <p class="text-sm font-medium text-gray-700 mb-1">Output Data</p>
+                    <div class="bg-gray-50 rounded-lg p-3">
+                      <pre
+                        class="text-sm text-gray-800 overflow-x-auto"
+                        x-text="JSON.stringify(task.output_data, null, 2)"
+                      ></pre>
+                    </div>
+                  </div>
+                </div>
+              </template>
+            </div>
+          </div>
+
+          <!-- OpenCode Events Tab -->
+          <div x-show="activeTab === 'events' && !loading" x-cloak>
+            <div class="space-y-4">
+              <template x-for="event in filteredEvents" :key="event.id">
+                <div
+                  class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow fade-in"
+                >
+                  <div class="flex justify-between items-start mb-3">
+                    <div class="flex items-center space-x-3">
+                      <div
+                        class="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center"
+                      >
+                        <i class="fas fa-bolt text-sm"></i>
+                      </div>
+                      <div>
+                        <p class="font-medium text-gray-900" x-text="event.event_type"></p>
+                        <p
+                          class="text-sm text-gray-500"
+                          x-text="event.session_id + ' • ' + event.source"
+                        ></p>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                      <span
+                        class="px-2 py-1 rounded-full text-xs font-medium border"
+                        :class="'severity-' + event.severity"
+                        x-text="event.severity"
+                      ></span>
+                      <p class="text-sm text-gray-500" x-text="formatDate(event.created_at)"></p>
+                    </div>
+                  </div>
+                  <div class="bg-gray-50 rounded-lg p-3">
+                    <p class="text-sm font-medium text-gray-700 mb-1">Event Data</p>
+                    <pre
+                      class="text-sm text-gray-800 overflow-x-auto"
+                      x-text="JSON.stringify(event.event_data, null, 2)"
+                    ></pre>
+                  </div>
+                </div>
+              </template>
+            </div>
+          </div>
+
+          <!-- Empty State -->
+          <div x-show="!loading && getCurrentData().length === 0" x-cloak class="text-center py-12">
+            <i class="fas fa-inbox text-gray-400 text-5xl mb-4"></i>
+            <p class="text-gray-600 text-lg">No data found</p>
+            <p class="text-gray-500">Try adjusting your search filters or refresh the data</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Toast Notification -->
+    <div
+      x-show="notification.show"
+      x-transition:enter="transition ease-out duration-300"
+      x-transition:enter-start="opacity-0 transform translate-y-full"
+      x-transition:enter-end="opacity-100 transform translate-y-0"
+      x-transition:leave="transition ease-in duration-200"
+      x-transition:leave-start="opacity-100 transform translate-y-0"
+      x-transition:leave-end="opacity-0 transform translate-y-full"
+      x-cloak
+      class="fixed bottom-4 right-4 max-w-sm bg-white rounded-lg shadow-lg border border-gray-200 p-4 z-50"
+    >
+      <div class="flex items-start">
+        <div class="flex-shrink-0">
+          <i
+            :class="notification.type === 'success' ? 'fas fa-check-circle text-green-500' : 
+                              notification.type === 'error' ? 'fas fa-exclamation-circle text-red-500' : 
+                              'fas fa-info-circle text-blue-500'"
+            class="text-xl"
+          ></i>
+        </div>
+        <div class="ml-3">
+          <p class="text-sm font-medium text-gray-900" x-text="notification.title"></p>
+          <p class="text-sm text-gray-600" x-text="notification.message"></p>
+        </div>
+        <button @click="notification.show = false" class="ml-auto flex-shrink-0">
+          <i class="fas fa-times text-gray-400 hover:text-gray-600"></i>
+        </button>
+      </div>
+    </div>
+
+    <script>
+      function dualStoreExplorer() {
+        return {
+          apiEndpoint: 'http://localhost:3002',
+          loading: false,
+          refreshing: false,
+          activeTab: 'messages',
+          searchQuery: '',
+          selectedCollection: 'all',
+          lastUpdated: '',
+          notification: {
+            show: false,
+            type: 'info',
+            title: '',
+            message: '',
+          },
+          filters: {
+            sessionId: '',
+            dateFrom: '',
+            dateTo: '',
+          },
+          stats: {
+            sessionMessages: 0,
+            agentTasks: 0,
+            opencodeEvents: 0,
+          },
+          data: {
+            messages: [],
+            tasks: [],
+            events: [],
+          },
+          searchTimeout: null,
+
+          init() {
+            this.loadData();
+            this.startAutoRefresh();
+          },
+
+          async loadData() {
+            this.loading = true;
+            try {
+              const [messagesRes, tasksRes, eventsRes] = await Promise.all([
+                this.fetchCollection('/api/v1/session_messages'),
+                this.fetchCollection('/api/v1/agent_tasks'),
+                this.fetchCollection('/api/v1/opencode_events'),
+              ]);
+
+              this.data.messages = messagesRes.data || [];
+              this.data.tasks = tasksRes.data || [];
+              this.data.events = eventsRes.data || [];
+
+              this.stats.sessionMessages = messagesRes.pagination?.total || 0;
+              this.stats.agentTasks = tasksRes.pagination?.total || 0;
+              this.stats.opencodeEvents = eventsRes.pagination?.total || 0;
+
+              this.lastUpdated = new Date().toLocaleTimeString();
+            } catch (error) {
+              this.showNotification('error', 'Error', 'Failed to load data: ' + error.message);
+            } finally {
+              this.loading = false;
+            }
+          },
+
+          async fetchCollection(endpoint) {
+            const params = new URLSearchParams();
+            if (this.filters.sessionId) params.append('session_id', this.filters.sessionId);
+            if (this.filters.dateFrom)
+              params.append('created_after', new Date(this.filters.dateFrom).toISOString());
+            if (this.filters.dateTo)
+              params.append('created_before', new Date(this.filters.dateTo).toISOString());
+            params.append('limit', '100');
+
+            const response = await fetch(`${this.apiEndpoint}${endpoint}?${params}`);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return await response.json();
+          },
+
+          async refreshAll() {
+            this.refreshing = true;
+            await this.loadData();
+            this.refreshing = false;
+            this.showNotification('success', 'Refreshed', 'Data has been updated');
+          },
+
+          debouncedSearch() {
+            clearTimeout(this.searchTimeout);
+            this.searchTimeout = setTimeout(() => {
+              this.filterData();
+            }, 300);
+          },
+
+          filterData() {
+            // This is handled by computed properties below
+          },
+
+          getCurrentData() {
+            switch (this.activeTab) {
+              case 'messages':
+                return this.filteredMessages;
+              case 'tasks':
+                return this.filteredTasks;
+              case 'events':
+                return this.filteredEvents;
+              default:
+                return [];
+            }
+          },
+
+          get filteredMessages() {
+            let filtered = this.data.messages;
+            if (this.searchQuery) {
+              filtered = filtered.filter(
+                (item) =>
+                  item.content.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                  item.session_id.toLowerCase().includes(this.searchQuery.toLowerCase()),
+              );
+            }
+            return filtered;
+          },
+
+          get filteredTasks() {
+            let filtered = this.data.tasks;
+            if (this.searchQuery) {
+              filtered = filtered.filter(
+                (item) =>
+                  item.task_type.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                  item.session_id.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                  item.agent_id.toLowerCase().includes(this.searchQuery.toLowerCase()),
+              );
+            }
+            return filtered;
+          },
+
+          get filteredEvents() {
+            let filtered = this.data.events;
+            if (this.searchQuery) {
+              filtered = filtered.filter(
+                (item) =>
+                  item.event_type.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                  item.session_id.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                  item.source.toLowerCase().includes(this.searchQuery.toLowerCase()),
+              );
+            }
+            return filtered;
+          },
+
+          formatDate(dateString) {
+            return new Date(dateString).toLocaleString();
+          },
+
+          updateApiEndpoint() {
+            localStorage.setItem('dualstore-api-endpoint', this.apiEndpoint);
+            this.loadData();
+          },
+
+          showNotification(type, title, message) {
+            this.notification = { show: true, type, title, message };
+            setTimeout(() => {
+              this.notification.show = false;
+            }, 5000);
+          },
+
+          startAutoRefresh() {
+            setInterval(() => {
+              this.loadData();
+            }, 30000); // Refresh every 30 seconds
+          },
+        };
+      }
+    </script>
+  </body>
+</html>

@@ -81,7 +81,7 @@ async function createServer() {
         },
       },
     },
-    async (request, reply) => {
+    async () => {
       return {
         status: 'ok',
         timestamp: new Date().toISOString(),
@@ -118,7 +118,7 @@ async function createServer() {
         },
       },
     },
-    async (request, reply) => {
+    async () => {
       return {
         name: '@promethean/dualstore-http',
         description: 'HTTP API for Promethean dualstore collections',
@@ -155,9 +155,6 @@ async function createServer() {
           },
         },
         async (request, reply) => {
-          const sessionId = (request.query as any).session_id;
-          const createdAfter = (request.query as any).created_after;
-
           reply.raw.writeHead(200, {
             'Content-Type': 'text/event-stream',
             'Cache-Control': 'no-cache',
@@ -206,9 +203,6 @@ async function createServer() {
           },
         },
         async (request, reply) => {
-          const sessionId = (request.query as any).session_id;
-          const createdAfter = (request.query as any).created_after;
-
           reply.raw.writeHead(200, {
             'Content-Type': 'text/event-stream',
             'Cache-Control': 'no-cache',
@@ -257,9 +251,6 @@ async function createServer() {
           },
         },
         async (request, reply) => {
-          const sessionId = (request.query as any).session_id;
-          const createdAfter = (request.query as any).created_after;
-
           reply.raw.writeHead(200, {
             'Content-Type': 'text/event-stream',
             'Cache-Control': 'no-cache',
@@ -285,108 +276,6 @@ async function createServer() {
           // Handle client disconnect
           request.raw.on('close', () => {
             sseService.removeClient(clientId);
-          });
-
-          // Handle client disconnect
-          request.raw.on('close', () => {
-            sseService.removeClient(clientId);
-          });
-
-          return reply;
-        },
-      );
-
-      // SSE endpoint for agent tasks
-      fastify.get(
-        '/stream/agent_tasks',
-        {
-          schema: {
-            description: 'Stream agent tasks via SSE',
-            tags: ['streaming'],
-            querystring: {
-              type: 'object',
-              properties: {
-                session_id: { type: 'string' },
-                created_after: { type: 'string' },
-              },
-            },
-          },
-        },
-        async (request, reply) => {
-          const sessionId = (request.query as any).session_id;
-          const createdAfter = (request.query as any).created_after;
-
-          reply.raw.writeHead(200, {
-            'Content-Type': 'text/event-stream',
-            'Cache-Control': 'no-cache',
-            Connection: 'keep-alive',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers': 'Cache-Control',
-          });
-
-          const clientId = sseService.addClient(reply.raw);
-
-          // Send initial connection event
-          sseService.sendEvent(clientId, {
-            type: 'connection',
-            collection: 'agent_tasks',
-            data: {
-              type: 'connection',
-              client_id: clientId,
-              timestamp: new Date().toISOString(),
-            },
-            timestamp: new Date().toISOString(),
-          });
-
-          // Handle client disconnect
-          request.raw.on('close', () => {
-            sseService.removeClient(clientId);
-          });
-
-          return reply;
-        },
-      );
-
-      // SSE endpoint for opencode events
-      fastify.get(
-        '/stream/opencode_events',
-        {
-          schema: {
-            description: 'Stream opencode events via SSE',
-            tags: ['streaming'],
-            querystring: {
-              type: 'object',
-              properties: {
-                session_id: { type: 'string' },
-                created_after: { type: 'string' },
-              },
-            },
-          },
-        },
-        async (request, reply) => {
-          const sessionId = (request.query as any).session_id;
-          const createdAfter = (request.query as any).created_after;
-
-          reply.raw.writeHead(200, {
-            'Content-Type': 'text/event-stream',
-            'Cache-Control': 'no-cache',
-            Connection: 'keep-alive',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers': 'Cache-Control',
-          });
-
-          const clientId = sseService.addClient(reply.raw);
-
-          // Send initial connection event
-          sseService.sendEvent(clientId, {
-            type: 'connection',
-            collection: 'opencode_events',
-            data: {
-              type: 'connection',
-              client_id: clientId,
-              timestamp: new Date().toISOString(),
-            },
-            timestamp: new Date().toISOString(),
           });
 
           // Handle client disconnect
@@ -402,7 +291,7 @@ async function createServer() {
   );
 
   // Add global error handler
-  server.setErrorHandler((error, request, reply) => {
+  server.setErrorHandler((error, _request, reply) => {
     server.log.error(error);
 
     reply.status(500).send({
