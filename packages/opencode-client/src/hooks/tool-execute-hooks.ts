@@ -270,7 +270,7 @@ export class ToolExecuteHookManager implements HookManager {
           hook.hook,
           {
             toolName,
-            args: 'args' in data ? (data as any).args : data,
+            args: (data as any).args || data,
             phase,
             timestamp: new Date(),
             executionId: this.generateExecutionId(),
