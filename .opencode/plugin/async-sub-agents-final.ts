@@ -1,8 +1,6 @@
 // Refactored to use centralized opencode-client tools
-import type { Plugin } from '@opencode-ai/plugin';
+import { type Plugin, tool } from '@opencode-ai/plugin';
 import { DualStoreManager } from '@promethean/persistence';
-
-// Import from the local opencode-client package
 import {
   sessions,
   agentTasks,
@@ -13,16 +11,7 @@ import {
   InterAgentMessenger,
   type AgentTask,
   type SessionInfo,
-} from '../../../packages/opencode-client/src/index.js';
-
-// Tool helper function
-function tool<T extends Record<string, any>>(config: {
-  description: string;
-  args?: T;
-  execute: (args: T) => Promise<string> | string;
-}) {
-  return config;
-}
+} from '@promethean/opencode-client';
 
 // Local cache for markdown formatting
 const markdownCache = new Map<string, { content: string; timestamp: number }>();
