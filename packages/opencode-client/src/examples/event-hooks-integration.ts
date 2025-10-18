@@ -6,12 +6,8 @@
  * to monitor and extend tool execution in OpenCode.
  */
 
-import { EventHooksPlugin } from '../src/plugins/event-hooks.js';
-import {
-  hookManager,
-  registerBeforeHook,
-  registerAfterHook,
-} from '../src/hooks/tool-execute-hooks.js';
+import { EventHooksPlugin } from '../plugins/event-hooks.js';
+import { hookManager, registerBeforeHook, registerAfterHook } from '../hooks/tool-execute-hooks.js';
 
 async function demonstrateEventHooks() {
   console.log('🚀 Event Hooks Integration Example');
