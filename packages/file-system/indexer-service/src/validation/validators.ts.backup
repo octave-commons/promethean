@@ -1,6 +1,5 @@
 /**
- * @fileoverview Enhanced validation utilities and security validators
- * Addresses remaining security test vectors for comprehensive protection
+ * @fileoverview Validation utilities and security validators
  */
 
 import path from 'node:path';
@@ -53,19 +52,6 @@ const GLOB_ATTACK_PATTERNS = [
   /\.\.$/, // Ends with ..
   /\{\s*\.\./, // { .. with spaces
   /\.\.\s*\}/, // .. } with spaces
-  // Enhanced patterns for remaining attack vectors
-  /\.\.[\\/]/, // ../ or ..\ with any slash
-  /[\\/]\.\.[\\/]/, // /../ or \..\ with any slash
-  /\.\.[\\/]\.\./, // ../../ or ..\.. with any slash
-  /%2e%2e%2f/i, // %2e%2e%2f (encoded ../)
-  /%2e%2e%5c/i, // %2e%2e%5c (encoded ..\)
-  /\.\.%2f/i, // ..%2f (mixed encoding)
-  /\.\.%5c/i, // ..%5c (mixed encoding)
-  /%2e%2e%2e%2f/i, // %2e%2e%2e%2f (encoded ../../)
-  /%2e%2e%2e%5c/i, // %2e%2e%2e%5c (encoded ..\..)
-  /\.\.\.\./, // .... (multiple dots)
-  /\.\.\.\/\.\./, // ../../
-  /\.\.\\\.\.\\\.\./, // ..\..\.. (Windows style)
 ];
 
 const UNIX_DANGEROUS_PATHS = ['/dev/', '/proc/', '/sys/', '/etc/', '/root/', '/var/log/'];
@@ -134,7 +120,7 @@ function validateBasicPathProperties(rel: string): boolean {
 
 /**
  * Detects path traversal attempts with URI decoding & Unicode normalization
- * Returns an object indicating type of threat detected
+ * Returns an object indicating the type of threat detected
  */
 function detectPathTraversal(trimmed: string): {
   isTraversal: boolean;
@@ -199,10 +185,10 @@ function detectPathTraversal(trimmed: string): {
 }
 
 /**
- * Enhanced dangerous character detection
+ * Checks for dangerous characters
  */
 function containsDangerousCharacters(trimmed: string): boolean {
-  // Check for dangerous characters from array
+  // Check for dangerous characters from the array
   if (DANGEROUS_CHARS.some((char) => trimmed.includes(char))) {
     return true;
   }
@@ -214,7 +200,7 @@ function containsDangerousCharacters(trimmed: string): boolean {
   }
 
   // Command injection patterns
-  if (/(\$\(.*\)|`.*`|\$\{.*\}|;\s*.*\||\|\s*.*;)/.test(trimmed)) {
+  if /(\$\(.*\)|`.*`|\$\{.*\}|;\s*.*\||\|\s*.*;)/.test(trimmed)) {
     return true;
   }
 
@@ -227,7 +213,7 @@ function containsDangerousCharacters(trimmed: string): boolean {
 }
 
 /**
- * Enhanced Windows-specific path security validation
+ * Validates Windows-specific path security
  */
 function validateWindowsPathSecurity(trimmed: string): boolean {
   // Block drive letters
@@ -254,11 +240,6 @@ function validateWindowsPathSecurity(trimmed: string): boolean {
   // Block Windows device names with any extension or path
   const windowsDevicePattern = /^(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(\..*|\/.*)?$/i;
   if (windowsDevicePattern.test(trimmed)) {
-    return false;
-  }
-
-  // Block exact Windows device names (standalone)
-  if (WINDOWS_RESERVED_NAMES.includes(trimmed.toUpperCase())) {
     return false;
   }
 
@@ -307,7 +288,7 @@ function validatePathNormalization(trimmed: string): boolean {
 }
 
 /**
- * Detects glob pattern attacks with enhanced patterns
+ * Detects glob pattern attacks
  */
 function containsGlobAttackPatterns(trimmed: string): boolean {
   return GLOB_ATTACK_PATTERNS.some((pattern) => pattern.test(trimmed));
@@ -422,6 +403,12 @@ export function validatePathSecurity(rel: string): PathValidationResult {
   if (containsGlobAttackPatterns(trimmed)) {
     securityIssues.push('Glob pattern attack detected');
     if (riskLevel !== 'critical') riskLevel = 'medium';
+  }
+
+  // Glob-specific security validation
+  if (!validateGlobSecurity(trimmed)) {
+    securityIssues.push('Glob security validation failed');
+    if (riskLevel !== 'critical') riskLevel = 'high';
   }
 
   // Glob-specific security validation
