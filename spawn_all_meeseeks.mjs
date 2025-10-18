@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { spawnSession } from './dist/index.js';
+import { spawnSession } from './packages/opencode-client/dist/index.js';
 import { readFileSync } from 'fs';
 
 const allTasks = readFileSync('/tmp/all_tasks.txt', 'utf8').trim().split('\n');
