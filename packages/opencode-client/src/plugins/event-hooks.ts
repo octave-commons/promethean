@@ -16,20 +16,16 @@ export const EventHooksPlugin: Plugin = async ({ client, project, $, directory, 
 
   return {
     // Hook into tool execution before tools run
-    'tool.execute.before': async (input, output) => {
+    'tool.execute.before': async (input) => {
       const { tool } = input;
-      // OpenCode output structure: { title: string; output: string; metadata: any; }
-      // We can't access args directly from output in OpenCode hooks
-      // These hooks are for observation/monitoring only
+      // OpenCode hooks are observational - they can't modify tool behavior
+      // These hooks run for side-effects like logging and monitoring only
 
       try {
-        // For OpenCode hooks, we run internal hooks for side-effects only
-        // We can't modify args or results, only observe/monitor
         console.log(`Before tool execution: ${tool}`);
 
-        // Note: OpenCode hooks are observational - they can't modify tool behavior
-        // Our internal hooks would run with context if we had access to args
-        // But OpenCode plugin hooks are designed for monitoring/logging only
+        // Note: OpenCode hooks are observational only
+        // Our internal hook system is available but can't modify tool execution here
       } catch (error) {
         console.error('Before hook execution failed:', error);
         throw error;
@@ -118,7 +114,7 @@ export const EventHooksPlugin: Plugin = async ({ client, project, $, directory, 
           priority: { type: 'number', description: 'Execution priority (lower = first)' },
           timeout: { type: 'number', description: 'Hook timeout in milliseconds' },
         },
-        async execute(args, context) {
+        async execute(args: any, _context: any) {
           // For now, this is a placeholder - in a real implementation,
           // this would register hooks with the hookManager
           return {
