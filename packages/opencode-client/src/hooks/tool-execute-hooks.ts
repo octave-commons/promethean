@@ -246,7 +246,7 @@ export class ToolExecuteHookManager implements HookManager {
 
     try {
       // Execute with timeout
-      await this.withTimeout(
+      const result = await this.withTimeout(
         this.safeHookExecution(
           hook.hook,
           {
@@ -276,7 +276,7 @@ export class ToolExecuteHookManager implements HookManager {
         this.updateExecutionStats(toolName, executionTime, true);
       }
 
-      return metrics;
+      return { metrics, result };
     } catch (error) {
       const executionTime = Date.now() - startTime;
       const metrics: HookMetrics = {
@@ -292,7 +292,7 @@ export class ToolExecuteHookManager implements HookManager {
         this.updateExecutionStats(toolName, executionTime, false);
       }
 
-      return metrics;
+      return { metrics, result: undefined };
     }
   }
 
