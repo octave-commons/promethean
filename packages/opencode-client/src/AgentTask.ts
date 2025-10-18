@@ -5,4 +5,5 @@ export type AgentTask = {
   status: 'running' | 'completed' | 'failed' | 'idle';
   lastActivity: number;
   completionMessage?: string;
+  taskSummary?: string;
 };

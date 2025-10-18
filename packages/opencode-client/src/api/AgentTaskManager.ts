@@ -78,6 +78,12 @@ export async function getAllTasks(): Promise<Map<string, AgentTask>> {
   return getAllTasksAction(context);
 }
 
+export function parseTimestamp(timestamp: any): number {
+  if (typeof timestamp === 'number') return timestamp;
+  if (typeof timestamp === 'string') return new Date(timestamp).getTime();
+  return Date.now();
+}
+
 // Export the agent tasks map for backward compatibility
 export { agentTasks };
 
