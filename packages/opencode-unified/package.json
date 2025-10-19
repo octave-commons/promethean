@@ -90,6 +90,7 @@
   "dependencies": {
     "@opencode-ai/plugin": "^0.15.7",
     "@opencode-ai/sdk": "^0.15.7",
+    "@promethean/security": "workspace:*",
     "@promethean/ollama-queue": "workspace:*",
     "@promethean/persistence": "workspace:*",
     "fastify": "^5.0.0",
