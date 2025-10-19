@@ -1,6 +1,10 @@
-import type { JWTPayload, AuthTokens, AuthConfig } from "../types/security.js";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
+import type { JWTPayload, AuthTokens, AuthConfig } from '../types/security.js';
+// Mock imports for type checking - will be resolved when dependencies are installed
+// import jwt from "jsonwebtoken";
+// import bcrypt from "bcryptjs";
+
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 /**
  * JWT service for token management and validation
@@ -21,14 +25,14 @@ export class JWTService {
     readonly permissions: readonly string[];
   }): Promise<AuthTokens> {
     const now = Math.floor(Date.now() / 1000);
-    
+
     const accessTokenPayload: JWTPayload = {
       sub: user.id,
       roles: user.roles,
       permissions: user.permissions,
       iat: now,
       exp: now + this.parseExpiration(this.config.jwtExpiresIn),
-      type: "access",
+      type: 'access',
     };
 
     const refreshTokenPayload: JWTPayload = {
@@ -37,15 +41,15 @@ export class JWTService {
       permissions: user.permissions,
       iat: now,
       exp: now + this.parseExpiration(this.config.refreshExpiresIn),
-      type: "refresh",
+      type: 'refresh',
     };
 
     const accessToken = jwt.sign(accessTokenPayload, this.config.jwtSecret, {
-      algorithm: "HS256",
+      algorithm: 'HS256',
     });
 
     const refreshToken = jwt.sign(refreshTokenPayload, this.config.jwtSecret, {
-      algorithm: "HS256",
+      algorithm: 'HS256',
     });
 
     return {
@@ -61,9 +65,9 @@ export class JWTService {
   async verifyToken(token: string): Promise<JWTPayload | null> {
     try {
       const decoded = jwt.verify(token, this.config.jwtSecret, {
-        algorithms: ["HS256"],
+        algorithms: ['HS256'],
       }) as JWTPayload;
-      
+
       return decoded;
     } catch (error) {
       // Token is invalid or expired
@@ -77,8 +81,8 @@ export class JWTService {
   async refreshToken(refreshToken: string): Promise<string | null> {
     try {
       const decoded = await this.verifyToken(refreshToken);
-      
-      if (!decoded || decoded.type !== "refresh") {
+
+      if (!decoded || decoded.type !== 'refresh') {
         return null;
       }
 
@@ -90,11 +94,11 @@ export class JWTService {
         permissions: decoded.permissions,
         iat: now,
         exp: now + this.parseExpiration(this.config.jwtExpiresIn),
-        type: "access",
+        type: 'access',
       };
 
       return jwt.sign(accessTokenPayload, this.config.jwtSecret, {
-        algorithm: "HS256",
+        algorithm: 'HS256',
       });
     } catch (error) {
       return null;
@@ -125,16 +129,16 @@ export class JWTService {
     }
 
     const [, value, unit] = match;
-    const num = parseInt(value, 10);
+    const num = parseInt(value!, 10);
 
     switch (unit) {
-      case "s":
+      case 's':
         return num;
-      case "m":
+      case 'm':
         return num * 60;
-      case "h":
+      case 'h':
         return num * 60 * 60;
-      case "d":
+      case 'd':
         return num * 24 * 60 * 60;
       default:
         throw new Error(`Unknown time unit: ${unit}`);
