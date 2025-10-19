@@ -1,4 +1,11 @@
-import { Transport, TransportConfig, MessageEnvelope, MessageHandler, RetryPolicy, DeadLetterQueue } from './types';
+import {
+  Transport,
+  TransportConfig,
+  MessageEnvelope,
+  MessageHandler,
+  RetryPolicy,
+  DeadLetterQueue,
+} from './types';
 import { EventEmitter } from 'events';
 
 export abstract class BaseTransport extends EventEmitter implements Transport {
@@ -16,7 +23,7 @@ export abstract class BaseTransport extends EventEmitter implements Transport {
       initialDelay: 1000,
       maxDelay: 30000,
       backoff: 'exponential',
-      retryableErrors: ['ECONNRESET', 'ENOTFOUND', 'ECONNREFUSED', 'ETIMEDOUT']
+      retryableErrors: ['ECONNRESET', 'ENOTFOUND', 'ECONNREFUSED', 'ETIMEDOUT'],
     };
   }
 
@@ -32,14 +39,14 @@ export abstract class BaseTransport extends EventEmitter implements Transport {
 
   protected async sendWithRetry(envelope: MessageEnvelope): Promise<void> {
     let lastError: Error | null = null;
-    
+
     for (let attempt = 0; attempt <= this.retryPolicy.maxRetries; attempt++) {
       try {
         await this.doSend(envelope);
         return;
       } catch (error) {
         lastError = error as Error;
-        
+
         if (attempt === this.retryPolicy.maxRetries) {
           break;
         }
@@ -64,14 +71,15 @@ export abstract class BaseTransport extends EventEmitter implements Transport {
   protected abstract doSend(envelope: MessageEnvelope): Promise<void>;
 
   protected isRetryableError(error: Error): boolean {
-    return this.retryPolicy.retryableErrors.some(retryableError => 
-      error.message.includes(retryableError) || error.name.includes(retryableError)
+    return this.retryPolicy.retryableErrors.some(
+      (retryableError) =>
+        error.message.includes(retryableError) || error.name.includes(retryableError),
     );
   }
 
   protected calculateRetryDelay(attempt: number): number {
     let delay: number;
-    
+
     if (this.retryPolicy.backoff === 'exponential') {
       delay = this.retryPolicy.initialDelay * Math.pow(2, attempt);
     } else {
@@ -82,13 +90,13 @@ export abstract class BaseTransport extends EventEmitter implements Transport {
   }
 
   protected sleep(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   protected handleMessage(envelope: MessageEnvelope): void {
     const handler = this.findHandler(envelope);
     if (handler) {
-      this.executeHandler(handler, envelope).catch(error => {
+      this.executeHandler(handler, envelope).catch((error) => {
         this.emit('handlerError', { envelope, error });
       });
     } else {
@@ -115,18 +123,19 @@ export abstract class BaseTransport extends EventEmitter implements Transport {
 
   protected matchesPattern(messageType: string, pattern: string): boolean {
     // Simple glob-like pattern matching
-    const regexPattern = pattern
-      .replace(/\*/g, '.*')
-      .replace(/\?/g, '.');
-    
+    const regexPattern = pattern.replace(/\*/g, '.*').replace(/\?/g, '.');
+
     const regex = new RegExp(`^${regexPattern}$`);
     return regex.test(messageType);
   }
 
-  protected async executeHandler(handler: MessageHandler, envelope: MessageEnvelope): Promise<void> {
+  protected async executeHandler(
+    handler: MessageHandler,
+    envelope: MessageEnvelope,
+  ): Promise<void> {
     try {
       const result = await handler(envelope);
-      
+
       // If handler returns a message, send it as a reply
       if (result && envelope.replyTo) {
         await this.send(result);
@@ -158,18 +167,18 @@ export class MemoryDeadLetterQueue implements DeadLetterQueue {
     this.messages.push({
       envelope,
       error,
-      timestamp: new Date()
+      timestamp: new Date(),
     });
   }
 
   async getMessages(limit: number = 100): Promise<MessageEnvelope[]> {
-    return this.messages.slice(-limit).map(item => item.envelope);
+    return this.messages.slice(-limit).map((item) => item.envelope);
   }
 
   async requeue(messageId: string): Promise<void> {
-    const index = this.messages.findIndex(item => item.envelope.id === messageId);
+    const index = this.messages.findIndex((item) => item.envelope.id === messageId);
     if (index !== -1) {
-      const { envelope } = this.messages.splice(index, 1)[0];
+      const message = this.messages.splice(index, 1)[0];
       // In a real implementation, you would requeue the message
       // For now, we just remove it from the DLQ
       console.log(`Requeuing message ${messageId}`);
@@ -177,7 +186,7 @@ export class MemoryDeadLetterQueue implements DeadLetterQueue {
   }
 
   async deleteMessage(messageId: string): Promise<void> {
-    const index = this.messages.findIndex(item => item.envelope.id === messageId);
+    const index = this.messages.findIndex((item) => item.envelope.id === messageId);
     if (index !== -1) {
       this.messages.splice(index, 1);
     }
