@@ -10,14 +10,6 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
-lastCommitSha: "f1946de618e82bd346587246a8ed28ddf8fa3ed0"
-commitHistory:
-  -
-    sha: "f1946de618e82bd346587246a8ed28ddf8fa3ed0"
-    timestamp: "2025-10-19T22:18:59.633Z"
-    message: "Update task: f80c21d2-c77c-45e3-952d-e9f439785924 - Update task: Add interactive task management and auto-updates to boardrev"
-    author: "Error <foamy125@gmail.com>"
-    type: "update"
 ---
 
 # Add interactive task management and auto-updates to boardrev
