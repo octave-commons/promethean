@@ -5,7 +5,7 @@
 
 import jwt from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import type { AuthToken, AuthService } from './types.js';
 import { SecurityValidator, SecurityLogger, RateLimiter } from './security.js';
 
