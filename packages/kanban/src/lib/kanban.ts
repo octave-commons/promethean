@@ -1003,16 +1003,26 @@ export const updateStatus = async (
           created_at: preservedCreatedAt,
         };
 
-        // Update task frontmatter with commit tracking
+        // Extract frontmatter from the existing file and update it with commit tracking
+        const existingFrontmatter = parsed.data || {};
         const updatedFrontmatter = gitTracker.updateTaskCommitTracking(
-          updatedTask as any,
+          {
+            ...existingFrontmatter,
+            ...updatedTask,
+          },
           uuid,
           'status_change',
           `Status updated from ${currentStatus} to ${normalizedStatus}`,
         );
 
+        // Create a complete Task object with the updated frontmatter
+        const finalTask: Task = {
+          ...updatedTask,
+          ...updatedFrontmatter,
+        };
+
         // Write updated task file with new status and commit tracking
-        const updatedContent = toFrontmatter(updatedFrontmatter);
+        const updatedContent = toFrontmatter(finalTask);
         await fs.writeFile(taskFilePath, updatedContent, 'utf8');
 
         // Create git commit for the status change

@@ -116,8 +116,8 @@ export async function query(args = {}) {
 }
 
 export async function relations(args = {}) {
-  const { openDB } = await import('../packages/docops/dist/index.js');
-  const { runRelations } = await import('../packages/docops/dist/index.js');
+  const { openDB } = await import('@promethean/docops/dist/db.js');
+  const { runRelations } = await import('@promethean/docops/dist/index.js');
   const db = await openDB();
   try {
     let files = args.files;
@@ -148,8 +148,8 @@ export async function relations(args = {}) {
 }
 
 export async function footers(args = {}) {
-  const { openDB } = await import('../packages/docops/dist/index.js');
-  const { runFooters } = await import('../packages/docops/dist/index.js');
+  const { openDB } = await import('@promethean/docops/dist/db.js');
+  const { runFooters } = await import('@promethean/docops/dist/index.js');
   const db = await openDB();
   try {
     await runFooters(
@@ -170,8 +170,8 @@ export async function footers(args = {}) {
 }
 
 export async function rename(args = {}) {
-  const { openDB } = await import('../packages/docops/dist/index.js');
-  const { runRename } = await import('../packages/docops/dist/index.js');
+  const { openDB } = await import('@promethean/docops/dist/db.js');
+  const { runRename } = await import('@promethean/docops/dist/index.js');
   const db = await openDB();
   try {
     await runRename(
