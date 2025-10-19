@@ -124,43 +124,45 @@ export class WebSocketTransport extends BaseTransport {
       const port = parseInt(url.port) || 8080;
       const host = url.hostname || 'localhost';
 
-      this.server = new WebSocket.Server({
+      this.server = new WebSocketServer({
         port,
         host,
         path: url.pathname || '/',
       });
 
-      this.server.on('connection', (ws: WebSocket, req) => {
-        const clientId = this.extractClientId(req);
-        this.clients.set(clientId, ws);
+      if (this.server) {
+        this.server.on('connection', (ws: WebSocket, req: any) => {
+          const clientId = this.extractClientId(req);
+          this.clients.set(clientId, ws);
 
-        ws.on('message', (data: WebSocket.Data) => {
-          try {
-            const envelope: MessageEnvelope = JSON.parse(data.toString());
-            this.handleMessage(envelope);
-          } catch (error) {
+          ws.on('message', (data: WebSocket.Data) => {
+            try {
+              const envelope: MessageEnvelope = JSON.parse(data.toString());
+              this.handleMessage(envelope);
+            } catch (error) {
+              this.emit('error', error);
+            }
+          });
+
+          ws.on('close', () => {
+            this.clients.delete(clientId);
+          });
+
+          ws.on('error', (error: any) => {
             this.emit('error', error);
-          }
+          });
         });
 
-        ws.on('close', () => {
-          this.clients.delete(clientId);
+        this.server.on('error', (error: any) => {
+          this.emitConnectionEvent('error', error);
+          reject(error);
         });
 
-        ws.on('error', (error) => {
-          this.emit('error', error);
+        this.server.on('listening', () => {
+          this.emitConnectionEvent('connected');
+          resolve();
         });
-      });
-
-      this.server.on('error', (error) => {
-        this.emitConnectionEvent('error', error);
-        reject(error);
-      });
-
-      this.server.on('listening', () => {
-        this.emitConnectionEvent('connected');
-        resolve();
-      });
+      }
     });
   }
 
