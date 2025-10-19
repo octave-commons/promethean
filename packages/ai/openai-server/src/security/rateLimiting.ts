@@ -1,5 +1,5 @@
-import type { FastifyRequest, FastifyReply } from "fastify";
-import type { RateLimitConfig, SecurityContext } from "../types/security.js";
+import type { FastifyRequest, FastifyReply } from 'fastify';
+import type { RateLimitConfig, SecurityContext } from '../types/security.js';
 
 /**
  * In-memory rate limiting implementation
@@ -63,7 +63,7 @@ export class RateLimitingService {
   constructor(config: RateLimitConfig) {
     this.config = config;
     this.store = new MemoryStore();
-    
+
     // Cleanup expired entries every minute
     this.cleanupInterval = setInterval(() => {
       this.store.cleanup();
@@ -80,16 +80,16 @@ export class RateLimitingService {
     }
 
     const [, value, unit] = match;
-    const num = parseInt(value, 10);
+    const num = parseInt(value!, 10);
 
     switch (unit) {
-      case "s":
+      case 's':
         return num * 1000;
-      case "m":
+      case 'm':
         return num * 60 * 1000;
-      case "h":
+      case 'h':
         return num * 60 * 60 * 1000;
-      case "d":
+      case 'd':
         return num * 24 * 60 * 60 * 1000;
       default:
         throw new Error(`Unknown time unit: ${unit}`);
@@ -99,20 +99,17 @@ export class RateLimitingService {
   /**
    * Generate rate limit key for different scopes
    */
-  private generateKey(
-    request: FastifyRequest,
-    scope: "global" | "user" | "endpoint",
-  ): string {
+  private generateKey(request: FastifyRequest, scope: 'global' | 'user' | 'endpoint'): string {
     switch (scope) {
-      case "global":
-        return "global";
-      case "user":
+      case 'global':
+        return 'global';
+      case 'user':
         const securityContext = (request as any).securityContext as SecurityContext;
         return securityContext ? `user:${securityContext.user.id}` : `ip:${request.ip}`;
-      case "endpoint":
+      case 'endpoint':
         const endpointKey = `${request.method}:${request.routeOptions.url}`;
         const userContext = (request as any).securityContext as SecurityContext;
-        return userContext 
+        return userContext
           ? `endpoint:${endpointKey}:user:${userContext.user.id}`
           : `endpoint:${endpointKey}:ip:${request.ip}`;
     }
@@ -123,7 +120,7 @@ export class RateLimitingService {
    */
   async checkRateLimit(
     request: FastifyRequest,
-    scope: "global" | "user" | "endpoint",
+    scope: 'global' | 'user' | 'endpoint',
   ): Promise<{
     allowed: boolean;
     limit: number;
@@ -133,7 +130,7 @@ export class RateLimitingService {
     const config = this.config[scope];
     const windowMs = this.parseWindow(config.window);
     const key = this.generateKey(request, scope);
-    
+
     const entry = this.store.increment(key, windowMs);
     const limit = this.getEffectiveLimit(request, scope);
     const remaining = Math.max(0, limit - entry.count);
@@ -152,11 +149,11 @@ export class RateLimitingService {
    */
   private getEffectiveLimit(
     request: FastifyRequest,
-    scope: "global" | "user" | "endpoint",
+    scope: 'global' | 'user' | 'endpoint',
   ): number {
     const securityContext = (request as any).securityContext as SecurityContext;
-    
-    if (securityContext?.rateLimitOverride && scope === "user") {
+
+    if (securityContext?.rateLimitOverride && scope === 'user') {
       return securityContext.rateLimitOverride;
     }
 
@@ -166,13 +163,15 @@ export class RateLimitingService {
   /**
    * Create rate limiting middleware for Fastify
    */
-  createRateLimitMiddleware(options: {
-    scopes?: ReadonlyArray<"global" | "user" | "endpoint">;
-    skipSuccessfulRequests?: boolean;
-    skipFailedRequests?: boolean;
-  } = {}) {
+  createRateLimitMiddleware(
+    options: {
+      scopes?: ReadonlyArray<'global' | 'user' | 'endpoint'>;
+      skipSuccessfulRequests?: boolean;
+      skipFailedRequests?: boolean;
+    } = {},
+  ) {
     const {
-      scopes = ["global", "user", "endpoint"],
+      scopes = ['global', 'user', 'endpoint'],
       skipSuccessfulRequests = this.config.skipSuccessfulRequests,
       skipFailedRequests = this.config.skipFailedRequests,
     } = options;
@@ -181,18 +180,18 @@ export class RateLimitingService {
       // Check all configured scopes
       for (const scope of scopes) {
         const result = await this.checkRateLimit(request, scope);
-        
+
         // Set rate limit headers
-        reply.header("X-RateLimit-Limit", result.limit);
-        reply.header("X-RateLimit-Remaining", result.remaining);
-        reply.header("X-RateLimit-Reset", Math.ceil(result.resetTime / 1000));
+        reply.header('X-RateLimit-Limit', result.limit);
+        reply.header('X-RateLimit-Remaining', result.remaining);
+        reply.header('X-RateLimit-Reset', Math.ceil(result.resetTime / 1000));
 
         if (!result.allowed) {
-          reply.header("Retry-After", Math.ceil((result.resetTime - Date.now()) / 1000));
-          
+          reply.header('Retry-After', Math.ceil((result.resetTime - Date.now()) / 1000));
+
           return reply.status(429).send({
-            error: "Rate limit exceeded",
-            code: "RATE_LIMIT_EXCEEDED",
+            error: 'Rate limit exceeded',
+            code: 'RATE_LIMIT_EXCEEDED',
             scope,
             limit: result.limit,
             resetTime: result.resetTime,
@@ -205,7 +204,7 @@ export class RateLimitingService {
         const originalSend = reply.send.bind(reply);
         reply.send = (payload: any) => {
           const statusCode = reply.statusCode;
-          const shouldSkip = 
+          const shouldSkip =
             (skipSuccessfulRequests && statusCode >= 200 && statusCode < 300) ||
             (skipFailedRequests && statusCode >= 400);
 
@@ -229,14 +228,12 @@ export class RateLimitingService {
   /**
    * Get current rate limit status for a user/IP
    */
-  async getRateLimitStatus(
-    request: FastifyRequest,
-  ): Promise<{
+  async getRateLimitStatus(request: FastifyRequest): Promise<{
     global: { limit: number; used: number; remaining: number; resetTime: number };
     user: { limit: number; used: number; remaining: number; resetTime: number };
     endpoint: { limit: number; used: number; remaining: number; resetTime: number };
   }> {
-    const scopes: Array<"global" | "user" | "endpoint"> = ["global", "user", "endpoint"];
+    const scopes: Array<'global' | 'user' | 'endpoint'> = ['global', 'user', 'endpoint'];
     const result: any = {};
 
     for (const scope of scopes) {

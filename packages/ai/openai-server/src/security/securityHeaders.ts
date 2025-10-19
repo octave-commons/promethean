@@ -1,5 +1,5 @@
 import type { FastifyReply } from 'fastify';
-import type { SecurityHeaders, SecurityConfig } from '../types/security.js';
+import type { SecurityConfig } from '../types/security.js';
 
 /**
  * Security headers middleware implementation
