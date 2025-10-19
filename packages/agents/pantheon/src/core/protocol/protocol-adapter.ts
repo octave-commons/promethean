@@ -67,10 +67,10 @@ export interface AgentBusMessage {
 }
 
 export class AgentBusAdapter {
-  private crisisHandlers = new Map<
-    string,
-    (msg: CrisisMessage) => Promise<void>
-  >();
+  // private crisisHandlers = new Map<
+  //   string,
+  //   (msg: CrisisMessage) => Promise<void>
+  // >();
 
   /**
    * Convert Agent Bus message to Crisis Message
