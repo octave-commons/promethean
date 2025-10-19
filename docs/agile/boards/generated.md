@@ -301,6 +301,7 @@ kanban-plugin: board
 - [ ] [[testing again]] #testing #again #nothing #blocked (uuid:89de2009-f002-4855-9722-7dd329c80ace)
 - [ ] [[testing my bad a typo]] #testing #bad #typo #nothing (uuid:f24dd678-5c1a-4807-b591-247e851b475c)
 - [ ] [[test commit fix]] #test #commit #fix #nothing (uuid:45e21a74-d54c-42e6-b670-0d5f15a2239b)
+- [ ] [[foobar]] #foobar #nothing #blocked #blocks (uuid:3cae1ac4-4689-4303-992f-cdef2d78c9db)
 
 ## accepted
 
