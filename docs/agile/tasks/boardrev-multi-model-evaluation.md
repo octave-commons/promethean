@@ -10,14 +10,6 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
-lastCommitSha: "47a3b0f80d5723ea1c0bd0a7f7d72a8214427690"
-commitHistory:
-  -
-    sha: "47a3b0f80d5723ea1c0bd0a7f7d72a8214427690"
-    timestamp: "2025-10-19T22:07:03.880Z"
-    message: "Update task: d4899ef6-37d5-41c8-b0e2-0040e2d31146 - Update task: Implement multi-model evaluation for boardrev"
-    author: "Error <foamy125@gmail.com>"
-    type: "update"
 ---
 
 # Implement multi-model evaluation for boardrev
