@@ -166,14 +166,40 @@ export class QueueManager {
       return false;
     }
 
+    // Authenticate agent if token provided
+    let authenticatedAgentId = agentId;
+    if (authToken) {
+      try {
+        const tokenPayload = await this.authManager.verifyToken(authToken);
+        const agent = this.authManager.getAgent(tokenPayload.sub);
+
+        if (!agent) {
+          throw new AuthenticationError('Agent not found', 'AGENT_NOT_FOUND');
+        }
+
+        // Check if agent has job cancellation permission
+        await this.authManager.requirePermission(agent.id, 'job:cancel');
+
+        authenticatedAgentId = agent.id;
+      } catch (error) {
+        if (error instanceof AuthenticationError) {
+          throw error;
+        }
+        throw new AuthenticationError('Invalid authentication token', 'INVALID_TOKEN');
+      }
+    }
+
     // Enhanced agent authorization check
-    if (agentId) {
+    if (authenticatedAgentId) {
       if (!job.agentId || typeof job.agentId !== 'string') {
         throw new Error(`Job ${jobId} has invalid agent ID`);
       }
 
-      if (job.agentId !== agentId) {
-        throw new Error(`Authorization failed: cannot cancel job ${jobId} from agent ${agentId}`);
+      if (job.agentId !== authenticatedAgentId) {
+        throw new AuthenticationError(
+          `Authorization failed: cannot cancel job ${jobId} from agent ${authenticatedAgentId}`,
+          'AGENT_MISMATCH',
+        );
       }
     }
 
@@ -218,15 +244,40 @@ export class QueueManager {
   }
 
   /**
-   * List jobs with optional filtering
+   * List jobs with optional filtering and authentication
    */
-  listJobs(options: {
+  async listJobs(options: {
     status?: Job['status'];
     limit?: number;
     agentOnly?: boolean;
     agentId?: string;
     sessionId?: string;
-  }): Job[] {
+    authToken?: string;
+  }): Promise<Job[]> {
+    // Authenticate agent if token provided
+    if (options.authToken) {
+      try {
+        const tokenPayload = await this.authManager.verifyToken(options.authToken);
+        const agent = this.authManager.getAgent(tokenPayload.sub);
+
+        if (!agent) {
+          throw new AuthenticationError('Agent not found', 'AGENT_NOT_FOUND');
+        }
+
+        // Check if agent has job listing permission
+        await this.authManager.requirePermission(agent.id, 'job:list');
+
+        // Override agentId with authenticated agent for filtering
+        if (options.agentOnly) {
+          options.agentId = agent.id;
+        }
+      } catch (error) {
+        if (error instanceof AuthenticationError) {
+          throw error;
+        }
+        throw new AuthenticationError('Invalid authentication token', 'INVALID_TOKEN');
+      }
+    }
     let jobs = Array.from(this.jobs.values());
 
     // Apply filters
@@ -252,6 +303,17 @@ export class QueueManager {
 
     return jobs;
   }
+
+  /**
+   * Legacy listJobs method for backward compatibility
+   */
+  listJobsSync(options: {
+    status?: Job['status'];
+    limit?: number;
+    agentOnly?: boolean;
+    agentId?: string;
+    sessionId?: string;
+  }): Job[] {
 
   /**
    * Get queue metrics
