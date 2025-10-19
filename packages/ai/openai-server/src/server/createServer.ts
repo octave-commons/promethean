@@ -1,34 +1,36 @@
-import { existsSync } from "node:fs";
-import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { existsSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-import fastifyStatic from "@fastify/static";
-import fastifySwagger from "@fastify/swagger";
-import fastifySwaggerUi from "@fastify/swagger-ui";
-import Fastify from "fastify";
-import type {
-  FastifyInstance,
-  FastifyReply,
-  FastifyServerOptions,
-} from "fastify";
+import fastifyStatic from '@fastify/static';
+import fastifySwagger from '@fastify/swagger';
+import fastifySwaggerUi from '@fastify/swagger-ui';
+import fastifyCors from '@fastify/cors';
+import fastifyHelmet from '@fastify/helmet';
+import fastifyRateLimit from '@fastify/rate-limit';
+import Fastify from 'fastify';
+import type { FastifyInstance, FastifyReply, FastifyServerOptions } from 'fastify';
 
-import { createDefaultChatCompletionHandler } from "../openai/defaultHandler.js";
+import { createDefaultChatCompletionHandler } from '../openai/defaultHandler.js';
 import type {
   ChatCompletionHandler,
   ChatCompletionRequest,
   ChatCompletionResponse,
-} from "../openai/types.js";
-import { createTaskQueue } from "../queue/taskQueue.js";
-import type { TaskQueue } from "../queue/taskQueue.js";
-import type { DeepReadonly } from "../types/deepReadonly.js";
+} from '../openai/types.js';
+import { createTaskQueue } from '../queue/taskQueue.js';
+import type { TaskQueue } from '../queue/taskQueue.js';
+import type { DeepReadonly } from '../types/deepReadonly.js';
 
-import { registerChatCompletionRoute } from "./chatCompletionRoute.js";
-import { registerQueueRoutes } from "./queueRoutes.js";
-import type {
-  FastifyApp,
-  FastifyHealthApp,
-  FastifyStaticApp,
-} from "./fastifyTypes.js";
+import { AuthMiddleware } from '../auth/authMiddleware.js';
+import { RateLimitingService } from '../security/rateLimiting.js';
+import { InputValidationService } from '../security/inputValidation.js';
+import { SecurityHeadersService } from '../security/securityHeaders.js';
+import { ContentSanitizer } from '../security/contentSanitizer.js';
+import { getValidatedSecurityConfig } from '../security/config.js';
+
+import { registerChatCompletionRoute } from './chatCompletionRoute.js';
+import { registerQueueRoutes } from './queueRoutes.js';
+import type { FastifyApp, FastifyHealthApp, FastifyStaticApp } from './fastifyTypes.js';
 
 export type OpenAIServerOptions = {
   readonly concurrency?: number;
@@ -49,10 +51,10 @@ type PackageDirectories = {
 };
 
 const resolvePackageDirectories = (): PackageDirectories => {
-  const currentDir = dirname(fileURLToPath(new URL(".", import.meta.url)));
-  const distDir = resolve(currentDir, "..");
-  const staticDir = resolve(distDir, "../static");
-  const frontendDir = resolve(distDir, "frontend");
+  const currentDir = dirname(fileURLToPath(new URL('.', import.meta.url)));
+  const distDir = resolve(currentDir, '..');
+  const staticDir = resolve(distDir, '../static');
+  const frontendDir = resolve(distDir, 'frontend');
   return { distDir, staticDir, frontendDir };
 };
 
@@ -60,45 +62,38 @@ const registerDocumentation = (app: FastifyApp): void => {
   app.register(fastifySwagger, {
     openapi: {
       info: {
-        title: "Promethean OpenAI Compatible API",
-        description:
-          "Implements a queue-backed subset of the OpenAI chat completions API.",
-        version: "0.0.0",
+        title: 'Promethean OpenAI Compatible API',
+        description: 'Implements a queue-backed subset of the OpenAI chat completions API.',
+        version: '0.0.0',
       },
-      servers: [{ url: "/" }],
+      servers: [{ url: '/' }],
       components: {},
     },
   });
 
   app.register(fastifySwaggerUi, {
-    routePrefix: "/docs",
+    routePrefix: '/docs',
     staticCSP: true,
     uiConfig: {
-      docExpansion: "list",
+      docExpansion: 'list',
       deepLinking: false,
     },
   });
 
   app.after(() => {
-    app.get("/openapi.json", async () => app.swagger());
+    app.get('/openapi.json', async () => app.swagger());
   });
 };
 
-type StaticReply = Readonly<Pick<FastifyReply, "type" | "sendFile">>;
+type StaticReply = Readonly<Pick<FastifyReply, 'type' | 'sendFile'>>;
 type HealthQueue = {
-  readonly snapshot: TaskQueue<
-    ChatCompletionRequest,
-    ChatCompletionResponse
-  >["snapshot"];
+  readonly snapshot: TaskQueue<ChatCompletionRequest, ChatCompletionResponse>['snapshot'];
 };
 
-const registerStaticAssets = (
-  app: FastifyStaticApp,
-  directories: PackageDirectories,
-): void => {
+const registerStaticAssets = (app: FastifyStaticApp, directories: PackageDirectories): void => {
   app.register(fastifyStatic, {
     root: directories.staticDir,
-    prefix: "/static/",
+    prefix: '/static/',
   });
 
   const frontendRoot = existsSync(directories.frontendDir)
@@ -107,38 +102,35 @@ const registerStaticAssets = (
 
   app.register(fastifyStatic, {
     root: frontendRoot,
-    prefix: "/frontend/",
+    prefix: '/frontend/',
     decorateReply: false,
   });
 
-  app.get("/", async (_request, reply: StaticReply) => {
-    void reply.type("text/html");
-    return reply.sendFile("index.html");
+  app.get('/', async (_request, reply: StaticReply) => {
+    void reply.type('text/html');
+    return reply.sendFile('index.html');
   });
 };
 
-const registerHealthRoute = (
-  app: FastifyHealthApp,
-  queue: HealthQueue,
-): void => {
+const registerHealthRoute = (app: FastifyHealthApp, queue: HealthQueue): void => {
   app.get(
-    "/health",
+    '/health',
     {
       schema: {
-        tags: ["Health"],
-        summary: "Health check endpoint",
+        tags: ['Health'],
+        summary: 'Health check endpoint',
         response: {
           200: {
-            type: "object",
-            required: ["status", "queue"],
+            type: 'object',
+            required: ['status', 'queue'],
             properties: {
-              status: { type: "string" },
+              status: { type: 'string' },
               queue: {
-                type: "object",
-                required: ["pending", "processing"],
+                type: 'object',
+                required: ['pending', 'processing'],
                 properties: {
-                  pending: { type: "integer", minimum: 0 },
-                  processing: { type: "integer", minimum: 0 },
+                  pending: { type: 'integer', minimum: 0 },
+                  processing: { type: 'integer', minimum: 0 },
                 },
               },
             },
@@ -150,7 +142,7 @@ const registerHealthRoute = (
     async () => {
       const snapshot = queue.snapshot();
       return {
-        status: "ok",
+        status: 'ok',
         queue: {
           pending: snapshot.pending.length,
           processing: snapshot.processing.length,
@@ -162,7 +154,7 @@ const registerHealthRoute = (
 
 const buildQueue = (
   handler: ChatCompletionHandler,
-  options: Pick<OpenAIServerOptions, "concurrency" | "recentLimit">,
+  options: Pick<OpenAIServerOptions, 'concurrency' | 'recentLimit'>,
 ): TaskQueue<ChatCompletionRequest, ChatCompletionResponse> =>
   createTaskQueue<ChatCompletionRequest, ChatCompletionResponse>(
     async (task) =>
@@ -171,18 +163,12 @@ const buildQueue = (
         request: task.input,
       }),
     {
-      ...(typeof options.concurrency === "number"
-        ? { concurrency: options.concurrency }
-        : {}),
-      ...(typeof options.recentLimit === "number"
-        ? { recentLimit: options.recentLimit }
-        : {}),
+      ...(typeof options.concurrency === 'number' ? { concurrency: options.concurrency } : {}),
+      ...(typeof options.recentLimit === 'number' ? { recentLimit: options.recentLimit } : {}),
     },
   );
 
-export const createOpenAICompliantServer = (
-  options: OpenAIServerOptions = {},
-): OpenAIServer => {
+export const createOpenAICompliantServer = (options: OpenAIServerOptions = {}): OpenAIServer => {
   const handler = options.handler ?? createDefaultChatCompletionHandler();
   const queue = buildQueue(handler, options);
   const app = Fastify({ logger: false, ...(options.fastify ?? {}) });
