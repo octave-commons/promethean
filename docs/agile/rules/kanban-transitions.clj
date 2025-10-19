@@ -98,11 +98,14 @@
 (defn comprehensive-testing-validation?
   "Comprehensive testing validation with coverage (90%), quality (75%), AI analysis, and requirement mapping"
   [task board]
-  ;; This function is a placeholder for the JavaScript implementation
-  ;; The actual validation is handled by the TransitionRulesEngine in TypeScript
-  ;; which provides better integration with coverage analysis tools and AI workflows
-  ;; Always return true here to allow the TypeScript implementation to handle validation
-  true)
+  ;; Check if task has coverage report path
+  (let [content (or (:content task) "")
+        coverage-match (re-find #"(?i)coverage[_-]?report[:\s]+([^\s\n]+)" content)
+        coverage-report-path (second coverage-match)]
+    (and coverage-report-path
+         ;; Additional validation could be added here for coverage thresholds, quality scores, etc.
+         ;; For now, presence of coverage report path is sufficient
+         true)))
 
 (defn reviewable-change-exists?
   "Coherent, reviewable change is ready for review"
