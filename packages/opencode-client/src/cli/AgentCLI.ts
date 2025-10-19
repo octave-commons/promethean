@@ -346,7 +346,7 @@ Available commands:
       try {
         switch (command) {
           case 'list':
-            const sessions = unifiedAgentManager.listAgentSessions();
+            const sessions = await unifiedAgentManager.listAgentSessions();
             if (sessions.length === 0) {
               console.log('No active sessions.');
             } else {
