@@ -36,10 +36,10 @@ export function createCreateSessionTool(): any {
         .describe('Delegates for the session'),
     },
     async execute(args, context) {
-      const { title, files, delegates } = args;
+      const { title } = args;
       const client = (context as any).client;
 
-      const result = await create({ title, files, delegates, client });
+      const result = await create({ title, client });
       return result;
     },
   });
