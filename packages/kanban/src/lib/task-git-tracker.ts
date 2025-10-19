@@ -53,22 +53,27 @@ export class TaskGitTracker {
   /**
    * Gets commit information for a specific SHA
    */
-getCommitInfo(sha: string): Omit<TaskCommitEntry, 'type'> | null {
+  getCommitInfo(sha: string): Omit<TaskCommitEntry, 'type'> | null {
     try {
-      const output = execSync(
-        `git show --format='%H|%s|%an|%ad' --date=iso ${sha}`,
-        {
-          cwd: this.repoRoot,
-          encoding: 'utf8',
-        }
-      ).trim();
+      const output = execSync(`git show --format='%H|%s|%an|%ad' --date=iso ${sha}`, {
+        cwd: this.repoRoot,
+        encoding: 'utf8',
+      }).trim();
 
       const parts = output.split('|');
       if (parts.length < 4) {
         return null;
       }
 
-      const [commitSha, message, author, timestamp] = parts;
+      const commitSha = parts[0];
+      const message = parts[1];
+      const author = parts[2];
+      const timestamp = parts[3];
+
+      if (!commitSha || !message || !author || !timestamp) {
+        return null;
+      }
+
       return {
         sha: commitSha.trim(),
         message: message.trim(),
@@ -79,7 +84,6 @@ getCommitInfo(sha: string): Omit<TaskCommitEntry, 'type'> | null {
       console.warn(`Warning: Could not get commit info for ${sha}:`, error);
       return null;
     }
-  }
   }
 
   /**
@@ -227,7 +231,7 @@ getCommitInfo(sha: string): Omit<TaskCommitEntry, 'type'> | null {
       issues.push('commitHistory must be an array');
     } else {
       // Validate each commit entry
-      frontmatter.commitHistory.forEach((entry, index) => {
+      frontmatter.commitHistory.forEach((entry: any, index: number) => {
         if (!entry || typeof entry !== 'object') {
           issues.push(`commitHistory[${index}] is not a valid object`);
           return;
