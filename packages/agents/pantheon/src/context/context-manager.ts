@@ -11,7 +11,7 @@ import type {
   ContextManager as IContextManager,
   EventStore,
   SnapshotStore,
-  UnifiedAgentContext
+  UnifiedAgentContext,
 } from './types.js';
 import { SecurityValidator, SecurityLogger, RateLimiter } from './security.js';
 import { ContextManagerHelpers } from './context-manager-helpers.js';
@@ -23,7 +23,7 @@ export class DefaultContextManager implements IContextManager {
   constructor(
     private eventStore: EventStore,
     private snapshotStore: SnapshotStore,
-    private snapshotInterval: number = 100, // Create snapshot every 100 events
+    private snapshotInterval: number = 100 // Create snapshot every 100 events
   ) {
     this.rateLimiter = RateLimiter.getInstance('context-manager', 60000, 100);
   }
@@ -34,53 +34,67 @@ export class DefaultContextManager implements IContextManager {
       const validatedAgentId = SecurityValidator.validateAgentId(agentId);
 
       // Rate limiting
-      await ContextManagerHelpers.checkRateLimit(this.rateLimiter, validatedAgentId, 'getContext');
+      await ContextManagerHelpers.checkRateLimit(
+        this.rateLimiter,
+        validatedAgentId,
+        'getContext'
+      );
 
       // Try to get latest snapshot first
-      const latestSnapshot = await this.snapshotStore.getLatestSnapshot(validatedAgentId);
+      const latestSnapshot =
+        await this.snapshotStore.getLatestSnapshot(validatedAgentId);
 
       if (latestSnapshot) {
         return await ContextManagerHelpers.buildContextFromSnapshot(
           validatedAgentId,
           latestSnapshot,
-          this.eventStore,
+          this.eventStore
         );
       }
 
       // No snapshot exists, build from all events
-      return await ContextManagerHelpers.buildContextFromEvents(validatedAgentId, this.eventStore);
+      return await ContextManagerHelpers.buildContextFromEvents(
+        validatedAgentId,
+        this.eventStore
+      );
     } catch (error) {
       ContextManagerHelpers.logSecurityError(agentId, 'getContext', error);
       throw error;
     }
   }
 
-  async updateContext(agentId: string, updates: Partial<AgentContext>): Promise<AgentContext> {
+  async updateContext(
+    agentId: string,
+    updates: Partial<AgentContext>
+  ): Promise<AgentContext> {
     try {
       const validatedAgentId = SecurityValidator.validateAgentId(agentId);
 
       await ContextManagerHelpers.checkRateLimit(
         this.rateLimiter,
         validatedAgentId,
-        'updateContext',
+        'updateContext'
       );
 
       const sanitizedUpdates = SecurityValidator.sanitizeObject(updates);
       const currentContext = await this.getContext(validatedAgentId);
-      const nextVersion = this.getNextVersion(validatedAgentId, currentContext.version);
+      const nextVersion = this.getNextVersion(
+        validatedAgentId,
+        currentContext.version
+      );
 
       const updatedContext = this.buildUpdatedContext(
         currentContext,
         validatedAgentId,
         sanitizedUpdates,
-        nextVersion,
+        nextVersion
       );
 
       await this.createUpdateEvent(
         validatedAgentId,
         sanitizedUpdates,
         currentContext.version,
-        updatedContext.version,
+        updatedContext.version
       );
 
       return updatedContext;
@@ -90,7 +104,9 @@ export class DefaultContextManager implements IContextManager {
         severity: 'high',
         agentId,
         action: 'updateContext',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' },
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -107,7 +123,7 @@ export class DefaultContextManager implements IContextManager {
     currentContext: AgentContext,
     agentId: string,
     updates: unknown,
-    version: number,
+    version: number
   ): AgentContext {
     return {
       ...currentContext,
@@ -123,7 +139,7 @@ export class DefaultContextManager implements IContextManager {
     agentId: string,
     updates: unknown,
     previousVersion: number,
-    newVersion: number,
+    newVersion: number
   ): Promise<void> {
     await this.appendEvent({
       type: 'context_updated',
@@ -139,14 +155,20 @@ export class DefaultContextManager implements IContextManager {
     });
   }
 
-  async appendEvent(event: Omit<ContextEvent, 'id' | 'timestamp'>): Promise<ContextEvent> {
+  async appendEvent(
+    event: Omit<ContextEvent, 'id' | 'timestamp'>
+  ): Promise<ContextEvent> {
     try {
       // Validate and sanitize input
       const validatedAgentId = SecurityValidator.validateAgentId(event.agentId);
       const validatedData = SecurityValidator.validateEventData(event.data);
 
       // Rate limiting
-      await ContextManagerHelpers.checkRateLimit(this.rateLimiter, validatedAgentId, 'appendEvent');
+      await ContextManagerHelpers.checkRateLimit(
+        this.rateLimiter,
+        validatedAgentId,
+        'appendEvent'
+      );
 
       const fullEvent: ContextEvent = {
         ...event,
@@ -171,7 +193,9 @@ export class DefaultContextManager implements IContextManager {
         severity: 'high',
         agentId: event.agentId,
         action: 'appendEvent',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' },
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -190,7 +214,10 @@ export class DefaultContextManager implements IContextManager {
         id: uuidv4(),
         agentId: validatedAgentId,
         timestamp: new Date(),
-        state: SecurityValidator.sanitizeObject(context.state) as Record<string, unknown>,
+        state: SecurityValidator.sanitizeObject(context.state) as Record<
+          string,
+          unknown
+        >,
         version: context.version,
         eventId: lastEvent?.id || uuidv4(),
       };
@@ -206,15 +233,20 @@ export class DefaultContextManager implements IContextManager {
   async restoreFromSnapshot(snapshotId: string): Promise<AgentContext> {
     try {
       // Validate and sanitize input
-      const validatedSnapshotId = SecurityValidator.validateSnapshotId(snapshotId);
+      const validatedSnapshotId =
+        SecurityValidator.validateSnapshotId(snapshotId);
 
-      const snapshot = await this.snapshotStore.getSnapshot(validatedSnapshotId);
+      const snapshot =
+        await this.snapshotStore.getSnapshot(validatedSnapshotId);
       if (!snapshot) {
         SecurityLogger.log({
           type: 'data_access',
           severity: 'medium',
           action: 'restoreFromSnapshot',
-          details: { snapshotId: validatedSnapshotId, reason: 'Snapshot not found' },
+          details: {
+            snapshotId: validatedSnapshotId,
+            reason: 'Snapshot not found',
+          },
         });
         throw new Error(`Snapshot not found: ${validatedSnapshotId}`);
       }
@@ -222,7 +254,10 @@ export class DefaultContextManager implements IContextManager {
       return {
         id: uuidv4(),
         agentId: snapshot.agentId,
-        state: SecurityValidator.sanitizeObject(snapshot.state) as Record<string, unknown>,
+        state: SecurityValidator.sanitizeObject(snapshot.state) as Record<
+          string,
+          unknown
+        >,
         version: snapshot.version,
         createdAt: snapshot.timestamp,
         updatedAt: new Date(),
@@ -232,7 +267,11 @@ export class DefaultContextManager implements IContextManager {
         },
       };
     } catch (error) {
-      ContextManagerHelpers.logSecurityError(snapshotId, 'restoreFromSnapshot', error);
+      ContextManagerHelpers.logSecurityError(
+        snapshotId,
+        'restoreFromSnapshot',
+        error
+      );
       throw error;
     }
   }
@@ -266,7 +305,10 @@ export class DefaultContextManager implements IContextManager {
     }
   }
 
-  async getContextHistory(agentId: string, limit?: number): Promise<ContextEvent[]> {
+  async getContextHistory(
+    agentId: string,
+    limit?: number
+  ): Promise<ContextEvent[]> {
     try {
       // Validate and sanitize input
       const validatedAgentId = SecurityValidator.validateAgentId(agentId);
@@ -274,16 +316,23 @@ export class DefaultContextManager implements IContextManager {
       const events = await this.eventStore.getEvents(validatedAgentId);
       return limit ? events.slice(-limit) : events;
     } catch (error) {
-      ContextManagerHelpers.logSecurityError(agentId, 'getContextHistory', error);
+      ContextManagerHelpers.logSecurityError(
+        agentId,
+        'getContextHistory',
+        error
+      );
       throw error;
     }
   }
 
   // Enhanced methods for unified system integration
-  async createUnifiedContext(agentId: string, initialState?: Record<string, any>): Promise<UnifiedAgentContext> {
+  async createUnifiedContext(
+    agentId: string,
+    initialState?: Record<string, any>
+  ): Promise<UnifiedAgentContext> {
     try {
       const validatedAgentId = SecurityValidator.validateAgentId(agentId);
-      
+
       const context: AgentContext = {
         id: uuidv4(),
         agentId: validatedAgentId,
@@ -293,8 +342,8 @@ export class DefaultContextManager implements IContextManager {
         updatedAt: new Date(),
         metadata: {
           initialState: true,
-          unified: true
-        }
+          unified: true,
+        },
       };
 
       // Create creation event
@@ -303,16 +352,25 @@ export class DefaultContextManager implements IContextManager {
         agentId: validatedAgentId,
         data: {
           initialState,
-          version: 1
-        }
+          version: 1,
+        },
       });
 
       return {
-        ...context,
-        agentId: validatedAgentId as any // Type conversion for unified system
+        id: context.id,
+        agentId: { value: validatedAgentId, type: 'uuid' as const },
+        state: context.state,
+        version: context.version,
+        createdAt: context.createdAt,
+        updatedAt: context.updatedAt,
+        metadata: context.metadata || {},
       };
     } catch (error) {
-      ContextManagerHelpers.logSecurityError(agentId, 'createUnifiedContext', error);
+      ContextManagerHelpers.logSecurityError(
+        agentId,
+        'createUnifiedContext',
+        error
+      );
       throw error;
     }
   }
@@ -326,19 +384,26 @@ export class DefaultContextManager implements IContextManager {
   }> {
     try {
       const validatedAgentId = SecurityValidator.validateAgentId(agentId);
-      
+
       const events = await this.eventStore.getEvents(validatedAgentId);
       const context = await this.getContext(validatedAgentId);
-      
+
       return {
         totalEvents: events.length,
         totalSnapshots: Math.floor(context.version / this.snapshotInterval),
-        lastActivity: events.length > 0 ? events[events.length - 1].timestamp : context.updatedAt,
+        lastActivity:
+          events.length > 0
+            ? events[events.length - 1]?.timestamp || context.updatedAt
+            : context.updatedAt,
         contextSize: ContextManagerHelpers.calculateContextSize(context),
-        version: context.version
+        version: context.version,
       };
     } catch (error) {
-      ContextManagerHelpers.logSecurityError(agentId, 'getContextStatistics', error);
+      ContextManagerHelpers.logSecurityError(
+        agentId,
+        'getContextStatistics',
+        error
+      );
       throw error;
     }
   }
@@ -355,24 +420,29 @@ export class DefaultContextManager implements IContextManager {
       try {
         ContextManagerHelpers.validateContextIntegrity(context);
       } catch (error) {
-        issues.push(error instanceof Error ? error.message : 'Unknown validation error');
+        issues.push(
+          error instanceof Error ? error.message : 'Unknown validation error'
+        );
       }
 
       // Check for version consistency
       const events = await this.eventStore.getEvents(validatedAgentId);
-      const expectedVersion = events.filter(e => e.type === 'context_updated').length + 1;
+      const expectedVersion =
+        events.filter((e) => e.type === 'context_updated').length + 1;
       if (context.version !== expectedVersion) {
-        issues.push(`Version mismatch: expected ${expectedVersion}, got ${context.version}`);
+        issues.push(
+          `Version mismatch: expected ${expectedVersion}, got ${context.version}`
+        );
       }
 
       return {
         isValid: issues.length === 0,
-        issues
+        issues,
       };
     } catch (error) {
       return {
         isValid: false,
-        issues: [error instanceof Error ? error.message : 'Unknown error']
+        issues: [error instanceof Error ? error.message : 'Unknown error'],
       };
     }
   }

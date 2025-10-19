@@ -103,6 +103,13 @@ export async function list({ limit, offset }: { limit: number; offset: number })
           // If not, fall back to agentTasks Map lookup
           let agentTask = agentTasks.get(session.id);
 
+          // Debug output
+          if (process.env.OPENCODE_DEBUG) {
+            console.log(
+              `[DEBUG] Session ${session.id}: isAgentTask=${session.isAgentTask}, agentTask from Map=${!!agentTask}`,
+            );
+          }
+
           // If session has isAgentTask property but no agentTask in Map, create a minimal agentTask object
           if (session.isAgentTask && !agentTask) {
             agentTask = {
@@ -112,6 +119,10 @@ export async function list({ limit, offset }: { limit: number; offset: number })
               lastActivity: session.lastActivityTime || session.createdAt,
               task: session.title || 'Agent Task',
             };
+
+            if (process.env.OPENCODE_DEBUG) {
+              console.log(`[DEBUG] Created agentTask for session ${session.id}:`, agentTask);
+            }
           }
 
           return SessionUtils.createSessionInfo(session, messages.length, agentTask);
