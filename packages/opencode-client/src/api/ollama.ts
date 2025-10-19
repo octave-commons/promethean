@@ -1,7 +1,20 @@
 // API functions for Ollama queue operations
 // Real implementations using ollama-queue and actions
 
-import {
+import type {
+  JobOptions,
+  SubmitJobOptions,
+  JobResult,
+  JobStatusResult,
+  JobResultData,
+  OllamaModel,
+  OllamaModelDetailed,
+  QueueInfo,
+  CacheAction,
+  CacheStats,
+  CachePerformance,
+} from '../types/index.js';
+import \{
   submitJob as submitJobAction,
   getJobStatus as getJobStatusAction,
   getJobResult as getJobResultAction,
@@ -12,7 +25,7 @@ import {
 import { listModels as listModelsAction } from '../actions/ollama/models.js';
 import { manageCache as manageCacheAction } from '../actions/cache/manage.js';
 
-export interface JobOptions {
+export type JobOptions = {
   status?: string;
   limit?: number;
   agentOnly?: boolean;
@@ -20,7 +33,7 @@ export interface JobOptions {
   sessionId?: string;
 }
 
-export interface SubmitJobOptions {
+export type SubmitJobOptions = {
   modelName: string;
   jobType: 'generate' | 'chat' | 'embedding';
   priority: 'low' | 'medium' | 'high' | 'urgent';
@@ -40,7 +53,7 @@ export interface SubmitJobOptions {
   sessionId?: string;
 }
 
-export interface JobResult {
+export type JobResult = {
   id: string;
   modelName: string;
   jobType: string;
@@ -55,7 +68,7 @@ export interface JobResult {
   priority?: string;
 }
 
-export interface JobStatusResult {
+export type JobStatusResult = {
   id: string;
   name?: string;
   status: string;
@@ -64,10 +77,10 @@ export interface JobStatusResult {
   updatedAt: number;
   startedAt?: number;
   completedAt?: number;
-  error?: { message: string; code?: string };
+  error?: { message: string; code?: string }
 }
 
-export interface JobResultData {
+export type JobResultData = {
   id: string;
   name?: string;
   status: string;
@@ -86,7 +99,7 @@ export async function listJobs(options: JobOptions): Promise<JobResult[]> {
       agentOnly,
       agentId,
       sessionId,
-    });
+    };);
 
     return jobs.map((job) => ({
       id: job.id,
@@ -101,12 +114,12 @@ export async function listJobs(options: JobOptions): Promise<JobResult[]> {
       hasError: job.hasError,
       hasResult: job.hasResult,
       priority: job.priority,
-    }));
+    };));
   } catch (error) {
     throw new Error(
       `Failed to list jobs: ${error instanceof Error ? error.message : String(error)}`,
     );
-  }
+  };
 }
 
 export async function submitJob(options: SubmitJobOptions): Promise<JobResult> {
@@ -136,7 +149,7 @@ export async function submitJob(options: SubmitJobOptions): Promise<JobResult> {
       agentId,
       sessionId,
       status: 'pending' as const,
-    });
+    };);
 
     return {
       id: result.jobId,
@@ -147,12 +160,12 @@ export async function submitJob(options: SubmitJobOptions): Promise<JobResult> {
       createdAt: new Date().toISOString(),
       // Include additional fields from the action result
       queuePosition: result.queuePosition,
-    } as JobResult & { queuePosition: number };
+    }; as JobResult & { queuePosition: number };
   } catch (error) {
     throw new Error(
       `Failed to submit job: ${error instanceof Error ? error.message : String(error)}`,
     );
-  }
+  };
 }
 
 export async function getJobStatus(jobId: string): Promise<JobStatusResult> {
@@ -169,12 +182,12 @@ export async function getJobStatus(jobId: string): Promise<JobStatusResult> {
       startedAt: job.startedAt,
       completedAt: job.completedAt,
       error: job.error,
-    };
+    };;
   } catch (error) {
     throw new Error(
       `Failed to get job status: ${error instanceof Error ? error.message : String(error)}`,
     );
-  }
+  };
 }
 
 export async function getJobResult(jobId: string): Promise<JobResultData> {
@@ -187,12 +200,12 @@ export async function getJobResult(jobId: string): Promise<JobResultData> {
       status: result.status,
       result: result.result,
       completedAt: result.completedAt,
-    };
+    };;
   } catch (error) {
     throw new Error(
       `Failed to get job result: ${error instanceof Error ? error.message : String(error)}`,
     );
-  }
+  };
 }
 
 export async function cancelJob(
@@ -202,7 +215,7 @@ export async function cancelJob(
   try {
     if (!agentId) {
       throw new Error('Agent ID is required to cancel jobs');
-    }
+    };;
 
     const result = await cancelJobAction(jobId, agentId);
     return result;
@@ -210,10 +223,10 @@ export async function cancelJob(
     throw new Error(
       `Failed to cancel job: ${error instanceof Error ? error.message : String(error)}`,
     );
-  }
+  };
 }
 
-export async function listModels(detailed = false): Promise<any[]> {
+export async function listModels(detailed = false): Promise<(OllamaModel | OllamaModelDetailed)[]> {
   try {
     const result = await listModelsAction(detailed);
 
@@ -225,10 +238,10 @@ export async function listModels(detailed = false): Promise<any[]> {
     throw new Error(
       `Failed to list models: ${error instanceof Error ? error.message : String(error)}`,
     );
-  }
+  };
 }
 
-export async function getQueueInfo(): Promise<any> {
+export async function getQueueInfo(): Promise<QueueInfo> {
   try {
     const info = await getQueueInfoAction();
     return info;
@@ -236,22 +249,22 @@ export async function getQueueInfo(): Promise<any> {
     throw new Error(
       `Failed to get queue info: ${error instanceof Error ? error.message : String(error)}`,
     );
-  }
+  };
 }
 
-export async function manageCache(action: string): Promise<any> {
+export async function manageCache(action: CacheAction): Promise<CacheStats | CachePerformance> {
   const validActions = ['stats', 'clear', 'clear-expired', 'performance-analysis'];
 
   if (!validActions.includes(action)) {
     throw new Error(`Invalid action: ${action}. Valid actions: ${validActions.join(', ')}`);
-  }
+  };
 
   try {
-    const result = await manageCacheAction(action as any);
+    const result = await manageCacheAction(action);
     return result;
   } catch (error) {
     throw new Error(
       `Failed to manage cache: ${error instanceof Error ? error.message : String(error)}`,
     );
-  }
+  };
 }
