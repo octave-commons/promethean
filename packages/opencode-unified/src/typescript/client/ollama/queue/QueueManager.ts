@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Unified Ollama Queue System - Queue Manager
 
-import { Job, QueueMetrics, QueueConfig, JobSchedulerConfig } from '../types.js';
+import { Job, QueueMetrics, QueueConfig } from '../types.js';
 import { PriorityQueue } from './PriorityQueue.js';
 import { QueueMonitor } from './QueueMonitor.js';
 import { randomUUID } from 'node:crypto';
-import { validateJobSubmission } from '../../../shared/validation.js';
 
 export class QueueManager {
   private jobs: Map<string, Job> = new Map();
@@ -25,23 +24,20 @@ export class QueueManager {
    * Add a job to the queue
    */
   async addJob(jobData: any): Promise<Job> {
-    // Validate job submission
-    const validation = await validateJobSubmission(jobData, this.config.validation);
-    if (!validation.isValid) {
-      throw new Error(
-        `Job validation failed: ${validation.errors.map((e) => e.message).join(', ')}`,
-      );
-    }
-
     const job: Job = {
       id: randomUUID(),
-      ...jobData,
-      status: 'queued',
+      agentId: jobData.agentId || 'default',
+      sessionId: jobData.sessionId || 'default',
+      modelName: jobData.modelName,
+      type: jobData.jobType || 'generate',
+      status: 'pending',
       createdAt: Date.now(),
       updatedAt: Date.now(),
       priority: jobData.priority || 'medium',
-      attempts: 0,
-      maxAttempts: jobData.maxAttempts || 3,
+      prompt: jobData.prompt,
+      messages: jobData.messages,
+      input: jobData.input,
+      options: jobData.options,
     };
 
     // Store job
@@ -50,8 +46,8 @@ export class QueueManager {
     // Add to priority queue
     this.priorityQueue.enqueue(job);
 
-    // Update metrics
-    this.queueMonitor.recordJobQueued();
+    // Record submission
+    this.queueMonitor.recordJobSubmission(job);
 
     return job;
   }
@@ -62,10 +58,11 @@ export class QueueManager {
   getNextJob(): Job | null {
     const job = this.priorityQueue.dequeue();
     if (job) {
-      job.status = 'pending';
+      job.status = 'running';
       job.updatedAt = Date.now();
+      job.startedAt = Date.now();
       this.activeJobs.add(job.id);
-      this.queueMonitor.recordJobDequeued();
+      this.queueMonitor.recordJobStart(job);
     }
     return job;
   }
@@ -78,9 +75,11 @@ export class QueueManager {
     if (job) {
       job.status = 'completed';
       job.updatedAt = Date.now();
+      job.completedAt = Date.now();
       job.result = result;
+      job.hasResult = true;
       this.activeJobs.delete(jobId);
-      this.queueMonitor.recordJobCompleted();
+      this.queueMonitor.recordJobCompletion(job);
     }
   }
 
@@ -90,20 +89,13 @@ export class QueueManager {
   failJob(jobId: string, error: Error): void {
     const job = this.jobs.get(jobId);
     if (job) {
-      job.attempts++;
+      job.status = 'failed';
       job.updatedAt = Date.now();
-      job.lastError = error.message;
-
-      if (job.attempts >= job.maxAttempts) {
-        job.status = 'failed';
-        this.activeJobs.delete(jobId);
-        this.queueMonitor.recordJobFailed();
-      } else {
-        // Re-queue for retry
-        job.status = 'queued';
-        this.priorityQueue.enqueue(job);
-        this.queueMonitor.recordJobRetry();
-      }
+      job.completedAt = Date.now();
+      job.error = { message: error.message };
+      job.hasError = true;
+      this.activeJobs.delete(jobId);
+      this.queueMonitor.recordJobFailure(job, error);
     }
   }
 
@@ -157,22 +149,21 @@ export class QueueManager {
    * Get queue metrics
    */
   getMetrics(): QueueMetrics {
-    const statusCounts = this.jobs.values().reduce(
-      (acc, job) => {
-        acc[job.status] = (acc[job.status] || 0) + 1;
-        return acc;
-      },
-      {} as Record<string, number>,
-    );
+    const jobs = Array.from(this.jobs.values());
+    const pendingJobs = jobs.filter((job) => job.status === 'pending').length;
+    const runningJobs = jobs.filter((job) => job.status === 'running').length;
+    const completedJobs = jobs.filter((job) => job.status === 'completed').length;
+    const failedJobs = jobs.filter((job) => job.status === 'failed').length;
 
     return {
-      total: this.jobs.size,
-      queued: statusCounts.queued || 0,
-      pending: statusCounts.pending || 0,
-      processing: this.activeJobs.size,
-      completed: statusCounts.completed || 0,
-      failed: statusCounts.failed || 0,
+      totalJobs: jobs.length,
+      pendingJobs,
+      runningJobs,
+      completedJobs,
+      failedJobs,
       averageWaitTime: this.queueMonitor.getAverageWaitTime(),
+      averageProcessingTime: this.queueMonitor.getAverageProcessingTime(),
+      queueDepth: pendingJobs,
       throughput: this.queueMonitor.getThroughput(),
     };
   }
