@@ -6,6 +6,7 @@ import { PriorityQueue } from './PriorityQueue.js';
 // import { JobScheduler } from './JobScheduler.js'; // Uncomment when needed for advanced scheduling
 import { QueueMonitor } from './QueueMonitor.js';
 import { randomUUID } from 'node:crypto';
+import { validateJobSubmission } from '../../../shared/validation.js';
 
 export class QueueManager {
   private jobs: Map<string, Job> = new Map();
@@ -28,19 +29,53 @@ export class QueueManager {
   /**
    * Submit a new job to the queue
    */
-  submitJob(jobData: Omit<Job, 'id' | 'createdAt' | 'updatedAt'>): Job {
-    const job: Job = {
-      ...jobData,
+  async submitJob(jobData: Omit<Job, 'id' | 'createdAt' | 'updatedAt'>): Promise<Job> {
+    // Validate job submission before processing
+    const validation = await validateJobSubmission(jobData, {
+      enablePromptInjectionDetection: true,
+      enableInputSanitization: true,
+      maxPromptLength: 10000,
+      maxMessageCount: 50,
+      strictMode: false,
+    });
+
+    if (!validation.isValid) {
+      const errorMessages = validation.errors
+        .map((err) => `${err.field}: ${err.message}`)
+        .join('; ');
+      throw new Error(`Job validation failed: ${errorMessages}`);
+    }
+
+    // Use sanitized prompt if available
+    const sanitizedJobData = { ...jobData };
+    if (validation.sanitizedValue) {
+      sanitizedJobData.prompt = validation.sanitizedValue;
+    }
+
+    const newJob: Job = {
+      ...sanitizedJobData,
       id: randomUUID(),
       createdAt: Date.now(),
       updatedAt: Date.now(),
     };
 
-    this.jobs.set(job.id, job);
-    this.priorityQueue.enqueue(job);
-    this.queueMonitor.recordJobSubmission(job);
+    // Add security metadata
+    if (validation.promptInjection) {
+      newJob.hasError = validation.promptInjection.blocked;
+      if (validation.promptInjection.blocked) {
+        newJob.error = {
+          message: 'Job blocked due to security concerns',
+          code: 'SECURITY_BLOCK',
+        };
+        newJob.status = 'failed';
+      }
+    }
 
-    return job;
+    this.jobs.set(newJob.id, newJob);
+    this.priorityQueue.enqueue(newJob);
+    this.queueMonitor.recordJobSubmission(newJob);
+
+    return newJob;
   }
 
   /**
@@ -87,20 +122,36 @@ export class QueueManager {
   }
 
   /**
-   * Cancel a job
+   * Cancel a job with enhanced security validation
    */
   cancelJob(jobId: string, agentId?: string): boolean {
+    // Validate job ID format
+    if (!jobId || typeof jobId !== 'string') {
+      throw new Error('Invalid job ID: must be a non-empty string');
+    }
+
     const job = this.jobs.get(jobId);
     if (!job) {
       return false;
     }
 
-    if (agentId && job.agentId !== agentId) {
-      throw new Error(`Cannot cancel job from another agent: ${jobId}`);
+    // Enhanced agent authorization check
+    if (agentId) {
+      if (!job.agentId || typeof job.agentId !== 'string') {
+        throw new Error(`Job ${jobId} has invalid agent ID`);
+      }
+
+      if (job.agentId !== agentId) {
+        throw new Error(`Authorization failed: cannot cancel job ${jobId} from agent ${agentId}`);
+      }
     }
 
-    if (job.status !== 'pending') {
-      throw new Error(`Cannot cancel job in status: ${job.status}`);
+    // Validate job status before cancellation
+    const cancellableStatuses = ['pending', 'failed'];
+    if (!cancellableStatuses.includes(job.status)) {
+      throw new Error(
+        `Cannot cancel job ${jobId} in status: ${job.status}. Only jobs with status ${cancellableStatuses.join(', ')} can be cancelled.`,
+      );
     }
 
     this.priorityQueue.remove(jobId);

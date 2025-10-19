@@ -1,14 +1,11 @@
 (ns opencode.app
-  "Main application entry point"
-  (:require [opencode.editor.core :as editor]
-            [opencode.shared.utils :as utils]))
+  "Main application entry point")
 
 (defn init
   "Initialize the complete application"
   []
-  (utils/log "INFO" "Starting Promethean OpenCode Unified")
-  (editor/init)
-  (utils/log "INFO" "Application initialized successfully"))
+  (println "Starting Promethean OpenCode Unified")
+  (println "Application initialized successfully"))
 
 (defn ^:export main
   "Main entry point for the application"
