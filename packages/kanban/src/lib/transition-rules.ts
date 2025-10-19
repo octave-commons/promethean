@@ -550,19 +550,38 @@ export class TransitionRulesEngine {
     try {
       // Use nbb (Node.js Babashka) to evaluate Clojure expressions
       // @ts-ignore - nbb doesn't have TypeScript definitions
-      const nbb = await import('nbb');
+      const { default: nbb } = await import('nbb');
 
-      // Create a safe evaluation context with the DSL loaded
+      // Load the Clojure DSL file
+      const dslCode = await readFile(this.config.dslPath!, 'utf-8');
+      
+      // Create a safe evaluation context with DSL loaded
       const clojureCode = `
+        ${dslCode}
+        
         (require '[kanban-transitions :as kt])
-        (let [args ~(vec (concat args [task board]))
-              task (first args)
-              board (second args)]
+        
+        ;; Convert JavaScript objects to Clojure maps for evaluation
+        (def task-clj {:uuid "${task.uuid}"
+                       :title "${task.title}"
+                       :priority "${task.priority}"
+                       :content "${task.content || ''}"
+                       :status "${task.status}"
+                       :estimates {:complexity ${task.estimates?.complexity || 999}}
+                       :storyPoints ${task.storyPoints || 0}
+                       :labels [${(task.labels || []).map(l => `"${l}"`).join(' ')}]})
+        
+        (def board-clj {:columns [${board.columns.map(col => 
+          `{:name "${col.name}" :limit ${col.limit || 0} :tasks []}`).join(' ')}]})
+        
+        ;; Evaluate the rule implementation with converted objects
+        (let [task task-clj
+              board board-clj]
           ${ruleImpl})
       `;
 
       // @ts-ignore - nbb dynamic evaluation
-      const result = await nbb.default(clojureCode);
+      const result = await nbb(clojureCode);
       return Boolean(result);
     } catch (error) {
       console.error('Failed to evaluate Clojure rule:', error);
