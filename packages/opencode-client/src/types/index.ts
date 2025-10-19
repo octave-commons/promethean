@@ -1,6 +1,8 @@
 // Core type definitions for OpenCode Client
 // This file contains comprehensive TypeScript interfaces to eliminate 'any' type usage
 
+import type { DualStoreManager } from '@promethean/persistence';
+
 export type Timestamp = string | number | Date;
 
 // Session Management Types
@@ -241,32 +243,6 @@ export interface AgentSessionOptions {
   limit?: number;
 }
 
-// Utility Types
-export interface DualStoreManager<TKey extends string, TValue extends string> {
-  insert: (data: {
-    id: string;
-    text: string;
-    timestamp: Timestamp;
-    metadata?: Record<string, unknown>;
-  }) => Promise<void>;
-  get: (id: string) => Promise<{
-    id: string;
-    text: string;
-    timestamp: Timestamp;
-    metadata?: Record<string, unknown>;
-  } | null>;
-  getMostRecent: (
-    limit: number,
-  ) => Promise<
-    Array<{ id: string; text: string; timestamp: Timestamp; metadata?: Record<string, unknown> }>
-  >;
-  update: (
-    id: string,
-    data: Partial<{ text: string; timestamp: Timestamp; metadata?: Record<string, unknown> }>,
-  ) => Promise<void>;
-  delete: (id: string) => Promise<void>;
-}
-
 // Error Types
 export interface OpenCodeError {
   code: string;
@@ -364,3 +340,6 @@ export interface ToolExecuteHook {
   after?: (result: unknown, params: Record<string, unknown>) => Promise<void>;
   onError?: (error: Error, params: Record<string, unknown>) => Promise<void>;
 }
+
+// Re-export DualStoreManager from persistence package
+export type { DualStoreManager } from '@promethean/persistence';
