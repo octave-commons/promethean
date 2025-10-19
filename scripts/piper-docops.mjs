@@ -148,8 +148,8 @@ export async function relations(args = {}) {
 }
 
 export async function footers(args = {}) {
-  const { openDB } = await import('@promethean/docops/dist/db.js');
-  const { runFooters } = await import('@promethean/docops/dist/index.js');
+  const { openDB } = await import('@promethean/docs-system/dist/database/db.js');
+  const { runFooters } = await import('@promethean/docs-system/dist/index.js');
   const db = await openDB();
   try {
     await runFooters(
@@ -170,8 +170,8 @@ export async function footers(args = {}) {
 }
 
 export async function rename(args = {}) {
-  const { openDB } = await import('@promethean/docops/dist/db.js');
-  const { runRename } = await import('@promethean/docops/dist/index.js');
+  const { openDB } = await import('@promethean/docs-system/dist/database/db.js');
+  const { runRename } = await import('@promethean/docs-system/dist/index.js');
   const db = await openDB();
   try {
     await runRename(
