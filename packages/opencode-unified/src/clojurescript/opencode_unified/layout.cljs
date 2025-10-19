@@ -14,23 +14,23 @@
             :align-items "center"
             :justify-content "space-between"
             :height "40px"}}
-   
+
    ;; App title and menu
    [:div.header-left
     {:style {:display "flex"
              :align-items "center"
              :gap "1rem"}}
-    
+
     [:h1.app-title
      {:style {:margin 0
               :font-size "1rem"
               :font-weight "500"}}
      "Opencode"]
-    
+
     [:nav.menu-bar
      {:style {:display "flex"
               :gap "0.5rem"}}
-     
+
      [:button.menu-item
       {:on-click #(js/alert "File menu")
        :style {:background "none"
@@ -40,7 +40,7 @@
                :cursor "pointer"
                :border-radius "4px"}}
       "File"]
-     
+
      [:button.menu-item
       {:on-click #(js/alert "Edit menu")
        :style {:background "none"
@@ -50,7 +50,7 @@
                :cursor "pointer"
                :border-radius "4px"}}
       "Edit"]
-     
+
      [:button.menu-item
       {:on-click #(js/alert "View menu")
        :style {:background "none"
@@ -60,13 +60,13 @@
                :cursor "pointer"
                :border-radius "4px"}}
       "View"]]]
-   
+
    ;; Window controls (web version - simplified)
    [:div.header-right
     {:style {:display "flex"
              :align-items "center"
              :gap "0.5rem"}}
-    
+
     [:button.window-control
      {:on-click #(js/alert "Minimize")
       :style {:background "none"
@@ -76,7 +76,7 @@
               :cursor "pointer"
               :border-radius "4px"}}
      "−"]
-    
+
     [:button.window-control
      {:on-click #(js/alert "Maximize")
       :style {:background "none"
@@ -86,7 +86,7 @@
               :cursor "pointer"
               :border-radius "4px"}}
      "□"]
-    
+
     [:button.window-control
      {:on-click #(js/window.close)
       :style {:background "var(--error)"
@@ -106,52 +106,52 @@
               :border-right "1px solid var(--border)"
               :padding "1rem"
               :overflow-y "auto"}}
-     
+
      [:div.sidebar-section
       [:h3.sidebar-title
        {:style {:margin "0 0 0.5rem 0"
                 :font-size "0.9rem"
                 :color "var(--text-secondary)"}}
        "Explorer"]
-      
+
       ;; File tree placeholder
       [:div.file-tree
        {:style {:font-size "0.85rem"}}
-       
+
        ;; Project files would go here
        [:div.file-item
         {:style {:padding "0.25rem 0"
                  :cursor "pointer"
                  :color "var(--text-secondary)"}}
         "📁 src/"]
-       
-[:div.file-item
-         {:on-click #(buffers/open-file "src/app.cljs")
-          :style {:padding "0.25rem 0.5rem"
-                  :cursor "pointer"
-                  :color "var(--text-secondary)"}}
-         "  📄 app.cljs"]
-       
+
        [:div.file-item
-{:on-click #(buffers/open-file "src/state.cljs")
-          :style {:padding "0.25rem 0.5rem"
-                  :cursor "pointer"
-                  :color "var(--text-secondary)"}}
+        {:on-click #(buffers/open-file "src/app.cljs")
+         :style {:padding "0.25rem 0.5rem"
+                 :cursor "pointer"
+                 :color "var(--text-secondary)"}}
+        "  📄 app.cljs"]
+
+       [:div.file-item
+        {:on-click #(buffers/open-file "src/state.cljs")
+         :style {:padding "0.25rem 0.5rem"
+                 :cursor "pointer"
+                 :color "var(--text-secondary)"}}
         "  📄 state.cljs"]]]
-     
+
      ;; Recent files
      [:div.sidebar-section
       {:style {:margin-top "1rem"}}
-      
+
       [:h3.sidebar-title
        {:style {:margin "0 0 0.5rem 0"
                 :font-size "0.9rem"
                 :color "var(--text-secondary)"}}
        "Recent"]
-      
+
       [:div.recent-files
        {:style {:font-size "0.85rem"}}
-       
+
        (for [file (take 5 (:recent-files @state/app-state))]
          ^{:key file}
          [:div.recent-file
@@ -174,39 +174,39 @@
               :display "flex"
               :overflow-x "auto"
               :height "32px"}}
-     
+
      (for [[buffer-id buffer] buffers]
        ^{:key buffer-id}
        [:div.tab
         {:class (when (= buffer-id current-buffer-id) "active")
-         :on-click #(state/update-current-buffer! 
+         :on-click #(state/update-current-buffer!
                      (fn [b] (assoc b :id buffer-id)))
          :style {:display "flex"
                  :align-items "center"
                  :padding "0 1rem"
                  :background-color (if (= buffer-id current-buffer-id)
-                                    "var(--bg-primary)"
-                                    "transparent")
+                                     "var(--bg-primary)"
+                                     "transparent")
                  :border-right "1px solid var(--border)"
                  :cursor "pointer"
                  :min-width "120px"
                  :font-size "0.85rem"
                  :color (if (= buffer-id current-buffer-id)
-                         "var(--text-primary)"
-                         "var(--text-secondary)")}}
-        
+                          "var(--text-primary)"
+                          "var(--text-secondary)")}}
+
         [:span.tab-name
          {:style {:margin-right "0.5rem"
                   :white-space "nowrap"
                   :overflow "hidden"
                   :text-overflow "ellipsis"}}
          (:name buffer)]
-        
+
         (when (:modified? buffer)
           [:span.modified-indicator
            {:style {:color "var(--accent)"}}
            "●"])
-        
+
         [:button.tab-close
          {:on-click (fn [e]
                       (.stopPropagation e)
@@ -228,7 +228,7 @@
             :border-left "1px solid var(--border)"
             :padding "1rem"
             :overflow-y "auto"}}
-   
+
    ;; Opencode integration
    [:div.sidebar-section
     [:h3.sidebar-title
@@ -236,56 +236,57 @@
               :font-size "0.9rem"
               :color "var(--text-secondary)"}}
      "Opencode"]
-    
+
     [:div.opencode-status
      {:style {:font-size "0.85rem"
               :color (if (get-in @state/app-state [:opencode :connected])
-                      "var(--success)"
-                      "var(--text-dim)")}}
+                       "var(--success)"
+                       "var(--text-dim)")}}
      (if (get-in @state/app-state [:opencode :connected])
-      "🟢 Connected"
-      "🔴 Disconnected")]
-    
+       "🟢 Connected"
+       "🔴 Disconnected")]
+
     ;; Plugins
     [:div.sidebar-section
      {:style {:margin-top "1rem"}}
-     
+
      [:h3.sidebar-title
       {:style {:margin "0 0 0.5rem 0"
                :font-size "0.9rem"
                :color "var(--text-secondary)"}}
       "Plugins"]
-     
+
      [:div.plugins-list
       {:style {:font-size "0.85rem"}}
-      
+
        ;; TODO: Fix plugin rendering
-       [:div "Plugin rendering temporarily disabled"]]]]])
+      [:div "Plugin rendering temporarily disabled"]]]]])
 
 ;; Status bar
 (defn status-bar []
-  [:div.status-bar
-   {:style {:background-color "var(--bg-secondary)"
-            :border-top "1px solid var(--border)"
-            :display "flex"
-            :justify-content "space-between"
-            :align-items "center"
-            :padding "0 1rem"
-            :height "24px"
-            :font-size "0.8rem"
-            :color "var(--text-secondary)"}}
-   
-   ;; Left section
-   [:div.status-left
-    (get-in @state/app-state [:statusbar :left])]
-   
-   ;; Center section
-   [:div.status-center
-    (get-in @state/app-state [:statusbar :center])]
-   
-   ;; Right section
-   [:div.status-right
-    (get-in @state/app-state [:statusbar :right])]])
+  (let [statusbar (:statusbar @state/app-state)]
+    [:div.status-bar
+     {:style {:background-color "var(--bg-secondary)"
+              :border-top "1px solid var(--border)"
+              :display "flex"
+              :justify-content "space-between"
+              :align-items "center"
+              :padding "0 1rem"
+              :height "24px"
+              :font-size "0.8rem"
+              :color "var(--text-secondary)"}}
+
+     ;; Left section
+     [:div.status-left
+      (:left statusbar)]
+
+     ;; Center section
+     [:div.status-center
+      (:center statusbar)]
+
+     ;; Right section
+     [:div.status-right
+      (:right statusbar)]]))
 
 ;; Which-key popup
 (defn which-key-popup []
@@ -306,30 +307,30 @@
               :opacity (if (:active which-key-state) 1 0)
               :visibility (if (:active which-key-state) "visible" "hidden")
               :transition "all 0.2s ease-in-out"}}
-     
+
      [:div.which-key-title
       {:style {:margin "0 0 0.5rem 0"
                :font-size "0.9rem"
                :color "var(--text-primary)"
                :font-weight "500"}}
       (str "Prefix: " (str/join " " (:prefix which-key-state)))]
-     
+
      [:div.which-key-bindings
       {:style {:font-size "0.85rem"}}
-      
+
       ;; Sample bindings - would be dynamic based on current prefix
       [:div.binding-row
        {:style {:display "flex"
                 :justify-content "space-between"
                 :padding "0.25rem 0"}}
        [:span.key "f"] [:span.desc "File"]]
-      
+
       [:div.binding-row
        {:style {:display "flex"
                 :justify-content "space-between"
                 :padding "0.25rem 0"}}
        [:span.key "b"] [:span.desc "Buffer"]]
-      
+
       [:div.binding-row
        {:style {:display "flex"
                 :justify-content "space-between"
@@ -341,7 +342,7 @@
   (let [visible (r/atom false)
         query (r/atom "")
         commands (r/atom [])]
-    
+
     (fn []
       [:div.command-palette
        {:class (when @visible "visible")
@@ -359,7 +360,7 @@
                 :opacity (if @visible 1 0)
                 :visibility (if @visible "visible" "hidden")
                 :transition "all 0.2s ease-in-out"}}
-       
+
        [:input.command-input
         {:value @query
          :on-change #(reset! query (-> % .-target .-value))
@@ -371,35 +372,35 @@
                  :color "var(--text-primary)"
                  :font-size "1rem"
                  :outline "none"}}]
-       
+
        [:div.command-list
         {:style {:max-height "300px"
                  :overflow-y "auto"}}
-        
+
         (for [command @commands]
           ^{:key (:id command)}
           [:div.command-item
            {:on-click #(do
-                        (reset! visible false)
-                        ((:handler command)))
+                         (reset! visible false)
+                         ((:handler command)))
             :style {:padding "0.75rem 1rem"
                     :cursor "pointer"
                     :border-bottom "1px solid var(--border)"
                     :display "flex"
                     :justify-content "space-between"
                     :align-items "center"}}
-           
+
            [:div.command-info
             [:div.command-name
              {:style {:color "var(--text-primary)"
                       :font-weight "500"}}
              (:name command)]
-            
+
             [:div.command-description
              {:style {:color "var(--text-secondary)"
                       :font-size "0.85rem"}}
              (:description command)]]
-           
+
            [:div.command-keys
             {:style {:color "var(--text-dim)"
                      :font-size "0.8rem"}}
@@ -417,7 +418,7 @@
               :font-size "0.6rem"
               :color "var(--text-dim)"
               :line-height "1.2"}}
-     
+
      ;; Simplified minimap content
      (for [line (take 50 (str/split-lines (:content buffer)))]
        ^{:key line}

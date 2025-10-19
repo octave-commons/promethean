@@ -138,15 +138,18 @@ export async function closeSession(sessionId: string): Promise<void> {
  * Search sessions
  */
 export async function searchSessions(options: SearchSessionsOptions): Promise<Session[]> {
-  const { search } = await import('../actions/sessions/search.js');
+  const client = await getClient();
 
-  const result = await search({
-    query: options.query,
-    k: options.k,
-  });
+  try {
+    const response = await client.session.search({
+      query: options.query,
+      k: options.k,
+    });
 
-  const parsed = JSON.parse(result);
-  return parsed.sessions || [];
+    return response.data || [];
+  } catch (error: any) {
+    throw new Error(`Failed to search sessions on OpenCode server: ${error.message}`);
+  }
 }
 
 /**
