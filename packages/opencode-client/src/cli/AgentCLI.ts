@@ -20,6 +20,8 @@ import { DualStoreManager } from '@promethean/persistence';
 // Initialize stores for agent CLI
 let storesInitialized = false;
 let initPromise: Promise<void> | null = null;
+let sessionStore: DualStoreManager<'text', 'timestamp'> | null = null;
+let agentTaskStore: DualStoreManager<'text', 'timestamp'> | null = null;
 
 async function initializeAgentCliStores() {
   if (storesInitialized) return;
@@ -27,8 +29,8 @@ async function initializeAgentCliStores() {
 
   initPromise = (async () => {
     try {
-      const sessionStore = await DualStoreManager.create('agent-sessions', 'text', 'timestamp');
-      const agentTaskStore = await DualStoreManager.create('agent-tasks', 'text', 'timestamp');
+      sessionStore = await DualStoreManager.create('agent-sessions', 'text', 'timestamp');
+      agentTaskStore = await DualStoreManager.create('agent-tasks', 'text', 'timestamp');
 
       initializeStores(sessionStore, agentTaskStore);
       storesInitialized = true;
