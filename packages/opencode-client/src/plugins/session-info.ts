@@ -7,7 +7,7 @@ import sessionInfoTool from '../tools/session-info.js';
 export const SessionInfoPlugin: Plugin = async ({ client }) => {
   return {
     tool: {
-      'session.info': {
+      'session_info': {
         ...sessionInfoTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };

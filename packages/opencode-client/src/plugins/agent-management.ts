@@ -28,7 +28,7 @@ export const AgentManagementPlugin: Plugin = async ({ client }) => {
 
   return {
     tool: {
-      'agent.createSession': {
+      'agent_createSession': {
         ...createAgentSessionTool,
         async execute(args: any, context: any) {
           // Inject client into context
@@ -36,56 +36,56 @@ export const AgentManagementPlugin: Plugin = async ({ client }) => {
           return createAgentSessionTool.execute(args, enhancedContext);
         },
       },
-      'agent.startSession': {
+      'agent_startSession': {
         ...startAgentSessionTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return startAgentSessionTool.execute(args, enhancedContext);
         },
       },
-      'agent.stopSession': {
+      'agent_stopSession': {
         ...stopAgentSessionTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return stopAgentSessionTool.execute(args, enhancedContext);
         },
       },
-      'agent.sendMessage': {
+      'agent_sendMessage': {
         ...sendAgentMessageTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return sendAgentMessageTool.execute(args, enhancedContext);
         },
       },
-      'agent.closeSession': {
+      'agent_closeSession': {
         ...closeAgentSessionTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return closeAgentSessionTool.execute(args, enhancedContext);
         },
       },
-      'agent.listSessions': {
+      'agent_listSessions': {
         ...listAgentSessionsTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return listAgentSessionsTool.execute(args, enhancedContext);
         },
       },
-      'agent.getSession': {
+      'agent_getSession': {
         ...getAgentSessionTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return getAgentSessionTool.execute(args, enhancedContext);
         },
       },
-      'agent.getStats': {
+      'agent_getStats': {
         ...getAgentStatsTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return getAgentStatsTool.execute(args, enhancedContext);
         },
       },
-      'agent.cleanup': {
+      'agent_cleanup': {
         ...cleanupAgentSessionsTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
