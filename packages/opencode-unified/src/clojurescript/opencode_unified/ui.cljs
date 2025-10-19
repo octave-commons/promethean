@@ -11,15 +11,12 @@
 
 ;; Main app component
 (defn app []
-  (let [state @opencode-unified.state/app-state
-        current-buffer (:current-buffer state)
-        current-buffer-content (when current-buffer
-                                 (get-in state [:buffers current-buffer]))
-        evil-mode (opencode-unified.state/get-evil-mode)]
+  (let [state @opencode-unified.state/app-state]
     [:div
      [theme-styles]
      [:div.app-container
-      {:class "theme-dark evil-mode-normal"
+      {:class (str "theme-" (name (:theme (:ui state)))
+                   " evil-mode-" (name (get-in state [:evil-state :mode])))
        :tab-index 0}
 
       ;; Header with menu bar
@@ -37,15 +34,18 @@
 
         ;; Editor pane
         [:div.editor-pane
-         (if current-buffer-content
-           [opencode-unified.buffers/editor current-buffer-content]
-           [:div.no-buffer
-            [:h2 "No Buffer Open"]
-            [:p "Open a file to start editing"]])]
+         (let [current-buffer (:current-buffer state)
+               current-buffer-content (when current-buffer
+                                        (get-in state [:buffers current-buffer]))]
+           (if current-buffer-content
+             [opencode-unified.buffers/editor current-buffer-content]
+             [:div.no-buffer
+              [:h2 "No Buffer Open"]
+              [:p "Open a file to start editing"]]))]
 
         ;; Minimap (if enabled)
         (when (get-in state [:ui :minimap])
-          [layout/minimap current-buffer-content])]
+          [layout/minimap (get-in state [:buffers (:current-buffer state)])])]
 
        ;; Right sidebar (plugins, etc.)
        [layout/right-sidebar]]
