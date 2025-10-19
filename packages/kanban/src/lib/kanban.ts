@@ -977,7 +977,7 @@ export const updateStatus = async (
     }
   }
 
-// Update task file if tasksDir is provided
+  // Update task file if tasksDir is provided
   if (tasksDir) {
     try {
       const taskFilePath = await resolveTaskFilePath(found, tasksDir);
@@ -994,7 +994,7 @@ export const updateStatus = async (
 
         // Initialize git tracker and update task with commit tracking
         const gitTracker = new TaskGitTracker({ repoRoot: process.cwd() });
-        
+
         // Create task object with updated status
         const updatedTask = {
           ...found,
@@ -1005,10 +1005,10 @@ export const updateStatus = async (
 
         // Update task frontmatter with commit tracking
         const updatedFrontmatter = gitTracker.updateTaskCommitTracking(
-          updatedTask,
+          updatedTask as any,
           uuid,
           'status_change',
-          `Status updated from ${currentStatus} to ${normalizedStatus}`
+          `Status updated from ${currentStatus} to ${normalizedStatus}`,
         );
 
         // Write updated task file with new status and commit tracking
@@ -1021,7 +1021,7 @@ export const updateStatus = async (
             taskFilePath,
             uuid,
             'status_change',
-            `${found.title} - ${currentStatus} → ${normalizedStatus}`
+            `${found.title} - ${currentStatus} → ${normalizedStatus}`,
           );
 
           if (commitResult.success) {
@@ -1029,15 +1029,6 @@ export const updateStatus = async (
           } else {
             console.warn(`Warning: Failed to commit task change: ${commitResult.error}`);
           }
-        } catch (commitError) {
-          console.warn(`Warning: Git commit failed for task ${uuid}: ${commitError}`);
-        }
-      }
-    } catch (error) {
-      // Log warning but don't fail status update
-      console.warn(`Warning: Could not update task file for ${uuid}: ${error}`);
-    }
-  }
         } catch (commitError) {
           console.warn(`Warning: Git commit failed for task ${uuid}: ${commitError}`);
         }
