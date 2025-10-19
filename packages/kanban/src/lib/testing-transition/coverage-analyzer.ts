@@ -49,7 +49,15 @@ function parseLcov(raw: string): TestCoverageResult {
     fileCoverage[file] = Math.min(100, ((fileCoverage[file] || 0) / totalLines) * 100);
   });
 
-  return { totalCoverage, fileCoverage };
+  return {
+    overallCoverage: totalCoverage,
+    totalCoverage,
+    packageCoverage: {},
+    fileCoverage,
+    uncoveredLines: {},
+    meetsThreshold: totalCoverage >= 80,
+    coverageGap: Math.max(0, 80 - totalCoverage),
+  };
 }
 
 async function parseCobertura(raw: string): Promise<TestCoverageResult> {
@@ -79,7 +87,15 @@ async function parseCobertura(raw: string): Promise<TestCoverageResult> {
   });
 
   const totalCoverage = totalLines > 0 ? (coveredLines / totalLines) * 100 : 0;
-  return { totalCoverage, fileCoverage };
+  return {
+    overallCoverage: totalCoverage,
+    totalCoverage,
+    packageCoverage: {},
+    fileCoverage,
+    uncoveredLines: {},
+    meetsThreshold: totalCoverage >= 80,
+    coverageGap: Math.max(0, 80 - totalCoverage),
+  };
 }
 
 function parseJsonCoverage(raw: string): TestCoverageResult {
