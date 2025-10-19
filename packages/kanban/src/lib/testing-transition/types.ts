@@ -22,6 +22,7 @@ export interface TestCoverageRequest {
 
 export interface TestCoverageResult {
   overallCoverage: number;
+  totalCoverage: number;
   packageCoverage: Record<string, number>;
   fileCoverage: Record<string, number>;
   uncoveredLines: Record<string, number[]>;
