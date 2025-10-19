@@ -67,7 +67,7 @@ export class UnifiedAgentManager {
     }
   }
 
-/**
+  /**
    * Get session from storage by ID
    */
   private async getSessionFromStorage(sessionId: string): Promise<AgentSession | null> {
@@ -79,7 +79,7 @@ export class UnifiedAgentManager {
 
       const allTasks = await AgentTaskManager.getAllTasks();
       const task = allTasks.get(sessionId);
-      
+
       if (!task) {
         return null;
       }
@@ -96,35 +96,8 @@ export class UnifiedAgentManager {
           status: session.activityStatus,
         },
         createdAt: new Date(session.createdAt || Date.now()),
-        status: this.mapStatusToAgentStatus(session.agentTaskStatus || session.activityStatus || 'initializing'),
-      };
-    } catch (error) {
-      console.warn(`Failed to get session ${sessionId} from storage:`, error);
-      return null;
-    }
-  }
-
-      const allTasks = await AgentTaskManager.getAllTasks();
-      const task = allTasks.get(sessionId);
-
-      if (!task) {
-        return null;
-      }
-
-      return {
-        sessionId: session.session.id,
-        task,
-        session: {
-          id: session.session.id,
-          title: session.session.title,
-          files: session.session.files || [],
-          delegates: session.session.delegates || [],
-          createdAt: session.session.createdAt,
-          status: session.session.activityStatus,
-        },
-        createdAt: new Date(session.session.createdAt || Date.now()),
         status: this.mapStatusToAgentStatus(
-          session.session.agentTaskStatus || session.session.activityStatus || 'initializing',
+          session.agentTaskStatus || session.activityStatus || 'initializing',
         ),
       };
     } catch (error) {

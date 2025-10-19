@@ -174,7 +174,7 @@ program
   .option('--format <format>', 'Output format (table, json)', 'table')
   .action(async (options) => {
     try {
-      let sessions = unifiedAgentManager.listAgentSessions();
+      let sessions = await unifiedAgentManager.listAgentSessions();
 
       if (options.status) {
         sessions = sessions.filter((s) => s.status === options.status);
