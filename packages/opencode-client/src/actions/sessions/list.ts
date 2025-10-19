@@ -58,6 +58,11 @@ export async function list({ limit, offset }: { limit: number; offset: number })
     const sessionsList = deduplicateSessions(parsedSessions);
     console.log(`[DEBUG] after deduplication: ${sessionsList?.length || 0} sessions`);
 
+    console.log(`[INFO] Session IDs being processed:`);
+    sessionsList.slice(0, 5).forEach((s: any) => {
+      console.log(`  - ${s.id} (isAgentTask: ${s.isAgentTask})`);
+    });
+
     if (!sessionsList?.length) {
       return JSON.stringify({
         sessions: [],
