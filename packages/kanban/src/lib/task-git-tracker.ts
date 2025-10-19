@@ -53,14 +53,22 @@ export class TaskGitTracker {
   /**
    * Gets commit information for a specific SHA
    */
-  getCommitInfo(sha: string): Omit<TaskCommitEntry, 'type'> | null {
+getCommitInfo(sha: string): Omit<TaskCommitEntry, 'type'> | null {
     try {
-      const output = execSync(`git show --format='%H|%s|%an|%ad' --date=iso ${sha}`, {
-        cwd: this.repoRoot,
-        encoding: 'utf8',
-      }).trim();
+      const output = execSync(
+        `git show --format='%H|%s|%an|%ad' --date=iso ${sha}`,
+        {
+          cwd: this.repoRoot,
+          encoding: 'utf8',
+        }
+      ).trim();
 
-      const [commitSha, message, author, timestamp] = output.split('|');
+      const parts = output.split('|');
+      if (parts.length < 4) {
+        return null;
+      }
+
+      const [commitSha, message, author, timestamp] = parts;
       return {
         sha: commitSha.trim(),
         message: message.trim(),
@@ -71,6 +79,7 @@ export class TaskGitTracker {
       console.warn(`Warning: Could not get commit info for ${sha}:`, error);
       return null;
     }
+  }
   }
 
   /**
