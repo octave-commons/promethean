@@ -3,6 +3,7 @@ packages:
   - packages/*/*
   - .opencode/*
   - scripts/*/*
+  - tools/
 # Exclude benchmark fixtures with intentional errors
 ignore:
   - packages/buildfix/benchmark-fixtures
