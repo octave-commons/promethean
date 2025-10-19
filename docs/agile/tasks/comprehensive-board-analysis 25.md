@@ -5,7 +5,7 @@ slug: "comprehensive-board-analysis 25"
 status: "breakdown"
 priority: "P1"
 labels: ["analysis", "governance", "health-check", "recommendations", "strategy"]
-created_at: "2025-10-19T15:29:01.729Z"
+created_at: "2025-10-19T15:33:44.384Z"
 estimates:
   complexity: ""
   scale: ""
