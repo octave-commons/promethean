@@ -491,31 +491,44 @@ export class EventWatcherService {
     if (!event.sessionId) return;
 
     try {
-      // Update session metadata
-      try {
-        const existingSession = await this.sessionStore!.get(`session:${event.sessionId}`);
-
-        if (existingSession) {
-          const sessionData = JSON.parse(existingSession.text);
-          const updatedSessionData = {
-            ...sessionData,
-            lastActivityTime: event.timestamp,
-            updatedAt: new Date().toISOString(),
-          };
-
-          await this.sessionStore!.insert({
-            id: `session:${event.sessionId}`,
-            text: JSON.stringify(updatedSessionData),
-            timestamp: Date.now(), // Use current time as update timestamp
-            metadata: {
-              ...existingSession.metadata,
-              lastUpdated: new Date().toISOString(),
-            },
-          });
-        }
-      } catch (error) {
-        this.log(`Failed to update session projection for ${event.sessionId}: ${error}`, 'warn');
+      // Extract session data from event properties
+      const sessionData = event.properties?.sessionData as any;
+      if (!sessionData) {
+        this.log(`No session data found in event for ${event.sessionId}`, 'warn');
+        return;
       }
+
+      // Prepare session document in the format expected by sessions-rw-separated.ts
+      const sessionDocument = {
+        id: sessionData.id,
+        title: sessionData.title,
+        messageCount: sessionData.messageCount,
+        lastActivityTime: sessionData.lastActivityTime || sessionData.time?.updated,
+        activityStatus: sessionData.activityStatus || sessionData.status,
+        isAgentTask: sessionData.isAgentTask || false,
+        agentTaskStatus: sessionData.agentTaskStatus,
+        createdAt: sessionData.createdAt || sessionData.time?.created,
+      };
+
+      // Store session with the expected ID format: session:{sessionId}
+      await this.sessionStore!.insert({
+        id: `session:${event.sessionId}`,
+        text: JSON.stringify(sessionDocument),
+        timestamp: Date.now(),
+        metadata: {
+          title: sessionDocument.title,
+          messageCount: sessionDocument.messageCount,
+          lastActivityTime: sessionDocument.lastActivityTime,
+          activityStatus: sessionDocument.activityStatus,
+          isAgentTask: sessionDocument.isAgentTask,
+          agentTaskStatus: sessionDocument.agentTaskStatus,
+          createdAt: sessionDocument.createdAt,
+          lastUpdated: new Date().toISOString(),
+          source: 'eventwatcher_projection',
+        },
+      });
+
+      this.log(`✅ Created/updated session projection for ${event.sessionId}`, 'info');
     } catch (error) {
       this.log(`Failed to update session projection for ${event.sessionId}: ${error}`, 'warn');
     }
