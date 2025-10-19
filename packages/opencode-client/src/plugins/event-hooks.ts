@@ -101,7 +101,7 @@ export const EventHooksPlugin: Plugin = async ({ client, project, $, directory, 
 
     // Provide hook management tools
     tool: {
-      'hooks.register': {
+      'hooks_register': {
         description: 'Register a new hook for tool execution',
         args: {
           id: { type: 'string', description: 'Unique hook identifier' },
@@ -125,7 +125,7 @@ export const EventHooksPlugin: Plugin = async ({ client, project, $, directory, 
         },
       },
 
-      'hooks.list': {
+      'hooks_list': {
         description: 'List all registered hooks',
         args: {},
         async execute(_args: any, _context: any) {
@@ -143,7 +143,7 @@ export const EventHooksPlugin: Plugin = async ({ client, project, $, directory, 
         },
       },
 
-      'hooks.unregister': {
+      'hooks_unregister': {
         description: 'Unregister a hook by ID',
         args: {
           id: { type: 'string', description: 'Hook identifier to remove' },
@@ -157,7 +157,7 @@ export const EventHooksPlugin: Plugin = async ({ client, project, $, directory, 
         },
       },
 
-      'hooks.clear': {
+      'hooks_clear': {
         description: 'Clear all registered hooks',
         args: {},
         async execute(_args: any, _context: any) {
@@ -169,7 +169,7 @@ export const EventHooksPlugin: Plugin = async ({ client, project, $, directory, 
         },
       },
 
-      'hooks.statistics': {
+      'hooks_statistics': {
         description: 'Get hook execution statistics',
         args: {},
         async execute(_args: any, _context: any) {
