@@ -3,8 +3,8 @@
 // - Creates/tears down the Chroma collection when needed
 
 export async function frontmatter(args = {}) {
-  const { openDB } = await import('@promethean/docops/dist/index.js');
-  const { runFrontmatter } = await import('@promethean/docops/dist/index.js');
+  const { openDB } = await import('../packages/docops/dist/index.js');
+  const { runFrontmatter } = await import('../packages/docops/dist/index.js');
   const db = await openDB();
   try {
     let files = args.files;
@@ -31,9 +31,9 @@ export async function frontmatter(args = {}) {
 }
 
 export async function embed(args = {}) {
-  const { openDB } = await import('@promethean/docops/dist/index.js');
-  const { getChromaCollection } = await import('@promethean/docops/dist/lib/chroma.js');
-  const { runEmbed } = await import('@promethean/docops/dist/index.js');
+  const { openDB } = await import('../packages/docops/dist/index.js');
+  const { getChromaCollection } = await import('../packages/docops/dist/lib/chroma.js');
+  const { runEmbed } = await import('../packages/docops/dist/index.js');
   const db = await openDB();
   let client;
   try {

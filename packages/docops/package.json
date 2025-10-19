@@ -20,7 +20,7 @@
     "glob": "^10.3.10",
     "gray-matter": "^4.0.3",
     "markdown-it": "^14.0.0",
-    "tokenizer": "^0.3.0"
+    "tokenizer": "^1.1.2"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",
