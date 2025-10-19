@@ -245,12 +245,12 @@
   "tools": {
     "clj*": false,
     "playwright*":false,
-    "processDirect.*":false,
-    "events.*":false,
-    "messaging.*":false,
-    "messages.*":false,
+    "ProcessDirect.*":false,
+    "Events.*":false,
+    "Messaging.*":false,
+    "Messages.*":false,
     "ollama.*":false,
-    "cache.*":false,
-    "sessions.*": false
+    "Cache.*":false,
+    "Sessions.*": false
   }
 }
