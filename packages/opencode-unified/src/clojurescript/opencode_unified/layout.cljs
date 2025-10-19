@@ -264,7 +264,7 @@
 
 ;; Status bar
 (defn status-bar []
-  (let [statusbar (:statusbar @state/app-state)]
+  (let [app-state state/app-state]
     [:div.status-bar
      {:style {:background-color "var(--bg-secondary)"
               :border-top "1px solid var(--border)"
@@ -278,15 +278,15 @@
 
      ;; Left section
      [:div.status-left
-      (:left statusbar)]
+      (get-in @app-state [:statusbar :left])]
 
      ;; Center section
      [:div.status-center
-      (:center statusbar)]
+      (get-in @app-state [:statusbar :center])]
 
      ;; Right section
      [:div.status-right
-      (:right statusbar)]]))
+      (get-in @app-state [:statusbar :right])]]))
 
 ;; Which-key popup
 (defn which-key-popup []
