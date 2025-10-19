@@ -151,3 +151,220 @@ test('createTransitionRulesEngine loads configuration from paths', async (t) => 
   const summary = engine.getTransitionsOverview();
   t.true(summary.enabled);
 });
+
+// ===== CLOJURE-ONLY TRANSITION RULES TESTS =====
+
+test('TransitionRulesEngine requires Clojure DSL - throws error when DSL path missing', async (t) => {
+  const configWithoutDSL: TransitionRulesConfig = {
+    enabled: true,
+    enforcement: 'strict',
+    rules: [],
+    customChecks: {},
+    globalRules: [],
+  };
+
+  const engine = new TransitionRulesEngine(configWithoutDSL);
+  await t.throwsAsync(
+    async () => engine.initialize(),
+    { message: 'Clojure DSL path is required. TypeScript transition rules are no longer supported.' }
+  );
+});
+
+test('TransitionRulesEngine requires Clojure DSL - throws error when DSL file not found', async (t) => {
+  const configWithMissingDSL: TransitionRulesConfig = {
+    enabled: true,
+    enforcement: 'strict',
+    dslPath: '/nonexistent/path/rules.clj',
+    rules: [],
+    customChecks: {},
+    globalRules: [],
+  };
+
+  const engine = new TransitionRulesEngine(configWithMissingDSL);
+  await t.throwsAsync(
+    async () => engine.initialize(),
+    { message: /Clojure DSL not found at: \/nonexistent\/path\/rules\.clj/ }
+  );
+});
+
+test('TransitionRulesEngine has no TypeScript fallback - createTransitionRulesEngine throws when no config found', async (t) => {
+  await t.throwsAsync(
+    async () => createTransitionRulesEngine(['/nonexistent/config1.json', '/nonexistent/config2.json']),
+    { message: /Failed to load transition rules configuration from any of the provided paths/ }
+  );
+});
+
+test('TransitionRulesEngine validates actual Clojure DSL content', async (t) => {
+  const tmp = await withTempDir(t);
+  const dslPath = path.join(tmp, 'kanban-transitions.clj');
+  
+  // Create a minimal valid Clojure DSL
+  const validDSL = `
+(ns kanban-transitions
+  "Kanban transition rules DSL using Clojure + Babashka NBB"
+  (:require [clojure.string :as str]))
+
+(defn column-key [col-name]
+  (-> col-name (str/lower-case) (str/replace #"\s+" "")))
+
+(defn evaluate-transition [from to task board]
+  true) ; Allow all transitions for test
+  `;
+  
+  await writeFile(dslPath, validDSL, 'utf8');
+
+  const config: TransitionRulesConfig = {
+    enabled: true,
+    enforcement: 'strict',
+    dslPath,
+    rules: [],
+    customChecks: {},
+    globalRules: [],
+  };
+
+  const engine = new TransitionRulesEngine(config);
+  await t.notThrowsAsync(async () => engine.initialize());
+  
+  // Test that we can actually evaluate Clojure code
+  const board = makeBoard(0);
+  const result = await engine.validateTransition('todo', 'inprogress', sampleTask, board);
+  t.true(result.allowed);
+});
+
+test('TransitionRulesEngine rejects invalid Clojure DSL syntax', async (t) => {
+  const tmp = await withTempDir(t);
+  const dslPath = path.join(tmp, 'invalid-rules.clj');
+  
+  // Create invalid Clojure syntax
+  const invalidDSL = `
+(ns kanban-transitions
+  (:require [clojure.string :as str])
+
+(defn column-key [col-name]
+  (-> col-name (str/lower-case) (str/replace #"\s+" ""))
+
+;; Missing closing parenthesis - syntax error
+(defn evaluate-transition [from to task board]
+  true
+  `;
+  
+  await writeFile(dslPath, invalidDSL, 'utf8');
+
+  const config: TransitionRulesConfig = {
+    enabled: true,
+    enforcement: 'strict',
+    dslPath,
+    rules: [],
+    customChecks: {},
+    globalRules: [],
+  };
+
+  const engine = new TransitionRulesEngine(config);
+  await t.throwsAsync(
+    async () => engine.initialize(),
+    { message: /Clojure evaluation failed/ }
+  );
+});
+
+test('TransitionRulesEngine only uses Clojure for rule evaluation - no hardcoded TypeScript logic', async (t) => {
+  const tmp = await withTempDir(t);
+  const dslPath = path.join(tmp, 'test-rules.clj');
+  
+  // Create DSL that explicitly rejects all transitions
+  const rejectingDSL = `
+(ns kanban-transitions
+  "Test DSL that rejects everything"
+  (:require [clojure.string :as str]))
+
+(defn column-key [col-name]
+  (-> col-name (str/lower-case) (str/replace #"\s+" "")))
+
+(defn evaluate-transition [from to task board]
+  false) ; Reject all transitions
+  `;
+  
+  await writeFile(dslPath, rejectingDSL, 'utf8');
+
+  const config: TransitionRulesConfig = {
+    enabled: true,
+    enforcement: 'strict',
+    dslPath,
+    rules: [
+      {
+        from: ['todo'],
+        to: ['inprogress'],
+        description: 'Should be blocked by Clojure DSL',
+        check: '',
+      },
+    ],
+    customChecks: {},
+    globalRules: [],
+  };
+
+  const engine = new TransitionRulesEngine(config);
+  await engine.initialize();
+  
+  // Even though TypeScript config allows the transition, Clojure DSL should block it
+  const board = makeBoard(0);
+  const result = await engine.validateTransition('todo', 'inprogress', sampleTask, board);
+  t.false(result.allowed, 'Transition should be blocked by Clojure DSL, not allowed by TypeScript config');
+  t.true(result.reason.includes('Clojure evaluation failed') || result.reason.includes('false'));
+});
+
+test('createTransitionRulesEngine fails fast without Clojure DSL - no fallback to TypeScript', async (t) => {
+  // Test that the system doesn't create a disabled fallback engine
+  await t.throwsAsync(
+    async () => createTransitionRulesEngine(['/nonexistent/config.json']),
+    { message: /Clojure DSL is required/ }
+  );
+});
+
+test('TransitionRulesEngine object conversion works correctly', async (t) => {
+  const tmp = await withTempDir(t);
+  const dslPath = path.join(tmp, 'conversion-test.clj');
+  
+  // DSL that checks for specific task properties
+  const conversionTestDSL = `
+(ns kanban-transitions
+  "Test object conversion"
+  (:require [clojure.string :as str]))
+
+(defn column-key [col-name]
+  (-> col-name (str/lower-case) (str/replace #"\s+" "")))
+
+(defn evaluate-transition [from to task board]
+  ;; Verify that JavaScript objects were converted to Clojure maps correctly
+  (and (= (:uuid task) "test-uuid")
+       (= (:title task) "Test Task")
+       (= (:priority task) "P1")
+       (= (:content task) "Test content")))
+  `;
+  
+  await writeFile(dslPath, conversionTestDSL, 'utf8');
+
+  const config: TransitionRulesConfig = {
+    enabled: true,
+    enforcement: 'strict',
+    dslPath,
+    rules: [],
+    customChecks: {},
+    globalRules: [],
+  };
+
+  const engine = new TransitionRulesEngine(config);
+  await engine.initialize();
+  
+  const testTask: Task = {
+    uuid: 'test-uuid',
+    title: 'Test Task',
+    status: 'todo',
+    priority: 'P1',
+    labels: ['test'],
+    created_at: '2024-01-01T00:00:00.000Z',
+    content: 'Test content',
+  };
+
+  const board = makeBoard(0);
+  const result = await engine.validateTransition('todo', 'inprogress', testTask, board);
+  t.true(result.allowed, 'Object conversion should work correctly');
+});
