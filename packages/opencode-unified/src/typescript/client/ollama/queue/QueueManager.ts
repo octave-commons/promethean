@@ -7,7 +7,6 @@ import { PriorityQueue } from './PriorityQueue.js';
 import { QueueMonitor } from './QueueMonitor.js';
 import { randomUUID } from 'node:crypto';
 import { validateJobSubmission } from '../../../shared/validation.js';
-import { AuthManager, AuthenticationError, AuthorizationError } from '../../../shared/auth.js';
 
 export class QueueManager {
   private jobs: Map<string, Job> = new Map();
