@@ -1767,6 +1767,7 @@ export const COMMAND_HANDLERS: Readonly<Record<string, CommandHandler>> = Object
   list: handleList,
   audit: handleAudit,
   'enforce-wip-limits': handleEnforceWipLimits,
+  'commit-stats': handleCommitStats,
   // CRUD commands
   create: handleCreate,
   update: handleUpdate,
