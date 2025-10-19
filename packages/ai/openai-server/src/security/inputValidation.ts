@@ -1,6 +1,6 @@
-import type { FastifyRequest } from "fastify";
-import type { InputValidationResult, SecurityConfig } from "../types/security.js";
-import sanitizeHtml from "sanitize-html";
+import type { FastifyRequest } from 'fastify';
+import type { InputValidationResult, SecurityConfig } from '../types/security.js';
+import sanitizeHtml from 'sanitize-html';
 
 /**
  * Malicious patterns to detect in input
@@ -24,34 +24,32 @@ const MALICIOUS_PATTERNS = [
  * Content sanitization configuration
  */
 const SANITIZE_CONFIG = {
-  allowedTags: ["b", "i", "em", "strong", "p", "br", "ul", "ol", "li"],
+  allowedTags: ['b', 'i', 'em', 'strong', 'p', 'br', 'ul', 'ol', 'li'],
   allowedAttributes: {},
   allowedIframeHostnames: [],
   allowedIframeDomains: [],
   allowedIframeSchemes: [],
-  allowedSchemes: ["http", "https", "mailto"],
-  allowedSchemesAppliedToAttributes: ["href", "src", "cite"],
+  allowedSchemes: ['http', 'https', 'mailto'],
+  allowedSchemesAppliedToAttributes: ['href', 'src', 'cite'],
   allowedScriptHostnames: [],
   allowedScriptDomains: [],
   allowedScriptSchemes: [],
   allowedScriptTypes: [],
   allowedStyles: [],
   allowedClasses: {},
-  allowedAttributes: {},
-  allowedTags: [],
-  disallowedTags: ["script", "iframe", "object", "embed", "form", "input", "button"],
-  disallowedAttributes: ["onclick", "onload", "onerror", "onmouseover"],
+  disallowedTags: ['script', 'iframe', 'object', 'embed', 'form', 'input', 'button'],
+  disallowedAttributes: ['onclick', 'onload', 'onerror', 'onmouseover'],
   textFilter: (text: string) => text,
-  exclusiveFilter: (frame: any) => false,
+  exclusiveFilter: (_frame: any) => false,
 };
 
 /**
  * Input validation and sanitization service
  */
 export class InputValidationService {
-  private readonly config: SecurityConfig["validation"];
+  private readonly config: SecurityConfig['validation'];
 
-  constructor(config: SecurityConfig["validation"]) {
+  constructor(config: SecurityConfig['validation']) {
     this.config = config;
   }
 
@@ -61,7 +59,7 @@ export class InputValidationService {
   async validateRequestBody(request: FastifyRequest): Promise<InputValidationResult> {
     try {
       // Check request size
-      const contentLength = parseInt(request.headers["content-length"] || "0", 10);
+      const contentLength = parseInt(request.headers['content-length'] || '0', 10);
       if (contentLength > this.config.maxRequestSize) {
         return {
           isValid: false,
@@ -70,9 +68,9 @@ export class InputValidationService {
       }
 
       // Check content type
-      const contentType = request.headers["content-type"] || "";
-      const isAllowedContentType = this.config.allowedContentTypes.some(type =>
-        contentType.toLowerCase().includes(type.toLowerCase())
+      const contentType = request.headers['content-type'] || '';
+      const isAllowedContentType = this.config.allowedContentTypes.some((type) =>
+        contentType.toLowerCase().includes(type.toLowerCase()),
       );
 
       if (!isAllowedContentType) {
@@ -98,7 +96,7 @@ export class InputValidationService {
     } catch (error) {
       return {
         isValid: false,
-        errors: [`Validation error: ${error instanceof Error ? error.message : "Unknown error"}`],
+        errors: [`Validation error: ${error instanceof Error ? error.message : 'Unknown error'}`],
       };
     }
   }
@@ -111,15 +109,15 @@ export class InputValidationService {
       return obj;
     }
 
-    if (typeof obj === "string") {
+    if (typeof obj === 'string') {
       return this.sanitizeString(obj);
     }
 
     if (Array.isArray(obj)) {
-      return Promise.all(obj.map(item => this.sanitizeObject(item)));
+      return Promise.all(obj.map((item) => this.sanitizeObject(item)));
     }
 
-    if (typeof obj === "object") {
+    if (typeof obj === 'object') {
       const sanitized: any = {};
       for (const [key, value] of Object.entries(obj)) {
         // Sanitize object keys as well
@@ -136,7 +134,7 @@ export class InputValidationService {
    * Sanitize a string for XSS prevention
    */
   private sanitizeString(str: string): string {
-    if (typeof str !== "string") {
+    if (typeof str !== 'string') {
       return str;
     }
 
@@ -144,7 +142,7 @@ export class InputValidationService {
     for (const pattern of MALICIOUS_PATTERNS) {
       if (pattern.test(str)) {
         // Remove or replace malicious content
-        str = str.replace(pattern, "");
+        str = str.replace(pattern, '');
       }
     }
 
@@ -159,8 +157,8 @@ export class InputValidationService {
     const errors: string[] = [];
     const warnings: string[] = [];
 
-    const scanForMaliciousContent = (obj: any, path: string = ""): void => {
-      if (typeof obj === "string") {
+    const scanForMaliciousContent = (obj: any, path: string = ''): void => {
+      if (typeof obj === 'string') {
         // Check for remaining malicious patterns after sanitization
         for (const pattern of MALICIOUS_PATTERNS) {
           if (pattern.test(obj)) {
@@ -179,12 +177,12 @@ export class InputValidationService {
         obj.forEach((item, index) => {
           scanForMaliciousContent(item, `${path}[${index}]`);
         });
-      } else if (typeof obj === "object" && obj !== null) {
+      } else if (typeof obj === 'object' && obj !== null) {
         const keys = Object.keys(obj);
         if (keys.length > 100) {
           warnings.push(`Large object at ${path}: ${keys.length} properties`);
         }
-        keys.forEach(key => {
+        keys.forEach((key) => {
           scanForMaliciousContent(obj[key], path ? `${path}.${key}` : key);
         });
       }
@@ -208,30 +206,30 @@ export class InputValidationService {
     const warnings: string[] = [];
 
     // Validate model
-    if (!body.model || typeof body.model !== "string") {
-      errors.push("Model is required and must be a string");
+    if (!body.model || typeof body.model !== 'string') {
+      errors.push('Model is required and must be a string');
     } else if (body.model.length > 100) {
-      errors.push("Model name too long (max 100 characters)");
+      errors.push('Model name too long (max 100 characters)');
     }
 
     // Validate messages
     if (!Array.isArray(body.messages)) {
-      errors.push("Messages must be an array");
+      errors.push('Messages must be an array');
     } else {
       if (body.messages.length === 0) {
-        errors.push("At least one message is required");
+        errors.push('At least one message is required');
       } else if (body.messages.length > 100) {
-        warnings.push("Large number of messages may impact performance");
+        warnings.push('Large number of messages may impact performance');
       }
 
       body.messages.forEach((message: any, index: number) => {
-        if (!message.role || typeof message.role !== "string") {
+        if (!message.role || typeof message.role !== 'string') {
           errors.push(`Message ${index}: role is required and must be a string`);
-        } else if (!["system", "user", "assistant", "tool"].includes(message.role)) {
+        } else if (!['system', 'user', 'assistant', 'tool'].includes(message.role)) {
           errors.push(`Message ${index}: invalid role "${message.role}"`);
         }
 
-        if (!message.content || typeof message.content !== "string") {
+        if (!message.content || typeof message.content !== 'string') {
           errors.push(`Message ${index}: content is required and must be a string`);
         } else if (message.content.length > 50000) {
           errors.push(`Message ${index}: content too long (max 50000 characters)`);
@@ -241,25 +239,25 @@ export class InputValidationService {
 
     // Validate optional parameters
     if (body.temperature !== undefined) {
-      if (typeof body.temperature !== "number" || body.temperature < 0 || body.temperature > 2) {
-        errors.push("Temperature must be a number between 0 and 2");
+      if (typeof body.temperature !== 'number' || body.temperature < 0 || body.temperature > 2) {
+        errors.push('Temperature must be a number between 0 and 2');
       }
     }
 
     if (body.max_tokens !== undefined) {
-      if (typeof body.max_tokens !== "number" || body.max_tokens < 1 || body.max_tokens > 32000) {
-        errors.push("Max tokens must be a number between 1 and 32000");
+      if (typeof body.max_tokens !== 'number' || body.max_tokens < 1 || body.max_tokens > 32000) {
+        errors.push('Max tokens must be a number between 1 and 32000');
       }
     }
 
     if (body.top_p !== undefined) {
-      if (typeof body.top_p !== "number" || body.top_p < 0 || body.top_p > 1) {
-        errors.push("Top_p must be a number between 0 and 1");
+      if (typeof body.top_p !== 'number' || body.top_p < 0 || body.top_p > 1) {
+        errors.push('Top_p must be a number between 0 and 1');
       }
     }
 
-    if (body.stream !== undefined && typeof body.stream !== "boolean") {
-      errors.push("Stream must be a boolean");
+    if (body.stream !== undefined && typeof body.stream !== 'boolean') {
+      errors.push('Stream must be a boolean');
     }
 
     return {
@@ -272,10 +270,12 @@ export class InputValidationService {
   /**
    * Create input validation middleware for Fastify
    */
-  createValidationMiddleware(options: {
-    skipValidation?: boolean;
-    customValidator?: (body: any) => InputValidationResult;
-  } = {}) {
+  createValidationMiddleware(
+    options: {
+      skipValidation?: boolean;
+      customValidator?: (body: any) => InputValidationResult;
+    } = {},
+  ) {
     const { skipValidation = false, customValidator } = options;
 
     return async (request: FastifyRequest, reply: any) => {
@@ -287,8 +287,8 @@ export class InputValidationService {
       const basicValidation = await this.validateRequestBody(request);
       if (!basicValidation.isValid) {
         return reply.status(400).send({
-          error: "Invalid request",
-          code: "INVALID_REQUEST",
+          error: 'Invalid request',
+          code: 'INVALID_REQUEST',
           details: basicValidation.errors,
         });
       }
@@ -303,8 +303,8 @@ export class InputValidationService {
         const customValidation = customValidator(request.body);
         if (!customValidation.isValid) {
           return reply.status(400).send({
-            error: "Validation failed",
-            code: "VALIDATION_FAILED",
+            error: 'Validation failed',
+            code: 'VALIDATION_FAILED',
             details: customValidation.errors,
           });
         }
@@ -312,7 +312,7 @@ export class InputValidationService {
 
       // Log warnings if any
       if (basicValidation.warnings) {
-        request.log?.warn?.("Input validation warnings:", basicValidation.warnings);
+        console.warn('Input validation warnings:', basicValidation.warnings);
       }
     };
   }
