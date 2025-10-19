@@ -4,7 +4,7 @@
 import {
   BasicPromptInjectionDetector,
   PromptInjectionDetectorResult,
-} from '@promethean/security/testing';
+} from './security-placeholder.js';
 
 /**
  * Validation error types
