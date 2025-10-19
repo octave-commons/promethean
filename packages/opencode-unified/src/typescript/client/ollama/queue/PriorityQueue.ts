@@ -60,7 +60,7 @@ export class PriorityQueue {
       const index = queue.findIndex((job) => job.id === jobId);
       if (index !== -1) {
         const [job] = queue.splice(index, 1);
-        return job;
+        return job || null;
       }
     }
     return null;
