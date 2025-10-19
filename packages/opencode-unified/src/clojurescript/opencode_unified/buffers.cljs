@@ -215,9 +215,9 @@
   (let [el (.-target e)
         content (.-value el)
         current-pos (.-selectionStart el)
-        [line col] (buffers/pos-to-line-col content current-pos)]
+        [line col] (pos-to-line-col content current-pos)]
     (when (> line 0)
-      (let [new-pos (buffers/line-col-to-pos content (dec line) col)]
+      (let [new-pos (line-col-to-pos content (dec line) col)]
         (set! (.-selectionStart el) new-pos)
         (set! (.-selectionEnd el) new-pos)
         (state/update-current-buffer! (fn [b] (assoc b :cursor-pos new-pos)))))))
