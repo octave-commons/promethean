@@ -7,7 +7,7 @@ import {
   validateJobSubmission,
   validatePrompt,
   ValidationError,
-} from '../typescript/shared/validation';
+} from '../../dist/typescript/shared/validation.js';
 
 test('InputValidator - constructor with default config', (t) => {
   const validator = new InputValidator();
