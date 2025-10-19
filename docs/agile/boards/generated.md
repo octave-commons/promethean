@@ -295,6 +295,7 @@ kanban-plugin: board
 - [ ] [[refactor-complex-functions-boardrev-evaluate|Refactor Complex Functions in boardrev evaluate.ts]] #refactoring #complexity #boardrev #code-quality prio:P0 (uuid:a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d)
 - [ ] [[refactor-enhanced-context-complex-functions|Refactor Complex Functions in enhanced-context.ts]] #refactoring #complexity #boardrev #code-quality prio:P0 (uuid:b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e)
 - [ ] [[Test git tracking functionality]] #test #git #tracking #functionality prio:high (uuid:db35dbe3-3d91-4575-a57c-b4f57cf64f7c)
+- [ ] [[Another test task]] #another #test #nothing #blocked prio:medium (uuid:93d5ce7c-f0be-45f0-9f25-5438295a1349)
 
 ## accepted
 
