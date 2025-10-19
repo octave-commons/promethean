@@ -238,8 +238,8 @@
   (let [el (.-target e)
         content (.-value el)
         current-pos (.-selectionStart el)
-        [line _] (buffers/pos-to-line-col content current-pos)
-        new-pos (buffers/line-col-to-pos content line 0)]
+        [line _] (pos-to-line-col content current-pos)
+        new-pos (line-col-to-pos content line 0)]
     (set! (.-selectionStart el) new-pos)
     (set! (.-selectionEnd el) new-pos)
     (state/update-current-buffer! (fn [b] (assoc b :cursor-pos new-pos)))))
@@ -248,9 +248,9 @@
   (let [el (.-target e)
         content (.-value el)
         current-pos (.-selectionStart el)
-        [line _] (buffers/pos-to-line-col content current-pos)
-        line-content (buffers/get-line-content content line)
-        new-pos (buffers/line-col-to-pos content line (count line-content))]
+        [line _] (pos-to-line-col content current-pos)
+        line-content (get-line-content content line)
+        new-pos (line-col-to-pos content line (count line-content))]
     (set! (.-selectionStart el) new-pos)
     (set! (.-selectionEnd el) new-pos)
     (state/update-current-buffer! (fn [b] (assoc b :cursor-pos new-pos)))))
@@ -274,8 +274,8 @@
   (let [el (.-target e)
         content (.-value el)
         current-pos (.-selectionStart el)
-        [line _] (buffers/pos-to-line-col content current-pos)
-        line-range (buffers/get-line-range content line)
+        [line _] (pos-to-line-col content current-pos)
+        line-range (get-line-range content line)
         [start-pos end-pos] line-range
         new-content (str (subs content 0 start-pos) (subs content end-pos))]
     (set! (.-value el) new-content)
@@ -314,9 +314,9 @@
   (let [el (.-target e)
         content (.-value el)
         current-end (.-selectionEnd el)
-        [line col] (buffers/pos-to-line-col content current-end)]
+        [line col] (pos-to-line-col content current-end)]
     (when (> line 0)
-      (let [new-pos (buffers/line-col-to-pos content (dec line) col)]
+      (let [new-pos (line-col-to-pos content (dec line) col)]
         (set! (.-selectionEnd el) new-pos)
         (state/update-current-buffer!
          (fn [b]
@@ -328,10 +328,10 @@
   (let [el (.-target e)
         content (.-value el)
         current-end (.-selectionEnd el)
-        [line col] (buffers/pos-to-line-col content current-end)
-        line-count (buffers/get-line-count content)]
+        [line col] (pos-to-line-col content current-end)
+        line-count (get-line-count content)]
     (when (< line (dec line-count))
-      (let [new-pos (buffers/line-col-to-pos content (inc line) col)]
+      (let [new-pos (line-col-to-pos content (inc line) col)]
         (set! (.-selectionEnd el) new-pos)
         (state/update-current-buffer!
          (fn [b]
@@ -393,8 +393,8 @@
     (when current-buffer
       (let [content (:content current-buffer)
             cursor-pos (:cursor-pos current-buffer)
-            [line _] (buffers/pos-to-line-col content cursor-pos)
-            line-range (buffers/get-line-range content line)]
+            [line _] (pos-to-line-col content cursor-pos)
+            line-range (get-line-range content line)]
         (state/update-current-buffer!
          (fn [b]
            (assoc b :selection {:start (first line-range) :end (second line-range)})))))
@@ -417,7 +417,7 @@
         buffer-info (when current-buffer
                       (let [content (:content current-buffer)
                             cursor-pos (:cursor-pos current-buffer)
-                            [line col] (buffers/pos-to-line-col content cursor-pos)
+                            [line col] (pos-to-line-col content cursor-pos)
                             lines (str/split-lines content)]
                         (str "Line " (inc line) ", Col " (inc col)
                              " of " (count lines)
