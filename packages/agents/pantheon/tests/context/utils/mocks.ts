@@ -186,24 +186,113 @@ export class MockContextShareStore {
 }
 
 export class MockContextMetadataStore {
-  private metadata: Map<string, ContextMetadata[]> = new Map();
+  private metadata: Map<string, CoreContextMetadata[]> = new Map();
 
-  async setMetadata(
-    metadataData: Omit<ContextMetadata, 'id' | 'createdAt' | 'updatedAt'>
-  ): Promise<ContextMetadata> {
-    const metadata: ContextMetadata = {
+  async setMetadata(metadataData: Omit<CoreContextMetadata, 'id' | 'createdAt' | 'updatedAt'>): Promise<CoreContextMetadata> {
+    const metadata: CoreContextMetadata = {
       ...metadataData,
-      id: `metadata-${Date.now()}-${Math.random()}`,
+      id: {
+        value: `metadata-${Date.now()}-${Math.random()}`,
+        type: 'agent'
+      },
       createdAt: new Date(),
       updatedAt: new Date(),
     };
-
-    const agentMetadata = this.metadata.get(metadata.agentId) || [];
+    
+    const agentMetadata = this.metadata.get(metadata.agentId?.value || 'unknown') || [];
     agentMetadata.push(metadata);
-    this.metadata.set(metadata.agentId, agentMetadata);
-
+    this.metadata.set(metadata.agentId?.value || 'unknown', agentMetadata);
+    
     return metadata;
   }
+
+  async getMetadata(agentId: string, key?: string): Promise<CoreContextMetadata[]> {
+    const agentMetadata = this.metadata.get(agentId) || [];
+    if (key) {
+      return agentMetadata.filter(meta => meta.name === key);
+    }
+    return [...agentMetadata];
+  }
+
+  async updateMetadata(agentId: string, key: string, value: any): Promise<CoreContextMetadata> {
+    const agentMetadata = this.metadata.get(agentId) || [];
+    const existingIndex = agentMetadata.findIndex(meta => meta.name === key);
+    
+    if (existingIndex === -1) {
+      throw new Error(`Metadata not found for key: ${key}`);
+    }
+    
+    const updatedMetadata = {
+      ...agentMetadata[existingIndex],
+      description: typeof value === 'string' ? value : JSON.stringify(value),
+      updatedAt: new Date(),
+    };
+    
+    agentMetadata[existingIndex] = updatedMetadata;
+    this.metadata.set(agentId, agentMetadata);
+    
+    return updatedMetadata;
+  }
+
+  async deleteMetadata(agentId: string, key: string): Promise<void> {
+    const agentMetadata = this.metadata.get(agentId) || [];
+    const filteredMetadata = agentMetadata.filter(meta => meta.name !== key);
+    this.metadata.set(agentId, filteredMetadata);
+  }
+
+  async queryMetadata(query: any): Promise<CoreContextMetadata[]> {
+    let results: CoreContextMetadata[] = [];
+    
+    for (const agentMetadata of this.metadata.values()) {
+      results.push(...agentMetadata);
+    }
+    
+    // Apply filters
+    if (query.agentId) {
+      results = results.filter(meta => meta.agentId?.value === query.agentId);
+    }
+    if (query.contextType) {
+      results = results.filter(meta => meta.tags?.includes(query.contextType));
+    }
+    if (query.visibility) {
+      results = results.filter(meta => meta.permissions.public === (query.visibility === 'public'));
+    }
+    if (query.keyPattern) {
+      const regex = new RegExp(query.keyPattern);
+      results = results.filter(meta => regex.test(meta.name));
+    }
+    
+    // Apply pagination
+    if (query.offset) {
+      results = results.slice(query.offset);
+    }
+    if (query.limit) {
+      results = results.slice(0, query.limit);
+    }
+    
+    return results;
+  }
+
+  async cleanupExpired(): Promise<void> {
+    const now = new Date();
+    
+    for (const [agentId, agentMetadata] of this.metadata.entries()) {
+      const validMetadata = agentMetadata.filter(meta => 
+        !meta.expiresAt || meta.expiresAt > now
+      );
+      this.metadata.set(agentId, validMetadata);
+    }
+  }
+
+  // Helper methods for testing
+  clear(): void {
+    this.metadata.clear();
+  }
+
+  getAllMetadata(): Map<string, CoreContextMetadata[]> {
+    return new Map(this.metadata);
+  }
+}
 
   async getMetadata(agentId: string, key?: string): Promise<ContextMetadata[]> {
     const agentMetadata = this.metadata.get(agentId) || [];
