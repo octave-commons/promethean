@@ -1,16 +1,15 @@
 ---
-uuid: 'plugin-parity-005'
-title: 'Enhanced Event Capture with Semantic Search'
-slug: 'plugin-parity-005-enhanced-event-capture'
-status: 'todo'
-priority: 'P1'
-labels: ['plugin', 'event-capture', 'semantic-search', 'analytics', 'high']
-created_at: '2025-10-18T00:00:00.000Z'
+uuid: "plugin-parity-005"
+title: "Enhanced Event Capture with Semantic Search"
+slug: "plugin-parity-005-enhanced-event-capture"
+status: "todo"
+priority: "P1"
+labels: ["plugin", "event-capture", "semantic-search", "analytics", "high"]
+created_at: "2025-10-18T00:00:00.000Z"
 estimates:
-  complexity: 'high'
-  scale: 'medium'
-  time_to_completion: '1-2 weeks'
-story_points: 5
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 ## Context
