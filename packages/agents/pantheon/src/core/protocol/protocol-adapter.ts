@@ -117,7 +117,7 @@ export class AgentBusAdapter {
       ),
       requiredActions: this.getRequiredActions(crisisType),
       deadline: this.calculateDeadline(crisisLevel),
-      correlationId: busMessage.correlationId,
+      correlationId: busMessage.correlationId || this.generateId(),
     };
   }
 
