@@ -159,38 +159,9 @@
 
 ;; Simplified key handlers for basic Evil mode
 
-;; Simplified key handlers for basic Evil mode
-(defn handle-normal-mode-key [e key]
-  (case key
-    ;; Mode switches
-    "i" (do (.preventDefault e) (enter-insert-mode))
-    "v" (do (.preventDefault e) (enter-visual-mode))
-    "V" (do (.preventDefault e) (enter-visual-line-mode))
+;; Mode transition functions
 
-    ;; Basic motions
-    "h" (do (.preventDefault e) (move-cursor-left e))
-    "j" (do (.preventDefault e) (move-cursor-down e))
-    "k" (do (.preventDefault e) (move-cursor-up e))
-    "l" (do (.preventDefault e) (move-cursor-right e))
-    "0" (do (.preventDefault e) (move-to-line-start e))
-    "$" (do (.preventDefault e) (move-to-line-end e))
-
-    ;; Basic operators
-    "x" (do (.preventDefault e) (delete-char e))
-    "dd" (do (.preventDefault e) (delete-line e))
-
-    nil))
-
-(defn handle-visual-mode-key [e key]
-  (case key
-    "Escape" (do (.preventDefault e) (exit-visual-mode))
-    "h" (do (.preventDefault e) (extend-selection-left e))
-    "j" (do (.preventDefault e) (extend-selection-down e))
-    "k" (do (.preventDefault e) (extend-selection-up e))
-    "l" (do (.preventDefault e) (extend-selection-right e))
-    "y" (do (.preventDefault e) (yank-selection e))
-    "d" (do (.preventDefault e) (delete-selection e))
-    nil))
+;; Mode transition functions
 
 ;; Motion functions
 (defn move-cursor-left [e]
@@ -595,3 +566,50 @@
           (if (str/includes? word-chars char)
             (recur (dec current-pos))
             (inc current-pos)))))))
+
+;; Editor component with Evil mode integration
+(defn editor [buffer]
+  (let [content (:content buffer)
+        cursor-pos (:cursor-pos buffer)
+        selection (:selection buffer)
+        evil-mode (state/get-evil-mode)]
+
+    [:textarea.editor-content
+     {:value content
+      :read-only (not= evil-mode :insert)
+      :on-change (fn [e]
+                   (when (= evil-mode :insert)
+                     (let [new-value (-> e .-target .-value)
+                           new-cursor-pos (-> e .-target .-selectionStart)]
+                       (state/update-current-buffer!
+                        (fn [b]
+                          (-> b
+                              (assoc :content new-value)
+                              (assoc :cursor-pos new-cursor-pos)
+                              (assoc :modified? true)))))))
+      :on-key-down (fn [e]
+                     (let [key (.-key e)
+                           ctrl-key (.-ctrlKey e)
+                           alt-key (.-altKey e)
+                           meta-key (.-metaKey e)]
+                       (when-not (or ctrl-key alt-key meta-key)
+                         (case evil-mode
+                           :normal (handle-normal-mode-key e key)
+                           :insert (when (= key "Escape")
+                                     (.preventDefault e)
+                                     (enter-normal-mode))
+                           :visual (handle-visual-mode-key e key)
+                           nil))))
+      :style {:width "100%"
+              :height "100%"
+              :border "none"
+              :outline "none"
+              :background "transparent"
+              :color "var(--text-primary)"
+              :font-family "monospace"
+              :font-size "14px"
+              :line-height "1.5"
+              :padding "1rem"
+              :resize "none"
+              :white-space "pre"
+              :overflow "auto"}}]))

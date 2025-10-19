@@ -505,10 +505,17 @@ export class EventWatcherService {
           updatedAt: new Date().toISOString(),
         };
 
+        const sessionTimestamp =
+          typeof existingSession.timestamp === 'number'
+            ? existingSession.timestamp
+            : existingSession.timestamp instanceof Date
+              ? existingSession.timestamp.getTime()
+              : new Date(existingSession.timestamp).getTime();
+
         await sessionStore.insert({
           id: `session:${event.sessionId}`,
           text: JSON.stringify(updatedSessionData),
-          timestamp: existingSession.timestamp,
+          timestamp: sessionTimestamp,
           metadata: {
             ...existingSession.metadata,
             lastUpdated: new Date().toISOString(),
@@ -538,10 +545,17 @@ export class EventWatcherService {
           updatedAt: new Date().toISOString(),
         };
 
+        const taskTimestamp =
+          typeof existingTask.timestamp === 'number'
+            ? existingTask.timestamp
+            : existingTask.timestamp instanceof Date
+              ? existingTask.timestamp.getTime()
+              : new Date(existingTask.timestamp).getTime();
+
         await agentTaskStore.insert({
           id: `task:${event.sessionId}`,
           text: JSON.stringify(updatedTaskData),
-          timestamp: existingTask.timestamp,
+          timestamp: taskTimestamp,
           metadata: {
             ...existingTask.metadata,
             lastUpdated: new Date().toISOString(),
