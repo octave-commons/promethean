@@ -5,9 +5,7 @@ import { fileURLToPath } from 'node:url';
 import fastifyStatic from '@fastify/static';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
-import fastifyCors from '@fastify/cors';
-import fastifyHelmet from '@fastify/helmet';
-import fastifyRateLimit from '@fastify/rate-limit';
+// Security plugins will be loaded dynamically to avoid import issues
 import Fastify from 'fastify';
 import type { FastifyInstance, FastifyReply, FastifyServerOptions } from 'fastify';
 
@@ -22,8 +20,7 @@ import type { TaskQueue } from '../queue/taskQueue.js';
 import type { DeepReadonly } from '../types/deepReadonly.js';
 
 import { AuthMiddleware } from '../auth/authMiddleware.js';
-import { RateLimitingService } from '../security/rateLimiting.js';
-import { InputValidationService } from '../security/inputValidation.js';
+
 import { SecurityHeadersService } from '../security/securityHeaders.js';
 import { ContentSanitizer } from '../security/contentSanitizer.js';
 import { getValidatedSecurityConfig } from '../security/config.js';
@@ -183,8 +180,7 @@ export const createOpenAICompliantServer = (options: OpenAIServerOptions = {}): 
   // Initialize security if enabled
   const securityEnabled = options.security?.enabled !== false;
   let authMiddleware: AuthMiddleware | undefined;
-  let rateLimitingService: RateLimitingService | undefined;
-  let inputValidationService: InputValidationService | undefined;
+
   let securityHeadersService: SecurityHeadersService | undefined;
 
   if (securityEnabled) {
@@ -193,8 +189,7 @@ export const createOpenAICompliantServer = (options: OpenAIServerOptions = {}): 
 
       // Initialize security services
       authMiddleware = new AuthMiddleware(securityConfig.auth);
-      rateLimitingService = new RateLimitingService(securityConfig.rateLimit);
-      inputValidationService = new InputValidationService(securityConfig.validation);
+
       securityHeadersService = new SecurityHeadersService(securityConfig.headers);
 
       // Register security middleware
@@ -238,10 +233,7 @@ export const createOpenAICompliantServer = (options: OpenAIServerOptions = {}): 
   registerDocumentation(app);
   app.after(() => {
     registerQueueRoutes(app, queue);
-    registerChatCompletionRoute(app, queue, {
-      securityEnabled,
-      inputValidationService,
-    });
+    registerChatCompletionRoute(app, queue);
     registerHealthRoute(app, queue);
   });
 
