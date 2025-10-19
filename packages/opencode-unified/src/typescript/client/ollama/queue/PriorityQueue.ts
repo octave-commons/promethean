@@ -147,7 +147,7 @@ export class PriorityQueue {
    * Reorder a job (change its priority)
    */
   reorderJob(jobId: string, newPriority: string): boolean {
-    const job = this.remove(jobId);
+    const job = this.findAndRemove(jobId);
     if (!job) {
       return false;
     }
