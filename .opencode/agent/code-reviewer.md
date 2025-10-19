@@ -14,7 +14,7 @@ description: >-
   <commentary>The user is seeking feedback on completed code, so use the
   code-reviewer agent for detailed analysis.</commentary></example>
 mode: all
-model: zai-coding-plan/glm-4.5
+model: zai-coding-plan/glm-4.6
 tools:
   write: false
   edit: false
