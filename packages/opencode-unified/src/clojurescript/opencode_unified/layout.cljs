@@ -264,29 +264,28 @@
 
 ;; Status bar
 (defn status-bar []
-  (let [app-state state/app-state]
-    [:div.status-bar
-     {:style {:background-color "var(--bg-secondary)"
-              :border-top "1px solid var(--border)"
-              :display "flex"
-              :justify-content "space-between"
-              :align-items "center"
-              :padding "0 1rem"
-              :height "24px"
-              :font-size "0.8rem"
-              :color "var(--text-secondary)"}}
+  [:div.status-bar
+   {:style {:background-color "var(--bg-secondary)"
+            :border-top "1px solid var(--border)"
+            :display "flex"
+            :justify-content "space-between"
+            :align-items "center"
+            :padding "0 1rem"
+            :height "24px"
+            :font-size "0.8rem"
+            :color "var(--text-secondary)"}}
 
-     ;; Left section
-     [:div.status-left
-      (get-in @app-state [:statusbar :left])]
+   ;; Left section
+   [:div.status-left
+    (get-in @state/app-state [:statusbar :left])]
 
-     ;; Center section
-     [:div.status-center
-      (get-in @app-state [:statusbar :center])]
+   ;; Center section
+   [:div.status-center
+    (get-in @state/app-state [:statusbar :center])]
 
-     ;; Right section
-     [:div.status-right
-      (get-in @app-state [:statusbar :right])]]))
+   ;; Right section
+   [:div.status-right
+    (get-in @state/app-state [:statusbar :right])]])
 
 ;; Which-key popup
 (defn which-key-popup []
