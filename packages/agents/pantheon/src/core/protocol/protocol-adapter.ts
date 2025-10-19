@@ -125,13 +125,18 @@ export class AgentBusAdapter {
    * Convert Crisis Message back to Agent Bus format
    */
   toAgentBus(crisisMessage: CrisisMessage): AgentBusMessage {
-    return {
+    const result: AgentBusMessage = {
       topic: this.mapCrisisTypeToTopic(crisisMessage.crisisType),
       payload: crisisMessage.payload.data,
       timestamp: Date.now(),
       agentId: crisisMessage.sender.id,
-      correlationId: crisisMessage.correlationId,
     };
+
+    if (crisisMessage.correlationId) {
+      result.correlationId = crisisMessage.correlationId;
+    }
+
+    return result;
   }
 
   private detectCrisisType(topic: string): CrisisMessageType {
@@ -220,7 +225,7 @@ export class AgentBusAdapter {
 
   private identifyAffectedAgents(
     crisisType: CrisisMessageType,
-    payload: any
+    _payload: any
   ): AgentAddress[] {
     const agents: AgentAddress[] = [];
 
