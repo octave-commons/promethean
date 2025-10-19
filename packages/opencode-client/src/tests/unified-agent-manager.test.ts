@@ -3,12 +3,13 @@
  */
 
 import test from 'ava';
+import { DualStoreManager } from '@promethean/persistence';
+
 import {
   UnifiedAgentManager,
   createAgentSession,
   unifiedAgentManager,
 } from '../api/UnifiedAgentManager.js';
-import { DualStoreManager } from '@promethean/persistence';
 import { initializeStores } from '../index.js';
 import { AgentTaskManager } from '../api/AgentTaskManager.js';
 

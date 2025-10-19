@@ -170,7 +170,7 @@ async function statisticsAndCleanupExample() {
     await createAgentSession('Test task 3', undefined, {}, { autoStart: true });
 
     console.log('📊 Current Statistics:');
-    let stats = await unifiedAgentManager.getSessionStats();
+    const stats = await unifiedAgentManager.getSessionStats();
     console.log(`Total sessions: ${stats.total}`);
     console.log('By status:', stats.byStatus);
     console.log(`Average age: ${Math.round(stats.averageAge / 1000)}s`);
