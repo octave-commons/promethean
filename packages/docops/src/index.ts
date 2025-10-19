@@ -37,8 +37,8 @@ export interface EmbedOptions {
 
 export async function runEmbed(
   options: EmbedOptions,
-  db: DocOpsDB,
-  collection: any,
+  _db: DocOpsDB,
+  _collection: any,
 ): Promise<void> {
   // Placeholder implementation
   console.log('Running embedding:', options);
@@ -55,8 +55,8 @@ export interface QueryOptions {
 
 export async function runQuery(
   options: QueryOptions,
-  db: DocOpsDB,
-  collection: any,
+  _db: DocOpsDB,
+  _collection: any,
 ): Promise<void> {
   // Placeholder implementation
   console.log('Running query:', options);
@@ -74,7 +74,7 @@ export interface RelationsOptions {
   files?: string[];
 }
 
-export async function runRelations(options: RelationsOptions, db: DocOpsDB): Promise<void> {
+export async function runRelations(options: RelationsOptions, _db: DocOpsDB): Promise<void> {
   // Placeholder implementation
   console.log('Running relations:', options);
 }
@@ -87,7 +87,7 @@ export interface FootersOptions {
   dryRun?: boolean;
 }
 
-export async function runFooters(options: FootersOptions, db: DocOpsDB): Promise<void> {
+export async function runFooters(options: FootersOptions, _db: DocOpsDB): Promise<void> {
   // Placeholder implementation
   console.log('Running footers:', options);
 }
