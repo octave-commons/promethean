@@ -1,4 +1,4 @@
-import amqp from 'amqplib';
+import * as amqp from 'amqplib';
 import { BaseTransport } from './transport';
 import { TransportConfig, MessageEnvelope, MessageHandler } from './types';
 
@@ -14,22 +14,28 @@ export class AMQPTransport extends BaseTransport {
   async connect(): Promise<void> {
     try {
       this.connection = await amqp.connect(this.config.url, this.config.options);
-      this.channel = await this.connection.createChannel();
+      if (this.connection) {
+        this.channel = await this.connection.createChannel();
+      }
 
       // Setup error handlers
-      this.connection.on('error', (error) => {
-        this.emitConnectionEvent('error', error);
-        this.handleReconnect();
-      });
+      if (this.connection) {
+        this.connection.on('error', (error) => {
+          this.emitConnectionEvent('error', error);
+          this.handleReconnect();
+        });
 
-      this.connection.on('close', () => {
-        this.emitConnectionEvent('disconnected');
-        this.handleReconnect();
-      });
+        this.connection.on('close', () => {
+          this.emitConnectionEvent('disconnected');
+          this.handleReconnect();
+        });
+      }
 
-      this.channel.on('error', (error) => {
-        this.emitConnectionEvent('error', error);
-      });
+      if (this.channel) {
+        this.channel.on('error', (error) => {
+          this.emitConnectionEvent('error', error);
+        });
+      }
 
       // Setup queue if specified
       if (this.config.queue) {

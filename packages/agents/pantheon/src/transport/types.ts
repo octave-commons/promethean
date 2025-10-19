@@ -108,6 +108,15 @@ export interface DeadLetterQueue {
   deleteMessage(messageId: string): Promise<void>;
 }
 
+// Extended RetryPolicy for transport compatibility
+export interface TransportRetryPolicy {
+  maxRetries: number;
+  initialDelay: number;
+  maxDelay: number;
+  backoff: 'linear' | 'exponential';
+  retryableErrors: string[];
+}
+
 export interface MessageMetrics {
   sent: number;
   received: number;
