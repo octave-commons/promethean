@@ -180,11 +180,68 @@ export const createOpenAICompliantServer = (options: OpenAIServerOptions = {}): 
   const app = Fastify({ logger: false, ...(options.fastify ?? {}) });
   const directories = resolvePackageDirectories();
 
+  // Initialize security if enabled
+  const securityEnabled = options.security?.enabled !== false;
+  let authMiddleware: AuthMiddleware | undefined;
+  let rateLimitingService: RateLimitingService | undefined;
+  let inputValidationService: InputValidationService | undefined;
+  let securityHeadersService: SecurityHeadersService | undefined;
+
+  if (securityEnabled) {
+    try {
+      const securityConfig = getValidatedSecurityConfig();
+
+      // Initialize security services
+      authMiddleware = new AuthMiddleware(securityConfig.auth);
+      rateLimitingService = new RateLimitingService(securityConfig.rateLimit);
+      inputValidationService = new InputValidationService(securityConfig.validation);
+      securityHeadersService = new SecurityHeadersService(securityConfig.headers);
+
+      // Register security middleware
+      app.register(require('@fastify/cors'), {
+        origin: securityConfig.cors.origin,
+        credentials: securityConfig.cors.credentials,
+      });
+
+      app.register(require('@fastify/helmet'), {
+        contentSecurityPolicy: securityConfig.headers.contentSecurityPolicy,
+      });
+
+      app.register(require('@fastify/rate-limit'), {
+        global: securityConfig.rateLimit.global,
+        skipSuccessfulRequests: securityConfig.rateLimit.skipSuccessfulRequests,
+        skipFailedRequests: securityConfig.rateLimit.skipFailedRequests,
+      });
+
+      // Add custom security middleware
+      app.addHook('preHandler', securityHeadersService.createSecurityHeadersMiddleware());
+      app.addHook('preHandler', ContentSanitizer.createSanitizationMiddleware());
+
+      // Add authentication middleware for protected routes
+      if (options.security?.requireAuth !== false) {
+        app.addHook(
+          'preHandler',
+          authMiddleware.createAuthMiddleware({
+            required: true,
+            permissions: options.security?.allowedPermissions,
+            roles: options.security?.allowedRoles,
+          }),
+        );
+      }
+    } catch (error) {
+      console.error('Failed to initialize security:', error);
+      // Continue without security if configuration is invalid
+    }
+  }
+
   registerStaticAssets(app, directories);
   registerDocumentation(app);
   app.after(() => {
     registerQueueRoutes(app, queue);
-    registerChatCompletionRoute(app, queue);
+    registerChatCompletionRoute(app, queue, {
+      securityEnabled,
+      inputValidationService,
+    });
     registerHealthRoute(app, queue);
   });
 
