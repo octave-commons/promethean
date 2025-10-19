@@ -42,7 +42,7 @@ You have comprehensive knowledge of frontend build tools, package managers, and 
 
 ## Development Workflow
 
-1. **Initial Setup**: Check for running processes with process_list
+1. **Initial Setup**: navigate chrome to port 8080
 2. **Code Development**: Use clj tools
 3. **Testing**: use chrome dev tools
 4. **ClojureScript**: use clj tools
