@@ -88,7 +88,38 @@ export class EventWatcherService {
     };
   }
 
-/**
+  /**
+   * Start the event watcher service
+   */
+  async start(): Promise<void> {
+    this.log('🚀 Starting Event Watcher Service...');
+    this.startTime = Date.now();
+    this.isRunning = true;
+
+    try {
+      // Initialize OpenCode client
+      await this.initializeClient();
+
+      // Start retrospective indexing if enabled
+      if (this.config.enableRetrospective) {
+        await this.performRetrospectiveIndexing();
+      }
+
+      // Start session polling for real-time updates
+      await this.startSessionPolling();
+
+      // Start event processing loop
+      this.startProcessingLoop();
+
+      this.log('✅ Event Watcher Service started successfully');
+    } catch (error) {
+      this.log(`❌ Failed to start Event Watcher Service: ${error}`, 'error');
+      this.isRunning = false;
+      throw error;
+    }
+  }
+
+  /**
    * Start polling for session updates from OpenCode server
    */
   private async startSessionPolling(): Promise<void> {
@@ -109,20 +140,20 @@ export class EventWatcherService {
             }
           }
         } catch (error) {
-          this.log('❌ Error polling for sessions:', 'error');
+          this.log(`❌ Error polling for sessions: ${error}`, 'error');
         }
 
         // Schedule next poll
         if (this.isRunning) {
-          setTimeout(poll, this.pollingInterval);
+          this.pollingTimer = setTimeout(poll, this.pollingInterval);
         }
       };
 
       // Start polling
       await poll();
-      this.log('✅ Session polling started', 'success');
+      this.log('✅ Session polling started', 'info');
     } catch (error) {
-      this.log('❌ Failed to start session polling:', 'error');
+      this.log(`❌ Failed to start session polling: ${error}`, 'error');
       throw error;
     }
   }
@@ -146,7 +177,7 @@ export class EventWatcherService {
         type: 'session.updated',
         timestamp: new Date(sessionTime).toISOString(),
         projectedAt: new Date().toISOString(),
-        source: 'real-time-poll',
+        source: 'realtime',
         processed: false,
         sessionId: session.id,
         properties: {
@@ -161,39 +192,12 @@ export class EventWatcherService {
 
       this.log(`📝 Processed update for session ${session.id}`, 'info');
     } catch (error) {
-      this.log(`❌ Error processing session update for ${session.id}:`, 'error');
-    }
-  }
-
-    this.log('🚀 Starting Event Watcher Service...');
-    this.startTime = Date.now();
-    this.isRunning = true;
-
-    try {
-      // Initialize OpenCode client
-      await this.initializeClient();
-
-      // Start retrospective indexing if enabled
-      if (this.config.enableRetrospective) {
-        await this.performRetrospectiveIndexing();
-      }
-
-      // Start real-time event streaming
-      await this.startRealTimeStreaming();
-
-      // Start event processing loop
-      this.startProcessingLoop();
-
-      this.log('✅ Event Watcher Service started successfully');
-    } catch (error) {
-      this.log('❌ Failed to start Event Watcher Service:', 'error');
-      this.isRunning = false;
-      throw error;
+      this.log(`❌ Error processing session update for ${session.id}: ${error}`, 'error');
     }
   }
 
   /**
-   * Stop the event watcher service
+   * Stop event watcher service
    */
   async stop(): Promise<void> {
     if (!this.isRunning) {
@@ -209,14 +213,10 @@ export class EventWatcherService {
       this.processingTimer = null;
     }
 
-    // Close event stream
-    if (this.eventStream) {
-      try {
-        await this.eventStream.return?.();
-      } catch (error) {
-        this.log('Warning: Failed to close event stream gracefully:', 'warn');
-      }
-      this.eventStream = null;
+    // Stop polling timer
+    if (this.pollingTimer) {
+      clearTimeout(this.pollingTimer);
+      this.pollingTimer = null;
     }
 
     // Process remaining events
@@ -269,7 +269,7 @@ export class EventWatcherService {
 
       this.log('✅ Retrospective indexing completed');
     } catch (error) {
-      this.log('❌ Retrospective indexing failed:', 'error');
+      this.log(`❌ Retrospective indexing failed: ${error}`, 'error');
       throw error;
     }
   }
@@ -345,106 +345,7 @@ export class EventWatcherService {
   }
 
   /**
-   * Start real-time event streaming from OpenCode
-   */
-  private async startRealTimeStreaming(): Promise<void> {
-    this.log('📡 Starting real-time event streaming...');
-
-    try {
-      // Use session polling instead of event streaming since SDK doesn't support event.list
-      this.log('Event streaming not supported by SDK, using session polling instead', 'warn');
-      throw new Error('Event streaming not supported by current SDK version');
-
-      // Process events in real-time
-      (async () => {
-        try {
-          if (!this.eventStream) return;
-
-          for await (const eventResponse of this.eventStream) {
-            if (!this.isRunning) break;
-
-            if (!eventResponse) continue;
-
-            const response = eventResponse as any;
-            const eventData = response?.data ?? response;
-            if (eventData) {
-              await this.processRealTimeEvent(eventData);
-            }
-          }
-        } catch (error) {
-          this.log(`Real-time streaming error: ${error}`, 'error');
-          this.stats.errors++;
-
-          // Attempt to restart streaming after delay
-          if (this.isRunning) {
-            setTimeout(() => {
-              this.startRealTimeStreaming().catch((err) => {
-                this.log(`Failed to restart streaming: ${err}`, 'error');
-              });
-            }, this.config.retryDelay);
-          }
-        }
-      })();
-
-      this.log('✅ Real-time event streaming started');
-    } catch (error) {
-      this.log(`Failed to start real-time streaming: ${error}`, 'error');
-      throw error;
-    }
-  }
-
-  /**
-   * Process a real-time event from OpenCode
-   */
-  private async processRealTimeEvent(eventData: unknown): Promise<void> {
-    try {
-      const event: OpenCodeEvent = this.normalizeEvent(eventData);
-
-      const projectedEvent: ProjectedEvent = {
-        ...event,
-        projectedAt: new Date().toISOString(),
-        source: 'realtime',
-        processed: false,
-      };
-
-      this.queueEvent(projectedEvent);
-      this.stats.realTimeEvents++;
-      this.stats.lastEventTime = event.timestamp;
-    } catch (error) {
-      this.log(`Failed to process real-time event: ${error}`, 'error');
-      this.stats.errors++;
-    }
-  }
-
-  /**
-   * Normalize event data to standard format
-   */
-  private normalizeEvent(eventData: unknown): OpenCodeEvent {
-    if (typeof eventData === 'object' && eventData !== null) {
-      const event = eventData as Record<string, unknown>;
-      return {
-        id: String(
-          event.id || `event-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`,
-        ),
-        type: String(event.type || 'unknown'),
-        timestamp: String(event.timestamp || new Date().toISOString()),
-        sessionId: event.sessionId ? String(event.sessionId) : undefined,
-        properties: (event.properties as Record<string, unknown>) || {},
-        data: event.data,
-      };
-    }
-
-    // Fallback for non-object events
-    return {
-      id: `event-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`,
-      type: 'raw',
-      timestamp: new Date().toISOString(),
-      properties: { data: eventData },
-    };
-  }
-
-  /**
-   * Start the event processing loop
+   * Start event processing loop
    */
   private startProcessingLoop(): void {
     this.processingTimer = setInterval(async () => {
@@ -473,7 +374,7 @@ export class EventWatcherService {
   }
 
   /**
-   * Process the event queue
+   * Process event queue
    */
   private async processEventQueue(): Promise<void> {
     if (this.processingQueue.length === 0) return;
@@ -528,7 +429,7 @@ export class EventWatcherService {
   }
 
   /**
-   * Process a single event into the database
+   * Process a single event into database
    */
   private async processEvent(event: ProjectedEvent): Promise<void> {
     try {
