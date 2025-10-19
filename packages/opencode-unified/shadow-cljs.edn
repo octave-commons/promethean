@@ -1,7 +1,7 @@
 {:source-paths ["src/clojurescript"]
  :dependencies []
  :builds
- :nrepl {:port 9000}      ;; fixed nREPL port
+ :nrepl {:port 4242}      ;; fixed nREPL port
  {:app {:target :browser
         :output-dir "dist/public/js"
         :asset-path "/js"
