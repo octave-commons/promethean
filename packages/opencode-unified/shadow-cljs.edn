@@ -22,21 +22,23 @@
                 [expound "0.9.0"]]
 
  :builds
- {:app {:target :browser
-        :output-dir "dist/public/js"
-        :asset-path "/js"
-        :modules {:main {:init-fn opencode.app/init
-                        :preloads [devtools.preload
-                                   day8.re-frame-10x.preload]}}
-        :devtools {:http-root "dist/public"
-                   :http-port 8080
-                   :preloads [devtools.preload
-                              day8.re-frame-10x.preload]}
-        :dev {:compiler-options {:closure-defines {re-frame.trace/trace-enabled? true
-                                                  day8.re-frame.tracing/trace-enabled? true}}}
-        :release {:build-options {:ns-aliases {opencode.app opencode.app}}
-                  :compiler-options {:optimizations :advanced
-                                    :infer-externs :auto}}}
+  {:app {:target :browser
+         :output-dir "dist/public/js"
+         :asset-path "/js"
+         :modules {:main {:init-fn opencode.app/init
+                         :preloads [devtools.preload
+                                    day8.re-frame-10x.preload]}}
+         :devtools {:http-root "dist/public"
+                    :http-port 8080
+                    :preloads [devtools.preload
+                               day8.re-frame-10x.preload]}
+         :dev {:compiler-options {:closure-defines {re-frame.trace/trace-enabled? true
+                                                   day8.re-frame.tracing/trace-enabled? true}}}
+         :release {:build-options {:ns-aliases {opencode.app opencode.app}}
+                   :compiler-options {:optimizations :advanced
+                                     :infer-externs :auto}}
+         :dependencies {:react "18.3.1"
+                        :react-dom "18.3.1"}}
 
   :renderer {:target :electron-renderer
              :output-dir "dist/renderer"
