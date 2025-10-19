@@ -298,7 +298,7 @@ export class EventWatcherService {
    */
   private async indexExistingSessions(): Promise<void> {
     try {
-      const sessions = await sessionStore.getMostRecent(1000);
+      const sessions = await this.sessionStore!.getMostRecent(1000);
       let indexedCount = 0;
 
       for (const session of sessions) {
