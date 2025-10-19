@@ -370,10 +370,11 @@ export class InputValidator {
           continue;
         }
 
-        if (input[i].length > this.config.maxPromptLength) {
+        const item = input[i];
+        if (item && item.length > this.config.maxPromptLength) {
           errors.push(
             new ValidationError(
-              `Input item ${i} too long: ${input[i].length} characters (max: ${this.config.maxPromptLength})`,
+              `Input item ${i} too long: ${item.length} characters (max: ${this.config.maxPromptLength})`,
               `input[${i}]`,
               'TOO_LONG',
             ),

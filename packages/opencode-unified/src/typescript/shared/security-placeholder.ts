@@ -3,6 +3,8 @@
 
 export interface PromptInjectionDetectorResult {
   isInjection: boolean;
+  detected: boolean;
+  blocked: boolean;
   confidence: number;
   detectedPatterns: string[];
   sanitizedInput?: string;
@@ -13,6 +15,8 @@ export class BasicPromptInjectionDetector {
     // Simple placeholder implementation
     return {
       isInjection: false,
+      detected: false,
+      blocked: false,
       confidence: 0,
       detectedPatterns: [],
       sanitizedInput: input,
