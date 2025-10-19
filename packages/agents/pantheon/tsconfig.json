@@ -1,0 +1,32 @@
+{
+  "extends": "../../../../config/tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "baseUrl": ".",
+    "paths": {
+      "@context/*": ["./src/context/*"],
+      "@orchestrator/*": ["./src/orchestrator/*"],
+      "@protocol/*": ["./src/protocol/*"],
+      "@workflow/*": ["./src/workflow/*"],
+      "@os-protocol/*": ["./src/os-protocol/*"],
+      "@generator/*": ["./src/generator/*"],
+      "@management-ui/*": ["./src/management-ui/*"],
+      "@core/*": ["./src/core/*"],
+      "@shared/*": ["./src/shared/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["dist", "out", "node_modules", "**/*.test.ts", "**/*.spec.ts"],
+  "references": [
+    { "path": "./src/context" },
+    { "path": "./src/orchestrator" },
+    { "path": "./src/protocol" },
+    { "path": "./src/workflow" },
+    { "path": "./src/os-protocol" },
+    { "path": "./src/generator" },
+    { "path": "./src/management-ui" }
+  ]
+}

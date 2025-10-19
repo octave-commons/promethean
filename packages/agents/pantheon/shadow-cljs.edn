@@ -1,0 +1,17 @@
+{:source-paths ["src" "test"]
+ :dependencies [[org.clojure/clojurescript "1.11.60"]
+                [org.clojure/tools.cli "1.0.219"]
+                [cheshire "5.11.0"]
+                [org.clojure/core.async "1.6.673"]]
+ :builds
+ {:pantheon
+  {:target :node-script
+   :main promethean.pantheon.core/main
+   :output-to "out/pantheon.js"
+   :compiler-options {:target :nodejs
+                      :optimizations :simple
+                      :source-map true}}
+  :test
+  {:target :node-test
+   :output-to "out/test.js"
+   :ns-regex {".*_test$"}}}}
