@@ -61,7 +61,7 @@ You have comprehensive knowledge of frontend build tools, package managers, and 
 1. **Initial Setup**: Check for running processes with process_list
 2. **Code Development**: Use clojure tools
 3. **Testing**: Use playwright\_\* tools for E2E testing
-4. **ClojureScript**: Use clojure-mcp\_\* tools for REPL and compilation
+4. **ClojureScript**: Use clj-mcp\_\* tools for REPL and compilation
 5. **Validation**: Use clj-kondo-mcp_lint_clojure for code quality
 
 ## Best Practices
