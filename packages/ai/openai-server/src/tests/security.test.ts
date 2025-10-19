@@ -1,260 +1,297 @@
 import test from 'ava';
-import { createOpenAICompliantServer } from '../server/createServer.js';
-import { AuthMiddleware } from '../auth/authMiddleware.js';
-import { RateLimitingService } from '../security/rateLimiting.js';
-import { InputValidationService } from '../security/inputValidation.js';
-import { SecurityHeadersService } from '../security/securityHeaders.js';
-import { ContentSanitizer } from '../security/contentSanitizer.js';
-import { createSecurityConfig } from '../security/config.js';
+import { FastifyInstance } from 'fastify';
+import { 
+  createTestServer, 
+  createAuthenticatedUser,
+  createTestToken,
+  mockOpenAIResponse 
+} from '../tests/helpers/test-utils.js';
 
-test('authentication middleware - valid API key', async (t) => {
-  const config = createSecurityConfig();
-  const auth = new AuthMiddleware(config.auth);
-
-  const mockRequest = {
-    headers: { 'x-api-key': config.auth.apiKeys[0] },
-  } as any;
-
-  const result = await auth.authenticate(mockRequest);
-
-  t.true(result.success);
-  t.truthy(result.user);
-  t.is(result.user?.apiKey, config.auth.apiKeys[0]);
-});
-
-test('authentication middleware - invalid API key', async (t) => {
-  const config = createSecurityConfig();
-  const auth = new AuthMiddleware(config.auth);
-
-  const mockRequest = {
-    headers: { 'x-api-key': 'invalid-key' },
-  } as any;
-
-  const result = await auth.authenticate(mockRequest);
-
-  t.false(result.success);
-  t.is(result.error, 'Invalid API key');
-  t.is(result.statusCode, 401);
-});
-
-test('authentication middleware - missing credentials', async (t) => {
-  const config = createSecurityConfig();
-  const auth = new AuthMiddleware(config.auth);
-
-  const mockRequest = {
-    headers: {},
-  } as any;
-
-  const result = await auth.authenticate(mockRequest);
-
-  t.false(result.success);
-  t.is(result.error, 'No authentication credentials provided');
-  t.is(result.statusCode, 401);
-});
-
-test('rate limiting service - basic functionality', async (t) => {
-  const rateLimiter = new RateLimitingService({
-    global: { max: 2, window: '1m' },
-    user: { max: 1, window: '1m' },
-    endpoint: { max: 1, window: '1m' },
-    skipSuccessfulRequests: false,
-    skipFailedRequests: false,
+// Security Tests
+test.before(async (t) => {
+  // Setup test server with security features enabled
+  const server = await createTestServer({
+    security: {
+      enabled: true,
+      jwtSecret: 'test-secret',
+      rateLimiting: {
+        enabled: true,
+        global: { max: 100, window: '15m' },
+        user: { max: 50, window: '15m' },
+        endpoint: { max: 20, window: '1m' }
+      },
+      cors: {
+        enabled: true,
+        origins: ['http://localhost:3000', 'http://localhost:3001']
+      },
+      headers: {
+        enabled: true
+      }
+    }
   });
+  
+  t.context.server = server;
+});
 
-  const mockRequest = {
+test.after.always(async (t) => {
+  if (t.context.server) {
+    await t.context.server.close();
+  }
+});
+
+test('security: JWT authentication works', async (t) => {
+  const { server } = t.context;
+  
+  // Test login with valid credentials
+  const loginResponse = await server.inject({
     method: 'POST',
-    routeOptions: { url: '/v1/chat/completions' },
-    ip: '127.0.0.1',
-  } as any;
-
-  // First request should be allowed
-  const result1 = await rateLimiter.checkRateLimit(mockRequest, 'global');
-  t.true(result1.allowed);
-  t.is(result1.remaining, 1);
-
-  // Second request should be allowed
-  const result2 = await rateLimiter.checkRateLimit(mockRequest, 'global');
-  t.true(result2.allowed);
-  t.is(result2.remaining, 0);
-
-  // Third request should be rate limited
-  const result3 = await rateLimiter.checkRateLimit(mockRequest, 'global');
-  t.false(result3.allowed);
-  t.is(result3.remaining, 0);
-
-  rateLimiter.destroy();
-});
-
-test('input validation service - valid chat completion', async (t) => {
-  const config = createSecurityConfig();
-  const validator = new InputValidationService(config.validation);
-
-  const validBody = {
-    model: 'gpt-3.5-turbo',
-    messages: [
-      { role: 'system', content: 'You are a helpful assistant.' },
-      { role: 'user', content: 'Hello, world!' },
-    ],
-    temperature: 0.7,
-    max_tokens: 100,
-  };
-
-  const result = validator.validateChatCompletionInput(validBody);
-
-  t.true(result.isValid);
-  t.is(result.errors, undefined);
-});
-
-test('input validation service - invalid chat completion', async (t) => {
-  const config = createSecurityConfig();
-  const validator = new InputValidationService(config.validation);
-
-  const invalidBody = {
-    model: '', // Invalid: empty model
-    messages: [], // Invalid: empty messages
-    temperature: 3, // Invalid: temperature > 2
-    max_tokens: -1, // Invalid: negative tokens
-  };
-
-  const result = validator.validateChatCompletionInput(invalidBody);
-
-  t.false(result.isValid);
-  t.truthy(result.errors);
-  t.true(result.errors!.length > 0);
-});
-
-test('input validation service - malicious content detection', async (t) => {
-  const config = createSecurityConfig();
-  const validator = new InputValidationService(config.validation);
-
-  const maliciousBody = {
-    model: 'gpt-3.5-turbo',
-    messages: [
-      {
-        role: 'user',
-        content: "<script>alert('xss')</script> DROP TABLE users;",
-      },
-    ],
-  };
-
-  const result = validator.validateChatCompletionInput(maliciousBody);
-
-  // Should detect malicious content
-  t.false(result.isValid);
-  t.truthy(result.errors);
-});
-
-test('security headers service - default headers', async (t) => {
-  const config = createSecurityConfig();
-  const headersService = new SecurityHeadersService(config.headers);
-
-  const headers = headersService.getHeaders();
-
-  t.is(headers['X-Content-Type-Options'], 'nosniff');
-  t.is(headers['X-Frame-Options'], 'DENY');
-  t.is(headers['X-XSS-Protection'], '1; mode=block');
-  t.is(headers['Referrer-Policy'], 'strict-origin-when-cross-origin');
-  t.truthy(headers['Content-Security-Policy']);
-});
-
-test('content sanitizer - HTML sanitization', async (t) => {
-  const maliciousHtml = '<script>alert("xss")</script><p>Hello <b>world</b></p>';
-  const sanitized = ContentSanitizer.sanitizeHtml(maliciousHtml);
-
-  t.false(sanitized.includes('<script>'));
-  t.true(sanitized.includes('<p>'));
-  t.true(sanitized.includes('<b>'));
-});
-
-test('content sanitizer - chat message sanitization', async (t) => {
-  const maliciousMessages = [
-    { role: 'user', content: "<script>alert('xss')</script>Hello" },
-    { role: 'assistant', content: 'Response with <b>bold</b> text' },
-  ];
-
-  const sanitized = ContentSanitizer.sanitizeChatMessages(maliciousMessages);
-
-  t.is(sanitized.length, 2);
-  t.false(sanitized[0].content.includes('<script>'));
-  t.true(sanitized[0].content.includes('Hello'));
-  t.true(sanitized[1].content.includes('bold'));
-});
-
-test('server with security - basic functionality', async (t) => {
-  const { app } = createOpenAICompliantServer({
-    security: {
-      enabled: true,
-      requireAuth: true,
-    },
+    url: '/auth/login',
+    payload: {
+      username: 'testuser',
+      password: 'testpass'
+    }
   });
-
-  try {
-    await app.ready();
-
-    // Test health endpoint (should be accessible)
-    const response = await app.inject({
-      method: 'GET',
-      url: '/health',
-    });
-
-    t.is(response.statusCode, 200);
-    t.truthy(response.json());
-  } finally {
-    await app.close();
-  }
+  
+  t.is(loginResponse.statusCode, 200);
+  const { token } = JSON.parse(loginResponse.payload);
+  t.truthy(token);
+  
+  // Test protected endpoint with valid token
+  const protectedResponse = await server.inject({
+    method: 'POST',
+    url: '/v1/chat/completions',
+    headers: {
+      authorization: `Bearer ${token}`
+    },
+    payload: {
+      model: 'gpt-3.5-turbo',
+      messages: [{ role: 'user', content: 'Hello' }]
+    }
+  });
+  
+  t.is(protectedResponse.statusCode, 200);
 });
 
-test('server with security - protected endpoint requires auth', async (t) => {
-  const { app } = createOpenAICompliantServer({
-    security: {
-      enabled: true,
-      requireAuth: true,
+test('security: Invalid JWT is rejected', async (t) => {
+  const { server } = t.context;
+  
+  const response = await server.inject({
+    method: 'POST',
+    url: '/v1/chat/completions',
+    headers: {
+      authorization: 'Bearer invalid-token'
     },
+    payload: {
+      model: 'gpt-3.5-turbo',
+      messages: [{ role: 'user', content: 'Hello' }]
+    }
   });
+  
+  t.is(response.statusCode, 401);
+});
 
-  try {
-    await app.ready();
-
-    // Test chat completion endpoint without auth (should fail)
-    const response = await app.inject({
+test('security: Rate limiting works', async (t) => {
+  const { server } = t.context;
+  
+  // Make multiple rapid requests to trigger rate limiting
+  const requests = Array.from({ length: 25 }, () => 
+    server.inject({
       method: 'POST',
       url: '/v1/chat/completions',
+      headers: {
+        authorization: `Bearer ${createTestToken()}`
+      },
       payload: {
         model: 'gpt-3.5-turbo',
-        messages: [{ role: 'user', content: 'Hello' }],
-      },
-    });
-
-    t.is(response.statusCode, 401);
-    t.truthy(response.json().error);
-  } finally {
-    await app.close();
-  }
+        messages: [{ role: 'user', content: 'Hello' }]
+      }
+    })
+  );
+  
+  const responses = await Promise.all(requests);
+  
+  // Some requests should be rate limited
+  const rateLimitedResponses = responses.filter(r => r.statusCode === 429);
+  t.true(rateLimitedResponses.length > 0);
+  
+  // Check rate limit headers
+  const rateLimitedResponse = rateLimitedResponses[0];
+  t.truthy(rateLimitedResponse.headers['x-ratelimit-limit']);
+  t.truthy(rateLimitedResponse.headers['x-ratelimit-remaining']);
+  t.truthy(rateLimitedResponse.headers['x-ratelimit-reset']);
 });
 
-test('server without security - open access', async (t) => {
-  const { app } = createOpenAICompliantServer({
-    security: {
-      enabled: false,
-    },
+test('security: CORS headers are set', async (t) => {
+  const { server } = t.context;
+  
+  const response = await server.inject({
+    method: 'OPTIONS',
+    url: '/v1/chat/completions',
+    headers: {
+      origin: 'http://localhost:3000'
+    }
   });
+  
+  t.is(response.statusCode, 204);
+  t.is(response.headers['access-control-allow-origin'], 'http://localhost:3000');
+  t.is(response.headers['access-control-allow-methods'], 'GET, POST, PUT, DELETE, OPTIONS');
+  t.is(response.headers['access-control-allow-headers'], 'Content-Type, Authorization');
+});
 
-  try {
-    await app.ready();
+test('security: Security headers are present', async (t) => {
+  const { server } = t.context;
+  
+  const response = await server.inject({
+    method: 'GET',
+    url: '/health'
+  });
+  
+  // Check for important security headers
+  t.is(response.headers['x-frame-options'], 'DENY');
+  t.is(response.headers['x-content-type-options'], 'nosniff');
+  t.is(response.headers['x-xss-protection'], '1; mode=block');
+  t.truthy(response.headers['content-security-policy']);
+});
 
-    // Test chat completion endpoint without auth (should work but may fail due to missing handler)
-    const response = await app.inject({
-      method: 'POST',
-      url: '/v1/chat/completions',
-      payload: {
-        model: 'gpt-3.5-turbo',
-        messages: [{ role: 'user', content: 'Hello' }],
-      },
-    });
+test('security: Input validation blocks malicious content', async (t) => {
+  const { server } = t.context;
+  
+  // Test XSS attempt
+  const xssResponse = await server.inject({
+    method: 'POST',
+    url: '/v1/chat/completions',
+    headers: {
+      authorization: `Bearer ${createTestToken()}`
+    },
+    payload: {
+      model: 'gpt-3.5-turbo',
+      messages: [{ 
+        role: 'user', 
+        content: '<script>alert("xss")</script>Hello' 
+      }]
+    }
+  });
+  
+  t.is(xssResponse.statusCode, 400);
+  
+  // Test SQL injection attempt
+  const sqlResponse = await server.inject({
+    method: 'POST',
+    url: '/v1/chat/completions',
+    headers: {
+      authorization: `Bearer ${createTestToken()}`
+    },
+    payload: {
+      model: 'gpt-3.5-turbo',
+      messages: [{ 
+        role: 'user', 
+        content: "'; DROP TABLE users; --" 
+      }]
+    }
+  });
+  
+  t.is(sqlResponse.statusCode, 400);
+});
 
-    // Should not be 401 (auth error), may be 500 due to missing handler or other issues
-    t.not(response.statusCode, 401);
-  } finally {
-    await app.close();
-  }
+test('security: Role-based access control works', async (t) => {
+  const { server } = t.context;
+  
+  // Create admin user
+  const adminToken = createTestToken({ role: 'admin' });
+  
+  // Create readonly user
+  const readonlyToken = createTestToken({ role: 'readonly' });
+  
+  // Test admin access to admin-only endpoint
+  const adminResponse = await server.inject({
+    method: 'GET',
+    url: '/admin/stats',
+    headers: {
+      authorization: `Bearer ${adminToken}`
+    }
+  });
+  
+  t.is(adminResponse.statusCode, 200);
+  
+  // Test readonly user denied access to admin endpoint
+  const readonlyResponse = await server.inject({
+    method: 'GET',
+    url: '/admin/stats',
+    headers: {
+      authorization: `Bearer ${readonlyToken}`
+    }
+  });
+  
+  t.is(readonlyResponse.statusCode, 403);
+});
+
+test('security: Content sanitization works', async (t) => {
+  const { server } = t.context;
+  
+  const response = await server.inject({
+    method: 'POST',
+    url: '/v1/chat/completions',
+    headers: {
+      authorization: `Bearer ${createTestToken()}`
+    },
+    payload: {
+      model: 'gpt-3.5-turbo',
+      messages: [{ 
+        role: 'user', 
+        content: 'Hello with <b>bold</b> and <script>alert("xss")</script>' 
+      }]
+    }
+  });
+  
+  t.is(response.statusCode, 200);
+  
+  const result = JSON.parse(response.payload);
+  // Content should be sanitized
+  t.notRegex(result.choices[0].message.content, /<script>/);
+  t.notRegex(result.choices[0].message.content, /javascript:/);
+  // But valid HTML like bold should remain if allowed
+  t.true(result.choices[0].message.content.includes('bold'));
+});
+
+test('security: API key authentication works', async (t) => {
+  const { server } = t.context;
+  
+  // Test with API key instead of JWT
+  const response = await server.inject({
+    method: 'POST',
+    url: '/v1/chat/completions',
+    headers: {
+      'x-api-key': 'test-api-key-12345'
+    },
+    payload: {
+      model: 'gpt-3.5-turbo',
+      messages: [{ role: 'user', content: 'Hello' }]
+    }
+  });
+  
+  t.is(response.statusCode, 200);
+});
+
+test('security: Request size limits are enforced', async (t) => {
+  const { server } = t.context;
+  
+  // Create a very large payload
+  const largePayload = {
+    model: 'gpt-3.5-turbo',
+    messages: [{ 
+      role: 'user', 
+      content: 'x'.repeat(1000000) // 1MB of text
+    }]
+  };
+  
+  const response = await server.inject({
+    method: 'POST',
+    url: '/v1/chat/completions',
+    headers: {
+      authorization: `Bearer ${createTestToken()}`
+    },
+    payload: largePayload
+  });
+  
+  t.is(response.statusCode, 413); // Payload Too Large
 });
