@@ -1,6 +1,7 @@
 {:source-paths ["src/clojurescript"]
  :dependencies []
  :nrepl {:port 4499} ;; fixed nREPL port
+ :jvm-opts ["-Xms256m" "-Xmx1g" "-Xss256k" "-XX:+UseParallelGC" "-XX:ReservedCodeCacheSize=64m"]
  :builds
  {:app {:target :browser
         :output-dir "dist/public/js"
