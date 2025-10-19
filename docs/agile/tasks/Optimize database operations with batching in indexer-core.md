@@ -10,6 +10,11 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
+lastCommitSha: "deec21fe4553bb49020b6aa2bdfee1b89110f15d"
+commitHistory: 
+  - sha: "deec21fe4553bb49020b6aa2bdfee1b89110f15d"
+    timestamp: "2025-10-19T16:27:40.281Z"
+    action: "Bulk commit tracking initialization"
 ---
 
 The indexer-core processes chunks sequentially with individual database upsert operations, causing significant performance bottlenecks. Each chunk triggers a separate database operation instead of batching.\n\n**Performance issues:**\n- Sequential col.upsert() calls for each chunk\n- No connection pooling for ChromaDB operations\n- Excessive round trips to database\n- Poor scalability with large files\n\n**Optimization approach:**\n- Implement batch upsert operations (100 chunks per batch)\n- Add connection pooling for ChromaDB\n- Parallel processing of independent files\n- Add database operation metrics and monitoring\n- Implement retry logic for failed batches\n\n**Expected improvements:**\n- 10-100x performance improvement for large files\n- Reduced database load and connection overhead\n- Better resource utilization\n- Improved error handling and recovery\n\n**Files affected:**\n- packages/indexer-core/src/indexer.ts (indexFile function)\n- Add database operation utilities\n\n**Priority:** HIGH - Performance critical

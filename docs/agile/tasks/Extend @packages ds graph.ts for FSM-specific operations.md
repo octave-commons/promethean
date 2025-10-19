@@ -10,6 +10,11 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
+lastCommitSha: "deec21fe4553bb49020b6aa2bdfee1b89110f15d"
+commitHistory: 
+  - sha: "deec21fe4553bb49020b6aa2bdfee1b89110f15d"
+    timestamp: "2025-10-19T16:27:40.278Z"
+    action: "Bulk commit tracking initialization"
 ---
 
 Extend the existing comprehensive Graph class in @packages/ds/src/graph.ts to support FSM-specific operations while maintaining backward compatibility.\n\n## Key Requirements:\n1. **Extend Graph**: Create FSMGraph class extending Graph with state/transition interfaces\n2. **State Interface**: Define FSMState with metadata, entry/exit actions, validation rules\n3. **Transition Interface**: Define FSMTransition with conditions, guards, reducers, schema validation\n4. **FSM Operations**: Add state validation, transition condition checking, hierarchical states\n5. **TypeScript Types**: Comprehensive generic types for FSM usage\n6. **Backward Compatibility**: Ensure existing Graph functionality remains unchanged\n\n## Implementation Details:\n- FSMGraph<State, Context, Events> extending Graph<FSMState, FSMTransition>\n- State validation and transition condition checking methods\n- Support for hierarchical states and parallel regions\n- Performance optimizations for FSM-specific operations\n- Integration hooks for existing FSM systems\n\n## Dependencies:\n- Analysis of existing Graph implementation (367 lines)\n- Understanding of current FSM packages (@packages/fsm, @packages/agents-workflow, @packages/piper)\n- Schema validation integration with @packages/schema\n\n## Acceptance Criteria:\n- All existing Graph tests pass without modification\n- New FSMGraph class with comprehensive FSM operations\n- TypeScript types for generic FSM usage\n- Performance benchmarks showing no regression for existing Graph usage\n- Documentation and examples for FSMGraph usage
