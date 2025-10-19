@@ -14,6 +14,14 @@ import { agentCommands } from './commands/agents/index.js';
 import { indexerCommands } from './commands/indexer/index.js';
 import { initializeStores } from './index.js';
 import { DualStoreManager } from '@promethean/persistence';
+import {
+  createAgentSession,
+  startAgentSession,
+  stopAgentSession,
+  sendMessageToAgent,
+  closeAgentSession,
+  unifiedAgentManager,
+} from './api/UnifiedAgentManager.js';
 const version = '1.0.0';
 
 // Initialize dual stores for CLI use
