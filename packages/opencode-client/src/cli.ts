@@ -11,6 +11,7 @@ import { cacheCommands } from './commands/cache/index.js';
 import { tasksCommands } from './commands/tasks/index.js';
 import { messagesCommands } from './commands/messages/index.js';
 import { agentCommands } from './commands/agents/index.js';
+import { indexerCommands } from './commands/indexer/index.js';
 import { initializeStores } from './index.js';
 import { DualStoreManager } from '@promethean/persistence';
 const version = '1.0.0';

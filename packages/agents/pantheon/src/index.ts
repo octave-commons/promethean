@@ -37,7 +37,7 @@ export * as Workflow from './workflow/index.js';
 export * as OSProtocol from './os-protocol/index.js';
 
 // Agent Generator
-export * as Generator from './generator/index.js';
+export * as AgentGenerator from './generator/index.js';
 
 // Management UI
 export * as ManagementUI from './management-ui/index.js';
@@ -104,13 +104,4 @@ export const FrameworkInfo = {
 export default {
   VERSION,
   FrameworkInfo,
-  // Module namespaces
-  Context,
-  Orchestrator,
-  Protocol,
-  Workflow,
-  OSProtocol,
-  Generator,
-  ManagementUI,
-  Shared,
 };
