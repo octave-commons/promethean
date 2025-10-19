@@ -1,16 +1,15 @@
 ---
-uuid: 'plugin-parity-001'
-title: 'Event-Driven Plugin Hooks'
-slug: 'plugin-parity-001-event-driven-hooks'
-status: 'in_progress'
-priority: 'P0'
-labels: ['plugin', 'event-driven', 'hooks', 'architecture', 'critical']
-created_at: '2025-10-18T00:00:00.000Z'
+uuid: "plugin-parity-001"
+title: "Event-Driven Plugin Hooks"
+slug: "plugin-parity-001-event-driven-hooks"
+status: "in_progress"
+priority: "P0"
+labels: ["plugin", "event-driven", "hooks", "architecture", "critical"]
+created_at: "2025-10-18T00:00:00.000Z"
 estimates:
-  complexity: 'high'
-  scale: 'large'
-  time_to_completion: '2-3 weeks'
-story_points: 8
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 ## Context
