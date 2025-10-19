@@ -1,7 +1,7 @@
 import { MongoClient } from 'mongodb';
 import { ChromaClient } from 'chromadb';
 
-const MONGO_URI = process.env.MONGODB_URI ?? 'mongodb://localhost:27017';
+const MONGO_URI = process.env.MONGODB_URI ?? process.env.MCP_MONGO_URI ?? 'mongodb://localhost:27017';
 const CHROMA_URL = process.env.CHROMA_URL ?? 'http://localhost:8000';
 
 type PromiseCache<TClient> = Map<string, Promise<TClient>>;
