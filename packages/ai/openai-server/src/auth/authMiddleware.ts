@@ -21,7 +21,7 @@ export class AuthMiddleware {
   private initializeDefaultUsers(config: AuthConfig): void {
     // Create admin user from first API key if available
     if (config.apiKeys.length > 0) {
-      const adminUser = RBAC.createUser('admin', config.apiKeys[0], ['admin']);
+      const adminUser = RBAC.createUser('admin', config.apiKeys[0]!, ['admin']);
       this.users.set(adminUser.id, adminUser);
     }
 
