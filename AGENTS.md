@@ -42,15 +42,17 @@ When working on a package, the best way to execute commands is with
 
 ### Example package local commands
 
-`pnpm --filter @promethean/hacks test`
-`pnpm --filter @promethean/hacks test:unit`
-`pnpm --filter @promethean/hacks test:integration`
-`pnpm --filter @promethean/hacks test:e2e`
-`pnpm --filter @promethean/hacks clean`
-`pnpm --filter @promethean/hacks build`
-`pnpm --filter @promethean/hacks typecheck`
-`pnpm --filter @promethean/hacks start`
-`pnpm --filter @promethean/hacks exec node ./psudo/temp-script.js`
+Prefer local, well scoped commands to workspace scripts.
+
+`pnpm --filter @promethean/<packge-name> test`
+`pnpm --filter @promethean/<packge-name> test:unit`
+`pnpm --filter @promethean/<packge-name> test:integration`
+`pnpm --filter @promethean/<packge-name> test:e2e`
+`pnpm --filter @promethean/<packge-name> clean`
+`pnpm --filter @promethean/<packge-name> build`
+`pnpm --filter @promethean/<packge-name> typecheck`
+`pnpm --filter @promethean/<packge-name> start`
+`pnpm --filter @promethean/<packge-name> exec node ./psudo/temp-script.js`
 
 
 ---
