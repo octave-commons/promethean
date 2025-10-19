@@ -556,12 +556,12 @@ export class TransitionRulesEngine {
     }
   }
 
-  private async evalClojure(expression: string, args: any[]): Promise<any> {
+private async evalClojure(expression: string, args: any[]): Promise<any> {
     // Use nbb (Node.js Babashka) to evaluate Clojure expressions
     try {
       // Import nbb dynamically to avoid bundling issues
-      const { nbbEval } = await import('nbb');
-
+      const nbb = await import('nbb');
+      
       // Create a safe evaluation context with the DSL loaded
       const clojureCode = `
         (require '[kanban-transitions :as kt])
@@ -570,15 +570,14 @@ export class TransitionRulesEngine {
               board (second args)]
           ${expression})
       `;
-
-      const result = await nbbEval(clojureCode);
+      
+      const result = await nbb.default(clojureCode);
       return result;
     } catch (error) {
       console.error('Failed to evaluate Clojure expression with nbb:', error);
-      throw new Error(
-        `Clojure evaluation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
-      );
+      throw new Error(`Clojure evaluation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
+  }
   }
 
   /**
