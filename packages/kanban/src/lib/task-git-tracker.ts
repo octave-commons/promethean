@@ -316,7 +316,7 @@ export class TaskGitTracker {
 
     // Check if task file exists in git history
     let fileExistsInGit = false;
-    
+
     if (taskFilePath) {
       try {
         // Check if file is tracked by git
@@ -324,10 +324,10 @@ export class TaskGitTracker {
           cwd: this.repoRoot,
           encoding: 'utf8',
         }).trim();
-        
+
         // If file is untracked or has unstaged changes, it's not truly orphaned
         fileExistsInGit = !gitStatus.startsWith('??');
-        
+
         // Check for recent commits involving this task
         if (frontmatter.uuid) {
           const commitLog = execSync(
@@ -335,52 +335,10 @@ export class TaskGitTracker {
             {
               cwd: this.repoRoot,
               encoding: 'utf8',
-            }
+            },
           ).trim();
           // We could use hasRecentCommits here for additional analysis if needed
         }
-      } catch (error) {
-        // Git commands failed, assume file is not properly tracked
-        fileExistsInGit = false;
-      }
-    }
-
-    // Determine task status
-    const isHealthy = validation.isValid && hasBasicFields;
-    const isUntracked = !validation.isValid && hasBasicFields && fileExistsInGit;
-    const isTrulyOrphaned = !validation.isValid && (!hasBasicFields || !fileExistsInGit);
-
-    // Generate recommendations
-    if (isUntracked) {
-      recommendations.push('Task needs commit tracking initialization');
-      recommendations.push('Run "pnpm kanban audit --fix" to add commit tracking');
-    }
-    
-    if (isTrulyOrphaned) {
-      if (!hasBasicFields) {
-        recommendations.push('Task has missing required fields (uuid, title, or status)');
-        recommendations.push('Consider deleting this task or adding missing fields');
-      }
-      if (!fileExistsInGit) {
-        recommendations.push('Task file is not tracked by git');
-        recommendations.push('Add file to git repository: git add <task-file>');
-      }
-    }
-
-    return {
-      isTrulyOrphaned,
-      isUntracked,
-      isHealthy,
-      issues,
-      recommendations,
-    };
-  }
-        }
-      } catch (error) {
-        // Git commands failed, assume file is not properly tracked
-        fileExistsInGit = false;
-      }
-    }
       } catch (error) {
         // Git commands failed, assume file is not properly tracked
         fileExistsInGit = false;
