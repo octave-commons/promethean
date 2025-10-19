@@ -129,6 +129,8 @@ export interface TestingTransitionConfig {
     softBlock: number; // default: 90
     hardBlock: number; // default: 75
   };
+  hardBlockCoverageThreshold: number; // default: 75
+  softBlockQualityScoreThreshold: number; // default: 90
   weights: {
     coverage: number; // default: 0.4
     quality: number; // default: 0.3
