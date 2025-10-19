@@ -250,7 +250,7 @@ export class EventWatcherService {
         const projectedEvent: ProjectedEvent = {
           id: `task-${task.id}`,
           type: 'agent.task.indexed',
-          timestamp: task.timestamp,
+          timestamp: new Date().toISOString(),
           projectedAt: new Date().toISOString(),
           source: 'retrospective',
           processed: false,
@@ -285,11 +285,15 @@ export class EventWatcherService {
       // Process events in real-time
       (async () => {
         try {
+          if (!this.eventStream) return;
+
           for await (const eventResponse of this.eventStream) {
             if (!this.isRunning) break;
 
+            if (!eventResponse) continue;
+
             const response = eventResponse as any;
-            const eventData = response?.data || response;
+            const eventData = response?.data ?? response;
             if (eventData) {
               await this.processRealTimeEvent(eventData);
             }
