@@ -235,9 +235,10 @@ body {
                               ;; Trigger re-render on resize
                                 (println "Window resized")))
 
-  ;; Mount app using React 18 createRoot API
+  ;; Mount app using Reagent's React 18 compatible rendering
   (defonce root (rdomc/create-root (js/document.getElementById "app")))
-  (rdomc/render root [app])
+  ;; Use Reagent's as-element to ensure proper reactivity tracking
+  (rdomc/render root (r/as-element [app]))
 
   (println "Opencode UI initialized"))
 
@@ -245,7 +246,7 @@ body {
 (defn ^:export reload []
   (println "Hot reloading UI...")
   (when-let [root (resolve 'root)]
-    (rdomc/render @root [app])))
+    (rdomc/render @root (r/as-element [app]))))
 
 ;; Hot module replacement support
 
