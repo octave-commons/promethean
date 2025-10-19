@@ -76,11 +76,6 @@ export class UnifiedAgentManager {
       const session = await getSession(sessionId);
       console.log('Retrieved session from getSession:', JSON.stringify(session, null, 2));
 
-      if (!session || session.error) {
-        console.log('Session is null or has error, returning null');
-        return null;
-      }
-
       const allTasks = await AgentTaskManager.getAllTasks();
       const task = allTasks.get(sessionId);
 

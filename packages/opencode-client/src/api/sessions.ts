@@ -80,8 +80,17 @@ export async function listSessions(options: ListSessionsOptions = {}): Promise<S
 export async function getSession(sessionId: string): Promise<Session> {
   const client = await getClient();
 
-  const response = await client.session.get(sessionId);
-  return response.data || response;
+  try {
+    const response = await client.session.get(sessionId);
+
+    if (response.error) {
+      throw new Error(`Failed to get session: ${JSON.stringify(response.error)}`);
+    }
+
+    return response.data || response;
+  } catch (error: any) {
+    throw new Error(`Failed to get session from OpenCode server: ${error.message}`);
+  }
 }
 
 /**
