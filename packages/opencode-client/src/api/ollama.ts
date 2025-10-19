@@ -2,11 +2,6 @@
 // Real implementations using ollama-queue and actions
 
 import type {
-  JobOptions,
-  SubmitJobOptions,
-  JobResult,
-  JobStatusResult,
-  JobResultData,
   OllamaModel,
   OllamaModelDetailed,
   QueueInfo,
@@ -31,6 +26,61 @@ export type JobOptions = {
   agentOnly?: boolean;
   agentId?: string;
   sessionId?: string;
+}
+
+export type SubmitJobOptions = {
+  modelName: string;
+  jobType: 'generate' | 'chat' | 'embedding';
+  priority: 'low' | 'medium' | 'high' | 'urgent';
+  jobName?: string;
+  prompt?: string;
+  messages?: Array<{ role: string; content: string }>;
+  input?: string | string[];
+  options?: {
+    temperature?: number;
+    top_p?: number;
+    num_ctx?: number;
+    num_predict?: number;
+    stop?: string[];
+    format?: 'json' | object;
+  };
+  agentId?: string;
+  sessionId?: string;
+}
+
+export type JobResult = {
+  id: string;
+  modelName: string;
+  jobType: string;
+  status: string;
+  jobName?: string;
+  createdAt: string;
+  updatedAt?: string;
+  startedAt?: string;
+  completedAt?: string;
+  hasError?: boolean;
+  hasResult?: boolean;
+  priority?: string;
+}
+
+export type JobStatusResult = {
+  id: string;
+  name?: string;
+  status: string;
+  priority?: string;
+  createdAt: number;
+  updatedAt: number;
+  startedAt?: number;
+  completedAt?: number;
+  error?: { message: string; code?: string }
+}
+
+export type JobResultData = {
+  id: string;
+  name?: string;
+  status: string;
+  result?: unknown;
+  completedAt?: number;
 }
 
 export type SubmitJobOptions = {
