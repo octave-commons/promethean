@@ -196,7 +196,7 @@ export function createListAgentSessionsTool(): any {
     },
     async execute(args: any, _context: any) {
       try {
-        let sessions = unifiedAgentManager.listAgentSessions();
+        let sessions = await unifiedAgentManager.listAgentSessions();
 
         // Apply status filter
         if (args.status) {

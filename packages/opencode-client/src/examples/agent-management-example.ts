@@ -170,21 +170,21 @@ async function statisticsAndCleanupExample() {
     await createAgentSession('Test task 3', undefined, {}, { autoStart: true });
 
     console.log('📊 Current Statistics:');
-    let stats = unifiedAgentManager.getSessionStats();
+    let stats = await unifiedAgentManager.getSessionStats();
     console.log(`Total sessions: ${stats.total}`);
     console.log('By status:', stats.byStatus);
     console.log(`Average age: ${Math.round(stats.averageAge / 1000)}s`);
 
     // Get sessions by status
-    const runningSessions = unifiedAgentManager.getSessionsByStatus('running');
+    const runningSessions = await unifiedAgentManager.getSessionsByStatus('running');
     console.log(`\n🏃 Running sessions: ${runningSessions.length}`);
 
-    const initializingSessions = unifiedAgentManager.getSessionsByStatus('initializing');
+    const initializingSessions = await unifiedAgentManager.getSessionsByStatus('initializing');
     console.log(`⏳ Initializing sessions: ${initializingSessions.length}`);
 
     // List all sessions with details
     console.log('\n📋 All Sessions:');
-    const allSessions = unifiedAgentManager.listAgentSessions();
+    const allSessions = await unifiedAgentManager.listAgentSessions();
     allSessions.forEach((session) => {
       console.log(
         `  ${session.sessionId.substring(0, 8)} - ${session.status} - ${session.task.task.substring(0, 30)}...`,
