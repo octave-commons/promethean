@@ -8,16 +8,17 @@
                                    :git/tag "v0.1.11-alpha"
                                    :git/sha "7739dba"}}
    :exec-fn clojure-mcp.main/start-mcp-server
-   :exec-args {:port 7888}}}
- :mcp-shadow-dual
- {:deps {org.slf4j/slf4j-nop {:mvn/version "2.0.16"}
-         com.bhauman/clojure-mcp {:git/url "https://github.com/bhauman/clojure-mcp.git"
-                                  :git/tag "v0.1.11-alpha"
-                                  :git/sha "7739dba"}}
-  :exec-fn clojure-mcp.main-examples.shadow-main/start-mcp-server
-  :exec-args {:port 7888 :shadow-port 4499 :shadow-build "app"}}
-
- :clj-hacks/tasks {:replace-deps {clj-hacks/clj-hacks {:local/root "packages/clj-hacks"}}
-                   :main-opts    ["-m" "clj-hacks.cli"]}
- :clj-hacks/mcp   {:replace-deps {clj-hacks/clj-hacks {:local/root "packages/clj-hacks"}}
-                   :main-opts    ["-m" "clj-hacks.mcp.cli"]}}
+   :exec-args {:port 7888}}
+  :mcp-shadow-dual
+  {:deps {org.slf4j/slf4j-nop {:mvn/version "2.0.16"}
+          com.bhauman/clojure-mcp {:git/url "https://github.com/bhauman/clojure-mcp.git"
+                                   :git/tag "v0.1.11-alpha"
+                                   :git/sha "7739dba"}}
+   :exec-fn clojure-mcp.main-examples.shadow-main/start-mcp-server
+   :exec-args {:port 7888 :shadow-port 4499 :shadow-build "app"}}
+  :clj-hacks/tasks
+  {:replace-deps {clj-hacks/clj-hacks {:local/root "packages/clj-hacks"}}
+   :main-opts    ["-m" "clj-hacks.cli"]}
+  :clj-hacks/mcp
+  {:replace-deps {clj-hacks/clj-hacks {:local/root "packages/clj-hacks"}}
+   :main-opts    ["-m" "clj-hacks.mcp.cli"]}}}
