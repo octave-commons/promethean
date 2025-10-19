@@ -19,14 +19,5 @@
     }
   },
   "include": ["src/**/*"],
-  "exclude": ["dist", "out", "node_modules", "**/*.test.ts", "**/*.spec.ts"],
-  "references": [
-    { "path": "./src/context" },
-    { "path": "./src/orchestrator" },
-    { "path": "./src/protocol" },
-    { "path": "./src/workflow" },
-    { "path": "./src/os-protocol" },
-    { "path": "./src/generator" },
-    { "path": "./src/management-ui" }
-  ]
+  "exclude": ["dist", "out", "node_modules", "**/*.test.ts", "**/*.spec.ts"]
 }
