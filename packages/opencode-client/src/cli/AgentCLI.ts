@@ -463,12 +463,6 @@ process.on('SIGTERM', async () => {
   process.exit(0);
 });
 
-process.on('beforeExit', async () => {
-  if (storesInitialized) {
-    await cleanupStores();
-  }
-});
-
 // Parse command line arguments
 program.parse();
 
