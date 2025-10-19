@@ -186,7 +186,7 @@
     },
     "clj": {
       "type": "local",
-      "command": ["clojure", "-X:mcp"],
+      "command": ["clojure", "-X:mcp-shadow-dual"],
       "environment": {
         "CLOJURE_MCP_PORT": "7888"
       },
