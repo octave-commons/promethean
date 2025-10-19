@@ -546,7 +546,7 @@ export class TransitionRulesEngine {
 
   private async evaluateCustomRule(
     ruleImpl: string,
-    args: any[],
+    _args: any[],
     task: Task,
     board: Board,
   ): Promise<boolean> {
