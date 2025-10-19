@@ -3,7 +3,7 @@
 // - Creates/tears down the Chroma collection when needed
 
 export async function frontmatter(args = {}) {
-  const { openDB } = await import("../packages/docops/dist/db.js");
+  const { openDB } = await import("@promthean/docops");
   const { runFrontmatter } = await import("../packages/docops/dist/index.js");
   const db = await openDB();
   try {
