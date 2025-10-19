@@ -99,6 +99,9 @@ export class EventWatcherService {
     this.isRunning = true;
 
     try {
+      // Initialize stores
+      await this.initializeStores();
+
       // Initialize OpenCode client
       await this.initializeClient();
 
@@ -237,6 +240,20 @@ export class EventWatcherService {
   getStats(): EventWatcherStats {
     this.updateStats();
     return { ...this.stats };
+  }
+
+  /**
+   * Initialize stores
+   */
+  private async initializeStores(): Promise<void> {
+    try {
+      this.sessionStore = await DualStoreManager.create('sessions', 'text', 'timestamp');
+      this.agentTaskStore = await DualStoreManager.create('agent-tasks', 'text', 'timestamp');
+      this.log('✅ Stores initialized successfully');
+    } catch (error) {
+      this.log(`❌ Failed to initialize stores: ${error}`, 'error');
+      throw error;
+    }
   }
 
   /**
