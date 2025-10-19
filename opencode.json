@@ -220,6 +220,7 @@
   "instructions": ["./docs/agents/platforms/opencode/AGENTS.md"],
   "permission": {
     "bash":{
+      "ls*":"allow",
       "pnpm build":"ask",
       "pnpm test":"ask",
       "node *":"ask",
