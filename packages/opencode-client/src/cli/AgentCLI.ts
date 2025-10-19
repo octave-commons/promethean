@@ -217,7 +217,7 @@ program
   .argument('<sessionId>', 'ID of the session')
   .action(async (sessionId) => {
     try {
-      const session = unifiedAgentManager.getAgentSession(sessionId);
+      const session = await unifiedAgentManager.getAgentSession(sessionId);
 
       if (!session) {
         console.error(`❌ Session ${sessionId} not found`);
@@ -250,7 +250,7 @@ program
   .description('Show session statistics')
   .action(async () => {
     try {
-      const stats = unifiedAgentManager.getSessionStats();
+      const stats = await unifiedAgentManager.getSessionStats();
 
       console.log('\n📈 Session Statistics');
       console.log('─'.repeat(40));
