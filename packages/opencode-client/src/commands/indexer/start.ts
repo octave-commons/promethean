@@ -1,7 +1,7 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
 import { EventWatcherService } from '../../services/EventWatcherService.js';
-import { sessionStore, agentTaskStore, initializeStores } from '../../index.js';
+import { sessionStore, agentTaskStore } from '../../index.js';
 
 /**
  * Start the event indexer service
