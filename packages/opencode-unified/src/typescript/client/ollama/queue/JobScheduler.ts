@@ -83,8 +83,9 @@ export class JobScheduler {
     
     while (agentQueues.some(queue => queue.length > 0)) {
       for (let i = 0; i < agentQueues.length; i++) {
-        if (agentQueues[i].length > 0) {
-          const job = agentQueues[i].shift()!;
+        const queue = agentQueues[i];
+        if (queue && queue.length > 0) {
+          const job = queue.shift()!;
           
           // Check if agent has exceeded max jobs
           const currentCount = this.agentJobCounts.get(job.agentId) || 0;
@@ -93,8 +94,11 @@ export class JobScheduler {
             this.agentJobCounts.set(job.agentId, currentCount + 1);
           } else {
             // Put job back at the end of its queue
-            agentQueues[i].push(job);
+            queue.push(job);
           }
+        }
+      }
+    }
         }
       }
     }
