@@ -14,35 +14,35 @@ export const SessionsPlugin: Plugin = async ({ client }) => {
 
   return {
     tool: {
-      'sessions.create': {
+      'sessions_create': {
         ...createSessionTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return createSessionTool.execute(args, enhancedContext);
         },
       },
-      'sessions.get': {
+      'sessions_get': {
         ...getSessionTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return getSessionTool.execute(args, enhancedContext);
         },
       },
-      'sessions.list': {
+      'sessions_list': {
         ...listSessionsTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return listSessionsTool.execute(args, enhancedContext);
         },
       },
-      'sessions.close': {
+      'sessions_close': {
         ...closeSessionTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return closeSessionTool.execute(args, enhancedContext);
         },
       },
-      'sessions.search': {
+      'sessions_search': {
         ...searchSessionsTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };

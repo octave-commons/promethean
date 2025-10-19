@@ -17,56 +17,56 @@ export const TasksPlugin: Plugin = async ({ client }) => {
 
   return {
     tool: {
-      'tasks.loadPersisted': {
+      'tasks_loadPersisted': {
         ...loadPersistedTasksTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return loadPersistedTasksTool.execute(args, enhancedContext);
         },
       },
-      'tasks.verifySession': {
+      'tasks_verifySession': {
         ...verifySessionExistsTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return verifySessionExistsTool.execute(args, enhancedContext);
         },
       },
-      'tasks.cleanupOrphaned': {
+      'tasks_cleanupOrphaned': {
         ...cleanupOrphanedTaskTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return cleanupOrphanedTaskTool.execute(args, enhancedContext);
         },
       },
-      'tasks.updateStatus': {
+      'tasks_updateStatus': {
         ...updateTaskStatusTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return updateTaskStatusTool.execute(args, enhancedContext);
         },
       },
-      'tasks.monitor': {
+      'tasks_monitor': {
         ...monitorTasksTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return monitorTasksTool.execute(args, enhancedContext);
         },
       },
-      'tasks.create': {
+      'tasks_create': {
         ...createTaskTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return createTaskTool.execute(args, enhancedContext);
         },
       },
-      'tasks.getAll': {
+      'tasks_getAll': {
         ...getAllTasksTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return getAllTasksTool.execute(args, enhancedContext);
         },
       },
-      'tasks.parseTimestamp': {
+      'tasks_parseTimestamp': {
         ...parseTimestampTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };

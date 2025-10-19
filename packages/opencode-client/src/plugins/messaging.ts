@@ -14,35 +14,35 @@ export const MessagingPlugin: Plugin = async ({ client }) => {
 
   return {
     tool: {
-      'messaging.send': {
+      'messaging_send': {
         ...sendMessageTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return sendMessageTool.execute(args, enhancedContext);
         },
       },
-      'messaging.verifyAgent': {
+      'messaging_verifyAgent': {
         ...verifyAgentExistsTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return verifyAgentExistsTool.execute(args, enhancedContext);
         },
       },
-      'messaging.getSenderId': {
+      'messaging_getSenderId': {
         ...getSenderSessionIdTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return getSenderSessionIdTool.execute(args, enhancedContext);
         },
       },
-      'messaging.format': {
+      'messaging_format': {
         ...formatMessageTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return formatMessageTool.execute(args, enhancedContext);
         },
       },
-      'messaging.log': {
+      'messaging_log': {
         ...logCommunicationTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
