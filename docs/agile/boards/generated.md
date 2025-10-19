@@ -25,7 +25,6 @@ kanban-plugin: board
 - [ ] [[2025.10.14.design-cross-platform-architecture 2|Design Cross-Platform Clojure Architecture for Agent Generator]] #architecture #design #clojure #cross-platform #bb #nbb #jvm #shadow-cljs #epic:agent-instruction-generator prio:P0 (uuid:988227e0-6f94-4820-9b40-2e77da9bd299)
 - [ ] [[2025.10.14.research-agent-instruction-patterns 2|Research & Analyze Existing Agent Instruction File Patterns]] #research #analysis #agent #documentation #epic:agent-instruction-generator prio:P0 (uuid:0bdf2a18-48e2-453d-8be8-bd40f40ab4bc)
 - [ ] [[2025.10.14.setup-generator-project-infrastructure 2|Setup Agent Generator Project Infrastructure & Build System]] #infrastructure #setup #build-system #clojure #cross-platform #epic:agent-instruction-generator prio:P0 (uuid:9f478baa-09bf-4aa0-854a-cd9896ce28ff)
-- [ ] [[Fix Type Safety Crisis in @promethean opencode-client|Foundation & Interface Alignment - Testing Transition Rule]] #kanban #transition-rules #testing-coverage #quality-gates #foundation #interface-alignment #types #infrastructure prio:P0 (uuid:a1b2c3d4-e5f6-7890-abcd-ef1234567890)
 - [ ] [[2025.10.17.01.52.02-add-profiling-tools-and-utilities|Comprehensive Scoring System - Testing Transition Rule]] #kanban #transition-rules #testing-coverage #quality-gates #scoring-system #quality-metrics #algorithms #assessment prio:P0 (uuid:b2c3d4e5-f6a7-8901-bcde-f23456789012)
 - [ ] [[2025.10.17.01.52.03-implement-observability-and-tracing|AI Integration & Advanced Analysis - Testing Transition Rule]] #kanban #transition-rules #testing-coverage #quality-gates #ai-integration #agents-workflow #advanced-analysis #contextual-analysis prio:P0 (uuid:c3d4e5f6-a7b8-9012-cdef-345678901234)
 - [ ] [[20251011235486|Phase 1 Integration and Testing - Core Infrastructure]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #integration #testing #phase-1 #milestone prio:P1 (uuid:020318e4-9934-4e5d-85d7-3bb4a55f6ee2)
@@ -100,6 +99,7 @@ kanban-plugin: board
 - [ ] [[foobar is foobar]] #foobar #nothing #blocked #blocks (uuid:6948e490-e720-406d-9582-88e6683651fd)
 - [ ] [[implement-automated-documentation-review-system-with-quality-scoring 2|Implement automated documentation review system with quality scoring]] #automation #documentation #quality-control #agents-workflow #scoring #review #ai-evaluation prio:P1 (uuid:053235b3-1c91-49b9-8f36-4b0c8faf20c3)
 - [ ] [[report-generation-polish-testing-transition|Report Generation & Polish - Testing Transition Rule]] #kanban #transition-rules #testing-coverage #quality-gates #report-generation #documentation #frontmatter #polish prio:P0 (uuid:d4e5f6a7-b8c9-0123-def4-456789012345)
+- [ ] [[Fix Type Safety Crisis in @promethean opencode-client|Foundation & Interface Alignment - Testing Transition Rule]] #kanban #transition-rules #testing-coverage #quality-gates #foundation #interface-alignment #types #infrastructure prio:P0 (uuid:a1b2c3d4-e5f6-7890-abcd-ef1234567890)
 
 ## incoming
 
@@ -441,11 +441,11 @@ kanban-plugin: board
 - [ ] [[P0-MCP-Security-Hardening-Subtasks 2|P0: MCP Security Hardening & Validation - Subtask Breakdown]] #security #critical #mcp #hardening #validation #comprehensive prio:P0 (uuid:2c03f827-5b8f-46b0-868f-de6c67c8eb75)
 - [ ] [[plugin-parity-001-event-driven-hooks|Event-Driven Plugin Hooks]] #plugin #event-driven #hooks #architecture #critical prio:P0 (uuid:27fafdb7-e9d0-4301-b0eb-42d4a7ad277f)
 - [ ] [[security-gates-monitoring-coordination-status|Security Gates & Monitoring Integration - Coordination Status      )      )      )      )]] #coordination #security-gates #monitoring #integration-status prio:P0 (uuid:1e59b381-8317-44cd-9ec1-cc001f51652a)
+- [ ] [[Fix Kanban Column Underscore Normalization Bug]] #kanban #column #bug #fix #completed prio:P1 (uuid:02c78938-cf9c-45a0-b5ff-6e7a212fb043)
 
 ## testing
 
 - [ ] [[2025.10.12.16.00.00.migrate-kanban-to-lmdb-cache 25|Migrate Kanban Package from @promethean/level-cache to @promethean/lmdb-cache]] #migration #kanban #cache #lmdb #performance #concurrency #drop-in-replacement prio:P1 (uuid:b0ed3163-e0f6-4fbd-be67-9de457202e9c)
-- [ ] [[2025.10.12.16.25.00-improve-input-validation-file-paths 25.md|Implement Comprehensive Input Validation for File Paths]] #security #critical #input-validation #path-traversal #file-system #sanitization #completed #framework-integrated prio:P0 (uuid:f44bbb50-c896-407c-b4fb-718fa658a3e2)
 - [ ] [[2025.10.16.implement-kanban-board-collector.md 3|Implement Kanban Board Collector]] #implementation #kanban #data-collection #core prio:P0 (uuid:50b424d5-782f-4e80-ab32-95cd5b96f64f)
 - [ ] [[2025.10.16.implement-kanban-board-collector.md 4|Implement Kanban Board Collector]] #implementation #kanban #data-collection #core prio:P0 (uuid:de43a0c5-c07f-4482-91a6-662008097c72)
 - [ ] [[2025.10.16.implement-kanban-board-collector.md 5|Implement Kanban Board Collector]] #implementation #kanban #data-collection #core prio:P0 (uuid:5d7428a1-7a11-440d-bdfb-79849ab34a1c)
@@ -461,17 +461,20 @@ kanban-plugin: board
 - [ ] [[test-integration-task 5|Test Integration Task for Testing→Review Transition]] #testing #integration #coverage-validation prio:P0 (uuid:3fcca38b-2d7c-4814-92c5-73ec63a1eb17)
 - [ ] [[test-integration-task 6|Test Integration Task for Testing→Review Transition]] #testing #integration #coverage-validation prio:P0 (uuid:b5c3bc25-e5fd-495c-9a82-54df65488005)
 - [ ] [[test-integration-task|Test Integration Task for Testing→Review Transition]] #testing #integration #coverage-validation prio:P0 (uuid:574a885e-09d4-4c8b-8c93-b865ba6d2f6e)
+- [ ] [[2025.10.12.16.25.00-improve-input-validation-file-paths 25.md|Implement Comprehensive Input Validation for File Paths]] #security #critical #input-validation #path-traversal #file-system #sanitization #completed #framework-integrated prio:P0 (uuid:f44bbb50-c896-407c-b4fb-718fa658a3e2)
+- [ ] [[2025.10.12.16.25.00-improve-input-validation-file-paths 25.md|Implement Comprehensive Input Validation for File Paths]] #security #critical #input-validation #path-traversal #file-system #sanitization #completed #framework-integrated prio:P0 (uuid:f44bbb50-c896-407c-b4fb-718fa658a3e2)
+- [ ] [[create-consolidated-package-structure|Create Consolidated Package Structure]] #package-structure #consolidation #setup #foundation #epic1 prio:P0 (uuid:4f276b91-5107-4a58-9499-e93424ba2edd)
 
 ## review
 
-- [ ] [[create-consolidated-package-structure|Create Consolidated Package Structure]] #package-structure #consolidation #setup #foundation #epic1 prio:P0 (uuid:4f276b91-5107-4a58-9499-e93424ba2edd)
 - [ ] [[Address security vulnerabilities in @packages shadow-conf|Address security vulnerabilities in @packages/shadow-conf/]] #security #critical #shadow-conf #p0 #vulnerability #path-traversal prio:P0 (uuid:e3473da0-b7a0-4704-9a20-3b6adf3fa3f5)
 - [ ] [[Create optimized build pipeline with parallel jobs]] #automation #buildfix #pipeline #parallel prio:P1 (uuid:2f160835-dd8b-4a25-a512-d5fde95bcd6c)
 - [ ] [[Fix TypeScript compilation errors in @packages shadow-conf|Fix TypeScript compilation errors in @packages/shadow-conf/]] #critical #typescript #compilation #shadow-conf #p0 #build-fix prio:P0 (uuid:530efcaa-d246-4a44-a27c-e66633216d7d)
-- [ ] [[Fix critical path traversal vulnerability in indexer-service]] #security #critical #indexer-service #path-traversal #process-violation #critical-vulnerability prio:P0 (uuid:3c6a52c7-ee4d-4aa5-9d51-69e3eb1fdf4a)
 - [ ] [[Fix kanban created_at timestamp preservation during task operations]] #bugfix #critical #kanban #timestamp #data-integrity #typescript prio:P0 (uuid:07358cf3-317b-492d-a37e-51eb45ea8ec9)
 - [ ] [[Optimize build caching strategies]] #automation #buildfix #pipeline #cache prio:P1 (uuid:e134bc1d-222a-4e8c-9bbb-48f786986b5f)
 - [ ] [[Resolve ESLint violations in @packages shadow-conf|Resolve ESLint violations in @packages/shadow-conf/]] #code-quality #eslint #shadow-conf #p1 #linting prio:P1 (uuid:c76a82e5-758e-4585-880d-bf72c316695e)
+- [ ] [[Fix critical path traversal vulnerability in indexer-service]] #security #critical #indexer-service #path-traversal #process-violation #critical-vulnerability prio:P0 (uuid:3c6a52c7-ee4d-4aa5-9d51-69e3eb1fdf4a)
+- [ ] [[Fix critical path traversal vulnerability in indexer-service]] #security #critical #indexer-service #path-traversal #process-violation #critical-vulnerability prio:P0 (uuid:3c6a52c7-ee4d-4aa5-9d51-69e3eb1fdf4a)
 
 ## document
 
@@ -513,7 +516,6 @@ kanban-plugin: board
 - [x] [[Create Agent OS Context Management System]] #agent-os #context #management #state #persistence #critical prio:P0 (uuid:1544d523-1c93-499c-92a1-eecc4f88f69a)
 - [x] [[Extend @packages ds graph.ts for FSM-specific operations|Extend @packages/ds/graph.ts for FSM-specific operations]] #fsm #packages #ds #graph #implementation #tool:codegen #env:no-egress prio:P1 (uuid:1bc3c26b-5a73-4292-95d9-9d9195dad92a)
 - [x] [[Fix BuildFix __dirname undefined in ESM modules]] #buildfix #esm #path-resolution #high prio:P1 (uuid:7a2b69bc-0042-4eb5-b866-ef51046032d2)
-- [x] [[Fix Kanban Column Underscore Normalization Bug]] #kanban #column #bug #fix #completed prio:P1 (uuid:02c78938-cf9c-45a0-b5ff-6e7a212fb043)
 - [x] [[Implement MCP Security Hardening & Validation]] #mcp #kanban #security #validation #hardening #critical prio:P0 (uuid:d794213f-853d-41e4-863c-27e83dd5221c)
 - [x] [[P0-Path-Traversal-Fix-Subtasks|URGENT: Fix Critical Path Traversal Vulnerability - Subtask Breakdown]] #security #critical #path-traversal #urgent #indexer-service #vulnerability-fix prio:P0 (uuid:f1d22f6a-d9d1-4095-a166-f2e01a9ce46e)
 - [x] [[Prevent invalid starting status creation in kanban CLI]] #prevent #invalid #starting #status prio:P0 (uuid:45ad22b1-d5b9-4c21-887c-c22f8ca6395e)
