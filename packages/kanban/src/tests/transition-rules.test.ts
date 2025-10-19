@@ -1,5 +1,5 @@
 import test from 'ava';
-import { writeFile, readFile, access } from 'node:fs/promises';
+import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 import {
@@ -114,12 +114,22 @@ test('TransitionRulesEngine enforces WIP limits and custom checks', async (t) =>
   await engine.initialize();
 
   const overCapacityBoard = makeBoard(1);
-  const result = await engine.validateTransition('Todo', 'In Progress', sampleTask, overCapacityBoard);
+  const result = await engine.validateTransition(
+    'Todo',
+    'In Progress',
+    sampleTask,
+    overCapacityBoard,
+  );
   t.false(result.allowed);
   t.true(result.ruleViolations.some((violation) => violation.includes('WIP')));
 
   const withoutPriority = { ...sampleTask, priority: undefined };
-  const priorityCheck = await engine.validateTransition('Todo', 'In Progress', withoutPriority, makeBoard(0));
+  const priorityCheck = await engine.validateTransition(
+    'Todo',
+    'In Progress',
+    withoutPriority,
+    makeBoard(0),
+  );
   t.false(priorityCheck.allowed);
 });
 
@@ -164,10 +174,9 @@ test('TransitionRulesEngine requires Clojure DSL - throws error when DSL path mi
   };
 
   const engine = new TransitionRulesEngine(configWithoutDSL);
-  await t.throwsAsync(
-    async () => engine.initialize(),
-    { message: 'Clojure DSL path is required. TypeScript transition rules are no longer supported.' }
-  );
+  await t.throwsAsync(async () => engine.initialize(), {
+    message: 'Clojure DSL path is required. TypeScript transition rules are no longer supported.',
+  });
 });
 
 test('TransitionRulesEngine requires Clojure DSL - throws error when DSL file not found', async (t) => {
@@ -181,23 +190,23 @@ test('TransitionRulesEngine requires Clojure DSL - throws error when DSL file no
   };
 
   const engine = new TransitionRulesEngine(configWithMissingDSL);
-  await t.throwsAsync(
-    async () => engine.initialize(),
-    { message: /Clojure DSL not found at: \/nonexistent\/path\/rules\.clj/ }
-  );
+  await t.throwsAsync(async () => engine.initialize(), {
+    message: /Clojure DSL not found at: \/nonexistent\/path\/rules\.clj/,
+  });
 });
 
 test('TransitionRulesEngine has no TypeScript fallback - createTransitionRulesEngine throws when no config found', async (t) => {
   await t.throwsAsync(
-    async () => createTransitionRulesEngine(['/nonexistent/config1.json', '/nonexistent/config2.json']),
-    { message: /Failed to load transition rules configuration from any of the provided paths/ }
+    async () =>
+      createTransitionRulesEngine(['/nonexistent/config1.json', '/nonexistent/config2.json']),
+    { message: /Failed to load transition rules configuration from any of the provided paths/ },
   );
 });
 
 test('TransitionRulesEngine validates actual Clojure DSL content', async (t) => {
   const tmp = await withTempDir(t);
   const dslPath = path.join(tmp, 'kanban-transitions.clj');
-  
+
   // Create a minimal valid Clojure DSL
   const validDSL = `
 (ns kanban-transitions
@@ -210,7 +219,7 @@ test('TransitionRulesEngine validates actual Clojure DSL content', async (t) => 
 (defn evaluate-transition [from to task board]
   true) ; Allow all transitions for test
   `;
-  
+
   await writeFile(dslPath, validDSL, 'utf8');
 
   const config: TransitionRulesConfig = {
@@ -224,7 +233,7 @@ test('TransitionRulesEngine validates actual Clojure DSL content', async (t) => 
 
   const engine = new TransitionRulesEngine(config);
   await t.notThrowsAsync(async () => engine.initialize());
-  
+
   // Test that we can actually evaluate Clojure code
   const board = makeBoard(0);
   const result = await engine.validateTransition('todo', 'inprogress', sampleTask, board);
@@ -234,7 +243,7 @@ test('TransitionRulesEngine validates actual Clojure DSL content', async (t) => 
 test('TransitionRulesEngine rejects invalid Clojure DSL syntax', async (t) => {
   const tmp = await withTempDir(t);
   const dslPath = path.join(tmp, 'invalid-rules.clj');
-  
+
   // Create invalid Clojure syntax
   const invalidDSL = `
 (ns kanban-transitions
@@ -247,7 +256,7 @@ test('TransitionRulesEngine rejects invalid Clojure DSL syntax', async (t) => {
 (defn evaluate-transition [from to task board]
   true
   `;
-  
+
   await writeFile(dslPath, invalidDSL, 'utf8');
 
   const config: TransitionRulesConfig = {
@@ -260,16 +269,13 @@ test('TransitionRulesEngine rejects invalid Clojure DSL syntax', async (t) => {
   };
 
   const engine = new TransitionRulesEngine(config);
-  await t.throwsAsync(
-    async () => engine.initialize(),
-    { message: /Clojure evaluation failed/ }
-  );
+  await t.throwsAsync(async () => engine.initialize(), { message: /Clojure evaluation failed/ });
 });
 
 test('TransitionRulesEngine only uses Clojure for rule evaluation - no hardcoded TypeScript logic', async (t) => {
   const tmp = await withTempDir(t);
   const dslPath = path.join(tmp, 'test-rules.clj');
-  
+
   // Create DSL that explicitly rejects all transitions
   const rejectingDSL = `
 (ns kanban-transitions
@@ -282,7 +288,7 @@ test('TransitionRulesEngine only uses Clojure for rule evaluation - no hardcoded
 (defn evaluate-transition [from to task board]
   false) ; Reject all transitions
   `;
-  
+
   await writeFile(dslPath, rejectingDSL, 'utf8');
 
   const config: TransitionRulesConfig = {
@@ -303,26 +309,28 @@ test('TransitionRulesEngine only uses Clojure for rule evaluation - no hardcoded
 
   const engine = new TransitionRulesEngine(config);
   await engine.initialize();
-  
+
   // Even though TypeScript config allows the transition, Clojure DSL should block it
   const board = makeBoard(0);
   const result = await engine.validateTransition('todo', 'inprogress', sampleTask, board);
-  t.false(result.allowed, 'Transition should be blocked by Clojure DSL, not allowed by TypeScript config');
+  t.false(
+    result.allowed,
+    'Transition should be blocked by Clojure DSL, not allowed by TypeScript config',
+  );
   t.true(result.reason.includes('Clojure evaluation failed') || result.reason.includes('false'));
 });
 
 test('createTransitionRulesEngine fails fast without Clojure DSL - no fallback to TypeScript', async (t) => {
   // Test that the system doesn't create a disabled fallback engine
-  await t.throwsAsync(
-    async () => createTransitionRulesEngine(['/nonexistent/config.json']),
-    { message: /Clojure DSL is required/ }
-  );
+  await t.throwsAsync(async () => createTransitionRulesEngine(['/nonexistent/config.json']), {
+    message: /Clojure DSL is required/,
+  });
 });
 
 test('TransitionRulesEngine object conversion works correctly', async (t) => {
   const tmp = await withTempDir(t);
   const dslPath = path.join(tmp, 'conversion-test.clj');
-  
+
   // DSL that checks for specific task properties
   const conversionTestDSL = `
 (ns kanban-transitions
@@ -339,7 +347,7 @@ test('TransitionRulesEngine object conversion works correctly', async (t) => {
        (= (:priority task) "P1")
        (= (:content task) "Test content")))
   `;
-  
+
   await writeFile(dslPath, conversionTestDSL, 'utf8');
 
   const config: TransitionRulesConfig = {
@@ -353,7 +361,7 @@ test('TransitionRulesEngine object conversion works correctly', async (t) => {
 
   const engine = new TransitionRulesEngine(config);
   await engine.initialize();
-  
+
   const testTask: Task = {
     uuid: 'test-uuid',
     title: 'Test Task',
