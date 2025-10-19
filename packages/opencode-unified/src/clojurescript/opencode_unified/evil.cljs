@@ -3,110 +3,7 @@
             [opencode-unified.buffers :as buffers]
             [clojure.string :as str]))
 
-;; Key handling functions
-(defn handle-normal-key [key ctrl? alt? shift? meta?]
-  (cond
-    ;; Movement
-    (= key "h") (move-cursor :left)
-    (= key "j") (move-cursor :down)
-    (= key "k") (move-cursor :up)
-    (= key "l") (move-cursor :right)
-    (= key "w") (word-forward)
-    (= key "b") (word-backward)
-    (= key "e") (end-of-word)
-    (= key "0") (beginning-of-line)
-    (= key "$") (end-of-line)
-    (= key "g") (when (not shift?) (beginning-of-buffer))
-    (= key "G") (end-of-buffer)
-
-    ;; Mode changes
-    (= key "i") (enter-insert-mode)
-    (= key "I") (insert-at-start-of-line)
-    (= key "a") (append-after-cursor)
-    (= key "A") (append-at-end-of-line)
-    (= key "o") (open-line-below)
-    (= key "O") (open-line-above)
-    (= key "v") (start-visual-selection)
-    (= key "V") (start-visual-line-selection)
-    (= key "Escape") (exit-visual-mode)
-
-    ;; Operators
-    (= key "y") (yank-line)
-    (= key "d") (delete-line)
-    (= key "c") (change-line)
-    (= key "p") (paste-after)
-    (= key "P") (paste-before)
-    (= key "x") (delete-char-at-cursor)
-    (= key "X") (delete-char-before-cursor)
-
-    ;; Search
-    (= key "/") (search-forward)
-    (= key "?") (search-backward)
-    (= key "n") (next-search-result)
-    (= key "N") (previous-search-result)
-
-    ;; Undo/Redo
-    (= key "u") (undo)
-    (and ctrl? (= key "r")) (redo)
-
-    ;; Count handling
-    (re-matches #"[0-9]" key) (state/set-evil-count!
-                               (-> (state/get-evil-count)
-                                   str
-                                   (str key)
-                                   js/parseInt))))
-
-(defn handle-insert-key [key _ctrl? _alt? _shift? _meta?]
-  (when (= key "Escape")
-    (enter-normal-mode)))
-
-(defn handle-visual-key [key _ctrl? _alt? _shift? _meta?]
-  (cond
-    ;; Movement
-    (= key "h") (extend-selection :left)
-    (= key "j") (extend-selection :down)
-    (= key "k") (extend-selection :up)
-    (= key "l") (extend-selection :right)
-    (= key "w") (do (word-forward) (extend-selection :right))
-    (= key "b") (do (word-backward) (extend-selection :left))
-    (= key "e") (do (end-of-word) (extend-selection :right))
-    (= key "0") (do (beginning-of-line) (extend-selection :left))
-    (= key "$") (do (end-of-line) (extend-selection :right))
-    (= key "g") (when (not shift?) (do (beginning-of-buffer) (extend-selection :left)))
-    (= key "G") (do (end-of-buffer) (extend-selection :right))
-
-    ;; Mode changes
-    (= key "Escape") (exit-visual-mode)
-
-    ;; Operators
-    (= key "y") (yank-selection)
-    (= key "d") (delete-selection)
-    (= key "c") (change-selection)
-    (= key "x") (delete-selection)
-    (= key "X") (delete-selection)
-
-    ;; Count handling
-    (re-matches #"[0-9]" key) (state/set-evil-count!
-                               (-> (state/get-evil-count)
-                                   str
-                                   (str key)
-                                   js/parseInt))))
-
-(defn handle-key [key-event]
-  (let [key (.-key key-event)
-        ctrl? (.-ctrlKey key-event)
-        alt? (.-altKey key-event)
-        shift? (.-shiftKey key-event)
-        meta? (.-metaKey key-event)
-        mode (get-mode)]
-
-    (case mode
-      :normal (handle-normal-key key ctrl? alt? shift? meta?)
-      :insert (handle-insert-key key ctrl? alt? shift? meta?)
-      :visual (handle-visual-key key ctrl? alt? shift? meta?)
-      :visual-line (handle-visual-key key ctrl? alt? shift? meta?))))
-
-;; Evil mode implementation
+;; ===== Mode state =====
 (defn set-mode! [mode]
   (state/set-evil-mode! mode)
   (update-statusbar))
@@ -139,6 +36,9 @@
 
 ;; Mode transitions
 (defn enter-normal-mode []
+  (state/update-current-buffer!
+   (fn [buffer]
+     (assoc buffer :selection nil)))
   (set-mode! :normal)
   (update-statusbar))
 
@@ -176,520 +76,221 @@
      (assoc buffer :selection nil)))
   (enter-normal-mode))
 
-;; Cursor movement
-(defn move-cursor [direction]
-  (let [count (state/get-evil-count)]
-    (dotimes [_ count]
-      (state/update-current-buffer!
-       (fn [buffer]
-         (let [content (:content buffer)
-               lines (str/split-lines content)
-               current-pos (:cursor-pos buffer)
-               line-count (count lines)
+;; ===== Text helpers =====
+(defn- clamp [x lo hi] (max lo (min hi x)))
+(defn- line-start [^string s pos] (inc (.lastIndexOf s "\n" (max 0 (dec pos)))))
+(defn- line-end [^string s pos] (let [i (.indexOf s "\n" pos)] (if (= -1 i) (.-length s) i)))
+(defn- column [^string s pos] (- pos (line-start s pos)))
+(defn- goto-col [^string s ls col] (+ ls (clamp col 0 (- (line-end s ls) ls))))
+(defn- setpos! [^js el p] (set! (.-selectionStart el) p) (set! (.-selectionEnd el) p))
+(defn- setrange! [^js el a b] (set! (.-selectionStart el) (min a b)) (set! (.-selectionEnd el) (max a b)))
 
-               [line col] (buffers/pos-to-line-col content current-pos)]
+(defn- wordch? [ch] (boolean (re-matches #"[A-Za-z0-9_]" (str ch))))
+(defn- next-word [^string s pos]
+  (let [n (.-length s)]
+    (loop [i (min n (max 0 pos)) seen? false]
+      (cond
+        (>= i n) n
+        (and seen? (not (wordch? (.charAt s i)))) i
+        :else (recur (inc i) (or seen? (wordch? (.charAt s i))))))))
+(defn- prev-word [^string s pos]
+  (loop [i (max 0 (dec pos)) seen? false]
+    (cond
+      (<= i 0) 0
+      (and seen? (not (wordch? (.charAt s i)))) (inc i)
+      :else (recur (dec i) (or seen? (wordch? (.charAt s i)))))))
+(defn- end-word [^string s pos]
+  (let [n (.-length s)]
+    (loop [i (min n (max 0 pos)) in? false]
+      (cond
+        (>= i n) (dec n)
+        (and in? (not (wordch? (.charAt s i)))) (dec i)
+        :else (recur (inc i) (or in? (wordch? (.charAt s i))))))))
 
-           (case direction
-             :left (if (> col 0)
-                     (assoc buffer :cursor-pos (buffers/line-col-to-pos content line (dec col)))
-                     buffer)
+;; ===== Motions =====
+(defn move-left! [^js el] (setpos! el (max 0 (dec (.-selectionStart el)))))
+(defn move-right! [^js el] (let [s (.-value el)] (setpos! el (min (.-length s) (inc (.-selectionStart el))))))
+(defn move-up! [^js el]
+  (let [s (.-value el) p (.-selectionStart el) col (column s p)
+        prev-start (line-start s (max 0 (dec (line-start s p))))]
+    (setpos! el (goto-col s prev-start col))))
+(defn move-down! [^js el]
+  (let [s (.-value el) p (.-selectionStart el) col (column s p)
+        next-start (min (.-length s) (inc (line-end s p)))]
+    (setpos! el (goto-col s next-start col))))
+(defn move-bol! [^js el] (let [s (.-value el) p (.-selectionStart el)] (setpos! el (line-start s p))))
+(defn move-eol! [^js el] (let [s (.-value el) p (.-selectionStart el)] (setpos! el (line-end s p))))
+(defn move-w! [^js el] (let [s (.-value el) p (.-selectionStart el)] (setpos! el (next-word s (inc p)))))
+(defn move-b! [^js el] (let [s (.-value el) p (.-selectionStart el)] (setpos! el (prev-word s p))))
+(defn move-e! [^js el] (let [s (.-value el) p (.-selectionStart el)] (setpos! el (inc (end-word s p)))))
+(defn goto-start! [^js el] (setpos! el 0))
+(defn goto-end! [^js el] (setpos! el (.-length (.-value el))))
 
-             :right (if (< col (count (nth lines line)))
-                      (assoc buffer :cursor-pos (buffers/line-col-to-pos content line (inc col)))
-                      buffer)
+;; ===== Registers & clipboard =====
+(defonce reg* (atom {:text "" :linewise? false}))
+(defonce g-prev* (atom 0))
+(defn- clip-write! [s] (try (.writeText (.-navigator.clipboard js/window) s) (catch :default _ nil)))
+(defn- yank! [txt line?] (reset! reg* {:text txt :linewise? line?}) (clip-write! txt))
 
-             :up (if (> line 0)
-                   (let [prev-line (nth lines (dec line))
-                         new-col (min col (count prev-line))]
-                     (assoc buffer :cursor-pos (buffers/line-col-to-pos content (dec line) new-col)))
-                   buffer)
+;; ===== Operators =====
+(defonce op* (atom nil)) ;; {:op :y|:d|:c, :anchor pos}
 
-             :down (if (< line (dec line-count))
-                     (let [next-line (nth lines (inc line))
-                           new-col (min col (count next-line))]
-                       (assoc buffer :cursor-pos (buffers/line-col-to-pos content (inc line) new-col)))
-                     buffer)
+(defn- yank-range! [^js el a b line?]
+  (let [s (.-value el) lo (min a b) hi (max a b)
+        txt (.substring s lo hi)
+        txt' (if (and line? (not (.endsWith txt "\n"))) (str txt "\n") txt)]
+    (yank! txt' line?)
+    (setpos! el a)))
 
-             buffer))))))
-  (state/set-evil-count! 1)
-  (update-statusbar))
+(defn- delete-range! [^js el a b line?]
+  (when-not (.-readOnly el)
+    (let [s (.-value el) lo (min a b) hi (max a b)
+          txt (.substring s lo hi)
+          txt' (if (and line? (not (.endsWith txt "\n"))) (str txt "\n") txt)
+          out (str (.substring s 0 lo) (.substring s hi (.-length s)))]
+      (yank! txt' line?)
+      (set! (.-value el) out)
+      (setpos! el lo))))
 
-;; Word boundaries - improved implementation
-(defn word-forward []
-  (let [count (state/get-evil-count)]
-    (dotimes [_ count]
-      (state/update-current-buffer!
-       (fn [buffer]
-         (let [content (:content buffer)
-               current-pos (:cursor-pos buffer)
-               content-len (count content)]
-           (if (>= current-pos content-len)
-             buffer
-             (let [word-chars "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
-                   whitespace-chars " \t\n\r"]
-               (loop [pos current-pos]
-                 (cond
-                   ;; Skip whitespace first
-                   (and (< pos content-len)
-                        (str/includes? whitespace-chars (get content pos)))
-                   (recur (inc pos))
-
-                   ;; Skip word characters
-                   (and (< pos content-len)
-                        (str/includes? word-chars (get content pos)))
-                   (recur (inc pos))
-
-                   ;; Found boundary
-                   :else (assoc buffer :cursor-pos pos))))))))))
-  (state/set-evil-count! 1)
-  (update-statusbar))
-
-(defn word-backward []
-  (let [count (state/get-evil-count)]
-    (dotimes [_ count]
-      (state/update-current-buffer!
-       (fn [buffer]
-         (let [content (:content buffer)
-               current-pos (:cursor-pos buffer)]
-           (if (<= current-pos 0)
-             (assoc buffer :cursor-pos 0)
-             (let [word-chars "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
-                   whitespace-chars " \t\n\r"]
-               (loop [pos (max 0 (dec current-pos))]
-                 (cond
-                   ;; Skip whitespace first
-                   (and (>= pos 0)
-                        (str/includes? whitespace-chars (get content pos)))
-                   (recur (max 0 (dec pos)))
-
-                   ;; Skip word characters
-                   (and (>= pos 0)
-                        (str/includes? word-chars (get content pos)))
-                   (recur (max 0 (dec pos)))
-
-                   ;; Found boundary - move to start of word
-                   :else (assoc buffer :cursor-pos (inc pos)))))))))))
-  (state/set-evil-count! 1)
-  (update-statusbar))
-
-(defn end-of-word []
-  (let [count (state/get-evil-count)]
-    (dotimes [_ count]
-      (state/update-current-buffer!
-       (fn [buffer]
-         (let [content (:content buffer)
-               current-pos (:cursor-pos buffer)
-               content-len (count content)]
-           (if (>= current-pos content-len)
-             buffer
-             (let [word-chars "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
-                   whitespace-chars " \t\n\r"]
-               (loop [pos current-pos]
-                 (cond
-                   ;; If on whitespace, skip it first
-                   (and (< pos content-len)
-                        (str/includes? whitespace-chars (get content pos)))
-                   (recur (inc pos))
-
-                   ;; Skip word characters to find end
-                   (and (< pos content-len)
-                        (str/includes? word-chars (get content pos)))
-                   (recur (inc pos))
-
-                   ;; Found end of word
-                   :else (assoc buffer :cursor-pos (max 0 (dec pos))))))))))))
-  (state/set-evil-count! 1)
-  (update-statusbar))
-
-(defn beginning-of-line []
-  (state/update-current-buffer!
-   (fn [buffer]
-     (let [content (:content buffer)
-           current-pos (:cursor-pos buffer)
-           [line _] (buffers/pos-to-line-col content current-pos)
-           line-start-pos (buffers/line-col-to-pos content line 0)]
-       (assoc buffer :cursor-pos line-start-pos))))
-  (update-statusbar))
-
-(defn end-of-line []
-  (state/update-current-buffer!
-   (fn [buffer]
-     (let [content (:content buffer)
-           current-pos (:cursor-pos buffer)
-           [line _] (buffers/pos-to-line-col content current-pos)
-           lines (str/split-lines content)
-           line-end-pos (buffers/line-col-to-pos content line (count (nth lines line)))]
-       (assoc buffer :cursor-pos line-end-pos))))
-  (update-statusbar))
-
-(defn beginning-of-buffer []
-  (state/update-current-buffer!
-   (fn [buffer]
-     (assoc buffer :cursor-pos 0)))
-  (update-statusbar))
-
-(defn end-of-buffer []
-  (state/update-current-buffer!
-   (fn [buffer]
-     (assoc buffer :cursor-pos (count (:content buffer)))))
-  (update-statusbar))
-
-;; Text editing
-(defn insert-text-at-cursor [text]
-  (state/update-current-buffer!
-   (fn [buffer]
-     (let [content (:content buffer)
-           cursor-pos (:cursor-pos buffer)
-           new-content (str (subs content 0 cursor-pos) text (subs content cursor-pos))
-           new-cursor-pos (+ cursor-pos (count text))]
-       (-> buffer
-           (assoc :content new-content)
-           (assoc :cursor-pos new-cursor-pos)
-           (assoc :modified? true))))))
-
-(defn delete-char-at-cursor []
-  (state/update-current-buffer!
-   (fn [buffer]
-     (let [content (:content buffer)
-           cursor-pos (:cursor-pos buffer)]
-       (if (< cursor-pos (count content))
-         (let [new-content (str (subs content 0 cursor-pos) (subs content (inc cursor-pos)))]
-           (-> buffer
-               (assoc :content new-content)
-               (assoc :modified? true)))
-         buffer)))))
-
-(defn delete-char-before-cursor []
-  (state/update-current-buffer!
-   (fn [buffer]
-     (let [content (:content buffer)
-           cursor-pos (:cursor-pos buffer)]
-       (if (> cursor-pos 0)
-         (let [new-content (str (subs content 0 (dec cursor-pos)) (subs content cursor-pos))
-               new-cursor-pos (dec cursor-pos)]
-           (-> buffer
-               (assoc :content new-content)
-               (assoc :cursor-pos new-cursor-pos)
-               (assoc :modified? true)))
-         buffer)))))
-
-;; Operators with motions
-(defn yank-motion [motion-fn]
-  (let [current-buffer (state/get-current-buffer)]
-    (when current-buffer
-      (let [content (:content current-buffer)
-            start-pos (:cursor-pos current-buffer)]
-        (motion-fn)
-        (let [end-pos (:cursor-pos (state/get-current-buffer))]
-          (let [yanked-text (subs content (min start-pos end-pos) (max start-pos end-pos))]
-            (state/set-evil-register! yanked-text)
-            ;; Restore cursor position
-            (state/update-current-buffer! (fn [b] (assoc b :cursor-pos start-pos)))))))))
-
-(defn delete-motion [motion-fn]
-  (let [current-buffer (state/get-current-buffer)]
-    (when current-buffer
-      (let [content (:content current-buffer)
-            start-pos (:cursor-pos current-buffer)]
-        (motion-fn)
-        (let [end-pos (:cursor-pos (state/get-current-buffer))]
-          (let [start (min start-pos end-pos)
-                end (max start-pos end-pos)
-                new-content (str (subs content 0 start) (subs content end))]
-            (state/update-current-buffer!
-             (fn [buffer]
-               (-> buffer
-                   (assoc :content new-content)
-                   (assoc :cursor-pos start)
-                   (assoc :modified? true))))))))))
-
-(defn change-motion [motion-fn]
-  (delete-motion motion-fn)
+(defn- change-range! [^js el a b line?]
+  (delete-range! el a b line?)
   (enter-insert-mode))
 
-;; Line operations
-(defn delete-line []
-  (let [count (state/get-evil-count)]
-    (state/update-current-buffer!
-     (fn [buffer]
-       (let [content (:content buffer)
-             current-pos (:cursor-pos buffer)
-             [line _] (buffers/pos-to-line-col content current-pos)
-             lines (str/split-lines content)
-             line-count (count lines)
-             end-line (min (+ line count) line-count)
-             lines-to-delete (take count (drop line lines))
-             deleted-text (str/join "\n" lines-to-delete)]
-         ;; Yank deleted lines
-         (state/set-evil-register! deleted-text)
-         ;; Delete lines
-         (let [new-lines (concat (take line lines) (drop end-line lines))
-               new-content (str/join "\n" new-lines)
-               new-cursor-pos (buffers/line-col-to-pos new-content (min line (count new-lines)) 0)]
-           (-> buffer
-               (assoc :content new-content)
-               (assoc :cursor-pos new-cursor-pos)
-               (assoc :modified? true)))))))
-  (state/set-evil-count! 1)
+(defn- delete-line! [^js el]
+  (let [s (.-value el) p (.-selectionStart el) ls (line-start s p) le (line-end s p)
+        hi (min (.-length s) (inc le))]
+    (delete-range! el ls hi true)))
+
+(defn- change-line! [^js el]
+  (let [s (.-value el) p (.-selectionStart el) ls (line-start s p) le (line-end s p)
+        hi (min (.-length s) (inc le))]
+    (change-range! el ls hi true)))
+
+(defn- paste! [^js el before?]
+  (when-not (.-readOnly el)
+    (let [{:keys [text linewise?]} @reg*
+          text (or text "") p (.-selectionStart el) s (.-value el)]
+      (if linewise?
+        (let [target (if before? (line-start s p) (min (.-length s) (inc (line-end s p))))
+              v (.-value el)
+              out (str (.substring v 0 target) text (.substring v target (.-length v)))]
+          (set! (.-value el) out) (setpos! el (+ target (.-length text))))
+        (let [idx (if before? p (inc p)) v (.-value el)
+              out (str (.substring v 0 idx) text (.substring v idx (.-length v)))]
+          (set! (.-value el) out) (setpos! el (+ idx (.-length text))))))))
+
+(defn- apply-op-motion! [^js el {:keys [op anchor]} k]
+  (let [s (.-value el)
+        tgt (case k
+              ("y" "d" "c") :line
+              "w" (next-word s (inc anchor))
+              "b" (prev-word s anchor)
+              "e" (inc (end-word s anchor))
+              "0" (line-start s anchor)
+              "$" (line-end s anchor)
+              "G" (.-length s)
+              nil)]
+    (when tgt
+      (case op
+        :y (if (= tgt :line)
+             (yank-range! el (line-start s anchor) (inc (line-end s anchor)) true)
+             (yank-range! el anchor tgt false))
+        :d (if (= tgt :line) (delete-line! el) (delete-range! el anchor tgt false))
+        :c (if (= tgt :line) (change-line! el) (change-range! el anchor tgt false))))))
+
+;; ===== Visual mode =====
+(defonce v-anchor* (atom nil))
+(defn- visual-start! [^js el line?]
+  (reset! v-anchor* (.-selectionStart el))
+  (set-mode! (if line? :visual-line :visual))
+  (if line?
+    (let [s (.-value el) a @v-anchor*] (setrange! el (line-start s a) (inc (line-end s a))))
+    (setrange! el @v-anchor* (.-selectionStart el)))
   (update-statusbar))
 
-(defn yank-line []
-  (let [count (state/get-evil-count)]
-    (state/update-current-buffer!
-     (fn [buffer]
-       (let [content (:content buffer)
-             current-pos (:cursor-pos buffer)
-             [line _] (buffers/pos-to-line-col content current-pos)
-             lines (str/split-lines content)
-             line-count (count lines)
-             end-line (min (+ line count) line-count)
-             lines-to-yank (take count (drop line lines))
-             yanked-text (str/join "\n" lines-to-yank)]
-         (state/set-evil-register! yanked-text)
-         buffer))))
-  (state/set-evil-count! 1)
-  (update-statusbar))
+(defn- visual-update! [^js el]
+  (let [mode (get-mode)]
+    (when (= mode :visual)
+      (let [s (.-value el) a @v-anchor* p (.-selectionStart el)]
+        (setrange! el a p)))))
 
-(defn change-line []
-  (delete-line)
-  (enter-insert-mode))
+(defn- visual-exit! [] (reset! v-anchor* nil) (exit-visual-mode))
 
-(defn paste-after []
-  (when-let [text (state/get-evil-register)]
-    (let [count (state/get-evil-count)]
-      (dotimes [_ count]
-        (state/update-current-buffer!
-         (fn [buffer]
-           (let [content (:content buffer)
-                 cursor-pos (:cursor-pos buffer)
-                 new-content (str (subs content 0 cursor-pos) text (subs content cursor-pos))
-                 new-cursor-pos (+ cursor-pos (count text))]
-             (-> buffer
-                 (assoc :content new-content)
-                 (assoc :cursor-pos new-cursor-pos)
-                 (assoc :modified? true))))))))
-  (state/set-evil-count! 1)
-  (update-statusbar))
+;; ===== gg helper =====
+(defn handle-gg! [^js e ^js el]
+  (when (= (.-key e) "g")
+    (let [now (.now js/Date)]
+      (if (< (- now @g-prev*) 350)
+        (do (.preventDefault e)
+            (goto-start! el)
+            (when (= (get-mode) :visual) (visual-update! el))
+            (reset! g-prev* 0))
+        (reset! g-prev* now)))))
 
-(defn paste-before []
-  (when-let [text (state/get-evil-register)]
-    (let [count (state/get-evil-count)]
-      (dotimes [_ count]
-        (state/update-current-buffer!
-         (fn [buffer]
-           (let [content (:content buffer)
-                 cursor-pos (:cursor-pos buffer)
-                 new-content (str (subs content 0 cursor-pos) text (subs content cursor-pos))]
-             (-> buffer
-                 (assoc :content new-content)
-                 (assoc :modified? true))))))))
-  (state/set-evil-count! 1)
-  (update-statusbar))
+;; ===== Main key handler =====
+(defn handle-key! [^js e ^js el]
+  (let [mode (get-mode) k (.-key e) op @op* ro? (.-readOnly el)]
+    (cond
+      ;; mode switches
+      (= k "Escape") (do (.preventDefault e) (reset! op* nil) (visual-exit!))
+      (and (= mode :normal) (= k "i")) (do (.preventDefault e) (reset! op* nil) (enter-insert-mode))
+      (and (= mode :normal) (= k "v")) (do (.preventDefault e) (visual-start! el false))
+      (and (= mode :normal) (= k "V")) (do (.preventDefault e) (visual-start! el true))
 
-;; Line operations
-(defn open-line-below []
-  (state/update-current-buffer!
-   (fn [buffer]
-     (let [content (:content buffer)
-           current-pos (:cursor-pos buffer)
-           [line _] (buffers/pos-to-line-col content current-pos)
-           lines (str/split-lines content)
-           new-lines (concat (take (inc line) lines) [""] (drop (inc line) lines))
-           new-content (str/join "\n" new-lines)
-           new-cursor-pos (buffers/line-col-to-pos new-content (inc line) 0)]
-       (-> buffer
-           (assoc :content new-content)
-           (assoc :cursor-pos new-cursor-pos)
-           (assoc :modified? true)))))
-  (enter-insert-mode))
+      ;; operator-pending resolution
+      (and (= mode :normal) op) (do (.preventDefault e) (apply-op-motion! el op k) (reset! op* nil))
 
-(defn open-line-above []
-  (state/update-current-buffer!
-   (fn [buffer]
-     (let [content (:content buffer)
-           current-pos (:cursor-pos buffer)
-           [line _] (buffers/pos-to-line-col content current-pos)
-           lines (str/split-lines content)
-           new-lines (concat (take line lines) [""] (drop line lines))
-           new-content (str/join "\n" new-lines)
-           new-cursor-pos (buffers/line-col-to-pos new-content line 0)]
-       (-> buffer
-           (assoc :content new-content)
-           (assoc :cursor-pos new-cursor-pos)
-           (assoc :modified? true)))))
-  (enter-insert-mode))
+      ;; Visual mode
+      (= mode :visual)
+      (case k
+        ;; motions
+        "h" (do (.preventDefault e) (move-left! el) (visual-update! el))
+        "l" (do (.preventDefault e) (move-right! el) (visual-update! el))
+        "j" (do (.preventDefault e) (move-down! el) (visual-update! el))
+        "k" (do (.preventDefault e) (move-up! el) (visual-update! el))
+        "0" (do (.preventDefault e) (move-bol! el) (visual-update! el))
+        "$" (do (.preventDefault e) (move-eol! el) (visual-update! el))
+        "w" (do (.preventDefault e) (move-w! el) (visual-update! el))
+        "b" (do (.preventDefault e) (move-b! el) (visual-update! el))
+        "e" (do (.preventDefault e) (move-e! el) (visual-update! el))
+        "G" (do (.preventDefault e) (goto-end! el) (visual-update! el))
+        ;; ops on selection
+        "y" (do (.preventDefault e)
+                (let [s (.-selectionStart el) epos (.-selectionEnd el)
+                      txt (.substring (.-value el) (min s epos) (max s epos))
+                      txt' (if (not (.endsWith txt "\n")) (str txt "\n") txt)]
+                  (yank! txt' false) (visual-exit!)))
+        "d" (do (.preventDefault e) (when-not ro? (delete-range! el (.-selectionStart el) (.-selectionEnd el) false)) (visual-exit!))
+        "c" (do (.preventDefault e) (when-not ro? (change-range! el (.-selectionStart el) (.-selectionEnd el) false)) (visual-exit!))
+        nil)
 
-(defn append-after-cursor []
-  (state/update-current-buffer!
-   (fn [buffer]
-     (let [content (:content buffer)
-           cursor-pos (:cursor-pos buffer)]
-       (if (< cursor-pos (count content))
-         (assoc buffer :cursor-pos (inc cursor-pos))
-         buffer))))
-  (enter-insert-mode))
-
-(defn append-at-end-of-line []
-  (end-of-line)
-  (enter-insert-mode))
-
-(defn insert-at-start-of-line []
-  (beginning-of-line)
-  (enter-insert-mode))
-
-;; Visual mode operations
-(defn start-visual-selection []
-  (enter-visual-mode))
-
-(defn start-visual-line-selection []
-  (enter-visual-line-mode))
-
-(defn extend-selection [direction]
-  (let [count (state/get-evil-count)]
-    (dotimes [_ count]
-      (state/update-current-buffer!
-       (fn [buffer]
-         (if-let [selection (:selection buffer)]
-           (let [content (:content buffer)
-                 current-pos (:cursor-pos buffer)
-                 new-pos (case direction
-                           :left (max 0 (dec current-pos))
-                           :right (min (count content) (inc current-pos))
-                           :up (let [[line col] (buffers/pos-to-line-col content current-pos)]
-                                 (if (> line 0)
-                                   (let [prev-line (nth (str/split-lines content) (dec line))
-                                         new-col (min col (count prev-line))]
-                                     (buffers/line-col-to-pos content (dec line) new-col))
-                                   current-pos))
-                           :down (let [[line col] (buffers/pos-to-line-col content current-pos)]
-                                   (let [lines (str/split-lines content)]
-                                     (if (< line (dec (count lines)))
-                                       (let [next-line (nth lines (inc line))
-                                             new-col (min col (count next-line))]
-                                         (buffers/line-col-to-pos content (inc line) new-col))
-                                       current-pos))))]
-             (-> buffer
-                 (assoc :cursor-pos new-pos)
-                 (assoc-in [:selection :end] new-pos)))
-           buffer)))))
-  (state/set-evil-count! 1)
-  (update-statusbar))
-
-(defn delete-selection []
-  (state/update-current-buffer!
-   (fn [buffer]
-     (if-let [selection (:selection buffer)]
-       (let [content (:content buffer)
-             start (min (:start selection) (:end selection))
-             end (max (:start selection) (:end selection))
-             selected-text (subs content start end)]
-         ;; Yank deleted text
-         (state/set-evil-register! selected-text)
-         ;; Delete selection
-         (let [new-content (str (subs content 0 start) (subs content end))]
-           (-> buffer
-               (assoc :content new-content)
-               (assoc :cursor-pos start)
-               (assoc :selection nil)
-               (assoc :modified? true))))
-       buffer)))
-  (enter-normal-mode))
-
-(defn yank-selection []
-  (state/update-current-buffer!
-   (fn [buffer]
-     (if-let [selection (:selection buffer)]
-       (let [content (:content buffer)
-             start (min (:start selection) (:end selection))
-             end (max (:start selection) (:end selection))
-             selected-text (subs content start end)]
-         (state/set-evil-register! selected-text)
-         (assoc buffer :selection nil))
-       buffer)))
-  (exit-visual-mode))
-
-(defn change-selection []
-  (state/update-current-buffer!
-   (fn [buffer]
-     (if-let [selection (:selection buffer)]
-       (let [content (:content buffer)
-             start (min (:start selection) (:end selection))
-             end (max (:start selection) (:end selection))
-             selected-text (subs content start end)]
-         ;; Yank deleted text
-         (state/set-evil-register! selected-text)
-         ;; Delete selection
-         (let [new-content (str (subs content 0 start) (subs content end))]
-           (-> buffer
-               (assoc :content new-content)
-               (assoc :cursor-pos start)
-               (assoc :selection nil)
-               (assoc :modified? true))))
-       buffer)))
-  (enter-insert-mode))
-
-;; Search
-(defn search-forward []
-  (let [query (js/prompt "Search forward:" (state/get-last-search))]
-    (when query
-      (state/set-last-search! query)
-      (state/set-search-direction! :forward)
-      (buffers/search-next query))))
-
-(defn search-backward []
-  (let [query (js/prompt "Search backward:" (state/get-last-search))]
-    (when query
-      (state/set-last-search! query)
-      (state/set-search-direction! :backward)
-      (buffers/search-prev query))))
-
-(defn next-search-result []
-  (when-let [query (state/get-last-search)]
-    (if (= (state/get-search-direction) :forward)
-      (buffers/search-next query)
-      (buffers/search-prev query))))
-
-(defn previous-search-result []
-  (when-let [query (state/get-last-search)]
-    (if (= (state/get-search-direction) :forward)
-      (buffers/search-prev query)
-      (buffers/search-next query))))
-
-;; Undo/Redo
-(defn undo []
-  (state/update-current-buffer!
-   (fn [buffer]
-     (if-let [undo-stack (:undo-stack buffer)]
-       (let [current-state {:content (:content buffer)
-                            :cursor-pos (:cursor-pos buffer)
-                            :selection (:selection buffer)}
-             new-undo-stack (conj undo-stack current-state)
-             previous-state (last new-undo-stack)
-             new-redo-stack (:redo-stack buffer)]
-         (-> buffer
-             (assoc :content (:content previous-state))
-             (assoc :cursor-pos (:cursor-pos previous-state))
-             (assoc :selection (:selection previous-state))
-             (assoc :undo-stack (butlast new-undo-stack))
-             (assoc :redo-stack (conj new-redo-stack current-state))))
-       buffer))))
-
-(defn redo []
-  (state/update-current-buffer!
-   (fn [buffer]
-     (if-let [redo-stack (:redo-stack buffer)]
-       (let [current-state {:content (:content buffer)
-                            :cursor-pos (:cursor-pos buffer)
-                            :selection (:selection buffer)}
-             next-state (first redo-stack)
-             new-undo-stack (:undo-stack buffer)]
-         (-> buffer
-             (assoc :content (:content next-state))
-             (assoc :cursor-pos (:cursor-pos next-state))
-             (assoc :selection (:selection next-state))
-             (assoc :undo-stack (conj new-undo-stack current-state))
-             (assoc :redo-stack (rest redo-stack))))
-       buffer))))
+      ;; Normal mode (start ops / motions / paste)
+      (= mode :normal)
+      (case k
+        ;; start ops
+        "y" (do (.preventDefault e) (reset! op* {:op :y :anchor (.-selectionStart el)}))
+        "d" (do (.preventDefault e) (reset! op* {:op :d :anchor (.-selectionStart el)}))
+        "c" (do (.preventDefault e) (reset! op* {:op :c :anchor (.-selectionStart el)}))
+        ;; linewise shortcuts
+        "Y" (do (.preventDefault e) (let [s (.-value el) p (.-selectionStart el)] (yank-range! el (line-start s p) (inc (line-end s p)) true)))
+        "D" (do (.preventDefault e) (when-not ro? (let [s (.-value el) p (.-selectionStart el)] (delete-range! el p (line-end s p) false))))
+        "C" (do (.preventDefault e) (when-not ro? (let [s (.-value el) p (.-selectionStart el)] (change-range! el p (line-end s p) false))))
+        ;; paste
+        "p" (do (.preventDefault e) (paste! el false))
+        "P" (do (.preventDefault e) (paste! el true))
+        ;; motions
+        "h" (do (.preventDefault e) (move-left! el))
+        "l" (do (.preventDefault e) (move-right! el))
+        "j" (do (.preventDefault e) (move-down! el))
+        "k" (do (.preventDefault e) (move-up! el))
+        "0" (do (.preventDefault e) (move-bol! el))
+        "$" (do (.preventDefault e) (move-eol! el))
+        "w" (do (.preventDefault e) (move-w! el))
+        "b" (do (.preventDefault e) (move-b! el))
+        "e" (do (.preventDefault e) (move-e! el))
+        "G" (do (.preventDefault e) (goto-end! el))
+        nil)
+      :else nil)))
 
 ;; Initialize Evil mode
 (defn init []
