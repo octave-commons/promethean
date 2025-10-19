@@ -232,8 +232,8 @@
   },
   "tools": {
     "clj*": false,
+    "bash": false,
     "playwright*":false,
-    "process.*":false,
     "processDirect.*":false,
     "events.*":false,
     "messaging.*":false,
