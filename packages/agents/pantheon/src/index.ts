@@ -36,6 +36,9 @@ export * as Workflow from './workflow/index.js';
 // OS Protocol
 export * as OSProtocol from './os-protocol/index.js';
 
+// Transport Layer
+export * as Transport from './transport/index.js';
+
 // Agent Generator
 export * as AgentGenerator from './generator/index.js';
 
