@@ -58,14 +58,18 @@ async function cleanDualStore() {
     });
   }
 
-  // Clean up corrupted entries
+  // Clean up corrupted entries using MongoDB directly
   console.log('\n🗑️  Removing corrupted entries...');
   let removedCount = 0;
 
+  const mongoCollection = sessionStore.getMongoCollection();
+
   for (const corrupted of corruptedEntries) {
     try {
-      await sessionStore.remove(corrupted.id);
-      removedCount++;
+      const result = await mongoCollection.deleteOne({ id: corrupted.id });
+      if (result.deletedCount > 0) {
+        removedCount++;
+      }
     } catch (error) {
       console.log(`❌ Failed to remove ${corrupted.id}: ${error}`);
     }

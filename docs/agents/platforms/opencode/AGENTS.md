@@ -19,6 +19,9 @@ Don't create new directories, your write tool creates them for you when you make
 When you run `mkdir -p {core,context,orchestrator,protocol,workflow,os-protocol,generator,management-ui,shared,tests}`
 it makes a folder named:
 `{core,context,orchestrator,protocol,workflow,os-protocol,generator,management-ui,shared,tests}`
+- all bash commands are ephemeral
+- you can't cd into a directory and expect to stay there.
+- prefer `pnpm --filter @promethean/<packagename> `
 
 
 ## References
