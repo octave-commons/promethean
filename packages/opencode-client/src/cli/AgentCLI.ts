@@ -16,6 +16,7 @@ import {
 } from '../api/UnifiedAgentManager.js';
 import { initializeStores } from '../index.js';
 import { DualStoreManager } from '@promethean/persistence';
+import { indexerCommands } from '../commands/indexer/index.js';
 
 // Initialize stores for agent CLI
 let storesInitialized = false;
@@ -462,6 +463,9 @@ process.on('SIGTERM', async () => {
   await cleanupStores();
   process.exit(0);
 });
+
+// Add indexer sub-commands
+program.addCommand(indexerCommands);
 
 // Parse command line arguments
 program.parse();
