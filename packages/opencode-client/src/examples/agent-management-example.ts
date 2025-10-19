@@ -97,7 +97,7 @@ async function batchProcessingExample() {
 
     // Monitor progress
     console.log('\n📊 Monitoring progress...');
-    const stats = unifiedAgentManager.getSessionStats();
+    const stats = await unifiedAgentManager.getSessionStats();
     console.log(`Total sessions: ${stats.total}`);
     console.log('By status:', stats.byStatus);
 
