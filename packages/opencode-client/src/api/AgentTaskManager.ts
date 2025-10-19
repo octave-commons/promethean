@@ -2,7 +2,6 @@ import { DualStoreManager } from '@promethean/persistence';
 import { AgentTask } from '../AgentTask.js';
 import {
   TaskContext,
-  SessionClient,
   loadPersistedTasks as loadPersistedTasksAction,
   verifySessionExists as verifySessionExistsAction,
   cleanupOrphanedTask as cleanupOrphanedTaskAction,
@@ -11,6 +10,7 @@ import {
   createTask as createTaskAction,
   getAllTasks as getAllTasksAction,
 } from '../actions/tasks/index.js';
+import type { SessionClient } from '../types/index.js';
 import { Timestamp } from '../types/index.js';
 
 // Global state for backward compatibility
