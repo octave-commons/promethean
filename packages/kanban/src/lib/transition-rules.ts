@@ -542,42 +542,34 @@ export class TransitionRulesEngine {
     board: Board,
   ): Promise<boolean> {
     if (!this.dslAvailable) {
-      console.warn('Clojure DSL not available, skipping custom rule evaluation');
-      return true;
+      throw new Error(
+        'Clojure DSL is required but not available. TypeScript transition rules are no longer supported.',
+      );
     }
 
     try {
-      // Use nbb (Node.js Babashka) to evaluate Clojure code
-      const result = await this.evalClojure(ruleImpl, [...args, task, board]);
-      return Boolean(result);
-    } catch (error) {
-      console.error('Failed to evaluate Clojure rule:', error);
-      return true; // Default to allowing on error
-    }
-  }
-
-private async evalClojure(expression: string, args: any[]): Promise<any> {
-    // Use nbb (Node.js Babashka) to evaluate Clojure expressions
-    try {
-      // Import nbb dynamically to avoid bundling issues
+      // Use nbb (Node.js Babashka) to evaluate Clojure expressions
+      // @ts-ignore - nbb doesn't have TypeScript definitions
       const nbb = await import('nbb');
-      
+
       // Create a safe evaluation context with the DSL loaded
       const clojureCode = `
         (require '[kanban-transitions :as kt])
-        (let [args ~(vec args)
+        (let [args ~(vec (concat args [task board]))
               task (first args)
               board (second args)]
-          ${expression})
+          ${ruleImpl})
       `;
-      
+
+      // @ts-ignore - nbb dynamic evaluation
       const result = await nbb.default(clojureCode);
-      return result;
+      return Boolean(result);
     } catch (error) {
-      console.error('Failed to evaluate Clojure expression with nbb:', error);
-      throw new Error(`Clojure evaluation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      console.error('Failed to evaluate Clojure rule:', error);
+      throw new Error(
+        `Clojure evaluation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      );
     }
-  }
   }
 
   /**
