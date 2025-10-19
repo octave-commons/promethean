@@ -31,9 +31,9 @@ export async function frontmatter(args = {}) {
 }
 
 export async function embed(args = {}) {
-  const { openDB } = await import('@promethean/docops/dist/db.js');
-  const { getChromaCollection } = await import('@promethean/docops/dist/lib/chroma.js');
-  const { runEmbed } = await import('@promethean/docops/dist/index.js');
+  const { openDB } = await import('@promethean/docs-system/dist/database/db.js');
+  const { getChromaCollection } = await import('@promethean/docs-system/dist/lib/chroma.js');
+  const { runEmbed } = await import('@promethean/docs-system/dist/index.js');
   const db = await openDB();
   let client;
   try {
