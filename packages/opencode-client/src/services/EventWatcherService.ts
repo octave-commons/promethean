@@ -453,7 +453,7 @@ export class EventWatcherService {
   private async processEvent(event: ProjectedEvent): Promise<void> {
     try {
       // Store event in session store with event: prefix
-      await sessionStore.insert({
+      await this.sessionStore!.insert({
         id: `event:${event.id}`,
         text: JSON.stringify({
           ...event,
