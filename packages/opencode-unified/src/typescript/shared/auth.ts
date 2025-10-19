@@ -2,8 +2,8 @@
 // Authentication and Authorization for OpenCode Unified
 
 import { randomUUID } from 'node:crypto';
-import { promisify } from 'node:util';
 import { sign, verify } from 'jsonwebtoken';
+import { promisify } from 'node:util';
 
 const signAsync = promisify(sign) as any;
 
@@ -357,12 +357,12 @@ export class AuthManager {
    * Generate access token
    */
   private async generateAccessToken(agent: AgentInfo): Promise<string> {
-    const payload: Omit<TokenPayload, 'iat' | 'exp' | 'jti'> = {
+    const payload = {
       sub: agent.id,
-      type: 'access',
+      type: 'access' as const,
       permissions: agent.permissions,
       ...(agent.sessionId && { sessionId: agent.sessionId }),
-    };
+    } as Omit<TokenPayload, 'iat' | 'exp' | 'jti'>;
 
     return await signAsync(payload, this.config.jwtSecret, {
       expiresIn: this.config.jwtExpiresIn,
@@ -374,12 +374,12 @@ export class AuthManager {
    * Generate refresh token
    */
   private async generateRefreshToken(agent: AgentInfo): Promise<string> {
-    const payload: Omit<TokenPayload, 'iat' | 'exp' | 'jti'> = {
+    const payload = {
       sub: agent.id,
-      type: 'refresh',
+      type: 'refresh' as const,
       permissions: agent.permissions,
       ...(agent.sessionId && { sessionId: agent.sessionId }),
-    };
+    } as Omit<TokenPayload, 'iat' | 'exp' | 'jti'>;
 
     return await signAsync(payload, this.config.jwtSecret, {
       expiresIn: this.config.refreshTokenExpiresIn,

@@ -14,10 +14,45 @@ import {
   closeAgentSession,
   unifiedAgentManager,
 } from '../api/UnifiedAgentManager.js';
+import { initializeStores } from '../index.js';
+import { DualStoreManager } from '@promethean/persistence';
+
+// Initialize stores for agent CLI
+let storesInitialized = false;
+let initPromise: Promise<void> | null = null;
+
+async function initializeAgentCliStores() {
+  if (storesInitialized) return;
+  if (initPromise) return initPromise;
+
+  initPromise = (async () => {
+    try {
+      const sessionStore = await DualStoreManager.create('agent-sessions', 'text', 'timestamp');
+      const agentTaskStore = await DualStoreManager.create('agent-tasks', 'text', 'timestamp');
+
+      initializeStores(sessionStore, agentTaskStore);
+      storesInitialized = true;
+
+      if (process.env.OPENCODE_DEBUG) {
+        console.log('Agent CLI stores initialized');
+      }
+    } catch (error) {
+      console.warn('Warning: Failed to initialize Agent CLI stores:', error);
+      throw error;
+    }
+  })();
+
+  return initPromise;
+}
 
 const program = new Command();
 
 program.name('agent-cli').description('CLI for managing agent sessions and tasks').version('1.0.0');
+
+// Initialize stores before any command
+program.hook('preAction', async () => {
+  await initializeAgentCliStores();
+});
 
 // Create agent session command
 program
