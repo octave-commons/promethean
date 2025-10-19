@@ -168,14 +168,19 @@ export class InputValidator {
 
     const isValid = errors.length === 0;
 
-    return {
+    const result: SecurityValidationResult = {
       isValid,
       sanitizedValue: sanitizedPrompt,
       warnings,
       errors,
       securityScore,
-      promptInjection: promptInjectionResult,
     };
+
+    if (promptInjectionResult) {
+      result.promptInjection = promptInjectionResult;
+    }
+
+    return result;
   }
 
   /**
