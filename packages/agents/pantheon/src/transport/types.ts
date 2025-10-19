@@ -11,6 +11,17 @@ export {
   MessageMetadata,
   RetryPolicy,
   BackoffStrategy,
+  AgentStatus,
+  HealthStatus,
+  HealthMetrics,
+  Connection,
+  ConnectionState,
+  ConnectOptions,
+  SecurityOptions,
+  FlowControlConfig,
+  FlowControlStatus,
+  ConnectionInfo,
+  Transport as CoreTransport,
 } from '../core/types';
 
 // Legacy transport types for compatibility

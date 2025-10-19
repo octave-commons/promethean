@@ -178,7 +178,7 @@ export class MemoryDeadLetterQueue implements DeadLetterQueue {
   async requeue(messageId: string): Promise<void> {
     const index = this.messages.findIndex((item) => item.envelope.id === messageId);
     if (index !== -1) {
-      const message = this.messages.splice(index, 1)[0];
+      this.messages.splice(index, 1);
       // In a real implementation, you would requeue the message
       // For now, we just remove it from the DLQ
       console.log(`Requeuing message ${messageId}`);

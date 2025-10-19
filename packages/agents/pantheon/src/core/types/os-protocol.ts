@@ -381,7 +381,7 @@ export interface FlowControl {
   tokenBucket: TokenBucket;
 
   // Backpressure
-  backpressureStrategy: BackpressureStrategy;
+  backpressureStrategy: BackoffStrategy;
   bufferSizes: Record<string, number>;
 
   // Circuit Breaking
