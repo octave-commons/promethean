@@ -349,7 +349,9 @@ export class EventWatcherService {
     this.log('📡 Starting real-time event streaming...');
 
     try {
-      this.eventStream = await this.client.event.list();
+      // Use session polling instead of event streaming since SDK doesn't support event.list
+      this.log('Event streaming not supported by SDK, using session polling instead', 'warn');
+      throw new Error('Event streaming not supported by current SDK version');
 
       // Process events in real-time
       (async () => {
