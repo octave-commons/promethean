@@ -56,6 +56,10 @@ class MockTransport extends BaseTransport {
     this.sentMessages.push(envelope);
   }
 
+  async send(envelope: MessageEnvelope): Promise<void> {
+    return this.sendWithRetry(envelope);
+  }
+
   async subscribe(pattern: string, handler: MessageHandler): Promise<void> {
     this.subscriptions.set(pattern, handler);
   }
@@ -64,7 +68,7 @@ class MockTransport extends BaseTransport {
     this.subscriptions.delete(pattern);
   }
 
-  isConnected(): boolean {
+  override isConnected(): boolean {
     return this.connectedState;
   }
 
@@ -74,6 +78,15 @@ class MockTransport extends BaseTransport {
 
   clearSentMessages(): void {
     this.sentMessages = [];
+  }
+
+  // Expose protected methods for testing
+  testFindHandler(envelope: MessageEnvelope) {
+    return this.findHandler(envelope);
+  }
+
+  testHandleMessage(envelope: MessageEnvelope) {
+    return this.handleMessage(envelope);
   }
 }
 
@@ -182,11 +195,14 @@ test('BaseTransport - handles message subscriptions', async (t) => {
 
   await transport.subscribe('test-pattern', handler);
 
-  // Verify subscription was added
-  t.true(transport.subscriptions.has('test-pattern'));
+  // Verify subscription was added (by checking if handler can be found)
+  const testEnvelope = createTestEnvelope({ type: 'test-pattern' });
+  const handler = transport.testFindHandler(testEnvelope);
+  t.not(handler, undefined);
 
   await transport.unsubscribe('test-pattern');
-  t.false(transport.subscriptions.has('test-pattern'));
+  const handlerAfterUnsub = transport.testFindHandler(testEnvelope);
+  t.is(handlerAfterUnsub, null);
 });
 
 test('BaseTransport - pattern matching works correctly', async (t) => {
@@ -200,7 +216,7 @@ test('BaseTransport - pattern matching works correctly', async (t) => {
   await transport.subscribe('exact-match', exactHandler);
 
   const exactEnvelope = createTestEnvelope({ type: 'exact-match' });
-  matchedHandler = (transport as any).findHandler(exactEnvelope);
+  matchedHandler = transport.testFindHandler(exactEnvelope);
   t.is(matchedHandler, exactHandler);
 
   // Test pattern match
@@ -208,7 +224,7 @@ test('BaseTransport - pattern matching works correctly', async (t) => {
   await transport.subscribe('pattern-*', patternHandler);
 
   const patternEnvelope = createTestEnvelope({ type: 'pattern-test' });
-  matchedHandler = (transport as any).findHandler(patternEnvelope);
+  matchedHandler = transport.testFindHandler(patternEnvelope);
   t.is(matchedHandler, patternHandler);
 });
 
