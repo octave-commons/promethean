@@ -208,7 +208,7 @@ export class AMQPTransport extends BaseTransport {
     const tryReconnect = async () => {
       try {
         await this.connect();
-        this.reconnectTimer = undefined;
+        this.reconnectTimer = null;
       } catch (error) {
         attempt++;
 
@@ -217,7 +217,7 @@ export class AMQPTransport extends BaseTransport {
             'error',
             new Error(`Failed to reconnect after ${maxAttempts} attempts`)
           );
-          this.reconnectTimer = undefined;
+          this.reconnectTimer = null;
           return;
         }
 
