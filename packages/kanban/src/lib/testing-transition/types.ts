@@ -18,6 +18,8 @@ export interface TestCoverageRequest {
   task: Task;
   changedFiles: string[];
   affectedPackages: string[];
+  reportPath: string;
+  format: 'lcov' | 'cobertura' | 'json';
 }
 
 export interface TestCoverageResult {
