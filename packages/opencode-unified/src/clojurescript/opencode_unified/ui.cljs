@@ -11,52 +11,52 @@
 
 ;; Main app component
 (defn app []
-  (let [current-buffer (r/track #(get-in @state/app-state :current-buffer))
-        buffer-content (r/track #(when-let [buffer-id (get-in @state/app-state :current-buffer)]
-                                   (get-in @state/app-state [:buffers buffer-id])))]
-    [:div
-     [theme-styles]
-     [:div.app-container
-      {:class (str "theme-" (name (:theme (:ui @state/app-state)))
-                   " evil-mode-" (name (get-in @state/app-state [:evil-state :mode])))
-       :tab-index 0}
+  [:div
+   [theme-styles]
+   [:div.app-container
+    {:class (str "theme-" (name (:theme (:ui @state/app-state)))
+                 " evil-mode-" (name (get-in @state/app-state [:evil-state :mode])))
+     :tab-index 0}
 
-      ;; Header with menu bar
-      [layout/header]
+    ;; Header with menu bar
+    [layout/header]
 
-      ;; Main content area
-      [:div.main-content
-       ;; Left sidebar (file tree, etc.)
-       [layout/left-sidebar]
+    ;; Main content area
+    [:div.main-content
+     ;; Left sidebar (file tree, etc.)
+     [layout/left-sidebar]
 
-       ;; Editor area
-       [:div.editor-area
-        ;; Tab bar
-        [layout/tab-bar]
+     ;; Editor area
+     [:div.editor-area
+      ;; Tab bar
+      [layout/tab-bar]
 
-        ;; Editor pane
-        [:div.editor-pane
-         (if @buffer-content
-           [opencode-unified.buffers/editor @buffer-content]
+      ;; Editor pane
+      [:div.editor-pane
+       (let [current-buffer (:current-buffer @state/app-state)
+             current-buffer-content (when current-buffer
+                                      (get-in @state/app-state [:buffers current-buffer]))]
+         (if current-buffer-content
+           [opencode-unified.buffers/editor current-buffer-content]
            [:div.no-buffer
             [:h2 "No Buffer Open"]
-            [:p "Open a file to start editing"]])]
+            [:p "Open a file to start editing"]]))]
 
-        ;; Minimap (if enabled)
-        (when (get-in @state/app-state [:ui :minimap])
-          [layout/minimap @buffer-content])]
+      ;; Minimap (if enabled)
+      (when (get-in @state/app-state [:ui :minimap])
+        [layout/minimap (get-in @state/app-state [:buffers (:current-buffer @state/app-state)])])]
 
-       ;; Right sidebar (plugins, etc.)
-       [layout/right-sidebar]]
+     ;; Right sidebar (plugins, etc.)
+     [layout/right-sidebar]]
 
-      ;; Status bar
-      [layout/status-bar]
+    ;; Status bar
+    [layout/status-bar]
 
-      ;; Which-key popup
-      [layout/which-key-popup]
+    ;; Which-key popup
+    [layout/which-key-popup]
 
-      ;; Command palette
-      [layout/command-palette]]]))
+    ;; Command palette
+    [layout/command-palette]]])
 
 ;; Theme styles
 (defn theme-styles []
