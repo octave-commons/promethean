@@ -138,7 +138,6 @@
                            ctrl-key (.-ctrlKey e)
                            alt-key (.-altKey e)
                            meta-key (.-metaKey e)]
-                       (println "Key pressed:" key "mode:" evil-mode "modifiers:" ctrl-key alt-key meta-key)
                        (when-not (or ctrl-key alt-key meta-key)
                          (when (and (not= evil-mode :insert)
                                     (or (and (>= (.-keyCode e) 37) (<= (.-keyCode e) 40)) ; arrow keys
@@ -148,9 +147,11 @@
                                                           "i" "I" "a" "A" "o" "O" "v" "V"
                                                           "y" "d" "c" "p" "P" "x" "X"
                                                           "/" "?" "n" "N" "u"])))
-                           (println "Handling Evil key:" key)
                            (.preventDefault e)
-                           (opencode-unified.evil/handle-key! e (.-target e))))))
+                           (try
+                             ((resolve 'opencode-unified.evil/handle-key!) e (.-target e))
+                             (catch js/Error ex
+                               (println "Error handling Evil key:" (.-message ex))))))))
       :style {:width "100%"
               :height "100%"
               :border "none"
