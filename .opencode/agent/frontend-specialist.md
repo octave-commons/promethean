@@ -19,6 +19,9 @@ tools:
   glob: false
   grep: false
   write: false
+  *bash*: false
+  *exec*: false
+  *shell*: false
   clj*: true
   serena*: false
   ollama*: false
