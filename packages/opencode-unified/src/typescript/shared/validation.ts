@@ -245,14 +245,19 @@ export class InputValidator {
       securityScore -= 0.2;
     }
 
-    return {
+    const result: SecurityValidationResult = {
       isValid: errors.length === 0,
       sanitizedValue,
       warnings,
       errors,
       securityScore: Math.max(0, securityScore),
-      promptInjection: promptInjectionResult,
     };
+
+    if (promptInjectionResult) {
+      result.promptInjection = promptInjectionResult;
+    }
+
+    return result;
   }
 
   /**
