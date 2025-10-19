@@ -90,7 +90,7 @@ export class QueueMonitor {
    */
   private addEvent(event: JobEvent): void {
     this.events.push(event);
-    
+
     // Keep only recent events
     if (this.events.length > this.maxEvents) {
       this.events = this.events.slice(-this.maxEvents);
@@ -100,15 +100,13 @@ export class QueueMonitor {
   /**
    * Update throughput metrics
    */
-  private updateThroughput(eventType: string): void {
+  private updateThroughput(_eventType: string): void {
     const now = Date.now();
     const windowStart = now - this.throughputWindowSize;
-    
+
     // Find or create current window
-    let currentWindow = this.throughputWindows.find(
-      window => window.windowStart >= windowStart
-    );
-    
+    let currentWindow = this.throughputWindows.find((window) => window.windowStart >= windowStart);
+
     if (!currentWindow) {
       currentWindow = {
         windowStart,
@@ -117,13 +115,13 @@ export class QueueMonitor {
       };
       this.throughputWindows.push(currentWindow);
     }
-    
+
     currentWindow.jobCount++;
     currentWindow.windowEnd = now;
-    
+
     // Clean old windows
     this.throughputWindows = this.throughputWindows.filter(
-      window => window.windowEnd >= windowStart
+      (window) => window.windowEnd >= windowStart,
     );
   }
 
@@ -133,18 +131,18 @@ export class QueueMonitor {
   getThroughput(): number {
     const now = Date.now();
     const windowStart = now - this.throughputWindowSize;
-    
+
     const recentWindows = this.throughputWindows.filter(
-      window => window.windowEnd >= windowStart
+      (window) => window.windowEnd >= windowStart,
     );
-    
+
     if (recentWindows.length === 0) {
       return 0;
     }
-    
+
     const totalJobs = recentWindows.reduce((sum, window) => sum + window.jobCount, 0);
-    const timeSpan = (now - Math.min(...recentWindows.map(w => w.windowStart))) / 60000; // minutes
-    
+    const timeSpan = (now - Math.min(...recentWindows.map((w) => w.windowStart))) / 60000; // minutes
+
     return timeSpan > 0 ? totalJobs / timeSpan : 0;
   }
 
@@ -153,49 +151,53 @@ export class QueueMonitor {
    */
   getMetrics(): QueueMetrics {
     const now = Date.now();
-    const recentEvents = this.events.filter(event => now - event.timestamp < 3600000); // Last hour
-    
-    const submitted = recentEvents.filter(e => e.eventType === 'submitted').length;
-    const started = recentEvents.filter(e => e.eventType === 'started').length;
-    const completed = recentEvents.filter(e => e.eventType === 'completed').length;
-    const failed = recentEvents.filter(e => e.eventType === 'failed').length;
-    const canceled = recentEvents.filter(e => e.eventType === 'canceled').length;
+    const recentEvents = this.events.filter((event) => now - event.timestamp < 3600000); // Last hour
+
+    const submitted = recentEvents.filter((e) => e.eventType === 'submitted').length;
+    const started = recentEvents.filter((e) => e.eventType === 'started').length;
+    const completed = recentEvents.filter((e) => e.eventType === 'completed').length;
+    const failed = recentEvents.filter((e) => e.eventType === 'failed').length;
+    const canceled = recentEvents.filter((e) => e.eventType === 'canceled').length;
 
     // Calculate average wait time
-    const completedJobs = recentEvents.filter(e => e.eventType === 'completed');
-    const waitTimes = completedJobs.map(event => {
-      const startEvent = this.events.find(
-        e => e.jobId === event.jobId && e.eventType === 'started'
-      );
-      const submitEvent = this.events.find(
-        e => e.jobId === event.jobId && e.eventType === 'submitted'
-      );
-      
-      if (startEvent && submitEvent) {
-        return startEvent.timestamp - submitEvent.timestamp;
-      }
-      return 0;
-    }).filter(time => time > 0);
+    const completedJobs = recentEvents.filter((e) => e.eventType === 'completed');
+    const waitTimes = completedJobs
+      .map((event) => {
+        const startEvent = this.events.find(
+          (e) => e.jobId === event.jobId && e.eventType === 'started',
+        );
+        const submitEvent = this.events.find(
+          (e) => e.jobId === event.jobId && e.eventType === 'submitted',
+        );
 
-    const averageWaitTime = waitTimes.length > 0 
-      ? waitTimes.reduce((sum, time) => sum + time, 0) / waitTimes.length 
-      : 0;
+        if (startEvent && submitEvent) {
+          return startEvent.timestamp - submitEvent.timestamp;
+        }
+        return 0;
+      })
+      .filter((time) => time > 0);
+
+    const averageWaitTime =
+      waitTimes.length > 0 ? waitTimes.reduce((sum, time) => sum + time, 0) / waitTimes.length : 0;
 
     // Calculate average processing time
-    const processingTimes = completedJobs.map(event => {
-      const startEvent = this.events.find(
-        e => e.jobId === event.jobId && e.eventType === 'started'
-      );
-      
-      if (startEvent) {
-        return event.timestamp - startEvent.timestamp;
-      }
-      return 0;
-    }).filter(time => time > 0);
+    const processingTimes = completedJobs
+      .map((event) => {
+        const startEvent = this.events.find(
+          (e) => e.jobId === event.jobId && e.eventType === 'started',
+        );
 
-    const averageProcessingTime = processingTimes.length > 0
-      ? processingTimes.reduce((sum, time) => sum + time, 0) / processingTimes.length
-      : 0;
+        if (startEvent) {
+          return event.timestamp - startEvent.timestamp;
+        }
+        return 0;
+      })
+      .filter((time) => time > 0);
+
+    const averageProcessingTime =
+      processingTimes.length > 0
+        ? processingTimes.reduce((sum, time) => sum + time, 0) / processingTimes.length
+        : 0;
 
     return {
       totalJobs: submitted,
@@ -222,7 +224,7 @@ export class QueueMonitor {
    * Get events for a specific job
    */
   getJobEvents(jobId: string): JobEvent[] {
-    return this.events.filter(event => event.jobId === jobId);
+    return this.events.filter((event) => event.jobId === jobId);
   }
 
   /**
@@ -232,20 +234,21 @@ export class QueueMonitor {
     const now = Date.now();
     const lastHour = now - 3600000;
     const lastDay = now - 86400000;
-    
-    const hourEvents = this.events.filter(e => e.timestamp >= lastHour);
-    const dayEvents = this.events.filter(e => e.timestamp >= lastDay);
-    
-    const hourCompleted = hourEvents.filter(e => e.eventType === 'completed').length;
-    const dayCompleted = dayEvents.filter(e => e.eventType === 'completed').length;
-    const hourFailed = hourEvents.filter(e => e.eventType === 'failed').length;
-    const dayFailed = dayEvents.filter(e => e.eventType === 'failed').length;
-    
+
+    const hourEvents = this.events.filter((e) => e.timestamp >= lastHour);
+    const dayEvents = this.events.filter((e) => e.timestamp >= lastDay);
+
+    const hourCompleted = hourEvents.filter((e) => e.eventType === 'completed').length;
+    const dayCompleted = dayEvents.filter((e) => e.eventType === 'completed').length;
+    const hourFailed = hourEvents.filter((e) => e.eventType === 'failed').length;
+    const dayFailed = dayEvents.filter((e) => e.eventType === 'failed').length;
+
     return {
       hourly: {
         completed: hourCompleted,
         failed: hourFailed,
-        successRate: hourCompleted + hourFailed > 0 ? hourCompleted / (hourCompleted + hourFailed) : 0,
+        successRate:
+          hourCompleted + hourFailed > 0 ? hourCompleted / (hourCompleted + hourFailed) : 0,
         throughput: hourCompleted / 60, // per minute
       },
       daily: {
