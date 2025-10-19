@@ -20,7 +20,7 @@ export interface FrontmatterOptions {
   files?: string[];
 }
 
-export async function runFrontmatter(options: FrontmatterOptions, db: DocOpsDB): Promise<void> {
+export async function runFrontmatter(options: FrontmatterOptions, _db: DocOpsDB): Promise<void> {
   // Placeholder implementation
   console.log('Running frontmatter extraction:', options);
 }
