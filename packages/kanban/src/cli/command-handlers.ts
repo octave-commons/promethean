@@ -898,14 +898,23 @@ const handleAudit: CommandHandler = (args, context) =>
     }
 
     // Summary
-    console.log('📊 AUDIT SUMMARY:');
-    console.log(
-      `   Total tasks analyzed: ${board.columns.reduce((sum, col) => sum + col.tasks.length, 0)}`,
-    );
+    const totalTasks = board.columns.reduce((sum, col) => sum + col.tasks.length, 0);
+    console.log('📊 ENHANCED AUDIT SUMMARY:');
+    console.log(`   Total tasks analyzed: ${totalTasks}`);
     console.log(`   Total events in log: ${allEvents.length}`);
     console.log(`   Inconsistencies found: ${inconsistenciesFound}`);
     console.log(`   Illegal transitions: ${illegalTransitionsFound}`);
-    console.log(`   Orphaned tasks (no commit tracking): ${orphanedTasksFound}`);
+    console.log('');
+    console.log('🔍 TASK STATUS BREAKDOWN:');
+    console.log(
+      `   ✅ Healthy tasks: ${healthyTasksFound} (${((healthyTasksFound / totalTasks) * 100).toFixed(1)}%)`,
+    );
+    console.log(
+      `   ⚠️  Untracked tasks: ${untrackedTasksFound} (${((untrackedTasksFound / totalTasks) * 100).toFixed(1)}%)`,
+    );
+    console.log(
+      `   🚨 Truly orphaned tasks: ${orphanedTasksFound} (${((orphanedTasksFound / totalTasks) * 100).toFixed(1)}%)`,
+    );
 
     if (!dryRun) {
       console.log(`   Inconsistencies fixed: ${inconsistenciesFixed}`);
