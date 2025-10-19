@@ -1,6 +1,7 @@
 (ns opencode-unified.ui
   (:require [reagent.core :as r]
             [reagent.dom :as dom]
+            [reagent.dom.client :as rdomc]
             [opencode-unified.state :as state]
             [opencode-unified.layout :as layout]
             [opencode-unified.keymap :as keymap]
@@ -10,48 +11,50 @@
 
 ;; Main app component
 (defn app []
-  (let [current-buffer (state/get-current-buffer)
-        evil-mode (state/get-evil-mode)]
-    [:div.app-container
-     {:class "theme-dark evil-mode-normal"
-      :tab-index 0}
+  [:div
+   [theme-styles]
+   (let [current-buffer (state/get-current-buffer)
+         evil-mode (state/get-evil-mode)]
+     [:div.app-container
+      {:class "theme-dark evil-mode-normal"
+       :tab-index 0}
 
-     ;; Header with menu bar
-     [layout/header]
+      ;; Header with menu bar
+      [layout/header]
 
-     ;; Main content area
-     [:div.main-content
-      ;; Left sidebar (file tree, etc.)
-      [layout/left-sidebar]
+      ;; Main content area
+      [:div.main-content
+       ;; Left sidebar (file tree, etc.)
+       [layout/left-sidebar]
 
-      ;; Editor area
-      [:div.editor-area
-       ;; Tab bar
-       [layout/tab-bar]
+       ;; Editor area
+       [:div.editor-area
+        ;; Tab bar
+        [layout/tab-bar]
 
-       ;; Editor pane
-       [:div.editor-pane
-        (if current-buffer
-          [buffers/editor current-buffer]
-          [:div.no-buffer
-           [:h2 "No Buffer Open"]
-           [:p "Open a file to start editing"]])]
+        ;; Editor pane
+        [:div.editor-pane
+         (if current-buffer
+           [buffers/editor current-buffer]
+           [:div.no-buffer
+            [:h2 "No Buffer Open"]
+            [:p "Open a file to start editing"]])]
 
-       ;; Minimap (if enabled)
-       (when (get-in @state/app-state [:ui :minimap])
-         [layout/minimap current-buffer])]
+        ;; Minimap (if enabled)
+        (when (get-in @state/app-state [:ui :minimap])
+          [layout/minimap current-buffer])]
 
-      ;; Right sidebar (plugins, etc.)
-      [layout/right-sidebar]]
+       ;; Right sidebar (plugins, etc.)
+       [layout/right-sidebar]]
 
-     ;; Status bar
-     [layout/status-bar]
+      ;; Status bar
+      [layout/status-bar]
 
-     ;; Which-key popup
-     [layout/which-key-popup]
+      ;; Which-key popup
+      [layout/which-key-popup]
 
-     ;; Command palette
-     [layout/command-palette]]))
+      ;; Command palette
+      [layout/command-palette]])])
 
 ;; Theme styles
 (defn theme-styles []
@@ -230,26 +233,21 @@ body {
                               ;; Trigger re-render on resize
                                 (r/force-update)))
 
-  ;; Mount app using reagent.dom's create-root (React 18 compatible)
-  (dom/create-root
-   (js/document.getElementById "app")
-   (r/as-element
-    [:div
-     [theme-styles]
-     [app]]))
+  ;; Mount app using React 18 createRoot API
+  (defonce root (rdomc/create-root (js/document.getElementById "app")))
+  (rdomc/render root [app])
 
   (println "Opencode UI initialized"))
 
 ;; Hot module replacement support
 (defn ^:export reload []
   (println "Hot reloading UI...")
-  (r/force-update))
+  (when-let [root (resolve 'root)]
+    (rdomc/render @root [app])))
 
 ;; Hot module replacement support
-(defn ^:export reload []
-  (println "Hot reloading UI...")
-  (r/force-update))
 
 (defn ^:export clear []
   (println "Clearing UI...")
-  (dom/unmount-root (js/document.getElementById "app")))
+  (when-let [root (resolve 'root)]
+    (.unmount @root)))
