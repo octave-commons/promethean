@@ -977,7 +977,7 @@ export const updateStatus = async (
     }
   }
 
-  // Update task file if tasksDir is provided
+// Update task file if tasksDir is provided
   if (tasksDir) {
     try {
       const taskFilePath = await resolveTaskFilePath(found, tasksDir);
@@ -993,45 +993,48 @@ export const updateStatus = async (
         const preservedCreatedAt = existingCreatedAt || found.created_at || NOW_ISO();
 
         // Initialize git tracker and update task with commit tracking
-        const gitTracker = new TaskGitTracker(process.cwd());
-
+        const gitTracker = new TaskGitTracker({ repoRoot: process.cwd() });
+        
         // Update task frontmatter with commit tracking
-        const updatedTask = await gitTracker.updateTaskWithCommitTracking(
+        const updatedFrontmatter = gitTracker.updateTaskCommitTracking(
           {
             ...found,
             status: normalizedStatus,
             content: existingContent,
             created_at: preservedCreatedAt,
           },
+          uuid,
           'status_change',
-          `Status updated from ${currentStatus} to ${normalizedStatus}`,
+          `Status updated from ${currentStatus} to ${normalizedStatus}`
         );
 
         // Write updated task file with new status and commit tracking
-        const updatedContent = toFrontmatter(updatedTask);
+        const updatedContent = toFrontmatter(updatedFrontmatter);
         await fs.writeFile(taskFilePath, updatedContent, 'utf8');
 
         // Create git commit for the status change
         try {
-          const commitResult = await gitTracker.commitTaskChange(
+          const commitResult = await gitTracker.commitTaskChanges(
             taskFilePath,
-            `kanban: ${updatedTask.title} - ${currentStatus} → ${normalizedStatus}`,
+            uuid,
             'status_change',
-            {
-              taskId: uuid,
-              taskTitle: updatedTask.title,
-              fromStatus: currentStatus,
-              toStatus: normalizedStatus,
-              actor,
-              correctionReason,
-            },
+            `${found.title} - ${currentStatus} → ${normalizedStatus}`
           );
 
           if (commitResult.success) {
-            console.log(`📝 Committed task change: ${commitResult.commitSha.slice(0, 8)}...`);
+            console.log(`📝 Committed task change: ${commitResult.sha?.slice(0, 8)}...`);
           } else {
             console.warn(`Warning: Failed to commit task change: ${commitResult.error}`);
           }
+        } catch (commitError) {
+          console.warn(`Warning: Git commit failed for task ${uuid}: ${commitError}`);
+        }
+      }
+    } catch (error) {
+      // Log warning but don't fail status update
+      console.warn(`Warning: Could not update task file for ${uuid}: ${error}`);
+    }
+  }
         } catch (commitError) {
           console.warn(`Warning: Git commit failed for task ${uuid}: ${commitError}`);
         }
