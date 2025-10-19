@@ -493,7 +493,7 @@ export class EventWatcherService {
     try {
       // Update session metadata
       try {
-        const existingSession = await sessionStore.get(`session:${event.sessionId}`);
+        const existingSession = await this.sessionStore!.get(`session:${event.sessionId}`);
 
         if (existingSession) {
           const sessionData = JSON.parse(existingSession.text);
@@ -503,7 +503,7 @@ export class EventWatcherService {
             updatedAt: new Date().toISOString(),
           };
 
-          await sessionStore.insert({
+          await this.sessionStore!.insert({
             id: `session:${event.sessionId}`,
             text: JSON.stringify(updatedSessionData),
             timestamp: Date.now(), // Use current time as update timestamp
