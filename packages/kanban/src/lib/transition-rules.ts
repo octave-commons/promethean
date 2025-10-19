@@ -412,12 +412,21 @@ export class TransitionRulesEngine {
     }
 
     // Run testing transition validation
-    await runTestingTransition(
-      {
-        task,
-        changedFiles: [], // Will be extracted from task content
-        affectedPackages: [], // Will be determined from changed files
+    const coverageRequest: TestCoverageRequest = {
+      task: {
+        uuid: task.uuid,
+        title: task.title,
+        content: task.content,
+        status: task.status,
+        priority: typeof task.priority === 'string' ? task.priority : String(task.priority || ''),
+        frontmatter: task.frontmatter,
       },
+      changedFiles: [], // Will be extracted from task content
+      affectedPackages: [], // Will be determined from changed files
+    };
+
+    await runTestingTransition(
+      coverageRequest,
       testingInfo.executedTests || [],
       testingInfo.requirementMappings || [],
       this.testingConfig,
