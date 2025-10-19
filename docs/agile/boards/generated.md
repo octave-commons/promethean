@@ -435,7 +435,6 @@ kanban-plugin: board
 - [ ] [[Complete breakdown for P0 security tasks]] #breakdown #tasks #complete #security #coordination prio:P0 (uuid:b6c5f483-0893-4144-a0cf-f97ffd2b6b74)
 - [ ] [[Design Agent OS Core Message Protocol]] #agent-os #protocol #messaging #core #design #critical prio:P0 (uuid:0c3189e4-4c58-4be4-b9b0-8e69474e0047)
 - [ ] [[Implement Automated Compliance Monitoring System]] #monitoring #automation #compliance #real-time #alerting prio:P0 (uuid:fbc2b53d-0878-44f8-a6a3-96ee83f0b492)
-- [ ] [[Implement P0 Security Task Validation Gate]] #security-gates #automation #p0-validation #kanban-cli #process-compliance prio:P0 (uuid:dfa8c193-b745-41db-b360-b5fbf1d40f22)
 - [ ] [[Implement WIP Limit Enforcement Gate]] #security-gates #wip-limits #automation #kanban-cli #capacity-management prio:P0 (uuid:a666f910-5767-47b8-a8a8-d210411784f9)
 - [ ] [[P0-Input-Validation-Integration-Subtasks 2|P0: Comprehensive Input Validation Integration - Subtask Breakdown]] #security #critical #input-validation #integration #framework #process-violation prio:P0 (uuid:cbaa21e9-7780-4bc3-9dab-457d8eb75495)
 - [ ] [[P0-MCP-Security-Hardening-Subtasks 2|P0: MCP Security Hardening & Validation - Subtask Breakdown]] #security #critical #mcp #hardening #validation #comprehensive prio:P0 (uuid:2c03f827-5b8f-46b0-868f-de6c67c8eb75)
@@ -463,6 +462,7 @@ kanban-plugin: board
 - [ ] [[test-integration-task 6|Test Integration Task for Testing→Review Transition]] #testing #integration #coverage-validation prio:P0 (uuid:b5c3bc25-e5fd-495c-9a82-54df65488005)
 - [ ] [[test-integration-task|Test Integration Task for Testing→Review Transition]] #testing #integration #coverage-validation prio:P0 (uuid:fe54e8a8-65ae-47fa-a682-7c456702d605)
 - [ ] [[Fix Kanban Column Underscore Normalization Bug]] #kanban #column #bug #fix #completed prio:P1 (uuid:02c78938-cf9c-45a0-b5ff-6e7a212fb043)
+- [ ] [[Implement P0 Security Task Validation Gate]] #security-gates #automation #p0-validation #kanban-cli #process-compliance prio:P0 (uuid:dfa8c193-b745-41db-b360-b5fbf1d40f22)
 
 ## review
 
