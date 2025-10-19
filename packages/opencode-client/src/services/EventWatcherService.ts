@@ -215,7 +215,7 @@ export class EventWatcherService {
         const projectedEvent: ProjectedEvent = {
           id: `session-${session.id}`,
           type: 'session.indexed',
-          timestamp: session.timestamp,
+          timestamp: new Date().toISOString(),
           projectedAt: new Date().toISOString(),
           source: 'retrospective',
           processed: false,
@@ -495,32 +495,29 @@ export class EventWatcherService {
 
     try {
       // Update session metadata
-      const existingSession = await sessionStore.get(`session:${event.sessionId}`);
+      try {
+        const existingSession = await sessionStore.get(`session:${event.sessionId}`);
 
-      if (existingSession) {
-        const sessionData = JSON.parse(existingSession.text);
-        const updatedSessionData = {
-          ...sessionData,
-          lastActivityTime: event.timestamp,
-          updatedAt: new Date().toISOString(),
-        };
+        if (existingSession) {
+          const sessionData = JSON.parse(existingSession.text);
+          const updatedSessionData = {
+            ...sessionData,
+            lastActivityTime: event.timestamp,
+            updatedAt: new Date().toISOString(),
+          };
 
-        const sessionTimestamp =
-          typeof existingSession.timestamp === 'number'
-            ? existingSession.timestamp
-            : existingSession.timestamp instanceof Date
-              ? existingSession.timestamp.getTime()
-              : new Date(existingSession.timestamp).getTime();
-
-        await sessionStore.insert({
-          id: `session:${event.sessionId}`,
-          text: JSON.stringify(updatedSessionData),
-          timestamp: sessionTimestamp,
-          metadata: {
-            ...existingSession.metadata,
-            lastUpdated: new Date().toISOString(),
-          },
-        });
+          await sessionStore.insert({
+            id: `session:${event.sessionId}`,
+            text: JSON.stringify(updatedSessionData),
+            timestamp: Date.now(), // Use current time as update timestamp
+            metadata: {
+              ...existingSession.metadata,
+              lastUpdated: new Date().toISOString(),
+            },
+          });
+        }
+      } catch (error) {
+        this.log(`Failed to update session projection for ${event.sessionId}: ${error}`, 'warn');
       }
     } catch (error) {
       this.log(`Failed to update session projection for ${event.sessionId}: ${error}`, 'warn');
@@ -535,32 +532,29 @@ export class EventWatcherService {
 
     try {
       // Update agent task metadata
-      const existingTask = await agentTaskStore.get(`task:${event.sessionId}`);
+      try {
+        const existingTask = await agentTaskStore.get(`task:${event.sessionId}`);
 
-      if (existingTask) {
-        const taskData = JSON.parse(existingTask.text);
-        const updatedTaskData = {
-          ...taskData,
-          lastActivityTime: event.timestamp,
-          updatedAt: new Date().toISOString(),
-        };
+        if (existingTask) {
+          const taskData = JSON.parse(existingTask.text);
+          const updatedTaskData = {
+            ...taskData,
+            lastActivityTime: event.timestamp,
+            updatedAt: new Date().toISOString(),
+          };
 
-        const taskTimestamp =
-          typeof existingTask.timestamp === 'number'
-            ? existingTask.timestamp
-            : existingTask.timestamp instanceof Date
-              ? existingTask.timestamp.getTime()
-              : new Date(existingTask.timestamp).getTime();
-
-        await agentTaskStore.insert({
-          id: `task:${event.sessionId}`,
-          text: JSON.stringify(updatedTaskData),
-          timestamp: taskTimestamp,
-          metadata: {
-            ...existingTask.metadata,
-            lastUpdated: new Date().toISOString(),
-          },
-        });
+          await agentTaskStore.insert({
+            id: `task:${event.sessionId}`,
+            text: JSON.stringify(updatedTaskData),
+            timestamp: Date.now(), // Use current time as update timestamp
+            metadata: {
+              ...existingTask.metadata,
+              lastUpdated: new Date().toISOString(),
+            },
+          });
+        }
+      } catch (error) {
+        this.log(`Failed to update task projection for ${event.sessionId}: ${error}`, 'warn');
       }
     } catch (error) {
       this.log(`Failed to update task projection for ${event.sessionId}: ${error}`, 'warn');

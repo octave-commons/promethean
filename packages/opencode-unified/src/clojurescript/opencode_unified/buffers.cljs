@@ -442,7 +442,7 @@
 (defn open-settings []
   (println "Open settings not implemented yet"))
 
-;; Buffer position utilities
+;; Buffer position utilities (moved here to be available for motion functions)
 (defn pos-to-line-col [content pos]
   "Convert buffer position to line and column numbers (0-based)"
   (let [lines (str/split-lines content)
@@ -455,6 +455,24 @@
                   pos
                   (- pos (inc last-line-start)))]
         [line-count col]))))
+
+(defn get-current-line [buffer])
+
+(defn get-current-line [buffer]
+  "Get current line number (0-based) for buffer"
+  (let [content (:content buffer)
+        cursor-pos (:cursor-pos buffer)]
+    (first (pos-to-line-col content cursor-pos))))
+
+(defn get-current-col [buffer])
+
+(defn get-current-col [buffer]
+  "Get current column number (0-based) for buffer"
+  (let [content (:content buffer)
+        cursor-pos (:cursor-pos buffer)]
+    (second (pos-to-line-col content cursor-pos))))
+
+;; Motion functions
 
 (defn line-col-to-pos [content line col]
   "Convert line and column numbers (0-based) to buffer position"
@@ -566,6 +584,39 @@
           (if (str/includes? word-chars char)
             (recur (dec current-pos))
             (inc current-pos)))))))
+
+;; Simplified key handlers for basic Evil mode
+(defn handle-normal-mode-key [e key]
+  (case key
+    ;; Mode switches
+    "i" (do (.preventDefault e) (enter-insert-mode))
+    "v" (do (.preventDefault e) (enter-visual-mode))
+    "V" (do (.preventDefault e) (enter-visual-line-mode))
+
+    ;; Basic motions
+    "h" (do (.preventDefault e) (move-cursor-left e))
+    "j" (do (.preventDefault e) (move-cursor-down e))
+    "k" (do (.preventDefault e) (move-cursor-up e))
+    "l" (do (.preventDefault e) (move-cursor-right e))
+    "0" (do (.preventDefault e) (move-to-line-start e))
+    "$" (do (.preventDefault e) (move-to-line-end e))
+
+    ;; Basic operators
+    "x" (do (.preventDefault e) (delete-char e))
+    "dd" (do (.preventDefault e) (delete-line e))
+
+    nil))
+
+(defn handle-visual-mode-key [e key]
+  (case key
+    "Escape" (do (.preventDefault e) (exit-visual-mode))
+    "h" (do (.preventDefault e) (extend-selection-left e))
+    "j" (do (.preventDefault e) (extend-selection-down e))
+    "k" (do (.preventDefault e) (extend-selection-up e))
+    "l" (do (.preventDefault e) (extend-selection-right e))
+    "y" (do (.preventDefault e) (yank-selection e))
+    "d" (do (.preventDefault e) (delete-selection e))
+    nil))
 
 ;; Editor component with Evil mode integration
 (defn editor [buffer]
