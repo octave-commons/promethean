@@ -11,7 +11,7 @@
 import { readFile, access } from 'fs/promises';
 import type { Task, Board } from './types.js';
 import { runTestingTransition } from './testing-transition/index.js';
-import type { TestingTransitionConfig } from './testing-transition/types.js';
+import type { TestingTransitionConfig, TestCoverageRequest } from './testing-transition/types.js';
 
 export interface TransitionRule {
   from: string[];
