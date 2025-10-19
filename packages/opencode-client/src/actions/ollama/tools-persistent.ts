@@ -20,13 +20,13 @@ import type { CacheEntry } from '../cache/types.js';
 // Initialize persistent store if not already done
 let storeInitialized = false;
 
-async function ensureStoreInitialized() {
+async function ensureStoreInitialized(startProcessor = false) {
   if (!storeInitialized) {
     await initializePersistentStore('./ollama-persistent-cache');
     storeInitialized = true;
 
-    // Start the persistent queue processor if not already running
-    if (!getProcessingInterval()) {
+    // Start the persistent queue processor only if requested
+    if (startProcessor && !getProcessingInterval()) {
       startQueueProcessorPersistent();
     }
   }
@@ -34,7 +34,7 @@ async function ensureStoreInitialized() {
 
 // Submit a new job to queue
 export async function submitJob(job: Omit<Job, 'id' | 'createdAt' | 'updatedAt'>) {
-  await ensureStoreInitialized();
+  await ensureStoreInitialized(true); // Start processor for submit operations
 
   const submittedJob = await submitJobPersistent(job);
 

@@ -8,7 +8,8 @@
     "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "verbatimModuleSyntax": true
   },
   "include": ["src/typescript/**/*", "src/schemas/**/*", "src/tests/**/*.test.ts"],
   "exclude": ["node_modules", "dist", "src/clojurescript", "**/*.spec.ts"]

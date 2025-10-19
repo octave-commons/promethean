@@ -56,7 +56,7 @@
     "clean": "rimraf dist",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "typecheck:clojurescript": "shadow-cljs check",
-    "test": "pnpm build:typescript && ava",
+    "test": "pnpm build:typescript && npx ava --require tsx/cjs src/tests/validation.test.ts",
     "test:unit": "pnpm build:typescript && ava dist/tests/**/*.test.js",
     "test:integration": "pnpm build:typescript && ava dist/tests/integration/**/*.test.js",
     "test:e2e": "pnpm build:typescript && ava dist/tests/e2e/**/*.test.js",
