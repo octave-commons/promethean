@@ -90,6 +90,8 @@ export class TransitionRulesEngine {
         softBlock: 90,
         hardBlock: 75,
       },
+      hardBlockCoverageThreshold: 75,
+      softBlockQualityScoreThreshold: 90,
       weights: {
         coverage: 0.4,
         quality: 0.3,
@@ -559,7 +561,7 @@ export class TransitionRulesEngine {
 
       // Load the Clojure DSL file
       const dslCode = await readFile(this.config.dslPath!, 'utf-8');
-      
+
       // Create a safe evaluation context with DSL loaded
       const clojureCode = `
         ${dslCode}
@@ -574,10 +576,11 @@ export class TransitionRulesEngine {
                        :status "${task.status}"
                        :estimates {:complexity ${task.estimates?.complexity || 999}}
                        :storyPoints ${task.storyPoints || 0}
-                       :labels [${(task.labels || []).map(l => `"${l}"`).join(' ')}]})
+                       :labels [${(task.labels || []).map((l) => `"${l}"`).join(' ')}]})
         
-        (def board-clj {:columns [${board.columns.map(col => 
-          `{:name "${col.name}" :limit ${col.limit || 0} :tasks []}`).join(' ')}]})
+        (def board-clj {:columns [${board.columns
+          .map((col) => `{:name "${col.name}" :limit ${col.limit || 0} :tasks []}`)
+          .join(' ')}]})
         
         ;; Evaluate the rule implementation with converted objects
         (let [task task-clj
