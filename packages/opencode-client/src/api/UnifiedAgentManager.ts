@@ -1,12 +1,13 @@
 /**
  * Unified Agent Management API
  * Provides high-level abstractions for session, task, and agent management
+ * Always queries dual store directly - no in-memory state
  */
 
 import { AgentTask } from '../AgentTask.js';
 import { AgentTaskManager } from './AgentTaskManager.js';
 import { MessageProcessor } from './MessageProcessor.js';
-import { createSession, closeSession, listSessions } from './sessions.js';
+import { createSession, closeSession, listSessions, getSession } from './sessions.js';
 
 export interface CreateAgentSessionOptions {
   title?: string;
@@ -56,7 +57,7 @@ export class UnifiedAgentManager {
     return UnifiedAgentManager.instance;
   }
 
-private ensureStoresInitialized(): void {
+  private ensureStoresInitialized(): void {
     // This will throw if stores aren't initialized, which is better than silent failures
     try {
       // Try to access AgentTaskManager to ensure stores are ready
@@ -66,53 +67,69 @@ private ensureStoresInitialized(): void {
     }
   }
 
-  /**
-   * Reload sessions from persistent storage
+/**
+   * Get session from storage by ID
    */
-  private async reloadSessions(): Promise<void> {
+  private async getSessionFromStorage(sessionId: string): Promise<AgentSession | null> {
     try {
-      // Load persisted tasks
-      await AgentTaskManager.loadPersistedTasks();
-      
-      // Get all sessions from storage
-      const sessions = await listSessions();
-      
-      // Clear current in-memory sessions
-      this.activeSessions.clear();
-      
-      // Rebuild active sessions from storage
-      for (const session of sessions) {
-        if (session.isAgentTask) {
-          try {
-            // Get the corresponding task
-            const allTasks = await AgentTaskManager.getAllTasks();
-            const task = allTasks.get(session.id);
-            
-            if (task) {
-              const agentSession: AgentSession = {
-                sessionId: session.id,
-                task,
-                session: {
-                  id: session.id,
-                  title: session.title,
-                  files: session.files || [],
-                  delegates: session.delegates || [],
-                  createdAt: session.createdAt,
-                  status: session.activityStatus,
-                },
-                createdAt: new Date(session.createdAt || Date.now()),
-                status: this.mapStatusToAgentStatus(session.agentTaskStatus || session.activityStatus || 'initializing'),
-              };
-              
-              this.activeSessions.set(session.id, agentSession);
-            }
-          } catch (error) {
-            console.warn(`Failed to load session ${session.id}:`, error);
-          }
-        }
+      const session = await getSession(sessionId);
+      if (!session) {
+        return null;
       }
+
+      const allTasks = await AgentTaskManager.getAllTasks();
+      const task = allTasks.get(sessionId);
+      
+      if (!task) {
+        return null;
+      }
+
+      return {
+        sessionId: session.id,
+        task,
+        session: {
+          id: session.id,
+          title: session.title,
+          files: [], // Session interface doesn't have files/delegates, but AgentSession expects them
+          delegates: [],
+          createdAt: session.createdAt,
+          status: session.activityStatus,
+        },
+        createdAt: new Date(session.createdAt || Date.now()),
+        status: this.mapStatusToAgentStatus(session.agentTaskStatus || session.activityStatus || 'initializing'),
+      };
     } catch (error) {
-      console.warn('Failed to reload sessions:', error);
+      console.warn(`Failed to get session ${sessionId} from storage:`, error);
+      return null;
+    }
+  }
+
+      const allTasks = await AgentTaskManager.getAllTasks();
+      const task = allTasks.get(sessionId);
+
+      if (!task) {
+        return null;
+      }
+
+      return {
+        sessionId: session.session.id,
+        task,
+        session: {
+          id: session.session.id,
+          title: session.session.title,
+          files: session.session.files || [],
+          delegates: session.session.delegates || [],
+          createdAt: session.session.createdAt,
+          status: session.session.activityStatus,
+        },
+        createdAt: new Date(session.session.createdAt || Date.now()),
+        status: this.mapStatusToAgentStatus(
+          session.session.agentTaskStatus || session.session.activityStatus || 'initializing',
+        ),
+      };
+    } catch (error) {
+      console.warn(`Failed to get session ${sessionId} from storage:`, error);
+      return null;
     }
   }
 
@@ -135,7 +152,6 @@ private ensureStoresInitialized(): void {
         return 'initializing';
     }
   }
-  }
 
   /**
    * Create a new agent session with task assignment in a single operation
@@ -149,6 +165,7 @@ private ensureStoresInitialized(): void {
     try {
       // Ensure stores are initialized before proceeding
       this.ensureStoresInitialized();
+
       // Step 1: Create the session
       const sessionResult = await createSession({
         title: options.title || `Task: ${taskDescription.substring(0, 50)}...`,
@@ -181,29 +198,15 @@ private ensureStoresInitialized(): void {
         });
       }
 
-      // Step 4: Create the agent session record
-      const agentSession: AgentSession = {
-        sessionId,
-        task,
-        session: sessionResult.session,
-        createdAt: new Date(),
-        status: sessionOptions.autoStart ? 'running' : 'initializing',
-      };
-
-      // Step 5: Store and start if requested
-      this.activeSessions.set(sessionId, agentSession);
-
+      // Step 4: Start if requested
       if (sessionOptions.autoStart) {
-        await this.startAgentSession(sessionId);
+        await AgentTaskManager.updateTaskStatus(sessionId, 'running');
       }
 
-      // Step 6: Set up event listeners
-      if (sessionOptions.onStatusChange) {
-        this.addEventListener(sessionId, 'statusChange', sessionOptions.onStatusChange);
-      }
-
-      if (sessionOptions.onMessage) {
-        this.addEventListener(sessionId, 'message', sessionOptions.onMessage);
+      // Step 5: Return the created session by querying from storage
+      const agentSession = await this.getSessionFromStorage(sessionId);
+      if (!agentSession) {
+        throw new Error(`Failed to retrieve created session ${sessionId}`);
       }
 
       return agentSession;
@@ -217,18 +220,15 @@ private ensureStoresInitialized(): void {
    */
   async startAgentSession(sessionId: string): Promise<void> {
     this.ensureStoresInitialized();
-    const agentSession = this.activeSessions.get(sessionId);
+
+    const agentSession = await this.getSessionFromStorage(sessionId);
     if (!agentSession) {
       throw new Error(`Session ${sessionId} not found`);
     }
 
     try {
       await AgentTaskManager.updateTaskStatus(sessionId, 'running');
-      agentSession.status = 'running';
-
-      this.notifyListeners(sessionId, 'statusChange', ['initializing', 'running']);
     } catch (error) {
-      agentSession.status = 'failed';
       throw new Error(`Failed to start session ${sessionId}: ${(error as Error).message}`);
     }
   }
@@ -238,18 +238,15 @@ private ensureStoresInitialized(): void {
    */
   async stopAgentSession(sessionId: string, completionMessage?: string): Promise<void> {
     this.ensureStoresInitialized();
-    const agentSession = this.activeSessions.get(sessionId);
+
+    const agentSession = await this.getSessionFromStorage(sessionId);
     if (!agentSession) {
       throw new Error(`Session ${sessionId} not found`);
     }
 
     try {
       await AgentTaskManager.updateTaskStatus(sessionId, 'completed', completionMessage);
-      agentSession.status = 'completed';
-
-      this.notifyListeners(sessionId, 'statusChange', ['running', 'completed']);
     } catch (error) {
-      agentSession.status = 'failed';
       throw new Error(`Failed to stop session ${sessionId}: ${(error as Error).message}`);
     }
   }
@@ -263,7 +260,8 @@ private ensureStoresInitialized(): void {
     messageType: string = 'user',
   ): Promise<void> {
     this.ensureStoresInitialized();
-    const agentSession = this.activeSessions.get(sessionId);
+
+    const agentSession = await this.getSessionFromStorage(sessionId);
     if (!agentSession) {
       throw new Error(`Session ${sessionId} not found`);
     }
@@ -274,8 +272,6 @@ private ensureStoresInitialized(): void {
         content: message,
         timestamp: new Date().toISOString(),
       });
-
-      this.notifyListeners(sessionId, 'message', [{ type: messageType, content: message }]);
     } catch (error) {
       throw new Error(
         `Failed to send message to session ${sessionId}: ${(error as Error).message}`,
@@ -286,22 +282,40 @@ private ensureStoresInitialized(): void {
   /**
    * Get agent session details
    */
-  getAgentSession(sessionId: string): AgentSession | undefined {
-    return this.activeSessions.get(sessionId);
+  async getAgentSession(sessionId: string): Promise<AgentSession | null> {
+    return this.getSessionFromStorage(sessionId);
   }
 
   /**
    * List all active agent sessions
    */
-  listAgentSessions(): AgentSession[] {
-    return Array.from(this.activeSessions.values());
+  async listAgentSessions(): Promise<AgentSession[]> {
+    try {
+      const sessions = await listSessions();
+      const agentSessions: AgentSession[] = [];
+
+      for (const session of sessions) {
+        if (session.isAgentTask) {
+          const agentSession = await this.getSessionFromStorage(session.id);
+          if (agentSession) {
+            agentSessions.push(agentSession);
+          }
+        }
+      }
+
+      return agentSessions;
+    } catch (error) {
+      console.warn('Failed to list agent sessions:', error);
+      return [];
+    }
   }
 
   /**
    * Get sessions by status
    */
-  getSessionsByStatus(status: AgentSession['status']): AgentSession[] {
-    return this.listAgentSessions().filter((session) => session.status === status);
+  async getSessionsByStatus(status: AgentSession['status']): Promise<AgentSession[]> {
+    const sessions = await this.listAgentSessions();
+    return sessions.filter((session) => session.status === status);
   }
 
   /**
@@ -309,7 +323,8 @@ private ensureStoresInitialized(): void {
    */
   async closeAgentSession(sessionId: string): Promise<void> {
     this.ensureStoresInitialized();
-    const agentSession = this.activeSessions.get(sessionId);
+
+    const agentSession = await this.getSessionFromStorage(sessionId);
     if (!agentSession) {
       throw new Error(`Session ${sessionId} not found`);
     }
@@ -320,66 +335,22 @@ private ensureStoresInitialized(): void {
         await this.stopAgentSession(sessionId, 'Session closed by user');
       }
 
-      // Close the session
+      // Close session
       await closeSession(sessionId);
-
-      // Remove from active sessions
-      this.activeSessions.delete(sessionId);
-
-      // Clear event listeners
-      this.eventListeners.delete(sessionId);
     } catch (error) {
       throw new Error(`Failed to close session ${sessionId}: ${(error as Error).message}`);
     }
   }
 
   /**
-   * Add event listener for a session
-   */
-  addEventListener(sessionId: string, _eventType: string, listener: Function): void {
-    if (!this.eventListeners.has(sessionId)) {
-      this.eventListeners.set(sessionId, new Set());
-    }
-
-    const sessionListeners = this.eventListeners.get(sessionId)!;
-    sessionListeners.add(listener);
-  }
-
-  /**
-   * Remove event listener for a session
-   */
-  removeEventListener(sessionId: string, _eventType: string, listener: Function): void {
-    const sessionListeners = this.eventListeners.get(sessionId);
-    if (sessionListeners) {
-      sessionListeners.delete(listener);
-    }
-  }
-
-  /**
-   * Notify all listeners for a session
-   */
-  private notifyListeners(sessionId: string, _eventType: string, data: unknown[]): void {
-    const sessionListeners = this.eventListeners.get(sessionId);
-    if (sessionListeners) {
-      sessionListeners.forEach((listener) => {
-        try {
-          listener(...data);
-        } catch (error) {
-          console.error(`Error in event listener for session ${sessionId}:`, error);
-        }
-      });
-    }
-  }
-
-  /**
    * Get session statistics
    */
-  getSessionStats(): {
+  async getSessionStats(): Promise<{
     total: number;
     byStatus: Record<string, number>;
     averageAge: number;
-  } {
-    const sessions = this.listAgentSessions();
+  }> {
+    const sessions = await this.listAgentSessions();
     const now = new Date().getTime();
 
     const byStatus = sessions.reduce(
@@ -408,7 +379,8 @@ private ensureStoresInitialized(): void {
    */
   async cleanupOldSessions(maxAge: number = 24 * 60 * 60 * 1000): Promise<number> {
     const now = new Date().getTime();
-    const sessionsToCleanup = this.listAgentSessions().filter(
+    const sessions = await this.listAgentSessions();
+    const sessionsToCleanup = sessions.filter(
       (session) =>
         (session.status === 'completed' || session.status === 'failed') &&
         now - session.createdAt.getTime() > maxAge,

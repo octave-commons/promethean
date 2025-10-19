@@ -120,70 +120,45 @@
         selection (:selection buffer)
         evil-mode (state/get-evil-mode)]
 
-    (r/create-class
-     {:component-did-mount
-      (fn [this]
-        (let [textarea (r/dom-node this)]
-          (when textarea
-            ;; Set cursor position and selection
-            (.setSelectionRange textarea cursor-pos cursor-pos)
-            (when selection
-              (let [start (min (:start selection) (:end selection))
-                    end (max (:start selection) (:end selection))]
-                (.setSelectionRange textarea start end))))))
-
-      :component-did-update
-      (fn [this]
-        (let [textarea (r/dom-node this)]
-          (when textarea
-            ;; Set cursor position and selection
-            (.setSelectionRange textarea cursor-pos cursor-pos)
-            (when selection
-              (let [start (min (:start selection) (:end selection))
-                    end (max (:start selection) (:end selection))]
-                (.setSelectionRange textarea start end))))))
-
-      :reagent-render
-      (fn []
-        [:textarea.editor-content
-         {:value content
-          :read-only (not= evil-mode :insert)
-          :on-change (fn [e]
-                       (when (= evil-mode :insert)
-                         (let [new-value (-> e .-target .-value)
-                               new-cursor-pos (-> e .-target .-selectionStart)]
-                           (state/update-current-buffer!
-                            (fn [b]
-                              (-> b
-                                  (assoc :content new-value)
-                                  (assoc :cursor-pos new-cursor-pos)
-                                  (assoc :modified? true)))))))
-          :on-key-down (fn [e]
-                         (when-not (or (.-ctrlKey e) (.-altKey e) (.-metaKey e))
-                           (let [key (.-key e)]
-                             (when (and (not= evil-mode :insert)
-                                        (or (and (>= (.-keyCode e) 37) (<= (.-keyCode e) 40)) ; arrow keys
-                                            (and (>= (.-keyCode e) 48) (<= (.-keyCode e) 57)) ; numbers
-                                            (= key "Escape")
-                                            (some #(= key %) ["h" "j" "k" "l" "w" "b" "e" "0" "$" "g" "G"
-                                                              "i" "I" "a" "A" "o" "O" "v" "V"
-                                                              "y" "d" "c" "p" "P" "x" "X"
-                                                              "/" "?" "n" "N" "u"])))
-                               (.preventDefault e)
-                               ((resolve 'opencode-unified.evil/handle-key) e)))))
-          :style {:width "100%"
-                  :height "100%"
-                  :border "none"
-                  :outline "none"
-                  :background "transparent"
-                  :color "var(--text-primary)"
-                  :font-family "monospace"
-                  :font-size "14px"
-                  :line-height "1.5"
-                  :padding "1rem"
-                  :resize "none"
-                  :white-space "pre"
-                  :overflow "auto"}}])})))
+    [:textarea.editor-content
+     {:value content
+      :read-only (not= evil-mode :insert)
+      :on-change (fn [e]
+                   (when (= evil-mode :insert)
+                     (let [new-value (-> e .-target .-value)
+                           new-cursor-pos (-> e .-target .-selectionStart)]
+                       (state/update-current-buffer!
+                        (fn [b]
+                          (-> b
+                              (assoc :content new-value)
+                              (assoc :cursor-pos new-cursor-pos)
+                              (assoc :modified? true)))))))
+      :on-key-down (fn [e]
+                     (when-not (or (.-ctrlKey e) (.-altKey e) (.-metaKey e))
+                       (let [key (.-key e)]
+                         (when (and (not= evil-mode :insert)
+                                    (or (and (>= (.-keyCode e) 37) (<= (.-keyCode e) 40)) ; arrow keys
+                                        (and (>= (.-keyCode e) 48) (<= (.-keyCode e) 57)) ; numbers
+                                        (= key "Escape")
+                                        (some #(= key %) ["h" "j" "k" "l" "w" "b" "e" "0" "$" "g" "G"
+                                                          "i" "I" "a" "A" "o" "O" "v" "V"
+                                                          "y" "d" "c" "p" "P" "x" "X"
+                                                          "/" "?" "n" "N" "u"])))
+                           (.preventDefault e)
+                           ((resolve 'opencode-unified.evil/handle-key) e)))))
+      :style {:width "100%"
+              :height "100%"
+              :border "none"
+              :outline "none"
+              :background "transparent"
+              :color "var(--text-primary)"
+              :font-family "monospace"
+              :font-size "14px"
+              :line-height "1.5"
+              :padding "1rem"
+              :resize "none"
+              :white-space "pre"
+              :overflow "auto"}}]))
 
 ;; Command palette
 (defn command-palette []
