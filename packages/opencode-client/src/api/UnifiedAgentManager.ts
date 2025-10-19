@@ -57,14 +57,85 @@ export class UnifiedAgentManager {
     return UnifiedAgentManager.instance;
   }
 
-  private ensureStoresInitialized(): void {
+private ensureStoresInitialized(): void {
     // This will throw if stores aren't initialized, which is better than silent failures
     try {
-      // Try to access the AgentTaskManager to ensure stores are ready
+      // Try to access AgentTaskManager to ensure stores are ready
       void AgentTaskManager.getAllTasks;
     } catch (error) {
       throw new Error('Agent stores not initialized. Call initializeStores() first.');
     }
+  }
+
+  /**
+   * Reload sessions from persistent storage
+   */
+  private async reloadSessions(): Promise<void> {
+    try {
+      // Load persisted tasks
+      await AgentTaskManager.loadPersistedTasks();
+      
+      // Get all sessions from storage
+      const sessions = await listSessions();
+      
+      // Clear current in-memory sessions
+      this.activeSessions.clear();
+      
+      // Rebuild active sessions from storage
+      for (const session of sessions) {
+        if (session.isAgentTask) {
+          try {
+            // Get the corresponding task
+            const allTasks = await AgentTaskManager.getAllTasks();
+            const task = allTasks.get(session.id);
+            
+            if (task) {
+              const agentSession: AgentSession = {
+                sessionId: session.id,
+                task,
+                session: {
+                  id: session.id,
+                  title: session.title,
+                  files: session.files || [],
+                  delegates: session.delegates || [],
+                  createdAt: session.createdAt,
+                  status: session.activityStatus,
+                },
+                createdAt: new Date(session.createdAt || Date.now()),
+                status: this.mapStatusToAgentStatus(session.agentTaskStatus || session.activityStatus || 'initializing'),
+              };
+              
+              this.activeSessions.set(session.id, agentSession);
+            }
+          } catch (error) {
+            console.warn(`Failed to load session ${session.id}:`, error);
+          }
+        }
+      }
+    } catch (error) {
+      console.warn('Failed to reload sessions:', error);
+    }
+  }
+
+  /**
+   * Map session status to agent session status
+   */
+  private mapStatusToAgentStatus(status: string): AgentSession['status'] {
+    switch (status) {
+      case 'active':
+      case 'running':
+        return 'running';
+      case 'completed':
+        return 'completed';
+      case 'error':
+      case 'failed':
+        return 'failed';
+      case 'waiting_for_input':
+        return 'idle';
+      default:
+        return 'initializing';
+    }
+  }
   }
 
   /**
