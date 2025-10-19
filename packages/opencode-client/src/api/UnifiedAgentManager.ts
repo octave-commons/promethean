@@ -151,18 +151,34 @@ export class UnifiedAgentManager {
       await AgentTaskManager.createTask(sessionId, taskDescription);
 
       // Send the task description as the first message
-      await MessageProcessor.processMessage(null, sessionId, {
-        type: 'user',
-        content: taskDescription,
-        timestamp: new Date().toISOString(),
+      await MessageProcessor.processMessage({}, sessionId, {
+        info: {
+          id: `task_${sessionId}_${Date.now()}`,
+          role: 'user',
+          time: { created: Date.now(), updated: Date.now() },
+        },
+        parts: [
+          {
+            type: 'text',
+            text: taskDescription,
+          },
+        ],
       });
 
       // Step 3: Send initial message if provided
       if (initialMessage) {
-        await MessageProcessor.processMessage(null, sessionId, {
-          type: 'user',
-          content: initialMessage,
-          timestamp: new Date().toISOString(),
+        await MessageProcessor.processMessage({}, sessionId, {
+          info: {
+            id: `initial_${sessionId}_${Date.now()}`,
+            role: 'user',
+            time: { created: Date.now(), updated: Date.now() },
+          },
+          parts: [
+            {
+              type: 'text',
+              text: initialMessage,
+            },
+          ],
         });
       }
 
@@ -236,10 +252,18 @@ export class UnifiedAgentManager {
     }
 
     try {
-      await MessageProcessor.processMessage(null, sessionId, {
-        type: messageType,
-        content: message,
-        timestamp: new Date().toISOString(),
+      await MessageProcessor.processMessage({}, sessionId, {
+        info: {
+          id: `msg_${sessionId}_${Date.now()}`,
+          role: messageType as 'user' | 'assistant' | 'system',
+          time: { created: Date.now(), updated: Date.now() },
+        },
+        parts: [
+          {
+            type: 'text',
+            text: message,
+          },
+        ],
       });
     } catch (error) {
       throw new Error(
