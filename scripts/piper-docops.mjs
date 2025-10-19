@@ -170,8 +170,8 @@ export async function footers(args = {}) {
 }
 
 export async function rename(args = {}) {
-  const { openDB } = await import('@promethean/docops/dist/index.js');
-  const { runRename } = await import('@promethean/docops/dist/index.js');
+  const { openDB } = await import('../packages/docops/dist/index.js');
+  const { runRename } = await import('../packages/docops/dist/index.js');
   const db = await openDB();
   try {
     await runRename(
