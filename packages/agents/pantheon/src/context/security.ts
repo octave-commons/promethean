@@ -181,6 +181,8 @@ export class SecurityValidator {
 
     return shareType;
   }
+}
+  }
   static hashSensitiveData(data: string): string {
     return crypto.createHash("sha256").update(data).digest("hex");
   }
@@ -219,6 +221,8 @@ export class SecurityValidator {
     }
 
     return shareType;
+  }
+}
   }
 
 export class SecurityLogger {
