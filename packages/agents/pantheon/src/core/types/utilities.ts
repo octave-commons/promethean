@@ -12,14 +12,14 @@ export type AsyncFunction<T = unknown, R = unknown> = (
   ...args: readonly T[]
 ) => Promise<R>;
 
-export interface Logger {
+export type Logger = {
   debug(message: string, ...args: readonly unknown[]): void;
   info(message: string, ...args: readonly unknown[]): void;
   warn(message: string, ...args: readonly unknown[]): void;
   error(message: string, error?: Error, ...args: readonly unknown[]): void;
 }
 
-export interface Cache {
+export type Cache = {
   get<T>(key: string): Promise<T | undefined>;
   set<T>(key: string, value: T, ttl?: number): Promise<void>;
   delete(key: string): Promise<boolean>;
