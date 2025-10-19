@@ -1,7 +1,7 @@
-import type { FastifyRequest, FastifyReply } from "fastify";
-import type { User, AuthResult, SecurityContext, AuthConfig } from "../types/security.js";
-import { JWTService } from "./jwtService.js";
-import { RBAC } from "./rbac.js";
+import type { FastifyRequest, FastifyReply } from 'fastify';
+import type { User, AuthResult, AuthConfig } from '../types/security.js';
+import { JWTService } from './jwtService.js';
+import { RBAC } from './rbac.js';
 
 /**
  * Authentication middleware for Fastify routes
@@ -21,13 +21,13 @@ export class AuthMiddleware {
   private initializeDefaultUsers(config: AuthConfig): void {
     // Create admin user from first API key if available
     if (config.apiKeys.length > 0) {
-      const adminUser = RBAC.createUser("admin", config.apiKeys[0], ["admin"]);
+      const adminUser = RBAC.createUser('admin', config.apiKeys[0], ['admin']);
       this.users.set(adminUser.id, adminUser);
     }
 
     // Create additional users for remaining API keys
     config.apiKeys.slice(1).forEach((apiKey, index) => {
-      const user = RBAC.createUser(`user-${index + 1}`, apiKey, ["user"]);
+      const user = RBAC.createUser(`user-${index + 1}`, apiKey, ['user']);
       this.users.set(user.id, user);
     });
   }
@@ -53,7 +53,7 @@ export class AuthMiddleware {
 
     return {
       success: false,
-      error: "No authentication credentials provided",
+      error: 'No authentication credentials provided',
       statusCode: 401,
     };
   }
@@ -63,7 +63,7 @@ export class AuthMiddleware {
    */
   private extractToken(request: FastifyRequest): string | null {
     const authHeader = request.headers.authorization;
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return null;
     }
 
@@ -74,7 +74,7 @@ export class AuthMiddleware {
    * Extract API key from request headers
    */
   private extractApiKey(request: FastifyRequest): string | null {
-    return (request.headers["x-api-key"] as string) || null;
+    return (request.headers['x-api-key'] as string) || null;
   }
 
   /**
@@ -86,15 +86,15 @@ export class AuthMiddleware {
       if (!payload) {
         return {
           success: false,
-          error: "Invalid or expired token",
+          error: 'Invalid or expired token',
           statusCode: 401,
         };
       }
 
-      if (payload.type !== "access") {
+      if (payload.type !== 'access') {
         return {
           success: false,
-          error: "Invalid token type",
+          error: 'Invalid token type',
           statusCode: 401,
         };
       }
@@ -103,7 +103,7 @@ export class AuthMiddleware {
       if (!user) {
         return {
           success: false,
-          error: "User not found",
+          error: 'User not found',
           statusCode: 401,
         };
       }
@@ -120,7 +120,7 @@ export class AuthMiddleware {
     } catch (error) {
       return {
         success: false,
-        error: "Authentication failed",
+        error: 'Authentication failed',
         statusCode: 401,
       };
     }
@@ -130,12 +130,12 @@ export class AuthMiddleware {
    * Authenticate using API key
    */
   private authenticateWithApiKey(apiKey: string): AuthResult {
-    const user = Array.from(this.users.values()).find(u => u.apiKey === apiKey);
-    
+    const user = Array.from(this.users.values()).find((u) => u.apiKey === apiKey);
+
     if (!user) {
       return {
         success: false,
-        error: "Invalid API key",
+        error: 'Invalid API key',
         statusCode: 401,
       };
     }
@@ -154,11 +154,13 @@ export class AuthMiddleware {
   /**
    * Create authentication middleware for Fastify
    */
-  createAuthMiddleware(options: {
-    required?: boolean;
-    permissions?: readonly string[];
-    roles?: readonly string[];
-  } = {}) {
+  createAuthMiddleware(
+    options: {
+      required?: boolean;
+      permissions?: readonly string[];
+      roles?: readonly string[];
+    } = {},
+  ) {
     const { required = true, permissions = [], roles = [] } = options;
 
     return async (request: FastifyRequest, reply: FastifyReply) => {
@@ -168,7 +170,7 @@ export class AuthMiddleware {
         if (required) {
           return reply.status(authResult.statusCode).send({
             error: authResult.error,
-            code: "AUTHENTICATION_FAILED",
+            code: 'AUTHENTICATION_FAILED',
           });
         }
         // If authentication is not required, continue without user context
@@ -178,8 +180,8 @@ export class AuthMiddleware {
       // Check permissions if specified
       if (permissions.length > 0 && !RBAC.hasAllPermissions(authResult.user, permissions)) {
         return reply.status(403).send({
-          error: "Insufficient permissions",
-          code: "INSUFFICIENT_PERMISSIONS",
+          error: 'Insufficient permissions',
+          code: 'INSUFFICIENT_PERMISSIONS',
           required: permissions,
           current: authResult.user.permissions,
         });
@@ -188,8 +190,8 @@ export class AuthMiddleware {
       // Check roles if specified
       if (roles.length > 0 && !RBAC.hasAnyRole(authResult.user, roles)) {
         return reply.status(403).send({
-          error: "Insufficient role privileges",
-          code: "INSUFFICIENT_ROLES",
+          error: 'Insufficient role privileges',
+          code: 'INSUFFICIENT_ROLES',
           required: roles,
           current: authResult.user.roles,
         });
