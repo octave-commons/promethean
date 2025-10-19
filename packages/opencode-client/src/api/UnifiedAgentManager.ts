@@ -72,19 +72,15 @@ export class UnifiedAgentManager {
    */
   private async getSessionFromStorage(sessionId: string): Promise<AgentSession | null> {
     try {
-      console.log('Calling getSession with sessionId:', sessionId);
       const session = await getSession(sessionId);
-      console.log('Retrieved session from getSession:', JSON.stringify(session, null, 2));
-
       const allTasks = await AgentTaskManager.getAllTasks();
       const task = allTasks.get(sessionId);
 
       if (!task) {
-        console.log('Task not found for sessionId:', sessionId);
         return null;
       }
 
-      const agentSession = {
+      return {
         sessionId: session.id,
         task,
         session: {
@@ -100,11 +96,7 @@ export class UnifiedAgentManager {
           session.agentTaskStatus || session.activityStatus || 'initializing',
         ),
       };
-
-      console.log('Constructed agentSession:', JSON.stringify(agentSession, null, 2));
-      return agentSession;
     } catch (error) {
-      console.warn(`Failed to get session ${sessionId} from storage:`, error);
       return null;
     }
   }
