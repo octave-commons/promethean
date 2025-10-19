@@ -7,19 +7,19 @@
 // Base Agent Types
 // ============================================================================
 
-export interface AgentId {
+export type AgentId = {
   value: string;
   type: 'uuid' | 'name' | 'custom';
 }
 
-export interface AgentCapability {
+export type AgentCapability = {
   name: string;
   version: string;
   description: string;
   dependencies?: string[];
 }
 
-export interface AgentMetadata {
+export type AgentMetadata = {
   id: AgentId;
   name: string;
   version: string;
@@ -43,12 +43,12 @@ export enum AgentStatus {
 // Context Management Types
 // ============================================================================
 
-export interface ContextId {
+export type ContextId = {
   value: string;
   type: 'session' | 'agent' | 'workflow' | 'global';
 }
 
-export interface ContextMetadata {
+export type ContextMetadata = {
   id: ContextId;
   agentId?: AgentId;
   parentId?: ContextId;
@@ -61,14 +61,14 @@ export interface ContextMetadata {
   permissions: ContextPermissions;
 }
 
-export interface ContextPermissions {
+export type ContextPermissions = {
   read: AgentId[];
   write: AgentId[];
   admin: AgentId[];
   public: boolean;
 }
 
-export interface ContextEvent {
+export type ContextEvent = {
   id: string;
   contextId: ContextId;
   type: string;
@@ -78,7 +78,7 @@ export interface ContextEvent {
   sequence: number;
 }
 
-export interface ContextSnapshot {
+export type ContextSnapshot = {
   id: string;
   contextId: ContextId;
   data: unknown;
@@ -91,12 +91,12 @@ export interface ContextSnapshot {
 // Protocol Types
 // ============================================================================
 
-export interface MessageId {
+export type MessageId = {
   value: string;
   type: 'uuid' | 'correlation';
 }
 
-export interface MessageEnvelope {
+export type MessageEnvelope = {
   id: MessageId;
   from: AgentId;
   to: AgentId;
@@ -116,7 +116,7 @@ export enum MessagePriority {
   CRITICAL = 3,
 }
 
-export interface TransportConfig {
+export type TransportConfig = {
   type: 'amqp' | 'websocket' | 'http' | 'memory';
   connection: unknown;
   options?: Record<string, unknown>;
@@ -126,12 +126,12 @@ export interface TransportConfig {
 // Workflow Types
 // ============================================================================
 
-export interface WorkflowId {
+export type WorkflowId = {
   value: string;
   type: 'uuid' | 'name';
 }
 
-export interface WorkflowDefinition {
+export type WorkflowDefinition = {
   id: WorkflowId;
   name: string;
   description: string;
@@ -141,7 +141,7 @@ export interface WorkflowDefinition {
   metadata: WorkflowMetadata;
 }
 
-export interface WorkflowNode {
+export type WorkflowNode = {
   id: string;
   type: 'agent' | 'condition' | 'parallel' | 'sequence' | 'data';
   name: string;
@@ -149,7 +149,7 @@ export interface WorkflowNode {
   position?: { x: number; y: number };
 }
 
-export interface WorkflowEdge {
+export type WorkflowEdge = {
   id: string;
   from: string;
   to: string;
@@ -157,7 +157,7 @@ export interface WorkflowEdge {
   label?: string;
 }
 
-export interface WorkflowMetadata {
+export type WorkflowMetadata = {
   author?: string;
   createdAt: Date;
   updatedAt: Date;
@@ -165,7 +165,7 @@ export interface WorkflowMetadata {
   category?: string;
 }
 
-export interface WorkflowExecution {
+export type WorkflowExecution = {
   id: string;
   workflowId: WorkflowId;
   status: ExecutionStatus;
@@ -188,14 +188,14 @@ export enum ExecutionStatus {
 // Orchestration Types
 // ============================================================================
 
-export interface OrchestrationConfig {
+export type OrchestrationConfig = {
   maxConcurrentAgents: number;
   resourceLimits: ResourceLimits;
   schedulingPolicy: SchedulingPolicy;
   healthCheck: HealthCheckConfig;
 }
 
-export interface ResourceLimits {
+export type ResourceLimits = {
   maxMemory: number;
   maxCpu: number;
   maxExecutionTime: number;
@@ -208,14 +208,14 @@ export enum SchedulingPolicy {
   LEAST_LOADED = 'least_loaded',
 }
 
-export interface HealthCheckConfig {
+export type HealthCheckConfig = {
   interval: number;
   timeout: number;
   retries: number;
   checkEndpoint?: string;
 }
 
-export interface AgentInstance {
+export type AgentInstance = {
   agentId: AgentId;
   instanceId: string;
   status: AgentStatus;
@@ -224,7 +224,7 @@ export interface AgentInstance {
   config: Record<string, unknown>;
 }
 
-export interface ResourceUsage {
+export type ResourceUsage = {
   memory: number;
   cpu: number;
   network?: number;
@@ -235,7 +235,7 @@ export interface ResourceUsage {
 // OS Protocol Types
 // ============================================================================
 
-export interface OSCommand {
+export type OSCommand = {
   id: string;
   type: OSCommandType;
   payload: unknown;
@@ -253,7 +253,7 @@ export enum OSCommandType {
   COPY = 'copy',
 }
 
-export interface OSResponse {
+export type OSResponse = {
   commandId: string;
   success: boolean;
   data?: unknown;
@@ -265,7 +265,7 @@ export interface OSResponse {
 // Generator Types
 // ============================================================================
 
-export interface AgentTemplate {
+export type AgentTemplate = {
   id: string;
   name: string;
   description: string;
@@ -275,7 +275,7 @@ export interface AgentTemplate {
   metadata: Record<string, unknown>;
 }
 
-export interface TemplateVariable {
+export type TemplateVariable = {
   name: string;
   type: 'string' | 'number' | 'boolean' | 'object' | 'array';
   description: string;
@@ -283,14 +283,14 @@ export interface TemplateVariable {
   default?: unknown;
 }
 
-export interface GenerationConfig {
+export type GenerationConfig = {
   templateId: string;
   variables: Record<string, unknown>;
   outputPath: string;
   options: GenerationOptions;
 }
 
-export interface GenerationOptions {
+export type GenerationOptions = {
   format: 'typescript' | 'javascript' | 'clojure' | 'json';
   includeTests: boolean;
   includeDocs: boolean;
@@ -301,7 +301,7 @@ export interface GenerationOptions {
 // Management UI Types
 // ============================================================================
 
-export interface UIComponent {
+export type UIComponent = {
   id: string;
   type: ComponentType;
   props: Record<string, unknown>;
@@ -318,7 +318,7 @@ export enum ComponentType {
   CONFIG_EDITOR = 'config_editor',
 }
 
-export interface LayoutConfig {
+export type LayoutConfig = {
   width?: number;
   height?: number;
   x?: number;
@@ -383,14 +383,14 @@ export type EventHandler<T = unknown> = (event: T) => void | Promise<void>;
 
 export type AsyncFunction<T = unknown, R = unknown> = (...args: T[]) => Promise<R>;
 
-export interface Logger {
+export type Logger = {
   debug(message: string, ...args: unknown[]): void;
   info(message: string, ...args: unknown[]): void;
   warn(message: string, ...args: unknown[]): void;
   error(message: string, error?: Error, ...args: unknown[]): void;
 }
 
-export interface Cache {
+export type Cache = {
   get<T>(key: string): Promise<T | undefined>;
   set<T>(key: string, value: T, ttl?: number): Promise<void>;
   delete(key: string): Promise<boolean>;

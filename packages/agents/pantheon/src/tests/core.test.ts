@@ -3,6 +3,7 @@
  */
 
 import test from 'ava';
+
 import {
   AgentId,
   AgentStatus,
