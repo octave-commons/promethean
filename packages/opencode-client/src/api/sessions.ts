@@ -106,7 +106,16 @@ export async function createSession(
       },
     });
 
+    console.log('Server response:', JSON.stringify(response, null, 2));
+
     const session = response.data || response;
+
+    console.log('Session object:', JSON.stringify(session, null, 2));
+    console.log('Session ID:', session.id);
+
+    if (!session.id) {
+      throw new Error('Server response missing session ID');
+    }
 
     return {
       success: true,
@@ -117,6 +126,7 @@ export async function createSession(
       },
     };
   } catch (error: any) {
+    console.error('Session creation error:', error);
     throw new Error(`Failed to create session on OpenCode server: ${error.message}`);
   }
 }
