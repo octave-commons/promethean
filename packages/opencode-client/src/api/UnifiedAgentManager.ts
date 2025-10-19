@@ -153,7 +153,7 @@ export class UnifiedAgentManager {
       const sessionId = sessionResult.session.id;
 
       // Step 2: Create and assign the task
-      const task = await AgentTaskManager.createTask(sessionId, taskDescription);
+      await AgentTaskManager.createTask(sessionId, taskDescription);
 
       // Send the task description as the first message
       await MessageProcessor.processMessage(null, sessionId, {
