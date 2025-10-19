@@ -16,28 +16,28 @@ export const MessagesPlugin: Plugin = async ({ client }) => {
 
   return {
     tool: {
-      'messages.detectTaskCompletion': {
+      'messages_detectTaskCompletion': {
         ...detectTaskCompletionMessagesTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return detectTaskCompletionMessagesTool.execute(args, enhancedContext);
         },
       },
-      'messages.process': {
+      'messages_process': {
         ...processMessageTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return processMessageTool.execute(args, enhancedContext);
         },
       },
-      'messages.processSession': {
+      'messages_processSession': {
         ...processSessionMessagesMessagesTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return processSessionMessagesMessagesTool.execute(args, enhancedContext);
         },
       },
-      'messages.getSession': {
+      'messages_getSession': {
         ...getSessionMessagesMessagesTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };

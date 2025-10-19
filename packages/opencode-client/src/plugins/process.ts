@@ -15,42 +15,42 @@ export const ProcessPlugin: Plugin = async ({ client }) => {
 
   return {
     tool: {
-      'process.start': {
+      'process_start': {
         ...startProcessTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return startProcessTool.execute(args, enhancedContext);
         },
       },
-      'process.stop': {
+      'process_stop': {
         ...stopProcessTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return stopProcessTool.execute(args, enhancedContext);
         },
       },
-      'process.list': {
+      'process_list': {
         ...listProcessesTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return listProcessesTool.execute(args, enhancedContext);
         },
       },
-      'process.status': {
+      'process_status': {
         ...processStatusTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return processStatusTool.execute(args, enhancedContext);
         },
       },
-      'process.tailLogs': {
+      'process_tailLogs': {
         ...tailProcessLogsTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return tailProcessLogsTool.execute(args, enhancedContext);
         },
       },
-      'process.tailError': {
+      'process_tailError': {
         ...tailProcessErrorTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
