@@ -3,302 +3,137 @@
 
 import { Job, QueueMetrics, QueueConfig, JobSchedulerConfig } from '../types.js';
 import { PriorityQueue } from './PriorityQueue.js';
-// import { JobScheduler } from './JobScheduler.js'; // Uncomment when needed for advanced scheduling
 import { QueueMonitor } from './QueueMonitor.js';
 import { randomUUID } from 'node:crypto';
 import { validateJobSubmission } from '../../../shared/validation.js';
-import { AuthManager, AuthenticationError } from '../../../shared/auth.js';
 
 export class QueueManager {
   private jobs: Map<string, Job> = new Map();
   private priorityQueue: PriorityQueue;
-  // private jobScheduler: JobScheduler; // Uncomment when needed for advanced scheduling
   private queueMonitor: QueueMonitor;
   private config: QueueConfig;
-  private schedulerConfig: JobSchedulerConfig;
   private processingInterval: NodeJS.Timeout | null = null;
   private activeJobs: Set<string> = new Set();
-  private authManager: AuthManager;
 
-  constructor(config: QueueConfig, schedulerConfig: JobSchedulerConfig, authManager?: AuthManager) {
+  constructor(config: QueueConfig) {
     this.config = config;
-    this.schedulerConfig = schedulerConfig;
     this.priorityQueue = new PriorityQueue();
-    // this.jobScheduler = new JobScheduler(schedulerConfig); // Uncomment when needed for advanced scheduling
     this.queueMonitor = new QueueMonitor();
-    this.authManager = authManager || new AuthManager();
   }
 
   /**
-   * Submit a new job to the queue with authentication
+   * Add a job to the queue
    */
-  async submitJob(
-    jobData: Omit<Job, 'id' | 'createdAt' | 'updatedAt'>,
-    authToken?: string,
-  ): Promise<Job> {
-    // Authenticate agent if token provided
-    if (authToken) {
-      try {
-        const tokenPayload = await this.authManager.verifyToken(authToken);
-        const agent = this.authManager.getAgent(tokenPayload.sub);
-
-        if (!agent) {
-          throw new AuthenticationError('Agent not found', 'AGENT_NOT_FOUND');
-        }
-
-        // Check if agent has job submission permission
-        await this.authManager.requirePermission(agent.id, 'job:submit');
-
-        // Override agentId with authenticated agent
-        jobData.agentId = agent.id;
-        if (agent.sessionId) {
-          jobData.sessionId = agent.sessionId;
-        }
-      } catch (error) {
-        if (error instanceof AuthenticationError) {
-          throw error;
-        }
-        throw new AuthenticationError('Invalid authentication token', 'INVALID_TOKEN');
-      }
-    }
-    // Validate job submission before processing
-    const validation = await validateJobSubmission(jobData, {
-      enablePromptInjectionDetection: true,
-      enableInputSanitization: true,
-      maxPromptLength: 10000,
-      maxMessageCount: 50,
-      strictMode: false,
-    });
-
+  async addJob(jobData: any): Promise<Job> {
+    // Validate job submission
+    const validation = await validateJobSubmission(jobData, this.config.validation);
     if (!validation.isValid) {
-      const errorMessages = validation.errors
-        .map((err) => `${err.field}: ${err.message}`)
-        .join('; ');
-      throw new Error(`Job validation failed: ${errorMessages}`);
+      throw new Error(
+        `Job validation failed: ${validation.errors.map((e) => e.message).join(', ')}`,
+      );
     }
 
-    // Use sanitized prompt if available
-    const sanitizedJobData = { ...jobData };
-    if (validation.sanitizedValue) {
-      sanitizedJobData.prompt = validation.sanitizedValue;
-    }
-
-    const newJob: Job = {
-      ...sanitizedJobData,
+    const job: Job = {
       id: randomUUID(),
+      ...jobData,
+      status: 'queued',
       createdAt: Date.now(),
       updatedAt: Date.now(),
+      priority: jobData.priority || 'medium',
+      attempts: 0,
+      maxAttempts: jobData.maxAttempts || 3,
     };
 
-    // Add security metadata
-    if (validation.promptInjection) {
-      newJob.hasError = validation.promptInjection.blocked;
-      if (validation.promptInjection.blocked) {
-        newJob.error = {
-          message: 'Job blocked due to security concerns',
-          code: 'SECURITY_BLOCK',
-        };
-        newJob.status = 'failed';
-      }
-    }
+    // Store job
+    this.jobs.set(job.id, job);
 
-    this.jobs.set(newJob.id, newJob);
-    this.priorityQueue.enqueue(newJob);
-    this.queueMonitor.recordJobSubmission(newJob);
+    // Add to priority queue
+    this.priorityQueue.enqueue(job);
 
-    return newJob;
-  }
-
-  /**
-   * Get the next job to process
-   */
-  getNextJob(): Job | null {
-    if (this.activeJobs.size >= this.config.maxConcurrentJobs) {
-      return null;
-    }
-
-    const job = this.priorityQueue.dequeue();
-    if (job) {
-      this.activeJobs.add(job.id);
-      this.updateJobStatus(job.id, 'running');
-      this.queueMonitor.recordJobStart(job);
-    }
+    // Update metrics
+    this.queueMonitor.recordJobQueued();
 
     return job;
   }
 
   /**
-   * Complete a job
+   * Get next job from queue
    */
-  completeJob(jobId: string, result?: unknown, error?: Error): void {
-    const job = this.jobs.get(jobId);
-    if (!job) {
-      throw new Error(`Job not found: ${jobId}`);
+  getNextJob(): Job | null {
+    const job = this.priorityQueue.dequeue();
+    if (job) {
+      job.status = 'pending';
+      job.updatedAt = Date.now();
+      this.activeJobs.add(job.id);
+      this.queueMonitor.recordJobDequeued();
     }
+    return job;
+  }
 
-    this.activeJobs.delete(jobId);
-
-    if (error) {
-      this.updateJobStatus(jobId, 'failed');
-      job.error = { message: error.message, code: 'JOB_ERROR' };
-      job.hasError = true;
-      this.queueMonitor.recordJobFailure(job, error);
-    } else {
-      this.updateJobStatus(jobId, 'completed');
+  /**
+   * Mark job as completed
+   */
+  completeJob(jobId: string, result?: any): void {
+    const job = this.jobs.get(jobId);
+    if (job) {
+      job.status = 'completed';
+      job.updatedAt = Date.now();
       job.result = result;
-      job.hasResult = true;
-      job.completedAt = Date.now();
-      this.queueMonitor.recordJobCompletion(job);
+      this.activeJobs.delete(jobId);
+      this.queueMonitor.recordJobCompleted();
     }
   }
 
   /**
-   * Cancel a job with enhanced security validation and authentication
+   * Mark job as failed
    */
-  async cancelJob(jobId: string, authToken?: string, agentId?: string): Promise<boolean> {
-    // Validate job ID format
-    if (!jobId || typeof jobId !== 'string') {
-      throw new Error('Invalid job ID: must be a non-empty string');
-    }
-
+  failJob(jobId: string, error: Error): void {
     const job = this.jobs.get(jobId);
-    if (!job) {
-      return false;
-    }
+    if (job) {
+      job.attempts++;
+      job.updatedAt = Date.now();
+      job.lastError = error.message;
 
-    // Authenticate agent if token provided
-    let authenticatedAgentId = agentId;
-    if (authToken) {
-      try {
-        const tokenPayload = await this.authManager.verifyToken(authToken);
-        const agent = this.authManager.getAgent(tokenPayload.sub);
-
-        if (!agent) {
-          throw new AuthenticationError('Agent not found', 'AGENT_NOT_FOUND');
-        }
-
-        // Check if agent has job cancellation permission
-        await this.authManager.requirePermission(agent.id, 'job:cancel');
-
-        authenticatedAgentId = agent.id;
-      } catch (error) {
-        if (error instanceof AuthenticationError) {
-          throw error;
-        }
-        throw new AuthenticationError('Invalid authentication token', 'INVALID_TOKEN');
+      if (job.attempts >= job.maxAttempts) {
+        job.status = 'failed';
+        this.activeJobs.delete(jobId);
+        this.queueMonitor.recordJobFailed();
+      } else {
+        // Re-queue for retry
+        job.status = 'queued';
+        this.priorityQueue.enqueue(job);
+        this.queueMonitor.recordJobRetry();
       }
-    }
-
-    // Enhanced agent authorization check
-    if (authenticatedAgentId) {
-      if (!job.agentId || typeof job.agentId !== 'string') {
-        throw new Error(`Job ${jobId} has invalid agent ID`);
-      }
-
-      if (job.agentId !== authenticatedAgentId) {
-        throw new AuthenticationError(
-          `Authorization failed: cannot cancel job ${jobId} from agent ${authenticatedAgentId}`,
-          'AGENT_MISMATCH',
-        );
-      }
-    }
-
-    // Validate job status before cancellation
-    const cancellableStatuses = ['pending', 'failed'];
-    if (!cancellableStatuses.includes(job.status)) {
-      throw new Error(
-        `Cannot cancel job ${jobId} in status: ${job.status}. Only jobs with status ${cancellableStatuses.join(', ')} can be cancelled.`,
-      );
-    }
-
-    this.priorityQueue.remove(jobId);
-    this.updateJobStatus(jobId, 'canceled');
-    job.completedAt = Date.now();
-    this.queueMonitor.recordJobCancellation(job);
-
-    return true;
-  }
-
-  /**
-   * Update job status
-   */
-  updateJobStatus(jobId: string, status: Job['status'], metadata?: Partial<Job>): void {
-    const job = this.jobs.get(jobId);
-    if (!job) {
-      throw new Error(`Job not found: ${jobId}`);
-    }
-
-    job.status = status;
-    job.updatedAt = Date.now();
-
-    if (metadata) {
-      Object.assign(job, metadata);
     }
   }
 
   /**
    * Get job by ID
    */
-  getJob(jobId: string): Job | null {
-    return this.jobs.get(jobId) || null;
+  getJob(jobId: string): Job | undefined {
+    return this.jobs.get(jobId);
   }
 
   /**
-   * List jobs with optional filtering and authentication
+   * List jobs with filtering
    */
-  async listJobs(options: {
-    status?: Job['status'];
-    limit?: number;
-    agentOnly?: boolean;
-    agentId?: string;
-    sessionId?: string;
-    authToken?: string;
-  }): Promise<Job[]> {
-    // Authenticate agent if token provided
-    if (options.authToken) {
-      try {
-        const tokenPayload = await this.authManager.verifyToken(options.authToken);
-        const agent = this.authManager.getAgent(tokenPayload.sub);
-        
-        if (!agent) {
-          throw new AuthenticationError('Agent not found', 'AGENT_NOT_FOUND');
-        }
-
-        // Check if agent has job listing permission
-        await this.authManager.requirePermission(agent.id, 'job:list');
-        
-        // Override agentId with authenticated agent for filtering
-        if (options.agentOnly) {
-          options.agentId = agent.id;
-        }
-      } catch (error) {
-        if (error instanceof AuthenticationError) {
-          throw error;
-        }
-        throw new AuthenticationError('Invalid authentication token', 'INVALID_TOKEN');
-      }
-    }
-
-    return this.listJobsSync(options);
-  }
-
-  /**
-   * Legacy listJobs method for backward compatibility
-   */
-  listJobsSync(options: {
-    status?: Job['status'];
-    limit?: number;
-    agentOnly?: boolean;
-    agentId?: string;
-    sessionId?: string;
-  }): Job[] {
+  listJobs(
+    options: {
+      status?: Job['status'];
+      limit?: number;
+      agentOnly?: boolean;
+      agentId?: string;
+      sessionId?: string;
+    } = {},
+  ): Job[] {
     let jobs = Array.from(this.jobs.values());
 
-    // Apply filters
+    // Filter by status
     if (options.status) {
       jobs = jobs.filter((job) => job.status === options.status);
     }
 
+    // Filter by agent
     if (options.agentOnly && options.agentId) {
       jobs = jobs.filter((job) => job.agentId === options.agentId);
     }
@@ -317,138 +152,65 @@ export class QueueManager {
 
     return jobs;
   }
-
-        // Check if agent has job listing permission
-        await this.authManager.requirePermission(agent.id, 'job:list');
-
-        // Override agentId with authenticated agent for filtering
-        if (options.agentOnly) {
-          options.agentId = agent.id;
-        }
-      } catch (error) {
-        if (error instanceof AuthenticationError) {
-          throw error;
-        }
-        throw new AuthenticationError('Invalid authentication token', 'INVALID_TOKEN');
-      }
-    }
-    let jobs = Array.from(this.jobs.values());
-
-    // Apply filters
-    if (options.status) {
-      jobs = jobs.filter((job) => job.status === options.status);
-    }
-
-    if (options.agentOnly && options.agentId) {
-      jobs = jobs.filter((job) => job.agentId === options.agentId);
-    }
-
-    if (options.sessionId) {
-      jobs = jobs.filter((job) => job.sessionId === options.sessionId);
-    }
-
-    // Sort by creation time (newest first)
-    jobs.sort((a, b) => b.createdAt - a.createdAt);
-
-    // Apply limit
-    if (options.limit) {
-      jobs = jobs.slice(0, options.limit);
-    }
-
-    return jobs;
-  }
-
-  /**
-   * Legacy listJobs method for backward compatibility
-   */
-  listJobsSync(options: {
-    status?: Job['status'];
-    limit?: number;
-    agentOnly?: boolean;
-    agentId?: string;
-    sessionId?: string;
-  }): Job[] {
 
   /**
    * Get queue metrics
    */
   getMetrics(): QueueMetrics {
-    const jobs = Array.from(this.jobs.values());
-    const pending = jobs.filter((j) => j.status === 'pending').length;
-    const running = jobs.filter((j) => j.status === 'running').length;
-    const completed = jobs.filter((j) => j.status === 'completed').length;
-    const failed = jobs.filter((j) => j.status === 'failed').length;
-
-    const completedJobs = jobs.filter((j) => j.status === 'completed');
-    const averageProcessingTime =
-      completedJobs.length > 0
-        ? completedJobs.reduce((sum, job) => {
-            const processingTime = (job.completedAt || 0) - (job.startedAt || job.createdAt);
-            return sum + processingTime;
-          }, 0) / completedJobs.length
-        : 0;
-
-    const averageWaitTime =
-      completedJobs.length > 0
-        ? completedJobs.reduce((sum, job) => {
-            const waitTime = (job.startedAt || job.completedAt || 0) - job.createdAt;
-            return sum + waitTime;
-          }, 0) / completedJobs.length
-        : 0;
+    const statusCounts = this.jobs.values().reduce(
+      (acc, job) => {
+        acc[job.status] = (acc[job.status] || 0) + 1;
+        return acc;
+      },
+      {} as Record<string, number>,
+    );
 
     return {
-      totalJobs: jobs.length,
-      pendingJobs: pending,
-      runningJobs: running,
-      completedJobs: completed,
-      failedJobs: failed,
-      averageWaitTime,
-      averageProcessingTime,
-      queueDepth: pending,
+      total: this.jobs.size,
+      queued: statusCounts.queued || 0,
+      pending: statusCounts.pending || 0,
+      processing: this.activeJobs.size,
+      completed: statusCounts.completed || 0,
+      failed: statusCounts.failed || 0,
+      averageWaitTime: this.queueMonitor.getAverageWaitTime(),
       throughput: this.queueMonitor.getThroughput(),
     };
   }
 
   /**
-   * Get queue info (legacy compatibility)
+   * Get queue information
    */
   getQueueInfo() {
-    const metrics = this.getMetrics();
     return {
-      pending: metrics.pendingJobs,
-      running: metrics.runningJobs,
-      completed: metrics.completedJobs,
-      failed: metrics.failedJobs,
-      canceled: Array.from(this.jobs.values()).filter((j) => j.status === 'canceled').length,
-      total: metrics.totalJobs,
-      maxConcurrent: this.config.maxConcurrentJobs,
-      processorActive: this.processingInterval !== null,
-      cacheSize: 0, // Will be updated by cache manager
+      config: this.config,
+      metrics: this.getMetrics(),
+      activeJobs: Array.from(this.activeJobs),
     };
   }
 
   /**
-   * Start queue processor
+   * Start automatic job processor
    */
   startProcessor(processCallback: (job: Job) => Promise<void>): void {
     if (this.processingInterval) {
-      return; // Already running
+      this.stopProcessor();
     }
 
     this.processingInterval = setInterval(async () => {
-      try {
-        const job = this.getNextJob();
-        if (job) {
+      const job = this.getNextJob();
+      if (job) {
+        try {
           await processCallback(job);
+          this.completeJob(job.id);
+        } catch (error) {
+          this.failJob(job.id, error as Error);
         }
-      } catch (error) {
-        console.error('Queue processor error:', error);
       }
-    }, this.config.processingInterval);
+    }, this.config.processingInterval || 1000);
   }
 
   /**
-   * Stop queue processor
+   * Stop automatic job processor
    */
   stopProcessor(): void {
     if (this.processingInterval) {
@@ -473,10 +235,8 @@ export class QueueManager {
   getStatistics() {
     return {
       ...this.getMetrics(),
-      schedulerConfig: this.schedulerConfig,
-      queueConfig: this.config,
-      activeJobs: this.activeJobs.size,
-      monitorStats: this.queueMonitor.getStatistics(),
+      config: this.config,
+      uptime: process.uptime(),
     };
   }
 }
