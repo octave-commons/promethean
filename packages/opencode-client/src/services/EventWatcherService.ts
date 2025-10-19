@@ -86,13 +86,82 @@ export class EventWatcherService {
     };
   }
 
-  /**
-   * Start the event watcher service
+/**
+   * Start polling for session updates from OpenCode server
    */
-  async start(): Promise<void> {
-    if (this.isRunning) {
-      throw new Error('EventWatcherService is already running');
+  private async startSessionPolling(): Promise<void> {
+    try {
+      this.log('✅ Starting session polling for updates', 'info');
+
+      const poll = async () => {
+        if (!this.isRunning) return;
+
+        try {
+          // Get all sessions and check for updates
+          const response = await this.client.session.list();
+          const sessions = response.data || response;
+
+          if (Array.isArray(sessions)) {
+            for (const session of sessions) {
+              await this.processSessionUpdate(session);
+            }
+          }
+        } catch (error) {
+          this.log('❌ Error polling for sessions:', 'error');
+        }
+
+        // Schedule next poll
+        if (this.isRunning) {
+          setTimeout(poll, this.pollingInterval);
+        }
+      };
+
+      // Start polling
+      await poll();
+      this.log('✅ Session polling started', 'success');
+    } catch (error) {
+      this.log('❌ Failed to start session polling:', 'error');
+      throw error;
     }
+  }
+
+  /**
+   * Process a session update event
+   */
+  private async processSessionUpdate(session: any): Promise<void> {
+    try {
+      const lastProcessed = this.lastProcessedTimes.get(session.id) || 0;
+      const sessionTime = session.time?.updated || session.time?.created || 0;
+
+      // Only process if session is newer than last processed
+      if (sessionTime <= lastProcessed) {
+        return;
+      }
+
+      // Create projected event for session update
+      const projectedEvent: ProjectedEvent = {
+        id: `session-update-${session.id}-${sessionTime}`,
+        type: 'session.updated',
+        timestamp: new Date(sessionTime).toISOString(),
+        projectedAt: new Date().toISOString(),
+        source: 'real-time-poll',
+        processed: false,
+        sessionId: session.id,
+        properties: {
+          action: 'session_update',
+          sessionData: session,
+          updateTime: sessionTime,
+        },
+      };
+
+      this.queueEvent(projectedEvent);
+      this.lastProcessedTimes.set(session.id, sessionTime);
+
+      this.log(`📝 Processed update for session ${session.id}`, 'info');
+    } catch (error) {
+      this.log(`❌ Error processing session update for ${session.id}:`, 'error');
+    }
+  }
 
     this.log('🚀 Starting Event Watcher Service...');
     this.startTime = Date.now();
