@@ -187,9 +187,6 @@
     "clj": {
       "type": "local",
       "command": ["clojure", "-X:mcp-shadow-dual"],
-      "environment": {
-        "CLOJURE_MCP_PORT": "7888"
-      },
       "enabled": true
     },
     "clj-kondo": {
