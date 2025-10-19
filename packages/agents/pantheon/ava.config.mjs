@@ -5,7 +5,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = __dirname;
 
 export default {
-  ...baseConfig,
   files: [
     `${path.relative(process.cwd(), path.join(projectRoot, 'dist', 'tests', '**', '*.js'))}`,
     `${path.relative(process.cwd(), path.join(projectRoot, 'dist', '**', '*.test.js'))}`,

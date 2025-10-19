@@ -113,52 +113,51 @@
           (println "Found at position:" match-index))
         (println "Not found:" query)))))
 
-;; Editor component with Evil mode integration
-(defn editor [buffer]
-  (let [content (:content buffer)
-        cursor-pos (:cursor-pos buffer)
-        selection (:selection buffer)
-        evil-mode (state/get-evil-mode)]
+;; Command palette
 
-    [:textarea.editor-content
-     {:value content
-      :read-only (not= evil-mode :insert)
-      :on-change (fn [e]
-                   (when (= evil-mode :insert)
-                     (let [new-value (-> e .-target .-value)
-                           new-cursor-pos (-> e .-target .-selectionStart)]
-                       (state/update-current-buffer!
-                        (fn [b]
-                          (-> b
-                              (assoc :content new-value)
-                              (assoc :cursor-pos new-cursor-pos)
-                              (assoc :modified? true)))))))
-      :on-key-down (fn [e]
-                     (let [key (.-key e)
-                           ctrl-key (.-ctrlKey e)
-                           alt-key (.-altKey e)
-                           meta-key (.-metaKey e)]
-                       (when-not (or ctrl-key alt-key meta-key)
-                         (case evil-mode
-                           :normal (handle-normal-mode-key e key)
-                           :insert (when (= key "Escape")
-                                     (.preventDefault e)
-                                     (enter-normal-mode))
-                           :visual (handle-visual-mode-key e key)
-                           nil))))
-      :style {:width "100%"
-              :height "100%"
-              :border "none"
-              :outline "none"
-              :background "transparent"
-              :color "var(--text-primary)"
-              :font-family "monospace"
-              :font-size "14px"
-              :line-height "1.5"
-              :padding "1rem"
-              :resize "none"
-              :white-space "pre"
-              :overflow "auto"}}]))
+;; Command palette
+
+;; Command palette
+
+;; Command palette
+
+;; Command palette
+
+;; Command palette
+
+;; Command palette
+
+;; Command palette
+
+;; Command palette
+
+;; Command palette
+
+;; Command palette
+
+;; Command palette
+
+;; Command palette
+
+;; Command palette
+
+;; Command palette
+
+;; Command palette
+
+;; Command palette
+
+;; Command palette
+
+;; Command palette
+
+;; Command palette
+
+;; Command palette
+
+;; Command palette
+
+;; Simplified key handlers for basic Evil mode
 
 ;; Simplified key handlers for basic Evil mode
 (defn handle-normal-mode-key [e key]
