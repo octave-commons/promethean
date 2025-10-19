@@ -42,6 +42,27 @@ export const apps =
     ]
   },
   {
+    "name": "opencode-unified-shadow-cljs",
+    "script": "pnpm",
+    "args": [
+      "--filter",
+      "@promethean/opencode-unified",
+      "dev"
+    ],
+    "interpreter": "/usr/bin/env",
+    "out_file": "./logs/promethean-opencode-unified.log",
+    "error_file": "./logs/promthean-opencode-unified.log",
+    "merge_logs": true,
+    "instances": 1,
+    "autorestart": true,
+    "restart_delay": 10000,
+    "kill_timeout": 10000,
+    "env": {
+      "PM2_PROCESS_NAME": "opencode-unified-shadow-cljs"
+    },
+    "cwd": "."
+  },
+  {
     "name": "opencode",
     "script": "opencode",
     "args": [
