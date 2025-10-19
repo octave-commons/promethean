@@ -7,11 +7,18 @@ async function testAllTools() {
   console.log('Testing AllToolsPlugin...');
 
   try {
-    // Create a mock client
+    // Create a mock client with event support
     const mockClient = {
       request: async (method, params) => {
         console.log(`Mock client request: ${method}`, params);
         return { success: true, data: 'mock response' };
+      },
+      event: {
+        subscribe: async () => ({
+          stream: (async function* () {
+            // Empty async generator for testing
+          })(),
+        }),
       },
     };
 
