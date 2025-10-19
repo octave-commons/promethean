@@ -7,7 +7,7 @@
 import { AgentTask } from '../AgentTask.js';
 import { AgentTaskManager } from './AgentTaskManager.js';
 import { MessageProcessor } from './MessageProcessor.js';
-import { createSession, closeSession, listSessions, getSession } from './sessions.js';
+import { createSession, closeSession, listSessions, getSession } from './sessions-rw-separated.js';
 
 export interface CreateAgentSessionOptions {
   title?: string;

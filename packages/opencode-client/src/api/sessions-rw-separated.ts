@@ -156,7 +156,7 @@ export async function listSessions(options: ListSessionsOptions = {}): Promise<S
 
     return sessions.map(
       (doc): Session => ({
-        id: doc.id,
+        id: doc.id || '',
         title: doc.metadata?.title as string | undefined,
         messageCount: doc.metadata?.messageCount as number | undefined,
         lastActivityTime: doc.metadata?.lastActivityTime as string | undefined,
@@ -192,7 +192,7 @@ export async function getSession(sessionId: string): Promise<Session> {
     }
 
     return {
-      id: doc.id,
+      id: doc.id || '',
       title: doc.metadata?.title as string | undefined,
       messageCount: doc.metadata?.messageCount as number | undefined,
       lastActivityTime: doc.metadata?.lastActivityTime as string | undefined,
@@ -226,7 +226,7 @@ export async function searchSessions(options: SearchSessionsOptions): Promise<Se
 
     return sessions.map(
       (doc): Session => ({
-        id: doc.id,
+        id: doc.id || '',
         title: doc.metadata?.title as string | undefined,
         messageCount: doc.metadata?.messageCount as number | undefined,
         lastActivityTime: doc.metadata?.lastActivityTime as string | undefined,
