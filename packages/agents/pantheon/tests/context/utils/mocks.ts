@@ -10,9 +10,9 @@ import type {
   SnapshotStore,
   AuthToken,
   ContextShare,
-  ContextMetadata,
   ContextQuery,
 } from '../../../src/context/types.js';
+import type { ContextMetadata as CoreContextMetadata } from '../../../src/core/types/context.js';
 
 export class MockEventStore implements EventStore {
   private events: Map<string, ContextEvent[]> = new Map();
