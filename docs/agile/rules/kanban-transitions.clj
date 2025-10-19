@@ -103,9 +103,21 @@
         coverage-match (re-find #"(?i)coverage[-_]?report[:\s]+([^\s\n]+)" content)
         coverage-report-path (second coverage-match)]
     (and coverage-report-path
-         ;; Additional validation could be added here for coverage thresholds, quality scores, etc.
-         ;; For now, presence of coverage report path is sufficient
-         true)))
+         ;; Extract coverage percentage if available
+        coverage-percent-match (re-find #"(?i)coverage[-_]?percent[:s]+([0-9.]+)" content)
+        coverage-percent (when coverage-percent-match 
+                           (js/parseFloat (second coverage-percent-match)))
+        
+        ;; Extract quality score if available  
+        quality-match (re-find #"(?i)quality[-_]?score[:s]+([0-9.]+)" content)
+        quality-score (when quality-match 
+                       (js/parseFloat (second quality-match)))]
+    
+    (and coverage-report-path
+         ;; Validate coverage threshold (90%)
+         (or (nil? coverage-percent) (>= coverage-percent 90.0))
+         ;; Validate quality threshold (75%)
+         (or (nil? quality-score) (>= quality-score 75.0))))))))
 
 (defn reviewable-change-exists?
   "Coherent, reviewable change is ready for review"
