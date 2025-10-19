@@ -155,14 +155,15 @@ export class QueueManager {
     const completedJobs = jobs.filter((job) => job.status === 'completed').length;
     const failedJobs = jobs.filter((job) => job.status === 'failed').length;
 
+    const monitorMetrics = this.queueMonitor.getMetrics();
     return {
       totalJobs: jobs.length,
       pendingJobs,
       runningJobs,
       completedJobs,
       failedJobs,
-      averageWaitTime: this.queueMonitor.getAverageWaitTime(),
-      averageProcessingTime: this.queueMonitor.getAverageProcessingTime(),
+      averageWaitTime: monitorMetrics.averageWaitTime,
+      averageProcessingTime: monitorMetrics.averageProcessingTime,
       queueDepth: pendingJobs,
       throughput: this.queueMonitor.getThroughput(),
     };
