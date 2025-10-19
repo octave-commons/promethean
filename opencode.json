@@ -221,8 +221,8 @@
   "permission": {
     "bash":{
       "ls*":"allow",
-      "pnpm build":"ask",
-      "pnpm test":"ask",
+      "pnpm build *":"ask",
+      "pnpm test *":"ask",
       "node *":"ask",
       "uvx *":"ask",
       "npx *":"ask",
