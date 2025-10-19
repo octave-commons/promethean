@@ -237,10 +237,10 @@ test.serial('ContextManager: should handle context deletion', async (t) => {
   const events = await eventStore.getEvents(agentId);
   const deleteEvent = events.find((e) => e.type === 'context_deleted');
   t.truthy(deleteEvent);
-  t.deepEqual(deleteEvent.data, {
-    deletedAt: expect.any(Date),
-    deletedBy: 'system',
-  });
+  if (deleteEvent) {
+    t.truthy(deleteEvent.data.deletedAt);
+    t.is(deleteEvent.data.deletedBy, 'system');
+  }
 });
 
 test.serial('ContextManager: should get context history', async (t) => {
