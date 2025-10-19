@@ -1,16 +1,15 @@
 ---
-uuid: 'plugin-parity-002'
-title: 'Multi-Language Type-Checking Plugin'
-slug: 'plugin-parity-002-multi-language-type-checker'
-status: 'todo'
-priority: 'P0'
-labels: ['plugin', 'type-checking', 'multi-language', 'typescript', 'clojure', 'critical']
-created_at: '2025-10-18T00:00:00.000Z'
+uuid: "plugin-parity-002"
+title: "Multi-Language Type-Checking Plugin"
+slug: "plugin-parity-002-multi-language-type-checker"
+status: "todo"
+priority: "P0"
+labels: ["plugin", "type-checking", "multi-language", "typescript", "clojure", "critical"]
+created_at: "2025-10-18T00:00:00.000Z"
 estimates:
-  complexity: 'high'
-  scale: 'medium'
-  time_to_completion: '1-2 weeks'
-story_points: 6
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 ## Context
