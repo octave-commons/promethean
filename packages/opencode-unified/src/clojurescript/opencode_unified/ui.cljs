@@ -13,7 +13,9 @@
 (defn app []
   [:div
    [theme-styles]
-   (let [current-buffer (state/get-current-buffer)
+   (let [current-buffer (:current-buffer @state/app-state)
+         current-buffer-content (when current-buffer
+                                  (get-in @state/app-state [:buffers current-buffer]))
          evil-mode (state/get-evil-mode)]
      [:div.app-container
       {:class "theme-dark evil-mode-normal"
@@ -34,15 +36,15 @@
 
         ;; Editor pane
         [:div.editor-pane
-         (if current-buffer
-           [buffers/editor current-buffer]
+         (if current-buffer-content
+           [buffers/editor current-buffer-content]
            [:div.no-buffer
             [:h2 "No Buffer Open"]
             [:p "Open a file to start editing"]])]
 
         ;; Minimap (if enabled)
         (when (get-in @state/app-state [:ui :minimap])
-          [layout/minimap current-buffer])]
+          [layout/minimap current-buffer-content])]
 
        ;; Right sidebar (plugins, etc.)
        [layout/right-sidebar]]
