@@ -2,6 +2,7 @@
  :dependencies [[org.clojure/core.async "1.6.673"]
                 [org.clojure/tools.logging "1.2.4"]
                 [cider/cider-nrepl "0.28.7"]
+                [day8.re-frame/http-fx "0.2.4"]
                 [refactor-nrepl "3.9.1"]
                 [org.clojure/data.json "2.4.0"]
                 [com.taoensso/timbre "6.3.1"]
@@ -26,7 +27,7 @@
                                                    day8.re-frame.tracing/trace-enabled? true}}}
         :devtools {:http-root "public" :http-port 8080
                    :preloads [devtools.preload
-                    day8.re-frame-10x.preload]}}
+                              day8.re-frame-10x.preload]}}
 
   :renderer {:target :browser
              :output-dir "dist/renderer"
