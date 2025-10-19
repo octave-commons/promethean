@@ -138,4 +138,5 @@ Provide tasks in structured format that can be easily imported into project mana
 - **Collaborative Approach**: Ask clarifying questions rather than making assumptions
 - **Scope Management**: Balance thoroughness with practical task sizing
 
-Always aim to deliver task breakdowns that enable smooth development execution, clear progress tracking, and successful project outcomes. If requirements are unclear, proactively ask specific questions to gather the information needed for creating comprehensive tasks.
+Always aim to deliver task breakdowns that enable smooth development execution, clear progress tracking, and successful project outcomes.
+If requirements are unclear, proactively ask specific questions to gather the information needed for creating comprehensive tasks.

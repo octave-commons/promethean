@@ -897,6 +897,58 @@ const handleAudit: CommandHandler = (args, context) =>
       }
     }
 
+    // Fix untracked tasks if in fix mode
+    if (!dryRun && untrackedTasksFound > 0) {
+      console.log('🔧 FIXING UNTRACKED TASKS...');
+      console.log('');
+
+      for (const column of board.columns) {
+        if (columnFilter && columnKey(column.name) !== columnKey(columnFilter)) {
+          continue;
+        }
+
+        for (const task of column.tasks) {
+          const taskFilePath = `${context.tasksDir}/${task.uuid}.md`;
+          const statusAnalysis = gitTracker.analyzeTaskStatus(task, taskFilePath);
+
+          if (statusAnalysis.isUntracked) {
+            try {
+              // Commit the changes to initialize tracking
+              const commitResult = await gitTracker.commitTaskChanges(
+                taskFilePath,
+                task.uuid,
+                'update',
+                'Audit correction: Initialize commit tracking for untracked task',
+              );
+
+              // Commit the changes
+              const commitResult = await gitTracker.commitTaskChanges(
+                taskFilePath,
+                task.uuid,
+                'update',
+                'Audit correction: Initialize commit tracking for untracked task',
+              );
+
+              if (commitResult.success) {
+                console.log(`✅ FIXED: Added commit tracking to "${task.title}"`);
+                console.log(`   Task ID: ${task.uuid}`);
+                console.log(`   Commit SHA: ${commitResult.sha}`);
+                console.log('');
+              } else {
+                console.log(`❌ FAILED TO FIX: "${task.title}"`);
+                console.log(`   Error: ${commitResult.error}`);
+                console.log('');
+              }
+            } catch (error) {
+              console.log(`❌ FAILED TO FIX: "${task.title}"`);
+              console.log(`   Error: ${error}`);
+              console.log('');
+            }
+          }
+        }
+      }
+    }
+
     // Summary
     const totalTasks = board.columns.reduce((sum, col) => sum + col.tasks.length, 0);
     console.log('📊 ENHANCED AUDIT SUMMARY:');
