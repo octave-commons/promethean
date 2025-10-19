@@ -16,49 +16,49 @@ export const EventsPlugin: Plugin = async ({ client }) => {
 
   return {
     tool: {
-      'events.handleSessionIdle': {
+      'events_handleSessionIdle': {
         ...handleSessionIdleTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return handleSessionIdleTool.execute(args, enhancedContext);
         },
       },
-      'events.handleSessionUpdated': {
+      'events_handleSessionUpdated': {
         ...handleSessionUpdatedTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return handleSessionUpdatedTool.execute(args, enhancedContext);
         },
       },
-      'events.handleMessageUpdated': {
+      'events_handleMessageUpdated': {
         ...handleMessageUpdatedTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return handleMessageUpdatedTool.execute(args, enhancedContext);
         },
       },
-      'events.extractSessionId': {
+      'events_extractSessionId': {
         ...extractSessionIdTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return extractSessionIdTool.execute(args, enhancedContext);
         },
       },
-      'events.getSessionMessages': {
+      'events_getSessionMessages': {
         ...getSessionMessagesTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return getSessionMessagesTool.execute(args, enhancedContext);
         },
       },
-      'events.detectTaskCompletion': {
+      'events_detectTaskCompletion': {
         ...detectTaskCompletionTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return detectTaskCompletionTool.execute(args, enhancedContext);
         },
       },
-      'events.processSessionMessages': {
+      'events_processSessionMessages': {
         ...processSessionMessagesTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
