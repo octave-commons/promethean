@@ -338,7 +338,7 @@ export class CrisisCoordinator {
   private agentCapabilities = new Map<string, string[]>();
   private agentStatus = new Map<string, AgentStatus>();
 
-  constructor(private adapter: AgentBusAdapter) {
+  constructor() {
     this.initializeCrisisHandlers();
   }
 
@@ -401,10 +401,8 @@ export class CrisisCoordinator {
    * CRITICAL: Resolve board gridlock from 147 duplicate tasks
    */
   async consolidateDuplicateTasks(
-    crisisId: string
+    _crisisId: string
   ): Promise<DuplicateResolution> {
-    const session = this.activeCrises.get(crisisId);
-
     // Gather all duplicate tasks from agents
     const duplicateTasks = await this.gatherDuplicateTasks();
 
@@ -422,7 +420,7 @@ export class CrisisCoordinator {
 
   private async handleSystemEmergency(
     message: CrisisMessage,
-    session: CrisisSession
+    _session: CrisisSession
   ): Promise<void> {
     // Immediate broadcast to all agents
     const emergencyBroadcast = this.createEmergencyBroadcast(message);
@@ -437,7 +435,7 @@ export class CrisisCoordinator {
 
   private async routeToHandlers(
     message: CrisisMessage,
-    session: CrisisSession
+    _session: CrisisSession
   ): Promise<void> {
     for (const agent of message.affectedAgents) {
       if (this.isAgentAvailable(agent.id)) {
@@ -536,6 +534,8 @@ export class CrisisCoordinator {
 
     for (let i = 0; i < agents.length; i++) {
       const agent = agents[(startIndex + i) % agents.length];
+      if (!agent) continue;
+
       const hasCapabilities = requiredCapabilities.every((cap: string) =>
         agent.capabilities.includes(cap)
       );
@@ -689,12 +689,12 @@ export class CrisisCoordinator {
     return this.agentStatus.get(agentId) === 'running';
   }
 
-  private getAgentLoad(agentId: string): number {
+  private getAgentLoad(_agentId: string): number {
     // Implementation would track actual agent load
     return Math.random() * 100; // Mock load percentage
   }
 
-  private getAgentCapacity(agentId: string): number {
+  private getAgentCapacity(_agentId: string): number {
     // Implementation would return actual agent capacity
     return 80; // 80% max capacity
   }
@@ -741,7 +741,7 @@ export class CrisisCoordinator {
   }
 
   private async initiateEmergencyResourceAllocation(
-    message: CrisisMessage
+    _message: CrisisMessage
   ): Promise<void> {
     // Implementation would allocate emergency resources
     console.log(`[CRISIS] Initiating emergency resource allocation`);
