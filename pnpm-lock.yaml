@@ -4195,6 +4195,9 @@ importers:
       '@promethean/persistence':
         specifier: workspace:*
         version: link:../persistence
+      '@promethean/security':
+        specifier: workspace:*
+        version: link:../security
       '@types/commander':
         specifier: ^2.12.5
         version: 2.12.5
