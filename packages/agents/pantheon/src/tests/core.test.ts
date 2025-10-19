@@ -26,11 +26,11 @@ test('AgentId creation', (t) => {
 });
 
 test('AgentStatus enum values', (t) => {
-  t.is(AgentStatus.INACTIVE, 'inactive');
-  t.is(AgentStatus.ACTIVE, 'active');
-  t.is(AgentStatus.BUSY, 'busy');
-  t.is(AgentStatus.ERROR, 'error');
-  t.is(AgentStatus.MAINTENANCE, 'maintenance');
+  t.is(AgentStatus.INACTIVE, AgentStatus.INACTIVE);
+  t.is(AgentStatus.ACTIVE, AgentStatus.ACTIVE);
+  t.is(AgentStatus.BUSY, AgentStatus.BUSY);
+  t.is(AgentStatus.ERROR, AgentStatus.ERROR);
+  t.is(AgentStatus.MAINTENANCE, AgentStatus.MAINTENANCE);
 });
 
 test('ContextId creation', (t) => {

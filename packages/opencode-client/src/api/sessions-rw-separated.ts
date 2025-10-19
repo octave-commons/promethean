@@ -5,7 +5,7 @@
  */
 
 import { createOpencodeClient } from '@opencode-ai/sdk';
-import { sessionStore, agentTaskStore } from '../index.js';
+import { sessionStore } from '../index.js';
 
 export interface Session {
   id: string;
@@ -150,27 +150,27 @@ export async function listSessions(options: ListSessionsOptions = {}): Promise<S
   }
 
   try {
-    // Query from local database
-    const sessions = await sessionStore.query(
-      {},
-      {
-        limit: options.limit || 20,
-        offset: options.offset || 0,
-        orderBy: 'timestamp',
-        order: 'desc',
-      },
-    );
+    // Get most recent sessions from local database
+    const limit = options.limit || 20;
+    const sessions = await sessionStore.getMostRecent(limit);
 
-    return sessions.map((doc: any) => ({
-      id: doc.id,
-      title: doc.title,
-      messageCount: doc.messageCount,
-      lastActivityTime: doc.lastActivityTime,
-      activityStatus: doc.activityStatus,
-      isAgentTask: doc.isAgentTask,
-      agentTaskStatus: doc.agentTaskStatus,
-      createdAt: doc.createdAt,
-    }));
+    return sessions.map(
+      (doc): Session => ({
+        id: doc.id,
+        title: doc.metadata?.title as string | undefined,
+        messageCount: doc.metadata?.messageCount as number | undefined,
+        lastActivityTime: doc.metadata?.lastActivityTime as string | undefined,
+        activityStatus: doc.metadata?.activityStatus as
+          | 'active'
+          | 'waiting_for_input'
+          | 'completed'
+          | 'error'
+          | undefined,
+        isAgentTask: doc.metadata?.isAgentTask as boolean | undefined,
+        agentTaskStatus: doc.metadata?.agentTaskStatus as string | undefined,
+        createdAt: doc.metadata?.createdAt as string | undefined,
+      }),
+    );
   } catch (error: any) {
     throw new Error(`Failed to list sessions from local cache: ${error.message}`);
   }
@@ -185,21 +185,26 @@ export async function getSession(sessionId: string): Promise<Session> {
   }
 
   try {
-    const session = await sessionStore.get(sessionId);
+    const doc = await sessionStore.get(sessionId);
 
-    if (!session) {
+    if (!doc) {
       throw new Error(`Session ${sessionId} not found in local cache`);
     }
 
     return {
-      id: session.id,
-      title: session.title,
-      messageCount: session.messageCount,
-      lastActivityTime: session.lastActivityTime,
-      activityStatus: session.activityStatus,
-      isAgentTask: session.isAgentTask,
-      agentTaskStatus: session.agentTaskStatus,
-      createdAt: session.createdAt,
+      id: doc.id,
+      title: doc.metadata?.title as string | undefined,
+      messageCount: doc.metadata?.messageCount as number | undefined,
+      lastActivityTime: doc.metadata?.lastActivityTime as string | undefined,
+      activityStatus: doc.metadata?.activityStatus as
+        | 'active'
+        | 'waiting_for_input'
+        | 'completed'
+        | 'error'
+        | undefined,
+      isAgentTask: doc.metadata?.isAgentTask as boolean | undefined,
+      agentTaskStatus: doc.metadata?.agentTaskStatus as string | undefined,
+      createdAt: doc.metadata?.createdAt as string | undefined,
     };
   } catch (error: any) {
     throw new Error(`Failed to get session from local cache: ${error.message}`);
@@ -215,28 +220,27 @@ export async function searchSessions(options: SearchSessionsOptions): Promise<Se
   }
 
   try {
-    // Simple text search in local database
-    const sessions = await sessionStore.query(
-      {
-        text: options.query,
-      },
-      {
-        limit: options.k || 10,
-        orderBy: 'timestamp',
-        order: 'desc',
-      },
-    );
+    // Search using text relevance from local database
+    const limit = options.k || 10;
+    const sessions = await sessionStore.getMostRelevant([options.query], limit);
 
-    return sessions.map((doc: any) => ({
-      id: doc.id,
-      title: doc.title,
-      messageCount: doc.messageCount,
-      lastActivityTime: doc.lastActivityTime,
-      activityStatus: doc.activityStatus,
-      isAgentTask: doc.isAgentTask,
-      agentTaskStatus: doc.agentTaskStatus,
-      createdAt: doc.createdAt,
-    }));
+    return sessions.map(
+      (doc): Session => ({
+        id: doc.id,
+        title: doc.metadata?.title as string | undefined,
+        messageCount: doc.metadata?.messageCount as number | undefined,
+        lastActivityTime: doc.metadata?.lastActivityTime as string | undefined,
+        activityStatus: doc.metadata?.activityStatus as
+          | 'active'
+          | 'waiting_for_input'
+          | 'completed'
+          | 'error'
+          | undefined,
+        isAgentTask: doc.metadata?.isAgentTask as boolean | undefined,
+        agentTaskStatus: doc.metadata?.agentTaskStatus as string | undefined,
+        createdAt: doc.metadata?.createdAt as string | undefined,
+      }),
+    );
   } catch (error: any) {
     throw new Error(`Failed to search sessions in local cache: ${error.message}`);
   }
@@ -267,13 +271,14 @@ export async function getSessionMessages(sessionId: string): Promise<Message[]> 
   }
 
   try {
-    const session = await sessionStore.get(sessionId);
+    const doc = await sessionStore.get(sessionId);
 
-    if (!session) {
+    if (!doc) {
       throw new Error(`Session ${sessionId} not found in local cache`);
     }
 
-    return session.messages || [];
+    // Messages are stored in metadata as an array
+    return (doc.metadata?.messages as Message[]) || [];
   } catch (error: any) {
     throw new Error(`Failed to get messages from local cache: ${error.message}`);
   }
@@ -292,14 +297,15 @@ export async function checkCacheStatus(): Promise<{
   }
 
   try {
-    const sessions = await sessionStore.query({}, { limit: 1 });
+    // Get all sessions to count them
+    const allSessions = await sessionStore.getMostRecent(1000); // Get up to 1000 to count
 
     // In a real implementation, we would check if the indexer process is running
     // and get the last sync time from a status file or process manager
     const isIndexerRunning = false; // Would check actual process status
 
     return {
-      totalSessions: await sessionStore.count(),
+      totalSessions: allSessions.length,
       lastSyncTime: undefined, // Would get from indexer status
       isIndexerRunning,
     };

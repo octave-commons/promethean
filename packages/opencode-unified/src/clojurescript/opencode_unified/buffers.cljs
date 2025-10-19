@@ -191,25 +191,11 @@
 
 ;; Duplicate line-col-to-pos function removed - moved above motion functions
 
-(defn get-line-content [content line-num]
-  "Get content of specific line (0-based)"
-  (let [lines (str/split-lines content)]
-    (when (< line-num (count lines))
-      (nth lines line-num))))
+;; Duplicate get-line-content function removed - moved above motion functions
 
-(defn get-line-count [content]
-  "Get total number of lines in content"
-  (count (str/split-lines content)))
+;; Duplicate get-line-count function removed - moved above motion functions
 
-(defn get-line-range [content line-num]
-  "Get start and end positions of a line (0-based)"
-  (let [lines (str/split-lines content)
-        line-count (count lines)]
-    (when (< line-num line-count)
-      (let [start-pos (line-col-to-pos content line-num 0)
-            line-content (nth lines line-num)
-            end-pos (+ start-pos (count line-content))]
-        [start-pos end-pos]))))
+;; Duplicate get-line-range function removed - moved above motion functions
 
 ;; Motion functions
 (defn move-cursor-left [e]
@@ -471,73 +457,25 @@
 (defn open-settings []
   (println "Open settings not implemented yet"))
 
-;; Buffer position utilities (moved here to be available for all functions)
-(defn pos-to-line-col [content pos]
-  "Convert buffer position to line and column numbers (0-based)"
-  (let [lines (str/split-lines content)
-        before-pos (subs content 0 pos)
-        line-count (dec (count (str/split-lines before-pos)))]
-    (if (= line-count -1)
-      [0 0]
-      (let [last-line-start (str/last-index-of before-pos "\n")
-            col (if (nil? last-line-start)
-                  pos
-                  (- pos (inc last-line-start)))]
-        [line-count col]))))
+;; Duplicate pos-to-line-col function removed - moved above motion functions
 
-(defn line-col-to-pos [content line col]
-  "Convert line and column numbers (0-based) to buffer position"
-  (let [lines (str/split-lines content)
-        line-count (count lines)
-        line-num (if (and (number? line) (>= line 0)) line 0)]
-    (if (>= line-num line-count)
-      (count content)
-      (loop [current-line 0
-             pos 0
-             remaining-lines lines]
-        (if (= current-line line-num)
-          (+ pos (min col (count (first remaining-lines))))
-          (recur (inc current-line)
-                 (+ pos (inc (count (first remaining-lines))))
-                 (rest remaining-lines)))))))
+;; Duplicate line-col-to-pos function removed - moved above motion functions
 
-(defn get-line-content [content line-num]
-  "Get content of specific line (0-based)"
-  (let [lines (str/split-lines content)]
-    (when (< line-num (count lines))
-      (nth lines line-num))))
+;; Duplicate get-line-content function removed - moved above motion functions
 
-(defn get-line-count [content]
-  "Get total number of lines in content"
-  (count (str/split-lines content)))
+;; Duplicate get-line-count function removed - moved above motion functions
 
-(defn get-line-range [content line-num]
-  "Get start and end positions of a line (0-based)"
-  (let [lines (str/split-lines content)
-        line-count (count lines)]
-    (when (< line-num line-count)
-      (let [start-pos (line-col-to-pos content line-num 0)
-            line-content (nth lines line-num)
-            end-pos (+ start-pos (count line-content))]
-        [start-pos end-pos]))))
+;; Duplicate get-line-range function removed - moved above motion functions
 
 ;; Search functionality
 
-(defn get-current-line [buffer])
+;; Empty function declaration removed
 
-(defn get-current-line [buffer]
-  "Get current line number (0-based) for buffer"
-  (let [content (:content buffer)
-        cursor-pos (:cursor-pos buffer)]
-    (first (pos-to-line-col content cursor-pos))))
+;; Duplicate get-current-line function removed
 
-(defn get-current-col [buffer])
+;; Empty function declaration removed
 
-(defn get-current-col [buffer]
-  "Get current column number (0-based) for buffer"
-  (let [content (:content buffer)
-        cursor-pos (:cursor-pos buffer)]
-    (second (pos-to-line-col content cursor-pos))))
+;; Duplicate get-current-col function removed
 
 ;; Motion functions
 
