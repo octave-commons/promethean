@@ -362,6 +362,11 @@ Run the example to see the system in action:
 pnpm tsx packages/ai-learning/example.ts
 ```
 
+## 📚 Documentation
+
+- **[Vector Compression Research](./docs/vector-compression-research.md)** - Comprehensive analysis of cutting-edge vector compression solutions for improving Eidolon field integration performance
+- **[Eidolon Field Integration Status](./EIDOLON_FIELD_INTEGRATION_STATUS.md)** - Current status and implementation details for Eidolon field classification
+
 ## 🤝 Contributing
 
 This package is part of the Promethean Framework. Please follow the contribution guidelines in the main repository.
