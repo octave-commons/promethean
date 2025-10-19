@@ -2,6 +2,7 @@
                 "packages/shadow-ui/src"
                  "packages/frontends/kanban-frontend/src/cljs"
                 "packages/duck-utils/src/cljs"
+                "packages/opencode-unified/src/clojurescript"
                 "packages/frontend-service/src/cljs"
                 "packages/frontends/docops-frontend/src/cljs"
                 "packages/frontends/health-dashboard-frontend/src/cljs"
