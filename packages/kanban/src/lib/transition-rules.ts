@@ -114,15 +114,20 @@ export class TransitionRulesEngine {
    * Initialize the rules engine and check if Clojure DSL is available
    */
   async initialize(): Promise<void> {
-    if (this.config.dslPath) {
-      try {
-        await access(this.config.dslPath);
-        this.dslAvailable = true;
-        console.log(`🔧 Clojure DSL available: ${this.config.dslPath}`);
-      } catch {
-        console.warn(`⚠️  Clojure DSL not found: ${this.config.dslPath}`);
-        this.dslAvailable = false;
-      }
+    if (!this.config.dslPath) {
+      throw new Error(
+        'Clojure DSL path is required. TypeScript transition rules are no longer supported.',
+      );
+    }
+
+    try {
+      await access(this.config.dslPath);
+      this.dslAvailable = true;
+      console.log(`🔧 Clojure DSL available: ${this.config.dslPath}`);
+    } catch {
+      throw new Error(
+        `Clojure DSL not found at: ${this.config.dslPath}. Transition rules cannot function without the Clojure DSL.`,
+      );
     }
   }
 
@@ -660,15 +665,8 @@ export async function createTransitionRulesEngine(
     }
   }
 
-  // Return a disabled engine as fallback
-  const engine = new TransitionRulesEngine({
-    enabled: false,
-    enforcement: 'disabled',
-    rules: [],
-    customChecks: {},
-    globalRules: [],
-  });
-  await engine.initialize();
-
-  return engine;
+  // No valid configuration found - throw error
+  throw new Error(
+    `Failed to load transition rules configuration from any of the provided paths: ${paths.join(', ')}. Clojure DSL is required.`,
+  );
 }
