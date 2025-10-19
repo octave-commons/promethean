@@ -19,8 +19,8 @@
     }
   },
   "bin": {
-    "opencode-client": "dist/cli.js",
-    "agent-cli": "dist/cli/AgentCLI.js"
+    "opencode": "dist/cli.js",
+    "opencode-client": "dist/cli.js"
   },
   "scripts": {
     "build": "tsc",
