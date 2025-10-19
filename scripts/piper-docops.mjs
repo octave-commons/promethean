@@ -74,9 +74,9 @@ export async function embed(args = {}) {
 }
 
 export async function query(args = {}) {
-  const { openDB } = await import('@promethean/docops/dist/index.js');
-  const { getChromaCollection } = await import('@promethean/docops/dist/lib/chroma.js');
-  const { runQuery } = await import('@promethean/docops/dist/index.js');
+  const { openDB } = await import('../packages/docops/dist/index.js');
+  const { getChromaCollection } = await import('../packages/docops/dist/lib/chroma.js');
+  const { runQuery } = await import('../packages/docops/dist/index.js');
   const db = await openDB();
   let client;
   try {
@@ -116,8 +116,8 @@ export async function query(args = {}) {
 }
 
 export async function relations(args = {}) {
-  const { openDB } = await import('@promethean/docops/dist/index.js');
-  const { runRelations } = await import('@promethean/docops/dist/index.js');
+  const { openDB } = await import('../packages/docops/dist/index.js');
+  const { runRelations } = await import('../packages/docops/dist/index.js');
   const db = await openDB();
   try {
     let files = args.files;
@@ -148,8 +148,8 @@ export async function relations(args = {}) {
 }
 
 export async function footers(args = {}) {
-  const { openDB } = await import('@promethean/docops/dist/index.js');
-  const { runFooters } = await import('@promethean/docops/dist/index.js');
+  const { openDB } = await import('../packages/docops/dist/index.js');
+  const { runFooters } = await import('../packages/docops/dist/index.js');
   const db = await openDB();
   try {
     await runFooters(
