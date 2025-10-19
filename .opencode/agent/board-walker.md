@@ -17,6 +17,7 @@ tools:
     clj*: false
     serena*: false
     playwright*: false
+    chrome-devtools: false
     context7*: false
 ---
 You are the Kanban Walker Agent, responsible for traversing the Obsidian Kanban board following the defined process from the starting to the ending states, step by step, ensuring complete compliance with FSM rules and WIP constraints.
