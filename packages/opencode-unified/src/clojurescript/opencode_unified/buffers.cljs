@@ -187,6 +187,30 @@
 
 ;; Mode transition functions
 
+;; Duplicate utility functions removed - moved above motion functions
+
+;; Duplicate line-col-to-pos function removed - moved above motion functions
+
+(defn get-line-content [content line-num]
+  "Get content of specific line (0-based)"
+  (let [lines (str/split-lines content)]
+    (when (< line-num (count lines))
+      (nth lines line-num))))
+
+(defn get-line-count [content]
+  "Get total number of lines in content"
+  (count (str/split-lines content)))
+
+(defn get-line-range [content line-num]
+  "Get start and end positions of a line (0-based)"
+  (let [lines (str/split-lines content)
+        line-count (count lines)]
+    (when (< line-num line-count)
+      (let [start-pos (line-col-to-pos content line-num 0)
+            line-content (nth lines line-num)
+            end-pos (+ start-pos (count line-content))]
+        [start-pos end-pos]))))
+
 ;; Motion functions
 (defn move-cursor-left [e]
   (let [el (.-target e)
