@@ -36,6 +36,7 @@ import { compareTasks, suggestTaskBreakdown, prioritizeTasks } from '../lib/task
 import { KanbanDevServer } from '../lib/dev-server.js';
 
 import { TransitionRulesEngine, createTransitionRulesEngine } from '../lib/transition-rules.js';
+import { TaskGitTracker } from '../lib/task-git-tracker.js';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
@@ -780,6 +781,10 @@ const handleAudit: CommandHandler = (args, context) =>
     let inconsistenciesFound = 0;
     let inconsistenciesFixed = 0;
     let illegalTransitionsFound = 0;
+    let orphanedTasksFound = 0;
+
+    // Initialize git tracker for commit validation
+    const gitTracker = new TaskGitTracker({ repoRoot: process.cwd() });
 
     console.log('🔍 Analyzing task state consistency...');
     console.log('');
@@ -792,6 +797,24 @@ const handleAudit: CommandHandler = (args, context) =>
 
       for (const task of column.tasks) {
         const replayResult = await eventLogManager.replayTaskTransitions(task.uuid, task.status);
+
+        // Check git tracking validation
+        const gitValidation = gitTracker.validateTaskCommitTracking(task);
+        if (!gitValidation.isValid) {
+          orphanedTasksFound++;
+          console.log(`⚠️  ORPHANED TASK: "${task.title}"`);
+          console.log(`   Task ID: ${task.uuid}`);
+          console.log(`   Status: ${task.status}`);
+          console.log(`   Issues: ${gitValidation.issues.join(', ')}`);
+
+          if (!task.lastCommitSha) {
+            console.log(`   ❌ Missing lastCommitSha field`);
+          }
+          if (!task.commitHistory) {
+            console.log(`   ❌ Missing commitHistory field`);
+          }
+          console.log('');
+        }
 
         // Check if current status matches replayed status
         if (replayResult.finalStatus !== task.status) {
@@ -864,6 +887,7 @@ const handleAudit: CommandHandler = (args, context) =>
     console.log(`   Total events in log: ${allEvents.length}`);
     console.log(`   Inconsistencies found: ${inconsistenciesFound}`);
     console.log(`   Illegal transitions: ${illegalTransitionsFound}`);
+    console.log(`   Orphaned tasks (no commit tracking): ${orphanedTasksFound}`);
 
     if (!dryRun) {
       console.log(`   Inconsistencies fixed: ${inconsistenciesFixed}`);
@@ -887,6 +911,49 @@ const handleAudit: CommandHandler = (args, context) =>
       illegalTransitionsFound,
       dryRun,
     };
+  });
+
+const handleCommitStats: CommandHandler = (_args, context) =>
+  withBoard(context, async (board) => {
+    const gitTracker = new TaskGitTracker({ repoRoot: process.cwd() });
+
+    // Collect all tasks from the board
+    const allTasks: any[] = [];
+    for (const column of board.columns) {
+      for (const task of column.tasks) {
+        allTasks.push(task);
+      }
+    }
+
+    // Get commit tracking statistics
+    const stats = gitTracker.getCommitTrackingStats(allTasks);
+
+    console.log('📊 Kanban Commit Tracking Statistics');
+    console.log('');
+    console.log(`Total tasks: ${stats.totalTasks}`);
+    console.log(`Tasks with commit tracking: ${stats.tasksWithTracking}`);
+    console.log(`Orphaned tasks: ${stats.orphanedTasks}`);
+    console.log(
+      `Tracking coverage: ${((stats.tasksWithTracking / stats.totalTasks) * 100).toFixed(1)}%`,
+    );
+    console.log('');
+
+    if (stats.orphanedTasks > 0) {
+      console.log(
+        `⚠️  Found ${stats.orphanedTasks} orphaned task(s) lacking proper commit tracking`,
+      );
+      console.log('   Run "pnpm kanban audit --fix" to add commit tracking to these tasks');
+      console.log('');
+    }
+
+    if (stats.tasksWithTracking > 0) {
+      console.log('✅ Commit tracking is working for tracked tasks');
+      console.log('   Each task change creates a git commit with standardized messages');
+      console.log('   Task files include lastCommitSha and commitHistory fields');
+      console.log('');
+    }
+
+    return stats;
   });
 
 const handleEnforceWipLimits: CommandHandler = (args, context) =>
@@ -1122,6 +1189,11 @@ const handleCreate: CommandHandler = (args, context) =>
     }
     if (newTask.labels && newTask.labels.length > 0) {
       console.log(`   Labels: ${newTask.labels.join(', ')}`);
+    }
+
+    // Show commit tracking information
+    if (newTask.lastCommitSha) {
+      console.log(`   Commit: ${newTask.lastCommitSha.slice(0, 8)}...`);
     }
 
     return newTask;
