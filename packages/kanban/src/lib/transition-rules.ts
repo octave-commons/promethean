@@ -83,10 +83,30 @@ export class TransitionRulesEngine {
 
     // Default testing transition configuration
     this.testingConfig = {
-      hardBlockCoverageThreshold: 90,
-      softBlockQualityScoreThreshold: 75,
-      supportedFormats: ['lcov', 'cobertura', 'json'],
-      performanceTimeoutSeconds: 30,
+      enabled: true,
+      thresholds: {
+        coverage: 90,
+        quality: 75,
+        softBlock: 90,
+        hardBlock: 75,
+      },
+      weights: {
+        coverage: 0.4,
+        quality: 0.3,
+        requirementMapping: 0.2,
+        contextualAnalysis: 0.1,
+      },
+      timeouts: {
+        coverageAnalysis: 10000,
+        qualityAssessment: 15000,
+        requirementMapping: 20000,
+        totalAnalysis: 60000,
+      },
+      reporting: {
+        includeDetailedRationale: true,
+        generateActionItems: true,
+        appendToTask: true,
+      },
     };
   }
 
@@ -313,7 +333,7 @@ export class TransitionRulesEngine {
       const timeoutPromise = new Promise<never>((_, reject) => {
         setTimeout(
           () => reject(new Error('Testing transition validation timeout')),
-          this.testingConfig.performanceTimeoutSeconds * 1000,
+          this.testingConfig.timeouts.totalAnalysis,
         );
       });
 
