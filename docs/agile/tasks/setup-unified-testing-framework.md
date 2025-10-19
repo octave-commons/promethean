@@ -1,0 +1,204 @@
+---
+uuid: "bd317cc6-e645-4343-9f56-d927d9763cb1"
+title: "Set Up Unified Testing Framework"
+slug: "setup-unified-testing-framework"
+status: "breakdown"
+priority: "P1"
+labels: ["testing", "framework", "consolidation", "quality", "epic1"]
+created_at: "2025-10-18T00:00:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+## 🧪 Set Up Unified Testing Framework
+
+### 📋 Description
+
+Establish a comprehensive testing framework that supports TypeScript, ClojureScript, and Electron components within the unified package. The framework must provide consistent testing patterns, coverage reporting, and integration with the existing CI/CD pipeline.
+
+### 🎯 Goals
+
+- Unified test configuration for all languages
+- Consistent testing patterns and utilities
+- Comprehensive coverage reporting
+- Integration testing capabilities
+- CI/CD pipeline integration
+
+### ✅ Acceptance Criteria
+
+- [ ] Test configuration for TypeScript (AVA)
+- [ ] Test configuration for ClojureScript (cljs.test)
+- [ ] Electron application testing setup
+- [ ] Coverage reporting across all languages
+- [ ] Integration test framework
+- [ ] Test scripts in package.json
+- [ ] CI/CD integration with test execution
+
+### 🔧 Technical Specifications
+
+#### Testing Stack:
+
+1. **TypeScript Testing**
+
+   - AVA test runner with TypeScript support
+   - Test utilities and helpers
+   - Mock and stub capabilities
+   - Coverage reporting with c8
+
+2. **ClojureScript Testing**
+
+   - cljs.test integration
+   - Browser-based testing with Karma
+   - Node.js testing support
+   - Coverage reporting with shadow-cljs
+
+3. **Electron Testing**
+
+   - Spectron for Electron app testing
+   - Main and renderer process testing
+   - Integration testing capabilities
+   - Cross-platform testing
+
+4. **Integration Testing**
+   - End-to-end test scenarios
+   - API testing with supertest
+   - Database testing with test containers
+   - Performance testing hooks
+
+#### Test Configuration:
+
+```json
+{
+  "scripts": {
+    "test": "pnpm test:ts && pnpm test:cljs",
+    "test:ts": "ava",
+    "test:cljs": "shadow-cljs compile test && node out/test.js",
+    "test:electron": "ava --config ava.electron.config.mjs",
+    "test:integration": "ava --config ava.integration.config.mjs",
+    "coverage": "c8 ava && c8 report --reporter=html",
+    "test:watch": "ava --watch"
+  }
+}
+```
+
+### 📁 Files/Components to Create
+
+#### Test Configuration:
+
+1. **`packages/opencode-unified/ava.config.mjs`**
+
+   - Main AVA configuration for TypeScript tests
+   - Test file patterns and exclusions
+   - Coverage settings and reporters
+
+2. **`packages/opencode-unified/ava.electron.config.mjs`**
+
+   - Electron-specific test configuration
+   - Main and renderer process test setup
+
+3. **`packages/opencode-unified/ava.integration.config.mjs`**
+
+   - Integration test configuration
+   - Database and external service setup
+
+4. **`packages/opencode-unified/test-setup.ts`**
+
+   - Common test utilities and helpers
+   - Mock configurations
+   - Test database setup
+
+5. **`packages/opencode-unified/shadow-cljs.edn`** (test section)
+   - ClojureScript test build configuration
+   - Test runner setup
+
+#### Test Structure:
+
+```
+packages/opencode-unified/tests/
+├── typescript/
+│   ├── unit/              # Unit tests
+│   ├── integration/       # Integration tests
+│   └── fixtures/          # Test fixtures
+├── clojurescript/
+│   ├── unit/              # ClojureScript unit tests
+│   └── integration/       # ClojureScript integration tests
+├── electron/
+│   ├── main/              # Main process tests
+│   └── renderer/          # Renderer process tests
+└── integration/           # Cross-language integration tests
+```
+
+### 🧪 Testing Requirements
+
+#### Unit Tests:
+
+- [ ] TypeScript unit tests with AVA
+- [ ] ClojureScript unit tests with cljs.test
+- [ ] Mock and stub utilities
+- [ ] Test coverage > 80%
+
+#### Integration Tests:
+
+- [ ] API endpoint testing
+- [ ] Database integration testing
+- [ ] Cross-language integration tests
+- [ ] Electron app integration tests
+
+#### Performance Tests:
+
+- [ ] Load testing setup
+- [ ] Memory leak detection
+- [ ] Benchmark framework
+- [ ] Performance regression detection
+
+### 📋 Subtasks
+
+1. **Configure TypeScript Testing** (1 point)
+
+   - Set up AVA configuration
+   - Create test utilities and helpers
+   - Configure coverage reporting
+
+2. **Set Up ClojureScript Testing** (1 point)
+
+   - Configure cljs.test integration
+   - Set up browser testing with Karma
+   - Add coverage reporting
+
+3. **Create Integration Test Framework** (1 point)
+   - Set up integration test configuration
+   - Create test database setup
+   - Add CI/CD integration
+
+### ⛓️ Dependencies
+
+- **Blocked By**: Establish unified build system
+- **Blocks**:
+  - All subsequent development tasks
+  - Quality assurance processes
+
+### 🔗 Related Links
+
+- [[PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS.md]]
+- Testing documentation: `docs/testing-guide.md`
+- AVA documentation: https://avajs.dev/
+- cljs.test documentation: https://clojurescript.org/reference/testing
+
+### 📊 Definition of Done
+
+- Test framework configured for all languages
+- Coverage reporting functional
+- Integration tests running
+- CI/CD pipeline integration complete
+- Test documentation created
+
+---
+
+## 🔍 Relevant Links
+
+- Promethean testing standards: `docs/testing-standards.md`
+- Existing test configurations: `packages/*/ava.config.mjs`
+- Coverage reporting: `docs/coverage-guide.md`
+- CI/CD configuration: `.github/workflows/test.yml`
