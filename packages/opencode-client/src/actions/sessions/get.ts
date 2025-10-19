@@ -1,5 +1,37 @@
 import { SessionUtils, agentTasks, sessionStore } from '../../index.js';
 
+/**
+ * Safely parse session data, handling both JSON and plain text formats
+ */
+function parseSessionData(session: any): any {
+  try {
+    return JSON.parse(session.text);
+  } catch (error) {
+    // Handle legacy plain text format - extract session ID from text
+    const text = session.text;
+    const sessionMatch = text.match(/Session:\s*(\w+)/);
+    if (sessionMatch) {
+      return {
+        id: sessionMatch[1],
+        title: `Session ${sessionMatch[1]}`,
+        createdAt: session.timestamp || new Date().toISOString(),
+        time: {
+          created: session.timestamp || new Date().toISOString(),
+        },
+      };
+    }
+    // Fallback - create minimal session object
+    return {
+      id: session.id || 'unknown',
+      title: 'Legacy Session',
+      createdAt: session.timestamp || new Date().toISOString(),
+      time: {
+        created: session.timestamp || new Date().toISOString(),
+      },
+    };
+  }
+}
+
 export async function get({
   sessionId,
   limit,
@@ -11,12 +43,12 @@ export async function get({
 }) {
   try {
     // Get session from dual store - fail fast if not available
-    const sessionEntry = await sessionStore.get(`session:${sessionId}`);
+    const sessionEntry = await sessionStore.get(sessionId);
     if (!sessionEntry) {
       return 'Session not found in dual store';
     }
 
-    const session = JSON.parse(sessionEntry.text);
+    const session = parseSessionData(sessionEntry);
 
     // Get messages from dual store - fail fast if not available
     const messageKey = `session:${sessionId}:messages`;
@@ -32,7 +64,12 @@ export async function get({
       });
     }
 
-    const messages = JSON.parse(messageEntry.text);
+    let messages;
+    try {
+      messages = JSON.parse(messageEntry.text);
+    } catch (error) {
+      messages = [];
+    }
 
     const agentTask = agentTasks.get(sessionId);
     const sessionInfo = SessionUtils.createSessionInfo(session, messages.length, agentTask);

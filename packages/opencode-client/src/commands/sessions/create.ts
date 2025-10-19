@@ -57,6 +57,11 @@ export const createSessionCommand = new Command('create')
       if (delegates && delegates.length > 0) {
         console.log(`Delegates: ${delegates.join(', ')}`);
       }
+
+      // Ensure process exits cleanly
+      setImmediate(() => {
+        process.exit(0);
+      });
     } catch (error) {
       console.error(
         chalk.red('Error creating session:'),

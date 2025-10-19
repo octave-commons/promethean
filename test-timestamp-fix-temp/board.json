@@ -1,9 +1,0 @@
-{
-  "title": "Test Board",
-  "columns": [
-    {
-      "name": "todo",
-      "tasks": []
-    }
-  ]
-}

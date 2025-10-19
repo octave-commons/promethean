@@ -26,7 +26,7 @@
     "build": "tsc",
     "dev": "tsc --watch",
     "test": "pnpm build && ava",
-    "test:unit": "pnpm build && ava src/tests/**/*.test.ts",
+    "test:unit": "pnpm build && ava",
     "test:watch": "ava --watch",
     "test:coverage": "c8 ava",
     "start": "node dist/cli.js"

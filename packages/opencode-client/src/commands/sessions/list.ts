@@ -2,6 +2,7 @@ import { Command } from 'commander';
 import chalk from 'chalk';
 import Table from 'cli-table3';
 import { listSessions } from '../../api/sessions.js';
+import { list as listAction } from '../../actions/sessions/list.js';
 
 export const listCommand = new Command('list')
   .description('List all active sessions')
@@ -11,10 +12,35 @@ export const listCommand = new Command('list')
   .option('--format <format>', 'Output format (table|json)', 'table')
   .action(async (options) => {
     try {
-      const sessions = await listSessions({
-        limit: parseInt(options.limit),
-        offset: parseInt(options.offset),
-      });
+      // Try API first, fallback to direct action if server is unavailable
+      let sessions;
+      try {
+        sessions = await listSessions({
+          limit: parseInt(options.limit),
+          offset: parseInt(options.offset),
+        });
+        // If API returns more sessions than requested, fallback to local action
+        if (sessions.length > parseInt(options.limit)) {
+          console.log(chalk.yellow('API not respecting limit, using local action...'));
+          const result = await listAction({
+            limit: parseInt(options.limit),
+            offset: parseInt(options.offset),
+          });
+          const parsed = JSON.parse(result);
+          sessions = parsed.sessions || [];
+        }
+      } catch (serverError) {
+        console.log(
+          chalk.yellow('Server unavailable, using local action...'),
+          (serverError as Error).message,
+        );
+        const result = await listAction({
+          limit: parseInt(options.limit),
+          offset: parseInt(options.offset),
+        });
+        const parsed = JSON.parse(result);
+        sessions = parsed.sessions || [];
+      }
 
       if (options.format === 'json') {
         console.log(JSON.stringify(sessions, null, 2));
@@ -43,7 +69,7 @@ export const listCommand = new Command('list')
         },
       });
 
-      sessions.forEach((session) => {
+      sessions.forEach((session: any) => {
         cliTable.push([
           session.id.substring(0, 12) + '...',
           session.title,
@@ -54,6 +80,11 @@ export const listCommand = new Command('list')
       });
 
       console.log(cliTable.toString());
+
+      // Ensure process exits cleanly
+      setImmediate(() => {
+        process.exit(0);
+      });
     } catch (error) {
       console.error(
         chalk.red('Error listing sessions:'),

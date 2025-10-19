@@ -19,6 +19,11 @@ export const searchSessions = new Command('search')
       mockResults.forEach((result) => {
         console.log(`${result.id}: ${result.title} (${(result.relevance * 100).toFixed(1)}%)`);
       });
+
+      // Ensure process exits cleanly
+      setImmediate(() => {
+        process.exit(0);
+      });
     } catch (error) {
       console.error(
         chalk.red('Error searching sessions:'),

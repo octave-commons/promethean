@@ -69,7 +69,7 @@
     "dev:typescript": "tsc --watch",
     "dev:clojurescript": "shadow-cljs watch app renderer preload main",
     "dev:electron": "cross-env NODE_ENV=development electron .",
-    "dev:server": "node dist/server/index.js",
+    "dev:server": "node dist/typescript/server/index.js",
     "start": "pnpm build && node dist/server/index.js",
     "start:electron": "pnpm build && electron .",
     "electron:pack": "pnpm build && electron-builder --dir",

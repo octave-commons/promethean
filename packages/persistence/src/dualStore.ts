@@ -269,4 +269,22 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
 
         return toGenericEntry(document, this.textKey, this.timeStampKey);
     }
+
+    async cleanup(): Promise<void> {
+        try {
+            // Close MongoDB connection
+            const { getMongoClient } = await import('./clients.js');
+            const mongoClient = await getMongoClient();
+            await mongoClient.close();
+        } catch (error) {
+            console.warn('Warning: Failed to cleanup MongoDB connection:', error);
+        }
+
+        try {
+            // ChromaDB cleanup is handled automatically when the process exits
+            // But we can try to reset the client if available
+        } catch (error) {
+            console.warn('Warning: Failed to cleanup ChromaDB connection:', error);
+        }
+    }
 }

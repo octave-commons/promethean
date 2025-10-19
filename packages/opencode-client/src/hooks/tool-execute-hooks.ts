@@ -14,6 +14,7 @@ import type {
   HookFunction,
 } from '../types/plugin-hooks.js';
 import { HookExecutionError, HookTimeoutError } from '../types/plugin-hooks.js';
+import { ValidationError, InputSanitizer } from '../utils/input-validation.js';
 
 /**
  * Default hook execution options
@@ -31,6 +32,275 @@ const DEFAULT_OPTIONS: Required<HookExecutionOptions> = {
  * Provides a comprehensive hook system for intercepting and enhancing
  * tool execution with before/after hooks, priority ordering, and error handling.
  */
+/**
+ * Hook Security Validator
+ *
+ * Provides security validation for hook registration and execution
+ * to prevent injection attacks, unauthorized access, and resource abuse.
+ */
+class HookSecurityValidator {
+  /**
+   * Validate hook registration parameters
+   */
+  static validateRegistration(registration: HookRegistration): void {
+    // Validate hook ID format
+    if (!registration.id || typeof registration.id !== 'string') {
+      throw new ValidationError('Hook ID is required and must be a string', 'id', registration.id);
+    }
+
+    const sanitizedId = InputSanitizer.sanitizeString(registration.id);
+    if (!/^[a-zA-Z0-9_-]+$/.test(sanitizedId)) {
+      throw new ValidationError(
+        'Hook ID must contain only alphanumeric characters, hyphens, and underscores',
+        'id',
+        registration.id,
+      );
+    }
+
+    if (sanitizedId.length < 1 || sanitizedId.length > 50) {
+      throw new ValidationError(
+        'Hook ID must be between 1 and 50 characters',
+        'id',
+        registration.id,
+      );
+    }
+
+    // Validate tool patterns
+    if (!registration.tools || !Array.isArray(registration.tools)) {
+      throw new ValidationError('Tools must be an array', 'tools', registration.tools);
+    }
+
+    if (registration.tools.length === 0) {
+      throw new ValidationError('Tools array cannot be empty', 'tools', registration.tools);
+    }
+
+    if (registration.tools.length > 20) {
+      throw new ValidationError('Tools array cannot exceed 20 items', 'tools', registration.tools);
+    }
+
+    // Validate each tool pattern
+    registration.tools.forEach((pattern, index) => {
+      if (typeof pattern !== 'string') {
+        throw new ValidationError(
+          `Tool pattern at index ${index} must be a string`,
+          'tools',
+          registration.tools,
+        );
+      }
+
+      const sanitizedPattern = InputSanitizer.sanitizeString(pattern);
+      if (!/^[a-zA-Z0-9_*-]+$/.test(sanitizedPattern)) {
+        throw new ValidationError(
+          `Invalid tool pattern at index ${index}: ${pattern}`,
+          'tools',
+          registration.tools,
+        );
+      }
+    });
+
+    // Validate timeout
+    if (registration.timeout !== undefined) {
+      if (
+        typeof registration.timeout !== 'number' ||
+        registration.timeout < 1000 ||
+        registration.timeout > 300000
+      ) {
+        throw new ValidationError(
+          'Timeout must be a number between 1000 and 300000ms',
+          'timeout',
+          registration.timeout,
+        );
+      }
+    }
+
+    // Validate priority
+    if (registration.priority !== undefined) {
+      if (
+        typeof registration.priority !== 'number' ||
+        registration.priority < 1 ||
+        registration.priority > 1000
+      ) {
+        throw new ValidationError(
+          'Priority must be a number between 1 and 1000',
+          'priority',
+          registration.priority,
+        );
+      }
+    }
+
+    // Validate hook type
+    if (registration.type !== 'before' && registration.type !== 'after') {
+      throw new ValidationError(
+        'Hook type must be either "before" or "after"',
+        'type',
+        registration.type,
+      );
+    }
+  }
+
+  /**
+   * Validate hook function for dangerous patterns
+   */
+  static validateHookFunction(hook: HookFunction): void {
+    // Convert function to string to analyze its source
+    const hookString = hook.toString();
+
+    // Check for dangerous patterns
+    const dangerousPatterns = [
+      /eval\s*\(/i, // eval() usage
+      /Function\s*\(/i, // Function constructor
+      /setTimeout\s*\(/i, // setTimeout (potential for code execution)
+      /setInterval\s*\(/i, // setInterval (potential for code execution)
+      /require\s*\(/i, // require() (Node.js module loading)
+      /import\s*\(/i, // dynamic import
+      /process\./i, // process object access
+      /global\./i, // global object access
+      /window\./i, // window object access
+      /document\./i, // document object access
+      /fetch\s*\(/i, // fetch calls (potential for data exfiltration)
+      /XMLHttpRequest/i, // XHR usage
+      /WebSocket/i, // WebSocket usage
+      /Worker/i, // Web Worker usage
+      /fs\./i, // filesystem access
+      /child_process/i, // child process access
+      /exec\s*\(/i, // exec calls
+      /spawn\s*\(/i, // spawn calls
+    ];
+
+    for (const pattern of dangerousPatterns) {
+      if (pattern.test(hookString)) {
+        throw new ValidationError(
+          `Hook function contains potentially dangerous pattern: ${pattern}`,
+          'hook',
+          hookString,
+        );
+      }
+    }
+
+    // Check for extremely long functions (potential for obfuscated code)
+    if (hookString.length > 50000) {
+      throw new ValidationError(
+        'Hook function is too long (max 50000 characters)',
+        'hook',
+        hookString,
+      );
+    }
+  }
+
+  /**
+   * Validate authorization context
+   */
+  static validateAuthorization(
+    context: Partial<HookContext>,
+    requiredPermissions: string[] = [],
+  ): void {
+    if (!context) {
+      throw new ValidationError('Context is required for authorization', 'context', context);
+    }
+
+    // Validate plugin context
+    if (context.pluginContext) {
+      if (typeof context.pluginContext !== 'object' || context.pluginContext === null) {
+        throw new ValidationError(
+          'Plugin context must be an object',
+          'context.pluginContext',
+          context.pluginContext,
+        );
+      }
+
+      // Sanitize plugin context
+      context.pluginContext = InputSanitizer.sanitizeObject(context.pluginContext) as any;
+    }
+
+    // Validate metadata
+    if (context.metadata) {
+      if (typeof context.metadata !== 'object' || context.metadata === null) {
+        throw new ValidationError(
+          'Metadata must be an object',
+          'context.metadata',
+          context.metadata,
+        );
+      }
+
+      // Sanitize metadata
+      context.metadata = InputSanitizer.sanitizeObject(context.metadata);
+    }
+
+    // Check required permissions (simplified - in real implementation would check against auth system)
+    if (requiredPermissions.length > 0) {
+      // This is a placeholder - in a real system, you'd check against the actual auth system
+      const hasPermissions = requiredPermissions.every((permission) => {
+        return context.pluginContext?.permissions?.includes(permission);
+      });
+
+      if (!hasPermissions) {
+        throw new ValidationError(
+          `Insufficient permissions. Required: ${requiredPermissions.join(', ')}`,
+          'context',
+          context,
+        );
+      }
+    }
+  }
+
+  /**
+   * Sanitize hook context to prevent information leakage
+   */
+  static sanitizeContext(context: Partial<HookContext>): Partial<HookContext> {
+    const sanitized: Partial<HookContext> = {};
+
+    // Copy safe fields
+    if (context.toolName) {
+      sanitized.toolName = InputSanitizer.sanitizeString(context.toolName);
+    }
+
+    if (context.phase) {
+      sanitized.phase = context.phase; // enum is safe
+    }
+
+    if (context.timestamp) {
+      sanitized.timestamp = context.timestamp; // Date object is safe
+    }
+
+    if (context.executionId) {
+      sanitized.executionId = InputSanitizer.sanitizeString(context.executionId);
+    }
+
+    // Sanitize plugin context (remove sensitive information)
+    if (context.pluginContext) {
+      sanitized.pluginContext = this.sanitizePluginContext(context.pluginContext);
+    }
+
+    // Sanitize metadata (remove sensitive information)
+    if (context.metadata) {
+      sanitized.metadata = InputSanitizer.sanitizeObject(context.metadata);
+    }
+
+    return sanitized;
+  }
+
+  /**
+   * Sanitize plugin context to remove sensitive information
+   */
+  private static sanitizePluginContext(pluginContext: any): any {
+    if (!pluginContext || typeof pluginContext !== 'object') {
+      return pluginContext;
+    }
+
+    const sanitized: any = {};
+
+    // Allow only safe fields
+    const safeFields = ['pluginId', 'pluginName', 'version', 'permissions'];
+    for (const field of safeFields) {
+      if (pluginContext[field] !== undefined) {
+        sanitized[field] = InputSanitizer.sanitizeString(String(pluginContext[field]));
+      }
+    }
+
+    return sanitized;
+  }
+}
+
 export class ToolExecuteHookManager implements HookManager {
   private hooks = new Map<string, HookRegistration>();
   private executionStats: HookStatistics = {
@@ -47,6 +317,12 @@ export class ToolExecuteHookManager implements HookManager {
    * Register a new hook
    */
   registerHook(registration: HookRegistration): void {
+    // Validate registration parameters
+    HookSecurityValidator.validateRegistration(registration);
+
+    // Validate hook function for dangerous patterns
+    HookSecurityValidator.validateHookFunction(registration.hook);
+
     if (this.hooks.has(registration.id)) {
       throw new Error(`Hook with ID '${registration.id}' is already registered`);
     }
@@ -91,6 +367,12 @@ export class ToolExecuteHookManager implements HookManager {
     context: Partial<HookContext>,
     options: HookExecutionOptions = {},
   ): Promise<{ args: T; metrics: HookMetrics[] }> {
+    // Validate and sanitize context
+    const sanitizedContext = HookSecurityValidator.sanitizeContext(context);
+
+    // Validate authorization
+    HookSecurityValidator.validateAuthorization(sanitizedContext, ['execute_hooks']);
+
     const hooks = this.getHooksForTool(toolName, 'before');
     const opts = { ...DEFAULT_OPTIONS, ...options };
     const metrics: HookMetrics[] = [];
@@ -102,7 +384,7 @@ export class ToolExecuteHookManager implements HookManager {
         hook,
         toolName,
         currentArgs,
-        context,
+        sanitizedContext,
         'before',
         opts,
       );
@@ -137,6 +419,12 @@ export class ToolExecuteHookManager implements HookManager {
     context: Partial<HookContext>,
     options: HookExecutionOptions = {},
   ): Promise<{ result: R; metrics: HookMetrics[] }> {
+    // Validate and sanitize context
+    const sanitizedContext = HookSecurityValidator.sanitizeContext(context);
+    
+    // Validate authorization
+    HookSecurityValidator.validateAuthorization(sanitizedContext, ['execute_hooks']);
+
     const hooks = this.getHooksForTool(toolName, 'after');
     const opts = { ...DEFAULT_OPTIONS, ...options };
     const metrics: HookMetrics[] = [];
@@ -148,7 +436,7 @@ export class ToolExecuteHookManager implements HookManager {
         hook,
         toolName,
         { args, result: currentResult },
-        context,
+        sanitizedContext,
         'after',
         opts,
       );
@@ -240,7 +528,7 @@ export class ToolExecuteHookManager implements HookManager {
           hook.hook,
           {
             toolName,
-            args: (data as any).args || data,
+            args: data,
             ...(phase === 'after' && { result: (data as any).result }),
             phase,
             timestamp: new Date(),
@@ -356,9 +644,9 @@ export class ToolExecuteHookManager implements HookManager {
     this.executionStats.totalHooks = this.hooks.size;
     this.executionStats.hooksByType = { before: 0, after: 0 };
 
-    for (const hook of this.hooks.values()) {
+    Array.from(this.hooks.values()).forEach(hook => {
       this.executionStats.hooksByType[hook.type]++;
-    }
+    });
   }
 
   /**

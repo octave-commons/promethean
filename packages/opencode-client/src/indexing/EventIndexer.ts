@@ -22,6 +22,22 @@ export interface EventIndexerConfig {
   indexingInterval?: number;
   /** Maximum events to keep in memory */
   maxMemoryEvents?: number;
+  /** Enable batch processing for better performance */
+  enableBatchProcessing?: boolean;
+  /** Maximum batch size for batch operations */
+  maxBatchSize?: number;
+  /** Memory cleanup threshold (percentage of maxMemoryEvents) */
+  memoryCleanupThreshold?: number;
+  /** Enable compression for large event data */
+  enableCompression?: boolean;
+  /** Maximum event size before compression (bytes) */
+  maxEventSize?: number;
+  /** Retry configuration for failed operations */
+  retryConfig?: {
+    maxRetries: number;
+    retryDelay: number;
+    backoffFactor: number;
+  };
 }
 
 export interface IndexedEvent extends Event {
@@ -78,6 +94,9 @@ export class EventIndexer {
     errorCount: 0,
     memoryUsage: 0,
   };
+  private processingBatches = new Map<string, Promise<void>>();
+  private retryCounts = new Map<string, number>();
+  private lastCleanupTime = Date.now();
 
   constructor(config: EventIndexerConfig = {}) {
     this.config = {
@@ -86,6 +105,16 @@ export class EventIndexer {
       batchSize: 100,
       indexingInterval: 5000, // 5 seconds
       maxMemoryEvents: 10000,
+      enableBatchProcessing: true,
+      maxBatchSize: 500,
+      memoryCleanupThreshold: 0.8, // 80% of maxMemoryEvents
+      enableCompression: true,
+      maxEventSize: 1024 * 1024, // 1MB
+      retryConfig: {
+        maxRetries: 3,
+        retryDelay: 1000, // 1 second
+        backoffFactor: 2,
+      },
       ...config,
     };
   }
@@ -269,7 +298,19 @@ export class EventIndexer {
       const sessions = await sessionStore.getMostRecent(1000);
 
       for (const session of sessions) {
-        const sessionData = JSON.parse(session.text);
+        let sessionData;
+        try {
+          sessionData = JSON.parse(session.text);
+        } catch (error) {
+          // Handle legacy plain text format
+          const text = session.text;
+          const sessionMatch = text.match(/Session:\s*(\w+)/);
+          sessionData = {
+            id: sessionMatch?.[1] || session.id || 'unknown',
+            title: `Session ${sessionMatch?.[1] || 'unknown'}`,
+            createdAt: session.timestamp || new Date().toISOString(),
+          };
+        }
         const event: IndexedEvent = {
           id: `session-${sessionData.id}`,
           type: 'session.indexed',
@@ -369,14 +410,122 @@ export class EventIndexer {
    * Queue an event for processing
    */
   private queueEvent(event: IndexedEvent): void {
+    // Compress large events if enabled
+    if (this.config.enableCompression && this.shouldCompressEvent(event)) {
+      event = this.compressEvent(event);
+    }
+
     this.eventQueue.push(event);
 
-    // Maintain memory limit
+    // Enhanced memory management with cleanup threshold
+    const cleanupThreshold = Math.floor(
+      this.config.maxMemoryEvents * this.config.memoryCleanupThreshold,
+    );
+    if (this.eventQueue.length > cleanupThreshold) {
+      this.performMemoryCleanup();
+    }
+
+    // Hard limit protection
     if (this.eventQueue.length > this.config.maxMemoryEvents) {
       this.eventQueue = this.eventQueue.slice(-this.config.maxMemoryEvents);
+      console.warn(
+        `⚠️ Event queue exceeded max size, truncated to ${this.config.maxMemoryEvents} events`,
+      );
     }
 
     this.stats.memoryUsage = this.eventQueue.length;
+  }
+
+  /**
+   * Check if event should be compressed
+   */
+  private shouldCompressEvent(event: IndexedEvent): boolean {
+    const eventSize = JSON.stringify(event).length;
+    return eventSize > this.config.maxEventSize;
+  }
+
+  /**
+   * Compress event data to reduce memory usage
+   */
+  private compressEvent(event: IndexedEvent): IndexedEvent {
+    const compressed = { ...event };
+
+    // Compress large properties
+    if (compressed.properties && JSON.stringify(compressed.properties).length > 1000) {
+      compressed.properties = {
+        _compressed: true,
+        _originalSize: JSON.stringify(compressed.properties).length,
+        _summary: this.createSummary(compressed.properties),
+      };
+    }
+
+    // Compress large session data
+    if (compressed.sessionData && JSON.stringify(compressed.sessionData).length > 1000) {
+      compressed.sessionData = {
+        _compressed: true,
+        _originalSize: JSON.stringify(compressed.sessionData).length,
+        _summary: this.createSummary(compressed.sessionData),
+      };
+    }
+
+    // Compress large tool data
+    if (compressed.toolData && JSON.stringify(compressed.toolData).length > 1000) {
+      compressed.toolData = {
+        _compressed: true,
+        _originalSize: JSON.stringify(compressed.toolData).length,
+        _summary: this.createSummary(compressed.toolData),
+      };
+    }
+
+    return compressed;
+  }
+
+  /**
+   * Create a summary of large objects
+   */
+  private createSummary(obj: any): string {
+    if (typeof obj !== 'object' || obj === null) {
+      return String(obj);
+    }
+
+    const keys = Object.keys(obj);
+    const summary = {
+      type: obj.constructor?.name || typeof obj,
+      keys: keys.slice(0, 10), // First 10 keys
+      totalKeys: keys.length,
+      size: JSON.stringify(obj).length,
+    };
+
+    return JSON.stringify(summary);
+  }
+
+  /**
+   * Perform memory cleanup of old events
+   */
+  private performMemoryCleanup(): void {
+    const now = Date.now();
+    const cleanupInterval = 60000; // 1 minute between cleanups
+
+    if (now - this.lastCleanupTime < cleanupInterval) {
+      return; // Don't clean up too frequently
+    }
+
+    console.log('🧹 Performing memory cleanup...');
+
+    // Remove oldest events, keeping newer ones
+    const removeCount = Math.floor(this.eventQueue.length * 0.2); // Remove 20%
+    this.eventQueue = this.eventQueue.slice(removeCount);
+
+    // Clean up retry counts for old events
+    const oldRetryKeys = Array.from(this.retryCounts.keys()).filter((key) => {
+      const eventTime = parseInt(key.split('-')[1] || '0');
+      return now - eventTime > 3600000; // Remove entries older than 1 hour
+    });
+
+    oldRetryKeys.forEach((key) => this.retryCounts.delete(key));
+
+    this.lastCleanupTime = now;
+    console.log(`✅ Memory cleanup completed, removed ${removeCount} events`);
   }
 
   /**
@@ -385,17 +534,251 @@ export class EventIndexer {
   private async processEventQueue(): Promise<void> {
     if (this.eventQueue.length === 0) return;
 
-    const batch = this.eventQueue.splice(0, this.config.batchSize);
+    const batchSize = this.config.enableBatchProcessing
+      ? Math.min(this.config.maxBatchSize, this.eventQueue.length)
+      : this.config.batchSize;
+
+    const batch = this.eventQueue.splice(0, batchSize);
+    const batchId = `batch-${Date.now()}-${Math.random().toString(36).substring(2, 8)}`;
 
     try {
-      await Promise.all(batch.map((event) => this.processEvent(event)));
+      if (this.config.enableBatchProcessing) {
+        await this.processBatchWithRetry(batchId, batch);
+      } else {
+        await Promise.all(batch.map((event) => this.processEventWithRetry(event)));
+      }
+
       this.stats.totalIndexed += batch.length;
       this.stats.realTimeCount += batch.filter((e) => e.source === 'opencode').length;
       this.stats.retrospectiveCount += batch.filter((e) => e.source === 'retrospective').length;
     } catch (error) {
       console.error('❌ Failed to process event batch:', error);
       this.stats.errorCount++;
+
+      // Return failed events to queue for retry
+      this.eventQueue.unshift(...batch);
     }
+  }
+
+  /**
+   * Process a batch of events with retry logic
+   */
+  private async processBatchWithRetry(batchId: string, batch: IndexedEvent[]): Promise<void> {
+    if (this.processingBatches.has(batchId)) {
+      return; // Batch already being processed
+    }
+
+    const processingPromise = this.executeBatchWithRetry(batchId, batch);
+    this.processingBatches.set(batchId, processingPromise);
+
+    try {
+      await processingPromise;
+    } finally {
+      this.processingBatches.delete(batchId);
+    }
+  }
+
+  /**
+   * Execute batch processing with retry logic
+   */
+  private async executeBatchWithRetry(batchId: string, batch: IndexedEvent[]): Promise<void> {
+    let attempt = 0;
+    let lastError: Error | null = null;
+
+    while (attempt < this.config.retryConfig.maxRetries) {
+      try {
+        await this.processBatch(batch);
+        return; // Success
+      } catch (error) {
+        lastError = error as Error;
+        attempt++;
+
+        if (attempt < this.config.retryConfig.maxRetries) {
+          const delay =
+            this.config.retryConfig.retryDelay *
+            Math.pow(this.config.retryConfig.backoffFactor, attempt - 1);
+
+          console.warn(
+            `⚠️ Batch ${batchId} failed (attempt ${attempt}), retrying in ${delay}ms...`,
+          );
+          await this.sleep(delay);
+        }
+      }
+    }
+
+    throw lastError || new Error(`Batch ${batchId} failed after ${attempt} attempts`);
+  }
+
+  /**
+   * Process a batch of events efficiently
+   */
+  private async processBatch(batch: IndexedEvent[]): Promise<void> {
+    // Group events by type for efficient processing
+    const eventGroups = this.groupEventsByType(batch);
+
+    // Process each group in parallel
+    await Promise.all(
+      Object.entries(eventGroups).map(([type, events]) => this.processEventGroup(type, events)),
+    );
+  }
+
+  /**
+   * Group events by type for batch processing
+   */
+  private groupEventsByType(batch: IndexedEvent[]): Record<string, IndexedEvent[]> {
+    const groups: Record<string, IndexedEvent[]> = {};
+
+    for (const event of batch) {
+      const type = event.type || 'unknown';
+      if (!groups[type]) {
+        groups[type] = [];
+      }
+      groups[type].push(event);
+    }
+
+    return groups;
+  }
+
+  /**
+   * Process a group of events of the same type
+   */
+  private async processEventGroup(type: string, events: IndexedEvent[]): Promise<void> {
+    switch (type) {
+      case 'session.indexed':
+        await this.processSessionEvents(events);
+        break;
+      case 'agent.task.indexed':
+        await this.processTaskEvents(events);
+        break;
+      case 'tool.execute.before':
+      case 'tool.execute.after':
+        await this.processToolEvents(events);
+        break;
+      default:
+        await this.processGenericEvents(events);
+    }
+  }
+
+  /**
+   * Process session events in batch
+   */
+  private async processSessionEvents(events: IndexedEvent[]): Promise<void> {
+    for (const event of events) {
+      await sessionStore.insert({
+        id: `session:${event.sessionId}`,
+        text: JSON.stringify(event.sessionData),
+        timestamp: new Date().toISOString(),
+        metadata: {
+          type: 'session_data',
+          sessionId: event.sessionId,
+          batchProcessed: true,
+        },
+      });
+    }
+  }
+
+  /**
+   * Process task events in batch
+   */
+  private async processTaskEvents(events: IndexedEvent[]): Promise<void> {
+    for (const event of events) {
+      await agentTaskStore.insert({
+        id: `task:${event.indexedId}`,
+        text: JSON.stringify(event.toolData),
+        timestamp: new Date().toISOString(),
+        metadata: {
+          type: 'tool_data',
+          eventId: event.indexedId,
+          batchProcessed: true,
+        },
+      });
+    }
+  }
+
+  /**
+   * Process tool events in batch
+   */
+  private async processToolEvents(events: IndexedEvent[]): Promise<void> {
+    for (const event of events) {
+      await sessionStore.insert({
+        id: `event:${event.indexedId}`,
+        text: JSON.stringify({
+          ...event,
+          processed: true,
+        }),
+        timestamp: new Date().toISOString(),
+        metadata: {
+          type: 'indexed_event',
+          originalEventId: event.indexedId,
+          sessionId: event.sessionId,
+          batchProcessed: true,
+        },
+      });
+    }
+  }
+
+  /**
+   * Process generic events in batch
+   */
+  private async processGenericEvents(events: IndexedEvent[]): Promise<void> {
+    for (const event of events) {
+      await sessionStore.insert({
+        id: `event:${event.indexedId}`,
+        text: JSON.stringify({
+          ...event,
+          processed: true,
+        }),
+        timestamp: new Date().toISOString(),
+        metadata: {
+          type: 'indexed_event',
+          originalEventId: event.indexedId,
+          sessionId: event.sessionId,
+          batchProcessed: true,
+        },
+      });
+    }
+  }
+
+  /**
+   * Process a single event with retry logic
+   */
+  private async processEventWithRetry(event: IndexedEvent): Promise<void> {
+    const eventKey = `${event.indexedId}-${event.timestamp}`;
+    let retryCount = this.retryCounts.get(eventKey) || 0;
+
+    if (retryCount >= this.config.retryConfig.maxRetries) {
+      console.warn(`⚠️ Event ${event.indexedId} exceeded max retries, skipping`);
+      return;
+    }
+
+    try {
+      await this.processEvent(event);
+      this.retryCounts.delete(eventKey); // Clear retry count on success
+    } catch (error) {
+      retryCount++;
+      this.retryCounts.set(eventKey, retryCount);
+
+      if (retryCount < this.config.retryConfig.maxRetries) {
+        const delay =
+          this.config.retryConfig.retryDelay *
+          Math.pow(this.config.retryConfig.backoffFactor, retryCount - 1);
+
+        console.warn(
+          `⚠️ Event ${event.indexedId} failed (attempt ${retryCount}), retrying in ${delay}ms...`,
+        );
+        await this.sleep(delay);
+        await this.processEventWithRetry(event); // Recursive retry
+      } else {
+        throw error;
+      }
+    }
+  }
+
+  /**
+   * Sleep utility for retry delays
+   */
+  private sleep(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   /**

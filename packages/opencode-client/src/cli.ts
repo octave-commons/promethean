@@ -18,6 +18,8 @@ const version = '1.0.0';
 // Initialize dual stores for CLI use
 let storesInitialized = false;
 let initPromise: Promise<void> | null = null;
+let sessionStore: any = null;
+let agentTaskStore: any = null;
 
 async function initializeCliStores() {
   if (storesInitialized) return;
@@ -25,8 +27,8 @@ async function initializeCliStores() {
 
   initPromise = (async () => {
     try {
-      const sessionStore = await DualStoreManager.create('sessions', 'text', 'timestamp');
-      const agentTaskStore = await DualStoreManager.create('agent-tasks', 'text', 'timestamp');
+      sessionStore = await DualStoreManager.create('sessions', 'text', 'timestamp');
+      agentTaskStore = await DualStoreManager.create('agent-tasks', 'text', 'timestamp');
 
       initializeStores(sessionStore, agentTaskStore);
       storesInitialized = true;
@@ -40,6 +42,32 @@ async function initializeCliStores() {
   })();
 
   return initPromise;
+}
+
+export async function cleanupStores() {
+  try {
+    // Close store connections
+    if (sessionStore && typeof sessionStore.cleanup === 'function') {
+      await sessionStore.cleanup();
+    }
+    if (agentTaskStore && typeof agentTaskStore.cleanup === 'function') {
+      await agentTaskStore.cleanup();
+    }
+
+    // Also close the global MongoDB client
+    const { getMongoClient } = await import('@promethean/persistence');
+    const mongoClient = await getMongoClient();
+    await mongoClient.close();
+
+    if (process.env.OPENCODE_DEBUG) {
+      console.log(chalk.gray('CLI stores cleaned up'));
+    }
+  } catch (error) {
+    // Ignore cleanup errors
+    if (process.env.OPENCODE_DEBUG) {
+      console.log(chalk.yellow('Warning: Failed to cleanup stores:', error));
+    }
+  }
 }
 
 const program = new Command();
@@ -76,17 +104,32 @@ program.addCommand(agentCommands);
 
 // Error handling - let commander handle help/version normally
 
-process.on('uncaughtException', (error) => {
+process.on('uncaughtException', async (error) => {
   console.error(chalk.red('Unexpected error:'), error.message);
   if (program.opts().verbose) {
     console.error(error.stack);
   }
+  await cleanupStores();
   process.exit(1);
 });
 
-process.on('unhandledRejection', (reason, promise) => {
+process.on('unhandledRejection', async (reason, promise) => {
   console.error(chalk.red('Unhandled rejection at:'), promise, 'reason:', reason);
+  await cleanupStores();
   process.exit(1);
+});
+
+// Add cleanup hook for normal exit
+process.on('exit', async (_code) => {
+  // Note: cleanupStores won't complete in 'exit' event, but we try anyway
+  cleanupStores().catch(() => {});
+});
+
+// Add cleanup hook for SIGINT (Ctrl+C)
+process.on('SIGINT', async () => {
+  console.log(chalk.gray('\nShutting down...'));
+  await cleanupStores();
+  process.exit(0);
 });
 
 // Parse and execute

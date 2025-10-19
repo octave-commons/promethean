@@ -3,6 +3,7 @@
  * Thin wrapper around actions layer
  */
 
+import { createOpencodeClient } from '@opencode-ai/sdk';
 export interface Session {
   id: string;
   title?: string;
@@ -32,9 +33,6 @@ export interface SearchSessionsOptions {
 
 // Client management
 const baseURL = process.env.OPENCODE_SERVER_URL || 'http://localhost:4096';
-const timeout = process.env.OPENCODE_TIMEOUT ? Number(process.env.OPENCODE_TIMEOUT) : 10000;
-const maxRetries = process.env.OPENCODE_RETRIES ? Number(process.env.OPENCODE_RETRIES) : 3;
-const logLevel = (process.env.OPENCODE_LOG_LEVEL as any) || 'info';
 const authHeader = process.env.OPENCODE_AUTH_TOKEN
   ? { Authorization: `Bearer ${process.env.OPENCODE_AUTH_TOKEN}` }
   : undefined;
@@ -46,15 +44,11 @@ let clientPromise: Promise<any> | null = null;
 
 async function getClient(): Promise<any> {
   if (clientPromise) return clientPromise;
-  const { createOpencodeClient }: any = await import('@opencode-ai/sdk');
 
   clientPromise = Promise.resolve(
     createOpencodeClient({
       baseUrl: baseURL,
-      timeout,
-      maxRetries,
-      logLevel,
-      fetchOptions: { headers: authHeader },
+      headers: authHeader,
     }),
   );
   return clientPromise;
@@ -67,11 +61,17 @@ export async function listSessions(options: ListSessionsOptions = {}): Promise<S
   const client = await getClient();
 
   const response = await client.session.list({
-    limit: options.limit || 20,
-    offset: options.offset || 0,
+    // Server only supports directory query, not limit/offset
+    // We'll handle pagination on the client side
   });
 
-  return response.data || [];
+  const allSessions = response.data || [];
+
+  // Apply pagination manually since server doesn't support it
+  const limit = options.limit || 20;
+  const offset = options.offset || 0;
+
+  return allSessions.slice(offset, offset + limit);
 }
 
 /**
@@ -96,16 +96,39 @@ export async function createSession(
   options: CreateSessionOptions = {},
 ): Promise<CreateSessionResponse> {
   const client = await getClient();
-  const { create } = await import('../actions/sessions/create.js');
 
-  const result = await create({
-    title: options.title,
-    files: options.files,
-    delegates: options.delegates,
-    client,
-  });
+  try {
+    const response = await client.session.create({
+      body: {
+        title: options.title,
+        files: options.files,
+        delegates: options.delegates,
+      },
+    });
 
-  return JSON.parse(result);
+    const session = response.data || response;
+
+    return {
+      success: true,
+      session: {
+        id: session.id,
+        title: session.title,
+        createdAt: session.time?.created,
+      },
+    };
+  } catch (error: any) {
+    console.error('Server session creation failed, falling back to local:', error.message);
+
+    // Fallback to local action if server fails
+    const { create: createLocal } = await import('../actions/sessions/create.js');
+    const result = await createLocal({
+      title: options.title,
+      files: options.files,
+      delegates: options.delegates,
+    });
+
+    return JSON.parse(result);
+  }
 }
 
 /**
@@ -132,4 +155,78 @@ export async function searchSessions(options: SearchSessionsOptions): Promise<Se
 
   const parsed = JSON.parse(result);
   return parsed.sessions || [];
+}
+
+/**
+ * Get messages for a session
+ */
+export interface Message {
+  info: {
+    id: string;
+    role: 'user' | 'assistant' | 'system';
+    time: {
+      created: number;
+      updated: number;
+    };
+  };
+  parts: Array<{
+    type: 'text' | 'image' | 'file';
+    text?: string;
+    [key: string]: any;
+  }>;
+}
+
+export async function getSessionMessages(sessionId: string): Promise<Message[]> {
+  const client = await getClient();
+
+  try {
+    const response = await client.session.messages({
+      path: { id: sessionId },
+    });
+
+    return response.data || [];
+  } catch (error: any) {
+    console.error('Failed to get messages from server, falling back to local:', error.message);
+
+    // Fallback to local action if server fails
+    const { getSessionMessages: getLocalMessages } = await import('../actions/messages/index.js');
+    return await getLocalMessages(client, sessionId);
+  }
+}
+
+/**
+ * Send a message to a session
+ */
+export interface SendMessageOptions {
+  sessionId: string;
+  message: string;
+  model?: {
+    providerID: string;
+    modelID: string;
+  };
+}
+
+export async function sendMessage(options: SendMessageOptions): Promise<any> {
+  const client = await getClient();
+
+  try {
+    const response = await client.session.prompt({
+      path: { id: options.sessionId },
+      body: {
+        message: options.message,
+        model: options.model,
+      },
+    });
+
+    return response.data || response;
+  } catch (error: any) {
+    console.error('Failed to send message via server, falling back to local:', error.message);
+
+    // For now, just return a mock response since local send isn't fully implemented
+    return {
+      success: false,
+      error: 'Local message sending not implemented',
+      serverError: error.message,
+    };
+  }
 }

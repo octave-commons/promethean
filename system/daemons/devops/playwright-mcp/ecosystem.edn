@@ -1,0 +1,14 @@
+{:apps [{:name "playwright-mcp"
+         :script "npx"
+         :args ["@playwright/mcp@latest" "--port" "8931"]
+         :interpreter "/usr/bin/env"
+         :out_file "./logs/playwright-mcp-out.log"
+         :error_file "./logs/playwright-mcp-err.log"
+         :merge_logs true
+         :instances 1
+
+         :autorestart true
+         :restart_delay 10000
+         :kill_timeout 10000
+         :env {:PM2_PROCESS_NAME "playwright-mcp"}
+         :cwd "."}]}

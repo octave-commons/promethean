@@ -218,16 +218,28 @@
     }
   },
   "instructions": ["./docs/agents/platforms/opencode/AGENTS.md"],
+  "permission": {
+    "bash":{
+      "pnpm build":"ask",
+      "pnpm test":"ask",
+      "node *":"ask",
+      "uvx *":"ask",
+      "npx *":"ask",
+      "kill *":"deny",
+      "pkill *":"deny",
+      "pm2 logs":"deny"
+    }
+  },
   "tools": {
     "clj*": false,
     "playwright*":false,
     "process.*":false,
     "processDirect.*":false,
-    // "events.*":false,
-    // "messaging.*":false,
-    // "messages.*":false,
+    "events.*":false,
+    "messaging.*":false,
+    "messages.*":false,
     "ollama.*":false,
     "cache.*":false,
-    // "sessions.*": false
+    "sessions.*": false
   }
 }

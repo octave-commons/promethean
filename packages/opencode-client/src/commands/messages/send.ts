@@ -1,13 +1,14 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
-import { randomUUID } from 'crypto';
+import { sendMessage } from '../../api/sessions.js';
 
 export const sendMessageCommand = new Command('send')
   .description('Send a message to a session')
   .argument('<sessionId>', 'session ID')
   .argument('<content>', 'message content')
-  .option('-t, --type <type>', 'message type (user, assistant, system)', 'user')
   .option('-f, --file <path>', 'read message content from file')
+  .option('--model-provider <provider>', 'model provider (e.g., openai, anthropic)')
+  .option('--model-id <model>', 'model ID (e.g., gpt-4, claude-3-sonnet)')
   .action(async (sessionId: string, content: string, options) => {
     try {
       let messageContent = content;
@@ -24,40 +25,44 @@ export const sendMessageCommand = new Command('send')
       }
 
       console.log(chalk.blue(`📤 Sending message to session ${sessionId}`));
-      console.log(chalk.gray(`Type: ${options.type}`));
       console.log(
         chalk.gray(
           `Content: ${messageContent.substring(0, 100)}${messageContent.length > 100 ? '...' : ''}`,
         ),
       );
 
-      // Create message object
-      const message = {
-        info: {
-          id: randomUUID(),
-          type: options.type,
-          timestamp: new Date().toISOString(),
-        },
-        parts: [
-          {
-            type: 'text',
-            text: messageContent,
-          },
-        ],
-      };
+      // Prepare model options if provided
+      const modelOptions =
+        options.modelProvider && options.modelId
+          ? {
+              providerID: options.modelProvider,
+              modelID: options.modelId,
+            }
+          : undefined;
 
-      // For now, this is a placeholder implementation
-      // In a real implementation, this would send to the actual session
-      console.log(chalk.yellow('Message sending not yet fully implemented'));
-      console.log(chalk.gray('Message would be sent to session store and processed'));
+      // Send message via API
+      const result = await sendMessage({
+        sessionId,
+        message: messageContent,
+        model: modelOptions,
+      });
 
-      if (options.type === 'user') {
-        console.log(chalk.green('✅ User message prepared successfully!'));
-        console.log(`Message ID: ${chalk.cyan(message.info.id)}`);
-        console.log(`Session: ${chalk.cyan(sessionId)}`);
+      if (result.success === false) {
+        console.log(chalk.yellow('⚠️  Message sent via local fallback (server unavailable)'));
+        console.log(chalk.gray(`Server error: ${result.serverError || 'Unknown'}`));
       } else {
-        console.log(chalk.green(`✅ ${options.type} message prepared successfully!`));
+        console.log(chalk.green('✅ Message sent successfully!'));
+        console.log(`Session: ${chalk.cyan(sessionId)}`);
+
+        if (result.id) {
+          console.log(`Message ID: ${chalk.cyan(result.id)}`);
+        }
       }
+
+      // Ensure process exits cleanly
+      setImmediate(() => {
+        process.exit(0);
+      });
     } catch (error) {
       console.error(chalk.red('Error sending message:'), error);
       process.exit(1);

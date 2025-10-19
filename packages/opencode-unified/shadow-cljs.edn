@@ -1,13 +1,41 @@
 {:source-paths ["src/clojurescript"]
- :dependencies []
+ :dependencies [[org.clojure/core.async "1.6.673"]
+                [org.clojure/tools.logging "1.2.4"]
+                [cider/cider-nrepl "0.28.7"]
+                [refactor-nrepl "3.9.1"]
+                [org.clojure/data.json "2.4.0"]
+                [com.taoensso/timbre "6.3.1"]
+                [binaryage/devtools "1.0.7"]
+                [reagent/reagent "1.2.0"]
+                [re-frame/re-frame "1.4.3"]]
+ :js-options {:entry-keys ["module" "browser" "main"]
+              :js-provider :require}
  :nrepl {:port 4499} ;; fixed nREPL port
  :jvm-opts ["-Xmx4g" "-Xss2m" "-XX:+UseG1GC"]
  :builds
  {:app {:target :browser
-        :output-dir "dist/public/js"
-        :asset-path "/js"
-        :compiler-options {:parallel-builds 2}
-        :modules {:main {:init-fn app/main
-                         :exports {main app/main}}}
-        :devtools {:http-root "dist/public"
-                   :http-port 8080}}}}
+        :output-dir "public/renderer"
+        :asset-path "/renderer"
+         :modules {:main {:init-fn opencode-unified.main/main}}
+        :devtools {:http-root "public" :http-port 8080}}
+
+  :renderer {:target :browser
+             :output-dir "dist/renderer"
+             :modules {:main {:init-fn renderer/init}}
+             :devtools {:http-root "dist/renderer"
+                        :http-port 8081}}
+
+  :preload {:target :node-script
+            :output-to "dist/preload.js"
+            :main preload/init
+            :nodejs {:runtime :node}}
+
+  :main {:target :node-script
+         :output-to "dist/main.js"
+         :main electron.main/init
+         :nodejs {:runtime :node}}
+
+  :server {:target :node-script
+           :output-to "dist/server.js"
+           :main electron.server/start
+           :nodejs {:runtime :node}}}}

@@ -63,6 +63,48 @@ export const apps =
     "cwd": "."
   },
   {
+    "name": "playwright-mcp",
+    "script": "npx",
+    "args": [
+      "@playwright/mcp@latest",
+      "--port",
+      "8931"
+    ],
+    "interpreter": "/usr/bin/env",
+    "out_file": "./logs/playwright-mcp-out.log",
+    "error_file": "./logs/playwright-mcp-err.log",
+    "merge_logs": true,
+    "instances": 1,
+    "autorestart": true,
+    "restart_delay": 10000,
+    "kill_timeout": 10000,
+    "env": {
+      "PM2_PROCESS_NAME": "playwright-mcp"
+    },
+    "cwd": "."
+  },
+  {
+    "name": "promethean-mcp-dev",
+    "script": "pnpm",
+    "args": [
+      "--filter",
+      "@promethean/mcp",
+      "dev"
+    ],
+    "interpreter": "/usr/bin/env",
+    "out_file": "./logs/promethean-mcp-dev-out.log",
+    "error_file": "./logs/promthean-mcp-dev-err.log",
+    "merge_logs": true,
+    "instances": 1,
+    "autorestart": true,
+    "restart_delay": 10000,
+    "kill_timeout": 10000,
+    "env": {
+      "PM2_PROCESS_NAME": "promethean-mcp-dev"
+    },
+    "cwd": "."
+  },
+  {
     "name": "autocommit",
     "script": "pnpm",
     "cwd": "/home/err/devel/promethean",

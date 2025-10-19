@@ -1,6 +1,6 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
-import { listSessions } from '../../api/sessions.js';
+import { get } from '../../actions/sessions/get.js';
 
 export const getSessionCommand = new Command('get')
   .description('Get details of a specific session')
@@ -8,19 +8,24 @@ export const getSessionCommand = new Command('get')
   .option('--format <format>', 'Output format (table|json)', 'table')
   .action(async (sessionId, options) => {
     try {
-      // Workaround: Use list API to find session since get API is broken
-      const sessions = await listSessions({ limit: 1000 }); // Get a large list
-      const session = sessions.find((s) => s.id === sessionId);
+      const result = await get({ sessionId });
 
-      if (!session) {
-        console.error(chalk.red(`Session not found: ${sessionId}`));
+      if (options.format === 'json') {
+        console.log(result);
+        return;
+      }
+
+      // Parse the JSON result for display
+      let sessionData;
+      try {
+        sessionData = JSON.parse(result);
+      } catch (e) {
+        console.error('Failed to parse result:', result);
         process.exit(1);
       }
 
-      if (options.format === 'json') {
-        console.log(JSON.stringify(session, null, 2));
-        return;
-      }
+      // Handle both formats: {session: {...}} or direct session object
+      const session = sessionData.session || sessionData;
 
       console.log(chalk.blue('Session Details:'));
       console.log(`ID: ${session.id}`);
@@ -30,6 +35,11 @@ export const getSessionCommand = new Command('get')
       console.log(`Agent Task: ${session.isAgentTask ? 'Yes' : 'No'}`);
       console.log(`Created: ${session.createdAt || 'Unknown'}`);
       console.log(`Last Activity: ${session.lastActivityTime || 'Unknown'}`);
+
+      // Ensure process exits cleanly
+      setImmediate(() => {
+        process.exit(0);
+      });
     } catch (error) {
       console.error(
         chalk.red('Error getting session:'),

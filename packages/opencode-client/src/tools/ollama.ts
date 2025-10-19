@@ -15,6 +15,12 @@ import {
   clearProcessingInterval,
   now,
 } from '@promethean/ollama-queue';
+import {
+  JobValidator,
+  ValidationError,
+  defaultRateLimiter,
+  InputSanitizer,
+} from '../utils/input-validation.js';
 import { Job } from './Job.js';
 import { OllamaModel } from './OllamaModel.js';
 import { CacheEntry } from './CacheEntry.js';
@@ -72,85 +78,116 @@ export const submitJob: any = tool({
     const { agent, sessionID } = context;
     const { jobName, modelName, jobType, prompt, messages, input, priority, options } = args;
 
-    const id = randomUUID();
-    const timestamp = now();
-
-    let job: Job;
-
-    switch (jobType) {
-      case 'generate':
-        if (!prompt) throw new Error('Prompt is required for generate jobs');
-        job = {
-          id,
-          name: jobName,
-          agentId: agent,
-          sessionId: sessionID,
-          status: 'pending',
-          priority,
-          type: 'generate',
-          createdAt: timestamp,
-          updatedAt: timestamp,
-          modelName,
-          prompt,
-          options,
-        };
-        break;
-
-      case 'chat':
-        if (!messages || messages.length === 0)
-          throw new Error('Messages are required for chat jobs');
-        job = {
-          id,
-          name: jobName,
-          agentId: agent,
-          sessionId: sessionID,
-          status: 'pending',
-          priority,
-          type: 'chat',
-          createdAt: timestamp,
-          updatedAt: timestamp,
-          modelName,
-          messages,
-          options,
-        };
-        break;
-
-      case 'embedding':
-        if (!input) throw new Error('Input is required for embedding jobs');
-        job = {
-          id,
-          name: jobName,
-          agentId: agent,
-          sessionId: sessionID,
-          status: 'pending',
-          priority,
-          type: 'embedding',
-          createdAt: timestamp,
-          updatedAt: timestamp,
-          modelName,
-          input,
-        };
-        break;
-
-      default:
-        throw new Error(`Unknown job type: ${jobType}`);
+    // Apply rate limiting
+    if (!defaultRateLimiter.isAllowed(agent)) {
+      throw new Error(`Rate limit exceeded for agent ${agent}. Please try again later.`);
     }
 
-    jobQueue.push(job);
+    // Validate and sanitize input
+    try {
+      const validatedOptions = JobValidator.validateSubmitJobOptions({
+        jobName,
+        modelName,
+        jobType,
+        prompt,
+        messages,
+        input,
+        priority,
+        options,
+        agentId: agent,
+        sessionId: sessionID,
+      });
 
-    // Start processor if not running
-    if (!getProcessingInterval()) {
-      startQueueProcessor();
+      const id = randomUUID();
+      const timestamp = now();
+
+      let job: Job;
+
+      switch (validatedOptions.jobType) {
+        case 'generate':
+          if (!validatedOptions.prompt) throw new Error('Prompt is required for generate jobs');
+          job = {
+            id,
+            name: validatedOptions.jobName,
+            agentId: validatedOptions.agentId,
+            sessionId: validatedOptions.sessionId,
+            status: 'pending',
+            priority: validatedOptions.priority,
+            type: 'generate',
+            createdAt: timestamp,
+            updatedAt: timestamp,
+            modelName: validatedOptions.modelName,
+            prompt: validatedOptions.prompt,
+            options: validatedOptions.options,
+          };
+          break;
+
+        case 'chat':
+          if (!validatedOptions.messages || validatedOptions.messages.length === 0)
+            throw new Error('Messages are required for chat jobs');
+          job = {
+            id,
+            name: validatedOptions.jobName,
+            agentId: validatedOptions.agentId,
+            sessionId: validatedOptions.sessionId,
+            status: 'pending',
+            priority: validatedOptions.priority,
+            type: 'chat',
+            createdAt: timestamp,
+            updatedAt: timestamp,
+            modelName: validatedOptions.modelName,
+            messages: validatedOptions.messages as Array<{
+              role: 'system' | 'user' | 'assistant';
+              content: string;
+            }>,
+            options: validatedOptions.options,
+          };
+          break;
+
+        case 'embedding':
+          if (!validatedOptions.input) throw new Error('Input is required for embedding jobs');
+          job = {
+            id,
+            name: validatedOptions.jobName,
+            agentId: validatedOptions.agentId,
+            sessionId: validatedOptions.sessionId,
+            status: 'pending',
+            priority: validatedOptions.priority,
+            type: 'embedding',
+            createdAt: timestamp,
+            updatedAt: timestamp,
+            modelName: validatedOptions.modelName,
+            input: validatedOptions.input,
+          };
+          break;
+
+        default:
+          throw new Error(`Unknown job type: ${validatedOptions.jobType}`);
+      }
+
+      jobQueue.push(job);
+
+      // Start processor if not running
+      if (!getProcessingInterval()) {
+        startQueueProcessor();
+      }
+
+      const result = {
+        jobId: id,
+        jobName: validatedOptions.jobName,
+        status: 'pending',
+        queuePosition: jobQueue.filter((j) => j.status === 'pending').length,
+      };
+
+      return JSON.stringify(result);
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        throw new Error(
+          `Validation failed: ${error.message}${error.field ? ` (field: ${error.field})` : ''}`,
+        );
+      }
+      throw error;
     }
-
-    const result = {
-      jobId: id,
-      jobName,
-      status: 'pending',
-      queuePosition: jobQueue.filter((j) => j.status === 'pending').length,
-    };
-
-    return JSON.stringify(result);
   },
 });
 
@@ -508,13 +545,26 @@ export const submitFeedback: any = tool({
   },
   async execute({ prompt, modelName, jobType, score, reason, taskCategory }) {
     try {
-      const cache = await initializeCache(modelName);
-      const embedding = await getPromptEmbedding(prompt, modelName);
+      // Validate and sanitize inputs
+      const sanitizedPrompt = InputSanitizer.sanitizeString(prompt);
+      const sanitizedName = JobValidator['validateModelName'](modelName);
+      const sanitizedReason = reason ? InputSanitizer.sanitizeString(reason) : undefined;
+      const sanitizedTaskCategory = taskCategory
+        ? InputSanitizer.sanitizeString(taskCategory)
+        : undefined;
+
+      // Validate score range
+      if (typeof score !== 'number' || score < -1 || score > 1) {
+        throw new ValidationError('Score must be a number between -1 and 1', 'score', score);
+      }
+
+      const cache = await initializeCache(sanitizedName);
+      const embedding = await getPromptEmbedding(sanitizedPrompt, sanitizedName);
 
       // Find existing cache entry
       const hits = cache.queryByEmbedding(embedding, {
         k: 1,
-        filter: (metadata) => metadata.modelName === modelName && metadata.jobType === jobType,
+        filter: (metadata) => metadata.modelName === sanitizedName && metadata.jobType === jobType,
       });
 
       if (hits.length === 0) {
@@ -529,8 +579,8 @@ export const submitFeedback: any = tool({
         ...existingEntry,
         score,
         scoreSource: 'user-feedback',
-        scoreReason: reason || `User feedback: ${score}`,
-        taskCategory: taskCategory || existingEntry.taskCategory,
+        scoreReason: sanitizedReason || `User feedback: ${score}`,
+        taskCategory: sanitizedTaskCategory || existingEntry.taskCategory,
       };
 
       // Remove old entry and add updated one
@@ -543,16 +593,23 @@ export const submitFeedback: any = tool({
         },
       ]);
 
-      console.log(`Updated cache entry with user feedback: score=${score}, reason="${reason}"`);
+      console.log(
+        `Updated cache entry with user feedback: score=${score}, reason="${sanitizedReason}"`,
+      );
 
       return JSON.stringify({
         message: 'Feedback submitted successfully',
         score,
-        modelName,
+        modelName: sanitizedName,
         jobType,
         taskCategory: updatedEntry.taskCategory,
       });
     } catch (error) {
+      if (error instanceof ValidationError) {
+        throw new Error(
+          `Validation failed: ${error.message}${error.field ? ` (field: ${error.field})` : ''}`,
+        );
+      }
       throw new Error(
         `Failed to submit feedback: ${error instanceof Error ? error.message : String(error)}`,
       );

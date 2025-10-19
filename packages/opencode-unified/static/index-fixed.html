@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Promethean OpenCode</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        background-color: #1e1e1e;
+        color: #d4d4d4;
+      }
+      #app {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      .loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-size: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="loading">Loading Promethean OpenCode...</div>
+    </div>
+
+    <!-- ClojureScript renderer will be compiled here -->
+    <script src="../public/renderer/main.js"></script>
+  </body>
+</html>

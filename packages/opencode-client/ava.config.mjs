@@ -4,15 +4,12 @@ import baseConfig from '../../config/ava.config.base.mjs';
 export default {
   ...baseConfig,
   files: [
-    // Include our test files
-    "src/tests/**/*.test.ts",
-    // Include any existing test patterns
-    "dist/tests/**/*.js",
-    "dist/test/**/*.js",
+    // Run tests from compiled JavaScript in dist/
+    "dist/tests/**/*.test.js",
     "dist/**/*.test.js",
     "dist/**/*.spec.js",
   ],
-  // TypeScript compilation
+  // TypeScript compilation - build first, then run from dist/
   require: [
     // Add any required setup files
   ],
