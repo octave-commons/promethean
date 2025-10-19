@@ -1,11 +1,11 @@
 ---
 uuid: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
-title: "Foundation & Interface Alignment - Testing Transition Rule"
+title: "Fix Type Safety Crisis in @promethean/opencode-client"
 slug: "Fix Type Safety Crisis in @promethean opencode-client"
-status: "icebox"
+status: "incoming"
 priority: "P0"
-labels: ["kanban", "transition-rules", "testing-coverage", "quality-gates", "foundation", "interface-alignment", "types", "infrastructure"]
-created_at: "2025-10-19T15:29:01.728Z"
+labels: ["opencode-client", "type-safety", "typescript", "critical", "any-types", "code-quality"]
+created_at: "2025-10-19T15:33:44.383Z"
 estimates:
   complexity: ""
   scale: ""
