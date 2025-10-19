@@ -162,7 +162,7 @@ test('should get session statistics', async (t) => {
   await createAgentSession('Running 2', undefined, {}, { autoStart: true });
   await createAgentSession('Idle 1', undefined, {}, { autoStart: false });
 
-  const stats = unifiedAgentManager.getSessionStats();
+  const stats = await unifiedAgentManager.getSessionStats();
 
   t.is(stats.total, 3);
   t.is(stats.byStatus.running, 2);
@@ -173,11 +173,11 @@ test('should get session statistics', async (t) => {
 test('should close agent session', async (t) => {
   const session = await createAgentSession('Test close session');
 
-  t.truthy(unifiedAgentManager.getAgentSession(session.sessionId));
+  t.truthy(await unifiedAgentManager.getAgentSession(session.sessionId));
 
   await unifiedAgentManager.closeAgentSession(session.sessionId);
 
-  t.is(unifiedAgentManager.getAgentSession(session.sessionId), undefined);
+  t.is(await unifiedAgentManager.getAgentSession(session.sessionId), undefined);
 });
 
 test('should handle event listeners', async (t) => {
@@ -226,8 +226,8 @@ test('should cleanup old sessions', async (t) => {
   const cleaned = await unifiedAgentManager.cleanupOldSessions(0);
 
   t.is(cleaned, 2);
-  t.is(unifiedAgentManager.getAgentSession(session1.sessionId), undefined);
-  t.is(unifiedAgentManager.getAgentSession(session2.sessionId), undefined);
+  t.is(await unifiedAgentManager.getAgentSession(session1.sessionId), null);
+  t.is(await unifiedAgentManager.getAgentSession(session2.sessionId), null);
 });
 
 test('should handle errors gracefully', async (t) => {
