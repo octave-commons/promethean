@@ -11,6 +11,9 @@ const sampleTask = {
   // Missing lastCommitSha and commitHistory
 };
 
-const analysis = gitTracker.analyzeTaskStatus(sampleTask);
+const analysis = gitTracker.analyzeTaskStatus(
+  sampleTask,
+  '/home/err/devel/promethean/docs/agile/tasks/test-uuid.md',
+);
 console.log('Task analysis result:');
 console.log(JSON.stringify(analysis, null, 2));
