@@ -3,14 +3,14 @@
 
 import { Job, QueueMetrics, QueueConfig, JobSchedulerConfig } from '../types.js';
 import { PriorityQueue } from './PriorityQueue.js';
-import { JobScheduler } from './JobScheduler.js';
+// import { JobScheduler } from './JobScheduler.js'; // Uncomment when needed for advanced scheduling
 import { QueueMonitor } from './QueueMonitor.js';
 import { randomUUID } from 'node:crypto';
 
 export class QueueManager {
   private jobs: Map<string, Job> = new Map();
   private priorityQueue: PriorityQueue;
-  private jobScheduler: JobScheduler;
+  // private jobScheduler: JobScheduler; // Uncomment when needed for advanced scheduling
   private queueMonitor: QueueMonitor;
   private config: QueueConfig;
   private schedulerConfig: JobSchedulerConfig;
@@ -21,7 +21,7 @@ export class QueueManager {
     this.config = config;
     this.schedulerConfig = schedulerConfig;
     this.priorityQueue = new PriorityQueue();
-    this.jobScheduler = new JobScheduler(schedulerConfig);
+    // this.jobScheduler = new JobScheduler(schedulerConfig); // Uncomment when needed for advanced scheduling
     this.queueMonitor = new QueueMonitor();
   }
 
@@ -71,7 +71,7 @@ export class QueueManager {
     }
 
     this.activeJobs.delete(jobId);
-    
+
     if (error) {
       this.updateJobStatus(jobId, 'failed');
       job.error = { message: error.message, code: 'JOB_ERROR' };
@@ -149,15 +149,15 @@ export class QueueManager {
 
     // Apply filters
     if (options.status) {
-      jobs = jobs.filter(job => job.status === options.status);
+      jobs = jobs.filter((job) => job.status === options.status);
     }
 
     if (options.agentOnly && options.agentId) {
-      jobs = jobs.filter(job => job.agentId === options.agentId);
+      jobs = jobs.filter((job) => job.agentId === options.agentId);
     }
 
     if (options.sessionId) {
-      jobs = jobs.filter(job => job.sessionId === options.sessionId);
+      jobs = jobs.filter((job) => job.sessionId === options.sessionId);
     }
 
     // Sort by creation time (newest first)
@@ -176,25 +176,27 @@ export class QueueManager {
    */
   getMetrics(): QueueMetrics {
     const jobs = Array.from(this.jobs.values());
-    const pending = jobs.filter(j => j.status === 'pending').length;
-    const running = jobs.filter(j => j.status === 'running').length;
-    const completed = jobs.filter(j => j.status === 'completed').length;
-    const failed = jobs.filter(j => j.status === 'failed').length;
+    const pending = jobs.filter((j) => j.status === 'pending').length;
+    const running = jobs.filter((j) => j.status === 'running').length;
+    const completed = jobs.filter((j) => j.status === 'completed').length;
+    const failed = jobs.filter((j) => j.status === 'failed').length;
 
-    const completedJobs = jobs.filter(j => j.status === 'completed');
-    const averageProcessingTime = completedJobs.length > 0
-      ? completedJobs.reduce((sum, job) => {
-          const processingTime = (job.completedAt || 0) - (job.startedAt || job.createdAt);
-          return sum + processingTime;
-        }, 0) / completedJobs.length
-      : 0;
+    const completedJobs = jobs.filter((j) => j.status === 'completed');
+    const averageProcessingTime =
+      completedJobs.length > 0
+        ? completedJobs.reduce((sum, job) => {
+            const processingTime = (job.completedAt || 0) - (job.startedAt || job.createdAt);
+            return sum + processingTime;
+          }, 0) / completedJobs.length
+        : 0;
 
-    const averageWaitTime = completedJobs.length > 0
-      ? completedJobs.reduce((sum, job) => {
-          const waitTime = (job.startedAt || job.completedAt || 0) - job.createdAt;
-          return sum + waitTime;
-        }, 0) / completedJobs.length
-      : 0;
+    const averageWaitTime =
+      completedJobs.length > 0
+        ? completedJobs.reduce((sum, job) => {
+            const waitTime = (job.startedAt || job.completedAt || 0) - job.createdAt;
+            return sum + waitTime;
+          }, 0) / completedJobs.length
+        : 0;
 
     return {
       totalJobs: jobs.length,
@@ -219,7 +221,7 @@ export class QueueManager {
       running: metrics.runningJobs,
       completed: metrics.completedJobs,
       failed: metrics.failedJobs,
-      canceled: jobs.filter(j => j.status === 'canceled').length,
+      canceled: Array.from(this.jobs.values()).filter((j) => j.status === 'canceled').length,
       total: metrics.totalJobs,
       maxConcurrent: this.config.maxConcurrentJobs,
       processorActive: this.processingInterval !== null,
