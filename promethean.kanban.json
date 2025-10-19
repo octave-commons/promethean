@@ -10,7 +10,7 @@
   "cachePath": "docs/agile/boards/.cache",
   "exts": [".md"],
 
-  "requiredFields": ["title", "status", "priority", "storyPoints"],
+  "requiredFields": ["title", "status", "priority", "storyPoints", "lastCommitSha"],
 
   "statusValues": [
     "icebox",

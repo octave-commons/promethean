@@ -66,6 +66,15 @@ export type Task = {
   aiRouting?: AIRoutingDecision;
   // Frontmatter for file-based metadata
   frontmatter?: Record<string, any>;
+  // Commit tracking for auditability
+  lastCommitSha?: string;
+  commitHistory?: Array<{
+    sha: string;
+    timestamp: string;
+    message: string;
+    author: string;
+    type: 'create' | 'update' | 'status_change' | 'move';
+  }>;
 };
 
 export type ColumnData = {
