@@ -75,6 +75,8 @@ export class EventWatcherService {
   private pollingTimer: NodeJS.Timeout | null = null;
   private lastProcessedTimes = new Map<string, number>();
   private pollingInterval = 5000; // 5 seconds
+  private sessionStore: DualStoreManager<'text', 'timestamp'> | null = null;
+  private agentTaskStore: DualStoreManager<'text', 'timestamp'> | null = null;
 
   constructor(config: EventWatcherConfig = {}) {
     this.config = {
