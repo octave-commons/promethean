@@ -344,7 +344,7 @@
 (defn command-palette []
   (let [visible (r/atom false)
         query (r/atom "")
-        commands (r/atom [])]
+        selected-index (r/atom 0)]
 
     (fn []
       [:div.command-palette
@@ -380,12 +380,19 @@
         {:style {:max-height "300px"
                  :overflow-y "auto"}}
 
-        (for [command @commands]
-          ^{:key (:id command)}
+        ;; Basic commands for now
+        (for [command [{:name "New File" :description "Create new buffer" :keys "SPC f n"}
+                       {:name "Open File" :description "Open file in new buffer" :keys "SPC f o"}
+                       {:name "Save File" :description "Save current buffer" :keys "SPC f s"}
+                       {:name "Toggle Theme" :description "Switch theme" :keys "SPC t t"}
+                       {:name "Save Workspace" :description "Save workspace" :keys "SPC w s"}
+                       {:name "Load Workspace" :description "Load workspace" :keys "SPC w l"}]
+              :when (str/includes? (str/lower-case (:name command)) (str/lower-case @query))]
+          ^{:key (:name command)}
           [:div.command-item
            {:on-click #(do
                          (reset! visible false)
-                         ((:handler command)))
+                         (println "Execute command:" (:name command)))
             :style {:padding "0.75rem 1rem"
                     :cursor "pointer"
                     :border-bottom "1px solid var(--border)"

@@ -221,28 +221,29 @@ body {
 
 ;; Initialize app
 (defn init []
-  (println "Initializing Opencode UI...")
+  (println "Initializing UI...")
 
-  ;; Load workspace from localStorage
-  (state/load-workspace! "default-workspace")
+  ;; Set up global keyboard shortcuts
+  (let [handle-keydown (fn [e]
+                         ;; Cmd+Shift+P for command palette
+                         (when (and (= (.-key e) "p")
+                                    (.-metaKey e)
+                                    (.-shiftKey e))
+                           (.preventDefault e)
+                           ;; Toggle command palette visibility
+                           (let [command-palettes (.getElementsByClassName js/document "command-palette")]
+                             (when (> (.-length command-palettes) 0)
+                               (let [palette (aget command-palettes 0)
+                                     current-class (.-className palette)]
+                                 (if (.includes current-class "visible")
+                                   (set! (.-className palette) "command-palette")
+                                   (set! (.-className palette) "command-palette visible")))))))]
+    (.addEventListener js/document "keydown" handle-keydown)
 
-  ;; Set up global event listeners
-  (js/window.addEventListener "beforeunload"
-                              (fn [e]
-                                (state/save-workspace! "default-workspace")))
+    ;; Set up theme styles
+    (theme-styles)
 
-  ;; Set up resize handler
-  (js/window.addEventListener "resize"
-                              (fn []
-                              ;; Trigger re-render on resize
-                                (println "Window resized")))
-
-  ;; Mount app using Reagent's React 18 compatible rendering
-  (defonce root (rdomc/create-root (js/document.getElementById "app")))
-  ;; Use Reagent's as-element to ensure proper reactivity tracking
-  (rdomc/render root (r/as-element [app]))
-
-  (println "Opencode UI initialized"))
+    (println "UI initialized with command palette support")))
 
 ;; Hot module replacement support
 (defn ^:export reload []
