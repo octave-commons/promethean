@@ -3,7 +3,7 @@
             [opencode-unified.buffers :as buffers]
             [clojure.string :as str]))
 
-;; Key handling functions (defined before use)
+;; Key handling functions
 (defn handle-normal-key [key ctrl? alt? shift? meta?]
   (cond
     ;; Movement
@@ -109,7 +109,7 @@
 ;; Evil mode implementation
 (defn set-mode! [mode]
   (state/set-evil-mode! mode)
-  (state/update-statusbar! "" "" ""))
+  (update-statusbar))
 
 (defn get-mode []
   (state/get-evil-mode))
@@ -690,113 +690,6 @@
              (assoc :undo-stack (conj new-undo-stack current-state))
              (assoc :redo-stack (rest redo-stack))))
        buffer))))
-
-;; Key handling functions (defined before use)
-
-;; Key handling functions (defined before use)
-
-;; Key handling
-(defn handle-key [key-event]
-  (let [key (.-key key-event)
-        ctrl? (.-ctrlKey key-event)
-        alt? (.-altKey key-event)
-        shift? (.-shiftKey key-event)
-        meta? (.-metaKey key-event)
-        mode (get-mode)]
-
-    (case mode
-      :normal (handle-normal-key key ctrl? alt? shift? meta?)
-      :insert (handle-insert-key key ctrl? alt? shift? meta?)
-      :visual (handle-visual-key key ctrl? alt? shift? meta?)
-      :visual-line (handle-visual-key key ctrl? alt? shift? meta?))))
-
-(defn handle-normal-key [key ctrl? alt? shift? meta?]
-  (cond
-    ;; Movement
-    (= key "h") (move-cursor :left)
-    (= key "j") (move-cursor :down)
-    (= key "k") (move-cursor :up)
-    (= key "l") (move-cursor :right)
-    (= key "w") (word-forward)
-    (= key "b") (word-backward)
-    (= key "e") (end-of-word)
-    (= key "0") (beginning-of-line)
-    (= key "$") (end-of-line)
-    (= key "g") (when (not shift?) (beginning-of-buffer))
-    (= key "G") (end-of-buffer)
-
-    ;; Mode changes
-    (= key "i") (enter-insert-mode)
-    (= key "I") (insert-at-start-of-line)
-    (= key "a") (append-after-cursor)
-    (= key "A") (append-at-end-of-line)
-    (= key "o") (open-line-below)
-    (= key "O") (open-line-above)
-    (= key "v") (start-visual-selection)
-    (= key "V") (start-visual-line-selection)
-    (= key "Escape") (exit-visual-mode)
-
-    ;; Operators
-    (= key "y") (yank-line)
-    (= key "d") (delete-line)
-    (= key "c") (change-line)
-    (= key "p") (paste-after)
-    (= key "P") (paste-before)
-    (= key "x") (delete-char-at-cursor)
-    (= key "X") (delete-char-before-cursor)
-
-    ;; Search
-    (= key "/") (search-forward)
-    (= key "?") (search-backward)
-    (= key "n") (next-search-result)
-    (= key "N") (previous-search-result)
-
-    ;; Undo/Redo
-    (= key "u") (undo)
-    (and ctrl? (= key "r")) (redo)
-
-    ;; Count handling
-    (re-matches #"[0-9]" key) (state/set-evil-count!
-                               (-> (state/get-evil-count)
-                                   str
-                                   (str key)
-                                   js/parseInt))))
-
-(defn handle-insert-key [key ctrl? alt? shift? meta?]
-  (when (= key "Escape")
-    (enter-normal-mode)))
-
-(defn handle-visual-key [key ctrl? alt? shift? meta?]
-  (cond
-    ;; Movement
-    (= key "h") (extend-selection :left)
-    (= key "j") (extend-selection :down)
-    (= key "k") (extend-selection :up)
-    (= key "l") (extend-selection :right)
-    (= key "w") (do (word-forward) (extend-selection :right))
-    (= key "b") (do (word-backward) (extend-selection :left))
-    (= key "e") (do (end-of-word) (extend-selection :right))
-    (= key "0") (do (beginning-of-line) (extend-selection :left))
-    (= key "$") (do (end-of-line) (extend-selection :right))
-    (= key "g") (when (not shift?) (do (beginning-of-buffer) (extend-selection :left)))
-    (= key "G") (do (end-of-buffer) (extend-selection :right))
-
-    ;; Mode changes
-    (= key "Escape") (exit-visual-mode)
-
-    ;; Operators
-    (= key "y") (yank-selection)
-    (= key "d") (delete-selection)
-    (= key "c") (change-selection)
-    (= key "x") (delete-selection)
-    (= key "X") (delete-selection)
-
-    ;; Count handling
-    (re-matches #"[0-9]" key) (state/set-evil-count!
-                               (-> (state/get-evil-count)
-                                   str
-                                   (str key)
-                                   js/parseInt))))
 
 ;; Initialize Evil mode
 (defn init []
