@@ -13,7 +13,7 @@ put new docs into [[docs/inbox]] if you don't know where else to put it.
 the project root is not a dumping ground for scripts and documents.
 
 use context7, github grep, and websearch to find documentation and dependency source code
-when uncertain about the interfaces a library exposes, and their uses
+when uncertain about the interfaces a library exposes, and their intended use.
 
 
 ## References
