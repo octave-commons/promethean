@@ -3,22 +3,7 @@
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./",
-    "module": "CommonJS",
-    "moduleResolution": "node",
-    "target": "ES2022",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "skipLibCheck": true,
-    "sourceMap": true,
-    "declaration": true,
-    "declarationMap": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true
+    "skipLibCheck": true
   },
   "include": [
     "src/typescript/**/*",
@@ -26,8 +11,11 @@
     "src/tests/**/*.test.ts",
     "tests/**/*.test.ts"
   ],
-  "exclude": ["node_modules", "dist", "src/clojurescript", "**/*.spec.ts"],
-  "ts-node": {
-    "require": ["tsx/cjs"]
-  }
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/clojurescript",
+    "**/*.spec.ts"
+  ]
+}
 }
