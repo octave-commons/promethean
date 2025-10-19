@@ -230,14 +230,13 @@ body {
                               ;; Trigger re-render on resize
                                 (r/force-update)))
 
-  ;; Mount app using React 18 createRoot API
-  (let [root-container (js/document.getElementById "app")
-        root (js/ReactDOM.createRoot root-container)]
-    (.render root
-             (r/as-element
-              [:div
-               [theme-styles]
-               [app]])))
+  ;; Mount app using reagent.dom's create-root (React 18 compatible)
+  (dom/create-root
+   (js/document.getElementById "app")
+   (r/as-element
+    [:div
+     [theme-styles]
+     [app]]))
 
   (println "Opencode UI initialized"))
 
@@ -253,6 +252,4 @@ body {
 
 (defn ^:export clear []
   (println "Clearing UI...")
-  (let [root-container (js/document.getElementById "app")]
-    (when-let [root (.-_reactRootContainer root-container)]
-      (.unmount root))))
+  (dom/unmount-root (js/document.getElementById "app")))
