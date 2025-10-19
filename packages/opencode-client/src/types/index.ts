@@ -242,16 +242,14 @@ export interface AgentSessionOptions {
 }
 
 // Utility Types
-export interface DualStoreManager {
+export interface DualStoreManager<TKey extends string, TValue extends string> {
   insert: (data: {
     id: string;
     text: string;
     timestamp: Timestamp;
     metadata?: Record<string, unknown>;
   }) => Promise<void>;
-  get: (
-    id: string,
-  ) => Promise<{
+  get: (id: string) => Promise<{
     id: string;
     text: string;
     timestamp: Timestamp;
