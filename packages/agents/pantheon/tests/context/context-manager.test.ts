@@ -182,7 +182,7 @@ test.serial('ContextManager: should create unified context', async (t) => {
   );
 
   t.truthy(unifiedContext);
-  t.is(unifiedContext.agentId, agentId);
+  t.is(unifiedContext.agentId.value, agentId);
   t.deepEqual(unifiedContext.state, initialState);
   t.is(unifiedContext.version, 1);
   t.truthy(unifiedContext.metadata?.initialState);
