@@ -3,8 +3,8 @@ import {
   TransportConfig,
   MessageEnvelope,
   MessageHandler,
-  RetryPolicy,
   DeadLetterQueue,
+  TransportRetryPolicy,
 } from './types';
 import { EventEmitter } from 'events';
 
@@ -12,7 +12,7 @@ export abstract class BaseTransport extends EventEmitter implements Transport {
   protected config: TransportConfig;
   protected connected: boolean = false;
   protected subscriptions: Map<string, MessageHandler> = new Map();
-  protected retryPolicy: RetryPolicy;
+  protected retryPolicy: TransportRetryPolicy;
   protected deadLetterQueue?: DeadLetterQueue;
 
   constructor(config: TransportConfig) {
@@ -147,7 +147,7 @@ export abstract class BaseTransport extends EventEmitter implements Transport {
     }
   }
 
-  setRetryPolicy(policy: Partial<RetryPolicy>): void {
+  setRetryPolicy(policy: Partial<TransportRetryPolicy>): void {
     this.retryPolicy = { ...this.retryPolicy, ...policy };
   }
 

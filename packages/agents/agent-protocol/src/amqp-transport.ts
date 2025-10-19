@@ -3,7 +3,7 @@ import { BaseTransport } from './transport';
 import { TransportConfig, MessageEnvelope, MessageHandler } from './types';
 
 export class AMQPTransport extends BaseTransport {
-  private connection?: amqp.Connection;
+  private connection?: amqp.ChannelModel;
   private channel?: amqp.Channel;
   private reconnectTimer?: NodeJS.Timeout;
 
@@ -14,6 +14,16 @@ export class AMQPTransport extends BaseTransport {
   async connect(): Promise<void> {
     try {
       this.connection = await amqp.connect(this.config.url, this.config.options);
+      if (this.connection) {
+        this.channel = await this.connection.createChannel();
+      }
+
+  async connect(): Promise<void> {
+    try {
+      this.connection = (await amqp.connect(
+        this.config.url,
+        this.config.options,
+      )) as amqp.Connection;
       if (this.connection) {
         this.channel = await this.connection.createChannel();
       }
