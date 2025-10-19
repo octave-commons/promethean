@@ -1,4 +1,4 @@
-(ns opencode.renderer
+(ns renderer
   "Electron renderer process integration")
 
 (defn init

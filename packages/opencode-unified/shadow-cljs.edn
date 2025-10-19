@@ -1,11 +1,11 @@
 {:source-paths ["src/clojurescript"]
  :dependencies []
- :nrepl {:port 4499}      ;; fixed nREPL port
+ :nrepl {:port 4499} ;; fixed nREPL port
  :builds
  {:app {:target :browser
         :output-dir "dist/public/js"
         :asset-path "/js"
-        :modules {:main {:init-fn opencode.app/main
-                         :exports {main opencode.app/main}}}
+        :modules {:main {:init-fn app/main
+                         :exports {main app/main}}}
         :devtools {:http-root "dist/public"
                    :http-port 8080}}}}

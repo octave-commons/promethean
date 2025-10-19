@@ -1,4 +1,4 @@
-(ns opencode.electron.main
+(ns electron.main
   "Electron main process integration")
 
 (defn init

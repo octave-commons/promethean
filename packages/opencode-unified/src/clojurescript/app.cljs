@@ -1,4 +1,4 @@
-(ns opencode.app
+(ns app
   "Main application entry point")
 
 (defn ^:export init

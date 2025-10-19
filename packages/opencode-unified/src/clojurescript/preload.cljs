@@ -1,4 +1,4 @@
-(ns opencode.preload
+(ns preload
   "Electron preload script")
 
 (defn init

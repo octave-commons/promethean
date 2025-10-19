@@ -1,4 +1,4 @@
-(ns opencode.editor.core
+(ns editor.core
   "Core editor functionality from opencode-cljs-electron")
 
 (defn init

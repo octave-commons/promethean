@@ -1,4 +1,4 @@
-(ns opencode.shared.utils
+(ns shared.utils
   "Shared utilities for ClojureScript components")
 
 (defn log
@@ -6,7 +6,7 @@
   [level message]
   (println (str "[" (js/Date.) "] " level ": " message)))
 
-(defn uuid
+(defn generate-uuid
   "Generate a UUID"
   []
   (random-uuid))
