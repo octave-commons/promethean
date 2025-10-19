@@ -14,35 +14,35 @@ export const CachePlugin: Plugin = async ({ client }) => {
 
   return {
     tool: {
-      'cache.initialize': {
+      'cache_initialize': {
         ...initializeCacheTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return initializeCacheTool.execute(args, enhancedContext);
         },
       },
-      'cache.check': {
+      'cache_check': {
         ...checkCacheTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return checkCacheTool.execute(args, enhancedContext);
         },
       },
-      'cache.createKey': {
+      'cache_createKey': {
         ...createCacheKeyTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return createCacheKeyTool.execute(args, enhancedContext);
         },
       },
-      'cache.store': {
+      'cache_store': {
         ...storeInCacheTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return storeInCacheTool.execute(args, enhancedContext);
         },
       },
-      'cache.manage': {
+      'cache_manage': {
         ...manageCacheTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };

@@ -10,42 +10,42 @@ export const DirectProcessPlugin: Plugin = async ({ client }) => {
 
   return {
     tool: {
-      'directProcess.start': {
+      'directProcess_start': {
         ...start,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return start.execute(args, enhancedContext);
         },
       },
-      'directProcess.stop': {
+      'directProcess_stop': {
         ...stop,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return stop.execute(args, enhancedContext);
         },
       },
-      'directProcess.list': {
+      'directProcess_list': {
         ...list,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return list.execute(args, enhancedContext);
         },
       },
-      'directProcess.status': {
+      'directProcess_status': {
         ...status,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return status.execute(args, enhancedContext);
         },
       },
-      'directProcess.tail': {
+      'directProcess_tail': {
         ...tail,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return tail.execute(args, enhancedContext);
         },
       },
-      'directProcess.err': {
+      'directProcess_err': {
         ...err,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
