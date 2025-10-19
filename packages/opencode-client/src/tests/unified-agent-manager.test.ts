@@ -22,15 +22,15 @@ test.before(async () => {
   await AgentTaskManager.loadPersistedTasks();
 
   // Clear any existing sessions for clean testing
-  const sessions = unifiedAgentManager.listAgentSessions();
-  sessions.forEach((session) => {
-    unifiedAgentManager.closeAgentSession(session.sessionId).catch(() => {});
-  });
+  const sessions = await unifiedAgentManager.listAgentSessions();
+  for (const session of sessions) {
+    await unifiedAgentManager.closeAgentSession(session.sessionId).catch(() => {});
+  }
 });
 
 test.afterEach.always(async () => {
   // Cleanup any remaining sessions
-  const sessions = unifiedAgentManager.listAgentSessions();
+  const sessions = await unifiedAgentManager.listAgentSessions();
   for (const session of sessions) {
     try {
       await unifiedAgentManager.closeAgentSession(session.sessionId);
@@ -108,12 +108,12 @@ test('should start and stop agent session', async (t) => {
   await unifiedAgentManager.startAgentSession(session.sessionId);
 
   // Get updated session
-  const updatedSession = unifiedAgentManager.getAgentSession(session.sessionId);
+  const updatedSession = await unifiedAgentManager.getAgentSession(session.sessionId);
   t.is(updatedSession?.status, 'running');
 
   await unifiedAgentManager.stopAgentSession(session.sessionId, 'Test completion');
 
-  const stoppedSession = unifiedAgentManager.getAgentSession(session.sessionId);
+  const stoppedSession = await unifiedAgentManager.getAgentSession(session.sessionId);
   t.is(stoppedSession?.status, 'completed');
 });
 
@@ -128,14 +128,14 @@ test('should send message to agent session', async (t) => {
 
 test('should list agent sessions', async (t) => {
   // Initially should be empty (after cleanup)
-  let sessions = unifiedAgentManager.listAgentSessions();
+  let sessions = await unifiedAgentManager.listAgentSessions();
   t.is(sessions.length, 0);
 
   // Create some sessions
   const session1 = await createAgentSession('Test session 1');
   const session2 = await createAgentSession('Test session 2');
 
-  sessions = unifiedAgentManager.listAgentSessions();
+  sessions = await unifiedAgentManager.listAgentSessions();
   t.is(sessions.length, 2);
 
   const sessionIds = sessions.map((s) => s.sessionId);
@@ -147,8 +147,8 @@ test('should get sessions by status', async (t) => {
   const session1 = await createAgentSession('Running session', undefined, {}, { autoStart: true });
   const session2 = await createAgentSession('Idle session', undefined, {}, { autoStart: false });
 
-  const runningSessions = unifiedAgentManager.getSessionsByStatus('running');
-  const initializingSessions = unifiedAgentManager.getSessionsByStatus('initializing');
+  const runningSessions = await unifiedAgentManager.getSessionsByStatus('running');
+  const initializingSessions = await unifiedAgentManager.getSessionsByStatus('initializing');
 
   t.is(runningSessions.length, 1);
   t.is(initializingSessions.length, 1);
