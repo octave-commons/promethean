@@ -65,7 +65,7 @@ async function main() {
 
     // Single bulk commit
     if (updatedCount > 0) {
-      execSync('git add ../../../docs/agile/tasks/*.md', { stdio: 'inherit' });
+      execSync('git add docs/agile/tasks/*.md', { stdio: 'inherit' });
       execSync(
         `git commit -m "Bulk initialize commit tracking for ${updatedCount} kanban tasks
 
