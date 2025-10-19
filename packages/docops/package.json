@@ -1,0 +1,33 @@
+{
+  "name": "@promethean/docops",
+  "version": "0.1.0",
+  "description": "Document operations for Promethean Framework",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/index.ts",
+    "clean": "rimraf dist",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@promethean/level-cache": "workspace:*",
+    "chromadb": "^1.8.1",
+    "ollama": "^0.5.0",
+    "level": "^8.0.0",
+    "fs-extra": "^11.2.0",
+    "glob": "^10.3.10",
+    "gray-matter": "^4.0.3",
+    "markdown-it": "^14.0.0",
+    "tokenizer": "^0.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/fs-extra": "^11.0.4",
+    "@types/markdown-it": "^14.0.0",
+    "typescript": "^5.4.0",
+    "tsx": "^4.6.2",
+    "rimraf": "^5.0.5"
+  }
+}
