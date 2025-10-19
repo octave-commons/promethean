@@ -992,14 +992,49 @@ export const updateStatus = async (
         // Prefer file timestamp over board timestamp to maintain data integrity
         const preservedCreatedAt = existingCreatedAt || found.created_at || NOW_ISO();
 
-        // Write updated task file with new status and preserved timestamp
-        const updatedContent = toFrontmatter({
-          ...found,
-          status: normalizedStatus,
-          content: existingContent,
-          created_at: preservedCreatedAt,
-        });
+        // Initialize git tracker and update task with commit tracking
+        const gitTracker = new TaskGitTracker(process.cwd());
+
+        // Update task frontmatter with commit tracking
+        const updatedTask = await gitTracker.updateTaskWithCommitTracking(
+          {
+            ...found,
+            status: normalizedStatus,
+            content: existingContent,
+            created_at: preservedCreatedAt,
+          },
+          'status_change',
+          `Status updated from ${currentStatus} to ${normalizedStatus}`,
+        );
+
+        // Write updated task file with new status and commit tracking
+        const updatedContent = toFrontmatter(updatedTask);
         await fs.writeFile(taskFilePath, updatedContent, 'utf8');
+
+        // Create git commit for the status change
+        try {
+          const commitResult = await gitTracker.commitTaskChange(
+            taskFilePath,
+            `kanban: ${updatedTask.title} - ${currentStatus} → ${normalizedStatus}`,
+            'status_change',
+            {
+              taskId: uuid,
+              taskTitle: updatedTask.title,
+              fromStatus: currentStatus,
+              toStatus: normalizedStatus,
+              actor,
+              correctionReason,
+            },
+          );
+
+          if (commitResult.success) {
+            console.log(`📝 Committed task change: ${commitResult.commitSha.slice(0, 8)}...`);
+          } else {
+            console.warn(`Warning: Failed to commit task change: ${commitResult.error}`);
+          }
+        } catch (commitError) {
+          console.warn(`Warning: Git commit failed for task ${uuid}: ${commitError}`);
+        }
       }
     } catch (error) {
       // Log warning but don't fail status update
