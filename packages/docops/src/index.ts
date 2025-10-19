@@ -96,7 +96,7 @@ export interface RenameOptions {
   dir: string;
 }
 
-export async function runRename(options: RenameOptions, db: DocOpsDB): Promise<void> {
+export async function runRename(options: RenameOptions, _db: DocOpsDB): Promise<void> {
   // Placeholder implementation
   console.log('Running rename:', options);
 }
