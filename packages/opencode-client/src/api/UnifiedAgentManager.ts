@@ -180,9 +180,7 @@ export class UnifiedAgentManager {
       }
 
       // Step 5: Return the created session by querying from storage
-      console.log('Retrieving session from storage with ID:', sessionId);
       const agentSession = await this.getSessionFromStorage(sessionId);
-      console.log('Retrieved agent session:', JSON.stringify(agentSession, null, 2));
 
       if (!agentSession) {
         throw new Error(`Failed to retrieve created session ${sessionId}`);

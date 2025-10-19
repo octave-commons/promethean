@@ -12,52 +12,60 @@
 ;; Main app component
 (defn app []
   (let [app-state state/app-state]
-    [:div
-     [theme-styles]
-     [:div.app-container
-      {:class (str "theme-" (name (:theme (:ui @app-state)))
-                   " evil-mode-" (name (get-in @app-state [:evil-state :mode])))
-       :tab-index 0}
+    (r/create-class
+     {:component-did-mount
+      (fn [this]
+        ;; Ensure proper reactivity setup
+        (println "App component mounted"))
 
-      ;; Header with menu bar
-      [layout/header]
+      :reagent-render
+      (fn []
+        [:div
+         [theme-styles]
+         [:div.app-container
+          {:class (str "theme-" (name (:theme (:ui @app-state)))
+                       " evil-mode-" (name (get-in @app-state [:evil-state :mode])))
+           :tab-index 0}
 
-      ;; Main content area
-      [:div.main-content
-       ;; Left sidebar (file tree, etc.)
-       [layout/left-sidebar]
+          ;; Header with menu bar
+          [layout/header]
 
-       ;; Editor area
-       [:div.editor-area
-        ;; Tab bar
-        [layout/tab-bar]
+          ;; Main content area
+          [:div.main-content
+           ;; Left sidebar (file tree, etc.)
+           [layout/left-sidebar]
 
-        ;; Editor pane
-        [:div.editor-pane
-         (let [current-buffer (:current-buffer @app-state)
-               current-buffer-content (when current-buffer
-                                        (get-in @app-state [:buffers current-buffer]))]
-           (if current-buffer-content
-             [opencode-unified.buffers/editor current-buffer-content]
-             [:div.no-buffer
-              [:h2 "No Buffer Open"]
-              [:p "Open a file to start editing"]]))]
+           ;; Editor area
+           [:div.editor-area
+            ;; Tab bar
+            [layout/tab-bar]
 
-        ;; Minimap (if enabled)
-        (when (get-in @app-state [:ui :minimap])
-          [layout/minimap (get-in @app-state [:buffers (:current-buffer @app-state)])])]
+            ;; Editor pane
+            [:div.editor-pane
+             (let [current-buffer (:current-buffer @app-state)
+                   current-buffer-content (when current-buffer
+                                            (get-in @app-state [:buffers current-buffer]))]
+               (if current-buffer-content
+                 [opencode-unified.buffers/editor current-buffer-content]
+                 [:div.no-buffer
+                  [:h2 "No Buffer Open"]
+                  [:p "Open a file to start editing"]]))]
 
-       ;; Right sidebar (plugins, etc.)
-       [layout/right-sidebar]]
+            ;; Minimap (if enabled)
+            (when (get-in @app-state [:ui :minimap])
+              [layout/minimap (get-in @app-state [:buffers (:current-buffer @app-state)])])]
 
-      ;; Status bar
-      [layout/status-bar]
+           ;; Right sidebar (plugins, etc.)
+           [layout/right-sidebar]]
 
-      ;; Which-key popup
-      [layout/which-key-popup]
+          ;; Status bar
+          [layout/status-bar]
 
-      ;; Command palette
-      [layout/command-palette]]]))
+          ;; Which-key popup
+          [layout/which-key-popup]
+
+          ;; Command palette
+          [layout/command-palette]]])})))
 
 ;; Theme styles
 (defn theme-styles []
