@@ -1,11 +1,11 @@
-import amqp from 'amqplib';
+import amqp, { Connection, Channel } from 'amqplib';
 import { BaseTransport } from '../base-transport';
 import { TransportConfig, MessageEnvelope, MessageHandler } from '../types';
 
 export class AMQPTransport extends BaseTransport {
-  private connection?: amqp.Connection;
-  private channel?: amqp.Channel;
-  private reconnectTimer?: NodeJS.Timeout;
+  private connection?: Connection;
+  private channel?: Channel;
+  private reconnectTimer?: NodeJS.Timeout | null = null;
 
   constructor(config: TransportConfig) {
     super(config);
@@ -17,29 +17,34 @@ export class AMQPTransport extends BaseTransport {
         this.config.url,
         this.config.options
       );
-      this.channel = await this.connection.createChannel();
+      if (this.connection) {
+        this.channel = await this.connection.createChannel();
 
-      // Setup error handlers
-      this.connection.on('error', (error) => {
-        this.emitConnectionEvent('error', error);
-        this.handleReconnect();
-      });
+        // Setup error handlers
+        this.connection.on('error', (error) => {
+          this.emitConnectionEvent('error', error);
+          this.handleReconnect();
+        });
 
-      this.connection.on('close', () => {
-        this.emitConnectionEvent('disconnected');
-        this.handleReconnect();
-      });
+        this.connection.on('close', () => {
+          this.emitConnectionEvent('disconnected');
+          this.handleReconnect();
+        });
 
-      this.channel.on('error', (error) => {
-        this.emitConnectionEvent('error', error);
-      });
+        if (this.channel) {
+          this.channel.on('error', (error) => {
+            this.emitConnectionEvent('error', error);
+          });
+        }
 
-      // Setup queue if specified
-      if (this.config.queue) {
-        await this.setupQueue();
+        // Setup queue if specified
+        if (this.config.queue) {
+          await this.setupQueue();
+        }
+
+        this.connected = true;
+        this.emitConnectionEvent('connected');
       }
-
-      this.emitConnectionEvent('connected');
     } catch (error) {
       this.emitConnectionEvent('error', error);
       throw error;
@@ -49,7 +54,7 @@ export class AMQPTransport extends BaseTransport {
   async disconnect(): Promise<void> {
     if (this.reconnectTimer) {
       clearTimeout(this.reconnectTimer);
-      this.reconnectTimer = undefined;
+      this.reconnectTimer = null;
     }
 
     if (this.channel) {
@@ -62,6 +67,7 @@ export class AMQPTransport extends BaseTransport {
       this.connection = undefined;
     }
 
+    this.connected = false;
     this.emitConnectionEvent('disconnected');
   }
 
