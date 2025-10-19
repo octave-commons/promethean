@@ -107,6 +107,7 @@ program.addCommand(cacheCommands);
 program.addCommand(tasksCommands);
 program.addCommand(messagesCommands);
 program.addCommand(agentCommands);
+program.addCommand(indexerCommands);
 
 // Error handling - let commander handle help/version normally
 
