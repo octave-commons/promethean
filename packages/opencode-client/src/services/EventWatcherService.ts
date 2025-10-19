@@ -333,7 +333,7 @@ export class EventWatcherService {
    */
   private async indexExistingAgentTasks(): Promise<void> {
     try {
-      const tasks = await agentTaskStore.getMostRecent(1000);
+      const tasks = await this.agentTaskStore!.getMostRecent(1000);
       let indexedCount = 0;
 
       for (const task of tasks) {
