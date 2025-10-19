@@ -54,10 +54,11 @@ export async function cleanupStores() {
       await agentTaskStore.cleanup();
     }
 
-    // Also close the global MongoDB client
-    const { getMongoClient } = await import('@promethean/persistence');
-    const mongoClient = await getMongoClient();
-    await mongoClient.close();
+    // Reset the initialized flag so stores can be recreated if needed
+    storesInitialized = false;
+    initPromise = null;
+    sessionStore = null;
+    agentTaskStore = null;
 
     if (process.env.OPENCODE_DEBUG) {
       console.log(chalk.gray('CLI stores cleaned up'));
@@ -89,6 +90,10 @@ program
     if (options.verbose) {
       console.log(chalk.gray('Verbose mode enabled'));
     }
+  })
+  .hook('postAction', async () => {
+    // Cleanup stores after command completes
+    await cleanupStores();
   });
 
 // Add command groups
