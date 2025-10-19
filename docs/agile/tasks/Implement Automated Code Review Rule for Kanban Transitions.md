@@ -10,14 +10,6 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
-lastCommitSha: "380a5706d8753546f5f0107056e9aa1a4d3241d8"
-commitHistory:
-  -
-    sha: "380a5706d8753546f5f0107056e9aa1a4d3241d8"
-    timestamp: "2025-10-19T22:07:26.837Z"
-    message: "Update task: 2025.10.13.17.00.00-implement-automated-code-review-rule-for-kanban-transitions - Update task: Implement Automated Code Review Rule for Kanban Transitions"
-    author: "Error <foamy125@gmail.com>"
-    type: "update"
 ---
 
 # Implement Automated Code Review Rule for Kanban Transitions
