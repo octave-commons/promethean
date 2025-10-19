@@ -26,7 +26,7 @@ export type JobOptions = {
   agentOnly?: boolean;
   agentId?: string;
   sessionId?: string;
-}
+};
 
 export type SubmitJobOptions = {
   modelName: string;
@@ -46,7 +46,7 @@ export type SubmitJobOptions = {
   };
   agentId?: string;
   sessionId?: string;
-}
+};
 
 export type JobResult = {
   id: string;
@@ -61,7 +61,8 @@ export type JobResult = {
   hasError?: boolean;
   hasResult?: boolean;
   priority?: string;
-}
+  queuePosition?: number;
+};
 
 export type JobStatusResult = {
   id: string;
@@ -72,8 +73,8 @@ export type JobStatusResult = {
   updatedAt: number;
   startedAt?: number;
   completedAt?: number;
-  error?: { message: string; code?: string }
-}
+  error?: { message: string; code?: string };
+};
 
 export type JobResultData = {
   id: string;
@@ -81,62 +82,7 @@ export type JobResultData = {
   status: string;
   result?: unknown;
   completedAt?: number;
-}
-
-export type SubmitJobOptions = {
-  modelName: string;
-  jobType: 'generate' | 'chat' | 'embedding';
-  priority: 'low' | 'medium' | 'high' | 'urgent';
-  jobName?: string;
-  prompt?: string;
-  messages?: Array<{ role: string; content: string }>;
-  input?: string | string[];
-  options?: {
-    temperature?: number;
-    top_p?: number;
-    num_ctx?: number;
-    num_predict?: number;
-    stop?: string[];
-    format?: 'json' | object;
-  };
-  agentId?: string;
-  sessionId?: string;
-}
-
-export type JobResult = {
-  id: string;
-  modelName: string;
-  jobType: string;
-  status: string;
-  jobName?: string;
-  createdAt: string;
-  updatedAt?: string;
-  startedAt?: string;
-  completedAt?: string;
-  hasError?: boolean;
-  hasResult?: boolean;
-  priority?: string;
-}
-
-export type JobStatusResult = {
-  id: string;
-  name?: string;
-  status: string;
-  priority?: string;
-  createdAt: number;
-  updatedAt: number;
-  startedAt?: number;
-  completedAt?: number;
-  error?: { message: string; code?: string }
-}
-
-export type JobResultData = {
-  id: string;
-  name?: string;
-  status: string;
-  result?: unknown;
-  completedAt?: number;
-}
+};
 
 // Real implementations using actual Ollama actions
 export async function listJobs(options: JobOptions): Promise<JobResult[]> {
@@ -149,7 +95,7 @@ export async function listJobs(options: JobOptions): Promise<JobResult[]> {
       agentOnly,
       agentId,
       sessionId,
-    };);
+    });
 
     return jobs.map((job) => ({
       id: job.id,
@@ -164,12 +110,12 @@ export async function listJobs(options: JobOptions): Promise<JobResult[]> {
       hasError: job.hasError,
       hasResult: job.hasResult,
       priority: job.priority,
-    };));
+    }));
   } catch (error) {
     throw new Error(
       `Failed to list jobs: ${error instanceof Error ? error.message : String(error)}`,
     );
-  };
+  }
 }
 
 export async function submitJob(options: SubmitJobOptions): Promise<JobResult> {
@@ -199,7 +145,7 @@ export async function submitJob(options: SubmitJobOptions): Promise<JobResult> {
       agentId,
       sessionId,
       status: 'pending' as const,
-    };);
+    });
 
     return {
       id: result.jobId,
@@ -208,14 +154,13 @@ export async function submitJob(options: SubmitJobOptions): Promise<JobResult> {
       status: result.status,
       jobName: result.jobName,
       createdAt: new Date().toISOString(),
-      // Include additional fields from the action result
       queuePosition: result.queuePosition,
-    }; as JobResult & { queuePosition: number };
+    };
   } catch (error) {
     throw new Error(
       `Failed to submit job: ${error instanceof Error ? error.message : String(error)}`,
     );
-  };
+  }
 }
 
 export async function getJobStatus(jobId: string): Promise<JobStatusResult> {
@@ -225,19 +170,19 @@ export async function getJobStatus(jobId: string): Promise<JobStatusResult> {
     return {
       id: job.id,
       name: job.name,
-      status: job.status,
+      status: job.status === 'canceled' ? 'cancelled' : job.status, // Fix status enum
       priority: job.priority,
       createdAt: job.createdAt,
       updatedAt: job.updatedAt,
       startedAt: job.startedAt,
       completedAt: job.completedAt,
       error: job.error,
-    };;
+    };
   } catch (error) {
     throw new Error(
       `Failed to get job status: ${error instanceof Error ? error.message : String(error)}`,
     );
-  };
+  }
 }
 
 export async function getJobResult(jobId: string): Promise<JobResultData> {
@@ -250,12 +195,12 @@ export async function getJobResult(jobId: string): Promise<JobResultData> {
       status: result.status,
       result: result.result,
       completedAt: result.completedAt,
-    };;
+    };
   } catch (error) {
     throw new Error(
       `Failed to get job result: ${error instanceof Error ? error.message : String(error)}`,
     );
-  };
+  }
 }
 
 export async function cancelJob(
@@ -265,7 +210,7 @@ export async function cancelJob(
   try {
     if (!agentId) {
       throw new Error('Agent ID is required to cancel jobs');
-    };;
+    }
 
     const result = await cancelJobAction(jobId, agentId);
     return result;
@@ -273,33 +218,51 @@ export async function cancelJob(
     throw new Error(
       `Failed to cancel job: ${error instanceof Error ? error.message : String(error)}`,
     );
-  };
+  }
 }
 
 export async function listModels(detailed = false): Promise<(OllamaModel | OllamaModelDetailed)[]> {
   try {
     const result = await listModelsAction(detailed);
 
-    // The action returns:
-    // - When detailed=false: { models: string[], count: number }
-    // - When detailed=true: { models: OllamaModel[], count: number }
-    return result.models;
+    // Handle both string[] and OllamaModel[] return types
+    if (Array.isArray(result.models) && result.models.length > 0) {
+      if (typeof result.models[0] === 'string') {
+        // Convert string[] to OllamaModel[]
+        return (result.models as string[]).map((name: string) => ({
+          name,
+          modified_at: new Date().toISOString(),
+          size: 0,
+        }));
+      }
+    }
+
+    return result.models as (OllamaModel | OllamaModelDetailed)[];
   } catch (error) {
     throw new Error(
       `Failed to list models: ${error instanceof Error ? error.message : String(error)}`,
     );
-  };
+  }
 }
 
 export async function getQueueInfo(): Promise<QueueInfo> {
   try {
     const info = await getQueueInfoAction();
-    return info;
+
+    // Transform the response to match QueueInfo interface
+    return {
+      totalJobs: info.total,
+      pendingJobs: info.pending,
+      runningJobs: info.running,
+      completedJobs: info.completed,
+      failedJobs: info.failed,
+      averageProcessingTime: 0, // Not provided by the action
+    };
   } catch (error) {
     throw new Error(
       `Failed to get queue info: ${error instanceof Error ? error.message : String(error)}`,
     );
-  };
+  }
 }
 
 export async function manageCache(action: CacheAction): Promise<CacheStats | CachePerformance> {
@@ -307,7 +270,7 @@ export async function manageCache(action: CacheAction): Promise<CacheStats | Cac
 
   if (!validActions.includes(action)) {
     throw new Error(`Invalid action: ${action}. Valid actions: ${validActions.join(', ')}`);
-  };
+  }
 
   try {
     const result = await manageCacheAction(action);
@@ -316,5 +279,5 @@ export async function manageCache(action: CacheAction): Promise<CacheStats | Cac
     throw new Error(
       `Failed to manage cache: ${error instanceof Error ? error.message : String(error)}`,
     );
-  };
+  }
 }

@@ -2,6 +2,7 @@
 // Ollama API integration tests
 
 import test from 'ava';
+import type { CacheAction } from '../types/index.js';
 import {
   listModels,
   submitJob,
@@ -155,7 +156,7 @@ test('manageCache stats action', async (t) => {
 
 test('manageCache invalid action throws error', async (t) => {
   try {
-    await manageCache('invalid-action');
+    await manageCache('invalid-action' as CacheAction);
     t.fail('Should have thrown an error for invalid action');
   } catch (error) {
     if (error instanceof Error && error.message.includes('Invalid action')) {
