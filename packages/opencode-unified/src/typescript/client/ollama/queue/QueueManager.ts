@@ -7,7 +7,7 @@ import { PriorityQueue } from './PriorityQueue.js';
 import { QueueMonitor } from './QueueMonitor.js';
 import { randomUUID } from 'node:crypto';
 import { validateJobSubmission } from '../../../shared/validation.js';
-import { AuthManager, AuthenticationError, AuthorizationError } from '../../../shared/auth.js';
+import { AuthManager, AuthenticationError } from '../../../shared/auth.js';
 
 export class QueueManager {
   private jobs: Map<string, Job> = new Map();
@@ -51,7 +51,9 @@ export class QueueManager {
 
         // Override agentId with authenticated agent
         jobData.agentId = agent.id;
-        jobData.sessionId = agent.sessionId;
+        if (agent.sessionId) {
+          jobData.sessionId = agent.sessionId;
+        }
       } catch (error) {
         if (error instanceof AuthenticationError) {
           throw error;
@@ -151,9 +153,9 @@ export class QueueManager {
   }
 
   /**
-   * Cancel a job with enhanced security validation
+   * Cancel a job with enhanced security validation and authentication
    */
-  cancelJob(jobId: string, agentId?: string): boolean {
+  async cancelJob(jobId: string, authToken?: string, agentId?: string): Promise<boolean> {
     // Validate job ID format
     if (!jobId || typeof jobId !== 'string') {
       throw new Error('Invalid job ID: must be a non-empty string');
