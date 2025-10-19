@@ -242,7 +242,7 @@ export function createGetAgentSessionTool(): any {
     },
     async execute(args: any, _context: any) {
       try {
-        const session = unifiedAgentManager.getAgentSession(args.sessionId);
+        const session = await unifiedAgentManager.getAgentSession(args.sessionId);
 
         if (!session) {
           const result = {
@@ -282,7 +282,7 @@ export function createGetAgentStatsTool(): any {
     args: {},
     async execute(_args: any, _context: any) {
       try {
-        const stats = unifiedAgentManager.getSessionStats();
+        const stats = await unifiedAgentManager.getSessionStats();
 
         const result = {
           success: true,
