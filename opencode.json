@@ -238,7 +238,8 @@
       "git *":"ask",
       "git status*":"allow",
       "git log*":"allow",
-      "git commit*":"allow"
+      "git commit*":"allow",
+      "pnpm kanban*":"deny"
     }
   },
   "tools": {
