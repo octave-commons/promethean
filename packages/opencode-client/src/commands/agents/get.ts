@@ -11,7 +11,7 @@ export const getAgentCommand = new Command('get')
       console.log(chalk.blue(`📖 Getting agent session: ${sessionId}`));
 
       const manager = UnifiedAgentManager.getInstance();
-      const session = manager.getAgentSession(sessionId);
+      const session = await manager.getAgentSession(sessionId);
 
       if (!session) {
         console.log(chalk.yellow(`No agent session found: ${sessionId}`));
