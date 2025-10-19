@@ -188,7 +188,7 @@ export class MemoryDeadLetterQueue implements DeadLetterQueue {
       (item) => item.envelope.id === messageId
     );
     if (index !== -1) {
-      const { envelope } = this.messages.splice(index, 1)[0];
+      const removed = this.messages.splice(index, 1)[0];
       // In a real implementation, you would requeue the message
       // For now, we just remove it from the DLQ
       console.log(`Requeuing message ${messageId}`);

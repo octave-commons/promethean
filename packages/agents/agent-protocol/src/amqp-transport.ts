@@ -18,16 +18,6 @@ export class AMQPTransport extends BaseTransport {
         this.channel = await this.connection.createChannel();
       }
 
-  async connect(): Promise<void> {
-    try {
-      this.connection = (await amqp.connect(
-        this.config.url,
-        this.config.options,
-      )) as amqp.Connection;
-      if (this.connection) {
-        this.channel = await this.connection.createChannel();
-      }
-
       // Setup error handlers
       if (this.connection) {
         this.connection.on('error', (error) => {
