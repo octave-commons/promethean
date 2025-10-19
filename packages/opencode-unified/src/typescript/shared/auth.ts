@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Authentication and Authorization for OpenCode Unified
 
-import { randomUUID, createHash, timingSafeEqual } from 'node:crypto';
+import { randomUUID } from 'node:crypto';
 import { promisify } from 'node:util';
 import { sign, verify } from 'jsonwebtoken';
 
 const signAsync = promisify(sign) as any;
-const verifyAsync = promisify(verify) as any;
 
 /**
  * Authentication error types
@@ -124,7 +123,7 @@ export class AuthManager {
    */
   async authenticate(
     agentId: string,
-    credentials?: any,
+    _credentials?: any,
   ): Promise<{
     agent: AgentInfo;
     accessToken: string;
@@ -362,7 +361,7 @@ export class AuthManager {
       sub: agent.id,
       type: 'access',
       permissions: agent.permissions,
-      sessionId: agent.sessionId,
+      ...(agent.sessionId && { sessionId: agent.sessionId }),
     };
 
     return await signAsync(payload, this.config.jwtSecret, {
@@ -379,7 +378,7 @@ export class AuthManager {
       sub: agent.id,
       type: 'refresh',
       permissions: agent.permissions,
-      sessionId: agent.sessionId,
+      ...(agent.sessionId && { sessionId: agent.sessionId }),
     };
 
     return await signAsync(payload, this.config.jwtSecret, {
