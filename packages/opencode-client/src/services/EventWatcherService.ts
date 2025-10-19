@@ -6,7 +6,7 @@
  */
 
 import { createOpencodeClient } from '@opencode-ai/sdk';
-import { sessionStore, agentTaskStore } from '../index.js';
+import { DualStoreManager } from '../storage/DualStoreManager.js';
 
 export type EventWatcherConfig = {
   /** Indexing interval in milliseconds */
