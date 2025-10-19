@@ -37,6 +37,12 @@ export type OpenAIServerOptions = {
   readonly recentLimit?: number;
   readonly handler?: ChatCompletionHandler;
   readonly fastify?: FastifyServerOptions;
+  readonly security?: {
+    readonly enabled?: boolean;
+    readonly requireAuth?: boolean;
+    readonly allowedRoles?: readonly string[];
+    readonly allowedPermissions?: readonly string[];
+  };
 };
 
 export type OpenAIServer = DeepReadonly<{
