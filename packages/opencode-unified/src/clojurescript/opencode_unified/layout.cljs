@@ -265,9 +265,9 @@
 ;; Status bar
 (defn status-bar []
   (let [evil-mode (r/track #(get-in @state/app-state [:evil-state :mode]))
-        left-text (r/track #(clojure.string/upper-case (str (get-in @state/app-state [:evil-state :mode]))))
+        left-text (r/track #(clojure.string/upper-case (name (get-in @state/app-state [:evil-state :mode]))))
         center-text (r/track #(get-in @state/app-state [:statusbar :center]))
-        right-text (r/track #(str "Evil Mode - " (get-in @state/app-state [:evil-state :mode])))]
+        right-text (r/track #(str "Evil Mode - " (name (get-in @state/app-state [:evil-state :mode]))))]
     [:div.status-bar
      {:style {:background-color "var(--bg-secondary)"
               :border-top "1px solid var(--border)"
