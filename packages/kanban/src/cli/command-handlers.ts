@@ -782,6 +782,8 @@ const handleAudit: CommandHandler = (args, context) =>
     let inconsistenciesFixed = 0;
     let illegalTransitionsFound = 0;
     let orphanedTasksFound = 0;
+    let untrackedTasksFound = 0;
+    let healthyTasksFound = 0;
 
     // Initialize git tracker for commit validation
     const gitTracker = new TaskGitTracker({ repoRoot: process.cwd() });
@@ -798,21 +800,34 @@ const handleAudit: CommandHandler = (args, context) =>
       for (const task of column.tasks) {
         const replayResult = await eventLogManager.replayTaskTransitions(task.uuid, task.status);
 
-        // Check git tracking validation
-        const gitValidation = gitTracker.validateTaskCommitTracking(task);
-        if (!gitValidation.isValid) {
+        // Enhanced git tracking analysis
+        const taskFilePath = `${context.tasksDir}/${task.uuid}.md`;
+        const statusAnalysis = gitTracker.analyzeTaskStatus(task, taskFilePath);
+
+        if (statusAnalysis.isTrulyOrphaned) {
           orphanedTasksFound++;
-          console.log(`⚠️  ORPHANED TASK: "${task.title}"`);
+          console.log(`🚨 TRULY ORPHANED TASK: "${task.title}"`);
           console.log(`   Task ID: ${task.uuid}`);
           console.log(`   Status: ${task.status}`);
-          console.log(`   Issues: ${gitValidation.issues.join(', ')}`);
-
-          if (!task.lastCommitSha) {
-            console.log(`   ❌ Missing lastCommitSha field`);
-          }
-          if (!task.commitHistory) {
-            console.log(`   ❌ Missing commitHistory field`);
-          }
+          console.log(`   Issues: ${statusAnalysis.issues.join(', ')}`);
+          console.log(`   Recommendations:`);
+          statusAnalysis.recommendations.forEach((rec) => console.log(`     • ${rec}`));
+          console.log('');
+        } else if (statusAnalysis.isUntracked) {
+          console.log(`⚠️  UNTRACKED TASK: "${task.title}"`);
+          console.log(`   Task ID: ${task.uuid}`);
+          console.log(`   Status: ${task.status}`);
+          console.log(`   Issues: ${statusAnalysis.issues.join(', ')}`);
+          console.log(`   Recommendations:`);
+          statusAnalysis.recommendations.forEach((rec) => console.log(`     • ${rec}`));
+          console.log('');
+        } else if (!statusAnalysis.isHealthy) {
+          console.log(`⚠️  TASK WITH ISSUES: "${task.title}"`);
+          console.log(`   Task ID: ${task.uuid}`);
+          console.log(`   Status: ${task.status}`);
+          console.log(`   Issues: ${statusAnalysis.issues.join(', ')}`);
+          console.log(`   Recommendations:`);
+          statusAnalysis.recommendations.forEach((rec) => console.log(`     • ${rec}`));
           console.log('');
         }
 
