@@ -430,6 +430,8 @@ export class TransitionRulesEngine {
       },
       changedFiles: [], // Will be extracted from task content
       affectedPackages: [], // Will be determined from changed files
+      reportPath: 'coverage.json', // Default path - should be configurable
+      format: 'json', // Default format - should be configurable
     };
 
     await runTestingTransition(
