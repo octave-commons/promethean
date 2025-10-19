@@ -498,6 +498,14 @@ export class EventWatcherService {
         return;
       }
 
+      // Determine if this is an agent session
+      const isAgentSession =
+        sessionData.isAgentTask ||
+        sessionData.agent !== undefined ||
+        sessionData.agent !== null ||
+        (sessionData.title && sessionData.title.includes('agent')) ||
+        false;
+
       // Prepare session document in the format expected by sessions-rw-separated.ts
       const sessionDocument = {
         id: sessionData.id,
@@ -505,7 +513,7 @@ export class EventWatcherService {
         messageCount: sessionData.messageCount,
         lastActivityTime: sessionData.time?.updated || sessionData.lastActivityTime,
         activityStatus: sessionData.activityStatus || sessionData.status,
-        isAgentTask: sessionData.isAgentTask || false,
+        isAgentTask: isAgentSession,
         agentTaskStatus: sessionData.agentTaskStatus,
         createdAt: sessionData.time?.created || sessionData.createdAt,
       };
