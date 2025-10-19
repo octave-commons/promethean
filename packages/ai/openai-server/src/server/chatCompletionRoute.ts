@@ -131,7 +131,7 @@ export const registerChatCompletionRoute = (
 
         // Log warnings if any
         if (validation.warnings) {
-          request.log?.warn?.('Input validation warnings:', validation.warnings);
+          console.warn('Input validation warnings:', validation.warnings);
         }
       }
 
