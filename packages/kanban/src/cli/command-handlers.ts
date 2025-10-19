@@ -914,29 +914,21 @@ const handleAudit: CommandHandler = (args, context) =>
           if (statusAnalysis.isUntracked) {
             try {
               // Commit the changes to initialize tracking
-              const commitResult = await gitTracker.commitTaskChanges(
+              const trackingResult = await gitTracker.commitTaskChanges(
                 taskFilePath,
                 task.uuid,
                 'update',
                 'Audit correction: Initialize commit tracking for untracked task',
               );
 
-              // Commit the changes
-              const commitResult = await gitTracker.commitTaskChanges(
-                taskFilePath,
-                task.uuid,
-                'update',
-                'Audit correction: Initialize commit tracking for untracked task',
-              );
-
-              if (commitResult.success) {
+              if (trackingResult.success) {
                 console.log(`✅ FIXED: Added commit tracking to "${task.title}"`);
                 console.log(`   Task ID: ${task.uuid}`);
-                console.log(`   Commit SHA: ${commitResult.sha}`);
+                console.log(`   Commit SHA: ${trackingResult.sha}`);
                 console.log('');
               } else {
                 console.log(`❌ FAILED TO FIX: "${task.title}"`);
-                console.log(`   Error: ${commitResult.error}`);
+                console.log(`   Error: ${trackingResult.error}`);
                 console.log('');
               }
             } catch (error) {
@@ -988,6 +980,9 @@ const handleAudit: CommandHandler = (args, context) =>
       inconsistenciesFound,
       inconsistenciesFixed,
       illegalTransitionsFound,
+      orphanedTasksFound,
+      untrackedTasksFound,
+      healthyTasksFound,
       dryRun,
     };
   });
