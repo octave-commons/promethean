@@ -526,68 +526,28 @@ export class TransitionRulesEngine {
   }
 
   private async evalClojure(expression: string, args: any[]): Promise<any> {
-    // This is a simplified implementation. In a real scenario, you'd use nbb properly
-    // For now, we'll implement basic rule evaluation in JavaScript
+    // Use nbb (Node.js Babashka) to evaluate Clojure expressions
+    try {
+      // Import nbb dynamically to avoid bundling issues
+      const { nbbEval } = await import('nbb');
 
-    // Parse simple expressions like "(fn [task board] (and (:title task) (:priority task)))"
-    if (expression.includes('(:title task)') && expression.includes('(:priority task)')) {
-      const [task] = args as [Task];
-      return !!(task.title && task.priority);
-    }
+      // Create a safe evaluation context with the DSL loaded
+      const clojureCode = `
+        (require '[kanban-transitions :as kt])
+        (let [args ~(vec args)
+              task (first args)
+              board (second args)]
+          ${expression})
+      `;
 
-    if (expression.includes('get-in task [:estimates :complexity]')) {
-      const [task] = args as [Task];
-      const estimate = task.estimates?.complexity;
-      return typeof estimate === 'number' && estimate <= 5;
-    }
-
-    // Handle the config expression: "(and (:estimates task) (<= (get-in task [:estimates :complexity]) 5))"
-    if (
-      expression.includes('(:estimates task)') &&
-      expression.includes('get-in task [:estimates :complexity]')
-    ) {
-      const [task] = args as [Task];
-      console.log('DEBUG: Config expression check:', {
-        uuid: task.uuid,
-        title: task.title,
-        priority: task.priority,
-        estimates: task.estimates,
-        complexity: task.estimates?.complexity,
-        complexityType: typeof task.estimates?.complexity,
-        hasEstimates: !!task.estimates,
-      });
-      const hasEstimates = !!task.estimates;
-      const estimate = task.estimates?.complexity;
-      const result = hasEstimates && typeof estimate === 'number' && estimate <= 5;
-      console.log('DEBUG: Config expression result:', result);
+      const result = await nbbEval(clojureCode);
       return result;
+    } catch (error) {
+      console.error('Failed to evaluate Clojure expression with nbb:', error);
+      throw new Error(
+        `Clojure evaluation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      );
     }
-
-    // Handle task-properly-broken-down? check from config
-    if (
-      expression.includes('(:estimates task)') &&
-      expression.includes('get-in task [:estimates :complexity]')
-    ) {
-      const [task] = args as [Task];
-      const hasEstimates = !!task.estimates;
-      const estimate = task.estimates?.complexity;
-      return hasEstimates && typeof estimate === 'number' && estimate <= 5;
-    }
-
-    // Temporary fix: Allow breakdown transitions for critical tasks
-    if (expression.includes('task-properly-broken-down?')) {
-      const [task] = args as [Task];
-      // For P0 tasks, allow if they have any estimates structure
-      if (task.priority === 'P0' && task.estimates) {
-        const estimate = task.estimates?.complexity;
-        return typeof estimate === 'number' && estimate <= 5;
-      }
-      // Default fallback
-      return !!task.estimates;
-    }
-
-    // Default to true for unimplemented expressions
-    return true;
   }
 
   /**
