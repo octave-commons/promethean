@@ -302,3 +302,43 @@ export default {
   RateLimiter,
   SECURITY_CONFIG
 };
+// Additional validation methods for compatibility
+export class SecurityValidator {
+  // ... existing methods ...
+
+  static validatePermissions(permissions: string[]): string[] {
+    if (!Array.isArray(permissions)) {
+      throw new Error('Permissions must be an array');
+    }
+
+    const validPermissions = ['read', 'write', 'admin', 'delete', 'share'];
+    const validatedPermissions: string[] = [];
+
+    for (const permission of permissions) {
+      if (typeof permission !== 'string') {
+        throw new Error('All permissions must be strings');
+      }
+
+      if (!validPermissions.includes(permission)) {
+        throw new Error(`Invalid permission: ${permission}. Valid permissions: ${validPermissions.join(', ')}`);
+      }
+
+      validatedPermissions.push(permission);
+    }
+
+    return validatedPermissions;
+  }
+
+  static validateShareType(shareType: string): string {
+    if (typeof shareType !== 'string') {
+      throw new Error('Share type must be a string');
+    }
+
+    const validShareTypes = ['read', 'write', 'admin'];
+    if (!validShareTypes.includes(shareType)) {
+      throw new Error(`Invalid share type: ${shareType}. Valid types: ${validShareTypes.join(', ')}`);
+    }
+
+    return shareType;
+  }
+}
