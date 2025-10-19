@@ -117,17 +117,7 @@ export async function createSession(
       },
     };
   } catch (error: any) {
-    console.error('Server session creation failed, falling back to local:', error.message);
-
-    // Fallback to local action if server fails
-    const { create: createLocal } = await import('../actions/sessions/create.js');
-    const result = await createLocal({
-      title: options.title,
-      files: options.files,
-      delegates: options.delegates,
-    });
-
-    return JSON.parse(result);
+    throw new Error(`Failed to create session on OpenCode server: ${error.message}`);
   }
 }
 
@@ -135,11 +125,13 @@ export async function createSession(
  * Close a session
  */
 export async function closeSession(sessionId: string): Promise<void> {
-  const { close } = await import('../actions/sessions/close.js');
+  const client = await getClient();
 
-  await close({
-    sessionId,
-  });
+  try {
+    await client.session.close(sessionId);
+  } catch (error: any) {
+    throw new Error(`Failed to close session on OpenCode server: ${error.message}`);
+  }
 }
 
 /**
@@ -186,11 +178,7 @@ export async function getSessionMessages(sessionId: string): Promise<Message[]> 
 
     return response.data || [];
   } catch (error: any) {
-    console.error('Failed to get messages from server, falling back to local:', error.message);
-
-    // Fallback to local action if server fails
-    const { getSessionMessages: getLocalMessages } = await import('../actions/messages/index.js');
-    return await getLocalMessages(client, sessionId);
+    throw new Error(`Failed to get messages from OpenCode server: ${error.message}`);
   }
 }
 
@@ -220,13 +208,6 @@ export async function sendMessage(options: SendMessageOptions): Promise<any> {
 
     return response.data || response;
   } catch (error: any) {
-    console.error('Failed to send message via server, falling back to local:', error.message);
-
-    // For now, just return a mock response since local send isn't fully implemented
-    return {
-      success: false,
-      error: 'Local message sending not implemented',
-      serverError: error.message,
-    };
+    throw new Error(`Failed to send message via OpenCode server: ${error.message}`);
   }
 }
