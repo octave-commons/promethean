@@ -1,10 +1,10 @@
 ---
 uuid: "3c306b0e-da10-4047-bbee-ef1df37f763f"
-title: "Fix @promethean/agent entrypoint/exports to match emitted build artifacts"
+title: "--title Review and analyze first 10 open PRs --storyPoints 3"
 slug: "Fix-@promethean-agent-entrypoint-exports-to-match-emitted-build-artifacts"
 status: "breakdown"
 priority: "P1"
-labels: ["release-blocker", "package-fix", "build-system", "critical"]
+labels: ["title", "review", "analyze", "first"]
 created_at: "2025-10-18T18:50:46.027Z"
 estimates:
   complexity: ""
