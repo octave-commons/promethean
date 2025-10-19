@@ -14,11 +14,11 @@ export const listAgentsCommand = new Command('list')
       console.log(chalk.blue('📋 Listing agent sessions...'));
 
       const manager = UnifiedAgentManager.getInstance();
-      let sessions = manager.listAgentSessions();
+      let sessions = await manager.listAgentSessions();
 
       // Filter by status if specified
       if (options.status) {
-        sessions = manager.getSessionsByStatus(options.status as any);
+        sessions = await manager.getSessionsByStatus(options.status as any);
       }
 
       // Sort by creation time (most recent first)
