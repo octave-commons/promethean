@@ -70,103 +70,103 @@
            :qwen3-codex-local
            {:provider :openai
             :model-name "qwen3-codex:latest"
-            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :base-url "http://localhost:11434/v1/chat/completions"
             :temperature 0.7}
 
            :qwen3-codex-4b
            {:provider :openai
             :model-name "qwen3-codex:4b-128k"
-            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :base-url "http://localhost:11434/v1/chat/completions"
             :temperature 0.7}
 
            :qwen3-codex-promethean
            {:provider :openai
             :model-name "qwen3-codex:promethean"
-            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :base-url "http://localhost:11434/v1/chat/completions"
             :temperature 0.7}
 
            :qwen2.5-coder-7b
            {:provider :openai
             :model-name "qwen2.5-coder:7b-instruct"
-            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :base-url "http://localhost:11434/v1/chat/completions"
             :temperature 0.7}
 
            :qwen3-8b
            {:provider :openai
             :model-name "qwen3:8b"
-            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :base-url "http://localhost:11434/v1/chat/completions"
             :temperature 0.7}
 
            :qwen3-4b
            {:provider :openai
             :model-name "qwen3:4b"
-            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :base-url "http://localhost:11434/v1/chat/completions"
             :temperature 0.7}
 
            :llama3.1-8b
            {:provider :openai
             :model-name "llama3.1:8b"
-            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :base-url "http://localhost:11434/v1/chat/completions"
             :temperature 0.7}
 
            :llama3-8b
            {:provider :openai
             :model-name "llama3:8b"
-            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :base-url "http://localhost:11434/v1/chat/completions"
             :temperature 0.7}
 
            :deepseek-r1
            {:provider :openai
             :model-name "deepseek-r1:latest"
-            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :base-url "http://localhost:11434/v1/chat/completions"
             :temperature 0.7}
 
            :gpt-oss-20b
            {:provider :openai
             :model-name "gpt-oss:20b"
-            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :base-url "http://localhost:11434/v1/chat/completions"
             :temperature 0.7}
 
            :qwen3-14b
            {:provider :openai
             :model-name "qwen3:14b"
-            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :base-url "http://localhost:11434/v1/chat/completions"
             :temperature 0.7}
 
            :promethean-planner
            {:provider :openai
             :model-name "promethean-planner:latest"
-            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :base-url "http://localhost:11434/v1/chat/completions"
             :temperature 0.7}
 
            :qwen2.5-7b
            {:provider :openai
             :model-name "qwen2.5:7b"
-            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :base-url "http://localhost:11434/v1/chat/completions"
             :temperature 0.7}
 
            :qwen2.5-3b
            {:provider :openai
             :model-name "qwen2.5:3b-instruct"
-            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :base-url "http://localhost:11434/v1/chat/completions"
             :temperature 0.7}
 
            :llama3.2-latest
            {:provider :openai
             :model-name "llama3.2:latest"
-            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :base-url "http://localhost:11434/v1/chat/completions"
             :temperature 0.7}
 
            :gemma2-2b
            {:provider :openai
             :model-name "gemma2:2b"
-            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :base-url "http://localhost:11434/v1/chat/completions"
             :temperature 0.7}
 
            :gemma3-latest
            {:provider :openai
             :model-name "gemma3:latest"
-            :base-url "http://localhost:11434/api/v1/chat/completions"
+            :base-url "http://localhost:11434/v1/chat/completions"
             :temperature 0.7}}
  :agents [;; Enhanced advisor - strategic planning with memory
           {:id :advisor
