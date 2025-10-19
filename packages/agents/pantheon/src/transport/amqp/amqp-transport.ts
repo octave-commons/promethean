@@ -3,8 +3,8 @@ import { BaseTransport } from '../base-transport';
 import { TransportConfig, MessageEnvelope, MessageHandler } from '../types';
 
 export class AMQPTransport extends BaseTransport {
-  private connection: amqp.Connection | null = null;
-  private channel: amqp.Channel | null = null;
+  private connection: any = null;
+  private channel: any = null;
   private reconnectTimer: NodeJS.Timeout | null = null;
 
   constructor(config: TransportConfig) {
@@ -19,10 +19,10 @@ export class AMQPTransport extends BaseTransport {
       );
 
       if (this.connection) {
-        this.channel = await this.connection.createChannel();
+        this.channel = await (this.connection as any).createChannel();
 
         // Setup error handlers
-        this.connection.on('error', (error) => {
+        this.connection.on('error', (error: any) => {
           this.emitConnectionEvent('error', error);
           this.handleReconnect();
         });
@@ -33,7 +33,7 @@ export class AMQPTransport extends BaseTransport {
         });
 
         if (this.channel) {
-          this.channel.on('error', (error) => {
+          this.channel.on('error', (error: any) => {
             this.emitConnectionEvent('error', error);
           });
         }
