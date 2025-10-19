@@ -1512,14 +1512,54 @@ export const pushToTasks = async (
       // Ensure we always have a timestamp to prevent data loss
       const preservedCreatedAt = existingCreatedAt || finalTask.created_at || NOW_ISO();
 
+      // Initialize git tracker for new task creation
+      const gitTracker = new TaskGitTracker({ repoRoot: process.cwd() });
+
+      // Update task frontmatter with commit tracking for new tasks
+      const taskWithCommitTracking = gitTracker.updateTaskCommitTracking(
+        {
+          ...finalTask,
+          status: normalizedBoardStatus,
+          content: finalContent,
+          created_at: preservedCreatedAt,
+        },
+        finalTask.uuid,
+        previous ? 'update' : 'create',
+        previous ? `Update task: ${finalTask.title}` : `Create task: ${finalTask.title}`,
+      );
+
       const content = toFrontmatter({
         ...finalTask,
         status: normalizedBoardStatus, // Always use the normalized board column name as authoritative status
         content: finalContent,
         created_at: preservedCreatedAt,
+        ...taskWithCommitTracking, // Include commit tracking fields
       });
 
       await fs.writeFile(finalTargetPath, content, 'utf8');
+
+      // Create git commit for the task change
+      try {
+        const operation = previous ? 'update' : 'create';
+        const details = previous
+          ? `Update task: ${finalTask.title}`
+          : `Create task: ${finalTask.title}`;
+
+        const commitResult = await gitTracker.commitTaskChanges(
+          finalTargetPath,
+          finalTask.uuid,
+          operation,
+          details,
+        );
+
+        if (commitResult.success) {
+          console.log(`📝 Committed task ${operation}: ${commitResult.sha?.slice(0, 8)}...`);
+        } else {
+          console.warn(`Warning: Failed to commit task ${operation}: ${commitResult.error}`);
+        }
+      } catch (commitError) {
+        console.warn(`Warning: Git commit failed for task ${finalTask.uuid}: ${commitError}`);
+      }
 
       if (!previous) {
         // Check if this was actually a merge (duplicate detected)
