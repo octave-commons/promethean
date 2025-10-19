@@ -4,6 +4,7 @@
  {:app {:target :browser
         :output-dir "dist/public/js"
         :asset-path "/js"
-        :modules {:main {:exports {main opencode.app/main}}}
+        :modules {:main {:init-fn opencode.app/init
+                            :exports {main opencode.app/main}}}
         :devtools {:http-root "dist/public"
                    :http-port 8080}}}}
