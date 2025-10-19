@@ -40,6 +40,7 @@ import { TaskGitTracker } from '../lib/task-git-tracker.js';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { readdir } from 'node:fs/promises';
 
 // Get the equivalent of __dirname in ES modules
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -94,6 +95,36 @@ const requireArg = (value: string | undefined, label: string): string => {
   }
   throw new CommandUsageError(`Missing required ${label}.`);
 };
+
+/**
+ * Find the actual task file path by searching for the UUID in file contents
+ */
+async function findTaskFilePath(tasksDir: string, taskUuid: string): Promise<string | null> {
+  try {
+    const files = await readdir(tasksDir, { withFileTypes: true });
+
+    for (const file of files) {
+      if (!file.isFile() || !file.name.endsWith('.md')) {
+        continue;
+      }
+
+      const filePath = path.join(tasksDir, file.name);
+      try {
+        const content = await readFile(filePath, 'utf8');
+        if (content.includes(`uuid: "${taskUuid}"`) || content.includes(`uuid: '${taskUuid}'`)) {
+          return filePath;
+        }
+      } catch (error) {
+        // Skip files that can't be read
+        continue;
+      }
+    }
+
+    return null;
+  } catch (error) {
+    return null;
+  }
+}
 
 const parsePort = (value: string): number => {
   const trimmed = value.trim();
@@ -801,7 +832,9 @@ const handleAudit: CommandHandler = (args, context) =>
         const replayResult = await eventLogManager.replayTaskTransitions(task.uuid, task.status);
 
         // Enhanced git tracking analysis
-        const taskFilePath = `${context.tasksDir}/${task.uuid}.md`;
+        const taskFilePath =
+          (await findTaskFilePath(context.tasksDir, task.uuid)) ||
+          `${context.tasksDir}/${task.uuid}.md`;
         const statusAnalysis = gitTracker.analyzeTaskStatus(task, taskFilePath);
 
         if (statusAnalysis.isTrulyOrphaned) {
@@ -908,7 +941,9 @@ const handleAudit: CommandHandler = (args, context) =>
         }
 
         for (const task of column.tasks) {
-          const taskFilePath = `${context.tasksDir}/${task.uuid}.md`;
+          const taskFilePath =
+            (await findTaskFilePath(context.tasksDir, task.uuid)) ||
+            `${context.tasksDir}/${task.uuid}.md`;
           const statusAnalysis = gitTracker.analyzeTaskStatus(task, taskFilePath);
 
           if (statusAnalysis.isUntracked) {
