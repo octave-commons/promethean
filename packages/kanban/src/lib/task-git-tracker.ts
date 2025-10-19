@@ -295,6 +295,89 @@ export class TaskGitTracker {
   }
 
   /**
+   * Enhanced orphaned task detection that distinguishes between truly orphaned and untracked tasks
+   */
+  analyzeTaskStatus(
+    frontmatter: Record<string, any>,
+    taskFilePath?: string,
+  ): {
+    isTrulyOrphaned: boolean;
+    isUntracked: boolean;
+    isHealthy: boolean;
+    issues: string[];
+    recommendations: string[];
+  } {
+    const validation = this.validateTaskCommitTracking(frontmatter);
+    const issues: string[] = [...validation.issues];
+    const recommendations: string[] = [];
+
+    // Check if task has basic required fields
+    const hasBasicFields = frontmatter.uuid && frontmatter.title && frontmatter.status;
+
+    // Check if task file exists in git history
+    let fileExistsInGit = false;
+    let hasRecentCommits = false;
+
+    if (taskFilePath) {
+      try {
+        // Check if file is tracked by git
+        const gitStatus = execSync(`git status --porcelain "${taskFilePath}"`, {
+          cwd: this.repoRoot,
+          encoding: 'utf8',
+        }).trim();
+
+        // If file is untracked or has unstaged changes, it's not truly orphaned
+        fileExistsInGit = !gitStatus.startsWith('??');
+
+        // Check for recent commits involving this task
+        if (frontmatter.uuid) {
+          const commitLog = execSync(
+            `git log --oneline --grep="${frontmatter.uuid}" -n 5 --since="3 months ago"`,
+            {
+              cwd: this.repoRoot,
+              encoding: 'utf8',
+            },
+          ).trim();
+          hasRecentCommits = commitLog.length > 0;
+        }
+      } catch (error) {
+        // Git commands failed, assume file is not properly tracked
+        fileExistsInGit = false;
+      }
+    }
+
+    // Determine task status
+    const isHealthy = validation.isValid && hasBasicFields;
+    const isUntracked = !validation.isValid && hasBasicFields && fileExistsInGit;
+    const isTrulyOrphaned = !validation.isValid && (!hasBasicFields || !fileExistsInGit);
+
+    // Generate recommendations
+    if (isUntracked) {
+      recommendations.push('Task needs commit tracking initialization');
+      recommendations.push('Run "pnpm kanban audit --fix" to add commit tracking');
+    }
+
+    if (isTrulyOrphaned) {
+      if (!hasBasicFields) {
+        recommendations.push('Task has missing required fields (uuid, title, or status)');
+        recommendations.push('Consider deleting this task or adding missing fields');
+      }
+      if (!fileExistsInGit) {
+        recommendations.push('Task file is not tracked by git');
+        recommendations.push('Add file to git repository: git add <task-file>');
+      }
+    }
+
+    return {
+      isTrulyOrphaned,
+      isUntracked,
+      isHealthy,
+      issues,
+      recommendations,
+    };
+  }
+
+  /**
    * Gets statistics about commit tracking across tasks
    */
   getCommitTrackingStats(tasks: Array<{ frontmatter?: Record<string, any> }>): {
