@@ -111,5 +111,13 @@ function parseJsonCoverage(raw: string): TestCoverageResult {
     });
   }
 
-  return { totalCoverage, fileCoverage };
+  return {
+    overallCoverage: totalCoverage,
+    totalCoverage,
+    packageCoverage: {},
+    fileCoverage,
+    uncoveredLines: {},
+    meetsThreshold: totalCoverage >= 80,
+    coverageGap: Math.max(0, 80 - totalCoverage),
+  };
 }
