@@ -48,13 +48,14 @@
     "electron-builder.json"
   ],
   "scripts": {
-    "build": "pnpm build:typescript && pnpm build:clojurescript",
+    "build": "pnpm build:typescript",
     "build:typescript": "tsc",
     "build:clojurescript": "shadow-cljs release app",
+    "build:full": "pnpm build:typescript && pnpm build:clojurescript",
     "clean": "rimraf dist",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "typecheck:clojurescript": "shadow-cljs check",
-    "test": "pnpm build && ava",
+    "test": "pnpm build:typescript && ava",
     "test:unit": "pnpm build && ava src/tests/**/*.test.ts",
     "test:integration": "pnpm build && ava tests/integration/**/*.test.ts",
     "test:e2e": "pnpm build && ava tests/e2e/**/*.test.ts",
