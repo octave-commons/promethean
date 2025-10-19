@@ -114,15 +114,15 @@
         (when-not (:valid validation)
           (throw (ex-info (:error validation) {:plugin plugin-metadata}))))
 
-      ;; Load plugin code (simplified for now - in real implementation would load from file)
-      (let [plugin-namespace (symbol (str "opencode-unified.plugins." (:name plugin-metadata)))]
+       ;; Load plugin code (simplified for now - in real implementation would load from file)
+       (let [plugin-namespace (symbol (str "opencode-unified.plugins." (:name plugin-metadata)))]
 
-        ;; Try to require the plugin namespace
-        (try
-          (require plugin-namespace)
-          (catch js/Error e
-            ;; If plugin doesn't exist, create a mock plugin for demonstration
-            (println "Plugin namespace not found, creating mock plugin:" plugin-namespace)))
+         ;; Try to require the plugin namespace
+         (try
+           ;; For now, skip dynamic require and create mock plugin
+           (catch js/Error e
+             ;; If plugin doesn't exist, create a mock plugin for demonstration
+             (println "Plugin namespace not found, creating mock plugin:" plugin-namespace)))
 
         ;; Create plugin instance
         (let [plugin-instance

@@ -1,8 +1,7 @@
 (ns opencode-unified.state
   (:require [reagent.core :as r]
             [clojure.string :as str]
-            [opencode-unified.env :as env]
-            [opencode-unified.buffers :as buffers]))
+            [opencode-unified.env :as env]))
 
 ;; Global app state - simplified for debugging
 (defonce app-state
@@ -123,10 +122,8 @@
         ;; Restore buffers
         (when (:buffers workspace-data)
           (doseq [buffer-data (:buffers workspace-data)]
-            (buffers/create-buffer
-             (:id buffer-data)
-             (:content buffer-data)
-             (:metadata buffer-data))))
+            (let [buffer (create-buffer (:id buffer-data) (:content buffer-data) buffer-data)]
+              (add-buffer! buffer))))
 
         ;; Restore current buffer
         (when (:current-buffer workspace-data)
@@ -155,10 +152,8 @@
             ;; Restore state similar to Electron version
             (when (:buffers workspace-data)
               (doseq [buffer-data (:buffers workspace-data)]
-                (buffers/create-buffer
-                 (:id buffer-data)
-                 (:content buffer-data)
-                 (:metadata buffer-data))))
+                (let [buffer (create-buffer (:id buffer-data) (:content buffer-data) buffer-data)]
+                  (add-buffer! buffer))))
 
             (when (:current-buffer workspace-data)
               (set-current-buffer! (:current-buffer workspace-data)))
@@ -229,10 +224,15 @@
           {:success false :error (.-message e)})))))
 
 ;; Buffer accessors
-(defn buffers
+(defn get-buffers
   "Get all buffers"
   []
   (:buffers @app-state))
+
+(defn buffers
+  "Get all buffers (alias for get-buffers)"
+  []
+  (get-buffers))
 
 ;; Evil state helpers
 (defn get-evil-state
