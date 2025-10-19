@@ -60,7 +60,6 @@ export class EventWatcherService {
   private isRunning = false;
   private startTime = 0;
   private client: any = null;
-  private eventStream: AsyncGenerator<unknown, void, unknown> | null = null;
   private processingQueue: ProjectedEvent[] = [];
   private stats: EventWatcherStats = {
     totalEventsProcessed: 0,
@@ -73,6 +72,9 @@ export class EventWatcherService {
   };
   private retryCount = new Map<string, number>();
   private processingTimer: NodeJS.Timeout | null = null;
+  private pollingTimer: NodeJS.Timeout | null = null;
+  private lastProcessedTimes = new Map<string, number>();
+  private pollingInterval = 5000; // 5 seconds
 
   constructor(config: EventWatcherConfig = {}) {
     this.config = {
