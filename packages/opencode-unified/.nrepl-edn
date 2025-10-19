@@ -1,0 +1,2 @@
+{:nrepl {:port 4499}
+ :jvm-opts ["-Xmx1g" "-Xms512m" "-XX:+UseG1GC" "-XX:MaxGCPauseMillis=200"]}
