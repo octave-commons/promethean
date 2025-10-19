@@ -236,7 +236,8 @@
       "git status*":"allow",
       "git log*":"allow",
       "git commit*":"allow",
-      "pnpm kanban*":"allow"
+      "pnpm kanban*":"allow",
+      "mkdir*":"deny"
     }
   },
   "tools": {
