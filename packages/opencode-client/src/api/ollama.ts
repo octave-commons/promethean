@@ -14,7 +14,7 @@ import type {
   CacheStats,
   CachePerformance,
 } from '../types/index.js';
-import \{
+import {
   submitJob as submitJobAction,
   getJobStatus as getJobStatusAction,
   getJobResult as getJobResultAction,
