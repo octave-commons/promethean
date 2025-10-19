@@ -1,6 +1,8 @@
 (ns opencode-unified.state
   (:require [reagent.core :as r]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [opencode-unified.env :as env]
+            [opencode-unified.buffers :as buffers]))
 
 ;; Global app state - simplified for debugging
 (defonce app-state
@@ -110,12 +112,121 @@
 (defn load-workspace!
   "Load workspace from file"
   [workspace-path]
-  (println "Loading workspace from:" workspace-path))
+  (println "Loading workspace from:" workspace-path)
+  (if (and (exists? js/require) (not env/web?))
+    ;; Electron environment - use Node.js fs
+    (try
+      (let [fs (js/require "fs")
+            path (js/require "path")
+            workspace-data (-> fs (.readFileSync workspace-path "utf8") js/JSON.parse (js->clj :keywordize-keys true))]
+
+        ;; Restore buffers
+        (when (:buffers workspace-data)
+          (doseq [buffer-data (:buffers workspace-data)]
+            (buffers/create-buffer
+             (:id buffer-data)
+             (:content buffer-data)
+             (:metadata buffer-data))))
+
+        ;; Restore current buffer
+        (when (:current-buffer workspace-data)
+          (set-current-buffer! (:current-buffer workspace-data)))
+
+        ;; Restore UI state
+        (when (:ui workspace-data)
+          (swap! app-state update :ui merge (:ui workspace-data)))
+
+        ;; Restore Evil state
+        (when (:evil-state workspace-data)
+          (swap! app-state update :evil-state merge (:evil-state workspace-data)))
+
+        (println "Workspace loaded successfully")
+        {:success true})
+      (catch js/Error e
+        (println "Error loading workspace:" (.-message e))
+        {:success false :error (.-message e)}))
+
+    ;; Web environment - use localStorage or fetch
+    (try
+      (let [workspace-key (str "workspace-" (hash workspace-path))
+            stored-data (.getItem js/localStorage workspace-key)]
+        (if stored-data
+          (let [workspace-data (-> stored-data js/JSON.parse (js->clj :keywordize-keys true))]
+            ;; Restore state similar to Electron version
+            (when (:buffers workspace-data)
+              (doseq [buffer-data (:buffers workspace-data)]
+                (buffers/create-buffer
+                 (:id buffer-data)
+                 (:content buffer-data)
+                 (:metadata buffer-data))))
+
+            (when (:current-buffer workspace-data)
+              (set-current-buffer! (:current-buffer workspace-data)))
+
+            (when (:ui workspace-data)
+              (swap! app-state update :ui merge (:ui workspace-data)))
+
+            (when (:evil-state workspace-data)
+              (swap! app-state update :evil-state merge (:evil-state workspace-data)))
+
+            (println "Workspace loaded from localStorage")
+            {:success true})
+          {:success false :error "No workspace found in storage"}))
+      (catch js/Error e
+        (println "Error loading workspace from localStorage:" (.-message e))
+        {:success false :error (.-message e)}))))
 
 (defn save-workspace!
   "Save current workspace to file"
   [workspace-path]
-  (println "Saving workspace to:" workspace-path))
+  (println "Saving workspace to:" workspace-path)
+  (let [workspace-data {:buffers (into {} (for [[id buffer] @buffers]
+                                            [id {:id id
+                                                 :path (:path buffer)
+                                                 :content (:content buffer)
+                                                 :language (:language buffer)
+                                                 :saved? (:saved? buffer)
+                                                 :metadata (:metadata buffer)
+                                                 :created-at (:created-at buffer)
+                                                 :modified-at (:modified-at buffer)}]))
+                        :current-buffer (:current-buffer @app-state)
+                        :ui (:ui @app-state)
+                        :evil-state (:evil-state @app-state)
+                        :version "1.0.0"
+                        :saved-at (js/Date.)}]
+
+    (if (and (exists? js/require) (not env/web?))
+      ;; Electron environment - use Node.js fs
+      (try
+        (let [fs (js/require "fs")
+              path (js/require "path")
+              workspace-dir (.dirname path workspace-path)]
+
+          ;; Ensure directory exists
+          (when-not (.existsSync fs workspace-dir)
+            (.mkdirSync fs workspace-dir #js {:recursive true}))
+
+          ;; Write workspace file
+          (.writeFileSync fs workspace-path
+                          (js/JSON.stringify (clj->js workspace-data) nil 2)
+                          "utf8")
+
+          (println "Workspace saved successfully")
+          {:success true})
+        (catch js/Error e
+          (println "Error saving workspace:" (.-message e))
+          {:success false :error (.-message e)}))
+
+      ;; Web environment - use localStorage
+      (try
+        (let [workspace-key (str "workspace-" (hash workspace-path))
+              json-data (js/JSON.stringify (clj->js workspace-data) nil 2)]
+          (.setItem js/localStorage workspace-key json-data)
+          (println "Workspace saved to localStorage")
+          {:success true})
+        (catch js/Error e
+          (println "Error saving workspace to localStorage:" (.-message e))
+          {:success false :error (.-message e)})))))
 
 ;; Buffer accessors
 (defn buffers
@@ -168,3 +279,88 @@
   "Get the search direction"
   []
   (get-in @app-state [:evil-state :search-direction] :forward))
+
+;; Auto-save functionality
+(defonce auto-save-timer (atom nil))
+
+(defn enable-auto-save!
+  "Enable auto-save with specified interval in milliseconds"
+  [interval-ms workspace-path]
+  (when @auto-save-timer
+    (js/clearInterval @auto-save-timer))
+
+  (reset! auto-save-timer
+          (js/setInterval
+           (fn []
+             (when (:current-buffer @app-state)
+               (save-workspace! workspace-path)))
+           interval-ms))
+
+  (println "Auto-save enabled with" interval-ms "ms interval"))
+
+(defn disable-auto-save!
+  "Disable auto-save"
+  []
+  (when @auto-save-timer
+    (js/clearInterval @auto-save-timer)
+    (reset! auto-save-timer nil)
+    (println "Auto-save disabled")))
+
+(defn get-auto-save-status
+  "Get current auto-save status"
+  []
+  {:enabled (some? @auto-save-timer)
+   :interval (when @auto-save-timer "active")})
+
+;; Workspace management commands
+(defn workspace-commands
+  "Get workspace-related commands for command palette"
+  []
+  [{:name "Save Workspace"
+    :description "Save current workspace to file"
+    :keys "SPC w s"
+    :handler (fn []
+               (let [workspace-path (or (js/prompt "Workspace path:" "./workspace.json")
+                                        "./workspace.json")]
+                 (when workspace-path
+                   (save-workspace! workspace-path))))}
+
+   {:name "Load Workspace"
+    :description "Load workspace from file"
+    :keys "SPC w l"
+    :handler (fn []
+               (let [workspace-path (or (js/prompt "Workspace path:" "./workspace.json")
+                                        "./workspace.json")]
+                 (when workspace-path
+                   (load-workspace! workspace-path))))}
+
+   {:name "Enable Auto-Save"
+    :description "Enable auto-save with custom interval"
+    :keys "SPC w a"
+    :handler (fn []
+               (let [interval (or (js/prompt "Auto-save interval (ms):" "30000")
+                                  "30000")
+                     workspace-path (or (js/prompt "Workspace path for auto-save:" "./workspace.json")
+                                        "./workspace.json")]
+                 (when (and interval workspace-path)
+                   (enable-auto-save! (js/parseInt interval) workspace-path))))}
+
+   {:name "Disable Auto-Save"
+    :description "Disable auto-save"
+    :keys "SPC w d"
+    :handler disable-auto-save!}
+
+   {:name "New Workspace"
+    :description "Create new workspace (clear current state)"
+    :keys "SPC w n"
+    :handler (fn []
+               (when (js/confirm "Clear current workspace and create new one?")
+                 ;; Clear all buffers
+                 (reset! buffers {})
+                 ;; Reset current buffer
+                 (swap! app-state assoc :current-buffer nil)
+                 ;; Reset UI state
+                 (swap! app-state update :ui merge {:theme :dark})
+                 ;; Reset Evil state
+                 (swap! app-state update :evil-state merge {:mode :normal})
+                 (println "New workspace created")))}])
