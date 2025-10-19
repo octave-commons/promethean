@@ -243,7 +243,7 @@
   "tools": {
     "clj*": false,
     "playwright*":false,
-    "ProcessDirect.*":false,
+    "DirectProcess.*":false,
     "Events.*":false,
     "Messaging.*":false,
     "Messages.*":false,
