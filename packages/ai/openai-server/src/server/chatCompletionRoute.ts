@@ -85,7 +85,15 @@ type ChatQueue = {
   readonly enqueue: TaskQueue<ChatCompletionRequest, ChatCompletionResponse>['enqueue'];
 };
 
-export const registerChatCompletionRoute = (app: FastifyApp, queue: ChatQueue): void => {
+export const registerChatCompletionRoute = (
+  app: FastifyApp,
+  queue: ChatQueue,
+  options: {
+    securityEnabled?: boolean;
+    inputValidationService?: InputValidationService;
+  } = {},
+): void => {
+  const { securityEnabled = true } = options;
   type ImmutableChatRequest = Readonly<
     Pick<FastifyRequest<{ Body: ChatCompletionRequest }>, 'body'>
   >;
