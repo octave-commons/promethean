@@ -132,7 +132,7 @@ export class AMQPTransport extends BaseTransport {
     await this.channel.bindQueue(queueName, '', pattern);
 
     // Start consuming
-    await this.channel.consume(queueName, async (msg) => {
+    await this.channel.consume(queueName, async (msg: any) => {
       if (msg) {
         try {
           const envelope: MessageEnvelope = JSON.parse(msg.content.toString());
