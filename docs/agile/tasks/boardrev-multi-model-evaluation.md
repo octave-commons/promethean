@@ -10,14 +10,6 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
-lastCommitSha: "f7faf8662d9957227a1cbee63de6bf9cea7e7771"
-commitHistory:
-  -
-    sha: "f7faf8662d9957227a1cbee63de6bf9cea7e7771"
-    timestamp: "2025-10-19 17:18:59 -0500\n\ndiff --git a/docs/agile/tasks/boardrev-multi-model-evaluation.md b/docs/agile/tasks/boardrev-multi-model-evaluation.md\nindex ae31fac0b..f5222381d 100644\n--- a/docs/agile/tasks/boardrev-multi-model-evaluation.md\n+++ b/docs/agile/tasks/boardrev-multi-model-evaluation.md\n@@ -10,14 +10,6 @@ estimates:\n   complexity: \"\"\n   scale: \"\"\n   time_to_completion: \"\"\n-lastCommitSha: \"47a3b0f80d5723ea1c0bd0a7f7d72a8214427690\"\n-commitHistory:\n-  -\n-    sha: \"47a3b0f80d5723ea1c0bd0a7f7d72a8214427690\"\n-    timestamp: \"2025-10-19T22:07:03.880Z\"\n-    message: \"Update task: d4899ef6-37d5-41c8-b0e2-0040e2d31146 - Update task: Implement multi-model evaluation for boardrev\"\n-    author: \"Error <foamy125@gmail.com>\"\n-    type: \"update\"\n ---\n \n # Implement multi-model evaluation for boardrev"
-    message: "Update task: d4899ef6-37d5-41c8-b0e2-0040e2d31146 - Update task: Implement multi-model evaluation for boardrev"
-    author: "Error"
-    type: "update"
 ---
 
 # Implement multi-model evaluation for boardrev
