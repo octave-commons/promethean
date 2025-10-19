@@ -1,7 +1,8 @@
 (ns opencode-unified.buffers
   (:require [opencode-unified.state :as state]
             [clojure.string :as str]
-            [reagent.core :as r]))
+            [reagent.core :as r]
+            [reagent.dom :as dom]))
 
 ;; Buffer ID counter
 (defonce buffer-id-counter (r/atom 0))

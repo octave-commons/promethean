@@ -42,11 +42,10 @@ export interface AgentSessionOptions {
 
 /**
  * Unified Agent Manager - High-level API for complete agent lifecycle management
+ * Always queries dual store directly - no in-memory state
  */
 export class UnifiedAgentManager {
   private static instance: UnifiedAgentManager;
-  private activeSessions = new Map<string, AgentSession>();
-  private eventListeners = new Map<string, Set<Function>>();
 
   private constructor() {}
 
