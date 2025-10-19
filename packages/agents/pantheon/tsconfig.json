@@ -41,5 +41,5 @@
     "types": ["node"]
   },
   "include": ["src/**/*"],
-  "exclude": ["dist", "out", "node_modules", "**/*.test.ts", "**/*.spec.ts"]
+  "exclude": ["dist", "out", "node_modules"]
 }
