@@ -7,6 +7,7 @@ import { PriorityQueue } from './PriorityQueue.js';
 import { QueueMonitor } from './QueueMonitor.js';
 import { randomUUID } from 'node:crypto';
 import { validateJobSubmission } from '../../../shared/validation.js';
+import { AuthManager, AuthenticationError, AuthorizationError } from '../../../shared/auth.js';
 
 export class QueueManager {
   private jobs: Map<string, Job> = new Map();
@@ -17,19 +18,47 @@ export class QueueManager {
   private schedulerConfig: JobSchedulerConfig;
   private processingInterval: NodeJS.Timeout | null = null;
   private activeJobs: Set<string> = new Set();
+  private authManager: AuthManager;
 
-  constructor(config: QueueConfig, schedulerConfig: JobSchedulerConfig) {
+  constructor(config: QueueConfig, schedulerConfig: JobSchedulerConfig, authManager?: AuthManager) {
     this.config = config;
     this.schedulerConfig = schedulerConfig;
     this.priorityQueue = new PriorityQueue();
     // this.jobScheduler = new JobScheduler(schedulerConfig); // Uncomment when needed for advanced scheduling
     this.queueMonitor = new QueueMonitor();
+    this.authManager = authManager || new AuthManager();
   }
 
   /**
-   * Submit a new job to the queue
+   * Submit a new job to the queue with authentication
    */
-  async submitJob(jobData: Omit<Job, 'id' | 'createdAt' | 'updatedAt'>): Promise<Job> {
+  async submitJob(
+    jobData: Omit<Job, 'id' | 'createdAt' | 'updatedAt'>,
+    authToken?: string,
+  ): Promise<Job> {
+    // Authenticate agent if token provided
+    if (authToken) {
+      try {
+        const tokenPayload = await this.authManager.verifyToken(authToken);
+        const agent = this.authManager.getAgent(tokenPayload.sub);
+
+        if (!agent) {
+          throw new AuthenticationError('Agent not found', 'AGENT_NOT_FOUND');
+        }
+
+        // Check if agent has job submission permission
+        await this.authManager.requirePermission(agent.id, 'job:submit');
+
+        // Override agentId with authenticated agent
+        jobData.agentId = agent.id;
+        jobData.sessionId = agent.sessionId;
+      } catch (error) {
+        if (error instanceof AuthenticationError) {
+          throw error;
+        }
+        throw new AuthenticationError('Invalid authentication token', 'INVALID_TOKEN');
+      }
+    }
     // Validate job submission before processing
     const validation = await validateJobSubmission(jobData, {
       enablePromptInjectionDetection: true,
