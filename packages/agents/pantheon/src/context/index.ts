@@ -12,7 +12,17 @@
 export * from './types.js';
 export * from './context-manager.js';
 export * from './context-manager-helpers.js';
-export * from './context-lifecycle.js';
+
+// Explicitly re-export ContextLifecycleManager class to resolve naming conflict
+export { ContextLifecycleManager } from './context-lifecycle.js';
+export type {
+  IContextLifecycleManager,
+  ContextLifecycleConfig,
+  ContextExportData,
+  SystemStatistics,
+  ContextValidationResult,
+  ContextInitialState,
+} from './context-lifecycle.js';
 
 // ============================================================================
 // Event and Snapshot Management
