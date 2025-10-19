@@ -139,19 +139,13 @@
                            alt-key (.-altKey e)
                            meta-key (.-metaKey e)]
                        (when-not (or ctrl-key alt-key meta-key)
-                         (when (and (not= evil-mode :insert)
-                                    (or (and (>= (.-keyCode e) 37) (<= (.-keyCode e) 40)) ; arrow keys
-                                        (and (>= (.-keyCode e) 48) (<= (.-keyCode e) 57)) ; numbers
-                                        (= key "Escape")
-                                        (some #(= key %) ["h" "j" "k" "l" "w" "b" "e" "0" "$" "g" "G"
-                                                          "i" "I" "a" "A" "o" "O" "v" "V"
-                                                          "y" "d" "c" "p" "P" "x" "X"
-                                                          "/" "?" "n" "N" "u"])))
-                           (.preventDefault e)
-                           (try
-                             ((resolve 'opencode-unified.evil/handle-key!) e (.-target e))
-                             (catch js/Error ex
-                               (println "Error handling Evil key:" (.-message ex))))))))
+                         (case evil-mode
+                           :normal (handle-normal-mode-key e key)
+                           :insert (when (= key "Escape")
+                                     (.preventDefault e)
+                                     (enter-normal-mode))
+                           :visual (handle-visual-mode-key e key)
+                           nil))))
       :style {:width "100%"
               :height "100%"
               :border "none"
@@ -165,6 +159,274 @@
               :resize "none"
               :white-space "pre"
               :overflow "auto"}}]))
+
+;; Simplified key handlers for basic Evil mode
+(defn handle-normal-mode-key [e key]
+  (case key
+    ;; Mode switches
+    "i" (do (.preventDefault e) (enter-insert-mode))
+    "v" (do (.preventDefault e) (enter-visual-mode))
+    "V" (do (.preventDefault e) (enter-visual-line-mode))
+
+    ;; Basic motions
+    "h" (do (.preventDefault e) (move-cursor-left e))
+    "j" (do (.preventDefault e) (move-cursor-down e))
+    "k" (do (.preventDefault e) (move-cursor-up e))
+    "l" (do (.preventDefault e) (move-cursor-right e))
+    "0" (do (.preventDefault e) (move-to-line-start e))
+    "$" (do (.preventDefault e) (move-to-line-end e))
+
+    ;; Basic operators
+    "x" (do (.preventDefault e) (delete-char e))
+    "dd" (do (.preventDefault e) (delete-line e))
+
+    nil))
+
+(defn handle-visual-mode-key [e key]
+  (case key
+    "Escape" (do (.preventDefault e) (exit-visual-mode))
+    "h" (do (.preventDefault e) (extend-selection-left e))
+    "j" (do (.preventDefault e) (extend-selection-down e))
+    "k" (do (.preventDefault e) (extend-selection-up e))
+    "l" (do (.preventDefault e) (extend-selection-right e))
+    "y" (do (.preventDefault e) (yank-selection e))
+    "d" (do (.preventDefault e) (delete-selection e))
+    nil))
+
+;; Motion functions
+(defn move-cursor-left [e]
+  (let [el (.-target e)
+        current-pos (.-selectionStart el)]
+    (when (> current-pos 0)
+      (set! (.-selectionStart el) (dec current-pos))
+      (set! (.-selectionEnd el) (dec current-pos))
+      (state/update-current-buffer! (fn [b] (assoc b :cursor-pos (dec current-pos)))))))
+
+(defn move-cursor-right [e]
+  (let [el (.-target e)
+        current-pos (.-selectionStart el)
+        max-pos (.-length (.-value el))]
+    (when (< current-pos max-pos)
+      (set! (.-selectionStart el) (inc current-pos))
+      (set! (.-selectionEnd el) (inc current-pos))
+      (state/update-current-buffer! (fn [b] (assoc b :cursor-pos (inc current-pos)))))))
+
+(defn move-cursor-up [e]
+  (let [el (.-target e)
+        content (.-value el)
+        current-pos (.-selectionStart el)
+        [line col] (buffers/pos-to-line-col content current-pos)]
+    (when (> line 0)
+      (let [new-pos (buffers/line-col-to-pos content (dec line) col)]
+        (set! (.-selectionStart el) new-pos)
+        (set! (.-selectionEnd el) new-pos)
+        (state/update-current-buffer! (fn [b] (assoc b :cursor-pos new-pos)))))))
+
+(defn move-cursor-down [e]
+  (let [el (.-target e)
+        content (.-value el)
+        current-pos (.-selectionStart el)
+        [line col] (buffers/pos-to-line-col content current-pos)
+        line-count (buffers/get-line-count content)]
+    (when (< line (dec line-count))
+      (let [new-pos (buffers/line-col-to-pos content (inc line) col)]
+        (set! (.-selectionStart el) new-pos)
+        (set! (.-selectionEnd el) new-pos)
+        (state/update-current-buffer! (fn [b] (assoc b :cursor-pos new-pos)))))))
+
+(defn move-to-line-start [e]
+  (let [el (.-target e)
+        content (.-value el)
+        current-pos (.-selectionStart el)
+        [line _] (buffers/pos-to-line-col content current-pos)
+        new-pos (buffers/line-col-to-pos content line 0)]
+    (set! (.-selectionStart el) new-pos)
+    (set! (.-selectionEnd el) new-pos)
+    (state/update-current-buffer! (fn [b] (assoc b :cursor-pos new-pos)))))
+
+(defn move-to-line-end [e]
+  (let [el (.-target e)
+        content (.-value el)
+        current-pos (.-selectionStart el)
+        [line _] (buffers/pos-to-line-col content current-pos)
+        line-content (buffers/get-line-content content line)
+        new-pos (buffers/line-col-to-pos content line (count line-content))]
+    (set! (.-selectionStart el) new-pos)
+    (set! (.-selectionEnd el) new-pos)
+    (state/update-current-buffer! (fn [b] (assoc b :cursor-pos new-pos)))))
+
+;; Operator functions
+(defn delete-char [e]
+  (let [el (.-target e)
+        content (.-value el)
+        current-pos (.-selectionStart el)]
+    (when (< current-pos (count content))
+      (let [new-content (str (subs content 0 current-pos) (subs content (inc current-pos)))]
+        (set! (.-value el) new-content)
+        (state/update-current-buffer!
+         (fn [b]
+           (-> b
+               (assoc :content new-content)
+               (assoc :cursor-pos current-pos)
+               (assoc :modified? true))))))))
+
+(defn delete-line [e]
+  (let [el (.-target e)
+        content (.-value el)
+        current-pos (.-selectionStart el)
+        [line _] (buffers/pos-to-line-col content current-pos)
+        line-range (buffers/get-line-range content line)
+        [start-pos end-pos] line-range
+        new-content (str (subs content 0 start-pos) (subs content end-pos))]
+    (set! (.-value el) new-content)
+    (state/update-current-buffer!
+     (fn [b]
+       (-> b
+           (assoc :content new-content)
+           (assoc :cursor-pos start-pos)
+           (assoc :modified? true))))))
+
+;; Visual mode functions
+(defn extend-selection-left [e]
+  (let [el (.-target e)
+        current-end (.-selectionEnd el)]
+    (when (> current-end 0)
+      (set! (.-selectionEnd el) (dec current-end))
+      (state/update-current-buffer!
+       (fn [b]
+         (let [start (.-selectionStart el)
+               end (.-selectionEnd el)]
+           (assoc b :selection {:start (min start end) :end (max start end)})))))))
+
+(defn extend-selection-right [e]
+  (let [el (.-target e)
+        current-end (.-selectionEnd el)
+        max-pos (.-length (.-value el))]
+    (when (< current-end max-pos)
+      (set! (.-selectionEnd el) (inc current-end))
+      (state/update-current-buffer!
+       (fn [b]
+         (let [start (.-selectionStart el)
+               end (.-selectionEnd el)]
+           (assoc b :selection {:start (min start end) :end (max start end)})))))))
+
+(defn extend-selection-up [e]
+  (let [el (.-target e)
+        content (.-value el)
+        current-end (.-selectionEnd el)
+        [line col] (buffers/pos-to-line-col content current-end)]
+    (when (> line 0)
+      (let [new-pos (buffers/line-col-to-pos content (dec line) col)]
+        (set! (.-selectionEnd el) new-pos)
+        (state/update-current-buffer!
+         (fn [b]
+           (let [start (.-selectionStart el)
+                 end (.-selectionEnd el)]
+             (assoc b :selection {:start (min start end) :end (max start end)}))))))))
+
+(defn extend-selection-down [e]
+  (let [el (.-target e)
+        content (.-value el)
+        current-end (.-selectionEnd el)
+        [line col] (buffers/pos-to-line-col content current-end)
+        line-count (buffers/get-line-count content)]
+    (when (< line (dec line-count))
+      (let [new-pos (buffers/line-col-to-pos content (inc line) col)]
+        (set! (.-selectionEnd el) new-pos)
+        (state/update-current-buffer!
+         (fn [b]
+           (let [start (.-selectionStart el)
+                 end (.-selectionEnd el)]
+             (assoc b :selection {:start (min start end) :end (max start end)}))))))))
+
+(defn yank-selection [e]
+  (let [el (.-target e)
+        content (.-value el)
+        start (.-selectionStart el)
+        end (.-selectionEnd el)
+        selected-text (.substring content (min start end) (max start end))]
+    (state/set-evil-register! selected-text)
+    (exit-visual-mode)))
+
+(defn delete-selection [e]
+  (let [el (.-target e)
+        content (.-value el)
+        start (.-selectionStart el)
+        end (.-selectionEnd el)
+        selected-text (.substring content (min start end) (max start end))
+        new-content (str (subs content 0 (min start end)) (subs content (max start end)))]
+    (state/set-evil-register! selected-text)
+    (set! (.-value el) new-content)
+    (set! (.-selectionStart el) (min start end))
+    (set! (.-selectionEnd el) (min start end))
+    (state/update-current-buffer!
+     (fn [b]
+       (-> b
+           (assoc :content new-content)
+           (assoc :cursor-pos (min start end))
+           (assoc :selection nil)
+           (assoc :modified? true))))
+    (enter-normal-mode)))
+
+;; Mode transition functions
+(defn enter-insert-mode []
+  (state/set-evil-mode! :insert)
+  (update-statusbar))
+
+(defn enter-normal-mode []
+  (state/update-current-buffer! (fn [b] (assoc b :selection nil)))
+  (state/set-evil-mode! :normal)
+  (update-statusbar))
+
+(defn enter-visual-mode []
+  (let [current-buffer (state/get-current-buffer)]
+    (when current-buffer
+      (let [cursor-pos (:cursor-pos current-buffer)]
+        (state/update-current-buffer!
+         (fn [b]
+           (assoc b :selection {:start cursor-pos :end cursor-pos})))))
+    (state/set-evil-mode! :visual)
+    (update-statusbar)))
+
+(defn enter-visual-line-mode []
+  (let [current-buffer (state/get-current-buffer)]
+    (when current-buffer
+      (let [content (:content current-buffer)
+            cursor-pos (:cursor-pos current-buffer)
+            [line _] (buffers/pos-to-line-col content cursor-pos)
+            line-range (buffers/get-line-range content line)]
+        (state/update-current-buffer!
+         (fn [b]
+           (assoc b :selection {:start (first line-range) :end (second line-range)})))))
+    (state/set-evil-mode! :visual-line)
+    (update-statusbar)))
+
+(defn exit-visual-mode []
+  (state/update-current-buffer! (fn [b] (assoc b :selection nil)))
+  (enter-normal-mode))
+
+(defn update-statusbar []
+  (let [mode (state/get-evil-mode)
+        mode-name (case mode
+                    :normal "NORMAL"
+                    :insert "INSERT"
+                    :visual "VISUAL"
+                    :visual-line "VISUAL LINE"
+                    "")
+        current-buffer (state/get-current-buffer)
+        buffer-info (when current-buffer
+                      (let [content (:content current-buffer)
+                            cursor-pos (:cursor-pos current-buffer)
+                            [line col] (buffers/pos-to-line-col content cursor-pos)
+                            lines (str/split-lines content)]
+                        (str "Line " (inc line) ", Col " (inc col)
+                             " of " (count lines)
+                             (when (:modified? current-buffer) " [+]"))))]
+
+    (state/update-statusbar!
+     mode-name
+     (or buffer-info "")
+     (str "Evil Mode - " (name mode)))))
 
 ;; Command palette
 (defn command-palette []
