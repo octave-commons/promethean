@@ -6,6 +6,7 @@ import { MessageProcessor } from './api/MessageProcessor.js';
 import { EventProcessor } from './api/EventProcessor.js';
 import { InterAgentMessenger } from './api/InterAgentMessenger.js';
 import { SessionInfo } from './SessionInfo.js';
+import type { Timestamp } from './types/index.js';
 
 // Storage
 export const sessions = new Map<string, any>();
@@ -31,7 +32,7 @@ export function initializeStores(
 
 // Export all API classes and utilities
 export { SessionUtils, MessageProcessor, AgentTaskManager, EventProcessor, InterAgentMessenger };
-export type { AgentTask, SessionInfo };
+export type { AgentTask, SessionInfo, Timestamp };
 
 // Export the new Unified Agent Management API
 export {

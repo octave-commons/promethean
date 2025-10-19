@@ -12,6 +12,7 @@ import {
   InterAgentMessenger,
   agentTasks,
   type AgentTask,
+  type Timestamp,
 } from '../index.js';
 
 // Cache for agent status markdown
@@ -345,8 +346,9 @@ export const AsyncSubAgentsPlugin: Plugin = async ({ client }) => {
                   startTime: AgentTaskManager.parseTimestamp(storedTask.timestamp),
                   status: (storedTask.metadata?.status as AgentTask['status']) || 'idle',
                   lastActivity:
-                    AgentTaskManager.parseTimestamp(storedTask.metadata?.lastActivity) ||
-                    AgentTaskManager.parseTimestamp(storedTask.timestamp),
+                    AgentTaskManager.parseTimestamp(
+                      storedTask.metadata?.lastActivity as Timestamp,
+                    ) || AgentTaskManager.parseTimestamp(storedTask.timestamp),
                   completionMessage: storedTask.metadata?.completionMessage as string | undefined,
                 };
               }
