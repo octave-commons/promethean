@@ -58,7 +58,7 @@ export class JobScheduler {
   private scheduleFairShare(jobs: Job[]): Job[] {
     // Group jobs by agent
     const agentJobs = new Map<string, Job[]>();
-    jobs.forEach(job => {
+    jobs.forEach((job) => {
       if (!agentJobs.has(job.agentId)) {
         agentJobs.set(job.agentId, []);
       }
@@ -66,7 +66,7 @@ export class JobScheduler {
     });
 
     // Sort each agent's jobs by priority and creation time
-    agentJobs.forEach(agentJobList => {
+    agentJobs.forEach((agentJobList) => {
       agentJobList.sort((a, b) => {
         const priorityOrder = { urgent: 0, high: 1, medium: 2, low: 3 };
         const priorityDiff = priorityOrder[a.priority] - priorityOrder[b.priority];
@@ -80,13 +80,13 @@ export class JobScheduler {
     // Interleave jobs from different agents
     const scheduledJobs: Job[] = [];
     const agentQueues = Array.from(agentJobs.values());
-    
-    while (agentQueues.some(queue => queue.length > 0)) {
+
+    while (agentQueues.some((queue) => queue.length > 0)) {
       for (let i = 0; i < agentQueues.length; i++) {
         const queue = agentQueues[i];
         if (queue && queue.length > 0) {
           const job = queue.shift()!;
-          
+
           // Check if agent has exceeded max jobs
           const currentCount = this.agentJobCounts.get(job.agentId) || 0;
           if (currentCount < this.config.maxJobsPerAgent) {
@@ -96,9 +96,6 @@ export class JobScheduler {
             // Put job back at the end of its queue
             queue.push(job);
           }
-        }
-      }
-    }
         }
       }
     }
@@ -112,7 +109,7 @@ export class JobScheduler {
   private scheduleWeightedFairShare(jobs: Job[]): Job[] {
     // Group jobs by agent
     const agentJobs = new Map<string, Job[]>();
-    jobs.forEach(job => {
+    jobs.forEach((job) => {
       if (!agentJobs.has(job.agentId)) {
         agentJobs.set(job.agentId, []);
       }
@@ -120,7 +117,7 @@ export class JobScheduler {
     });
 
     // Sort each agent's jobs by priority and creation time
-    agentJobs.forEach(agentJobList => {
+    agentJobs.forEach((agentJobList) => {
       agentJobList.sort((a, b) => {
         const priorityOrder = { urgent: 0, high: 1, medium: 2, low: 3 };
         const priorityDiff = priorityOrder[a.priority] - priorityOrder[b.priority];
@@ -133,8 +130,11 @@ export class JobScheduler {
 
     // Calculate weights for each agent
     const agentWeights = new Map<string, number>();
-    const totalWeight = Object.values(this.config.fairShareWeight).reduce((sum, weight) => sum + weight, 0);
-    
+    const totalWeight = Object.values(this.config.fairShareWeight).reduce(
+      (sum, weight) => sum + weight,
+      0,
+    );
+
     Object.entries(this.config.fairShareWeight).forEach(([agentId, weight]) => {
       agentWeights.set(agentId, weight / totalWeight);
     });
@@ -142,30 +142,30 @@ export class JobScheduler {
     // Schedule jobs based on weights
     const scheduledJobs: Job[] = [];
     const agentQueues = Array.from(agentJobs.entries());
-    
+
     while (agentQueues.some(([_, queue]) => queue.length > 0)) {
       // Sort agents by their current job count vs weight ratio
-      agentQueues.sort(([agentA, queueA], [agentB, queueB]) => {
+      agentQueues.sort(([agentA], [agentB]) => {
         const countA = this.agentJobCounts.get(agentA) || 0;
         const countB = this.agentJobCounts.get(agentB) || 0;
-        const weightA = agentWeights.get(agentA) || (1 / agentQueues.length);
-        const weightB = agentWeights.get(agentB) || (1 / agentQueues.length);
-        
+        const weightA = agentWeights.get(agentA) || 1 / agentQueues.length;
+        const weightB = agentWeights.get(agentB) || 1 / agentQueues.length;
+
         const ratioA = countA / weightA;
         const ratioB = countB / weightB;
-        
+
         return ratioA - ratioB;
       });
 
       for (const [agentId, queue] of agentQueues) {
         if (queue.length > 0) {
           const job = queue.shift()!;
-          
+
           // Check if agent has exceeded its weighted share
           const currentCount = this.agentJobCounts.get(agentId) || 0;
-          const weight = agentWeights.get(agentId) || (1 / agentQueues.length);
+          const weight = agentWeights.get(agentId) || 1 / agentQueues.length;
           const maxJobs = Math.ceil(this.config.maxJobsPerAgent * weight);
-          
+
           if (currentCount < maxJobs) {
             scheduledJobs.push(job);
             this.agentJobCounts.set(agentId, currentCount + 1);
@@ -186,20 +186,21 @@ export class JobScheduler {
   applyAging(jobs: Job[]): Job[] {
     const now = Date.now();
     const timeSinceReset = now - this.lastResetTime;
-    
+
     // Reset counters periodically
-    if (timeSinceReset > 60000) { // Reset every minute
+    if (timeSinceReset > 60000) {
+      // Reset every minute
       this.agentJobCounts.clear();
       this.lastResetTime = now;
     }
 
-    return jobs.map(job => {
+    return jobs.map((job) => {
       const waitTime = now - job.createdAt;
       const ageMultiplier = 1 + (waitTime / 300000) * this.config.agingFactor; // 5 minutes base
-      
+
       return {
         ...job,
-        effectivePriority: this.calculateEffectivePriority(job, ageMultiplier)
+        effectivePriority: this.calculateEffectivePriority(job, ageMultiplier),
       };
     });
   }
