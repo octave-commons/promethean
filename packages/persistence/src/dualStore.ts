@@ -103,11 +103,17 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         name: string,
         textKey: TTextKey,
         timeStampKey: TTimeKey,
+        options?: {
+            agentName?: string;
+            databaseName?: string;
+        },
     ): Promise<DualStoreManager<TTextKey, TTimeKey>> {
         const chromaClient = await getChromaClient();
         const mongoClient = await getMongoClient();
-        const family = `${AGENT_NAME}_${name}`;
-        const db = mongoClient.db('database');
+        const agentName = options?.agentName ?? AGENT_NAME;
+        const databaseName = options?.databaseName ?? 'database';
+        const family = `${agentName}_${name}`;
+        const db = mongoClient.db(databaseName);
         const aliases = db.collection<AliasDoc>('collection_aliases');
         const alias = await aliases.findOne({ _id: family });
 
