@@ -99,11 +99,37 @@ export async function list({ limit, offset }: { limit: number; offset: number })
             messages = JSON.parse(messageEntry.text);
           }
 
-          const agentTask = agentTasks.get(session.id);
+          // Check if session already has isAgentTask property (set by EventWatcherService)
+          // If not, fall back to agentTasks Map lookup
+          let agentTask = agentTasks.get(session.id);
+
+          // If session has isAgentTask property but no agentTask in Map, create a minimal agentTask object
+          if (session.isAgentTask && !agentTask) {
+            agentTask = {
+              sessionId: session.id,
+              status: session.agentTaskStatus || 'unknown',
+              startTime: session.createdAt || new Date().toISOString(),
+              lastActivity: session.lastActivityTime || session.createdAt,
+              task: session.title || 'Agent Task',
+            };
+          }
+
           return SessionUtils.createSessionInfo(session, messages.length, agentTask);
         } catch (error: any) {
           console.error(`Error processing session ${session.id}:`, error);
-          const agentTask = agentTasks.get(session.id);
+          let agentTask = agentTasks.get(session.id);
+
+          // If session has isAgentTask property but no agentTask in Map, create a minimal agentTask object
+          if (session.isAgentTask && !agentTask) {
+            agentTask = {
+              sessionId: session.id,
+              status: session.agentTaskStatus || 'unknown',
+              startTime: session.createdAt || new Date().toISOString(),
+              lastActivity: session.lastActivityTime || session.createdAt,
+              task: session.title || 'Agent Task',
+            };
+          }
+
           return {
             ...SessionUtils.createSessionInfo(session, 0, agentTask),
             error: 'Could not fetch messages',
