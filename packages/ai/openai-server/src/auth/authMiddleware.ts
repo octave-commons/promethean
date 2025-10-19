@@ -178,27 +178,27 @@ export class AuthMiddleware {
       }
 
       // Check permissions if specified
-      if (permissions.length > 0 && !RBAC.hasAllPermissions(authResult.user, permissions)) {
+      if (permissions.length > 0 && !RBAC.hasAllPermissions(authResult.user!, permissions)) {
         return reply.status(403).send({
           error: 'Insufficient permissions',
           code: 'INSUFFICIENT_PERMISSIONS',
           required: permissions,
-          current: authResult.user.permissions,
+          current: authResult.user!.permissions,
         });
       }
 
       // Check roles if specified
-      if (roles.length > 0 && !RBAC.hasAnyRole(authResult.user, roles)) {
+      if (roles.length > 0 && !RBAC.hasAnyRole(authResult.user!, roles)) {
         return reply.status(403).send({
           error: 'Insufficient role privileges',
           code: 'INSUFFICIENT_ROLES',
           required: roles,
-          current: authResult.user.roles,
+          current: authResult.user!.roles,
         });
       }
 
       // Attach security context to request
-      (request as any).securityContext = RBAC.createSecurityContext(authResult.user);
+      (request as any).securityContext = RBAC.createSecurityContext(authResult.user!);
     };
   }
 
