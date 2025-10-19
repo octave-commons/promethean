@@ -20,9 +20,7 @@ tools:
   grep: false
   write: false
   clj*: true
-  *bash*: false
-  *exec*: false
-  *shell*: false
+  clj*bash: false
   serena*: false
   ollama*: false
   pm2*: false
