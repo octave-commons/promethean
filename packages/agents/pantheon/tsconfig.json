@@ -18,6 +18,18 @@
       "@shared/*": ["./src/shared/*"]
     }
   },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "dist",
+    "out",
+    "node_modules",
+    "**/*.test.ts",
+    "**/*.spec.ts"
+  ]
+}
+  },
   "include": ["src/**/*"],
   "exclude": ["dist", "out", "node_modules", "**/*.test.ts", "**/*.spec.ts"],
   "references": [
