@@ -995,14 +995,17 @@ export const updateStatus = async (
         // Initialize git tracker and update task with commit tracking
         const gitTracker = new TaskGitTracker({ repoRoot: process.cwd() });
         
+        // Create task object with updated status
+        const updatedTask = {
+          ...found,
+          status: normalizedStatus,
+          content: existingContent,
+          created_at: preservedCreatedAt,
+        };
+
         // Update task frontmatter with commit tracking
         const updatedFrontmatter = gitTracker.updateTaskCommitTracking(
-          {
-            ...found,
-            status: normalizedStatus,
-            content: existingContent,
-            created_at: preservedCreatedAt,
-          },
+          updatedTask,
           uuid,
           'status_change',
           `Status updated from ${currentStatus} to ${normalizedStatus}`
