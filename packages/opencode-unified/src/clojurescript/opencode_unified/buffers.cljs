@@ -145,7 +145,7 @@
                                                           "y" "d" "c" "p" "P" "x" "X"
                                                           "/" "?" "n" "N" "u"])))
                            (.preventDefault e)
-                           ((resolve 'opencode-unified.evil/handle-key) e)))))
+                           (opencode-unified.evil/handle-key! e (.-target e))))))
       :style {:width "100%"
               :height "100%"
               :border "none"
