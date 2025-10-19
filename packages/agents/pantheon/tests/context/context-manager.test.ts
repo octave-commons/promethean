@@ -12,6 +12,12 @@ import {
   createMockContext,
   TEST_CONSTANTS,
 } from './utils/fixtures.js';
+import type { AgentId } from '../../src/core/types/agent.js';
+
+// Helper function to create AgentId for testing
+function createTestAgentId(value: string): AgentId {
+  return { value, type: 'uuid' };
+}
 
 test.serial('ContextManager: should create new context', async (t) => {
   const eventStore = new MockEventStore();
