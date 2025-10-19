@@ -29,7 +29,7 @@ export const SECURITY_CONFIG = {
 } as const;
 
 export interface SecurityLogEntry {
-  type: 'data_access' | 'auth' | 'rate_limit' | 'validation';
+  type: 'data_access' | 'auth' | 'rate_limit' | 'validation' | 'authentication' | 'authorization';
   severity: 'low' | 'medium' | 'high' | 'critical';
   agentId?: string;
   action: string;

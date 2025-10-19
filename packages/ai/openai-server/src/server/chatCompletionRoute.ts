@@ -94,10 +94,8 @@ export const registerChatCompletionRoute = (
   } = {},
 ): void => {
   const { securityEnabled = true } = options;
-  type ImmutableChatRequest = Readonly<
-    Pick<FastifyRequest<{ Body: ChatCompletionRequest }>, 'body'>
-  >;
-  type ImmutableReply = Readonly<Pick<FastifyReply, 'header'>>;
+  type MutableChatRequest = FastifyRequest<{ Body: ChatCompletionRequest }>;
+  type MutableReply = FastifyReply;
 
   app.post<{ Body: ChatCompletionRequest; Reply: ChatCompletionResponse }>(
     '/v1/chat/completions',
@@ -111,7 +109,32 @@ export const registerChatCompletionRoute = (
         },
       },
     },
-    async (request: ImmutableChatRequest, reply: ImmutableReply) => {
+    async (request: MutableChatRequest, reply: MutableReply) => {
+      // Input validation if security is enabled
+      if (securityEnabled && options.inputValidationService) {
+        const validation = options.inputValidationService.validateChatCompletionInput(request.body);
+        if (!validation.isValid) {
+          return reply.status(400).send({
+            error: 'Invalid request',
+            code: 'VALIDATION_FAILED',
+            details: validation.errors,
+          });
+        }
+
+        // Sanitize messages
+        if (request.body.messages) {
+          const sanitizedMessages = ContentSanitizer.sanitizeChatMessages([
+            ...request.body.messages,
+          ]);
+          (request.body as any).messages = sanitizedMessages;
+        }
+
+        // Log warnings if any
+        if (validation.warnings) {
+          request.log?.warn?.('Input validation warnings:', validation.warnings);
+        }
+      }
+
       const response: ChatCompletionResponse = await queue.enqueue(request.body);
       void reply.header('cache-control', 'no-store');
       return response;
