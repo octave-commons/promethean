@@ -530,7 +530,7 @@ export class EventWatcherService {
     try {
       // Update agent task metadata
       try {
-        const existingTask = await agentTaskStore.get(`task:${event.sessionId}`);
+        const existingTask = await this.agentTaskStore!.get(`task:${event.sessionId}`);
 
         if (existingTask) {
           const taskData = JSON.parse(existingTask.text);
@@ -540,7 +540,7 @@ export class EventWatcherService {
             updatedAt: new Date().toISOString(),
           };
 
-          await agentTaskStore.insert({
+          await this.agentTaskStore!.insert({
             id: `task:${event.sessionId}`,
             text: JSON.stringify(updatedTaskData),
             timestamp: Date.now(), // Use current time as update timestamp
