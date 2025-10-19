@@ -7,7 +7,6 @@ import {
   validateJobSubmission,
   validatePrompt,
   ValidationError,
-  DEFAULT_VALIDATION_CONFIG,
 } from '../typescript/shared/validation.js';
 
 test('InputValidator - constructor with default config', (t) => {

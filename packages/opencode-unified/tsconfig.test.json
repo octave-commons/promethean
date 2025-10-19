@@ -2,16 +2,11 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./",
-    "module": "CommonJS",
-    "moduleResolution": "node",
+    "rootDir": "./src",
+    "module": "NodeNext",
+    "target": "ES2022",
     "skipLibCheck": true
   },
-  "include": [
-    "src/typescript/**/*",
-    "src/schemas/**/*",
-    "src/tests/**/*.test.ts",
-    "tests/**/*.test.ts"
-  ],
+  "include": ["src/typescript/**/*", "src/schemas/**/*", "src/tests/**/*.test.ts"],
   "exclude": ["node_modules", "dist", "src/clojurescript", "**/*.spec.ts"]
 }
