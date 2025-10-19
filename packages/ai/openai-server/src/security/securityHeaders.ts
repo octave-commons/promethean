@@ -1,35 +1,36 @@
-import type { FastifyReply } from "fastify";
-import type { SecurityHeaders, SecurityConfig } from "../types/security.js";
+import type { FastifyReply } from 'fastify';
+import type { SecurityHeaders, SecurityConfig } from '../types/security.js';
 
 /**
  * Security headers middleware implementation
  */
 export class SecurityHeadersService {
-  private readonly config: SecurityConfig["headers"];
+  private readonly config: SecurityConfig['headers'];
 
-  constructor(config: SecurityConfig["headers"]) {
+  constructor(config: SecurityConfig['headers']) {
     this.config = config;
   }
 
   /**
    * Get default security headers
    */
-  private getDefaultHeaders(): SecurityHeaders {
-    const headers: SecurityHeaders = {
-      "X-Content-Type-Options": "nosniff",
-      "X-Frame-Options": "DENY",
-      "X-XSS-Protection": "1; mode=block",
-      "Referrer-Policy": "strict-origin-when-cross-origin",
+  private getDefaultHeaders(): Record<string, string> {
+    const headers: Record<string, string> = {
+      'X-Content-Type-Options': 'nosniff',
+      'X-Frame-Options': 'DENY',
+      'X-XSS-Protection': '1; mode=block',
+      'Referrer-Policy': 'strict-origin-when-cross-origin',
     };
 
     // Add Content Security Policy if enabled
     if (this.config.enabled) {
-      headers["Content-Security-Policy"] = this.config.contentSecurityPolicy || this.getDefaultCSP();
+      headers['Content-Security-Policy'] =
+        this.config.contentSecurityPolicy || this.getDefaultCSP();
     }
 
     // Add HSTS for HTTPS (only in production)
-    if (process.env.NODE_ENV === "production") {
-      headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains; preload";
+    if (process.env.NODE_ENV === 'production') {
+      headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains; preload';
     }
 
     return headers;
@@ -49,7 +50,7 @@ export class SecurityHeadersService {
       "frame-ancestors 'none'",
       "base-uri 'self'",
       "form-action 'self'",
-    ].join("; ");
+    ].join('; ');
   }
 
   /**
@@ -61,7 +62,7 @@ export class SecurityHeadersService {
     }
 
     const headers = this.getDefaultHeaders();
-    
+
     for (const [name, value] of Object.entries(headers)) {
       if (value !== undefined) {
         reply.header(name, value);
@@ -69,15 +70,15 @@ export class SecurityHeadersService {
     }
 
     // Remove potentially harmful headers
-    reply.removeHeader("X-Powered-By");
-    reply.removeHeader("Server");
+    reply.removeHeader('X-Powered-By');
+    reply.removeHeader('Server');
   }
 
   /**
    * Create security headers middleware for Fastify
    */
   createSecurityHeadersMiddleware() {
-    return async (request: any, reply: FastifyReply) => {
+    return async (_request: any, reply: FastifyReply) => {
       this.applySecurityHeaders(reply);
     };
   }
@@ -85,7 +86,7 @@ export class SecurityHeadersService {
   /**
    * Get current security headers configuration
    */
-  getHeaders(): SecurityHeaders {
+  getHeaders(): Record<string, string> {
     return this.getDefaultHeaders();
   }
 
@@ -93,6 +94,6 @@ export class SecurityHeadersService {
    * Update Content Security Policy
    */
   updateCSP(csp: string): void {
-    this.config.contentSecurityPolicy = csp;
+    (this.config as any).contentSecurityPolicy = csp;
   }
 }
