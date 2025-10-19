@@ -4,7 +4,12 @@
  */
 
 import { v4 as uuidv4 } from 'uuid';
-import type { AgentContext, ContextEvent, ContextSnapshot, EventStore } from './types.js';
+import type {
+  AgentContext,
+  ContextEvent,
+  ContextSnapshot,
+  EventStore,
+} from './types.js';
 import { SecurityLogger, RateLimiter } from './security.js';
 
 export class ContextManagerHelpers {
@@ -21,7 +26,9 @@ export class ContextManagerHelpers {
         severity: 'medium',
         agentId: identifier,
         action,
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -34,7 +41,10 @@ export class ContextManagerHelpers {
   ): Promise<AgentContext> {
     try {
       // Get events that occurred after the snapshot
-      const eventsAfterSnapshot = await eventStore.getEvents(agentId, snapshot.version);
+      const eventsAfterSnapshot = await eventStore.getEvents(
+        agentId,
+        snapshot.version
+      );
 
       // Start with snapshot state
       let state = { ...snapshot.state };
@@ -58,8 +68,8 @@ export class ContextManagerHelpers {
         metadata: {
           restoredFromSnapshot: snapshot.id,
           originalSnapshotTime: snapshot.timestamp,
-          eventsApplied: eventsAfterSnapshot.length
-        }
+          eventsApplied: eventsAfterSnapshot.length,
+        },
       };
     } catch (error) {
       SecurityLogger.log({
@@ -67,10 +77,10 @@ export class ContextManagerHelpers {
         severity: 'high',
         agentId,
         action: 'buildContextFromSnapshot',
-        details: { 
+        details: {
           snapshotId: snapshot.id,
-          error: error instanceof Error ? error.message : 'Unknown error'
-        }
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -82,7 +92,7 @@ export class ContextManagerHelpers {
   ): Promise<AgentContext> {
     try {
       const events = await eventStore.getEvents(agentId);
-      
+
       if (events.length === 0) {
         // No events exist, create initial context
         return {
@@ -93,15 +103,15 @@ export class ContextManagerHelpers {
           createdAt: new Date(),
           updatedAt: new Date(),
           metadata: {
-            initialState: true
-          }
+            initialState: true,
+          },
         };
       }
 
       // Build context by applying events in order
       let state: Record<string, any> = {};
       let version = 0;
-      let createdAt = events[0].timestamp;
+      let createdAt = events[0]?.timestamp || new Date();
 
       for (const event of events) {
         if (event.type === 'context_created') {
@@ -123,8 +133,8 @@ export class ContextManagerHelpers {
         updatedAt: new Date(),
         metadata: {
           builtFromEvents: true,
-          totalEvents: events.length
-        }
+          totalEvents: events.length,
+        },
       };
     } catch (error) {
       SecurityLogger.log({
@@ -132,22 +142,28 @@ export class ContextManagerHelpers {
         severity: 'high',
         agentId,
         action: 'buildContextFromEvents',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
   }
 
-  static logSecurityError(identifier: string, action: string, error: unknown): void {
+  static logSecurityError(
+    identifier: string,
+    action: string,
+    error: unknown
+  ): void {
     SecurityLogger.log({
       type: 'data_access',
       severity: 'high',
       agentId: identifier,
       action,
-      details: { 
+      details: {
         error: error instanceof Error ? error.message : 'Unknown error',
-        stack: error instanceof Error ? error.stack : undefined
-      }
+        stack: error instanceof Error ? error.stack : undefined,
+      },
     });
   }
 
@@ -189,8 +205,8 @@ export class ContextManagerHelpers {
       data,
       metadata: {
         ...metadata,
-        generatedAt: new Date().toISOString()
-      }
+        generatedAt: new Date().toISOString(),
+      },
     };
   }
 
@@ -213,7 +229,11 @@ export class ContextManagerHelpers {
     for (const [key, value] of Object.entries(updates)) {
       if (value === null || value === undefined) {
         delete merged[key];
-      } else if (typeof value === 'object' && !Array.isArray(value) && value !== null) {
+      } else if (
+        typeof value === 'object' &&
+        !Array.isArray(value) &&
+        value !== null
+      ) {
         // Deep merge for objects
         merged[key] = this.mergeContextStates(merged[key] || {}, value);
       } else {
@@ -255,7 +275,11 @@ export class ContextManagerHelpers {
 
     // Find modified keys
     for (const key of oldKeys) {
-      if (newKeys.has(key) && JSON.stringify(oldContext.state[key]) !== JSON.stringify(newContext.state[key])) {
+      if (
+        newKeys.has(key) &&
+        JSON.stringify(oldContext.state[key]) !==
+          JSON.stringify(newContext.state[key])
+      ) {
         modified[key] = newContext.state[key];
       }
     }

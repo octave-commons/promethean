@@ -11,7 +11,9 @@ import { SecurityValidator, SecurityLogger } from './security.js';
 export class MemoryContextShareStore implements ContextShareStore {
   private shares: Map<string, ContextShare> = new Map();
 
-  async createShare(share: Omit<ContextShare, 'id' | 'createdAt'>): Promise<ContextShare> {
+  async createShare(
+    share: Omit<ContextShare, 'id' | 'createdAt'>
+  ): Promise<ContextShare> {
     try {
       const validatedShare = {
         ...share,
@@ -19,9 +21,15 @@ export class MemoryContextShareStore implements ContextShareStore {
         createdAt: new Date(),
         sourceAgentId: SecurityValidator.validateAgentId(share.sourceAgentId),
         targetAgentId: SecurityValidator.validateAgentId(share.targetAgentId),
-        contextSnapshotId: SecurityValidator.validateSnapshotId(share.contextSnapshotId),
-        shareType: SecurityValidator.validateShareType(share.shareType),
-        permissions: SecurityValidator.sanitizeObject(share.permissions) as Record<string, any>
+        contextSnapshotId: SecurityValidator.validateSnapshotId(
+          share.contextSnapshotId
+        ),
+        shareType: SecurityValidator.validateShareType(
+          share.shareType as any
+        ) as 'read' | 'write' | 'admin',
+        permissions: SecurityValidator.sanitizeObject(
+          share.permissions
+        ) as Record<string, any>,
       };
 
       this.shares.set(validatedShare.id, validatedShare);
@@ -31,11 +39,11 @@ export class MemoryContextShareStore implements ContextShareStore {
         severity: 'low',
         agentId: validatedShare.sourceAgentId,
         action: 'createShare',
-        details: { 
+        details: {
           shareId: validatedShare.id,
           targetAgentId: validatedShare.targetAgentId,
-          shareType: validatedShare.shareType
-        }
+          shareType: validatedShare.shareType,
+        },
       });
 
       return validatedShare;
@@ -45,7 +53,9 @@ export class MemoryContextShareStore implements ContextShareStore {
         severity: 'high',
         agentId: share.sourceAgentId,
         action: 'createShare',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -62,14 +72,18 @@ export class MemoryContextShareStore implements ContextShareStore {
         }
       }
 
-      return agentShares.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+      return agentShares.sort(
+        (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
+      );
     } catch (error) {
       SecurityLogger.log({
         type: 'authorization',
         severity: 'medium',
         agentId,
         action: 'getSharesForAgent',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -86,14 +100,18 @@ export class MemoryContextShareStore implements ContextShareStore {
         }
       }
 
-      return sharedContexts.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+      return sharedContexts.sort(
+        (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
+      );
     } catch (error) {
       SecurityLogger.log({
         type: 'authorization',
         severity: 'medium',
         agentId,
         action: 'getSharedContexts',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -117,20 +135,26 @@ export class MemoryContextShareStore implements ContextShareStore {
         severity: 'low',
         agentId: share.sourceAgentId,
         action: 'revokeShare',
-        details: { shareId, targetAgentId: share.targetAgentId }
+        details: { shareId, targetAgentId: share.targetAgentId },
       });
     } catch (error) {
       SecurityLogger.log({
         type: 'authorization',
         severity: 'medium',
         action: 'revokeShare',
-        details: { shareId, error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          shareId,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
   }
 
-  async updateShare(shareId: string, updates: Partial<ContextShare>): Promise<ContextShare> {
+  async updateShare(
+    shareId: string,
+    updates: Partial<ContextShare>
+  ): Promise<ContextShare> {
     try {
       if (!shareId || typeof shareId !== 'string') {
         throw new Error('Share ID must be a non-empty string');
@@ -147,10 +171,18 @@ export class MemoryContextShareStore implements ContextShareStore {
         id: shareId, // Preserve original ID
         createdAt: existingShare.createdAt, // Preserve creation time
         // Validate updated fields
-        shareType: updates.shareType ? SecurityValidator.validateShareType(updates.shareType) : existingShare.shareType,
-        permissions: updates.permissions ? 
-          SecurityValidator.sanitizeObject(updates.permissions) as Record<string, any> : 
-          existingShare.permissions
+        shareType: updates.shareType
+          ? (SecurityValidator.validateShareType(updates.shareType as any) as
+              | 'read'
+              | 'write'
+              | 'admin')
+          : existingShare.shareType,
+        permissions: updates.permissions
+          ? (SecurityValidator.sanitizeObject(updates.permissions) as Record<
+              string,
+              any
+            >)
+          : existingShare.permissions,
       };
 
       this.shares.set(shareId, updatedShare);
@@ -160,7 +192,7 @@ export class MemoryContextShareStore implements ContextShareStore {
         severity: 'low',
         agentId: existingShare.sourceAgentId,
         action: 'updateShare',
-        details: { shareId, updates: Object.keys(updates) }
+        details: { shareId, updates: Object.keys(updates) },
       });
 
       return updatedShare;
@@ -169,7 +201,10 @@ export class MemoryContextShareStore implements ContextShareStore {
         type: 'authorization',
         severity: 'medium',
         action: 'updateShare',
-        details: { shareId, error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          shareId,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -188,7 +223,10 @@ export class MemoryContextShareStore implements ContextShareStore {
         type: 'authorization',
         severity: 'medium',
         action: 'getShare',
-        details: { shareId, error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          shareId,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       return null;
     }
@@ -196,7 +234,8 @@ export class MemoryContextShareStore implements ContextShareStore {
 
   async getSharesBySnapshot(snapshotId: string): Promise<ContextShare[]> {
     try {
-      const validatedSnapshotId = SecurityValidator.validateSnapshotId(snapshotId);
+      const validatedSnapshotId =
+        SecurityValidator.validateSnapshotId(snapshotId);
       const snapshotShares: ContextShare[] = [];
 
       for (const share of this.shares.values()) {
@@ -211,7 +250,10 @@ export class MemoryContextShareStore implements ContextShareStore {
         type: 'authorization',
         severity: 'medium',
         action: 'getSharesBySnapshot',
-        details: { snapshotId, error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          snapshotId,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -233,7 +275,7 @@ export class MemoryContextShareStore implements ContextShareStore {
         type: 'authorization',
         severity: 'low',
         action: 'cleanupExpiredShares',
-        details: { cleanedCount }
+        details: { cleanedCount },
       });
 
       return cleanedCount;
@@ -242,7 +284,9 @@ export class MemoryContextShareStore implements ContextShareStore {
         type: 'authorization',
         severity: 'medium',
         action: 'cleanupExpiredShares',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -261,16 +305,18 @@ export class MemoryContextShareStore implements ContextShareStore {
       activeShares: 0,
       expiredShares: 0,
       sharesByType: {} as Record<string, number>,
-      sharesByAgent: {} as Record<string, number>
+      sharesByAgent: {} as Record<string, number>,
     };
 
     for (const share of this.shares.values()) {
       // Count by type
-      stats.sharesByType[share.shareType] = (stats.sharesByType[share.shareType] || 0) + 1;
-      
+      stats.sharesByType[share.shareType] =
+        (stats.sharesByType[share.shareType] || 0) + 1;
+
       // Count by agent
-      stats.sharesByAgent[share.sourceAgentId] = (stats.sharesByAgent[share.sourceAgentId] || 0) + 1;
-      
+      stats.sharesByAgent[share.sourceAgentId] =
+        (stats.sharesByAgent[share.sourceAgentId] || 0) + 1;
+
       // Count active vs expired
       if (share.expiresAt && share.expiresAt < now) {
         stats.expiredShares++;
@@ -294,7 +340,9 @@ export class PostgresContextShareStore implements ContextShareStore {
     private tableName: string = 'context_shares'
   ) {}
 
-  async createShare(share: Omit<ContextShare, 'id' | 'createdAt'>): Promise<ContextShare> {
+  async createShare(
+    share: Omit<ContextShare, 'id' | 'createdAt'>
+  ): Promise<ContextShare> {
     try {
       const validatedShare = {
         ...share,
@@ -302,9 +350,15 @@ export class PostgresContextShareStore implements ContextShareStore {
         createdAt: new Date(),
         sourceAgentId: SecurityValidator.validateAgentId(share.sourceAgentId),
         targetAgentId: SecurityValidator.validateAgentId(share.targetAgentId),
-        contextSnapshotId: SecurityValidator.validateSnapshotId(share.contextSnapshotId),
-        shareType: SecurityValidator.validateShareType(share.shareType),
-        permissions: SecurityValidator.sanitizeObject(share.permissions) as Record<string, any>
+        contextSnapshotId: SecurityValidator.validateSnapshotId(
+          share.contextSnapshotId
+        ),
+        shareType: SecurityValidator.validateShareType(
+          share.shareType as any
+        ) as 'read' | 'write' | 'admin',
+        permissions: SecurityValidator.sanitizeObject(
+          share.permissions
+        ) as Record<string, any>,
       };
 
       const query = `
@@ -325,7 +379,7 @@ export class PostgresContextShareStore implements ContextShareStore {
         JSON.stringify(validatedShare.permissions),
         validatedShare.expiresAt,
         validatedShare.createdAt,
-        validatedShare.createdBy
+        validatedShare.createdBy,
       ];
 
       const result = await this.pool.query(query, values);
@@ -336,11 +390,11 @@ export class PostgresContextShareStore implements ContextShareStore {
         severity: 'low',
         agentId: validatedShare.sourceAgentId,
         action: 'createShare',
-        details: { 
+        details: {
           shareId: validatedShare.id,
           targetAgentId: validatedShare.targetAgentId,
-          shareType: validatedShare.shareType
-        }
+          shareType: validatedShare.shareType,
+        },
       });
 
       return {
@@ -352,7 +406,7 @@ export class PostgresContextShareStore implements ContextShareStore {
         permissions: row.permissions,
         expiresAt: row.expires_at,
         createdAt: row.created_at,
-        createdBy: row.created_by
+        createdBy: row.created_by,
       };
     } catch (error) {
       SecurityLogger.log({
@@ -360,7 +414,9 @@ export class PostgresContextShareStore implements ContextShareStore {
         severity: 'high',
         agentId: share.sourceAgentId,
         action: 'createShare',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -380,7 +436,7 @@ export class PostgresContextShareStore implements ContextShareStore {
 
       const result = await this.pool.query(query, [validatedAgentId]);
 
-      return result.rows.map(row => ({
+      return result.rows.map((row: any) => ({
         id: row.id,
         sourceAgentId: row.source_agent_id,
         targetAgentId: row.target_agent_id,
@@ -389,7 +445,7 @@ export class PostgresContextShareStore implements ContextShareStore {
         permissions: row.permissions,
         expiresAt: row.expires_at,
         createdAt: row.created_at,
-        createdBy: row.created_by
+        createdBy: row.created_by,
       }));
     } catch (error) {
       SecurityLogger.log({
@@ -397,7 +453,9 @@ export class PostgresContextShareStore implements ContextShareStore {
         severity: 'medium',
         agentId,
         action: 'getSharesForAgent',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -417,7 +475,7 @@ export class PostgresContextShareStore implements ContextShareStore {
 
       const result = await this.pool.query(query, [validatedAgentId]);
 
-      return result.rows.map(row => ({
+      return result.rows.map((row: any) => ({
         id: row.id,
         sourceAgentId: row.source_agent_id,
         targetAgentId: row.target_agent_id,
@@ -426,7 +484,7 @@ export class PostgresContextShareStore implements ContextShareStore {
         permissions: row.permissions,
         expiresAt: row.expires_at,
         createdAt: row.created_at,
-        createdBy: row.created_by
+        createdBy: row.created_by,
       }));
     } catch (error) {
       SecurityLogger.log({
@@ -434,7 +492,9 @@ export class PostgresContextShareStore implements ContextShareStore {
         severity: 'medium',
         agentId,
         action: 'getSharedContexts',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -457,20 +517,26 @@ export class PostgresContextShareStore implements ContextShareStore {
         type: 'authorization',
         severity: 'low',
         action: 'revokeShare',
-        details: { shareId }
+        details: { shareId },
       });
     } catch (error) {
       SecurityLogger.log({
         type: 'authorization',
         severity: 'medium',
         action: 'revokeShare',
-        details: { shareId, error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          shareId,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
   }
 
-  async updateShare(shareId: string, updates: Partial<ContextShare>): Promise<ContextShare> {
+  async updateShare(
+    shareId: string,
+    updates: Partial<ContextShare>
+  ): Promise<ContextShare> {
     try {
       if (!shareId || typeof shareId !== 'string') {
         throw new Error('Share ID must be a non-empty string');
@@ -521,7 +587,7 @@ export class PostgresContextShareStore implements ContextShareStore {
         type: 'authorization',
         severity: 'low',
         action: 'updateShare',
-        details: { shareId, updates: Object.keys(updates) }
+        details: { shareId, updates: Object.keys(updates) },
       });
 
       return {
@@ -533,14 +599,17 @@ export class PostgresContextShareStore implements ContextShareStore {
         permissions: row.permissions,
         expiresAt: row.expires_at,
         createdAt: row.created_at,
-        createdBy: row.created_by
+        createdBy: row.created_by,
       };
     } catch (error) {
       SecurityLogger.log({
         type: 'authorization',
         severity: 'medium',
         action: 'updateShare',
-        details: { shareId, error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          shareId,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -574,7 +643,10 @@ export class PostgresContextShareStore implements ContextShareStore {
         type: 'authorization',
         severity: 'high',
         action: 'initializeTable',
-        details: { tableName: this.tableName, error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          tableName: this.tableName,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -583,5 +655,5 @@ export class PostgresContextShareStore implements ContextShareStore {
 
 export default {
   MemoryContextShareStore,
-  PostgresContextShareStore
+  PostgresContextShareStore,
 };

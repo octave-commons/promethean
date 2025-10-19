@@ -121,7 +121,8 @@ export const apps =
     "restart_delay": 10000,
     "kill_timeout": 10000,
     "env": {
-      "PM2_PROCESS_NAME": "promethean-mcp-dev"
+      "PM2_PROCESS_NAME": "promethean-mcp-dev",
+      "MCP_USRE_ROLE": "developer"
     },
     "cwd": "."
   },

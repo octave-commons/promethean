@@ -6,14 +6,15 @@ import {
   SnapshotStore,
   ContextShareStore,
   ContextMetadataStore,
+  CoreContextMetadata,
 } from './types';
 
 export type ContextExportData = {
   context: AgentContext;
   events: import('./types').ContextEvent[];
   snapshots: import('./types').ContextSnapshot[];
-  metadata: import('./types').ContextMetadata[];
-  shares: import('./types').ContextShare[];
+  metadata: CoreContextMetadata[];
+  shares?: import('./types').ContextShare[];
 };
 
 export type SystemStatistics = {
@@ -32,7 +33,10 @@ export type ContextValidationResult = {
 export type ContextInitialState = Record<string, unknown>;
 
 export type IContextLifecycleManager = {
-  createContext(agentId: string, initialState?: ContextInitialState): Promise<AgentContext>;
+  createContext(
+    agentId: string,
+    initialState?: ContextInitialState
+  ): Promise<AgentContext>;
   archiveContext(agentId: string): Promise<void>;
   deleteContext(agentId: string): Promise<void>;
   cleanupExpiredContexts(): Promise<void>;
@@ -62,11 +66,14 @@ export class ContextLifecycleManager implements IContextLifecycleManager {
     this.contextManager = config.contextManager;
     this.eventStore = config.eventStore;
     this.snapshotStore = config.snapshotStore;
-    this.shareStore = config.shareStore;
-    this.metadataStore = config.metadataStore;
+    this.shareStore = config.shareStore!;
+    this.metadataStore = config.metadataStore!;
   }
 
-  async createContext(agentId: string, initialState?: ContextInitialState): Promise<AgentContext> {
+  async createContext(
+    agentId: string,
+    initialState?: ContextInitialState
+  ): Promise<AgentContext> {
     // Create initial context with provided state
     const context = await this.contextManager.getContext(agentId);
 
@@ -130,15 +137,15 @@ export class ContextLifecycleManager implements IContextLifecycleManager {
     if (this.metadataStore) {
       const metadata = await this.metadataStore.getMetadata(agentId);
       for (const meta of metadata) {
-        await this.metadataStore.deleteMetadata(agentId, meta.contextKey);
+        await this.metadataStore!.deleteMetadata(agentId, meta.name);
       }
     }
 
     // Clean up shares
     if (this.shareStore) {
-      const shares = await this.shareStore.getSharesForAgent(agentId);
+      const shares = await this.shareStore!.getSharesForAgent(agentId);
       for (const share of shares) {
-        await this.shareStore.revokeShare(share.id);
+        await this.shareStore!.revokeShare(share.id);
       }
     }
   }
@@ -161,11 +168,13 @@ export class ContextLifecycleManager implements IContextLifecycleManager {
     let activeShares = 0;
 
     if (this.shareStore) {
-      const shares = await this.shareStore.getSharesForAgent(agentId);
+      const shares = await this.shareStore!.getSharesForAgent(agentId);
       totalShares = shares.length;
 
       const now = new Date();
-      activeShares = shares.filter((share) => !share.expiresAt || share.expiresAt > now).length;
+      activeShares = shares.filter(
+        (share) => !share.expiresAt || share.expiresAt > now
+      ).length;
     }
 
     // Calculate context size (rough estimate based on state size)
@@ -199,7 +208,7 @@ export class ContextLifecycleManager implements IContextLifecycleManager {
     const latestSnapshot = await this.snapshotStore.getLatestSnapshot(agentId);
     const snapshots = latestSnapshot ? [latestSnapshot] : [];
 
-    let metadata: import('./types').ContextMetadata[] = [];
+    let metadata: CoreContextMetadata[] = [];
     let shares: import('./types').ContextShare[] = [];
 
     if (this.metadataStore) {
@@ -219,7 +228,10 @@ export class ContextLifecycleManager implements IContextLifecycleManager {
     };
   }
 
-  async importContext(agentId: string, exportData: ContextExportData): Promise<void> {
+  async importContext(
+    agentId: string,
+    exportData: ContextExportData
+  ): Promise<void> {
     // Import context state
     await this.contextManager.updateContext(agentId, {
       state: exportData.context.state,
@@ -238,20 +250,25 @@ export class ContextLifecycleManager implements IContextLifecycleManager {
     // Import metadata
     if (this.metadataStore) {
       for (const metadata of exportData.metadata) {
-        await this.metadataStore.setMetadata({
-          agentId,
-          contextKey: metadata.contextKey,
-          contextValue: metadata.contextValue as unknown,
-          contextType: metadata.contextType || 'imported',
-          visibility: metadata.visibility || 'private',
+        await this.metadataStore!.setMetadata({
+          agentId: agentId as any,
+          name: metadata.name,
+          description: (metadata as any).description || '',
+          permissions: {
+            read: [],
+            write: [],
+            admin: [],
+            public: false,
+          },
           expiresAt: metadata.expiresAt,
-        });
+          tags: (metadata as any).tags || [],
+        } as any);
       }
     }
 
     // Import shares
     if (this.shareStore) {
-      for (const share of exportData.shares) {
+      for (const share of exportData.shares || []) {
         await this.shareStore.createShare(share);
       }
     }
@@ -259,7 +276,7 @@ export class ContextLifecycleManager implements IContextLifecycleManager {
 
   private validateContextExistence(
     events: import('./types').ContextEvent[],
-    latestSnapshot: import('./types').ContextSnapshot | null,
+    latestSnapshot: import('./types').ContextSnapshot | null
   ): string[] {
     const issues: string[] = [];
 
@@ -273,7 +290,7 @@ export class ContextLifecycleManager implements IContextLifecycleManager {
   private validateVersionConsistency(
     context: AgentContext,
     events: import('./types').ContextEvent[],
-    latestSnapshot: import('./types').ContextSnapshot | null,
+    latestSnapshot: import('./types').ContextSnapshot | null
   ): string[] {
     const issues: string[] = [];
 
@@ -285,11 +302,12 @@ export class ContextLifecycleManager implements IContextLifecycleManager {
         const eventData = event.data as { version?: number };
         return eventData.version && eventData.version > latestSnapshot.version;
       });
-      const expectedVersion = latestSnapshot.version + eventsSinceSnapshot.length;
+      const expectedVersion =
+        latestSnapshot.version + eventsSinceSnapshot.length;
 
       if (context.version !== expectedVersion) {
         issues.push(
-          `Context version mismatch: expected ${expectedVersion}, got ${context.version}`,
+          `Context version mismatch: expected ${expectedVersion}, got ${context.version}`
         );
       }
 
@@ -304,14 +322,18 @@ export class ContextLifecycleManager implements IContextLifecycleManager {
     } else {
       // No snapshot, version should match events count
       if (context.version !== events.length) {
-        issues.push(`Context version mismatch: expected ${events.length}, got ${context.version}`);
+        issues.push(
+          `Context version mismatch: expected ${events.length}, got ${context.version}`
+        );
       }
     }
 
     return issues;
   }
 
-  private validateEventIntegrity(events: import('./types').ContextEvent[]): string[] {
+  private validateEventIntegrity(
+    events: import('./types').ContextEvent[]
+  ): string[] {
     const issues: string[] = [];
 
     // Check for duplicate event IDs
@@ -325,7 +347,11 @@ export class ContextLifecycleManager implements IContextLifecycleManager {
     for (let i = 1; i < events.length; i++) {
       const currentEvent = events[i];
       const previousEvent = events[i - 1];
-      if (currentEvent && previousEvent && currentEvent.timestamp < previousEvent.timestamp) {
+      if (
+        currentEvent &&
+        previousEvent &&
+        currentEvent.timestamp < previousEvent.timestamp
+      ) {
         issues.push(`Event order violation at index ${i}`);
         break;
       }
@@ -334,19 +360,22 @@ export class ContextLifecycleManager implements IContextLifecycleManager {
     return issues;
   }
 
-  async validateContextIntegrity(agentId: string): Promise<ContextValidationResult> {
+  async validateContextIntegrity(
+    agentId: string
+  ): Promise<ContextValidationResult> {
     const issues: string[] = [];
 
     try {
       const context = await this.contextManager.getContext(agentId);
       const events = await this.eventStore.getEvents(agentId);
-      const latestSnapshot = await this.snapshotStore.getLatestSnapshot(agentId);
+      const latestSnapshot =
+        await this.snapshotStore.getLatestSnapshot(agentId);
 
       // Check if context exists at all
       issues.push(...this.validateContextExistence(events, latestSnapshot));
 
       const existenceIssues = issues.filter((issue) =>
-        issue.includes('Context does not exist - no events or snapshots found'),
+        issue.includes('Context does not exist - no events or snapshots found')
       );
       if (existenceIssues.length > 0) {
         return {
@@ -356,13 +385,15 @@ export class ContextLifecycleManager implements IContextLifecycleManager {
       }
 
       // Check version consistency
-      issues.push(...this.validateVersionConsistency(context, events, latestSnapshot));
+      issues.push(
+        ...this.validateVersionConsistency(context, events, latestSnapshot)
+      );
 
       // Check event integrity
       issues.push(...this.validateEventIntegrity(events));
     } catch (error) {
       issues.push(
-        `Error during validation: ${error instanceof Error ? error.message : String(error)}`,
+        `Error during validation: ${error instanceof Error ? error.message : String(error)}`
       );
     }
 

@@ -14,7 +14,7 @@ export const DEFAULT_SECURITY_CONFIG: SecurityOptions = {
   allowPathTraversal: false,
   allowSymlinks: false,
   requireAuthentication: false,
-  auditLog: true
+  auditLog: true,
 };
 
 /**
@@ -26,17 +26,19 @@ export const DEFAULT_DIRECTORY_ADAPTER_CONFIG: DirectoryAdapterConfig = {
   backup: {
     enabled: true,
     directory: 'docs/agile/tasks/backups',
-    retentionDays: 30
+    retentionDays: 30,
+    compressionEnabled: true,
+    hashVerification: true,
   },
   cache: {
     enabled: true,
-    ttl: 24 * 60 * 60 * 1000 // 24 hours
+    ttl: 24 * 60 * 60 * 1000, // 24 hours
   },
   performance: {
     enableStreaming: true,
     batchSize: 100,
-    maxConcurrentOps: 10
-  }
+    maxConcurrentOps: 10,
+  },
 };
 
 /**
@@ -47,12 +49,12 @@ export const DEVELOPMENT_CONFIG: DirectoryAdapterConfig = {
   security: {
     ...DEFAULT_SECURITY_CONFIG,
     level: 'moderate',
-    requireAuthentication: false
+    requireAuthentication: false,
   },
   backup: {
     ...DEFAULT_DIRECTORY_ADAPTER_CONFIG.backup,
-    retentionDays: 7 // Shorter retention for dev
-  }
+    retentionDays: 7, // Shorter retention for dev
+  },
 };
 
 /**
@@ -64,16 +66,16 @@ export const PRODUCTION_CONFIG: DirectoryAdapterConfig = {
     ...DEFAULT_SECURITY_CONFIG,
     level: 'strict',
     requireAuthentication: true,
-    maxFileSize: 5 * 1024 * 1024 // Smaller limit for production
+    maxFileSize: 5 * 1024 * 1024, // Smaller limit for production
   },
   backup: {
     ...DEFAULT_DIRECTORY_ADAPTER_CONFIG.backup,
-    retentionDays: 90 // Longer retention for production
+    retentionDays: 90, // Longer retention for production
   },
   performance: {
     ...DEFAULT_DIRECTORY_ADAPTER_CONFIG.performance,
-    maxConcurrentOps: 5 // More conservative for production
-  }
+    maxConcurrentOps: 5, // More conservative for production
+  },
 };
 
 /**
@@ -86,28 +88,32 @@ export const TEST_CONFIG: DirectoryAdapterConfig = {
     ...DEFAULT_SECURITY_CONFIG,
     level: 'permissive',
     requireAuthentication: false,
-    auditLog: false
+    auditLog: false,
   },
   backup: {
     enabled: false,
     directory: 'test-data/backups',
-    retentionDays: 1
+    retentionDays: 1,
+    compressionEnabled: false,
+    hashVerification: false,
   },
   cache: {
     enabled: false,
-    ttl: 60 * 1000 // 1 minute for tests
+    ttl: 60 * 1000, // 1 minute for tests
   },
   performance: {
     enableStreaming: false,
     batchSize: 10,
-    maxConcurrentOps: 1
-  }
+    maxConcurrentOps: 1,
+  },
 };
 
 /**
  * Get configuration by environment
  */
-export const getConfig = (environment: 'development' | 'production' | 'test' = 'development'): DirectoryAdapterConfig => {
+export const getConfig = (
+  environment: 'development' | 'production' | 'test' = 'development',
+): DirectoryAdapterConfig => {
   switch (environment) {
     case 'production':
       return PRODUCTION_CONFIG;
@@ -124,26 +130,26 @@ export const getConfig = (environment: 'development' | 'production' | 'test' = '
  */
 export const createConfig = (
   base: DirectoryAdapterConfig = DEFAULT_DIRECTORY_ADAPTER_CONFIG,
-  overrides: Partial<DirectoryAdapterConfig> = {}
+  overrides: Partial<DirectoryAdapterConfig> = {},
 ): DirectoryAdapterConfig => {
   return {
     ...base,
     ...overrides,
     security: {
       ...base.security,
-      ...overrides.security
+      ...overrides.security,
     },
     backup: {
       ...base.backup,
-      ...overrides.backup
+      ...overrides.backup,
     },
     cache: {
       ...base.cache,
-      ...overrides.cache
+      ...overrides.cache,
     },
     performance: {
       ...base.performance,
-      ...overrides.performance
-    }
+      ...overrides.performance,
+    },
   };
 };

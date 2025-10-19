@@ -18,7 +18,7 @@ export class MemoryEventStore implements EventStore {
         id: event.id || uuidv4(),
         timestamp: event.timestamp || new Date(),
         agentId: SecurityValidator.validateAgentId(event.agentId),
-        data: SecurityValidator.validateEventData(event.data)
+        data: SecurityValidator.validateEventData(event.data),
       };
 
       const agentEvents = this.events.get(validatedEvent.agentId) || [];
@@ -30,7 +30,7 @@ export class MemoryEventStore implements EventStore {
         severity: 'low',
         agentId: validatedEvent.agentId,
         action: 'appendEvent',
-        details: { eventId: validatedEvent.id, eventType: validatedEvent.type }
+        details: { eventId: validatedEvent.id, eventType: validatedEvent.type },
       });
     } catch (error) {
       SecurityLogger.log({
@@ -38,20 +38,25 @@ export class MemoryEventStore implements EventStore {
         severity: 'high',
         agentId: event.agentId,
         action: 'appendEvent',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
   }
 
-  async getEvents(agentId: string, fromVersion?: number): Promise<ContextEvent[]> {
+  async getEvents(
+    agentId: string,
+    fromVersion?: number
+  ): Promise<ContextEvent[]> {
     try {
       const validatedAgentId = SecurityValidator.validateAgentId(agentId);
       const events = this.events.get(validatedAgentId) || [];
 
       if (fromVersion !== undefined) {
         // Filter events from a specific version
-        return events.filter(event => {
+        return events.filter((event) => {
           const eventVersion = event.data.version || 0;
           return eventVersion >= fromVersion;
         });
@@ -64,7 +69,9 @@ export class MemoryEventStore implements EventStore {
         severity: 'medium',
         agentId,
         action: 'getEvents',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -77,7 +84,7 @@ export class MemoryEventStore implements EventStore {
       }
 
       for (const events of this.events.values()) {
-        const event = events.find(e => e.id === eventId);
+        const event = events.find((e) => e.id === eventId);
         if (event) {
           return event;
         }
@@ -89,25 +96,34 @@ export class MemoryEventStore implements EventStore {
         type: 'data_access',
         severity: 'medium',
         action: 'getEvent',
-        details: { eventId, error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          eventId,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
   }
 
   // Additional utility methods
-  async getEventsByType(agentId: string, eventType: string): Promise<ContextEvent[]> {
+  async getEventsByType(
+    agentId: string,
+    eventType: string
+  ): Promise<ContextEvent[]> {
     try {
       const validatedAgentId = SecurityValidator.validateAgentId(agentId);
       const events = await this.getEvents(validatedAgentId);
-      return events.filter(event => event.type === eventType);
+      return events.filter((event) => event.type === eventType);
     } catch (error) {
       SecurityLogger.log({
         type: 'data_access',
         severity: 'medium',
         agentId,
         action: 'getEventsByType',
-        details: { eventType, error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          eventType,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -121,9 +137,9 @@ export class MemoryEventStore implements EventStore {
     try {
       const validatedAgentId = SecurityValidator.validateAgentId(agentId);
       const events = await this.getEvents(validatedAgentId);
-      
-      return events.filter(event => 
-        event.timestamp >= startDate && event.timestamp <= endDate
+
+      return events.filter(
+        (event) => event.timestamp >= startDate && event.timestamp <= endDate
       );
     } catch (error) {
       SecurityLogger.log({
@@ -131,11 +147,11 @@ export class MemoryEventStore implements EventStore {
         severity: 'medium',
         agentId,
         action: 'getEventsInDateRange',
-        details: { 
+        details: {
           startDate: startDate.toISOString(),
           endDate: endDate.toISOString(),
-          error: error instanceof Error ? error.message : 'Unknown error'
-        }
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -151,7 +167,7 @@ export class MemoryEventStore implements EventStore {
         severity: 'medium',
         agentId: validatedAgentId,
         action: 'clearEvents',
-        details: { cleared: true }
+        details: { cleared: true },
       });
     } catch (error) {
       SecurityLogger.log({
@@ -159,7 +175,9 @@ export class MemoryEventStore implements EventStore {
         severity: 'high',
         agentId,
         action: 'clearEvents',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -181,7 +199,7 @@ export class MemoryEventStore implements EventStore {
     return {
       totalAgents: this.events.size,
       totalEvents,
-      eventsByAgent
+      eventsByAgent,
     };
   }
 }
@@ -200,7 +218,7 @@ export class PostgresEventStore implements EventStore {
         id: event.id || uuidv4(),
         timestamp: event.timestamp || new Date(),
         agentId: SecurityValidator.validateAgentId(event.agentId),
-        data: SecurityValidator.validateEventData(event.data)
+        data: SecurityValidator.validateEventData(event.data),
       };
 
       const query = `
@@ -214,7 +232,7 @@ export class PostgresEventStore implements EventStore {
         validatedEvent.type,
         validatedEvent.timestamp,
         JSON.stringify(validatedEvent.data),
-        JSON.stringify(validatedEvent.metadata || {})
+        JSON.stringify(validatedEvent.metadata || {}),
       ];
 
       await this.pool.query(query, values);
@@ -224,7 +242,7 @@ export class PostgresEventStore implements EventStore {
         severity: 'low',
         agentId: validatedEvent.agentId,
         action: 'appendEvent',
-        details: { eventId: validatedEvent.id, eventType: validatedEvent.type }
+        details: { eventId: validatedEvent.id, eventType: validatedEvent.type },
       });
     } catch (error) {
       SecurityLogger.log({
@@ -232,22 +250,27 @@ export class PostgresEventStore implements EventStore {
         severity: 'high',
         agentId: event.agentId,
         action: 'appendEvent',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
   }
 
-  async getEvents(agentId: string, fromVersion?: number): Promise<ContextEvent[]> {
+  async getEvents(
+    agentId: string,
+    fromVersion?: number
+  ): Promise<ContextEvent[]> {
     try {
       const validatedAgentId = SecurityValidator.validateAgentId(agentId);
-      
+
       let query = `
         SELECT id, agent_id, type, timestamp, data, metadata
         FROM ${this.tableName}
         WHERE agent_id = $1
       `;
-      
+
       const params: any[] = [validatedAgentId];
 
       if (fromVersion !== undefined) {
@@ -259,13 +282,13 @@ export class PostgresEventStore implements EventStore {
 
       const result = await this.pool.query(query, params);
 
-      return result.rows.map(row => ({
+      return result.rows.map((row: any) => ({
         id: row.id,
         agentId: row.agent_id,
         type: row.type,
         timestamp: new Date(row.timestamp),
         data: row.data,
-        metadata: row.metadata
+        metadata: row.metadata,
       }));
     } catch (error) {
       SecurityLogger.log({
@@ -273,7 +296,9 @@ export class PostgresEventStore implements EventStore {
         severity: 'medium',
         agentId,
         action: 'getEvents',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -304,24 +329,30 @@ export class PostgresEventStore implements EventStore {
         type: row.type,
         timestamp: new Date(row.timestamp),
         data: row.data,
-        metadata: row.metadata
+        metadata: row.metadata,
       };
     } catch (error) {
       SecurityLogger.log({
         type: 'data_access',
         severity: 'medium',
         action: 'getEvent',
-        details: { eventId, error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          eventId,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
   }
 
   // Additional utility methods for PostgreSQL
-  async getEventsByType(agentId: string, eventType: string): Promise<ContextEvent[]> {
+  async getEventsByType(
+    agentId: string,
+    eventType: string
+  ): Promise<ContextEvent[]> {
     try {
       const validatedAgentId = SecurityValidator.validateAgentId(agentId);
-      
+
       const query = `
         SELECT id, agent_id, type, timestamp, data, metadata
         FROM ${this.tableName}
@@ -329,15 +360,18 @@ export class PostgresEventStore implements EventStore {
         ORDER BY timestamp ASC
       `;
 
-      const result = await this.pool.query(query, [validatedAgentId, eventType]);
+      const result = await this.pool.query(query, [
+        validatedAgentId,
+        eventType,
+      ]);
 
-      return result.rows.map(row => ({
+      return result.rows.map((row: any) => ({
         id: row.id,
         agentId: row.agent_id,
         type: row.type,
         timestamp: new Date(row.timestamp),
         data: row.data,
-        metadata: row.metadata
+        metadata: row.metadata,
       }));
     } catch (error) {
       SecurityLogger.log({
@@ -345,7 +379,10 @@ export class PostgresEventStore implements EventStore {
         severity: 'medium',
         agentId,
         action: 'getEventsByType',
-        details: { eventType, error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          eventType,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -376,7 +413,10 @@ export class PostgresEventStore implements EventStore {
         type: 'data_access',
         severity: 'high',
         action: 'initializeTable',
-        details: { tableName: this.tableName, error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          tableName: this.tableName,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -385,5 +425,5 @@ export class PostgresEventStore implements EventStore {
 
 export default {
   MemoryEventStore,
-  PostgresEventStore
+  PostgresEventStore,
 };

@@ -58,7 +58,7 @@ class SessionUtils {
       lastActivityTime: new Date().toISOString(),
       sessionAge,
       activityStatus,
-      isAgentTask: !!agentTask,
+      isAgentTask: !!agentTask || session.isAgentTask === true,
       agentTaskStatus: agentTask?.status,
     };
   }

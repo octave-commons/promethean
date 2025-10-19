@@ -1003,25 +1003,12 @@ export const updateStatus = async (
           created_at: preservedCreatedAt,
         };
 
-        // Extract frontmatter from the existing file and update it with commit tracking
-        const existingFrontmatter = parsed.data || {};
-        const updatedFrontmatter = gitTracker.updateTaskCommitTracking(
-          {
-            ...existingFrontmatter,
-            ...updatedTask,
-          },
-          uuid,
-          'status_change',
-          `Status updated from ${currentStatus} to ${normalizedStatus}`,
-        );
-
-        // Create a complete Task object with the updated frontmatter
+        // Create a complete Task object with the updated status
         const finalTask: Task = {
           ...updatedTask,
-          ...updatedFrontmatter,
         };
 
-        // Write updated task file with new status and commit tracking
+        // Write updated task file with new status (without commit tracking yet)
         const updatedContent = toFrontmatter(finalTask);
         await fs.writeFile(taskFilePath, updatedContent, 'utf8');
 
@@ -1036,6 +1023,35 @@ export const updateStatus = async (
 
           if (commitResult.success) {
             console.log(`📝 Committed task change: ${commitResult.sha?.slice(0, 8)}...`);
+
+            // Only update commit tracking if commit actually happened
+            if (commitResult.sha && commitResult.sha !== 'unknown') {
+              // Read the file again to get the latest frontmatter
+              const fileContent = await fs.readFile(taskFilePath, 'utf8');
+              const parsed = parseMarkdownFrontmatter(fileContent);
+              const existingFrontmatter = parsed.data || {};
+
+              // Update frontmatter with commit tracking
+              const updatedFrontmatter = gitTracker.updateTaskCommitTracking(
+                {
+                  ...existingFrontmatter,
+                  ...finalTask,
+                },
+                uuid,
+                'status_change',
+                `Status updated from ${currentStatus} to ${normalizedStatus}`,
+              );
+
+              // Write the file again with commit tracking
+              const finalContent = toFrontmatter({
+                ...finalTask,
+                ...updatedFrontmatter,
+              });
+              await fs.writeFile(taskFilePath, finalContent, 'utf8');
+
+              // Note: Commit tracking metadata is added to frontmatter but not committed
+              // The event log exists locally and can be recreated from git history if needed
+            }
           } else {
             console.warn(`Warning: Failed to commit task change: ${commitResult.error}`);
           }
@@ -1532,30 +1548,16 @@ export const pushToTasks = async (
       // Initialize git tracker for new task creation
       const gitTracker = new TaskGitTracker({ repoRoot: process.cwd() });
 
-      // Update task frontmatter with commit tracking for new tasks
-      const taskWithCommitTracking = gitTracker.updateTaskCommitTracking(
-        {
-          ...finalTask,
-          status: normalizedBoardStatus,
-          content: finalContent,
-          created_at: preservedCreatedAt,
-        },
-        finalTask.uuid,
-        previous ? 'update' : 'create',
-        previous ? `Update task: ${finalTask.title}` : `Create task: ${finalTask.title}`,
-      );
-
       const content = toFrontmatter({
         ...finalTask,
         status: normalizedBoardStatus, // Always use the normalized board column name as authoritative status
         content: finalContent,
         created_at: preservedCreatedAt,
-        ...taskWithCommitTracking, // Include commit tracking fields
       });
 
       await fs.writeFile(finalTargetPath, content, 'utf8');
 
-      // Create git commit for the task change
+      // Create git commit for task change
       try {
         const operation = previous ? 'update' : 'create';
         const details = previous
@@ -1571,6 +1573,35 @@ export const pushToTasks = async (
 
         if (commitResult.success) {
           console.log(`📝 Committed task ${operation}: ${commitResult.sha?.slice(0, 8)}...`);
+
+          // Only update commit tracking if commit actually happened
+          if (commitResult.sha && commitResult.sha !== 'unknown') {
+            // Update frontmatter with commit tracking
+            const taskWithCommitTracking = gitTracker.updateTaskCommitTracking(
+              {
+                ...finalTask,
+                status: normalizedBoardStatus,
+                content: finalContent,
+                created_at: preservedCreatedAt,
+              },
+              finalTask.uuid,
+              operation,
+              details,
+            );
+
+            const contentWithTracking = toFrontmatter({
+              ...finalTask,
+              status: normalizedBoardStatus,
+              content: finalContent,
+              created_at: preservedCreatedAt,
+              ...taskWithCommitTracking, // Include commit tracking fields
+            });
+
+            await fs.writeFile(finalTargetPath, contentWithTracking, 'utf8');
+
+            // Note: Commit tracking metadata is included in frontmatter but not committed
+            // The event log exists locally and can be recreated from git history if needed
+          }
         } else {
           console.warn(`Warning: Failed to commit task ${operation}: ${commitResult.error}`);
         }

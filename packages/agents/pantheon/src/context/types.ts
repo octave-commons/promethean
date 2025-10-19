@@ -5,12 +5,11 @@
 
 import { z } from 'zod';
 import type { AgentId } from '../core/types/agent.js';
-import type { 
+import type {
   ContextId as CoreContextId,
   ContextEvent as CoreContextEvent,
   ContextSnapshot as CoreContextSnapshot,
   ContextMetadata as CoreContextMetadata,
-  ContextPermissions
 } from '../core/types/context.js';
 
 // Re-export core types for compatibility
@@ -19,7 +18,6 @@ export type {
   ContextEvent as CoreContextEvent,
   ContextSnapshot as CoreContextSnapshot,
   ContextMetadata as CoreContextMetadata,
-  ContextPermissions
 } from '../core/types/context.js';
 
 // Legacy context types for backward compatibility
@@ -100,8 +98,13 @@ export interface SnapshotStore {
 
 export interface ContextManager {
   getContext(agentId: string): Promise<AgentContext>;
-  updateContext(agentId: string, updates: Partial<AgentContext>): Promise<AgentContext>;
-  appendEvent(event: Omit<ContextEvent, 'id' | 'timestamp'>): Promise<ContextEvent>;
+  updateContext(
+    agentId: string,
+    updates: Partial<AgentContext>
+  ): Promise<AgentContext>;
+  appendEvent(
+    event: Omit<ContextEvent, 'id' | 'timestamp'>
+  ): Promise<ContextEvent>;
   createSnapshot(agentId: string): Promise<ContextSnapshot>;
   restoreFromSnapshot(snapshotId: string): Promise<AgentContext>;
 }
@@ -134,19 +137,28 @@ export interface ContextQuery {
 }
 
 export interface ContextShareStore {
-  createShare(share: Omit<ContextShare, 'id' | 'createdAt'>): Promise<ContextShare>;
+  createShare(
+    share: Omit<ContextShare, 'id' | 'createdAt'>
+  ): Promise<ContextShare>;
   getSharesForAgent(agentId: string): Promise<ContextShare[]>;
   getSharedContexts(agentId: string): Promise<ContextShare[]>;
   revokeShare(shareId: string): Promise<void>;
-  updateShare(shareId: string, updates: Partial<ContextShare>): Promise<ContextShare>;
+  updateShare(
+    shareId: string,
+    updates: Partial<ContextShare>
+  ): Promise<ContextShare>;
 }
 
 export interface ContextMetadataStore {
   setMetadata(
-    metadata: Omit<CoreContextMetadata, 'id' | 'createdAt' | 'updatedAt'>,
+    metadata: Omit<CoreContextMetadata, 'id' | 'createdAt' | 'updatedAt'>
   ): Promise<CoreContextMetadata>;
   getMetadata(agentId: string, key?: string): Promise<CoreContextMetadata[]>;
-  updateMetadata(agentId: string, key: string, value: any): Promise<CoreContextMetadata>;
+  updateMetadata(
+    agentId: string,
+    key: string,
+    value: any
+  ): Promise<CoreContextMetadata>;
   deleteMetadata(agentId: string, key: string): Promise<void>;
   queryMetadata(query: ContextQuery): Promise<CoreContextMetadata[]>;
   cleanupExpired(): Promise<void>;

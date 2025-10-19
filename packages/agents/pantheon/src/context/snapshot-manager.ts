@@ -19,7 +19,10 @@ export class MemorySnapshotStore implements SnapshotStore {
         id: snapshot.id || uuidv4(),
         timestamp: snapshot.timestamp || new Date(),
         agentId: SecurityValidator.validateAgentId(snapshot.agentId),
-        state: SecurityValidator.sanitizeObject(snapshot.state) as Record<string, unknown>
+        state: SecurityValidator.sanitizeObject(snapshot.state) as Record<
+          string,
+          unknown
+        >,
       };
 
       this.snapshots.set(validatedSnapshot.id, validatedSnapshot);
@@ -30,7 +33,10 @@ export class MemorySnapshotStore implements SnapshotStore {
         severity: 'low',
         agentId: validatedSnapshot.agentId,
         action: 'saveSnapshot',
-        details: { snapshotId: validatedSnapshot.id, version: validatedSnapshot.version }
+        details: {
+          snapshotId: validatedSnapshot.id,
+          version: validatedSnapshot.version,
+        },
       });
     } catch (error) {
       SecurityLogger.log({
@@ -38,7 +44,9 @@ export class MemorySnapshotStore implements SnapshotStore {
         severity: 'high',
         agentId: snapshot.agentId,
         action: 'saveSnapshot',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -60,7 +68,9 @@ export class MemorySnapshotStore implements SnapshotStore {
         severity: 'medium',
         agentId,
         action: 'getLatestSnapshot',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -78,7 +88,10 @@ export class MemorySnapshotStore implements SnapshotStore {
         type: 'data_access',
         severity: 'medium',
         action: 'getSnapshot',
-        details: { snapshotId, error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          snapshotId,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -96,14 +109,18 @@ export class MemorySnapshotStore implements SnapshotStore {
         }
       }
 
-      return agentSnapshots.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+      return agentSnapshots.sort(
+        (a, b) => b.timestamp.getTime() - a.timestamp.getTime()
+      );
     } catch (error) {
       SecurityLogger.log({
         type: 'data_access',
         severity: 'medium',
         agentId,
         action: 'getSnapshotsForAgent',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -118,8 +135,9 @@ export class MemorySnapshotStore implements SnapshotStore {
       const validatedAgentId = SecurityValidator.validateAgentId(agentId);
       const agentSnapshots = await this.getSnapshotsForAgent(validatedAgentId);
 
-      return agentSnapshots.filter(snapshot => 
-        snapshot.version >= fromVersion && snapshot.version <= toVersion
+      return agentSnapshots.filter(
+        (snapshot) =>
+          snapshot.version >= fromVersion && snapshot.version <= toVersion
       );
     } catch (error) {
       SecurityLogger.log({
@@ -127,11 +145,11 @@ export class MemorySnapshotStore implements SnapshotStore {
         severity: 'medium',
         agentId,
         action: 'getSnapshotsInVersionRange',
-        details: { 
+        details: {
           fromVersion,
           toVersion,
-          error: error instanceof Error ? error.message : 'Unknown error'
-        }
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -154,9 +172,14 @@ export class MemorySnapshotStore implements SnapshotStore {
       const latestSnapshotId = this.latestSnapshots.get(snapshot.agentId);
       if (latestSnapshotId === snapshotId) {
         // Find the next most recent snapshot for this agent
-        const agentSnapshots = await this.getSnapshotsForAgent(snapshot.agentId);
+        const agentSnapshots = await this.getSnapshotsForAgent(
+          snapshot.agentId
+        );
         if (agentSnapshots.length > 0) {
-          this.latestSnapshots.set(snapshot.agentId, agentSnapshots[0].id);
+          this.latestSnapshots.set(
+            snapshot.agentId,
+            agentSnapshots[0]?.id || ''
+          );
         } else {
           this.latestSnapshots.delete(snapshot.agentId);
         }
@@ -167,14 +190,17 @@ export class MemorySnapshotStore implements SnapshotStore {
         severity: 'medium',
         agentId: snapshot.agentId,
         action: 'deleteSnapshot',
-        details: { snapshotId }
+        details: { snapshotId },
       });
     } catch (error) {
       SecurityLogger.log({
         type: 'data_access',
         severity: 'high',
         action: 'deleteSnapshot',
-        details: { snapshotId, error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          snapshotId,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -183,7 +209,7 @@ export class MemorySnapshotStore implements SnapshotStore {
   async clearSnapshots(agentId: string): Promise<void> {
     try {
       const validatedAgentId = SecurityValidator.validateAgentId(agentId);
-      
+
       // Remove all snapshots for this agent
       for (const [snapshotId, snapshot] of this.snapshots.entries()) {
         if (snapshot.agentId === validatedAgentId) {
@@ -198,7 +224,7 @@ export class MemorySnapshotStore implements SnapshotStore {
         severity: 'medium',
         agentId: validatedAgentId,
         action: 'clearSnapshots',
-        details: { cleared: true }
+        details: { cleared: true },
       });
     } catch (error) {
       SecurityLogger.log({
@@ -206,7 +232,9 @@ export class MemorySnapshotStore implements SnapshotStore {
         severity: 'high',
         agentId,
         action: 'clearSnapshots',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -220,13 +248,14 @@ export class MemorySnapshotStore implements SnapshotStore {
     const snapshotsByAgent: Record<string, number> = {};
 
     for (const snapshot of this.snapshots.values()) {
-      snapshotsByAgent[snapshot.agentId] = (snapshotsByAgent[snapshot.agentId] || 0) + 1;
+      snapshotsByAgent[snapshot.agentId] =
+        (snapshotsByAgent[snapshot.agentId] || 0) + 1;
     }
 
     return {
       totalSnapshots: this.snapshots.size,
       totalAgents: this.latestSnapshots.size,
-      snapshotsByAgent
+      snapshotsByAgent,
     };
   }
 }
@@ -245,7 +274,10 @@ export class PostgresSnapshotStore implements SnapshotStore {
         id: snapshot.id || uuidv4(),
         timestamp: snapshot.timestamp || new Date(),
         agentId: SecurityValidator.validateAgentId(snapshot.agentId),
-        state: SecurityValidator.sanitizeObject(snapshot.state) as Record<string, unknown>
+        state: SecurityValidator.sanitizeObject(snapshot.state) as Record<
+          string,
+          unknown
+        >,
       };
 
       const query = `
@@ -264,7 +296,7 @@ export class PostgresSnapshotStore implements SnapshotStore {
         validatedSnapshot.timestamp,
         JSON.stringify(validatedSnapshot.state),
         validatedSnapshot.version,
-        validatedSnapshot.eventId
+        validatedSnapshot.eventId,
       ];
 
       await this.pool.query(query, values);
@@ -274,7 +306,10 @@ export class PostgresSnapshotStore implements SnapshotStore {
         severity: 'low',
         agentId: validatedSnapshot.agentId,
         action: 'saveSnapshot',
-        details: { snapshotId: validatedSnapshot.id, version: validatedSnapshot.version }
+        details: {
+          snapshotId: validatedSnapshot.id,
+          version: validatedSnapshot.version,
+        },
       });
     } catch (error) {
       SecurityLogger.log({
@@ -282,7 +317,9 @@ export class PostgresSnapshotStore implements SnapshotStore {
         severity: 'high',
         agentId: snapshot.agentId,
         action: 'saveSnapshot',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -313,7 +350,7 @@ export class PostgresSnapshotStore implements SnapshotStore {
         timestamp: new Date(row.timestamp),
         state: row.state,
         version: row.version,
-        eventId: row.event_id
+        eventId: row.event_id,
       };
     } catch (error) {
       SecurityLogger.log({
@@ -321,7 +358,9 @@ export class PostgresSnapshotStore implements SnapshotStore {
         severity: 'medium',
         agentId,
         action: 'getLatestSnapshot',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -352,14 +391,17 @@ export class PostgresSnapshotStore implements SnapshotStore {
         timestamp: new Date(row.timestamp),
         state: row.state,
         version: row.version,
-        eventId: row.event_id
+        eventId: row.event_id,
       };
     } catch (error) {
       SecurityLogger.log({
         type: 'data_access',
         severity: 'medium',
         action: 'getSnapshot',
-        details: { snapshotId, error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          snapshotId,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -379,13 +421,13 @@ export class PostgresSnapshotStore implements SnapshotStore {
 
       const result = await this.pool.query(query, [validatedAgentId]);
 
-      return result.rows.map(row => ({
+      return result.rows.map((row: any) => ({
         id: row.id,
         agentId: row.agent_id,
         timestamp: new Date(row.timestamp),
         state: row.state,
         version: row.version,
-        eventId: row.event_id
+        eventId: row.event_id,
       }));
     } catch (error) {
       SecurityLogger.log({
@@ -393,7 +435,9 @@ export class PostgresSnapshotStore implements SnapshotStore {
         severity: 'medium',
         agentId,
         action: 'getSnapshotsForAgent',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -425,7 +469,10 @@ export class PostgresSnapshotStore implements SnapshotStore {
         type: 'data_access',
         severity: 'high',
         action: 'initializeTable',
-        details: { tableName: this.tableName, error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          tableName: this.tableName,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -434,5 +481,5 @@ export class PostgresSnapshotStore implements SnapshotStore {
 
 export default {
   MemorySnapshotStore,
-  PostgresSnapshotStore
+  PostgresSnapshotStore,
 };

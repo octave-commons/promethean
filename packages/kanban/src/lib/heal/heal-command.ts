@@ -1,34 +1,19 @@
 /**
  * Main Heal Command Implementation for Kanban System
- * 
+ *
  * This module provides the complete heal command implementation that integrates
  * git tag management, scar history, and intelligent healing operations.
  * It orchestrates the entire healing workflow from analysis to completion.
  */
 
-import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { ScarContextBuilder } from './scar-context-builder.js';
 import { GitTagManager, createGitTagManager } from './git-tag-manager.js';
 import { ScarHistoryManager, createScarHistoryManager } from './scar-history-manager.js';
-import { 
-  createEventLogEntry, 
-  createScarRecord,
-  validateScarContextIntegrity 
-} from './type-guards.js';
-import type { 
-  ScarContext, 
-  HealingResult, 
-  HealingStatus,
-  ScarContextBuilderOptions 
-} from './scar-context-types.js';
+import { createEventLogEntry } from './type-guards.js';
+import type { ScarContext, HealingResult } from './scar-context-types.js';
 import type { Board, Task } from '../types.js';
-import { 
-  loadBoard, 
-  readTasksFolder, 
-  syncBoardAndTasks,
-  regenerateBoard 
-} from '../kanban.js';
+import { loadBoard, readTasksFolder, syncBoardAndTasks } from '../kanban.js';
 
 /**
  * Heal command configuration options
@@ -133,12 +118,16 @@ export class HealCommand {
 
       // Add initial event
       context.eventLog.push(
-        createEventLogEntry('heal-operation-started', {
-          reason: options.reason,
-          dryRun: options.dryRun,
-          createTags: options.createTags,
-          startSha,
-        }, 'info')
+        createEventLogEntry(
+          'heal-operation-started',
+          {
+            reason: options.reason,
+            dryRun: options.dryRun,
+            createTags: options.createTags,
+            startSha,
+          },
+          'info',
+        ),
       );
 
       // Perform the actual healing
@@ -159,16 +148,12 @@ export class HealCommand {
       // Create git tag if requested
       let tagResult;
       if (options.createTags && !options.dryRun) {
-        tagResult = await this.gitTagManager.createHealTag(
-          options.reason,
-          endSha,
-          {
-            contextBuildTime,
-            healingTime,
-            tasksModified: healingResult.tasksModified,
-            filesChanged: healingResult.filesChanged,
-          }
-        );
+        tagResult = await this.gitTagManager.createHealTag(options.reason, endSha, {
+          contextBuildTime,
+          healingTime,
+          tasksModified: healingResult.tasksModified,
+          filesChanged: healingResult.filesChanged,
+        });
       }
 
       // Record scar history
@@ -178,9 +163,9 @@ export class HealCommand {
           context,
           healingResult,
           startSha,
-          endSha
+          endSha,
         );
-        
+
         if (recordResult.success && recordResult.scar) {
           scar = {
             tag: recordResult.scar.tag,
@@ -199,14 +184,18 @@ export class HealCommand {
 
       // Add completion event
       context.eventLog.push(
-        createEventLogEntry('heal-operation-completed', {
-          status: healingResult.status,
-          totalTime,
-          contextBuildTime,
-          healingTime,
-          tagCreated: tagResult?.success,
-          scarRecorded: !!scar,
-        }, 'info')
+        createEventLogEntry(
+          'heal-operation-completed',
+          {
+            status: healingResult.status,
+            totalTime,
+            contextBuildTime,
+            healingTime,
+            tagCreated: tagResult?.success,
+            scarRecorded: !!scar,
+          },
+          'info',
+        ),
       );
 
       return {
@@ -218,16 +207,19 @@ export class HealCommand {
         totalTime,
         completedAt: new Date(),
       };
-
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error);
-      
+
       if (context) {
         context.eventLog.push(
-          createEventLogEntry('heal-operation-failed', {
-            error: errorMessage,
-            totalTime: Date.now() - startTime,
-          }, 'error')
+          createEventLogEntry(
+            'heal-operation-failed',
+            {
+              error: errorMessage,
+              totalTime: Date.now() - startTime,
+            },
+            'error',
+          ),
         );
       }
 
@@ -246,9 +238,7 @@ export class HealCommand {
   /**
    * Get healing recommendations based on current state
    */
-  async getHealingRecommendations(
-    options: Partial<HealCommandOptions> = {}
-  ): Promise<{
+  async getHealingRecommendations(options: Partial<HealCommandOptions> = {}): Promise<{
     recommendations: string[];
     criticalIssues: Array<{
       type: string;
@@ -273,7 +263,7 @@ export class HealCommand {
 
     // Analyze system metrics
     const metrics = await this.analyzeSystemMetrics(context);
-    
+
     if (metrics.wipViolations.length > 0) {
       criticalIssues.push({
         type: 'wip_violation',
@@ -317,7 +307,7 @@ export class HealCommand {
     // Find related scars
     const relatedScars = await this.scarHistoryManager.findRelatedScars(
       options.reason || 'general healing',
-      5
+      5,
     );
 
     return {
@@ -339,8 +329,8 @@ export class HealCommand {
    */
   private async buildScarContext(options: Partial<HealCommandOptions>): Promise<ScarContext> {
     const builder = new ScarContextBuilder(this.boardPath, this.tasksDir);
-    
-    const builderOptions: ScarContextBuilderOptions = {
+
+    const builderOptions = {
       maxPreviousScars: 10,
       maxSearchResults: 20,
       maxGitHistory: options.gitHistoryDepth || 50,
@@ -359,7 +349,7 @@ export class HealCommand {
    */
   private async performHealing(
     context: ScarContext,
-    options: HealCommandOptions
+    options: HealCommandOptions,
   ): Promise<HealingResult> {
     const result: HealingResult = {
       status: 'in_progress',
@@ -382,13 +372,13 @@ export class HealCommand {
 
       // Perform healing operations based on context analysis
       const healingActions = await this.determineHealingActions(context, board, tasks);
-      
+
       for (const action of healingActions) {
         try {
           const actionResult = await this.executeHealingAction(action, board, tasks);
           result.tasksModified += actionResult.tasksModified;
           result.filesChanged += actionResult.filesChanged;
-          
+
           if (actionResult.errors.length > 0) {
             result.errors.push(...actionResult.errors);
           }
@@ -399,12 +389,12 @@ export class HealCommand {
 
       // Sync changes if any were made
       if (result.tasksModified > 0 || result.filesChanged > 0) {
-        await syncBoardAndTasks(this.boardPath, this.tasksDir);
+        const board = await loadBoard(this.boardPath, this.tasksDir);
+        await syncBoardAndTasks(board, this.tasksDir, this.boardPath);
       }
 
       result.summary = `Healing completed: ${result.tasksModified} tasks modified, ${result.filesChanged} files changed`;
       result.status = result.errors.length > 0 ? 'completed' : 'completed';
-
     } catch (error) {
       result.status = 'failed';
       result.errors.push(`Healing failed: ${error}`);
@@ -420,12 +410,14 @@ export class HealCommand {
   private async determineHealingActions(
     context: ScarContext,
     board: Board,
-    tasks: Task[]
-  ): Promise<Array<{
-    type: string;
-    description: string;
-    priority: number;
-  }>> {
+    tasks: Task[],
+  ): Promise<
+    Array<{
+      type: string;
+      description: string;
+      priority: number;
+    }>
+  > {
     const actions: Array<{
       type: string;
       description: string;
@@ -474,8 +466,8 @@ export class HealCommand {
    */
   private async executeHealingAction(
     action: any,
-    board: Board,
-    tasks: Task[]
+    _board: Board,
+    _tasks: Task[],
   ): Promise<{
     tasksModified: number;
     filesChanged: number;
@@ -521,8 +513,8 @@ export class HealCommand {
    */
   private async analyzeSystemMetrics(context: ScarContext): Promise<any> {
     // Extract metrics from context event log
-    const metricsEvent = context.eventLog.find(event => 
-      event.operation === 'system-metrics-analyzed'
+    const metricsEvent = context.eventLog.find(
+      (event) => event.operation === 'system-metrics-analyzed',
     );
 
     if (metricsEvent) {
@@ -544,9 +536,9 @@ export class HealCommand {
   private async getCurrentCommitSha(): Promise<string | null> {
     try {
       const { execSync } = await import('node:child_process');
-      const sha = execSync('git rev-parse HEAD', { 
-        cwd: this.repoRoot, 
-        encoding: 'utf8' 
+      const sha = execSync('git rev-parse HEAD', {
+        cwd: this.repoRoot,
+        encoding: 'utf8',
       });
       return sha.trim();
     } catch (error) {

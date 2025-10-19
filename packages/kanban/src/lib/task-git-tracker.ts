@@ -152,6 +152,13 @@ export class TaskGitTracker {
     // Initialize commit history if it doesn't exist
     const commitHistory = frontmatter.commitHistory || [];
 
+    // Check if this commit entry already exists to avoid duplicates
+    const lastEntry = commitHistory[commitHistory.length - 1];
+    if (lastEntry && lastEntry.sha === commitEntry.sha && lastEntry.type === commitEntry.type) {
+      // Same commit already tracked, don't add duplicate
+      return frontmatter;
+    }
+
     // Add new commit entry
     const updatedCommitHistory = [...commitHistory, commitEntry];
 

@@ -24,6 +24,7 @@ import type {
   TransitionCodeReviewConfig,
   KanbanTransitionReviewRequest,
   KanbanTransitionReviewResult,
+  Task,
 } from './types.js';
 import { ESLintAnalyzer } from './analyzers/eslint-analyzer.js';
 import { TypeScriptAnalyzer } from './analyzers/typescript-analyzer.js';
@@ -47,7 +48,7 @@ export class CodeReviewRulesEngine {
   constructor(config?: CodeReviewConfig) {
     this.config = config || this.getDefaultConfig();
     this.cache = new ReviewCache(this.config.caching);
-    
+
     // Initialize analyzers
     this.eslintAnalyzer = new ESLintAnalyzer(this.config.tools.eslint);
     this.typescriptAnalyzer = new TypeScriptAnalyzer(this.config.tools.typescript);
@@ -109,7 +110,7 @@ export class CodeReviewRulesEngine {
    * Validate a kanban transition with code review
    */
   async validateTransition(
-    request: KanbanTransitionReviewRequest
+    request: KanbanTransitionReviewRequest,
   ): Promise<KanbanTransitionReviewResult> {
     const { task, fromStatus, toStatus, board, changedFiles, actor } = request;
 
@@ -141,7 +142,7 @@ export class CodeReviewRulesEngine {
       // Perform code review
       const reviewResult = await this.performCodeReview({
         task,
-        changedFiles: changedFiles || await this.getChangedFiles(task),
+        changedFiles: changedFiles || (await this.getChangedFiles(task)),
         affectedPackages: await this.getAffectedPackages(task),
         reviewType: 'transition',
         context: {
@@ -165,15 +166,14 @@ export class CodeReviewRulesEngine {
         allowed,
         reviewResult,
         reason,
-        suggestions: reviewResult.suggestions.map(s => s.message),
+        suggestions: reviewResult.suggestions.map((s) => s.message),
         warnings: reviewResult.violations
-          .filter(v => v.severity === 'warning')
-          .map(v => v.message),
+          .filter((v) => v.severity === 'warning')
+          .map((v) => v.message),
       };
-
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      
+
       if (this.config.enforcement === 'strict') {
         return {
           allowed: false,
@@ -188,7 +188,11 @@ export class CodeReviewRulesEngine {
           suggestions: [],
           warnings: [`Code review error: ${errorMessage}`],
         };
+}
+        }
       }
+    } catch (error) {
+      console.warn('TypeScript analysis failed:', error);
     }
   }
 
@@ -206,7 +210,9 @@ export class CodeReviewRulesEngine {
       return cached.result;
     }
 
-    console.log(`🔍 Performing code review for task ${task.uuid} (${context.fromStatus}->${context.toStatus})`);
+    console.log(
+      `🔍 Performing code review for task ${task.uuid} (${context.fromStatus}->${context.toStatus})`,
+    );
 
     const violations: CodeReviewViolation[] = [];
     const suggestions: CodeReviewSuggestion[] = [];
@@ -222,25 +228,44 @@ export class CodeReviewRulesEngine {
 
     if (this.hasRulesOfType(applicableRules, 'eslint')) {
       analysisPromises.push(
-        this.runESLintAnalysis(changedFiles, applicableRules, violations, suggestions, actionItems)
+        this.runESLintAnalysis(changedFiles, applicableRules, violations, suggestions, actionItems),
       );
     }
 
     if (this.hasRulesOfType(applicableRules, 'typescript')) {
       analysisPromises.push(
-        this.runTypeScriptAnalysis(changedFiles, applicableRules, violations, suggestions, actionItems)
+        this.runTypeScriptAnalysis(
+          changedFiles,
+          applicableRules,
+          violations,
+          suggestions,
+          actionItems,
+        ),
       );
     }
 
     if (this.hasRulesOfType(applicableRules, 'security')) {
       analysisPromises.push(
-        this.runSecurityAnalysis(changedFiles, applicableRules, violations, suggestions, actionItems)
+        this.runSecurityAnalysis(
+          changedFiles,
+          applicableRules,
+          violations,
+          suggestions,
+          actionItems,
+        ),
       );
     }
 
     if (this.hasRulesOfType(applicableRules, 'ai')) {
       analysisPromises.push(
-        this.runAIAnalysis(task, changedFiles, applicableRules, violations, suggestions, actionItems)
+        this.runAIAnalysis(
+          task,
+          changedFiles,
+          applicableRules,
+          violations,
+          suggestions,
+          actionItems,
+        ),
       );
     }
 
@@ -277,7 +302,9 @@ export class CodeReviewRulesEngine {
       context,
     });
 
-    console.log(`✅ Code review completed for task ${task.uuid}: score=${score}, violations=${violations.length}`);
+    console.log(
+      `✅ Code review completed for task ${task.uuid}: score=${score}, violations=${violations.length}`,
+    );
 
     return result;
   }
@@ -445,13 +472,19 @@ export class CodeReviewRulesEngine {
     const content = task.content || '';
     const fileMatch = content.match(/changed[_-]?files[:\s]+([^\n]+)/i);
     if (fileMatch) {
-      return fileMatch[1].split(',').map(f => f.trim()).filter(f => f.length > 0);
+      return fileMatch[1]
+        .split(',')
+        .map((f) => f.trim())
+        .filter((f) => f.length > 0);
     }
 
     // Fallback: get git diff for recent commits
     try {
       const { stdout } = await execAsync('git diff --name-only HEAD~1 HEAD', { timeout: 10000 });
-      return stdout.trim().split('\n').filter(f => f.length > 0);
+      return stdout
+        .trim()
+        .split('\n')
+        .filter((f) => f.length > 0);
     } catch {
       return [];
     }
@@ -461,7 +494,10 @@ export class CodeReviewRulesEngine {
     const content = task.content || '';
     const packageMatch = content.match(/affected[_-]?packages[:\s]+([^\n]+)/i);
     if (packageMatch) {
-      return packageMatch[1].split(',').map(p => p.trim()).filter(p => p.length > 0);
+      return packageMatch[1]
+        .split(',')
+        .map((p) => p.trim())
+        .filter((p) => p.length > 0);
     }
     return [];
   }
@@ -477,7 +513,10 @@ export class CodeReviewRulesEngine {
     return createHash('md5').update(JSON.stringify(keyData)).digest('hex');
   }
 
-  private async isCacheValid(entry: ReviewCacheEntry, request: CodeReviewRequest): Promise<boolean> {
+  private async isCacheValid(
+    entry: ReviewCacheEntry,
+    request: CodeReviewRequest,
+  ): Promise<boolean> {
     const age = Date.now() - entry.timestamp;
     if (age > this.config.caching.ttl * 1000) {
       return false;
@@ -504,13 +543,13 @@ export class CodeReviewRulesEngine {
   private getApplicableRules(transitionConfig?: TransitionCodeReviewConfig): CodeReviewRule[] {
     if (!transitionConfig) return [];
 
-    return this.config.rules.filter(rule => 
-      transitionConfig.rules.includes(rule.id) && rule.enabled
+    return this.config.rules.filter(
+      (rule) => transitionConfig.rules.includes(rule.id) && rule.enabled,
     );
   }
 
   private hasRulesOfType(rules: CodeReviewRule[], tool: string): boolean {
-    return rules.some(rule => rule.tool === tool);
+    return rules.some((rule) => rule.tool === tool);
   }
 
   private async runESLintAnalysis(
@@ -518,36 +557,38 @@ export class CodeReviewRulesEngine {
     rules: CodeReviewRule[],
     violations: CodeReviewViolation[],
     suggestions: CodeReviewSuggestion[],
-    actionItems: ActionItem[]
+    actionItems: ActionItem[],
   ): Promise<void> {
     try {
-      const result = await this.eslintAnalyzer.analyze(files);
-      
-      for (const message of result.messages) {
-        const violation: CodeReviewViolation = {
-          id: `eslint-${message.ruleId}`,
-          severity: message.severity === 2 ? 'error' : 'warning',
-          category: 'style',
-          rule: message.ruleId || 'unknown',
-          message: message.message,
-          file: result.filePath,
-          line: message.line,
-          column: message.column,
-          source: 'eslint',
-          fixable: message.fix !== undefined,
-          autoFixAvailable: message.fix !== undefined,
-        };
-        violations.push(violation);
+      const results = await this.eslintAnalyzer.analyze(files);
 
-        if (violation.fixable) {
-          actionItems.push({
-            type: 'fix',
-            description: `Fix ESLint violation: ${message.message}`,
-            priority: violation.severity === 'error' ? 'high' : 'medium',
-            estimatedEffort: 'low',
+      for (const result of results) {
+        for (const message of result.messages) {
+          const violation: CodeReviewViolation = {
+            id: `eslint-${message.ruleId}`,
+            severity: message.severity === 2 ? 'error' : 'warning',
+            category: 'style',
+            rule: message.ruleId || 'unknown',
+            message: message.message,
             file: result.filePath,
-            automated: true,
-          });
+            line: message.line,
+            column: message.column,
+            source: 'eslint',
+            fixable: message.fix !== undefined,
+            autoFixAvailable: message.fix !== undefined,
+          };
+          violations.push(violation);
+
+          if (violation.fixable) {
+            actionItems.push({
+              type: 'fix',
+              description: `Fix ESLint violation: ${message.message}`,
+              priority: violation.severity === 'error' ? 'high' : 'medium',
+              estimatedEffort: 'low',
+              file: result.filePath,
+              automated: true,
+            });
+          }
         }
       }
     } catch (error) {
@@ -560,12 +601,13 @@ export class CodeReviewRulesEngine {
     rules: CodeReviewRule[],
     violations: CodeReviewViolation[],
     suggestions: CodeReviewSuggestion[],
-    actionItems: ActionItem[]
+    actionItems: ActionItem[],
   ): Promise<void> {
     try {
-      const result = await this.typescriptAnalyzer.analyze(files);
-      
-      for (const diagnostic of result.diagnostics) {
+      const results = await this.typescriptAnalyzer.analyze(files);
+
+      for (const result of results) {
+        for (const diagnostic of result.diagnostics) {
         const violation: CodeReviewViolation = {
           id: `ts-${diagnostic.code}`,
           severity: diagnostic.category === 1 ? 'error' : 'warning',
@@ -590,15 +632,16 @@ export class CodeReviewRulesEngine {
     rules: CodeReviewRule[],
     violations: CodeReviewViolation[],
     suggestions: CodeReviewSuggestion[],
-    actionItems: ActionItem[]
+    actionItems: ActionItem[],
   ): Promise<void> {
     try {
       const result = await this.securityAnalyzer.analyze(files);
-      
+
       for (const finding of result.findings) {
         const violation: CodeReviewViolation = {
           id: `security-${finding.id}`,
-          severity: finding.severity === 'critical' || finding.severity === 'high' ? 'error' : 'warning',
+          severity:
+            finding.severity === 'critical' || finding.severity === 'high' ? 'error' : 'warning',
           category: 'security',
           rule: finding.ruleId,
           message: finding.message,
@@ -630,11 +673,11 @@ export class CodeReviewRulesEngine {
     rules: CodeReviewRule[],
     violations: CodeReviewViolation[],
     suggestions: CodeReviewSuggestion[],
-    actionItems: ActionItem[]
+    actionItems: ActionItem[],
   ): Promise<void> {
     try {
       const result = await this.aiAnalyzer.analyze(task, files);
-      
+
       // Convert AI suggestions to code review suggestions
       for (const suggestion of result.suggestions) {
         suggestions.push({
@@ -667,10 +710,10 @@ export class CodeReviewRulesEngine {
   }
 
   private calculateMetrics(violations: CodeReviewViolation[]): CodeReviewMetrics {
-    const errors = violations.filter(v => v.severity === 'error').length;
-    const warnings = violations.filter(v => v.severity === 'warning').length;
-    const info = violations.filter(v => v.severity === 'info').length;
-    const fixable = violations.filter(v => v.fixable).length;
+    const errors = violations.filter((v) => v.severity === 'error').length;
+    const warnings = violations.filter((v) => v.severity === 'warning').length;
+    const info = violations.filter((v) => v.severity === 'info').length;
+    const fixable = violations.filter((v) => v.fixable).length;
 
     return {
       totalViolations: violations.length,
@@ -697,15 +740,23 @@ export class CodeReviewRulesEngine {
     return Math.max(0, Math.min(100, score));
   }
 
-  private generateSummary(metrics: CodeReviewMetrics, score: number, context: CodeReviewContext): string {
+  private generateSummary(
+    metrics: CodeReviewMetrics,
+    score: number,
+    context: CodeReviewContext,
+  ): string {
     const status = score >= 80 ? '✅ Excellent' : score >= 60 ? '⚠️ Needs Improvement' : '❌ Poor';
     return `${status} code quality for ${context.transitionType} transition. Score: ${score}/100, Violations: ${metrics.totalViolations} (${metrics.errors} errors, ${metrics.warnings} warnings)`;
   }
 
-  private isBlocked(score: number, violations: CodeReviewViolation[], context: CodeReviewContext): boolean {
+  private isBlocked(
+    score: number,
+    violations: CodeReviewViolation[],
+    context: CodeReviewContext,
+  ): boolean {
     const transitionKey = `${context.fromStatus}->${context.toStatus}`;
     const transitionConfig = this.config.transitions[transitionKey];
-    
+
     if (!transitionConfig) return false;
 
     // Check thresholds
@@ -713,32 +764,51 @@ export class CodeReviewRulesEngine {
       return true;
     }
 
-    if (transitionConfig.thresholds.maxErrors && violations.filter(v => v.severity === 'error').length > transitionConfig.thresholds.maxErrors) {
+    if (
+      transitionConfig.thresholds.maxErrors &&
+      violations.filter((v) => v.severity === 'error').length >
+        transitionConfig.thresholds.maxErrors
+    ) {
       return true;
     }
 
-    if (transitionConfig.thresholds.maxViolations && violations.length > transitionConfig.thresholds.maxViolations) {
+    if (
+      transitionConfig.thresholds.maxViolations &&
+      violations.length > transitionConfig.thresholds.maxViolations
+    ) {
       return true;
     }
 
     // Always block on security errors
-    if (violations.some(v => v.category === 'security' && v.severity === 'error')) {
+    if (violations.some((v) => v.category === 'security' && v.severity === 'error')) {
       return true;
     }
 
     return false;
   }
 
-  private meetsTransitionThresholds(result: CodeReviewResult, transitionConfig: TransitionCodeReviewConfig): boolean {
-    if (transitionConfig.thresholds.minScore && result.score < transitionConfig.thresholds.minScore) {
+  private meetsTransitionThresholds(
+    result: CodeReviewResult,
+    transitionConfig: TransitionCodeReviewConfig,
+  ): boolean {
+    if (
+      transitionConfig.thresholds.minScore &&
+      result.score < transitionConfig.thresholds.minScore
+    ) {
       return false;
     }
 
-    if (transitionConfig.thresholds.maxErrors && result.metrics.errors > transitionConfig.thresholds.maxErrors) {
+    if (
+      transitionConfig.thresholds.maxErrors &&
+      result.metrics.errors > transitionConfig.thresholds.maxErrors
+    ) {
       return false;
     }
 
-    if (transitionConfig.thresholds.maxViolations && result.metrics.totalViolations > transitionConfig.thresholds.maxViolations) {
+    if (
+      transitionConfig.thresholds.maxViolations &&
+      result.metrics.totalViolations > transitionConfig.thresholds.maxViolations
+    ) {
       return false;
     }
 
@@ -750,7 +820,7 @@ export class CodeReviewRulesEngine {
  * Create and configure a code review rules engine
  */
 export async function createCodeReviewRulesEngine(
-  configPath?: string
+  configPath?: string,
 ): Promise<CodeReviewRulesEngine> {
   let config: CodeReviewConfig;
 

@@ -22,7 +22,10 @@ export type FileOperationType =
   | 'delete'
   | 'move'
   | 'copy'
-  | 'list';
+  | 'list'
+  | 'search'
+  | 'validate'
+  | 'backup';
 
 /**
  * Path validation result
@@ -72,6 +75,8 @@ export interface DirectoryAdapterConfig {
     enabled: boolean;
     directory: string;
     retentionDays: number;
+    compressionEnabled: boolean;
+    hashVerification: boolean;
   };
   /** Cache integration */
   cache: {
@@ -99,6 +104,7 @@ export interface FileOperationResult<T = any> {
     duration: number;
     timestamp: Date;
     securityValidations: PathValidationResult;
+    backupPath?: string;
   };
 }
 
@@ -201,7 +207,7 @@ export interface SecurityValidator {
  * Backup manager interface
  */
 export interface BackupManager {
-  createBackup(filePath: string, reason?: string): Promise<string>;
+  createBackup(filePath: string, reason?: string, context?: FileOperationContext): Promise<string>;
   restoreBackup(backupPath: string, targetPath: string): Promise<void>;
   listBackups(filePath?: string): Promise<string[]>;
   cleanupOldBackups(): Promise<number>;
@@ -241,7 +247,7 @@ export class DirectoryAdapterError extends Error {
     public readonly code: string,
     public readonly operation?: FileOperationType,
     public readonly path?: string,
-    public readonly cause?: Error,
+    public override readonly cause?: Error,
   ) {
     super(message);
     this.name = 'DirectoryAdapterError';

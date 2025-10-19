@@ -3,47 +3,47 @@
  * Migrated from agent-context package with unified type system integration
  */
 
-import { v4 as uuidv4 } from 'uuid';
-import type { 
-  ContextMetadata as CoreContextMetadata,
+// import { v4 as uuidv4 } from 'uuid';
+import type {
+  CoreContextMetadata,
   ContextMetadataStore,
-  ContextQuery 
+  ContextQuery,
 } from './types.js';
 import { SecurityValidator, SecurityLogger } from './security.js';
 
-export class ContextMetadataService {
+export class CoreContextMetadataService {
   constructor(private metadataStore: ContextMetadataStore) {}
 
   async setMetadata(
     agentId: string,
     key: string,
-    value: any,
+    _value: any,
     options: {
       type?: string;
       visibility?: 'private' | 'shared' | 'public';
       expiresAt?: Date;
-    } = {},
+    } = {}
   ): Promise<CoreContextMetadata> {
     try {
       const validatedAgentId = SecurityValidator.validateAgentId(agentId);
       const sanitizedKey = SecurityValidator.validateAgentId(key); // Reuse validation for keys
-      const sanitizedValue = SecurityValidator.sanitizeObject(value);
+      // const sanitizedValue = SecurityValidator.sanitizeObject(value);
 
-      const metadata: Omit<CoreContextMetadata, 'id' | 'createdAt' | 'updatedAt'> = {
-        id: { value: uuidv4(), type: 'agent' }, // Generate context ID
+      const metadata: Omit<
+        CoreContextMetadata,
+        'id' | 'createdAt' | 'updatedAt'
+      > = {
         agentId: validatedAgentId as any, // Type conversion for unified system
         name: sanitizedKey,
         description: options.type || 'generic',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        expiresAt: options.expiresAt,
+        ...(options.expiresAt && { expiresAt: options.expiresAt }),
         tags: [options.type || 'generic'],
         permissions: {
           read: [validatedAgentId as any],
           write: [validatedAgentId as any],
           admin: [validatedAgentId as any],
-          public: options.visibility === 'public'
-        }
+          public: options.visibility === 'public',
+        },
       };
 
       SecurityLogger.log({
@@ -51,7 +51,7 @@ export class ContextMetadataService {
         severity: 'low',
         agentId: validatedAgentId,
         action: 'setMetadata',
-        details: { key: sanitizedKey, type: options.type }
+        details: { key: sanitizedKey, type: options.type },
       });
 
       return await this.metadataStore.setMetadata(metadata);
@@ -61,25 +61,28 @@ export class ContextMetadataService {
         severity: 'medium',
         agentId,
         action: 'setMetadata',
-        details: { 
-          key, 
-          error: error instanceof Error ? error.message : 'Unknown error' 
-        }
+        details: {
+          key,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
   }
 
-  async getMetadata(agentId: string, key?: string): Promise<CoreContextMetadata[]> {
+  async getMetadata(
+    agentId: string,
+    key?: string
+  ): Promise<CoreContextMetadata[]> {
     try {
       const validatedAgentId = SecurityValidator.validateAgentId(agentId);
-      
+
       SecurityLogger.log({
         type: 'data_access',
         severity: 'low',
         agentId: validatedAgentId,
         action: 'getMetadata',
-        details: { key }
+        details: { key },
       });
 
       return await this.metadataStore.getMetadata(validatedAgentId, key);
@@ -89,16 +92,20 @@ export class ContextMetadataService {
         severity: 'medium',
         agentId,
         action: 'getMetadata',
-        details: { 
+        details: {
           key,
-          error: error instanceof Error ? error.message : 'Unknown error' 
-        }
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
   }
 
-  async updateMetadata(agentId: string, key: string, value: any): Promise<CoreContextMetadata> {
+  async updateMetadata(
+    agentId: string,
+    key: string,
+    value: any
+  ): Promise<CoreContextMetadata> {
     try {
       const validatedAgentId = SecurityValidator.validateAgentId(agentId);
       const sanitizedKey = SecurityValidator.validateAgentId(key);
@@ -109,20 +116,24 @@ export class ContextMetadataService {
         severity: 'low',
         agentId: validatedAgentId,
         action: 'updateMetadata',
-        details: { key: sanitizedKey }
+        details: { key: sanitizedKey },
       });
 
-      return await this.metadataStore.updateMetadata(validatedAgentId, sanitizedKey, sanitizedValue);
+      return await this.metadataStore.updateMetadata(
+        validatedAgentId,
+        sanitizedKey,
+        sanitizedValue
+      );
     } catch (error) {
       SecurityLogger.log({
         type: 'data_access',
         severity: 'medium',
         agentId,
         action: 'updateMetadata',
-        details: { 
+        details: {
           key,
-          error: error instanceof Error ? error.message : 'Unknown error' 
-        }
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -138,7 +149,7 @@ export class ContextMetadataService {
         severity: 'low',
         agentId: validatedAgentId,
         action: 'deleteMetadata',
-        details: { key: sanitizedKey }
+        details: { key: sanitizedKey },
       });
 
       await this.metadataStore.deleteMetadata(validatedAgentId, sanitizedKey);
@@ -148,10 +159,10 @@ export class ContextMetadataService {
         severity: 'medium',
         agentId,
         action: 'deleteMetadata',
-        details: { 
+        details: {
           key,
-          error: error instanceof Error ? error.message : 'Unknown error' 
-        }
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -163,7 +174,7 @@ export class ContextMetadataService {
         type: 'data_access',
         severity: 'low',
         action: 'queryMetadata',
-        details: { query }
+        details: { query },
       });
 
       return await this.metadataStore.queryMetadata(query);
@@ -172,10 +183,10 @@ export class ContextMetadataService {
         type: 'data_access',
         severity: 'medium',
         action: 'queryMetadata',
-        details: { 
+        details: {
           query,
-          error: error instanceof Error ? error.message : 'Unknown error' 
-        }
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -188,11 +199,12 @@ export class ContextMetadataService {
       type?: string;
       visibility?: string;
       limit?: number;
-    } = {},
+    } = {}
   ): Promise<CoreContextMetadata[]> {
     try {
       const validatedAgentId = SecurityValidator.validateAgentId(agentId);
-      const allMetadata = await this.metadataStore.getMetadata(validatedAgentId);
+      const allMetadata =
+        await this.metadataStore.getMetadata(validatedAgentId);
 
       let filtered = allMetadata.filter((meta) => {
         // Simple string search in serialized value
@@ -211,7 +223,8 @@ export class ContextMetadataService {
       if (options.visibility) {
         filtered = filtered.filter((meta) => {
           if (options.visibility === 'public') return meta.permissions.public;
-          if (options.visibility === 'shared') return meta.permissions.read.length > 1;
+          if (options.visibility === 'shared')
+            return meta.permissions.read.length > 1;
           return meta.permissions.read.length === 1 && !meta.permissions.public;
         });
       }
@@ -225,10 +238,10 @@ export class ContextMetadataService {
         severity: 'low',
         agentId: validatedAgentId,
         action: 'searchByValue',
-        details: { 
+        details: {
           searchValue: typeof searchValue === 'string' ? searchValue : 'object',
-          resultCount: filtered.length
-        }
+          resultCount: filtered.length,
+        },
       });
 
       return filtered;
@@ -238,16 +251,19 @@ export class ContextMetadataService {
         severity: 'medium',
         agentId,
         action: 'searchByValue',
-        details: { 
+        details: {
           searchValue: typeof searchValue === 'string' ? searchValue : 'object',
-          error: error instanceof Error ? error.message : 'Unknown error' 
-        }
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
   }
 
-  async getMetadataByType(agentId: string, type: string): Promise<CoreContextMetadata[]> {
+  async getMetadataByType(
+    agentId: string,
+    type: string
+  ): Promise<CoreContextMetadata[]> {
     return await this.queryMetadata({
       agentId,
       contextType: type,
@@ -273,31 +289,31 @@ export class ContextMetadataService {
     });
   }
 
-  async cleanupExpired(): Promise<number> {
+  async cleanupExpired(): Promise<void> {
     try {
       SecurityLogger.log({
         type: 'data_access',
         severity: 'low',
         action: 'cleanupExpired',
-        details: { initiated: true }
+        details: { initiated: true },
       });
 
-      const result = await this.metadataStore.cleanupExpired();
+      await this.metadataStore.cleanupExpired();
 
       SecurityLogger.log({
         type: 'data_access',
         severity: 'low',
         action: 'cleanupExpired',
-        details: { cleanedCount: result }
+        details: { completed: true },
       });
-
-      return result;
     } catch (error) {
       SecurityLogger.log({
         type: 'data_access',
         severity: 'medium',
         action: 'cleanupExpired',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -307,7 +323,10 @@ export class ContextMetadataService {
     agentId: string,
     topic: string,
     data: any,
-    options: { expiresAt?: Date; visibility?: 'private' | 'shared' | 'public' } = {},
+    options: {
+      expiresAt?: Date;
+      visibility?: 'private' | 'shared' | 'public';
+    } = {}
   ): Promise<CoreContextMetadata> {
     return await this.setMetadata(agentId, `topic:${topic}`, data, {
       type: 'topic',
@@ -319,19 +338,30 @@ export class ContextMetadataService {
     agentId: string,
     participantId: string,
     data: any,
-    options: { expiresAt?: Date; visibility?: 'private' | 'shared' | 'public' } = {},
+    options: {
+      expiresAt?: Date;
+      visibility?: 'private' | 'shared' | 'public';
+    } = {}
   ): Promise<CoreContextMetadata> {
-    return await this.setMetadata(agentId, `participant:${participantId}`, data, {
-      type: 'participant',
-      ...options,
-    });
+    return await this.setMetadata(
+      agentId,
+      `participant:${participantId}`,
+      data,
+      {
+        type: 'participant',
+        ...options,
+      }
+    );
   }
 
   async setSessionMetadata(
     agentId: string,
     sessionId: string,
     data: any,
-    options: { expiresAt?: Date; visibility?: 'private' | 'shared' | 'public' } = {},
+    options: {
+      expiresAt?: Date;
+      visibility?: 'private' | 'shared' | 'public';
+    } = {}
   ): Promise<CoreContextMetadata> {
     return await this.setMetadata(agentId, `session:${sessionId}`, data, {
       type: 'session',
@@ -351,7 +381,9 @@ export class ContextMetadataService {
         severity: 'medium',
         agentId,
         action: 'getTopics',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       return [];
     }
@@ -359,7 +391,10 @@ export class ContextMetadataService {
 
   async getParticipants(agentId: string): Promise<string[]> {
     try {
-      const participantMetadata = await this.getMetadataByType(agentId, 'participant');
+      const participantMetadata = await this.getMetadataByType(
+        agentId,
+        'participant'
+      );
       return participantMetadata
         .map((meta) => meta.name.replace('participant:', ''))
         .filter((participant) => participant.length > 0);
@@ -369,7 +404,9 @@ export class ContextMetadataService {
         severity: 'medium',
         agentId,
         action: 'getParticipants',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       return [];
     }
@@ -387,7 +424,9 @@ export class ContextMetadataService {
         severity: 'medium',
         agentId,
         action: 'getSessions',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       return [];
     }
@@ -403,7 +442,8 @@ export class ContextMetadataService {
   }> {
     try {
       const validatedAgentId = SecurityValidator.validateAgentId(agentId);
-      const allMetadata = await this.metadataStore.getMetadata(validatedAgentId);
+      const allMetadata =
+        await this.metadataStore.getMetadata(validatedAgentId);
       const now = new Date();
 
       const stats = {
@@ -411,7 +451,7 @@ export class ContextMetadataService {
         byType: {} as Record<string, number>,
         byVisibility: {} as Record<string, number>,
         expired: 0,
-        totalSize: 0
+        totalSize: 0,
       };
 
       for (const meta of allMetadata) {
@@ -442,7 +482,7 @@ export class ContextMetadataService {
         severity: 'low',
         agentId: validatedAgentId,
         action: 'getMetadataStatistics',
-        details: stats
+        details: stats,
       });
 
       return stats;
@@ -452,17 +492,22 @@ export class ContextMetadataService {
         severity: 'medium',
         agentId,
         action: 'getMetadataStatistics',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
   }
 
-  async exportMetadata(agentId: string, options: {
-    includeExpired?: boolean;
-    types?: string[];
-    format?: 'json' | 'csv';
-  } = {}): Promise<string> {
+  async exportMetadata(
+    agentId: string,
+    options: {
+      includeExpired?: boolean;
+      types?: string[];
+      format?: 'json' | 'csv';
+    } = {}
+  ): Promise<string> {
     try {
       const validatedAgentId = SecurityValidator.validateAgentId(agentId);
       let metadata = await this.metadataStore.getMetadata(validatedAgentId);
@@ -470,30 +515,44 @@ export class ContextMetadataService {
       // Filter expired if requested
       if (!options.includeExpired) {
         const now = new Date();
-        metadata = metadata.filter(meta => !meta.expiresAt || meta.expiresAt >= now);
+        metadata = metadata.filter(
+          (meta) => !meta.expiresAt || meta.expiresAt >= now
+        );
       }
 
       // Filter by types if specified
       if (options.types && options.types.length > 0) {
-        metadata = metadata.filter(meta => 
+        metadata = metadata.filter((meta) =>
           options.types!.includes(meta.description || 'unknown')
         );
       }
 
       if (options.format === 'csv') {
         // Convert to CSV format
-        const headers = ['id', 'name', 'description', 'visibility', 'createdAt', 'updatedAt', 'expiresAt'];
-        const rows = metadata.map(meta => [
+        const headers = [
+          'id',
+          'name',
+          'description',
+          'visibility',
+          'createdAt',
+          'updatedAt',
+          'expiresAt',
+        ];
+        const rows = metadata.map((meta) => [
           meta.id.value,
           meta.name,
           meta.description,
-          meta.permissions.public ? 'public' : meta.permissions.read.length > 1 ? 'shared' : 'private',
+          meta.permissions.public
+            ? 'public'
+            : meta.permissions.read.length > 1
+              ? 'shared'
+              : 'private',
           meta.createdAt.toISOString(),
           meta.updatedAt.toISOString(),
-          meta.expiresAt?.toISOString() || ''
+          meta.expiresAt?.toISOString() || '',
         ]);
-        
-        return [headers, ...rows].map(row => row.join(',')).join('\n');
+
+        return [headers, ...rows].map((row) => row.join(',')).join('\n');
       }
 
       // Default to JSON format
@@ -504,14 +563,14 @@ export class ContextMetadataService {
         severity: 'medium',
         agentId,
         action: 'exportMetadata',
-        details: { 
+        details: {
           options,
-          error: error instanceof Error ? error.message : 'Unknown error' 
-        }
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
   }
 }
 
-export default ContextMetadataService;
+export default CoreContextMetadataService;

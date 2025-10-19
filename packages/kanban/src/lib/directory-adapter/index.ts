@@ -24,25 +24,21 @@ export type {
   SecurityValidationError,
   FileNotFoundError,
   FilePermissionError,
-  FileCorruptionError
+  FileCorruptionError,
 } from './types.js';
 
 // Class exports
-export {
-  DirectoryAdapter,
-  createDirectoryAdapter
-} from './adapter.js';
+export { DirectoryAdapter, createDirectoryAdapter } from './adapter.js';
 
 export {
   TaskSecurityValidator,
   createSecurityValidator,
-  DEFAULT_SECURITY_OPTIONS
+  DEFAULT_SECURITY_OPTIONS,
 } from './security.js';
 
-export {
-  TaskBackupManager,
-  createBackupManager
-} from './backup.js';
+export { DEFAULT_DIRECTORY_ADAPTER_CONFIG, TEST_CONFIG } from './config.js';
+
+export { TaskBackupManager, createBackupManager } from './backup.js';
 
 // Re-export for convenience
 export type { BackupConfig, BackupMetadata } from './backup.js';

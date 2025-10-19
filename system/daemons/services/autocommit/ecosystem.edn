@@ -12,12 +12,10 @@
          :interpreter "/usr/bin/env"
          :autorestart true
          :watch ["./packages/autocommit/dist"]
-         :max_memory_restart "1G"
          :error_file "/home/err/devel/promethean/logs/autocommit-error.log"
          :out_file "/home/err/devel/promethean/logs/autocommit-out.log"
          :log_file "/home/err/devel/promethean/logs/autocommit.log"
          :time true
          :kill_timeout 5000
          :restart_delay 5000
-         :max_restarts 10
          :min_uptime 10000}]}

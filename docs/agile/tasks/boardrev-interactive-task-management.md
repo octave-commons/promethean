@@ -10,6 +10,14 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
+lastCommitSha: "a087217470ed04303320c1f9266ba42cee1ad856"
+commitHistory:
+  -
+    sha: "a087217470ed04303320c1f9266ba42cee1ad856"
+    timestamp: "2025-10-19 17:20:59 -0500\n\ndiff --git a/docs/agile/tasks/boardrev-interactive-task-management.md b/docs/agile/tasks/boardrev-interactive-task-management.md\nindex e34d9c5d0..0c87b851b 100644\n--- a/docs/agile/tasks/boardrev-interactive-task-management.md\n+++ b/docs/agile/tasks/boardrev-interactive-task-management.md\n@@ -10,14 +10,6 @@ estimates:\n   complexity: \"\"\n   scale: \"\"\n   time_to_completion: \"\"\n-lastCommitSha: \"f1946de618e82bd346587246a8ed28ddf8fa3ed0\"\n-commitHistory:\n-  -\n-    sha: \"f1946de618e82bd346587246a8ed28ddf8fa3ed0\"\n-    timestamp: \"2025-10-19T22:18:59.633Z\"\n-    message: \"Update task: f80c21d2-c77c-45e3-952d-e9f439785924 - Update task: Add interactive task management and auto-updates to boardrev\"\n-    author: \"Error <foamy125@gmail.com>\"\n-    type: \"update\"\n ---\n \n # Add interactive task management and auto-updates to boardrev"
+    message: "Update task: f80c21d2-c77c-45e3-952d-e9f439785924 - Update task: Add interactive task management and auto-updates to boardrev"
+    author: "Error"
+    type: "update"
 ---
 
 # Add interactive task management and auto-updates to boardrev

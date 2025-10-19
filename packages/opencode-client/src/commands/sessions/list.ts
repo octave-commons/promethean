@@ -12,22 +12,28 @@ export const listCommand = new Command('list')
   .option('--format <format>', 'Output format (table|json)', 'table')
   .action(async (options) => {
     try {
+      const limit = parseInt(options.limit);
+      const offset = parseInt(options.offset);
+
       // Try API first, fallback to direct action if server is unavailable
-      let sessions;
+      let sessions: any[] = [];
+      let sessionsFromApi = false;
       try {
         sessions = await listSessions({
-          limit: parseInt(options.limit),
-          offset: parseInt(options.offset),
+          limit,
+          offset,
         });
+        sessionsFromApi = true;
         // If API returns more sessions than requested, fallback to local action
-        if (sessions.length > parseInt(options.limit)) {
+        if (sessions.length > limit) {
           console.log(chalk.yellow('API not respecting limit, using local action...'));
           const result = await listAction({
-            limit: parseInt(options.limit),
-            offset: parseInt(options.offset),
+            limit,
+            offset,
           });
           const parsed = JSON.parse(result);
           sessions = parsed.sessions || [];
+          sessionsFromApi = false;
         }
       } catch (serverError) {
         console.log(
@@ -35,11 +41,57 @@ export const listCommand = new Command('list')
           (serverError as Error).message,
         );
         const result = await listAction({
-          limit: parseInt(options.limit),
-          offset: parseInt(options.offset),
+          limit,
+          offset,
         });
         const parsed = JSON.parse(result);
         sessions = parsed.sessions || [];
+        sessionsFromApi = false;
+      }
+
+      if (sessionsFromApi) {
+        try {
+          const localLimit = Math.min(limit + offset + 50, 500);
+          const result = await listAction({
+            limit: localLimit,
+            offset: 0,
+          });
+          const parsed = JSON.parse(result);
+          const localSessions: any[] = parsed.sessions || [];
+          const localById = new Map<string, any>();
+          localSessions.forEach((session: any) => {
+            if (!session?.id) return;
+            localById.set(session.id, session);
+            if (session.id.length >= 12) {
+              localById.set(session.id.substring(0, 12), session);
+            }
+          });
+
+          sessions = sessions.map((session: any) => {
+            const prefixKey = session?.id ? session.id.substring(0, 12) : undefined;
+            const local =
+              localById.get(session.id) || (prefixKey ? localById.get(prefixKey) : undefined);
+            if (!local) return session;
+
+            const isAgentTask =
+              local.isAgentTask === true || session.isAgentTask === true
+                ? true
+                : (session.isAgentTask ?? local.isAgentTask);
+
+            return {
+              ...session,
+              messageCount: local.messageCount ?? session.messageCount,
+              activityStatus: local.activityStatus ?? session.activityStatus,
+              isAgentTask: isAgentTask ?? false,
+              agentTaskStatus: local.agentTaskStatus ?? session.agentTaskStatus,
+            };
+          });
+        } catch (mergeError) {
+          console.log(
+            chalk.yellow('Unable to enrich sessions with local metadata:'),
+            (mergeError as Error).message,
+          );
+        }
       }
 
       if (options.format === 'json') {

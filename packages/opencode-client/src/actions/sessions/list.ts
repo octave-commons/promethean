@@ -35,15 +35,22 @@ function parseSessionData(session: any): any {
 
 export async function list({ limit, offset }: { limit: number; offset: number }) {
   let storedSessions: any[] = [];
+  const debugEnabled = Boolean(process.env.OPENCODE_DEBUG);
   try {
-    console.log(`[DEBUG] list called with limit=${limit}, offset=${offset}`);
+    if (debugEnabled) {
+      console.log(`[DEBUG] list called with limit=${limit}, offset=${offset}`);
+    }
 
     // Get sessions from dual store - use limit + offset as buffer to ensure we have enough items
     // Add a reasonable buffer to account for potential filtering, but don't fetch all 1000
     const fetchLimit = Math.min(limit + offset + 50, 500); // Reasonable upper bound
-    console.log(`[DEBUG] fetchLimit=${fetchLimit}`);
+    if (debugEnabled) {
+      console.log(`[DEBUG] fetchLimit=${fetchLimit}`);
+    }
     storedSessions = await sessionStore.getMostRecent(fetchLimit);
-    console.log(`[DEBUG] retrieved ${storedSessions?.length || 0} sessions from store`);
+    if (debugEnabled) {
+      console.log(`[DEBUG] retrieved ${storedSessions?.length || 0} sessions from store`);
+    }
 
     if (!storedSessions?.length) {
       return JSON.stringify({
@@ -56,12 +63,13 @@ export async function list({ limit, offset }: { limit: number; offset: number })
     // Parse sessions and deduplicate by ID
     const parsedSessions = storedSessions.map((session) => parseSessionData(session));
     const sessionsList = deduplicateSessions(parsedSessions);
-    console.log(`[DEBUG] after deduplication: ${sessionsList?.length || 0} sessions`);
-
-    console.log(`[INFO] Session IDs being processed:`);
-    sessionsList.slice(0, 5).forEach((s: any) => {
-      console.log(`  - ${s.id} (isAgentTask: ${s.isAgentTask})`);
-    });
+    if (debugEnabled) {
+      console.log(`[DEBUG] after deduplication: ${sessionsList?.length || 0} sessions`);
+      console.log(`[INFO] Session IDs being processed:`);
+      sessionsList.slice(0, 5).forEach((s: any) => {
+        console.log(`  - ${s.id} (isAgentTask: ${s.isAgentTask})`);
+      });
+    }
 
     if (!sessionsList?.length) {
       return JSON.stringify({
@@ -87,9 +95,11 @@ export async function list({ limit, offset }: { limit: number; offset: number })
       return bId.localeCompare(aId);
     });
     const paginated = sortedSessions.slice(offset, offset + limit);
-    console.log(
-      `[DEBUG] after pagination: ${paginated.length} sessions (offset=${offset}, limit=${limit})`,
-    );
+    if (debugEnabled) {
+      console.log(
+        `[DEBUG] after pagination: ${paginated.length} sessions (offset=${offset}, limit=${limit})`,
+      );
+    }
 
     const enhanced = await Promise.all(
       paginated.map(async (session: any) => {

@@ -6,7 +6,7 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import { performance } from 'perf_hooks';
-import { createLogger } from '@promethean/utils';
+import { createLogger, type LogFields } from '@promethean/utils';
 import matter from 'gray-matter';
 import type { IndexedTask } from '../../board/types.js';
 import type { TaskCache } from '../../board/task-cache.js';
@@ -19,17 +19,10 @@ import type {
   BackupManager,
   AuditLogEntry,
   PerformanceMetrics,
-  DirectoryAdapterEvents,
   ListOptions,
   SearchOptions,
 } from './types.js';
-import {
-  DirectoryAdapterError,
-  SecurityValidationError,
-  FileNotFoundError,
-  FilePermissionError,
-  FileCorruptionError,
-} from './types.js';
+import { DirectoryAdapterError, SecurityValidationError, FileNotFoundError } from './types.js';
 import type { FileOperationType } from './types.js';
 import { createSecurityValidator } from './security.js';
 import { createBackupManager } from './backup.js';
@@ -58,7 +51,14 @@ export class DirectoryAdapter implements TaskFileOperations {
     this.config = config;
     this.cache = cache;
     this.securityValidator = createSecurityValidator(config.security);
-    this.backupManager = createBackupManager(config.backup);
+    // Transform backup config to match BackupConfig interface
+    const backupConfig = {
+      directory: config.backup.directory,
+      retentionDays: config.backup.retentionDays,
+      compressionEnabled: config.backup.compressionEnabled,
+      hashVerification: config.backup.hashVerification,
+    };
+    this.backupManager = createBackupManager(backupConfig);
 
     // Ensure base directory exists
     this.ensureBaseDirectory();
@@ -132,7 +132,8 @@ export class DirectoryAdapter implements TaskFileOperations {
    * Write a task file with full security validation
    */
   async writeTaskFile(task: IndexedTask): Promise<FileOperationResult<void>> {
-    const context = this.createContext('write', task.path || this.getTaskPath(task.uuid));
+    const taskPath = task.path || this.getTaskPath(task.uuid || task.id);
+    const context = this.createContext('write', taskPath);
     const startTime = performance.now();
 
     try {
@@ -197,7 +198,7 @@ export class DirectoryAdapter implements TaskFileOperations {
    * Create a new task file
    */
   async createTaskFile(task: IndexedTask): Promise<FileOperationResult<void>> {
-    const context = this.createContext('create', this.getTaskPath(task.uuid));
+    const context = this.createContext('create', this.getTaskPath(task.uuid || task.id));
     const startTime = performance.now();
 
     try {
@@ -397,11 +398,14 @@ export class DirectoryAdapter implements TaskFileOperations {
       }
 
       const task = readResult.data;
-      task.title = newTitle;
-      task.path = newPath;
+      const updatedTask = {
+        ...task,
+        title: newTitle,
+        path: newPath,
+      };
 
       // Write to new location
-      const writeResult = await this.writeTaskFile(task);
+      const writeResult = await this.writeTaskFile(updatedTask);
       if (!writeResult.success) {
         throw writeResult.error
           ? new Error(writeResult.error)
@@ -482,7 +486,7 @@ export class DirectoryAdapter implements TaskFileOperations {
             tasks.push(task);
           }
         } catch (error) {
-          logger.warn(`Failed to parse task file ${file}:`, error);
+          logger.warn(`Failed to parse task file ${file}:`, error as LogFields);
         }
       }
 
@@ -492,6 +496,11 @@ export class DirectoryAdapter implements TaskFileOperations {
           const aValue = a[options.sort!.field];
           const bValue = b[options.sort!.field];
           const order = options.sort!.order === 'desc' ? -1 : 1;
+
+          // Handle undefined values
+          if (aValue === undefined && bValue === undefined) return 0;
+          if (aValue === undefined) return 1 * order;
+          if (bValue === undefined) return -1 * order;
 
           if (aValue < bValue) return -1 * order;
           if (aValue > bValue) return 1 * order;
@@ -645,7 +654,7 @@ export class DirectoryAdapter implements TaskFileOperations {
     try {
       await fs.mkdir(this.config.baseDirectory, { recursive: true });
     } catch (error) {
-      logger.error('Failed to create base directory:', error);
+      logger.error('Failed to create base directory:', error as LogFields);
     }
   }
 
@@ -738,7 +747,7 @@ export class DirectoryAdapter implements TaskFileOperations {
     this.updateMetrics(context.operation, duration, false);
     this.logAuditEntry(context, false, errorMessage, duration);
 
-    logger.error(`Operation ${context.operation} failed on ${context.path}:`, error);
+    logger.error(`Operation ${context.operation} failed on ${context.path}:`, error as LogFields);
 
     return {
       success: false,
@@ -805,11 +814,11 @@ export class DirectoryAdapter implements TaskFileOperations {
     }
   }
 
-  private recordCacheHit(operation: FileOperationType, path: string): void {
+  private recordCacheHit(_operation: FileOperationType, _path: string): void {
     this.performanceMetrics.cacheHitRate = (this.performanceMetrics.cacheHitRate + 1) / 2; // Simple moving average
   }
 
-  private recordCacheMiss(operation: FileOperationType, path: string): void {
+  private recordCacheMiss(_operation: FileOperationType, _path: string): void {
     this.performanceMetrics.cacheHitRate = this.performanceMetrics.cacheHitRate * 0.9; // Decay
   }
 

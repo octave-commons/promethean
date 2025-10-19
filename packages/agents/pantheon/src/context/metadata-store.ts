@@ -4,10 +4,10 @@
  */
 
 import { v4 as uuidv4 } from 'uuid';
-import type { 
-  ContextMetadata as CoreContextMetadata,
+import type {
+  CoreContextMetadata,
   ContextMetadataStore,
-  ContextQuery 
+  ContextQuery,
 } from './types.js';
 import { SecurityValidator, SecurityLogger } from './security.js';
 
@@ -16,36 +16,53 @@ export class MemoryContextMetadataStore implements ContextMetadataStore {
   private metadata: Map<string, CoreContextMetadata> = new Map();
 
   async setMetadata(
-    metadata: Omit<CoreContextMetadata, 'id' | 'createdAt' | 'updatedAt'>,
+    metadata: Omit<CoreContextMetadata, 'id' | 'createdAt' | 'updatedAt'>
   ): Promise<CoreContextMetadata> {
     try {
       const validatedMetadata: CoreContextMetadata = {
         ...metadata,
-        id: { ...metadata.id, value: metadata.id.value || uuidv4() },
+        id: { value: uuidv4(), type: 'agent' as const },
         createdAt: new Date(),
         updatedAt: new Date(),
-        agentId: SecurityValidator.validateAgentId(metadata.agentId as string) as any,
+        agentId: SecurityValidator.validateAgentId(
+          metadata.agentId as unknown as string
+        ) as any,
         name: SecurityValidator.validateAgentId(metadata.name),
         permissions: {
-          read: metadata.permissions.read.map(id => SecurityValidator.validateAgentId(id as string) as any),
-          write: metadata.permissions.write.map(id => SecurityValidator.validateAgentId(id as string) as any),
-          admin: metadata.permissions.admin.map(id => SecurityValidator.validateAgentId(id as string) as any),
-          public: metadata.permissions.public
-        }
+          read: metadata.permissions.read.map(
+            (id) =>
+              SecurityValidator.validateAgentId(id as unknown as string) as any
+          ),
+          write: metadata.permissions.write.map(
+            (id) =>
+              SecurityValidator.validateAgentId(id as unknown as string) as any
+          ),
+          admin: metadata.permissions.admin.map(
+            (id) =>
+              SecurityValidator.validateAgentId(id as unknown as string) as any
+          ),
+          public: metadata.permissions.public,
+        },
       };
 
-      const key = this.generateKey(validatedMetadata.agentId as string, validatedMetadata.name);
+      const key = this.generateKey(
+        (validatedMetadata.agentId as any)?.value ||
+          (validatedMetadata.agentId as unknown as string),
+        validatedMetadata.name
+      );
       this.metadata.set(key, validatedMetadata);
 
       SecurityLogger.log({
         type: 'data_access',
         severity: 'low',
-        agentId: validatedMetadata.agentId as string,
+        agentId:
+          (validatedMetadata.agentId as any)?.value ||
+          (validatedMetadata.agentId as unknown as string),
         action: 'setMetadata',
-        details: { 
+        details: {
           metadataId: validatedMetadata.id.value,
-          name: validatedMetadata.name
-        }
+          name: validatedMetadata.name,
+        },
       });
 
       return validatedMetadata;
@@ -53,20 +70,25 @@ export class MemoryContextMetadataStore implements ContextMetadataStore {
       SecurityLogger.log({
         type: 'data_access',
         severity: 'high',
-        agentId: metadata.agentId as string,
+        agentId: metadata.agentId as unknown as string,
         action: 'setMetadata',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
   }
 
-  async getMetadata(agentId: string, key?: string): Promise<CoreContextMetadata[]> {
+  async getMetadata(
+    agentId: string,
+    key?: string
+  ): Promise<CoreContextMetadata[]> {
     try {
       const validatedAgentId = SecurityValidator.validateAgentId(agentId);
       const results: CoreContextMetadata[] = [];
 
-      for (const [storeKey, metadata] of this.metadata.entries()) {
+      for (const [, metadata] of this.metadata.entries()) {
         if (this.isMetadataForAgent(metadata, validatedAgentId)) {
           if (!key || metadata.name === key) {
             results.push(metadata);
@@ -74,20 +96,29 @@ export class MemoryContextMetadataStore implements ContextMetadataStore {
         }
       }
 
-      return results.sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime());
+      return results.sort(
+        (a, b) => b.updatedAt.getTime() - a.updatedAt.getTime()
+      );
     } catch (error) {
       SecurityLogger.log({
         type: 'data_access',
         severity: 'medium',
         agentId,
         action: 'getMetadata',
-        details: { key, error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          key,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
   }
 
-  async updateMetadata(agentId: string, key: string, value: any): Promise<CoreContextMetadata> {
+  async updateMetadata(
+    agentId: string,
+    key: string,
+    value: any
+  ): Promise<CoreContextMetadata> {
     try {
       const validatedAgentId = SecurityValidator.validateAgentId(agentId);
       const validatedKey = SecurityValidator.validateAgentId(key);
@@ -101,7 +132,7 @@ export class MemoryContextMetadataStore implements ContextMetadataStore {
       const updatedMetadata: CoreContextMetadata = {
         ...existingMetadata,
         description: JSON.stringify(SecurityValidator.sanitizeObject(value)),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       };
 
       this.metadata.set(storeKey, updatedMetadata);
@@ -111,7 +142,7 @@ export class MemoryContextMetadataStore implements ContextMetadataStore {
         severity: 'low',
         agentId: validatedAgentId,
         action: 'updateMetadata',
-        details: { key: validatedKey }
+        details: { key: validatedKey },
       });
 
       return updatedMetadata;
@@ -121,7 +152,10 @@ export class MemoryContextMetadataStore implements ContextMetadataStore {
         severity: 'medium',
         agentId,
         action: 'updateMetadata',
-        details: { key, error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          key,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -142,7 +176,7 @@ export class MemoryContextMetadataStore implements ContextMetadataStore {
           severity: 'low',
           agentId: validatedAgentId,
           action: 'deleteMetadata',
-          details: { key: validatedKey }
+          details: { key: validatedKey },
         });
       }
     } catch (error) {
@@ -151,7 +185,10 @@ export class MemoryContextMetadataStore implements ContextMetadataStore {
         severity: 'medium',
         agentId,
         action: 'deleteMetadata',
-        details: { key, error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          key,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -163,28 +200,38 @@ export class MemoryContextMetadataStore implements ContextMetadataStore {
 
       // Filter by agent ID
       if (query.agentId) {
-        const validatedAgentId = SecurityValidator.validateAgentId(query.agentId);
-        results = results.filter(metadata => this.isMetadataForAgent(metadata, validatedAgentId));
+        const validatedAgentId = SecurityValidator.validateAgentId(
+          query.agentId
+        );
+        results = results.filter((metadata) =>
+          this.isMetadataForAgent(metadata, validatedAgentId)
+        );
       }
 
       // Filter by context type (description in unified system)
       if (query.contextType) {
-        results = results.filter(metadata => metadata.description === query.contextType);
+        results = results.filter(
+          (metadata) => metadata.description === query.contextType
+        );
       }
 
       // Filter by visibility
       if (query.visibility) {
-        results = results.filter(metadata => {
+        results = results.filter((metadata) => {
           if (query.visibility === 'public') return metadata.permissions.public;
-          if (query.visibility === 'shared') return metadata.permissions.read.length > 1;
-          return metadata.permissions.read.length === 1 && !metadata.permissions.public;
+          if (query.visibility === 'shared')
+            return metadata.permissions.read.length > 1;
+          return (
+            metadata.permissions.read.length === 1 &&
+            !metadata.permissions.public
+          );
         });
       }
 
       // Filter by key pattern (name in unified system)
       if (query.keyPattern) {
         const pattern = new RegExp(query.keyPattern, 'i');
-        results = results.filter(metadata => pattern.test(metadata.name));
+        results = results.filter((metadata) => pattern.test(metadata.name));
       }
 
       // Apply limit and offset
@@ -196,13 +243,18 @@ export class MemoryContextMetadataStore implements ContextMetadataStore {
         results = results.slice(0, query.limit);
       }
 
-      return results.sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime());
+      return results.sort(
+        (a, b) => b.updatedAt.getTime() - a.updatedAt.getTime()
+      );
     } catch (error) {
       SecurityLogger.log({
         type: 'data_access',
         severity: 'medium',
         action: 'queryMetadata',
-        details: { query, error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          query,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -224,14 +276,16 @@ export class MemoryContextMetadataStore implements ContextMetadataStore {
         type: 'data_access',
         severity: 'low',
         action: 'cleanupExpired',
-        details: { cleanedCount }
+        details: { cleanedCount },
       });
     } catch (error) {
       SecurityLogger.log({
         type: 'data_access',
         severity: 'medium',
         action: 'cleanupExpired',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -241,8 +295,14 @@ export class MemoryContextMetadataStore implements ContextMetadataStore {
     return `${agentId}:${name}`;
   }
 
-  private isMetadataForAgent(metadata: CoreContextMetadata, agentId: string): boolean {
-    return metadata.agentId === agentId || metadata.permissions.read.includes(agentId as any);
+  private isMetadataForAgent(
+    metadata: CoreContextMetadata,
+    agentId: string
+  ): boolean {
+    return (
+      (metadata.agentId as any)?.value === agentId ||
+      metadata.permissions.read.includes(agentId as any)
+    );
   }
 
   // Additional utility methods
@@ -265,13 +325,14 @@ export class MemoryContextMetadataStore implements ContextMetadataStore {
       totalMetadata: this.metadata.size,
       expiredMetadata: 0,
       metadataByAgent: {} as Record<string, number>,
-      metadataByType: {} as Record<string, number>
+      metadataByType: {} as Record<string, number>,
     };
 
     for (const metadata of this.metadata.values()) {
       // Count by agent
-      const agentId = metadata.agentId as string;
-      stats.metadataByAgent[agentId] = (stats.metadataByAgent[agentId] || 0) + 1;
+      const agentId = metadata.agentId as unknown as string;
+      stats.metadataByAgent[agentId] =
+        (stats.metadataByAgent[agentId] || 0) + 1;
 
       // Count by type
       const type = metadata.description || 'unknown';
@@ -295,16 +356,18 @@ export class PostgresContextMetadataStore implements ContextMetadataStore {
   ) {}
 
   async setMetadata(
-    metadata: Omit<CoreContextMetadata, 'id' | 'createdAt' | 'updatedAt'>,
+    metadata: Omit<CoreContextMetadata, 'id' | 'createdAt' | 'updatedAt'>
   ): Promise<CoreContextMetadata> {
     try {
       const validatedMetadata = {
         ...metadata,
-        id: { ...metadata.id, value: metadata.id.value || uuidv4() },
+        id: { value: uuidv4(), type: 'agent' as const },
         createdAt: new Date(),
         updatedAt: new Date(),
-        agentId: SecurityValidator.validateAgentId(metadata.agentId as string) as any,
-        name: SecurityValidator.validateAgentId(metadata.name)
+        agentId: SecurityValidator.validateAgentId(
+          metadata.agentId as unknown as string
+        ) as any,
+        name: SecurityValidator.validateAgentId(metadata.name),
       };
 
       const query = `
@@ -338,7 +401,7 @@ export class PostgresContextMetadataStore implements ContextMetadataStore {
         JSON.stringify(validatedMetadata.permissions.read),
         JSON.stringify(validatedMetadata.permissions.write),
         JSON.stringify(validatedMetadata.permissions.admin),
-        validatedMetadata.permissions.public
+        validatedMetadata.permissions.public,
       ];
 
       const result = await this.pool.query(query, values);
@@ -347,12 +410,14 @@ export class PostgresContextMetadataStore implements ContextMetadataStore {
       SecurityLogger.log({
         type: 'data_access',
         severity: 'low',
-        agentId: validatedMetadata.agentId as string,
+        agentId:
+          (validatedMetadata.agentId as any)?.value ||
+          (validatedMetadata.agentId as unknown as string),
         action: 'setMetadata',
-        details: { 
+        details: {
           metadataId: validatedMetadata.id.value,
-          name: validatedMetadata.name
-        }
+          name: validatedMetadata.name,
+        },
       });
 
       return {
@@ -360,7 +425,9 @@ export class PostgresContextMetadataStore implements ContextMetadataStore {
         agentId: row.agent_id,
         name: row.name,
         description: row.description,
-        parentId: row.parent_id ? { value: row.parent_id, type: 'agent' } : undefined,
+        ...(row.parent_id && {
+          parentId: { value: row.parent_id, type: 'agent' },
+        }),
         createdAt: new Date(row.created_at),
         updatedAt: new Date(row.updated_at),
         expiresAt: row.expires_at ? new Date(row.expires_at) : undefined,
@@ -369,22 +436,27 @@ export class PostgresContextMetadataStore implements ContextMetadataStore {
           read: row.read_permissions,
           write: row.write_permissions,
           admin: row.admin_permissions,
-          public: row.public
-        }
+          public: row.public,
+        },
       };
     } catch (error) {
       SecurityLogger.log({
         type: 'data_access',
         severity: 'high',
-        agentId: metadata.agentId as string,
+        agentId: metadata.agentId as unknown as string,
         action: 'setMetadata',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
   }
 
-  async getMetadata(agentId: string, key?: string): Promise<CoreContextMetadata[]> {
+  async getMetadata(
+    agentId: string,
+    key?: string
+  ): Promise<CoreContextMetadata[]> {
     try {
       const validatedAgentId = SecurityValidator.validateAgentId(agentId);
 
@@ -394,7 +466,7 @@ export class PostgresContextMetadataStore implements ContextMetadataStore {
         FROM ${this.tableName}
         WHERE agent_id = $1
       `;
-      
+
       const params: any[] = [validatedAgentId];
 
       if (key) {
@@ -406,12 +478,14 @@ export class PostgresContextMetadataStore implements ContextMetadataStore {
 
       const result = await this.pool.query(query, params);
 
-      return result.rows.map(row => ({
+      return result.rows.map((row: any) => ({
         id: { value: row.id, type: 'agent' },
         agentId: row.agent_id,
         name: row.name,
         description: row.description,
-        parentId: row.parent_id ? { value: row.parent_id, type: 'agent' } : undefined,
+        ...(row.parent_id && {
+          parentId: { value: row.parent_id, type: 'agent' },
+        }),
         createdAt: new Date(row.created_at),
         updatedAt: new Date(row.updated_at),
         expiresAt: row.expires_at ? new Date(row.expires_at) : undefined,
@@ -420,8 +494,8 @@ export class PostgresContextMetadataStore implements ContextMetadataStore {
           read: row.read_permissions,
           write: row.write_permissions,
           admin: row.admin_permissions,
-          public: row.public
-        }
+          public: row.public,
+        },
       }));
     } catch (error) {
       SecurityLogger.log({
@@ -429,13 +503,20 @@ export class PostgresContextMetadataStore implements ContextMetadataStore {
         severity: 'medium',
         agentId,
         action: 'getMetadata',
-        details: { key, error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          key,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
   }
 
-  async updateMetadata(agentId: string, key: string, value: any): Promise<CoreContextMetadata> {
+  async updateMetadata(
+    agentId: string,
+    key: string,
+    value: any
+  ): Promise<CoreContextMetadata> {
     try {
       const validatedAgentId = SecurityValidator.validateAgentId(agentId);
       const validatedKey = SecurityValidator.validateAgentId(key);
@@ -452,11 +533,13 @@ export class PostgresContextMetadataStore implements ContextMetadataStore {
       const result = await this.pool.query(query, [
         JSON.stringify(sanitizedValue),
         validatedAgentId,
-        validatedKey
+        validatedKey,
       ]);
 
       if (result.rows.length === 0) {
-        throw new Error(`Metadata not found: ${validatedAgentId}:${validatedKey}`);
+        throw new Error(
+          `Metadata not found: ${validatedAgentId}:${validatedKey}`
+        );
       }
 
       const row = result.rows[0];
@@ -466,7 +549,7 @@ export class PostgresContextMetadataStore implements ContextMetadataStore {
         severity: 'low',
         agentId: validatedAgentId,
         action: 'updateMetadata',
-        details: { key: validatedKey }
+        details: { key: validatedKey },
       });
 
       return {
@@ -474,7 +557,9 @@ export class PostgresContextMetadataStore implements ContextMetadataStore {
         agentId: row.agent_id,
         name: row.name,
         description: row.description,
-        parentId: row.parent_id ? { value: row.parent_id, type: 'agent' } : undefined,
+        ...(row.parent_id && {
+          parentId: { value: row.parent_id, type: 'agent' },
+        }),
         createdAt: new Date(row.created_at),
         updatedAt: new Date(row.updated_at),
         expiresAt: row.expires_at ? new Date(row.expires_at) : undefined,
@@ -483,8 +568,8 @@ export class PostgresContextMetadataStore implements ContextMetadataStore {
           read: row.read_permissions,
           write: row.write_permissions,
           admin: row.admin_permissions,
-          public: row.public
-        }
+          public: row.public,
+        },
       };
     } catch (error) {
       SecurityLogger.log({
@@ -492,7 +577,10 @@ export class PostgresContextMetadataStore implements ContextMetadataStore {
         severity: 'medium',
         agentId,
         action: 'updateMetadata',
-        details: { key, error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          key,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -504,7 +592,10 @@ export class PostgresContextMetadataStore implements ContextMetadataStore {
       const validatedKey = SecurityValidator.validateAgentId(key);
 
       const query = `DELETE FROM ${this.tableName} WHERE agent_id = $1 AND name = $2`;
-      const result = await this.pool.query(query, [validatedAgentId, validatedKey]);
+      const result = await this.pool.query(query, [
+        validatedAgentId,
+        validatedKey,
+      ]);
 
       if (result.rowCount > 0) {
         SecurityLogger.log({
@@ -512,7 +603,7 @@ export class PostgresContextMetadataStore implements ContextMetadataStore {
           severity: 'low',
           agentId: validatedAgentId,
           action: 'deleteMetadata',
-          details: { key: validatedKey }
+          details: { key: validatedKey },
         });
       }
     } catch (error) {
@@ -521,7 +612,10 @@ export class PostgresContextMetadataStore implements ContextMetadataStore {
         severity: 'medium',
         agentId,
         action: 'deleteMetadata',
-        details: { key, error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          key,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -535,7 +629,7 @@ export class PostgresContextMetadataStore implements ContextMetadataStore {
         FROM ${this.tableName}
         WHERE 1=1
       `;
-      
+
       const params: any[] = [];
       let paramIndex = 1;
 
@@ -578,12 +672,14 @@ export class PostgresContextMetadataStore implements ContextMetadataStore {
 
       const result = await this.pool.query(sqlQuery, params);
 
-      return result.rows.map(row => ({
+      return result.rows.map((row: any) => ({
         id: { value: row.id, type: 'agent' },
         agentId: row.agent_id,
         name: row.name,
         description: row.description,
-        parentId: row.parent_id ? { value: row.parent_id, type: 'agent' } : undefined,
+        ...(row.parent_id && {
+          parentId: { value: row.parent_id, type: 'agent' },
+        }),
         createdAt: new Date(row.created_at),
         updatedAt: new Date(row.updated_at),
         expiresAt: row.expires_at ? new Date(row.expires_at) : undefined,
@@ -592,15 +688,18 @@ export class PostgresContextMetadataStore implements ContextMetadataStore {
           read: row.read_permissions,
           write: row.write_permissions,
           admin: row.admin_permissions,
-          public: row.public
-        }
+          public: row.public,
+        },
       }));
     } catch (error) {
       SecurityLogger.log({
         type: 'data_access',
         severity: 'medium',
         action: 'queryMetadata',
-        details: { query, error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          query,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -615,14 +714,16 @@ export class PostgresContextMetadataStore implements ContextMetadataStore {
         type: 'data_access',
         severity: 'low',
         action: 'cleanupExpired',
-        details: { cleanedCount: result.rowCount }
+        details: { cleanedCount: result.rowCount },
       });
     } catch (error) {
       SecurityLogger.log({
         type: 'data_access',
         severity: 'medium',
         action: 'cleanupExpired',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -661,7 +762,10 @@ export class PostgresContextMetadataStore implements ContextMetadataStore {
         type: 'data_access',
         severity: 'high',
         action: 'initializeTable',
-        details: { tableName: this.tableName, error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          tableName: this.tableName,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -670,5 +774,5 @@ export class PostgresContextMetadataStore implements ContextMetadataStore {
 
 export default {
   MemoryContextMetadataStore,
-  PostgresContextMetadataStore
+  PostgresContextMetadataStore,
 };

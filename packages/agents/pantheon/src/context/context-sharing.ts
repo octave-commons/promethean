@@ -3,12 +3,12 @@
  * Migrated from agent-context package with unified type system integration
  */
 
-import { v4 as uuidv4 } from 'uuid';
-import type { 
-  ContextShare, 
-  ContextShareStore, 
-  ContextSnapshot, 
-  SnapshotStore 
+// import { v4 as uuidv4 } from 'uuid'; // Not used
+import type {
+  ContextShare,
+  ContextShareStore,
+  ContextSnapshot,
+  SnapshotStore,
 } from './types.js';
 import { SecurityValidator, SecurityLogger, RateLimiter } from './security.js';
 import { ContextSharingHelpers } from './context-sharing-helpers.js';
@@ -18,7 +18,7 @@ export class ContextSharingService {
 
   constructor(
     private shareStore: ContextShareStore,
-    private snapshotStore: SnapshotStore,
+    private snapshotStore: SnapshotStore
   ) {
     this.rateLimiter = RateLimiter.getInstance('context-sharing', 60000, 50);
   }
@@ -31,16 +31,21 @@ export class ContextSharingService {
       permissions?: Record<string, unknown>;
       expiresAt?: Date;
       createdBy?: string;
-    } = {},
+    } = {}
   ): Promise<ContextShare> {
     try {
-      const { sourceId, targetId, type } = await ContextSharingHelpers.validateShareInputs(
-        sourceAgentId,
-        targetAgentId,
-        shareType,
-      );
+      const { sourceId, targetId, type } =
+        await ContextSharingHelpers.validateShareInputs(
+          sourceAgentId,
+          targetAgentId,
+          shareType
+        );
 
-      await ContextSharingHelpers.checkRateLimit(this.rateLimiter, sourceId, 'shareContext');
+      await ContextSharingHelpers.checkRateLimit(
+        this.rateLimiter,
+        sourceId,
+        'shareContext'
+      );
 
       const latestSnapshot = await this.getLatestSnapshotForAgent(sourceId);
       const sanitizedPermissions = options.permissions
@@ -48,7 +53,9 @@ export class ContextSharingService {
         : {};
 
       // Validate expiry date
-      const validatedExpiresAt = ContextSharingHelpers.validateShareExpiry(options.expiresAt);
+      const validatedExpiresAt = ContextSharingHelpers.validateShareExpiry(
+        options.expiresAt
+      );
 
       // Check share limits
       const currentShares = await this.shareStore.getSharesForAgent(sourceId);
@@ -61,21 +68,32 @@ export class ContextSharingService {
         latestSnapshot.id,
         {
           permissions: sanitizedPermissions as Record<string, unknown>,
-          expiresAt: validatedExpiresAt,
-          createdBy: options.createdBy,
-        },
+          ...(validatedExpiresAt && { expiresAt: validatedExpiresAt }),
+          ...(options.createdBy && { createdBy: options.createdBy }),
+        }
       );
 
-      ContextSharingHelpers.logShareSuccess(sourceId, targetId, '', type);
+      ContextSharingHelpers.logShareSuccess(
+        sourceId,
+        targetId,
+        'temp-share-id',
+        type
+      );
 
       return await this.shareStore.createShare(share);
     } catch (error) {
-      ContextSharingHelpers.logSecurityError(sourceAgentId, 'shareContext', error);
+      ContextSharingHelpers.logSecurityError(
+        sourceAgentId,
+        'shareContext',
+        error
+      );
       throw error;
     }
   }
 
-  private async getLatestSnapshotForAgent(agentId: string): Promise<ContextSnapshot> {
+  private async getLatestSnapshotForAgent(
+    agentId: string
+  ): Promise<ContextSnapshot> {
     const latestSnapshot = await this.snapshotStore.getLatestSnapshot(agentId);
     if (!latestSnapshot) {
       SecurityLogger.log({
@@ -91,7 +109,7 @@ export class ContextSharingService {
   }
 
   async getSharedContexts(
-    agentId: string,
+    agentId: string
   ): Promise<Array<ContextShare & { snapshot: ContextSnapshot }>> {
     try {
       const validatedAgentId = SecurityValidator.validateAgentId(agentId);
@@ -99,7 +117,7 @@ export class ContextSharingService {
       await ContextSharingHelpers.checkRateLimit(
         this.rateLimiter,
         validatedAgentId,
-        'getSharedContexts',
+        'getSharedContexts'
       );
 
       const shares = await this.shareStore.getSharedContexts(validatedAgentId);
@@ -120,16 +138,24 @@ export class ContextSharingService {
 
       return result;
     } catch (error) {
-      ContextSharingHelpers.logSecurityError(agentId, 'getSharedContexts', error);
+      ContextSharingHelpers.logSecurityError(
+        agentId,
+        'getSharedContexts',
+        error
+      );
       throw error;
     }
   }
 
   private async batchFetchSnapshots(
-    shares: ContextShare[],
+    shares: ContextShare[]
   ): Promise<Map<string, ContextSnapshot | null>> {
-    const snapshotIds = [...new Set(shares.map((share) => share.contextSnapshotId))];
-    const snapshotPromises = snapshotIds.map((id) => this.snapshotStore.getSnapshot(id));
+    const snapshotIds = [
+      ...new Set(shares.map((share) => share.contextSnapshotId)),
+    ];
+    const snapshotPromises = snapshotIds.map((id) =>
+      this.snapshotStore.getSnapshot(id)
+    );
     const snapshots = await Promise.all(snapshotPromises);
 
     const snapshotMap = new Map<string, ContextSnapshot | null>();
@@ -145,7 +171,7 @@ export class ContextSharingService {
 
   private combineSharesWithSnapshots(
     shares: ContextShare[],
-    snapshotMap: Map<string, ContextSnapshot | null>,
+    snapshotMap: Map<string, ContextSnapshot | null>
   ): Array<ContextShare & { snapshot: ContextSnapshot }> {
     return shares.reduce(
       (acc, share) => {
@@ -155,18 +181,26 @@ export class ContextSharingService {
         }
         return acc;
       },
-      [] as Array<ContextShare & { snapshot: ContextSnapshot }>,
+      [] as Array<ContextShare & { snapshot: ContextSnapshot }>
     );
   }
 
   async revokeShare(shareId: string, requestingAgentId: string): Promise<void> {
     try {
       const validatedShareId = SecurityValidator.validateSnapshotId(shareId);
-      const validatedAgentId = SecurityValidator.validateAgentId(requestingAgentId);
+      const validatedAgentId =
+        SecurityValidator.validateAgentId(requestingAgentId);
 
-      await ContextSharingHelpers.checkRateLimit(this.rateLimiter, validatedAgentId, 'revokeShare');
+      await ContextSharingHelpers.checkRateLimit(
+        this.rateLimiter,
+        validatedAgentId,
+        'revokeShare'
+      );
 
-      const share = await this.findShareForAgent(validatedShareId, validatedAgentId);
+      const share = await this.findShareForAgent(
+        validatedShareId,
+        validatedAgentId
+      );
       await this.shareStore.revokeShare(validatedShareId);
 
       SecurityLogger.log({
@@ -174,15 +208,25 @@ export class ContextSharingService {
         severity: 'low',
         agentId: validatedAgentId,
         action: 'revokeShare',
-        details: { shareId: validatedShareId, targetAgentId: share.targetAgentId },
+        details: {
+          shareId: validatedShareId,
+          targetAgentId: share.targetAgentId,
+        },
       });
     } catch (error) {
-      ContextSharingHelpers.logSecurityError(requestingAgentId, 'revokeShare', error);
+      ContextSharingHelpers.logSecurityError(
+        requestingAgentId,
+        'revokeShare',
+        error
+      );
       throw error;
     }
   }
 
-  private async findShareForAgent(shareId: string, agentId: string): Promise<ContextShare> {
+  private async findShareForAgent(
+    shareId: string,
+    agentId: string
+  ): Promise<ContextShare> {
     const shares = await this.shareStore.getSharesForAgent(agentId);
     const share = shares.find((s) => s.id === shareId);
 
@@ -202,24 +246,27 @@ export class ContextSharingService {
 
   async updateSharePermissions(
     shareId: string,
-    updates: Partial<Pick<ContextShare, 'shareType' | 'permissions' | 'expiresAt'>>,
-    requestingAgentId: string,
+    updates: Partial<
+      Pick<ContextShare, 'shareType' | 'permissions' | 'expiresAt'>
+    >,
+    requestingAgentId: string
   ): Promise<ContextShare> {
     try {
       const validatedShareId = SecurityValidator.validateSnapshotId(shareId);
-      const validatedAgentId = SecurityValidator.validateAgentId(requestingAgentId);
+      const validatedAgentId =
+        SecurityValidator.validateAgentId(requestingAgentId);
 
       await ContextSharingHelpers.checkRateLimit(
         this.rateLimiter,
         validatedAgentId,
-        'updateSharePermissions',
+        'updateSharePermissions'
       );
 
       await this.findShareForAgent(validatedShareId, validatedAgentId);
-      
+
       // Validate and sanitize updates
       const sanitizedUpdates = SecurityValidator.sanitizeObject(updates);
-      
+
       // Validate expiry date if provided
       if (sanitizedUpdates.expiresAt) {
         sanitizedUpdates.expiresAt = ContextSharingHelpers.validateShareExpiry(
@@ -229,7 +276,7 @@ export class ContextSharingService {
 
       const result = await this.shareStore.updateShare(
         validatedShareId,
-        sanitizedUpdates as Partial<ContextShare>,
+        sanitizedUpdates as Partial<ContextShare>
       );
 
       SecurityLogger.log({
@@ -242,7 +289,11 @@ export class ContextSharingService {
 
       return result;
     } catch (error) {
-      ContextSharingHelpers.logSecurityError(requestingAgentId, 'updateSharePermissions', error);
+      ContextSharingHelpers.logSecurityError(
+        requestingAgentId,
+        'updateSharePermissions',
+        error
+      );
       throw error;
     }
   }
@@ -250,28 +301,34 @@ export class ContextSharingService {
   async checkShareAccess(
     agentId: string,
     snapshotId: string,
-    requiredPermission: 'read' | 'write' | 'admin' = 'read',
+    requiredPermission: 'read' | 'write' | 'admin' = 'read'
   ): Promise<boolean> {
     try {
       const validatedAgentId = SecurityValidator.validateAgentId(agentId);
-      const validatedSnapshotId = SecurityValidator.validateSnapshotId(snapshotId);
-      const validatedPermission = SecurityValidator.validateShareType(requiredPermission);
+      const validatedSnapshotId =
+        SecurityValidator.validateSnapshotId(snapshotId);
+      const validatedPermission = SecurityValidator.validateShareType(
+        requiredPermission
+      ) as 'read' | 'write' | 'admin';
 
       await ContextSharingHelpers.checkRateLimit(
         this.rateLimiter,
         validatedAgentId,
-        'checkShareAccess',
+        'checkShareAccess'
       );
 
       const sharesForSnapshot = await this.getSharesForSnapshot(
         validatedAgentId,
-        validatedSnapshotId,
+        validatedSnapshotId
       );
       if (sharesForSnapshot.length === 0) {
         return false;
       }
 
-      const hasAccess = this.checkPermissionLevel(sharesForSnapshot, validatedPermission);
+      const hasAccess = this.checkPermissionLevel(
+        sharesForSnapshot,
+        validatedPermission
+      );
 
       SecurityLogger.log({
         type: 'authorization',
@@ -287,24 +344,33 @@ export class ContextSharingService {
 
       return hasAccess;
     } catch (error) {
-      ContextSharingHelpers.logSecurityError(agentId, 'checkShareAccess', error);
+      ContextSharingHelpers.logSecurityError(
+        agentId,
+        'checkShareAccess',
+        error
+      );
       throw error;
     }
   }
 
-  private async getSharesForSnapshot(agentId: string, snapshotId: string): Promise<ContextShare[]> {
+  private async getSharesForSnapshot(
+    agentId: string,
+    snapshotId: string
+  ): Promise<ContextShare[]> {
     const sharedContexts = await this.shareStore.getSharedContexts(agentId);
     return sharedContexts.filter((s) => s.contextSnapshotId === snapshotId);
   }
 
   private checkPermissionLevel(
     shares: ContextShare[],
-    requiredPermission: 'read' | 'write' | 'admin',
+    requiredPermission: 'read' | 'write' | 'admin'
   ): boolean {
     const permissionLevels = { read: 1, write: 2, admin: 3 };
     const requiredLevel = permissionLevels[requiredPermission];
 
-    const validShares = shares.filter((share) => !ContextSharingHelpers.isShareExpired(share));
+    const validShares = shares.filter(
+      (share) => !ContextSharingHelpers.isShareExpired(share)
+    );
 
     if (validShares.length === 0) {
       return false;
@@ -329,18 +395,27 @@ export class ContextSharingService {
     try {
       const validatedAgentId = SecurityValidator.validateAgentId(agentId);
 
-      const createdShares = await this.shareStore.getSharesForAgent(validatedAgentId);
-      const receivedShares = await this.shareStore.getSharedContexts(validatedAgentId);
-      const now = new Date();
+      const createdShares =
+        await this.shareStore.getSharesForAgent(validatedAgentId);
+      const receivedShares =
+        await this.shareStore.getSharedContexts(validatedAgentId);
+      // const now = new Date();
 
-      const createdActive = createdShares.filter((s) => !ContextSharingHelpers.isShareExpired(s)).length;
-      const receivedActive = receivedShares.filter((s) => !ContextSharingHelpers.isShareExpired(s)).length;
+      const createdActive = createdShares.filter(
+        (s) => !ContextSharingHelpers.isShareExpired(s)
+      ).length;
+      const receivedActive = receivedShares.filter(
+        (s) => !ContextSharingHelpers.isShareExpired(s)
+      ).length;
 
       return {
         created: createdShares.length,
         received: receivedShares.length,
         active: createdActive + receivedActive,
-        expired: createdShares.length + receivedShares.length - (createdActive + receivedActive),
+        expired:
+          createdShares.length +
+          receivedShares.length -
+          (createdActive + receivedActive),
       };
     } catch (error) {
       SecurityLogger.log({
@@ -348,14 +423,19 @@ export class ContextSharingService {
         severity: 'low',
         agentId,
         action: 'getShareStatistics',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' },
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
   }
 
   // Enhanced methods for unified system
-  async getShareDetails(shareId: string, requestingAgentId: string): Promise<{
+  async getShareDetails(
+    shareId: string,
+    requestingAgentId: string
+  ): Promise<{
     share: ContextShare;
     snapshot?: ContextSnapshot;
     canEdit: boolean;
@@ -364,24 +444,36 @@ export class ContextSharingService {
   }> {
     try {
       const validatedShareId = SecurityValidator.validateSnapshotId(shareId);
-      const validatedAgentId = SecurityValidator.validateAgentId(requestingAgentId);
+      const validatedAgentId =
+        SecurityValidator.validateAgentId(requestingAgentId);
 
-      const share = await this.findShareForAgent(validatedShareId, validatedAgentId);
-      const snapshot = await this.snapshotStore.getSnapshot(share.contextSnapshotId);
+      const share = await this.findShareForAgent(
+        validatedShareId,
+        validatedAgentId
+      );
+      const snapshot = await this.snapshotStore.getSnapshot(
+        share.contextSnapshotId
+      );
 
-      const canEdit = share.sourceAgentId === validatedAgentId || share.createdBy === validatedAgentId;
+      const canEdit =
+        share.sourceAgentId === validatedAgentId ||
+        share.createdBy === validatedAgentId;
       const canRevoke = canEdit;
       const canReshare = share.permissions?.canReshare === true && canEdit;
 
       return {
         share,
-        snapshot: snapshot || undefined,
+        ...(snapshot && { snapshot }),
         canEdit,
         canRevoke,
-        canReshare
+        canReshare,
       };
     } catch (error) {
-      ContextSharingHelpers.logSecurityError(requestingAgentId, 'getShareDetails', error);
+      ContextSharingHelpers.logSecurityError(
+        requestingAgentId,
+        'getShareDetails',
+        error
+      );
       throw error;
     }
   }
@@ -389,8 +481,10 @@ export class ContextSharingService {
   async cleanupExpiredShares(): Promise<number> {
     try {
       const allShares = await this.getAllShares();
-      const expiredShares = allShares.filter(share => ContextSharingHelpers.isShareExpired(share));
-      
+      const expiredShares = allShares.filter((share) =>
+        ContextSharingHelpers.isShareExpired(share)
+      );
+
       let cleanedCount = 0;
       for (const share of expiredShares) {
         try {
@@ -401,10 +495,10 @@ export class ContextSharingService {
             type: 'authorization',
             severity: 'medium',
             action: 'cleanupExpiredShares',
-            details: { 
+            details: {
               shareId: share.id,
-              error: error instanceof Error ? error.message : 'Unknown error'
-            }
+              error: error instanceof Error ? error.message : 'Unknown error',
+            },
           });
         }
       }
@@ -413,7 +507,7 @@ export class ContextSharingService {
         type: 'authorization',
         severity: 'low',
         action: 'cleanupExpiredShares',
-        details: { cleanedCount, totalExpired: expiredShares.length }
+        details: { cleanedCount, totalExpired: expiredShares.length },
       });
 
       return cleanedCount;
@@ -422,7 +516,9 @@ export class ContextSharingService {
         type: 'authorization',
         severity: 'medium',
         action: 'cleanupExpiredShares',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -448,8 +544,7 @@ export class ContextSharingService {
       const shareLink = `https://promethean.ai/share/${shareId}`;
 
       // Create a temporary share record that can be claimed
-      const tempShare = await this.shareStore.createShare({
-        id: shareId,
+      await this.shareStore.createShare({
         sourceAgentId,
         targetAgentId: 'unclaimed',
         contextSnapshotId: '', // Will be set when claimed
@@ -457,11 +552,10 @@ export class ContextSharingService {
         permissions: {
           ...options.permissions,
           isLinkShare: true,
-          maxUses: options.maxUses
+          maxUses: options.maxUses,
         },
-        expiresAt: options.expiresAt,
-        createdAt: new Date(),
-        createdBy: sourceAgentId
+        ...(options.expiresAt && { expiresAt: options.expiresAt }),
+        createdBy: sourceAgentId,
       });
 
       SecurityLogger.log({
@@ -469,12 +563,16 @@ export class ContextSharingService {
         severity: 'low',
         agentId: sourceAgentId,
         action: 'createShareLink',
-        details: { shareId, shareLink, shareType }
+        details: { shareId, shareLink, shareType },
       });
 
       return { shareId, shareLink };
     } catch (error) {
-      ContextSharingHelpers.logSecurityError(sourceAgentId, 'createShareLink', error);
+      ContextSharingHelpers.logSecurityError(
+        sourceAgentId,
+        'createShareLink',
+        error
+      );
       throw error;
     }
   }

@@ -11,15 +11,24 @@ import { SecurityValidator, SecurityLogger, RateLimiter } from './security.js';
 
 // Utility functions that were in auth-utils
 export class AuthUtils {
-  static async hashPassword(password: string, saltRounds: number = 10): Promise<string> {
+  static async hashPassword(
+    password: string,
+    saltRounds: number = 10
+  ): Promise<string> {
     return bcrypt.hash(password, saltRounds);
   }
 
-  static async verifyPassword(password: string, hash: string): Promise<boolean> {
+  static async verifyPassword(
+    password: string,
+    hash: string
+  ): Promise<boolean> {
     return bcrypt.compare(password, hash);
   }
 
-  static validatePassword(password: string): { isValid: boolean; errors: string[] } {
+  static validatePassword(password: string): {
+    isValid: boolean;
+    errors: string[];
+  } {
     const errors: string[] = [];
 
     if (!password || typeof password !== 'string') {
@@ -53,7 +62,7 @@ export class AuthUtils {
 
     return {
       isValid: errors.length === 0,
-      errors
+      errors,
     };
   }
 
@@ -62,12 +71,15 @@ export class AuthUtils {
       type: 'authentication',
       severity: 'medium',
       action,
-      details: { error: error instanceof Error ? error.message : 'Unknown error' }
+      details: {
+        error: error instanceof Error ? error.message : 'Unknown error',
+      },
     });
   }
 
   static generateSecureRandomString(length: number = 32): string {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const chars =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';
     for (let i = 0; i < length; i++) {
       result += chars.charAt(Math.floor(Math.random() * chars.length));
@@ -80,11 +92,12 @@ export class AuthUtils {
 export class ApiKeyManager {
   private apiKeys: Map<string, AuthToken> = new Map();
 
-  constructor(private secret: string) {}
+  constructor() {}
 
   generateApiKey(agentId: string, permissions: string[]): string {
     const validatedAgentId = SecurityValidator.validateAgentId(agentId);
-    const validatedPermissions = SecurityValidator.validatePermissions(permissions);
+    const validatedPermissions =
+      SecurityValidator.validatePermissions(permissions);
 
     const apiKey = `pk_${AuthUtils.generateSecureRandomString(32)}`;
     const expiresAt = new Date();
@@ -94,7 +107,7 @@ export class ApiKeyManager {
       token: apiKey,
       agentId: validatedAgentId,
       expiresAt,
-      permissions: validatedPermissions
+      permissions: validatedPermissions,
     };
 
     this.apiKeys.set(apiKey, authToken);
@@ -104,7 +117,7 @@ export class ApiKeyManager {
       severity: 'low',
       agentId: validatedAgentId,
       action: 'generateApiKey',
-      details: { permissions: validatedPermissions }
+      details: { permissions: validatedPermissions },
     });
 
     return apiKey;
@@ -132,7 +145,7 @@ export class ApiKeyManager {
         severity: 'low',
         agentId: authToken.agentId,
         action: 'validateApiKey',
-        details: { success: true }
+        details: { success: true },
       });
 
       return authToken;
@@ -147,13 +160,13 @@ export class ApiKeyManager {
       const authToken = this.apiKeys.get(apiKey);
       if (authToken) {
         this.apiKeys.delete(apiKey);
-        
+
         SecurityLogger.log({
           type: 'authentication',
           severity: 'low',
           agentId: authToken.agentId,
           action: 'revokeApiKey',
-          details: { revoked: true }
+          details: { revoked: true },
         });
       }
     } catch (error) {
@@ -194,7 +207,7 @@ export class JWTAuthService implements AuthService {
           rateLimitWindow?: number;
           maxAttempts?: number;
         },
-    tokenExpiry: string = '24h',
+    tokenExpiry: string = '24h'
   ) {
     // Get JWT secret from config or environment variable
     let jwtSecret: string | undefined;
@@ -204,13 +217,14 @@ export class JWTAuthService implements AuthService {
     } else {
       jwtSecret = configOrSecret?.jwtSecret || process.env.JWT_SECRET;
       this.tokenExpiry = configOrSecret?.tokenExpiry || tokenExpiry;
-      this.rateLimitWindow = configOrSecret?.rateLimitWindow || this.rateLimitWindow;
+      this.rateLimitWindow =
+        configOrSecret?.rateLimitWindow || this.rateLimitWindow;
       this.maxAttempts = configOrSecret?.maxAttempts || this.maxAttempts;
     }
 
     if (!jwtSecret) {
       throw new Error(
-        'JWT secret is required. Set JWT_SECRET environment variable or provide config.',
+        'JWT secret is required. Set JWT_SECRET environment variable or provide config.'
       );
     }
 
@@ -218,12 +232,15 @@ export class JWTAuthService implements AuthService {
     this.rateLimiter = RateLimiter.getInstance(
       'auth-service',
       this.rateLimitWindow,
-      this.maxAttempts,
+      this.maxAttempts
     );
-    this.apiKeyManager = new ApiKeyManager(jwtSecret);
+    this.apiKeyManager = new ApiKeyManager();
   }
 
-  async generateToken(agentId: string, permissions: string[]): Promise<AuthToken> {
+  async generateToken(
+    agentId: string,
+    permissions: string[]
+  ): Promise<AuthToken> {
     const validatedAgentId = SecurityValidator.validateAgentId(agentId);
     const validatedPermissions = this.validatePermissions(permissions);
 
@@ -232,7 +249,11 @@ export class JWTAuthService implements AuthService {
     try {
       const tokenId = uuidv4();
       const expiresAt = this.calculateExpiryDate();
-      const payload = this.createTokenPayload(tokenId, validatedAgentId, validatedPermissions);
+      const payload = this.createTokenPayload(
+        tokenId,
+        validatedAgentId,
+        validatedPermissions
+      );
       const token = this.signToken(payload);
 
       this.logTokenGeneration(validatedAgentId, tokenId, validatedPermissions);
@@ -270,11 +291,12 @@ export class JWTAuthService implements AuthService {
       'event:read',
       'auth:generate_token',
       'auth:validate_token',
-      'auth:revoke_token'
+      'auth:revoke_token',
     ];
 
-    return permissions.filter(permission => 
-      typeof permission === 'string' && validPermissions.includes(permission)
+    return permissions.filter(
+      (permission) =>
+        typeof permission === 'string' && validPermissions.includes(permission)
     );
   }
 
@@ -299,7 +321,11 @@ export class JWTAuthService implements AuthService {
     return expiresAt;
   }
 
-  private createTokenPayload(tokenId: string, agentId: string, permissions: string[]) {
+  private createTokenPayload(
+    tokenId: string,
+    agentId: string,
+    permissions: string[]
+  ) {
     return {
       tokenId,
       agentId,
@@ -316,7 +342,11 @@ export class JWTAuthService implements AuthService {
     } as jwt.SignOptions);
   }
 
-  private logTokenGeneration(agentId: string, tokenId: string, permissions: string[]): void {
+  private logTokenGeneration(
+    agentId: string,
+    tokenId: string,
+    permissions: string[]
+  ): void {
     SecurityLogger.log({
       type: 'authentication',
       severity: 'low',
@@ -332,7 +362,9 @@ export class JWTAuthService implements AuthService {
       severity: 'medium',
       agentId,
       action,
-      details: { error: error instanceof Error ? error.message : 'Unknown error' },
+      details: {
+        error: error instanceof Error ? error.message : 'Unknown error',
+      },
     });
   }
 
@@ -354,7 +386,7 @@ export class JWTAuthService implements AuthService {
         this.logValidationFailure(
           decoded.agentId || 'unknown',
           'validateToken',
-          'Invalid token type',
+          'Invalid token type'
         );
         return null;
       }
@@ -367,7 +399,10 @@ export class JWTAuthService implements AuthService {
     }
   }
 
-  private async checkRateLimitByKey(key: string, action: string): Promise<void> {
+  private async checkRateLimitByKey(
+    key: string,
+    action: string
+  ): Promise<void> {
     try {
       await this.rateLimiter.checkLimit(key);
     } catch (error) {
@@ -392,11 +427,15 @@ export class JWTAuthService implements AuthService {
     return decoded.type === 'agent-auth';
   }
 
-  private logValidationFailure(agentId?: string, action?: string, reason?: string): void {
+  private logValidationFailure(
+    agentId?: string,
+    action?: string,
+    reason?: string
+  ): void {
     SecurityLogger.log({
       type: 'authentication',
       severity: 'medium',
-      agentId,
+      ...(agentId && { agentId }),
       action: action || 'validateToken',
       details: { reason: reason || 'Validation failed' },
     });
@@ -422,7 +461,10 @@ export class JWTAuthService implements AuthService {
   }
 
   private handleValidationError(error: unknown, action: string): null {
-    if (error instanceof Error && error.message.includes('Rate limit exceeded')) {
+    if (
+      error instanceof Error &&
+      error.message.includes('Rate limit exceeded')
+    ) {
       throw error;
     }
 
@@ -430,7 +472,9 @@ export class JWTAuthService implements AuthService {
       type: 'authentication',
       severity: 'medium',
       action,
-      details: { error: error instanceof Error ? error.message : 'Unknown error' },
+      details: {
+        error: error instanceof Error ? error.message : 'Unknown error',
+      },
     });
 
     return null;
@@ -454,7 +498,9 @@ export class JWTAuthService implements AuthService {
         type: 'authentication',
         severity: 'medium',
         action: 'revokeToken',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' },
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       // Re-throw error to match interface expectation
       throw error;
@@ -481,7 +527,9 @@ export class JWTAuthService implements AuthService {
         type: 'authentication',
         severity: 'medium',
         action: 'refreshToken',
-        details: { error: error instanceof Error ? error.message : 'Unknown error' },
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       return null;
     }
@@ -510,7 +558,10 @@ export class JWTAuthService implements AuthService {
     }
   }
 
-  async hashPassword(password: string, saltRounds: number = 10): Promise<string> {
+  async hashPassword(
+    password: string,
+    saltRounds: number = 10
+  ): Promise<string> {
     return AuthUtils.hashPassword(password, saltRounds);
   }
 
@@ -560,7 +611,7 @@ export class JWTAuthService implements AuthService {
         agentId: authToken.agentId,
         permissions: authToken.permissions,
         expiresAt: authToken.expiresAt,
-        remainingTime: Math.max(0, remainingTime)
+        remainingTime: Math.max(0, remainingTime),
       };
     } catch (error) {
       return { isValid: false };
@@ -590,7 +641,7 @@ export class JWTAuthService implements AuthService {
       type: 'authentication',
       severity: 'low',
       action: 'cleanupExpiredTokens',
-      details: { cleanedCount }
+      details: { cleanedCount },
     });
 
     return cleanedCount;
@@ -600,5 +651,5 @@ export class JWTAuthService implements AuthService {
 export default {
   JWTAuthService,
   AuthUtils,
-  ApiKeyManager
+  ApiKeyManager,
 };

@@ -1,6 +1,5 @@
 (ns promethean.pantheon.core
   (:require [clojure.tools.cli :refer [parse-opts]]
-            [cheshire.core :as json]
             [clojure.pprint :refer [pprint]]))
 
 (defn -main

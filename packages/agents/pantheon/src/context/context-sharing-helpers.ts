@@ -11,11 +11,16 @@ export class ContextSharingHelpers {
   static async validateShareInputs(
     sourceAgentId: string,
     targetAgentId: string,
-    shareType: 'read' | 'write' | 'admin',
-  ): Promise<{ sourceId: string; targetId: string; type: 'read' | 'write' | 'admin' }> {
+    shareType: 'read' | 'write' | 'admin'
+  ): Promise<{
+    sourceId: string;
+    targetId: string;
+    type: 'read' | 'write' | 'admin';
+  }> {
     const sourceId = SecurityValidator.validateAgentId(sourceAgentId);
     const targetId = SecurityValidator.validateAgentId(targetAgentId);
-    const type = SecurityValidator.validateShareType(shareType);
+    const validatedType = SecurityValidator.validateShareType(shareType);
+    const type = validatedType as 'read' | 'write' | 'admin';
 
     if (sourceId === targetId) {
       throw new Error('Cannot share context with yourself');
@@ -27,7 +32,7 @@ export class ContextSharingHelpers {
   static async checkRateLimit(
     rateLimiter: RateLimiter,
     identifier: string,
-    action: string,
+    action: string
   ): Promise<void> {
     try {
       await rateLimiter.checkLimit(`${identifier}:${action}`);
@@ -37,7 +42,9 @@ export class ContextSharingHelpers {
         severity: 'medium',
         agentId: identifier,
         action,
-        details: { error: error instanceof Error ? error.message : 'Unknown error' }
+        details: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
       });
       throw error;
     }
@@ -52,7 +59,7 @@ export class ContextSharingHelpers {
       permissions?: Record<string, unknown>;
       expiresAt?: Date;
       createdBy?: string;
-    } = {},
+    } = {}
   ): Omit<ContextShare, 'id' | 'createdAt'> {
     return {
       sourceAgentId,
@@ -60,8 +67,8 @@ export class ContextSharingHelpers {
       contextSnapshotId,
       shareType,
       permissions: options.permissions || {},
-      expiresAt: options.expiresAt,
-      createdBy: options.createdBy,
+      ...(options.expiresAt && { expiresAt: options.expiresAt }),
+      ...(options.createdBy && { createdBy: options.createdBy }),
     };
   }
 
@@ -69,7 +76,7 @@ export class ContextSharingHelpers {
     sourceAgentId: string,
     targetAgentId: string,
     shareId: string,
-    shareType: 'read' | 'write' | 'admin',
+    shareType: 'read' | 'write' | 'admin'
   ): void {
     SecurityLogger.log({
       type: 'authorization',
@@ -85,20 +92,26 @@ export class ContextSharingHelpers {
     });
   }
 
-  static logSecurityError(identifier: string, action: string, error: unknown): void {
+  static logSecurityError(
+    identifier: string,
+    action: string,
+    error: unknown
+  ): void {
     SecurityLogger.log({
       type: 'authorization',
       severity: 'high',
       agentId: identifier,
       action,
-      details: { 
+      details: {
         error: error instanceof Error ? error.message : 'Unknown error',
-        stack: error instanceof Error ? error.stack : undefined
-      }
+        stack: error instanceof Error ? error.stack : undefined,
+      },
     });
   }
 
-  static validateSharePermissions(permissions: Record<string, unknown>): Record<string, unknown> {
+  static validateSharePermissions(
+    permissions: Record<string, unknown>
+  ): Record<string, unknown> {
     if (!permissions || typeof permissions !== 'object') {
       return {};
     }
@@ -110,7 +123,7 @@ export class ContextSharingHelpers {
       'canExport',
       'maxAccessDuration',
       'allowedActions',
-      'restrictions'
+      'restrictions',
     ];
 
     const validated: Record<string, unknown> = {};
@@ -134,7 +147,7 @@ export class ContextSharingHelpers {
   static canAgentAccessShare(
     agentId: string,
     share: ContextShare,
-    requiredPermission: 'read' | 'write' | 'admin' = 'read',
+    requiredPermission: 'read' | 'write' | 'admin' = 'read'
   ): boolean {
     // Check if agent is the target or creator
     if (share.targetAgentId === agentId || share.createdBy === agentId) {
@@ -155,21 +168,25 @@ export class ContextSharingHelpers {
   }
 
   static filterValidShares(shares: ContextShare[]): ContextShare[] {
-    return shares.filter(share => !this.isShareExpired(share));
+    return shares.filter((share) => !this.isShareExpired(share));
   }
 
-  static getSharePermissionLevel(shareType: 'read' | 'write' | 'admin'): number {
+  static getSharePermissionLevel(
+    shareType: 'read' | 'write' | 'admin'
+  ): number {
     const levels = { read: 1, write: 2, admin: 3 };
     return levels[shareType];
   }
 
-  static getHighestPermission(shares: ContextShare[]): 'read' | 'write' | 'admin' {
+  static getHighestPermission(
+    shares: ContextShare[]
+  ): 'read' | 'write' | 'admin' {
     const validShares = this.filterValidShares(shares);
-    
-    if (validShares.some(share => share.shareType === 'admin')) {
+
+    if (validShares.some((share) => share.shareType === 'admin')) {
       return 'admin';
     }
-    if (validShares.some(share => share.shareType === 'write')) {
+    if (validShares.some((share) => share.shareType === 'write')) {
       return 'write';
     }
     return 'read';
@@ -182,22 +199,24 @@ export class ContextSharingHelpers {
     byType: Record<string, number>;
     byTarget: Record<string, number>;
   } {
-    const now = new Date();
+    // const now = new Date();
     const summary = {
       total: shares.length,
       active: 0,
       expired: 0,
       byType: {} as Record<string, number>,
-      byTarget: {} as Record<string, number>
+      byTarget: {} as Record<string, number>,
     };
 
     for (const share of shares) {
       // Count by type
-      summary.byType[share.shareType] = (summary.byType[share.shareType] || 0) + 1;
-      
+      summary.byType[share.shareType] =
+        (summary.byType[share.shareType] || 0) + 1;
+
       // Count by target
-      summary.byTarget[share.targetAgentId] = (summary.byTarget[share.targetAgentId] || 0) + 1;
-      
+      summary.byTarget[share.targetAgentId] =
+        (summary.byTarget[share.targetAgentId] || 0) + 1;
+
       // Count active vs expired
       if (this.isShareExpired(share)) {
         summary.expired++;
@@ -212,7 +231,9 @@ export class ContextSharingHelpers {
   static sanitizeShareRecord(share: ContextShare): ContextShare {
     return {
       ...share,
-      permissions: SecurityValidator.sanitizeObject(share.permissions) as Record<string, any>
+      permissions: SecurityValidator.sanitizeObject(
+        share.permissions
+      ) as Record<string, any>,
     };
   }
 
@@ -231,7 +252,7 @@ export class ContextSharingHelpers {
     }
 
     // Maximum expiry time: 1 year from now
-    const maxExpiry = new Date(now.getTime() + (365 * 24 * 60 * 60 * 1000));
+    const maxExpiry = new Date(now.getTime() + 365 * 24 * 60 * 60 * 1000);
     if (expiresAt > maxExpiry) {
       throw new Error('Expiry date cannot be more than 1 year from now');
     }
@@ -246,28 +267,33 @@ export class ContextSharingHelpers {
   static async checkShareLimits(
     sourceAgentId: string,
     currentShares: ContextShare[],
-    maxShares: number = 100,
+    maxShares: number = 100
   ): Promise<void> {
     const activeShares = this.filterValidShares(currentShares);
-    
+
     if (activeShares.length >= maxShares) {
       SecurityLogger.log({
         type: 'authorization',
         severity: 'medium',
         agentId: sourceAgentId,
         action: 'checkShareLimits',
-        details: { 
+        details: {
           currentShares: activeShares.length,
           maxShares,
-          reason: 'Share limit exceeded'
-        }
+          reason: 'Share limit exceeded',
+        },
       });
-      
-      throw new Error(`Maximum share limit of ${maxShares} active shares exceeded`);
+
+      throw new Error(
+        `Maximum share limit of ${maxShares} active shares exceeded`
+      );
     }
   }
 
-  static createShareAuditLog(share: ContextShare, action: string): {
+  static createShareAuditLog(
+    share: ContextShare,
+    action: string
+  ): {
     shareId: string;
     action: string;
     sourceAgentId: string;
@@ -284,8 +310,8 @@ export class ContextSharingHelpers {
       targetAgentId: share.targetAgentId,
       shareType: share.shareType,
       timestamp: new Date(),
-      expiresAt: share.expiresAt,
-      createdBy: share.createdBy
+      ...(share.expiresAt && { expiresAt: share.expiresAt }),
+      ...(share.createdBy && { createdBy: share.createdBy }),
     };
   }
 }

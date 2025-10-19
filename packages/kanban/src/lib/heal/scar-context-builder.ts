@@ -1,31 +1,30 @@
 /**
  * Scar Context Builder for Kanban Healing Operations
- * 
+ *
  * This module provides comprehensive context building capabilities for scar (healing) operations
  * in the kanban system. It gathers board state, task metadata, system information,
  * and historical data to provide structured context for intelligent healing operations.
  */
 
-import { promises as fs } from 'node:fs';
 import { randomUUID } from 'node:crypto';
 import path from 'node:path';
 import { loadBoard, readTasksFolder, countTasks, findTaskById } from '../kanban.js';
 import { loadKanbanConfig } from '../../board/config.js';
 import { EventLogManager } from '../../board/event-log.js';
-import type { 
-  ScarContext, 
-  ScarContextOptions, 
-  EventLogEntry, 
-  ScarRecord, 
-  SearchResult, 
-  LLMOperation, 
+import type {
+  ScarContext,
+  ScarContextOptions,
+  EventLogEntry,
+  ScarRecord,
+  SearchResult,
+  LLMOperation,
   GitCommit,
-  HealingStatus 
+  HealingStatus,
 } from './scar-context-types.js';
-import { 
-  createEventLogEntry, 
+import {
+  createEventLogEntry,
   createScarRecord,
-  validateScarContextIntegrity 
+  validateScarContextIntegrity,
 } from './type-guards.js';
 import type { Board, Task, ColumnData } from '../types.js';
 
@@ -138,7 +137,7 @@ export interface TaskAnalysis {
 
 /**
  * Main Scar Context Builder class
- * 
+ *
  * Provides comprehensive context building for kanban healing operations by analyzing
  * board state, tasks, git history, and system metrics.
  */
@@ -158,7 +157,7 @@ export class ScarContextBuilder {
    */
   async buildContext(
     reason: string,
-    options: ScarContextBuilderOptions = {}
+    options: ScarContextBuilderOptions = {},
   ): Promise<ScarContext> {
     const startTime = Date.now();
 
@@ -179,10 +178,14 @@ export class ScarContextBuilder {
     try {
       // Add initial event log entry
       context.eventLog.push(
-        createEventLogEntry('start-context-building', {
-          reason,
-          options: Object.keys(options),
-        }, 'info')
+        createEventLogEntry(
+          'start-context-building',
+          {
+            reason,
+            options: Object.keys(options),
+          },
+          'info',
+        ),
       );
 
       // Gather board and task information
@@ -193,11 +196,15 @@ export class ScarContextBuilder {
       if (options.includePerformanceMetrics !== false) {
         const metrics = await this.analyzeSystemMetrics(board, tasks);
         context.eventLog.push(
-          createEventLogEntry('system-metrics-analyzed', {
-            totalTasks: metrics.totalTasks,
-            healthScore: metrics.boardHealthScore,
-            wipViolations: metrics.wipViolations.length,
-          }, 'info')
+          createEventLogEntry(
+            'system-metrics-analyzed',
+            {
+              totalTasks: metrics.totalTasks,
+              healthScore: metrics.boardHealthScore,
+              wipViolations: metrics.wipViolations.length,
+            },
+            'info',
+          ),
         );
       }
 
@@ -205,54 +212,78 @@ export class ScarContextBuilder {
       if (options.includeTaskAnalysis) {
         const taskAnalysis = await this.analyzeTasks(board, tasks, options);
         context.eventLog.push(
-          createEventLogEntry('task-analysis-completed', {
-            criticalTasks: taskAnalysis.criticalTasks.length,
-            qualityIssues: taskAnalysis.qualityIssues.length,
-            stuckTasks: taskAnalysis.stuckTasks.length,
-          }, 'info')
+          createEventLogEntry(
+            'task-analysis-completed',
+            {
+              criticalTasks: taskAnalysis.criticalTasks.length,
+              qualityIssues: taskAnalysis.qualityIssues.length,
+              stuckTasks: taskAnalysis.stuckTasks.length,
+            },
+            'info',
+          ),
         );
       }
 
       // Analyze git history
       const gitAnalysis = await this.analyzeGitHistory(options.maxGitHistory);
       context.gitHistory = gitAnalysis.recentCommits;
-      
+
       context.eventLog.push(
-        createEventLogEntry('git-analysis-completed', {
-          commitsAnalyzed: gitAnalysis.recentCommits.length,
-          currentBranch: gitAnalysis.repoStatus.branch,
-          isClean: gitAnalysis.repoStatus.isClean,
-        }, 'info')
+        createEventLogEntry(
+          'git-analysis-completed',
+          {
+            commitsAnalyzed: gitAnalysis.recentCommits.length,
+            currentBranch: gitAnalysis.repoStatus.branch,
+            isClean: gitAnalysis.repoStatus.isClean,
+          },
+          'info',
+        ),
       );
 
       // Search for relevant tasks based on search terms
       if (options.searchTerms && options.searchTerms.length > 0) {
-        context.searchResults = await this.searchRelevantTasks(board, options.searchTerms, options.maxSearchResults);
+        context.searchResults = await this.searchRelevantTasks(
+          board,
+          options.searchTerms,
+          options.maxSearchResults,
+        );
         context.eventLog.push(
-          createEventLogEntry('task-search-completed', {
-            searchTerms: options.searchTerms,
-            resultsFound: context.searchResults.length,
-          }, 'info')
+          createEventLogEntry(
+            'task-search-completed',
+            {
+              searchTerms: options.searchTerms,
+              resultsFound: context.searchResults.length,
+            },
+            'info',
+          ),
         );
       }
 
       // Load previous scars (healing records)
       context.previousScars = await this.loadPreviousScars(options.maxPreviousScars);
-      
+
       context.eventLog.push(
-        createEventLogEntry('previous-scars-loaded', {
-          scarCount: context.previousScars.length,
-        }, 'info')
+        createEventLogEntry(
+          'previous-scars-loaded',
+          {
+            scarCount: context.previousScars.length,
+          },
+          'info',
+        ),
       );
 
       // Validate context integrity
       const validation = validateScarContextIntegrity(context);
       if (!validation.isValid) {
         context.eventLog.push(
-          createEventLogEntry('context-validation-failed', {
-            errors: validation.errors,
-            warnings: validation.warnings,
-          }, 'error')
+          createEventLogEntry(
+            'context-validation-failed',
+            {
+              errors: validation.errors,
+              warnings: validation.warnings,
+            },
+            'error',
+          ),
         );
         throw new Error(`Context validation failed: ${validation.errors.join(', ')}`);
       }
@@ -260,22 +291,29 @@ export class ScarContextBuilder {
       // Add completion event
       const buildTime = Date.now() - startTime;
       context.eventLog.push(
-        createEventLogEntry('context-building-completed', {
-          buildTimeMs: buildTime,
-          totalEvents: context.eventLog.length,
-        }, 'info')
+        createEventLogEntry(
+          'context-building-completed',
+          {
+            buildTimeMs: buildTime,
+            totalEvents: context.eventLog.length,
+          },
+          'info',
+        ),
       );
 
       return context;
-
     } catch (error) {
       // Add error event and re-throw
       const errorMessage = error instanceof Error ? error.message : String(error);
       context.eventLog.push(
-        createEventLogEntry('context-building-failed', {
-          error: errorMessage,
-          buildTimeMs: Date.now() - startTime,
-        }, 'error')
+        createEventLogEntry(
+          'context-building-failed',
+          {
+            error: errorMessage,
+            buildTimeMs: Date.now() - startTime,
+          },
+          'error',
+        ),
       );
       throw error;
     }
@@ -309,19 +347,19 @@ export class ScarContextBuilder {
       // Check for incomplete tasks
       for (const task of column.tasks) {
         const issues: string[] = [];
-        
+
         if (!task.title || task.title.trim().length === 0) {
           issues.push('Missing title');
         }
-        
+
         if (!task.content || task.content.trim().length === 0) {
           issues.push('Missing content');
         }
-        
+
         if (!task.labels || task.labels.length === 0) {
           issues.push('No labels assigned');
         }
-        
+
         if (!task.estimates || Object.keys(task.estimates).length === 0) {
           issues.push('No estimates provided');
         }
@@ -351,7 +389,7 @@ export class ScarContextBuilder {
         duplicateTasks.push({
           title,
           count: taskGroup.length,
-          taskIds: taskGroup.map(t => t.uuid),
+          taskIds: taskGroup.map((t) => t.uuid),
         });
       }
     }
@@ -367,18 +405,19 @@ export class ScarContextBuilder {
 
     // Calculate performance indicators
     const now = new Date();
-    const taskAges = tasks.map(task => {
+    const taskAges = tasks.map((task) => {
       const created = new Date(task.created_at);
       return (now.getTime() - created.getTime()) / (1000 * 60 * 60 * 24); // days
     });
-    const averageTaskAge = taskAges.length > 0 ? taskAges.reduce((sum, age) => sum + age, 0) / taskAges.length : 0;
-    const staleTaskCount = taskAges.filter(age => age > 30).length; // tasks older than 30 days
+    const averageTaskAge =
+      taskAges.length > 0 ? taskAges.reduce((sum, age) => sum + age, 0) / taskAges.length : 0;
+    const staleTaskCount = taskAges.filter((age) => age > 30).length; // tasks older than 30 days
 
     // Detect bottleneck columns (high task count, no movement)
     const avgTasksPerColumn = totalTasks / board.columns.length;
     const bottleneckColumns = board.columns
-      .filter(column => column.tasks.length > avgTasksPerColumn * 1.5)
-      .map(column => column.name);
+      .filter((column) => column.tasks.length > avgTasksPerColumn * 1.5)
+      .map((column) => column.name);
 
     // Simple flow efficiency calculation
     const doneTasks = tasksByStatus['done'] || 0;
@@ -404,14 +443,14 @@ export class ScarContextBuilder {
    * Analyze tasks for quality issues and critical items
    */
   private async analyzeTasks(
-    board: Board, 
-    tasks: Task[], 
-    options: ScarContextBuilderOptions
+    board: Board,
+    tasks: Task[],
+    options: ScarContextBuilderOptions,
   ): Promise<TaskAnalysis> {
     const criticalTasks: Task[] = [];
     const stuckTasks: TaskAnalysis['stuckTasks'] = [];
     const qualityIssues: TaskAnalysis['qualityIssues'] = [];
-    
+
     let tasksWithEstimates = 0;
     let totalComplexity = 0;
 
@@ -425,7 +464,10 @@ export class ScarContextBuilder {
 
       for (const task of column.tasks) {
         // Apply label filter if specified
-        if (options.labelFilter && !options.labelFilter.some(label => task.labels?.includes(label))) {
+        if (
+          options.labelFilter &&
+          !options.labelFilter.some((label) => task.labels?.includes(label))
+        ) {
           continue;
         }
 
@@ -434,7 +476,9 @@ export class ScarContextBuilder {
         const created = new Date(task.created_at);
         const daysOld = (now.getTime() - created.getTime()) / (1000 * 60 * 60 * 24);
         const isOld = daysOld > 14; // older than 2 weeks
-        const isInCriticalStatus = ['incoming', 'breakdown', 'blocked'].includes(column.name.toLowerCase());
+        const isInCriticalStatus = ['incoming', 'breakdown', 'blocked'].includes(
+          column.name.toLowerCase(),
+        );
 
         if (isHighPriority || (isOld && isInCriticalStatus)) {
           criticalTasks.push(task);
@@ -442,8 +486,9 @@ export class ScarContextBuilder {
 
         // Detect stuck tasks (long time in same status)
         const daysInStatus = daysOld; // Simplified - could be enhanced with actual status change tracking
-        const isStuck = daysInStatus > 7 && ['todo', 'in_progress', 'review'].includes(column.name.toLowerCase());
-        
+        const isStuck =
+          daysInStatus > 7 && ['todo', 'in_progress', 'review'].includes(column.name.toLowerCase());
+
         if (isStuck) {
           let stuckReason = `Task has been in "${column.name}" for ${Math.round(daysInStatus)} days`;
           if (column.limit && column.tasks.length > column.limit) {
@@ -534,11 +579,14 @@ export class ScarContextBuilder {
       // Try to get git information (this is a simplified implementation)
       // In a real implementation, you'd use git commands or a git library
       const repoRoot = path.dirname(this.boardPath);
-      
+
       // Get current branch
       try {
         const { execSync } = await import('node:child_process');
-        const branch = execSync('git branch --show-current', { cwd: repoRoot, encoding: 'utf8' }).trim();
+        const branch = execSync('git branch --show-current', {
+          cwd: repoRoot,
+          encoding: 'utf8',
+        }).trim();
         analysis.repoStatus.branch = branch;
       } catch {
         // Default to 'main' if git command fails
@@ -549,7 +597,7 @@ export class ScarContextBuilder {
         const { execSync } = await import('node:child_process');
         const status = execSync('git status --porcelain', { cwd: repoRoot, encoding: 'utf8' });
         analysis.repoStatus.isClean = status.trim().length === 0;
-        
+
         if (status.trim().length > 0) {
           const lines = status.split('\n');
           for (const line of lines) {
@@ -571,21 +619,24 @@ export class ScarContextBuilder {
         const { execSync } = await import('node:child_process');
         const log = execSync(`git log --oneline -${maxDepth}`, { cwd: repoRoot, encoding: 'utf8' });
         const lines = log.trim().split('\n');
-        
+
         for (const line of lines) {
           if (line.trim().length === 0) continue;
-          
+
           const parts = line.split(' ', 2);
           if (parts.length >= 2) {
             const sha = parts[0];
             const message = parts[1];
-            
+
             // Try to get more details for the commit
             try {
               const { execSync } = await import('node:child_process');
-              const details = execSync(`git show --format="%an|%ai|%H" ${sha}`, { cwd: repoRoot, encoding: 'utf8' });
+              const details = execSync(`git show --format="%an|%ai|%H" ${sha}`, {
+                cwd: repoRoot,
+                encoding: 'utf8',
+              });
               const [author, timestamp, fullSha] = details.trim().split('|');
-              
+
               const commit: GitCommit = {
                 sha: fullSha || sha,
                 message,
@@ -593,9 +644,9 @@ export class ScarContextBuilder {
                 timestamp: new Date(timestamp || Date.now()),
                 files: [], // Would need additional git commands to get this
               };
-              
+
               analysis.recentCommits.push(commit);
-              
+
               if (analysis.headCommit === null) {
                 analysis.headCommit = commit;
               }
@@ -609,7 +660,7 @@ export class ScarContextBuilder {
                 files: [],
               };
               analysis.recentCommits.push(commit);
-              
+
               if (analysis.headCommit === null) {
                 analysis.headCommit = commit;
               }
@@ -623,12 +674,17 @@ export class ScarContextBuilder {
       // Get tags
       try {
         const { execSync } = await import('node:child_process');
-        const tagOutput = execSync('git tag --sort=-version:refname', { cwd: repoRoot, encoding: 'utf8' });
-        analysis.tags = tagOutput.trim().split('\n').filter(tag => tag.trim().length > 0);
+        const tagOutput = execSync('git tag --sort=-version:refname', {
+          cwd: repoRoot,
+          encoding: 'utf8',
+        });
+        analysis.tags = tagOutput
+          .trim()
+          .split('\n')
+          .filter((tag) => tag.trim().length > 0);
       } catch {
         // Default to empty tags if git command fails
       }
-
     } catch (error) {
       // Add warning to event log if git analysis fails
       console.warn('Git analysis failed:', error);
@@ -641,23 +697,21 @@ export class ScarContextBuilder {
    * Search for relevant tasks based on search terms
    */
   private async searchRelevantTasks(
-    board: Board, 
-    searchTerms: string[], 
-    maxResults: number = 20
+    board: Board,
+    searchTerms: string[],
+    maxResults: number = 20,
   ): Promise<SearchResult[]> {
     const results: SearchResult[] = [];
-    const allTasks = board.columns.flatMap(column => column.tasks);
+    const allTasks = board.columns.flatMap((column) => column.tasks);
 
     for (const task of allTasks) {
       let relevance = 0;
       let matchedTerms = 0;
 
       // Search in title, content, and labels
-      const searchableText = [
-        task.title,
-        task.content || '',
-        ...(task.labels || [])
-      ].join(' ').toLowerCase();
+      const searchableText = [task.title, task.content || '', ...(task.labels || [])]
+        .join(' ')
+        .toLowerCase();
 
       for (const term of searchTerms) {
         const termLower = term.toLowerCase();
@@ -670,7 +724,7 @@ export class ScarContextBuilder {
           if (task.content && task.content.toLowerCase().includes(termLower)) {
             relevance += 0.5; // Content match is moderately relevant
           }
-          if (task.labels?.some(label => label.toLowerCase().includes(termLower))) {
+          if (task.labels?.some((label) => label.toLowerCase().includes(termLower))) {
             relevance += 0.3; // Label match is less relevant
           }
         }
@@ -679,10 +733,10 @@ export class ScarContextBuilder {
       if (matchedTerms > 0) {
         // Normalize relevance to 0-1 range
         const normalizedRelevance = Math.min(1, relevance / searchTerms.length);
-        
+
         // Create snippet for the match
         const snippet = this.createSearchSnippet(task, searchTerms);
-        
+
         results.push({
           taskId: task.uuid,
           title: task.title,
@@ -693,9 +747,7 @@ export class ScarContextBuilder {
     }
 
     // Sort by relevance and limit results
-    return results
-      .sort((a, b) => b.relevance - a.relevance)
-      .slice(0, maxResults);
+    return results.sort((a, b) => b.relevance - a.relevance).slice(0, maxResults);
   }
 
   /**
@@ -703,18 +755,18 @@ export class ScarContextBuilder {
    */
   private createSearchSnippet(task: Task, searchTerms: string[]): string {
     const snippetParts: string[] = [];
-    
+
     // Add title if it matches
-    const matchingTerms = searchTerms.filter(term => 
-      task.title.toLowerCase().includes(term.toLowerCase())
+    const matchingTerms = searchTerms.filter((term) =>
+      task.title.toLowerCase().includes(term.toLowerCase()),
     );
     if (matchingTerms.length > 0) {
       snippetParts.push(`Title: ${task.title}`);
     }
 
     // Add matching labels
-    const matchingLabels = task.labels?.filter(label => 
-      searchTerms.some(term => label.toLowerCase().includes(term.toLowerCase()))
+    const matchingLabels = task.labels?.filter((label) =>
+      searchTerms.some((term) => label.toLowerCase().includes(term.toLowerCase())),
     );
     if (matchingLabels && matchingLabels.length > 0) {
       snippetParts.push(`Labels: ${matchingLabels.join(', ')}`);
@@ -722,8 +774,8 @@ export class ScarContextBuilder {
 
     // Add brief content preview if it matches
     if (task.content) {
-      const matchingContent = searchTerms.filter(term => 
-        task.content!.toLowerCase().includes(term.toLowerCase())
+      const matchingContent = searchTerms.filter((term) =>
+        task.content!.toLowerCase().includes(term.toLowerCase()),
       );
       if (matchingContent.length > 0) {
         const contentPreview = task.content.substring(0, 100);
@@ -758,17 +810,19 @@ export class ScarContextBuilder {
    * Generate a narrative for the healing operation
    */
   private generateNarrative(reason: string): string {
-    return `Automated healing operation initiated: ${reason}. ` +
+    return (
+      `Automated healing operation initiated: ${reason}. ` +
       `Context includes board state analysis, task quality assessment, ` +
-      `system performance metrics, and historical data for intelligent healing decisions.`;
+      `system performance metrics, and historical data for intelligent healing decisions.`
+    );
   }
 
   /**
    * Helper to get maximum severity
    */
   private maxSeverity(
-    current: 'low' | 'medium' | 'high' | 'critical', 
-    candidate: 'low' | 'medium' | 'high' | 'critical'
+    current: 'low' | 'medium' | 'high' | 'critical',
+    candidate: 'low' | 'medium' | 'high' | 'critical',
   ): 'low' | 'medium' | 'high' | 'critical' {
     const severityLevels = { low: 1, medium: 2, high: 3, critical: 4 };
     return severityLevels[current] >= severityLevels[candidate] ? current : candidate;
@@ -782,7 +836,7 @@ export class ScarContextBuilder {
     operation: string,
     input: any,
     output: any,
-    tokensUsed?: number
+    tokensUsed?: number,
   ): Promise<void> {
     const llmOp: LLMOperation = {
       id: randomUUID(),
@@ -794,13 +848,17 @@ export class ScarContextBuilder {
     };
 
     context.llmOperations.push(llmOp);
-    
+
     context.eventLog.push(
-      createEventLogEntry('llm-operation-completed', {
-        operationId: llmOp.id,
-        operation,
-        tokensUsed,
-      }, 'info')
+      createEventLogEntry(
+        'llm-operation-completed',
+        {
+          operationId: llmOp.id,
+          operation,
+          tokensUsed,
+        },
+        'info',
+      ),
     );
   }
 
@@ -811,11 +869,9 @@ export class ScarContextBuilder {
     context: ScarContext,
     operation: string,
     details: Record<string, any>,
-    severity: 'info' | 'warning' | 'error' = 'info'
+    severity: 'info' | 'warning' | 'error' = 'info',
   ): Promise<void> {
-    context.eventLog.push(
-      createEventLogEntry(operation, details, severity)
-    );
+    context.eventLog.push(createEventLogEntry(operation, details, severity));
   }
 
   /**
@@ -823,18 +879,24 @@ export class ScarContextBuilder {
    */
   async finalizeContext(context: ScarContext): Promise<ScarContext> {
     context.eventLog.push(
-      createEventLogEntry('context-finalized', {
-        totalEvents: context.eventLog.length,
-        llmOperations: context.llmOperations.length,
-        searchResults: context.searchResults.length,
-        previousScars: context.previousScars.length,
-      }, 'info')
+      createEventLogEntry(
+        'context-finalized',
+        {
+          totalEvents: context.eventLog.length,
+          llmOperations: context.llmOperations.length,
+          searchResults: context.searchResults.length,
+          previousScars: context.previousScars.length,
+        },
+        'info',
+      ),
     );
 
     // Final validation
     const validation = validateScarContextIntegrity(context);
     if (!validation.isValid) {
-      throw new Error(`Context validation failed during finalization: ${validation.errors.join(', ')}`);
+      throw new Error(
+        `Context validation failed during finalization: ${validation.errors.join(', ')}`,
+      );
     }
 
     return context;
@@ -845,9 +907,9 @@ export class ScarContextBuilder {
  * Convenience function to create a scar context builder
  */
 export function createScarContextBuilder(
-  boardPath: string, 
-  tasksDir: string, 
-  eventLogManager?: EventLogManager
+  boardPath: string,
+  tasksDir: string,
+  eventLogManager?: EventLogManager,
 ): ScarContextBuilder {
   return new ScarContextBuilder(boardPath, tasksDir, eventLogManager);
 }
