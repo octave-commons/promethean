@@ -3,8 +3,8 @@
 // - Creates/tears down the Chroma collection when needed
 
 export async function frontmatter(args = {}) {
-  const { openDB } = await import("@promethean/docops/dist/db.js");
-  const { runFrontmatter } = await import("@@promethean/docops/dist/index.js");
+  const { openDB } = await import('@promethean/docs-system/dist/database/db.js');
+  const { runFrontmatter } = await import('@promethean/docs-system/dist/index.js');
   const db = await openDB();
   try {
     let files = args.files;
@@ -15,9 +15,9 @@ export async function frontmatter(args = {}) {
     }
     await runFrontmatter(
       {
-        dir: args.dir ?? "docs/unique",
-        exts: args.exts ?? [".md", ".mdx", ".txt"],
-        genModel: args.genModel ?? "qwen3:4b",
+        dir: args.dir ?? 'docs/unique',
+        exts: args.exts ?? ['.md', '.mdx', '.txt'],
+        genModel: args.genModel ?? 'qwen3:4b',
         dryRun: Boolean(args.dryRun ?? false),
         ...(files ? { files } : {}),
       },
@@ -31,16 +31,14 @@ export async function frontmatter(args = {}) {
 }
 
 export async function embed(args = {}) {
-  const { openDB } = await import("@promethean/docops/dist/db.js");
-  const { getChromaCollection } = await import(
-    "@promethean/docops/dist/lib/chroma.js"
-  );
-  const { runEmbed } = await import("@promethean/docops/dist/index.js");
+  const { openDB } = await import('@promethean/docops/dist/db.js');
+  const { getChromaCollection } = await import('@promethean/docops/dist/lib/chroma.js');
+  const { runEmbed } = await import('@promethean/docops/dist/index.js');
   const db = await openDB();
   let client;
   try {
-    const embedModel = args.embedModel ?? "nomic-embed-text:latest";
-    const collection = args.collection ?? "docs";
+    const embedModel = args.embedModel ?? 'nomic-embed-text:latest';
+    const collection = args.collection ?? 'docs';
     const { client: c, coll } = await getChromaCollection({
       collection,
       embedModel,
@@ -54,8 +52,8 @@ export async function embed(args = {}) {
     }
     await runEmbed(
       {
-        dir: args.dir ?? "docs/unique",
-        exts: args.exts ?? [".md", ".mdx", ".txt"],
+        dir: args.dir ?? 'docs/unique',
+        exts: args.exts ?? ['.md', '.mdx', '.txt'],
         embedModel,
         collection,
         batch: args.batch ?? 128,
@@ -76,16 +74,14 @@ export async function embed(args = {}) {
 }
 
 export async function query(args = {}) {
-  const { openDB } = await import("@promethean/docops/dist/db.js");
-  const { getChromaCollection } = await import(
-    "@promethean/docops/dist/lib/chroma.js"
-  );
-  const { runQuery } = await import("@promethean/docops/dist/index.js");
+  const { openDB } = await import('@promethean/docops/dist/db.js');
+  const { getChromaCollection } = await import('@promethean/docops/dist/lib/chroma.js');
+  const { runQuery } = await import('@promethean/docops/dist/index.js');
   const db = await openDB();
   let client;
   try {
-    const embedModel = args.embedModel ?? "nomic-embed-text:latest";
-    const collection = args.collection ?? "docs";
+    const embedModel = args.embedModel ?? 'nomic-embed-text:latest';
+    const collection = args.collection ?? 'docs';
     const { client: c, coll } = await getChromaCollection({
       collection,
       embedModel,
@@ -120,8 +116,8 @@ export async function query(args = {}) {
 }
 
 export async function relations(args = {}) {
-  const { openDB } = await import("@promethean/docops/dist/db.js");
-  const { runRelations } = await import("@promethean/docops/dist/index.js");
+  const { openDB } = await import('@promethean/docops/dist/db.js');
+  const { runRelations } = await import('@promethean/docops/dist/index.js');
   const db = await openDB();
   try {
     let files = args.files;
@@ -132,7 +128,7 @@ export async function relations(args = {}) {
     }
     await runRelations(
       {
-        docsDir: args.dir ?? "docs/unique",
+        docsDir: args.dir ?? 'docs/unique',
         docThreshold: args.docThreshold ?? 0.78,
         refThreshold: args.refThreshold ?? 0.6,
         refMin: args.refMin,
@@ -152,14 +148,14 @@ export async function relations(args = {}) {
 }
 
 export async function footers(args = {}) {
-  const { openDB } = await import("@promethean/docops/dist/db.js");
-  const { runFooters } = await import("@promethean/docops/dist/index.js");
+  const { openDB } = await import('@promethean/docops/dist/db.js');
+  const { runFooters } = await import('@promethean/docops/dist/index.js');
   const db = await openDB();
   try {
     await runFooters(
       {
-        dir: args.dir ?? "docs/unique",
-        anchorStyle: args.anchorStyle ?? "block",
+        dir: args.dir ?? 'docs/unique',
+        anchorStyle: args.anchorStyle ?? 'block',
         includeRelated: args.includeRelated ?? true,
         includeSources: args.includeSources ?? true,
         dryRun: Boolean(args.dryRun ?? false),
@@ -174,13 +170,13 @@ export async function footers(args = {}) {
 }
 
 export async function rename(args = {}) {
-  const { openDB } = await import("@promethean/docops/dist/db.js");
-  const { runRename } = await import("@promethean/docops/dist/index.js");
+  const { openDB } = await import('@promethean/docops/dist/db.js');
+  const { runRename } = await import('@promethean/docops/dist/index.js');
   const db = await openDB();
   try {
     await runRename(
       {
-        dir: args.dir ?? "docs/unique",
+        dir: args.dir ?? 'docs/unique',
       },
       db,
     );
