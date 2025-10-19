@@ -404,17 +404,19 @@ export class TransitionRulesEngine {
 
     // Determine coverage format from file extension
     const format = this.getCoverageFormat(testingInfo.coverageReportPath);
-    if (!this.testingConfig.supportedFormats.includes(format)) {
+    const supportedFormats = ['lcov', 'cobertura', 'json'];
+    if (!supportedFormats.includes(format)) {
       throw new Error(
-        `Unsupported coverage format: ${format}. Supported formats: ${this.testingConfig.supportedFormats.join(', ')}`,
+        `Unsupported coverage format: ${format}. Supported formats: ${supportedFormats.join(', ')}`,
       );
     }
 
     // Run testing transition validation
     await runTestingTransition(
       {
-        format,
-        reportPath: testingInfo.coverageReportPath,
+        task,
+        changedFiles: [], // Will be extracted from task content
+        affectedPackages: [], // Will be determined from changed files
       },
       testingInfo.executedTests || [],
       testingInfo.requirementMappings || [],
