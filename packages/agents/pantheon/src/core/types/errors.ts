@@ -5,7 +5,7 @@
 export class PantheonError extends Error {
   public readonly code: string;
   public readonly module: string;
-  public readonly details?: Readonly<Record<string, unknown>>;
+  public readonly details?: Readonly<Record<string, unknown>> | undefined;
 
   constructor(
     message: string,
