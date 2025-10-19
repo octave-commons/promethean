@@ -561,7 +561,8 @@ export const submitFeedback: any = tool({
 });
 
 // Initialize queue processor on module load (cache initialized per model on demand)
-startQueueProcessor();
+// DISABLED: This causes CLI commands to hang
+// startQueueProcessor();
 
 // Cleanup on process exit
 process.on('SIGINT', () => {
