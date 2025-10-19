@@ -503,11 +503,11 @@ export class EventWatcherService {
         id: sessionData.id,
         title: sessionData.title,
         messageCount: sessionData.messageCount,
-        lastActivityTime: sessionData.lastActivityTime || sessionData.time?.updated,
+        lastActivityTime: sessionData.time?.updated || sessionData.lastActivityTime,
         activityStatus: sessionData.activityStatus || sessionData.status,
         isAgentTask: sessionData.isAgentTask || false,
         agentTaskStatus: sessionData.agentTaskStatus,
-        createdAt: sessionData.createdAt || sessionData.time?.created,
+        createdAt: sessionData.time?.created || sessionData.createdAt,
       };
 
       // Store session with the expected ID format: session:{sessionId}
