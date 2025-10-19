@@ -18,7 +18,7 @@ export const OllamaPlugin: Plugin = async ({ client }) => {
 
   return {
     tool: {
-      'ollama.submitJob': {
+      'ollama_submitJob': {
         ...submitJobTool,
         async execute(args: any, context: any) {
           // Inject client into context
@@ -26,56 +26,56 @@ export const OllamaPlugin: Plugin = async ({ client }) => {
           return submitJobTool.execute(args, enhancedContext);
         },
       },
-      'ollama.getJobStatus': {
+      'ollama_getJobStatus': {
         ...getJobStatusTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return getJobStatusTool.execute(args, enhancedContext);
         },
       },
-      'ollama.getJobResult': {
+      'ollama_getJobResult': {
         ...getJobResultTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return getJobResultTool.execute(args, enhancedContext);
         },
       },
-      'ollama.listJobs': {
+      'ollama_listJobs': {
         ...listJobsTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return listJobsTool.execute(args, enhancedContext);
         },
       },
-      'ollama.cancelJob': {
+      'ollama_cancelJob': {
         ...cancelJobTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return cancelJobTool.execute(args, enhancedContext);
         },
       },
-      'ollama.listModels': {
+      'ollama_listModels': {
         ...listModelsTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return listModelsTool.execute(args, enhancedContext);
         },
       },
-      'ollama.getQueueInfo': {
+      'ollama_getQueueInfo': {
         ...getQueueInfoTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return getQueueInfoTool.execute(args, enhancedContext);
         },
       },
-      'ollama.manageCache': {
+      'ollama_manageCache': {
         ...manageCacheTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return manageCacheTool.execute(args, enhancedContext);
         },
       },
-      'ollama.submitFeedback': {
+      'ollama_submitFeedback': {
         ...submitFeedbackTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
