@@ -314,10 +314,9 @@ export class TaskGitTracker {
     // Check if task has basic required fields
     const hasBasicFields = frontmatter.uuid && frontmatter.title && frontmatter.status;
 
-    // Check if task file exists in git history
+// Check if task file exists in git history
     let fileExistsInGit = false;
-    let hasRecentCommits = false;
-
+    
     if (taskFilePath) {
       try {
         // Check if file is tracked by git
@@ -325,10 +324,10 @@ export class TaskGitTracker {
           cwd: this.repoRoot,
           encoding: 'utf8',
         }).trim();
-
+        
         // If file is untracked or has unstaged changes, it's not truly orphaned
         fileExistsInGit = !gitStatus.startsWith('??');
-
+        
         // Check for recent commits involving this task
         if (frontmatter.uuid) {
           const commitLog = execSync(
@@ -336,10 +335,15 @@ export class TaskGitTracker {
             {
               cwd: this.repoRoot,
               encoding: 'utf8',
-            },
+            }
           ).trim();
-          hasRecentCommits = commitLog.length > 0;
+          // We could use hasRecentCommits here for additional analysis if needed
         }
+      } catch (error) {
+        // Git commands failed, assume file is not properly tracked
+        fileExistsInGit = false;
+      }
+    }
       } catch (error) {
         // Git commands failed, assume file is not properly tracked
         fileExistsInGit = false;
