@@ -917,11 +917,13 @@ const handleCommitStats: CommandHandler = (_args, context) =>
   withBoard(context, async (board) => {
     const gitTracker = new TaskGitTracker({ repoRoot: process.cwd() });
 
-    // Collect all tasks from the board
+    // Collect all tasks from the board and convert to expected format
     const allTasks: any[] = [];
     for (const column of board.columns) {
       for (const task of column.tasks) {
-        allTasks.push(task);
+        allTasks.push({
+          frontmatter: task, // Task object itself contains the frontmatter fields
+        });
       }
     }
 
@@ -930,23 +932,19 @@ const handleCommitStats: CommandHandler = (_args, context) =>
 
     console.log('📊 Kanban Commit Tracking Statistics');
     console.log('');
-    console.log(`Total tasks: ${stats.totalTasks}`);
-    console.log(`Tasks with commit tracking: ${stats.tasksWithTracking}`);
-    console.log(`Orphaned tasks: ${stats.orphanedTasks}`);
-    console.log(
-      `Tracking coverage: ${((stats.tasksWithTracking / stats.totalTasks) * 100).toFixed(1)}%`,
-    );
+    console.log(`Total tasks: ${stats.total}`);
+    console.log(`Tasks with commit tracking: ${stats.withCommitTracking}`);
+    console.log(`Orphaned tasks: ${stats.orphaned}`);
+    console.log(`Tracking coverage: ${(100 - stats.orphanageRate).toFixed(1)}%`);
     console.log('');
 
-    if (stats.orphanedTasks > 0) {
-      console.log(
-        `⚠️  Found ${stats.orphanedTasks} orphaned task(s) lacking proper commit tracking`,
-      );
+    if (stats.orphaned > 0) {
+      console.log(`⚠️  Found ${stats.orphaned} orphaned task(s) lacking proper commit tracking`);
       console.log('   Run "pnpm kanban audit --fix" to add commit tracking to these tasks');
       console.log('');
     }
 
-    if (stats.tasksWithTracking > 0) {
+    if (stats.withCommitTracking > 0) {
       console.log('✅ Commit tracking is working for tracked tasks');
       console.log('   Each task change creates a git commit with standardized messages');
       console.log('   Task files include lastCommitSha and commitHistory fields');

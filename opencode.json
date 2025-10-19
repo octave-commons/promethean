@@ -228,7 +228,16 @@
       "npx *":"ask",
       "kill *":"deny",
       "pkill *":"deny",
-      "pm2 logs":"deny"
+      "pm2 logs":"deny",
+      "rm *":"ask",
+      "bash *":"ask",
+      "unlink *":"ask",
+      "rmdir *":"ask",
+      "mv *":"ask",
+      "cp *":"ask",
+      "git *":"ask",
+      "git status*":"allow",
+      "git log*":"allow",
     }
   },
   "tools": {
