@@ -2,7 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./dist/backend",
-    "rootDir": "./src/backend",
+    "rootDir": "./src",
     "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "node",
@@ -11,13 +11,6 @@
     "noEmit": false,
     "composite": true
   },
-  "include": [
-    "src/backend/**/*",
-    "src/shared/**/*"
-  ],
-  "exclude": [
-    "src/frontend/**/*",
-    "**/*.test.ts",
-    "**/*.spec.ts"
-  ]
+  "include": ["src/backend/**/*", "src/shared/**/*"],
+  "exclude": ["src/frontend/**/*", "**/*.test.ts", "**/*.spec.ts"]
 }
