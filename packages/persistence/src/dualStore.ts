@@ -275,16 +275,18 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
             // Close MongoDB connection
             const { getMongoClient } = await import('./clients.js');
             const mongoClient = await getMongoClient();
-            await mongoClient.close();
+            if (mongoClient) {
+                await mongoClient.close();
+            }
         } catch (error) {
-            console.warn('Warning: Failed to cleanup MongoDB connection:', error);
+            // Ignore cleanup errors - connection might already be closed
         }
 
         try {
             // ChromaDB cleanup is handled automatically when the process exits
-            // But we can try to reset the client if available
+            // The ChromaClient doesn't have an explicit close method in the current version
         } catch (error) {
-            console.warn('Warning: Failed to cleanup ChromaDB connection:', error);
+            // Ignore cleanup errors
         }
     }
 }

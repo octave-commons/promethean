@@ -124,15 +124,16 @@ process.on('unhandledRejection', async (reason, promise) => {
   process.exit(1);
 });
 
-// Add cleanup hook for normal exit
-process.on('exit', async (_code) => {
-  // Note: cleanupStores won't complete in 'exit' event, but we try anyway
-  cleanupStores().catch(() => {});
-});
-
 // Add cleanup hook for SIGINT (Ctrl+C)
 process.on('SIGINT', async () => {
   console.log(chalk.gray('\nShutting down...'));
+  await cleanupStores();
+  process.exit(0);
+});
+
+// Add cleanup hook for SIGTERM
+process.on('SIGTERM', async () => {
+  console.log(chalk.gray('\nTerminating...'));
   await cleanupStores();
   process.exit(0);
 });
