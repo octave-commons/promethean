@@ -239,21 +239,10 @@ export class SecurityValidator {
     return sanitized;
   }
 
-static validateSnapshotId(snapshotId: string): string {
+  static validateSnapshotId(snapshotId: string): string {
     if (!snapshotId || typeof snapshotId !== 'string') {
       throw new Error('Snapshot ID must be a non-empty string');
     }
-
-    if (snapshotId.length > SECURITY_CONFIG.maxAgentIdLength) {
-      throw new Error(`Snapshot ID exceeds maximum length of ${SECURITY_CONFIG.maxAgentIdLength}`);
-    }
-
-    return snapshotId;
-  }
-
-  static hashSensitiveData(data: string): string {
-    return crypto.createHash('sha256').update(data).digest('hex');
-  }
 
     if (snapshotId.length > SECURITY_CONFIG.maxAgentIdLength) {
       throw new Error(
@@ -262,6 +251,10 @@ static validateSnapshotId(snapshotId: string): string {
     }
 
     return snapshotId;
+  }
+
+  static hashSensitiveData(data: string): string {
+    return crypto.createHash('sha256').update(data).digest('hex');
   }
 }
 
