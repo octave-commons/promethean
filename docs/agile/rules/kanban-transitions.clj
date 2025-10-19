@@ -100,7 +100,7 @@
   [task board]
   ;; Check if task has coverage report path
   (let [content (or (:content task) "")
-        coverage-match (re-find #"(?i)coverage[_-]?report[:\s]+([^\s\n]+)" content)
+        coverage-match (re-find #"(?i)coverage[-_]?report[:\s]+([^\s\n]+)" content)
         coverage-report-path (second coverage-match)]
     (and coverage-report-path
          ;; Additional validation could be added here for coverage thresholds, quality scores, etc.
