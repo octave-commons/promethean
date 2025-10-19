@@ -56,6 +56,11 @@ program.hook('preAction', async () => {
   await initializeAgentCliStores();
 });
 
+// Cleanup stores after any command
+program.hook('postAction', async () => {
+  await cleanupStores();
+});
+
 // Create agent session command
 program
   .command('create')
@@ -425,6 +430,49 @@ Available commands:
       }
     }
   });
+
+// Cleanup function to close all store instances
+async function cleanupStores() {
+  if (sessionStore) {
+    try {
+      await sessionStore.cleanup();
+      sessionStore = null;
+    } catch (error) {
+      console.warn('Warning: Failed to cleanup session store:', error);
+    }
+  }
+
+  if (agentTaskStore) {
+    try {
+      await agentTaskStore.cleanup();
+      agentTaskStore = null;
+    } catch (error) {
+      console.warn('Warning: Failed to cleanup agent task store:', error);
+    }
+  }
+
+  storesInitialized = false;
+  initPromise = null;
+}
+
+// Register cleanup handlers for process termination
+process.on('SIGINT', async () => {
+  console.log('\nReceived SIGINT, cleaning up...');
+  await cleanupStores();
+  process.exit(0);
+});
+
+process.on('SIGTERM', async () => {
+  console.log('\nReceived SIGTERM, cleaning up...');
+  await cleanupStores();
+  process.exit(0);
+});
+
+process.on('beforeExit', async () => {
+  if (storesInitialized) {
+    await cleanupStores();
+  }
+});
 
 // Parse command line arguments
 program.parse();
