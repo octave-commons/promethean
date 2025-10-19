@@ -56,11 +56,6 @@ program.hook('preAction', async () => {
   await initializeAgentCliStores();
 });
 
-// Cleanup stores after any command
-program.hook('postAction', async () => {
-  await cleanupStores();
-});
-
 // Create agent session command
 program
   .command('create')
