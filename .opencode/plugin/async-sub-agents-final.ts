@@ -746,18 +746,16 @@ export const MyPlugin: Plugin = async ({ client }) => {
               parts.push({ type: 'agent', name: delegateName }),
             );
 
-            setTimeout(() => {
-              client.session
-                .prompt({ path: { id: subSession.id }, body: { parts } })
-                .then(() => {
-                  console.log(
-                    `🚀 Initial prompt sent to sub-agent "${agentName}" (session: ${subSession.id})`,
-                  );
-                })
-                .catch((err) => {
-                  console.error(`Error sending initial prompt to sub-agent "${agentName}":`, err);
-                });
-            }, 100);
+            await client.session
+              .prompt({ path: { id: subSession.id }, body: { parts } })
+              .then(() => {
+                console.log(
+                  `🚀 Initial prompt sent to sub-agent "${agentName}" (session: ${subSession.id})`,
+                );
+              })
+              .catch((err) => {
+                console.error(`Error sending initial prompt to sub-agent "${agentName}":`, err);
+              });
 
             console.log(
               `🚀 Spawned new sub-agent "${agentName}" (session: ${subSession.id}) with task: ${prompt}`,
@@ -913,7 +911,13 @@ export const MyPlugin: Plugin = async ({ client }) => {
         },
         async execute({ sessionId, message, priority, messageType }) {
           try {
-            InterAgentMessenger.sendMessage(client, sessionId, message, priority, messageType);
+            return InterAgentMessenger.sendMessage(
+              client,
+              sessionId,
+              message,
+              priority,
+              messageType,
+            );
             return `✅ Message sent to agent ${sessionId} (Priority: ${priority}, Type: ${messageType})`;
           } catch (error) {
             console.error('Error sending agent message:', error);
