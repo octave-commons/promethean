@@ -56,6 +56,8 @@ export type Task = {
       reason: string;
     }>;
   };
+  // Story points for agile estimation
+  storyPoints?: number;
   // Epic functionality
   type?: 'task' | 'epic';
   epicId?: string; // If this is a subtask, references the epic UUID
