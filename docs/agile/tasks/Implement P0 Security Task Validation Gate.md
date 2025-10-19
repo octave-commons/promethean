@@ -18,6 +18,7 @@ commitHistory:
     message: 'feat(task-architect): update task architect description and command h...'
     author: 'Error'
     type: 'status_change'
+coverage_report: packages/kanban/src/lib/validation/p0-security-validator.test.ts
 ---
 
 ## 🚨 P0 Security Task Validation Gate Implementation
