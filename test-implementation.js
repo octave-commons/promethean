@@ -1,6 +1,10 @@
 // Simple test to verify our transition rules implementation
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 console.log('Testing transition rules implementation...');
 
@@ -23,7 +27,7 @@ const tsPath = path.join(__dirname, 'packages/kanban/src/lib/transition-rules.ts
 if (fs.existsSync(tsPath)) {
   console.log('✓ TypeScript implementation exists');
   const tsContent = fs.readFileSync(tsPath, 'utf8');
-  if (tsContent.includes('nbb') && tsContent.includes('evaluateClojure')) {
+  if (tsContent.includes('nbb') && tsContent.includes("import('nbb')")) {
     console.log('✓ TypeScript implementation includes nbb integration');
   } else {
     console.log('✗ TypeScript implementation missing nbb integration');

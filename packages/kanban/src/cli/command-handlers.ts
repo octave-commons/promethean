@@ -932,8 +932,14 @@ const handleAudit: CommandHandler = (args, context) =>
 
     // Fix untracked tasks if in fix mode
     if (!dryRun && untrackedTasksFound > 0) {
-      console.log('🔧 FIXING UNTRACKED TASKS...');
+      console.log('🔧 FIXING UNTRACKED TASKS (PARALLEL)...');
       console.log('');
+
+      // Collect all untracked tasks first
+      const untrackedTasks: Array<{
+        task: any;
+        taskFilePath: string;
+      }> = [];
 
       for (const column of board.columns) {
         if (columnFilter && columnKey(column.name) !== columnKey(columnFilter)) {
@@ -947,31 +953,68 @@ const handleAudit: CommandHandler = (args, context) =>
           const statusAnalysis = gitTracker.analyzeTaskStatus(task, taskFilePath);
 
           if (statusAnalysis.isUntracked) {
-            try {
-              // Commit the changes to initialize tracking
-              const trackingResult = await gitTracker.commitTaskChanges(
-                taskFilePath,
-                task.uuid,
-                'update',
-                'Audit correction: Initialize commit tracking for untracked task',
-              );
-
-              if (trackingResult.success) {
-                console.log(`✅ FIXED: Added commit tracking to "${task.title}"`);
-                console.log(`   Task ID: ${task.uuid}`);
-                console.log(`   Commit SHA: ${trackingResult.sha}`);
-                console.log('');
-              } else {
-                console.log(`❌ FAILED TO FIX: "${task.title}"`);
-                console.log(`   Error: ${trackingResult.error}`);
-                console.log('');
-              }
-            } catch (error) {
-              console.log(`❌ FAILED TO FIX: "${task.title}"`);
-              console.log(`   Error: ${error}`);
-              console.log('');
-            }
+            untrackedTasks.push({ task, taskFilePath });
           }
+        }
+      }
+
+      console.log(`📋 Found ${untrackedTasks.length} untracked tasks to fix`);
+      console.log('⚡ Processing in parallel with Promise.all...');
+      console.log('');
+
+      // Process ALL untracked tasks in parallel
+      const startTime = Date.now();
+      const fixResults = await Promise.all(
+        untrackedTasks.map(async ({ task, taskFilePath }) => {
+          try {
+            // Commit the changes to initialize tracking
+            const trackingResult = await gitTracker.commitTaskChanges(
+              taskFilePath,
+              task.uuid,
+              'update',
+              'Audit correction: Initialize commit tracking for untracked task',
+            );
+
+            return {
+              task,
+              success: trackingResult.success,
+              sha: trackingResult.sha,
+              error: trackingResult.error,
+            };
+          } catch (error) {
+            return {
+              task,
+              success: false,
+              error: error instanceof Error ? error.message : String(error),
+            };
+          }
+        }),
+      );
+      const endTime = Date.now();
+
+      // Report results
+      const fixedCount = fixResults.filter((r) => r.success).length;
+      const failedCount = fixResults.filter((r) => !r.success).length;
+
+      console.log(`⚡ Parallel processing completed in ${endTime - startTime}ms`);
+      console.log(`✅ Fixed: ${fixedCount} tasks`);
+      if (failedCount > 0) {
+        console.log(`❌ Failed: ${failedCount} tasks`);
+      }
+      console.log('');
+
+      // Detailed results
+      for (const result of fixResults) {
+        if (result.success) {
+          console.log(`✅ FIXED: Added commit tracking to "${result.task.title}"`);
+          console.log(`   Task ID: ${result.task.uuid}`);
+          console.log(`   Commit SHA: ${result.sha}`);
+          console.log('');
+        } else {
+          console.log(`❌ FAILED TO FIX: "${result.task.title}"`);
+          console.log(`   Task ID: ${result.task.uuid}`);
+          console.log(`   Error: ${result.error}`);
+          console.log('');
         }
       }
     }
