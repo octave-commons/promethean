@@ -30,7 +30,7 @@ async function initializeAgentCliStores() {
 
   initPromise = (async () => {
     try {
-      sessionStore = await DualStoreManager.create('agent-sessions', 'text', 'timestamp');
+      sessionStore = await DualStoreManager.create('sessions', 'text', 'timestamp');
       agentTaskStore = await DualStoreManager.create('agent-tasks', 'text', 'timestamp');
 
       initializeStores(sessionStore, agentTaskStore);
