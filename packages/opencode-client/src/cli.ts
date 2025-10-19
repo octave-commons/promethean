@@ -119,10 +119,10 @@ program.addCommand(indexerCommands);
 
 // Add unified agent management commands
 const unifiedAgentCommands = new Command();
-agentCommands.name('agent').description('Unified agent session management');
+unifiedAgentCommands.name('agent').description('Unified agent session management');
 
 // Create agent session command
-agentCommands
+unifiedAgentCommands
   .command('create')
   .description('Create a new agent session with task')
   .argument('<task>', 'Task description for agent')
@@ -165,7 +165,7 @@ agentCommands
   });
 
 // Start agent session command
-agentCommands
+unifiedAgentCommands
   .command('start')
   .description('Start an existing agent session')
   .argument('<sessionId>', 'ID of session to start')
@@ -181,7 +181,7 @@ agentCommands
   });
 
 // Stop agent session command
-agentCommands
+unifiedAgentCommands
   .command('stop')
   .description('Stop an agent session')
   .argument('<sessionId>', 'ID of session to stop')
@@ -198,7 +198,7 @@ agentCommands
   });
 
 // Send message command
-agentCommands
+unifiedAgentCommands
   .command('send')
   .description('Send a message to an agent session')
   .argument('<sessionId>', 'ID of the session')
@@ -216,7 +216,7 @@ agentCommands
   });
 
 // Close session command
-agentCommands
+unifiedAgentCommands
   .command('close')
   .description('Close an agent session')
   .argument('<sessionId>', 'ID of the session to close')
@@ -232,7 +232,7 @@ agentCommands
   });
 
 // List sessions command
-agentCommands
+unifiedAgentCommands
   .command('list')
   .description('List all active agent sessions')
   .option('-s, --status <status>', 'Filter by status')
@@ -276,7 +276,7 @@ agentCommands
   });
 
 // Session info command
-agentCommands
+unifiedAgentCommands
   .command('info')
   .description('Get detailed information about a session')
   .argument('<sessionId>', 'ID of the session')
@@ -310,7 +310,7 @@ agentCommands
   });
 
 // Stats command
-agentCommands
+unifiedAgentCommands
   .command('stats')
   .description('Show session statistics')
   .action(async () => {
@@ -335,7 +335,7 @@ agentCommands
   });
 
 // Cleanup command
-agentCommands
+unifiedAgentCommands
   .command('cleanup')
   .description('Cleanup old completed/failed sessions')
   .option('-a, --age <hours>', 'Maximum age in hours (default: 24)', '24')
@@ -358,7 +358,7 @@ agentCommands
   });
 
 // Interactive mode
-agentCommands
+unifiedAgentCommands
   .command('interactive')
   .description('Start interactive mode for managing sessions')
   .action(async () => {
@@ -491,7 +491,7 @@ Available commands:
     }
   });
 
-program.addCommand(agentCommands);
+program.addCommand(unifiedAgentCommands);
 
 // Error handling - let commander handle help/version normally
 
