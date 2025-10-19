@@ -1,11 +1,11 @@
-import WebSocket from 'ws';
+import WebSocket, { WebSocketServer } from 'ws';
 import { BaseTransport } from '../base-transport';
 import { TransportConfig, MessageEnvelope, MessageHandler } from '../types';
 
 export class WebSocketTransport extends BaseTransport {
   private ws?: WebSocket;
-  private server?: WebSocket.Server;
-  private reconnectTimer?: NodeJS.Timeout;
+  private server?: WebSocketServer;
+  private reconnectTimer: NodeJS.Timeout | null = null;
   private clients: Map<string, WebSocket> = new Map();
 
   constructor(config: TransportConfig) {
@@ -33,7 +33,7 @@ export class WebSocketTransport extends BaseTransport {
   async disconnect(): Promise<void> {
     if (this.reconnectTimer) {
       clearTimeout(this.reconnectTimer);
-      this.reconnectTimer = undefined;
+      this.reconnectTimer = null;
     }
 
     // Close all client connections
