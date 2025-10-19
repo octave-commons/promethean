@@ -259,10 +259,64 @@ export class QueueManager {
       try {
         const tokenPayload = await this.authManager.verifyToken(options.authToken);
         const agent = this.authManager.getAgent(tokenPayload.sub);
-
+        
         if (!agent) {
           throw new AuthenticationError('Agent not found', 'AGENT_NOT_FOUND');
         }
+
+        // Check if agent has job listing permission
+        await this.authManager.requirePermission(agent.id, 'job:list');
+        
+        // Override agentId with authenticated agent for filtering
+        if (options.agentOnly) {
+          options.agentId = agent.id;
+        }
+      } catch (error) {
+        if (error instanceof AuthenticationError) {
+          throw error;
+        }
+        throw new AuthenticationError('Invalid authentication token', 'INVALID_TOKEN');
+      }
+    }
+
+    return this.listJobsSync(options);
+  }
+
+  /**
+   * Legacy listJobs method for backward compatibility
+   */
+  listJobsSync(options: {
+    status?: Job['status'];
+    limit?: number;
+    agentOnly?: boolean;
+    agentId?: string;
+    sessionId?: string;
+  }): Job[] {
+    let jobs = Array.from(this.jobs.values());
+
+    // Apply filters
+    if (options.status) {
+      jobs = jobs.filter((job) => job.status === options.status);
+    }
+
+    if (options.agentOnly && options.agentId) {
+      jobs = jobs.filter((job) => job.agentId === options.agentId);
+    }
+
+    if (options.sessionId) {
+      jobs = jobs.filter((job) => job.sessionId === options.sessionId);
+    }
+
+    // Sort by creation time (newest first)
+    jobs.sort((a, b) => b.createdAt - a.createdAt);
+
+    // Apply limit
+    if (options.limit) {
+      jobs = jobs.slice(0, options.limit);
+    }
+
+    return jobs;
+  }
 
         // Check if agent has job listing permission
         await this.authManager.requirePermission(agent.id, 'job:list');
