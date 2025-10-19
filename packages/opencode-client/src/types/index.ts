@@ -242,13 +242,32 @@ export interface AgentSessionOptions {
 }
 
 // Utility Types
-export type DualStoreManager<K extends string, T extends string> = {
-  insert: (data: { id: string; text: string; timestamp: Timestamp; metadata?: Record<string, unknown> }) => Promise<void>;
-  get: (id: string) => Promise<{ id: string; text: string; timestamp: Timestamp; metadata?: Record<string, unknown> } | null>;
-  getMostRecent: (limit: number) => Promise<Array<{ id: string; text: string; timestamp: Timestamp; metadata?: Record<string, unknown> }>>;
-  update: (id: string, data: Partial<{ text: string; timestamp: Timestamp; metadata?: Record<string, unknown> }>) => Promise<void>;
+export interface DualStoreManager {
+  insert: (data: {
+    id: string;
+    text: string;
+    timestamp: Timestamp;
+    metadata?: Record<string, unknown>;
+  }) => Promise<void>;
+  get: (
+    id: string,
+  ) => Promise<{
+    id: string;
+    text: string;
+    timestamp: Timestamp;
+    metadata?: Record<string, unknown>;
+  } | null>;
+  getMostRecent: (
+    limit: number,
+  ) => Promise<
+    Array<{ id: string; text: string; timestamp: Timestamp; metadata?: Record<string, unknown> }>
+  >;
+  update: (
+    id: string,
+    data: Partial<{ text: string; timestamp: Timestamp; metadata?: Record<string, unknown> }>,
+  ) => Promise<void>;
   delete: (id: string) => Promise<void>;
-};
+}
 
 // Error Types
 export interface OpenCodeError {
@@ -347,51 +366,3 @@ export interface ToolExecuteHook {
   after?: (result: unknown, params: Record<string, unknown>) => Promise<void>;
   onError?: (error: Error, params: Record<string, unknown>) => Promise<void>;
 }
-
-// Export all types for easy importing
-export type {
-  SessionStatus,
-  SessionInfo,
-  SessionClient,
-  AgentTaskStatus,
-  AgentTask,
-  TaskContext,
-  EventContext,
-  EventPayload,
-  JobStatus,
-  JobType,
-  JobPriority,
-  JobOptions,
-  SubmitJobOptions,
-  JobResult,
-  JobStatusResult,
-  JobResultData,
-  OllamaModel,
-  OllamaModelDetailed,
-  QueueInfo,
-  CacheAction,
-  CacheStats,
-  CachePerformance,
-  ProcessStatus,
-  ProcessInfo,
-  ProcessOptions,
-  MessageRole,
-  Message,
-  SendMessageOptions,
-  AgentStatus,
-  AgentSession,
-  CreateAgentSessionOptions,
-  AgentSessionOptions,
-  DualStoreManager,
-  OpenCodeError,
-  ApiError,
-  OpenCodeConfig,
-  ApiResponse,
-  PaginatedResponse,
-  SessionEvent,
-  TaskEvent,
-  MessageEvent,
-  OpenCodeEvent,
-  EventHook,
-  ToolExecuteHook,
-};
