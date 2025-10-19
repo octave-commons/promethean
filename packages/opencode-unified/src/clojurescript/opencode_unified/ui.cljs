@@ -233,7 +233,7 @@ body {
   (js/window.addEventListener "resize"
                               (fn []
                               ;; Trigger re-render on resize
-                                (r/force-update)))
+                                (println "Window resized")))
 
   ;; Mount app using React 18 createRoot API
   (defonce root (rdomc/create-root (js/document.getElementById "app")))

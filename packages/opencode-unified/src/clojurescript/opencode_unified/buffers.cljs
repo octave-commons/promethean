@@ -118,13 +118,12 @@
   (let [content (:content buffer)
         cursor-pos (:cursor-pos buffer)
         selection (:selection buffer)
-        evil-mode (state/get-evil-mode)
-        textarea-ref (r/use-ref nil)]
+        evil-mode (state/get-evil-mode)]
 
     (r/create-class
      {:component-did-mount
       (fn [this]
-        (let [textarea (.-current textarea-ref)]
+        (let [textarea (r/dom-node this)]
           (when textarea
             ;; Set cursor position and selection
             (.setSelectionRange textarea cursor-pos cursor-pos)
@@ -135,7 +134,7 @@
 
       :component-did-update
       (fn [this]
-        (let [textarea (.-current textarea-ref)]
+        (let [textarea (r/dom-node this)]
           (when textarea
             ;; Set cursor position and selection
             (.setSelectionRange textarea cursor-pos cursor-pos)
@@ -147,8 +146,7 @@
       :reagent-render
       (fn []
         [:textarea.editor-content
-         {:ref textarea-ref
-          :value content
+         {:value content
           :read-only (not= evil-mode :insert)
           :on-change (fn [e]
                        (when (= evil-mode :insert)
