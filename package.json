@@ -67,6 +67,7 @@
     "prepare": "node ./scripts/ensure-cli-perms.mjs",
     "lint": "eslint --cache ./packages",
     "lint:diff": "bash ./bin/lint-diff-ts.sh",
+    "opencode": "node ./packages/opencode-client/dist/cli.js",
     "opencode-cli": "node ./packages/opencode-client/dist/cli.js",
     "format": "prettier --write .",
     "lint:tasks": "tsx scripts/lint_tasks.ts",
