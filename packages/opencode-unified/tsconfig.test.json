@@ -3,6 +3,8 @@
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./",
+    "module": "CommonJS",
+    "moduleResolution": "node",
     "skipLibCheck": true
   },
   "include": [
@@ -11,11 +13,5 @@
     "src/tests/**/*.test.ts",
     "tests/**/*.test.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "src/clojurescript",
-    "**/*.spec.ts"
-  ]
-}
+  "exclude": ["node_modules", "dist", "src/clojurescript", "**/*.spec.ts"]
 }
