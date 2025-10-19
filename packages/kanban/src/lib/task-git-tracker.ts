@@ -330,14 +330,22 @@ export class TaskGitTracker {
 
         // Check for recent commits involving this task
         if (frontmatter.uuid) {
-          const commitLog = execSync(
-            `git log --oneline --grep="${frontmatter.uuid}" -n 5 --since="3 months ago"`,
-            {
-              cwd: this.repoRoot,
-              encoding: 'utf8',
-            },
-          ).trim();
-          // We could use hasRecentCommits here for additional analysis if needed
+          try {
+            const commitLog = execSync(
+              `git log --oneline --grep="${frontmatter.uuid}" -n 5 --since="3 months ago"`,
+              {
+                cwd: this.repoRoot,
+                encoding: 'utf8',
+              },
+            ).trim();
+
+            // If there are recent commits, the task is likely active
+            if (commitLog) {
+              // Task has recent activity, which is a good sign
+            }
+          } catch (error) {
+            // No recent commits found, which is fine
+          }
         }
       } catch (error) {
         // Git commands failed, assume file is not properly tracked
