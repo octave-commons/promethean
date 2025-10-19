@@ -19,9 +19,8 @@ tools:
   glob: false
   grep: false
   write: false
-  clojure-mcp*: true
-  clj-kondo-mcp*: true
-  serena*: true
+  clj*: true
+  serena*: false
   ollama*: false
   pm2*: false
 ---
