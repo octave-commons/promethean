@@ -1208,6 +1208,23 @@ const toFrontmatter = (t: Task): string => {
     }
   }
 
+  // Add commit tracking if present
+  if (t.lastCommitSha) {
+    lines.push(`lastCommitSha: ${quoteYamlString(t.lastCommitSha)}`);
+  }
+
+  if (t.commitHistory && t.commitHistory.length > 0) {
+    lines.push('commitHistory:');
+    for (const commit of t.commitHistory) {
+      lines.push('  -');
+      lines.push(`    sha: ${quoteYamlString(commit.sha)}`);
+      lines.push(`    timestamp: ${quoteYamlString(commit.timestamp)}`);
+      lines.push(`    message: ${quoteYamlString(commit.message)}`);
+      lines.push(`    author: ${quoteYamlString(commit.author)}`);
+      lines.push(`    type: ${quoteYamlString(commit.type)}`);
+    }
+  }
+
   lines.push('---');
 
   // Only add content section if there's actual content
