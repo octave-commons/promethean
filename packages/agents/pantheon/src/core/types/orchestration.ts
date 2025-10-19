@@ -2,8 +2,6 @@
  * Orchestration system types for the Pantheon Agent Framework
  */
 
-import type { AgentInstance } from './agent.js';
-
 export type OrchestrationConfig = {
   readonly maxConcurrentAgents: number;
   readonly resourceLimits: ResourceLimits;
