@@ -3,8 +3,8 @@ import { BaseTransport } from '../base-transport';
 import { TransportConfig, MessageEnvelope, MessageHandler } from '../types';
 
 export class WebSocketTransport extends BaseTransport {
-  private ws?: WebSocket;
-  private server?: WebSocketServer;
+  private ws: WebSocket | null = null;
+  private server: WebSocketServer | null = null;
   private reconnectTimer: NodeJS.Timeout | null = null;
   private clients: Map<string, WebSocket> = new Map();
 
@@ -45,13 +45,13 @@ export class WebSocketTransport extends BaseTransport {
     // Close server if in server mode
     if (this.server) {
       this.server.close();
-      this.server = undefined;
+      this.server = null;
     }
 
     // Close client connection if in client mode
     if (this.ws) {
       this.ws.close();
-      this.ws = undefined;
+      this.ws = null;
     }
 
     this.emitConnectionEvent('disconnected');
