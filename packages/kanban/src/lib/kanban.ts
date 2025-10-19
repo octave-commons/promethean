@@ -5,6 +5,7 @@ import { parseFrontmatter as parseMarkdownFrontmatter } from '@promethean/markdo
 import { loadKanbanConfig } from '../board/config.js';
 import { refreshTaskIndex, indexTasks, writeIndexFile, serializeTasks } from '../board/indexer.js';
 import { EventLogManager } from '../board/event-log.js';
+import { TaskGitTracker } from './task-git-tracker.js';
 import type { IndexTasksOptions } from '../board/indexer.js';
 import type { Board, ColumnData, Task, EpicTask } from './types.js';
 import { getEpicSubtasks, calculateEpicStatus } from './epic.js';
@@ -795,17 +796,12 @@ export const updateStatus = async (
   // P0 Security Task Validation Gate
   try {
     const { validateP0SecurityTask } = await import('./validation/index.js');
-    const p0Validation = await validateP0SecurityTask(
-      found,
-      currentStatus,
-      normalizedStatus,
-      {
-        repoRoot: process.cwd(),
-        tasksDir: tasksDir,
-        skipGitChecks: false,
-        skipFileChecks: false
-      }
-    );
+    const p0Validation = await validateP0SecurityTask(found, currentStatus, normalizedStatus, {
+      repoRoot: process.cwd(),
+      tasksDir: tasksDir,
+      skipGitChecks: false,
+      skipFileChecks: false,
+    });
 
     if (!p0Validation.valid) {
       // Restore task to its original column
@@ -817,10 +813,11 @@ export const updateStatus = async (
         originalColumn.count += 1;
       }
 
-      const errorMessage = `🚨 P0 Security Validation Failed:\n${p0Validation.errors.map(error => `  ❌ ${error}`).join('\n')}`;
-      const warningMessage = p0Validation.warnings.length > 0 
-        ? `\n⚠️  Warnings:\n${p0Validation.warnings.map(warning => `  ⚡ ${warning}`).join('\n')}`
-        : '';
+      const errorMessage = `🚨 P0 Security Validation Failed:\n${p0Validation.errors.map((error) => `  ❌ ${error}`).join('\n')}`;
+      const warningMessage =
+        p0Validation.warnings.length > 0
+          ? `\n⚠️  Warnings:\n${p0Validation.warnings.map((warning) => `  ⚡ ${warning}`).join('\n')}`
+          : '';
 
       throw new Error(errorMessage + warningMessage);
     }
@@ -828,15 +825,13 @@ export const updateStatus = async (
     // Log warnings if present
     if (p0Validation.warnings.length > 0) {
       console.warn(`⚠️  P0 Security Task Warnings:`);
-      p0Validation.warnings.forEach(warning => {
+      p0Validation.warnings.forEach((warning) => {
         console.warn(`  ⚡ ${warning}`);
       });
     }
   } catch (error) {
     // If P0 validation fails, restore task and re-throw
-    let originalColumn = board.columns.find(
-      (c) => columnKey(c.name) === columnKey(currentStatus),
-    );
+    let originalColumn = board.columns.find((c) => columnKey(c.name) === columnKey(currentStatus));
     if (originalColumn) {
       originalColumn.tasks = [...originalColumn.tasks, found];
       originalColumn.count += 1;
@@ -1013,7 +1008,7 @@ export const updateStatus = async (
   }
 
   return found;
-};;
+};
 
 export const moveTask = async (
   board: Board,
