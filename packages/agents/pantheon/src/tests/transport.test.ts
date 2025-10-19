@@ -25,7 +25,6 @@ import {
   MessageEnvelope,
   TransportConfig,
   MessageHandler,
-  DeadLetterQueue,
 } from '../transport/index.js';
 
 // ============================================================================
