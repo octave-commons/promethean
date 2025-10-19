@@ -1,4 +1,4 @@
-const { TaskGitTracker } = require('./dist/lib/task-git-tracker.js');
+import { TaskGitTracker } from './dist/lib/task-git-tracker.js';
 
 // Test the analyzeTaskStatus method
 const gitTracker = new TaskGitTracker();
