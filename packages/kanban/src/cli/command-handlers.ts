@@ -814,6 +814,7 @@ const handleAudit: CommandHandler = (args, context) =>
           statusAnalysis.recommendations.forEach((rec) => console.log(`     • ${rec}`));
           console.log('');
         } else if (statusAnalysis.isUntracked) {
+          untrackedTasksFound++;
           console.log(`⚠️  UNTRACKED TASK: "${task.title}"`);
           console.log(`   Task ID: ${task.uuid}`);
           console.log(`   Status: ${task.status}`);
@@ -829,6 +830,8 @@ const handleAudit: CommandHandler = (args, context) =>
           console.log(`   Recommendations:`);
           statusAnalysis.recommendations.forEach((rec) => console.log(`     • ${rec}`));
           console.log('');
+        } else {
+          healthyTasksFound++;
         }
 
         // Check if current status matches replayed status
