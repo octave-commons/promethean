@@ -101,7 +101,5 @@ export const FrameworkInfo = {
 // Default Exports
 // ============================================================================
 
-export default {
-  VERSION,
-  FrameworkInfo,
-};
+// Note: Default export removed to follow import/no-default-export rule
+// Use named exports instead: { VERSION, FrameworkInfo }
