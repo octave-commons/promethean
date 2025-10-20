@@ -8,12 +8,16 @@ export function extractSessionId(event: {
   properties: Record<string, unknown>;
 }): string | null {
   const extractors: Record<string, () => string | undefined> = {
-    'session.idle': () => event.properties.sessionID || event.properties.session?.id,
-    'session.updated': () => event.properties.info?.id || event.properties.session?.id,
-    'message.updated': () => event.properties.message?.session_id || event.properties.sessionId,
+    'session.idle': () =>
+      (event.properties as any).sessionID || (event.properties as any).session?.id,
+    'session.updated': () =>
+      (event.properties as any).info?.id || (event.properties as any).session?.id,
+    'message.updated': () =>
+      (event.properties as any).message?.session_id || (event.properties as any).sessionId,
     'message.part.updated': () =>
-      event.properties.message?.session_id || event.properties.sessionId,
-    'session.compacted': () => event.properties.sessionId || event.properties.session?.id,
+      (event.properties as any).message?.session_id || (event.properties as any).sessionId,
+    'session.compacted': () =>
+      (event.properties as any).sessionId || (event.properties as any).session?.id,
   };
 
   const extractor = extractors[event.type];
@@ -61,7 +65,7 @@ export function createSessionInfo(
 
   return {
     id: session.id,
-    title: session.title,
+    title: session.title || 'Untitled Session',
     messageCount,
     lastActivityTime: new Date().toISOString(),
     sessionAge,

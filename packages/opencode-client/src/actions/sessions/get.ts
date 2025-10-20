@@ -17,7 +17,7 @@ function parseSessionData(session: {
     const sessionMatch = text.match(/Session:\s*(\w+)/);
     if (sessionMatch) {
       return {
-        id: sessionMatch[1],
+        id: sessionMatch[1] || 'unknown',
         title: `Session ${sessionMatch[1]}`,
         createdAt:
           (typeof session.timestamp === 'number'
