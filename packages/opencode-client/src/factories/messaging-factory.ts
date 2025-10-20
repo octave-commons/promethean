@@ -3,21 +3,17 @@
 
 import { tool } from '@opencode-ai/plugin/tool';
 import { DualStoreManager } from '@promethean/persistence';
+import { AgentTask } from '../AgentTask.js';
 import {
   sendMessage,
   verifyAgentExists,
   getSenderSessionId,
   formatMessage,
   logCommunication,
+  type MessagingContext,
 } from '../actions/messaging/index.js';
 
 // Type definitions
-interface MessagingContext {
-  sessionStore: DualStoreManager<'text', 'timestamp'>;
-  agentTaskStore: DualStoreManager<'text', 'timestamp'>;
-  agentTasks: Map<string, unknown>;
-}
-
 interface SendMessageArgs {
   sessionId: string;
   message: string;

@@ -115,6 +115,11 @@ export function createCleanupOrphanedTaskTool(): ReturnType<typeof tool> {
     },
   });
 }
+type Context = {
+  agent: string;
+  sessionID: string;
+  messageID: string;
+};
 
 // Factory for updateTaskStatus tool
 export function createUpdateTaskStatusTool(): ReturnType<typeof tool> {
