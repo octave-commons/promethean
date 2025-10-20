@@ -1,9 +1,7 @@
 import { DualStoreManager } from '@promethean/persistence';
 import { AgentTask } from '../../AgentTask.js';
 
-export interface TaskContext {
-  agentTaskStore: DualStoreManager<'text', 'timestamp'>;
-}
+export type TaskContext = DualStoreManager<'text', 'timestamp'>;
 
 export async function loadPersistedTasks(
   context: TaskContext,
