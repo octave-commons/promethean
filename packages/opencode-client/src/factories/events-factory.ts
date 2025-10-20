@@ -128,7 +128,7 @@ export function createDetectTaskCompletionTool(stores, client): ToolFunction {
         .describe('Messages to analyze for completion'),
     },
     async execute({ messages }) {
-      const completion = detectTaskCompletion(messages);
+      const completion = detectTaskCompletion(messages as EventMessage[]);
 
       return JSON.stringify({
         completed: completion.completed,
