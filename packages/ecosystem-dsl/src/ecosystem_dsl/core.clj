@@ -85,7 +85,7 @@
   "Define an enhancement that can be applied to process configurations."
   [name params & body]
   `(defn ~(symbol (str "enhance-" name)) ~params
-     (log/info ~(str "Applying " name " enhancement"))
+     (println ~(str "Applying " name " enhancement"))
      ~@body))
 
 (defmacro with-enhancements
@@ -237,23 +237,23 @@
   (try
     (let [content (slurp file-path)
           data (read-string content)]
-      (log/info (str "Successfully loaded " file-path))
+      (println (str "Successfully loaded " file-path))
       data)
     (catch Exception e
-      (log/error e (str "Failed to read " file-path))
+      (println (str "Failed to read " file-path) ":" (.getMessage e))
       {})))
 
 (defn process-edn-config
   "Process a single EDN configuration and apply enhancements."
   [edn-data file-path]
-  (log/info (str "Processing configuration from " file-path))
+  (println (str "Processing configuration from " file-path))
   (->> (:apps edn-data)
        (map (fn [app-config]
               (let [enhanced (-> app-config
                                  (with-enhancements logging performance monitoring error-handling)
                                  (development)
                                  (production))]
-                (log/info (str "Enhanced configuration for app: " (:name enhanced)))
+                (println (str "Enhanced configuration for app: " (:name enhanced)))
                 enhanced)))))
 
 ;; ============================================================================
