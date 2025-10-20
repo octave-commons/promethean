@@ -46,11 +46,13 @@
   "Convert kebab-case to camelCase for JavaScript compatibility."
   [s]
   (when s
-    (->> (str/split s #"-")
-         (map str/capitalize)
-         (str/join "")
-         (str/lower-case (first))
-         (subs 1))))
+    (let [parts (str/split s #"-")]
+      (if (<= (count parts) 1)
+        s
+        (str (str/lower-case (first parts))
+             (->> (rest parts)
+                  (map str/capitalize)
+                  (str/join "")))))))
 
 (defn- clj->js-obj
   "Convert Clojure data structure to JavaScript object format."
