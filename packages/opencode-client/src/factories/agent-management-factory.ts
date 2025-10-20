@@ -43,7 +43,10 @@ interface SendMessageArgs extends SessionIdArgs {
   messageType?: string;
 }
 
-export function createCreateAgentSessionTool(): ReturnType<typeof tool> {
+export function createCreateAgentSessionTool(
+  stores: DualStoreManager<'', ''>,
+  client: OpencodeClient,
+): ReturnType<typeof tool> {
   return tool({
     description: 'Create a new agent session with task assignment and optional initial message',
     args: {
