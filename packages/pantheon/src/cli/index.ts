@@ -252,7 +252,8 @@ program
     }
   });
 
-// MCP integration commands
+// MCP integration commands (commented out until MCP adapter is available)
+/*
 program
   .command('mcp:execute')
   .description('Execute an MCP tool')
@@ -301,6 +302,7 @@ program
       process.exit(1);
     }
   });
+*/
 
 // OpenAI integration commands
 program
