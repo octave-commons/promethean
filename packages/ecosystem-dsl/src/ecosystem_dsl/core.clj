@@ -83,8 +83,8 @@
 
 (defmacro defenhancement
   "Define an enhancement that can be applied to process configurations."
-  [name params & body]
-  `(defn ~(symbol (str "enhance-" name)) ~params
+  [name docstring params & body]
+  `(defn ~(symbol (str "enhance-" name)) ~docstring ~params
      (println ~(str "Applying " name " enhancement"))
      ~@body))
 
@@ -340,13 +340,13 @@
   [system-dir output-file callback]
   (let [watch-service (FileSystems/newWatchService)
         path (Paths/get system-dir (into-array String []))
-        _ (.register path watch-service
-                     (into-array StandardWatchEventKinds
-                                 [StandardWatchEventKinds/ENTRY_CREATE
-                                  StandardWatchEventKinds/ENTRY_MODIFY
-                                  StandardWatchEventKinds/ENTRY_DELETE]))
+        _ (.register path watch-service 
+                     (into-array StandardWatchEventKinds 
+                                [StandardWatchEventKinds/ENTRY_CREATE
+                                 StandardWatchEventKinds/ENTRY_MODIFY
+                                 StandardWatchEventKinds/ENTRY_DELETE]))
         stop-flag (atom false)]
-
+    
     (future
       (while (not @stop-flag)
         (let [watch-key (.poll watch-service 1 TimeUnit/SECONDS)]
@@ -355,10 +355,10 @@
               (let [file-name (.context event)]
                 (when (and (.endsWith (str file-name) "ecosystem.edn")
                            (not (.startsWith (str file-name) ".")))
-                  (log/info (str "Detected change in " file-name ", regenerating..."))
+                  (println (str "Detected change in " file-name ", regenerating..."))
                   (callback)))))
-          (.reset watch-key))))
-
+            (.reset watch-key))))
+    
     (fn [] (reset! stop-flag true))))
 
 ;; ============================================================================
@@ -371,27 +371,27 @@
     :or {system-dir "system"
          output-file "ecosystem.config.enhanced.mjs"
          watch? false}}]
-  (log/info (str "Starting ecosystem generation from " system-dir))
-
+  (println (str "Starting ecosystem generation from " system-dir))
+  
   (let [edn-files (find-ecosystem-files system-dir)
-        _ (log/info (str "Found " (count edn-files) " EDN files"))
+        _ (println (str "Found " (count edn-files) " EDN files"))
         all-apps (->> edn-files
                       (map read-ecosystem-edn)
                       (map process-edn-config))
         js-content (generate-ecosystem-js all-apps)]
-
+    
     ;; Write the generated configuration
     (spit output-file js-content)
-    (log/info (str "Generated enhanced ecosystem configuration: " output-file))
-
+    (println (str "Generated enhanced ecosystem configuration: " output-file))
+    
     ;; Start file watcher if requested
     (when watch?
-      (log/info "Starting file watcher for automatic regeneration...")
+      (println "Starting file watcher for automatic regeneration...")
       (start-file-watcher system-dir output-file
-                          #(generate-ecosystem! {:system-dir system-dir
-                                                 :output-file output-file
+                          #(generate-ecosystem! {:system-dir system-dir 
+                                                 :output-file output-file 
                                                  :watch? false})))
-
+    
     {:files-processed (count edn-files)
      :apps-generated (count (apply concat all-apps))
      :output-file output-file}))
