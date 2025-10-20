@@ -16,61 +16,6 @@ import {
   type TaskContext,
 } from '../actions/tasks/index.js';
 
-// Factory for loadPersistedTasks tool
-export function createLoadPersistedTasksTool(stores, client): ReturnType<typeof tool> {
-  return tool({
-    description: 'Load persisted agent tasks from storage',
-    args: {
-      verifySessions: tool.schema
-        .boolean()
-        .default(true)
-        .describe('Whether to verify sessions still exist before loading tasks'),
-    },
-    async execute(args, context) {
-      const { verifySessions } = args;
-      const client = (context as Record<string, unknown>).client;
-
-      const result = await loadPersistedTasks(
-        taskContext,
-        verifySessions ? (client as any) : undefined,
-      );
-
-      return JSON.stringify({
-        success: true,
-        loadedCount: result.loadedCount,
-        cleanedCount: result.cleanedCount,
-        verifySessions,
-      });
-    },
-  });
-}
-
-// Factory for verifySessionExists tool
-export function createVerifySessionExistsTool(stores, client): ReturnType<typeof tool> {
-  return tool({
-    description: 'Verify if a session still exists',
-    args: {
-      sessionId: tool.schema.string().describe('Session ID to verify'),
-    },
-    async execute(args, context) {
-      const { sessionId } = args;
-      const client = (context as Record<string, unknown>).client;
-
-      if (!client) {
-        throw new Error('Client not available in context');
-      }
-
-      const exists = await verifySessionExists(client as any, sessionId);
-
-      return JSON.stringify({
-        sessionId,
-        exists,
-        verified: true,
-      });
-    },
-  });
-}
-
 // Factory for cleanupOrphanedTask tool
 export function createCleanupOrphanedTaskTool(stores, client): ReturnType<typeof tool> {
   return tool({
@@ -132,29 +77,6 @@ export function createUpdateTaskStatusTool(stores, client): ReturnType<typeof to
   });
 }
 
-// Factory for monitorTasks tool
-export function createMonitorTasksTool(stores: Stores): ReturnType<typeof tool> {
-  return tool({
-    description: 'Monitor all tasks for timeouts and update status accordingly',
-    args: {
-      timeoutMinutes: tool.schema.number().default(30).describe('Timeout threshold in minutes'),
-    },
-    async execute(args, context: Context) {
-      const { timeoutMinutes } = args;
-
-      // wrong
-      monitorTasks(taskContext);
-
-      return JSON.stringify({
-        success: true,
-        timeoutMinutes,
-        monitored: true,
-        message: `Task monitoring completed with ${timeoutMinutes} minute timeout threshold`,
-      });
-    },
-  });
-}
-
 // Factory for createTask tool
 export function createCreateTaskTool(stores: Stores): ReturnType<typeof tool> {
   return tool({
@@ -200,27 +122,6 @@ export function createGetAllTasksTool(stores: Stores): ReturnType<typeof tool> {
         success: true,
         totalTasks: tasksArray.length,
         tasks: tasksArray,
-      });
-    },
-  });
-}
-
-// Factory for parseTimestamp tool
-export function createParseTimestampTool(): ReturnType<typeof tool> {
-  return tool({
-    description: 'Parse a timestamp into a Unix timestamp number',
-    args: {
-      timestamp: tool.schema
-        .union([tool.schema.string(), tool.schema.number()])
-        .describe('Timestamp to parse (string ISO format or number)'),
-    },
-    async execute({ timestamp }) {
-      const parsed = parseTimestamp(timestamp);
-
-      return JSON.stringify({
-        original: timestamp,
-        parsed,
-        parsedDate: new Date(parsed).toISOString(),
       });
     },
   });

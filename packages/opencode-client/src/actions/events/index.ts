@@ -109,7 +109,7 @@ export function detectTaskCompletion(messages: EventMessage[]): {
   };
 }
 
-export async function processSessionMessagesAction(client: EventClient, sessionId: string) {
+export async function processSessionMessagesAction(client: OpencodeClient, sessionId: string) {
   const messages = await getSessionMessages(client, sessionId);
   await Promise.all(
     (messages as EventMessage[]).map((message: EventMessage) =>
