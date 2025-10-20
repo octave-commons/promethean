@@ -125,3 +125,12 @@ export const getStoreCount = (): number => contextStore.collectionCount();
 // Export utilities
 export { SessionUtils };
 export type { SessionInfo, Timestamp };
+
+// Create a global agentTasks Map for backward compatibility
+export const agentTasks = new Map<string, any>();
+
+// Export store instances for backward compatibility
+export { sessionStore, agentTaskStore, eventStore, messageStore };
+
+// Create a global agentTasks Map for backward compatibility
+export const agentTasks = new Map<string, any>();
