@@ -142,6 +142,7 @@ export const apps =
     "instances": 1,
     "autorestart": true,
     "restart_delay": 10000,
+    "env_file": ".env",
     "kill_timeout": 10000,
     "env": {
       "PM2_PROCESS_NAME": "promethean-mcp-dev",
