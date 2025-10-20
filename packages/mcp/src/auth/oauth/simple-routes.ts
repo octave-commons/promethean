@@ -64,8 +64,9 @@ export function registerSimpleOAuthRoutes(
   // Initiate OAuth login
   fastify.post(`${basePath}/login`, async (request, reply) => {
     try {
-      const body = request.body as any;
-      const { provider, redirectTo } = body;
+      // Parse JSON body manually since Fastify is configured to not auto-parse
+      const parsedBody = tryParseJson(request.body);
+      const { provider, redirectTo } = parsedBody as any;
 
       if (!provider) {
         return reply.status(400).send({
