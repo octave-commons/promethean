@@ -123,9 +123,8 @@ type Context = {
 
 type Stores = {
   agentTaskStore: DualStoreManager<'text', 'timestamp'>;
-  sessionStore: DualStore
+  sessionStore: DualStoreManager;
 };
-
 
 // Factory for updateTaskStatus tool
 export function createUpdateTaskStatusTool(stores): ReturnType<typeof tool> {
@@ -233,7 +232,7 @@ export function createCreateTaskTool({ agentTaskStore }): ReturnType<typeof tool
 }
 
 // Factory for getAllTasks tool
-export function createGetAllTasksTool(stores:): ReturnType<typeof tool> {
+export function createGetAllTasksTool(stores: Stores): ReturnType<typeof tool> {
   if (!agentTaskStore) {
     throw new Error('Required task context not available');
   }
