@@ -1,4 +1,5 @@
-import { SessionUtils, stores } from '../../index.js';
+import { SessionUtils } from '../../SessionUtils.js';
+import { stores } from '../../index.js';
 
 // Define Session type locally since API was removed
 interface Session {
