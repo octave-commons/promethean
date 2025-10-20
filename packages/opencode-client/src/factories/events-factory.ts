@@ -25,7 +25,7 @@ interface ToolContext {
 }
 
 // Factory for handleSessionIdle tool
-export function createHandleSessionIdleTool(): ToolFunction {
+export function createHandleSessionIdleTool(stores, client): ToolFunction {
   return tool({
     description: 'Handle session idle event',
     args: {
@@ -46,7 +46,7 @@ export function createHandleSessionIdleTool(): ToolFunction {
 }
 
 // Factory for handleSessionUpdated tool
-export function createHandleSessionUpdatedTool(): ToolFunction {
+export function createHandleSessionUpdatedTool(stores, clien1): ToolFunction {
   return tool({
     description: 'Handle session updated event',
     args: {
@@ -68,7 +68,7 @@ export function createHandleSessionUpdatedTool(): ToolFunction {
 }
 
 // Factory for handleMessageUpdated tool
-export function createHandleMessageUpdatedTool(): ToolFunction {
+export function createHandleMessageUpdatedTool(stores, clien): ToolFunction {
   return tool({
     description: 'Handle message updated event',
     args: {
