@@ -140,7 +140,7 @@ export function createDetectTaskCompletionTool(stores, client): ToolFunction {
 }
 
 // Factory for processSessionMessages tool
-export function createProcessSessionMessagesTool(stores, clien): ToolFunction {
+export function createProcessSessionMessagesTool(stores, client): ToolFunction {
   return tool({
     description: 'Process all messages in a session',
     args: {
