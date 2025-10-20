@@ -97,7 +97,7 @@ export function createGetAllTasksTool(stores: TaskContext): ReturnType<typeof to
   return tool({
     description: 'Get all tasks from memory and storage',
     args: {},
-    async execute(_args, context: Context) {
+    async execute(_args, context: any) {
       const allTasks = await getAllTasks(stores as TaskContext);
       const tasksArray = Array.from(allTasks.entries()).map(([sessionId, task]) => ({
         sessionId,
