@@ -61,12 +61,14 @@ async function testBasicFunctionality() {
   await adapters.tools.register({
     name: 'test_tool',
     description: 'A test tool',
+    parameters: {},
+    runtime: 'local',
   });
   console.log('✅ Tool registered successfully');
 
   // 4. Test actor execution
   console.log('\n4. Testing actor execution...');
-  const tickResult = await orchestrator.tickActor(actor);
+  await orchestrator.tickActor(actor);
   console.log(`✅ Actor tick completed`);
 
   // 5. Test context compilation
@@ -166,6 +168,8 @@ async function testCompositeActor() {
   await adapters.tools.register({
     name: 'composite_test_tool',
     description: 'A tool for composite actor testing',
+    parameters: {},
+    runtime: 'local',
   });
 
   await orchestrator.tickActor(actor);
