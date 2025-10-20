@@ -17,7 +17,10 @@ import {
 } from '../actions/tasks/index.js';
 
 // Factory for cleanupOrphanedTask tool
-export function createCleanupOrphanedTaskTool(stores, client): ReturnType<typeof tool> {
+export function createCleanupOrphanedTaskTool(
+  stores: TaskContext,
+  client: any,
+): ReturnType<typeof tool> {
   return tool({
     description: 'Clean up an orphaned task from memory',
     args: {
