@@ -154,7 +154,8 @@ test('User registry CRUD operations', async (t) => {
     search: 'test',
   });
   t.is(searchResult.users.length, 1);
-  t.is(searchResult.users[0].id, user.id);
+  t.truthy(searchResult.users[0]);
+  t.is(searchResult.users[0]!.id, user.id);
 
   // Create session
   const session = await system.userRegistry!.createSession(
@@ -177,7 +178,8 @@ test('User registry CRUD operations', async (t) => {
   // Get user sessions
   const userSessions = system.userRegistry!.getUserSessions(user.id);
   t.is(userSessions.length, 1);
-  t.is(userSessions[0].sessionId, session.sessionId);
+  t.truthy(userSessions[0]);
+  t.is(userSessions[0]!.sessionId, session.sessionId);
 
   // Revoke session
   const revoked = await system.userRegistry!.revokeSession(session.sessionId);

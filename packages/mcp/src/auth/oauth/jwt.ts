@@ -6,7 +6,7 @@
  */
 
 import crypto from 'node:crypto';
-import jwt, { type JwtPayload, type SignOptions } from 'jsonwebtoken';
+import jwt, { type SignOptions } from 'jsonwebtoken';
 import type { OAuthSession, OAuthUserInfo } from './types.js';
 
 /**
@@ -53,12 +53,11 @@ export type JwtTokenPair = Readonly<{
  */
 export class JwtTokenManager {
   private readonly config: JwtTokenConfig;
-  private readonly keyRotationEnabled: boolean;
+
   private readonly blacklistedTokens = new Set<string>();
 
-  constructor(config: JwtTokenConfig, options: { enableKeyRotation?: boolean } = {}) {
+  constructor(config: JwtTokenConfig) {
     this.config = config;
-    this.keyRotationEnabled = options.enableKeyRotation ?? true;
 
     // Validate configuration
     this.validateConfig();
@@ -270,7 +269,17 @@ export class JwtTokenManager {
       throw new Error('Refresh token expiry must be positive');
     }
 
-    const validAlgorithms: jwt.Algorithm[] = ['RS256', 'RS384', 'RS512', 'ES256', 'ES384', 'ES512', 'HS256', 'HS384', 'HS512'];
+    const validAlgorithms: jwt.Algorithm[] = [
+      'RS256',
+      'RS384',
+      'RS512',
+      'ES256',
+      'ES384',
+      'ES512',
+      'HS256',
+      'HS384',
+      'HS512',
+    ];
     if (!validAlgorithms.includes(this.config.algorithm)) {
       throw new Error(`Invalid JWT algorithm: ${this.config.algorithm}`);
     }
@@ -287,7 +296,7 @@ export class JwtTokenManager {
       const tokens = Array.from(this.blacklistedTokens);
       const toKeep = tokens.slice(-5000);
       this.blacklistedTokens.clear();
-      toKeep.forEach(token => this.blacklistedTokens.add(token));
+      toKeep.forEach((token) => this.blacklistedTokens.add(token));
     }
   }
 

@@ -66,7 +66,7 @@ export class AuthenticationFactory {
       }
 
       system.jwtManager = new JwtTokenManager(jwtConfig);
-      system.oauthSystem = new OAuthSystem(oauthSystemConfig, system.jwtManager);
+      system.oauthSystem = new OAuthSystem(oauthSystemConfig);
 
       // Create OAuth integration if user registry is available
       if (system.userRegistry) {

@@ -16,7 +16,7 @@ import type {
 
 // Re-export OAuthSession for use in other modules
 export type { OAuthSession };
-import type { JwtTokenManager } from './jwt.js';
+
 import { GitHubOAuthProvider } from './providers/github.js';
 import { GoogleOAuthProvider } from './providers/google.js';
 
@@ -28,11 +28,8 @@ export class OAuthSystem {
   private readonly providers = new Map<string, OAuthProvider>();
   private readonly states = new Map<string, OAuthState>();
   private readonly sessions = new Map<string, OAuthSession>();
-  private readonly jwtManager: JwtTokenManager;
-
-  constructor(config: OAuthSystemConfig, jwtManager: JwtTokenManager) {
+  constructor(config: OAuthSystemConfig) {
     this.config = config;
-    this.jwtManager = jwtManager;
 
     // Initialize providers
     this.initializeProviders();
@@ -300,8 +297,8 @@ export class OAuthSystem {
         clientId: this.config.providers.github.clientId,
         clientSecret: this.config.providers.github.clientSecret,
         redirectUri: this.config.redirectUri,
-        scopes: this.config.providers.github.scopes,
-        allowSignup: this.config.providers.github.allowSignup,
+        scopes: this.config.providers.github.scopes || [],
+        allowSignup: this.config.providers.github.allowSignup || false,
       });
       this.providers.set('github', githubProvider);
     }
@@ -312,7 +309,7 @@ export class OAuthSystem {
         clientId: this.config.providers.google.clientId,
         clientSecret: this.config.providers.google.clientSecret,
         redirectUri: this.config.redirectUri,
-        scopes: this.config.providers.google.scopes,
+        scopes: this.config.providers.google.scopes || [],
         hostedDomain: this.config.providers.google.hostedDomain,
         prompt: this.config.providers.google.prompt,
       });
