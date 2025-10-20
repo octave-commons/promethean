@@ -155,9 +155,16 @@ export async function list({ limit, offset }: { limit: number; offset: number })
           if (session.isAgentTask && !agentTask) {
             agentTask = {
               sessionId: session.id,
-              status: session.agentTaskStatus || 'unknown',
-              startTime: session.createdAt || new Date().toISOString(),
-              lastActivity: session.lastActivityTime || session.createdAt,
+              status: (session.agentTaskStatus as any) || 'unknown',
+              startTime:
+                typeof session.createdAt === 'string'
+                  ? session.createdAt
+                  : session.createdAt?.toString() || new Date().toISOString(),
+              lastActivity:
+                session.lastActivityTime ||
+                (typeof session.createdAt === 'string'
+                  ? session.createdAt
+                  : session.createdAt?.toString()),
               task: session.title || 'Agent Task',
             };
 
@@ -175,9 +182,16 @@ export async function list({ limit, offset }: { limit: number; offset: number })
           if (session.isAgentTask && !agentTask) {
             agentTask = {
               sessionId: session.id,
-              status: session.agentTaskStatus || 'unknown',
-              startTime: session.createdAt || new Date().toISOString(),
-              lastActivity: session.lastActivityTime || session.createdAt,
+              status: (session.agentTaskStatus as any) || 'unknown',
+              startTime:
+                typeof session.createdAt === 'string'
+                  ? session.createdAt
+                  : session.createdAt?.toString() || new Date().toISOString(),
+              lastActivity:
+                session.lastActivityTime ||
+                (typeof session.createdAt === 'string'
+                  ? session.createdAt
+                  : session.createdAt?.toString()),
               task: session.title || 'Agent Task',
             };
           }
@@ -205,12 +219,11 @@ export async function list({ limit, offset }: { limit: number; offset: number })
           totalPages: Math.ceil(totalCount / limit),
         },
         summary: {
-          active: enhanced.filter((s: SessionData) => s.activityStatus === 'active').length,
-          waiting_for_input: enhanced.filter(
-            (s: SessionData) => s.activityStatus === 'waiting_for_input',
-          ).length,
-          idle: enhanced.filter((s: SessionData) => s.activityStatus === 'idle').length,
-          agentTasks: enhanced.filter((s: SessionData) => s.isAgentTask).length,
+          active: enhanced.filter((s: any) => s.activityStatus === 'active').length,
+          waiting_for_input: enhanced.filter((s: any) => s.activityStatus === 'waiting_for_input')
+            .length,
+          idle: enhanced.filter((s: any) => s.activityStatus === 'idle').length,
+          agentTasks: enhanced.filter((s: any) => s.isAgentTask).length,
         },
       },
       null,
