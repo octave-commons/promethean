@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/pantheon",
+  "name": "@promethean/pantheon-cljs",
   "version": "1.0.0",
   "description": "Promethean Pantheon - Unified Agent Framework consolidating context management, orchestration, protocols, and workflow systems",
   "type": "module",
