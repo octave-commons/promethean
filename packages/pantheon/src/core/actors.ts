@@ -1,37 +1,21 @@
 import type { ActorPort, Actor, ActorConfig } from './ports.js';
-import { makeAgentStateManager, type ActorStatePort } from '@promethean/agent-state';
 
 export function makeActorAdapter(): ActorPort {
-  // Create agent state manager for persistent actor storage
-  const actorState = makeAgentStateManager({
-    // Default dependencies - in real implementation these would be injected
-    eventStore: null as any, // Would be real event store
-    snapshotStore: null as any, // Would be real snapshot store
-  });
-
-  // In-memory cache for fast access
+  // In-memory storage for now - will integrate with agent-state later
   const actors = new Map<string, Actor>();
 
   return {
     async tick(actorId: string): Promise<void> {
-      // Try cache first
-      let actor = actors.get(actorId);
-
+      const actor = actors.get(actorId);
       if (!actor) {
-        // Load from persistent store
-        actor = await actorState.getActor(actorId);
-        if (!actor) {
-          throw new Error(`Actor ${actorId} not found`);
-        }
-        actors.set(actorId, actor);
+        throw new Error(`Actor ${actorId} not found`);
       }
 
-      // Update actor state
+      // Simple tick implementation - update last tick time
       actor.lastTick = Date.now();
-
-      // Save to both cache and persistent store
       actors.set(actorId, actor);
-      await actorState.saveActor(actor);
+
+      console.log(`Actor ${actorId} ticked at ${actor.lastTick}`);
     },
 
     async create(config: ActorConfig): Promise<string> {
@@ -43,26 +27,14 @@ export function makeActorAdapter(): ActorPort {
         lastTick: Date.now(),
       };
 
-      // Save to both cache and persistent store
       actors.set(id, actor);
-      await actorState.saveActor(actor);
+      console.log(`Created actor ${id} with config:`, config);
 
       return id;
     },
 
     async get(id: string): Promise<Actor | null> {
-      // Try cache first
-      let actor = actors.get(id);
-
-      if (!actor) {
-        // Load from persistent store
-        actor = await actorState.getActor(id);
-        if (actor) {
-          actors.set(id, actor);
-        }
-      }
-
-      return actor || null;
+      return actors.get(id) || null;
     },
   };
 }

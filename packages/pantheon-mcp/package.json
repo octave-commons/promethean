@@ -1,0 +1,26 @@
+{
+  "name": "@promethean/pantheon-mcp",
+  "version": "0.0.1",
+  "description": "MCP tool adapter for Pantheon Agent Management Framework",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "test": "ava",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@promethean/pantheon-fp": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ava": "^5.0.0",
+    "typescript": "^5.0.0"
+  },
+  "license": "GPL-3.0",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
