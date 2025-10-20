@@ -60,14 +60,17 @@ const processEntryMetadata = (
   analysis: CacheAnalysis,
 ): void => {
   const metadata = entry.metadata as CacheEntry;
-  
+
   if (metadata.score !== undefined) {
     // Score processing would be handled here
   }
 
   if (metadata.taskCategory) {
-    analysis.models[modelName].taskDistribution[metadata.taskCategory] =
-      (analysis.models[modelName].taskDistribution[metadata.taskCategory] || 0) + 1;
+    const modelData = analysis.models[modelName];
+    if (modelData) {
+      modelData.taskDistribution[metadata.taskCategory] =
+        (modelData.taskDistribution[metadata.taskCategory] || 0) + 1;
+    }
 
     if (!analysis.performanceByCategory[metadata.taskCategory]) {
       analysis.performanceByCategory[metadata.taskCategory] = {
@@ -77,29 +80,41 @@ const processEntryMetadata = (
       };
     }
 
-    const categoryData = analysis.performanceByCategory[metadata.taskCategory]!;
-    categoryData.totalScore += metadata.score || 0;
-    categoryData.count++;
+    const categoryData = analysis.performanceByCategory[metadata.taskCategory];
+    if (categoryData) {
+      categoryData.totalScore += metadata.score || 0;
+      categoryData.count++;
 
-    if (!categoryData.models[modelName]) {
-      categoryData.models[modelName] = {
-        totalScore: 0,
-        count: 0,
-      };
+      if (!categoryData.models[modelName]) {
+        categoryData.models[modelName] = {
+          totalScore: 0,
+          count: 0,
+        };
+      }
+
+      const modelCategoryData = categoryData.models[modelName];
+      if (modelCategoryData) {
+        modelCategoryData.totalScore += metadata.score || 0;
+        modelCategoryData.count++;
+      }
     }
-
-    const modelData = categoryData.models[modelName]!;
-    modelData.totalScore += metadata.score || 0;
-    modelData.count++;
   }
 };
 
 const calculateCategoryAverages = (analysis: CacheAnalysis): void => {
   for (const [, data] of Object.entries(analysis.performanceByCategory)) {
-    data.averageScore = data.count > 0 ? data.totalScore / data.count : 0;
+    const categoryData = data as {
+      totalScore: number;
+      count: number;
+      averageScore?: number;
+      models: Record<string, unknown>;
+    };
+    categoryData.averageScore =
+      categoryData.count > 0 ? categoryData.totalScore / categoryData.count : 0;
 
-    for (const [, modelData] of Object.entries(data.models)) {
-      modelData.averageScore = modelData.count > 0 ? modelData.totalScore / modelData.count : 0;
+    for (const [, modelData] of Object.entries(categoryData.models)) {
+      const modelInfo = modelData as { totalScore: number; count: number; averageScore?: number };
+      modelInfo.averageScore = modelInfo.count > 0 ? modelInfo.totalScore / modelInfo.count : 0;
     }
   }
 };
@@ -129,69 +144,6 @@ const analyzePerformance = (): Readonly<CacheAnalysis> => {
   }
 
   calculateCategoryAverages(analysis);
-  return analysis;
-};
-
-  for (const [modelName] of modelCaches.entries()) {
-    const entries: CacheEntryWithMetadata[] = []; // TODO: Implement proper cache entries retrieval
-    analysis.models[modelName] = {
-      entries: entries.length,
-      averageScore: 0,
-      taskDistribution: {},
-    };
-
-    let totalScore = 0;
-    let scoredEntries = 0;
-
-    for (const entry of entries) {
-      const metadata = entry.metadata as CacheEntry;
-      if (metadata.score !== undefined) {
-        totalScore += metadata.score;
-        scoredEntries++;
-      }
-
-      if (metadata.taskCategory) {
-        analysis.models[modelName].taskDistribution[metadata.taskCategory] =
-          (analysis.models[modelName].taskDistribution[metadata.taskCategory] || 0) + 1;
-
-        if (!analysis.performanceByCategory[metadata.taskCategory]) {
-          analysis.performanceByCategory[metadata.taskCategory] = {
-            totalScore: 0,
-            count: 0,
-            models: {},
-          };
-        }
-
-        const categoryData = analysis.performanceByCategory[metadata.taskCategory]!;
-        categoryData.totalScore += metadata.score || 0;
-        categoryData.count++;
-
-        if (!categoryData.models[modelName]) {
-          categoryData.models[modelName] = {
-            totalScore: 0,
-            count: 0,
-          };
-        }
-
-        const modelData = categoryData.models[modelName]!;
-        modelData.totalScore += metadata.score || 0;
-        modelData.count++;
-      }
-    }
-
-    analysis.models[modelName].averageScore = scoredEntries > 0 ? totalScore / scoredEntries : 0;
-    analysis.totalEntries += entries.length;
-  }
-
-  // Calculate category averages
-  for (const [, data] of Object.entries(analysis.performanceByCategory)) {
-    data.averageScore = data.count > 0 ? data.totalScore / data.count : 0;
-
-    for (const [, modelData] of Object.entries(data.models)) {
-      modelData.averageScore = modelData.count > 0 ? modelData.totalScore / modelData.count : 0;
-    }
-  }
-
   return analysis;
 };
 
