@@ -454,5 +454,8 @@ export interface CacheExpiredResult {
   size: number;
 }
 
+// Re-export OpencodeClient as EventClient for compatibility
+export type { OpencodeClient as EventClient } from '@opencode-ai/sdk';
+
 // Re-export DualStoreManager from persistence package
 export type { DualStoreManager } from '@promethean/persistence';
