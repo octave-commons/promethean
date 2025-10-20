@@ -36,11 +36,7 @@ export async function sendMessage(
 
   // Import dynamically to avoid circular dependencies
   const { updateTaskStatus } = await import('../tasks/index.js');
-  const taskContext = {
-    agentTaskStore: context.agentTaskStore,
-    agentTasks: context.agentTasks,
-  };
-  await updateTaskStatus(taskContext, sessionId, 'running');
+  await updateTaskStatus(context.agentTaskStore, sessionId, 'running');
 
   await logCommunication(context, senderSessionId, sessionId, message, priority, messageType);
 
