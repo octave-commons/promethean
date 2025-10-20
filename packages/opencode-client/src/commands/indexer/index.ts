@@ -9,9 +9,13 @@ export const indexerCommands = new Command('indexer').description(
 indexerCommands
   .command('start')
   .description('Start the indexer service to actively capture events and messages')
-  .action(async () => {
+  .option('--pm2', 'Run as PM2 daemon instead of foreground process')
+  .option('--verbose', 'Enable verbose logging')
+  .action(async (options) => {
     try {
-      console.log(chalk.blue('🚀 Starting OpenCode indexer service...'));
+      // Add options to process.argv for the command to pick up
+      if (options.pm2) process.argv.push('--pm2');
+      if (options.verbose) process.argv.push('--verbose');
 
       // Dynamic import to avoid circular dependencies
       const { main } = await import('./start.js');
@@ -45,12 +49,9 @@ indexerCommands
   .description('Check the status of the indexer service')
   .action(async () => {
     try {
-      console.log(chalk.blue('📊 Checking indexer service status...'));
-
-      // For now, just show basic info
-      // In a real implementation, you might check if the process is running
-      console.log(chalk.green('✅ Indexer service commands are available'));
-      console.log(chalk.gray('Use "indexer start" to begin active indexing'));
+      // Dynamic import to avoid circular dependencies
+      const { main } = await import('./status.js');
+      await main();
     } catch (error) {
       console.error(chalk.red('❌ Failed to check indexer status:'), error);
       process.exit(1);
