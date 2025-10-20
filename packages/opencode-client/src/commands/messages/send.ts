@@ -36,8 +36,9 @@ export const sendMessageCommand = new Command('send')
         baseUrl: 'http://localhost:4096',
       });
 
-      const result = await client.session.chat(sessionId, {
-        message: messageContent,
+      const result = await client.session.prompt({
+        path: { id: sessionId },
+        body: { parts: [{ type: 'text' as const, text: messageContent }] },
       });
 
       console.log(chalk.green('✅ Message sent successfully!'));

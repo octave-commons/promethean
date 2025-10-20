@@ -9,9 +9,7 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
-    },
-    "./dist/*": "./dist/*",
-    "./*": "./dist/*"
+    }
   },
   "files": [
     "dist"
