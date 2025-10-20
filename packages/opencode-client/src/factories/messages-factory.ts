@@ -11,7 +11,7 @@ import {
 } from '../actions/messages/index.js';
 
 // Factory for detectTaskCompletion tool
-export function createDetectTaskCompletionMessagesTool(): any {
+export function createDetectTaskCompletionMessagesTool(): ReturnType<typeof tool> {
   return tool({
     description: 'Detect if a task has been completed based on messages (messages version)',
     args: {
@@ -32,7 +32,7 @@ export function createDetectTaskCompletionMessagesTool(): any {
 }
 
 // Factory for processMessage tool
-export function createProcessMessageTool(): any {
+export function createProcessMessageTool(): ReturnType<typeof tool> {
   return tool({
     description: 'Process a single message and store it in the session store',
     args: {
