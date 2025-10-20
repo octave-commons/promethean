@@ -1,11 +1,11 @@
-export interface SessionInfo {
-  id: string;
-  title: string;
-  messageCount: number;
-  lastActivityTime: string;
-  sessionAge: number;
-  activityStatus: string;
-  isAgentTask: boolean;
-  agentTaskStatus?: string;
-  error?: string;
-}
+export type SessionInfo = {
+  readonly id: string;
+  readonly title: string;
+  readonly messageCount: number;
+  readonly lastActivityTime: string;
+  readonly sessionAge: number;
+  readonly activityStatus: string;
+  readonly isAgentTask: boolean;
+  readonly agentTaskStatus?: string;
+  readonly error?: string;
+};

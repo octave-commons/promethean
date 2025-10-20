@@ -7,16 +7,16 @@ import type {
   MessageEventProperties,
 } from './types/index.js';
 
-interface SessionData {
-  id: string;
-  title?: string;
-  isAgentTask?: boolean;
-  agentTaskStatus?: string;
-  [key: string]: unknown;
-}
+type SessionData = {
+  readonly id: string;
+  readonly title?: string;
+  readonly isAgentTask?: boolean;
+  readonly agentTaskStatus?: string;
+  readonly [key: string]: unknown;
+};
 
-class SessionUtils {
-  static extractSessionId(event: OpenCodeEvent): string | null {
+const SessionUtils = {
+  extractSessionId(event: OpenCodeEvent): string | null {
     if (!event.properties) {
       return event.sessionId || null;
     }
