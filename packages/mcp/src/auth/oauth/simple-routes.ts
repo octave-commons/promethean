@@ -457,7 +457,7 @@ export function registerSimpleOAuthRoutes(
       }
 
       // Get OAuth session
-      const oauthSession = config.oauthSystem.getSession(result.userId!);
+      const oauthSession = config.oauthSystem.getSession(result.sessionId!);
       if (!oauthSession) {
         return reply.status(500).send({
           error: 'Session creation failed',

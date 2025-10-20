@@ -94,7 +94,7 @@ export class OAuthSystem {
     code: string,
     state: string,
     error?: string,
-  ): Promise<{ success: boolean; userId?: string; error?: OAuthError }> {
+  ): Promise<{ success: boolean; userId?: string; sessionId?: string; error?: OAuthError }> {
     // Retrieve and validate state
     const oauthState = this.states.get(state);
     if (!oauthState) {
@@ -164,6 +164,7 @@ export class OAuthSystem {
       return {
         success: true,
         userId: userInfo.id,
+        sessionId: sessionId,
       };
     } catch (error) {
       return {
