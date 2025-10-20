@@ -110,24 +110,24 @@ export function registerSimpleOAuthRoutes(
   });
 
   // Alternative paths for compatibility
-  fastify.get(`/mcp/.well-known/openid-configuration`, async (request, reply) => {
+  fastify.get(`/mcp/.well-known/openid-configuration`, async (_request, reply) => {
     // Redirect to the standard location
-    return reply.redirect(302, `/.well-known/openid-configuration/mcp`);
+    return reply.redirect(`/.well-known/openid-configuration/mcp`);
   });
 
-  fastify.get(`/.well-known/oauth-authorization-server`, async (request, reply) => {
+  fastify.get(`/.well-known/oauth-authorization-server`, async (_request, reply) => {
     // Redirect to the MCP-specific one
-    return reply.redirect(302, `/.well-known/oauth-authorization-server/mcp`);
+    return reply.redirect(`/.well-known/oauth-authorization-server/mcp`);
   });
 
-  fastify.get(`/.well-known/openid-configuration`, async (request, reply) => {
+  fastify.get(`/.well-known/openid-configuration`, async (_request, reply) => {
     // Redirect to the MCP-specific one
-    return reply.redirect(302, `/.well-known/openid-configuration/mcp`);
+    return reply.redirect(`/.well-known/openid-configuration/mcp`);
   });
 
-  fastify.get(`/.well-known/oauth-protected-resource`, async (request, reply) => {
+  fastify.get(`/.well-known/oauth-protected-resource`, async (_request, reply) => {
     // Redirect to the MCP-specific one
-    return reply.redirect(302, `/.well-known/oauth-protected-resource/mcp`);
+    return reply.redirect(`/.well-known/oauth-protected-resource/mcp`);
   });
 
   // List available providers
