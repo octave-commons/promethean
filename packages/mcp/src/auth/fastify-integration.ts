@@ -50,8 +50,18 @@ export class OAuthFastifyIntegration {
       // Load configuration
       this.config = loadOAuthConfig();
 
-      // Validate configuration
-      validateOAuthConfig(this.config);
+      // Check if OAuth is enabled and has providers
+      const hasProviders = Object.values(this.config.oauth.providers).some(
+        (provider) => provider !== undefined,
+      );
+
+      if (hasProviders) {
+        // Only validate if we have providers configured
+        validateOAuthConfig(this.config);
+      } else {
+        console.log('[OAuthFastify] No OAuth providers configured, skipping OAuth initialization');
+        return; // Exit early without setting up OAuth
+      }
 
       // Override HTTP config with options
       const httpConfig = {
@@ -134,7 +144,7 @@ export class OAuthFastifyIntegration {
     });
 
     // Role-based access control middleware
-    fastify.addHook('preHandler', async (request, reply) => {
+    fastify.addHook('preHandler', async (request) => {
       // Skip for public routes
       if (this.isPublicRoute(request.url)) {
         return;
