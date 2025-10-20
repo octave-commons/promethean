@@ -124,7 +124,7 @@ export function createDetectTaskCompletionTool(stores, client): ToolFunction {
     description: 'Detect if a task has been completed based on messages',
     args: {
       messages: tool.schema
-        .array(tool.schema.unknown())
+        .array(tool.schema.unknown()) // what the hell
         .describe('Messages to analyze for completion'),
     },
     async execute({ messages }) {
