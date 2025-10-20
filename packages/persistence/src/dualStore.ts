@@ -253,16 +253,12 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         const maxRetries = 3;
         const retryDelay = 1000;
 
-                const documents = await this.mongoCollection.find(mongoFilter).sort(sorter).limit(limit).toArray();
-                return documents
-                    .map((entry: WithId<DualStoreEntry<TextKey, TimeKey>>) =>
-                        toGenericEntry(entry, this.textKey, this.timeStampKey),
-                    )
-                    .filter((entry) => typeof entry.text === 'string' && entry.text.trim().length > 0);
-        }
-
-        // This should never be reached, but TypeScript needs it
-        return [];
+      const documents = await this.mongoCollection.find(mongoFilter).sort(sorter).limit(limit).toArray();
+      return documents
+        .map((entry: WithId<DualStoreEntry<TextKey, TimeKey>>) =>
+          toGenericEntry(entry, this.textKey, this.timeStampKey),
+        )
+        .filter((entry) => typeof entry.text === 'string' && entry.text.trim().length > 0);
     }
 
     async getMostRelevant(
