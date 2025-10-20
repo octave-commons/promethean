@@ -1,13 +1,5 @@
 import axios from 'axios';
-import type {
-  Actor,
-  ActorConfig,
-  Context,
-  Tool,
-  SystemStats,
-  SystemStatus,
-  ApiResponse,
-} from '@/types';
+import type { Actor, ActorConfig, Context, Tool, SystemStats, SystemStatus } from '@/types';
 
 const API_BASE_URL = 'http://localhost:8080/api';
 
