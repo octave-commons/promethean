@@ -55,7 +55,7 @@ test('OAuth should reject invalid state parameter', async (t) => {
 
   // Try callback with invalid state
   const result = await oauthSystem.handleOAuthCallback('test_code', 'invalid_state');
-  
+
   t.false(result.success, 'Should fail with invalid state');
   t.is(result.error?.type, 'invalid_state', 'Should return invalid_state error');
 });
@@ -66,13 +66,9 @@ test('OAuth should handle provider errors gracefully', async (t) => {
 
   // Start flow
   const flow = oauthSystem.startOAuthFlow('github');
-  
+
   // Simulate OAuth error response
-  const result = await oauthSystem.handleOAuthCallback(
-    '',
-    flow.state,
-    'access_denied'
-  );
+  const result = await oauthSystem.handleOAuthCallback('', flow.state, 'access_denied');
 
   t.false(result.success, 'Should fail with OAuth error');
   t.is(result.error?.type, 'access_denied', 'Should return access_denied error');
@@ -119,7 +115,7 @@ test('OAuth should validate redirect URI against allowlist', (t) => {
     {
       message: /Invalid redirect URI/,
     },
-    'Should reject malicious redirect URI'
+    'Should reject malicious redirect URI',
   );
 });
 
@@ -127,8 +123,6 @@ test('OAuth should implement rate limiting for auth attempts', async (t) => {
   const config = createSecureOAuthConfig();
   const oauthSystem = new OAuthSystem(config);
 
-  const ip = '192.168.1.100';
-  
   // Make multiple rapid attempts
   const attempts = [];
   for (let i = 0; i < 10; i++) {
@@ -137,7 +131,7 @@ test('OAuth should implement rate limiting for auth attempts', async (t) => {
 
   // Should allow some attempts but rate limit after threshold
   t.true(attempts.length > 0, 'Should allow initial attempts');
-  
+
   // TODO: Implement rate limiting - this test will fail initially
   // After implementation, excessive attempts should be blocked
 });
@@ -189,7 +183,7 @@ test('OAuth should implement proper PKCE flow', (t) => {
   const oauthSystem = new OAuthSystem(config);
 
   const flow = oauthSystem.startOAuthFlow('github');
-  
+
   // Auth URL should contain PKCE parameters
   t.true(flow.authUrl.includes('code_challenge='), 'Should include code challenge');
   t.true(flow.authUrl.includes('code_challenge_method=S256'), 'Should use S256 method');
@@ -202,14 +196,14 @@ test('OAuth should handle token refresh securely', async (t) => {
 
   // Mock a session with refresh token
   const sessionId = 'test-session';
-  
+
   // TODO: Implement secure token refresh
   // This test will fail initially and pass after implementation
   const refreshedSession = await oauthSystem.refreshSession(sessionId);
-  
+
   // For now, expect null (no session exists)
   t.falsy(refreshedSession, 'Should return null for non-existent session');
-  
+
   // After implementation, should validate refresh token, rotate tokens, etc.
 });
 
@@ -229,66 +223,68 @@ test('OAuth should implement proper session management', async (t) => {
 test('OAuth should validate provider configuration', (t) => {
   // Test missing client ID
   t.throws(
-    () => new OAuthSystem({
-      providers: {
-        github: {
-          clientId: '',
-          clientSecret: 'test_secret',
-          scopes: ['user:email'],
-          allowSignup: false,
+    () =>
+      new OAuthSystem({
+        providers: {
+          github: {
+            clientId: '',
+            clientSecret: 'test_secret',
+            scopes: ['user:email'],
+            allowSignup: false,
+          },
         },
-      },
-      redirectUri: 'https://localhost:3000/auth/callback',
-      stateTimeout: 600,
-      sessionTimeout: 3600,
-      tokenRefreshThreshold: 300,
-      enableRefreshTokens: true,
-    }),
+        redirectUri: 'https://localhost:3000/auth/callback',
+        stateTimeout: 600,
+        sessionTimeout: 3600,
+        tokenRefreshThreshold: 300,
+        enableRefreshTokens: true,
+      }),
     {
       message: /GitHub client ID is required/,
     },
-    'Should require client ID'
+    'Should require client ID',
   );
 
   // Test missing client secret
   t.throws(
-    () => new OAuthSystem({
-      providers: {
-        github: {
-          clientId: 'test_id',
-          clientSecret: '',
-          scopes: ['user:email'],
-          allowSignup: false,
+    () =>
+      new OAuthSystem({
+        providers: {
+          github: {
+            clientId: 'test_id',
+            clientSecret: '',
+            scopes: ['user:email'],
+            allowSignup: false,
+          },
         },
-      },
-      redirectUri: 'https://localhost:3000/auth/callback',
-      stateTimeout: 600,
-      sessionTimeout: 3600,
-      tokenRefreshThreshold: 300,
-      enableRefreshTokens: true,
-    }),
+        redirectUri: 'https://localhost:3000/auth/callback',
+        stateTimeout: 600,
+        sessionTimeout: 3600,
+        tokenRefreshThreshold: 300,
+        enableRefreshTokens: true,
+      }),
     {
       message: /GitHub client secret is required/,
     },
-    'Should require client secret'
+    'Should require client secret',
   );
 });
 
-test('OAuth should implement secure error handling', async (t) {
+test('OAuth should implement secure error handling', async (t) => {
   const config = createSecureOAuthConfig();
   const oauthSystem = new OAuthSystem(config);
 
   // Test that errors don't leak sensitive information
   const result = await oauthSystem.handleOAuthCallback('invalid_code', 'invalid_state');
-  
+
   if (!result.success && result.error) {
     // Error should not contain sensitive data
     t.false(result.error.message.includes('client_secret'), 'Error should not leak secrets');
     t.false(result.error.message.includes('password'), 'Error should not leak passwords');
-    
+
     // Error should be safe for logging
-    const safeForLogging = !result.error.message.includes('Bearer ') && 
-                         !result.error.message.includes('token=');
+    const safeForLogging =
+      !result.error.message.includes('Bearer ') && !result.error.message.includes('token=');
     t.true(safeForLogging, 'Error should be safe for logging');
   }
 });
@@ -317,11 +313,11 @@ test('OAuth should implement secure token storage', async (t) => {
   // Tokens should be encrypted at rest
   // Access tokens should not be exposed in logs
   // Refresh tokens should have additional protection
-  
+
   // For now, test basic functionality
   const stats = oauthSystem.getStats();
   t.true(stats.activeSessions >= 0, 'Should track sessions');
-  
+
   // After implementation, add tests for:
   // - Token encryption
   // - Secure token transmission
