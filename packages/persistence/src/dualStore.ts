@@ -93,6 +93,7 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         supportsImages,
     }: DualStoreManagerDependencies<TextKey, TimeKey>) {
         this.name = name;
+        this.agentName = agent_name;
         this.chromaCollection = chromaCollection;
         this.mongoCollection = mongoCollection;
         this.textKey = textKey;
