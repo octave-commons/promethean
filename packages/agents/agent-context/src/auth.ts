@@ -252,7 +252,7 @@ export const makeAuthService = (deps: AuthServiceDeps = {}) => {
         const validatedToken = SecurityValidator.validateToken(oldToken);
 
         // Validate the old token first
-        const oldAuthToken = await validateToken(validatedToken);
+        const oldAuthToken = await await validateToken(validatedToken);
         if (!oldAuthToken) {
           return null;
         }
