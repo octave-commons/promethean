@@ -11,7 +11,8 @@ export type ClaudeAdapterConfig = {
   baseURL?: string;
   defaultModel?: string;
   defaultTemperature?: number;
-  maxTokens?: number;
+  defaultMaxTokens?: number;
+  defaultTopP?: number;
 };
 
 export const makeClaudeAdapter = (config: ClaudeAdapterConfig): LlmPort => {
@@ -23,18 +24,24 @@ export const makeClaudeAdapter = (config: ClaudeAdapterConfig): LlmPort => {
   return {
     complete: async (
       messages: Message[],
-      opts?: { model?: string; temperature?: number },
+      opts?: {
+        model?: string;
+        temperature?: number;
+        maxTokens?: number;
+        topP?: number;
+      },
     ): Promise<Message> => {
       const model = opts?.model || config.defaultModel || 'claude-3-haiku-20240307';
       const temperature = opts?.temperature ?? config.defaultTemperature ?? 0.7;
-      const maxTokens = config.maxTokens || 1024;
+      const maxTokens = opts?.maxTokens ?? config.defaultMaxTokens ?? 1024;
+      const topP = opts?.topP ?? config.defaultTopP;
 
       try {
         // Convert messages to Claude format
         const systemMessage = messages.find((msg) => msg.role === 'system');
         const conversationMessages = messages.filter((msg) => msg.role !== 'system');
 
-        const response = await client.messages.create({
+        const responseParams: any = {
           model,
           temperature,
           max_tokens: maxTokens,
@@ -43,7 +50,12 @@ export const makeClaudeAdapter = (config: ClaudeAdapterConfig): LlmPort => {
             role: msg.role as 'user' | 'assistant',
             content: msg.content,
           })),
-        });
+        };
+
+        // Add optional top_p parameter only if defined
+        if (topP !== undefined) responseParams.top_p = topP;
+
+        const response = await client.messages.create(responseParams);
 
         const content = response.content[0];
         if (!content || content.type !== 'text') {

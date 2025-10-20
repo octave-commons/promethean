@@ -14,26 +14,13 @@ export const listCommand = new Command('list')
         baseUrl: 'http://localhost:4096',
       });
 
-      const result = await client.event.list();
-
-      const list = events as any[];
-
-      if (options.json) {
-        console.log(JSON.stringify(list, null, 2));
-        return;
-      }
-
-      if (!list.length) {
-        console.log(chalk.yellow('No events found'));
-        return;
-      }
-
-      console.log(chalk.blue(`\nFound ${list.length} events:\n`));
-      for (const ev of list) {
-        const time = ev.time || ev.timestamp || ev.createdAt || '';
-        const type = ev.type || ev.event || 'event';
-        console.log(`${chalk.gray(time)} ${chalk.cyan(type)} ${ev.sessionId ?? ''}`);
-      }
+      // Note: The OpenCode SDK only supports event subscription, not listing historical events
+      // For historical events, we would need to index them from session data
+      console.log(
+        chalk.yellow('Event listing not supported - only live subscription is available'),
+      );
+      console.log(chalk.gray('Use "events subscribe" to listen for new events'));
+      return;
     } catch (error) {
       console.error(
         chalk.red('Error listing events:'),
