@@ -16,7 +16,7 @@ type SessionData = {
 };
 
 const SessionUtils = {
-  extractSessionId(event: OpenCodeEvent): string | null {
+  extractSessionId(event: readonly OpenCodeEvent): string | null {
     if (!event.properties) {
       return event.sessionId || null;
     }
