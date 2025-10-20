@@ -1,5 +1,4 @@
 import type { ContextPort, Context } from './ports.js';
-import { makeContextStore } from '@promethean/persistence';
 
 export function makeContextAdapter(): ContextPort {
   // Create a simple in-memory store for now since we need collections

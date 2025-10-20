@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { makeContextAdapter, makeActorAdapter, makeOrchestrator } from '../index.js';
+import { makeContextAdapter, makeActorAdapter } from '../index.js';
 import { Command } from 'commander';
 
 const program = new Command();
@@ -13,7 +13,7 @@ program
   .description('Compile context from sources')
   .option('--sources <sources>', 'Comma-separated list of sources', 'sessions,agent-tasks')
   .option('--text <text>', 'Text to compile')
-  .action(async (options) => {
+  .action(async (options: { sources: string; text: string }) => {
     try {
       const contextAdapter = makeContextAdapter();
       const sources = options.sources.split(',').map((s: string) => s.trim());
@@ -32,7 +32,7 @@ program
   .command('actors:tick')
   .description('Tick an actor')
   .argument('<actorId>', 'Actor ID to tick')
-  .action(async (actorId) => {
+  .action(async (actorId: string) => {
     try {
       const actorAdapter = makeActorAdapter();
       await actorAdapter.tick(actorId);
