@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/pantheon",
+  "name": "@promethean/pantheon-fp",
   "version": "0.0.1",
   "description": "Pantheon Agent Management Framework",
   "main": "dist/index.js",
