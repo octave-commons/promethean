@@ -5,13 +5,13 @@ export interface EventContext {
   client: OpencodeClient;
 }
 
-export async function handleSessionIdle(context: EventContext, sessionId: string): Promise<void> {
+export async function handleSessionIdle(_context: EventContext, sessionId: string): Promise<void> {
   console.log(`💤 Session ${sessionId} is idle`);
   // Simple session state tracking - no task management
 }
 
 export async function handleSessionUpdated(
-  context: EventContext,
+  _context: EventContext,
   sessionId: string,
 ): Promise<void> {
   console.log(`🔄 Session ${sessionId} updated`);
@@ -19,7 +19,7 @@ export async function handleSessionUpdated(
 }
 
 export async function handleMessageUpdated(
-  context: EventContext,
+  _context: EventContext,
   sessionId: string,
 ): Promise<void> {
   console.log(`💬 Message updated in session ${sessionId}`);
