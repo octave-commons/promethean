@@ -2,6 +2,7 @@
 // Factory functions for message tools
 
 import { tool } from '@opencode-ai/plugin/tool';
+import { DualStoreManager } from '@promethean/persistence';
 import {
   detectTaskCompletion,
   processMessage,
