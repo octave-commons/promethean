@@ -80,7 +80,7 @@ export function formatTaskBoard(tasks: (Task | IndexedTask)[]): string {
   let output = '';
   for (const status of sortedStatuses) {
     output += `\n### ${status}\n\n`;
-    output += formatTaskList(grouped[status]);
+    output += formatTaskList(grouped[status] || []);
     output += '\n';
   }
 

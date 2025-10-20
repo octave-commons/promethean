@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { loadKanbanConfig } from './board/config.js';
 import { printJSONL } from './lib/jsonl.js';
+import { printMarkdown } from './lib/markdown-output.js';
 import { processSync } from './process/sync.js';
 import { docguard } from './process/docguard.js';
 import {
@@ -60,6 +61,34 @@ const applyLegacyEnv = (env: Readonly<NodeJS.ProcessEnv>): Readonly<NodeJS.Proce
 };
 
 const COMMAND_LIST = AVAILABLE_COMMANDS;
+
+/**
+ * Detect the type of output based on command
+ */
+const detectOutputType = (
+  cmd: string,
+): 'task' | 'tasks' | 'board' | 'search' | 'count' | 'audit' | 'table' => {
+  switch (cmd) {
+    case 'find':
+      return 'task';
+    case 'list':
+    case 'pull':
+    case 'push':
+    case 'sync':
+      return 'tasks';
+    case 'regenerate':
+    case 'ui':
+      return 'board';
+    case 'search':
+      return 'search';
+    case 'count':
+      return 'count';
+    case 'audit':
+      return 'audit';
+    default:
+      return 'table';
+  }
+};
 const HELP_TEXT =
   `Usage: kanban [--kanban path] [--tasks path] <subcommand> [args...]\n` +
   `Subcommands: ${[...COMMAND_LIST, 'process_sync', 'doccheck'].join(', ')}\n\n` +
@@ -87,6 +116,7 @@ async function main(): Promise<void> {
   const rawArgs = process.argv.slice(2);
   const normalizedArgs = normalizeLegacyArgs(rawArgs);
   const helpRequested = normalizedArgs.includes('--help') || normalizedArgs.includes('-h');
+  const jsonRequested = normalizedArgs.includes('--json');
 
   const { config, restArgs } = await loadKanbanConfig({
     argv: normalizedArgs,
@@ -128,7 +158,12 @@ async function main(): Promise<void> {
   try {
     const result = await executeCommand(cmd, args, context);
     if (typeof result !== 'undefined' && result !== null) {
-      printJSONL(result);
+      if (jsonRequested) {
+        printJSONL(result);
+      } else {
+        // Default to markdown output
+        printMarkdown(result, detectOutputType(cmd), { query: args[0] });
+      }
     }
   } catch (error: unknown) {
     if (error instanceof CommandUsageError || error instanceof CommandNotFoundError) {
