@@ -50,30 +50,6 @@ export function createHandleSessionIdleTool(
   });
 }
 
-// Factory for handleMessageUpdated tool
-export function createHandleMessageUpdatedTool(
-  stores: DualStoreManager<'text', 'timestamp'>,
-  client: OpencodeClient,
-): ToolFunction {
-  return tool({
-    description: 'Handle message updated event',
-    args: {
-      sessionId: tool.schema.string().describe('Session ID where message was updated'),
-    },
-    async execute(args, context) {
-      const { sessionId } = args;
-
-      await handleMessageUpdated(stores, sessionId);
-
-      return JSON.stringify({
-        success: true,
-        sessionId,
-        event: 'message_updated_handled',
-      });
-    },
-  });
-}
-
 // Factory for extractSessionId tool
 export function createExtractSessionIdTool(
   stores: DualStoreManager<'text', 'timestamp'>,
