@@ -22,10 +22,7 @@ async function debugMcp() {
     }
 
     console.log('🎯 Sanitized path:', validationResult.sanitizedPath);
-    console.log(
-      '🎯 Is absolute?',
-      require('node:path').isAbsolute(validationResult.sanitizedPath!),
-    );
+    console.log('🎯 Is absolute?', path.isAbsolute(validationResult.sanitizedPath!));
 
     // Step 2: Test normalizeToRoot
     console.log('\n2️⃣ Testing normalizeToRoot...');
