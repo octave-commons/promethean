@@ -65,12 +65,15 @@ export class OAuthSystem {
     const codeVerifier = this.generateCodeVerifier();
     const state = this.generateSecureState();
 
+    // Use dynamic redirect URI if provided, otherwise fall back to config
+    const finalRedirectUri = redirectUri || this.config.redirectUri;
+
     // Create OAuth state
     const oauthState: OAuthState = {
       state,
       codeVerifier,
       provider,
-      redirectUri: redirectUri || this.config.redirectUri,
+      redirectUri: finalRedirectUri,
       createdAt: new Date(),
       expiresAt: new Date(Date.now() + this.config.stateTimeout * 1000),
     };
@@ -78,8 +81,8 @@ export class OAuthSystem {
     // Store state
     this.states.set(state, oauthState);
 
-    // Generate authorization URL
-    const authUrl = oauthProvider.generateAuthUrl(state, codeVerifier);
+    // Generate authorization URL with dynamic redirect URI
+    const authUrl = oauthProvider.generateAuthUrl(state, codeVerifier, finalRedirectUri);
 
     return { authUrl, state };
   }
@@ -126,7 +129,11 @@ export class OAuthSystem {
       }
 
       // Exchange code for tokens
-      const tokenResponse = await provider.exchangeCodeForTokens(code, oauthState.codeVerifier);
+      const tokenResponse = await provider.exchangeCodeForTokens(
+        code,
+        oauthState.codeVerifier,
+        oauthState.redirectUri,
+      );
 
       // Get user information
       const userInfo = await provider.getUserInfo(tokenResponse.accessToken);

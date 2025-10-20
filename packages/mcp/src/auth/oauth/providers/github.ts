@@ -44,11 +44,12 @@ export class GitHubOAuthProvider implements OAuthProvider {
   /**
    * Generate authorization URL with PKCE
    */
-  generateAuthUrl(state: string, codeVerifier: string): string {
+  generateAuthUrl(state: string, codeVerifier: string, redirectUri?: string): string {
     const codeChallenge = this.generateCodeChallenge(codeVerifier);
+    const finalRedirectUri = redirectUri || this.config.redirectUri;
     const params = new URLSearchParams({
       client_id: this.config.clientId,
-      redirect_uri: this.config.redirectUri,
+      redirect_uri: finalRedirectUri,
       scope: this.config.scopes.join(' '),
       state,
       response_type: 'code',
@@ -66,14 +67,11 @@ export class GitHubOAuthProvider implements OAuthProvider {
   /**
    * Exchange authorization code for tokens
    */
-  async exchangeCodeForTokens(
-    code: string,
-    codeVerifier: string,
-  ): Promise<OAuthTokenResponse> {
+  async exchangeCodeForTokens(code: string, codeVerifier: string): Promise<OAuthTokenResponse> {
     const response = await fetch(`${this.baseUrl}/login/oauth/access_token`, {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded',
         'User-Agent': 'Promethean-MCP/1.0',
       },
@@ -92,7 +90,7 @@ export class GitHubOAuthProvider implements OAuthProvider {
       throw new Error(`GitHub token exchange failed: ${response.status} ${errorText}`);
     }
 
-    const data = await response.json() as any;
+    const data = (await response.json()) as any;
 
     if (data.error) {
       throw new Error(`GitHub OAuth error: ${data.error_description || data.error}`);
@@ -115,8 +113,8 @@ export class GitHubOAuthProvider implements OAuthProvider {
     // Get primary user data
     const userResponse = await fetch(`${this.apiUrl}/user`, {
       headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Accept': 'application/vnd.github.v3+json',
+        Authorization: `Bearer ${accessToken}`,
+        Accept: 'application/vnd.github.v3+json',
         'User-Agent': 'Promethean-MCP/1.0',
       },
     });
@@ -125,13 +123,13 @@ export class GitHubOAuthProvider implements OAuthProvider {
       throw new Error(`Failed to fetch GitHub user: ${userResponse.status}`);
     }
 
-    const userData = await userResponse.json() as any;
+    const userData = (await userResponse.json()) as any;
 
     // Get user emails to find primary verified email
     const emailsResponse = await fetch(`${this.apiUrl}/user/emails`, {
       headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Accept': 'application/vnd.github.v3+json',
+        Authorization: `Bearer ${accessToken}`,
+        Accept: 'application/vnd.github.v3+json',
         'User-Agent': 'Promethean-MCP/1.0',
       },
     });
@@ -140,11 +138,9 @@ export class GitHubOAuthProvider implements OAuthProvider {
     let isEmailVerified = false;
 
     if (emailsResponse.ok) {
-      const emailsData = await emailsResponse.json() as any[];
-      const primaryEmailObj = emailsData.find((email: any) => 
-        email.primary && email.verified
-      );
-      
+      const emailsData = (await emailsResponse.json()) as any[];
+      const primaryEmailObj = emailsData.find((email: any) => email.primary && email.verified);
+
       if (primaryEmailObj) {
         primaryEmail = primaryEmailObj.email;
         isEmailVerified = true;
@@ -181,7 +177,7 @@ export class GitHubOAuthProvider implements OAuthProvider {
     const response = await fetch(`${this.baseUrl}/login/oauth/access_token`, {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded',
         'User-Agent': 'Promethean-MCP/1.0',
       },
@@ -198,7 +194,7 @@ export class GitHubOAuthProvider implements OAuthProvider {
       throw new Error(`GitHub token refresh failed: ${response.status} ${errorText}`);
     }
 
-    const data = await response.json() as any;
+    const data = (await response.json()) as any;
 
     if (data.error) {
       throw new Error(`GitHub OAuth error: ${data.error_description || data.error}`);
@@ -222,7 +218,7 @@ export class GitHubOAuthProvider implements OAuthProvider {
       await fetch(`${this.baseUrl}/applications/${this.config.clientId}/token`, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Basic ${Buffer.from(`${this.config.clientId}:${this.config.clientSecret}`).toString('base64')}`,
+          Authorization: `Basic ${Buffer.from(`${this.config.clientId}:${this.config.clientSecret}`).toString('base64')}`,
           'User-Agent': 'Promethean-MCP/1.0',
         },
         body: JSON.stringify({
@@ -242,8 +238,8 @@ export class GitHubOAuthProvider implements OAuthProvider {
     try {
       const response = await fetch(`${this.apiUrl}/user`, {
         headers: {
-          'Authorization': `Bearer ${accessToken}`,
-          'Accept': 'application/vnd.github.v3+json',
+          Authorization: `Bearer ${accessToken}`,
+          Accept: 'application/vnd.github.v3+json',
           'User-Agent': 'Promethean-MCP/1.0',
         },
       });
@@ -257,9 +253,6 @@ export class GitHubOAuthProvider implements OAuthProvider {
    * Generate PKCE code challenge
    */
   private generateCodeChallenge(codeVerifier: string): string {
-    return crypto
-      .createHash('sha256')
-      .update(codeVerifier)
-      .digest('base64url');
+    return crypto.createHash('sha256').update(codeVerifier).digest('base64url');
   }
 }

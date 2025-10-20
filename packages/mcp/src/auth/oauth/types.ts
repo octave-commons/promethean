@@ -52,12 +52,16 @@ export type OAuthProvider = Readonly<{
   /**
    * Generate authorization URL with PKCE
    */
-  generateAuthUrl(state: string, codeVerifier: string): string;
+  generateAuthUrl(state: string, codeVerifier: string, redirectUri?: string): string;
 
   /**
    * Exchange authorization code for tokens
    */
-  exchangeCodeForTokens(code: string, codeVerifier: string): Promise<OAuthTokenResponse>;
+  exchangeCodeForTokens(
+    code: string,
+    codeVerifier: string,
+    redirectUri?: string,
+  ): Promise<OAuthTokenResponse>;
 
   /**
    * Get user information from access token
@@ -111,7 +115,7 @@ export type OAuthSession = Readonly<{
 /**
  * OAuth error types
  */
-export type OAuthErrorType = 
+export type OAuthErrorType =
   | 'invalid_request'
   | 'unauthorized_client'
   | 'access_denied'
