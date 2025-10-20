@@ -6,6 +6,318 @@ import { SecurityValidator, SecurityLogger, RateLimiter } from './security';
 import { AuthUtils } from './auth-utils';
 import { ApiKeyManager } from './api-keys';
 
+export type AuthServiceConfig = {
+  jwtSecret?: string;
+  tokenExpiry?: string;
+  rateLimitWindow?: number;
+  maxAttempts?: number;
+};
+
+export type AuthServiceDeps = {
+  jwtSecret?: string;
+  config?: AuthServiceConfig;
+  id?: () => string;
+  now?: () => Date;
+  log?: (level: 'info' | 'warn' | 'error', message: string, data?: any) => void;
+};
+
+export const makeAuthService = (deps: AuthServiceDeps = {}) => {
+  const {
+    jwtSecret: secret = process.env.JWT_SECRET,
+    config = {},
+    id = () => uuidv4(),
+    now = () => new Date(),
+    log = () => {},
+  } = deps;
+
+  if (!secret) {
+    throw new Error(
+      'JWT secret is required. Set JWT_SECRET environment variable or provide config.',
+    );
+  }
+
+  const jwtSecret = secret;
+  const tokenExpiry = config.tokenExpiry || '24h';
+  const rateLimitWindow = config.rateLimitWindow || 60000;
+  const maxAttempts = config.maxAttempts || 3;
+
+  const revokedTokens: Set<string> = new Set();
+  const rateLimiter = RateLimiter.getInstance('auth-service', rateLimitWindow, maxAttempts);
+  const apiKeyManager = new ApiKeyManager(jwtSecret);
+
+  const checkRateLimit = (agentId: string, action: string): void => {
+    if (!rateLimiter.isAllowed(`${action}:${agentId}`)) {
+      SecurityLogger.log({
+        type: 'rate_limit',
+        severity: 'medium',
+        agentId,
+        action,
+        details: { reason: 'Rate limit exceeded' },
+      });
+      throw new Error('Rate limit exceeded. Please try again later.');
+    }
+  };
+
+  const calculateExpiryDate = (): Date => {
+    const expiresAt = new Date();
+    expiresAt.setHours(expiresAt.getHours() + 24);
+    return expiresAt;
+  };
+
+  const createTokenPayload = (tokenId: string, agentId: string, permissions: string[]) => {
+    return {
+      tokenId,
+      agentId,
+      permissions,
+      type: 'agent-auth',
+    };
+  };
+
+  const signToken = (payload: object): string => {
+    return jwt.sign(payload, jwtSecret, {
+      expiresIn: tokenExpiry,
+      issuer: 'promethean-agent-os',
+      audience: 'promethean-agents',
+    } as jwt.SignOptions);
+  };
+
+  const logTokenGeneration = (agentId: string, tokenId: string, permissions: string[]): void => {
+    SecurityLogger.log({
+      type: 'authentication',
+      severity: 'low',
+      agentId,
+      action: 'generateToken',
+      details: { tokenId, permissions },
+    });
+  };
+
+  const logTokenError = (agentId: string, action: string, error: unknown): void => {
+    SecurityLogger.log({
+      type: 'authentication',
+      severity: 'medium',
+      agentId,
+      action,
+      details: { error: error instanceof Error ? error.message : 'Unknown error' },
+    });
+  };
+
+  const checkRateLimitByKey = (key: string, action: string): void => {
+    if (!rateLimiter.isAllowed(key)) {
+      SecurityLogger.log({
+        type: 'rate_limit',
+        severity: 'medium',
+        action,
+        details: { reason: 'Rate limit exceeded' },
+      });
+      throw new Error('Rate limit exceeded');
+    }
+  };
+
+  const verifyToken = (token: string): jwt.JwtPayload => {
+    return jwt.verify(token, jwtSecret, {
+      issuer: 'promethean-agent-os',
+      audience: 'promethean-agents',
+    }) as jwt.JwtPayload;
+  };
+
+  const isValidAgentToken = (decoded: jwt.JwtPayload): boolean => {
+    return decoded.type === 'agent-auth';
+  };
+
+  const logValidationFailure = (agentId?: string, action?: string, reason?: string): void => {
+    SecurityLogger.log({
+      type: 'authentication',
+      severity: 'medium',
+      agentId,
+      action: action || 'validateToken',
+      details: { reason: reason || 'Validation failed' },
+    });
+  };
+
+  const logValidationSuccess = (agentId: string, action: string): void => {
+    SecurityLogger.log({
+      type: 'authentication',
+      severity: 'low',
+      agentId,
+      action,
+      details: { success: true },
+    });
+  };
+
+  const buildAuthToken = (token: string, decoded: jwt.JwtPayload): AuthToken => {
+    return {
+      token,
+      agentId: decoded.agentId as string,
+      expiresAt: new Date((decoded.exp as number) * 1000),
+      permissions: decoded.permissions as string[],
+    };
+  };
+
+  const handleValidationError = (error: unknown, action: string): null => {
+    if (error instanceof Error && error.message === 'Rate limit exceeded') {
+      throw error;
+    }
+
+    SecurityLogger.log({
+      type: 'authentication',
+      severity: 'medium',
+      action,
+      details: { error: error instanceof Error ? error.message : 'Unknown error' },
+    });
+
+    return null;
+  };
+
+  return {
+    generateToken: async (agentId: string, permissions: string[]): Promise<AuthToken> => {
+      const validatedAgentId = SecurityValidator.validateAgentId(agentId);
+      const validatedPermissions = SecurityValidator.validatePermissions(permissions);
+
+      checkRateLimit(validatedAgentId, 'generateToken');
+
+      try {
+        const tokenId = id();
+        const expiresAt = calculateExpiryDate();
+        const payload = createTokenPayload(tokenId, validatedAgentId, validatedPermissions);
+        const token = signToken(payload);
+
+        logTokenGeneration(validatedAgentId, tokenId, validatedPermissions);
+
+        return {
+          token,
+          agentId: validatedAgentId,
+          expiresAt,
+          permissions: validatedPermissions,
+        };
+      } catch (error) {
+        logTokenError(agentId, 'generateToken', error);
+        throw error;
+      }
+    },
+
+    validateToken: async (token: string): Promise<AuthToken | null> => {
+      const validatedToken = SecurityValidator.validateToken(token);
+      const key = `validate:${validatedToken.substring(0, 10)}`;
+
+      try {
+        checkRateLimitByKey(key, 'validateToken');
+
+        if (revokedTokens.has(validatedToken)) {
+          logValidationFailure('validateToken', 'Token revoked');
+          return null;
+        }
+
+        const decoded = verifyToken(validatedToken);
+
+        if (!isValidAgentToken(decoded)) {
+          logValidationFailure(decoded.agentId || 'unknown', 'validateToken', 'Invalid token type');
+          return null;
+        }
+
+        logValidationSuccess(decoded.agentId || 'unknown', 'validateToken');
+
+        return buildAuthToken(validatedToken, decoded);
+      } catch (error) {
+        return handleValidationError(error, 'validateToken');
+      }
+    },
+
+    revokeToken: async (token: string): Promise<void> => {
+      try {
+        const validatedToken = SecurityValidator.validateToken(token);
+
+        // Add to revoked tokens set
+        revokedTokens.add(validatedToken);
+
+        SecurityLogger.log({
+          type: 'authentication',
+          severity: 'low',
+          action: 'revokeToken',
+          details: { tokenHash: validatedToken.substring(0, 10) + '...' },
+        });
+      } catch (error) {
+        SecurityLogger.log({
+          type: 'authentication',
+          severity: 'medium',
+          action: 'revokeToken',
+          details: { error: error instanceof Error ? error.message : 'Unknown error' },
+        });
+        // Re-throw error to match interface expectation
+        throw error;
+      }
+    },
+
+    refreshToken: async (oldToken: string): Promise<AuthToken | null> => {
+      try {
+        const validatedToken = SecurityValidator.validateToken(oldToken);
+
+        // Validate the old token first
+        const oldAuthToken = await validateToken(validatedToken);
+        if (!oldAuthToken) {
+          return null;
+        }
+
+        // Revoke the old token
+        await revokeToken(validatedToken);
+
+        // Generate new token with same permissions
+        return generateToken(oldAuthToken.agentId, oldAuthToken.permissions);
+      } catch (error) {
+        SecurityLogger.log({
+          type: 'authentication',
+          severity: 'medium',
+          action: 'refreshToken',
+          details: { error: error instanceof Error ? error.message : 'Unknown error' },
+        });
+        return null;
+      }
+    },
+
+    hasPermission: async (token: string, permission: string): Promise<boolean> => {
+      try {
+        const validatedToken = SecurityValidator.validateToken(token);
+        const validatedPermissions = SecurityValidator.validatePermissions([permission]);
+
+        if (validatedPermissions.length === 0) {
+          return false;
+        }
+
+        const validatedPermission = validatedPermissions[0]!;
+
+        const authToken = await validateToken(validatedToken);
+        if (!authToken) {
+          return false;
+        }
+
+        return authToken.permissions.includes(validatedPermission);
+      } catch (error) {
+        AuthUtils.logAuthError('hasPermission', error);
+        return false;
+      }
+    },
+
+    hashPassword: async (password: string, saltRounds: number = 10): Promise<string> => {
+      return AuthUtils.hashPassword(password, saltRounds);
+    },
+
+    verifyPassword: async (password: string, hash: string): Promise<boolean> => {
+      return AuthUtils.verifyPassword(password, hash);
+    },
+
+    validatePassword: (password: string): { isValid: boolean; errors: string[] } => {
+      return AuthUtils.validatePassword(password);
+    },
+
+    generateApiKey: (agentId: string, permissions: string[]): string => {
+      return apiKeyManager.generateApiKey(agentId, permissions);
+    },
+
+    validateApiKey: async (apiKey: string): Promise<AuthToken | null> => {
+      return apiKeyManager.validateApiKey(apiKey);
+    },
+  };
+};
+
 export class JWTAuthService implements AuthService {
   private readonly jwtSecret: string;
   private readonly tokenExpiry: string;
