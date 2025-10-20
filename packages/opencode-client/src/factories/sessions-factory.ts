@@ -32,7 +32,7 @@ interface SearchSessionsArgs {
 }
 
 // Factory for listSessions tool
-export function createListSessionsTool() {
+export function createListSessionsTool(): any {
   return tool({
     description: 'List all sessions with pagination and enhanced information',
     args: {
@@ -48,7 +48,7 @@ export function createListSessionsTool() {
 }
 
 // Factory for createSession tool
-export function createCreateSessionTool() {
+export function createCreateSessionTool(): any {
   return tool({
     description: 'Create a new session',
     args: {
@@ -73,7 +73,7 @@ export function createCreateSessionTool() {
 }
 
 // Factory for closeSession tool
-export function createCloseSessionTool() {
+export function createCloseSessionTool(): any {
   return tool({
     description: 'Close a session',
     args: {
@@ -88,7 +88,7 @@ export function createCloseSessionTool() {
 }
 
 // Factory for getSession tool
-export function createGetSessionTool() {
+export function createGetSessionTool(): any {
   return tool({
     description: 'Get detailed information about a specific session',
     args: {
@@ -105,7 +105,7 @@ export function createGetSessionTool() {
 }
 
 // Factory for searchSessions tool
-export function createSearchSessionsTool() {
+export function createSearchSessionsTool(): any {
   return tool({
     description: 'Search sessions by query',
     args: {

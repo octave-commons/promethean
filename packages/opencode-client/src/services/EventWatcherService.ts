@@ -113,12 +113,10 @@ export class EventWatcherService {
       this.log('📚 Step 3: Skipping retrospective indexing to avoid stale connections...');
       // Temporarily disable retrospective indexing to prevent stale connection issues
       // TODO: Re-enable after fixing MongoDB connection pooling
-      /*
       if (this.config.enableRetrospective) {
         await this.performRetrospectiveIndexing();
         this.log('✅ Step 3 complete: Retrospective indexing done');
       }
-      */
 
       this.log('🔄 Step 4: Starting session polling...');
       // Start session polling for real-time updates
@@ -335,7 +333,6 @@ export class EventWatcherService {
   /**
    * Perform retrospective indexing of existing data
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private async performRetrospectiveIndexing(): Promise<void> {
     this.log('📚 Starting retrospective indexing...');
 
