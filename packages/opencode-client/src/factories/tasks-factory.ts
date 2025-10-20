@@ -204,8 +204,9 @@ export function createCreateTaskTool(): ReturnType<typeof tool> {
     },
     async execute(args, context) {
       const { sessionId, task } = args;
-      const agentTaskStore = (context as any).agentTaskStore;
-      const agentTasks = (context as any).agentTasks;
+      const agentTaskStore = (context as Record<string, unknown>)
+        .agentTaskStore as DualStoreManager<'text', 'timestamp'>;
+      const agentTasks = (context as Record<string, unknown>).agentTasks as Map<string, AgentTask>;
 
       if (!agentTaskStore || !agentTasks) {
         throw new Error('Required task context not available');
