@@ -1,4 +1,4 @@
-import { AgentTask } from './AgentTask.js';
+import type { AgentTask } from './types/index.js';
 import { SessionInfo } from './SessionInfo.js';
 import type {
   SessionClient,
