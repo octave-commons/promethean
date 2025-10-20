@@ -43,27 +43,47 @@ program.addCommand(messagesCommands);
 process.on('uncaughtException', async (error) => {
   console.error(chalk.red('Uncaught exception:'));
   console.error(error.stack);
-  // Note: ContextStore manages cleanup automatically
+  try {
+    const { cleanupClients } = await import('@promethean/persistence');
+    await cleanupClients();
+  } catch (cleanupError) {
+    // Ignore cleanup errors
+  }
   process.exit(1);
 });
 
 process.on('unhandledRejection', async (reason, promise) => {
   console.error(chalk.red('Unhandled rejection at:'), promise, 'reason:', reason);
-  // Note: ContextStore manages cleanup automatically
+  try {
+    const { cleanupClients } = await import('@promethean/persistence');
+    await cleanupClients();
+  } catch (cleanupError) {
+    // Ignore cleanup errors
+  }
   process.exit(1);
 });
 
 // Add cleanup hook for SIGINT (Ctrl+C)
 process.on('SIGINT', async () => {
   console.log(chalk.gray('\nShutting down...'));
-  // Note: ContextStore manages cleanup automatically
+  try {
+    const { cleanupClients } = await import('@promethean/persistence');
+    await cleanupClients();
+  } catch (cleanupError) {
+    // Ignore cleanup errors
+  }
   process.exit(0);
 });
 
 // Add cleanup hook for SIGTERM
 process.on('SIGTERM', async () => {
   console.log(chalk.gray('\nTerminating...'));
-  // Note: ContextStore manages cleanup automatically
+  try {
+    const { cleanupClients } = await import('@promethean/persistence');
+    await cleanupClients();
+  } catch (cleanupError) {
+    // Ignore cleanup errors
+  }
   process.exit(0);
 });
 
