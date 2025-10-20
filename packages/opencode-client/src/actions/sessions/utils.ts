@@ -1,7 +1,11 @@
-import { AgentTask } from '../../AgentTask.js';
+import type { AgentTask } from '../../types/index.js';
 import { SessionInfo } from '../../SessionInfo.js';
-import type { Session } from '../../api/sessions.js';
 import type { OpencodeClient } from '@opencode-ai/sdk';
+
+interface Session extends Record<string, unknown> {
+  id: string;
+  title?: string;
+}
 
 export function extractSessionId(event: {
   type: string;
