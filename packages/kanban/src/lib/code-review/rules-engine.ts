@@ -5,11 +5,10 @@
  * the automated code review process for kanban transitions.
  */
 
-import { readFile, access, stat } from 'fs/promises';
+import { readFile } from 'fs/promises';
 import { exec } from 'child_process';
 import { promisify } from 'util';
 import { createHash } from 'crypto';
-import path from 'path';
 import type {
   CodeReviewConfig,
   CodeReviewRule,
@@ -196,7 +195,7 @@ export class CodeReviewRulesEngine {
    * Perform comprehensive code review
    */
   async performCodeReview(request: CodeReviewRequest): Promise<CodeReviewResult> {
-    const { task, changedFiles, affectedPackages, reviewType, context } = request;
+    const { task, changedFiles, context } = request;
 
     // Check cache first
     const cacheKey = this.generateCacheKey(request);
@@ -550,9 +549,9 @@ export class CodeReviewRulesEngine {
 
   private async runESLintAnalysis(
     files: string[],
-    rules: CodeReviewRule[],
+    _rules: CodeReviewRule[],
     violations: CodeReviewViolation[],
-    suggestions: CodeReviewSuggestion[],
+    _suggestions: CodeReviewSuggestion[],
     actionItems: ActionItem[],
   ): Promise<void> {
     try {
@@ -594,10 +593,10 @@ export class CodeReviewRulesEngine {
 
   private async runTypeScriptAnalysis(
     files: string[],
-    rules: CodeReviewRule[],
+    _rules: CodeReviewRule[],
     violations: CodeReviewViolation[],
-    suggestions: CodeReviewSuggestion[],
-    actionItems: ActionItem[],
+    _suggestions: CodeReviewSuggestion[],
+    _actionItems: ActionItem[],
   ): Promise<void> {
     try {
       const results = await this.typescriptAnalyzer.analyze(files);
@@ -618,6 +617,7 @@ export class CodeReviewRulesEngine {
           };
           violations.push(violation);
         }
+      }
     } catch (error) {
       console.warn('TypeScript analysis failed:', error);
     }
@@ -625,9 +625,9 @@ export class CodeReviewRulesEngine {
 
   private async runSecurityAnalysis(
     files: string[],
-    rules: CodeReviewRule[],
+    _rules: CodeReviewRule[],
     violations: CodeReviewViolation[],
-    suggestions: CodeReviewSuggestion[],
+    _suggestions: CodeReviewSuggestion[],
     actionItems: ActionItem[],
   ): Promise<void> {
     try {
@@ -666,10 +666,10 @@ export class CodeReviewRulesEngine {
   private async runAIAnalysis(
     task: Task,
     files: string[],
-    rules: CodeReviewRule[],
-    violations: CodeReviewViolation[],
+    _rules: CodeReviewRule[],
+    _violations: CodeReviewViolation[],
     suggestions: CodeReviewSuggestion[],
-    actionItems: ActionItem[],
+    _actionItems: ActionItem[],
   ): Promise<void> {
     try {
       const result = await this.aiAnalyzer.analyze(task, files);
