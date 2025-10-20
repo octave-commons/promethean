@@ -6,12 +6,19 @@ import {
   CACHE_SIMILARITY_THRESHOLD,
   CACHE_MAX_AGE_MS,
 } from '@promethean/ollama-queue';
-import type { CacheEntry } from './types.js';
+import type {
+  CacheEntry,
+  CacheStats,
+  CacheClearResult,
+  CacheExpiredResult,
+  CacheAnalysis,
+  CacheEntryWithMetadata,
+} from './types.js';
 
 // Manage cache with various actions
 export async function manageCache(
   action: 'stats' | 'clear' | 'clear-expired' | 'performance-analysis',
-) {
+): Promise<CacheStats | CacheClearResult | CacheExpiredResult | CacheAnalysis> {
   switch (action) {
     case 'stats':
       const totalSize = Array.from(modelCaches.values()).reduce(
@@ -61,7 +68,7 @@ export async function manageCache(
 
     case 'performance-analysis':
       // Analyze performance across all cached entries
-      const analysis: any = {
+      const analysis: CacheAnalysis = {
         totalEntries: 0,
         models: {},
         taskCategories: {},
@@ -70,7 +77,7 @@ export async function manageCache(
       };
 
       for (const [modelName] of modelCaches.entries()) {
-        const entries: any[] = []; // TODO: Implement proper cache entries retrieval
+        const entries: CacheEntryWithMetadata[] = []; // TODO: Implement proper cache entries retrieval
         analysis.models[modelName] = {
           entries: entries.length,
           averageScore: 0,
@@ -122,14 +129,12 @@ export async function manageCache(
 
       // Calculate category averages
       for (const [category, data] of Object.entries(analysis.performanceByCategory)) {
-        const dataAny = data as any;
         analysis.performanceByCategory[category].averageScore =
-          dataAny.count > 0 ? dataAny.totalScore / dataAny.count : 0;
+          data.count > 0 ? data.totalScore / data.count : 0;
 
-        for (const [model, modelData] of Object.entries(dataAny.models)) {
-          const modelDataAny = modelData as any;
+        for (const [model, modelData] of Object.entries(data.models)) {
           analysis.performanceByCategory[category].models[model].averageScore =
-            modelDataAny.count > 0 ? modelDataAny.totalScore / modelDataAny.count : 0;
+            modelData.count > 0 ? modelData.totalScore / modelData.count : 0;
         }
       }
 

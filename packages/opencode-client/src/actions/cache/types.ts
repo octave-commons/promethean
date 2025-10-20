@@ -19,3 +19,59 @@ export type CacheEntry = {
   executionTime?: number; // How long the response took to generate
   tokensUsed?: number; // Token usage for cost tracking
 };
+
+// Cache management result types
+export type CacheStats = {
+  totalSize: number;
+  modelCount: number;
+  models: Array<{
+    model: string;
+    size: number;
+  }>;
+  similarityThreshold: number;
+  maxAgeMs: number;
+  maxAgeHours: number;
+};
+
+export type CacheClearResult = {
+  message: string;
+  clearedEntries: number;
+  size: number;
+};
+
+export type CacheExpiredResult = {
+  message: string;
+  size: number;
+};
+
+export type ModelPerformanceData = {
+  totalScore: number;
+  count: number;
+  averageScore?: number;
+};
+
+export type CategoryPerformanceData = {
+  totalScore: number;
+  count: number;
+  averageScore?: number;
+  models: Record<string, ModelPerformanceData>;
+};
+
+export type ModelAnalysis = {
+  entries: number;
+  averageScore: number;
+  taskDistribution: Record<string, number>;
+};
+
+export type CacheAnalysis = {
+  totalEntries: number;
+  models: Record<string, ModelAnalysis>;
+  taskCategories: Record<string, number>;
+  averageScores: Record<string, number>;
+  performanceByCategory: Record<string, CategoryPerformanceData>;
+};
+
+// Cache entry with metadata for performance analysis
+export type CacheEntryWithMetadata = {
+  metadata: CacheEntry;
+};
