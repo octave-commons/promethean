@@ -23,7 +23,12 @@ program
   })
   .hook('postAction', async () => {
     // Cleanup stores after command completes
-    // Note: ContextStore manages cleanup automatically
+    try {
+      const { cleanupClients } = await import('@promethean/persistence');
+      await cleanupClients();
+    } catch (error) {
+      // Ignore cleanup errors - connection might already be closed
+    }
   });
 
 // Add command groups
