@@ -62,14 +62,6 @@ export {
   createTailProcessErrorTool,
 } from './process-factory.js';
 
-// Cache factories
-export {
-  createInitializeCacheTool,
-  createCheckCacheTool,
-  createCreateCacheKeyTool,
-  createStoreInCacheTool,
-} from './cache-factory.js';
-
 // Sessions factories
 export {
   createCreateSessionTool,
