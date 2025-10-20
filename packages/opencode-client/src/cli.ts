@@ -7,6 +7,7 @@ import { eventCommands } from './commands/events/index.js';
 import { processCommands } from './commands/process/index.js';
 import { messagesCommands } from './commands/messages/index.js';
 import { initializeStores } from './index.js';
+
 const program = new Command()
 // Global options
 program
