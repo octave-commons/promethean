@@ -302,4 +302,29 @@ ${content}
     }
     return undefined;
   }
+
+  /**
+   * Log events with deduplication to reduce noise
+   */
+  private logEvent(eventType: string): void {
+    const now = Date.now();
+    const count = this.eventCounts.get(eventType) || 0;
+    const timeSinceLastLog = now - this.lastLogTime;
+
+    // Update count
+    this.eventCounts.set(eventType, count + 1);
+
+    // Only log if:
+    // 1. It's been 5+ seconds since last log, OR
+    // 2. This is the first time we've seen this event type, OR
+    // 3. We're in verbose mode
+    const shouldLog =
+      timeSinceLastLog > this.LOG_DEBOUNCE_MS || count === 1 || process.argv.includes('--verbose');
+
+    if (shouldLog) {
+      const totalEvents = Array.from(this.eventCounts.values()).reduce((sum, c) => sum + c, 0);
+      console.log(`📡 Indexed events (${totalEvents} total): ${eventType} (${count})`);
+      this.lastLogTime = now;
+    }
+  }
 }
