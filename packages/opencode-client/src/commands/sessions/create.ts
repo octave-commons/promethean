@@ -1,5 +1,7 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
+import { sessionStore } from '../../index.js';
+
 interface CreateSessionResponse {
   session?: {
     id: string;
@@ -13,12 +15,30 @@ async function createApiSession(_options: {
   files?: string[];
   delegates?: string[];
 }): Promise<CreateSessionResponse> {
-  return {
-    session: {
-      id: `session-${Date.now()}`,
+  const sessionId = `session-${Date.now()}`;
+  const sessionData = {
+    id: sessionId,
+    title: _options.title,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    status: 'active',
+    type: 'regular',
+  };
+
+  // Store the session in the context store
+  await sessionStore.insert({
+    id: sessionId,
+    text: JSON.stringify(sessionData),
+    timestamp: new Date().toISOString(),
+    metadata: {
+      type: 'session',
+      status: 'active',
       title: _options.title,
-      createdAt: new Date().toISOString(),
     },
+  });
+
+  return {
+    session: sessionData,
   };
 }
 

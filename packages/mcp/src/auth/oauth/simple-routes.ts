@@ -130,6 +130,127 @@ export function registerSimpleOAuthRoutes(
     return reply.redirect(`/.well-known/oauth-protected-resource/mcp`);
   });
 
+  // RFC 7591 Dynamic Client Registration
+  fastify.post(`/.well-known/oauth-registration/mcp`, async (request, reply) => {
+    try {
+      const parsedBody = tryParseJson(request.body);
+      const clientData = parsedBody as any;
+
+      // Generate a client ID and secret for the dynamic client
+      const clientId = `mcp_client_${Date.now()}_${Math.random().toString(36).substring(2, 15)}`;
+      const clientSecret = crypto.randomBytes(32).toString('hex');
+
+      // Store client registration (in a real implementation, this would be in a database)
+      const clientStore = (global as any).__oauth_client_store || {};
+      clientStore[clientId] = {
+        client_id: clientId,
+        client_secret: clientSecret,
+        redirect_uris: clientData.redirect_uris || [],
+        grant_types: clientData.grant_types || ['authorization_code'],
+        response_types: clientData.response_types || ['code'],
+        scope: clientData.scope || 'user:email',
+        client_name: clientData.client_name || 'MCP Dynamic Client',
+        client_uri: clientData.client_uri,
+        logo_uri: clientData.logo_uri,
+        created_at: new Date().toISOString(),
+        software_id: clientData.software_id,
+        software_version: clientData.software_version,
+      };
+      (global as any).__oauth_client_store = clientStore;
+
+      // Return client registration response
+      return reply.status(201).send({
+        client_id: clientId,
+        client_secret: clientSecret,
+        client_id_issued_at: Math.floor(Date.now() / 1000),
+        client_secret_expires_at: 0, // 0 means never expires
+        redirect_uris: clientData.redirect_uris || [],
+        grant_types: clientData.grant_types || ['authorization_code'],
+        response_types: clientData.response_types || ['code'],
+        scope: clientData.scope || 'user:email',
+        client_name: clientData.client_name || 'MCP Dynamic Client',
+        client_uri: clientData.client_uri,
+        logo_uri: clientData.logo_uri,
+        software_id: clientData.software_id,
+        software_version: clientData.software_version,
+      });
+    } catch (error) {
+      return reply.status(400).send({
+        error: 'invalid_client_metadata',
+        error_description: String(error),
+      });
+    }
+  });
+
+  // RFC 7591 Dynamic Client Registration Management
+  fastify.get(`/.well-known/oauth-registration/mcp/:client_id`, async (request, reply) => {
+    try {
+      const params = request.params as any;
+      const clientId = params.client_id;
+
+      const clientStore = (global as any).__oauth_client_store || {};
+      const client = clientStore[clientId];
+
+      if (!client) {
+        return reply.status(404).send({
+          error: 'invalid_client',
+          error_description: 'Client not found',
+        });
+      }
+
+      return reply.send({
+        client_id: client.client_id,
+        client_secret: client.client_secret,
+        client_id_issued_at: Math.floor(new Date(client.created_at).getTime() / 1000),
+        client_secret_expires_at: 0,
+        redirect_uris: client.redirect_uris,
+        grant_types: client.grant_types,
+        response_types: client.response_types,
+        scope: client.scope,
+        client_name: client.client_name,
+        client_uri: client.client_uri,
+        logo_uri: client.logo_uri,
+        software_id: client.software_id,
+        software_version: client.software_version,
+      });
+    } catch (error) {
+      return reply.status(500).send({
+        error: 'server_error',
+        error_description: String(error),
+      });
+    }
+  });
+
+  // RFC 7591 Dynamic Client Registration Delete
+  fastify.delete(`/.well-known/oauth-registration/mcp/:client_id`, async (request, reply) => {
+    try {
+      const params = request.params as any;
+      const clientId = params.client_id;
+
+      const clientStore = (global as any).__oauth_client_store || {};
+      if (clientStore[clientId]) {
+        delete clientStore[clientId];
+        (global as any).__oauth_client_store = clientStore;
+      }
+
+      return reply.status(204).send();
+    } catch (error) {
+      return reply.status(500).send({
+        error: 'server_error',
+        error_description: String(error),
+      });
+    }
+  });
+
+  // Alternative paths for dynamic client registration
+  fastify.post(`/.well-known/oauth-registration`, async (request, reply) => {
+    return reply.redirect(307, `/.well-known/oauth-registration/mcp`);
+  });
+
+  fastify.get(`/.well-known/oauth-registration`, async (request, reply) => {
+    return reply.redirect(307, `/.well-known/oauth-registration/mcp`);
+  });
+
   // List available providers
   fastify.get(`${basePath}/providers`, async (_request, reply) => {
     try {
