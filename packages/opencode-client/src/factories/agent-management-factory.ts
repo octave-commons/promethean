@@ -13,6 +13,8 @@ import {
   closeAgentSession,
   unifiedAgentManager,
 } from '../api/UnifiedAgentManager.js';
+import { OpencodeClient } from '@opencode-ai/sdk';
+import { DualStoreManager } from '@promethean/persistence';
 
 // Type definitions for tool context and arguments
 interface ToolContext {
