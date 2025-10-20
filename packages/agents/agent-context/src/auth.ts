@@ -168,7 +168,7 @@ export const makeAuthService = (deps: AuthServiceDeps = {}) => {
     return null;
   };
 
-  return {
+  const service = {
     generateToken: async (agentId: string, permissions: string[]): Promise<AuthToken> => {
       const validatedAgentId = SecurityValidator.validateAgentId(agentId);
       const validatedPermissions = SecurityValidator.validatePermissions(permissions);
@@ -189,6 +189,139 @@ export const makeAuthService = (deps: AuthServiceDeps = {}) => {
           expiresAt,
           permissions: validatedPermissions,
         };
+      } catch (error) {
+        logTokenError(agentId, 'generateToken', error);
+        throw error;
+      }
+    },
+
+    validateToken: async (token: string): Promise<AuthToken | null> => {
+      const validatedToken = SecurityValidator.validateToken(token);
+      const key = `validate:${validatedToken.substring(0, 10)}`;
+
+      try {
+        checkRateLimitByKey(key, 'validateToken');
+
+        if (revokedTokens.has(validatedToken)) {
+          logValidationFailure('validateToken', 'Token revoked');
+          return null;
+        }
+
+        const decoded = verifyToken(validatedToken);
+
+        if (!isValidAgentToken(decoded)) {
+          logValidationFailure(
+            decoded.agentId || 'unknown',
+            'validateToken',
+            'Invalid token type',
+          );
+          return null;
+        }
+
+        logValidationSuccess(decoded.agentId || 'unknown', 'validateToken');
+
+        return buildAuthToken(validatedToken, decoded);
+      } catch (error) {
+        return handleValidationError(error, 'validateToken');
+      }
+    },
+
+    revokeToken: async (token: string): Promise<void> => {
+      try {
+        const validatedToken = SecurityValidator.validateToken(token);
+
+        // Add to revoked tokens set
+        revokedTokens.add(validatedToken);
+
+        SecurityLogger.log({
+          type: 'authentication',
+          severity: 'low',
+          action: 'revokeToken',
+          details: { tokenHash: validatedToken.substring(0, 10) + '...' },
+        });
+      } catch (error) {
+        SecurityLogger.log({
+          type: 'authentication',
+          severity: 'medium',
+          action: 'revokeToken',
+          details: { error: error instanceof Error ? error.message : 'Unknown error' },
+        });
+        // Re-throw error to match interface expectation
+        throw error;
+      }
+    },
+
+    refreshToken: async (oldToken: string): Promise<AuthToken | null> => {
+      try {
+        const validatedToken = SecurityValidator.validateToken(oldToken);
+
+        // Validate the old token first
+        const oldAuthToken = await service.validateToken(validatedToken);
+        if (!oldAuthToken) {
+          return null;
+        }
+
+        // Revoke the old token
+        await service.revokeToken(validatedToken);
+
+        // Generate new token with same permissions
+        return service.generateToken(oldAuthToken.agentId, oldAuthToken.permissions);
+      } catch (error) {
+        SecurityLogger.log({
+          type: 'authentication',
+          severity: 'medium',
+          action: 'refreshToken',
+          details: { error: error instanceof Error ? error.message : 'Unknown error' },
+        });
+        return null;
+      }
+    },
+
+    hasPermission: async (token: string, permission: string): Promise<boolean> => {
+      try {
+        const validatedToken = SecurityValidator.validateToken(token);
+        const validatedPermissions = SecurityValidator.validatePermissions([permission]);
+
+        if (validatedPermissions.length === 0) {
+          return false;
+        }
+
+        const validatedPermission = validatedPermissions[0]!;
+
+        const authToken = await service.validateToken(validatedToken);
+        if (!authToken) {
+          return false;
+        }
+
+        return authToken.permissions.includes(validatedPermission);
+      } catch (error) {
+        AuthUtils.logAuthError('hasPermission', error);
+        return false;
+      }
+    },
+
+    hashPassword: async (password: string, saltRounds: number = 10): Promise<string> => {
+      return AuthUtils.hashPassword(password, saltRounds);
+    },
+
+    verifyPassword: async (password: string, hash: string): Promise<boolean> => {
+      return AuthUtils.verifyPassword(password, hash);
+    },
+
+    validatePassword: (password: string): { isValid: boolean; errors: string[] } => {
+      return AuthUtils.validatePassword(password);
+    },
+
+    generateApiKey: (agentId: string, permissions: string[]): string => {
+      return apiKeyManager.generateApiKey(agentId, permissions);
+    },
+
+    validateApiKey: async (apiKey: string): Promise<AuthToken | null> => {
+      return apiKeyManager.validateApiKey(apiKey);
+    },
+  };
+
+  return service;
       } catch (error) {
         logTokenError(agentId, 'generateToken', error);
         throw error;
