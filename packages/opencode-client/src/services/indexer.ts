@@ -226,15 +226,15 @@ ${content}
   /**
    * Extract session ID from different event types
    */
-  private extractSessionId(event: Event): string | undefined {
+  private extractSessionId(event: any): string | undefined {
     if (event.type === 'session.updated' || event.type === 'session.deleted') {
       return (event as any).properties?.info?.id;
     }
     if (event.type === 'message.updated' || event.type === 'message.removed') {
-      return (event as any).properties?.sessionID;
+      return (event as any).properties?.sessionID || (event as any).properties?.info?.sessionID;
     }
-    if (event.type === 'message.updated') {
-      return (event as any).properties?.info?.sessionID;
+    if (event.type === 'message.part.updated' || event.type === 'message.part.removed') {
+      return (event as any).properties?.sessionID;
     }
     return undefined;
   }
