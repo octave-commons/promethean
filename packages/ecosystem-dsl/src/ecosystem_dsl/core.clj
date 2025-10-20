@@ -83,8 +83,8 @@
 
 (defmacro defenhancement
   "Define an enhancement that can be applied to process configurations."
-  [name docstring params & body]
-  `(defn ~(symbol (str "enhance-" name)) ~docstring ~params
+  [name params & body]
+  `(defn ~(symbol (str "enhance-" name)) ~params
      (println ~(str "Applying " name " enhancement"))
      ~@body))
 
