@@ -46,13 +46,8 @@ This directory contains factory functions for creating tools from action modules
 
 ### Events Factories (7 factories)
 
-- `createHandleSessionIdleTool()` - Handle session idle events
-- `createHandleSessionUpdatedTool()` - Handle session update events
-- `createHandleMessageUpdatedTool()` - Handle message update events
-- `createExtractSessionIdTool()` - Extract session ID from events
 - `createGetSessionMessagesTool()` - Get session messages
 - `createDetectTaskCompletionTool()` - Detect task completion from messages
-- `createProcessSessionMessagesTool()` - Process all session messages
 
 ### Messages Factories (4 factories)
 

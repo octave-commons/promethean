@@ -1,7 +1,14 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
 import ora from 'ora';
-import { getCacheStats, clearCache } from './mock-api.js';
+// Simple mock cache functions
+async function getCacheStats() {
+  return { totalSize: 0, modelCount: 0 };
+}
+
+async function clearCache() {
+  return { message: 'Cache cleared', clearedEntries: 0 };
+}
 
 async function manageCache(action: string): Promise<any> {
   switch (action) {

@@ -1,18 +1,15 @@
-// Core types
-export type { Actor, ActorConfig, Context, Message } from './core/types.js';
+/**
+ * Main exports for the Pantheon Framework
+ */
 
-// Core ports
-export type { ToolPort, ContextPort, ActorPort, LlmPort } from './core/ports.js';
+// Core framework
+export * from '@promethean/pantheon-core';
 
-// Core factories
-export { makeContextAdapter } from './core/context.js';
-export { makeActorAdapter } from './core/actors.js';
-export { makeOrchestrator } from './core/orchestrator.js';
+// Adapters
+export * from './adapters/index.js';
 
-// LLM adapters
-export { makeOpenAIAdapter } from './llm/openai.js';
-export type { OpenAIAdapterConfig } from './llm/openai.js';
+// Actors
+export * from './actors/index.js';
 
-// LLM actors
-export { makeLLMActorAdapter } from './actors/llm-actor.js';
-export type { LLMActorConfig } from './actors/llm-actor.js';
+// Utilities
+export * from './utils/index.js';

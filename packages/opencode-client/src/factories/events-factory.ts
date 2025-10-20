@@ -96,6 +96,7 @@ export function createProcessSessionMessagesTool(
 // Export all factory functions
 export const eventsToolFactories = {
   // removed intetnionally because they are not useful to an agent.
+  // the actions these tools were exposing are only useful as internal event handlers.
   // createHandleSessionIdleTool,
   // createHandleSessionUpdatedTool,
   // createHandleMessageUpdatedTool,
