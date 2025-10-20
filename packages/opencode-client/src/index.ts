@@ -122,6 +122,12 @@ export const getContextStore = (): ContextStore => contextStore;
 export const listStoreNames = (): readonly string[] => contextStore.listCollectionNames();
 export const getStoreCount = (): number => contextStore.collectionCount();
 
-// Export utilities
+// Export utilities and stores
 export { SessionUtils };
 export type { SessionInfo, Timestamp };
+
+// Export store instances for backward compatibility
+export { sessionStore, agentTaskStore, eventStore, messageStore };
+
+// Export AgentTask type for backward compatibility
+export type { AgentTask } from './types/index.js';
