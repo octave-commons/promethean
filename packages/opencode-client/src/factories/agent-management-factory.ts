@@ -224,7 +224,7 @@ export function createListAgentSessionsTool(): any {
         .optional()
         .describe('Maximum number of sessions to return (optional)'),
     },
-    async execute(args: any, _context: any) {
+    async execute(args: { status?: string; limit?: number }, _context: ToolContext) {
       try {
         let sessions = await unifiedAgentManager.listAgentSessions();
 
