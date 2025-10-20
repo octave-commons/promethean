@@ -478,6 +478,13 @@ export type AgentOrchestratorConfig = {
 
 // === Workflow Types ===
 
+/**
+ * Reference to a language model, either as a string or detailed configuration
+ * @property provider - Model provider (e.g., 'openai', 'anthropic')
+ * @property name - Model name (e.g., 'gpt-4', 'claude-3')
+ * @property options - Additional model options
+ * @property settings - Model-specific settings
+ */
 export type ModelReference =
   | string
   | {
@@ -487,6 +494,17 @@ export type ModelReference =
       settings?: Record<string, unknown>;
     };
 
+/**
+ * Definition of an agent for use in workflows
+ * @property name - Optional name for the agent
+ * @property instructions - Instructions for the agent
+ * @property handoffDescription - Description for handoff scenarios
+ * @property model - Model reference for the agent
+ * @property modelSettings - Model-specific settings
+ * @property output - Expected output format
+ * @property tools - Array of tools available to the agent
+ * @property metadata - Additional metadata
+ */
 export type AgentDefinition = {
   name?: string;
   instructions?: string;
@@ -498,11 +516,24 @@ export type AgentDefinition = {
   metadata?: Record<string, unknown>;
 };
 
+/**
+ * A resolved agent definition with required fields guaranteed
+ * @property name - Name for the agent (required)
+ * @property instructions - Instructions for the agent (required)
+ */
 export type ResolvedAgentDefinition = AgentDefinition & {
   name: string;
   instructions: string;
 };
 
+/**
+ * A node in a workflow graph representing an agent or process
+ * @property id - Unique identifier for the node
+ * @property label - Optional human-readable label
+ * @property definition - Agent definition for this node
+ * @property source - How the definition was provided
+ * @property config - Node-specific configuration
+ */
 export type WorkflowNode = {
   id: string;
   label?: string;
@@ -511,6 +542,13 @@ export type WorkflowNode = {
   config?: Record<string, unknown>;
 };
 
+/**
+ * An edge connecting two nodes in a workflow
+ * @property from - Source node ID
+ * @property to - Target node ID
+ * @property label - Optional edge label
+ * @property conditions - Conditions for traversing this edge
+ */
 export type WorkflowEdge = {
   from: string;
   to: string;
@@ -518,6 +556,14 @@ export type WorkflowEdge = {
   conditions?: Record<string, unknown>;
 };
 
+/**
+ * Complete workflow definition
+ * @property id - Unique workflow identifier
+ * @property nodes - Array of workflow nodes
+ * @property edges - Array of workflow edges
+ * @property metadata - Additional workflow metadata
+ * @property config - Workflow configuration
+ */
 export type WorkflowDefinition = {
   id: string;
   nodes: WorkflowNode[];
@@ -526,6 +572,13 @@ export type WorkflowDefinition = {
   config?: Record<string, unknown>;
 };
 
+/**
+ * Runtime representation of an agent workflow
+ * @property id - Unique workflow identifier
+ * @property nodes - Map of node IDs to node definitions
+ * @property edges - Array of workflow edges
+ * @property metadata - Additional workflow metadata
+ */
 export type AgentWorkflowGraph = {
   id: string;
   nodes: Map<string, WorkflowNode>;
@@ -535,6 +588,14 @@ export type AgentWorkflowGraph = {
 
 // === Security and Auth Types ===
 
+/**
+ * Authentication token for system access
+ * @property token - The actual token string
+ * @property type - Type of token (bearer, basic, api_key)
+ * @property expiresAt - Optional expiration time
+ * @property permissions - Array of permissions granted by this token
+ * @property metadata - Additional token metadata
+ */
 export type AuthToken = {
   token: string;
   type: 'bearer' | 'basic' | 'api_key';
@@ -543,6 +604,14 @@ export type AuthToken = {
   metadata?: Record<string, unknown>;
 };
 
+/**
+ * Security context for a session
+ * @property sessionId - The session this context belongs to
+ * @property userId - Optional user identifier
+ * @property permissions - Array of permissions for this context
+ * @property authLevel - Authentication level (none, basic, admin)
+ * @property metadata - Additional security metadata
+ */
 export type SecurityContext = {
   sessionId: string;
   userId?: string;
