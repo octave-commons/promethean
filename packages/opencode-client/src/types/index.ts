@@ -29,10 +29,7 @@ export interface AgentTask {
   taskSummary?: string;
 }
 
-export interface TaskContext {
-  agentTaskStore: DualStoreManager<'text', 'timestamp'>;
-  agentTasks: Map<string, AgentTask>;
-}
+export type TaskContext = DualStoreManager<'text', 'timestamp'>;
 
 // Event Processing Types
 export interface EventContext {
