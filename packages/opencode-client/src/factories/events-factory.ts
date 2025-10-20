@@ -137,10 +137,11 @@ export function createDetectTaskCompletionTool(): ToolFunction {
     description: 'Detect if a task has been completed based on messages',
     args: {
       messages: tool.schema
-        .array(tool.schema.object({}))
+        .array(tool.schema.unknown())
         .describe('Messages to analyze for completion'),
     },
-    async execute({ messages }: { messages: EventMessage[] }) {
+    async execute({ messages }) {
+      const completion = detectTaskCompletion(messages as EventMessage[]);
       const completion = detectTaskCompletion(messages);
 
       return JSON.stringify({
