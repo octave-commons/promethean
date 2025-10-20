@@ -18,6 +18,12 @@ import type { EventContext } from '../actions/events/index.js';
 
 type ToolFunction = ReturnType<typeof tool>;
 
+interface ToolContext {
+  agent: string;
+  sessionID: string;
+  messageID: string;
+}
+
 // Factory for handleSessionIdle tool
 export function createHandleSessionIdleTool(): ToolFunction {
   return tool({
