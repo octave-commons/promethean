@@ -140,21 +140,24 @@ export class IndexerService {
   }
 
   /**
-   * Index a message as a markdown document
+   * Index a message as both structured data and markdown document
    */
   private async indexMessage(message: any, sessionId: string): Promise<void> {
     try {
       const markdown = this.messageToMarkdown(message);
 
+      // Store the complete message object as structured data
       await messageStore.insert({
-        id: `message_${message.info?.id}`,
-        text: markdown,
+        id: message.info?.id || `message_${Date.now()}`,
+        text: JSON.stringify(message), // Store full message as JSON for retrieval
         timestamp: message.info?.time?.created || Date.now(),
         metadata: {
           type: 'message',
           messageId: message.info?.id,
           sessionId,
           role: message.info?.role,
+          format: 'json', // Indicate this is structured data
+          markdown: markdown, // Also store markdown for search
         },
       });
     } catch (error) {

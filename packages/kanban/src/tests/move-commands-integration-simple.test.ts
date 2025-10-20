@@ -167,6 +167,7 @@ test('move operations - board persistence', async (t) => {
   const newContext: CliContext = {
     boardFile: boardPath,
     tasksDir,
+    argv: [],
   };
 
   // Try to move task3 up - should work with persisted board

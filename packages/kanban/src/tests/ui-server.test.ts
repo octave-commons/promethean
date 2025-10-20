@@ -61,7 +61,7 @@ test('kanban ui server exposes board payload and html', async (t) => {
     }),
   );
 
-  const server = createKanbanUiServer({ boardFile, tasksDir });
+  const server = createKanbanUiServer({ boardFile, tasksDir, argv: [] });
   const { baseUrl } = await listenOnRandomPort(server);
   t.teardown(async () => {
     await new Promise<void>((resolve) => {
