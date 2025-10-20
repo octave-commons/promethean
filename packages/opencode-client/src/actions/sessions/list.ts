@@ -152,22 +152,18 @@ export async function list({ limit, offset }: { limit: number; offset: number })
           if (session.isAgentTask && !agentTask) {
             agentTask = {
               sessionId: session.id,
-              status: (session.agentTaskStatus as any) || 'unknown',
+              status: (session.agentTaskStatus as AgentTaskStatus) || 'idle',
               startTime:
                 typeof session.createdAt === 'string'
-                  ? session.createdAt
-                  : session.createdAt?.toString() || new Date().toISOString(),
+                  ? new Date(session.createdAt).getTime()
+                  : session.createdAt || Date.now(),
               lastActivity:
                 session.lastActivityTime ||
                 (typeof session.createdAt === 'string'
-                  ? session.createdAt
-                  : session.createdAt?.toString()),
+                  ? new Date(session.createdAt).getTime()
+                  : session.createdAt || Date.now()),
               task: session.title || 'Agent Task',
             };
-
-            if (process.env.OPENCODE_DEBUG) {
-              console.log(`[DEBUG] Created agentTask for session ${session.id}:`, agentTask);
-            }
           }
 
           return SessionUtils.createSessionInfo(session, messages.length, agentTask);
@@ -179,16 +175,16 @@ export async function list({ limit, offset }: { limit: number; offset: number })
           if (session.isAgentTask && !agentTask) {
             agentTask = {
               sessionId: session.id,
-              status: (session.agentTaskStatus as any) || 'unknown',
+              status: (session.agentTaskStatus as AgentTaskStatus) || 'idle',
               startTime:
                 typeof session.createdAt === 'string'
-                  ? session.createdAt
-                  : session.createdAt?.toString() || new Date().toISOString(),
+                  ? new Date(session.createdAt).getTime()
+                  : session.createdAt || Date.now(),
               lastActivity:
                 session.lastActivityTime ||
                 (typeof session.createdAt === 'string'
-                  ? session.createdAt
-                  : session.createdAt?.toString()),
+                  ? new Date(session.createdAt).getTime()
+                  : session.createdAt || Date.now()),
               task: session.title || 'Agent Task',
             };
           }
@@ -216,11 +212,15 @@ export async function list({ limit, offset }: { limit: number; offset: number })
           totalPages: Math.ceil(totalCount / limit),
         },
         summary: {
-          active: enhanced.filter((s: any) => s.activityStatus === 'active').length,
-          waiting_for_input: enhanced.filter((s: any) => s.activityStatus === 'waiting_for_input')
+          active: enhanced.filter(
+            (s: SessionInfo) => (s as SessionData).activityStatus === 'active',
+          ).length,
+          waiting_for_input: enhanced.filter(
+            (s: SessionInfo) => (s as SessionData).activityStatus === 'waiting_for_input',
+          ).length,
+          idle: enhanced.filter((s: SessionInfo) => (s as SessionData).activityStatus === 'idle')
             .length,
-          idle: enhanced.filter((s: any) => s.activityStatus === 'idle').length,
-          agentTasks: enhanced.filter((s: any) => s.isAgentTask).length,
+          agentTasks: enhanced.filter((s: SessionInfo) => (s as SessionData).isAgentTask).length,
         },
       },
       null,

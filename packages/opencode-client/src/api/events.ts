@@ -31,7 +31,6 @@ const authHeader = process.env.OPENCODE_AUTH_TOKEN
 async function getClient(): Promise<SessionClient> {
   return createOpencode({
     timeout,
-    fetchOptions: { headers: authHeader },
   }).then((r: { client?: SessionClient }) => r.client ?? r);
 }
 
