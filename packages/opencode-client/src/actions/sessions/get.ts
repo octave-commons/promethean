@@ -61,7 +61,7 @@ export async function get({
 }) {
   try {
     // Get session from dual store - fail fast if not available
-    const sessionEntry = await sessionStore.get(sessionId);
+    const sessionEntry = await stores.get(sessionId);
     if (!sessionEntry) {
       return 'Session not found in dual store';
     }
@@ -70,11 +70,10 @@ export async function get({
 
     // Get messages from dual store - fail fast if not available
     const messageKey = `session:${sessionId}:messages`;
-    const messageEntry = await sessionStore.get(messageKey);
+    const messageEntry = await stores.get(messageKey);
     if (!messageEntry) {
       // Return session with empty messages array - no fallback
-      const agentTask = agentTasks.get(sessionId);
-      const sessionInfo = SessionUtils.createSessionInfo(session, 0, agentTask);
+      const sessionInfo = SessionUtils.createSessionInfo(session as any, 0, undefined);
 
       return JSON.stringify({
         session: sessionInfo,
@@ -89,8 +88,7 @@ export async function get({
       messages = [];
     }
 
-    const agentTask = agentTasks.get(sessionId);
-    const sessionInfo = SessionUtils.createSessionInfo(session, messages.length, agentTask);
+    const sessionInfo = SessionUtils.createSessionInfo(session as any, messages.length, undefined);
 
     return JSON.stringify({
       session: sessionInfo,
