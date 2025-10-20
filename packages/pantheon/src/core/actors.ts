@@ -16,7 +16,7 @@ export function makeActorAdapter(): ActorPort {
     },
 
     async create(config: ActorConfig): Promise<string> {
-      const id = `actor_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      const id = `actor_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
       const actor: Actor = {
         id,
         config,

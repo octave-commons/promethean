@@ -6,7 +6,7 @@ export function makeContextAdapter(): ContextPort {
 
   return {
     async compile(sources: string[], text: string): Promise<Context> {
-      const id = `ctx_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      const id = `ctx_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
       const compiled = { sources, text, processed: true };
 
       const context: Context = {
