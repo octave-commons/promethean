@@ -8,6 +8,13 @@ export const AGENT_TASK_STORE_NAME = 'agentTaskStore';
 export const EVENT_STORE_NAME = 'eventStore';
 export const MESSAGE_STORE_NAME = 'messageStore';
 
+enum StoreNames {
+  SessionStore = 'sessionStore',
+  AgentTaskStore = 'agentTaskStore',
+  EventStore = 'eventStore',
+  MessageStore = 'messageStore',
+}
+
 export type AgentTask = {
   sessionId: string;
   agentName: string;
@@ -17,7 +24,7 @@ export type AgentTask = {
   completionMessage?: string;
 };
 // Storage
-export async function getStore() {}
+export async function getStore(name:) {}
 export async function initializeStores(): Promise<
   Record<string, DualStoreManager<'text', 'timestamp'>>
 > {
