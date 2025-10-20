@@ -20,9 +20,7 @@ export interface SessionInfo {
 export interface SessionClient {
   session: {
     get: (params: { path: { id: string } }) => Promise<{ data?: unknown }>;
-  };
-  messages: {
-    get: (params: { path: { id: string } }) => Promise<{ data?: unknown }>;
+    messages: (params: { path: { id: string } }) => Promise<{ data?: unknown }>;
   };
 }
 
