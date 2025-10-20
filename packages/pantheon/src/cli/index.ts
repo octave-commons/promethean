@@ -94,7 +94,7 @@ program
       console.log(`Name: ${actor.script.name}`);
       console.log(`Type: ${type}`);
       console.log(`Goal: ${options.goal}`);
-      console.log(`Talents: ${actor.script.talents.map((t) => t.name).join(', ')}`);
+      console.log(`Talents: ${actor.script.talents.map((t: any) => t.name).join(', ')}`);
     } catch (error) {
       console.error('Error creating actor:', error);
       process.exit(1);
