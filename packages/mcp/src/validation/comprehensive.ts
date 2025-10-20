@@ -406,6 +406,14 @@ export async function validateMcpOperation(
   // Then perform MCP-specific security checks
   try {
     // Inline path normalization functions to avoid circular dependency
+    const isInsideRoot = (ROOT_PATH: string, absOrRel: string): boolean => {
+      const base = path.resolve(ROOT_PATH);
+      // If absOrRel is already absolute, use it directly
+      const abs = path.isAbsolute(absOrRel) ? path.resolve(absOrRel) : path.resolve(base, absOrRel);
+      const relToBase = path.relative(base, abs);
+      return !(relToBase.startsWith('..') || path.isAbsolute(relToBase));
+    };
+
     const normalizeToRoot = (ROOT_PATH: string, rel: string | undefined = '.'): string => {
       const base = path.resolve(ROOT_PATH);
 
@@ -425,14 +433,6 @@ export async function validateMcpOperation(
         throw new Error('path outside root');
       }
       return abs;
-    };
-
-    const isInsideRoot = (ROOT_PATH: string, absOrRel: string): boolean => {
-      const base = path.resolve(ROOT_PATH);
-      // If absOrRel is already absolute, use it directly
-      const abs = path.isAbsolute(absOrRel) ? path.resolve(absOrRel) : path.resolve(base, absOrRel);
-      const relToBase = path.relative(base, abs);
-      return !(relToBase.startsWith('..') || path.isAbsolute(relToBase));
     };
 
     // Normalize path and check if it's inside root
