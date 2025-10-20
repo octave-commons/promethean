@@ -48,11 +48,6 @@ export async function verifySessionExists(
   }
 }
 
-export async function cleanupOrphanedTask(context: TaskContext, sessionId: string) {
-  console.log(`🧹 Cleaning up orphaned agent task: ${sessionId}`);
-  // Note: We keep the persistent record for audit purposes
-}
-
 export async function updateTaskStatus(
   context: TaskContext,
   sessionId: string,
