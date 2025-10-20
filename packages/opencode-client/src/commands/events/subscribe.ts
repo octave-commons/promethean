@@ -14,13 +14,12 @@ export const subscribeCommand = new Command('subscribe')
         console.error(chalk.red('This SDK/server does not support event.subscribe().'));
         process.exit(1);
       }
-      const sub = await client.event.subscribe({ type: options.type });
+      const sub = await client.event.subscribe();
       console.log(chalk.green('Subscribed to events. Press Ctrl-C to exit.'));
       for await (const ev of sub.stream) {
-        const time = ev.time || ev.timestamp || ev.createdAt || '';
-        const type = ev.type || ev.event || 'event';
-        const sid = ev.sessionId ? ` session=${ev.sessionId}` : '';
-        console.log(`${chalk.gray(time)} ${chalk.cyan(type)}${sid}`);
+        const type = ev.type || 'event';
+        const sid = ev.properties?.info?.id ? ` session=${ev.properties.info.id}` : '';
+        console.log(`${chalk.cyan(type)}${sid}`);
       }
     } catch (error) {
       console.error(

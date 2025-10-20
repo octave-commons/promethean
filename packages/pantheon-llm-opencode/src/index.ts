@@ -10,25 +10,51 @@ export type OpenCodeAdapterConfig = {
   modelPath?: string;
   defaultModel?: string;
   defaultTemperature?: number;
+  endpoint?: string; // Optional endpoint URL for OpenCode service
+  timeout?: number; // Request timeout in milliseconds
 };
 
-export const makeOpenCodeAdapter = (_config: OpenCodeAdapterConfig): LlmPort => {
+export const makeOpenCodeAdapter = (config: OpenCodeAdapterConfig): LlmPort => {
   return {
     complete: async (
       messages: Message[],
-      _opts?: { model?: string; temperature?: number },
+      opts?: { model?: string; temperature?: number },
     ): Promise<Message> => {
-      // This is a placeholder implementation
-      // In a real implementation, you would integrate with the OpenCode client
-      // to handle local model inference or connect to OpenCode services
+      const model = opts?.model || config.defaultModel || 'default';
+      const temperature = opts?.temperature ?? config.defaultTemperature ?? 0.7;
 
-      console.warn('OpenCode adapter is not fully implemented - placeholder response');
+      try {
+        // For now, this is still a placeholder but with better structure
+        // In a real implementation, you would:
+        // 1. Connect to OpenCode service via HTTP/IPC
+        // 2. Send the messages and model parameters
+        // 3. Parse and return the response
 
-      // For now, return a simple response indicating the adapter needs implementation
-      return {
-        role: 'assistant',
-        content: `OpenCode adapter received ${messages.length} messages. This is a placeholder response - the OpenCode integration needs to be implemented with actual model inference.`,
-      };
+        if (config.endpoint) {
+          // Future: Make HTTP request to OpenCode endpoint
+          console.warn(`OpenCode endpoint integration not implemented: ${config.endpoint}`);
+        } else {
+          // Future: Use local OpenCode client/library
+          console.warn('Local OpenCode integration not implemented');
+        }
+
+        // Generate a more realistic placeholder response
+        const contextSummary = messages
+          .map(
+            (msg) =>
+              `${msg.role}: ${msg.content.slice(0, 50)}${msg.content.length > 50 ? '...' : ''}`,
+          )
+          .join('\n');
+
+        return {
+          role: 'assistant',
+          content: `[OpenCode Placeholder] Model: ${model}, Temperature: ${temperature}\n\nReceived context:\n${contextSummary}\n\nThis is a placeholder response. The OpenCode adapter needs to be implemented with actual model inference capabilities.`,
+        };
+      } catch (error) {
+        throw new Error(
+          `OpenCode adapter error: ${error instanceof Error ? error.message : String(error)}`,
+        );
+      }
     },
   };
 };
