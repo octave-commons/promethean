@@ -18,7 +18,15 @@ export const subscribeCommand = new Command('subscribe')
       console.log(chalk.green('Subscribed to events. Press Ctrl-C to exit.'));
       for await (const ev of sub.stream) {
         const type = ev.type || 'event';
-        const sid = ev.properties?.info?.id ? ` session=${ev.properties.info.id}` : '';
+        let sid = '';
+
+        // Handle different event types
+        if (ev.type === 'session.updated' || ev.type === 'session.deleted') {
+          sid = ev.properties?.info?.id ? ` session=${ev.properties.info.id}` : '';
+        } else if (ev.type === 'message.updated' || ev.type === 'message.removed') {
+          sid = ev.properties?.sessionID ? ` session=${ev.properties.sessionID}` : '';
+        }
+
         console.log(`${chalk.cyan(type)}${sid}`);
       }
     } catch (error) {
