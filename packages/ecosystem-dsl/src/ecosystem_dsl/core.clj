@@ -233,8 +233,8 @@
       (println (str "Successfully loaded " file-path))
       data)
     (catch Exception e
-      (println (str "Failed to read " file-path) ":" (.getMessage e))
-      {})))
+      (println (str "⚠️  Skipping non-EDN file " file-path) ":" (.getMessage e))
+      nil)))
 
 (defn process-edn-config
   "Process a single EDN configuration and apply enhancements."
@@ -366,11 +366,15 @@
          watch? false}}]
   (println (str "Starting ecosystem generation from " system-dir))
   
-  (let [edn-files (find-ecosystem-files system-dir)
+(let [edn-files (find-ecosystem-files system-dir)
         _ (println (str "Found " (count edn-files) " EDN files"))
-        all-apps (->> edn-files
-                      (map read-ecosystem-edn)
-                      (map process-edn-config))
+        valid-files (->> edn-files
+                        (map (fn [file-path] 
+                               [file-path (read-ecosystem-edn file-path)]))
+                        (filter (fn [[_ data]] (some? data))))
+        all-apps (->> valid-files
+                      (map (fn [[file-path edn-data]] 
+                             (process-edn-config edn-data file-path))))
         js-content (generate-ecosystem-js all-apps)]
     
     ;; Write the generated configuration
