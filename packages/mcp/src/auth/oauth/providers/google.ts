@@ -49,11 +49,12 @@ export class GoogleOAuthProvider implements OAuthProvider {
   /**
    * Generate authorization URL with PKCE
    */
-  generateAuthUrl(state: string, codeVerifier: string): string {
+  generateAuthUrl(state: string, codeVerifier: string, redirectUri?: string): string {
     const codeChallenge = this.generateCodeChallenge(codeVerifier);
+    const finalRedirectUri = redirectUri || this.config.redirectUri;
     const params = new URLSearchParams({
       client_id: this.config.clientId,
-      redirect_uri: this.config.redirectUri,
+      redirect_uri: finalRedirectUri,
       scope: this.config.scopes.join(' '),
       state,
       response_type: 'code',
@@ -76,14 +77,11 @@ export class GoogleOAuthProvider implements OAuthProvider {
   /**
    * Exchange authorization code for tokens
    */
-  async exchangeCodeForTokens(
-    code: string,
-    codeVerifier: string,
-  ): Promise<OAuthTokenResponse> {
+  async exchangeCodeForTokens(code: string, codeVerifier: string): Promise<OAuthTokenResponse> {
     const response = await fetch(this.tokenUrl, {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: new URLSearchParams({
@@ -101,7 +99,7 @@ export class GoogleOAuthProvider implements OAuthProvider {
       throw new Error(`Google token exchange failed: ${response.status} ${errorText}`);
     }
 
-    const data = await response.json() as any;
+    const data = (await response.json()) as any;
 
     if (data.error) {
       throw new Error(`Google OAuth error: ${data.error_description || data.error}`);
@@ -125,8 +123,8 @@ export class GoogleOAuthProvider implements OAuthProvider {
     // Get user info from userinfo endpoint
     const userInfoResponse = await fetch(`${this.apiUrl}/oauth2/v2/userinfo`, {
       headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Accept': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+        Accept: 'application/json',
       },
     });
 
@@ -134,7 +132,7 @@ export class GoogleOAuthProvider implements OAuthProvider {
       throw new Error(`Failed to fetch Google user: ${userInfoResponse.status}`);
     }
 
-    const userData = await userInfoResponse.json() as any;
+    const userData = (await userInfoResponse.json()) as any;
 
     // Parse ID token for additional claims if available
     let idTokenClaims: any = null;
@@ -169,7 +167,7 @@ export class GoogleOAuthProvider implements OAuthProvider {
     const response = await fetch(this.tokenUrl, {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: new URLSearchParams({
@@ -185,7 +183,7 @@ export class GoogleOAuthProvider implements OAuthProvider {
       throw new Error(`Google token refresh failed: ${response.status} ${errorText}`);
     }
 
-    const data = await response.json() as any;
+    const data = (await response.json()) as any;
 
     if (data.error) {
       throw new Error(`Google OAuth error: ${data.error_description || data.error}`);
@@ -229,8 +227,8 @@ export class GoogleOAuthProvider implements OAuthProvider {
     try {
       const response = await fetch(`${this.apiUrl}/oauth2/v2/userinfo`, {
         headers: {
-          'Authorization': `Bearer ${accessToken}`,
-          'Accept': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+          Accept: 'application/json',
         },
       });
       return response.ok;
@@ -245,7 +243,9 @@ export class GoogleOAuthProvider implements OAuthProvider {
   private async getIdTokenClaims(accessToken: string): Promise<any> {
     try {
       // Try to get token info from Google
-      const response = await fetch(`${this.apiUrl}/oauth2/v2/tokeninfo?access_token=${accessToken}`);
+      const response = await fetch(
+        `${this.apiUrl}/oauth2/v2/tokeninfo?access_token=${accessToken}`,
+      );
       if (response.ok) {
         return await response.json();
       }
@@ -259,9 +259,6 @@ export class GoogleOAuthProvider implements OAuthProvider {
    * Generate PKCE code challenge
    */
   private generateCodeChallenge(codeVerifier: string): string {
-    return crypto
-      .createHash('sha256')
-      .update(codeVerifier)
-      .digest('base64url');
+    return crypto.createHash('sha256').update(codeVerifier).digest('base64url');
   }
 }

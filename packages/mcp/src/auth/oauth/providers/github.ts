@@ -67,7 +67,12 @@ export class GitHubOAuthProvider implements OAuthProvider {
   /**
    * Exchange authorization code for tokens
    */
-  async exchangeCodeForTokens(code: string, codeVerifier: string): Promise<OAuthTokenResponse> {
+  async exchangeCodeForTokens(
+    code: string,
+    codeVerifier: string,
+    redirectUri?: string,
+  ): Promise<OAuthTokenResponse> {
+    const finalRedirectUri = redirectUri || this.config.redirectUri;
     const response = await fetch(`${this.baseUrl}/login/oauth/access_token`, {
       method: 'POST',
       headers: {
@@ -79,7 +84,7 @@ export class GitHubOAuthProvider implements OAuthProvider {
         client_id: this.config.clientId,
         client_secret: this.config.clientSecret,
         code,
-        redirect_uri: this.config.redirectUri,
+        redirect_uri: finalRedirectUri,
         code_verifier: codeVerifier,
         grant_type: 'authorization_code',
       }),
