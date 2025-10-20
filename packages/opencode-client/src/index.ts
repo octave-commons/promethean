@@ -21,9 +21,6 @@ enum StoreNames {
 // Re-export AgentTask from types to avoid conflicts
 export type { AgentTask } from './types/index.js';
 
-// Store instances - initialized lazily
-let _stores: Record<string, DualStoreManager<'text', 'timestamp'>> | null = null;
-
 const ensureStoresInitialized = (): Record<string, DualStoreManager<'text', 'timestamp'>> => {
   if (!_stores) {
     throw new Error('Stores not initialized. Call initializeStores() first.');
