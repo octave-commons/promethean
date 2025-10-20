@@ -244,12 +244,12 @@ export function registerSimpleOAuthRoutes(
   });
 
   // Alternative paths for dynamic client registration
-  fastify.post(`/.well-known/oauth-registration`, async (request, reply) => {
-    return reply.redirect(307, `/.well-known/oauth-registration/mcp`);
+  fastify.post(`/.well-known/oauth-registration`, async (_request, reply) => {
+    return reply.redirect(`/.well-known/oauth-registration/mcp`);
   });
 
-  fastify.get(`/.well-known/oauth-registration`, async (request, reply) => {
-    return reply.redirect(307, `/.well-known/oauth-registration/mcp`);
+  fastify.get(`/.well-known/oauth-registration`, async (_request, reply) => {
+    return reply.redirect(`/.well-known/oauth-registration/mcp`);
   });
 
   // List available providers
