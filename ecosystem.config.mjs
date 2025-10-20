@@ -48,9 +48,7 @@ export const apps =
       "opencode-client",
       "indexer",
       "start",
-      "--",
-      "intrevl",
-      2000,
+      "--foreground",
       "--verbose"
     ],
     "interpreter": "/usr/bin/env",
