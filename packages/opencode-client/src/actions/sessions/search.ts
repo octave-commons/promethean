@@ -1,6 +1,12 @@
 import { SessionUtils, agentTasks, sessionStore } from '../../index.js';
-import type { Session } from '../../api/sessions.js';
 import type { SessionInfo } from '../../SessionInfo.js';
+
+interface Session extends Record<string, unknown> {
+  id: string;
+  title?: string;
+  description?: string;
+  agent?: string;
+}
 
 export async function search({
   query,
