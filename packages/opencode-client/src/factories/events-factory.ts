@@ -95,7 +95,9 @@ export function createExtractSessionIdTool(): ToolFunction {
   return tool({
     description: 'Extract session ID from an event object',
     args: {
-      event: tool.schema.object({}).describe('Event object to extract session ID from'),
+      event: tool.schema
+        .record(tool.schema.string())
+        .describe('Event object to extract session ID from'),
       eventType: tool.schema.string().optional().describe('Type of the event'),
     },
     async execute({ event }) {
