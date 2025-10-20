@@ -1,46 +1,7 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
-import { sessionStore } from '../../index.js';
-
-interface CreateSessionResponse {
-  session?: {
-    id: string;
-    title: string;
-    createdAt: string;
-  };
-}
-
-async function createApiSession(_options: {
-  title: string;
-  files?: string[];
-  delegates?: string[];
-}): Promise<CreateSessionResponse> {
-  const sessionId = `session:${Date.now()}`;
-  const sessionData = {
-    id: sessionId,
-    title: _options.title,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    status: 'active',
-    type: 'regular',
-  };
-
-  // Store the session in the context store
-  await sessionStore.insert({
-    id: sessionId,
-    text: JSON.stringify(sessionData),
-    timestamp: new Date().toISOString(),
-    metadata: {
-      type: 'session',
-      status: 'active',
-      title: _options.title,
-    },
-  });
-
-  return {
-    session: sessionData,
-  };
-}
+import { create } from '../../actions/sessions/create.js';
+import { createOpencodeClient } from '@opencode-ai/sdk';
 
 export const createSessionCommand = new Command('create')
   .description('Create a new session')
@@ -75,17 +36,37 @@ export const createSessionCommand = new Command('create')
         }
       }
 
-      const result: CreateSessionResponse = await createApiSession({
-        title: sessionTitle,
-        files,
-        delegates,
+      // Create OpenCode client
+      const baseURL = process.env.OPENCODE_API_URL || 'http://localhost:3000';
+      const timeout = 30000;
+      const maxRetries = 3;
+      const logLevel = 'info';
+
+      const authHeader: Record<string, string> = {};
+      if (process.env.OPENCODE_API_KEY) {
+        authHeader['Authorization'] = `Bearer ${process.env.OPENCODE_API_KEY}`;
+      }
+
+      const client = await createOpencodeClient({
+        baseUrl: baseURL,
+        timeout,
+        maxRetries,
+        logLevel,
+        fetchOptions: { headers: authHeader },
       });
 
+      const result = await create({
+        title: sessionTitle,
+        client,
+      });
+
+      const sessionData = JSON.parse(result);
+
       console.log(chalk.green('✓ Session created successfully'));
-      console.log(`ID: ${result.session?.id}`);
-      console.log(`Title: ${result.session?.title}`);
+      console.log(`ID: ${sessionData.session?.id}`);
+      console.log(`Title: ${sessionData.session?.title}`);
       console.log(`Type: ${options.agent ? 'Agent' : 'Regular'} Session`);
-      console.log(`Created: ${result.session?.createdAt}`);
+      console.log(`Created: ${sessionData.session?.createdAt}`);
 
       if (files && files.length > 0) {
         console.log(`Files: ${files.join(', ')}`);

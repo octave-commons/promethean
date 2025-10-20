@@ -53,7 +53,7 @@
     "@promethean/persistence": "workspace:*",
     "@promethean/agent-state": "workspace:*"
   },
-  "license": "GPL-3.0",
+  "license": "GPL-3.0-only",
   "engines": {
     "node": ">=18.0.0"
   }
