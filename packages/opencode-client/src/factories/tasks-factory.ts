@@ -2,7 +2,6 @@
 // Factory functions for task tools
 
 import { tool } from '@opencode-ai/plugin/tool';
-import type { Tool } from '@opencode-ai/plugin/tool';
 import {
   loadPersistedTasks,
   verifySessionExists,
@@ -14,20 +13,8 @@ import {
   parseTimestamp,
 } from '../actions/tasks/index.js';
 
-// Type definitions for tool context
-interface TaskContext {
-  agentTaskStore: unknown;
-  agentTasks: unknown;
-}
-
-interface ToolContext {
-  client?: unknown;
-  agentTaskStore?: unknown;
-  agentTasks?: unknown;
-}
-
 // Factory for loadPersistedTasks tool
-export function createLoadPersistedTasksTool(): any {
+export function createLoadPersistedTasksTool(): ReturnType<typeof tool> {
   return tool({
     description: 'Load persisted agent tasks from storage',
     args: {
