@@ -29,7 +29,7 @@
   {:replace-deps {clj-hacks/clj-hacks {:local/root "packages/clj-hacks"}}
    :main-opts    ["-m" "clj-hacks.mcp.cli"]}
   :ecosystem
-  {:extra-paths ["packages/ecosystem-dsl/src"]
+  {:extra-paths ["packages/ecosystem-dsl/src" "scripts"]
    :extra-deps {org.clojure/tools.cli {:mvn/version "1.0.214"}
                 org.clojure/data.json {:mvn/version "2.4.0"}
                 org.clojure/tools.logging {:mvn/version "1.2.4"}
