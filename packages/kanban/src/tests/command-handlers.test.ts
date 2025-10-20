@@ -41,6 +41,7 @@ const setupTestEnvironment = async (t: any) => {
   const context = {
     boardFile: boardPath,
     tasksDir,
+    argv: [],
   };
 
   return { tempDir, boardPath, tasksDir, board, context };
