@@ -25,19 +25,31 @@ function parseSessionData(session: {
       return {
         id: sessionMatch[1],
         title: `Session ${sessionMatch[1]}`,
-        createdAt: session.timestamp || new Date().toISOString(),
+        createdAt:
+          typeof session.timestamp === 'string'
+            ? session.timestamp
+            : session.timestamp?.toISOString() || new Date().toISOString(),
         time: {
-          created: session.timestamp || new Date().toISOString(),
+          created:
+            typeof session.timestamp === 'string'
+              ? session.timestamp
+              : session.timestamp?.toISOString() || new Date().toISOString(),
         },
       };
     }
     // Fallback - create minimal session object
     return {
       id: session.id || 'unknown',
-      title: 'Legacy Session',
-      createdAt: session.timestamp || new Date().toISOString(),
+      title: 'Unknown Session',
+      createdAt:
+        typeof session.timestamp === 'string'
+          ? session.timestamp
+          : session.timestamp?.toISOString() || new Date().toISOString(),
       time: {
-        created: session.timestamp || new Date().toISOString(),
+        created:
+          typeof session.timestamp === 'string'
+            ? session.timestamp
+            : session.timestamp?.toISOString() || new Date().toISOString(),
       },
     };
   }
@@ -160,7 +172,9 @@ export async function cleanupDuplicateSessions(): Promise<{ cleaned: number; err
       sessions.sort((a, b) => {
         const timeA = a.time?.created || a.createdAt || '';
         const timeB = b.time?.created || b.createdAt || '';
-        return timeB.localeCompare(timeA);
+        const timeAStr = typeof timeA === 'string' ? timeA : String(timeA);
+        const timeBStr = typeof timeB === 'string' ? timeB : String(timeB);
+        return timeBStr.localeCompare(timeAStr);
       });
 
       // Keep the most recent, mark others for cleanup

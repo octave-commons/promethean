@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Ollama LLM job queue system for async background processing
 
-import { tool } from '@opencode-ai/plugin/tool';
+import { tool, type Tool } from '@opencode-ai/plugin/tool';
 import { randomUUID } from 'node:crypto';
 import {
   OLLAMA_URL,
@@ -38,7 +38,7 @@ function stopQueueProcessor(): void {
 }
 
 // Tools
-export const submitJob = tool({
+export const submitJob: Tool = tool({
   description: 'Submit a new LLM job to the queue',
   args: {
     jobName: tool.schema.string().optional().describe('Optional name for the job'),
@@ -191,7 +191,7 @@ export const submitJob = tool({
   },
 });
 
-export const getJobStatus = tool({
+export const getJobStatus: Tool = tool({
   description: 'Get status of a specific job',
   args: {
     jobId: tool.schema.string().describe('Job ID to check'),
@@ -218,7 +218,7 @@ export const getJobStatus = tool({
   },
 });
 
-export const getJobResult = tool({
+export const getJobResult: Tool = tool({
   description: 'Get result of a completed job',
   args: {
     jobId: tool.schema.string().describe('Job ID to get result from'),
@@ -245,7 +245,7 @@ export const getJobResult = tool({
   },
 });
 
-export const listJobs = tool({
+export const listJobs: Tool = tool({
   description: 'List jobs with optional filtering',
   args: {
     status: tool.schema
@@ -294,7 +294,7 @@ export const listJobs = tool({
   },
 });
 
-export const cancelJob = tool({
+export const cancelJob: Tool = tool({
   description: 'Cancel a pending job',
   args: {
     jobId: tool.schema.string().describe('Job ID to cancel'),
@@ -327,7 +327,7 @@ export const cancelJob = tool({
   },
 });
 
-export const listModels = tool({
+export const listModels: Tool = tool({
   description: 'List available Ollama models',
   args: {
     detailed: tool.schema.boolean().default(false).describe('Include detailed model information'),
@@ -391,7 +391,7 @@ export const getQueueInfo = tool({
   },
 });
 
-export const manageCache = tool({
+export const manageCache: Tool = tool({
   description: 'Manage prompt cache (clear, get stats, etc.)',
   args: {
     action: tool.schema
@@ -555,7 +555,7 @@ export const manageCache = tool({
   },
 });
 
-export const submitFeedback = tool({
+export const submitFeedback: Tool = tool({
   description: 'Submit feedback on a cached result to improve model routing',
   args: {
     prompt: tool.schema.string().describe('The original prompt that generated the result'),
