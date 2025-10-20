@@ -68,3 +68,58 @@ test('orchestrator executes behavior actions', async (t) => {
   await t.notThrowsAsync(() => orch.tickActor(makeActor(), { userMessage: 'hi' }));
   t.true(updates.some((u) => u.state === 'completed'));
 });
+
+test('orchestrator handles tool not found errors', async (t) => {
+  const deps = makeDeps();
+  deps.tools.invoke = async () => ({ ok: false, error: 'Tool not found' });
+  const orch = makeOrchestrator(deps as any);
+
+  await t.notThrowsAsync(() => orch.tickActor(makeActor(), { userMessage: 'hi' }));
+});
+
+test('orchestrator handles message bus errors', async (t) => {
+  const deps = makeDeps();
+  deps.bus.send = async () => {
+    throw new Error('Bus unavailable');
+  };
+  const orch = makeOrchestrator(deps as any);
+
+  await t.notThrowsAsync(() => orch.tickActor(makeActor(), { userMessage: 'hi' }));
+});
+
+test('orchestrator respects passive behavior mode', async (t) => {
+  const deps = makeDeps();
+  const updates: any[] = [];
+  deps.state.update = async (_id: string, patch: Partial<Actor>) => {
+    updates.push(patch);
+    return {} as Actor;
+  };
+  const orch = makeOrchestrator(deps as any);
+
+  const actorWithPassiveBehavior: Actor = {
+    ...makeActor(),
+    script: {
+      ...makeActor().script,
+      talents: [
+        {
+          name: 'passive-talent',
+          behaviors: [
+            {
+              name: 'passive-behavior',
+              mode: 'passive',
+              plan: async () => ({
+                actions: [{ type: 'message', content: 'passive response' }],
+              }),
+            },
+          ],
+        },
+      ],
+    },
+  };
+
+  // Passive behaviors should not execute with user input
+  await orch.tickActor(actorWithPassiveBehavior, { userMessage: 'hi' });
+
+  // Should not have completed since passive behavior doesn't run with user input
+  t.false(updates.some((u) => u.state === 'completed'));
+});
