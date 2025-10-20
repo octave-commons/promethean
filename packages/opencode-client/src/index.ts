@@ -65,10 +65,10 @@ export async function initializeStores(): Promise<
   );
 
   return {
-    [SESSION_STORE_NAME]: sessionCollection,
-    [AGENT_TASK_STORE_NAME]: agentTaskCollection,
-    [EVENT_STORE_NAME]: eventCollection,
-    [MESSAGE_STORE_NAME]: messageCollection,
+    [SESSION_STORE_NAME]: sessionCollection as DualStoreManager<'text', 'timestamp'>,
+    [AGENT_TASK_STORE_NAME]: agentTaskCollection as DualStoreManager<'text', 'timestamp'>,
+    [EVENT_STORE_NAME]: eventCollection as DualStoreManager<'text', 'timestamp'>,
+    [MESSAGE_STORE_NAME]: messageCollection as DualStoreManager<'text', 'timestamp'>,
   };
 }
 
@@ -100,7 +100,7 @@ export async function compileContext(
         readonly formatAssistantMessages?: boolean;
       } = [],
   ...legacyArgs: readonly [number?, number?, number?, boolean?]
-): Promise<import('ollama').Message[]> {
+): Promise<import('@promethean/persistence').Message[]> {
   return contextStore.compileContext(textsOrOptions, ...legacyArgs);
 }
 
