@@ -170,7 +170,7 @@ export function createFormatMessageTool(): ReturnType<typeof tool> {
 }
 
 // Factory for logCommunication tool
-export function createLogCommunicationTool(): any {
+export function createLogCommunicationTool(): ReturnType<typeof tool> {
   return tool({
     description: 'Log inter-agent communication to the session store',
     args: {
