@@ -28,16 +28,17 @@ export function createLoadPersistedTasksTool(): ReturnType<typeof tool> {
     async execute(args, context) {
       const { verifySessions } = args;
       const client = (context as Record<string, unknown>).client;
-      const agentTaskStore = (context as Record<string, unknown>).agentTaskStore;
-      const agentTasks = (context as Record<string, unknown>).agentTasks;
+      const agentTaskStore = (context as Record<string, unknown>)
+        .agentTaskStore as DualStoreManager<'text', 'timestamp'>;
+      const agentTasks = (context as Record<string, unknown>).agentTasks as Map<string, unknown>;
 
       if (!agentTaskStore || !agentTasks) {
         throw new Error('Required task context not available');
       }
 
-      const taskContext = {
+      const taskContext: TaskContext = {
         agentTaskStore,
-        agentTasks,
+        agentTasks: agentTasks as Map<string, import('../../AgentTask.js').AgentTask>,
       };
 
       const result = await loadPersistedTasks(taskContext, verifySessions ? client : undefined);
