@@ -62,6 +62,74 @@ export function registerSimpleOAuthRoutes(
     });
   });
 
+  // OAuth 2.0 Authorization Server Metadata (RFC 8414)
+  fastify.get(`/.well-known/oauth-authorization-server/mcp`, async (_request, reply) => {
+    const baseUrl = getBaseUrl(_request as any);
+    return reply.send({
+      issuer: `${baseUrl}/mcp`,
+      authorization_endpoint: `${baseUrl}${basePath}/login`,
+      token_endpoint: `${baseUrl}${basePath}/callback`,
+      response_types_supported: ['code'],
+      grant_types_supported: ['authorization_code'],
+      scopes_supported: ['user:email', 'openid', 'email', 'profile'],
+      token_endpoint_auth_methods_supported: ['client_secret_post'],
+      code_challenge_methods_supported: ['S256'],
+      authorization_response_iss_parameter_supported: false,
+      service_documentation: `${baseUrl}/auth/oauth/docs`,
+    });
+  });
+
+  // OpenID Connect Discovery (for compatibility)
+  fastify.get(`/.well-known/openid-configuration/mcp`, async (_request, reply) => {
+    const baseUrl = getBaseUrl(_request as any);
+    return reply.send({
+      issuer: `${baseUrl}/mcp`,
+      authorization_endpoint: `${baseUrl}${basePath}/login`,
+      token_endpoint: `${baseUrl}${basePath}/callback`,
+      userinfo_endpoint: `${baseUrl}${basePath}/userinfo`,
+      jwks_uri: `${baseUrl}${basePath}/jwks`,
+      response_types_supported: ['code'],
+      grant_types_supported: ['authorization_code'],
+      subject_types_supported: ['public'],
+      id_token_signing_alg_values_supported: ['HS256'],
+      scopes_supported: ['openid', 'email', 'profile', 'user:email'],
+      token_endpoint_auth_methods_supported: ['client_secret_post'],
+      code_challenge_methods_supported: ['S256'],
+    });
+  });
+
+  // OAuth Protected Resource metadata
+  fastify.get(`/.well-known/oauth-protected-resource/mcp`, async (_request, reply) => {
+    return reply.send({
+      resource: `${getBaseUrl(_request as any)}/mcp`,
+      authorization_servers: [`${getBaseUrl(_request as any)}/mcp`],
+      scopes_supported: ['read', 'write', 'admin'],
+      bearer_methods_supported: ['header'],
+      resource_documentation: `${getBaseUrl(_request as any)}/auth/oauth/docs`,
+    });
+  });
+
+  // Alternative paths for compatibility
+  fastify.get(`/mcp/.well-known/openid-configuration`, async (request, reply) => {
+    // Redirect to the standard location
+    return reply.redirect(302, `/.well-known/openid-configuration/mcp`);
+  });
+
+  fastify.get(`/.well-known/oauth-authorization-server`, async (request, reply) => {
+    // Redirect to the MCP-specific one
+    return reply.redirect(302, `/.well-known/oauth-authorization-server/mcp`);
+  });
+
+  fastify.get(`/.well-known/openid-configuration`, async (request, reply) => {
+    // Redirect to the MCP-specific one
+    return reply.redirect(302, `/.well-known/openid-configuration/mcp`);
+  });
+
+  fastify.get(`/.well-known/oauth-protected-resource`, async (request, reply) => {
+    // Redirect to the MCP-specific one
+    return reply.redirect(302, `/.well-known/oauth-protected-resource/mcp`);
+  });
+
   // List available providers
   fastify.get(`${basePath}/providers`, async (_request, reply) => {
     try {
