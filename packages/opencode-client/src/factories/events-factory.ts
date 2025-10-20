@@ -52,7 +52,7 @@ export function createHandleSessionIdleTool(stores, client): ToolFunction {
 }
 
 // Factory for handleSessionUpdated tool
-export function createHandleSessionUpdatedTool(stores, clien1): ToolFunction {
+export function createHandleSessionUpdatedTool(stores, client): ToolFunction {
   return tool({
     description: 'Handle session updated event',
     args: {
