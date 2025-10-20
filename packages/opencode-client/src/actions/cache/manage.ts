@@ -33,7 +33,7 @@ const getCacheStats = (): Readonly<CacheStats> => {
   };
 };
 
-const clearAllCache = (): CacheClearResult => {
+const clearAllCache = (): Readonly<CacheClearResult> => {
   const totalCleared = Array.from(modelCaches.values()).reduce((sum, cache) => sum + cache.size, 0);
   modelCaches.clear();
   console.log(`Prompt cache cleared for all models (${totalCleared} entries)`);
@@ -44,7 +44,7 @@ const clearAllCache = (): CacheClearResult => {
   };
 };
 
-const clearExpiredCache = (): CacheExpiredResult => {
+const clearExpiredCache = (): Readonly<CacheExpiredResult> => {
   const currentSize = Array.from(modelCaches.values()).reduce((sum, cache) => sum + cache.size, 0);
   return {
     message:
@@ -53,7 +53,7 @@ const clearExpiredCache = (): CacheExpiredResult => {
   };
 };
 
-const analyzePerformance = (): CacheAnalysis => {
+const analyzePerformance = (): Readonly<CacheAnalysis> => {
   const analysis: CacheAnalysis = {
     totalEntries: 0,
     models: {},
