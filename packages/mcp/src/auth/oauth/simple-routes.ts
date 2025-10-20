@@ -282,7 +282,7 @@ export function registerSimpleOAuthRoutes(
     }
   });
 
-  // Initiate OAuth login
+  // Initiate OAuth login (POST - for API usage)
   fastify.post(`${basePath}/login`, async (request, reply) => {
     try {
       // Parse JSON body manually since Fastify is configured to not auto-parse
@@ -323,6 +323,93 @@ export function registerSimpleOAuthRoutes(
     }
   });
 
+  // Initiate OAuth login (GET - for standard OAuth authorization flow)
+  fastify.get(`${basePath}/login`, async (request, reply) => {
+    try {
+      const query = request.query as any;
+      const {
+        response_type,
+        client_id,
+        redirect_uri,
+        state,
+        scope,
+        code_challenge,
+        code_challenge_method,
+      } = query;
+
+      // Validate required OAuth parameters
+      if (!response_type || response_type !== 'code') {
+        return reply.status(400).send({
+          error: 'invalid_request',
+          error_description: 'response_type must be "code"',
+        });
+      }
+
+      if (!client_id) {
+        return reply.status(400).send({
+          error: 'invalid_request',
+          error_description: 'client_id is required',
+        });
+      }
+
+      if (!redirect_uri) {
+        return reply.status(400).send({
+          error: 'invalid_request',
+          error_description: 'redirect_uri is required',
+        });
+      }
+
+      if (!state) {
+        return reply.status(400).send({
+          error: 'invalid_request',
+          error_description: 'state is required',
+        });
+      }
+
+      if (!code_challenge || !code_challenge_method || code_challenge_method !== 'S256') {
+        return reply.status(400).send({
+          error: 'invalid_request',
+          error_description: 'PKCE code_challenge and code_challenge_method=S256 are required',
+        });
+      }
+
+      // Default to GitHub provider for standard OAuth flow
+      // In a real implementation, you might determine this from client_id or other parameters
+      const provider = 'github';
+
+      if (!config.oauthSystem.isProviderAvailable(provider)) {
+        return reply.status(400).send({
+          error: 'invalid_request',
+          error_description: `Provider '${provider}' is not supported`,
+        });
+      }
+
+      // Start OAuth flow with the OAuthSystem using the provided redirect_uri
+      const { authUrl: providerAuthUrl, state: oauthState } = config.oauthSystem.startOAuthFlow(
+        provider,
+        `${getBaseUrl(request)}/auth/oauth/callback`,
+      );
+
+      // Store the original state and redirect_uri for validation in callback
+      const tempStore = (global as any).__oauth_temp_store || {};
+      tempStore[oauthState] = {
+        originalState: state,
+        clientRedirectUri: redirect_uri,
+        clientId: client_id,
+        scope: scope || 'user:email',
+      };
+      (global as any).__oauth_temp_store = tempStore;
+
+      // Redirect to provider's authorization endpoint
+      return reply.status(302).header('Location', providerAuthUrl).send();
+    } catch (error) {
+      return reply.status(500).send({
+        error: 'OAuth login failed',
+        error_description: String(error),
+      });
+    }
+  });
+
   // OAuth callback
   fastify.get(`${basePath}/callback`, async (request, reply) => {
     try {
@@ -354,7 +441,7 @@ export function registerSimpleOAuthRoutes(
         });
       }
 
-      const { redirectTo } = storedData;
+      const { redirectTo, originalState, clientRedirectUri } = storedData;
 
       // Clean up stored data
       delete tempStore[state];
@@ -421,9 +508,20 @@ export function registerSimpleOAuthRoutes(
         `user_id=${user.id}; ${cookieOptions}`,
       ]);
 
-      // Redirect to original destination or default
-      const redirectUrl = redirectTo || '/ui';
-      return reply.status(302).header('Location', redirectUrl).send();
+      // Handle different redirect scenarios
+      if (clientRedirectUri && originalState) {
+        // Standard OAuth flow - redirect back to client with authorization code
+        const callbackParams = new URLSearchParams({
+          code: code,
+          state: originalState,
+        });
+        const clientRedirectUrl = `${clientRedirectUri}?${callbackParams.toString()}`;
+        return reply.status(302).header('Location', clientRedirectUrl).send();
+      } else {
+        // API flow - redirect to local UI or specified destination
+        const redirectUrl = redirectTo || '/ui';
+        return reply.status(302).header('Location', redirectUrl).send();
+      }
     } catch (error) {
       return reply.status(500).send({
         error: 'OAuth callback failed',
