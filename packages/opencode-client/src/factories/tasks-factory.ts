@@ -163,10 +163,6 @@ export function createMonitorTasksTool(stores: Stores): ReturnType<typeof tool> 
     async execute(args, context: Context) {
       const { timeoutMinutes } = args;
 
-      const taskContext = {
-        agentTaskStore: store.agentTaskStore,
-      };
-
       // wrong
       monitorTasks(taskContext);
 
