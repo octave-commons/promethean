@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@promethean/agent-context": "workspace:*",
+    "@promethean/agent-state": "workspace:*",
     "amqplib": "^0.10.3",
     "ws": "^8.14.2",
     "uuid": "^9.0.1",

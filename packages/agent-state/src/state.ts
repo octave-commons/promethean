@@ -100,12 +100,14 @@ export const makeActorStatePort = (deps: AgentStateDeps): ActorStatePort => {
         goals: [goal],
       };
 
-      // Store actor in agent context for persistence
+      // Store actor in agent context state for persistence
       await manager.updateContext(actor.id, {
-        actorId: actor.id,
-        script: actor.script,
-        goals: actor.goals,
-        type: 'actor',
+        state: {
+          actorId: actor.id,
+          script: actor.script,
+          goals: actor.goals,
+          type: 'actor',
+        },
       });
 
       return actor;
@@ -114,18 +116,18 @@ export const makeActorStatePort = (deps: AgentStateDeps): ActorStatePort => {
     list: async (): Promise<Actor[]> => {
       // This would need to be implemented based on the actual storage structure
       // For now, return empty array as placeholder
-      console.warn('ActorStatePort.list() not fully implemented');
+      console.warn('ActorStatePort.list() not fully implemented - needs indexing');
       return [];
     },
 
     get: async (id: string): Promise<Actor | null> => {
       try {
         const context = await manager.getContext(id);
-        if (context.type === 'actor' && context.script && context.goals) {
+        if (context.state?.type === 'actor' && context.state?.script && context.state?.goals) {
           return {
             id: context.agentId,
-            script: context.script as ActorScript,
-            goals: context.goals as string[],
+            script: context.state.script as ActorScript,
+            goals: context.state.goals as string[],
           };
         }
         return null;
@@ -136,16 +138,20 @@ export const makeActorStatePort = (deps: AgentStateDeps): ActorStatePort => {
 
     update: async (id: string, updates: Partial<Actor>): Promise<Actor> => {
       const current = await manager.getContext(id);
-      const updated = await manager.updateContext(id, {
-        ...current,
+      const updatedState = {
+        ...current.state,
         ...updates,
-        type: 'actor',
+        type: 'actor' as const,
+      };
+
+      const updated = await manager.updateContext(id, {
+        state: updatedState,
       });
 
       return {
         id: updated.agentId,
-        script: updated.script as ActorScript,
-        goals: updated.goals as string[],
+        script: updated.state!.script as ActorScript,
+        goals: updated.state!.goals as string[],
       };
     },
   };

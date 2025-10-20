@@ -11,7 +11,8 @@
 export { makeAgentStateManager, type AgentStateDeps, type AgentStateManager } from './state';
 
 // Re-export as ActorStatePort for Pantheon compatibility
-export type { ActorStatePort } from './state';
+export type { ActorStatePort, Actor, ActorScript } from './state';
+export { makeActorStatePort } from './state';
 
 // Legacy exports for backward compatibility
 export * from './types';

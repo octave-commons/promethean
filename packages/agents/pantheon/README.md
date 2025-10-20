@@ -156,7 +156,7 @@ If you're migrating from the separate agent packages:
 
 ```typescript
 // Before
-import { ContextManager } from '@promethean/agent-context';
+import { ContextManager } from '@promethean/agent-state';
 import { AgentOrchestrator } from '@promethean/agent-orchestrator';
 import { AMQPTransport } from '@promethean/agent-protocol';
 
