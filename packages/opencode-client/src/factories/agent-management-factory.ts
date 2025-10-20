@@ -14,7 +14,13 @@ import {
   unifiedAgentManager,
 } from '../api/UnifiedAgentManager.js';
 
-// Type definitions for tool arguments
+// Type definitions for tool context and arguments
+interface ToolContext {
+  agent: string;
+  sessionID: string;
+  messageID: string;
+}
+
 interface CreateAgentSessionArgs {
   task: string;
   initialMessage?: string;
@@ -26,6 +32,10 @@ interface CreateAgentSessionArgs {
 
 interface SessionIdArgs {
   sessionId: string;
+}
+
+interface StopSessionArgs extends SessionIdArgs {
+  completionMessage?: string;
 }
 
 interface SendMessageArgs extends SessionIdArgs {
