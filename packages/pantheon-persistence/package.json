@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@promethean/persistence": "workspace:*",
-    "@promethean/pantheon": "workspace:*"
+    "@promethean/pantheon-core": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

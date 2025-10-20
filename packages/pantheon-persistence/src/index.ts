@@ -3,13 +3,13 @@
  * Wraps @promethean/persistence to provide ContextPort implementation
  */
 
-import type { ContextSource } from '@promethean/pantheon';
-import type { ContextPort, ContextPortDeps } from '@promethean/pantheon/core/context.js';
-import { makeContextPort } from '@promethean/pantheon/core/context.js';
+import type { ContextSource } from '@promethean/pantheon-core';
+import type { ContextPort, ContextPortDeps } from '@promethean/pantheon-core';
+import { makeContextPort } from '@promethean/pantheon-core';
 import type { DualStoreManager } from '@promethean/persistence';
 
 export type PersistenceAdapterDeps = {
-  getStoreManager: () => DualStoreManager;
+  getStoreManagers: () => Promise<DualStoreManager[]>;
   resolveRole?: (meta?: any) => 'system' | 'user' | 'assistant';
   resolveName?: (meta?: any) => string;
   formatTime?: (ms: number) => string;
@@ -18,23 +18,14 @@ export type PersistenceAdapterDeps = {
 export const makePantheonPersistenceAdapter = (deps: PersistenceAdapterDeps): ContextPort => {
   const contextDeps: ContextPortDeps = {
     getCollectionsFor: async (sources: readonly ContextSource[]) => {
-      const manager = deps.getStoreManager();
+      const managers = await deps.getStoreManagers();
 
-      // Map context sources to actual collections
-      const collections = await Promise.all(
-        sources.map(async (source) => {
-          try {
-            // Use the source ID to get the appropriate collection
-            return manager.getCollection(source.id);
-          } catch (error) {
-            console.warn(`Failed to get collection for source ${source.id}:`, error);
-            return null;
-          }
-        }),
+      // Map context sources to actual store managers
+      const validManagers = managers.filter((manager) =>
+        sources.some((source) => source.id === manager.name),
       );
 
-      // Filter out null collections and return valid ones
-      return collections.filter(Boolean) as any[];
+      return validManagers as any[];
     },
     resolveRole:
       deps.resolveRole ||
@@ -55,7 +46,7 @@ export const makePantheonPersistenceAdapter = (deps: PersistenceAdapterDeps): Co
       deps.formatTime ||
       ((ms: number) => {
         // Default time formatting
-        return new Date(ms).toLocaleISOString();
+        return new Date(ms).toISOString();
       }),
   };
 

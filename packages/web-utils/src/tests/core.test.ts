@@ -9,7 +9,7 @@ test('health route returns healthy status', async (t) => {
   await app.ready();
   const res = await app.inject('/health');
   t.is(res.statusCode, 200);
-  const body = res.json() as { status: string; service: string };
+  const body = res.json();
   t.is(body.status, 'healthy');
   t.is(body.service, 'test-service');
 });
@@ -20,7 +20,7 @@ test('diagnostics route exposes runtime info', async (t) => {
   await app.ready();
   const res = await app.inject('/diagnostics');
   t.is(res.statusCode, 200);
-  const body = res.json() as { service: string; uptime: number; memory: NodeJS.MemoryUsage };
+  const body = res.json();
   t.is(body.service, 'test-service');
   t.truthy(body.uptime);
   t.truthy(body.memory);

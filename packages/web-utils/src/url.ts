@@ -1,5 +1,5 @@
-import { createHash } from "crypto";
-import { domainToASCII } from "url";
+import { createHash } from 'crypto';
+import { domainToASCII } from 'url';
 
 /**
  * Normalize a URL into a canonical form.
@@ -12,53 +12,53 @@ import { domainToASCII } from "url";
  */
 export function canonicalUrl(input: string): string {
   const url = new URL(input);
-  url.hash = "";
+  const result = new URL(url.toString());
+
+  result.hash = '';
 
   if (
-    (url.protocol === "http:" && url.port === "80") ||
-    (url.protocol === "https:" && url.port === "443")
+    (result.protocol === 'http:' && result.port === '80') ||
+    (result.protocol === 'https:' && result.port === '443')
   ) {
-    url.port = "";
+    result.port = '';
   }
 
-  const params = new URLSearchParams(url.search);
+  const params = new URLSearchParams(result.search);
   const sorted = new URLSearchParams(
     Array.from(params.entries())
       .filter(([k]) => !/^(utm_|fbclid|gclid|ref|referrer)/i.test(k))
-      .sort(([aK, aV], [bK, bV]) =>
-        aK === bK ? aV.localeCompare(bV) : aK.localeCompare(bK),
-      ),
+      .sort(([aK, aV], [bK, bV]) => (aK === bK ? aV.localeCompare(bV) : aK.localeCompare(bK))),
   );
-  url.search = sorted.toString() ? `?${sorted.toString()}` : "";
+  result.search = sorted.toString() ? `?${sorted.toString()}` : '';
 
-  url.pathname = url.pathname.replace(/\/+/g, "/");
-  if (url.pathname !== "/" && url.pathname.endsWith("/")) {
-    url.pathname = url.pathname.slice(0, -1);
+  result.pathname = result.pathname.replace(/\/+/g, '/');
+  if (result.pathname !== '/' && result.pathname.endsWith('/')) {
+    result.pathname = result.pathname.slice(0, -1);
   }
 
-  url.protocol = url.protocol.toLowerCase();
-  url.hostname = domainToASCII(url.hostname).toLowerCase();
-  return url.toString();
+  result.protocol = result.protocol.toLowerCase();
+  result.hostname = domainToASCII(result.hostname).toLowerCase();
+  return result.toString();
 }
 
 /**
  * Compute SHA-1 hash of the canonical URL.
  */
 export function urlHash(input: string): string {
-  return createHash("sha1").update(canonicalUrl(input)).digest("hex");
+  return createHash('sha1').update(canonicalUrl(input)).digest('hex');
 }
 
 export function isUrlAllowed(
   input: string,
-  deny: RegExp[] = DEFAULT_DENY_PATTERNS,
+  deny: readonly RegExp[] = DEFAULT_DENY_PATTERNS,
 ): boolean {
   return !deny.some((re) => re.test(input));
 }
 
-export const DEFAULT_DENY_PATTERNS: RegExp[] = [
+export const DEFAULT_DENY_PATTERNS: readonly RegExp[] = [
   /^mailto:/i,
   /^javascript:/i,
   /^data:/i,
   /^file:/i,
   /^tel:/i,
-];
+] as const;
