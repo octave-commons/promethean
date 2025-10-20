@@ -7,8 +7,8 @@ export async function close({ sessionId }: { sessionId: string }) {
       sessionId,
       message: 'Session closed successfully',
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error closing session:', error);
-    return `Failed to close session: ${error.message}`;
+    return `Failed to close session: ${error instanceof Error ? error.message : String(error)}`;
   }
 }

@@ -20,7 +20,7 @@ export function extractSessionId(event: {
   return extractor ? extractor() || null : null;
 }
 
-export async function getSessionMessages(client: any, sessionId: string) {
+export async function getSessionMessages(client: OpencodeClient, sessionId: string) {
   try {
     const { data: messages } = await client.session.messages({
       path: { id: sessionId },
@@ -33,7 +33,7 @@ export async function getSessionMessages(client: any, sessionId: string) {
 }
 
 export function determineActivityStatus(
-  _session: any,
+  _session: Session,
   messageCount: number,
   agentTask?: AgentTask,
 ): string {
@@ -51,7 +51,7 @@ export function determineActivityStatus(
 }
 
 export function createSessionInfo(
-  session: any,
+  session: Session,
   messageCount: number,
   agentTask?: AgentTask,
 ): SessionInfo {
