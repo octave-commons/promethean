@@ -335,7 +335,6 @@ export class EventWatcherService {
   /**
    * Perform retrospective indexing of existing data
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private async performRetrospectiveIndexing(): Promise<void> {
     this.log('📚 Starting retrospective indexing...');
 

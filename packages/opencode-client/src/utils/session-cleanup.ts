@@ -49,7 +49,7 @@ async function getSessionStore() {
 interface SessionInfo {
   id: string;
   title?: string;
-  createdAt?: string;
+  createdAt?: string | number;
   time?: {
     created?: string;
     updated?: string;
@@ -66,8 +66,14 @@ export function deduplicateSessions(sessions: SessionInfo[]): SessionInfo[] {
     if (!session || !session.id) continue;
 
     const existing = sessionMap.get(session.id);
-    const sessionTime = session.time?.created || session.createdAt;
-    const existingTime = existing?.time?.created || existing?.createdAt;
+    const sessionTime =
+      session.time?.created ||
+      (typeof session.createdAt === 'string' ? session.createdAt : session.createdAt?.toString());
+    const existingTime =
+      existing?.time?.created ||
+      (typeof existing?.createdAt === 'string'
+        ? existing.createdAt
+        : existing?.createdAt?.toString());
 
     // Keep the session with the most recent timestamp
     if (!existing || !existingTime || (sessionTime && existingTime && sessionTime > existingTime)) {

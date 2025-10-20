@@ -3,7 +3,6 @@
 
 import { tool } from '@opencode-ai/plugin/tool';
 import { listSessions, create, close, get, search } from '../actions/index.js';
-import type { SessionClient } from '../types/index.js';
 
 interface ListSessionsArgs {
   limit?: number;
