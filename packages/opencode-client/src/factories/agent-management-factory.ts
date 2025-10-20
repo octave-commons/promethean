@@ -196,7 +196,10 @@ export function createSendAgentMessageTool(): ReturnType<typeof tool> {
   });
 }
 
-export function createCloseAgentSessionTool(): ReturnType<typeof tool> {
+export function createCloseAgentSessionTool(
+  stores: DualStoreManager<'', ''>,
+  client: OpencodeClient,
+): ReturnType<typeof tool> {
   return tool({
     description: 'Close and cleanup an agent session',
     args: {
