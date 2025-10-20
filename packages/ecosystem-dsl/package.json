@@ -1,0 +1,52 @@
+{
+  "name": "@promethean/ecosystem-dsl",
+  "version": "1.0.0",
+  "description": "Clojure DSL for generating enhanced PM2 ecosystem configurations from simple EDN files",
+  "main": "src/ecosystem_dsl/core.clj",
+  "type": "module",
+  "scripts": {
+    "build": "clojure -M:build -m cljs.main --compile-opts '{:main ecosystem-dsl.core}' --target node",
+    "test": "clojure -M:test",
+    "lint": "clj-kondo --lint src",
+    "typecheck": "clojure -M:check",
+    "clean": "rm -rf target classes",
+    "generate": "clojure -M -m ecosystem-dsl.core",
+    "generate:watch": "clojure -M -m ecosystem-dsl.core --watch",
+    "validate": "clojure -M -m ecosystem-dsl.core --validate-only"
+  },
+  "keywords": [
+    "clojure",
+    "dsl",
+    "pm2",
+    "ecosystem",
+    "configuration",
+    "enhancement",
+    "monitoring"
+  ],
+  "author": "Promethean Team",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.0.0"
+  },
+  "devDependencies": {
+    "clj-kondo": "^2023.10.0"
+  },
+  "peerDependencies": {
+    "pm2": "^5.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/promethean/promethean.git",
+    "directory": "packages/ecosystem-dsl"
+  },
+  "bugs": {
+    "url": "https://github.com/promethean/promethean/issues"
+  },
+  "homepage": "https://github.com/promethean/promethean/tree/main/packages/ecosystem-dsl",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "restricted"
+  }
+}

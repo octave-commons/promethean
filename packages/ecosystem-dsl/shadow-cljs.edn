@@ -1,0 +1,27 @@
+{:source-paths ["src"]
+ :dependencies [[org.clojure/clojure "1.11.1"]
+                [org.clojure/clojurescript "1.11.60"]
+                [org.clojure/tools.logging "1.2.4"]
+                [org.slf4j/slf4j-nop "2.0.16"]
+                [cheshire "5.11.0"]
+                [me.raynes/fs "1.4.6"]
+                [com.taoensso/timbre "6.3.0"]]
+
+ :builds
+ {:node {:target :node-library
+         :output-to "target/node/ecosystem-dsl.js"
+         :output-dir "target/node"
+         :main ecosystem-dsl.core/init
+         :exports {:generate ecosystem-dsl.core/generate-ecosystem!
+                   :validate ecosystem-dsl.core/validate-edn-structure
+                   :watch ecosystem-dsl.core/start-file-watcher}
+         :compiler-options {:optimizations :simple
+                            :target :nodejs
+                            :nodejs-rt true}}
+
+  :script {:target :node-script
+           :output-to "target/scripts/generate-ecosystem.js"
+           :main ecosystem-dsl.script/main
+           :compiler-options {:optimizations :simple
+                              :target :nodejs
+                              :nodejs-rt true}}}}
