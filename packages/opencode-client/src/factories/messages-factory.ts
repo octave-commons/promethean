@@ -11,7 +11,7 @@ import {
 } from '../actions/messages/index.js';
 
 // Factory for detectTaskCompletion tool
-export function createDetectTaskCompletionMessagesTool(): ReturnType<typeof tool> {
+export function createDetectTaskCompletionMessagesTool(stores, client): ReturnType<typeof tool> {
   return tool({
     description: 'Detect if a task has been completed based on messages (messages version)',
     args: {
@@ -32,7 +32,7 @@ export function createDetectTaskCompletionMessagesTool(): ReturnType<typeof tool
 }
 
 // Factory for getSessionMessages tool
-export function createGetSessionMessagesMessagesTool(): ReturnType<typeof tool> {
+export function createGetSessionMessagesMessagesTool(stores, client): ReturnType<typeof tool> {
   return tool({
     description: 'Get all messages for a specific session (messages version)',
     args: {
@@ -40,11 +40,6 @@ export function createGetSessionMessagesMessagesTool(): ReturnType<typeof tool> 
     },
     async execute(args, context) {
       const { sessionId } = args;
-      const client = (context as any).client;
-
-      if (!client) {
-        throw new Error('Client not available in context');
-      }
 
       const messages = await getSessionMessages(client, sessionId);
 
@@ -60,7 +55,5 @@ export function createGetSessionMessagesMessagesTool(): ReturnType<typeof tool> 
 // Export all factory functions
 export const messagesToolFactories = {
   createDetectTaskCompletionMessagesTool,
-  createProcessMessageTool,
-  createProcessSessionMessagesMessagesTool,
   createGetSessionMessagesMessagesTool,
 };
