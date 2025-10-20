@@ -220,6 +220,43 @@ importers:
         specifier: 4.4.1
         version: 4.4.1
 
+  packages/agent-state:
+    dependencies:
+      '@promethean/level-cache':
+        specifier: workspace:*
+        version: link:../level-cache
+      bcryptjs:
+        specifier: ^2.4.3
+        version: 2.4.3
+      jsonwebtoken:
+        specifier: ^9.0.2
+        version: 9.0.2
+      uuid:
+        specifier: ^9.0.1
+        version: 9.0.1
+      zod:
+        specifier: ^3.22.4
+        version: 3.25.76
+    devDependencies:
+      '@types/bcryptjs':
+        specifier: ^2.4.6
+        version: 2.4.6
+      '@types/jsonwebtoken':
+        specifier: ^9.0.5
+        version: 9.0.10
+      '@types/uuid':
+        specifier: ^9.0.7
+        version: 9.0.8
+      ava:
+        specifier: ^5.3.1
+        version: 5.3.1(@ava/typescript@4.1.0)
+      ts-node:
+        specifier: ^10.9.2
+        version: 10.9.2(@types/node@24.3.1)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.9.3
+
   packages/agents/agent:
     dependencies:
       '@promethean/agent-protocol':
@@ -319,43 +356,6 @@ importers:
       ts-node:
         specifier: 10.9.2
         version: 10.9.2(@types/node@24.3.1)(typescript@5.9.3)
-
-  packages/agents/agent-context:
-    dependencies:
-      '@promethean/level-cache':
-        specifier: workspace:*
-        version: link:../../level-cache
-      bcryptjs:
-        specifier: ^2.4.3
-        version: 2.4.3
-      jsonwebtoken:
-        specifier: ^9.0.2
-        version: 9.0.2
-      uuid:
-        specifier: ^9.0.1
-        version: 9.0.1
-      zod:
-        specifier: ^3.22.4
-        version: 3.25.76
-    devDependencies:
-      '@types/bcryptjs':
-        specifier: ^2.4.6
-        version: 2.4.6
-      '@types/jsonwebtoken':
-        specifier: ^9.0.5
-        version: 9.0.10
-      '@types/uuid':
-        specifier: ^9.0.7
-        version: 9.0.8
-      ava:
-        specifier: ^5.3.1
-        version: 5.3.1(@ava/typescript@4.1.0)
-      ts-node:
-        specifier: ^10.9.2
-        version: 10.9.2(@types/node@24.3.1)(typescript@5.9.3)
-      typescript:
-        specifier: ^5.3.3
-        version: 5.9.3
 
   packages/agents/agent-ecs:
     dependencies:
@@ -570,9 +570,9 @@ importers:
 
   packages/agents/agent-protocol:
     dependencies:
-      '@promethean/agent-context':
+      '@promethean/agent-state':
         specifier: workspace:*
-        version: link:../agent-context
+        version: link:../../agent-state
       amqplib:
         specifier: ^0.10.3
         version: 0.10.9
@@ -1028,9 +1028,9 @@ importers:
       '@nlpjs/basic':
         specifier: ^4.27.0
         version: 4.27.0
-      '@promethean/agent-context':
+      '@promethean/agent-state':
         specifier: workspace:*
-        version: link:../../agents/agent-context
+        version: link:../../agent-state
       fuse.js:
         specifier: ^7.0.0
         version: 7.1.0
@@ -3408,12 +3408,12 @@ importers:
       '@modelcontextprotocol/sdk':
         specifier: ^1.0.0
         version: 1.17.5
-      '@promethean/agent-context':
-        specifier: workspace:*
-        version: link:../agents/agent-context
       '@promethean/agent-protocol':
         specifier: workspace:*
         version: link:../agents/agent-protocol
+      '@promethean/agent-state':
+        specifier: workspace:*
+        version: link:../agent-state
       '@promethean/kanban':
         specifier: workspace:*
         version: link:../kanban/dist
@@ -3745,9 +3745,9 @@ importers:
 
   packages/pantheon-core:
     dependencies:
-      '@promethean/agent-context':
+      '@promethean/agent-state':
         specifier: workspace:*
-        version: link:../agents/agent-context
+        version: link:../agent-state
       '@promethean/persistence':
         specifier: workspace:*
         version: link:../persistence
