@@ -50,6 +50,57 @@ export function createHandleSessionIdleTool(
   });
 }
 
+// Factory for handleMessageUpdated tool
+export function createHandleMessageUpdatedTool(
+  stores: DualStoreManager<'text', 'timestamp'>,
+  client: OpencodeClient,
+): ToolFunction {
+  return tool({
+    description: 'Handle message updated event',
+    args: {
+      sessionId: tool.schema.string().describe('Session ID where message was updated'),
+    },
+    async execute(args, context) {
+      const { sessionId } = args;
+
+      const taskContext: TaskContext = {
+        agentTaskStore: stores,
+      };
+
+      const eventContext: EventContext = { client, taskContext };
+      await handleMessageUpdated(eventContext, sessionId);
+
+      return JSON.stringify({
+        success: true,
+        sessionId,
+        event: 'message_updated_handled',
+      });
+    },
+  });
+}
+
+// Factory for extractSessionId tool
+export function createExtractSessionIdTool(
+  stores: DualStoreManager<'text', 'timestamp'>,
+  client: OpencodeClient,
+): ToolFunction {
+  return tool({
+    description: 'Extract session ID from an event object',
+    args: {
+      event: tool.schema.unknown().describe('Event object to extract session ID from'),
+      eventType: tool.schema.string().optional().describe('Type of the event'),
+    },
+    async execute({ event }) {
+      const sessionId = extractSessionId(event);
+
+      return JSON.stringify({
+        sessionId,
+        extracted: !!sessionId,
+      });
+    },
+  });
+}
+
 // Factory for getSessionMessages tool
 export function createGetSessionMessagesTool(
   stores: DualStoreManager<'text', 'timestamp'>,
@@ -69,6 +120,30 @@ export function createGetSessionMessagesTool(
         sessionId,
         messageCount: (messages as EventMessage[]).length,
         messages,
+      });
+    },
+  });
+}
+
+// Factory for detectTaskCompletion tool
+export function createDetectTaskCompletionTool(
+  stores: DualStoreManager<'text', 'timestamp'>,
+  client: OpencodeClient,
+): ToolFunction {
+  return tool({
+    description: 'Detect if a task has been completed based on messages',
+    args: {
+      messages: tool.schema
+        .array(tool.schema.unknown()) // what the hell, how the hell is the agent going to know what to put here?
+        .describe('Messages to analyze for completion'),
+    },
+    async execute({ messages }) {
+      const completion = detectTaskCompletion(messages as EventMessage[]);
+
+      return JSON.stringify({
+        completed: completion.completed,
+        completionMessage: completion.completionMessage,
+        messageCount: messages.length,
       });
     },
   });
