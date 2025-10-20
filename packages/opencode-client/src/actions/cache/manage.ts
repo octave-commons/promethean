@@ -6,6 +6,7 @@ import {
   CACHE_SIMILARITY_THRESHOLD,
   CACHE_MAX_AGE_MS,
 } from '@promethean/ollama-queue';
+
 import type {
   CacheEntry,
   CacheStats,
@@ -15,7 +16,7 @@ import type {
   CacheEntryWithMetadata,
 } from './types.js';
 
-const getCacheStats = (): CacheStats => {
+const getCacheStats = (): Readonly<CacheStats> => {
   const totalSize = Array.from(modelCaches.values()).reduce((sum, cache) => sum + cache.size, 0);
   const modelStats = Array.from(modelCaches.entries()).map(([model, cache]) => ({
     model,

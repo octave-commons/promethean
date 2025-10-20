@@ -8,9 +8,13 @@ import { InMemoryChroma } from '@promethean/utils';
 import { CacheEntry } from './types.js';
 
 export const initializeCache = async (modelName: string): Promise<InMemoryChroma<CacheEntry>> => {
-  if (!modelCaches.has(modelName)) {
-    const newCache = new InMemoryChroma<CacheEntry>();
-    modelCaches.set(modelName, newCache);
+  const existingCache = modelCaches.get(modelName);
+  if (existingCache) {
+    return existingCache;
   }
-  return modelCaches.get(modelName)!;
+
+  const newCache = new InMemoryChroma<CacheEntry>();
+  // Note: This violates functional immutability but is required for cache initialization
+  (modelCaches as Map<string, InMemoryChroma<CacheEntry>>).set(modelName, newCache);
+  return newCache;
 };
