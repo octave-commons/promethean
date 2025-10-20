@@ -168,20 +168,14 @@ export function createUpdateTaskStatusTool(stores): ReturnType<typeof tool> {
 }
 
 // Factory for monitorTasks tool
-export function createMonitorTasksTool(stores): ReturnType<typeof tool> {
+export function createMonitorTasksTool(stores: Stores): ReturnType<typeof tool> {
   return tool({
     description: 'Monitor all tasks for timeouts and update status accordingly',
     args: {
       timeoutMinutes: tool.schema.number().default(30).describe('Timeout threshold in minutes'),
     },
-    async execute(args, context) {
+    async execute(args, context: Context) {
       const { timeoutMinutes } = args;
-      const agentTaskStore = (context as Record<string, unknown>)
-        .agentTaskStore as DualStoreManager<'text', 'timestamp'>;
-
-      if (!agentTaskStore || !agentTasks) {
-        throw new Error('Required task context not available');
-      }
 
       const taskContext = {
         agentTaskStore: store.agentTaskStore,

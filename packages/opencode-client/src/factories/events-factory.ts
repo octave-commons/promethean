@@ -115,15 +115,15 @@ export function createGetSessionMessagesTool(): ToolFunction {
     args: {
       sessionId: tool.schema.string().describe('Session ID to get messages for'),
     },
-    async execute(args, context: any) {
+    async execute(args, context) {
       const { sessionId } = args;
-      const client = context.client as OpencodeClient;
+      const client = (context as Record<string, unknown>).client as EventClient;
 
       const messages = await getSessionMessages(client, sessionId);
 
       return JSON.stringify({
         sessionId,
-        messageCount: (messages as any).length,
+        messageCount: (messages as EventMessage[]).length,
         messages,
       });
     },
@@ -139,7 +139,7 @@ export function createDetectTaskCompletionTool(): ToolFunction {
         .array(tool.schema.object({}))
         .describe('Messages to analyze for completion'),
     },
-    async execute({ messages }: { messages: any[] }) {
+    async execute({ messages }: { messages: EventMessage[] }) {
       const completion = detectTaskCompletion(messages);
 
       return JSON.stringify({
