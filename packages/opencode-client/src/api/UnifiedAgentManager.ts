@@ -56,3 +56,25 @@ export function createAgentSession(options: any): Promise<any> {
   const manager = new UnifiedAgentManager();
   return manager.createAgentSession(options);
 }
+
+export function startAgentSession(sessionId: string): Promise<any> {
+  const manager = new UnifiedAgentManager();
+  return manager.startAgentSession(sessionId);
+}
+
+export function stopAgentSession(sessionId: string): Promise<any> {
+  const manager = new UnifiedAgentManager();
+  return manager.stopAgentSession(sessionId);
+}
+
+export function sendMessageToAgent(sessionId: string, message: string): Promise<any> {
+  const manager = new UnifiedAgentManager();
+  return manager.sendAgentMessage(sessionId, message);
+}
+
+export function closeAgentSession(sessionId: string): Promise<any> {
+  const manager = new UnifiedAgentManager();
+  return manager.closeAgentSession(sessionId);
+}
+
+export const unifiedAgentManager = new UnifiedAgentManager();
