@@ -117,7 +117,7 @@ export function createVerifyAgentExistsTool(): ReturnType<typeof tool> {
 }
 
 // Factory for getSenderSessionId tool
-export function createGetSenderSessionIdTool(): any {
+export function createGetSenderSessionIdTool(): ReturnType<typeof tool> {
   return tool({
     description: 'Get the session ID of the current sender',
     args: {},
@@ -139,7 +139,7 @@ export function createGetSenderSessionIdTool(): any {
 }
 
 // Factory for formatMessage tool
-export function createFormatMessageTool(): any {
+export function createFormatMessageTool(): ReturnType<typeof tool> {
   return tool({
     description: 'Format a message for inter-agent communication',
     args: {
