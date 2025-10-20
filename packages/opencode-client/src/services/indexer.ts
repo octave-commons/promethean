@@ -284,7 +284,7 @@ ${content}
 `;
   }
 
-/**
+  /**
    * Extract session ID from different event types
    */
   private extractSessionId(event: any): string | undefined {
@@ -296,17 +296,6 @@ ${content}
     }
     if (event.type === 'message.part.updated' || event.type === 'message.part.removed') {
       return (event as any).properties?.part?.sessionID || (event as any).properties?.sessionID;
-    }
-    return undefined;
-  }
-    if (event.type === 'message.updated' || event.type === 'message.removed') {
-      return (event as any).properties?.info?.sessionID || (event as any).properties?.sessionID;
-    }
-    if (event.type === 'message.updated' || event.type === 'message.removed') {
-      return (event as any).properties?.info?.sessionID || (event as any).properties?.sessionID;
-    }
-    if (event.type === 'message.part.updated' || event.type === 'message.part.removed') {
-      return (event as any).properties?.sessionID;
     }
     return undefined;
   }
