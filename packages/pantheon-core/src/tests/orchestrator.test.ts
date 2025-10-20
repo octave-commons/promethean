@@ -89,6 +89,8 @@ test('orchestrator handles message bus errors', async (t) => {
 
 test('orchestrator respects passive behavior mode', async (t) => {
   const deps = makeDeps();
+  const logs: unknown[] = [];
+  deps.log = (m: string, meta?: unknown) => logs.push({ m, meta });
   const updates: any[] = [];
   deps.state.update = async (_id: string, patch: Partial<Actor>) => {
     updates.push(patch);
@@ -125,6 +127,10 @@ test('orchestrator respects passive behavior mode', async (t) => {
 
   // Passive behaviors should not execute with user input
   await orch.tickActor(actorWithPassiveBehavior, { userMessage: 'hi' });
+
+  // Debug: check what was logged
+  console.log('Logs:', logs);
+  console.log('Updates:', updates);
 
   // Should not have completed since passive behavior doesn't run with user input
   t.false(updates.some((u) => u.state === 'completed'));
