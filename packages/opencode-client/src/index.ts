@@ -1,10 +1,16 @@
 import { DualStoreManager, ContextStore, type GenericEntry } from '@promethean/persistence';
-import type { Message } from 'ollama';
 import { SessionInfo } from './SessionInfo.js';
 import { SessionUtils } from './SessionUtils.js';
 import type { Timestamp } from './types/index.js';
 
 export type SearchableStore = DualStoreManager<'text', 'timestamp'>;
+
+// Define Message type locally to avoid ollama dependency
+export interface Message {
+  role: 'system' | 'user' | 'assistant';
+  content: string;
+  images?: string[];
+}
 
 export const SESSION_STORE_NAME = 'sessionStore';
 export const AGENT_TASK_STORE_NAME = 'agentTaskStore';
@@ -100,8 +106,9 @@ export async function compileContext(
         readonly formatAssistantMessages?: boolean;
       } = [],
   ...legacyArgs: readonly [number?, number?, number?, boolean?]
-): Promise<import('@promethean/persistence').Message[]> {
-  return contextStore.compileContext(textsOrOptions, ...legacyArgs);
+): Promise<Message[]> {
+  // Cast the return type since ContextStore returns ollama.Message which is compatible
+  return contextStore.compileContext(textsOrOptions, ...legacyArgs) as Promise<Message[]>;
 }
 
 // Context store utilities
