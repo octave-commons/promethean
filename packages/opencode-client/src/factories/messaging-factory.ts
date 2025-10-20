@@ -2,6 +2,7 @@
 // Factory functions for messaging tools
 
 import { tool } from '@opencode-ai/plugin/tool';
+import { DualStoreManager } from '@promethean/persistence';
 import {
   sendMessage,
   verifyAgentExists,
@@ -9,6 +10,20 @@ import {
   formatMessage,
   logCommunication,
 } from '../actions/messaging/index.js';
+
+// Type definitions
+interface MessagingContext {
+  sessionStore: DualStoreManager<'text', 'timestamp'>;
+  agentTaskStore: DualStoreManager<'text', 'timestamp'>;
+  agentTasks: Map<string, unknown>;
+}
+
+interface SendMessageArgs {
+  sessionId: string;
+  message: string;
+  priority: 'low' | 'medium' | 'high' | 'urgent';
+  messageType: 'task_update' | 'status_request' | 'collaboration' | 'alert' | 'info';
+}
 
 // Factory for sendMessage tool
 export function createSendMessageTool(): any {
