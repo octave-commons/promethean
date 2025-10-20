@@ -48,14 +48,70 @@ export class IndexerService {
    */
   private async subscribeToEvents(): Promise<void> {
     try {
-      const sub = await this.client.event.subscribe();
+      const eventStream = await this.client.event.list();
       console.log('📡 Subscribed to OpenCode events');
 
-      for await (const ev of sub.stream) {
-        await this.indexEvent(ev);
+      for await (const event of eventStream) {
+        await this.handleEvent(event);
       }
     } catch (error) {
       console.error('❌ Error subscribing to events:', error);
+    }
+  }
+
+  /**
+   * Handle different types of events and capture message content
+   */
+  private async handleEvent(event: any): Promise<void> {
+    try {
+      // Index the event itself
+      await this.indexEvent(event);
+
+      // If this is a message-related event, fetch and index the full message
+      if (this.isMessageEvent(event)) {
+        await this.handleMessageEvent(event);
+      }
+    } catch (error) {
+      console.error('❌ Error handling event:', error);
+    }
+  }
+
+  /**
+   * Check if event is related to messages
+   */
+  private isMessageEvent(event: any): boolean {
+    return (
+      event.type === 'message.updated' ||
+      event.type === 'message.part.updated' ||
+      event.type === 'message.removed'
+    );
+  }
+
+  /**
+   * Handle message events by fetching full message content
+   */
+  private async handleMessageEvent(event: any): Promise<void> {
+    try {
+      const sessionId = this.extractSessionId(event);
+      if (!sessionId) {
+        console.warn('⚠️ Message event without session ID:', event);
+        return;
+      }
+
+      // Fetch the latest messages for this session
+      const messagesResult = await this.client.session.messages({
+        path: { id: sessionId },
+      });
+      const messages = messagesResult.data || [];
+
+      // Index all messages (we could optimize to only index new ones)
+      for (const message of messages) {
+        await this.indexMessage(message, sessionId);
+      }
+
+      console.log(`📝 Indexed ${messages.length} messages for session ${sessionId}`);
+    } catch (error) {
+      console.error('❌ Error handling message event:', error);
     }
   }
 
