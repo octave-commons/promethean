@@ -58,7 +58,7 @@ export function createLoadPersistedTasksTool(): ReturnType<typeof tool> {
 }
 
 // Factory for verifySessionExists tool
-export function createVerifySessionExistsTool(): any {
+export function createVerifySessionExistsTool(): ReturnType<typeof tool> {
   return tool({
     description: 'Verify if a session still exists',
     args: {
@@ -66,13 +66,13 @@ export function createVerifySessionExistsTool(): any {
     },
     async execute(args, context) {
       const { sessionId } = args;
-      const client = (context as any).client;
+      const client = (context as Record<string, unknown>).client;
 
       if (!client) {
         throw new Error('Client not available in context');
       }
 
-      const exists = await verifySessionExists(client, sessionId);
+      const exists = await verifySessionExists(client as any, sessionId);
 
       return JSON.stringify({
         sessionId,
@@ -84,7 +84,7 @@ export function createVerifySessionExistsTool(): any {
 }
 
 // Factory for cleanupOrphanedTask tool
-export function createCleanupOrphanedTaskTool(): any {
+export function createCleanupOrphanedTaskTool(): ReturnType<typeof tool> {
   return tool({
     description: 'Clean up an orphaned task from memory',
     args: {
@@ -92,8 +92,9 @@ export function createCleanupOrphanedTaskTool(): any {
     },
     async execute(args, context) {
       const { sessionId } = args;
-      const agentTaskStore = (context as any).agentTaskStore;
-      const agentTasks = (context as any).agentTasks;
+      const agentTaskStore = (context as Record<string, unknown>)
+        .agentTaskStore as DualStoreManager<'text', 'timestamp'>;
+      const agentTasks = (context as Record<string, unknown>).agentTasks as Map<string, AgentTask>;
 
       if (!agentTaskStore || !agentTasks) {
         throw new Error('Required task context not available');
