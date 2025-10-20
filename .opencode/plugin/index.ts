@@ -1,6 +1,5 @@
 // export { AllToolsPlugin } from '@promethean/opencode-client/plugins';
 export {
-  AgentManagementPlugin,
   DirectProcessPlugin,
   EventsPlugin,
   MessagingPlugin,
