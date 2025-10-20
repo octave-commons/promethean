@@ -15,7 +15,7 @@ test.afterEach(() => {
 
 test('should register and execute before hooks', async (t) => {
   let called = false;
-  let receivedArgs: any = null;
+  let receivedArgs: Record<string, unknown> | null = null;
 
   registerBeforeHook('test-before', async (context: HookContext) => {
     called = true;
@@ -26,10 +26,10 @@ test('should register and execute before hooks', async (t) => {
   const result = await hookManager.executeBeforeHooks(
     'test-tool',
     { test: 'value' },
-    { 
-      pluginContext: { 
-        permissions: ['execute_hooks']
-      } 
+    {
+      pluginContext: {
+        permissions: ['execute_hooks'],
+      },
     },
   );
 
@@ -42,7 +42,7 @@ test('should register and execute before hooks', async (t) => {
 
 test('should register and execute after hooks', async (t) => {
   let called = false;
-  let receivedResult: any = null;
+  let receivedResult: Record<string, unknown> | null = null;
 
   registerAfterHook('test-after', async (context) => {
     called = true;
@@ -54,10 +54,10 @@ test('should register and execute after hooks', async (t) => {
     'test-tool',
     { test: 'value' },
     { success: true, result: { success: true }, metadata: {}, executionTime: 100 },
-    { 
-      pluginContext: { 
-        permissions: ['execute_hooks']
-      } 
+    {
+      pluginContext: {
+        permissions: ['execute_hooks'],
+      },
     },
   );
 
@@ -76,10 +76,10 @@ test('should handle hook execution errors', async (t) => {
   const result = await hookManager.executeBeforeHooks(
     'test-tool',
     { test: 'value' },
-    { 
-      pluginContext: { 
-        permissions: ['execute_hooks']
-      } 
+    {
+      pluginContext: {
+        permissions: ['execute_hooks'],
+      },
     },
     { continueOnError: true },
   );
@@ -101,31 +101,43 @@ test('should respect tool pattern matching', async (t) => {
   );
 
   // Should match
-  await hookManager.executeBeforeHooks('test-tool', {}, { 
-    pluginContext: { 
-      permissions: ['execute_hooks']
-    } 
-  });
+  await hookManager.executeBeforeHooks(
+    'test-tool',
+    {},
+    {
+      pluginContext: {
+        permissions: ['execute_hooks'],
+      },
+    },
+  );
   t.is(called, true);
 
   called = false;
   // Should not match
-  await hookManager.executeBeforeHooks('other-tool', {}, { 
-    pluginContext: { 
-      permissions: ['execute_hooks']
-    } 
-  });
+  await hookManager.executeBeforeHooks(
+    'other-tool',
+    {},
+    {
+      pluginContext: {
+        permissions: ['execute_hooks'],
+      },
+    },
+  );
   t.is(called, false);
 });
 
 test('should maintain execution statistics', async (t) => {
   registerBeforeHook('stat-hook', async () => ({}));
 
-  await hookManager.executeBeforeHooks('test-tool', {}, { 
-    pluginContext: { 
-      permissions: ['execute_hooks']
-    } 
-  });
+  await hookManager.executeBeforeHooks(
+    'test-tool',
+    {},
+    {
+      pluginContext: {
+        permissions: ['execute_hooks'],
+      },
+    },
+  );
 
   const stats = hookManager.getStatistics();
   t.is(stats.totalHooks, 1);
