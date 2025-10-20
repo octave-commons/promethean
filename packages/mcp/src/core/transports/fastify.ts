@@ -796,7 +796,8 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
       try {
         oauthIntegration = createOAuthFastifyIntegration(authManager);
         await oauthIntegration.initialize(app, {
-          enableOAuth: process.env.OAUTH_ENABLED === 'true',
+          enableOAuth:
+            process.env.OAUTH_ENABLED === 'true' || process.env.MCP_OAUTH_ENABLED === 'true',
           cookieDomain: process.env.OAUTH_COOKIE_DOMAIN,
           secureCookies: process.env.NODE_ENV === 'production',
           sameSitePolicy: (process.env.OAUTH_SAME_SITE as 'strict' | 'lax' | 'none') || 'lax',
