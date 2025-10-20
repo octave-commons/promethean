@@ -145,17 +145,24 @@ export const cacheToolFactories = {
       executionTime?: number;
       tokensUsed?: number;
     }) => {
+      const performanceData =
+        args.score !== undefined
+          ? {
+              score: args.score,
+              scoreSource: args.scoreSource as any,
+              scoreReason: args.scoreReason,
+              taskCategory: args.taskCategory,
+              executionTime: args.executionTime,
+              tokensUsed: args.tokensUsed,
+            }
+          : undefined;
+
       return storeInCache(
         args.prompt,
         args.result,
         args.modelName,
         args.jobType as any,
-        args.score,
-        args.scoreSource as any,
-        args.scoreReason,
-        args.taskCategory,
-        args.executionTime,
-        args.tokensUsed,
+        performanceData,
       );
     },
   }),
