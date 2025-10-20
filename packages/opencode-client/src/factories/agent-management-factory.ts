@@ -270,7 +270,10 @@ export function createGetAgentSessionTool(): ReturnType<typeof tool> {
     args: {
       sessionId: tool.schema.string().describe('ID of session to retrieve'),
     },
-    async execute(args: any, _context: any) {
+    async execute(
+      args: SessionIdArgs,
+      _context: { agent: string; sessionID: string; messageID: string },
+    ) {
       try {
         const session = await unifiedAgentManager.getAgentSession(args.sessionId);
 
