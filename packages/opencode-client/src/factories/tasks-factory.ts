@@ -26,7 +26,7 @@ export function createCleanupOrphanedTaskTool(stores, client): ReturnType<typeof
     async execute(args, context) {
       const { sessionId } = args;
 
-      await cleanupOrphanedTask(taskContext, sessionId);
+      await cleanupOrphanedTask(stores as TaskContext, sessionId);
 
       return JSON.stringify({
         success: true,
@@ -131,6 +131,6 @@ export function createGetAllTasksTool(stores: Stores): ReturnType<typeof tool> {
 export const tasksToolFactories = {
   createCleanupOrphanedTaskTool,
   createUpdateTaskStatusTool,
+  createCreateTaskTool,
   createGetAllTasksTool,
-  createParseTimestampTool,
 };
