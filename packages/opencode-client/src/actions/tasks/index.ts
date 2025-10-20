@@ -103,8 +103,8 @@ export async function createTask(
   return agentTask;
 }
 
-export async function getTasks(context: TaskContext, limit = 100): Promise<Map<string, AgentTask>> {
-  return context.getMostRecent(100);
+export async function getTasks(context: TaskContext, limit = 20): Promise<Map<string, AgentTask>> {
+  return context.getMostRecent(limit);
 }
 
 export function parseTimestamp(timestamp: string | number | Date): number {
