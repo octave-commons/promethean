@@ -1,4 +1,4 @@
-import { SessionUtils, agentTasks, sessionStore } from '../../index.js';
+import { SessionUtils, sessionStore, agentTaskStore } from '../../index.js';
 import type { SessionInfo } from '../../SessionInfo.js';
 
 interface Session extends Record<string, unknown> {
@@ -67,11 +67,29 @@ export async function search({
             messages = JSON.parse(messageEntry.text);
           }
 
-          const agentTask = agentTasks.get(session.id);
+          // Try to get agent task from context store
+          let agentTask = null;
+          try {
+            const agentTaskEntry = await agentTaskStore.get(`task:${session.id}`);
+            if (agentTaskEntry) {
+              agentTask = JSON.parse(agentTaskEntry.text);
+            }
+          } catch (taskError) {
+            // Agent task not found, continue without it
+          }
           return SessionUtils.createSessionInfo(session, messages.length, agentTask);
         } catch (error: unknown) {
           console.error(`Error processing session ${session.id}:`, error);
-          const agentTask = agentTasks.get(session.id);
+          // Try to get agent task from context store
+          let agentTask = null;
+          try {
+            const agentTaskEntry = await agentTaskStore.get(`task:${session.id}`);
+            if (agentTaskEntry) {
+              agentTask = JSON.parse(agentTaskEntry.text);
+            }
+          } catch (taskError) {
+            // Agent task not found, continue without it
+          }
           return {
             ...SessionUtils.createSessionInfo(session, 0, agentTask),
             error: 'Could not fetch messages',
