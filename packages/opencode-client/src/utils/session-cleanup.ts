@@ -23,17 +23,17 @@ function parseSessionData(session: {
     const sessionMatch = text.match(/Session:\s*(\w+)/);
     if (sessionMatch) {
       return {
-        id: sessionMatch[1],
-        title: `Session ${sessionMatch[1]}`,
+        id: sessionMatch[1] || 'unknown',
+        title: `Session ${sessionMatch[1] || 'unknown'}`,
         createdAt:
           typeof session.timestamp === 'string'
             ? session.timestamp
-            : session.timestamp?.toISOString() || new Date().toISOString(),
+            : session.timestamp?.toString() || new Date().toISOString(),
         time: {
           created:
             typeof session.timestamp === 'string'
               ? session.timestamp
-              : session.timestamp?.toISOString() || new Date().toISOString(),
+              : session.timestamp?.toString() || new Date().toISOString(),
         },
       };
     }
@@ -44,12 +44,12 @@ function parseSessionData(session: {
       createdAt:
         typeof session.timestamp === 'string'
           ? session.timestamp
-          : session.timestamp?.toISOString() || new Date().toISOString(),
+          : session.timestamp?.toString() || new Date().toISOString(),
       time: {
         created:
           typeof session.timestamp === 'string'
             ? session.timestamp
-            : session.timestamp?.toISOString() || new Date().toISOString(),
+            : session.timestamp?.toString() || new Date().toISOString(),
       },
     };
   }
@@ -110,7 +110,14 @@ export async function identifyDuplicateSessions(): Promise<{
   try {
     const store = await getSessionStore();
     const storedSessions = await store.getMostRecent(1000);
-    const parsedSessions = storedSessions.map((session) => parseSessionData(session));
+    const parsedSessions = storedSessions.map((session) =>
+      parseSessionData({
+        text: session.text,
+        timestamp:
+          typeof session.timestamp === 'object' ? session.timestamp.getTime() : session.timestamp,
+        id: session.id,
+      }),
+    );
 
     const sessionIdCount = new Map<string, number>();
     const duplicates: string[] = [];
@@ -149,7 +156,12 @@ export async function cleanupDuplicateSessions(): Promise<{ cleaned: number; err
     const store = await getSessionStore();
     const storedSessions = await store.getMostRecent(1000);
     const parsedSessions = storedSessions.map((session) => ({
-      ...parseSessionData(session),
+      ...parseSessionData({
+        text: session.text,
+        timestamp:
+          typeof session.timestamp === 'object' ? session.timestamp.getTime() : session.timestamp,
+        id: session.id,
+      }),
       storeEntry: session,
     }));
 
@@ -182,7 +194,7 @@ export async function cleanupDuplicateSessions(): Promise<{ cleaned: number; err
       const toRemove = sessions.slice(1);
 
       console.log(
-        `Session ${sessionId}: keeping most recent (${toKeep.time?.created || toKeep.createdAt}), removing ${toRemove.length} duplicates`,
+        `Session ${sessionId}: keeping most recent (${toKeep?.time?.created || toKeep?.createdAt || 'unknown'}), removing ${toRemove.length} duplicates`,
       );
 
       // Note: DualStoreManager doesn't have a delete method, so we can only log for now
@@ -211,7 +223,14 @@ export async function getSessionStats(): Promise<{
   try {
     const store = await getSessionStore();
     const storedSessions = await store.getMostRecent(1000);
-    const parsedSessions = storedSessions.map((session) => parseSessionData(session));
+    const parsedSessions = storedSessions.map((session) =>
+      parseSessionData({
+        text: session.text,
+        timestamp:
+          typeof session.timestamp === 'object' ? session.timestamp.getTime() : session.timestamp,
+        id: session.id,
+      }),
+    );
 
     const sessionIdCount = new Map<string, number>();
     let oldestSession: string | undefined;
@@ -225,11 +244,13 @@ export async function getSessionStats(): Promise<{
 
       const sessionTime = session.time?.created || session.createdAt;
       if (sessionTime) {
-        if (!oldestSession || sessionTime < oldestSession) {
-          oldestSession = sessionTime;
+        const sessionTimeStr =
+          typeof sessionTime === 'string' ? sessionTime : sessionTime.toString();
+        if (!oldestSession || sessionTimeStr < oldestSession) {
+          oldestSession = sessionTimeStr;
         }
-        if (!newestSession || sessionTime > newestSession) {
-          newestSession = sessionTime;
+        if (!newestSession || sessionTimeStr > newestSession) {
+          newestSession = sessionTimeStr;
         }
       }
     }

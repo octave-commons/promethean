@@ -230,7 +230,8 @@ class HookSecurityValidator {
     if (requiredPermissions.length > 0) {
       // This is a placeholder - in a real system, you'd check against the actual auth system
       const hasPermissions = requiredPermissions.every((permission) => {
-        return context.pluginContext?.permissions?.includes(permission);
+        const permissions = context.pluginContext?.permissions as string[] | undefined;
+        return permissions?.includes(permission) ?? false;
       });
 
       if (!hasPermissions) {
@@ -421,7 +422,7 @@ export class ToolExecuteHookManager implements HookManager {
   ): Promise<{ result: R; metrics: HookMetrics[] }> {
     // Validate and sanitize context
     const sanitizedContext = HookSecurityValidator.sanitizeContext(context);
-    
+
     // Validate authorization
     HookSecurityValidator.validateAuthorization(sanitizedContext, ['execute_hooks']);
 
@@ -644,7 +645,7 @@ export class ToolExecuteHookManager implements HookManager {
     this.executionStats.totalHooks = this.hooks.size;
     this.executionStats.hooksByType = { before: 0, after: 0 };
 
-    Array.from(this.hooks.values()).forEach(hook => {
+    Array.from(this.hooks.values()).forEach((hook) => {
       this.executionStats.hooksByType[hook.type]++;
     });
   }

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Ollama LLM job queue system for async background processing
 
-import { tool, type Tool } from '@opencode-ai/plugin/tool';
+import { tool } from '@opencode-ai/plugin/tool';
 import { randomUUID } from 'node:crypto';
 import {
   OLLAMA_URL,
@@ -38,7 +38,7 @@ function stopQueueProcessor(): void {
 }
 
 // Tools
-export const submitJob: Tool = tool({
+export const submitJob = tool({
   description: 'Submit a new LLM job to the queue',
   args: {
     jobName: tool.schema.string().optional().describe('Optional name for the job'),
@@ -191,7 +191,7 @@ export const submitJob: Tool = tool({
   },
 });
 
-export const getJobStatus: Tool = tool({
+export const getJobStatus = tool({
   description: 'Get status of a specific job',
   args: {
     jobId: tool.schema.string().describe('Job ID to check'),
@@ -218,7 +218,7 @@ export const getJobStatus: Tool = tool({
   },
 });
 
-export const getJobResult: Tool = tool({
+export const getJobResult = tool({
   description: 'Get result of a completed job',
   args: {
     jobId: tool.schema.string().describe('Job ID to get result from'),
@@ -245,7 +245,7 @@ export const getJobResult: Tool = tool({
   },
 });
 
-export const listJobs: Tool = tool({
+export const listJobs = tool({
   description: 'List jobs with optional filtering',
   args: {
     status: tool.schema
@@ -294,7 +294,7 @@ export const listJobs: Tool = tool({
   },
 });
 
-export const cancelJob: Tool = tool({
+export const cancelJob = tool({
   description: 'Cancel a pending job',
   args: {
     jobId: tool.schema.string().describe('Job ID to cancel'),
@@ -327,7 +327,7 @@ export const cancelJob: Tool = tool({
   },
 });
 
-export const listModels: Tool = tool({
+export const listModels = tool({
   description: 'List available Ollama models',
   args: {
     detailed: tool.schema.boolean().default(false).describe('Include detailed model information'),
@@ -391,7 +391,7 @@ export const getQueueInfo = tool({
   },
 });
 
-export const manageCache: Tool = tool({
+export const manageCache = tool({
   description: 'Manage prompt cache (clear, get stats, etc.)',
   args: {
     action: tool.schema
@@ -496,7 +496,7 @@ export const manageCache: Tool = tool({
           let scoredEntries = 0;
 
           for (const entry of entries) {
-            const metadata = entry.metadata as CacheEntry;
+            const metadata = entry as CacheEntry;
             if (metadata.score !== undefined) {
               totalScore += metadata.score;
               scoredEntries++;
@@ -510,24 +510,30 @@ export const manageCache: Tool = tool({
                 analysis.performanceByCategory[metadata.taskCategory] = {
                   totalScore: 0,
                   count: 0,
+                  averageScore: 0,
                   models: {},
                 };
               }
 
-              analysis.performanceByCategory[metadata.taskCategory].totalScore +=
-                metadata.score || 0;
-              analysis.performanceByCategory[metadata.taskCategory].count++;
+              const category = analysis.performanceByCategory[metadata.taskCategory];
+              if (category) {
+                category.totalScore += metadata.score || 0;
+                category.count++;
+              }
 
-              if (!analysis.performanceByCategory[metadata.taskCategory].models[modelName]) {
+              if (category && !category.models[modelName]) {
                 analysis.performanceByCategory[metadata.taskCategory].models[modelName] = {
                   totalScore: 0,
                   count: 0,
+                  averageScore: 0,
                 };
               }
 
-              analysis.performanceByCategory[metadata.taskCategory].models[modelName].totalScore +=
-                metadata.score || 0;
-              analysis.performanceByCategory[metadata.taskCategory].models[modelName].count++;
+              const categoryModel = category?.models[modelName];
+              if (categoryModel) {
+                categoryModel.totalScore += metadata.score || 0;
+                categoryModel.count++;
+              }
             }
           }
 
@@ -555,7 +561,7 @@ export const manageCache: Tool = tool({
   },
 });
 
-export const submitFeedback: Tool = tool({
+export const submitFeedback = tool({
   description: 'Submit feedback on a cached result to improve model routing',
   args: {
     prompt: tool.schema.string().describe('The original prompt that generated the result'),
