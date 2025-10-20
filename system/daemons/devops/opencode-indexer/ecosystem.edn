@@ -1,6 +1,6 @@
 {:apps [{:name "opencode-indexer"
          :script "opencode-client"
-         :args ["indexer"]
+         :args ["indexer" "start"]
          :interpreter "/usr/bin/env"
          :out_file "./logs/opencode-indexer-out.log"
          :error_file "./logs/opencode-indexer-err.log"
