@@ -393,14 +393,16 @@ export interface EventClient {
   session: {
     messages: (params: {
       path: { id: string };
-    }) => Promise<{ data?: unknown; error?: string | any }>;
+    }) => Promise<{ data?: unknown; error?: string | Record<string, unknown> }>;
   };
   events?: {
-    list: (options: EventListOptions) => Promise<{ data?: StoredEvent[]; error?: string | any }>;
+    list: (
+      options: EventListOptions,
+    ) => Promise<{ data?: StoredEvent[]; error?: string | Record<string, unknown> }>;
     subscribe: (options: {
       eventType?: string;
       sessionId?: string;
-    }) => Promise<{ data?: EventSubscription; error?: string | any }>;
+    }) => Promise<{ data?: EventSubscription; error?: string | Record<string, unknown> }>;
   };
 }
 
