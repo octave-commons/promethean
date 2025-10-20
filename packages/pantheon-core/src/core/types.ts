@@ -622,6 +622,15 @@ export type SecurityContext = {
 
 // === Error and Event Types ===
 
+/**
+ * Standardized error format for the Pantheon framework
+ * @property code - Error code for programmatic handling
+ * @property message - Human-readable error message
+ * @property details - Additional error details
+ * @property stack - Optional stack trace
+ * @property timestamp - When the error occurred
+ * @property context - Contextual information when the error occurred
+ */
 export type PantheonError = {
   code: string;
   message: string;
@@ -631,6 +640,16 @@ export type PantheonError = {
   context?: Record<string, unknown>;
 };
 
+/**
+ * System event for logging and monitoring
+ * @property id - Unique event identifier
+ * @property type - Type/category of the event
+ * @property source - Source of the event
+ * @property timestamp - When the event occurred
+ * @property data - Event-specific data
+ * @property metadata - Additional event metadata
+ * @property severity - Event severity level
+ */
 export type SystemEvent = {
   id: string;
   type: string;
@@ -643,12 +662,30 @@ export type SystemEvent = {
 
 // === Utility Types ===
 
+/**
+ * Result type for operations that can succeed or fail
+ * @property success - Whether the operation succeeded
+ * @property data - The successful result data (when success: true)
+ * @property error - The error information (when success: false)
+ */
 export type Result<T, E = PantheonError> =
   | { success: true; data: T }
   | { success: false; error: E };
 
+/**
+ * Async version of the Result type
+ * Represents a Promise that resolves to a Result
+ */
 export type AsyncResult<T, E = PantheonError> = Promise<Result<T, E>>;
 
+/**
+ * Standardized paginated response format
+ * @property data - Array of items for the current page
+ * @property total - Total number of items available
+ * @property page - Current page number (1-based)
+ * @property pageSize - Number of items per page
+ * @property hasMore - Whether there are more pages available
+ */
 export type PaginatedResponse<T> = {
   data: T[];
   total: number;
@@ -659,6 +696,11 @@ export type PaginatedResponse<T> = {
 
 // === Type Guards ===
 
+/**
+ * Type guard to check if a value is a valid Message
+ * @param value - The value to check
+ * @returns True if the value is a Message
+ */
 export const isMessage = (value: unknown): value is Message => {
   return (
     typeof value === 'object' &&
@@ -669,6 +711,11 @@ export const isMessage = (value: unknown): value is Message => {
   );
 };
 
+/**
+ * Type guard to check if a value is a valid ToolSpec
+ * @param value - The value to check
+ * @returns True if the value is a ToolSpec
+ */
 export const isToolSpec = (value: unknown): value is ToolSpec => {
   return (
     typeof value === 'object' &&
@@ -680,6 +727,11 @@ export const isToolSpec = (value: unknown): value is ToolSpec => {
   );
 };
 
+/**
+ * Type guard to check if a value is a valid MessageEnvelope
+ * @param value - The value to check
+ * @returns True if the value is a MessageEnvelope
+ */
 export const isMessageEnvelope = (value: unknown): value is MessageEnvelope => {
   return (
     typeof value === 'object' &&
