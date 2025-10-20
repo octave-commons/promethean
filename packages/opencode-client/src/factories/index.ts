@@ -101,12 +101,8 @@ export {
 
 // Tasks factories
 export {
-  createLoadPersistedTasksTool,
-  createVerifySessionExistsTool,
   createCleanupOrphanedTaskTool,
   createUpdateTaskStatusTool,
-  createMonitorTasksTool,
   createCreateTaskTool,
   createGetAllTasksTool,
-  createParseTimestampTool,
 } from './tasks-factory.js';

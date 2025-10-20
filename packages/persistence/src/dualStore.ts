@@ -186,43 +186,17 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         const isImage = metadata.type === 'image';
 
         if (dualWriteEnabled && (!isImage || this.supportsImages)) {
-            try {
-                await this.chromaCollection.add({
-                    ids: [id],
-                    documents: [preparedEntry[this.textKey]],
-                    metadatas: [toChromaMetadata(metadata)],
-                });
-            } catch (error) {
-                console.warn('Failed to embed entry', error);
-            }
+            await this.chromaCollection.add({
+                ids: [id],
+                documents: [preparedEntry[this.textKey]],
+                metadatas: [toChromaMetadata(metadata)],
+            });
         }
 
-        // Add retry logic for MongoDB operations
-        const maxRetries = 3;
-        const retryDelay = 1000;
-
-        for (let attempt = 1; attempt <= maxRetries; attempt++) {
-            try {
-                await this.mongoCollection.insertOne(
-                    preparedEntry as OptionalUnlessRequiredId<DualStoreEntry<TextKey, TimeKey>>,
-                );
-                return; // Success, exit retry loop
-            } catch (error) {
-                if (
-                    error instanceof Error &&
-                    error.message.includes('MongoNotConnectedError') &&
-                    attempt < maxRetries
-                ) {
-                    console.warn(
-                        `MongoDB connection failed (attempt ${attempt}/${maxRetries}), retrying...`,
-                        error.message,
-                    );
-                    await new Promise((resolve) => setTimeout(resolve, retryDelay * attempt));
-                    continue;
-                }
-                throw error; // Re-throw if not a connection error or max retries reached
-            }
-        }
+        await this.mongoCollection.insertOne(
+            preparedEntry as OptionalUnlessRequiredId<DualStoreEntry<TextKey, TimeKey>>,
+        );
+        return; // Success, exit retry loop
     }
 
     // TODO: remove in future – alias for backwards compatibility
@@ -314,8 +288,6 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         }
 
         return toGenericEntry(document, this.textKey, this.timeStampKey);
-
-        return null;
     }
 
     async cleanup(): Promise<void> {
@@ -328,13 +300,6 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
             }
         } catch (error) {
             // Ignore cleanup errors - connection might already be closed
-        }
-
-        try {
-            // ChromaDB cleanup is handled automatically when the process exits
-            // The ChromaClient doesn't have an explicit close method in the current version
-        } catch (error) {
-            // Ignore cleanup errors
         }
     }
 }
