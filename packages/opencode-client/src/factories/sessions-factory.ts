@@ -67,9 +67,9 @@ export function createCreateSessionTool() {
         .optional()
         .describe('Delegates for the session'),
     },
-    async execute(args, context) {
+    async execute(args: CreateSessionArgs, context: ToolContext) {
       const { title } = args;
-      const client = (context as any).client;
+      const client = context.client;
 
       const result = await create({ title, client });
       return result;
