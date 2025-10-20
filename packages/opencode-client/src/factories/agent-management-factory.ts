@@ -104,7 +104,10 @@ export function createCreateAgentSessionTool(
   });
 }
 
-export function createStartAgentSessionTool(): ReturnType<typeof tool> {
+export function createStartAgentSessionTool(
+  stores: DualStoreManager<'', ''>,
+  client: OpencodeClient,
+): ReturnType<typeof tool> {
   return tool({
     description: 'Start an existing agent session',
     args: {
