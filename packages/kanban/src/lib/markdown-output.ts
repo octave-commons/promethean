@@ -12,31 +12,17 @@ import type { IndexedTask } from '../board/types.js';
  * Format a single task as markdown
  */
 export function formatTask(task: Task | IndexedTask): string {
-  const status = 'status' in task ? task.status : task.status || 'unknown';
-  const title = task.title || 'Untitled';
-  const uuid = task.uuid || 'unknown';
-  const description = task.description
-    ? task.description.slice(0, 200) + (task.description.length > 200 ? '...' : '')
-    : '';
-  const tags = task.tags && task.tags.length > 0 ? task.tags.map((tag) => `#${tag}`).join(' ') : '';
-
-  return `## ${title}
-
-**UUID:** \`${uuid}\`  
-**Status:** ${status}  
-${tags ? `**Tags:** ${tags}  \n` : ''}${description ? `**Description:** ${description}  \n` : ''}`;
-}
-
-/**
- * Format a single task as markdown
- */
-export function formatTask(task: Task | IndexedTask): string {
   const status = task.status || 'unknown';
   const title = task.title || 'Untitled';
-  const uuid = task.uuid || task.id || 'unknown';
-  const description = task.content ? task.content.slice(0, 200) + (task.content.length > 200 ? '...' : '') : '';
-  const labels = task.labels && task.labels.length > 0 ? task.labels.map((tag: string) => `#${tag}`).join(' ') : '';
-  
+  const uuid = task.uuid || ('id' in task ? task.id : 'unknown');
+  const description = task.content
+    ? task.content.slice(0, 200) + (task.content.length > 200 ? '...' : '')
+    : '';
+  const labels =
+    task.labels && task.labels.length > 0
+      ? task.labels.map((tag: string) => `#${tag}`).join(' ')
+      : '';
+
   return `## ${title}
 
 **UUID:** \`${uuid}\`  
@@ -44,15 +30,25 @@ export function formatTask(task: Task | IndexedTask): string {
 ${labels ? `**Labels:** ${labels}  \n` : ''}${description ? `**Description:** ${description}  \n` : ''}`;
 }
 
+/**
+ * Format multiple tasks as markdown list
+ */
+export function formatTaskList(tasks: (Task | IndexedTask)[]): string {
+  if (tasks.length === 0) {
+    return 'No tasks found.';
+  }
+
   return tasks
     .map((task) => {
-      const status = 'status' in task ? task.status : task.status || 'unknown';
+      const status = task.status || 'unknown';
       const title = task.title || 'Untitled';
-      const uuid = task.uuid || 'unknown';
-      const tags =
-        task.tags && task.tags.length > 0 ? ' ' + task.tags.map((tag) => `#${tag}`).join(' ') : '';
+      const uuid = task.uuid || ('id' in task ? task.id : 'unknown');
+      const labels =
+        task.labels && task.labels.length > 0
+          ? ' ' + task.labels.map((tag: string) => `#${tag}`).join(' ')
+          : '';
 
-      return `- [ ] **${title}** (\`${uuid}\`) - ${status}${tags}`;
+      return `- [ ] **${title}** (\`${uuid}\`) - ${status}${labels}`;
     })
     .join('\n');
 }
@@ -68,7 +64,7 @@ export function formatTaskBoard(tasks: (Task | IndexedTask)[]): string {
   // Group tasks by status
   const grouped = tasks.reduce(
     (acc, task) => {
-      const status = 'status' in task ? task.status : task.status || 'unknown';
+      const status = task.status || 'unknown';
       if (!acc[status]) {
         acc[status] = [];
       }
@@ -95,24 +91,20 @@ export function formatTaskBoard(tasks: (Task | IndexedTask)[]): string {
  * Format a board as markdown
  */
 export function formatBoard(board: Board): string {
-  const output = [`# ${board.title || 'Kanban Board'}`];
-
-  if (board.description) {
-    output.push(`\n${board.description}\n`);
-  }
+  const output = ['# Kanban Board'];
 
   // Add columns
   if (board.columns && board.columns.length > 0) {
     for (const column of board.columns) {
-      output.push(`\n## ${column.title || column.id}\n`);
+      output.push(`\n## ${column.name}\n`);
 
       if (column.tasks && column.tasks.length > 0) {
         for (const task of column.tasks) {
-          const tags =
-            task.tags && task.tags.length > 0
-              ? ' ' + task.tags.map((tag) => `#${tag}`).join(' ')
+          const labels =
+            task.labels && task.labels.length > 0
+              ? ' ' + task.labels.map((tag: string) => `#${tag}`).join(' ')
               : '';
-          output.push(`- [ ] **${task.title}** (\`${task.uuid}\`)${tags}`);
+          output.push(`- [ ] **${task.title}** (\`${task.uuid}\`)${labels}`);
         }
       } else {
         output.push('*No tasks*');
@@ -151,7 +143,7 @@ export function formatTaskCount(counts: Record<string, number>): string {
   output += `**Total:** ${total} tasks\n\n`;
 
   for (const status of sortedStatuses) {
-    output += `- **${status}:** ${counts[counts]}\n`;
+    output += `- **${status}:** ${counts[status]}\n`;
   }
 
   return output;
@@ -198,7 +190,7 @@ export function formatTable(data: Record<string, any>[], headers?: string[]): st
     return 'No data to display.';
   }
 
-  const keys = headers || Object.keys(data[0]);
+  const keys = headers || (data[0] ? Object.keys(data[0]) : []);
 
   // Create header row
   let output = '| ' + keys.join(' | ') + ' |\n';
