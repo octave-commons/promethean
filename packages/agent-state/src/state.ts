@@ -14,6 +14,35 @@ import type {
   ContextSnapshot,
 } from './types.js';
 
+// Pantheon compatibility types
+export type Actor = {
+  id: string;
+  script: {
+    name: string;
+    roleName?: string;
+    contextSources: readonly { id: string; label: string; where?: Record<string, unknown> }[];
+    talents: readonly {
+      name: string;
+      behaviors: readonly {
+        name: string;
+        mode: 'active' | 'passive' | 'persistent';
+        plan: (input: { goal: string; context: any[] }) => Promise<{ actions: any[] }>;
+      }[];
+    }[];
+    program?: string;
+  };
+  goals: readonly string[];
+};
+
+export type ActorScript = Actor['script'];
+
+export type ActorStatePort = {
+  spawn: (script: ActorScript, goal: string) => Promise<Actor>;
+  list: () => Promise<Actor[]>;
+  get: (id: string) => Promise<Actor | null>;
+  update: (id: string, updates: Partial<Actor>) => Promise<Actor>;
+};
+
 export type AgentStateDeps = {
   eventStore: EventStore;
   snapshotStore: SnapshotStore;
@@ -51,5 +80,73 @@ export const makeAgentStateManager = (deps: AgentStateDeps): AgentStateManager =
     restoreFromSnapshot: manager.restoreFromSnapshot.bind(manager),
     deleteContext: manager.deleteContext.bind(manager),
     getContextHistory: manager.getContextHistory.bind(manager),
+  };
+};
+
+/**
+ * Create an ActorStatePort adapter for Pantheon compatibility
+ *
+ * @param deps - Agent state dependencies
+ * @returns ActorStatePort implementation
+ */
+export const makeActorStatePort = (deps: AgentStateDeps): ActorStatePort => {
+  const manager = makeAgentStateManager(deps);
+
+  return {
+    spawn: async (script: ActorScript, goal: string): Promise<Actor> => {
+      const actor: Actor = {
+        id: `actor-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+        script,
+        goals: [goal],
+      };
+
+      // Store actor in agent context for persistence
+      await manager.updateContext(actor.id, {
+        actorId: actor.id,
+        script: actor.script,
+        goals: actor.goals,
+        type: 'actor',
+      });
+
+      return actor;
+    },
+
+    list: async (): Promise<Actor[]> => {
+      // This would need to be implemented based on the actual storage structure
+      // For now, return empty array as placeholder
+      console.warn('ActorStatePort.list() not fully implemented');
+      return [];
+    },
+
+    get: async (id: string): Promise<Actor | null> => {
+      try {
+        const context = await manager.getContext(id);
+        if (context.type === 'actor' && context.script && context.goals) {
+          return {
+            id: context.agentId,
+            script: context.script as ActorScript,
+            goals: context.goals as string[],
+          };
+        }
+        return null;
+      } catch {
+        return null;
+      }
+    },
+
+    update: async (id: string, updates: Partial<Actor>): Promise<Actor> => {
+      const current = await manager.getContext(id);
+      const updated = await manager.updateContext(id, {
+        ...current,
+        ...updates,
+        type: 'actor',
+      });
+
+      return {
+        id: updated.agentId,
+        script: updated.script as ActorScript,
+        goals: updated.goals as string[],
+      };
+    },
   };
 };
