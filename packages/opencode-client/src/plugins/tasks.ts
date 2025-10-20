@@ -16,20 +16,6 @@ export const TasksPlugin: Plugin = async ({ client }) => {
 
   return {
     tool: {
-      tasks_loadPersisted: {
-        ...loadPersistedTasksTool,
-        async execute(args: any, context: any) {
-          const enhancedContext = { ...context, client };
-          return loadPersistedTasksTool.execute(args, enhancedContext);
-        },
-      },
-      tasks_verifySession: {
-        ...verifySessionExistsTool,
-        async execute(args: any, context: any) {
-          const enhancedContext = { ...context, client };
-          return verifySessionExistsTool.execute(args, enhancedContext);
-        },
-      },
       tasks_cleanupOrphaned: {
         ...cleanupOrphanedTaskTool,
         async execute(args: any, context: any) {
@@ -44,13 +30,6 @@ export const TasksPlugin: Plugin = async ({ client }) => {
           return updateTaskStatusTool.execute(args, enhancedContext);
         },
       },
-      tasks_monitor: {
-        ...monitorTasksTool,
-        async execute(args: any, context: any) {
-          const enhancedContext = { ...context, client };
-          return monitorTasksTool.execute(args, enhancedContext);
-        },
-      },
       tasks_create: {
         ...createTaskTool,
         async execute(args: any, context: any) {
@@ -63,13 +42,6 @@ export const TasksPlugin: Plugin = async ({ client }) => {
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return getAllTasksTool.execute(args, enhancedContext);
-        },
-      },
-      tasks_parseTimestamp: {
-        ...parseTimestampTool,
-        async execute(args: any, context: any) {
-          const enhancedContext = { ...context, client };
-          return parseTimestampTool.execute(args, enhancedContext);
         },
       },
     },
