@@ -38,7 +38,7 @@ function stopQueueProcessor(): void {
 }
 
 // Tools
-export const submitJob = tool({
+export const submitJob: any = tool({
   description: 'Submit a new LLM job to the queue',
   args: {
     jobName: tool.schema.string().optional().describe('Optional name for the job'),
@@ -191,7 +191,7 @@ export const submitJob = tool({
   },
 });
 
-export const getJobStatus = tool({
+export const getJobStatus: any = tool({
   description: 'Get status of a specific job',
   args: {
     jobId: tool.schema.string().describe('Job ID to check'),
@@ -218,7 +218,7 @@ export const getJobStatus = tool({
   },
 });
 
-export const getJobResult = tool({
+export const getJobResult: any = tool({
   description: 'Get result of a completed job',
   args: {
     jobId: tool.schema.string().describe('Job ID to get result from'),
@@ -245,7 +245,7 @@ export const getJobResult = tool({
   },
 });
 
-export const listJobs = tool({
+export const listJobs: any = tool({
   description: 'List jobs with optional filtering',
   args: {
     status: tool.schema
@@ -294,7 +294,7 @@ export const listJobs = tool({
   },
 });
 
-export const cancelJob = tool({
+export const cancelJob: any = tool({
   description: 'Cancel a pending job',
   args: {
     jobId: tool.schema.string().describe('Job ID to cancel'),
@@ -327,7 +327,7 @@ export const cancelJob = tool({
   },
 });
 
-export const listModels = tool({
+export const listModels: any = tool({
   description: 'List available Ollama models',
   args: {
     detailed: tool.schema.boolean().default(false).describe('Include detailed model information'),
@@ -391,7 +391,7 @@ export const getQueueInfo = tool({
   },
 });
 
-export const manageCache = tool({
+export const manageCache: any = tool({
   description: 'Manage prompt cache (clear, get stats, etc.)',
   args: {
     action: tool.schema
@@ -522,7 +522,7 @@ export const manageCache = tool({
               }
 
               if (category && !category.models[modelName]) {
-                analysis.performanceByCategory[metadata.taskCategory].models[modelName] = {
+                category.models[modelName] = {
                   totalScore: 0,
                   count: 0,
                   averageScore: 0,
@@ -543,14 +543,16 @@ export const manageCache = tool({
         }
 
         // Calculate category averages
-        for (const [category, data] of Object.entries(analysis.performanceByCategory)) {
-          analysis.performanceByCategory[category].averageScore =
-            data.count > 0 ? data.totalScore / data.count : 0;
+        for (const [categoryKey, data] of Object.entries(analysis.performanceByCategory)) {
+          data.averageScore = data.count > 0 ? data.totalScore / data.count : 0;
 
-          for (const [model, modelData] of Object.entries(data.models)) {
-            analysis.performanceByCategory[category].models[model].averageScore =
+          for (const [, modelData] of Object.entries(data.models)) {
+            modelData.averageScore =
               modelData.count > 0 ? modelData.totalScore / modelData.count : 0;
           }
+
+          // Mark categories as processed
+          void categoryKey;
         }
 
         return JSON.stringify(analysis, null, 2);
@@ -561,7 +563,7 @@ export const manageCache = tool({
   },
 });
 
-export const submitFeedback = tool({
+export const submitFeedback: any = tool({
   description: 'Submit feedback on a cached result to improve model routing',
   args: {
     prompt: tool.schema.string().describe('The original prompt that generated the result'),
