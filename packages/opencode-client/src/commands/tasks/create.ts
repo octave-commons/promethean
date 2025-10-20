@@ -1,7 +1,7 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
 import { randomUUID } from 'crypto';
-import { AgentTaskManager } from '../../api/AgentTaskManager.js';
+import { createTask } from '../../actions/tasks/index.js';
 
 export const createTaskCommand = new Command('create')
   .description('Create a new task')
