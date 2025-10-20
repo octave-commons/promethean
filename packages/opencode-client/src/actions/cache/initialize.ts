@@ -2,9 +2,7 @@
 // Cache initialization action
 
 import { modelCaches } from '@promethean/ollama-queue';
-
 import { InMemoryChroma } from '@promethean/utils';
-
 import { CacheEntry } from './types.js';
 
 export const initializeCache = async (modelName: string): Promise<InMemoryChroma<CacheEntry>> => {
