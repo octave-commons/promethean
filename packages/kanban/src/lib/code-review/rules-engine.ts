@@ -466,7 +466,7 @@ export class CodeReviewRulesEngine {
     // Extract changed files from task content or git diff
     const content = task.content || '';
     const fileMatch = content.match(/changed[_-]?files[:\s]+([^\n]+)/i);
-    if (fileMatch) {
+    if (fileMatch && fileMatch[1]) {
       return fileMatch[1]
         .split(',')
         .map((f) => f.trim())
@@ -488,7 +488,7 @@ export class CodeReviewRulesEngine {
   private async getAffectedPackages(task: Task): Promise<string[]> {
     const content = task.content || '';
     const packageMatch = content.match(/affected[_-]?packages[:\s]+([^\n]+)/i);
-    if (packageMatch) {
+    if (packageMatch && packageMatch[1]) {
       return packageMatch[1]
         .split(',')
         .map((p) => p.trim())
