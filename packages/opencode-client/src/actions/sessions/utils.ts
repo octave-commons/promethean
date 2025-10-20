@@ -1,7 +1,12 @@
 import { AgentTask } from '../../AgentTask.js';
 import { SessionInfo } from '../../SessionInfo.js';
+import type { Session } from '../../api/sessions.js';
+import type { OpencodeClient } from '@opencode-ai/sdk';
 
-export function extractSessionId(event: any): string | null {
+export function extractSessionId(event: {
+  type: string;
+  properties: Record<string, unknown>;
+}): string | null {
   const extractors: Record<string, () => string | undefined> = {
     'session.idle': () => event.properties.sessionID || event.properties.session?.id,
     'session.updated': () => event.properties.info?.id || event.properties.session?.id,
