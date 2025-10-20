@@ -1,19 +1,13 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
-import { createOpencodeClient } from '@opencode-ai/sdk';
 
 export const listCommand = new Command('list')
   .description('List recent events')
   .option('-l, --limit <number>', 'Number of events to return', '50')
   .option('--type <type>', 'Filter by event type (e.g., session.updated)')
   .option('--json', 'Output as JSON', false)
-  .action(async (options) => {
+  .action(async () => {
     try {
-      // Create OpenCode client
-      const client = createOpencodeClient({
-        baseUrl: 'http://localhost:4096',
-      });
-
       // Note: The OpenCode SDK only supports event subscription, not listing historical events
       // For historical events, we would need to index them from session data
       console.log(

@@ -289,54 +289,48 @@ pnpm coverage
 ### Creating a Custom Actor
 
 ```typescript
-import { makeActorAdapter, type ActorConfig, type ActorPort } from '@promethean/pantheon-fp';
+import {
+  makeInMemoryActorStateAdapter,
+  makeOrchestrator,
+  type ActorScript,
+  type ActorStatePort,
+} from '@promethean/pantheon';
 
-interface CustomActorConfig extends ActorConfig {
+interface CustomActorConfig {
   customLogic: (input: string) => Promise<string>;
 }
 
-function makeCustomActorAdapter(): ActorPort {
-  const actors = new Map<string, Actor & { config: CustomActorConfig }>();
-
+function createCustomActorScript(name: string, config: CustomActorConfig): ActorScript {
   return {
-    async tick(actorId: string): Promise<void> {
-      const actor = actors.get(actorId);
-      if (!actor) throw new Error(`Actor ${actorId} not found`);
-
-      // Execute custom logic
-      const result = await actor.config.customLogic('input');
-      console.log(`Custom actor ${actorId} processed:`, result);
-
-      actor.lastTick = Date.now();
-      actors.set(actorId, actor);
-    },
-
-    async create(config: CustomActorConfig): Promise<string> {
-      const id = `custom-actor_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
-      const actor: Actor & { config: CustomActorConfig } = {
-        id,
-        config,
-        state: null,
-        lastTick: Date.now(),
-      };
-
-      actors.set(id, actor);
-      return id;
-    },
-
-    async get(id: string): Promise<Actor | null> {
-      const actor = actors.get(id);
-      return actor
-        ? {
-            id: actor.id,
-            config: actor.config,
-            state: actor.state,
-            lastTick: actor.lastTick,
-          }
-        : null;
-    },
+    name,
+    contextSources: [],
+    talents: [
+      {
+        name: 'custom-talent',
+        behaviors: [
+          {
+            name: 'custom-behavior',
+            mode: 'active',
+            plan: async ({ goal }) => {
+              const result = await config.customLogic(goal);
+              return {
+                actions: [{ type: 'message', content: result, target: 'user' }],
+              };
+            },
+          },
+        ],
+      },
+    ],
   };
 }
+
+// Usage
+const actorStateAdapter = makeInMemoryActorStateAdapter();
+const actorScript = createCustomActorScript('my-custom-actor', {
+  customLogic: async (input) => `Processed: ${input}`,
+});
+
+const actor = await actorStateAdapter.spawn(actorScript, 'Custom task');
 ```
 
 ### Adding Custom MCP Tools
