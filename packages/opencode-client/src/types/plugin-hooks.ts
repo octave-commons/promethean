@@ -42,14 +42,14 @@ export interface ToolExecutionResult {
 /**
  * Hook function signature for before hooks
  */
-export type BeforeHook<T = any> = (
+export type BeforeHook<T = Record<string, unknown>> = (
   context: HookContext & { args: T },
 ) => Promise<T | void> | T | void;
 
 /**
  * Hook function signature for after hooks
  */
-export type AfterHook<T = any, R = any> = (
+export type AfterHook<T = Record<string, unknown>, R = unknown> = (
   context: HookContext & {
     args: T;
     result: ToolExecutionResult & { result?: R };
@@ -76,7 +76,7 @@ export interface HookRegistration {
   /** Tool names this hook applies to (wildcard supported) */
   tools: string[];
   /** Optional metadata for the hook */
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   /** Timeout in milliseconds for this hook */
   timeout?: number;
 }
