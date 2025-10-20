@@ -1,6 +1,7 @@
 import { SessionUtils, agentTasks, sessionStore } from '../../index.js';
 import { deduplicateSessions } from '../../utils/session-cleanup.js';
 import type { AgentTaskStatus } from '../../types/index.js';
+import type { SessionInfo } from '../../SessionInfo.js';
 
 interface SessionData {
   id: string;
@@ -25,7 +26,7 @@ interface SessionData {
 interface StoreSession {
   id?: string;
   text: string;
-  timestamp?: number;
+  timestamp?: number | string | Date;
   [key: string]: unknown;
 }
 
@@ -41,9 +42,9 @@ function parseSessionData(session: StoreSession): SessionData {
     const sessionMatch = text.match(/Session:\s*(\w+)/);
     if (sessionMatch) {
       return {
-        id: sessionMatch[1],
+        id: sessionMatch[1] || 'unknown',
         title: `Session ${sessionMatch[1]}`,
-        createdAt: session.timestamp || Date.now(),
+        createdAt: typeof session.timestamp === 'number' ? session.timestamp : Date.now(),
         time: {
           created: new Date(session.timestamp || Date.now()).toISOString(),
         },
@@ -53,9 +54,9 @@ function parseSessionData(session: StoreSession): SessionData {
     return {
       id: session.id?.toString() || 'unknown',
       title: 'Legacy Session',
-      createdAt: session.timestamp || Date.now(),
-      updatedAt: session.timestamp || Date.now(),
-      lastActivity: session.timestamp || Date.now(),
+      createdAt: typeof session.timestamp === 'number' ? session.timestamp : Date.now(),
+      updatedAt: typeof session.timestamp === 'number' ? session.timestamp : Date.now(),
+      lastActivity: typeof session.timestamp === 'number' ? session.timestamp : Date.now(),
       status: 'unknown',
       time: {
         created: new Date(session.timestamp || Date.now()).toISOString(),
@@ -93,7 +94,7 @@ export async function list({ limit, offset }: { limit: number; offset: number })
 
     // Parse sessions and deduplicate by ID
     const parsedSessions = storedSessions.map((session) => parseSessionData(session));
-    const sessionsList = deduplicateSessions(parsedSessions);
+    const sessionsList = deduplicateSessions(parsedSessions as SessionData[]);
     if (debugEnabled) {
       console.log(`[DEBUG] after deduplication: ${sessionsList?.length || 0} sessions`);
       console.log(`[INFO] Session IDs being processed:`);
@@ -110,10 +111,10 @@ export async function list({ limit, offset }: { limit: number; offset: number })
       });
     }
 
-    const sortedSessions = [...sessionsList].sort((a: SessionData, b: SessionData) => {
+    const sortedSessions = [...sessionsList].sort((a, b) => {
       // Sort by creation time (most recent first), fallback to ID
-      const aTime = a.createdAt || a.time?.created || a.timestamp || '';
-      const bTime = b.createdAt || b.time?.created || b.timestamp || '';
+      const aTime = a.createdAt || a.time?.created || '';
+      const bTime = b.createdAt || b.time?.created || '';
 
       // Ensure timestamps are strings before comparing
       if (aTime && bTime && typeof aTime === 'string' && typeof bTime === 'string') {
@@ -133,7 +134,7 @@ export async function list({ limit, offset }: { limit: number; offset: number })
     }
 
     const enhanced = await Promise.all(
-      paginated.map(async (session: SessionData) => {
+      paginated.map(async (session) => {
         try {
           // Get messages from dual store - fail fast if not available
           const messageKey = `session:${session.id}:messages`;
@@ -220,15 +221,11 @@ export async function list({ limit, offset }: { limit: number; offset: number })
           totalPages: Math.ceil(totalCount / limit),
         },
         summary: {
-          active: enhanced.filter(
-            (s: SessionInfo) => (s as SessionData).activityStatus === 'active',
-          ).length,
-          waiting_for_input: enhanced.filter(
-            (s: SessionInfo) => (s as SessionData).activityStatus === 'waiting_for_input',
-          ).length,
-          idle: enhanced.filter((s: SessionInfo) => (s as SessionData).activityStatus === 'idle')
+          active: enhanced.filter((s) => s.activityStatus === 'active').length,
+          waiting_for_input: enhanced.filter((s) => s.activityStatus === 'waiting_for_input')
             .length,
-          agentTasks: enhanced.filter((s: SessionInfo) => (s as SessionData).isAgentTask).length,
+          idle: enhanced.filter((s) => s.activityStatus === 'idle').length,
+          agentTasks: enhanced.filter((s) => s.isAgentTask).length,
         },
       },
       null,
@@ -238,6 +235,6 @@ export async function list({ limit, offset }: { limit: number; offset: number })
     console.error('Error in list_sessions:', error);
     console.error('Parameters received:', { limit, offset });
     console.error('Stored sessions count:', storedSessions?.length || 0);
-    return `Failed to list sessions: ${error.message}`;
+    return `Failed to list sessions: ${error instanceof Error ? error.message : String(error)}`;
   }
 }

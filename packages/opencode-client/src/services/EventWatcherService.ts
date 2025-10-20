@@ -132,8 +132,14 @@ export class EventWatcherService {
 
       this.log('✅ Event Watcher Service started successfully');
     } catch (error) {
-      this.log(`❌ Failed to start Event Watcher Service: ${error}`, 'error');
-      this.log(`❌ Error stack: ${error.stack}`, 'error');
+      this.log(
+        `❌ Failed to start Event Watcher Service: ${error instanceof Error ? error.message : String(error)}`,
+        'error',
+      );
+      this.log(
+        `❌ Error stack: ${error instanceof Error ? error.stack : 'No stack available'}`,
+        'error',
+      );
       this.isRunning = false;
       throw error;
     }
@@ -151,8 +157,7 @@ export class EventWatcherService {
 
         try {
           // Get all sessions and check for updates
-          const response = await this.client.session.list();
-          const sessions = response.data || response;
+          const sessions = await this.client.session.list();
 
           if (Array.isArray(sessions)) {
             for (const session of sessions) {
@@ -324,6 +329,7 @@ export class EventWatcherService {
   /**
    * Perform retrospective indexing of existing data
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private async performRetrospectiveIndexing(): Promise<void> {
     this.log('📚 Starting retrospective indexing...');
 

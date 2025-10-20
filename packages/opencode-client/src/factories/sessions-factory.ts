@@ -5,10 +5,6 @@ import { tool } from '@opencode-ai/plugin/tool';
 import { listSessions, create, close, get, search } from '../actions/index.js';
 import type { SessionClient } from '../types/index.js';
 
-interface ToolContext {
-  client?: SessionClient;
-}
-
 interface ListSessionsArgs {
   limit?: number;
   offset?: number;
@@ -67,7 +63,7 @@ export function createCreateSessionTool() {
         .optional()
         .describe('Delegates for the session'),
     },
-    async execute(args: CreateSessionArgs, context: any): Promise<string> {
+    async execute(args: CreateSessionArgs, context: { client?: SessionClient }): Promise<string> {
       const { title } = args;
       const client = context.client;
 

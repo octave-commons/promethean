@@ -24,14 +24,13 @@ export interface ListEventsOptions {
 
 // Client management (reuse from sessions)
 const timeout = process.env.OPENCODE_TIMEOUT ? Number(process.env.OPENCODE_TIMEOUT) : undefined;
-const authHeader = process.env.OPENCODE_AUTH_TOKEN
-  ? { Authorization: `Bearer ${process.env.OPENCODE_AUTH_TOKEN}` }
-  : undefined;
 
 async function getClient(): Promise<SessionClient> {
   return createOpencode({
     timeout,
-  }).then((r: { client?: SessionClient }) => r.client ?? r);
+  }).then((r: SessionClient | { client?: SessionClient }) =>
+    'client' in r ? (r.client as SessionClient) : (r as SessionClient),
+  );
 }
 
 /**
