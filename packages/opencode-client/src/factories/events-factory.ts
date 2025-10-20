@@ -2,6 +2,7 @@
 // Factory functions for event tools
 
 import { tool } from '@opencode-ai/plugin/tool';
+import type { OpencodeClient } from '@opencode-ai/sdk';
 import {
   handleSessionIdle,
   handleSessionUpdated,
@@ -12,8 +13,10 @@ import {
   processSessionMessages,
 } from '../actions/events/index.js';
 
+type ToolFunction = ReturnType<typeof tool>;
+
 // Factory for handleSessionIdle tool
-export function createHandleSessionIdleTool(): any {
+export function createHandleSessionIdleTool(): ToolFunction {
   return tool({
     description: 'Handle session idle event',
     args: {

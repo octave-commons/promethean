@@ -5,6 +5,8 @@ import { tool } from '@opencode-ai/plugin/tool';
 import type { OpencodeClient } from '@opencode-ai/sdk';
 import { listSessions, create, close, get, search } from '../actions/index.js';
 
+type ToolFunction = ReturnType<typeof tool>;
+
 interface ListSessionsArgs {
   limit?: number;
   offset?: number;
@@ -33,7 +35,7 @@ interface SearchSessionsArgs {
 }
 
 // Factory for listSessions tool
-export function createListSessionsTool() {
+export function createListSessionsTool(): ToolFunction {
   return tool({
     description: 'List all sessions with pagination and enhanced information',
     args: {
@@ -49,7 +51,7 @@ export function createListSessionsTool() {
 }
 
 // Factory for createSession tool
-export function createCreateSessionTool() {
+export function createCreateSessionTool(): ToolFunction {
   return tool({
     description: 'Create a new session',
     args: {
@@ -63,9 +65,9 @@ export function createCreateSessionTool() {
         .optional()
         .describe('Delegates for the session'),
     },
-    async execute(args: CreateSessionArgs, context: { client: OpencodeClient }): Promise<string> {
+    async execute(args: CreateSessionArgs, context: any): Promise<string> {
       const { title } = args;
-      const client = context.client;
+      const client = context.client as OpencodeClient;
 
       const result = await create({ title, client });
       return result;
@@ -74,7 +76,7 @@ export function createCreateSessionTool() {
 }
 
 // Factory for closeSession tool
-export function createCloseSessionTool() {
+export function createCloseSessionTool(): ToolFunction {
   return tool({
     description: 'Close a session',
     args: {
@@ -89,7 +91,7 @@ export function createCloseSessionTool() {
 }
 
 // Factory for getSession tool
-export function createGetSessionTool() {
+export function createGetSessionTool(): ToolFunction {
   return tool({
     description: 'Get detailed information about a specific session',
     args: {
@@ -106,7 +108,7 @@ export function createGetSessionTool() {
 }
 
 // Factory for searchSessions tool
-export function createSearchSessionsTool() {
+export function createSearchSessionsTool(): ToolFunction {
   return tool({
     description: 'Search sessions by query',
     args: {

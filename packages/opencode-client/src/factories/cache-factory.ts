@@ -11,8 +11,10 @@ import {
   manageCache,
 } from '../actions/index.js';
 
+type ToolFunction = ReturnType<typeof tool>;
+
 // Factory for initializeCache tool
-export function createInitializeCacheTool() {
+export function createInitializeCacheTool(): ToolFunction {
   return tool({
     description: 'Initialize cache for a specific model',
     args: {
@@ -26,7 +28,7 @@ export function createInitializeCacheTool() {
 }
 
 // Factory for checkCache tool
-export function createCheckCacheTool() {
+export function createCheckCacheTool(): ToolFunction {
   return tool({
     description: 'Check if a prompt exists in cache',
     args: {
@@ -42,7 +44,7 @@ export function createCheckCacheTool() {
 }
 
 // Factory for createCacheKey tool
-export function createCreateCacheKeyTool() {
+export function createCreateCacheKeyTool(): ToolFunction {
   return tool({
     description: 'Create a cache key for a prompt',
     args: {
@@ -58,7 +60,7 @@ export function createCreateCacheKeyTool() {
 }
 
 // Factory for storeInCache tool
-export function createStoreInCacheTool() {
+export function createStoreInCacheTool(): ToolFunction {
   return tool({
     description: 'Store a result in cache',
     args: {
@@ -106,7 +108,7 @@ export function createStoreInCacheTool() {
 }
 
 // Factory for manageCache tool
-export function createManageCacheTool() {
+export function createManageCacheTool(): ToolFunction {
   return tool({
     description: 'Manage prompt cache (clear, get stats, etc.)',
     args: {
