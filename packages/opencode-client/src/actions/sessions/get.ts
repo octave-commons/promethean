@@ -7,7 +7,7 @@ import type { Session } from '../../api/sessions.js';
 function parseSessionData(session: {
   text: string;
   id?: string;
-  timestamp?: number | string;
+  timestamp?: Date | number | string;
 }): Session {
   try {
     return JSON.parse(session.text);
@@ -19,20 +19,26 @@ function parseSessionData(session: {
       return {
         id: sessionMatch[1] || 'unknown',
         title: `Session ${sessionMatch[1]}`,
-        createdAt:
-          (typeof session.timestamp === 'number'
+        createdAt: session.timestamp
+          ? typeof session.timestamp === 'number'
             ? new Date(session.timestamp).toISOString()
-            : session.timestamp) || new Date().toISOString(),
+            : session.timestamp instanceof Date
+              ? session.timestamp.toISOString()
+              : session.timestamp
+          : new Date().toISOString(),
       };
     }
     // Fallback - create minimal session object
     return {
       id: session.id || 'unknown',
       title: 'Legacy Session',
-      createdAt:
-        (typeof session.timestamp === 'number'
+      createdAt: session.timestamp
+        ? typeof session.timestamp === 'number'
           ? new Date(session.timestamp).toISOString()
-          : session.timestamp) || new Date().toISOString(),
+          : session.timestamp instanceof Date
+            ? session.timestamp.toISOString()
+            : session.timestamp
+        : new Date().toISOString(),
     };
   }
 }
