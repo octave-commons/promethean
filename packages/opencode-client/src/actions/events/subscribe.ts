@@ -13,7 +13,7 @@ export async function subscribe({
     if (!client.event?.subscribe) {
       return 'Events subscription not supported by this client';
     }
-    const subscription = await client.event.subscribe();
+    await client.event.subscribe();
 
     return JSON.stringify({
       success: true,
