@@ -214,7 +214,7 @@ export function createCloseAgentSessionTool(): any {
   });
 }
 
-export function createListAgentSessionsTool(): any {
+export function createListAgentSessionsTool(): ReturnType<typeof tool> {
   return tool({
     description: 'List all active agent sessions with optional filtering',
     args: {
@@ -264,7 +264,7 @@ export function createListAgentSessionsTool(): any {
   });
 }
 
-export function createGetAgentSessionTool(): any {
+export function createGetAgentSessionTool(): ReturnType<typeof tool> {
   return tool({
     description: 'Get detailed information about a specific agent session',
     args: {
