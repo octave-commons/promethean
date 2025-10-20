@@ -51,7 +51,10 @@ type Stores = {
 };
 
 // Factory for updateTaskStatus tool
-export function createUpdateTaskStatusTool(stores, client): ReturnType<typeof tool> {
+export function createUpdateTaskStatusTool(
+  stores: TaskContext,
+  client: any,
+): ReturnType<typeof tool> {
   return tool({
     description: 'Update the status of an agent task',
     args: {
