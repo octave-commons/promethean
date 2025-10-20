@@ -388,24 +388,6 @@ export interface EventMessage {
   [key: string]: unknown;
 }
 
-// Event Client Interface
-export interface EventClient {
-  session: {
-    messages: (params: {
-      path: { id: string };
-    }) => Promise<{ data?: unknown; error?: string | Record<string, unknown> }>;
-  };
-  events?: {
-    list: (
-      options: EventListOptions,
-    ) => Promise<{ data?: StoredEvent[]; error?: string | Record<string, unknown> }>;
-    subscribe: (options: {
-      eventType?: string;
-      sessionId?: string;
-    }) => Promise<{ data?: EventSubscription; error?: string | Record<string, unknown> }>;
-  };
-}
-
 // Hook Types
 export interface EventHook {
   eventType: string;
