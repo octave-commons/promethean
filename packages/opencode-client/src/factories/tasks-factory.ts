@@ -89,18 +89,6 @@ export function createCleanupOrphanedTaskTool(stores, client): ReturnType<typeof
     },
     async execute(args, context) {
       const { sessionId } = args;
-      const agentTaskStore = (context as Record<string, unknown>)
-        .agentTaskStore as DualStoreManager<'text', 'timestamp'>;
-      const agentTasks = (context as Record<string, unknown>).agentTasks as Map<string, AgentTask>;
-
-      if (!agentTaskStore || !agentTasks) {
-        throw new Error('Required task context not available');
-      }
-
-      const taskContext: TaskContext = {
-        agentTaskStore,
-        agentTasks,
-      };
 
       await cleanupOrphanedTask(taskContext, sessionId);
 
@@ -187,10 +175,6 @@ export function createCreateTaskTool(stores: Stores): ReturnType<typeof tool> {
     async execute(args, context: Context) {
       const { sessionId, task } = args;
 
-      const taskContext = {
-        agentTaskStore: stores.agentTaskStore,
-      };
-
       const agentTask = await createTask(taskContext, sessionId, task);
 
       return JSON.stringify({
@@ -211,13 +195,6 @@ export function createGetAllTasksTool(stores: Stores): ReturnType<typeof tool> {
     description: 'Get all tasks from memory and storage',
     args: {},
     async execute(_args, context: Context) {
-      const agentTaskStore = (context as Record<string, unknown>)
-        .agentTaskStore as DualStoreManager<'text', 'timestamp'>;
-
-      const taskContext = {
-        agentTaskStore,
-      };
-
       const allTasks = await getAllTasks(taskContext);
       const tasksArray = Array.from(allTasks.entries()).map(([sessionId, task]) => ({
         sessionId,
