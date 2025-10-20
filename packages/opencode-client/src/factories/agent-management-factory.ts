@@ -344,7 +344,7 @@ export function createGetAgentStatsTool(): ReturnType<typeof tool> {
   });
 }
 
-export function createCleanupAgentSessionsTool(): any {
+export function createCleanupAgentSessionsTool(): ReturnType<typeof tool> {
   return tool({
     description: 'Cleanup old completed or failed sessions',
     args: {
