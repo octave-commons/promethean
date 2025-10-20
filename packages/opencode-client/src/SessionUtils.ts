@@ -1,8 +1,17 @@
 import { AgentTask } from './AgentTask.js';
 import { SessionInfo } from './SessionInfo.js';
+import type { SessionClient, OpenCodeEvent } from './types/index.js';
+
+interface SessionData {
+  id: string;
+  title?: string;
+  isAgentTask?: boolean;
+  agentTaskStatus?: string;
+  [key: string]: unknown;
+}
 
 class SessionUtils {
-  static extractSessionId(event: any): string | null {
+  static extractSessionId(event: OpenCodeEvent): string | null {
     const extractors: Record<string, () => string | undefined> = {
       'session.idle': () => event.properties.sessionID || event.properties.session?.id,
       'session.updated': () => event.properties.info?.id || event.properties.session?.id,
@@ -16,7 +25,7 @@ class SessionUtils {
     return extractor ? extractor() || null : null;
   }
 
-  static async getSessionMessages(client: any, sessionId: string) {
+  static async getSessionMessages(client: SessionClient, sessionId: string) {
     try {
       const { data: messages } = await client.session.messages({
         path: { id: sessionId },
@@ -29,7 +38,7 @@ class SessionUtils {
   }
 
   static determineActivityStatus(
-    _session: any,
+    _session: SessionData,
     messageCount: number,
     agentTask?: AgentTask,
   ): string {
@@ -46,7 +55,11 @@ class SessionUtils {
     return 'idle';
   }
 
-  static createSessionInfo(session: any, messageCount: number, agentTask?: AgentTask): SessionInfo {
+  static createSessionInfo(
+    session: SessionData,
+    messageCount: number,
+    agentTask?: AgentTask,
+  ): SessionInfo {
     const now = Date.now();
     const activityStatus = this.determineActivityStatus(session, messageCount, agentTask);
     const sessionAge = agentTask ? Math.round((now - agentTask.startTime) / 1000) : 0;

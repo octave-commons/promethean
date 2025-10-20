@@ -1,10 +1,36 @@
 import { SessionUtils, agentTasks, sessionStore } from '../../index.js';
 import { deduplicateSessions } from '../../utils/session-cleanup.js';
+import type { SessionInfo, AgentTask } from '../../types/index.js';
+
+interface SessionData {
+  id: string;
+  title?: string;
+  createdAt: string;
+  time?: {
+    created?: string;
+    updated?: string;
+  };
+  status?: string;
+  lastActivity?: number;
+  activityStatus?: string;
+  isAgentTask?: boolean;
+  task?: string;
+  completionMessage?: string;
+  messages?: unknown[];
+  [key: string]: unknown;
+}
+
+interface StoreSession {
+  id: string;
+  text: string;
+  timestamp?: number;
+  [key: string]: unknown;
+}
 
 /**
  * Safely parse session data, handling both JSON and plain text formats
  */
-function parseSessionData(session: any): any {
+function parseSessionData(session: StoreSession): SessionData {
   try {
     return JSON.parse(session.text);
   } catch (error) {
@@ -34,7 +60,7 @@ function parseSessionData(session: any): any {
 }
 
 export async function list({ limit, offset }: { limit: number; offset: number }) {
-  let storedSessions: any[] = [];
+  let storedSessions: StoreSession[] = [];
   const debugEnabled = Boolean(process.env.OPENCODE_DEBUG);
   try {
     if (debugEnabled) {
@@ -66,7 +92,7 @@ export async function list({ limit, offset }: { limit: number; offset: number })
     if (debugEnabled) {
       console.log(`[DEBUG] after deduplication: ${sessionsList?.length || 0} sessions`);
       console.log(`[INFO] Session IDs being processed:`);
-      sessionsList.slice(0, 5).forEach((s: any) => {
+      sessionsList.slice(0, 5).forEach((s: SessionData) => {
         console.log(`  - ${s.id} (isAgentTask: ${s.isAgentTask})`);
       });
     }
@@ -79,7 +105,7 @@ export async function list({ limit, offset }: { limit: number; offset: number })
       });
     }
 
-    const sortedSessions = [...sessionsList].sort((a: any, b: any) => {
+    const sortedSessions = [...sessionsList].sort((a: SessionData, b: SessionData) => {
       // Sort by creation time (most recent first), fallback to ID
       const aTime = a.createdAt || a.time?.created || a.timestamp || '';
       const bTime = b.createdAt || b.time?.created || b.timestamp || '';
@@ -102,14 +128,14 @@ export async function list({ limit, offset }: { limit: number; offset: number })
     }
 
     const enhanced = await Promise.all(
-      paginated.map(async (session: any) => {
+      paginated.map(async (session: SessionData) => {
         try {
           // Get messages from dual store - fail fast if not available
           const messageKey = `session:${session.id}:messages`;
           // Only fetch recent messages, not all 1000
           const allStored = await sessionStore.getMostRecent(100); // Reduced from 1000
           const messageEntry = allStored.find((entry) => entry.id === messageKey);
-          let messages: any[] = [];
+          let messages: unknown[] = [];
           if (messageEntry) {
             messages = JSON.parse(messageEntry.text);
           }
@@ -141,7 +167,7 @@ export async function list({ limit, offset }: { limit: number; offset: number })
           }
 
           return SessionUtils.createSessionInfo(session, messages.length, agentTask);
-        } catch (error: any) {
+        } catch (error: unknown) {
           console.error(`Error processing session ${session.id}:`, error);
           let agentTask = agentTasks.get(session.id);
 
@@ -179,17 +205,18 @@ export async function list({ limit, offset }: { limit: number; offset: number })
           totalPages: Math.ceil(totalCount / limit),
         },
         summary: {
-          active: enhanced.filter((s: any) => s.activityStatus === 'active').length,
-          waiting_for_input: enhanced.filter((s: any) => s.activityStatus === 'waiting_for_input')
-            .length,
-          idle: enhanced.filter((s: any) => s.activityStatus === 'idle').length,
-          agentTasks: enhanced.filter((s: any) => s.isAgentTask).length,
+          active: enhanced.filter((s: SessionData) => s.activityStatus === 'active').length,
+          waiting_for_input: enhanced.filter(
+            (s: SessionData) => s.activityStatus === 'waiting_for_input',
+          ).length,
+          idle: enhanced.filter((s: SessionData) => s.activityStatus === 'idle').length,
+          agentTasks: enhanced.filter((s: SessionData) => s.isAgentTask).length,
         },
       },
       null,
       2,
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error in list_sessions:', error);
     console.error('Parameters received:', { limit, offset });
     console.error('Stored sessions count:', storedSessions?.length || 0);
