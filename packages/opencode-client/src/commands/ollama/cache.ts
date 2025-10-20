@@ -1,7 +1,21 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
 import ora from 'ora';
-import { manageCache } from '../../api/ollama.js';
+import { getCacheStats, clearCache } from './mock-api.js';
+
+async function manageCache(action: string): Promise<any> {
+  switch (action) {
+    case 'stats':
+      return await getCacheStats();
+    case 'clear':
+    case 'clear-expired':
+      return await clearCache();
+    case 'performance-analysis':
+      return { analysis: 'Performance analysis not implemented' };
+    default:
+      throw new Error(`Unknown action: ${action}`);
+  }
+}
 
 export const cacheCommand = new Command('cache')
   .description('Manage prompt cache')

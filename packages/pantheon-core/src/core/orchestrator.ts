@@ -187,20 +187,138 @@ export const makeOrchestrator = (deps: OrchestratorDeps) => {
   };
 
   const startActorLoop = (actor: Actor, intervalMs: number = 5000): (() => void) => {
-    return deps.schedule.every(intervalMs, async () => {
+    let isActive = true;
+
+    const loop = deps.schedule.every(intervalMs, async () => {
+      if (!isActive) return;
+
       try {
-        await tickActor(actor);
+        // Check if actor still exists and is in a valid state
+        const currentActor = await deps.state.get(actor.id);
+        if (!currentActor) {
+          deps.log(`Actor ${actor.id} no longer exists, stopping loop`);
+          isActive = false;
+          return;
+        }
+
+        // Skip ticking if actor is paused or completed
+        if (currentActor.state === 'paused' || currentActor.state === 'completed') {
+          return;
+        }
+
+        // Reset failed state to idle for retry
+        if (currentActor.state === 'failed') {
+          await deps.state.update(actor.id, { state: 'idle' });
+        }
+
+        await tickActor(currentActor);
       } catch (error) {
         deps.log(`Actor loop error for ${actor.id}`, {
           error: error instanceof Error ? error.message : String(error),
         });
+
+        // Mark actor as failed but don't stop the loop - allow retry
+        try {
+          await deps.state.update(actor.id, {
+            state: 'failed',
+            updatedAt: new Date(),
+            metadata: {
+              ...(await deps.state.get(actor.id))?.metadata,
+              lastLoopError: error instanceof Error ? error.message : String(error),
+            },
+          });
+        } catch (updateError) {
+          deps.log(`Failed to update actor state after loop error`, {
+            error: updateError instanceof Error ? updateError.message : String(updateError),
+          });
+        }
       }
     });
+
+    // Return cleanup function
+    return () => {
+      isActive = false;
+      loop();
+      deps.log(`Actor loop for ${actor.id} stopped`);
+    };
+  };
+
+  const cleanupActor = async (actorId: string): Promise<void> => {
+    deps.log(`Cleaning up actor: ${actorId}`);
+
+    try {
+      const actor = await deps.state.get(actorId);
+      if (!actor) {
+        deps.log(`Actor ${actorId} not found for cleanup`);
+        return;
+      }
+
+      // Update actor state to indicate cleanup
+      await deps.state.update(actorId, {
+        state: 'completed',
+        updatedAt: new Date(),
+        metadata: {
+          ...actor.metadata,
+          cleanedUpAt: deps.now(),
+        },
+      });
+
+      // Perform any additional cleanup here
+      // - Close open connections
+      // - Clear temporary data
+      // - Release resources
+
+      deps.log(`Actor ${actorId} cleaned up successfully`);
+    } catch (error) {
+      deps.log(`Error cleaning up actor ${actorId}`, {
+        error: error instanceof Error ? error.message : String(error),
+      });
+      throw error;
+    }
+  };
+
+  const pauseActor = async (actorId: string): Promise<void> => {
+    deps.log(`Pausing actor: ${actorId}`);
+
+    try {
+      await deps.state.update(actorId, {
+        state: 'paused',
+        updatedAt: new Date(),
+      });
+
+      deps.log(`Actor ${actorId} paused`);
+    } catch (error) {
+      deps.log(`Error pausing actor ${actorId}`, {
+        error: error instanceof Error ? error.message : String(error),
+      });
+      throw error;
+    }
+  };
+
+  const resumeActor = async (actorId: string): Promise<void> => {
+    deps.log(`Resuming actor: ${actorId}`);
+
+    try {
+      await deps.state.update(actorId, {
+        state: 'idle',
+        updatedAt: new Date(),
+      });
+
+      deps.log(`Actor ${actorId} resumed`);
+    } catch (error) {
+      deps.log(`Error resuming actor ${actorId}`, {
+        error: error instanceof Error ? error.message : String(error),
+      });
+      throw error;
+    }
   };
 
   return {
     tickActor,
     startActorLoop,
     executeAction: (action: Action, actor: Actor) => executeAction(action, actor),
+    cleanupActor,
+    pauseActor,
+    resumeActor,
   };
 };
