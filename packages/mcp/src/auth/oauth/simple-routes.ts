@@ -70,6 +70,7 @@ export function registerSimpleOAuthRoutes(
       issuer: `${baseUrl}/mcp`,
       authorization_endpoint: `${baseUrl}${basePath}/login`,
       token_endpoint: `${baseUrl}${basePath}/callback`,
+      registration_endpoint: `${baseUrl}/.well-known/oauth-registration/mcp`,
       response_types_supported: ['code'],
       grant_types_supported: ['authorization_code'],
       scopes_supported: ['user:email', 'openid', 'email', 'profile'],
