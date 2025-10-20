@@ -92,7 +92,7 @@ export class EventWatcherService {
     };
   }
 
-/**
+  /**
    * Start event watcher service
    */
   async start(): Promise<void> {
@@ -182,7 +182,11 @@ export class EventWatcherService {
   /**
    * Process a session update event
    */
-  private async processSessionUpdate(session: { id: string; time?: { updated?: number; created?: number }; [key: string]: unknown }): Promise<void> {
+  private async processSessionUpdate(session: {
+    id: string;
+    time?: { updated?: number; created?: number };
+    [key: string]: unknown;
+  }): Promise<void> {
     try {
       const lastProcessed = this.lastProcessedTimes.get(session.id) || 0;
       const sessionTime = session.time?.updated || session.time?.created || 0;
@@ -258,7 +262,7 @@ export class EventWatcherService {
     return { ...this.stats };
   }
 
-/**
+  /**
    * Initialize stores
    */
   private async initializeStores(): Promise<void> {
@@ -268,30 +272,32 @@ export class EventWatcherService {
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
         this.log(`🔄 Initializing stores (attempt ${attempt}/${maxRetries})...`);
-        
+
         // Create fresh stores with unique names to avoid conflicts
         this.sessionStore = await DualStoreManager.create('indexer-sessions', 'text', 'timestamp', {
-          agentName: 'opencode-indexer'
+          agentName: 'opencode-indexer',
         });
-        this.agentTaskStore = await DualStoreManager.create('indexer-agent-tasks', 'text', 'timestamp', {
-          agentName: 'opencode-indexer'
-        });
-        
+        this.agentTaskStore = await DualStoreManager.create(
+          'indexer-agent-tasks',
+          'text',
+          'timestamp',
+          {
+            agentName: 'opencode-indexer',
+          },
+        );
+
         this.log('✅ Stores initialized successfully');
         return;
       } catch (error) {
-        this.log(`❌ Failed to initialize stores (attempt ${attempt}/${maxRetries}): ${error}`, 'error');
-        
+        this.log(
+          `❌ Failed to initialize stores (attempt ${attempt}/${maxRetries}): ${error}`,
+          'error',
+        );
+
         if (attempt === maxRetries) {
           this.log('❌ Max retries reached, giving up on store initialization', 'error');
           throw error;
         }
-        
-        this.log(`⏳ Waiting ${retryDelay}ms before retry...`, 'warn');
-        await new Promise(resolve => setTimeout(resolve, retryDelay));
-      }
-    }
-  }
 
         this.log(`⏳ Waiting ${retryDelay}ms before retry...`, 'warn');
         await new Promise((resolve) => setTimeout(resolve, retryDelay));
