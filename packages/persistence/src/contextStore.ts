@@ -1,7 +1,9 @@
 import type { Where } from 'chromadb';
 
 import { DualStoreManager } from './dualStore.js';
-import type { DualStoreEntry, DualStoreMetadata, DualStoreTimestamp } from './types.js';
+import type { DualStoreEntry, DualStoreTimestamp } from './types.js';
+
+export type ContextMessage = { role: 'user' | 'assistant' | 'system'; content: string; images?: string[] };
 
 const toEpochMilliseconds = (value: DualStoreTimestamp): number => {
     if (value instanceof Date) return value.getTime();
@@ -9,21 +11,14 @@ const toEpochMilliseconds = (value: DualStoreTimestamp): number => {
     return value;
 };
 
-const resolveDisplayName = (metadata: DualStoreMetadata | undefined): string => {
-    if (!metadata?.userName) return 'Unknown user';
-    return metadata.userName === 'Duck' ? 'You' : metadata.userName;
-};
-
-const resolveRole = (metadata: DualStoreMetadata | undefined): Message['role'] => {
-    if (!metadata || metadata.userName !== 'Duck') return 'user';
-    return metadata.isThought ? 'system' : 'assistant';
-};
-
-export const formatMessage = (entry: DualStoreEntry<'text', 'timestamp'>): string => {
+export const formatMessage = (
+    entry: DualStoreEntry<'text', 'timestamp'>,
+    formatTime: (epochMs: number) => string,
+): string => {
     const metadata = entry.metadata ?? {};
-    const displayName = resolveDisplayName(metadata);
+    const displayName = metadata.userName || 'Unknown user';
     const verb = metadata.isThought ? 'thought' : 'said';
-    const formattedTime = timeAgo.format(toEpochMilliseconds(entry.timestamp));
+    const formattedTime = formatTime(toEpochMilliseconds(entry.timestamp));
     return `${displayName} ${verb} (${formattedTime}): ${entry.text}`;
 };
 
@@ -77,8 +72,15 @@ const resolveCompileOptions = (
     return value ?? {};
 };
 
-const dedupeByText = (entries: readonly GenericEntry[]): GenericEntry[] =>
-    entries.filter((entry, index, array) => array.findIndex((candidate) => candidate.text === entry.text) === index);
+const dedupeByText = (entries: readonly GenericEntry[]): GenericEntry[] => {
+    const seen = new Set<string>();
+    return entries.filter((entry) => {
+        const text = entry.text;
+        if (seen.has(text)) return false;
+        seen.add(text);
+        return true;
+    });
+};
 
 const sortByTimestamp = (entries: readonly GenericEntry[]): GenericEntry[] =>
     [...entries].sort((a, b) => toEpochMilliseconds(a.timestamp) - toEpochMilliseconds(b.timestamp));
@@ -93,25 +95,42 @@ const limitByCollectionCount = (
     return materialised.length > maxResults ? materialised.slice(-maxResults) : materialised;
 };
 
-const toMessage = (entry: GenericEntry, formatAssistantMessages: boolean): Message => {
+const toMessage = (
+    entry: GenericEntry,
+    formatAssistantMessages: boolean,
+    formatTime: (epochMs: number) => string,
+    assistantName: string,
+): ContextMessage => {
     const metadata = entry.metadata ?? {};
+    const isAssistant = metadata.userName === assistantName;
+
     if (metadata.type === 'image') {
         return {
-            role: resolveRole(metadata),
+            role: isAssistant ? (metadata.isThought ? 'system' : 'assistant') : 'user',
             content: typeof metadata.caption === 'string' ? metadata.caption : '',
             images: [entry.text],
         };
     }
 
-    const content = metadata.userName === 'Duck' && !formatAssistantMessages ? entry.text : formatMessage(entry);
+    const content = isAssistant && !formatAssistantMessages ? entry.text : formatMessage(entry, formatTime);
     return {
-        role: resolveRole(metadata),
+        role: isAssistant ? (metadata.isThought ? 'system' : 'assistant') : 'user',
         content,
     };
 };
 
 export class ContextStore {
     private collections: ReadonlyMap<string, DualStoreManager<string, string>> = new Map();
+    private formatTime: (epochMs: number) => string;
+    private assistantName: string;
+
+    constructor(
+        formatTime: (epochMs: number) => string = (ms) => new Date(ms).toISOString(),
+        assistantName: string = 'Duck',
+    ) {
+        this.formatTime = formatTime;
+        this.assistantName = assistantName;
+    }
 
     private getCollectionManagers(): readonly DualStoreManager<string, string>[] {
         return Array.from(this.collections.values());
@@ -181,7 +200,7 @@ export class ContextStore {
     async compileContext(
         textsOrOptions: readonly string[] | CompileContextOptions = [],
         ...legacyArgs: LegacyCompileArgs
-    ): Promise<Message[]> {
+    ): Promise<ContextMessage[]> {
         const options = resolveCompileOptions(textsOrOptions, legacyArgs);
 
         const definedOptions = Object.fromEntries(
@@ -198,7 +217,7 @@ export class ContextStore {
         return this.compileContextInternal(resolved);
     }
 
-    private async compileContextInternal(options: Required<CompileContextOptions>): Promise<Message[]> {
+    private async compileContextInternal(options: Required<CompileContextOptions>): Promise<ContextMessage[]> {
         const latest = await this.getLatestDocuments(options.recentLimit);
         const queryTexts = [...(options.texts ?? []), ...latest.map((doc) => doc.text)].slice(-options.queryLimit);
         const [relatedDocs, imageDocs] = await Promise.all([
@@ -215,6 +234,8 @@ export class ContextStore {
         const deduped = dedupeByText(combined);
         const sorted = sortByTimestamp(deduped);
         const limited = limitByCollectionCount(sorted, options.limit, this.collections.size);
-        return limited.map((entry) => toMessage(entry, options.formatAssistantMessages));
+        return limited.map((entry) =>
+            toMessage(entry, options.formatAssistantMessages, this.formatTime, this.assistantName),
+        );
     }
 }
