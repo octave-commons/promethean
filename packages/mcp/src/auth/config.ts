@@ -250,15 +250,19 @@ export function validateOAuthConfig(config: OAuthConfig): void {
   }
 
   // Check if trusted providers match available providers
-  const invalidTrustedProviders = config.integration.trustedProviders.filter(
-    (provider) => !availableProviders.includes(provider),
+  // Filter trusted providers to only include available ones
+  const validTrustedProviders = config.integration.trustedProviders.filter((provider) =>
+    availableProviders.includes(provider),
   );
 
-  if (invalidTrustedProviders.length > 0) {
+  if (validTrustedProviders.length === 0 && availableProviders.length > 0) {
     throw new Error(
-      `Trusted providers contain invalid entries: ${invalidTrustedProviders.join(', ')}`,
+      `No valid trusted providers configured. Available: ${availableProviders.join(', ')}, Trusted: ${config.integration.trustedProviders.join(', ')}`,
     );
   }
+
+  // Update the trusted providers to only include valid ones
+  (config.integration as any).trustedProviders = validTrustedProviders;
 
   console.log(`[OAuthConfig] Configuration validated successfully`);
   console.log(`[OAuthConfig] Available providers: ${availableProviders.join(', ')}`);
