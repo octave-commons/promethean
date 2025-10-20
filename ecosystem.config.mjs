@@ -9,7 +9,7 @@ try {
   }
 }
 
-export const apps =
+export const apps = 
 [
   {
     "name": "lein-repl",
@@ -145,7 +145,8 @@ export const apps =
     "kill_timeout": 10000,
     "env": {
       "PM2_PROCESS_NAME": "promethean-mcp-dev",
-      "MCP_USRER_ROLE": "developer"
+      "MCP_USRER_ROLE": "developer",
+      "ENABLE_OAUTH": "true"
     },
     "cwd": "."
   },
@@ -361,11 +362,11 @@ export const apps =
   }
 ];
 
-export const triggers =
+export const triggers = 
 [];
 
-export const schedules =
+export const schedules = 
 [];
 
-export const actions =
+export const actions = 
 [];
