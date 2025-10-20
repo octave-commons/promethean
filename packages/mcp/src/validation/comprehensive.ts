@@ -406,7 +406,7 @@ export async function validateMcpOperation(
   // Then perform MCP-specific security checks
   try {
     // Import MCP's existing security functions
-    const { normalizeToRoot, isInsideRoot } = await import('../files.js');
+    const { normalizeToRoot, isInsideRoot } = await import('../files.ts');
 
     // Normalize path and check if it's inside root
     const normalizedPath = normalizeToRoot(rootPath, sanitizedPath);
