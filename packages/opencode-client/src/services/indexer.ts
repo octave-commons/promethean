@@ -94,6 +94,7 @@ export class IndexerService {
       // Get all sessions
       const sessionsResult = await this.client.session.list();
       const sessions = sessionsResult.data || [];
+      let totalMessages = 0;
 
       for (const session of sessions) {
         await this.indexSession(session);
@@ -103,16 +104,12 @@ export class IndexerService {
           path: { id: session.id },
         });
         const messages = messagesResult.data || [];
+        totalMessages += messages.length;
 
         for (const message of messages) {
           await this.indexMessage(message, session.id);
         }
       }
-
-      const totalMessages = sessions.reduce((sum: number, session: any) => {
-        const messagesResult = messages.find((msgList: any) => msgList.sessionId === session.id);
-        return sum + (messagesResult?.length || 0);
-      }, 0);
 
       console.log(`✅ Indexed ${sessions.length} sessions and ${totalMessages} messages`);
     } catch (error) {
