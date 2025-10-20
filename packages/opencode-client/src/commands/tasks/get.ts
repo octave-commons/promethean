@@ -4,8 +4,7 @@ import chalk from 'chalk';
 export const getTaskCommand = new Command('get')
   .description('Get task details')
   .argument('<sessionId>', 'session ID to retrieve task for')
-  .option('-j, --json', 'output in JSON format')
-  .action(async (sessionId: string, options) => {
+  .action(async (sessionId: string) => {
     try {
       console.log(chalk.blue(`📖 Getting task for session: ${sessionId}`));
 

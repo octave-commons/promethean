@@ -4,7 +4,6 @@
  */
 
 import type {
-  Actor,
   ActorScript,
   Behavior,
   Talent,
@@ -25,7 +24,7 @@ export type LLMActorConfig = {
 export const createLLMActor = (
   name: string,
   config: LLMActorConfig,
-  contextSources: ContextSource[] = []
+  contextSources: ContextSource[] = [],
 ): ActorScript => {
   const { model = 'gpt-3.5-turbo', temperature = 0.7, maxTokens = 1000, systemPrompt } = config;
 
@@ -36,16 +35,16 @@ export const createLLMActor = (
     plan: async ({ goal, context }) => {
       // Prepare messages for LLM
       const messages: Message[] = [];
-      
+
       if (systemPrompt) {
         messages.push({ role: 'system', content: systemPrompt });
       }
-      
+
       // Add context messages
       messages.push(...context);
-      
+
       // Add goal as user message if not already in context
-      if (!context.some(msg => msg.content.includes(goal))) {
+      if (!context.some((msg) => msg.content.includes(goal))) {
         messages.push({ role: 'user', content: goal });
       }
 
@@ -96,7 +95,7 @@ export type ToolActorConfig = {
 export const createToolActor = (
   name: string,
   config: ToolActorConfig,
-  contextSources: ContextSource[] = []
+  contextSources: ContextSource[] = [],
 ): ActorScript => {
   const { tools, maxToolCalls = 5 } = config;
 
@@ -112,17 +111,18 @@ export const createToolActor = (
       // this would use LLM to determine which tools to use
       for (const tool of tools) {
         if (toolCalls >= maxToolCalls) break;
-        
+
         // Check if tool is relevant to goal (simple keyword matching)
-        if (goal.toLowerCase().includes(tool.name.toLowerCase()) || 
-            context.some(msg => msg.content.toLowerCase().includes(tool.name.toLowerCase()))) {
-          
+        if (
+          goal.toLowerCase().includes(tool.name.toLowerCase()) ||
+          context.some((msg) => msg.content.toLowerCase().includes(tool.name.toLowerCase()))
+        ) {
           actions.push({
             type: 'tool',
             name: tool.name,
-            args: { goal, context: context.map(msg => msg.content) },
+            args: { goal, context: context.map((msg) => msg.content) },
           });
-          
+
           toolCalls++;
         }
       }
@@ -156,7 +156,7 @@ export type CompositeActorConfig = {
 export const createCompositeActor = (
   name: string,
   config: CompositeActorConfig,
-  contextSources: ContextSource[] = []
+  contextSources: ContextSource[] = [],
 ): ActorScript => {
   const { subActors, coordinationMode = 'sequential' } = config;
 
@@ -164,7 +164,7 @@ export const createCompositeActor = (
     name: 'coordination',
     mode: 'persistent',
     description: 'Coordinate execution of sub-actors',
-    plan: async ({ goal, context }) => {
+    plan: async ({ goal }) => {
       const actions: Action[] = [];
 
       switch (coordinationMode) {
@@ -177,7 +177,7 @@ export const createCompositeActor = (
               goal: `${goal} (as ${subActor.name})`,
               config: { parentActor: name },
             });
-            
+
             // Wait between spawns to allow for completion
             actions.push({
               type: 'wait',
@@ -201,10 +201,10 @@ export const createCompositeActor = (
 
         case 'conditional':
           // Simple conditional logic based on goal content
-          const relevantActor = subActors.find(actor => 
-            goal.toLowerCase().includes(actor.name.toLowerCase())
+          const relevantActor = subActors.find((actor) =>
+            goal.toLowerCase().includes(actor.name.toLowerCase()),
           );
-          
+
           if (relevantActor) {
             actions.push({
               type: 'spawn',
@@ -212,7 +212,7 @@ export const createCompositeActor = (
               goal: `${goal} (as ${relevantActor.name})`,
               config: { parentActor: name },
             });
-          } else {
+          } else if (subActors.length > 0) {
             // Default to first actor if no match
             actions.push({
               type: 'spawn',
@@ -249,7 +249,7 @@ export const createActorFromTemplate = (
   template: 'llm' | 'tool' | 'composite',
   name: string,
   config: any,
-  contextSources: ContextSource[] = []
+  contextSources: ContextSource[] = [],
 ): ActorScript => {
   switch (template) {
     case 'llm':
@@ -268,10 +268,6 @@ export const validateActorScript = (script: ActorScript): boolean => {
     script.name &&
     script.talents &&
     script.talents.length > 0 &&
-    script.talents.every(talent => 
-      talent.name &&
-      talent.behaviors &&
-      talent.behaviors.length > 0
-    )
+    script.talents.every((talent) => talent.name && talent.behaviors && talent.behaviors.length > 0)
   );
 };
