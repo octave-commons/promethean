@@ -304,7 +304,8 @@ program
   });
 */
 
-// OpenAI integration commands
+// OpenAI integration commands (commented out until OpenAI adapter is available)
+/*
 program
   .command('openai:chat')
   .description('Chat with OpenAI (requires OPENAI_API_KEY)')
@@ -336,6 +337,7 @@ program
       process.exit(1);
     }
   });
+*/
 
 // Demo command
 program
