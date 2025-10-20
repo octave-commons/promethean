@@ -42,7 +42,7 @@ test('should register and execute before hooks', async (t) => {
 
 test('should register and execute after hooks', async (t) => {
   let called = false;
-  let receivedResult: { success: boolean; result?: Record<string, unknown> } | null = null;
+  let receivedResult: unknown = null;
 
   registerAfterHook('test-after', async (context) => {
     called = true;
