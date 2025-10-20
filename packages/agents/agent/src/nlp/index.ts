@@ -5,12 +5,13 @@
  * capabilities for the Agent OS ecosystem.
  */
 
-import { NaturalLanguageCommandParser, type NLPConfig } from './parser.js';
-import { AgentOSCommandExecutor, type ExecutionContext } from './executor.js';
+import { makeParser, NaturalLanguageCommandParser, type NLPConfig } from './parser.js';
+import { makeExecutor, AgentOSCommandExecutor, type ExecutionContext } from './executor.js';
 
-export { NaturalLanguageCommandParser, type NLPConfig } from './parser.js';
+export { makeParser, NaturalLanguageCommandParser, type NLPConfig } from './parser.js';
 
 export {
+    makeExecutor,
     AgentOSCommandExecutor,
     type ExecutionContext,
     type ExecutionResult,

@@ -103,36 +103,6 @@ export async function createTask(
   return agentTask;
 }
 
-export async function getAllTasks(context: TaskContext): Promise<Map<string, AgentTask>> {
-  try {
-    const storedTasks = await context.getMostRecent(100);
-    const allTasks = new Map<string, AgentTask>();
-
-    for (const task of storedTasks) {
-      const sessionId = (task.metadata?.sessionId as string) || task.id || 'unknown';
-      const startTime = parseTimestamp(task.timestamp);
-      const status = (task.metadata?.status as AgentTask['status']) || 'idle';
-      const lastActivity =
-        parseTimestamp(task.metadata?.lastActivity as string | number | Date) || startTime;
-      const completionMessage = task.metadata?.completionMessage as string | undefined;
-
-      allTasks.set(task.id || '', {
-        sessionId,
-        task: task.text,
-        startTime,
-        status,
-        lastActivity,
-        completionMessage,
-      });
-    }
-
-    return allTasks;
-  } catch (error) {
-    console.error('Error getting all tasks:', error);
-    return new Map();
-  }
-}
-
 export function parseTimestamp(timestamp: string | number | Date): number {
   if (typeof timestamp === 'number') return timestamp;
   if (typeof timestamp === 'string') return new Date(timestamp).getTime();
