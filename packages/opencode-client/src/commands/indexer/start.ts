@@ -4,13 +4,20 @@ import { IndexerService } from '../../services/indexer.js';
 
 export async function main() {
   try {
+    const verbose = process.argv.includes('--verbose');
     const indexer = new IndexerService();
 
     console.log('🚀 Starting OpenCode indexer service...');
+    if (verbose) {
+      console.log('🔊 Verbose mode enabled');
+    }
     await indexer.start();
 
     console.log('✅ Indexer service started successfully!');
     console.log('Press Ctrl+C to stop the indexer service');
+    if (!verbose) {
+      console.log('💡 Use --verbose to see detailed event logging');
+    }
 
     // Handle graceful shutdown
     process.on('SIGINT', async () => {
