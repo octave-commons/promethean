@@ -80,6 +80,7 @@ export const makeExecutor = ({
     const canExecute = (_command: Command): boolean => {
         // Check if the user has permissions for this command type
         // For now, assume all commands are executable
+        log('Checking command execution permissions', { command: _command });
         return true;
     };
 
