@@ -79,7 +79,7 @@ export function createSendMessageTool(): ReturnType<typeof tool> {
 }
 
 // Factory for verifyAgentExists tool
-export function createVerifyAgentExistsTool(): any {
+export function createVerifyAgentExistsTool(): ReturnType<typeof tool> {
   return tool({
     description: 'Verify if an agent exists with the given session ID',
     args: {
