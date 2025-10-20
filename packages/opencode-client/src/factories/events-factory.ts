@@ -26,7 +26,10 @@ type ToolContext = {
 };
 
 // Factory for handleSessionIdle tool
-export function createHandleSessionIdleTool(stores, client): ToolFunction {
+export function createHandleSessionIdleTool(
+  stores: DualStoreManager<'text', 'timestamp'>,
+  client: EventClient,
+): ToolFunction {
   return tool({
     description: 'Handle session idle event',
     args: {
