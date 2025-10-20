@@ -1,7 +1,7 @@
 import type { Where } from 'chromadb';
 
 import { DualStoreManager } from './dualStore.js';
-import type { DualStoreEntry, DualStoreTimestamp } from './types.js';
+import type { DualStoreEntry, DualStoreMetadata, DualStoreTimestamp } from './types.js';
 
 export type ContextMessage = { role: 'user' | 'assistant' | 'system'; content: string; images?: string[] };
 
@@ -239,3 +239,95 @@ export class ContextStore {
         );
     }
 }
+
+// Functional factory alternative
+export type ContextDeps = {
+    getCollections: () => ReadonlyArray<DualStoreManager<string, string>>;
+    resolveRole: (meta: DualStoreMetadata | undefined) => 'user' | 'assistant' | 'system';
+    resolveDisplayName: (meta: DualStoreMetadata | undefined) => string;
+    formatTime: (epochMs: number) => string;
+};
+
+export type CompileOptions = {
+    texts?: readonly string[];
+    recentLimit?: number;
+    queryLimit?: number;
+    limit?: number;
+    formatAssistantMessages?: boolean;
+};
+
+export const makeContextStore = (deps: ContextDeps) => {
+    const toEpochMs = (v: DualStoreTimestamp): number =>
+        typeof v === 'number' ? v : typeof v === 'string' ? new Date(v).getTime() : v.getTime();
+
+    const formatMessage = (entry: GenericEntry): string => {
+        const meta = entry.metadata ?? {};
+        const name = deps.resolveDisplayName(meta);
+        const when = deps.formatTime(toEpochMs(entry.timestamp));
+        const verb = meta.isThought ? 'thought' : 'said';
+        return `${name} ${verb} (${when}): ${entry.text}`;
+    };
+
+    const toMessage = (entry: GenericEntry, useFormatted: boolean): ContextMessage => {
+        const meta = entry.metadata ?? {};
+        if (meta.type === 'image') {
+            return {
+                role: deps.resolveRole(meta),
+                content: typeof meta.caption === 'string' ? meta.caption : '',
+                images: [entry.text],
+            };
+        }
+        const content = useFormatted ? formatMessage(entry) : entry.text;
+        return { role: deps.resolveRole(meta), content };
+    };
+
+    const dedupeByText = (xs: readonly GenericEntry[]) => {
+        const seen = new Set<string>();
+        return xs.filter((e) => {
+            const t = e.text;
+            if (seen.has(t)) return false;
+            seen.add(t);
+            return true;
+        });
+    };
+
+    const sortByTime = (xs: readonly GenericEntry[]) =>
+        [...xs].sort((a, b) => toEpochMs(a.timestamp) - toEpochMs(b.timestamp));
+
+    const getAllRelatedDocuments = async (queries: readonly string[], limit = 100, where?: Where) => {
+        if (queries.length === 0) return [];
+        const managers = deps.getCollections();
+        const related = await Promise.all(managers.map((c) => c.getMostRelevant([...queries], limit, where)));
+        return related.flat();
+    };
+
+    const getLatestDocuments = async (limit = 100) => {
+        const managers = deps.getCollections();
+        const latest = await Promise.all(managers.map((c) => c.getMostRecent(limit)));
+        return latest.flat();
+    };
+
+    const compileContext = async (opts: CompileOptions = {}): Promise<ContextMessage[]> => {
+        const { texts = [], recentLimit = 10, queryLimit = 5, limit = 20, formatAssistantMessages = false } = opts;
+        const latest = await getLatestDocuments(recentLimit);
+        const queryTexts = [...texts, ...latest.map((d) => d.text)].slice(-queryLimit);
+
+        const [related, images] = await Promise.all([
+            getAllRelatedDocuments(queryTexts, limit),
+            getAllRelatedDocuments(queryTexts, limit, { type: 'image' }),
+        ]);
+
+        const combined = [...related.filter((d) => d.metadata?.type !== 'image'), ...latest, ...images].filter(
+            (e): e is GenericEntry => typeof e.text === 'string' && e.metadata !== undefined,
+        );
+
+        const deduped = dedupeByText(combined);
+        const sorted = sortByTime(deduped);
+        const limited = sorted.slice(-limit * Math.max(deps.getCollections().length, 1) * 2);
+        return limited.map((e) => toMessage(e, formatAssistantMessages));
+    };
+
+    return {
+        compileContext,
+    };
+};
