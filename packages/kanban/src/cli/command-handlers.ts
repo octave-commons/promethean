@@ -178,7 +178,9 @@ const withBoard = async <T>(
 const handleCount: CommandHandler = (args, context) =>
   withBoard(context, (board) => {
     const mutableBoard = board as unknown as LoadedBoard;
-    const count = countTasks(mutableBoard, args[0]);
+    // Treat undefined argument as empty string to ensure consistent behavior
+    const column = args[0] !== undefined ? args[0] : '';
+    const count = countTasks(mutableBoard, column);
     return { count };
   });
 
