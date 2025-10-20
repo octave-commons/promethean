@@ -6,6 +6,20 @@ declare global {
     opencodeApp?: {
       initialized: boolean;
       plugins: any;
+      opencode?: {
+        connected: boolean;
+        executeCommand: (command: string, params: any) => Promise<any>;
+        listAgents: () => Promise<any[]>;
+        createSession: (config: any) => Promise<any>;
+        listSessions: () => Promise<any[]>;
+        sendMessage: (sessionId: string, message: any) => Promise<any>;
+        listTools: () => Promise<any[]>;
+        executeTool: (toolName: string, params: any) => Promise<any>;
+        listFiles: (path: string) => Promise<any[]>;
+        on: (event: string, handler: Function) => void;
+        updateSession: (sessionId: string, updates: any) => Promise<any>;
+        getDebugInfo: () => Promise<any>;
+      };
     };
   }
 }
