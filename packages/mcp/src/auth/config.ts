@@ -49,12 +49,12 @@ export function loadOAuthConfig(): OAuthConfig {
 
   // JWT Configuration
   const jwtConfig: JwtTokenConfig = {
-    secret: getRequiredEnv('JWT_SECRET', crypto.randomBytes(64).toString('hex')),
-    issuer: getEnv('JWT_ISSUER', 'promethean-mcp'),
-    audience: getEnv('JWT_AUDIENCE', 'promethean-mcp-clients'),
-    accessTokenExpiry: parseInt(getEnv('JWT_ACCESS_TOKEN_EXPIRY', '900'), 10), // 15 minutes
-    refreshTokenExpiry: parseInt(getEnv('JWT_REFRESH_TOKEN_EXPIRY', '604800'), 10), // 7 days
-    algorithm: getEnv('JWT_ALGORITHM', 'HS256') as any,
+    secret: getRequiredEnv('OAUTH_JWT_SECRET', crypto.randomBytes(64).toString('hex')),
+    issuer: getEnv('OAUTH_JWT_ISSUER', 'promethean-mcp'),
+    audience: getEnv('OAUTH_JWT_AUDIENCE', 'promethean-mcp-clients'),
+    accessTokenExpiry: parseInt(getEnv('OAUTH_JWT_ACCESS_EXPIRY', '900'), 10), // 15 minutes
+    refreshTokenExpiry: parseInt(getEnv('OAUTH_JWT_REFRESH_EXPIRY', '604800'), 10), // 7 days
+    algorithm: getEnv('OAUTH_JWT_ALGORITHM', 'HS256') as any,
   };
 
   // User Registry Configuration
