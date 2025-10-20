@@ -74,32 +74,22 @@ export function registerSimpleOAuthRoutes(
         });
       }
 
-      const oauthProvider = config.oauthSystem.getProvider(provider);
-      if (!oauthProvider) {
+      if (!config.oauthSystem.isProviderAvailable(provider)) {
         return reply.status(400).send({
           error: 'Invalid provider',
           message: `Provider '${provider}' is not supported`,
         });
       }
 
-      // Generate PKCE verifier and challenge
-      const { verifier, challenge } = await config.oauthSystem.generatePkcePair();
+      // Start OAuth flow with the OAuthSystem
+      const { authUrl, state } = config.oauthSystem.startOAuthFlow(
+        provider,
+        `${getBaseUrl(request)}/auth/oauth/callback`,
+      );
 
-      // Store verifier in session or temporary storage
-      const state = Math.random().toString(36).substring(2, 15);
-
-      // Get authorization URL
-      const authUrl = await oauthProvider.getAuthorizationUrl({
-        state,
-        codeChallenge: challenge,
-        codeChallengeMethod: 'S256',
-        redirectUri: `${getBaseUrl(request)}/auth/oauth/callback`,
-      });
-
-      // Store state and verifier (in a real implementation, use secure session storage)
-      // For now, we'll use a simple in-memory store
+      // Store redirect URL (in a real implementation, use secure session storage)
       const tempStore = (global as any).__oauth_temp_store || {};
-      tempStore[state] = { verifier, redirectTo };
+      tempStore[state] = { redirectTo };
       (global as any).__oauth_temp_store = tempStore;
 
       return reply.status(302).header('Location', authUrl).send();
