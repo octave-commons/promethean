@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 
-import { makeContextAdapter, makeActorAdapter } from '../index.js';
+import {
+  makeContextAdapter,
+  makeActorAdapter,
+  makeLLMActorAdapter,
+  makeOpenAIAdapter,
+} from '../index.js';
 import { makeMCPAdapterWithDefaults } from '@promethean/pantheon-mcp';
 import { Command } from 'commander';
 

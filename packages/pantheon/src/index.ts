@@ -12,3 +12,7 @@ export { makeOrchestrator } from './core/orchestrator.js';
 // LLM adapters
 export { makeOpenAIAdapter } from './llm/openai.js';
 export type { OpenAIAdapterConfig } from './llm/openai.js';
+
+// LLM actors
+export { makeLLMActorAdapter } from './actors/llm-actor.js';
+export type { LLMActorConfig } from './actors/llm-actor.js';

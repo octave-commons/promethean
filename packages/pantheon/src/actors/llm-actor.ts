@@ -11,10 +11,13 @@ export interface LLMActorConfig extends ActorConfig {
   maxMessages?: number;
 }
 
-export function makeLLMActorAdapter(): ActorPort {
+export function makeLLMActorAdapter(): ActorPort & {
+  addMessage(actorId: string, message: Message): Promise<void>;
+  getMessages(actorId: string): Promise<Message[]>;
+} {
   const actors = new Map<string, Actor & { config: LLMActorConfig; messages: Message[] }>();
 
-  return {
+  const actorAdapter: ActorPort = {
     async tick(actorId: string): Promise<void> {
       const actor = actors.get(actorId);
       if (!actor) {
@@ -92,7 +95,7 @@ export function makeLLMActorAdapter(): ActorPort {
     },
   };
 
-  // Return enhanced actor adapter with additional methods
+  // Additional methods for LLM actor management
   const adapter = {
     async addMessage(actorId: string, message: Message): Promise<void> {
       const actor = actors.get(actorId);
@@ -114,8 +117,5 @@ export function makeLLMActorAdapter(): ActorPort {
     },
   };
 
-  return Object.assign(actorAdapter, adapter) as ActorPort & {
-    addMessage(actorId: string, message: Message): Promise<void>;
-    getMessages(actorId: string): Promise<Message[]>;
-  };
+  return Object.assign(actorAdapter, adapter);
 }
