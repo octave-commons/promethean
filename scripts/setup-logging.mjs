@@ -2,69 +2,69 @@
 
 /**
  * Logging Setup Script for Promethean PM2 Ecosystem
- * 
+ *
  * This script sets up comprehensive logging infrastructure for the PM2 ecosystem,
  * including log rotation, structured logging, and monitoring dashboards.
  */
 
-import { mkdirSync, existsSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
-import { fileURLToPath } from "node:url";
-import { dirname } from "node:path";
+import { mkdirSync, existsSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { dirname } from 'node:path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const PROJECT_ROOT = dirname(__dirname);
 
 const LOG_CONFIG = {
-  baseDir: join(PROJECT_ROOT, "logs"),
-  archiveDir: join(PROJECT_ROOT, "logs", "archive"),
+  baseDir: join(PROJECT_ROOT, 'logs'),
+  archiveDir: join(PROJECT_ROOT, 'logs', 'archive'),
   maxFiles: 10,
-  maxSize: "10M",
-  dateFormat: "YYYY-MM-DD HH:mm:ss Z",
-  
+  maxSize: '10M',
+  dateFormat: 'YYYY-MM-DD HH:mm:ss Z',
+
   // Log levels and their priorities
   levels: {
     error: 0,
     warn: 1,
     info: 2,
     debug: 3,
-    trace: 4
+    trace: 4,
   },
-  
+
   // Specific log configurations for different process types
   processConfigs: {
-    "nx-watcher": {
-      level: "info",
-      maxSize: "50M",
-      maxFiles: 5
+    'nx-watcher': {
+      level: 'info',
+      maxSize: '50M',
+      maxFiles: 5,
     },
-    "dev-*": {
-      level: "debug",
-      maxSize: "20M", 
-      maxFiles: 3
+    'dev-*': {
+      level: 'debug',
+      maxSize: '20M',
+      maxFiles: 3,
     },
-    "autocommit": {
-      level: "info",
-      maxSize: "10M",
-      maxFiles: 5
+    autocommit: {
+      level: 'info',
+      maxSize: '10M',
+      maxFiles: 5,
     },
-    "health-monitor": {
-      level: "info",
-      maxSize: "5M",
-      maxFiles: 7
+    'health-monitor': {
+      level: 'info',
+      maxSize: '5M',
+      maxFiles: 7,
     },
-    "heartbeat": {
-      level: "info", 
-      maxSize: "5M",
-      maxFiles: 7
+    heartbeat: {
+      level: 'info',
+      maxSize: '5M',
+      maxFiles: 7,
     },
-    "message-broker": {
-      level: "info",
-      maxSize: "20M",
-      maxFiles: 5
-    }
-  }
+    'message-broker': {
+      level: 'info',
+      maxSize: '20M',
+      maxFiles: 5,
+    },
+  },
 };
 
 // Create log directories
@@ -72,13 +72,13 @@ function createLogDirectories() {
   const dirs = [
     LOG_CONFIG.baseDir,
     LOG_CONFIG.archiveDir,
-    join(LOG_CONFIG.baseDir, "pm2"),
-    join(LOG_CONFIG.baseDir, "nx"),
-    join(LOG_CONFIG.baseDir, "services"),
-    join(LOG_CONFIG.baseDir, "apps")
+    join(LOG_CONFIG.baseDir, 'pm2'),
+    join(LOG_CONFIG.baseDir, 'nx'),
+    join(LOG_CONFIG.baseDir, 'services'),
+    join(LOG_CONFIG.baseDir, 'apps'),
   ];
-  
-  dirs.forEach(dir => {
+
+  dirs.forEach((dir) => {
     if (!existsSync(dir)) {
       mkdirSync(dir, { recursive: true });
       console.log(`📁 Created log directory: ${dir}`);
@@ -89,21 +89,21 @@ function createLogDirectories() {
 // Create PM2 log configuration
 function createPM2LogConfig() {
   const config = {
-    error_file: join(LOG_CONFIG.baseDir, "pm2", "pm2-error.log"),
-    out_file: join(LOG_CONFIG.baseDir, "pm2", "pm2-out.log"),
-    log_file: join(LOG_CONFIG.baseDir, "pm2", "pm2-combined.log"),
+    error_file: join(LOG_CONFIG.baseDir, 'pm2', 'pm2-error.log'),
+    out_file: join(LOG_CONFIG.baseDir, 'pm2', 'pm2-out.log'),
+    log_file: join(LOG_CONFIG.baseDir, 'pm2', 'pm2-combined.log'),
     log_date_format: LOG_CONFIG.dateFormat,
     merge_logs: true,
-    max_memory_restart: "1G"
+    max_memory_restart: '1G',
   };
-  
-  const configPath = join(PROJECT_ROOT, "pm2-log-config.json");
+
+  const configPath = join(PROJECT_ROOT, 'pm2-log-config.json');
   writeFileSync(configPath, JSON.stringify(config, null, 2));
   console.log(`📝 Created PM2 log config: ${configPath}`);
 }
 
 // Create logrotate configuration
-function createLogrotateConfig() {
+async function createLogrotateConfig() {
   const config = `${LOG_CONFIG.baseDir}/*.log {
     daily
     missingok
@@ -152,10 +152,10 @@ function createLogrotateConfig() {
     endscript
 }`;
 
-  const configPath = join(PROJECT_ROOT, "logrotate.conf");
+  const configPath = join(PROJECT_ROOT, 'logrotate.conf');
   writeFileSync(configPath, config);
   console.log(`📝 Created logrotate config: ${configPath}`);
-  
+
   // Create installation script
   const installScript = `#!/bin/bash
 # Install logrotate configuration for Promethean
@@ -181,14 +181,14 @@ echo "🔍 Test configuration: logrotate -d /etc/logrotate.d/promethean"
 echo "🔄 Force rotation: logrotate -f /etc/logrotate.d/promethean"
 `;
 
-  const installPath = join(PROJECT_ROOT, "scripts", "install-logrotate.sh");
+  const installPath = join(PROJECT_ROOT, 'scripts', 'install-logrotate.sh');
   writeFileSync(installPath, installScript);
   // Make it executable
   try {
-    const { execSync } = await import("node:child_process");
+    const { execSync } = await import('node:child_process');
     execSync(`chmod +x "${installPath}"`);
   } catch (e) {
-    console.warn("Could not make install script executable");
+    console.warn('Could not make install script executable');
   }
   console.log(`📝 Created logrotate install script: ${installPath}`);
 }
@@ -333,7 +333,7 @@ export function logRequest(req, res, responseTime) {
 export default logger;
 `;
 
-  const loggerPath = join(PROJECT_ROOT, "shared", "js", "logger.js");
+  const loggerPath = join(PROJECT_ROOT, 'shared', 'js', 'logger.js');
   writeFileSync(loggerPath, loggingCode);
   console.log(`📝 Created logging utility: ${loggerPath}`);
 }
@@ -501,21 +501,21 @@ app.listen(PORT, () => {
 export default app;
 `;
 
-  const monitorPath = join(PROJECT_ROOT, "scripts", "log-monitor.mjs");
+  const monitorPath = join(PROJECT_ROOT, 'scripts', 'log-monitor.mjs');
   writeFileSync(monitorPath, monitorCode);
   console.log(`📝 Created log monitor: ${monitorPath}`);
 }
 
 // Main execution
-function main() {
-  console.log("🔧 Setting up logging infrastructure for Promethean...");
-  
+async function main() {
+  console.log('🔧 Setting up logging infrastructure for Promethean...');
+
   createLogDirectories();
   createPM2LogConfig();
-  createLogrotateConfig();
+  await createLogrotateConfig();
   createLoggingUtility();
   createLogMonitor();
-  
+
   console.log(`
 ✅ Logging setup complete!
 
@@ -535,7 +535,7 @@ function main() {
 }
 
 // Run setup
-main().catch(error => {
-  console.error("❌ Logging setup failed:", error);
+main().catch((error) => {
+  console.error('❌ Logging setup failed:', error);
   process.exit(1);
 });
