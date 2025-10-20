@@ -7,9 +7,6 @@ export { ollamaToolFactories } from './ollama-factory.js';
 // Process tool factories
 export { processToolFactories } from './process-factory.js';
 
-// Cache tool factories
-export { cacheToolFactories } from './cache-factory.js';
-
 // Sessions tool factories
 export { sessionsToolFactories } from './sessions-factory.js';
 
