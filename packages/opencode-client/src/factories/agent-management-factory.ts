@@ -14,6 +14,25 @@ import {
   unifiedAgentManager,
 } from '../api/UnifiedAgentManager.js';
 
+// Type definitions for tool arguments
+interface CreateAgentSessionArgs {
+  task: string;
+  initialMessage?: string;
+  title?: string;
+  priority?: 'low' | 'medium' | 'high' | 'urgent';
+  files?: string[];
+  autoStart?: boolean;
+}
+
+interface SessionIdArgs {
+  sessionId: string;
+}
+
+interface SendMessageArgs extends SessionIdArgs {
+  message: string;
+  messageType?: string;
+}
+
 export function createCreateAgentSessionTool(): ReturnType<typeof tool> {
   return tool({
     description: 'Create a new agent session with task assignment and optional initial message',
