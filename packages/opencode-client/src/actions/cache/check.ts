@@ -9,6 +9,7 @@ import {
 } from '@promethean/ollama-queue';
 
 import { getPromptEmbedding } from '../../actions/ollama/embedding.js';
+
 import { initializeCache } from './initialize.js';
 
 export const checkCache = async (
@@ -24,7 +25,7 @@ export const checkCache = async (
     filter: (metadata) =>
       metadata.modelName === modelName &&
       metadata.jobType === jobType &&
-      now() - (metadata.createdAt as number) < CACHE_MAX_AGE_MS,
+      now() - (metadata.createdAt ?? 0) < CACHE_MAX_AGE_MS,
   });
 
   if (hits.length > 0 && hits[0] && hits[0].score >= CACHE_SIMILARITY_THRESHOLD) {
