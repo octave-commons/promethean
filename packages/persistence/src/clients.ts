@@ -44,8 +44,21 @@ const getFromCache = async <TClient>(
     return createdPromise;
 };
 
-export const getMongoClient = async (): Promise<MongoClient> =>
-    getFromCache(mongoClientPromises, mongoClientOverrides, 'mongo', createMongoClient);
+const validateMongoConnection = async (client: MongoClient): Promise<MongoClient> => {
+    if (!client.isConnected()) {
+        try {
+            await client.db('admin').command({ ping: 1 });
+        } catch (error) {
+            throw new Error(`MongoDB client not connected: ${error.message}`);
+        }
+    }
+    return client;
+};
+
+export const getMongoClient = async (): Promise<MongoClient> => {
+    const client = await getFromCache(mongoClientPromises, mongoClientOverrides, 'mongo', createMongoClient);
+    return validateMongoConnection(client);
+};
 
 export const getChromaClient = async (): Promise<ChromaClient> =>
     getFromCache(chromaClientPromises, chromaClientOverrides, 'chroma', createChromaClient);
