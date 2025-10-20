@@ -64,7 +64,7 @@ export function createUpdateTaskStatusTool(stores, client): ReturnType<typeof to
     async execute(args, context: Context) {
       const { sessionId, status, completionMessage } = args;
 
-      await updateTaskStatus(taskContext, sessionId, status, completionMessage);
+      await updateTaskStatus(stores as TaskContext, sessionId, status, completionMessage);
 
       return JSON.stringify({
         success: true,
@@ -88,7 +88,7 @@ export function createCreateTaskTool(stores: Stores): ReturnType<typeof tool> {
     async execute(args, context: Context) {
       const { sessionId, task } = args;
 
-      const agentTask = await createTask(taskContext, sessionId, task);
+      const agentTask = await createTask(stores as TaskContext, sessionId, task);
 
       return JSON.stringify({
         success: true,
@@ -108,7 +108,7 @@ export function createGetAllTasksTool(stores: Stores): ReturnType<typeof tool> {
     description: 'Get all tasks from memory and storage',
     args: {},
     async execute(_args, context: Context) {
-      const allTasks = await getAllTasks(taskContext);
+      const allTasks = await getAllTasks(stores as TaskContext);
       const tasksArray = Array.from(allTasks.entries()).map(([sessionId, task]) => ({
         sessionId,
         task: task.task,

@@ -35,7 +35,7 @@ interface SearchSessionsArgs {
 }
 
 // Factory for listSessions tool
-export function createListSessionsTool(): ToolFunction {
+export function createListSessionsTool(store, client): ToolFunction {
   return tool({
     description: 'List all sessions with pagination and enhanced information',
     args: {
@@ -51,7 +51,7 @@ export function createListSessionsTool(): ToolFunction {
 }
 
 // Factory for createSession tool
-export function createCreateSessionTool(): ToolFunction {
+export function createCreateSessionTool(store, client): ToolFunction {
   return tool({
     description: 'Create a new session',
     args: {
@@ -65,9 +65,8 @@ export function createCreateSessionTool(): ToolFunction {
         .optional()
         .describe('Delegates for the session'),
     },
-    async execute(args: CreateSessionArgs, context: any): Promise<string> {
+    async execute(args: CreateSessionArgs): Promise<string> {
       const { title } = args;
-      const client = context.client as OpencodeClient;
 
       const result = await create({ title, client });
       return result;
