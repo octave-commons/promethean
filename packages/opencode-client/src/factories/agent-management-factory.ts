@@ -14,7 +14,7 @@ import {
   unifiedAgentManager,
 } from '../api/UnifiedAgentManager.js';
 
-export function createCreateAgentSessionTool(): any {
+export function createCreateAgentSessionTool(): ReturnType<typeof tool> {
   return tool({
     description: 'Create a new agent session with task assignment and optional initial message',
     args: {
