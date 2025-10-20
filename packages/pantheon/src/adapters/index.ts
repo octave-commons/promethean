@@ -42,7 +42,12 @@ export const makeCompletePantheonSystem = (options: {
   mcp?: any;
   inMemory?: boolean;
 }) => {
-  const { persistence, openai, mcp, inMemory = false } = options;
+  const {
+    // persistence, // TODO: implement when persistence adapter is available
+    // openai, // TODO: implement when OpenAI adapter is available
+    // mcp, // TODO: implement when MCP adapter is available
+    inMemory = false,
+  } = options;
 
   // For now, only support in-memory adapters
   // External adapters will be added when their packages are complete
@@ -61,4 +66,5 @@ export const makeCompletePantheonSystem = (options: {
     scheduler: schedulerAdapter,
     actorState: actorStateAdapter,
   };
+};
 };
