@@ -13,11 +13,8 @@ export function initializeStores(
   _sessionStore: DualStoreManager<'text', 'timestamp'>,
   _agentTaskStore: DualStoreManager<'text', 'timestamp'>,
 ) {
-  sessionStore = _sessionStore;
-  agentTaskStore = _agentTaskStore;
-
   // Initialize all API layers
-  AgentTaskManager.initializeStores(_sessionStore, _agentTaskStore);
+  AgentTaskManager.initializeStores(sessionStore, _agentTaskStore);
 }
 
 // Export all API classes and utilities
