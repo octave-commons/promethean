@@ -97,7 +97,7 @@ export function createStartAgentSessionTool(): ReturnType<typeof tool> {
     args: {
       sessionId: tool.schema.string().describe('ID of session to start'),
     },
-    async execute(args: any, _context: any) {
+    async execute(args: SessionIdArgs, _context: Record<string, unknown>) {
       try {
         await startAgentSession(args.sessionId);
 
