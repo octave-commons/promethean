@@ -58,17 +58,383 @@ export interface WorkflowManager {
     configureWorkflow(name: string, config: any): Promise<any>;
 }
 
+export type ExecutorDeps = {
+    agentRuntime: AgentRuntime;
+    serviceManager: ServiceManager;
+    workflowManager: WorkflowManager;
+    id?: () => string;
+    now?: () => Date;
+    log?: (m: string, meta?: unknown) => void;
+};
+
+export const makeExecutor = ({
+    agentRuntime,
+    serviceManager,
+    workflowManager,
+    id = () => `msg_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+    now = () => new Date(),
+    log = () => {},
+}: ExecutorDeps) => {
+    const executionHistory = new Map<string, MessageEnvelope[]>();
+
+    const canExecute = (_command: Command): boolean => {
+        // Check if the user has permissions for this command type
+        // For now, assume all commands are executable
+        return true;
+    };
+
+    const getHistory = async (target: string, limit = 10): Promise<MessageEnvelope[]> => {
+        const history = executionHistory.get(target) || [];
+        return history.slice(-limit);
+    };
+
+    const execute = async (command: Command, context?: ExecutionContext): Promise<MessageEnvelope> => {
+        const startTime = Date.now();
+        const executionContext = context || createDefaultContext();
+
+        try {
+            let result: any;
+
+            switch (command.type) {
+                case 'start':
+                    result = await executeStart(command, executionContext);
+                    break;
+                case 'stop':
+                    result = await executeStop(command, executionContext);
+                    break;
+                case 'status':
+                    result = await executeStatus(command, executionContext);
+                    break;
+                case 'configure':
+                    result = await executeConfigure(command, executionContext);
+                    break;
+                case 'create':
+                    result = await executeCreate(command, executionContext);
+                    break;
+                case 'delete':
+                    result = await executeDelete(command, executionContext);
+                    break;
+                case 'update':
+                    result = await executeUpdate(command, executionContext);
+                    break;
+                case 'query':
+                    result = await executeQuery(command, executionContext);
+                    break;
+                case 'help':
+                    result = await executeHelp(command, executionContext);
+                    break;
+                default:
+                    throw new Error(`Unsupported command type: ${command.type}`);
+            }
+
+            const duration = Date.now() - startTime;
+            const message = createSuccessMessage(command, result, executionContext, duration);
+
+            // Store in execution history
+            addToHistory(command.target, message);
+
+            return message;
+        } catch (error) {
+            const duration = Date.now() - startTime;
+            const message = createErrorMessage(command, error, executionContext, duration);
+
+            // Store in execution history
+            addToHistory(command.target, message);
+
+            return message;
+        }
+    };
+
+    const executeStart = async (command: Command, _context: ExecutionContext): Promise<any> => {
+        const { target, parameters } = command;
+
+        switch (determineTargetType(target)) {
+            case 'agent':
+                return await agentRuntime.startAgent(target, parameters);
+            case 'service':
+                return await serviceManager.startService(target, parameters);
+            case 'workflow':
+                return await workflowManager.startWorkflow(target, parameters);
+            default:
+                throw new Error(`Unknown target type: ${target}`);
+        }
+    };
+
+    const executeStop = async (command: Command, _context: ExecutionContext): Promise<any> => {
+        const { target } = command;
+
+        switch (determineTargetType(target)) {
+            case 'agent':
+                return await agentRuntime.stopAgent(target);
+            case 'service':
+                return await serviceManager.stopService(target);
+            case 'workflow':
+                return await workflowManager.stopWorkflow(target);
+            default:
+                throw new Error(`Unknown target type: ${target}`);
+        }
+    };
+
+    const executeStatus = async (command: Command, _context: ExecutionContext): Promise<any> => {
+        const { target } = command;
+
+        if (target === 'all' || target === 'system') {
+            return {
+                agents: await agentRuntime.listAgents(),
+                services: await serviceManager.listServices(),
+                workflows: await workflowManager.listWorkflows(),
+            };
+        }
+
+        switch (determineTargetType(target)) {
+            case 'agent':
+                return await agentRuntime.getAgentStatus(target);
+            case 'service':
+                return await serviceManager.getServiceStatus(target);
+            case 'workflow':
+                return await workflowManager.getWorkflowStatus(target);
+            default:
+                throw new Error(`Unknown target type: ${target}`);
+        }
+    };
+
+    const executeConfigure = async (command: Command, _context: ExecutionContext): Promise<any> => {
+        const { target, parameters } = command;
+
+        switch (determineTargetType(target)) {
+            case 'agent':
+                return await agentRuntime.configureAgent(target, parameters);
+            case 'service':
+                return await serviceManager.configureService(target, parameters);
+            case 'workflow':
+                return await workflowManager.configureWorkflow(target, parameters);
+            default:
+                throw new Error(`Unknown target type: ${target}`);
+        }
+    };
+
+    const executeCreate = async (command: Command, _context: ExecutionContext): Promise<any> => {
+        const { target, parameters } = command;
+
+        // Create is similar to start but with additional setup
+        switch (determineTargetType(target)) {
+            case 'agent':
+                return await agentRuntime.startAgent(target, { ...parameters, create: true });
+            case 'service':
+                return await serviceManager.startService(target, { ...parameters, create: true });
+            case 'workflow':
+                return await workflowManager.startWorkflow(target, { ...parameters, create: true });
+            default:
+                throw new Error(`Unknown target type: ${target}`);
+        }
+    };
+
+    const executeDelete = async (command: Command, _context: ExecutionContext): Promise<any> => {
+        const { target } = command;
+
+        // First stop, then delete
+        await executeStop(command, _context);
+
+        switch (determineTargetType(target)) {
+            case 'agent':
+                return { deleted: true, target };
+            case 'service':
+                return { deleted: true, target };
+            case 'workflow':
+                return { deleted: true, target };
+            default:
+                throw new Error(`Unknown target type: ${target}`);
+        }
+    };
+
+    const executeUpdate = async (command: Command, _context: ExecutionContext): Promise<any> => {
+        // Update is similar to configure
+        return await executeConfigure(command, _context);
+    };
+
+    const executeQuery = async (command: Command, _context: ExecutionContext): Promise<any> => {
+        const { target } = command;
+
+        switch (determineTargetType(target)) {
+            case 'agent':
+                return await agentRuntime.listAgents();
+            case 'service':
+                return await serviceManager.listServices();
+            case 'workflow':
+                return await workflowManager.listWorkflows();
+            default:
+                // Generic query
+                return {
+                    query: target,
+                    parameters: command.parameters,
+                    results: [],
+                };
+        }
+    };
+
+    const executeHelp = async (command: Command, _context: ExecutionContext): Promise<any> => {
+        const { target } = command;
+
+        const helpContent = {
+            start: {
+                description: 'Start an agent, service, or workflow',
+                usage: 'start <target> [options]',
+                examples: ['start agent agent1', 'start service monitoring', 'start workflow backup'],
+            },
+            stop: {
+                description: 'Stop an agent, service, or workflow',
+                usage: 'stop <target> [options]',
+                examples: ['stop agent agent1', 'stop service monitoring', 'stop workflow backup'],
+            },
+            status: {
+                description: 'Get status of an agent, service, or workflow',
+                usage: 'status <target> [options]',
+                examples: ['status agent agent1', 'status service monitoring', 'status all'],
+            },
+            configure: {
+                description: 'Configure an agent, service, or workflow',
+                usage: 'configure <target> <parameters>',
+                examples: ['configure agent agent1 memory=512MB', 'configure service monitoring interval=30s'],
+            },
+            help: {
+                description: 'Get help and usage information',
+                usage: 'help [command]',
+                examples: ['help', 'help start', 'help status'],
+            },
+        };
+
+        if (target && target !== 'unknown') {
+            return helpContent[target as keyof typeof helpContent] || { error: 'Unknown command' };
+        }
+
+        return {
+            availableCommands: Object.keys(helpContent),
+            usage: 'Type "help <command>" for specific command information',
+        };
+    };
+
+    const determineTargetType = (target: string): string => {
+        // Simple heuristic to determine target type
+        if (target.includes('agent')) return 'agent';
+        if (target.includes('service')) return 'service';
+        if (target.includes('workflow')) return 'workflow';
+
+        // Default to agent for unknown targets
+        return 'agent';
+    };
+
+    const createDefaultContext = (): ExecutionContext => {
+        return {
+            userId: 'system',
+            sessionId: `session_${Date.now()}`,
+            timestamp: now(),
+            permissions: ['read', 'write', 'execute'],
+            metadata: {},
+        };
+    };
+
+    const createSuccessMessage = (
+        command: Command,
+        result: any,
+        context: ExecutionContext,
+        duration: number,
+    ): MessageEnvelope => {
+        return {
+            id: id(),
+            type: MessageType.RESPONSE,
+            timestamp: now(),
+            sender: 'command-executor',
+            receiver: context.userId,
+            payload: {
+                command,
+                result,
+                success: true,
+                duration,
+                context: {
+                    sessionId: context.sessionId,
+                    timestamp: context.timestamp,
+                },
+            },
+            metadata: {
+                executionTime: duration,
+                commandType: command.type,
+                target: command.target,
+            },
+        };
+    };
+
+    const createErrorMessage = (
+        command: Command,
+        error: any,
+        context: ExecutionContext,
+        duration: number,
+    ): MessageEnvelope => {
+        return {
+            id: id(),
+            type: MessageType.ERROR,
+            timestamp: now(),
+            sender: 'command-executor',
+            receiver: context.userId,
+            payload: {
+                command,
+                error: error instanceof Error ? error.message : 'Unknown error',
+                success: false,
+                duration,
+                context: {
+                    sessionId: context.sessionId,
+                    timestamp: context.timestamp,
+                },
+            },
+            metadata: {
+                executionTime: duration,
+                commandType: command.type,
+                target: command.target,
+                errorType: error.constructor.name,
+            },
+        };
+    };
+
+    const addToHistory = (target: string, message: MessageEnvelope): void => {
+        if (!executionHistory.has(target)) {
+            executionHistory.set(target, []);
+        }
+
+        const history = executionHistory.get(target)!;
+        history.push(message);
+
+        // Keep only last 100 messages per target
+        if (history.length > 100) {
+            history.splice(0, history.length - 100);
+        }
+    };
+
+    return {
+        canExecute,
+        getHistory,
+        execute,
+    };
+};
+
+// Keep the old class for backward compatibility
 export class AgentOSCommandExecutor implements CommandExecutor {
-    private agentRuntime: AgentRuntime;
-    private serviceManager: ServiceManager;
-    private workflowManager: WorkflowManager;
-    private executionHistory: Map<string, MessageEnvelope[]> = new Map();
+    private executor: ReturnType<typeof makeExecutor>;
 
     constructor(agentRuntime: AgentRuntime, serviceManager: ServiceManager, workflowManager: WorkflowManager) {
-        this.agentRuntime = agentRuntime;
-        this.serviceManager = serviceManager;
-        this.workflowManager = workflowManager;
+        this.executor = makeExecutor({ agentRuntime, serviceManager, workflowManager });
     }
+
+    async execute(command: Command, context?: ExecutionContext): Promise<any> {
+        return this.executor.execute(command, context);
+    }
+
+    canExecute(command: Command): boolean {
+        return this.executor.canExecute(command);
+    }
+
+    async getHistory(target: string, limit?: number): Promise<any[]> {
+        return this.executor.getHistory(target, limit);
+    }
+}
 
     async execute(command: Command, context?: ExecutionContext): Promise<MessageEnvelope> {
         const startTime = Date.now();
