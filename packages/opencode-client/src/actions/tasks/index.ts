@@ -9,7 +9,7 @@ export async function loadPersistedTasks(
 ): Promise<{ loadedCount: number; cleanedCount: number }> {
   try {
     console.log('🔄 Loading persisted agent tasks...');
-    const storedTasks = await context.agentTaskStore.getMostRecent(100);
+    const storedTasks = await context.getMostRecent(100);
     let loadedCount = 0;
     let cleanedCount = 0;
 

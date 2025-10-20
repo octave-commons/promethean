@@ -63,12 +63,7 @@ export function createHandleMessageUpdatedTool(
     async execute(args, context) {
       const { sessionId } = args;
 
-      const taskContext: TaskContext = {
-        agentTaskStore: stores,
-      };
-
-      const eventContext: EventContext = { client, taskContext };
-      await handleMessageUpdated(eventContext, sessionId);
+      await handleMessageUpdated(stores, sessionId);
 
       return JSON.stringify({
         success: true,
