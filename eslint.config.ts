@@ -110,6 +110,24 @@ export default [
           'newlines-between': 'always',
         },
       ],
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: '@promethean/persistence',
+              importNames: ['ContextStore'],
+              message: 'Use makeContextStore (functional) instead of class ContextStore.',
+            },
+            {
+              name: '@promethean/agents/agent-context',
+              importNames: ['DefaultContextManager', 'ContextManager'],
+              message:
+                'This is agent state, not LLM conversation. Import makeAgentStateManager (or LegacyAgentStateManager alias) instead.',
+            },
+          ],
+        },
+      ],
     },
   },
   {
