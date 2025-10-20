@@ -41,7 +41,6 @@ export function createHandleSessionIdleTool(
 
       const taskContext: TaskContext = {
         agentTaskStore: stores,
-        agentTasks: new Map(),
       };
 
       const eventContext: EventContext = { client, taskContext };
@@ -170,7 +169,6 @@ export function createProcessSessionMessagesTool(
 
       const taskContext: TaskContext = {
         agentTaskStore: stores,
-        agentTasks: new Map(),
       };
 
       const eventContext: EventContext = { client, taskContext };
