@@ -13,7 +13,7 @@ import {
   processSessionMessages,
 } from '../actions/events/index.js';
 import type { EventContext, OpenCodeEvent, EventMessage, EventClient } from '../../types/index.js';
-import type { TaskContext } from '../actions/tasks/index.js';
+import type { TaskContext } from '../../actions/tasks/index.js';
 
 type ToolFunction = ReturnType<typeof tool>;
 
