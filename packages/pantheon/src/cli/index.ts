@@ -371,7 +371,7 @@ program
       // List all actors
       console.log('\\n4. All actors:');
       const allActors = await adapters.actorState.list();
-      allActors.forEach((a) => {
+      allActors.forEach((a: any) => {
         console.log(`   - ${a.script.name} (${a.id}): ${a.state}`);
       });
 
