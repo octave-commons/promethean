@@ -502,8 +502,13 @@ export function registerSimpleOAuthRoutes(
  * Get base URL from request
  */
 function getBaseUrl(request: FastifyRequest): string {
-  const protocol = request.protocol;
-  const host = request.headers.host || 'localhost';
+  // Check for forwarded protocol headers (common with reverse proxies/tunnels)
+  const forwardedProto = request.headers['x-forwarded-proto'] as string;
+  const forwardedHost = request.headers['x-forwarded-host'] as string;
+
+  const protocol = forwardedProto || request.protocol;
+  const host = forwardedHost || request.headers.host || 'localhost';
+
   return `${protocol}://${host}`;
 }
 
