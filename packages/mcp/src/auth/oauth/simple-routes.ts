@@ -132,55 +132,70 @@ export function registerSimpleOAuthRoutes(
         });
       }
 
-      const { verifier, redirectTo } = storedData;
+      const { redirectTo } = storedData;
 
       // Clean up stored data
       delete tempStore[state];
 
-      // Exchange code for tokens
-      const provider = config.oauthSystem.getProvider('github'); // Default to GitHub for now
-      if (!provider) {
-        return reply.status(500).send({
-          error: 'Provider not found',
-          message: 'OAuth provider is not configured',
+      // Handle OAuth callback with OAuthSystem
+      const result = await config.oauthSystem.handleOAuthCallback(code, state, error);
+
+      if (!result.success) {
+        return reply.status(400).send({
+          error: result.error?.type || 'OAuth callback failed',
+          message: result.error?.message || 'Unknown OAuth error',
         });
       }
 
-      const tokens = await provider.exchangeCodeForTokens(code, {
-        verifier,
-        redirectUri: `${getBaseUrl(request)}/auth/oauth/callback`,
-      });
+      // Get OAuth session
+      const oauthSession = config.oauthSystem.getSession(result.userId!);
+      if (!oauthSession) {
+        return reply.status(500).send({
+          error: 'Session creation failed',
+          message: 'Failed to create OAuth session',
+        });
+      }
 
-      // Get user profile
-      const userProfile = await provider.getUserProfile(tokens.accessToken);
+      // Create user info for JWT
+      const userInfo: OAuthUserInfo = {
+        id: result.userId!,
+        provider: oauthSession.provider,
+        username: `${oauthSession.provider}_${result.userId}`,
+        email: `${result.userId}@${oauthSession.provider}.local`,
+        name: `${oauthSession.provider} User`,
+        avatar: '',
+        raw: {}, // Raw provider data
+        metadata: {},
+      };
 
-      // Create or update user
-      const user = await config.userRegistry.findOrCreateUser({
-        providerId: 'github',
-        providerUserId: userProfile.id,
-        email: userProfile.email,
-        name: userProfile.name,
-        avatar: userProfile.avatar,
-      });
+      // Check if user exists, create if not
+      let user = await config.userRegistry.getUserByProvider(oauthSession.provider, result.userId!);
+      if (!user) {
+        // Create new user
+        user = await config.userRegistry.createUser({
+          username: `${oauthSession.provider}_${result.userId}`,
+          email: `${result.userId}@${oauthSession.provider}.local`,
+          name: `${oauthSession.provider} User`,
+          role: 'user',
+          authMethod: 'oauth',
+          provider: oauthSession.provider,
+          providerUserId: result.userId!,
+        });
+      }
 
       // Generate JWT tokens
-      const accessToken = config.jwtManager.generateToken({
-        userId: user.id,
-        email: user.email,
-        role: user.role,
-      });
-
-      const refreshToken = config.jwtManager.generateRefreshToken({
-        userId: user.id,
-        sessionId: user.sessionId,
-      });
+      const tokenPair = config.jwtManager.generateTokenPair(
+        userInfo,
+        oauthSession.sessionId,
+        oauthSession,
+      );
 
       // Set cookies manually
       const cookieOptions = getCookieOptions();
 
       reply.header('set-cookie', [
-        `access_token=${accessToken}; ${cookieOptions}`,
-        `refresh_token=${refreshToken}; ${cookieOptions}`,
+        `access_token=${tokenPair.accessToken}; ${cookieOptions}`,
+        `refresh_token=${tokenPair.refreshToken}; ${cookieOptions}`,
         `user_id=${user.id}; ${cookieOptions}`,
       ]);
 
@@ -207,7 +222,7 @@ export function registerSimpleOAuthRoutes(
       }
 
       const token = authHeader.substring(7);
-      const payload = config.jwtManager.verifyToken(token);
+      const payload = config.jwtManager.validateAccessToken(token);
 
       if (!payload) {
         return reply.status(401).send({
@@ -216,7 +231,7 @@ export function registerSimpleOAuthRoutes(
         });
       }
 
-      const user = await config.userRegistry.findById(payload.userId);
+      const user = await config.userRegistry.getUser(payload.sub);
       if (!user) {
         return reply.status(404).send({
           error: 'User not found',
@@ -230,7 +245,7 @@ export function registerSimpleOAuthRoutes(
           email: user.email,
           name: user.name,
           role: user.role,
-          provider: user.providerId,
+          provider: user.provider,
           createdAt: user.createdAt,
         },
         timestamp: new Date().toISOString(),
