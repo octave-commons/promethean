@@ -200,7 +200,7 @@ export const apps = [
     description: 'Frontend service with ClojureScript DSL and server capabilities',
     script: 'node',
     args: ['packages/frontend-service/dist/index.js'],
-    cwd: '..',
+    cwd: '.',
     env: {
       NODE_ENV: 'production',
       PORT: '3002',

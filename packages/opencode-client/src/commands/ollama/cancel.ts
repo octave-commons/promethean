@@ -1,7 +1,7 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
 import ora from 'ora';
-import { cancelJob } from './mock-api.js';
+import { updateJobStatus } from '../../actions/ollama/jobs.js';
 
 export const cancelCommand = new Command('cancel')
   .description('Cancel a job')
@@ -10,7 +10,7 @@ export const cancelCommand = new Command('cancel')
     try {
       const spinner = ora('Cancelling job...').start();
 
-      await cancelJob(jobId);
+      updateJobStatus(jobId, 'canceled');
 
       spinner.stop();
       console.log(chalk.green(`Job ${jobId} cancelled successfully`));

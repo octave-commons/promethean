@@ -1,7 +1,7 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
-import { getsubmitJob, * } from './mock-api.js';
-import type { SubmitJobOptions } from '../../api/ollama.js';
+import { jobQueue } from '@promethean/ollama-queue';
+import type { OllamaOptions } from '../../actions/ollama/types.js';
 
 export const submitJobCommand = new Command('submit')
   .description('Submit a new LLM job to the queue')

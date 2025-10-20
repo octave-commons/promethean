@@ -197,7 +197,7 @@ export const makeSchedulerAdapter = (deps: SchedulerAdapterDeps): Scheduler => {
 
 // === Actor State Port Implementation ===
 
-export type ActorStatePortDeps = {
+export type ActorStateAdapterDeps = {
   createActor: (actor: Omit<Actor, 'id' | 'createdAt' | 'updatedAt'>) => Promise<Actor>;
   getActor: (id: string) => Promise<Actor | null>;
   updateActor: (id: string, updates: Partial<Actor>) => Promise<Actor>;
@@ -205,7 +205,7 @@ export type ActorStatePortDeps = {
   generateId: () => string;
 };
 
-export const makeActorStatePort = (deps: ActorStatePortDeps): ActorStatePort => {
+export const makeActorStateAdapter = (deps: ActorStateAdapterDeps): ActorStatePort => {
   return {
     spawn: async (script: ActorScript, goal: string): Promise<Actor> => {
       const actorData = {
@@ -258,7 +258,7 @@ export const makeActorStatePort = (deps: ActorStatePortDeps): ActorStatePort => 
 
 // === In-Memory Implementations for Testing ===
 
-export const makeInMemoryContextPort = (): ContextPort => {
+export const makeInMemoryContextAdapter = (): ContextPort => {
   const messages = new Map<string, Message[]>();
 
   return {
@@ -283,7 +283,7 @@ export const makeInMemoryContextPort = (): ContextPort => {
   };
 };
 
-export const makeInMemoryToolPort = (): ToolPort => {
+export const makeInMemoryToolAdapter = (): ToolPort => {
   const tools = new Map<string, ToolSpec>();
 
   return {
@@ -308,7 +308,7 @@ export const makeInMemoryToolPort = (): ToolPort => {
   };
 };
 
-export const makeInMemoryLlmPort = (): LlmPort => {
+export const makeInMemoryLlmAdapter = (): LlmPort => {
   return {
     complete: async (messages: Message[]) => {
       // Mock LLM response
@@ -321,7 +321,7 @@ export const makeInMemoryLlmPort = (): LlmPort => {
   };
 };
 
-export const makeInMemoryMessageBus = (): MessageBus => {
+export const makeInMemoryMessageBusAdapter = (): MessageBus => {
   const subscribers = new Set<(msg: { from: string; to: string; content: string }) => void>();
 
   return {
@@ -336,7 +336,7 @@ export const makeInMemoryMessageBus = (): MessageBus => {
   };
 };
 
-export const makeInMemoryScheduler = (): Scheduler => {
+export const makeInMemorySchedulerAdapter = (): Scheduler => {
   const intervals = new Set<NodeJS.Timeout>();
   const timeouts = new Set<NodeJS.Timeout>();
 
@@ -373,7 +373,7 @@ export const makeInMemoryScheduler = (): Scheduler => {
   };
 };
 
-export const makeInMemoryActorStatePort = (): ActorStatePort => {
+export const makeInMemoryActorStateAdapter = (): ActorStatePort => {
   const actors = new Map<string, Actor>();
   let idCounter = 1;
 

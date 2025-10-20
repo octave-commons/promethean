@@ -1,7 +1,7 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
 import ora from 'ora';
-import { getlistModels, * } from './mock-api.js';
+import { listModels } from '../../actions/ollama/models.js';
 
 const modelsCommand = new Command('models')
   .description('List available models')
@@ -15,7 +15,7 @@ const modelsCommand = new Command('models')
 
       spinner.stop();
 
-      if (models.length === 0) {
+      if (models.count === 0) {
         console.log(chalk.yellow('No models found'));
         process.exit(0);
       }
@@ -30,7 +30,7 @@ const modelsCommand = new Command('models')
         console.log('Name\t\tSize\tModified');
         console.log('-'.repeat(50));
 
-        models.forEach((model: any) => {
+        models.models.forEach((model: any) => {
           if (typeof model === 'string') {
             // When detailed=false, models is an array of strings
             console.log(`${model}\tN/A\tN/A`);

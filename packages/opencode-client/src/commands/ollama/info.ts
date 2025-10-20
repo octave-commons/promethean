@@ -1,7 +1,8 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
 import ora from 'ora';
-import { getQueueInfo } from './mock-api.js';
+import { check } from '../../actions/ollama/api.js';
+import { OLLAMA_URL } from '@promethean/ollama-queue';
 
 export const infoCommand = new Command('info')
   .description('Get queue information')
@@ -9,7 +10,12 @@ export const infoCommand = new Command('info')
     try {
       const spinner = ora('Fetching queue info...').start();
 
-      const info = await getQueueInfo();
+      const res = await fetch(`${OLLAMA_URL}/api/version`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      await check(res, 'get ollama info');
+      const info = await res.json();
 
       spinner.stop();
 

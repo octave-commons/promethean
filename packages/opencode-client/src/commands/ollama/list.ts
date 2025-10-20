@@ -1,7 +1,7 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
 import ora from 'ora';
-import { getlistJobs, * } from './mock-api.js';
+import { jobQueue } from '@promethean/ollama-queue';
 
 export const listCommand = new Command('list')
   .description('List Ollama jobs')
@@ -16,11 +16,16 @@ export const listCommand = new Command('list')
     try {
       const spinner = ora('Fetching jobs...').start();
 
-      const jobs = await listJobs({
-        status: options.status,
-        limit: parseInt(options.limit),
-        agentOnly: !options.all,
-      });
+      let jobs = jobQueue;
+      if (options.status) {
+        jobs = jobs.filter((job) => job.status === options.status);
+      }
+      if (options.limit) {
+        jobs = jobs.slice(0, parseInt(options.limit));
+      }
+      if (!options.all) {
+        jobs = jobs.filter((job) => job.agentId !== undefined);
+      }
 
       spinner.stop();
 
@@ -34,9 +39,11 @@ export const listCommand = new Command('list')
         return;
       }
 
-      console.log(chalk.blue(`
+      console.log(
+        chalk.blue(`
 Found ${jobs.length} jobs:
-`));
+`),
+      );
 
       // Create a simple table
       console.log('ID\t\tStatus\t\tModel\t\tName');
@@ -52,7 +59,7 @@ Found ${jobs.length} jobs:
                 ? chalk.yellow(job.status)
                 : job.status;
 
-        console.log(`${job.id}\t${status}\t${job.modelName}\t${job.jobName || 'N/A'}`);
+        console.log(`${job.id}\t${status}\t${job.modelName}\t${job.name || 'N/A'}`);
       });
     } catch (error) {
       console.error(

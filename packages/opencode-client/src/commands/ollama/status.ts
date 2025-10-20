@@ -1,7 +1,7 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
 import ora from 'ora';
-import { getgetJobStatus, * } from './mock-api.js';
+import { getJobById } from '../../actions/ollama/jobs.js';
 
 export const statusCommand = new Command('status')
   .description('Get job status')
@@ -10,7 +10,10 @@ export const statusCommand = new Command('status')
     try {
       const spinner = ora('Fetching job status...').start();
 
-      const job = await getJobStatus(jobId);
+      const job = getJobById(jobId);
+      if (!job) {
+        throw new Error(`Job ${jobId} not found`);
+      }
 
       spinner.stop();
 
