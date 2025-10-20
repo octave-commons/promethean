@@ -4,12 +4,14 @@
  */
 
 import { createOpencode } from '@opencode-ai/sdk';
+import type { SessionClient } from '../types/index';
+
 export interface Event {
   id: string;
   type: string;
   timestamp?: string;
   sessionId?: string;
-  properties?: any;
+  properties?: Record<string, unknown>;
   time?: string;
   createdAt?: string;
 }
@@ -26,11 +28,11 @@ const authHeader = process.env.OPENCODE_AUTH_TOKEN
   ? { Authorization: `Bearer ${process.env.OPENCODE_AUTH_TOKEN}` }
   : undefined;
 
-async function getClient(): Promise<any> {
+async function getClient(): Promise<SessionClient> {
   return createOpencode({
     timeout,
     fetchOptions: { headers: authHeader },
-  }).then((r: any) => r.client ?? r);
+  }).then((r: { client?: SessionClient }) => r.client ?? r);
 }
 
 /**

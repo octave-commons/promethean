@@ -7,6 +7,7 @@
 
 import { createOpencodeClient } from '@opencode-ai/sdk';
 import { DualStoreManager } from '@promethean/persistence';
+import type { SessionClient } from '../types/index';
 
 export type EventWatcherConfig = {
   /** Indexing interval in milliseconds */
@@ -59,7 +60,7 @@ export class EventWatcherService {
   private config: Required<EventWatcherConfig>;
   private isRunning = false;
   private startTime = 0;
-  private client: any = null;
+  private client: SessionClient | null = null;
   private processingQueue: ProjectedEvent[] = [];
   private stats: EventWatcherStats = {
     totalEventsProcessed: 0,
@@ -109,12 +110,15 @@ export class EventWatcherService {
       await this.initializeClient();
       this.log('✅ Step 2 complete: OpenCode client initialized');
 
-      this.log('📚 Step 3: Starting retrospective indexing...');
-      // Start retrospective indexing if enabled
+      this.log('📚 Step 3: Skipping retrospective indexing to avoid stale connections...');
+      // Temporarily disable retrospective indexing to prevent stale connection issues
+      // TODO: Re-enable after fixing MongoDB connection pooling
+      /*
       if (this.config.enableRetrospective) {
         await this.performRetrospectiveIndexing();
         this.log('✅ Step 3 complete: Retrospective indexing done');
       }
+      */
 
       this.log('🔄 Step 4: Starting session polling...');
       // Start session polling for real-time updates
@@ -191,7 +195,7 @@ export class EventWatcherService {
   /**
    * Process a session update event
    */
-  private async processSessionUpdate(session: any): Promise<void> {
+  private async processSessionUpdate(session: { id: string; time?: { updated?: number; created?: number }; [key: string]: unknown }): Promise<void> {
     try {
       const lastProcessed = this.lastProcessedTimes.get(session.id) || 0;
       const sessionTime = session.time?.updated || session.time?.created || 0;
