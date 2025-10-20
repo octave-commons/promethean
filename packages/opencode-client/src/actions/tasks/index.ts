@@ -31,16 +31,7 @@ export async function loadPersistedTasks(
             completionMessage: task.metadata?.completionMessage as string | undefined,
           };
 
-          await context.insert({
-            text: agentTask.task,
-            metadata: {
-              sessionId,
-              status: agentTask.status,
-              lastActivity: agentTask.lastActivity,
-              completionMessage: agentTask.completionMessage,
-            },
-            timestamp: agentTask.startTime,
-          });
+          // Task already exists in store, no need to re-insert
           loadedCount++;
         } else {
           // Clean up orphaned task
@@ -132,33 +123,31 @@ export async function createTask(
 
 export async function getAllTasks(context: TaskContext): Promise<Map<string, AgentTask>> {
   try {
-    const storedTasks = await context.agentTaskStore.getMostRecent(100);
-    const allTasks = new Map(context.agentTasks);
+    const storedTasks = await context.getMostRecent(100);
+    const allTasks = new Map<string, AgentTask>();
 
     for (const task of storedTasks) {
-      if (!allTasks.has(task.id || '')) {
-        const sessionId = (task.metadata?.sessionId as string) || task.id || 'unknown';
-        const startTime = parseTimestamp(task.timestamp);
-        const status = (task.metadata?.status as AgentTask['status']) || 'idle';
-        const lastActivity =
-          parseTimestamp(task.metadata?.lastActivity as string | number | Date) || startTime;
-        const completionMessage = task.metadata?.completionMessage as string | undefined;
+      const sessionId = (task.metadata?.sessionId as string) || task.id || 'unknown';
+      const startTime = parseTimestamp(task.timestamp);
+      const status = (task.metadata?.status as AgentTask['status']) || 'idle';
+      const lastActivity =
+        parseTimestamp(task.metadata?.lastActivity as string | number | Date) || startTime;
+      const completionMessage = task.metadata?.completionMessage as string | undefined;
 
-        allTasks.set(task.id || '', {
-          sessionId,
-          task: task.text,
-          startTime,
-          status,
-          lastActivity,
-          completionMessage,
-        });
-      }
+      allTasks.set(task.id || '', {
+        sessionId,
+        task: task.text,
+        startTime,
+        status,
+        lastActivity,
+        completionMessage,
+      });
     }
 
     return allTasks;
   } catch (error) {
     console.error('Error getting all tasks:', error);
-    return context.agentTasks;
+    return new Map();
   }
 }
 

@@ -1,5 +1,6 @@
 import { TaskContext } from '../tasks/index.js';
 import type { EventClient, OpenCodeEvent, EventMessage } from '../../types/index.js';
+import { OpencodeClient } from '@opencode-ai/sdk';
 
 export interface EventContext {
   client: EventClient;
@@ -118,7 +119,7 @@ export async function processSessionMessagesAction(client: EventClient, sessionI
 }
 
 export async function processMessage(
-  _client: EventClient,
+  _client: OpencodeClient,
   sessionId: string,
   message: EventMessage,
 ) {
