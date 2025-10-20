@@ -28,12 +28,21 @@ ${tags ? `**Tags:** ${tags}  \n` : ''}${description ? `**Description:** ${descri
 }
 
 /**
- * Format multiple tasks as markdown list
+ * Format a single task as markdown
  */
-export function formatTaskList(tasks: (Task | IndexedTask)[]): string {
-  if (tasks.length === 0) {
-    return 'No tasks found.';
-  }
+export function formatTask(task: Task | IndexedTask): string {
+  const status = task.status || 'unknown';
+  const title = task.title || 'Untitled';
+  const uuid = task.uuid || task.id || 'unknown';
+  const description = task.content ? task.content.slice(0, 200) + (task.content.length > 200 ? '...' : '') : '';
+  const labels = task.labels && task.labels.length > 0 ? task.labels.map((tag: string) => `#${tag}`).join(' ') : '';
+  
+  return `## ${title}
+
+**UUID:** \`${uuid}\`  
+**Status:** ${status}  
+${labels ? `**Labels:** ${labels}  \n` : ''}${description ? `**Description:** ${description}  \n` : ''}`;
+}
 
   return tasks
     .map((task) => {
