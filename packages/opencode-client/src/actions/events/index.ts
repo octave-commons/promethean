@@ -63,7 +63,7 @@ export function extractSessionId(event: OpenCodeEvent): string | null {
   return extractor ? extractor() || null : null;
 }
 
-export async function getSessionMessages(client: EventClient, sessionId: string) {
+export async function getSessionMessages(client: OpencodeClient, sessionId: string) {
   try {
     const { data: messages } = await client.session.messages({
       path: { id: sessionId },
