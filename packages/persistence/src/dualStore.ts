@@ -124,33 +124,37 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
             const alias = await aliases.findOne({ _id: family });
             console.log(`[DualStoreManager] Alias lookup complete`);
 
-        const embedFnName = alias?.embed?.fn ?? process.env.EMBEDDING_FUNCTION ?? 'nomic-embed-text';
-        const embeddingFn = alias?.embed
-            ? RemoteEmbeddingFunction.fromConfig({
-                  driver: alias.embed.driver,
-                  fn: alias.embed.fn,
-              })
-            : RemoteEmbeddingFunction.fromConfig({
-                  driver: process.env.EMBEDDING_DRIVER ?? 'ollama',
-                  fn: embedFnName,
-              });
+            const embedFnName = alias?.embed?.fn ?? process.env.EMBEDDING_FUNCTION ?? 'nomic-embed-text';
+            const embeddingFn = alias?.embed
+                ? RemoteEmbeddingFunction.fromConfig({
+                      driver: alias.embed.driver,
+                      fn: alias.embed.fn,
+                  })
+                : RemoteEmbeddingFunction.fromConfig({
+                      driver: process.env.EMBEDDING_DRIVER ?? 'ollama',
+                      fn: embedFnName,
+                  });
 
-        const chromaCollection = await chromaClient.getOrCreateCollection({
-            name: alias?.target ?? family,
-            embeddingFunction: embeddingFn,
-        });
+            const chromaCollection = await chromaClient.getOrCreateCollection({
+                name: alias?.target ?? family,
+                embeddingFunction: embeddingFn,
+            });
 
-        const mongoCollection = db.collection<DualStoreEntry<TTextKey, TTimeKey>>(family);
+            const mongoCollection = db.collection<DualStoreEntry<TTextKey, TTimeKey>>(family);
 
-        const supportsImages = !embedFnName.toLowerCase().includes('text');
-        return new DualStoreManager({
-            name: family,
-            chromaCollection,
-            mongoCollection,
-            textKey,
-            timeStampKey,
-            supportsImages,
-        });
+            const supportsImages = !embedFnName.toLowerCase().includes('text');
+            return new DualStoreManager({
+                name: family,
+                chromaCollection,
+                mongoCollection,
+                textKey,
+                timeStampKey,
+                supportsImages,
+            });
+        } catch (error) {
+            console.error('Failed to create DualStoreManager:', error);
+            throw error;
+        }
     }
 
     getMongoCollection(): Collection<DualStoreEntry<TextKey, TimeKey>> {
