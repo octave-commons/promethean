@@ -262,14 +262,16 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
                     )
                     .filter((entry) => typeof entry.text === 'string' && entry.text.trim().length > 0);
             } catch (error) {
-                if (error.message.includes('MongoNotConnectedError') && attempt < maxRetries) {
+                if (error instanceof Error && error.message.includes('MongoNotConnectedError') && attempt < maxRetries) {
                     console.warn(
-                        `MongoDB connection failed in getMostRecent (attempt ${attempt}/${maxRetries}), retrying...`,
+                        `MongoDB connection failed (attempt ${attempt}/${maxRetries}), retrying...`,
                         error.message,
                     );
                     await new Promise((resolve) => setTimeout(resolve, retryDelay * attempt));
                     continue;
                 }
+                throw error; // Re-throw if not a connection error or max retries reached
+            }
                 throw error;
             }
         }
