@@ -3,7 +3,7 @@
 import { IndexerService } from '../../services/indexer.js';
 import { initializeStores } from '../../index.js';
 
-async function main() {
+export async function main() {
   try {
     console.log('🔧 Initializing stores...');
     await initializeStores();

@@ -2,7 +2,7 @@
 
 import { IndexerService } from '../../services/indexer.js';
 
-async function main() {
+export async function main() {
   try {
     const indexer = new IndexerService();
 
