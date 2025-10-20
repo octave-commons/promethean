@@ -115,9 +115,7 @@ export async function createTask(
     lastActivity: startTime,
   };
 
-  context.agentTasks.set(sessionId, agentTask);
-
-  await context.agentTaskStore.insert({
+  await context.insert({
     id: sessionId,
     text: task,
     timestamp: new Date().toISOString(),
