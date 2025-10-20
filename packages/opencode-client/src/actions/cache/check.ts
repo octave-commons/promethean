@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Cache checking action
 
-import { getPromptEmbedding } from '../../actions/ollama/embedding.js';
-import { initializeCache } from './initialize.js';
 import {
   JobType,
   now,
   CACHE_MAX_AGE_MS,
   CACHE_SIMILARITY_THRESHOLD,
 } from '@promethean/ollama-queue';
+
+import { getPromptEmbedding } from '../../actions/ollama/embedding.js';
+import { initializeCache } from './initialize.js';
 
 export async function checkCache(
   prompt: string,
