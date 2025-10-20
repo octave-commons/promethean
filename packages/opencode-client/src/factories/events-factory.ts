@@ -39,12 +39,7 @@ export function createHandleSessionIdleTool(
     async execute(args, context: ToolContext) {
       const { sessionId } = args;
 
-      const taskContext: TaskContext = {
-        agentTaskStore: stores,
-      };
-
-      const eventContext: EventContext = { client, taskContext };
-      await handleSessionUpdated(eventContext, sessionId);
+      await handleSessionUpdated(stores, sessionId);
 
       return JSON.stringify({
         success: true,
