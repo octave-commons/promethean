@@ -2,6 +2,19 @@ import { DualStoreManager } from '@promethean/persistence';
 import { SessionInfo } from './SessionInfo.js';
 import type { Timestamp } from './types/index.js';
 
+const SESSION_STORE_NAME = 'sessionStore';
+const AGENT_TASK_STORE_NAME = 'agentTaskStore';
+const EVENT_STORE_NAME = 'eventStore';
+const MESSAGE_STORE_NAME = 'messageStore';
+
+export type AgentTask = {
+  sessionId: string;
+  agentName: string;
+  status: 'idle' | 'running' | 'completed' | 'failed';
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+  completionMessage?: string;
+};
 // Storage
 export async function initializeStores(): Promise<
   Record<string, DualStoreManager<'text', 'timestamp'>>
