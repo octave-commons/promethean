@@ -201,9 +201,6 @@ export function createMonitorTasksTool(): ReturnType<typeof tool> {
 
 // Factory for createTask tool
 export function createCreateTaskTool(stores: Stores): ReturnType<typeof tool> {
-  if (!agentTaskStore) {
-    throw new Error('Required task context not available');
-  }
   return tool({
     description: 'Create a new agent task',
     args: {
