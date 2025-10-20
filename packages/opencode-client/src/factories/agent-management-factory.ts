@@ -128,7 +128,7 @@ export function createStartAgentSessionTool(): ReturnType<typeof tool> {
   });
 }
 
-export function createStopAgentSessionTool(): any {
+export function createStopAgentSessionTool(): ReturnType<typeof tool> {
   return tool({
     description: 'Stop an agent session with optional completion message',
     args: {
