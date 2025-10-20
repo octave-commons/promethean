@@ -1,23 +1,20 @@
 import { SessionUtils, agentTasks, sessionStore } from '../../index.js';
 import { deduplicateSessions } from '../../utils/session-cleanup.js';
-import type { AgentTask } from '../../types/index.js';
+import type { SessionInfo, AgentTask } from '../../types/index.js';
 
-interface SessionData {
-  id: string;
+interface SessionData extends SessionInfo {
   title?: string;
-  createdAt: string | number;
   time?: {
     created?: string;
     updated?: string;
   };
-  status?: string;
-  lastActivity?: number;
   activityStatus?: string;
   isAgentTask?: boolean;
   task?: string;
   completionMessage?: string;
   messages?: unknown[];
-  [key: string]: unknown;
+  agentTaskStatus?: string;
+  lastActivityTime?: number;
 }
 
 interface StoreSession {

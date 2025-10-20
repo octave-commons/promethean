@@ -44,8 +44,8 @@ export function createListSessionsTool() {
       limit: tool.schema.number().default(20).describe('Maximum number of sessions to return'),
       offset: tool.schema.number().default(0).describe('Number of sessions to skip'),
     },
-    async execute(args: ListSessionsArgs) {
-      const { limit, offset } = args;
+    async execute(args: ListSessionsArgs): Promise<string> {
+      const { limit = 20, offset = 0 } = args;
       const result = await listSessions({ limit, offset });
       return result;
     },
@@ -67,7 +67,7 @@ export function createCreateSessionTool() {
         .optional()
         .describe('Delegates for the session'),
     },
-    async execute(args: CreateSessionArgs, context: ToolContext) {
+    async execute(args: CreateSessionArgs, context: any): Promise<string> {
       const { title } = args;
       const client = context.client;
 
@@ -84,7 +84,7 @@ export function createCloseSessionTool() {
     args: {
       sessionId: tool.schema.string().describe('ID of the session to close'),
     },
-    async execute(args: CloseSessionArgs) {
+    async execute(args: CloseSessionArgs): Promise<string> {
       const { sessionId } = args;
       const result = await close({ sessionId });
       return result;
@@ -101,7 +101,7 @@ export function createGetSessionTool() {
       limit: tool.schema.number().optional().describe('Limit number of messages to return'),
       offset: tool.schema.number().optional().describe('Offset for messages pagination'),
     },
-    async execute(args: GetSessionArgs) {
+    async execute(args: GetSessionArgs): Promise<string> {
       const { sessionId, limit, offset } = args;
       const result = await get({ sessionId, limit, offset });
       return result;
@@ -118,7 +118,7 @@ export function createSearchSessionsTool() {
       k: tool.schema.number().optional().describe('Maximum number of results to return'),
       sessionId: tool.schema.string().optional().describe('Specific session ID to search within'),
     },
-    async execute(args: SearchSessionsArgs) {
+    async execute(args: SearchSessionsArgs): Promise<string> {
       const { query, k, sessionId } = args;
       const result = await search({ query, k, sessionId });
       return result;
