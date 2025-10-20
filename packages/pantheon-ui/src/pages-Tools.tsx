@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Grid,
@@ -27,7 +27,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
-} from '@mui/material'
+} from '@mui/material';
 import {
   PlayArrow as ExecuteIcon,
   Refresh as RefreshIcon,
@@ -36,11 +36,11 @@ import {
   History as HistoryIcon,
   CheckCircle as SuccessIcon,
   Error as ErrorIcon,
-} from '@mui/icons-material'
-import { motion } from 'framer-motion'
-import { useSystemStore } from '@/store/systemStore'
-import type { MCPTool, MCPToolExecution } from '@/types'
-import { formatDistanceToNow } from 'date-fns'
+} from '@mui/icons-material';
+import { motion } from 'framer-motion';
+import { useSystemStore } from '@/store/systemStore';
+import type { MCPTool, MCPToolExecution } from '@/types';
+import { formatDistanceToNow } from 'date-fns';
 
 const Tools: React.FC = () => {
   const {
@@ -52,39 +52,39 @@ const Tools: React.FC = () => {
     fetchToolExecutions,
     executeTool,
     clearError,
-  } = useSystemStore()
+  } = useSystemStore();
 
-  const [executeDialogOpen, setExecuteDialogOpen] = useState(false)
-  const [selectedTool, setSelectedTool] = useState<MCPTool | null>(null)
-  const [toolArgs, setToolArgs] = useState<Record<string, any>>({})
+  const [executeDialogOpen, setExecuteDialogOpen] = useState(false);
+  const [selectedTool, setSelectedTool] = useState<MCPTool | null>(null);
+  const [toolArgs, setToolArgs] = useState<Record<string, any>>({});
 
   useEffect(() => {
-    fetchTools()
-    fetchToolExecutions()
-  }, [fetchTools, fetchToolExecutions])
+    fetchTools();
+    fetchToolExecutions();
+  }, [fetchTools, fetchToolExecutions]);
 
   const handleExecuteTool = (tool: MCPTool) => {
-    setSelectedTool(tool)
-    setToolArgs({})
-    setExecuteDialogOpen(true)
-  }
+    setSelectedTool(tool);
+    setToolArgs({});
+    setExecuteDialogOpen(true);
+  };
 
   const handleExecute = async () => {
     if (selectedTool) {
       try {
-        await executeTool(selectedTool.name, toolArgs)
-        setExecuteDialogOpen(false)
-        setSelectedTool(null)
-        setToolArgs({})
+        await executeTool(selectedTool.name, toolArgs);
+        setExecuteDialogOpen(false);
+        setSelectedTool(null);
+        setToolArgs({});
       } catch (error) {
         // Error is handled by the store
       }
     }
-  }
+  };
 
   const handleArgChange = (paramName: string, value: any) => {
-    setToolArgs(prev => ({ ...prev, [paramName]: value }))
-  }
+    setToolArgs((prev) => ({ ...prev, [paramName]: value }));
+  };
 
   const ToolCard: React.FC<{ tool: MCPTool }> = ({ tool }) => (
     <motion.div
@@ -108,9 +108,7 @@ const Tools: React.FC = () => {
                 size="small"
                 sx={{ mr: 1 }}
               />
-              {tool.category && (
-                <Chip label={tool.category} variant="outlined" size="small" />
-              )}
+              {tool.category && <Chip label={tool.category} variant="outlined" size="small" />}
             </Box>
           </Box>
 
@@ -158,23 +156,19 @@ const Tools: React.FC = () => {
         </CardContent>
       </Card>
     </motion.div>
-  )
+  );
 
   const ExecutionItem: React.FC<{ execution: MCPToolExecution }> = ({ execution }) => (
     <ListItem divider>
       <ListItemIcon>
-        {execution.success ? (
-          <SuccessIcon color="success" />
-        ) : (
-          <ErrorIcon color="error" />
-        )}
+        {execution.success ? <SuccessIcon color="success" /> : <ErrorIcon color="error" />}
       </ListItemIcon>
       <ListItemText
         primary={execution.toolName}
         secondary={
           <Box>
             <Typography variant="body2" color="textSecondary">
-              {formatDistanceToNow(new Date(execution.timestamp), { addSuffix: true )}
+              {formatDistanceToNow(new Date(execution.timestamp), { addSuffix: true })}
               {' • '}
               Duration: {execution.duration}ms
             </Typography>
@@ -190,7 +184,7 @@ const Tools: React.FC = () => {
         }
       />
     </ListItem>
-  )
+  );
 
   return (
     <Box>
@@ -203,8 +197,8 @@ const Tools: React.FC = () => {
             variant="outlined"
             startIcon={<RefreshIcon />}
             onClick={() => {
-              fetchTools()
-              fetchToolExecutions()
+              fetchTools();
+              fetchToolExecutions();
             }}
             sx={{ mr: 1 }}
           >
@@ -280,7 +274,12 @@ const Tools: React.FC = () => {
       </Grid>
 
       {/* Execute Tool Dialog */}
-      <Dialog open={executeDialogOpen} onClose={() => setExecuteDialogOpen(false)} maxWidth="md" fullWidth>
+      <Dialog
+        open={executeDialogOpen}
+        onClose={() => setExecuteDialogOpen(false)}
+        maxWidth="md"
+        fullWidth
+      >
         <DialogTitle>Execute Tool: {selectedTool?.name}</DialogTitle>
         <DialogContent>
           {selectedTool && (
@@ -295,92 +294,90 @@ const Tools: React.FC = () => {
                 Parameters
               </Typography>
 
-              {Object.entries(selectedTool.inputSchema.properties).map(([paramName, paramSchema]) => {
-                const paramType = (paramSchema as any).type
-                const isRequired = selectedTool.inputSchema.required?.includes(paramName)
-                const description = (paramSchema as any).description
+              {Object.entries(selectedTool.inputSchema.properties).map(
+                ([paramName, paramSchema]) => {
+                  const paramType = (paramSchema as any).type;
+                  const isRequired = selectedTool.inputSchema.required?.includes(paramName);
+                  const description = (paramSchema as any).description;
 
-                return (
-                  <Box key={paramName} mb={2}>
-                    <Typography variant="subtitle2">
-                      {paramName}
-                      {isRequired && <span style={{ color: 'red' }}> *</span>}
-                    </Typography>
-                    {description && (
-                      <Typography variant="body2" color="textSecondary" gutterBottom>
-                        {description}
+                  return (
+                    <Box key={paramName} mb={2}>
+                      <Typography variant="subtitle2">
+                        {paramName}
+                        {isRequired && <span style={{ color: 'red' }}> *</span>}
                       </Typography>
-                    )}
+                      {description && (
+                        <Typography variant="body2" color="textSecondary" gutterBottom>
+                          {description}
+                        </Typography>
+                      )}
 
-                    {paramType === 'boolean' ? (
-                      <FormControl fullWidth variant="outlined" size="small">
-                        <InputLabel>{paramName}</InputLabel>
-                        <Select
+                      {paramType === 'boolean' ? (
+                        <FormControl fullWidth variant="outlined" size="small">
+                          <InputLabel>{paramName}</InputLabel>
+                          <Select
+                            value={toolArgs[paramName] || ''}
+                            onChange={(e) => handleArgChange(paramName, e.target.value === 'true')}
+                            label={paramName}
+                          >
+                            <MenuItem value="true">True</MenuItem>
+                            <MenuItem value="false">False</MenuItem>
+                          </Select>
+                        </FormControl>
+                      ) : paramType === 'number' ? (
+                        <TextField
+                          fullWidth
+                          type="number"
+                          variant="outlined"
+                          size="small"
                           value={toolArgs[paramName] || ''}
-                          onChange={(e) => handleArgChange(paramName, e.target.value === 'true')}
-                          label={paramName}
-                        >
-                          <MenuItem value="true">True</MenuItem>
-                          <MenuItem value="false">False</MenuItem>
-                        </Select>
-                      </FormControl>
-                    ) : paramType === 'number' ? (
-                      <TextField
-                        fullWidth
-                        type="number"
-                        variant="outlined"
-                        size="small"
-                        value={toolArgs[paramName] || ''}
-                        onChange={(e) => handleArgChange(paramName, Number(e.target.value))}
-                        placeholder={`Enter ${paramName}`}
-                      />
-                    ) : (
-                      <TextField
-                        fullWidth
-                        multiline
-                        rows={paramType === 'object' ? 4 : 1}
-                        variant="outlined"
-                        size="small"
-                        value={toolArgs[paramName] || ''}
-                        onChange={(e) => {
-                          const value = e.target.value
-                          if (paramType === 'object') {
-                            try {
-                              const parsed = JSON.parse(value)
-                              handleArgChange(paramName, parsed)
-                            } catch {
-                              // Invalid JSON, don't update
+                          onChange={(e) => handleArgChange(paramName, Number(e.target.value))}
+                          placeholder={`Enter ${paramName}`}
+                        />
+                      ) : (
+                        <TextField
+                          fullWidth
+                          multiline
+                          rows={paramType === 'object' ? 4 : 1}
+                          variant="outlined"
+                          size="small"
+                          value={toolArgs[paramName] || ''}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            if (paramType === 'object') {
+                              try {
+                                const parsed = JSON.parse(value);
+                                handleArgChange(paramName, parsed);
+                              } catch {
+                                // Invalid JSON, don't update
+                              }
+                            } else {
+                              handleArgChange(paramName, value);
                             }
-                          } else {
-                            handleArgChange(paramName, value)
+                          }}
+                          placeholder={
+                            paramType === 'object'
+                              ? `Enter JSON for ${paramName}`
+                              : `Enter ${paramName}`
                           }
-                        }}
-                        placeholder={
-                          paramType === 'object'
-                            ? `Enter JSON for ${paramName}`
-                            : `Enter ${paramName}`
-                        }
-                      />
-                    )}
-                  </Box>
-                )
-              })}
+                        />
+                      )}
+                    </Box>
+                  );
+                },
+              )}
             </Box>
           )}
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setExecuteDialogOpen(false)}>Cancel</Button>
-          <Button
-            onClick={handleExecute}
-            variant="contained"
-            disabled={!selectedTool || loading}
-          >
+          <Button onClick={handleExecute} variant="contained" disabled={!selectedTool || loading}>
             Execute
           </Button>
         </DialogActions>
       </Dialog>
     </Box>
-  )
-}
+  );
+};
 
-export default Tools
+export default Tools;
