@@ -405,8 +405,35 @@ export async function validateMcpOperation(
 
   // Then perform MCP-specific security checks
   try {
-    // Import MCP's existing security functions
-    const { normalizeToRoot, isInsideRoot } = await import('../files.ts');
+    // Inline path normalization functions to avoid circular dependency
+    const normalizeToRoot = (ROOT_PATH: string, rel: string | undefined = '.'): string => {
+      const base = path.resolve(ROOT_PATH);
+
+      // If rel is already absolute, check if it's inside the root
+      if (rel && path.isAbsolute(rel)) {
+        const abs = path.resolve(rel);
+        if (isInsideRoot(ROOT_PATH, abs)) {
+          return abs;
+        }
+        throw new Error('path outside root');
+      }
+
+      // Otherwise resolve relative to the base
+      const abs = path.resolve(base, rel || '.');
+      const relToBase = path.relative(base, abs);
+      if (relToBase.startsWith('..') || path.isAbsolute(relToBase)) {
+        throw new Error('path outside root');
+      }
+      return abs;
+    };
+
+    const isInsideRoot = (ROOT_PATH: string, absOrRel: string): boolean => {
+      const base = path.resolve(ROOT_PATH);
+      // If absOrRel is already absolute, use it directly
+      const abs = path.isAbsolute(absOrRel) ? path.resolve(absOrRel) : path.resolve(base, absOrRel);
+      const relToBase = path.relative(base, abs);
+      return !(relToBase.startsWith('..') || path.isAbsolute(relToBase));
+    };
 
     // Normalize path and check if it's inside root
     const normalizedPath = normalizeToRoot(rootPath, sanitizedPath);
