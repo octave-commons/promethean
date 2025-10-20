@@ -95,7 +95,7 @@ export function createProcessSessionMessagesMessagesTool(): ReturnType<typeof to
 }
 
 // Factory for getSessionMessages tool
-export function createGetSessionMessagesMessagesTool(): any {
+export function createGetSessionMessagesMessagesTool(): ReturnType<typeof tool> {
   return tool({
     description: 'Get all messages for a specific session (messages version)',
     args: {

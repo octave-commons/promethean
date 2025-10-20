@@ -123,9 +123,7 @@ type Context = {
 
 type Stores = {
   agentTaskStore: DualStoreManager<'text', 'timestamp'>;
-
-}
-
+};
 
 // Factory for updateTaskStatus tool
 export function createUpdateTaskStatusTool(stores): ReturnType<typeof tool> {
@@ -141,7 +139,7 @@ export function createUpdateTaskStatusTool(stores): ReturnType<typeof tool> {
         .optional()
         .describe('Completion message (required for completed/failed status)'),
     },
-    async execute(args, context:Context) {
+    async execute(args, context: Context) {
       const { sessionId, status, completionMessage } = args;
       const agentTaskStore = (context as Record<string, unknown>)
         .agentTaskStore as DualStoreManager<'text', 'timestamp'>;
@@ -203,7 +201,7 @@ export function createMonitorTasksTool(): ReturnType<typeof tool> {
 }
 
 // Factory for createTask tool
-export function createCreateTaskTool({agentTaskStore}): ReturnType<typeof tool> {
+export function createCreateTaskTool({ agentTaskStore }): ReturnType<typeof tool> {
   if (!agentTaskStore) {
     throw new Error('Required task context not available');
   }
@@ -213,9 +211,8 @@ export function createCreateTaskTool({agentTaskStore}): ReturnType<typeof tool> 
       sessionId: tool.schema.string().describe('Session ID for the task'),
       task: tool.schema.string().describe('Task description'),
     },
-    async execute(args, context:Context) {
+    async execute(args, context: Context) {
       const { sessionId, task } = args;
-
 
       const taskContext = {
         agentTaskStore,
@@ -236,21 +233,19 @@ export function createCreateTaskTool({agentTaskStore}): ReturnType<typeof tool> 
 }
 
 // Factory for getAllTasks tool
-export function createGetAllTasksTool({agentTaksStore,client}): ReturnType<typeof tool> {
+export function createGetAllTasksTool({ agentTaskStore, client }): ReturnType<typeof tool> {
+  if (!agentTaskStore) {
+    throw new Error('Required task context not available');
+  }
   return tool({
     description: 'Get all tasks from memory and storage',
     args: {},
-    async execute(_args, context:Context) {
+    async execute(_args, context: Context) {
       const agentTaskStore = (context as Record<string, unknown>)
         .agentTaskStore as DualStoreManager<'text', 'timestamp'>;
 
-      if (!agentTaskStore s) {
-        throw new Error('Required task context not available');
-      }
-
       const taskContext = {
         agentTaskStore,
-        agentTasks,
       };
 
       const allTasks = await getAllTasks(taskContext);
