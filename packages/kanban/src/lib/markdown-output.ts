@@ -5,7 +5,8 @@
  * to replace JSONL as the default output format.
  */
 
-import type { Task, Board, IndexedTask } from './types.js';
+import type { Task, Board } from './types.js';
+import type { IndexedTask } from '../board/types.js';
 
 /**
  * Format a single task as markdown
