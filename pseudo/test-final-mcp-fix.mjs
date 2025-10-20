@@ -5,22 +5,41 @@ import path from 'path';
 const DANGEROUS_CHARS = ['<', '>', ':', '"', '|', '?', '*', '\0'];
 
 const WINDOWS_RESERVED_NAMES = [
-  'CON', 'PRN', 'AUX', 'NUL',
-  'COM1', 'COM2', 'COM3', 'COM4', 'COM5', 'COM6', 'COM7', 'COM8', 'COM9',
-  'LPT1', 'LPT2', 'LPT3', 'LPT4', 'LPT5', 'LPT6', 'LPT7', 'LPT8', 'LPT9'
+  'CON',
+  'PRN',
+  'AUX',
+  'NUL',
+  'COM1',
+  'COM2',
+  'COM3',
+  'COM4',
+  'COM5',
+  'COM6',
+  'COM7',
+  'COM8',
+  'COM9',
+  'LPT1',
+  'LPT2',
+  'LPT3',
+  'LPT4',
+  'LPT5',
+  'LPT6',
+  'LPT7',
+  'LPT8',
+  'LPT9',
 ];
 
-function validateBasicPathProperties(rel: string): boolean {
+function validateBasicPathProperties(rel) {
   if (rel.length > 4096) return false;
   if (rel !== rel.trim()) return false;
   return true;
 }
 
-function containsDangerousCharacters(trimmed: string): boolean {
+function containsDangerousCharacters(trimmed) {
   return DANGEROUS_CHARS.some((char) => trimmed.includes(char));
 }
 
-function validateWindowsPathSecurity(trimmed: string): boolean {
+function validateWindowsPathSecurity(trimmed) {
   if (/^[a-zA-Z]:/.test(trimmed)) return false;
   if (trimmed.startsWith('\\\\')) return false;
   if (trimmed.includes('\\')) return false;
@@ -29,7 +48,7 @@ function validateWindowsPathSecurity(trimmed: string): boolean {
   return true;
 }
 
-function validateUnixPathSecurity(trimmed: string): boolean {
+function validateUnixPathSecurity(trimmed) {
   if (process.platform !== 'win32') {
     const UNIX_DANGEROUS_PATHS = ['/dev/', '/proc/', '/sys/', '/etc/', '/root/', '/var/log/'];
     if (UNIX_DANGEROUS_PATHS.some((dangerous) => trimmed.startsWith(dangerous))) {
@@ -39,7 +58,7 @@ function validateUnixPathSecurity(trimmed: string): boolean {
   return true;
 }
 
-function validatePathNormalization(trimmed: string): boolean {
+function validatePathNormalization(trimmed) {
   try {
     const normalized = path.normalize(trimmed);
     if (path.isAbsolute(normalized) || normalized.includes('..')) {
@@ -56,22 +75,13 @@ function validatePathNormalization(trimmed: string): boolean {
   return true;
 }
 
-function containsGlobAttackPatterns(trimmed: string): boolean {
-  const GLOB_ATTACK_PATTERNS = [
-    /\*\*.*\.\./,
-    /\.\.\/\*\*/,
-    /\{\.\./,
-    /\.\.\}/,
-  ];
+function containsGlobAttackPatterns(trimmed) {
+  const GLOB_ATTACK_PATTERNS = [/\*\*.*\.\./, /\.\.\/\*\*/, /\{\.\./, /\.\.\}/];
   return GLOB_ATTACK_PATTERNS.some((pattern) => pattern.test(trimmed));
 }
 
 // The FIXED detectPathTraversal function
-function detectPathTraversal(trimmed: string): {
-  isTraversal: boolean;
-  isAbsolutePath: boolean;
-  hasUnicodeAttack: boolean;
-} {
+function detectPathTraversal(trimmed) {
   let decoded = trimmed;
   try {
     decoded = decodeURIComponent(trimmed);
@@ -91,9 +101,7 @@ function detectPathTraversal(trimmed: string): {
   const normalized = decoded.normalize('NFKC');
 
   // Check for unicode homograph characters
-  const unicodeHomographs = [
-    '‥', '﹒', '．', '．．', '‥．', '．‥',
-  ];
+  const unicodeHomographs = ['‥', '﹒', '．', '．．', '‥．', '．‥'];
 
   // Check original string for unicode homographs
   for (const homograph of unicodeHomographs) {
@@ -126,7 +134,7 @@ function detectPathTraversal(trimmed: string): {
 }
 
 // The main validation function (simplified)
-function validatePathSecurity(rel: string) {
+function validatePathSecurity(rel) {
   const securityIssues = [];
   let riskLevel = 'low';
 
@@ -136,7 +144,8 @@ function validatePathSecurity(rel: string) {
   const traversalResult = detectPathTraversal(trimmed);
   if (traversalResult.isTraversal) {
     securityIssues.push('Path traversal attempt detected');
-    riskLevel = traversalResult.hasUnicodeAttack || !traversalResult.isAbsolutePath ? 'critical' : 'high';
+    riskLevel =
+      traversalResult.hasUnicodeAttack || !traversalResult.isAbsolutePath ? 'critical' : 'high';
   } else if (traversalResult.isAbsolutePath) {
     securityIssues.push('Absolute path access detected');
     riskLevel = 'high';
@@ -200,7 +209,10 @@ const testCases = [
   { path: '.', description: 'Current directory (.) - should be ALLOWED' },
   { path: '', description: 'Empty string - should be ALLOWED' },
   { path: './', description: 'Current directory with slash (./) - should be ALLOWED' },
-  { path: './file.txt', description: 'Relative path with current dir (./file.txt) - should be ALLOWED' },
+  {
+    path: './file.txt',
+    description: 'Relative path with current dir (./file.txt) - should be ALLOWED',
+  },
   { path: '..', description: 'Parent directory (..) - should be BLOCKED' },
   { path: '../file.txt', description: 'Parent directory access (../file.txt) - should be BLOCKED' },
 ];
@@ -208,7 +220,7 @@ const testCases = [
 testCases.forEach(({ path, description }) => {
   const result = validatePathSecurity(path);
   const status = result.valid ? '✅ ALLOWED' : '❌ BLOCKED';
-  
+
   console.log(`${description}`);
   console.log(`  Result: ${status}`);
   if (!result.valid && result.securityIssues) {

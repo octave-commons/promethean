@@ -238,12 +238,15 @@ body {
                                  (if (.includes current-class "visible")
                                    (set! (.-className palette) "command-palette")
                                    (set! (.-className palette) "command-palette visible")))))))]
-    (.addEventListener js/document "keydown" handle-keydown)
+    (.addEventListener js/document "keydown" handle-keydown))
 
-    ;; Set up theme styles
-    (theme-styles)
+    ;; Mount the React app
+  (when-let [app-element (.getElementById js/document "app")]
+    (let [root (rdomc/create-root app-element)]
+      (rdomc/render root (r/as-element [app]))
+      (def ^:export root root)))
 
-    (println "UI initialized with command palette support")))
+  (println "UI initialized with command palette support"))
 
 ;; Hot module replacement support
 (defn ^:export reload []
