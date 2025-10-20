@@ -164,7 +164,7 @@ export function createSendAgentMessageTool(): ReturnType<typeof tool> {
       message: tool.schema.string().describe('Message content to send'),
       messageType: tool.schema.string().optional().describe('Type of message (default: user)'),
     },
-    async execute(args: any, _context: any) {
+    async execute(args: SendMessageArgs, _context: ToolContext) {
       try {
         await sendMessageToAgent(args.sessionId, args.message, args.messageType);
 
