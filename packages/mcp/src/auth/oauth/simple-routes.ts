@@ -410,8 +410,100 @@ export function registerSimpleOAuthRoutes(
     }
   });
 
-  // OAuth callback
+  // OAuth callback (GET - for standard OAuth flow)
   fastify.get(`${basePath}/callback`, async (request, reply) => {
+    try {
+      const query = request.query as any;
+      const { code, state, error } = query;
+
+      if (error) {
+        // For standard OAuth flow, redirect back to client with error
+        const tempStore = (global as any).__oauth_temp_store || {};
+        const storedData = tempStore[state];
+
+        if (storedData && storedData.clientRedirectUri) {
+          const errorParams = new URLSearchParams({
+            error: error,
+            state: storedData.originalState || state,
+          });
+          const clientRedirectUrl = `${storedData.clientRedirectUri}?${errorParams.toString()}`;
+          return reply.status(302).header('Location', clientRedirectUrl).send();
+        }
+
+        return reply.status(400).send({
+          error: 'OAuth error',
+          message: error,
+        });
+      }
+
+      if (!code || !state) {
+        return reply.status(400).send({
+          error: 'Missing parameters',
+          message: 'Authorization code and state are required',
+        });
+      }
+
+      // Retrieve stored data
+      const tempStore = (global as any).__oauth_temp_store || {};
+      const storedData = tempStore[state];
+
+      if (!storedData) {
+        return reply.status(400).send({
+          error: 'Invalid state',
+          message: 'OAuth state is invalid or expired',
+        });
+      }
+
+      const { redirectTo, originalState, clientRedirectUri } = storedData;
+
+      // Clean up stored data
+      delete tempStore[state];
+
+      // Handle OAuth callback with OAuthSystem
+      const result = await config.oauthSystem.handleOAuthCallback(code, state, error);
+
+      if (!result.success) {
+        // For standard OAuth flow, redirect back to client with error
+        if (clientRedirectUri && originalState) {
+          const errorParams = new URLSearchParams({
+            error: result.error?.type || 'OAuth callback failed',
+            error_description: result.error?.message || 'Unknown OAuth error',
+            state: originalState,
+          });
+          const clientRedirectUrl = `${clientRedirectUri}?${errorParams.toString()}`;
+          return reply.status(302).header('Location', clientRedirectUrl).send();
+        }
+
+        return reply.status(400).send({
+          error: result.error?.type || 'OAuth callback failed',
+          message: result.error?.message || 'Unknown OAuth error',
+        });
+      }
+
+      // Handle different redirect scenarios
+      if (clientRedirectUri && originalState) {
+        // Standard OAuth flow - redirect back to client with authorization code
+        const callbackParams = new URLSearchParams({
+          code: code,
+          state: originalState,
+        });
+        const clientRedirectUrl = `${clientRedirectUri}?${callbackParams.toString()}`;
+        return reply.status(302).header('Location', clientRedirectUrl).send();
+      } else {
+        // API flow - redirect to local UI or specified destination
+        const redirectUrl = redirectTo || '/ui';
+        return reply.status(302).header('Location', redirectUrl).send();
+      }
+    } catch (error) {
+      return reply.status(500).send({
+        error: 'OAuth callback failed',
+        message: String(error),
+      });
+    }
+  });
+
+  // OAuth callback (POST - for API usage)
+  fastify.post(`${basePath}/callback`, async (request, reply) => {
     try {
       const query = request.query as any;
       const { code, state, error } = query;
