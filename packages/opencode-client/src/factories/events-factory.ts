@@ -35,7 +35,7 @@ export function createHandleSessionIdleTool(
     args: {
       sessionId: tool.schema.string().describe('Session ID that is idle'),
     },
-    async execute(args, context) {
+    async execute(args, context: ToolContext) {
       const { sessionId } = args;
 
       const taskContext: TaskContext = {
