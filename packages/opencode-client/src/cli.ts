@@ -4,7 +4,6 @@ import { Command } from 'commander';
 import chalk from 'chalk';
 import { sessionCommands } from './commands/sessions/index.js';
 import { eventCommands } from './commands/events/index.js';
-import { processCommands } from './commands/process/index.js';
 import { messagesCommands } from './commands/messages/index.js';
 import { initializeStores } from './index.js';
 
