@@ -38,10 +38,6 @@ export const createSessionCommand = new Command('create')
 
       // Create OpenCode client
       const client = createOpencodeClient();
-      const result = await create({
-        title: sessionTitle,
-        client,
-      });
 
       const sessionData = JSON.parse(result);
 
