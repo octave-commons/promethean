@@ -13,14 +13,13 @@ const makeDeps = () => {
     bus: { send: async () => undefined, subscribe: () => () => {} },
     schedule: { every: () => () => {}, once: () => {} },
     state: {
-      spawn: async () => {
-        throw new Error('not used here');
-      },
+      spawn: async () => { throw new Error('not used here'); },
       get: async () => null,
-      update: async () => undefined,
+      update: async (_id: string, patch: Partial<Actor>) => { return {} as Actor; },
       list: async () => [],
     },
   };
+};
 };
 
 const makeActor = (): Actor => ({
