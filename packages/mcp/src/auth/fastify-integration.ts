@@ -144,7 +144,7 @@ export class OAuthFastifyIntegration {
     });
 
     // Role-based access control middleware
-    fastify.addHook('preHandler', async (request) => {
+    fastify.addHook('preHandler', async (request, reply) => {
       // Skip for public routes
       if (this.isPublicRoute(request.url)) {
         return;
