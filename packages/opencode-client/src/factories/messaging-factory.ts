@@ -85,11 +85,15 @@ export function createVerifyAgentExistsTool(): ReturnType<typeof tool> {
     args: {
       sessionId: tool.schema.string().describe('Session ID to verify'),
     },
-    async execute(args, context) {
+    async execute(args: { sessionId: string }, context: Record<string, unknown>) {
       const { sessionId } = args;
-      const sessionStore = (context as any).sessionStore;
-      const agentTaskStore = (context as any).agentTaskStore;
-      const agentTasks = (context as any).agentTasks;
+      const sessionStore = (context as Record<string, unknown>).sessionStore as DualStoreManager<
+        'text',
+        'timestamp'
+      >;
+      const agentTaskStore = (context as Record<string, unknown>)
+        .agentTaskStore as DualStoreManager<'text', 'timestamp'>;
+      const agentTasks = (context as Record<string, unknown>).agentTasks as Map<string, AgentTask>;
 
       if (!sessionStore || !agentTaskStore || !agentTasks) {
         throw new Error('Required context not available for agent verification');
