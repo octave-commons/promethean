@@ -4,8 +4,7 @@ import { createOpencodeClient } from '@opencode-ai/sdk';
 
 export const subscribeCommand = new Command('subscribe')
   .description('Subscribe to event stream and print as they arrive')
-  .option('--type <type>', 'Filter by event type (e.g., session.updated)')
-  .action(async (options) => {
+  .action(async () => {
     try {
       const client = createOpencodeClient({
         baseUrl: 'http://localhost:4096',
@@ -23,8 +22,10 @@ export const subscribeCommand = new Command('subscribe')
         // Handle different event types
         if (ev.type === 'session.updated' || ev.type === 'session.deleted') {
           sid = ev.properties?.info?.id ? ` session=${ev.properties.info.id}` : '';
-        } else if (ev.type === 'message.updated' || ev.type === 'message.removed') {
+        } else if (ev.type === 'message.removed') {
           sid = ev.properties?.sessionID ? ` session=${ev.properties.sessionID}` : '';
+        } else if (ev.type === 'message.updated') {
+          sid = ev.properties?.info?.sessionID ? ` session=${ev.properties.info.sessionID}` : '';
         }
 
         console.log(`${chalk.cyan(type)}${sid}`);

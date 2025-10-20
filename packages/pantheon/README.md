@@ -18,52 +18,47 @@ Pantheon is a modular cognitive architecture that provides:
 ### Installation
 
 ```bash
-# Install the framework
-pnpm add @promethean/pantheon-fp @promethean/pantheon-mcp
+# Install framework
+pnpm add @promethean/pantheon @promethean/pantheon-core @promethean/pantheon-mcp
 
 # Or install globally for CLI usage
-pnpm add -g @promethean/pantheon-fp
+pnpm add -g @promethean/pantheon
 ```
 
 ### Basic Usage
 
 ```typescript
 import {
-  makeContextAdapter,
-  makeActorAdapter,
-  makeLLMActorAdapter,
-  makeOpenAIAdapter,
-} from '@promethean/pantheon-fp';
+  makeInMemoryContextAdapter,
+  makeInMemoryActorStateAdapter,
+  makeOrchestrator,
+  createLLMActor,
+  type ActorScript,
+} from '@promethean/pantheon';
 
-// Create a context adapter
-const contextAdapter = makeContextAdapter();
+// Create adapters
+const contextAdapter = makeInMemoryContextAdapter();
+const actorStateAdapter = makeInMemoryActorStateAdapter();
 
 // Compile context from sources
-const context = await contextAdapter.compile(
-  ['sessions', 'agent-tasks'],
-  'Hello world, I am an AI agent',
-);
-
-console.log('Context compiled:', context.id);
-
-// Create an LLM adapter
-const llmAdapter = makeOpenAIAdapter({
-  apiKey: process.env.OPENAI_API_KEY!,
-  defaultModel: 'gpt-3.5-turbo',
+const context = await contextAdapter.compile({
+  texts: ['Hello world, I am an AI agent'],
+  sources: [{ id: 'sessions', label: 'Sessions' }],
 });
 
-// Create an LLM actor
-const llmActorAdapter = makeLLMActorAdapter();
-const actorId = await llmActorAdapter.create({
-  name: 'assistant',
-  type: 'llm',
-  parameters: { model: 'gpt-3.5-turbo' },
-  llm: llmAdapter,
+console.log('Compiled context messages:', context.length);
+
+// Create an actor script
+const actorScript = createLLMActor('assistant', {
+  model: 'demo-model',
+  temperature: 0.7,
   systemPrompt: 'You are a helpful AI assistant.',
-  maxMessages: 20,
 });
 
-console.log('Created actor:', actorId);
+// Spawn the actor
+const actor = await actorStateAdapter.spawn(actorScript, 'Assist users');
+
+console.log('Created actor:', actor.id);
 ```
 
 ## 🛠 CLI Commands
