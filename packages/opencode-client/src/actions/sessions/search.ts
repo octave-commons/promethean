@@ -1,4 +1,6 @@
 import { SessionUtils, agentTasks, sessionStore } from '../../index.js';
+import type { Session } from '../../api/sessions.js';
+import type { SessionInfo } from '../../SessionInfo.js';
 
 export async function search({
   query,
@@ -30,19 +32,19 @@ export async function search({
     let filteredSessions = sessionEntries;
     if (query) {
       const queryLower = query.toLowerCase();
-      filteredSessions = sessionEntries.filter((session: any) => {
+      filteredSessions = sessionEntries.filter((session: Session) => {
         // Search in session title, description, and other text fields
         return (
           session.title?.toLowerCase().includes(queryLower) ||
-          session.description?.toLowerCase().includes(queryLower) ||
+          (session as any).description?.toLowerCase().includes(queryLower) ||
           session.id?.toLowerCase().includes(queryLower) ||
-          session.agent?.toLowerCase().includes(queryLower)
+          (session as any).agent?.toLowerCase().includes(queryLower)
         );
       });
     }
 
     if (sessionId) {
-      filteredSessions = filteredSessions.filter((session: any) => session.id === sessionId);
+      filteredSessions = filteredSessions.filter((session: Session) => session.id === sessionId);
     }
 
     // Apply limit k if specified
