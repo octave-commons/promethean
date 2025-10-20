@@ -30,15 +30,6 @@ export function createLoadPersistedTasksTool(stores, client): ReturnType<typeof 
       const { verifySessions } = args;
       const client = (context as Record<string, unknown>).client;
 
-      if (!agentTaskStore || !agentTasks) {
-        throw new Error('Required task context not available');
-      }
-
-      const taskContext: TaskContext = {
-        agentTaskStore,
-        agentTasks: agentTasks as Map<string, AgentTask>,
-      };
-
       const result = await loadPersistedTasks(
         taskContext,
         verifySessions ? (client as any) : undefined,
