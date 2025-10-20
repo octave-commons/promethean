@@ -14,6 +14,7 @@ import { agentCommands as legacyAgentCommands } from './commands/agents/index.js
 import { indexerCommands } from './commands/indexer/index.js';
 import { initializeStores } from './index.js';
 import { DualStoreManager } from '@promethean/persistence';
+import type { DualStoreManager as DualStoreManagerType } from './types/index';
 import {
   createAgentSession,
   startAgentSession,
@@ -27,8 +28,8 @@ const version = '1.0.0';
 // Initialize dual stores for CLI use
 let storesInitialized = false;
 let initPromise: Promise<void> | null = null;
-let sessionStore: any = null;
-let agentTaskStore: any = null;
+let sessionStore: DualStoreManagerType<'text', 'timestamp'> | null = null;
+let agentTaskStore: DualStoreManagerType<'text', 'timestamp'> | null = null;
 
 async function initializeCliStores() {
   if (storesInitialized) return;
