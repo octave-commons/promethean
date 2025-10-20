@@ -10,7 +10,11 @@ let sessionStore: DualStoreManager<'text', 'timestamp'> | null = null;
 /**
  * Safely parse session data, handling both JSON and plain text formats
  */
-function parseSessionData(session: any): any {
+function parseSessionData(session: {
+  text: string;
+  timestamp?: number | string;
+  id?: string;
+}): SessionInfo {
   try {
     return JSON.parse(session.text);
   } catch (error) {
@@ -138,7 +142,7 @@ export async function cleanupDuplicateSessions(): Promise<{ cleaned: number; err
     }));
 
     // Group sessions by ID
-    const sessionGroups = new Map<string, any[]>();
+    const sessionGroups = new Map<string, SessionInfo[]>();
 
     for (const session of parsedSessions) {
       if (!session || !session.id) continue;
