@@ -11,6 +11,7 @@ import { JwtTokenManager } from './jwt.js';
 import { UserRegistry } from '../users/registry.js';
 import { AuthenticationManager } from '../../core/authentication.js';
 import type { OAuthUserInfo } from './types.js';
+import { randomBytes } from 'node:crypto';
 
 /**
  * Try to parse JSON from request body
@@ -138,7 +139,7 @@ export function registerSimpleOAuthRoutes(
 
       // Generate a client ID and secret for the dynamic client
       const clientId = `mcp_client_${Date.now()}_${Math.random().toString(36).substring(2, 15)}`;
-      const clientSecret = crypto.randomBytes(32).toString('hex');
+      const clientSecret = randomBytes(32).toString('hex');
 
       // Store client registration (in a real implementation, this would be in a database)
       const clientStore = (global as any).__oauth_client_store || {};
