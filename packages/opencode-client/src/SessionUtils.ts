@@ -76,9 +76,9 @@ const SessionUtils = {
     if (messageCount < 10) return 'active';
     if (messageCount < 50) return 'waiting_for_input';
     return 'idle';
-  }
+  },
 
-  static createSessionInfo(
+  createSessionInfo(
     session: SessionData,
     messageCount: number,
     agentTask?: AgentTask,
@@ -97,7 +97,7 @@ const SessionUtils = {
       isAgentTask: !!agentTask || session.isAgentTask === true,
       agentTaskStatus: agentTask?.status,
     };
-  }
-}
+  },
+};
 
 export { SessionUtils };
