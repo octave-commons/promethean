@@ -63,80 +63,47 @@ console.log('Created actor:', actor.id);
 
 ## 🛠 CLI Commands
 
-The framework provides 6 powerful CLI commands:
+The framework provides several CLI commands for actor and context management:
+
+### Actor Management
+
+```bash
+# Create a new actor
+pantheon actor:create llm my-assistant --goal "Help users with tasks"
+
+# List all actors
+pantheon actor:list
+
+# Tick an actor (execute one cycle)
+pantheon actor:tick <actor-id> --message "Hello, how are you?"
+
+# Start an actor loop
+pantheon actor:start <actor-id> --interval 5000
+```
 
 ### Context Management
 
 ```bash
 # Compile context from sources
-pantheon context:compile --sources "sessions,agent-tasks" --text "Hello world"
+pantheon context:compile --text "Hello world" --sources "sessions,agent-tasks"
 
 # Output:
-# Context compiled: {
-#   "id": "ctx_1234567890_abc123",
-#   "sources": ["sessions", "agent-tasks"],
-#   "text": "Hello world",
-#   "compiled": { "sources": ["sessions", "agent-tasks"], "text": "Hello world", "processed": true },
-#   "timestamp": 1234567890000
-# }
+# Compiled context:
+#   1. [user] Hello world
 ```
 
-### Actor Management
+### Tool Management
 
 ```bash
-# Tick an actor to process its messages
-pantheon actors:tick actor_1234567890_abc123
-
-# Output:
-# Actor actor_1234567890_abc123 ticked successfully
+# Execute a tool
+pantheon tool:execute <tool-name> '{"arg1": "value1"}'
 ```
 
-### MCP Tool Integration
+### Demo
 
 ```bash
-# List available MCP tools
-pantheon mcp:list
-
-# Output:
-# Available MCP tools:
-#   - create_actor
-#   - tick_actor
-#   - compile_context
-
-# Execute an MCP tool
-pantheon mcp:execute create_actor --args '{"name":"test-agent","type":"llm"}'
-
-# Output:
-# MCP Tool executed: {
-#   "success": true,
-#   "result": {
-#     "actorId": "actor_1234567890_abc123",
-#     "name": "test-agent",
-#     "type": "llm",
-#     "config": {},
-#     "status": "created"
-#   }
-# }
-```
-
-### LLM Actor Management
-
-```bash
-# Create an LLM-powered actor
-pantheon llm-actor:create \
-  --name "assistant" \
-  --prompt "You are a helpful AI assistant." \
-  --model "gpt-3.5-turbo" \
-  --api-key "sk-..."
-
-# Output:
-# Created LLM actor: llm-actor_1234567890_abc123
-
-# Send a message to an LLM actor
-pantheon llm-actor:message llm-actor_1234567890_abc123 "Hello, how are you?"
-
-# Output:
-# Actor response: I'm doing well, thank you for asking! How can I help you today?
+# Run a framework demo
+pantheon demo
 ```
 
 ## 🏗 Architecture

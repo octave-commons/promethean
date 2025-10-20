@@ -19,7 +19,7 @@ export const listMessagesCommand = new Command('list')
       const result = await client.session.messages({
         path: { id: sessionId },
       });
-      const messages = result.data?.messages || [];
+      const messages = result.data || [];
       const limit = parseInt(options.limit, 10);
       const limitedMessages = messages.slice(-limit);
 
