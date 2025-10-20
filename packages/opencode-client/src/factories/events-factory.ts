@@ -79,7 +79,7 @@ export function createHandleMessageUpdatedTool(stores, client): ToolFunction {
 }
 
 // Factory for extractSessionId tool
-export function createExtractSessionIdTool(): ToolFunction {
+export function createExtractSessionIdTool(stores, client): ToolFunction {
   return tool({
     description: 'Extract session ID from an event object',
     args: {
@@ -98,7 +98,7 @@ export function createExtractSessionIdTool(): ToolFunction {
 }
 
 // Factory for getSessionMessages tool
-export function createGetSessionMessagesTool(): ToolFunction {
+export function createGetSessionMessagesTool(stores, client): ToolFunction {
   return tool({
     description: 'Get all messages for a specific session',
     args: {
@@ -106,7 +106,6 @@ export function createGetSessionMessagesTool(): ToolFunction {
     },
     async execute(args, context) {
       const { sessionId } = args;
-      const client = (context as Record<string, unknown>).client as EventClient;
 
       const messages = await getSessionMessages(client, sessionId);
 
@@ -149,9 +148,6 @@ export function createProcessSessionMessagesTool(): ToolFunction {
     },
     async execute(args, context) {
       const { sessionId } = args;
-      const client = (context as Record<string, unknown>).client as EventClient;
-      const taskContext =
-        ((context as Record<string, unknown>).taskContext as TaskContext) || ({} as TaskContext);
 
       const eventContext: EventContext = { client, taskContext };
       await processSessionMessages(eventContext, sessionId);
