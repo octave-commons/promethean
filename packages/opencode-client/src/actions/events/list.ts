@@ -71,8 +71,7 @@ export async function list({
       );
       events = k ? filteredEvents.slice(0, k) : filteredEvents;
     } catch (storeError: unknown) {
-      console.warn('Failed to get events from dual store, falling back to client:', storeError);
-      fetchError = `Dual store error: ${storeError instanceof Error ? storeError.message : String(storeError)}`;
+      console.warn('Failed to get events from dual store:', storeError);
     }
 
     // No fallback to client since event.list() is not available in OpencodeClient API

@@ -19,10 +19,6 @@ export function initializeStores(
 
   // Initialize all API layers
   AgentTaskManager.initializeStores(_sessionStore, _agentTaskStore);
-  MessageProcessor.initializeStore(_sessionStore);
-  InterAgentMessenger.initializeStore(_sessionStore);
-  InterAgentMessenger.setAgentTaskStore(_agentTaskStore);
-  InterAgentMessenger.setAgentTasks(agentTasks);
 }
 
 // Export all API classes and utilities
