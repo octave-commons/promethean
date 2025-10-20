@@ -55,12 +55,13 @@ const makeActor = (): Actor => ({
 test('orchestrator executes behavior actions', async (t) => {
   const deps = makeDeps();
   const updates: any[] = [];
-  deps.state.update = async (_id: string, patch: Partial<Actor>) => {
-    updates.push(patch);
-    return {} as Actor;
+  const originalUpdate = deps.state.update;
+  deps.state.update = async (_id: string, patch: Partial<Actor>) => { 
+    updates.push(patch); 
+    return originalUpdate(_id, patch);
   };
   const orch = makeOrchestrator(deps as any);
 
   await t.notThrowsAsync(() => orch.tickActor(makeActor(), { userMessage: 'hi' }));
-  t.true(updates.some((u) => u.state === 'completed'));
+  t.true(updates.some(u => u.state === 'completed'));
 });
