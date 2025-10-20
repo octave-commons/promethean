@@ -46,9 +46,9 @@ const SessionUtils = {
 
     const extractor = extractors[event.type];
     return extractor ? extractor() || null : null;
-  }
+  },
 
-  static async getSessionMessages(client: SessionClient, sessionId: string) {
+  async getSessionMessages(client: SessionClient, sessionId: string): Promise<unknown[]> {
     try {
       const { data: messages } = await client.session.messages({
         path: { id: sessionId },
