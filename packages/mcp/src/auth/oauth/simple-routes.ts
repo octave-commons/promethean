@@ -4,12 +4,13 @@
  * Simplified OAuth implementation that works with current Fastify setup
  */
 
-import type { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
+import type { FastifyInstance, FastifyRequest } from 'fastify';
 import { OAuthSystem } from './index.js';
 import { OAuthIntegration } from '../integration.js';
 import { JwtTokenManager } from './jwt.js';
 import { UserRegistry } from '../users/registry.js';
 import { AuthenticationManager } from '../../core/authentication.js';
+import type { OAuthUserInfo } from './types.js';
 
 /**
  * Simple OAuth route configuration
@@ -43,12 +44,12 @@ export function registerSimpleOAuthRoutes(
   // List available providers
   fastify.get(`${basePath}/providers`, async (_request, reply) => {
     try {
-      const providers = config.oauthSystem.getProviders();
+      const providers = config.oauthSystem.getAvailableProviders();
       return reply.send({
         providers: providers.map((p) => ({
-          id: p.id,
-          name: p.name,
-          enabled: p.isEnabled(),
+          id: p,
+          name: p.charAt(0).toUpperCase() + p.slice(1),
+          enabled: config.oauthSystem.isProviderAvailable(p),
         })),
         timestamp: new Date().toISOString(),
       });
