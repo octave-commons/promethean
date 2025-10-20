@@ -332,8 +332,13 @@ export class AgentOSCommandExecutor implements CommandExecutor {
         context: ExecutionContext,
         duration: number,
     ): MessageEnvelope {
-        return new EnvelopeBuilder(MessageType.RESPONSE, 'command-executor', context.userId)
-            .withPayload({
+        return {
+            id: `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+            type: MessageType.RESPONSE,
+            timestamp: new Date(),
+            sender: 'command-executor',
+            receiver: context.userId,
+            payload: {
                 command,
                 result,
                 success: true,
@@ -342,13 +347,13 @@ export class AgentOSCommandExecutor implements CommandExecutor {
                     sessionId: context.sessionId,
                     timestamp: context.timestamp,
                 },
-            })
-            .withMetadata({
+            },
+            metadata: {
                 executionTime: duration,
                 commandType: command.type,
                 target: command.target,
-            })
-            .build();
+            },
+        };
     }
 
     private createErrorMessage(
