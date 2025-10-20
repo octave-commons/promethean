@@ -186,9 +186,28 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
             }
         }
 
-        await this.mongoCollection.insertOne(
-            preparedEntry as OptionalUnlessRequiredId<DualStoreEntry<TextKey, TimeKey>>,
-        );
+        // Add retry logic for MongoDB operations
+        const maxRetries = 3;
+        const retryDelay = 1000;
+
+        for (let attempt = 1; attempt <= maxRetries; attempt++) {
+            try {
+                await this.mongoCollection.insertOne(
+                    preparedEntry as OptionalUnlessRequiredId<DualStoreEntry<TextKey, TimeKey>>,
+                );
+                return; // Success, exit retry loop
+            } catch (error) {
+                if (error.message.includes('MongoNotConnectedError') && attempt < maxRetries) {
+                    console.warn(
+                        `MongoDB connection failed (attempt ${attempt}/${maxRetries}), retrying...`,
+                        error.message,
+                    );
+                    await new Promise((resolve) => setTimeout(resolve, retryDelay * attempt));
+                    continue;
+                }
+                throw error; // Re-throw if not a connection error or max retries reached
+            }
+        }
     }
 
     // TODO: remove in future – alias for backwards compatibility
