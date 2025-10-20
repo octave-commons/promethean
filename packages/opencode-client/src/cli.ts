@@ -16,27 +16,48 @@ import { initializeStores } from './index.js';
 import { DualStoreManager } from '@promethean/persistence';
 import type { DualStoreManager as DualStoreManagerType } from './types/index.js';
 // Agent management functions - these will be implemented as simple functions
-async function createAgentSession(_options: {
-  agentId: string;
-  task: string;
-}): Promise<{ id: string }> {
-  return { id: `session-${Date.now()}` };
+async function createAgentSession(
+  _task: string,
+  _message?: string,
+  _options?: Record<string, unknown>,
+  _config?: Record<string, unknown>,
+): Promise<{ sessionId: string; status: string; createdAt: Date }> {
+  return {
+    sessionId: `session-${Date.now()}`,
+    status: 'created',
+    createdAt: new Date(),
+  };
 }
 
-async function startAgentSession(_sessionId: string): Promise<void> {
+async function startAgentSession(
+  _sessionId: string,
+  _options?: Record<string, unknown>,
+): Promise<void> {
   console.log('Starting agent session');
 }
 
-async function stopAgentSession(_sessionId: string): Promise<void> {
+async function stopAgentSession(_sessionId: string, _reason?: string): Promise<void> {
   console.log('Stopping agent session');
 }
 
-async function sendMessageToAgent(_sessionId: string, _message: string): Promise<void> {
+async function sendMessageToAgent(
+  _sessionId: string,
+  _message: string,
+  _options?: Record<string, unknown>,
+): Promise<void> {
   console.log('Sending message to agent');
 }
 
 async function closeAgentSession(_sessionId: string): Promise<void> {
   console.log('Closing agent session');
+}
+
+interface AgentSession {
+  sessionId: string;
+  status: string;
+  task?: string;
+  createdAt: Date;
+  lastActivity?: Date;
 }
 
 const unifiedAgentManager = {
@@ -45,10 +66,16 @@ const unifiedAgentManager = {
   stopAgentSession,
   sendMessageToAgent,
   closeAgentSession,
-  listAgentSessions: async () => [],
-  getAgentSession: async (_sessionId: string) => null,
-  getSessionStats: async () => ({ total: 0, active: 0, idle: 0 }),
-  cleanupOldSessions: async () => ({ cleaned: 0 }),
+  listAgentSessions: async (): Promise<AgentSession[]> => [],
+  getAgentSession: async (_sessionId: string): Promise<AgentSession | null> => null,
+  getSessionStats: async () => ({
+    total: 0,
+    active: 0,
+    idle: 0,
+    averageAge: 0,
+    byStatus: { active: 0, idle: 0, completed: 0, failed: 0 },
+  }),
+  cleanupOldSessions: async (_maxAge?: number) => ({ cleaned: 0 }),
 };
 const version = '1.0.0';
 
