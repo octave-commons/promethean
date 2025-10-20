@@ -320,21 +320,23 @@
         (when (:success result)
           (activate-plugin (:plugin-id result))))))
 
-  ;; Set up global hooks
-  (add-watch state/buffers :plugin-hooks
-             (fn [_ _ old-buffers new-buffers]
-               ;; Check for new buffers
-               (doseq [[buffer-id buffer] new-buffers]
-                 (when-not (get old-buffers buffer-id)
-                   (execute-hook :buffer-created buffer)))
+  ;; Set up global hooks - watch the buffers atom in app-state
+  (add-watch (:app-state @state/app-state) :plugin-hooks
+             (fn [_ _ old-state new-state]
+               (let [old-buffers (:buffers old-state)
+                     new-buffers (:buffers new-state)]
+                 ;; Check for new buffers
+                 (doseq [[buffer-id buffer] new-buffers]
+                   (when-not (get old-buffers buffer-id)
+                     (execute-hook :buffer-created buffer)))
 
-               ;; Check for saved buffers
-               (doseq [[buffer-id buffer] new-buffers]
-                 (let [old-buffer (get old-buffers buffer-id)]
-                   (when (and old-buffer buffer
-                              (not (:saved? old-buffer))
-                              (:saved? buffer))
-                     (execute-hook :buffer-saved buffer))))))
+                 ;; Check for saved buffers
+                 (doseq [[buffer-id buffer] new-buffers]
+                   (let [old-buffer (get old-buffers buffer-id)]
+                     (when (and old-buffer buffer
+                                (not (:saved? old-buffer))
+                                (:saved? buffer))
+                       (execute-hook :buffer-saved buffer)))))))
 
   (println "Plugin system initialized"))
 
