@@ -84,7 +84,7 @@ export function createUpdateTaskStatusTool(
 }
 
 // Factory for createTask tool
-export function createCreateTaskTool(stores: Stores): ReturnType<typeof tool> {
+export function createCreateTaskTool(stores: TaskContext): ReturnType<typeof tool> {
   return tool({
     description: 'Create a new agent task',
     args: {
@@ -109,7 +109,7 @@ export function createCreateTaskTool(stores: Stores): ReturnType<typeof tool> {
 }
 
 // Factory for getAllTasks tool
-export function createGetAllTasksTool(stores: Stores): ReturnType<typeof tool> {
+export function createGetAllTasksTool(stores: TaskContext): ReturnType<typeof tool> {
   return tool({
     description: 'Get all tasks from memory and storage',
     args: {},
