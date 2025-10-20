@@ -1,5 +1,5 @@
 // Test script to verify path validation fix
-const { validateFilePath } = require('./packages/omni/omni-service/src/adapters/mcp.ts');
+import { validateFilePath } from '../packages/omni/omni-service/src/adapters/mcp.ts';
 
 // Test cases that should be allowed
 const allowedPaths = [
