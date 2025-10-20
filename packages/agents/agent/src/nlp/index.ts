@@ -18,6 +18,7 @@ export {
     type AgentRuntime,
     type ServiceManager,
     type WorkflowManager,
+    type MessageEnvelope,
 } from './executor.js';
 
 /**
