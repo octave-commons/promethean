@@ -1,5 +1,6 @@
 import fastifyCors from '@fastify/cors';
 import fastifyStatic from '@fastify/static';
+import fastifyCookie from '@fastify/cookie';
 import Fastify from 'fastify';
 import type { FastifyInstance, FastifyListenOptions, FastifyReply, FastifyRequest } from 'fastify';
 import crypto from 'node:crypto';
