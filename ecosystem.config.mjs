@@ -43,8 +43,9 @@ export const apps =
   },
   {
     "name": "opencode-indexer",
-    "script": "opencode-client",
+    "script": "pnpm",
     "args": [
+      "opencode-client",
       "indexer",
       "start",
       "--",
