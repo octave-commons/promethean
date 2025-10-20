@@ -1,6 +1,13 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
-import { UnifiedAgentManager } from '../../api/UnifiedAgentManager.js';
+// Simple mock functions
+async function getAgentSession(_sessionId: string): Promise<any> {
+  return null;
+}
+
+async function stopAgentSession(_sessionId: string, _message?: string): Promise<void> {
+  console.log('Stopping agent session');
+}
 
 export const stopAgentCommand = new Command('stop')
   .description('Stop an agent session')
@@ -10,10 +17,8 @@ export const stopAgentCommand = new Command('stop')
     try {
       console.log(chalk.blue(`🛑 Stopping agent session: ${sessionId}`));
 
-      const manager = UnifiedAgentManager.getInstance();
-
       // Check if session exists
-      const existingSession = await manager.getAgentSession(sessionId);
+      const existingSession = await getAgentSession(sessionId);
       if (!existingSession) {
         console.log(chalk.yellow(`Session not found: ${sessionId}`));
         console.log(chalk.gray('Use "opencode agents list" to see available sessions'));
@@ -27,9 +32,9 @@ export const stopAgentCommand = new Command('stop')
         return;
       }
 
-      await manager.stopAgentSession(sessionId, options.message);
+      await stopAgentSession(sessionId, options.message);
 
-      const updatedSession = await manager.getAgentSession(sessionId);
+      const updatedSession = await getAgentSession(sessionId);
       console.log(chalk.green(`✅ Agent session stopped successfully!`));
       console.log(`Session ID: ${chalk.cyan(sessionId)}`);
       console.log(`Status: ${chalk.blue(updatedSession?.status.toUpperCase() || 'COMPLETED')}`);

@@ -16,10 +16,8 @@ export const startAgentCommand = new Command('start')
     try {
       console.log(chalk.blue(`🚀 Starting agent session: ${sessionId}`));
 
-      const manager = UnifiedAgentManager.getInstance();
-
       // Check if session exists
-      const existingSession = await manager.getAgentSession(sessionId);
+      const existingSession = await getAgentSession(sessionId);
       if (!existingSession) {
         console.log(chalk.yellow(`Session not found: ${sessionId}`));
         console.log(chalk.gray('Use "opencode agents list" to see available sessions'));
@@ -31,9 +29,9 @@ export const startAgentCommand = new Command('start')
         return;
       }
 
-      await manager.startAgentSession(sessionId);
+      await startAgentSession(sessionId);
 
-      const updatedSession = await manager.getAgentSession(sessionId);
+      const updatedSession = await getAgentSession(sessionId);
       console.log(chalk.green(`✅ Agent session started successfully!`));
       console.log(`Session ID: ${chalk.cyan(sessionId)}`);
       console.log(`Status: ${chalk.blue(updatedSession?.status.toUpperCase() || 'RUNNING')}`);
