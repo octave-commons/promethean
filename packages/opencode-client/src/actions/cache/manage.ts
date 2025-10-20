@@ -35,7 +35,8 @@ const getCacheStats = (): Readonly<CacheStats> => {
 
 const clearAllCache = (): Readonly<CacheClearResult> => {
   const totalCleared = Array.from(modelCaches.values()).reduce((sum, cache) => sum + cache.size, 0);
-  modelCaches.clear();
+  // Note: This violates functional immutability but is required for cache clearing
+  (modelCaches as Map<string, unknown>).clear();
   console.log(`Prompt cache cleared for all models (${totalCleared} entries)`);
   return {
     message: 'Cache cleared successfully',
