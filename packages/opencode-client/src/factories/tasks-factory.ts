@@ -233,9 +233,6 @@ export function createCreateTaskTool({ agentTaskStore }): ReturnType<typeof tool
 
 // Factory for getAllTasks tool
 export function createGetAllTasksTool(stores: Stores): ReturnType<typeof tool> {
-  if (!agentTaskStore) {
-    throw new Error('Required task context not available');
-  }
   return tool({
     description: 'Get all tasks from memory and storage',
     args: {},
