@@ -32,7 +32,7 @@ export type TaskContext = DualStoreManager<'text', 'timestamp'>;
 
 // Event Processing Types
 export interface EventContext {
-  client: SessionClient;
+  client: OpencodeClient;
   taskContext: TaskContext;
 }
 
