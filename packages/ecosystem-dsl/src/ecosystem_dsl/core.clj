@@ -78,20 +78,13 @@
     (get port-map project 3000)))
 
 ;; ============================================================================
-;; DSL MACROS
+;; ENHANCEMENT FUNCTIONS
 ;; ============================================================================
 
-(defmacro defenhancement
-  "Define an enhancement that can be applied to process configurations."
-  [name params & body]
-  `(defn ~(symbol (str "enhance-" name)) ~params
-     (println ~(str "Applying " name " enhancement"))
-     ~@body))
-
-(defmacro with-enhancements
+(defn with-enhancements
   "Apply multiple enhancements to a configuration."
   [config & enhancements]
-  `(reduce (fn [cfg# enhancer#] (enhancer# cfg#)) ~config [~@enhancements]))
+  (reduce (fn [cfg enhancer] (enhancer cfg)) config enhancements))
 
 ;; ============================================================================
 ;; ENHANCEMENT FUNCTIONS
