@@ -41,7 +41,6 @@ export function createHandleSessionIdleTool(
 
       const taskContext: TaskContext = {
         agentTaskStore: stores,
-        agentTasks: new Map(), // TODO: Remove Map when TaskContext is updated
       };
 
       const eventContext: EventContext = { client, taskContext };
@@ -109,7 +108,10 @@ export function createExtractSessionIdTool(
 }
 
 // Factory for getSessionMessages tool
-export function createGetSessionMessagesTool(stores, client): ToolFunction {
+export function createGetSessionMessagesTool(
+  stores: DualStoreManager<'text', 'timestamp'>,
+  client: OpencodeClient,
+): ToolFunction {
   return tool({
     description: 'Get all messages for a specific session',
     args: {
@@ -130,7 +132,10 @@ export function createGetSessionMessagesTool(stores, client): ToolFunction {
 }
 
 // Factory for detectTaskCompletion tool
-export function createDetectTaskCompletionTool(stores, client): ToolFunction {
+export function createDetectTaskCompletionTool(
+  stores: DualStoreManager<'text', 'timestamp'>,
+  client: OpencodeClient,
+): ToolFunction {
   return tool({
     description: 'Detect if a task has been completed based on messages',
     args: {
@@ -151,7 +156,10 @@ export function createDetectTaskCompletionTool(stores, client): ToolFunction {
 }
 
 // Factory for processSessionMessages tool
-export function createProcessSessionMessagesTool(stores, client): ToolFunction {
+export function createProcessSessionMessagesTool(
+  stores: DualStoreManager<'text', 'timestamp'>,
+  client: OpencodeClient,
+): ToolFunction {
   return tool({
     description: 'Process all messages in a session',
     args: {
