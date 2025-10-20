@@ -15,7 +15,7 @@ export async function list({
 
     try {
       // Get all entries from dual store and filter for events
-      const storedEntries = await stores.getMostRecent(1000); // Get a large number
+      const storedEntries = await eventStore.getMostRecent(1000); // Get a large number
       const eventEntries = storedEntries
         .filter((entry: EventEntry) => entry.id && entry.id.startsWith('event:'))
         .map(

@@ -1,5 +1,4 @@
-import { SessionUtils } from '../../SessionUtils.js';
-import { stores } from '../../index.js';
+import { SessionUtils, sessionStore } from '../../index.js';
 
 // Define Session type locally since API was removed
 interface Session {
@@ -61,7 +60,7 @@ export async function get({
 }) {
   try {
     // Get session from dual store - fail fast if not available
-    const sessionEntry = await stores.get(sessionId);
+    const sessionEntry = await sessionStore.get(sessionId);
     if (!sessionEntry) {
       return 'Session not found in dual store';
     }
@@ -70,7 +69,7 @@ export async function get({
 
     // Get messages from dual store - fail fast if not available
     const messageKey = `session:${sessionId}:messages`;
-    const messageEntry = await stores.get(messageKey);
+    const messageEntry = await sessionStore.get(messageKey);
     if (!messageEntry) {
       // Return session with empty messages array - no fallback
       const sessionInfo = SessionUtils.createSessionInfo(session as any, 0, undefined);

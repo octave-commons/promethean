@@ -14,6 +14,8 @@ export async function initializeStores(): Promise<
   return {
     sessionStore,
     agentTaskStore,
+    eventStore,
+    messageStore,
   };
 }
 
