@@ -10,5 +10,7 @@
          :restart_delay 10000
          :kill_timeout 10000
          :env {:PM2_PROCESS_NAME "promethean-mcp-dev"
-               :MCP_USRER_ROLE "developer" }
+               :MCP_USRER_ROLE "developer"
+               :ENABLE_OAUTH "true"
+               }
          :cwd "."}]}
