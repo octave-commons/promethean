@@ -144,6 +144,15 @@ export class ContextStore {
         this.collections = new Map([...this.collections, [name, collectionManager]]);
         return collectionManager;
     }
+    async getOrCreateCollection(name: string): Promise<DualStoreManager<string, string>> {
+        if (this.collections.has(name)) {
+            return this.collections.get(name)!;
+        }
+
+        const collectionManager = await DualStoreManager.create<string, string>(name, 'text', 'timestamp');
+        this.collections = new Map([...this.collections, [name, collectionManager]]);
+        return collectionManager;
+    }
 
     async getAllRelatedDocuments(
         queries: readonly string[],
