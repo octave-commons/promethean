@@ -155,7 +155,6 @@ export function createProcessSessionMessagesTool(stores, client): ToolFunction {
 
       const taskContext: TaskContext = {
         agentTaskStore: stores,
-        agentTasks: new Map(), // TODO: Remove Map when TaskContext is updated
       };
 
       const eventContext: EventContext = { client, taskContext };
