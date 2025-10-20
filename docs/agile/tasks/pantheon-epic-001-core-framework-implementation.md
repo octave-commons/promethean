@@ -1,11 +1,15 @@
 ---
+uuid: 'pantheon-epic-001-core-framework-implementation-2025-10-20'
 title: 'Epic: Pantheon Core Framework Implementation'
-description: 'Implement the foundational core framework for the Pantheon Agent Management System including types, ports, actors, and orchestrator'
+slug: 'pantheon-epic-001-core-framework-implementation'
 status: 'incoming'
 priority: 'P0'
-tags: ['pantheon', 'core', 'framework', 'epic']
-effort: 'large'
-dependencies: []
+labels: ['pantheon', 'core', 'framework', 'epic', 'implementation']
+created_at: '2025-10-20T00:00:00Z'
+estimates:
+  complexity: 'large'
+  scale: 'epic'
+  time_to_completion: '3-4 weeks'
 ---
 
 # Epic: Pantheon Core Framework Implementation

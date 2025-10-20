@@ -3748,6 +3748,9 @@ importers:
       '@promethean/agent-state':
         specifier: workspace:*
         version: link:../agent-state
+      '@promethean/pantheon-mcp':
+        specifier: workspace:*
+        version: link:../pantheon-mcp
       commander:
         specifier: ^11.1.0
         version: 11.1.0
@@ -3839,6 +3842,22 @@ importers:
         version: 5.3.1(@ava/typescript@4.1.0)
       typescript:
         specifier: ^5.3.3
+        version: 5.9.3
+
+  packages/pantheon-mcp:
+    dependencies:
+      '@promethean/pantheon-fp':
+        specifier: workspace:*
+        version: link:../pantheon
+    devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.22
+      ava:
+        specifier: ^5.0.0
+        version: 5.3.1(@ava/typescript@4.1.0)
+      typescript:
+        specifier: ^5.0.0
         version: 5.9.3
 
   packages/pantheon-persistence:

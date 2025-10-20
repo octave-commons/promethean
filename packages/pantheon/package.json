@@ -13,7 +13,8 @@
   },
   "dependencies": {
     "commander": "^11.1.0",
-    "@promethean/agent-state": "workspace:*"
+    "@promethean/agent-state": "workspace:*",
+    "@promethean/pantheon-mcp": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

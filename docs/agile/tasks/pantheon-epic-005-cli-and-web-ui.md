@@ -1,12 +1,15 @@
 ---
+uuid: 'pantheon-epic-005-cli-and-web-ui-2025-10-20'
 title: 'Epic: Pantheon CLI and Web UI Implementation'
-description: 'Implement comprehensive CLI tools and web-based management interface for the Pantheon framework'
+slug: 'pantheon-epic-005-cli-and-web-ui'
 status: 'incoming'
 priority: 'P1'
-tags: ['pantheon', 'cli', 'ui', 'web', 'epic']
-effort: 'large'
-dependencies:
-  ['pantheon-epic-001-core-framework-implementation', 'pantheon-epic-002-adapter-implementations']
+labels: ['pantheon', 'cli', 'ui', 'web', 'epic', 'implementation']
+created_at: '2025-10-20T00:00:00Z'
+estimates:
+  complexity: 'large'
+  scale: 'epic'
+  time_to_completion: '2-3 weeks'
 ---
 
 # Epic: Pantheon CLI and Web UI Implementation

@@ -1,11 +1,15 @@
 ---
+uuid: 'pantheon-epic-004-lisp-dsl-implementation-2025-10-20'
 title: 'Epic: Pantheon Lisp DSL Implementation'
-description: 'Implement Lisp DSL for actor scripts with Clojure integration, parser, and runtime execution'
+slug: 'pantheon-epic-004-lisp-dsl-implementation'
 status: 'incoming'
 priority: 'P1'
-tags: ['pantheon', 'lisp', 'dsl', 'clojure', 'epic']
-effort: 'large'
-dependencies: ['pantheon-epic-001-core-framework-implementation']
+labels: ['pantheon', 'lisp', 'dsl', 'clojure', 'epic', 'implementation']
+created_at: '2025-10-20T00:00:00Z'
+estimates:
+  complexity: 'large'
+  scale: 'epic'
+  time_to_completion: '3-4 weeks'
 ---
 
 # Epic: Pantheon Lisp DSL Implementation

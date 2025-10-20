@@ -1,12 +1,15 @@
 ---
+uuid: 'pantheon-epic-003-package-consolidation-2025-10-20'
 title: 'Epic: Pantheon Package Consolidation'
-description: 'Consolidate scattered agent-related packages into the unified @promethean/pantheon package following the migration plan'
+slug: 'pantheon-epic-003-package-consolidation'
 status: 'incoming'
 priority: 'P0'
-tags: ['pantheon', 'consolidation', 'migration', 'epic']
-effort: 'x-large'
-dependencies:
-  ['pantheon-epic-001-core-framework-implementation', 'pantheon-epic-002-adapter-implementations']
+labels: ['pantheon', 'consolidation', 'migration', 'epic', 'refactoring']
+created_at: '2025-10-20T00:00:00Z'
+estimates:
+  complexity: 'x-large'
+  scale: 'epic'
+  time_to_completion: '4-6 weeks'
 ---
 
 # Epic: Pantheon Package Consolidation

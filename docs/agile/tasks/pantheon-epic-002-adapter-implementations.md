@@ -1,11 +1,15 @@
 ---
+uuid: 'pantheon-epic-002-adapter-implementations-2025-10-20'
 title: 'Epic: Pantheon Adapter Implementations'
-description: 'Implement adapter implementations for the Pantheon framework including LLM providers, context management, tool integration, and transport protocols'
+slug: 'pantheon-epic-002-adapter-implementations'
 status: 'incoming'
 priority: 'P0'
-tags: ['pantheon', 'adapters', 'integration', 'epic']
-effort: 'large'
-dependencies: ['pantheon-epic-001-core-framework-implementation']
+labels: ['pantheon', 'adapters', 'integration', 'epic', 'implementation']
+created_at: '2025-10-20T00:00:00Z'
+estimates:
+  complexity: 'large'
+  scale: 'epic'
+  time_to_completion: '2-3 weeks'
 ---
 
 # Epic: Pantheon Adapter Implementations

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { makeContextAdapter, makeActorAdapter } from '../index.js';
+import { makeMCPAdapterWithDefaults } from '@promethean/pantheon-mcp';
 import { Command } from 'commander';
 
 const program = new Command();
@@ -39,6 +40,40 @@ program
       console.log(`Actor ${actorId} ticked successfully`);
     } catch (error) {
       console.error('Error ticking actor:', error);
+      process.exit(1);
+    }
+  });
+
+// MCP commands
+program
+  .command('mcp:execute')
+  .description('Execute an MCP tool')
+  .argument('<toolName>', 'Name of the tool to execute')
+  .option('--args <args>', 'JSON string of arguments', '{}')
+  .action(async (toolName, options) => {
+    try {
+      const mcpAdapter = makeMCPAdapterWithDefaults();
+      const args = JSON.parse(options.args);
+
+      const result = await mcpAdapter.execute(toolName, args);
+      console.log('MCP Tool executed:', JSON.stringify(result, null, 2));
+    } catch (error) {
+      console.error('Error executing MCP tool:', error);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('mcp:list')
+  .description('List available MCP tools')
+  .action(async () => {
+    try {
+      const mcpAdapter = makeMCPAdapterWithDefaults();
+      const tools = (await mcpAdapter.list?.()) || [];
+      console.log('Available MCP tools:');
+      tools.forEach((tool: string) => console.log(`  - ${tool}`));
+    } catch (error) {
+      console.error('Error listing MCP tools:', error);
       process.exit(1);
     }
   });
