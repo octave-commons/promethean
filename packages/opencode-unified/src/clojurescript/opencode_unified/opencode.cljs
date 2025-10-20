@@ -352,13 +352,14 @@
                    (println "Opencode MCP server not available:" (:error result))
                    (println "Starting mock server for development...")
                    ;; Try to start mock server
-                   (when (exists? js/require)
-                     (try
-                       (js/require "child_process") .spawn "node"
-                       [(str js/__dirname "/../../../packages/opencode-session-manager/mock-opencode-server.js")]
-                       {:stdio "inherit" :detached true}
-                       (catch js/Error e
-                         (println "Could not start mock server:" (.-message e)))))
+                    (when (exists? js/require)
+                      (try
+                        (let [child-process (js/require "child_process")]
+                          (.spawn child-process "node"
+                                  [(str js/__dirname "/../../../packages/opencode-session-manager/mock-opencode-server.js")]
+                                  #js {:stdio "inherit" :detached true}))
+                        (catch js/Error e
+                          (println "Could not start mock server:" (.-message e)))))
                    (js/setTimeout
                     #(connect-to-opencode "http://localhost:4096")
                     2000))
