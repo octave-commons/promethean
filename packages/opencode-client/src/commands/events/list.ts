@@ -1,9 +1,6 @@
 import { Command } from 'commander';
-// Simple mock function
-async function listEvents(_options: { limit: number; eventType?: string }): Promise<any[]> {
-  return [];
-}
 import chalk from 'chalk';
+import { createOpencodeClient } from '@opencode-ai/sdk';
 
 export const listCommand = new Command('list')
   .description('List recent events')
@@ -12,10 +9,12 @@ export const listCommand = new Command('list')
   .option('--json', 'Output as JSON', false)
   .action(async (options) => {
     try {
-      const events = await listEvents({
-        limit: parseInt(options.limit),
-        eventType: options.type,
+      // Create OpenCode client
+      const client = createOpencodeClient({
+        baseUrl: 'http://localhost:4096',
       });
+
+      const result = await client.event.list();
 
       const list = events as any[];
 

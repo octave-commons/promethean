@@ -12,6 +12,10 @@ export type OpenAIAdapterConfig = {
   organization?: string;
   defaultModel?: string;
   defaultTemperature?: number;
+  defaultMaxTokens?: number;
+  defaultTopP?: number;
+  defaultFrequencyPenalty?: number;
+  defaultPresencePenalty?: number;
 };
 
 export const makeOpenAIAdapter = (config: OpenAIAdapterConfig): LlmPort => {
