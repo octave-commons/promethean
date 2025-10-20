@@ -30,12 +30,14 @@ export type { AgentTask } from './types/index.js';
 // Centralized context store for managing all DualStores
 const contextStore = new ContextStore();
 
-// Store access proxies using ContextStore
+// Store access proxies using ContextStore with proper type casting
 const createStoreProxy = (storeName: string): DualStoreManager<'text', 'timestamp'> => {
   return new Proxy({} as DualStoreManager<'text', 'timestamp'>, {
     get(_, prop) {
       const collection = contextStore.getCollection(storeName);
-      return collection[prop as keyof DualStoreManager<'text', 'timestamp'>];
+      // Cast from DualStoreManager<string, string> to DualStoreManager<'text', 'timestamp'>
+      const typedCollection = collection as DualStoreManager<'text', 'timestamp'>;
+      return typedCollection[prop as keyof DualStoreManager<'text', 'timestamp'>];
     },
   });
 };

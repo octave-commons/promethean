@@ -96,6 +96,7 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         this.name = name;
         // vars that are default projected from the env are snake cased.
         this.agent_name = agent_name;
+        this.embedidng_fn = embedding_fn;
         this.chromaCollection = chromaCollection;
         this.mongoCollection = mongoCollection;
         this.textKey = textKey;
