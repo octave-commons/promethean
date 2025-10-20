@@ -15,14 +15,15 @@ import {
 import type { OpenCodeEvent, EventMessage, EventClient } from '../types/index.js';
 import type { TaskContext } from '../actions/tasks/index.js';
 import type { EventContext } from '../actions/events/index.js';
+import type { DualStoreManager } from '@promethean/persistence';
 
 type ToolFunction = ReturnType<typeof tool>;
 
-interface ToolContext {
+type ToolContext = {
   agent: string;
   sessionID: string;
   messageID: string;
-}
+};
 
 // Factory for handleSessionIdle tool
 export function createHandleSessionIdleTool(stores, client): ToolFunction {
