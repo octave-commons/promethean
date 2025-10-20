@@ -49,15 +49,16 @@ const SessionUtils = {
   },
 
   async getSessionMessages(client: SessionClient, sessionId: string): Promise<readonly unknown[]> {
-    try {
-      const { data: messages } = await client.session.messages({
+    const result = await client.session
+      .messages({
         path: { id: sessionId },
+      })
+      .catch((error: unknown) => {
+        console.error(`Error fetching messages for session ${sessionId}:`, error);
+        return { data: [] };
       });
-      return (messages as unknown[]) || [];
-    } catch (error: unknown) {
-      console.error(`Error fetching messages for session ${sessionId}:`, error);
-      return [];
-    }
+
+    return (result.data as unknown[]) || [];
   },
 
   determineActivityStatus(
