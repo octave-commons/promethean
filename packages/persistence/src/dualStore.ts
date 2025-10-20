@@ -88,7 +88,7 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
     private constructor({
         name,
         agent_name = AGENT_NAME,
-        embedding_fn = EMBEDDING_FN,
+        embedding_fn = process.env.EMBEDDING_FUNCTION,
         chromaCollection,
         mongoCollection,
         textKey,
