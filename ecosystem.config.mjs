@@ -42,6 +42,30 @@ export const apps =
     ]
   },
   {
+    "name": "opencode-indexer",
+    "script": "opencode-client",
+    "args": [
+      "indexer",
+      "start",
+      "--",
+      "intrevl",
+      2000,
+      "--verbose"
+    ],
+    "interpreter": "/usr/bin/env",
+    "out_file": "./logs/opencode-indexer-out.log",
+    "error_file": "./logs/opencode-indexer-err.log",
+    "merge_logs": true,
+    "instances": 1,
+    "autorestart": true,
+    "restart_delay": 10000,
+    "kill_timeout": 10000,
+    "env": {
+      "PM2_PROCESS_NAME": "opencode-indexer"
+    },
+    "cwd": "."
+  },
+  {
     "name": "opencode-unified-shadow-cljs",
     "script": "pnpm",
     "args": [
@@ -137,7 +161,7 @@ export const apps =
       "--debounce-ms",
       "10000",
       "--model",
-      "llama3.1:8b"
+      "error/qwen3:4b-instruct-100k"
     ],
     "env": {
       "OPENAI_BASE_URL": "http://localhost:11434",
@@ -150,7 +174,6 @@ export const apps =
     "watch": [
       "./packages/autocommit/dist"
     ],
-    "max_memory_restart": "1G",
     "error_file": "/home/err/devel/promethean/logs/autocommit-error.log",
     "out_file": "/home/err/devel/promethean/logs/autocommit-out.log",
     "log_file": "/home/err/devel/promethean/logs/autocommit.log",
