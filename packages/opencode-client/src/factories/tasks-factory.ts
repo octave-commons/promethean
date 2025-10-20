@@ -186,8 +186,6 @@ export function createMonitorTasksTool(): ReturnType<typeof tool> {
         agentTaskStore,
       };
 
-      // Note: The original monitorTasks function uses a hardcoded 30-minute timeout
-      // We'll call it and report the configured timeout for clarity
       monitorTasks(taskContext);
 
       return JSON.stringify({
@@ -233,7 +231,7 @@ export function createCreateTaskTool({ agentTaskStore }): ReturnType<typeof tool
 }
 
 // Factory for getAllTasks tool
-export function createGetAllTasksTool({ agentTaskStore, client }): ReturnType<typeof tool> {
+export function createGetAllTasksTool({ agentTaskStore }): ReturnType<typeof tool> {
   if (!agentTaskStore) {
     throw new Error('Required task context not available');
   }
