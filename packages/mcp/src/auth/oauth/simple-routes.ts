@@ -66,38 +66,47 @@ export function registerSimpleOAuthRoutes(
   // OAuth 2.0 Authorization Server Metadata (RFC 8414)
   fastify.get(`/.well-known/oauth-authorization-server/mcp`, async (_request, reply) => {
     const baseUrl = getBaseUrl(_request as any);
-    return reply.send({
-      issuer: `${baseUrl}/mcp`,
-      authorization_endpoint: `${baseUrl}${basePath}/login`,
-      token_endpoint: `${baseUrl}${basePath}/callback`,
-      registration_endpoint: `${baseUrl}/.well-known/oauth-registration/mcp`,
-      response_types_supported: ['code'],
-      grant_types_supported: ['authorization_code'],
-      scopes_supported: ['user:email', 'openid', 'email', 'profile'],
-      token_endpoint_auth_methods_supported: ['client_secret_post'],
-      code_challenge_methods_supported: ['S256'],
-      authorization_response_iss_parameter_supported: false,
-      service_documentation: `${baseUrl}/auth/oauth/docs`,
-    });
+    return reply
+      .header('Cache-Control', 'no-cache, no-store, must-revalidate')
+      .header('Pragma', 'no-cache')
+      .header('Expires', '0')
+      .send({
+        issuer: `${baseUrl}/mcp`,
+        authorization_endpoint: `${baseUrl}${basePath}/login`,
+        token_endpoint: `${baseUrl}${basePath}/callback`,
+        registration_endpoint: `${baseUrl}/.well-known/oauth-registration/mcp`,
+        response_types_supported: ['code'],
+        grant_types_supported: ['authorization_code'],
+        scopes_supported: ['user:email', 'openid', 'email', 'profile'],
+        token_endpoint_auth_methods_supported: ['client_secret_post'],
+        code_challenge_methods_supported: ['S256'],
+        authorization_response_iss_parameter_supported: false,
+        service_documentation: `${baseUrl}/auth/oauth/docs`,
+      });
   });
 
   // OpenID Connect Discovery (for compatibility)
   fastify.get(`/.well-known/openid-configuration/mcp`, async (_request, reply) => {
     const baseUrl = getBaseUrl(_request as any);
-    return reply.send({
-      issuer: `${baseUrl}/mcp`,
-      authorization_endpoint: `${baseUrl}${basePath}/login`,
-      token_endpoint: `${baseUrl}${basePath}/callback`,
-      userinfo_endpoint: `${baseUrl}${basePath}/userinfo`,
-      jwks_uri: `${baseUrl}${basePath}/jwks`,
-      response_types_supported: ['code'],
-      grant_types_supported: ['authorization_code'],
-      subject_types_supported: ['public'],
-      id_token_signing_alg_values_supported: ['HS256'],
-      scopes_supported: ['openid', 'email', 'profile', 'user:email'],
-      token_endpoint_auth_methods_supported: ['client_secret_post'],
-      code_challenge_methods_supported: ['S256'],
-    });
+    return reply
+      .header('Cache-Control', 'no-cache, no-store, must-revalidate')
+      .header('Pragma', 'no-cache')
+      .header('Expires', '0')
+      .send({
+        issuer: `${baseUrl}/mcp`,
+        authorization_endpoint: `${baseUrl}${basePath}/login`,
+        token_endpoint: `${baseUrl}${basePath}/callback`,
+        userinfo_endpoint: `${baseUrl}${basePath}/userinfo`,
+        jwks_uri: `${baseUrl}${basePath}/jwks`,
+        registration_endpoint: `${baseUrl}/.well-known/oauth-registration/mcp`,
+        response_types_supported: ['code'],
+        grant_types_supported: ['authorization_code'],
+        subject_types_supported: ['public'],
+        id_token_signing_alg_values_supported: ['HS256'],
+        scopes_supported: ['openid', 'email', 'profile', 'user:email'],
+        token_endpoint_auth_methods_supported: ['client_secret_post'],
+        code_challenge_methods_supported: ['S256'],
+      });
   });
 
   // OAuth Protected Resource metadata
