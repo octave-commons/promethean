@@ -401,54 +401,65 @@ console.log('Context ID:', context.id);
 
 ```typescript
 import express from 'express';
-import { makeLLMActorAdapter, makeOpenAIAdapter } from '@promethean/pantheon-fp';
+import {
+  makeInMemoryActorStateAdapter,
+  makeOrchestrator,
+  makeInMemoryLlmAdapter,
+  createLLMActor,
+  makeOpenAIAdapter,
+} from '@promethean/pantheon';
 
 const app = express();
 app.use(express.json());
 
+// Create adapters
+const actorStateAdapter = makeInMemoryActorStateAdapter();
 const llmAdapter = makeOpenAIAdapter({
   apiKey: process.env.OPENAI_API_KEY!,
 });
-const llmActorAdapter = makeLLMActorAdapter();
 
 // Create actor endpoint
 app.post('/actors', async (req, res) => {
   try {
     const { name, prompt, model } = req.body;
 
-    const actorConfig = {
-      name,
-      type: 'llm' as const,
-      parameters: { model },
-      llm: llmAdapter,
-      systemPrompt: prompt,
-      maxMessages: 20,
-    };
+    const actorScript = createLLMActor(name, {
+      model: model || 'gpt-3.5-turbo',
+      systemPrompt: prompt || 'You are a helpful AI assistant.',
+    });
 
-    const actorId = await llmActorAdapter.create(actorConfig);
-    res.json({ actorId });
+    const actor = await actorStateAdapter.spawn(actorScript, 'Assist users');
+    res.json({ actorId: actor.id });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
 // Message endpoint
-app.post('/actors/:id/message', async (req, res) => {
+app.post('/actors/:id/tick', async (req, res) => {
   try {
     const { id } = req.params;
     const { message } = req.body;
 
-    await llmActorAdapter.addMessage(id, {
-      role: 'user',
-      content: message,
+    const actor = await actorStateAdapter.get(id);
+    if (!actor) {
+      return res.status(404).json({ error: 'Actor not found' });
+    }
+
+    const orchestrator = makeOrchestrator({
+      now: () => Date.now(),
+      log: console.log,
+      context: makeInMemoryContextAdapter(),
+      tools: makeInMemoryToolAdapter(),
+      llm: llmAdapter,
+      bus: makeInMemoryMessageBusAdapter(),
+      schedule: makeInMemorySchedulerAdapter(),
+      state: actorStateAdapter,
     });
 
-    await llmActorAdapter.tick(id);
+    await orchestrator.tickActor(actor, { userMessage: message });
 
-    const messages = await llmActorAdapter.getMessages(id);
-    const response = messages[messages.length - 1];
-
-    res.json({ response: response?.content });
+    res.json({ success: true });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
