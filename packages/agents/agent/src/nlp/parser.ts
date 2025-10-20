@@ -381,6 +381,31 @@ export const makeParser = (config: Partial<NLPConfig> = {}) => {
     };
 };
 
+// Keep the old class for backward compatibility
+export class NaturalLanguageCommandParser implements CommandParser {
+    private parser: ReturnType<typeof makeParser>;
+
+    constructor(config: Partial<NLPConfig> = {}) {
+        this.parser = makeParser(config);
+    }
+
+    async parse(input: string): Promise<ParseResult> {
+        return this.parser.parse(input);
+    }
+
+    getSupportedCommands(): Record<string, any> {
+        return this.parser.getSupportedCommands();
+    }
+
+    registerCommand(type: string, schema: any, examples: string[]): void {
+        this.parser.registerCommand(type, schema, examples);
+    }
+
+    async getSuggestions(input: string): Promise<string[]> {
+        return this.parser.getSuggestions(input);
+    }
+}
+
     async parse(input: string): Promise<ParseResult> {
         try {
             const normalizedInput = this.normalizeInput(input);
