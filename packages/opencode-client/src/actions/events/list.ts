@@ -77,26 +77,8 @@ export async function list({
       fetchError = `Dual store error: ${storeError instanceof Error ? storeError.message : String(storeError)}`;
     }
 
-    // Fallback to client if no events found in dual store and client is available
-    if (events.length === 0 && client?.event) {
-      const { data: clientEvents, error } = await client.event.list({
-        query,
-        k,
-        eventType,
-        sessionId,
-        hasTool,
-        isAgentTask,
-      });
-
-      if (error) {
-        const errorMsg = fetchError
-          ? `${fetchError}, Client error: ${error}`
-          : `Failed to fetch events: ${error}`;
-        return errorMsg;
-      }
-      if (!clientEvents?.length) return 'No events found';
-      events = clientEvents;
-    }
+    // No fallback to client since event.list() is not available in OpencodeClient API
+    // If no events found in dual store, return empty result
 
     return JSON.stringify({
       events,

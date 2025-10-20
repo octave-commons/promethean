@@ -70,18 +70,10 @@ export function monitorTasks(): void {
 }
 
 export async function createTask(sessionId: string, task: string): Promise<AgentTask> {
-  const context: TaskContext = {
-    agentTaskStore,
-    agentTasks,
-  };
   return createTaskAction(context, sessionId, task);
 }
 
 export async function getAllTasks(): Promise<Map<string, AgentTask>> {
-  const context: TaskContext = {
-    agentTaskStore,
-    agentTasks,
-  };
   return getAllTasksAction(context);
 }
 
