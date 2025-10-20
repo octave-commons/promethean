@@ -3,7 +3,7 @@
 
 import { tool } from '@opencode-ai/plugin/tool';
 import { DualStoreManager } from '@promethean/persistence';
-import { AgentTask } from '../../AgentTask.js';
+import { AgentTask } from '../AgentTask.js';
 import {
   loadPersistedTasks,
   verifySessionExists,
