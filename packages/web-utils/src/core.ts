@@ -5,20 +5,22 @@
 import type { z } from 'zod';
 
 // Minimal Fastify interface to avoid any types
-export interface FastifyInstance {
+export type FastifyInstance = {
   get(route: string, handler: () => unknown): void;
   post(route: string, handler: () => unknown): void;
   put(route: string, handler: () => unknown): void;
   delete(route: string, handler: () => unknown): void;
-}
+};
 
-export type HealthCheckResponse = {
+export type HealthCheckResponse = Readonly<{
   status: 'healthy' | 'unhealthy';
   timestamp: string;
   service: string;
-};
+}>;
 
-export function createHealthCheck(serviceName: string = 'promethean-service') {
+export function createHealthCheck(
+  serviceName: string = 'promethean-service',
+): () => HealthCheckResponse {
   return (): HealthCheckResponse => ({
     status: 'healthy',
     timestamp: new Date().toISOString(),
@@ -28,8 +30,8 @@ export function createHealthCheck(serviceName: string = 'promethean-service') {
 
 export async function registerHealthRoute(
   fastify: FastifyInstance,
-  options: { serviceName?: string },
-) {
+  options: { readonly serviceName?: string },
+): Promise<void> {
   const healthCheck = createHealthCheck(options.serviceName);
 
   fastify.get('/health', async () => {
@@ -39,8 +41,8 @@ export async function registerHealthRoute(
 
 export async function registerDiagnosticsRoute(
   fastify: FastifyInstance,
-  options: { serviceName?: string } = {},
-) {
+  options: { readonly serviceName?: string } = {},
+): Promise<void> {
   const service = options.serviceName ?? 'promethean-service';
 
   fastify.get('/diagnostics', async () => {
@@ -53,7 +55,9 @@ export async function registerDiagnosticsRoute(
   });
 }
 
-export function createValidationHandler<T extends z.ZodSchema>(schema: T) {
+export function createValidationHandler<T extends z.ZodSchema>(
+  schema: T,
+): (data: unknown) => z.infer<T> {
   return (data: unknown): z.infer<T> => {
     return schema.parse(data);
   };

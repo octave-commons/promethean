@@ -3743,6 +3743,47 @@ importers:
         specifier: ^4.7.2
         version: 4.20.6
 
+  packages/pantheon:
+    dependencies:
+      '@promethean/agent-context':
+        specifier: workspace:*
+        version: link:../agents/agent-context
+      '@promethean/persistence':
+        specifier: workspace:*
+        version: link:../persistence
+      zod:
+        specifier: ^3.22.4
+        version: 3.25.76
+    devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.22
+      ava:
+        specifier: ^5.3.1
+        version: 5.3.1(@ava/typescript@4.1.0)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.9.3
+
+  packages/pantheon-persistence:
+    dependencies:
+      '@promethean/pantheon':
+        specifier: workspace:*
+        version: link:../pantheon
+      '@promethean/persistence':
+        specifier: workspace:*
+        version: link:../persistence
+    devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.22
+      ava:
+        specifier: ^5.3.1
+        version: 5.3.1(@ava/typescript@4.1.0)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.9.3
+
   packages/persistence:
     dependencies:
       '@promethean/embedding':
