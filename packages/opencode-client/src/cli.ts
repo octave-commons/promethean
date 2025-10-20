@@ -6,7 +6,7 @@ import { sessionCommands } from './commands/sessions/index.js';
 import { eventCommands } from './commands/events/index.js';
 import { processCommands } from './commands/process/index.js';
 import { messagesCommands } from './commands/messages/index.js';
-
+import { initializeStores } from './index.js';
 const program = new Command()
 // Global options
 program
@@ -14,7 +14,7 @@ program
   .option('--no-color', 'disable colored output')
   .hook('preAction', async (thisCommand) => {
     // Initialize stores before any command runs
-    await initializeCliStores();
+    await initializeStores();
 
     const options = thisCommand.opts();
     if (options.verbose) {
@@ -24,7 +24,7 @@ program
   .hook('postAction', async () => {
     // Cleanup stores after command completes
     await cleanupStores();
-  });
+  })i;
 
 // Add command groups
 program.addCommand(sessionCommands);
