@@ -67,19 +67,6 @@ const Context: React.FC = () => {
     }
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'compiled':
-        return 'bg-green-500';
-      case 'pending':
-        return 'bg-yellow-500';
-      case 'error':
-        return 'bg-red-500';
-      default:
-        return 'bg-gray-500';
-    }
-  };
-
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
