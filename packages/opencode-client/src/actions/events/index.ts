@@ -1,9 +1,9 @@
 import { TaskContext } from '../tasks/index.js';
-import type { EventClient, OpenCodeEvent, EventMessage } from '../../types/index.js';
+import type { OpenCodeEvent, EventMessage } from '../../types/index.js';
 import { OpencodeClient } from '@opencode-ai/sdk';
 
 export interface EventContext {
-  client: EventClient;
+  client: OpencodeClient;
   taskContext: TaskContext;
 }
 
