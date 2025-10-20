@@ -59,7 +59,7 @@ export function createHandleSessionIdleTool(
 // Factory for handleMessageUpdated tool
 export function createHandleMessageUpdatedTool(
   stores: DualStoreManager<'text', 'timestamp'>,
-  client: EventClient,
+  client: OpencodeClient,
 ): ToolFunction {
   return tool({
     description: 'Handle message updated event',
@@ -89,7 +89,7 @@ export function createHandleMessageUpdatedTool(
 // Factory for extractSessionId tool
 export function createExtractSessionIdTool(
   stores: DualStoreManager<'text', 'timestamp'>,
-  client: EventClient,
+  client: OpencodeClient,
 ): ToolFunction {
   return tool({
     description: 'Extract session ID from an event object',
