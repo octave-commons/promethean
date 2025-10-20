@@ -229,7 +229,10 @@ export function createCloseAgentSessionTool(
   });
 }
 
-export function createListAgentSessionsTool(): ReturnType<typeof tool> {
+export function createListAgentSessionsTool(
+  stores: DualStoreManager<'', ''>,
+  client: OpencodeClient,
+): ReturnType<typeof tool> {
   return tool({
     description: 'List all active agent sessions with optional filtering',
     args: {
@@ -279,7 +282,10 @@ export function createListAgentSessionsTool(): ReturnType<typeof tool> {
   });
 }
 
-export function createGetAgentSessionTool(): ReturnType<typeof tool> {
+export function createGetAgentSessionTool(
+  stores: DualStoreManager<'', ''>,
+  client: OpencodeClient,
+): ReturnType<typeof tool> {
   return tool({
     description: 'Get detailed information about a specific agent session',
     args: {
@@ -324,7 +330,10 @@ export function createGetAgentSessionTool(): ReturnType<typeof tool> {
   });
 }
 
-export function createGetAgentStatsTool(): ReturnType<typeof tool> {
+export function createGetAgentStatsTool(
+  stores: DualStoreManager<'', ''>,
+  client: OpencodeClient,
+): ReturnType<typeof tool> {
   return tool({
     description: 'Get statistics about all agent sessions',
     args: {},
