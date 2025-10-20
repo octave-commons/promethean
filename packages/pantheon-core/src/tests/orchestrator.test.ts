@@ -97,9 +97,11 @@ test('orchestrator respects passive behavior mode', async (t) => {
   const orch = makeOrchestrator(deps as any);
 
   const actorWithPassiveBehavior: Actor = {
-    ...makeActor(),
+    id: 'a2',
+    state: 'idle',
     script: {
-      ...makeActor().script,
+      name: 'passive-demo',
+      contextSources: [],
       talents: [
         {
           name: 'passive-talent',
@@ -115,6 +117,10 @@ test('orchestrator respects passive behavior mode', async (t) => {
         },
       ],
     },
+    goals: ['g'],
+    createdAt: new Date(0),
+    updatedAt: new Date(0),
+    metadata: {},
   };
 
   // Passive behaviors should not execute with user input
