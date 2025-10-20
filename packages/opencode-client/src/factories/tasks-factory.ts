@@ -168,7 +168,7 @@ export function createUpdateTaskStatusTool(stores): ReturnType<typeof tool> {
 }
 
 // Factory for monitorTasks tool
-export function createMonitorTasksTool(): ReturnType<typeof tool> {
+export function createMonitorTasksTool(stores): ReturnType<typeof tool> {
   return tool({
     description: 'Monitor all tasks for timeouts and update status accordingly',
     args: {
@@ -184,9 +184,10 @@ export function createMonitorTasksTool(): ReturnType<typeof tool> {
       }
 
       const taskContext = {
-        agentTaskStore,
+        agentTaskStore: store.agentTaskStore,
       };
 
+      // wrong
       monitorTasks(taskContext);
 
       return JSON.stringify({

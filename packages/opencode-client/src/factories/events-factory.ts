@@ -48,12 +48,12 @@ export function createHandleSessionUpdatedTool(): ToolFunction {
     args: {
       sessionId: tool.schema.string().describe('Session ID that was updated'),
     },
-    async execute(args, context: any) {
+    async execute(args, context) {
       const { sessionId } = args;
-      const client = context.client as OpencodeClient;
-      const taskContext = context.taskContext;
+      const client = (context as Record<string, unknown>).client as EventClient;
+      const taskContext = (context as Record<string, unknown>).taskContext as TaskContext;
 
-      const eventContext = { client, taskContext };
+      const eventContext: EventContext = { client, taskContext };
       await handleSessionUpdated(eventContext, sessionId);
 
       return JSON.stringify({
@@ -72,12 +72,12 @@ export function createHandleMessageUpdatedTool(): ToolFunction {
     args: {
       sessionId: tool.schema.string().describe('Session ID where message was updated'),
     },
-    async execute(args, context: any) {
+    async execute(args, context) {
       const { sessionId } = args;
-      const client = context.client as OpencodeClient;
-      const taskContext = context.taskContext;
+      const client = (context as Record<string, unknown>).client as EventClient;
+      const taskContext = (context as Record<string, unknown>).taskContext as TaskContext;
 
-      const eventContext = { client, taskContext };
+      const eventContext: EventContext = { client, taskContext };
       await handleMessageUpdated(eventContext, sessionId);
 
       return JSON.stringify({
