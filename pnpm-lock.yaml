@@ -3745,6 +3745,9 @@ importers:
 
   packages/pantheon:
     dependencies:
+      '@promethean/agent-state':
+        specifier: workspace:*
+        version: link:../agent-state
       commander:
         specifier: ^11.1.0
         version: 11.1.0

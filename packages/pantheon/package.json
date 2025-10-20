@@ -12,7 +12,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "commander": "^11.1.0"
+    "commander": "^11.1.0",
+    "@promethean/agent-state": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
