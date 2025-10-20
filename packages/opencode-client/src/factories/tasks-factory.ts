@@ -195,7 +195,7 @@ export function createMonitorTasksTool(): ReturnType<typeof tool> {
 }
 
 // Factory for createTask tool
-export function createCreateTaskTool(): any {
+export function createCreateTaskTool(): ReturnType<typeof tool> {
   return tool({
     description: 'Create a new agent task',
     args: {
