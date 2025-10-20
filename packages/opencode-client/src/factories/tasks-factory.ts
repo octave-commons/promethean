@@ -51,7 +51,7 @@ export function createUpdateTaskStatusTool(
         .optional()
         .describe('Completion message (required for completed/failed status)'),
     },
-    async execute(args, context: Context) {
+    async execute(args, context: any) {
       const { sessionId, status, completionMessage } = args;
 
       await updateTaskStatus(stores as TaskContext, sessionId, status, completionMessage);
@@ -75,7 +75,7 @@ export function createCreateTaskTool(stores: TaskContext): ReturnType<typeof too
       sessionId: tool.schema.string().describe('Session ID for the task'),
       task: tool.schema.string().describe('Task description'),
     },
-    async execute(args, context: Context) {
+    async execute(args, context: any) {
       const { sessionId, task } = args;
 
       const agentTask = await createTask(stores as TaskContext, sessionId, task);
