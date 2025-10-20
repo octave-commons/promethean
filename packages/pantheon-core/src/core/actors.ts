@@ -15,6 +15,9 @@ export const makeActorFactory = (): ActorFactory => {
     id: `actor-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
     script,
     goals,
+    state: 'idle',
+    createdAt: new Date(),
+    updatedAt: new Date(),
   });
 
   const createBehavior = (

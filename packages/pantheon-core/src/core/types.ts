@@ -4,8 +4,20 @@
 
 // === Core Message Types ===
 
+/**
+ * Represents the role of a message sender in a conversation
+ * - 'system': System-level instructions or metadata
+ * - 'user': Human user input
+ * - 'assistant': AI agent responses
+ */
 export type Role = 'system' | 'user' | 'assistant';
 
+/**
+ * Represents a single message in a conversation
+ * @property role - The sender role (system, user, or assistant)
+ * @property content - The text content of the message
+ * @property images - Optional array of image URLs or base64 encoded images
+ */
 export type Message = {
   role: Role;
   content: string;
@@ -299,56 +311,6 @@ export type AgentWorkflowGraph = {
   nodes: Map<string, WorkflowNode>;
   edges: WorkflowEdge[];
   metadata?: Record<string, unknown>;
-};
-
-// === Port Interface Types ===
-
-export type ContextPort = {
-  compileText(contextId: string, sources: ContextSource[]): Promise<string>;
-  getContext(contextId: string): Promise<Record<string, unknown> | null>;
-  setContext(contextId: string, data: Record<string, unknown>): Promise<void>;
-  deleteContext(contextId: string): Promise<void>;
-  listContexts(filter?: Record<string, unknown>): Promise<string[]>;
-};
-
-export type ToolPort = {
-  registerTool(tool: ToolSpec): Promise<void>;
-  invokeTool(name: string, args: Record<string, unknown>): Promise<unknown>;
-  listTools(): Promise<ToolSpec[]>;
-  getTool(name: string): Promise<ToolSpec | null>;
-};
-
-export type LlmPort = {
-  complete(messages: Message[], model?: string, temperature?: number): Promise<string>;
-  completeWithTools(
-    messages: Message[],
-    tools: ToolSpec[],
-    model?: string,
-    temperature?: number,
-  ): Promise<{ content: string; toolCalls?: any[] }>;
-  streamComplete(messages: Message[], model?: string, temperature?: number): AsyncIterable<string>;
-};
-
-export type MessageBusPort = {
-  send(envelope: MessageEnvelope): Promise<void>;
-  subscribe(pattern: string, handler: (envelope: MessageEnvelope) => Promise<void>): Promise<void>;
-  unsubscribe(pattern: string): Promise<void>;
-  publish(topic: string, message: Record<string, unknown>): Promise<void>;
-};
-
-export type SchedulerPort = {
-  schedule(task: () => Promise<void>, delay: number): Promise<void>;
-  scheduleRecurring(task: () => Promise<void>, interval: number): Promise<void>;
-  cancel(taskId: string): Promise<void>;
-  listTasks(): Promise<Array<{ id: string; nextRun: Date; recurring: boolean }>>;
-};
-
-export type ActorStatePort = {
-  createActor(actor: Omit<Actor, 'id' | 'createdAt' | 'updatedAt'>): Promise<Actor>;
-  getActor(id: string): Promise<Actor | null>;
-  updateActor(id: string, updates: Partial<Actor>): Promise<Actor>;
-  deleteActor(id: string): Promise<void>;
-  listActors(filter?: Record<string, unknown>): Promise<Actor[]>;
 };
 
 // === Security and Auth Types ===
