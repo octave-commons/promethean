@@ -82,10 +82,6 @@ export async function updateTaskStatus(
   completionMessage?: string,
 ): Promise<void> {
   console.log(`Agent task status updated for session ${sessionId}: ${status}`);
-  } catch (error) {
-    console.error('Error updating agent task in dual store:', error);
-  }
-
   logTaskCompletion(sessionId, status, completionMessage);
 }
 
