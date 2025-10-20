@@ -1,4 +1,5 @@
 import { DualStoreManager } from '@promethean/persistence';
+export { sendMessage } from './send.js';
 
 export interface MessageContext {
   sessionStore: DualStoreManager<'text', 'timestamp'>;
