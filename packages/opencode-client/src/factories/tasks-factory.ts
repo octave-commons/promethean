@@ -44,7 +44,7 @@ export function createLoadPersistedTasksTool(): ReturnType<typeof tool> {
 
       const result = await loadPersistedTasks(
         taskContext,
-        verifySessions ? (client as Record<string, unknown>) : undefined,
+        verifySessions ? (client as any) : undefined,
       );
 
       return JSON.stringify({
