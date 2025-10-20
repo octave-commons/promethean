@@ -49,7 +49,7 @@ const mockContext = {
     text: async () => 'mock output',
     $: async () => 'mock output',
   },
-} as any; // Use type assertion for testing
+} as Record<string, unknown>; // Use type assertion for testing
 
 test('AsyncSubAgentsPlugin initializes correctly', async (t) => {
   const plugin = await AsyncSubAgentsPlugin(mockContext);

@@ -14,7 +14,10 @@ test.serial('Check DualStoreManager methods', async (t) => {
   console.log(Object.keys(store));
   console.log('\nStore has get method:', typeof store.get === 'function');
   console.log('Store has insert method:', typeof store.insert === 'function');
-  console.log('Store has search method:', typeof (store as any).search === 'function');
+  console.log(
+    'Store has search method:',
+    typeof (store as unknown as Record<string, unknown>).search === 'function',
+  );
 
   // Try to call get method
   try {

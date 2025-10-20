@@ -102,7 +102,7 @@ test('listJobs returns job list', async (t) => {
     t.true(Array.isArray(jobs));
 
     // Jobs should have expected properties
-    jobs.forEach((job: any) => {
+    jobs.forEach((job: { id: string; status: string; modelName: string }) => {
       t.true(typeof job.id === 'string');
       t.true(typeof job.status === 'string');
       t.true(typeof job.modelName === 'string');
