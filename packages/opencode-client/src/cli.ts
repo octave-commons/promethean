@@ -3,18 +3,11 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
 import { sessionCommands } from './commands/sessions/index.js';
-import { ollamaCommands } from './commands/ollama/index.js';
-import { pm2Command } from './commands/pm2/index.js';
 import { eventCommands } from './commands/events/index.js';
 import { processCommands } from './commands/process/index.js';
-import { cacheCommands } from './commands/cache/index.js';
-import { tasksCommands } from './commands/tasks/index.js';
 import { messagesCommands } from './commands/messages/index.js';
-import { agentCommands as legacyAgentCommands } from './commands/agents/index.js';
-import { indexerCommands } from './commands/indexer/index.js';
-import { initializeStores } from './index.js';
-import { DualStoreManager } from '@promethean/persistence';
-import type { DualStoreManager as DualStoreManagerType } from './types/index.js';
+
+const program = new Command()
 // Global options
 program
   .option('-v, --verbose', 'verbose output')
