@@ -263,13 +263,12 @@ export const TestUtils = {
 
   // Check if element has specific CSS class
   async hasClass(page: Page, selector: string, className: string) {
-    return await page.evaluate(({ sel, cls }) => {
-      const element = document.querySelector(sel);
-      return element ? element.classList.contains(cls) : false;
-    }, { sel: selector, cls: className });
-  },
-      selector,
-      className,
+    return await page.evaluate(
+      ({ sel, cls }) => {
+        const element = document.querySelector(sel);
+        return element ? element.classList.contains(cls) : false;
+      },
+      { sel: selector, cls: className },
     );
   },
 
