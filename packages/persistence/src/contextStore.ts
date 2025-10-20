@@ -1,13 +1,7 @@
-import type { Message } from 'ollama';
 import type { Where } from 'chromadb';
-import TimeAgo from 'javascript-time-ago';
-import en from 'javascript-time-ago/locale/en';
 
 import { DualStoreManager } from './dualStore.js';
 import type { DualStoreEntry, DualStoreMetadata, DualStoreTimestamp } from './types.js';
-
-TimeAgo.addDefaultLocale(en);
-const timeAgo = new TimeAgo('en-US');
 
 const toEpochMilliseconds = (value: DualStoreTimestamp): number => {
     if (value instanceof Date) return value.getTime();
