@@ -1,5 +1,6 @@
 import { validateMcpOperation } from './packages/mcp/src/validation/index.js';
 import { normalizeToRoot, isInsideRoot, resolvePath } from './packages/mcp/src/files.js';
+import * as path from 'node:path';
 
 async function debugMcp() {
   const ROOT_PATH = process.cwd();
@@ -21,7 +22,10 @@ async function debugMcp() {
     }
 
     console.log('🎯 Sanitized path:', validationResult.sanitizedPath);
-    console.log('🎯 Is absolute?', require('path').isAbsolute(validationResult.sanitizedPath!));
+    console.log(
+      '🎯 Is absolute?',
+      require('node:path').isAbsolute(validationResult.sanitizedPath!),
+    );
 
     // Step 2: Test normalizeToRoot
     console.log('\n2️⃣ Testing normalizeToRoot...');
