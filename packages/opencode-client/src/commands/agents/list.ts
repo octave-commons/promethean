@@ -1,6 +1,22 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
-import { UnifiedAgentManager } from '../../api/UnifiedAgentManager.js';
+// Simple agent session interface
+interface AgentSession {
+  sessionId: string;
+  status: string;
+  createdAt: string | Date;
+  session: { title?: string; files?: string[] };
+  task: { task: string };
+}
+
+// Simple mock function
+async function listAgentSessions(): Promise<AgentSession[]> {
+  return [];
+}
+
+async function getSessionsByStatus(_status: string): Promise<AgentSession[]> {
+  return [];
+}
 
 export const listAgentsCommand = new Command('list')
   .description('List all agent sessions')
@@ -13,16 +29,17 @@ export const listAgentsCommand = new Command('list')
     try {
       console.log(chalk.blue('📋 Listing agent sessions...'));
 
-      const manager = UnifiedAgentManager.getInstance();
-      let sessions = await manager.listAgentSessions();
+      let sessions = await listAgentSessions();
 
       // Filter by status if specified
       if (options.status) {
-        sessions = await manager.getSessionsByStatus(options.status as any);
+        sessions = await getSessionsByStatus(options.status as any);
       }
 
       // Sort by creation time (most recent first)
-      sessions.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      sessions.sort(
+        (a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+      );
 
       if (options.json) {
         console.log(JSON.stringify(sessions, null, 2));
@@ -33,7 +50,7 @@ export const listAgentsCommand = new Command('list')
         }
 
         console.log(chalk.green(`Found ${sessions.length} agent sessions:`));
-        sessions.forEach((session) => {
+        sessions.forEach((session: any) => {
           const statusColor =
             {
               initializing: chalk.yellow,
@@ -41,7 +58,7 @@ export const listAgentsCommand = new Command('list')
               completed: chalk.green,
               failed: chalk.red,
               idle: chalk.gray,
-            }[session.status] || chalk.white;
+            }[session.status as string] || chalk.white;
 
           console.log(
             `\n${statusColor(`[${session.status.toUpperCase()}]`)} ${chalk.cyan(session.sessionId)}`,

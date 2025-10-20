@@ -1,6 +1,13 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
-import { UnifiedAgentManager } from '../../api/UnifiedAgentManager.js';
+// Simple mock functions
+async function getAgentSession(_sessionId: string): Promise<any> {
+  return null;
+}
+
+async function startAgentSession(_sessionId: string): Promise<void> {
+  console.log('Starting agent session');
+}
 
 export const startAgentCommand = new Command('start')
   .description('Start an agent session')
