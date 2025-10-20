@@ -5,6 +5,7 @@ import chalk from 'chalk';
 import { sessionCommands } from './commands/sessions/index.js';
 import { eventCommands } from './commands/events/index.js';
 import { messagesCommands } from './commands/messages/index.js';
+import { indexerCommands } from './commands/indexer/index.js';
 import { initializeStores } from './index.js';
 
 const program = new Command();
@@ -35,6 +36,7 @@ program
 program.addCommand(sessionCommands);
 program.addCommand(eventCommands);
 program.addCommand(messagesCommands);
+program.addCommand(indexerCommands);
 
 // Add unified agent management commands
 
