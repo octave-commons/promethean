@@ -97,7 +97,7 @@ const SessionUtils = {
       isAgentTask: !!agentTask || session.isAgentTask === true,
       agentTaskStatus: agentTask?.status,
     };
-  },,
+  },
 };
 
 export { SessionUtils };
