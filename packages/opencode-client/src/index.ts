@@ -1,6 +1,6 @@
 import { DualStoreManager, ContextStore, type GenericEntry } from '@promethean/persistence';
-import { SessionInfo } from '../pseudo/SessionInfo.js';
-import { SessionUtils } from '../pseudo/SessionUtils.js';
+import { SessionInfo } from './SessionInfo.js';
+import { SessionUtils } from './SessionUtils.js';
 import type { Timestamp } from './types/index.js';
 
 export type SearchableStore = DualStoreManager<'text', 'timestamp'>;
