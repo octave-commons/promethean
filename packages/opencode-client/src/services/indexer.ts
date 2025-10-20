@@ -5,6 +5,9 @@ import type { Session, Event } from '@opencode-ai/sdk';
 export class IndexerService {
   private client: any;
   private isRunning: boolean = false;
+  private eventCounts: Map<string, number> = new Map();
+  private lastLogTime: number = 0;
+  private readonly LOG_DEBOUNCE_MS = 5000; // Log same event type max once per 5 seconds
 
   constructor() {
     this.client = createOpencodeClient({
