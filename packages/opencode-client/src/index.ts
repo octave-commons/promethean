@@ -1,4 +1,4 @@
-import { DualStoreManager } from '@promethean/persistence';
+import { DualStoreManager, ContextStore } from '@promethean/persistence';
 import { SessionInfo } from './SessionInfo.js';
 import { SessionUtils } from './SessionUtils.js';
 import type { Timestamp } from './types/index.js';
