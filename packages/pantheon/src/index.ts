@@ -11,7 +11,6 @@ export {
   type Message,
   type ContextSource,
   type ToolSpec,
-  type PantheonError,
 
   // Ports
   type ContextPort,
@@ -24,7 +23,6 @@ export {
   // Core functions
   makeOrchestrator,
   type OrchestratorDeps,
-  type Orchestrator,
 } from '@promethean/pantheon-core';
 
 // Adapters
@@ -62,6 +60,8 @@ export {
   createLLMActor,
   createToolActor,
   createCompositeActor,
+  createActorFromTemplate,
+  validateActorScript,
   type LLMActorConfig,
   type ToolActorConfig,
   type CompositeActorConfig,
@@ -70,8 +70,30 @@ export {
 // Utilities
 export {
   generateId,
-  createPantheonError,
-  isValidActorId,
-  formatTimestamp,
+  generateActorId,
+  createMessage,
+  createSystemMessage,
+  createUserMessage,
+  createAssistantMessage,
+  truncateMessages,
+  createContextSource,
+  mergeContextSources,
+  createActorSummary,
+  isActorActive,
+  isActorCompleted,
+  getActorAge,
+  getActorIdleTime,
+  mergeConfigs,
+  validateConfig,
+  PantheonError,
+  createError,
+  isError,
+  withTimeout,
+  retry,
   type LogLevel,
+  type Logger,
+  createConsoleLogger,
+  createNullLogger,
+  createTimer,
+  measureAsync,
 } from './utils/index.js';
