@@ -154,7 +154,7 @@ function detectPathTraversal(trimmed: string): {
   }
 
   const pathComponents = normalized.split(/[\\/]/);
-  if (pathComponents.includes('..') || pathComponents.includes('.')) {
+  if (pathComponents.includes('..')) {
     hasTraversal = true;
   }
 
@@ -804,13 +804,15 @@ export function validateSearchOperation(args: unknown): ValidationResult {
     if (validated.regex) {
       // Use safe string matching to avoid backreference issues
       const queryStr = validated.query || '';
-      
+
       // Check for dangerous pattern substrings
-      if (queryStr.includes('(a+)+b') || 
-          queryStr.includes('a+a+a+a+') ||
-          queryStr.includes('(.*).*+') ||
-          queryStr.includes('(.*).*') ||
-          queryStr.includes('(.*).*{')) {
+      if (
+        queryStr.includes('(a+)+b') ||
+        queryStr.includes('a+a+a+a+') ||
+        queryStr.includes('(.*).*+') ||
+        queryStr.includes('(.*).*') ||
+        queryStr.includes('(.*).*{')
+      ) {
         return {
           success: false,
           error: new Error('Search regex contains potential DoS patterns'),
