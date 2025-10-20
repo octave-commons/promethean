@@ -7,7 +7,16 @@ export async function callOllamaGenerate(
   prompt: string,
   options?: OllamaOptions,
 ): Promise<unknown> {
-  const requestBody = {
+  const requestBody: {
+    model: string;
+    prompt: string;
+    stream: boolean;
+    options: {
+      temperature: number;
+      [key: string]: unknown;
+    };
+    format?: unknown;
+  } = {
     model,
     prompt,
     stream: false,
@@ -18,7 +27,7 @@ export async function callOllamaGenerate(
   };
 
   if (options?.format) {
-    (requestBody as any).format = options.format;
+    requestBody.format = options.format;
   }
 
   const res = await fetch(`${OLLAMA_URL}/api/generate`, {
