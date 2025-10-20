@@ -1,4 +1,4 @@
-import { SessionUtils, agentTasks, sessionStore } from '../../index.js';
+import { SessionUtils, sessionStore } from '../../index.js';
 import { deduplicateSessions } from '../../utils/session-cleanup.js';
 import type { AgentTaskStatus } from '../../types/index.js';
 
