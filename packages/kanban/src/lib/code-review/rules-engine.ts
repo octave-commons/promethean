@@ -200,7 +200,9 @@ export class CodeReviewRulesEngine {
     // Check cache first
     const cacheKey = this.generateCacheKey(request);
     const cached = await this.cache.get(cacheKey);
-    if (cached && this.isCacheValid(cached, request)) {
+    if (cached) {
+      const isValid = await this.isCacheValid(cached, request);
+      if (isValid) {
       console.log(`📋 Using cached code review result for task ${task.uuid}`);
       return cached.result;
     }
@@ -631,32 +633,34 @@ export class CodeReviewRulesEngine {
     actionItems: ActionItem[],
   ): Promise<void> {
     try {
-      const result = await this.securityAnalyzer.analyze(files);
+      const results = await this.securityAnalyzer.analyze(files);
 
-      for (const finding of result.findings) {
-        const violation: CodeReviewViolation = {
-          id: `security-${finding.id}`,
-          severity:
-            finding.severity === 'critical' || finding.severity === 'high' ? 'error' : 'warning',
-          category: 'security',
-          rule: finding.ruleId,
-          message: finding.message,
-          file: finding.file,
-          line: finding.line,
-          source: 'security',
-          fixable: false,
-          autoFixAvailable: false,
-        };
-        violations.push(violation);
+      for (const result of results) {
+        for (const finding of result.findings) {
+          const violation: CodeReviewViolation = {
+            id: `security-${finding.id}`,
+            severity:
+              finding.severity === 'critical' || finding.severity === 'high' ? 'error' : 'warning',
+            category: 'security',
+            rule: finding.ruleId,
+            message: finding.message,
+            file: finding.file,
+            line: finding.line,
+            source: 'security',
+            fixable: false,
+            autoFixAvailable: false,
+          };
+          violations.push(violation);
 
-        actionItems.push({
-          type: 'fix',
-          description: `Fix security issue: ${finding.message}`,
-          priority: 'high',
-          estimatedEffort: 'medium',
-          file: finding.file,
-          automated: false,
-        });
+          actionItems.push({
+            type: 'fix',
+            description: `Fix security issue: ${finding.message}`,
+            priority: 'high',
+            estimatedEffort: 'medium',
+            file: finding.file,
+            automated: false,
+          });
+        }
       }
     } catch (error) {
       console.warn('Security analysis failed:', error);
@@ -720,7 +724,7 @@ export class CodeReviewRulesEngine {
     };
   }
 
-  private calculateScore(metrics: CodeReviewMetrics, totalViolations: number): number {
+  private calculateScore(metrics: CodeReviewMetrics, _totalViolations: number): number {
     // Base score starts at 100
     let score = 100;
 
