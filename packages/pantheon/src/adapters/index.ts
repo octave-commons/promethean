@@ -3,22 +3,20 @@
  * Exports all adapter implementations and factory functions
  */
 
-// Re-export core adapters
-export {
+// Import core adapters
+import {
   type ContextAdapterDeps,
   type ToolAdapterDeps,
   type LlmAdapterDeps,
   type MessageBusAdapterDeps,
   type SchedulerAdapterDeps,
   type ActorStateAdapterDeps,
-  
   makeContextAdapter,
   makeToolAdapter,
   makeLlmAdapter,
   makeMessageBusAdapter,
   makeSchedulerAdapter,
   makeActorStateAdapter,
-  
   makeInMemoryContextAdapter,
   makeInMemoryToolAdapter,
   makeInMemoryLlmAdapter,
@@ -27,29 +25,60 @@ export {
   makeInMemoryActorStateAdapter,
 } from '@promethean/pantheon-core';
 
-// Re-export persistence adapter
-export {
-  makePantheonPersistenceAdapter,
-  type PersistenceAdapterDeps,
-} from '@promethean/pantheon-persistence';
+// Import external adapters (these may not exist yet, so we'll make them optional)
+let makeOpenAIAdapter: any = null;
+let makeMCPToolAdapter: any = null;
+let makeMCPAdapterWithDefaults: any = null;
+let makePantheonPersistenceAdapter: any = null;
 
-// Re-export MCP adapter
-export {
-  makeMCPToolAdapter,
-  makeMCPAdapterWithDefaults,
-  createActorTool,
-  tickActorTool,
-  compileContextTool,
-  type ToolPort,
-  type MCPTool,
-  type MCPToolResult,
-} from '@promethean/pantheon-mcp';
+try {
+  const openaiModule = require('@promethean/pantheon-llm-openai');
+  makeOpenAIAdapter = openaiModule.makeOpenAIAdapter;
+} catch (e) {
+  // OpenAI adapter not available
+}
 
-// Re-export OpenAI adapter
+try {
+  const mcpModule = require('@promethean/pantheon-mcp');
+  makeMCPToolAdapter = mcpModule.makeMCPToolAdapter;
+  makeMCPAdapterWithDefaults = mcpModule.makeMCPAdapterWithDefaults;
+} catch (e) {
+  // MCP adapter not available
+}
+
+try {
+  const persistenceModule = require('@promethean/pantheon-persistence');
+  makePantheonPersistenceAdapter = persistenceModule.makePantheonPersistenceAdapter;
+} catch (e) {
+  // Persistence adapter not available
+}
+
+// Re-export core adapters
 export {
-  makeOpenAIAdapter,
-  type OpenAIAdapterConfig,
-} from '@promethean/pantheon-llm-openai';
+  type ContextAdapterDeps,
+  type ToolAdapterDeps,
+  type LlmAdapterDeps,
+  type MessageBusAdapterDeps,
+  type SchedulerAdapterDeps,
+  type ActorStateAdapterDeps,
+  makeContextAdapter,
+  makeToolAdapter,
+  makeLlmAdapter,
+  makeMessageBusAdapter,
+  makeSchedulerAdapter,
+  makeActorStateAdapter,
+  makeInMemoryContextAdapter,
+  makeInMemoryToolAdapter,
+  makeInMemoryLlmAdapter,
+  makeInMemoryMessageBusAdapter,
+  makeInMemorySchedulerAdapter,
+  makeInMemoryActorStateAdapter,
+};
+
+// Re-export external adapters if available
+export { makeOpenAIAdapter } from '@promethean/pantheon-llm-openai';
+export { makeMCPToolAdapter, makeMCPAdapterWithDefaults } from '@promethean/pantheon-mcp';
+export { makePantheonPersistenceAdapter } from '@promethean/pantheon-persistence';
 
 // Composite adapter factory
 export const makeCompletePantheonSystem = (options: {
@@ -58,31 +87,29 @@ export const makeCompletePantheonSystem = (options: {
   mcp?: any;
   inMemory?: boolean;
 }) => {
-  const {
-    persistence,
-    openai,
-    mcp,
-    inMemory = false,
-  } = options;
+  const { persistence, openai, mcp, inMemory = false } = options;
 
   // Create adapters based on configuration
-  const contextAdapter = persistence 
-    ? persistence.makePantheonPersistenceAdapter?.(persistence)
-    : inMemory 
-      ? makeInMemoryContextAdapter()
-      : null;
+  const contextAdapter =
+    persistence && makePantheonPersistenceAdapter
+      ? makePantheonPersistenceAdapter(persistence)
+      : inMemory
+        ? makeInMemoryContextAdapter()
+        : null;
 
-  const toolAdapter = mcp
-    ? mcp.makeMCPAdapterWithDefaults?.()
-    : inMemory
-      ? makeInMemoryToolAdapter()
-      : null;
+  const toolAdapter =
+    mcp && makeMCPAdapterWithDefaults
+      ? makeMCPAdapterWithDefaults()
+      : inMemory
+        ? makeInMemoryToolAdapter()
+        : null;
 
-  const llmAdapter = openai
-    ? makeOpenAIAdapter(openai)
-    : inMemory
-      ? makeInMemoryLlmAdapter()
-      : null;
+  const llmAdapter =
+    openai && makeOpenAIAdapter
+      ? makeOpenAIAdapter(openai)
+      : inMemory
+        ? makeInMemoryLlmAdapter()
+        : null;
 
   const messageBusAdapter = inMemory ? makeInMemoryMessageBusAdapter() : null;
   const schedulerAdapter = inMemory ? makeInMemorySchedulerAdapter() : null;
