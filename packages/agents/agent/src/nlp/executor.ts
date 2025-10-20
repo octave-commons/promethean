@@ -347,13 +347,8 @@ export class AgentOSCommandExecutor implements CommandExecutor {
         context: ExecutionContext,
         duration: number,
     ): MessageEnvelope {
-        return {
-            id: `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-            type: MessageType.ERROR,
-            timestamp: new Date(),
-            sender: 'command-executor',
-            receiver: context.userId,
-            payload: {
+        return new EnvelopeBuilder(MessageType.ERROR, 'command-executor', context.userId)
+            .withPayload({
                 command,
                 error: error instanceof Error ? error.message : 'Unknown error',
                 success: false,
@@ -362,14 +357,14 @@ export class AgentOSCommandExecutor implements CommandExecutor {
                     sessionId: context.sessionId,
                     timestamp: context.timestamp,
                 },
-            },
-            metadata: {
+            })
+            .withMetadata({
                 executionTime: duration,
                 commandType: command.type,
                 target: command.target,
                 errorType: error.constructor.name,
-            },
-        };
+            })
+            .build();
     }
 
     private addToHistory(target: string, message: MessageEnvelope): void {

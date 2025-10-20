@@ -25,6 +25,9 @@ export { tasksToolFactories } from './tasks-factory.js';
 // Agent Management tool factories
 export { agentManagementToolFactories } from './agent-management-factory.js';
 
+// Cache tool factories
+export { cacheToolFactories } from './cache-factory.js';
+
 // Re-export individual factory functions for convenience
 
 // Agent Management factories
