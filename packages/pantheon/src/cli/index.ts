@@ -5,6 +5,7 @@ import {
   makeActorAdapter,
   makeLLMActorAdapter,
   makeOpenAIAdapter,
+  type LLMActorConfig,
 } from '../index.js';
 import { makeMCPAdapterWithDefaults } from '@promethean/pantheon-mcp';
 import { Command } from 'commander';
@@ -107,14 +108,16 @@ program
 
       const llmActorAdapter = makeLLMActorAdapter();
 
-      const actorId = await llmActorAdapter.create({
+      const actorConfig: LLMActorConfig = {
         name: options.name,
         type: 'llm',
         parameters: { model: options.model },
         llm: llmAdapter,
         systemPrompt: options.prompt,
         maxMessages: 20,
-      });
+      };
+
+      const actorId = await llmActorAdapter.create(actorConfig);
 
       console.log(`Created LLM actor: ${actorId}`);
 
