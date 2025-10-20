@@ -345,12 +345,8 @@ unifiedAgentCommands
       console.log(`Session ID: ${session.sessionId}`);
       console.log(`Status: ${session.status}`);
       console.log(`Created: ${session.createdAt.toISOString()}`);
-      console.log(`Task: ${session.task.task}`);
-      console.log(`Task Status: ${session.task.status}`);
-      console.log(`Last Activity: ${new Date(session.task.lastActivity).toISOString()}`);
-
-      if (session.task.completionMessage) {
-        console.log(`Completion Message: ${session.task.completionMessage}`);
+      if (session.lastActivity) {
+        console.log(`Last Activity: ${session.lastActivity.toISOString()}`);
       }
 
       console.log('─'.repeat(50));
