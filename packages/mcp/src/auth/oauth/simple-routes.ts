@@ -13,6 +13,27 @@ import { AuthenticationManager } from '../../core/authentication.js';
 import type { OAuthUserInfo } from './types.js';
 
 /**
+ * Try to parse JSON from request body
+ */
+const tryParseJson = (body: unknown): unknown => {
+  if (Buffer.isBuffer(body)) {
+    try {
+      return JSON.parse(body.toString('utf8'));
+    } catch {
+      return undefined;
+    }
+  }
+  if (typeof body === 'string' && body.length > 0) {
+    try {
+      return JSON.parse(body);
+    } catch {
+      return undefined;
+    }
+  }
+  return body;
+};
+
+/**
  * Simple OAuth route configuration
  */
 export type SimpleOAuthRouteConfig = Readonly<{
