@@ -1,10 +1,7 @@
 import { DualStoreManager } from '@promethean/persistence';
-import type { AgentTask } from '../../types/index.js';
 
 export interface MessagingContext {
   sessionStore: DualStoreManager<'text', 'timestamp'>;
-  agentTaskStore: DualStoreManager<'text', 'timestamp'>;
-  agentTasks: Map<string, AgentTask>;
 }
 
 export async function sendMessage(
@@ -15,11 +12,6 @@ export async function sendMessage(
   priority: string,
   messageType: string,
 ): Promise<string> {
-  const targetTask = context.agentTasks.get(sessionId);
-  if (!targetTask && !(await verifyAgentExists(context, sessionId))) {
-    return `❌ No agent found with session ID: ${sessionId}`;
-  }
-
   const senderSessionId = await getSenderSessionId(client);
   const formattedMessage = formatMessage(
     senderSessionId,
@@ -34,26 +26,10 @@ export async function sendMessage(
     body: { parts: [{ type: 'text' as const, text: formattedMessage }] },
   });
 
-  // Import dynamically to avoid circular dependencies
-  const { updateTaskStatus } = await import('../tasks/index.js');
-  await updateTaskStatus(context.agentTaskStore, sessionId, 'running');
-
   await logCommunication(context, senderSessionId, sessionId, message, priority, messageType);
 
   const safeRecipientId = sessionId.length > 8 ? sessionId.substring(0, 8) : sessionId;
-  return `✅ Message sent successfully to agent ${safeRecipientId}... (Priority: ${priority}, Type: ${messageType})`;
-}
-
-export async function verifyAgentExists(
-  context: MessagingContext,
-  sessionId: string,
-): Promise<boolean> {
-  try {
-    const storedTasks = await context.agentTaskStore.getMostRecent(100);
-    return storedTasks.some((task) => task.id === sessionId);
-  } catch {
-    return false;
-  }
+  return `✅ Message sent successfully to session ${safeRecipientId}... (Priority: ${priority}, Type: ${messageType})`;
 }
 
 export async function getSenderSessionId(client: any): Promise<string> {

@@ -1,6 +1,5 @@
 import { SessionUtils, sessionStore } from '../../index.js';
 import { deduplicateSessions } from '../../utils/session-cleanup.js';
-import type { AgentTaskStatus } from '../../types/index.js';
 
 interface SessionData {
   id: string;
@@ -148,60 +147,11 @@ export async function list({ limit, offset }: { limit: number; offset: number })
             messages = JSON.parse(messageEntry.text);
           }
 
-          // Check if session already has isAgentTask property (set by EventWatcherService)
-          // If not, fall back to agentTasks Map lookup
-          let agentTask = agentTasks.get(session.id);
-
-          // Debug output
-          if (process.env.OPENCODE_DEBUG) {
-            console.log(
-              `[DEBUG] Session ${session.id}: isAgentTask=${session.isAgentTask}, agentTask from Map=${!!agentTask}`,
-            );
-          }
-
-          // If session has isAgentTask property but no agentTask in Map, create a minimal agentTask object
-          if (session.isAgentTask && !agentTask) {
-            agentTask = {
-              sessionId: session.id,
-              status: (session.agentTaskStatus as AgentTaskStatus) || 'idle',
-              startTime:
-                typeof session.createdAt === 'string'
-                  ? new Date(session.createdAt).getTime()
-                  : session.createdAt || Date.now(),
-              lastActivity:
-                session.lastActivityTime ||
-                (typeof session.createdAt === 'string'
-                  ? new Date(session.createdAt).getTime()
-                  : session.createdAt || Date.now()),
-              task: session.title || 'Agent Task',
-            };
-          }
-
-          return SessionUtils.createSessionInfo(session, messages.length, agentTask);
+          return SessionUtils.createSessionInfo(session, messages.length, undefined);
         } catch (error: unknown) {
           console.error(`Error processing session ${session.id}:`, error);
-          let agentTask = agentTasks.get(session.id);
-
-          // If session has isAgentTask property but no agentTask in Map, create a minimal agentTask object
-          if (session.isAgentTask && !agentTask) {
-            agentTask = {
-              sessionId: session.id,
-              status: (session.agentTaskStatus as AgentTaskStatus) || 'idle',
-              startTime:
-                typeof session.createdAt === 'string'
-                  ? new Date(session.createdAt).getTime()
-                  : session.createdAt || Date.now(),
-              lastActivity:
-                session.lastActivityTime ||
-                (typeof session.createdAt === 'string'
-                  ? new Date(session.createdAt).getTime()
-                  : session.createdAt || Date.now()),
-              task: session.title || 'Agent Task',
-            };
-          }
-
           return {
-            ...SessionUtils.createSessionInfo(session, 0, agentTask),
+            ...SessionUtils.createSessionInfo(session, 0, undefined),
             error: 'Could not fetch messages',
           };
         }

@@ -13,13 +13,11 @@ export interface Message {
 }
 
 export const SESSION_STORE_NAME = 'sessionStore';
-export const AGENT_TASK_STORE_NAME = 'agentTaskStore';
 export const EVENT_STORE_NAME = 'eventStore';
 export const MESSAGE_STORE_NAME = 'messageStore';
 
 enum StoreNames {
   SessionStore = 'sessionStore',
-  AgentTaskStore = 'agentTaskStore',
   EventStore = 'eventStore',
   MessageStore = 'messageStore',
 }
@@ -43,7 +41,6 @@ const createStoreProxy = (storeName: string): DualStoreManager<'text', 'timestam
 };
 
 export const sessionStore = createStoreProxy(SESSION_STORE_NAME);
-export const agentTaskStore = createStoreProxy(AGENT_TASK_STORE_NAME);
 export const eventStore = createStoreProxy(EVENT_STORE_NAME);
 export const messageStore = createStoreProxy(MESSAGE_STORE_NAME);
 
