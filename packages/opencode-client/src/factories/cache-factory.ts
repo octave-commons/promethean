@@ -8,7 +8,6 @@ import {
   storeInCache,
   manageCache,
 } from '../actions/cache/index.js';
-import type { CacheAction, CacheStatsOptions } from '../actions/cache/types.js';
 
 export const cacheToolFactories = {
   createInitializeCacheTool: () => ({
