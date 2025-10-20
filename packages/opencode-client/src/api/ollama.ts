@@ -265,7 +265,9 @@ export async function getQueueInfo(): Promise<QueueInfo> {
   }
 }
 
-export async function manageCache(action: CacheAction): Promise<CacheStats | CachePerformance> {
+export async function manageCache(
+  action: CacheAction,
+): Promise<CacheStats | CacheClearResult | CacheExpiredResult | CacheAnalysis> {
   const validActions = ['stats', 'clear', 'clear-expired', 'performance-analysis'];
 
   if (!validActions.includes(action)) {

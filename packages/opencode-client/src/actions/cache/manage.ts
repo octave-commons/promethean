@@ -106,19 +106,20 @@ export async function manageCache(
               };
             }
 
-            analysis.performanceByCategory[metadata.taskCategory].totalScore += metadata.score || 0;
-            analysis.performanceByCategory[metadata.taskCategory].count++;
+            const categoryData = analysis.performanceByCategory[metadata.taskCategory];
+            categoryData.totalScore += metadata.score || 0;
+            categoryData.count++;
 
-            if (!analysis.performanceByCategory[metadata.taskCategory].models[modelName]) {
-              analysis.performanceByCategory[metadata.taskCategory].models[modelName] = {
+            if (!categoryData.models[modelName]) {
+              categoryData.models[modelName] = {
                 totalScore: 0,
                 count: 0,
               };
             }
 
-            analysis.performanceByCategory[metadata.taskCategory].models[modelName].totalScore +=
-              metadata.score || 0;
-            analysis.performanceByCategory[metadata.taskCategory].models[modelName].count++;
+            const modelData = categoryData.models[modelName];
+            modelData.totalScore += metadata.score || 0;
+            modelData.count++;
           }
         }
 
