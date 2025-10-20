@@ -29,5 +29,11 @@
   {:replace-deps {clj-hacks/clj-hacks {:local/root "packages/clj-hacks"}}
    :main-opts    ["-m" "clj-hacks.mcp.cli"]}
   :ecosystem
-  {:replace-deps {ecosystem-dsl/ecosystem-dsl {:local/root "packages/ecosystem-dsl"}}
+  {:extra-paths ["packages/ecosystem-dsl/src"]
+   :extra-deps {org.clojure/tools.cli {:mvn/version "1.0.214"}
+                org.clojure/data.json {:mvn/version "2.4.0"}
+                org.clojure/tools.logging {:mvn/version "1.2.4"}
+                cheshire/cheshire {:mvn/version "5.11.0"}
+                me.raynes/fs {:mvn/version "1.4.6"}
+                com.taoensso/timbre {:mvn/version "6.3.0"}}
    :main-opts    ["-m" "generate-ecosystem"]}}}
