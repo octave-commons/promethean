@@ -54,8 +54,6 @@ export function createHandleSessionUpdatedTool(): ToolFunction {
     },
     async execute(args, context) {
       const { sessionId } = args;
-      const client = (context as Record<string, unknown>).client as EventClient;
-      const taskContext = (context as Record<string, unknown>).taskContext as TaskContext;
 
       const eventContext: EventContext = { client, taskContext };
       await handleSessionUpdated(eventContext, sessionId);
