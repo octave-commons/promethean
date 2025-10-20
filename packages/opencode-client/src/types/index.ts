@@ -8,15 +8,6 @@ export type Timestamp = string | number | Date;
 // Session Management Types
 export type SessionStatus = 'active' | 'idle' | 'closed' | 'error';
 
-export interface SessionInfo {
-  id: string;
-  status: SessionStatus;
-  createdAt: number;
-  updatedAt: number;
-  lastActivity: number;
-  metadata?: Record<string, unknown>;
-}
-
 export interface SessionClient {
   session: {
     get: (params: { path: { id: string } }) => Promise<{ data?: unknown }>;
@@ -298,12 +289,23 @@ export interface PaginatedResponse<T> {
 }
 
 // Event Types
+export interface SessionEventProperties {
+  sessionID?: string;
+  session?: {
+    id?: string;
+  };
+  info?: {
+    id?: string;
+  };
+  sessionId?: string;
+}
+
 export interface SessionEvent {
   type: 'session_created' | 'session_updated' | 'session_closed' | 'session_idle';
   sessionId: string;
   timestamp: number;
   data?: Record<string, unknown>;
-  properties?: Record<string, unknown>;
+  properties?: SessionEventProperties;
 }
 
 export interface TaskEvent {
@@ -317,6 +319,13 @@ export interface TaskEvent {
   properties?: Record<string, unknown>;
 }
 
+export interface MessageEventProperties {
+  message?: {
+    session_id?: string;
+  };
+  sessionId?: string;
+}
+
 export interface MessageEvent {
   type: 'message_sent' | 'message_received' | 'message_updated';
   sessionId: string;
@@ -326,7 +335,7 @@ export interface MessageEvent {
     role: MessageRole;
     content: string;
   };
-  properties?: Record<string, unknown>;
+  properties?: MessageEventProperties;
 }
 
 export type OpenCodeEvent = SessionEvent | TaskEvent | MessageEvent;

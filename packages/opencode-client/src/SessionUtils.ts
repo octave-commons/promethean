@@ -1,6 +1,11 @@
 import { AgentTask } from './AgentTask.js';
 import { SessionInfo } from './SessionInfo.js';
-import type { SessionClient, OpenCodeEvent } from './types/index.js';
+import type {
+  SessionClient,
+  OpenCodeEvent,
+  SessionEventProperties,
+  MessageEventProperties,
+} from './types/index.js';
 
 interface SessionData {
   id: string;
@@ -11,10 +16,37 @@ interface SessionData {
 }
 
 class SessionUtils {
-  static extractSessionId(event: OpenCodeEvent): string | null {
+static extractSessionId(event: OpenCodeEvent): string | null {
     if (!event.properties) {
       return event.sessionId || null;
     }
+    
+    const extractors: Record<string, () => string | undefined> = {
+      'session.idle': () => {
+        const props = event.properties as SessionEventProperties;
+        return props.sessionID || props.session?.id;
+      },
+      'session.updated': () => {
+        const props = event.properties as SessionEventProperties;
+        return props.info?.id || props.session?.id;
+      },
+      'message.updated': () => {
+        const props = event.properties as MessageEventProperties;
+        return props.message?.session_id || event.sessionId;
+      },
+      'message.part.updated': () => {
+        const props = event.properties as MessageEventProperties;
+        return props.message?.session_id || event.sessionId;
+      },
+      'session.compacted': () => {
+        const props = event.properties as SessionEventProperties;
+        return event.sessionId || props.session?.id;
+      },
+    };
+
+    const extractor = extractors[event.type];
+    return extractor ? extractor() || null : null;
+  }
 
     const extractors: Record<string, () => string | undefined> = {
       'session.idle': () =>
@@ -37,7 +69,7 @@ class SessionUtils {
         path: { id: sessionId },
       });
       return messages || [];
-    } catch (error) {
+    } catch (error: unknown) {
       console.error(`Error fetching messages for session ${sessionId}:`, error);
       return [];
     }
@@ -72,7 +104,7 @@ class SessionUtils {
 
     return {
       id: session.id,
-      title: session.title,
+      title: session.title || session.id,
       messageCount,
       lastActivityTime: new Date().toISOString(),
       sessionAge,
