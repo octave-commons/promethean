@@ -117,7 +117,7 @@ export class OAuthFastifyIntegration {
    */
   private registerAuthMiddleware(fastify: FastifyInstance): void {
     // JWT authentication middleware
-    fastify.addHook('preHandler', async (request, reply) => {
+    fastify.addHook('preHandler', async (request) => {
       // Skip OAuth routes and public routes
       if (this.isPublicRoute(request.url)) {
         return;
