@@ -13,8 +13,18 @@ const mongoClientPromises: PromiseCache<MongoClient> = new Map();
 const chromaClientOverrides: OverrideCache<ChromaClient> = new Map();
 const chromaClientPromises: PromiseCache<ChromaClient> = new Map();
 
+let mongoClientInstance: MongoClient | null = null;
+let mongoClientPromise: Promise<MongoClient> | null = null;
+
 const createMongoClient = async (): Promise<MongoClient> => {
-    const client = new MongoClient(MONGO_URI);
+    // Always create a fresh connection to avoid any caching issues
+    const client = new MongoClient(MONGO_URI, {
+        maxPoolSize: 10,
+        serverSelectionTimeoutMS: 5000,
+        socketTimeoutMS: 30000,
+        connectTimeoutMS: 10000,
+    });
+
     await client.connect();
 
     // Verify connection is actually established
@@ -51,12 +61,7 @@ export const getMongoClient = async (): Promise<MongoClient> => {
     }
 
     // Always create a fresh connection to avoid connection state issues
-    try {
-        const client = await createMongoClient();
-        return client;
-    } catch (error) {
-        throw new Error(`Failed to create MongoDB client: ${error.message}`);
-    }
+    return createMongoClient();
 };
 
 export const getChromaClient = async (): Promise<ChromaClient> =>

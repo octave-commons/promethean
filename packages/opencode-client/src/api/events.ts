@@ -21,25 +21,16 @@ export interface ListEventsOptions {
 }
 
 // Client management (reuse from sessions)
-const baseURL = process.env.OPENCODE_SERVER_URL;
 const timeout = process.env.OPENCODE_TIMEOUT ? Number(process.env.OPENCODE_TIMEOUT) : undefined;
-const maxRetries = process.env.OPENCODE_RETRIES ? Number(process.env.OPENCODE_RETRIES) : undefined;
-const logLevel = (process.env.OPENCODE_LOG_LEVEL as any) || undefined;
 const authHeader = process.env.OPENCODE_AUTH_TOKEN
   ? { Authorization: `Bearer ${process.env.OPENCODE_AUTH_TOKEN}` }
   : undefined;
 
-let clientPromise: Promise<any> | null = null;
-
 async function getClient(): Promise<any> {
   return createOpencode({
-    serverUrl: baseURL,
     timeout,
-    maxRetries,
-    logLevel,
     fetchOptions: { headers: authHeader },
   }).then((r: any) => r.client ?? r);
-  throw new Error('Unable to initialize @opencode-ai/sdk client');
 }
 
 /**

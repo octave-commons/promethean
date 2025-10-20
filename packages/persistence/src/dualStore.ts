@@ -108,14 +108,21 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
             databaseName?: string;
         },
     ): Promise<DualStoreManager<TTextKey, TTimeKey>> {
-        const chromaClient = await getChromaClient();
-        const mongoClient = await getMongoClient();
-        const agentName = options?.agentName ?? AGENT_NAME;
-        const databaseName = options?.databaseName ?? 'database';
-        const family = `${agentName}_${name}`;
-        const db = mongoClient.db(databaseName);
-        const aliases = db.collection<AliasDoc>('collection_aliases');
-        const alias = await aliases.findOne({ _id: family });
+        try {
+            console.log(`[DualStoreManager] Creating store for ${name}...`);
+            const chromaClient = await getChromaClient();
+            console.log(`[DualStoreManager] Chroma client connected`);
+            const mongoClient = await getMongoClient();
+            console.log(`[DualStoreManager] MongoDB client connected`);
+            const agentName = options?.agentName ?? AGENT_NAME;
+            const databaseName = options?.databaseName ?? 'database';
+            const family = `${agentName}_${name}`;
+            console.log(`[DualStoreManager] Accessing database: ${databaseName}, collection family: ${family}`);
+            const db = mongoClient.db(databaseName);
+            const aliases = db.collection<AliasDoc>('collection_aliases');
+            console.log(`[DualStoreManager] Looking up alias for ${family}`);
+            const alias = await aliases.findOne({ _id: family });
+            console.log(`[DualStoreManager] Alias lookup complete`);
 
         const embedFnName = alias?.embed?.fn ?? process.env.EMBEDDING_FUNCTION ?? 'nomic-embed-text';
         const embeddingFn = alias?.embed
