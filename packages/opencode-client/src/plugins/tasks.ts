@@ -5,68 +5,67 @@ import type { Plugin } from '@opencode-ai/plugin';
 import { tasksToolFactories } from '../factories/index.js';
 
 export const TasksPlugin: Plugin = async ({ client }) => {
-  // Inject client into all tasks tools
-  const loadPersistedTasksTool = tasksToolFactories.createLoadPersistedTasksTool();
-  const verifySessionExistsTool = tasksToolFactories.createVerifySessionExistsTool();
-  const cleanupOrphanedTaskTool = tasksToolFactories.createCleanupOrphanedTaskTool();
-  const updateTaskStatusTool = tasksToolFactories.createUpdateTaskStatusTool();
-  const monitorTasksTool = tasksToolFactories.createMonitorTasksTool();
-  const createTaskTool = tasksToolFactories.createCreateTaskTool();
-  const getAllTasksTool = tasksToolFactories.createGetAllTasksTool();
-  const parseTimestampTool = tasksToolFactories.createParseTimestampTool();
+  // Get stores from context (will be injected during plugin initialization)
+  const stores = {} as any; // This will be populated by the plugin system
+
+  // Inject client and stores into all tasks tools
+  const cleanupOrphanedTaskTool = tasksToolFactories.createCleanupOrphanedTaskTool(stores, client);
+  const updateTaskStatusTool = tasksToolFactories.createUpdateTaskStatusTool(stores, client);
+  const createTaskTool = tasksToolFactories.createCreateTaskTool(stores);
+  const getAllTasksTool = tasksToolFactories.createGetAllTasksTool(stores);
 
   return {
     tool: {
-      'tasks_loadPersisted': {
+      tasks_loadPersisted: {
         ...loadPersistedTasksTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return loadPersistedTasksTool.execute(args, enhancedContext);
         },
       },
-      'tasks_verifySession': {
+      tasks_verifySession: {
         ...verifySessionExistsTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return verifySessionExistsTool.execute(args, enhancedContext);
         },
       },
-      'tasks_cleanupOrphaned': {
+      tasks_cleanupOrphaned: {
         ...cleanupOrphanedTaskTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return cleanupOrphanedTaskTool.execute(args, enhancedContext);
         },
       },
-      'tasks_updateStatus': {
+      tasks_updateStatus: {
         ...updateTaskStatusTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return updateTaskStatusTool.execute(args, enhancedContext);
         },
       },
-      'tasks_monitor': {
+      tasks_monitor: {
         ...monitorTasksTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return monitorTasksTool.execute(args, enhancedContext);
         },
       },
-      'tasks_create': {
+      tasks_create: {
         ...createTaskTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return createTaskTool.execute(args, enhancedContext);
         },
       },
-      'tasks_getAll': {
+      tasks_getAll: {
         ...getAllTasksTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
           return getAllTasksTool.execute(args, enhancedContext);
         },
       },
-      'tasks_parseTimestamp': {
+      tasks_parseTimestamp: {
         ...parseTimestampTool,
         async execute(args: any, context: any) {
           const enhancedContext = { ...context, client };
