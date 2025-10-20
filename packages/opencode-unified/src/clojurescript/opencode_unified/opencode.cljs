@@ -327,16 +327,18 @@
 (defn setup-opencode-auto-save
   "Set up auto-save using Opencode file operations"
   []
-  (add-watch state/buffers :opencode-auto-save
-             (fn [_ _ old-buffers new-buffers]
-               (doseq [[buffer-id buffer] new-buffers]
-                 (when (and (not (:saved? buffer))
-                            (:path buffer)
-                            (not (str/starts-with? (:path buffer) "agent:"))
-                            (not (str/starts-with? (:path buffer) "tool:"))
-                            (not= (:content buffer
-                                            (:content (get old-buffers buffer-id)))))
-                   (save-buffer-with-opencode buffer-id))))))
+  (add-watch state/app-state :opencode-auto-save
+             (fn [_ _ old-state new-state]
+               (let [old-buffers (:buffers old-state)
+                     new-buffers (:buffers new-state)]
+                 (doseq [[buffer-id buffer] new-buffers]
+                   (when (and (not (:saved? buffer))
+                              (:path buffer)
+                              (not (str/starts-with? (:path buffer) "agent:"))
+                              (not (str/starts-with? (:path buffer) "tool:"))
+                              (not= (:content buffer)
+                                      (:content (get old-buffers buffer-id))))
+                     (save-buffer-with-opencode buffer-id)))))))
 
 ;; Initialize Opencode integration
 (defn init-opencode

@@ -320,8 +320,8 @@
         (when (:success result)
           (activate-plugin (:plugin-id result))))))
 
-  ;; Set up global hooks - watch the buffers atom in app-state
-  (add-watch (:app-state @state/app-state) :plugin-hooks
+  ;; Set up global hooks - watch the app-state atom for buffer changes
+  (add-watch state/app-state :plugin-hooks
              (fn [_ _ old-state new-state]
                (let [old-buffers (:buffers old-state)
                      new-buffers (:buffers new-state)]
