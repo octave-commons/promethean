@@ -1,5 +1,11 @@
 import { SessionUtils, agentTasks, sessionStore } from '../../index.js';
-import type { Session } from '../../api/sessions.js';
+
+// Define Session type locally since API was removed
+interface Session {
+  id: string;
+  title: string;
+  createdAt: string;
+}
 
 /**
  * Safely parse session data, handling both JSON and plain text formats
