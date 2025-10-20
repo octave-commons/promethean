@@ -18,7 +18,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@promethean/pantheon-fp": "workspace:*"
+    "@promethean/pantheon-core": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

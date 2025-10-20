@@ -1,6 +1,6 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
-import { AgentTaskManager } from '../../api/AgentTaskManager.js';
+import { getTasks } from '../../actions/tasks/index.js';
 
 export const getTaskCommand = new Command('get')
   .description('Get task details')

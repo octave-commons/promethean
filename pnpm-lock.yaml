@@ -252,7 +252,7 @@ importers:
         version: 5.3.1(@ava/typescript@4.1.0)
       ts-node:
         specifier: ^10.9.2
-        version: 10.9.2(@types/node@20.19.11)(typescript@5.9.3)
+        version: 10.9.2(@types/node@24.3.1)(typescript@5.9.3)
       typescript:
         specifier: ^5.3.3
         version: 5.9.3
@@ -355,7 +355,7 @@ importers:
         version: 6.0.1
       ts-node:
         specifier: 10.9.2
-        version: 10.9.2(@types/node@20.19.11)(typescript@5.9.3)
+        version: 10.9.2(@types/node@24.3.1)(typescript@5.9.3)
 
   packages/agents/agent-ecs:
     dependencies:
@@ -3054,7 +3054,7 @@ importers:
         version: 6.0.1
       ts-node:
         specifier: ^10.9.2
-        version: 10.9.2(@types/node@20.19.11)(typescript@5.9.3)
+        version: 10.9.2(@types/node@24.3.1)(typescript@5.9.3)
 
   packages/kanban:
     dependencies:
@@ -3748,21 +3748,36 @@ importers:
       '@promethean/agent-state':
         specifier: workspace:*
         version: link:../agent-state
+      '@promethean/pantheon-core':
+        specifier: workspace:*
+        version: link:../pantheon-core
+      '@promethean/pantheon-llm-openai':
+        specifier: workspace:*
+        version: link:../pantheon-llm-openai
       '@promethean/pantheon-mcp':
         specifier: workspace:*
         version: link:../pantheon-mcp
+      '@promethean/pantheon-persistence':
+        specifier: workspace:*
+        version: link:../pantheon-persistence
+      '@promethean/persistence':
+        specifier: workspace:*
+        version: link:../persistence
       commander:
         specifier: ^11.1.0
         version: 11.1.0
+      zod:
+        specifier: ^3.22.4
+        version: 3.25.76
     devDependencies:
       '@types/node':
         specifier: ^20.0.0
         version: 20.19.22
       ava:
-        specifier: ^5.0.0
+        specifier: ^5.3.1
         version: 5.3.1(@ava/typescript@4.1.0)
       typescript:
-        specifier: ^5.0.0
+        specifier: ^5.3.3
         version: 5.9.3
 
   packages/pantheon-core:
@@ -3846,9 +3861,9 @@ importers:
 
   packages/pantheon-mcp:
     dependencies:
-      '@promethean/pantheon-fp':
+      '@promethean/pantheon-core':
         specifier: workspace:*
-        version: link:../pantheon
+        version: link:../pantheon-core
     devDependencies:
       '@types/node':
         specifier: ^20.0.0
@@ -21895,7 +21910,6 @@ snapshots:
   '@types/node@24.3.1':
     dependencies:
       undici-types: 7.10.0
-    optional: true
 
   '@types/nodemailer@6.4.20':
     dependencies:
@@ -32086,6 +32100,24 @@ snapshots:
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
 
+  ts-node@10.9.2(@types/node@24.3.1)(typescript@5.9.3):
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.11
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 24.3.1
+      acorn: 8.15.0
+      acorn-walk: 8.3.4
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.9.3
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+
   tsconfig-paths@3.15.0:
     dependencies:
       '@types/json5': 0.0.29
@@ -32309,8 +32341,7 @@ snapshots:
 
   undici-types@6.21.0: {}
 
-  undici-types@7.10.0:
-    optional: true
+  undici-types@7.10.0: {}
 
   undici@5.29.0:
     dependencies:

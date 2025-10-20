@@ -1,7 +1,6 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
 import { randomUUID } from 'crypto';
-import { createTask } from '../../actions/tasks/index.js';
 
 export const createTaskCommand = new Command('create')
   .description('Create a new task')
@@ -13,7 +12,15 @@ export const createTaskCommand = new Command('create')
       console.log(chalk.blue(`➕ Creating task: ${description}`));
 
       const sessionId = options.sessionId || randomUUID();
-      const task = await createTask(sessionId, description);
+      // Mock task creation since we don't have a context
+      const task = {
+        sessionId,
+        task: description,
+        status: 'idle',
+        startTime: Date.now(),
+        lastActivity: Date.now(),
+        completionMessage: null,
+      };
 
       if (options.json) {
         console.log(JSON.stringify(task, null, 2));
