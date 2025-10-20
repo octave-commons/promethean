@@ -361,6 +361,17 @@ export type RetryPolicy = {
 
 // === Orchestration Types ===
 
+/**
+ * Represents a task being executed by an agent
+ * @property sessionId - The session this task belongs to
+ * @property task - Description of the task being performed
+ * @property startTime - Timestamp when the task started
+ * @property status - Current status of the task
+ * @property lastActivity - Timestamp of last activity on the task
+ * @property completionMessage - Optional message upon completion
+ * @property progress - Optional progress percentage (0-100)
+ * @property metadata - Additional metadata about the task
+ */
 export type AgentTask = {
   sessionId: string;
   task: string;
@@ -372,6 +383,18 @@ export type AgentTask = {
   metadata?: Record<string, unknown>;
 };
 
+/**
+ * Status information for an agent's current task
+ * @property sessionId - The session this status belongs to
+ * @property task - Description of the task
+ * @property status - Current status of the task
+ * @property startTime - Formatted start time string
+ * @property lastActivity - Formatted last activity string
+ * @property duration - Duration in milliseconds since start
+ * @property completionMessage - Optional completion message
+ * @property progress - Optional progress percentage (0-100)
+ * @property error - Optional error message if failed
+ */
 export type AgentStatus = {
   sessionId: string;
   task: string;
@@ -384,6 +407,19 @@ export type AgentStatus = {
   error?: string;
 };
 
+/**
+ * Information about a session in the system
+ * @property id - Unique session identifier
+ * @property title - Human-readable session title
+ * @property messageCount - Number of messages in the session
+ * @property lastActivityTime - Formatted last activity time
+ * @property sessionAge - Age of the session in milliseconds
+ * @property activityStatus - Current activity status
+ * @property isAgentTask - Whether this is an agent task session
+ * @property agentTaskStatus - Optional agent task status
+ * @property error - Optional error message
+ * @property metadata - Additional session metadata
+ */
 export type SessionInfo = {
   id: string;
   title: string;
@@ -397,6 +433,13 @@ export type SessionInfo = {
   metadata?: Record<string, unknown>;
 };
 
+/**
+ * Response containing a paginated list of sessions
+ * @property sessions - Array of session information
+ * @property totalCount - Total number of sessions available
+ * @property pagination - Pagination information
+ * @property summary - Summary statistics about sessions
+ */
 export type SessionListResponse = {
   sessions: SessionInfo[];
   totalCount: number;
@@ -415,6 +458,15 @@ export type SessionListResponse = {
   };
 };
 
+/**
+ * Configuration for the agent orchestrator
+ * @property timeoutThreshold - Timeout threshold for tasks in milliseconds
+ * @property monitoringInterval - Interval for monitoring tasks in milliseconds
+ * @property autoCleanup - Whether to automatically clean up completed tasks
+ * @property persistenceEnabled - Whether task persistence is enabled
+ * @property maxConcurrentTasks - Maximum number of concurrent tasks
+ * @property taskQueueSize - Maximum size of the task queue
+ */
 export type AgentOrchestratorConfig = {
   timeoutThreshold?: number;
   monitoringInterval?: number;
