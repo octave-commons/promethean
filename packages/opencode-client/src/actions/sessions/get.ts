@@ -1,4 +1,4 @@
-import { SessionUtils, agentTasks, sessionStore } from '../../index.js';
+import { SessionUtils, stores } from '../../index.js';
 
 // Define Session type locally since API was removed
 interface Session {
