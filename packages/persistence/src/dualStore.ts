@@ -81,6 +81,8 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
     public readonly name: string;
     private readonly chromaCollection: ChromaCollection;
     private readonly mongoCollection: Collection<DualStoreEntry<TextKey, TimeKey>>;
+    agent_name: string;
+    embedidng_fn: string;
     private readonly textKey: TextKey;
     private readonly timeStampKey: TimeKey;
     private readonly supportsImages: boolean;
@@ -231,9 +233,6 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         mongoFilter: Filter<DualStoreEntry<TextKey, TimeKey>> = this.createDefaultMongoFilter(),
         sorter: Sort = this.createDefaultSorter(),
     ): Promise<DualStoreEntry<'text', 'timestamp'>[]> {
-        const maxRetries = 3;
-        const retryDelay = 1000;
-
         const documents = await this.mongoCollection.find(mongoFilter).sort(sorter).limit(limit).toArray();
         return documents
             .map((entry: WithId<DualStoreEntry<TextKey, TimeKey>>) =>
@@ -285,8 +284,6 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
 
     async get(id: string): Promise<DualStoreEntry<'text', 'timestamp'> | null> {
         const filter = { id } as Filter<DualStoreEntry<TextKey, TimeKey>>;
-        const maxRetries = 3;
-        const retryDelay = 1000;
 
         const document = await this.mongoCollection.findOne(filter);
 
