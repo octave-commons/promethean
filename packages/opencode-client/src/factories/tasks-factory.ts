@@ -132,8 +132,9 @@ export function createUpdateTaskStatusTool(): ReturnType<typeof tool> {
     },
     async execute(args, context) {
       const { sessionId, status, completionMessage } = args;
-      const agentTaskStore = (context as any).agentTaskStore;
-      const agentTasks = (context as any).agentTasks;
+      const agentTaskStore = (context as Record<string, unknown>)
+        .agentTaskStore as DualStoreManager<'text', 'timestamp'>;
+      const agentTasks = (context as Record<string, unknown>).agentTasks as Map<string, AgentTask>;
 
       if (!agentTaskStore || !agentTasks) {
         throw new Error('Required task context not available');
@@ -158,7 +159,7 @@ export function createUpdateTaskStatusTool(): ReturnType<typeof tool> {
 }
 
 // Factory for monitorTasks tool
-export function createMonitorTasksTool(): any {
+export function createMonitorTasksTool(): ReturnType<typeof tool> {
   return tool({
     description: 'Monitor all tasks for timeouts and update status accordingly',
     args: {
@@ -166,8 +167,9 @@ export function createMonitorTasksTool(): any {
     },
     async execute(args, context) {
       const { timeoutMinutes } = args;
-      const agentTaskStore = (context as any).agentTaskStore;
-      const agentTasks = (context as any).agentTasks;
+      const agentTaskStore = (context as Record<string, unknown>)
+        .agentTaskStore as DualStoreManager<'text', 'timestamp'>;
+      const agentTasks = (context as Record<string, unknown>).agentTasks as Map<string, AgentTask>;
 
       if (!agentTaskStore || !agentTasks) {
         throw new Error('Required task context not available');
