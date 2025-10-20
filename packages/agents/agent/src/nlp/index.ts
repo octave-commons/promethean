@@ -252,15 +252,15 @@ export function makeNLPService(
         agentRuntime: defaultAgentRuntime,
         serviceManager: defaultServiceManager,
         workflowManager: defaultWorkflowManager,
-        id: deps.id,
-        now: deps.now,
-        log: deps.log,
+        id: deps.id ? () => deps.id! : undefined,
+        now: deps.now ? () => new Date(deps.now!()) : undefined,
+        log: deps.log ? (m: string, meta?: unknown) => deps.log!('info' as const, m, meta) : undefined,
     });
 
     return {
         processInput: async (input: string, context?: Partial<ExecutionContext>) => {
             // Parse the natural language input
-            const parseResult = await parser(input);
+            const parseResult = await parser.parse(input);
 
             if (!parseResult.success) {
                 return {
@@ -283,7 +283,7 @@ export function makeNLPService(
 
             // Execute the command
             try {
-                const result = await executor(parseResult.command!, context as ExecutionContext);
+                const result = await executor.execute(parseResult.command!, context as ExecutionContext);
 
                 return {
                     success: true,
