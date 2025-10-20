@@ -78,13 +78,13 @@ export function createCreateSessionTool() {
 }
 
 // Factory for closeSession tool
-export function createCloseSessionTool(): any {
+export function createCloseSessionTool() {
   return tool({
     description: 'Close a session',
     args: {
       sessionId: tool.schema.string().describe('ID of the session to close'),
     },
-    async execute(args) {
+    async execute(args: CloseSessionArgs) {
       const { sessionId } = args;
       const result = await close({ sessionId });
       return result;
@@ -93,7 +93,7 @@ export function createCloseSessionTool(): any {
 }
 
 // Factory for getSession tool
-export function createGetSessionTool(): any {
+export function createGetSessionTool() {
   return tool({
     description: 'Get detailed information about a specific session',
     args: {
@@ -101,7 +101,7 @@ export function createGetSessionTool(): any {
       limit: tool.schema.number().optional().describe('Limit number of messages to return'),
       offset: tool.schema.number().optional().describe('Offset for messages pagination'),
     },
-    async execute(args) {
+    async execute(args: GetSessionArgs) {
       const { sessionId, limit, offset } = args;
       const result = await get({ sessionId, limit, offset });
       return result;
@@ -110,7 +110,7 @@ export function createGetSessionTool(): any {
 }
 
 // Factory for searchSessions tool
-export function createSearchSessionsTool(): any {
+export function createSearchSessionsTool() {
   return tool({
     description: 'Search sessions by query',
     args: {
