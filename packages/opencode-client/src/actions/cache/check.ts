@@ -11,32 +11,28 @@ import {
 import { getPromptEmbedding } from '../../actions/ollama/embedding.js';
 import { initializeCache } from './initialize.js';
 
-export async function checkCache(
+export const checkCache = async (
   prompt: string,
   modelName: string,
   jobType: JobType,
-): Promise<unknown | null> {
-  try {
-    const cache = await initializeCache(modelName);
-    const queryEmbedding = await getPromptEmbedding(prompt, modelName);
+): Promise<unknown | null> => {
+  const cache = await initializeCache(modelName);
+  const queryEmbedding = await getPromptEmbedding(prompt, modelName);
 
-    const hits = cache.queryByEmbedding(queryEmbedding, {
-      k: 1,
-      filter: (metadata) =>
-        metadata.modelName === modelName &&
-        metadata.jobType === jobType &&
-        now() - (metadata.createdAt as number) < CACHE_MAX_AGE_MS,
-    });
+  const hits = cache.queryByEmbedding(queryEmbedding, {
+    k: 1,
+    filter: (metadata) =>
+      metadata.modelName === modelName &&
+      metadata.jobType === jobType &&
+      now() - (metadata.createdAt as number) < CACHE_MAX_AGE_MS,
+  });
 
-    if (hits.length > 0 && hits[0] && hits[0].score >= CACHE_SIMILARITY_THRESHOLD) {
-      console.log(
-        `Cache hit for ${modelName} ${jobType} job with similarity ${hits[0].score.toFixed(3)}`,
-      );
-      return hits[0].metadata?.response || null;
-    }
-  } catch (error) {
-    console.warn('Cache lookup failed:', error);
+  if (hits.length > 0 && hits[0] && hits[0].score >= CACHE_SIMILARITY_THRESHOLD) {
+    console.log(
+      `Cache hit for ${modelName} ${jobType} job with similarity ${hits[0].score.toFixed(3)}`,
+    );
+    return hits[0].metadata?.response || null;
   }
 
   return null;
-}
+};
