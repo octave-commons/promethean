@@ -67,4 +67,3 @@ export const makeCompletePantheonSystem = (options: {
     actorState: actorStateAdapter,
   };
 };
-};
