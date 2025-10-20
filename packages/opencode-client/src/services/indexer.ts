@@ -1,6 +1,6 @@
 import { createOpencodeClient } from '@opencode-ai/sdk';
 import { sessionStore, eventStore, messageStore } from '../index.js';
-import type { Session, Message, Event } from '@opencode-ai/sdk';
+import type { Session, Event } from '@opencode-ai/sdk';
 
 export class IndexerService {
   private client: any;
@@ -62,18 +62,18 @@ export class IndexerService {
   /**
    * Index a single event as a markdown document
    */
-  private async indexEvent(event: Event): Promise<void> {
+  private async indexEvent(event: any): Promise<void> {
     try {
       const markdown = this.eventToMarkdown(event);
       const timestamp = Date.now();
 
-      await eventStore.add({
+      await eventStore.insert({
         id: `event_${event.type}_${timestamp}`,
-        content: markdown,
+        text: markdown,
+        timestamp,
         metadata: {
           type: 'event',
           eventType: event.type,
-          timestamp,
           sessionId: this.extractSessionId(event),
         },
       });
