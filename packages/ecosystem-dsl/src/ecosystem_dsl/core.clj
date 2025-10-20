@@ -90,7 +90,7 @@
 ;; ENHANCEMENT FUNCTIONS
 ;; ============================================================================
 
-(defenhancement logging
+(defn enhance-logging
   "Add comprehensive logging configuration."
   [config]
   (let [name (:name config)
@@ -101,12 +101,12 @@
             :time true
             :merge-logs true})))
 
-(defenhancement performance
+(defn enhance-performance
   "Add performance optimization settings."
   [config]
   (merge config (:performance config-constants)))
 
-(defenhancement monitoring
+(defn enhance-monitoring
   "Add monitoring and health check capabilities."
   [config]
   (merge config
@@ -114,7 +114,7 @@
                       {:PM2_PROCESS_NAME (:name config)
                        :PROJECT_ROOT (System/getProperty "user.dir")})}))
 
-(defenhancement error-handling
+(defn enhance-error-handling
   "Add robust error handling and restart policies."
   [config]
   (merge config
@@ -124,7 +124,7 @@
           :kill-timeout (:kill-timeout (:performance config-constants))
           :restart-delay (:restart-delay (:performance config-constants))}))
 
-(defenhancement development
+(defn enhance-development
   "Add development-specific enhancements."
   [config]
   (if (= "development" (get-in config [:env :NODE_ENV]))
@@ -136,7 +136,7 @@
                          :NODE_ENV "development"})})
     config))
 
-(defenhancement production
+(defn enhance-production
   "Add production-specific enhancements."
   [config]
   (if (= "production" (get-in config [:env :NODE_ENV]))
