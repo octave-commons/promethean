@@ -22,9 +22,6 @@ enum StoreNames {
   MessageStore = 'messageStore',
 }
 
-// Re-export AgentTask from types to avoid conflicts
-export type { AgentTask } from './types/index.js';
-
 // Centralized context store for managing all DualStores
 const contextStore = new ContextStore();
 
@@ -53,11 +50,6 @@ export async function initializeStores(): Promise<
     'text',
     'timestamp',
   );
-  const agentTaskCollection = await contextStore.createCollection(
-    AGENT_TASK_STORE_NAME,
-    'text',
-    'timestamp',
-  );
   const eventCollection = await contextStore.createCollection(
     EVENT_STORE_NAME,
     'text',
@@ -72,10 +64,6 @@ export async function initializeStores(): Promise<
   // Cast from DualStoreManager<string, string> to DualStoreManager<'text', 'timestamp'>
   return {
     [SESSION_STORE_NAME]: sessionCollection as unknown as DualStoreManager<'text', 'timestamp'>,
-    [AGENT_TASK_STORE_NAME]: agentTaskCollection as unknown as DualStoreManager<
-      'text',
-      'timestamp'
-    >,
     [EVENT_STORE_NAME]: eventCollection as unknown as DualStoreManager<'text', 'timestamp'>,
     [MESSAGE_STORE_NAME]: messageCollection as unknown as DualStoreManager<'text', 'timestamp'>,
   };
