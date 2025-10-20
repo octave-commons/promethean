@@ -297,12 +297,9 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
 
     async cleanup(): Promise<void> {
         try {
-            // Close MongoDB connection
-            const { getMongoClient } = await import('./clients.js');
-            const mongoClient = await getMongoClient();
-            if (mongoClient) {
-                await mongoClient.close();
-            }
+            // Close cached MongoDB connection
+            const { cleanupClients } = await import('./clients.js');
+            await cleanupClients();
         } catch (error) {
             // Ignore cleanup errors - connection might already be closed
         }

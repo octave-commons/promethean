@@ -13,9 +13,6 @@ const mongoClientPromises: PromiseCache<MongoClient> = new Map();
 const chromaClientOverrides: OverrideCache<ChromaClient> = new Map();
 const chromaClientPromises: PromiseCache<ChromaClient> = new Map();
 
-let mongoClientInstance: MongoClient | null = null;
-let mongoClientPromise: Promise<MongoClient> | null = null;
-
 const createMongoClient = async (): Promise<MongoClient> => {
     // Always create a fresh connection to avoid any caching issues
     const client = new MongoClient(MONGO_URI, {
@@ -54,15 +51,8 @@ const getFromCache = async <TClient>(
     return createdPromise;
 };
 
-export const getMongoClient = async (): Promise<MongoClient> => {
-    const override = mongoClientOverrides.get('mongo');
-    if (override) {
-        return override;
-    }
-
-    // Always create a fresh connection to avoid connection state issues
-    return createMongoClient();
-};
+export const getMongoClient = async (): Promise<MongoClient> =>
+    getFromCache(mongoClientPromises, mongoClientOverrides, 'mongo', createMongoClient);
 
 export const getChromaClient = async (): Promise<ChromaClient> =>
     getFromCache(chromaClientPromises, chromaClientOverrides, 'chroma', createChromaClient);
@@ -92,6 +82,22 @@ export const __setChromaClientForTests = (client: ChromaClient | null): void =>
     setOverride(chromaClientOverrides, chromaClientPromises, 'chroma', client);
 
 export const __resetPersistenceClientsForTests = (): void => {
+    mongoClientOverrides.clear();
+    chromaClientOverrides.clear();
+    mongoClientPromises.clear();
+    chromaClientPromises.clear();
+};
+
+export const cleanupClients = async (): Promise<void> => {
+    try {
+        const mongoClient = await mongoClientPromises.get('mongo');
+        if (mongoClient) {
+            await mongoClient.close();
+        }
+    } catch (error) {
+        // Ignore cleanup errors
+    }
+
     mongoClientOverrides.clear();
     chromaClientOverrides.clear();
     mongoClientPromises.clear();
