@@ -54,7 +54,7 @@ export function loadOAuthConfig(): OAuthConfig {
     audience: getEnv('JWT_AUDIENCE', 'promethean-mcp-clients'),
     accessTokenExpiry: parseInt(getEnv('JWT_ACCESS_TOKEN_EXPIRY', '900'), 10), // 15 minutes
     refreshTokenExpiry: parseInt(getEnv('JWT_REFRESH_TOKEN_EXPIRY', '604800'), 10), // 7 days
-    algorithm: (getEnv('JWT_ALGORITHM', 'HS256') as any),
+    algorithm: getEnv('JWT_ALGORITHM', 'HS256') as any,
   };
 
   // User Registry Configuration
@@ -65,15 +65,17 @@ export function loadOAuthConfig(): OAuthConfig {
     sessionTimeout: parseInt(getEnv('USER_REGISTRY_SESSION_TIMEOUT', '86400'), 10), // 24 hours
     maxSessionsPerUser: parseInt(getEnv('USER_REGISTRY_MAX_SESSIONS_PER_USER', '5'), 10),
     enableUserSearch: getEnv('USER_REGISTRY_ENABLE_USER_SEARCH', 'true') === 'true',
-    defaultRole: (getEnv('USER_REGISTRY_DEFAULT_ROLE', 'user') as UserRole),
+    defaultRole: getEnv('USER_REGISTRY_DEFAULT_ROLE', 'user') as UserRole,
     autoActivateUsers: getEnv('USER_REGISTRY_AUTO_ACTIVATE_USERS', 'true') === 'true',
   };
 
   // OAuth Integration Configuration
   const integrationConfig: OAuthIntegrationConfig = {
     autoCreateUsers: getEnv('OAUTH_AUTO_CREATE_USERS', 'true') === 'true',
-    defaultRole: (getEnv('OAUTH_DEFAULT_ROLE', 'user') as UserRole),
-    trustedProviders: getEnv('OAUTH_TRUSTED_PROVIDERS', 'github,google').split(',').map(p => p.trim()),
+    defaultRole: getEnv('OAUTH_DEFAULT_ROLE', 'user') as UserRole,
+    trustedProviders: getEnv('OAUTH_TRUSTED_PROVIDERS', 'github,google')
+      .split(',')
+      .map((p) => p.trim()),
     enableUserSync: getEnv('OAUTH_ENABLE_USER_SYNC', 'true') === 'true',
     syncInterval: parseInt(getEnv('OAUTH_SYNC_INTERVAL', '3600'), 10), // 1 hour
     sessionTimeout: parseInt(getEnv('OAUTH_INTEGRATION_SESSION_TIMEOUT', '86400'), 10), // 24 hours
@@ -84,7 +86,7 @@ export function loadOAuthConfig(): OAuthConfig {
     basePath: getEnv('OAUTH_BASE_PATH', '/auth/oauth'),
     cookieDomain: getEnv('OAUTH_COOKIE_DOMAIN'),
     secureCookies: getEnv('OAUTH_SECURE_COOKIES', 'false') === 'true',
-    sameSitePolicy: (getEnv('OAUTH_SAME_SITE_POLICY', 'lax') as 'strict' | 'lax' | 'none'),
+    sameSitePolicy: getEnv('OAUTH_SAME_SITE_POLICY', 'lax') as 'strict' | 'lax' | 'none',
   };
 
   return {
@@ -100,8 +102,8 @@ export function loadOAuthConfig(): OAuthConfig {
  * Load GitHub OAuth provider configuration
  */
 function loadGitHubProviderConfig() {
-  const clientId = getEnv('GITHUB_OAUTH_CLIENT_ID');
-  const clientSecret = getEnv('GITHUB_OAUTH_CLIENT_SECRET');
+  const clientId = getEnv('OAUTH_GITHUB_CLIENT_ID');
+  const clientSecret = getEnv('OAUTH_GITHUB_CLIENT_SECRET');
 
   if (!clientId || !clientSecret) {
     console.warn('[OAuthConfig] GitHub OAuth credentials not provided, GitHub provider disabled');
@@ -111,7 +113,9 @@ function loadGitHubProviderConfig() {
   return {
     clientId,
     clientSecret,
-    scopes: getEnv('GITHUB_OAUTH_SCOPES', 'user:email').split(',').map(s => s.trim()),
+    scopes: getEnv('GITHUB_OAUTH_SCOPES', 'user:email')
+      .split(',')
+      .map((s) => s.trim()),
     allowSignup: getEnv('GITHUB_OAUTH_ALLOW_SIGNUP', 'true') === 'true',
   };
 }
@@ -120,8 +124,8 @@ function loadGitHubProviderConfig() {
  * Load Google OAuth provider configuration
  */
 function loadGoogleProviderConfig() {
-  const clientId = getEnv('GOOGLE_OAUTH_CLIENT_ID');
-  const clientSecret = getEnv('GOOGLE_OAUTH_CLIENT_SECRET');
+  const clientId = getEnv('OAUTH_GOOGLE_CLIENT_ID');
+  const clientSecret = getEnv('OAUTH_GOOGLE_CLIENT_SECRET');
 
   if (!clientId || !clientSecret) {
     console.warn('[OAuthConfig] Google OAuth credentials not provided, Google provider disabled');
@@ -131,9 +135,11 @@ function loadGoogleProviderConfig() {
   return {
     clientId,
     clientSecret,
-    scopes: getEnv('GOOGLE_OAUTH_SCOPES', 'openid,email,profile').split(',').map(s => s.trim()),
+    scopes: getEnv('GOOGLE_OAUTH_SCOPES', 'openid,email,profile')
+      .split(',')
+      .map((s) => s.trim()),
     hostedDomain: getEnv('GOOGLE_OAUTH_HOSTED_DOMAIN'),
-    prompt: (getEnv('GOOGLE_OAUTH_PROMPT', 'consent') as 'consent' | 'none' | 'select_account'),
+    prompt: getEnv('GOOGLE_OAUTH_PROMPT', 'consent') as 'consent' | 'none' | 'select_account',
   };
 }
 
@@ -171,7 +177,10 @@ export function validateOAuthConfig(config: OAuthConfig): void {
     throw new Error('OAuth redirect URI is required');
   }
 
-  if (!config.oauth.redirectUri.startsWith('http://') && !config.oauth.redirectUri.startsWith('https://')) {
+  if (
+    !config.oauth.redirectUri.startsWith('http://') &&
+    !config.oauth.redirectUri.startsWith('https://')
+  ) {
     throw new Error('OAuth redirect URI must be a valid URL');
   }
 
@@ -232,8 +241,8 @@ export function validateOAuthConfig(config: OAuthConfig): void {
   }
 
   // Validate provider configurations
-  const availableProviders = Object.keys(config.oauth.providers).filter(key => 
-    config.oauth.providers[key as keyof typeof config.oauth.providers] !== undefined
+  const availableProviders = Object.keys(config.oauth.providers).filter(
+    (key) => config.oauth.providers[key as keyof typeof config.oauth.providers] !== undefined,
   );
 
   if (availableProviders.length === 0) {
@@ -242,12 +251,12 @@ export function validateOAuthConfig(config: OAuthConfig): void {
 
   // Check if trusted providers match available providers
   const invalidTrustedProviders = config.integration.trustedProviders.filter(
-    provider => !availableProviders.includes(provider)
+    (provider) => !availableProviders.includes(provider),
   );
 
   if (invalidTrustedProviders.length > 0) {
     throw new Error(
-      `Trusted providers contain invalid entries: ${invalidTrustedProviders.join(', ')}`
+      `Trusted providers contain invalid entries: ${invalidTrustedProviders.join(', ')}`,
     );
   }
 
@@ -262,8 +271,8 @@ export function validateOAuthConfig(config: OAuthConfig): void {
  * Get OAuth configuration summary (for logging/debugging)
  */
 export function getOAuthConfigSummary(config: OAuthConfig): Record<string, unknown> {
-  const availableProviders = Object.keys(config.oauth.providers).filter(key => 
-    config.oauth.providers[key as keyof typeof config.oauth.providers] !== undefined
+  const availableProviders = Object.keys(config.oauth.providers).filter(
+    (key) => config.oauth.providers[key as keyof typeof config.oauth.providers] !== undefined,
   );
 
   return {
