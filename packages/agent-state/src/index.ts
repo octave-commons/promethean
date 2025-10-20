@@ -4,9 +4,16 @@
  * This package manages AGENT STATE (events, snapshots, lifecycle), NOT conversation context.
  *
  * For LLM conversation compilation, use: @promethean/persistence makeContextStore
- * For agent state management, use: makeAgentStateManager from this package
+ * For agent state management, use: makeAgentStateManager from this package (functional approach)
  */
 
+// Core functional exports (preferred approach)
+export { makeAgentStateManager, type AgentStateDeps, type AgentStateManager } from './state';
+
+// Re-export as ActorStatePort for Pantheon compatibility
+export type { ActorStatePort } from './state';
+
+// Legacy exports for backward compatibility
 export * from './types';
 export * from './event-store';
 export * from './snapshot-manager';
@@ -18,10 +25,6 @@ export * from './context-lifecycle';
 export * from './share-store';
 export * from './metadata-store';
 export * from './security';
-export * from './state';
-
-// Functional factory (preferred approach)
-export { makeAgentStateManager, type AgentStateDeps, type AgentStateManager } from './state';
 
 // Convenience exports for common use cases
 export { DefaultContextManager } from './context-manager';
