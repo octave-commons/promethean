@@ -88,14 +88,8 @@ test('OAuth sessions should expire after timeout', async (t) => {
 
   // Manually create a session (simulating successful OAuth)
   const sessionId = 'test-session-id';
-  const mockSession = {
-    sessionId,
-    userId: 'test-user',
-    provider: 'github',
-    accessToken: 'test-token',
-    createdAt: new Date(),
-    lastAccessAt: new Date(),
-  };
+  // Note: In actual implementation, sessions are created internally
+  // This test will be updated after implementation
 
   // Access session immediately
   const session = oauthSystem.getSession(sessionId);
