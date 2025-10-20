@@ -2,6 +2,7 @@
 // Factory functions for cache tools
 
 import { tool } from '@opencode-ai/plugin/tool';
+import type { JobType } from '../types/index.js';
 import {
   initializeCache,
   checkCache,
@@ -11,7 +12,7 @@ import {
 } from '../actions/index.js';
 
 // Factory for initializeCache tool
-export function createInitializeCacheTool(): any {
+export function createInitializeCacheTool() {
   return tool({
     description: 'Initialize cache for a specific model',
     args: {
@@ -25,7 +26,7 @@ export function createInitializeCacheTool(): any {
 }
 
 // Factory for checkCache tool
-export function createCheckCacheTool(): any {
+export function createCheckCacheTool() {
   return tool({
     description: 'Check if a prompt exists in cache',
     args: {
@@ -34,14 +35,14 @@ export function createCheckCacheTool(): any {
       jobType: tool.schema.enum(['generate', 'chat', 'embedding']).describe('Job type'),
     },
     async execute({ prompt, modelName, jobType }) {
-      const result = await checkCache(prompt, modelName, jobType as any);
+      const result = await checkCache(prompt, modelName, jobType as JobType);
       return JSON.stringify(result);
     },
   });
 }
 
 // Factory for createCacheKey tool
-export function createCreateCacheKeyTool(): any {
+export function createCreateCacheKeyTool() {
   return tool({
     description: 'Create a cache key for a prompt',
     args: {
@@ -50,14 +51,14 @@ export function createCreateCacheKeyTool(): any {
       jobType: tool.schema.enum(['generate', 'chat', 'embedding']).describe('Job type'),
     },
     async execute({ prompt, modelName, jobType }) {
-      const result = createCacheKey(prompt, modelName, jobType as any);
+      const result = createCacheKey(prompt, modelName, jobType as JobType);
       return JSON.stringify({ cacheKey: result });
     },
   });
 }
 
 // Factory for storeInCache tool
-export function createStoreInCacheTool(): any {
+export function createStoreInCacheTool() {
   return tool({
     description: 'Store a result in cache',
     args: {
@@ -98,14 +99,14 @@ export function createStoreInCacheTool(): any {
         tokensUsed,
       };
 
-      await storeInCache(prompt, result, modelName, jobType as any, performanceData);
+      await storeInCache(prompt, result, modelName, jobType as JobType, performanceData);
       return JSON.stringify({ stored: true, modelName, jobType });
     },
   });
 }
 
 // Factory for manageCache tool
-export function createManageCacheTool(): any {
+export function createManageCacheTool() {
   return tool({
     description: 'Manage prompt cache (clear, get stats, etc.)',
     args: {

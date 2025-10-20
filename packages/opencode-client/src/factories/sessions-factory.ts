@@ -2,6 +2,7 @@
 // Factory functions for session tools
 
 import { tool } from '@opencode-ai/plugin/tool';
+import type { OpencodeClient } from '@opencode-ai/sdk';
 import { listSessions, create, close, get, search } from '../actions/index.js';
 
 interface ListSessionsArgs {
@@ -32,7 +33,7 @@ interface SearchSessionsArgs {
 }
 
 // Factory for listSessions tool
-export function createListSessionsTool(): any {
+export function createListSessionsTool() {
   return tool({
     description: 'List all sessions with pagination and enhanced information',
     args: {
@@ -48,7 +49,7 @@ export function createListSessionsTool(): any {
 }
 
 // Factory for createSession tool
-export function createCreateSessionTool(): any {
+export function createCreateSessionTool() {
   return tool({
     description: 'Create a new session',
     args: {
@@ -62,7 +63,7 @@ export function createCreateSessionTool(): any {
         .optional()
         .describe('Delegates for the session'),
     },
-    async execute(args: CreateSessionArgs, context: any): Promise<string> {
+    async execute(args: CreateSessionArgs, context: { client: OpencodeClient }): Promise<string> {
       const { title } = args;
       const client = context.client;
 
@@ -73,7 +74,7 @@ export function createCreateSessionTool(): any {
 }
 
 // Factory for closeSession tool
-export function createCloseSessionTool(): any {
+export function createCloseSessionTool() {
   return tool({
     description: 'Close a session',
     args: {
@@ -88,7 +89,7 @@ export function createCloseSessionTool(): any {
 }
 
 // Factory for getSession tool
-export function createGetSessionTool(): any {
+export function createGetSessionTool() {
   return tool({
     description: 'Get detailed information about a specific session',
     args: {
@@ -105,7 +106,7 @@ export function createGetSessionTool(): any {
 }
 
 // Factory for searchSessions tool
-export function createSearchSessionsTool(): any {
+export function createSearchSessionsTool() {
   return tool({
     description: 'Search sessions by query',
     args: {
