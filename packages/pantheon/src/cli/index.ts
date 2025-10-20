@@ -115,10 +115,10 @@ program
       }
 
       console.log('Actors:');
-      actors.forEach((actor) => {
+      actors.forEach((actor: any) => {
         console.log(`  ${actor.id}: ${actor.script.name} (${actor.state})`);
         console.log(`    Goals: ${actor.goals.join(', ')}`);
-        console.log(`    Talents: ${actor.script.talents.map((t) => t.name).join(', ')}`);
+        console.log(`    Talents: ${actor.script.talents.map((t: any) => t.name).join(', ')}`);
         console.log(`    Created: ${actor.createdAt.toISOString()}`);
         console.log();
       });
@@ -218,7 +218,7 @@ program
       });
 
       console.log('Compiled context:');
-      messages.forEach((msg, index) => {
+      messages.forEach((msg: any, index: number) => {
         console.log(`  ${index + 1}. [${msg.role}] ${msg.content}`);
       });
     } catch (error) {
