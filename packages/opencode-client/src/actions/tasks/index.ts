@@ -19,19 +19,6 @@ export async function loadPersistedTasks(
         // Verify session still exists before restoring
         const sessionExists = client ? await verifySessionExists(client, sessionId) : true;
         if (sessionExists) {
-          // Restore task to memory
-          const agentTask: AgentTask = {
-            sessionId,
-            task: task.text,
-            startTime: parseTimestamp(task.timestamp as string | number | Date),
-            status: (task.metadata?.status as AgentTask['status']) || 'idle',
-            lastActivity:
-              parseTimestamp(task.metadata?.lastActivity as string | number | Date) ||
-              parseTimestamp(task.timestamp as string | number | Date),
-            completionMessage: task.metadata?.completionMessage as string | undefined,
-          };
-
-          // Task already exists in store, no need to re-insert
           loadedCount++;
         } else {
           // Clean up orphaned task
