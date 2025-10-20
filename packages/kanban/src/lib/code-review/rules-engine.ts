@@ -203,8 +203,9 @@ export class CodeReviewRulesEngine {
     if (cached) {
       const isValid = await this.isCacheValid(cached, request);
       if (isValid) {
-      console.log(`📋 Using cached code review result for task ${task.uuid}`);
-      return cached.result;
+        console.log(`📋 Using cached code review result for task ${task.uuid}`);
+        return cached.result;
+      }
     }
 
     console.log(
@@ -309,7 +310,7 @@ export class CodeReviewRulesEngine {
   /**
    * Get default configuration
    */
-  private getDefaultConfig(): CodeReviewConfig {
+  public getDefaultConfig(): CodeReviewConfig {
     return {
       enabled: true,
       enforcement: 'strict',
