@@ -45,3 +45,56 @@ export async function initializeStores(): Promise<
 // Initialize the API layers with the global state
 // Export all API classes and utilities
 export type { AgentTask, SessionInfo, Timestamp };
+
+// Export store instances for backward compatibility
+let _stores: Record<string, DualStoreManager<'text', 'timestamp'>> | null = null;
+
+export const sessionStore = new Proxy({} as DualStoreManager<'text', 'timestamp'>, {
+  get(_, prop) {
+    if (!_stores) {
+      throw new Error('Stores not initialized. Call initializeStores() first.');
+    }
+    return _stores.sessionStore[prop as keyof DualStoreManager<'text', 'timestamp'>];
+  },
+});
+
+export const agentTaskStore = new Proxy({} as DualStoreManager<'text', 'timestamp'>, {
+  get(_, prop) {
+    if (!_stores) {
+      throw new Error('Stores not initialized. Call initializeStores() first.');
+    }
+    return _stores.agentTaskStore[prop as keyof DualStoreManager<'text', 'timestamp'>];
+  },
+});
+
+export const eventStore = new Proxy({} as DualStoreManager<'text', 'timestamp'>, {
+  get(_, prop) {
+    if (!_stores) {
+      throw new Error('Stores not initialized. Call initializeStores() first.');
+    }
+    return _stores.eventStore[prop as keyof DualStoreManager<'text', 'timestamp'>];
+  },
+});
+
+export const messageStore = new Proxy({} as DualStoreManager<'text', 'timestamp'>, {
+  get(_, prop) {
+    if (!_stores) {
+      throw new Error('Stores not initialized. Call initializeStores() first.');
+    }
+    return _stores.messageStore[prop as keyof DualStoreManager<'text', 'timestamp'>];
+  },
+});
+
+// Override initializeStores to set the global reference
+export async function initializeStores(): Promise<
+  Record<string, DualStoreManager<'text', 'timestamp'>>
+> {
+  _stores = {
+    sessionStore: await DualStoreManager.create('sessionStore', 'text', 'timestamp'),
+    agentTaskStore: await DualStoreManager.create('agentTaskStore', 'text', 'timestamp'),
+    eventStore: await DualStoreManager.create('eventStore', 'text', 'timestamp'),
+    messageStore: await DualStoreManager.create('messageStore', 'text', 'timestamp'),
+  };
+
+  return _stores;
+}
