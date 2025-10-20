@@ -135,7 +135,7 @@ export function createStopAgentSessionTool(): ReturnType<typeof tool> {
       sessionId: tool.schema.string().describe('ID of session to stop'),
       completionMessage: tool.schema.string().optional().describe('Optional completion message'),
     },
-    async execute(args: any, _context: any) {
+    async execute(args: StopSessionArgs, _context: ToolContext) {
       try {
         await stopAgentSession(args.sessionId, args.completionMessage);
 
