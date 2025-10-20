@@ -1,9 +1,14 @@
 import { SessionUtils, agentTasks, sessionStore } from '../../index.js';
 import { deduplicateSessions } from '../../utils/session-cleanup.js';
-import type { SessionInfo, AgentTask } from '../../types/index.js';
+import type { AgentTask, AgentTaskStatus } from '../../types/index.js';
 
-interface SessionData extends SessionInfo {
+interface SessionData {
+  id: string;
   title?: string;
+  createdAt: number;
+  updatedAt: number;
+  lastActivity: number;
+  status: string;
   time?: {
     created?: string;
     updated?: string;
@@ -38,9 +43,9 @@ function parseSessionData(session: StoreSession): SessionData {
       return {
         id: sessionMatch[1],
         title: `Session ${sessionMatch[1]}`,
-        createdAt: session.timestamp?.toString() || new Date().toISOString(),
+        createdAt: session.timestamp || Date.now(),
         time: {
-          created: session.timestamp || new Date().toISOString(),
+          created: new Date(session.timestamp || Date.now()).toISOString(),
         },
       };
     }
@@ -48,9 +53,12 @@ function parseSessionData(session: StoreSession): SessionData {
     return {
       id: session.id?.toString() || 'unknown',
       title: 'Legacy Session',
-      createdAt: session.timestamp?.toString() || new Date().toISOString(),
+      createdAt: session.timestamp || Date.now(),
+      updatedAt: session.timestamp || Date.now(),
+      lastActivity: session.timestamp || Date.now(),
+      status: 'unknown',
       time: {
-        created: session.timestamp || new Date().toISOString(),
+        created: new Date(session.timestamp || Date.now()).toISOString(),
       },
     };
   }
