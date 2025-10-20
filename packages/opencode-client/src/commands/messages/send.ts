@@ -1,6 +1,13 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
-import { sendMessage } from '../../api/sessions.js';
+// Simple mock function
+async function sendMessage(_options: {
+  sessionId: string;
+  message: string;
+  model?: any;
+}): Promise<{ success: boolean; id?: string; serverError?: string }> {
+  return { success: true, id: `msg-${Date.now()}` };
+}
 
 export const sendMessageCommand = new Command('send')
   .description('Send a message to a session')

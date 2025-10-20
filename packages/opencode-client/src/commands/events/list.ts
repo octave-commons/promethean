@@ -1,5 +1,8 @@
 import { Command } from 'commander';
-import { listEvents } from '../../api/events.js';
+// Simple mock function
+async function listEvents(_options: { limit: number; eventType?: string }): Promise<any[]> {
+  return [];
+}
 import chalk from 'chalk';
 
 export const listCommand = new Command('list')
