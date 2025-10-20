@@ -3,6 +3,7 @@ import { SessionInfo } from './SessionInfo.js';
 import type { Timestamp } from './types/index.js';
 
 const stores = new Map();
+export type SearchableStore = DualStoreManager<'text', 'timestamp'>;
 export const SESSION_STORE_NAME = 'sessionStore';
 export const AGENT_TASK_STORE_NAME = 'agentTaskStore';
 export const EVENT_STORE_NAME = 'eventStore';
@@ -24,7 +25,7 @@ export type AgentTask = {
   completionMessage?: string;
 };
 // Storage
-export async function getStore(name:) {}
+export async function getStore(name: StoreNames): {};
 export async function initializeStores(): Promise<
   Record<string, DualStoreManager<'text', 'timestamp'>>
 > {
