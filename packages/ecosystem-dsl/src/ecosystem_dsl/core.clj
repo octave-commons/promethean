@@ -7,7 +7,7 @@
             [clojure.pprint :as pprint]
             [clojure.tools.logging :as log])
   (:import [java.io File]
-           [java.nio.file Files Paths StandardWatchEventKinds WatchService]
+           [java.nio.file FileSystems Files Paths StandardWatchEventKinds WatchService]
            [java.nio.file.attribute FileAttribute]
            [java.util.concurrent TimeUnit]))
 
@@ -179,7 +179,7 @@
                            :env {:NX_VERBOSE_LOGGING (or (System/getenv "NX_VERBOSE_LOGGING") "false")
                                  :NX_DAEMON (or (System/getenv "NX_DAEMON") "true")
                                  :NX_PERF_LOGGING (or (System/getenv "NX_PERF_LOGGING") "false")}})
-      (with-enhancements logging performance monitoring error-handling)))
+      (with-enhancements enhance-logging enhance-performance enhance-monitoring enhance-error-handling)))
 
 (defn create-dev-server-config
   "Create development server configuration for a project."
@@ -199,7 +199,7 @@
                                                :env {:PORT (get-port-for-project project-name)}})
                  (create-base-config (str "dev-" project-name) {}))]
     (-> config
-        (with-enhancements logging performance monitoring development)
+        (with-enhancements enhance-logging enhance-performance enhance-monitoring enhance-development)
         (assoc-in [:env :NODE_ENV] "development"))))
 
 (defn create-background-task-config
@@ -209,7 +209,7 @@
                           {:script script
                            :args (or args [])
                            :watch true})
-      (with-enhancements logging performance monitoring error-handling production)))
+      (with-enhancements enhance-logging enhance-performance enhance-monitoring enhance-error-handling enhance-production)))
 
 ;; ============================================================================
 ;; FILE DISCOVERY AND PROCESSING
@@ -243,9 +243,9 @@
   (->> (:apps edn-data)
        (map (fn [app-config]
               (let [enhanced (-> app-config
-                                 (with-enhancements logging performance monitoring error-handling)
-                                 (development)
-                                 (production))]
+                                 (with-enhancements enhance-logging enhance-performance enhance-monitoring enhance-error-handling)
+                                 (enhance-development)
+                                 (enhance-production))]
                 (println (str "Enhanced configuration for app: " (:name enhanced)))
                 enhanced)))))
 
@@ -331,7 +331,7 @@
 (defn start-file-watcher
   "Start a file watcher to automatically regenerate configurations."
   [system-dir output-file callback]
-  (let [watch-service (FileSystems/newWatchService)
+  (let [watch-service (.newWatchService (FileSystems/getDefault))
         path (Paths/get system-dir (into-array String []))
         _ (.register path watch-service 
                      (into-array StandardWatchEventKinds 
