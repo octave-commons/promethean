@@ -2,17 +2,11 @@
 // Factory functions for task tools
 
 import { tool } from '@opencode-ai/plugin/tool';
-import { DualStoreManager } from '@promethean/persistence';
-import { AgentTask } from '../AgentTask.js';
 import {
-  loadPersistedTasks,
-  verifySessionExists,
   cleanupOrphanedTask,
   updateTaskStatus,
-  monitorTasks,
   createTask,
   getAllTasks,
-  parseTimestamp,
   type TaskContext,
 } from '../actions/tasks/index.js';
 
@@ -39,16 +33,6 @@ export function createCleanupOrphanedTaskTool(
     },
   });
 }
-type Context = {
-  agent: string;
-  sessionID: string;
-  messageID: string;
-};
-
-type Stores = {
-  agentTaskStore: DualStoreManager<'text', 'timestamp'>;
-  sessionStore: DualStoreManager;
-};
 
 // Factory for updateTaskStatus tool
 export function createUpdateTaskStatusTool(
