@@ -30,7 +30,8 @@
     "date-fns": "^2.30.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
-    "tailwind-merge": "^2.0.0"
+    "tailwind-merge": "^2.0.0",
+    "@radix-ui/react-slot": "^1.0.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.0",
