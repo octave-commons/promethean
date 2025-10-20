@@ -13,13 +13,16 @@ const makeDeps = () => {
     bus: { send: async () => undefined, subscribe: () => () => {} },
     schedule: { every: () => () => {}, once: () => {} },
     state: {
-      spawn: async () => { throw new Error('not used here'); },
+      spawn: async () => {
+        throw new Error('not used here');
+      },
       get: async () => null,
-      update: async (_id: string, patch: Partial<Actor>) => { return {} as Actor; },
+      update: async (_id: string, patch: Partial<Actor>) => {
+        return {} as Actor;
+      },
       list: async () => [],
     },
   };
-};
 };
 
 const makeActor = (): Actor => ({
@@ -56,12 +59,12 @@ test('orchestrator executes behavior actions', async (t) => {
   const deps = makeDeps();
   const updates: any[] = [];
   const originalUpdate = deps.state.update;
-  deps.state.update = async (_id: string, patch: Partial<Actor>) => { 
-    updates.push(patch); 
+  deps.state.update = async (_id: string, patch: Partial<Actor>) => {
+    updates.push(patch);
     return originalUpdate(_id, patch);
   };
   const orch = makeOrchestrator(deps as any);
 
   await t.notThrowsAsync(() => orch.tickActor(makeActor(), { userMessage: 'hi' }));
-  t.true(updates.some(u => u.state === 'completed'));
+  t.true(updates.some((u) => u.state === 'completed'));
 });
