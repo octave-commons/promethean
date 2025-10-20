@@ -35,7 +35,7 @@ export const sessionStore = new Proxy({} as DualStoreManager<'text', 'timestamp'
     if (!sessionStoreInstance) {
       throw new Error('sessionStore not initialized');
     }
-    return sessionStoreInstance[prop as keyof DualStoreManager<'text', 'timestamp'>];
+    return contextManager.createCollection;
   },
 });
 
