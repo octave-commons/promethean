@@ -84,7 +84,7 @@ const SessionUtils = {
     agentTask?: AgentTask,
   ): SessionInfo {
     const now = Date.now();
-    const activityStatus = this.determineActivityStatus(session, messageCount, agentTask);
+    const activityStatus = SessionUtils.determineActivityStatus(session, messageCount, agentTask);
     const sessionAge = agentTask ? Math.round((now - agentTask.startTime) / 1000) : 0;
 
     return {
@@ -97,7 +97,7 @@ const SessionUtils = {
       isAgentTask: !!agentTask || session.isAgentTask === true,
       agentTaskStatus: agentTask?.status,
     };
-  },
+  },,
 };
 
 export { SessionUtils };
