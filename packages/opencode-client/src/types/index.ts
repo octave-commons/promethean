@@ -340,6 +340,76 @@ export interface MessageEvent {
 
 export type OpenCodeEvent = SessionEvent | TaskEvent | MessageEvent;
 
+// Extended Event Types for Event Processing
+export interface StoredEvent {
+  id: string;
+  type: string;
+  timestamp?: string | number;
+  sessionId?: string;
+  content?: string;
+  description?: string;
+  hasTool?: boolean;
+  isAgentTask?: boolean;
+  properties?: Record<string, unknown>;
+  data?: unknown;
+  _id?: string;
+  _timestamp?: string | number | Date;
+}
+
+export interface EventEntry {
+  id?: string;
+  text: string;
+  timestamp?: string | number | Date;
+}
+
+export interface EventListOptions {
+  query?: string;
+  k?: number;
+  eventType?: string;
+  sessionId?: string;
+  hasTool?: boolean;
+  isAgentTask?: boolean;
+}
+
+export interface EventSubscription {
+  id: string;
+  eventType?: string;
+  sessionId?: string;
+}
+
+// Message Types for Event Processing
+export interface MessagePart {
+  type: string;
+  text?: string;
+  [key: string]: unknown;
+}
+
+export interface MessageInfo {
+  id: string;
+  parts?: MessagePart[];
+  [key: string]: unknown;
+}
+
+export interface EventMessage {
+  info: MessageInfo;
+  parts?: MessagePart[];
+  [key: string]: unknown;
+}
+
+// Event Client Interface
+export interface EventClient {
+  session: {
+    messages: (params: { path: { id: string } }) => Promise<{ data?: unknown; error?: string }>;
+  };
+  events?: {
+    list: (options: EventListOptions) => Promise<{ data?: StoredEvent[]; error?: string }>;
+    subscribe: (options: {
+      eventType?: string;
+      sessionId?: string;
+    }) => Promise<{ data?: EventSubscription; error?: string }>;
+  };
+}
+
 // Hook Types
 export interface EventHook {
   eventType: string;

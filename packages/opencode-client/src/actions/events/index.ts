@@ -1,7 +1,8 @@
 import { TaskContext } from '../tasks/index.js';
+import type { EventClient, OpenCodeEvent, EventMessage } from '../../types/index.js';
 
 export interface EventContext {
-  client: any;
+  client: EventClient;
   taskContext: TaskContext;
 }
 
@@ -11,7 +12,7 @@ export async function handleSessionIdle(context: EventContext, sessionId: string
   await updateTaskStatus(context.taskContext, sessionId, 'idle');
 
   const messages = await getSessionMessages(context.client, sessionId);
-  const completion = detectTaskCompletion(messages);
+  const completion = detectTaskCompletion(messages as EventMessage[]);
   if (completion.completed) {
     await updateTaskStatus(
       context.taskContext,
@@ -47,27 +48,28 @@ export async function processSessionMessages(
   await processSessionMessagesAction(context.client, sessionId);
 }
 
-export function extractSessionId(event: any): string | null {
+export function extractSessionId(event: OpenCodeEvent): string | null {
   const extractors: Record<string, () => string | undefined> = {
-    'session.idle': () => event.properties.sessionID || event.properties.session?.id,
-    'session.updated': () => event.properties.info?.id || event.properties.session?.id,
-    'message.updated': () => event.properties.message?.session_id || event.properties.sessionId,
-    'message.part.updated': () =>
-      event.properties.message?.session_id || event.properties.sessionId,
-    'session.compacted': () => event.properties.sessionId || event.properties.session?.id,
+    'session.idle': () =>
+      (event.properties as any)?.sessionID || (event.properties as any)?.session?.id,
+    'session.updated': () =>
+      (event.properties as any)?.info?.id || (event.properties as any)?.session?.id,
+    'message.updated': () => (event.properties as any)?.message?.session_id || event.sessionId,
+    'message.part.updated': () => (event.properties as any)?.message?.session_id || event.sessionId,
+    'session.compacted': () => event.sessionId || (event.properties as any)?.session?.id,
   };
 
   const extractor = extractors[event.type];
   return extractor ? extractor() || null : null;
 }
 
-export async function getSessionMessages(client: any, sessionId: string) {
+export async function getSessionMessages(client: EventClient, sessionId: string) {
   try {
     const { data: messages } = await client.session.messages({
       path: { id: sessionId },
     });
     return messages || [];
-  } catch (error) {
+  } catch (error: unknown) {
     console.error(`Error fetching messages for session ${sessionId}:`, error);
     return [];
   }
@@ -86,18 +88,18 @@ const COMPLETION_PATTERNS = [
   /✅|🎉|🏆|✓/g,
 ];
 
-export function detectTaskCompletion(messages: any[]): {
+export function detectTaskCompletion(messages: EventMessage[]): {
   completed: boolean;
   completionMessage?: string;
 } {
   if (!messages?.length) return { completed: false };
 
   const lastMessage = messages[messages.length - 1];
-  const textParts = lastMessage?.parts?.filter((part: any) => part.type === 'text') || [];
+  const textParts = lastMessage?.parts?.filter((part) => part.type === 'text') || [];
 
   if (!textParts.length) return { completed: false };
 
-  const lastText = textParts[textParts.length - 1].text.toLowerCase();
+  const lastText = textParts[textParts.length - 1].text?.toLowerCase() || '';
   const isCompleted = COMPLETION_PATTERNS.some((pattern) => pattern.test(lastText));
 
   return {
@@ -106,9 +108,30 @@ export function detectTaskCompletion(messages: any[]): {
   };
 }
 
-export async function processSessionMessagesAction(client: any, sessionId: string) {
+export async function processSessionMessagesAction(client: EventClient, sessionId: string) {
   const messages = await getSessionMessages(client, sessionId);
-  await Promise.all(messages.map((message: any) => processMessage(client, sessionId, message)));
+  await Promise.all(
+    messages.map((message: EventMessage) => processMessage(client, sessionId, message)),
+  );
+}
+
+export async function processMessage(
+  _client: EventClient,
+  sessionId: string,
+  message: EventMessage,
+) {
+  if (!message?.parts) return;
+
+  // This would need session store context - for now just log
+  console.log(`Processing message ${message.info.id} from session ${sessionId}`);
+
+  await Promise.all(
+    message.parts.map(async (part) => {
+      if (part.type === 'text' && part.text?.trim()) {
+        console.log(`📝 Processing text part from message ${message.info.id}`);
+      }
+    }),
+  );
 }
 
 export async function processMessage(_client: any, sessionId: string, message: any) {

@@ -1,3 +1,5 @@
+import type { EventClient } from '../../types/index.js';
+
 export async function subscribe({
   eventType,
   sessionId,
@@ -5,7 +7,7 @@ export async function subscribe({
 }: {
   eventType?: string;
   sessionId?: string;
-  client: any;
+  client: EventClient;
 }) {
   try {
     const { data: subscription, error } = await client.events.subscribe({
@@ -25,8 +27,8 @@ export async function subscribe({
         status: 'active',
       },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error subscribing to events:', error);
-    return `Failed to subscribe to events: ${error.message}`;
+    return `Failed to subscribe to events: ${error instanceof Error ? error.message : String(error)}`;
   }
 }

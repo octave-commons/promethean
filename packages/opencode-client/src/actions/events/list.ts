@@ -1,4 +1,5 @@
 import { sessionStore } from '../../index.js';
+import type { StoredEvent, EventEntry, EventListOptions, EventClient } from '../../types/index.js';
 
 export async function list({
   query,
@@ -8,37 +9,32 @@ export async function list({
   hasTool,
   isAgentTask,
   client,
-}: {
-  query?: string;
-  k?: number;
-  eventType?: string;
-  sessionId?: string;
-  hasTool?: boolean;
-  isAgentTask?: boolean;
-  client: any;
-}) {
+}: EventListOptions & { client?: EventClient }) {
   try {
     // Try to get events from dual store first
-    let events: any[] = [];
+    let events: StoredEvent[] = [];
     let fetchError: string | null = null;
 
     try {
       // Get all entries from dual store and filter for events
       const storedEntries = await sessionStore.getMostRecent(1000); // Get a large number
       const eventEntries = storedEntries
-        .filter((entry) => entry.id && entry.id.startsWith('event:'))
-        .map((entry) => ({
-          ...JSON.parse(entry.text),
-          _id: entry.id,
-          _timestamp: entry.timestamp,
-        }));
+        .filter((entry: EventEntry) => entry.id && entry.id.startsWith('event:'))
+        .map(
+          (entry: EventEntry) =>
+            ({
+              ...JSON.parse(entry.text),
+              _id: entry.id,
+              _timestamp: entry.timestamp,
+            }) as StoredEvent,
+        );
 
       // Apply filters
       let filteredEvents = eventEntries;
 
       if (query) {
         const queryLower = query.toLowerCase();
-        filteredEvents = filteredEvents.filter((event: any) => {
+        filteredEvents = filteredEvents.filter((event: StoredEvent) => {
           return (
             event.type?.toLowerCase().includes(queryLower) ||
             event.sessionId?.toLowerCase().includes(queryLower) ||
@@ -49,33 +45,36 @@ export async function list({
       }
 
       if (eventType) {
-        filteredEvents = filteredEvents.filter((event: any) => event.type === eventType);
+        filteredEvents = filteredEvents.filter((event: StoredEvent) => event.type === eventType);
       }
 
       if (sessionId) {
-        filteredEvents = filteredEvents.filter((event: any) => event.sessionId === sessionId);
+        filteredEvents = filteredEvents.filter(
+          (event: StoredEvent) => event.sessionId === sessionId,
+        );
       }
 
       if (hasTool !== undefined) {
         filteredEvents = filteredEvents.filter(
-          (event: any) => (event.hasTool === true) === hasTool,
+          (event: StoredEvent) => (event.hasTool === true) === hasTool,
         );
       }
 
       if (isAgentTask !== undefined) {
         filteredEvents = filteredEvents.filter(
-          (event: any) => (event.isAgentTask === true) === isAgentTask,
+          (event: StoredEvent) => (event.isAgentTask === true) === isAgentTask,
         );
       }
 
       // Sort by timestamp (newest first) and apply limit
       filteredEvents.sort(
-        (a: any, b: any) => new Date(b._timestamp).getTime() - new Date(a._timestamp).getTime(),
+        (a: StoredEvent, b: StoredEvent) =>
+          new Date(b._timestamp || 0).getTime() - new Date(a._timestamp || 0).getTime(),
       );
       events = k ? filteredEvents.slice(0, k) : filteredEvents;
-    } catch (storeError) {
+    } catch (storeError: unknown) {
       console.warn('Failed to get events from dual store, falling back to client:', storeError);
-      fetchError = `Dual store error: ${(storeError as Error).message}`;
+      fetchError = `Dual store error: ${storeError instanceof Error ? storeError.message : String(storeError)}`;
     }
 
     // Fallback to client if no events found in dual store and client is available
@@ -104,8 +103,8 @@ export async function list({
       totalCount: events.length,
       filters: { query, k, eventType, sessionId, hasTool, isAgentTask },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error listing events:', error);
-    return `Failed to list events: ${error.message}`;
+    return `Failed to list events: ${error instanceof Error ? error.message : String(error)}`;
   }
 }
