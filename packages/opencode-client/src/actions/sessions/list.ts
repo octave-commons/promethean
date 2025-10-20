@@ -41,7 +41,7 @@ function parseSessionData(session: StoreSession): SessionData {
     const sessionMatch = text.match(/Session:\s*(\w+)/);
     if (sessionMatch) {
       return {
-        id: sessionMatch[1],
+        id: sessionMatch[1] || 'unknown',
         title: `Session ${sessionMatch[1]}`,
         createdAt: typeof session.timestamp === 'number' ? session.timestamp : Date.now(),
         updatedAt: typeof session.timestamp === 'number' ? session.timestamp : Date.now(),
@@ -101,7 +101,7 @@ export async function list({ limit, offset }: { limit: number; offset: number })
       console.log(`[DEBUG] after deduplication: ${sessionsList?.length || 0} sessions`);
       console.log(`[INFO] Session IDs being processed:`);
       sessionsList.slice(0, 5).forEach((s) => {
-        console.log(`  - ${s.id} (isAgentTask: ${s.isAgentTask})`);
+        console.log(`  - ${s.id} (isAgentTask: ${(s as any).isAgentTask})`);
       });
     }
 
@@ -136,7 +136,7 @@ export async function list({ limit, offset }: { limit: number; offset: number })
     }
 
     const enhanced = await Promise.all(
-      paginated.map(async (session: SessionData) => {
+      paginated.map(async (session: any) => {
         try {
           // Get messages from dual store - fail fast if not available
           const messageKey = `session:${session.id}:messages`;
