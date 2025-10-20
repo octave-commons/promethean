@@ -353,7 +353,10 @@ export function createCleanupAgentSessionsTool(): ReturnType<typeof tool> {
         .optional()
         .describe('Maximum age in milliseconds (default: 24 hours)'),
     },
-    async execute(args: any, _context: any) {
+    async execute(
+      args: { maxAge?: number },
+      _context: { agent: string; sessionID: string; messageID: string },
+    ) {
       try {
         const maxAge = args.maxAge || 24 * 60 * 60 * 1000;
         const cleaned = await unifiedAgentManager.cleanupOldSessions(maxAge);
