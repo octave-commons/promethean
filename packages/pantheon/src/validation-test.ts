@@ -15,17 +15,8 @@ import {
   makeInMemoryActorStateAdapter,
 } from '@promethean/pantheon-core';
 
-import {
-  createToolActor,
-  createCompositeActor,
-  generateId,
-  createConsoleLogger,
-  PantheonError,
-} from '../utils/index.js';
-import {
-  createToolActor as _createToolActor,
-  createCompositeActor as _createCompositeActor,
-} from '../actors/index.js';
+import { generateId, createConsoleLogger, PantheonError } from './utils/index.js';
+import { createToolActor, createCompositeActor } from './actors/index.js';
 
 const logger = createConsoleLogger('info');
 
@@ -70,18 +61,13 @@ async function testBasicFunctionality() {
   await adapters.tools.register({
     name: 'test_tool',
     description: 'A test tool',
-    input_schema: { type: 'object', properties: {} },
   });
   console.log('✅ Tool registered successfully');
 
   // 4. Test actor execution
   console.log('\n4. Testing actor execution...');
-  const tickResult = await orchestrator.tick(actor);
-  console.log(`✅ Actor tick completed: ${tickResult.success ? 'SUCCESS' : 'FAILED'}`);
-
-  if (!tickResult.success) {
-    console.log('Errors:', tickResult.errors);
-  }
+  const tickResult = await orchestrator.tickActor(actor);
+  console.log(`✅ Actor tick completed`);
 
   // 5. Test context compilation
   console.log('\n5. Testing context compilation...');
@@ -93,7 +79,7 @@ async function testBasicFunctionality() {
 
   // 6. Test message bus
   console.log('\n6. Testing message bus...');
-  let receivedMessage = null;
+  let receivedMessage: any = null;
   const unsubscribe = adapters.bus.subscribe((msg) => {
     receivedMessage = msg;
   });
@@ -163,7 +149,7 @@ async function testCompositeActor() {
       {
         name: 'composite_test_tool',
         description: 'A tool for composite actor testing',
-        handler: async (args: any) => ({ result: 'Composite test successful' }),
+        handler: async () => ({ result: 'Composite test successful' }),
       },
     ],
   });
@@ -180,11 +166,10 @@ async function testCompositeActor() {
   await adapters.tools.register({
     name: 'composite_test_tool',
     description: 'A tool for composite actor testing',
-    input_schema: { type: 'object', properties: {} },
   });
 
-  const tickResult = await orchestrator.tick(actor);
-  console.log(`✅ Composite actor tick: ${tickResult.success ? 'SUCCESS' : 'FAILED'}`);
+  await orchestrator.tickActor(actor);
+  console.log(`✅ Composite actor tick completed`);
 }
 
 async function runAllTests() {
