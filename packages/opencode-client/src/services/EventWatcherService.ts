@@ -139,20 +139,6 @@ export class EventWatcherService {
     }
   }
 
-      // Start session polling for real-time updates
-      await this.startSessionPolling();
-
-      // Start event processing loop
-      this.startProcessingLoop();
-
-      this.log('✅ Event Watcher Service started successfully');
-    } catch (error) {
-      this.log(`❌ Failed to start Event Watcher Service: ${error}`, 'error');
-      this.isRunning = false;
-      throw error;
-    }
-  }
-
   /**
    * Start polling for session updates from OpenCode server
    */
