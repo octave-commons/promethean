@@ -14,6 +14,15 @@ export interface ActorPort {
   get(id: string): Promise<Actor | null>;
 }
 
+export interface LlmPort {
+  complete(messages: Message[], opts?: { model?: string; temperature?: number }): Promise<Message>;
+}
+
+export interface Message {
+  role: 'system' | 'user' | 'assistant';
+  content: string;
+}
+
 export interface Context {
   id: string;
   sources: string[];
