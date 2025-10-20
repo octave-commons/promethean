@@ -142,7 +142,6 @@ export function createDetectTaskCompletionTool(): ToolFunction {
     },
     async execute({ messages }) {
       const completion = detectTaskCompletion(messages as EventMessage[]);
-      const completion = detectTaskCompletion(messages);
 
       return JSON.stringify({
         completed: completion.completed,
