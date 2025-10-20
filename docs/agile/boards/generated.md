@@ -293,6 +293,7 @@ kanban-plugin: board
 - [ ] [[kanban-process-migration-epic|Epic: Kanban Process Update & Migration System]] #epic #kanban #migration #process #fsm #cli prio:P1 (uuid:epic-kanban-process-migration-2025-10-15)
 - [ ] [[migrate-clojurescript-editor-components|Migrate ClojureScript Editor Components]] #clojurescript #editor #migration #components #epic4 prio:P1 (uuid:a00cbf7f-b8f4-4391-bd47-0049557fdf19)
 - [ ] [[migrate-http-server-infrastructure|Migrate HTTP Server Infrastructure]] #http-server #migration #dualstore #infrastructure #epic2 prio:P0 (uuid:9ec9db18-1588-48e0-93d5-9c509c552c40)
+- [ ] [[pantheon-core-001-complete-core-type-system|Complete Core Type System]] #pantheon #core #types #implementation prio:P0 (uuid:pantheon-core-001-complete-core-type-system-2025-10-20)
 - [ ] [[pantheon-epic-001-core-framework-implementation|Epic: Pantheon Core Framework Implementation]] #pantheon #core #framework #epic #implementation prio:P0 (uuid:pantheon-epic-001-core-framework-implementation-2025-10-20)
 - [ ] [[pantheon-epic-002-adapter-implementations|Epic: Pantheon Adapter Implementations]] #pantheon #adapters #integration #epic #implementation prio:P0 (uuid:pantheon-epic-002-adapter-implementations-2025-10-20)
 - [ ] [[pantheon-epic-003-package-consolidation|Epic: Pantheon Package Consolidation]] #pantheon #consolidation #migration #epic #refactoring prio:P0 (uuid:pantheon-epic-003-package-consolidation-2025-10-20)
