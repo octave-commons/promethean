@@ -120,18 +120,18 @@ export class IndexerService {
   /**
    * Index a session as a markdown document
    */
-  private async indexSession(session: Session): Promise<void> {
+  private async indexSession(session: any): Promise<void> {
     try {
       const markdown = this.sessionToMarkdown(session);
 
-      await sessionStore.add({
+      await sessionStore.insert({
         id: `session_${session.id}`,
-        content: markdown,
+        text: markdown,
+        timestamp: session.time?.created || Date.now(),
         metadata: {
           type: 'session',
           sessionId: session.id,
           title: session.title,
-          timestamp: session.time.created,
         },
       });
     } catch (error) {
