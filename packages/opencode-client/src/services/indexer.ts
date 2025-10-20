@@ -109,9 +109,12 @@ export class IndexerService {
         }
       }
 
-      console.log(
-        `✅ Indexed ${sessions.length} sessions and ${messages.reduce((sum, msg) => sum + msg.length, 0)} messages`,
-      );
+      const totalMessages = sessions.reduce((sum: number, session: any) => {
+        const messagesResult = messages.find((msgList: any) => msgList.sessionId === session.id);
+        return sum + (messagesResult?.length || 0);
+      }, 0);
+
+      console.log(`✅ Indexed ${sessions.length} sessions and ${totalMessages} messages`);
     } catch (error) {
       console.error('❌ Error indexing existing data:', error);
     }
@@ -146,15 +149,15 @@ export class IndexerService {
     try {
       const markdown = this.messageToMarkdown(message);
 
-      await messageStore.add({
+      await messageStore.insert({
         id: `message_${message.info?.id}`,
-        content: markdown,
+        text: markdown,
+        timestamp: message.info?.time?.created || Date.now(),
         metadata: {
           type: 'message',
           messageId: message.info?.id,
           sessionId,
           role: message.info?.role,
-          timestamp: message.info?.time?.created,
         },
       });
     } catch (error) {
