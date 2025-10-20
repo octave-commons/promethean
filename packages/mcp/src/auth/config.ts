@@ -135,11 +135,11 @@ function loadGoogleProviderConfig() {
   return {
     clientId,
     clientSecret,
-    scopes: getEnv('GOOGLE_OAUTH_SCOPES', 'openid,email,profile')
+    scopes: getEnv('OAUTH_GOOGLE_SCOPES', 'openid,email,profile')
       .split(',')
       .map((s) => s.trim()),
-    hostedDomain: getEnv('GOOGLE_OAUTH_HOSTED_DOMAIN'),
-    prompt: getEnv('GOOGLE_OAUTH_PROMPT', 'consent') as 'consent' | 'none' | 'select_account',
+    hostedDomain: getEnv('OAUTH_GOOGLE_HOSTED_DOMAIN'),
+    prompt: getEnv('OAUTH_GOOGLE_PROMPT', 'consent') as 'consent' | 'none' | 'select_account',
   };
 }
 
