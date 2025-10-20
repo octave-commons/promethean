@@ -118,7 +118,7 @@ export function createSearchSessionsTool() {
       k: tool.schema.number().optional().describe('Maximum number of results to return'),
       sessionId: tool.schema.string().optional().describe('Specific session ID to search within'),
     },
-    async execute(args) {
+    async execute(args: SearchSessionsArgs) {
       const { query, k, sessionId } = args;
       const result = await search({ query, k, sessionId });
       return result;
