@@ -5,7 +5,9 @@ import type { Timestamp } from './types/index.js';
 // Storage
 
 export const stores = new DualStoreManager<'text', 'timestamp'>();
-export function
+export function initializeStores(): void {
+  stores.create();
+}
 // Initialize the API layers with the global state
 // Export all API classes and utilities
-export type {  SessionInfo, Timestamp };
+export type { SessionInfo, Timestamp };
