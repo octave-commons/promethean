@@ -43,4 +43,4 @@ export { PostgresContextMetadataStore } from './metadata-store';
  * @deprecated Use makeAgentStateManager (functional) instead of DefaultContextManager (class)
  * @deprecated This manages agent state, not conversation context
  */
-export { DefaultContextManager as AgentStateManager } from './context-manager';
+export { DefaultContextManager as LegacyAgentStateManager } from './context-manager';

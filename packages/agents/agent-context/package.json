@@ -1,7 +1,7 @@
 {
   "name": "@promethean/agent-context",
   "version": "1.0.0",
-  "description": "Agent OS Context Management System with event sourcing and snapshots",
+  "description": "Agent STATE Management System with event sourcing and snapshots (not conversation context - use @promethean/persistence for that)",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
