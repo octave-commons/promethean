@@ -187,7 +187,7 @@ export function createMonitorTasksTool(): ReturnType<typeof tool> {
         agentTaskStore,
       };
 
-      mskonitorTasks(taskContext);
+      monitorTasks(taskContext);
 
       return JSON.stringify({
         success: true,
@@ -211,7 +211,7 @@ export function createCreateTaskTool(stores: Stores): ReturnType<typeof tool> {
       const { sessionId, task } = args;
 
       const taskContext = {
-        agentTaskStore,
+        agentTaskStore: stores.agentTaskStore,
       };
 
       const agentTask = await createTask(taskContext, sessionId, task);

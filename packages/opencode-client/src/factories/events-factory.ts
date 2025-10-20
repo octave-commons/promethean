@@ -24,12 +24,12 @@ export function createHandleSessionIdleTool(): ToolFunction {
     args: {
       sessionId: tool.schema.string().describe('Session ID that is idle'),
     },
-    async execute(args, context: any) {
+    async execute(args, context) {
       const { sessionId } = args;
-      const client = context.client as OpencodeClient;
-      const taskContext = context.taskContext;
+      const client = (context as Record<string, unknown>).client as EventClient;
+      const taskContext = (context as Record<string, unknown>).taskContext as TaskContext;
 
-      const eventContext = { client, taskContext };
+      const eventContext: EventContext = { client, taskContext };
       await handleSessionIdle(eventContext, sessionId);
 
       return JSON.stringify({
