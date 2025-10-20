@@ -25,7 +25,12 @@
     "axios": "^1.6.0",
     "framer-motion": "^10.16.0",
     "react-markdown": "^9.0.0",
-    "react-syntax-highlighter": "^15.5.0"
+    "react-syntax-highlighter": "^15.5.0",
+    "lucide-react": "^0.294.0",
+    "date-fns": "^2.30.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
+    "tailwind-merge": "^2.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.0",
@@ -42,7 +47,11 @@
     "vitest": "^0.34.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/jest-dom": "^5.16.0",
-    "@testing-library/user-event": "^14.4.0"
+    "@testing-library/user-event": "^14.4.0",
+    "tailwindcss": "^3.3.0",
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.0",
+    "@types/node": "^20.0.0"
   },
   "license": "GPL-3.0",
   "engines": {
