@@ -37,51 +37,6 @@ export {
   TypeCheckerPlugin,
 };
 
-// Combined plugin that includes all tools
-export const AllToolsPlugin = async (context: unknown) => {
-  const ctx = context as Record<string, unknown>;
-  const ollamaPlugin = await OllamaPlugin(ctx as any);
-  const processPlugin = await ProcessPlugin(ctx as any);
-  const directProcessPlugin = await DirectProcessPlugin(ctx as any);
-  const cachePlugin = await CachePlugin(ctx as any);
-  const sessionsPlugin = await SessionsPlugin(ctx as any);
-  const eventsPlugin = await EventsPlugin(ctx as any);
-  const messagesPlugin = await MessagesPlugin(ctx as any);
-  const messagingPlugin = await MessagingPlugin(ctx as any);
-  const tasksPlugin = await TasksPlugin(ctx as any);
-  const sessionInfoPlugin = await SessionInfoPlugin(ctx as any);
-  const agentManagementPlugin = await AgentManagementPlugin(ctx as any);
-  // New parity plugins
-  const asyncSubAgentsPlugin = await AsyncSubAgentsPlugin(ctx as any);
-  const eventCapturePlugin = await EventCapturePlugin(ctx as any);
-  const typeCheckerPlugin = await TypeCheckerPlugin(ctx as any);
-
-  return {
-    tool: {
-      // Merge all tools from all plugins
-      ...ollamaPlugin.tool,
-      ...processPlugin.tool,
-      ...directProcessPlugin.tool,
-      ...cachePlugin.tool,
-      ...sessionsPlugin.tool,
-      ...eventsPlugin.tool,
-      ...messagesPlugin.tool,
-      ...messagingPlugin.tool,
-      ...tasksPlugin.tool,
-      ...sessionInfoPlugin.tool,
-      ...agentManagementPlugin.tool,
-      // New parity plugins
-      ...asyncSubAgentsPlugin.tool,
-      ...eventCapturePlugin.tool,
-      ...typeCheckerPlugin.tool,
-    },
-    // Merge hooks from all plugins
-    ...asyncSubAgentsPlugin,
-    ...eventCapturePlugin,
-    ...typeCheckerPlugin,
-  };
-};
-
 // Plugin categories for selective loading
 export const CorePlugins = {
   ollama: OllamaPlugin,

@@ -48,19 +48,19 @@ const SessionUtils = {
     return extractor ? extractor() || null : null;
   },
 
-  async getSessionMessages(client: SessionClient, sessionId: string): Promise<unknown[]> {
+  async getSessionMessages(client: SessionClient, sessionId: string): Promise<readonly unknown[]> {
     try {
       const { data: messages } = await client.session.messages({
         path: { id: sessionId },
       });
-      return messages || [];
+      return (messages as unknown[]) || [];
     } catch (error: unknown) {
       console.error(`Error fetching messages for session ${sessionId}:`, error);
       return [];
     }
-  }
+  },
 
-  static determineActivityStatus(
+  determineActivityStatus(
     _session: SessionData,
     messageCount: number,
     agentTask?: AgentTask,
