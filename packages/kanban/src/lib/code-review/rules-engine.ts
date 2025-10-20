@@ -604,20 +604,20 @@ export class CodeReviewRulesEngine {
 
       for (const result of results) {
         for (const diagnostic of result.diagnostics) {
-        const violation: CodeReviewViolation = {
-          id: `ts-${diagnostic.code}`,
-          severity: diagnostic.category === 1 ? 'error' : 'warning',
-          category: 'maintainability',
-          rule: `TypeScript ${diagnostic.code}`,
-          message: diagnostic.messageText.toString(),
-          file: diagnostic.file,
-          line: diagnostic.start,
-          source: 'typescript',
-          fixable: false,
-          autoFixAvailable: false,
-        };
-        violations.push(violation);
-      }
+          const violation: CodeReviewViolation = {
+            id: `ts-${diagnostic.code}`,
+            severity: diagnostic.category === 1 ? 'error' : 'warning',
+            category: 'maintainability',
+            rule: `TypeScript ${diagnostic.code}`,
+            message: diagnostic.messageText.toString(),
+            file: diagnostic.file,
+            line: diagnostic.start,
+            source: 'typescript',
+            fixable: false,
+            autoFixAvailable: false,
+          };
+          violations.push(violation);
+        }
     } catch (error) {
       console.warn('TypeScript analysis failed:', error);
     }
