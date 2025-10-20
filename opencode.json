@@ -230,6 +230,8 @@
       "bash *":"ask",
       "unlink *":"ask",
       "rmdir *":"ask",
+      "chomod *":"ask",
+      "chown *":"ask",
       "mv *":"ask",
       "cp *":"ask",
       "git *":"ask",
