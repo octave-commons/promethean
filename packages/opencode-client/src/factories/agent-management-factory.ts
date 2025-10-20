@@ -56,7 +56,7 @@ export function createCreateAgentSessionTool(): ReturnType<typeof tool> {
         .optional()
         .describe('Whether to start agent session automatically'),
     },
-    async execute(args: Record<string, unknown>, _context: Record<string, unknown>) {
+    async execute(args: CreateAgentSessionArgs, _context: Record<string, unknown>) {
       try {
         const session = await createAgentSession(
           args.task,
@@ -91,7 +91,7 @@ export function createCreateAgentSessionTool(): ReturnType<typeof tool> {
   });
 }
 
-export function createStartAgentSessionTool(): any {
+export function createStartAgentSessionTool(): ReturnType<typeof tool> {
   return tool({
     description: 'Start an existing agent session',
     args: {
