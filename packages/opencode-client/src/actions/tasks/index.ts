@@ -83,32 +83,7 @@ export async function updateTaskStatus(
   status: AgentTask['status'],
   completionMessage?: string,
 ): Promise<void> {
-  const task = context.agentTasks.get(sessionId);
-  if (!task) return;
-
-  const updatedTask = {
-    ...task,
-    status,
-    lastActivity: Date.now(),
-    ...(completionMessage && { completionMessage }),
-  };
-
-  context.agentTasks.set(sessionId, updatedTask);
-
   console.log(`Agent task status updated for session ${sessionId}: ${status}`);
-
-  try {
-    await context.agentTaskStore.insert({
-      id: sessionId,
-      text: updatedTask.task,
-      timestamp: updatedTask.startTime,
-      metadata: {
-        sessionId,
-        status,
-        lastActivity: updatedTask.lastActivity,
-        completionMessage,
-      },
-    });
   } catch (error) {
     console.error('Error updating agent task in dual store:', error);
   }
