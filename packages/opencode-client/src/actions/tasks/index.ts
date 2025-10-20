@@ -103,7 +103,7 @@ export async function createTask(
   return agentTask;
 }
 
-export async function getTasks(limit, context: TaskContext): Promise<Map<string, AgentTask>> {
+export async function getTasks(context: TaskContext, limit = 100): Promise<Map<string, AgentTask>> {
   return context.getMostRecent(100);
 }
 
