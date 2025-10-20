@@ -156,7 +156,7 @@ export function createStopAgentSessionTool(): ReturnType<typeof tool> {
   });
 }
 
-export function createSendAgentMessageTool(): any {
+export function createSendAgentMessageTool(): ReturnType<typeof tool> {
   return tool({
     description: 'Send a message to an agent session',
     args: {
