@@ -3,15 +3,13 @@
 
 import { tool } from '@opencode-ai/plugin/tool';
 import { DualStoreManager } from '@promethean/persistence';
-import {
-  detectTaskCompletion,
-  processMessage,
-  processSessionMessages,
-  getSessionMessages,
-} from '../actions/messages/index.js';
+import { detectTaskCompletion, getSessionMessages } from '../actions/messages/index.js';
 
 // Factory for detectTaskCompletion tool
-export function createDetectTaskCompletionMessagesTool(stores, client): ReturnType<typeof tool> {
+export function createDetectTaskCompletionMessagesTool(
+  stores: DualStoreManager<'', ''>,
+  client,
+): ReturnType<typeof tool> {
   return tool({
     description: 'Detect if a task has been completed based on messages (messages version)',
     args: {
