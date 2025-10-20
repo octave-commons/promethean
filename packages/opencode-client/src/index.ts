@@ -32,7 +32,44 @@ const ensureStoresInitialized = (): Record<string, DualStoreManager<'text', 'tim
 export const sessionStore = new Proxy({} as DualStoreManager<'text', 'timestamp'>, {
   get(_, prop) {
     const stores = ensureStoresInitialized();
-    return stores.sessionStore[prop as keyof DualStoreManager<'text', 'timestamp'>];
+    const store = stores.sessionStore;
+    if (!store) {
+      throw new Error('sessionStore not initialized');
+    }
+    return store[prop as keyof DualStoreManager<'text', 'timestamp'>];
+  },
+});
+
+export const agentTaskStore = new Proxy({} as DualStoreManager<'text', 'timestamp'>, {
+  get(_, prop) {
+    const stores = ensureStoresInitialized();
+    const store = stores.agentTaskStore;
+    if (!store) {
+      throw new Error('agentTaskStore not initialized');
+    }
+    return store[prop as keyof DualStoreManager<'text', 'timestamp'>];
+  },
+});
+
+export const eventStore = new Proxy({} as DualStoreManager<'text', 'timestamp'>, {
+  get(_, prop) {
+    const stores = ensureStoresInitialized();
+    const store = stores.eventStore;
+    if (!store) {
+      throw new Error('eventStore not initialized');
+    }
+    return store[prop as keyof DualStoreManager<'text', 'timestamp'>];
+  },
+});
+
+export const messageStore = new Proxy({} as DualStoreManager<'text', 'timestamp'>, {
+  get(_, prop) {
+    const stores = ensureStoresInitialized();
+    const store = stores.messageStore;
+    if (!store) {
+      throw new Error('messageStore not initialized');
+    }
+    return store[prop as keyof DualStoreManager<'text', 'timestamp'>];
   },
 });
 
