@@ -47,10 +47,16 @@ export class OAuthFastifyIntegration {
    */
   async initialize(fastify: FastifyInstance, options: OAuthFastifyOptions = {}): Promise<void> {
     try {
+      // Check if OAuth is enabled
+      if (!options.enableOAuth) {
+        console.log('[OAuthFastify] OAuth is disabled, skipping initialization');
+        return; // Exit early without setting up OAuth
+      }
+
       // Load configuration
       this.config = loadOAuthConfig();
 
-      // Check if OAuth is enabled and has providers
+      // Check if OAuth has providers configured
       const hasProviders = Object.values(this.config.oauth.providers).some(
         (provider) => provider !== undefined,
       );
