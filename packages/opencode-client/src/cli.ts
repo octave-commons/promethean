@@ -356,23 +356,7 @@ unifiedAgentCommands
     }
   });
 
-// Stats command
-unifiedAgentCommands
-  .command('stats')
-  .description('Show session statistics')
-  .action(async () => {
-    try {
-      const stats = await unifiedAgentManager.getSessionStats();
 
-      console.log('\n📈 Session Statistics');
-      console.log('─'.repeat(40));
-      console.log(`Total Sessions: ${stats.total}`);
-      console.log(`Average Age: ${Math.round(stats.averageAge / 1000)}s`);
-
-      console.log('\nBy Status:');
-      Object.entries(stats.byStatus).forEach(([status, count]) => {
-        console.log(`  ${status}: ${count}`);
-      });
 
       console.log('─'.repeat(40));
     } catch (error) {

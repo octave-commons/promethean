@@ -11,12 +11,14 @@ export {
   type MessageBusAdapterDeps,
   type SchedulerAdapterDeps,
   type ActorStateAdapterDeps,
+  
   makeContextAdapter,
   makeToolAdapter,
   makeLlmAdapter,
   makeMessageBusAdapter,
   makeSchedulerAdapter,
   makeActorStateAdapter,
+  
   makeInMemoryContextAdapter,
   makeInMemoryToolAdapter,
   makeInMemoryLlmAdapter,
@@ -25,33 +27,14 @@ export {
   makeInMemoryActorStateAdapter,
 } from '@promethean/pantheon-core';
 
-// Try to re-export external adapters (these may not exist yet)
-try {
-  export * from '@promethean/pantheon-llm-openai';
-} catch (e) {
-  // OpenAI adapter not available
-}
-
-try {
-  export * from '@promethean/pantheon-mcp';
-} catch (e) {
-  // MCP adapter not available
-}
-
-try {
-  export * from '@promethean/pantheon-persistence';
-} catch (e) {
-  // Persistence adapter not available
-}
-
 // Import the functions we need for the composite factory
 import {
-  makeInMemoryContextAdapter as _makeInMemoryContextAdapter,
-  makeInMemoryToolAdapter as _makeInMemoryToolAdapter,
-  makeInMemoryLlmAdapter as _makeInMemoryLlmAdapter,
-  makeInMemoryMessageBusAdapter as _makeInMemoryMessageBusAdapter,
-  makeInMemorySchedulerAdapter as _makeInMemorySchedulerAdapter,
-  makeInMemoryActorStateAdapter as _makeInMemoryActorStateAdapter,
+  makeInMemoryContextAdapter,
+  makeInMemoryToolAdapter,
+  makeInMemoryLlmAdapter,
+  makeInMemoryMessageBusAdapter,
+  makeInMemorySchedulerAdapter,
+  makeInMemoryActorStateAdapter,
 } from '@promethean/pantheon-core';
 
 // Composite adapter factory
@@ -61,53 +44,21 @@ export const makeCompletePantheonSystem = (options: {
   mcp?: any;
   inMemory?: boolean;
 }) => {
-  const { persistence, openai, mcp, inMemory = false } = options;
+  const {
+    persistence,
+    openai,
+    mcp,
+    inMemory = false,
+  } = options;
 
-  // Create adapters based on configuration
-  let contextAdapter = null;
-  let toolAdapter = null;
-  let llmAdapter = null;
-
-  // Try to create external adapters if available
-  if (persistence) {
-    try {
-      const { makePantheonPersistenceAdapter } = require('@promethean/pantheon-persistence');
-      contextAdapter = makePantheonPersistenceAdapter(persistence);
-    } catch (e) {
-      // Fall back to in-memory
-      if (inMemory) contextAdapter = _makeInMemoryContextAdapter();
-    }
-  } else if (inMemory) {
-    contextAdapter = _makeInMemoryContextAdapter();
-  }
-
-  if (mcp) {
-    try {
-      const { makeMCPAdapterWithDefaults } = require('@promethean/pantheon-mcp');
-      toolAdapter = makeMCPAdapterWithDefaults();
-    } catch (e) {
-      // Fall back to in-memory
-      if (inMemory) toolAdapter = _makeInMemoryToolAdapter();
-    }
-  } else if (inMemory) {
-    toolAdapter = _makeInMemoryToolAdapter();
-  }
-
-  if (openai) {
-    try {
-      const { makeOpenAIAdapter } = require('@promethean/pantheon-llm-openai');
-      llmAdapter = makeOpenAIAdapter(openai);
-    } catch (e) {
-      // Fall back to in-memory
-      if (inMemory) llmAdapter = _makeInMemoryLlmAdapter();
-    }
-  } else if (inMemory) {
-    llmAdapter = _makeInMemoryLlmAdapter();
-  }
-
-  const messageBusAdapter = inMemory ? _makeInMemoryMessageBusAdapter() : null;
-  const schedulerAdapter = inMemory ? _makeInMemorySchedulerAdapter() : null;
-  const actorStateAdapter = inMemory ? _makeInMemoryActorStateAdapter() : null;
+  // For now, only support in-memory adapters
+  // External adapters will be added when their packages are complete
+  const contextAdapter = inMemory ? makeInMemoryContextAdapter() : null;
+  const toolAdapter = inMemory ? makeInMemoryToolAdapter() : null;
+  const llmAdapter = inMemory ? makeInMemoryLlmAdapter() : null;
+  const messageBusAdapter = inMemory ? makeInMemoryMessageBusAdapter() : null;
+  const schedulerAdapter = inMemory ? makeInMemorySchedulerAdapter() : null;
+  const actorStateAdapter = inMemory ? makeInMemoryActorStateAdapter() : null;
 
   return {
     context: contextAdapter,
@@ -117,6 +68,7 @@ export const makeCompletePantheonSystem = (options: {
     scheduler: schedulerAdapter,
     actorState: actorStateAdapter,
   };
+};
 };
 
 // Re-export external adapters if available
