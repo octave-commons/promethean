@@ -2,7 +2,7 @@
 // Factory functions for event tools
 
 import { tool } from '@opencode-ai/plugin/tool';
-import type { OpencodeClient } from '@opencode-ai/sdk';
+
 import {
   handleSessionIdle,
   handleSessionUpdated,
@@ -12,6 +12,8 @@ import {
   detectTaskCompletion,
   processSessionMessages,
 } from '../actions/events/index.js';
+import type { EventContext, OpenCodeEvent, EventMessage } from '../../types/index.js';
+import type { TaskContext } from '../../actions/tasks/index.js';
 
 type ToolFunction = ReturnType<typeof tool>;
 
