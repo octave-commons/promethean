@@ -1,10 +1,9 @@
-import { DualStoreManager, ContextStore } from '@promethean/persistence';
+import { DualStoreManager, ContextStore, type GenericEntry } from '@promethean/persistence';
 import { SessionInfo } from './SessionInfo.js';
 import { SessionUtils } from './SessionUtils.js';
 import type { Timestamp } from './types/index.js';
 
 export type SearchableStore = DualStoreManager<'text', 'timestamp'>;
-export type GenericEntry = import('@promethean/persistence').GenericEntry;
 
 export const SESSION_STORE_NAME = 'sessionStore';
 export const AGENT_TASK_STORE_NAME = 'agentTaskStore';
