@@ -1,7 +1,48 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
 import { create } from '../../actions/sessions/create.js';
-import { createOpencodeClient } from '@opencode-ai/sdk';
+
+async function getClient(): Promise<any> {
+  const baseURL = process.env.OPENCODE_SERVER_URL;
+  const timeout = process.env.OPENCODE_TIMEOUT ? Number(process.env.OPENCODE_TIMEOUT) : undefined;
+  const maxRetries = process.env.OPENCODE_RETRIES
+    ? Number(process.env.OPENCODE_RETRIES)
+    : undefined;
+  const logLevel = (process.env.OPENCODE_LOG_LEVEL as any) || undefined;
+  const authHeader = process.env.OPENCODE_AUTH_TOKEN
+    ? { Authorization: `Bearer ${process.env.OPENCODE_AUTH_TOKEN}` }
+    : undefined;
+  const sdk: any = await import('@opencode-ai/sdk');
+  if (typeof sdk.createOpencode === 'function') {
+    const r = await sdk.createOpencode({
+      serverUrl: baseURL,
+      timeout,
+      maxRetries,
+      logLevel,
+      fetchOptions: { headers: authHeader },
+    });
+    return r.client ?? r;
+  }
+  if (typeof sdk.createOpencodeClient === 'function') {
+    return await sdk.createOpencodeClient({
+      serverUrl: baseURL,
+      timeout,
+      maxRetries,
+      logLevel,
+      fetchOptions: { headers: authHeader },
+    });
+  }
+  if (typeof sdk.default === 'function') {
+    return new sdk.default({
+      baseURL,
+      timeout,
+      maxRetries,
+      logLevel,
+      fetchOptions: { headers: authHeader },
+    });
+  }
+  throw new Error('Unable to initialize @opencode-ai/sdk client');
+}
 
 export const createSessionCommand = new Command('create')
   .description('Create a new session')
@@ -37,23 +78,7 @@ export const createSessionCommand = new Command('create')
       }
 
       // Create OpenCode client
-      const baseURL = process.env.OPENCODE_API_URL || 'http://localhost:3000';
-      const timeout = 30000;
-      const maxRetries = 3;
-      const logLevel = 'info';
-
-      const authHeader: Record<string, string> = {};
-      if (process.env.OPENCODE_API_KEY) {
-        authHeader['Authorization'] = `Bearer ${process.env.OPENCODE_API_KEY}`;
-      }
-
-      const client = await createOpencodeClient({
-        baseUrl: baseURL,
-        timeout,
-        maxRetries,
-        logLevel,
-        fetchOptions: { headers: authHeader },
-      });
+      const client = await getClient();
 
       const result = await create({
         title: sessionTitle,

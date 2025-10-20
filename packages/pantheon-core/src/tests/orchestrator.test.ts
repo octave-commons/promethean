@@ -32,7 +32,6 @@ const makeActor = (): Actor => ({
     talents: [
       {
         name: 't',
-        mode: 'active',
         behaviors: [
           {
             name: 'b',
@@ -57,8 +56,9 @@ const makeActor = (): Actor => ({
 test('orchestrator executes behavior actions', async (t) => {
   const deps = makeDeps();
   const updates: any[] = [];
-  deps.state.update = async (_id, patch) => {
+  deps.state.update = async (_id: string, patch: Partial<Actor>) => {
     updates.push(patch);
+    return {} as Actor;
   };
   const orch = makeOrchestrator(deps as any);
 
