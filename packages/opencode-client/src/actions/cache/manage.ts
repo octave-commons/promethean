@@ -130,12 +130,10 @@ export async function manageCache(
 
       // Calculate category averages
       for (const [category, data] of Object.entries(analysis.performanceByCategory)) {
-        analysis.performanceByCategory[category].averageScore =
-          data.count > 0 ? data.totalScore / data.count : 0;
+        data.averageScore = data.count > 0 ? data.totalScore / data.count : 0;
 
         for (const [model, modelData] of Object.entries(data.models)) {
-          analysis.performanceByCategory[category].models[model].averageScore =
-            modelData.count > 0 ? modelData.totalScore / modelData.count : 0;
+          modelData.averageScore = modelData.count > 0 ? modelData.totalScore / modelData.count : 0;
         }
       }
 
