@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
+import "dotenv/config";
 
 import { applyPatchTool } from './tools/apply-patch.js';
 import {
@@ -117,7 +118,7 @@ import { createProxy, type ProxyInstance } from './proxy/proxy-factory.js';
 import { sandboxCreateTool, sandboxDeleteTool, sandboxListTool } from './tools/sandboxes.js';
 import {
   ollamaPull,
-  ollamaListModels,
+  ollamaL
   ollamaListTemplates,
   ollamaCreateTemplate,
   ollamaEnqueueGenerateJob,
