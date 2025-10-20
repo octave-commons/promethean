@@ -235,12 +235,32 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         mongoFilter: Filter<DualStoreEntry<TextKey, TimeKey>> = this.createDefaultMongoFilter(),
         sorter: Sort = this.createDefaultSorter(),
     ): Promise<DualStoreEntry<'text', 'timestamp'>[]> {
-        const documents = await this.mongoCollection.find(mongoFilter).sort(sorter).limit(limit).toArray();
-        return documents
-            .map((entry: WithId<DualStoreEntry<TextKey, TimeKey>>) =>
-                toGenericEntry(entry, this.textKey, this.timeStampKey),
-            )
-            .filter((entry) => typeof entry.text === 'string' && entry.text.trim().length > 0);
+        const maxRetries = 3;
+        const retryDelay = 1000;
+
+        for (let attempt = 1; attempt <= maxRetries; attempt++) {
+            try {
+                const documents = await this.mongoCollection.find(mongoFilter).sort(sorter).limit(limit).toArray();
+                return documents
+                    .map((entry: WithId<DualStoreEntry<TextKey, TimeKey>>) =>
+                        toGenericEntry(entry, this.textKey, this.timeStampKey),
+                    )
+                    .filter((entry) => typeof entry.text === 'string' && entry.text.trim().length > 0);
+            } catch (error) {
+                if (error.message.includes('MongoNotConnectedError') && attempt < maxRetries) {
+                    console.warn(
+                        `MongoDB connection failed in getMostRecent (attempt ${attempt}/${maxRetries}), retrying...`,
+                        error.message,
+                    );
+                    await new Promise((resolve) => setTimeout(resolve, retryDelay * attempt));
+                    continue;
+                }
+                throw error;
+            }
+        }
+
+        // This should never be reached, but TypeScript needs it
+        return [];
     }
 
     async getMostRelevant(
