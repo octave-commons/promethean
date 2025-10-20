@@ -100,7 +100,7 @@ export function createCleanupOrphanedTaskTool(): ReturnType<typeof tool> {
         throw new Error('Required task context not available');
       }
 
-      const taskContext = {
+      const taskContext: TaskContext = {
         agentTaskStore,
         agentTasks,
       };
@@ -117,7 +117,7 @@ export function createCleanupOrphanedTaskTool(): ReturnType<typeof tool> {
 }
 
 // Factory for updateTaskStatus tool
-export function createUpdateTaskStatusTool(): any {
+export function createUpdateTaskStatusTool(): ReturnType<typeof tool> {
   return tool({
     description: 'Update the status of an agent task',
     args: {
