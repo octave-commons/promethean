@@ -97,6 +97,7 @@ test('e2e - complete workflow with move operations', async (t) => {
   const newContext: CliContext = {
     boardFile: boardPath,
     tasksDir,
+    argv: [],
   };
 
   // Should still be able to move tasks
