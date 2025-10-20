@@ -39,10 +39,13 @@ export function createLoadPersistedTasksTool(): ReturnType<typeof tool> {
 
       const taskContext: TaskContext = {
         agentTaskStore,
-        agentTasks: agentTasks as Map<string, import('../../AgentTask.js').AgentTask>,
+        agentTasks: agentTasks as Map<string, AgentTask>,
       };
 
-      const result = await loadPersistedTasks(taskContext, verifySessions ? client : undefined);
+      const result = await loadPersistedTasks(
+        taskContext,
+        verifySessions ? (client as Record<string, unknown>) : undefined,
+      );
 
       return JSON.stringify({
         success: true,
