@@ -309,11 +309,14 @@ export function createGetAgentSessionTool(): ReturnType<typeof tool> {
   });
 }
 
-export function createGetAgentStatsTool(): any {
+export function createGetAgentStatsTool(): ReturnType<typeof tool> {
   return tool({
     description: 'Get statistics about all agent sessions',
     args: {},
-    async execute(_args: any, _context: any) {
+    async execute(
+      _args: Record<string, never>,
+      _context: { agent: string; sessionID: string; messageID: string },
+    ) {
       try {
         const stats = await unifiedAgentManager.getSessionStats();
 
