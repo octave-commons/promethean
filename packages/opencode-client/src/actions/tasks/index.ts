@@ -49,7 +49,7 @@ export async function verifySessionExists(
 }
 
 export async function updateTaskStatus(
-  context: TaskContext,
+  _context: TaskContext,
   sessionId: string,
   status: AgentTask['status'],
   completionMessage?: string,
@@ -66,10 +66,7 @@ function logTaskCompletion(sessionId: string, status: string, completionMessage?
   }
 }
 
-export function monitorTasks(context: TaskContext): void {
-  const now = Date.now();
-  const timeoutThreshold = 30 * 60 * 1000; // 30 minutes
-
+export function monitorTasks(_context: TaskContext): void {
   // Monitor tasks from store
   console.log('📊 Monitoring tasks for timeouts...');
 }
@@ -104,7 +101,43 @@ export async function createTask(
 }
 
 export async function getTasks(context: TaskContext, limit = 20): Promise<Map<string, AgentTask>> {
-  return context.getMostRecent(limit);
+  const tasks = await context.getMostRecent(limit);
+  const taskMap = new Map<string, AgentTask>();
+
+  for (const task of tasks) {
+    const sessionId = task.metadata?.sessionId as string;
+    if (sessionId) {
+      taskMap.set(sessionId, {
+        sessionId,
+        task: task.text,
+        startTime: (task.metadata?.startTime as number) || Date.now(),
+        status: (task.metadata?.status as AgentTask['status']) || 'idle',
+        lastActivity: (task.metadata?.lastActivity as number) || Date.now(),
+        completionMessage: task.metadata?.completionMessage as string,
+      });
+    }
+  }
+
+  return taskMap;
+}
+
+export async function cleanupOrphanedTask(context: TaskContext, sessionId: string): Promise<void> {
+  try {
+    // Mark the task as failed since the session no longer exists
+    await context.insert({
+      id: sessionId,
+      text: 'Orphaned task - session no longer exists',
+      timestamp: new Date().toISOString(),
+      metadata: {
+        sessionId,
+        status: 'failed',
+        lastActivity: Date.now(),
+        completionMessage: 'Session no longer exists',
+      },
+    });
+  } catch (error) {
+    console.error(`Failed to cleanup orphaned task for session ${sessionId}:`, error);
+  }
 }
 
 export function parseTimestamp(timestamp: string | number | Date): number {
