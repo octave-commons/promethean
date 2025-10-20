@@ -8,7 +8,8 @@ export async function initializeStores(): Promise<
 > {
   const sessionStore = await DualStoreManager.create('sessionStore', 'text', 'timestamp');
   const agentTaskStore = await DualStoreManager.create('agentTaskStore', 'text', 'timestamp');
-  const eventStrore = await DualStoreManager.create('eventStore', 'text', 'timestamp');
+  const eventStore = await DualStoreManager.create('eventStore', 'text', 'timestamp');
+  const messageStore = await DualStoreManager.create('messageStore', 'text', 'timestamp');
 
   return {
     sessionStore,
