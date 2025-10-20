@@ -184,6 +184,38 @@ export type ActorState = 'idle' | 'running' | 'paused' | 'completed' | 'failed';
 
 // === Action Types ===
 
+/**
+ * Represents an action that an actor can perform
+ *
+ * Tool Action: Execute a tool with specified arguments
+ * @property type - 'tool'
+ * @property name - Name of the tool to execute
+ * @property args - Arguments to pass to the tool
+ * @property timeout - Optional timeout in milliseconds
+ *
+ * Message Action: Send a message to a target
+ * @property type - 'message'
+ * @property content - The message content
+ * @property target - Optional target recipient (defaults to 'user')
+ * @property priority - Optional message priority level
+ *
+ * Spawn Action: Create a new actor instance
+ * @property type - 'spawn'
+ * @property actor - The script for the new actor
+ * @property goal - The goal for the new actor
+ * @property config - Optional configuration for the new actor
+ *
+ * Wait Action: Pause execution for a specified duration
+ * @property type - 'wait'
+ * @property duration - Duration to wait in milliseconds
+ * @property reason - Optional reason for waiting
+ *
+ * Context Action: Perform operations on context data
+ * @property type - 'context'
+ * @property operation - The operation to perform (read, write, delete)
+ * @property target - The target context identifier
+ * @property data - Optional data for write operations
+ */
 export type Action =
   | { type: 'tool'; name: string; args: Record<string, unknown>; timeout?: number }
   | {
@@ -203,6 +235,17 @@ export type Action =
 
 // === Tool and Runtime Types ===
 
+/**
+ * Specification for a tool that can be invoked by actors
+ * @property name - Unique name for the tool
+ * @property description - Human-readable description of what the tool does
+ * @property parameters - Schema defining the tool's parameters
+ * @property runtime - Where the tool is executed (mcp, local, http)
+ * @property endpoint - Optional endpoint URL for HTTP tools
+ * @property timeout - Optional timeout in milliseconds
+ * @property retryPolicy - Optional retry policy for failed invocations
+ * @property schema - Optional detailed schema for the tool
+ */
 export type ToolSpec = {
   name: string;
   description: string;
@@ -214,6 +257,15 @@ export type ToolSpec = {
   schema?: Record<string, unknown>;
 };
 
+/**
+ * Definition of a tool for use in agent workflows
+ * @property name - Unique name for the tool
+ * @property description - Optional description of the tool
+ * @property parameters - Optional parameter schema
+ * @property strict - Whether to enforce strict parameter validation
+ * @property handler - Optional handler function reference
+ * @property metadata - Additional metadata about the tool
+ */
 export type ToolDefinition = {
   name: string;
   description?: string;
@@ -225,6 +277,23 @@ export type ToolDefinition = {
 
 // === Transport and Protocol Types ===
 
+/**
+ * Envelope for transporting messages between system components
+ * @property id - Unique identifier for the message
+ * @property type - Type/category of the message
+ * @property sender - Identifier of the message sender
+ * @property recipient - Identifier of the intended recipient
+ * @property timestamp - When the message was sent
+ * @property payload - The actual message content/data
+ * @property signature - Optional digital signature for verification
+ * @property metadata - Additional metadata about the message
+ * @property correlationId - Optional ID for correlating request/response pairs
+ * @property replyTo - Optional address for replies
+ * @property priority - Message priority level
+ * @property ttl - Optional time-to-live in milliseconds
+ * @property retryCount - Number of retry attempts made
+ * @property maxRetries - Maximum number of retry attempts allowed
+ */
 export type MessageEnvelope = {
   id: string;
   type: string;
@@ -242,6 +311,15 @@ export type MessageEnvelope = {
   maxRetries: number;
 };
 
+/**
+ * Configuration for message transport protocols
+ * @property type - Transport protocol type (amqp, websocket, http)
+ * @property url - Connection URL for the transport
+ * @property options - Additional transport-specific options
+ * @property auth - Authentication configuration
+ * @property reconnect - Reconnection behavior configuration
+ * @property queue - Optional queue configuration for message brokers
+ */
 export type TransportConfig = {
   type: 'amqp' | 'websocket' | 'http';
   url: string;
@@ -265,6 +343,14 @@ export type TransportConfig = {
   };
 };
 
+/**
+ * Defines retry behavior for failed operations
+ * @property maxRetries - Maximum number of retry attempts
+ * @property initialDelay - Initial delay before first retry in milliseconds
+ * @property maxDelay - Maximum delay between retries in milliseconds
+ * @property backoff - Backoff strategy (linear or exponential)
+ * @property retryableErrors - Array of error types that should trigger retries
+ */
 export type RetryPolicy = {
   maxRetries: number;
   initialDelay: number;
