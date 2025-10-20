@@ -114,7 +114,6 @@ export class JwtTokenManager {
 
     const signOptions: SignOptions = {
       algorithm: this.config.algorithm,
-      issuer: this.config.issuer,
       jwtid: jti,
     };
 
