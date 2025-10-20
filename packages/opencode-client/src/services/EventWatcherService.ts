@@ -90,8 +90,8 @@ export class EventWatcherService {
     };
   }
 
-  /**
-   * Start the event watcher service
+/**
+   * Start event watcher service
    */
   async start(): Promise<void> {
     this.log('🚀 Starting Event Watcher Service...');
@@ -99,16 +99,41 @@ export class EventWatcherService {
     this.isRunning = true;
 
     try {
+      this.log('📦 Step 1: Initializing stores...');
       // Initialize stores
       await this.initializeStores();
+      this.log('✅ Step 1 complete: Stores initialized');
 
+      this.log('📡 Step 2: Initializing OpenCode client...');
       // Initialize OpenCode client
       await this.initializeClient();
+      this.log('✅ Step 2 complete: OpenCode client initialized');
 
+      this.log('📚 Step 3: Starting retrospective indexing...');
       // Start retrospective indexing if enabled
       if (this.config.enableRetrospective) {
         await this.performRetrospectiveIndexing();
+        this.log('✅ Step 3 complete: Retrospective indexing done');
       }
+
+      this.log('🔄 Step 4: Starting session polling...');
+      // Start session polling for real-time updates
+      await this.startSessionPolling();
+      this.log('✅ Step 4 complete: Session polling started');
+
+      this.log('⚡ Step 5: Starting event processing loop...');
+      // Start event processing loop
+      this.startProcessingLoop();
+      this.log('✅ Step 5 complete: Event processing loop started');
+
+      this.log('✅ Event Watcher Service started successfully');
+    } catch (error) {
+      this.log(`❌ Failed to start Event Watcher Service: ${error}`, 'error');
+      this.log(`❌ Error stack: ${error.stack}`, 'error');
+      this.isRunning = false;
+      throw error;
+    }
+  }
 
       // Start session polling for real-time updates
       await this.startSessionPolling();
@@ -242,7 +267,7 @@ export class EventWatcherService {
     return { ...this.stats };
   }
 
-  /**
+/**
    * Initialize stores
    */
   private async initializeStores(): Promise<void> {
@@ -252,22 +277,30 @@ export class EventWatcherService {
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
         this.log(`🔄 Initializing stores (attempt ${attempt}/${maxRetries})...`);
-
-        this.sessionStore = await DualStoreManager.create('sessions', 'text', 'timestamp');
-        this.agentTaskStore = await DualStoreManager.create('agent-tasks', 'text', 'timestamp');
-
+        
+        // Create fresh stores with unique names to avoid conflicts
+        this.sessionStore = await DualStoreManager.create('indexer-sessions', 'text', 'timestamp', {
+          agentName: 'opencode-indexer'
+        });
+        this.agentTaskStore = await DualStoreManager.create('indexer-agent-tasks', 'text', 'timestamp', {
+          agentName: 'opencode-indexer'
+        });
+        
         this.log('✅ Stores initialized successfully');
         return;
       } catch (error) {
-        this.log(
-          `❌ Failed to initialize stores (attempt ${attempt}/${maxRetries}): ${error}`,
-          'error',
-        );
-
+        this.log(`❌ Failed to initialize stores (attempt ${attempt}/${maxRetries}): ${error}`, 'error');
+        
         if (attempt === maxRetries) {
           this.log('❌ Max retries reached, giving up on store initialization', 'error');
           throw error;
         }
+        
+        this.log(`⏳ Waiting ${retryDelay}ms before retry...`, 'warn');
+        await new Promise(resolve => setTimeout(resolve, retryDelay));
+      }
+    }
+  }
 
         this.log(`⏳ Waiting ${retryDelay}ms before retry...`, 'warn');
         await new Promise((resolve) => setTimeout(resolve, retryDelay));

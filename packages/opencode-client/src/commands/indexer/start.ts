@@ -1,7 +1,6 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
 import { EventWatcherService } from '../../services/EventWatcherService.js';
-import { sessionStore, agentTaskStore } from '../../index.js';
 
 /**
  * Start the event indexer service
@@ -18,11 +17,7 @@ export const startIndexerCommand = new Command('start')
     try {
       console.log(chalk.blue('🚀 Starting Event Indexer...'));
 
-      // Initialize stores
-      if (!sessionStore || !agentTaskStore) {
-        console.error(chalk.red('❌ Stores not initialized. Run with proper store setup.'));
-        process.exit(1);
-      }
+      // EventWatcherService will create its own stores
 
       // Create event watcher service
       const eventWatcher = new EventWatcherService({
