@@ -31,7 +31,7 @@ export async function loadPersistedTasks(
             completionMessage: task.metadata?.completionMessage as string | undefined,
           };
 
-          await context.agentTaskStore.insert({
+          await context.insert({
             text: agentTask.task,
             metadata: {
               sessionId,
