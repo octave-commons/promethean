@@ -13,9 +13,14 @@ export async function subscribe({
     if (!client.event?.subscribe) {
       return 'Events subscription not supported by this client';
     }
-    const { data: subscription, error } = await client.event.subscribe({
+    const subscription = await client.event.subscribe();
+
+    return JSON.stringify({
+      success: true,
+      subscription: 'Event subscription established',
       eventType,
       sessionId,
+      note: 'Use the returned SSE stream to listen for events',
     });
 
     if (error) return `Failed to subscribe to events: ${error}`;
