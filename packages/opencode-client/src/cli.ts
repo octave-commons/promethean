@@ -15,11 +15,6 @@ import { indexerCommands } from './commands/indexer/index.js';
 import { initializeStores } from './index.js';
 import { DualStoreManager } from '@promethean/persistence';
 import type { DualStoreManager as DualStoreManagerType } from './types/index.js';
-// Agent management functions - these will be implemented as simple functions
-const version = '1.0.0';
-
-// Initialize dual stores for CLI use
-let storesInitialized = false;
 // Global options
 program
   .option('-v, --verbose', 'verbose output')
@@ -40,20 +35,14 @@ program
 
 // Add command groups
 program.addCommand(sessionCommands);
-program.addCommand(ollamaCommands);
-program.addCommand(pm2Command);
 program.addCommand(eventCommands);
 program.addCommand(processCommands);
-program.addCommand(cacheCommands);
-program.addCommand(tasksCommands);
 program.addCommand(messagesCommands);
-program.addCommand(legacyAgentCommands);
 program.addCommand(indexerCommands);
 
 // Add unified agent management commands
 
 
-program.addCommand(unifiedAgentCommands);
 
 // Error handling - let commander handle help/version normally
 
