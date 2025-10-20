@@ -38,11 +38,8 @@ export const createSessionCommand = new Command('create')
 
       // Create OpenCode client
       const client = await createOpencode({
-        serverUrl: baseURL,
+        baseUrl: baseURL,
         timeout,
-        maxRetries,
-        logLevel,
-        fetchOptions: { headers: authHeader },
       });
       const result = await create({
         title: sessionTitle,
