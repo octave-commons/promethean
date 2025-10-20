@@ -39,9 +39,15 @@ export function createProcessMessageTool(): ReturnType<typeof tool> {
       sessionId: tool.schema.string().describe('Session ID the message belongs to'),
       message: tool.schema.object({}).describe('Message object to process'),
     },
-    async execute(args, context) {
+    async execute(
+      args: { sessionId: string; message: Record<string, unknown> },
+      context: Record<string, unknown>,
+    ) {
       const { sessionId, message } = args;
-      const sessionStore = (context as any).sessionStore;
+      const sessionStore = (context as Record<string, unknown>).sessionStore as DualStoreManager<
+        'text',
+        'timestamp'
+      >;
 
       if (!sessionStore) {
         throw new Error('Session store not available in context');
