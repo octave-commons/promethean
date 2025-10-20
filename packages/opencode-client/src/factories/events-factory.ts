@@ -91,7 +91,7 @@ export function createExtractSessionIdTool(stores, client): ToolFunction {
       eventType: tool.schema.string().optional().describe('Type of the event'),
     },
     async execute({ event }) {
-      const sessionId = extractSessionId(event as OpenCodeEvent);
+      const sessionId = extractSessionId(event);
 
       return JSON.stringify({
         sessionId,
