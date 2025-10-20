@@ -54,6 +54,13 @@ export function createHandleSessionUpdatedTool(stores, clien1): ToolFunction {
     },
     async execute(args, context) {
       const { sessionId } = args;
+      const client = (context as any).client;
+      const agentTaskStore = (context as any).agentTaskStore;
+
+      const taskContext: TaskContext = {
+        agentTaskStore,
+        agentTasks: new Map(), // TODO: Remove Map when TaskContext is updated
+      };
 
       const eventContext: EventContext = { client, taskContext };
       await handleSessionUpdated(eventContext, sessionId);
