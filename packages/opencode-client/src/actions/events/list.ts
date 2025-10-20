@@ -8,12 +8,10 @@ export async function list({
   sessionId,
   hasTool,
   isAgentTask,
-  client,
-}: EventListOptions & { client?: EventClient }) {
+}: EventListOptions) {
   try {
     // Try to get events from dual store first
     let events: StoredEvent[] = [];
-    let fetchError: string | null = null;
 
     try {
       // Get all entries from dual store and filter for events
