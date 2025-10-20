@@ -2,10 +2,10 @@ import { DualStoreManager } from '@promethean/persistence';
 import { SessionInfo } from './SessionInfo.js';
 import type { Timestamp } from './types/index.js';
 
-const SESSION_STORE_NAME = 'sessionStore';
-const AGENT_TASK_STORE_NAME = 'agentTaskStore';
-const EVENT_STORE_NAME = 'eventStore';
-const MESSAGE_STORE_NAME = 'messageStore';
+export const SESSION_STORE_NAME = 'sessionStore';
+export const AGENT_TASK_STORE_NAME = 'agentTaskStore';
+export const EVENT_STORE_NAME = 'eventStore';
+export const MESSAGE_STORE_NAME = 'messageStore';
 
 export type AgentTask = {
   sessionId: string;
