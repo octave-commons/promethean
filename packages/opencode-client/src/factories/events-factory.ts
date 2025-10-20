@@ -31,10 +31,16 @@ export function createHandleSessionIdleTool(stores, client): ToolFunction {
     args: {
       sessionId: tool.schema.string().describe('Session ID that is idle'),
     },
-    async execute(args, context: ToolContext) {
+    async execute(args, context) {
       const { sessionId } = args;
-      // TODO: Inject client and taskContext dependencies properly
-      // For now, this will need to be implemented with proper dependency injection
+
+      const taskContext: TaskContext = {
+        agentTaskStore: stores,
+        agentTasks: new Map(), // TODO: Remove Map when TaskContext is updated
+      };
+
+      const eventContext: EventContext = { client, taskContext };
+      await handleSessionIdle(eventContext, sessionId);
 
       return JSON.stringify({
         success: true,
