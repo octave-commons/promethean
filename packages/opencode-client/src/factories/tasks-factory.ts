@@ -2,6 +2,7 @@
 // Factory functions for task tools
 
 import { tool } from '@opencode-ai/plugin/tool';
+import { DualStoreManager } from '@promethean/persistence';
 import {
   loadPersistedTasks,
   verifySessionExists,
@@ -11,6 +12,7 @@ import {
   createTask,
   getAllTasks,
   parseTimestamp,
+  type TaskContext,
 } from '../actions/tasks/index.js';
 
 // Factory for loadPersistedTasks tool
