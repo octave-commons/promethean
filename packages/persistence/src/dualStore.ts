@@ -87,7 +87,7 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
 
     private constructor({
         name,
-        agent_name = AGENT_NAME,
+        agent_name = AGENT_NAME ?? 'default_agent',
         embedding_fn = process.env.EMBEDDING_FUNCTION ?? 'nomic-embed-text',
         chromaCollection,
         mongoCollection,
