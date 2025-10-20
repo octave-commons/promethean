@@ -26,8 +26,8 @@ export const makeAuthService = (deps: AuthServiceDeps = {}) => {
     jwtSecret: secret = process.env.JWT_SECRET,
     config = {},
     id = () => uuidv4(),
-    now = () => new Date(),
-    log = () => {},
+    now: _now = () => new Date(),
+    log: _log = () => {},
   } = deps;
 
   if (!secret) {
