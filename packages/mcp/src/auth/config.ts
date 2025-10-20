@@ -113,10 +113,10 @@ function loadGitHubProviderConfig() {
   return {
     clientId,
     clientSecret,
-    scopes: getEnv('GITHUB_OAUTH_SCOPES', 'user:email')
+    scopes: getEnv('OAUTH_GITHUB_SCOPES', 'user:email')
       .split(',')
       .map((s) => s.trim()),
-    allowSignup: getEnv('GITHUB_OAUTH_ALLOW_SIGNUP', 'true') === 'true',
+    allowSignup: getEnv('OAUTH_GITHUB_ALLOW_SIGNUP', 'true') === 'true',
   };
 }
 
