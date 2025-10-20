@@ -20,103 +20,6 @@ import { OpencodeClient } from '@opencode-ai/sdk';
 
 type ToolFunction = ReturnType<typeof tool>;
 
-// Factory for handleSessionIdle tool
-export function createHandleSessionIdleTool(
-  stores: DualStoreManager<'text', 'timestamp'>,
-  client: OpencodeClient,
-): ToolFunction {
-  return tool({
-    description: 'Handle session idle event',
-    args: {
-      sessionId: tool.schema.string().describe('Session ID that is idle'),
-    },
-    async execute(args) {
-      const { sessionId } = args;
-
-      const eventContext: EventContext = { client, taskContext: stores };
-      await handleSessionIdle(eventContext, sessionId);
-
-      return JSON.stringify({
-        success: true,
-        sessionId,
-        event: 'session_idle_handled',
-      });
-    },
-  });
-}
-
-// Factory for handleSessionUpdated tool
-export function createHandleSessionUpdatedTool(
-  stores: DualStoreManager<'text', 'timestamp'>,
-  client: OpencodeClient,
-): ToolFunction {
-  return tool({
-    description: 'Handle session updated event',
-    args: {
-      sessionId: tool.schema.string().describe('Session ID that was updated'),
-    },
-    async execute(args) {
-      const { sessionId } = args;
-
-      const eventContext: EventContext = { client, taskContext: stores };
-      await handleSessionUpdated(eventContext, sessionId);
-
-      return JSON.stringify({
-        success: true,
-        sessionId,
-        event: 'session_updated_handled',
-      });
-    },
-  });
-}
-
-// Factory for handleMessageUpdated tool
-export function createHandleMessageUpdatedTool(
-  stores: DualStoreManager<'text', 'timestamp'>,
-  client: OpencodeClient,
-): ToolFunction {
-  return tool({
-    description: 'Handle message updated event',
-    args: {
-      sessionId: tool.schema.string().describe('Session ID where message was updated'),
-    },
-    async execute(args) {
-      const { sessionId } = args;
-
-      const eventContext: EventContext = { client, taskContext: stores };
-      await handleMessageUpdated(eventContext, sessionId);
-
-      return JSON.stringify({
-        success: true,
-        sessionId,
-        event: 'message_updated_handled',
-      });
-    },
-  });
-}
-
-// Factory for extractSessionId tool
-export function createExtractSessionIdTool(
-  stores: DualStoreManager<'text', 'timestamp'>,
-  client: OpencodeClient,
-): ToolFunction {
-  return tool({
-    description: 'Extract session ID from an event object',
-    args: {
-      event: tool.schema.unknown().describe('Event object to extract session ID from'),
-      eventType: tool.schema.string().optional().describe('Type of the event'),
-    },
-    async execute({ event }) {
-      const sessionId = extractSessionId(event as OpenCodeEvent);
-
-      return JSON.stringify({
-        sessionId,
-        extracted: !!sessionId,
-      });
-    },
-  });
-}
-
 // Factory for getSessionMessages tool
 export function createGetSessionMessagesTool(
   stores: DualStoreManager<'text', 'timestamp'>,
@@ -192,10 +95,11 @@ export function createProcessSessionMessagesTool(
 
 // Export all factory functions
 export const eventsToolFactories = {
-  createHandleSessionIdleTool,
-  createHandleSessionUpdatedTool,
-  createHandleMessageUpdatedTool,
-  createExtractSessionIdTool,
+  // removed intetnionally because they are not useful to an agent.
+  // createHandleSessionIdleTool,
+  // createHandleSessionUpdatedTool,
+  // createHandleMessageUpdatedTool,
+  // createExtractSessionIdTool,
   createGetSessionMessagesTool,
   createDetectTaskCompletionTool,
   createProcessSessionMessagesTool,
