@@ -1,6 +1,6 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
-import { create } from '../../actions/sessions/create.js';
+
 import { createOpencodeClient } from '@opencode-ai/sdk';
 
 export const createSessionCommand = new Command('create')
@@ -39,7 +39,9 @@ export const createSessionCommand = new Command('create')
       // Create OpenCode client
       const client = createOpencodeClient();
 
-      const sessionData = JSON.parse(result);
+      const sessionData = await client.session.create({
+        title: sessionTitle,
+      });
 
       console.log(chalk.green('✓ Session created successfully'));
       console.log(`ID: ${sessionData.session?.id}`);
