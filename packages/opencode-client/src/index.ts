@@ -1,4 +1,5 @@
 import { DualStoreManager, ContextStore, type GenericEntry } from '@promethean/persistence';
+import type { Message } from 'ollama';
 import { SessionInfo } from './SessionInfo.js';
 import { SessionUtils } from './SessionUtils.js';
 import type { Timestamp } from './types/index.js';
