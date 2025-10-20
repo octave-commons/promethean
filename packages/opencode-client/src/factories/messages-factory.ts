@@ -67,7 +67,7 @@ export function createProcessMessageTool(): ReturnType<typeof tool> {
 }
 
 // Factory for processSessionMessages tool
-export function createProcessSessionMessagesMessagesTool(): any {
+export function createProcessSessionMessagesMessagesTool(): ReturnType<typeof tool> {
   return tool({
     description: 'Process all messages in a session (messages version)',
     args: {

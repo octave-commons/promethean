@@ -121,8 +121,14 @@ type Context = {
   messageID: string;
 };
 
+type Stores = {
+  agentTaskStore: DualStoreManager<'text', 'timestamp'>;
+
+}
+
+
 // Factory for updateTaskStatus tool
-export function createUpdateTaskStatusTool(): ReturnType<typeof tool> {
+export function createUpdateTaskStatusTool(stores): ReturnType<typeof tool> {
   return tool({
     description: 'Update the status of an agent task',
     args: {
@@ -135,11 +141,10 @@ export function createUpdateTaskStatusTool(): ReturnType<typeof tool> {
         .optional()
         .describe('Completion message (required for completed/failed status)'),
     },
-    async execute(args, context) {
+    async execute(args, context:Context) {
       const { sessionId, status, completionMessage } = args;
       const agentTaskStore = (context as Record<string, unknown>)
         .agentTaskStore as DualStoreManager<'text', 'timestamp'>;
-      const agentTasks = (context as Record<string, unknown>).agentTasks as Map<string, AgentTask>;
 
       if (!agentTaskStore || !agentTasks) {
         throw new Error('Required task context not available');
@@ -174,7 +179,6 @@ export function createMonitorTasksTool(): ReturnType<typeof tool> {
       const { timeoutMinutes } = args;
       const agentTaskStore = (context as Record<string, unknown>)
         .agentTaskStore as DualStoreManager<'text', 'timestamp'>;
-      const agentTasks = (context as Record<string, unknown>).agentTasks as Map<string, AgentTask>;
 
       if (!agentTaskStore || !agentTasks) {
         throw new Error('Required task context not available');
@@ -182,7 +186,6 @@ export function createMonitorTasksTool(): ReturnType<typeof tool> {
 
       const taskContext = {
         agentTaskStore,
-        agentTasks,
       };
 
       // Note: The original monitorTasks function uses a hardcoded 30-minute timeout
@@ -200,26 +203,22 @@ export function createMonitorTasksTool(): ReturnType<typeof tool> {
 }
 
 // Factory for createTask tool
-export function createCreateTaskTool(): ReturnType<typeof tool> {
+export function createCreateTaskTool({agentTaskStore}): ReturnType<typeof tool> {
+  if (!agentTaskStore) {
+    throw new Error('Required task context not available');
+  }
   return tool({
     description: 'Create a new agent task',
     args: {
       sessionId: tool.schema.string().describe('Session ID for the task'),
       task: tool.schema.string().describe('Task description'),
     },
-    async execute(args, context) {
+    async execute(args, context:Context) {
       const { sessionId, task } = args;
-      const agentTaskStore = (context as Record<string, unknown>)
-        .agentTaskStore as DualStoreManager<'text', 'timestamp'>;
-      const agentTasks = (context as Record<string, unknown>).agentTasks as Map<string, AgentTask>;
 
-      if (!agentTaskStore || !agentTasks) {
-        throw new Error('Required task context not available');
-      }
 
       const taskContext = {
         agentTaskStore,
-        agentTasks,
       };
 
       const agentTask = await createTask(taskContext, sessionId, task);
@@ -237,16 +236,15 @@ export function createCreateTaskTool(): ReturnType<typeof tool> {
 }
 
 // Factory for getAllTasks tool
-export function createGetAllTasksTool(): ReturnType<typeof tool> {
+export function createGetAllTasksTool({agentTaksStore,client}): ReturnType<typeof tool> {
   return tool({
     description: 'Get all tasks from memory and storage',
     args: {},
-    async execute(_args, context) {
+    async execute(_args, context:Context) {
       const agentTaskStore = (context as Record<string, unknown>)
         .agentTaskStore as DualStoreManager<'text', 'timestamp'>;
-      const agentTasks = (context as Record<string, unknown>).agentTasks as Map<string, AgentTask>;
 
-      if (!agentTaskStore || !agentTasks) {
+      if (!agentTaskStore s) {
         throw new Error('Required task context not available');
       }
 
