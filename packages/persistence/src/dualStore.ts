@@ -68,6 +68,8 @@ type QueryArgs = Parameters<ChromaCollection['query']>[0];
 
 type DualStoreManagerDependencies<TextKey extends string, TimeKey extends string> = {
     readonly name: string;
+    readonly agent_name: string;
+    readonly embedding_fn: string;
     readonly chromaCollection: ChromaCollection;
     readonly mongoCollection: Collection<DualStoreEntry<TextKey, TimeKey>>;
     readonly textKey: TextKey;
