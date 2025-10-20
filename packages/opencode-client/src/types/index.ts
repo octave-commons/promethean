@@ -147,14 +147,6 @@ export interface QueueInfo {
 // Cache Management Types
 export type CacheAction = 'stats' | 'clear' | 'clear-expired' | 'performance-analysis';
 
-export interface CacheStats {
-  totalEntries: number;
-  hitRate: number;
-  missRate: number;
-  averageAccessTime: number;
-  memoryUsage: number;
-}
-
 export interface CachePerformance {
   throughput: number;
   latency: {

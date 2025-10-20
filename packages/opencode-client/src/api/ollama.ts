@@ -1,16 +1,13 @@
 // API functions for Ollama queue operations
 // Real implementations using ollama-queue and actions
 
+import type { OllamaModel, OllamaModelDetailed, QueueInfo, CacheAction } from '../types/index.js';
 import type {
-  OllamaModel,
-  OllamaModelDetailed,
-  QueueInfo,
-  CacheAction,
   CacheStats,
   CacheClearResult,
   CacheExpiredResult,
   CacheAnalysis,
-} from '../types/index.js';
+} from '../actions/cache/types.js';
 import {
   submitJob as submitJobAction,
   getJobStatus as getJobStatusAction,
