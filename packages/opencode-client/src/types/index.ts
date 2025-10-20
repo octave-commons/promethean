@@ -426,5 +426,59 @@ export interface ToolExecuteHook {
   onError?: (error: Error, params: Record<string, unknown>) => Promise<void>;
 }
 
+// Cache Management Types
+export interface CacheAnalysis {
+  totalEntries: number;
+  models: Record<
+    string,
+    {
+      entries: number;
+      averageScore: number;
+      taskDistribution: Record<string, number>;
+    }
+  >;
+  taskCategories: Record<string, unknown>;
+  averageScores: Record<string, number>;
+  performanceByCategory: Record<
+    string,
+    {
+      totalScore: number;
+      count: number;
+      averageScore: number;
+      models: Record<
+        string,
+        {
+          totalScore: number;
+          count: number;
+          averageScore: number;
+        }
+      >;
+    }
+  >;
+}
+
+export interface CacheStats {
+  totalSize: number;
+  modelCount: number;
+  models: Array<{
+    model: string;
+    size: number;
+  }>;
+  similarityThreshold: number;
+  maxAgeMs: number;
+  maxAgeHours: number;
+}
+
+export interface CacheClearResult {
+  message: string;
+  clearedEntries: number;
+  size: number;
+}
+
+export interface CacheExpiredResult {
+  message: string;
+  size: number;
+}
+
 // Re-export DualStoreManager from persistence package
 export type { DualStoreManager } from '@promethean/persistence';
