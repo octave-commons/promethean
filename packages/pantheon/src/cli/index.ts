@@ -9,16 +9,11 @@ import {
   makeInMemoryMessageBusAdapter,
   makeInMemorySchedulerAdapter,
   makeInMemoryActorStateAdapter,
-  createLLMActor,
-  createToolActor,
-  createCompositeActor,
-  createActorFromTemplate,
-  generateActorId,
   createConsoleLogger,
-  createError,
   type Actor,
   type ActorScript,
 } from '../index.js';
+import { createLLMActor, createToolActor, createCompositeActor } from '../actors/index.js';
 import { makeOpenAIAdapter } from '../adapters/index.js';
 import { makeMCPAdapterWithDefaults } from '@promethean/pantheon-mcp';
 

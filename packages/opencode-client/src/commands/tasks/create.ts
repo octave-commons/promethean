@@ -13,7 +13,7 @@ export const createTaskCommand = new Command('create')
       console.log(chalk.blue(`➕ Creating task: ${description}`));
 
       const sessionId = options.sessionId || randomUUID();
-      const task = await AgentTaskManager.createTask(sessionId, description);
+      const task = await createTask(sessionId, description);
 
       if (options.json) {
         console.log(JSON.stringify(task, null, 2));
