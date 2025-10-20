@@ -142,7 +142,7 @@ export class IndexerService {
         },
       });
 
-      console.log(`📝 Indexed event: ${event.type}`);
+      this.logEvent(event.type);
     } catch (error) {
       console.error('❌ Error indexing event:', error);
     }
