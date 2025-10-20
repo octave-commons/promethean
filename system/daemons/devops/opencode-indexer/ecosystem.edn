@@ -1,5 +1,5 @@
-{:apps [{:name "opencode"
-         :script "opencode"
+{:apps [{:name "opencode-indexer"
+         :script "opencode-client"
          :args ["serve" "--port" 4096]
          :interpreter "/usr/bin/env"
          :out_file "./logs/opencode-out.log"
