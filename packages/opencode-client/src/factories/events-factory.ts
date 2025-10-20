@@ -12,7 +12,7 @@ import {
   detectTaskCompletion,
   processSessionMessages,
 } from '../actions/events/index.js';
-import type { OpenCodeEvent, EventMessage, EventClient } from '../types/index.js';
+import type { OpenCodeEvent, EventMessage } from '../types/index.js';
 import type { TaskContext } from '../actions/tasks/index.js';
 import type { EventContext } from '../actions/events/index.js';
 import type { DualStoreManager } from '@promethean/persistence';
