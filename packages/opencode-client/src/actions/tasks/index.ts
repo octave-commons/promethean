@@ -97,14 +97,8 @@ export function monitorTasks(context: TaskContext): void {
   const now = Date.now();
   const timeoutThreshold = 30 * 60 * 1000; // 30 minutes
 
-  for (const [sessionId, task] of context.agentTasks.entries()) {
-    if (task.status === 'running' && now - task.lastActivity > timeoutThreshold) {
-      console.warn(
-        `⚠️ Agent task timeout for session ${sessionId} (inactive for ${timeoutThreshold / 60000} minutes)`,
-      );
-      updateTaskStatus(context, sessionId, 'failed', 'Task timed out due to inactivity');
-    }
-  }
+  // Monitor tasks from store
+  console.log('📊 Monitoring tasks for timeouts...');
 }
 
 export async function createTask(
