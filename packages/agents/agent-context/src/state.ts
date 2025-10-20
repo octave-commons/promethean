@@ -9,7 +9,6 @@ import { DefaultContextManager } from './context-manager.js';
 import type {
   EventStore,
   SnapshotStore,
-  ContextManager,
   AgentContext,
   ContextEvent,
   ContextSnapshot,
