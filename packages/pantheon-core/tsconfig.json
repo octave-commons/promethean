@@ -1,9 +1,18 @@
 {
   "extends": "../../config/tsconfig.base.json",
   "compilerOptions": {
+<<<<<<< Updated upstream
     "outDir": "./dist",
     "rootDir": "./src"
   },
   "include": ["src/**/*"],
   "exclude": ["dist", "node_modules", "**/*.test.ts"]
+=======
+    "outDir": "dist",
+    "rootDir": "src",
+    "composite": true
+  },
+  "include": ["src/**/*"],
+  "references": [{ "path": "../persistence" }]
+>>>>>>> Stashed changes
 }
