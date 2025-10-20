@@ -17,7 +17,7 @@ import {
 } from '../actions/tasks/index.js';
 
 // Factory for loadPersistedTasks tool
-export function createLoadPersistedTasksTool(): ReturnType<typeof tool> {
+export function createLoadPersistedTasksTool(stores, client): ReturnType<typeof tool> {
   return tool({
     description: 'Load persisted agent tasks from storage',
     args: {
@@ -29,9 +29,6 @@ export function createLoadPersistedTasksTool(): ReturnType<typeof tool> {
     async execute(args, context) {
       const { verifySessions } = args;
       const client = (context as Record<string, unknown>).client;
-      const agentTaskStore = (context as Record<string, unknown>)
-        .agentTaskStore as DualStoreManager<'text', 'timestamp'>;
-      const agentTasks = (context as Record<string, unknown>).agentTasks as Map<string, unknown>;
 
       if (!agentTaskStore || !agentTasks) {
         throw new Error('Required task context not available');
@@ -58,7 +55,7 @@ export function createLoadPersistedTasksTool(): ReturnType<typeof tool> {
 }
 
 // Factory for verifySessionExists tool
-export function createVerifySessionExistsTool(): ReturnType<typeof tool> {
+export function createVerifySessionExistsTool(stores, client): ReturnType<typeof tool> {
   return tool({
     description: 'Verify if a session still exists',
     args: {
@@ -84,7 +81,7 @@ export function createVerifySessionExistsTool(): ReturnType<typeof tool> {
 }
 
 // Factory for cleanupOrphanedTask tool
-export function createCleanupOrphanedTaskTool(): ReturnType<typeof tool> {
+export function createCleanupOrphanedTaskTool(stores, client): ReturnType<typeof tool> {
   return tool({
     description: 'Clean up an orphaned task from memory',
     args: {
@@ -127,7 +124,7 @@ type Stores = {
 };
 
 // Factory for updateTaskStatus tool
-export function createUpdateTaskStatusTool(stores): ReturnType<typeof tool> {
+export function createUpdateTaskStatusTool(stores, client): ReturnType<typeof tool> {
   return tool({
     description: 'Update the status of an agent task',
     args: {
@@ -142,17 +139,6 @@ export function createUpdateTaskStatusTool(stores): ReturnType<typeof tool> {
     },
     async execute(args, context: Context) {
       const { sessionId, status, completionMessage } = args;
-      const agentTaskStore = (context as Record<string, unknown>)
-        .agentTaskStore as DualStoreManager<'text', 'timestamp'>;
-
-      if (!agentTaskStore || !agentTasks) {
-        throw new Error('Required task context not available');
-      }
-
-      const taskContext = {
-        agentTaskStore,
-        agentTasks,
-      };
 
       await updateTaskStatus(taskContext, sessionId, status, completionMessage);
 
