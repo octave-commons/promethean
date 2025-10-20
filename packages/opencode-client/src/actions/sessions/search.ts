@@ -51,19 +51,19 @@ export async function search({
     const sessions = k ? filteredSessions.slice(0, k) : filteredSessions;
 
     const enhanced = await Promise.all(
-      sessions.map(async (session: any) => {
+      sessions.map(async (session: Session): Promise<SessionInfo & { error?: string }> => {
         try {
           // Get messages from dual store - fail fast if not available
           const messageKey = `session:${session.id}:messages`;
           const messageEntry = await sessionStore.get(messageKey);
-          let messages: any[] = [];
+          let messages: unknown[] = [];
           if (messageEntry) {
             messages = JSON.parse(messageEntry.text);
           }
 
           const agentTask = agentTasks.get(session.id);
           return SessionUtils.createSessionInfo(session, messages.length, agentTask);
-        } catch (error: any) {
+        } catch (error: unknown) {
           console.error(`Error processing session ${session.id}:`, error);
           const agentTask = agentTasks.get(session.id);
           return {
@@ -79,8 +79,8 @@ export async function search({
       results: enhanced,
       totalCount: enhanced.length,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error searching sessions:', error);
-    return `Failed to search sessions: ${error.message}`;
+    return `Failed to search sessions: ${error instanceof Error ? error.message : String(error)}`;
   }
 }

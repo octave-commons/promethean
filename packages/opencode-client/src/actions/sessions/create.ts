@@ -28,7 +28,9 @@ export async function create({ title, client }: { title?: string; client?: Openc
         createdAt: session.time?.created,
       },
     });
-  } catch (error: any) {
-    throw new Error(`Failed to create session on OpenCode server: ${error.message}`);
+  } catch (error: unknown) {
+    throw new Error(
+      `Failed to create session on OpenCode server: ${error instanceof Error ? error.message : String(error)}`,
+    );
   }
 }
