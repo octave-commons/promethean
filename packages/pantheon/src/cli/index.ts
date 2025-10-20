@@ -9,13 +9,13 @@ import {
   makeInMemoryMessageBusAdapter,
   makeInMemorySchedulerAdapter,
   makeInMemoryActorStateAdapter,
-  createConsoleLogger,
   type Actor,
   type ActorScript,
-} from '../index.js';
+} from '@promethean/pantheon-core';
 import { createLLMActor, createToolActor, createCompositeActor } from '../actors/index.js';
 import { makeOpenAIAdapter } from '../adapters/index.js';
 import { makeMCPAdapterWithDefaults } from '@promethean/pantheon-mcp';
+import { createConsoleLogger } from '../utils/index.js';
 
 const program = new Command();
 const logger = createConsoleLogger('info');
