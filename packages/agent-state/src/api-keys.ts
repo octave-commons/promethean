@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { AuthToken } from './types';
-import { SecurityValidator, SecurityLogger } from './security';
+import { SecurityValidator } from './security';
 
 export class ApiKeyManager {
   constructor(private readonly jwtSecret: string) {}

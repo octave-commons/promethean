@@ -18,13 +18,13 @@ test.serial('ContextLifecycleManager: should create new context', async (t) => {
   const metadataStore = new MockMetadataStore();
 
   const contextManager = new DefaultContextManager(eventStore, snapshotStore);
-  const lifecycleManager = new ContextLifecycleManager(
+  const lifecycleManager = new ContextLifecycleManager({
     contextManager,
     eventStore,
     snapshotStore,
     shareStore,
     metadataStore,
-  );
+  });
 
   const agentId = 'agent-1';
   const initialState = { status: 'active', counter: 0 };
@@ -52,13 +52,13 @@ test.serial('ContextLifecycleManager: should archive context', async (t) => {
   const metadataStore = new MockMetadataStore();
 
   const contextManager = new DefaultContextManager(eventStore, snapshotStore);
-  const lifecycleManager = new ContextLifecycleManager(
+  const lifecycleManager = new ContextLifecycleManager({
     contextManager,
     eventStore,
     snapshotStore,
     shareStore,
     metadataStore,
-  );
+  });
 
   const agentId = 'agent-1';
 
@@ -81,13 +81,13 @@ test.serial('ContextLifecycleManager: should delete context', async (t) => {
   const metadataStore = new MockMetadataStore();
 
   const contextManager = new DefaultContextManager(eventStore, snapshotStore);
-  const lifecycleManager = new ContextLifecycleManager(
+  const lifecycleManager = new ContextLifecycleManager({
     contextManager,
     eventStore,
     snapshotStore,
     shareStore,
     metadataStore,
-  );
+  });
 
   const agentId = 'agent-1';
 
@@ -122,13 +122,13 @@ test.serial('ContextLifecycleManager: should cleanup expired contexts', async (t
   const metadataStore = new MockMetadataStore();
 
   const contextManager = new DefaultContextManager(eventStore, snapshotStore);
-  const lifecycleManager = new ContextLifecycleManager(
+  const lifecycleManager = new ContextLifecycleManager({
     contextManager,
     eventStore,
     snapshotStore,
     shareStore,
     metadataStore,
-  );
+  });
 
   // Add expired metadata
   await metadataStore.setMetadata({
@@ -168,13 +168,13 @@ test.serial('ContextLifecycleManager: should get context statistics', async (t) 
   const metadataStore = new MockMetadataStore();
 
   const contextManager = new DefaultContextManager(eventStore, snapshotStore);
-  const lifecycleManager = new ContextLifecycleManager(
+  const lifecycleManager = new ContextLifecycleManager({
     contextManager,
     eventStore,
     snapshotStore,
     shareStore,
     metadataStore,
-  );
+  });
 
   const agentId = 'agent-1';
 
@@ -218,13 +218,13 @@ test.serial('ContextLifecycleManager: should export and import context', async (
   const metadataStore = new MockMetadataStore();
 
   const sourceContextManager = new DefaultContextManager(eventStore, snapshotStore);
-  const sourceLifecycleManager = new ContextLifecycleManager(
-    sourceContextManager,
+  const sourceLifecycleManager = new ContextLifecycleManager({
+    contextManager: sourceContextManager,
     eventStore,
     snapshotStore,
     shareStore,
     metadataStore,
-  );
+  });
 
   const targetEventStore = new MockEventStore();
   const targetSnapshotStore = new MockSnapshotStore();
@@ -254,16 +254,16 @@ test.serial('ContextLifecycleManager: should export and import context', async (
   t.is(exportData.context.agentId, sourceAgentId);
   t.deepEqual(exportData.context.state, initialState);
   t.is(exportData.metadata.length, 1);
-  t.is(exportData.metadata[0].contextKey, 'user-preferences');
+  t.is(exportData.metadata[0]!.contextKey, 'user-preferences');
 
   // Import to target
-  const targetLifecycleManager = new ContextLifecycleManager(
-    targetContextManager,
-    targetEventStore,
-    targetSnapshotStore,
-    undefined,
-    targetMetadataStore,
-  );
+  const targetLifecycleManager = new ContextLifecycleManager({
+    contextManager: targetContextManager,
+    eventStore: targetEventStore,
+    snapshotStore: targetSnapshotStore,
+    shareStore: undefined,
+    metadataStore: targetMetadataStore,
+  });
 
   await targetLifecycleManager.importContext(targetAgentId, exportData);
 
@@ -285,13 +285,13 @@ test.serial('ContextLifecycleManager: should validate context integrity', async 
   const metadataStore = new MockMetadataStore();
 
   const contextManager = new DefaultContextManager(eventStore, snapshotStore);
-  const lifecycleManager = new ContextLifecycleManager(
+  const lifecycleManager = new ContextLifecycleManager({
     contextManager,
     eventStore,
     snapshotStore,
     shareStore,
     metadataStore,
-  );
+  });
 
   const agentId = 'agent-1';
 
@@ -332,13 +332,13 @@ test.serial('ContextLifecycleManager: should get system statistics', async (t) =
   const metadataStore = new MockMetadataStore();
 
   const contextManager = new DefaultContextManager(eventStore, snapshotStore);
-  const lifecycleManager = new ContextLifecycleManager(
+  const lifecycleManager = new ContextLifecycleManager({
     contextManager,
     eventStore,
     snapshotStore,
     shareStore,
     metadataStore,
-  );
+  });
 
   // Get system statistics
   const systemStats = await lifecycleManager.getSystemStatistics();
@@ -363,13 +363,13 @@ test.serial('ContextLifecycleManager: should handle errors gracefully', async (t
   metadataStore.clear();
 
   const contextManager = new DefaultContextManager(eventStore, snapshotStore);
-  const lifecycleManager = new ContextLifecycleManager(
+  const lifecycleManager = new ContextLifecycleManager({
     contextManager,
     eventStore,
     snapshotStore,
     shareStore,
     metadataStore,
-  );
+  });
 
   // Use a unique agent ID to avoid conflicts with other tests
   const uniqueAgentId =

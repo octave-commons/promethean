@@ -103,12 +103,12 @@ test('SecurityLogger logs and retrieves events', (t) => {
   // Filter by type
   const authEvents = SecurityLogger.getEvents({ type: 'authentication' });
   t.is(authEvents.length, 1);
-  t.is(authEvents[0].action, 'login');
+  t.is(authEvents[0]!.action, 'login');
 
   // Filter by agent
   const agentEvents = SecurityLogger.getEvents({ agentId: 'agent-123' });
   t.is(agentEvents.length, 1);
-  t.is(agentEvents[0].agentId, 'agent-123');
+  t.is(agentEvents[0]!.agentId, 'agent-123');
 
   // Get statistics
   const stats = SecurityLogger.getStatistics();
@@ -146,7 +146,12 @@ test('JWTAuthService generates and validates tokens securely', async (t) => {
 });
 
 test('JWTAuthService enforces rate limiting', async (t) => {
-  const authService = new JWTAuthService('test-secret-key', '24h', 1000, 2);
+  const authService = new JWTAuthService({
+    jwtSecret: 'test-secret-key',
+    tokenExpiry: '24h',
+    rateLimitWindow: 1000,
+    maxAttempts: 2,
+  });
 
   // First 2 attempts should succeed
   await t.notThrowsAsync(() => authService.generateToken('agent-1', ['read']));
@@ -210,9 +215,9 @@ test('SecurityValidator sanitizes objects correctly', (t) => {
     },
   };
 
-  const sanitized = SecurityValidator.sanitizeObject(dangerous);
+  const sanitized = SecurityValidator.sanitizeObject(dangerous) as any;
   t.not('__proto__' in sanitized, true);
-  t.is((sanitized as any).safe, 'value');
-  t.not('__proto__' in (sanitized as any).nested, true);
-  t.is((sanitized as any).nested.safe, 'nested-value');
+  t.is(sanitized.safe, 'value');
+  t.not('__proto__' in sanitized.nested, true);
+  t.is(sanitized.nested.safe, 'nested-value');
 });

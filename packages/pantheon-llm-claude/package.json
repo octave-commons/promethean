@@ -1,0 +1,36 @@
+{
+  "name": "@promethean/pantheon-llm-claude",
+  "version": "1.0.0",
+  "description": "Pantheon LLM adapter for Anthropic Claude API",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./dist/*": "./dist/*",
+    "./*": "./dist/*"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "dev": "tsc --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "ava",
+    "lint": "pnpm exec eslint ."
+  },
+  "dependencies": {
+    "@promethean/pantheon-core": "workspace:*",
+    "@anthropic-ai/sdk": "^0.24.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ava": "^5.3.1",
+    "typescript": "^5.3.3"
+  }
+}

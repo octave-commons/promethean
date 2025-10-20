@@ -87,17 +87,18 @@ test.serial('JWTAuthService: should generate and validate API keys', async (t) =
   const authService = new JWTAuthService('test-secret-must-be-at-least-32-chars');
 
   const agentId = 'agent-123';
-  const apiKey = authService.generateApiKey(agentId);
+  const apiKey = authService.generateApiKey(agentId, ['read']);
 
   t.truthy(apiKey);
   t.true(typeof apiKey === 'string');
 
-  const validatedAgentId = await authService.validateApiKey(apiKey);
-  t.is(validatedAgentId, agentId);
+  const validatedApiKey = await authService.validateApiKey(apiKey);
+  t.not(validatedApiKey, null);
+  t.is(validatedApiKey!.agentId, agentId);
 
   // Test invalid API key
-  const invalidAgentId = await authService.validateApiKey('invalid-key');
-  t.is(invalidAgentId, null);
+  const invalidApiKey = await authService.validateApiKey('invalid-key');
+  t.is(invalidApiKey, null);
 });
 
 test.serial('JWTAuthService: should use default secret from environment', async (t) => {
@@ -199,10 +200,10 @@ test.serial('AuthService: should handle token refresh', async (t) => {
 
   const refreshedToken = await authService.refreshToken(originalToken.token);
 
-  t.not(refreshedToken.token, originalToken.token);
-  t.is(refreshedToken.agentId, agentId);
-  t.deepEqual(refreshedToken.permissions, originalToken.permissions);
-  t.true(refreshedToken.expiresAt > originalToken.expiresAt);
+  t.not(refreshedToken!.token, originalToken.token);
+  t.is(refreshedToken!.agentId, agentId);
+  t.deepEqual(refreshedToken!.permissions, originalToken.permissions);
+  t.true(refreshedToken!.expiresAt > originalToken.expiresAt);
 });
 
 test.serial('AuthService: should validate permissions', async (t) => {
@@ -228,8 +229,8 @@ test.serial('AuthService: should hash passwords securely', async (t) => {
   t.true(hashedPassword.length > 0);
 
   // Verify password can be validated
-  t.true(await authService.validatePassword(password, hashedPassword));
-  t.false(await authService.validatePassword('wrong-password', hashedPassword));
+  t.true(await authService.verifyPassword(password, hashedPassword));
+  t.false(await authService.verifyPassword('wrong-password', hashedPassword));
 });
 
 test.serial('AuthService: should handle rate limiting', async (t) => {
