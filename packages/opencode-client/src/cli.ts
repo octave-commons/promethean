@@ -62,25 +62,5 @@ process.on('SIGTERM', async () => {
   process.exit(0);
 });
 
-process.on('unhandledRejection', async (reason, promise) => {
-  console.error(chalk.red('Unhandled rejection at:'), promise, 'reason:', reason);
-  await cleanupStores();
-  process.exit(1);
-});
-
-// Add cleanup hook for SIGINT (Ctrl+C)
-process.on('SIGINT', async () => {
-  console.log(chalk.gray('\nShutting down...'));
-  await cleanupStores();
-  process.exit(0);
-});
-
-// Add cleanup hook for SIGTERM
-process.on('SIGTERM', async () => {
-  console.log(chalk.gray('\nTerminating...'));
-  await cleanupStores();
-  process.exit(0);
-});
-
 // Parse and execute
 program.parse();

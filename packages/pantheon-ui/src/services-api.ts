@@ -1,212 +1,77 @@
-import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import { toast } from 'react-hot-toast';
+import axios from 'axios';
 import type {
   Actor,
-  ActorWithStatus,
-  LLMActor,
   ActorConfig,
   Context,
-  ContextCompilation,
-  MCPTool,
-  MCPToolExecution,
-  SystemMetrics,
-  ChatMessage,
+  Tool,
+  SystemStats,
+  SystemStatus,
   ApiResponse,
-  PaginatedResponse,
 } from '@/types';
 
-class APIClient {
-  private client: AxiosInstance;
+const API_BASE_URL = 'http://localhost:8080/api';
 
-  constructor(baseURL: string = '/api') {
-    this.client = axios.create({
-      baseURL,
-      timeout: 30000,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
-    // Request interceptor
-    this.client.interceptors.request.use(
-      (config) => {
-        // Add auth token if available
-        const token = localStorage.getItem('auth_token');
-        if (token) {
-          config.headers.Authorization = `Bearer ${token}`;
-        }
-        return config;
-      },
-      (error) => Promise.reject(error),
-    );
+// Request interceptor
+api.interceptors.request.use(
+  (config) => {
+    // Add auth token if available
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
 
-    // Response interceptor
-    this.client.interceptors.response.use(
-      (response: AxiosResponse<APIResponse>) => {
-        if (response.data.error) {
-          toast.error(response.data.error);
-          throw new Error(response.data.error);
-        }
-        return response;
-      },
-      (error) => {
-        const message = error.response?.data?.error || error.message || 'An error occurred';
-        toast.error(message);
-        throw error;
-      },
-    );
-  }
+// Response interceptor
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      // Handle unauthorized
+      localStorage.removeItem('authToken');
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  },
+);
 
-  // Actor Management
-  async getActors(): Promise<ActorWithStatus[]> {
-    const response = await this.client.get<APIResponse<ActorWithStatus[]>>('/actors');
-    return response.data.data || [];
-  }
+export const actorsApi = {
+  getAll: () => api.get<Actor[]>('/actors'),
+  getById: (id: string) => api.get<Actor>(`/actors/${id}`),
+  create: (data: ActorConfig) => api.post<Actor>('/actors', data),
+  update: (id: string, data: Partial<Actor>) => api.put<Actor>(`/actors/${id}`, data),
+  delete: (id: string) => api.delete(`/actors/${id}`),
+  tick: (id: string) => api.post(`/actors/${id}/tick`),
+};
 
-  async getActor(actorId: string): Promise<ActorWithStatus> {
-    const response = await this.client.get<APIResponse<ActorWithStatus>>(`/actors/${actorId}`);
-    return response.data.data!;
-  }
+export const contextsApi = {
+  getAll: () => api.get<Context[]>('/contexts'),
+  getById: (id: string) => api.get<Context>(`/contexts/${id}`),
+  create: (data: any) => api.post<Context>('/contexts', data),
+  compile: (id: string) => api.post(`/contexts/${id}/compile`),
+};
 
-  async createActor(config: ActorConfig): Promise<Actor> {
-    const response = await this.client.post<APIResponse<Actor>>('/actors', config);
-    return response.data.data!;
-  }
+export const toolsApi = {
+  getAll: () => api.get<Tool[]>('/tools'),
+  getById: (id: string) => api.get<Tool>(`/tools/${id}`),
+  execute: (id: string, data: any) => api.post(`/tools/${id}/execute`, data),
+};
 
-  async updateActor(actorId: string, config: Partial<ActorConfig>): Promise<Actor> {
-    const response = await this.client.put<APIResponse<Actor>>(`/actors/${actorId}`, config);
-    return response.data.data!;
-  }
+export const systemApi = {
+  getStatus: () => api.get<SystemStatus>('/system/status'),
+  getStats: () => api.get<SystemStats>('/system/stats'),
+};
 
-  async deleteActor(actorId: string): Promise<void> {
-    await this.client.delete(`/actors/${actorId}`);
-  }
-
-  async tickActor(actorId: string): Promise<void> {
-    await this.client.post(`/actors/${actorId}/tick`);
-  }
-
-  // LLM Actor Management
-  async createLLMActor(config: LLMActorConfig): Promise<LLMActor> {
-    const response = await this.client.post<APIResponse<LLMActor>>('/actors/llm', config);
-    return response.data.data!;
-  }
-
-  async getLLMMessages(actorId: string): Promise<ChatMessage[]> {
-    const response = await this.client.get<APIResponse<ChatMessage[]>>(
-      `/actors/${actorId}/messages`,
-    );
-    return response.data.data || [];
-  }
-
-  async sendLLMMessage(actorId: string, message: string): Promise<ChatMessage> {
-    const response = await this.client.post<APIResponse<ChatMessage>>(
-      `/actors/${actorId}/messages`,
-      {
-        content: message,
-      },
-    );
-    return response.data.data!;
-  }
-
-  async clearLLMMessages(actorId: string): Promise<void> {
-    await this.client.delete(`/actors/${actorId}/messages`);
-  }
-
-  // Context Management
-  async getContexts(): Promise<Context[]> {
-    const response = await this.client.get<APIResponse<Context[]>>('/contexts');
-    return response.data.data || [];
-  }
-
-  async getContext(contextId: string): Promise<Context> {
-    const response = await this.client.get<APIResponse<Context>>(`/contexts/${contextId}`);
-    return response.data.data!;
-  }
-
-  async compileContext(sources: string[], text: string): Promise<ContextCompilation> {
-    const response = await this.client.post<APIResponse<ContextCompilation>>('/contexts/compile', {
-      sources,
-      text,
-    });
-    return response.data.data!;
-  }
-
-  async getContextSources(): Promise<string[]> {
-    const response = await this.client.get<APIResponse<string[]>>('/contexts/sources');
-    return response.data.data || [];
-  }
-
-  // MCP Tools
-  async getMCPTools(): Promise<MCPTool[]> {
-    const response = await this.client.get<APIResponse<MCPTool[]>>('/tools');
-    return response.data.data || [];
-  }
-
-  async executeMCPTool(toolName: string, args: Record<string, unknown>): Promise<MCPToolExecution> {
-    const response = await this.client.post<APIResponse<MCPToolExecution>>(
-      `/tools/${toolName}/execute`,
-      args,
-    );
-    return response.data.data!;
-  }
-
-  async getMCPToolExecutions(limit: number = 50): Promise<MCPToolExecution[]> {
-    const response = await this.client.get<APIResponse<MCPToolExecution[]>>('/tools/executions', {
-      params: { limit },
-    });
-    return response.data.data || [];
-  }
-
-  // System Metrics
-  async getSystemMetrics(): Promise<SystemMetrics> {
-    const response = await this.client.get<APIResponse<SystemMetrics>>('/system/metrics');
-    return response.data.data!;
-  }
-
-  async getSystemHealth(): Promise<{ status: 'healthy' | 'degraded' | 'down'; details: any }> {
-    const response = await this.client.get<APIResponse<any>>('/system/health');
-    return response.data.data!;
-  }
-
-  // Settings
-  async getSettings(): Promise<any> {
-    const response = await this.client.get<APIResponse<any>>('/settings');
-    return response.data.data || {};
-  }
-
-  async updateSettings(settings: any): Promise<any> {
-    const response = await this.client.put<APIResponse<any>>('/settings', settings);
-    return response.data.data!;
-  }
-}
-
-// Create singleton instance
-export const apiClient = new APIClient();
-
-// Export individual methods for convenience
-export const {
-  getActors,
-  getActor,
-  createActor,
-  updateActor,
-  deleteActor,
-  tickActor,
-  createLLMActor,
-  getLLMMessages,
-  sendLLMMessage,
-  clearLLMMessages,
-  getContexts,
-  getContext,
-  compileContext,
-  getContextSources,
-  getMCPTools,
-  executeMCPTool,
-  getMCPToolExecutions,
-  getSystemMetrics,
-  getSystemHealth,
-  getSettings,
-  updateSettings,
-} = apiClient;
-
-export default apiClient;
+export default api;
