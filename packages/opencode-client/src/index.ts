@@ -25,7 +25,7 @@ export type AgentTask = {
   completionMessage?: string;
 };
 // Storage
-export async function getStore(name: StoreNames): {};
+export async function getStore(name: StoreNames): Promise<SearchableStore> {}
 export async function initializeStores(): Promise<
   Record<string, DualStoreManager<'text', 'timestamp'>>
 > {
