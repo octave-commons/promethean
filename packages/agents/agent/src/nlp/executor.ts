@@ -1,16 +1,6 @@
 import { MessageType } from './parser.js';
 import { Command, CommandExecutor } from './parser.js';
-
-// Simple MessageEnvelope interface for internal use
-interface MessageEnvelope {
-    id: string;
-    type: MessageType;
-    timestamp: Date;
-    sender: string;
-    receiver: string;
-    payload: any;
-    metadata?: any;
-}
+import { EnvelopeBuilder, type MessageEnvelope } from '@promethean/agent-protocol';
 
 /**
  * Command Executor for Agent OS
