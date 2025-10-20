@@ -93,7 +93,7 @@ export async function createTask(
     lastActivity: startTime,
   };
 
-  await context.add({
+  await context.insert({
     id: sessionId,
     text: task,
     timestamp: new Date().toISOString(),
