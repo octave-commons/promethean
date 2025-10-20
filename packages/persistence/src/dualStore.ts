@@ -93,6 +93,7 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         supportsImages,
     }: DualStoreManagerDependencies<TextKey, TimeKey>) {
         this.name = name;
+        // vars that are default projected from the env are snake cased.
         this.agent_name = agent_name;
         this.chromaCollection = chromaCollection;
         this.mongoCollection = mongoCollection;
