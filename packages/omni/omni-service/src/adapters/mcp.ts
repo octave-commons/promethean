@@ -153,7 +153,7 @@ function detectPathTraversal(trimmed: string): boolean {
   const normalized = trimmed.normalize('NFKC');
 
   const pathComponents = normalized.split(/[\\/]/);
-  if (pathComponents.includes('..') || pathComponents.includes('.')) {
+  if (pathComponents.includes('..')) {
     return true;
   }
 
