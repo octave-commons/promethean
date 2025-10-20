@@ -1,27 +1,13 @@
-import { TaskContext } from '../tasks/index.js';
 import type { OpenCodeEvent, EventMessage } from '../../types/index.js';
 import { OpencodeClient } from '@opencode-ai/sdk';
 
 export interface EventContext {
   client: OpencodeClient;
-  taskContext: TaskContext;
 }
 
 export async function handleSessionIdle(context: EventContext, sessionId: string): Promise<void> {
   console.log(`💤 Session ${sessionId} is idle`);
-  const { updateTaskStatus } = await import('../tasks/index.js');
-  await updateTaskStatus(context.taskContext, sessionId, 'idle');
-
-  const messages = await getSessionMessages(context.client, sessionId);
-  const completion = detectTaskCompletion(messages as EventMessage[]);
-  if (completion.completed) {
-    await updateTaskStatus(
-      context.taskContext,
-      sessionId,
-      'completed',
-      completion.completionMessage,
-    );
-  }
+  // Simple session state tracking - no task management
 }
 
 export async function handleSessionUpdated(
@@ -29,8 +15,7 @@ export async function handleSessionUpdated(
   sessionId: string,
 ): Promise<void> {
   console.log(`🔄 Session ${sessionId} updated`);
-  const { updateTaskStatus } = await import('../tasks/index.js');
-  await updateTaskStatus(context.taskContext, sessionId, 'running');
+  // Simple session state tracking - no task management
 }
 
 export async function handleMessageUpdated(
@@ -38,8 +23,7 @@ export async function handleMessageUpdated(
   sessionId: string,
 ): Promise<void> {
   console.log(`💬 Message updated in session ${sessionId}`);
-  const { updateTaskStatus } = await import('../tasks/index.js');
-  await updateTaskStatus(context.taskContext, sessionId, 'running');
+  // Simple message tracking - no task management
 }
 
 export async function processSessionMessages(

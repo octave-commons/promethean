@@ -4,7 +4,6 @@
  */
 
 import chalk from 'chalk';
-import { cleanupStores } from '../cli.js';
 
 let isCleaningUp = false;
 
@@ -30,8 +29,7 @@ export async function cleanupAndExit(code: number, message?: string): Promise<ne
       }
     }
 
-    // Perform centralized cleanup
-    await cleanupStores();
+    // Note: ContextStore manages cleanup automatically
 
     // Force exit after a short timeout to ensure cleanup completes
     setTimeout(() => {
