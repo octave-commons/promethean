@@ -16,11 +16,11 @@ interface SessionData {
 }
 
 class SessionUtils {
-static extractSessionId(event: OpenCodeEvent): string | null {
+  static extractSessionId(event: OpenCodeEvent): string | null {
     if (!event.properties) {
       return event.sessionId || null;
     }
-    
+
     const extractors: Record<string, () => string | undefined> = {
       'session.idle': () => {
         const props = event.properties as SessionEventProperties;
@@ -42,21 +42,6 @@ static extractSessionId(event: OpenCodeEvent): string | null {
         const props = event.properties as SessionEventProperties;
         return event.sessionId || props.session?.id;
       },
-    };
-
-    const extractor = extractors[event.type];
-    return extractor ? extractor() || null : null;
-  }
-
-    const extractors: Record<string, () => string | undefined> = {
-      'session.idle': () =>
-        (event.properties as any).sessionID || (event.properties as any).session?.id,
-      'session.updated': () =>
-        (event.properties as any).info?.id || (event.properties as any).session?.id,
-      'message.updated': () => (event.properties as any).message?.session_id || event.sessionId,
-      'message.part.updated': () =>
-        (event.properties as any).message?.session_id || event.sessionId,
-      'session.compacted': () => event.sessionId || (event.properties as any).session?.id,
     };
 
     const extractor = extractors[event.type];

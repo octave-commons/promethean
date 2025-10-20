@@ -1,6 +1,6 @@
 import { SessionUtils, agentTasks, sessionStore } from '../../index.js';
 import { deduplicateSessions } from '../../utils/session-cleanup.js';
-import type { AgentTask, AgentTaskStatus } from '../../types/index.js';
+import type { AgentTaskStatus } from '../../types/index.js';
 
 interface SessionData {
   id: string;
@@ -23,7 +23,7 @@ interface SessionData {
 }
 
 interface StoreSession {
-  id: string | undefined;
+  id?: string;
   text: string;
   timestamp?: number;
   [key: string]: unknown;
