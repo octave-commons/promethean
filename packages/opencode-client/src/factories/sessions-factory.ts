@@ -3,16 +3,48 @@
 
 import { tool } from '@opencode-ai/plugin/tool';
 import { listSessions, create, close, get, search } from '../actions/index.js';
+import type { SessionClient } from '../types/index.js';
+
+interface ToolContext {
+  client?: SessionClient;
+}
+
+interface ListSessionsArgs {
+  limit?: number;
+  offset?: number;
+}
+
+interface CreateSessionArgs {
+  title?: string;
+  files?: string[];
+  delegates?: string[];
+}
+
+interface CloseSessionArgs {
+  sessionId: string;
+}
+
+interface GetSessionArgs {
+  sessionId: string;
+  limit?: number;
+  offset?: number;
+}
+
+interface SearchSessionsArgs {
+  query: string;
+  k?: number;
+  sessionId?: string;
+}
 
 // Factory for listSessions tool
-export function createListSessionsTool(): any {
+export function createListSessionsTool() {
   return tool({
     description: 'List all sessions with pagination and enhanced information',
     args: {
       limit: tool.schema.number().default(20).describe('Maximum number of sessions to return'),
       offset: tool.schema.number().default(0).describe('Number of sessions to skip'),
     },
-    async execute(args) {
+    async execute(args: ListSessionsArgs) {
       const { limit, offset } = args;
       const result = await listSessions({ limit, offset });
       return result;
@@ -21,7 +53,7 @@ export function createListSessionsTool(): any {
 }
 
 // Factory for createSession tool
-export function createCreateSessionTool(): any {
+export function createCreateSessionTool() {
   return tool({
     description: 'Create a new session',
     args: {
