@@ -16,7 +16,7 @@ import type {
   CacheEntryWithMetadata,
 } from './types.js';
 
-const getCacheStats = (): Readonly<CacheStats> => {
+const getCacheStats = (): CacheStats => {
   const totalSize = Array.from(modelCaches.values()).reduce((sum, cache) => sum + cache.size, 0);
   const modelStats = Array.from(modelCaches.entries()).map(([model, cache]) => ({
     model,
@@ -33,7 +33,7 @@ const getCacheStats = (): Readonly<CacheStats> => {
   };
 };
 
-const clearAllCache = (): Readonly<CacheClearResult> => {
+const clearAllCache = (): CacheClearResult => {
   const totalCleared = Array.from(modelCaches.values()).reduce((sum, cache) => sum + cache.size, 0);
   // Note: This violates functional immutability but is required for cache clearing
   (modelCaches as Map<string, unknown>).clear();
@@ -45,7 +45,7 @@ const clearAllCache = (): Readonly<CacheClearResult> => {
   };
 };
 
-const clearExpiredCache = (): Readonly<CacheExpiredResult> => {
+const clearExpiredCache = (): CacheExpiredResult => {
   const currentSize = Array.from(modelCaches.values()).reduce((sum, cache) => sum + cache.size, 0);
   return {
     message:
@@ -119,7 +119,7 @@ const calculateCategoryAverages = (analysis: CacheAnalysis): void => {
   }
 };
 
-const analyzePerformance = (): Readonly<CacheAnalysis> => {
+const analyzePerformance = (): CacheAnalysis => {
   const analysis: CacheAnalysis = {
     totalEntries: 0,
     models: {},
