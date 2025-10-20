@@ -22,10 +22,10 @@ export function createHandleSessionIdleTool(): ToolFunction {
     args: {
       sessionId: tool.schema.string().describe('Session ID that is idle'),
     },
-    async execute(args, context) {
+    async execute(args, context: any) {
       const { sessionId } = args;
-      const client = (context as any).client;
-      const taskContext = (context as any).taskContext;
+      const client = context.client as OpencodeClient;
+      const taskContext = context.taskContext;
 
       const eventContext = { client, taskContext };
       await handleSessionIdle(eventContext, sessionId);
@@ -40,16 +40,16 @@ export function createHandleSessionIdleTool(): ToolFunction {
 }
 
 // Factory for handleSessionUpdated tool
-export function createHandleSessionUpdatedTool(): any {
+export function createHandleSessionUpdatedTool(): ToolFunction {
   return tool({
     description: 'Handle session updated event',
     args: {
       sessionId: tool.schema.string().describe('Session ID that was updated'),
     },
-    async execute(args, context) {
+    async execute(args, context: any) {
       const { sessionId } = args;
-      const client = (context as any).client;
-      const taskContext = (context as any).taskContext;
+      const client = context.client as OpencodeClient;
+      const taskContext = context.taskContext;
 
       const eventContext = { client, taskContext };
       await handleSessionUpdated(eventContext, sessionId);
@@ -64,16 +64,16 @@ export function createHandleSessionUpdatedTool(): any {
 }
 
 // Factory for handleMessageUpdated tool
-export function createHandleMessageUpdatedTool(): any {
+export function createHandleMessageUpdatedTool(): ToolFunction {
   return tool({
     description: 'Handle message updated event',
     args: {
       sessionId: tool.schema.string().describe('Session ID where message was updated'),
     },
-    async execute(args, context) {
+    async execute(args, context: any) {
       const { sessionId } = args;
-      const client = (context as any).client;
-      const taskContext = (context as any).taskContext;
+      const client = context.client as OpencodeClient;
+      const taskContext = context.taskContext;
 
       const eventContext = { client, taskContext };
       await handleMessageUpdated(eventContext, sessionId);
@@ -88,7 +88,7 @@ export function createHandleMessageUpdatedTool(): any {
 }
 
 // Factory for extractSessionId tool
-export function createExtractSessionIdTool(): any {
+export function createExtractSessionIdTool(): ToolFunction {
   return tool({
     description: 'Extract session ID from an event object',
     args: {
@@ -107,15 +107,15 @@ export function createExtractSessionIdTool(): any {
 }
 
 // Factory for getSessionMessages tool
-export function createGetSessionMessagesTool(): any {
+export function createGetSessionMessagesTool(): ToolFunction {
   return tool({
     description: 'Get all messages for a specific session',
     args: {
       sessionId: tool.schema.string().describe('Session ID to get messages for'),
     },
-    async execute(args, context) {
+    async execute(args, context: any) {
       const { sessionId } = args;
-      const client = (context as any).client;
+      const client = context.client as OpencodeClient;
 
       const messages = await getSessionMessages(client, sessionId);
 
@@ -129,7 +129,7 @@ export function createGetSessionMessagesTool(): any {
 }
 
 // Factory for detectTaskCompletion tool
-export function createDetectTaskCompletionTool(): any {
+export function createDetectTaskCompletionTool(): ToolFunction {
   return tool({
     description: 'Detect if a task has been completed based on messages',
     args: {
@@ -137,30 +137,31 @@ export function createDetectTaskCompletionTool(): any {
         .array(tool.schema.object({}))
         .describe('Messages to analyze for completion'),
     },
-    async execute({ messages }) {
-      const completion = detectTaskCompletion(messages as any);
+    async execute({ messages }: { messages: any[] }) {
+      const completion = detectTaskCompletion(messages);
 
       return JSON.stringify({
         completed: completion.completed,
         completionMessage: completion.completionMessage,
-        messageCount: (messages as any).length,
+        messageCount: messages.length,
       });
     },
   });
 }
 
 // Factory for processSessionMessages tool
-export function createProcessSessionMessagesTool(): any {
+export function createProcessSessionMessagesTool(): ToolFunction {
   return tool({
     description: 'Process all messages in a session',
     args: {
       sessionId: tool.schema.string().describe('Session ID to process messages for'),
     },
-    async execute(args, context) {
+    async execute(args, context: any) {
       const { sessionId } = args;
-      const client = (context as any).client;
+      const client = context.client as OpencodeClient;
+      const taskContext = context.taskContext || {};
 
-      const eventContext = { client, taskContext: (context as any).taskContext || {} };
+      const eventContext = { client, taskContext };
       await processSessionMessages(eventContext, sessionId);
 
       return JSON.stringify({
