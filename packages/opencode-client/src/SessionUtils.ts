@@ -12,13 +12,17 @@ interface SessionData {
 
 class SessionUtils {
   static extractSessionId(event: OpenCodeEvent): string | null {
+    if (!event.properties) {
+      return event.sessionId || null;
+    }
+    
     const extractors: Record<string, () => string | undefined> = {
-      'session.idle': () => event.properties.sessionID || event.properties.session?.id,
-      'session.updated': () => event.properties.info?.id || event.properties.session?.id,
-      'message.updated': () => event.properties.message?.session_id || event.properties.sessionId,
+      'session.idle': () => (event.properties as any).sessionID || (event.properties as any).session?.id,
+      'session.updated': () => (event.properties as any).info?.id || (event.properties as any).session?.id,
+      'message.updated': () => (event.properties as any).message?.session_id || event.sessionId,
       'message.part.updated': () =>
-        event.properties.message?.session_id || event.properties.sessionId,
-      'session.compacted': () => event.properties.sessionId || event.properties.session?.id,
+        (event.properties as any).message?.session_id || event.sessionId,
+      'session.compacted': () => event.sessionId || (event.properties as any).session?.id,
     };
 
     const extractor = extractors[event.type];
