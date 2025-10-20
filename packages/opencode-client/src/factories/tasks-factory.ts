@@ -129,12 +129,8 @@ export function createGetAllTasksTool(stores: Stores): ReturnType<typeof tool> {
 
 // Export all factory functions
 export const tasksToolFactories = {
-  createLoadPersistedTasksTool,
-  createVerifySessionExistsTool,
   createCleanupOrphanedTaskTool,
   createUpdateTaskStatusTool,
-  createMonitorTasksTool,
-  createCreateTaskTool,
   createGetAllTasksTool,
   createParseTimestampTool,
 };
