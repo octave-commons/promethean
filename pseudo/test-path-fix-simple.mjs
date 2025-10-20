@@ -1,6 +1,31 @@
 // Simple test to verify the path validation fix logic
 import path from 'path';
 
+const WINDOWS_RESERVED_NAMES = [
+  'CON',
+  'PRN',
+  'AUX',
+  'NUL',
+  'COM1',
+  'COM2',
+  'COM3',
+  'COM4',
+  'COM5',
+  'COM6',
+  'COM7',
+  'COM8',
+  'COM9',
+  'LPT1',
+  'LPT2',
+  'LPT3',
+  'LPT4',
+  'LPT5',
+  'LPT6',
+  'LPT7',
+  'LPT8',
+  'LPT9',
+];
+
 // Copy the fixed logic from the MCP adapter
 function detectPathTraversal(trimmed) {
   // Normalize Unicode first to prevent homograph attacks
@@ -22,6 +47,45 @@ function detectPathTraversal(trimmed) {
   }
 
   return false;
+}
+
+function validateWindowsPathSecurity(trimmed) {
+  // Block drive letters
+  if (/^[a-zA-Z]:/.test(trimmed)) {
+    return false;
+  }
+
+  // Block UNC paths
+  if (trimmed.startsWith('\\\\')) {
+    return false;
+  }
+
+  // Block backslash paths
+  if (trimmed.includes('\\')) {
+    return false;
+  }
+
+  // Block reserved device names
+  const baseName = path.basename(trimmed).toUpperCase();
+  if (WINDOWS_RESERVED_NAMES.includes(baseName)) {
+    return false;
+  }
+
+  return true;
+}
+
+function isSafeRelPath(rel) {
+  const trimmed = rel.trim();
+
+  if (detectPathTraversal(trimmed)) {
+    return false;
+  }
+
+  if (!validateWindowsPathSecurity(trimmed)) {
+    return false;
+  }
+
+  return true;
 }
 
 // Test cases that should be allowed (current directory references)
