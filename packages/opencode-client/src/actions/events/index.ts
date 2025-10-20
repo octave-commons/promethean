@@ -99,7 +99,7 @@ export function detectTaskCompletion(messages: EventMessage[]): {
 
   if (!textParts.length) return { completed: false };
 
-  const lastText = textParts[textParts.length - 1].text?.toLowerCase() || '';
+  const lastText = textParts[textParts.length - 1]?.text?.toLowerCase() || '';
   const isCompleted = COMPLETION_PATTERNS.some((pattern) => pattern.test(lastText));
 
   return {
@@ -111,7 +111,9 @@ export function detectTaskCompletion(messages: EventMessage[]): {
 export async function processSessionMessagesAction(client: EventClient, sessionId: string) {
   const messages = await getSessionMessages(client, sessionId);
   await Promise.all(
-    messages.map((message: EventMessage) => processMessage(client, sessionId, message)),
+    (messages as EventMessage[]).map((message: EventMessage) =>
+      processMessage(client, sessionId, message),
+    ),
   );
 }
 
@@ -128,21 +130,6 @@ export async function processMessage(
   await Promise.all(
     message.parts.map(async (part) => {
       if (part.type === 'text' && part.text?.trim()) {
-        console.log(`📝 Processing text part from message ${message.info.id}`);
-      }
-    }),
-  );
-}
-
-export async function processMessage(_client: any, sessionId: string, message: any) {
-  if (!message?.parts) return;
-
-  // This would need the session store context - for now just log
-  console.log(`Processing message ${message.info.id} from session ${sessionId}`);
-
-  await Promise.all(
-    message.parts.map(async (part: any) => {
-      if (part.type === 'text' && part.text.trim()) {
         console.log(`📝 Processing text part from message ${message.info.id}`);
       }
     }),

@@ -93,7 +93,7 @@ export function createExtractSessionIdTool(): any {
       eventType: tool.schema.string().optional().describe('Type of the event'),
     },
     async execute({ event }) {
-      const sessionId = extractSessionId(event);
+      const sessionId = extractSessionId(event as any);
 
       return JSON.stringify({
         sessionId,
@@ -118,7 +118,7 @@ export function createGetSessionMessagesTool(): any {
 
       return JSON.stringify({
         sessionId,
-        messageCount: messages.length,
+        messageCount: (messages as any).length,
         messages,
       });
     },
@@ -135,12 +135,12 @@ export function createDetectTaskCompletionTool(): any {
         .describe('Messages to analyze for completion'),
     },
     async execute({ messages }) {
-      const completion = detectTaskCompletion(messages);
+      const completion = detectTaskCompletion(messages as any);
 
       return JSON.stringify({
         completed: completion.completed,
         completionMessage: completion.completionMessage,
-        messageCount: messages.length,
+        messageCount: (messages as any).length,
       });
     },
   });

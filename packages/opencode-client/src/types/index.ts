@@ -399,14 +399,16 @@ export interface EventMessage {
 // Event Client Interface
 export interface EventClient {
   session: {
-    messages: (params: { path: { id: string } }) => Promise<{ data?: unknown; error?: string }>;
+    messages: (params: {
+      path: { id: string };
+    }) => Promise<{ data?: unknown; error?: string | any }>;
   };
   events?: {
-    list: (options: EventListOptions) => Promise<{ data?: StoredEvent[]; error?: string }>;
+    list: (options: EventListOptions) => Promise<{ data?: StoredEvent[]; error?: string | any }>;
     subscribe: (options: {
       eventType?: string;
       sessionId?: string;
-    }) => Promise<{ data?: EventSubscription; error?: string }>;
+    }) => Promise<{ data?: EventSubscription; error?: string | any }>;
   };
 }
 

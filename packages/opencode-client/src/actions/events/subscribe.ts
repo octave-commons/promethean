@@ -10,6 +10,9 @@ export async function subscribe({
   client: EventClient;
 }) {
   try {
+    if (!client.events?.subscribe) {
+      return 'Events subscription not supported by this client';
+    }
     const { data: subscription, error } = await client.events.subscribe({
       eventType,
       sessionId,

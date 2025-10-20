@@ -78,7 +78,7 @@ export async function list({
     }
 
     // Fallback to client if no events found in dual store and client is available
-    if (events.length === 0 && client) {
+    if (events.length === 0 && client?.events) {
       const { data: clientEvents, error } = await client.events.list({
         query,
         k,

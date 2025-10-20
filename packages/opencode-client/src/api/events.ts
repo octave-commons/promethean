@@ -44,7 +44,7 @@ export async function listEvents(options: ListEventsOptions = {}): Promise<Event
     const result = await list({
       k: options.limit,
       eventType: options.eventType || options.type,
-      client: null, // Pass null client to force dual store only
+      client: undefined, // Pass undefined client to force dual store only
     });
 
     const parsed = JSON.parse(result);

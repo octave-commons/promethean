@@ -5,16 +5,22 @@ import {
   processSessionMessages as processSessionMessagesAction,
   EventContext,
 } from '../actions/events/index.js';
-import type { SessionClient, TaskContext } from '../types/index.js';
+import type { TaskContext, EventClient, SessionClient } from '../types/index.js';
 
 // Global state for backward compatibility
 let taskContext: TaskContext;
 
-function initializeEventContext(_client: SessionClient, _taskContext: TaskContext): void {
+function initializeEventContext(
+  _client: SessionClient | EventClient,
+  _taskContext: TaskContext,
+): void {
   taskContext = _taskContext;
 }
 
-async function handleSessionIdle(client: SessionClient, sessionId: string): Promise<void> {
+async function handleSessionIdle(
+  client: SessionClient | EventClient,
+  sessionId: string,
+): Promise<void> {
   const context: EventContext = {
     client,
     taskContext,
@@ -22,7 +28,10 @@ async function handleSessionIdle(client: SessionClient, sessionId: string): Prom
   return handleSessionIdleAction(context, sessionId);
 }
 
-async function handleSessionUpdated(client: SessionClient, sessionId: string): Promise<void> {
+async function handleSessionUpdated(
+  client: SessionClient | EventClient,
+  sessionId: string,
+): Promise<void> {
   const context: EventContext = {
     client,
     taskContext,
@@ -30,7 +39,10 @@ async function handleSessionUpdated(client: SessionClient, sessionId: string): P
   return handleSessionUpdatedAction(context, sessionId);
 }
 
-async function handleMessageUpdated(client: SessionClient, sessionId: string): Promise<void> {
+async function handleMessageUpdated(
+  client: SessionClient | EventClient,
+  sessionId: string,
+): Promise<void> {
   const context: EventContext = {
     client,
     taskContext,
@@ -38,7 +50,10 @@ async function handleMessageUpdated(client: SessionClient, sessionId: string): P
   return handleMessageUpdatedAction(context, sessionId);
 }
 
-async function processSessionMessages(client: SessionClient, sessionId: string): Promise<void> {
+async function processSessionMessages(
+  client: SessionClient | EventClient,
+  sessionId: string,
+): Promise<void> {
   const context: EventContext = {
     client,
     taskContext,
