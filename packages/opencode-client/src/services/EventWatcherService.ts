@@ -246,13 +246,32 @@ export class EventWatcherService {
    * Initialize stores
    */
   private async initializeStores(): Promise<void> {
-    try {
-      this.sessionStore = await DualStoreManager.create('sessions', 'text', 'timestamp');
-      this.agentTaskStore = await DualStoreManager.create('agent-tasks', 'text', 'timestamp');
-      this.log('✅ Stores initialized successfully');
-    } catch (error) {
-      this.log(`❌ Failed to initialize stores: ${error}`, 'error');
-      throw error;
+    const maxRetries = 5;
+    const retryDelay = 2000; // 2 seconds
+
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        this.log(`🔄 Initializing stores (attempt ${attempt}/${maxRetries})...`);
+
+        this.sessionStore = await DualStoreManager.create('sessions', 'text', 'timestamp');
+        this.agentTaskStore = await DualStoreManager.create('agent-tasks', 'text', 'timestamp');
+
+        this.log('✅ Stores initialized successfully');
+        return;
+      } catch (error) {
+        this.log(
+          `❌ Failed to initialize stores (attempt ${attempt}/${maxRetries}): ${error}`,
+          'error',
+        );
+
+        if (attempt === maxRetries) {
+          this.log('❌ Max retries reached, giving up on store initialization', 'error');
+          throw error;
+        }
+
+        this.log(`⏳ Waiting ${retryDelay}ms before retry...`, 'warn');
+        await new Promise((resolve) => setTimeout(resolve, retryDelay));
+      }
     }
   }
 
