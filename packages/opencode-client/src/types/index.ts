@@ -21,6 +21,9 @@ export interface SessionClient {
   session: {
     get: (params: { path: { id: string } }) => Promise<{ data?: unknown }>;
   };
+  messages: {
+    get: (params: { path: { id: string } }) => Promise<{ data?: unknown }>;
+  };
 }
 
 // Agent Task Management Types
@@ -302,6 +305,7 @@ export interface SessionEvent {
   sessionId: string;
   timestamp: number;
   data?: Record<string, unknown>;
+  properties?: Record<string, unknown>;
 }
 
 export interface TaskEvent {
@@ -312,6 +316,7 @@ export interface TaskEvent {
     status: AgentTaskStatus;
     message?: string;
   };
+  properties?: Record<string, unknown>;
 }
 
 export interface MessageEvent {
@@ -323,6 +328,7 @@ export interface MessageEvent {
     role: MessageRole;
     content: string;
   };
+  properties?: Record<string, unknown>;
 }
 
 export type OpenCodeEvent = SessionEvent | TaskEvent | MessageEvent;

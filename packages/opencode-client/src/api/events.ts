@@ -4,7 +4,7 @@
  */
 
 import { createOpencode } from '@opencode-ai/sdk';
-import type { SessionClient } from '../types/index';
+import type { SessionClient } from '../types/index.js';
 
 export interface Event {
   id: string;

@@ -1,11 +1,11 @@
 import { SessionUtils, agentTasks, sessionStore } from '../../index.js';
 import { deduplicateSessions } from '../../utils/session-cleanup.js';
-import type { SessionInfo, AgentTask } from '../../types/index.js';
+import type { AgentTask } from '../../types/index.js';
 
 interface SessionData {
   id: string;
   title?: string;
-  createdAt: string;
+  createdAt: string | number;
   time?: {
     created?: string;
     updated?: string;
@@ -21,7 +21,7 @@ interface SessionData {
 }
 
 interface StoreSession {
-  id: string;
+  id: string | undefined;
   text: string;
   timestamp?: number;
   [key: string]: unknown;
@@ -41,7 +41,7 @@ function parseSessionData(session: StoreSession): SessionData {
       return {
         id: sessionMatch[1],
         title: `Session ${sessionMatch[1]}`,
-        createdAt: session.timestamp || new Date().toISOString(),
+        createdAt: session.timestamp?.toString() || new Date().toISOString(),
         time: {
           created: session.timestamp || new Date().toISOString(),
         },
@@ -49,9 +49,9 @@ function parseSessionData(session: StoreSession): SessionData {
     }
     // Fallback - create minimal session object
     return {
-      id: session.id || 'unknown',
+      id: session.id?.toString() || 'unknown',
       title: 'Legacy Session',
-      createdAt: session.timestamp || new Date().toISOString(),
+      createdAt: session.timestamp?.toString() || new Date().toISOString(),
       time: {
         created: session.timestamp || new Date().toISOString(),
       },

@@ -7,7 +7,7 @@
 
 import { createOpencodeClient } from '@opencode-ai/sdk';
 import { DualStoreManager } from '@promethean/persistence';
-import type { SessionClient } from '../types/index';
+import type { SessionClient } from '../types/index.js';
 
 export type EventWatcherConfig = {
   /** Indexing interval in milliseconds */

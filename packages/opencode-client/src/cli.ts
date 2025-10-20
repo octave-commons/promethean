@@ -14,7 +14,7 @@ import { agentCommands as legacyAgentCommands } from './commands/agents/index.js
 import { indexerCommands } from './commands/indexer/index.js';
 import { initializeStores } from './index.js';
 import { DualStoreManager } from '@promethean/persistence';
-import type { DualStoreManager as DualStoreManagerType } from './types/index';
+import type { DualStoreManager as DualStoreManagerType } from './types/index.js';
 import {
   createAgentSession,
   startAgentSession,
