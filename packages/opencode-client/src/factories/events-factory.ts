@@ -119,7 +119,7 @@ export function createGetSessionMessagesTool(stores, client): ToolFunction {
 }
 
 // Factory for detectTaskCompletion tool
-export function createDetectTaskCompletionTool(): ToolFunction {
+export function createDetectTaskCompletionTool(stores, client): ToolFunction {
   return tool({
     description: 'Detect if a task has been completed based on messages',
     args: {
@@ -128,7 +128,7 @@ export function createDetectTaskCompletionTool(): ToolFunction {
         .describe('Messages to analyze for completion'),
     },
     async execute({ messages }) {
-      const completion = detectTaskCompletion(messages as EventMessage[]);
+      const completion = detectTaskCompletion(messages);
 
       return JSON.stringify({
         completed: completion.completed,
@@ -140,7 +140,7 @@ export function createDetectTaskCompletionTool(): ToolFunction {
 }
 
 // Factory for processSessionMessages tool
-export function createProcessSessionMessagesTool(): ToolFunction {
+export function createProcessSessionMessagesTool(stores, clien): ToolFunction {
   return tool({
     description: 'Process all messages in a session',
     args: {
