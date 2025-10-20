@@ -1,7 +1,6 @@
 import { SessionUtils, agentTasks, sessionStore } from '../../index.js';
 import { deduplicateSessions } from '../../utils/session-cleanup.js';
 import type { AgentTaskStatus } from '../../types/index.js';
-import type { SessionInfo } from '../../SessionInfo.js';
 
 interface SessionData {
   id: string;
@@ -42,9 +41,12 @@ function parseSessionData(session: StoreSession): SessionData {
     const sessionMatch = text.match(/Session:\s*(\w+)/);
     if (sessionMatch) {
       return {
-        id: sessionMatch[1] || 'unknown',
+        id: sessionMatch[1],
         title: `Session ${sessionMatch[1]}`,
         createdAt: typeof session.timestamp === 'number' ? session.timestamp : Date.now(),
+        updatedAt: typeof session.timestamp === 'number' ? session.timestamp : Date.now(),
+        lastActivity: typeof session.timestamp === 'number' ? session.timestamp : Date.now(),
+        status: 'unknown',
         time: {
           created: new Date(session.timestamp || Date.now()).toISOString(),
         },
@@ -94,11 +96,11 @@ export async function list({ limit, offset }: { limit: number; offset: number })
 
     // Parse sessions and deduplicate by ID
     const parsedSessions = storedSessions.map((session) => parseSessionData(session));
-    const sessionsList = deduplicateSessions(parsedSessions as SessionData[]);
+    const sessionsList = deduplicateSessions(parsedSessions);
     if (debugEnabled) {
       console.log(`[DEBUG] after deduplication: ${sessionsList?.length || 0} sessions`);
       console.log(`[INFO] Session IDs being processed:`);
-      sessionsList.slice(0, 5).forEach((s: SessionData) => {
+      sessionsList.slice(0, 5).forEach((s) => {
         console.log(`  - ${s.id} (isAgentTask: ${s.isAgentTask})`);
       });
     }
@@ -134,7 +136,7 @@ export async function list({ limit, offset }: { limit: number; offset: number })
     }
 
     const enhanced = await Promise.all(
-      paginated.map(async (session) => {
+      paginated.map(async (session: SessionData) => {
         try {
           // Get messages from dual store - fail fast if not available
           const messageKey = `session:${session.id}:messages`;

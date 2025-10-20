@@ -157,11 +157,17 @@ export class EventWatcherService {
 
         try {
           // Get all sessions and check for updates
-          const sessions = await this.client.session.list();
-
-          if (Array.isArray(sessions)) {
-            for (const session of sessions) {
-              await this.processSessionUpdate(session);
+          if (
+            this.client &&
+            'session' in this.client &&
+            this.client.session &&
+            'list' in this.client.session
+          ) {
+            const sessions = await (this.client.session as any).list();
+            if (Array.isArray(sessions)) {
+              for (const session of sessions) {
+                await this.processSessionUpdate(session);
+              }
             }
           }
         } catch (error) {
