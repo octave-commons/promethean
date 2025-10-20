@@ -134,7 +134,10 @@ export function createStartAgentSessionTool(
   });
 }
 
-export function createStopAgentSessionTool(): ReturnType<typeof tool> {
+export function createStopAgentSessionTool(
+  stores: DualStoreManager<'', ''>,
+  client: OpencodeClient,
+): ReturnType<typeof tool> {
   return tool({
     description: 'Stop an agent session with optional completion message',
     args: {
