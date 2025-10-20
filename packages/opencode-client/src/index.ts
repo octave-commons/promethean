@@ -4,8 +4,8 @@ import type { Timestamp } from './types/index.js';
 
 // Storage
 
-export const stores = DualStoreManager<'text', 'timestamp'>;
+export const stores = new DualStoreManager<'text', 'timestamp'>();
+export function
 // Initialize the API layers with the global state
 // Export all API classes and utilities
-export { SessionUtils, MessageProcessor, AgentTaskManager, EventProcessor, InterAgentMessenger };
-export type { AgentTask, SessionInfo, Timestamp };
+export type {  SessionInfo, Timestamp };
