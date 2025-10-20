@@ -180,7 +180,7 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
             id,
             [this.timeStampKey]: timestamp,
             metadata,
-        } satisfies DualStoreEntry<TextKey, TimeKey>;
+        };
 
         const dualWriteEnabled = (process.env.DUAL_WRITE_ENABLED ?? 'true').toLowerCase() !== 'false';
         const isImage = metadata.type === 'image';
