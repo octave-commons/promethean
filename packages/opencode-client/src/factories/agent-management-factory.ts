@@ -193,7 +193,10 @@ export function createCloseAgentSessionTool(): ReturnType<typeof tool> {
     args: {
       sessionId: tool.schema.string().describe('ID of session to close'),
     },
-    async execute(args: any, _context: any) {
+    async execute(
+      args: SessionIdArgs,
+      _context: { agent: string; sessionID: string; messageID: string },
+    ) {
       try {
         await closeAgentSession(args.sessionId);
 
