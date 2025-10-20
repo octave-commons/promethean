@@ -26,7 +26,7 @@ interface SendMessageArgs {
 }
 
 // Factory for sendMessage tool
-export function createSendMessageTool(): any {
+export function createSendMessageTool(): ReturnType<typeof tool> {
   return tool({
     description: 'Send a message to another agent',
     args: {
@@ -41,12 +41,16 @@ export function createSendMessageTool(): any {
         .default('info')
         .describe('Type of message being sent'),
     },
-    async execute(args, context) {
+    async execute(args: SendMessageArgs, context: Record<string, unknown>) {
       const { sessionId, message, priority, messageType } = args;
-      const client = (context as any).client;
-      const sessionStore = (context as any).sessionStore;
-      const agentTaskStore = (context as any).agentTaskStore;
-      const agentTasks = (context as any).agentTasks;
+      const client = (context as Record<string, unknown>).client;
+      const sessionStore = (context as Record<string, unknown>).sessionStore as DualStoreManager<
+        'text',
+        'timestamp'
+      >;
+      const agentTaskStore = (context as Record<string, unknown>)
+        .agentTaskStore as DualStoreManager<'text', 'timestamp'>;
+      const agentTasks = (context as Record<string, unknown>).agentTasks as Map<string, unknown>;
 
       if (!client || !sessionStore || !agentTaskStore || !agentTasks) {
         throw new Error('Required context not available for messaging');
