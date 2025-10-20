@@ -356,38 +356,6 @@ unifiedAgentCommands
     }
   });
 
-
-
-      console.log('─'.repeat(40));
-    } catch (error) {
-      console.error(`❌ Failed to get stats: ${(error as Error).message}`);
-      process.exit(1);
-    }
-  });
-
-// Cleanup command
-unifiedAgentCommands
-  .command('cleanup')
-  .description('Cleanup old completed/failed sessions')
-  .option('-a, --age <hours>', 'Maximum age in hours (default: 24)', '24')
-  .action(async (options) => {
-    try {
-      const maxAge = parseInt(options.age) * 60 * 60 * 1000;
-      console.log(`Cleaning up sessions older than ${options.age} hours...`);
-
-      const cleaned = await unifiedAgentManager.cleanupOldSessions(maxAge);
-
-      if (cleaned > 0) {
-        console.log(`✅ Cleaned up ${cleaned} old session(s)`);
-      } else {
-        console.log(`ℹ️  No sessions to clean up`);
-      }
-    } catch (error) {
-      console.error(`❌ Failed to cleanup: ${(error as Error).message}`);
-      process.exit(1);
-    }
-  });
-
 // Interactive mode
 unifiedAgentCommands
   .command('interactive')
@@ -447,9 +415,7 @@ Available commands:
               console.log('No active sessions.');
             } else {
               sessions.forEach((s) => {
-                console.log(
-                  `${s.sessionId.substring(0, 8)}\t${s.status}\t${s.task.task.substring(0, 30)}...`,
-                );
+                console.log(`${s.sessionId.substring(0, 8)}\t${s.status}\tSession`);
               });
             }
             break;
