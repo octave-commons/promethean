@@ -112,7 +112,7 @@ export class AuthenticationFactory {
       throw new Error('OAuth configuration is required');
     }
 
-    const providers: OAuthSystemConfig['providers'] = {};
+    const providers: Record<string, any> = {};
 
     // GitHub provider
     if (config.providers.github?.enabled) {
