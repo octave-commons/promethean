@@ -16,6 +16,7 @@ test('move_up - multiple moves in sequence', async (t) => {
   const context: CliContext = {
     boardFile: boardPath,
     tasksDir,
+    argv: [],
   };
 
   // Create 5 tasks
@@ -59,6 +60,7 @@ test('move_down - multiple moves in sequence', async (t) => {
   const context: CliContext = {
     boardFile: boardPath,
     tasksDir,
+    argv: [],
   };
 
   // Create 5 tasks
@@ -102,6 +104,7 @@ test('move operations - tasks across different columns', async (t) => {
   const context: CliContext = {
     boardFile: boardPath,
     tasksDir,
+    argv: [],
   };
 
   // Create tasks in different columns
@@ -144,6 +147,7 @@ test('move operations - board persistence', async (t) => {
   const context: CliContext = {
     boardFile: boardPath,
     tasksDir,
+    argv: [],
   };
 
   // Create tasks
@@ -182,6 +186,7 @@ test('move operations - performance with many tasks', async (t) => {
   const context: CliContext = {
     boardFile: boardPath,
     tasksDir,
+    argv: [],
   };
 
   // Create 20 tasks
