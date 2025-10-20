@@ -24,12 +24,16 @@ export {
  * Main NLP Service class that combines parsing and execution
  */
 export class NLPService {
-    private parser: NaturalLanguageCommandParser;
-    private executor: AgentOSCommandExecutor;
+    private parser: ReturnType<typeof makeParser>;
+    private executor: ReturnType<typeof makeExecutor>;
 
     constructor(agentRuntime: any, serviceManager: any, workflowManager: any, config?: Partial<NLPConfig>) {
-        this.parser = new NaturalLanguageCommandParser(config);
-        this.executor = new AgentOSCommandExecutor(agentRuntime, serviceManager, workflowManager);
+        this.parser = makeParser(config);
+        this.executor = makeExecutor({
+            agentRuntime,
+            serviceManager,
+            workflowManager,
+        });
     }
 
     /**

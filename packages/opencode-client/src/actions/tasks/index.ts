@@ -103,6 +103,10 @@ export async function createTask(
   return agentTask;
 }
 
+export async function getAllTasks(context: TaskContext): Promise<Map<string, AgentTask>> {
+  const storedTasks = await context.getMostRecent(100);
+}
+
 export function parseTimestamp(timestamp: string | number | Date): number {
   if (typeof timestamp === 'number') return timestamp;
   if (typeof timestamp === 'string') return new Date(timestamp).getTime();
