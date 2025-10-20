@@ -48,10 +48,15 @@ export class IndexerService {
    */
   private async subscribeToEvents(): Promise<void> {
     try {
-      const eventStream = await this.client.event.list();
+      if (typeof this.client.event?.subscribe !== 'function') {
+        console.error('❌ This SDK/server does not support event.subscribe()');
+        return;
+      }
+
+      const sub = await this.client.event.subscribe();
       console.log('📡 Subscribed to OpenCode events');
 
-      for await (const event of eventStream) {
+      for await (const event of sub.stream) {
         await this.handleEvent(event);
       }
     } catch (error) {
