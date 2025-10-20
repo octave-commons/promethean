@@ -12,3 +12,6 @@ export * from './core/ports.js';
 export * from './core/context.js';
 export * from './core/actors.js';
 export * from './core/orchestrator.js';
+
+// Adapter implementations
+export * from './core/adapters.js';

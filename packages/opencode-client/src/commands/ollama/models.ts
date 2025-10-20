@@ -1,7 +1,7 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
 import ora from 'ora';
-import { listModels } from '../../api/ollama.js';
+import { getlistModels, * } from './mock-api.js';
 
 const modelsCommand = new Command('models')
   .description('List available models')

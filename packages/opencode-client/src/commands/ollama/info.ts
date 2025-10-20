@@ -1,7 +1,7 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
 import ora from 'ora';
-import { getQueueInfo } from '../../api/ollama.js';
+import { getQueueInfo } from './mock-api.js';
 
 export const infoCommand = new Command('info')
   .description('Get queue information')

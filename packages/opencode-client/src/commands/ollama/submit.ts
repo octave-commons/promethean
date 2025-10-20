@@ -1,6 +1,6 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
-import { submitJob } from '../../api/ollama.js';
+import { getsubmitJob, * } from './mock-api.js';
 import type { SubmitJobOptions } from '../../api/ollama.js';
 
 export const submitJobCommand = new Command('submit')

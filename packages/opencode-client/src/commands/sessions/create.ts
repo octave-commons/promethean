@@ -1,9 +1,26 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
-import {
-  createSession as createApiSession,
-  type CreateSessionResponse,
-} from '../../api/sessions.js';
+interface CreateSessionResponse {
+  session?: {
+    id: string;
+    title: string;
+    createdAt: string;
+  };
+}
+
+async function createApiSession(_options: {
+  title: string;
+  files?: string[];
+  delegates?: string[];
+}): Promise<CreateSessionResponse> {
+  return {
+    session: {
+      id: `session-${Date.now()}`,
+      title: _options.title,
+      createdAt: new Date().toISOString(),
+    },
+  };
+}
 
 export const createSessionCommand = new Command('create')
   .description('Create a new session')

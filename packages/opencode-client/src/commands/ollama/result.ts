@@ -1,7 +1,7 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
 import ora from 'ora';
-import { getJobResult } from '../../api/ollama.js';
+import { getgetJobResult, * } from './mock-api.js';
 
 export const resultCommand = new Command('result')
   .description('Get job result')

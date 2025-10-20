@@ -1,7 +1,7 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
 import ora from 'ora';
-import { cancelJob } from '../../api/ollama.js';
+import { cancelJob } from './mock-api.js';
 
 export const cancelCommand = new Command('cancel')
   .description('Cancel a job')
