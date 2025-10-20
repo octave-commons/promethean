@@ -1,7 +1,7 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
 import { create } from '../../actions/sessions/create.js';
-import { createOpencode } from '@opencode-ai/sdk';
+import { default: Opencode } from '@opencode-ai/sdk';
 
 export const createSessionCommand = new Command('create')
   .description('Create a new session')
