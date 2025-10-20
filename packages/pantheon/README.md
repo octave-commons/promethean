@@ -185,27 +185,43 @@ interface ToolPort {
 ## 📦 Package Structure
 
 ```
-packages/pantheon-fp/
+packages/pantheon/
+├── src/
+│   ├── actors/
+│   │   ├── index.ts      # Actor creation utilities
+│   │   └── llm-actor.ts  # LLM actor implementation
+│   ├── adapters/
+│   │   └── index.ts      # Adapter implementations
+│   ├── cli/
+│   │   └── index.ts      # CLI interface
+│   ├── utils/
+│   │   └── index.ts      # Utility functions
+│   └── index.ts          # Main exports
+├── package.json
+└── tsconfig.json
+
+packages/pantheon-core/
 ├── src/
 │   ├── core/
 │   │   ├── ports.ts      # Core port interfaces
 │   │   ├── types.ts      # Type definitions
 │   │   ├── context.ts    # Context adapter
 │   │   ├── actors.ts     # Actor adapter
-│   │   └── orchestrator.ts
-│   ├── llm/
-│   │   └── openai.ts     # OpenAI LLM adapter
-│   ├── actors/
-│   │   └── llm-actor.ts  # LLM-powered actor implementation
-│   ├── cli/
-│   │   └── index.ts      # CLI interface
-│   └── index.ts          # Main exports
+│   │   ├── orchestrator.ts
+│   │   └── adapters.ts   # In-memory implementations
+│   └── index.ts          # Core exports
 ├── package.json
 └── tsconfig.json
 
 packages/pantheon-mcp/
 ├── src/
 │   └── index.ts          # MCP tool adapter
+├── package.json
+└── tsconfig.json
+
+packages/pantheon-llm-openai/
+├── src/
+│   └── index.ts          # OpenAI LLM adapter
 ├── package.json
 └── tsconfig.json
 ```
