@@ -31,69 +31,6 @@ export function createDetectTaskCompletionMessagesTool(): ReturnType<typeof tool
   });
 }
 
-// Factory for processMessage tool
-export function createProcessMessageTool(): ReturnType<typeof tool> {
-  return tool({
-    description: 'Process a single message and store it in the session store',
-    args: {
-      sessionId: tool.schema.string().describe('Session ID the message belongs to'),
-      message: tool.schema.object({}).describe('Message object to process'),
-    },
-    async execute(
-      args: { sessionId: string; message: Record<string, unknown> },
-      context: Record<string, unknown>,
-    ) {
-      const { sessionId, message } = args;
-      const sessionStore = (context as Record<string, unknown>).sessionStore as DualStoreManager<
-        'text',
-        'timestamp'
-      >;
-
-      if (!sessionStore) {
-        throw new Error('Session store not available in context');
-      }
-
-      const messageContext = { sessionStore };
-      await processMessage(messageContext, sessionId, message);
-
-      return JSON.stringify({
-        success: true,
-        sessionId,
-        messageId: (message as any)?.info?.id || 'unknown',
-        processed: true,
-      });
-    },
-  });
-}
-
-// Factory for processSessionMessages tool
-export function createProcessSessionMessagesMessagesTool(): ReturnType<typeof tool> {
-  return tool({
-    description: 'Process all messages in a session (messages version)',
-    args: {
-      sessionId: tool.schema.string().describe('Session ID to process messages for'),
-    },
-    async execute(args, context) {
-      const { sessionId } = args;
-      const client = (context as any).client;
-      const sessionStore = (context as any).sessionStore;
-
-      if (!client || !sessionStore) {
-        throw new Error('Client or session store not available in context');
-      }
-
-      const messageContext = { sessionStore };
-      await processSessionMessages(messageContext, client, sessionId);
-
-      return JSON.stringify({
-        success: true,
-        sessionId,
-        event: 'session_messages_processed',
-      });
-    },
-  });
-}
-
 // Factory for getSessionMessages tool
 export function createGetSessionMessagesMessagesTool(): ReturnType<typeof tool> {
   return tool({
