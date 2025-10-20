@@ -52,10 +52,10 @@ export function createSendMessageTool(): ReturnType<typeof tool> {
         throw new Error('Required context not available for messaging');
       }
 
-      const messagingContext = {
+      const messagingContext: MessagingContext = {
         sessionStore,
         agentTaskStore,
-        agentTasks,
+        agentTasks: agentTasks as Map<string, AgentTask>,
       };
 
       const result = await sendMessage(
