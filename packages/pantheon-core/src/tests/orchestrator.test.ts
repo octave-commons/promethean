@@ -17,7 +17,7 @@ const makeDeps = () => {
         throw new Error('not used here');
       },
       get: async () => null,
-      update: async (_id: string, patch: Partial<Actor>) => {
+      update: async (_id: string, _patch: Partial<Actor>) => {
         return {} as Actor;
       },
       list: async () => [],

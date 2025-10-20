@@ -37,7 +37,9 @@ export const createSessionCommand = new Command('create')
       }
 
       // Create OpenCode client
-      const client = createOpencodeClient();
+      const client = createOpencodeClient({
+        baseUrl: 'http://localhost:4096',
+      });
 
       const result = await create({
         title: sessionTitle,
