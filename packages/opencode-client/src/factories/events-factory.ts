@@ -56,7 +56,10 @@ export function createHandleSessionIdleTool(
 }
 
 // Factory for handleMessageUpdated tool
-export function createHandleMessageUpdatedTool(stores, client): ToolFunction {
+export function createHandleMessageUpdatedTool(
+  stores: DualStoreManager<'text', 'timestamp'>,
+  client: EventClient,
+): ToolFunction {
   return tool({
     description: 'Handle message updated event',
     args: {
@@ -83,7 +86,10 @@ export function createHandleMessageUpdatedTool(stores, client): ToolFunction {
 }
 
 // Factory for extractSessionId tool
-export function createExtractSessionIdTool(stores, client): ToolFunction {
+export function createExtractSessionIdTool(
+  stores: DualStoreManager<'text', 'timestamp'>,
+  client: EventClient,
+): ToolFunction {
   return tool({
     description: 'Extract session ID from an event object',
     args: {
