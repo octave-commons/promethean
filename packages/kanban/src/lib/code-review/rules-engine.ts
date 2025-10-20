@@ -188,11 +188,7 @@ export class CodeReviewRulesEngine {
           suggestions: [],
           warnings: [`Code review error: ${errorMessage}`],
         };
-}
-        }
       }
-    } catch (error) {
-      console.warn('TypeScript analysis failed:', error);
     }
   }
 
