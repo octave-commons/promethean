@@ -5,7 +5,6 @@ export {
   MessagingPlugin,
   MessagesPlugin,
   AsyncSubAgentsPlugin,
-  EventCapturePlugin,
   ProcessPlugin,
   SessionInfoPlugin,
   SessionsPlugin,
