@@ -16,6 +16,7 @@ import type { OpenCodeEvent, EventMessage, EventClient } from '../types/index.js
 import type { TaskContext } from '../actions/tasks/index.js';
 import type { EventContext } from '../actions/events/index.js';
 import type { DualStoreManager } from '@promethean/persistence';
+import { OpencodeClient } from '@opencode-ai/sdk';
 
 type ToolFunction = ReturnType<typeof tool>;
 
@@ -28,7 +29,7 @@ type ToolContext = {
 // Factory for handleSessionIdle tool
 export function createHandleSessionIdleTool(
   stores: DualStoreManager<'text', 'timestamp'>,
-  client: EventClient,
+  client: OpencodeClient,
 ): ToolFunction {
   return tool({
     description: 'Handle session idle event',
