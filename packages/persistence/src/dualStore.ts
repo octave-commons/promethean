@@ -144,7 +144,7 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
                       fn: embedFnName,
                   });
 
-            const chromaCollection = await chromaClient.getOrCreateCollection({
+            const chromaCollection: ChromaCollection = await chromaClient.getOrCreateCollection({
                 name: alias?.target ?? family,
                 embeddingFunction: embeddingFn,
             });
@@ -154,6 +154,8 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
             const supportsImages = !embedFnName.toLowerCase().includes('text');
             return new DualStoreManager({
                 name: family,
+                agent_name: AGENT_NAME ?? 'default_agent',
+                embedding_fn: embedFnName,
                 chromaCollection,
                 mongoCollection,
                 textKey,
