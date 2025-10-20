@@ -45,18 +45,17 @@ const getFromCache = async <TClient>(
 };
 
 export const getMongoClient = async (): Promise<MongoClient> => {
-    const client = await getFromCache(mongoClientPromises, mongoClientOverrides, 'mongo', createMongoClient);
+    const override = mongoClientOverrides.get('mongo');
+    if (override) {
+        return override;
+    }
 
-    // Always validate connection by attempting a ping
+    // Always create a fresh connection to avoid connection state issues
     try {
-        await client.db('admin').command({ ping: 1 });
+        const client = await createMongoClient();
         return client;
     } catch (error) {
-        // If ping fails, clear the cache and try to create a new connection
-        mongoClientPromises.delete('mongo');
-        const newClient = await createMongoClient();
-        mongoClientPromises.set('mongo', Promise.resolve(newClient));
-        return newClient;
+        throw new Error(`Failed to create MongoDB client: ${error.message}`);
     }
 };
 

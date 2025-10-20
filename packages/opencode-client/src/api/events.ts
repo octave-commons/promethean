@@ -3,7 +3,7 @@
  * Thin wrapper around actions layer
  */
 
-import { createOpencode } from  '@opencode-ai/sdk';
+import { createOpencode } from '@opencode-ai/sdk';
 export interface Event {
   id: string;
   type: string;
@@ -32,44 +32,13 @@ const authHeader = process.env.OPENCODE_AUTH_TOKEN
 let clientPromise: Promise<any> | null = null;
 
 async function getClient(): Promise<any> {
-  if (clientPromise) return clientPromise;
-
-  if (typeof sdk. === 'function') {
-    clientPromise = sdk
-      .createOpencode({
-        serverUrl: baseURL,
-        timeout,
-        maxRetries,
-        logLevel,
-        fetchOptions: { headers: authHeader },
-      })
-      .then((r: any) => r.client ?? r);
-    return clientPromise;
-  }
-  if (typeof sdk.createOpencodeClient === 'function') {
-    clientPromise = Promise.resolve(
-      sdk.createOpencodeClient({
-        serverUrl: baseURL,
-        timeout,
-        maxRetries,
-        logLevel,
-        fetchOptions: { headers: authHeader },
-      }),
-    );
-    return clientPromise;
-  }
-  if (typeof sdk.default === 'function') {
-    clientPromise = Promise.resolve(
-      new sdk.default({
-        baseURL,
-        timeout,
-        maxRetries,
-        logLevel,
-        fetchOptions: { headers: authHeader },
-      }),
-    );
-    return clientPromise;
-  }
+  return createOpencode({
+    serverUrl: baseURL,
+    timeout,
+    maxRetries,
+    logLevel,
+    fetchOptions: { headers: authHeader },
+  }).then((r: any) => r.client ?? r);
   throw new Error('Unable to initialize @opencode-ai/sdk client');
 }
 
