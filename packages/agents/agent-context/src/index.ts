@@ -14,7 +14,12 @@ export * from './security';
 export { DefaultContextManager } from './context-manager';
 export { PostgresEventStore } from './event-store';
 export { PostgresSnapshotStore } from './snapshot-manager';
-export { JWTAuthService } from './auth';
+export {
+  JWTAuthService,
+  makeAuthService,
+  type AuthServiceConfig,
+  type AuthServiceDeps,
+} from './auth';
 export { ContextSharingService } from './context-sharing';
 export { ContextMetadataService } from './context-metadata';
 export { ContextLifecycleManager } from './context-lifecycle';
