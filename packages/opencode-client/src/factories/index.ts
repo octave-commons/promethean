@@ -85,8 +85,6 @@ export {
 // Messages factories
 export {
   createDetectTaskCompletionMessagesTool,
-  createProcessMessageTool,
-  createProcessSessionMessagesMessagesTool,
   createGetSessionMessagesMessagesTool,
 } from './messages-factory.js';
 
