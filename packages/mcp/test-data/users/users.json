@@ -1,0 +1,18 @@
+[
+  {
+    "id": "1b199088-4077-4ba3-9fc1-b0e3905262ca",
+    "username": "testuser",
+    "email": "test@example.com",
+    "name": "Test User",
+    "role": "user",
+    "status": "active",
+    "authMethod": "oauth",
+    "provider": "github",
+    "providerUserId": "12345",
+    "permissions": [],
+    "customRoles": [],
+    "createdAt": "2025-10-20T01:24:29.337Z",
+    "updatedAt": "2025-10-20T01:24:29.337Z",
+    "metadata": {}
+  }
+]
