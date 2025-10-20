@@ -170,7 +170,7 @@ export interface HookablePlugin extends Plugin {
   hookManager?: HookManager;
   /** Event handlers for plugin lifecycle */
   event?: {
-    [eventType: string]: (event: any) => Promise<void> | void;
+    [eventType: string]: (event: Record<string, unknown>) => Promise<void> | void;
   };
 }
 

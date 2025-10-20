@@ -38,7 +38,7 @@ function stopQueueProcessor(): void {
 }
 
 // Tools
-export const submitJob: any = tool({
+export const submitJob = tool({
   description: 'Submit a new LLM job to the queue',
   args: {
     jobName: tool.schema.string().optional().describe('Optional name for the job'),
@@ -191,7 +191,7 @@ export const submitJob: any = tool({
   },
 });
 
-export const getJobStatus: any = tool({
+export const getJobStatus = tool({
   description: 'Get status of a specific job',
   args: {
     jobId: tool.schema.string().describe('Job ID to check'),
@@ -218,7 +218,7 @@ export const getJobStatus: any = tool({
   },
 });
 
-export const getJobResult: any = tool({
+export const getJobResult = tool({
   description: 'Get result of a completed job',
   args: {
     jobId: tool.schema.string().describe('Job ID to get result from'),
@@ -245,7 +245,7 @@ export const getJobResult: any = tool({
   },
 });
 
-export const listJobs: any = tool({
+export const listJobs = tool({
   description: 'List jobs with optional filtering',
   args: {
     status: tool.schema
@@ -294,7 +294,7 @@ export const listJobs: any = tool({
   },
 });
 
-export const cancelJob: any = tool({
+export const cancelJob = tool({
   description: 'Cancel a pending job',
   args: {
     jobId: tool.schema.string().describe('Job ID to cancel'),
@@ -327,7 +327,7 @@ export const cancelJob: any = tool({
   },
 });
 
-export const listModels: any = tool({
+export const listModels = tool({
   description: 'List available Ollama models',
   args: {
     detailed: tool.schema.boolean().default(false).describe('Include detailed model information'),
@@ -391,7 +391,7 @@ export const getQueueInfo = tool({
   },
 });
 
-export const manageCache: any = tool({
+export const manageCache = tool({
   description: 'Manage prompt cache (clear, get stats, etc.)',
   args: {
     action: tool.schema
@@ -448,7 +448,35 @@ export const manageCache: any = tool({
 
       case 'performance-analysis':
         // Analyze performance across all cached entries
-        const analysis: any = {
+        const analysis: {
+          totalEntries: number;
+          models: Record<
+            string,
+            {
+              entries: number;
+              averageScore: number;
+              taskDistribution: Record<string, number>;
+            }
+          >;
+          taskCategories: Record<string, number>;
+          averageScores: Record<string, number>;
+          performanceByCategory: Record<
+            string,
+            {
+              totalScore: number;
+              count: number;
+              averageScore: number;
+              models: Record<
+                string,
+                {
+                  totalScore: number;
+                  count: number;
+                  averageScore: number;
+                }
+              >;
+            }
+          >;
+        } = {
           totalEntries: 0,
           models: {},
           taskCategories: {},
@@ -457,7 +485,7 @@ export const manageCache: any = tool({
         };
 
         for (const [modelName] of modelCaches.entries()) {
-          const entries: any[] = []; // TODO: Implement proper cache entries retrieval
+          const entries: CacheEntry[] = []; // TODO: Implement proper cache entries retrieval
           analysis.models[modelName] = {
             entries: entries.length,
             averageScore: 0,
@@ -510,14 +538,12 @@ export const manageCache: any = tool({
 
         // Calculate category averages
         for (const [category, data] of Object.entries(analysis.performanceByCategory)) {
-          const dataAny = data as any;
           analysis.performanceByCategory[category].averageScore =
-            dataAny.count > 0 ? dataAny.totalScore / dataAny.count : 0;
+            data.count > 0 ? data.totalScore / data.count : 0;
 
-          for (const [model, modelData] of Object.entries(dataAny.models)) {
-            const modelDataAny = modelData as any;
+          for (const [model, modelData] of Object.entries(data.models)) {
             analysis.performanceByCategory[category].models[model].averageScore =
-              modelDataAny.count > 0 ? modelDataAny.totalScore / modelDataAny.count : 0;
+              modelData.count > 0 ? modelData.totalScore / modelData.count : 0;
           }
         }
 
@@ -529,7 +555,7 @@ export const manageCache: any = tool({
   },
 });
 
-export const submitFeedback: any = tool({
+export const submitFeedback = tool({
   description: 'Submit feedback on a cached result to improve model routing',
   args: {
     prompt: tool.schema.string().describe('The original prompt that generated the result'),
