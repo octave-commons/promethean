@@ -365,7 +365,10 @@ export function createGetAgentStatsTool(
   });
 }
 
-export function createCleanupAgentSessionsTool(): ReturnType<typeof tool> {
+export function createCleanupAgentSessionsTool(
+  stores: DualStoreManager<'', ''>,
+  client: OpencodeClient,
+): ReturnType<typeof tool> {
   return tool({
     description: 'Cleanup old completed or failed sessions',
     args: {
