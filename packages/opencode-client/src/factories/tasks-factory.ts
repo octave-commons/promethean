@@ -232,13 +232,14 @@ export function createCreateTaskTool(): ReturnType<typeof tool> {
 }
 
 // Factory for getAllTasks tool
-export function createGetAllTasksTool(): any {
+export function createGetAllTasksTool(): ReturnType<typeof tool> {
   return tool({
     description: 'Get all tasks from memory and storage',
     args: {},
     async execute(_args, context) {
-      const agentTaskStore = (context as any).agentTaskStore;
-      const agentTasks = (context as any).agentTasks;
+      const agentTaskStore = (context as Record<string, unknown>)
+        .agentTaskStore as DualStoreManager<'text', 'timestamp'>;
+      const agentTasks = (context as Record<string, unknown>).agentTasks as Map<string, AgentTask>;
 
       if (!agentTaskStore || !agentTasks) {
         throw new Error('Required task context not available');
@@ -269,7 +270,7 @@ export function createGetAllTasksTool(): any {
 }
 
 // Factory for parseTimestamp tool
-export function createParseTimestampTool(): any {
+export function createParseTimestampTool(): ReturnType<typeof tool> {
   return tool({
     description: 'Parse a timestamp into a Unix timestamp number',
     args: {
