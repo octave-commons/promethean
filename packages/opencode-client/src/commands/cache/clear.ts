@@ -22,11 +22,13 @@ export const clearCacheCommand = new Command('clear')
       if (options.json) {
         console.log(JSON.stringify(result, null, 2));
       } else {
-        if (action === 'clear') {
+        if (action === 'clear' && 'clearedEntries' in result) {
           console.log(chalk.green(`✅ Cleared ${result.clearedEntries} cache entries`));
-        } else {
+        } else if ('message' in result) {
           console.log(chalk.yellow(result.message));
-          console.log(chalk.gray(`Current cache size: ${result.size} entries`));
+          if ('size' in result) {
+            console.log(chalk.gray(`Current cache size: ${result.size} entries`));
+          }
         }
       }
     } catch (error) {

@@ -7,7 +7,9 @@ import type {
   QueueInfo,
   CacheAction,
   CacheStats,
-  CachePerformance,
+  CacheClearResult,
+  CacheExpiredResult,
+  CacheAnalysis,
 } from '../types/index.js';
 import {
   submitJob as submitJobAction,

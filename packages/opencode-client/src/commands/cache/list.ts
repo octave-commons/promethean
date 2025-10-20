@@ -15,16 +15,18 @@ export const listCacheCommand = new Command('list')
       if (options.json) {
         console.log(JSON.stringify(stats, null, 2));
       } else {
-        console.log(chalk.green(`Total cache entries: ${stats.totalSize}`));
-        console.log(chalk.green(`Models cached: ${stats.modelCount}`));
-        console.log(chalk.gray(`Similarity threshold: ${stats.similarityThreshold}`));
-        console.log(chalk.gray(`Max age: ${stats.maxAgeHours.toFixed(1)} hours`));
+        if ('totalSize' in stats) {
+          console.log(chalk.green(`Total cache entries: ${stats.totalSize}`));
+          console.log(chalk.green(`Models cached: ${stats.modelCount}`));
+          console.log(chalk.gray(`Similarity threshold: ${stats.similarityThreshold}`));
+          console.log(chalk.gray(`Max age: ${stats.maxAgeHours.toFixed(1)} hours`));
 
-        if (stats.models.length > 0) {
-          console.log(chalk.blue('\nModel breakdown:'));
-          stats.models.forEach((model: any) => {
-            console.log(`  ${model.model}: ${model.size} entries`);
-          });
+          if (stats.models.length > 0) {
+            console.log(chalk.blue('\nModel breakdown:'));
+            stats.models.forEach((model) => {
+              console.log(`  ${model.model}: ${model.size} entries`);
+            });
+          }
         }
       }
     } catch (error) {

@@ -106,7 +106,7 @@ export async function manageCache(
               };
             }
 
-            const categoryData = analysis.performanceByCategory[metadata.taskCategory];
+            const categoryData = analysis.performanceByCategory[metadata.taskCategory]!;
             categoryData.totalScore += metadata.score || 0;
             categoryData.count++;
 
@@ -117,7 +117,7 @@ export async function manageCache(
               };
             }
 
-            const modelData = categoryData.models[modelName];
+            const modelData = categoryData.models[modelName]!;
             modelData.totalScore += metadata.score || 0;
             modelData.count++;
           }
@@ -129,10 +129,10 @@ export async function manageCache(
       }
 
       // Calculate category averages
-      for (const [category, data] of Object.entries(analysis.performanceByCategory)) {
+      for (const [, data] of Object.entries(analysis.performanceByCategory)) {
         data.averageScore = data.count > 0 ? data.totalScore / data.count : 0;
 
-        for (const [model, modelData] of Object.entries(data.models)) {
+        for (const [, modelData] of Object.entries(data.models)) {
           modelData.averageScore = modelData.count > 0 ? modelData.totalScore / modelData.count : 0;
         }
       }
