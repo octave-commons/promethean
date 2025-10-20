@@ -6,7 +6,7 @@ import type { Timestamp } from './types/index.js';
 export let stores: DualStoreManager<'text', 'timestamp'>;
 
 export async function initializeStores(): Promise<void> {
-  stores = await DualStoreManager.create('sessions', 'text', 'createdAt');
+  stores = await DualStoreManager.create('sessions', 'text', 'timestamp');
 }
 
 // Export types and utilities
