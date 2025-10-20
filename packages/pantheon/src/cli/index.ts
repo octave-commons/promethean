@@ -83,4 +83,76 @@ program
     }
   });
 
+// LLM Actor commands
+program
+  .command('llm-actor:create')
+  .description('Create an LLM-powered actor')
+  .option('--name <name>', 'Name of the actor', 'llm-assistant')
+  .option('--prompt <prompt>', 'System prompt for the actor', 'You are a helpful AI assistant.')
+  .option('--model <model>', 'OpenAI model to use', 'gpt-3.5-turbo')
+  .option('--api-key <key>', 'OpenAI API key (or set OPENAI_API_KEY env var)')
+  .action(async (options) => {
+    try {
+      const apiKey = options.apiKey || process.env.OPENAI_API_KEY;
+      if (!apiKey) {
+        throw new Error(
+          'OpenAI API key required. Set OPENAI_API_KEY environment variable or use --api-key option',
+        );
+      }
+
+      const llmAdapter = makeOpenAIAdapter({
+        apiKey,
+        defaultModel: options.model,
+      });
+
+      const llmActorAdapter = makeLLMActorAdapter();
+
+      const actorId = await llmActorAdapter.create({
+        name: options.name,
+        type: 'llm',
+        parameters: { model: options.model },
+        llm: llmAdapter,
+        systemPrompt: options.prompt,
+        maxMessages: 20,
+      });
+
+      console.log(`Created LLM actor: ${actorId}`);
+
+      // Store the adapter for later use (in real implementation, this would be managed properly)
+      (global as any).llmActorAdapter = llmActorAdapter;
+    } catch (error) {
+      console.error('Error creating LLM actor:', error);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('llm-actor:message')
+  .description('Send a message to an LLM actor')
+  .argument('<actorId>', 'ID of the LLM actor')
+  .argument('<message>', 'Message to send')
+  .action(async (actorId, message) => {
+    try {
+      const llmActorAdapter = (global as any).llmActorAdapter;
+      if (!llmActorAdapter) {
+        throw new Error('No LLM actor adapter found. Create an actor first using llm-actor:create');
+      }
+
+      await llmActorAdapter.addMessage(actorId, {
+        role: 'user',
+        content: message,
+      });
+
+      await llmActorAdapter.tick(actorId);
+
+      const messages = await llmActorAdapter.getMessages(actorId);
+      const lastMessage = messages[messages.length - 1];
+
+      console.log(`Actor response: ${lastMessage?.content || 'No response'}`);
+    } catch (error) {
+      console.error('Error sending message to LLM actor:', error);
+      process.exit(1);
+    }
+  });
+
 program.parse();
