@@ -116,7 +116,7 @@
     "http-proxy": "1.18.1",
     "mongodb": "6.18.0",
     "nx-cloud": "^19.1.0",
-    "playwright": "1.55.0",
+    "playwright": "1.55.1",
     "pm2": "6.0.8",
     "remark-parse": "11.0.0",
     "rimraf": "6.0.1",
