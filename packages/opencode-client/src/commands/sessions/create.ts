@@ -1,7 +1,7 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
 import { create } from '../../actions/sessions/create.js';
-import { createOpencode } from '@opencode-ai/sdk';
+import { createOpencodeClient } from '@opencode-ai/sdk';
 
 export const createSessionCommand = new Command('create')
   .description('Create a new session')
@@ -37,10 +37,7 @@ export const createSessionCommand = new Command('create')
       }
 
       // Create OpenCode client
-      const client = await createOpencode({
-        baseUrl: baseURL,
-        timeout,
-      });
+      const client = createOpencodeClient();
       const result = await create({
         title: sessionTitle,
         client,
