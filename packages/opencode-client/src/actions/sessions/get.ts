@@ -1,9 +1,10 @@
 import { SessionUtils, agentTasks, sessionStore } from '../../index.js';
+import type { Session } from '../../api/sessions.js';
 
 /**
  * Safely parse session data, handling both JSON and plain text formats
  */
-function parseSessionData(session: any): any {
+function parseSessionData(session: { text: string; id?: string; timestamp?: string }): Session {
   try {
     return JSON.parse(session.text);
   } catch (error) {
@@ -78,8 +79,8 @@ export async function get({
       session: sessionInfo,
       messages: limit ? messages.slice(offset || 0, (offset || 0) + limit) : messages,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error getting session:', error);
-    return `Failed to get session: ${error.message}`;
+    return `Failed to get session: ${error instanceof Error ? error.message : String(error)}`;
   }
 }
