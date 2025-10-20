@@ -3,6 +3,7 @@
  * Thin wrapper around actions layer
  */
 
+import { createOpencode } from  '@opencode-ai/sdk';
 export interface Event {
   id: string;
   type: string;
@@ -32,9 +33,8 @@ let clientPromise: Promise<any> | null = null;
 
 async function getClient(): Promise<any> {
   if (clientPromise) return clientPromise;
-  const sdk: any = await import('@opencode-ai/sdk');
 
-  if (typeof sdk.createOpencode === 'function') {
+  if (typeof sdk. === 'function') {
     clientPromise = sdk
       .createOpencode({
         serverUrl: baseURL,

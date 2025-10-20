@@ -16,6 +16,10 @@ const chromaClientPromises: PromiseCache<ChromaClient> = new Map();
 const createMongoClient = async (): Promise<MongoClient> => {
     const client = new MongoClient(MONGO_URI);
     await client.connect();
+
+    // Verify connection is actually established
+    await client.db('admin').command({ ping: 1 });
+
     return client;
 };
 
