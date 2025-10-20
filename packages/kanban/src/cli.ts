@@ -90,8 +90,10 @@ const detectOutputType = (
   }
 };
 const HELP_TEXT =
-  `Usage: kanban [--kanban path] [--tasks path] <subcommand> [args...]\n` +
+  `Usage: kanban [--kanban path] [--tasks path] [--json] <subcommand> [args...]\n` +
   `Subcommands: ${[...COMMAND_LIST, 'process_sync', 'doccheck'].join(', ')}\n\n` +
+  `Options:\n` +
+  `  --json   - Output in JSONL format (default: markdown)\n\n` +
   `Core Operations:\n` +
   `  push     - Push board state to task files (board → files)\n` +
   `  pull     - Pull task file state to board (files → board)\n` +
