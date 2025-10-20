@@ -1,5 +1,5 @@
 import { DualStoreManager } from '@promethean/persistence';
-import { AgentTask } from '../../AgentTask.js';
+import type { AgentTask } from '../../types/index.js';
 
 export interface MessagingContext {
   sessionStore: DualStoreManager<'text', 'timestamp'>;
