@@ -7,7 +7,9 @@ export const subscribeCommand = new Command('subscribe')
   .option('--type <type>', 'Filter by event type (e.g., session.updated)')
   .action(async (options) => {
     try {
-      const client = await getClient();
+      const client = createOpencodeClient({
+        baseUrl: 'http://localhost:4096',
+      });
       if (typeof client.event?.subscribe !== 'function') {
         console.error(chalk.red('This SDK/server does not support event.subscribe().'));
         process.exit(1);
