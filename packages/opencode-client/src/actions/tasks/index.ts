@@ -1,4 +1,4 @@
-import { DualStoreManager } from '@promethean/persistence';
+import type { DualStoreManager } from '@promethean/persistence';
 import { AgentTask } from '../../AgentTask.js';
 
 export type TaskContext = DualStoreManager<'text', 'timestamp'>;
