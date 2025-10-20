@@ -40,35 +40,6 @@ export function createHandleSessionIdleTool(stores, client): ToolFunction {
       };
 
       const eventContext: EventContext = { client, taskContext };
-      await handleSessionIdle(eventContext, sessionId);
-
-      return JSON.stringify({
-        success: true,
-        sessionId,
-        event: 'session_idle_handled',
-      });
-    },
-  });
-}
-
-// Factory for handleSessionUpdated tool
-export function createHandleSessionUpdatedTool(stores, client): ToolFunction {
-  return tool({
-    description: 'Handle session updated event',
-    args: {
-      sessionId: tool.schema.string().describe('Session ID that was updated'),
-    },
-    async execute(args, context) {
-      const { sessionId } = args;
-      const client = (context as any).client;
-      const agentTaskStore = (context as any).agentTaskStore;
-
-      const taskContext: TaskContext = {
-        agentTaskStore,
-        agentTasks: new Map(), // TODO: Remove Map when TaskContext is updated
-      };
-
-      const eventContext: EventContext = { client, taskContext };
       await handleSessionUpdated(eventContext, sessionId);
 
       return JSON.stringify({
