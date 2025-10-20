@@ -75,7 +75,7 @@ export function createHandleSessionUpdatedTool(stores, clien1): ToolFunction {
 }
 
 // Factory for handleMessageUpdated tool
-export function createHandleMessageUpdatedTool(stores, clien): ToolFunction {
+export function createHandleMessageUpdatedTool(stores, client): ToolFunction {
   return tool({
     description: 'Handle message updated event',
     args: {
@@ -83,6 +83,12 @@ export function createHandleMessageUpdatedTool(stores, clien): ToolFunction {
     },
     async execute(args, context) {
       const { sessionId } = args;
+
+      const taskContext: TaskContext = {
+        agentTaskStore: stores,
+        agentTasks: new Map(), // TODO: Remove Map when TaskContext is updated
+      };
+
       const eventContext: EventContext = { client, taskContext };
       await handleMessageUpdated(eventContext, sessionId);
 
