@@ -3,11 +3,11 @@ import { SessionInfo } from './SessionInfo.js';
 import type { Timestamp } from './types/index.js';
 
 // Storage
+export let stores: DualStoreManager<'text', 'timestamp'>;
 
-export const stores = new DualStoreManager<'text', 'timestamp'>();
-export function initializeStores(): void {
-  stores.create();
+export async function initializeStores(): Promise<void> {
+  stores = await DualStoreManager.create('sessions', 'text', 'createdAt');
 }
-// Initialize the API layers with the global state
-// Export all API classes and utilities
+
+// Export types and utilities
 export type { SessionInfo, Timestamp };
