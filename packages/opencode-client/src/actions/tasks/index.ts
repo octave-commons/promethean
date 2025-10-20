@@ -3,7 +3,6 @@ import { AgentTask } from '../../AgentTask.js';
 
 export interface TaskContext {
   agentTaskStore: DualStoreManager<'text', 'timestamp'>;
-  agentTasks: Map<string, AgentTask>;
 }
 
 export async function loadPersistedTasks(
@@ -34,7 +33,16 @@ export async function loadPersistedTasks(
             completionMessage: task.metadata?.completionMessage as string | undefined,
           };
 
-          context.agentTasks.set(sessionId, agentTask);
+          await context.agentTaskStore.insert({
+            text: agentTask.task,
+            metadata: {
+              sessionId,
+              status: agentTask.status,
+              lastActivity: agentTask.lastActivity,
+              completionMessage: agentTask.completionMessage,
+            },
+            timestamp: agentTask.startTime,
+          });
           loadedCount++;
         } else {
           // Clean up orphaned task
