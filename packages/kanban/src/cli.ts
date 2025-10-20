@@ -125,7 +125,9 @@ async function main(): Promise<void> {
     env: applyLegacyEnv(process.env),
   });
 
-  const [cmd, ...args] = restArgs;
+  // Filter out --json flag from command arguments
+  const filteredArgs = restArgs.filter((arg) => arg !== '--json');
+  const [cmd, ...args] = filteredArgs;
   const boardFile = config.boardFile;
   const tasksDir = config.tasksDir;
 
