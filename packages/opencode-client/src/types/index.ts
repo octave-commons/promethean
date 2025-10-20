@@ -2,7 +2,6 @@
 // This file contains comprehensive TypeScript interfaces to eliminate 'any' type usage
 
 import type { DualStoreManager } from '@promethean/persistence';
-import type { OpencodeClient } from '@opencode-ai/sdk';
 
 export type Timestamp = string | number | Date;
 
