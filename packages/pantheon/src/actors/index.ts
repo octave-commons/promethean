@@ -214,12 +214,15 @@ export const createCompositeActor = (
             });
           } else if (subActors.length > 0) {
             // Default to first actor if no match
-            actions.push({
-              type: 'spawn',
-              actor: subActors[0],
-              goal: `${goal} (as ${subActors[0].name})`,
-              config: { parentActor: name },
-            });
+            const firstActor = subActors[0];
+            if (firstActor) {
+              actions.push({
+                type: 'spawn',
+                actor: firstActor,
+                goal: `${goal} (as ${firstActor.name})`,
+                config: { parentActor: name },
+              });
+            }
           }
           break;
       }

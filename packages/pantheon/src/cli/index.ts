@@ -9,7 +9,6 @@ import {
   makeInMemoryMessageBusAdapter,
   makeInMemorySchedulerAdapter,
   makeInMemoryActorStateAdapter,
-  type Actor,
   type ActorScript,
 } from '@promethean/pantheon-core';
 import { createLLMActor, createToolActor, createCompositeActor } from '../actors/index.js';

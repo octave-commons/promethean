@@ -3,7 +3,7 @@
  * Common utility functions and helpers
  */
 
-import type { Actor, ActorScript, Message, ContextSource } from '@promethean/pantheon-core';
+import type { Actor, Message, ContextSource } from '@promethean/pantheon-core';
 
 // === ID Generation ===
 
@@ -23,26 +23,24 @@ export const generateActorId = (name: string): string => {
 export const createMessage = (
   role: 'system' | 'user' | 'assistant',
   content: string,
-  images?: string[]
+  images?: string[],
 ): Message => ({
   role,
   content,
   images,
 });
 
-export const createSystemMessage = (content: string): Message => 
-  createMessage('system', content);
+export const createSystemMessage = (content: string): Message => createMessage('system', content);
 
-export const createUserMessage = (content: string): Message => 
-  createMessage('user', content);
+export const createUserMessage = (content: string): Message => createMessage('user', content);
 
-export const createAssistantMessage = (content: string): Message => 
+export const createAssistantMessage = (content: string): Message =>
   createMessage('assistant', content);
 
 export const truncateMessages = (
-  messages: Message[], 
+  messages: Message[],
   maxTokens: number = 4000,
-  avgTokensPerChar: number = 0.25
+  avgTokensPerChar: number = 0.25,
 ): Message[] => {
   const maxChars = Math.floor(maxTokens / avgTokensPerChar);
   let totalChars = 0;
@@ -51,8 +49,10 @@ export const truncateMessages = (
   // Process messages in reverse order (most recent first)
   for (let i = messages.length - 1; i >= 0; i--) {
     const message = messages[i];
+    if (!message) continue;
+
     const messageChars = message.content.length;
-    
+
     if (totalChars + messageChars <= maxChars) {
       result.unshift(message);
       totalChars += messageChars;
@@ -79,7 +79,7 @@ export const createContextSource = (
   id: string,
   label: string,
   where?: Record<string, unknown>,
-  metadata?: Record<string, unknown>
+  metadata?: Record<string, unknown>,
 ): ContextSource => ({
   id,
   label,
@@ -87,9 +87,7 @@ export const createContextSource = (
   metadata,
 });
 
-export const mergeContextSources = (
-  ...sources: ContextSource[][]
-): ContextSource[] => {
+export const mergeContextSources = (...sources: ContextSource[][]): ContextSource[] => {
   const seen = new Set<string>();
   const result: ContextSource[] = [];
 
@@ -112,8 +110,8 @@ export const createActorSummary = (actor: Actor): string => {
   const goalCount = actor.goals.length;
   const talentCount = actor.script.talents.length;
   const lastActivity = actor.updatedAt.toISOString();
-  
-  return `Actor ${actor.name} (${actor.id}): ${status}, ${goalCount} goals, ${talentCount} talents, last active ${lastActivity}`;
+
+  return `Actor ${actor.script.name} (${actor.id}): ${status}, ${goalCount} goals, ${talentCount} talents, last active ${lastActivity}`;
 };
 
 export const isActorActive = (actor: Actor): boolean => {
@@ -136,7 +134,7 @@ export const getActorIdleTime = (actor: Actor): number => {
 
 export const mergeConfigs = <T extends Record<string, any>>(
   defaultConfig: T,
-  userConfig: Partial<T>
+  userConfig: Partial<T>,
 ): T => {
   return {
     ...defaultConfig,
@@ -146,9 +144,9 @@ export const mergeConfigs = <T extends Record<string, any>>(
 
 export const validateConfig = <T extends Record<string, any>>(
   config: any,
-  requiredKeys: (keyof T)[]
+  requiredKeys: (keyof T)[],
 ): config is T => {
-  return requiredKeys.every(key => key in config);
+  return requiredKeys.every((key) => key in config);
 };
 
 // === Error Handling ===
@@ -157,7 +155,7 @@ export class PantheonError extends Error {
   constructor(
     message: string,
     public code: string,
-    public details?: Record<string, unknown>
+    public details?: Record<string, unknown>,
   ) {
     super(message);
     this.name = 'PantheonError';
@@ -167,7 +165,7 @@ export class PantheonError extends Error {
 export const createError = (
   code: string,
   message: string,
-  details?: Record<string, unknown>
+  details?: Record<string, unknown>,
 ): PantheonError => {
   return new PantheonError(message, code, details);
 };
@@ -181,7 +179,7 @@ export const isError = (error: unknown): error is PantheonError => {
 export const withTimeout = <T>(
   promise: Promise<T>,
   timeoutMs: number,
-  timeoutError?: Error
+  timeoutError?: Error,
 ): Promise<T> => {
   const timeout = new Promise<never>((_, reject) => {
     setTimeout(() => {
@@ -196,7 +194,7 @@ export const retry = async <T>(
   fn: () => Promise<T>,
   maxRetries: number = 3,
   delayMs: number = 1000,
-  backoff: 'linear' | 'exponential' = 'exponential'
+  backoff: 'linear' | 'exponential' = 'exponential',
 ): Promise<T> => {
   let lastError: Error;
 
@@ -205,16 +203,15 @@ export const retry = async <T>(
       return await fn();
     } catch (error) {
       lastError = error instanceof Error ? error : new Error(String(error));
-      
+
       if (attempt === maxRetries) {
         break;
       }
 
-      const delay = backoff === 'exponential' 
-        ? delayMs * Math.pow(2, attempt)
-        : delayMs * (attempt + 1);
-      
-      await new Promise(resolve => setTimeout(resolve, delay));
+      const delay =
+        backoff === 'exponential' ? delayMs * Math.pow(2, attempt) : delayMs * (attempt + 1);
+
+      await new Promise((resolve) => setTimeout(resolve, delay));
     }
   }
 
@@ -286,7 +283,7 @@ export const createTimer = (): (() => number) => {
 
 export const measureAsync = async <T>(
   fn: () => Promise<T>,
-  label?: string
+  label?: string,
 ): Promise<[T, number]> => {
   const timer = createTimer();
   try {

@@ -55,7 +55,6 @@ async function closeAgentSession(_sessionId: string): Promise<void> {
 interface AgentSession {
   sessionId: string;
   status: string;
-  task?: string;
   createdAt: Date;
   lastActivity?: Date;
 }
@@ -314,11 +313,8 @@ unifiedAgentCommands
         console.log('─'.repeat(80));
 
         sessions.forEach((session) => {
-          const taskId = session.task.sessionId.substring(0, 8);
-          const taskPreview =
-            session.task.task.substring(0, 30) + (session.task.task.length > 30 ? '...' : '');
           console.log(
-            `${taskId}\t\t${session.status}\t${session.createdAt.toISOString()}\t${taskPreview}`,
+            `${session.sessionId.substring(0, 8)}\t\t${session.status}\t${session.createdAt.toISOString()}\tSession`,
           );
         });
         console.log('─'.repeat(80));
