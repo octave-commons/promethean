@@ -1,5 +1,5 @@
 import { sessionStore } from '../../index.js';
-import type { StoredEvent, EventEntry, EventListOptions, EventClient } from '../../types/index.js';
+import type { StoredEvent, EventEntry, EventListOptions } from '../../types/index.js';
 
 export async function list({
   query,
