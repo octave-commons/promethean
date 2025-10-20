@@ -15,7 +15,7 @@ async function createApiSession(_options: {
   files?: string[];
   delegates?: string[];
 }): Promise<CreateSessionResponse> {
-  const sessionId = `session-${Date.now()}`;
+  const sessionId = `session:${Date.now()}`;
   const sessionData = {
     id: sessionId,
     title: _options.title,
