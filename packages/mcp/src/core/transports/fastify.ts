@@ -9,6 +9,13 @@ import path from 'node:path';
 // Import security middleware
 import { createSecurityMiddleware } from '../../security/index.js';
 
+// Import OAuth integration
+import {
+  OAuthFastifyIntegration,
+  createOAuthFastifyIntegration,
+} from '../../auth/fastify-integration.js';
+import { AuthenticationManager } from '../../core/authentication.js';
+
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { isInitializeRequest } from '@modelcontextprotocol/sdk/types.js';
@@ -761,6 +768,10 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
   const sessionStores = new Map<string, Map<string, StreamableHTTPServerTransport>>();
   const activeProxies: ProxyLifecycle[] = [];
 
+  // Initialize OAuth integration
+  const authManager = new AuthenticationManager();
+  let oauthIntegration: OAuthFastifyIntegration | undefined;
+
   return {
     start: async (server?: unknown, optionsInput?: unknown) => {
       const descriptorsFromServer = normalizeServerInput(server);
@@ -778,6 +789,21 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
           `[mcp:http] dev-ui assets not found at ${devUiDir}. ` +
             "Run 'pnpm --filter @promethean/mcp-dev-ui build' to generate the bundle.",
         );
+      }
+
+      // Initialize OAuth integration if enabled
+      try {
+        oauthIntegration = createOAuthFastifyIntegration(authManager);
+        await oauthIntegration.initialize(app, {
+          enableOAuth: process.env.ENABLE_OAUTH === 'true',
+          cookieDomain: process.env.OAUTH_COOKIE_DOMAIN,
+          secureCookies: process.env.NODE_ENV === 'production',
+          sameSitePolicy: (process.env.OAUTH_SAME_SITE as 'strict' | 'lax' | 'none') || 'lax',
+        });
+        console.log('[mcp:http] OAuth integration initialized successfully');
+      } catch (error) {
+        console.warn('[mcp:http] OAuth integration failed to initialize:', error);
+        console.log('[mcp:http] Continuing without OAuth authentication');
       }
 
       const combinedDescriptors: HttpEndpointDescriptor[] = [
@@ -1706,6 +1732,17 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
       await app.close();
       // Cleanup security middleware
       securityMiddleware.destroy();
+
+      // Cleanup OAuth integration
+      if (oauthIntegration) {
+        try {
+          await oauthIntegration.cleanup();
+          console.log('[mcp:http] OAuth integration cleaned up successfully');
+        } catch (error) {
+          console.warn('[mcp:http] OAuth cleanup failed:', error);
+        }
+      }
+
       /* eslint-disable functional/immutable-data */
       const toStop = activeProxies.splice(0, activeProxies.length);
       /* eslint-enable functional/immutable-data */
