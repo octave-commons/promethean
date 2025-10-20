@@ -11,7 +11,7 @@ import { AuthenticationManager } from '../core/authentication.js';
 import { createOAuthFastifyIntegration } from '../auth/fastify-integration.js';
 
 describe('OAuth Fastify Integration', () => {
-  let app: Fastify;
+  let app: ReturnType<typeof fastify>;
   let authManager: AuthenticationManager;
   let oauthIntegration: any;
 
@@ -26,7 +26,7 @@ describe('OAuth Fastify Integration', () => {
     process.env.OAUTH_GOOGLE_CLIENT_SECRET = 'test-google-client-secret';
 
     // Create Fastify instance
-    app = Fastify({ logger: false });
+    app = fastify({ logger: false });
 
     // Create authentication manager
     authManager = new AuthenticationManager({
@@ -130,7 +130,7 @@ describe('OAuth Fastify Integration', () => {
 
   it('should handle missing OAuth gracefully', async () => {
     // Create app without OAuth
-    const testApp = Fastify({ logger: false });
+    const testApp = fastify({ logger: false });
     const testAuthManager = new AuthenticationManager();
     const testOAuthIntegration = createOAuthFastifyIntegration(testAuthManager);
 

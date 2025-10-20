@@ -6,13 +6,17 @@
  */
 
 import type { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import crypto from 'node:crypto';
 import { OAuthSystem } from './index.js';
 import { OAuthIntegration } from '../integration.js';
 import { JwtTokenManager } from './jwt.js';
 import { UserRegistry } from '../users/registry.js';
 import { AuthenticationManager } from '../../core/authentication.js';
-import type { OAuthSystemConfig, JwtTokenConfig, UserRegistryConfig, OAuthIntegrationConfig } from '../types.js';
+import type {
+  OAuthSystemConfig,
+  JwtTokenConfig,
+  UserRegistryConfig,
+  OAuthIntegrationConfig,
+} from '../types.js';
 
 /**
  * OAuth route configuration
@@ -65,10 +69,7 @@ interface OAuthLogoutRequest {
 /**
  * Register OAuth routes
  */
-export function registerOAuthRoutes(
-  fastify: FastifyInstance,
-  config: OAuthRouteConfig,
-): void {
+export function registerOAuthRoutes(fastify: FastifyInstance, config: OAuthRouteConfig): void {
   const { basePath, oauthSystem, oauthIntegration, jwtManager, userRegistry, authManager } = config;
 
   // Helper to set secure cookies
@@ -144,10 +145,7 @@ export function registerOAuthRoutes(
   };
 
   // Helper to create success response
-  const createSuccessResponse = (
-    reply: FastifyReply,
-    data: Record<string, unknown>,
-  ) => {
+  const createSuccessResponse = (reply: FastifyReply, data: Record<string, unknown>) => {
     reply.send({
       success: true,
       timestamp: new Date().toISOString(),
@@ -168,51 +166,48 @@ export function registerOAuthRoutes(
   });
 
   // Start OAuth flow
-  fastify.post<{ Body: OAuthLoginRequest }>(
-    `${basePath}/login`,
-    async (request, reply) => {
-      try {
-        const { provider, redirectUri } = request.body;
+  fastify.post<{ Body: OAuthLoginRequest }>(`${basePath}/login`, async (request, reply) => {
+    try {
+      const { provider, redirectUri } = request.body;
 
-        if (!provider) {
-          return createErrorResponse(reply, 400, 'invalid_request', 'Provider is required');
-        }
-
-        if (!oauthSystem.isProviderAvailable(provider)) {
-          return createErrorResponse(
-            reply,
-            404,
-            'provider_not_found',
-            `OAuth provider '${provider}' is not available`,
-          );
-        }
-
-        // Start OAuth flow
-        const { authUrl, state } = oauthIntegration.startOAuthFlow(provider, redirectUri);
-
-        // Store state in secure cookie for additional validation
-        reply.setCookie('oauth_state', state, {
-          path: `${basePath}`,
-          httpOnly: true,
-          secure: config.secureCookies,
-          sameSite: config.sameSitePolicy as const,
-          maxAge: 10 * 60 * 1000, // 10 minutes
-          domain: config.cookieDomain,
-        });
-
-        createSuccessResponse(reply, {
-          provider,
-          authUrl,
-          state,
-          expiresAt: new Date(Date.now() + 10 * 60 * 1000).toISOString(),
-        });
-      } catch (error) {
-        createErrorResponse(reply, 500, 'oauth_start_failed', 'Failed to start OAuth flow', {
-          error: (error as Error).message,
-        });
+      if (!provider) {
+        return createErrorResponse(reply, 400, 'invalid_request', 'Provider is required');
       }
-    },
-  );
+
+      if (!oauthSystem.isProviderAvailable(provider)) {
+        return createErrorResponse(
+          reply,
+          404,
+          'provider_not_found',
+          `OAuth provider '${provider}' is not available`,
+        );
+      }
+
+      // Start OAuth flow
+      const { authUrl, state } = oauthIntegration.startOAuthFlow(provider, redirectUri);
+
+      // Store state in secure cookie for additional validation
+      reply.setCookie('oauth_state', state, {
+        path: `${basePath}`,
+        httpOnly: true,
+        secure: config.secureCookies,
+        sameSite: config.sameSitePolicy as const,
+        maxAge: 10 * 60 * 1000, // 10 minutes
+        domain: config.cookieDomain,
+      });
+
+      createSuccessResponse(reply, {
+        provider,
+        authUrl,
+        state,
+        expiresAt: new Date(Date.now() + 10 * 60 * 1000).toISOString(),
+      });
+    } catch (error) {
+      createErrorResponse(reply, 500, 'oauth_start_failed', 'Failed to start OAuth flow', {
+        error: (error as Error).message,
+      });
+    }
+  });
 
   // OAuth callback handler
   fastify.get<{ Querystring: OAuthCallbackRequest }>(
@@ -226,12 +221,7 @@ export function registerOAuthRoutes(
         const cookieState = request.cookies.oauth_state;
         if (!state || !cookieState || state !== cookieState) {
           clearAuthCookie(reply);
-          return createErrorResponse(
-            reply,
-            400,
-            'invalid_state',
-            'Invalid or missing OAuth state',
-          );
+          return createErrorResponse(reply, 400, 'invalid_state', 'Invalid or missing OAuth state');
         }
 
         // Clear state cookie
@@ -261,12 +251,7 @@ export function registerOAuthRoutes(
         }
 
         // Handle OAuth callback
-        const result = await oauthIntegration.handleOAuthCallback(
-          code,
-          state,
-          undefined,
-          request,
-        );
+        const result = await oauthIntegration.handleOAuthCallback(code, state, undefined, request);
 
         if (!result.success) {
           return createErrorResponse(
@@ -303,7 +288,7 @@ export function registerOAuthRoutes(
         const acceptHeader = request.headers.accept;
         if (acceptHeader?.includes('text/html')) {
           // Redirect for browser requests
-          const redirectUrl = request.query.redirect_uri as string || '/';
+          const redirectUrl = (request.query.redirect_uri as string) || '/';
           reply.redirect(302, redirectUrl);
         } else {
           // JSON response for API requests
@@ -335,106 +320,92 @@ export function registerOAuthRoutes(
   );
 
   // Refresh OAuth tokens
-  fastify.post<{ Body: OAuthRefreshRequest }>(
-    `${basePath}/refresh`,
-    async (request, reply) => {
-      try {
-        const { refreshToken } = request.body;
+  fastify.post<{ Body: OAuthRefreshRequest }>(`${basePath}/refresh`, async (request, reply) => {
+    try {
+      const { refreshToken } = request.body;
 
-        if (!refreshToken) {
-          return createErrorResponse(
-            reply,
-            400,
-            'invalid_request',
-            'Refresh token is required',
-          );
-        }
-
-        const result = await oauthIntegration.refreshOAuthTokens(refreshToken);
-
-        if (!result.success) {
-          return createErrorResponse(
-            reply,
-            401,
-            'token_refresh_failed',
-            result.error || 'Failed to refresh tokens',
-          );
-        }
-
-        if (!result.tokens) {
-          return createErrorResponse(
-            reply,
-            500,
-            'incomplete_response',
-            'Token refresh succeeded but tokens missing',
-          );
-        }
-
-        // Update access token cookie
-        reply.setCookie('access_token', result.tokens.accessToken, {
-          path: '/',
-          httpOnly: true,
-          secure: config.secureCookies,
-          sameSite: config.sameSitePolicy as const,
-          domain: config.cookieDomain,
-          maxAge: 15 * 60 * 1000, // 15 minutes
-        });
-
-        createSuccessResponse(reply, {
-          tokens: {
-            accessToken: result.tokens.accessToken,
-            refreshToken: result.tokens.refreshToken,
-            expiresIn: result.tokens.expiresIn,
-            tokenType: result.tokens.tokenType,
-          },
-        });
-      } catch (error) {
-        createErrorResponse(reply, 500, 'token_refresh_error', 'Token refresh failed', {
-          error: (error as Error).message,
-        });
+      if (!refreshToken) {
+        return createErrorResponse(reply, 400, 'invalid_request', 'Refresh token is required');
       }
-    },
-  );
+
+      const result = await oauthIntegration.refreshOAuthTokens(refreshToken);
+
+      if (!result.success) {
+        return createErrorResponse(
+          reply,
+          401,
+          'token_refresh_failed',
+          result.error || 'Failed to refresh tokens',
+        );
+      }
+
+      if (!result.tokens) {
+        return createErrorResponse(
+          reply,
+          500,
+          'incomplete_response',
+          'Token refresh succeeded but tokens missing',
+        );
+      }
+
+      // Update access token cookie
+      reply.setCookie('access_token', result.tokens.accessToken, {
+        path: '/',
+        httpOnly: true,
+        secure: config.secureCookies,
+        sameSite: config.sameSitePolicy as const,
+        domain: config.cookieDomain,
+        maxAge: 15 * 60 * 1000, // 15 minutes
+      });
+
+      createSuccessResponse(reply, {
+        tokens: {
+          accessToken: result.tokens.accessToken,
+          refreshToken: result.tokens.refreshToken,
+          expiresIn: result.tokens.expiresIn,
+          tokenType: result.tokens.tokenType,
+        },
+      });
+    } catch (error) {
+      createErrorResponse(reply, 500, 'token_refresh_error', 'Token refresh failed', {
+        error: (error as Error).message,
+      });
+    }
+  });
 
   // Logout user
-  fastify.post<{ Body: OAuthLogoutRequest }>(
-    `${basePath}/logout`,
-    async (request, reply) => {
-      try {
-        const { sessionId, allSessions } = request.body;
-        const clientInfo = getClientInfo(request);
+  fastify.post<{ Body: OAuthLogoutRequest }>(`${basePath}/logout`, async (request, reply) => {
+    try {
+      const { sessionId, allSessions } = request.body;
+      const clientInfo = getClientInfo(request);
 
-        // Get current user from request
-        const user = await oauthIntegration.getCurrentUser(request);
-        if (!user) {
-          clearAuthCookie(reply);
-          return createSuccessResponse(reply, { message: 'Already logged out' });
-        }
-
-        // Logout user
-        const success = await oauthIntegration.logout(
-          user.id,
-          allSessions ? undefined : sessionId,
-        );
-
-        if (success) {
-          console.log(`[OAuth] User ${user.username} (${user.id}) logged out`);
-        }
-
-        // Clear authentication cookies
+      // Get current user from request
+      const user = await oauthIntegration.getCurrentUser(request);
+      if (!user) {
         clearAuthCookie(reply);
-
-        createSuccessResponse(reply, {
-          message: 'Successfully logged out',
-          allSessions: allSessions || false,
-        });
-      } catch (error) {
-        createErrorResponse(reply, 500, 'logout_error', 'Logout failed', {
-          error: (error as Error).message,
-        });
+        return createSuccessResponse(reply, { message: 'Already logged out' });
       }
-    },
-  );
+
+      // Logout user
+      const success = await oauthIntegration.logout(user.id, allSessions ? undefined : sessionId);
+
+      if (success) {
+        console.log(`[OAuth] User ${user.username} (${user.id}) logged out`);
+      }
+
+      // Clear authentication cookies
+      clearAuthCookie(reply);
+
+      createSuccessResponse(reply, {
+        message: 'Successfully logged out',
+        allSessions: allSessions || false,
+      });
+    } catch (error) {
+      createErrorResponse(reply, 500, 'logout_error', 'Logout failed', {
+        error: (error as Error).message,
+      });
+    }
+  });
 
   // Get current user info
   fastify.get(`${basePath}/me`, async (request, reply) => {
@@ -442,12 +413,7 @@ export function registerOAuthRoutes(
       const user = await oauthIntegration.getCurrentUser(request);
 
       if (!user) {
-        return createErrorResponse(
-          reply,
-          401,
-          'not_authenticated',
-          'User not authenticated',
-        );
+        return createErrorResponse(reply, 401, 'not_authenticated', 'User not authenticated');
       }
 
       // Get user sessions
@@ -512,12 +478,7 @@ export function registerOAuthRoutes(
         const user = await oauthIntegration.getCurrentUser(request);
 
         if (!user) {
-          return createErrorResponse(
-            reply,
-            401,
-            'not_authenticated',
-            'User not authenticated',
-          );
+          return createErrorResponse(reply, 401, 'not_authenticated', 'User not authenticated');
         }
 
         // Get session to verify ownership

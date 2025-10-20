@@ -11,7 +11,7 @@ import { JwtTokenManager } from './oauth/jwt.js';
 import { UserRegistry } from './users/registry.js';
 import { AuthenticationManager } from '../core/authentication.js';
 import { OAuthIntegration } from './integration.js';
-import { registerOAuthRoutes } from './oauth/routes.js';
+import { registerSimpleOAuthRoutes } from './oauth/simple-routes.js';
 import type { OAuthRouteConfig } from './oauth/routes.js';
 import { loadOAuthConfig, validateOAuthConfig, getOAuthConfigSummary } from './config.js';
 
@@ -45,10 +45,7 @@ export class OAuthFastifyIntegration {
   /**
    * Initialize OAuth system and register routes
    */
-  async initialize(
-    fastify: FastifyInstance,
-    options: OAuthFastifyOptions = {},
-  ): Promise<void> {
+  async initialize(fastify: FastifyInstance, options: OAuthFastifyOptions = {}): Promise<void> {
     try {
       // Load configuration
       this.config = loadOAuthConfig();
@@ -90,7 +87,7 @@ export class OAuthFastifyIntegration {
       };
 
       // Register OAuth routes
-      registerOAuthRoutes(fastify, routeConfig);
+      registerSimpleOAuthRoutes(fastify, routeConfig);
 
       // Register authentication middleware
       this.registerAuthMiddleware(fastify);
@@ -99,7 +96,6 @@ export class OAuthFastifyIntegration {
       const summary = getOAuthConfigSummary(this.config);
       console.log('[OAuthFastify] OAuth system initialized successfully');
       console.log('[OAuthFastify] Configuration:', JSON.stringify(summary, null, 2));
-
     } catch (error) {
       console.error('[OAuthFastify] Failed to initialize OAuth system:', error);
       throw error;
@@ -173,8 +169,8 @@ export class OAuthFastifyIntegration {
 
       // Check provider requirements
       if (authConfig.providers && user) {
-        const hasRequiredProvider = authConfig.providers.some((provider: string) => 
-          user.provider === provider
+        const hasRequiredProvider = authConfig.providers.some(
+          (provider: string) => user.provider === provider,
         );
         if (!hasRequiredProvider) {
           return reply.status(403).send({
@@ -201,7 +197,7 @@ export class OAuthFastifyIntegration {
     ];
 
     // Check exact matches
-    if (publicRoutes.some(route => url.startsWith(route))) {
+    if (publicRoutes.some((route) => url.startsWith(route))) {
       return true;
     }
 
@@ -244,11 +240,13 @@ export class OAuthFastifyIntegration {
   /**
    * Get authentication middleware factory
    */
-  createAuthMiddleware(options: {
-    required?: boolean;
-    roles?: string[];
-    providers?: string[];
-  } = {}) {
+  createAuthMiddleware(
+    options: {
+      required?: boolean;
+      roles?: string[];
+      providers?: string[];
+    } = {},
+  ) {
     return async (request: FastifyRequest, reply: FastifyReply) => {
       const user = (request as any).oauthUser;
 
@@ -262,7 +260,7 @@ export class OAuthFastifyIntegration {
 
       // Check role requirements
       if (options.roles && user) {
-        const hasRequiredRole = options.roles.some(role => user.role === role);
+        const hasRequiredRole = options.roles.some((role) => user.role === role);
         if (!hasRequiredRole) {
           return reply.status(403).send({
             error: 'Insufficient privileges',
@@ -273,8 +271,8 @@ export class OAuthFastifyIntegration {
 
       // Check provider requirements
       if (options.providers && user) {
-        const hasRequiredProvider = options.providers.some(provider => 
-          user.provider === provider
+        const hasRequiredProvider = options.providers.some(
+          (provider) => user.provider === provider,
         );
         if (!hasRequiredProvider) {
           return reply.status(403).send({
