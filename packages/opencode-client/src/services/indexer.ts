@@ -1,6 +1,7 @@
 import { createOpencodeClient } from '@opencode-ai/sdk';
 import { sessionStore, eventStore, messageStore } from '../index.js';
 import type { Session, Event } from '@opencode-ai/sdk';
+import { sleep } from '@promethean/utils';
 
 export class IndexerService {
   private client: any;
@@ -161,6 +162,7 @@ export class IndexerService {
       let totalMessages = 0;
 
       for (const session of sessions) {
+        await sleep(100);
         await this.indexSession(session);
 
         // Get messages for this session
