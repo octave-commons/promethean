@@ -17,7 +17,6 @@ export class IndexerService {
   private lastLogTime: number = 0;
   private readonly LOG_DEBOUNCE_MS = 5000; // Log same event type max once per 5 seconds
   private readonly STATE_SAVE_INTERVAL_MS = 30000; // Save state every 30 seconds
-  private lastStateSaveTime: number = 0;
   private stateSaveTimer?: NodeJS.Timeout;
   private state: IndexerState = {
     lastIndexedMessageTimes: {},
@@ -88,7 +87,6 @@ export class IndexerService {
       };
 
       await writeFile(this.stateFile, JSON.stringify(stateToSave, null, 2));
-      this.lastStateSaveTime = Date.now();
 
       if (process.argv.includes('--verbose')) {
         console.log(
@@ -222,6 +220,15 @@ export class IndexerService {
 
       for (const message of messages) {
         await this.indexMessage(message, sessionId);
+      }
+
+      // Update the cursor for this session after processing messages
+      if (messages.length > 0) {
+        const latestMessageTime = Math.max(...messages.map((m: any) => m.info?.time?.created || 0));
+        this.state.lastIndexedMessageTimes[sessionId] = latestMessageTime;
+
+        // Save state after processing message events to avoid re-indexing
+        await this.saveState();
       }
 
       console.log(`📝 Indexed ${messages.length} messages for session ${sessionId}`);
