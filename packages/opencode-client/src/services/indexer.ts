@@ -64,24 +64,42 @@ export class IndexerService {
     await this.saveState();
   }
 
-  /**
+/**
    * Load indexer state from filesystem
    */
   private async loadState(): Promise<void> {
     try {
-      const data = await fs.readFile(this.stateFile, 'utf-8');
+      const data = await readFile(this.stateFile, 'utf-8');
       const savedState = JSON.parse(data);
       this.state = {
         lastIndexedSessionTime: savedState.lastIndexedSessionTime,
         lastIndexedMessageTimes: new Map(savedState.lastIndexedMessageTimes || []),
         lastProcessedEventTime: savedState.lastProcessedEventTime,
       };
-      console.log(
-        `📂 Loaded indexer state: ${this.state.lastIndexedMessageTimes.size} session cursors`,
-      );
+      console.log(`📂 Loaded indexer state: ${this.state.lastIndexedMessageTimes.size} session cursors`);
     } catch (error) {
       console.log('📂 No previous indexer state found, starting fresh');
     }
+  }
+
+  /**
+   * Save indexer state to filesystem
+   */
+  private async saveState(): Promise<void> {
+    try {
+      const stateToSave = {
+        lastIndexedSessionTime: this.state.lastIndexedSessionTime,
+        lastIndexedMessageTimes: Array.from(this.state.lastIndexedMessageTimes.entries()),
+        lastProcessedEventTime: this.state.lastProcessedEventTime,
+        savedAt: Date.now(),
+      };
+      
+      await writeFile(this.stateFile, JSON.stringify(stateToSave, null, 2));
+      console.log(`💾 Saved indexer state: ${this.state.lastIndexedMessageTimes.size} session cursors`);
+    } catch (error) {
+      console.warn('⚠️  Could not save indexer state:', error);
+    }
+  }
   }
 
   /**
