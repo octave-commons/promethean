@@ -8,6 +8,7 @@
 (defn header []
   [:header.app-header
    [:h1 "Chat UI"]
+   [:div.debug-info "App is running!"]
    [:div.header-actions
     [:button.refresh-btn 
      {:on-click #(rf/dispatch [:load-sessions])}

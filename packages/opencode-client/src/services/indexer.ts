@@ -124,12 +124,6 @@ export class IndexerService {
 
         // Find the index of the last indexed message for this session
         let messageStartIndex = 0;
-        if (this.state.lastIndexedMessageId && i === sessions.length - 1) {
-          messageStartIndex = messages.findIndex(
-            (m: any) => m.info?.id === this.state.lastIndexedMessageId,
-          );
-          if (messageStartIndex !== -1) messageStartIndex++; // Start after the last indexed message
-        }
 
         for (let j = messageStartIndex; j < messages.length; j++) {
           const message = messages[j];
@@ -142,8 +136,6 @@ export class IndexerService {
           }
 
           await this.indexMessage(message, session.id);
-          newMessages++;
-          this.state.lastIndexedMessageId = message.info?.id;
         }
 
         // Save state after processing each session to avoid re-indexing
@@ -215,26 +207,34 @@ export class IndexerService {
         return;
       }
 
-      // Fetch all messages for the session and find the specific one that changed
-      const messagesResult = await this.client.session.messages({
-        path: { id: sessionId },
-      });
-      const messages = messagesResult.data || [];
+      // Only fetch and index when the message is complete, not for every part update
+      if (event.type === 'message.updated' || event.type === 'message.removed') {
+        // For complete message events, fetch the specific message
+        const messagesResult = await this.client.session.messages({
+          path: { id: sessionId },
+        });
+        const messages = messagesResult.data || [];
 
-      // Find the specific message that triggered this event
-      const targetMessage = messages.find((m: any) => m.info?.id === messageId);
+        // Find the specific message that triggered this event
+        const targetMessage = messages.find((m: any) => m.info?.id === messageId);
 
-      if (targetMessage) {
-        await this.indexMessage(targetMessage, sessionId);
-        this.state.lastIndexedMessageId = messageId;
+        if (targetMessage) {
+          await this.indexMessage(targetMessage, sessionId);
+          this.state.lastIndexedMessageId = messageId;
 
-        // Save state after processing message event
-        await this.saveState();
+          // Save state after processing message event
+          await this.saveState();
 
-        console.log(`📝 Indexed message ${messageId} for session ${sessionId}`);
+          console.log(`📝 Indexed message ${messageId} for session ${sessionId}`);
+        } else {
+          console.warn(
+            `⚠️ Could not find message ${messageId} in session ${sessionId} (found ${messages.length} messages)`,
+          );
+        }
       } else {
-        console.warn(
-          `⚠️ Could not find message ${messageId} in session ${sessionId} (found ${messages.length} messages)`,
+        // For part updates, just log that we're skipping indexing until message is complete
+        console.log(
+          `🔄 Skipping indexing for part update of message ${messageId} in session ${sessionId}`,
         );
       }
     } catch (error) {

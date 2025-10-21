@@ -11,9 +11,9 @@ import { createSecurityMiddleware } from '../../security/index.js';
 
 // Import OAuth integration
 import {
-  PlatformaticOAuthIntegration,
-  createPlatformaticOAuthIntegration,
-} from '../../auth/platformatic-oauth.js';
+  OAuthFastifyIntegration,
+  createOAuthFastifyIntegration,
+} from '../../auth/fastify-integration.js';
 import { AuthenticationManager } from '../../core/authentication.js';
 
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
@@ -770,7 +770,7 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
 
   // Initialize OAuth integration
   const authManager = new AuthenticationManager();
-  let oauthIntegration: PlatformaticOAuthIntegration | undefined;
+  let oauthIntegration: OAuthFastifyIntegration | undefined;
 
   return {
     start: async (server?: unknown, optionsInput?: unknown) => {
@@ -793,17 +793,14 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
 
       // Initialize OAuth integration if enabled
       try {
-        oauthIntegration = createPlatformaticOAuthIntegration(authManager);
+        oauthIntegration = createOAuthFastifyIntegration(authManager);
         await oauthIntegration.initialize(app, {
           enableOAuth:
             process.env.OAUTH_ENABLED === 'true' || process.env.MCP_OAUTH_ENABLED === 'true',
-          resourceUri:
-            process.env.MCP_RESOURCE_URI ||
-            `https://err-stealth-16-ai-studio-a1vgg.tailbe888a.ts.net/mcp`,
-          authorizationServers: [process.env.OAUTH_AUTH_SERVER || 'https://github.com'],
-          clientId: process.env.OAUTH_CLIENT_ID,
-          clientSecret: process.env.OAUTH_CLIENT_SECRET,
-          scopes: ['read', 'write'],
+          configPath: process.env.OAUTH_CONFIG_PATH,
+          cookieDomain: process.env.OAUTH_COOKIE_DOMAIN,
+          secureCookies: process.env.OAUTH_SECURE_COOKIES === 'true',
+          sameSitePolicy: (process.env.OAUTH_SAME_SITE_POLICY as any) || 'strict',
         });
         console.log('[mcp:http] OAuth integration initialized successfully');
       } catch (error) {

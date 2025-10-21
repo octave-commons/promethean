@@ -11,6 +11,6 @@
         :asset-path "/js"
         :modules {:main {:init-fn main.core/init}}
         :devtools {:http-root "public"
-                   :http-port 8080
+                   :http-port 8082
                    :preloads [devtools.preload
                               day8.re-frame-10x.preload]}}}}

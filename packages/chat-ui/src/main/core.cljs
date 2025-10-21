@@ -7,6 +7,10 @@
             [components.app :refer [app]]))
 
 (defn ^:export init []
+  (js/console.log "Initializing app...")
   (rf/dispatch-sync [:initialize-db])
+  (js/console.log "DB initialized")
   (rf/dispatch [:load-sessions])
-  (dom/render [app] (js/document.getElementById "app")))
+  (js/console.log "Load sessions dispatched")
+  (dom/render [app] (js/document.getElementById "app"))
+  (js/console.log "App rendered"))
