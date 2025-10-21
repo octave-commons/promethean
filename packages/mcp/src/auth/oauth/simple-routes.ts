@@ -550,17 +550,29 @@ export function registerSimpleOAuthRoutes(
       const tempStore = (global as any).__oauth_temp_store || {};
       const storedData = tempStore[state];
 
+      let redirectTo, originalState, clientRedirectUri;
+
       if (!storedData) {
-        return reply.status(400).send({
-          error: 'Invalid state',
-          message: 'OAuth state is invalid or expired',
-        });
+        console.log(
+          '[OAuth Callback] No stored state, processing direct OAuth callback for MCP client',
+        );
+        // For direct calls from MCP clients like ChatGPT, continue without stored state
+        redirectTo = null;
+        originalState = state;
+        clientRedirectUri = null;
+      } else {
+        const {
+          redirectTo: storedRedirectTo,
+          originalState: storedOriginalState,
+          clientRedirectUri: storedClientRedirectUri,
+        } = storedData;
+        redirectTo = storedRedirectTo;
+        originalState = storedOriginalState;
+        clientRedirectUri = storedClientRedirectUri;
+
+        // Clean up stored data
+        delete tempStore[state];
       }
-
-      const { redirectTo, originalState, clientRedirectUri } = storedData;
-
-      // Clean up stored data
-      delete tempStore[state];
 
       // Handle OAuth callback with OAuthSystem
       const result = await config.oauthSystem.handleOAuthCallback(code, state, error);
