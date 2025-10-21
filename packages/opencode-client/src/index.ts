@@ -1,3 +1,5 @@
+import { DualStoreManager } from '@promethean/persistence';
+
 export { DualStoreManager, ContextStore } from '@promethean/persistence';
 export { SessionInfo } from './SessionInfo.js';
 export { SessionUtils } from './SessionUtils.js';
@@ -36,5 +38,3 @@ export const listStoreNames = (): readonly string[] => contextStore.listCollecti
 export const getStoreCount = (): number => contextStore.collectionCount();
 
 // Export utilities
-export { SessionUtils };
-export type { SessionInfo, Timestamp };
