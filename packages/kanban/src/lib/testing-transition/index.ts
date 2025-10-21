@@ -20,7 +20,7 @@ export async function runComprehensiveTestingTransition(
   executedTests: string[],
   initialMappings: Array<{ requirementId: string; testIds: string[] }>,
   config: TestingTransitionConfig,
-  tests: string[],
+  testFiles: string[],
   outputDir: string,
   performanceMetrics?: PerformanceMetrics
 ): Promise<{ reportPath: string; scoreResult: ComprehensiveScoreResult }> {
@@ -29,9 +29,9 @@ export async function runComprehensiveTestingTransition(
 
   // Step 2: Quality scoring
   const qualityScore = calculateQualityScore({
-    complexity: computeAverageComplexity(tests),
-    passRate: computePassRate(tests),
-    flakiness: detectFlakiness(tests),
+    complexity: computeAverageComplexity(testFiles),
+    passRate: computePassRate(testFiles),
+    flakiness: detectFlakiness(testFiles),
   });
 
   // Step 3: Requirement mapping validation
@@ -42,7 +42,7 @@ export async function runComprehensiveTestingTransition(
 
   // Step 4: AI analysis
   const aiReq: AIAnalysisRequest = {
-    tests,
+    tests: testFiles,
     coverageResult: coverage,
     qualityScore,
     mappings: mapped,
