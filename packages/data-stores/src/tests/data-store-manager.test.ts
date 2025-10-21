@@ -152,7 +152,10 @@ test('search in specific stores', async (t) => {
   });
 
   t.true(sessionResults.length >= 1, 'Should find session results');
-  t.is(sessionResults[0].storeName, StoreNames.SESSION, 'Should only return session results');
+  const firstSessionResult = sessionResults[0];
+  if (firstSessionResult) {
+    t.is(firstSessionResult.storeName, StoreNames.SESSION, 'Should only return session results');
+  }
 
   // Search only in message store
   const messageResults = await manager.searchInStores([StoreNames.MESSAGE], ['specific'], {
@@ -160,7 +163,10 @@ test('search in specific stores', async (t) => {
   });
 
   t.true(messageResults.length >= 1, 'Should find message results');
-  t.is(messageResults[0].storeName, StoreNames.MESSAGE, 'Should only return message results');
+  const firstMessageResult = messageResults[0];
+  if (firstMessageResult) {
+    t.is(firstMessageResult.storeName, StoreNames.MESSAGE, 'Should only return message results');
+  }
 });
 
 test('get latest from stores', async (t) => {
@@ -204,7 +210,10 @@ test('get latest from stores', async (t) => {
   const sessionResults = await manager.getLatestFromStores([StoreNames.SESSION], 5);
 
   t.true(sessionResults.length >= 1, 'Should get session results');
-  t.is(sessionResults[0].storeName, StoreNames.SESSION, 'Should return session results');
+  const firstLatestSessionResult = sessionResults[0];
+  if (firstLatestSessionResult) {
+    t.is(firstLatestSessionResult.storeName, StoreNames.SESSION, 'Should return session results');
+  }
 });
 
 test('cleanup resets manager state', async (t) => {
