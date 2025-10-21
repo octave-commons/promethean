@@ -195,13 +195,34 @@ export class IndexerService {
     );
   }
 
-  private async handleMessageEvent(event: any): Promise<void> {
+private async handleMessageEvent(event: any): Promise<void> {
     try {
       const sessionId = this.extractSessionId(event);
       if (!sessionId) {
         console.warn('⚠️ Message event without session ID:', event);
         return;
       }
+
+      const messagesResult = await this.client.session.messages({
+        path: { id: sessionId },
+      });
+      const messages = messagesResult.data || [];
+
+      for (const message of messages) {
+        await this.indexMessage(message, sessionId);
+        
+        // Update the last indexed message ID
+        this.state.lastIndexedMessageId = message.info?.id;
+      }
+
+      // Save state after processing message events to avoid re-indexing
+      await this.saveState();
+
+      console.log(`📝 Indexed ${messages.length} messages for session ${sessionId}`);
+    } catch (error) {
+      console.error('❌ Error handling message event:', error);
+    }
+  }
 
       const messagesResult = await this.client.session.messages({
         path: { id: sessionId },
