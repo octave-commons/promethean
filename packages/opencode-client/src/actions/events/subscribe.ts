@@ -13,10 +13,13 @@ export async function subscribe({
     return 'Events subscription not supported by this client';
   }
 
-  const result = await client.event.subscribe().catch((error: unknown) => {
-    console.error('Error subscribing to events:', error);
-    return null;
-  });
+  // this accomplishes nothing. this returns an async generator.
+  // it is only useful if it can be consumed, which it isn't.
+  // it's just being created then we do nothing with it.
+  // const result = await client.event.subscribe().catch((error: unknown) => {
+  //   console.error('Error subscribing to events:', error);
+  //   return null;
+  // });
 
   if (!result) {
     return 'Failed to subscribe to events';
