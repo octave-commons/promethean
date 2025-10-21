@@ -200,22 +200,29 @@ export class IndexerService {
         return;
       }
 
-      const messagesResult = await this.client.session.messages({
-        path: { id: sessionId },
-      });
-      const messages = messagesResult.data || [];
-
-      for (const message of messages) {
-        await this.indexMessage(message, sessionId);
-
-        // Update the last indexed message ID
-        this.state.lastIndexedMessageId = message.info?.id;
+      // Extract the specific message ID from the event
+      const messageId = this.extractMessageId(event);
+      if (!messageId) {
+        console.warn('⚠️ Message event without message ID:', event);
+        return;
       }
 
-      // Save state after processing message events to avoid re-indexing
-      await this.saveState();
+      // Only fetch and index the specific message that changed
+      const messageResult = await this.client.session.message({
+        path: { id: sessionId, messageId: messageId },
+      });
 
-      console.log(`📝 Indexed ${messages.length} messages for session ${sessionId}`);
+      if (messageResult.data) {
+        await this.indexMessage(messageResult.data, sessionId);
+        this.state.lastIndexedMessageId = messageId;
+
+        // Save state after processing message event
+        await this.saveState();
+
+        console.log(`📝 Indexed message ${messageId} for session ${sessionId}`);
+      } else {
+        console.warn(`⚠️ Could not find message ${messageId} in session ${sessionId}`);
+      }
     } catch (error) {
       console.error('❌ Error handling message event:', error);
     }
@@ -343,6 +350,16 @@ ${content}
     }
     if (event.type === 'message.part.updated' || event.type === 'message.part.removed') {
       return (event as any).properties?.part?.sessionID || (event as any).properties?.sessionID;
+    }
+    return undefined;
+  }
+
+  private extractMessageId(event: any): string | undefined {
+    if (event.type === 'message.updated' || event.type === 'message.removed') {
+      return (event as any).properties?.info?.id;
+    }
+    if (event.type === 'message.part.updated' || event.type === 'message.part.removed') {
+      return (event as any).properties?.part?.messageID || (event as any).properties?.messageID;
     }
     return undefined;
   }
