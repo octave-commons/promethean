@@ -1,6 +1,8 @@
 import { createOpencodeClient } from '@opencode-ai/sdk';
 import { sessionStore, eventStore, messageStore } from '../index.js';
 import type { Session, Event } from '@opencode-ai/sdk';
+import { readFile, writeFile } from 'fs/promises';
+import { join } from 'path';
 
 interface IndexerState {
   lastIndexedSessionTime?: number;
@@ -17,6 +19,7 @@ export class IndexerService {
   private state: IndexerState = {
     lastIndexedMessageTimes: new Map(),
   };
+  private readonly stateFile = join(process.cwd(), '.indexer-state.json');
 
   constructor() {
     this.client = createOpencodeClient({
@@ -61,64 +64,28 @@ export class IndexerService {
     await this.saveState();
   }
 
-/**
-   * Load indexer state from persistent storage
+  /**
+   * Load indexer state from filesystem
    */
   private async loadState(): Promise<void> {
     try {
-      // Use filesystem for state persistence to avoid polluting message store
-      const fs = await import('fs/promises');
-      const path = await import('path');
-      
-      const stateFile = path.join(process.cwd(), '.indexer-state.json');
-      
-      try {
-        const data = await fs.readFile(stateFile, 'utf-8');
-        const savedState = JSON.parse(data);
-        this.state = {
-          lastIndexedSessionTime: savedState.lastIndexedSessionTime,
-          lastIndexedMessageTimes: new Map(savedState.lastIndexedMessageTimes || []),
-          lastProcessedEventTime: savedState.lastProcessedEventTime,
-        };
-        console.log(`📂 Loaded indexer state: ${this.state.lastIndexedMessageTimes.size} session cursors`);
-      } catch (fileError) {
-        console.log('📂 No previous indexer state found, starting fresh');
-      }
-    } catch (error) {
-      console.warn('⚠️  Could not load indexer state, starting fresh:', error);
-    }
-  }
-
-  /**
-   * Save indexer state to persistent storage
-   */
-  private async saveState(): Promise<void> {
-    try {
-      // Use filesystem for state persistence to avoid polluting message store
-      const fs = await import('fs/promises');
-      const path = await import('path');
-      
-      const stateFile = path.join(process.cwd(), '.indexer-state.json');
-      const stateToSave = {
-        lastIndexedSessionTime: this.state.lastIndexedSessionTime,
-        lastIndexedMessageTimes: Array.from(this.state.lastIndexedMessageTimes.entries()),
-        lastProcessedEventTime: this.state.lastProcessedEventTime,
-        savedAt: Date.now(),
+      const data = await fs.readFile(this.stateFile, 'utf-8');
+      const savedState = JSON.parse(data);
+      this.state = {
+        lastIndexedSessionTime: savedState.lastIndexedSessionTime,
+        lastIndexedMessageTimes: new Map(savedState.lastIndexedMessageTimes || []),
+        lastProcessedEventTime: savedState.lastProcessedEventTime,
       };
-      
-      await fs.writeFile(stateFile, JSON.stringify(stateToSave, null, 2));
-      console.log(`💾 Saved indexer state: ${this.state.lastIndexedMessageTimes.size} session cursors`);
+      console.log(
+        `📂 Loaded indexer state: ${this.state.lastIndexedMessageTimes.size} session cursors`,
+      );
     } catch (error) {
-      console.warn('⚠️  Could not save indexer state:', error);
-    }
-  }
-    } catch (error) {
-      console.warn('⚠️  Could not load indexer state, starting fresh:', error);
+      console.log('📂 No previous indexer state found, starting fresh');
     }
   }
 
   /**
-   * Save indexer state to persistent storage
+   * Save indexer state to filesystem
    */
   private async saveState(): Promise<void> {
     try {
@@ -129,16 +96,7 @@ export class IndexerService {
         savedAt: Date.now(),
       };
 
-      await messageStore.insert({
-        id: 'indexer_state',
-        text: JSON.stringify(stateToSave, null, 2),
-        timestamp: Date.now(),
-        metadata: {
-          type: 'indexer_state',
-          version: '1.0',
-        },
-      });
-
+      await fs.writeFile(this.stateFile, JSON.stringify(stateToSave, null, 2));
       console.log(
         `💾 Saved indexer state: ${this.state.lastIndexedMessageTimes.size} session cursors`,
       );
