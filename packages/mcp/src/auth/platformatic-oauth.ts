@@ -5,8 +5,6 @@
  * Fastify-based MCP server that includes full OAuth 2.1 support.
  */
 
-import Fastify from 'fastify';
-import mcpPlugin from '@platformatic/mcp';
 import type { FastifyInstance, FastifyRequest } from 'fastify';
 import { AuthenticationManager } from '../core/authentication.js';
 import { loadOAuthConfig } from './config.js';
@@ -32,10 +30,8 @@ export type PlatformaticOAuthConfig = Readonly<{
  * instead of our custom implementation.
  */
 export class PlatformaticOAuthIntegration {
-  private fastify?: FastifyInstance;
   private authManager: AuthenticationManager;
   private config?: PlatformaticOAuthConfig;
-  private mcpApp?: FastifyInstance;
 
   constructor(authManager: AuthenticationManager) {
     this.authManager = authManager;
@@ -46,7 +42,6 @@ export class PlatformaticOAuthIntegration {
    */
   async initialize(fastify: FastifyInstance, options: PlatformaticOAuthConfig = {}): Promise<void> {
     try {
-      this.fastify = fastify;
       this.config = options;
 
       // Check if OAuth is enabled
@@ -65,10 +60,7 @@ export class PlatformaticOAuthIntegration {
           options.resourceUri || process.env.MCP_RESOURCE_URI || oauthConfig?.resource?.uri,
         authorizationServers:
           options.authorizationServers ||
-          [
-            process.env.OAUTH_AUTH_SERVER ||
-              oauthConfig?.oauth?.providers?.github?.authorizationUrl,
-          ].filter(Boolean),
+          [process.env.OAUTH_AUTH_SERVER || 'https://github.com'].filter(Boolean),
         clientId:
           options.clientId ||
           process.env.OAUTH_CLIENT_ID ||
@@ -96,48 +88,8 @@ export class PlatformaticOAuthIntegration {
 
       this.config = config;
 
-      // Create a separate Fastify instance for the MCP server
-      this.mcpApp = Fastify({
-        logger: {
-          level: process.env.MCP_LOG_LEVEL || 'info',
-        },
-      });
-
-      // Register Platformatic MCP plugin with OAuth configuration
-      await this.mcpApp.register(mcpPlugin, {
-        serverInfo: {
-          name: 'promethean-mcp-server',
-          version: '1.0.0',
-        },
-        capabilities: {
-          tools: { listChanged: true },
-          resources: { subscribe: true },
-          prompts: {},
-        },
-        enableSSE: true, // Enable Server-Sent Events for real-time communication
-        authorization: {
-          enabled: true,
-          authorizationServers: config.authorizationServers,
-          resourceUri: config.resourceUri,
-          tokenValidation: {
-            jwksUri: config.jwksUri,
-            validateAudience: true,
-          },
-          oauth2Client: {
-            clientId: config.clientId,
-            clientSecret: config.clientSecret,
-            authorizationServer: config.authorizationServers[0],
-            scopes: config.scopes,
-            dynamicRegistration: true,
-          },
-        },
-      });
-
-      // Register OAuth routes on the main Fastify instance
+      // Register OAuth routes on the Fastify instance
       await this.registerOAuthRoutes(fastify);
-
-      // Proxy MCP requests to the Platformatic MCP server
-      await this.proxyMcpRequests(fastify);
 
       console.log('[PlatformaticOAuth] OAuth system initialized successfully');
       console.log('[PlatformaticOAuth] Resource URI:', config.resourceUri);
@@ -150,25 +102,54 @@ export class PlatformaticOAuthIntegration {
   }
 
   /**
-   * Register OAuth routes on the main Fastify instance
+   * Register OAuth routes on the Fastify instance
    */
   private async registerOAuthRoutes(fastify: FastifyInstance): Promise<void> {
     if (!this.config) {
       throw new Error('OAuth configuration not loaded');
     }
 
+    // OAuth providers endpoint
+    fastify.get('/auth/oauth/providers', async (_request, reply) => {
+      return reply.send({
+        providers: [
+          {
+            name: 'GitHub',
+            authorizationUrl: this.config?.authorizationServers[0],
+            scopes: this.config?.scopes || ['read', 'write'],
+          },
+        ],
+        resourceUri: this.config?.resourceUri,
+      });
+    });
+
+    // OAuth health endpoint
+    fastify.get('/auth/oauth/health', async (_request, reply) => {
+      return reply.send({
+        status: 'healthy',
+        oauth: {
+          enabled: true,
+          resourceUri: this.config?.resourceUri,
+          authorizationServers: this.config?.authorizationServers,
+          scopes: this.config?.scopes,
+        },
+        timestamp: new Date().toISOString(),
+      });
+    });
+
     // OAuth authorization endpoint
     fastify.get('/auth/oauth/authorize', async (request, reply) => {
       try {
+        const query = request.query as any;
         const { redirect_uri, state, scope, response_type, code_challenge, code_challenge_method } =
-          request.query as any;
+          query;
 
-        // Build authorization URL
-        const authUrl = new URL(this.config.authorizationServers[0]);
-        authUrl.searchParams.set('client_id', this.config!.clientId);
+        // Build authorization URL for GitHub
+        const authUrl = new URL('https://github.com/login/oauth/authorize');
+        authUrl.searchParams.set('client_id', this.config!.clientId!);
         authUrl.searchParams.set('redirect_uri', redirect_uri);
         authUrl.searchParams.set('state', state);
-        authUrl.searchParams.set('scope', scope || this.config!.scopes.join(' '));
+        authUrl.searchParams.set('scope', scope || this.config!.scopes!.join(' '));
         authUrl.searchParams.set('response_type', response_type || 'code');
 
         if (code_challenge) {
@@ -190,7 +171,8 @@ export class PlatformaticOAuthIntegration {
     // OAuth callback endpoint
     fastify.post('/auth/oauth/callback', async (request, reply) => {
       try {
-        const { code, state, error } = request.query as any;
+        const query = request.query as any;
+        const { code, state, error } = query;
 
         if (error) {
           return reply.status(400).send({
@@ -230,7 +212,8 @@ export class PlatformaticOAuthIntegration {
     // Token refresh endpoint
     fastify.post('/auth/oauth/refresh', async (request, reply) => {
       try {
-        const { refresh_token } = request.body as any;
+        const body = request.body as any;
+        const { refresh_token } = body;
 
         if (!refresh_token) {
           return reply.status(400).send({
@@ -258,79 +241,7 @@ export class PlatformaticOAuthIntegration {
       }
     });
 
-    // OAuth providers endpoint
-    fastify.get('/auth/oauth/providers', async (_request, reply) => {
-      return reply.send({
-        providers: [
-          {
-            name: 'GitHub',
-            authorizationUrl: this.config?.authorizationServers[0],
-            scopes: this.config?.scopes || ['read', 'write'],
-          },
-        ],
-        resourceUri: this.config?.resourceUri,
-      });
-    });
-
-    // OAuth health endpoint
-    fastify.get('/auth/oauth/health', async (_request, reply) => {
-      return reply.send({
-        status: 'healthy',
-        oauth: {
-          enabled: true,
-          resourceUri: this.config?.resourceUri,
-          authorizationServers: this.config?.authorizationServers,
-          scopes: this.config?.scopes,
-        },
-        timestamp: new Date().toISOString(),
-      });
-    });
-
     console.log('[PlatformaticOAuth] OAuth routes registered successfully');
-  }
-
-  /**
-   * Proxy MCP requests to the Platformatic MCP server
-   */
-  private async proxyMcpRequests(fastify: FastifyInstance): Promise<void> {
-    if (!this.mcpApp) {
-      throw new Error('MCP app not initialized');
-    }
-
-    // Proxy POST /mcp requests to Platformatic MCP server
-    fastify.all('/mcp', async (request, reply) => {
-      try {
-        // Forward the request to the Platformatic MCP server
-        const response = await this.mcpApp.inject({
-          method: request.method,
-          url: request.url,
-          headers: request.headers,
-          payload: request.body,
-        });
-
-        // Copy response headers and status
-        reply.status(response.statusCode);
-        for (const [key, value] of Object.entries(response.headers)) {
-          reply.header(key, value as any);
-        }
-
-        // Send response body
-        return reply.send(response.body);
-      } catch (error) {
-        console.error('[PlatformaticOAuth] MCP proxy error:', error);
-        return reply.status(500).send({
-          jsonrpc: '2.0',
-          error: {
-            code: -32000,
-            message: 'MCP request failed',
-            data: String((error as Error)?.message ?? error),
-          },
-          id: null,
-        });
-      }
-    });
-
-    console.log('[PlatformaticOAuth] MCP proxy configured');
   }
 
   /**
@@ -341,15 +252,15 @@ export class PlatformaticOAuthIntegration {
       throw new Error('OAuth configuration not loaded');
     }
 
-    const tokenUrl = `${this.config.authorizationServers[0]}/oauth/token`;
+    const tokenUrl = 'https://github.com/login/oauth/access_token';
 
     const response = await fetch(tokenUrl, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
         Accept: 'application/json',
       },
-      body: new URLSearchParams({
+      body: JSON.stringify({
         grant_type: 'authorization_code',
         client_id: this.config.clientId,
         client_secret: this.config.clientSecret,
@@ -373,15 +284,15 @@ export class PlatformaticOAuthIntegration {
       throw new Error('OAuth configuration not loaded');
     }
 
-    const tokenUrl = `${this.config.authorizationServers[0]}/oauth/token`;
+    const tokenUrl = 'https://github.com/login/oauth/access_token';
 
     const response = await fetch(tokenUrl, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
         Accept: 'application/json',
       },
-      body: new URLSearchParams({
+      body: JSON.stringify({
         grant_type: 'refresh_token',
         client_id: this.config.clientId,
         client_secret: this.config.clientSecret,
@@ -455,7 +366,6 @@ export class PlatformaticOAuthIntegration {
         authorizationServers: this.config?.authorizationServers,
         scopes: this.config?.scopes,
       },
-      mcpServer: !!this.mcpApp,
       timestamp: new Date().toISOString(),
     };
   }
@@ -464,10 +374,6 @@ export class PlatformaticOAuthIntegration {
    * Cleanup resources
    */
   async cleanup(): Promise<void> {
-    if (this.mcpApp) {
-      await this.mcpApp.close();
-      console.log('[PlatformaticOAuth] MCP server closed successfully');
-    }
     console.log('[PlatformaticOAuth] OAuth system cleanup completed');
   }
 }

@@ -1,6 +1,5 @@
 import fastifyCors from '@fastify/cors';
 import fastifyStatic from '@fastify/static';
-import fastifyCookie from '@fastify/cookie';
 import Fastify from 'fastify';
 import type { FastifyInstance, FastifyListenOptions, FastifyReply, FastifyRequest } from 'fastify';
 import crypto from 'node:crypto';
@@ -12,9 +11,9 @@ import { createSecurityMiddleware } from '../../security/index.js';
 
 // Import OAuth integration
 import {
-  OAuthFastifyIntegration,
-  createOAuthFastifyIntegration,
-} from '../../auth/fastify-integration.js';
+  PlatformaticOAuthIntegration,
+  createPlatformaticOAuthIntegration,
+} from '../../auth/platformatic-oauth.js';
 import { AuthenticationManager } from '../../core/authentication.js';
 
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
@@ -771,7 +770,7 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
 
   // Initialize OAuth integration
   const authManager = new AuthenticationManager();
-  let oauthIntegration: OAuthFastifyIntegration | undefined;
+  let oauthIntegration: PlatformaticOAuthIntegration | undefined;
 
   return {
     start: async (server?: unknown, optionsInput?: unknown) => {
@@ -794,13 +793,17 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
 
       // Initialize OAuth integration if enabled
       try {
-        oauthIntegration = createOAuthFastifyIntegration(authManager);
+        oauthIntegration = createPlatformaticOAuthIntegration(authManager);
         await oauthIntegration.initialize(app, {
           enableOAuth:
             process.env.OAUTH_ENABLED === 'true' || process.env.MCP_OAUTH_ENABLED === 'true',
-          cookieDomain: process.env.OAUTH_COOKIE_DOMAIN,
-          secureCookies: process.env.NODE_ENV === 'production',
-          sameSitePolicy: (process.env.OAUTH_SAME_SITE as 'strict' | 'lax' | 'none') || 'lax',
+          resourceUri:
+            process.env.MCP_RESOURCE_URI ||
+            `https://err-stealth-16-ai-studio-a1vgg.tailbe888a.ts.net/mcp`,
+          authorizationServers: [process.env.OAUTH_AUTH_SERVER || 'https://github.com'],
+          clientId: process.env.OAUTH_CLIENT_ID,
+          clientSecret: process.env.OAUTH_CLIENT_SECRET,
+          scopes: ['read', 'write'],
         });
         console.log('[mcp:http] OAuth integration initialized successfully');
       } catch (error) {
