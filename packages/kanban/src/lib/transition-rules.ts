@@ -440,7 +440,7 @@ export class TransitionRulesEngine {
       testingInfo.requirementMappings || [],
       this.testingConfig,
       [], // tests - will be extracted from task content
-      `docs/agile/tasks/${task.uuid}`, // output directory for report
+      `docs/agile/reports/${task.uuid}`, // output directory for report
     );
   }
 
