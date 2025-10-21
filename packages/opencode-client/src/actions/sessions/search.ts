@@ -8,6 +8,16 @@ interface Session extends Record<string, unknown> {
   agent?: string;
 }
 
+export type SearchSessionsResult =
+  | {
+      readonly query: string;
+      readonly results: (SessionInfo & { readonly error?: string })[];
+      readonly totalCount: number;
+    }
+  | {
+      readonly error: string;
+    };
+
 export async function search({
   query,
   k,
@@ -16,16 +26,16 @@ export async function search({
   query: string;
   k?: number;
   sessionId?: string;
-}) {
+}): Promise<SearchSessionsResult> {
   try {
     // Search sessions from dual store - fail fast if not available
     const storedSessions = await sessionStore.getMostRecent(1000); // Get a large number
     if (!storedSessions?.length) {
-      return JSON.stringify({
+      return {
         query,
         results: [],
         totalCount: 0,
-      });
+      };
     }
 
     const sessionEntries = storedSessions
@@ -78,13 +88,15 @@ export async function search({
       }),
     );
 
-    return JSON.stringify({
+    return {
       query,
       results: enhanced,
       totalCount: enhanced.length,
-    });
+    };
   } catch (error: unknown) {
     console.error('Error searching sessions:', error);
-    return `Failed to search sessions: ${error instanceof Error ? error.message : String(error)}`;
+    return {
+      error: `Failed to search sessions: ${error instanceof Error ? error.message : String(error)}`,
+    };
   }
 }

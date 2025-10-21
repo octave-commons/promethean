@@ -121,10 +121,60 @@ export interface TestAnalysisWorkflow {
   actionItems: ActionItem[];
 }
 
+// === Enhanced Scoring System Interfaces ===
+
+export interface ComprehensiveScoreResult {
+  totalScore: number; // 0-100 overall score
+  componentScores: {
+    coverage: ComponentScore;
+    quality: ComponentScore;
+    requirementMapping: ComponentScore;
+    aiAnalysis: ComponentScore;
+    performance: ComponentScore;
+  };
+  threshold: number; // Dynamic threshold based on priority
+  meetsThreshold: boolean;
+  priority: string; // P0, P1, P2, P3
+  recommendations: string[];
+  actionItems: ActionItem[];
+  detailedRationale: ScoreRationale[];
+}
+
+export interface ComponentScore {
+  score: number; // 0-100
+  weight: number; // 0-1, sum of all weights = 1
+  weightedScore: number; // score * weight
+  evidence: string[];
+  gaps: string[];
+  improvements: string[];
+}
+
+export interface PriorityThresholds {
+  P0: { coverage: 95; quality: 90; overall: 92 };
+  P1: { coverage: 90; quality: 85; overall: 87 };
+  P2: { coverage: 85; quality: 80; overall: 82 };
+  P3: { coverage: 80; quality: 75; overall: 77 };
+}
+
+export interface ScoringWeights {
+  coverage: number; // default: 0.35
+  quality: number; // default: 0.25
+  requirementMapping: number; // default: 0.20
+  aiAnalysis: number; // default: 0.15
+  performance: number; // default: 0.05
+}
+
 // === Configuration Interface ===
 
 export interface TestingTransitionConfig {
   enabled: boolean;
+  scoring: {
+    enabled: boolean;
+    weights: ScoringWeights;
+    priorityThresholds: PriorityThresholds;
+    adaptiveThresholds: boolean; // Enable dynamic threshold adjustment
+    historicalTrending: boolean; // Consider historical performance
+  };
   thresholds: {
     coverage: number; // default: 90
     quality: number; // default: 75

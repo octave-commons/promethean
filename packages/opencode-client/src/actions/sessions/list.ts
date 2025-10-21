@@ -86,12 +86,24 @@ function calculateFetchLimit(limit: number, offset: number): number {
   return Math.min(limit + offset + 50, 500);
 }
 
-function createEmptyResponse(limit: number, offset: number): string {
-  return JSON.stringify({
+function createEmptyResponse(limit: number, offset: number): ListSessionsResult {
+  return {
     sessions: [],
     totalCount: 0,
-    pagination: { limit, offset, hasMore: false },
-  });
+    pagination: {
+      limit,
+      offset,
+      hasMore: false,
+      currentPage: Math.floor(offset / limit) + 1,
+      totalPages: 0,
+    },
+    summary: {
+      active: 0,
+      waiting_for_input: 0,
+      idle: 0,
+      agentTasks: 0,
+    },
+  };
 }
 
 function sortSessionsByTime(sessions: CleanupSessionInfo[]): CleanupSessionInfo[] {
@@ -155,7 +167,12 @@ async function enhanceSessionWithMessages(session: CleanupSessionInfo): Promise<
   }
 }
 
-function createSessionSummary(sessions: SessionInfo[]): Record<string, number> {
+function createSessionSummary(sessions: SessionInfo[]): {
+  readonly active: number;
+  readonly waiting_for_input: number;
+  readonly idle: number;
+  readonly agentTasks: number;
+} {
   return {
     active: sessions.filter((s) => s.activityStatus === 'active').length,
     waiting_for_input: sessions.filter((s) => s.activityStatus === 'waiting_for_input').length,
@@ -169,25 +186,21 @@ function createListResponse(
   totalCount: number,
   limit: number,
   offset: number,
-): string {
+): ListSessionsResult {
   const hasMore = offset + limit < totalCount;
 
-  return JSON.stringify(
-    {
-      sessions,
-      totalCount,
-      pagination: {
-        limit,
-        offset,
-        hasMore,
-        currentPage: Math.floor(offset / limit) + 1,
-        totalPages: Math.ceil(totalCount / limit),
-      },
-      summary: createSessionSummary(sessions),
+  return {
+    sessions,
+    totalCount,
+    pagination: {
+      limit,
+      offset,
+      hasMore,
+      currentPage: Math.floor(offset / limit) + 1,
+      totalPages: Math.ceil(totalCount / limit),
     },
-    null,
-    2,
-  );
+    summary: createSessionSummary(sessions),
+  };
 }
 
 function logDebug(debugEnabled: boolean, message: string, data?: unknown): void {
@@ -205,7 +218,13 @@ function logSessionInfo(debugEnabled: boolean, sessions: CleanupSessionInfo[]): 
   }
 }
 
-export async function list({ limit, offset }: { limit: number; offset: number }): Promise<string> {
+export async function list({
+  limit,
+  offset,
+}: {
+  limit: number;
+  offset: number;
+}): Promise<ListSessionsResult> {
   const debugEnabled = Boolean(process.env.OPENCODE_DEBUG);
 
   try {
@@ -247,6 +266,8 @@ export async function list({ limit, offset }: { limit: number; offset: number })
   } catch (error: unknown) {
     console.error('Error in list_sessions:', error);
     console.error('Parameters received:', { limit, offset });
-    return `Failed to list sessions: ${error instanceof Error ? error.message : String(error)}`;
+    return {
+      error: `Failed to list sessions: ${error instanceof Error ? error.message : String(error)}`,
+    };
   }
 }
