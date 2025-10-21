@@ -73,9 +73,8 @@ export class IndexerService {
   private async saveState(): Promise<void> {
     try {
       const stateToSave = {
-        lastIndexedSessionTime: this.state.lastIndexedSessionTime,
-        lastIndexedMessageTimes: this.state.lastIndexedMessageTimes,
-        lastProcessedEventTime: this.state.lastProcessedEventTime,
+        lastIndexedSessionId: this.state.lastIndexedSessionId,
+        lastIndexedMessageId: this.state.lastIndexedMessageId,
         savedAt: Date.now(),
       };
 
@@ -83,7 +82,7 @@ export class IndexerService {
 
       if (process.argv.includes('--verbose')) {
         console.log(
-          `💾 Saved indexer state: ${Object.keys(this.state.lastIndexedMessageTimes).length} session cursors`,
+          `💾 Saved indexer state: lastSession=${this.state.lastIndexedSessionId}, lastMessage=${this.state.lastIndexedMessageId}`,
         );
       }
     } catch (error) {
