@@ -20,15 +20,16 @@ test.serial('search returns sessions matching query', async (t) => {
   ];
 
   const getMostRecentStub = sinon.stub(sessionStore, 'getMostRecent').resolves([
-    { id: 'session:1', text: JSON.stringify(mockSessions[0]) },
-    { id: 'session:2', text: JSON.stringify(mockSessions[1]) },
-    { id: 'session:3', text: JSON.stringify(mockSessions[2]) },
-    { id: 'other:entry', text: 'should be ignored' },
+    { id: 'session:1', text: JSON.stringify(mockSessions[0]), timestamp: Date.now() },
+    { id: 'session:2', text: JSON.stringify(mockSessions[1]), timestamp: Date.now() },
+    { id: 'session:3', text: JSON.stringify(mockSessions[2]), timestamp: Date.now() },
+    { id: 'other:entry', text: 'should be ignored', timestamp: Date.now() },
   ]);
 
-  const getStub = sinon.stub(sessionStore, 'get').resolves({
+  sinon.stub(sessionStore, 'get').resolves({
     id: 'session:1:messages',
     text: JSON.stringify(mockMessages),
+    timestamp: Date.now(),
   });
 
   const createSessionInfoStub = sinon.stub(SessionUtils, 'createSessionInfo').returns({
@@ -57,10 +58,14 @@ test.serial('search returns empty results when no sessions match', async (t) => 
   const getMostRecentStub = sinon
     .stub(sessionStore, 'getMostRecent')
     .resolves([
-      { id: 'session:1', text: JSON.stringify({ id: 'session:1', title: 'Different Session' }) },
+      {
+        id: 'session:1',
+        text: JSON.stringify({ id: 'session:1', title: 'Different Session' }),
+        timestamp: Date.now(),
+      },
     ]);
 
-  const getStub = sinon.stub(sessionStore, 'get').resolves(null);
+  sinon.stub(sessionStore, 'get').resolves(null);
 
   const result = await search({ query: 'nonexistent' });
 
@@ -82,13 +87,14 @@ test.serial('search respects sessionId filter', async (t) => {
   ];
 
   const getMostRecentStub = sinon.stub(sessionStore, 'getMostRecent').resolves([
-    { id: 'session:1', text: JSON.stringify(mockSessions[0]) },
-    { id: 'session:2', text: JSON.stringify(mockSessions[1]) },
+    { id: 'session:1', text: JSON.stringify(mockSessions[0]), timestamp: Date.now() },
+    { id: 'session:2', text: JSON.stringify(mockSessions[1]), timestamp: Date.now() },
   ]);
 
-  const getStub = sinon.stub(sessionStore, 'get').resolves({
+  sinon.stub(sessionStore, 'get').resolves({
     id: 'session:1:messages',
     text: JSON.stringify([]),
+    timestamp: Date.now(),
   });
 
   const createSessionInfoStub = sinon.stub(SessionUtils, 'createSessionInfo').returns({
@@ -120,12 +126,14 @@ test.serial('search respects k limit parameter', async (t) => {
     mockSessions.map((session) => ({
       id: session.id,
       text: JSON.stringify(session),
+      timestamp: Date.now(),
     })),
   );
 
-  const getStub = sinon.stub(sessionStore, 'get').resolves({
+  sinon.stub(sessionStore, 'get').resolves({
     id: 'session:1:messages',
     text: JSON.stringify([]),
+    timestamp: Date.now(),
   });
 
   const createSessionInfoStub = sinon.stub(SessionUtils, 'createSessionInfo').returns({
@@ -184,9 +192,9 @@ test.serial('search handles message fetching errors gracefully', async (t) => {
 
   const getMostRecentStub = sinon
     .stub(sessionStore, 'getMostRecent')
-    .resolves([{ id: 'session:1', text: JSON.stringify(mockSessions[0]) }]);
+    .resolves([{ id: 'session:1', text: JSON.stringify(mockSessions[0]), timestamp: Date.now() }]);
 
-  const getStub = sinon.stub(sessionStore, 'get').rejects(new Error('Message fetch error'));
+  sinon.stub(sessionStore, 'get').rejects(new Error('Message fetch error'));
 
   const createSessionInfoStub = sinon.stub(SessionUtils, 'createSessionInfo').returns({
     id: 'session:1',
@@ -209,12 +217,20 @@ test.serial('search handles message fetching errors gracefully', async (t) => {
 
 test.serial('search filters out non-session entries', async (t) => {
   const getMostRecentStub = sinon.stub(sessionStore, 'getMostRecent').resolves([
-    { id: 'session:1', text: JSON.stringify({ id: 'session:1', title: 'Valid Session' }) },
-    { id: 'session:1:messages', text: JSON.stringify([]) }, // Should be filtered out
-    { id: 'other:entry', text: JSON.stringify({ id: 'other', title: 'Other Entry' }) }, // Should be filtered out
+    {
+      id: 'session:1',
+      text: JSON.stringify({ id: 'session:1', title: 'Valid Session' }),
+      timestamp: Date.now(),
+    },
+    { id: 'session:1:messages', text: JSON.stringify([]), timestamp: Date.now() }, // Should be filtered out
+    {
+      id: 'other:entry',
+      text: JSON.stringify({ id: 'other', title: 'Other Entry' }),
+      timestamp: Date.now(),
+    }, // Should be filtered out
   ]);
 
-  const getStub = sinon.stub(sessionStore, 'get').resolves(null);
+  sinon.stub(sessionStore, 'get').resolves(null);
 
   const createSessionInfoStub = sinon.stub(SessionUtils, 'createSessionInfo').returns({
     id: 'session:1',
