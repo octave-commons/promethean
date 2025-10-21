@@ -10,6 +10,32 @@ const __dirname = dirname(__filename);
 const isDev = process.env.NODE_ENV === 'development';
 const PORT = process.env.PORT || 3000;
 
+function getAppContent(appName: string, isDev: boolean): string | null {
+  try {
+    const indexPath = isDev
+      ? join(__dirname, `../src/${appName}/index.html`)
+      : join(__dirname, `../dist/${appName}/index.html`);
+
+    if (existsSync(indexPath)) {
+      return readFileSync(indexPath, 'utf8');
+    }
+
+    // For ClojureScript apps, look for main HTML file
+    const cljsIndexPath = isDev
+      ? join(__dirname, `../src/${appName}/main.html`)
+      : join(__dirname, `../dist/${appName}/main.html`);
+
+    if (existsSync(cljsIndexPath)) {
+      return readFileSync(cljsIndexPath, 'utf8');
+    }
+
+    return null;
+  } catch (error) {
+    console.error(`Error reading app content for ${appName}:`, error);
+    return null;
+  }
+}
+
 function startServer() {
   const app = express();
 
@@ -118,7 +144,7 @@ function startServer() {
     'pantheon',
   ];
 
-apps.forEach((appName) => {
+  apps.forEach((appName) => {
     // Serve the actual application files
     app.get(`/${appName}`, (_req, res) => {
       const appContent = getAppContent(appName, isDev);
@@ -148,21 +174,18 @@ apps.forEach((appName) => {
     });
 
     // Serve the actual application static files
-    const appPath = isDev ? join(__dirname, `../src/${appName}`) : join(__dirname, `../dist/${appName}`);
+    const appPath = isDev
+      ? join(__dirname, `../src/${appName}`)
+      : join(__dirname, `../dist/${appName}`);
     if (existsSync(appPath)) {
       app.use(`/app/${appName}`, express.static(appPath));
     } else {
       app.use(`/app/${appName}`, (_req, res) => {
-        res.status(404).send(`Application files for '${appName}' not found. Please build the app first.`);
+        res
+          .status(404)
+          .send(`Application files for '${appName}' not found. Please build the app first.`);
       });
     }
-  });
-
-    // Serve the actual application content
-    app.use(
-      `/app/${app}`,
-      express.static(isDev ? join(__dirname, `../src/${app}`) : join(__dirname, `../dist/${app}`)),
-    );
   });
 
   // API routes for development

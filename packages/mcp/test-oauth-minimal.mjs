@@ -40,8 +40,24 @@ async function testOAuth() {
     enableRefreshTokens: true,
   });
 
-  const jwtManager = new JwtTokenManager('12345678901234567890123456789012'); // Exactly 32 characters
-  const userRegistry = new UserRegistry();
+  const jwtManager = new JwtTokenManager({
+    secret: '12345678901234567890123456789012', // Exactly 32 characters
+    issuer: 'promethean-mcp',
+    audience: 'promethean-mcp-users',
+    accessTokenExpiry: 3600, // 1 hour
+    refreshTokenExpiry: 86400, // 24 hours
+    algorithm: 'HS256',
+  });
+  const userRegistry = new UserRegistry({
+    storagePath: './test-data',
+    enableCustomRoles: true,
+    enableActivityLogging: true,
+    sessionTimeout: 3600, // 1 hour
+    maxSessionsPerUser: 5,
+    enableUserSearch: true,
+    defaultRole: 'user',
+    autoActivateUsers: true,
+  });
   const authManager = new MockAuthenticationManager();
 
   // Register OAuth routes
