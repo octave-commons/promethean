@@ -15,7 +15,6 @@
   "references": [
     { "path": "../utils" },
     { "path": "../persistence" },
-    { "path": "../database" },
     { "path": "../opencode-client" },
     { "path": "../test-utils" }
   ]

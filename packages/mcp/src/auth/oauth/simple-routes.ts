@@ -530,7 +530,21 @@ export function registerSimpleOAuthRoutes(
       // Debug logging
       console.log('[OAuth Callback] Received POST body:', body);
 
-      const { code, state, error } = body;
+      // Handle different OAuth formats from different clients
+      let code: string | undefined, state: string | null | undefined, error: string | undefined;
+
+      if (body.grant_type === 'authorization_code') {
+        // ChatGPT MCP connector format (OAuth 2.1 PKCE)
+        code = body.code;
+        state = null; // ChatGPT doesn't send state in POST body
+        console.log('[OAuth Callback] Detected ChatGPT PKCE format');
+      } else {
+        // Standard OAuth format
+        code = body.code;
+        state = body.state;
+        error = body.error;
+        console.log('[OAuth Callback] Detected standard OAuth format');
+      }
 
       if (error) {
         return reply.status(400).send({
@@ -539,18 +553,19 @@ export function registerSimpleOAuthRoutes(
         });
       }
 
-      if (!code || !state) {
+      // For ChatGPT PKCE flow, only code is required (state is optional)
+      if (!code) {
         return reply.status(400).send({
           error: 'Missing parameters',
-          message: 'Authorization code and state are required',
+          message: 'Authorization code is required',
         });
       }
 
       // Retrieve stored data
       const tempStore = (global as any).__oauth_temp_store || {};
-      const storedData = tempStore[state];
+      const storedData = state ? tempStore[state] : undefined;
 
-      let redirectTo, originalState, clientRedirectUri;
+      let redirectTo: any, originalState: any, clientRedirectUri: any;
 
       if (!storedData) {
         console.log(
@@ -571,7 +586,9 @@ export function registerSimpleOAuthRoutes(
         clientRedirectUri = storedClientRedirectUri;
 
         // Clean up stored data
-        delete tempStore[state];
+        if (state) {
+          delete tempStore[state];
+        }
       }
 
       // Handle OAuth callback with OAuthSystem
@@ -633,7 +650,7 @@ export function registerSimpleOAuthRoutes(
               email: userData.email,
               name: userData.name,
             },
-          };
+          } as any;
 
           console.log(
             '[OAuth Callback] Direct OAuth exchange successful for user:',
@@ -643,12 +660,12 @@ export function registerSimpleOAuthRoutes(
           console.error('[OAuth Callback] Direct OAuth exchange failed:', error);
           return reply.status(400).send({
             error: 'token_exchange_failed',
-            message: `Failed to exchange authorization code: ${error.message}`,
+            message: `Failed to exchange authorization code: ${error instanceof Error ? error.message : String(error)}`,
           });
         }
       } else {
         // Standard OAuth flow with stored state
-        result = await config.oauthSystem.handleOAuthCallback(code, state, error);
+        result = await config.oauthSystem.handleOAuthCallback(code!, state!, error);
       }
 
       if (!result.success) {
