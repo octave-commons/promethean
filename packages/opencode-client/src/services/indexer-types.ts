@@ -183,6 +183,9 @@ export const extractMessageId = (event: EnhancedEvent): string | undefined => {
 export const isMessageEvent = (event: Event): boolean =>
   ['message.updated', 'message.part.updated', 'message.removed'].includes(event.type);
 
+export const isSessionEvent = (event: Event): boolean =>
+  ['session.updated', 'session.deleted'].includes(event.type);
+
 export const getEventTimestamp = (event: Event): number => {
   // Extract timestamp from event properties if available
   if ('properties' in event && event.properties) {

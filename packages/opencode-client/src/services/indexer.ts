@@ -7,10 +7,13 @@ import type { IndexerState, OpenCodeClient, EventSubscription } from './indexer-
 import {
   createStateManager,
   isMessageEvent,
+  isSessionEvent,
   extractSessionId,
   extractMessageId,
 } from './indexer-types.js';
 import { createIndexingOperations } from './indexer-operations.js';
+
+const { indexSession, indexMessage, indexEvent } = createIndexingOperations();
 
 export type IndexerService = {
   readonly start: () => Promise<void>;
@@ -237,12 +240,39 @@ export const createIndexerService = (): IndexerService => {
     }
   };
 
+  const handleSessionEvent = async (event: Event): Promise<void> => {
+    try {
+      console.log(`🎯 Processing session event: ${event.type}`);
+
+      if ('properties' in event && event.properties) {
+        const sessionInfo = (event.properties as any).info;
+        if (sessionInfo) {
+          await indexSession(sessionInfo);
+          state = { ...state, lastIndexedSessionId: sessionInfo.id };
+
+          // Save state after processing session event
+          await saveState(state);
+
+          console.log(`📝 Indexed session ${sessionInfo.id} with title "${sessionInfo.title}"`);
+        } else {
+          console.warn(`⚠️ Session event ${event.type} did not contain session info`);
+        }
+      } else {
+        console.warn(`⚠️ Session event ${event.type} did not contain properties`);
+      }
+    } catch (error) {
+      console.error('❌ Error handling session event:', error);
+    }
+  };
+
   const handleEvent = async (event: Event): Promise<void> => {
     try {
       await indexEvent(event);
 
       if (isMessageEvent(event)) {
         await handleMessageEvent(event);
+      } else if (isSessionEvent(event)) {
+        await handleSessionEvent(event);
       }
     } catch (error) {
       console.error('❌ Error handling event:', error);
