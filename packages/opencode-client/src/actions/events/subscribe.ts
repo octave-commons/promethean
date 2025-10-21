@@ -1,5 +1,14 @@
 import type { EventClient } from '../../types/index.js';
 
+export type SubscribeResult = {
+  readonly success: boolean;
+  readonly subscription?: string;
+  readonly eventType?: string;
+  readonly sessionId?: string;
+  readonly note?: string;
+  readonly error?: string;
+};
+
 export async function subscribe({
   eventType,
   sessionId,
@@ -8,36 +17,31 @@ export async function subscribe({
   readonly eventType?: string;
   readonly sessionId?: string;
   readonly client: EventClient;
-}): Promise<string> {
+}): Promise<SubscribeResult> {
   if (!client.event?.subscribe) {
-    return 'Events subscription not supported by this client';
+    return {
+      success: false,
+      error: 'Events subscription not supported by this client',
+    };
   }
 
-  // this accomplishes nothing. this returns an async generator.
-  // it is only useful if it can be consumed, which it isn't.
-  // it's just being created then we do nothing with it.
-  // const result = await client.event.subscribe().catch((error: unknown) => {
-  //   console.error('Error subscribing to events:', error);
-  //   return null;
-  // });
+  try {
+    // Note: The async generator returned by client.event.subscribe()
+    // should be handled by the caller, not the action
+    await client.event.subscribe();
 
-  // if (!result) {
-  //   return 'Failed to subscribe to events';
-  // }
-
-  // // actions should just handle processing the data
-  // // encoding should be handled by the server/client transport layer
-  // return JSON.stringify({
-  //   success: true,
-  //   subscription: 'Event subscription established',
-  //   eventType,
-  //   sessionId,
-  //   note: 'Use the returned SSE stream to listen for events',
-  // });
-
-  // the consumer then has to handle the async generator
-  return client.event.subscribe().catch((error: unknown) => {
+    return {
+      success: true,
+      subscription: 'Event subscription established',
+      eventType,
+      sessionId,
+      note: 'Use the returned async generator to listen for events',
+    };
+  } catch (error: unknown) {
     console.error('Error subscribing to events:', error);
-    return null;
-  });
+    return {
+      success: false,
+      error: `Failed to subscribe to events: ${error instanceof Error ? error.message : String(error)}`,
+    };
+  }
 }
