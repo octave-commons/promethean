@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OpenCode API Test</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .test-section {
+        margin: 20px 0;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+      .result {
+        background: #f5f5f5;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 3px;
+        white-space: pre-wrap;
+      }
+      .error {
+        background: #ffe6e6;
+        color: #d00;
+      }
+      .success {
+        background: #e6ffe6;
+        color: #060;
+      }
+      button {
+        padding: 10px 20px;
+        margin: 5px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>OpenCode API Test</h1>
+
+    <div class="test-section">
+      <h2>Connection Test</h2>
+      <button onclick="testConnection()">Test Connection</button>
+      <div id="connection-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+      <h2>SDK Test</h2>
+      <button onclick="testSDK()">Test OpenCode SDK</button>
+      <div id="sdk-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+      <h2>Session Management Test</h2>
+      <button onclick="testListSessions()">List Sessions</button>
+      <button onclick="testCreateSession()">Create Session</button>
+      <div id="session-result" class="result"></div>
+    </div>
+
+    <script type="module">
+      async function testConnection() {
+        const resultDiv = document.getElementById('connection-result');
+        resultDiv.textContent = 'Testing connection...';
+
+        try {
+          const response = await fetch('http://localhost:4096', {
+            method: 'GET',
+            headers: {
+              Accept: 'application/json',
+            },
+          });
+
+          const text = await response.text();
+          resultDiv.textContent = `Status: ${response.status}\nHeaders: ${JSON.stringify([...response.headers.entries()])}\nResponse: ${text}`;
+          resultDiv.className = `result ${response.ok ? 'success' : 'error'}`;
+        } catch (error) {
+          resultDiv.textContent = `Error: ${error.message}`;
+          resultDiv.className = 'result error';
+        }
+      }
+
+      async function testSDK() {
+        const resultDiv = document.getElementById('sdk-result');
+        resultDiv.textContent = 'Testing OpenCode SDK...';
+
+        try {
+          // Try to import the SDK
+          const opencode = await import('@opencode-ai/sdk');
+          resultDiv.textContent = `SDK loaded successfully!\nAvailable exports: ${Object.keys(opencode).join(', ')}`;
+          resultDiv.className = 'result success';
+
+          // Try to create a client
+          try {
+            const client = await opencode.createOpencode({
+              baseUrl: 'http://localhost:4096',
+            });
+            resultDiv.textContent += '\n\nClient created successfully!';
+            resultDiv.textContent += `\nClient methods: ${Object.getOwnPropertyNames(Object.getPrototypeOf(client)).join(', ')}`;
+          } catch (clientError) {
+            resultDiv.textContent += `\n\nClient creation failed: ${clientError.message}`;
+          }
+        } catch (error) {
+          resultDiv.textContent = `SDK import failed: ${error.message}`;
+          resultDiv.className = 'result error';
+        }
+      }
+
+      async function testListSessions() {
+        const resultDiv = document.getElementById('session-result');
+        resultDiv.textContent = 'Testing session listing...';
+
+        try {
+          const opencode = await import('@opencode-ai/sdk');
+          const client = await opencode.createOpencode({
+            baseUrl: 'http://localhost:4096',
+          });
+
+          const sessions = await client.session.list();
+          resultDiv.textContent = `Sessions found: ${JSON.stringify(sessions, null, 2)}`;
+          resultDiv.className = 'result success';
+        } catch (error) {
+          resultDiv.textContent = `Session listing failed: ${error.message}`;
+          resultDiv.className = 'result error';
+        }
+      }
+
+      async function testCreateSession() {
+        const resultDiv = document.getElementById('session-result');
+        resultDiv.textContent = 'Testing session creation...';
+
+        try {
+          const opencode = await import('@opencode-ai/sdk');
+          const client = await opencode.createOpencode({
+            baseUrl: 'http://localhost:4096',
+          });
+
+          const session = await client.session.create({
+            body: {
+              title: 'Test Session from Web',
+              description: 'Created via web interface',
+            },
+          });
+          resultDiv.textContent = `Session created: ${JSON.stringify(session, null, 2)}`;
+          resultDiv.className = 'result success';
+        } catch (error) {
+          resultDiv.textContent = `Session creation failed: ${error.message}`;
+          resultDiv.className = 'result error';
+        }
+      }
+
+      // Make functions globally available
+      window.testConnection = testConnection;
+      window.testSDK = testSDK;
+      window.testListSessions = testListSessions;
+      window.testCreateSession = testCreateSession;
+    </script>
+  </body>
+</html>

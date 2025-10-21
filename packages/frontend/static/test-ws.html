@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OpenCode WebSocket Test</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .test-section {
+        margin: 20px 0;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+      .result {
+        background: #f5f5f5;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 3px;
+        white-space: pre-wrap;
+        font-family: monospace;
+      }
+      .error {
+        background: #ffe6e6;
+        color: #d00;
+      }
+      .success {
+        background: #e6ffe6;
+        color: #060;
+      }
+      button {
+        padding: 10px 20px;
+        margin: 5px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #0056b3;
+      }
+      input {
+        padding: 8px;
+        margin: 5px;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        width: 300px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>OpenCode WebSocket & API Test</h1>
+
+    <div class="test-section">
+      <h2>WebSocket Connection Test</h2>
+      <button onclick="testWebSocket()">Test WebSocket</button>
+      <div id="ws-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+      <h2>Custom Endpoint Test</h2>
+      <input
+        type="text"
+        id="endpoint-input"
+        value="/api/v1/sessions"
+        placeholder="Enter endpoint"
+      />
+      <button onclick="testCustomEndpoint()">Test Endpoint</button>
+      <div id="custom-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+      <h2>Raw HTTP Test</h2>
+      <button onclick="testRawHTTP()">Test Raw HTTP</button>
+      <div id="raw-result" class="result"></div>
+    </div>
+
+    <script>
+      async function testWebSocket() {
+        const resultDiv = document.getElementById('ws-result');
+        resultDiv.textContent = 'Testing WebSocket connection...';
+
+        try {
+          const ws = new WebSocket('ws://localhost:4096');
+
+          ws.onopen = () => {
+            resultDiv.textContent = 'WebSocket connected successfully!';
+            resultDiv.className = 'result success';
+
+            // Try sending a message
+            ws.send(JSON.stringify({ type: 'ping' }));
+          };
+
+          ws.onmessage = (event) => {
+            resultDiv.textContent += '\n\nReceived: ' + event.data;
+          };
+
+          ws.onerror = (error) => {
+            resultDiv.textContent = 'WebSocket error: ' + error;
+            resultDiv.className = 'result error';
+          };
+
+          ws.onclose = (event) => {
+            resultDiv.textContent +=
+              '\n\nWebSocket closed. Code: ' +
+              event.code +
+              ', Reason: ' +
+              event.reason;
+          };
+
+          // Timeout after 5 seconds
+          setTimeout(() => {
+            if (ws.readyState === WebSocket.CONNECTING) {
+              ws.close();
+              resultDiv.textContent = 'WebSocket connection timeout';
+              resultDiv.className = 'result error';
+            }
+          }, 5000);
+        } catch (error) {
+          resultDiv.textContent = 'WebSocket failed: ' + error.message;
+          resultDiv.className = 'result error';
+        }
+      }
+
+      async function testCustomEndpoint() {
+        const resultDiv = document.getElementById('custom-result');
+        const endpoint = document.getElementById('endpoint-input').value;
+        resultDiv.textContent = `Testing ${endpoint}...`;
+
+        try {
+          const response = await fetch(`http://localhost:4096${endpoint}`, {
+            method: 'GET',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+          });
+
+          const text = await response.text();
+          resultDiv.textContent = `Status: ${response.status} ${response.statusText}\nHeaders: ${JSON.stringify([...response.headers.entries()], null, 2)}\nResponse: ${text}`;
+          resultDiv.className = `result ${response.ok ? 'success' : 'error'}`;
+        } catch (error) {
+          resultDiv.textContent = `Error: ${error.message}`;
+          resultDiv.className = 'result error';
+        }
+      }
+
+      async function testRawHTTP() {
+        const resultDiv = document.getElementById('raw-result');
+        resultDiv.textContent = 'Testing raw HTTP connection...';
+
+        try {
+          // Try different ports and methods
+          const tests = [
+            { url: 'http://localhost:4096', method: 'GET' },
+            { url: 'http://localhost:4096/', method: 'GET' },
+            { url: 'http://localhost:4096/api', method: 'GET' },
+            { url: 'http://localhost:4096/v1', method: 'GET' },
+            { url: 'http://localhost:4096/sessions', method: 'GET' },
+            {
+              url: 'http://localhost:4096/sessions',
+              method: 'POST',
+              body: '{"title":"test"}',
+            },
+          ];
+
+          let results = '';
+          for (const test of tests) {
+            try {
+              const options = {
+                method: test.method,
+                headers: {
+                  'Content-Type': 'application/json',
+                  Accept: 'application/json',
+                },
+              };
+
+              if (test.body) {
+                options.body = test.body;
+              }
+
+              const response = await fetch(test.url, options);
+              const text = await response.text();
+
+              results += `${test.method} ${test.url}: ${response.status} ${response.statusText}\n`;
+              if (text.trim()) {
+                results += `  Response: ${text.substring(0, 100)}${text.length > 100 ? '...' : ''}\n`;
+              }
+              results += '\n';
+            } catch (error) {
+              results += `${test.method} ${test.url}: Error - ${error.message}\n\n`;
+            }
+          }
+
+          resultDiv.textContent = results;
+          resultDiv.className = 'result success';
+        } catch (error) {
+          resultDiv.textContent = `Raw HTTP test failed: ${error.message}`;
+          resultDiv.className = 'result error';
+        }
+      }
+    </script>
+  </body>
+</html>
