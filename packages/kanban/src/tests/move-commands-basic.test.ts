@@ -16,6 +16,7 @@ test('move_up - basic functionality', async (t) => {
   const context: CliContext = {
     boardFile: boardPath,
     tasksDir,
+    argv: [],
   };
 
   // Create tasks first using the create command
@@ -45,6 +46,7 @@ test('move_down - basic functionality', async (t) => {
   const context: CliContext = {
     boardFile: boardPath,
     tasksDir,
+    argv: [],
   };
 
   // Create tasks first using the create command
@@ -74,6 +76,7 @@ test('move_up - first task (no-op)', async (t) => {
   const context: CliContext = {
     boardFile: boardPath,
     tasksDir,
+    argv: [],
   };
 
   // Create tasks first using the create command
@@ -102,6 +105,7 @@ test('move_down - last task (no-op)', async (t) => {
   const context: CliContext = {
     boardFile: boardPath,
     tasksDir,
+    argv: [],
   };
 
   // Create tasks first using the create command
@@ -130,6 +134,7 @@ test('move_up - invalid task UUID', async (t) => {
   const context: CliContext = {
     boardFile: boardPath,
     tasksDir,
+    argv: [],
   };
 
   // Try to move non-existent task
@@ -149,6 +154,7 @@ test('move_down - invalid task UUID', async (t) => {
   const context: CliContext = {
     boardFile: boardPath,
     tasksDir,
+    argv: [],
   };
 
   // Try to move non-existent task
@@ -168,6 +174,7 @@ test('move commands - missing arguments', async (t) => {
   const context: CliContext = {
     boardFile: boardPath,
     tasksDir,
+    argv: [],
   };
 
   // Test move_up without arguments

@@ -1,9 +1,10 @@
-import type { OpenCodeEvent, EventMessage } from '../../types/index.js';
 import { OpencodeClient } from '@opencode-ai/sdk';
 
-export interface EventContext {
-  client: OpencodeClient;
-}
+import type { OpenCodeEvent, EventMessage } from '../../types/index.js';
+
+export type EventContext = {
+  readonly client: OpencodeClient;
+};
 
 export async function handleSessionIdle(_context: EventContext, sessionId: string): Promise<void> {
   console.log(`💤 Session ${sessionId} is idle`);
@@ -34,30 +35,23 @@ export async function processSessionMessages(
 }
 
 export function extractSessionId(event: OpenCodeEvent): string | null {
-  const extractors: Record<string, () => string | undefined> = {
-    'session.idle': () =>
-      (event.properties as any)?.sessionID || (event.properties as any)?.session?.id,
-    'session.updated': () =>
-      (event.properties as any)?.info?.id || (event.properties as any)?.session?.id,
-    'message.updated': () => (event.properties as any)?.message?.session_id || event.sessionId,
-    'message.part.updated': () => (event.properties as any)?.message?.session_id || event.sessionId,
-    'session.compacted': () => event.sessionId || (event.properties as any)?.session?.id,
-  };
-
-  const extractor = extractors[event.type];
-  return extractor ? extractor() || null : null;
+  // All OpenCodeEvent types have sessionId directly
+  return event.sessionId || null;
 }
 
-export async function getSessionMessages(client: OpencodeClient, sessionId: string) {
-  try {
-    const { data: messages } = await client.session.messages({
+export async function getSessionMessages(
+  client: OpencodeClient,
+  sessionId: string,
+): Promise<unknown[]> {
+  const result = await client.session
+    .messages({
       path: { id: sessionId },
+    })
+    .catch((error: unknown) => {
+      console.error(`Error fetching messages for session ${sessionId}:`, error);
+      return { data: [] };
     });
-    return messages || [];
-  } catch (error: unknown) {
-    console.error(`Error fetching messages for session ${sessionId}:`, error);
-    return [];
-  }
+  return result.data || [];
 }
 
 const COMPLETION_PATTERNS = [
@@ -93,7 +87,10 @@ export function detectTaskCompletion(messages: EventMessage[]): {
   };
 }
 
-export async function processSessionMessagesAction(client: OpencodeClient, sessionId: string) {
+export async function processSessionMessagesAction(
+  client: OpencodeClient,
+  sessionId: string,
+): Promise<void> {
   const messages = await getSessionMessages(client, sessionId);
   await Promise.all(
     (messages as EventMessage[]).map((message: EventMessage) =>
@@ -106,7 +103,7 @@ export async function processMessage(
   _client: OpencodeClient,
   sessionId: string,
   message: EventMessage,
-) {
+): Promise<void> {
   if (!message?.parts) return;
 
   // This would need session store context - for now just log

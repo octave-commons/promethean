@@ -8,7 +8,14 @@ import ava from 'eslint-plugin-ava';
 
 export default [
   {
-    ignores: ['**/dist/**', '**/.cache/**', './scripts/**', './templates/**', './eslint.config.ts'],
+    ignores: [
+      '**/dist/**',
+      '**/.cache/**',
+      './scripts/**',
+      './templates/**',
+      './eslint.config.ts',
+      '**/pseudo/**',
+    ],
   },
   {
     files: ['**/*.{ts,tsx}'],

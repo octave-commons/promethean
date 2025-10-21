@@ -1,95 +1,117 @@
 import { DualStoreManager } from '@promethean/persistence';
 
-export interface MessagingContext {
-  sessionStore: DualStoreManager<'text', 'timestamp'>;
-}
+export type MessagingContext = {
+  readonly sessionStore: DualStoreManager<'text', 'timestamp'>;
+};
 
-export async function sendMessage(
-  context: MessagingContext,
-  client: any,
-  sessionId: string,
-  message: string,
-  priority: string,
-  messageType: string,
-): Promise<string> {
-  const senderSessionId = await getSenderSessionId(client);
-  const formattedMessage = formatMessage(
-    senderSessionId,
-    sessionId,
-    message,
-    priority,
-    messageType,
-  );
+type SendMessageOptions = {
+  readonly context: MessagingContext;
+  readonly client: {
+    session: {
+      list: () => Promise<{ data?: { id?: string }[] }>;
+      prompt: (params: {
+        path: { id: string };
+        body: { parts: Array<{ type: 'text'; text: string }> };
+      }) => Promise<void>;
+    };
+  };
+  readonly sessionId: string;
+  readonly message: string;
+  readonly priority: string;
+  readonly messageType: string;
+};
 
-  await client.session.prompt({
-    path: { id: sessionId },
+export async function sendMessage(options: SendMessageOptions): Promise<string> {
+  const senderSessionId = await getSenderSessionId(options.client);
+  const formattedMessage = formatMessage({
+    senderId: senderSessionId,
+    recipientId: options.sessionId,
+    message: options.message,
+    priority: options.priority,
+    messageType: options.messageType,
+  });
+
+  await options.client.session.prompt({
+    path: { id: options.sessionId },
     body: { parts: [{ type: 'text' as const, text: formattedMessage }] },
   });
 
-  await logCommunication(context, senderSessionId, sessionId, message, priority, messageType);
+  await logCommunication({
+    context: options.context,
+    senderId: senderSessionId,
+    recipientId: options.sessionId,
+    message: options.message,
+    priority: options.priority,
+    messageType: options.messageType,
+  });
 
-  const safeRecipientId = sessionId.length > 8 ? sessionId.substring(0, 8) : sessionId;
-  return `✅ Message sent successfully to session ${safeRecipientId}... (Priority: ${priority}, Type: ${messageType})`;
+  const safeRecipientId =
+    options.sessionId.length > 8 ? options.sessionId.substring(0, 8) : options.sessionId;
+  return `✅ Message sent successfully to session ${safeRecipientId}... (Priority: ${options.priority}, Type: ${options.messageType})`;
 }
 
-export async function getSenderSessionId(client: any): Promise<string> {
-  try {
-    const currentSession = await client.session.list();
-    return currentSession.data?.[0]?.id || 'unknown';
-  } catch {
-    return 'unknown';
-  }
+export async function getSenderSessionId(client: {
+  session: { list: () => Promise<{ data?: { id?: string }[] }> };
+}): Promise<string> {
+  const currentSession = await client.session.list().catch(() => ({ data: [] }));
+  return currentSession.data?.[0]?.id || 'unknown';
 }
 
-export function formatMessage(
-  senderId: string,
-  recipientId: string,
-  message: string,
-  priority: string,
-  messageType: string,
-): string {
-  const safeSenderId = senderId.length > 8 ? senderId.substring(0, 8) : senderId;
-  const safeRecipientId = recipientId.length > 8 ? recipientId.substring(0, 8) : recipientId;
+type MessageFormatParams = {
+  readonly senderId: string;
+  readonly recipientId: string;
+  readonly message: string;
+  readonly priority: string;
+  readonly messageType: string;
+};
+
+export function formatMessage(params: MessageFormatParams): string {
+  const safeSenderId =
+    params.senderId.length > 8 ? params.senderId.substring(0, 8) : params.senderId;
+  const safeRecipientId =
+    params.recipientId.length > 8 ? params.recipientId.substring(0, 8) : params.recipientId;
 
   return `🔔 **INTER-AGENT MESSAGE** 🔔
 
 **From:** Agent ${safeSenderId}...
 **To:** Agent ${safeRecipientId}...
-**Priority:** ${priority.toUpperCase()}
-**Type:** ${messageType.replace('_', ' ').toUpperCase()}
+**Priority:** ${params.priority.toUpperCase()}
+**Type:** ${params.messageType.replace('_', ' ').toUpperCase()}
 **Time:** ${new Date().toLocaleTimeString()}
 
 **Message:**
-${message}
+${params.message}
 
 `;
 }
 
-export async function logCommunication(
-  context: MessagingContext,
-  senderId: string,
-  recipientId: string,
-  message: string,
-  priority: string,
-  messageType: string,
-): Promise<void> {
-  console.log(`📨 Inter-agent message sent from ${senderId} to ${recipientId}`);
-  console.log(`📝 Message type: ${messageType}, Priority: ${priority}`);
+type LogCommunicationParams = {
+  readonly context: MessagingContext;
+  readonly senderId: string;
+  readonly recipientId: string;
+  readonly message: string;
+  readonly priority: string;
+  readonly messageType: string;
+};
 
-  try {
-    await context.sessionStore.insert({
+export async function logCommunication(params: LogCommunicationParams): Promise<void> {
+  console.log(`📨 Inter-agent message sent from ${params.senderId} to ${params.recipientId}`);
+  console.log(`📝 Message type: ${params.messageType}, Priority: ${params.priority}`);
+
+  await params.context.sessionStore
+    .insert({
       id: `inter_agent_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`,
-      text: `Inter-agent message: ${message}`,
+      text: `Inter-agent message: ${params.message}`,
       timestamp: new Date().toISOString(),
       metadata: {
         type: 'inter_agent_communication',
-        sender: senderId,
-        recipient: recipientId,
-        priority,
-        messageType,
+        sender: params.senderId,
+        recipient: params.recipientId,
+        priority: params.priority,
+        messageType: params.messageType,
       },
+    })
+    .catch((error: unknown) => {
+      console.warn('⚠️ Failed to store inter-agent communication:', error);
     });
-  } catch (error) {
-    console.warn('⚠️ Failed to store inter-agent communication:', error);
-  }
 }

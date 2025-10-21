@@ -211,6 +211,13 @@ export interface BackupManager {
   restoreBackup(backupPath: string, targetPath: string): Promise<void>;
   listBackups(filePath?: string): Promise<string[]>;
   cleanupOldBackups(): Promise<number>;
+  getBackupStats(): Promise<{
+    totalBackups: number;
+    totalSize: number;
+    oldestBackup?: Date;
+    newestBackup?: Date;
+    filesByOriginalPath: Record<string, number>;
+  }>;
 }
 
 /**

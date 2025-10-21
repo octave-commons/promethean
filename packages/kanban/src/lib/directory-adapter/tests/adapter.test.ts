@@ -7,8 +7,9 @@ import test from 'ava';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { tmpdir } from 'os';
-import type { TaskCache } from '../../board/task-cache.ts';
+import type { TaskCache } from '../../../board/task-cache.js';
 import type { DirectoryAdapterConfig } from '../types.js';
+import type { Status, IndexedTask } from '../../../board/types.js';
 import {
   DirectoryAdapter,
   createDirectoryAdapter,
@@ -16,6 +17,13 @@ import {
   TEST_CONFIG,
 } from '../index.js';
 import { DirectoryAdapterError, FileNotFoundError, SecurityValidationError } from '../types.js';
+
+// Test context interface
+interface TestContext {
+  testDir: string;
+  config: DirectoryAdapterConfig;
+  mockCache: MockTaskCache;
+}
 
 // Mock cache for testing
 class MockTaskCache implements TaskCache {
@@ -122,7 +130,7 @@ const createTestTask = (uuid: string, title: string, overrides: any = {}) => ({
   id: uuid,
   uuid,
   title,
-  status: 'todo',
+  status: 'open' as Status,
   priority: 'medium',
   owner: 'test-user',
   labels: ['test'],
@@ -132,13 +140,13 @@ const createTestTask = (uuid: string, title: string, overrides: any = {}) => ({
   ...overrides,
 });
 
-test.beforeEach(async (t) => {
+test.beforeEach(async (t: any) => {
   t.context.testDir = await createTestDirectory();
   t.context.config = createTestConfig(t.context.testDir);
   t.context.mockCache = new MockTaskCache();
 });
 
-test.afterEach(async (t) => {
+test.afterEach(async (t: any) => {
   // Clean up test directory
   try {
     await fs.rm(t.context.testDir, { recursive: true, force: true });
@@ -147,14 +155,14 @@ test.afterEach(async (t) => {
   }
 });
 
-test('should create DirectoryAdapter instance', (t) => {
+test('should create DirectoryAdapter instance', (t: any) => {
   const { config, mockCache } = t.context;
   const adapter = createDirectoryAdapter(config, mockCache);
 
   t.true(adapter instanceof DirectoryAdapter);
 });
 
-test('should create a new task file', async (t) => {
+test('should create a new task file', async (t: any) => {
   const { config, mockCache } = t.context;
   const adapter = createDirectoryAdapter(config, mockCache);
 
@@ -178,7 +186,7 @@ test('should create a new task file', async (t) => {
   t.is(cachedTask.title, 'Test Task');
 });
 
-test('should read an existing task file', async (t) => {
+test('$0', async (t: any) => {
   const { config, mockCache } = t.context;
   const adapter = createDirectoryAdapter(config, mockCache);
 
@@ -194,11 +202,11 @@ test('should read an existing task file', async (t) => {
 
   t.true(result.success);
   t.truthy(result.data);
-  t.is(result.data.title, 'Read Test Task');
-  t.is(result.data.uuid, 'read-uuid');
+  t.is(result.data!.title, 'Read Test Task');
+  t.is(result.data!.uuid, 'read-uuid');
 });
 
-test('should update an existing task file', async (t) => {
+test('$0', async (t: any) => {
   const { config, mockCache } = t.context;
   const adapter = createDirectoryAdapter(config, mockCache);
 
@@ -207,7 +215,7 @@ test('should update an existing task file', async (t) => {
   await adapter.createTaskFile(task);
 
   // Update the task
-  const updates = { title: 'Updated Title', status: 'in_progress' };
+  const updates = { title: 'Updated Title', status: 'doing' as Status };
   const result = await adapter.updateTaskFile('update-uuid', updates);
 
   t.true(result.success);
@@ -215,11 +223,11 @@ test('should update an existing task file', async (t) => {
   // Verify update
   const readResult = await adapter.readTaskFile('update-uuid');
   t.true(readResult.success);
-  t.is(readResult.data.title, 'Updated Title');
-  t.is(readResult.data.status, 'in_progress');
+  t.is(readResult.data!.title, 'Updated Title');
+  t.is(readResult.data!.status, 'in_progress');
 });
 
-test('should delete a task file', async (t) => {
+test('$0', async (t: any) => {
   const { config, mockCache } = t.context;
   const adapter = createDirectoryAdapter(config, mockCache);
 
@@ -245,7 +253,7 @@ test('should delete a task file', async (t) => {
   t.falsy(cachedTask);
 });
 
-test('should move/rename a task file', async (t) => {
+test('$0', async (t: any) => {
   const { config, mockCache } = t.context;
   const adapter = createDirectoryAdapter(config, mockCache);
 
@@ -269,10 +277,10 @@ test('should move/rename a task file', async (t) => {
   // Verify new file exists (title-based naming)
   const readResult = await adapter.readTaskFile('move-uuid');
   t.true(readResult.success);
-  t.is(readResult.data.title, 'New Title');
+  t.is(readResult.data!.title, 'New Title');
 });
 
-test('should list task files', async (t) => {
+test('$0', async (t: any) => {
   const { config, mockCache } = t.context;
   const adapter = createDirectoryAdapter(config, mockCache);
 
@@ -292,10 +300,10 @@ test('should list task files', async (t) => {
 
   t.true(result.success);
   t.truthy(result.data);
-  t.is(result.data.length, 3);
+  t.is(result.data!.length, 3);
 });
 
-test('should search task files', async (t) => {
+test('$0', async (t: any) => {
   const { config, mockCache } = t.context;
   const adapter = createDirectoryAdapter(config, mockCache);
 
@@ -317,10 +325,10 @@ test('should search task files', async (t) => {
 
   t.true(result.success);
   t.truthy(result.data);
-  t.true(result.data.length >= 2); // Should find tasks 1 and 3
+  t.true(result.data!.length >= 2); // Should find tasks 1 and 3
 });
 
-test('should validate task file structure', async (t) => {
+test('$0', async (t: any) => {
   const { config, mockCache } = t.context;
   const adapter = createDirectoryAdapter(config, mockCache);
 
@@ -333,11 +341,11 @@ test('should validate task file structure', async (t) => {
 
   t.true(result.success);
   t.truthy(result.data);
-  t.true(result.data.valid);
-  t.is(result.data.errors.length, 0);
+  t.true(result.data!.valid);
+  t.is(result.data!.errors.length, 0);
 });
 
-test('should handle file not found errors', async (t) => {
+test('$0', async (t: any) => {
   const { config, mockCache } = t.context;
   const adapter = createDirectoryAdapter(config, mockCache);
 
@@ -346,10 +354,10 @@ test('should handle file not found errors', async (t) => {
 
   t.false(result.success);
   t.truthy(result.error);
-  t.true(result.error.includes('not found'));
+  t.true(result.error!.includes('not found'));
 });
 
-test('should prevent path traversal attacks', async (t) => {
+test('$0', async (t: any) => {
   const { config, mockCache } = t.context;
   const adapter = createDirectoryAdapter(config, mockCache);
 
@@ -359,10 +367,10 @@ test('should prevent path traversal attacks', async (t) => {
 
   t.false(result.success);
   t.truthy(result.error);
-  t.true(result.error.includes('security') || result.error.includes('traversal'));
+  t.true(result.error!.includes('security') || result.error!.includes('traversal'));
 });
 
-test('should reject dangerous file extensions', async (t) => {
+test('$0', async (t: any) => {
   const { config, mockCache } = t.context;
   const adapter = createDirectoryAdapter(config, mockCache);
 
@@ -374,10 +382,10 @@ test('should reject dangerous file extensions', async (t) => {
 
   t.false(result.success);
   t.truthy(result.error);
-  t.true(result.error.includes('dangerous') || result.error.includes('security'));
+  t.true(result.error!.includes('dangerous') || result.error!.includes('security'));
 });
 
-test('should create backups when enabled', async (t) => {
+test('$0', async (t: any) => {
   const { config, mockCache } = t.context;
   const backupConfig = { ...config, backup: { ...config.backup, enabled: true } };
   const adapter = createDirectoryAdapter(backupConfig, mockCache);
@@ -395,13 +403,13 @@ test('should create backups when enabled', async (t) => {
 
   // Verify backup exists
   const backupExists = await fs
-    .access(result.metadata.backupPath)
+    .access(result.metadata!.backupPath!)
     .then(() => true)
     .catch(() => false);
   t.true(backupExists);
 });
 
-test('should track performance metrics', async (t) => {
+test('$0', async (t: any) => {
   const { config, mockCache } = t.context;
   const adapter = createDirectoryAdapter(config, mockCache);
 
@@ -421,7 +429,7 @@ test('should track performance metrics', async (t) => {
   t.true(metrics.averageDurations.create > 0);
 });
 
-test('should handle cache integration', async (t) => {
+test('$0', async (t: any) => {
   const { config, mockCache } = t.context;
   const cacheConfig = { ...config, cache: { ...config.cache, enabled: true } };
   const adapter = createDirectoryAdapter(cacheConfig, mockCache);
@@ -444,7 +452,7 @@ test('should handle cache integration', async (t) => {
   t.is(cachedTask.title, 'Cache Test');
 });
 
-test('should clean up resources properly', async (t) => {
+test('$0', async (t: any) => {
   const { config, mockCache } = t.context;
   const adapter = createDirectoryAdapter(config, mockCache);
 
@@ -460,7 +468,7 @@ test('should clean up resources properly', async (t) => {
   t.falsy(cachedTask); // Cache should be empty after close
 });
 
-test('should handle concurrent operations safely', async (t) => {
+test('$0', async (t: any) => {
   const { config, mockCache } = t.context;
   const adapter = createDirectoryAdapter(config, mockCache);
 
@@ -477,5 +485,5 @@ test('should handle concurrent operations safely', async (t) => {
 
   // Verify all tasks were created
   const listResult = await adapter.listTaskFiles();
-  t.is(listResult.data.length, 10);
+  t.is(listResult.data!.length, 10);
 });

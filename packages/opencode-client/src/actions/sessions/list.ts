@@ -1,7 +1,8 @@
 import { SessionUtils, sessionStore } from '../../index.js';
+
 import { deduplicateSessions } from '../../utils/session-cleanup.js';
 import { SessionData } from '../../types/SessionData.js';
-import { StoreSession } from './StoreSession.js';
+import type { StoreSession } from '../../types/StoreSession.js';
 
 /**
  * Safely parse session data, handling both JSON and plain text formats

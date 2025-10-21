@@ -5,7 +5,7 @@
     "rootDir": "./src"
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["dist", "node_modules", "src/tests-disabled"],
+  "exclude": ["dist", "node_modules", "src/tests-disabled", "pseudo"],
   "references": [
     {
       "path": "../persistence"

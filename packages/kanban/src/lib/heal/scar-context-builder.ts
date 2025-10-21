@@ -8,25 +8,17 @@
 
 import { randomUUID } from 'node:crypto';
 import path from 'node:path';
-import { loadBoard, readTasksFolder, countTasks, findTaskById } from '../kanban.js';
-import { loadKanbanConfig } from '../../board/config.js';
+import { loadBoard, readTasksFolder } from '../kanban.js';
 import { EventLogManager } from '../../board/event-log.js';
 import type {
   ScarContext,
-  ScarContextOptions,
-  EventLogEntry,
   ScarRecord,
   SearchResult,
   LLMOperation,
   GitCommit,
-  HealingStatus,
 } from './scar-context-types.js';
-import {
-  createEventLogEntry,
-  createScarRecord,
-  validateScarContextIntegrity,
-} from './type-guards.js';
-import type { Board, Task, ColumnData } from '../types.js';
+import { createEventLogEntry, validateScarContextIntegrity } from './type-guards.js';
+import type { Board, Task } from '../types.js';
 
 /**
  * Configuration options for scar context building
@@ -144,12 +136,12 @@ export interface TaskAnalysis {
 export class ScarContextBuilder {
   private readonly boardPath: string;
   private readonly tasksDir: string;
-  private readonly eventLogManager: EventLogManager | null = null;
+  private readonly _eventLogManager: EventLogManager | null = null;
 
   constructor(boardPath: string, tasksDir: string, eventLogManager?: EventLogManager) {
     this.boardPath = boardPath;
     this.tasksDir = tasksDir;
-    this.eventLogManager = eventLogManager || null;
+    this._eventLogManager = eventLogManager || null;
   }
 
   /**
@@ -406,7 +398,7 @@ export class ScarContextBuilder {
     // Calculate performance indicators
     const now = new Date();
     const taskAges = tasks.map((task) => {
-      const created = new Date(task.created_at);
+      const created = new Date(task.created_at!);
       return (now.getTime() - created.getTime()) / (1000 * 60 * 60 * 24); // days
     });
     const averageTaskAge =
@@ -473,7 +465,7 @@ export class ScarContextBuilder {
 
         // Detect critical tasks (high priority, old, or in critical status)
         const isHighPriority = task.priority === 'P0' || task.priority === 'critical';
-        const created = new Date(task.created_at);
+        const created = new Date(task.created_at!);
         const daysOld = (now.getTime() - created.getTime()) / (1000 * 60 * 60 * 24);
         const isOld = daysOld > 14; // older than 2 weeks
         const isInCriticalStatus = ['incoming', 'breakdown', 'blocked'].includes(
@@ -635,11 +627,14 @@ export class ScarContextBuilder {
                 cwd: repoRoot,
                 encoding: 'utf8',
               });
-              const [author, timestamp, fullSha] = details.trim().split('|');
+              const parts = details.trim().split('|');
+              const author = parts[0];
+              const timestamp = parts[1];
+              const fullSha = parts[2];
 
               const commit: GitCommit = {
-                sha: fullSha || sha,
-                message,
+                sha: (fullSha || sha)!,
+                message: message || 'No message',
                 author: author || 'Unknown',
                 timestamp: new Date(timestamp || Date.now()),
                 files: [], // Would need additional git commands to get this
@@ -653,8 +648,8 @@ export class ScarContextBuilder {
             } catch {
               // Fallback commit with minimal info
               const commit: GitCommit = {
-                sha,
-                message,
+                sha: sha!,
+                message: message || 'No message',
                 author: 'Unknown',
                 timestamp: new Date(),
                 files: [],
@@ -789,7 +784,7 @@ export class ScarContextBuilder {
   /**
    * Load previous scar records for historical context
    */
-  private async loadPreviousScars(maxScars: number = 10): Promise<ScarRecord[]> {
+  private async loadPreviousScars(_maxScars: number = 10): Promise<ScarRecord[]> {
     // In a real implementation, this would load from a persistent store
     // For now, return empty array as placeholder
     // This could be enhanced to load from event log or a dedicated scars file
@@ -801,8 +796,8 @@ export class ScarContextBuilder {
    */
   private generateTag(): string {
     const now = new Date();
-    const date = now.toISOString().split('T')[0]; // YYYY-MM-DD
-    const time = now.toTimeString().split(' ')[0].replace(/:/g, '-'); // HH-MM-SS
+    const date = now.toISOString().split('T')[0]!; // YYYY-MM-DD
+    const time = now.toTimeString().split(' ')[0]!.replace(/:/g, '-'); // HH-MM-SS
     return `heal-${date}-${time}`;
   }
 

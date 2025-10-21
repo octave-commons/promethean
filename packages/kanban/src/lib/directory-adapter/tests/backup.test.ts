@@ -7,7 +7,15 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import { tmpdir } from 'os';
 import { TaskBackupManager, createBackupManager } from '../backup.js';
-import type { BackupConfig, FileOperationContext } from '../types.js';
+import type { BackupConfig } from '../backup.js';
+import type { FileOperationContext } from '../types.js';
+
+// Test context interface
+interface TestContext {
+  testDir: string;
+  config: BackupConfig;
+  backupManager: any;
+}
 
 const createTestDirectory = async (): Promise<string> => {
   const testDir = await fs.mkdtemp(path.join(tmpdir(), 'backup-test-'));
@@ -28,7 +36,7 @@ const createContext = (operation: any, filePath: string): FileOperationContext =
   user: 'test-user',
 });
 
-test.beforeEach(async (t) => {
+test.beforeEach(async (t: any) => {
   t.context.testDir = await createTestDirectory();
   t.context.backupDir = path.join(t.context.testDir, 'backups');
   t.context.config = {
@@ -39,7 +47,7 @@ test.beforeEach(async (t) => {
   };
 });
 
-test.afterEach(async (t) => {
+test.afterEach(async (t: any) => {
   try {
     await fs.rm(t.context.testDir, { recursive: true, force: true });
   } catch {
@@ -54,7 +62,7 @@ test('should create backup manager', (t) => {
   t.true(backupManager instanceof TaskBackupManager);
 });
 
-test('should create backup of file', async (t) => {
+test('$0', async (t: any) => {
   const { testDir, config } = t.context;
   const backupManager = createBackupManager(config);
 
@@ -94,7 +102,7 @@ test('should create backup of file', async (t) => {
   t.is(metadata.operation, 'backup');
 });
 
-test('should restore backup', async (t) => {
+test('$0', async (t: any) => {
   const { testDir, config } = t.context;
   const backupManager = createBackupManager(config);
 
@@ -117,7 +125,7 @@ test('should restore backup', async (t) => {
   t.is(restoredContent, originalContent);
 });
 
-test('should list backups', async (t) => {
+test('$0', async (t: any) => {
   const { testDir, config } = t.context;
   const backupManager = createBackupManager(config);
 
@@ -139,15 +147,15 @@ test('should list backups', async (t) => {
 
   // Verify backups are sorted by timestamp (newest first)
   const file1Metadata1 = JSON.parse(
-    await fs.readFile(file1Backups[0].replace('.md', '.meta.json'), 'utf8'),
+    await fs.readFile(file1Backups[0]!.replace('.md', '.meta.json'), 'utf8'),
   );
   const file1Metadata2 = JSON.parse(
-    await fs.readFile(file1Backups[1].replace('.md', '.meta.json'), 'utf8'),
+    await fs.readFile(file1Backups[1]!.replace('.md', '.meta.json'), 'utf8'),
   );
   t.true(file1Metadata1.timestamp >= file1Metadata2.timestamp);
 });
 
-test('should cleanup old backups', async (t) => {
+test('$0', async (t: any) => {
   const { testDir, config } = t.context;
   const shortRetentionConfig = { ...config, retentionDays: 0 }; // Everything is old
   const backupManager = createBackupManager(shortRetentionConfig);
@@ -174,7 +182,7 @@ test('should cleanup old backups', async (t) => {
   t.is(backupsAfter.length, 0);
 });
 
-test('should get backup statistics', async (t) => {
+test('$0', async (t: any) => {
   const { testDir, config } = t.context;
   const backupManager = createBackupManager(config);
 
@@ -197,13 +205,13 @@ test('should get backup statistics', async (t) => {
   t.true(stats.totalSize > 0);
   t.truthy(stats.oldestBackup);
   t.truthy(stats.newestBackup);
-  t.true(stats.newestBackup >= stats.oldestBackup);
+  t.true(stats.newestBackup! >= stats.oldestBackup!);
   t.is(Object.keys(stats.filesByOriginalPath).length, 2);
   t.is(stats.filesByOriginalPath[path.resolve(file1)], 2);
   t.is(stats.filesByOriginalPath[path.resolve(file2)], 1);
 });
 
-test('should verify backup integrity', async (t) => {
+test('$0', async (t: any) => {
   const { testDir, config } = t.context;
   const backupManager = createBackupManager(config);
 
@@ -222,7 +230,7 @@ test('should verify backup integrity', async (t) => {
   });
 });
 
-test('should handle compression', async (t) => {
+test('$0', async (t: any) => {
   const { testDir, config } = t.context;
   const compressionConfig = { ...config, compressionEnabled: true };
   const backupManager = createBackupManager(compressionConfig);
@@ -246,7 +254,7 @@ test('should handle compression', async (t) => {
   t.is(restoredContent, originalContent);
 });
 
-test('should handle missing files gracefully', async (t) => {
+test('$0', async (t: any) => {
   const { config } = t.context;
   const backupManager = createBackupManager(config);
 
@@ -265,7 +273,7 @@ test('should handle missing files gracefully', async (t) => {
   });
 });
 
-test('should handle corrupted metadata', async (t) => {
+test('$0', async (t: any) => {
   const { testDir, config } = t.context;
   const backupManager = createBackupManager(config);
 

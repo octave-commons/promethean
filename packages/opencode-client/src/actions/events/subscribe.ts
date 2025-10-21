@@ -5,25 +5,28 @@ export async function subscribe({
   sessionId,
   client,
 }: {
-  eventType?: string;
-  sessionId?: string;
-  client: EventClient;
-}) {
-  try {
-    if (!client.event?.subscribe) {
-      return 'Events subscription not supported by this client';
-    }
-    await client.event.subscribe();
-
-    return JSON.stringify({
-      success: true,
-      subscription: 'Event subscription established',
-      eventType,
-      sessionId,
-      note: 'Use the returned SSE stream to listen for events',
-    });
-  } catch (error: unknown) {
-    console.error('Error subscribing to events:', error);
-    return `Failed to subscribe to events: ${error instanceof Error ? error.message : String(error)}`;
+  readonly eventType?: string;
+  readonly sessionId?: string;
+  readonly client: EventClient;
+}): Promise<string> {
+  if (!client.event?.subscribe) {
+    return 'Events subscription not supported by this client';
   }
+
+  const result = await client.event.subscribe().catch((error: unknown) => {
+    console.error('Error subscribing to events:', error);
+    return null;
+  });
+
+  if (!result) {
+    return 'Failed to subscribe to events';
+  }
+
+  return JSON.stringify({
+    success: true,
+    subscription: 'Event subscription established',
+    eventType,
+    sessionId,
+    note: 'Use the returned SSE stream to listen for events',
+  });
 }

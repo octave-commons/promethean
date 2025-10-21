@@ -17,7 +17,7 @@ tests/ # Unit and integration test suites
 docs/ # System-level documentation and markdown exports
 sites/ # Frontend code for dashboards and chat UIs (depreciated)
 configs/ # All base config files live here
-pseudo/ # one off scripts, retained for transparency
+pseudo/ # one off scripts retained for transparency, and pseudo code.
 
 ```
 
@@ -32,13 +32,9 @@ pseudo/ # one off scripts, retained for transparency
 ./ava.config.mjs # Extends "../../config/ava.config.mjs"
 ./package.json # Has, or should have 'build', 'test', 'clean', 'coverage',
 'typecheck' etc. scripts
-./static # Any files that might be served from a webserver go here.
 pseudo/ # one off scripts, retained for transparency
 ```
 
-Webservers should mount both `dist/frontend` and `static`.
-When working on a package, the best way to execute commands is with
-`pnpm --filter @promethean/<package-name> <command>`
 
 ### Example package local commands
 
@@ -49,17 +45,19 @@ Prefer local, well scoped commands to workspace scripts.
 `pnpm --filter @promethean/<packge-name> test:integration`
 `pnpm --filter @promethean/<packge-name> test:e2e`
 `pnpm --filter @promethean/<packge-name> clean`
+`pnpm --filter @promethean/<packge-name> lint`
 `pnpm --filter @promethean/<packge-name> build`
 `pnpm --filter @promethean/<packge-name> typecheck`
 `pnpm --filter @promethean/<packge-name> start`
 `pnpm --filter @promethean/<packge-name> exec node ./psudo/temp-script.js`
+`cd packages/path/to && node ./dist/index.js`
 
 ---
 
 
 ### Notes
-- It is a large repo, and your bash command doesn't remember when you use
-`cd` you're commands are *always* ran from the package root.
+ It is a large repo, and bash command commands are always ran from the package root
+`cd` bash commands are *always* ran from the package root.
 - put temporary scripts in a `pseudo/` folder, retain them so the steps you take can be validated
   - psuedo is never to be referenced inside of a package
   - pseudo is pseudocode, I don't know if it works, but it communciated an intent
