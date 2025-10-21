@@ -3,12 +3,6 @@
 Stealing fire from the gods to grant man the gift of knowledge and wisdom.
 Using cloud LLMs to make local LLMs smarter and more specialized.
 
-## 🧱 Overview
-
-This repo defines the **Promethean Framework**, a modular cognitive architecture
-for running AI agents with embodied reasoning, perception-action loops, and
-emotionally mediated decision structures.
-
 ---
 
 ## 📂 Repository Structure
