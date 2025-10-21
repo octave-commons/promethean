@@ -711,7 +711,19 @@ export function registerSimpleOAuthRoutes(
       ]);
 
       // Handle different redirect scenarios
-      if (clientRedirectUri && originalState) {
+      if (!storedData) {
+        // Direct OAuth callback from MCP client (like ChatGPT)
+        // Return token information as JSON response per MCP spec
+        console.log('[OAuth Callback] Returning token response for MCP client');
+        return reply.status(200).send({
+          access_token: result.accessToken,
+          token_type: 'Bearer',
+          expires_in: 3600,
+          refresh_token: result.refreshToken,
+          scope: 'user:email',
+          user_info: result.userInfo,
+        });
+      } else if (clientRedirectUri && originalState) {
         // Standard OAuth flow - redirect back to client with authorization code
         const callbackParams = new URLSearchParams({
           code: code,
