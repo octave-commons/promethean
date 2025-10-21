@@ -209,14 +209,11 @@ export class IndexerService {
 
       // Only fetch and index when the message is complete, not for every part update
       if (event.type === 'message.updated' || event.type === 'message.removed') {
-        // For complete message events, fetch the specific message
-        const messagesResult = await this.client.session.messages({
-          path: { id: sessionId },
+        // Use the efficient direct message fetch API instead of fetching all messages
+        const messageResult = await this.client.session.message({
+          path: { id: sessionId, messageID: messageId },
         });
-        const messages = messagesResult.data || [];
-
-        // Find the specific message that triggered this event
-        const targetMessage = messages.find((m: any) => m.info?.id === messageId);
+        const targetMessage = messageResult.data;
 
         if (targetMessage) {
           await this.indexMessage(targetMessage, sessionId);
@@ -227,9 +224,7 @@ export class IndexerService {
 
           console.log(`📝 Indexed message ${messageId} for session ${sessionId}`);
         } else {
-          console.warn(
-            `⚠️ Could not find message ${messageId} in session ${sessionId} (found ${messages.length} messages)`,
-          );
+          console.warn(`⚠️ Could not find message ${messageId} in session ${sessionId}`);
         }
       } else {
         // For part updates, just log that we're skipping indexing until message is complete
