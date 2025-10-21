@@ -13,4 +13,4 @@
         :devtools {:http-root "public"
                    :http-port 8082
                    :preloads [devtools.preload
-                              day8.re-frame-10x.preload]}}}}
+                              day8.re-frame-10x.preload.react-18]}}}}

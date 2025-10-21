@@ -24,7 +24,13 @@
 (rf/reg-event-db
  :set-sessions
  (fn [db [sessions]]
-   (assoc db :sessions sessions)))
+   (js/console.log "set-sessions called with:" sessions)
+   (js/console.log "Type of sessions:" (type sessions))
+   (js/console.log "Is seqable?" (satisfies? ISeq sessions))
+   (let [sessions-vec (if (or (vector? sessions) (nil? sessions))
+                        sessions
+                        (vec sessions))]
+     (assoc db :sessions sessions-vec))))
 
 (rf/reg-event-db
  :set-current-session
@@ -49,13 +55,19 @@
    (-> (db/get-sessions)
        (.then (fn [response]
                 (js/console.log "API response:" response)
+                (js/console.log "Response data:" (:data response))
+                (js/console.log "Response data type:" (type (:data response)))
                 (if (:success response)
                   (do
                     (rf/dispatch [:set-sessions (:data response)])
                     (rf/dispatch [:set-loading false]))
                   (do
                     (rf/dispatch [:set-error (:error response)])
-                    (rf/dispatch [:set-loading false]))))))))
+                    (rf/dispatch [:set-loading false])))))
+       (.catch (fn [error]
+                 (js/console.error "Load sessions error:" error)
+                 (rf/dispatch [:set-error (str "Failed to load sessions: " error)])
+                 (rf/dispatch [:set-loading false]))))))
 
 (rf/reg-event-fx
  :select-session

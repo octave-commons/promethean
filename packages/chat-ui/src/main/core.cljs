@@ -12,5 +12,10 @@
   (js/console.log "DB initialized")
   (rf/dispatch [:load-sessions])
   (js/console.log "Load sessions dispatched")
-  (dom/render [app] (js/document.getElementById "app"))
+  (if js/ReactDOM
+    ;; React 18 with createRoot
+    (let [root (js/ReactDOM.createRoot (js/document.getElementById "app"))]
+      (.render root [app]))
+    ;; Fallback to legacy ReactDOM.render
+    (dom/render [app] (js/document.getElementById "app")))
   (js/console.log "App rendered"))

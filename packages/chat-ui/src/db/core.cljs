@@ -5,21 +5,29 @@
 
 (defn api-request [method endpoint & [data]]
   (js/Promise.
-    (fn [resolve reject]
-      (let [xhr (create-http-client)]
-        (.open xhr method (str "http://localhost:3002/api" endpoint) true)
-        (.setRequestHeader xhr "Content-Type" "application/json")
-        (.send xhr (when data (js/JSON.stringify (clj->js data))))
-        
-        (.addEventListener xhr "load"
+   (fn [resolve reject]
+     (let [xhr (create-http-client)]
+       (.open xhr method (str "http://localhost:3002/api" endpoint) true)
+       (.setRequestHeader xhr "Content-Type" "application/json")
+       (.setRequestHeader xhr "Accept" "application/json")
+       (.send xhr (when data (js/JSON.stringify (clj->js data))))
+
+       (.addEventListener xhr "load"
                           (fn [e]
                             (let [status (.-status xhr)
                                   response (.-responseText xhr)]
-                              (if (>= status 200)
-                                (resolve {:success true :data (js->clj (js/JSON.parse response) :keywordize-keys true)})
-                                (resolve {:success false :error response})))))
-        
-        (.addEventListener xhr "error"
+                              (if (and (>= status 200) (< status 300))
+                                (try
+                                  (let [parsed-data (if (and response (not= response ""))
+                                                      (js->clj (js/JSON.parse response) :keywordize-keys true)
+                                                      [])]
+                                    (resolve {:success true :data parsed-data}))
+                                  (catch js/Error e
+                                    (js/console.error "JSON parse error:" e)
+                                    (resolve {:success false :error (str "JSON parse error: " (.-message e))})))
+                                (resolve {:success false :error (str "HTTP " status ": " response)})))))
+
+       (.addEventListener xhr "error"
                           (fn [e]
                             (resolve {:success false :error "Network error"})))))))
 
