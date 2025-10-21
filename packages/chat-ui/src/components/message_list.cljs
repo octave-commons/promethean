@@ -1,8 +1,8 @@
-(ns chat-ui.components.message-list
+(ns components.message-list
   (:require [reagent.core :as r]
             [re-frame.core :as rf]
-            [chat-ui.main.subs :as subs]
-            [chat-ui.main.events :as events]))
+            [main.subs :as subs]
+            [main.events :as events]))
 
 (defn format-time [timestamp]
   (if timestamp

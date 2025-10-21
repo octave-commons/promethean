@@ -1,4 +1,4 @@
-(ns chat-ui.db.core
+(ns db.core
   (:require [cljs.core.async :refer [<! >! chan go]]))
 
 (defn create-http-client []
@@ -15,9 +15,9 @@
                       (fn [e]
                         (let [status (.-status xhr)
                               response (.-responseText xhr)]
-                          (if (>= status 200)
-                            (>! ch {:success true :data (js->clj (js/JSON.parse response) :keywordize-keys true)})
-                            (>! ch {:success false :error response})))))
+(if (>= status 200)
+                             (>! ch {:success true :data (js->clj (js/JSON.parse response) :keywordize-keys true)})
+                             (>! ch {:success false :error response}))))))
     
     (.addEventListener xhr "error"
                       (fn [e]
