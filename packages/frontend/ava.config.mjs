@@ -1,5 +1,3 @@
-import { readFile } from 'node:fs/promises';
-
 const config = {
   files: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
   nodeArguments: ['--loader=ts-node/esm'],
