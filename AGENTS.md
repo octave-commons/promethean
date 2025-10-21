@@ -54,7 +54,6 @@ Prefer local, well scoped commands to workspace scripts.
 `pnpm --filter @promethean/<packge-name> start`
 `pnpm --filter @promethean/<packge-name> exec node ./psudo/temp-script.js`
 
-
 ---
 
 # Stack
@@ -64,18 +63,14 @@ Prefer local, well scoped commands to workspace scripts.
 - nbb/bb scripting, and DSLs
 - Clojure for heavy work
 - MongoDB for main document store
-- LevelDB for caching
 - chroma for embedding based search
-- ESMODULEs
 - Prefer key-value caches via `@promethean/*-cache`; avoid JSON files for transient data
 
 # Programming Style
 
-- Functional preferred
-- TDD non-negotiable
+- Functional
+- TDD
 - Document-driven development
-- No relative module resolution outside of the package root.
-  - Depend on `@promethean/<package>*` via "workspace:\*".
 - Always use the eslint tool on each file you edit.
 
 # Working Style
