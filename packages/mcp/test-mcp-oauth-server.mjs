@@ -87,12 +87,6 @@ async function createMCPServerWithOAuth() {
     credentials: true,
   });
 
-  // Serve static files
-  await fastify.register(import('@fastify/static'), {
-    root: path.join(__dirname, 'static'),
-    prefix: '/static/',
-  });
-
   // Main web page
   fastify.get('/', async (request, _reply) => {
     const html = `
