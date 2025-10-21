@@ -1,8 +1,9 @@
 import { DualStoreManager, ContextStore } from '@promethean/persistence';
 import { SessionInfo } from './SessionInfo.js';
 import { SessionUtils } from './SessionUtils.js';
-import type { Timestamp } from './types/index.js';
-import { createStoreProxy } from './createStoreProxy.js';
+ type { Timestamp } from './types/index.js';
+export { createStoreProxy } from './createStoreProxy.js';
+
 
 export type SearchableStore = DualStoreManager<'text', 'timestamp'>;
 
