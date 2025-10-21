@@ -3,6 +3,16 @@
 Stealing fire from the gods to grant man the gift of knowledge and wisdom.
 Using cloud LLMs to make local LLMs smarter and more specialized.
 
+
+## Initiation sequence
+
+On every request:
+-  context7 to grab docs related documentation to the task you were given
+- github grep to understand the implementation of the packages you will be using
+- web search to find guides and related information
+- `pnpm kanban search "task keywords"` to find tasks related to the request
+- `git logs`  and search Opencode session message history to understand the events leading up to your task
+
 ---
 
 ## 📂 Repository Structure
