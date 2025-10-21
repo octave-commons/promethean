@@ -95,7 +95,7 @@ export class IndexerService {
     }, this.STATE_SAVE_INTERVAL_MS);
   }
 
-  private async indexNewData(): Promise<void> {
+private async indexNewData(): Promise<void> {
     try {
       console.log('📚 Checking for new sessions and messages...');
 
@@ -104,12 +104,81 @@ export class IndexerService {
       let newSessions = 0;
       let newMessages = 0;
 
+      console.log(`📊 Found ${sessions.length} total sessions`);
+      console.log(`📍 Last indexed session ID: ${this.state.lastIndexedSessionId || 'none'}`);
+      console.log(`📍 Last indexed message ID: ${this.state.lastIndexedMessageId || 'none'}`);
+
       // Find the index of the last indexed session
       let startIndex = 0;
       if (this.state.lastIndexedSessionId) {
         startIndex = sessions.findIndex((s: any) => s.id === this.state.lastIndexedSessionId);
-        if (startIndex !== -1) startIndex++; // Start after the last indexed session
+        if (startIndex !== -1) {
+          startIndex++; // Start after the last indexed session
+          console.log(`📍 Resuming from session index ${startIndex} (after ${this.state.lastIndexedSessionId})`);
+        } else {
+          console.log(`⚠️ Last indexed session ${this.state.lastIndexedSessionId} not found in current list, starting from beginning`);
+        }
       }
+
+      const sessionsToProcess = sessions.slice(startIndex);
+      console.log(`📝 Need to process ${sessionsToProcess.length} sessions`);
+
+      for (let i = 0; i < sessionsToProcess.length; i++) {
+        const session = sessionsToProcess[i];
+        console.log(`📂 Processing session ${i + 1}/${sessionsToProcess.length}: ${session.id}`);
+        
+        await this.indexSession(session);
+        newSessions++;
+        this.state.lastIndexedSessionId = session.id;
+
+        const messagesResult = await this.client.session.messages({
+          path: { id: session.id },
+        });
+        const messages = messagesResult.data || [];
+        console.log(`💬 Found ${messages.length} messages in session ${session.id}`);
+
+        // Find the index of the last indexed message for this session
+        let messageStartIndex = 0;
+        if (this.state.lastIndexedMessageId && i === sessionsToProcess.length - 1) {
+          messageStartIndex = messages.findIndex((m: any) => m.info?.id === this.state.lastIndexedMessageId);
+          if (messageStartIndex !== -1) {
+            messageStartIndex++; // Start after the last indexed message
+            console.log(`📍 Resuming messages from index ${messageStartIndex} (after ${this.state.lastIndexedMessageId})`);
+          } else {
+            console.log(`⚠️ Last indexed message ${this.state.lastIndexedMessageId} not found in this session`);
+          }
+        }
+
+        const messagesToProcess = messages.slice(messageStartIndex);
+        console.log(`📝 Need to process ${messagesToProcess.length} messages`);
+
+        for (let j = 0; j < messagesToProcess.length; j++) {
+          const message = messagesToProcess[j];
+          if (j % 10 === 0) {
+            console.log(`📨 Processing message ${j + 1}/${messagesToProcess.length}: ${message.info?.id}`);
+          }
+          
+          await this.indexMessage(message, session.id);
+          newMessages++;
+          this.state.lastIndexedMessageId = message.info?.id;
+        }
+
+        // Save state after processing each session to avoid re-indexing
+        await this.saveState();
+        console.log(`💾 Saved progress after session ${session.id}`);
+      }
+
+      if (newSessions > 0 || newMessages > 0) {
+        console.log(`✅ Indexed ${newSessions} new sessions and ${newMessages} new messages`);
+      } else {
+        console.log('✅ No new sessions or messages to index');
+      }
+
+      await this.saveState();
+    } catch (error) {
+      console.error('❌ Error indexing new data:', error);
+    }
+  }
 
       for (let i = startIndex; i < sessions.length; i++) {
         const session = sessions[i];
