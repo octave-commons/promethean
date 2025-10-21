@@ -102,14 +102,34 @@ export const createIndexerService = (): IndexerService => {
     }
   };
 
-  const handleEventStreamError = async (error: unknown): Promise<void> => {
+const handleEventStreamError = async (error: unknown): Promise<void> => {
     console.error('❌ Event stream error:', error);
-
-    state = {
-      ...state,
+    
+    const currentErrorCount = state.consecutiveErrors ?? 0;
+    const newErrorCount = currentErrorCount + 1;
+    
+    state = { 
+      ...state, 
       subscriptionActive: false,
-      consecutiveErrors: (state.consecutiveErrors ?? 0) + 1,
+      consecutiveErrors: newErrorCount
     };
+    await saveState(state);
+    
+    // If we've had too many consecutive errors, stop trying to reconnect
+    if (newErrorCount >= MAX_CONSECUTIVE_ERRORS) {
+      console.error(`🛑 Stopping event subscription after ${MAX_CONSECUTIVE_ERRORS} consecutive errors`);
+      return;
+    }
+    
+    console.log(`🔄 Attempting to reconnect in ${RECONNECT_DELAY_MS / 1000} seconds...`);
+    
+    // Schedule reconnection attempt
+    reconnectTimer = setTimeout(async () => {
+      if (isRunning) {
+        await subscribeToEvents();
+      }
+    }, RECONNECT_DELAY_MS);
+  };
     await saveState(state);
 
     // If we've had too many consecutive errors, stop trying to reconnect
