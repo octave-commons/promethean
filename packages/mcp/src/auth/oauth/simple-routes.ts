@@ -621,8 +621,8 @@ export function registerSimpleOAuthRoutes(
 
           // Build token request parameters
           const tokenParams: any = {
-            client_id: process.env.MCP_OAUTH_GITHUB_CLIENT_ID || process.env.OAUTH_GITHUB_CLIENT_ID,
-            client_secret: process.env.MCP_OAUTH_GITHUB_CLIENT_SECRET || process.env.OAUTH_GITHUB_CLIENT_SECRET,
+            client_id: clientId,
+            client_secret: clientSecret,
             code: code,
             redirect_uri: getBaseUrl(request) + '/auth/oauth/callback',
           };
