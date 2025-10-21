@@ -1,12 +1,21 @@
 import type { OpencodeClient } from '@opencode-ai/sdk';
 
+export type CreateSessionResult = {
+  readonly success: boolean;
+  readonly session: {
+    readonly id: string;
+    readonly title?: string;
+    readonly createdAt?: string | number;
+  };
+};
+
 export async function create({
   title,
   client,
 }: {
   readonly title?: string;
   readonly client?: OpencodeClient;
-}): Promise<string> {
+}): Promise<CreateSessionResult> {
   if (!client) {
     throw new Error('OpenCode client is required for session creation');
   }
@@ -27,12 +36,12 @@ export async function create({
     throw new Error('No session created');
   }
 
-  return JSON.stringify({
+  return {
     success: true,
     session: {
       id: result.data.id,
       title: result.data.title,
       createdAt: result.data.time?.created,
     },
-  });
+  };
 }
