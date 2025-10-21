@@ -32,10 +32,10 @@ test.serial('search returns sessions matching query', async (t) => {
     timestamp: Date.now(),
   });
 
-  const createSessionInfoStub = sinon.stub(SessionUtils, 'createSessionInfo').returns({
+  sinon.stub(SessionUtils, 'createSessionInfo').returns({
     id: 'session:1',
     title: 'Test Session One',
-    messageCount: 2,
+    messageCount: 0,
     createdAt: new Date(),
     updatedAt: new Date(),
   } as any);
@@ -55,15 +55,13 @@ test.serial('search returns sessions matching query', async (t) => {
 });
 
 test.serial('search returns empty results when no sessions match', async (t) => {
-  const getMostRecentStub = sinon
-    .stub(sessionStore, 'getMostRecent')
-    .resolves([
-      {
-        id: 'session:1',
-        text: JSON.stringify({ id: 'session:1', title: 'Different Session' }),
-        timestamp: Date.now(),
-      },
-    ]);
+  const getMostRecentStub = sinon.stub(sessionStore, 'getMostRecent').resolves([
+    {
+      id: 'session:1',
+      text: JSON.stringify({ id: 'session:1', title: 'Different Session' }),
+      timestamp: Date.now(),
+    },
+  ]);
 
   sinon.stub(sessionStore, 'get').resolves(null);
 
@@ -86,7 +84,7 @@ test.serial('search respects sessionId filter', async (t) => {
     { id: 'session:2', title: 'Test Session Two' },
   ];
 
-  const getMostRecentStub = sinon.stub(sessionStore, 'getMostRecent').resolves([
+  sinon.stub(sessionStore, 'getMostRecent').resolves([
     { id: 'session:1', text: JSON.stringify(mockSessions[0]), timestamp: Date.now() },
     { id: 'session:2', text: JSON.stringify(mockSessions[1]), timestamp: Date.now() },
   ]);

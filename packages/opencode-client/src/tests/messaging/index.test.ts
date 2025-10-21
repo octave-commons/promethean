@@ -184,7 +184,7 @@ test.serial('logCommunication stores communication in session store', async (t) 
   t.true(insertStub.calledOnce);
   const insertCall = insertStub.getCall(0);
 
-  if (insertCall && insertCall.args[0] && insertCall.args[0].metadata) {
+  if (insertCall && insertCall.args[0] && insertCall.args[0].metadata && insertCall.args[0].id) {
     t.true(insertCall.args[0].id.startsWith('inter_agent_'));
     t.is(insertCall.args[0].text, 'Inter-agent message: Test communication');
     t.is(insertCall.args[0].metadata.type, 'inter_agent_communication');

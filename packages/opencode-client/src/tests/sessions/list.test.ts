@@ -9,15 +9,17 @@ const mockSessionStore = {
 };
 
 // Mock SessionUtils
-sinon.stub(SessionUtils, 'createSessionInfo').callsFake((session: any, messageCount: number) => ({
-  id: session.id,
-  title: session.title,
-  messageCount,
-  activityStatus: 'active',
-  isAgentTask: false,
-  lastActivityTime: new Date().toISOString(),
-  sessionAge: 0,
-}));
+const createSessionInfoStub = sinon
+  .stub(SessionUtils, 'createSessionInfo')
+  .callsFake((session: any, messageCount: number) => ({
+    id: session.id,
+    title: session.title,
+    messageCount,
+    activityStatus: 'active',
+    isAgentTask: false,
+    lastActivityTime: new Date().toISOString(),
+    sessionAge: 0,
+  }));
 
 test('list sessions successfully', async (t) => {
   const mockSessions = [
@@ -150,7 +152,7 @@ test('list sessions calculates summary correctly', async (t) => {
   ];
 
   // Mock SessionUtils to return different activity statuses
-  SessionUtils.createSessionInfo.restore();
+  createSessionInfoStub.restore();
   sinon.stub(SessionUtils, 'createSessionInfo').callsFake((session: any, messageCount: number) => {
     const baseInfo = {
       id: session.id,
