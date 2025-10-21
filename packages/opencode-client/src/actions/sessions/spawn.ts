@@ -44,6 +44,17 @@ export async function spawn({
         body: { parts: [{ type: 'text' as const, text: message }] },
       });
     }
+    // TODO: stop stringifying these actoins.
+    return JSON.stringify({
+      success: true,
+      session: {
+        id: session.id,
+        title: session.title,
+        createdAt: session.time?.created,
+      },
+    });
+
+    // NOTE: returning message info here is problematic,
 
     // we need to stop doing this.
     // we end up just parsing it again later.
