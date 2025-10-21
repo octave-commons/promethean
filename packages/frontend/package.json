@@ -84,7 +84,16 @@
     "dev:smartgpt-dashboard": "shadow-cljs watch smartgpt-dashboard-frontend",
     "dev:pantheon": "vite",
     "build:pantheon": "tsc && vite build",
-    "preview:pantheon": "vite preview"
+    "preview:pantheon": "vite preview",
+    "pm2:start": "pm2 start ecosystem.config.mjs",
+    "pm2:stop": "pm2 stop ecosystem.config.mjs",
+    "pm2:restart": "pm2 restart ecosystem.config.mjs",
+    "pm2:delete": "pm2 delete ecosystem.config.mjs",
+    "pm2:logs": "pm2 logs",
+    "pm2:monit": "pm2 monit",
+    "pm2:status": "pm2 status",
+    "pm2:dev": "pm2 start ecosystem.config.mjs --env development",
+    "pm2:prod": "pm2 start ecosystem.config.mjs --env production"
   },
   "dependencies": {
     "@promethean/persistence": "workspace:*",
