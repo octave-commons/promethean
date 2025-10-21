@@ -117,90 +117,45 @@ function startServer() {
     'pantheon',
   ];
 
-  apps.forEach((appName) => {
-    // Serve the main HTML file for each app
+apps.forEach((appName) => {
+    // Serve the actual application files
     app.get(`/${appName}`, (_req, res) => {
-      res.send(`
-        <!DOCTYPE html>
-        <html>
-          <head>
-            <title>${appName.replace('-', ' ').toUpperCase()} - Promethean</title>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <style>
-              body { 
-                font-family: Arial, sans-serif; 
-                margin: 0; 
-                padding: 20px; 
-                background: #f5f5f5; 
-              }
-              .container { 
-                max-width: 1200px; 
-                margin: 0 auto; 
-                background: white; 
-                border-radius: 8px; 
-                box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
-                padding: 20px; 
-              }
-              .header { 
-                border-bottom: 1px solid #eee; 
-                padding-bottom: 20px; 
-                margin-bottom: 20px; 
-              }
-              .back-link { 
-                color: #007acc; 
-                text-decoration: none; 
-                font-weight: bold; 
-              }
-              .app-info { 
-                background: #e8f4fd; 
-                padding: 15px; 
-                border-radius: 4px; 
-                margin-bottom: 20px; 
-              }
-              .iframe-container { 
-                width: 100%; 
-                height: 80vh; 
-                border: 1px solid #ddd; 
-                border-radius: 4px; 
-                overflow: hidden; 
-              }
-              iframe { 
-                width: 100%; 
-                height: 100%; 
-                border: none; 
-              }
-            </style>
-          </head>
-          <body>
-            <div class="container">
-              <div class="header">
-                <a href="/" class="back-link">← Back to Apps</a>
-                <h1>${appName.replace('-', ' ').toUpperCase()}</h1>
-              </div>
-              <div class="app-info">
-                <strong>Application:</strong> ${appName}<br>
-                <strong>Status:</strong> Loading...<br>
-                <strong>Development Mode:</strong> ${isDev ? 'Enabled' : 'Disabled'}
-              </div>
-              <div class="iframe-container">
-                <iframe src="/app/${appName}" id="${appName}-frame"></iframe>
-              </div>
-            </div>
-            <script>
-              // Handle iframe loading and communication
-              const iframe = document.getElementById('${appName}-frame');
-              iframe.onload = function() {
-                document.querySelector('.app-info strong:nth-child(2)').textContent = 'Status: Loaded';
-              };
-              iframe.onerror = function() {
-                document.querySelector('.app-info strong:nth-child(2)').textContent = 'Status: Error loading application';
-              };
-            </script>
-          </body>
-        </html>
-      `);
+      const appContent = getAppContent(appName, isDev);
+      if (appContent) {
+        res.send(appContent);
+      } else {
+        res.status(404).send(`
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <title>App Not Found - Promethean</title>
+              <style>
+                body { font-family: Arial, sans-serif; text-align: center; margin: 40px; }
+                .error-code { font-size: 4em; color: #ccc; margin-bottom: 20px; }
+                .error-message { font-size: 1.2em; color: #666; }
+                .back-link { color: #007acc; text-decoration: none; margin-top: 20px; display: inline-block; }
+              </style>
+            </head>
+            <body>
+              <div class="error-code">404</div>
+              <div class="error-message">Application '${appName}' not found or not yet built</div>
+              <a href="/" class="back-link">← Back to Apps</a>
+            </body>
+          </html>
+        `);
+      }
     });
+
+    // Serve the actual application static files
+    const appPath = isDev ? join(__dirname, `../src/${appName}`) : join(__dirname, `../dist/${appName}`);
+    if (existsSync(appPath)) {
+      app.use(`/app/${appName}`, express.static(appPath));
+    } else {
+      app.use(`/app/${appName}`, (_req, res) => {
+        res.status(404).send(`Application files for '${appName}' not found. Please build the app first.`);
+      });
+    }
+  });
 
     // Serve the actual application content
     app.use(

@@ -40,7 +40,7 @@ async function testOAuth() {
     enableRefreshTokens: true,
   });
 
-  const jwtManager = new JwtTokenManager('test-secret-key-for-oauth-testing');
+  const jwtManager = new JwtTokenManager('test-secret-key-for-oauth-testing-that-is-long-enough');
   const userRegistry = new UserRegistry();
   const authManager = new MockAuthenticationManager();
 
