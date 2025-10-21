@@ -1,7 +1,8 @@
 import { randomUUID } from 'node:crypto';
-import { readFile, stat, readdir } from 'node:fs/promises';
-import { join, extname, basename } from 'node:path';
+import { readFile, stat } from 'node:fs/promises';
+import { extname, basename } from 'node:path';
 import { DualStoreManager } from '@promethean/persistence';
+import { listFiles, type FileEntry } from '@promethean/fs';
 
 import type {
   FileIndexEntry,
