@@ -1,9 +1,9 @@
-(ns chat-ui.components.app
+(ns components.app
   (:require [reagent.core :as r]
             [re-frame.core :as rf]
-            [chat-ui.components.session-list :refer [session-list]]
-            [chat-ui.components.message-list :refer [message-list]]
-            [chat-ui.main.subs :as subs]))
+            [components.session-list :refer [session-list]]
+            [components.message-list :refer [message-list]]
+            [main.subs :as subs]))
 
 (defn header []
   [:header.app-header
