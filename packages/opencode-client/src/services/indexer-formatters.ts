@@ -1,14 +1,25 @@
 import type { Session, Event } from '@opencode-ai/sdk';
+import type { Message, MessagePart } from './indexer-types.js';
 
-import type { Message } from './indexer-types.js';
+type EnhancedEvent = Event & {
+  readonly properties?: {
+    readonly info?: {
+      readonly id?: string;
+      readonly sessionID?: string;
+    };
+    readonly part?: {
+      readonly sessionID?: string;
+      readonly messageID?: string;
+    };
+  };
+};
 
-export const eventToMarkdown = (event: Event): string => {
+export const eventToMarkdown = (event: EnhancedEvent): string => {
   const timestamp = new Date().toISOString();
   const sessionId =
-    (event as any).properties?.info?.id ??
-    (event as any).properties?.info?.sessionID ??
-    (event as any).properties?.sessionID ??
-    (event as any).properties?.part?.sessionID ??
+    event.properties?.info?.id ??
+    event.properties?.info?.sessionID ??
+    event.properties?.part?.sessionID ??
     'N/A';
 
   return `# Event: ${event.type}
@@ -40,8 +51,9 @@ ${session.title ?? 'Untitled Session'}
 `;
 
 export const messageToMarkdown = (message: Message): string => {
-  const textParts = message.parts?.filter((part: any) => part.type === 'text') ?? [];
-  const content = textParts.map((part: any) => part.text).join('\n\n') ?? '[No text content]';
+  const textParts = message.parts?.filter((part: MessagePart) => part.type === 'text') ?? [];
+  const content =
+    textParts.map((part: MessagePart) => part.text).join('\n\n') ?? '[No text content]';
 
   return `# Message: ${message.info?.id}
 

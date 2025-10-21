@@ -20,7 +20,7 @@ export type OpenCodeClient = {
   readonly event?: {
     readonly subscribe: () => Promise<{ readonly stream: AsyncIterable<Event> }>;
   };
-}
+};
 
 export type Message = {
   readonly info?: {
@@ -32,26 +32,49 @@ export type Message = {
     };
   };
   readonly parts?: readonly MessagePart[];
-}
+};
 
 export type MessagePart = {
   readonly type?: string;
   readonly text?: string;
-}
+};
 
 export type EventSubscription = {
   readonly stream: AsyncIterable<Event>;
-}
+};
+
+export type EventProperties = {
+  readonly info?: {
+    readonly id?: string;
+    readonly sessionID?: string;
+  };
+  readonly part?: {
+    readonly sessionID?: string;
+    readonly messageID?: string;
+  };
+};
+
+export type EnhancedEvent = Event & {
+  readonly properties?: EventProperties;
+};
 
 export const createStateManager = (
   stateFile: string,
 ): {
-  readonly loadState: () => Promise<IndexerState>;
-  readonly saveState: (state: IndexerState) => Promise<void>;
+  readonly loadState: () => Promise<Readonly<IndexerState>>;
+  readonly saveState: (state: Readonly<IndexerState>) => Promise<void>;
 } => {
-  const loadState = async (): Promise<IndexerState> => {
+  const loadState = async (): Promise<Readonly<IndexerState>> => {
+    const data = await readFile(stateFile, 'utf-8').catch(() => {
+      console.log('📂 No previous indexer state found, starting fresh');
+      return null;
+    });
+
+    if (!data) {
+      return {};
+    }
+
     try {
-      const data = await readFile(stateFile, 'utf-8');
       const savedState: IndexerState = JSON.parse(data);
       console.log(
         `📂 Loaded indexer state: lastSession=${savedState.lastIndexedSessionId}, lastMessage=${savedState.lastIndexedMessageId}`,
@@ -63,14 +86,14 @@ export const createStateManager = (
     }
   };
 
-  const saveState = async (state: IndexerState): Promise<void> => {
-    try {
-      const stateToSave = {
-        lastIndexedSessionId: state.lastIndexedSessionId,
-        lastIndexedMessageId: state.lastIndexedMessageId,
-        savedAt: Date.now(),
-      };
+  const saveState = async (state: Readonly<IndexerState>): Promise<void> => {
+    const stateToSave = {
+      lastIndexedSessionId: state.lastIndexedSessionId,
+      lastIndexedMessageId: state.lastIndexedMessageId,
+      savedAt: Date.now(),
+    } as const;
 
+    try {
       await writeFile(stateFile, JSON.stringify(stateToSave, null, 2));
 
       if (process.argv.includes('--verbose')) {
@@ -86,30 +109,40 @@ export const createStateManager = (
   return { loadState, saveState };
 };
 
-export const extractSessionId = (event: Event): string | undefined => {
+export const extractSessionId = (event: EnhancedEvent): string | undefined => {
+  const properties = event.properties;
+  if (!properties) {
+    return undefined;
+  }
+
   switch (event.type) {
     case 'session.updated':
     case 'session.deleted':
-      return (event as any).properties?.info?.id;
+      return properties.info?.id;
     case 'message.updated':
     case 'message.removed':
-      return (event as any).properties?.info?.sessionID ?? (event as any).properties?.sessionID;
+      return properties.info?.sessionID;
     case 'message.part.updated':
     case 'message.part.removed':
-      return (event as any).properties?.part?.sessionID ?? (event as any).properties?.sessionID;
+      return properties.part?.sessionID;
     default:
       return undefined;
   }
 };
 
-export const extractMessageId = (event: Event): string | undefined => {
+export const extractMessageId = (event: EnhancedEvent): string | undefined => {
+  const properties = event.properties;
+  if (!properties) {
+    return undefined;
+  }
+
   switch (event.type) {
     case 'message.updated':
     case 'message.removed':
-      return (event as any).properties?.info?.id;
+      return properties.info?.id;
     case 'message.part.updated':
     case 'message.part.removed':
-      return (event as any).properties?.part?.messageID ?? (event as any).properties?.messageID;
+      return properties.part?.messageID;
     default:
       return undefined;
   }
