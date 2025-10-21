@@ -1,4 +1,6 @@
-# AGENTS.md
+# Promethean
+
+Stealing fire from the gods to grant man the gift of knowledge and wisdom.
 
 ## 🧱 Overview
 
