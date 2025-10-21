@@ -133,8 +133,8 @@ test('get session with malformed session data', async (t) => {
 
   t.false('error' in result);
   if ('session' in result) {
-    t.is(result.session.id, sessionId);
-    t.is(result.session.title, 'Legacy Session');
+    t.is((result.session as any).id, sessionId);
+    t.is((result.session as any).title, 'Legacy Session');
   }
 });
 
@@ -158,7 +158,7 @@ test('get session with malformed message data', async (t) => {
 
   t.false('error' in result);
   if ('session' in result) {
-    t.is(result.session.id, sessionId);
+    t.is((result.session as any).id, sessionId);
     t.deepEqual(result.messages, []); // Should default to empty array
   }
 });
@@ -191,13 +191,14 @@ test('type checking - result has correct structure', async (t) => {
     t.true('messages' in typedResult);
     t.true(Array.isArray(typedResult.messages));
   }
+}
 });
 
 test('handles different timestamp formats', async (t) => {
   const sessionId = 'timestamp-test';
   const timestampFormats = [Date.now(), '2023-01-01T00:00:00.000Z', new Date()];
 
-  for (const timestamp of timestampFormats) {
+for (const timestamp of timestampFormats) {
     mockSessionStore.get.withArgs(sessionId).resolves({
       text: JSON.stringify({
         id: sessionId,
@@ -215,7 +216,8 @@ test('handles different timestamp formats', async (t) => {
 
     t.false('error' in result);
     if ('session' in result) {
-      t.is(result.session.id, sessionId);
+      t.is((result.session as any).id, sessionId);
     }
+  }
   }
 });
