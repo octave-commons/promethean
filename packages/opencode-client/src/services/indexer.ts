@@ -37,6 +37,40 @@ export const createIndexerService = (): IndexerService => {
   const FULL_SYNC_INTERVAL_MS = 300000; // 5 minutes
   let state: IndexerState = {};
 
+  // Event deduplication state
+  let previousEventType: string | undefined;
+  let consecutiveEventCount = 0;
+  let pendingEventLog: string | undefined;
+
+  const logEventDeduped = (eventType: string, message: string): void => {
+    // If this is the same event type as before, just increment counter
+    if (previousEventType === eventType) {
+      consecutiveEventCount++;
+      return;
+    }
+
+    // If we have a pending event from a different type, log it with count
+    if (previousEventType && pendingEventLog) {
+      const count = consecutiveEventCount > 1 ? ` (${consecutiveEventCount}x)` : '';
+      console.log(`${pendingEventLog}${count}`);
+    }
+
+    // Set up new event as pending
+    previousEventType = eventType;
+    consecutiveEventCount = 1;
+    pendingEventLog = message;
+  };
+
+  const flushPendingEventLog = (): void => {
+    if (previousEventType && pendingEventLog) {
+      const count = consecutiveEventCount > 1 ? ` (${consecutiveEventCount}x)` : '';
+      console.log(`${pendingEventLog}${count}`);
+    }
+    previousEventType = undefined;
+    consecutiveEventCount = 0;
+    pendingEventLog = undefined;
+  };
+
   const startPeriodicStateSave = (): void => {
     stateSaveTimer = setInterval(async () => {
       if (isRunning) {
@@ -55,7 +89,7 @@ export const createIndexerService = (): IndexerService => {
 
   const performFullSync = async (): Promise<void> => {
     try {
-      console.log('🔍 Performing full sync to ensure no messages are missed...');
+      logEventDeduped('full_sync', '🔍 Performing full sync to ensure no messages are missed');
 
       const sessionsResult = await client.session.list();
       const sessions = sessionsResult.data ?? [];
@@ -83,7 +117,10 @@ export const createIndexerService = (): IndexerService => {
       }
 
       if (totalMessagesProcessed > 0) {
-        console.log(`✅ Full sync processed ${totalMessagesProcessed} messages`);
+        logEventDeduped(
+          'full_sync_complete',
+          `✅ Full sync processed ${totalMessagesProcessed} messages`,
+        );
       }
 
       // Update the last full sync timestamp
@@ -104,7 +141,8 @@ export const createIndexerService = (): IndexerService => {
   };
 
   const handleEventStreamError = async (error: unknown): Promise<void> => {
-    console.error('❌ Event stream error:', error);
+    logEventDeduped('stream_error', '❌ Event stream error');
+    console.error('Error details:', error);
 
     const currentErrorCount = state.consecutiveErrors ?? 0;
     const newErrorCount = currentErrorCount + 1;
@@ -118,13 +156,17 @@ export const createIndexerService = (): IndexerService => {
 
     // If we've had too many consecutive errors, stop trying to reconnect
     if (newErrorCount >= MAX_CONSECUTIVE_ERRORS) {
+      flushPendingEventLog();
       console.error(
         `🛑 Stopping event subscription after ${MAX_CONSECUTIVE_ERRORS} consecutive errors`,
       );
       return;
     }
 
-    console.log(`🔄 Attempting to reconnect in ${RECONNECT_DELAY_MS / 1000} seconds...`);
+    logEventDeduped(
+      'reconnect_attempt',
+      `🔄 Attempting to reconnect in ${RECONNECT_DELAY_MS / 1000} seconds`,
+    );
 
     // Schedule reconnection attempt
     reconnectTimer = setTimeout(async () => {
@@ -144,7 +186,8 @@ export const createIndexerService = (): IndexerService => {
       messages.map(async (message, index) => {
         // Log progress every 50 messages
         if ((index + 1) % 50 === 0 || index === messages.length - 1) {
-          console.log(
+          logEventDeduped(
+            'message_processing',
             `📨 Processing message ${index + 1}/${messages.length} in session ${session.id}`,
           );
         }
@@ -156,7 +199,7 @@ export const createIndexerService = (): IndexerService => {
 
   const indexNewData = async (): Promise<void> => {
     try {
-      console.log('📚 Checking for new sessions and messages...');
+      logEventDeduped('indexing_check', '📚 Checking for new sessions and messages');
 
       const sessionsResult = await client.session.list();
       const sessions = sessionsResult.data ?? [];
@@ -181,9 +224,9 @@ export const createIndexerService = (): IndexerService => {
       );
 
       if (newSessions.length > 0) {
-        console.log(`✅ Indexed ${newSessions.length} new sessions`);
+        logEventDeduped('sessions_indexed', `✅ Indexed ${newSessions.length} new sessions`);
       } else {
-        console.log('✅ No new sessions to index');
+        logEventDeduped('no_new_sessions', '✅ No new sessions to index');
       }
 
       await saveState(state);
@@ -222,13 +265,20 @@ export const createIndexerService = (): IndexerService => {
           // Save state after processing message event
           await saveState(state);
 
-          console.log(`📝 Indexed message ${messageId} for session ${sessionId}`);
+          logEventDeduped(
+            'message_indexed',
+            `📝 Indexed message ${messageId} for session ${sessionId}`,
+          );
         } else {
-          console.warn(`⚠️ Could not find message ${messageId} in session ${sessionId}`);
+          logEventDeduped(
+            'message_not_found',
+            `⚠️ Could not find message ${messageId} in session ${sessionId}`,
+          );
         }
       } else {
         // For part updates, just log that we're skipping indexing until message is complete
-        console.log(
+        logEventDeduped(
+          'part_update_skipped',
           `🔄 Skipping indexing for part update of message ${messageId} in session ${sessionId}`,
         );
       }
@@ -239,7 +289,7 @@ export const createIndexerService = (): IndexerService => {
 
   const handleSessionEvent = async (event: Event): Promise<void> => {
     try {
-      console.log(`🎯 Processing session event: ${event.type}`);
+      logEventDeduped('session_event', `🎯 Processing session event: ${event.type}`);
 
       if ('properties' in event && event.properties) {
         const sessionInfo = (event.properties as any).info;
@@ -250,12 +300,21 @@ export const createIndexerService = (): IndexerService => {
           // Save state after processing session event
           await saveState(state);
 
-          console.log(`📝 Indexed session ${sessionInfo.id} with title "${sessionInfo.title}"`);
+          logEventDeduped(
+            'session_indexed',
+            `📝 Indexed session ${sessionInfo.id} with title "${sessionInfo.title}"`,
+          );
         } else {
-          console.warn(`⚠️ Session event ${event.type} did not contain session info`);
+          logEventDeduped(
+            'session_info_missing',
+            `⚠️ Session event ${event.type} did not contain session info`,
+          );
         }
       } else {
-        console.warn(`⚠️ Session event ${event.type} did not contain properties`);
+        logEventDeduped(
+          'session_properties_missing',
+          `⚠️ Session event ${event.type} did not contain properties`,
+        );
       }
     } catch (error) {
       console.error('❌ Error handling session event:', error);
