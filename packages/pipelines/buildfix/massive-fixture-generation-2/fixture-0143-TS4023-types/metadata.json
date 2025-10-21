@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0143-TS4023-types",
+  "description": "Massive fixture for TS4023 from packages/readmeflow/src/types.ts",
+  "originalPath": "packages/readmeflow/src/types.ts",
+  "targetErrorCode": "TS4023",
+  "errorCategory": "Declaration Error",
+  "fixtureNumber": 143,
+  "generatedAt": "2025-10-15T06:55:37.720Z"
+}

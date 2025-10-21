@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0470-TS2307-lifecycle",
+  "description": "Massive fixture for TS2307 from packages/kanban/src/lib/task-content/lifecycle.ts",
+  "originalPath": "packages/kanban/src/lib/task-content/lifecycle.ts",
+  "targetErrorCode": "TS2307",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 470,
+  "generatedAt": "2025-10-15T06:55:37.842Z"
+}

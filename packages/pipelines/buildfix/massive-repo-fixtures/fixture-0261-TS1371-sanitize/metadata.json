@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0261-TS1371-sanitize",
+  "description": "Massive fixture for TS1371 from packages/apply-patch/src/sanitize.ts",
+  "originalPath": "packages/apply-patch/src/sanitize.ts",
+  "targetErrorCode": "TS1371",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 261,
+  "generatedAt": "2025-10-15T06:38:49.408Z"
+}

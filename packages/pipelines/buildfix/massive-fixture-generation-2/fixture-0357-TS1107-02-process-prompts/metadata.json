@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0357-TS1107-02-process-prompts",
+  "description": "Massive fixture for TS1107 from packages/boardrev/src/02-process-prompts.ts",
+  "originalPath": "packages/boardrev/src/02-process-prompts.ts",
+  "targetErrorCode": "TS1107",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 357,
+  "generatedAt": "2025-10-15T06:55:37.800Z"
+}

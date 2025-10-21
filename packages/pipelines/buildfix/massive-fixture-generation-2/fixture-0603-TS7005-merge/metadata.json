@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0603-TS7005-merge",
+  "description": "Massive fixture for TS7005 from packages/kanban/src/board/config/merge.ts",
+  "originalPath": "packages/kanban/src/board/config/merge.ts",
+  "targetErrorCode": "TS7005",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 603,
+  "generatedAt": "2025-10-15T06:55:37.900Z"
+}

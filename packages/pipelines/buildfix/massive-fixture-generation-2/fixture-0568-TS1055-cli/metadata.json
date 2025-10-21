@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0568-TS1055-cli",
+  "description": "Massive fixture for TS1055 from packages/kanban/src/cli.ts",
+  "originalPath": "packages/kanban/src/cli.ts",
+  "targetErrorCode": "TS1055",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 568,
+  "generatedAt": "2025-10-15T06:55:37.882Z"
+}

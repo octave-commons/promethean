@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0321-TS7053-runner",
+  "description": "Massive fixture for TS7053 from packages/piper/src/runner.ts",
+  "originalPath": "packages/piper/src/runner.ts",
+  "targetErrorCode": "TS7053",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 321,
+  "generatedAt": "2025-10-15T06:55:37.787Z"
+}

@@ -4,6 +4,9 @@
             [clj-hacks.mcp.cli :as mcp-cli]
             [clojure.string :as str]))
 
+;; CLI module for clj-hacks automation and MCP tools
+;; Provides unified interface for build, test, and configuration management
+
 (def ^:private help-flags
   #{"-h" "--help" "help"})
 

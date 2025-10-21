@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0593-TS2322-01-ensure-fm",
+  "description": "Massive fixture for TS2322 from packages/boardrev/src/01-ensure-fm.ts",
+  "originalPath": "packages/boardrev/src/01-ensure-fm.ts",
+  "targetErrorCode": "TS2322",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 593,
+  "generatedAt": "2025-10-15T06:38:49.557Z"
+}

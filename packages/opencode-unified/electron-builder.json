@@ -1,0 +1,89 @@
+{
+  "appId": "ai.promethean.opencode-unified",
+  "productName": "Promethean OpenCode",
+  "copyright": "Copyright © 2025 Promethean Team",
+  "directories": {
+    "output": "release",
+    "buildResources": "build"
+  },
+  "files": [
+    "dist/**/*",
+    "static/**/*",
+    "node_modules/**/*",
+    "package.json",
+    "!src/**/*",
+    "!**/tsconfig*.json",
+    "!**/shadow-cljs*",
+    "!**/*.test.*",
+    "!**/*.spec.*"
+  ],
+  "extraResources": [
+    {
+      "from": "static",
+      "to": "static",
+      "filter": ["**/*"]
+    }
+  ],
+  "mac": {
+    "category": "public.app-category.developer-tools",
+    "icon": "build/icon.icns",
+    "hardenedRuntime": true,
+    "gatekeeperAssess": false,
+    "entitlements": "build/entitlements.mac.plist",
+    "entitlementsInherit": "build/entitlements.mac.plist",
+    "target": [
+      {
+        "target": "dmg",
+        "arch": ["x64", "arm64"]
+      },
+      {
+        "target": "zip",
+        "arch": ["x64", "arm64"]
+      }
+    ]
+  },
+  "win": {
+    "target": [
+      {
+        "target": "nsis",
+        "arch": ["x64"]
+      },
+      {
+        "target": "portable",
+        "arch": ["x64"]
+      }
+    ],
+    "icon": "build/icon.ico"
+  },
+  "linux": {
+    "target": [
+      {
+        "target": "AppImage",
+        "arch": ["x64"]
+      },
+      {
+        "target": "deb",
+        "arch": ["x64"]
+      }
+    ],
+    "category": "Development",
+    "icon": "build/icon.png",
+    "desktop": {
+      "Name": "Promethean OpenCode",
+      "Comment": "Unified OpenCode client with TypeScript server and ClojureScript editor",
+      "Keywords": "opencode;editor;development;ai;llm;"
+    }
+  },
+  "nsis": {
+    "oneClick": false,
+    "allowToChangeInstallationDirectory": true,
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true,
+    "shortcutName": "Promethean OpenCode"
+  },
+  "publish": {
+    "provider": "github",
+    "owner": "promethean",
+    "repo": "opencode-unified"
+  }
+}

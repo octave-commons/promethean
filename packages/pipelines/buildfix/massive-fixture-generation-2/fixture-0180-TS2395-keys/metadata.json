@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0180-TS2395-keys",
+  "description": "Massive fixture for TS2395 from packages/auth-service/src/keys.ts",
+  "originalPath": "packages/auth-service/src/keys.ts",
+  "targetErrorCode": "TS2395",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 180,
+  "generatedAt": "2025-10-15T06:55:37.734Z"
+}

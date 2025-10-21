@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0052-TS2571-virtual-scroll",
+  "description": "Massive fixture for TS2571 from packages/kanban/src/frontend/virtual-scroll.ts",
+  "originalPath": "packages/kanban/src/frontend/virtual-scroll.ts",
+  "targetErrorCode": "TS2571",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 52,
+  "generatedAt": "2025-10-15T06:38:49.324Z"
+}

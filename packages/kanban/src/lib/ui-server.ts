@@ -1,7 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 
 import { escapeHtml } from '../frontend/render.js';
@@ -72,26 +71,18 @@ type FrontendAsset = Readonly<{
 
 const createAssetDescriptor = (relativePath: string, contentType: string): FrontendAsset =>
   ({
-    path: fileURLToPath(new URL(relativePath, import.meta.url)),
+    path: path.resolve(process.cwd(), 'packages/kanban/dist/frontend', path.basename(relativePath)),
     contentType,
   }) satisfies FrontendAsset;
 
 const FRONTEND_ASSETS: ReadonlyMap<string, FrontendAsset> = new Map([
-  [
-    '/assets/kanban-ui.js',
-    createAssetDescriptor('../frontend/kanban-ui.js', 'application/javascript; charset=utf-8'),
-  ],
-  [
-    '/assets/render.js',
-    createAssetDescriptor('../frontend/render.js', 'application/javascript; charset=utf-8'),
-  ],
-  [
-    '/assets/styles.js',
-    createAssetDescriptor('../frontend/styles.js', 'application/javascript; charset=utf-8'),
-  ],
+  ['/frontend/main.js', createAssetDescriptor('main.js', 'application/javascript')],
+  ['/assets/kanban-ui.js', createAssetDescriptor('kanban-ui.js', 'application/javascript')],
+  ['/assets/render.js', createAssetDescriptor('render.js', 'application/javascript')],
+  ['/assets/styles.js', createAssetDescriptor('styles.js', 'application/javascript')],
   [
     '/assets/virtual-scroll.js',
-    createAssetDescriptor('../frontend/virtual-scroll.js', 'application/javascript; charset=utf-8'),
+    createAssetDescriptor('virtual-scroll.js', 'application/javascript'),
   ],
 ]);
 
@@ -147,7 +138,7 @@ const htmlTemplate = (options: ImmutableOptions): string => {
         This dashboard requires JavaScript to render the kanban board.
       </noscript>
     </div>
-    <script type="module" src="/assets/kanban-ui.js"></script>
+    <script type="module" src="/frontend/main.js"></script>
   </body>
 </html>`;
 };
@@ -242,10 +233,23 @@ const getAssetForUrl = (url: string): FrontendAsset | undefined => {
 const handleAssetRequest = async (res: HttpResponse, asset: FrontendAsset): Promise<void> => {
   try {
     const contents = await readFile(asset.path, 'utf8');
-    send(res, 200, contents, {
+    const headers: Record<string, string> = {
       'Content-Type': asset.contentType,
       'Cache-Control': 'no-store',
-    });
+    };
+
+    // Add CORS headers for ES modules
+    if (asset.path.endsWith('.js')) {
+      headers['Access-Control-Allow-Origin'] = '*';
+      headers['Access-Control-Allow-Methods'] = 'GET, OPTIONS';
+      headers['Access-Control-Allow-Headers'] = 'Content-Type, X-Requested-With';
+      headers['Cross-Origin-Embedder-Policy'] = 'unsafe-none';
+      headers['Cross-Origin-Resource-Policy'] = 'cross-origin';
+      // Ensure proper ES module handling
+      headers['Content-Type'] = 'application/javascript; charset=utf-8';
+    }
+
+    send(res, 200, contents, headers);
   } catch (error) {
     internalError(res, error);
   }

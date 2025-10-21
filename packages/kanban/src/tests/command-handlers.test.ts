@@ -49,7 +49,7 @@ const setupTestEnvironment = async (t: any) => {
 test('create command creates a new task with basic title', async (t) => {
   const { context } = await setupTestEnvironment(t);
 
-  const result = await executeCommand('create', ['Test task'], context) as any;
+  const result = (await executeCommand('create', ['Test task'], context)) as any;
 
   t.is(result.title, 'Test task');
   t.is(result.status, 'incoming');
@@ -60,19 +60,23 @@ test('create command creates a new task with basic title', async (t) => {
 test('create command with optional flags', async (t) => {
   const { context } = await setupTestEnvironment(t);
 
-  const result = await executeCommand('create', [
-    'Test task with flags',
-    '--priority=P1',
-    '--labels=test,crud,cli',
-    '--content=Test content here',
-    '--status=ready',
-  ], context) as any;
+  const result = (await executeCommand(
+    'create',
+    [
+      'Test task with flags',
+      '--priority=P1',
+      '--labels=test,crud,cli',
+      '--content=Test content here',
+      '--status=icebox',
+    ],
+    context,
+  )) as any;
 
   t.is(result.title, 'Test task with flags');
   t.is(result.priority, 'P1');
   t.deepEqual(result.labels, ['test', 'crud', 'cli']);
   t.true(result.content?.includes('Test content here'));
-  t.is(result.status, 'ready');
+  t.is(result.status, 'icebox');
 });
 
 test('create command fails without title', async (t) => {
@@ -90,13 +94,14 @@ test('update command updates task title', async (t) => {
   const { context } = await setupTestEnvironment(t);
 
   // First create a task
-  const created = await executeCommand('create', ['Original title'], context) as any;
+  const created = (await executeCommand('create', ['Original title'], context)) as any;
 
   // Then update the title
-  const result = await executeCommand('update', [
-    created.uuid,
-    '--title=Updated title',
-  ], context) as any;
+  const result = (await executeCommand(
+    'update',
+    [created.uuid, '--title=Updated title'],
+    context,
+  )) as any;
 
   t.is(result.title, 'Updated title');
   t.is(result.uuid, created.uuid);
@@ -106,13 +111,14 @@ test('update command updates task content', async (t) => {
   const { context } = await setupTestEnvironment(t);
 
   // First create a task
-  const created = await executeCommand('create', ['Test content'], context) as any;
+  const created = (await executeCommand('create', ['Test content'], context)) as any;
 
   // Then update the content
-  const result = await executeCommand('update', [
-    created.uuid,
-    '--content=Updated content goes here',
-  ], context) as any;
+  const result = (await executeCommand(
+    'update',
+    [created.uuid, '--content=Updated content goes here'],
+    context,
+  )) as any;
 
   t.is(result.content?.trim(), 'Updated content goes here');
   t.is(result.uuid, created.uuid);
@@ -122,14 +128,14 @@ test('update command updates both title and content', async (t) => {
   const { context } = await setupTestEnvironment(t);
 
   // First create a task
-  const created = await executeCommand('create', ['Original title'], context) as any;
+  const created = (await executeCommand('create', ['Original title'], context)) as any;
 
   // Then update both title and content
-  const result = await executeCommand('update', [
-    created.uuid,
-    '--title=New title',
-    '--content=New content',
-  ], context) as any;
+  const result = (await executeCommand(
+    'update',
+    [created.uuid, '--title=New title', '--content=New content'],
+    context,
+  )) as any;
 
   t.is(result.title, 'New title');
   t.is(result.content?.trim(), 'New content');
@@ -147,14 +153,54 @@ test('update command fails for non-existent task', async (t) => {
   }
 });
 
+test('create command rejects invalid starting status via CLI', async (t) => {
+  const { context } = await setupTestEnvironment(t);
+
+  try {
+    await executeCommand('create', ['Test task with invalid status', '--status=todo'], context);
+    t.fail('Should have thrown an error');
+  } catch (error: any) {
+    t.true(error.message.includes('Invalid starting status'));
+    t.true(error.message.includes('"todo"'));
+    t.true(error.message.includes('Tasks can only be created with starting statuses'));
+    t.true(error.message.includes('icebox, incoming'));
+  }
+});
+
+test('create command allows valid starting status icebox via CLI', async (t) => {
+  const { context } = await setupTestEnvironment(t);
+
+  const result = (await executeCommand(
+    'create',
+    ['Test task in icebox', '--status=icebox'],
+    context,
+  )) as any;
+
+  t.is(result.title, 'Test task in icebox');
+  t.is(result.status, 'icebox');
+});
+
+test('create command allows valid starting status incoming via CLI', async (t) => {
+  const { context } = await setupTestEnvironment(t);
+
+  const result = (await executeCommand(
+    'create',
+    ['Test task in incoming', '--status=incoming'],
+    context,
+  )) as any;
+
+  t.is(result.title, 'Test task in incoming');
+  t.is(result.status, 'incoming');
+});
+
 test('delete command requires confirmation', async (t) => {
   const { context } = await setupTestEnvironment(t);
 
   // First create a task
-  const created = await executeCommand('create', ['Task to delete'], context) as any;
+  const created = (await executeCommand('create', ['Task to delete'], context)) as any;
 
   // Try to delete without confirmation
-  const result = await executeCommand('delete', [created.uuid], context) as any;
+  const result = (await executeCommand('delete', [created.uuid], context)) as any;
 
   t.is(result.deleted, false);
   t.truthy(result.task);
@@ -165,10 +211,10 @@ test('delete command with confirmation', async (t) => {
   const { context } = await setupTestEnvironment(t);
 
   // First create a task
-  const created = await executeCommand('create', ['Task to delete confirmed'], context) as any;
+  const created = (await executeCommand('create', ['Task to delete confirmed'], context)) as any;
 
   // Delete with confirmation
-  const result = await executeCommand('delete', [created.uuid, '--confirm'], context) as any;
+  const result = (await executeCommand('delete', [created.uuid, '--confirm'], context)) as any;
 
   t.is(result.deleted, true);
   t.truthy(result.task);

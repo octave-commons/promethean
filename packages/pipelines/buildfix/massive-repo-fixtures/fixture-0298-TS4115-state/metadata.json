@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0298-TS4115-state",
+  "description": "Massive fixture for TS4115 from packages/piper/src/lib/state.ts",
+  "originalPath": "packages/piper/src/lib/state.ts",
+  "targetErrorCode": "TS4115",
+  "errorCategory": "Declaration Error",
+  "fixtureNumber": 298,
+  "generatedAt": "2025-10-15T06:38:49.428Z"
+}

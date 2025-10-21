@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0403-TS5054-ai",
+  "description": "Massive fixture for TS5054 from packages/kanban/src/lib/task-content/ai.ts",
+  "originalPath": "packages/kanban/src/lib/task-content/ai.ts",
+  "targetErrorCode": "TS5054",
+  "errorCategory": "Compiler Options Error",
+  "fixtureNumber": 403,
+  "generatedAt": "2025-10-15T06:38:49.475Z"
+}

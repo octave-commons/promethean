@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0092-TS1039-types",
+  "description": "Massive fixture for TS1039 from packages/lmdb-cache/src/types.ts",
+  "originalPath": "packages/lmdb-cache/src/types.ts",
+  "targetErrorCode": "TS1039",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 92,
+  "generatedAt": "2025-10-15T06:38:49.341Z"
+}

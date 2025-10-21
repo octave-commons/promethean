@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0287-TS2339-04-verify",
+  "description": "Massive fixture for TS2339 from packages/readmeflow/src/04-verify.ts",
+  "originalPath": "packages/readmeflow/src/04-verify.ts",
+  "targetErrorCode": "TS2339",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 287,
+  "generatedAt": "2025-10-15T06:55:37.770Z"
+}

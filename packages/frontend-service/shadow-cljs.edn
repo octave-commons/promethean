@@ -1,0 +1,45 @@
+{:source-paths ["src/cljs"]
+ :dependencies [[binaryage/devtools "1.0.7"]]
+
+ :builds
+ {:frontend-service
+  {:target :node-script
+   :main promethean.frontend-service.core/-main
+   :output-to "dist/frontend_service.cjs"
+   :compiler-options {:infer-externs :auto
+                      :source-map true
+                      :output-feature-set :es-next
+                      :optimizations :simple
+                      :checked-arrays :warn
+                      :fn-invoke-direct true
+                      :static-fns true
+                      :elide-asserts false
+                      :parallel-build true}
+   :devtools {:watch-dir "static"
+              :watch-include ["src/cljs"]
+              :autoload true
+              :before-load-async promethean.frontend-service.core/stop!
+              :after-load promethean.frontend-service.core/start!}
+
+   ;; Type checking configuration
+   :build-hooks [(shadow.cljs.build-report/hook {:output-to "target/report.html"})]
+
+   ;; Development configuration
+   :dev {:compiler-options {:source-map-detail-level :all
+                            :pseudo-names true
+                            :pretty-print true}}
+
+   ;; Production configuration  
+   :release {:compiler-options {:optimizations :advanced
+                                :elide-asserts true
+                                :source-map false
+                                :infer-externs :auto}}}
+
+   :frontend-service-test
+   {:target :node-script
+    :main promethean.frontend-service.dsl-simple-test/-main
+    :output-to "dist/dsl_test.cjs"
+    :compiler-options {:infer-externs :auto
+                       :source-map true
+                       :output-feature-set :es-next
+                       :optimizations :simple}}}}

@@ -1,0 +1,22 @@
+{:apps [{:name "dualstore-http"
+         :description "Dual-store HTTP API server for events and agent tasks"
+         :script "node"
+         :args ["packages/dualstore-http/dist/index-simple.js"]
+         :cwd ".."
+         :env {:NODE_ENV "production"
+               :PORT "3000"
+               :LOG_LEVEL "info"
+               :DUALSTORE_HTTP_HOST "localhost"
+               :DUALSTORE_HTTP_PORT "3000"}
+         :instances 1
+         :max-memory-restart "512M"
+         :autorestart true
+         :watch ["packages/dualstore-http/dist"]
+         :merge-logs true
+         :log-date-format "YYYY-MM-DD HH:mm:ss Z"
+         :error-file "logs/dualstore-http-error.log"
+         :out-file "logs/dualstore-http-out.log"
+         :log-file "logs/dualstore-http-combined.log"
+         :time true
+         :kill-timeout 5000
+         :restart-delay 4000}]}

@@ -1,0 +1,8 @@
+{
+  "name": "buildfix-massive-fixture-fixture-0095-TS1432-03-write",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "ts-morph": "^23.0.0"
+  }
+}

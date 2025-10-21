@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0289-TS1005-multi-model-evaluation",
+  "description": "Massive fixture for TS1005 from packages/boardrev/src/multi-model-evaluation.ts",
+  "originalPath": "packages/boardrev/src/multi-model-evaluation.ts",
+  "targetErrorCode": "TS1005",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 289,
+  "generatedAt": "2025-10-15T06:55:37.771Z"
+}

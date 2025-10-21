@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0581-TS1274-editor",
+  "description": "Massive fixture for TS1274 from packages/kanban/src/lib/task-content/editor.ts",
+  "originalPath": "packages/kanban/src/lib/task-content/editor.ts",
+  "targetErrorCode": "TS1274",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 581,
+  "generatedAt": "2025-10-15T06:55:37.887Z"
+}

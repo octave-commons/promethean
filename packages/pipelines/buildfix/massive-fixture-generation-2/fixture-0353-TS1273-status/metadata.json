@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0353-TS1273-status",
+  "description": "Massive fixture for TS1273 from packages/piper/src/status.ts",
+  "originalPath": "packages/piper/src/status.ts",
+  "targetErrorCode": "TS1273",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 353,
+  "generatedAt": "2025-10-15T06:55:37.799Z"
+}

@@ -13,7 +13,6 @@ description: >-
   sprint and notices similar feature requests. user: 'Looking at my task board,
   I see tasks for 'Add search to products page', 'Add search to categories
   page', and 'Add search to users page'. Should I handle these separately?'
-  assistant: 'Let me use the task-consolidator agent to evaluate these
   search-related tasks and recommend the best approach.' <commentary>The user
   needs analysis of whether similar tasks can be consolidated, so use the
   task-consolidator agent.</commentary></example>

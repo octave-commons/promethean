@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0597-TS2322-types",
+  "description": "Massive fixture for TS2322 from packages/piper/src/types.ts",
+  "originalPath": "packages/piper/src/types.ts",
+  "targetErrorCode": "TS2322",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 597,
+  "generatedAt": "2025-10-15T06:38:49.560Z"
+}

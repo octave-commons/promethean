@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0007-TS1099-index",
+  "description": "Massive fixture for TS1099 from packages/image-link-generator/src/index.ts",
+  "originalPath": "packages/image-link-generator/src/index.ts",
+  "targetErrorCode": "TS1099",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 7,
+  "generatedAt": "2025-10-15T06:38:49.298Z"
+}

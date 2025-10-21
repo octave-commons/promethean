@@ -1,0 +1,648 @@
+version: '3.8'
+
+services:
+  # WireMock for HTTP API mocking
+  wiremock:
+    image: wiremock/wiremock:3.9.1
+    container_name: wiremock
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./wiremock/mappings:/home/wiremock/mappings
+      - ./wiremock/__files:/home/wiremock/__files
+    command: --global-response-templating
+    networks:
+      - mcp-kanban-test
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/__admin/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # SQLite database for kanban data
+  sqlite-db:
+    image: nouchka/sqlite3:latest
+    container_name: sqlite-db
+    volumes:
+      - sqlite-data:/data
+      - ./init-sql:/docker-entrypoint-initdb.d
+    command: >
+      sh -c "
+        while ! curl -f http://wiremock:8080/__admin/health; do
+          echo 'Waiting for WireMock...'
+          sleep 2
+        done
+        sqlite3 /data/kanban.db < /docker-entrypoint-initdb.d/init.sql &&
+        sqlite3 /data/kanban.db 'CREATE TABLE IF NOT EXISTS task_mappings (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          mcp_task_id TEXT UNIQUE,
+          kanban_task_id TEXT,
+          status TEXT,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        );' &&
+        sqlite3 /data/kanban.db 'CREATE TABLE IF NOT EXISTS bridge_logs (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          event_type TEXT,
+          source TEXT,
+          target TEXT,
+          payload TEXT,
+          timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+        );' &&
+        echo 'Database initialized' &&
+        tail -f /dev/null
+      "
+    networks:
+      - mcp-kanban-test
+
+  # MCP Server simulation
+  mcp-server:
+    image: node:22-alpine
+    working_dir: /app
+    command: >
+      sh -lc "
+        npm install -g @modelcontextprotocol/sdk &&
+        cat > mcp-server.js << 'EOF'
+        const { Server } = require('@modelcontextprotocol/sdk/server/index.js');
+        const { StdioServerTransport } = require('@modelcontextprotocol/sdk/server/stdio.js');
+        const {
+          CallToolRequestSchema,
+          ErrorCode,
+          ListToolsRequestSchema,
+          McpError,
+        } = require('@modelcontextprotocol/sdk/types.js');
+
+        class KanbanMCPServer {
+          constructor() {
+            this.server = new Server(
+              {
+                name: 'kanban-mcp-bridge',
+                version: '0.1.0',
+              },
+              {
+                capabilities: {
+                  tools: {},
+                },
+              }
+            );
+
+            this.setupToolHandlers();
+          }
+
+          setupToolHandlers() {
+            this.server.setRequestHandler(ListToolsRequestSchema, async () => ({
+              tools: [
+                {
+                  name: 'create_task',
+                  description: 'Create a new kanban task',
+                  inputSchema: {
+                    type: 'object',
+                    properties: {
+                      title: { type: 'string', description: 'Task title' },
+                      description: { type: 'string', description: 'Task description' },
+                      priority: { type: 'string', enum: ['P0', 'P1', 'P2', 'P3'], description: 'Task priority' },
+                      status: { type: 'string', enum: ['incoming', 'in_progress', 'done'], description: 'Initial status' }
+                    },
+                    required: ['title', 'description']
+                  }
+                },
+                {
+                  name: 'update_task_status',
+                  description: 'Update task status',
+                  inputSchema: {
+                    type: 'object',
+                    properties: {
+                      taskId: { type: 'string', description: 'Task ID' },
+                      status: { type: 'string', enum: ['incoming', 'in_progress', 'done'], description: 'New status' }
+                    },
+                    required: ['taskId', 'status']
+                  }
+                },
+                {
+                  name: 'list_tasks',
+                  description: 'List all tasks',
+                  inputSchema: {
+                    type: 'object',
+                    properties: {
+                      status: { type: 'string', enum: ['incoming', 'in_progress', 'done'], description: 'Filter by status' }
+                    }
+                  }
+                },
+                {
+                  name: 'delete_task',
+                  description: 'Delete a task',
+                  inputSchema: {
+                    type: 'object',
+                    properties: {
+                      taskId: { type: 'string', description: 'Task ID' }
+                    },
+                    required: ['taskId']
+                  }
+                }
+              ]
+            }));
+
+            this.server.setRequestHandler(CallToolRequestSchema, async (request) => {
+              const { name, arguments: args } = request.params;
+
+              try {
+                switch (name) {
+                  case 'create_task':
+                    return await this.createTask(args);
+                  case 'update_task_status':
+                    return await this.updateTaskStatus(args);
+                  case 'list_tasks':
+                    return await this.listTasks(args);
+                  case 'delete_task':
+                    return await this.deleteTask(args);
+                  default:
+                    throw new McpError(ErrorCode.MethodNotFound, `Unknown tool: ${name}`);
+                }
+              } catch (error) {
+                throw new McpError(ErrorCode.InternalError, `Tool execution failed: ${error.message}`);
+              }
+            });
+          }
+
+          async createTask(args) {
+            const response = await fetch('http://wiremock:8080/api/kanban/tasks', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(args)
+            });
+
+            if (!response.ok) {
+              throw new Error(`Failed to create task: ${response.statusText}`);
+            }
+
+            const task = await response.json();
+            
+            // Log the bridge event
+            await fetch('http://wiremock:8080/api/bridge/logs', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                event_type: 'task_created',
+                source: 'mcp',
+                target: 'kanban',
+                payload: { mcp_task_id: task.id, kanban_task_id: task.id }
+              })
+            });
+
+            return {
+              content: [{
+                type: 'text',
+                text: JSON.stringify(task, null, 2)
+              }]
+            };
+          }
+
+          async updateTaskStatus(args) {
+            const response = await fetch(`http://wiremock:8080/api/kanban/tasks/${args.taskId}`, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ status: args.status })
+            });
+
+            if (!response.ok) {
+              throw new Error(`Failed to update task: ${response.statusText}`);
+            }
+
+            const task = await response.json();
+            
+            // Log the bridge event
+            await fetch('http://wiremock:8080/api/bridge/logs', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                event_type: 'task_status_updated',
+                source: 'mcp',
+                target: 'kanban',
+                payload: { task_id: args.taskId, new_status: args.status }
+              })
+            });
+
+            return {
+              content: [{
+                type: 'text',
+                text: JSON.stringify(task, null, 2)
+              }]
+            };
+          }
+
+          async listTasks(args) {
+            const url = args.status 
+              ? `http://wiremock:8080/api/kanban/tasks?status=${args.status}`
+              : 'http://wiremock:8080/api/kanban/tasks';
+              
+            const response = await fetch(url);
+            
+            if (!response.ok) {
+              throw new Error(`Failed to list tasks: ${response.statusText}`);
+            }
+
+            const tasks = await response.json();
+            
+            return {
+              content: [{
+                type: 'text',
+                text: JSON.stringify(tasks, null, 2)
+              }]
+            };
+          }
+
+          async deleteTask(args) {
+            const response = await fetch(`http://wiremock:8080/api/kanban/tasks/${args.taskId}`, {
+              method: 'DELETE'
+            });
+
+            if (!response.ok) {
+              throw new Error(`Failed to delete task: ${response.statusText}`);
+            }
+            
+            // Log the bridge event
+            await fetch('http://wiremock:8080/api/bridge/logs', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                event_type: 'task_deleted',
+                source: 'mcp',
+                target: 'kanban',
+                payload: { task_id: args.taskId }
+              })
+            });
+
+            return {
+              content: [{
+                type: 'text',
+                text: JSON.stringify({ message: 'Task deleted successfully' }, null, 2)
+              }]
+            };
+          }
+
+          async run() {
+            const transport = new StdioServerTransport();
+            await this.server.connect(transport);
+            console.error('Kanban MCP server running on stdio');
+          }
+        }
+
+        const server = new KanbanMCPServer();
+        server.run().catch(console.error);
+        EOF
+        # Keep the container running
+        tail -f /dev/null
+      "
+    networks:
+      - mcp-kanban-test
+    depends_on:
+      wiremock:
+        condition: service_healthy
+      sqlite-db:
+        condition: service_started
+
+  # NLP Parser service
+  nlp-parser:
+    image: node:22-alpine
+    working_dir: /app
+    command: >
+      sh -lc "
+        npm install -g natural compromise &&
+        cat > nlp-parser.js << 'EOF'
+        const natural = require('natural');
+        const compromise = require('compromise');
+        const http = require('http');
+
+        class NLPParser {
+          constructor() {
+            this.tokenizer = new natural.WordTokenizer();
+            this.stemmer = natural.PorterStemmer;
+          }
+
+          parseCommand(text) {
+            const doc = compromise(text);
+            const tokens = this.tokenizer.tokenize(text.toLowerCase());
+            
+            // Extract command patterns
+            const patterns = {
+              create: ['create', 'add', 'new', 'make', 'build'],
+              update: ['update', 'change', 'modify', 'edit', 'set'],
+              delete: ['delete', 'remove', 'clear', 'destroy'],
+              list: ['list', 'show', 'display', 'get', 'find'],
+              status: ['status', 'state', 'progress', 'completion']
+            };
+
+            let command = null;
+            let entities = {
+              priority: null,
+              status: null,
+              title: null,
+              description: null
+            };
+
+            // Detect command type
+            for (const [cmd, keywords] of Object.entries(patterns)) {
+              if (keywords.some(keyword => tokens.includes(keyword))) {
+                command = cmd;
+                break;
+              }
+            }
+
+            // Extract entities using compromise
+            const priorities = doc.match('#Priority').text();
+            if (priorities) {
+              const priorityMap = {
+                'critical': 'P0',
+                'urgent': 'P0',
+                'high': 'P1',
+                'medium': 'P2',
+                'low': 'P3'
+              };
+              entities.priority = priorityMap[priorities.toLowerCase()] || null;
+            }
+
+            // Extract status
+            const statuses = doc.match('#Status').text();
+            if (statuses) {
+              const statusMap = {
+                'todo': 'incoming',
+                'doing': 'in_progress',
+                'done': 'done',
+                'complete': 'done',
+                'finished': 'done'
+              };
+              entities.status = statusMap[statuses.toLowerCase()] || null;
+            }
+
+            // Extract title (first sentence or phrase)
+            const sentences = doc.sentences();
+            if (sentences.length > 0) {
+              entities.title = sentences[0].text().replace(/[.!?,;:]$/, '').trim();
+            }
+
+            // Extract description (remaining text)
+            if (sentences.length > 1) {
+              entities.description = sentences.slice(1).map(s => s.text()).join(' ').trim();
+            }
+
+            return {
+              command,
+              entities,
+              confidence: command ? 0.8 : 0.3,
+              originalText: text
+            };
+          }
+        }
+
+        const parser = new NLPParser();
+
+        const requestHandler = (req, res) => {
+          const setCORS = (res) => {
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+            res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+          };
+
+          setCORS(res);
+
+          if (req.method === 'OPTIONS') {
+            res.writeHead(200);
+            res.end();
+            return;
+          }
+
+          const url = new URL(req.url, 'http://localhost');
+
+          if (req.method === 'GET' && url.pathname === '/health') {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ status: 'ok', service: 'nlp-parser' }));
+            return;
+          }
+
+          if (req.method === 'POST' && url.pathname === '/parse') {
+            let body = '';
+            req.on('data', chunk => body += chunk);
+            req.on('end', () => {
+              try {
+                const { text } = JSON.parse(body);
+                const startTime = Date.now();
+                const result = parser.parseCommand(text);
+                const processingTime = Date.now() - startTime;
+                
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({
+                  ...result,
+                  processingTime,
+                  timestamp: new Date().toISOString()
+                }));
+              } catch (error) {
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: error.message }));
+              }
+            });
+            return;
+          }
+
+          res.writeHead(404, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Not found' }));
+        };
+
+        const server = http.createServer(requestHandler);
+        server.listen(4000, '0.0.0.0', () => {
+          console.log('NLP Parser listening on port 4000');
+        });
+        EOF
+        node nlp-parser.js
+      "
+    ports:
+      - "4000:4000"
+    networks:
+      - mcp-kanban-test
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:4000/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Integration test runner
+  integration-test-runner:
+    image: node:22-alpine
+    working_dir: /app
+    command: >
+      sh -lc "
+        npm install -g axios &&
+        cat > integration-tests.js << 'EOF'
+        const axios = require('axios');
+
+        const WIREMOCK_URL = 'http://wiremock:8080';
+        const NLP_PARSER_URL = 'http://nlp-parser:4000';
+
+        async function sleep(ms) {
+          return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function waitForService(url, maxAttempts = 30) {
+          for (let i = 0; i < maxAttempts; i++) {
+            try {
+              await axios.get(url, { timeout: 2000 });
+              return true;
+            } catch (error) {
+              if (i === maxAttempts - 1) throw error;
+              await sleep(1000);
+            }
+          }
+        }
+
+        async function runIntegrationTests() {
+          console.log('Starting MCP-Kanban Bridge integration tests...');
+          
+          try {
+            // Wait for all services to be ready
+            console.log('Waiting for services to be ready...');
+            await waitForService(`${WIREMOCK_URL}/__admin/health`);
+            await waitForService(`${NLP_PARSER_URL}/health`);
+            console.log('All services are ready!');
+
+            // Test 1: NLP Parser performance
+            console.log('\\nTest 1: NLP Parser performance');
+            const nlpTestTexts = [
+              'Create a high priority task for implementing user authentication',
+              'Update task status to done for the login feature',
+              'List all tasks in progress',
+              'Delete the low priority bug fix task'
+            ];
+
+            const nlpResults = [];
+            for (const text of nlpTestTexts) {
+              const startTime = Date.now();
+              const response = await axios.post(`${NLP_PARSER_URL}/parse`, { text });
+              const endTime = Date.now();
+              
+              nlpResults.push({
+                text,
+                result: response.data,
+                totalTime: endTime - startTime
+              });
+              
+              console.log(\`✓ Parsed: \${text} -> \${response.data.command} (\${response.data.processingTime}ms)\`);
+            }
+
+            // Verify NLP performance targets (<300ms 95th percentile)
+            const processingTimes = nlpResults.map(r => r.result.processingTime);
+            processingTimes.sort((a, b) => a - b);
+            const p95Index = Math.floor(processingTimes.length * 0.95);
+            const p95Time = processingTimes[p95Index] || processingTimes[processingTimes.length - 1];
+            
+            if (p95Time > 300) {
+              throw new Error(\`NLP parsing performance target missed: P95 = \${p95Time}ms > 300ms\`);
+            }
+            console.log(\`✓ NLP parsing performance target met: P95 = \${p95Time}ms\`);
+
+            // Test 2: MCP-Kanban Bridge functionality
+            console.log('\\nTest 2: MCP-Kanban Bridge functionality');
+            
+            // Create a task via bridge
+            const createTaskResponse = await axios.post(\`\${WIREMOCK_URL}/api/kanban/tasks\`, {
+              title: 'Integration Test Task',
+              description: 'Task created via MCP-Kanban bridge integration test',
+              priority: 'P1',
+              status: 'incoming'
+            });
+            
+            const createdTask = createTaskResponse.data;
+            console.log(\`✓ Task created via bridge: \${createdTask.id}\`);
+
+            // Update task status
+            const updateResponse = await axios.patch(\`\${WIREMOCK_URL}/api/kanban/tasks/\${createdTask.id}\`, {
+              status: 'in_progress'
+            });
+            
+            const updatedTask = updateResponse.data;
+            console.log(\`✓ Task status updated: \${updatedTask.status}\`);
+
+            // List tasks
+            const listResponse = await axios.get(\`\${WIREMOCK_URL}/api/kanban/tasks\`);
+            const tasks = listResponse.data;
+            console.log(\`✓ Listed \${tasks.length} tasks\`);
+
+            // Delete task
+            await axios.delete(\`\${WIREMOCK_URL}/api/kanban/tasks/\${createdTask.id}\`);
+            console.log(\`✓ Task deleted\`);
+
+            // Test 3: Bridge event logging
+            console.log('\\nTest 3: Bridge event logging');
+            const logsResponse = await axios.get(\`\${WIREMOCK_URL}/api/bridge/logs\`);
+            const logs = logsResponse.data;
+            
+            const expectedEvents = ['task_created', 'task_status_updated', 'task_deleted'];
+            const loggedEvents = logs.map(log => log.event_type);
+            
+            for (const expectedEvent of expectedEvents) {
+              if (!loggedEvents.includes(expectedEvent)) {
+                throw new Error(\`Missing expected bridge event: \${expectedEvent}\`);
+              }
+            }
+            console.log(\`✓ All bridge events logged correctly\`);
+
+            // Test 4: Error handling
+            console.log('\\nTest 4: Error handling');
+            
+            try {
+              await axios.get(\`\${WIREMOCK_URL}/api/kanban/tasks/invalid-id\`);
+              throw new Error('Should have failed for invalid task ID');
+            } catch (error) {
+              if (error.response?.status === 404) {
+                console.log('✓ Correctly handled invalid task ID');
+              } else {
+                throw error;
+              }
+            }
+
+            try {
+              await axios.post(\`\${WIREMOCK_URL}/api/kanban/tasks\`, {
+                // Missing required title
+                description: 'Invalid task'
+              });
+              throw new Error('Should have failed for missing required fields');
+            } catch (error) {
+              if (error.response?.status === 400) {
+                console.log('✓ Correctly handled missing required fields');
+              } else {
+                throw error;
+              }
+            }
+
+            console.log('\\n🎉 All MCP-Kanban Bridge integration tests passed!');
+            
+          } catch (error) {
+            console.error('❌ Integration test failed:', error.message);
+            if (error.response) {
+              console.error('Response status:', error.response.status);
+              console.error('Response data:', error.response.data);
+            }
+            process.exit(1);
+          }
+        }
+
+        runIntegrationTests();
+        EOF
+        node integration-tests.js
+      "
+    networks:
+      - mcp-kanban-test
+    depends_on:
+      wiremock:
+        condition: service_healthy
+      nlp-parser:
+        condition: service_healthy
+      sqlite-db:
+        condition: service_started
+    environment:
+      - NODE_ENV=test
+
+volumes:
+  sqlite-data:
+
+networks:
+  mcp-kanban-test:
+    driver: bridge

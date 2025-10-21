@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0585-TS2564-command-handlers",
+  "description": "Massive fixture for TS2564 from packages/kanban/src/cli/command-handlers.ts",
+  "originalPath": "packages/kanban/src/cli/command-handlers.ts",
+  "targetErrorCode": "TS2564",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 585,
+  "generatedAt": "2025-10-15T06:55:37.888Z"
+}

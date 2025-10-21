@@ -1,0 +1,40 @@
+{
+  "name": "opencode-session-manager-frontend",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/frontends/opencode-session-manager-frontend/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/frontends/opencode-session-manager-frontend",
+        "main": "packages/frontends/opencode-session-manager-frontend/src/index.ts",
+        "tsConfig": "packages/frontends/opencode-session-manager-frontend/tsconfig.json",
+        "assets": ["packages/frontends/opencode-session-manager-frontend/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/frontends/opencode-session-manager-frontend/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/frontends/opencode-session-manager-frontend/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "coverageReporters": ["text"]
+        }
+      }
+    }
+  },
+  "tags": ["scope:frontend", "type:ui"]
+}

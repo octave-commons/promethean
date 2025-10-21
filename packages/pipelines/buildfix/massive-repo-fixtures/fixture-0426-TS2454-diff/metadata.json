@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0426-TS2454-diff",
+  "description": "Massive fixture for TS2454 from packages/apply-patch/src/diff.ts",
+  "originalPath": "packages/apply-patch/src/diff.ts",
+  "targetErrorCode": "TS2454",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 426,
+  "generatedAt": "2025-10-15T06:38:49.486Z"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0400-TS1432-cli",
+  "description": "Massive fixture for TS1432 from packages/apply-patch/src/cli.ts",
+  "originalPath": "packages/apply-patch/src/cli.ts",
+  "targetErrorCode": "TS1432",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 400,
+  "generatedAt": "2025-10-15T06:55:37.816Z"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0130-TS1208-state",
+  "description": "Massive fixture for TS1208 from packages/piper/src/lib/state.ts",
+  "originalPath": "packages/piper/src/lib/state.ts",
+  "targetErrorCode": "TS1208",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 130,
+  "generatedAt": "2025-10-15T06:55:37.715Z"
+}

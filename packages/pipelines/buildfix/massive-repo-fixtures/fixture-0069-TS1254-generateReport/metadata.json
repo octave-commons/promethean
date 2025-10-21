@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0069-TS1254-generateReport",
+  "description": "Massive fixture for TS1254 from packages/report-forge/src/lib/generateReport.ts",
+  "originalPath": "packages/report-forge/src/lib/generateReport.ts",
+  "targetErrorCode": "TS1254",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 69,
+  "generatedAt": "2025-10-15T06:38:49.332Z"
+}

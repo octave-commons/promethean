@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0023-TS1337-03-index-repo",
+  "description": "Massive fixture for TS1337 from packages/boardrev/src/03-index-repo.ts",
+  "originalPath": "packages/boardrev/src/03-index-repo.ts",
+  "targetErrorCode": "TS1337",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 23,
+  "generatedAt": "2025-10-15T06:38:49.307Z"
+}

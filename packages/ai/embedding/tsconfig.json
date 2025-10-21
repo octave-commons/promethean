@@ -1,0 +1,29 @@
+{
+  "extends": "../../../config/tsconfig.base.json",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022", "DOM"],
+    "downlevelIteration": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "rootDir": "src",
+    "outDir": "dist",
+    "composite": true,
+    "declaration": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "baseUrl": "../../../",
+    "paths": {
+      "@promethean/platform": ["packages/platform"],
+      "@promethean/platform/*": ["packages/platform/*"],
+      "@promethean/utils": ["packages/utils"],
+      "@promethean/utils/*": ["packages/utils/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "references": [{ "path": "../../platform" }, { "path": "../../utils" }]
+}

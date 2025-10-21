@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0428-TS1274-task-cache",
+  "description": "Massive fixture for TS1274 from packages/kanban/src/board/task-cache.ts",
+  "originalPath": "packages/kanban/src/board/task-cache.ts",
+  "targetErrorCode": "TS1274",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 428,
+  "generatedAt": "2025-10-15T06:38:49.487Z"
+}

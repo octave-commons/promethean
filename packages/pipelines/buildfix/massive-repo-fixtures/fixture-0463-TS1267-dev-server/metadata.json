@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0463-TS1267-dev-server",
+  "description": "Massive fixture for TS1267 from packages/kanban/src/lib/dev-server.ts",
+  "originalPath": "packages/kanban/src/lib/dev-server.ts",
+  "targetErrorCode": "TS1267",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 463,
+  "generatedAt": "2025-10-15T06:38:49.501Z"
+}

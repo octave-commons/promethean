@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0175-TS4115-merge",
+  "description": "Massive fixture for TS4115 from packages/kanban/src/board/config/merge.ts",
+  "originalPath": "packages/kanban/src/board/config/merge.ts",
+  "targetErrorCode": "TS4115",
+  "errorCategory": "Declaration Error",
+  "fixtureNumber": 175,
+  "generatedAt": "2025-10-15T06:55:37.733Z"
+}

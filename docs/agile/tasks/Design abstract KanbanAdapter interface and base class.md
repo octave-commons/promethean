@@ -10,50 +10,11 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
+lastCommitSha: "deec21fe4553bb49020b6aa2bdfee1b89110f15d"
+commitHistory: 
+  - sha: "deec21fe4553bb49020b6aa2bdfee1b89110f15d"
+    timestamp: "2025-10-19T16:27:40.277Z"
+    action: "Bulk commit tracking initialization"
 ---
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Task: Design abstract KanbanAdapter interface and base class\n\n### Description\nCreate the foundational adapter architecture that will support multiple source/target types for kanban operations.\n\n### Requirements\n1. Define abstract KanbanAdapter interface with core methods:\n   - readTasks(): Promise<Task[]>\n   - writeTasks(tasks: Task[]): Promise<void>\n   - detectChanges(otherTasks: Task[]): Promise<SyncResult>\n   - applyChanges(changes: SyncChanges): Promise<void>\n   - validateLocation(): Promise<boolean>\n   - initialize(): Promise<void>\n\n2. Create base adapter class with common functionality\n3. Define Task, SyncResult, and SyncChanges interfaces\n4. Add proper error handling and validation\n5. Include TypeScript types for all adapter operations\n\n### Acceptance Criteria\n- Abstract interface defined in packages/kanban/src/adapters/adapter.ts\n- Base class implementation in packages/kanban/src/adapters/base-adapter.ts\n- All interfaces properly typed with TypeScript\n- Comprehensive error handling\n- Unit tests for interface compliance\n\n### Dependencies\nNone - this is the foundation task\n\n### Priority\nP0 - Critical for all subsequent adapter work
-
-## ⛓️ Blocked By
-
-Nothing
-
-
-
-## ⛓️ Blocks
-
-Nothing
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+## KanbanAdapter Interface Design\n\n### Core Methods\n- connect() - Establish connection\n- disconnect() - Clean shutdown  \n- readTasks() - Fetch tasks\n- createTask() - Create new task\n- updateTask() - Update task\n- deleteTask() - Delete task\n- syncTasks() - Bidirectional sync\n- validateConfig() - Config validation\n\n### Base Class Features\n- Error handling\n- Logging infrastructure\n- Rate limiting\n- Retry logic\n- Event emission\n\n### Dependencies\n- Blocks: Task 3 (adapter factory), Task 5 (board refactor)\n- Ready for: ready stage

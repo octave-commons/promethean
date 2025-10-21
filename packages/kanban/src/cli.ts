@@ -79,6 +79,7 @@ const HELP_TEXT =
   `  count    - Count tasks in columns\n\n` +
   `Advanced:\n` +
   `  audit    - Audit board consistency\n` +
+  `  heal     - Heal board issues with git tag management\n` +
   `  ui       - Start web UI\n` +
   `  dev      - Start development server`;
 
@@ -101,7 +102,7 @@ async function main(): Promise<void> {
     process.exit(0);
   }
 
-  const context: CliContext = { boardFile, tasksDir };
+  const context: CliContext = { boardFile, tasksDir, argv: normalizedArgs };
 
   if (cmd === 'process_sync') {
     const res = await processSync({

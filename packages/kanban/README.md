@@ -11,6 +11,7 @@ pnpm kanban --help
 Available subcommands: `count`, `getColumn`, `getByColumn`, `find`, `find-by-title`, `update_status`, `move_up`, `move_down`, `pull`, `push`, `sync`, `regenerate`, `indexForSearch`, `search`, `ui`, `process`, `process_sync`, `doccheck`, `create`, `update`, `delete`
 
 Key commands:
+
 - **CRUD Operations**:
   - `create` — create a new task with optional metadata.
   - `update` — update task title, content, or other properties.
@@ -35,11 +36,12 @@ Key commands:
 - `pnpm kanban count --kanban path --tasks path` – quick stats for automation.
 - `pnpm kanban ui --port 4173` – launch an interactive kanban dashboard in the
   browser (defaults to `http://127.0.0.1:4173`).
-All commands emit newline-delimited JSON for downstream tooling.
+  All commands emit newline-delimited JSON for downstream tooling.
 
 ## CRUD Command Usage
 
 ### Create Tasks
+
 ```bash
 # Basic task creation
 pnpm kanban create "Implement new feature"
@@ -49,16 +51,18 @@ pnpm kanban create "Bug fix for login issue" \
   --priority=P1 \
   --labels="bug,login,urgent" \
   --content="Users cannot login with SSO credentials. Need to investigate OAuth flow." \
-  --status=ready
+  --status=icebox
 ```
 
 **Create flags:**
+
 - `--priority <P0|P1|P2|P3>` - Set task priority (default: auto-generated from content)
 - `--labels <label1,label2>` - Comma-separated labels
 - `--content <text>` - Task description/content
-- `--status <column>` - Target column (default: incoming)
+- `--status <column>` - Target column (default: incoming, only icebox or incoming allowed for new tasks)
 
 ### Update Tasks
+
 ```bash
 # Update task title
 pnpm kanban update <task-uuid> --title "New updated title"
@@ -73,11 +77,13 @@ pnpm kanban update <task-uuid> \
 ```
 
 **Update flags:**
+
 - `--title <text>` - New task title
 - `--content <text>` - New task description/content
 - `--priority <P0|P1|P2|P3>` - New priority level
 
 ### Delete Tasks
+
 ```bash
 # Safe deletion (shows what will be deleted)
 pnpm kanban delete <task-uuid>
@@ -89,6 +95,7 @@ pnpm kanban delete <task-uuid> -y
 ```
 
 **Delete flags:**
+
 - `--confirm` or `-y` - Skip confirmation prompt and delete immediately
 
 **Note:** Tasks can be found using UUID from `find` or `search` commands: `pnpm kanban search "search term"`
@@ -112,6 +119,7 @@ pnpm kanban delete <task-uuid> -y
   the base for any relative entries.
 
 ## Paths
+
 - Default board: `docs/agile/boards/generated.md`
 - Default tasks directory: `docs/agile/tasks/`
 - Default index: `docs/agile/boards/index.jsonl`
@@ -119,6 +127,7 @@ pnpm kanban delete <task-uuid> -y
   environment variables as noted above.
 
 ## Docs guard (all packages)
+
 Enforced in CI by `.github/workflows/docs-guard.yml`. If a PR touches `packages/<slug>/src/**`, one of these must also change:
 
 - `docs/packages/<slug>/**`
@@ -137,9 +146,12 @@ and `--port` work as expected. The page refreshes automatically every minute,
 and you can trigger a manual refresh from the "Refresh" button in the header.
 
 ## Notes
+
 ## Env
+
 - `GITHUB_TOKEN`, `GITHUB_OWNER`, `GITHUB_REPO` for GitHub-side operations.
 - `KANBAN_BOARD_FILE`, `KANBAN_TASKS_DIR` for explicit paths.
 
 ## Process config
+
 See `docs/agile/process/README.md` for the YAML schema. An example lives at `docs/agile/process/duck-revival.yaml`.

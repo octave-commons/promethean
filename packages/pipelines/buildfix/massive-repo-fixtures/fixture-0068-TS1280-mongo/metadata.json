@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0068-TS1280-mongo",
+  "description": "Massive fixture for TS1280 from packages/changefeed/src/mongo.ts",
+  "originalPath": "packages/changefeed/src/mongo.ts",
+  "targetErrorCode": "TS1280",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 68,
+  "generatedAt": "2025-10-15T06:38:49.331Z"
+}

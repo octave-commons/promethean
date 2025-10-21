@@ -1,0 +1,358 @@
+# Agent Instruction File Patterns Analysis
+
+## Executive Summary
+
+This comprehensive analysis examines existing agent instruction file patterns across the Promethean Framework repository, focusing on structural conventions, metadata patterns, and standardization opportunities. The research covers 49 agent instruction files across two main directories (`.opencode/agent/` and `.claude/agents/`) and identifies key patterns for designing a cross-platform Clojure agent instruction generator system.
+
+## Repository Structure Analysis
+
+### Agent File Distribution
+
+```
+.opencode/agent/     : 28 agent files
+.claude/agents/      : 21 agent files
+.claude/agents/optimized/ : 10 optimized agent files
+```
+
+### Directory Patterns
+
+1. **`.opencode/agent/`** - Primary OpenCode agent definitions
+2. **`.claude/agents/`** - Claude-compatible agent definitions  
+3. **`.claude/agents/optimized/`** - Streamlined, boundary-enforced versions
+
+## Frontmatter Pattern Analysis
+
+### Common Frontmatter Fields
+
+#### Universal Fields (Present in 100% of files)
+- `description` - Multi-line description with usage examples
+
+#### OpenCode-Specific Fields
+- `mode` - Always set to "all"
+- `tools` - Detailed tool permission mappings (true/false)
+- `model` - LLM model specification (e.g., "zai-coding-plan/glm-4.5v")
+
+#### Claude-Specific Fields  
+- `name` - Agent identifier
+- `model` - Usually "sonnet"
+- `tools` - Array of tool names
+- `color` - Visual identifier (e.g., "purple", "cyan")
+- `security_category` - Security classification
+- `access_level` - Permission level
+- `audit_required` - Boolean for audit logging
+
+### Frontmatter Structure Patterns
+
+#### OpenCode Pattern (YAML)
+```yaml
+---
+description: >-
+  Use this agent when [purpose]. Examples: <example>Context: [scenario]
+  user: '[user request]' assistant: '[agent response]' 
+  <commentary>[reasoning]</commentary></example>
+mode: all
+tools:
+  tool_name: true/false
+  # ... extensive tool list
+model: model-name
+---
+```
+
+#### Claude Pattern (YAML)
+```yaml
+---
+name: agent-name
+description: Use this agent when [purpose]. Examples: <example>...</example>
+model: sonnet
+tools: [tool1, tool2, ...]
+security_category: category
+access_level: level
+---
+```
+
+## Content Structure Patterns
+
+### Standard Sections
+
+#### 1. Agent Identity & Role Definition
+- **OpenCode**: "You are a [Role], an expert in [domain]..."
+- **Claude**: "You are a [Role] with deep expertise in [domain]..."
+
+#### 2. Core Responsibilities Section
+- Bulleted lists of primary duties
+- Categorized by functional areas
+- Priority-based organization
+
+#### 3. Available Tools Documentation
+- **OpenCode**: Extensive tool categorization with descriptions
+- **Claude**: Minimal tool listing in frontmatter only
+
+#### 4. Process & Methodology
+- Step-by-step approaches
+- Decision-making frameworks
+- Quality assurance processes
+
+#### 5. Boundaries & Limitations
+- Scope definition
+- Delegation guidelines
+- Security constraints
+
+#### 6. Communication Style
+- Tone guidelines
+- Output format specifications
+- Interaction patterns
+
+## Tool Permission Patterns
+
+### OpenCode Tool Categories
+
+1. **Web Research & Information Gathering**
+   - `web-search-prime_webSearch`, `webfetch`
+   - Browser automation tools (`playwright_browser_*`)
+
+2. **Visual & Media Analysis**
+   - `zai-mcp-server_analyze_image`, `zai-mcp-server_analyze_video`
+
+3. **Code Analysis & Repository Research**
+   - `bash`, `gh_grep_searchGitHub`
+   - `serena_*` tools (advanced code analysis)
+
+4. **AI Processing & Analysis**
+   - `ollama-queue_*` tools
+
+5. **Process Management**
+   - `process_*`, `pm2_*` tools
+
+6. **Basic File Operations**
+   - `read`, `write`, `edit`, `glob`, `grep`, `list`
+
+### Claude Tool Patterns
+
+- Simplified arrays: `[Read, Write, Edit, Grep, Glob]`
+- Security-focused categorization
+- Minimal permissions principle
+
+## Agent Specialization Patterns
+
+### Functional Categories
+
+#### 1. Code Quality & Review
+- `code-reviewer`, `code-quality-specialist`
+- Focus: Static analysis, best practices, security review
+
+#### 2. Documentation
+- `code-documenter`
+- Focus: API docs, README generation, technical writing
+
+#### 3. Architecture & Design
+- `system-architect`, `task-architect`
+- Focus: High-level design, system integration
+
+#### 4. Security
+- `security-specialist`
+- Focus: Vulnerability assessment, compliance
+
+#### 5. Performance
+- `performance-engineer`
+- Focus: Optimization, monitoring, bottleneck analysis
+
+#### 6. Process Management
+- `kanban-board-enforcer`, `work-prioritizer`
+- Focus: Workflow enforcement, task management
+
+#### 7. Domain-Specific
+- `clojure-dsl-macro-architect`, `frontend-specialist`
+- Focus: Technology-specific expertise
+
+#### 8. Research & Analysis
+- `research-specialist`, `meta-agent`
+- Focus: Information gathering, agent optimization
+
+## Optimization Patterns (Claude Optimized)
+
+### Consolidation Strategy
+
+The optimized ecosystem demonstrates consolidation patterns:
+
+| Consolidated Agent | Merged From | Focus Area |
+|-------------------|-------------|------------|
+| `frontend-specialist` | `frontend-clojurescript-playwright-hacker` + `frontend-playwright-specialist` | E2E testing, frontend automation |
+| `task-architect` | `task-author` + `task-board-manager` + `task-decomposer` | Task lifecycle management |
+| `work-prioritizer` | `task-prioritizer` + `kanban-prioritizer` + `board-task-reviewer` | Work prioritization |
+| `code-quality-specialist` | `code-reviewer` + `kanban-code-reviewer` | Code quality assessment |
+
+### Boundary Enforcement Patterns
+
+1. **Minimal Tool Permissions** - Each agent has exactly what's needed
+2. **Clear Delegation Guidelines** - Explicit handoff instructions
+3. **Process & Boundaries Sections** - Scope definition and exclusions
+4. **Anti-Overlap Measures** - No duplicate responsibilities
+
+## Quality Standards Patterns
+
+### Documentation Standards
+- JSDoc/TypeDoc conventions for TypeScript
+- Markdown formatting consistency
+- Cross-references to related components
+- Tested and functional examples
+
+### Security Patterns
+- Role-based access control
+- Audit logging requirements
+- Security categorization
+- Constraint definitions
+
+### Communication Patterns
+- Constructive and educational tone
+- Clear explanation of reasoning
+- Specific, actionable feedback
+- Executive summaries with detailed analysis
+
+## Inconsistencies & Gaps
+
+### Structural Inconsistencies
+
+1. **Frontmatter Variations**
+   - OpenCode uses `description` only
+   - Claude uses `name` + `description`
+   - Tool permission formats differ significantly
+
+2. **Tool Permission Models**
+   - OpenCode: Detailed boolean mappings
+   - Claude: Simple arrays
+   - No standardized tool taxonomy
+
+3. **Security Classifications**
+   - Inconsistent category naming
+   - Different access level definitions
+   - Varied audit requirements
+
+### Content Gaps
+
+1. **Missing Standardization**
+   - No consistent section ordering
+   - Variable terminology usage
+   - Inconsistent example formats
+
+2. **Incomplete Documentation**
+   - Some agents lack boundary definitions
+   - Missing delegation guidelines
+   - Inconsistent tool usage documentation
+
+## Best Practices Identified
+
+### Frontmatter Best Practices
+1. Multi-line descriptions with concrete examples
+2. Clear usage scenarios with commentary
+3. Comprehensive tool permission definitions
+4. Security and access level specifications
+
+### Content Structure Best Practices
+1. Clear role definition with expertise areas
+2. Categorized responsibility lists
+3. Step-by-step process documentation
+4. Explicit boundary and limitation definitions
+5. Communication style guidelines
+
+### Tool Permission Best Practices
+1. Principle of least privilege
+2. Category-based tool organization
+3. Clear permission rationale
+4. Security-focused restrictions
+
+## Recommendations for Standardization
+
+### 1. Unified Frontmatter Schema
+```yaml
+---
+name: agent-identifier
+description: >
+  Multi-line description with examples
+model: preferred-model
+category: functional-category
+security:
+  level: access-level
+  category: security-category
+  audit_required: boolean
+tools:
+  permissions:
+    tool-category: allow/deny
+  specifics:
+    tool-name: detailed-config
+boundaries:
+  scope: defined-scope
+  exclusions: [excluded-tasks]
+  delegation: delegation-guidelines
+---
+```
+
+### 2. Standard Content Sections
+1. **Agent Identity** - Role and expertise definition
+2. **Core Responsibilities** - Categorized duty list
+3. **Available Tools** - Tool documentation with usage
+4. **Process Framework** - Step-by-step methodologies
+5. **Quality Standards** - Output and interaction guidelines
+6. **Boundaries & Limitations** - Scope and delegation rules
+7. **Communication Protocol** - Style and format guidelines
+
+### 3. Tool Permission Taxonomy
+- **Category-based permissions** (web, code, system, etc.)
+- **Granular controls** for specific tools
+- **Security classifications** for sensitive operations
+- **Audit requirements** for critical actions
+
+### 4. Cross-Platform Compatibility
+- **Format adapters** for different platforms
+- **Metadata transformation** rules
+- **Tool permission mapping** between systems
+- **Validation schemas** for consistency
+
+## Implementation Considerations
+
+### Clojure Agent Instruction Generator Design
+
+#### Core Components
+1. **Schema Definition** - Unified data structure for agent configs
+2. **Template System** - Platform-specific output generation
+3. **Validation Engine** - Consistency and completeness checking
+4. **Transformation Layer** - Cross-format conversion
+
+#### Key Features
+1. **Frontmatter Generation** - Standardized metadata output
+2. **Content Assembly** - Template-based section generation
+3. **Tool Permission Mapping** - Cross-platform permission translation
+4. **Validation Rules** - Quality and consistency enforcement
+
+#### Data Structures
+```clojure
+{:agent/name "agent-identifier"
+ :agent/description "Multi-line description with examples"
+ :agent/model "preferred-model"
+ :agent/category :functional-category
+ :agent/security {:level :access-level
+                  :category :security-category
+                  :audit-required? boolean}
+ :agent/tools {:permissions {:web :allow
+                             :code :allow
+                             :system :deny}
+               :specifics {"bash" {:enabled true
+                                   :restrictions ["sudo"]}}}
+ :agent/boundaries {:scope "defined-scope"
+                    :exclusions ["task1" "task2"]
+                    :delegation "guidelines"}
+ :agent/content {:identity "role definition"
+                 :responsibilities ["duty1" "duty2"]
+                 :processes ["step1" "step2"]
+                 :standards "quality guidelines"
+                 :communication "style guidelines"}}
+```
+
+## Conclusion
+
+The analysis reveals a rich ecosystem of agent instruction patterns with strong foundations but significant opportunities for standardization. The existing patterns provide excellent insights into agent design principles, tool permission management, and boundary enforcement. 
+
+The optimized agent ecosystem in `.claude/agents/optimized/` demonstrates best practices for consolidation, boundary enforcement, and minimal tool permissions that should inform the standardization effort.
+
+Key recommendations include unified frontmatter schemas, standardized content sections, tool permission taxonomies, and cross-platform compatibility layers. The Clojure agent instruction generator should incorporate these patterns while providing flexibility for platform-specific requirements.
+
+This analysis provides a comprehensive foundation for designing a robust, standardized agent instruction generation system that can serve the diverse needs of the Promethean Framework while maintaining consistency and quality across all agent definitions.

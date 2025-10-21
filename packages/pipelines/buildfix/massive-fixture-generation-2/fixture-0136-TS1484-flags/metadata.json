@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0136-TS1484-flags",
+  "description": "Massive fixture for TS1484 from packages/duck-utils/src/flags.ts",
+  "originalPath": "packages/duck-utils/src/flags.ts",
+  "targetErrorCode": "TS1484",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 136,
+  "generatedAt": "2025-10-15T06:55:37.718Z"
+}

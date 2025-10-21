@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0448-TS5024-lisp",
+  "description": "Massive fixture for TS5024 from packages/cli/src/lisp.ts",
+  "originalPath": "packages/cli/src/lisp.ts",
+  "targetErrorCode": "TS5024",
+  "errorCategory": "Compiler Options Error",
+  "fixtureNumber": 448,
+  "generatedAt": "2025-10-15T06:38:49.494Z"
+}

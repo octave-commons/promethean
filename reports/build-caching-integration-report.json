@@ -1,0 +1,84 @@
+{
+  "summary": {
+    "totalTests": 4,
+    "successfulTests": 4,
+    "successRate": 100,
+    "timestamp": "2025-10-15T18:54:33.529Z"
+  },
+  "results": {
+    "ci-workflow-caching": {
+      "success": true,
+      "analysis": {
+        "totalWorkflows": 7,
+        "workflowsWithCache": 7,
+        "pnpmCacheConfigs": [
+          ".github/workflows/build.yml",
+          ".github/workflows/test.yml",
+          ".github/workflows/test-unit.yml",
+          ".github/workflows/test-integration.yml",
+          ".github/workflows/test-e2e.yml",
+          ".github/workflows/test-coverage.yml",
+          ".github/workflows/lint.yml"
+        ],
+        "clojureCacheConfigs": [
+          ".github/workflows/build.yml",
+          ".github/workflows/test.yml"
+        ],
+        "issues": []
+      },
+      "timestamp": "2025-10-15T18:53:24.183Z"
+    },
+    "cache-key-effectiveness": {
+      "success": true,
+      "analysis": {
+        "pnpmLockHash": "e3b0c44298fc1c14",
+        "packageJsonHash": "e3b0c44298fc1c14",
+        "depsEdnFiles": [
+          "./deps.edn",
+          "./packages/clj-hacks/deps.edn",
+          "./packages/mcp-dev-ui-frontend/deps.edn",
+          "./.clojure/deps.edn"
+        ],
+        "bbEdnFiles": [
+          "./bb.edn"
+        ],
+        "recommendations": [
+          "Good: Using both lockfile and package.json for cache keys",
+          "Good: Clojure dependencies included in cache strategy",
+          "Consider: Include workspace file in cache key for monorepo changes"
+        ]
+      },
+      "timestamp": "2025-10-15T18:53:31.940Z"
+    },
+    "buildfix-performance": {
+      "success": true,
+      "isHealthy": false,
+      "providerCount": 1,
+      "benchmarkError": "spawnSync /bin/sh ETIMEDOUT",
+      "timestamp": "2025-10-15T18:54:33.527Z"
+    },
+    "cache-optimization-recommendations": {
+      "success": true,
+      "recommendations": {
+        "immediate": [],
+        "shortTerm": [
+          "Implement cache warming for critical paths",
+          "Add cache hit rate monitoring",
+          "Optimize cache restore keys for better hit rates"
+        ],
+        "longTerm": [
+          "Implement intelligent cache invalidation",
+          "Add cache size monitoring and cleanup",
+          "Consider distributed caching for large teams"
+        ],
+        "metrics": [
+          "Target cache hit rate: >80%",
+          "Target pnpm install time: <30s (warm cache)",
+          "Target Clojure deps time: <60s (warm cache)",
+          "Target BuildFix response time: <5s"
+        ]
+      },
+      "timestamp": "2025-10-15T18:54:33.528Z"
+    }
+  }
+}

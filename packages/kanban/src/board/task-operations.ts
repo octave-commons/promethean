@@ -11,7 +11,7 @@ export const indexedTaskToTask = (indexedTask: IndexedTask): Task => ({
   status: indexedTask.status,
   priority: indexedTask.priority,
   labels: indexedTask.labels ? [...indexedTask.labels] : [],
-  created_at: indexedTask.created,
+  created_at: indexedTask.created_at ?? indexedTask.created,
   estimates: {},
   content: indexedTask.content,
   slug: indexedTask.id,

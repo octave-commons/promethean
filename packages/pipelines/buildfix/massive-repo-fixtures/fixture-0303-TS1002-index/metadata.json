@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0303-TS1002-index",
+  "description": "Massive fixture for TS1002 from packages/kanban-processor/src/index.ts",
+  "originalPath": "packages/kanban-processor/src/index.ts",
+  "targetErrorCode": "TS1002",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 303,
+  "generatedAt": "2025-10-15T06:38:49.431Z"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0066-TS4115-index",
+  "description": "Massive fixture for TS4115 from packages/kanban/src/lib/task-content/index.ts",
+  "originalPath": "packages/kanban/src/lib/task-content/index.ts",
+  "targetErrorCode": "TS4115",
+  "errorCategory": "Declaration Error",
+  "fixtureNumber": 66,
+  "generatedAt": "2025-10-15T06:38:49.330Z"
+}

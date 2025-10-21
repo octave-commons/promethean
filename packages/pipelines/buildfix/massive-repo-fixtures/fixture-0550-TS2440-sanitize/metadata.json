@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0550-TS2440-sanitize",
+  "description": "Massive fixture for TS2440 from packages/apply-patch/src/sanitize.ts",
+  "originalPath": "packages/apply-patch/src/sanitize.ts",
+  "targetErrorCode": "TS2440",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 550,
+  "generatedAt": "2025-10-15T06:38:49.537Z"
+}

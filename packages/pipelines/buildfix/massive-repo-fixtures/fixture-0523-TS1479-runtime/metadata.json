@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0523-TS1479-runtime",
+  "description": "Massive fixture for TS1479 from packages/file-indexer/src/runtime.ts",
+  "originalPath": "packages/file-indexer/src/runtime.ts",
+  "targetErrorCode": "TS1479",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 523,
+  "generatedAt": "2025-10-15T06:38:49.526Z"
+}

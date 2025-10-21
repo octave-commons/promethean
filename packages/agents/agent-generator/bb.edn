@@ -1,0 +1,22 @@
+{:paths ["src" "resources"]
+ :tasks
+ {agent-generator:generate {:doc "Generate agent instruction files"
+                             :requires ([promethean.agent_generator.cli.core])
+                             :task (promethean.agent_generator.cli.core/main "generate")}
+  agent-generator:validate {:doc "Validate templates and configuration"
+                            :requires ([promethean.agent_generator.cli.core])
+                            :task (promethean.agent_generator.cli.core/main "validate")}
+  agent-generator:list-templates {:doc "List available templates"
+                                  :requires ([promethean.agent_generator.cli.core])
+                                  :task (promethean.agent_generator.cli.core/main "list-templates")}
+  agent-generator:build {:doc "Build for current platform"
+                         :requires ([promethean.agent_generator.build])
+                         :task (promethean.agent_generator.build/build-current)}
+  agent-generator:test {:doc "Run tests"
+                        :requires ([promethean.agent_generator.test.runner])
+                        :task (promethean.agent_generator.test.runner/run-all)}
+  agent-generator:clean {:doc "Clean build artifacts"
+                         :task (do
+                                 (babashka.fs/delete-tree "target")
+                                 (babashka.fs/delete-tree "dist")
+                                 (println "Cleaned build artifacts"))}}}

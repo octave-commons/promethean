@@ -1,7 +1,0 @@
-{:deps true
- :builds
- {:dev-ui {:target :browser
-           :output-dir "../static/dev-ui"
-           :asset-path "/ui/assets"
-           :modules {:main {:init-fn promethean.mcp.dev-ui.core/init}}
-           :devtools {:watch-dir "../static/dev-ui"}}}}

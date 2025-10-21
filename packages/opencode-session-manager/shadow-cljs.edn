@@ -1,15 +1,14 @@
  {:source-paths ["src"]
-  :dependencies []
+ :dependencies [[reagent "1.2.0"]
+                   [re-frame "1.3.0"]
+                   [binaryage/devtools "1.0.7"]
+                   ["@opencode-ai/sdk" "0.15.2"]]
  :builds
  {:app {:target :browser
         :output-dir "public/js"
         :asset-path "/js"
-        :modules {:main {:init-fn app.core/init
-                         :preloads [devtools.preload
-                                   day8.re-frame-10x.preload]}}
+        :modules {:main {:init-fn app.core/init}}
         :devtools {:http-root "public"
-                   :http-port 8084
-                   :preloads [devtools.preload
-                             day8.re-frame-10x.preload]}
-         :dev {:compiler-options {:closure-defines {re-frame.trace/trace-enabled? true
-                                                   day8.re-frame.tracing/trace-enabled? true}}}}}}
+                   :http-port 8084}
+         :dev {:compiler-options {:closure-defines {}}}
+         :release {:compiler-options {:optimizations :advanced}}}}}}

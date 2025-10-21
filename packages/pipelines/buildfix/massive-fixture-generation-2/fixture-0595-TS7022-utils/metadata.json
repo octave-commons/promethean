@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0595-TS7022-utils",
+  "description": "Massive fixture for TS7022 from packages/boardrev/src/utils.ts",
+  "originalPath": "packages/boardrev/src/utils.ts",
+  "targetErrorCode": "TS7022",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 595,
+  "generatedAt": "2025-10-15T06:55:37.894Z"
+}

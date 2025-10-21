@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0384-TS1218-ui-server",
+  "description": "Massive fixture for TS1218 from packages/kanban/src/lib/ui-server.ts",
+  "originalPath": "packages/kanban/src/lib/ui-server.ts",
+  "targetErrorCode": "TS1218",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 384,
+  "generatedAt": "2025-10-15T06:55:37.810Z"
+}

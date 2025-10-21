@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0239-TS2552-keys",
+  "description": "Massive fixture for TS2552 from packages/auth-service/src/keys.ts",
+  "originalPath": "packages/auth-service/src/keys.ts",
+  "targetErrorCode": "TS2552",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 239,
+  "generatedAt": "2025-10-15T06:55:37.753Z"
+}

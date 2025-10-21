@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0236-TS2403-task-cache",
+  "description": "Massive fixture for TS2403 from packages/kanban/src/board/task-cache.ts",
+  "originalPath": "packages/kanban/src/board/task-cache.ts",
+  "targetErrorCode": "TS2403",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 236,
+  "generatedAt": "2025-10-15T06:55:37.752Z"
+}

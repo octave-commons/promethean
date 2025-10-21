@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0278-TS1196-generateReport",
+  "description": "Massive fixture for TS1196 from packages/report-forge/src/lib/generateReport.ts",
+  "originalPath": "packages/report-forge/src/lib/generateReport.ts",
+  "targetErrorCode": "TS1196",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 278,
+  "generatedAt": "2025-10-15T06:38:49.417Z"
+}

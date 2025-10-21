@@ -1,0 +1,8 @@
+{
+  "name": "buildfix-massive-fixture-fixture-0488-TS1479-task-complexity",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "ts-morph": "^23.0.0"
+  }
+}

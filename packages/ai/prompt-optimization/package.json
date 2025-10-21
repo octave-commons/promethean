@@ -1,0 +1,59 @@
+{
+  "name": "@promethean/prompt-optimization",
+  "version": "2.0.0",
+  "description": "Prompt Optimization v2.0 - qwen3:4b-instruct 100k context optimization system",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "ava",
+    "deploy": "tsx src/deploy.ts",
+    "deployment:status": "tsx -e \"import { deploymentManager } from './src/deployment-manager.js'; deploymentManager.getStatus().then(console.log)\"",
+    "deployment:metrics": "tsx -e \"import { deploymentManager } from './src/deployment-manager.js'; const status = deploymentManager.getStatus(); console.log('Metrics:', status.metrics)\"",
+    "deployment:report": "tsx -e \"import { deploymentManager } from './src/deployment-manager.js'; console.log(JSON.stringify(deploymentManager.generateReport(), null, 2))\"",
+    "deployment:phase2": "tsx -e \"import { deploymentManager } from './src/deployment-manager.js'; deploymentManager.transitionToPhase('gradual', 50).then(() => console.log('Transitioned to Phase 2'))\"",
+    "monitoring:start": "tsx -e \"import { monitoringDashboard } from './src/monitoring-dashboard.js'; monitoringDashboard.initialize().then(() => console.log('Monitoring started'))\"",
+    "ab:test": "tsx -e \"import { abTesting } from './src/ab-testing.js'; abTesting.runDefaultTests().then(console.log)\"",
+    "clean": "rm -rf dist",
+    "lint": "eslint src --ext .ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "prompt-optimization",
+    "ai",
+    "llm",
+    "qwen3",
+    "adaptive-routing",
+    "ab-testing",
+    "monitoring"
+  ],
+  "author": "Promethean Team",
+  "license": "MIT",
+  "dependencies": {
+    "@promethean/level-cache": "workspace:*",
+    "fastify": "^4.24.3",
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.0",
+    "@types/ws": "^8.5.8",
+    "ava": "^5.3.1",
+    "eslint": "^9.33.0",
+    "tsx": "^4.6.2",
+    "typescript": "^5.2.2"
+  },
+  "ava": {
+    "files": [
+      "src/**/*.test.ts"
+    ],
+    "typescript": {
+      "rewritePaths": {
+        "src/": "dist/"
+      }
+    }
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

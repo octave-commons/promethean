@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0560-TS1240-08-watchers",
+  "description": "Massive fixture for TS1240 from packages/boardrev/src/08-watchers.ts",
+  "originalPath": "packages/boardrev/src/08-watchers.ts",
+  "targetErrorCode": "TS1240",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 560,
+  "generatedAt": "2025-10-15T06:55:37.877Z"
+}

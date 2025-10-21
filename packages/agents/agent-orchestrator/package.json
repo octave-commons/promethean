@@ -1,0 +1,59 @@
+{
+  "name": "@promethean/agent-orchestrator",
+  "version": "1.0.0",
+  "description": "Agent session management and orchestration for Promethean framework",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "ava",
+    "coverage": "c8 ava",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "lint": "eslint src --ext .ts",
+    "dev": "tsc --watch"
+  },
+  "keywords": [
+    "agent",
+    "orchestration",
+    "session",
+    "management",
+    "promethean"
+  ],
+  "author": "Promethean Framework",
+  "license": "MIT",
+  "dependencies": {
+    "@promethean/persistence": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ava": "^6.0.0",
+    "c8": "^10.0.0",
+    "eslint": "^9.0.0",
+    "typescript": "^5.0.0"
+  },
+  "ava": {
+    "extensions": {
+      "ts": "module"
+    },
+    "nodeArguments": [
+      "--loader",
+      "ts-node/esm"
+    ]
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ]
+}

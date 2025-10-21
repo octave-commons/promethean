@@ -1,0 +1,27 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/api/kanban/tasks",
+    "headers": {
+      "Content-Type": {
+        "equalTo": "application/json"
+      }
+    }
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "id": "{{randomValue length=8 type='ALPHANUMERIC'}}",
+      "title": "{{jsonPath request.body '$.title'}}",
+      "description": "{{jsonPath request.body '$.description'}}",
+      "priority": "{{jsonPath request.body '$.priority'}}",
+      "status": "{{jsonPath request.body '$.status'}}",
+      "created_at": "{{now}}",
+      "updated_at": "{{now}}"
+    },
+    "transformers": ["response-template"]
+  }
+}

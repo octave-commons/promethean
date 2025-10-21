@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0176-TS1240-wip-sheriff",
+  "description": "Massive fixture for TS1240 from packages/kanban/src/scripts/wip-sheriff.ts",
+  "originalPath": "packages/kanban/src/scripts/wip-sheriff.ts",
+  "targetErrorCode": "TS1240",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 176,
+  "generatedAt": "2025-10-15T06:38:49.374Z"
+}

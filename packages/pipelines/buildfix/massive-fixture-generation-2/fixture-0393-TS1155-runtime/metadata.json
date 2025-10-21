@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0393-TS1155-runtime",
+  "description": "Massive fixture for TS1155 from packages/file-indexer/src/runtime.ts",
+  "originalPath": "packages/file-indexer/src/runtime.ts",
+  "targetErrorCode": "TS1155",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 393,
+  "generatedAt": "2025-10-15T06:55:37.813Z"
+}

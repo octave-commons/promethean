@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0437-TS1035-07-wip-resolution",
+  "description": "Massive fixture for TS1035 from packages/boardrev/src/07-wip-resolution.ts",
+  "originalPath": "packages/boardrev/src/07-wip-resolution.ts",
+  "targetErrorCode": "TS1035",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 437,
+  "generatedAt": "2025-10-15T06:55:37.830Z"
+}

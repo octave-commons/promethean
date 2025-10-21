@@ -1,9 +1,9 @@
 import type { IndexedTask } from "./types.js";
-import { openLevelCache, type Cache } from "@promethean/level-cache";
+import { openLmdbCache, type Cache } from "@promethean/lmdb-cache";
 
 /**
  * TaskCache interface for efficient task storage and retrieval
- * Abstracts over level-cache to provide task-specific operations
+ * Abstracts over lmdb-cache to provide task-specific operations
  */
 export interface TaskCache {
   // Direct access operations
@@ -54,9 +54,9 @@ const CacheKeys = {
 } as const;
 
 /**
- * Level-cache based TaskCache implementation
+ * LMDB-cache based TaskCache implementation
  */
-export class LevelTaskCache implements TaskCache {
+export class LmdbTaskCache implements TaskCache {
   private readonly tasksCache: Cache<IndexedTask>;
   private readonly indexesCache: Cache<string[]>;
   private readonly metaCache: Cache<{ value: any; timestamp?: number }>;
@@ -72,11 +72,11 @@ export class LevelTaskCache implements TaskCache {
   }
 
   /**
-   * Initialize the cache with proper level-cache instances
+   * Initialize the cache with proper lmdb-cache instances
    */
-  static async create(options: TaskCacheOptions): Promise<LevelTaskCache> {
+  static async create(options: TaskCacheOptions): Promise<LmdbTaskCache> {
     // Create single cache with multiple namespaces to avoid connection conflicts
-    const baseCache = await openLevelCache<any>({
+    const baseCache = await openLmdbCache<any>({
       path: options.path,
       namespace: options.namespace || 'kanban',
       defaultTtlMs: options.defaultTtlMs,
@@ -87,7 +87,7 @@ export class LevelTaskCache implements TaskCache {
     const indexesCache = baseCache.withNamespace('indexes');
     const metaCache = baseCache.withNamespace('meta');
 
-    return new LevelTaskCache(tasksCache, indexesCache, metaCache);
+    return new LmdbTaskCache(tasksCache, indexesCache, metaCache);
   }
 
   async getTask(uuid: string): Promise<IndexedTask | undefined> {
@@ -172,9 +172,9 @@ export class LevelTaskCache implements TaskCache {
     );
 
     // Find intersection (tasks that match all terms)
-    const commonTaskIds = taskIdSets.reduce((intersection, taskIds) => {
+    const commonTaskIds = taskIdSets.reduce((intersection: string[] | undefined, taskIds: string[] | undefined) => {
       if (!intersection || intersection.length === 0) return taskIds || [];
-      return intersection.filter(uuid => taskIds && taskIds.includes(uuid));
+      return intersection.filter((uuid: string) => taskIds && taskIds.includes(uuid));
     }, taskIdSets[0] || []);
 
     // Yield matching tasks
@@ -346,7 +346,7 @@ export class LevelTaskCache implements TaskCache {
     const terms = searchableText.split(/\s+/)
       .map(term => term.replace(/[^\w]/g, ''))
       .filter(term => term.length > 2)
-      .filter((term, index, array) => array.indexOf(term) === index); // unique
+      .filter((term: string, index: number, array: string[]) => array.indexOf(term) === index); // unique
 
     // Add task ID to each term's index
     for (const term of terms) {
@@ -369,7 +369,7 @@ export class LevelTaskCache implements TaskCache {
     const terms = searchableText.split(/\s+/)
       .map(term => term.replace(/[^\w]/g, ''))
       .filter(term => term.length > 2)
-      .filter((term, index, array) => array.indexOf(term) === index);
+      .filter((term: string, index: number, array: string[]) => array.indexOf(term) === index);
 
     for (const term of terms) {
       if (task.uuid) {
@@ -404,5 +404,5 @@ export class LevelTaskCache implements TaskCache {
  * Factory function to create a TaskCache instance
  */
 export const createTaskCache = async (options: TaskCacheOptions): Promise<TaskCache> => {
-  return await LevelTaskCache.create(options);
+  return await LmdbTaskCache.create(options);
 };

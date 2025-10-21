@@ -12,7 +12,6 @@ description: >-
   appropriately.'</example> <example>Context: User has a task but isn't sure
   which agent should handle it. user: 'I need to optimize our database queries
   but I'm not sure if this is a backend task or requires a specialized approach'
-  assistant: 'I'll use the task-orchestrator agent to analyze this task and
   determine the best agent to handle it.'</example>
 mode: all
 ---

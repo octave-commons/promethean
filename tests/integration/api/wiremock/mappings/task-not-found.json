@@ -1,0 +1,16 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPattern": "/api/kanban/tasks/(invalid|nonexistent|404).*"
+  },
+  "response": {
+    "status": 404,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "error": "Task not found",
+      "message": "The requested task could not be found"
+    }
+  }
+}

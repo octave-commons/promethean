@@ -1,11 +1,55 @@
 {
-  "extends": "../../config/tsconfig.base.json",
   "compilerOptions": {
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": false,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "allowArbitraryExtensions": false,
+    "allowImportingTsExtensions": false,
+    "declaration": true,
+    "declarationMap": true,
+    "importHelpers": false,
+    "newLine": "lf",
+    "noEmitHelpers": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "experimentalDecorators": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable", "esnext.disposable"],
+    "target": "esnext",
+    "useDefineForClassFields": true,
+    "baseUrl": ".",
+    "paths": {
+      "@shared/ts/*": ["../shared/ts/dist/*"],
+      "@promethean/test-utils/*": ["../packages/test-utils/dist/*"],
+      "@promethean/legacy/*": ["../packages/legacy/*"]
+    },
+    "types": ["node", "ava", "./src/types/jsedn.d.ts"],
     "rootDir": "src",
     "outDir": "dist",
-    "composite": true,
-    "declaration": true
+    "composite": true
   },
-  "include": ["src/**/*"],
-  "references": []
+  "files": [
+    "src/index.ts",
+    "src/ecosystem.ts",
+    "src/ecosystem-secure.ts",
+    "src/edn.ts",
+    "src/edn-fixed.ts",
+    "src/bin/shadow-conf.ts",
+    "src/bin/shadow-conf-secure.ts",
+    "src/tests/ecosystem.test.ts",
+    "src/tests/security-final.test.ts"
+  ],
+  "exclude": ["dist", "node_modules", "..", "../.."]
 }

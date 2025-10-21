@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0028-TS7041-01-scan",
+  "description": "Massive fixture for TS7041 from packages/readmeflow/src/01-scan.ts",
+  "originalPath": "packages/readmeflow/src/01-scan.ts",
+  "targetErrorCode": "TS7041",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 28,
+  "generatedAt": "2025-10-15T06:38:49.309Z"
+}

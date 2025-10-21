@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0011-TS1273-styles",
+  "description": "Massive fixture for TS1273 from packages/kanban/src/frontend/styles.ts",
+  "originalPath": "packages/kanban/src/frontend/styles.ts",
+  "targetErrorCode": "TS1273",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 11,
+  "generatedAt": "2025-10-15T06:55:37.654Z"
+}

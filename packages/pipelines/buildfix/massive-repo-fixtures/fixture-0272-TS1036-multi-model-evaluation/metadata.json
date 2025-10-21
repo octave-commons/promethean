@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0272-TS1036-multi-model-evaluation",
+  "description": "Massive fixture for TS1036 from packages/boardrev/src/multi-model-evaluation.ts",
+  "originalPath": "packages/boardrev/src/multi-model-evaluation.ts",
+  "targetErrorCode": "TS1036",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 272,
+  "generatedAt": "2025-10-15T06:38:49.414Z"
+}

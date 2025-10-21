@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0030-TS1117-03-write",
+  "description": "Massive fixture for TS1117 from packages/readmeflow/src/03-write.ts",
+  "originalPath": "packages/readmeflow/src/03-write.ts",
+  "targetErrorCode": "TS1117",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 30,
+  "generatedAt": "2025-10-15T06:38:49.310Z"
+}

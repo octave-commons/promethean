@@ -1,0 +1,49 @@
+{
+  "name": "@promethean/agent-os-protocol",
+  "version": "1.0.0",
+  "description": "Agent OS Core Message Protocol - Unified messaging for agent coordination",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "ava",
+    "test:unit": "ava src/tests/unit/**/*.test.ts",
+    "test:integration": "ava src/tests/integration/**/*.test.ts",
+    "clean": "rm -rf dist",
+    "dev": "tsc --watch",
+    "lint": "eslint src --ext .ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "agent",
+    "protocol",
+    "messaging",
+    "coordination",
+    "crisis-management",
+    "service-mesh"
+  ],
+  "author": "Promethean Framework",
+  "license": "MIT",
+  "dependencies": {
+    "uuid": "^9.0.0",
+    "crypto": "^1.0.1",
+    "eventemitter3": "^5.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/uuid": "^9.0.0",
+    "ava": "^5.0.0",
+    "typescript": "^5.0.0",
+    "eslint": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0"
+  },
+  "ava": {
+    "extensions": [
+      "ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ]
+  }
+}

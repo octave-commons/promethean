@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0264-TS1056-task-operations",
+  "description": "Massive fixture for TS1056 from packages/kanban/src/board/task-operations.ts",
+  "originalPath": "packages/kanban/src/board/task-operations.ts",
+  "targetErrorCode": "TS1056",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 264,
+  "generatedAt": "2025-10-15T06:38:49.409Z"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0061-TS1479-types",
+  "description": "Massive fixture for TS1479 from packages/apply-patch/src/types.ts",
+  "originalPath": "packages/apply-patch/src/types.ts",
+  "targetErrorCode": "TS1479",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 61,
+  "generatedAt": "2025-10-15T06:38:49.328Z"
+}

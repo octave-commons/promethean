@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0531-TS1323-types",
+  "description": "Massive fixture for TS1323 from packages/file-indexer/src/types.ts",
+  "originalPath": "packages/file-indexer/src/types.ts",
+  "targetErrorCode": "TS1323",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 531,
+  "generatedAt": "2025-10-15T06:38:49.529Z"
+}

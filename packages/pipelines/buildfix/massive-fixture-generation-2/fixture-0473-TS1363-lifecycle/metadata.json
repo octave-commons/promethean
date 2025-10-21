@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0473-TS1363-lifecycle",
+  "description": "Massive fixture for TS1363 from packages/kanban/src/lib/task-content/lifecycle.ts",
+  "originalPath": "packages/kanban/src/lib/task-content/lifecycle.ts",
+  "targetErrorCode": "TS1363",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 473,
+  "generatedAt": "2025-10-15T06:55:37.843Z"
+}

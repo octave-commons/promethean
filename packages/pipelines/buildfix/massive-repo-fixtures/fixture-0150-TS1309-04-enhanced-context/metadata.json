@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0150-TS1309-04-enhanced-context",
+  "description": "Massive fixture for TS1309 from packages/boardrev/src/04-enhanced-context.ts",
+  "originalPath": "packages/boardrev/src/04-enhanced-context.ts",
+  "targetErrorCode": "TS1309",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 150,
+  "generatedAt": "2025-10-15T06:38:49.362Z"
+}

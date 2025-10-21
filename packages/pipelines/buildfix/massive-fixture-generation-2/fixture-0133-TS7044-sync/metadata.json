@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0133-TS7044-sync",
+  "description": "Massive fixture for TS7044 from packages/kanban/src/process/sync.ts",
+  "originalPath": "packages/kanban/src/process/sync.ts",
+  "targetErrorCode": "TS7044",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 133,
+  "generatedAt": "2025-10-15T06:55:37.716Z"
+}

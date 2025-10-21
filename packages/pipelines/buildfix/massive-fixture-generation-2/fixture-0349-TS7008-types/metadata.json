@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0349-TS7008-types",
+  "description": "Massive fixture for TS7008 from packages/kanban/src/lib/task-content/types.ts",
+  "originalPath": "packages/kanban/src/lib/task-content/types.ts",
+  "targetErrorCode": "TS7008",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 349,
+  "generatedAt": "2025-10-15T06:55:37.797Z"
+}

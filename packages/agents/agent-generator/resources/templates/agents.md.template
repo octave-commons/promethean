@@ -1,0 +1,230 @@
+# {{agent.name | title}} Agent Framework
+
+## 🧱 Overview
+
+**{{agent.name | title}}**: {{agent.description | default "Modular cognitive architecture for AI agents with embodied reasoning and perception-action loops."}}
+
+**Platform**: {{platform}}  
+**Generated**: {{timestamp}}  
+**Generation ID**: {{generation-id}}
+
+---
+
+## 📋 Current Project State
+
+### 🎯 Active Tasks
+{{#if kanban.active-tasks}}
+{{#each kanban.active-tasks}}
+- **{{title}}** ({{status | upper}}) - Priority: {{priority}}
+{{/each}}
+{{else}}
+No active tasks found.
+{{/if}}
+
+### 📊 Task Statistics
+{{#if kanban.statistics}}
+- **Total Tasks**: {{kanban.statistics.total-tasks}}
+- **Sections**: {{kanban.statistics.sections}}
+- **Last Updated**: {{kanban.statistics.last-updated}}
+{{else}}
+No kanban statistics available.
+{{/if}}
+
+---
+
+## 🛠️ Available Tools & Capabilities
+
+### Development Tools
+{{#if project.tools}}
+{{#each project.tools}}
+- **{{category}}**: {{#each tools}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
+{{/each}}
+{{else}}
+Standard development toolset.
+{{/if}}
+
+### Platform Features
+{{#platform bb}}
+- **Babashka**: Native Clojure interpreter with fast startup
+- **File System**: Full file system access
+- **Process Execution**: External process execution
+{{/platform}}
+
+{{#platform jvm}}
+- **JVM Clojure**: Full JVM with all libraries
+- **Multi-threading**: Concurrent execution support
+- **Database**: Database connectivity
+{{/platform}}
+
+{{#platform node-babashka}}
+- **Node.js Runtime**: JavaScript runtime environment
+- **NPM Integration**: Package management
+- **Async Operations**: Non-blocking I/O
+{{/platform}}
+
+{{#platform clojurescript}}
+- **ClojureScript**: Clojure to JavaScript compilation
+- **Browser Support**: Web browser compatibility
+- **Advanced Compilation**: Google Closure optimization
+{{/platform}}
+
+---
+
+## 🔧 Configuration
+
+### Environment Variables
+{{#if environment}}
+{{#each environment}}
+- **{{@key}}**: {{this}}
+{{/each}}
+{{else}}
+No specific environment variables configured.
+{{/if}}
+
+### Agent Configuration
+- **Name**: {{agent.name}}
+- **Type**: {{agent.type}}
+- **Capabilities**: {{#each agent.capabilities}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
+- **Restrictions**: {{#each agent.restrictions}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
+
+---
+
+## 📝 Usage Guidelines
+
+### Core Commands
+```bash
+# Generate agent instructions
+agent-generator generate
+
+# Validate configuration
+agent-generator validate
+
+# List available templates
+agent-generator list-templates
+```
+
+### Platform-Specific Usage
+
+#### Babashka
+```bash
+bb agent-generator:generate
+bb agent-generator:validate
+```
+
+#### JVM
+```bash
+clojure -M:run generate
+clojure -M:run validate
+```
+
+#### Node.js Babashka
+```bash
+nbb -m promethean.agent-generator.cli.core generate
+nbb -m promethean.agent-generator.cli.core validate
+```
+
+#### ClojureScript
+```bash
+shadow-cljs release agent-generator
+node dist/agent_generator.cjs generate
+```
+
+---
+
+## 🔄 Integration Points
+
+### Kanban System
+{{#if kanban}}
+- **Board File**: {{kanban.board-file}}
+- **API Endpoint**: {{#if kanban.api-endpoint}}{{kanban.api-endpoint}}{{else}}Not configured{{/if}}
+- **Statistics**: {{#if kanban.include-statistics}}Enabled{{else}}Disabled{{/if}}
+{{else}}
+Kanban integration not available.
+{{/if}}
+
+### File Index
+{{#if project}}
+- **Root Directory**: {{project.root-dir}}
+- **Packages**: {{#each project.packages}}{{name}}{{#unless @last}}, {{/unless}}{{/each}}
+- **Analysis**: {{#if project.analyze-packages}}Enabled{{else}}Disabled{{/if}}
+{{else}}
+File index integration not available.
+{{/if}}
+
+---
+
+## 🧪 Testing & Validation
+
+### Template Validation
+All templates are validated during generation:
+- Syntax checking
+- Variable resolution
+- Conditional logic validation
+
+### Configuration Validation
+Configuration is validated before generation:
+- Required fields presence
+- Platform compatibility
+- Path resolution
+
+---
+
+## 📊 Performance Notes
+
+### Generation Metrics
+{{#if generation.metrics}}
+- **Generation Time**: {{generation.metrics.generation-time}}ms
+- **Template Count**: {{generation.metrics.template-count}}
+- **Output Size**: {{generation.metrics.output-size}} bytes
+- **Memory Usage**: {{generation.metrics.memory-usage}} MB
+{{else}}
+Performance metrics not available.
+{{/if}}
+
+### Platform Optimizations
+{{#platform bb}}
+- Fast startup (<100ms)
+- Low memory footprint
+- Native binary execution
+{{/platform}}
+
+{{#platform jvm}}
+- Full library ecosystem
+- Advanced optimizations
+- Garbage collection tuning
+{{/platform}}
+
+{{#platform node-babashka}}
+- JavaScript runtime benefits
+- NPM package ecosystem
+- Async I/O operations
+{{/platform}}
+
+{{#platform clojurescript}}
+- Browser compatibility
+- Advanced compilation
+- Source map support
+{{/platform}}
+
+---
+
+## 🚀 Getting Started
+
+1. **Install Dependencies**: Ensure platform-specific dependencies are installed
+2. **Configure**: Set up environment variables and configuration files
+3. **Generate**: Run the generation command for your platform
+4. **Validate**: Use the validate command to check setup
+5. **Customize**: Modify templates as needed for specific requirements
+
+---
+
+## 📚 Additional Resources
+
+- **Documentation**: Check the `docs/` directory for detailed guides
+- **Templates**: Customize templates in `resources/templates/`
+- **Configuration**: Edit `agent-generator.config.edn` for persistent settings
+- **Examples**: See `examples/` directory for usage examples
+
+---
+
+*This file was generated by the Promethean Agent Instruction Generator on {{timestamp}}.*

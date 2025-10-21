@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0558-TS1103-runner",
+  "description": "Massive fixture for TS1103 from packages/piper/src/runner.ts",
+  "originalPath": "packages/piper/src/runner.ts",
+  "targetErrorCode": "TS1103",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 558,
+  "generatedAt": "2025-10-15T06:38:49.539Z"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0273-TS1355-task-tools",
+  "description": "Massive fixture for TS1355 from packages/kanban/src/lib/task-tools.ts",
+  "originalPath": "packages/kanban/src/lib/task-tools.ts",
+  "targetErrorCode": "TS1355",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 273,
+  "generatedAt": "2025-10-15T06:38:49.414Z"
+}

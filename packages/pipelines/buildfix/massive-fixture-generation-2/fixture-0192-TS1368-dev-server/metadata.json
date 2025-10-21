@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0192-TS1368-dev-server",
+  "description": "Massive fixture for TS1368 from packages/kanban/src/lib/dev-server.ts",
+  "originalPath": "packages/kanban/src/lib/dev-server.ts",
+  "targetErrorCode": "TS1368",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 192,
+  "generatedAt": "2025-10-15T06:55:37.738Z"
+}

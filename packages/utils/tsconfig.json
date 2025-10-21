@@ -5,7 +5,9 @@
     "outDir": "dist",
     "composite": true,
     "declaration": true,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "downlevelIteration": true
   },
   "include": ["src/**/*"],
   "exclude": ["src/tests/**/*"]

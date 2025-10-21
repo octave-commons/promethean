@@ -1,0 +1,85 @@
+{
+  "name": "Promethean Framework Development",
+  "dockerComposeFile": "../docker-compose.dev.yml",
+  "service": "promethean-dev",
+  "workspaceFolder": "/app",
+
+  // Features to install in the container
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20",
+      "nodeGypDependencies": true
+    },
+    "ghcr.io/devcontainers/features/pnpm:1": {
+      "version": "10.16.1"
+    }
+  },
+
+  // VS Code extensions to install
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+        "ms-vscode.vscode-typescript-next",
+        "formulahendry.auto-rename-tag",
+        "christian-kohler.path-intellisense",
+        "ms-vscode.vscode-json",
+        "redhat.vscode-yaml",
+        "ms-vscode-remote.remote-containers",
+        "ms-vscode.vscode-docker",
+        "ms-vscode.vscode-thunder-client"
+      ],
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash",
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": "explicit"
+        },
+        "typescript.preferences.importModuleSpecifier": "relative",
+        "typescript.suggest.autoImports": true,
+        "eslint.workingDirectories": ["packages/*", "services/*"],
+        "prettier.configPath": ".prettierrc.json"
+      }
+    }
+  },
+
+  // Forward ports
+  "forwardPorts": [3000, 8080, 8081, 3210, 9229],
+  "portsAttributes": {
+    "3000": {
+      "label": "Duck Web Frontend",
+      "onAutoForward": "notify"
+    },
+    "8081": {
+      "label": "Cephalon API",
+      "onAutoForward": "notify"
+    },
+    "3210": {
+      "label": "SmartGPT Bridge",
+      "onAutoForward": "notify"
+    },
+    "9229": {
+      "label": "Node.js Debugger",
+      "onAutoForward": "silent"
+    }
+  },
+
+  // Post-creation commands
+  "postCreateCommand": "pnpm install && pnpm build:all",
+
+  // Remote user
+  "remoteUser": "promethean",
+
+  // Mounts
+  "mounts": ["source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"],
+
+  // Lifecycle scripts
+  "onCreateCommand": "echo '🚀 Promethean development container ready!'",
+  "updateContentCommand": "pnpm install && pnpm build:all",
+  "postStartCommand": "pnpm dev:all"
+}

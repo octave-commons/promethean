@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0260-TS1357-url",
+  "description": "Massive fixture for TS1357 from packages/web-utils/src/url.ts",
+  "originalPath": "packages/web-utils/src/url.ts",
+  "targetErrorCode": "TS1357",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 260,
+  "generatedAt": "2025-10-15T06:38:49.408Z"
+}

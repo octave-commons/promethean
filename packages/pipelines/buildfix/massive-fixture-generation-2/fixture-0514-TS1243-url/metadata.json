@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0514-TS1243-url",
+  "description": "Massive fixture for TS1243 from packages/web-utils/src/url.ts",
+  "originalPath": "packages/web-utils/src/url.ts",
+  "targetErrorCode": "TS1243",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 514,
+  "generatedAt": "2025-10-15T06:55:37.859Z"
+}

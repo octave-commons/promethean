@@ -1,0 +1,8 @@
+{
+  "name": "buildfix-massive-fixture-fixture-0325-TS1005-helpers",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "ts-morph": "^23.0.0"
+  }
+}

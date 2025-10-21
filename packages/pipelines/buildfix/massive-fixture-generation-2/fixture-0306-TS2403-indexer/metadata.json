@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0306-TS2403-indexer",
+  "description": "Massive fixture for TS2403 from packages/kanban/src/board/indexer.ts",
+  "originalPath": "packages/kanban/src/board/indexer.ts",
+  "targetErrorCode": "TS2403",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 306,
+  "generatedAt": "2025-10-15T06:55:37.777Z"
+}

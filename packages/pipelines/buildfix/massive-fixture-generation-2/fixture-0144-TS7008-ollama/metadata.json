@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0144-TS7008-ollama",
+  "description": "Massive fixture for TS7008 from packages/report-forge/src/lib/ollama.ts",
+  "originalPath": "packages/report-forge/src/lib/ollama.ts",
+  "targetErrorCode": "TS7008",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 144,
+  "generatedAt": "2025-10-15T06:55:37.721Z"
+}

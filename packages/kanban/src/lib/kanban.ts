@@ -5,8 +5,10 @@ import { parseFrontmatter as parseMarkdownFrontmatter } from '@promethean/markdo
 import { loadKanbanConfig } from '../board/config.js';
 import { refreshTaskIndex, indexTasks, writeIndexFile, serializeTasks } from '../board/indexer.js';
 import { EventLogManager } from '../board/event-log.js';
+import { TaskGitTracker } from './task-git-tracker.js';
 import type { IndexTasksOptions } from '../board/indexer.js';
-import type { Board, ColumnData, Task } from './types.js';
+import type { Board, ColumnData, Task, EpicTask } from './types.js';
+import { getEpicSubtasks, calculateEpicStatus } from './epic.js';
 
 const NOW_ISO = () => new Date().toISOString();
 
@@ -55,11 +57,12 @@ const normalizeColumnDisplayName = (value: string): string => {
   return trimmed.length > 0 ? trimmed : 'Todo';
 };
 
-const columnKey = (name: string): string =>
+export const columnKey = (name: string): string =>
   normalizeColumnDisplayName(name)
     .normalize('NFKD')
     .toLowerCase()
-    .replace(/[^a-z0-9_]+/g, '');
+    .replace(/[\s-]+/g, '_') // Convert spaces and hyphens to underscores
+    .replace(/[^a-z0-9_]+/g, ''); // Remove other special chars
 
 const tokenizeForLabels = (text: string): ReadonlyArray<string> =>
   text
@@ -542,6 +545,46 @@ export const findTaskByTitle = (board: Board, title: string): Task | undefined =
   return undefined;
 };
 
+/**
+ * Validates that a status is a valid starting status for new tasks.
+ *
+ * Based on kanban workflow rules, tasks should only be created in icebox or incoming
+ * to ensure proper workflow adherence and prevent bypassing of intake/planning stages.
+ *
+ * @param column - The column name to validate as a starting status
+ * @throws {Error} When the column is not a valid starting status. The error message
+ *                 includes the invalid status, list of valid statuses, and usage guidance.
+ *
+ * @example
+ * // Valid usage - no error thrown
+ * validateStartingStatus('icebox');
+ * validateStartingStatus('incoming');
+ *
+ * @example
+ * // Invalid usage - throws error
+ * try {
+ *   validateStartingStatus('todo');
+ * } catch (error) {
+ *   console.log(error.message);
+ *   // Output: Invalid starting status: "todo". Tasks can only be created with starting statuses: icebox, incoming. Use --status flag to specify a valid starting status when creating tasks.
+ * }
+ *
+ * @since 2025.10.15
+ * @see {@link createTask} - Function that uses this validation
+ * @see {@link https://github.com/promethean/docs/agile/process.md} - Kanban workflow documentation
+ */
+export const validateStartingStatus = (column: string): void => {
+  const validStartingStatuses = ['icebox', 'incoming'];
+  const normalizedColumn = columnKey(column);
+
+  if (!validStartingStatuses.includes(normalizedColumn)) {
+    throw new Error(
+      `Invalid starting status: "${column}". Tasks can only be created with starting statuses: ${validStartingStatuses.join(', ')}. ` +
+        `Use --status flag to specify a valid starting status when creating tasks.`,
+    );
+  }
+};
+
 const ensureColumn = (board: Board, column: string): ColumnData => {
   const key = columnKey(column);
   let existing = board.columns.find((col) => columnKey(col.name) === key);
@@ -645,7 +688,21 @@ const serializeBoard = (board: Board): string => {
           ? String(task.priority).trim()
           : '';
       const prioritySegment = priorityValue.length > 0 ? `prio:${priorityValue}` : '';
+
+      // Add epic-specific information
+      let epicSegment = '';
+      if (task.type === 'epic') {
+        const subtasks = getEpicSubtasks(board, task as EpicTask);
+        const epicStatus = calculateEpicStatus(subtasks);
+        epicSegment = `📋 epic:${epicStatus} (${subtasks.length} tasks)`;
+      } else if (task.epicId) {
+        epicSegment = `🔗 subtask of:${task.epicId.slice(0, 8)}...`;
+      }
+
       const segments = [`- [${done}]`, wikiLink];
+      if (epicSegment.length > 0) {
+        segments.push(epicSegment);
+      }
       if (labelSegment.length > 0) {
         segments.push(labelSegment);
       }
@@ -736,13 +793,94 @@ export const updateStatus = async (
   const currentStatus = found.status;
   const normalizedStatus = normalizeColumnDisplayName(newStatus);
 
+  // P0 Security Task Validation Gate
+  try {
+    const { validateP0SecurityTask } = await import('./validation/index.js');
+    const p0Validation = await validateP0SecurityTask(found, currentStatus, normalizedStatus, {
+      repoRoot: process.cwd(),
+      tasksDir: tasksDir,
+      skipGitChecks: false,
+      skipFileChecks: false,
+    });
+
+    if (!p0Validation.valid) {
+      // Restore task to its original column
+      let originalColumn = board.columns.find(
+        (c) => columnKey(c.name) === columnKey(currentStatus),
+      );
+      if (originalColumn) {
+        originalColumn.tasks = [...originalColumn.tasks, found];
+        originalColumn.count += 1;
+      }
+
+      const errorMessage = `🚨 P0 Security Validation Failed:\n${p0Validation.errors.map((error) => `  ❌ ${error}`).join('\n')}`;
+      const warningMessage =
+        p0Validation.warnings.length > 0
+          ? `\n⚠️  Warnings:\n${p0Validation.warnings.map((warning) => `  ⚡ ${warning}`).join('\n')}`
+          : '';
+
+      throw new Error(errorMessage + warningMessage);
+    }
+
+    // Log warnings if present
+    if (p0Validation.warnings.length > 0) {
+      console.warn(`⚠️  P0 Security Task Warnings:`);
+      p0Validation.warnings.forEach((warning) => {
+        console.warn(`  ⚡ ${warning}`);
+      });
+    }
+  } catch (error) {
+    // If P0 validation fails, restore task and re-throw
+    let originalColumn = board.columns.find((c) => columnKey(c.name) === columnKey(currentStatus));
+    if (originalColumn) {
+      originalColumn.tasks = [...originalColumn.tasks, found];
+      originalColumn.count += 1;
+    }
+    throw error;
+  }
+
   // Transition Rules Validation (if engine is provided)
   if (transitionRulesEngine) {
     try {
+      // Enrich task data with full content and estimates from indexed tasks
+      let enrichedTask = found;
+      if (tasksDir) {
+        try {
+          const configResult = await loadKanbanConfig();
+          const indexedTasks = await indexTasks({
+            tasksDir: configResult.config.tasksDir,
+            exts: configResult.config.exts,
+            repoRoot: configResult.config.repo,
+          });
+          const fullTaskData = indexedTasks.find((task) => task.uuid === found.uuid);
+          if (fullTaskData) {
+            // Convert estimates to match Task type expectations
+            const convertedEstimates = fullTaskData.estimates
+              ? {
+                  complexity: fullTaskData.estimates.complexity,
+                  scale: fullTaskData.estimates.scale
+                    ? Number(fullTaskData.estimates.scale) || undefined
+                    : undefined,
+                  time_to_completion: fullTaskData.estimates.time_to_completion,
+                }
+              : undefined;
+
+            // Merge full task data with board task, preserving board-specific fields
+            enrichedTask = {
+              ...found,
+              content: fullTaskData.content,
+              estimates: convertedEstimates,
+            };
+          }
+        } catch (error) {
+          console.warn('Warning: Failed to enrich task data for transition validation:', error);
+        }
+      }
+
       const transitionResult = await transitionRulesEngine.validateTransition(
         currentStatus,
         normalizedStatus,
-        found,
+        enrichedTask,
         board,
       );
 
@@ -756,17 +894,17 @@ export const updateStatus = async (
           originalColumn.count += 1;
         }
 
-        const errorMessage = `❌ Transition blocked: ${transitionResult.reason}`;
+        const errorMessage = `\u274c Transition blocked: ${transitionResult.reason}`;
         const suggestionMessage =
           transitionResult.suggestedAlternatives.length > 0
-            ? `\n💡 Suggested alternatives: ${transitionResult.suggestedAlternatives.join(', ')}`
+            ? `\n\ud83d\udca1 Suggested alternatives: ${transitionResult.suggestedAlternatives.join(', ')}`
             : '';
 
         throw new Error(errorMessage + suggestionMessage);
       }
 
       if (transitionResult.warnings.length > 0) {
-        console.warn(`⚠️  Transition warnings: ${transitionResult.warnings.join(', ')}`);
+        console.warn(`\u26a0\ufe0f  Transition warnings: ${transitionResult.warnings.join(', ')}`);
       }
     } catch (error) {
       // If transition validation fails, restore task and re-throw
@@ -815,10 +953,10 @@ export const updateStatus = async (
     });
     found.corrections = corrections;
 
-    console.log(`🔍 Audit correction logged: ${correctionReason}`);
+    console.log(`\ud83d\udd0d Audit correction logged: ${correctionReason}`);
   }
 
-  // Log the transition to event log
+  // Log transition to event log
   if (eventLogManager) {
     try {
       await eventLogManager.logTransition(
@@ -834,12 +972,12 @@ export const updateStatus = async (
         },
       );
     } catch (error) {
-      // Log warning but don't fail the status update
+      // Log warning but don't fail status update
       console.warn(`Warning: Could not log transition for ${uuid}: ${error}`);
     }
   }
 
-  // Update the task file if tasksDir is provided
+  // Update task file if tasksDir is provided
   if (tasksDir) {
     try {
       const taskFilePath = await resolveTaskFilePath(found, tasksDir);
@@ -854,17 +992,59 @@ export const updateStatus = async (
         // Prefer file timestamp over board timestamp to maintain data integrity
         const preservedCreatedAt = existingCreatedAt || found.created_at || NOW_ISO();
 
-        // Write updated task file with new status and preserved timestamp
-        const updatedContent = toFrontmatter({
+        // Initialize git tracker and update task with commit tracking
+        const gitTracker = new TaskGitTracker({ repoRoot: process.cwd() });
+
+        // Create task object with updated status
+        const updatedTask = {
           ...found,
           status: normalizedStatus,
           content: existingContent,
           created_at: preservedCreatedAt,
-        });
+        };
+
+        // Extract frontmatter from the existing file and update it with commit tracking
+        const existingFrontmatter = parsed.data || {};
+        const updatedFrontmatter = gitTracker.updateTaskCommitTracking(
+          {
+            ...existingFrontmatter,
+            ...updatedTask,
+          },
+          uuid,
+          'status_change',
+          `Status updated from ${currentStatus} to ${normalizedStatus}`,
+        );
+
+        // Create a complete Task object with the updated frontmatter
+        const finalTask: Task = {
+          ...updatedTask,
+          ...updatedFrontmatter,
+        };
+
+        // Write updated task file with new status and commit tracking
+        const updatedContent = toFrontmatter(finalTask);
         await fs.writeFile(taskFilePath, updatedContent, 'utf8');
+
+        // Create git commit for the status change
+        try {
+          const commitResult = await gitTracker.commitTaskChanges(
+            taskFilePath,
+            uuid,
+            'status_change',
+            `${found.title} - ${currentStatus} → ${normalizedStatus}`,
+          );
+
+          if (commitResult.success) {
+            console.log(`📝 Committed task change: ${commitResult.sha?.slice(0, 8)}...`);
+          } else {
+            console.warn(`Warning: Failed to commit task change: ${commitResult.error}`);
+          }
+        } catch (commitError) {
+          console.warn(`Warning: Git commit failed for task ${uuid}: ${commitError}`);
+        }
       }
     } catch (error) {
-      // Log warning but don't fail the status update
+      // Log warning but don't fail status update
       console.warn(`Warning: Could not update task file for ${uuid}: ${error}`);
     }
   }
@@ -1028,7 +1208,31 @@ const toFrontmatter = (t: Task): string => {
     }
   }
 
-  lines.push('---', '', t.content ?? '');
+  // Add commit tracking if present
+  if (t.lastCommitSha) {
+    lines.push(`lastCommitSha: ${quoteYamlString(t.lastCommitSha)}`);
+  }
+
+  if (t.commitHistory && t.commitHistory.length > 0) {
+    lines.push('commitHistory:');
+    for (const commit of t.commitHistory) {
+      lines.push('  -');
+      lines.push(`    sha: ${quoteYamlString(commit.sha)}`);
+      lines.push(`    timestamp: ${quoteYamlString(commit.timestamp)}`);
+      lines.push(`    message: ${quoteYamlString(commit.message)}`);
+      lines.push(`    author: ${quoteYamlString(commit.author)}`);
+      lines.push(`    type: ${quoteYamlString(commit.type)}`);
+    }
+  }
+
+  lines.push('---');
+
+  // Only add content section if there's actual content
+  const content = t.content?.trim();
+  if (content) {
+    lines.push('', content);
+  }
+
   return lines.join('\n') + '\n';
 };
 
@@ -1179,8 +1383,27 @@ export const pushToTasks = async (
     for (const task of col.tasks) {
       const baseName = ensureTaskFileBase(task);
 
+      // *** UUID MISMATCH DETECTION AND FIX ***
+      // Check if this board task has a corresponding file task with a different UUID
+      // This happens when board regeneration creates new UUIDs
+      let finalTask = { ...task };
+      const existingTaskForSlug = Array.from(existingByUuid.values()).find(
+        (t) => t.slug === baseName || ensureTaskFileBase(t) === baseName,
+      );
+
+      if (existingTaskForSlug && existingTaskForSlug.uuid !== task.uuid) {
+        // Found a task file with the same slug but different UUID
+        // Use the file's UUID instead of the board's UUID
+        console.log(
+          `🔧 UUID mismatch detected: board has ${task.uuid} but file has ${existingTaskForSlug.uuid}. Using file UUID.`,
+        );
+        finalTask.uuid = existingTaskForSlug.uuid;
+        finalTask.created_at = existingTaskForSlug.created_at;
+        finalTask.content = existingTaskForSlug.content || finalTask.content;
+      }
+
       // Check if the exact file already exists for this UUID
-      const existingTask = existingByUuid.get(task.uuid);
+      const existingTask = existingByUuid.get(finalTask.uuid);
       const existingFileBase = existingTask ? ensureTaskFileBase(existingTask) : null;
       const existingFileName = existingFileBase ? `${existingFileBase}.md` : null;
 
@@ -1197,50 +1420,85 @@ export const pushToTasks = async (
       if (existingTask && normalizedFileStatus && normalizedBoardStatus !== normalizedFileStatus) {
         statusUpdated++;
         console.log(
-          `📝 Detected manual status change for task "${task.title}": ${normalizedFileStatus} → ${normalizedBoardStatus}`,
+          `📝 Detected manual status change for task "${finalTask.title}": ${normalizedFileStatus} → ${normalizedBoardStatus}`,
         );
       }
 
-      // If we have an existing file for this UUID, check if the title has changed
+      // *** ENHANCED FILE CONFLICT DETECTION ***
+      // Check for existing files with this base name, including files without proper frontmatter
       let targetBase = baseName;
-      if (existingFileName && existingFiles.has(existingFileName)) {
+      const conflictingFileName = `${baseName}.md`;
+
+      if (existingFiles.has(conflictingFileName)) {
+        // Find the UUID that owns this conflicting file (if any)
+        const conflictingUuid = usedNames.get(baseName);
+
+        if (conflictingUuid && conflictingUuid !== finalTask.uuid) {
+          // Different UUID owns this file - this is a duplicate task scenario
+          // We should merge into the existing file rather than creating a new one
+          console.log(
+            `🔄 Duplicate task detected: UUID ${finalTask.uuid} conflicts with existing UUID ${conflictingUuid}. Using existing file "${conflictingFileName}"`,
+          );
+
+          // Use the existing file base and update the task's slug to match
+          targetBase = baseName;
+          finalTask.slug = targetBase;
+
+          // We'll update the existing file with the board task's content
+          // This effectively merges the duplicate into the existing task
+        } else if (!conflictingUuid) {
+          // File exists but has no proper frontmatter (ghost file)
+          // Create a unique name to avoid overwriting the ghost file
+          let attempt = 1;
+          let uniqueCandidate = `${baseName} ${attempt}`;
+          while (existingFiles.has(`${uniqueCandidate}.md`)) {
+            attempt++;
+            uniqueCandidate = `${baseName} ${attempt}`;
+          }
+          targetBase = uniqueCandidate;
+          console.log(
+            `👻 Ghost file detected: "${conflictingFileName}" has no frontmatter. Using "${targetBase}.md"`,
+          );
+        }
+        // If conflictingUuid === finalTask.uuid, we keep the existing baseName
+      } else if (existingFileName && existingFiles.has(existingFileName)) {
         // If the title changed, use the new base name to rename the file
         // Otherwise, keep the existing base name
-        if (existingTask && existingTask.title === task.title) {
+        if (existingTask && existingTask.title === finalTask.title) {
           targetBase = existingFileBase!;
         }
         // If title changed, we'll use the new baseName (which may trigger file rename)
-      } else {
-        // Check if there's already a file with this base name for any UUID
-        const conflictingFileName = `${baseName}.md`;
-        if (existingFiles.has(conflictingFileName)) {
-          // Find the UUID that owns this conflicting file
-          const conflictingUuid = usedNames.get(baseName);
-          if (conflictingUuid && conflictingUuid !== task.uuid) {
-            // Only create a new unique name if this is a different UUID
-            // This prevents the " 2.md" suffix issue when it's the same task
-            let attempt = 1;
-            let uniqueCandidate = `${baseName} ${attempt}`;
-            while (existingFiles.has(`${uniqueCandidate}.md`)) {
-              attempt++;
-              uniqueCandidate = `${baseName} ${attempt}`;
-            }
-            targetBase = uniqueCandidate;
-          }
-        }
       }
 
-      if (task.slug !== targetBase) {
-        task.slug = targetBase;
+      if (finalTask.slug !== targetBase) {
+        finalTask.slug = targetBase;
       }
 
       // Update usedNames to reflect the final choice
-      usedNames.set(targetBase, task.uuid);
+      usedNames.set(targetBase, finalTask.uuid);
 
       const filename = `${targetBase}.md`;
       const targetPath = path.join(tasksDir, filename);
-      const previous = existingByUuid.get(task.uuid);
+      const previous = existingByUuid.get(finalTask.uuid);
       const previousPath = previous?.sourcePath;
+
+      // *** DUPLICATE TASK MERGE LOGIC ***
+      // If we detected a duplicate (different UUID with same filename),
+      // we should update the existing file rather than creating a new one
+      let finalTargetPath = targetPath;
+      let shouldDeletePrevious = true;
+
+      const conflictingUuid = usedNames.get(baseName);
+      if (
+        conflictingUuid &&
+        conflictingUuid !== finalTask.uuid &&
+        existingFiles.has(conflictingFileName)
+      ) {
+        // Use the existing file path instead of creating a new one
+        finalTargetPath = path.join(tasksDir, conflictingFileName);
+        shouldDeletePrevious = false; // Don't delete the existing file
+        console.log(`🔗 Merging task ${finalTask.uuid} into existing file ${conflictingFileName}`);
+      }
 
       // Preserve existing task content if available
       let existingContent = '';
@@ -1260,35 +1518,89 @@ export const pushToTasks = async (
       // *** ENHANCED CONTENT PRESERVATION LOGIC ***
       // Use board task content if available (board is source of truth for push operation)
       // This ensures manual UI edits are preserved when pushing to files
-      let finalContent = task.content || existingContent;
+      let finalContent = finalTask.content || existingContent;
 
       // For push operation, board content takes precedence to preserve manual edits
-      if (task.content) {
-        finalContent = task.content;
+      if (finalTask.content) {
+        finalContent = finalTask.content;
       }
 
       // Preserve original created_at timestamp if it exists, otherwise use task's timestamp
       // Ensure we always have a timestamp to prevent data loss
-      const preservedCreatedAt = existingCreatedAt || task.created_at || NOW_ISO();
+      const preservedCreatedAt = existingCreatedAt || finalTask.created_at || NOW_ISO();
+
+      // Initialize git tracker for new task creation
+      const gitTracker = new TaskGitTracker({ repoRoot: process.cwd() });
+
+      // Update task frontmatter with commit tracking for new tasks
+      const taskWithCommitTracking = gitTracker.updateTaskCommitTracking(
+        {
+          ...finalTask,
+          status: normalizedBoardStatus,
+          content: finalContent,
+          created_at: preservedCreatedAt,
+        },
+        finalTask.uuid,
+        previous ? 'update' : 'create',
+        previous ? `Update task: ${finalTask.title}` : `Create task: ${finalTask.title}`,
+      );
 
       const content = toFrontmatter({
-        ...task,
+        ...finalTask,
         status: normalizedBoardStatus, // Always use the normalized board column name as authoritative status
         content: finalContent,
         created_at: preservedCreatedAt,
+        ...taskWithCommitTracking, // Include commit tracking fields
       });
 
-      await fs.writeFile(targetPath, content, 'utf8');
+      await fs.writeFile(finalTargetPath, content, 'utf8');
+
+      // Create git commit for the task change
+      try {
+        const operation = previous ? 'update' : 'create';
+        const details = previous
+          ? `Update task: ${finalTask.title}`
+          : `Create task: ${finalTask.title}`;
+
+        const commitResult = await gitTracker.commitTaskChanges(
+          finalTargetPath,
+          finalTask.uuid,
+          operation,
+          details,
+        );
+
+        if (commitResult.success) {
+          console.log(`📝 Committed task ${operation}: ${commitResult.sha?.slice(0, 8)}...`);
+        } else {
+          console.warn(`Warning: Failed to commit task ${operation}: ${commitResult.error}`);
+        }
+      } catch (commitError) {
+        console.warn(`Warning: Git commit failed for task ${finalTask.uuid}: ${commitError}`);
+      }
 
       if (!previous) {
-        added += 1;
+        // Check if this was actually a merge (duplicate detected)
+        if (
+          conflictingUuid &&
+          conflictingUuid !== finalTask.uuid &&
+          existingFiles.has(conflictingFileName)
+        ) {
+          // This was a merge, not a new addition
+          console.log(`✅ Merged duplicate task, no new file created`);
+        } else {
+          added += 1;
+        }
       } else {
         moved += 1;
-        if (previousPath && path.resolve(previousPath) !== path.resolve(targetPath)) {
+        if (
+          shouldDeletePrevious &&
+          previousPath &&
+          path.resolve(previousPath) !== path.resolve(finalTargetPath)
+        ) {
           await fs.unlink(previousPath).catch(() => {});
         }
       }
-      existingByUuid.delete(task.uuid);
+      existingByUuid.delete(finalTask.uuid);
     }
   }
 
@@ -1395,7 +1707,9 @@ const applyTemplateReplacements = (
     }
 
     // Sanitize replacement values to prevent injection
-    if (typeof value !== 'string') {
+    if (value === null || value === undefined) {
+      sanitizedReplacements[key] = '';
+    } else if (typeof value !== 'string') {
       sanitizedReplacements[key] = String(value);
     } else {
       // Escape HTML special characters and remove dangerous patterns
@@ -1409,7 +1723,8 @@ const applyTemplateReplacements = (
         // Remove potential JavaScript execution patterns
         .replace(/javascript:/gi, '')
         .replace(/vbscript:/gi, '')
-        .replace(/on\w+\s*=/gi, '');
+        .replace(/on\w+\s*=/gi, '')
+        .replace(/on\w+/gi, '');
     }
   }
 
@@ -1419,6 +1734,8 @@ const applyTemplateReplacements = (
     return typeof replacement === 'string' ? replacement : '';
   });
 };
+
+export { applyTemplateReplacements };
 
 const uniqueStrings = (values: ReadonlyArray<string> | undefined): string[] =>
   Array.from(
@@ -1452,6 +1769,10 @@ export const createTask = async (
   const uuid = input.uuid ?? cryptoRandomUUID();
   const baseTitle = input.title?.trim() ?? '';
   const title = baseTitle.length > 0 ? baseTitle : `Task ${uuid.slice(0, 8)}`;
+
+  // Validate that the starting status is allowed
+  validateStartingStatus(column);
+
   const targetColumn = ensureColumn(board, column);
 
   const existingTasks = await readTasksFolder(tasksDir);

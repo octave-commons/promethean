@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0586-TS7008-kanban",
+  "description": "Massive fixture for TS7008 from packages/kanban/src/lib/kanban.ts",
+  "originalPath": "packages/kanban/src/lib/kanban.ts",
+  "targetErrorCode": "TS7008",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 586,
+  "generatedAt": "2025-10-15T06:38:49.554Z"
+}

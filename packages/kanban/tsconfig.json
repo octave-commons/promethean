@@ -10,6 +10,9 @@
   "references": [
     {
       "path": "../markdown"
+    },
+    {
+      "path": "../lmdb-cache"
     }
   ]
 }

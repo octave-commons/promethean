@@ -50,7 +50,7 @@
 (defn plist
   "Create a property list, formatting key/value pairs on separate lines when needed.
 
-  Accepts arguments as `[key value]` vectors to preserve ordering."
+   Accepts arguments as `[key value]` vectors to preserve ordering."
   [& kvs]
   (let [pairs (mapcat (fn [pair]
                         (when-not (and (vector? pair) (= 2 (count pair)))
@@ -224,7 +224,7 @@
                        :inline (emit-inline-content sb items ctx)
                        :pairs (emit-pairs-content sb items ctx child-indent pairs-offset)
                        (emit-default-content sb items ctx child-indent))
-              newline-before-close? (and multi? (not= layout :pairs))]
+               newline-before-close? (and multi? (not= layout :pairs))]
           (when newline-before-close?
             (.append sb "
 ")
@@ -282,7 +282,7 @@
         (.append sb " .\n")
         (.append sb (spaces child-indent))
         (let [{:keys [multi-line?]} (emit-node sb cdr (assoc ctx :indent child-indent))]
-          (when multi-line?
+          (when multi?
             (.append sb "\n")
             (.append sb (spaces indent)))
           (.append sb ")")
@@ -325,7 +325,7 @@
        :el/list (emit-list sb node ctx)
        :el/vector (emit-vector sb node ctx)
        :el/source (do
-                    (doseq [[idx form] (map-indexed identity (rest node))]
+                    (doseq [[idx form] (map-indexed vector (rest node))]
                       (when (pos? idx)
                         (.append sb "\n"))
                       (emit-node sb form ctx))
@@ -334,7 +334,7 @@
 
      (sequential? node)
      (do
-       (doseq [[idx form] (map-indexed identity node)]
+       (doseq [[idx form] (map-indexed vector node)]
          (when (pos? idx)
            (.append sb "\n"))
          (emit-node sb form ctx))
@@ -350,9 +350,9 @@
 (defn emit
   "Render an AST node (or sequence of nodes) to an Emacs Lisp source string.
 
-  Options:
-  - `:indent`      starting indentation (default 0)
-  - `:indent-step` spaces to indent nested forms (default 2)"
+   Options:
+   - `:indent`      starting indentation (default 0)
+   - `:indent-step` spaces to indent nested forms (default 2)"
   ([node] (emit node {}))
   ([node {:keys [indent indent-step] :or {indent 0 indent-step default-indent}}]
    (let [sb (StringBuilder.)]

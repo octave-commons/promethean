@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0319-TS7044-08-watchers",
+  "description": "Massive fixture for TS7044 from packages/boardrev/src/08-watchers.ts",
+  "originalPath": "packages/boardrev/src/08-watchers.ts",
+  "targetErrorCode": "TS7044",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 319,
+  "generatedAt": "2025-10-15T06:55:37.786Z"
+}

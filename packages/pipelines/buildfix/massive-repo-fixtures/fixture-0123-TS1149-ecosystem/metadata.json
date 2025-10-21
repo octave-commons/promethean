@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0123-TS1149-ecosystem",
+  "description": "Massive fixture for TS1149 from packages/shadow-conf/src/ecosystem.ts",
+  "originalPath": "packages/shadow-conf/src/ecosystem.ts",
+  "targetErrorCode": "TS1149",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 123,
+  "generatedAt": "2025-10-15T06:38:49.353Z"
+}

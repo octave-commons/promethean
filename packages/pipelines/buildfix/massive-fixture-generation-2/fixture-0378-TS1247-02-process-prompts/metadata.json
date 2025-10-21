@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0378-TS1247-02-process-prompts",
+  "description": "Massive fixture for TS1247 from packages/boardrev/src/02-process-prompts.ts",
+  "originalPath": "packages/boardrev/src/02-process-prompts.ts",
+  "targetErrorCode": "TS1247",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 378,
+  "generatedAt": "2025-10-15T06:55:37.807Z"
+}

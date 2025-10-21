@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0055-TS1470-types",
+  "description": "Massive fixture for TS1470 from packages/semverguard/src/types.ts",
+  "originalPath": "packages/semverguard/src/types.ts",
+  "targetErrorCode": "TS1470",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 55,
+  "generatedAt": "2025-10-15T06:55:37.677Z"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0162-TS2403-05-pr",
+  "description": "Massive fixture for TS2403 from packages/semverguard/src/05-pr.ts",
+  "originalPath": "packages/semverguard/src/05-pr.ts",
+  "targetErrorCode": "TS2403",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 162,
+  "generatedAt": "2025-10-15T06:38:49.367Z"
+}

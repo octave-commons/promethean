@@ -1,0 +1,8 @@
+{
+  "name": "buildfix-massive-fixture-fixture-0115-TS1192-04-enhanced-context",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "ts-morph": "^23.0.0"
+  }
+}

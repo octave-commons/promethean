@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0146-TS1163-event-log",
+  "description": "Massive fixture for TS1163 from packages/kanban/src/board/event-log.ts",
+  "originalPath": "packages/kanban/src/board/event-log.ts",
+  "targetErrorCode": "TS1163",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 146,
+  "generatedAt": "2025-10-15T06:55:37.721Z"
+}

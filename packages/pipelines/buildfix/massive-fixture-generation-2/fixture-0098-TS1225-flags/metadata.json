@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0098-TS1225-flags",
+  "description": "Massive fixture for TS1225 from packages/duck-utils/src/flags.ts",
+  "originalPath": "packages/duck-utils/src/flags.ts",
+  "targetErrorCode": "TS1225",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 98,
+  "generatedAt": "2025-10-15T06:55:37.700Z"
+}

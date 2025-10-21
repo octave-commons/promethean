@@ -1,0 +1,94 @@
+{
+  "results": [
+    {
+      "fixture": "missing-export",
+      "model": "qwen2.5-coder:7b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 79454,
+      "attempts": 3,
+      "errorMessage": "Unterminated string in JSON at position 7300 (line 7 column 7266)"
+    },
+    {
+      "fixture": "optional-parameter",
+      "model": "qwen2.5-coder:7b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": true,
+      "duration": 7180,
+      "attempts": 3,
+      "planTitle": "Refactoract Function",
+      "errorMessage": "Cannot find module '/home/err/devel/promethean/packages/buildfix/node_modules/ts-morph/index.jsx' imported from /home/err/devel/promethean/benchmark-temp/fixtures/optional-parameter/attempt-3.mjs.patched.mjs"
+    },
+    {
+      "fixture": "type-annotation-missing",
+      "model": "qwen2.5-coder:7b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": true,
+      "duration": 8627,
+      "attempts": 3,
+      "planTitle": "Add Ref for Adding Missing Module",
+      "errorMessage": "Unterminated string in JSON at position 575 (line 4 column 526)"
+    },
+    {
+      "fixture": "missing-return-type",
+      "model": "qwen2.5-coder:7b",
+      "success": false,
+      "errorCountBefore": 0,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 1373,
+      "attempts": 0,
+      "errorMessage": "No errors found in fixture"
+    },
+    {
+      "fixture": "class-not-exported",
+      "model": "qwen2.5-coder:7b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 5171,
+      "attempts": 3,
+      "errorMessage": "Unterminated string in JSON at position 253 (line 6 column 220)"
+    },
+    {
+      "fixture": "interface-missing",
+      "model": "qwen2.5-coder:7b",
+      "success": false,
+      "errorCountBefore": 0,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 1406,
+      "attempts": 0,
+      "errorMessage": "No errors found in fixture"
+    }
+  ],
+  "summary": {
+    "totalTests": 6,
+    "successfulTests": 0,
+    "errorsResolved": 0,
+    "averageDuration": 17.201833333333333,
+    "modelResults": {
+      "qwen2.5-coder:7b": {
+        "successRate": 0,
+        "errorResolution": 0,
+        "avgDuration": 17.201833333333333,
+        "totalErrors": 4,
+        "errorsFixed": 4
+      }
+    }
+  },
+  "timestamp": "2025-10-16T05:27:42.711Z"
+}

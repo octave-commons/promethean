@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0583-TS1208-scan-files",
+  "description": "Massive fixture for TS1208 from packages/file-indexer/src/scan-files.ts",
+  "originalPath": "packages/file-indexer/src/scan-files.ts",
+  "targetErrorCode": "TS1208",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 583,
+  "generatedAt": "2025-10-15T06:38:49.552Z"
+}

@@ -1,0 +1,38 @@
+{
+  "name": "@promethean/nl-parser",
+  "version": "1.0.0",
+  "description": "Natural Language Command Parser with intent classification and parameter mapping",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "ava",
+    "clean": "rm -rf dist",
+    "dev": "tsc --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@promethean/agent-context": "workspace:*",
+    "@nlpjs/basic": "^4.27.0",
+    "jsonwebtoken": "^9.0.2",
+    "uuid": "^9.0.1",
+    "zod": "^3.22.4",
+    "fuse.js": "^7.0.0"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/uuid": "^9.0.7",
+    "ava": "^5.3.1",
+    "typescript": "^5.3.3"
+  },
+  "ava": {
+    "files": [
+      "src/tests/**/*.ts"
+    ],
+    "typescript": {
+      "rewritePaths": {
+        "src/": "dist/"
+      }
+    }
+  }
+}

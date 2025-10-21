@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0117-TS7031-04-enhanced-context",
+  "description": "Massive fixture for TS7031 from packages/boardrev/src/04-enhanced-context.ts",
+  "originalPath": "packages/boardrev/src/04-enhanced-context.ts",
+  "targetErrorCode": "TS7031",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 117,
+  "generatedAt": "2025-10-15T06:38:49.351Z"
+}

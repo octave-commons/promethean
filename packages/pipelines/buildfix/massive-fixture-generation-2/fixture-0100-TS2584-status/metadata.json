@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0100-TS2584-status",
+  "description": "Massive fixture for TS2584 from packages/piper/src/status.ts",
+  "originalPath": "packages/piper/src/status.ts",
+  "targetErrorCode": "TS2584",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 100,
+  "generatedAt": "2025-10-15T06:55:37.701Z"
+}

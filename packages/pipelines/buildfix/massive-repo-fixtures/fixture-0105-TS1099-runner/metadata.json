@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0105-TS1099-runner",
+  "description": "Massive fixture for TS1099 from packages/piper/src/runner.ts",
+  "originalPath": "packages/piper/src/runner.ts",
+  "targetErrorCode": "TS1099",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 105,
+  "generatedAt": "2025-10-15T06:38:49.347Z"
+}

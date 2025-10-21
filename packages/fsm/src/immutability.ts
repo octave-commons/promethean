@@ -7,5 +7,9 @@ export const freezeArray = <Item>(
 export const freezeSnapshot = <State extends string, Context>(
   state: State,
   context: Context,
-): MachineSnapshot<State, Context> =>
-  Object.freeze({ state, context }) as MachineSnapshot<State, Context>;
+): MachineSnapshot<State, Context> => {
+  const frozenContext = typeof context === 'object' && context !== null 
+    ? Object.freeze(JSON.parse(JSON.stringify(context))) 
+    : context;
+  return Object.freeze({ state, context: frozenContext }) as MachineSnapshot<State, Context>;
+};

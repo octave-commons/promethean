@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0081-TS1219-file-watcher",
+  "description": "Massive fixture for TS1219 from packages/kanban/src/lib/file-watcher.ts",
+  "originalPath": "packages/kanban/src/lib/file-watcher.ts",
+  "targetErrorCode": "TS1219",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 81,
+  "generatedAt": "2025-10-15T06:55:37.690Z"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0029-TS1470-types",
+  "description": "Massive fixture for TS1470 from packages/kanban/src/lib/task-content/types.ts",
+  "originalPath": "packages/kanban/src/lib/task-content/types.ts",
+  "targetErrorCode": "TS1470",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 29,
+  "generatedAt": "2025-10-15T06:55:37.662Z"
+}

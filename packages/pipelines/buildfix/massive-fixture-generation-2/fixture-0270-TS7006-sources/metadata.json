@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0270-TS7006-sources",
+  "description": "Massive fixture for TS7006 from packages/kanban/src/board/config/sources.ts",
+  "originalPath": "packages/kanban/src/board/config/sources.ts",
+  "targetErrorCode": "TS7006",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 270,
+  "generatedAt": "2025-10-15T06:55:37.762Z"
+}

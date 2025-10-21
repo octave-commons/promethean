@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0189-TS7010-ollama",
+  "description": "Massive fixture for TS7010 from packages/report-forge/src/lib/ollama.ts",
+  "originalPath": "packages/report-forge/src/lib/ollama.ts",
+  "targetErrorCode": "TS7010",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 189,
+  "generatedAt": "2025-10-15T06:55:37.738Z"
+}

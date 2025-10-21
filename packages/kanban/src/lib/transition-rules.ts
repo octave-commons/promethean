@@ -5,10 +5,13 @@
  * - JSON configuration rules
  * - Clojure NBB DSL for custom logic
  * - Built-in JavaScript rule validators
+ * - Testing→review transition validation with coverage and quality gates
  */
 
 import { readFile, access } from 'fs/promises';
 import type { Task, Board } from './types.js';
+import { runTestingTransition } from './testing-transition/index.js';
+import type { TestingTransitionConfig, TestCoverageRequest } from './testing-transition/types.js';
 
 export interface TransitionRule {
   from: string[];
@@ -65,6 +68,7 @@ export interface TransitionDebug {
 export class TransitionRulesEngine {
   private config: TransitionRulesConfig;
   private dslAvailable: boolean = false;
+  private testingConfig: TestingTransitionConfig;
 
   constructor(config?: TransitionRulesConfig) {
     // Default configuration if none provided
@@ -76,21 +80,56 @@ export class TransitionRulesEngine {
       customChecks: {},
       globalRules: [],
     };
+
+    // Default testing transition configuration
+    this.testingConfig = {
+      enabled: true,
+      thresholds: {
+        coverage: 90,
+        quality: 75,
+        softBlock: 90,
+        hardBlock: 75,
+      },
+      hardBlockCoverageThreshold: 75,
+      softBlockQualityScoreThreshold: 90,
+      weights: {
+        coverage: 0.4,
+        quality: 0.3,
+        requirementMapping: 0.2,
+        contextualAnalysis: 0.1,
+      },
+      timeouts: {
+        coverageAnalysis: 10000,
+        qualityAssessment: 15000,
+        requirementMapping: 20000,
+        totalAnalysis: 60000,
+      },
+      reporting: {
+        includeDetailedRationale: true,
+        generateActionItems: true,
+        appendToTask: true,
+      },
+    };
   }
 
   /**
    * Initialize the rules engine and check if Clojure DSL is available
    */
   async initialize(): Promise<void> {
-    if (this.config.dslPath) {
-      try {
-        await access(this.config.dslPath);
-        this.dslAvailable = true;
-        console.log(`🔧 Clojure DSL available: ${this.config.dslPath}`);
-      } catch {
-        console.warn(`⚠️  Clojure DSL not found: ${this.config.dslPath}`);
-        this.dslAvailable = false;
-      }
+    if (!this.config.dslPath) {
+      throw new Error(
+        'Clojure DSL path is required. TypeScript transition rules are no longer supported.',
+      );
+    }
+
+    try {
+      await access(this.config.dslPath);
+      this.dslAvailable = true;
+      console.log(`🔧 Clojure DSL available: ${this.config.dslPath}`);
+    } catch {
+      throw new Error(
+        `Clojure DSL not found at: ${this.config.dslPath}. Transition rules cannot function without the Clojure DSL.`,
+      );
     }
   }
 
@@ -160,7 +199,22 @@ export class TransitionRulesEngine {
       }
     }
 
-    // Check 3: Custom transition-specific rules
+    // Check 3: Testing→review specific validation
+    if (fromNormalized === 'testing' && toNormalized === 'review') {
+      try {
+        const testingResult = await this.validateTestingToReviewTransition(task, board);
+        if (!testingResult.allowed) {
+          violations.push(...testingResult.violations);
+        }
+      } catch (error) {
+        console.warn(`Failed to validate testing→review transition:`, error);
+        violations.push(
+          `Testing transition validation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        );
+      }
+    }
+
+    // Check 4: Custom transition-specific rules
     if (transitionRule && transitionRule.check) {
       try {
         const passes = await this.evaluateCustomCheck(transitionRule.check, task, board);
@@ -264,6 +318,149 @@ export class TransitionRulesEngine {
     return lines.join('\n');
   }
 
+  /**
+   * Validate testing→review transition with coverage and quality gates
+   */
+  private async validateTestingToReviewTransition(
+    task: Task,
+    _board: Board,
+  ): Promise<{ allowed: boolean; violations: string[] }> {
+    const violations: string[] = [];
+
+    try {
+      // Extract testing information from task content or metadata
+      const testingInfo = this.extractTestingInfo(task);
+
+      if (!testingInfo.coverageReportPath) {
+        violations.push('No coverage report path specified in task');
+        return { allowed: false, violations };
+      }
+
+      // Set up timeout for performance validation
+      const timeoutPromise = new Promise<never>((_, reject) => {
+        setTimeout(
+          () => reject(new Error('Testing transition validation timeout')),
+          this.testingConfig.timeouts.totalAnalysis,
+        );
+      });
+
+      // Run testing transition validation with timeout
+      const validationPromise = this.runTestingValidation(task, testingInfo);
+
+      await Promise.race([validationPromise, timeoutPromise]);
+
+      return { allowed: true, violations };
+    } catch (error) {
+      if (error instanceof Error) {
+        violations.push(error.message);
+      } else {
+        violations.push('Unknown error during testing transition validation');
+      }
+      return { allowed: false, violations };
+    }
+  }
+
+  /**
+   * Extract testing information from task
+   */
+  private extractTestingInfo(task: Task): {
+    coverageReportPath?: string;
+    executedTests?: string[];
+    requirementMappings?: Array<{ requirementId: string; testIds: string[] }>;
+  } {
+    const content = task.content || '';
+
+    // Look for coverage report path in task content
+    const coverageMatch = content.match(/coverage[_-]?report[:\s]+([^\s\n]+)/i);
+    const coverageReportPath = coverageMatch ? coverageMatch[1] : undefined;
+
+    // Look for executed tests
+    const testsMatch = content.match(/executed[_-]?tests[:\s]+([^\n]+)/i);
+    const executedTests = testsMatch ? testsMatch[1]?.split(',').map((t) => t.trim()) : [];
+
+    // Look for requirement mappings
+    const mappingsMatch = content.match(/requirement[_-]?mappings[:\s]+([^\n]+)/i);
+    const requirementMappings = mappingsMatch
+      ? (JSON.parse(mappingsMatch[1] || '[]') as Array<{
+          requirementId: string;
+          testIds: string[];
+        }>)
+      : [];
+
+    return {
+      coverageReportPath,
+      executedTests,
+      requirementMappings,
+    };
+  }
+
+  /**
+   * Run the actual testing validation
+   */
+  private async runTestingValidation(
+    task: Task,
+    testingInfo: {
+      coverageReportPath?: string;
+      executedTests?: string[];
+      requirementMappings?: Array<{ requirementId: string; testIds: string[] }>;
+    },
+  ): Promise<void> {
+    if (!testingInfo.coverageReportPath) {
+      throw new Error('Coverage report path is required for testing→review transition');
+    }
+
+    // Determine coverage format from file extension
+    const format = this.getCoverageFormat(testingInfo.coverageReportPath);
+    const supportedFormats = ['lcov', 'cobertura', 'json'];
+    if (!supportedFormats.includes(format)) {
+      throw new Error(
+        `Unsupported coverage format: ${format}. Supported formats: ${supportedFormats.join(', ')}`,
+      );
+    }
+
+    // Run testing transition validation
+    const coverageRequest: TestCoverageRequest = {
+      task: {
+        uuid: task.uuid,
+        title: task.title,
+        content: task.content,
+        status: task.status,
+        priority: typeof task.priority === 'string' ? task.priority : String(task.priority || ''),
+        frontmatter: task.frontmatter,
+      },
+      changedFiles: [], // Will be extracted from task content
+      affectedPackages: [], // Will be determined from changed files
+      reportPath: 'coverage.json', // Default path - should be configurable
+      format: 'json', // Default format - should be configurable
+    };
+
+    await runTestingTransition(
+      coverageRequest,
+      testingInfo.executedTests || [],
+      testingInfo.requirementMappings || [],
+      this.testingConfig,
+      [], // tests - will be extracted from task content
+      `docs/agile/tasks/${task.uuid}`, // output directory for report
+    );
+  }
+
+  /**
+   * Determine coverage format from file path
+   */
+  private getCoverageFormat(filePath: string): 'lcov' | 'cobertura' | 'json' {
+    if (filePath.endsWith('.lcov') || filePath.includes('lcov.info')) {
+      return 'lcov';
+    }
+    if (filePath.endsWith('.xml') || filePath.includes('cobertura')) {
+      return 'cobertura';
+    }
+    if (filePath.endsWith('.json')) {
+      return 'json';
+    }
+    // Default to lcov for unknown formats
+    return 'lcov';
+  }
+
   // Private helper methods
 
   private normalizeColumnName(column: string): string {
@@ -271,7 +468,8 @@ export class TransitionRulesEngine {
     return column
       .normalize('NFKD')
       .toLowerCase()
-      .replace(/[^a-z0-9_]+/g, '');
+      .replace(/[\s-]+/g, '_') // Convert spaces and hyphens to underscores
+      .replace(/[^a-z0-9_]+/g, ''); // Remove other special chars
   }
 
   private findTransitionRule(from: string, to: string): TransitionRule | undefined {
@@ -348,82 +546,59 @@ export class TransitionRulesEngine {
 
   private async evaluateCustomRule(
     ruleImpl: string,
-    args: any[],
+    _args: any[],
     task: Task,
     board: Board,
   ): Promise<boolean> {
     if (!this.dslAvailable) {
-      console.warn('Clojure DSL not available, skipping custom rule evaluation');
-      return true;
+      throw new Error(
+        'Clojure DSL is required but not available. TypeScript transition rules are no longer supported.',
+      );
     }
 
     try {
-      // Use nbb (Node.js Babashka) to evaluate Clojure code
-      const result = await this.evalClojure(ruleImpl, [...args, task, board]);
+      // Use nbb (Node.js Babashka) to evaluate Clojure expressions
+      // @ts-ignore - nbb doesn't have TypeScript definitions
+      const { default: nbb } = await import('nbb');
+
+      // Load the Clojure DSL file
+      const dslCode = await readFile(this.config.dslPath!, 'utf-8');
+
+      // Create a safe evaluation context with DSL loaded
+      const clojureCode = `
+        ${dslCode}
+        
+        (require '[kanban-transitions :as kt])
+        
+        ;; Convert JavaScript objects to Clojure maps for evaluation
+        (def task-clj {:uuid "${task.uuid}"
+                       :title "${task.title}"
+                       :priority "${task.priority}"
+                       :content "${task.content || ''}"
+                       :status "${task.status}"
+                       :estimates {:complexity ${task.estimates?.complexity || 999}}
+                       :storyPoints ${task.storyPoints || 0}
+                       :labels [${(task.labels || []).map((l) => `"${l}"`).join(' ')}]})
+        
+        (def board-clj {:columns [${board.columns
+          .map((col) => `{:name "${col.name}" :limit ${col.limit || 0} :tasks []}`)
+          .join(' ')}]})
+        
+        ;; Evaluate the rule implementation with converted objects
+        (let [task task-clj
+              board board-clj]
+          ${ruleImpl})
+      `;
+
+      // @ts-ignore - nbb dynamic evaluation
+      const result = await nbb(clojureCode);
       return Boolean(result);
     } catch (error) {
       console.error('Failed to evaluate Clojure rule:', error);
-      return true; // Default to allowing on error
+      throw new Error(
+        `Clojure evaluation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      );
     }
-  }
-
-  private async evalClojure(expression: string, args: any[]): Promise<any> {
-    // This is a simplified implementation. In a real scenario, you'd use nbb properly
-    // For now, we'll implement basic rule evaluation in JavaScript
-
-    // Parse simple expressions like "(fn [task board] (and (:title task) (:priority task)))"
-    if (expression.includes('(:title task)') && expression.includes('(:priority task)')) {
-      const [task] = args as [Task];
-      return !!(task.title && task.priority);
-    }
-
-    if (expression.includes('get-in task [:estimates :complexity]')) {
-      const [task] = args as [Task];
-      const estimate = task.estimates?.complexity;
-      return typeof estimate === 'number' && estimate <= 5;
-    }
-    
-    // Handle the config expression: "(and (:estimates task) (<= (get-in task [:estimates :complexity]) 5))"
-    if (expression.includes('(:estimates task)') && expression.includes('get-in task [:estimates :complexity]')) {
-      const [task] = args as [Task];
-      console.log('DEBUG: Config expression check:', {
-        uuid: task.uuid,
-        title: task.title,
-        priority: task.priority,
-        estimates: task.estimates,
-        complexity: task.estimates?.complexity,
-        complexityType: typeof task.estimates?.complexity,
-        hasEstimates: !!task.estimates
-      });
-      const hasEstimates = !!task.estimates;
-      const estimate = task.estimates?.complexity;
-      const result = hasEstimates && typeof estimate === 'number' && estimate <= 5;
-      console.log('DEBUG: Config expression result:', result);
-      return result;
-    }
-
-    // Handle task-properly-broken-down? check from config
-    if (expression.includes('(:estimates task)') && expression.includes('get-in task [:estimates :complexity]')) {
-      const [task] = args as [Task];
-      const hasEstimates = !!task.estimates;
-      const estimate = task.estimates?.complexity;
-      return hasEstimates && typeof estimate === 'number' && estimate <= 5;
-    }
-
-    // Temporary fix: Allow breakdown transitions for critical tasks
-    if (expression.includes('task-properly-broken-down?')) {
-      const [task] = args as [Task];
-      // For P0 tasks, allow if they have any estimates structure
-      if (task.priority === 'P0' && task.estimates) {
-        const estimate = task.estimates?.complexity;
-        return typeof estimate === 'number' && estimate <= 5;
-      }
-      // Default fallback
-      return !!task.estimates;
-    }
-
-    // Default to true for unimplemented expressions
-    return true;
   }
 
   /**
@@ -495,15 +670,8 @@ export async function createTransitionRulesEngine(
     }
   }
 
-  // Return a disabled engine as fallback
-  const engine = new TransitionRulesEngine({
-    enabled: false,
-    enforcement: 'disabled',
-    rules: [],
-    customChecks: {},
-    globalRules: [],
-  });
-  await engine.initialize();
-
-  return engine;
+  // No valid configuration found - throw error
+  throw new Error(
+    `Failed to load transition rules configuration from any of the provided paths: ${paths.join(', ')}. Clojure DSL is required.`,
+  );
 }

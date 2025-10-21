@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0004-TS7053-helpers",
+  "description": "Massive fixture for TS7053 from packages/kanban/src/test-utils/helpers.ts",
+  "originalPath": "packages/kanban/src/test-utils/helpers.ts",
+  "targetErrorCode": "TS7053",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 4,
+  "generatedAt": "2025-10-15T06:55:37.649Z"
+}

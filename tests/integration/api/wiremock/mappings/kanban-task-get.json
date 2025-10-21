@@ -1,0 +1,22 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPattern": "/api/kanban/tasks/([a-fA-F0-9-]+)"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "id": "{{request.path.[2]}}",
+      "title": "Sample Task",
+      "description": "Sample task description",
+      "priority": "P1",
+      "status": "incoming",
+      "created_at": "2024-01-01T00:00:00Z",
+      "updated_at": "2024-01-01T00:00:00Z"
+    },
+    "transformers": ["response-template"]
+  }
+}

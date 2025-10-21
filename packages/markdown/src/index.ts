@@ -1,5 +1,6 @@
 export { sentenceSplit, parseMarkdownChunks } from './chunking.js';
 export { parseSystemMarkdown, summarizeSystemSections } from './system.js';
+export { processMarkdownTemplate, processTextTemplate, validateTemplate } from './template.js';
 export type { MarkdownChunk } from './types.js';
 export type {
     SystemParseIssue,
@@ -14,3 +15,4 @@ export type {
     ScheduleSpec,
     TriggerSpec,
 } from './system.js';
+export type { TemplateContext, TemplateOptions, TemplateResult } from './template.js';

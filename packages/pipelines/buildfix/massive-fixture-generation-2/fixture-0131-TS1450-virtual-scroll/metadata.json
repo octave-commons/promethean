@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0131-TS1450-virtual-scroll",
+  "description": "Massive fixture for TS1450 from packages/kanban/src/frontend/virtual-scroll.ts",
+  "originalPath": "packages/kanban/src/frontend/virtual-scroll.ts",
+  "targetErrorCode": "TS1450",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 131,
+  "generatedAt": "2025-10-15T06:55:37.716Z"
+}

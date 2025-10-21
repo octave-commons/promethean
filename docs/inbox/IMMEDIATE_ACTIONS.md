@@ -1,0 +1,174 @@
+# 🚨 Immediate Action Items - Promethean Framework Debugging
+
+**Priority Level:** CRITICAL  
+**Timeline:** Next 24 hours  
+**System Status:** DEGRADED (65/100)
+
+---
+
+## 🔴 CRITICAL FIXES REQUIRED
+
+### 1. MongoDB Service - IMMEDIATE
+
+**Issue:** MongoDB not running, causing eidolon-field failures
+
+```bash
+# Execute immediately:
+sudo systemctl status mongod
+sudo systemctl start mongod
+sudo systemctl enable mongod
+mongosh --eval "db.adminCommand('ismaster')"
+```
+
+### 2. Ollama Embedding System - IMMEDIATE
+
+**Issue:** Embedding generation failing (67% job failure rate)
+
+```bash
+# Test embedding model:
+curl -X POST http://127.0.0.1:11434/api/embeddings \
+  -d '{"model":"nomic-embed-text:latest","prompt":"test"}'
+
+# Restart Ollama if needed:
+sudo systemctl restart ollama
+```
+
+### 3. Build Missing Artifacts - IMMEDIATE
+
+**Issue:** Multiple services failing due to missing dist/ directories
+
+```bash
+# Rebuild critical packages:
+pnpm --filter @promethean/llm build
+pnpm --filter @promethean/frontend-service build
+pnpm --filter @promethean/opencode-session-manager build
+```
+
+---
+
+## 🟡 HIGH PRIORITY FIXES
+
+### 4. Process Stabilization
+
+**Issue:** High restart counts on critical services
+
+```bash
+# Restart problematic services:
+pm2 restart opencode-session-manager
+pm2 restart frontend-service
+
+# Check configuration:
+pm2 show opencode-session-manager
+pm2 show frontend-service
+```
+
+### 5. Memory Optimization
+
+**Issue:** High memory usage on opencode (622MB) and eidolon-field (165MB)
+
+```bash
+# Monitor memory usage:
+pm2 monit
+
+# Add memory limits to PM2 config:
+# max_memory_restart: '1G' for opencode
+# max_memory_restart: '500M' for eidolon-field
+```
+
+---
+
+## 📊 Current System Status
+
+### Working Components ✅
+
+- Ollama text generation (qwen3:4b-instruct working)
+- Job queue system (basic functionality)
+- Most PM2 processes (11/14 online)
+- Cache system (3 entries)
+
+### Failing Components ❌
+
+- MongoDB connectivity
+- Embedding generation
+- 2 services stopped (frontend-service, opencode-session-manager)
+- 67% job failure rate
+
+### Performance Issues ⚠️
+
+- High CPU usage on llm (26.6%) and eidolon-field (20.2%)
+- Memory leaks suspected in opencode
+- Process instability (2628 restarts on session-manager)
+
+---
+
+## 🔧 Quick Diagnostic Commands
+
+```bash
+# System health check:
+pm2 status
+ollama-queue_getQueueInfo
+curl -s http://127.0.0.1:11434/api/tags | jq '.models.length'
+
+# Error monitoring:
+pm2 logs opencode --lines 20 --err
+pm2 logs eidolon-field --lines 20 --err
+
+# Performance monitoring:
+watch -n 5 'pm2 jlist'
+```
+
+---
+
+## 📋 Validation Checklist
+
+After executing fixes, verify:
+
+- [ ] MongoDB running and accessible on port 27017
+- [ ] Embedding generation working with nomic-embed-text
+- [ ] All PM2 processes online (14/14)
+- [ ] Job success rate >80%
+- [ ] No error logs in critical services
+- [ ] Memory usage stable <2GB total
+
+---
+
+## 🎯 Success Metrics
+
+**Target within 24 hours:**
+
+- System Health Score: 85/100
+- Job Success Rate: 80%+
+- Process Uptime: 95%+
+- All critical services online
+
+**Current Status:**
+
+- System Health Score: 65/100
+- Job Success Rate: 33%
+- Process Uptime: 78%
+- Critical services online: 78%
+
+---
+
+## 🚨 Escalation Triggers
+
+Contact System Administrator immediately if:
+
+1. MongoDB fails to start after service restart
+2. Ollama embedding continues failing after restart
+3. More than 3 services remain offline after fixes
+4. Memory usage exceeds 3GB total
+5. Job success rate drops below 20%
+
+---
+
+## 📞 Emergency Contacts
+
+- **Process Debugger:** Current session
+- **System Administrator:** [Contact via internal channels]
+- **Infrastructure Team:** [Contact via internal channels]
+
+---
+
+**Next Review:** 6 hours after initial fixes  
+**Documentation:** Full report in `SYSTEM_DEBUGGING_REPORT.md`

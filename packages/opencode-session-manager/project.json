@@ -5,24 +5,11 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
+      "executor": "@nx/js:run-commands",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/opencode-session-manager",
-        "main": "packages/opencode-session-manager/src/index.ts",
-        "tsConfig": "packages/opencode-session-manager/tsconfig.json",
-        "assets": [
-          {
-            "glob": "packages/opencode-session-manager/README.md",
-            "input": ".",
-            "output": "."
-          },
-          {
-            "glob": "packages/opencode-session-manager/public",
-            "input": ".",
-            "output": "."
-          }
-        ]
+        "command": "shadow-cljs release app",
+        "cwd": "packages/opencode-session-manager"
       }
     },
     "lint": {
@@ -30,7 +17,7 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
-          "packages/opencode-session-manager/**/*.{ts,tsx,js,jsx,cljs}"
+          "packages/opencode-session-manager/**/*.{js,jsx,cljs}"
         ]
       }
     },
@@ -38,7 +25,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "packages/opencode-session-manager/jest.config.ts",
+        "jestConfig": "packages/opencode-session-manager/ava.config.mjs",
         "passWithNoTests": true
       },
       "dependsOn": ["build"]

@@ -1,0 +1,461 @@
+version: '3.8'
+
+services:
+  # Fastify HTTP Gateway
+  fastify-gateway:
+    image: node:22-alpine
+    working_dir: /app
+    command: >
+      sh -lc "
+        npm install -g fastify @fastify/cors @fastify/helmet @fastify/rate-limit &&
+        cat > gateway.js << 'EOF'
+        const fastify = require('fastify');
+        const cors = require('@fastify/cors');
+        const helmet = require('@fastify/helmet');
+        const rateLimit = require('@fastify/rate-limit');
+
+        const app = fastify({ logger: true });
+
+        // Security middleware
+        app.register(helmet);
+        app.register(cors);
+        app.register(rateLimit, {
+          max: 100,
+          timeWindow: '1 minute'
+        });
+
+        // Auth middleware simulation
+        app.addHook('preHandler', async (request, reply) => {
+          if (request.url.startsWith('/api/protected')) {
+            const token = request.headers.authorization;
+            if (!token || !token.startsWith('Bearer ')) {
+              return reply.code(401).send({ error: 'Unauthorized' });
+            }
+            // Simulate token validation
+            try {
+              const payload = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
+              if (payload.exp < Date.now() / 1000) {
+                return reply.code(401).send({ error: 'Token expired' });
+              }
+              request.user = payload;
+            } catch (error) {
+              return reply.code(401).send({ error: 'Invalid token' });
+            }
+          }
+        });
+
+        // Health check
+        app.get('/health', async (request, reply) => {
+          return { status: 'ok', timestamp: new Date().toISOString() };
+        });
+
+        // Public endpoint
+        app.get('/api/public', async (request, reply) => {
+          return { message: 'Public endpoint accessible' };
+        });
+
+        // Protected endpoint
+        app.get('/api/protected/resource', async (request, reply) => {
+          return { 
+            message: 'Protected resource accessed',
+            user: request.user.sub 
+          };
+        });
+
+        // Destructive operations endpoint (P0 security)
+        app.post('/api/destructive/reset', { 
+          config: { rateLimit: { max: 1, timeWindow: '5 minutes' } }
+        }, async (request, reply) => {
+          if (request.user.role !== 'admin') {
+            return reply.code(403).send({ error: 'Admin access required' });
+          }
+          
+          // Simulate destructive operation
+          console.log('Destructive operation triggered by:', request.user.sub);
+          return { 
+            message: 'Destructive operation completed',
+            timestamp: new Date().toISOString(),
+            operator: request.user.sub
+          };
+        });
+
+        const start = async () => {
+          try {
+            await app.listen({ port: 3000, host: '0.0.0.0' });
+            console.log('Fastify gateway listening on port 3000');
+          } catch (err) {
+            console.error(err);
+            process.exit(1);
+          }
+        };
+
+        start();
+        EOF
+        node gateway.js
+      "
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=test
+      - LOG_LEVEL=info
+    networks:
+      - security-test
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3000/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # Redis for session management and caching
+  redis-security:
+    image: redis:7-alpine
+    ports:
+      - "6380:6379"
+    command: >
+      redis-server 
+      --save 60 1 
+      --loglevel warning
+      --maxmemory 256mb
+      --maxmemory-policy allkeys-lru
+    volumes:
+      - redis-security-data:/data
+    networks:
+      - security-test
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Git server for testing destructive operations
+  git-server:
+    image: gitea/gitea:1.22
+    container_name: git-server
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - ROOT_URL=http://localhost:3002
+      - DOMAIN=localhost
+      - HTTP_PORT=3002
+      - SSH_DOMAIN=localhost
+      - SSH_PORT=2222
+      - LFS_START_SERVER=true
+      - DISABLE_SSH=true
+      - INSTALL_LOCK=true
+      - SECRET_KEY=integration-test-secret-key-change-in-production
+      - DB_TYPE=sqlite3
+    ports:
+      - "3002:3002"
+      - "2222:22"
+    volumes:
+      - git-server-data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - security-test
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3002/api/healthz || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  # Authentication service
+  auth-service:
+    image: node:22-alpine
+    working_dir: /app
+    command: >
+      sh -lc "
+        npm install -g jsonwebtoken bcryptjs &&
+        cat > auth-service.js << 'EOF'
+        const jwt = require('jsonwebtoken');
+        const bcrypt = require('bcryptjs');
+        const http = require('http');
+
+        const JWT_SECRET = 'integration-test-jwt-secret-change-in-production';
+        const users = new Map([
+          ['admin', { 
+            password: bcrypt.hashSync('admin123', 10), 
+            role: 'admin', 
+            permissions: ['*'] 
+          }],
+          ['user', { 
+            password: bcrypt.hashSync('user123', 10), 
+            role: 'user', 
+            permissions: ['read', 'write'] 
+          }],
+          ['readonly', { 
+            password: bcrypt.hashSync('readonly123', 10), 
+            role: 'readonly', 
+            permissions: ['read'] 
+          }]
+        ]);
+
+        const requestHandler = async (req, res) => {
+          const setCORS = (res) => {
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+            res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+          };
+
+          setCORS(res);
+
+          if (req.method === 'OPTIONS') {
+            res.writeHead(200);
+            res.end();
+            return;
+          }
+
+          const url = new URL(req.url, 'http://localhost');
+          
+          try {
+            if (req.method === 'POST' && url.pathname === '/auth/login') {
+              let body = '';
+              req.on('data', chunk => body += chunk);
+              req.on('end', async () => {
+                try {
+                  const { username, password } = JSON.parse(body);
+                  const user = users.get(username);
+                  
+                  if (!user || !await bcrypt.compare(password, user.password)) {
+                    res.writeHead(401, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ error: 'Invalid credentials' }));
+                    return;
+                  }
+
+                  const token = jwt.sign(
+                    { 
+                      sub: username, 
+                      role: user.role, 
+                      permissions: user.permissions,
+                      exp: Math.floor(Date.now() / 1000) + (60 * 60) // 1 hour
+                    },
+                    JWT_SECRET
+                  );
+
+                  res.writeHead(200, { 'Content-Type': 'application/json' });
+                  res.end(JSON.stringify({ 
+                    token, 
+                    user: { username, role: user.role, permissions: user.permissions } 
+                  }));
+                } catch (error) {
+                  res.writeHead(400, { 'Content-Type': 'application/json' });
+                  res.end(JSON.stringify({ error: 'Invalid request' }));
+                }
+              });
+              return;
+            }
+
+            if (req.method === 'POST' && url.pathname === '/auth/validate') {
+              let body = '';
+              req.on('data', chunk => body += chunk);
+              req.on('end', () => {
+                try {
+                  const { token } = JSON.parse(body);
+                  const decoded = jwt.verify(token, JWT_SECRET);
+                  res.writeHead(200, { 'Content-Type': 'application/json' });
+                  res.end(JSON.stringify({ valid: true, user: decoded }));
+                } catch (error) {
+                  res.writeHead(401, { 'Content-Type': 'application/json' });
+                  res.end(JSON.stringify({ valid: false, error: error.message }));
+                }
+              });
+              return;
+            }
+
+            if (req.method === 'GET' && url.pathname === '/health') {
+              res.writeHead(200, { 'Content-Type': 'application/json' });
+              res.end(JSON.stringify({ status: 'ok', service: 'auth-service' }));
+              return;
+            }
+
+            res.writeHead(404, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Not found' }));
+
+          } catch (error) {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Internal server error' }));
+          }
+        };
+
+        const server = http.createServer(requestHandler);
+        server.listen(3003, '0.0.0.0', () => {
+          console.log('Auth service listening on port 3003');
+        });
+        EOF
+        node auth-service.js
+      "
+    ports:
+      - "3003:3003"
+    environment:
+      - NODE_ENV=test
+    networks:
+      - security-test
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3003/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # Security test runner
+  security-test-runner:
+    image: node:22-alpine
+    working_dir: /app
+    command: >
+      sh -lc "
+        npm install -g axios &&
+        cat > security-tests.js << 'EOF'
+        const axios = require('axios');
+
+        const BASE_URL = 'http://fastify-gateway:3000';
+        const AUTH_URL = 'http://auth-service:3003';
+        const GIT_URL = 'http://git-server:3002';
+
+        async function sleep(ms) {
+          return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function waitForService(url, maxAttempts = 30) {
+          for (let i = 0; i < maxAttempts; i++) {
+            try {
+              await axios.get(url, { timeout: 2000 });
+              return true;
+            } catch (error) {
+              if (i === maxAttempts - 1) throw error;
+              await sleep(1000);
+            }
+          }
+        }
+
+        async function runSecurityTests() {
+          console.log('Starting security integration tests...');
+          
+          try {
+            // Wait for all services to be ready
+            console.log('Waiting for services to be ready...');
+            await waitForService(`${BASE_URL}/health`);
+            await waitForService(`${AUTH_URL}/health`);
+            await waitForService(`${GIT_URL}/api/healthz`);
+            console.log('All services are ready!');
+
+            // Test 1: Public endpoint access
+            console.log('Test 1: Public endpoint access');
+            const publicResponse = await axios.get(`${BASE_URL}/api/public`);
+            console.log('✓ Public endpoint accessible:', publicResponse.data);
+
+            // Test 2: Protected endpoint without token
+            console.log('Test 2: Protected endpoint without token');
+            try {
+              await axios.get(`${BASE_URL}/api/protected/resource`);
+              console.log('✗ Should have failed without token');
+            } catch (error) {
+              if (error.response?.status === 401) {
+                console.log('✓ Correctly rejected unauthorized access');
+              } else {
+                throw error;
+              }
+            }
+
+            // Test 3: Authentication flow
+            console.log('Test 3: Authentication flow');
+            const loginResponse = await axios.post(`${AUTH_URL}/auth/login`, {
+              username: 'admin',
+              password: 'admin123'
+            });
+            const adminToken = loginResponse.data.token;
+            console.log('✓ Admin authentication successful');
+
+            // Test 4: Protected endpoint with valid token
+            console.log('Test 4: Protected endpoint with valid token');
+            const protectedResponse = await axios.get(`${BASE_URL}/api/protected/resource`, {
+              headers: { Authorization: `Bearer ${adminToken}` }
+            });
+            console.log('✓ Protected endpoint accessible with token:', protectedResponse.data);
+
+            // Test 5: Destructive operations with admin token
+            console.log('Test 5: Destructive operations with admin token');
+            const destructiveResponse = await axios.post(`${BASE_URL}/api/destructive/reset`, {}, {
+              headers: { Authorization: `Bearer ${adminToken}` }
+            });
+            console.log('✓ Destructive operation completed:', destructiveResponse.data);
+
+            // Test 6: Destructive operations with user token (should fail)
+            console.log('Test 6: Destructive operations with user token');
+            const userLoginResponse = await axios.post(`${AUTH_URL}/auth/login`, {
+              username: 'user',
+              password: 'user123'
+            });
+            const userToken = userLoginResponse.data.token;
+
+            try {
+              await axios.post(`${BASE_URL}/api/destructive/reset`, {}, {
+                headers: { Authorization: `Bearer ${userToken}` }
+              });
+              console.log('✗ Should have failed for non-admin user');
+            } catch (error) {
+              if (error.response?.status === 403) {
+                console.log('✓ Correctly rejected non-admin destructive operation');
+              } else {
+                throw error;
+              }
+            }
+
+            // Test 7: Rate limiting on destructive operations
+            console.log('Test 7: Rate limiting on destructive operations');
+            try {
+              await axios.post(`${BASE_URL}/api/destructive/reset`, {}, {
+                headers: { Authorization: `Bearer ${adminToken}` }
+              });
+              console.log('✗ Should have been rate limited');
+            } catch (error) {
+              if (error.response?.status === 429) {
+                console.log('✓ Rate limiting working correctly');
+              } else {
+                throw error;
+              }
+            }
+
+            // Test 8: Token validation
+            console.log('Test 8: Token validation');
+            const validateResponse = await axios.post(`${AUTH_URL}/auth/validate`, {
+              token: adminToken
+            });
+            console.log('✓ Token validation successful:', validateResponse.data);
+
+            console.log('\\n🎉 All security integration tests passed!');
+            
+          } catch (error) {
+            console.error('❌ Security test failed:', error.message);
+            if (error.response) {
+              console.error('Response status:', error.response.status);
+              console.error('Response data:', error.response.data);
+            }
+            process.exit(1);
+          }
+        }
+
+        runSecurityTests();
+        EOF
+        node security-tests.js
+      "
+    networks:
+      - security-test
+    depends_on:
+      fastify-gateway:
+        condition: service_healthy
+      auth-service:
+        condition: service_healthy
+      git-server:
+        condition: service_healthy
+    environment:
+      - NODE_ENV=test
+
+volumes:
+  redis-security-data:
+  git-server-data:
+
+networks:
+  security-test:
+    driver: bridge

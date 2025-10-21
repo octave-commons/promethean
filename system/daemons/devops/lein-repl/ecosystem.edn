@@ -1,0 +1,19 @@
+{:apps [{:name "lein-repl"
+         :script "lein"
+         :interpreter "/usr/bin/env"
+         :args ["repl" ":headless" ":port" "7888"]
+         :out_file "./logs/lein-repl-out.log"
+         :error_file "./logs/lein-repl-err.log"
+         :merge_logs true
+         :instances 1
+         :autorestart true
+         :restart_delay 10000
+         :kill_timeout 10000
+         :env {:LEIN_REPL_PORT "7888"
+               :JAVA_OPTS "-Xmx2g -XX:+UseG1GC"}
+         :ignore_watch ["node_modules"
+                        "logs"
+                        "tmp"
+                        ".git"
+                        "target"
+                        ".cpcache"]}]}

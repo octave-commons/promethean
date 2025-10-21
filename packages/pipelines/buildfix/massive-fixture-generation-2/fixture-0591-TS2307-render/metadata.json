@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0591-TS2307-render",
+  "description": "Massive fixture for TS2307 from packages/kanban/src/frontend/render.ts",
+  "originalPath": "packages/kanban/src/frontend/render.ts",
+  "targetErrorCode": "TS2307",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 591,
+  "generatedAt": "2025-10-15T06:55:37.892Z"
+}

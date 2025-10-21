@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0462-TS1183-indexer",
+  "description": "Massive fixture for TS1183 from packages/kanban/src/board/indexer.ts",
+  "originalPath": "packages/kanban/src/board/indexer.ts",
+  "targetErrorCode": "TS1183",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 462,
+  "generatedAt": "2025-10-15T06:55:37.839Z"
+}

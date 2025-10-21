@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0181-TS1005-07-monitor",
+  "description": "Massive fixture for TS1005 from packages/boardrev/src/07-monitor.ts",
+  "originalPath": "packages/boardrev/src/07-monitor.ts",
+  "targetErrorCode": "TS1005",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 181,
+  "generatedAt": "2025-10-15T06:55:37.735Z"
+}

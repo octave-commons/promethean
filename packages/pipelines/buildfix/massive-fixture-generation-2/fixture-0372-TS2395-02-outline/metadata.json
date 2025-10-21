@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0372-TS2395-02-outline",
+  "description": "Massive fixture for TS2395 from packages/readmeflow/src/02-outline.ts",
+  "originalPath": "packages/readmeflow/src/02-outline.ts",
+  "targetErrorCode": "TS2395",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 372,
+  "generatedAt": "2025-10-15T06:55:37.805Z"
+}

@@ -199,7 +199,6 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         return {
             [this.textKey]: textCondition,
         } as Filter<DualStoreEntry<TextKey, TimeKey>>;
-
     }
 
     private createDefaultSorter(): Sort {
@@ -258,6 +257,36 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
             })
             .filter((entry): entry is DualStoreEntry<'text', 'timestamp'> => entry !== undefined)
             .filter((entry, index, array) => array.findIndex((candidate) => candidate.text === entry.text) === index);
+    }
 
+    async get(id: string): Promise<DualStoreEntry<'text', 'timestamp'> | null> {
+        const filter = { id } as Filter<DualStoreEntry<TextKey, TimeKey>>;
+        const document = await this.mongoCollection.findOne(filter);
+
+        if (!document) {
+            return null;
+        }
+
+        return toGenericEntry(document, this.textKey, this.timeStampKey);
+    }
+
+    async cleanup(): Promise<void> {
+        try {
+            // Close MongoDB connection
+            const { getMongoClient } = await import('./clients.js');
+            const mongoClient = await getMongoClient();
+            if (mongoClient) {
+                await mongoClient.close();
+            }
+        } catch (error) {
+            // Ignore cleanup errors - connection might already be closed
+        }
+
+        try {
+            // ChromaDB cleanup is handled automatically when the process exits
+            // The ChromaClient doesn't have an explicit close method in the current version
+        } catch (error) {
+            // Ignore cleanup errors
+        }
     }
 }

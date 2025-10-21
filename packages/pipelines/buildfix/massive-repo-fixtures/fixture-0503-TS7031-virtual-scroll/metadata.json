@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0503-TS7031-virtual-scroll",
+  "description": "Massive fixture for TS7031 from packages/kanban/src/frontend/virtual-scroll.ts",
+  "originalPath": "packages/kanban/src/frontend/virtual-scroll.ts",
+  "targetErrorCode": "TS7031",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 503,
+  "generatedAt": "2025-10-15T06:38:49.518Z"
+}

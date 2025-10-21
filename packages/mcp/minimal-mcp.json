@@ -1,0 +1,14 @@
+{
+  "transport": "http",
+  "port": 3212,
+  "tools": ["mcp.help", "mcp.toolset", "mcp.endpoints"],
+  "includeHelp": true,
+  "stdioProxies": [],
+  "stdioProxyConfig": null,
+  "endpoints": {
+    "mcp": {
+      "tools": ["mcp.help", "mcp.toolset", "mcp.endpoints"],
+      "includeHelp": true
+    }
+  }
+}

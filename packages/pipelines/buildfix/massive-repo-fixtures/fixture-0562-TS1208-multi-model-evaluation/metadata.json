@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0562-TS1208-multi-model-evaluation",
+  "description": "Massive fixture for TS1208 from packages/boardrev/src/multi-model-evaluation.ts",
+  "originalPath": "packages/boardrev/src/multi-model-evaluation.ts",
+  "targetErrorCode": "TS1208",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 562,
+  "generatedAt": "2025-10-15T06:38:49.541Z"
+}

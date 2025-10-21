@@ -1,0 +1,50 @@
+{
+  "total": {
+    "lines": {
+      "total": 100,
+      "covered": 85,
+      "pct": 85
+    },
+    "functions": {
+      "total": 20,
+      "covered": 18,
+      "pct": 90
+    },
+    "branches": {
+      "total": 40,
+      "covered": 32,
+      "pct": 80
+    },
+    "statements": {
+      "total": 120,
+      "covered": 102,
+      "pct": 85
+    }
+  },
+  "coverageMap": {
+    "src/main.ts": {
+      "lines": {
+        "total": 50,
+        "covered": 45,
+        "pct": 90
+      },
+      "functions": {
+        "total": 10,
+        "covered": 9,
+        "pct": 90
+      }
+    },
+    "src/utils.ts": {
+      "lines": {
+        "total": 30,
+        "covered": 24,
+        "pct": 80
+      },
+      "functions": {
+        "total": 6,
+        "covered": 5,
+        "pct": 83.33
+      }
+    }
+  }
+}

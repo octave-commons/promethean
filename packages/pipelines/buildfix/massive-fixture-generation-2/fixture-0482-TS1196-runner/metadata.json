@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0482-TS1196-runner",
+  "description": "Massive fixture for TS1196 from packages/piper/src/runner.ts",
+  "originalPath": "packages/piper/src/runner.ts",
+  "targetErrorCode": "TS1196",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 482,
+  "generatedAt": "2025-10-15T06:55:37.847Z"
+}

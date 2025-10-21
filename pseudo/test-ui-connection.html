@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Test API Connection</title>
+  </head>
+  <body>
+    <h1>API Connection Test</h1>
+    <div id="results"></div>
+
+    <script>
+      async function testAPI() {
+        const endpoint = 'http://localhost:3002';
+        console.log('Testing API at:', endpoint);
+
+        try {
+          const response = await fetch(`${endpoint}/api/v1/session_messages`);
+          const data = await response.json();
+          console.log('API Response:', data);
+
+          const results = document.getElementById('results');
+          if (data.success && data.data.length > 0) {
+            results.innerHTML = `
+                        <h2>✅ Connected Successfully!</h2>
+                        <p>Found ${data.data.length} messages</p>
+                        <h3>Sample message:</h3>
+                        <pre>${JSON.stringify(data.data[0], null, 2)}</pre>
+                    `;
+          } else {
+            results.innerHTML = `<h2>❌ API Error</h2><pre>${JSON.stringify(data, null, 2)}</pre>`;
+          }
+        } catch (error) {
+          console.error('API Error:', error);
+          document.getElementById('results').innerHTML =
+            `<h2>❌ Connection Failed</h2><p>${error.message}</p>`;
+        }
+      }
+
+      testAPI();
+    </script>
+  </body>
+</html>

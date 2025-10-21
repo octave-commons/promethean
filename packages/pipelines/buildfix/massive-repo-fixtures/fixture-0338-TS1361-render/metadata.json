@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0338-TS1361-render",
+  "description": "Massive fixture for TS1361 from packages/report-forge/src/lib/render.ts",
+  "originalPath": "packages/report-forge/src/lib/render.ts",
+  "targetErrorCode": "TS1361",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 338,
+  "generatedAt": "2025-10-15T06:38:49.448Z"
+}

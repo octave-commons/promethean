@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0247-TS1109-diff",
+  "description": "Massive fixture for TS1109 from packages/apply-patch/src/diff.ts",
+  "originalPath": "packages/apply-patch/src/diff.ts",
+  "targetErrorCode": "TS1109",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 247,
+  "generatedAt": "2025-10-15T06:38:49.402Z"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0565-TS1175-command-handlers",
+  "description": "Massive fixture for TS1175 from packages/kanban/src/cli/command-handlers.ts",
+  "originalPath": "packages/kanban/src/cli/command-handlers.ts",
+  "targetErrorCode": "TS1175",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 565,
+  "generatedAt": "2025-10-15T06:55:37.881Z"
+}

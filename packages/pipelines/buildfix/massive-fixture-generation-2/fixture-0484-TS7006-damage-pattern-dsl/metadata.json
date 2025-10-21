@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0484-TS7006-damage-pattern-dsl",
+  "description": "Massive fixture for TS7006 from packages/kanban/src/lib/heal/damage-pattern-dsl.ts",
+  "originalPath": "packages/kanban/src/lib/heal/damage-pattern-dsl.ts",
+  "targetErrorCode": "TS7006",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 484,
+  "generatedAt": "2025-10-15T06:55:37.848Z"
+}

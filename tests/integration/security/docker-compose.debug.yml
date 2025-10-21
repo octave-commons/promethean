@@ -1,0 +1,43 @@
+services:
+  # Simple HTTP server for debugging
+  simple-server:
+    image: node:22-alpine
+    working_dir: /app
+    command: >
+      sh -c "
+        cat > server.js << 'EOF'
+        const http = require('http');
+        
+        const server = http.createServer((req, res) => {
+          console.log('Request received:', req.method, req.url);
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ 
+            status: 'ok', 
+            service: 'simple-server',
+            timestamp: new Date().toISOString()
+          }));
+        });
+        
+        server.listen(3000, '0.0.0.0', () => {
+          console.log('Simple server listening on port 3000');
+        });
+        
+        // Keep the process running
+        process.on('SIGTERM', () => {
+          console.log('Received SIGTERM');
+          server.close(() => process.exit(0));
+        });
+        EOF
+        
+        echo 'Starting simple server...'
+        node server.js
+      "
+    ports:
+      - '3010:3000'
+    networks:
+      - debug-network
+    restart: unless-stopped
+
+networks:
+  debug-network:
+    driver: bridge

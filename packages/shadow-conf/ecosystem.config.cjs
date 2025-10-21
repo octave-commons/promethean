@@ -2,27 +2,23 @@
 let configDotenv = () => {};
 
 try {
-  const dotenvModule = await import("dotenv");
+  const dotenvModule = require('dotenv');
 
-  if (typeof dotenvModule.config === "function") {
+  if (typeof dotenvModule.config === 'function') {
     configDotenv = dotenvModule.config;
   }
 } catch (error) {
-  if (error?.code !== "ERR_MODULE_NOT_FOUND") {
+  if (error?.code !== 'ERR_MODULE_NOT_FOUND') {
     throw error;
   }
 }
 
 configDotenv();
 
-export const apps = 
-[];
+module.exports.apps = [];
 
-export const triggers = 
-[];
+module.exports.triggers = [];
 
-export const schedules = 
-[];
+module.exports.schedules = [];
 
-export const actions = 
-[];
+module.exports.actions = [];

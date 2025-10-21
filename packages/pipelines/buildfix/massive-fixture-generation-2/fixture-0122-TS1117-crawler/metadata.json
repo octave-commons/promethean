@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0122-TS1117-crawler",
+  "description": "Massive fixture for TS1117 from packages/web-utils/src/crawler.ts",
+  "originalPath": "packages/web-utils/src/crawler.ts",
+  "targetErrorCode": "TS1117",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 122,
+  "generatedAt": "2025-10-15T06:55:37.711Z"
+}

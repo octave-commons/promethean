@@ -4,11 +4,12 @@ permissions:
   contents: read
 on:
   pull_request:
-    branches: ["dev/testing", "dev/staging", "dev/main", "main"]
+    branches: ['dev/testing', 'dev/staging', 'dev/main', 'main']
 
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     container:
       image: ghcr.io/riatzukiza/play-clj:latest # prebuilt: playwright + clojure + rg
       options: --ipc=host # playwright stability
@@ -19,10 +20,24 @@ jobs:
       - name: Trust workspace ownership for Git
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}-
+            ${{ runner.os }}-pnpm-store-
+
       - uses: pnpm/action-setup@v4
 
       - uses: actions/setup-node@v4
-        with: { cache: "pnpm" }
+        with: { cache: 'pnpm' }
 
       - uses: nrwl/nx-set-shas@v4
 
@@ -46,7 +61,12 @@ jobs:
           path: |
             ~/.m2/repository
             ~/.gitlibs
-          key: cljdeps-${{ runner.os }}-${{ hashFiles('**/deps.edn') }}
+            ~/.clojure
+            ~/.cpcache
+          key: cljdeps-${{ runner.os }}-${{ hashFiles('**/deps.edn', '**/bb.edn') }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            cljdeps-${{ runner.os }}-${{ hashFiles('**/deps.edn', '**/bb.edn') }}-
+            cljdeps-${{ runner.os }}-
 
       - name: Install deps
         run: pnpm install --frozen-lockfile

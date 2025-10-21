@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0467-TS5054-flags",
+  "description": "Massive fixture for TS5054 from packages/duck-utils/src/flags.ts",
+  "originalPath": "packages/duck-utils/src/flags.ts",
+  "targetErrorCode": "TS5054",
+  "errorCategory": "Compiler Options Error",
+  "fixtureNumber": 467,
+  "generatedAt": "2025-10-15T06:38:49.503Z"
+}

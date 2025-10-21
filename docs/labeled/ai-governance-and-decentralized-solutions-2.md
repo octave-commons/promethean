@@ -19,6 +19,9 @@ tags:
   - local decision-making
   - systemic risk
   - collaborative AI
+related_to_uuid: []
+related_to_title: []
+references: []
 ---
 AI is only as good as the people who use it and make it.
 https://openai.com/index/detecting-and-reducing-scheming-in-ai-models/

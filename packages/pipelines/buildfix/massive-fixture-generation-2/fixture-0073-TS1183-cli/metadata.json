@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0073-TS1183-cli",
+  "description": "Massive fixture for TS1183 from packages/apply-patch/src/cli.ts",
+  "originalPath": "packages/apply-patch/src/cli.ts",
+  "targetErrorCode": "TS1183",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 73,
+  "generatedAt": "2025-10-15T06:55:37.687Z"
+}

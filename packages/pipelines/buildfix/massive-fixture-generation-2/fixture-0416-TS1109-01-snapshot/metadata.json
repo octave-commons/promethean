@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0416-TS1109-01-snapshot",
+  "description": "Massive fixture for TS1109 from packages/semverguard/src/01-snapshot.ts",
+  "originalPath": "packages/semverguard/src/01-snapshot.ts",
+  "targetErrorCode": "TS1109",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 416,
+  "generatedAt": "2025-10-15T06:55:37.823Z"
+}

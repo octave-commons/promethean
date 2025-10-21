@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0506-TS7006-04-enhanced-context",
+  "description": "Massive fixture for TS7006 from packages/boardrev/src/04-enhanced-context.ts",
+  "originalPath": "packages/boardrev/src/04-enhanced-context.ts",
+  "targetErrorCode": "TS7006",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 506,
+  "generatedAt": "2025-10-15T06:38:49.520Z"
+}

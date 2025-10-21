@@ -4,7 +4,6 @@ description: >-
   automated LLM interactions, API calls, or system integrations. Examples:
   <example>Context: User is setting up an automated customer service bot and
   needs to craft prompts that will consistently generate helpful responses.
-  user: 'I need to create a prompt for my customer service bot that handles
   refund requests' assistant: 'I'll use the prompt-optimizer agent to craft a
   precise, effective prompt for handling refund requests in your customer
   service bot.' <commentary>The user needs a specialized prompt for automated
@@ -12,7 +11,6 @@ description: >-
   for.</commentary></example> <example>Context: User has an existing prompt
   that's producing inconsistent results and needs improvement. user: 'My current
   prompt for generating product descriptions sometimes misses key features'
-  assistant: 'Let me use the prompt-optimizer agent to analyze and improve your
   product description prompt for better consistency and completeness.'
   <commentary>The existing prompt needs optimization for automated use, making
   this a perfect case for the prompt-optimizer agent.</commentary></example>

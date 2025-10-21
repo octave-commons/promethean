@@ -1,0 +1,132 @@
+services:
+  # Basic HTTP server for testing
+  auth-service:
+    image: node:22-alpine
+    working_dir: /app
+    command: >
+      sh -c "
+        cat > server.js << 'EOF'
+        const http = require('http');
+
+        const server = http.createServer((req, res) => {
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ status: 'ok', service: 'auth-service' }));
+        });
+
+        server.listen(3003, '0.0.0.0', () => {
+          console.log('Auth service listening on port 3003');
+        });
+        EOF
+        node server.js
+      "
+    ports:
+      - '3003:3003'
+    networks:
+      - security-test
+    healthcheck:
+      test: ['CMD-SHELL', 'wget --no-verbose --tries=1 --spider http://localhost:3003/ || exit 1']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+  # Basic Fastify server
+  fastify-gateway:
+    image: node:22-alpine
+    working_dir: /app
+    command: >
+      sh -c "
+        npm install -g fastify &&
+        cat > gateway.js << 'EOF'
+        const fastify = require('fastify');
+
+        const app = fastify({ logger: false });
+
+        app.get('/health', async (request, reply) => {
+          return { status: 'ok', timestamp: new Date().toISOString() };
+        });
+
+        app.get('/api/public', async (request, reply) => {
+          return { message: 'Public endpoint accessible' };
+        });
+
+        const start = async () => {
+          try {
+            await app.listen({ port: 3000, host: '0.0.0.0' });
+            console.log('Fastify gateway listening on port 3000');
+          } catch (err) {
+            console.error(err);
+            process.exit(1);
+          }
+        };
+
+        start();
+        EOF
+        node gateway.js
+      "
+    ports:
+      - '3001:3000'
+    networks:
+      - security-test
+    healthcheck:
+      test:
+        ['CMD-SHELL', 'wget --no-verbose --tries=1 --spider http://localhost:3000/health || exit 1']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # Test runner
+  test-runner:
+    image: node:22-alpine
+    working_dir: /app
+    command: >
+      sh -c "
+        npm install -g axios &&
+        cat > test.js << 'EOF'
+        const axios = require('axios');
+
+        async function runTest() {
+          console.log('Starting basic integration test...');
+          
+          try {
+            console.log('Testing auth service...');
+            const authResponse = await axios.get('http://auth-service:3003/');
+            console.log('✓ Auth service:', authResponse.data);
+            
+            console.log('Testing gateway health...');
+            const healthResponse = await axios.get('http://fastify-gateway:3000/health');
+            console.log('✓ Gateway health:', healthResponse.data);
+            
+            console.log('Testing public endpoint...');
+            const publicResponse = await axios.get('http://fastify-gateway:3000/api/public');
+            console.log('✓ Public endpoint:', publicResponse.data);
+            
+            console.log('\\n🎉 All basic integration tests passed!');
+            
+          } catch (error) {
+            console.error('❌ Test failed:', error.message);
+            if (error.response) {
+              console.error('Response status:', error.response.status);
+              console.error('Response data:', error.response.data);
+            }
+            process.exit(1);
+          }
+        }
+
+        // Wait a bit for services to start
+        setTimeout(runTest, 5000);
+        EOF
+        node test.js
+      "
+    networks:
+      - security-test
+    depends_on:
+      auth-service:
+        condition: service_healthy
+      fastify-gateway:
+        condition: service_healthy
+
+networks:
+  security-test:
+    driver: bridge

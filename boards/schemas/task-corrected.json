@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Board Task - FSM Aligned",
+  "type": "object",
+  "required": ["id", "title", "status", "priority", "owner", "labels", "created"],
+  "properties": {
+    "id": { "type": "string" },
+    "title": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": [
+        "icebox",
+        "incoming",
+        "accepted",
+        "breakdown",
+        "blocked",
+        "ready",
+        "todo",
+        "in_progress",
+        "testing",
+        "review",
+        "document",
+        "done",
+        "rejected",
+        "archived"
+      ],
+      "description": "FSM-aligned status values following To Do → In Progress → Review → Done flow"
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["P0", "P1", "P2", "P3", "low", "medium", "high", "critical"]
+    },
+    "owner": { "type": "string" },
+    "labels": { "type": "array", "items": { "type": "string" } },
+    "created": { "type": "string" },
+    "updated": { "type": "string" },
+    "rel": {
+      "type": "object",
+      "properties": {
+        "blocks": { "type": "array", "items": { "type": "string" } },
+        "blockedBy": { "type": "array", "items": { "type": "string" } },
+        "links": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "milestone": { "type": "string" },
+    "estimates": {
+      "type": "object",
+      "properties": {
+        "complexity": { "type": "number" },
+        "scale": { "type": "string" },
+        "time_to_completion": { "type": "string" }
+      }
+    },
+    "storyPoints": {
+      "type": "number",
+      "description": "Fibonacci story points (1, 2, 3, 5, 8, 13). Scores >5 require breakdown."
+    }
+  },
+  "description": "FSM-aligned task schema supporting the full kanban workflow with proper column normalization"
+}

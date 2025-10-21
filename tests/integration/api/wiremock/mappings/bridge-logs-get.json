@@ -1,0 +1,38 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/api/bridge/logs"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": [
+      {
+        "id": "log-1",
+        "event_type": "task_created",
+        "source": "mcp",
+        "target": "kanban",
+        "payload": {"mcp_task_id": "task-1", "kanban_task_id": "task-1"},
+        "timestamp": "2024-01-01T00:00:00Z"
+      },
+      {
+        "id": "log-2",
+        "event_type": "task_status_updated",
+        "source": "mcp",
+        "target": "kanban",
+        "payload": {"task_id": "task-1", "new_status": "in_progress"},
+        "timestamp": "2024-01-01T00:01:00Z"
+      },
+      {
+        "id": "log-3",
+        "event_type": "task_deleted",
+        "source": "mcp",
+        "target": "kanban",
+        "payload": {"task_id": "task-1"},
+        "timestamp": "2024-01-01T00:02:00Z"
+      }
+    ]
+  }
+}

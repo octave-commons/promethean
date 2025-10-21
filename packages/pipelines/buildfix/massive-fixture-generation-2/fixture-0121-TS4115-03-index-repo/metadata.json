@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0121-TS4115-03-index-repo",
+  "description": "Massive fixture for TS4115 from packages/boardrev/src/03-index-repo.ts",
+  "originalPath": "packages/boardrev/src/03-index-repo.ts",
+  "targetErrorCode": "TS4115",
+  "errorCategory": "Declaration Error",
+  "fixtureNumber": 121,
+  "generatedAt": "2025-10-15T06:55:37.711Z"
+}

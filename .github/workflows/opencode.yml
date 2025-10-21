@@ -12,6 +12,7 @@ jobs:
       contains(github.event.comment.body, ' /opencode') ||
       startsWith(github.event.comment.body, '/opencode')
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     permissions:
       contents: read
       id-token: write
@@ -24,4 +25,4 @@ jobs:
         env:
           ZHIPU_API_KEY: ${{ secrets.ZHIPU_API_KEY }}
         with:
-          model: zai-coding-plan/glm-4.5v
+          model: zai-coding-plan/glm-4.6

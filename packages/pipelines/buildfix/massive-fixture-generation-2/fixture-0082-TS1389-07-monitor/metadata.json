@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0082-TS1389-07-monitor",
+  "description": "Massive fixture for TS1389 from packages/boardrev/src/07-monitor.ts",
+  "originalPath": "packages/boardrev/src/07-monitor.ts",
+  "targetErrorCode": "TS1389",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 82,
+  "generatedAt": "2025-10-15T06:55:37.691Z"
+}

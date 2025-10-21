@@ -1,0 +1,96 @@
+# Documentation Structure Guide
+
+## 📁 Directory Organization
+
+### Root Level Documentation
+
+- `agile/` - Kanban board, tasks, epics, and agile process documentation
+- `adr/` - Architecture Decision Records
+- `inbox/` - Temporary holding area for new documents (agents should move files from here)
+- `reference/` - Technical reference materials and guides
+- `external/` - External documentation and references
+- `prompts/` - Prompt templates and optimization guides
+  - `optimized/` - Optimized prompt templates
+
+### Reports Structure
+
+- `reports/` - All project reports organized by category
+  - `agile/` - Kanban board reports, workflow analysis, process metrics
+  - `benchmark/` - Performance benchmarks, BuildFix reports, optimization results
+  - `security/` - Security analyses, threat models, vulnerability reports
+  - `general/` - General project reports, summaries, analyses
+
+## 🤖 Agent Guidelines
+
+### File Placement Rules
+
+1. **Reports**: Always place in appropriate `reports/` subdirectory
+2. **External References**: Use `external/` for third-party documentation
+3. **Reference Materials**: Use `reference/` for internal technical guides
+4. **New Documents**: Start in `inbox/`, then move to proper location
+5. **Prompts**: Use `prompts/optimized/` for optimized prompt templates
+
+### Naming Conventions
+
+- Use kebab-case for filenames
+- Include date prefixes for time-sensitive reports: `YYYY-MM-DD-report-name.md`
+- Use descriptive names that indicate content type and purpose
+
+### Cleanup Responsibilities
+
+- Remove backup files (`.bak`, `.backup`, `*~`)
+- Consolidate duplicate content
+- Move temporary files to proper locations
+- Update indexes when adding new documentation
+
+## 🔄 Migration Status
+
+### Completed ✅
+
+- Root directory scripts moved to categorized `scripts/` directories
+- Security reports moved to `reports/security/`
+- Benchmark reports moved to `reports/benchmark/`
+- Agile reports moved to `reports/agile/`
+- External references moved to `external/`
+- Backup files removed from `agile/`
+
+### In Progress 🔄
+
+- Consolidating remaining duplicate files
+- Creating automated cleanup processes
+- Establishing agent behavior guidelines
+
+## 📋 Quick Reference
+
+| File Type         | Location             | Example                           |
+| ----------------- | -------------------- | --------------------------------- |
+| Kanban Report     | `reports/agile/`     | `kanban-audit-report.md`          |
+| Benchmark         | `reports/benchmark/` | `buildfix-performance.md`         |
+| Security Analysis | `reports/security/`  | `threat-modeling-analysis.md`     |
+| External Doc      | `external/`          | `obsidian-tracker-guide.md`       |
+| Technical Guide   | `reference/`         | `workspace-organization-guide.md` |
+| Prompt Template   | `prompts/optimized/` | `code-review-prompt.md`           |
+
+## 🚫 What to Avoid
+
+- **DO NOT** dump files in `docs/` root
+- **DO NOT** create backup files in version control
+- **DO NOT** use generic names like `untitled-1.md`
+- **DO NOT** duplicate existing documentation
+- **DO NOT** mix reports with reference documentation
+
+## 🔧 Maintenance
+
+### Regular Tasks
+
+1. Check `inbox/` for misplaced files
+2. Remove temporary and backup files
+3. Consolidate duplicate content
+4. Update this structure guide as needed
+
+### Automated Processes
+
+- Scripts should check file location before creation
+- Use semantic search to find existing content before creating new files
+- Follow established naming conventions
+- Move files from `inbox/` to proper locations within 24 hours

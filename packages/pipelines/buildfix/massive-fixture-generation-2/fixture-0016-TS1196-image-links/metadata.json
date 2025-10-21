@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0016-TS1196-image-links",
+  "description": "Massive fixture for TS1196 from packages/web-utils/src/image-links.ts",
+  "originalPath": "packages/web-utils/src/image-links.ts",
+  "targetErrorCode": "TS1196",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 16,
+  "generatedAt": "2025-10-15T06:55:37.656Z"
+}

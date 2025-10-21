@@ -1,0 +1,258 @@
+services:
+  # Redis for session storage
+  redis-security:
+    image: redis:7-alpine
+    command: redis-server --save 60 1 --loglevel warning --maxmemory 256mb --maxmemory-policy allkeys-lru
+    ports:
+      - '6380:6379'
+    volumes:
+      - redis-security-data:/data
+    networks:
+      - security-test
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Simple authentication service
+  auth-service:
+    image: node:22-alpine
+    working_dir: /app
+    command: >
+      sh -c "
+        npm install -g jsonwebtoken bcryptjs &&
+        cat > auth-service.js << 'EOF'
+        const jwt = require('jsonwebtoken');
+        const bcrypt = require('bcryptjs');
+        const http = require('http');
+
+        const JWT_SECRET = 'integration-test-jwt-secret-change-in-production';
+        const users = new Map([
+          ['admin', { 
+            password: bcrypt.hashSync('admin123', 10), 
+            role: 'admin', 
+            permissions: ['*'] 
+          }],
+          ['user', { 
+            password: bcrypt.hashSync('user123', 10), 
+            role: 'user', 
+            permissions: ['read', 'write'] 
+          }]
+        ]);
+
+        const requestHandler = async (req, res) => {
+          const setCORS = (res) => {
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+            res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+          };
+
+          setCORS(res);
+
+          if (req.method === 'OPTIONS') {
+            res.writeHead(200);
+            res.end();
+            return;
+          }
+
+          const url = new URL(req.url, 'http://localhost');
+          
+          try {
+            if (req.method === 'GET' && url.pathname === '/health') {
+              res.writeHead(200, { 'Content-Type': 'application/json' });
+              res.end(JSON.stringify({ status: 'ok', service: 'auth-service' }));
+              return;
+            }
+
+            if (req.method === 'POST' && url.pathname === '/auth/login') {
+              let body = '';
+              req.on('data', chunk => body += chunk);
+              req.on('end', async () => {
+                try {
+                  const { username, password } = JSON.parse(body);
+                  const user = users.get(username);
+                  
+                  if (!user || !await bcrypt.compare(password, user.password)) {
+                    res.writeHead(401, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ error: 'Invalid credentials' }));
+                    return;
+                  }
+
+                  const token = jwt.sign(
+                    { 
+                      sub: username, 
+                      role: user.role, 
+                      permissions: user.permissions,
+                      exp: Math.floor(Date.now() / 1000) + (60 * 60)
+                    },
+                    JWT_SECRET
+                  );
+
+                  res.writeHead(200, { 'Content-Type': 'application/json' });
+                  res.end(JSON.stringify({ 
+                    token, 
+                    user: { username, role: user.role, permissions: user.permissions } 
+                  }));
+                } catch (error) {
+                  res.writeHead(400, { 'Content-Type': 'application/json' });
+                  res.end(JSON.stringify({ error: 'Invalid request' }));
+                }
+              });
+              return;
+            }
+
+            res.writeHead(404, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Not found' }));
+
+          } catch (error) {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Internal server error' }));
+          }
+        };
+
+        const server = http.createServer(requestHandler);
+        server.listen(3003, '0.0.0.0', () => {
+          console.log('Auth service listening on port 3003');
+        });
+        EOF
+        node auth-service.js
+      "
+    environment:
+      - NODE_ENV=test
+    ports:
+      - '3003:3003'
+    networks:
+      - security-test
+    healthcheck:
+      test: ['CMD-SHELL', 'curl -f http://localhost:3003/health || exit 1']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # Simple Fastify gateway
+  fastify-gateway:
+    image: node:22-alpine
+    working_dir: /app
+    command: >
+      sh -c "
+        npm install -g fastify @fastify/cors @fastify/helmet @fastify/rate-limit &&
+        cat > gateway.js << 'EOF'
+        const fastify = require('fastify');
+        const cors = require('@fastify/cors');
+        const helmet = require('@fastify/helmet');
+        const rateLimit = require('@fastify/rate-limit');
+
+        const app = fastify({ logger: true });
+
+        app.register(helmet);
+        app.register(cors);
+        app.register(rateLimit, {
+          max: 100,
+          timeWindow: '1 minute'
+        });
+
+        app.get('/health', async (request, reply) => {
+          return { status: 'ok', timestamp: new Date().toISOString() };
+        });
+
+        app.get('/api/public', async (request, reply) => {
+          return { message: 'Public endpoint accessible' };
+        });
+
+        const start = async () => {
+          try {
+            await app.listen({ port: 3000, host: '0.0.0.0' });
+            console.log('Fastify gateway listening on port 3000');
+          } catch (err) {
+            console.error(err);
+            process.exit(1);
+          }
+        };
+
+        start();
+        EOF
+        node gateway.js
+      "
+    environment:
+      - NODE_ENV=test
+      - LOG_LEVEL=info
+    ports:
+      - '3001:3000'
+    networks:
+      - security-test
+    healthcheck:
+      test: ['CMD-SHELL', 'curl -f http://localhost:3000/health || exit 1']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # Security test runner
+  security-test-runner:
+    image: node:22-alpine
+    working_dir: /app
+    command: >
+      sh -c "
+        npm install -g axios &&
+        cat > test.js << 'EOF'
+        const axios = require('axios');
+
+        async function runTest() {
+          console.log('Starting simple security test...');
+          
+          try {
+            // Test 1: Check health endpoints
+            console.log('Testing health endpoints...');
+            const gatewayHealth = await axios.get('http://fastify-gateway:3000/health');
+            console.log('✓ Gateway health:', gatewayHealth.data);
+            
+            const authHealth = await axios.get('http://auth-service:3003/health');
+            console.log('✓ Auth service health:', authHealth.data);
+            
+            // Test 2: Test public endpoint
+            console.log('Testing public endpoint...');
+            const publicResponse = await axios.get('http://fastify-gateway:3000/api/public');
+            console.log('✓ Public endpoint:', publicResponse.data);
+            
+            // Test 3: Test authentication
+            console.log('Testing authentication...');
+            const loginResponse = await axios.post('http://auth-service:3003/auth/login', {
+              username: 'admin',
+              password: 'admin123'
+            });
+            console.log('✓ Authentication successful:', loginResponse.data);
+            
+            console.log('\\n🎉 All simple security tests passed!');
+            
+          } catch (error) {
+            console.error('❌ Test failed:', error.message);
+            if (error.response) {
+              console.error('Response status:', error.response.status);
+              console.error('Response data:', error.response.data);
+            }
+            process.exit(1);
+          }
+        }
+
+        runTest();
+        EOF
+        node test.js
+      "
+    environment:
+      - NODE_ENV=test
+    networks:
+      - security-test
+    depends_on:
+      fastify-gateway:
+        condition: service_healthy
+      auth-service:
+        condition: service_healthy
+
+networks:
+  security-test:
+    driver: bridge
+
+volumes:
+  redis-security-data:

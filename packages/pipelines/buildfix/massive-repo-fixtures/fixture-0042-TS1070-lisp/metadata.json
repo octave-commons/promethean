@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0042-TS1070-lisp",
+  "description": "Massive fixture for TS1070 from packages/cli/src/lisp.ts",
+  "originalPath": "packages/cli/src/lisp.ts",
+  "targetErrorCode": "TS1070",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 42,
+  "generatedAt": "2025-10-15T06:38:49.317Z"
+}

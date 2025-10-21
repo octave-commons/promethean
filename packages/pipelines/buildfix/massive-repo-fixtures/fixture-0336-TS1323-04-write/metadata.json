@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0336-TS1323-04-write",
+  "description": "Massive fixture for TS1323 from packages/semverguard/src/04-write.ts",
+  "originalPath": "packages/semverguard/src/04-write.ts",
+  "targetErrorCode": "TS1323",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 336,
+  "generatedAt": "2025-10-15T06:38:49.447Z"
+}

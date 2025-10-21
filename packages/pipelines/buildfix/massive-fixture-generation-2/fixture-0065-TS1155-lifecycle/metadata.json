@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0065-TS1155-lifecycle",
+  "description": "Massive fixture for TS1155 from packages/kanban/src/lib/task-content/lifecycle.ts",
+  "originalPath": "packages/kanban/src/lib/task-content/lifecycle.ts",
+  "targetErrorCode": "TS1155",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 65,
+  "generatedAt": "2025-10-15T06:55:37.684Z"
+}

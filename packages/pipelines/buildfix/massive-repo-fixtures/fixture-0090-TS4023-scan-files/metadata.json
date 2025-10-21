@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0090-TS4023-scan-files",
+  "description": "Massive fixture for TS4023 from packages/file-indexer/src/scan-files.ts",
+  "originalPath": "packages/file-indexer/src/scan-files.ts",
+  "targetErrorCode": "TS4023",
+  "errorCategory": "Declaration Error",
+  "fixtureNumber": 90,
+  "generatedAt": "2025-10-15T06:38:49.340Z"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0348-TS1241-index",
+  "description": "Massive fixture for TS1241 from packages/kanban-processor/src/index.ts",
+  "originalPath": "packages/kanban-processor/src/index.ts",
+  "targetErrorCode": "TS1241",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 348,
+  "generatedAt": "2025-10-15T06:55:37.797Z"
+}

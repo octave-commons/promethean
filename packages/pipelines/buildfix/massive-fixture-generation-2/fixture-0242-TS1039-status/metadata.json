@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0242-TS1039-status",
+  "description": "Massive fixture for TS1039 from packages/piper/src/status.ts",
+  "originalPath": "packages/piper/src/status.ts",
+  "targetErrorCode": "TS1039",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 242,
+  "generatedAt": "2025-10-15T06:55:37.754Z"
+}

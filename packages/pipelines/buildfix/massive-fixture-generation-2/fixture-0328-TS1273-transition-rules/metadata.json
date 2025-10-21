@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0328-TS1273-transition-rules",
+  "description": "Massive fixture for TS1273 from packages/kanban/src/lib/transition-rules.ts",
+  "originalPath": "packages/kanban/src/lib/transition-rules.ts",
+  "targetErrorCode": "TS1273",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 328,
+  "generatedAt": "2025-10-15T06:55:37.789Z"
+}

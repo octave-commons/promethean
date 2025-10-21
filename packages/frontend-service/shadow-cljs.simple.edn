@@ -1,0 +1,15 @@
+{:source-paths ["src/cljs"]
+ :dependencies [[binaryage/devtools "1.0.7"]]
+
+ :builds
+ {:frontend-service-test
+  {:target :node-script
+   :main promethean.frontend-service.dsl-demo/-main
+   :output-to "dist/dsl_test.cjs"
+   :compiler-options {:infer-externs :auto
+                      :source-map true
+                      :output-feature-set :es-next
+                      :optimizations :simple}
+   :devtools {:watch-dir "static"
+              :watch-include ["src/cljs"]
+              :autoload true}}}

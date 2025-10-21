@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OpenCode Session Manager Demo</title>
+    <link rel="stylesheet" href="public/css/styles.css" />
+    <style>
+      .demo-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+      .demo-header {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+      .demo-section {
+        margin-bottom: 3rem;
+      }
+      .demo-section h2 {
+        color: #333;
+        margin-bottom: 1rem;
+      }
+      .code-block {
+        background: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        overflow-x: auto;
+      }
+      .code-block code {
+        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        font-size: 0.9rem;
+        line-height: 1.5;
+      }
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin: 2rem 0;
+      }
+      .feature-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .feature-card h3 {
+        color: #667eea;
+        margin-bottom: 0.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="demo-container">
+      <div class="demo-header">
+        <h1>OpenCode Session Manager Demo</h1>
+        <p>
+          A web components-based session management interface built with
+          ClojureScript
+        </p>
+      </div>
+
+      <div class="demo-section">
+        <h2>🚀 Features</h2>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h3>Web Components</h3>
+            <p>
+              Built with custom web components for maximum reusability and
+              framework-agnostic integration.
+            </p>
+          </div>
+          <div class="feature-card">
+            <h3>ClojureScript</h3>
+            <p>
+              Leveraging the power of functional programming with Reagent and
+              Re-frame for state management.
+            </p>
+          </div>
+          <div class="feature-card">
+            <h3>OpenCode SDK</h3>
+            <p>
+              Full integration with the OpenCode SDK for seamless session
+              management.
+            </p>
+          </div>
+          <div class="feature-card">
+            <h3>Responsive Design</h3>
+            <p>
+              Mobile-first design that works beautifully on all screen sizes.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <h2>📦 Components</h2>
+
+        <h3>Session Manager</h3>
+        <p>The main component that displays and manages all sessions:</p>
+        <div class="code-block">
+          <code>&lt;session-manager&gt;&lt;/session-manager&gt;</code>
+        </div>
+
+        <h3>Session Card</h3>
+        <p>Individual session display with actions:</p>
+        <div class="code-block">
+          <code
+            >&lt;session-card session='{"id": "123", "title": "My
+            Session"}'&gt;&lt;/session-card&gt;</code
+          >
+        </div>
+
+        <h3>Create Session Modal</h3>
+        <p>Modal for creating new sessions:</p>
+        <div class="code-block">
+          <code
+            >&lt;create-session-modal
+            visible="true"&gt;&lt;/create-session-modal&gt;</code
+          >
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <h2>🛠 Usage Example</h2>
+        <div class="code-block">
+          <code
+            >// Initialize the session manager const manager =
+            document.querySelector('session-manager'); manager.sessions = await
+            client.session.list(); // Listen for events
+            manager.addEventListener('session-created', (e) => {
+            console.log('Session created:', e.detail); }); // Create a new
+            session manager.onCreateSession = async (sessionData) => { const
+            session = await client.session.create({ body: sessionData }); return
+            session; };</code
+          >
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <h2>🎯 Live Demo</h2>
+        <p>
+          <strong>Note:</strong> This demo requires a running OpenCode server.
+          Make sure you have OpenCode installed and running on
+          <code>http://localhost:4096</code>.
+        </p>
+
+        <div
+          style="
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+          "
+        >
+          <p><strong>Setup Instructions:</strong></p>
+          <ol>
+            <li>
+              Install OpenCode: <code>npm install -g @opencode-ai/cli</code>
+            </li>
+            <li>Start the server: <code>opencode</code></li>
+            <li>Build this project: <code>npm run build</code></li>
+            <li>Serve the demo: <code>npx serve public</code></li>
+            <li>Open <code>http://localhost:3000</code> in your browser</li>
+          </ol>
+        </div>
+
+        <!-- The actual session managers would be rendered here -->
+        <div id="session-manager-demo" style="margin-top: 2rem">
+          <h3>Basic Session Manager</h3>
+          <session-manager id="demo-manager"></session-manager>
+
+          <h3 style="margin-top: 3rem">
+            Enhanced Session Manager with OpenCode SDK
+          </h3>
+          <enhanced-session-manager
+            id="enhanced-demo-manager"
+            server-url="http://localhost:4096"
+          ></enhanced-session-manager>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <h2>🔧 Development</h2>
+        <div class="code-block">
+          <code
+            ># Install dependencies npm install # Start development server npm
+            run dev # Build for production npm run build # Run REPL npm run
+            repl</code
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Load the OpenCode SDK wrapper -->
+    <script src="public/js/opencode-wrapper.js"></script>
+
+    <!-- Load the compiled ClojureScript -->
+    <script src="public/js/main.js"></script>
+
+    <script>
+      // Demo initialization script
+      document.addEventListener('DOMContentLoaded', async () => {
+        try {
+          console.log('OpenCode Session Manager Demo loaded');
+
+          // Mock data for basic session manager
+          const mockSessions = [
+            {
+              id: 'demo-1',
+              title: 'Project Setup',
+              description: 'Initial project configuration and setup',
+              createdAt: new Date().toISOString(),
+              status: { name: 'active' },
+            },
+            {
+              id: 'demo-2',
+              title: 'Feature Development',
+              description: 'Working on new feature implementation',
+              createdAt: new Date(Date.now() - 86400000).toISOString(),
+              status: { name: 'active' },
+            },
+          ];
+
+          // If the basic session manager element exists, populate it with mock data
+          const manager = document.getElementById('demo-manager');
+          if (manager && manager.sessions !== undefined) {
+            manager.sessions = mockSessions;
+          }
+
+          // Enhanced session manager will automatically connect to OpenCode
+          const enhancedManager = document.getElementById(
+            'enhanced-demo-manager'
+          );
+          if (enhancedManager) {
+            console.log(
+              'Enhanced Session Manager loaded with real SDK integration'
+            );
+
+            // Listen for session creation events
+            document.addEventListener('session-created', (e) => {
+              console.log('Session created event:', e.detail);
+            });
+
+            // Listen for review events
+            document.addEventListener('start-review', (e) => {
+              console.log('Review started for session:', e.detail);
+            });
+          }
+
+          // Add demo controls
+          const demoSection = document.querySelector('#session-manager-demo');
+          if (demoSection) {
+            const controlsDiv = document.createElement('div');
+            controlsDiv.style.cssText =
+              'margin-top: 2rem; padding: 1rem; background: #f8f9fa; border-radius: 8px;';
+            controlsDiv.innerHTML = `
+              <h4>Demo Controls</h4>
+              <p><strong>Note:</strong> The enhanced session manager requires a running OpenCode server on port 4096.</p>
+              <div style="margin-top: 1rem;">
+                <button onclick="testConnection()" style="padding: 8px 16px; margin-right: 10px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Test Connection</button>
+                <button onclick="createTestSession()" style="padding: 8px 16px; margin-right: 10px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">Create Test Session</button>
+                <button onclick="showConnectionStatus()" style="padding: 8px 16px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer;">Show Status</button>
+              </div>
+              <div id="connection-status" style="margin-top: 1rem; padding: 0.5rem; background: #e9ecef; border-radius: 4px; font-family: monospace; font-size: 0.9rem;"></div>
+            `;
+            demoSection.appendChild(controlsDiv);
+          }
+
+          // Demo control functions
+          window.testConnection = async () => {
+            const statusDiv = document.getElementById('connection-status');
+            statusDiv.textContent = 'Testing connection to OpenCode server...';
+
+            try {
+              const response = await fetch('http://localhost:4096/health');
+              if (response.ok) {
+                statusDiv.textContent =
+                  '✅ Connected to OpenCode server successfully!';
+                statusDiv.style.background = '#d4edda';
+              } else {
+                statusDiv.textContent =
+                  '❌ OpenCode server responded with error: ' + response.status;
+                statusDiv.style.background = '#f8d7da';
+              }
+            } catch (error) {
+              statusDiv.textContent =
+                '❌ Failed to connect to OpenCode server: ' + error.message;
+              statusDiv.style.background = '#f8d7da';
+            }
+          };
+
+          window.createTestSession = () => {
+            const statusDiv = document.getElementById('connection-status');
+            statusDiv.textContent =
+              'Click the "+ Create Session" button in the enhanced manager to create a real session';
+            statusDiv.style.background = '#fff3cd';
+          };
+
+          window.showConnectionStatus = () => {
+            const statusDiv = document.getElementById('connection-status');
+            const enhancedManager = document.getElementById(
+              'enhanced-demo-manager'
+            );
+
+            if (enhancedManager) {
+              statusDiv.textContent =
+                'Enhanced Session Manager is loaded. Check the connection status in the component header.';
+              statusDiv.style.background = '#d1ecf1';
+            } else {
+              statusDiv.textContent = 'Enhanced Session Manager not found';
+              statusDiv.style.background = '#f8d7da';
+            }
+          };
+        } catch (error) {
+          console.error('Demo initialization failed:', error);
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0346-TS2304-task-complexity",
+  "description": "Massive fixture for TS2304 from packages/kanban/src/lib/task-complexity.ts",
+  "originalPath": "packages/kanban/src/lib/task-complexity.ts",
+  "targetErrorCode": "TS2304",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 346,
+  "generatedAt": "2025-10-15T06:55:37.796Z"
+}

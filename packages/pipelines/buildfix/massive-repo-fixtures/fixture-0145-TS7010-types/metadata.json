@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0145-TS7010-types",
+  "description": "Massive fixture for TS7010 from packages/file-indexer/src/types.ts",
+  "originalPath": "packages/file-indexer/src/types.ts",
+  "targetErrorCode": "TS7010",
+  "errorCategory": "Unknown Error",
+  "fixtureNumber": 145,
+  "generatedAt": "2025-10-15T06:38:49.360Z"
+}

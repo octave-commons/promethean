@@ -4,7 +4,6 @@ description: >-
   Development methodology, starting with writing failing tests (red phase) and
   then implementing code to make them pass (green phase). Examples:
   <example>Context: User wants to add a new feature to calculate user discounts.
-  user: 'I need to add a discount calculation feature that applies different
   percentage discounts based on user tier' assistant: 'I'll use the
   tdd-cycle-implementer agent to implement this feature using TDD methodology'
   <commentary>The user wants to implement a new feature, so use the TDD agent to

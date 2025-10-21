@@ -1,0 +1,8 @@
+{
+  "name": "buildfix-massive-fixture-fixture-0219-TS1038-cli",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "ts-morph": "^23.0.0"
+  }
+}

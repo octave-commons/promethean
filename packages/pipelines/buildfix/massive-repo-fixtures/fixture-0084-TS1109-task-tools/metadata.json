@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0084-TS1109-task-tools",
+  "description": "Massive fixture for TS1109 from packages/kanban/src/lib/task-tools.ts",
+  "originalPath": "packages/kanban/src/lib/task-tools.ts",
+  "targetErrorCode": "TS1109",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 84,
+  "generatedAt": "2025-10-15T06:38:49.337Z"
+}

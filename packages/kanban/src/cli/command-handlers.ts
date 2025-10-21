@@ -18,7 +18,16 @@ import {
   deleteTask,
   updateTaskDescription,
   renameTask,
+  columnKey,
 } from '../lib/kanban.js';
+import {
+  isEpic,
+  getEpicSubtasks,
+  addSubtaskToEpic,
+  removeSubtaskFromEpic,
+  createEpic,
+  getAllEpics,
+} from '../lib/epic.js';
 import type { Board } from '../lib/types.js';
 import { EventLogManager } from '../board/event-log.js';
 import { loadKanbanConfig } from '../board/config.js';
@@ -26,11 +35,12 @@ import { serveKanbanUI } from '../lib/ui-server.js';
 import { compareTasks, suggestTaskBreakdown, prioritizeTasks } from '../lib/task-tools.js';
 import { KanbanDevServer } from '../lib/dev-server.js';
 
-const columnKey = (name: string): string => name.toLowerCase().replace(/\s+/g, '');
 import { TransitionRulesEngine, createTransitionRulesEngine } from '../lib/transition-rules.js';
+import { TaskGitTracker } from '../lib/task-git-tracker.js';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { readdir } from 'node:fs/promises';
 
 // Get the equivalent of __dirname in ES modules
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -48,6 +58,7 @@ type DeepReadonly<T> = T extends Primitive
 export type CliContext = Readonly<{
   readonly boardFile: string;
   readonly tasksDir: string;
+  readonly argv: ReadonlyArray<string>;
 }>;
 
 export class CommandUsageError extends Error {
@@ -84,6 +95,36 @@ const requireArg = (value: string | undefined, label: string): string => {
   }
   throw new CommandUsageError(`Missing required ${label}.`);
 };
+
+/**
+ * Find the actual task file path by searching for the UUID in file contents
+ */
+async function findTaskFilePath(tasksDir: string, taskUuid: string): Promise<string | null> {
+  try {
+    const files = await readdir(tasksDir, { withFileTypes: true });
+
+    for (const file of files) {
+      if (!file.isFile() || !file.name.endsWith('.md')) {
+        continue;
+      }
+
+      const filePath = path.join(tasksDir, file.name);
+      try {
+        const content = await readFile(filePath, 'utf8');
+        if (content.includes(`uuid: "${taskUuid}"`) || content.includes(`uuid: '${taskUuid}'`)) {
+          return filePath;
+        }
+      } catch (error) {
+        // Skip files that can't be read
+        continue;
+      }
+    }
+
+    return null;
+  } catch (error) {
+    return null;
+  }
+}
 
 const parsePort = (value: string): number => {
   const trimmed = value.trim();
@@ -771,6 +812,12 @@ const handleAudit: CommandHandler = (args, context) =>
     let inconsistenciesFound = 0;
     let inconsistenciesFixed = 0;
     let illegalTransitionsFound = 0;
+    let orphanedTasksFound = 0;
+    let untrackedTasksFound = 0;
+    let healthyTasksFound = 0;
+
+    // Initialize git tracker for commit validation
+    const gitTracker = new TaskGitTracker({ repoRoot: process.cwd() });
 
     console.log('🔍 Analyzing task state consistency...');
     console.log('');
@@ -783,6 +830,42 @@ const handleAudit: CommandHandler = (args, context) =>
 
       for (const task of column.tasks) {
         const replayResult = await eventLogManager.replayTaskTransitions(task.uuid, task.status);
+
+        // Enhanced git tracking analysis
+        const taskFilePath =
+          (await findTaskFilePath(context.tasksDir, task.uuid)) ||
+          `${context.tasksDir}/${task.uuid}.md`;
+        const statusAnalysis = gitTracker.analyzeTaskStatus(task, taskFilePath);
+
+        if (statusAnalysis.isTrulyOrphaned) {
+          orphanedTasksFound++;
+          console.log(`🚨 TRULY ORPHANED TASK: "${task.title}"`);
+          console.log(`   Task ID: ${task.uuid}`);
+          console.log(`   Status: ${task.status}`);
+          console.log(`   Issues: ${statusAnalysis.issues.join(', ')}`);
+          console.log(`   Recommendations:`);
+          statusAnalysis.recommendations.forEach((rec) => console.log(`     • ${rec}`));
+          console.log('');
+        } else if (statusAnalysis.isUntracked) {
+          untrackedTasksFound++;
+          console.log(`⚠️  UNTRACKED TASK: "${task.title}"`);
+          console.log(`   Task ID: ${task.uuid}`);
+          console.log(`   Status: ${task.status}`);
+          console.log(`   Issues: ${statusAnalysis.issues.join(', ')}`);
+          console.log(`   Recommendations:`);
+          statusAnalysis.recommendations.forEach((rec) => console.log(`     • ${rec}`));
+          console.log('');
+        } else if (!statusAnalysis.isHealthy) {
+          console.log(`⚠️  TASK WITH ISSUES: "${task.title}"`);
+          console.log(`   Task ID: ${task.uuid}`);
+          console.log(`   Status: ${task.status}`);
+          console.log(`   Issues: ${statusAnalysis.issues.join(', ')}`);
+          console.log(`   Recommendations:`);
+          statusAnalysis.recommendations.forEach((rec) => console.log(`     • ${rec}`));
+          console.log('');
+        } else {
+          healthyTasksFound++;
+        }
 
         // Check if current status matches replayed status
         if (replayResult.finalStatus !== task.status) {
@@ -847,14 +930,113 @@ const handleAudit: CommandHandler = (args, context) =>
       }
     }
 
+    // Fix untracked tasks if in fix mode
+    if (!dryRun && untrackedTasksFound > 0) {
+      console.log('🔧 FIXING UNTRACKED TASKS (PARALLEL)...');
+      console.log('');
+
+      // Collect all untracked tasks first
+      const untrackedTasks: Array<{
+        task: any;
+        taskFilePath: string;
+      }> = [];
+
+      for (const column of board.columns) {
+        if (columnFilter && columnKey(column.name) !== columnKey(columnFilter)) {
+          continue;
+        }
+
+        for (const task of column.tasks) {
+          const taskFilePath =
+            (await findTaskFilePath(context.tasksDir, task.uuid)) ||
+            `${context.tasksDir}/${task.uuid}.md`;
+          const statusAnalysis = gitTracker.analyzeTaskStatus(task, taskFilePath);
+
+          if (statusAnalysis.isUntracked) {
+            untrackedTasks.push({ task, taskFilePath });
+          }
+        }
+      }
+
+      console.log(`📋 Found ${untrackedTasks.length} untracked tasks to fix`);
+      console.log('⚡ Processing in parallel with Promise.all...');
+      console.log('');
+
+      // Process ALL untracked tasks in parallel
+      const startTime = Date.now();
+      const fixResults = await Promise.all(
+        untrackedTasks.map(async ({ task, taskFilePath }) => {
+          try {
+            // Commit the changes to initialize tracking
+            const trackingResult = await gitTracker.commitTaskChanges(
+              taskFilePath,
+              task.uuid,
+              'update',
+              'Audit correction: Initialize commit tracking for untracked task',
+            );
+
+            return {
+              task,
+              success: trackingResult.success,
+              sha: trackingResult.sha,
+              error: trackingResult.error,
+            };
+          } catch (error) {
+            return {
+              task,
+              success: false,
+              error: error instanceof Error ? error.message : String(error),
+            };
+          }
+        }),
+      );
+      const endTime = Date.now();
+
+      // Report results
+      const fixedCount = fixResults.filter((r) => r.success).length;
+      const failedCount = fixResults.filter((r) => !r.success).length;
+
+      console.log(`⚡ Parallel processing completed in ${endTime - startTime}ms`);
+      console.log(`✅ Fixed: ${fixedCount} tasks`);
+      if (failedCount > 0) {
+        console.log(`❌ Failed: ${failedCount} tasks`);
+      }
+      console.log('');
+
+      // Detailed results
+      for (const result of fixResults) {
+        if (result.success) {
+          console.log(`✅ FIXED: Added commit tracking to "${result.task.title}"`);
+          console.log(`   Task ID: ${result.task.uuid}`);
+          console.log(`   Commit SHA: ${result.sha}`);
+          console.log('');
+        } else {
+          console.log(`❌ FAILED TO FIX: "${result.task.title}"`);
+          console.log(`   Task ID: ${result.task.uuid}`);
+          console.log(`   Error: ${result.error}`);
+          console.log('');
+        }
+      }
+    }
+
     // Summary
-    console.log('📊 AUDIT SUMMARY:');
-    console.log(
-      `   Total tasks analyzed: ${board.columns.reduce((sum, col) => sum + col.tasks.length, 0)}`,
-    );
+    const totalTasks = board.columns.reduce((sum, col) => sum + col.tasks.length, 0);
+    console.log('📊 ENHANCED AUDIT SUMMARY:');
+    console.log(`   Total tasks analyzed: ${totalTasks}`);
     console.log(`   Total events in log: ${allEvents.length}`);
     console.log(`   Inconsistencies found: ${inconsistenciesFound}`);
     console.log(`   Illegal transitions: ${illegalTransitionsFound}`);
+    console.log('');
+    console.log('🔍 TASK STATUS BREAKDOWN:');
+    console.log(
+      `   ✅ Healthy tasks: ${healthyTasksFound} (${((healthyTasksFound / totalTasks) * 100).toFixed(1)}%)`,
+    );
+    console.log(
+      `   ⚠️  Untracked tasks: ${untrackedTasksFound} (${((untrackedTasksFound / totalTasks) * 100).toFixed(1)}%)`,
+    );
+    console.log(
+      `   🚨 Truly orphaned tasks: ${orphanedTasksFound} (${((orphanedTasksFound / totalTasks) * 100).toFixed(1)}%)`,
+    );
 
     if (!dryRun) {
       console.log(`   Inconsistencies fixed: ${inconsistenciesFixed}`);
@@ -876,8 +1058,52 @@ const handleAudit: CommandHandler = (args, context) =>
       inconsistenciesFound,
       inconsistenciesFixed,
       illegalTransitionsFound,
+      orphanedTasksFound,
+      untrackedTasksFound,
+      healthyTasksFound,
       dryRun,
     };
+  });
+
+const handleCommitStats: CommandHandler = (_args, context) =>
+  withBoard(context, async (board) => {
+    const gitTracker = new TaskGitTracker({ repoRoot: process.cwd() });
+
+    // Collect all tasks from the board and convert to expected format
+    const allTasks: any[] = [];
+    for (const column of board.columns) {
+      for (const task of column.tasks) {
+        allTasks.push({
+          frontmatter: task, // Task object itself contains the frontmatter fields
+        });
+      }
+    }
+
+    // Get commit tracking statistics
+    const stats = gitTracker.getCommitTrackingStats(allTasks);
+
+    console.log('📊 Kanban Commit Tracking Statistics');
+    console.log('');
+    console.log(`Total tasks: ${stats.total}`);
+    console.log(`Tasks with commit tracking: ${stats.withCommitTracking}`);
+    console.log(`Orphaned tasks: ${stats.orphaned}`);
+    console.log(`Tracking coverage: ${(100 - stats.orphanageRate).toFixed(1)}%`);
+    console.log('');
+
+    if (stats.orphaned > 0) {
+      console.log(`⚠️  Found ${stats.orphaned} orphaned task(s) lacking proper commit tracking`);
+      console.log('   Run "pnpm kanban audit --fix" to add commit tracking to these tasks');
+      console.log('');
+    }
+
+    if (stats.withCommitTracking > 0) {
+      console.log('✅ Commit tracking is working for tracked tasks');
+      console.log('   Each task change creates a git commit with standardized messages');
+      console.log('   Task files include lastCommitSha and commitHistory fields');
+      console.log('');
+    }
+
+    return stats;
   });
 
 const handleEnforceWipLimits: CommandHandler = (args, context) =>
@@ -1115,6 +1341,11 @@ const handleCreate: CommandHandler = (args, context) =>
       console.log(`   Labels: ${newTask.labels.join(', ')}`);
     }
 
+    // Show commit tracking information
+    if (newTask.lastCommitSha) {
+      console.log(`   Commit: ${newTask.lastCommitSha.slice(0, 8)}...`);
+    }
+
     return newTask;
   });
 
@@ -1250,7 +1481,417 @@ const handleDelete: CommandHandler = (args, context) =>
     }
   });
 
+// Epic command handlers
+const parseCreateEpicArgs = (args: ReadonlyArray<string>) => {
+  if (args.length === 0) {
+    throw new CommandUsageError('create-epic requires a title');
+  }
+
+  const title = requireArg(args[0], 'epic title');
+  const content = args.find((arg) => arg.startsWith('--content='))?.slice(11);
+  const subtaskUuids = args
+    .filter((arg) => arg.startsWith('--subtask='))
+    .map((arg) => arg.slice(10));
+
+  return { title, content, subtaskUuids };
+};
+
+const handleCreateEpic: CommandHandler = (args, context) =>
+  withBoard(context, async (board) => {
+    const mutableBoard = board as unknown as Board;
+    const epicArgs = parseCreateEpicArgs(args);
+
+    // Validate subtask UUIDs if provided
+    if (epicArgs.subtaskUuids.length > 0) {
+      for (const subtaskUuid of epicArgs.subtaskUuids) {
+        const subtask = findTaskById(mutableBoard, subtaskUuid);
+        if (!subtask) {
+          throw new CommandUsageError(`Subtask with UUID ${subtaskUuid} not found`);
+        }
+        if (isEpic(subtask)) {
+          throw new CommandUsageError(`Cannot add epic ${subtaskUuid} as a subtask`);
+        }
+      }
+    }
+
+    const newEpic = createEpic(epicArgs.title, epicArgs.content, epicArgs.subtaskUuids);
+
+    // Add epic to the incoming column
+    const incomingColumn = mutableBoard.columns.find((col) => col.name === 'incoming');
+    if (incomingColumn) {
+      incomingColumn.tasks.push(newEpic);
+    }
+
+    // Link subtasks to epic if provided
+    if (epicArgs.subtaskUuids.length > 0) {
+      for (const subtaskUuid of epicArgs.subtaskUuids) {
+        const result = addSubtaskToEpic(mutableBoard, newEpic.uuid, subtaskUuid);
+        if (!result.success) {
+          console.warn(`⚠️  Failed to link subtask ${subtaskUuid}: ${result.reason}`);
+        }
+      }
+    }
+
+    console.log(`✅ Created epic "${newEpic.title}" (${newEpic.uuid.slice(0, 8)}...)`);
+    console.log(`   Status: ${newEpic.status}`);
+    console.log(`   Epic Status: ${newEpic.epicStatus}`);
+    if (epicArgs.subtaskUuids.length > 0) {
+      console.log(`   Subtasks: ${epicArgs.subtaskUuids.length}`);
+    }
+
+    return newEpic;
+  });
+
+const parseAddTaskArgs = (args: ReadonlyArray<string>) => {
+  if (args.length < 2) {
+    throw new CommandUsageError('add-task requires epic UUID and task UUID');
+  }
+
+  const epicUuid = requireArg(args[0], 'epic UUID');
+  const taskUuid = requireArg(args[1], 'task UUID');
+
+  return { epicUuid, taskUuid };
+};
+
+const handleAddTask: CommandHandler = (args, context) =>
+  withBoard(context, async (board) => {
+    const mutableBoard = board as unknown as Board;
+    const taskArgs = parseAddTaskArgs(args);
+
+    const result = addSubtaskToEpic(mutableBoard, taskArgs.epicUuid, taskArgs.taskUuid);
+
+    if (!result.success) {
+      throw new CommandUsageError(result.reason || 'Failed to add task to epic');
+    }
+
+    const epic = findTaskById(mutableBoard, taskArgs.epicUuid);
+    const task = findTaskById(mutableBoard, taskArgs.taskUuid);
+
+    console.log(`✅ Added task "${task?.title}" to epic "${epic?.title}"`);
+    console.log(`   Epic UUID: ${taskArgs.epicUuid.slice(0, 8)}...`);
+    console.log(`   Task UUID: ${taskArgs.taskUuid.slice(0, 8)}...`);
+
+    return { success: true, epic, task };
+  });
+
+const parseRemoveTaskArgs = (args: ReadonlyArray<string>) => {
+  if (args.length < 2) {
+    throw new CommandUsageError('remove-task requires epic UUID and task UUID');
+  }
+
+  const epicUuid = requireArg(args[0], 'epic UUID');
+  const taskUuid = requireArg(args[1], 'task UUID');
+
+  return { epicUuid, taskUuid };
+};
+
+const handleRemoveTask: CommandHandler = (args, context) =>
+  withBoard(context, async (board) => {
+    const mutableBoard = board as unknown as Board;
+    const taskArgs = parseRemoveTaskArgs(args);
+
+    const result = removeSubtaskFromEpic(mutableBoard, taskArgs.epicUuid, taskArgs.taskUuid);
+
+    if (!result.success) {
+      throw new CommandUsageError(result.reason || 'Failed to remove task from epic');
+    }
+
+    const epic = findTaskById(mutableBoard, taskArgs.epicUuid);
+    const task = findTaskById(mutableBoard, taskArgs.taskUuid);
+
+    console.log(`✅ Removed task "${task?.title}" from epic "${epic?.title}"`);
+    console.log(`   Epic UUID: ${taskArgs.epicUuid.slice(0, 8)}...`);
+    console.log(`   Task UUID: ${taskArgs.taskUuid.slice(0, 8)}...`);
+
+    return { success: true, epic, task };
+  });
+
+const handleListEpics: CommandHandler = (_, context) =>
+  withBoard(context, async (board) => {
+    const mutableBoard = board as unknown as Board;
+    const epics = getAllEpics(mutableBoard);
+
+    if (epics.length === 0) {
+      console.log('No epics found.');
+      return { epics: [] };
+    }
+
+    console.log(`Found ${epics.length} epic(s):`);
+    console.log('');
+
+    for (const epic of epics) {
+      const subtasks = getEpicSubtasks(mutableBoard, epic);
+      console.log(`📋 ${epic.title}`);
+      console.log(`   UUID: ${epic.uuid}`);
+      console.log(`   Status: ${epic.status} (Epic: ${epic.epicStatus})`);
+      console.log(`   Subtasks: ${subtasks.length}`);
+      if (subtasks.length > 0) {
+        console.log(`   Subtask breakdown:`);
+        const statusCounts = subtasks.reduce(
+          (acc, task) => {
+            acc[task.status] = (acc[task.status] || 0) + 1;
+            return acc;
+          },
+          {} as Record<string, number>,
+        );
+        Object.entries(statusCounts).forEach(([status, count]) => {
+          console.log(`     ${status}: ${count}`);
+        });
+      }
+      console.log('');
+    }
+
+    return { epics };
+  });
+
+const handleEpicStatus: CommandHandler = (args, context) =>
+  withBoard(context, async (board) => {
+    if (args.length === 0) {
+      throw new CommandUsageError('epic-status requires an epic UUID');
+    }
+
+    const mutableBoard = board as unknown as Board;
+    const epicUuid = requireArg(args[0], 'epic UUID');
+    const epic = findTaskById(mutableBoard, epicUuid);
+
+    if (!epic) {
+      throw new CommandUsageError(`Epic with UUID ${epicUuid} not found`);
+    }
+
+    if (!isEpic(epic)) {
+      throw new CommandUsageError(`Task ${epicUuid} is not an epic`);
+    }
+
+    const subtasks = getEpicSubtasks(mutableBoard, epic);
+
+    console.log(`📋 Epic: ${epic.title}`);
+    console.log(`   UUID: ${epic.uuid}`);
+    console.log(`   Status: ${epic.status} (Epic: ${epic.epicStatus})`);
+    console.log(`   Subtasks: ${subtasks.length}`);
+    console.log('');
+
+    if (subtasks.length > 0) {
+      console.log('Subtasks:');
+      for (const subtask of subtasks) {
+        console.log(`   • ${subtask.title}`);
+        console.log(`     UUID: ${subtask.uuid}`);
+        console.log(`     Status: ${subtask.status}`);
+        console.log('');
+      }
+    } else {
+      console.log('No subtasks found for this epic.');
+    }
+
+    return { epic, subtasks };
+  });
+
+/**
+ * Handle heal command for kanban board healing operations
+ */
+const handleHeal: CommandHandler = (args, context) =>
+  withBoard(context, async () => {
+    const { createHealCommand } = await import('../lib/heal/heal-command.js');
+
+    if (args.length === 0) {
+      throw new CommandUsageError('heal command requires a reason for healing operation');
+    }
+
+    const reason = args.join(' ');
+    const healCommand = createHealCommand(context.boardFile, context.tasksDir);
+    const argv = context.argv || [];
+
+    // Parse command line options
+    const options = {
+      reason,
+      dryRun: argv.includes('--dry-run'),
+      createTags: !argv.includes('--no-tags'),
+      pushTags: argv.includes('--push-tags'),
+      analyzeGit: !argv.includes('--no-git'),
+      gitHistoryDepth: parseArgValue(argv, '--git-depth', 50),
+      searchTerms: parseArgValues(argv, '--search'),
+      columnFilter: parseArgValues(argv, '--column'),
+      labelFilter: parseArgValues(argv, '--label'),
+      includeTaskAnalysis: !argv.includes('--no-task-analysis'),
+      includePerformanceMetrics: !argv.includes('--no-metrics'),
+    };
+
+    console.log(`🏥 Starting kanban healing operation...`);
+    console.log(`   Reason: ${reason}`);
+    console.log(`   Dry run: ${options.dryRun ? 'Yes' : 'No'}`);
+    console.log(`   Create tags: ${options.createTags ? 'Yes' : 'No'}`);
+    console.log('');
+
+    if (argv.includes('--recommendations')) {
+      // Show healing recommendations
+      const recommendations = await healCommand.getHealingRecommendations(options);
+
+      console.log('🔍 Healing Recommendations:');
+      if (recommendations.recommendations.length > 0) {
+        recommendations.recommendations.forEach((rec) => {
+          console.log(`   • ${rec}`);
+        });
+      } else {
+        console.log('   No specific recommendations at this time.');
+      }
+
+      if (recommendations.criticalIssues.length > 0) {
+        console.log('');
+        console.log('⚠️  Critical Issues:');
+        recommendations.criticalIssues.forEach((issue) => {
+          const icon =
+            issue.severity === 'critical'
+              ? '🚨'
+              : issue.severity === 'high'
+                ? '⚠️'
+                : issue.severity === 'medium'
+                  ? '⚡'
+                  : 'ℹ️';
+          console.log(`   ${icon} ${issue.description}`);
+          console.log(`      Suggested action: ${issue.suggestedAction}`);
+        });
+      }
+
+      if (recommendations.relatedScars.length > 0) {
+        console.log('');
+        console.log('📚 Related Healing Operations:');
+        recommendations.relatedScars.forEach((scar) => {
+          console.log(`   • ${scar.scar.tag} (relevance: ${Math.round(scar.relevance * 100)}%)`);
+          console.log(`     ${scar.reason}`);
+        });
+      }
+
+      return { recommendations };
+    }
+
+    if (context.argv.includes('--analyze-history')) {
+      // Show scar history analysis
+      const analysis = await healCommand.getScarHistoryAnalysis();
+
+      console.log('📈 Scar History Analysis:');
+      console.log(`   Total healing operations: ${analysis.totalScars}`);
+      console.log(`   Success rate: ${analysis.successRate.toFixed(1)}%`);
+
+      if (analysis.averageHealingTime) {
+        console.log(`   Average healing time: ${analysis.averageHealingTime.toFixed(1)} hours`);
+      }
+
+      if (analysis.commonReasons.length > 0) {
+        console.log('');
+        console.log('🔝 Most Common Healing Reasons:');
+        analysis.commonReasons.slice(0, 5).forEach((reason) => {
+          console.log(
+            `   ${reason.reason}: ${reason.count} times (${reason.percentage.toFixed(1)}%)`,
+          );
+        });
+      }
+
+      if (analysis.frequentlyHealedFiles.length > 0) {
+        console.log('');
+        console.log('📁 Frequently Healed Files:');
+        analysis.frequentlyHealedFiles.slice(0, 10).forEach((file) => {
+          console.log(`   ${file.file}: ${file.count} times`);
+        });
+      }
+
+      return { analysis };
+    }
+
+    // Execute the healing operation
+    const result = await healCommand.execute(options);
+
+    console.log('');
+    console.log('🏥 Healing Operation Results:');
+    console.log(`   Status: ${result.status}`);
+    console.log(`   Summary: ${result.summary}`);
+    console.log(`   Tasks modified: ${result.tasksModified}`);
+    console.log(`   Files changed: ${result.filesChanged}`);
+
+    if (result.contextBuildTime) {
+      console.log(`   Context build time: ${result.contextBuildTime}ms`);
+    }
+
+    if (result.healingTime) {
+      console.log(`   Healing time: ${result.healingTime}ms`);
+    }
+
+    if (result.totalTime) {
+      console.log(`   Total time: ${result.totalTime}ms`);
+    }
+
+    if (result.scar) {
+      console.log('');
+      console.log('🏷️  Scar Record Created:');
+      console.log(`   Tag: ${result.scar.tag}`);
+      console.log(
+        `   Range: ${result.scar.startSha.substring(0, 8)}..${result.scar.endSha.substring(0, 8)}`,
+      );
+    }
+
+    if (result.tagResult) {
+      console.log('');
+      console.log('🏷️  Git Tag:');
+      if (result.tagResult.success) {
+        console.log(`   Created: ${result.tagResult.tag}`);
+      } else {
+        console.log(`   Failed: ${result.tagResult.error}`);
+      }
+    }
+
+    if (result.errors.length > 0) {
+      console.log('');
+      console.log('❌ Errors:');
+      result.errors.forEach((error) => {
+        console.log(`   • ${error}`);
+      });
+    }
+
+    return result;
+  });
+
+/**
+ * Parse a single argument value (e.g., --depth 50)
+ */
+function parseArgValue(argv: ReadonlyArray<string>, flag: string, defaultValue: any): any {
+  const index = argv.indexOf(flag);
+  if (index === -1 || index === argv.length - 1) {
+    return defaultValue;
+  }
+
+  const value = argv[index + 1];
+  if (!value) {
+    return defaultValue;
+  }
+
+  // Try to parse as number
+  const numValue = parseInt(value, 10);
+  if (!isNaN(numValue)) {
+    return numValue;
+  }
+
+  // Return as string
+  return value;
+}
+
+/**
+ * Parse multiple argument values (e.g., --search term1 --search term2)
+ */
+function parseArgValues(argv: ReadonlyArray<string>, flag: string): string[] {
+  const values: string[] = [];
+  let index = argv.indexOf(flag);
+
+  while (index !== -1 && index < argv.length - 1) {
+    const value = argv[index + 1];
+    if (!value || value.startsWith('--')) {
+      break; // Next flag encountered
+    }
+    values.push(value);
+    index = argv.indexOf(flag, index + 1);
+  }
+
+  return values;
+}
 export const COMMAND_HANDLERS: Readonly<Record<string, CommandHandler>> = Object.freeze({
+  heal: handleHeal,
   count: handleCount,
   getColumn: handleGetColumn,
   getByColumn: handleGetByColumn,
@@ -1278,10 +1919,17 @@ export const COMMAND_HANDLERS: Readonly<Record<string, CommandHandler>> = Object
   list: handleList,
   audit: handleAudit,
   'enforce-wip-limits': handleEnforceWipLimits,
+  'commit-stats': handleCommitStats,
   // CRUD commands
   create: handleCreate,
   update: handleUpdate,
   delete: handleDelete,
+  // Epic commands
+  'create-epic': handleCreateEpic,
+  'add-task': handleAddTask,
+  'remove-task': handleRemoveTask,
+  'list-epics': handleListEpics,
+  'epic-status': handleEpicStatus,
 });
 
 export const AVAILABLE_COMMANDS: ReadonlyArray<string> = Object.freeze(

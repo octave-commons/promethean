@@ -1,10 +1,8 @@
 <!-- READMEFLOW:BEGIN -->
+
 # @promethean/security
 
-
-
 [TOC]
-
 
 ## Install
 
@@ -12,12 +10,193 @@ pnpm add @promethean/security
 
 ## Usage
 
-(coming soon)
+### Path Validation
+
+The `validatePath` function provides comprehensive path validation with multiple security layers:
+
+```typescript
+import { validatePath, PathSecurityConfig } from '@promethean/security';
+
+const config: PathSecurityConfig = {
+  maxDepth: 10,
+  allowSymlinks: false,
+  blockedExtensions: ['.exe', '.bat', '.cmd'],
+  allowedExtensions: ['.txt', '.md', '.json'],
+  maxFileSize: 10 * 1024 * 1024, // 10MB
+  checkDangerousNames: true,
+};
+
+const result = await validatePath('/safe/root', 'user/file.txt', config);
+
+if (result.isValid) {
+  console.log('Valid path:', result.normalizedPath);
+  console.log('Relative path:', result.relativePath);
+} else {
+  console.error('Invalid path:', result.error);
+}
+```
+
+### Secure File Operations
+
+All file operations include built-in validation and security checks:
+
+```typescript
+import {
+  secureReadFile,
+  secureWriteFile,
+  secureDeleteFile,
+  secureListDirectory,
+} from '@promethean/security';
+
+// Secure file writing with automatic validation
+const writeResult = await secureWriteFile('/safe/root', 'user/document.txt', 'Hello, World!', {
+  createParents: true,
+  overwrite: false,
+  mode: 0o644,
+});
+
+if (writeResult.success) {
+  console.log('File written to:', writeResult.absolutePath);
+} else {
+  console.error('Write failed:', writeResult.error);
+}
+
+// Secure file reading
+const readResult = await secureReadFile('/safe/root', 'user/document.txt');
+if (readResult.success) {
+  console.log('Content:', readResult.content);
+}
+```
+
+### File Name Sanitization
+
+Sanitize file names to prevent platform-specific issues:
+
+```typescript
+import { sanitizeFileName, createSecurePath } from '@promethean/security';
+
+const dangerousName = 'file<with>brackets.txt';
+const safeName = sanitizeFileName(dangerousName);
+// Result: 'file_with_brackets.txt'
+
+const securePath = createSecurePath('/uploads', dangerousName);
+// Result: '/uploads/file_with_brackets.txt'
+```
+
+## Security Features
+
+### Path Traversal Prevention
+
+The system prevents various path traversal attacks:
+
+- `../../../etc/passwd`
+- `..\\..\\..\\windows\\system32\\config\\sam`
+- `....//....//....//etc/passwd`
+- URL-encoded variants: `..%2f..%2f..%2fetc%2fpasswd`
+
+### Symbolic Link Protection
+
+Comprehensive symlink validation prevents escape attacks:
+
+```typescript
+// Symlinks are blocked by default
+const result = await validatePath('/safe/root', 'malicious-symlink');
+// Returns: { isValid: false, error: "Symbolic links are not allowed" }
+
+// Can be enabled with strict validation
+const result = await validatePath('/safe/root', 'symlink', { allowSymlinks: true });
+// Validates symlink chain doesn't escape root
+```
+
+### File Extension Control
+
+Control allowed and blocked file extensions:
+
+```typescript
+const config = {
+  allowedExtensions: ['.txt', '.md', '.json'], // Only these allowed
+  blockedExtensions: ['.exe', '.bat', '.scr'], // Never allow these
+};
+```
+
+### Dangerous Name Detection
+
+Blocks dangerous file names across platforms:
+
+- Windows reserved names: `CON`, `PRN`, `AUX`, `NUL`, `COM1-9`, `LPT1-9`
+- Configuration files: `.htaccess`, `.htpasswd`, `web.config`, `php.ini`
+
+### Cross-Platform Safety
+
+Ensures file names are safe across different operating systems:
+
+```typescript
+import { isCrossPlatformSafe } from '@promethean/security';
+
+isCrossPlatformSafe('file.txt'); // true
+isCrossPlatformSafe('file<name>.txt'); // false (Windows issues)
+isCrossPlatformSafe('CON'); // false (reserved name)
+```
+
+## Security Best Practices
+
+### 1. Always Use Root Directory Validation
+
+Never use user input directly with file system operations:
+
+```typescript
+// ❌ Dangerous
+const userPath = req.body.path;
+await fs.readFile(userPath); // Vulnerable to traversal
+
+// ✅ Secure
+const result = await validatePath('/safe/root', userPath);
+if (result.isValid) {
+  await fs.readFile(result.normalizedPath);
+}
+```
+
+### 2. Configure Appropriate Restrictions
+
+Tailor security settings to your use case:
+
+```typescript
+// For document uploads
+const uploadConfig = {
+  allowedExtensions: ['.pdf', '.doc', '.docx', '.txt'],
+  maxFileSize: 50 * 1024 * 1024, // 50MB
+  maxDepth: 5,
+  allowSymlinks: false,
+};
+
+// For temporary files
+const tempConfig = {
+  maxFileSize: 10 * 1024 * 1024, // 10MB
+  maxDepth: 3,
+  allowedExtensions: ['.tmp', '.cache'],
+};
+```
+
+### 3. Handle Errors Gracefully
+
+Always check operation results:
+
+```typescript
+const result = await secureWriteFile(root, path, content);
+if (!result.success) {
+  // Log security violations
+  if (result.error?.includes('escape') || result.error?.includes('traversal')) {
+    console.warn('Security violation attempt:', { path, error: result.error });
+  }
+
+  // Return user-friendly error
+  throw new Error('Invalid file path');
+}
+```
 
 ## License
 
 GPLv3
-
 
 ### Package graph
 

@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0492-TS2305-styles",
+  "description": "Massive fixture for TS2305 from packages/kanban/src/frontend/styles.ts",
+  "originalPath": "packages/kanban/src/frontend/styles.ts",
+  "targetErrorCode": "TS2305",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 492,
+  "generatedAt": "2025-10-15T06:38:49.514Z"
+}

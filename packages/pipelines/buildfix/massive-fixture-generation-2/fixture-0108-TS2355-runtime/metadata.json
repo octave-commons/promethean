@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0108-TS2355-runtime",
+  "description": "Massive fixture for TS2355 from packages/file-indexer/src/runtime.ts",
+  "originalPath": "packages/file-indexer/src/runtime.ts",
+  "targetErrorCode": "TS2355",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 108,
+  "generatedAt": "2025-10-15T06:55:37.705Z"
+}

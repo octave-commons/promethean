@@ -1,0 +1,353 @@
+# Agent Registry Dependency Diagrams
+
+**Task ID**: 8f9255ce-52e7-4b2d-98cb-e0077eb06b63  
+**Component**: Dependency Mapping and Visualization  
+**Date**: 2025-10-16
+
+## System Architecture Overview
+
+```mermaid
+graph TB
+    subgraph "Agent Definition Layer"
+        AD[Agent Definitions<br/>.claude/agents/]
+        AN[Agent Navigation<br/>AGENTS.md]
+    end
+
+    subgraph "Configuration Layer"
+        MC[MCP Config<br/>promethean.mcp.json]
+        PR[Provider Registry<br/>providers.yml]
+    end
+
+    subgraph "Core Registry Layer"
+        TR[Tool Registry<br/>registry.ts]
+        AUTH[Authorization<br/>authorization.ts]
+        TYPES[Type Definitions<br/>types.ts]
+    end
+
+    subgraph "External Dependencies"
+        SDK[MCP SDK]
+        ZOD[Zod Validation]
+        UTILS[@promethean/utils]
+        ENV[Environment Variables]
+    end
+
+    AD --> MC
+    AN --> AD
+    MC --> TR
+    PR --> TR
+    TR --> AUTH
+    TR --> TYPES
+    AUTH --> TYPES
+    TR --> SDK
+    PR --> ZOD
+    PR --> UTILS
+    PR --> ENV
+    AUTH --> ENV
+```
+
+## Data Flow Analysis
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Agent as Agent Loader
+    participant MCP as MCP Config
+    participant Registry as Tool Registry
+    participant Auth as Authorization
+    participant Provider as Provider Registry
+    participant External as External Services
+
+    User->>Agent: Request Agent
+    Agent->>AD: Load Agent Definition
+    AD->>AN: Get Navigation Info
+    Agent->>MCP: Load Tool Permissions
+    MCP->>Registry: Register Tools
+    Registry->>Auth: Apply Authorization
+    Auth->>Provider: Get External Config
+    Provider->>External: Connect to Services
+    Registry->>User: Return Authorized Tools
+```
+
+## Critical Dependency Paths
+
+### Path 1: Agent to Tool Registration
+
+```mermaid
+graph LR
+    A[Agent Definition] --> B[Role Permissions]
+    B --> C[MCP Configuration]
+    C --> D[Tool Registry]
+    D --> E[Authorization Wrapper]
+    E --> F[MCP Server]
+
+    style A fill:#e1f5fe
+    style F fill:#f3e5f5
+```
+
+### Path 2: Provider Configuration
+
+```mermaid
+graph LR
+    A[providers.yml] --> B[Zod Validation]
+    B --> C[Environment Expansion]
+    C --> D[Immutable Object]
+    D --> E[Service Connections]
+
+    style A fill:#fff3e0
+    style E fill:#e8f5e8
+```
+
+### Path 3: Authorization Flow
+
+```mermaid
+graph TD
+    A[Tool Invocation] --> B[Extract Auth Context]
+    B --> C[Check Role Hierarchy]
+    C --> D[Validate Permissions]
+    D --> E{Authorized?}
+    E -->|Yes| F[Execute Tool]
+    E -->|No| G[Audit Log Denial]
+    F --> H[Audit Log Success]
+
+    style A fill:#ffebee
+    style G fill:#ffcdd2
+    style H fill:#c8e6c9
+```
+
+## Failure Point Analysis
+
+```mermaid
+graph TB
+    subgraph "Single Points of Failure"
+        SP1[Configuration Files]
+        SP2[Authorization System]
+        SP3[MCP SDK Dependency]
+    end
+
+    subgraph "Impact Areas"
+        IA1[Tool Registration Failure]
+        IA2[Service Connection Loss]
+        IA3[Security Bypass]
+        IA4[Performance Degradation]
+    end
+
+    SP1 --> IA1
+    SP1 --> IA2
+    SP2 --> IA3
+    SP2 --> IA4
+    SP3 --> IA1
+    SP3 --> IA4
+
+    style SP1 fill:#ffcdd2
+    style SP2 fill:#ffcdd2
+    style SP3 fill:#ffcdd2
+```
+
+## Performance Bottleneck Visualization
+
+```mermaid
+graph LR
+    subgraph "High Impact Bottlenecks"
+        B1[File I/O Operations]
+        B2[Authorization Checks]
+        B3[Manual Synchronization]
+    end
+
+    subgraph "Performance Impact"
+        P1[80ms - Config Loading]
+        P2[15ms - Auth per Call]
+        P3[Variable - Manual Updates]
+    end
+
+    B1 --> P1
+    B2 --> P2
+    B3 --> P3
+
+    style B1 fill:#fff9c4
+    style B2 fill:#fff9c4
+    style B3 fill:#fff9c4
+```
+
+## Security Architecture
+
+```mermaid
+graph TB
+    subgraph "Security Layers"
+        L1[Environment Variables]
+        L2[Role-Based Access Control]
+        L3[Audit Logging]
+        L4[Input Validation]
+    end
+
+    subgraph "Protected Assets"
+        A1[Tool Execution]
+        A2[External Services]
+        A3[Configuration Data]
+        A4[System Resources]
+    end
+
+    L1 --> L2
+    L2 --> L3
+    L3 --> L4
+    L4 --> A1
+    L4 --> A2
+    L4 --> A3
+    L4 --> A4
+
+    style L1 fill:#e8f5e8
+    style L2 fill:#e8f5e8
+    style L3 fill:#e8f5e8
+    style L4 fill:#e8f5e8
+```
+
+## Recommended Architecture Improvements
+
+### Improved Configuration Management
+
+```mermaid
+graph TB
+    subgraph "Current State"
+        C1[Static Files]
+        C2[Manual Reload]
+        C3[No Validation]
+    end
+
+    subgraph "Proposed State"
+        P1[Configuration Cache]
+        P2[Hot Reload]
+        P3[Runtime Validation]
+        P4[Backup/Recovery]
+    end
+
+    C1 -.-> P1
+    C2 -.-> P2
+    C3 -.-> P3
+    P1 --> P4
+    P2 --> P4
+    P3 --> P4
+
+    style C1 fill:#ffcdd2
+    style C2 fill:#ffcdd2
+    style C3 fill:#ffcdd2
+    style P1 fill:#c8e6c9
+    style P2 fill:#c8e6c9
+    style P3 fill:#c8e6c9
+    style P4 fill:#c8e6c9
+```
+
+### Decoupled Registry Architecture
+
+```mermaid
+graph TB
+    subgraph "Interface Layer"
+        I1[Registry Interface]
+        I2[Provider Interface]
+        I3[Auth Interface]
+    end
+
+    subgraph "Implementation Layer"
+        IM1[MCP Registry]
+        IM2[File Provider]
+        IM3[RBAC Auth]
+    end
+
+    subgraph "Extension Points"
+        E1[Database Provider]
+        E2[OAuth Auth]
+        E3[Custom Registry]
+    end
+
+    I1 --> IM1
+    I1 --> E3
+    I2 --> IM2
+    I2 --> E1
+    I3 --> IM3
+    I3 --> E2
+
+    style I1 fill:#e3f2fd
+    style I2 fill:#e3f2fd
+    style I3 fill:#e3f2fd
+```
+
+## Implementation Priority Matrix
+
+```mermaid
+graph TB
+    subgraph "P0 - Critical"
+        P0_1[Configuration Caching]
+        P0_2[Runtime Validation]
+        P0_3[Graceful Degradation]
+    end
+
+    subgraph "P1 - Important"
+        P1_1[Interface Decoupling]
+        P1_2[Hot Reload]
+        P1_3[Backup Systems]
+    end
+
+    subgraph "P2 - Nice to Have"
+        P2_1[Documentation Sync]
+        P2_2[Performance Monitoring]
+        P2_3[Automated Testing]
+    end
+
+    P0_1 --> P1_1
+    P0_2 --> P1_2
+    P0_3 --> P1_3
+    P1_1 --> P2_1
+    P1_2 --> P2_2
+    P1_3 --> P2_3
+
+    style P0_1 fill:#f44336
+    style P0_2 fill:#f44336
+    style P0_3 fill:#f44336
+    style P1_1 fill:#ff9800
+    style P1_2 fill:#ff9800
+    style P1_3 fill:#ff9800
+    style P2_1 fill:#4caf50
+    style P2_2 fill:#4caf50
+    style P2_3 fill:#4caf50
+```
+
+## Migration Risk Assessment
+
+```mermaid
+graph LR
+    subgraph "Low Risk"
+        LR1[Configuration Caching]
+        LR2[Runtime Validation]
+    end
+
+    subgraph "Medium Risk"
+        MR1[Interface Decoupling]
+        MR2[Hot Reload]
+    end
+
+    subgraph "High Risk"
+        HR1[Authorization Changes]
+        HR2[Registry Replacement]
+    end
+
+    LR1 --> MR1
+    LR2 --> MR1
+    MR1 --> HR1
+    MR2 --> HR2
+
+    style LR1 fill:#c8e6c9
+    style LR2 fill:#c8e6c9
+    style MR1 fill:#fff9c4
+    style MR2 fill:#fff9c4
+    style HR1 fill:#ffcdd2
+    style HR2 fill:#ffcdd2
+```
+
+## Conclusion
+
+These dependency diagrams illustrate the current Agent Registry architecture's key characteristics:
+
+1. **Linear Dependencies**: Most components follow a clear dependency hierarchy
+2. **Centralized Configuration**: Multiple systems depend on file-based configurations
+3. **Security-First Design**: Authorization layer touches all critical paths
+4. **Performance Bottlenecks**: File I/O and authorization checks are primary constraints
+
+The recommended improvements focus on adding redundancy, caching, and flexibility while maintaining the existing security model and type safety guarantees.

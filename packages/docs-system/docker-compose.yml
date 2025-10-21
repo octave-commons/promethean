@@ -1,0 +1,89 @@
+version: '3.8'
+
+services:
+  # MongoDB Database
+  mongodb:
+    image: mongo:7.0
+    container_name: promethean-docs-db
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: promethean_docs
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+      - ./scripts/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    networks:
+      - promethean-network
+
+  # Ollama Service
+  ollama:
+    image: ollama/ollama:latest
+    container_name: promethean-docs-ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+    networks:
+      - promethean-network
+    # Pull a default model
+    command: sh -c "ollama serve & ollama pull llama2 & wait"
+
+  # Promethean Documentation System
+  docs-system:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: promethean-docs-system
+    restart: unless-stopped
+    ports:
+      - "3001:3001"  # API Server
+      - "3000:3000"  # Frontend (if served separately)
+    environment:
+      NODE_ENV: development
+      PORT: 3001
+      HOST: 0.0.0.0
+      DATABASE_URL: mongodb://admin:password@mongodb:27017/promethean_docs?authSource=admin
+      DATABASE_NAME: promethean_docs
+      OLLAMA_ENDPOINT: http://ollama:11434
+      OLLAMA_DEFAULT_MODEL: llama2
+      JWT_SECRET: your-super-secret-jwt-key-change-in-production
+      JWT_EXPIRATION: 24h
+      BCRYPT_ROUNDS: 12
+      LOG_LEVEL: info
+      LOG_FORMAT: json
+      CORS_ORIGIN: http://localhost:3000,http://localhost:3001
+    depends_on:
+      - mongodb
+      - ollama
+    networks:
+      - promethean-network
+    volumes:
+      - ./logs:/app/logs
+
+  # Redis for caching (optional)
+  redis:
+    image: redis:7-alpine
+    container_name: promethean-docs-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - promethean-network
+    command: redis-server --appendonly yes
+
+volumes:
+  mongodb_data:
+  ollama_data:
+  redis_data:
+
+networks:
+  promethean-network:
+    driver: bridge

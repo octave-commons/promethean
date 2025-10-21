@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0102-TS1006-rewrite",
+  "description": "Massive fixture for TS1006 from packages/naming/src/rewrite.ts",
+  "originalPath": "packages/naming/src/rewrite.ts",
+  "targetErrorCode": "TS1006",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 102,
+  "generatedAt": "2025-10-15T06:38:49.345Z"
+}

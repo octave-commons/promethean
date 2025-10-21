@@ -1,0 +1,92 @@
+{
+  "results": [
+    {
+      "fixture": "missing-export",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 14134,
+      "attempts": 3,
+      "errorMessage": "ollama generate 500: {\"error\":\"llama runner process has terminated: exit status 2\"}"
+    },
+    {
+      "fixture": "optional-parameter",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 14938,
+      "attempts": 3,
+      "errorMessage": "ollama generate 500: {\"error\":\"model runner has unexpectedly stopped, this may be due to resource limitations or an internal error, check ollama server logs for details\"}"
+    },
+    {
+      "fixture": "type-annotation-missing",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 14992,
+      "attempts": 3,
+      "errorMessage": "ollama generate 500: {\"error\":\"model runner has unexpectedly stopped, this may be due to resource limitations or an internal error, check ollama server logs for details\"}"
+    },
+    {
+      "fixture": "missing-return-type",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 0,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 1513,
+      "attempts": 0,
+      "errorMessage": "No errors found in fixture"
+    },
+    {
+      "fixture": "class-not-exported",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 13497,
+      "attempts": 3,
+      "errorMessage": "ollama generate 500: {\"error\":\"model runner has unexpectedly stopped, this may be due to resource limitations or an internal error, check ollama server logs for details\"}"
+    },
+    {
+      "fixture": "interface-missing",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 0,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 1475,
+      "attempts": 0,
+      "errorMessage": "No errors found in fixture"
+    }
+  ],
+  "summary": {
+    "totalTests": 6,
+    "successfulTests": 0,
+    "errorsResolved": 0,
+    "averageDuration": 10.0915,
+    "modelResults": {
+      "qwen3:8b": {
+        "successRate": 0,
+        "errorResolution": 0,
+        "avgDuration": 10.0915,
+        "totalErrors": 4,
+        "errorsFixed": 4
+      }
+    }
+  },
+  "timestamp": "2025-10-15T13:08:31.269Z"
+}

@@ -1,0 +1,92 @@
+{
+  "results": [
+    {
+      "fixture": "missing-export",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 91176,
+      "attempts": 3,
+      "errorMessage": "ollama generate 500: {\"error\":\"an error was encountered while running the model: GGML_ASSERT(rc == 0) failed\"}"
+    },
+    {
+      "fixture": "optional-parameter",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 90121,
+      "attempts": 3,
+      "errorMessage": "ollama generate 500: {\"error\":\"an error was encountered while running the model: GGML_ASSERT(rc == 0) failed\"}"
+    },
+    {
+      "fixture": "type-annotation-missing",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 90638,
+      "attempts": 3,
+      "errorMessage": "ollama generate 500: {\"error\":\"an error was encountered while running the model: GGML_ASSERT(rc == 0) failed\"}"
+    },
+    {
+      "fixture": "missing-return-type",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 0,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 1583,
+      "attempts": 0,
+      "errorMessage": "No errors found in fixture"
+    },
+    {
+      "fixture": "class-not-exported",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 89015,
+      "attempts": 3,
+      "errorMessage": "ollama generate 500: {\"error\":\"an error was encountered while running the model: GGML_ASSERT(rc == 0) failed\"}"
+    },
+    {
+      "fixture": "interface-missing",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 0,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 1474,
+      "attempts": 0,
+      "errorMessage": "No errors found in fixture"
+    }
+  ],
+  "summary": {
+    "totalTests": 6,
+    "successfulTests": 0,
+    "errorsResolved": 0,
+    "averageDuration": 60.667833333333334,
+    "modelResults": {
+      "qwen3:8b": {
+        "successRate": 0,
+        "errorResolution": 0,
+        "avgDuration": 60.667833333333334,
+        "totalErrors": 4,
+        "errorsFixed": 4
+      }
+    }
+  },
+  "timestamp": "2025-10-15T13:06:10.864Z"
+}

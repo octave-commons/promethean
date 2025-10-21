@@ -1,0 +1,8 @@
+{
+  "name": "buildfix-repo-fixture-repo-file-2-core",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "ts-morph": "^23.0.0"
+  }
+}

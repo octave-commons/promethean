@@ -1,0 +1,8 @@
+{
+  "name": "buildfix-massive-fixture-fixture-0493-TS1385-js-worker",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "ts-morph": "^23.0.0"
+  }
+}

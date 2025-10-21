@@ -1,0 +1,9 @@
+{
+  "name": "repo-file-1-flags",
+  "description": "Repository file: packages/duck-utils/src/flags.ts",
+  "originalPath": "packages/duck-utils/src/flags.ts",
+  "errorPattern": [],
+  "files": [
+    "src.ts"
+  ]
+}

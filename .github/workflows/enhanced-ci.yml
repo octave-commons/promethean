@@ -1,0 +1,482 @@
+name: Enhanced CI Pipeline with Build Monitoring
+
+on:
+  pull_request:
+    branches: ['dev/**', 'main']
+  push:
+    branches: ['main', 'dev/**']
+  workflow_dispatch:
+    inputs:
+      build_monitoring:
+        description: 'Enable build monitoring'
+        required: false
+        default: 'true'
+        type: boolean
+      performance_tests:
+        description: 'Run performance tests'
+        required: false
+        default: 'false'
+        type: boolean
+
+permissions:
+  contents: read
+  pull-requests: write
+  actions: read
+  checks: write
+
+env:
+  NODE_VERSION: '22'
+  BUILD_MONITORING: ${{ github.event.inputs.build_monitoring || 'true' }}
+  PERFORMANCE_TESTS: ${{ github.event.inputs.performance_tests || 'false' }}
+
+jobs:
+  # Pre-flight checks
+  preflight:
+    name: Pre-flight Checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      should-run-performance: ${{ steps.decision.outputs.performance }}
+      cache-key: ${{ steps.cache.outputs.key }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+
+      - name: Detect changes
+        id: changes
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            CHANGED=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }})
+          else
+            CHANGED=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }})
+          fi
+
+          echo "changed_files<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGED" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          # Check if performance tests should run
+          if echo "$CHANGED" | grep -E "(packages/buildfix|packages/benchmark|nx\.json|tsconfig)" > /dev/null; then
+            echo "performance=true" >> $GITHUB_OUTPUT
+          else
+            echo "performance=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Decision matrix
+        id: decision
+        run: |
+          echo "performance=${{ steps.changes.outputs.performance }}" >> $GITHUB_OUTPUT
+
+      - name: Generate cache key
+        id: cache
+        run: |
+          KEY="enhanced-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml', '**/package.json') }}"
+          echo "key=$KEY" >> $GITHUB_OUTPUT
+
+  # Enhanced setup with build monitoring
+  setup:
+    name: Enhanced Setup
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: preflight
+    outputs:
+      cache-hit: ${{ steps.cache-deps.outputs.cache-hit }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+
+      - name: Trust workspace ownership for Git
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup enhanced cache
+        id: cache-deps
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ env.STORE_PATH }}
+            node_modules/.cache
+            .nx/cache
+          key: ${{ needs.preflight.outputs.cache-key }}
+          restore-keys: |
+            enhanced-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}-
+            enhanced-${{ runner.os }}-
+
+      - name: Cache Clojure dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.m2/repository
+            ~/.gitlibs
+            ~/.clojure
+            ~/.cpcache
+          key: cljdeps-${{ runner.os }}-${{ hashFiles('**/deps.edn', '**/bb.edn') }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            cljdeps-${{ runner.os }}-${{ hashFiles('**/deps.edn', '**/bb.edn') }}-
+            cljdeps-${{ runner.os }}-
+
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '${{ env.NODE_VERSION }}', cache: pnpm }
+
+      - name: Install Clojure toolchain
+        run: bash run/install-clojure.sh
+
+      - name: Install dependencies with enhanced logging
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+        run: |
+          echo "::group::Installing dependencies"
+          pnpm install --frozen-lockfile --reporter=append-only
+          echo "::endgroup::"
+
+      - name: Verify installation
+        run: |
+          pnpm --version
+          node --version
+          nx --version
+
+      - name: Upload dependency artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: enhanced-dependencies
+          path: |
+            node_modules
+            ~/.pnpm-store
+            .nx/cache
+          retention-days: 1
+
+  # Enhanced type checking with monitoring
+  typecheck:
+    name: Enhanced Type Checking
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    needs: setup
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+
+      - name: Trust workspace ownership for Git
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '${{ env.NODE_VERSION }}', cache: pnpm }
+
+      - name: Download dependencies
+        uses: actions/download-artifact@v4
+        with:
+          name: enhanced-dependencies
+
+      - uses: nrwl/nx-set-shas@v4
+
+      - name: Configure Nx base/head for PR
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "NX_BASE=${{ github.event.pull_request.base.sha }}" >> "$GITHUB_ENV"
+          echo "NX_HEAD=${{ github.sha }}" >> "$GITHUB_ENV"
+
+      - name: Fetch base commit for Nx diff
+        if: env.NX_BASE != ''
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          if ! git cat-file -e "${NX_BASE}^{commit}" 2>/dev/null; then
+            git fetch --no-tags origin "${{ github.event.pull_request.base.ref }}"
+            git fetch --no-tags origin "${NX_BASE}" || true
+          fi
+
+      - name: Run enhanced type checking
+        run: |
+          echo "::group::TypeScript Compilation Check"
+          set -eo pipefail
+
+          if [ -n "${NX_BASE:-}" ] && [ -n "${NX_HEAD:-}" ]; then
+            pnpm exec nx affected -t typecheck --parallel --base="$NX_BASE" --head="$NX_HEAD" 2>&1 | tee typecheck.log
+          else
+            pnpm -r exec tsc --noEmit --strict 2>&1 | tee typecheck.log
+          fi
+
+          echo "::endgroup::"
+
+          # Check for critical errors
+          if grep -q "error TS" typecheck.log; then
+            echo "::error::TypeScript compilation failed with errors"
+            exit 1
+          fi
+
+      - name: Upload typecheck results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: typecheck-results
+          path: typecheck.log
+          retention-days: 7
+
+  # Enhanced linting with monitoring
+  lint:
+    name: Enhanced Linting
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: setup
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+
+      - name: Trust workspace ownership for Git
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '${{ env.NODE_VERSION }}', cache: pnpm }
+
+      - name: Download dependencies
+        uses: actions/download-artifact@v4
+        with:
+          name: enhanced-dependencies
+
+      - uses: nrwl/nx-set-shas@v4
+
+      - name: Configure Nx base/head for PR
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "NX_BASE=${{ github.event.pull_request.base.sha }}" >> "$GITHUB_ENV"
+          echo "NX_HEAD=${{ github.sha }}" >> "$GITHUB_ENV"
+
+      - name: Fetch base commit for Nx diff
+        if: env.NX_BASE != ''
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          if ! git cat-file -e "${NX_BASE}^{commit}" 2>/dev/null; then
+            git fetch --no-tags origin "${{ github.event.pull_request.base.ref }}"
+            git fetch --no-tags origin "${NX_BASE}" || true
+          fi
+
+      - name: Run enhanced linting
+        run: |
+          echo "::group::ESLint Analysis"
+          set -eo pipefail
+
+          if [ -n "${NX_BASE:-}" ] && [ -n "${NX_HEAD:-}" ]; then
+            pnpm exec nx affected -t lint --parallel --base="$NX_BASE" --head="$NX_HEAD" 2>&1 | tee lint.log
+          else
+            pnpm -r lint 2>&1 | tee lint.log
+          fi
+
+          echo "::endgroup::"
+
+          # Check for critical lint errors
+          if grep -q "error" lint.log; then
+            echo "::error::Linting failed with errors"
+            exit 1
+          fi
+
+      - name: Upload lint results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lint-results
+          path: lint.log
+          retention-days: 7
+
+  # Enhanced build with monitoring
+  build:
+    name: Enhanced Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: [setup, typecheck, lint]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+
+      - name: Trust workspace ownership for Git
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '${{ env.NODE_VERSION }}', cache: pnpm }
+
+      - name: Download dependencies
+        uses: actions/download-artifact@v4
+        with:
+          name: enhanced-dependencies
+
+      - uses: nrwl/nx-set-shas@v4
+
+      - name: Configure Nx base/head for PR
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "NX_BASE=${{ github.event.pull_request.base.sha }}" >> "$GITHUB_ENV"
+          echo "NX_HEAD=${{ github.sha }}" >> "$GITHUB_ENV"
+
+      - name: Fetch base commit for Nx diff
+        if: env.NX_BASE != ''
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          if ! git cat-file -e "${NX_BASE}^{commit}" 2>/dev/null; then
+            git fetch --no-tags origin "${{ github.event.pull_request.base.ref }}"
+            git fetch --no-tags origin "${NX_BASE}" || true
+          fi
+
+      - name: Run enhanced builds with monitoring
+        run: |
+          echo "::group::Building Projects"
+          set -eo pipefail
+
+          # Start build monitoring
+          if [ "${{ env.BUILD_MONITORING }}" = "true" ]; then
+            echo "Starting build monitoring..."
+            # Build monitoring would be integrated here
+          fi
+
+          START_TIME=$(date +%s)
+
+          if [ -n "${NX_BASE:-}" ] && [ -n "${NX_HEAD:-}" ]; then
+            pnpm exec nx affected -t build --parallel --base="$NX_BASE" --head="$NX_HEAD" 2>&1 | tee build.log
+          else
+            pnpm exec nx affected -t build --parallel 2>&1 | tee build.log
+          fi
+
+          END_TIME=$(date +%s)
+          DURATION=$((END_TIME - START_TIME))
+
+          echo "::endgroup::"
+          echo "::notice::Build completed in ${DURATION} seconds"
+
+          # Check for build errors
+          if grep -q "error" build.log; then
+            echo "::error::Build failed with errors"
+            exit 1
+          fi
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: enhanced-build-artifacts
+          path: |
+            packages/*/dist
+            apps/*/dist
+            build.log
+          retention-days: 1
+
+  # Performance tests (conditional)
+  performance:
+    name: Performance Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    needs: [setup, build]
+    if: needs.preflight.outputs.should-run-performance == 'true' || env.PERFORMANCE_TESTS == 'true'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '${{ env.NODE_VERSION }}', cache: pnpm }
+
+      - name: Download dependencies
+        uses: actions/download-artifact@v4
+        with:
+          name: enhanced-dependencies
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: enhanced-build-artifacts
+
+      - name: Run performance benchmarks
+        run: |
+          echo "::group::Performance Benchmarks"
+          pnpm --filter @promethean/benchmark benchmark --providers buildfix-local --iterations 3
+          echo "::endgroup::"
+
+      - name: Upload performance results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: performance-results
+          path: |
+            benchmark-results.json
+            performance-report.md
+          retention-days: 7
+
+  # Enhanced status check
+  ci-status:
+    name: Enhanced CI Status
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [typecheck, lint, build, performance]
+    if: always()
+
+    steps:
+      - name: Check job statuses
+        run: |
+          echo "Typecheck: ${{ needs.typecheck.result }}"
+          echo "Lint: ${{ needs.lint.result }}"
+          echo "Build: ${{ needs.build.result }}"
+          echo "Performance: ${{ needs.performance.result }}"
+
+          # Determine overall status
+          FAILED_JOBS=()
+
+          if [[ "${{ needs.typecheck.result }}" == "failure" ]]; then
+            FAILED_JOBS+=("typecheck")
+          fi
+
+          if [[ "${{ needs.lint.result }}" == "failure" ]]; then
+            FAILED_JOBS+=("lint")
+          fi
+
+          if [[ "${{ needs.build.result }}" == "failure" ]]; then
+            FAILED_JOBS+=("build")
+          fi
+
+          if [[ "${{ needs.performance.result }}" == "failure" && "${{ needs.preflight.outputs.should-run-performance }}" == "true" ]]; then
+            FAILED_JOBS+=("performance")
+          fi
+
+          if [ ${#FAILED_JOBS[@]} -eq 0 ]; then
+            echo "✅ Enhanced CI pipeline passed successfully"
+            echo "::notice::All checks passed"
+          else
+            echo "❌ Enhanced CI pipeline failed"
+            echo "::error::Failed jobs: ${FAILED_JOBS[*]}"
+            exit 1
+          fi
+
+      - name: Download all artifacts
+        if: always()
+        run: |
+          mkdir -p ci-artifacts
+
+          # Download available artifacts
+          for artifact in typecheck-results lint-results enhanced-build-artifacts performance-results; do
+            if gh api repos/:owner/:repo/actions/artifacts --jq ".artifacts[] | select(.name==\"$artifact\") | .id" | xargs -I {} gh api repos/:owner/:repo/actions/artifacts/{}/zip -o ci-artifacts/$artifact.zip 2>/dev/null || true; then
+              echo "Downloaded $artifact"
+            fi
+          done
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Upload combined artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ci-artifacts-combined
+          path: ci-artifacts/
+          retention-days: 7

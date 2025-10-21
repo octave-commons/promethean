@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0404-TS1240-09-scheduler",
+  "description": "Massive fixture for TS1240 from packages/boardrev/src/09-scheduler.ts",
+  "originalPath": "packages/boardrev/src/09-scheduler.ts",
+  "targetErrorCode": "TS1240",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 404,
+  "generatedAt": "2025-10-15T06:38:49.475Z"
+}

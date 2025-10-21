@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0282-TS2552-09-scheduler",
+  "description": "Massive fixture for TS2552 from packages/boardrev/src/09-scheduler.ts",
+  "originalPath": "packages/boardrev/src/09-scheduler.ts",
+  "targetErrorCode": "TS2552",
+  "errorCategory": "Semantic Error",
+  "fixtureNumber": 282,
+  "generatedAt": "2025-10-15T06:55:37.767Z"
+}

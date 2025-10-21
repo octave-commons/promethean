@@ -1,0 +1,65 @@
+{
+  "name": "@promethean/pipeline-automation",
+  "version": "1.0.0",
+  "description": "Comprehensive pipeline automation with BuildFix integration, timeout handling, and monitoring",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "test": "ava",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --ext .ts",
+    "coverage": "c8 ava"
+  },
+  "dependencies": {
+    "@promethean/buildfix": "workspace:*",
+    "@promethean/ollama-queue": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ava": "^6.0.0",
+    "c8": "^9.0.0",
+    "eslint": "^9.0.0",
+    "typescript": "^5.0.0"
+  },
+  "ava": {
+    "files": [
+      "src/tests/**/*.test.ts"
+    ],
+    "typescript": {
+      "rewritePaths": {
+        "src/": "dist/"
+      }
+    }
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/promethean/pipeline-automation.git"
+  },
+  "keywords": [
+    "pipeline",
+    "automation",
+    "buildfix",
+    "monitoring",
+    "timeout",
+    "parallel",
+    "devops"
+  ],
+  "author": "Promethean Team",
+  "license": "MIT"
+}

@@ -1,0 +1,95 @@
+{
+  "results": [
+    {
+      "fixture": "missing-export",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 38290,
+      "attempts": 3,
+      "errorMessage": "ollama generate 500: {\"error\":\"model runner has unexpectedly stopped, this may be due to resource limitations or an internal error, check ollama server logs for details\"}"
+    },
+    {
+      "fixture": "optional-parameter",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": true,
+      "duration": 81004,
+      "attempts": 3,
+      "errorMessage": "__dirname is not defined",
+      "planTitle": "Fix missing required parameter"
+    },
+    {
+      "fixture": "type-annotation-missing",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": true,
+      "duration": 66946,
+      "attempts": 3,
+      "errorMessage": "__dirname is not defined",
+      "planTitle": "Fix missing type annotation for 'someUnknownFunction'"
+    },
+    {
+      "fixture": "missing-return-type",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 0,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 1420,
+      "attempts": 0,
+      "errorMessage": "No errors found in fixture"
+    },
+    {
+      "fixture": "class-not-exported",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 1,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": true,
+      "duration": 48516,
+      "attempts": 3,
+      "planTitle": "Export Helper class",
+      "errorMessage": "__dirname is not defined"
+    },
+    {
+      "fixture": "interface-missing",
+      "model": "qwen3:8b",
+      "success": false,
+      "errorCountBefore": 0,
+      "errorCountAfter": 0,
+      "errorsResolved": false,
+      "planGenerated": false,
+      "duration": 1596,
+      "attempts": 0,
+      "errorMessage": "No errors found in fixture"
+    }
+  ],
+  "summary": {
+    "totalTests": 6,
+    "successfulTests": 0,
+    "errorsResolved": 0,
+    "averageDuration": 39.62866666666667,
+    "modelResults": {
+      "qwen3:8b": {
+        "successRate": 0,
+        "errorResolution": 0,
+        "avgDuration": 39.62866666666667,
+        "totalErrors": 4,
+        "errorsFixed": 4
+      }
+    }
+  },
+  "timestamp": "2025-10-15T13:13:07.993Z"
+}

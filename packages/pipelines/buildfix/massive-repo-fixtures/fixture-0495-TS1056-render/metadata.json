@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0495-TS1056-render",
+  "description": "Massive fixture for TS1056 from packages/kanban/src/frontend/render.ts",
+  "originalPath": "packages/kanban/src/frontend/render.ts",
+  "targetErrorCode": "TS1056",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 495,
+  "generatedAt": "2025-10-15T06:38:49.515Z"
+}

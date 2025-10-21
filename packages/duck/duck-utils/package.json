@@ -1,0 +1,35 @@
+{
+  "name": "@promethean/duck-utils",
+  "version": "0.0.0",
+  "main": "dist/promethean.duck_utils.flags.cjs",
+  "module": "dist/promethean.duck_utils.flags.js",
+  "exports": {
+    ".": {
+      "types": "./src/flags.ts",
+      "import": "./dist/promethean.duck_utils.flags.js",
+      "require": "./dist/promethean.duck_utils.flags.cjs"
+    },
+    "./flags": {
+      "types": "./src/flags.ts",
+      "import": "./dist/promethean.duck_utils.flags.js",
+      "require": "./dist/promethean.duck_utils.flags.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "shadow-cljs compile duck-utils",
+    "build:watch": "shadow-cljs watch duck-utils",
+    "clean": "rimraf dist",
+    "typecheck": "tsc --noEmit",
+    "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
+    "lint": "pnpm exec eslint ."
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "shadow-cljs": "2.28.17"
+  },
+  "license": "GPL-3.0-only"
+}

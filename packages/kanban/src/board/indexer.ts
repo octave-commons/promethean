@@ -55,10 +55,30 @@ const normalizeTask = (
   const labels = toLabelArray(data.labels);
   const created = toTrimmedString(rawCreated);
   const updated = toOptionalString((data as { readonly updated?: unknown }).updated);
-  
+
   // Extract estimates if present
   const estimates = (data as { readonly estimates?: unknown }).estimates;
   const normalizedEstimates = estimates && typeof estimates === 'object' ? estimates : undefined;
+
+  // Extract commit tracking fields
+  const lastCommitSha = toOptionalString(
+    (data as { readonly lastCommitSha?: unknown }).lastCommitSha,
+  );
+
+  const rawCommitHistory = (data as { readonly commitHistory?: unknown }).commitHistory;
+  const commitHistory = Array.isArray(rawCommitHistory)
+    ? rawCommitHistory.filter(
+        (entry) =>
+          entry &&
+          typeof entry === 'object' &&
+          typeof entry.sha === 'string' &&
+          typeof entry.timestamp === 'string' &&
+          typeof entry.message === 'string' &&
+          typeof entry.author === 'string' &&
+          ['create', 'update', 'status_change', 'move'].includes(entry.type),
+      )
+    : undefined;
+
   const rel = path.relative(repoRoot, filePath);
   const base: TaskFM = Object.freeze({
     id,
@@ -71,6 +91,8 @@ const normalizeTask = (
     uuid: toOptionalString((data as { readonly uuid?: unknown }).uuid),
     created_at: toOptionalString((data as { readonly created_at?: unknown }).created_at),
     estimates: normalizedEstimates,
+    lastCommitSha,
+    commitHistory,
   });
   const fm: TaskFM = typeof updated === 'string' ? Object.freeze({ ...base, updated }) : base;
   return Object.freeze({ ...fm, path: rel, content }) satisfies IndexedTask;

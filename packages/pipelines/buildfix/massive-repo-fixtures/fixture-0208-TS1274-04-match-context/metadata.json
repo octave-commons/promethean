@@ -1,0 +1,9 @@
+{
+  "name": "fixture-0208-TS1274-04-match-context",
+  "description": "Massive fixture for TS1274 from packages/boardrev/src/04-match-context.ts",
+  "originalPath": "packages/boardrev/src/04-match-context.ts",
+  "targetErrorCode": "TS1274",
+  "errorCategory": "Syntax Error",
+  "fixtureNumber": 208,
+  "generatedAt": "2025-10-15T06:38:49.389Z"
+}

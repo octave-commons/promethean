@@ -1,5 +1,5 @@
-export type Status = "open" | "doing" | "blocked" | "done" | "dropped";
-export type Priority = "low" | "medium" | "high" | "critical";
+export type Status = 'open' | 'doing' | 'blocked' | 'done' | 'dropped';
+export type Priority = 'low' | 'medium' | 'high' | 'critical';
 
 export type Estimates = Readonly<{
   complexity?: number;
@@ -25,6 +25,15 @@ export type TaskFM = Readonly<{
   };
   milestone?: string;
   estimates?: Estimates;
+  // Commit tracking for auditability
+  lastCommitSha?: string;
+  commitHistory?: ReadonlyArray<{
+    sha: string;
+    timestamp: string;
+    message: string;
+    author: string;
+    type: 'create' | 'update' | 'status_change' | 'move';
+  }>;
 }>;
 
 export type IndexedTask = TaskFM & Readonly<{ path: string; content?: string }>;
