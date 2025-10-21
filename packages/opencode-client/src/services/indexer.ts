@@ -25,7 +25,7 @@ export const createIndexerService = (): IndexerService => {
 
   const stateFile = join(process.cwd(), '.indexer-state.json');
   const { loadState, saveState } = createStateManager(stateFile);
-  const { indexSession, indexMessage, indexEvent } = createIndexingOperations();
+  const { indexSession, indexMessage, indexEvent } = createIndexingOperations(logEventDeduped);
 
   let isRunning = false;
   let stateSaveTimer: NodeJS.Timeout | undefined;
