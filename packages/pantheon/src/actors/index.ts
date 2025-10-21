@@ -26,7 +26,7 @@ export const createLLMActor = (
   config: LLMActorConfig,
   contextSources: ContextSource[] = [],
 ): ActorScript => {
-  const { model = 'gpt-3.5-turbo', temperature = 0.7, maxTokens = 1000, systemPrompt } = config;
+  const { model = 'gpt-5-nano', temperature = 0.7, maxTokens = 1000, systemPrompt } = config;
 
   const llmBehavior: Behavior = {
     name: 'llm-response',
