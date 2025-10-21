@@ -1,53 +1,17 @@
-import { readFile, writeFile } from 'fs/promises';
-import { join } from 'path';
-
 import { createOpencodeClient } from '@opencode-ai/sdk';
+import { join } from 'path';
 import type { Session, Event } from '@opencode-ai/sdk';
 
-import { sessionStore, eventStore, messageStore } from '../index.js';
+import type { IndexerState, OpenCodeClient, EventSubscription } from './indexer-types.js';
+import {
+  createStateManager,
+  isMessageEvent,
+  extractSessionId,
+  extractMessageId,
+} from './indexer-types.js';
+import { createIndexingOperations } from './indexer-operations.js';
 
-type IndexerState = {
-  readonly lastIndexedSessionId?: string;
-  readonly lastIndexedMessageId?: string;
-};
-
-type OpenCodeClient = {
-  readonly session: {
-    readonly list: () => Promise<{ readonly data: readonly Session[] }>;
-    readonly messages: (params: { readonly path: { readonly id: string } }) => Promise<{
-      readonly data: readonly Message[];
-    }>;
-    readonly message: (params: {
-      readonly path: { readonly id: string; readonly messageID: string };
-    }) => Promise<{ readonly data: Message }>;
-  };
-  readonly event?: {
-    readonly subscribe: () => Promise<{ readonly stream: AsyncIterable<Event> }>;
-  };
-}
-
-type Message = {
-  readonly info?: {
-    readonly id?: string;
-    readonly role?: string;
-    readonly sessionID?: string;
-    readonly time?: {
-      readonly created?: number;
-    };
-  };
-  readonly parts?: readonly MessagePart[];
-}
-
-type MessagePart = {
-  readonly type?: string;
-  readonly text?: string;
-}
-
-type EventSubscription = {
-  readonly stream: AsyncIterable<Event>;
-}
-
-export type IndexerService = {
+export interface IndexerService {
   readonly start: () => Promise<void>;
   readonly stop: () => Promise<void>;
 }
@@ -57,112 +21,21 @@ export const createIndexerService = (): IndexerService => {
     baseUrl: 'http://localhost:4096',
   }) as OpenCodeClient;
 
+  const stateFile = join(process.cwd(), '.indexer-state.json');
+  const { loadState, saveState } = createStateManager(stateFile);
+  const { indexSession, indexMessage, indexEvent } = createIndexingOperations();
+
   let isRunning = false;
   let stateSaveTimer: NodeJS.Timeout | undefined;
   const STATE_SAVE_INTERVAL_MS = 30000;
-  const stateFile = join(process.cwd(), '.indexer-state.json');
   let state: IndexerState = {};
-
-  const loadState = async (): Promise<void> => {
-    try {
-      const data = await readFile(stateFile, 'utf-8');
-      const savedState: IndexerState = JSON.parse(data);
-      state = savedState;
-      console.log(
-        `📂 Loaded indexer state: lastSession=${state.lastIndexedSessionId}, lastMessage=${state.lastIndexedMessageId}`,
-      );
-    } catch {
-      console.log('📂 No previous indexer state found, starting fresh');
-    }
-  };
-
-  const saveState = async (): Promise<void> => {
-    try {
-      const stateToSave = {
-        lastIndexedSessionId: state.lastIndexedSessionId,
-        lastIndexedMessageId: state.lastIndexedMessageId,
-        savedAt: Date.now(),
-      };
-
-      await writeFile(stateFile, JSON.stringify(stateToSave, null, 2));
-
-      if (process.argv.includes('--verbose')) {
-        console.log(
-          `💾 Saved indexer state: lastSession=${state.lastIndexedSessionId}, lastMessage=${state.lastIndexedMessageId}`,
-        );
-      }
-    } catch (error) {
-      console.warn('⚠️  Could not save indexer state:', error);
-    }
-  };
 
   const startPeriodicStateSave = (): void => {
     stateSaveTimer = setInterval(async () => {
       if (isRunning) {
-        await saveState();
+        await saveState(state);
       }
     }, STATE_SAVE_INTERVAL_MS);
-  };
-
-  const indexSession = async (session: Session): Promise<void> => {
-    try {
-      const markdown = sessionToMarkdown(session);
-
-      await sessionStore.insert({
-        id: `session_${session.id}`,
-        text: markdown,
-        timestamp: session.time?.created ?? Date.now(),
-        metadata: {
-          type: 'session',
-          sessionId: session.id,
-          title: session.title,
-        },
-      });
-    } catch (error) {
-      console.error('❌ Error indexing session:', error);
-    }
-  };
-
-  const indexMessage = async (message: Message, sessionId: string): Promise<void> => {
-    try {
-      const markdown = messageToMarkdown(message);
-
-      await messageStore.insert({
-        id: `message_${message.info?.id}`,
-        text: markdown,
-        timestamp: message.info?.time?.created ?? Date.now(),
-        metadata: {
-          type: 'message',
-          messageId: message.info?.id,
-          sessionId,
-          role: message.info?.role,
-        },
-      });
-    } catch (error) {
-      console.error('❌ Error indexing message:', error);
-    }
-  };
-
-  const indexEvent = async (event: Event): Promise<void> => {
-    try {
-      const markdown = eventToMarkdown(event);
-      const timestamp = Date.now();
-
-      await eventStore.insert({
-        id: `event_${event.type}_${timestamp}`,
-        text: markdown,
-        timestamp,
-        metadata: {
-          type: 'event',
-          eventType: event.type,
-          sessionId: extractSessionId(event),
-        },
-      });
-
-      console.log(`📡 Indexed event: ${event.type}`);
-    } catch (error) {
-      console.error('❌ Error indexing event:', error);
-    }
   };
 
   const processSessionMessages = async (session: Session): Promise<void> => {
@@ -207,7 +80,7 @@ export const createIndexerService = (): IndexerService => {
           await processSessionMessages(session);
 
           // Save state after processing each session to avoid re-indexing
-          await saveState();
+          await saveState(state);
         }),
       );
 
@@ -217,14 +90,11 @@ export const createIndexerService = (): IndexerService => {
         console.log('✅ No new sessions to index');
       }
 
-      await saveState();
+      await saveState(state);
     } catch (error) {
       console.error('❌ Error indexing new data:', error);
     }
   };
-
-  const isMessageEvent = (event: Event): boolean =>
-    ['message.updated', 'message.part.updated', 'message.removed'].includes(event.type);
 
   const handleMessageEvent = async (event: Event): Promise<void> => {
     try {
@@ -254,7 +124,7 @@ export const createIndexerService = (): IndexerService => {
           state = { ...state, lastIndexedMessageId: messageId };
 
           // Save state after processing message event
-          await saveState();
+          await saveState(state);
 
           console.log(`📝 Indexed message ${messageId} for session ${sessionId}`);
         } else {
@@ -310,7 +180,7 @@ export const createIndexerService = (): IndexerService => {
     isRunning = true;
     console.log('🚀 Starting OpenCode indexer service...');
 
-    await loadState();
+    state = await loadState();
     startPeriodicStateSave();
     await subscribeToEvents();
     void indexNewData();
@@ -329,87 +199,7 @@ export const createIndexerService = (): IndexerService => {
       stateSaveTimer = undefined;
     }
 
-    await saveState();
-  };
-
-  const eventToMarkdown = (event: Event): string => {
-    const sessionId = extractSessionId(event);
-    const timestamp = new Date().toISOString();
-
-    return `# Event: ${event.type}
-
-**Timestamp:** ${timestamp}
-**Session ID:** ${sessionId ?? 'N/A'}
-
-## Properties
-
-\`\`\`json
-${JSON.stringify(event.properties ?? {}, null, 2)}
-\`\`\`
-
----
-`;
-  };
-
-  const sessionToMarkdown = (session: Session): string => `# Session: ${session.title}
-
-**ID:** ${session.id}
-**Created:** ${new Date(session.time.created).toLocaleString()}
-**Project ID:** ${session.projectID}
-
-## Description
-
-${session.title ?? 'Untitled Session'}
-
----
-`;
-
-  const messageToMarkdown = (message: Message): string => {
-    const textParts = message.parts?.filter((part: MessagePart) => part.type === 'text') ?? [];
-    const content =
-      textParts.map((part: MessagePart) => part.text).join('\n\n') ?? '[No text content]';
-
-    return `# Message: ${message.info?.id}
-
-**Role:** ${message.info?.role ?? 'unknown'}
-**Timestamp:** ${message.info?.time?.created ? new Date(message.info.time.created).toLocaleString() : 'Unknown'}
-**Message ID:** ${message.info?.id ?? 'unknown'}
-
-## Content
-
-${content}
-
----
-`;
-  };
-
-  const extractSessionId = (event: Event): string | undefined => {
-    switch (event.type) {
-      case 'session.updated':
-      case 'session.deleted':
-        return (event as any).properties?.info?.id;
-      case 'message.updated':
-      case 'message.removed':
-        return (event as any).properties?.info?.sessionID ?? (event as any).properties?.sessionID;
-      case 'message.part.updated':
-      case 'message.part.removed':
-        return (event as any).properties?.part?.sessionID ?? (event as any).properties?.sessionID;
-      default:
-        return undefined;
-    }
-  };
-
-  const extractMessageId = (event: Event): string | undefined => {
-    switch (event.type) {
-      case 'message.updated':
-      case 'message.removed':
-        return (event as any).properties?.info?.id;
-      case 'message.part.updated':
-      case 'message.part.removed':
-        return (event as any).properties?.part?.messageID ?? (event as any).properties?.messageID;
-      default:
-        return undefined;
-    }
+    await saveState(state);
   };
 
   return {
