@@ -1,6 +1,6 @@
-(ns chat-ui.main.events
+(ns main.events
   (:require [re-frame.core :as rf]
-            [chat-ui.db.core :as db]
+            [db.core :as db]
             [cljs.core.async :refer [<! go]]))
 
 (rf/reg-event-db
