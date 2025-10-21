@@ -62,7 +62,7 @@ async function getSessionStore() {
   return sessionStore;
 }
 
-interface SessionInfo {
+export interface SessionInfo {
   id: string;
   title?: string;
   createdAt?: string | number;

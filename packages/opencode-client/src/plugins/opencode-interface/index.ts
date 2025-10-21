@@ -11,14 +11,11 @@ import { initializeStores } from '../../initializeStores.js';
 // Import existing actions
 import { list as listSessions } from '../../actions/sessions/list.js';
 import { get as getSession } from '../../actions/sessions/get.js';
-import { create as createSession } from '../../actions/sessions/create.js';
 import { close as closeSession } from '../../actions/sessions/close.js';
 import { spawn as spawnSession } from '../../actions/sessions/spawn.js';
 import { search as searchSessions } from '../../actions/sessions/search.js';
 import { list as listEvents } from '../../actions/events/list.js';
-import { subscribe as subscribeToEvents } from '../../actions/events/subscribe.js';
 import { getSessionMessages } from '../../actions/messages/index.js';
-import { IndexerService } from '../../services/indexer.js';
 
 /**
  * OpenCode Interface Plugin - Provides OpenCode functionality as tools
@@ -112,27 +109,6 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
         },
       }),
 
-      'create-session': tool({
-        description: 'Create a new OpenCode session',
-        args: {
-          title: tool.schema.string().optional().describe('Optional title for the session'),
-        },
-        async execute(args) {
-          try {
-            const result = await createSession({
-              title: args.title,
-              client: opencodeClient,
-            });
-
-            return result;
-          } catch (error) {
-            throw new Error(
-              `Failed to create session: ${error instanceof Error ? error.message : String(error)}`,
-            );
-          }
-        },
-      }),
-
       'close-session': tool({
         description: 'Close an active session',
         args: {
@@ -218,37 +194,10 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
               sessionId: args.sessionId,
             });
 
-            return result;
+            // TODO: Format output nicely as markdown
+            return JSON.stringify(result);
           } catch (error) {
-            throw new Error(
-              `Failed to list events: ${error instanceof Error ? error.message : String(error)}`,
-            );
-          }
-        },
-      }),
-
-      'subscribe-events': tool({
-        description: 'Subscribe to live events from OpenCode sessions',
-        args: {
-          eventType: tool.schema
-            .string()
-            .optional()
-            .describe('Specific event type to subscribe to'),
-          sessionId: tool.schema.string().optional().describe('Filter by session ID'),
-        },
-        async execute(args) {
-          try {
-            const result = await subscribeToEvents({
-              eventType: args.eventType,
-              sessionId: args.sessionId,
-              client: opencodeClient,
-            });
-
-            return result;
-          } catch (error) {
-            throw new Error(
-              `Failed to subscribe to events: ${error instanceof Error ? error.message : String(error)}`,
-            );
+            return `Failed to list events: ${error instanceof Error ? error.message : String(error)}`;
           }
         },
       }),
@@ -338,96 +287,7 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
 
             return JSON.stringify(result.data, null, 2);
           } catch (error) {
-            throw new Error(
-              `Failed to send prompt: ${error instanceof Error ? error.message : String(error)}`,
-            );
-          }
-        },
-      }),
-
-      // Indexer Management Tools
-      'start-indexer': tool({
-        description: 'Start the OpenCode indexer service',
-        args: {
-          verbose: tool.schema.boolean().default(false).describe('Enable verbose logging'),
-          background: tool.schema.boolean().default(false).describe('Run as background daemon'),
-        },
-        async execute(args) {
-          try {
-            const indexer = new IndexerService();
-
-            if (args.background) {
-              // For background mode, we'd need to use PM2 or similar
-              // For now, return instructions
-              return 'Background mode requires PM2. Use: pm2 start dist/cli.js --name "opencode-indexer" -- indexer start';
-            }
-
-            await indexer.start();
-
-            return 'Indexer service started successfully. Use Ctrl+C to stop.';
-          } catch (error) {
-            throw new Error(
-              `Failed to start indexer: ${error instanceof Error ? error.message : String(error)}`,
-            );
-          }
-        },
-      }),
-
-      'stop-indexer': tool({
-        description: 'Stop the OpenCode indexer service',
-        args: {
-          force: tool.schema.boolean().default(false).describe('Force stop the indexer'),
-        },
-        async execute() {
-          try {
-            const indexer = new IndexerService();
-            await indexer.stop();
-
-            return 'Indexer service stopped successfully.';
-          } catch (error) {
-            throw new Error(
-              `Failed to stop indexer: ${error instanceof Error ? error.message : String(error)}`,
-            );
-          }
-        },
-      }),
-
-      'indexer-status': tool({
-        description: 'Get the status of the OpenCode indexer service',
-        args: {},
-        async execute() {
-          try {
-            // Since IndexerService doesn't have a getStatus method, we'll check if it's running
-            // by attempting to read the state file
-            const fs = await import('fs/promises');
-            const path = await import('path');
-
-            try {
-              const stateFile = path.join(process.cwd(), '.indexer-state.json');
-              const stateData = await fs.readFile(stateFile, 'utf-8');
-              const state = JSON.parse(stateData);
-
-              const status = {
-                status: 'stopped',
-                lastIndexedSessionId: state.lastIndexedSessionId,
-                lastIndexedMessageId: state.lastIndexedMessageId,
-                savedAt: state.savedAt ? new Date(state.savedAt).toISOString() : 'unknown',
-                note: 'Indexer state file exists but service may not be running',
-              };
-
-              return JSON.stringify(status, null, 2);
-            } catch (fileError) {
-              const status = {
-                status: 'not_initialized',
-                message: 'No indexer state file found - indexer has not been run',
-              };
-
-              return JSON.stringify(status, null, 2);
-            }
-          } catch (error) {
-            throw new Error(
-              `Failed to get indexer status: ${error instanceof Error ? error.message : String(error)}`,
-            );
+            return `Failed to send prompt: ${error instanceof Error ? error.message : String(error)}`;
           }
         },
       }),

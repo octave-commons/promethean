@@ -15,7 +15,7 @@ import { createIndexingOperations } from './indexer-operations.js';
 export type IndexerService = {
   readonly start: () => Promise<void>;
   readonly stop: () => Promise<void>;
-}
+};
 
 export const createIndexerService = (): IndexerService => {
   const client = createOpencodeClient({

@@ -17,3 +17,6 @@ pnpm:
   overrides:
     tinyglobby:
       '@types/node': '20.19.11'
+
+link-workspace-packages: true
+prefer-workspace-packages: true

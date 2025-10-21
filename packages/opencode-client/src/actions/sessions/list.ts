@@ -1,8 +1,12 @@
 import { SessionUtils, sessionStore } from '../../index.js';
 
-import { deduplicateSessions } from '../../utils/session-cleanup.js';
+import {
+  deduplicateSessions,
+  type SessionInfo as CleanupSessionInfo,
+} from '../../utils/session-cleanup.js';
 import { SessionData } from '../../types/SessionData.js';
 import type { StoreSession } from '../../types/StoreSession.js';
+import type { SessionInfo } from '../../SessionInfo.js';
 
 /**
  * Safely parse session data, handling both JSON and plain text formats
@@ -42,123 +46,170 @@ function parseSessionData(session: StoreSession): SessionData {
   }
 }
 
-export async function list({ limit, offset }: { limit: number; offset: number }) {
+function calculateFetchLimit(limit: number, offset: number): number {
+  return Math.min(limit + offset + 50, 500);
+}
+
+function createEmptyResponse(limit: number, offset: number): string {
+  return JSON.stringify({
+    sessions: [],
+    totalCount: 0,
+    pagination: { limit, offset, hasMore: false },
+  });
+}
+
+function sortSessionsByTime(sessions: CleanupSessionInfo[]): CleanupSessionInfo[] {
+  return [...sessions].sort((a, b) => {
+    // Use createdAt or time.created from SessionInfo for sorting
+    const aTime = a.createdAt || a.time?.created || '';
+    const bTime = b.createdAt || b.time?.created || '';
+
+    if (aTime && bTime && typeof aTime === 'string' && typeof bTime === 'string') {
+      return bTime.localeCompare(aTime);
+    }
+
+    const aId = a.id || '';
+    const bId = b.id || '';
+    return bId.localeCompare(aId);
+  });
+}
+
+async function getSessionMessages(sessionId: string): Promise<unknown[]> {
+  const messageKey = `session:${sessionId}:messages`;
+  const allStored = await sessionStore.getMostRecent(100);
+  const messageEntry = allStored.find((entry) => entry.id === messageKey);
+
+  if (!messageEntry) {
+    return [];
+  }
+
+  return JSON.parse(messageEntry.text);
+}
+
+async function enhanceSessionWithMessages(session: CleanupSessionInfo): Promise<SessionInfo> {
+  try {
+    const messages = await getSessionMessages(session.id);
+    // Convert CleanupSessionInfo to SessionData for SessionUtils
+    const sessionData: SessionData = {
+      id: session.id,
+      title: session.title,
+      createdAt: session.createdAt,
+      updatedAt: session.createdAt,
+      lastActivity: session.createdAt,
+      status: 'unknown',
+      time: session.time,
+    } as SessionData;
+    return SessionUtils.createSessionInfo(sessionData, messages.length, undefined);
+  } catch (error: unknown) {
+    console.error(`Error processing session ${session.id}:`, error);
+    // Convert CleanupSessionInfo to SessionData for SessionUtils
+    const sessionData: SessionData = {
+      id: session.id,
+      title: session.title,
+      createdAt: session.createdAt,
+      updatedAt: session.createdAt,
+      lastActivity: session.createdAt,
+      status: 'unknown',
+      time: session.time,
+    } as SessionData;
+    return {
+      ...SessionUtils.createSessionInfo(sessionData, 0, undefined),
+      error: 'Could not fetch messages',
+    } as SessionInfo & { error: string };
+  }
+}
+
+function createSessionSummary(sessions: SessionInfo[]): Record<string, number> {
+  return {
+    active: sessions.filter((s) => (s as any).activityStatus === 'active').length,
+    waiting_for_input: sessions.filter((s) => (s as any).activityStatus === 'waiting_for_input')
+      .length,
+    idle: sessions.filter((s) => (s as any).activityStatus === 'idle').length,
+    agentTasks: sessions.filter((s) => (s as any).isAgentTask).length,
+  };
+}
+
+function createListResponse(
+  sessions: SessionInfo[],
+  totalCount: number,
+  limit: number,
+  offset: number,
+): string {
+  const hasMore = offset + limit < totalCount;
+
+  return JSON.stringify(
+    {
+      sessions,
+      totalCount,
+      pagination: {
+        limit,
+        offset,
+        hasMore,
+        currentPage: Math.floor(offset / limit) + 1,
+        totalPages: Math.ceil(totalCount / limit),
+      },
+      summary: createSessionSummary(sessions),
+    },
+    null,
+    2,
+  );
+}
+
+function logDebug(debugEnabled: boolean, message: string, data?: unknown): void {
+  if (debugEnabled) {
+    console.log(`[DEBUG] ${message}`, data || '');
+  }
+}
+
+function logSessionInfo(debugEnabled: boolean, sessions: CleanupSessionInfo[]): void {
+  if (debugEnabled) {
+    console.log(`[INFO] Session IDs being processed:`);
+    sessions.slice(0, 5).forEach((s) => {
+      console.log(`  - ${s.id} (isAgentTask: ${(s as any).isAgentTask})`);
+    });
+  }
+}
+
+export async function list({ limit, offset }: { limit: number; offset: number }): Promise<string> {
   let storedSessions: StoreSession[] = [];
   const debugEnabled = Boolean(process.env.OPENCODE_DEBUG);
-  try {
-    if (debugEnabled) {
-      console.log(`[DEBUG] list called with limit=${limit}, offset=${offset}`);
-    }
 
-    // Get sessions from dual store - use limit + offset as buffer to ensure we have enough items
-    // Add a reasonable buffer to account for potential filtering, but don't fetch all 1000
-    const fetchLimit = Math.min(limit + offset + 50, 500); // Reasonable upper bound
-    if (debugEnabled) {
-      console.log(`[DEBUG] fetchLimit=${fetchLimit}`);
-    }
+  try {
+    logDebug(debugEnabled, `list called with limit=${limit}, offset=${offset}`);
+
+    const fetchLimit = calculateFetchLimit(limit, offset);
+    logDebug(debugEnabled, `fetchLimit=${fetchLimit}`);
+
     storedSessions = await sessionStore.getMostRecent(fetchLimit);
-    if (debugEnabled) {
-      console.log(`[DEBUG] retrieved ${storedSessions?.length || 0} sessions from store`);
-    }
+    logDebug(debugEnabled, `retrieved ${storedSessions?.length || 0} sessions from store`);
 
     if (!storedSessions?.length) {
-      return JSON.stringify({
-        sessions: [],
-        totalCount: 0,
-        pagination: { limit, offset, hasMore: false },
-      });
+      return createEmptyResponse(limit, offset);
     }
 
-    // Parse sessions and deduplicate by ID
     const parsedSessions = storedSessions.map((session) => parseSessionData(session));
     const sessionsList = deduplicateSessions(parsedSessions);
-    if (debugEnabled) {
-      console.log(`[DEBUG] after deduplication: ${sessionsList?.length || 0} sessions`);
-      console.log(`[INFO] Session IDs being processed:`);
-      sessionsList.slice(0, 5).forEach((s) => {
-        console.log(`  - ${s.id} (isAgentTask: ${(s as any).isAgentTask})`);
-      });
-    }
+
+    logDebug(debugEnabled, `after deduplication: ${sessionsList?.length || 0} sessions`);
+    logSessionInfo(debugEnabled, sessionsList);
 
     if (!sessionsList?.length) {
-      return JSON.stringify({
-        sessions: [],
-        totalCount: 0,
-        pagination: { limit, offset, hasMore: false },
-      });
+      return createEmptyResponse(limit, offset);
     }
 
-    const sortedSessions = [...sessionsList].sort((a, b) => {
-      // Sort by creation time (most recent first), fallback to ID
-      const aTime = a.createdAt || a.time?.created || '';
-      const bTime = b.createdAt || b.time?.created || '';
-
-      // Ensure timestamps are strings before comparing
-      if (aTime && bTime && typeof aTime === 'string' && typeof bTime === 'string') {
-        return bTime.localeCompare(aTime);
-      }
-
-      // Fallback to ID comparison if no valid timestamps
-      const aId = a.id || '';
-      const bId = b.id || '';
-      return bId.localeCompare(aId);
-    });
+    const sortedSessions = sortSessionsByTime(sessionsList);
     const paginated = sortedSessions.slice(offset, offset + limit);
-    if (debugEnabled) {
-      console.log(
-        `[DEBUG] after pagination: ${paginated.length} sessions (offset=${offset}, limit=${limit})`,
-      );
-    }
+
+    logDebug(
+      debugEnabled,
+      `after pagination: ${paginated.length} sessions (offset=${offset}, limit=${limit})`,
+    );
 
     const enhanced = await Promise.all(
-      paginated.map(async (session: any) => {
-        try {
-          // Get messages from dual store - fail fast if not available
-          const messageKey = `session:${session.id}:messages`;
-          // Only fetch recent messages, not all 1000
-          const allStored = await sessionStore.getMostRecent(100); // Reduced from 1000
-          const messageEntry = allStored.find((entry) => entry.id === messageKey);
-          let messages: unknown[] = [];
-          if (messageEntry) {
-            messages = JSON.parse(messageEntry.text);
-          }
-
-          return SessionUtils.createSessionInfo(session, messages.length, undefined);
-        } catch (error: unknown) {
-          console.error(`Error processing session ${session.id}:`, error);
-          return {
-            ...SessionUtils.createSessionInfo(session, 0, undefined),
-            error: 'Could not fetch messages',
-          };
-        }
-      }),
+      paginated.map((session) => enhanceSessionWithMessages(session)),
     );
 
-    const totalCount = sessionsList.length;
-    const hasMore = offset + limit < totalCount;
-
-    return JSON.stringify(
-      {
-        sessions: enhanced,
-        totalCount,
-        pagination: {
-          limit,
-          offset,
-          hasMore,
-          currentPage: Math.floor(offset / limit) + 1,
-          totalPages: Math.ceil(totalCount / limit),
-        },
-        summary: {
-          active: enhanced.filter((s) => s.activityStatus === 'active').length,
-          waiting_for_input: enhanced.filter((s) => s.activityStatus === 'waiting_for_input')
-            .length,
-          idle: enhanced.filter((s) => s.activityStatus === 'idle').length,
-          agentTasks: enhanced.filter((s) => s.isAgentTask).length,
-        },
-      },
-      null,
-      2,
-    );
+    return createListResponse(enhanced, sessionsList.length, limit, offset);
   } catch (error: unknown) {
     console.error('Error in list_sessions:', error);
     console.error('Parameters received:', { limit, offset });

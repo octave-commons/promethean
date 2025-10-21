@@ -303,11 +303,11 @@ export function registerSimpleOAuthRoutes(
         });
       }
 
-      // Start OAuth flow with the OAuthSystem
-      const { authUrl, state } = config.oauthSystem.startOAuthFlow(
-        provider,
-        `${getBaseUrl(request)}/auth/oauth/callback`,
-      );
+      // Use dynamic redirect URI based on current request to handle tunnels/proxies
+      const dynamicRedirectUri = `${getBaseUrl(request)}/auth/oauth/callback`;
+
+      // Start OAuth flow with the OAuthSystem using the dynamic redirect URI
+      const { authUrl, state } = config.oauthSystem.startOAuthFlow(provider, dynamicRedirectUri);
 
       // Store redirect URL (in a real implementation, use secure session storage)
       const tempStore = (global as any).__oauth_temp_store || {};
@@ -380,11 +380,13 @@ export function registerSimpleOAuthRoutes(
         });
       }
 
-      // Start OAuth flow with the OAuthSystem using the provided redirect_uri
-      // Pass PKCE parameters if available, otherwise use legacy flow
+      // Use dynamic redirect URI based on current request to handle tunnels/proxies
+      const dynamicRedirectUri = `${getBaseUrl(request)}/auth/oauth/callback`;
+
+      // Start OAuth flow with the OAuthSystem using the dynamic redirect URI
       const { authUrl: providerAuthUrl, state: oauthState } = config.oauthSystem.startOAuthFlow(
         provider,
-        `${getBaseUrl(request)}/auth/oauth/callback`,
+        dynamicRedirectUri,
         hasPkce
           ? { codeChallenge: code_challenge, codeChallengeMethod: code_challenge_method }
           : undefined,

@@ -7,7 +7,7 @@ import { eventCommands } from './commands/events/index.js';
 import { messagesCommands } from './commands/messages/index.js';
 import { indexerCommands } from './commands/indexer/index.js';
 import { spawnSessionCommand } from './commands/sessions/spawn.js';
-import { initializeStores } from './index.js';
+import { initializeStores } from './initializeStores.js';
 
 const program = new Command();
 // Global options

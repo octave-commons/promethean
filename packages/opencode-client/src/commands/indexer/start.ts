@@ -2,7 +2,7 @@
 
 import { exec } from 'child_process';
 import { promisify } from 'util';
-import { IndexerService } from '../../services/indexer.js';
+import { createIndexerService } from '../../services/indexer.js';
 
 const execAsync = promisify(exec);
 
@@ -11,7 +11,7 @@ export async function main() {
     const args = process.argv.slice(2);
     const verbose = args.includes('--verbose');
     const usePm2 = args.includes('--pm2');
-    const indexer = new IndexerService();
+    const indexer = createIndexerService();
 
     if (usePm2) {
       // Start as PM2 daemon

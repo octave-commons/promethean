@@ -22,6 +22,8 @@ export async function subscribe({
     return 'Failed to subscribe to events';
   }
 
+  // actions should just handle processing the data
+  // encoding should be handled by the server/client transport layer
   return JSON.stringify({
     success: true,
     subscription: 'Event subscription established',

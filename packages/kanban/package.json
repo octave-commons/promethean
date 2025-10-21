@@ -1,6 +1,6 @@
 {
   "name": "@promethean/kanban",
-  "version": "0.2.0-alpha",
+  "version": "0.2.0",
   "description": "Automation for local markdown kanban and process-as-code. Functional TS, native ESM, no side effects.",
   "type": "module",
   "main": "./dist/index.js",
@@ -14,7 +14,7 @@
     "process-as-code"
   ],
   "author": "Promethean Framework",
-  "license": "MIT",
+  "license": "GPL-3.0-only",
   "repository": {
     "type": "git",
     "url": "https://github.com/promethean-framework/promethean.git",
@@ -24,9 +24,6 @@
     "url": "https://github.com/promethean-framework/promethean/issues"
   },
   "homepage": "https://github.com/promethean-framework/promethean/tree/main/packages/kanban",
-  "engines": {
-    "node": ">=18.0.0"
-  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -50,7 +47,7 @@
     }
   },
   "bin": {
-    "kanban": "dist/cli.js"
+    "kanban": "bin/kanban.js"
   },
   "scripts": {
     "build": "tsc -b tsconfig.json --force",
