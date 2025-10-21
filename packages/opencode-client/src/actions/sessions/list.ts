@@ -184,7 +184,6 @@ function logSessionInfo(debugEnabled: boolean, sessions: CleanupSessionInfo[]): 
 }
 
 export async function list({ limit, offset }: { limit: number; offset: number }): Promise<string> {
-  let storedSessions: StoreSession[] = [];
   const debugEnabled = Boolean(process.env.OPENCODE_DEBUG);
 
   try {
@@ -193,7 +192,7 @@ export async function list({ limit, offset }: { limit: number; offset: number })
     const fetchLimit = calculateFetchLimit(limit, offset);
     logDebug(debugEnabled, `fetchLimit=${fetchLimit}`);
 
-    storedSessions = await sessionStore.getMostRecent(fetchLimit);
+    const storedSessions = await sessionStore.getMostRecent(fetchLimit);
     logDebug(debugEnabled, `retrieved ${storedSessions?.length || 0} sessions from store`);
 
     if (!storedSessions?.length) {
@@ -226,7 +225,6 @@ export async function list({ limit, offset }: { limit: number; offset: number })
   } catch (error: unknown) {
     console.error('Error in list_sessions:', error);
     console.error('Parameters received:', { limit, offset });
-    console.error('Stored sessions count:', storedSessions?.length || 0);
     return `Failed to list sessions: ${error instanceof Error ? error.message : String(error)}`;
   }
 }
