@@ -28,7 +28,7 @@ importers:
         version: link:packages/image-link-generator
       '@promethean/kanban':
         specifier: workspace:*
-        version: link:packages/kanban/dist
+        version: link:packages/kanban
       '@promethean/legacy':
         specifier: workspace:*
         version: link:packages/legacy
@@ -489,7 +489,7 @@ importers:
         version: link:../agents-workflow
       '@promethean/kanban':
         specifier: workspace:*
-        version: link:../../kanban/dist
+        version: link:../../kanban
       '@promethean/monitoring':
         specifier: workspace:*
         version: link:../../monitoring
@@ -1804,7 +1804,7 @@ importers:
         version: link:../agents/agents-workflow
       '@promethean/kanban':
         specifier: workspace:*
-        version: link:../kanban/dist
+        version: link:../kanban
       '@promethean/markdown':
         specifier: workspace:*
         version: link:../markdown
@@ -2968,7 +2968,7 @@ importers:
     dependencies:
       '@promethean/kanban':
         specifier: workspace:*
-        version: link:../kanban/dist
+        version: link:../kanban
       '@promethean/utils':
         specifier: workspace:*
         version: link:../utils
@@ -3239,7 +3239,6 @@ importers:
       vitest:
         specifier: ^1.0.0
         version: 1.6.1(@types/node@24.3.1)(happy-dom@18.0.1)
-    publishDirectory: dist
 
   packages/legacy:
     dependencies:
@@ -3432,7 +3431,7 @@ importers:
         version: link:../discord
       '@promethean/kanban':
         specifier: workspace:*
-        version: link:../kanban/dist
+        version: link:../kanban
       '@stryker-mutator/core':
         specifier: ^8.7.1
         version: 8.7.1
@@ -3515,7 +3514,7 @@ importers:
         version: link:../agent-state
       '@promethean/kanban':
         specifier: workspace:*
-        version: link:../kanban/dist
+        version: link:../kanban
       '@promethean/utils':
         specifier: workspace:*
         version: link:../utils
@@ -4088,7 +4087,7 @@ importers:
     dependencies:
       '@promethean/kanban':
         specifier: workspace:*
-        version: link:../../kanban/dist
+        version: link:../../kanban
       '@promethean/level-cache':
         specifier: workspace:*
         version: link:../../level-cache
@@ -5151,7 +5150,7 @@ importers:
     dependencies:
       '@promethean/kanban':
         specifier: workspace:*
-        version: link:../kanban/dist
+        version: link:../kanban
       '@promethean/utils':
         specifier: workspace:*
         version: link:../utils
