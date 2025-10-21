@@ -10,14 +10,6 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
-lastCommitSha: "d72282df08bbf7c361b12308d4200e5574b90642"
-commitHistory:
-  -
-    sha: "d72282df08bbf7c361b12308d4200e5574b90642"
-    timestamp: "2025-10-19T22:08:38.520Z"
-    message: "Update task: 287b9607-3a44-409a-8194-58a1ed3d3a3f - Update task: Enhance kanban process validation with acceptance criteria and Fibonacci scoring"
-    author: "Error <foamy125@gmail.com>"
-    type: "update"
 ---
 
 ## ⚠️ Task Superseded

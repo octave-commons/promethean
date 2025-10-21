@@ -10,14 +10,6 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
-lastCommitSha: "41691adc109b08272fc4cdbdee2b6ccd045dd1b8"
-commitHistory:
-  -
-    sha: "41691adc109b08272fc4cdbdee2b6ccd045dd1b8"
-    timestamp: "2025-10-19T22:07:48.010Z"
-    message: "Update task: doc-review-system-001 - Update task: Implement automated documentation review system with quality scoring"
-    author: "Error <foamy125@gmail.com>"
-    type: "update"
 ---
 
 ## Overview

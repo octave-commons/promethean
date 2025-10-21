@@ -10,14 +10,6 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
-lastCommitSha: "1e6efe8293ad315f7eb30df0a0f598c5725569f0"
-commitHistory:
-  -
-    sha: "1e6efe8293ad315f7eb30df0a0f598c5725569f0"
-    timestamp: "2025-10-19T22:07:44.546Z"
-    message: "Update task: cea06ddd-8c86-4be9-bb61-c7b553318942 - Update task: Design Agent OS Clojure DSL Implementation -os"
-    author: "Error <foamy125@gmail.com>"
-    type: "update"
 ---
 
 # Design Agent OS Clojure DSL Implementation
