@@ -531,18 +531,26 @@ export function registerSimpleOAuthRoutes(
       console.log('[OAuth Callback] Received POST body:', body);
 
       // Handle different OAuth formats from different clients
-      let code: string | undefined, state: string | null | undefined, error: string | undefined;
+      let code: string | undefined,
+        state: string | null | undefined,
+        error: string | undefined,
+        codeVerifier: string | undefined;
 
       if (body.grant_type === 'authorization_code') {
         // ChatGPT MCP connector format (OAuth 2.1 PKCE)
         code = body.code;
         state = null; // ChatGPT doesn't send state in POST body
-        console.log('[OAuth Callback] Detected ChatGPT PKCE format');
+        codeVerifier = body.code_verifier; // PKCE code verifier
+        console.log(
+          '[OAuth Callback] Detected ChatGPT PKCE format with code_verifier:',
+          codeVerifier ? 'present' : 'missing',
+        );
       } else {
         // Standard OAuth format
         code = body.code;
         state = body.state;
         error = body.error;
+        codeVerifier = body.code_verifier;
         console.log('[OAuth Callback] Detected standard OAuth format');
       }
 
