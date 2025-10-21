@@ -40,7 +40,7 @@ async function testOAuth() {
     enableRefreshTokens: true,
   });
 
-  const jwtManager = new JwtTokenManager('test-secret-key-for-oauth-testing-that-is-long-enough');
+  const jwtManager = new JwtTokenManager('12345678901234567890123456789012'); // Exactly 32 characters
   const userRegistry = new UserRegistry();
   const authManager = new MockAuthenticationManager();
 
