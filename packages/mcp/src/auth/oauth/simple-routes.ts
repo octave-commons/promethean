@@ -507,8 +507,27 @@ export function registerSimpleOAuthRoutes(
   // OAuth callback (POST - for API usage)
   fastify.post(`${basePath}/callback`, async (request, reply) => {
     try {
-      const query = request.query as any;
-      const { code, state, error } = query;
+      // ChatGPT sends OAuth data in POST body as JSON, need to parse it
+      const rawBody = request.body as any;
+      let body: any;
+
+      if (Buffer.isBuffer(rawBody)) {
+        try {
+          body = JSON.parse(rawBody.toString('utf8'));
+        } catch (e) {
+          // If JSON parsing fails, try URL-encoded parsing
+          const bodyStr = rawBody.toString('utf8');
+          const params = new URLSearchParams(bodyStr);
+          body = {};
+          for (const [key, value] of params) {
+            body[key] = value;
+          }
+        }
+      } else {
+        body = rawBody;
+      }
+
+      const { code, state, error } = body;
 
       if (error) {
         return reply.status(400).send({
