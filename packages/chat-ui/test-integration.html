@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integration Test</title>
+</head>
+<body>
+    <h1>Integration Test</h1>
+    <div id="app">Loading...</div>
+    
+    <script>
+        // Test API first
+        fetch('/api/sessions')
+            .then(response => response.json())
+            .then(data => {
+                console.log('API Test - Sessions loaded:', data.length, 'sessions');
+                document.getElementById('app').innerHTML = `
+                    <h2>API Test Passed!</h2>
+                    <p>Found ${data.length} sessions from ContextStore</p>
+                    <p>First session: ${data[0]?.title || 'None'}</p>
+                    <p>Loading React app...</p>
+                `;
+                
+                // Now load React app
+                const script = document.createElement('script');
+                script.src = '/js/main.js';
+                script.onload = () => {
+                    console.log('React app script loaded');
+                    setTimeout(() => {
+                        const appElement = document.getElementById('app');
+                        if (appElement.innerHTML.includes('Chat UI')) {
+                            console.log('✅ React app loaded successfully!');
+                        } else {
+                            console.log('❌ React app may not have loaded');
+                        }
+                    }, 2000);
+                };
+                script.onerror = (error) => {
+                    console.error('Failed to load React app:', error);
+                    document.getElementById('app').innerHTML += '<p>❌ Failed to load React app</p>';
+                };
+                document.head.appendChild(script);
+            })
+            .catch(error => {
+                console.error('API Test Failed:', error);
+                document.getElementById('app').innerHTML = `<p>❌ API Test Failed: ${error.message}</p>`;
+            });
+    </script>
+</body>
+</html>

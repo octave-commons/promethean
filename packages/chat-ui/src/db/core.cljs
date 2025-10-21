@@ -7,7 +7,7 @@
   (js/Promise.
    (fn [resolve reject]
      (let [xhr (create-http-client)]
-       (.open xhr method (str "http://localhost:3002/api" endpoint) true)
+       (.open xhr method (str "/api" endpoint) true)
        (.setRequestHeader xhr "Content-Type" "application/json")
        (.setRequestHeader xhr "Accept" "application/json")
        (.send xhr (when data (js/JSON.stringify (clj->js data))))
