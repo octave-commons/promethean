@@ -3,14 +3,83 @@ import { calculateQualityScore } from './quality-scorer.js';
 import { mapRequirements, validateMappings } from './requirement-mapper.js';
 import { analyzeWithAI } from './ai-analyzer.js';
 import { generateReport } from './report-generator.js';
+import { ComprehensiveScorer, defaultScorer } from './comprehensive-scorer.js';
 import type {
   TestCoverageRequest,
   TestingTransitionConfig,
   AIAnalysisRequest,
+  ComprehensiveScoreResult,
+  PerformanceMetrics,
 } from './types.js';
 
 /**
- * Main orchestrator for testing→review transition validation
+ * Enhanced main orchestrator for testing→review transition validation with comprehensive scoring
+ */
+export async function runComprehensiveTestingTransition(
+  reportReq: TestCoverageRequest,
+  executedTests: string[],
+  initialMappings: Array<{ requirementId: string; testIds: string[] }>,
+  config: TestingTransitionConfig,
+  tests: string[],
+  outputDir: string,
+  performanceMetrics?: PerformanceMetrics
+): Promise<{ reportPath: string; scoreResult: ComprehensiveScoreResult }> {
+  // Step 1: Coverage analysis
+  const coverage = await analyzeCoverage(reportReq);
+
+  // Step 2: Quality scoring
+  const qualityScore = calculateQualityScore({
+    complexity: computeAverageComplexity(tests),
+    passRate: computePassRate(tests),
+    flakiness: detectFlakiness(tests),
+  });
+
+  // Step 3: Requirement mapping validation
+  const mapped = mapRequirements(
+    initialMappings as any,
+    executedTests
+  );
+
+  // Step 4: AI analysis
+  const aiReq: AIAnalysisRequest = {
+    tests,
+    coverageResult: coverage,
+    qualityScore,
+    mappings: mapped,
+  };
+  const aiAnalysis = await analyzeWithAI(aiReq);
+
+  // Step 5: Comprehensive scoring
+  const scorer = config.scoring?.enabled 
+    ? new ComprehensiveScorer(config.scoring?.weights, config.scoring?.priorityThresholds)
+    : defaultScorer;
+
+  const scoreResult = await scorer.calculateScore({
+    task: reportReq.task,
+    coverage,
+    quality: qualityScore,
+    requirementMappings: mapped,
+    aiAnalysis,
+    performanceMetrics
+  });
+
+  // Step 6: Check against thresholds
+  if (!scoreResult.meetsThreshold) {
+    const blockMessage = generateTestBlockMessage(scoreResult);
+    throw new Error(blockMessage);
+  }
+
+  // Step 7: Generate report
+  const reportPath = generateReport(
+    { coverage, qualityScore, mappings: mapped, aiAnalysis, scoreResult } as any,
+    outputDir
+  );
+
+  return { reportPath, scoreResult };
+}
+
+/**
+ * Legacy main orchestrator for backward compatibility
  */
 export async function runTestingTransition(
   reportReq: TestCoverageRequest,
@@ -65,6 +134,43 @@ export async function runTestingTransition(
   const reportPath = generateReport(
     { coverage, qualityScore, mappings: mapped, aiAnalysis } as any,
     outputDir
+  );
+
+  return reportPath;
+}
+
+  // Step 2: Quality scoring
+  const qualityScore = calculateQualityScore({
+    complexity: computeAverageComplexity(tests),
+    passRate: computePassRate(tests),
+    flakiness: detectFlakiness(tests),
+  });
+
+  if (qualityScore.score < config.softBlockQualityScoreThreshold) {
+    throw new Error(
+      `Quality score below threshold: ${qualityScore.score} < ${config.softBlockQualityScoreThreshold}`,
+    );
+  }
+
+  // Step 3: Requirement mapping validation
+  const mapped = mapRequirements(initialMappings as any, executedTests);
+  if (!validateMappings(mapped)) {
+    throw new Error('Not all requirements are covered by tests');
+  }
+
+  // Step 4: AI analysis
+  const aiReq: AIAnalysisRequest = {
+    tests,
+    coverageResult: coverage,
+    qualityScore,
+    mappings: mapped,
+  };
+  const aiAnalysis = await analyzeWithAI(aiReq);
+
+  // Step 5: Generate report
+  const reportPath = generateReport(
+    { coverage, qualityScore, mappings: mapped, aiAnalysis } as any,
+    outputDir,
   );
 
   return reportPath;

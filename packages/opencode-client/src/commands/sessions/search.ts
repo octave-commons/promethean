@@ -13,15 +13,19 @@ export const searchSessions = new Command('search')
         k: parseInt(options.count),
       });
 
-      const searchResult = JSON.parse(result);
+      // Handle error case
+      if ('error' in result) {
+        console.error(chalk.red('Error searching sessions:'), result.error);
+        process.exit(1);
+      }
 
-      if (searchResult.results.length === 0) {
+      if (result.results.length === 0) {
         console.log(chalk.yellow('No sessions found'));
         return;
       }
 
-      console.log(chalk.blue(`Found ${searchResult.results.length} sessions:\n`));
-      searchResult.results.forEach((session: any) => {
+      console.log(chalk.blue(`Found ${result.results.length} sessions:\n`));
+      result.results.forEach((session: any) => {
         const title = session.title || 'Untitled';
         const id = session.id || 'Unknown';
         const messageCount = session.messageCount || 0;

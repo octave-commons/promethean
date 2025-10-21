@@ -21,8 +21,12 @@ export const listCommand = new Command('list')
         limit,
         offset,
       });
-      const parsed = JSON.parse(result);
-      sessions = parsed.sessions || [];
+
+      if ('error' in result) {
+        throw new Error(result.error);
+      }
+
+      sessions = result.sessions || [];
 
       if (options.format === 'json') {
         console.log(JSON.stringify(sessions, null, 2));

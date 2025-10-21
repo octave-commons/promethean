@@ -46,13 +46,11 @@ export const createSessionCommand = new Command('create')
         client,
       });
 
-      const sessionData = JSON.parse(result);
-
       console.log(chalk.green('✓ Session created successfully'));
-      console.log(`ID: ${sessionData.session?.id}`);
-      console.log(`Title: ${sessionData.session?.title}`);
+      console.log(`ID: ${result.session?.id}`);
+      console.log(`Title: ${result.session?.title}`);
       console.log(`Type: ${options.agent ? 'Agent' : 'Regular'} Session`);
-      console.log(`Created: ${sessionData.session?.createdAt}`);
+      console.log(`Created: ${result.session?.createdAt}`);
 
       if (files && files.length > 0) {
         console.log(`Files: ${files.join(', ')}`);

@@ -264,3 +264,11 @@ export interface TestBlockMessage {
   actionItems: ActionItem[];
   retryCount: number;
 }
+
+// Performance metrics for testing analysis
+export interface PerformanceMetrics {
+  testCount: number;
+  averageExecutionTime: number; // in milliseconds
+  peakMemoryUsage: number; // in MB
+  totalExecutionTime: number; // in milliseconds
+}

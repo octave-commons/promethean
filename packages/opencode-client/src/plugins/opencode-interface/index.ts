@@ -47,12 +47,16 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
             });
 
             if (args.format === 'json') {
-              return result;
+              return JSON.stringify(result, null, 2);
             }
 
-            // Parse and format as readable text
-            const parsed = JSON.parse(result);
-            const sessions = parsed.sessions || [];
+            // Handle error case
+            if ('error' in result) {
+              return `Error listing sessions: ${result.error}`;
+            }
+
+            // Format as readable text
+            const sessions = result.sessions || [];
 
             let output = `Active Sessions (${sessions.length}):\n`;
             output += '='.repeat(80) + '\n';
@@ -68,12 +72,12 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
               output += '-'.repeat(40) + '\n';
             });
 
-            if (parsed.summary) {
+            if (result.summary) {
               output += `\nSummary:\n`;
-              output += `  Active: ${parsed.summary.active}\n`;
-              output += `  Waiting for Input: ${parsed.summary.waiting_for_input}\n`;
-              output += `  Idle: ${parsed.summary.idle}\n`;
-              output += `  Agent Tasks: ${parsed.summary.agentTasks}\n`;
+              output += `  Active: ${result.summary.active}\n`;
+              output += `  Waiting for Input: ${result.summary.waiting_for_input}\n`;
+              output += `  Idle: ${result.summary.idle}\n`;
+              output += `  Agent Tasks: ${result.summary.agentTasks}\n`;
             }
 
             return output;
@@ -100,7 +104,7 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
               offset: args.offset,
             });
 
-            return result;
+            return JSON.stringify(result, null, 2);
           } catch (error) {
             throw new Error(
               `Failed to get session: ${error instanceof Error ? error.message : String(error)}`,
@@ -120,7 +124,7 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
               sessionId: args.sessionId,
             });
 
-            return result;
+            return JSON.stringify(result, null, 2);
           } catch (error) {
             throw new Error(
               `Failed to close session: ${error instanceof Error ? error.message : String(error)}`,
@@ -167,7 +171,7 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
               sessionId: args.sessionId,
             });
 
-            return result;
+            return JSON.stringify(result, null, 2);
           } catch (error) {
             throw new Error(
               `Failed to search sessions: ${error instanceof Error ? error.message : String(error)}`,
