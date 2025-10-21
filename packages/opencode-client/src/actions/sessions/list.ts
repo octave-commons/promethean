@@ -1,32 +1,7 @@
 import { SessionUtils, sessionStore } from '../../index.js';
 import { deduplicateSessions } from '../../utils/session-cleanup.js';
-
-interface SessionData {
-  id: string;
-  title?: string;
-  createdAt: number;
-  updatedAt: number;
-  lastActivity: number;
-  status: string;
-  time?: {
-    created?: string;
-    updated?: string;
-  };
-  activityStatus?: string;
-  isAgentTask?: boolean;
-  task?: string;
-  completionMessage?: string;
-  messages?: unknown[];
-  agentTaskStatus?: string;
-  lastActivityTime?: number;
-}
-
-interface StoreSession {
-  id?: string;
-  text: string;
-  timestamp?: number | string | Date;
-  [key: string]: unknown;
-}
+import { SessionData } from '../../types/SessionData.js';
+import { StoreSession } from './StoreSession.js';
 
 /**
  * Safely parse session data, handling both JSON and plain text formats

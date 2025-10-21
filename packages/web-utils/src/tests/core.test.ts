@@ -9,7 +9,8 @@ test('health route returns healthy status', async (t) => {
   await app.ready();
   const res = await app.inject('/health');
   t.is(res.statusCode, 200);
-  const body = res.json();
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+  const body = res.json() as { status: string; service: string };
   t.is(body.status, 'healthy');
   t.is(body.service, 'test-service');
 });
@@ -20,7 +21,8 @@ test('diagnostics route exposes runtime info', async (t) => {
   await app.ready();
   const res = await app.inject('/diagnostics');
   t.is(res.statusCode, 200);
-  const body = res.json();
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+  const body = res.json() as { service: string; uptime: number; memory: unknown };
   t.is(body.service, 'test-service');
   t.truthy(body.uptime);
   t.truthy(body.memory);

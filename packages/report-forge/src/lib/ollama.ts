@@ -1,24 +1,40 @@
 // Native ESM. Official client: https://www.npmjs.com/package/ollama
-import Ollama from "ollama";
-import type { LlmAdapter } from "./types.js";
+import Ollama from 'ollama';
+
+import type { LlmAdapter } from './types.js';
+
+// Type definitions for Ollama client
+type OllamaClient = {
+  generate: (
+    args: {
+      readonly model: string;
+      readonly prompt: string;
+      readonly options: { readonly temperature: number; readonly num_predict: number };
+    },
+    opts?: { readonly signal?: AbortSignal },
+  ) => Promise<{
+    readonly response?: string;
+    readonly message?: { readonly content?: string };
+  }>;
+};
+
+type OllamaConstructor = {
+  new (opts: { readonly host: string }): OllamaClient;
+};
 
 // Functional adapter: returns a pure interface the rest of the app expects
 export const ollamaClient = (
   host: string | undefined = process.env.OLLAMA_BASE,
-  model = process.env.OLLAMA_MODEL || "llama3.1",
+  model = process.env.OLLAMA_MODEL || 'llama3.1',
 ): LlmAdapter => {
   // Ollama default export is callable and also constructable with host opts
-  const client = host ? new (Ollama as any)({ host }) : (Ollama as any);
+  const client = host
+    ? new (Ollama as unknown as OllamaConstructor)({ host })
+    : (Ollama as unknown as OllamaClient);
 
   return {
-    async complete({
-      system,
-      prompt,
-      maxTokens = 1200,
-      temperature = 0.2,
-      signal,
-    }) {
-      const full = [system?.trim(), prompt.trim()].filter(Boolean).join("\n\n");
+    async complete({ system, prompt, maxTokens = 1200, temperature = 0.2, signal }) {
+      const full = [system?.trim(), prompt.trim()].filter(Boolean).join('\n\n');
       const res = await client.generate(
         {
           model,
@@ -29,9 +45,8 @@ export const ollamaClient = (
       );
 
       // API returns { response } for generate; but guard anyway
-      const text =
-        (res && (res.response ?? (res.message && res.message.content))) || "";
-      if (!text) throw new Error("ollama: empty response");
+      const text = (res && (res.response ?? (res.message && res.message.content))) || '';
+      if (!text) throw new Error('ollama: empty response');
       return String(text);
     },
   };

@@ -2,7 +2,7 @@ export type Issue = {
   id: number;
   number: number;
   title: string;
-  state: "open" | "closed";
+  state: 'open' | 'closed';
   labels: readonly { name: string }[];
   url: string;
   createdAt: string;
@@ -18,24 +18,24 @@ export type ReportInput = {
 };
 
 export type ReportOptions = {
-  llm: LlmAdapter;
-  template?: (signal: AbortSignal) => Promise<string>;
-  now?: () => Date;
+  readonly llm: LlmAdapter;
+  readonly template?: (signal: AbortSignal) => Promise<string>;
+  readonly now?: () => Date;
 };
 
 export type LlmAdapter = {
   complete: (args: {
-    system?: string;
-    prompt: string;
-    maxTokens?: number;
-    temperature?: number;
-    signal?: AbortSignal;
+    readonly system?: string;
+    readonly prompt: string;
+    readonly maxTokens?: number;
+    readonly temperature?: number;
+    readonly signal?: AbortSignal;
   }) => Promise<string>;
 };
 
 export type GithubAdapter = {
-  listIssues: (
+  readonly listIssues: (
     repo: string,
-    opts?: { state?: "open" | "closed" | "all" },
+    opts?: { state?: 'open' | 'closed' | 'all' },
   ) => Promise<Issue[]>;
 };

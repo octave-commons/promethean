@@ -5,8 +5,8 @@ import path from 'path';
 import { load as yamlLoad } from 'js-yaml';
 
 import { LLMDriver } from './base.js';
-import { OllamaDriver } from './ollama.js';
-import { HuggingFaceDriver } from './huggingface.js';
+import { createOllamaDriver } from './ollama.js';
+import { createHuggingFaceDriver } from './huggingface.js';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 function readConfig(): Record<string, unknown> {
@@ -28,7 +28,7 @@ export async function loadDriver(): Promise<LLMDriver> {
     const cfg = readConfig();
     const name = (process.env.LLM_DRIVER || cfg.driver || 'ollama') as string;
     const model = (process.env.LLM_MODEL || cfg.model || 'gemma3:latest') as string;
-    const driver: LLMDriver = name === 'huggingface' ? new HuggingFaceDriver() : new OllamaDriver();
+    const driver: LLMDriver = name === 'huggingface' ? createHuggingFaceDriver() : createOllamaDriver();
     await driver.load(model);
     return driver;
 }

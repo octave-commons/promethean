@@ -12,33 +12,36 @@ import { domainToASCII } from 'url';
  */
 export function canonicalUrl(input: string): string {
   const url = new URL(input);
-  const result = new URL(url.toString());
 
-  result.hash = '';
+  // Create a new URL object with modified properties
+  const protocol = url.protocol.toLowerCase();
+  const hostname = domainToASCII(url.hostname).toLowerCase();
 
-  if (
-    (result.protocol === 'http:' && result.port === '80') ||
-    (result.protocol === 'https:' && result.port === '443')
-  ) {
-    result.port = '';
-  }
+  // Handle port removal for default ports
+  const port =
+    (protocol === 'http:' && url.port === '80') || (protocol === 'https:' && url.port === '443')
+      ? ''
+      : url.port;
 
-  const params = new URLSearchParams(result.search);
-  const sorted = new URLSearchParams(
-    Array.from(params.entries())
-      .filter(([k]) => !/^(utm_|fbclid|gclid|ref|referrer)/i.test(k))
-      .sort(([aK, aV], [bK, bV]) => (aK === bK ? aV.localeCompare(bV) : aK.localeCompare(bK))),
-  );
-  result.search = sorted.toString() ? `?${sorted.toString()}` : '';
+  // Process and sort query parameters
+  const params = new URLSearchParams(url.search);
+  const sortedParams = Array.from(params.entries())
+    .filter(([k]) => !/^(utm_|fbclid|gclid|ref|referrer)/i.test(k))
+    .sort(([aK, aV], [bK, bV]) => (aK === bK ? aV.localeCompare(bV) : aK.localeCompare(bK)));
 
-  result.pathname = result.pathname.replace(/\/+/g, '/');
-  if (result.pathname !== '/' && result.pathname.endsWith('/')) {
-    result.pathname = result.pathname.slice(0, -1);
-  }
+  const search = sortedParams.length > 0 ? `?${new URLSearchParams(sortedParams).toString()}` : '';
 
-  result.protocol = result.protocol.toLowerCase();
-  result.hostname = domainToASCII(result.hostname).toLowerCase();
-  return result.toString();
+  // Normalize pathname
+  const normalizedPathname = url.pathname.replace(/\/+/g, '/');
+  const pathname =
+    normalizedPathname !== '/' && normalizedPathname.endsWith('/')
+      ? normalizedPathname.slice(0, -1)
+      : normalizedPathname;
+
+  // Construct the final URL without mutations
+  const finalUrl = `${protocol}//${hostname}${port ? ':' + port : ''}${pathname}${search}`;
+
+  return finalUrl;
 }
 
 /**
@@ -55,10 +58,10 @@ export function isUrlAllowed(
   return !deny.some((re) => re.test(input));
 }
 
-export const DEFAULT_DENY_PATTERNS: readonly RegExp[] = [
+export const DEFAULT_DENY_PATTERNS = [
   /^mailto:/i,
   /^javascript:/i,
   /^data:/i,
   /^file:/i,
   /^tel:/i,
-] as const;
+] as const satisfies readonly RegExp[];

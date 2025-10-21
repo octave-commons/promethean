@@ -1,27 +1,49 @@
 import test from 'ava';
 
 import { AgentOSCommandExecutor } from '../executor.js';
-import { Command, MessageType } from '../parser.js';
+import { Command, CommandType } from '../parser.js';
+import { MessageType } from '../parser.js';
+
+// Type definitions for testing
+type MockAgent = {
+    name: string;
+    status: 'running' | 'stopped';
+    config: Record<string, unknown>;
+};
+
+type MockService = {
+    name: string;
+    status: 'running' | 'stopped';
+    config: Record<string, unknown>;
+};
+
+type MockWorkflow = {
+    name: string;
+    status: 'running' | 'stopped';
+    config: Record<string, unknown>;
+};
 
 // Mock implementations for testing
 class MockAgentRuntime {
-    private agents: Map<string, any> = new Map();
+    private readonly agents = new Map<string, MockAgent>();
 
-    async startAgent(name: string, config?: any): Promise<any> {
-        this.agents.set(name, { name, status: 'running', config });
-        return { name, status: 'running', config };
+    async startAgent(name: string, config?: Record<string, unknown>): Promise<MockAgent> {
+        const agent: MockAgent = { name, status: 'running', config: config ?? {} };
+        this.agents.set(name, agent);
+        return agent;
     }
 
-    async stopAgent(name: string): Promise<any> {
+    async stopAgent(name: string): Promise<MockAgent> {
         const agent = this.agents.get(name);
         if (agent) {
-            agent.status = 'stopped';
-            return { name, status: 'stopped' };
+            const stoppedAgent = { ...agent, status: 'stopped' as const };
+            this.agents.set(name, stoppedAgent);
+            return stoppedAgent;
         }
         throw new Error(`Agent ${name} not found`);
     }
 
-    async getAgentStatus(name: string): Promise<any> {
+    async getAgentStatus(name: string): Promise<MockAgent> {
         const agent = this.agents.get(name);
         if (agent) {
             return agent;
@@ -29,38 +51,44 @@ class MockAgentRuntime {
         throw new Error(`Agent ${name} not found`);
     }
 
-    async listAgents(): Promise<any[]> {
+    async listAgents(): Promise<MockAgent[]> {
         return Array.from(this.agents.values());
     }
 
-    async configureAgent(name: string, config: any): Promise<any> {
+    async configureAgent(name: string, config: Record<string, unknown>): Promise<MockAgent> {
         const agent = this.agents.get(name);
         if (agent) {
-            agent.config = { ...agent.config, ...config };
-            return agent;
+            const updatedAgent = {
+                ...agent,
+                config: { ...agent.config, ...config },
+            };
+            this.agents.set(name, updatedAgent);
+            return updatedAgent;
         }
         throw new Error(`Agent ${name} not found`);
     }
 }
 
 class MockServiceManager {
-    private services: Map<string, any> = new Map();
+    private readonly services = new Map<string, MockService>();
 
-    async startService(name: string, config?: any): Promise<any> {
-        this.services.set(name, { name, status: 'running', config });
-        return { name, status: 'running', config };
+    async startService(name: string, config?: Record<string, unknown>): Promise<MockService> {
+        const service: MockService = { name, status: 'running', config: config ?? {} };
+        this.services.set(name, service);
+        return service;
     }
 
-    async stopService(name: string): Promise<any> {
+    async stopService(name: string): Promise<MockService> {
         const service = this.services.get(name);
         if (service) {
-            service.status = 'stopped';
-            return { name, status: 'stopped' };
+            const stoppedService = { ...service, status: 'stopped' as const };
+            this.services.set(name, stoppedService);
+            return stoppedService;
         }
         throw new Error(`Service ${name} not found`);
     }
 
-    async getServiceStatus(name: string): Promise<any> {
+    async getServiceStatus(name: string): Promise<MockService> {
         const service = this.services.get(name);
         if (service) {
             return service;
@@ -68,38 +96,44 @@ class MockServiceManager {
         throw new Error(`Service ${name} not found`);
     }
 
-    async listServices(): Promise<any[]> {
+    async listServices(): Promise<MockService[]> {
         return Array.from(this.services.values());
     }
 
-    async configureService(name: string, config: any): Promise<any> {
+    async configureService(name: string, config: Record<string, unknown>): Promise<MockService> {
         const service = this.services.get(name);
         if (service) {
-            service.config = { ...service.config, ...config };
-            return service;
+            const updatedService = {
+                ...service,
+                config: { ...service.config, ...config },
+            };
+            this.services.set(name, updatedService);
+            return updatedService;
         }
         throw new Error(`Service ${name} not found`);
     }
 }
 
 class MockWorkflowManager {
-    private workflows: Map<string, any> = new Map();
+    private readonly workflows = new Map<string, MockWorkflow>();
 
-    async startWorkflow(name: string, config?: any): Promise<any> {
-        this.workflows.set(name, { name, status: 'running', config });
-        return { name, status: 'running', config };
+    async startWorkflow(name: string, config?: Record<string, unknown>): Promise<MockWorkflow> {
+        const workflow: MockWorkflow = { name, status: 'running', config: config ?? {} };
+        this.workflows.set(name, workflow);
+        return workflow;
     }
 
-    async stopWorkflow(name: string): Promise<any> {
+    async stopWorkflow(name: string): Promise<MockWorkflow> {
         const workflow = this.workflows.get(name);
         if (workflow) {
-            workflow.status = 'stopped';
-            return { name, status: 'stopped' };
+            const stoppedWorkflow = { ...workflow, status: 'stopped' as const };
+            this.workflows.set(name, stoppedWorkflow);
+            return stoppedWorkflow;
         }
         throw new Error(`Workflow ${name} not found`);
     }
 
-    async getWorkflowStatus(name: string): Promise<any> {
+    async getWorkflowStatus(name: string): Promise<MockWorkflow> {
         const workflow = this.workflows.get(name);
         if (workflow) {
             return workflow;
@@ -107,15 +141,19 @@ class MockWorkflowManager {
         throw new Error(`Workflow ${name} not found`);
     }
 
-    async listWorkflows(): Promise<any[]> {
+    async listWorkflows(): Promise<MockWorkflow[]> {
         return Array.from(this.workflows.values());
     }
 
-    async configureWorkflow(name: string, config: any): Promise<any> {
+    async configureWorkflow(name: string, config: Record<string, unknown>): Promise<MockWorkflow> {
         const workflow = this.workflows.get(name);
         if (workflow) {
-            workflow.config = { ...workflow.config, ...config };
-            return workflow;
+            const updatedWorkflow = {
+                ...workflow,
+                config: { ...workflow.config, ...config },
+            };
+            this.workflows.set(name, updatedWorkflow);
+            return updatedWorkflow;
         }
         throw new Error(`Workflow ${name} not found`);
     }
@@ -124,18 +162,14 @@ class MockWorkflowManager {
 const mockAgentRuntime = new MockAgentRuntime();
 const mockServiceManager = new MockServiceManager();
 const mockWorkflowManager = new MockWorkflowManager();
-const executor = new AgentOSCommandExecutor(
-    mockAgentRuntime as any,
-    mockServiceManager as any,
-    mockWorkflowManager as any,
-);
+const executor = new AgentOSCommandExecutor(mockAgentRuntime, mockServiceManager, mockWorkflowManager);
 
-function createCommand(type: string, target: string, parameters?: any): Command {
+function createCommand(type: string, target: string, parameters?: Record<string, unknown>): Command {
     return {
-        id: `cmd_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        type: type as any,
+        id: `cmd_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
+        type: type as CommandType,
         target,
-        parameters: parameters || {},
+        parameters: parameters ?? {},
         context: {
             confidence: 0.9,
             requiresClarification: false,
