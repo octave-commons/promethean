@@ -95,45 +95,29 @@ export const createIndexerService = (): IndexerService => {
       await saveState(state);
     } catch (error) {
       console.error('❌ Error during full sync:', error);
+      const currentErrorCount = state.consecutiveErrors ?? 0;
       state = {
         ...state,
-        consecutiveErrors: (state.consecutiveErrors ?? 0) + 1,
+        consecutiveErrors: currentErrorCount + 1,
       };
     }
   };
 
-const handleEventStreamError = async (error: unknown): Promise<void> => {
+  const handleEventStreamError = async (error: unknown): Promise<void> => {
     console.error('❌ Event stream error:', error);
-    
+
     const currentErrorCount = state.consecutiveErrors ?? 0;
     const newErrorCount = currentErrorCount + 1;
-    
-    state = { 
-      ...state, 
+
+    state = {
+      ...state,
       subscriptionActive: false,
-      consecutiveErrors: newErrorCount
+      consecutiveErrors: newErrorCount,
     };
-    await saveState(state);
-    
-    // If we've had too many consecutive errors, stop trying to reconnect
-    if (newErrorCount >= MAX_CONSECUTIVE_ERRORS) {
-      console.error(`🛑 Stopping event subscription after ${MAX_CONSECUTIVE_ERRORS} consecutive errors`);
-      return;
-    }
-    
-    console.log(`🔄 Attempting to reconnect in ${RECONNECT_DELAY_MS / 1000} seconds...`);
-    
-    // Schedule reconnection attempt
-    reconnectTimer = setTimeout(async () => {
-      if (isRunning) {
-        await subscribeToEvents();
-      }
-    }, RECONNECT_DELAY_MS);
-  };
     await saveState(state);
 
     // If we've had too many consecutive errors, stop trying to reconnect
-    if (state.consecutiveErrors >= MAX_CONSECUTIVE_ERRORS) {
+    if (newErrorCount >= MAX_CONSECUTIVE_ERRORS) {
       console.error(
         `🛑 Stopping event subscription after ${MAX_CONSECUTIVE_ERRORS} consecutive errors`,
       );
@@ -313,7 +297,20 @@ const handleEventStreamError = async (error: unknown): Promise<void> => {
     console.log('🚀 Starting OpenCode indexer service...');
 
     state = await loadState();
+
+    // Check if we need to perform recovery sync
+    const wasSubscriptionActive = state.subscriptionActive ?? false;
+    const timeSinceLastSync = state.lastFullSyncTimestamp
+      ? Date.now() - state.lastFullSyncTimestamp
+      : Infinity;
+
+    if (wasSubscriptionActive && timeSinceLastSync > FULL_SYNC_INTERVAL_MS) {
+      console.log('🔍 Detected potential downtime, performing recovery sync...');
+      await performFullSync();
+    }
+
     startPeriodicStateSave();
+    startFullSyncTimer();
     await subscribeToEvents();
     void indexNewData();
   };
@@ -331,6 +328,14 @@ const handleEventStreamError = async (error: unknown): Promise<void> => {
       stateSaveTimer = undefined;
     }
 
+    if (reconnectTimer) {
+      clearTimeout(reconnectTimer);
+      reconnectTimer = undefined;
+    }
+
+    eventSubscription = undefined;
+
+    state = { ...state, subscriptionActive: false };
     await saveState(state);
   };
 
