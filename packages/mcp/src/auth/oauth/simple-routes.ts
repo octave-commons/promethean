@@ -527,6 +527,9 @@ export function registerSimpleOAuthRoutes(
         body = rawBody;
       }
 
+      // Debug logging
+      console.log('[OAuth Callback] Received POST body:', body);
+
       const { code, state, error } = body;
 
       if (error) {
