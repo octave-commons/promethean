@@ -12,7 +12,7 @@
   (js/console.log "DB initialized")
   (rf/dispatch [:load-sessions])
   (js/console.log "Load sessions dispatched")
-  (let [app-element (js/document.getElementById "app")]
+  (let [app-element (js/document.getElementById "root")]
     (if app-element
       (do
         (js/console.log "Found app element:" app-element)
