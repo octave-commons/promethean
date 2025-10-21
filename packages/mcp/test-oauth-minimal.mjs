@@ -75,8 +75,8 @@ async function testOAuth() {
     credentials: true,
   });
 
-  // Add cookie support
-  await fastify.register(import('@fastify/cookie'));
+  // Add cookie support (commented out due to version mismatch)
+  // await fastify.register(import('@fastify/cookie'));
 
   try {
     const port = 3001;
