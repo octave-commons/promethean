@@ -133,6 +133,14 @@ export class IndexerService {
 
         for (let j = messageStartIndex; j < messages.length; j++) {
           const message = messages[j];
+
+          // Log progress every 50 messages
+          if ((j - messageStartIndex + 1) % 50 === 0 || j === messages.length - 1) {
+            console.log(
+              `📨 Processing message ${j - messageStartIndex + 1}/${messages.length - messageStartIndex} in session ${session.id}`,
+            );
+          }
+
           await this.indexMessage(message, session.id);
           newMessages++;
           this.state.lastIndexedMessageId = message.info?.id;
