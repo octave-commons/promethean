@@ -16,6 +16,9 @@ export class IndexerService {
   private eventCounts: Map<string, number> = new Map();
   private lastLogTime: number = 0;
   private readonly LOG_DEBOUNCE_MS = 5000; // Log same event type max once per 5 seconds
+  private readonly STATE_SAVE_INTERVAL_MS = 30000; // Save state every 30 seconds
+  private lastStateSaveTime: number = 0;
+  private stateSaveTimer?: NodeJS.Timeout;
   private state: IndexerState = {
     lastIndexedMessageTimes: {},
   };
@@ -37,6 +40,7 @@ export class IndexerService {
     console.log('🚀 Starting OpenCode indexer service...');
 
     await this.loadState();
+    this.startPeriodicStateSave();
     this.subscribeToEvents();
     await this.indexNewData();
   }
@@ -48,6 +52,12 @@ export class IndexerService {
 
     this.isRunning = false;
     console.log('🛑 Stopping OpenCode indexer service...');
+
+    if (this.stateSaveTimer) {
+      clearInterval(this.stateSaveTimer);
+      this.stateSaveTimer = undefined;
+    }
+
     await this.saveState();
   }
 
