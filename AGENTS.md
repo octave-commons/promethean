@@ -76,7 +76,7 @@ Prefer local, well scoped commands to workspace scripts.
 # Working Style
 
 - Prefer small, auditable changes over grand rewrites.
-- Always wright tests
+- Always right tests
 - Prefer writing package level configs
   Prefer code changes in the affected modules.
 - Add a summary of what you changed to a date string named file in `changelog.d` eg `changelog.d/<YYYY.MM.DD.hh.mm.ss>.md`
@@ -86,7 +86,9 @@ Prefer local, well scoped commands to workspace scripts.
 
 ## 📋 Kanban Task Management
 
-All agents must use the kanban system for task tracking and work management. The kanban board lives at `docs/agile/boards/generated.md` and is managed via the `@promethean/kanban` package.
+All agents must use the kanban system for task tracking and work management.
+The kanban board lives at `docs/agile/boards/generated.md` and is managed
+via the `@promethean/kanban` package.
 
 
 ### 📍 Working with Kanban

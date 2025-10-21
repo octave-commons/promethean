@@ -11,7 +11,7 @@ type IndexerState = {
   readonly lastIndexedMessageId?: string;
 };
 
-interface OpenCodeClient {
+type OpenCodeClient = {
   readonly session: {
     readonly list: () => Promise<{ readonly data: readonly Session[] }>;
     readonly messages: (params: { readonly path: { readonly id: string } }) => Promise<{
@@ -26,7 +26,7 @@ interface OpenCodeClient {
   };
 }
 
-interface Message {
+type Message = {
   readonly info?: {
     readonly id?: string;
     readonly role?: string;
@@ -38,16 +38,16 @@ interface Message {
   readonly parts?: readonly MessagePart[];
 }
 
-interface MessagePart {
+type MessagePart = {
   readonly type?: string;
   readonly text?: string;
 }
 
-interface EventSubscription {
+type EventSubscription = {
   readonly stream: AsyncIterable<Event>;
 }
 
-export interface IndexerService {
+export type IndexerService = {
   readonly start: () => Promise<void>;
   readonly stop: () => Promise<void>;
 }
