@@ -397,7 +397,7 @@ export const createIndexerService = (): IndexerService => {
       : Infinity;
 
     if (wasSubscriptionActive && timeSinceLastSync > FULL_SYNC_INTERVAL_MS) {
-      logEventDeduped('recovery_sync', '🔍 Detected potential downtime, performing recovery sync');
+      logEventDeduped('sync_recovery', '🔍 Detected potential downtime, performing recovery sync');
       await performFullSync();
     }
 
