@@ -61,7 +61,27 @@ export async function initializeStores(): Promise<
     'timestamp',
   );
 
-  // Cast from DualStoreManager<string, string> to DualStoreManager<'text', 'timestamp'>
+  // you shouldn't need to do this. the context store was screwed up when moving it so it no longer accepts generics properly
+
+  // It should be:
+  // const sessionCollection = await contextStore.createCollection<"text","timestamp">(
+  //   SESSION_STORE_NAME,
+  //   'text',
+  //   'timestamp',
+  // );
+  // const eventCollection = await contextStore.createCollection<"text","timestamp">(
+  //   EVENT_STORE_NAME,
+  //   'text',
+  //   'timestamp',
+  // );
+
+  // const messageCollection = await contextStore.createCollection<"text","timestamp">(
+  //   MESSAGE_STORE_NAME,
+  //   'text',
+  //   'timestamp',
+  // );
+
+  // but instead we have to do this ugly cast
   return {
     [SESSION_STORE_NAME]: sessionCollection as unknown as DualStoreManager<'text', 'timestamp'>,
     [EVENT_STORE_NAME]: eventCollection as unknown as DualStoreManager<'text', 'timestamp'>,
