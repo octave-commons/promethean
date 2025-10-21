@@ -215,13 +215,17 @@ export class IndexerService {
         return;
       }
 
-      // Only fetch and index the specific message that changed
-      const messageResult = await this.client.session.message({
-        path: { id: sessionId, messageId: messageId },
+      // Fetch all messages for the session and find the specific one that changed
+      const messagesResult = await this.client.session.messages({
+        path: { id: sessionId },
       });
+      const messages = messagesResult.data || [];
 
-      if (messageResult.data) {
-        await this.indexMessage(messageResult.data, sessionId);
+      // Find the specific message that triggered this event
+      const targetMessage = messages.find((m: any) => m.info?.id === messageId);
+
+      if (targetMessage) {
+        await this.indexMessage(targetMessage, sessionId);
         this.state.lastIndexedMessageId = messageId;
 
         // Save state after processing message event
@@ -229,7 +233,9 @@ export class IndexerService {
 
         console.log(`📝 Indexed message ${messageId} for session ${sessionId}`);
       } else {
-        console.warn(`⚠️ Could not find message ${messageId} in session ${sessionId}`);
+        console.warn(
+          `⚠️ Could not find message ${messageId} in session ${sessionId} (found ${messages.length} messages)`,
+        );
       }
     } catch (error) {
       console.error('❌ Error handling message event:', error);
