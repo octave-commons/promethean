@@ -334,8 +334,8 @@ app.delete('/api/sessions/:sessionId/messages/:messageId', (req, res) => {
   }
 });
 
-// Serve static files - use correct relative path from dist-server
-const publicPath = path.join(__dirname, '..', 'public');
+// Serve static files - use correct relative path
+const publicPath = path.join(process.cwd(), 'public');
 console.log('Serving static files from:', publicPath);
 console.log('Public path exists:', fs.existsSync(publicPath));
 console.log('Index file exists:', fs.existsSync(path.join(publicPath, 'index.html')));
