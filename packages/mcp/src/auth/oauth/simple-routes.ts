@@ -608,6 +608,20 @@ export function registerSimpleOAuthRoutes(
         console.log('[OAuth Callback] Exchanging authorization code directly with GitHub');
 
         try {
+          // Build token request parameters
+          const tokenParams: any = {
+            client_id: 'Ov23li1fhUvAsLo8LabH',
+            client_secret: '06428e45e125aede2bbd945958b7bc9d4d1afbe4',
+            code: code,
+            redirect_uri: getBaseUrl(request) + '/auth/oauth/callback',
+          };
+
+          // Add PKCE code verifier if present
+          if (codeVerifier) {
+            tokenParams.code_verifier = codeVerifier;
+            console.log('[OAuth Callback] Including PKCE code_verifier in token request');
+          }
+
           // Use GitHub's token endpoint directly
           const tokenResponse = await fetch('https://github.com/login/oauth/access_token', {
             method: 'POST',
@@ -615,13 +629,7 @@ export function registerSimpleOAuthRoutes(
               Accept: 'application/json',
               'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: new URLSearchParams({
-              client_id: 'Ov23li1fhUvAsLo8LabH',
-              client_secret: '06428e45e125aede2bbd945958b7bc9d4d1afbe4',
-              code: code,
-              redirect_uri:
-                'https://err-stealth-16-ai-studio-a1vgg.tailbe888a.ts.net/auth/oauth/callback',
-            }),
+            body: new URLSearchParams(tokenParams),
           });
 
           const tokenData = await tokenResponse.json();
