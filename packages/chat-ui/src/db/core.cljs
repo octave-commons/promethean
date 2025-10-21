@@ -16,11 +16,14 @@
                           (fn [e]
                             (let [status (.-status xhr)
                                   response (.-responseText xhr)]
+                              (js/console.log "XHR Status:" status)
+                              (js/console.log "XHR Response:" response)
                               (if (and (>= status 200) (< status 300))
                                 (try
                                   (let [parsed-data (if (and response (not= response ""))
                                                       (js->clj (js/JSON.parse response) :keywordize-keys true)
                                                       [])]
+                                    (js/console.log "Parsed data:" parsed-data)
                                     (resolve {:success true :data parsed-data}))
                                   (catch js/Error e
                                     (js/console.error "JSON parse error:" e)
@@ -29,6 +32,7 @@
 
        (.addEventListener xhr "error"
                           (fn [e]
+                            (js/console.error "XHR Network error:" e)
                             (resolve {:success false :error "Network error"})))))))
 
 (defn get-sessions []
