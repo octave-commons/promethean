@@ -1,10 +1,12 @@
-import { createOpencodeClient } from '@opencode-ai/sdk';
-import { sessionStore, eventStore, messageStore } from '../index.js';
-import type { Session, Event } from '@opencode-ai/sdk';
 import { readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
 
-interface IndexerState {
+import { createOpencodeClient } from '@opencode-ai/sdk';
+import type { Session, Event } from '@opencode-ai/sdk';
+
+import { sessionStore, eventStore, messageStore } from '../index.js';
+
+type IndexerState = {
   lastIndexedSessionId?: string;
   lastIndexedMessageId?: string;
 }
@@ -102,7 +104,7 @@ export class IndexerService {
       const sessionsResult = await this.client.session.list();
       const sessions = sessionsResult.data || [];
       let newSessions = 0;
-      let newMessages = 0;
+      const newMessages = 0;
 
       // Find the index of the last indexed session
       let startIndex = 0;
@@ -123,7 +125,7 @@ export class IndexerService {
         const messages = messagesResult.data || [];
 
         // Find the index of the last indexed message for this session
-        let messageStartIndex = 0;
+        const messageStartIndex = 0;
 
         for (let j = messageStartIndex; j < messages.length; j++) {
           const message = messages[j];
@@ -352,23 +354,23 @@ ${content}
 
   private extractSessionId(event: any): string | undefined {
     if (event.type === 'session.updated' || event.type === 'session.deleted') {
-      return (event as any).properties?.info?.id;
+      return (event).properties?.info?.id;
     }
     if (event.type === 'message.updated' || event.type === 'message.removed') {
-      return (event as any).properties?.info?.sessionID || (event as any).properties?.sessionID;
+      return (event).properties?.info?.sessionID || (event).properties?.sessionID;
     }
     if (event.type === 'message.part.updated' || event.type === 'message.part.removed') {
-      return (event as any).properties?.part?.sessionID || (event as any).properties?.sessionID;
+      return (event).properties?.part?.sessionID || (event).properties?.sessionID;
     }
     return undefined;
   }
 
   private extractMessageId(event: any): string | undefined {
     if (event.type === 'message.updated' || event.type === 'message.removed') {
-      return (event as any).properties?.info?.id;
+      return (event).properties?.info?.id;
     }
     if (event.type === 'message.part.updated' || event.type === 'message.part.removed') {
-      return (event as any).properties?.part?.messageID || (event as any).properties?.messageID;
+      return (event).properties?.part?.messageID || (event).properties?.messageID;
     }
     return undefined;
   }
