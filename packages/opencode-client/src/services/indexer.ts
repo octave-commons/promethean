@@ -13,8 +13,6 @@ import {
 } from './indexer-types.js';
 import { createIndexingOperations } from './indexer-operations.js';
 
-const { indexSession, indexMessage, indexEvent } = createIndexingOperations();
-
 export type IndexerService = {
   readonly start: () => Promise<void>;
   readonly stop: () => Promise<void>;
