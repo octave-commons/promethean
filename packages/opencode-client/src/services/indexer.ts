@@ -61,13 +61,9 @@ export class IndexerService {
     try {
       const data = await readFile(this.stateFile, 'utf-8');
       const savedState: IndexerState = JSON.parse(data);
-      this.state = {
-        lastIndexedSessionTime: savedState.lastIndexedSessionTime,
-        lastIndexedMessageTimes: savedState.lastIndexedMessageTimes || {},
-        lastProcessedEventTime: savedState.lastProcessedEventTime,
-      };
+      this.state = savedState;
       console.log(
-        `📂 Loaded indexer state: ${Object.keys(this.state.lastIndexedMessageTimes).length} session cursors`,
+        `📂 Loaded indexer state: lastSession=${this.state.lastIndexedSessionId}, lastMessage=${this.state.lastIndexedMessageId}`,
       );
     } catch (error) {
       console.log('📂 No previous indexer state found, starting fresh');
