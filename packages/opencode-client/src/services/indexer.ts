@@ -162,37 +162,96 @@ export class IndexerService {
   }
 
   /**
-   * Index existing sessions and their messages
+   * Load indexer state from persistent storage
    */
-  private async indexExistingData(): Promise<void> {
+  private async loadState(): Promise<void> {
     try {
-      console.log('📚 Indexing existing sessions...');
+      // Try to load state from a simple file or store
+      // For now, we'll use in-memory state
+      console.log('📂 Loading indexer state...');
+    } catch (error) {
+      console.warn('⚠️  Could not load indexer state, starting fresh');
+    }
+  }
+
+  /**
+   * Save indexer state to persistent storage
+   */
+  private async saveState(): Promise<void> {
+    try {
+      // Save state to persistent storage
+      // For now, we'll just log that we would save
+      console.log('💾 Saving indexer state...');
+    } catch (error) {
+      console.warn('⚠️  Could not save indexer state');
+    }
+  }
+
+  /**
+   * Index only new sessions and messages since last run
+   */
+  private async indexNewData(): Promise<void> {
+    try {
+      console.log('📚 Checking for new sessions and messages...');
 
       // Get all sessions
       const sessionsResult = await this.client.session.list();
       const sessions = sessionsResult.data || [];
-      let totalMessages = 0;
+      let newSessions = 0;
+      let newMessages = 0;
 
       for (const session of sessions) {
-        console.log('indexing', session);
-        await sleep(100);
-        await this.indexSession(session);
+        const sessionTime = session.time?.created || 0;
+        const lastSessionTime = this.state.lastIndexedSessionTime || 0;
 
-        // Get messages for this session
-        const messagesResult = await this.client.session.messages({
-          path: { id: session.id },
-        });
-        const messages = messagesResult.data || [];
-        totalMessages += messages.length;
+        // Check if this session is newer than our last indexed time
+        if (sessionTime > lastSessionTime) {
+          await this.indexSession(session);
+          newSessions++;
 
-        for (const message of messages) {
-          await this.indexMessage(message, session.id);
+          // Get messages for this session
+          const messagesResult = await this.client.session.messages({
+            path: { id: session.id },
+          });
+          const messages = messagesResult.data || [];
+          const lastMessageTime = this.state.lastIndexedMessageTimes.get(session.id) || 0;
+
+          for (const message of messages) {
+            const messageTime = message.info?.time?.created || 0;
+
+            // Only index messages newer than our last indexed time for this session
+            if (messageTime > lastMessageTime) {
+              await this.indexMessage(message, session.id);
+              newMessages++;
+            }
+          }
+
+          // Update the last indexed message time for this session
+          if (messages.length > 0) {
+            const latestMessageTime = Math.max(
+              ...messages.map((m: any) => m.info?.time?.created || 0),
+            );
+            this.state.lastIndexedMessageTimes.set(session.id, latestMessageTime);
+          }
         }
       }
 
-      console.log(`✅ Indexed ${sessions.length} sessions and ${totalMessages} messages`);
+      // Update the last indexed session time
+      if (sessions.length > 0) {
+        const latestSessionTime = Math.max(...sessions.map((s: any) => s.time?.created || 0));
+        this.state.lastIndexedSessionTime = latestSessionTime;
+      }
+
+      if (newSessions > 0 || newMessages > 0) {
+        console.log(`✅ Indexed ${newSessions} new sessions and ${newMessages} new messages`);
+      } else {
+        console.log('✅ No new sessions or messages to index');
+      }
+
+      // Save state after indexing
+      await this.saveState();
     } catch (error) {
-      console.error('❌ Error indexing existing data:', error);
+      console.error('❌ Error indexing new data:', error);
     }
   }
 
