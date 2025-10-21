@@ -931,12 +931,63 @@ export const updateStatus = async (
     target.name = normalizeColumnDisplayName(target.name);
   }
 
-  // WIP Limit Validation
-  // Check if target column would exceed WIP limit
-  if (target.limit && target.count >= target.limit) {
-    throw new Error(
-      `WIP limit violation: Cannot move task to '${target.name}' - column has ${target.count} tasks (limit: ${target.limit})`,
+  // Enhanced WIP Limit Enforcement Gate
+  // Use comprehensive WIP enforcement engine if available
+  try {
+    const { createWIPLimitEnforcement } = await import('./wip-enforcement.js');
+    const wipEnforcement = await createWIPLimitEnforcement();
+
+    const wipValidation = await wipEnforcement.interceptStatusTransition(
+      uuid,
+      currentStatus,
+      normalizedStatus,
+      board,
+      {
+        force: false, // No override by default
+      },
     );
+
+    if (wipValidation.blocked) {
+      // Restore task to its original column
+      let originalColumn = board.columns.find(
+        (c) => columnKey(c.name) === columnKey(currentStatus),
+      );
+      if (originalColumn) {
+        originalColumn.tasks = [...originalColumn.tasks, found];
+        originalColumn.count += 1;
+      }
+
+      const errorMessage = `🚫 WIP Limit Enforcement: ${wipValidation.reason}`;
+      const suggestionMessage =
+        wipValidation.suggestions && wipValidation.suggestions.length > 0
+          ? `\n💡 Suggestions:\n${wipValidation.suggestions.map((s) => `  • ${s.description}`).join('\n')}`
+          : '';
+
+      throw new Error(errorMessage + suggestionMessage);
+    }
+
+    // Log warnings if present
+    if (wipValidation.violation && wipValidation.violation.severity === 'warning') {
+      console.warn(
+        `⚠️  WIP Limit Warning: ${wipValidation.violation.severity} violation in ${newStatus}`,
+      );
+      if (wipValidation.suggestions && wipValidation.suggestions.length > 0) {
+        console.warn('💡 Capacity Suggestions:');
+        wipValidation.suggestions.forEach((suggestion) => {
+          console.warn(`   • ${suggestion.description}`);
+        });
+      }
+    }
+  } catch (error) {
+    // Fallback to basic WIP check if enforcement engine fails
+    console.warn('WIP enforcement engine failed, using fallback validation:', error);
+
+    // Basic WIP limit check (original logic as fallback)
+    if (target.limit && target.count >= target.limit) {
+      throw new Error(
+        `WIP limit violation: Cannot move task to '${target.name}' - column has ${target.count} tasks (limit: ${target.limit})`,
+      );
+    }
   }
 
   target.tasks = [...target.tasks, found];

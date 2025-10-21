@@ -1,0 +1,47 @@
+{
+  "name": "@promethean/plugin-hooks",
+  "version": "1.0.0",
+  "description": "Event-driven plugin hooks architecture for the Promethean framework",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "ava",
+    "test:watch": "ava --watch",
+    "clean": "rm -rf dist",
+    "lint": "eslint src --ext .ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "plugin",
+    "hooks",
+    "events",
+    "architecture",
+    "promethean"
+  ],
+  "author": "Promethean Team",
+  "license": "GPL-3.0-only",
+  "dependencies": {
+    "zod": "^3.22.0",
+    "@promethean/event": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ava": "^6.0.0",
+    "eslint": "^8.0.0",
+    "typescript": "^5.0.0"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

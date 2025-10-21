@@ -1,4 +1,4 @@
-import { SyncQueue, SyncEvent, BridgeConfig } from './types';
+import { SyncQueue, SyncEvent, BridgeConfig } from './types.js';
 import Redis from 'ioredis';
 
 export class RedisSyncQueue implements SyncQueue {
@@ -17,7 +17,7 @@ export class RedisSyncQueue implements SyncQueue {
       db: config.storage.redis.db,
       password: config.storage.redis.password,
       retryDelayOnFailover: 100,
-      maxRetriesPerRequest: 3
+      maxRetriesPerRequest: 3,
     });
 
     this.processingQueue = 'sync:queue:processing';
@@ -32,27 +32,27 @@ export class RedisSyncQueue implements SyncQueue {
   async get(limit: number = 50): Promise<SyncEvent[]> {
     // Move events from main queue to processing queue
     const events = await this.redis.lrange('sync:queue', 0, limit - 1);
-    
+
     if (events.length > 0) {
       // Remove from main queue
       await this.redis.ltrim('sync:queue', events.length, -1);
-      
+
       // Add to processing queue with timestamp
       const pipeline = this.redis.pipeline();
-      events.forEach(event => {
+      events.forEach((event) => {
         pipeline.lpush(this.processingQueue, event);
         pipeline.expire(this.processingQueue, 300); // 5 minutes timeout
       });
       await pipeline.exec();
     }
 
-    return events.map(event => JSON.parse(event));
+    return events.map((event) => JSON.parse(event));
   }
 
   async markProcessed(eventId: string): Promise<void> {
     // Remove from processing queue
     const events = await this.redis.lrange(this.processingQueue, 0, -1);
-    
+
     for (let i = 0; i < events.length; i++) {
       const event = JSON.parse(events[i]);
       if (event.id === eventId) {
@@ -64,15 +64,15 @@ export class RedisSyncQueue implements SyncQueue {
 
   async retryFailed(): Promise<void> {
     const failedEvents = await this.redis.lrange(this.failedQueue, 0, -1);
-    
+
     if (failedEvents.length > 0) {
       // Move failed events back to main queue
       const pipeline = this.redis.pipeline();
-      failedEvents.forEach(event => {
+      failedEvents.forEach((event) => {
         pipeline.lpush('sync:queue', event);
       });
       await pipeline.exec();
-      
+
       // Clear failed queue
       await this.redis.del(this.failedQueue);
     }
@@ -95,7 +95,7 @@ export class RedisSyncQueue implements SyncQueue {
       ...event,
       error: error.message,
       failedAt: new Date().toISOString(),
-      retryCount: (event.data?.retryCount || 0) + 1
+      retryCount: (event.data?.retryCount || 0) + 1,
     };
 
     await this.redis.lpush(this.failedQueue, JSON.stringify(failedEvent));
@@ -121,8 +121,8 @@ export class MemorySyncQueue implements SyncQueue {
 
   async get(limit: number = 50): Promise<SyncEvent[]> {
     const events = this.queue.splice(0, limit);
-    
-    events.forEach(event => {
+
+    events.forEach((event) => {
       this.processing.set(event.id, event);
     });
 
@@ -134,13 +134,9 @@ export class MemorySyncQueue implements SyncQueue {
   }
 
   async retryFailed(): Promise<void> {
-    const retryableEvents = this.failed.filter(event => 
-      (event.data?.retryCount || 0) < 3
-    );
+    const retryableEvents = this.failed.filter((event) => (event.data?.retryCount || 0) < 3);
 
-    this.failed = this.failed.filter(event => 
-      (event.data?.retryCount || 0) >= 3
-    );
+    this.failed = this.failed.filter((event) => (event.data?.retryCount || 0) >= 3);
 
     this.queue.push(...retryableEvents);
   }
@@ -162,7 +158,7 @@ export class MemorySyncQueue implements SyncQueue {
       ...event,
       error: error.message,
       failedAt: new Date(),
-      retryCount: (event.data?.retryCount || 0) + 1
+      retryCount: (event.data?.retryCount || 0) + 1,
     };
 
     this.failed.push(failedEvent);
@@ -180,7 +176,7 @@ export class MemorySyncQueue implements SyncQueue {
     return {
       queue: [...this.queue],
       processing: Array.from(this.processing.values()),
-      failed: [...this.failed]
+      failed: [...this.failed],
     };
   }
 }

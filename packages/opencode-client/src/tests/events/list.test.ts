@@ -2,14 +2,13 @@ import test from 'ava';
 import sinon from 'sinon';
 import { list } from '../../actions/events/list.js';
 import { eventStore } from '../../index.js';
-import type { EventEntry } from '../../types/index.js';
 
 test.beforeEach(() => {
   sinon.restore();
 });
 
 test.serial('list returns events sorted by timestamp (newest first)', async (t) => {
-  const mockEvents: EventEntry[] = [
+  const mockEvents = [
     {
       id: 'event:1',
       text: JSON.stringify({ type: 'test', content: 'First event' }),
@@ -33,16 +32,16 @@ test.serial('list returns events sorted by timestamp (newest first)', async (t) 
 
   t.true(getMostRecentStub.calledOnceWith(1000));
   t.is(result.length, 3);
-  t.is(result[0].type, 'test');
-  t.is(result[0].content, 'Second event'); // Should be first (timestamp 2000)
-  t.is(result[1].type, 'test');
-  t.is(result[1].content, 'Third event'); // Should be second (timestamp 1500)
-  t.is(result[2].type, 'test');
-  t.is(result[2].content, 'First event'); // Should be third (timestamp 1000)
+  t.is(result[0]!.type, 'test');
+  t.is(result[0]!.content, 'Second event'); // Should be first (timestamp 2000)
+  t.is(result[1]!.type, 'test');
+  t.is(result[1]!.content, 'Third event'); // Should be second (timestamp 1500)
+  t.is(result[2]!.type, 'test');
+  t.is(result[2]!.content, 'First event'); // Should be third (timestamp 1000)
 });
 
 test.serial('list filters events by query', async (t) => {
-  const mockEvents: EventEntry[] = [
+  const mockEvents = [
     {
       id: 'event:1',
       text: JSON.stringify({ type: 'test', content: 'First event' }),
@@ -71,7 +70,7 @@ test.serial('list filters events by query', async (t) => {
 });
 
 test.serial('list filters events by eventType', async (t) => {
-  const mockEvents: EventEntry[] = [
+  const mockEvents = [
     {
       id: 'event:1',
       text: JSON.stringify({ type: 'test', content: 'First event' }),
@@ -99,7 +98,7 @@ test.serial('list filters events by eventType', async (t) => {
 });
 
 test.serial('list filters events by sessionId', async (t) => {
-  const mockEvents: EventEntry[] = [
+  const mockEvents = [
     {
       id: 'event:1',
       text: JSON.stringify({ type: 'test', sessionId: 'session-1', content: 'First event' }),
@@ -127,7 +126,7 @@ test.serial('list filters events by sessionId', async (t) => {
 });
 
 test.serial('list filters events by hasTool', async (t) => {
-  const mockEvents: EventEntry[] = [
+  const mockEvents = [
     {
       id: 'event:1',
       text: JSON.stringify({ type: 'test', hasTool: true, content: 'First event' }),
@@ -155,7 +154,7 @@ test.serial('list filters events by hasTool', async (t) => {
 });
 
 test.serial('list filters events by isAgentTask', async (t) => {
-  const mockEvents: EventEntry[] = [
+  const mockEvents = [
     {
       id: 'event:1',
       text: JSON.stringify({ type: 'test', isAgentTask: true, content: 'First event' }),
@@ -179,11 +178,11 @@ test.serial('list filters events by isAgentTask', async (t) => {
 
   t.true(getMostRecentStub.calledOnceWith(1000));
   t.is(result.length, 1);
-  t.is(result[0].isAgentTask, false);
+  t.is(result[0]!.isAgentTask, false);
 });
 
 test.serial('list applies k limit parameter', async (t) => {
-  const mockEvents: EventEntry[] = Array.from({ length: 5 }, (_, i) => ({
+  const mockEvents = Array.from({ length: 5 }, (_, i) => ({
     id: `event:${i + 1}`,
     text: JSON.stringify({ type: 'test', content: `Event ${i + 1}` }),
     timestamp: (i + 1) * 1000,
@@ -195,9 +194,9 @@ test.serial('list applies k limit parameter', async (t) => {
 
   t.true(getMostRecentStub.calledOnceWith(1000));
   t.is(result.length, 3);
-  t.is(result[0].content, 'Event 5'); // Should be newest
-  t.is(result[1].content, 'Event 4');
-  t.is(result[2].content, 'Event 3');
+  t.is(result[0]!.content, 'Event 5'); // Should be newest
+  t.is(result[1]!.content, 'Event 4');
+  t.is(result[2]!.content, 'Event 3');
 });
 
 test.serial('list handles empty event store', async (t) => {
@@ -221,7 +220,7 @@ test.serial('list handles event store errors gracefully', async (t) => {
 });
 
 test.serial('list filters out non-event entries', async (t) => {
-  const mockEvents: EventEntry[] = [
+  const mockEvents = [
     {
       id: 'event:1',
       text: JSON.stringify({ type: 'test', content: 'Valid event' }),
@@ -245,12 +244,12 @@ test.serial('list filters out non-event entries', async (t) => {
 
   t.true(getMostRecentStub.calledOnceWith(1000));
   t.is(result.length, 1);
-  t.is(result[0].type, 'test');
-  t.is(result[0].content, 'Valid event');
+  t.is(result[0]!.type, 'test');
+  t.is(result[0]!.content, 'Valid event');
 });
 
 test.serial('list applies multiple filters simultaneously', async (t) => {
-  const mockEvents: EventEntry[] = [
+  const mockEvents = [
     {
       id: 'event:1',
       text: JSON.stringify({
@@ -297,8 +296,8 @@ test.serial('list applies multiple filters simultaneously', async (t) => {
 
   t.true(getMostRecentStub.calledOnceWith(1000));
   t.is(result.length, 1);
-  t.is(result[0].type, 'test');
-  t.is(result[0].sessionId, 'session-1');
-  t.is(result[0].hasTool, true);
-  t.is(result[0].isAgentTask, true);
+  t.is(result[0]!.type, 'test');
+  t.is(result[0]!.sessionId, 'session-1');
+  t.is(result[0]!.hasTool, true);
+  t.is(result[0]!.isAgentTask, true);
 });
