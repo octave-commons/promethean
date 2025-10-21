@@ -9,7 +9,7 @@
         "aplKey":"{env:PERPLEXITY_API_KEY}",
       },
       "models": {
-        "dragonfly-1.5-pro": {
+        "perplexity-pro/sonar-pro": {
           "name": "Dragonfly 1.5 Pro"
         }
       }
