@@ -608,10 +608,21 @@ export function registerSimpleOAuthRoutes(
         console.log('[OAuth Callback] Exchanging authorization code directly with GitHub');
 
         try {
+          // Validate required environment variables
+          const clientId = process.env.MCP_OAUTH_GITHUB_CLIENT_ID || process.env.OAUTH_GITHUB_CLIENT_ID;
+          const clientSecret = process.env.MCP_OAUTH_GITHUB_CLIENT_SECRET || process.env.OAUTH_GITHUB_CLIENT_SECRET;
+          
+          if (!clientId || !clientSecret) {
+            return reply.status(500).send({
+              error: 'configuration_error',
+              message: 'GitHub OAuth credentials not configured. Please set MCP_OAUTH_GITHUB_CLIENT_ID and MCP_OAUTH_GITHUB_CLIENT_SECRET environment variables.',
+            });
+          }
+
           // Build token request parameters
           const tokenParams: any = {
-            client_id: 'Ov23li1fhUvAsLo8LabH',
-            client_secret: '06428e45e125aede2bbd945958b7bc9d4d1afbe4',
+            client_id: process.env.MCP_OAUTH_GITHUB_CLIENT_ID || process.env.OAUTH_GITHUB_CLIENT_ID,
+            client_secret: process.env.MCP_OAUTH_GITHUB_CLIENT_SECRET || process.env.OAUTH_GITHUB_CLIENT_SECRET,
             code: code,
             redirect_uri: getBaseUrl(request) + '/auth/oauth/callback',
           };
