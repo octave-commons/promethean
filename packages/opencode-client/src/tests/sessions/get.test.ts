@@ -44,8 +44,9 @@ test('get session successfully', async (t) => {
 
   t.false('error' in result);
   if ('session' in result) {
-    t.is((result.session as any).id, sessionId);
-    t.is((result.session as any).title, 'Test Session');
+    const session = result.session as any;
+    t.is(session.id, sessionId);
+    t.is(session.title, 'Test Session');
     t.deepEqual(result.messages, mockMessages);
   }
 });
@@ -74,9 +75,10 @@ test('get session with pagination', async (t) => {
 
   t.false('error' in result);
   if ('session' in result) {
-    t.is(result.session.id, sessionId);
+    const session = result.session as any;
+    t.is(session.id, sessionId);
     t.is(result.messages.length, 5); // Should be limited to 5
-    t.is(result.messages[0].id, 'msg3'); // Should start from offset 2
+    t.is((result.messages[0] as any).id, 'msg3'); // Should start from offset 2
   }
 });
 
@@ -98,7 +100,8 @@ test('get session with no messages', async (t) => {
 
   t.false('error' in result);
   if ('session' in result) {
-    t.is(result.session.id, sessionId);
+    const session = result.session as any;
+    t.is(session.id, sessionId);
     t.deepEqual(result.messages, []);
   }
 });
@@ -133,8 +136,9 @@ test('get session with malformed session data', async (t) => {
 
   t.false('error' in result);
   if ('session' in result) {
-    t.is((result.session as any).id, sessionId);
-    t.is((result.session as any).title, 'Legacy Session');
+    const session = result.session as any;
+    t.is(session.id, sessionId);
+    t.is(session.title, 'Legacy Session');
   }
 });
 
@@ -158,7 +162,8 @@ test('get session with malformed message data', async (t) => {
 
   t.false('error' in result);
   if ('session' in result) {
-    t.is((result.session as any).id, sessionId);
+    const session = result.session as any;
+    t.is(session.id, sessionId);
     t.deepEqual(result.messages, []); // Should default to empty array
   }
 });
@@ -187,18 +192,18 @@ test('type checking - result has correct structure', async (t) => {
   if ('error' in typedResult) {
     t.is(typeof typedResult.error, 'string');
   } else {
-    t.true('session' in typedResult);
-    t.true('messages' in typedResult);
-    t.true(Array.isArray(typedResult.messages));
+    const successResult = typedResult as { session: unknown; messages: unknown[] };
+    t.true('session' in successResult);
+    t.true('messages' in successResult);
+    t.true(Array.isArray(successResult.messages));
   }
-}
 });
 
 test('handles different timestamp formats', async (t) => {
   const sessionId = 'timestamp-test';
   const timestampFormats = [Date.now(), '2023-01-01T00:00:00.000Z', new Date()];
 
-for (const timestamp of timestampFormats) {
+  for (const timestamp of timestampFormats) {
     mockSessionStore.get.withArgs(sessionId).resolves({
       text: JSON.stringify({
         id: sessionId,
@@ -216,8 +221,8 @@ for (const timestamp of timestampFormats) {
 
     t.false('error' in result);
     if ('session' in result) {
-      t.is((result.session as any).id, sessionId);
+      const session = result.session as any;
+      t.is(session.id, sessionId);
     }
-  }
   }
 });
