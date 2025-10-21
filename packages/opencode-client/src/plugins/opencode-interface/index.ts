@@ -151,20 +151,17 @@ export const OpencodeInterfacePlugin: Plugin = async () => {
       }),
 
       'spawn-session': tool({
-        description: 'Spawn a new session with an agent',
+        description: 'Spawn a new session with an initial message',
         args: {
-          directory: tool.schema.string().describe('Working directory for the session'),
-          agent: tool.schema.string().describe('Agent name or type to spawn'),
-          prompt: tool.schema.string().describe('Initial prompt for the agent'),
           title: tool.schema.string().optional().describe('Optional title for the session'),
+          message: tool.schema.string().describe('Initial message/prompt for the session'),
         },
         async execute(args) {
           try {
             const result = await spawnSession({
-              directory: args.directory,
-              agent: args.agent,
-              prompt: args.prompt,
               title: args.title,
+              message: args.message,
+              client: opencodeClient,
             });
 
             return result;
@@ -316,55 +313,30 @@ export const OpencodeInterfacePlugin: Plugin = async () => {
         },
       }),
 
-      'send-message': tool({
-        description:
-          'Send a message to a session (Note: This may not be supported by all OpenCode servers)',
+      'send-prompt': tool({
+        description: 'Send a prompt/message to a session',
         args: {
           sessionId: tool.schema.string().describe('Session ID'),
           content: tool.schema.string().describe('Message content'),
         },
         async execute(args) {
           try {
-            // Try different possible API endpoints for sending messages
-            let result;
-
-            try {
-              // First try the create endpoint
-              result = await opencodeClient.session.message.create({
-                path: { id: args.sessionId },
-                body: {
-                  parts: [
-                    {
-                      type: 'text',
-                      text: args.content,
-                    },
-                  ],
-                },
-              });
-            } catch (createError) {
-              // If create fails, try to see if there's a send method
-              try {
-                // @ts-ignore - send might not be in the types but could exist
-                result = await opencodeClient.session.message.send({
-                  path: { id: args.sessionId },
-                  body: {
-                    parts: [
-                      {
-                        type: 'text',
-                        text: args.content,
-                      },
-                    ],
+            const result = await opencodeClient.session.prompt({
+              path: { id: args.sessionId },
+              body: {
+                parts: [
+                  {
+                    type: 'text' as const,
+                    text: args.content,
                   },
-                });
-              } catch (sendError) {
-                throw new Error('Message sending not supported by this OpenCode server instance');
-              }
-            }
+                ],
+              },
+            });
 
             return JSON.stringify(result.data, null, 2);
           } catch (error) {
             throw new Error(
-              `Failed to send message: ${error instanceof Error ? error.message : String(error)}`,
+              `Failed to send prompt: ${error instanceof Error ? error.message : String(error)}`,
             );
           }
         },
