@@ -5,6 +5,9 @@
 import type { Plugin } from '@opencode-ai/plugin';
 import { tool } from '@opencode-ai/plugin/tool';
 import { initializeStores } from '../../index.js';
+import { createOpencodeClient } from '@opencode-ai/sdk';
+
+// Import existing actions
 import { list as listSessions } from '../../actions/sessions/list.js';
 import { get as getSession } from '../../actions/sessions/get.js';
 import { create as createSession } from '../../actions/sessions/create.js';
@@ -15,12 +18,11 @@ import { list as listEvents } from '../../actions/events/list.js';
 import { subscribe as subscribeToEvents } from '../../actions/events/subscribe.js';
 import { getSessionMessages } from '../../actions/messages/index.js';
 import { IndexerService } from '../../services/indexer.js';
-import { createOpencodeClient } from '@opencode-ai/sdk';
 
 /**
  * OpenCode Interface Plugin - Provides OpenCode functionality as tools
  */
-export const OpencodeInterfacePlugin: Plugin = async () => {
+export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
   // Initialize stores on plugin load
   await initializeStores();
 
