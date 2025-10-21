@@ -5,9 +5,8 @@ import { readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
 
 interface IndexerState {
-  lastIndexedSessionTime?: number;
-  lastIndexedMessageTimes: Record<string, number>; // sessionId -> last message time
-  lastProcessedEventTime?: number;
+  lastIndexedSessionId?: string;
+  lastIndexedMessageId?: string;
 }
 
 export class IndexerService {
@@ -18,9 +17,7 @@ export class IndexerService {
   private readonly LOG_DEBOUNCE_MS = 5000; // Log same event type max once per 5 seconds
   private readonly STATE_SAVE_INTERVAL_MS = 30000; // Save state every 30 seconds
   private stateSaveTimer?: NodeJS.Timeout;
-  private state: IndexerState = {
-    lastIndexedMessageTimes: {},
-  };
+  private state: IndexerState = {};
   private readonly stateFile = join(process.cwd(), '.indexer-state.json');
 
   constructor() {
