@@ -107,6 +107,7 @@
   },
   "dependencies": {
     "@nrwl/nx-cloud": "^19.1.0",
+    "@platformatic/mcp": "^1.2.2",
     "@promethean/autocommit": "workspace:*",
     "@promethean/buildfix": "workspace:*",
     "@promethean/duck-web-frontend": "workspace:*",
