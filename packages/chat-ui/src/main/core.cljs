@@ -12,10 +12,17 @@
   (js/console.log "DB initialized")
   (rf/dispatch [:load-sessions])
   (js/console.log "Load sessions dispatched")
-  (if js/ReactDOM
-    ;; React 18 with createRoot
-    (let [root (js/ReactDOM.createRoot (js/document.getElementById "app"))]
-      (.render root [app]))
-    ;; Fallback to legacy ReactDOM.render
-    (dom/render [app] (js/document.getElementById "app")))
-  (js/console.log "App rendered"))
+  (let [app-element (js/document.getElementById "app")]
+    (if app-element
+      (do
+        (js/console.log "Found app element:" app-element)
+        (if (exists? js/ReactDOM)
+          (do
+            (js/console.log "Using React 18 createRoot")
+            (let [root (js/ReactDOM.createRoot app-element)]
+              (.render root (r/as-element [app]))))
+          (do
+            (js/console.log "Using legacy ReactDOM.render")
+            (dom/render [app] app-element)))
+        (js/console.log "App rendered"))
+      (js/console.error "App element not found!"))))

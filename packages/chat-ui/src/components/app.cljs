@@ -30,12 +30,17 @@
         "×"]])))
 
 (defn app []
-  [:div.app
+  (js/console.log "App component rendering!")
+  [:div.app 
+   {:style {:background "#f0f0f0" :padding "20px"}}
    [header]
    [error-notification]
    [loading-overlay]
    [:main.app-content
+    {:style {:display "flex" :gap "20px"}}
     [:aside.sidebar
+     {:style {:background "white" :padding "15px" :border-radius "8px" :min-width "300px"}}
      [session-list]]
     [:section.chat-area
+     {:style {:background "white" :padding "15px" :border-radius "8px" :flex "1"}}
      [message-list]]]])
