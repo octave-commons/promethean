@@ -1,5 +1,7 @@
-import { sessionStore, eventStore, messageStore } from '../index.js';
 import type { Session, Event } from '@opencode-ai/sdk';
+
+import { sessionStore, eventStore, messageStore } from '../index.js';
+
 import type { Message } from './indexer-types.js';
 import { eventToMarkdown, sessionToMarkdown, messageToMarkdown } from './indexer-formatters.js';
 

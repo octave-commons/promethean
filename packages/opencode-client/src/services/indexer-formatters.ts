@@ -1,4 +1,5 @@
 import type { Session, Event } from '@opencode-ai/sdk';
+
 import type { Message } from './indexer-types.js';
 
 export const eventToMarkdown = (event: Event): string => {

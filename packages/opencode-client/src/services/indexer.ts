@@ -1,5 +1,6 @@
-import { createOpencodeClient } from '@opencode-ai/sdk';
 import { join } from 'path';
+
+import { createOpencodeClient } from '@opencode-ai/sdk';
 import type { Session, Event } from '@opencode-ai/sdk';
 
 import type { IndexerState, OpenCodeClient, EventSubscription } from './indexer-types.js';
@@ -11,7 +12,7 @@ import {
 } from './indexer-types.js';
 import { createIndexingOperations } from './indexer-operations.js';
 
-export interface IndexerService {
+export type IndexerService = {
   readonly start: () => Promise<void>;
   readonly stop: () => Promise<void>;
 }

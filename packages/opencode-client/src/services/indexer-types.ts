@@ -7,7 +7,7 @@ export type IndexerState = {
   readonly lastIndexedMessageId?: string;
 };
 
-export interface OpenCodeClient {
+export type OpenCodeClient = {
   readonly session: {
     readonly list: () => Promise<{ readonly data: readonly Session[] }>;
     readonly messages: (params: { readonly path: { readonly id: string } }) => Promise<{
@@ -22,7 +22,7 @@ export interface OpenCodeClient {
   };
 }
 
-export interface Message {
+export type Message = {
   readonly info?: {
     readonly id?: string;
     readonly role?: string;
@@ -34,12 +34,12 @@ export interface Message {
   readonly parts?: readonly MessagePart[];
 }
 
-export interface MessagePart {
+export type MessagePart = {
   readonly type?: string;
   readonly text?: string;
 }
 
-export interface EventSubscription {
+export type EventSubscription = {
   readonly stream: AsyncIterable<Event>;
 }
 
