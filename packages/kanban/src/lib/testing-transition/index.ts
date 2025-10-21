@@ -86,7 +86,7 @@ export async function runTestingTransition(
   executedTests: string[],
   initialMappings: Array<{ requirementId: string; testIds: string[] }>,
   config: TestingTransitionConfig,
-  tests: string[],
+  testFiles: string[],
   outputDir: string
 ) {
   // Step 1: Coverage analysis
@@ -101,9 +101,9 @@ export async function runTestingTransition(
 
   // Step 2: Quality scoring
   const qualityScore = calculateQualityScore({
-    complexity: computeAverageComplexity(tests),
-    passRate: computePassRate(tests),
-    flakiness: detectFlakiness(tests),
+    complexity: computeAverageComplexity(testFiles),
+    passRate: computePassRate(testFiles),
+    flakiness: detectFlakiness(testFiles),
   });
 
   if (qualityScore.score < config.softBlockQualityScoreThreshold) {
@@ -123,7 +123,7 @@ export async function runTestingTransition(
 
   // Step 4: AI analysis
   const aiReq: AIAnalysisRequest = {
-    tests,
+    tests: testFiles,
     coverageResult: coverage,
     qualityScore,
     mappings: mapped,
@@ -174,6 +174,28 @@ export async function runTestingTransition(
   );
 
   return reportPath;
+}
+
+// Helper function to generate test block messages
+function generateTestBlockMessage(scoreResult: ComprehensiveScoreResult): string {
+  const componentEntries = Object.entries(scoreResult.componentScores);
+  const gaps = componentEntries
+    .filter(([, cs]) => cs.score < 80)
+    .map(([name, cs]) => `${name}: ${cs.score.toFixed(1)}% (threshold: 80%)`)
+    .join(', ');
+  
+  const message = `Testing transition blocked. Overall score: ${scoreResult.totalScore}/100 (threshold: ${scoreResult.threshold}). Gaps: ${gaps}`;
+  
+  if (scoreResult.actionItems.length > 0) {
+    const highPriorityActions = scoreResult.actionItems
+      .filter(item => item.priority === 'high')
+      .map(item => item.description)
+      .slice(0, 3)
+      .join('; ');
+    return `${message}. Priority actions: ${highPriorityActions}`;
+  }
+  
+  return message;
 }
 
 // Placeholder implementations for complexity, pass rate, flakiness
