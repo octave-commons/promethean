@@ -324,7 +324,7 @@ app.delete('/api/sessions/:sessionId/messages/:messageId', (req, res) => {
 app.use(express.static('public'));
 
 // Start server
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Chat UI server running on port ${PORT}`);
   console.log(`Frontend available at: http://localhost:${PORT}`);
   console.log(`API available at: http://localhost:${PORT}/api`);

@@ -197,24 +197,14 @@ export class FileIndexer {
     directoryPath: string,
     options: IndexingOptions = {},
   ): Promise<string[]> {
-    const files: string[] = [];
-    const entries = await readdir(directoryPath, { withFileTypes: true });
+    const fileEntries = await listFiles(directoryPath, {
+      includeHidden: false,
+      maxDepth: options.followSymlinks === false ? 1 : undefined,
+    });
 
-    for (const entry of entries) {
-      const fullPath = join(directoryPath, entry.name);
-
-      if (entry.isDirectory() && options.followSymlinks !== false) {
-        // Recursively scan subdirectories
-        const subFiles = await this.scanDirectory(fullPath, options);
-        files.push(...subFiles);
-      } else if (entry.isFile()) {
-        if (this.shouldIncludeFile(fullPath, options)) {
-          files.push(fullPath);
-        }
-      }
-    }
-
-    return files;
+    return fileEntries
+      .filter((entry) => this.shouldIncludeFile(entry.path, options))
+      .map((entry) => entry.path);
   }
 
   private shouldIncludeFile(filePath: string, options: IndexingOptions): boolean {
