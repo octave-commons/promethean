@@ -9,8 +9,15 @@ describe('OpenCode Interface Plugin', () => {
   let plugin: any;
 
   beforeEach(async () => {
-    // Initialize the plugin
-    plugin = await OpencodeInterfacePlugin({});
+    // Initialize the plugin with minimal mock context
+    const mockContext = {
+      client: {} as any,
+      project: { name: 'test' } as any,
+      directory: '/tmp' as any,
+      worktree: {} as any,
+      $: {} as any,
+    };
+    plugin = await OpencodeInterfacePlugin(mockContext);
   });
 
   afterEach(async () => {
