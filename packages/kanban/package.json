@@ -47,7 +47,7 @@
     }
   },
   "bin": {
-    "kanban": "bin/kanban.js"
+    "kanban": "dist/cli.js"
   },
   "scripts": {
     "build": "tsc -b tsconfig.json --force",
