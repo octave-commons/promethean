@@ -26,7 +26,7 @@
     "gray-matter": "^4.0.3",
     "yaml": "^2.5.0",
     "zod": "^3.23.8",
-    "@promethean/file-indexer": "workspace:*"
+    "@promethean/file-indexer-service": "workspace:*"
   },
   "devDependencies": {
     "tsx": "^4.19.2"

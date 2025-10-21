@@ -1,3 +1,8 @@
+// Simple file scanning functionality to replace the original file-indexer
+export { scanFiles } from './scan-files.js';
+export type { IndexedFile, ScanFilesOptions, ScanFilesResult, ScanProgress } from './scan-files.js';
+
+// Also provide the advanced persistence-based indexer
 export { FileIndexer } from './file-indexer.js';
 export type {
   FileIndexEntry,
@@ -6,6 +11,3 @@ export type {
   IndexingStats,
   FileIndexStoreEntry,
 } from './types.js';
-
-// Re-export scanning utilities from @promethean/fs for compatibility
-export { walkDir, listFiles, type FileEntry, type WalkOptions } from '@promethean/fs';

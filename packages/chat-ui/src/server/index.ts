@@ -1,9 +1,11 @@
 import express from 'express';
 import cors from 'cors';
+import path from 'path';
+import fs from 'fs';
 import { ContextStore, DualStoreManager } from '@promethean/persistence';
 
 const app = express();
-const PORT = process.env.PORT || 3002;
+const PORT = parseInt(process.env.PORT || '3002', 10);
 const AGENT_NAME = 'duck';
 
 // Collection names - must match opencode-client exactly
@@ -149,6 +151,30 @@ function messagesToChatUIFormat(messages: any[]): any[] {
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Debug route
+app.get('/api/debug', (req, res) => {
+  res.json({
+    cwd: process.cwd(),
+    publicPath: require('path').join(process.cwd(), 'public'),
+    publicExists: require('fs').existsSync(require('path').join(process.cwd(), 'public')),
+    indexExists: require('fs').existsSync(
+      require('path').join(process.cwd(), 'public', 'index.html'),
+    ),
+  });
+});
+
+// Debug route
+app.get('/api/debug', (req, res) => {
+  const publicPath = path.join(process.cwd(), 'public');
+  res.json({
+    cwd: process.cwd(),
+    publicPath,
+    publicExists: fs.existsSync(publicPath),
+    indexExists: fs.existsSync(path.join(publicPath, 'index.html')),
+    publicFiles: fs.existsSync(publicPath) ? fs.readdirSync(publicPath) : [],
+  });
+});
 
 // API Routes
 
@@ -321,7 +347,17 @@ app.delete('/api/sessions/:sessionId/messages/:messageId', (req, res) => {
 });
 
 // Serve static files
-app.use(express.static('public'));
+app.use(express.static(path.join(process.cwd(), 'public')));
+
+// Serve index.html for root route
+app.get('/', (req, res) => {
+  const indexPath = path.join(process.cwd(), 'public', 'index.html');
+  if (fs.existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    res.status(404).send('Index file not found');
+  }
+});
 
 // Start server
 app.listen(PORT, '0.0.0.0', () => {
