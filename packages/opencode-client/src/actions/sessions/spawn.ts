@@ -44,21 +44,24 @@ export async function spawn({
       messageResult = sentMessage;
     }
 
-    return JSON.stringify({
-      success: true,
-      session: {
-        id: session.id,
-        title: session.title,
-        createdAt: session.time?.created,
-      },
-      message: messageResult
-        ? {
-            id: messageResult.info?.id,
-            content: message,
-            sentAt: messageResult.info?.time?.created,
-          }
-        : null,
-    });
+    // we need to stop doing this.
+    // we end up just parsing it again later.
+    // this should not be the responsibility of an action
+    // return JSON.stringify({
+    //   success: true,
+    //   session: {
+    //     id: session.id,
+    //     title: session.title,
+    //     createdAt: session.time?.created,
+    //   },
+    //   message: messageResult
+    //     ? {
+    //         id: messageResult.info?.id,
+    //         content: message,
+    //         sentAt: messageResult.info?.time?.created,
+    //       }
+    //     : null,
+    // });
   } catch (error: unknown) {
     throw new Error(
       `Failed to spawn session on OpenCode server: ${error instanceof Error ? error.message : String(error)}`,
