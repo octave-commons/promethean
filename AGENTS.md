@@ -44,6 +44,9 @@ pseudo/ # one off scripts, retained for transparency
 - factory pattern
 - dependency injection
 
+## PM2 Service management
+- `om2 start `
+
 ## 📋 Kanban Task Management
 
 All agents must use the kanban system for task tracking and work management.
@@ -57,7 +60,7 @@ via the `@promethean/kanban` package.
 - `pnpm kanban --help`
 - `pnpm kanban process` explains how we work
 - `pnpm kanban audit` checks the board for inconsistencies and illegal actions
-- `pnpm kanban update-status <uuid> <column>`
+- `pnpm kanban update-status <uuid> <column>` 
 - `pnpm kanban regenerate`
 - `pnpm kanban search <query>`
 - `pnpm kanban count`
@@ -113,8 +116,9 @@ Prefer local, well scoped commands to workspace scripts.
 - documentation should be obsidian friendly markdown
   - use [[wikilinks]]
   - make use of dataviews https://blacksmithgu.github.io/obsidian-dataview/
-  - Update the [[HOME]] file with important information, treat it as a living document
-
+  Be careful!
+- Update the [[HOME]] file with important information, treat it as a living document
+- manage processes with pm2
 
 ## Licensing
 All packages "license": "GPL-3.0-only"
