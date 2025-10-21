@@ -7,7 +7,7 @@
 (defn api-request [method endpoint & [data]]
   (let [ch (chan)
         xhr (create-http-client)]
-    (.open xhr method (str "/api" endpoint) true)
+    (.open xhr method (str "http://localhost:3001/api" endpoint) true)
     (.setRequestHeader xhr "Content-Type" "application/json")
     (.send xhr (when data (js/JSON.stringify (clj->js data)))
     
