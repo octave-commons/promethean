@@ -5,6 +5,10 @@ import type { Session, Event } from '@opencode-ai/sdk';
 export type IndexerState = {
   readonly lastIndexedSessionId?: string;
   readonly lastIndexedMessageId?: string;
+  readonly lastEventTimestamp?: number;
+  readonly lastFullSyncTimestamp?: number;
+  readonly subscriptionActive?: boolean;
+  readonly consecutiveErrors?: number;
 };
 
 export type OpenCodeClient = {
@@ -178,3 +182,20 @@ export const extractMessageId = (event: EnhancedEvent): string | undefined => {
 
 export const isMessageEvent = (event: Event): boolean =>
   ['message.updated', 'message.part.updated', 'message.removed'].includes(event.type);
+
+export const getEventTimestamp = (event: Event): number => {
+  // Extract timestamp from event properties if available
+  if ('properties' in event && event.properties) {
+    const props = event.properties as any;
+    // Check for time in permission.updated events
+    if (props.time?.created) {
+      return props.time.created;
+    }
+    // Check for time in message info
+    if (props.info?.time?.created) {
+      return props.info.time.created;
+    }
+  }
+
+  return Date.now();
+};

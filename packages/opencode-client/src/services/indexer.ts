@@ -28,7 +28,12 @@ export const createIndexerService = (): IndexerService => {
 
   let isRunning = false;
   let stateSaveTimer: NodeJS.Timeout | undefined;
+  let reconnectTimer: NodeJS.Timeout | undefined;
+  let eventSubscription: EventSubscription | undefined;
   const STATE_SAVE_INTERVAL_MS = 30000;
+  const RECONNECT_DELAY_MS = 5000;
+  const MAX_CONSECUTIVE_ERRORS = 5;
+  const FULL_SYNC_INTERVAL_MS = 300000; // 5 minutes
   let state: IndexerState = {};
 
   const startPeriodicStateSave = (): void => {
