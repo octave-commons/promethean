@@ -162,6 +162,7 @@ export class IndexerService {
       let totalMessages = 0;
 
       for (const session of sessions) {
+        console.log('indexing', session);
         await sleep(100);
         await this.indexSession(session);
 
