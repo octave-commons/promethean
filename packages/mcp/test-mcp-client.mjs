@@ -260,7 +260,7 @@ Using this context, please respond to: "What can you help me accomplish?"
 
 // Configuration
 const OAUTH_SERVER_URL = 'http://localhost:3001';
-const MCP_SERVER_URL = 'http://localhost:3002'; // Assuming MCP runs on different port
+const MCP_SERVER_URL = 'http://localhost:3001'; // Our MCP server runs on same port
 const OLLAMA_URL = 'http://localhost:11434';
 
 // Main execution
