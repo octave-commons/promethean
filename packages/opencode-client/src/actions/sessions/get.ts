@@ -13,6 +13,15 @@ type SessionEntry = {
   readonly timestamp?: Date | number | string;
 };
 
+export type GetSessionResult =
+  | {
+      readonly session: unknown;
+      readonly messages: unknown[];
+    }
+  | {
+      readonly error: string;
+    };
+
 const formatTimestamp = (timestamp?: Date | number | string): string => {
   if (!timestamp) {
     return new Date().toISOString();
@@ -79,14 +88,14 @@ const createSessionResponse = (
   messages: unknown[],
   limit?: number,
   offset?: number,
-): string => {
+): GetSessionResult => {
   const sessionInfo = SessionUtils.createSessionInfo(session as any, messages.length, undefined);
   const paginatedMessages = limit ? messages.slice(offset || 0, (offset || 0) + limit) : messages;
 
-  return JSON.stringify({
+  return {
     session: sessionInfo,
     messages: paginatedMessages,
-  });
+  };
 };
 
 const getMessagesForSession = async (sessionId: string): Promise<unknown[]> => {
@@ -108,10 +117,10 @@ export async function get({
   readonly sessionId: string;
   readonly limit?: number;
   readonly offset?: number;
-}): Promise<string> {
+}): Promise<GetSessionResult> {
   const sessionEntry = await getSessionEntry(sessionId);
   if (!sessionEntry) {
-    return 'Session not found in dual store';
+    return { error: 'Session not found in dual store' };
   }
 
   const session = parseSessionData(sessionEntry);

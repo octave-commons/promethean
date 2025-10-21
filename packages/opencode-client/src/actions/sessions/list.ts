@@ -8,6 +8,28 @@ import { SessionData } from '../../types/SessionData.js';
 import type { StoreSession } from '../../types/StoreSession.js';
 import type { SessionInfo } from '../../SessionInfo.js';
 
+export type ListSessionsResult =
+  | {
+      readonly sessions: SessionInfo[];
+      readonly totalCount: number;
+      readonly pagination: {
+        readonly limit: number;
+        readonly offset: number;
+        readonly hasMore: boolean;
+        readonly currentPage: number;
+        readonly totalPages: number;
+      };
+      readonly summary: {
+        readonly active: number;
+        readonly waiting_for_input: number;
+        readonly idle: number;
+        readonly agentTasks: number;
+      };
+    }
+  | {
+      readonly error: string;
+    };
+
 /**
  * Extract session ID from legacy text format
  */
