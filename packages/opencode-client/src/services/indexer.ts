@@ -6,7 +6,7 @@ import { join } from 'path';
 
 interface IndexerState {
   lastIndexedSessionTime?: number;
-  lastIndexedMessageTimes: Map<string, number>; // sessionId -> last message time
+  lastIndexedMessageTimes: Record<string, number>; // sessionId -> last message time
   lastProcessedEventTime?: number;
 }
 
@@ -17,7 +17,7 @@ export class IndexerService {
   private lastLogTime: number = 0;
   private readonly LOG_DEBOUNCE_MS = 5000; // Log same event type max once per 5 seconds
   private state: IndexerState = {
-    lastIndexedMessageTimes: new Map(),
+    lastIndexedMessageTimes: {},
   };
   private readonly stateFile = join(process.cwd(), '.indexer-state.json');
 
@@ -27,9 +27,6 @@ export class IndexerService {
     });
   }
 
-  /**
-   * Start the indexer service to actively capture events and messages
-   */
   async start(): Promise<void> {
     if (this.isRunning) {
       console.log('Indexer is already running');
@@ -39,19 +36,11 @@ export class IndexerService {
     this.isRunning = true;
     console.log('🚀 Starting OpenCode indexer service...');
 
-    // Load previous state
     await this.loadState();
-
-    // Start event subscription
     this.subscribeToEvents();
-
-    // Index only new sessions and messages
     await this.indexNewData();
   }
 
-  /**
-   * Stop the indexer service
-   */
   async stop(): Promise<void> {
     if (!this.isRunning) {
       return;
@@ -59,78 +48,48 @@ export class IndexerService {
 
     this.isRunning = false;
     console.log('🛑 Stopping OpenCode indexer service...');
-
-    // Save state before stopping
     await this.saveState();
   }
 
-/**
-   * Load indexer state from filesystem
-   */
   private async loadState(): Promise<void> {
     try {
       const data = await readFile(this.stateFile, 'utf-8');
-      const savedState = JSON.parse(data);
+      const savedState: IndexerState = JSON.parse(data);
       this.state = {
         lastIndexedSessionTime: savedState.lastIndexedSessionTime,
-        lastIndexedMessageTimes: new Map(savedState.lastIndexedMessageTimes || []),
+        lastIndexedMessageTimes: savedState.lastIndexedMessageTimes || {},
         lastProcessedEventTime: savedState.lastProcessedEventTime,
       };
-      console.log(`📂 Loaded indexer state: ${this.state.lastIndexedMessageTimes.size} session cursors`);
+      console.log(
+        `📂 Loaded indexer state: ${Object.keys(this.state.lastIndexedMessageTimes).length} session cursors`,
+      );
     } catch (error) {
       console.log('📂 No previous indexer state found, starting fresh');
     }
   }
 
-  /**
-   * Save indexer state to filesystem
-   */
   private async saveState(): Promise<void> {
     try {
       const stateToSave = {
         lastIndexedSessionTime: this.state.lastIndexedSessionTime,
-        lastIndexedMessageTimes: Array.from(this.state.lastIndexedMessageTimes.entries()),
+        lastIndexedMessageTimes: this.state.lastIndexedMessageTimes,
         lastProcessedEventTime: this.state.lastProcessedEventTime,
         savedAt: Date.now(),
       };
-      
+
       await writeFile(this.stateFile, JSON.stringify(stateToSave, null, 2));
-      console.log(`💾 Saved indexer state: ${this.state.lastIndexedMessageTimes.size} session cursors`);
-    } catch (error) {
-      console.warn('⚠️  Could not save indexer state:', error);
-    }
-  }
-  }
-
-  /**
-   * Save indexer state to filesystem
-   */
-  private async saveState(): Promise<void> {
-    try {
-      const stateToSave = {
-        lastIndexedSessionTime: this.state.lastIndexedSessionTime,
-        lastIndexedMessageTimes: Array.from(this.state.lastIndexedMessageTimes.entries()),
-        lastProcessedEventTime: this.state.lastProcessedEventTime,
-        savedAt: Date.now(),
-      };
-
-      await fs.writeFile(this.stateFile, JSON.stringify(stateToSave, null, 2));
       console.log(
-        `💾 Saved indexer state: ${this.state.lastIndexedMessageTimes.size} session cursors`,
+        `💾 Saved indexer state: ${Object.keys(this.state.lastIndexedMessageTimes).length} session cursors`,
       );
     } catch (error) {
       console.warn('⚠️  Could not save indexer state:', error);
     }
   }
 
-  /**
-   * Index only new sessions and messages since last run
-   */
   private async indexNewData(): Promise<void> {
     try {
       console.log('📚 Checking for new sessions and messages...');
 
-      // Get all sessions
       const sessionsResult = await this.client.session.list();
       const sessions = sessionsResult.data || [];
       let newSessions = 0;
@@ -140,39 +99,34 @@ export class IndexerService {
         const sessionTime = session.time?.created || 0;
         const lastSessionTime = this.state.lastIndexedSessionTime || 0;
 
-        // Check if this session is newer than our last indexed time
         if (sessionTime > lastSessionTime) {
           await this.indexSession(session);
           newSessions++;
 
-          // Get messages for this session
           const messagesResult = await this.client.session.messages({
             path: { id: session.id },
           });
           const messages = messagesResult.data || [];
-          const lastMessageTime = this.state.lastIndexedMessageTimes.get(session.id) || 0;
+          const lastMessageTime = this.state.lastIndexedMessageTimes[session.id] || 0;
 
           for (const message of messages) {
             const messageTime = message.info?.time?.created || 0;
 
-            // Only index messages newer than our last indexed time for this session
             if (messageTime > lastMessageTime) {
               await this.indexMessage(message, session.id);
               newMessages++;
             }
           }
 
-          // Update the last indexed message time for this session
           if (messages.length > 0) {
             const latestMessageTime = Math.max(
               ...messages.map((m: any) => m.info?.time?.created || 0),
             );
-            this.state.lastIndexedMessageTimes.set(session.id, latestMessageTime);
+            this.state.lastIndexedMessageTimes[session.id] = latestMessageTime;
           }
         }
       }
 
-      // Update the last indexed session time
       if (sessions.length > 0) {
         const latestSessionTime = Math.max(...sessions.map((s: any) => s.time?.created || 0));
         this.state.lastIndexedSessionTime = latestSessionTime;
@@ -184,16 +138,12 @@ export class IndexerService {
         console.log('✅ No new sessions or messages to index');
       }
 
-      // Save state after indexing
       await this.saveState();
     } catch (error) {
       console.error('❌ Error indexing new data:', error);
     }
   }
 
-  /**
-   * Subscribe to live events and save them to the store
-   */
   private async subscribeToEvents(): Promise<void> {
     try {
       if (typeof this.client.event?.subscribe !== 'function') {
@@ -212,15 +162,10 @@ export class IndexerService {
     }
   }
 
-  /**
-   * Handle different types of events and capture message content
-   */
   private async handleEvent(event: any): Promise<void> {
     try {
-      // Index the event itself
       await this.indexEvent(event);
 
-      // If this is a message-related event, fetch and index the full message
       if (this.isMessageEvent(event)) {
         await this.handleMessageEvent(event);
       }
@@ -229,9 +174,6 @@ export class IndexerService {
     }
   }
 
-  /**
-   * Check if event is related to messages
-   */
   private isMessageEvent(event: any): boolean {
     return (
       event.type === 'message.updated' ||
@@ -240,9 +182,6 @@ export class IndexerService {
     );
   }
 
-  /**
-   * Handle message events by fetching full message content
-   */
   private async handleMessageEvent(event: any): Promise<void> {
     try {
       const sessionId = this.extractSessionId(event);
@@ -251,13 +190,11 @@ export class IndexerService {
         return;
       }
 
-      // Fetch the latest messages for this session
       const messagesResult = await this.client.session.messages({
         path: { id: sessionId },
       });
       const messages = messagesResult.data || [];
 
-      // Index all messages (we could optimize to only index new ones)
       for (const message of messages) {
         await this.indexMessage(message, sessionId);
       }
@@ -268,9 +205,6 @@ export class IndexerService {
     }
   }
 
-  /**
-   * Index a single event as a markdown document
-   */
   private async indexEvent(event: any): Promise<void> {
     try {
       const markdown = this.eventToMarkdown(event);
@@ -293,9 +227,6 @@ export class IndexerService {
     }
   }
 
-  /**
-   * Index a session as a markdown document
-   */
   private async indexSession(session: any): Promise<void> {
     try {
       const markdown = this.sessionToMarkdown(session);
@@ -315,9 +246,6 @@ export class IndexerService {
     }
   }
 
-  /**
-   * Index a message as a markdown document
-   */
   private async indexMessage(message: any, sessionId: string): Promise<void> {
     try {
       const markdown = this.messageToMarkdown(message);
@@ -338,9 +266,6 @@ export class IndexerService {
     }
   }
 
-  /**
-   * Convert event to markdown format
-   */
   private eventToMarkdown(event: Event): string {
     const sessionId = this.extractSessionId(event);
     const timestamp = new Date().toISOString();
@@ -360,9 +285,6 @@ ${JSON.stringify(event.properties || {}, null, 2)}
 `;
   }
 
-  /**
-   * Convert session to markdown format
-   */
   private sessionToMarkdown(session: Session): string {
     return `# Session: ${session.title}
 
@@ -378,9 +300,6 @@ ${session.title || 'Untitled Session'}
 `;
   }
 
-  /**
-   * Convert message to markdown format
-   */
   private messageToMarkdown(message: any): string {
     const textParts = message.parts?.filter((part: any) => part.type === 'text') || [];
     const content = textParts.map((part: any) => part.text).join('\n\n') || '[No text content]';
@@ -399,9 +318,6 @@ ${content}
 `;
   }
 
-  /**
-   * Extract session ID from different event types
-   */
   private extractSessionId(event: any): string | undefined {
     if (event.type === 'session.updated' || event.type === 'session.deleted') {
       return (event as any).properties?.info?.id;
@@ -415,21 +331,13 @@ ${content}
     return undefined;
   }
 
-  /**
-   * Log events with deduplication to reduce noise
-   */
   private logEvent(eventType: string): void {
     const now = Date.now();
     const count = this.eventCounts.get(eventType) || 0;
     const timeSinceLastLog = now - this.lastLogTime;
 
-    // Update count
     this.eventCounts.set(eventType, count + 1);
 
-    // Only log if:
-    // 1. It's been 5+ seconds since last log, OR
-    // 2. This is the first time we've seen this event type, OR
-    // 3. We're in verbose mode
     const shouldLog =
       timeSinceLastLog > this.LOG_DEBOUNCE_MS || count === 1 || process.argv.includes('--verbose');
 
