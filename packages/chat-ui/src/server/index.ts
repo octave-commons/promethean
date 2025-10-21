@@ -334,15 +334,20 @@ app.delete('/api/sessions/:sessionId/messages/:messageId', (req, res) => {
   }
 });
 
-// Serve static files
-app.use(express.static(path.join(process.cwd(), 'public')));
+// Serve static files - use correct relative path from dist-server
+const publicPath = path.join(__dirname, '..', 'public');
+console.log('Serving static files from:', publicPath);
+console.log('Public path exists:', fs.existsSync(publicPath));
+console.log('Index file exists:', fs.existsSync(path.join(publicPath, 'index.html')));
+app.use(express.static(publicPath));
 
 // Serve index.html for root route
 app.get('/', (req, res) => {
-  const indexPath = path.join(process.cwd(), 'public', 'index.html');
+  const indexPath = path.join(publicPath, 'index.html');
   if (fs.existsSync(indexPath)) {
     res.sendFile(indexPath);
   } else {
+    console.log('Index file not found at:', indexPath);
     res.status(404).send('Index file not found');
   }
 });

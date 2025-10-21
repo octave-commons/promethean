@@ -1,9 +1,14 @@
-import express from 'express';
-import cors from 'cors';
-import path from 'path';
-import fs from 'fs';
-import { ContextStore } from '@promethean/persistence';
-const app = express();
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
+const path_1 = __importDefault(require("path"));
+const fs_1 = __importDefault(require("fs"));
+const persistence_1 = require("@promethean/persistence");
+const app = (0, express_1.default)();
 const PORT = parseInt(process.env.PORT || '3002', 10);
 const AGENT_NAME = 'duck';
 // Collection names - must match opencode-client exactly
@@ -11,7 +16,7 @@ const SESSION_STORE_NAME = 'sessionStore';
 const EVENT_STORE_NAME = 'eventStore';
 const MESSAGE_STORE_NAME = 'messageStore';
 // Initialize ContextStore with AGENT_NAME
-const contextStore = new ContextStore((ms) => new Date(ms).toISOString(), AGENT_NAME);
+const contextStore = new persistence_1.ContextStore((ms) => new Date(ms).toISOString(), AGENT_NAME);
 // Store access proxies using ContextStore - same pattern as opencode-client
 const createStoreProxy = (storeName) => {
     return new Proxy({}, {
@@ -112,17 +117,17 @@ function messagesToChatUIFormat(messages) {
     }));
 }
 // Middleware
-app.use(cors());
-app.use(express.json());
+app.use((0, cors_1.default)());
+app.use(express_1.default.json());
 // Debug route
 app.get('/api/debug', (req, res) => {
-    const publicPath = path.join(process.cwd(), 'public');
+    const publicPath = path_1.default.join(process.cwd(), 'public');
     res.json({
         cwd: process.cwd(),
         publicPath,
-        publicExists: fs.existsSync(publicPath),
-        indexExists: fs.existsSync(path.join(publicPath, 'index.html')),
-        publicFiles: fs.existsSync(publicPath) ? fs.readdirSync(publicPath) : [],
+        publicExists: fs_1.default.existsSync(publicPath),
+        indexExists: fs_1.default.existsSync(path_1.default.join(publicPath, 'index.html')),
+        publicFiles: fs_1.default.existsSync(publicPath) ? fs_1.default.readdirSync(publicPath) : [],
     });
 });
 // API Routes
@@ -277,15 +282,20 @@ app.delete('/api/sessions/:sessionId/messages/:messageId', (req, res) => {
         res.status(500).json({ error: 'Failed to delete message' });
     }
 });
-// Serve static files
-app.use(express.static(path.join(process.cwd(), 'public')));
+// Serve static files - use correct relative path from dist-server
+const publicPath = path_1.default.join(__dirname, '..', 'public');
+console.log('Serving static files from:', publicPath);
+console.log('Public path exists:', fs_1.default.existsSync(publicPath));
+console.log('Index file exists:', fs_1.default.existsSync(path_1.default.join(publicPath, 'index.html')));
+app.use(express_1.default.static(publicPath));
 // Serve index.html for root route
 app.get('/', (req, res) => {
-    const indexPath = path.join(process.cwd(), 'public', 'index.html');
-    if (fs.existsSync(indexPath)) {
+    const indexPath = path_1.default.join(publicPath, 'index.html');
+    if (fs_1.default.existsSync(indexPath)) {
         res.sendFile(indexPath);
     }
     else {
+        console.log('Index file not found at:', indexPath);
         res.status(404).send('Index file not found');
     }
 });
