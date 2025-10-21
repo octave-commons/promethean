@@ -177,7 +177,7 @@ export async function cleanupDuplicateSessions(): Promise<{ cleaned: number; err
     }
 
     // Process each group to find duplicates
-    for (const [sessionId, sessions] of sessionGroups) {
+    for (const [sessionId, sessions] of Array.from(sessionGroups.entries())) {
       if (sessions.length <= 1) continue;
 
       // Sort by creation time, most recent first

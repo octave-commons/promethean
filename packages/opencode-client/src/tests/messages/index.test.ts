@@ -140,7 +140,7 @@ test.serial('processMessage handles empty text parts gracefully', async (t) => {
 
 test.serial('processMessage logs errors when storage fails', async (t) => {
   const error = new Error('Storage failed');
-  const insertStub = sinon.stub(sessionStore, 'insert').rejects(error);
+  sinon.stub(sessionStore, 'insert').rejects(error);
   const consoleErrorSpy = sinon.spy(console, 'error');
 
   const message: EventMessage = {

@@ -257,9 +257,13 @@ test.serial('sendMessage generates unique message ID', async (t) => {
     const firstId = firstCall.args[0].id;
     const secondId = secondCall.args[0].id;
 
-    t.not(firstId, secondId);
-    t.true(firstId.startsWith('inter_agent_'));
-    t.true(secondId.startsWith('inter_agent_'));
+    if (firstId && secondId) {
+      t.not(firstId, secondId);
+      t.true(firstId.startsWith('inter_agent_'));
+      t.true(secondId.startsWith('inter_agent_'));
+    } else {
+      t.fail('Expected both IDs to be defined');
+    }
   } else {
     t.fail('Expected both insert calls to have valid arguments');
   }
