@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { mockSessions, mockMessages } from './mock-data.js';
+import { ContextStore } from '@promethean/persistence/src/contextStore.js';
 
 const app = express();
 const PORT = process.env.PORT || 3002;
