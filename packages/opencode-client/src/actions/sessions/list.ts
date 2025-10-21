@@ -9,6 +9,36 @@ import type { StoreSession } from '../../types/StoreSession.js';
 import type { SessionInfo } from '../../SessionInfo.js';
 
 /**
+ * Extract session ID from legacy text format
+ */
+function extractSessionIdFromText(text: string): string | null {
+  const sessionMatch = text.match(/Session:\s*(\w+)/);
+  return sessionMatch?.[1] || null;
+}
+
+/**
+ * Create session data from timestamp
+ */
+function createSessionDataFromTimestamp(
+  sessionId: string,
+  title: string,
+  timestamp: number | string | Date | undefined,
+): SessionData {
+  const now = typeof timestamp === 'number' ? timestamp : Date.now();
+  return {
+    id: sessionId,
+    title,
+    createdAt: now,
+    updatedAt: now,
+    lastActivity: now,
+    status: 'unknown',
+    time: {
+      created: new Date(typeof timestamp === 'number' ? timestamp : Date.now()).toISOString(),
+    },
+  };
+}
+
+/**
  * Safely parse session data, handling both JSON and plain text formats
  */
 function parseSessionData(session: StoreSession): SessionData {
@@ -16,33 +46,17 @@ function parseSessionData(session: StoreSession): SessionData {
     return JSON.parse(session.text);
   } catch (error) {
     // Handle legacy plain text format - extract session ID from text
-    const text = session.text;
-    const sessionMatch = text.match(/Session:\s*(\w+)/);
-    if (sessionMatch) {
-      return {
-        id: sessionMatch[1] || 'unknown',
-        title: `Session ${sessionMatch[1]}`,
-        createdAt: typeof session.timestamp === 'number' ? session.timestamp : Date.now(),
-        updatedAt: typeof session.timestamp === 'number' ? session.timestamp : Date.now(),
-        lastActivity: typeof session.timestamp === 'number' ? session.timestamp : Date.now(),
-        status: 'unknown',
-        time: {
-          created: new Date(session.timestamp || Date.now()).toISOString(),
-        },
-      };
+    const sessionId = extractSessionIdFromText(session.text);
+    if (sessionId) {
+      return createSessionDataFromTimestamp(sessionId, `Session ${sessionId}`, session.timestamp);
     }
+
     // Fallback - create minimal session object
-    return {
-      id: session.id?.toString() || 'unknown',
-      title: 'Legacy Session',
-      createdAt: typeof session.timestamp === 'number' ? session.timestamp : Date.now(),
-      updatedAt: typeof session.timestamp === 'number' ? session.timestamp : Date.now(),
-      lastActivity: typeof session.timestamp === 'number' ? session.timestamp : Date.now(),
-      status: 'unknown',
-      time: {
-        created: new Date(session.timestamp || Date.now()).toISOString(),
-      },
-    };
+    return createSessionDataFromTimestamp(
+      session.id?.toString() || 'unknown',
+      'Legacy Session',
+      session.timestamp,
+    );
   }
 }
 
@@ -121,11 +135,10 @@ async function enhanceSessionWithMessages(session: CleanupSessionInfo): Promise<
 
 function createSessionSummary(sessions: SessionInfo[]): Record<string, number> {
   return {
-    active: sessions.filter((s) => (s as any).activityStatus === 'active').length,
-    waiting_for_input: sessions.filter((s) => (s as any).activityStatus === 'waiting_for_input')
-      .length,
-    idle: sessions.filter((s) => (s as any).activityStatus === 'idle').length,
-    agentTasks: sessions.filter((s) => (s as any).isAgentTask).length,
+    active: sessions.filter((s) => s.activityStatus === 'active').length,
+    waiting_for_input: sessions.filter((s) => s.activityStatus === 'waiting_for_input').length,
+    idle: sessions.filter((s) => s.activityStatus === 'idle').length,
+    agentTasks: sessions.filter((s) => s.isAgentTask).length,
   };
 }
 
@@ -165,7 +178,7 @@ function logSessionInfo(debugEnabled: boolean, sessions: CleanupSessionInfo[]): 
   if (debugEnabled) {
     console.log(`[INFO] Session IDs being processed:`);
     sessions.slice(0, 5).forEach((s) => {
-      console.log(`  - ${s.id} (isAgentTask: ${(s as any).isAgentTask})`);
+      console.log(`  - ${s.id}`);
     });
   }
 }
