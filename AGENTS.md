@@ -12,6 +12,7 @@ On every request:
 - web search to find guides and related information
 - `pnpm kanban search "task keywords"` to find tasks related to the request
 - `git logs`  and search Opencode session message history to understand the events leading up to your task
+- `pm2 status` to discover existing process related to your task
 
 ---
 
