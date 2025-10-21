@@ -8,17 +8,16 @@
                  [cljsjs/react-dom "18.2.0"]
                  [promethean/opencode-client "workspace:*"]]
  :builds
- {:app {:target :browser
-        :output-dir "dist/chat-ui"
-        :asset-path "/js"
-        :modules {:main {:init-fn promethean.frontends.chat-ui.app/init}}
-        :devtools {:http-root "static"
-                   :http-port 8080
-                   :preloads [devtools.preload
-                              day8.re-frame-10x.preload]}
-        :dev {:compiler-options {:closure-defines {re-frame.trace/trace-enabled? true
-                                                  day8.re-frame.tracing/trace-enabled? true}}}
-        :release {:build-options {:ns-aliases {chat-ui promethean.frontends.chat-ui.app}}}}
+ {:chat-ui {:target :browser
+           :output-dir "dist/chat-ui"
+           :asset-path "/js"
+           :modules {:main {:init-fn promethean.frontends.chat-ui.app/init}}
+           :devtools {:http-root "static"
+                      :http-port 8080
+                      :preloads [devtools.preload
+                                 day8.re-frame-10x.preload]}
+           :dev {:compiler-options {:closure-defines {re-frame.trace/trace-enabled? true
+                                                     day8.re-frame.tracing/trace-enabled? true}}}}
   
   :docops-frontend {:target :browser
                     :output-dir "dist/docops"
@@ -65,7 +64,7 @@
   :report-forge-frontend {:target :browser
                           :output-dir "dist/report-forge"
                           :asset-path "/js"
-                          :modules {:main {:init-fn promethean.frontends.report-forge.render/init}}
+                          :modules {:main {:init-fn promethean.frontends.report-forge.app/init}}
                           :devtools {:http-root "static"
                                      :http-port 8087}}
   
@@ -74,17 +73,4 @@
                                  :asset-path "/js"
                                  :modules {:main {:init-fn promethean.frontends.smartgpt-dashboard.app/init}}
                                  :devtools {:http-root "static"
-                                            :http-port 8088}}
-  
-  :all {:target :node
-        :output-dir "dist/all"
-        :modules {:main {:init-fn promethean.frontends.core/init}
-                  :chat-ui {:init-fn promethean.frontends.chat-ui.app/init}
-                  :docops {:init-fn promethean.frontends.docops.app/init}
-                  :duck-web {:init-fn promethean.frontends.duck-web.app/init}
-                  :kanban {:init-fn promethean.frontends.kanban.app/init}
-                  :openai-server {:init-fn promethean.frontends.openai-server.app/init}
-                  :opencode-session-manager {:init-fn promethean.frontends.opencode-session-manager.app/init}
-                  :piper {:init-fn promethean.frontends.piper.app/init}
-                  :report-forge {:init-fn promethean.frontends.report-forge.render/init}
-                  :smartgpt-dashboard {:init-fn promethean.frontends.smartgpt-dashboard.app/init}}}}}
+                                            :http-port 8088}}}}

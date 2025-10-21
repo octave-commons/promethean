@@ -174,7 +174,7 @@
     "eslint": {
       "enabled": true,
       "command": [
-        "eslint-language-server",
+        "vscode-eslint-language-server",
         "--stdio"
       ],
       "extensions": [
@@ -186,6 +186,7 @@
       ]
     },
     "clojure-lsp": {
+      "enabled":true,
       "command": ["clojure-lsp"],
       "extensions": [".clj", ".cljs", ".cljc", ".bb"]
     }
