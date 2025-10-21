@@ -7,9 +7,9 @@
 
 import Fastify from 'fastify';
 import mcpPlugin from '@platformatic/mcp';
-import type { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
+import type { FastifyInstance, FastifyRequest } from 'fastify';
 import { AuthenticationManager } from '../core/authentication.js';
-import { loadOAuthConfig, validateOAuthConfig } from './config.js';
+import { loadOAuthConfig } from './config.js';
 
 /**
  * Platformatic OAuth configuration
