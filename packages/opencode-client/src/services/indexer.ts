@@ -12,9 +12,6 @@ interface IndexerState {
 export class IndexerService {
   private client: any;
   private isRunning: boolean = false;
-  private eventCounts: Map<string, number> = new Map();
-  private lastLogTime: number = 0;
-  private readonly LOG_DEBOUNCE_MS = 5000; // Log same event type max once per 5 seconds
   private readonly STATE_SAVE_INTERVAL_MS = 30000; // Save state every 30 seconds
   private stateSaveTimer?: NodeJS.Timeout;
   private state: IndexerState = {};
@@ -195,7 +192,7 @@ export class IndexerService {
     );
   }
 
-private async handleMessageEvent(event: any): Promise<void> {
+  private async handleMessageEvent(event: any): Promise<void> {
     try {
       const sessionId = this.extractSessionId(event);
       if (!sessionId) {
@@ -210,37 +207,13 @@ private async handleMessageEvent(event: any): Promise<void> {
 
       for (const message of messages) {
         await this.indexMessage(message, sessionId);
-        
+
         // Update the last indexed message ID
         this.state.lastIndexedMessageId = message.info?.id;
       }
 
       // Save state after processing message events to avoid re-indexing
       await this.saveState();
-
-      console.log(`📝 Indexed ${messages.length} messages for session ${sessionId}`);
-    } catch (error) {
-      console.error('❌ Error handling message event:', error);
-    }
-  }
-
-      const messagesResult = await this.client.session.messages({
-        path: { id: sessionId },
-      });
-      const messages = messagesResult.data || [];
-
-      for (const message of messages) {
-        await this.indexMessage(message, sessionId);
-      }
-
-      // Update the cursor for this session after processing messages
-      if (messages.length > 0) {
-        const latestMessageTime = Math.max(...messages.map((m: any) => m.info?.time?.created || 0));
-        this.state.lastIndexedMessageTimes[sessionId] = latestMessageTime;
-
-        // Save state after processing message events to avoid re-indexing
-        await this.saveState();
-      }
 
       console.log(`📝 Indexed ${messages.length} messages for session ${sessionId}`);
     } catch (error) {
@@ -264,7 +237,7 @@ private async handleMessageEvent(event: any): Promise<void> {
         },
       });
 
-      this.logEvent(event.type);
+      console.log(`📡 Indexed event: ${event.type}`);
     } catch (error) {
       console.error('❌ Error indexing event:', error);
     }
@@ -372,22 +345,5 @@ ${content}
       return (event as any).properties?.part?.sessionID || (event as any).properties?.sessionID;
     }
     return undefined;
-  }
-
-  private logEvent(eventType: string): void {
-    const now = Date.now();
-    const count = this.eventCounts.get(eventType) || 0;
-    const timeSinceLastLog = now - this.lastLogTime;
-
-    this.eventCounts.set(eventType, count + 1);
-
-    const shouldLog =
-      timeSinceLastLog > this.LOG_DEBOUNCE_MS || count === 1 || process.argv.includes('--verbose');
-
-    if (shouldLog) {
-      const totalEvents = Array.from(this.eventCounts.values()).reduce((sum, c) => sum + c, 0);
-      console.log(`📡 Indexed events (${totalEvents} total): ${eventType} (${count})`);
-      this.lastLogTime = now;
-    }
   }
 }
