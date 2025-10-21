@@ -394,73 +394,6 @@ export class TransitionRulesEngine {
     };
   }
 
-  /**
-   * Run the actual testing validation
-   */
-  private async runTestingValidation(
-    task: Task,
-    testingInfo: {
-      coverageReportPath?: string;
-      executedTests?: string[];
-      requirementMappings?: Array<{ requirementId: string; testIds: string[] }>;
-    },
-  ): Promise<void> {
-    if (!testingInfo.coverageReportPath) {
-      throw new Error('Coverage report path is required for testing→review transition');
-    }
-
-    // Determine coverage format from file extension
-    const format = this.getCoverageFormat(testingInfo.coverageReportPath);
-    const supportedFormats = ['lcov', 'cobertura', 'json'];
-    if (!supportedFormats.includes(format)) {
-      throw new Error(
-        `Unsupported coverage format: ${format}. Supported formats: ${supportedFormats.join(', ')}`,
-      );
-    }
-
-    // Run testing transition validation
-    const coverageRequest: TestCoverageRequest = {
-      task: {
-        uuid: task.uuid,
-        title: task.title,
-        content: task.content,
-        status: task.status,
-        priority: typeof task.priority === 'string' ? task.priority : String(task.priority || ''),
-        frontmatter: task.frontmatter,
-      },
-      changedFiles: [], // Will be extracted from task content
-      affectedPackages: [], // Will be determined from changed files
-      reportPath: 'coverage.json', // Default path - should be configurable
-      format: 'json', // Default format - should be configurable
-    };
-
-    await runTestingTransition(
-      coverageRequest,
-      testingInfo.executedTests || [],
-      testingInfo.requirementMappings || [],
-      this.testingConfig,
-      [], // tests - will be extracted from task content
-      `docs/agile/reports/${task.uuid}`, // output directory for report
-    );
-  }
-
-  /**
-   * Determine coverage format from file path
-   */
-  private getCoverageFormat(filePath: string): 'lcov' | 'cobertura' | 'json' {
-    if (filePath.endsWith('.lcov') || filePath.includes('lcov.info')) {
-      return 'lcov';
-    }
-    if (filePath.endsWith('.xml') || filePath.includes('cobertura')) {
-      return 'cobertura';
-    }
-    if (filePath.endsWith('.json')) {
-      return 'json';
-    }
-    // Default to lcov for unknown formats
-    return 'lcov';
-  }
-
   // Private helper methods
 
   private normalizeColumnName(column: string): string {
@@ -567,9 +500,9 @@ export class TransitionRulesEngine {
       // Create a safe evaluation context with DSL loaded
       const clojureCode = `
         ${dslCode}
-        
+
         (require '[kanban-transitions :as kt])
-        
+
         ;; Convert JavaScript objects to Clojure maps for evaluation
         (def task-clj {:uuid "${task.uuid}"
                        :title "${task.title}"
@@ -579,11 +512,11 @@ export class TransitionRulesEngine {
                        :estimates {:complexity ${task.estimates?.complexity || 999}}
                        :storyPoints ${task.storyPoints || 0}
                        :labels [${(task.labels || []).map((l) => `"${l}"`).join(' ')}]})
-        
+
         (def board-clj {:columns [${board.columns
           .map((col) => `{:name "${col.name}" :limit ${col.limit || 0} :tasks []}`)
           .join(' ')}]})
-        
+
         ;; Evaluate the rule implementation with converted objects
         (let [task task-clj
               board board-clj]
