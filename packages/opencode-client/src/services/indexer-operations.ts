@@ -82,7 +82,11 @@ const indexEvent = async (event: EnhancedEvent): Promise<void> => {
   console.log(`📡 Indexed event: ${event.type}`);
 };
 
-export const createIndexingOperations = () => ({
+export const createIndexingOperations = (): {
+  readonly indexSession: (session: Session) => Promise<void>;
+  readonly indexMessage: (message: Message, sessionId: string) => Promise<void>;
+  readonly indexEvent: (event: EnhancedEvent) => Promise<void>;
+} => ({
   indexSession,
   indexMessage,
   indexEvent,

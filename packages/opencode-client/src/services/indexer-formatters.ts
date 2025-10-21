@@ -1,4 +1,5 @@
 import type { Session, Event } from '@opencode-ai/sdk';
+
 import type { Message, MessagePart } from './indexer-types.js';
 
 type EnhancedEvent = Event & {

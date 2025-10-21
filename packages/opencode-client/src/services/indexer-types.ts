@@ -125,6 +125,19 @@ export const extractSessionId = (event: EnhancedEvent): string | undefined => {
     case 'message.part.updated':
     case 'message.part.removed':
       return properties.part?.sessionID;
+    case 'installation.updated':
+    case 'lsp.client.diagnostics':
+    case 'session.compacted':
+    case 'permission.updated':
+    case 'permission.replied':
+    case 'file.edited':
+    case 'file.watcher.updated':
+    case 'todo.updated':
+    case 'session.idle':
+    case 'session.error':
+    case 'server.connected':
+    case 'ide.installed':
+      return undefined;
     default:
       return undefined;
   }
@@ -143,6 +156,21 @@ export const extractMessageId = (event: EnhancedEvent): string | undefined => {
     case 'message.part.updated':
     case 'message.part.removed':
       return properties.part?.messageID;
+    case 'installation.updated':
+    case 'lsp.client.diagnostics':
+    case 'session.compacted':
+    case 'permission.updated':
+    case 'permission.replied':
+    case 'file.edited':
+    case 'file.watcher.updated':
+    case 'todo.updated':
+    case 'session.idle':
+    case 'session.updated':
+    case 'session.deleted':
+    case 'session.error':
+    case 'server.connected':
+    case 'ide.installed':
+      return undefined;
     default:
       return undefined;
   }
