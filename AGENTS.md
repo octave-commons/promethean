@@ -81,8 +81,8 @@ Prefer local, well scoped commands to workspace scripts.
 # Working Style
 
 - Prefer small, auditable changes over grand rewrites.
-- If there aren't tests, write them.
-- Do not edit config files when fixing problems unless explicitly asked.
+- Always wright tests
+- Prefer writing package level configs
   Prefer code changes in the affected modules.
 - Add a summary of what you changed to a date string named file in `changelog.d` eg `changelog.d/<YYYY.MM.DD.hh.mm.ss>.md`
   that documents the current state so the next agent has traction—never leave with only "couldn't finish".
@@ -133,7 +133,8 @@ All agents must use the kanban system for task tracking and work management. The
 ---
 
 ### Notes
-- It is a large repo, remember to navigate to the right directory when running commands
+- It is a large repo, and your bash command doesn't remember when you use
+`cd` you're commands are *always* ran from the package root.
 - put temporary scripts in a `pseudo/` folder, retain them so the steps you take can be validated
   - psuedo is never to be referenced inside of a package
   - pseudo is pseudocode, I don't know if it works, but it communciated an intent

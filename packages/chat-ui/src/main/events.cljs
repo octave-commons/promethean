@@ -1,7 +1,6 @@
 (ns main.events
   (:require [re-frame.core :as rf]
-            [db.core :as db]
-            [cljs.core.async :refer [<! go]]))
+            [db.core :as db]))
 
 (rf/reg-event-db
  :initialize-db
@@ -44,14 +43,17 @@
     :fx [[::load-sessions-fx]]}))
 
 (rf/reg-fx
- :load-sessions-fx
- (fn [_]
-   (go
-     (let [response (<! (db/get-sessions))]
-       (if (:success response)
-         (rf/dispatch [:set-sessions (:data response)])
-         (rf/dispatch [:set-error (:error response)]))
-       (rf/dispatch [:set-loading false])))))
+  :load-sessions-fx
+  (fn [_]
+    (-> (db/get-sessions)
+        (.then (fn [response]
+                 (if (:success response)
+                   (do
+                     (rf/dispatch [:set-sessions (:data response)])
+                     (rf/dispatch [:set-loading false]))
+                   (do
+                     (rf/dispatch [:set-error (:error response)])
+                     (rf/dispatch [:set-loading false]))))))))
 
 (rf/reg-event-fx
  :select-session
@@ -60,19 +62,22 @@
     :fx [[::load-session-fx session-id]]}))
 
 (rf/reg-fx
- :load-session-fx
- (fn [session-id]
-   (go
-     (let [session-response (<! (db/get-session session-id))
-           messages-response (<! (db/get-messages session-id))]
-       (if (:success session-response)
-         (do
-           (rf/dispatch [:set-current-session (:data session-response)])
-           (if (:success messages-response)
-             (rf/dispatch [:set-messages (:data messages-response)])
-             (rf/dispatch [:set-error (:error messages-response)])))
-         (rf/dispatch [:set-error (:error session-response)]))
-       (rf/dispatch [:set-loading false])))))
+  :load-session-fx
+  (fn [session-id]
+    (-> (db/get-session session-id)
+        (.then (fn [session-response]
+                 (if (:success session-response)
+                   (do
+                     (rf/dispatch [:set-current-session (:data session-response)])
+                     (-> (db/get-messages session-id)
+                         (.then (fn [messages-response]
+                                  (if (:success messages-response)
+                                    (rf/dispatch [:set-messages (:data messages-response)])
+                                    (rf/dispatch [:set-error (:error messages-response)])))
+                         (.finally (fn [] (rf/dispatch [:set-loading false])))))
+                   (do
+                     (rf/dispatch [:set-error (:error session-response)])
+                     (rf/dispatch [:set-loading false]))))))))
 
 (rf/reg-event-fx
  :delete-session
@@ -81,18 +86,17 @@
     :fx [[::delete-session-fx session-id]]}))
 
 (rf/reg-fx
- :delete-session-fx
- (fn [session-id]
-   (go
-     (let [response (<! (db/delete-session session-id))]
-       (if (:success response)
-         (do
-           (rf/dispatch [:load-sessions])
-           (when (= session-id (get-in db [:current-session :id]))
-             (rf/dispatch [:set-current-session nil])
-             (rf/dispatch [:set-messages []])))
-         (rf/dispatch [:set-error (:error response)]))
-       (rf/dispatch [:set-loading false])))))
+  :delete-session-fx
+  (fn [session-id]
+    (-> (db/delete-session session-id)
+        (.then (fn [response]
+                 (if (:success response)
+                   (do
+                     (rf/dispatch [:load-sessions])
+                     (rf/dispatch [:set-loading false]))
+                   (do
+                     (rf/dispatch [:set-error (:error response)])
+                     (rf/dispatch [:set-loading false]))))))))
 
 (rf/reg-event-fx
  :delete-message
@@ -101,11 +105,11 @@
     :fx [[::delete-message-fx session-id message-id]]}))
 
 (rf/reg-fx
- :delete-message-fx
- (fn [session-id message-id]
-   (go
-     (let [response (<! (db/delete-message session-id message-id))]
-       (if (:success response)
-         (rf/dispatch [:select-session session-id])
-         (rf/dispatch [:set-error (:error response)]))
-       (rf/dispatch [:set-loading false])))))
+  :delete-message-fx
+  (fn [session-id message-id]
+    (-> (db/delete-message session-id message-id)
+        (.then (fn [response]
+                 (if (:success response)
+                   (rf/dispatch [:select-session session-id])
+                   (rf/dispatch [:set-error (:error response)]))
+                 (rf/dispatch [:set-loading false]))))))
