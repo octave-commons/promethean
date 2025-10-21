@@ -48,7 +48,6 @@ export const createIndexerService = (): IndexerService => {
   const startFullSyncTimer = (): void => {
     setInterval(async () => {
       if (isRunning) {
-        console.log('🔄 Starting periodic full sync to catch any missed messages...');
         await performFullSync();
       }
     }, FULL_SYNC_INTERVAL_MS);
