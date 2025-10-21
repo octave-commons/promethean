@@ -44,6 +44,92 @@ export const createIndexerService = (): IndexerService => {
     }, STATE_SAVE_INTERVAL_MS);
   };
 
+  const startFullSyncTimer = (): void => {
+    setInterval(async () => {
+      if (isRunning) {
+        console.log('🔄 Starting periodic full sync to catch any missed messages...');
+        await performFullSync();
+      }
+    }, FULL_SYNC_INTERVAL_MS);
+  };
+
+  const performFullSync = async (): Promise<void> => {
+    try {
+      console.log('🔍 Performing full sync to ensure no messages are missed...');
+
+      const sessionsResult = await client.session.list();
+      const sessions = sessionsResult.data ?? [];
+
+      let totalMessagesProcessed = 0;
+
+      // Process all sessions to ensure we have complete coverage
+      for (const session of sessions) {
+        const messagesResult = await client.session.messages({
+          path: { id: session.id },
+        });
+        const messages = messagesResult.data ?? [];
+
+        // Only process messages that are newer than our last full sync
+        const messagesToProcess = state.lastFullSyncTimestamp
+          ? messages.filter((msg) => (msg.info?.time?.created ?? 0) > state.lastFullSyncTimestamp!)
+          : messages;
+
+        await Promise.all(
+          messagesToProcess.map(async (message) => {
+            await indexMessage(message, session.id);
+            totalMessagesProcessed++;
+          }),
+        );
+      }
+
+      if (totalMessagesProcessed > 0) {
+        console.log(`✅ Full sync processed ${totalMessagesProcessed} messages`);
+      }
+
+      // Update the last full sync timestamp
+      state = {
+        ...state,
+        lastFullSyncTimestamp: Date.now(),
+        consecutiveErrors: 0, // Reset error count on successful sync
+      };
+      await saveState(state);
+    } catch (error) {
+      console.error('❌ Error during full sync:', error);
+      state = {
+        ...state,
+        consecutiveErrors: (state.consecutiveErrors ?? 0) + 1,
+      };
+    }
+  };
+
+  const handleEventStreamError = async (error: unknown): Promise<void> => {
+    console.error('❌ Event stream error:', error);
+
+    state = {
+      ...state,
+      subscriptionActive: false,
+      consecutiveErrors: (state.consecutiveErrors ?? 0) + 1,
+    };
+    await saveState(state);
+
+    // If we've had too many consecutive errors, stop trying to reconnect
+    if (state.consecutiveErrors >= MAX_CONSECUTIVE_ERRORS) {
+      console.error(
+        `🛑 Stopping event subscription after ${MAX_CONSECUTIVE_ERRORS} consecutive errors`,
+      );
+      return;
+    }
+
+    console.log(`🔄 Attempting to reconnect in ${RECONNECT_DELAY_MS / 1000} seconds...`);
+
+    // Schedule reconnection attempt
+    reconnectTimer = setTimeout(async () => {
+      if (isRunning) {
+        await subscribeToEvents();
+      }
+    }, RECONNECT_DELAY_MS);
+  };
+
   const processSessionMessages = async (session: Session): Promise<void> => {
     const messagesResult = await client.session.messages({
       path: { id: session.id },
@@ -166,14 +252,34 @@ export const createIndexerService = (): IndexerService => {
         return;
       }
 
+      // Clean up existing subscription
+      if (eventSubscription) {
+        console.log('🔄 Cleaning up existing event subscription...');
+        eventSubscription = undefined;
+      }
+
       const sub = (await client.event.subscribe()) as EventSubscription;
+      eventSubscription = sub;
+      state = { ...state, subscriptionActive: true, consecutiveErrors: 0 };
+      await saveState(state);
+
       console.log('📡 Subscribed to OpenCode events');
 
-      for await (const event of sub.stream) {
-        await handleEvent(event);
+      try {
+        for await (const event of sub.stream) {
+          await handleEvent(event);
+
+          // Reset error count on successful event processing
+          if (state.consecutiveErrors && state.consecutiveErrors > 0) {
+            state = { ...state, consecutiveErrors: 0 };
+            await saveState(state);
+          }
+        }
+      } catch (streamError) {
+        await handleEventStreamError(streamError);
       }
     } catch (error) {
-      console.error('❌ Error subscribing to events:', error);
+      await handleEventStreamError(error);
     }
   };
 
