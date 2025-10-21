@@ -61,8 +61,8 @@ const indexEvent = async (event: EnhancedEvent): Promise<void> => {
   const markdown = eventToMarkdown(event);
   const timestamp = Date.now();
 
-  await eventStore
-    .insert({
+  try {
+    await eventStore.insert({
       id: `event_${event.type}_${timestamp}`,
       text: markdown,
       timestamp,
@@ -74,10 +74,10 @@ const indexEvent = async (event: EnhancedEvent): Promise<void> => {
           event.properties?.info?.sessionID ??
           event.properties?.part?.sessionID,
       },
-    })
-    .catch((error: unknown) => {
-      console.error('❌ Error indexing event:', error);
     });
+  } catch (error: unknown) {
+    console.error('❌ Error indexing event:', error);
+  }
 
   console.log(`📡 Indexed event: ${event.type}`);
 };
