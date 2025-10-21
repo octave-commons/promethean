@@ -4,7 +4,7 @@
 
 import type { Plugin } from '@opencode-ai/plugin';
 import { tool } from '@opencode-ai/plugin/tool';
-import { initializeStores, sessionStore, messageStore } from '../../index.js';
+import { initializeStores } from '../../index.js';
 import { list as listSessions } from '../../actions/sessions/list.js';
 import { get as getSession } from '../../actions/sessions/get.js';
 import { create as createSession } from '../../actions/sessions/create.js';
@@ -24,6 +24,11 @@ export const CliToolsPlugin: Plugin = async ({ client, $ }) => {
   // Initialize stores on plugin load
   await initializeStores();
 
+  // Create OpenCode client for operations that need it
+  const opencodeClient = createOpencodeClient({
+    baseUrl: 'http://localhost:4096',
+  });
+
   return {
     tool: {
       // Session Management Tools
@@ -34,24 +39,24 @@ export const CliToolsPlugin: Plugin = async ({ client, $ }) => {
           offset: tool.schema.number().default(0).describe('Number of sessions to skip'),
           format: tool.schema.enum(['table', 'json']).default('table').describe('Output format'),
         },
-        async execute(args, context) {
+        async execute(args) {
           try {
             const result = await listSessions({
               limit: args.limit,
               offset: args.offset,
             });
-            
+
             if (args.format === 'json') {
               return result;
             }
-            
+
             // Parse and format as readable text
             const parsed = JSON.parse(result);
             const sessions = parsed.sessions || [];
-            
+
             let output = `Active Sessions (${sessions.length}):\n`;
             output += '='.repeat(80) + '\n';
-            
+
             sessions.forEach((session: any) => {
               output += `ID: ${session.id}\n`;
               output += `Title: ${session.title || 'Untitled'}\n`;
@@ -62,7 +67,7 @@ export const CliToolsPlugin: Plugin = async ({ client, $ }) => {
               output += `Last Activity: ${session.lastActivityTime || 'Unknown'}\n`;
               output += '-'.repeat(40) + '\n';
             });
-            
+
             if (parsed.summary) {
               output += `\nSummary:\n`;
               output += `  Active: ${parsed.summary.active}\n`;
@@ -70,10 +75,12 @@ export const CliToolsPlugin: Plugin = async ({ client, $ }) => {
               output += `  Idle: ${parsed.summary.idle}\n`;
               output += `  Agent Tasks: ${parsed.summary.agentTasks}\n`;
             }
-            
+
             return output;
           } catch (error) {
-            throw new Error(`Failed to list sessions: ${error instanceof Error ? error.message : String(error)}`);
+            throw new Error(
+              `Failed to list sessions: ${error instanceof Error ? error.message : String(error)}`,
+            );
           }
         },
       }),
@@ -82,18 +89,22 @@ export const CliToolsPlugin: Plugin = async ({ client, $ }) => {
         description: 'Get detailed information about a specific session',
         args: {
           sessionId: tool.schema.string().describe('Session ID to retrieve'),
-          includeMessages: tool.schema.boolean().default(false).describe('Include session messages'),
+          limit: tool.schema.number().optional().describe('Number of messages to include'),
+          offset: tool.schema.number().optional().describe('Number of messages to skip'),
         },
-        async execute(args, context) {
+        async execute(args) {
           try {
             const result = await getSession({
               sessionId: args.sessionId,
-              includeMessages: args.includeMessages,
+              limit: args.limit,
+              offset: args.offset,
             });
-            
+
             return result;
           } catch (error) {
-            throw new Error(`Failed to get session: ${error instanceof Error ? error.message : String(error)}`);
+            throw new Error(
+              `Failed to get session: ${error instanceof Error ? error.message : String(error)}`,
+            );
           }
         },
       }),
@@ -101,21 +112,22 @@ export const CliToolsPlugin: Plugin = async ({ client, $ }) => {
       'sessions-create': tool({
         description: 'Create a new OpenCode session',
         args: {
-          directory: tool.schema.string().describe('Working directory for the session'),
           title: tool.schema.string().optional().describe('Optional title for the session'),
-          agentTask: tool.schema.boolean().default(false).describe('Create as agent task'),
+          message: tool.schema.string().optional().describe('Initial message for the session'),
         },
-        async execute(args, context) {
+        async execute(args) {
           try {
             const result = await createSession({
-              directory: args.directory,
               title: args.title,
-              agentTask: args.agentTask,
+              message: args.message,
+              client: opencodeClient,
             });
-            
+
             return result;
           } catch (error) {
-            throw new Error(`Failed to create session: ${error instanceof Error ? error.message : String(error)}`);
+            throw new Error(
+              `Failed to create session: ${error instanceof Error ? error.message : String(error)}`,
+            );
           }
         },
       }),
@@ -125,15 +137,17 @@ export const CliToolsPlugin: Plugin = async ({ client, $ }) => {
         args: {
           sessionId: tool.schema.string().describe('Session ID to close'),
         },
-        async execute(args, context) {
+        async execute(args) {
           try {
             const result = await closeSession({
               sessionId: args.sessionId,
             });
-            
+
             return result;
           } catch (error) {
-            throw new Error(`Failed to close session: ${error instanceof Error ? error.message : String(error)}`);
+            throw new Error(
+              `Failed to close session: ${error instanceof Error ? error.message : String(error)}`,
+            );
           }
         },
       }),
@@ -146,7 +160,7 @@ export const CliToolsPlugin: Plugin = async ({ client, $ }) => {
           prompt: tool.schema.string().describe('Initial prompt for the agent'),
           title: tool.schema.string().optional().describe('Optional title for the session'),
         },
-        async execute(args, context) {
+        async execute(args) {
           try {
             const result = await spawnSession({
               directory: args.directory,
@@ -154,10 +168,12 @@ export const CliToolsPlugin: Plugin = async ({ client, $ }) => {
               prompt: args.prompt,
               title: args.title,
             });
-            
+
             return result;
           } catch (error) {
-            throw new Error(`Failed to spawn session: ${error instanceof Error ? error.message : String(error)}`);
+            throw new Error(
+              `Failed to spawn session: ${error instanceof Error ? error.message : String(error)}`,
+            );
           }
         },
       }),
@@ -166,41 +182,49 @@ export const CliToolsPlugin: Plugin = async ({ client, $ }) => {
         description: 'Search for sessions by title, content, or metadata',
         args: {
           query: tool.schema.string().describe('Search query'),
-          limit: tool.schema.number().default(20).describe('Maximum number of results'),
-          offset: tool.schema.number().default(0).describe('Number of results to skip'),
+          k: tool.schema.number().optional().describe('Maximum number of results'),
+          sessionId: tool.schema.string().optional().describe('Filter by session ID'),
         },
-        async execute(args, context) {
+        async execute(args) {
           try {
             const result = await searchSessions({
               query: args.query,
-              limit: args.limit,
-              offset: args.offset,
+              k: args.k,
+              sessionId: args.sessionId,
             });
-            
+
             return result;
           } catch (error) {
-            throw new Error(`Failed to search sessions: ${error instanceof Error ? error.message : String(error)}`);
+            throw new Error(
+              `Failed to search sessions: ${error instanceof Error ? error.message : String(error)}`,
+            );
           }
         },
       }),
 
       // Event Management Tools
       'events-list': tool({
-        description: 'List recent events (Note: Only live subscription is supported)',
+        description: 'List recent events from the event store',
         args: {
-          limit: tool.schema.number().default(50).describe('Number of events to return'),
-          type: tool.schema.string().optional().describe('Filter by event type'),
+          query: tool.schema.string().optional().describe('Search query for events'),
+          k: tool.schema.number().optional().describe('Maximum number of events to return'),
+          eventType: tool.schema.string().optional().describe('Filter by event type'),
+          sessionId: tool.schema.string().optional().describe('Filter by session ID'),
         },
-        async execute(args, context) {
+        async execute(args) {
           try {
             const result = await listEvents({
-              limit: args.limit,
-              type: args.type,
+              query: args.query,
+              k: args.k,
+              eventType: args.eventType,
+              sessionId: args.sessionId,
             });
-            
+
             return result;
           } catch (error) {
-            throw new Error(`Failed to list events: ${error instanceof Error ? error.message : String(error)}`);
+            throw new Error(
+              `Failed to list events: ${error instanceof Error ? error.message : String(error)}`,
+            );
           }
         },
       }),
@@ -208,19 +232,25 @@ export const CliToolsPlugin: Plugin = async ({ client, $ }) => {
       'events-subscribe': tool({
         description: 'Subscribe to live events from OpenCode sessions',
         args: {
-          eventTypes: tool.schema.array(tool.schema.string()).optional().describe('Specific event types to subscribe to'),
-          timeout: tool.schema.number().default(30000).describe('Subscription timeout in milliseconds'),
+          eventType: tool.schema
+            .string()
+            .optional()
+            .describe('Specific event type to subscribe to'),
+          sessionId: tool.schema.string().optional().describe('Filter by session ID'),
         },
-        async execute(args, context) {
+        async execute(args) {
           try {
             const result = await subscribeToEvents({
-              eventTypes: args.eventTypes,
-              timeout: args.timeout,
+              eventType: args.eventType,
+              sessionId: args.sessionId,
+              client: opencodeClient,
             });
-            
+
             return result;
           } catch (error) {
-            throw new Error(`Failed to subscribe to events: ${error instanceof Error ? error.message : String(error)}`);
+            throw new Error(
+              `Failed to subscribe to events: ${error instanceof Error ? error.message : String(error)}`,
+            );
           }
         },
       }),
@@ -233,17 +263,36 @@ export const CliToolsPlugin: Plugin = async ({ client, $ }) => {
           limit: tool.schema.number().default(10).describe('Number of messages to return'),
           format: tool.schema.enum(['table', 'json']).default('table').describe('Output format'),
         },
-        async execute(args, context) {
+        async execute(args) {
           try {
-            const result = await listMessages({
-              sessionId: args.sessionId,
-              limit: args.limit,
-              format: args.format,
+            const messages = await getSessionMessages(opencodeClient, args.sessionId);
+            const limitedMessages = messages.slice(-args.limit);
+
+            if (args.format === 'json') {
+              return JSON.stringify(limitedMessages, null, 2);
+            }
+
+            let output = `Messages for session ${args.sessionId} (${limitedMessages.length} recent):\n`;
+            output += '='.repeat(80) + '\n';
+
+            limitedMessages.forEach((message: any, index: number) => {
+              const textParts = message.parts?.filter((part: any) => part.type === 'text') || [];
+              const text = textParts.map((part: any) => part.text).join(' ') || '[No text content]';
+              const timestamp = message.info?.time?.created || new Date().toISOString();
+
+              output += `\nMessage ${index + 1}:\n`;
+              output += `  ID: ${message.info?.id || 'unknown'}\n`;
+              output += `  Role: ${message.info?.role || 'unknown'}\n`;
+              output += `  Time: ${new Date(timestamp).toLocaleString()}\n`;
+              output += `  Content: ${text.substring(0, 200)}${text.length > 200 ? '...' : ''}\n`;
+              output += '-'.repeat(40) + '\n';
             });
-            
-            return result;
+
+            return output;
           } catch (error) {
-            throw new Error(`Failed to list messages: ${error instanceof Error ? error.message : String(error)}`);
+            throw new Error(
+              `Failed to list messages: ${error instanceof Error ? error.message : String(error)}`,
+            );
           }
         },
       }),
@@ -254,16 +303,17 @@ export const CliToolsPlugin: Plugin = async ({ client, $ }) => {
           sessionId: tool.schema.string().describe('Session ID'),
           messageId: tool.schema.string().describe('Message ID'),
         },
-        async execute(args, context) {
+        async execute(args) {
           try {
-            const result = await getMessage({
-              sessionId: args.sessionId,
-              messageId: args.messageId,
+            const result = await opencodeClient.session.message({
+              path: { id: args.sessionId, messageID: args.messageId },
             });
-            
-            return result;
+
+            return JSON.stringify(result.data, null, 2);
           } catch (error) {
-            throw new Error(`Failed to get message: ${error instanceof Error ? error.message : String(error)}`);
+            throw new Error(
+              `Failed to get message: ${error instanceof Error ? error.message : String(error)}`,
+            );
           }
         },
       }),
@@ -273,19 +323,26 @@ export const CliToolsPlugin: Plugin = async ({ client, $ }) => {
         args: {
           sessionId: tool.schema.string().describe('Session ID'),
           content: tool.schema.string().describe('Message content'),
-          role: tool.schema.enum(['user', 'assistant', 'system']).default('user').describe('Message role'),
         },
-        async execute(args, context) {
+        async execute(args) {
           try {
-            const result = await sendMessage({
-              sessionId: args.sessionId,
-              content: args.content,
-              role: args.role,
+            const result = await opencodeClient.session.message.create({
+              path: { id: args.sessionId },
+              body: {
+                parts: [
+                  {
+                    type: 'text',
+                    text: args.content,
+                  },
+                ],
+              },
             });
-            
-            return result;
+
+            return JSON.stringify(result.data, null, 2);
           } catch (error) {
-            throw new Error(`Failed to send message: ${error instanceof Error ? error.message : String(error)}`);
+            throw new Error(
+              `Failed to send message: ${error instanceof Error ? error.message : String(error)}`,
+            );
           }
         },
       }),
@@ -297,21 +354,23 @@ export const CliToolsPlugin: Plugin = async ({ client, $ }) => {
           verbose: tool.schema.boolean().default(false).describe('Enable verbose logging'),
           background: tool.schema.boolean().default(false).describe('Run as background daemon'),
         },
-        async execute(args, context) {
+        async execute() {
           try {
             const indexer = new IndexerService();
-            
+
             if (args.background) {
               // For background mode, we'd need to use PM2 or similar
               // For now, return instructions
               return 'Background mode requires PM2. Use: pm2 start dist/cli.js --name "opencode-indexer" -- indexer start';
             }
-            
+
             await indexer.start();
-            
+
             return 'Indexer service started successfully. Use Ctrl+C to stop.';
           } catch (error) {
-            throw new Error(`Failed to start indexer: ${error instanceof Error ? error.message : String(error)}`);
+            throw new Error(
+              `Failed to start indexer: ${error instanceof Error ? error.message : String(error)}`,
+            );
           }
         },
       }),
@@ -321,14 +380,16 @@ export const CliToolsPlugin: Plugin = async ({ client, $ }) => {
         args: {
           force: tool.schema.boolean().default(false).describe('Force stop the indexer'),
         },
-        async execute(args, context) {
+        async execute() {
           try {
             const indexer = new IndexerService();
             await indexer.stop();
-            
+
             return 'Indexer service stopped successfully.';
           } catch (error) {
-            throw new Error(`Failed to stop indexer: ${error instanceof Error ? error.message : String(error)}`);
+            throw new Error(
+              `Failed to stop indexer: ${error instanceof Error ? error.message : String(error)}`,
+            );
           }
         },
       }),
@@ -336,14 +397,35 @@ export const CliToolsPlugin: Plugin = async ({ client, $ }) => {
       'indexer-status': tool({
         description: 'Get the status of the OpenCode indexer service',
         args: {},
-        async execute(args, context) {
+        async execute() {
           try {
-            const indexer = new IndexerService();
-            const status = await indexer.getStatus();
-            
-            return JSON.stringify(status, null, 2);
+            // Since IndexerService doesn't have a getStatus method, we'll check if it's running
+            // by attempting to read the state file
+            const fs = await import('fs/promises');
+            const path = await import('path');
+
+            try {
+              const stateFile = path.join(process.cwd(), '.indexer-state.json');
+              const stateData = await fs.readFile(stateFile, 'utf-8');
+              const state = JSON.parse(stateData);
+
+              return {
+                status: 'stopped',
+                lastIndexedSessionId: state.lastIndexedSessionId,
+                lastIndexedMessageId: state.lastIndexedMessageId,
+                savedAt: state.savedAt ? new Date(state.savedAt).toISOString() : 'unknown',
+                note: 'Indexer state file exists but service may not be running',
+              };
+            } catch (fileError) {
+              return {
+                status: 'not_initialized',
+                message: 'No indexer state file found - indexer has not been run',
+              };
+            }
           } catch (error) {
-            throw new Error(`Failed to get indexer status: ${error instanceof Error ? error.message : String(error)}`);
+            throw new Error(
+              `Failed to get indexer status: ${error instanceof Error ? error.message : String(error)}`,
+            );
           }
         },
       }),
@@ -356,11 +438,11 @@ export const CliToolsPlugin: Plugin = async ({ client, $ }) => {
     },
 
     // Tool execution hooks for logging and monitoring
-    'tool.execute.before': async (input, output) {
+    'tool.execute.before': async (input) => {
       console.log(`[CLI Tools Plugin] Executing tool: ${input.tool}`);
     },
 
-    'tool.execute.after': async (input, output) => {
+    'tool.execute.after': async (input) => {
       console.log(`[CLI Tools Plugin] Tool completed: ${input.tool}`);
     },
   };
