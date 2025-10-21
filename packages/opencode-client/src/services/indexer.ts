@@ -344,7 +344,7 @@ export const createIndexerService = (): IndexerService => {
 
       // Clean up existing subscription
       if (eventSubscription) {
-        console.log('🔄 Cleaning up existing event subscription...');
+        logEventDeduped('subscription_cleanup', '🔄 Cleaning up existing event subscription');
         eventSubscription = undefined;
       }
 
@@ -353,7 +353,7 @@ export const createIndexerService = (): IndexerService => {
       state = { ...state, subscriptionActive: true, consecutiveErrors: 0 };
       await saveState(state);
 
-      console.log('📡 Subscribed to OpenCode events');
+      logEventDeduped('subscription_active', '📡 Subscribed to OpenCode events');
 
       try {
         for await (const event of sub.stream) {
@@ -380,7 +380,7 @@ export const createIndexerService = (): IndexerService => {
     }
 
     isRunning = true;
-    console.log('🚀 Starting OpenCode indexer service...');
+    logEventDeduped('service_start', '🚀 Starting OpenCode indexer service');
 
     state = await loadState();
 
@@ -391,7 +391,7 @@ export const createIndexerService = (): IndexerService => {
       : Infinity;
 
     if (wasSubscriptionActive && timeSinceLastSync > FULL_SYNC_INTERVAL_MS) {
-      console.log('🔍 Detected potential downtime, performing recovery sync...');
+      logEventDeduped('recovery_sync', '🔍 Detected potential downtime, performing recovery sync');
       await performFullSync();
     }
 
@@ -399,6 +399,7 @@ export const createIndexerService = (): IndexerService => {
     startFullSyncTimer();
     await subscribeToEvents();
     void indexNewData();
+    flushPendingEventLog(); // Flush initial startup logs
   };
 
   const stop = async (): Promise<void> => {
@@ -407,7 +408,8 @@ export const createIndexerService = (): IndexerService => {
     }
 
     isRunning = false;
-    console.log('🛑 Stopping OpenCode indexer service...');
+    flushPendingEventLog(); // Flush any pending logs before stopping
+    logEventDeduped('service_stop', '🛑 Stopping OpenCode indexer service');
 
     if (stateSaveTimer) {
       clearInterval(stateSaveTimer);
