@@ -88,12 +88,24 @@ export class IndexerService {
       };
 
       await writeFile(this.stateFile, JSON.stringify(stateToSave, null, 2));
-      console.log(
-        `💾 Saved indexer state: ${Object.keys(this.state.lastIndexedMessageTimes).length} session cursors`,
-      );
+      this.lastStateSaveTime = Date.now();
+
+      if (process.argv.includes('--verbose')) {
+        console.log(
+          `💾 Saved indexer state: ${Object.keys(this.state.lastIndexedMessageTimes).length} session cursors`,
+        );
+      }
     } catch (error) {
       console.warn('⚠️  Could not save indexer state:', error);
     }
+  }
+
+  private startPeriodicStateSave(): void {
+    this.stateSaveTimer = setInterval(async () => {
+      if (this.isRunning) {
+        await this.saveState();
+      }
+    }, this.STATE_SAVE_INTERVAL_MS);
   }
 
   private async indexNewData(): Promise<void> {
@@ -133,6 +145,9 @@ export class IndexerService {
               ...messages.map((m: any) => m.info?.time?.created || 0),
             );
             this.state.lastIndexedMessageTimes[session.id] = latestMessageTime;
+
+            // Save state after processing each session to avoid re-indexing
+            await this.saveState();
           }
         }
       }
