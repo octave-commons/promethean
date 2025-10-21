@@ -15,6 +15,7 @@ export default [
       './templates/**',
       './eslint.config.ts',
       '**/pseudo/**',
+      'packages/smartgpt-bridge/src/fixtures',
     ],
   },
   {
