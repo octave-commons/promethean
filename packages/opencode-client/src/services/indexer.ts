@@ -107,44 +107,42 @@ export class IndexerService {
       let newSessions = 0;
       let newMessages = 0;
 
-      for (const session of sessions) {
-        const sessionTime = session.time?.created || 0;
-        const lastSessionTime = this.state.lastIndexedSessionTime || 0;
-
-        if (sessionTime > lastSessionTime) {
-          await this.indexSession(session);
-          newSessions++;
-
-          const messagesResult = await this.client.session.messages({
-            path: { id: session.id },
-          });
-          const messages = messagesResult.data || [];
-          const lastMessageTime = this.state.lastIndexedMessageTimes[session.id] || 0;
-
-          for (const message of messages) {
-            const messageTime = message.info?.time?.created || 0;
-
-            if (messageTime > lastMessageTime) {
-              await this.indexMessage(message, session.id);
-              newMessages++;
-            }
-          }
-
-          if (messages.length > 0) {
-            const latestMessageTime = Math.max(
-              ...messages.map((m: any) => m.info?.time?.created || 0),
-            );
-            this.state.lastIndexedMessageTimes[session.id] = latestMessageTime;
-
-            // Save state after processing each session to avoid re-indexing
-            await this.saveState();
-          }
-        }
+      // Find the index of the last indexed session
+      let startIndex = 0;
+      if (this.state.lastIndexedSessionId) {
+        startIndex = sessions.findIndex((s: any) => s.id === this.state.lastIndexedSessionId);
+        if (startIndex !== -1) startIndex++; // Start after the last indexed session
       }
 
-      if (sessions.length > 0) {
-        const latestSessionTime = Math.max(...sessions.map((s: any) => s.time?.created || 0));
-        this.state.lastIndexedSessionTime = latestSessionTime;
+      for (let i = startIndex; i < sessions.length; i++) {
+        const session = sessions[i];
+        await this.indexSession(session);
+        newSessions++;
+        this.state.lastIndexedSessionId = session.id;
+
+        const messagesResult = await this.client.session.messages({
+          path: { id: session.id },
+        });
+        const messages = messagesResult.data || [];
+
+        // Find the index of the last indexed message for this session
+        let messageStartIndex = 0;
+        if (this.state.lastIndexedMessageId && i === sessions.length - 1) {
+          messageStartIndex = messages.findIndex(
+            (m: any) => m.info?.id === this.state.lastIndexedMessageId,
+          );
+          if (messageStartIndex !== -1) messageStartIndex++; // Start after the last indexed message
+        }
+
+        for (let j = messageStartIndex; j < messages.length; j++) {
+          const message = messages[j];
+          await this.indexMessage(message, session.id);
+          newMessages++;
+          this.state.lastIndexedMessageId = message.info?.id;
+        }
+
+        // Save state after processing each session to avoid re-indexing
+        await this.saveState();
       }
 
       if (newSessions > 0 || newMessages > 0) {
