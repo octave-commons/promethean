@@ -21,8 +21,8 @@ type EnhancedEvent = Event & {
 const indexSession = async (session: Session): Promise<void> => {
   const markdown = sessionToMarkdown(session);
 
-  await sessionStore
-    .insert({
+  try {
+    await sessionStore.insert({
       id: `session_${session.id}`,
       text: markdown,
       timestamp: session.time?.created ?? Date.now(),
@@ -31,17 +31,17 @@ const indexSession = async (session: Session): Promise<void> => {
         sessionId: session.id,
         title: session.title,
       },
-    })
-    .catch((error: unknown) => {
-      console.error('❌ Error indexing session:', error);
     });
+  } catch (error: unknown) {
+    console.error('❌ Error indexing session:', error);
+  }
 };
 
 const indexMessage = async (message: Message, sessionId: string): Promise<void> => {
   const markdown = messageToMarkdown(message);
 
-  await messageStore
-    .insert({
+  try {
+    await messageStore.insert({
       id: `message_${message.info?.id}`,
       text: markdown,
       timestamp: message.info?.time?.created ?? Date.now(),
@@ -51,10 +51,10 @@ const indexMessage = async (message: Message, sessionId: string): Promise<void> 
         sessionId,
         role: message.info?.role,
       },
-    })
-    .catch((error: unknown) => {
-      console.error('❌ Error indexing message:', error);
     });
+  } catch (error: unknown) {
+    console.error('❌ Error indexing message:', error);
+  }
 };
 
 const indexEvent = async (event: EnhancedEvent): Promise<void> => {
