@@ -1,0 +1,168 @@
+{
+  "name": "@promethean/frontend",
+  "version": "1.0.0",
+  "description": "Consolidated frontend package for all Promethean UI applications",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./chat-ui": {
+      "types": "./dist/chat-ui/index.d.ts",
+      "import": "./dist/chat-ui/index.js"
+    },
+    "./docops": {
+      "types": "./dist/docops/index.d.ts",
+      "import": "./dist/docops/index.js"
+    },
+    "./duck-web": {
+      "types": "./dist/duck-web/index.d.ts",
+      "import": "./dist/duck-web/index.js"
+    },
+    "./kanban": {
+      "types": "./dist/kanban/index.d.ts",
+      "import": "./dist/kanban/index.js"
+    },
+    "./openai-server": {
+      "types": "./dist/openai-server/index.d.ts",
+      "import": "./dist/openai-server/index.js"
+    },
+    "./opencode-session-manager": {
+      "types": "./dist/opencode-session-manager/index.d.ts",
+      "import": "./dist/opencode-session-manager/index.js"
+    },
+    "./pantheon": {
+      "types": "./dist/pantheon/index.d.ts",
+      "import": "./dist/pantheon/index.js"
+    },
+    "./piper": {
+      "types": "./dist/piper/index.d.ts",
+      "import": "./dist/piper/index.js"
+    },
+    "./report-forge": {
+      "types": "./dist/report-forge/index.d.ts",
+      "import": "./dist/report-forge/index.js"
+    },
+    "./smartgpt-dashboard": {
+      "types": "./dist/smartgpt-dashboard/index.d.ts",
+      "import": "./dist/smartgpt-dashboard/index.js"
+    },
+    "./dist/*": "./dist/*",
+    "./*": "./dist/*"
+  },
+  "files": [
+    "dist",
+    "static"
+  ],
+  "scripts": {
+    "build": "pnpm run build:all",
+    "build:all": "pnpm run build:shadow && pnpm run build:ts",
+    "build:shadow": "shadow-cljs release all",
+    "build:ts": "tsc",
+    "watch": "pnpm run watch:shadow",
+    "watch:shadow": "shadow-cljs watch all",
+    "clean": "rimraf dist dist/frontend",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "pnpm run build && ava",
+    "lint": "pnpm exec eslint .",
+    "coverage": "pnpm run build && c8 ava",
+    "format": "pnpm exec prettier --write .",
+    "dev:chat-ui": "shadow-cljs watch chat-ui",
+    "dev:docops": "shadow-cljs watch docops-frontend",
+    "dev:duck-web": "shadow-cljs watch duck-web-frontend",
+    "dev:kanban": "shadow-cljs watch kanban-frontend",
+    "dev:openai-server": "shadow-cljs watch openai-server-frontend",
+    "dev:opencode-session-manager": "shadow-cljs watch opencode-session-manager-frontend",
+    "dev:piper": "shadow-cljs watch piper-frontend",
+    "dev:report-forge": "shadow-cljs watch report-forge-frontend",
+    "dev:smartgpt-dashboard": "shadow-cljs watch smartgpt-dashboard-frontend",
+    "dev:pantheon": "vite",
+    "build:pantheon": "tsc && vite build",
+    "preview:pantheon": "vite preview"
+  },
+  "dependencies": {
+    "@promethean/persistence": "workspace:*",
+    "@promethean/utils": "workspace:*",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "scheduler": "^0.27.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.8.0",
+    "@mui/material": "^5.15.0",
+    "@mui/icons-material": "^5.15.0",
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "zustand": "^4.4.0",
+    "@tanstack/react-query": "^5.0.0",
+    "axios": "^1.6.0",
+    "framer-motion": "^10.16.0",
+    "react-markdown": "^9.0.0",
+    "react-syntax-highlighter": "^15.5.0",
+    "lucide-react": "^0.294.0",
+    "date-fns": "^2.30.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
+    "tailwind-merge": "^2.0.0",
+    "@radix-ui/react-slot": "^1.0.2",
+    "socket.io-client": "^4.7.0",
+    "recharts": "^2.8.0",
+    "remark-gfm": "^4.0.0"
+  },
+  "devDependencies": {
+    "@promethean/test-utils": "workspace:*",
+    "@promethean/database": "workspace:*",
+    "@promethean/opencode-client": "workspace:*",
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@types/react-syntax-highlighter": "^15.5.0",
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vitejs/plugin-react": "^4.0.0",
+    "@tanstack/react-query-devtools": "^5.0.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/jest-dom": "^5.16.0",
+    "@testing-library/user-event": "^14.4.0",
+    "concurrently": "^8.2.0",
+    "shadow-cljs": "^2.28.17",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0",
+    "vite": "^4.4.0",
+    "vitest": "^0.34.0",
+    "tailwindcss": "^3.3.0",
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.0",
+    "happy-dom": "18.0.1",
+    "type-fest": "4.26.1",
+    "react-hot-toast": "^2.4.0",
+    "rimraf": "^5.0.0",
+    "ava": "^6.0.0",
+    "c8": "^8.0.0",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.0",
+    "prettier": "^3.0.0"
+  },
+  "shadow-cljs": {
+    "source-paths": [
+      "src"
+    ],
+    "dependencies": {
+      "@promethean/database": "workspace:*",
+      "@promethean/opencode-client": "workspace:*"
+    }
+  },
+  "license": "GPL-3.0-only",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
