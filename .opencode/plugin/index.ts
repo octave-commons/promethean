@@ -10,4 +10,4 @@
 //   SessionsPlugin,
 // } from '@promethean/opencode-client/plugins';
 
-export { OpencodeInterfacePlugin } from '@promethean/opencode-client';
+export { OpencodeInterfacePlugin } from '@promethean/opencode-client/plugins';
