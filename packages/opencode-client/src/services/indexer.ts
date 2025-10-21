@@ -1,7 +1,6 @@
 import { createOpencodeClient } from '@opencode-ai/sdk';
 import { sessionStore, eventStore, messageStore } from '../index.js';
 import type { Session, Event } from '@opencode-ai/sdk';
-import { sleep } from '@promethean/utils';
 
 interface IndexerState {
   lastIndexedSessionTime?: number;
