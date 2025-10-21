@@ -3,12 +3,21 @@ import { sessionStore, eventStore, messageStore } from '../index.js';
 import type { Session, Event } from '@opencode-ai/sdk';
 import { sleep } from '@promethean/utils';
 
+interface IndexerState {
+  lastIndexedSessionTime?: number;
+  lastIndexedMessageTimes: Map<string, number>; // sessionId -> last message time
+  lastProcessedEventTime?: number;
+}
+
 export class IndexerService {
   private client: any;
   private isRunning: boolean = false;
   private eventCounts: Map<string, number> = new Map();
   private lastLogTime: number = 0;
   private readonly LOG_DEBOUNCE_MS = 5000; // Log same event type max once per 5 seconds
+  private state: IndexerState = {
+    lastIndexedMessageTimes: new Map(),
+  };
 
   constructor() {
     this.client = createOpencodeClient({
@@ -28,11 +37,14 @@ export class IndexerService {
     this.isRunning = true;
     console.log('🚀 Starting OpenCode indexer service...');
 
+    // Load previous state
+    await this.loadState();
+
     // Start event subscription
     this.subscribeToEvents();
 
-    // Index existing sessions and messages
-    await this.indexExistingData();
+    // Index only new sessions and messages
+    await this.indexNewData();
   }
 
   /**
