@@ -30,18 +30,19 @@ export async function spawn({
     }
 
     // Send the spawn message if provided
-    let messageResult = null;
     if (message) {
-      const { data: sentMessage, error: messageError } = await client.session.prompt({
+      // const { data: sentMessage, error: messageError } = await client.session.prompt({
+      //   path: { id: session.id },
+      //   body: { parts: [{ type: 'text' as const, text: message }] },
+      // });
+
+      // if we don't do this, then it blocks the agent who is
+      // spawning from doing anything else, which defeats the purpose.
+      // But it also means we can't return the message info here.
+      client.session.prompt({
         path: { id: session.id },
         body: { parts: [{ type: 'text' as const, text: message }] },
       });
-
-      if (messageError) {
-        throw new Error(`Failed to send spawn message: ${messageError}`);
-      }
-
-      messageResult = sentMessage;
     }
 
     // we need to stop doing this.
