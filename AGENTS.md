@@ -1,6 +1,7 @@
 # Promethean
 
 Stealing fire from the gods to grant man the gift of knowledge and wisdom.
+Using cloud LLMs to make local LLMs smarter and more specialized.
 
 ## 🧱 Overview
 
