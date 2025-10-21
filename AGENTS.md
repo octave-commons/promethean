@@ -17,9 +17,6 @@ configs/ # All base config files live here
 pseudo/ # one off scripts retained for transparency, and pseudo code.
 
 ```
-
----
-
 ## Anatomy of a Package
 
 ```
@@ -31,6 +28,21 @@ pseudo/ # one off scripts retained for transparency, and pseudo code.
 'typecheck' etc. scripts
 pseudo/ # one off scripts, retained for transparency
 ```
+## Programming languages
+
+- Typescript
+- Clojure(script)
+
+## Programming style
+
+- Functional
+- data oriented
+- test driven development
+- rapid prototyping
+- small concise functions and files
+- clean code
+- factory pattern
+- dependency injection
 
 ## 📋 Kanban Task Management
 
@@ -110,3 +122,6 @@ Prefer local, well scoped commands to workspace scripts.
   - make use of dataviews https://blacksmithgu.github.io/obsidian-dataview/
   - Update the [[HOME]] file with important information, treat it as a living document
 
+
+## Licensing
+All packages "license": "GPL-3.0-only"
