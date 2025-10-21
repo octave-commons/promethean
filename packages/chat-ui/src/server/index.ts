@@ -154,18 +154,6 @@ app.use(express.json());
 
 // Debug route
 app.get('/api/debug', (req, res) => {
-  res.json({
-    cwd: process.cwd(),
-    publicPath: require('path').join(process.cwd(), 'public'),
-    publicExists: require('fs').existsSync(require('path').join(process.cwd(), 'public')),
-    indexExists: require('fs').existsSync(
-      require('path').join(process.cwd(), 'public', 'index.html'),
-    ),
-  });
-});
-
-// Debug route
-app.get('/api/debug', (req, res) => {
   const publicPath = path.join(process.cwd(), 'public');
   res.json({
     cwd: process.cwd(),
