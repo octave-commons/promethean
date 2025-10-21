@@ -575,7 +575,81 @@ export function registerSimpleOAuthRoutes(
       }
 
       // Handle OAuth callback with OAuthSystem
-      const result = await config.oauthSystem.handleOAuthCallback(code, state, error);
+      let result;
+
+      if (!storedData) {
+        // Direct OAuth callback from MCP client (like ChatGPT)
+        // Exchange the authorization code directly with GitHub
+        console.log('[OAuth Callback] Exchanging authorization code directly with GitHub');
+
+        try {
+          // Use GitHub's token endpoint directly
+          const tokenResponse = await fetch('https://github.com/login/oauth/access_token', {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+              client_id: 'Ov23li1fhUvAsLo8LabH',
+              client_secret: '06428e45e125aede2bbd945958b7bc9d4d1afbe4',
+              code: code,
+              redirect_uri:
+                'https://err-stealth-16-ai-studio-a1vgg.tailbe888a.ts.net/auth/oauth/callback',
+            }),
+          });
+
+          const tokenData = await tokenResponse.json();
+
+          if (tokenData.error) {
+            return reply.status(400).send({
+              error: 'token_exchange_failed',
+              message: `GitHub token exchange failed: ${tokenData.error_description || tokenData.error}`,
+            });
+          }
+
+          // Get user info from GitHub
+          const userResponse = await fetch('https://api.github.com/user', {
+            headers: {
+              Authorization: `Bearer ${tokenData.access_token}`,
+              'User-Agent': 'Promethean-MCP',
+            },
+          });
+
+          const userData = await userResponse.json();
+
+          // Create a successful result similar to what OAuthSystem would return
+          result = {
+            success: true,
+            sessionId: `direct_${Date.now()}_${Math.random().toString(36).substring(2, 15)}`,
+            userId: userData.id.toString(),
+            provider: 'github',
+            accessToken: tokenData.access_token,
+            refreshToken: tokenData.refresh_token,
+            userInfo: {
+              id: userData.id.toString(),
+              provider: 'github',
+              username: userData.login,
+              email: userData.email,
+              name: userData.name,
+            },
+          };
+
+          console.log(
+            '[OAuth Callback] Direct OAuth exchange successful for user:',
+            userData.login,
+          );
+        } catch (error) {
+          console.error('[OAuth Callback] Direct OAuth exchange failed:', error);
+          return reply.status(400).send({
+            error: 'token_exchange_failed',
+            message: `Failed to exchange authorization code: ${error.message}`,
+          });
+        }
+      } else {
+        // Standard OAuth flow with stored state
+        result = await config.oauthSystem.handleOAuthCallback(code, state, error);
+      }
 
       if (!result.success) {
         return reply.status(400).send({
