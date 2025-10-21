@@ -4,7 +4,7 @@
 
 import type { Plugin } from '@opencode-ai/plugin';
 import { tool } from '@opencode-ai/plugin/tool';
-import { initializeStores } from '../../index.js';
+import { initializeStores } from '../../initializeStores.js';
 import { createOpencodeClient } from '@opencode-ai/sdk';
 
 // Import existing actions
