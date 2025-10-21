@@ -1,13 +1,12 @@
 /**
  * Scar History Manager for Kanban Healing Operations
- * 
+ *
  * This module provides comprehensive scar history management capabilities for tracking
  * and analyzing healing operations over time. It maintains persistent storage,
  * provides search and analysis capabilities, and integrates with git tag management.
  */
 
 import { promises as fs } from 'node:fs';
-import { randomUUID } from 'node:crypto';
 import path from 'node:path';
 import type { ScarRecord, ScarContext, GitCommit, HealingResult } from './scar-context-types.js';
 import { GitTagManager } from './git-tag-manager.js';
@@ -103,7 +102,7 @@ export class ScarHistoryManager {
     context: ScarContext,
     result: HealingResult,
     startSha: string,
-    endSha: string
+    endSha: string,
   ): Promise<{ success: boolean; scar?: ScarRecord; error?: string }> {
     try {
       // Create scar record
@@ -131,7 +130,6 @@ export class ScarHistoryManager {
       await this.enforceRetentionPolicy();
 
       return { success: true, scar };
-
     } catch (error) {
       return {
         success: false,
@@ -150,38 +148,37 @@ export class ScarHistoryManager {
     // Apply filters
     if (query.tagPattern) {
       const pattern = new RegExp(query.tagPattern, 'i');
-      filteredScars = filteredScars.filter(scar => pattern.test(scar.tag));
+      filteredScars = filteredScars.filter((scar) => pattern.test(scar.tag));
     }
 
     if (query.dateRange) {
-      if (query.dateRange.start) {
-        filteredScars = filteredScars.filter(scar => scar.timestamp >= query.dateRange!.start);
+      const { start, end } = query.dateRange;
+      if (start) {
+        filteredScars = filteredScars.filter((scar) => scar.timestamp >= start);
       }
-      if (query.dateRange.end) {
-        filteredScars = filteredScars.filter(scar => scar.timestamp <= query.dateRange!.end);
+      if (end) {
+        filteredScars = filteredScars.filter((scar) => scar.timestamp <= end);
       }
     }
 
     if (query.storyContains) {
       const searchTerm = query.storyContains.toLowerCase();
-      filteredScars = filteredScars.filter(scar => 
-        scar.story.toLowerCase().includes(searchTerm)
-      );
+      filteredScars = filteredScars.filter((scar) => scar.story.toLowerCase().includes(searchTerm));
     }
 
     // Apply sorting
     const sortBy = query.sortBy || 'timestamp';
     const sortOrder = query.sortOrder || 'desc';
-    
+
     filteredScars.sort((a, b) => {
       let comparison = 0;
-      
+
       if (sortBy === 'timestamp') {
         comparison = a.timestamp.getTime() - b.timestamp.getTime();
       } else if (sortBy === 'tag') {
         comparison = a.tag.localeCompare(b.tag);
       }
-      
+
       return sortOrder === 'desc' ? -comparison : comparison;
     });
 
@@ -204,8 +201,8 @@ export class ScarHistoryManager {
   }> {
     // Find the scar record
     const scars = await this.loadAllScars();
-    const scar = scars.find(s => s.tag === scarTag) || null;
-    
+    const scar = scars.find((s) => s.tag === scarTag) || null;
+
     if (!scar) {
       return { scar: null, commits: [] };
     }
@@ -233,6 +230,7 @@ export class ScarHistoryManager {
         scarsByPeriod: { daily: {}, weekly: {}, monthly: {} },
         commonReasons: [],
         successRate: 0,
+        frequentlyHealedFiles: [],
       };
     }
 
@@ -266,12 +264,14 @@ export class ScarHistoryManager {
    */
   async findRelatedScars(
     currentIssue: string,
-    maxResults: number = 5
-  ): Promise<Array<{
-    scar: ScarRecord;
-    relevance: number;
-    reason: string;
-  }>> {
+    maxResults: number = 5,
+  ): Promise<
+    Array<{
+      scar: ScarRecord;
+      relevance: number;
+      reason: string;
+    }>
+  > {
     const scars = await this.loadAllScars();
     const relatedScars: Array<{
       scar: ScarRecord;
@@ -288,11 +288,9 @@ export class ScarHistoryManager {
       // Check for keyword matches in story
       const storyWords = scar.story.toLowerCase().split(/\s+/);
       const issueWords = currentIssueLower.split(/\s+/);
-      
-      const commonWords = storyWords.filter(word => 
-        word.length > 3 && issueWords.includes(word)
-      );
-      
+
+      const commonWords = storyWords.filter((word) => word.length > 3 && issueWords.includes(word));
+
       if (commonWords.length > 0) {
         relevance += commonWords.length * 0.3;
         reasons.push(`Found ${commonWords.length} related keywords`);
@@ -321,9 +319,7 @@ export class ScarHistoryManager {
     }
 
     // Sort by relevance and limit results
-    return relatedScars
-      .sort((a, b) => b.relevance - a.relevance)
-      .slice(0, maxResults);
+    return relatedScars.sort((a, b) => b.relevance - a.relevance).slice(0, maxResults);
   }
 
   /**
@@ -331,7 +327,7 @@ export class ScarHistoryManager {
    */
   async exportScars(
     format: 'json' | 'csv' | 'markdown' = 'json',
-    query?: ScarHistoryQuery
+    query?: ScarHistoryQuery,
   ): Promise<string> {
     const scars = query ? await this.queryScars(query) : await this.loadAllScars();
 
@@ -353,7 +349,10 @@ export class ScarHistoryManager {
   /**
    * Import scar history from backup
    */
-  async importScars(data: string, format: 'json' | 'csv' = 'json'): Promise<{
+  async importScars(
+    data: string,
+    format: 'json' | 'csv' = 'json',
+  ): Promise<{
     success: boolean;
     imported: number;
     duplicates: number;
@@ -373,7 +372,7 @@ export class ScarHistoryManager {
       }
 
       // Validate imported scars
-      const validScars = importedScars.filter(scar => {
+      const validScars = importedScars.filter((scar) => {
         if (!scar.start || !scar.end || !scar.tag || !scar.story) {
           errors.push(`Invalid scar record: missing required fields`);
           return false;
@@ -383,10 +382,10 @@ export class ScarHistoryManager {
 
       // Check for duplicates
       const existingScars = await this.loadAllScars();
-      const existingTags = new Set(existingScars.map(s => s.tag));
-      
+      const existingTags = new Set(existingScars.map((s) => s.tag));
+
       let duplicates = 0;
-      const newScars = validScars.filter(scar => {
+      const newScars = validScars.filter((scar) => {
         if (existingTags.has(scar.tag)) {
           duplicates++;
           return false;
@@ -405,7 +404,6 @@ export class ScarHistoryManager {
         duplicates,
         errors,
       };
-
     } catch (error) {
       errors.push(`Import failed: ${error instanceof Error ? error.message : String(error)}`);
       return {
@@ -430,17 +428,16 @@ export class ScarHistoryManager {
   private async storeScarContext(
     tag: string,
     context: ScarContext,
-    result: HealingResult
+    result: HealingResult,
   ): Promise<void> {
     try {
       await fs.mkdir(this.scarHistoryPath, { recursive: true });
-      
+
       const contextFile = path.join(this.scarHistoryPath, `${tag}.context.json`);
       const resultFile = path.join(this.scarHistoryPath, `${tag}.result.json`);
 
       await fs.writeFile(contextFile, JSON.stringify(context, null, 2), 'utf8');
       await fs.writeFile(resultFile, JSON.stringify(result, null, 2), 'utf8');
-
     } catch (error) {
       // Context storage is optional, don't fail the operation
       console.warn('Failed to store scar context:', error);
@@ -478,14 +475,14 @@ export class ScarHistoryManager {
    */
   private generateScarStory(context: ScarContext, result: HealingResult): string {
     let story = `Healing operation: ${context.reason}\n\n`;
-    
+
     story += `Summary: ${result.summary}\n`;
     story += `Status: ${result.status}\n`;
     story += `Tasks modified: ${result.tasksModified}\n`;
     story += `Files changed: ${result.filesChanged}\n`;
-    
+
     if (result.errors.length > 0) {
-      story += `\nErrors encountered:\n${result.errors.map(e => `- ${e}`).join('\n')}\n`;
+      story += `\nErrors encountered:\n${result.errors.map((e) => `- ${e}`).join('\n')}\n`;
     }
 
     if (context.searchResults.length > 0) {
@@ -509,17 +506,21 @@ export class ScarHistoryManager {
 
     for (const scar of scars) {
       const date = scar.timestamp;
-      
+
       // Daily
       const dayKey = date.toISOString().split('T')[0];
-      daily[dayKey] = (daily[dayKey] || 0) + 1;
-      
+      if (dayKey) {
+        daily[dayKey] = (daily[dayKey] || 0) + 1;
+      }
+
       // Weekly
       const weekStart = new Date(date);
       weekStart.setDate(date.getDate() - date.getDay());
       const weekKey = weekStart.toISOString().split('T')[0];
-      weekly[weekKey] = (weekly[weekKey] || 0) + 1;
-      
+      if (weekKey) {
+        weekly[weekKey] = (weekly[weekKey] || 0) + 1;
+      }
+
       // Monthly
       const monthKey = date.toISOString().substring(0, 7); // YYYY-MM
       monthly[monthKey] = (monthly[monthKey] || 0) + 1;
@@ -533,11 +534,11 @@ export class ScarHistoryManager {
    */
   private async analyzeCommonReasons(scars: ScarRecord[]): Promise<ScarAnalysis['commonReasons']> {
     const reasonCounts = new Map<string, number>();
-    
+
     for (const scar of scars) {
       // Extract reason from story (first line)
       const reasonMatch = scar.story.match(/^Healing operation: (.+)$/m);
-      if (reasonMatch) {
+      if (reasonMatch && reasonMatch[1]) {
         const reason = reasonMatch[1].trim();
         reasonCounts.set(reason, (reasonCounts.get(reason) || 0) + 1);
       }
@@ -559,7 +560,7 @@ export class ScarHistoryManager {
    */
   private async calculateSuccessRate(scars: ScarRecord[]): Promise<number> {
     let successful = 0;
-    
+
     for (const scar of scars) {
       const result = await this.loadScarResult(scar.tag);
       if (result && (result.status === 'completed' || result.status === 'in_progress')) {
@@ -575,14 +576,17 @@ export class ScarHistoryManager {
    */
   private async calculateAverageHealingTime(scars: ScarRecord[]): Promise<number | undefined> {
     const times: number[] = [];
-    
+
     for (const scar of scars) {
       const commits = await this.gitTagManager.getCommitsBetweenTags(scar.start, scar.end);
       if (commits.length > 0) {
         const firstCommit = commits[commits.length - 1];
         const lastCommit = commits[0];
-        const hoursDiff = (lastCommit.timestamp.getTime() - firstCommit.timestamp.getTime()) / (1000 * 60 * 60);
-        times.push(hoursDiff);
+        if (firstCommit && lastCommit) {
+          const hoursDiff =
+            (lastCommit.timestamp.getTime() - firstCommit.timestamp.getTime()) / (1000 * 60 * 60);
+          times.push(hoursDiff);
+        }
       }
     }
 
@@ -592,9 +596,11 @@ export class ScarHistoryManager {
   /**
    * Analyze frequently healed files
    */
-  private async analyzeFrequentlyHealedFiles(scars: ScarRecord[]): Promise<ScarAnalysis['frequentlyHealedFiles']> {
+  private async analyzeFrequentlyHealedFiles(
+    scars: ScarRecord[],
+  ): Promise<ScarAnalysis['frequentlyHealedFiles']> {
     const fileCounts = new Map<string, number>();
-    
+
     for (const scar of scars) {
       const commits = await this.gitTagManager.getCommitsBetweenTags(scar.start, scar.end);
       for (const commit of commits) {
@@ -626,10 +632,10 @@ export class ScarHistoryManager {
       /corrupt/i,
     ];
 
-    const storyPatterns = patterns.filter(pattern => pattern.test(story));
-    const issuePatterns = patterns.filter(pattern => pattern.test(currentIssue));
+    const storyPatterns = patterns.filter((pattern) => pattern.test(story));
+    const issuePatterns = patterns.filter((pattern) => pattern.test(currentIssue));
 
-    return storyPatterns.some(pattern => issuePatterns.includes(pattern));
+    return storyPatterns.some((pattern) => issuePatterns.includes(pattern));
   }
 
   /**
@@ -637,7 +643,7 @@ export class ScarHistoryManager {
    */
   private generateScarsCSV(scars: ScarRecord[]): string {
     const headers = ['tag', 'start', 'end', 'timestamp', 'story'];
-    const rows = scars.map(scar => [
+    const rows = scars.map((scar) => [
       scar.tag,
       scar.start,
       scar.end,
@@ -645,7 +651,7 @@ export class ScarHistoryManager {
       `"${scar.story.replace(/"/g, '""')}"`,
     ]);
 
-    return [headers, ...rows].map(row => row.join(',')).join('\n');
+    return [headers, ...rows].map((row) => row.join(',')).join('\n');
   }
 
   /**
@@ -653,7 +659,7 @@ export class ScarHistoryManager {
    */
   private generateScarsMarkdown(scars: ScarRecord[]): string {
     let markdown = '# Scar History\n\n';
-    
+
     for (const scar of scars) {
       markdown += `## ${scar.tag}\n\n`;
       markdown += `**Date:** ${scar.timestamp.toISOString()}\n\n`;
@@ -673,19 +679,25 @@ export class ScarHistoryManager {
     if (lines.length < 2) return [];
 
     const scars: ScarRecord[] = [];
-    
+
     for (let i = 1; i < lines.length; i++) {
-      const line = lines[i].trim();
-      if (line.length === 0) continue;
+      const line = lines[i]?.trim();
+      if (!line || line.length === 0) continue;
 
       const parts = line.split(',');
-      if (parts.length >= 5) {
+      if (parts.length >= 5 && parts[4]) {
+        const tag = parts[0] || '';
+        const start = parts[1] || '';
+        const end = parts[2] || '';
+        const timestampStr = parts[3];
+        const story = parts[4].replace(/""/g, '"').replace(/^"|"$/g, '');
+
         scars.push({
-          tag: parts[0],
-          start: parts[1],
-          end: parts[2],
-          timestamp: new Date(parts[3]),
-          story: parts[4].replace(/""/g, '"').replace(/^"|"$/g, ''),
+          tag,
+          start,
+          end,
+          timestamp: timestampStr ? new Date(timestampStr) : new Date(),
+          story,
         });
       }
     }
@@ -698,11 +710,11 @@ export class ScarHistoryManager {
    */
   private async enforceRetentionPolicy(): Promise<void> {
     const scars = await this.loadAllScars();
-    
+
     if (scars.length > this.config.maxScarsRetained) {
       const sortedScars = scars.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
       const scarsToKeep = sortedScars.slice(0, this.config.maxScarsRetained);
-      
+
       // Rewrite the scar file with only the kept scars
       const scarFile = path.join(this.scarHistoryPath, 'scars.json');
       await fs.writeFile(scarFile, JSON.stringify(scarsToKeep, null, 2), 'utf8');
@@ -713,6 +725,9 @@ export class ScarHistoryManager {
 /**
  * Convenience function to create a scar history manager
  */
-export function createScarHistoryManager(repoRoot: string, config?: ScarHistoryConfig): ScarHistoryManager {
+export function createScarHistoryManager(
+  repoRoot: string,
+  config?: ScarHistoryConfig,
+): ScarHistoryManager {
   return new ScarHistoryManager(repoRoot, config);
 }

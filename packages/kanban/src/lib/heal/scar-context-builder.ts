@@ -136,12 +136,10 @@ export interface TaskAnalysis {
 export class ScarContextBuilder {
   private readonly boardPath: string;
   private readonly tasksDir: string;
-  private readonly _eventLogManager: EventLogManager | null = null;
 
-  constructor(boardPath: string, tasksDir: string, eventLogManager?: EventLogManager) {
+  constructor(boardPath: string, tasksDir: string, _eventLogManager?: EventLogManager) {
     this.boardPath = boardPath;
     this.tasksDir = tasksDir;
-    this._eventLogManager = eventLogManager || null;
   }
 
   /**

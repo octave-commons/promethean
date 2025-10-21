@@ -8,7 +8,6 @@
  */
 
 import { Task } from '../types.js';
-import { execSync } from 'node:child_process';
 import { readFile, access } from 'node:fs/promises';
 import * as path from 'node:path';
 
@@ -419,8 +418,8 @@ export class P0SecurityValidator {
     toStatus: string,
   ): string[] {
     const errors: string[] = [];
-    const fromKey = this.normalizeStatus(fromStatus);
-    const toKey = this.normalizeStatus(toStatus);
+    this.normalizeStatus(fromStatus);
+    this.normalizeStatus(toStatus);
 
     // Implementation plan errors
     if (!requirements.hasImplementationPlan) {

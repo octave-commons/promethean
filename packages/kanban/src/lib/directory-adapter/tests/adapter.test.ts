@@ -9,21 +9,8 @@ import path from 'path';
 import { tmpdir } from 'os';
 import type { TaskCache } from '../../../board/task-cache.js';
 import type { DirectoryAdapterConfig } from '../types.js';
-import type { Status, IndexedTask } from '../../../board/types.js';
-import {
-  DirectoryAdapter,
-  createDirectoryAdapter,
-  DEFAULT_DIRECTORY_ADAPTER_CONFIG,
-  TEST_CONFIG,
-} from '../index.js';
-import { DirectoryAdapterError, FileNotFoundError, SecurityValidationError } from '../types.js';
-
-// Test context interface
-interface TestContext {
-  testDir: string;
-  config: DirectoryAdapterConfig;
-  mockCache: MockTaskCache;
-}
+import type { Status } from '../../../board/types.js';
+import { DirectoryAdapter, createDirectoryAdapter, TEST_CONFIG } from '../index.js';
 
 // Mock cache for testing
 class MockTaskCache implements TaskCache {

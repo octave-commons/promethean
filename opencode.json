@@ -182,7 +182,6 @@
     }
   },
   "instructions": ["./docs/agents/platforms/opencode/AGENTS.md"],
-,
   "tools": {
     "clj*": false,
     "playwright*":false,

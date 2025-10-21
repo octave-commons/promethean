@@ -201,6 +201,8 @@ export interface SecurityValidator {
     context: FileOperationContext,
   ): Promise<PathValidationResult>;
   validateOperation(context: FileOperationContext): Promise<boolean>;
+  generateContentHash(content: string): string;
+  sanitizePath(filePath: string): string;
 }
 
 /**

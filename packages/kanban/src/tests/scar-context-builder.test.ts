@@ -4,15 +4,14 @@ import { promises as fs } from 'node:fs';
 import { randomUUID } from 'node:crypto';
 import path from 'node:path';
 import {
-  ScarContextBuilder,
   createScarContextBuilder,
   DEFAULT_SCAR_CONTEXT_OPTIONS,
 } from '../lib/heal/scar-context-builder.js';
 import { EventLogManager } from '../board/event-log.js';
 import { loadKanbanConfig } from '../board/config.js';
-import type { ScarContext, HealingStatus } from '../lib/heal/scar-context-types.js';
-import { validateScarContextIntegrity, createEventLogEntry } from '../lib/heal/type-guards.js';
-import type { Board, Task, ColumnData } from '../lib/types.js';
+
+import { validateScarContextIntegrity } from '../lib/heal/type-guards.js';
+import type { Task } from '../lib/types.js';
 
 // Mock data for testing
 const createMockTask = (overrides: Partial<Task> = {}): Task => ({
@@ -25,29 +24,6 @@ const createMockTask = (overrides: Partial<Task> = {}): Task => ({
   estimates: { complexity: 3 },
   content: 'Test task content',
   ...overrides,
-});
-
-const createMockBoard = (tasks: Task[] = []): Board => ({
-  columns: [
-    {
-      name: 'Todo',
-      count: tasks.filter((t) => t.status === 'Todo').length,
-      limit: 5,
-      tasks: tasks.filter((t) => t.status === 'Todo'),
-    },
-    {
-      name: 'In Progress',
-      count: tasks.filter((t) => t.status === 'In Progress').length,
-      limit: 3,
-      tasks: tasks.filter((t) => t.status === 'In Progress'),
-    },
-    {
-      name: 'Done',
-      count: tasks.filter((t) => t.status === 'Done').length,
-      limit: null,
-      tasks: tasks.filter((t) => t.status === 'Done'),
-    },
-  ],
 });
 
 // Setup temporary directories for testing

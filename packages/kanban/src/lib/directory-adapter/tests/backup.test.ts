@@ -7,15 +7,7 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import { tmpdir } from 'os';
 import { TaskBackupManager, createBackupManager } from '../backup.js';
-import type { BackupConfig } from '../backup.js';
 import type { FileOperationContext } from '../types.js';
-
-// Test context interface
-interface TestContext {
-  testDir: string;
-  config: BackupConfig;
-  backupManager: any;
-}
 
 const createTestDirectory = async (): Promise<string> => {
   const testDir = await fs.mkdtemp(path.join(tmpdir(), 'backup-test-'));
@@ -39,7 +31,7 @@ const createContext = (operation: any, filePath: string): FileOperationContext =
 test.beforeEach(async (t: any) => {
   t.context.testDir = await createTestDirectory();
   t.context.backupDir = path.join(t.context.testDir, 'backups');
-  t.context.config = {
+  (t.context as any).config = {
     directory: t.context.backupDir,
     retentionDays: 30,
     compressionEnabled: false,
@@ -56,14 +48,15 @@ test.afterEach(async (t: any) => {
 });
 
 test('should create backup manager', (t) => {
-  const { config } = t.context;
+  const config = (t.context as any).config;
   const backupManager = createBackupManager(config);
 
   t.true(backupManager instanceof TaskBackupManager);
 });
 
 test('$0', async (t: any) => {
-  const { testDir, config } = t.context;
+  const { testDir } = t.context;
+  const config = (t.context as any).config;
   const backupManager = createBackupManager(config);
 
   // Create test file
@@ -103,7 +96,8 @@ test('$0', async (t: any) => {
 });
 
 test('$0', async (t: any) => {
-  const { testDir, config } = t.context;
+  const { testDir } = t.context;
+  const config = (t.context as any).config;
   const backupManager = createBackupManager(config);
 
   // Create original file
@@ -126,7 +120,8 @@ test('$0', async (t: any) => {
 });
 
 test('$0', async (t: any) => {
-  const { testDir, config } = t.context;
+  const { testDir } = t.context;
+  const config = (t.context as any).config;
   const backupManager = createBackupManager(config);
 
   // Create multiple files and backups
@@ -156,7 +151,8 @@ test('$0', async (t: any) => {
 });
 
 test('$0', async (t: any) => {
-  const { testDir, config } = t.context;
+  const { testDir } = t.context;
+  const config = (t.context as any).config;
   const shortRetentionConfig = { ...config, retentionDays: 0 }; // Everything is old
   const backupManager = createBackupManager(shortRetentionConfig);
 
@@ -183,7 +179,8 @@ test('$0', async (t: any) => {
 });
 
 test('$0', async (t: any) => {
-  const { testDir, config } = t.context;
+  const { testDir } = t.context;
+  const config = (t.context as any).config;
   const backupManager = createBackupManager(config);
 
   // Create files with different sizes
@@ -212,7 +209,8 @@ test('$0', async (t: any) => {
 });
 
 test('$0', async (t: any) => {
-  const { testDir, config } = t.context;
+  const { testDir } = t.context;
+  const config = (t.context as any).config;
   const backupManager = createBackupManager(config);
 
   const originalContent = '# Integrity Test\n\nContent for integrity testing.';
@@ -231,7 +229,8 @@ test('$0', async (t: any) => {
 });
 
 test('$0', async (t: any) => {
-  const { testDir, config } = t.context;
+  const { testDir } = t.context;
+  const config = (t.context as any).config;
   const compressionConfig = { ...config, compressionEnabled: true };
   const backupManager = createBackupManager(compressionConfig);
 
@@ -255,7 +254,7 @@ test('$0', async (t: any) => {
 });
 
 test('$0', async (t: any) => {
-  const { config } = t.context;
+  const config = (t.context as any).config;
   const backupManager = createBackupManager(config);
 
   // Try to backup non-existent file
@@ -274,7 +273,8 @@ test('$0', async (t: any) => {
 });
 
 test('$0', async (t: any) => {
-  const { testDir, config } = t.context;
+  const { testDir } = t.context;
+  const config = (t.context as any).config;
   const backupManager = createBackupManager(config);
 
   const testFile = await createTestFile(testDir, 'corrupted-meta.md', 'Test content');

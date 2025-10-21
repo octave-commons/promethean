@@ -10,6 +10,9 @@ import type { IndexTasksOptions } from '../board/indexer.js';
 import type { Board, ColumnData, Task, EpicTask } from './types.js';
 import { getEpicSubtasks, calculateEpicStatus } from './epic.js';
 
+// Re-export types for external use
+export type { Task } from './types.js';
+
 const NOW_ISO = () => new Date().toISOString();
 
 const stripDiacritics = (value: string): string =>
@@ -1147,8 +1150,9 @@ const fallbackTaskFromRaw = (filePath: string, raw: string): Task | null => {
     if (!valueMatch || valueMatch[1] == null) {
       return undefined;
     }
-    return valueMatch[1].trim().replace(/^['\"]|['\"]$/g, '');
+    return valueMatch[1];
   };
+
   const uuid = getValue('uuid');
   if (!uuid) {
     return null;
