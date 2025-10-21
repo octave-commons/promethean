@@ -6,6 +6,7 @@ import { sessionCommands } from './commands/sessions/index.js';
 import { eventCommands } from './commands/events/index.js';
 import { messagesCommands } from './commands/messages/index.js';
 import { indexerCommands } from './commands/indexer/index.js';
+import { spawnSessionCommand } from './commands/sessions/spawn.js';
 import { initializeStores } from './index.js';
 
 const program = new Command();
@@ -37,6 +38,9 @@ program.addCommand(sessionCommands);
 program.addCommand(eventCommands);
 program.addCommand(messagesCommands);
 program.addCommand(indexerCommands);
+
+// Add top-level spawn command for convenience
+program.addCommand(spawnSessionCommand);
 
 // Add unified agent management commands
 

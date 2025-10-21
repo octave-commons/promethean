@@ -50,16 +50,16 @@ export type OAuthProvider = Readonly<{
   getProviderName(): string;
 
   /**
-   * Generate authorization URL with PKCE
+   * Generate authorization URL with optional PKCE
    */
-  generateAuthUrl(state: string, codeVerifier: string, redirectUri?: string): string;
+  generateAuthUrl(state: string, codeVerifier?: string, redirectUri?: string): string;
 
   /**
    * Exchange authorization code for tokens
    */
   exchangeCodeForTokens(
     code: string,
-    codeVerifier: string,
+    codeVerifier?: string,
     redirectUri?: string,
   ): Promise<OAuthTokenResponse>;
 
@@ -89,7 +89,9 @@ export type OAuthProvider = Readonly<{
  */
 export type OAuthState = Readonly<{
   readonly state: string;
-  readonly codeVerifier: string;
+  readonly codeVerifier?: string;
+  readonly codeChallenge?: string;
+  readonly codeChallengeMethod?: string;
   readonly provider: string;
   readonly redirectUri: string;
   readonly createdAt: Date;

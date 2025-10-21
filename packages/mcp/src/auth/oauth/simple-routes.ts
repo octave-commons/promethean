@@ -366,12 +366,8 @@ export function registerSimpleOAuthRoutes(
         });
       }
 
-      if (!code_challenge || !code_challenge_method || code_challenge_method !== 'S256') {
-        return reply.status(400).send({
-          error: 'invalid_request',
-          error_description: 'PKCE code_challenge and code_challenge_method=S256 are required',
-        });
-      }
+      // PKCE is optional for compatibility with clients that don't support it
+      const hasPkce = code_challenge && code_challenge_method === 'S256';
 
       // Default to GitHub provider for standard OAuth flow
       // In a real implementation, you might determine this from client_id or other parameters
@@ -385,9 +381,13 @@ export function registerSimpleOAuthRoutes(
       }
 
       // Start OAuth flow with the OAuthSystem using the provided redirect_uri
+      // Pass PKCE parameters if available, otherwise use legacy flow
       const { authUrl: providerAuthUrl, state: oauthState } = config.oauthSystem.startOAuthFlow(
         provider,
         `${getBaseUrl(request)}/auth/oauth/callback`,
+        hasPkce
+          ? { codeChallenge: code_challenge, codeChallengeMethod: code_challenge_method }
+          : undefined,
       );
 
       // Store the original state and redirect_uri for validation in callback

@@ -3,6 +3,7 @@
  *
  * Central OAuth 2.1 + PKCE implementation with provider management
  * following security best practices and the project's functional programming style.
+ * Updated for ChatGPT compatibility.
  */
 
 import crypto from 'node:crypto';
@@ -55,14 +56,20 @@ export class OAuthSystem {
   /**
    * Start OAuth flow
    */
-  startOAuthFlow(provider: string, redirectUri?: string): { authUrl: string; state: string } {
+  startOAuthFlow(
+    provider: string,
+    redirectUri?: string,
+    pkceOptions?: { codeChallenge: string; codeChallengeMethod: string },
+  ): { authUrl: string; state: string } {
     const oauthProvider = this.providers.get(provider);
     if (!oauthProvider) {
       throw new Error(`OAuth provider not available: ${provider}`);
     }
 
-    // Generate PKCE verifier and challenge
-    const codeVerifier = this.generateCodeVerifier();
+    // For ChatGPT compatibility, only use PKCE when explicitly provided
+    // Don't auto-generate PKCE for legacy flows
+    const codeVerifier = pkceOptions ? undefined : undefined;
+    const codeChallenge = pkceOptions?.codeChallenge;
     const state = this.generateSecureState();
 
     // Use dynamic redirect URI if provided, otherwise fall back to config
@@ -72,6 +79,8 @@ export class OAuthSystem {
     const oauthState: OAuthState = {
       state,
       codeVerifier,
+      codeChallenge,
+      codeChallengeMethod: pkceOptions?.codeChallengeMethod,
       provider,
       redirectUri: finalRedirectUri,
       createdAt: new Date(),
@@ -82,6 +91,7 @@ export class OAuthSystem {
     this.states.set(state, oauthState);
 
     // Generate authorization URL with dynamic redirect URI
+    // Only pass codeVerifier if we have one (either from PKCE options or generated for legacy flow)
     const authUrl = oauthProvider.generateAuthUrl(state, codeVerifier, finalRedirectUri);
 
     return { authUrl, state };
@@ -330,13 +340,6 @@ export class OAuthSystem {
    */
   private generateSecureState(): string {
     return crypto.randomBytes(32).toString('base64url');
-  }
-
-  /**
-   * Generate PKCE code verifier
-   */
-  private generateCodeVerifier(): string {
-    return crypto.randomBytes(64).toString('base64url');
   }
 
   /**

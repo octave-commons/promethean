@@ -42,20 +42,23 @@ export class GitHubOAuthProvider implements OAuthProvider {
   }
 
   /**
-   * Generate authorization URL with PKCE
+   * Generate authorization URL with optional PKCE
    */
-  generateAuthUrl(state: string, codeVerifier: string, redirectUri?: string): string {
-    const codeChallenge = this.generateCodeChallenge(codeVerifier);
+  generateAuthUrl(state: string, codeVerifier?: string, redirectUri?: string): string {
+    const codeChallenge = codeVerifier ? this.generateCodeChallenge(codeVerifier) : undefined;
     const finalRedirectUri = redirectUri || this.config.redirectUri;
-    const params = new URLSearchParams({
-      client_id: this.config.clientId,
-      redirect_uri: finalRedirectUri,
-      scope: this.config.scopes.join(' '),
-      state,
-      response_type: 'code',
-      code_challenge: codeChallenge,
-      code_challenge_method: 'S256',
-    });
+    const params: URLSearchParams = new URLSearchParams();
+    params.append('client_id', this.config.clientId);
+    params.append('redirect_uri', finalRedirectUri);
+    params.append('scope', this.config.scopes.join(' '));
+    params.append('state', state);
+    params.append('response_type', 'code');
+
+    // Only add PKCE parameters if code challenge is provided
+    if (codeChallenge) {
+      params.append('code_challenge', codeChallenge);
+      params.append('code_challenge_method', 'S256');
+    }
 
     if (this.config.allowSignup) {
       params.append('allow_signup', 'true');
@@ -69,7 +72,7 @@ export class GitHubOAuthProvider implements OAuthProvider {
    */
   async exchangeCodeForTokens(
     code: string,
-    codeVerifier: string,
+    codeVerifier?: string,
     redirectUri?: string,
   ): Promise<OAuthTokenResponse> {
     const finalRedirectUri = redirectUri || this.config.redirectUri;
@@ -80,14 +83,22 @@ export class GitHubOAuthProvider implements OAuthProvider {
         'Content-Type': 'application/x-www-form-urlencoded',
         'User-Agent': 'Promethean-MCP/1.0',
       },
-      body: new URLSearchParams({
-        client_id: this.config.clientId,
-        client_secret: this.config.clientSecret,
-        code,
-        redirect_uri: finalRedirectUri,
-        code_verifier: codeVerifier,
-        grant_type: 'authorization_code',
-      }),
+      body: (() => {
+        const params = new URLSearchParams({
+          client_id: this.config.clientId,
+          client_secret: this.config.clientSecret,
+          code,
+          redirect_uri: finalRedirectUri,
+          grant_type: 'authorization_code',
+        });
+
+        // Only add code_verifier if PKCE is being used
+        if (codeVerifier) {
+          params.append('code_verifier', codeVerifier);
+        }
+
+        return params;
+      })(),
     });
 
     if (!response.ok) {

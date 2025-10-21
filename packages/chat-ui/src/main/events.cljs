@@ -40,7 +40,7 @@
  :load-sessions
  (fn [{:keys [db]} _]
    {:db (assoc db :loading? true :error nil)
-    :fx [:load-sessions-fx]}))
+    :fx [[:load-sessions-fx]]}))
 
 (rf/reg-fx
  :load-sessions-fx
@@ -55,13 +55,13 @@
                     (rf/dispatch [:set-loading false]))
                   (do
                     (rf/dispatch [:set-error (:error response)])
-                    (rf/dispatch [:set-loading false])))))))))
+                    (rf/dispatch [:set-loading false]))))))))
 
 (rf/reg-event-fx
  :select-session
  (fn [{:keys [db]} [session-id]]
    {:db (assoc db :loading? true :current-session nil :messages [] :error nil)
-    :fx [:load-session-fx session-id]}))
+    :fx [[:load-session-fx session-id]]}))
 
 (rf/reg-fx
  :load-session-fx
@@ -75,17 +75,17 @@
                         (.then (fn [messages-response]
                                  (if (:success messages-response)
                                    (rf/dispatch [:set-messages (:data messages-response)])
-                                   (rf/dispatch [:set-error (:error messages-response)])))
+                                   (rf/dispatch [:set-error (:error messages-response)]))))
                         (.finally (fn [] (rf/dispatch [:set-loading false])))))
                   (do
-                      (rf/dispatch [:set-error (:error session-response)])
-                      (rf/dispatch [:set-loading false])))))))))
+                    (rf/dispatch [:set-error (:error session-response)])
+                    (rf/dispatch [:set-loading false]))))))))
 
 (rf/reg-event-fx
  :delete-session
  (fn [{:keys [db]} [session-id]]
    {:db (assoc db :loading? true :error nil)
-    :fx [:delete-session-fx session-id]}))
+    :fx [[:delete-session-fx session-id]]}))
 
 (rf/reg-fx
  :delete-session-fx
@@ -97,14 +97,14 @@
                     (rf/dispatch [:load-sessions])
                     (rf/dispatch [:set-loading false]))
                   (do
-                      (rf/dispatch [:set-error (:error response)])
-                      (rf/dispatch [:set-loading false])))))))))
+                    (rf/dispatch [:set-error (:error response)])
+                    (rf/dispatch [:set-loading false]))))))))
 
 (rf/reg-event-fx
  :delete-message
  (fn [{:keys [db]} [session-id message-id]]
    {:db (assoc db :loading? true :error nil)
-    :fx [:delete-message-fx [session-id message-id]]}))
+    :fx [[:delete-message-fx [session-id message-id]]]}))
 
 (rf/reg-fx
  :delete-message-fx

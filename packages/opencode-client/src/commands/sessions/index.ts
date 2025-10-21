@@ -5,6 +5,7 @@ import { createSessionCommand } from './create.js';
 import { closeSession } from './close.js';
 import { searchSessions } from './search.js';
 import { sessionsDiagnoseCommand } from './diagnose.js';
+import { spawnSessionCommand } from './spawn.js';
 
 export const sessionCommands = new Command('sessions')
   .description('Manage OpenCode sessions')
@@ -14,6 +15,7 @@ sessionCommands
   .addCommand(listCommand)
   .addCommand(getSessionCommand)
   .addCommand(createSessionCommand)
+  .addCommand(spawnSessionCommand)
   .addCommand(closeSession)
   .addCommand(searchSessions)
   .addCommand(sessionsDiagnoseCommand);
