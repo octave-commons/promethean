@@ -2,7 +2,7 @@
 uuid: "275a6b80-0c0c-4c78-a6d0-bc3d9b098b40"
 title: "Add comprehensive input validation to indexer-core"
 slug: "Add comprehensive input validation to indexer-core"
-status: "accepted"
+status: "breakdown"
 priority: "P1"
 labels: ["security", "validation", "indexer-core", "input-sanitization"]
 created_at: "2025-10-13T05:50:38.017Z"
