@@ -3,7 +3,11 @@
   "provider": {
     "perplexity-pro":{
       "npm": "@ai-sdk/perplexity-pro",
-      "aplKey":"{env:PERPLEXITY_API_KEY}",
+      "options":{
+        "baseURL": "https://api.perplexity.ai/chat/completions",
+
+        "aplKey":"{env:PERPLEXITY_API_KEY}",
+      },
       "models": {
         "dragonfly-1.5-pro": {
           "name": "Dragonfly 1.5 Pro"
