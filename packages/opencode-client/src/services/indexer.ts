@@ -160,16 +160,31 @@ export class IndexerService {
     }
   }
 
-  /**
+/**
    * Load indexer state from persistent storage
    */
   private async loadState(): Promise<void> {
     try {
-      // Try to load state from a simple file or store
-      // For now, we'll use in-memory state
-      console.log('📂 Loading indexer state...');
+      // Use the messageStore to save/load indexer state as a special document
+      const result = await messageStore.get('indexer_state');
+      
+      if (result && result.text) {
+        const savedState = JSON.parse(result.text);
+        this.state = {
+          lastIndexedSessionTime: savedState.lastIndexedSessionTime,
+          lastIndexedMessageTimes: new Map(savedState.lastIndexedMessageTimes || []),
+          lastProcessedEventTime: savedState.lastProcessedEventTime,
+        };
+        console.log(`📂 Loaded indexer state: ${this.state.lastIndexedMessageTimes.size} session cursors`);
+      } else {
+        console.log('📂 No previous indexer state found, starting fresh');
+      }
     } catch (error) {
-      console.warn('⚠️  Could not load indexer state, starting fresh');
+      console.warn('⚠️  Could not load indexer state, starting fresh:', error);
+    }
+  }
+    } catch (error) {
+      console.warn('⚠️  Could not load indexer state, starting fresh:', error);
     }
   }
 
@@ -178,11 +193,28 @@ export class IndexerService {
    */
   private async saveState(): Promise<void> {
     try {
-      // Save state to persistent storage
-      // For now, we'll just log that we would save
-      console.log('💾 Saving indexer state...');
+      const stateToSave = {
+        lastIndexedSessionTime: this.state.lastIndexedSessionTime,
+        lastIndexedMessageTimes: Array.from(this.state.lastIndexedMessageTimes.entries()),
+        lastProcessedEventTime: this.state.lastProcessedEventTime,
+        savedAt: Date.now(),
+      };
+
+      await messageStore.insert({
+        id: 'indexer_state',
+        text: JSON.stringify(stateToSave, null, 2),
+        timestamp: Date.now(),
+        metadata: {
+          type: 'indexer_state',
+          version: '1.0',
+        },
+      });
+
+      console.log(
+        `💾 Saved indexer state: ${this.state.lastIndexedMessageTimes.size} session cursors`,
+      );
     } catch (error) {
-      console.warn('⚠️  Could not save indexer state');
+      console.warn('⚠️  Could not save indexer state:', error);
     }
   }
 
