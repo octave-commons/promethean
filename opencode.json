@@ -1,6 +1,15 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "provider": {
+    "perplexity-pro":{
+      "npm": "@ai-sdk/perplexity-pro",
+      "aplKey":"{env:PERPLEXITY_API_KEY}",
+      "models": {
+        "dragonfly-1.5-pro": {
+          "name": "Dragonfly 1.5 Pro"
+        }
+      }
+    },
     "ollama_openai": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "Ollama OpenAI Compatible",
