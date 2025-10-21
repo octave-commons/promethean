@@ -61,27 +61,57 @@ export class IndexerService {
     await this.saveState();
   }
 
-  /**
+/**
    * Load indexer state from persistent storage
    */
   private async loadState(): Promise<void> {
     try {
-      // Use the messageStore to save/load indexer state as a special document
-      const result = await messageStore.get('indexer_state');
-
-      if (result && result.text) {
-        const savedState = JSON.parse(result.text);
+      // Use filesystem for state persistence to avoid polluting message store
+      const fs = await import('fs/promises');
+      const path = await import('path');
+      
+      const stateFile = path.join(process.cwd(), '.indexer-state.json');
+      
+      try {
+        const data = await fs.readFile(stateFile, 'utf-8');
+        const savedState = JSON.parse(data);
         this.state = {
           lastIndexedSessionTime: savedState.lastIndexedSessionTime,
           lastIndexedMessageTimes: new Map(savedState.lastIndexedMessageTimes || []),
           lastProcessedEventTime: savedState.lastProcessedEventTime,
         };
-        console.log(
-          `📂 Loaded indexer state: ${this.state.lastIndexedMessageTimes.size} session cursors`,
-        );
-      } else {
+        console.log(`📂 Loaded indexer state: ${this.state.lastIndexedMessageTimes.size} session cursors`);
+      } catch (fileError) {
         console.log('📂 No previous indexer state found, starting fresh');
       }
+    } catch (error) {
+      console.warn('⚠️  Could not load indexer state, starting fresh:', error);
+    }
+  }
+
+  /**
+   * Save indexer state to persistent storage
+   */
+  private async saveState(): Promise<void> {
+    try {
+      // Use filesystem for state persistence to avoid polluting message store
+      const fs = await import('fs/promises');
+      const path = await import('path');
+      
+      const stateFile = path.join(process.cwd(), '.indexer-state.json');
+      const stateToSave = {
+        lastIndexedSessionTime: this.state.lastIndexedSessionTime,
+        lastIndexedMessageTimes: Array.from(this.state.lastIndexedMessageTimes.entries()),
+        lastProcessedEventTime: this.state.lastProcessedEventTime,
+        savedAt: Date.now(),
+      };
+      
+      await fs.writeFile(stateFile, JSON.stringify(stateToSave, null, 2));
+      console.log(`💾 Saved indexer state: ${this.state.lastIndexedMessageTimes.size} session cursors`);
+    } catch (error) {
+      console.warn('⚠️  Could not save indexer state:', error);
+    }
+  }
     } catch (error) {
       console.warn('⚠️  Could not load indexer state, starting fresh:', error);
     }
