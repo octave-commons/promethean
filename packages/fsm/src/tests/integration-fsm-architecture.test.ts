@@ -540,8 +540,9 @@ test('FSM Integration - Error Handling and Recovery', (t) => {
     >
   ).snapshot;
 
-  t.is(currentSnapshot.state, 'processing');
+  t.is(currentSnapshot.state, 'idle');
   t.is(currentSnapshot.context.attempts, 3);
+  t.true(currentSnapshot.context.metrics.maxRetriesReached);
 
   // Simulate final failure
   const failEvent3: MachineEvent<WorkflowEvents, 'fail'> = {
