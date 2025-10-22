@@ -2,20 +2,7 @@ import type { Where } from 'chromadb';
 import type { Filter, Sort } from 'mongodb';
 
 import type { DualStoreEntry } from './types.js';
-
-// Re-export types and functions from dualStore that are needed
-export type { DualStoreManagerState } from './dualStore.js';
-export {
-    create,
-    getMongoCollection,
-    getChromaCollection,
-    insert,
-    addEntry,
-    getMostRecent,
-    getMostRelevant,
-    get,
-    cleanup,
-} from './dualStore.js';
+import type { DualStoreManagerState } from './dualStore.js';
 
 // Deprecation warning utility
 const emitDeprecationWarning = (methodName: string): void => {
