@@ -156,24 +156,9 @@ export class WinstonLogger implements Logger {
 
   setLevel(level: LogLevel): void {
     this.mutableConfig.level = level;
-    // Create new transports with updated level
-    const newTransports = this.winston.transports.map((transport) => {
-      const newTransport = Object.assign(
-        Object.create(Object.getPrototypeOf(transport)),
-        transport,
-      );
-      newTransport.level = level;
-      return newTransport;
-    });
-
-    this.winston.configure({
-      level,
-      transports: newTransports,
-      defaultMeta: {
-        service: this.mutableConfig.service,
-      },
-      exitOnError: false,
-    });
+    // Note: Winston level changes require recreating the logger
+    // For now, this just updates the internal config
+    console.warn(`Logger level change to ${level} requires logger recreation`);
   }
 
   getLevel(): LogLevel {
