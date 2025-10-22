@@ -1,15 +1,15 @@
 ---
-uuid: 'pantheon-epic-004-lisp-dsl-implementation-2025-10-20'
-title: 'Epic: Pantheon Lisp DSL Implementation'
-slug: 'pantheon-epic-004-lisp-dsl-implementation'
-status: 'incoming'
-priority: 'P1'
-labels: ['pantheon', 'lisp', 'dsl', 'clojure', 'epic', 'implementation']
-created_at: '2025-10-20T00:00:00Z'
+uuid: "pantheon-epic-004-lisp-dsl-implementation-2025-10-20"
+title: "Epic: Pantheon Lisp DSL Implementation"
+slug: "pantheon-epic-004-lisp-dsl-implementation"
+status: "incoming"
+priority: "P1"
+labels: ["pantheon", "lisp", "dsl", "clojure", "epic", "implementation"]
+created_at: "2025-10-20T00:00:00Z"
 estimates:
-  complexity: 'large'
-  scale: 'epic'
-  time_to_completion: '3-4 weeks'
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Epic: Pantheon Lisp DSL Implementation
