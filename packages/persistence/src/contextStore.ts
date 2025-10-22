@@ -263,7 +263,9 @@ export type CompileOptions = {
     formatAssistantMessages?: boolean;
 };
 
-export const makeContextStore = (deps: ContextDeps) => {
+export const makeContextStore = (
+    deps: ContextDeps,
+): { compileContext: (opts: CompileOptions) => Promise<ContextMessage[]> } => {
     const toEpochMs = (v: DualStoreTimestamp): number =>
         typeof v === 'number' ? v : typeof v === 'string' ? new Date(v).getTime() : v.getTime();
 
