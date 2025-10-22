@@ -128,103 +128,10 @@ export class TransitionRulesEngine {
     task: Task,
     board: Board,
   ): Promise<TransitionResult> {
-    // Skip validation if rules are disabled
-    if (!this.config.enabled || this.config.enforcement === 'disabled') {
-      return {
-        allowed: true,
-        reason: 'Transition rules are disabled',
-        ruleViolations: [],
-        suggestions: [],
-        suggestedAlternatives: [],
-        warnings: [],
-      };
-    }
-
-    const violations: string[] = [];
-    const suggestions: string[] = [];
-
-    // Normalize column names
-    const fromNormalized = this.normalizeColumnName(from);
-    const toNormalized = this.normalizeColumnName(to);
-
-    // Check 1: Is this a defined transition?
-    const transitionRule = this.findTransitionRule(fromNormalized, toNormalized);
-    if (!transitionRule) {
-      // Check if this is a backward transition
-      if (this.isBackwardTransition(fromNormalized, toNormalized)) {
-        console.log(`✅ Backward transition allowed: ${fromNormalized} → ${toNormalized}`);
-      } else {
-        violations.push(
-          `Invalid transition: ${fromNormalized} → ${toNormalized} is not a defined transition`,
-        );
-
-        const validTargets = this.getValidTransitions(fromNormalized);
-        if (validTargets.length > 0) {
-          suggestions.push(`Valid transitions from ${fromNormalized}: ${validTargets.join(', ')}`);
-        }
-      }
-    }
-
-    // Check 2: Global rules (WIP limits, task existence, etc.)
-    for (const globalRule of this.config.globalRules) {
-      if (!globalRule.enabled) continue;
-
-      try {
-        const passes = await this.evaluateGlobalRule(
-          globalRule,
-          fromNormalized,
-          toNormalized,
-          task,
-          board,
-        );
-        if (!passes) {
-          violations.push(`Global rule violation: ${globalRule.description}`);
-        }
-      } catch (error) {
-        console.warn(`Failed to evaluate global rule ${globalRule.name}:`, error);
-      }
-    }
-
-    // Check 3: Testing→review specific validation
-    if (fromNormalized === 'testing' && toNormalized === 'review') {
-      try {
-        const testingResult = await this.validateTestingToReviewTransition(task, board);
-        if (!testingResult.allowed) {
-          violations.push(...testingResult.violations);
-        }
-      } catch (error) {
-        console.warn(`Failed to validate testing→review transition:`, error);
-        violations.push(
-          `Testing transition validation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
-        );
-      }
-    }
-
-    // Check 4: Custom transition-specific rules
-    if (transitionRule && transitionRule.check) {
-      try {
-        const passes = await this.evaluateCustomCheck(transitionRule.check, task, board);
-        if (!passes) {
-          violations.push(`Transition check failed: ${transitionRule.description}`);
-        }
-      } catch (error) {
-        console.warn(`Failed to evaluate transition check ${transitionRule.check}:`, error);
-      }
-    }
-
-    const allowed = violations.length === 0;
-    const reason = allowed
-      ? `Transition ${fromNormalized} → ${toNormalized} is allowed`
-      : `Transition blocked: ${violations.join('; ')}`;
-
-    return {
-      allowed,
-      reason,
-      ruleViolations: violations,
-      suggestions,
-      suggestedAlternatives: suggestions,
-      warnings: [],
-    };
+    console.warn('TransitionRulesEngine.validateTransition is deprecated. Use validateTransition from transition-rules-functional instead.');
+    const result = await validateTransitionFn(this.state, from, to, task, board);
+    this.state = result.newState;
+    return result.result;
   }
 
   /**
