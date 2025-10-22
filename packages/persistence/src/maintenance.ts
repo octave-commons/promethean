@@ -1,5 +1,3 @@
-/* eslint-disable functional/prefer-immutable-types */
-
 import type { DeleteResult } from 'mongodb';
 
 import { getMongoClient, getChromaClient } from './clients.js';
