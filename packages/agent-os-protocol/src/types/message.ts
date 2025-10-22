@@ -5,6 +5,7 @@
  */
 
 import { z } from 'zod';
+
 import type { AgentIdentifier, MessagePriority } from './agent.js';
 import type { AsyncContext } from './async.js';
 
@@ -12,7 +13,7 @@ import type { AsyncContext } from './async.js';
  * Base Agent OS Message Structure
  * All Agent OS messages extend the standard MCP JSON-RPC 2.0 format
  */
-export interface AgentOSMessage {
+export type AgentOSMessage = {
   // Standard JSON-RPC 2.0 fields
   jsonrpc: '2.0';
   id?: string | number | null;

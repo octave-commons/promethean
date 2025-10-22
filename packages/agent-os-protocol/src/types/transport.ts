@@ -5,6 +5,7 @@
  */
 
 import { z } from 'zod';
+
 import type { AgentOSMessage } from './message.js';
 import type { AgentIdentifier } from './agent.js';
 import type { AgentEndpoint } from './agent.js';
@@ -24,7 +25,7 @@ export const TransportTypeSchema = z.nativeEnum(TransportType);
 /**
  * Transport Configuration - base configuration for all transports
  */
-export interface TransportConfig {
+export type TransportConfig = {
   type: TransportType;
   endpoint?: string;
   authentication?: any; // AuthenticationMethod - circular reference
@@ -49,7 +50,7 @@ export const TransportConfigSchema = z.object({
 /**
  * HTTP Transport Configuration
  */
-export interface HTTPTransportConfig extends TransportConfig {
+export type HTTPTransportConfig = {
   type: TransportType.HTTP;
   port?: number;
   host?: string;
@@ -57,7 +58,7 @@ export interface HTTPTransportConfig extends TransportConfig {
   ssl?: boolean;
   cors?: boolean;
   rateLimit?: RateLimitConfig;
-}
+} & TransportConfig
 
 export const HTTPTransportConfigSchema = TransportConfigSchema.extend({
   type: z.literal(TransportType.HTTP),
@@ -72,7 +73,7 @@ export const HTTPTransportConfigSchema = TransportConfigSchema.extend({
 /**
  * WebSocket Transport Configuration
  */
-export interface WebSocketTransportConfig extends TransportConfig {
+export type WebSocketTransportConfig = {
   type: TransportType.WEBSOCKET;
   port?: number;
   host?: string;
@@ -80,7 +81,7 @@ export interface WebSocketTransportConfig extends TransportConfig {
   ssl?: boolean;
   heartbeat?: HeartbeatConfig;
   compression?: boolean;
-}
+} & TransportConfig
 
 export const WebSocketTransportConfigSchema = TransportConfigSchema.extend({
   type: z.literal(TransportType.WEBSOCKET),
@@ -95,14 +96,14 @@ export const WebSocketTransportConfigSchema = TransportConfigSchema.extend({
 /**
  * Message Queue Transport Configuration
  */
-export interface MessageQueueTransportConfig extends TransportConfig {
+export type MessageQueueTransportConfig = {
   type: TransportType.MESSAGE_QUEUE;
   provider: 'redis' | 'rabbitmq' | 'kafka' | 'memory';
   connectionString?: string;
   topic?: string;
   consumerGroup?: string;
   maxConcurrency?: number;
-}
+} & TransportConfig
 
 export const MessageQueueTransportConfigSchema = TransportConfigSchema.extend({
   type: z.literal(TransportType.MESSAGE_QUEUE),
@@ -116,7 +117,7 @@ export const MessageQueueTransportConfigSchema = TransportConfigSchema.extend({
 /**
  * Rate Limit Configuration
  */
-export interface RateLimitConfig {
+export type RateLimitConfig = {
   windowMs: number;
   maxRequests: number;
   skipSuccessfulRequests?: boolean;
@@ -133,7 +134,7 @@ export const RateLimitConfigSchema = z.object({
 /**
  * Heartbeat Configuration
  */
-export interface HeartbeatConfig {
+export type HeartbeatConfig = {
   interval: number; // milliseconds
   timeout: number; // milliseconds
   maxMissed: number;
@@ -148,7 +149,7 @@ export const HeartbeatConfigSchema = z.object({
 /**
  * Transport Interface - base interface for all transports
  */
-export interface Transport {
+export type Transport = {
   readonly type: TransportType;
   readonly config: TransportConfig;
   
@@ -183,7 +184,7 @@ export type ConnectionHandler = (agentId?: string) => void;
 /**
  * Transport Factory - creates transport instances
  */
-export interface TransportFactory {
+export type TransportFactory = {
   create(config: TransportConfig): Transport;
   supportedTypes(): TransportType[];
 }
@@ -191,7 +192,7 @@ export interface TransportFactory {
 /**
  * Connection Information - details about a connection
  */
-export interface ConnectionInfo {
+export type ConnectionInfo = {
   id: string;
   agentId?: string;
   transportType: TransportType;
@@ -218,7 +219,7 @@ export const ConnectionInfoSchema = z.object({
 /**
  * Transport Statistics - transport performance metrics
  */
-export interface TransportStats {
+export type TransportStats = {
   type: TransportType;
   uptime: number; // milliseconds
   messagesSent: number;
@@ -247,7 +248,7 @@ export const TransportStatsSchema = z.object({
 /**
  * Transport Manager Interface
  */
-export interface TransportManager {
+export type TransportManager = {
   registerTransport(type: TransportType, factory: TransportFactory): void;
   createTransport(config: TransportConfig): Promise<Transport>;
   getTransport(agentId: string): Transport | null;

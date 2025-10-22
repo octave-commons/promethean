@@ -5,12 +5,13 @@
  */
 
 import { z } from 'zod';
+
 import type { AgentIdentifier, AgentInfo, AgentSelector, AgentStatus } from './agent.js';
 
 /**
  * Agent Registry Interface - central registry for agent management
  */
-export interface AgentRegistry {
+export type AgentRegistry = {
   register(agent: AgentInfo, ttl?: number): Promise<string>;
   unregister(agentId: string): Promise<void>;
   get(agentId: string): Promise<AgentInfo | null>;
@@ -25,7 +26,7 @@ export interface AgentRegistry {
 /**
  * Agent Filter - for filtering agent lists
  */
-export interface AgentFilter {
+export type AgentFilter = {
   status?: AgentStatus[];
   type?: string[];
   capabilities?: string[];
@@ -46,7 +47,7 @@ export const AgentFilterSchema = z.object({
 /**
  * Agent Discovery Query - for finding agents with specific requirements
  */
-export interface AgentDiscoveryQuery {
+export type AgentDiscoveryQuery = {
   requiredCapabilities: string[];
   minimumProficiency?: number;
   excludedCapabilities?: string[];
@@ -83,7 +84,7 @@ export const AgentDiscoveryQuerySchema = z.object({
 /**
  * Registration Result - result of agent registration
  */
-export interface RegistrationResult {
+export type RegistrationResult = {
   success: boolean;
   agentId: string;
   expiresAt?: string; // ISO8601
@@ -100,7 +101,7 @@ export const RegistrationResultSchema = z.object({
 /**
  * Registry Statistics - registry performance metrics
  */
-export interface RegistryStats {
+export type RegistryStats = {
   totalAgents: number;
   agentsByStatus: Record<AgentStatus, number>;
   agentsByType: Record<string, number>;
@@ -123,7 +124,7 @@ export const RegistryStatsSchema = z.object({
 /**
  * Registry Configuration - registry settings
  */
-export interface RegistryConfig {
+export type RegistryConfig = {
   defaultTTL: number; // seconds
   cleanupInterval: number; // milliseconds
   maxAgents: number;
@@ -146,7 +147,7 @@ export const RegistryConfigSchema = z.object({
 /**
  * Registry Event - events emitted by the registry
  */
-export interface RegistryEvent {
+export type RegistryEvent = {
   type: 'agent_registered' | 'agent_unregistered' | 'agent_updated' | 'agent_expired' | 'cleanup_performed';
   timestamp: string; // ISO8601
   agentId?: string;
@@ -168,16 +169,16 @@ export type RegistryEventHandler = (event: RegistryEvent) => void;
 /**
  * Registry Interface with Event Support
  */
-export interface AgentRegistryWithEvents extends AgentRegistry {
+export type AgentRegistryWithEvents = {
   on(event: RegistryEvent['type'], handler: RegistryEventHandler): void;
   off(event: RegistryEvent['type'], handler: RegistryEventHandler): void;
   getEvents(filter?: RegistryEventFilter): Promise<RegistryEvent[]>;
-}
+} & AgentRegistry
 
 /**
  * Registry Event Filter - for filtering registry events
  */
-export interface RegistryEventFilter {
+export type RegistryEventFilter = {
   eventTypes?: RegistryEvent['type'][];
   agentId?: string;
   after?: string; // ISO8601

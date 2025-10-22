@@ -5,13 +5,14 @@
  */
 
 import { z } from 'zod';
+
 import type { AgentIdentifier } from './agent.js';
 import type { AgentOSMessage } from './message.js';
 
 /**
  * Agent Credentials - credentials for agent authentication
  */
-export interface AgentCredentials {
+export type AgentCredentials = {
   type: 'jwt' | 'api_key' | 'certificate';
   value: string;
   metadata?: Record<string, unknown>;
@@ -26,7 +27,7 @@ export const AgentCredentialsSchema = z.object({
 /**
  * Auth Token - authentication token
  */
-export interface AuthToken {
+export type AuthToken = {
   token: string;
   type: string;
   expiresAt: string; // ISO8601
@@ -47,7 +48,7 @@ export const AuthTokenSchema = z.object({
 /**
  * Agent Authentication Interface
  */
-export interface AgentAuth {
+export type AgentAuth = {
   authenticate(credentials: AgentCredentials): Promise<AuthToken>;
   validate(token: string): Promise<AgentInfo | null>;
   revoke(token: string): Promise<void>;
@@ -57,7 +58,7 @@ export interface AgentAuth {
 /**
  * Agent Info - information returned after authentication
  */
-export interface AgentInfo {
+export type AgentInfo = {
   id: string;
   type: string;
   capabilities: string[];
@@ -76,7 +77,7 @@ export const AgentInfoSchema = z.object({
 /**
  * Signed Message - cryptographically signed message
  */
-export interface SignedMessage {
+export type SignedMessage = {
   message: AgentOSMessage;
   signature: string;
   algorithm: string;
@@ -95,7 +96,7 @@ export const SignedMessageSchema = z.object({
 /**
  * Encrypted Message - encrypted message
  */
-export interface EncryptedMessage {
+export type EncryptedMessage = {
   data: string;
   algorithm: string;
   keyId: string;
@@ -114,7 +115,7 @@ export const EncryptedMessageSchema = z.object({
 /**
  * Message Security Interface
  */
-export interface MessageSecurity {
+export type MessageSecurity = {
   sign(message: AgentOSMessage, key: CryptoKey): Promise<SignedMessage>;
   verify(signedMessage: SignedMessage): Promise<boolean>;
   encrypt(message: AgentOSMessage, key: CryptoKey): Promise<EncryptedMessage>;
@@ -124,7 +125,7 @@ export interface MessageSecurity {
 /**
  * Security Policy - security configuration
  */
-export interface SecurityPolicy {
+export type SecurityPolicy = {
   encryptionRequired: boolean;
   signatureRequired: boolean;
   allowedAlgorithms: string[];
@@ -145,7 +146,7 @@ export const SecurityPolicySchema = z.object({
 /**
  * Permission - agent permission
  */
-export interface Permission {
+export type Permission = {
   id: string;
   name: string;
   description: string;
@@ -166,7 +167,7 @@ export const PermissionSchema = z.object({
 /**
  * Permission Condition - condition for permission evaluation
  */
-export interface PermissionCondition {
+export type PermissionCondition = {
   type: 'time' | 'ip' | 'resource' | 'custom';
   operator: 'equals' | 'not_equals' | 'in' | 'not_in' | 'greater_than' | 'less_than';
   value: unknown;
@@ -183,7 +184,7 @@ export const PermissionConditionSchema = z.object({
 /**
  * Authorization Result - result of permission check
  */
-export interface AuthorizationResult {
+export type AuthorizationResult = {
   allowed: boolean;
   permission?: string;
   reason?: string;
@@ -200,7 +201,7 @@ export const AuthorizationResultSchema = z.object({
 /**
  * Authorization Interface
  */
-export interface Authorization {
+export type Authorization = {
   check(agentId: string, resource: string, action: string, context?: Record<string, unknown>): Promise<AuthorizationResult>;
   grant(agentId: string, permission: Permission): Promise<void>;
   revoke(agentId: string, permissionId: string): Promise<void>;
@@ -210,7 +211,7 @@ export interface Authorization {
 /**
  * Audit Log - security audit entry
  */
-export interface AuditLog {
+export type AuditLog = {
   id: string;
   timestamp: string; // ISO8601
   agentId: string;
@@ -237,7 +238,7 @@ export const AuditLogSchema = z.object({
 /**
  * Security Context - security information for message processing
  */
-export interface SecurityContext {
+export type SecurityContext = {
   agentId: string;
   authenticated: boolean;
   permissions: string[];

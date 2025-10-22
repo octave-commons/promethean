@@ -7,7 +7,7 @@ import { z } from 'zod';
 /**
  * Agent Identifier - uniquely identifies an agent in the ecosystem
  */
-export interface AgentIdentifier {
+export type AgentIdentifier = {
   id: string;
   type: AgentType;
   version: string;
@@ -78,7 +78,7 @@ export const AgentStatusSchema = z.nativeEnum(AgentStatus);
 /**
  * Agent Information - detailed agent metadata
  */
-export interface AgentInfo {
+export type AgentInfo = {
   identifier: AgentIdentifier;
   status: AgentStatus;
   endpoints: AgentEndpoint[];
@@ -95,7 +95,7 @@ export const AgentInfoSchema = z.object({
 /**
  * Agent Endpoint - how to connect to an agent
  */
-export interface AgentEndpoint {
+export type AgentEndpoint = {
   type: 'mcp' | 'http' | 'websocket' | 'stdio';
   url?: string;
   path?: string;
@@ -112,7 +112,7 @@ export const AgentEndpointSchema = z.object({
 /**
  * Authentication Method
  */
-export interface AuthenticationMethod {
+export type AuthenticationMethod = {
   type: 'jwt' | 'api_key' | 'certificate' | 'none';
   credentials?: string;
   metadata?: Record<string, unknown>;
@@ -127,7 +127,7 @@ export const AuthenticationMethodSchema = z.object({
 /**
  * Agent Selector - for filtering agents
  */
-export interface AgentSelector {
+export type AgentSelector = {
   type?: AgentType[];
   capabilities?: AgentCapability[];
   status?: AgentStatus[];
@@ -144,7 +144,7 @@ export const AgentSelectorSchema = z.object({
 /**
  * Agent creation and update types
  */
-export interface AgentCreationConfig {
+export type AgentCreationConfig = {
   identifier: AgentIdentifier;
   endpoints: AgentEndpoint[];
   metadata?: Record<string, unknown>;
@@ -158,7 +158,7 @@ export const AgentCreationConfigSchema = z.object({
   ttl: z.number().optional(),
 });
 
-export interface AgentUpdateConfig {
+export type AgentUpdateConfig = {
   status?: AgentStatus;
   endpoints?: AgentEndpoint[];
   metadata?: Record<string, unknown>;

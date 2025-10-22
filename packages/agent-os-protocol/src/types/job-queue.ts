@@ -5,13 +5,14 @@
  */
 
 import { z } from 'zod';
+
 import type { AgentIdentifier } from './agent.js';
 import type { MessagePriority } from './agent.js';
 
 /**
  * Job Definition - what a job should do
  */
-export interface JobDefinition {
+export type JobDefinition = {
   id?: string;
   type: string;
   targetAgent: AgentIdentifier;
@@ -34,7 +35,7 @@ export const JobDefinitionSchema = z.object({
 /**
  * Job Options - how a job should be executed
  */
-export interface JobOptions {
+export type JobOptions = {
   priority?: MessagePriority;
   deliverAt?: string; // ISO8601
   maxRetries?: number;
@@ -51,7 +52,7 @@ export const JobOptionsSchema = z.object({
 /**
  * Retry Policy - how to handle job failures
  */
-export interface RetryPolicy {
+export type RetryPolicy = {
   maxAttempts: number;
   backoffStrategy: 'fixed' | 'exponential' | 'linear';
   baseDelay: number; // milliseconds
@@ -68,7 +69,7 @@ export const RetryPolicySchema = z.object({
 /**
  * Job Callback - how to notify about job completion
  */
-export interface JobCallback {
+export type JobCallback = {
   type: 'webhook' | 'poll' | 'event';
   endpoint?: string;
   event?: string;
@@ -97,7 +98,7 @@ export const JobStatusSchema = z.nativeEnum(JobStatus);
 /**
  * Job Status Information - detailed job state
  */
-export interface JobStatusInfo {
+export type JobStatusInfo = {
   id: string;
   status: JobStatus;
   progress?: number; // 0-100
@@ -124,7 +125,7 @@ export const JobStatusInfoSchema = z.object({
 /**
  * Job Error - detailed error information
  */
-export interface JobError {
+export type JobError = {
   code: string;
   message: string;
   details?: unknown;
@@ -141,7 +142,7 @@ export const JobErrorSchema = z.object({
 /**
  * Job Filter - for querying jobs
  */
-export interface JobFilter {
+export type JobFilter = {
   status?: JobStatus[];
   agentId?: string;
   type?: string;
@@ -164,7 +165,7 @@ export const JobFilterSchema = z.object({
 /**
  * Job Result - output of a completed job
  */
-export interface JobResult {
+export type JobResult = {
   success: boolean;
   result?: unknown;
   error?: JobError;
@@ -183,20 +184,20 @@ export const JobResultSchema = z.object({
 /**
  * Job Processor - interface for job processing
  */
-export interface JobProcessor {
+export type JobProcessor = {
   process(job: JobDefinition): Promise<JobResult>;
   canProcess(jobType: string): boolean;
   getCapabilities(): ProcessorCapability[];
 }
 
-export interface ProcessorCapability {
+export type ProcessorCapability = {
   jobType: string;
   maxConcurrency: number;
   timeout: number;
   resources: ResourceRequirement[];
 }
 
-export interface ResourceRequirement {
+export type ResourceRequirement = {
   type: 'cpu' | 'memory' | 'disk' | 'network' | 'gpu';
   amount: number;
   unit: string;

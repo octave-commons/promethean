@@ -5,12 +5,13 @@
  */
 
 import { z } from 'zod';
+
 import type { MessagePriority } from './agent.js';
 
 /**
  * Async Operation - represents an asynchronous operation
  */
-export interface AsyncOperation {
+export type AsyncOperation = {
   id?: string;
   type: string;
   timeout?: number;
@@ -29,7 +30,7 @@ export const AsyncOperationSchema = z.object({
 /**
  * Async Options - options for async operations
  */
-export interface AsyncOptions {
+export type AsyncOptions = {
   priority?: MessagePriority;
   callbacks?: AsyncCallbacks;
   persistence?: PersistenceOptions;
@@ -44,7 +45,7 @@ export const AsyncOptionsSchema = z.object({
 /**
  * Async Callbacks - callbacks for async operation events
  */
-export interface AsyncCallbacks {
+export type AsyncCallbacks = {
   onProgress?: string; // event name
   onComplete?: string; // event name
   onError?: string; // event name
@@ -61,7 +62,7 @@ export const AsyncCallbacksSchema = z.object({
 /**
  * Cleanup Policy - how to clean up async operations
  */
-export interface CleanupPolicy {
+export type CleanupPolicy = {
   type: 'immediate' | 'delayed' | 'manual';
   delay?: number; // milliseconds
   retainResults?: boolean;
@@ -78,7 +79,7 @@ export const CleanupPolicySchema = z.object({
 /**
  * Persistence Options - how to persist async operations
  */
-export interface PersistenceOptions {
+export type PersistenceOptions = {
   enabled: boolean;
   storage?: 'memory' | 'redis' | 'database';
   ttl?: number; // seconds
@@ -111,7 +112,7 @@ export const AsyncStatusSchema = z.nativeEnum(AsyncStatus);
 /**
  * Async Context - context for async operations
  */
-export interface AsyncContext {
+export type AsyncContext = {
   operationId: string;
   status: AsyncStatus;
   createdAt: string; // ISO8601
@@ -140,7 +141,7 @@ export const AsyncContextSchema = z.object({
 /**
  * Async Error - detailed error information for async operations
  */
-export interface AsyncError {
+export type AsyncError = {
   code: string;
   message: string;
   recoverable: boolean;
@@ -159,7 +160,7 @@ export const AsyncErrorSchema = z.object({
 /**
  * Async Updates - updates that can be applied to async operations
  */
-export interface AsyncUpdates {
+export type AsyncUpdates = {
   status?: AsyncStatus;
   progress?: number; // 0-100
   result?: unknown;
@@ -178,7 +179,7 @@ export const AsyncUpdatesSchema = z.object({
 /**
  * Async Operation Result - result of async operation
  */
-export interface AsyncOperationResult {
+export type AsyncOperationResult = {
   operationId: string;
   status: AsyncStatus;
   previousStatus: AsyncStatus;
@@ -199,7 +200,7 @@ export const AsyncOperationResultSchema = z.object({
 /**
  * Async Manager Interface
  */
-export interface AsyncManager {
+export type AsyncManager = {
   create(operation: AsyncOperation, options?: AsyncOptions): Promise<string>;
   update(operationId: string, updates: AsyncUpdates): Promise<AsyncOperationResult>;
   get(operationId: string): Promise<AsyncContext | null>;
@@ -212,7 +213,7 @@ export interface AsyncManager {
 /**
  * Async Filter - for querying async operations
  */
-export interface AsyncFilter {
+export type AsyncFilter = {
   status?: AsyncStatus[];
   type?: string;
   createdAfter?: string; // ISO8601

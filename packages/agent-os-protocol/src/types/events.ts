@@ -5,12 +5,13 @@
  */
 
 import { z } from 'zod';
+
 import type { AgentIdentifier, AgentSelector, MessagePriority } from './agent.js';
 
 /**
  * Agent Event - an event published by an agent
  */
-export interface AgentEvent {
+export type AgentEvent = {
   id?: string;
   type: string;
   source: AgentIdentifier;
@@ -33,7 +34,7 @@ export const AgentEventSchema = z.object({
 /**
  * Event Filter - for subscribing to specific events
  */
-export interface EventFilter {
+export type EventFilter = {
   sourceAgents?: AgentIdentifier[];
   eventTypes?: string[];
   patterns?: EventPattern[];
@@ -50,7 +51,7 @@ export const EventFilterSchema = z.object({
 /**
  * Event Pattern - for flexible event matching
  */
-export interface EventPattern {
+export type EventPattern = {
   type: 'regex' | 'glob' | 'jsonpath';
   pattern: string;
   field?: string; // field to match against
@@ -65,7 +66,7 @@ export const EventPatternSchema = z.object({
 /**
  * Subscription Options - how to deliver events
  */
-export interface SubscriptionOptions {
+export type SubscriptionOptions = {
   durable?: boolean;
   bufferSize?: number;
   timeout?: number;
@@ -105,7 +106,7 @@ export const SubscriptionStatusSchema = z.nativeEnum(SubscriptionStatus);
 /**
  * Event Subscription - represents an active subscription
  */
-export interface EventSubscription {
+export type EventSubscription = {
   id: string;
   filter: EventFilter;
   options: SubscriptionOptions;
@@ -132,7 +133,7 @@ export const EventSubscriptionSchema = z.object({
 /**
  * Publish Options - how to publish an event
  */
-export interface PublishOptions {
+export type PublishOptions = {
   targetAgents?: AgentSelector;
   priority?: MessagePriority;
   ttl?: number; // seconds
@@ -149,7 +150,7 @@ export const PublishOptionsSchema = z.object({
 /**
  * Event Delivery Result - result of publishing an event
  */
-export interface EventDeliveryResult {
+export type EventDeliveryResult = {
   eventId: string;
   delivered: number;
   failed: number;
@@ -168,7 +169,7 @@ export const EventDeliveryResultSchema = z.object({
 /**
  * Delivery Error - details about failed event delivery
  */
-export interface DeliveryError {
+export type DeliveryError = {
   subscriptionId: string;
   subscriberId: string;
   error: string;
@@ -190,7 +191,7 @@ export type EventHandler = (event: AgentEvent) => Promise<void> | void;
 /**
  * Event Bus Interface - core event system interface
  */
-export interface EventBus {
+export type EventBus = {
   publish(event: AgentEvent, options?: PublishOptions): Promise<EventDeliveryResult>;
   subscribe(filter: EventFilter, handler: EventHandler, options?: SubscriptionOptions): Promise<string>;
   unsubscribe(subscriptionId: string): Promise<void>;

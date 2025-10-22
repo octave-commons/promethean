@@ -5,6 +5,7 @@
  */
 
 import { z } from 'zod';
+
 import type { AgentIdentifier, AgentSelector } from './agent.js';
 import type { AgentOSMessage } from './message.js';
 import type { RetryPolicy } from './job-queue.js';
@@ -12,7 +13,7 @@ import type { RetryPolicy } from './job-queue.js';
 /**
  * Route Options - how to route a message
  */
-export interface RouteOptions {
+export type RouteOptions = {
   timeout?: number;
   retryPolicy?: RetryPolicy;
   transform?: MessageTransform;
@@ -27,7 +28,7 @@ export const RouteOptionsSchema = z.object({
 /**
  * Message Transform - how to modify a message during routing
  */
-export interface MessageTransform {
+export type MessageTransform = {
   type: 'header' | 'payload' | 'full';
   operation: 'add' | 'remove' | 'modify';
   path?: string; // JSONPath for payload transforms
@@ -56,7 +57,7 @@ export const DeliveryStatusSchema = z.nativeEnum(DeliveryStatus);
 /**
  * Routing Result - result of routing a message
  */
-export interface RoutingResult {
+export type RoutingResult = {
   success: boolean;
   route: RouteInfo;
   delivery?: DeliveryResult;
@@ -73,7 +74,7 @@ export const RoutingResultSchema = z.object({
 /**
  * Route Info - information about a specific route
  */
-export interface RouteInfo {
+export type RouteInfo = {
   id: string;
   priority: number;
   targetAgent: AgentIdentifier;
@@ -96,7 +97,7 @@ export const RouteInfoSchema = z.object({
 /**
  * Delivery Result - detailed delivery information
  */
-export interface DeliveryResult {
+export type DeliveryResult = {
   messageId: string;
   agentId: string;
   status: DeliveryStatus;
@@ -121,7 +122,7 @@ export const DeliveryResultSchema = z.object({
 /**
  * Broadcast Options - how to broadcast a message
  */
-export interface BroadcastOptions {
+export type BroadcastOptions = {
   parallel?: boolean;
   timeout?: number;
   aggregation?: AggregationStrategy;
@@ -136,7 +137,7 @@ export const BroadcastOptionsSchema = z.object({
 /**
  * Aggregation Strategy - how to aggregate broadcast results
  */
-export interface AggregationStrategy {
+export type AggregationStrategy = {
   type: 'all' | 'any' | 'majority' | 'first';
   timeout?: number;
 }
@@ -149,7 +150,7 @@ export const AggregationStrategySchema = z.object({
 /**
  * Broadcast Result - result of broadcasting a message
  */
-export interface BroadcastResult {
+export type BroadcastResult = {
   messageId: string;
   deliveries: DeliveryResult[];
   summary?: BroadcastSummary;
@@ -164,7 +165,7 @@ export const BroadcastResultSchema = z.object({
 /**
  * Broadcast Summary - summary of broadcast results
  */
-export interface BroadcastSummary {
+export type BroadcastSummary = {
   total: number;
   successful: number;
   failed: number;
@@ -181,7 +182,7 @@ export const BroadcastSummarySchema = z.object({
 /**
  * Route Pattern - pattern for matching messages to routes
  */
-export interface RoutePattern {
+export type RoutePattern = {
   id: string;
   priority: number;
   condition: RouteCondition;
@@ -198,7 +199,7 @@ export const RoutePatternSchema = z.object({
 /**
  * Route Condition - condition for matching messages
  */
-export interface RouteCondition {
+export type RouteCondition = {
   agentType?: string;
   capability?: string;
   messageType?: string;
@@ -215,7 +216,7 @@ export const RouteConditionSchema = z.object({
 /**
  * Route Target - where to route matching messages
  */
-export interface RouteTarget {
+export type RouteTarget = {
   agentId?: string;
   agentType?: string;
   endpoint?: string;
@@ -245,7 +246,7 @@ export const LoadBalancingStrategySchema = z.nativeEnum(LoadBalancingStrategy);
 /**
  * Message Router Interface
  */
-export interface MessageRouter {
+export type MessageRouter = {
   route(message: AgentOSMessage): Promise<RoutingResult>;
   addRoute(pattern: RoutePattern, handler: RouteHandler): void;
   removeRoute(routeId: string): void;
