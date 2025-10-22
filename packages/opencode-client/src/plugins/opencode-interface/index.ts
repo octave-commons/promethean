@@ -31,13 +31,119 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
 
   return {
     tool: {
-      // Session Management Tools
+      // Unified Context Search Tools
+      'compile-context': tool({
+        description:
+          'Compile and search the complete context store (sessions, events, messages) with unified access',
+        args: {
+          query: tool.schema.string().optional().describe('Search query to filter context'),
+          includeSessions: tool.schema
+            .boolean()
+            .default(true)
+            .describe('Include sessions in context'),
+          includeEvents: tool.schema.boolean().default(true).describe('Include events in context'),
+          includeMessages: tool.schema
+            .boolean()
+            .default(true)
+            .describe('Include messages in context'),
+          sessionId: tool.schema.string().optional().describe('Filter by specific session ID'),
+          limit: tool.schema.number().default(50).describe('Maximum results per type'),
+        },
+        async execute(args) {
+          try {
+            const context = await compileContext({
+              query: args.query,
+              includeSessions: args.includeSessions,
+              includeEvents: args.includeEvents,
+              includeMessages: args.includeMessages,
+              sessionId: args.sessionId,
+              limit: args.limit,
+            });
+
+            return context;
+          } catch (error) {
+            throw new Error(
+              `Failed to compile context: ${error instanceof Error ? error.message : String(error)}`,
+            );
+          }
+        },
+      }),
+
+      'search-context': tool({
+        description: 'Unified search across all OpenCode data (sessions, events, messages)',
+        args: {
+          query: tool.schema.string().describe('Search query'),
+          sessionId: tool.schema.string().optional().describe('Filter by session ID'),
+          limit: tool.schema.number().default(20).describe('Maximum results per category'),
+        },
+        async execute(args) {
+          try {
+            // Search sessions
+            const sessionResults = await searchSessions({
+              query: args.query,
+              k: args.limit,
+              sessionId: args.sessionId,
+            });
+
+            // Search events
+            const eventResults = await listEvents({
+              query: args.query,
+              k: args.limit,
+              sessionId: args.sessionId,
+            });
+
+            // Get messages for sessions and search within them
+            let messageResults: any[] = [];
+            if (sessionResults && Array.isArray(sessionResults)) {
+              for (const session of sessionResults.slice(0, 5)) {
+                // Limit to avoid too many API calls
+                try {
+                  const messages = await getSessionMessages(opencodeClient, session.id);
+                  const matchingMessages = messages
+                    .filter((msg) => {
+                      const textParts =
+                        msg.parts?.filter((part: any) => part.type === 'text') || [];
+                      const text = textParts
+                        .map((part: any) => part.text)
+                        .join(' ')
+                        .toLowerCase();
+                      return text.includes(args.query.toLowerCase());
+                    })
+                    .slice(0, args.limit);
+
+                  messageResults.push(...matchingMessages);
+                } catch (error) {
+                  // Continue if message fetch fails
+                  console.warn(`Failed to fetch messages for session ${session.id}:`, error);
+                }
+              }
+            }
+
+            return {
+              sessions: sessionResults || [],
+              events: eventResults || [],
+              messages: messageResults,
+              query: args.query,
+              summary: {
+                totalSessions: Array.isArray(sessionResults) ? sessionResults.length : 0,
+                totalEvents: Array.isArray(eventResults) ? eventResults.length : 0,
+                totalMessages: messageResults.length,
+              },
+            };
+          } catch (error) {
+            throw new Error(
+              `Failed to search context: ${error instanceof Error ? error.message : String(error)}`,
+            );
+          }
+        },
+      }),
+
+      // Session Management Tools (Updated to return raw objects)
       'list-sessions': tool({
         description: 'List all active OpenCode sessions with pagination and filtering',
         args: {
           limit: tool.schema.number().default(20).describe('Number of sessions to return'),
           offset: tool.schema.number().default(0).describe('Number of sessions to skip'),
-          format: tool.schema.enum(['table', 'json']).default('table').describe('Output format'),
         },
         async execute(args) {
           try {
@@ -46,41 +152,7 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
               offset: args.offset,
             });
 
-            if (args.format === 'json') {
-              return JSON.stringify(result, null, 2);
-            }
-
-            // Handle error case
-            if ('error' in result) {
-              return `Error listing sessions: ${result.error}`;
-            }
-
-            // Format as readable text
-            const sessions = result.sessions || [];
-
-            let output = `Active Sessions (${sessions.length}):\n`;
-            output += '='.repeat(80) + '\n';
-
-            sessions.forEach((session: any) => {
-              output += `ID: ${session.id}\n`;
-              output += `Title: ${session.title || 'Untitled'}\n`;
-              output += `Status: ${session.activityStatus || 'unknown'}\n`;
-              output += `Messages: ${session.messageCount || 0}\n`;
-              output += `Agent Task: ${session.isAgentTask ? 'Yes' : 'No'}\n`;
-              output += `Created: ${session.time?.created || 'Unknown'}\n`;
-              output += `Last Activity: ${session.lastActivityTime || 'Unknown'}\n`;
-              output += '-'.repeat(40) + '\n';
-            });
-
-            if (result.summary) {
-              output += `\nSummary:\n`;
-              output += `  Active: ${result.summary.active}\n`;
-              output += `  Waiting for Input: ${result.summary.waiting_for_input}\n`;
-              output += `  Idle: ${result.summary.idle}\n`;
-              output += `  Agent Tasks: ${result.summary.agentTasks}\n`;
-            }
-
-            return output;
+            return result;
           } catch (error) {
             throw new Error(
               `Failed to list sessions: ${error instanceof Error ? error.message : String(error)}`,
