@@ -7,14 +7,7 @@
 
 import { v4 as uuidv4 } from 'uuid';
 
-import {
-  AgentContext,
-  ContextEvent,
-  ContextSnapshot,
-  ContextManager,
-  EventStore,
-  SnapshotStore,
-} from './types';
+import { AgentContext, ContextEvent, ContextSnapshot, EventStore, SnapshotStore } from './types';
 import { SecurityValidator, SecurityLogger, RateLimiter } from './security';
 import {
   checkRateLimit,
