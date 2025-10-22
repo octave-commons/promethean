@@ -7,17 +7,9 @@ priority: "P0"
 labels: ["architecture", "implementation", "cross-platform", "integration", "migration"]
 created_at: "2025-10-22T15:40:00Z"
 estimates:
-  complexity: "4"
-  scale: "medium"
-  time_to_completion: "3 cloud sessions"
-lastCommitSha: "3e1e6fa045177999fab506db133f1d590ff439b8"
-commitHistory:
-  -
-    sha: "3e1e6fa045177999fab506db133f1d590ff439b8"
-    timestamp: "2025-10-22 12:07:36 -0500\n\ndiff --git a/docs/agile/tasks/cross-platform-integration-migration.md b/docs/agile/tasks/cross-platform-integration-migration.md\nindex b80e8c8e1..e52381645 100644\n--- a/docs/agile/tasks/cross-platform-integration-migration.md\n+++ b/docs/agile/tasks/cross-platform-integration-migration.md\n@@ -7,9 +7,9 @@ priority: \"P0\"\n labels: [\"architecture\", \"implementation\", \"cross-platform\", \"integration\", \"migration\"]\n created_at: \"2025-10-22T15:40:00Z\"\n estimates:\n-  complexity: \"\"\n-  scale: \"\"\n-  time_to_completion: \"\"\n+  complexity: \"4\"\n+  scale: \"medium\"\n+  time_to_completion: \"3 cloud sessions\"\n ---\n \n # Implement Integration and Migration Framework"
-    message: "Create task: cross-platform-integration-migration-2025-10-22 - Create task: Implement Integration and Migration Framework"
-    author: "Error"
-    type: "create"
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Implement Integration and Migration Framework
