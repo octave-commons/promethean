@@ -1,15 +1,15 @@
 ---
-uuid: 'pantheon-epic-003-package-consolidation-2025-10-20'
-title: 'Epic: Pantheon Package Consolidation'
-slug: 'pantheon-epic-003-package-consolidation'
-status: 'incoming'
-priority: 'P0'
-labels: ['pantheon', 'consolidation', 'migration', 'epic', 'refactoring']
-created_at: '2025-10-20T00:00:00Z'
+uuid: "pantheon-epic-003-package-consolidation-2025-10-20"
+title: "Epic: Pantheon Package Consolidation"
+slug: "pantheon-epic-003-package-consolidation"
+status: "incoming"
+priority: "P0"
+labels: ["pantheon", "consolidation", "migration", "epic", "refactoring"]
+created_at: "2025-10-20T00:00:00Z"
 estimates:
-  complexity: 'x-large'
-  scale: 'epic'
-  time_to_completion: '4-6 weeks'
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Epic: Pantheon Package Consolidation
