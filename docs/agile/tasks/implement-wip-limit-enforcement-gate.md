@@ -10,14 +10,6 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
-lastCommitSha: "1ea777cf2385de7a92b12caf9c40dd05cb2a2b54"
-commitHistory:
-  -
-    sha: "1ea777cf2385de7a92b12caf9c40dd05cb2a2b54"
-    timestamp: "2025-10-19T22:07:50.592Z"
-    message: "Update task: f48b4765-bf7c-4d8e-9a3b-5d6e7f8a9b0c - Update task: Implement WIP Limit Enforcement Gate"
-    author: "Error <foamy125@gmail.com>"
-    type: "update"
 ---
 
 ## 🚨 WIP Limit Enforcement Gate Implementation
