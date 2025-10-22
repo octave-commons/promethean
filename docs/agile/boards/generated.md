@@ -59,7 +59,6 @@ kanban-plugin: board
 - [ ] [[2025.10.17.01.52.04-create-performance-monitoring-middleware|Create Performance Monitoring Middleware]] #performance #middleware #monitoring prio:P1 (uuid:d4e5f6a7-b8c9-0123-def4-567890123456)
 - [ ] [[2025.10.17.01.52.05-build-performance-dashboards|Build Performance Dashboards]] #performance #dashboards #visualization prio:P2 (uuid:e5f6a7b8-c9d0-1234-ef56-789012345678)
 - [ ] [[cross-platform-configuration|Implement Configuration Management System]] #architecture #implementation #cross-platform #configuration prio:P0 (uuid:cross-platform-configuration-2025-10-22)
-- [ ] [[cross-platform-core-infrastructure|Implement Core Infrastructure and Runtime Detection]] #architecture #implementation #cross-platform #foundation prio:P0 (uuid:cross-platform-core-infrastructure-2025-10-22)
 - [ ] [[cross-platform-feature-detection|Implement Feature Detection and Capability Registry]] #architecture #implementation #cross-platform #feature-detection prio:P0 (uuid:cross-platform-feature-detection-2025-10-22)
 - [ ] [[cross-platform-integration-migration|Implement Integration and Migration Framework]] #architecture #implementation #cross-platform #integration #migration prio:P0 (uuid:cross-platform-integration-migration-2025-10-22)
 - [ ] [[cross-platform-platform-implementations|Implement Platform-Specific Runtime Adapters]] #architecture #implementation #cross-platform #adapters prio:P0 (uuid:cross-platform-platform-implementations-2025-10-22)
@@ -240,6 +239,7 @@ kanban-plugin: board
 ## ready
 
 - [ ] [[2025.10.16.06.00.46-agent-workflow-enhancement-healing-integration|Agent Workflow Enhancement & Healing Integration]] #agents #workflow #healing #automation #monitoring #coordination #kanban #integration prio:P1 (uuid:39e0890b-e7bd-45eb-88ff-292157d0cf54)
+- [ ] [[cross-platform-core-infrastructure|Implement Core Infrastructure and Runtime Detection]] #architecture #implementation #cross-platform #foundation prio:P0 (uuid:cross-platform-core-infrastructure-2025-10-22)
 - [ ] [[Add BuildFix process timeout handling]] #buildfix #critical #timeout #provider prio:P0 (uuid:e02ca039-c992-431d-81ff-bdabddb2502d)
 - [ ] [[BuildFix Provider Optimization Epic]] #buildfix #epic #optimization #provider prio:P0 (uuid:8ec5fd9d-f58a-46a1-abd2-da4f56b2ffa7)
 - [ ] [[BuildFix Success Rate Improvement Epic]] #buildfix #epic #success-rate #functionality prio:P0 (uuid:6f392c81-d71b-48d9-ba68-1ff13ae8d0c4)
