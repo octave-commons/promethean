@@ -117,7 +117,7 @@ export class EventDrivenMetricsPlugin implements Plugin {
 
   private handlePerformanceMeasure(
     data: { name: string; duration: number; startTime: number },
-    context: HookContext,
+    _context: HookContext,
   ): HookResult<void> {
     const metricKey = `performance.measure.${data.name}`;
     this.recordMetric(metricKey, data.duration, {

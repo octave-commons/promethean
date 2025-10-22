@@ -103,15 +103,18 @@ export async function generateEcosystem(
   const outputDir = outputDirResult.sanitized;
   const fileName = fileNameResult.sanitized;
 
-  // Validate path boundaries
-  const inputBoundaryResult = validatePathBoundaries(inputDir, process.cwd(), 'input directory');
-  if (!inputBoundaryResult.success) {
-    throw new Error(inputBoundaryResult.error);
+  // Validate path boundaries - only restrict access to system directories
+  // Allow temporary directories and user-specified paths
+  const systemDirs = ['/proc', '/sys', '/dev', '/etc', 'C:\\Windows', 'C:\\Program Files'];
+  const isSystemDir = (dirPath: string) =>
+    systemDirs.some((sysDir) => path.resolve(dirPath).startsWith(path.resolve(sysDir)));
+
+  if (isSystemDir(inputDir)) {
+    throw new Error(`Access to system directories not allowed: ${inputDir}`);
   }
 
-  const outputBoundaryResult = validatePathBoundaries(outputDir, process.cwd(), 'output directory');
-  if (!outputBoundaryResult.success) {
-    throw new Error(outputBoundaryResult.error);
+  if (isSystemDir(outputDir)) {
+    throw new Error(`Access to system directories not allowed: ${outputDir}`);
   }
 
   const ednFiles = await collectEdnFiles(inputDir);

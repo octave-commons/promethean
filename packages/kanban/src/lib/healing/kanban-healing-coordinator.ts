@@ -8,7 +8,6 @@
 
 import path from 'node:path';
 
-import type { Board, Task } from '../../types.js';
 import type { HealingStatus } from '../heal/scar-context-types.js';
 import type { HealCommandOptions, ExtendedHealingResult } from '../heal/heal-command.js';
 
@@ -119,7 +118,7 @@ export class KanbanHealingCoordinator {
     // Check kanban availability
     try {
       const { loadBoard } = await import('../kanban.js');
-      const board = await loadBoard(this.config.boardPath, this.config.tasksDir);
+      await loadBoard(this.config.boardPath, this.config.tasksDir);
       status.kanban.available = true;
       status.kanban.version = '0.2.0';
     } catch (error) {
@@ -139,11 +138,11 @@ export class KanbanHealingCoordinator {
           path.join(mcpToolsPath, 'kanban-bridge.ts'),
         );
 
-        if (kanbanToolExists && !kanbanToolExists.endsWith('.disabled')) {
+        if (kanbanToolExists) {
           status.mcp.available = true;
           status.mcp.toolsEnabled.push('kanban-core');
         }
-        if (kanbanBridgeExists && !kanbanBridgeExists.endsWith('.disabled')) {
+        if (kanbanBridgeExists) {
           status.mcp.available = true;
           status.mcp.toolsEnabled.push('kanban-bridge');
         }
@@ -396,16 +395,19 @@ export class KanbanHealingCoordinator {
    * Execute fallback healing operations when main heal command fails
    */
   private async executeFallbackHealing(
-    request: HealingRequest,
-    integrationStatus: IntegrationStatus,
+    _request: HealingRequest,
+    _integrationStatus: IntegrationStatus,
   ): Promise<{ tasksModified: number; filesChanged: number; errors: string[] }> {
-    const result = { tasksModified: 0, filesChanged: 0, errors: [] };
+    const result: { tasksModified: number; filesChanged: number; errors: string[] } = {
+      tasksModified: 0,
+      filesChanged: 0,
+      errors: [],
+    };
 
     try {
       // Basic board analysis and fixes
-      const { loadBoard, readTasksFolder, syncBoardAndTasks } = await import('../kanban.js');
+      const { loadBoard, syncBoardAndTasks } = await import('../kanban.js');
       const board = await loadBoard(this.config.boardPath, this.config.tasksDir);
-      const tasks = await readTasksFolder(this.config.tasksDir);
 
       // Simple healing operations
       for (const column of board.columns) {
@@ -423,7 +425,7 @@ export class KanbanHealingCoordinator {
       await syncBoardAndTasks(board, this.config.tasksDir, this.config.boardPath);
       result.filesChanged++;
     } catch (error) {
-      result.errors.push(`Fallback healing failed: ${error}`);
+      result.errors.push(`Fallback healing failed: ${String(error)}`);
     }
 
     return result;
@@ -433,8 +435,8 @@ export class KanbanHealingCoordinator {
    * Execute MCP bridge operations
    */
   private async executeMCPBridgeOperations(
-    request: HealingRequest,
-    integrationStatus: IntegrationStatus,
+    _request: HealingRequest,
+    _integrationStatus: IntegrationStatus,
   ): Promise<any> {
     // Mock MCP bridge operations for now
     // This would be implemented when MCP tools are properly integrated
@@ -450,8 +452,8 @@ export class KanbanHealingCoordinator {
    * Execute agent operations
    */
   private async executeAgentOperations(
-    request: HealingRequest,
-    integrationStatus: IntegrationStatus,
+    _request: HealingRequest,
+    _integrationStatus: IntegrationStatus,
   ): Promise<any> {
     // Mock agent operations for now
     // This would be implemented when agent integration is properly set up
@@ -470,8 +472,8 @@ export class KanbanHealingCoordinator {
    * Get agent-based recommendations
    */
   private async getAgentRecommendations(
-    reason: string,
-    integrationStatus: IntegrationStatus,
+    _reason: string,
+    _integrationStatus: IntegrationStatus,
   ): Promise<{ recommendations: string[]; criticalIssues: any[] }> {
     // Mock agent recommendations for now
     return {

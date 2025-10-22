@@ -1,6 +1,6 @@
-import { readFile, stat } from 'node:fs/promises';
-import { extname, basename } from 'node:path';
-import { listFiles, type FileEntry } from '@promethean/fs';
+import { readFile } from 'node:fs/promises';
+import { extname } from 'node:path';
+import { listFiles } from '@promethean/fs';
 import { validateFileSystemPath } from './path-validation.js';
 
 export type MaybePromise<T> = T | Promise<T>;

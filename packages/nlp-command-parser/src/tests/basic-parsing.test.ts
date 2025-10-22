@@ -3,8 +3,7 @@
  */
 
 import test from 'ava';
-import { createParser, parseCommand } from '../parser.js';
-import type { ParsedCommand, ParseResult } from '../types.js';
+import { parseCommand } from '../parser.js';
 
 test('should parse simple task creation command', (t) => {
   const result = parseCommand('create task Fix login bug with priority high');
@@ -13,6 +12,8 @@ test('should parse simple task creation command', (t) => {
   t.is(result.commands.length, 1);
 
   const command = result.commands[0];
+  if (!command) return t.fail('Command should be defined');
+
   t.is(command.action, 'create');
   t.deepEqual(command.args, ['task', 'Fix login bug']);
   t.is(command.params.priority, 'high');
@@ -26,6 +27,8 @@ test('should parse task status update command', (t) => {
   t.is(result.commands.length, 1);
 
   const command = result.commands[0];
+  if (!command) return t.fail('Command should be defined');
+
   t.is(command.action, 'update');
   t.deepEqual(command.args, ['task', 'abc123']);
   t.is(command.params.status, 'in_progress');
@@ -38,6 +41,8 @@ test('should handle fuzzy matching for typos', (t) => {
   t.is(result.commands.length, 1);
 
   const command = result.commands[0];
+  if (!command) return t.fail('Command should be defined');
+
   t.is(command.action, 'create'); // Should match 'create' despite typo
   t.deepEqual(command.args, ['task', 'New feature']);
   t.is(command.params.priority, 'medium');
@@ -49,7 +54,10 @@ test('should extract UUID entities correctly', (t) => {
 
   t.true(result.confidence > 0.7);
 
-  const entities = result.commands[0]?.entities || [];
+  const command = result.commands[0];
+  if (!command) return t.fail('Command should be defined');
+
+  const entities = command.entities || [];
   const uuidEntity = entities.find((e) => e.type === 'uuid');
   t.truthy(uuidEntity);
   t.is(uuidEntity?.value, uuid);
@@ -70,6 +78,8 @@ test('should parse kanban-specific commands', (t) => {
   t.is(result.commands.length, 1);
 
   const command = result.commands[0];
+  if (!command) return t.fail('Command should be defined');
+
   t.is(command.action, 'move');
   t.deepEqual(command.args, ['task', 'abc123']);
   t.is(command.params.from, 'todo');
@@ -84,11 +94,13 @@ test('should handle multiple entities in one command', (t) => {
   t.true(result.confidence > 0.7);
 
   const command = result.commands[0];
+  if (!command) return t.fail('Command should be defined');
+
   t.is(command.action, 'create');
   t.is(command.params.priority, 'urgent');
   t.is(command.params.labels, 'security,auth');
 
-  const entities = command.entities;
+  const entities = command.entities || [];
   t.true(entities.some((e) => e.type === 'priority'));
   t.true(entities.some((e) => e.type === 'labels'));
 });
@@ -123,6 +135,8 @@ test('should parse complex command with multiple parameters', (t) => {
   t.true(result.confidence > 0.6);
 
   const command = result.commands[0];
+  if (!command) return t.fail('Command should be defined');
+
   t.is(command.action, 'create');
   t.deepEqual(command.args, ['epic', 'User Authentication']);
   t.is(command.params.priority, 'critical');

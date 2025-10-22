@@ -6,7 +6,7 @@
  * and error handling for search results.
  */
 
-import type { Task } from '../../types.js';
+import type { Task } from '../types.js';
 
 /**
  * Safe task mapper that handles null/undefined values

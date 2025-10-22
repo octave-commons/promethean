@@ -48,32 +48,32 @@ export class MetricsPlugin implements Plugin {
     this.metrics.clear();
   }
 
-  getHooks(): HookRegistration[] {
+  getHooks(): HookRegistration<any, any>[] {
     return [
       {
         pluginName: this.metadata.name,
         hookName: 'task.completed',
         handler: this.handleTaskCompleted.bind(this),
-        priority: 10,
+        priority: 5,
       },
       {
         pluginName: this.metadata.name,
         hookName: 'error.occurred',
         handler: this.handleError.bind(this),
-        priority: 15,
+        priority: 20,
       },
       {
         pluginName: this.metadata.name,
         hookName: 'performance.measured',
         handler: this.handlePerformance.bind(this),
-        priority: 8,
+        priority: 3,
       },
     ];
   }
 
   private handleUserAction(
     data: { userId: string; action: string; timestamp: number },
-    context: HookContext,
+    _context: HookContext,
   ): HookResult<void> {
     this.recordMetric('user_actions', 1, 'count', {
       action: data.action,
@@ -85,7 +85,7 @@ export class MetricsPlugin implements Plugin {
 
   private handleTaskCompleted(
     data: { taskId: string; duration: number; complexity: number },
-    context: HookContext,
+    _context: HookContext,
   ): HookResult<void> {
     this.recordMetric('tasks_completed', 1, 'count', {
       complexity: data.complexity.toString(),
@@ -100,7 +100,7 @@ export class MetricsPlugin implements Plugin {
 
   private handleError(
     data: { error: Error; context?: string },
-    context: HookContext,
+    _context: HookContext,
   ): HookResult<void> {
     this.recordMetric('errors', 1, 'count', {
       context: data.context || 'unknown',
@@ -112,7 +112,7 @@ export class MetricsPlugin implements Plugin {
 
   private handlePerformance(
     data: { operation: string; duration: number; memory?: number },
-    context: HookContext,
+    _context: HookContext,
   ): HookResult<void> {
     this.recordMetric(`performance_${data.operation}`, data.duration, 'milliseconds', {
       operation: data.operation,

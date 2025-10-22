@@ -1,11 +1,7 @@
-import * as express from 'express';
+import express from 'express';
 import { z } from 'zod';
 import { FileIndexer } from './file-indexer.js';
-import {
-  validateAndNormalizePath,
-  validateFilePatterns,
-  validateFileSystemPath,
-} from './path-validation.js';
+import { validateFilePatterns, validateFileSystemPath } from './path-validation.js';
 
 const SearchQuerySchema = z.object({
   query: z.string().min(1),
@@ -39,7 +35,7 @@ export class FileIndexerService {
 
   private setupMiddleware(): void {
     this.app.use(express.json());
-    this.app.use((req, res, next) => {
+    this.app.use((_req, res, next) => {
       res.header('Access-Control-Allow-Origin', '*');
       res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
       res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -49,7 +45,7 @@ export class FileIndexerService {
 
   private setupRoutes(): void {
     // Health check
-    this.app.get('/health', (req, res) => {
+    this.app.get('/health', (_req, res) => {
       res.json({ status: 'healthy', timestamp: new Date().toISOString() });
     });
 
@@ -105,9 +101,9 @@ export class FileIndexerService {
         if (!file) {
           return res.status(404).json({ success: false, error: 'File not found' });
         }
-        res.json({ success: true, file });
+        return res.json({ success: true, file });
       } catch (error) {
-        res.status(400).json({
+        return res.status(400).json({
           success: false,
           error: error instanceof Error ? error.message : 'Invalid request',
         });
@@ -147,7 +143,7 @@ export class FileIndexerService {
     });
 
     // Get statistics
-    this.app.get('/stats', async (req, res) => {
+    this.app.get('/stats', async (_req, res) => {
       try {
         const stats = await this.indexer.getStats();
         res.json({ success: true, stats });
@@ -161,7 +157,7 @@ export class FileIndexerService {
 
     // Error handling middleware
     this.app.use(
-      (err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
+      (err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
         console.error('Unhandled error:', err);
         res.status(500).json({
           success: false,

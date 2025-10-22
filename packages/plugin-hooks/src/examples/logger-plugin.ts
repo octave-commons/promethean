@@ -1,11 +1,4 @@
-import type {
-  Plugin,
-  PluginContext,
-  HookRegistration,
-  HookResult,
-  HookContext,
-  HookHandler,
-} from '../types.js';
+import type { Plugin, PluginContext, HookRegistration, HookResult, HookContext } from '../types.js';
 
 interface LogEntry {
   timestamp: number;
@@ -42,31 +35,25 @@ export class LoggerPlugin implements Plugin {
     this.logs = [];
   }
 
-  getHooks(): HookRegistration[] {
+  getHooks(): HookRegistration<any, any>[] {
     return [
       {
         pluginName: this.metadata.name,
         hookName: 'system.startup',
-        handler: this.handleStartup.bind(this) as HookHandler<string, void>,
+        handler: this.handleStartup.bind(this),
         priority: 10,
       },
       {
         pluginName: this.metadata.name,
         hookName: 'user.action',
-        handler: this.handleUserAction.bind(this) as HookHandler<
-          { userId: string; action: string; timestamp: number },
-          void
-        >,
+        handler: this.handleUserAction.bind(this),
         priority: 5,
       },
       {
         pluginName: this.metadata.name,
         hookName: 'error.occurred',
-        handler: this.handleError.bind(this) as HookHandler<
-          { error: Error; context?: string },
-          void
-        >,
-        priority: 20, // High priority for errors
+        handler: this.handleError.bind(this),
+        priority: 20,
       },
     ];
   }

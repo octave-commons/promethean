@@ -2,8 +2,8 @@ import { randomUUID } from 'node:crypto';
 import { readFile, stat } from 'node:fs/promises';
 import { extname, basename } from 'node:path';
 import { DualStoreManager } from '@promethean/persistence';
-import { listFiles, type FileEntry } from '@promethean/fs';
-import { validateFileSystemPath, validateFilePatterns } from './path-validation.js';
+import { listFiles } from '@promethean/fs';
+import { validateFileSystemPath } from './path-validation.js';
 
 import type {
   FileIndexEntry,
@@ -14,7 +14,7 @@ import type {
 } from './types.js';
 
 export class FileIndexer {
-  private dualStore: DualStoreManager<'content', 'lastModified'>;
+  private dualStore!: DualStoreManager<'content', 'lastModified'>;
   private collectionName: string;
 
   constructor(collectionName: string = 'file_index') {
@@ -108,7 +108,7 @@ export class FileIndexer {
 
     return relevantDocs.map((doc) => ({
       entry: {
-        id: doc.id,
+        id: doc.id || '',
         filePath: (doc.metadata?.filePath as string) || '',
         fileName: (doc.metadata?.fileName as string) || '',
         content: doc.text,
@@ -130,7 +130,7 @@ export class FileIndexer {
     if (!doc) return null;
 
     return {
-      id: doc.id,
+      id: doc.id || '',
       filePath: (doc.metadata?.filePath as string) || '',
       fileName: (doc.metadata?.fileName as string) || '',
       content: doc.text,
@@ -145,7 +145,7 @@ export class FileIndexer {
     const recentDocs = await this.dualStore.getMostRecent(limit);
 
     return recentDocs.map((doc) => ({
-      id: doc.id,
+      id: doc.id || '',
       filePath: (doc.metadata?.filePath as string) || '',
       fileName: (doc.metadata?.fileName as string) || '',
       content: doc.text,

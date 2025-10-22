@@ -71,14 +71,29 @@ export async function loadEdnFile(filePath: string): Promise<unknown> {
       throw new Error(sizeResult.error);
     }
 
-    // SECURITY: Content validation is handled by sanitizeForJsonSerialization later
-    // Basic pattern detection for immediate threats
-    if (
-      content.includes('<script') ||
-      content.includes('javascript:') ||
-      content.includes('eval(')
-    ) {
-      throw new Error(`Potentially dangerous content detected in EDN file: ${filePath}`);
+    // SECURITY: Content validation for immediate threats
+    // Check for dangerous patterns using simple string matching
+    const dangerousPatterns = [
+      '<script',
+      'javascript:',
+      'eval(',
+      'document.',
+      'window.',
+      'global.',
+      'process.',
+      'require(',
+      'exec(',
+      'spawn(',
+      'child_process',
+      'fs.',
+      'os.',
+    ];
+
+    const lowerContent = content.toLowerCase();
+    for (const pattern of dangerousPatterns) {
+      if (lowerContent.includes(pattern)) {
+        throw new Error(`Potentially dangerous content detected in EDN file: ${filePath}`);
+      }
     }
 
     return normalize(edn.toJS(edn.parse(content)));

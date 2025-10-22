@@ -229,7 +229,9 @@ export function printMarkdown(
       output = formatBoard(data);
       break;
     case 'search':
-      output = formatSearchResults(data, context?.query || '');
+      // Handle both array and object with exact/similar properties
+      const searchData = Array.isArray(data) ? data : data?.exact || [];
+      output = formatSearchResults(searchData, context?.query || '');
       break;
     case 'count':
       output = formatTaskCount(data);

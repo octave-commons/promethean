@@ -3,8 +3,6 @@
  * Critical security module for indexer-service
  */
 
-import * as path from 'node:path';
-
 /**
  * Normalizes a path and validates it's safe for access
  * @param inputPath The path to validate
@@ -57,6 +55,9 @@ export function validateAndNormalizePath(
     /\/windows\//i, // Windows system directories
     /\/program files\//i, // Windows program files
     /\/users\//i, // Windows users directory
+    /^[A-Za-z]:\\/, // Windows absolute paths (C:\, D:\, etc.)
+    /^~\//, // Home directory access
+    /^~/, // Home directory access
   ];
 
   for (const pattern of suspiciousPatterns) {

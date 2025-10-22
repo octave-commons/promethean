@@ -2,8 +2,8 @@
  * Plugin discovery and loading utilities
  */
 
-import type { Plugin, PluginMetadata, PluginContext } from './types.js';
-import type { EventBus } from './event-emitter.js';
+import type { Plugin } from './types.js';
+import type { EventBus } from '@promethean/event';
 
 /**
  * Plugin discovery options
@@ -34,10 +34,7 @@ export class DefaultPluginLoader {
   private pluginPaths = new Map<string, string>();
   private config: PluginLoaderConfig;
 
-  constructor(
-    private eventBus: EventBus,
-    config: PluginLoaderConfig = {}
-  ) {
+  constructor(_eventBus: EventBus, config: PluginLoaderConfig = {}) {
     this.config = {
       autoLoad: true,
       timeout: 30000,
@@ -81,7 +78,7 @@ export class DefaultPluginLoader {
    */
   private async scanDirectory(
     directory: string,
-    options: PluginDiscoveryOptions
+    options: PluginDiscoveryOptions,
   ): Promise<string[]> {
     const fs = await import('fs/promises');
     const path = await import('path');
@@ -112,7 +109,6 @@ export class DefaultPluginLoader {
         pluginPaths.push(...subPaths);
       }
     }
-    }
 
     return pluginPaths;
   }
@@ -125,10 +121,8 @@ export class DefaultPluginLoader {
       return false;
     }
 
-    return patterns.some(pattern => {
-      const regex = new RegExp(
-        pattern.replace(/\*/g, '.*').replace(/\?/g, '.')
-      );
+    return patterns.some((pattern) => {
+      const regex = new RegExp(pattern.replace(/\*/g, '.*').replace(/\?/g, '.'));
       return regex.test(filename);
     });
   }
@@ -141,10 +135,8 @@ export class DefaultPluginLoader {
       return false;
     }
 
-    return exclude.some(exclusion => {
-      const regex = new RegExp(
-        exclusion.replace(/\*/g, '.*').replace(/\?/g, '.')
-      );
+    return exclude.some((exclusion) => {
+      const regex = new RegExp(exclusion.replace(/\*/g, '.*').replace(/\?/g, '.'));
       return regex.test(filename) || filename.includes(exclusion);
     });
   }
@@ -191,7 +183,7 @@ export class DefaultPluginLoader {
     }
 
     const requiredFields = ['name', 'version', 'description'];
-    return requiredFields.every(field => field in metadata);
+    return requiredFields.every((field) => field in metadata);
   }
 
   /**
@@ -211,7 +203,7 @@ export class DefaultPluginLoader {
 
       // Remove from registry
       this.loadedPlugins.delete(pluginName);
-      
+
       console.log(`Unloaded plugin: ${pluginName}`);
     } catch (error) {
       console.error(`Error unloading plugin ${pluginName}:`, error);
@@ -249,7 +241,7 @@ export class DefaultPluginLoader {
     }
 
     const pluginPaths = await this.discoverPlugins();
-    
+
     for (const pluginPath of pluginPaths) {
       try {
         await this.loadPlugin(pluginPath);

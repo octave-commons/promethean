@@ -7,14 +7,13 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "clean": "rm -rf dist",
-    "dev": "tsc --watch",
-    "test": "ava",
-    "test:unit": "ava src/tests/unit/*.test.ts",
-    "test:integration": "ava src/tests/integration/*.test.ts",
-    "lint": "eslint src --ext .ts",
-    "typecheck": "tsc --noEmit",
-    "coverage": "c8 ava"
+    "build:tests": "tsc -p tsconfig.test.json",
+    "clean": "rimraf dist",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm run build:tests && ava",
+    "lint": "pnpm exec eslint .",
+    "coverage": "c8 ava",
+    "format": "pnpm exec prettier --write ."
   },
   "keywords": [
     "nlp",
@@ -36,14 +35,6 @@
     "c8": "^9.0.0",
     "eslint": "^8.0.0",
     "typescript": "^5.0.0"
-  },
-  "ava": {
-    "extensions": [
-      "ts"
-    ],
-    "nodeArguments": [
-      "--loader=ts-node/esm"
-    ]
   },
   "exports": {
     ".": {

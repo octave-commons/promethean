@@ -16,8 +16,7 @@ const baseConfig = require('../../config/ava.config.mjs');
 
 export default {
   ...baseConfig,
-  files: ['src/tests/**/*.test.ts'],
-  nodeArguments: ['--loader=ts-node/esm', '--experimental-specifier-resolution=node'],
+  // Use the base config's default file patterns (looks for compiled JS in dist/)
   environmentVariables: {
     NODE_ENV: 'test',
   },
