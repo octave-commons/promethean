@@ -786,9 +786,9 @@ test('FSM Integration - Available Transitions and State Queries', (t) => {
     canTransition(machine, idleSnapshot, { type: 'process', payload: { data: [], batchSize: 1 } }),
   );
 
-  t.true(
+  t.false(
     canTransition(machine, processingSnapshot, { type: 'validate', payload: { rules: ['test'] } }),
-  );
+  ); // No validate transition from processing state
   t.false(
     canTransition(machine, processingSnapshot, {
       type: 'start',
