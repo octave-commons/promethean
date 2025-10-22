@@ -1,4 +1,5 @@
 import test from 'ava';
+
 import { DualStoreManager } from '../dualStore.js';
 
 test('smoke', (t) => {
