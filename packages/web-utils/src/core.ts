@@ -33,8 +33,8 @@ export function createHealthCheck(
 }
 
 export async function registerHealthRoute(
-  fastify: ReadonlyFastifyInstance,
-  options: { readonly serviceName?: string },
+  fastify: ReadonlyDeep<FastifyInstance>,
+  options: ReadonlyDeep<{ readonly serviceName?: string }>,
 ): Promise<void> {
   const healthCheck = createHealthCheck(options.serviceName);
 
