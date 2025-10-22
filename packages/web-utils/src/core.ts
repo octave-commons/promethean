@@ -13,9 +13,6 @@ export type FastifyInstance = {
   delete(route: string, handler: () => unknown): void;
 };
 
-// Readonly version for parameter types
-export type ReadonlyFastifyInstance = Readonly<FastifyInstance>;
-
 export type HealthCheckResponse = Readonly<{
   status: 'healthy' | 'unhealthy';
   timestamp: string;
@@ -44,8 +41,8 @@ export async function registerHealthRoute(
 }
 
 export async function registerDiagnosticsRoute(
-  fastify: FastifyInstance,
-  options: { readonly serviceName?: string } = {},
+  fastify: ReadonlyDeep<FastifyInstance>,
+  options: ReadonlyDeep<{ readonly serviceName?: string }> = {},
 ): Promise<void> {
   const service = options.serviceName ?? 'promethean-service';
 
@@ -60,7 +57,7 @@ export async function registerDiagnosticsRoute(
 }
 
 export function createValidationHandler<T extends z.ZodSchema>(
-  schema: T,
+  schema: ReadonlyDeep<T>,
 ): (data: unknown) => z.infer<T> {
   return (data: unknown): z.infer<T> => {
     return schema.parse(data);
