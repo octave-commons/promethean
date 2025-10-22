@@ -87,9 +87,13 @@ export const __setChromaClientForTests = (client: ChromaClient | null): void =>
     setOverride(chromaClientOverrides, chromaClientPromises, 'chroma', client);
 
 export const __resetPersistenceClientsForTests = (): void => {
+    // eslint-disable-next-line functional/immutable-data
     mongoClientOverrides.clear();
+    // eslint-disable-next-line functional/immutable-data
     chromaClientOverrides.clear();
+    // eslint-disable-next-line functional/immutable-data
     mongoClientPromises.clear();
+    // eslint-disable-next-line functional/immutable-data
     chromaClientPromises.clear();
 };
 
@@ -103,8 +107,12 @@ export const cleanupClients = async (): Promise<void> => {
         // Ignore cleanup errors
     }
 
+    // eslint-disable-next-line functional/immutable-data
     mongoClientOverrides.clear();
+    // eslint-disable-next-line functional/immutable-data
     chromaClientOverrides.clear();
+    // eslint-disable-next-line functional/immutable-data
     mongoClientPromises.clear();
+    // eslint-disable-next-line functional/immutable-data
     chromaClientPromises.clear();
 };
