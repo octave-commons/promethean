@@ -121,14 +121,9 @@ export const createTimerManager = () => {
 };
 
 // 5. Event Stream Handler Factory
-export const createEventStreamHandler = (context: IndexerContext) => {
+export const createEventStreamHandler = (context: IndexerContext, logger: EventLogger) => {
   const { client, config, stateManager, indexingOps } = context;
-  const {
-    isMessageEvent,
-    isSessionEvent,
-    extractSessionId,
-    extractMessageId,
-  } = require('./indexer-types.js');
+  const { isMessageEvent, isSessionEvent, extractSessionId, extractMessageId } = require('./indexer-types.js');
 
   let subscription: EventSubscription | undefined;
   let consecutiveErrors = 0;
@@ -152,9 +147,146 @@ export const createEventStreamHandler = (context: IndexerContext) => {
       }
     } catch (error) {
       console.error('❌ Error handling event:', error);
-      await handleStreamError(error);
+      await handleStreamError();
     }
   };
+
+  const handleMessageEvent = async (event: Event): Promise<void> => {
+    const sessionId = extractSessionId(event);
+    if (!sessionId) {
+      console.warn('⚠️ Message event without session ID:', event);
+      return;
+    }
+
+    const messageId = extractMessageId(event);
+    if (!messageId) {
+      console.warn('⚠️ Message event without message ID:', event);
+      return;
+    }
+
+    // Only fetch and index when message is complete, not for every part update
+    if (event.type === 'message.updated' || event.type === 'message.removed') {
+      const messageResult = await client.session.message({
+        path: { id: sessionId, messageID: messageId },
+      });
+      const targetMessage = messageResult.data;
+
+      if (targetMessage) {
+        await indexingOps.indexMessage(targetMessage, sessionId);
+        
+        const state = await stateManager.loadState();
+        await stateManager.saveState({ ...state, lastIndexedMessageId: messageId });
+
+        logger(
+          `event_indexed_${event.type}`,
+          `📝 Indexed message ${messageId} for session ${sessionId}`,
+        );
+      }
+    } else {
+      logger(
+        `event_indexed_${event.type}`,
+        `🔄 Skipping indexing for part update of message ${messageId} in session ${sessionId}`,
+      );
+    }
+  };
+
+  const handleSessionEvent = async (event: Event): Promise<void> => {
+    logger(`event_indexed_${event.type}`, `🎯 Processing session event: ${event.type}`);
+
+    if ('properties' in event && event.properties) {
+      const sessionInfo = (event.properties as any).info;
+      if (sessionInfo) {
+        await indexingOps.indexSession(sessionInfo);
+        
+        const state = await stateManager.loadState();
+        await stateManager.saveState({ ...state, lastIndexedSessionId: sessionInfo.id });
+
+        logger(
+          `event_indexed_${event.type}`,
+          `📝 Indexed session ${sessionInfo.id} with title "${sessionInfo.title}"`,
+        );
+      }
+    }
+  };
+
+  const handleStreamError = async (): Promise<void> => {
+    consecutiveErrors++;
+    
+    const state = await stateManager.loadState();
+    const newState = {
+      ...state,
+      subscriptionActive: false,
+      consecutiveErrors,
+    };
+    await stateManager.saveState(newState);
+
+    if (consecutiveErrors >= config.maxConsecutiveErrors) {
+      console.error(`🛑 Stopping event subscription after ${config.maxConsecutiveErrors} consecutive errors`);
+      return;
+    }
+
+    console.log(`🔄 Attempting to reconnect in ${config.reconnectDelayMs / 1000} seconds`);
+    
+    // Schedule reconnection
+    setTimeout(async () => {
+      try {
+        await startSubscription();
+      } catch (reconnectError) {
+        console.error('❌ Failed to reconnect:', reconnectError);
+      }
+    }, config.reconnectDelayMs);
+  };
+
+  const startSubscription = async (): Promise<void> => {
+    if (typeof client.event?.subscribe !== 'function') {
+      throw new Error('This SDK/server does not support event.subscribe()');
+    }
+
+    const sub = await client.event.subscribe();
+    subscription = sub;
+
+    const state = await stateManager.loadState();
+    await stateManager.saveState({ 
+      ...state, 
+      subscriptionActive: true, 
+      consecutiveErrors: 0 
+    });
+
+    console.log('📡 Subscribed to OpenCode events');
+
+    // Start processing events
+    (async () => {
+      try {
+        for await (const event of sub.stream) {
+          await handleEvent(event);
+        }
+      } catch (streamError) {
+        await handleStreamError();
+      }
+    })();
+  };
+
+  const stopSubscription = async (): Promise<void> => {
+    if (subscription) {
+      try {
+        // Note: EventSubscription doesn't have a close method based on the type definition
+        // Just clear the reference
+        subscription = undefined;
+      } catch (error) {
+        console.warn('Warning: Could not cleanly close event subscription:', error);
+      }
+    }
+
+    const state = await stateManager.loadState();
+    await stateManager.saveState({ ...state, subscriptionActive: false });
+  };
+
+  return {
+    startSubscription,
+    stopSubscription,
+    isActive: () => !!subscription,
+  };
+};
 
   const handleMessageEvent = async (event: Event): Promise<void> => {
     const sessionId = extractSessionId(event);
