@@ -85,26 +85,13 @@ export class GoogleOAuthProvider implements OAuthProvider {
     codeVerifier?: string,
     redirectUri?: string,
   ): Promise<OAuthTokenResponse> {
-<<<<<<< ours
-=======
     const finalRedirectUri = redirectUri || this.config.redirectUri;
->>>>>>> theirs
     const response = await fetch(this.tokenUrl, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-<<<<<<< ours
-      body: new URLSearchParams({
-        client_id: this.config.clientId,
-        client_secret: this.config.clientSecret,
-        code,
-        redirect_uri: redirectUri || this.config.redirectUri,
-        ...(codeVerifier ? { code_verifier: codeVerifier } : {}),
-        grant_type: 'authorization_code',
-      }),
-=======
       body: (() => {
         const params = new URLSearchParams({
           client_id: this.config.clientId,
@@ -120,7 +107,6 @@ export class GoogleOAuthProvider implements OAuthProvider {
 
         return params;
       })(),
->>>>>>> theirs
     });
 
     if (!response.ok) {
