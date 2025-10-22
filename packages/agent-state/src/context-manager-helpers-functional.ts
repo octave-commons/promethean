@@ -5,8 +5,8 @@
  * These were previously static methods on ContextManagerHelpers class.
  */
 
-import { AgentContext, ContextEvent, ContextSnapshot, EventStore } from './types';
-import { SecurityValidator, SecurityLogger, RateLimiter } from './security';
+import { AgentContext, ContextEvent, ContextSnapshot, EventStore } from './types.js';
+import { SecurityValidator, SecurityLogger, RateLimiter } from './security.js';
 import { v4 as uuidv4 } from 'uuid';
 
 // Rate limiting

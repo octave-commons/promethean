@@ -20,6 +20,7 @@ import {
   renameTask,
   columnKey,
 } from '../lib/kanban.js';
+
 import {
   isEpic,
   getEpicSubtasks,
@@ -726,6 +727,7 @@ const handleList: CommandHandler = (args, context) =>
     console.log('');
 
     let totalViolations = 0;
+    const allTasks: any[] = [];
 
     for (const columnName of columnsToShow) {
       const column = board.columns.find((col) => columnKey(col.name) === columnName);
@@ -762,6 +764,8 @@ const handleList: CommandHandler = (args, context) =>
           const uuid = task.uuid.slice(0, 8);
           console.log(`   • ${task.title}${priority} (${uuid}...)`);
         });
+        // Collect tasks for markdown output
+        allTasks.push(...column.tasks.slice());
       } else {
         console.log(`   (empty)`);
       }
@@ -787,7 +791,11 @@ const handleList: CommandHandler = (args, context) =>
       });
     }
 
-    return { violations: totalViolations };
+    // Return tasks for markdown output, along with violations metadata
+    return {
+      tasks: allTasks,
+      violations: totalViolations,
+    };
   });
 
 const handleAudit: CommandHandler = (args, context) =>

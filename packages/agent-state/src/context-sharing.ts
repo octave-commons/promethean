@@ -1,6 +1,6 @@
-import { ContextShare, ContextShareStore, ContextSnapshot, SnapshotStore } from './types';
-import { SecurityValidator, SecurityLogger, RateLimiter } from './security';
-import { ContextSharingHelpers } from './context-sharing-helpers';
+import { ContextShare, ContextShareStore, ContextSnapshot, SnapshotStore } from './types.js';
+import { SecurityValidator, SecurityLogger, RateLimiter } from './security.js';
+import { ContextSharingHelpers } from './context-sharing-helpers.js';
 
 export class ContextSharingService {
   private rateLimiter: RateLimiter;

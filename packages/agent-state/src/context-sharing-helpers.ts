@@ -1,5 +1,5 @@
-import { SecurityValidator, SecurityLogger, RateLimiter } from './security';
-import { ContextShare, ContextShareStore } from './types';
+import { SecurityValidator, SecurityLogger, RateLimiter } from './security.js';
+import { ContextShare, ContextShareStore } from './types.js';
 
 export class ContextSharingHelpers {
   static async validateShareInputs(

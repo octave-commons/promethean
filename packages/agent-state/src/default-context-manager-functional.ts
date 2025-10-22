@@ -7,14 +7,14 @@
 
 import { v4 as uuidv4 } from 'uuid';
 
-import { AgentContext, ContextEvent, ContextSnapshot, EventStore, SnapshotStore } from './types';
-import { SecurityValidator, SecurityLogger, RateLimiter } from './security';
+import { AgentContext, ContextEvent, ContextSnapshot, EventStore, SnapshotStore } from './types.js';
+import { SecurityValidator, SecurityLogger, RateLimiter } from './security.js';
 import {
   checkRateLimit,
   buildContextFromSnapshot,
   buildContextFromEvents,
   logSecurityError,
-} from './context-manager-helpers-functional';
+} from './context-manager-helpers-functional.js';
 
 // Context manager state interface
 export interface ContextManagerState {

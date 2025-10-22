@@ -1,5 +1,5 @@
-import { AgentContext, ContextEvent, ContextSnapshot, EventStore } from './types';
-import { RateLimiter } from './security';
+import { AgentContext, ContextEvent, ContextSnapshot, EventStore } from './types.js';
+import { RateLimiter } from './security.js';
 
 // Import functional implementations
 import {
@@ -8,7 +8,7 @@ import {
   buildContextFromEvents as buildContextFromEventsFn,
   applyEventsToState as applyEventsToStateFn,
   logSecurityError as logSecurityErrorFn,
-} from './context-manager-helpers-functional';
+} from './context-manager-helpers-functional.js';
 
 /**
  * @deprecated Use the functional implementations from './context-manager-helpers-functional' instead.

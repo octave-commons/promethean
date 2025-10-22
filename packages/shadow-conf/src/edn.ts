@@ -2,43 +2,35 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 
 import edn from 'jsedn';
+import {
+  validateAndSanitizePath,
+  validateFileExtension,
+  validateFileSize,
+  DEFAULT_SECURITY_CONFIG,
+} from './security-utils.js';
 
 /**
- * Validates that a file path is safe for reading.
- * 
+ * Validates that a file path is safe for reading using centralized security utilities.
+ *
  * @param filePath - The file path to validate
  * @throws {Error} When path contains dangerous sequences
  */
 function validateFilePath(filePath: string): void {
-  // Reject null bytes and other dangerous characters
-  if (filePath.includes(String.fromCharCode(0)) || filePath.includes('\r') || filePath.includes('\n')) {
-    throw new Error(`Invalid characters detected in file path: ${filePath}`);
+  // Validate path security
+  const pathResult = validateAndSanitizePath(filePath, 'EDN file path', DEFAULT_SECURITY_CONFIG);
+  if (!pathResult.success) {
+    throw new Error(pathResult.error);
   }
 
-  // Reject path traversal attempts
-  if (filePath.includes('../') || filePath.includes('..\\') || filePath.includes('..')) {
-    throw new Error(`Directory traversal detected in file path: ${filePath}`);
-  }
-
-  // Reject encoded traversal attempts
-  if (filePath.includes('%2e%2e') || filePath.includes('%2E%2E')) {
-    throw new Error(`Encoded directory traversal detected in file path: ${filePath}`);
-  }
-
-  // Reject command injection attempts
-  if (filePath.includes('|') || filePath.includes(';') || filePath.includes('&')) {
-    throw new Error(`Command injection detected in file path: ${filePath}`);
-  }
-
-  // Ensure the path is absolute
+  // Ensure path is absolute
   if (!path.isAbsolute(filePath)) {
     throw new Error(`Relative path not allowed: ${filePath}`);
   }
 
-  // Additional validation for file extensions
-  const ext = path.extname(filePath).toLowerCase();
-  if (ext !== '.edn') {
-    throw new Error(`Only .edn files are allowed: ${filePath}`);
+  // Validate file extension
+  const extResult = validateFileExtension(filePath, DEFAULT_SECURITY_CONFIG);
+  if (!extResult.success) {
+    throw new Error(extResult.error);
   }
 }
 
@@ -69,20 +61,26 @@ type UnknownRecord = Record<string, unknown>;
 export async function loadEdnFile(filePath: string): Promise<unknown> {
   // SECURITY: Validate file path before reading
   validateFilePath(filePath);
-  
+
   try {
     const content = await readFile(filePath, 'utf8');
-    
-    // SECURITY: Validate content before parsing
-    if (content.length > 10 * 1024 * 1024) { // 10MB limit
-      throw new Error(`File too large: ${content.length} bytes (max 10MB)`);
+
+    // SECURITY: Validate file size before parsing
+    const sizeResult = validateFileSize(content.length, DEFAULT_SECURITY_CONFIG, filePath);
+    if (!sizeResult.success) {
+      throw new Error(sizeResult.error);
     }
-    
-    // SECURITY: Check for dangerous content patterns
-    if (content.includes('<script') || content.includes('javascript:') || content.includes('eval(')) {
+
+    // SECURITY: Content validation is handled by sanitizeForJsonSerialization later
+    // Basic pattern detection for immediate threats
+    if (
+      content.includes('<script') ||
+      content.includes('javascript:') ||
+      content.includes('eval(')
+    ) {
       throw new Error(`Potentially dangerous content detected in EDN file: ${filePath}`);
     }
-    
+
     return normalize(edn.toJS(edn.parse(content)));
   } catch (e) {
     throw new Error(`Failed to parse EDN file at ${filePath}: ${(e as Error).message}`);

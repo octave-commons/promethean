@@ -1,10 +1,10 @@
 import jwt from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid';
 
-import { AuthToken, AuthService } from './types';
-import { SecurityValidator, SecurityLogger, RateLimiter } from './security';
-import { AuthUtils } from './auth-utils';
-import { ApiKeyManager } from './api-keys';
+import { AuthToken, AuthService } from './types.js';
+import { SecurityValidator, SecurityLogger, RateLimiter } from './security.js';
+import { AuthUtils } from './auth-utils.js';
+import { ApiKeyManager } from './api-keys.js';
 
 export type AuthServiceConfig = {
   jwtSecret?: string;

@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import { SecurityLogger } from './security';
+import { SecurityLogger } from './security.js';
 
 export class AuthUtils {
   static async hashPassword(password: string, saltRounds: number = 10): Promise<string> {

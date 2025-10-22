@@ -224,7 +224,7 @@ export class DirectoryAdapter implements TaskFileOperations {
       const frontmatter = {
         uuid: task.uuid,
         title: task.title,
-        status: task.status || 'todo',
+        status: task.status || 'incoming',
         priority: task.priority || 'medium',
         owner: task.owner || '',
         labels: task.labels || [],

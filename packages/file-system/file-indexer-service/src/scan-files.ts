@@ -1,6 +1,7 @@
 import { readFile, stat } from 'node:fs/promises';
 import { extname, basename } from 'node:path';
 import { listFiles, type FileEntry } from '@promethean/fs';
+import { validateFileSystemPath } from './path-validation.js';
 
 export type MaybePromise<T> = T | Promise<T>;
 
@@ -58,8 +59,11 @@ export async function scanFiles(options: ScanFilesOptions): Promise<ScanFilesRes
 
   const startedAt = Date.now();
 
+  // CRITICAL SECURITY: Validate root path to prevent traversal attacks
+  const validatedRoot = validateFileSystemPath(root);
+
   // Get all files using @promethean/fs
-  const allEntries = await listFiles(root, {
+  const allEntries = await listFiles(validatedRoot, {
     includeHidden: false,
     maxDepth: undefined,
   });

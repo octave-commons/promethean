@@ -1,6 +1,11 @@
-import express from 'express';
+import * as express from 'express';
 import { z } from 'zod';
 import { FileIndexer } from './file-indexer.js';
+import {
+  validateAndNormalizePath,
+  validateFilePatterns,
+  validateFileSystemPath,
+} from './path-validation.js';
 
 const SearchQuerySchema = z.object({
   query: z.string().min(1),
@@ -66,7 +71,19 @@ export class FileIndexerService {
     this.app.post('/index', async (req, res) => {
       try {
         const options = IndexDirectorySchema.parse(req.body);
-        const stats = await this.indexer.indexDirectory(options.path, options);
+
+        // CRITICAL SECURITY: Validate path to prevent traversal attacks
+        const validatedPath = validateFileSystemPath(options.path);
+
+        // Validate patterns if provided
+        if (options.includePatterns) {
+          options.includePatterns = validateFilePatterns(options.includePatterns);
+        }
+        if (options.excludePatterns) {
+          options.excludePatterns = validateFilePatterns(options.excludePatterns);
+        }
+
+        const stats = await this.indexer.indexDirectory(validatedPath, options);
         res.json({ success: true, stats });
       } catch (error) {
         res.status(400).json({
@@ -80,7 +97,11 @@ export class FileIndexerService {
     this.app.post('/file', async (req, res) => {
       try {
         const { path } = FilePathSchema.parse(req.body);
-        const file = await this.indexer.getFileByPath(path);
+
+        // CRITICAL SECURITY: Validate path to prevent traversal attacks
+        const validatedPath = validateFileSystemPath(path);
+
+        const file = await this.indexer.getFileByPath(validatedPath);
         if (!file) {
           return res.status(404).json({ success: false, error: 'File not found' });
         }
@@ -111,7 +132,11 @@ export class FileIndexerService {
     this.app.delete('/file', async (req, res) => {
       try {
         const { path } = FilePathSchema.parse(req.body);
-        const success = await this.indexer.removeFile(path);
+
+        // CRITICAL SECURITY: Validate path to prevent traversal attacks
+        const validatedPath = validateFileSystemPath(path);
+
+        const success = await this.indexer.removeFile(validatedPath);
         res.json({ success });
       } catch (error) {
         res.status(400).json({
@@ -164,7 +189,7 @@ export class FileIndexerService {
 }
 
 // CLI entry point
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (require.main === module) {
   const port = parseInt(process.env.PORT || '3000');
   const service = new FileIndexerService(port);
 

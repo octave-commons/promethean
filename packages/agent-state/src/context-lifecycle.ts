@@ -6,7 +6,7 @@ import {
   SnapshotStore,
   ContextShareStore,
   ContextMetadataStore,
-} from './types';
+} from './types.js';
 
 export type ContextExportData = {
   context: AgentContext;

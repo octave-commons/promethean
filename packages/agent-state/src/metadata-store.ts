@@ -1,4 +1,4 @@
-import { ContextMetadata, ContextMetadataStore, ContextQuery } from './types';
+import { ContextMetadata, ContextMetadataStore, ContextQuery } from './types.js';
 import { openLevelCache, Cache } from '@promethean/level-cache';
 
 // Database interface definitions

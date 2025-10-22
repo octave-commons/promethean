@@ -1,4 +1,4 @@
-import { ContextShare, ContextShareStore } from './types';
+import { ContextShare, ContextShareStore } from './types.js';
 import { openLevelCache, Cache } from '@promethean/level-cache';
 
 export class PostgresContextShareStore implements ContextShareStore {

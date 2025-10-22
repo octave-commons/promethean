@@ -60,7 +60,7 @@ export interface AuthContext {
   sessionId?: string;
   ipAddress?: string;
   userAgent?: string;
-  method: 'jwt' | 'api_key' | 'env';
+  method: 'jwt' | 'api_key' | 'env' | 'oauth';
 }
 
 // Rate Limiting

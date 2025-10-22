@@ -46,6 +46,7 @@
     "src/ecosystem-secure.ts",
     "src/edn.ts",
     "src/edn-fixed.ts",
+    "src/security-utils.ts",
     "src/bin/shadow-conf.ts",
     "src/bin/shadow-conf-secure.ts",
     "src/tests/ecosystem.test.ts",

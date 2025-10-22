@@ -1,4 +1,4 @@
-import { ContextSnapshot, SnapshotStore } from './types';
+import { ContextSnapshot, SnapshotStore } from './types.js';
 import { openLevelCache, Cache } from '@promethean/level-cache';
 
 export class PostgresSnapshotStore implements SnapshotStore {

@@ -175,6 +175,7 @@ kanban-plugin: board
 - [ ] [[testing]] #testing #nothing #blocked #blocks (uuid:fc52c605-7114-48a8-a75c-99788b0b1cc7)
 - [ ] [[unify-cli-tool-interfaces|Unify CLI and Tool Interfaces]] #cli #tools #interfaces #unification #epic3 prio:P1 (uuid:f3c311a0-de6a-44ba-90ac-ad8ab96f4699)
 - [ ] [[Test default status task]] #test #default #status #nothing (uuid:b90fade0-9d20-48be-b369-632e1e2f2475)
+- [ ] [[Test task valid status]] #test #valid #status #nothing (uuid:d18713a3-85c5-4882-9db7-110193595423)
 
 ## accepted
 

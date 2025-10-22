@@ -10,6 +10,14 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
+lastCommitSha: "28c11d28089da639cb224e616126eb4215906828"
+commitHistory:
+  -
+    sha: "28c11d28089da639cb224e616126eb4215906828"
+    timestamp: "2025-10-22 01:48:11 -0500\n\ndiff --git a/docs/agile/tasks/integrate-dual-store-management.md b/docs/agile/tasks/integrate-dual-store-management.md\nindex 995f3cf42..1018874d0 100644\n--- a/docs/agile/tasks/integrate-dual-store-management.md\n+++ b/docs/agile/tasks/integrate-dual-store-management.md\n@@ -10,14 +10,6 @@ estimates:\n   complexity: \"\"\n   scale: \"\"\n   time_to_completion: \"\"\n-lastCommitSha: \"151590cab9e63110530e74ee5141e2072490752d\"\n-commitHistory:\n-  -\n-    sha: \"151590cab9e63110530e74ee5141e2072490752d\"\n-    timestamp: \"2025-10-19T22:07:51.066Z\"\n-    message: \"Update task: 8d0ff9fe-82a2-420b-b1f0-1384ed33219d - Update task: Integrate Dual-Store Management\"\n-    author: \"Error <foamy125@gmail.com>\"\n-    type: \"update\"\n ---\n \n ## 🗄️ Integrate Dual-Store Management"
+    message: "Update task: 8d0ff9fe-82a2-420b-b1f0-1384ed33219d - Update task: Integrate Dual-Store Management"
+    author: "Error"
+    type: "update"
 ---
 
 ## 🗄️ Integrate Dual-Store Management

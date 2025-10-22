@@ -1,6 +1,6 @@
 import test from 'ava';
-import { SecurityValidator, RateLimiter, SecurityLogger } from '../security';
-import { JWTAuthService } from '../auth';
+import { SecurityValidator, RateLimiter, SecurityLogger } from '../security.js';
+import { JWTAuthService } from '../auth.js';
 
 test('SecurityValidator validates agent IDs correctly', (t) => {
   // Valid agent IDs

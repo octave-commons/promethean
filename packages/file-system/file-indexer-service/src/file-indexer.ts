@@ -3,6 +3,7 @@ import { readFile, stat } from 'node:fs/promises';
 import { extname, basename } from 'node:path';
 import { DualStoreManager } from '@promethean/persistence';
 import { listFiles, type FileEntry } from '@promethean/fs';
+import { validateFileSystemPath, validateFilePatterns } from './path-validation.js';
 
 import type {
   FileIndexEntry,
@@ -67,17 +68,20 @@ export class FileIndexer {
   }
 
   async indexFile(filePath: string, options: IndexingOptions = {}): Promise<FileIndexEntry> {
-    const fileStats = await stat(filePath);
-    const content = await readFile(filePath, 'utf-8');
+    // CRITICAL SECURITY: Validate path to prevent traversal attacks
+    const validatedPath = validateFileSystemPath(filePath);
+
+    const fileStats = await stat(validatedPath);
+    const content = await readFile(validatedPath, 'utf-8');
 
     const entry: FileIndexEntry = {
       id: randomUUID(),
-      filePath,
-      fileName: basename(filePath),
+      filePath: validatedPath, // Use validated path
+      fileName: basename(validatedPath),
       content,
       fileSize: fileStats.size,
       lastModified: fileStats.mtime,
-      fileType: extname(filePath).toLowerCase().slice(1) || 'unknown',
+      fileType: extname(validatedPath).toLowerCase().slice(1) || 'unknown',
       metadata: {
         indexedAt: new Date(),
         ...options,
@@ -88,7 +92,7 @@ export class FileIndexer {
       id: entry.id,
       content: entry.content,
       lastModified: entry.lastModified.getTime(),
-      filePath: entry.filePath,
+      filePath: entry.filePath, // Already validated
       fileName: entry.fileName,
       fileSize: entry.fileSize,
       fileType: entry.fileType,
@@ -197,7 +201,10 @@ export class FileIndexer {
     directoryPath: string,
     options: IndexingOptions = {},
   ): Promise<string[]> {
-    const fileEntries = await listFiles(directoryPath, {
+    // CRITICAL SECURITY: Validate path to prevent traversal attacks
+    const validatedPath = validateFileSystemPath(directoryPath);
+
+    const fileEntries = await listFiles(validatedPath, {
       includeHidden: false,
       maxDepth: options.followSymlinks === false ? 1 : undefined,
     });

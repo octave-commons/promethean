@@ -1,5 +1,5 @@
 export {
-    files: ['dist/**/*.test.js'],
+    files: ['src/**/*.test.ts', 'dist/**/*.test.js'],
     concurrency: 5,
     verbose: true,
     timeout: '30s',

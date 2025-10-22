@@ -221,7 +221,9 @@ export function printMarkdown(
       output = formatTask(data);
       break;
     case 'tasks':
-      output = formatTaskList(data);
+      // Handle both array and object with tasks property
+      const tasksData = Array.isArray(data) ? data : data?.tasks || [];
+      output = formatTaskList(tasksData);
       break;
     case 'board':
       output = formatBoard(data);

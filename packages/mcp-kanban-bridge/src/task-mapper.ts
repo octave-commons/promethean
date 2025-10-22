@@ -1,4 +1,4 @@
-import { Task, TaskMapper } from './types';
+import { Task, TaskMapper } from './types.js';
 import { z } from 'zod';
 
 // MCP task schema (from external MCP systems)

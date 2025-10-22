@@ -86,7 +86,7 @@ test('archiveTask moves task into archive directory and updates cache', async (t
   const ctx = await createLifecycleTestContext();
   t.teardown(ctx.cleanup);
 
-  const task = await ctx.createTask('task-1', 'Archive Target', 'todo', 'Body content');
+  const task = await ctx.createTask('task-1', 'Archive Target', 'incoming', 'Body content');
   const result = await ctx.manager.archiveTask({
     uuid: task.uuid,
     reason: 'Cleanup',
@@ -104,7 +104,7 @@ test('archiveTask supports dry run mode without touching files', async (t) => {
   const ctx = await createLifecycleTestContext();
   t.teardown(ctx.cleanup);
 
-  const task = await ctx.createTask('task-2', 'Archive Dry Run', 'todo', 'Dry-run content');
+  const task = await ctx.createTask('task-2', 'Archive Dry Run', 'incoming', 'Dry-run content');
   const result = await ctx.manager.archiveTask({
     uuid: task.uuid,
     options: { dryRun: true },
@@ -120,7 +120,7 @@ test('deleteTask requires confirmation unless forced', async (t) => {
   const ctx = await createLifecycleTestContext();
   t.teardown(ctx.cleanup);
 
-  await ctx.createTask('task-3', 'Delete Protected', 'todo', 'Cannot delete yet');
+  await ctx.createTask('task-3', 'Delete Protected', 'incoming', 'Cannot delete yet');
   const result = await ctx.manager.deleteTask({ uuid: 'task-3', confirm: false });
 
   t.false(result.success);
@@ -132,7 +132,7 @@ test('deleteTask removes file and records backup metadata', async (t) => {
   const ctx = await createLifecycleTestContext();
   t.teardown(ctx.cleanup);
 
-  const task = await ctx.createTask('task-4', 'Delete Confirmed', 'todo', 'To be deleted');
+  const task = await ctx.createTask('task-4', 'Delete Confirmed', 'incoming', 'To be deleted');
   const result = await ctx.manager.deleteTask({
     uuid: task.uuid,
     confirm: true,
@@ -150,8 +150,8 @@ test('mergeTasks appends content from sources into target', async (t) => {
   const ctx = await createLifecycleTestContext();
   t.teardown(ctx.cleanup);
 
-  const target = await ctx.createTask('task-5', 'Target', 'todo', 'Initial body');
-  await ctx.createTask('task-6', 'Source Task', 'todo', 'Source body');
+  const target = await ctx.createTask('task-5', 'Target', 'incoming', 'Initial body');
+  await ctx.createTask('task-6', 'Source Task', 'incoming', 'Source body');
 
   const result = await ctx.manager.mergeTasks({
     sourceUuids: ['task-6'],
@@ -169,7 +169,7 @@ test('mergeTasks reports missing source tasks', async (t) => {
   const ctx = await createLifecycleTestContext();
   t.teardown(ctx.cleanup);
 
-  await ctx.createTask('task-7', 'Target', 'todo', 'Initial');
+  await ctx.createTask('task-7', 'Target', 'incoming', 'Initial');
   const result = await ctx.manager.mergeTasks({
     sourceUuids: ['missing-uuid'],
     targetUuid: 'task-7',
@@ -184,8 +184,8 @@ test('bulkArchive and bulkDelete process multiple tasks', async (t) => {
   const ctx = await createLifecycleTestContext();
   t.teardown(ctx.cleanup);
 
-  await ctx.createTask('task-8', 'Bulk A', 'todo', 'One');
-  await ctx.createTask('task-9', 'Bulk B', 'todo', 'Two');
+  await ctx.createTask('task-8', 'Bulk A', 'incoming', 'One');
+  await ctx.createTask('task-9', 'Bulk B', 'incoming', 'Two');
 
   const archiveResults = await ctx.manager.bulkArchive(['task-8', 'task-9'], 'Bulk cleanup', {
     dryRun: true,

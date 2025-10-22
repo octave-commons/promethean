@@ -5,7 +5,7 @@ import {
   ContextManager,
   EventStore,
   SnapshotStore,
-} from './types';
+} from './types.js';
 
 // Import functional implementations
 import {
@@ -18,7 +18,7 @@ import {
   deleteContext as deleteContextFn,
   getContextHistory as getContextHistoryFn,
   ContextManagerState,
-} from './default-context-manager-functional';
+} from './default-context-manager-functional.js';
 
 /**
  * @deprecated Use the functional implementations from './default-context-manager-functional' instead.
