@@ -18,6 +18,63 @@ import {
 } from './dualStoreHelpers.js';
 import type { DualStoreManagerDependencies } from './dualStoreHelpers.js';
 
+// Memoization cache for dual store states to avoid recreating connections
+const dualStoreCache = new Map<string, any>();
+
+// Circuit breaker to prevent rapid retry loops
+const circuitBreaker = {
+    lastFailureTime: 0,
+    failureCount: 0,
+    threshold: 5, // After 5 failures, start backing off
+    resetTime: 30000, // Reset circuit breaker after 30 seconds
+    isOpen(): boolean {
+        if (this.failureCount < this.threshold) {
+            return false;
+        }
+        const timeSinceLastFailure = Date.now() - this.lastFailureTime;
+        return timeSinceLastFailure < this.resetTime;
+    },
+    recordSuccess(): void {
+        this.failureCount = 0;
+        this.lastFailureTime = 0;
+    },
+    recordFailure(): void {
+        this.failureCount++;
+        this.lastFailureTime = Date.now();
+    },
+};
+
+const getOrCreateDualStoreState = async <TextKey extends string, TimeKey extends string>(
+    name: string,
+    textKey: TextKey,
+    timeStampKey: TimeKey,
+    options?: { agentName?: string; databaseName?: string },
+): Promise<any> => {
+    const cacheKey = `${name}-${textKey}-${timeStampKey}-${options?.databaseName || 'database'}`;
+
+    if (dualStoreCache.has(cacheKey)) {
+        const cachedState = dualStoreCache.get(cacheKey);
+        try {
+            // Test if the cached state is still valid
+            await cachedState.mongoCollection.findOne({});
+            return cachedState;
+        } catch (error) {
+            // Cached state is invalid, remove it
+            dualStoreCache.delete(cacheKey);
+        }
+    }
+
+    // Create fresh state
+    const freshState = await create(name, textKey, timeStampKey, options);
+    dualStoreCache.set(cacheKey, freshState);
+    return freshState;
+};
+
+export const clearDualStoreCache = (): void => {
+    dualStoreCache.clear();
+    circuitBreaker.recordSuccess(); // Reset circuit breaker when clearing cache
+};
+
 type QueryArgs = Parameters<ChromaCollection['query']>[0];
 
 export type DualStoreManagerState<TextKey extends string = 'text', TimeKey extends string = 'createdAt'> = {
@@ -108,26 +165,67 @@ export const insert = async <TextKey extends string, TimeKey extends string>(
         });
     }
 
-    // Handle MongoDB connection issues with retry logic
-    let retryCount = 0;
-    const maxRetries = 3;
+    // Handle MongoDB connection issues with circuit breaker pattern
+    try {
+        await state.mongoCollection.insertOne(
+            preparedEntry as OptionalUnlessRequiredId<DualStoreEntry<TextKey, TimeKey>>,
+        );
+        circuitBreaker.recordSuccess(); // Record success on successful operation
+        return;
+    } catch (error: any) {
+        // Check for various MongoDB connection error patterns
+        const isConnectionError =
+            error.message?.includes('MongoNotConnectedError') ||
+            error.message?.includes('Client must be connected') ||
+            error.name === 'MongoNotConnectedError' ||
+            error.constructor?.name === 'MongoNotConnectedError';
 
-    while (retryCount <= maxRetries) {
-        try {
-            await state.mongoCollection.insertOne(
-                preparedEntry as OptionalUnlessRequiredId<DualStoreEntry<TextKey, TimeKey>>,
-            );
-            break; // Success, exit retry loop
-        } catch (error: any) {
-            if (error.message?.includes('MongoNotConnectedError') && retryCount < maxRetries) {
-                console.warn(`MongoDB connection lost, retrying... (${retryCount + 1}/${maxRetries})`);
-                retryCount++;
-                // Wait before retry with exponential backoff
-                await new Promise((resolve) => setTimeout(resolve, Math.pow(2, retryCount) * 1000));
-                continue;
+        console.log(`[DEBUG] MongoDB error caught:`, {
+            name: error.name,
+            constructorName: error.constructor?.name,
+            message: error.message,
+            isConnectionError,
+        });
+
+        if (isConnectionError) {
+            circuitBreaker.recordFailure();
+
+            // Check if circuit breaker is open
+            if (circuitBreaker.isOpen()) {
+                console.warn(
+                    `[CIRCUIT BREAKER] Too many connection failures. Backing off for ${circuitBreaker.resetTime}ms...`,
+                );
+                await new Promise((resolve) => setTimeout(resolve, circuitBreaker.resetTime));
+                circuitBreaker.recordSuccess(); // Reset after backoff
             }
-            throw error; // Re-throw if not a connection error or max retries exceeded
+
+            // Try to get a fresh collection reference from the cached client
+            try {
+                console.log(`[DEBUG] Getting fresh collection reference...`);
+                const freshState = await getOrCreateDualStoreState(state.name, state.textKey, state.timeStampKey, {
+                    agentName: state.agent_name,
+                    databaseName: state.mongoCollection.dbName,
+                });
+
+                // Use the fresh state for the retry
+                state = freshState;
+                console.log(`[DEBUG] Fresh dual store state obtained from cache`);
+
+                // Retry the operation with fresh state
+                await state.mongoCollection.insertOne(
+                    preparedEntry as OptionalUnlessRequiredId<DualStoreEntry<TextKey, TimeKey>>,
+                );
+                circuitBreaker.recordSuccess(); // Record success on retry
+                return;
+            } catch (recoveryError: any) {
+                console.error(`[DEBUG] Recovery failed:`, recoveryError.message);
+                circuitBreaker.recordFailure();
+
+                // If recovery fails, throw the original error
+                throw error;
+            }
         }
+        throw error; // Re-throw if not a connection error
     }
 };
 

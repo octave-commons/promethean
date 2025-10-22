@@ -16,10 +16,15 @@ const chromaClientPromises: PromiseCache<ChromaClient> = new Map();
 const createMongoClient = async (): Promise<MongoClient> => {
     // Always create a fresh connection to avoid any caching issues
     const client = new MongoClient(MONGO_URI, {
-        maxPoolSize: 10,
-        serverSelectionTimeoutMS: 5000,
-        socketTimeoutMS: 30000,
-        connectTimeoutMS: 10000,
+        maxPoolSize: 5, // Reduced pool size to prevent connection flooding
+        minPoolSize: 1, // Maintain at least 1 connection
+        maxIdleTimeMS: 30000, // Close idle connections after 30 seconds
+        serverSelectionTimeoutMS: 10000, // Increased timeout for better reliability
+        socketTimeoutMS: 45000, // Increased socket timeout
+        connectTimeoutMS: 15000, // Increased connection timeout
+        heartbeatFrequencyMS: 10000, // Check connection health every 10 seconds
+        retryWrites: true,
+        retryReads: true,
     });
 
     await client.connect();

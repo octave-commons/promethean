@@ -112,7 +112,13 @@ const HELP_TEXT =
   `  audit    - Audit board consistency\n` +
   `  heal     - Heal board issues with git tag management\n` +
   `  ui       - Start web UI\n` +
-  `  dev      - Start development server`;
+  `  dev      - Start development server\n\n` +
+  `WIP Management:\n` +
+  `  enforce-wip-limits - Enforce WIP limits and move excess tasks\n` +
+  `  wip-monitor       - Real-time capacity monitoring\n` +
+  `  wip-compliance    - Generate compliance reports\n` +
+  `  wip-violations    - View violation history\n` +
+  `  wip-suggestions  - Get capacity balancing suggestions`;
 
 async function main(): Promise<void> {
   const rawArgs = process.argv.slice(2);
