@@ -330,6 +330,11 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
 
     private constructor(state: DualStoreManagerState<TextKey, TimeKey>) {
         this.state = state;
+        // Emit deprecation warning on class instantiation
+        console.warn(
+            '[DEPRECATED] DualStoreManager class is deprecated. ' +
+                "Use the standalone functions from './dualStore.js' instead.",
+        );
     }
 
     static async create<TTextKey extends string = 'text', TTimeKey extends string = 'createdAt'>(
@@ -341,35 +346,67 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
             databaseName?: string;
         },
     ): Promise<DualStoreManager<TTextKey, TTimeKey>> {
+        console.warn(
+            '[DEPRECATED] DualStoreManager.create() is deprecated. ' +
+                "Use the standalone create() function from './dualStore.js' instead.",
+        );
         const state = await create(name, textKey, timeStampKey, options);
         return new DualStoreManager(state);
     }
 
     get name(): string {
+        console.warn(
+            '[DEPRECATED] DualStoreManager.name property is deprecated. ' +
+                'Access the name property from the DualStoreManagerState directly.',
+        );
         return this.state.name;
     }
 
     get agent_name(): string {
+        console.warn(
+            '[DEPRECATED] DualStoreManager.agent_name property is deprecated. ' +
+                'Access the agent_name property from the DualStoreManagerState directly.',
+        );
         return this.state.agent_name;
     }
 
     get embedidng_fn(): string {
+        console.warn(
+            '[DEPRECATED] DualStoreManager.embedidng_fn property is deprecated. ' +
+                'Access the embedding_fn property from the DualStoreManagerState directly.',
+        );
         return this.state.embedding_fn;
     }
 
     getMongoCollection(): Collection<DualStoreEntry<TextKey, TimeKey>> {
+        console.warn(
+            '[DEPRECATED] DualStoreManager.getMongoCollection() is deprecated. ' +
+                "Use the standalone getMongoCollection() function from './dualStore.js' instead.",
+        );
         return getMongoCollection(this.state);
     }
 
     getChromaCollection(): ChromaCollection {
+        console.warn(
+            '[DEPRECATED] DualStoreManager.getChromaCollection() is deprecated. ' +
+                "Use the standalone getChromaCollection() function from './dualStore.js' instead.",
+        );
         return getChromaCollection(this.state);
     }
 
     async insert(entry: DualStoreEntry<TextKey, TimeKey>): Promise<void> {
+        console.warn(
+            '[DEPRECATED] DualStoreManager.insert() is deprecated. ' +
+                "Use the standalone insert() function from './dualStore.js' instead.",
+        );
         await insert(this.state, entry);
     }
 
     async addEntry(entry: DualStoreEntry<TextKey, TimeKey>): Promise<void> {
+        console.warn(
+            '[DEPRECATED] DualStoreManager.addEntry() is deprecated. ' +
+                "Use the standalone addEntry() function from './dualStore.js' instead.",
+        );
         await addEntry(this.state, entry);
     }
 
@@ -378,6 +415,10 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         mongoFilter?: Filter<DualStoreEntry<TextKey, TimeKey>>,
         sorter?: Sort,
     ): Promise<DualStoreEntry<'text', 'timestamp'>[]> {
+        console.warn(
+            '[DEPRECATED] DualStoreManager.getMostRecent() is deprecated. ' +
+                "Use the standalone getMostRecent() function from './dualStore.js' instead.",
+        );
         return getMostRecent(this.state, limit, mongoFilter, sorter);
     }
 
@@ -386,14 +427,26 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         limit: number,
         where?: Where,
     ): Promise<DualStoreEntry<'text', 'timestamp'>[]> {
+        console.warn(
+            '[DEPRECATED] DualStoreManager.getMostRelevant() is deprecated. ' +
+                "Use the standalone getMostRelevant() function from './dualStore.js' instead.",
+        );
         return getMostRelevant(this.state, queryTexts, limit, where);
     }
 
     async get(id: string): Promise<DualStoreEntry<'text', 'timestamp'> | null> {
+        console.warn(
+            '[DEPRECATED] DualStoreManager.get() is deprecated. ' +
+                "Use the standalone get() function from './dualStore.js' instead.",
+        );
         return get(this.state, id);
     }
 
     async cleanup(): Promise<void> {
+        console.warn(
+            '[DEPRECATED] DualStoreManager.cleanup() is deprecated. ' +
+                "Use the standalone cleanup() function from './dualStore.js' instead.",
+        );
         await cleanup();
     }
 }
