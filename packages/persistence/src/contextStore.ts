@@ -1,5 +1,6 @@
 /* eslint-disable functional/prefer-immutable-types */
 /* eslint-disable @typescript-eslint/prefer-readonly-parameter-types */
+/* eslint-disable functional/immutable-data */
 
 import type { Where } from 'chromadb';
 
