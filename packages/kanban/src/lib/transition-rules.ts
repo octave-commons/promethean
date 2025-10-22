@@ -146,6 +146,7 @@ export class TransitionRulesEngine {
 
   // Private helper methods (deprecated - use functional versions instead)
 
+  // @ts-expect-error - Part of deprecated API
   private normalizeColumnName(_column: string): string {
     console.warn(
       'TransitionRulesEngine.normalizeColumnName is deprecated. Use normalizeColumnName from transition-rules-functional instead.',
@@ -218,16 +219,16 @@ export class TransitionRulesEngine {
   }
 
   private async validateTestingToReviewTransition(
-    task: Task,
+    _task: Task,
     _board: Board,
   ): Promise<{ allowed: boolean; violations: string[] }> {
     console.warn(
       'TransitionRulesEngine.validateTestingToReviewTransition is deprecated. Use validateTestingToReviewTransition from transition-rules-functional instead.',
     );
-    return validateTestingToReviewTransitionFn(this.state, task, _board);
+    return validateTestingToReviewTransitionFn(this.state, _task, _board);
   }
 
-  private extractTestingInfo(task: Task): {
+  private extractTestingInfo(_task: Task): {
     coverageReportPath?: string;
     executedTests?: string[];
     requirementMappings?: Array<{ requirementId: string; testIds: string[] }>;
@@ -235,7 +236,7 @@ export class TransitionRulesEngine {
     console.warn(
       'TransitionRulesEngine.extractTestingInfo is deprecated. Use extractTestingInfo from transition-rules-functional instead.',
     );
-    return extractTestingInfoFn(task);
+    return extractTestingInfoFn(_task);
   }
 }
 
