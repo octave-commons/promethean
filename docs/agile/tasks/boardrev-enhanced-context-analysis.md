@@ -10,6 +10,14 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
+lastCommitSha: "8e9b743d9f5f5449b7e08da7584b27774cc7599c"
+commitHistory:
+  -
+    sha: "8e9b743d9f5f5449b7e08da7584b27774cc7599c"
+    timestamp: "2025-10-22 12:07:31 -0500\n\ndiff --git a/docs/agile/tasks/boardrev-enhanced-context-analysis.md b/docs/agile/tasks/boardrev-enhanced-context-analysis.md\nindex 87f5d2321..fe2a45f18 100644\n--- a/docs/agile/tasks/boardrev-enhanced-context-analysis.md\n+++ b/docs/agile/tasks/boardrev-enhanced-context-analysis.md\n@@ -10,14 +10,6 @@ estimates:\n   complexity: \"\"\n   scale: \"\"\n   time_to_completion: \"\"\n-lastCommitSha: \"d3187ba94e628b7d891a4c42010adf2f2e16901c\"\n-commitHistory:\n-  -\n-    sha: \"d3187ba94e628b7d891a4c42010adf2f2e16901c\"\n-    timestamp: \"2025-10-22 08:22:16 -0500\\n\\ndiff --git a/docs/agile/tasks/boardrev-enhanced-context-analysis.md b/docs/agile/tasks/boardrev-enhanced-context-analysis.md\\nindex ad8fcc49a..fe2a45f18 100644\\n--- a/docs/agile/tasks/boardrev-enhanced-context-analysis.md\\n+++ b/docs/agile/tasks/boardrev-enhanced-context-analysis.md\\n@@ -2,7 +2,7 @@\\n uuid: \\\"348ea68d-2564-4370-9dfc-d6f462bf5888\\\"\\n title: \\\"Enhance boardrev context analysis with weighted factors\\\"\\n slug: \\\"boardrev-enhanced-context-analysis\\\"\\n-status: \\\"icebox\\\"\\n+status: \\\"incoming\\\"\\n priority: \\\"P2\\\"\\n labels: [\\\"accuracy\\\", \\\"analysis\\\", \\\"boardrev\\\", \\\"enhancement\\\"]\\n created_at: \\\"Mon Oct 06 2025 07:00:00 GMT-0500 (Central Daylight Time)\\\"\"\n-    message: \"Change task status: 348ea68d-2564-4370-9dfc-d6f462bf5888 - Enhance boardrev context analysis with weighted factors - icebox → incoming\"\n-    author: \"Error\"\n-    type: \"status_change\"\n ---\n \n # Enhance boardrev context analysis with weighted factors"
+    message: "Update task: 348ea68d-2564-4370-9dfc-d6f462bf5888 - Update task: Enhance boardrev context analysis with weighted factors"
+    author: "Error"
+    type: "update"
 ---
 
 # Enhance boardrev context analysis with weighted factors

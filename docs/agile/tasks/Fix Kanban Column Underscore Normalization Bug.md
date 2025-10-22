@@ -10,6 +10,14 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
+lastCommitSha: "04379f5c022dd8158614fb6b8f17438da0140216"
+commitHistory:
+  -
+    sha: "04379f5c022dd8158614fb6b8f17438da0140216"
+    timestamp: "2025-10-22 12:07:50 -0500\n\ndiff --git a/docs/agile/tasks/Fix Kanban Column Underscore Normalization Bug.md b/docs/agile/tasks/Fix Kanban Column Underscore Normalization Bug.md\nindex 1e8875417..630df1cf2 100644\n--- a/docs/agile/tasks/Fix Kanban Column Underscore Normalization Bug.md\t\n+++ b/docs/agile/tasks/Fix Kanban Column Underscore Normalization Bug.md\t\n@@ -10,14 +10,6 @@ estimates:\n   complexity: \"\"\n   scale: \"\"\n   time_to_completion: \"\"\n-lastCommitSha: \"f37c3ecdb336a39349c1f2fa411f728bbe9653d0\"\n-commitHistory:\n-  -\n-    sha: \"f37c3ecdb336a39349c1f2fa411f728bbe9653d0\"\n-    timestamp: \"2025-10-22 08:22:59 -0500\\n\\ndiff --git a/docs/agile/tasks/Fix Kanban Column Underscore Normalization Bug.md b/docs/agile/tasks/Fix Kanban Column Underscore Normalization Bug.md\\nindex a4dc28abb..630df1cf2 100644\\n--- a/docs/agile/tasks/Fix Kanban Column Underscore Normalization Bug.md\\t\\n+++ b/docs/agile/tasks/Fix Kanban Column Underscore Normalization Bug.md\\t\\n@@ -2,7 +2,7 @@\\n uuid: \\\"02c78938-cf9c-45a0-b5ff-6e7a212fb043\\\"\\n title: \\\"Fix Kanban Column Underscore Normalization Bug\\\"\\n slug: \\\"Fix Kanban Column Underscore Normalization Bug\\\"\\n-status: \\\"ready\\\"\\n+status: \\\"in_progress\\\"\\n priority: \\\"P0\\\"\\n labels: [\\\"kanban\\\", \\\"column\\\", \\\"bug\\\", \\\"fix\\\"]\\n created_at: \\\"Sun Oct 12 2025 18:59:36 GMT-0500 (Central Daylight Time)\\\"\"\n-    message: \"Change task status: 02c78938-cf9c-45a0-b5ff-6e7a212fb043 - Fix Kanban Column Underscore Normalization Bug - ready → in_progress\"\n-    author: \"Error\"\n-    type: \"status_change\"\n ---\n \n ## 🐛 Critical: Kanban Column Underscore Normalization Bug"
+    message: "Update task: 02c78938-cf9c-45a0-b5ff-6e7a212fb043 - Update task: Fix Kanban Column Underscore Normalization Bug"
+    author: "Error"
+    type: "update"
 ---
 
 ## 🐛 Critical: Kanban Column Underscore Normalization Bug

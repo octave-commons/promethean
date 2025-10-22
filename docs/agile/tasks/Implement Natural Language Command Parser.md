@@ -10,6 +10,14 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
+lastCommitSha: "fbf742da446bd0c64f3f2c5ab6526b12ecbcb7d0"
+commitHistory:
+  -
+    sha: "fbf742da446bd0c64f3f2c5ab6526b12ecbcb7d0"
+    timestamp: "2025-10-22 12:07:52 -0500\n\ndiff --git a/docs/agile/tasks/Implement Natural Language Command Parser.md b/docs/agile/tasks/Implement Natural Language Command Parser.md\nindex 0e459614d..bae0d4b82 100644\n--- a/docs/agile/tasks/Implement Natural Language Command Parser.md\t\n+++ b/docs/agile/tasks/Implement Natural Language Command Parser.md\t\n@@ -10,14 +10,6 @@ estimates:\n   complexity: \"\"\n   scale: \"\"\n   time_to_completion: \"\"\n-lastCommitSha: \"1b7c721aad027c9bb7794ba340de9da462a00356\"\n-commitHistory:\n-  -\n-    sha: \"1b7c721aad027c9bb7794ba340de9da462a00356\"\n-    timestamp: \"2025-10-22 08:23:03 -0500\\n\\ndiff --git a/docs/agile/tasks/Implement Natural Language Command Parser.md b/docs/agile/tasks/Implement Natural Language Command Parser.md\\nindex 5d2acfea2..bae0d4b82 100644\\n--- a/docs/agile/tasks/Implement Natural Language Command Parser.md\\t\\n+++ b/docs/agile/tasks/Implement Natural Language Command Parser.md\\t\\n@@ -2,7 +2,7 @@\\n uuid: \\\"52c48585-42e1-47ce-bc2c-c46686c1ca53\\\"\\n title: \\\"Implement Natural Language Command Parser\\\"\\n slug: \\\"Implement Natural Language Command Parser\\\"\\n-status: \\\"in_progress\\\"\\n+status: \\\"testing\\\"\\n priority: \\\"P0\\\"\\n labels: [\\\"agent-os\\\", \\\"nlp\\\", \\\"parser\\\", \\\"commands\\\", \\\"natural-language\\\", \\\"critical\\\"]\\n created_at: \\\"2025-10-13T18:49:10.684Z\\\"\"\n-    message: \"Change task status: 52c48585-42e1-47ce-bc2c-c46686c1ca53 - Implement Natural Language Command Parser - in_progress → testing\"\n-    author: \"Error\"\n-    type: \"status_change\"\n ---\n \n ## 🗣️ Critical: Natural Language Command Parser"
+    message: "Update task: 52c48585-42e1-47ce-bc2c-c46686c1ca53 - Update task: Implement Natural Language Command Parser"
+    author: "Error"
+    type: "update"
 ---
 
 ## 🗣️ Critical: Natural Language Command Parser
