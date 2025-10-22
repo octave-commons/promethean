@@ -12,6 +12,9 @@ export type FastifyInstance = {
   delete(route: string, handler: () => unknown): void;
 };
 
+// Readonly version for parameter types
+export type ReadonlyFastifyInstance = Readonly<FastifyInstance>;
+
 export type HealthCheckResponse = Readonly<{
   status: 'healthy' | 'unhealthy';
   timestamp: string;
