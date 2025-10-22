@@ -10,14 +10,6 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
-lastCommitSha: "3b725ccc9362435f8a1c5286d1b6e283d8848d3f"
-commitHistory:
-  -
-    sha: "3b725ccc9362435f8a1c5286d1b6e283d8848d3f"
-    timestamp: "2025-10-22 12:07:50 -0500\n\ndiff --git a/docs/agile/tasks/Design Agent OS Core Message Protocol.md b/docs/agile/tasks/Design Agent OS Core Message Protocol.md\nindex d72d604b9..b933fb061 100644\n--- a/docs/agile/tasks/Design Agent OS Core Message Protocol.md\t\n+++ b/docs/agile/tasks/Design Agent OS Core Message Protocol.md\t\n@@ -10,14 +10,6 @@ estimates:\n   complexity: \"\"\n   scale: \"\"\n   time_to_completion: \"\"\n-lastCommitSha: \"c57b8352f88ad507f6546444dd813d27a9c88a29\"\n-commitHistory:\n-  -\n-    sha: \"c57b8352f88ad507f6546444dd813d27a9c88a29\"\n-    timestamp: \"2025-10-22 08:22:34 -0500\\n\\ndiff --git a/docs/agile/tasks/Design Agent OS Core Message Protocol.md b/docs/agile/tasks/Design Agent OS Core Message Protocol.md\\nindex 28f387842..b933fb061 100644\\n--- a/docs/agile/tasks/Design Agent OS Core Message Protocol.md\\t\\n+++ b/docs/agile/tasks/Design Agent OS Core Message Protocol.md\\t\\n@@ -2,7 +2,7 @@\\n uuid: \\\"0c3189e4-4c58-4be4-b9b0-8e69474e0047\\\"\\n title: \\\"Design Agent OS Core Message Protocol\\\"\\n slug: \\\"Design Agent OS Core Message Protocol\\\"\\n-status: \\\"ready\\\"\\n+status: \\\"in_progress\\\"\\n priority: \\\"P0\\\"\\n labels: [\\\"agent-os\\\", \\\"protocol\\\", \\\"messaging\\\", \\\"core\\\", \\\"design\\\", \\\"critical\\\"]\\n created_at: \\\"2025-10-13T18:49:02.728Z\\\"\"\n-    message: \"Change task status: 0c3189e4-4c58-4be4-b9b0-8e69474e0047 - Design Agent OS Core Message Protocol - ready → in_progress\"\n-    author: \"Error\"\n-    type: \"status_change\"\n ---\n \n ## 📡 Critical: Agent OS Core Message Protocol"
-    message: "Update task: 0c3189e4-4c58-4be4-b9b0-8e69474e0047 - Update task: Design Agent OS Core Message Protocol"
-    author: "Error"
-    type: "update"
 ---
 
 ## 📡 Critical: Agent OS Core Message Protocol
