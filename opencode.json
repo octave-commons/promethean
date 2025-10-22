@@ -174,13 +174,6 @@
       "enabled": true
     },
   },
-  "lsp": {
-    "clojure-lsp": {
-      "enabled":true,
-      "command": ["clojure-lsp"],
-      "extensions": [".clj", ".cljs", ".cljc", ".bb"]
-    }
-  },
   "instructions": ["./docs/agents/platforms/opencode/AGENTS.md"],
   "tools": {
     "clj*": false,
