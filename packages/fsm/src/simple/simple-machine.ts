@@ -763,17 +763,17 @@ function executeSimpleTransition<S extends State, C>(
 };
 
 export const transition = <S extends State, C>(
-  state: MachineState<S, C>,
+  state: SimpleMachineState<S, C>,
   event: Event,
   targetState?: S,
-): { newState: MachineState<S, C>; result: EventResult<S, C, Event> } => {
+): { newState: SimpleMachineState<S, C>; result: EventResult<S, C, Event> } => {
   try {
-    const currentState = getCurrentState(state);
+    const currentState = getCurrentSimpleState(state);
 
     // Find transition
     const transition = targetState
-      ? findDirectTransition(state.definition, currentState, targetState, event)
-      : findEventTransition(state.definition, currentState, event);
+      ? findDirectSimpleTransition(state.definition, currentState, targetState, event)
+      : findEventSimpleTransition(state.definition, currentState, event);
 
     if (!transition) {
       const error: FSMError = {
@@ -799,7 +799,7 @@ export const transition = <S extends State, C>(
     // Check guard
     if (
       transition.guard &&
-      !evaluateGuard(transition.guard, event, state.currentSnapshot.context)
+      !evaluateSimpleGuard(transition.guard, event, state.currentSnapshot.context)
     ) {
       const error: FSMError = {
         type: 'guard-failed',
@@ -820,7 +820,7 @@ export const transition = <S extends State, C>(
     }
 
     // Execute transition
-    const newSnapshot = executeTransitionCore(transition, event, state.currentSnapshot);
+    const newSnapshot = executeSimpleTransition(transition, event, state.currentSnapshot);
 
     return {
       newState: {
@@ -837,7 +837,7 @@ export const transition = <S extends State, C>(
     const fsmError: FSMError = {
       type: 'action-failed',
       message: error instanceof Error ? error.message : String(error),
-      from: getCurrentState(state),
+      from: getCurrentSimpleState(state),
       event: event as any,
       cause: error instanceof Error ? error : undefined,
     };
