@@ -4,22 +4,29 @@ import { contextStore, SESSION_STORE_NAME, EVENT_STORE_NAME, MESSAGE_STORE_NAME 
 export async function initializeStores(): Promise<
   Record<string, DualStoreManager<'text', 'timestamp'>>
 > {
+  console.log('🔧 Initializing stores...');
+
   // Create all collections using ContextStore
+  console.log('📝 Creating session collection...');
   const sessionCollection = await contextStore.createCollection(
     SESSION_STORE_NAME,
     'text',
     'timestamp',
   );
+  console.log('📝 Creating event collection...');
   const eventCollection = await contextStore.createCollection(
     EVENT_STORE_NAME,
     'text',
     'timestamp',
   );
+  console.log('📝 Creating message collection...');
   const messageCollection = await contextStore.createCollection(
     MESSAGE_STORE_NAME,
     'text',
     'timestamp',
   );
+
+  console.log('✅ All collections created successfully');
 
   // you shouldn't need to do this. the context store was screwed up when moving it so it no longer accepts generics properly
   // It should be:
