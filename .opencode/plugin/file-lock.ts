@@ -1,4 +1,4 @@
-import type { Plugin } from './index';
+import type { Plugin } from '@opencode-ai/plugin';
 
 type FileLock = Readonly<{
   sessionId: string;
