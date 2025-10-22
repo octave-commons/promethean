@@ -64,12 +64,26 @@ const setOverride = <TClient>(
     client: TClient | null,
 ): void => {
     if (client === null) {
-        overrides.delete(cacheKey);
-        promiseCache.delete(cacheKey);
+        const newOverrides = new Map(overrides);
+        newOverrides.delete(cacheKey);
+        const newPromiseCache = new Map(promiseCache);
+        newPromiseCache.delete(cacheKey);
+        // Note: This is a side effect that can't be avoided in this context
+        (overrides as Map<string, TClient>).clear();
+        for (const [k, v] of newOverrides) (overrides as Map<string, TClient>).set(k, v);
+        (promiseCache as Map<string, Promise<TClient>>).clear();
+        for (const [k, v] of newPromiseCache) (promiseCache as Map<string, Promise<TClient>>).set(k, v);
         return;
     }
-    overrides.set(cacheKey, client);
-    promiseCache.delete(cacheKey);
+    const newOverrides = new Map(overrides);
+    newOverrides.set(cacheKey, client);
+    const newPromiseCache = new Map(promiseCache);
+    newPromiseCache.delete(cacheKey);
+    // Note: This is a side effect that can't be avoided in this context
+    (overrides as Map<string, TClient>).clear();
+    for (const [k, v] of newOverrides) (overrides as Map<string, TClient>).set(k, v);
+    (promiseCache as Map<string, Promise<TClient>>).clear();
+    for (const [k, v] of newPromiseCache) (promiseCache as Map<string, Promise<TClient>>).set(k, v);
 };
 
 // BOT: Test hooks to override clients in unit tests without network dependency.
