@@ -7,9 +7,9 @@ priority: "P0"
 labels: ["architecture", "implementation", "cross-platform", "adapters"]
 created_at: "2025-10-22T15:25:00Z"
 estimates:
-  complexity: "4"
-  scale: "medium"
-  time_to_completion: "3 cloud sessions"
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Implement Platform-Specific Runtime Adapters
