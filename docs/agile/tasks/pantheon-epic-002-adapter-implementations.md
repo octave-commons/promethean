@@ -1,15 +1,15 @@
 ---
-uuid: 'pantheon-epic-002-adapter-implementations-2025-10-20'
-title: 'Epic: Pantheon Adapter Implementations'
-slug: 'pantheon-epic-002-adapter-implementations'
-status: 'incoming'
-priority: 'P0'
-labels: ['pantheon', 'adapters', 'integration', 'epic', 'implementation']
-created_at: '2025-10-20T00:00:00Z'
+uuid: "pantheon-epic-002-adapter-implementations-2025-10-20"
+title: "Epic: Pantheon Adapter Implementations"
+slug: "pantheon-epic-002-adapter-implementations"
+status: "incoming"
+priority: "P0"
+labels: ["pantheon", "adapters", "integration", "epic", "implementation"]
+created_at: "2025-10-20T00:00:00Z"
 estimates:
-  complexity: 'large'
-  scale: 'epic'
-  time_to_completion: '2-3 weeks'
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Epic: Pantheon Adapter Implementations
