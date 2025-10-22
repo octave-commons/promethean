@@ -194,7 +194,7 @@ kanban-plugin: board
 - [ ] [[epic-benchmark-migration-unification|Epic: Benchmark Migration & Unification]] #epic #benchmark #migration #unification #infrastructure #performance prio:P0 (uuid:epic-benchmark-migration-unification-001)
 - [ ] [[epic-pipeline-cli-decoupling|Epic: Pipeline Package CLI Decoupling]] #epic #pipeline #cli #decoupling #independence #refactoring prio:P0 (uuid:epic-pipeline-cli-decoupling-002)
 - [ ] [[implement-kanban-conflict-detection-rule|Implement Kanban Conflict Detection Rule for Todo → In Progress Transitions]] #kanban #transition-rules #conflict-detection #rag #symbolic-search #workflow-automation prio:P1 (uuid:7b8a9c2d-4e5f-6a7b-8c9d-0e1f2a3b4c5d)
-- [ ] [[implement-separate-test-coverage-pipelines|Implement Separate Test Coverage Pipelines for Integration, E2E, and Unit Testing]] #devops #testing #coverage #pipelines #ci-cd #type:infrastructure prio:P1 (uuid:550e8400-e29b-41d4-a716-446655440000)
+- [ ] [[implement-separate-test-coverage-pipelines|Consolidate Frontend Projects into Unified Architecture]] #frontend #consolidation #architecture #migration #epic prio:P0 (uuid:550e8400-e29b-41d4-a716-446655440000)
 - [ ] [[implement-smart-incoming-to-accepted-transition-rule|Implement Smart Incoming → Accepted Transition Rule with AI-Powered Task Quality Analysis]] #kanban #transition-rules #ai-analysis #quality-gate #agents-workflow #task-validation #workflow-automation prio:P1 (uuid:a8b9c3d4-5e6f-7a8b-9c0d-1e2f3a4b5c6d)
 - [ ] [[migrate kanban label frontmatter field to tags for better compatability with obsdian|Migrate kanban Labels to tags for compatability with obsidian's knowledge graph]] #ai #automation #kanban #obsidian #knowledge-graph #knowledge-management-system prio:P1 (uuid:363f1d14-a864-11f0-a5c2-7fa31ed98b3f)
 - [ ] [[resolve-todo-comments-technical-debt|Resolve TODO Comments and Technical Debt]] #technical-debt #todo-comments #cleanup #maintenance prio:P2 (uuid:e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8a9b)
@@ -212,6 +212,7 @@ kanban-plugin: board
 - [ ] [[Design abstract KanbanAdapter interface and base class]] #abstract #kanbanadapter #interface #design prio:P0 (uuid:da0a7f20-15d9-45fd-b2d8-ba3101c1e0d7)
 - [ ] [[Fix-@promethean-agent-entrypoint-exports-to-match-emitted-build-artifacts|--title Review and analyze first 10 open PRs --storyPoints 3]] #title #review #analyze #first prio:P1 (uuid:3c306b0e-da10-4047-bbee-ef1df37f763f)
 - [ ] [[Implement LLM-powered kanban explain command]] #llm #explain #command #kanban prio:P1 (uuid:6866f097-f4c8-485a-8c1d-78de260459d2)
+- [ ] [[Implement WIP Limit Enforcement Gate]] #security-gates #wip-limits #automation #kanban-cli #capacity-management prio:P0 (uuid:a666f910-5767-47b8-a8a8-d210411784f9)
 - [ ] [[Kanban System Health Monitoring & Alerting Framework]] #kanban #health-monitoring #automation #alerting #framework #mcp-integration #healing prio:P1 (uuid:3308ce11-0321-4bc2-a4be-bdf5e5e8701a)
 - [ ] [[Oversee TypeScript to ClojureScript Migration Program]] #migration #program-management #oversight #clojurescript #typed-clojure #epic prio:P0 (uuid:1c3cd0e9-cbc1-4a7f-be0e-a61fa595167a)
 - [ ] [[Refactor existing board logic into BoardAdapter implementation]] #board #logic #boardadapter #existing prio:P0 (uuid:1c88185e-9bfb-42d0-9388-3ac4bf688960)
@@ -242,7 +243,6 @@ kanban-plugin: board
 
 ## todo
 
-- [ ] [[20251011235213|Implement Git Workflow Core Implementation]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #git-workflow #version-control #phase-1 prio:P1 (uuid:5791f7ad-8954-4204-932d-1f1383e90732)
 - [ ] [[20251011235236|Extend Git Sync for Heal Operations]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #git-workflow #git-sync #phase-1 prio:P1 (uuid:4e88db40-884c-4aed-8412-3de9fd78bd02)
 - [ ] [[Add BuildFix JSDoc comments and documentation]] #buildfix #documentation #medium #provider prio:P2 (uuid:e9bc3b09-b31e-468a-9e0e-5257db68bb72)
 - [ ] [[Add BuildFix input validation for fixture types]] #buildfix #validation #high #provider prio:P1 (uuid:7e8cd435-394a-45e1-b865-9e9ac854c47a)
@@ -269,6 +269,7 @@ kanban-plugin: board
 
 - [ ] [[20251011235168|Implement Scar Context Builder]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #scar-context #context-builder #phase-1 prio:P1 (uuid:ca84477b-20d4-4d49-8457-96d3e9749b6a)
 - [ ] [[20251011235189|Implement LLM Integration for Context Enhancement]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #scar-context #llm-integration #phase-1 prio:P1 (uuid:3ca4b85d-0c71-4e45-bf4a-01a16b990a70)
+- [ ] [[20251011235213|Implement Git Workflow Core Implementation]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #git-workflow #version-control #phase-1 prio:P1 (uuid:5791f7ad-8954-4204-932d-1f1383e90732)
 - [ ] [[Complete breakdown for P0 security tasks]] #breakdown #tasks #complete #security prio:P0 (uuid:b6c5f483-0893-4144-a0cf-f97ffd2b6b74)
 - [ ] [[Design Agent OS Core Message Protocol]] #agent-os #protocol #messaging #core #design #critical prio:P0 (uuid:0c3189e4-4c58-4be4-b9b0-8e69474e0047)
 - [ ] [[Fix Kanban Column Underscore Normalization Bug]] #kanban #column #bug #fix prio:P0 (uuid:02c78938-cf9c-45a0-b5ff-6e7a212fb043)
@@ -316,7 +317,6 @@ kanban-plugin: board
 - [x] [[Extend @packages ds graph.ts for FSM-specific operations|Extend @packages/ds/graph.ts for FSM-specific operations]] #fsm #packages #ds #graph #implementation #tool:codegen #env:no-egress prio:P1 (uuid:1bc3c26b-5a73-4292-95d9-9d9195dad92a)
 - [x] [[Fix BuildFix __dirname undefined in ESM modules]] #buildfix #esm #path-resolution #high prio:P1 (uuid:7a2b69bc-0042-4eb5-b866-ef51046032d2)
 - [x] [[Implement MCP Security Hardening & Validation]] #mcp #kanban #security #validation #hardening #critical prio:P0 (uuid:d794213f-853d-41e4-863c-27e83dd5221c)
-- [x] [[Implement WIP Limit Enforcement Gate]] #security-gates #wip-limits #automation #kanban-cli #capacity-management prio:P0 (uuid:a666f910-5767-47b8-a8a8-d210411784f9)
 - [x] [[P0-Path-Traversal-Fix-Subtasks|URGENT: Fix Critical Path Traversal Vulnerability - Subtask Breakdown]] #security #critical #path-traversal #urgent #indexer-service #vulnerability-fix prio:P0 (uuid:f1d22f6a-d9d1-4095-a166-f2e01a9ce46e)
 - [x] [[Prevent invalid starting status creation in kanban CLI]] #prevent #invalid #starting #status prio:P0 (uuid:45ad22b1-d5b9-4c21-887c-c22f8ca6395e)
 - [x] [[add-donereview-transition-for-audit-corrections-and-quality-control-control|Add done→review transition for audit corrections and quality control -control]] #audit #fsm #kanban #quality-control #transitions prio:P2 (uuid:9af83f86-3639-4c9f-a28f-45690fb7a8ea)
