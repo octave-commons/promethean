@@ -2,7 +2,7 @@
 uuid: "1c3cd0e9-cbc1-4a7f-be0e-a61fa595167a"
 title: "Oversee TypeScript to ClojureScript Migration Program"
 slug: "Oversee TypeScript to ClojureScript Migration Program"
-status: "incoming"
+status: "breakdown"
 priority: "P0"
 labels: ["migration", "program-management", "oversight", "clojurescript", "typed-clojure", "epic"]
 created_at: "2025-10-14T06:38:44.112Z"
