@@ -10,14 +10,6 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
-lastCommitSha: "d8b9eaa0be9f1df91295c108046c0f771cba9cf2"
-commitHistory:
-  -
-    sha: "d8b9eaa0be9f1df91295c108046c0f771cba9cf2"
-    timestamp: "2025-10-22 01:48:13 -0500\n\ndiff --git a/docs/agile/tasks/pantheon-epic-005-cli-and-web-ui.md b/docs/agile/tasks/pantheon-epic-005-cli-and-web-ui.md\nindex d7f808988..a38f0ef80 100644\n--- a/docs/agile/tasks/pantheon-epic-005-cli-and-web-ui.md\n+++ b/docs/agile/tasks/pantheon-epic-005-cli-and-web-ui.md\n@@ -1,15 +1,15 @@\n ---\n-uuid: 'pantheon-epic-005-cli-and-web-ui-2025-10-20'\n-title: 'Epic: Pantheon CLI and Web UI Implementation'\n-slug: 'pantheon-epic-005-cli-and-web-ui'\n-status: 'incoming'\n-priority: 'P1'\n-labels: ['pantheon', 'cli', 'ui', 'web', 'epic', 'implementation']\n-created_at: '2025-10-20T00:00:00Z'\n+uuid: \"pantheon-epic-005-cli-and-web-ui-2025-10-20\"\n+title: \"Epic: Pantheon CLI and Web UI Implementation\"\n+slug: \"pantheon-epic-005-cli-and-web-ui\"\n+status: \"incoming\"\n+priority: \"P1\"\n+labels: [\"pantheon\", \"cli\", \"ui\", \"web\", \"epic\", \"implementation\"]\n+created_at: \"2025-10-20T00:00:00Z\"\n estimates:\n-  complexity: 'large'\n-  scale: 'epic'\n-  time_to_completion: '2-3 weeks'\n+  complexity: \"\"\n+  scale: \"\"\n+  time_to_completion: \"\"\n ---\n \n # Epic: Pantheon CLI and Web UI Implementation"
-    message: "Update task: pantheon-epic-005-cli-and-web-ui-2025-10-20 - Update task: Epic: Pantheon CLI and Web UI Implementation"
-    author: "Error"
-    type: "update"
 ---
 
 # Epic: Pantheon CLI and Web UI Implementation
