@@ -10,14 +10,6 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
-lastCommitSha: "6eb2da7577c2788a364dd02e10063070bcee4737"
-commitHistory:
-  -
-    sha: "6eb2da7577c2788a364dd02e10063070bcee4737"
-    timestamp: "2025-10-22 12:07:51 -0500\n\ndiff --git a/docs/agile/tasks/Create MCP-Kanban Bridge API.md b/docs/agile/tasks/Create MCP-Kanban Bridge API.md\nindex 6f3a63082..9c5d51734 100644\n--- a/docs/agile/tasks/Create MCP-Kanban Bridge API.md\t\n+++ b/docs/agile/tasks/Create MCP-Kanban Bridge API.md\t\n@@ -10,14 +10,6 @@ estimates:\n   complexity: \"\"\n   scale: \"\"\n   time_to_completion: \"\"\n-lastCommitSha: \"6d4dee04672b358e0a6087b6eda553f8c80285f9\"\n-commitHistory:\n-  -\n-    sha: \"6d4dee04672b358e0a6087b6eda553f8c80285f9\"\n-    timestamp: \"2025-10-22 08:22:39 -0500\\n\\ndiff --git a/docs/agile/tasks/Create MCP-Kanban Bridge API.md b/docs/agile/tasks/Create MCP-Kanban Bridge API.md\\nindex a777edaee..9c5d51734 100644\\n--- a/docs/agile/tasks/Create MCP-Kanban Bridge API.md\\t\\n+++ b/docs/agile/tasks/Create MCP-Kanban Bridge API.md\\t\\n@@ -2,7 +2,7 @@\\n uuid: \\\"07b10989-e06c-4c6b-87b9-80ce169b7660\\\"\\n title: \\\"Create MCP-Kanban Bridge API\\\"\\n slug: \\\"Create MCP-Kanban Bridge API\\\"\\n-status: \\\"in_progress\\\"\\n+status: \\\"testing\\\"\\n priority: \\\"P0\\\"\\n labels: [\\\"mcp\\\", \\\"kanban\\\", \\\"api\\\", \\\"bridge\\\", \\\"synchronization\\\", \\\"critical\\\"]\\n created_at: \\\"2025-10-13T18:48:33.321Z\\\"\"\n-    message: \"Change task status: 07b10989-e06c-4c6b-87b9-80ce169b7660 - Create MCP-Kanban Bridge API - in_progress → testing\"\n-    author: \"Error\"\n-    type: \"status_change\"\n ---\n \n ## 🌉 Critical: MCP-Kanban Bridge API"
-    message: "Update task: 07b10989-e06c-4c6b-87b9-80ce169b7660 - Update task: Create MCP-Kanban Bridge API"
-    author: "Error"
-    type: "update"
 ---
 
 ## 🌉 Critical: MCP-Kanban Bridge API
