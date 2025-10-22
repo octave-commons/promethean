@@ -1,13 +1,13 @@
 {
     "name": "@promethean/intention",
-    "root": "packages/intention",
-    "sourceRoot": "packages/intention/src",
+    "root": "packages/ai/intention",
+    "sourceRoot": "packages/ai/intention/src",
     "targets": {
         "build": {
             "executor": "nx:run-commands",
             "options": {
                 "command": "tsc -b",
-                "cwd": "packages/intention"
+                "cwd": "packages/ai/intention"
             },
             "outputs": ["{projectRoot}/dist"]
         },
@@ -15,7 +15,7 @@
             "executor": "nx:run-commands",
             "options": {
                 "command": "tsc -p tsconfig.json --noEmit",
-                "cwd": "packages/intention"
+                "cwd": "packages/ai/intention"
             }
         },
         "test": {
@@ -32,7 +32,7 @@
             "executor": "nx:run-commands",
             "options": {
                 "command": "eslint .",
-                "cwd": "packages/intention"
+                "cwd": "packages/ai/intention"
             }
         }
     },

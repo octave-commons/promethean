@@ -1,13 +1,13 @@
 {
     "name": "@promethean/changefeed",
-    "root": "packages/changefeed",
-    "sourceRoot": "packages/changefeed/src",
+    "root": "pseudo/changefeed",
+    "sourceRoot": "pseudo/changefeed/src",
     "targets": {
         "build": {
             "executor": "nx:run-commands",
             "options": {
                 "command": "tsc -b",
-                "cwd": "packages/changefeed"
+                "cwd": "pseudo/changefeed"
             },
             "outputs": ["{projectRoot}/dist"]
         },
@@ -15,7 +15,7 @@
             "executor": "nx:run-commands",
             "options": {
                 "command": "tsc -p tsconfig.json --noEmit",
-                "cwd": "packages/changefeed"
+                "cwd": "pseudo/changefeed"
             }
         },
         "test": {
@@ -32,7 +32,7 @@
             "executor": "nx:run-commands",
             "options": {
                 "command": "eslint .",
-                "cwd": "packages/changefeed"
+                "cwd": "pseudo/changefeed"
             }
         }
     },

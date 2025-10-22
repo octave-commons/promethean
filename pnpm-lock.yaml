@@ -3122,6 +3122,9 @@ importers:
       simple-git:
         specifier: ^3.27.0
         version: 3.28.0
+      type-fest:
+        specifier: ^5.1.0
+        version: 5.1.0
       ws:
         specifier: ^8.18.0
         version: 8.18.3

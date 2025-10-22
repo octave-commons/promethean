@@ -1,20 +1,20 @@
 {
   "name": "vision-service",
-  "root": "packages/vision",
-  "sourceRoot": "packages/vision",
+  "root": "pseudo/vision",
+  "sourceRoot": "pseudo/vision",
   "targets": {
     "test": {
       "executor": "nx:run-commands",
       "options": {
         "command": "pnpm run test",
-        "cwd": "packages/vision"
+        "cwd": "pseudo/vision"
       }
     },
     "lint": {
       "executor": "nx:run-commands",
       "options": {
         "command": "pnpm run lint",
-        "cwd": "packages/vision",
+        "cwd": "pseudo/vision",
         "forwardAllArgs": false
       }
     }

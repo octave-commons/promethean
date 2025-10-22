@@ -1,10 +1,11 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
+import type { ReadonlyDeep } from 'type-fest';
 
 import type { KanbanConfig } from './config/shared.js';
 
-export interface TransitionEvent {
+export type TransitionEvent = {
   readonly id: string;
   readonly timestamp: string;
   readonly taskId: string;
@@ -13,9 +14,17 @@ export interface TransitionEvent {
   readonly reason?: string;
   readonly actor: 'agent' | 'human' | 'system';
   readonly metadata?: Record<string, unknown>;
-}
+};
 
-export class EventLogManager {
+export const makeEventLogManager = (config: ReadonlyDeep<KanbanConfig>): EventLogManager => {
+  const logPath = path.join(config.cachePath || 'docs/agile/boards/.cache', 'event-log.jsonl');
+
+  const ensureLogDirectory = async (): Promise<void> => {
+    const dir = path.dirname(logPath);
+    try {
+      await readFile(dir);
+    } catch {
+      // Directory doesn't exist, create it
   private readonly logPath: string;
 
   constructor(config: KanbanConfig) {

@@ -1,13 +1,13 @@
 {
   "name": "@promethean/symdocs",
-  "root": "packages/symdocs",
-  "sourceRoot": "packages/symdocs/src",
+  "root": "packages/pipelines/symdocs",
+  "sourceRoot": "packages/pipelines/symdocs/src",
   "targets": {
     "build": {
       "executor": "nx:run-commands",
       "options": {
         "command": "tsc -b",
-        "cwd": "packages/symdocs"
+        "cwd": "packages/pipelines/symdocs"
       },
       "outputs": ["{projectRoot}/dist"]
     },
@@ -15,7 +15,7 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "tsc -p tsconfig.json --noEmit",
-        "cwd": "packages/symdocs"
+        "cwd": "packages/pipelines/symdocs"
       }
     },
     "test": {
@@ -32,7 +32,7 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "eslint .",
-        "cwd": "packages/symdocs"
+        "cwd": "packages/pipelines/symdocs"
       }
     }
   },

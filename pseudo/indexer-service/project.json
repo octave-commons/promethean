@@ -1,12 +1,12 @@
 {
   "name": "@promethean/indexer-service",
-  "root": "packages/indexer-service",
+  "root": "pseudo/indexer-service",
   "targets": {
     "build": {
       "executor": "nx:run-commands",
       "options": {
         "command": "pnpm run build",
-        "cwd": "packages/indexer-service"
+        "cwd": "pseudo/indexer-service"
       },
       "outputs": ["{projectRoot}/dist"]
     },
@@ -14,25 +14,25 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "pnpm run typecheck",
-        "cwd": "packages/indexer-service"
+        "cwd": "pseudo/indexer-service"
       }
     },
     "test": {
       "executor": "nx:run-commands",
       "options": {
         "command": "pnpm run test",
-        "cwd": "packages/indexer-service"
+        "cwd": "pseudo/indexer-service"
       }
     },
     "lint": {
       "executor": "nx:run-commands",
       "options": {
         "command": "pnpm run lint",
-        "cwd": "packages/indexer-service",
+        "cwd": "pseudo/indexer-service",
         "forwardAllArgs": false
       }
     }
   },
   "tags": ["scope:packages"],
-  "sourceRoot": "packages/indexer-service/src"
+  "sourceRoot": "pseudo/indexer-service/src"
 }
