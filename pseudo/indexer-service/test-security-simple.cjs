@@ -14,6 +14,7 @@ function detectPathTraversal(inputPath) {
     /\.\.[\/\\]/, // ../ or ..\
     /^[\/\\]/, // Starting with / or \
     /[\/\\]\.\./, // /.. or \..
+    /^[A-Za-z]:[\/\\]/, // Windows drive letters like C:\ or D:/
   ];
 
   for (const pattern of traversalPatterns) {
