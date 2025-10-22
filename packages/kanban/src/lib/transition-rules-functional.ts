@@ -616,14 +616,27 @@ const runTestingValidation = async (
   },
 ): Promise<void> => {
   const request: TestCoverageRequest = {
-    taskId: task.uuid,
-    coverageReportPath: testingInfo.coverageReportPath!,
-    executedTests: testingInfo.executedTests || [],
-    requirementMappings: testingInfo.requirementMappings || [],
-    thresholds: state.testingConfig.thresholds,
-    weights: state.testingConfig.weights,
-    timeouts: state.testingConfig.timeouts,
+    task: {
+      uuid: task.uuid,
+      title: task.title,
+      content: task.content,
+      status: task.status,
+      priority: task.priority ? String(task.priority) : undefined,
+      tags: task.tags || [],
+      frontmatter: task.frontmatter || {},
+    },
+    changedFiles: [],
+    affectedPackages: [],
+    reportPath: testingInfo.coverageReportPath!,
+    format: 'json',
   };
 
-  await runTestingTransition(request);
+  await runTestingTransition(
+    request,
+    testingInfo.executedTests || [],
+    testingInfo.requirementMappings || [],
+    state.testingConfig,
+    [], // testFiles - empty for now
+    '/tmp', // outputDir - temporary
+  );
 };
