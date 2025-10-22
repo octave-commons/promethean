@@ -1,3 +1,6 @@
+/* eslint-disable functional/prefer-immutable-types */
+/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types */
+
 import type { Where } from 'chromadb';
 
 import { DualStoreManager } from './dualStore.js';
@@ -73,12 +76,11 @@ const resolveCompileOptions = (
 };
 
 const dedupeByText = (entries: readonly GenericEntry[]): GenericEntry[] => {
-     
     const seen = new Set<string>();
     return entries.filter((entry) => {
         const text = entry.text;
         if (seen.has(text)) return false;
-         
+
         seen.add(text);
         return true;
     });
