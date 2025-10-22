@@ -2,7 +2,7 @@
 uuid: "fc5dc875-cd6c-47fb-b02b-56138c06b2fb"
 title: "Fix BuildFix path resolution logic duplication"
 slug: "Fix BuildFix path resolution logic duplication"
-status: "todo"
+status: "ready"
 priority: "P0"
 labels: ["buildfix", "critical", "bug", "provider"]
 created_at: "2025-10-15T13:54:37.845Z"
