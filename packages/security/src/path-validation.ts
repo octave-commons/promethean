@@ -211,7 +211,7 @@ export async function validatePath(
       }
 
       const fileName = path.basename(normalizedInput);
-      if (DANGEROUS_NAMES.has(fileName.toUpperCase())) {
+      if (DANGEROUS_NAMES.has(fileName.toLowerCase())) {
         return {
           isValid: false,
           error: `Dangerous file name detected: ${fileName}`,
