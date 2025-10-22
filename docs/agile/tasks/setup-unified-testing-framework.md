@@ -10,14 +10,6 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
-lastCommitSha: "36bd05e874271f5bb3f669f4a454cd0385b72cf8"
-commitHistory:
-  -
-    sha: "36bd05e874271f5bb3f669f4a454cd0385b72cf8"
-    timestamp: "2025-10-22 01:48:19 -0500\n\ndiff --git a/docs/agile/tasks/setup-unified-testing-framework.md b/docs/agile/tasks/setup-unified-testing-framework.md\nindex decffb965..dccf4d66f 100644\n--- a/docs/agile/tasks/setup-unified-testing-framework.md\n+++ b/docs/agile/tasks/setup-unified-testing-framework.md\n@@ -10,14 +10,6 @@ estimates:\n   complexity: \"\"\n   scale: \"\"\n   time_to_completion: \"\"\n-lastCommitSha: \"8714e1e2f5c5d7e6493be75e6b124920fe87d2c0\"\n-commitHistory:\n-  -\n-    sha: \"8714e1e2f5c5d7e6493be75e6b124920fe87d2c0\"\n-    timestamp: \"2025-10-19T22:08:06.418Z\"\n-    message: \"Update task: bd317cc6-e645-4343-9f56-d927d9763cb1 - Update task: Set Up Unified Testing Framework\"\n-    author: \"Error <foamy125@gmail.com>\"\n-    type: \"update\"\n ---\n \n ## 🧪 Set Up Unified Testing Framework"
-    message: "Update task: bd317cc6-e645-4343-9f56-d927d9763cb1 - Update task: Set Up Unified Testing Framework"
-    author: "Error"
-    type: "update"
 ---
 
 ## 🧪 Set Up Unified Testing Framework
