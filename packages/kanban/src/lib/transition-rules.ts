@@ -11,6 +11,7 @@
  * This class is provided for backward compatibility and will be removed in a future version.
  */
 
+import { readFile, access } from 'fs/promises';
 import type { Task, Board } from './types.js';
 import type { TestingTransitionConfig } from './testing-transition/types.js';
 
@@ -98,15 +99,14 @@ export class TransitionRulesEngine {
     this.state = createTransitionRulesEngineState(config);
   }
 
-  /**
-   * Initialize the rules engine and check if Clojure DSL is available
+/**
+   * Initialize rules engine and check if Clojure DSL is available
    */
   async initialize(): Promise<void> {
-    if (!this.config.dslPath) {
-      throw new Error(
-        'Clojure DSL path is required. TypeScript transition rules are no longer supported.',
-      );
-    }
+    console.warn('TransitionRulesEngine.initialize is deprecated. Use initializeTransitionRulesEngine from transition-rules-functional instead.');
+    const result = await initializeTransitionRulesEngine(this.state);
+    this.state = result.newState;
+  }
 
     try {
       await access(this.config.dslPath);
