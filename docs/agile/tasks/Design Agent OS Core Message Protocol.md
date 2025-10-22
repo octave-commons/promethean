@@ -10,6 +10,14 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
+lastCommitSha: "c57b8352f88ad507f6546444dd813d27a9c88a29"
+commitHistory:
+  -
+    sha: "c57b8352f88ad507f6546444dd813d27a9c88a29"
+    timestamp: "2025-10-22 08:22:34 -0500\n\ndiff --git a/docs/agile/tasks/Design Agent OS Core Message Protocol.md b/docs/agile/tasks/Design Agent OS Core Message Protocol.md\nindex 28f387842..b933fb061 100644\n--- a/docs/agile/tasks/Design Agent OS Core Message Protocol.md\t\n+++ b/docs/agile/tasks/Design Agent OS Core Message Protocol.md\t\n@@ -2,7 +2,7 @@\n uuid: \"0c3189e4-4c58-4be4-b9b0-8e69474e0047\"\n title: \"Design Agent OS Core Message Protocol\"\n slug: \"Design Agent OS Core Message Protocol\"\n-status: \"ready\"\n+status: \"in_progress\"\n priority: \"P0\"\n labels: [\"agent-os\", \"protocol\", \"messaging\", \"core\", \"design\", \"critical\"]\n created_at: \"2025-10-13T18:49:02.728Z\""
+    message: "Change task status: 0c3189e4-4c58-4be4-b9b0-8e69474e0047 - Design Agent OS Core Message Protocol - ready → in_progress"
+    author: "Error"
+    type: "status_change"
 ---
 
 ## 📡 Critical: Agent OS Core Message Protocol
