@@ -1,8 +1,6 @@
 import type { Session, Event } from '@opencode-ai/sdk';
 
-import { sessionStore, eventStore, messageStore } from '../index.js';
-import { insert } from '@promethean/persistence/dualStore.js';
-
+import { sessionStoreAccess, eventStoreAccess, messageStoreAccess } from './unified-store.js';
 import type { Message } from './indexer-types.js';
 import { eventToMarkdown, sessionToMarkdown, messageToMarkdown } from './indexer-formatters.js';
 
@@ -23,8 +21,7 @@ const indexSession = async (session: Session): Promise<void> => {
   const markdown = sessionToMarkdown(session);
 
   try {
-    await insert(sessionStore.dualStoreState, {
-      id: `session_${session.id}`,
+    await sessionStoreAccess.insert({
       text: markdown,
       timestamp: session.time?.created ?? Date.now(),
       metadata: {
@@ -42,8 +39,7 @@ const indexMessage = async (message: Message, sessionId: string): Promise<void> 
   const markdown = messageToMarkdown(message);
 
   try {
-    await insert(messageStore.dualStoreState, {
-      id: `message_${message.info?.id}`,
+    await messageStoreAccess.insert({
       text: markdown,
       timestamp: message.info?.time?.created ?? Date.now(),
       metadata: {
@@ -66,8 +62,7 @@ const indexEvent = async (
   const timestamp = Date.now();
 
   try {
-    await insert(eventStore.dualStoreState, {
-      id: `event_${event.type}_${timestamp}`,
+    await eventStoreAccess.insert({
       text: markdown,
       timestamp,
       metadata: {

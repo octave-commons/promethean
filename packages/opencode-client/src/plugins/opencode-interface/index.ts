@@ -8,6 +8,12 @@ import { tool } from '@opencode-ai/plugin/tool';
 import { createOpencodeClient } from '@opencode-ai/sdk';
 import { initializeStores } from '../../initializeStores.js';
 import { compileContext } from '../../compileContext.js';
+import {
+  searchAcrossStores,
+  sessionStoreAccess,
+  eventStoreAccess,
+  messageStoreAccess,
+} from '../../services/unified-store.js';
 
 // Import existing actions
 import { list as listSessions } from '../../actions/sessions/list.js';
