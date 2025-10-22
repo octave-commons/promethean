@@ -42,7 +42,7 @@ const indexMessage = async (message: Message, sessionId: string): Promise<void> 
   const markdown = messageToMarkdown(message);
 
   try {
-    await messageStore.insert({
+    await insert(messageStore.dualStoreState, {
       id: `message_${message.info?.id}`,
       text: markdown,
       timestamp: message.info?.time?.created ?? Date.now(),
@@ -66,7 +66,7 @@ const indexEvent = async (
   const timestamp = Date.now();
 
   try {
-    await eventStore.insert({
+    await insert(eventStore.dualStoreState, {
       id: `event_${event.type}_${timestamp}`,
       text: markdown,
       timestamp,
