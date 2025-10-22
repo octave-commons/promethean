@@ -113,10 +113,10 @@ export const DirectoryAwarenessPlugin: Plugin = async (ctx) => {
       const args = output.args as Record<string, unknown>;
       const command = (args.command as string) || '';
 
-      const updatedCommand = handleCDCommand(command, state, projectDirectory, input.sessionID);
-      if (updatedCommand !== command) {
-        args.command = updatedCommand;
-      }
+      handleCDCommand(command, state, projectDirectory, input.sessionID);
+      // if (updatedCommand !== command) {
+      //   args.command = updatedCommand;
+      // }
 
       args.cwd = state.virtualDirectory;
     },
