@@ -10,14 +10,6 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
-lastCommitSha: "f37c3ecdb336a39349c1f2fa411f728bbe9653d0"
-commitHistory:
-  -
-    sha: "f37c3ecdb336a39349c1f2fa411f728bbe9653d0"
-    timestamp: "2025-10-22 08:22:59 -0500\n\ndiff --git a/docs/agile/tasks/Fix Kanban Column Underscore Normalization Bug.md b/docs/agile/tasks/Fix Kanban Column Underscore Normalization Bug.md\nindex a4dc28abb..630df1cf2 100644\n--- a/docs/agile/tasks/Fix Kanban Column Underscore Normalization Bug.md\t\n+++ b/docs/agile/tasks/Fix Kanban Column Underscore Normalization Bug.md\t\n@@ -2,7 +2,7 @@\n uuid: \"02c78938-cf9c-45a0-b5ff-6e7a212fb043\"\n title: \"Fix Kanban Column Underscore Normalization Bug\"\n slug: \"Fix Kanban Column Underscore Normalization Bug\"\n-status: \"ready\"\n+status: \"in_progress\"\n priority: \"P0\"\n labels: [\"kanban\", \"column\", \"bug\", \"fix\"]\n created_at: \"Sun Oct 12 2025 18:59:36 GMT-0500 (Central Daylight Time)\""
-    message: "Change task status: 02c78938-cf9c-45a0-b5ff-6e7a212fb043 - Fix Kanban Column Underscore Normalization Bug - ready → in_progress"
-    author: "Error"
-    type: "status_change"
 ---
 
 ## 🐛 Critical: Kanban Column Underscore Normalization Bug
