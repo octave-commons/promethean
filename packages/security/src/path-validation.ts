@@ -73,6 +73,20 @@ const DANGEROUS_PATTERNS = [
   /\.\.$/, // Ends with ..
   /^\.\./, // Starts with ..
   /[\/\\]\./, // Hidden files (optional)
+  // Unicode homograph attacks
+  /‥[\/\\]/, // U+2025 (horizontal ellipsis) can normalize to ..
+  /﹒[\/\\]/, // U+FE52 (small full stop)
+  /．[\/\\]/, // U+FF0E (fullwidth full stop)
+  /‥‥[\/\\]/, // Multiple homographs
+  // Encoded traversal attacks
+  /%2e%2e[\/\\]/i, // URL encoded ../ (case insensitive)
+  /%2E%2E[\/\\]/i, // Uppercase URL encoding
+  /\.\.%2f/i, // Mixed encoding
+  /\.\.%5c/i, // Mixed encoding with backslash
+  /%2e%2e%2e%2f/i, // %2e%2e%2e%2f (encoded ../../)
+  // Normalization attacks
+  /\/\.\.\/\.\.\//, // /../../
+  /\.\.\\\.\.\\\.\./, // ..\..\.. (Windows style)
 ];
 
 /**
@@ -120,7 +134,70 @@ export async function validatePath(
   try {
     // Resolve and normalize paths
     const resolvedRoot = path.resolve(rootPath);
-    const normalizedInput = path.normalize(inputPath).replace(/\\/g, '/');
+    let normalizedInput = path.normalize(inputPath).replace(/\\/g, '/');
+
+    // SECURITY: Unicode homograph and encoded traversal attack detection
+    // Decode URI encoding first to catch encoded attacks
+    let decodedInput = normalizedInput;
+    try {
+      decodedInput = decodeURIComponent(normalizedInput);
+    } catch {
+      // If decoding fails, continue with original
+    }
+
+    // Apply Unicode normalization to catch homograph attacks
+    const unicodeNormalized = decodedInput.normalize('NFKC');
+
+    // Check for unicode homograph characters that can normalize to dangerous patterns
+    const unicodeHomographs = [
+      '‥', // Unicode two-dot leader (U+2025)
+      '﹒', // Unicode small full stop (U+FE52)
+      '．', // Unicode fullwidth full stop (U+FF0E)
+      '．．', // Double fullwidth full stop
+      '‥．', // Mixed unicode dots
+      '．‥', // Mixed unicode dots
+    ];
+
+    // Check for Unicode homograph attacks in both original and normalized forms
+    for (const homograph of unicodeHomographs) {
+      if (decodedInput.includes(homograph) || unicodeNormalized.includes(homograph)) {
+        return {
+          isValid: false,
+          error: `Unicode homograph attack detected: ${homograph}`,
+        };
+      }
+    }
+
+    // Check if Unicode normalization results in dangerous patterns
+    if (/\.\.\//.test(unicodeNormalized) || /\.\.\./.test(unicodeNormalized)) {
+      return {
+        isValid: false,
+        error: 'Unicode normalization attack detected',
+      };
+    }
+
+    // Check for normalization attacks in the original input before path.normalize()
+    const normalizationAttackPatterns = [
+      /\.\//, // Current directory reference
+      /\/\.\//, // Current directory in middle
+      /\/\.$/, // Ends with current directory
+      /^\.\//, // Starts with current directory
+      /\/\.\.\//, // Parent directory in middle (additional check)
+      /\/\.\.$/, // Ends with parent directory (additional check)
+      /\/\//, // Double slashes
+    ];
+
+    for (const pattern of normalizationAttackPatterns) {
+      if (pattern.test(decodedInput)) {
+        return {
+          isValid: false,
+          error: `Normalization attack detected: ${pattern.source}`,
+        };
+      }
+    }
+
+    // Use the decoded and normalized version for further checks
+    normalizedInput = unicodeNormalized;
 
     // Check for dangerous patterns
     if (finalConfig.checkDangerousNames) {
