@@ -86,21 +86,15 @@ export const createEventManager = (
         const state = await stateManager.loadState();
         await stateManager.saveState({ ...state, lastIndexedMessageId: messageId });
 
-        logger(
-          `event_indexed_${event.type}`,
-          `📝 Indexed message ${messageId} for session ${sessionId}`,
-        );
+        logger(`message_indexed`, `📝 Indexed message ${messageId} for session ${sessionId}`);
       }
     } else {
-      logger(
-        `event_indexed_${event.type}`,
-        `🔄 Skipping indexing for part update of message ${messageId} in session ${sessionId}`,
-      );
+      logger(`message_part_update`, `🔄 Skipping indexing for part update of message ${messageId}`);
     }
   };
 
   const handleSessionEvent = async (event: Event): Promise<void> => {
-    logger(`event_indexed_${event.type}`, `🎯 Processing session event: ${event.type}`);
+    logger(`session_event`, `🎯 Processing session event: ${event.type}`);
 
     if ('properties' in event && event.properties) {
       const sessionInfo = (event.properties as any).info;
@@ -111,7 +105,7 @@ export const createEventManager = (
         await stateManager.saveState({ ...state, lastIndexedSessionId: sessionInfo.id });
 
         logger(
-          `event_indexed_${event.type}`,
+          `session_indexed`,
           `📝 Indexed session ${sessionInfo.id} with title "${sessionInfo.title}"`,
         );
       }
