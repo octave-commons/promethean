@@ -22,6 +22,8 @@ export default [
             'functional/no-try-statements': 'off',
             'functional/no-loop-statements': 'off',
             'functional/immutable-data': 'off',
+            'functional/prefer-immutable-types': 'off',
+            '@typescript-eslint/prefer-readonly-parameter-types': 'off',
             'max-lines': 'off',
             'max-lines-per-function': 'off',
         },
