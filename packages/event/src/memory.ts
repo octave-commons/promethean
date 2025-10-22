@@ -105,7 +105,6 @@ class Subscription {
 // Import functional implementations
 import {
     createInMemoryEventBusState,
-    ensureCursor,
     publishEvent,
     subscribeToTopic,
     acknowledgeEvent,
@@ -126,50 +125,11 @@ export class InMemoryEventBus implements EventBus {
         this.state = createInMemoryEventBusState(store, cursors);
     }
 
-    private async ensureCursor(
-        topic: string,
-        group: string,
-        from: SubscribeOptions['from'] = 'latest',
-        ts?: number,
-        afterId?: UUID,
-    ): Promise<CursorPosition> {
-        const cur = await this.cursors.get(topic, group);
-        if (cur) return cur;
-        let lastId: UUID | undefined;
-        if (from === 'latest') {
-            const tail = await this.store.scan(topic, { limit: 1, afterId: undefined });
-            if (tail.length) lastId = tail[tail.length - 1]!.id;
-        } else if (from === 'afterId' && afterId) {
-            lastId = afterId;
-        } else if (from === 'ts' && ts) {
-            const head = await this.store.scan(topic, { ts, limit: 1 });
-            if (head.length) {
-                // start before the first >= ts
-                // simpler: set no lastId and drain logic will find first >= ts
-                lastId = undefined;
-            }
-        }
-        const pos: CursorPosition = { topic, lastId, lastTs: undefined };
-        await this.cursors.set(topic, group, pos);
-        return pos;
-    }
-
     async publish<T>(topic: string, payload: T, opts: PublishOptions = {}): Promise<EventRecord<T>> {
-        const rec: EventRecord<T> = {
-            id: opts.id ?? String(this.nextId++),
-            sid: opts.sid,
-            ts: opts.ts ?? Date.now(),
-            topic,
-            key: opts.key,
-            headers: opts.headers,
-            payload,
-            caused_by: opts.caused_by,
-            tags: opts.tags,
-        };
-        await this.store.insert(rec);
-        // Nudge subs for this topic
-        for (const sub of this.subs.values()) if (sub.topic === topic) this.drain(sub);
-        return rec;
+        console.warn('InMemoryEventBus.publish is deprecated. Use publishEvent from memory-functional instead.');
+        const result = await publishEvent(this.state, topic, payload, opts);
+        this.state = result.newState;
+        return result.event;
     }
 
     async subscribe(
@@ -178,55 +138,36 @@ export class InMemoryEventBus implements EventBus {
         handler: Handler,
         opts: Omit<SubscribeOptions, 'group'> = {},
     ): Promise<() => Promise<void>> {
-        const key = gkey(topic, group);
-        if (this.subs.has(key)) throw new Error(`Group already subscribed: ${key}`);
-        await this.ensureCursor(topic, group, opts.from, opts.ts, opts.afterId);
-        const sub = new Subscription(topic, group, handler, {
-            group,
-            ...opts,
-        } as SubscribeOptions);
-        this.subs.set(key, sub);
-        this.drain(sub);
-        return async () => {
-            sub.active = false;
-            if (sub.retryTimer) clearTimeout(sub.retryTimer);
-            this.subs.delete(key);
-        };
+        console.warn('InMemoryEventBus.subscribe is deprecated. Use subscribeToTopic from memory-functional instead.');
+        const result = await subscribeToTopic(this.state, topic, group, handler, opts);
+        this.state = result.newState;
+        return result.unsubscribe;
     }
 
     async ack(topic: string, group: string, id: UUID): Promise<Ack> {
-        const key = gkey(topic, group);
-        const cur = (await this.cursors.get(topic, group)) ?? { topic };
-        cur.lastId = id;
-        await this.cursors.set(topic, group, cur);
-        const sub = this.subs.get(key);
-        if (sub?.manualAck && sub.inFlightId === id) {
-            sub.inFlightId = undefined;
-            this.drain(sub);
-        }
-        return { id, ok: true };
+        console.warn('InMemoryEventBus.ack is deprecated. Use acknowledgeEvent from memory-functional instead.');
+        const result = await acknowledgeEvent(this.state, topic, group, id);
+        this.state = result.newState;
+        return result.ack;
     }
 
     async nack(topic: string, group: string, id: UUID): Promise<Ack> {
-        const sub = this.subs.get(gkey(topic, group));
-        if (sub) {
-            // drop inFlight marker, schedule retry
-            if (sub.inFlightId === id) sub.inFlightId = undefined;
-            if (sub.retryTimer) clearTimeout(sub.retryTimer);
-            sub.retryTimer = setTimeout(() => {
-                sub.retryTimer = undefined;
-                this.drain(sub);
-            }, sub.retryDelayMs);
-        }
-        return { id, ok: true };
+        console.warn(
+            'InMemoryEventBus.nack is deprecated. Use negativeAcknowledgeEvent from memory-functional instead.',
+        );
+        const result = await negativeAcknowledgeEvent(this.state, topic, group, id);
+        this.state = result.newState;
+        return result.ack;
     }
 
     async getCursor(topic: string, group: string): Promise<CursorPosition | null> {
-        return this.cursors.get(topic, group);
+        console.warn('InMemoryEventBus.getCursor is deprecated. Use getCursor from memory-functional instead.');
+        return getCursorFn(this.state, topic, group);
     }
 
     async setCursor(topic: string, group: string, cursor: CursorPosition): Promise<void> {
-        await this.cursors.set(topic, group, cursor);
+        console.warn('InMemoryEventBus.setCursor is deprecated. Use setCursor from memory-functional instead.');
+        this.state = await setCursorFn(this.state, topic, group, cursor);
     }
 
     // Core draining loop; delivers a single event per turn unless auto-ack
