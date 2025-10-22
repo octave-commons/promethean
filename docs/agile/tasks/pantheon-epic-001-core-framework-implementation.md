@@ -1,15 +1,15 @@
 ---
-uuid: 'pantheon-epic-001-core-framework-implementation-2025-10-20'
-title: 'Epic: Pantheon Core Framework Implementation'
-slug: 'pantheon-epic-001-core-framework-implementation'
-status: 'incoming'
-priority: 'P0'
-labels: ['pantheon', 'core', 'framework', 'epic', 'implementation']
-created_at: '2025-10-20T00:00:00Z'
+uuid: "pantheon-epic-001-core-framework-implementation-2025-10-20"
+title: "Epic: Pantheon Core Framework Implementation"
+slug: "pantheon-epic-001-core-framework-implementation"
+status: "incoming"
+priority: "P0"
+labels: ["pantheon", "core", "framework", "epic", "implementation"]
+created_at: "2025-10-20T00:00:00Z"
 estimates:
-  complexity: 'large'
-  scale: 'epic'
-  time_to_completion: '3-4 weeks'
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Epic: Pantheon Core Framework Implementation
