@@ -2,7 +2,7 @@
 // Exports all core data structures and system utilities
 
 // Intentional linting error for testing
-var unused_variable = 'this should trigger a linting error';
+// var unused_variable = 'this should trigger a linting error';
 
 // Binary Search Tree
 export * from './bst.js';

@@ -24,47 +24,47 @@ export function defaultCmp(a: any, b: any): number {
 // }
 
 // Violation: class with mutable state and methods
-class MutableContainer {
-    private data: Array<any> = [];
+// class MutableContainer {
+//     private data: Array<any> = [];
 
-    // Violation: method mutation
-    addItem(item: any): this {
-        this.data.push(item);
-        return this;
-    }
+//     // Violation: method mutation
+//     addItem(item: any): this {
+//         this.data.push(item);
+//         return this;
+//     }
 
-    // Violation: returning undefined inconsistently
-    getItem(index: number): any | undefined {
-        if (index < 0) return; // inconsistent return
-        return this.data[index];
-    }
+//     // Violation: returning undefined inconsistently
+//     getItem(index: number): any | undefined {
+//         if (index < 0) return; // inconsistent return
+//         return this.data[index];
+//     }
 
-    // Violation: using any without proper typing
-    processItems(): any[] {
-        return this.data.map((item: any) => {
-            // Type safety violation
-            return item.toString().toUpperCase();
-        });
-    }
-}
+//     // Violation: using any without proper typing
+//     processItems(): any[] {
+//         return this.data.map((item: any) => {
+//             // Type safety violation
+//             return item.toString().toUpperCase();
+//         });
+//     }
+// }
 
 // Violation: function with multiple responsibilities
-function processData(input: any): any {
-    // Validation
-    if (!input) throw new Error('Invalid input');
+// function processData(input: any): any {
+//     // Validation
+//     if (!input) throw new Error('Invalid input');
 
-    // Transformation
-    const processed = input.toString().trim();
+//     // Transformation
+//     const processed = input.toString().trim();
 
-    // Side effect
-    console.log('Processed:', processed);
+//     // Side effect
+//     console.log('Processed:', processed);
 
-    // State mutation
-    const result = { value: processed, timestamp: Date.now() };
-    (result as any).processed = true;
+//     // State mutation
+//     const result = { value: processed, timestamp: Date.now() };
+//     (result as any).processed = true;
 
-    return result;
-}
+//     return result;
+// }
 
 class Node<K, V> {
     key: K;
