@@ -8,12 +8,7 @@ import { tool } from '@opencode-ai/plugin/tool';
 import { createOpencodeClient } from '@opencode-ai/sdk';
 import { initializeStores } from '../../initializeStores.js';
 import { compileContext } from '../../compileContext.js';
-import {
-  searchAcrossStores,
-  sessionStoreAccess,
-  eventStoreAccess,
-  messageStoreAccess,
-} from '../../services/unified-store.js';
+import { searchAcrossStores } from '../../services/unified-store.js';
 
 // Import existing actions
 import { list as listSessions } from '../../actions/sessions/list.js';
@@ -231,62 +226,45 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
         },
         async execute(args) {
           try {
-            // Search sessions
-            const sessionResults = await searchSessions({
-              query: args.query,
-              k: args.limit,
+            // Use unified store search to eliminate N+1 patterns
+            const searchResults = await searchAcrossStores(args.query, {
+              limit: args.limit,
               sessionId: args.sessionId,
+              includeSessions: true,
+              includeMessages: true,
+              includeEvents: true,
             });
 
-            // Search events
-            const eventResults = await listEvents({
-              query: args.query,
-              k: args.limit,
-              sessionId: args.sessionId,
-            });
-
-            // Get messages for sessions and search within them
-            let messageResults: any[] = [];
-            const sessionArray = Array.isArray(sessionResults)
-              ? sessionResults
-              : sessionResults && typeof sessionResults === 'object' && 'results' in sessionResults
-                ? sessionResults.results
-                : [];
-
-            if (sessionArray.length > 0) {
-              for (const session of sessionArray.slice(0, 5)) {
-                // Limit to avoid too many API calls
-                try {
-                  const messages = await getSessionMessages(opencodeClient, session.id);
-                  const matchingMessages = messages
-                    .filter((msg) => {
-                      const textParts =
-                        msg.parts?.filter((part: any) => part.type === 'text') || [];
-                      const text = textParts
-                        .map((part: any) => part.text)
-                        .join(' ')
-                        .toLowerCase();
-                      return text.includes(args.query.toLowerCase());
-                    })
-                    .slice(0, args.limit);
-
-                  messageResults.push(...matchingMessages);
-                } catch (error) {
-                  // Continue if message fetch fails
-                  console.warn(`Failed to fetch messages for session ${session.id}:`, error);
-                }
-              }
-            }
-
+            // Convert unified store results to expected format
             const results = {
-              sessions: sessionArray,
-              events: eventResults || [],
-              messages: messageResults,
+              sessions: searchResults.sessions.map((entry) => ({
+                id: entry.metadata?.sessionId || entry.id,
+                title: entry.metadata?.title || 'Untitled Session',
+                // Add other session properties as needed
+                ...entry.metadata,
+              })),
+              events: searchResults.events.map((entry) => ({
+                id: entry.id,
+                eventType: entry.metadata?.eventType || 'unknown',
+                timestamp: entry.timestamp,
+                text: entry.text,
+                // Add other event properties as needed
+                ...entry.metadata,
+              })),
+              messages: searchResults.messages.map((entry) => ({
+                id: entry.metadata?.messageId || entry.id,
+                sessionId: entry.metadata?.sessionId,
+                role: entry.metadata?.role,
+                text: entry.text,
+                timestamp: entry.timestamp,
+                // Add other message properties as needed
+                ...entry.metadata,
+              })),
               query: args.query,
               summary: {
-                totalSessions: sessionArray.length,
-                totalEvents: Array.isArray(eventResults) ? eventResults.length : 0,
-                totalMessages: messageResults.length,
+                totalSessions: searchResults.sessions.length,
+                totalEvents: searchResults.events.length,
+                totalMessages: searchResults.messages.length,
               },
             };
 
@@ -437,9 +415,9 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
                 output += result;
               }
             } else if (result && typeof result === 'object' && 'error' in result) {
-              output += `**Error:** ${result.error}\n`;
+              output += `**Error:** ${(result as any).error}\n`;
             } else if (result && typeof result === 'object' && 'id' in result) {
-              output += `**Session ID:** ${result.id || 'Unknown'}\n`;
+              output += `**Session ID:** ${(result as any).id || 'Unknown'}\n`;
               output += `**Title:** ${args.title || 'Untitled'}\n`;
               output += `**Status:** Successfully created\n`;
               output += `**Initial Message:** ${args.message}\n`;
