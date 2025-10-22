@@ -11,13 +11,29 @@ export async function main() {
     const args = process.argv.slice(2);
     const verbose = args.includes('--verbose');
     const usePm2 = args.includes('--pm2');
-    const indexer = createIndexerService();
+
+    // Extract baseUrl from args if provided
+    const baseUrlIndex = args.findIndex((arg) => arg === '--baseUrl');
+    let baseUrl: string;
+    if (baseUrlIndex !== -1 && args.length > baseUrlIndex + 1) {
+      const potentialUrl = args[baseUrlIndex + 1];
+      if (potentialUrl && typeof potentialUrl === 'string') {
+        baseUrl = potentialUrl;
+      } else {
+        baseUrl = 'http://localhost:4096'; // Default to correct port
+      }
+    } else {
+      baseUrl = 'http://localhost:4096'; // Default to correct port
+    }
+
+    const indexer = createIndexerService({ baseUrl });
 
     if (usePm2) {
       // Start as PM2 daemon
       console.log('🚀 Starting OpenCode indexer service as PM2 daemon...');
 
       const scriptArgs = verbose ? ['--verbose'] : [];
+      scriptArgs.push('--baseUrl', baseUrl);
       const pm2Command = `pm2 start dist/cli.js --name "opencode-indexer" -- indexer start ${scriptArgs.join(' ')}`;
 
       try {

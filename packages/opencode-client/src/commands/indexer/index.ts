@@ -11,6 +11,7 @@ indexerCommands
   .description('Start the indexer service to actively capture events and messages')
   .option('--pm2', 'Run as PM2 daemon instead of foreground process')
   .option('--verbose', 'Enable verbose logging')
+  .option('--baseUrl <url>', 'OpenCode server base URL', 'http://localhost:4096')
   .action(async (options) => {
     try {
       // Add options to process.argv for the command to pick up
