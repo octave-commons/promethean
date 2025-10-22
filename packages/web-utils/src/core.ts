@@ -3,6 +3,7 @@
  */
 
 import type { z } from 'zod';
+import type { ReadonlyDeep } from 'type-fest';
 
 // Minimal Fastify interface to avoid any types
 export type FastifyInstance = {
