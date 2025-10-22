@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // OpenCode Interface Plugin
-// Provides OpenCode functionality as tools within the OpenCode ecosystem
+// Provides unified context search and OpenCode functionality as tools within the OpenCode ecosystem
 
 import type { Plugin } from '@opencode-ai/plugin';
 import { tool } from '@opencode-ai/plugin/tool';
