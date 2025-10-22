@@ -2,7 +2,6 @@ import { loadKanbanConfig } from '../board/config.js';
 import type { Board, Task } from './types.js';
 import { columnKey } from './kanban.js';
 import type { EventLogManager } from '../board/event-log.js';
-import type { ReadonlyDeep } from 'type-fest';
 
 /**
  * WIP limit validation result

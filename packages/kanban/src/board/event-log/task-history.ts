@@ -1,5 +1,3 @@
-import type { ReadonlyDeep } from 'type-fest';
-
 import type { TransitionEvent, TaskTransitionResult } from './types.js';
 import { readEventLog } from './file-operations.js';
 

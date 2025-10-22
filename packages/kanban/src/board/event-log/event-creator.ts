@@ -1,5 +1,4 @@
 import { randomUUID } from 'node:crypto';
-import type { ReadonlyDeep } from 'type-fest';
 
 import type { TransitionEvent } from './types.js';
 

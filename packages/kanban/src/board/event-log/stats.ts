@@ -1,6 +1,4 @@
-import type { ReadonlyDeep } from 'type-fest';
-
-import type { TransitionEvent, LogStats } from './types.js';
+import type { LogStats } from './types.js';
 import { readEventLog } from './file-operations.js';
 
 export const getLogStats = async (logPath: string): Promise<LogStats> => {

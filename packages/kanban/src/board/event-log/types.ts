@@ -1,5 +1,3 @@
-import type { ReadonlyDeep } from 'type-fest';
-
 export type TransitionEvent = {
   readonly id: string;
   readonly timestamp: string;

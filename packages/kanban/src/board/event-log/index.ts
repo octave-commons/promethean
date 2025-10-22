@@ -1,7 +1,6 @@
 import type { ReadonlyDeep } from 'type-fest';
 
 import type { KanbanConfig } from '../config/shared.js';
-import type { TransitionEvent, TaskTransitionResult, LogStats } from './types.js';
 
 import {
   makeLogPath,
