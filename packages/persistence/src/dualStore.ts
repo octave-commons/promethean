@@ -119,6 +119,39 @@ export const insert = async <TextKey extends string, TimeKey extends string>(
     console.log(`[DUALSTORE INSERT] Mongo collection type: ${typeof state.mongoCollection}`);
     console.log(`[DUALSTORE INSERT] Mongo collection constructor: ${state.mongoCollection.constructor.name}`);
 
+    // Validate and potentially refresh MongoDB connection before using it
+    try {
+        const { validateMongoConnection } = await import('./clients.js');
+
+        // Access the client through the collection's internal properties
+        const collectionAny = state.mongoCollection as any;
+        const currentClient = collectionAny.client;
+
+        if (currentClient) {
+            console.log(`[DUALSTORE INSERT] Validating MongoDB connection...`);
+            const validatedClient = await validateMongoConnection(currentClient);
+
+            // If we got a different client back, we need to refresh the collection
+            if (validatedClient !== currentClient) {
+                console.log(`[DUALSTORE INSERT] Connection refreshed, updating collection...`);
+
+                // Get fresh database reference and create new collection
+                const freshDb = validatedClient.db('database');
+                const freshCollection = freshDb.collection(state.mongoCollection.collectionName);
+
+                // Update the state with the fresh collection (using type assertion)
+                (state as any).mongoCollection = freshCollection;
+
+                console.log(`[DUALSTORE INSERT] Collection updated with fresh connection`);
+            } else {
+                console.log(`[DUALSTORE INSERT] Existing connection is valid`);
+            }
+        }
+    } catch (validationError) {
+        console.error(`[DUALSTORE INSERT] Connection validation failed:`, validationError);
+        // Continue with original collection - let the insert fail with proper error
+    }
+
     try {
         await state.mongoCollection.insertOne(
             preparedEntry as OptionalUnlessRequiredId<DualStoreEntry<TextKey, TimeKey>>,

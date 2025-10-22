@@ -239,7 +239,6 @@ kanban-plugin: board
 ## ready
 
 - [ ] [[2025.10.16.06.00.46-agent-workflow-enhancement-healing-integration|Agent Workflow Enhancement & Healing Integration]] #agents #workflow #healing #automation #monitoring #coordination #kanban #integration prio:P1 (uuid:39e0890b-e7bd-45eb-88ff-292157d0cf54)
-- [ ] [[cross-platform-core-infrastructure|Implement Core Infrastructure and Runtime Detection]] #architecture #implementation #cross-platform #foundation prio:P0 (uuid:cross-platform-core-infrastructure-2025-10-22)
 - [ ] [[Add BuildFix process timeout handling]] #buildfix #critical #timeout #provider prio:P0 (uuid:e02ca039-c992-431d-81ff-bdabddb2502d)
 - [ ] [[BuildFix Provider Optimization Epic]] #buildfix #epic #optimization #provider prio:P0 (uuid:8ec5fd9d-f58a-46a1-abd2-da4f56b2ffa7)
 - [ ] [[BuildFix Success Rate Improvement Epic]] #buildfix #epic #success-rate #functionality prio:P0 (uuid:6f392c81-d71b-48d9-ba68-1ff13ae8d0c4)
@@ -275,6 +274,7 @@ kanban-plugin: board
 
 ## in_progress
 
+- [ ] [[cross-platform-core-infrastructure|Implement Core Infrastructure and Runtime Detection]] #architecture #implementation #cross-platform #foundation prio:P0 (uuid:cross-platform-core-infrastructure-2025-10-22)
 - [ ] [[20251011235168|Implement Scar Context Builder]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #scar-context #context-builder #phase-1 prio:P1 (uuid:ca84477b-20d4-4d49-8457-96d3e9749b6a)
 - [ ] [[20251011235189|Implement LLM Integration for Context Enhancement]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #scar-context #llm-integration #phase-1 prio:P1 (uuid:3ca4b85d-0c71-4e45-bf4a-01a16b990a70)
 - [ ] [[20251011235213|Implement Git Workflow Core Implementation]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #git-workflow #version-control #phase-1 prio:P1 (uuid:5791f7ad-8954-4204-932d-1f1383e90732)
