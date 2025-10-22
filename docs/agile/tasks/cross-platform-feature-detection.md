@@ -7,9 +7,9 @@ priority: "P0"
 labels: ["architecture", "implementation", "cross-platform", "feature-detection"]
 created_at: "2025-10-22T15:30:00Z"
 estimates:
-  complexity: ""
-  scale: ""
-  time_to_completion: ""
+  complexity: "3"
+  scale: "medium"
+  time_to_completion: "2 cloud sessions"
 ---
 
 # Implement Feature Detection and Capability Registry
