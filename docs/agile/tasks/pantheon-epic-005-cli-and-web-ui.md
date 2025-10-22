@@ -1,15 +1,15 @@
 ---
-uuid: 'pantheon-epic-005-cli-and-web-ui-2025-10-20'
-title: 'Epic: Pantheon CLI and Web UI Implementation'
-slug: 'pantheon-epic-005-cli-and-web-ui'
-status: 'incoming'
-priority: 'P1'
-labels: ['pantheon', 'cli', 'ui', 'web', 'epic', 'implementation']
-created_at: '2025-10-20T00:00:00Z'
+uuid: "pantheon-epic-005-cli-and-web-ui-2025-10-20"
+title: "Epic: Pantheon CLI and Web UI Implementation"
+slug: "pantheon-epic-005-cli-and-web-ui"
+status: "incoming"
+priority: "P1"
+labels: ["pantheon", "cli", "ui", "web", "epic", "implementation"]
+created_at: "2025-10-20T00:00:00Z"
 estimates:
-  complexity: 'large'
-  scale: 'epic'
-  time_to_completion: '2-3 weeks'
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Epic: Pantheon CLI and Web UI Implementation
