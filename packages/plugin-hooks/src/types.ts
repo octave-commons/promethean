@@ -14,18 +14,22 @@ export type EventRecord<T = unknown> = {
   tags?: string[];
 };
 
+export type EventBusOptions = Record<string, unknown>;
+export type EventContext = Record<string, unknown>;
+export type EventCursor = unknown;
+
 export type EventBus = {
-  publish<T>(topic: string, payload: T, opts?: any): Promise<EventRecord<T>>;
+  publish<T>(topic: string, payload: T, opts?: EventBusOptions): Promise<EventRecord<T>>;
   subscribe(
     topic: string,
     group: string,
-    handler: (e: EventRecord, ctx: any) => Promise<void>,
-    opts?: any,
+    handler: (e: EventRecord, ctx: EventContext) => Promise<void>,
+    opts?: EventBusOptions,
   ): Promise<() => Promise<void>>;
-  ack(topic: string, group: string, id: UUID): Promise<any>;
-  nack(topic: string, group: string, id: UUID, reason?: string): Promise<any>;
-  getCursor(topic: string, group: string): Promise<any>;
-  setCursor(topic: string, group: string, cursor: any): Promise<void>;
+  ack(topic: string, group: string, id: UUID): Promise<void>;
+  nack(topic: string, group: string, id: UUID, reason?: string): Promise<void>;
+  getCursor(topic: string, group: string): Promise<EventCursor>;
+  setCursor(topic: string, group: string, cursor: EventCursor): Promise<void>;
 };
 
 export type HookName = string;
@@ -46,12 +50,12 @@ export interface HookResult<T = unknown> {
   shouldStop?: boolean;
 }
 
-export type HookHandler<T = any, R = any> = (
+export type HookHandler<T = unknown, R = unknown> = (
   data: T,
   context: HookContext,
 ) => HookResult<R> | Promise<HookResult<R>>;
 
-export interface HookRegistration<T = any, R = any> {
+export interface HookRegistration<T = unknown, R = unknown> {
   pluginName: PluginName;
   hookName: HookName;
   handler: HookHandler<T, R>;

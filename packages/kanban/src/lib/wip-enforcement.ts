@@ -1,7 +1,8 @@
 import { loadKanbanConfig } from '../board/config.js';
 import type { Board, Task } from './types.js';
 import { columnKey } from './kanban.js';
-import { EventLogManager } from '../board/event-log.js';
+import type { EventLogManager } from '../board/event-log.js';
+import type { ReadonlyDeep } from 'type-fest';
 
 /**
  * WIP limit validation result
@@ -89,7 +90,7 @@ export interface WIPViolation {
  * capacity balancing suggestions, and audit trail functionality.
  */
 export class WIPLimitEnforcement {
-  private readonly config: Awaited<ReturnType<typeof loadKanbanConfig>>['config'] | null;
+  private readonly config: any | null;
   private readonly eventLogManager?: EventLogManager;
   private readonly violationHistory: WIPViolation[] = [];
   private readonly capacityCache = new Map<string, ColumnCapacity>();

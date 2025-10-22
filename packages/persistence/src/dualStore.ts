@@ -1,52 +1,18 @@
 import { randomUUID } from 'node:crypto';
 
 import type { Collection as ChromaCollection, Metadata as ChromaMetadata, Where } from 'chromadb';
-import { RemoteEmbeddingFunction } from '@promethean/embedding';
 import type { Collection, Filter, OptionalUnlessRequiredId, Sort, WithId } from 'mongodb';
 import { AGENT_NAME } from '@promethean/legacy/env.js';
 
-import type { DualStoreEntry, AliasDoc, DualStoreMetadata, DualStoreTimestamp } from './types.js';
-import { getChromaClient, getMongoClient } from './clients.js';
-
-const toEpochMilliseconds = (timestamp: DualStoreTimestamp | undefined): number => {
-    if (timestamp instanceof Date) return timestamp.getTime();
-    if (typeof timestamp === 'string') return new Date(timestamp).getTime();
-    if (typeof timestamp === 'number') return timestamp;
-    return Date.now();
-};
-
-const pickTimestamp = (...candidates: readonly unknown[]): DualStoreTimestamp | undefined => {
-    for (const candidate of candidates) {
-        if (candidate instanceof Date || typeof candidate === 'number' || typeof candidate === 'string') {
-            return candidate;
-        }
-    }
-    return undefined;
-};
-
-const withTimestampMetadata = (
-    metadata: DualStoreMetadata | undefined,
-    timeStampKey: string,
-    timestamp: number,
-): DualStoreMetadata => ({
-    ...(metadata ?? {}),
-    [timeStampKey]: timestamp,
-});
-
-const toChromaMetadata = (metadata: DualStoreMetadata): ChromaMetadata => {
-    const result: Record<string, boolean | number | string | null> = {};
-    for (const [key, value] of Object.entries(metadata)) {
-        if (value === null) {
-            result[key] = null;
-        } else if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
-            result[key] = value;
-        }
-    }
-    return result;
-};
-
-const cloneMetadata = (metadata: ChromaMetadata | null | undefined): DualStoreMetadata | undefined =>
-    metadata ? { ...metadata } : undefined;
+import type { DualStoreEntry, DualStoreMetadata, DualStoreTimestamp } from './types.js';
+import {
+    createDualStoreManagerDependencies,
+    toEpochMilliseconds,
+    pickTimestamp,
+    withTimestampMetadata,
+    toChromaMetadata,
+    cloneMetadata,
+} from './dualStoreHelpers.js';
 
 const toGenericEntry = <TextKey extends string, TimeKey extends string>(
     entry: DualStoreEntry<TextKey, TimeKey> | WithId<DualStoreEntry<TextKey, TimeKey>>,
@@ -107,61 +73,6 @@ const createDualStoreManagerState = <TextKey extends string, TimeKey extends str
     timeStampKey,
     supportsImages,
 });
-
-const createDualStoreManagerDependencies = async <TextKey extends string, TimeKey extends string>(
-    name: string,
-    textKey: TextKey,
-    timeStampKey: TimeKey,
-    options?: {
-        agentName?: string;
-        databaseName?: string;
-    },
-): Promise<DualStoreManagerDependencies<TextKey, TimeKey>> => {
-    console.log(`[DualStoreManager] Creating store for ${name}...`);
-    const chromaClient = await getChromaClient();
-    console.log(`[DualStoreManager] Chroma client connected`);
-    const mongoClient = await getMongoClient();
-    console.log(`[DualStoreManager] MongoDB client connected`);
-    const agentName = options?.agentName ?? AGENT_NAME;
-    const databaseName = options?.databaseName ?? 'database';
-    const family = `${agentName}_${name}`;
-    console.log(`[DualStoreManager] Accessing database: ${databaseName}, collection family: ${family}`);
-    const db = mongoClient.db(databaseName);
-    const aliases = db.collection<AliasDoc>('collection_aliases');
-    console.log(`[DualStoreManager] Looking up alias for ${family}`);
-    const alias = await aliases.findOne({ _id: family });
-    console.log(`[DualStoreManager] Alias lookup complete`);
-
-    const embedFnName = alias?.embed?.fn ?? process.env.EMBEDDING_FUNCTION ?? 'nomic-embed-text';
-    const embeddingFn = alias?.embed
-        ? RemoteEmbeddingFunction.fromConfig({
-              driver: alias.embed.driver,
-              fn: alias.embed.fn,
-          })
-        : RemoteEmbeddingFunction.fromConfig({
-              driver: process.env.EMBEDDING_DRIVER ?? 'ollama',
-              fn: embedFnName,
-          });
-
-    const chromaCollection: ChromaCollection = await chromaClient.getOrCreateCollection({
-        name: alias?.target ?? family,
-        embeddingFunction: embeddingFn,
-    });
-
-    const mongoCollection = db.collection<DualStoreEntry<TextKey, TimeKey>>(family);
-
-    const supportsImages = !embedFnName.toLowerCase().includes('text');
-    return {
-        name: family,
-        agent_name: AGENT_NAME ?? 'default_agent',
-        embedding_fn: embedFnName,
-        chromaCollection,
-        mongoCollection,
-        textKey,
-        timeStampKey,
-        supportsImages,
-    };
-};
 
 export const create = async <TextKey extends string = 'text', TimeKey extends string = 'createdAt'>(
     name: string,

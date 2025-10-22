@@ -13,6 +13,18 @@ export type FastifyInstance = {
   delete(route: string, handler: () => unknown): void;
 };
 
+export type ServiceMetrics = Readonly<{
+  uptime: number;
+  memory: NodeJS.MemoryUsage;
+}>;
+
+export type DiagnosticsResponse = Readonly<{
+  service: string;
+  timestamp: string;
+  uptime: number;
+  memory: NodeJS.MemoryUsage;
+}>;
+
 export type HealthCheckResponse = Readonly<{
   status: 'healthy' | 'unhealthy';
   timestamp: string;
@@ -46,7 +58,7 @@ export async function registerDiagnosticsRoute(
 ): Promise<void> {
   const service = options.serviceName ?? 'promethean-service';
 
-  fastify.get('/diagnostics', async () => {
+  fastify.get('/diagnostics', async (): Promise<DiagnosticsResponse> => {
     return {
       service,
       timestamp: new Date().toISOString(),
