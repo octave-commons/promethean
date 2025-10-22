@@ -56,20 +56,19 @@
     :init
     (spacemacs/declare-prefix "aa" "AI Agent")
     (spacemacs/set-leader-keys "aao" #'agent-shell-start))
-(setq agent-shell-backends
-  (append agent-shell-backends
-    (list
-      (list :id 'opencode
-        :name "OpenCode"
-        :command '("opencode acp" ) ; or the adapter path
-        :cwd default-directory
-        :environment
-        (agent-shell-make-environment-variables
-          :inherit-env t
-          :load-env '( ".env" "~/.env"))))))
+  ;; (setq agent-shell-backends
+  ;;   (append agent-shell-backends
+  ;;     (list
+  ;;       (list :id 'opencode
+  ;;         :name "OpenCode"
+  ;;         :command '("opencode acp" ) ; or the adapter path
+  ;;         :cwd default-directory
+  ;;         :environment
+  ;;         (agent-shell-make-environment-variables
+  ;;           :inherit-env t
+  ;;           :load-env '( ".env" "~/.env"))))))
 
-;; Optional: set OpenCode as default when starting agent-shell
-(setq agent-shell-default-backend 'opencode)
+  ;; ;; Optional: set OpenCode as default when starting agent-shell
+  ;; (setq agent-shell-default-backend 'opencode)
   )
 ;; Example: custom OpenCode backend using an ACP stdio adapter
-
