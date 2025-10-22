@@ -2,7 +2,7 @@
 uuid: "7a2b69bc-0042-4eb5-b866-ef51046032d2"
 title: "Fix BuildFix __dirname undefined in ESM modules"
 slug: "Fix BuildFix __dirname undefined in ESM modules"
-status: "todo"
+status: "done"
 priority: "P1"
 labels: ["buildfix", "esm", "path-resolution", "high"]
 created_at: "2025-10-15T13:56:05.079Z"
