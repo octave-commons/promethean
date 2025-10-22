@@ -89,3 +89,5 @@ export type EventStore = {
     // optional compaction helpers
     latestByKey?(topic: string, keys: string[]): Promise<Record<string, EventRecord | undefined>>;
 };
+
+export type Handler = (e: EventRecord, ctx: DeliveryContext) => Promise<void>;

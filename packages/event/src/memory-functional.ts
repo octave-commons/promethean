@@ -134,7 +134,7 @@ export const subscribeToTopic = async (
     const key = gkey(topic, group);
     if (state.subs.has(key)) throw new Error(`Group already subscribed: ${key}`);
 
-    const { cursor } = await ensureCursor(state, topic, group, opts.from, opts.ts, opts.afterId);
+    await ensureCursor(state, topic, group, opts.from, opts.ts, opts.afterId);
 
     const sub: Subscription = {
         topic,
@@ -145,7 +145,7 @@ export const subscribeToTopic = async (
         manualAck: opts.manualAck ?? false,
         inFlightId: undefined,
         attemptById: new Map(),
-        retryDelayMs: opts.retryDelayMs ?? 1000,
+        retryDelayMs: opts.ackTimeoutMs ?? 1000,
         maxAttempts: opts.maxAttempts ?? 5,
     };
 
@@ -301,7 +301,7 @@ const drainSubscription = async (state: InMemoryEventBusState, sub: Subscription
 };
 
 // Import the store implementations (these would need to be extracted from the original file)
-class InMemoryStore implements EventStore {
+export class InMemoryStore implements EventStore {
     private store = new Map<string, EventRecord<unknown>[]>();
 
     private events(topic: string): EventRecord<unknown>[] {
@@ -326,13 +326,13 @@ class InMemoryStore implements EventStore {
         if (opts.afterId) {
             start = evts.findIndex((e) => e.id === opts.afterId) + 1;
         } else if (opts.ts !== undefined) {
-            start = evts.findIndex((e) => e.ts! >= opts.ts);
+            start = evts.findIndex((e) => e.ts! >= opts.ts!);
         }
         return evts.slice(start, start + (opts.limit ?? evts.length));
     }
 }
 
-class InMemoryCursorStore implements CursorStore {
+export class InMemoryCursorStore implements CursorStore {
     private store = new Map<string, CursorPosition>();
 
     private key(topic: string, group: string): string {
