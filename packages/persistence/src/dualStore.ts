@@ -229,9 +229,14 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
     get name(): string {
         console.warn(
             '[DEPRECATED] DualStoreManager.name property is deprecated. ' +
-                'Access the name property from the DualStoreManagerState directly.',
+                'Access name property from DualStoreManagerState directly.',
         );
         return this.state.name;
+    }
+
+    get dualStoreState(): DualStoreManagerState<TextKey, TimeKey> {
+        // Provide access to state for migration to standalone functions
+        return this.state;
     }
 
     get agent_name(): string {
