@@ -10,14 +10,6 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
-lastCommitSha: "56e635f352ca9054d93dd4ccf7ca587fded11e28"
-commitHistory:
-  -
-    sha: "56e635f352ca9054d93dd4ccf7ca587fded11e28"
-    timestamp: "2025-10-22 01:48:08 -0500\n\ndiff --git a/docs/agile/tasks/build-context-enrichment-system.md b/docs/agile/tasks/build-context-enrichment-system.md\nindex 540fcc5a8..a5a051e19 100644\n--- a/docs/agile/tasks/build-context-enrichment-system.md\n+++ b/docs/agile/tasks/build-context-enrichment-system.md\n@@ -10,14 +10,6 @@ estimates:\n   complexity: \"\"\n   scale: \"\"\n   time_to_completion: \"\"\n-lastCommitSha: \"09e0c6286f4bd6071900488ecb77c908ea00760e\"\n-commitHistory:\n-  -\n-    sha: \"09e0c6286f4bd6071900488ecb77c908ea00760e\"\n-    timestamp: \"2025-10-19T22:07:41.677Z\"\n-    message: \"Update task: task-build-context-enrichment-2025-10-15 - Update task: Build Context Enrichment System\"\n-    author: \"Error <foamy125@gmail.com>\"\n-    type: \"update\"\n ---\n \n # Build Context Enrichment System"
-    message: "Update task: task-build-context-enrichment-2025-10-15 - Update task: Build Context Enrichment System"
-    author: "Error"
-    type: "update"
 ---
 
 # Build Context Enrichment System
