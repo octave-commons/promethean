@@ -103,7 +103,7 @@ const createWinstonLogger = (config: LoggerConfig): winston.Logger => {
  */
 export class WinstonLogger implements Logger {
   private readonly winston: winston.Logger;
-  private mutableConfig: LoggerConfig;
+  private config: LoggerConfig;
   private readonly defaultContext: LogContext;
 
   constructor(
@@ -112,7 +112,7 @@ export class WinstonLogger implements Logger {
     defaultContext: LogContext = {},
   ) {
     this.winston = winstonLogger;
-    this.mutableConfig = { ...config };
+    this.config = { ...config };
     this.defaultContext = defaultContext;
   }
 
@@ -151,14 +151,12 @@ export class WinstonLogger implements Logger {
 
   child(context: LogContext): Logger {
     const mergedContext = { ...this.defaultContext, ...context };
-    return new WinstonLogger(this.winston, this.mutableConfig, mergedContext);
+    return new WinstonLogger(this.winston, this.config, mergedContext);
   }
 
-  setLevel(level: LogLevel): void {
-    this.mutableConfig.level = level;
-    // Note: Winston level changes require recreating the logger
-    // For now, this just updates the internal config
-    console.warn(`Logger level change to ${level} requires logger recreation`);
+  setLevel(_level: LogLevel): void {
+    // TODO: Implement level changing by recreating the logger
+    console.warn('Dynamic level changing not yet implemented');
   }
 
   getLevel(): LogLevel {
