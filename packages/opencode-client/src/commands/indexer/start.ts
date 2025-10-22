@@ -12,19 +12,8 @@ export async function main() {
     const verbose = args.includes('--verbose');
     const usePm2 = args.includes('--pm2');
 
-    // Extract baseUrl from args if provided
-    const baseUrlIndex = args.findIndex((arg) => arg === '--baseUrl');
-    let baseUrl: string;
-    if (baseUrlIndex !== -1 && args.length > baseUrlIndex + 1) {
-      const potentialUrl = args[baseUrlIndex + 1];
-      if (potentialUrl && typeof potentialUrl === 'string') {
-        baseUrl = potentialUrl;
-      } else {
-        baseUrl = 'http://localhost:4096'; // Default to correct port
-      }
-    } else {
-      baseUrl = 'http://localhost:4096'; // Default to correct port
-    }
+    // For now, use the correct default URL since commander options aren't properly passed
+    const baseUrl = 'http://localhost:4096';
 
     const indexer = createIndexerService({ baseUrl });
 
