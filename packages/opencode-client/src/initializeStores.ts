@@ -10,21 +10,22 @@ export async function initializeStores(): Promise<Record<string, boolean>> {
 
   try {
     // Create all collections using ContextStore
-    console.log('📝 Creating session collection...');
-    await contextStore.createCollection(SESSION_STORE_NAME, 'text', 'timestamp');
-
-    console.log('📝 Creating event collection...');
-    await contextStore.createCollection(EVENT_STORE_NAME, 'text', 'timestamp');
-
-    console.log('📝 Creating message collection...');
-    await contextStore.createCollection(MESSAGE_STORE_NAME, 'text', 'timestamp');
-
-    console.log('✅ All collections created successfully');
-
     return {
-      [SESSION_STORE_NAME]: true,
-      [EVENT_STORE_NAME]: true,
-      [MESSAGE_STORE_NAME]: true,
+      [SESSION_STORE_NAME]: await contextStore.createCollection(
+        SESSION_STORE_NAME,
+        'text',
+        'timestamp',
+      ),
+      [EVENT_STORE_NAME]: await contextStore.createCollection(
+        EVENT_STORE_NAME,
+        'text',
+        'timestamp',
+      ),
+      [MESSAGE_STORE_NAME]: await contextStore.createCollection(
+        MESSAGE_STORE_NAME,
+        'text',
+        'timestamp',
+      ),
     };
   } catch (error) {
     console.error('❌ Failed to initialize stores:', error);
