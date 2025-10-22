@@ -752,7 +752,7 @@ test('FSM Integration - Available Transitions and State Queries', (t) => {
   const processingTransitions = availableTransitions(machine, processingSnapshot);
   t.deepEqual(
     processingTransitions.map((t) => t.event),
-    ['validate', 'fail'],
+    ['process', 'fail'],
   );
 
   const failedSnapshot = createSnapshot(machine, {
