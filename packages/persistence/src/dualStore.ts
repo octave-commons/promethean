@@ -77,36 +77,36 @@ type DualStoreManagerDependencies<TextKey extends string, TimeKey extends string
     readonly supportsImages: boolean;
 };
 
-export class DualStoreManager<TextKey extends string = 'text', TimeKey extends string = 'createdAt'> {
-    public readonly name: string;
-    private readonly chromaCollection: ChromaCollection;
-    private readonly mongoCollection: Collection<DualStoreEntry<TextKey, TimeKey>>;
-    agent_name: string;
-    embedidng_fn: string;
-    private readonly textKey: TextKey;
-    private readonly timeStampKey: TimeKey;
-    private readonly supportsImages: boolean;
+export type DualStoreManagerState<TextKey extends string = 'text', TimeKey extends string = 'createdAt'> = {
+    readonly name: string;
+    readonly chromaCollection: ChromaCollection;
+    readonly mongoCollection: Collection<DualStoreEntry<TextKey, TimeKey>>;
+    readonly agent_name: string;
+    readonly embedding_fn: string;
+    readonly textKey: TextKey;
+    readonly timeStampKey: TimeKey;
+    readonly supportsImages: boolean;
+};
 
-    private constructor({
-        name,
-        agent_name = AGENT_NAME ?? 'default_agent',
-        embedding_fn = process.env.EMBEDDING_FUNCTION ?? 'nomic-embed-text',
-        chromaCollection,
-        mongoCollection,
-        textKey,
-        timeStampKey,
-        supportsImages,
-    }: DualStoreManagerDependencies<TextKey, TimeKey>) {
-        this.name = name;
-        // vars that are default projected from the env are snake cased.
-        this.agent_name = agent_name;
-        this.embedidng_fn = embedding_fn;
-        this.chromaCollection = chromaCollection;
-        this.mongoCollection = mongoCollection;
-        this.textKey = textKey;
-        this.timeStampKey = timeStampKey;
-        this.supportsImages = supportsImages;
-    }
+const createDualStoreManagerState = <TextKey extends string, TimeKey extends string>({
+    name,
+    agent_name = AGENT_NAME ?? 'default_agent',
+    embedding_fn = process.env.EMBEDDING_FUNCTION ?? 'nomic-embed-text',
+    chromaCollection,
+    mongoCollection,
+    textKey,
+    timeStampKey,
+    supportsImages,
+}: DualStoreManagerDependencies<TextKey, TimeKey>): DualStoreManagerState<TextKey, TimeKey> => ({
+    name,
+    agent_name,
+    embedding_fn,
+    chromaCollection,
+    mongoCollection,
+    textKey,
+    timeStampKey,
+    supportsImages,
+});
 
     static async create<TTextKey extends string = 'text', TTimeKey extends string = 'createdAt'>(
         name: string,
