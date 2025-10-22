@@ -42,6 +42,7 @@ kanban-plugin: board
 - [ ] [[fix-test-gap-pipeline-timeout-configuration-for-tg-analysis-step-timeout-step-gap|Fix test-gap pipeline timeout configuration for tg-analysis step -gap]] #automation #pipeline #test-gap #timeout prio:P2 (uuid:89be3c4d-47d2-4815-aebf-adf7b7091403)
 - [ ] [[2025.10.08.16.25.00-fix-grep-error-handling|Task 0b41959d]] #error-handling #grep #ripgrep #smartgpt-bridge prio:P2 (uuid:0b41959d-cd50-4a9c-bd00-10eebac7257b)
 - [ ] [[20251011235486|Phase 1 Integration and Testing - Core Infrastructure]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #integration #testing #phase-1 #milestone prio:P1 (uuid:020318e4-9934-4e5d-85d7-3bb4a55f6ee2)
+- [ ] [[2025.10.08.17.00.00-boardrev-vector-db-epic|Task dc8d973f]] #ai #automation #boardrev #evaluation #vector-database prio:P2 (uuid:dc8d973f-a659-4804-98f9-47db432b0b22)
 
 ## incoming
 
@@ -199,6 +200,7 @@ kanban-plugin: board
 - [ ] [[Create Comprehensive Package Template & Generator System]] #refactoring #duplication #template #generator #tooling #critical prio:P0 (uuid:1be85602-edb7-4c67-b930-4eca4a500e2f)
 - [ ] [[Fix Critical Security and Code Quality Issues in Agent OS Context System]] #security #critical #code-quality #agent-context #eslint #typescript prio:P0 (uuid:aaffe416-954f-466e-8d9d-bf70cb521529)
 - [ ] [[Fix Critical Security and Code Quality Issues in Agent OS Context System]] #security #critical #code-quality #agent-context #eslint #typescript prio:P0 (uuid:aaffe416-954f-466e-8d9d-bf70cb521529)
+- [ ] [[Fix Critical Security and Code Quality Issues in Agent OS Context System]] #security #critical #code-quality #agent-context #eslint #typescript prio:P0 (uuid:aaffe416-954f-466e-8d9d-bf70cb521529)
 
 ## breakdown
 
@@ -232,7 +234,6 @@ kanban-plugin: board
 ## ready
 
 - [ ] [[Create DirectoryAdapter for task file operations]] #directoryadapter #create #file #operations prio:P0 (uuid:d01ed682-a571-441b-a550-d1de3957c523)
-- [ ] [[MCP-Kanban Integration Healing & Enhancement]] #mcp #kanban #security #critical #healing #authorization #automation #integration prio:P0 (uuid:44d293b0-6d6b-4e85-8453-ea03be231c83)
 - [ ] [[P0-Input-Validation-Integration-Subtasks|P0: Comprehensive Input Validation Integration - Subtask Breakdown]] #security #critical #input-validation #integration #framework #process-violation prio:P0 (uuid:71eea888-c9b4-4726-821e-3d6b58b1e482)
 - [ ] [[P0-MCP-Security-Hardening-Subtasks|P0: MCP Security Hardening & Validation - Subtask Breakdown]] #security #critical #mcp #hardening #validation #comprehensive prio:P0 (uuid:8f6476a2-876e-4da7-abd9-449d0a795362)
 - [ ] [[P0-Security-Implementation-Roadmap|P0 Security Implementation Roadmap & Coordination Plan]] #security #roadmap #coordination #implementation #critical prio:P0 (uuid:e0e8dd90-a63d-41bf-9f01-29d391c593ed)
@@ -240,10 +241,11 @@ kanban-plugin: board
 - [ ] [[2025.10.16.06.00.46-agent-workflow-enhancement-healing-integration|Agent Workflow Enhancement & Healing Integration]] #agents #workflow #healing #automation #monitoring #coordination #kanban #integration prio:P1 (uuid:39e0890b-e7bd-45eb-88ff-292157d0cf54)
 - [ ] [[Resolve BuildFix Ollama resource limitations and OOM issues]] #buildfix #ollama #memory #high prio:P1 (uuid:5b15c395-fc63-457f-97cc-7d528c559e9b)
 - [ ] [[Secure BuildFix command execution]] #buildfix #security #high #provider prio:P1 (uuid:6dae395f-31aa-42c7-b9c8-2dc1d750ddc9)
+- [ ] [[MCP-Kanban Integration Healing & Enhancement]] #mcp #kanban #security #critical #healing #authorization #automation #integration prio:P0 (uuid:44d293b0-6d6b-4e85-8453-ea03be231c83)
+- [ ] [[MCP-Kanban Integration Healing & Enhancement]] #mcp #kanban #security #critical #healing #authorization #automation #integration prio:P0 (uuid:44d293b0-6d6b-4e85-8453-ea03be231c83)
 
 ## todo
 
-- [ ] [[2025.10.08.17.00.00-boardrev-vector-db-epic|Task dc8d973f]] #ai #automation #boardrev #evaluation #vector-database prio:P2 (uuid:dc8d973f-a659-4804-98f9-47db432b0b22)
 - [ ] [[20251011235213|Implement Git Workflow Core Implementation]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #git-workflow #version-control #phase-1 prio:P1 (uuid:5791f7ad-8954-4204-932d-1f1383e90732)
 - [ ] [[20251011235236|Extend Git Sync for Heal Operations]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #git-workflow #git-sync #phase-1 prio:P1 (uuid:4e88db40-884c-4aed-8412-3de9fd78bd02)
 - [ ] [[Add BuildFix JSDoc comments and documentation]] #buildfix #documentation #medium #provider prio:P2 (uuid:e9bc3b09-b31e-468a-9e0e-5257db68bb72)
