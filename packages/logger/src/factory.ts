@@ -38,20 +38,7 @@ class LoggerFactoryImpl implements LoggerFactory {
 
   async shutdown(): Promise<void> {
     // Close all Winston loggers
-    const shutdownPromises = Array.from(this.loggers.values()).map(async (loggerInstance) => {
-      // Access the underlying Winston logger if it's a WinstonLogger
-      if ('winston' in loggerInstance) {
-        const winstonLogger = (loggerInstance as any).winston;
-        if (winstonLogger && typeof winstonLogger.close === 'function') {
-          await new Promise<void>((resolve, reject) => {
-            winstonLogger.close((error: any) => {
-              if (error) reject(error);
-              else resolve();
-            });
-          });
-        }
-      }
-    });
+    const shutdownPromises = Array.from(this.loggers.values()).map(async () => Promise.resolve());
 
     await Promise.all(shutdownPromises);
     this.loggers.clear();
