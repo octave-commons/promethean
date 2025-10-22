@@ -7,9 +7,9 @@ priority: "P0"
 labels: ["architecture", "implementation", "cross-platform", "foundation"]
 created_at: "2025-10-22T15:20:00Z"
 estimates:
-  complexity: ""
-  scale: ""
-  time_to_completion: ""
+  complexity: "3"
+  scale: "small"
+  time_to_completion: "2 cloud sessions"
 ---
 
 # Implement Core Infrastructure and Runtime Detection
