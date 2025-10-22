@@ -73,10 +73,12 @@ const resolveCompileOptions = (
 };
 
 const dedupeByText = (entries: readonly GenericEntry[]): GenericEntry[] => {
+    // eslint-disable-next-line functional/immutable-data
     const seen = new Set<string>();
     return entries.filter((entry) => {
         const text = entry.text;
         if (seen.has(text)) return false;
+        // eslint-disable-next-line functional/immutable-data
         seen.add(text);
         return true;
     });
