@@ -103,14 +103,16 @@ const createWinstonLogger = (config: LoggerConfig): winston.Logger => {
  */
 export class WinstonLogger implements Logger {
   private readonly winston: winston.Logger;
+  private mutableConfig: LoggerConfig;
   private readonly defaultContext: LogContext;
 
   constructor(
     winstonLogger: winston.Logger,
-    private readonly config: LoggerConfig,
+    config: LoggerConfig,
     defaultContext: LogContext = {},
   ) {
     this.winston = winstonLogger;
+    this.mutableConfig = { ...config };
     this.defaultContext = defaultContext;
   }
 
@@ -149,25 +151,22 @@ export class WinstonLogger implements Logger {
 
   child(context: LogContext): Logger {
     const mergedContext = { ...this.defaultContext, ...context };
-    return new WinstonLogger(this.winston, this.config, mergedContext);
+    return new WinstonLogger(this.winston, this.mutableConfig, mergedContext);
   }
 
   setLevel(level: LogLevel): void {
-    // Update config (create a new object since it's readonly)
-    (this.config as any).level = level;
-    
+    this.mutableConfig.level = level;
+
     // Update Winston logger level
     (this.winston as any).level = level;
-    
+
     // Update transport levels
     this.winston.transports.forEach((transport: any) => {
       if (transport instanceof winston.transports.Console) {
-        transport.level = this.config.console.level || level;
+        transport.level = this.mutableConfig.console.level || level;
       } else {
         transport.level = level;
       }
-    });
-  }
     });
   }
 
