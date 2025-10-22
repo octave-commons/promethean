@@ -322,3 +322,6 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         await cleanup();
     }
 }
+
+// Re-export helper functions for external use
+export { createDualStoreManagerDependencies } from './dualStoreHelpers.js';
