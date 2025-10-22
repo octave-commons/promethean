@@ -3,6 +3,7 @@ import { randomUUID } from 'node:crypto';
 import type { Collection as ChromaCollection, Metadata as ChromaMetadata, Where } from 'chromadb';
 import type { Collection, Filter, OptionalUnlessRequiredId, Sort, WithId } from 'mongodb';
 import { AGENT_NAME } from '@promethean/legacy/env.js';
+import { getLogger } from '@promethean/logger';
 
 import type { DualStoreEntry } from './types.js';
 import {
@@ -17,6 +18,8 @@ import {
     createDefaultSorter,
 } from './dualStoreHelpers.js';
 import type { DualStoreManagerDependencies } from './dualStoreHelpers.js';
+
+const logger = getLogger('dualstore');
 
 type QueryArgs = Parameters<ChromaCollection['query']>[0];
 
