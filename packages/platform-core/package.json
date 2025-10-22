@@ -17,9 +17,7 @@
     "lint": "eslint src --ext .ts",
     "dev": "tsc --watch"
   },
-  "dependencies": {
-    "@promethean/core": "workspace:*"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/node": "^20.0.0",
     "ava": "^6.0.0",

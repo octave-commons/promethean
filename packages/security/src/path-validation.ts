@@ -72,7 +72,6 @@ const DANGEROUS_PATTERNS = [
   /[\/\\]\.\.[\/\\]/, // Traversal in middle
   /\.\.$/, // Ends with ..
   /^\.\./, // Starts with ..
-  /[\/\\]\./, // Hidden files (optional)
   // Unicode homograph attacks
   /‥[\/\\]/, // U+2025 (horizontal ellipsis) can normalize to ..
   /﹒[\/\\]/, // U+FE52 (small full stop)
@@ -87,6 +86,10 @@ const DANGEROUS_PATTERNS = [
   // Normalization attacks
   /\/\.\.\/\.\.\//, // /../../
   /\.\.\\\.\.\\\.\./, // ..\..\.. (Windows style)
+  // Dangerous character injection patterns
+  /[<>]/, // HTML tags
+  /[|&;`$]/, // Shell metacharacters
+  /[\x00-\x1F\x7F]/, // Control characters
 ];
 
 /**
@@ -132,6 +135,14 @@ export async function validatePath(
   const warnings: string[] = [];
 
   try {
+    // Input validation
+    if (!inputPath || inputPath.trim() === '') {
+      return {
+        isValid: false,
+        error: 'Input path cannot be empty',
+      };
+    }
+
     // Resolve and normalize paths
     const resolvedRoot = path.resolve(rootPath);
     let normalizedInput = path.normalize(inputPath).replace(/\\/g, '/');
@@ -176,15 +187,14 @@ export async function validatePath(
       };
     }
 
-    // Check for normalization attacks in the original input before path.normalize()
+    // Check for normalization attacks that could lead to path traversal
+    // Only block patterns that could actually be dangerous
     const normalizationAttackPatterns = [
-      /\.\//, // Current directory reference
-      /\/\.\//, // Current directory in middle
-      /\/\.$/, // Ends with current directory
-      /^\.\//, // Starts with current directory
-      /\/\.\.\//, // Parent directory in middle (additional check)
-      /\/\.\.$/, // Ends with parent directory (additional check)
-      /\/\//, // Double slashes
+      /\/\.\.\//, // Parent directory in middle
+      /\/\.\.$/, // Ends with parent directory
+      /^\.\.\//, // Starts with parent directory
+      /\.\.\//, // Any parent directory reference
+      /\/\//, // Double slashes (could cause issues)
     ];
 
     for (const pattern of normalizationAttackPatterns) {
@@ -372,8 +382,8 @@ export function sanitizeFileName(fileName: string): string {
   // Remove null bytes and control characters
   let sanitized = fileName.replace(/[\x00-\x1f\x7f]/g, '');
 
-  // Replace dangerous characters
-  sanitized = sanitized.replace(/[<>:"|?*]/g, '_');
+  // Replace dangerous characters including apostrophes
+  sanitized = sanitized.replace(/[<>'"`|?*;&$(){}[\]\\]/g, '_');
 
   // Remove leading and trailing spaces and dots
   sanitized = sanitized.trim().replace(/^\.+|\.+$/g, '');
@@ -408,6 +418,11 @@ export function createSecurePath(directory: string, fileName: string): string {
 export function isCrossPlatformSafe(inputPath: string): boolean {
   // Check for empty paths
   if (!inputPath || inputPath.trim() === '') {
+    return false;
+  }
+
+  // Check for Windows UNC paths (\\server\share\file)
+  if (/^\\\\[^\\]+\\[^\\]+/.test(inputPath)) {
     return false;
   }
 

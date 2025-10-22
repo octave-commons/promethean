@@ -54,9 +54,10 @@
           :else
           (.setAttribute element (name key) value))))
     (doseq [child children]
-      (if (string? child)
-        (.appendChild element (js/document.createTextNode child))
-        (.appendChild element child)))
+      (when child
+        (if (string? child)
+          (.appendChild element (js/document.createTextNode child))
+          (.appendChild element child))))
     element))
 
 (defn escape-html [text]

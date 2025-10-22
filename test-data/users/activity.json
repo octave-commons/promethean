@@ -1,0 +1,21 @@
+[
+  {
+    "id": "8cbe8af1-65af-420a-8476-d4a2f34ec823",
+    "userId": "468ecfdf-6b27-4836-b9f4-ba0fdd9f7e7b",
+    "action": "user_created",
+    "resource": "user",
+    "details": {
+      "request": {
+        "username": "testuser",
+        "email": "test@example.com",
+        "name": "Test User",
+        "role": "user",
+        "authMethod": "oauth",
+        "provider": "github",
+        "providerUserId": "12345"
+      }
+    },
+    "timestamp": "2025-10-22T18:34:23.993Z",
+    "metadata": {}
+  }
+]

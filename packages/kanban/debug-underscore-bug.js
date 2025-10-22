@@ -4,10 +4,9 @@
  * Comprehensive investigation of kanban column underscore normalization bug
  */
 
-import { columnKey } from './src/lib/kanban.js';
-import { normalizeColumnName } from './src/lib/transition-rules-functional.js';
-import { loadBoard } from './src/lib/kanban.js';
-import { loadKanbanConfig } from './src/board/config.js';
+import { columnKey, loadBoard } from './dist/lib/kanban.js';
+import { normalizeColumnName } from './dist/lib/transition-rules-functional.js';
+import { loadKanbanConfig } from './dist/board/config.js';
 
 console.log('🔍 Comprehensive Kanban Column Underscore Bug Investigation\n');
 
