@@ -10,14 +10,6 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
-lastCommitSha: "8714e1e2f5c5d7e6493be75e6b124920fe87d2c0"
-commitHistory:
-  -
-    sha: "8714e1e2f5c5d7e6493be75e6b124920fe87d2c0"
-    timestamp: "2025-10-19T22:08:06.418Z"
-    message: "Update task: bd317cc6-e645-4343-9f56-d927d9763cb1 - Update task: Set Up Unified Testing Framework"
-    author: "Error <foamy125@gmail.com>"
-    type: "update"
 ---
 
 ## 🧪 Set Up Unified Testing Framework
