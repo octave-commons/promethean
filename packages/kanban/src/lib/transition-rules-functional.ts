@@ -9,14 +9,52 @@ import { readFile, access } from 'fs/promises';
 import type { Task, Board } from './types.js';
 import { runTestingTransition } from './testing-transition/index.js';
 import type { TestingTransitionConfig, TestCoverageRequest } from './testing-transition/types.js';
-import type {
-  TransitionRule,
-  CustomCheck,
-  GlobalRule,
-  TransitionRulesConfig,
-  TransitionResult,
-  TransitionDebug,
-} from './transition-rules.js';
+// Define types locally to avoid circular imports
+export interface TransitionRule {
+  from: string[];
+  to: string[];
+  description: string;
+  check: string;
+}
+
+export interface CustomCheck {
+  description: string;
+  impl: string;
+}
+
+export interface GlobalRule {
+  name: string;
+  description: string;
+  enabled: boolean;
+  impl: string;
+}
+
+export interface TransitionRulesConfig {
+  enabled: boolean;
+  enforcement: 'strict' | 'warn' | 'disabled';
+  dslPath?: string;
+  rules: TransitionRule[];
+  customChecks: Record<string, CustomCheck>;
+  globalRules: GlobalRule[];
+}
+
+export interface TransitionResult {
+  allowed: boolean;
+  reason: string;
+  ruleViolations: string[];
+  suggestions: string[];
+  suggestedAlternatives: string[];
+  warnings: string[];
+}
+
+export interface TransitionDebug {
+  from: string;
+  to: string;
+  task: Task;
+  wipCheck: boolean;
+  existenceCheck: boolean;
+  validTransitions: string[];
+}
 
 // Transition rules engine state interface
 export interface TransitionRulesEngineState {
@@ -40,6 +78,24 @@ export const createTransitionRulesEngineState = (
 
   const defaultTestingConfig: TestingTransitionConfig = {
     enabled: true,
+    scoring: {
+      enabled: true,
+      weights: {
+        coverage: 0.35,
+        quality: 0.25,
+        requirementMapping: 0.2,
+        aiAnalysis: 0.15,
+        performance: 0.05,
+      },
+      priorityThresholds: {
+        P0: { coverage: 95, quality: 90, overall: 92 },
+        P1: { coverage: 90, quality: 85, overall: 87 },
+        P2: { coverage: 85, quality: 80, overall: 82 },
+        P3: { coverage: 80, quality: 75, overall: 77 },
+      },
+      adaptiveThresholds: false,
+      historicalTrending: false,
+    },
     thresholds: {
       coverage: 90,
       quality: 75,
