@@ -13,22 +13,26 @@ export async function initializeStores(): Promise<
 
   try {
     // Create all collections using ContextStore
+    const [, sessionCollection] = await contextStore.createCollection(
+      SESSION_STORE_NAME,
+      'text',
+      'timestamp',
+    );
+    const [, eventCollection] = await contextStore.createCollection(
+      EVENT_STORE_NAME,
+      'text',
+      'timestamp',
+    );
+    const [, messageCollection] = await contextStore.createCollection(
+      MESSAGE_STORE_NAME,
+      'text',
+      'timestamp',
+    );
+
     return {
-      [SESSION_STORE_NAME]: await contextStore.createCollection(
-        SESSION_STORE_NAME,
-        'text',
-        'timestamp',
-      ),
-      [EVENT_STORE_NAME]: await contextStore.createCollection(
-        EVENT_STORE_NAME,
-        'text',
-        'timestamp',
-      ),
-      [MESSAGE_STORE_NAME]: await contextStore.createCollection(
-        MESSAGE_STORE_NAME,
-        'text',
-        'timestamp',
-      ),
+      [SESSION_STORE_NAME]: sessionCollection as DualStoreManager<'text', 'timestamp'>,
+      [EVENT_STORE_NAME]: eventCollection as DualStoreManager<'text', 'timestamp'>,
+      [MESSAGE_STORE_NAME]: messageCollection as DualStoreManager<'text', 'timestamp'>,
     };
   } catch (error) {
     console.error('❌ Failed to initialize stores:', error);
