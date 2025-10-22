@@ -111,7 +111,20 @@ export async function findBrokenImageLinks(root: string): Promise<BrokenImageLin
   return results;
 }
 
-export type ImageGenerator = (prompt: string, outputPath: string) => Promise<void>;
+export type ImageGenerator = (
+  prompt: string,
+  outputPath: string,
+  options?: ImageGenerationOptions,
+) => Promise<void>;
+
+export type ImageGenerationOptions = {
+  readonly width?: number;
+  readonly height?: number;
+  readonly quality?: number;
+  readonly style?: string;
+  readonly seed?: number;
+  readonly steps?: number;
+};
 
 type Image = { save: (p: string) => Promise<void> };
 type TextToImageResult = { images: readonly Image[] };
@@ -199,14 +212,33 @@ export async function defaultImageGenerator(prompt: string, outputPath: string):
 export async function fixBrokenImageLinks(
   root: string,
   generator: ImageGenerator = defaultImageGenerator,
-): Promise<BrokenImageLink[]> {
+  options: ImageLinkFixOptions = {},
+): Promise<ImageProcessingResult> {
+  const startTime = Date.now();
   const links = await findBrokenImageLinks(root);
-  await Promise.all(
+  const fixed: BrokenImageLink[] = [];
+  const failed: BrokenImageLink[] = [];
+
+  await Promise.allSettled(
     links.map(async (link) => {
-      const output = path.resolve(path.dirname(link.file), link.url);
-      const prompt = link.alt || 'placeholder image';
-      await generator(prompt, output);
+      try {
+        const output = path.resolve(path.dirname(link.file), link.url);
+        const prompt = link.alt || 'placeholder image';
+        await generator(prompt, output, {
+          quality: options.quality,
+          style: options.style,
+        });
+        fixed.push(link);
+      } catch (error) {
+        failed.push(link);
+      }
     }),
   );
-  return links;
+
+  return {
+    fixed,
+    failed,
+    duration: Date.now() - startTime,
+    imagesGenerated: fixed.length,
+  };
 }

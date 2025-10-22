@@ -25,8 +25,11 @@ export const replayTaskTransitions = async (
   }
 
   // Start from first event's fromStatus
+  // eslint-disable-next-line functional/no-let
   let status = taskEvents[0]!.fromStatus;
+  // eslint-disable-next-line functional/no-let
   let lastValidEvent: TransitionEvent | undefined;
+  // eslint-disable-next-line functional/no-let
   let invalidEvent: TransitionEvent | undefined;
 
   for (const event of taskEvents) {
