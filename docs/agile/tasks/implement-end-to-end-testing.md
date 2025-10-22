@@ -10,14 +10,6 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
-lastCommitSha: "4ba59adf512dc1c46060ef987ec0c40f6287944b"
-commitHistory:
-  -
-    sha: "4ba59adf512dc1c46060ef987ec0c40f6287944b"
-    timestamp: "2025-10-22 01:48:10 -0500\n\ndiff --git a/docs/agile/tasks/implement-end-to-end-testing.md b/docs/agile/tasks/implement-end-to-end-testing.md\nindex 1a2c5ede2..66639ae83 100644\n--- a/docs/agile/tasks/implement-end-to-end-testing.md\n+++ b/docs/agile/tasks/implement-end-to-end-testing.md\n@@ -10,14 +10,6 @@ estimates:\n   complexity: \"\"\n   scale: \"\"\n   time_to_completion: \"\"\n-lastCommitSha: \"6cffc95f12623d70de456407879a3c24dad536e4\"\n-commitHistory:\n-  -\n-    sha: \"6cffc95f12623d70de456407879a3c24dad536e4\"\n-    timestamp: \"2025-10-19T22:07:48.207Z\"\n-    message: \"Update task: f0c4135f-452b-499a-a4be-298b52457a9d - Update task: Implement End-to-End Testing\"\n-    author: \"Error <foamy125@gmail.com>\"\n-    type: \"update\"\n ---\n \n ## 🎭 Implement End-to-End Testing"
-    message: "Update task: f0c4135f-452b-499a-a4be-298b52457a9d - Update task: Implement End-to-End Testing"
-    author: "Error"
-    type: "update"
 ---
 
 ## 🎭 Implement End-to-End Testing
