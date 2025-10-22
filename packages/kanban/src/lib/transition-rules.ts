@@ -194,23 +194,27 @@ export class TransitionRulesEngine {
     return evaluateTaskExistence(_sourceColumn, _task, _board);
   }
 
-  private async evaluateCustomCheck(checkName: string, task: Task, board: Board): Promise<boolean> {
+  private async evaluateCustomCheck(
+    _checkName: string,
+    _task: Task,
+    _board: Board,
+  ): Promise<boolean> {
     console.warn(
       'TransitionRulesEngine.evaluateCustomCheck is deprecated. Use evaluateCustomCheck from transition-rules-functional instead.',
     );
-    return evaluateCustomCheckFn(this.state, checkName, task, board);
+    return evaluateCustomCheckFn(this.state, _checkName, _task, _board);
   }
 
   private async evaluateCustomRule(
-    ruleImpl: string,
-    _args: any[],
-    task: Task,
-    board: Board,
+    _ruleImpl: string,
+    __args: any[],
+    _task: Task,
+    _board: Board,
   ): Promise<boolean> {
     console.warn(
       'TransitionRulesEngine.evaluateCustomRule is deprecated. Use evaluateCustomRule from transition-rules-functional instead.',
     );
-    return evaluateCustomRuleFn(this.state, ruleImpl, _args, task, board);
+    return evaluateCustomRuleFn(this.state, _ruleImpl, __args, _task, _board);
   }
 
   private async validateTestingToReviewTransition(
