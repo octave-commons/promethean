@@ -10,7 +10,7 @@ import type { z } from 'zod';
  */
 export type ValidationResult<T = unknown> =
   | { success: true; data: T }
-  | { success: false; error: z.ZodError };
+  | { success: false; error: z.ZodError | Error };
 
 /**
  * Validation context for request processing
