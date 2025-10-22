@@ -10,14 +10,6 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
-lastCommitSha: "7687f45cfb773df51b858a9d7bafed4b1062f5af"
-commitHistory:
-  -
-    sha: "7687f45cfb773df51b858a9d7bafed4b1062f5af"
-    timestamp: "2025-10-22 01:48:13 -0500\n\ndiff --git a/docs/agile/tasks/pantheon-epic-006-testing-and-quality-assurance.md b/docs/agile/tasks/pantheon-epic-006-testing-and-quality-assurance.md\nindex ab9786b1b..f917add1e 100644\n--- a/docs/agile/tasks/pantheon-epic-006-testing-and-quality-assurance.md\n+++ b/docs/agile/tasks/pantheon-epic-006-testing-and-quality-assurance.md\n@@ -1,15 +1,15 @@\n ---\n-uuid: 'pantheon-epic-006-testing-and-quality-assurance-2025-10-20'\n-title: 'Epic: Pantheon Testing and Quality Assurance'\n-slug: 'pantheon-epic-006-testing-and-quality-assurance'\n-status: 'incoming'\n-priority: 'P1'\n-labels: ['pantheon', 'testing', 'quality', 'assurance', 'epic', 'implementation']\n-created_at: '2025-10-20T00:00:00Z'\n+uuid: \"pantheon-epic-006-testing-and-quality-assurance-2025-10-20\"\n+title: \"Epic: Pantheon Testing and Quality Assurance\"\n+slug: \"pantheon-epic-006-testing-and-quality-assurance\"\n+status: \"incoming\"\n+priority: \"P1\"\n+labels: [\"pantheon\", \"testing\", \"quality\", \"assurance\", \"epic\", \"implementation\"]\n+created_at: \"2025-10-20T00:00:00Z\"\n estimates:\n-  complexity: 'large'\n-  scale: 'epic'\n-  time_to_completion: '2-3 weeks'\n+  complexity: \"\"\n+  scale: \"\"\n+  time_to_completion: \"\"\n ---\n \n # Epic: Pantheon Testing and Quality Assurance"
-    message: "Update task: pantheon-epic-006-testing-and-quality-assurance-2025-10-20 - Update task: Epic: Pantheon Testing and Quality Assurance"
-    author: "Error"
-    type: "update"
 ---
 
 # Epic: Pantheon Testing and Quality Assurance
