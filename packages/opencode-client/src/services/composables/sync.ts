@@ -17,7 +17,7 @@ export type SyncManager = {
 
 export const createSyncManager = (
   client: OpenCodeClient,
-  config: SyncConfig,
+  _config: SyncConfig,
   stateManager: StateManager,
   logger: EventLogger,
 ): SyncManager => {
