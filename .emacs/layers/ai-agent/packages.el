@@ -62,7 +62,7 @@
     (list
       (list :id 'opencode
         :name "OpenCode"
-        :command '("opencode-acp" ) ; or the adapter path
+        :command '("opencode acp" ) ; or the adapter path
         :cwd default-directory
         :environment
         (agent-shell-make-environment-variables
