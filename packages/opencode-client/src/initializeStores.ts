@@ -1,4 +1,4 @@
-import { DualStoreManager, getOrCreateCollection } from '@promethean/persistence';
+import { DualStoreManager } from '@promethean/persistence';
 import { contextStore, SESSION_STORE_NAME, EVENT_STORE_NAME, MESSAGE_STORE_NAME } from './index.js';
 
 export async function initializeStores(): Promise<
