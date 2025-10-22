@@ -9,7 +9,7 @@
 import { randomUUID } from 'node:crypto';
 import path from 'node:path';
 import { loadBoard, readTasksFolder } from '../kanban.js';
-import { EventLogManager } from '../../board/event-log.js';
+import type { EventLogManager } from '../../board/event-log/index.js';
 import type {
   ScarContext,
   ScarRecord,

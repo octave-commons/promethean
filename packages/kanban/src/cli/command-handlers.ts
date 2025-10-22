@@ -797,7 +797,7 @@ const handleAudit: CommandHandler = (args, context) =>
       env: process.env,
     });
 
-    const eventLogManager = new EventLogManager(configResult.config);
+    const eventLogManager = makeEventLogManager(configResult.config);
     const dryRun = !args.includes('--fix');
     const columnFilter = args.find((arg) => arg.startsWith('--column='))?.split('=')[1];
 
@@ -1115,7 +1115,7 @@ const handleEnforceWipLimits: CommandHandler = (args, context) =>
       env: process.env,
     });
 
-    const eventLogManager = new EventLogManager(configResult.config);
+    const eventLogManager = makeEventLogManager(configResult.config);
     const dryRun = !args.includes('--fix');
     const columnFilter = args.find((arg) => arg.startsWith('--column='))?.split('=')[1];
 

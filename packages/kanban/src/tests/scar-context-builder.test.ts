@@ -7,7 +7,7 @@ import {
   createScarContextBuilder,
   DEFAULT_SCAR_CONTEXT_OPTIONS,
 } from '../lib/heal/scar-context-builder.js';
-import { EventLogManager } from '../board/event-log.js';
+import { makeEventLogManager } from '../board/event-log/index.js';
 import { loadKanbanConfig } from '../board/config.js';
 
 import { validateScarContextIntegrity } from '../lib/heal/type-guards.js';
@@ -533,7 +533,7 @@ test('ScarContextBuilder - Integration with EventLogManager', async (t) => {
       },
     });
 
-    const eventLogManager = new EventLogManager(config);
+    const eventLogManager = makeEventLogManager(config);
     const builder = createScarContextBuilder(boardPath, tasksDir, eventLogManager);
 
     const context = await builder.buildContext('EventLogManager integration test');
