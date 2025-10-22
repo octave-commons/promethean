@@ -10,14 +10,6 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
-lastCommitSha: "9796c95d6aa02db23b922a6c57b338f8353e0501"
-commitHistory:
-  -
-    sha: "9796c95d6aa02db23b922a6c57b338f8353e0501"
-    timestamp: "2025-10-22 01:48:13 -0500\n\ndiff --git a/docs/agile/tasks/pantheon-epic-001-core-framework-implementation.md b/docs/agile/tasks/pantheon-epic-001-core-framework-implementation.md\nindex 1e17df2f0..d98e19b27 100644\n--- a/docs/agile/tasks/pantheon-epic-001-core-framework-implementation.md\n+++ b/docs/agile/tasks/pantheon-epic-001-core-framework-implementation.md\n@@ -1,15 +1,15 @@\n ---\n-uuid: 'pantheon-epic-001-core-framework-implementation-2025-10-20'\n-title: 'Epic: Pantheon Core Framework Implementation'\n-slug: 'pantheon-epic-001-core-framework-implementation'\n-status: 'incoming'\n-priority: 'P0'\n-labels: ['pantheon', 'core', 'framework', 'epic', 'implementation']\n-created_at: '2025-10-20T00:00:00Z'\n+uuid: \"pantheon-epic-001-core-framework-implementation-2025-10-20\"\n+title: \"Epic: Pantheon Core Framework Implementation\"\n+slug: \"pantheon-epic-001-core-framework-implementation\"\n+status: \"incoming\"\n+priority: \"P0\"\n+labels: [\"pantheon\", \"core\", \"framework\", \"epic\", \"implementation\"]\n+created_at: \"2025-10-20T00:00:00Z\"\n estimates:\n-  complexity: 'large'\n-  scale: 'epic'\n-  time_to_completion: '3-4 weeks'\n+  complexity: \"\"\n+  scale: \"\"\n+  time_to_completion: \"\"\n ---\n \n # Epic: Pantheon Core Framework Implementation"
-    message: "Update task: pantheon-epic-001-core-framework-implementation-2025-10-20 - Update task: Epic: Pantheon Core Framework Implementation"
-    author: "Error"
-    type: "update"
 ---
 
 # Epic: Pantheon Core Framework Implementation
