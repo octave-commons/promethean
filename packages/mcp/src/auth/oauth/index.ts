@@ -59,7 +59,11 @@ export class OAuthSystem {
   startOAuthFlow(
     provider: string,
     redirectUri?: string,
-    pkceOptions?: { codeChallenge: string; codeChallengeMethod: string },
+    pkceOptions?: {
+      codeVerifier?: string;
+      codeChallenge?: string;
+      codeChallengeMethod?: string;
+    },
   ): { authUrl: string; state: string } {
     const oauthProvider = this.providers.get(provider);
     if (!oauthProvider) {
@@ -68,8 +72,9 @@ export class OAuthSystem {
 
     // For ChatGPT compatibility, only use PKCE when explicitly provided
     // Don't auto-generate PKCE for legacy flows
-    const codeVerifier = pkceOptions ? undefined : undefined;
-    const codeChallenge = pkceOptions?.codeChallenge;
+    const codeVerifier = pkceOptions?.codeVerifier;
+    const codeChallenge = codeVerifier ? pkceOptions?.codeChallenge : undefined;
+    const codeChallengeMethod = codeVerifier ? pkceOptions?.codeChallengeMethod : undefined;
     const state = this.generateSecureState();
 
     // Use dynamic redirect URI if provided, otherwise fall back to config
@@ -80,7 +85,7 @@ export class OAuthSystem {
       state,
       codeVerifier,
       codeChallenge,
-      codeChallengeMethod: pkceOptions?.codeChallengeMethod,
+      codeChallengeMethod,
       provider,
       redirectUri: finalRedirectUri,
       createdAt: new Date(),
