@@ -6,12 +6,35 @@
  * - Clojure NBB DSL for custom logic
  * - Built-in JavaScript rule validators
  * - Testing→review transition validation with coverage and quality gates
+ *
+ * @deprecated Use the functional implementations from './transition-rules-functional' instead.
+ * This class is provided for backward compatibility and will be removed in a future version.
  */
 
-import { readFile, access } from 'fs/promises';
 import type { Task, Board } from './types.js';
-import { runTestingTransition } from './testing-transition/index.js';
-import type { TestingTransitionConfig, TestCoverageRequest } from './testing-transition/types.js';
+import type { TestingTransitionConfig } from './testing-transition/types.js';
+
+// Import functional implementations
+import {
+  createTransitionRulesEngineState,
+  initializeTransitionRulesEngine,
+  validateTransition as validateTransitionFn,
+  getValidTransitions as getValidTransitionsFn,
+  debugTransition as debugTransitionFn,
+  showProcessFlow as showProcessFlowFn,
+  validateTestingToReviewTransition as validateTestingToReviewTransitionFn,
+  extractTestingInfo as extractTestingInfoFn,
+  getTransitionsOverview as getTransitionsOverviewFn,
+  normalizeColumnName,
+  findTransitionRule,
+  isBackwardTransition,
+  evaluateGlobalRule as evaluateGlobalRuleFn,
+  evaluateWipLimit,
+  evaluateTaskExistence,
+  evaluateCustomCheck as evaluateCustomCheckFn,
+  evaluateCustomRule as evaluateCustomRuleFn,
+  TransitionRulesEngineState,
+} from './transition-rules-functional.js';
 
 export interface TransitionRule {
   from: string[];
@@ -64,52 +87,15 @@ export interface TransitionDebug {
  *
  * Validates kanban board state transitions according to configured rules
  * and custom logic defined in Clojure DSL.
+ *
+ * @deprecated Use the functional implementations from './transition-rules-functional' instead.
+ * This class is provided for backward compatibility and will be removed in a future version.
  */
 export class TransitionRulesEngine {
-  private config: TransitionRulesConfig;
-  private dslAvailable: boolean = false;
-  private testingConfig: TestingTransitionConfig;
+  private state: TransitionRulesEngineState;
 
   constructor(config?: TransitionRulesConfig) {
-    // Default configuration if none provided
-    this.config = config || {
-      enabled: true,
-      enforcement: 'strict',
-      dslPath: '',
-      rules: [],
-      customChecks: {},
-      globalRules: [],
-    };
-
-    // Default testing transition configuration
-    this.testingConfig = {
-      enabled: true,
-      thresholds: {
-        coverage: 90,
-        quality: 75,
-        softBlock: 90,
-        hardBlock: 75,
-      },
-      hardBlockCoverageThreshold: 75,
-      softBlockQualityScoreThreshold: 90,
-      weights: {
-        coverage: 0.4,
-        quality: 0.3,
-        requirementMapping: 0.2,
-        contextualAnalysis: 0.1,
-      },
-      timeouts: {
-        coverageAnalysis: 10000,
-        qualityAssessment: 15000,
-        requirementMapping: 20000,
-        totalAnalysis: 60000,
-      },
-      reporting: {
-        includeDetailedRationale: true,
-        generateActionItems: true,
-        appendToTask: true,
-      },
-    };
+    this.state = createTransitionRulesEngineState(config);
   }
 
   /**
