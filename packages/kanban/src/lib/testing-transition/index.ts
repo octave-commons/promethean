@@ -22,7 +22,7 @@ export async function runComprehensiveTestingTransition(
   config: TestingTransitionConfig,
   testFiles: string[],
   outputDir: string,
-  performanceMetrics?: PerformanceMetrics
+  performanceMetrics?: PerformanceMetrics,
 ): Promise<{ reportPath: string; scoreResult: ComprehensiveScoreResult }> {
   // Step 1: Coverage analysis
   const coverage = await analyzeCoverage(reportReq);
@@ -35,10 +35,7 @@ export async function runComprehensiveTestingTransition(
   });
 
   // Step 3: Requirement mapping validation
-  const mapped = mapRequirements(
-    initialMappings as any,
-    executedTests
-  );
+  const mapped = mapRequirements(initialMappings as any, executedTests);
 
   // Step 4: AI analysis
   const aiReq: AIAnalysisRequest = {
@@ -50,7 +47,7 @@ export async function runComprehensiveTestingTransition(
   const aiAnalysis = await analyzeWithAI(aiReq);
 
   // Step 5: Comprehensive scoring
-  const scorer = config.scoring?.enabled 
+  const scorer = config.scoring?.enabled
     ? new ComprehensiveScorer(config.scoring?.weights, config.scoring?.priorityThresholds)
     : defaultScorer;
 
@@ -60,7 +57,7 @@ export async function runComprehensiveTestingTransition(
     quality: qualityScore,
     requirementMappings: mapped,
     aiAnalysis,
-    performanceMetrics
+    performanceMetrics,
   });
 
   // Step 6: Check against thresholds
@@ -72,7 +69,7 @@ export async function runComprehensiveTestingTransition(
   // Step 7: Generate report
   const reportPath = generateReport(
     { coverage, qualityScore, mappings: mapped, aiAnalysis, scoreResult } as any,
-    outputDir
+    outputDir,
   );
 
   return { reportPath, scoreResult };
@@ -87,7 +84,7 @@ export async function runTestingTransition(
   initialMappings: Array<{ requirementId: string; testIds: string[] }>,
   config: TestingTransitionConfig,
   testFiles: string[],
-  outputDir: string
+  outputDir: string,
 ) {
   // Step 1: Coverage analysis
   const coverage = await analyzeCoverage(reportReq);
@@ -95,7 +92,7 @@ export async function runTestingTransition(
   // Hard block check
   if (coverage.totalCoverage < config.hardBlockCoverageThreshold) {
     throw new Error(
-      `Coverage threshold not met: ${coverage.totalCoverage}% < ${config.hardBlockCoverageThreshold}%`
+      `Coverage threshold not met: ${coverage.totalCoverage}% < ${config.hardBlockCoverageThreshold}%`,
     );
   }
 
@@ -104,46 +101,6 @@ export async function runTestingTransition(
     complexity: computeAverageComplexity(testFiles),
     passRate: computePassRate(testFiles),
     flakiness: detectFlakiness(testFiles),
-  });
-
-  if (qualityScore.score < config.softBlockQualityScoreThreshold) {
-    throw new Error(
-      `Quality score below threshold: ${qualityScore.score} < ${config.softBlockQualityScoreThreshold}`
-    );
-  }
-
-  // Step 3: Requirement mapping validation
-  const mapped = mapRequirements(
-    initialMappings as any,
-    executedTests
-  );
-  if (!validateMappings(mapped)) {
-    throw new Error('Not all requirements are covered by tests');
-  }
-
-  // Step 4: AI analysis
-  const aiReq: AIAnalysisRequest = {
-    tests: testFiles,
-    coverageResult: coverage,
-    qualityScore,
-    mappings: mapped,
-  };
-  const aiAnalysis = await analyzeWithAI(aiReq);
-
-  // Step 5: Generate report
-  const reportPath = generateReport(
-    { coverage, qualityScore, mappings: mapped, aiAnalysis } as any,
-    outputDir
-  );
-
-  return reportPath;
-}
-
-  // Step 2: Quality scoring
-  const qualityScore = calculateQualityScore({
-    complexity: computeAverageComplexity(tests),
-    passRate: computePassRate(tests),
-    flakiness: detectFlakiness(tests),
   });
 
   if (qualityScore.score < config.softBlockQualityScoreThreshold) {
@@ -160,7 +117,7 @@ export async function runTestingTransition(
 
   // Step 4: AI analysis
   const aiReq: AIAnalysisRequest = {
-    tests,
+    tests: testFiles,
     coverageResult: coverage,
     qualityScore,
     mappings: mapped,
@@ -183,18 +140,18 @@ function generateTestBlockMessage(scoreResult: ComprehensiveScoreResult): string
     .filter(([, cs]) => cs.score < 80)
     .map(([name, cs]) => `${name}: ${cs.score.toFixed(1)}% (threshold: 80%)`)
     .join(', ');
-  
+
   const message = `Testing transition blocked. Overall score: ${scoreResult.totalScore}/100 (threshold: ${scoreResult.threshold}). Gaps: ${gaps}`;
-  
+
   if (scoreResult.actionItems.length > 0) {
     const highPriorityActions = scoreResult.actionItems
-      .filter(item => item.priority === 'high')
-      .map(item => item.description)
+      .filter((item) => item.priority === 'high')
+      .map((item) => item.description)
       .slice(0, 3)
       .join('; ');
     return `${message}. Priority actions: ${highPriorityActions}`;
   }
-  
+
   return message;
 }
 
