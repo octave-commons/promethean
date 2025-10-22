@@ -624,7 +624,7 @@ const runTestingValidation = async (
       priority: task.priority ? String(task.priority) : undefined,
       tags: task.labels || [],
       frontmatter: task.frontmatter || {},
-    },
+    } as any, // Type assertion to handle interface differences
     changedFiles: [],
     affectedPackages: [],
     reportPath: testingInfo.coverageReportPath!,
