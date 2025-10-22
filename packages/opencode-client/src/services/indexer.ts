@@ -41,24 +41,28 @@ export type ProcessingTimer = {
  */
 export function createIndexerService(options: IndexerOptions = {}) {
   // Create core components
-  const client = createOpenCodeClient(options);
-  const stateManager = createIndexerStateManager();
-  const logger = createEventLogger();
+  const client = createClient({ 
+    baseUrl: options.baseUrl || 'http://localhost:3000' 
+  });
+  
+  const stateManager = createStateManagerComposable({
+    stateFile: options.stateFile || './indexer-state.json'
+  });
+  
+  const logger = createLoggerComposable();
   const timerManager = createTimerManager();
-  const eventProcessor = createEventStreamProcessor(client, stateManager, logger);
+  const eventManager = createEventManager(client, stateManager, logger);
   const syncManager = createSyncManager(client, stateManager, logger);
 
   // Indexer state
   let isRunning = false;
-  let processingTimer: ProcessingTimer | null = null;
 
   /**
    * Get current indexer state
    */
-  const getState = (): IndexerState => ({
+  const getState = (): IndexerState & { readonly isRunning: boolean } => ({
     ...stateManager.getState(),
-    isRunning,
-    hasTimer: !!processingTimer,
+    isRunning
   });
 
   /**
@@ -69,6 +73,123 @@ export function createIndexerService(options: IndexerOptions = {}) {
       console.warn('[Indexer] Already running');
       return;
     }
+
+    console.log('[Indexer] Starting indexer service');
+    isRunning = true;
+
+    try {
+      // Load previous state if available
+      await stateManager.loadState();
+
+      // Start processing timer
+      timerManager.setIntervalTimer(
+        'processing',
+        async () => {
+          try {
+            await eventManager.processNewEvents();
+          } catch (error) {
+            console.error('[Indexer] Error in processing timer:', error);
+          }
+        },
+        options.processingInterval || 60000 // 1 minute default
+      );
+
+      console.log('[Indexer] Indexer service started successfully');
+    } catch (error) {
+      console.error('[Indexer] Failed to start indexer:', error);
+      isRunning = false;
+      throw error;
+    }
+  };
+
+  /**
+   * Stop the indexer service
+   */
+  const stop = async (): Promise<void> => {
+    if (!isRunning) {
+      console.warn('[Indexer] Not running');
+      return;
+    }
+
+    console.log('[Indexer] Stopping indexer service');
+    isRunning = false;
+
+    try {
+      // Stop processing timer
+      timerManager.clearTimer('processing');
+
+      // Save current state
+      await stateManager.saveState();
+
+      console.log('[Indexer] Indexer service stopped successfully');
+    } catch (error) {
+      console.error('[Indexer] Error stopping indexer:', error);
+      throw error;
+    }
+  };
+
+  /**
+   * Perform a full sync of all data
+   */
+  const fullSync = async (): Promise<void> => {
+    console.log('[Indexer] Starting full sync');
+    await syncManager.performFullSync();
+    console.log('[Indexer] Full sync completed');
+  };
+
+  /**
+   * Process new events (manual trigger)
+   */
+  const processNewEvents = async (): Promise<void> => {
+    console.log('[Indexer] Processing new events');
+    await eventManager.processNewEvents();
+    console.log('[Indexer] Event processing completed');
+  };
+
+  /**
+   * Get processing statistics
+   */
+  const getStats = (): EventProcessingStats => {
+    return logger.getStats();
+  };
+
+  /**
+   * Reset statistics
+   */
+  const resetStats = (): void => {
+    logger.resetStats();
+  };
+
+  /**
+   * Cleanup resources
+   */
+  const cleanup = async (): Promise<void> => {
+    await stop();
+    timerManager.clearAllTimers();
+  };
+
+  return {
+    // Core methods
+    start,
+    stop,
+    fullSync,
+    processNewEvents,
+    cleanup,
+    
+    // State and stats
+    getState,
+    getStats,
+    resetStats,
+    
+    // Direct access to components (for advanced usage)
+    client,
+    stateManager,
+    logger,
+    timerManager,
+    eventManager,
+    syncManager
+  };
+}
 
     console.log('[Indexer] Starting indexer service');
     isRunning = true;
