@@ -4,7 +4,7 @@ import type {
     EventRecord,
     PublishOptions,
     SubscribeOptions,
-    DeliveryContext,
+    Handler,
     CursorPosition,
     EventStore,
     CursorStore,
@@ -12,18 +12,8 @@ import type {
     UUID,
 } from './types.js';
 
-type GroupKey = string; // `${topic}::${group}`
-const gkey = (t: string, g: string): string => `${t}::${g}`;
-
-class InMemoryStore implements EventStore {
-    private store = new Map<string, EventRecord<unknown>[]>(); // topic -> events
-
-    private events(topic: string): EventRecord<unknown>[] {
-        let arr = this.store.get(topic);
-        if (!arr) {
-            arr = [];
-            this.store.set(topic, arr);
-        }
+// Import the store implementations for backward compatibility
+import { InMemoryStore, InMemoryCursorStore } from './memory-functional.js';
         return arr;
     }
 
