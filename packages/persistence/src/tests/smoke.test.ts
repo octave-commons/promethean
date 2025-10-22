@@ -1,3 +1,5 @@
+/* eslint-disable functional/no-try-statements */
+
 import test from 'ava';
 
 import { DualStoreManager } from '../dualStore.js';
