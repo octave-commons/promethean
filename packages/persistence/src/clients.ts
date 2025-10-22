@@ -1,3 +1,9 @@
+/* eslint-disable functional/prefer-immutable-types */
+/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types */
+/* eslint-disable functional/no-try-statements */
+/* eslint-disable functional/no-loop-statements */
+/* eslint-disable functional/immutable-data */
+
 import { MongoClient } from 'mongodb';
 import { ChromaClient } from 'chromadb';
 
@@ -47,7 +53,7 @@ const getFromCache = async <TClient>(
         return existingPromise;
     }
     const createdPromise = factory();
-     
+
     promiseCache.set(cacheKey, createdPromise);
     return createdPromise;
 };
@@ -65,15 +71,14 @@ const setOverride = <TClient>(
     client: TClient | null,
 ): void => {
     if (client === null) {
-         
         overrides.delete(cacheKey);
-         
+
         promiseCache.delete(cacheKey);
         return;
     }
-     
+
     overrides.set(cacheKey, client);
-     
+
     promiseCache.delete(cacheKey);
 };
 
@@ -87,13 +92,12 @@ export const __setChromaClientForTests = (client: ChromaClient | null): void =>
     setOverride(chromaClientOverrides, chromaClientPromises, 'chroma', client);
 
 export const __resetPersistenceClientsForTests = (): void => {
-     
     mongoClientOverrides.clear();
-     
+
     chromaClientOverrides.clear();
-     
+
     mongoClientPromises.clear();
-     
+
     chromaClientPromises.clear();
 };
 
@@ -107,12 +111,11 @@ export const cleanupClients = async (): Promise<void> => {
         // Ignore cleanup errors
     }
 
-     
     mongoClientOverrides.clear();
-     
+
     chromaClientOverrides.clear();
-     
+
     mongoClientPromises.clear();
-     
+
     chromaClientPromises.clear();
 };

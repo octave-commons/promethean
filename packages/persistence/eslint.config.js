@@ -18,7 +18,7 @@ export default [
                 },
                 // Remove ClassDeclaration and ClassExpression restrictions
             ],
-            // Allow larger files for legacy compatibility
+            // Allow class declarations for legacy compatibility only
             'max-lines': 'off',
             'max-lines-per-function': 'off',
         },
