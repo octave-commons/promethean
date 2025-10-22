@@ -630,12 +630,29 @@ test('FSM Integration - Backward Compatibility', (t) => {
   t.true(oldStyleSnapshot.context.metrics.legacyMode);
 
   // Test that transitions still work with legacy snapshots
+  // First need to go from processing to validating
+  const processEvent: MachineEvent<WorkflowEvents, 'process'> = {
+    type: 'process',
+    payload: { data: [1, 2, 3], batchSize: 2 },
+  };
+
+  const processResult = transition(machine, oldStyleSnapshot, processEvent);
+  t.is(processResult.status, 'transitioned');
+
+  let validatingSnapshot = (
+    processResult as Extract<
+      TransitionResult<WorkflowState, WorkflowEvents, WorkflowContext>,
+      { readonly status: 'transitioned' }
+    >
+  ).snapshot;
+
+  // Now validate from validating state
   const validateEvent: MachineEvent<WorkflowEvents, 'validate'> = {
     type: 'validate',
     payload: { rules: ['legacy-rule'] },
   };
 
-  const result = transition(machine, oldStyleSnapshot, validateEvent);
+  const result = transition(machine, validatingSnapshot, validateEvent);
   t.is(result.status, 'transitioned');
 
   const newSnapshot = (
