@@ -454,9 +454,14 @@ export function validateSinglePath(inputPath: unknown): ValidationResult<string>
   if (!securityResult.valid) {
     return {
       success: false,
-      error: new Error(
-        `Security validation failed: ${securityResult.securityIssues?.join(', ')}`,
-      ) as z.ZodError,
+      error: {
+        issues:
+          securityResult.securityIssues?.map((issue) => ({
+            code: z.ZodIssueCode.custom,
+            message: issue,
+            path: ['path'],
+          })) || [],
+      } as z.ZodError,
     };
   }
 
