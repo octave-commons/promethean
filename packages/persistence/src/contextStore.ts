@@ -345,3 +345,69 @@ export const makeContextStore = (
         compileContext,
     };
 };
+
+// Legacy class-based API for backward compatibility
+// eslint-disable-next-line no-restricted-syntax
+export class ContextStore {
+    private readonly state: ContextStoreState;
+
+    constructor(formatTime?: (epochMs: number) => string, assistantName?: string) {
+        this.state = createContextStore(formatTime, assistantName);
+        console.warn('[DEPRECATED] ContextStore class is deprecated. Use makeContextStore() functional API instead.');
+    }
+
+    get collections(): ReadonlyMap<string, DualStoreManager<string, string>> {
+        return this.state.collections;
+    }
+
+    get formatTime(): (epochMs: number) => string {
+        return this.state.formatTime;
+    }
+
+    get assistantName(): string {
+        return this.state.assistantName;
+    }
+
+    async createCollection(
+        name: string,
+        textKey: string,
+        timeStampKey: string,
+    ): Promise<[ContextStoreState, DualStoreManager<string, string>]> {
+        return createCollection(this.state, name, textKey, timeStampKey);
+    }
+
+    async getOrCreateCollection(name: string): Promise<[ContextStoreState, DualStoreManager<string, string>]> {
+        return getOrCreateCollection(this.state, name);
+    }
+
+    collectionCount(): number {
+        return collectionCount(this.state);
+    }
+
+    listCollectionNames(): readonly string[] {
+        return listCollectionNames(this.state);
+    }
+
+    getCollection(name: string): DualStoreManager<string, string> {
+        return getCollection(this.state, name);
+    }
+
+    async getAllRelatedDocuments(
+        queries: readonly string[],
+        limit: number = 100,
+        where?: Where,
+    ): Promise<GenericEntry[]> {
+        return getAllRelatedDocuments(this.state, queries, limit, where);
+    }
+
+    async getLatestDocuments(limit: number = 100): Promise<GenericEntry[]> {
+        return getLatestDocuments(this.state, limit);
+    }
+
+    async compileContext(
+        textsOrOptions: readonly string[] | CompileContextOptions = [],
+        ...legacyArgs: LegacyCompileArgs
+    ): Promise<ContextMessage[]> {
+        return compileContext(this.state, textsOrOptions, ...legacyArgs);
+    }
+}
