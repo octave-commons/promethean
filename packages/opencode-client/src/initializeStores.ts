@@ -1,4 +1,4 @@
-import { DualStoreManager } from '@promethean/persistence';
+import { DualStoreManager, getOrCreateCollection } from '@promethean/persistence';
 import { contextStore, SESSION_STORE_NAME, EVENT_STORE_NAME, MESSAGE_STORE_NAME } from './index.js';
 
 export async function initializeStores(): Promise<
@@ -8,19 +8,19 @@ export async function initializeStores(): Promise<
 
   // Create all collections using ContextStore
   console.log('📝 Creating session collection...');
-  const sessionCollection = await contextStore.createCollection(
+  let [, sessionCollection] = await contextStore.createCollection(
     SESSION_STORE_NAME,
     'text',
     'timestamp',
   );
   console.log('📝 Creating event collection...');
-  const eventCollection = await contextStore.createCollection(
+  let [, eventCollection] = await contextStore.createCollection(
     EVENT_STORE_NAME,
     'text',
     'timestamp',
   );
   console.log('📝 Creating message collection...');
-  const messageCollection = await contextStore.createCollection(
+  let [, messageCollection] = await contextStore.createCollection(
     MESSAGE_STORE_NAME,
     'text',
     'timestamp',
