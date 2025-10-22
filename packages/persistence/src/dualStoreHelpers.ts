@@ -80,11 +80,25 @@ export type DualStoreManagerDependencies<TextKey extends string, TimeKey extends
 };
 
 const setupClients = async (): Promise<{ chromaClient: any; mongoClient: any }> => {
-    console.log('[DualStoreManager] Connecting to clients...');
+    console.log('[DUALSTORE SETUP] Connecting to clients...');
+
     const chromaClient = await getChromaClient();
-    console.log('[DualStoreManager] Chroma client connected');
+    console.log('[DUALSTORE SETUP] Chroma client connected');
+    console.log(`[DUALSTORE SETUP] Chroma client type: ${typeof chromaClient}`);
+
     const mongoClient = await getMongoClient();
-    console.log('[DualStoreManager] MongoDB client connected');
+    console.log('[DUALSTORE SETUP] MongoDB client connected');
+    console.log(`[DUALSTORE SETUP] MongoDB client type: ${typeof mongoClient}`);
+    console.log(`[DUALSTORE SETUP] MongoDB client constructor: ${mongoClient.constructor?.name || 'unknown'}`);
+
+    // Test client connection
+    try {
+        const pingResult = await mongoClient.db('admin').command({ ping: 1 });
+        console.log(`[DUALSTORE SETUP] MongoDB ping successful:`, pingResult);
+    } catch (error) {
+        console.error(`[DUALSTORE SETUP] MongoDB ping failed:`, error);
+    }
+
     return { chromaClient, mongoClient };
 };
 
