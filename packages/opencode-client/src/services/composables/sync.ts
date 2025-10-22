@@ -45,20 +45,12 @@ export const createSyncManager = (
             )
           : messages;
 
-        // Process messages in batches to balance performance and connection stability
-        const batchSize = 5; // Process up to 5 messages concurrently
-        for (let i = 0; i < messagesToProcess.length; i += batchSize) {
-          const batch = messagesToProcess.slice(i, i + batchSize);
-          await Promise.all(
-            batch.map(async (message: any) => {
-              await indexingOps.indexMessage(message, session.id);
-              totalMessagesProcessed++;
-            }),
-          );
-          // Small delay between batches to prevent connection overload
-          if (i + batchSize < messagesToProcess.length) {
-            await new Promise((resolve) => setTimeout(resolve, 100));
-          }
+        // Process messages sequentially to avoid MongoDB connection race conditions
+        for (const message of messagesToProcess) {
+          await indexingOps.indexMessage(message, session.id);
+          totalMessagesProcessed++;
+          // Small delay between messages to prevent connection overload
+          await new Promise((resolve) => setTimeout(resolve, 50));
         }
       }
 

@@ -15,17 +15,20 @@ const chromaClientPromises: PromiseCache<ChromaClient> = new Map();
 
 const createMongoClient = async (): Promise<MongoClient> => {
     console.log(`[MongoDB Client] Connecting to URI: ${MONGO_URI}`);
-    // Create connection with minimal pooling to avoid connection issues
+    // Create connection with more conservative settings to avoid connection issues
     const client = new MongoClient(MONGO_URI, {
         maxPoolSize: 1, // Use single connection to avoid pool complexity
         minPoolSize: 1, // Maintain exactly 1 connection
-        maxIdleTimeMS: 10000, // Close idle connections quickly
-        serverSelectionTimeoutMS: 5000, // Shorter timeout to fail fast
-        socketTimeoutMS: 10000, // Shorter socket timeout
-        connectTimeoutMS: 5000, // Shorter connection timeout
-        heartbeatFrequencyMS: 5000, // Check connection health more frequently
+        maxIdleTimeMS: 30000, // Keep connections alive longer
+        serverSelectionTimeoutMS: 10000, // Longer timeout for more stability
+        socketTimeoutMS: 0, // No socket timeout - let connection persist
+        connectTimeoutMS: 10000, // Longer connection timeout
+        heartbeatFrequencyMS: 10000, // Check connection health less frequently
         retryWrites: true,
         retryReads: true,
+        // Additional stability options
+        maxConnecting: 1, // Limit concurrent connection attempts
+        waitQueueTimeoutMS: 10000, // Timeout for waiting in queue
     });
 
     await client.connect();
@@ -43,6 +46,27 @@ const createMongoClient = async (): Promise<MongoClient> => {
     await testDb.collection('connection_test').countDocuments();
 
     return client;
+};
+
+// Helper function to validate and refresh MongoDB connection if needed
+export const validateMongoConnection = async (client: MongoClient): Promise<MongoClient> => {
+    try {
+        // Quick ping to check if connection is alive
+        await client.db('admin').command({ ping: 1 });
+        return client;
+    } catch (error) {
+        console.log('[MongoDB Client] Connection validation failed, creating fresh connection...');
+
+        // Close the existing client
+        try {
+            await client.close();
+        } catch (closeError) {
+            console.log('[MongoDB Client] Error closing existing client:', closeError);
+        }
+
+        // Create and return a fresh connection
+        return createMongoClient();
+    }
 };
 
 const createChromaClient = async (): Promise<ChromaClient> => new ChromaClient({ path: CHROMA_URL });
@@ -67,8 +91,31 @@ const getFromCache = async <TClient>(
     return createdPromise;
 };
 
-export const getMongoClient = async (): Promise<MongoClient> =>
-    getFromCache(mongoClientPromises, mongoClientOverrides, 'mongo', createMongoClient);
+export const getMongoClient = async (): Promise<MongoClient> => {
+    const client = await getFromCache(mongoClientPromises, mongoClientOverrides, 'mongo', createMongoClient);
+
+    // Validate connection before returning
+    try {
+        await client.db('admin').command({ ping: 1 });
+        return client;
+    } catch (error) {
+        console.log('[MongoDB Client] Cached connection invalid, creating fresh connection...');
+
+        // Clear the cached promise and client
+        mongoClientPromises.delete('mongo');
+        mongoClientOverrides.delete('mongo');
+
+        // Close the existing client
+        try {
+            await client.close();
+        } catch (closeError) {
+            console.log('[MongoDB Client] Error closing invalid client:', closeError);
+        }
+
+        // Create and return a fresh connection
+        return getFromCache(mongoClientPromises, mongoClientOverrides, 'mongo', createMongoClient);
+    }
+};
 
 export const getChromaClient = async (): Promise<ChromaClient> =>
     getFromCache(chromaClientPromises, chromaClientOverrides, 'chroma', createChromaClient);
