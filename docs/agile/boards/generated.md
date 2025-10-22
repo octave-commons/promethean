@@ -29,6 +29,7 @@ kanban-plugin: board
 - [ ] [[Test Task {1..10}]] #test #nothing #content #blocked (uuid:9cfda1c7-1e69-4c0c-bc39-41293079988b)
 - [ ] [[Test Virtual Scroll Task]] #virtual #scroll #test #nothing (uuid:0fe44df8-5829-43b6-b339-b7ebab45627a)
 - [ ] [[Test story points validation]] #story #test #points #validation prio:P2 (uuid:2ce6286f-82b7-4b87-92d0-72e98588b221)
+- [ ] [[Test task with invalid status]] #test #invalid #status #nothing prio:P3 (uuid:80ac1318-5927-49d6-84d4-28d3e6252803)
 - [ ] [[Test valid icebox task]] #test #valid #icebox #nothing (uuid:2cef5c59-2343-4614-bb5d-09ce9895f6c4)
 - [ ] [[Test valid incoming task]] #test #valid #incoming #nothing (uuid:a1715c38-b4e0-47b9-b014-e5104b639c46)
 - [ ] [[Test valid status task]] #test #valid #status #nothing (uuid:90e4fefb-30e6-4f28-8227-0b2897e31095)
@@ -342,10 +343,6 @@ kanban-plugin: board
 
 - [ ] [[2025.10.08.23.58.30-expand-utils-retry-tests|Task f9bc9fe0]] #retry #testing #utils prio:P3 (uuid:f9bc9fe0-8ee2-4ab9-8790-31f60b6680ac)
 - [ ] [[cephalon_feature_flag_path_selection|cephalon feature flag path selection]] #cephalon #feature #flag #path prio:P3 (uuid:1bb6f2f2-bcca-4365-aa6f-7cab3cdf8269)
-
-## invalid_status
-
-- [ ] [[Test task with invalid status]] #test #invalid #status #nothing (uuid:80ac1318-5927-49d6-84d4-28d3e6252803)
 
 ## superseded
 
