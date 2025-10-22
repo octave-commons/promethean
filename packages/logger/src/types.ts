@@ -22,7 +22,7 @@ export interface LoggerConfig {
   readonly colorize?: boolean;
   readonly timestamp?: boolean;
   readonly json?: boolean;
-  readonly file?: {
+  readonly file: {
     readonly enabled: boolean;
     readonly filename?: string;
     readonly dirname?: string;
@@ -30,7 +30,7 @@ export interface LoggerConfig {
     readonly maxFiles?: string;
     readonly datePattern?: string;
   };
-  readonly console?: {
+  readonly console: {
     readonly enabled: boolean;
     readonly level?: LogLevel;
   };
