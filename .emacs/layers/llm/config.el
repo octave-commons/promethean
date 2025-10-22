@@ -103,30 +103,6 @@
          (:url "http://127.0.0.1:3210/process"))
        ("http-workspace" .
          (:url "http://127.0.0.1:3210/workspace"))
-       ("npm-helper" .
-         (:command "npx"
-           :args ("-y" "@pinkpixel/npm-helper-mcp")
-           )
-         )
-       ("obsidian" .
-         (:command "/home/err/devel/promethean/scripts/mcp/bin/obsidian.sh"))
-       ("playwright" .
-         (:command "npx"
-           :args ("@playwright/mcp@latest")
-           )
-         )
-       ("serena" .
-         (:command "uvx"
-           :args ("--from" "git+https://github.com/oraios/serena" "serena" "start-mcp-server")
-           )
-         )
-       ("sonarqube" .
-         (:command "/home/err/devel/promethean/scripts/mcp/bin/sonarqube.sh"))
-       ("ts-ls-lsp" .
-         (:command "npx"
-           :args ("tritlo/lsp-mcp" "typescript" "/home/err/.volta/bin/typescript-language-server" "--stdio")
-           )
-         )
        )
     )
   )
