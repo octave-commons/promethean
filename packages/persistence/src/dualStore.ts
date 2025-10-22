@@ -81,6 +81,9 @@ export const insert = async <TextKey extends string, TimeKey extends string>(
     state: DualStoreManagerState<TextKey, TimeKey>,
     entry: DualStoreEntry<TextKey, TimeKey>,
 ): Promise<void> => {
+    console.log(`[DUALSTORE INSERT] Starting insert for store: ${state.name}`);
+    console.log(`[DUALSTORE INSERT] Entry ID: ${entry.id}, TextKey: ${state.textKey}, TimeKey: ${state.timeStampKey}`);
+
     const id = entry.id ?? randomUUID();
     const timestampCandidate = pickTimestamp(
         entry[state.timeStampKey],
@@ -97,18 +100,39 @@ export const insert = async <TextKey extends string, TimeKey extends string>(
         metadata,
     };
 
+    console.log(`[DUALSTORE INSERT] Prepared entry with ID: ${id}, timestamp: ${timestamp}`);
+
     const dualWriteEnabled = (process.env.DUAL_WRITE_ENABLED ?? 'true').toLowerCase() !== 'false';
     const isImage = metadata.type === 'image';
 
     if (dualWriteEnabled && (!isImage || state.supportsImages)) {
+        console.log(`[DUALSTORE INSERT] Adding to Chroma collection...`);
         await state.chromaCollection.add({
             ids: [id],
             documents: [preparedEntry[state.textKey]],
             metadatas: [toChromaMetadata(metadata)],
         });
+        console.log(`[DUALSTORE INSERT] Chroma insert complete`);
     }
 
-    await state.mongoCollection.insertOne(preparedEntry as OptionalUnlessRequiredId<DualStoreEntry<TextKey, TimeKey>>);
+    console.log(`[DUALSTORE INSERT] About to insert into MongoDB...`);
+    console.log(`[DUALSTORE INSERT] Mongo collection type: ${typeof state.mongoCollection}`);
+    console.log(`[DUALSTORE INSERT] Mongo collection constructor: ${state.mongoCollection.constructor.name}`);
+
+    try {
+        await state.mongoCollection.insertOne(
+            preparedEntry as OptionalUnlessRequiredId<DualStoreEntry<TextKey, TimeKey>>,
+        );
+        console.log(`[DUALSTORE INSERT] MongoDB insert complete`);
+    } catch (error) {
+        console.error(`[DUALSTORE INSERT] MongoDB insert failed:`, error);
+        console.error(`[DUALSTORE INSERT] Error details:`, {
+            message: error instanceof Error ? error.message : String(error),
+            name: error instanceof Error ? error.name : 'Unknown',
+            stack: error instanceof Error ? error.stack : 'No stack trace',
+        });
+        throw error;
+    }
 };
 
 // TODO: remove in future – alias for backwards compatibility
