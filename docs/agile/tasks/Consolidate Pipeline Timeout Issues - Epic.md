@@ -2,7 +2,7 @@
 uuid: "5708a85c-84d7-4883-936d-94521b542dd1"
 title: "Consolidate Pipeline Timeout Issues - Epic"
 slug: "Consolidate Pipeline Timeout Issues - Epic"
-status: "incoming"
+status: "accepted"
 priority: "P1"
 labels: ["epic", "pipeline", "timeout", "consolidation"]
 created_at: "2025-10-12T23:41:48.138Z"
