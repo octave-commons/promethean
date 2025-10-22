@@ -2,7 +2,7 @@
 uuid: "de02df2d-04df-4c64-919d-3f8bc3e46213"
 title: "Enhance Test Coverage for agents-workflow Package"
 slug: "Enhance Test Coverage for agents-workflow Package"
-status: "incoming"
+status: "icebox"
 priority: "P1"
 labels: ["tool:codex", "cap:codegen", "agents-workflow", "testing", "quality", "p1"]
 created_at: "2025-10-13T20:39:56.071Z"
