@@ -67,7 +67,7 @@
         :environment
         (agent-shell-make-environment-variables
           :inherit-env t
-          :load-env '( ".env" "~/.config/opencode/.env"))))))
+          :load-env '( ".env" "~/.env"))))))
 
 ;; Optional: set OpenCode as default when starting agent-shell
 (setq agent-shell-default-backend 'opencode)
