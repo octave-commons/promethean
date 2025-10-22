@@ -1,181 +1,214 @@
 // SPDX-License-Identifier: GPL-3.0-only
-// Real-time Capture Plugin
-// Provides real-time message, session, and event capture capabilities
+// Real-time Indexing Plugin
+// Provides real-time message, session, and event indexing capabilities
 
 import type { Plugin } from '@opencode-ai/plugin';
 import { tool } from '@opencode-ai/plugin/tool';
 
-import { createOpencodeClient } from '@opencode-ai/sdk';
-import type { Event } from '@opencode-ai/sdk';
-
-// Import existing actions for proper session and message handling
-import { list as listSessions } from '../../actions/sessions/list.js';
-import { getSessionMessages } from '../../actions/events/index.js';
+import {
+  createClient,
+  createStateManagerComposable,
+  createLoggerComposable,
+  createTimerManager,
+  createEventManager,
+  createSyncManager,
+} from '../../services/composables/index.js';
 
 /**
- * Real-time Capture Plugin - Provides real-time monitoring and capture of OpenCode events
+ * Real-time Indexing Plugin - Provides real-time indexing of OpenCode events
+ * This plugin actually indexes data like the main indexer, not just captures it
  */
 export const RealtimeCapturePlugin: Plugin = async (_pluginContext) => {
-  // Create OpenCode client for real-time operations
-  const opencodeClient = createOpencodeClient({
+  // Create indexer components for real-time indexing
+  const client = createClient({
     baseUrl: 'http://localhost:4096',
   });
 
-  // Real-time capture state
-  let isCapturing = false;
-  let eventSubscription: any = null;
-  let capturedEvents: Array<Event & { capturedAt?: string; captureSequence?: number }> = [];
-  let captureStartTime: Date | null = null;
-  const MAX_CAPTURED_EVENTS = 1000;
+  const stateManager = createStateManagerComposable({
+    stateFile: './realtime-indexer-state.json',
+  });
 
-  // Helper function to extract session ID from different event types
-  const extractSessionIdFromEvent = (event: Event): string | null => {
-    // Handle different event types and their properties
-    const properties = event.properties as any;
+  const loggerManager = createLoggerComposable();
+  const timerManager = createTimerManager();
 
-    if (properties?.info?.sessionID) {
-      return properties.info.sessionID;
-    }
+  const eventManager = createEventManager(
+    client,
+    {
+      reconnectDelayMs: 5000,
+      maxConsecutiveErrors: 5,
+    },
+    stateManager,
+    loggerManager.logger,
+    timerManager,
+  );
 
-    if (properties?.sessionID) {
-      return properties.sessionID;
-    }
+  const syncManager = createSyncManager(
+    client,
+    {
+      fullSyncIntervalMs: 300000, // 5 minutes
+    },
+    stateManager,
+    loggerManager.logger,
+  );
 
-    if (properties?.session?.id) {
-      return properties.session.id;
-    }
+  // Real-time indexing state
+  let isIndexing = false;
+  let indexingStartTime: Date | null = null;
+  let indexedEventsCount = 0;
+  let indexingErrors = 0;
 
-    return null;
-  };
-
-  // Helper function to extract message ID from different event types
-  const extractMessageIdFromEvent = (event: Event): string | null => {
-    const properties = event.properties as any;
-
-    if (properties?.info?.id) {
-      return properties.info.id;
-    }
-
-    if (properties?.messageID) {
-      return properties.messageID;
-    }
-
-    if (properties?.message?.id) {
-      return properties.message.id;
-    }
-
-    return null;
-  };
-
-  const startCapture = async (): Promise<void> => {
-    if (isCapturing) {
-      throw new Error('Capture is already active');
+  const startIndexing = async (): Promise<void> => {
+    if (isIndexing) {
+      throw new Error('Real-time indexing is already active');
     }
 
     try {
-      if (typeof opencodeClient.event?.subscribe !== 'function') {
-        throw new Error('This SDK/server does not support event.subscribe()');
-      }
+      console.log('🚀 Starting real-time indexing service');
+      isIndexing = true;
+      indexingStartTime = new Date();
+      indexedEventsCount = 0;
+      indexingErrors = 0;
 
-      isCapturing = true;
-      captureStartTime = new Date();
-      capturedEvents = [];
+      // Load previous state
+      await stateManager.loadState();
 
-      const subscription = await opencodeClient.event.subscribe();
-      eventSubscription = subscription;
+      // Start event subscription for real-time indexing
+      await eventManager.startSubscription();
 
-      console.log('🎯 Started real-time event capture');
-
-      // Start processing events in background
-      (async () => {
-        try {
-          for await (const event of subscription.stream) {
-            if (!isCapturing) break;
-
-            // Add timestamp and capture metadata
-            const enrichedEvent = {
-              ...event,
-              capturedAt: new Date().toISOString(),
-              captureSequence: capturedEvents.length + 1,
-            };
-
-            capturedEvents.push(enrichedEvent);
-
-            // Keep only the most recent events
-            if (capturedEvents.length > MAX_CAPTURED_EVENTS) {
-              capturedEvents = capturedEvents.slice(-MAX_CAPTURED_EVENTS);
-            }
-
-            // Extract session ID using our helper
-            const sessionId = extractSessionIdFromEvent(event) || 'unknown';
-
-            // Log real-time event
-            console.log(
-              `📡 [${new Date().toLocaleTimeString()}] ${event.type} - Session: ${sessionId}`,
-            );
-
-            // Handle specific event types
-            try {
-              if (event.type === 'session.idle') {
-                console.log(`💤 Session ${sessionId} is idle`);
-              } else if (event.type === 'session.updated') {
-                console.log(`🔄 Session ${sessionId} updated`);
-              } else if (event.type === 'message.updated') {
-                console.log(`💬 Message updated in session ${sessionId}`);
-              }
-            } catch (actionError) {
-              // Don't let action errors stop the capture
-              console.warn('Warning: Could not handle event:', actionError);
-            }
+      // Start periodic full sync to catch any missed events
+      timerManager.setIntervalTimer(
+        'realtimeFullSync',
+        async () => {
+          try {
+            console.log('🔄 Running periodic full sync from realtime plugin');
+            await syncManager.performFullSync();
+          } catch (error) {
+            console.error('❌ Error in realtime full sync:', error);
+            indexingErrors++;
           }
-        } catch (error) {
-          console.error('❌ Error in event capture stream:', error);
-          isCapturing = false;
-          eventSubscription = null;
-        }
-      })();
+        },
+        300000, // Every 5 minutes
+      );
+
+      console.log('✅ Real-time indexing service started successfully');
     } catch (error) {
-      isCapturing = false;
+      isIndexing = false;
+      console.error('❌ Failed to start real-time indexing:', error);
       throw error;
     }
   };
 
-  const stopCapture = async (): Promise<void> => {
-    if (!isCapturing) {
-      throw new Error('No active capture to stop');
+  const stopIndexing = async (): Promise<void> => {
+    if (!isIndexing) {
+      throw new Error('No active real-time indexing to stop');
     }
 
-    isCapturing = false;
+    console.log('🛑 Stopping real-time indexing service');
+    isIndexing = false;
 
-    if (eventSubscription) {
-      try {
-        // Close the subscription if it has a close method
-        if (typeof eventSubscription.close === 'function') {
-          await eventSubscription.close();
-        }
-      } catch (error) {
-        console.warn('Warning: Could not cleanly close event subscription:', error);
+    try {
+      // Stop event subscription
+      await eventManager.stopSubscription();
+
+      // Stop timers
+      timerManager.clearTimer('realtimeFullSync');
+
+      // Flush any pending logs
+      loggerManager.flush();
+
+      // Save current state
+      const currentState = await stateManager.loadState();
+      await stateManager.saveState(currentState);
+
+      const duration = indexingStartTime
+        ? Math.round((Date.now() - indexingStartTime.getTime()) / 1000)
+        : 0;
+
+      console.log(
+        `✅ Real-time indexing stopped. Indexed ${indexedEventsCount} events with ${indexingErrors} errors in ${duration}s`,
+      );
+    } catch (error) {
+      console.error('❌ Error stopping real-time indexing:', error);
+      throw error;
+    }
+  };
+
+  const getIndexedData = async (
+    dataType: 'sessions' | 'messages' | 'events',
+    limit: number = 50,
+  ) => {
+    try {
+      switch (dataType) {
+        case 'sessions':
+          const sessionsResult = await client.session.list();
+          return {
+            success: true,
+            data: sessionsResult.data.slice(0, limit),
+            total: sessionsResult.data.length,
+          };
+
+        case 'messages':
+          // Get recent sessions and their messages
+          const sessionsList = await client.session.list();
+          const allMessages: any[] = [];
+
+          for (const session of sessionsList.data.slice(0, 10)) {
+            // Limit to 10 most recent sessions
+            try {
+              const messagesResult = await client.session.messages({
+                path: { id: session.id || '' },
+              });
+              allMessages.push(...messagesResult.data);
+            } catch (error) {
+              console.warn(`Could not fetch messages for session ${session.id}:`, error);
+            }
+          }
+
+          return {
+            success: true,
+            data: allMessages.slice(0, limit),
+            total: allMessages.length,
+          };
+
+        case 'events':
+          // Events are not directly listable, so we return state info
+          const state = await stateManager.loadState();
+          return {
+            success: true,
+            data: {
+              lastIndexedSessionId: state.lastIndexedSessionId,
+              lastIndexedMessageId: state.lastIndexedMessageId,
+              lastEventTimestamp: state.lastEventTimestamp,
+              lastFullSyncTimestamp: state.lastFullSyncTimestamp,
+              subscriptionActive: state.subscriptionActive,
+            },
+            total: 1,
+          };
+
+        default:
+          throw new Error(`Unknown data type: ${dataType}`);
       }
-      eventSubscription = null;
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : String(error),
+      };
     }
-
-    console.log(`🛑 Stopped real-time event capture. Captured ${capturedEvents.length} events.`);
   };
 
   return {
     tool: {
-      'start-realtime-capture': tool({
-        description: 'Start real-time capture of OpenCode events, messages, and sessions',
+      'start-realtime-indexing': tool({
+        description: 'Start real-time indexing of OpenCode events, messages, and sessions',
         args: {},
         async execute() {
           try {
-            await startCapture();
+            await startIndexing();
             return JSON.stringify(
               {
                 success: true,
-                message: '✅ Real-time capture started successfully',
-                startTime: captureStartTime?.toISOString(),
-                maxEvents: MAX_CAPTURED_EVENTS,
+                message: '✅ Real-time indexing started successfully',
+                startTime: indexingStartTime?.toISOString(),
               },
               null,
               2,
@@ -193,30 +226,26 @@ export const RealtimeCapturePlugin: Plugin = async (_pluginContext) => {
         },
       }),
 
-      'stop-realtime-capture': tool({
-        description: 'Stop real-time event capture and get summary',
+      'stop-realtime-indexing': tool({
+        description: 'Stop real-time indexing and get summary',
         args: {},
         async execute() {
           try {
-            await stopCapture();
+            await stopIndexing();
 
-            const summary: any = {
+            const duration = indexingStartTime
+              ? Math.round((Date.now() - indexingStartTime.getTime()) / 1000)
+              : 0;
+
+            const summary = {
               success: true,
-              message: '🛑 Real-time capture stopped',
-              totalEvents: capturedEvents.length,
-              duration: captureStartTime
-                ? Math.round((Date.now() - captureStartTime.getTime()) / 1000)
-                : 0,
-              startTime: captureStartTime?.toISOString(),
+              message: '🛑 Real-time indexing stopped',
+              eventsIndexed: indexedEventsCount,
+              errors: indexingErrors,
+              duration,
+              startTime: indexingStartTime?.toISOString(),
               endTime: new Date().toISOString(),
             };
-
-            // Add event type breakdown
-            const eventTypes: Record<string, number> = {};
-            capturedEvents.forEach((event) => {
-              eventTypes[event.type] = (eventTypes[event.type] || 0) + 1;
-            });
-            summary.eventTypes = eventTypes;
 
             return JSON.stringify(summary, null, 2);
           } catch (error) {
@@ -232,63 +261,32 @@ export const RealtimeCapturePlugin: Plugin = async (_pluginContext) => {
         },
       }),
 
-      'get-captured-events': tool({
-        description: 'Get recently captured events with filtering options',
-        args: {
-          limit: tool.schema.number().default(50).describe('Number of events to return'),
-          eventType: tool.schema.string().optional().describe('Filter by event type'),
-          sessionId: tool.schema.string().optional().describe('Filter by session ID'),
-          format: tool.schema.enum(['json', 'table']).default('table').describe('Output format'),
-        },
-        async execute(args) {
+      'get-indexing-status': tool({
+        description: 'Get current status of real-time indexing',
+        args: {},
+        async execute() {
           try {
-            let filteredEvents = [...capturedEvents];
+            const state = await stateManager.loadState();
+            const duration = indexingStartTime
+              ? Math.round((Date.now() - indexingStartTime.getTime()) / 1000)
+              : 0;
 
-            // Apply filters
-            if (args.eventType) {
-              filteredEvents = filteredEvents.filter((event) => event.type === args.eventType);
-            }
-
-            if (args.sessionId) {
-              filteredEvents = filteredEvents.filter((event) => {
-                const sessionId = extractSessionIdFromEvent(event);
-                return sessionId === args.sessionId;
-              });
-            }
-
-            // Get the most recent events
-            const recentEvents = filteredEvents.slice(-args.limit);
-
-            if (args.format === 'json') {
-              return JSON.stringify(recentEvents, null, 2);
-            }
-
-            // Format as table
-            let output = `Captured Events (${recentEvents.length} recent):\n`;
-            output += '='.repeat(100) + '\n';
-
-            recentEvents.forEach((event, index) => {
-              const timestamp = event.capturedAt || new Date().toISOString();
-              const sessionId = extractSessionIdFromEvent(event) || 'unknown';
-
-              output += `\n${index + 1}. [${new Date(timestamp).toLocaleTimeString()}] ${event.type}\n`;
-              output += `   Session: ${sessionId}\n`;
-              output += `   Sequence: ${event.captureSequence || 'N/A'}\n`;
-
-              // Add relevant properties based on event type
-              if (event.type.includes('message')) {
-                const messageId = extractMessageIdFromEvent(event) || 'unknown';
-                output += `   Message: ${messageId}\n`;
-              }
-
-              if (event.type.includes('session')) {
-                const properties = event.properties as any;
-                const title = properties?.info?.title || properties?.title || 'Untitled';
-                output += `   Title: ${title}\n`;
-              }
-            });
-
-            return output;
+            return JSON.stringify(
+              {
+                isIndexing,
+                startTime: indexingStartTime?.toISOString(),
+                duration,
+                eventsIndexed: indexedEventsCount,
+                errors: indexingErrors,
+                subscriptionActive: eventManager.isActive(),
+                lastIndexedSessionId: state.lastIndexedSessionId,
+                lastIndexedMessageId: state.lastIndexedMessageId,
+                lastEventTimestamp: state.lastEventTimestamp,
+                lastFullSyncTimestamp: state.lastFullSyncTimestamp,
+              },
+              null,
+              2,
+            );
           } catch (error) {
             return JSON.stringify(
               {
@@ -302,107 +300,85 @@ export const RealtimeCapturePlugin: Plugin = async (_pluginContext) => {
         },
       }),
 
-      'get-capture-status': tool({
-        description: 'Get current status of real-time capture',
-        args: {},
-        async execute() {
-          return JSON.stringify(
-            {
-              isCapturing,
-              captureStartTime: captureStartTime?.toISOString(),
-              eventsCaptured: capturedEvents.length,
-              maxEvents: MAX_CAPTURED_EVENTS,
-              subscriptionActive: !!eventSubscription,
-            },
-            null,
-            2,
-          );
-        },
-      }),
-
-      'clear-captured-events': tool({
-        description: 'Clear all captured events from memory',
-        args: {},
-        async execute() {
-          const count = capturedEvents.length;
-          capturedEvents = [];
-
-          return JSON.stringify(
-            {
-              success: true,
-              message: `🗑️ Cleared ${count} captured events`,
-              eventsCleared: count,
-            },
-            null,
-            2,
-          );
-        },
-      }),
-
-      'get-active-sessions-realtime': tool({
-        description: 'Get current active sessions with real-time status',
+      'get-indexed-data': tool({
+        description: 'Get indexed data (sessions, messages, or events info)',
         args: {
-          includeMessages: tool.schema
-            .boolean()
-            .default(false)
-            .describe('Include recent messages for each session'),
+          type: tool.schema
+            .enum(['sessions', 'messages', 'events'])
+            .describe('Type of data to retrieve'),
+          limit: tool.schema.number().default(50).describe('Number of items to return'),
         },
         async execute(args) {
           try {
-            const sessionsResult = await listSessions({
-              limit: 100,
-              offset: 0,
-            });
-
-            if ('error' in sessionsResult) {
-              throw new Error(sessionsResult.error);
-            }
-
-            const sessions = sessionsResult.sessions || [];
-
-            const enrichedSessions = await Promise.all(
-              sessions.map(async (session: any) => {
-                const sessionData: any = {
-                  id: session.id,
-                  title: session.title || 'Untitled',
-                  directory: session.directory || 'Unknown',
-                  created: session.time?.created || 'Unknown',
-                  updated: session.time?.updated || 'Unknown',
-                };
-
-                // Add recent messages if requested
-                if (args.includeMessages) {
-                  try {
-                    const messages = await getSessionMessages(opencodeClient, session.id);
-                    const recentMessages = messages.slice(-3); // Last 3 messages
-
-                    sessionData.recentMessages = recentMessages.map((msg: any) => ({
-                      id: msg.info?.id,
-                      role: msg.info?.role,
-                      timestamp: msg.info?.time?.created,
-                      preview:
-                        msg.parts
-                          ?.filter((part: any) => part.type === 'text')
-                          ?.map((part: any) => part.text)
-                          ?.join(' ')
-                          ?.substring(0, 100) || '[No text]',
-                    }));
-                  } catch (error) {
-                    sessionData.recentMessages = [];
-                    sessionData.messagesError =
-                      error instanceof Error ? error.message : String(error);
-                  }
-                }
-
-                return sessionData;
-              }),
+            const result = await getIndexedData(args.type, args.limit);
+            return JSON.stringify(result, null, 2);
+          } catch (error) {
+            return JSON.stringify(
+              {
+                success: false,
+                error: error instanceof Error ? error.message : String(error),
+              },
+              null,
+              2,
             );
+          }
+        },
+      }),
+
+      'trigger-full-sync': tool({
+        description: 'Trigger a full sync to index any missed data',
+        args: {},
+        async execute() {
+          try {
+            console.log('🔄 Triggering manual full sync from realtime plugin');
+            await syncManager.performFullSync();
 
             return JSON.stringify(
               {
                 success: true,
-                sessions: enrichedSessions,
-                totalSessions: enrichedSessions.length,
+                message: '✅ Full sync completed successfully',
+                timestamp: new Date().toISOString(),
+              },
+              null,
+              2,
+            );
+          } catch (error) {
+            return JSON.stringify(
+              {
+                success: false,
+                error: error instanceof Error ? error.message : String(error),
+              },
+              null,
+              2,
+            );
+          }
+        },
+      }),
+
+      'get-indexing-stats': tool({
+        description: 'Get detailed indexing statistics',
+        args: {},
+        async execute() {
+          try {
+            const state = await stateManager.loadState();
+
+            return JSON.stringify(
+              {
+                success: true,
+                stats: {
+                  isIndexing,
+                  uptime: indexingStartTime
+                    ? Math.round((Date.now() - indexingStartTime.getTime()) / 1000)
+                    : 0,
+                  eventsProcessed: indexedEventsCount,
+                  errors: indexingErrors,
+                  subscriptionActive: eventManager.isActive(),
+                  lastIndexedSessionId: state.lastIndexedSessionId,
+                  lastIndexedMessageId: state.lastIndexedMessageId,
+                  lastEventTimestamp: state.lastEventTimestamp,
+                  lastFullSyncTimestamp: state.lastFullSyncTimestamp,
+                  consecutiveErrors: state.consecutiveErrors || 0,
+                },
                 timestamp: new Date().toISOString(),
               },
               null,
@@ -424,28 +400,18 @@ export const RealtimeCapturePlugin: Plugin = async (_pluginContext) => {
 
     // Plugin lifecycle hooks
     async event() {
-      // Capture plugin-level events if capture is active
-      if (isCapturing) {
-        const pluginEvent: Event = {
-          type: 'server.connected', // Use a valid event type
-          properties: {
-            version: '1.0.0',
-          },
-        };
-
-        capturedEvents.push({
-          ...pluginEvent,
-          capturedAt: new Date().toISOString(),
-          captureSequence: capturedEvents.length + 1,
-        } as any);
+      // Track plugin-level events for indexing stats
+      if (isIndexing) {
+        indexedEventsCount++;
       }
     },
 
     // Cleanup on plugin unload
     async unload() {
-      if (isCapturing) {
-        await stopCapture();
+      if (isIndexing) {
+        await stopIndexing();
       }
+      timerManager.clearAllTimers();
     },
   };
 };
