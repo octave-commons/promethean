@@ -2,7 +2,7 @@
 uuid: "9475b327-4ce0-4d67-8fe5-259ad5a1c9ad"
 title: "Develop Agent OS Protocol Testing & Validation Suite"
 slug: "Develop Agent OS Protocol Testing & Validation Suite"
-status: "incoming"
+status: "icebox"
 priority: "P1"
 labels: ["agent-os", "testing", "validation", "compliance", "integration", "critical"]
 created_at: "2025-10-13T18:49:53.177Z"
