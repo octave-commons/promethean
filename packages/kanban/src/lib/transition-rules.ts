@@ -11,12 +11,10 @@
  * This class is provided for backward compatibility and will be removed in a future version.
  */
 
-import { readFile, access } from 'fs/promises';
+import { readFile } from 'fs/promises';
 import type { Task, Board } from './types.js';
-import type { TestingTransitionConfig } from './testing-transition/types.js';
 import type {
   TransitionRule,
-  CustomCheck,
   GlobalRule,
   TransitionRulesConfig,
   TransitionResult,
@@ -148,52 +146,52 @@ export class TransitionRulesEngine {
 
   // Private helper methods (deprecated - use functional versions instead)
 
-  private normalizeColumnName(column: string): string {
+  private normalizeColumnName(_column: string): string {
     console.warn(
       'TransitionRulesEngine.normalizeColumnName is deprecated. Use normalizeColumnName from transition-rules-functional instead.',
     );
-    return normalizeColumnName(column);
+    return normalizeColumnName(_column);
   }
 
-  private findTransitionRule(from: string, to: string): TransitionRule | undefined {
+  private findTransitionRule(_from: string, _to: string): TransitionRule | undefined {
     console.warn(
       'TransitionRulesEngine.findTransitionRule is deprecated. Use findTransitionRule from transition-rules-functional instead.',
     );
-    return findTransitionRule(this.state.config, from, to);
+    return findTransitionRule(this.state.config, _from, _to);
   }
 
-  private isBackwardTransition(from: string, to: string): boolean {
+  private isBackwardTransition(_from: string, _to: string): boolean {
     console.warn(
       'TransitionRulesEngine.isBackwardTransition is deprecated. Use isBackwardTransition from transition-rules-functional instead.',
     );
-    return isBackwardTransition(from, to);
+    return isBackwardTransition(_from, _to);
   }
 
   private async evaluateGlobalRule(
-    rule: GlobalRule,
-    from: string,
-    to: string,
-    task: Task,
-    board: Board,
+    _rule: GlobalRule,
+    _from: string,
+    _to: string,
+    _task: Task,
+    _board: Board,
   ): Promise<boolean> {
     console.warn(
       'TransitionRulesEngine.evaluateGlobalRule is deprecated. Use evaluateGlobalRule from transition-rules-functional instead.',
     );
-    return evaluateGlobalRuleFn(this.state, rule, from, to, task, board);
+    return evaluateGlobalRuleFn(this.state, _rule, _from, _to, _task, _board);
   }
 
-  private async evaluateWipLimit(targetColumn: string, board: Board): Promise<boolean> {
+  private async evaluateWipLimit(_targetColumn: string, _board: Board): Promise<boolean> {
     console.warn(
       'TransitionRulesEngine.evaluateWipLimit is deprecated. Use evaluateWipLimit from transition-rules-functional instead.',
     );
-    return evaluateWipLimit(targetColumn, board);
+    return evaluateWipLimit(_targetColumn, _board);
   }
 
-  private evaluateTaskExistence(sourceColumn: string, task: Task, board: Board): boolean {
+  private evaluateTaskExistence(_sourceColumn: string, _task: Task, _board: Board): boolean {
     console.warn(
       'TransitionRulesEngine.evaluateTaskExistence is deprecated. Use evaluateTaskExistence from transition-rules-functional instead.',
     );
-    return evaluateTaskExistence(sourceColumn, task, board);
+    return evaluateTaskExistence(_sourceColumn, _task, _board);
   }
 
   private async evaluateCustomCheck(checkName: string, task: Task, board: Board): Promise<boolean> {

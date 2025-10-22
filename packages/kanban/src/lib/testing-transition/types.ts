@@ -210,6 +210,11 @@ export interface TestQualityScore {
     complexity: number; // average test complexity
     passRate: number; // percentage of passing tests
     flakiness: number; // flakiness indicator 0-100
+    assertionQuality?: number; // quality of assertions 0-100
+    edgeCaseCoverage?: number; // edge case coverage 0-100
+    mockQuality?: number; // quality of test mocks 0-100
+    testDuplication?: number; // test duplication percentage 0-100 (lower better)
+    maintainabilityIndex?: number; // code maintainability 0-100
   };
 }
 
