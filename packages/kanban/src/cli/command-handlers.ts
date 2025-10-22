@@ -268,7 +268,7 @@ const handleUpdateStatus: CommandHandler = (args, context) =>
         argv: process.argv,
         env: process.env,
       });
-      eventLogManager = new EventLogManager(configResult.config);
+      eventLogManager = makeEventLogManager(configResult.config);
     } catch (error) {
       console.warn(
         'Warning: Event log manager not available:',
