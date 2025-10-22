@@ -300,16 +300,16 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
     // Plugin lifecycle hooks
     async event(input) {
       // Handle plugin-level events if needed
-      console.log(`[OpenCode Interface Plugin] Event received: ${input.event.type}`);
+      // console.log(`[OpenCode Interface Plugin] Event received: ${input.event.type}`);
     },
 
     // Tool execution hooks for logging and monitoring
     'tool.execute.before': async (input) => {
-      console.log(`[OpenCode Interface Plugin] Executing tool: ${input.tool}`);
+      // console.log(`[OpenCode Interface Plugin] Executing tool: ${input.tool}`);
     },
 
     'tool.execute.after': async (input) => {
-      console.log(`[OpenCode Interface Plugin] Tool completed: ${input.tool}`);
+      // console.log(`[OpenCode Interface Plugin] Tool completed: ${input.tool}`);
     },
   };
 };
