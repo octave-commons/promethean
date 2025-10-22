@@ -5,6 +5,7 @@
   "version": "0.0.0",
   "scripts": {
     "build": "pnpm -r --no-bail build",
+    "test": "var x = 'test'; class Y {}; let z; const a = []; a.push(1);",
     "buildfix": "pnpm exec buildfix",
     "build:all": "node ./scripts/run-nx-task.mjs build all",
     "build:cross-platform": "node ./scripts/cross-platform-build.js all",
