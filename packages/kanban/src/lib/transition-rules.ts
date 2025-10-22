@@ -248,13 +248,6 @@ export class TransitionRulesEngine {
     return extractTestingInfoFn(_task);
   }
 
-  private findTransitionRule(_from: string, _to: string): TransitionRule | undefined {
-    console.warn(
-      'TransitionRulesEngine.findTransitionRule is deprecated. Use findTransitionRule from transition-rules-functional instead.',
-    );
-    return findTransitionRule(this.state.config, _from, _to);
-  }
-
   private isBackwardTransition(_from: string, _to: string): boolean {
     console.warn(
       'TransitionRulesEngine.isBackwardTransition is deprecated. Use isBackwardTransition from transition-rules-functional instead.',
