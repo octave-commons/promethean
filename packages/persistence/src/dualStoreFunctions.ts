@@ -1,6 +1,3 @@
-/* eslint-disable functional/prefer-immutable-types */
-/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types */
-
 import type { Where } from 'chromadb';
 import type { Filter, Sort } from 'mongodb';
 
