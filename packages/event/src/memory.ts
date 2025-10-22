@@ -102,15 +102,28 @@ class Subscription {
     }
 }
 
+// Import functional implementations
+import {
+    createInMemoryEventBusState,
+    ensureCursor,
+    publishEvent,
+    subscribeToTopic,
+    acknowledgeEvent,
+    negativeAcknowledgeEvent,
+    getCursor as getCursorFn,
+    setCursor as setCursorFn,
+    InMemoryEventBusState,
+} from './memory-functional.js';
+
+/**
+ * @deprecated Use the functional implementations from './memory-functional' instead.
+ * This class is provided for backward compatibility and will be removed in a future version.
+ */
 export class InMemoryEventBus implements EventBus {
-    private store: EventStore;
-    private cursors: CursorStore;
-    private subs = new Map<GroupKey, Subscription>();
-    private nextId = 1;
+    private state: InMemoryEventBusState;
 
     constructor(store?: EventStore, cursors?: CursorStore) {
-        this.store = store ?? new InMemoryStore();
-        this.cursors = cursors ?? new InMemoryCursorStore();
+        this.state = createInMemoryEventBusState(store, cursors);
     }
 
     private async ensureCursor(
