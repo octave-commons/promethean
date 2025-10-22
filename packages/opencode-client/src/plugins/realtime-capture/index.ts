@@ -6,19 +6,11 @@ import type { Plugin } from '@opencode-ai/plugin';
 import { tool } from '@opencode-ai/plugin/tool';
 
 import { createOpencodeClient } from '@opencode-ai/sdk';
-import type { Event, Session } from '@opencode-ai/sdk';
+import type { Event } from '@opencode-ai/sdk';
 
-// Import existing actions for proper event handling
-import {
-  handleSessionIdle,
-  handleSessionUpdated,
-  handleMessageUpdated,
-  extractSessionId,
-  getSessionMessages,
-  type EventContext,
-} from '../../actions/events/index.js';
-import { subscribe } from '../../actions/events/subscribe.js';
+// Import existing actions for proper session and message handling
 import { list as listSessions } from '../../actions/sessions/list.js';
+import { getSessionMessages } from '../../actions/events/index.js';
 
 /**
  * Real-time Capture Plugin - Provides real-time monitoring and capture of OpenCode events
@@ -36,37 +28,63 @@ export const RealtimeCapturePlugin: Plugin = async (_pluginContext) => {
   let captureStartTime: Date | null = null;
   const MAX_CAPTURED_EVENTS = 1000;
 
+  // Helper function to extract session ID from different event types
+  const extractSessionIdFromEvent = (event: Event): string | null => {
+    // Handle different event types and their properties
+    const properties = event.properties as any;
+
+    if (properties?.info?.sessionID) {
+      return properties.info.sessionID;
+    }
+
+    if (properties?.sessionID) {
+      return properties.sessionID;
+    }
+
+    if (properties?.session?.id) {
+      return properties.session.id;
+    }
+
+    return null;
+  };
+
+  // Helper function to extract message ID from different event types
+  const extractMessageIdFromEvent = (event: Event): string | null => {
+    const properties = event.properties as any;
+
+    if (properties?.info?.id) {
+      return properties.info.id;
+    }
+
+    if (properties?.messageID) {
+      return properties.messageID;
+    }
+
+    if (properties?.message?.id) {
+      return properties.message.id;
+    }
+
+    return null;
+  };
+
   const startCapture = async (): Promise<void> => {
     if (isCapturing) {
       throw new Error('Capture is already active');
     }
 
     try {
-      const subscribeResult = await subscribe({
-        client: opencodeClient,
-      });
-
-      if (!subscribeResult.success) {
-        throw new Error(subscribeResult.error || 'Failed to subscribe to events');
+      if (typeof opencodeClient.event?.subscribe !== 'function') {
+        throw new Error('This SDK/server does not support event.subscribe()');
       }
 
       isCapturing = true;
       captureStartTime = new Date();
       capturedEvents = [];
 
-      // Get the actual subscription
-      const subscription = await opencodeClient.event?.subscribe();
-      if (!subscription) {
-        throw new Error('Failed to get event subscription');
-      }
+      const subscription = await opencodeClient.event.subscribe();
       eventSubscription = subscription;
 
       console.log('🎯 Started real-time event capture');
-
-      // Create event context for action handlers
-      const eventContext: EventContext = {
-        client: opencodeClient,
-      };
 
       // Start processing events in background
       (async () => {
@@ -88,26 +106,26 @@ export const RealtimeCapturePlugin: Plugin = async (_pluginContext) => {
               capturedEvents = capturedEvents.slice(-MAX_CAPTURED_EVENTS);
             }
 
-            // Extract session ID using existing action
-            const sessionId = extractSessionId(event) || 'unknown';
+            // Extract session ID using our helper
+            const sessionId = extractSessionIdFromEvent(event) || 'unknown';
 
             // Log real-time event
             console.log(
               `📡 [${new Date().toLocaleTimeString()}] ${event.type} - Session: ${sessionId}`,
             );
 
-            // Use existing actions to handle the event properly
+            // Handle specific event types
             try {
               if (event.type === 'session.idle') {
-                await handleSessionIdle(eventContext, sessionId);
+                console.log(`💤 Session ${sessionId} is idle`);
               } else if (event.type === 'session.updated') {
-                await handleSessionUpdated(eventContext, sessionId);
+                console.log(`🔄 Session ${sessionId} updated`);
               } else if (event.type === 'message.updated') {
-                await handleMessageUpdated(eventContext, sessionId);
+                console.log(`💬 Message updated in session ${sessionId}`);
               }
             } catch (actionError) {
               // Don't let action errors stop the capture
-              console.warn('Warning: Could not handle event with action:', actionError);
+              console.warn('Warning: Could not handle event:', actionError);
             }
           }
         } catch (error) {
@@ -182,7 +200,7 @@ export const RealtimeCapturePlugin: Plugin = async (_pluginContext) => {
           try {
             await stopCapture();
 
-            const summary = {
+            const summary: any = {
               success: true,
               message: '🛑 Real-time capture stopped',
               totalEvents: capturedEvents.length,
@@ -233,7 +251,7 @@ export const RealtimeCapturePlugin: Plugin = async (_pluginContext) => {
 
             if (args.sessionId) {
               filteredEvents = filteredEvents.filter((event) => {
-                const sessionId = extractSessionId(event);
+                const sessionId = extractSessionIdFromEvent(event);
                 return sessionId === args.sessionId;
               });
             }
@@ -251,7 +269,7 @@ export const RealtimeCapturePlugin: Plugin = async (_pluginContext) => {
 
             recentEvents.forEach((event, index) => {
               const timestamp = event.capturedAt || new Date().toISOString();
-              const sessionId = extractSessionId(event) || 'unknown';
+              const sessionId = extractSessionIdFromEvent(event) || 'unknown';
 
               output += `\n${index + 1}. [${new Date(timestamp).toLocaleTimeString()}] ${event.type}\n`;
               output += `   Session: ${sessionId}\n`;
@@ -259,18 +277,13 @@ export const RealtimeCapturePlugin: Plugin = async (_pluginContext) => {
 
               // Add relevant properties based on event type
               if (event.type.includes('message')) {
-                const messageId =
-                  (event as any).properties?.info?.id ||
-                  (event as any).properties?.messageID ||
-                  'unknown';
+                const messageId = extractMessageIdFromEvent(event) || 'unknown';
                 output += `   Message: ${messageId}\n`;
               }
 
               if (event.type.includes('session')) {
-                const title =
-                  (event as any).properties?.info?.title ||
-                  (event as any).properties?.title ||
-                  'Untitled';
+                const properties = event.properties as any;
+                const title = properties?.info?.title || properties?.title || 'Untitled';
                 output += `   Title: ${title}\n`;
               }
             });
@@ -410,7 +423,7 @@ export const RealtimeCapturePlugin: Plugin = async (_pluginContext) => {
     },
 
     // Plugin lifecycle hooks
-    async event(input) {
+    async event() {
       // Capture plugin-level events if capture is active
       if (isCapturing) {
         const pluginEvent: Event = {
