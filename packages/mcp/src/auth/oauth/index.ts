@@ -70,11 +70,34 @@ export class OAuthSystem {
       throw new Error(`OAuth provider not available: ${provider}`);
     }
 
+<<<<<<< ours
     // For ChatGPT compatibility, only use PKCE when explicitly provided
     // Don't auto-generate PKCE for legacy flows
     const codeVerifier = pkceOptions?.codeVerifier;
     const codeChallenge = codeVerifier ? pkceOptions?.codeChallenge : undefined;
     const codeChallengeMethod = codeVerifier ? pkceOptions?.codeChallengeMethod : undefined;
+=======
+    let codeVerifier: string | undefined;
+    let codeChallenge: string | undefined;
+    let codeChallengeMethod: string | undefined;
+
+    if (pkceOptions?.codeVerifier) {
+      codeVerifier = pkceOptions.codeVerifier;
+      const derivedChallenge = this.generateCodeChallenge(codeVerifier);
+
+      if (pkceOptions.codeChallenge && pkceOptions.codeChallenge !== derivedChallenge) {
+        throw new Error('Provided PKCE code challenge does not match the code verifier');
+      }
+
+      codeChallenge = pkceOptions.codeChallenge ?? derivedChallenge;
+      codeChallengeMethod = pkceOptions.codeChallengeMethod ?? 'S256';
+    } else {
+      // Generate secure PKCE values when not provided by caller
+      codeVerifier = this.generateCodeVerifier();
+      codeChallenge = this.generateCodeChallenge(codeVerifier);
+      codeChallengeMethod = 'S256';
+    }
+>>>>>>> theirs
     const state = this.generateSecureState();
 
     // Use dynamic redirect URI if provided, otherwise fall back to config
@@ -345,6 +368,20 @@ export class OAuthSystem {
    */
   private generateSecureState(): string {
     return crypto.randomBytes(32).toString('base64url');
+  }
+
+  /**
+   * Generate secure PKCE code verifier
+   */
+  private generateCodeVerifier(): string {
+    return crypto.randomBytes(64).toString('base64url');
+  }
+
+  /**
+   * Derive PKCE code challenge from verifier
+   */
+  private generateCodeChallenge(codeVerifier: string): string {
+    return crypto.createHash('sha256').update(codeVerifier).digest('base64url');
   }
 
   /**
