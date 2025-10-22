@@ -1,5 +1,10 @@
 import type { Plugin, PluginContext } from '../types.js';
-import { PluginSandbox, SecurityPolicy, SecurityViolation, ViolationType } from './plugin-sandbox.js';
+import {
+  PluginSandbox,
+  SecurityPolicy,
+  SecurityViolation,
+  ViolationType,
+} from './plugin-sandbox.js';
 
 /**
  * Security configuration
@@ -32,7 +37,13 @@ export interface SecurityAuditLog {
   id: string;
   timestamp: number;
   pluginName: string;
-  action: 'plugin_loaded' | 'plugin_unloaded' | 'violation_detected' | 'policy_updated' | 'sandbox_created' | 'sandbox_destroyed';
+  action:
+    | 'plugin_loaded'
+    | 'plugin_unloaded'
+    | 'violation_detected'
+    | 'policy_updated'
+    | 'sandbox_created'
+    | 'sandbox_destroyed';
   details: Record<string, unknown>;
   severity: 'info' | 'warning' | 'error' | 'critical';
 }
@@ -75,7 +86,7 @@ export class SecurityManager {
    */
   private initializeTrustedPublishers(): void {
     if (this.config.globalSettings.allowedPublishers) {
-      this.config.globalSettings.allowedPublishers.forEach(publisher => {
+      this.config.globalSettings.allowedPublishers.forEach((publisher) => {
         this.trustedPublishers.add(publisher);
       });
     }
@@ -130,13 +141,7 @@ export class SecurityManager {
     }
 
     // Check for suspicious patterns in plugin metadata
-    const suspiciousPatterns = [
-      /eval/i,
-      /exec/i,
-      /system/i,
-      /shell/i,
-      /process\.exit/i,
-    ];
+    const suspiciousPatterns = [/eval/i, /exec/i, /system/i, /shell/i, /process\.exit/i];
 
     const metadataString = JSON.stringify(plugin.metadata);
     for (const pattern of suspiciousPatterns) {
@@ -155,7 +160,7 @@ export class SecurityManager {
    */
   createSecureSandbox(pluginName: string): PluginSandbox {
     const pluginPolicy = this.config.pluginPolicies?.[pluginName] || this.config.defaultPolicy;
-    const sandbox = this.sandbox.createSandbox(pluginName, pluginPolicy);
+    this.sandbox.createSandbox(pluginName, pluginPolicy);
 
     this.logAudit({
       id: this.generateAuditId(),
@@ -174,21 +179,23 @@ export class SecurityManager {
    */
   async securePlugin(plugin: Plugin): Promise<Plugin> {
     const validation = await this.validatePlugin(plugin);
-    
+
     if (!validation.valid) {
       this.logAudit({
         id: this.generateAuditId(),
         timestamp: Date.now(),
         pluginName: plugin.metadata.name,
         action: 'plugin_loaded',
-        details: { 
-          rejected: true, 
+        details: {
+          rejected: true,
           violations: validation.violations,
-          warnings: validation.warnings 
+          warnings: validation.warnings,
         },
         severity: 'critical',
       });
-      throw new Error(`Plugin validation failed: ${validation.violations.map(v => v.description).join(', ')}`);
+      throw new Error(
+        `Plugin validation failed: ${validation.violations.map((v) => v.description).join(', ')}`,
+      );
     }
 
     // Log warnings if any
@@ -198,8 +205,8 @@ export class SecurityManager {
         timestamp: Date.now(),
         pluginName: plugin.metadata.name,
         action: 'plugin_loaded',
-        details: { 
-          warnings: validation.warnings 
+        details: {
+          warnings: validation.warnings,
         },
         severity: 'warning',
       });
@@ -211,23 +218,27 @@ export class SecurityManager {
     // Wrap plugin methods with security
     const securePlugin: Plugin = {
       metadata: plugin.metadata,
-      initialize: plugin.initialize ? async (context: PluginContext) => {
-        return sandbox.executeInSandbox(plugin.metadata.name, () => 
-          plugin.initialize!(context)
-        );
-      } : undefined,
-      destroy: plugin.destroy ? async () => {
-        return sandbox.executeInSandbox(plugin.metadata.name, () => 
-          plugin.destroy!()
-        );
-      } : undefined,
-      getHooks: plugin.getHooks ? () => {
-        const hooks = plugin.getHooks!();
-        return hooks.map(hook => ({
-          ...hook,
-          handler: sandbox.wrapHookHandler(plugin.metadata.name, hook.handler),
-        }));
-      } : undefined,
+      initialize: plugin.initialize
+        ? async (context: PluginContext) => {
+            return sandbox.executeInSandbox(plugin.metadata.name, () =>
+              plugin.initialize!(context),
+            );
+          }
+        : undefined,
+      destroy: plugin.destroy
+        ? async () => {
+            return sandbox.executeInSandbox(plugin.metadata.name, () => plugin.destroy!());
+          }
+        : undefined,
+      getHooks: plugin.getHooks
+        ? () => {
+            const hooks = plugin.getHooks!();
+            return hooks.map((hook) => ({
+              ...hook,
+              handler: sandbox.wrapHookHandler(plugin.metadata.name, hook.handler),
+            }));
+          }
+        : undefined,
     };
 
     this.logAudit({
@@ -253,9 +264,14 @@ export class SecurityManager {
       pluginName: violation.pluginName,
       action: 'violation_detected',
       details: violation,
-      severity: violation.severity === 'critical' ? 'critical' : 
-                violation.severity === 'high' ? 'error' : 
-                violation.severity === 'medium' ? 'warning' : 'info',
+      severity:
+        violation.severity === 'critical'
+          ? 'critical'
+          : violation.severity === 'high'
+            ? 'error'
+            : violation.severity === 'medium'
+              ? 'warning'
+              : 'info',
     });
 
     // Check if plugin should be blocked
@@ -268,10 +284,10 @@ export class SecurityManager {
 
     // Check for alert threshold
     if (this.config.monitoring.enableRealTimeMonitoring) {
-      const recentViolations = pluginViolations.filter(v => 
-        Date.now() - v.timestamp < 60000 // Last minute
+      const recentViolations = pluginViolations.filter(
+        (v) => Date.now() - v.timestamp < 60000, // Last minute
       );
-      
+
       if (recentViolations.length >= this.config.monitoring.violationAlertThreshold) {
         this.triggerSecurityAlert(violation.pluginName, recentViolations);
       }
@@ -283,7 +299,7 @@ export class SecurityManager {
    */
   blockPlugin(pluginName: string): void {
     this.blockedPlugins.add(pluginName);
-    
+
     this.logAudit({
       id: this.generateAuditId(),
       timestamp: Date.now(),
@@ -301,7 +317,7 @@ export class SecurityManager {
    */
   unblockPlugin(pluginName: string): void {
     this.blockedPlugins.delete(pluginName);
-    
+
     this.logAudit({
       id: this.generateAuditId(),
       timestamp: Date.now(),
@@ -319,13 +335,13 @@ export class SecurityManager {
     const alert = {
       pluginName,
       violationCount: violations.length,
-      severity: violations.some(v => v.severity === 'critical') ? 'critical' : 'high',
+      severity: violations.some((v) => v.severity === 'critical') ? 'critical' : 'high',
       violations: violations.slice(-5), // Last 5 violations
       timestamp: Date.now(),
     };
 
     console.error('[SECURITY ALERT]', alert);
-    
+
     // In a real implementation, this would send alerts to monitoring systems
     // For now, we just log to console
   }
@@ -337,10 +353,10 @@ export class SecurityManager {
     if (!this.config.pluginPolicies) {
       this.config.pluginPolicies = {};
     }
-    
-    this.config.pluginPolicies[pluginName] = { 
-      ...(this.config.pluginPolicies[pluginName] || {}), 
-      ...policy 
+
+    this.config.pluginPolicies[pluginName] = {
+      ...(this.config.pluginPolicies[pluginName] || {}),
+      ...policy,
     };
 
     this.sandbox.updatePolicy(pluginName, policy);
@@ -381,11 +397,12 @@ export class SecurityManager {
 
     for (const violation of violations) {
       violationsByType[violation.type]++;
-      violationsByPlugin[violation.pluginName] = (violationsByPlugin[violation.pluginName] || 0) + 1;
+      violationsByPlugin[violation.pluginName] =
+        (violationsByPlugin[violation.pluginName] || 0) + 1;
     }
 
     const recentViolations = violations
-      .filter(v => Date.now() - v.timestamp < 24 * 60 * 60 * 1000) // Last 24 hours
+      .filter((v) => Date.now() - v.timestamp < 24 * 60 * 60 * 1000) // Last 24 hours
       .sort((a, b) => b.timestamp - a.timestamp)
       .slice(0, 50); // Last 50
 
@@ -413,19 +430,19 @@ export class SecurityManager {
     let filtered = [...this.auditLog];
 
     if (options?.pluginName) {
-      filtered = filtered.filter(log => log.pluginName === options.pluginName);
+      filtered = filtered.filter((log) => log.pluginName === options.pluginName);
     }
 
     if (options?.action) {
-      filtered = filtered.filter(log => log.action === options.action);
+      filtered = filtered.filter((log) => log.action === options.action);
     }
 
     if (options?.severity) {
-      filtered = filtered.filter(log => log.severity === options.severity);
+      filtered = filtered.filter((log) => log.severity === options.severity);
     }
 
     if (options?.since) {
-      filtered = filtered.filter(log => log.timestamp >= options.since!);
+      filtered = filtered.filter((log) => log.timestamp >= options.since!);
     }
 
     if (options?.limit) {
@@ -440,7 +457,7 @@ export class SecurityManager {
    */
   private logAudit(entry: SecurityAuditLog): void {
     this.auditLog.push(entry);
-    
+
     // Maintain audit log size
     const maxEntries = 10000;
     if (this.auditLog.length > maxEntries) {
