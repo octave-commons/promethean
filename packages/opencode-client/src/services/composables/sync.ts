@@ -45,12 +45,21 @@ export const createSyncManager = (
             )
           : messages;
 
-        await Promise.all(
-          messagesToProcess.map(async (message: any) => {
-            await indexingOps.indexMessage(message, session.id);
-            totalMessagesProcessed++;
-          }),
-        );
+        // Process messages in batches to balance performance and connection stability
+        const batchSize = 5; // Process up to 5 messages concurrently
+        for (let i = 0; i < messagesToProcess.length; i += batchSize) {
+          const batch = messagesToProcess.slice(i, i + batchSize);
+          await Promise.all(
+            batch.map(async (message: any) => {
+              await indexingOps.indexMessage(message, session.id);
+              totalMessagesProcessed++;
+            }),
+          );
+          // Small delay between batches to prevent connection overload
+          if (i + batchSize < messagesToProcess.length) {
+            await new Promise((resolve) => setTimeout(resolve, 100));
+          }
+        }
       }
 
       if (totalMessagesProcessed > 0) {
@@ -99,11 +108,20 @@ export const createSyncManager = (
         });
         const messages = messagesResult.data ?? [];
 
-        await Promise.all(
-          messages.map(async (message: any) => {
-            await indexingOps.indexMessage(message, session.id);
-          }),
-        );
+        // Process messages in batches to balance performance and connection stability
+        const batchSize = 5; // Process up to 5 messages concurrently
+        for (let i = 0; i < messages.length; i += batchSize) {
+          const batch = messages.slice(i, i + batchSize);
+          await Promise.all(
+            batch.map(async (message: any) => {
+              await indexingOps.indexMessage(message, session.id);
+            }),
+          );
+          // Small delay between batches to prevent connection overload
+          if (i + batchSize < messages.length) {
+            await new Promise((resolve) => setTimeout(resolve, 100));
+          }
+        }
 
         // Save state after processing each session
         currentState = await stateManager.loadState();

@@ -14,23 +14,33 @@ const chromaClientOverrides: OverrideCache<ChromaClient> = new Map();
 const chromaClientPromises: PromiseCache<ChromaClient> = new Map();
 
 const createMongoClient = async (): Promise<MongoClient> => {
-    // Always create a fresh connection to avoid any caching issues
+    console.log(`[MongoDB Client] Connecting to URI: ${MONGO_URI}`);
+    // Create connection with minimal pooling to avoid connection issues
     const client = new MongoClient(MONGO_URI, {
-        maxPoolSize: 5, // Reduced pool size to prevent connection flooding
-        minPoolSize: 1, // Maintain at least 1 connection
-        maxIdleTimeMS: 30000, // Close idle connections after 30 seconds
-        serverSelectionTimeoutMS: 10000, // Increased timeout for better reliability
-        socketTimeoutMS: 45000, // Increased socket timeout
-        connectTimeoutMS: 15000, // Increased connection timeout
-        heartbeatFrequencyMS: 10000, // Check connection health every 10 seconds
+        maxPoolSize: 1, // Use single connection to avoid pool complexity
+        minPoolSize: 1, // Maintain exactly 1 connection
+        maxIdleTimeMS: 10000, // Close idle connections quickly
+        serverSelectionTimeoutMS: 5000, // Shorter timeout to fail fast
+        socketTimeoutMS: 10000, // Shorter socket timeout
+        connectTimeoutMS: 5000, // Shorter connection timeout
+        heartbeatFrequencyMS: 5000, // Check connection health more frequently
         retryWrites: true,
         retryReads: true,
     });
 
     await client.connect();
 
-    // Verify connection is actually established
+    // Verify connection is actually established with multiple checks
     await client.db('admin').command({ ping: 1 });
+
+    // Additional validation: try a simple operation on the target database
+    const testDb = client.db('database');
+    const testCollection = testDb.collection('connection_test');
+    await testCollection.insertOne({ test: true, timestamp: new Date() });
+    await testCollection.deleteOne({ test: true });
+
+    // Final verification: ensure we can perform a read operation
+    await testDb.collection('connection_test').countDocuments();
 
     return client;
 };
