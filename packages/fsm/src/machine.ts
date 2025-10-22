@@ -208,7 +208,38 @@ export const availableTransitions = <
   definition: MachineDefinition<State, Events, Context>,
   snapshot: MachineSnapshot<State, Context>,
 ): ReadonlyArray<TransitionDefinition<State, Events, Context>> =>
-  freezeArray(definition.transitions.filter((transition) => transition.from === snapshot.state));
+  freezeArray(
+    definition.transitions.filter((transition) => {
+      if (transition.from !== snapshot.state) {
+        return false;
+      }
+
+      // Check guard if present
+      if (transition.guard) {
+        try {
+          // Create a minimal event object for guard evaluation
+          const mockEvent = {
+            type: transition.event as keyof Events,
+            payload: {} as any,
+          };
+
+          const details = {
+            from: snapshot.state,
+            to: transition.to,
+            context: snapshot.context,
+            event: mockEvent as any,
+          };
+
+          return transition.guard(details);
+        } catch (error) {
+          // If guard evaluation fails, assume transition is not available
+          return false;
+        }
+      }
+
+      return true;
+    }),
+  );
 
 export const canTransition = <
   State extends string,
