@@ -10,14 +10,6 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
-lastCommitSha: "755c38a693eb21fa9c676e29f6951152ef68e21f"
-commitHistory:
-  -
-    sha: "755c38a693eb21fa9c676e29f6951152ef68e21f"
-    timestamp: "2025-10-22 01:48:12 -0500\n\ndiff --git a/docs/agile/tasks/pantheon-core-001-complete-core-type-system.md b/docs/agile/tasks/pantheon-core-001-complete-core-type-system.md\nindex 4438f96f7..36dacee99 100644\n--- a/docs/agile/tasks/pantheon-core-001-complete-core-type-system.md\n+++ b/docs/agile/tasks/pantheon-core-001-complete-core-type-system.md\n@@ -1,15 +1,15 @@\n ---\n-uuid: 'pantheon-core-001-complete-core-type-system-2025-10-20'\n-title: 'Complete Core Type System'\n-slug: 'pantheon-core-001-complete-core-type-system'\n-status: 'incoming'\n-priority: 'P0'\n-labels: ['pantheon', 'core', 'types', 'implementation']\n-created_at: '2025-10-20T00:00:00Z'\n+uuid: \"pantheon-core-001-complete-core-type-system-2025-10-20\"\n+title: \"Complete Core Type System\"\n+slug: \"pantheon-core-001-complete-core-type-system\"\n+status: \"incoming\"\n+priority: \"P0\"\n+labels: [\"pantheon\", \"core\", \"types\", \"implementation\"]\n+created_at: \"2025-10-20T00:00:00Z\"\n estimates:\n-  complexity: 'medium'\n-  scale: 'task'\n-  time_to_completion: '1-2 days'\n+  complexity: \"\"\n+  scale: \"\"\n+  time_to_completion: \"\"\n ---\n \n # Complete Core Type System"
-    message: "Update task: pantheon-core-001-complete-core-type-system-2025-10-20 - Update task: Complete Core Type System"
-    author: "Error"
-    type: "update"
 ---
 
 # Complete Core Type System
