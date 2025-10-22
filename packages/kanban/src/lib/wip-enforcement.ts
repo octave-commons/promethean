@@ -1,7 +1,7 @@
 import { loadKanbanConfig } from '../board/config.js';
 import type { Board, Task } from './types.js';
 import { columnKey } from './kanban.js';
-import type { EventLogManager } from '../board/event-log.js';
+import type { EventLogManager } from '../board/event-log/index.js';
 
 /**
  * WIP limit validation result
@@ -247,17 +247,14 @@ export class WIPLimitEnforcement {
 
       // Log override to event log
       if (this.eventLogManager) {
-        await this.eventLogManager.logTransition(
-          taskId,
-          fromStatus,
-          toStatus,
-          'system',
-          `WIP limit override: ${options.overrideReason || 'Admin override'}`,
-          {
+        await this.eventLogManager.logTransition(taskId, fromStatus, toStatus, {
+          actor: 'system',
+          reason: `WIP limit override: ${options.overrideReason || 'Admin override'}`,
+          metadata: {
             override: true,
             violationId: violation.id,
           },
-        );
+        });
       }
 
       return {

@@ -29,7 +29,7 @@ import {
   getAllEpics,
 } from '../lib/epic.js';
 import type { Board } from '../lib/types.js';
-import { EventLogManager } from '../board/event-log.js';
+import { makeEventLogManager, type EventLogManager } from '../board/event-log/index.js';
 import { loadKanbanConfig } from '../board/config.js';
 import { serveKanbanUI } from '../lib/ui-server.js';
 import { compareTasks, suggestTaskBreakdown, prioritizeTasks } from '../lib/task-tools.js';

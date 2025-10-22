@@ -4,7 +4,7 @@ import path from 'node:path';
 import { parseFrontmatter as parseMarkdownFrontmatter } from '@promethean/markdown/frontmatter';
 import { loadKanbanConfig } from '../board/config.js';
 import { refreshTaskIndex, indexTasks, writeIndexFile, serializeTasks } from '../board/indexer.js';
-import { EventLogManager } from '../board/event-log.js';
+import type { EventLogManager } from '../board/event-log/index.js';
 import { TaskGitTracker } from './task-git-tracker.js';
 import type { IndexTasksOptions } from '../board/indexer.js';
 import type { Board, ColumnData, Task, EpicTask } from './types.js';
@@ -1013,18 +1013,15 @@ export const updateStatus = async (
   // Log transition to event log
   if (eventLogManager) {
     try {
-      await eventLogManager.logTransition(
-        uuid,
-        currentStatus,
-        normalizedStatus,
+      await eventLogManager.logTransition(uuid, currentStatus, normalizedStatus, {
         actor,
-        correctionReason || `Status updated from ${currentStatus} to ${normalizedStatus}`,
-        {
+        reason: correctionReason || `Status updated from ${currentStatus} to ${normalizedStatus}`,
+        metadata: {
           boardPath,
           taskTitle: found.title,
           taskPriority: found.priority,
         },
-      );
+      });
     } catch (error) {
       // Log warning but don't fail status update
       console.warn(`Warning: Could not log transition for ${uuid}: ${error}`);
