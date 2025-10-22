@@ -325,6 +325,7 @@ export const cleanup = async (): Promise<void> => {
 };
 
 // Legacy class-based API for backward compatibility
+// eslint-disable-next-line no-restricted-syntax
 export class DualStoreManager<TextKey extends string = 'text', TimeKey extends string = 'createdAt'> {
     private readonly state: DualStoreManagerState<TextKey, TimeKey>;
 
