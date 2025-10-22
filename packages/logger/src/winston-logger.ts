@@ -19,15 +19,24 @@ const createWinstonLogger = (config: LoggerConfig): winston.Logger => {
       : winston.format.combine(
           config.colorize ? winston.format.colorize() : winston.format.uncolorize(),
           config.timestamp ? winston.format.timestamp() : winston.format.uncolorize(),
-          winston.format.printf(({ level, message, timestamp, service, module, ...meta }) => {
-            const prefix = [];
-            if (timestamp) prefix.push(timestamp);
-            if (service) prefix.push(`[${service}]`);
-            if (module) prefix.push(`[${module}]`);
+          winston.format.printf(
+            ({
+              level,
+              message,
+              timestamp,
+              service,
+              module,
+              ...meta
+            }: winston.Logform.TransformableInfo) => {
+              const prefix = [];
+              if (timestamp) prefix.push(timestamp as string);
+              if (service) prefix.push(`[${service as string}]`);
+              if (module) prefix.push(`[${module as string}]`);
 
-            const metaStr = Object.keys(meta).length > 0 ? ` ${JSON.stringify(meta)}` : '';
-            return `${prefix.join(' ')} ${level}: ${message}${metaStr}`;
-          }),
+              const metaStr = Object.keys(meta).length > 0 ? ` ${JSON.stringify(meta)}` : '';
+              return `${prefix.join(' ')} ${level}: ${message}${metaStr}`;
+            },
+          ),
         );
 
     transports.push(
@@ -45,15 +54,24 @@ const createWinstonLogger = (config: LoggerConfig): winston.Logger => {
       ? winston.format.json()
       : winston.format.combine(
           winston.format.timestamp(),
-          winston.format.printf(({ level, message, timestamp, service, module, ...meta }) => {
-            const prefix = [];
-            if (timestamp) prefix.push(timestamp);
-            if (service) prefix.push(`[${service}]`);
-            if (module) prefix.push(`[${module}]`);
+          winston.format.printf(
+            ({
+              level,
+              message,
+              timestamp,
+              service,
+              module,
+              ...meta
+            }: winston.Logform.TransformableInfo) => {
+              const prefix = [];
+              if (timestamp) prefix.push(timestamp as string);
+              if (service) prefix.push(`[${service as string}]`);
+              if (module) prefix.push(`[${module as string}]`);
 
-            const metaStr = Object.keys(meta).length > 0 ? ` ${JSON.stringify(meta)}` : '';
-            return `${prefix.join(' ')} ${level}: ${message}${metaStr}`;
-          }),
+              const metaStr = Object.keys(meta).length > 0 ? ` ${JSON.stringify(meta)}` : '';
+              return `${prefix.join(' ')} ${level}: ${message}${metaStr}`;
+            },
+          ),
         );
 
     transports.push(
@@ -135,16 +153,21 @@ export class WinstonLogger implements Logger {
   }
 
   setLevel(level: LogLevel): void {
-    this.winston.level = level;
-    this.config.level = level;
-
+    // Update config (create a new object since it's readonly)
+    (this.config as any).level = level;
+    
+    // Update Winston logger level
+    (this.winston as any).level = level;
+    
     // Update transport levels
-    this.winston.transports.forEach((transport) => {
+    this.winston.transports.forEach((transport: any) => {
       if (transport instanceof winston.transports.Console) {
         transport.level = this.config.console.level || level;
       } else {
         transport.level = level;
       }
+    });
+  }
     });
   }
 
