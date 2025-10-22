@@ -49,8 +49,8 @@ export class GoogleOAuthProvider implements OAuthProvider {
   /**
    * Generate authorization URL with PKCE
    */
-  generateAuthUrl(state: string, codeVerifier: string, redirectUri?: string): string {
-    const codeChallenge = this.generateCodeChallenge(codeVerifier);
+  generateAuthUrl(state: string, codeVerifier?: string, redirectUri?: string): string {
+    const codeChallenge = codeVerifier ? this.generateCodeChallenge(codeVerifier) : undefined;
     const finalRedirectUri = redirectUri || this.config.redirectUri;
     const params = new URLSearchParams({
       client_id: this.config.clientId,
@@ -58,10 +58,13 @@ export class GoogleOAuthProvider implements OAuthProvider {
       scope: this.config.scopes.join(' '),
       state,
       response_type: 'code',
-      code_challenge: codeChallenge,
-      code_challenge_method: 'S256',
       access_type: 'offline', // Enable refresh tokens
     });
+
+    if (codeChallenge) {
+      params.append('code_challenge', codeChallenge);
+      params.append('code_challenge_method', 'S256');
+    }
 
     if (this.config.hostedDomain) {
       params.append('hd', this.config.hostedDomain);
@@ -77,21 +80,33 @@ export class GoogleOAuthProvider implements OAuthProvider {
   /**
    * Exchange authorization code for tokens
    */
-  async exchangeCodeForTokens(code: string, codeVerifier: string): Promise<OAuthTokenResponse> {
+  async exchangeCodeForTokens(
+    code: string,
+    codeVerifier?: string,
+    redirectUri?: string,
+  ): Promise<OAuthTokenResponse> {
+    const finalRedirectUri = redirectUri || this.config.redirectUri;
     const response = await fetch(this.tokenUrl, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: new URLSearchParams({
-        client_id: this.config.clientId,
-        client_secret: this.config.clientSecret,
-        code,
-        redirect_uri: this.config.redirectUri,
-        code_verifier: codeVerifier,
-        grant_type: 'authorization_code',
-      }),
+      body: (() => {
+        const params = new URLSearchParams({
+          client_id: this.config.clientId,
+          client_secret: this.config.clientSecret,
+          code,
+          redirect_uri: finalRedirectUri,
+          grant_type: 'authorization_code',
+        });
+
+        if (codeVerifier) {
+          params.append('code_verifier', codeVerifier);
+        }
+
+        return params;
+      })(),
     });
 
     if (!response.ok) {
