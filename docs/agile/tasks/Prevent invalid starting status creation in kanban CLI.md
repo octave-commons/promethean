@@ -10,14 +10,6 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
-lastCommitSha: "b31d278f6091bfb43791ebaacaa9dbc235a559bf"
-commitHistory:
-  -
-    sha: "b31d278f6091bfb43791ebaacaa9dbc235a559bf"
-    timestamp: "2025-10-22 08:22:35 -0500\n\ndiff --git a/docs/agile/tasks/Prevent invalid starting status creation in kanban CLI.md b/docs/agile/tasks/Prevent invalid starting status creation in kanban CLI.md\nindex 4f0a809e0..3ef499b4f 100644\n--- a/docs/agile/tasks/Prevent invalid starting status creation in kanban CLI.md\t\n+++ b/docs/agile/tasks/Prevent invalid starting status creation in kanban CLI.md\t\n@@ -2,7 +2,7 @@\n uuid: \"45ad22b1-d5b9-4c21-887c-c22f8ca6395e\"\n title: \"Prevent invalid starting status creation in kanban CLI\"\n slug: \"Prevent invalid starting status creation in kanban CLI\"\n-status: \"ready\"\n+status: \"done\"\n priority: \"P0\"\n labels: [\"prevent\", \"invalid\", \"starting\", \"status\"]\n created_at: \"2025-10-13T06:05:52.286Z\""
-    message: "Change task status: 45ad22b1-d5b9-4c21-887c-c22f8ca6395e - Prevent invalid starting status creation in kanban CLI - ready → done"
-    author: "Error"
-    type: "status_change"
 ---
 
 ## 🚫 Critical: Prevent Invalid Starting Status Creation
