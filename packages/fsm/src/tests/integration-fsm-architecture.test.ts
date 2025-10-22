@@ -772,7 +772,7 @@ test('FSM Integration - Available Transitions and State Queries', (t) => {
   const failedTransitions = availableTransitions(machine, failedSnapshot);
   t.deepEqual(
     failedTransitions.map((t) => t.event),
-    ['rollback'],
+    ['rollback', 'retry'], // availableTransitions returns all transitions from the state, regardless of guards
   );
 
   // Test canTransition functionality
