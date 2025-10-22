@@ -2,7 +2,7 @@
 uuid: "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8a9b"
 title: "Resolve TODO Comments and Technical Debt"
 slug: "resolve-todo-comments-technical-debt"
-status: "incoming"
+status: "accepted"
 priority: "P2"
 labels: ["technical-debt", "todo-comments", "cleanup", "maintenance"]
 created_at: "2025-10-14T11:00:00.000Z"
