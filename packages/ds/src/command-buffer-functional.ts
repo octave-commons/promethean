@@ -5,7 +5,7 @@
  * These were previously instance methods on CommandBuffer class.
  */
 
-import { Entity, ComponentType, World } from './ecs';
+import { Entity, ComponentType, World } from './ecs.js';
 
 // Command buffer state interface
 export interface CommandBufferState {

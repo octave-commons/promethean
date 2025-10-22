@@ -464,36 +464,68 @@ export class World {
     }
 }
 
+// Import functional implementations
+import {
+    createCommandBufferState,
+    createEntityImmediate,
+    destroyEntityCommand,
+    addComponentCommand,
+    removeComponentCommand,
+    setComponentCommand,
+    flushCommands,
+    CommandBufferState,
+} from './command-buffer-functional.js';
+
+/**
+ * @deprecated Use the functional implementations from './command-buffer-functional' instead.
+ * This class is provided for backward compatibility and will be removed in a future version.
+ */
 export class CommandBuffer {
-    private readonly world: World;
-    private readonly ops: Array<() => void> = [];
+    private state: CommandBufferState;
+
     constructor(w: World) {
-        this.world = w;
+        this.state = createCommandBufferState(w);
     }
 
     createEntity(init?: Record<ComponentId, unknown> | bigint): Entity {
-        let temp: Entity = -1;
-        this.ops.push(() => {
-            temp = this.world.createEntity(init);
-        });
-        this.flush();
-        return temp;
+        console.warn(
+            'CommandBuffer.createEntity is deprecated. Use createEntityImmediate from command-buffer-functional instead.',
+        );
+        const result = createEntityImmediate(this.state, init);
+        this.state = result.newState;
+        return result.entity;
     }
+
     destroyEntity(e: Entity): void {
-        this.ops.push(() => this.world.destroyEntity(e));
+        console.warn(
+            'CommandBuffer.destroyEntity is deprecated. Use destroyEntityCommand from command-buffer-functional instead.',
+        );
+        this.state = destroyEntityCommand(this.state, e);
     }
+
     add<T>(e: Entity, ct: ComponentType<T>, v?: T): void {
-        this.ops.push(() => this.world.addComponent(e, ct, v));
+        console.warn(
+            'CommandBuffer.add is deprecated. Use addComponentCommand from command-buffer-functional instead.',
+        );
+        this.state = addComponentCommand(this.state, e, ct, v);
     }
+
     remove<T>(e: Entity, ct: ComponentType<T>): void {
-        this.ops.push(() => this.world.removeComponent(e, ct));
+        console.warn(
+            'CommandBuffer.remove is deprecated. Use removeComponentCommand from command-buffer-functional instead.',
+        );
+        this.state = removeComponentCommand(this.state, e, ct);
     }
+
     set<T>(e: Entity, ct: ComponentType<T>, v: T): void {
-        this.ops.push(() => this.world.set(e, ct, v));
+        console.warn(
+            'CommandBuffer.set is deprecated. Use setComponentCommand from command-buffer-functional instead.',
+        );
+        this.state = setComponentCommand(this.state, e, ct, v);
     }
 
     flush(): void {
-        for (const op of this.ops) op();
-        this.ops.length = 0;
+        console.warn('CommandBuffer.flush is deprecated. Use flushCommands from command-buffer-functional instead.');
+        this.state = flushCommands(this.state);
     }
 }
