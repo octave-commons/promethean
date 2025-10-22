@@ -17,6 +17,10 @@ export default [
                     message: 'ESM only',
                 },
                 // Remove ClassDeclaration and ClassExpression restrictions
+      ],
+      // Allow larger files for legacy compatibility
+      'max-lines': 'off',
+      'max-lines-per-function': 'off',
             ],
         },
     },
