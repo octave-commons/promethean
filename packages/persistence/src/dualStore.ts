@@ -108,7 +108,27 @@ export const insert = async <TextKey extends string, TimeKey extends string>(
         });
     }
 
-    await state.mongoCollection.insertOne(preparedEntry as OptionalUnlessRequiredId<DualStoreEntry<TextKey, TimeKey>>);
+    // Handle MongoDB connection issues with retry logic
+    let retryCount = 0;
+    const maxRetries = 3;
+
+    while (retryCount <= maxRetries) {
+        try {
+            await state.mongoCollection.insertOne(
+                preparedEntry as OptionalUnlessRequiredId<DualStoreEntry<TextKey, TimeKey>>,
+            );
+            break; // Success, exit retry loop
+        } catch (error: any) {
+            if (error.message?.includes('MongoNotConnectedError') && retryCount < maxRetries) {
+                console.warn(`MongoDB connection lost, retrying... (${retryCount + 1}/${maxRetries})`);
+                retryCount++;
+                // Wait before retry with exponential backoff
+                await new Promise((resolve) => setTimeout(resolve, Math.pow(2, retryCount) * 1000));
+                continue;
+            }
+            throw error; // Re-throw if not a connection error or max retries exceeded
+        }
+    }
 };
 
 // TODO: remove in future – alias for backwards compatibility
