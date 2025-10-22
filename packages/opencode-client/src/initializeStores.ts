@@ -1,3 +1,4 @@
+import { DualStoreManager } from '@promethean/persistence';
 import {
   contextStore,
   SESSION_STORE_NAME,
@@ -5,7 +6,9 @@ import {
   MESSAGE_STORE_NAME,
 } from './stores.js';
 
-export async function initializeStores(): Promise<Record<string, boolean>> {
+export async function initializeStores(): Promise<
+  Record<string, DualStoreManager<'text', 'timestamp'>>
+> {
   console.log('🔧 Initializing stores...');
 
   try {
