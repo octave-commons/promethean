@@ -8,6 +8,15 @@ import { tool } from '@opencode-ai/plugin/tool';
 import { createOpencodeClient } from '@opencode-ai/sdk';
 import type { Event, Session, Message } from '@opencode-ai/sdk';
 
+// Import indexer utilities for proper event handling
+import {
+  isMessageEvent,
+  isSessionEvent,
+  extractSessionId,
+  extractMessageId,
+} from '../../services/indexer-types.js';
+import { createIndexingOperations } from '../../services/indexer-operations.js';
+
 /**
  * Real-time Capture Plugin - Provides real-time monitoring and capture of OpenCode events
  */
@@ -20,9 +29,14 @@ export const RealtimeCapturePlugin: Plugin = async (_pluginContext) => {
   // Real-time capture state
   let isCapturing = false;
   let eventSubscription: any = null;
-  let capturedEvents: Event[] = [];
+  let capturedEvents: Array<Event & { capturedAt?: string; captureSequence?: number }> = [];
   let captureStartTime: Date | null = null;
   const MAX_CAPTURED_EVENTS = 1000;
+
+  // Create indexing operations for proper event handling
+  const { indexSession, indexMessage, indexEvent } = createIndexingOperations((eventType: string, message: string) => {
+    console.log(`[Realtime Capture] ${message}`);
+  });
 
   const startCapture = async (): Promise<void> => {
     if (isCapturing) {
@@ -55,6 +69,82 @@ export const RealtimeCapturePlugin: Plugin = async (_pluginContext) => {
               capturedAt: new Date().toISOString(),
               captureSequence: capturedEvents.length + 1,
             };
+
+            capturedEvents.push(enrichedEvent);
+
+            // Keep only the most recent events
+            if (capturedEvents.length > MAX_CAPTURED_EVENTS) {
+              capturedEvents = capturedEvents.slice(-MAX_CAPTURED_EVENTS);
+            }
+
+            // Extract session ID using indexer utilities
+            const sessionId = extractSessionId(event) || 'unknown';
+
+            // Log real-time event
+            console.log(`📡 [${new Date().toLocaleTimeString()}] ${event.type} - Session: ${sessionId}`);
+
+            // Use indexer operations to handle the event properly
+            try {
+              if (isMessageEvent(event)) {
+                const messageId = extractMessageId(event);
+                if (messageId && (event.type === 'message.updated' || event.type === 'message.removed')) {
+                  // Fetch the full message for complete indexing
+                  const messageResult = await opencodeClient.session.message({
+                    path: { id: sessionId, messageID: messageId },
+                  });
+                  const targetMessage = messageResult.data;
+                  
+                  if (targetMessage) {
+                    await indexMessage(targetMessage, sessionId);
+                  }
+                }
+              } else if (isSessionEvent(event)) {
+                if ('info' in event.properties && event.properties.info) {
+                  await indexSession(event.properties.info as Session);
+                }
+              }
+              
+              // Index the event itself
+              await indexEvent(event);
+            } catch (indexError) {
+              // Don't let indexing errors stop the capture
+              console.warn('Warning: Could not index event:', indexError);
+            }
+          }
+        } catch (error) {
+          console.error('❌ Error in event capture stream:', error);
+          isCapturing = false;
+          eventSubscription = null;
+        }
+      })();
+
+    } catch (error) {
+      isCapturing = false;
+      throw error;
+    }
+  };
+
+  const stopCapture = async (): Promise<void> => {
+    if (!isCapturing) {
+      throw new Error('No active capture to stop');
+    }
+
+    isCapturing = false;
+    
+    if (eventSubscription) {
+      try {
+        // Close the subscription if it has a close method
+        if (typeof eventSubscription.close === 'function') {
+          await eventSubscription.close();
+        }
+      } catch (error) {
+        console.warn('Warning: Could not cleanly close event subscription:', error);
+      }
+      eventSubscription = null;
+    }
+
+    console.log(`🛑 Stopped real-time event capture. Captured ${capturedEvents.length} events.`);
+  };
 
             capturedEvents.push(enrichedEvent);
 
