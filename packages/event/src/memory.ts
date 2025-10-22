@@ -13,12 +13,12 @@ import type {
 } from './types.js';
 
 type GroupKey = string; // `${topic}::${group}`
-const gkey = (t: string, g: string) => `${t}::${g}`;
+const gkey = (t: string, g: string): string => `${t}::${g}`;
 
 class InMemoryStore implements EventStore {
-    private store = new Map<string, EventRecord[]>(); // topic -> events
+    private store = new Map<string, EventRecord<unknown>[]>(); // topic -> events
 
-    private events(topic: string) {
+    private events(topic: string): EventRecord<unknown>[] {
         let arr = this.store.get(topic);
         if (!arr) {
             arr = [];
@@ -31,7 +31,10 @@ class InMemoryStore implements EventStore {
         this.events(e.topic).push(e as unknown as EventRecord);
     }
 
-    async scan(topic: string, params: { afterId?: UUID; ts?: number; limit?: number }): Promise<EventRecord[]> {
+    async scan(
+        topic: string,
+        params: { afterId?: UUID; ts?: number; limit?: number },
+    ): Promise<EventRecord<unknown>[]> {
         const evs = this.events(topic);
         let startIndex = 0;
         if (params.afterId) {
@@ -45,9 +48,9 @@ class InMemoryStore implements EventStore {
         return evs.slice(startIndex, end);
     }
 
-    async latestByKey(topic: string, keys: string[]): Promise<Record<string, EventRecord | undefined>> {
+    async latestByKey(topic: string, keys: string[]): Promise<Record<string, EventRecord<unknown> | undefined>> {
         const evs = this.events(topic);
-        const out: Record<string, EventRecord | undefined> = {};
+        const out: Record<string, EventRecord<unknown> | undefined> = {};
         for (const k of keys) {
             // last event with matching key
             for (let i = evs.length - 1; i >= 0; i--) {
@@ -74,7 +77,7 @@ class InMemoryCursorStore implements CursorStore {
     }
 }
 
-type Handler = (e: EventRecord, ctx: DeliveryContext) => Promise<void> | void;
+type Handler = (e: EventRecord<unknown>, ctx: DeliveryContext) => Promise<void> | void;
 
 class Subscription {
     topic: string;

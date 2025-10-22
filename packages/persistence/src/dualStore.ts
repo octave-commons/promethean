@@ -4,7 +4,7 @@ import type { Collection as ChromaCollection, Metadata as ChromaMetadata, Where 
 import type { Collection, Filter, OptionalUnlessRequiredId, Sort, WithId } from 'mongodb';
 import { AGENT_NAME } from '@promethean/legacy/env.js';
 
-import type { DualStoreEntry, DualStoreMetadata, DualStoreTimestamp } from './types.js';
+import type { DualStoreEntry } from './types.js';
 import {
     createDualStoreManagerDependencies,
     toEpochMilliseconds,
@@ -12,36 +12,13 @@ import {
     withTimestampMetadata,
     toChromaMetadata,
     cloneMetadata,
+    toGenericEntry,
+    createDefaultMongoFilter,
+    createDefaultSorter,
 } from './dualStoreHelpers.js';
-
-const toGenericEntry = <TextKey extends string, TimeKey extends string>(
-    entry: DualStoreEntry<TextKey, TimeKey> | WithId<DualStoreEntry<TextKey, TimeKey>>,
-    textKey: TextKey,
-    timeStampKey: TimeKey,
-): DualStoreEntry<'text', 'timestamp'> => {
-    const metadata = entry.metadata;
-    const timestampSource = pickTimestamp(metadata?.[timeStampKey], metadata?.timeStamp, entry[timeStampKey]);
-
-    return {
-        id: entry.id,
-        text: entry[textKey],
-        timestamp: toEpochMilliseconds(timestampSource),
-        metadata,
-    };
-};
+import type { DualStoreManagerDependencies } from './dualStoreHelpers.js';
 
 type QueryArgs = Parameters<ChromaCollection['query']>[0];
-
-type DualStoreManagerDependencies<TextKey extends string, TimeKey extends string> = {
-    readonly name: string;
-    readonly agent_name: string;
-    readonly embedding_fn: string;
-    readonly chromaCollection: ChromaCollection;
-    readonly mongoCollection: Collection<DualStoreEntry<TextKey, TimeKey>>;
-    readonly textKey: TextKey;
-    readonly timeStampKey: TimeKey;
-    readonly supportsImages: boolean;
-};
 
 export type DualStoreManagerState<TextKey extends string = 'text', TimeKey extends string = 'createdAt'> = {
     readonly name: string;
@@ -136,23 +113,6 @@ export const insert = async <TextKey extends string, TimeKey extends string>(
 
 // TODO: remove in future – alias for backwards compatibility
 export const addEntry = insert;
-
-const createDefaultMongoFilter = <TextKey extends string, TimeKey extends string>(
-    state: DualStoreManagerState<TextKey, TimeKey>,
-): Filter<DualStoreEntry<TextKey, TimeKey>> => {
-    const textCondition = {
-        $exists: true,
-        $regex: '\\S',
-    };
-
-    return {
-        [state.textKey]: textCondition,
-    } as Filter<DualStoreEntry<TextKey, TimeKey>>;
-};
-
-const createDefaultSorter = <TextKey extends string, TimeKey extends string>(
-    state: DualStoreManagerState<TextKey, TimeKey>,
-): Sort => ({ [state.timeStampKey]: -1 }) satisfies Sort;
 
 export const getMostRecent = async <TextKey extends string, TimeKey extends string>(
     state: DualStoreManagerState<TextKey, TimeKey>,

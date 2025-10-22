@@ -2,6 +2,10 @@ export type UUID = string;
 export type Millis = number;
 export type Vec8 = [number, number, number, number, number, number, number, number];
 
+export type EventHeaders = Record<string, string>;
+export type EventTags = string[];
+export type CausedBy = UUID[];
+
 export type EventRecord<T = unknown> = {
     id: UUID; // uuidv7
     sid?: UUID; // boot/session id
@@ -9,10 +13,10 @@ export type EventRecord<T = unknown> = {
     topic: string; // e.g. "heartbeat.received"
     key?: string; // for compaction/partitioning
     partition?: number; // adapter-defined
-    headers?: Record<string, string>;
+    headers?: EventHeaders;
     payload: T; // JSON-safe
-    caused_by?: UUID[];
-    tags?: string[];
+    caused_by?: CausedBy;
+    tags?: EventTags;
 };
 
 export type DeliveryContext = {
@@ -46,9 +50,9 @@ export type PublishOptions = {
     id?: UUID;
     ts?: Millis;
     key?: string;
-    headers?: Record<string, string>;
-    tags?: string[];
-    caused_by?: UUID[];
+    headers?: EventHeaders;
+    tags?: EventTags;
+    caused_by?: CausedBy;
     sid?: UUID;
 };
 

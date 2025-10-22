@@ -45,6 +45,29 @@ export const toChromaMetadata = (metadata: DualStoreMetadata): ChromaMetadata =>
 export const cloneMetadata = (metadata: ChromaMetadata | null | undefined): DualStoreMetadata | undefined =>
     metadata ? ({ ...metadata } as DualStoreMetadata) : undefined;
 
+export const toGenericEntry = <TextKey extends string, TimeKey extends string>(
+    entry: DualStoreEntry<TextKey, TimeKey> | any,
+    textKey: TextKey,
+    timeStampKey: TimeKey,
+): DualStoreEntry<'text', 'timestamp'> => {
+    const metadata = entry.metadata;
+    const timestampSource = pickTimestamp(metadata?.[timeStampKey], metadata?.timeStamp, entry[timeStampKey]);
+
+    return {
+        id: entry.id,
+        text: entry[textKey],
+        timestamp: toEpochMilliseconds(timestampSource),
+        metadata: withTimestampMetadata(metadata, 'timestamp', toEpochMilliseconds(timestampSource)),
+    };
+};
+
+export const createDefaultMongoFilter = (_state: any, where?: any): any => {
+    if (!where) return {};
+    return where;
+};
+
+export const createDefaultSorter = (state: any): any => ({ [state.timeStampKey]: -1 });
+
 export type DualStoreManagerDependencies<TextKey extends string, TimeKey extends string> = {
     readonly name: string;
     readonly agent_name: string;
