@@ -175,20 +175,20 @@
     },
   },
   "lsp": {
-    "eslint": {
-      "enabled": true,
-      "command": [
-        "vscode-eslint-language-server",
-        "--stdio"
-      ],
-      "extensions": [
-        ".ts",
-        ".tsx",
-        ".js",
-        ".jsx",
-        ".vue"
-      ]
-    },
+    // "eslint": {
+    //   "enabled": true,
+    //   "command": [
+    //     "vscode-eslint-language-server",
+    //     "--stdio"
+    //   ],
+    //   "extensions": [
+    //     ".ts",
+    //     ".tsx",
+    //     ".js",
+    //     ".jsx",
+    //     ".vue"
+    //   ]
+    // },
     "clojure-lsp": {
       "enabled":true,
       "command": ["clojure-lsp"],
