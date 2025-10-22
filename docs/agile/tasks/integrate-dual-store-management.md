@@ -10,14 +10,6 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
-lastCommitSha: "151590cab9e63110530e74ee5141e2072490752d"
-commitHistory:
-  -
-    sha: "151590cab9e63110530e74ee5141e2072490752d"
-    timestamp: "2025-10-19T22:07:51.066Z"
-    message: "Update task: 8d0ff9fe-82a2-420b-b1f0-1384ed33219d - Update task: Integrate Dual-Store Management"
-    author: "Error <foamy125@gmail.com>"
-    type: "update"
 ---
 
 ## 🗄️ Integrate Dual-Store Management
