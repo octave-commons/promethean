@@ -47,7 +47,7 @@ const getFromCache = async <TClient>(
         return existingPromise;
     }
     const createdPromise = factory();
-    // eslint-disable-next-line functional/immutable-data
+     
     promiseCache.set(cacheKey, createdPromise);
     return createdPromise;
 };
@@ -65,15 +65,15 @@ const setOverride = <TClient>(
     client: TClient | null,
 ): void => {
     if (client === null) {
-        // eslint-disable-next-line functional/immutable-data
+         
         overrides.delete(cacheKey);
-        // eslint-disable-next-line functional/immutable-data
+         
         promiseCache.delete(cacheKey);
         return;
     }
-    // eslint-disable-next-line functional/immutable-data
+     
     overrides.set(cacheKey, client);
-    // eslint-disable-next-line functional/immutable-data
+     
     promiseCache.delete(cacheKey);
 };
 
@@ -87,13 +87,13 @@ export const __setChromaClientForTests = (client: ChromaClient | null): void =>
     setOverride(chromaClientOverrides, chromaClientPromises, 'chroma', client);
 
 export const __resetPersistenceClientsForTests = (): void => {
-    // eslint-disable-next-line functional/immutable-data
+     
     mongoClientOverrides.clear();
-    // eslint-disable-next-line functional/immutable-data
+     
     chromaClientOverrides.clear();
-    // eslint-disable-next-line functional/immutable-data
+     
     mongoClientPromises.clear();
-    // eslint-disable-next-line functional/immutable-data
+     
     chromaClientPromises.clear();
 };
 
@@ -107,12 +107,12 @@ export const cleanupClients = async (): Promise<void> => {
         // Ignore cleanup errors
     }
 
-    // eslint-disable-next-line functional/immutable-data
+     
     mongoClientOverrides.clear();
-    // eslint-disable-next-line functional/immutable-data
+     
     chromaClientOverrides.clear();
-    // eslint-disable-next-line functional/immutable-data
+     
     mongoClientPromises.clear();
-    // eslint-disable-next-line functional/immutable-data
+     
     chromaClientPromises.clear();
 };
