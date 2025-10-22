@@ -2,7 +2,7 @@
 uuid: "71d30e75-0fae-433d-ab7c-0dab868bba2b"
 title: "Update CLI commands to use adapter pattern"
 slug: "Update CLI commands to use adapter pattern"
-status: "accepted"
+status: "icebox"
 priority: "P0"
 labels: ["update", "use", "cli", "commands"]
 created_at: "2025-10-13T08:06:29.621Z"
