@@ -2,7 +2,7 @@
 uuid: "348ea68d-2564-4370-9dfc-d6f462bf5888"
 title: "Enhance boardrev context analysis with weighted factors"
 slug: "boardrev-enhanced-context-analysis"
-status: "icebox"
+status: "incoming"
 priority: "P2"
 labels: ["accuracy", "analysis", "boardrev", "enhancement"]
 created_at: "Mon Oct 06 2025 07:00:00 GMT-0500 (Central Daylight Time)"
