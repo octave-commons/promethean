@@ -2,7 +2,7 @@
 uuid: "45ad22b1-d5b9-4c21-887c-c22f8ca6395e"
 title: "Prevent invalid starting status creation in kanban CLI"
 slug: "Prevent invalid starting status creation in kanban CLI"
-status: "ready"
+status: "done"
 priority: "P0"
 labels: ["prevent", "invalid", "starting", "status"]
 created_at: "2025-10-13T06:05:52.286Z"
