@@ -119,126 +119,133 @@ const toMessage = (
     };
 };
 
-export class ContextStore {
-    private collections: ReadonlyMap<string, DualStoreManager<string, string>> = new Map();
-    private formatTime: (epochMs: number) => string;
-    private assistantName: string;
+export type ContextStoreState = {
+    readonly collections: ReadonlyMap<string, DualStoreManager<string, string>>;
+    readonly formatTime: (epochMs: number) => string;
+    readonly assistantName: string;
+};
 
-    constructor(
-        formatTime: (epochMs: number) => string = (ms) => new Date(ms).toISOString(),
-        assistantName: string = 'Duck',
-    ) {
-        this.formatTime = formatTime;
-        this.assistantName = assistantName;
+export const createContextStore = (
+    formatTime: (epochMs: number) => string = (ms) => new Date(ms).toISOString(),
+    assistantName: string = 'Duck',
+): ContextStoreState => ({
+    collections: new Map(),
+    formatTime,
+    assistantName,
+});
+
+const getCollectionManagers = (state: ContextStoreState): readonly DualStoreManager<string, string>[] =>
+    Array.from(state.collections.values());
+
+export const collectionCount = (state: ContextStoreState): number => state.collections.size;
+
+export const listCollectionNames = (state: ContextStoreState): readonly string[] =>
+    Array.from(state.collections.keys());
+
+export const createCollection = async (
+    state: ContextStoreState,
+    name: string,
+    textKey: string,
+    timeStampKey: string,
+): Promise<[ContextStoreState, DualStoreManager<string, string>]> => {
+    if (state.collections.has(name)) {
+        throw new Error(`Collection ${name} already exists`);
     }
 
-    private getCollectionManagers(): readonly DualStoreManager<string, string>[] {
-        return Array.from(this.collections.values());
+    const collectionManager = await DualStoreManager.create<string, string>(name, textKey, timeStampKey);
+    const newCollections = new Map([...state.collections, [name, collectionManager]]);
+    const newState = { ...state, collections: newCollections };
+    return [newState, collectionManager];
+};
+
+export const getOrCreateCollection = async (
+    state: ContextStoreState,
+    name: string,
+): Promise<[ContextStoreState, DualStoreManager<string, string>]> => {
+    if (state.collections.has(name)) {
+        return [state, state.collections.get(name)!];
     }
 
-    collectionCount(): number {
-        return this.collections.size;
+    const collectionManager = await DualStoreManager.create<string, string>(name, 'text', 'timestamp');
+    const newCollections = new Map([...state.collections, [name, collectionManager]]);
+    const newState = { ...state, collections: newCollections };
+    return [newState, collectionManager];
+};
+
+export const getAllRelatedDocuments = async (
+    state: ContextStoreState,
+    queries: readonly string[],
+    limit: number = 100,
+    where?: Where,
+): Promise<GenericEntry[]> => {
+    if (queries.length === 0) {
+        return [];
     }
 
-    listCollectionNames(): readonly string[] {
-        return Array.from(this.collections.keys());
+    const managers = getCollectionManagers(state);
+    const related = await Promise.all(
+        managers.map((collection) => collection.getMostRelevant([...queries], limit, where)),
+    );
+    return related.flat();
+};
+
+export const getLatestDocuments = async (state: ContextStoreState, limit: number = 100): Promise<GenericEntry[]> => {
+    const managers = getCollectionManagers(state);
+    const latest = await Promise.all(managers.map((collection) => collection.getMostRecent(limit)));
+    return latest.flat();
+};
+
+export const getCollection = (state: ContextStoreState, name: string): DualStoreManager<string, string> => {
+    const collection = state.collections.get(name);
+    if (!collection) {
+        throw new Error(`Collection ${name} does not exist`);
     }
+    return collection;
+};
 
-    async createCollection(
-        name: string,
-        textKey: string,
-        timeStampKey: string,
-    ): Promise<DualStoreManager<string, string>> {
-        if (this.collections.has(name)) {
-            throw new Error(`Collection ${name} already exists`);
-        }
+const compileContextInternal = async (
+    state: ContextStoreState,
+    options: Required<CompileContextOptions>,
+): Promise<ContextMessage[]> => {
+    const latest = await getLatestDocuments(state, options.recentLimit);
+    const queryTexts = [...(options.texts ?? []), ...latest.map((doc) => doc.text)].slice(-options.queryLimit);
+    const [relatedDocs, imageDocs] = await Promise.all([
+        getAllRelatedDocuments(state, queryTexts, options.limit),
+        getAllRelatedDocuments(state, queryTexts, options.limit, { type: 'image' }),
+    ]);
 
-        const collectionManager = await DualStoreManager.create<string, string>(name, textKey, timeStampKey);
-        this.collections = new Map([...this.collections, [name, collectionManager]]);
-        return collectionManager;
-    }
-    async getOrCreateCollection(name: string): Promise<DualStoreManager<string, string>> {
-        if (this.collections.has(name)) {
-            return this.collections.get(name)!;
-        }
+    const combined = [...relatedDocs.filter((doc) => doc.metadata?.type !== 'image'), ...latest, ...imageDocs].filter(
+        (entry): entry is GenericEntry => Boolean(entry.metadata) && typeof entry.text === 'string',
+    );
 
-        const collectionManager = await DualStoreManager.create<string, string>(name, 'text', 'timestamp');
-        this.collections = new Map([...this.collections, [name, collectionManager]]);
-        return collectionManager;
-    }
+    const deduped = dedupeByText(combined);
+    const sorted = sortByTimestamp(deduped);
+    const limited = limitByCollectionCount(sorted, options.limit, state.collections.size);
+    return limited.map((entry) =>
+        toMessage(entry, options.formatAssistantMessages, state.formatTime, state.assistantName),
+    );
+};
 
-    async getAllRelatedDocuments(
-        queries: readonly string[],
-        limit: number = 100,
-        where?: Where,
-    ): Promise<GenericEntry[]> {
-        if (queries.length === 0) {
-            return [];
-        }
+export const compileContext = async (
+    state: ContextStoreState,
+    textsOrOptions: readonly string[] | CompileContextOptions = [],
+    ...legacyArgs: LegacyCompileArgs
+): Promise<ContextMessage[]> => {
+    const options = resolveCompileOptions(textsOrOptions, legacyArgs);
 
-        const managers = this.getCollectionManagers();
-        const related = await Promise.all(
-            managers.map((collection) => collection.getMostRelevant([...queries], limit, where)),
-        );
-        return related.flat();
-    }
+    const definedOptions = Object.fromEntries(
+        Object.entries(options).filter(([, value]) => value !== undefined),
+    ) as Partial<CompileContextOptions>;
 
-    async getLatestDocuments(limit: number = 100): Promise<GenericEntry[]> {
-        const managers = this.getCollectionManagers();
-        const latest = await Promise.all(managers.map((collection) => collection.getMostRecent(limit)));
-        return latest.flat();
-    }
+    const resolvedTexts: readonly string[] = definedOptions.texts ?? DEFAULT_COMPILE_OPTIONS.texts;
+    const resolved: Required<CompileContextOptions> = {
+        ...DEFAULT_COMPILE_OPTIONS,
+        ...definedOptions,
+        texts: [...resolvedTexts],
+    };
 
-    getCollection(name: string): DualStoreManager<string, string> {
-        const collection = this.collections.get(name);
-        if (!collection) {
-            throw new Error(`Collection ${name} does not exist`);
-        }
-        return collection;
-    }
-
-    async compileContext(
-        textsOrOptions: readonly string[] | CompileContextOptions = [],
-        ...legacyArgs: LegacyCompileArgs
-    ): Promise<ContextMessage[]> {
-        const options = resolveCompileOptions(textsOrOptions, legacyArgs);
-
-        const definedOptions = Object.fromEntries(
-            Object.entries(options).filter(([, value]) => value !== undefined),
-        ) as Partial<CompileContextOptions>;
-
-        const resolvedTexts: readonly string[] = definedOptions.texts ?? DEFAULT_COMPILE_OPTIONS.texts;
-        const resolved: Required<CompileContextOptions> = {
-            ...DEFAULT_COMPILE_OPTIONS,
-            ...definedOptions,
-            texts: [...resolvedTexts],
-        };
-
-        return this.compileContextInternal(resolved);
-    }
-
-    private async compileContextInternal(options: Required<CompileContextOptions>): Promise<ContextMessage[]> {
-        const latest = await this.getLatestDocuments(options.recentLimit);
-        const queryTexts = [...(options.texts ?? []), ...latest.map((doc) => doc.text)].slice(-options.queryLimit);
-        const [relatedDocs, imageDocs] = await Promise.all([
-            this.getAllRelatedDocuments(queryTexts, options.limit),
-            this.getAllRelatedDocuments(queryTexts, options.limit, { type: 'image' }),
-        ]);
-
-        const combined = [
-            ...relatedDocs.filter((doc) => doc.metadata?.type !== 'image'),
-            ...latest,
-            ...imageDocs,
-        ].filter((entry): entry is GenericEntry => Boolean(entry.metadata) && typeof entry.text === 'string');
-
-        const deduped = dedupeByText(combined);
-        const sorted = sortByTimestamp(deduped);
-        const limited = limitByCollectionCount(sorted, options.limit, this.collections.size);
-        return limited.map((entry) =>
-            toMessage(entry, options.formatAssistantMessages, this.formatTime, this.assistantName),
-        );
-    }
-}
+    return compileContextInternal(state, resolved);
+};
 
 // Functional factory alternative
 export type ContextDeps = {
