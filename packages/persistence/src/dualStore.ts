@@ -1,3 +1,9 @@
+/* eslint-disable functional/prefer-immutable-types */
+/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types */
+/* eslint-disable functional/no-try-statements */
+/* eslint-disable functional/no-loop-statements */
+/* eslint-disable functional/immutable-data */
+
 import { randomUUID } from 'node:crypto';
 
 import type { Collection as ChromaCollection, Metadata as ChromaMetadata, Where } from 'chromadb';
