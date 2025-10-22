@@ -23,7 +23,7 @@
   "author": "Promethean Team",
   "license": "GPL-3.0-only",
   "dependencies": {
-    "winston": "^3.11.0",
+    "winston": "^3.18.3",
     "winston-daily-rotate-file": "^4.7.1"
   },
   "devDependencies": {

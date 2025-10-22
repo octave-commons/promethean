@@ -17,18 +17,18 @@ class LoggerFactoryImpl implements LoggerFactory {
 
   get(name?: string): Logger {
     const key = name || 'default';
-    
+
     if (!this.loggers.has(key)) {
       const logger = this.create({ module: name });
       this.loggers.set(key, logger);
     }
-    
+
     return this.loggers.get(key)!;
   }
 
   configure(config: Partial<LoggerConfig>): void {
     this.globalConfig = { ...this.globalConfig, ...config };
-    
+
     // Update existing loggers
     this.loggers.forEach((logger, key) => {
       const module = key === 'default' ? undefined : key;
