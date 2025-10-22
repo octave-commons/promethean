@@ -762,39 +762,15 @@ function executeSimpleTransition<S extends State, C>(
 }
 };
 
-export const transition = <S extends State, C>(
-  state: SimpleMachineState<S, C>,
-  event: Event,
-  targetState?: S,
-): { newState: SimpleMachineState<S, C>; result: EventResult<S, C, Event> } => {
-  try {
-    const currentState = getCurrentSimpleState(state);
-
-    // Find transition
-    const transition = targetState
-      ? findDirectSimpleTransition(state.definition, currentState, targetState, event)
-      : findEventSimpleTransition(state.definition, currentState, event);
-
-    if (!transition) {
-      const error: FSMError = {
-        type: 'no-transition',
-        message: targetState
-          ? `No transition from ${currentState} to ${targetState} for event ${String(event)}`
-          : `No transition from ${currentState} for event ${String(event)}`,
-        from: currentState,
-        to: targetState,
-        event: event as any,
-      };
-
-      return {
-        newState: state,
-        result: {
-          success: false,
-          snapshot: state.currentSnapshot,
-          error,
-        },
-      };
-    }
+// Factory function
+export function createSimpleMachine<S extends State = State, C = unknown>(
+  definition: SimpleMachineDefinition<S, C>,
+): SimpleMachine<S, C> {
+  console.warn(
+    'SimpleMachine class is deprecated. Use functional API instead: createSimpleMachineState, simpleTransition, etc.',
+  );
+  return new SimpleMachine(definition);
+}
 
     // Check guard
     if (
