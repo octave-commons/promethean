@@ -55,6 +55,8 @@
     :commands (agent-shell-start)
     :init
     (spacemacs/declare-prefix "aa" "AI Agent")
-    (spacemacs/set-leader-keys "aao" #'agent-shell-start)))
+    (spacemacs/set-leader-keys "aao" #'agent-shell-start))
+
+  )
 ;; Example: custom OpenCode backend using an ACP stdio adapter
 
