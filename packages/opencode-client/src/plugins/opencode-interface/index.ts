@@ -7,6 +7,7 @@ import { tool } from '@opencode-ai/plugin/tool';
 
 import { createOpencodeClient } from '@opencode-ai/sdk';
 import { initializeStores } from '../../initializeStores.js';
+import { compileContext } from '../../compileContext.js';
 
 // Import existing actions
 import { list as listSessions } from '../../actions/sessions/list.js';
@@ -16,6 +17,116 @@ import { spawn as spawnSession } from '../../actions/sessions/spawn.js';
 import { search as searchSessions } from '../../actions/sessions/search.js';
 import { list as listEvents } from '../../actions/events/list.js';
 import { getSessionMessages } from '../../actions/messages/index.js';
+
+// Import markdown formatters
+import {
+  sessionToMarkdown,
+  messageToMarkdown,
+  eventToMarkdown,
+} from '../../services/indexer-formatters.js';
+
+/**
+ * Format search results as markdown
+ */
+function formatSearchResults(results: {
+  sessions: any[];
+  events: any[];
+  messages: any[];
+  query: string;
+  summary: {
+    totalSessions: number;
+    totalEvents: number;
+    totalMessages: number;
+  };
+}): string {
+  let output = `# Unified Search Results\n\n`;
+  output += `**Query:** ${results.query}\n\n`;
+
+  output += `## Summary\n`;
+  output += `- **Sessions:** ${results.summary.totalSessions}\n`;
+  output += `- **Events:** ${results.summary.totalEvents}\n`;
+  output += `- **Messages:** ${results.summary.totalMessages}\n\n`;
+
+  if (results.summary.totalSessions > 0) {
+    output += `## Sessions (${results.summary.totalSessions})\n\n`;
+    results.sessions.forEach((session: any) => {
+      output += sessionToMarkdown(session);
+    });
+  }
+
+  if (results.summary.totalEvents > 0) {
+    output += `## Events (${results.summary.totalEvents})\n\n`;
+    results.events.forEach((event: any) => {
+      output += eventToMarkdown(event);
+    });
+  }
+
+  if (results.summary.totalMessages > 0) {
+    output += `## Messages (${results.summary.totalMessages})\n\n`;
+    results.messages.forEach((message: any) => {
+      output += messageToMarkdown(message);
+    });
+  }
+
+  return output;
+}
+
+/**
+ * Format sessions list as markdown
+ */
+function formatSessionsList(result: any): string {
+  if ('error' in result) {
+    return `Error listing sessions: ${result.error}`;
+  }
+
+  const sessions = result.sessions || [];
+  let output = `# Active Sessions (${sessions.length})\n\n`;
+
+  sessions.forEach((session: any) => {
+    output += sessionToMarkdown(session);
+  });
+
+  if (result.summary) {
+    output += `## Summary\n`;
+    output += `- **Active:** ${result.summary.active}\n`;
+    output += `- **Waiting for Input:** ${result.summary.waiting_for_input}\n`;
+    output += `- **Idle:** ${result.summary.idle}\n`;
+    output += `- **Agent Tasks:** ${result.summary.agentTasks}\n\n`;
+  }
+
+  output += `## Pagination\n`;
+  output += `- **Page:** ${result.pagination.currentPage} / ${result.pagination.totalPages}\n`;
+  output += `- **Total:** ${result.totalCount} sessions\n`;
+  output += `- **Showing:** ${result.pagination.limit} per page\n`;
+
+  return output;
+}
+
+/**
+ * Format events list as markdown
+ */
+function formatEventsList(events: any[]): string {
+  let output = `# Events (${events.length})\n\n`;
+
+  events.forEach((event: any) => {
+    output += eventToMarkdown(event);
+  });
+
+  return output;
+}
+
+/**
+ * Format messages list as markdown
+ */
+function formatMessagesList(messages: any[], sessionId: string): string {
+  let output = `# Messages for Session ${sessionId} (${messages.length})\n\n`;
+
+  messages.forEach((message: any) => {
+    output += messageToMarkdown(message);
+  });
+
+  return output;
+}
 
 /**
  * OpenCode Interface Plugin - Provides OpenCode functionality as tools
@@ -52,15 +163,23 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
         async execute(args) {
           try {
             const context = await compileContext({
-              query: args.query,
-              includeSessions: args.includeSessions,
-              includeEvents: args.includeEvents,
-              includeMessages: args.includeMessages,
-              sessionId: args.sessionId,
+              texts: args.query ? [args.query] : [],
               limit: args.limit,
             });
 
-            return context;
+            // Format messages as markdown
+            let output = `# Compiled Context\n\n`;
+            output += `**Query:** ${args.query || 'No query'}\n`;
+            output += `**Session Filter:** ${args.sessionId || 'All sessions'}\n\n`;
+
+            if (Array.isArray(context)) {
+              output += `## Messages (${context.length})\n\n`;
+              context.slice(0, args.limit).forEach((msg: any) => {
+                output += messageToMarkdown(msg);
+              });
+            }
+
+            return output;
           } catch (error) {
             throw new Error(
               `Failed to compile context: ${error instanceof Error ? error.message : String(error)}`,
@@ -119,17 +238,25 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
               }
             }
 
-            return {
-              sessions: sessionResults || [],
+            const sessionArray = Array.isArray(sessionResults)
+              ? sessionResults
+              : sessionResults && 'results' in sessionResults
+                ? sessionResults.results
+                : [];
+
+            const results = {
+              sessions: sessionArray,
               events: eventResults || [],
               messages: messageResults,
               query: args.query,
               summary: {
-                totalSessions: Array.isArray(sessionResults) ? sessionResults.length : 0,
+                totalSessions: sessionArray.length,
                 totalEvents: Array.isArray(eventResults) ? eventResults.length : 0,
                 totalMessages: messageResults.length,
               },
             };
+
+            return formatSearchResults(results);
           } catch (error) {
             throw new Error(
               `Failed to search context: ${error instanceof Error ? error.message : String(error)}`,
@@ -138,7 +265,7 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
         },
       }),
 
-      // Session Management Tools (Updated to return raw objects)
+      // Session Management Tools
       'list-sessions': tool({
         description: 'List all active OpenCode sessions with pagination and filtering',
         args: {
@@ -152,7 +279,7 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
               offset: args.offset,
             });
 
-            return result;
+            return formatSessionsList(result);
           } catch (error) {
             throw new Error(
               `Failed to list sessions: ${error instanceof Error ? error.message : String(error)}`,
@@ -176,7 +303,24 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
               offset: args.offset,
             });
 
-            return JSON.stringify(result, null, 2);
+            let output = `# Session Details\n\n`;
+
+            if ('error' in result) {
+              output += `Error: ${result.error}\n`;
+            } else if (result.session && typeof result.session === 'object') {
+              // Try to format as session, but fall back if it fails
+              try {
+                output += sessionToMarkdown(result.session as any);
+              } catch (formatError) {
+                output += `**Session Data:**\n`;
+                output += `\`\`\`json\n${JSON.stringify(result.session, null, 2)}\n\`\`\`\n`;
+              }
+            } else {
+              output += `**Session Data:**\n`;
+              output += `\`\`\`json\n${JSON.stringify(result, null, 2)}\n\`\`\`\n`;
+            }
+
+            return output;
           } catch (error) {
             throw new Error(
               `Failed to get session: ${error instanceof Error ? error.message : String(error)}`,
@@ -196,7 +340,19 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
               sessionId: args.sessionId,
             });
 
-            return JSON.stringify(result, null, 2);
+            let output = `# Close Session Result\n\n`;
+            output += `**Session ID:** ${args.sessionId}\n\n`;
+
+            if ('error' in result) {
+              output += `**Error:** ${result.error}\n`;
+            } else {
+              output += `**Status:** Successfully closed\n`;
+              if (result.message) {
+                output += `**Message:** ${result.message}\n`;
+              }
+            }
+
+            return output;
           } catch (error) {
             throw new Error(
               `Failed to close session: ${error instanceof Error ? error.message : String(error)}`,
@@ -219,7 +375,24 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
               client: opencodeClient,
             });
 
-            return result;
+            let output = `# New Session Created\n\n`;
+
+            if (typeof result === 'string') {
+              output += result;
+            } else if (result && typeof result === 'object' && 'error' in result) {
+              output += `**Error:** ${result.error}\n`;
+            } else if (result && typeof result === 'object' && 'id' in result) {
+              output += `**Session ID:** ${result.id || 'Unknown'}\n`;
+              output += `**Title:** ${args.title || 'Untitled'}\n`;
+              output += `**Status:** Successfully created\n`;
+              output += `**Initial Message:** ${args.message}\n`;
+            } else {
+              output += `**Status:** Session creation initiated\n`;
+              output += `**Title:** ${args.title || 'Untitled'}\n`;
+              output += `**Initial Message:** ${args.message}\n`;
+            }
+
+            return output;
           } catch (error) {
             throw new Error(
               `Failed to spawn session: ${error instanceof Error ? error.message : String(error)}`,
@@ -243,7 +416,26 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
               sessionId: args.sessionId,
             });
 
-            return JSON.stringify(result, null, 2);
+            let output = `# Session Search Results\n\n`;
+            output += `**Query:** ${args.query}\n\n`;
+
+            if (Array.isArray(result)) {
+              output += `**Results:** ${result.length} sessions found\n\n`;
+              result.forEach((session: any) => {
+                output += sessionToMarkdown(session);
+              });
+            } else if (result && typeof result === 'object' && 'results' in result) {
+              output += `**Results:** ${result.results.length} sessions found\n\n`;
+              result.results.forEach((session: any) => {
+                output += sessionToMarkdown(session);
+              });
+            } else if (result && typeof result === 'object' && 'error' in result) {
+              output += `**Error:** ${result.error}\n`;
+            } else {
+              output += `**No results found**\n`;
+            }
+
+            return output;
           } catch (error) {
             throw new Error(
               `Failed to search sessions: ${error instanceof Error ? error.message : String(error)}`,
@@ -270,8 +462,7 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
               sessionId: args.sessionId,
             });
 
-            // TODO: Format output nicely as markdown
-            return JSON.stringify(result);
+            return formatEventsList(result || []);
           } catch (error) {
             return `Failed to list events: ${error instanceof Error ? error.message : String(error)}`;
           }
@@ -284,34 +475,13 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
         args: {
           sessionId: tool.schema.string().describe('Session ID'),
           limit: tool.schema.number().default(10).describe('Number of messages to return'),
-          format: tool.schema.enum(['table', 'json']).default('table').describe('Output format'),
         },
         async execute(args) {
           try {
             const messages = await getSessionMessages(opencodeClient, args.sessionId);
             const limitedMessages = messages.slice(-args.limit);
 
-            if (args.format === 'json') {
-              return JSON.stringify(limitedMessages, null, 2);
-            }
-
-            let output = `Messages for session ${args.sessionId} (${limitedMessages.length} recent):\n`;
-            output += '='.repeat(80) + '\n';
-
-            limitedMessages.forEach((message: any, index: number) => {
-              const textParts = message.parts?.filter((part: any) => part.type === 'text') || [];
-              const text = textParts.map((part: any) => part.text).join(' ') || '[No text content]';
-              const timestamp = message.info?.time?.created || new Date().toISOString();
-
-              output += `\nMessage ${index + 1}:\n`;
-              output += `  ID: ${message.info?.id || 'unknown'}\n`;
-              output += `  Role: ${message.info?.role || 'unknown'}\n`;
-              output += `  Time: ${new Date(timestamp).toLocaleString()}\n`;
-              output += `  Content: ${text.substring(0, 200)}${text.length > 200 ? '...' : ''}\n`;
-              output += '-'.repeat(40) + '\n';
-            });
-
-            return output;
+            return formatMessagesList(limitedMessages, args.sessionId);
           } catch (error) {
             throw new Error(
               `Failed to list messages: ${error instanceof Error ? error.message : String(error)}`,
@@ -332,7 +502,17 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
               path: { id: args.sessionId, messageID: args.messageId },
             });
 
-            return JSON.stringify(result.data, null, 2);
+            let output = `# Message Details\n\n`;
+            output += `**Session ID:** ${args.sessionId}\n`;
+            output += `**Message ID:** ${args.messageId}\n\n`;
+
+            if (result.data) {
+              output += messageToMarkdown(result.data);
+            } else {
+              output += `No message data found.\n`;
+            }
+
+            return output;
           } catch (error) {
             throw new Error(
               `Failed to get message: ${error instanceof Error ? error.message : String(error)}`,
@@ -361,7 +541,18 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
               },
             });
 
-            return JSON.stringify(result.data, null, 2);
+            let output = `# Message Sent\n\n`;
+            output += `**Session ID:** ${args.sessionId}\n`;
+            output += `**Content:** ${args.content}\n\n`;
+
+            if (result.data) {
+              output += `**Response:**\n`;
+              output += `\`\`\`json\n${JSON.stringify(result.data, null, 2)}\n\`\`\`\n`;
+            } else {
+              output += `Message sent successfully.\n`;
+            }
+
+            return output;
           } catch (error) {
             return `Failed to send prompt: ${error instanceof Error ? error.message : String(error)}`;
           }
