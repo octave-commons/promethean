@@ -47,6 +47,7 @@ const getFromCache = async <TClient>(
         return existingPromise;
     }
     const createdPromise = factory();
+    // eslint-disable-next-line functional/immutable-data
     promiseCache.set(cacheKey, createdPromise);
     return createdPromise;
 };
@@ -64,26 +65,16 @@ const setOverride = <TClient>(
     client: TClient | null,
 ): void => {
     if (client === null) {
-        const newOverrides = new Map(overrides);
-        newOverrides.delete(cacheKey);
-        const newPromiseCache = new Map(promiseCache);
-        newPromiseCache.delete(cacheKey);
-        // Note: This is a side effect that can't be avoided in this context
-        (overrides as Map<string, TClient>).clear();
-        for (const [k, v] of newOverrides) (overrides as Map<string, TClient>).set(k, v);
-        (promiseCache as Map<string, Promise<TClient>>).clear();
-        for (const [k, v] of newPromiseCache) (promiseCache as Map<string, Promise<TClient>>).set(k, v);
+        // eslint-disable-next-line functional/immutable-data
+        overrides.delete(cacheKey);
+        // eslint-disable-next-line functional/immutable-data
+        promiseCache.delete(cacheKey);
         return;
     }
-    const newOverrides = new Map(overrides);
-    newOverrides.set(cacheKey, client);
-    const newPromiseCache = new Map(promiseCache);
-    newPromiseCache.delete(cacheKey);
-    // Note: This is a side effect that can't be avoided in this context
-    (overrides as Map<string, TClient>).clear();
-    for (const [k, v] of newOverrides) (overrides as Map<string, TClient>).set(k, v);
-    (promiseCache as Map<string, Promise<TClient>>).clear();
-    for (const [k, v] of newPromiseCache) (promiseCache as Map<string, Promise<TClient>>).set(k, v);
+    // eslint-disable-next-line functional/immutable-data
+    overrides.set(cacheKey, client);
+    // eslint-disable-next-line functional/immutable-data
+    promiseCache.delete(cacheKey);
 };
 
 // BOT: Test hooks to override clients in unit tests without network dependency.
