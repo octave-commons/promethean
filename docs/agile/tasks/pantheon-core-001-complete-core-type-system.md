@@ -1,15 +1,15 @@
 ---
-uuid: 'pantheon-core-001-complete-core-type-system-2025-10-20'
-title: 'Complete Core Type System'
-slug: 'pantheon-core-001-complete-core-type-system'
-status: 'incoming'
-priority: 'P0'
-labels: ['pantheon', 'core', 'types', 'implementation']
-created_at: '2025-10-20T00:00:00Z'
+uuid: "pantheon-core-001-complete-core-type-system-2025-10-20"
+title: "Complete Core Type System"
+slug: "pantheon-core-001-complete-core-type-system"
+status: "incoming"
+priority: "P0"
+labels: ["pantheon", "core", "types", "implementation"]
+created_at: "2025-10-20T00:00:00Z"
 estimates:
-  complexity: 'medium'
-  scale: 'task'
-  time_to_completion: '1-2 days'
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Complete Core Type System
