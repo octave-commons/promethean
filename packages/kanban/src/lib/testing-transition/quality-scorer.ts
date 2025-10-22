@@ -247,7 +247,7 @@ function calculateMaintainabilityIndex(code: string): number {
   ).length;
   const emptyLines = lines.filter((line) => line.trim().length === 0).length;
 
-  const codeLines = totalLines - commentLines - emptyLines;
+  const _codeLines = totalLines - commentLines - emptyLines;
   const commentRatio = totalLines > 0 ? (commentLines / totalLines) * 100 : 0;
 
   // Good maintainability: reasonable comment ratio, not too long functions
