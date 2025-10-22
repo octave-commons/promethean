@@ -11,43 +11,42 @@ import {
 import { SecurityValidator, SecurityLogger, RateLimiter } from './security';
 import { ContextManagerHelpers } from './context-manager-helpers';
 
+// Import functional implementations
+import {
+  createContextManagerState,
+  getContext as getContextFn,
+  updateContext as updateContextFn,
+  getNextVersion as getNextVersionFn,
+  buildUpdatedContext as buildUpdatedContextFn,
+  createUpdateEvent as createUpdateEventFn,
+  appendEvent as appendEventFn,
+  createSnapshot as createSnapshotFn,
+  restoreFromSnapshot as restoreFromSnapshotFn,
+  deleteContext as deleteContextFn,
+  getContextHistory as getContextHistoryFn,
+  ContextManagerState,
+} from './default-context-manager-functional';
+
+/**
+ * @deprecated Use the functional implementations from './default-context-manager-functional' instead.
+ * This class is provided for backward compatibility and will be removed in a future version.
+ */
 export class DefaultContextManager implements ContextManager {
-  private versionCounters: Map<string, number> = new Map();
-  private rateLimiter: RateLimiter;
+  private state: ContextManagerState;
 
   constructor(
-    private eventStore: EventStore,
-    private snapshotStore: SnapshotStore,
-    private snapshotInterval: number = 100, // Create snapshot every 100 events
+    eventStore: EventStore,
+    snapshotStore: SnapshotStore,
+    snapshotInterval: number = 100, // Create snapshot every 100 events
   ) {
-    this.rateLimiter = RateLimiter.getInstance('context-manager', 60000, 100);
+    this.state = createContextManagerState(eventStore, snapshotStore, snapshotInterval);
   }
 
   async getContext(agentId: string): Promise<AgentContext> {
-    try {
-      // Validate and sanitize input
-      const validatedAgentId = SecurityValidator.validateAgentId(agentId);
-
-      // Rate limiting
-      await ContextManagerHelpers.checkRateLimit(this.rateLimiter, validatedAgentId, 'getContext');
-
-      // Try to get latest snapshot first
-      const latestSnapshot = await this.snapshotStore.getLatestSnapshot(validatedAgentId);
-
-      if (latestSnapshot) {
-        return await ContextManagerHelpers.buildContextFromSnapshot(
-          validatedAgentId,
-          latestSnapshot,
-          this.eventStore,
-        );
-      }
-
-      // No snapshot exists, build from all events
-      return await ContextManagerHelpers.buildContextFromEvents(validatedAgentId, this.eventStore);
-    } catch (error) {
-      ContextManagerHelpers.logSecurityError(agentId, 'getContext', error);
-      throw error;
-    }
+    console.warn(
+      'DefaultContextManager.getContext is deprecated. Use getContext from default-context-manager-functional instead.',
+    );
+    return getContextFn(this.state, agentId);
   }
 
   async updateContext(agentId: string, updates: Partial<AgentContext>): Promise<AgentContext> {
