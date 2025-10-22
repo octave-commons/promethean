@@ -18,12 +18,7 @@ export default [
                 },
                 // Remove ClassDeclaration and ClassExpression restrictions
             ],
-            // Relax some functional rules for legacy code
-            'functional/no-try-statements': 'off',
-            'functional/no-loop-statements': 'off',
-            'functional/immutable-data': 'off',
-            'functional/prefer-immutable-types': 'off',
-            '@typescript-eslint/prefer-readonly-parameter-types': 'off',
+            // Allow larger files for legacy compatibility
             'max-lines': 'off',
             'max-lines-per-function': 'off',
         },
