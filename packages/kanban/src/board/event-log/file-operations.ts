@@ -1,5 +1,5 @@
 import { readFile, writeFile } from 'node:fs/promises';
-import path from 'node:path';
+import * as path from 'node:path';
 import type { ReadonlyDeep } from 'type-fest';
 
 import type { KanbanConfig } from '../config/shared.js';

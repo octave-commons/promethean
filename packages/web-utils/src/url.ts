@@ -1,6 +1,18 @@
 import { createHash } from 'crypto';
 import { domainToASCII } from 'url';
 
+export type UrlProtocol =
+  | 'http:'
+  | 'https:'
+  | 'mailto:'
+  | 'javascript:'
+  | 'data:'
+  | 'file:'
+  | 'tel:';
+export type TrackingParam = 'utm_' | 'fbclid' | 'gclid' | 'ref' | 'referrer';
+export type QueryParamEntry = [string, string];
+export type SortedQueryParams = QueryParamEntry[];
+
 /**
  * Normalize a URL into a canonical form.
  * - Lowercases protocol and hostname
@@ -57,6 +69,12 @@ export function isUrlAllowed(
 ): boolean {
   return !deny.some((re) => re.test(input));
 }
+
+export type UrlValidationResult = {
+  readonly isValid: boolean;
+  readonly normalizedUrl?: string;
+  readonly error?: string;
+};
 
 export const DEFAULT_DENY_PATTERNS = [
   /^mailto:/i,
