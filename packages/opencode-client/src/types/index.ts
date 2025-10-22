@@ -2,24 +2,17 @@
 // This file contains comprehensive TypeScript interfaces to eliminate 'any' type usage
 
 import type { DualStoreManager } from '@promethean/persistence';
+import type { OpencodeClient } from '@opencode-ai/sdk';
 
 export type Timestamp = string | number | Date;
 
 // Session Management Types
 export type SessionStatus = 'active' | 'idle' | 'closed' | 'error';
 
-export interface SessionInfo {
-  id: string;
-  status: SessionStatus;
-  createdAt: number;
-  updatedAt: number;
-  lastActivity: number;
-  metadata?: Record<string, unknown>;
-}
-
 export interface SessionClient {
   session: {
     get: (params: { path: { id: string } }) => Promise<{ data?: unknown }>;
+    messages: (params: { path: { id: string } }) => Promise<{ data?: unknown }>;
   };
 }
 
@@ -36,14 +29,11 @@ export interface AgentTask {
   taskSummary?: string;
 }
 
-export interface TaskContext {
-  agentTaskStore: DualStoreManager<'text', 'timestamp'>;
-  agentTasks: Map<string, AgentTask>;
-}
+export type TaskContext = DualStoreManager<'text', 'timestamp'>;
 
 // Event Processing Types
 export interface EventContext {
-  client: SessionClient;
+  client: OpencodeClient;
   taskContext: TaskContext;
 }
 
@@ -154,14 +144,6 @@ export interface QueueInfo {
 
 // Cache Management Types
 export type CacheAction = 'stats' | 'clear' | 'clear-expired' | 'performance-analysis';
-
-export interface CacheStats {
-  totalEntries: number;
-  hitRate: number;
-  missRate: number;
-  averageAccessTime: number;
-  memoryUsage: number;
-}
 
 export interface CachePerformance {
   throughput: number;
@@ -297,11 +279,23 @@ export interface PaginatedResponse<T> {
 }
 
 // Event Types
+export interface SessionEventProperties {
+  sessionID?: string;
+  session?: {
+    id?: string;
+  };
+  info?: {
+    id?: string;
+  };
+  sessionId?: string;
+}
+
 export interface SessionEvent {
   type: 'session_created' | 'session_updated' | 'session_closed' | 'session_idle';
   sessionId: string;
   timestamp: number;
   data?: Record<string, unknown>;
+  properties?: SessionEventProperties;
 }
 
 export interface TaskEvent {
@@ -312,6 +306,14 @@ export interface TaskEvent {
     status: AgentTaskStatus;
     message?: string;
   };
+  properties?: Record<string, unknown>;
+}
+
+export interface MessageEventProperties {
+  message?: {
+    session_id?: string;
+  };
+  sessionId?: string;
 }
 
 export interface MessageEvent {
@@ -323,9 +325,66 @@ export interface MessageEvent {
     role: MessageRole;
     content: string;
   };
+  properties?: MessageEventProperties;
 }
 
 export type OpenCodeEvent = SessionEvent | TaskEvent | MessageEvent;
+
+// Extended Event Types for Event Processing
+export interface StoredEvent {
+  id: string;
+  type: string;
+  timestamp?: string | number;
+  sessionId?: string;
+  content?: string;
+  description?: string;
+  hasTool?: boolean;
+  isAgentTask?: boolean;
+  properties?: Record<string, unknown>;
+  data?: unknown;
+  _id?: string;
+  _timestamp?: string | number | Date;
+}
+
+export interface EventEntry {
+  id?: string;
+  text: string;
+  timestamp?: string | number | Date;
+}
+
+export interface EventListOptions {
+  query?: string;
+  k?: number;
+  eventType?: string;
+  sessionId?: string;
+  hasTool?: boolean;
+  isAgentTask?: boolean;
+}
+
+export interface EventSubscription {
+  id: string;
+  eventType?: string;
+  sessionId?: string;
+}
+
+// Message Types for Event Processing
+export interface MessagePart {
+  type: string;
+  text?: string;
+  [key: string]: unknown;
+}
+
+export interface MessageInfo {
+  id: string;
+  parts?: MessagePart[];
+  [key: string]: unknown;
+}
+
+export interface EventMessage {
+  info: MessageInfo;
+  parts?: MessagePart[];
+  [key: string]: unknown;
+}
 
 // Hook Types
 export interface EventHook {
@@ -340,6 +399,63 @@ export interface ToolExecuteHook {
   after?: (result: unknown, params: Record<string, unknown>) => Promise<void>;
   onError?: (error: Error, params: Record<string, unknown>) => Promise<void>;
 }
+
+// Cache Management Types
+export interface CacheAnalysis {
+  totalEntries: number;
+  models: Record<
+    string,
+    {
+      entries: number;
+      averageScore: number;
+      taskDistribution: Record<string, number>;
+    }
+  >;
+  taskCategories: Record<string, unknown>;
+  averageScores: Record<string, number>;
+  performanceByCategory: Record<
+    string,
+    {
+      totalScore: number;
+      count: number;
+      averageScore: number;
+      models: Record<
+        string,
+        {
+          totalScore: number;
+          count: number;
+          averageScore: number;
+        }
+      >;
+    }
+  >;
+}
+
+export interface CacheStats {
+  totalSize: number;
+  modelCount: number;
+  models: Array<{
+    model: string;
+    size: number;
+  }>;
+  similarityThreshold: number;
+  maxAgeMs: number;
+  maxAgeHours: number;
+}
+
+export interface CacheClearResult {
+  message: string;
+  clearedEntries: number;
+  size: number;
+}
+
+export interface CacheExpiredResult {
+  message: string;
+  size: number;
+}
+
+// Re-export OpencodeClient as EventClient for compatibility
+export type { OpencodeClient as EventClient } from '@opencode-ai/sdk';
 
 // Re-export DualStoreManager from persistence package
 export type { DualStoreManager } from '@promethean/persistence';

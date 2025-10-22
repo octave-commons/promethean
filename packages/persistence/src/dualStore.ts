@@ -1,221 +1,326 @@
 import { randomUUID } from 'node:crypto';
 
 import type { Collection as ChromaCollection, Metadata as ChromaMetadata, Where } from 'chromadb';
-import { RemoteEmbeddingFunction } from '@promethean/embedding';
-import type { Collection, Filter, FilterOperators, OptionalUnlessRequiredId, Sort, WithId } from 'mongodb';
+import type { Collection, Filter, OptionalUnlessRequiredId, Sort, WithId } from 'mongodb';
 import { AGENT_NAME } from '@promethean/legacy/env.js';
 
-import type { DualStoreEntry, AliasDoc, DualStoreMetadata, DualStoreTimestamp } from './types.js';
-import { getChromaClient, getMongoClient } from './clients.js';
-
-const toEpochMilliseconds = (timestamp: DualStoreTimestamp | undefined): number => {
-    if (timestamp instanceof Date) return timestamp.getTime();
-    if (typeof timestamp === 'string') return new Date(timestamp).getTime();
-    if (typeof timestamp === 'number') return timestamp;
-    return Date.now();
-};
-
-const pickTimestamp = (...candidates: readonly unknown[]): DualStoreTimestamp | undefined => {
-    for (const candidate of candidates) {
-        if (candidate instanceof Date || typeof candidate === 'number' || typeof candidate === 'string') {
-            return candidate;
-        }
-    }
-    return undefined;
-};
-
-const withTimestampMetadata = (
-    metadata: DualStoreMetadata | undefined,
-    timeStampKey: string,
-    timestamp: number,
-): DualStoreMetadata => ({
-    ...(metadata ?? {}),
-    [timeStampKey]: timestamp,
-});
-
-const toChromaMetadata = (metadata: DualStoreMetadata): ChromaMetadata => {
-    const result: Record<string, boolean | number | string | null> = {};
-    for (const [key, value] of Object.entries(metadata)) {
-        if (value === null) {
-            result[key] = null;
-        } else if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
-            result[key] = value;
-        }
-    }
-    return result;
-};
-
-const cloneMetadata = (metadata: ChromaMetadata | null | undefined): DualStoreMetadata | undefined =>
-    metadata ? { ...metadata } : undefined;
-
-const toGenericEntry = <TextKey extends string, TimeKey extends string>(
-    entry: DualStoreEntry<TextKey, TimeKey> | WithId<DualStoreEntry<TextKey, TimeKey>>,
-    textKey: TextKey,
-    timeStampKey: TimeKey,
-): DualStoreEntry<'text', 'timestamp'> => {
-    const metadata = entry.metadata;
-    const timestampSource = pickTimestamp(metadata?.[timeStampKey], metadata?.timeStamp, entry[timeStampKey]);
-
-    return {
-        id: entry.id,
-        text: entry[textKey],
-        timestamp: toEpochMilliseconds(timestampSource),
-        metadata,
-    };
-};
+import type { DualStoreEntry } from './types.js';
+import {
+    createDualStoreManagerDependencies,
+    toEpochMilliseconds,
+    pickTimestamp,
+    withTimestampMetadata,
+    toChromaMetadata,
+    cloneMetadata,
+    toGenericEntry,
+    createDefaultMongoFilter,
+    createDefaultSorter,
+} from './dualStoreHelpers.js';
+import type { DualStoreManagerDependencies } from './dualStoreHelpers.js';
 
 type QueryArgs = Parameters<ChromaCollection['query']>[0];
 
-type DualStoreManagerDependencies<TextKey extends string, TimeKey extends string> = {
+export type DualStoreManagerState<TextKey extends string = 'text', TimeKey extends string = 'createdAt'> = {
     readonly name: string;
     readonly chromaCollection: ChromaCollection;
     readonly mongoCollection: Collection<DualStoreEntry<TextKey, TimeKey>>;
+    readonly agent_name: string;
+    readonly embedding_fn: string;
     readonly textKey: TextKey;
     readonly timeStampKey: TimeKey;
     readonly supportsImages: boolean;
 };
 
-export class DualStoreManager<TextKey extends string = 'text', TimeKey extends string = 'createdAt'> {
-    public readonly name: string;
-    private readonly chromaCollection: ChromaCollection;
-    private readonly mongoCollection: Collection<DualStoreEntry<TextKey, TimeKey>>;
-    private readonly textKey: TextKey;
-    private readonly timeStampKey: TimeKey;
-    private readonly supportsImages: boolean;
+const createDualStoreManagerState = <TextKey extends string, TimeKey extends string>({
+    name,
+    agent_name = AGENT_NAME ?? 'default_agent',
+    embedding_fn = process.env.EMBEDDING_FUNCTION ?? 'nomic-embed-text',
+    chromaCollection,
+    mongoCollection,
+    textKey,
+    timeStampKey,
+    supportsImages,
+}: DualStoreManagerDependencies<TextKey, TimeKey>): DualStoreManagerState<TextKey, TimeKey> => ({
+    name,
+    agent_name,
+    embedding_fn,
+    chromaCollection,
+    mongoCollection,
+    textKey,
+    timeStampKey,
+    supportsImages,
+});
 
-    private constructor({
-        name,
-        chromaCollection,
-        mongoCollection,
-        textKey,
-        timeStampKey,
-        supportsImages,
-    }: DualStoreManagerDependencies<TextKey, TimeKey>) {
-        this.name = name;
-        this.chromaCollection = chromaCollection;
-        this.mongoCollection = mongoCollection;
-        this.textKey = textKey;
-        this.timeStampKey = timeStampKey;
-        this.supportsImages = supportsImages;
+export const create = async <TextKey extends string = 'text', TimeKey extends string = 'createdAt'>(
+    name: string,
+    textKey: TextKey,
+    timeStampKey: TimeKey,
+    options?: {
+        agentName?: string;
+        databaseName?: string;
+    },
+): Promise<DualStoreManagerState<TextKey, TimeKey>> => {
+    try {
+        const dependencies = await createDualStoreManagerDependencies(name, textKey, timeStampKey, options);
+        return createDualStoreManagerState(dependencies);
+    } catch (error) {
+        console.error('Failed to create DualStoreManager:', error);
+        throw error;
+    }
+};
+
+export const getMongoCollection = <TextKey extends string, TimeKey extends string>(
+    state: DualStoreManagerState<TextKey, TimeKey>,
+): Collection<DualStoreEntry<TextKey, TimeKey>> => state.mongoCollection;
+
+export const getChromaCollection = <TextKey extends string, TimeKey extends string>(
+    state: DualStoreManagerState<TextKey, TimeKey>,
+): ChromaCollection => state.chromaCollection;
+
+export const insert = async <TextKey extends string, TimeKey extends string>(
+    state: DualStoreManagerState<TextKey, TimeKey>,
+    entry: DualStoreEntry<TextKey, TimeKey>,
+): Promise<void> => {
+    console.log(`[DUALSTORE INSERT] Starting insert for store: ${state.name}`);
+    console.log(`[DUALSTORE INSERT] Entry ID: ${entry.id}, TextKey: ${state.textKey}, TimeKey: ${state.timeStampKey}`);
+
+    const id = entry.id ?? randomUUID();
+    const timestampCandidate = pickTimestamp(
+        entry[state.timeStampKey],
+        entry.metadata?.[state.timeStampKey],
+        entry.metadata?.timeStamp,
+    );
+    const timestamp = toEpochMilliseconds(timestampCandidate);
+    const metadata = withTimestampMetadata(entry.metadata, state.timeStampKey, timestamp);
+
+    const preparedEntry = {
+        ...entry,
+        id,
+        [state.timeStampKey]: timestamp,
+        metadata,
+    };
+
+    console.log(`[DUALSTORE INSERT] Prepared entry with ID: ${id}, timestamp: ${timestamp}`);
+
+    const dualWriteEnabled = (process.env.DUAL_WRITE_ENABLED ?? 'true').toLowerCase() !== 'false';
+    const isImage = metadata.type === 'image';
+
+    if (dualWriteEnabled && (!isImage || state.supportsImages)) {
+        console.log(`[DUALSTORE INSERT] Adding to Chroma collection...`);
+        await state.chromaCollection.add({
+            ids: [id],
+            documents: [preparedEntry[state.textKey]],
+            metadatas: [toChromaMetadata(metadata)],
+        });
+        console.log(`[DUALSTORE INSERT] Chroma insert complete`);
+    }
+
+    console.log(`[DUALSTORE INSERT] About to insert into MongoDB...`);
+    console.log(`[DUALSTORE INSERT] Mongo collection type: ${typeof state.mongoCollection}`);
+    console.log(`[DUALSTORE INSERT] Mongo collection constructor: ${state.mongoCollection.constructor.name}`);
+
+    try {
+        await state.mongoCollection.insertOne(
+            preparedEntry as OptionalUnlessRequiredId<DualStoreEntry<TextKey, TimeKey>>,
+        );
+        console.log(`[DUALSTORE INSERT] MongoDB insert complete`);
+    } catch (error) {
+        console.error(`[DUALSTORE INSERT] MongoDB insert failed:`, error);
+        console.error(`[DUALSTORE INSERT] Error details:`, {
+            message: error instanceof Error ? error.message : String(error),
+            name: error instanceof Error ? error.name : 'Unknown',
+            stack: error instanceof Error ? error.stack : 'No stack trace',
+        });
+        throw error;
+    }
+};
+
+// TODO: remove in future – alias for backwards compatibility
+export const addEntry = insert;
+
+export const getMostRecent = async <TextKey extends string, TimeKey extends string>(
+    state: DualStoreManagerState<TextKey, TimeKey>,
+    limit = 10,
+    mongoFilter: Filter<DualStoreEntry<TextKey, TimeKey>> = createDefaultMongoFilter(state),
+    sorter: Sort = createDefaultSorter(state),
+): Promise<DualStoreEntry<'text', 'timestamp'>[]> => {
+    const documents = await state.mongoCollection.find(mongoFilter).sort(sorter).limit(limit).toArray();
+    return documents
+        .map((entry: WithId<DualStoreEntry<TextKey, TimeKey>>) =>
+            toGenericEntry(entry, state.textKey, state.timeStampKey),
+        )
+        .filter((entry) => typeof entry.text === 'string' && entry.text.trim().length > 0);
+};
+
+export const getMostRelevant = async <TextKey extends string, TimeKey extends string>(
+    state: DualStoreManagerState<TextKey, TimeKey>,
+    queryTexts: readonly string[],
+    limit: number,
+    where?: Where,
+): Promise<DualStoreEntry<'text', 'timestamp'>[]> => {
+    if (queryTexts.length === 0) {
+        return [];
+    }
+
+    const queryOptions: QueryArgs = {
+        queryTexts: [...queryTexts],
+        nResults: limit,
+        include: ['documents', 'metadatas'],
+        ...(where && Object.keys(where).length > 0 ? { where } : {}),
+    };
+
+    const queryResult = await state.chromaCollection.query<ChromaMetadata>(queryOptions);
+    const rows = queryResult.rows().flat();
+
+    return rows
+        .map((row) => {
+            if (!row.document) {
+                return undefined;
+            }
+
+            const metadata = cloneMetadata(row.metadata);
+            const timestampSource = pickTimestamp(metadata?.[state.timeStampKey], metadata?.timeStamp);
+
+            const entry: DualStoreEntry<'text', 'timestamp'> = {
+                id: row.id,
+                text: row.document,
+                metadata,
+                timestamp: toEpochMilliseconds(timestampSource),
+            };
+
+            return entry;
+        })
+        .filter((entry): entry is DualStoreEntry<'text', 'timestamp'> => entry !== undefined)
+        .filter((entry, index, array) => array.findIndex((candidate) => candidate.text === entry.text) === index);
+};
+
+export const get = async <TextKey extends string, TimeKey extends string>(
+    state: DualStoreManagerState<TextKey, TimeKey>,
+    id: string,
+): Promise<DualStoreEntry<'text', 'timestamp'> | null> => {
+    const filter = { id } as Filter<DualStoreEntry<TextKey, TimeKey>>;
+
+    const document = await state.mongoCollection.findOne(filter);
+
+    if (!document) {
+        return null;
+    }
+
+    return toGenericEntry(document, state.textKey, state.timeStampKey);
+};
+
+export const cleanup = async (): Promise<void> => {
+    try {
+        // Close cached MongoDB connection
+        const { cleanupClients } = await import('./clients.js');
+        await cleanupClients();
+    } catch (error) {
+        // Ignore cleanup errors - connection might already be closed
+    }
+};
+
+// Legacy class-based API for backward compatibility
+// eslint-disable-next-line no-restricted-syntax
+export class DualStoreManager<TextKey extends string = 'text', TimeKey extends string = 'createdAt'> {
+    private readonly state: DualStoreManagerState<TextKey, TimeKey>;
+
+    private constructor(state: DualStoreManagerState<TextKey, TimeKey>) {
+        this.state = state;
+        // Emit deprecation warning on class instantiation
+        console.warn(
+            '[DEPRECATED] DualStoreManager class is deprecated. ' +
+                "Use the standalone functions from './dualStore.js' instead.",
+        );
     }
 
     static async create<TTextKey extends string = 'text', TTimeKey extends string = 'createdAt'>(
         name: string,
         textKey: TTextKey,
         timeStampKey: TTimeKey,
+        options?: {
+            agentName?: string;
+            databaseName?: string;
+        },
     ): Promise<DualStoreManager<TTextKey, TTimeKey>> {
-        const chromaClient = await getChromaClient();
-        const mongoClient = await getMongoClient();
-        const family = `${AGENT_NAME}_${name}`;
-        const db = mongoClient.db('database');
-        const aliases = db.collection<AliasDoc>('collection_aliases');
-        const alias = await aliases.findOne({ _id: family });
+        console.warn(
+            '[DEPRECATED] DualStoreManager.create() is deprecated. ' +
+                "Use the standalone create() function from './dualStore.js' instead.",
+        );
+        const state = await create(name, textKey, timeStampKey, options);
+        return new DualStoreManager(state);
+    }
 
-        const embedFnName = alias?.embed?.fn ?? process.env.EMBEDDING_FUNCTION ?? 'nomic-embed-text';
-        const embeddingFn = alias?.embed
-            ? RemoteEmbeddingFunction.fromConfig({
-                  driver: alias.embed.driver,
-                  fn: alias.embed.fn,
-              })
-            : RemoteEmbeddingFunction.fromConfig({
-                  driver: process.env.EMBEDDING_DRIVER ?? 'ollama',
-                  fn: embedFnName,
-              });
+    get name(): string {
+        console.warn(
+            '[DEPRECATED] DualStoreManager.name property is deprecated. ' +
+                'Access name property from DualStoreManagerState directly.',
+        );
+        return this.state.name;
+    }
 
-        const chromaCollection = await chromaClient.getOrCreateCollection({
-            name: alias?.target ?? family,
-            embeddingFunction: embeddingFn,
-        });
+    get dualStoreState(): DualStoreManagerState<TextKey, TimeKey> {
+        // Provide access to state for migration to standalone functions
+        return this.state;
+    }
 
-        const mongoCollection = db.collection<DualStoreEntry<TTextKey, TTimeKey>>(family);
+    get agent_name(): string {
+        console.warn(
+            '[DEPRECATED] DualStoreManager.agent_name property is deprecated. ' +
+                'Access the agent_name property from the DualStoreManagerState directly.',
+        );
+        return this.state.agent_name;
+    }
 
-        const supportsImages = !embedFnName.toLowerCase().includes('text');
-        return new DualStoreManager({
-            name: family,
-            chromaCollection,
-            mongoCollection,
-            textKey,
-            timeStampKey,
-            supportsImages,
-        });
+    get embedidng_fn(): string {
+        console.warn(
+            '[DEPRECATED] DualStoreManager.embedidng_fn property is deprecated. ' +
+                'Access the embedding_fn property from the DualStoreManagerState directly.',
+        );
+        return this.state.embedding_fn;
     }
 
     getMongoCollection(): Collection<DualStoreEntry<TextKey, TimeKey>> {
-        return this.mongoCollection;
+        console.warn(
+            '[DEPRECATED] DualStoreManager.getMongoCollection() is deprecated. ' +
+                "Use the standalone getMongoCollection() function from './dualStore.js' instead.",
+        );
+        return getMongoCollection(this.state);
     }
 
     getChromaCollection(): ChromaCollection {
-        return this.chromaCollection;
+        console.warn(
+            '[DEPRECATED] DualStoreManager.getChromaCollection() is deprecated. ' +
+                "Use the standalone getChromaCollection() function from './dualStore.js' instead.",
+        );
+        return getChromaCollection(this.state);
     }
 
     async insert(entry: DualStoreEntry<TextKey, TimeKey>): Promise<void> {
-        const id = entry.id ?? randomUUID();
-        const timestampCandidate = pickTimestamp(
-            entry[this.timeStampKey],
-            entry.metadata?.[this.timeStampKey],
-            entry.metadata?.timeStamp,
+        console.warn(
+            '[DEPRECATED] DualStoreManager.insert() is deprecated. ' +
+                "Use the standalone insert() function from './dualStore.js' instead.",
         );
-        const timestamp = toEpochMilliseconds(timestampCandidate);
-        const metadata = withTimestampMetadata(entry.metadata, this.timeStampKey, timestamp);
-
-        const preparedEntry = {
-            ...entry,
-            id,
-            [this.timeStampKey]: timestamp,
-            metadata,
-        } satisfies DualStoreEntry<TextKey, TimeKey>;
-
-        const dualWriteEnabled = (process.env.DUAL_WRITE_ENABLED ?? 'true').toLowerCase() !== 'false';
-        const isImage = metadata.type === 'image';
-
-        if (dualWriteEnabled && (!isImage || this.supportsImages)) {
-            try {
-                await this.chromaCollection.add({
-                    ids: [id],
-                    documents: [preparedEntry[this.textKey]],
-                    metadatas: [toChromaMetadata(metadata)],
-                });
-            } catch (error) {
-                console.warn('Failed to embed entry', error);
-            }
-        }
-
-        await this.mongoCollection.insertOne(
-            preparedEntry as OptionalUnlessRequiredId<DualStoreEntry<TextKey, TimeKey>>,
-        );
+        await insert(this.state, entry);
     }
 
-    // TODO: remove in future – alias for backwards compatibility
     async addEntry(entry: DualStoreEntry<TextKey, TimeKey>): Promise<void> {
-        await this.insert(entry);
-    }
-
-    private createDefaultMongoFilter(): Filter<DualStoreEntry<TextKey, TimeKey>> {
-        const textCondition: FilterOperators<string> = {
-            $exists: true,
-            $regex: '\\S',
-        };
-
-        return {
-            [this.textKey]: textCondition,
-        } as Filter<DualStoreEntry<TextKey, TimeKey>>;
-    }
-
-    private createDefaultSorter(): Sort {
-        return { [this.timeStampKey]: -1 } satisfies Sort;
+        console.warn(
+            '[DEPRECATED] DualStoreManager.addEntry() is deprecated. ' +
+                "Use the standalone addEntry() function from './dualStore.js' instead.",
+        );
+        await addEntry(this.state, entry);
     }
 
     async getMostRecent(
         limit = 10,
-        mongoFilter: Filter<DualStoreEntry<TextKey, TimeKey>> = this.createDefaultMongoFilter(),
-        sorter: Sort = this.createDefaultSorter(),
+        mongoFilter?: Filter<DualStoreEntry<TextKey, TimeKey>>,
+        sorter?: Sort,
     ): Promise<DualStoreEntry<'text', 'timestamp'>[]> {
-        const documents = await this.mongoCollection.find(mongoFilter).sort(sorter).limit(limit).toArray();
-        return documents
-            .map((entry: WithId<DualStoreEntry<TextKey, TimeKey>>) =>
-                toGenericEntry(entry, this.textKey, this.timeStampKey),
-            )
-            .filter((entry) => typeof entry.text === 'string' && entry.text.trim().length > 0);
+        console.warn(
+            '[DEPRECATED] DualStoreManager.getMostRecent() is deprecated. ' +
+                "Use the standalone getMostRecent() function from './dualStore.js' instead.",
+        );
+        return getMostRecent(this.state, limit, mongoFilter, sorter);
     }
 
     async getMostRelevant(
@@ -223,70 +328,29 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         limit: number,
         where?: Where,
     ): Promise<DualStoreEntry<'text', 'timestamp'>[]> {
-        if (queryTexts.length === 0) {
-            return [];
-        }
-
-        const queryOptions: QueryArgs = {
-            queryTexts: [...queryTexts],
-            nResults: limit,
-            include: ['documents', 'metadatas'],
-            ...(where && Object.keys(where).length > 0 ? { where } : {}),
-        };
-
-        const queryResult = await this.chromaCollection.query<ChromaMetadata>(queryOptions);
-        const rows = queryResult.rows().flat();
-
-        return rows
-            .map((row) => {
-                if (!row.document) {
-                    return undefined;
-                }
-
-                const metadata = cloneMetadata(row.metadata);
-                const timestampSource = pickTimestamp(metadata?.[this.timeStampKey], metadata?.timeStamp);
-
-                const entry: DualStoreEntry<'text', 'timestamp'> = {
-                    id: row.id,
-                    text: row.document,
-                    metadata,
-                    timestamp: toEpochMilliseconds(timestampSource),
-                };
-
-                return entry;
-            })
-            .filter((entry): entry is DualStoreEntry<'text', 'timestamp'> => entry !== undefined)
-            .filter((entry, index, array) => array.findIndex((candidate) => candidate.text === entry.text) === index);
+        console.warn(
+            '[DEPRECATED] DualStoreManager.getMostRelevant() is deprecated. ' +
+                "Use the standalone getMostRelevant() function from './dualStore.js' instead.",
+        );
+        return getMostRelevant(this.state, queryTexts, limit, where);
     }
 
     async get(id: string): Promise<DualStoreEntry<'text', 'timestamp'> | null> {
-        const filter = { id } as Filter<DualStoreEntry<TextKey, TimeKey>>;
-        const document = await this.mongoCollection.findOne(filter);
-
-        if (!document) {
-            return null;
-        }
-
-        return toGenericEntry(document, this.textKey, this.timeStampKey);
+        console.warn(
+            '[DEPRECATED] DualStoreManager.get() is deprecated. ' +
+                "Use the standalone get() function from './dualStore.js' instead.",
+        );
+        return get(this.state, id);
     }
 
     async cleanup(): Promise<void> {
-        try {
-            // Close MongoDB connection
-            const { getMongoClient } = await import('./clients.js');
-            const mongoClient = await getMongoClient();
-            if (mongoClient) {
-                await mongoClient.close();
-            }
-        } catch (error) {
-            // Ignore cleanup errors - connection might already be closed
-        }
-
-        try {
-            // ChromaDB cleanup is handled automatically when the process exits
-            // The ChromaClient doesn't have an explicit close method in the current version
-        } catch (error) {
-            // Ignore cleanup errors
-        }
+        console.warn(
+            '[DEPRECATED] DualStoreManager.cleanup() is deprecated. ' +
+                "Use the standalone cleanup() function from './dualStore.js' instead.",
+        );
+        await cleanup();
     }
 }
+
+// Re-export helper functions for external use
+export { createDualStoreManagerDependencies } from './dualStoreHelpers.js';

@@ -1,5 +1,6 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
+import { search } from '../../actions/sessions/search.js';
 
 export const searchSessions = new Command('search')
   .description('Search past sessions by semantic embedding')
@@ -7,17 +8,28 @@ export const searchSessions = new Command('search')
   .option('-k, --count <number>', 'Number of results to return', '5')
   .action(async (query, options) => {
     try {
-      console.log(chalk.blue(`Searching for: "${query}"`));
-      console.log(chalk.yellow(`Returning ${options.count} results...`));
+      const result = await search({
+        query,
+        k: parseInt(options.count),
+      });
 
-      // Mock results
-      const mockResults = [
-        { id: 'sess_123', title: 'Code Review', relevance: 0.95 },
-        { id: 'sess_456', title: 'Bug Fix', relevance: 0.87 },
-      ];
+      // Handle error case
+      if ('error' in result) {
+        console.error(chalk.red('Error searching sessions:'), result.error);
+        process.exit(1);
+      }
 
-      mockResults.forEach((result) => {
-        console.log(`${result.id}: ${result.title} (${(result.relevance * 100).toFixed(1)}%)`);
+      if (result.results.length === 0) {
+        console.log(chalk.yellow('No sessions found'));
+        return;
+      }
+
+      console.log(chalk.blue(`Found ${result.results.length} sessions:\n`));
+      result.results.forEach((session: any) => {
+        const title = session.title || 'Untitled';
+        const id = session.id || 'Unknown';
+        const messageCount = session.messageCount || 0;
+        console.log(`${id}: ${title} (${messageCount} messages)`);
       });
 
       // Ensure process exits cleanly

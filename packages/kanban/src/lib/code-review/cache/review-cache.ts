@@ -5,7 +5,7 @@
  * and avoid redundant analysis.
  */
 
-import type { ReviewCacheEntry, CodeReviewResult } from '../types.js';
+import type { ReviewCacheEntry } from '../types.js';
 
 export interface CacheConfig {
   enabled: boolean;
@@ -23,7 +23,7 @@ export class ReviewCache {
 
   constructor(config: CacheConfig) {
     this.config = config;
-    
+
     if (this.config.enabled) {
       // Start periodic cleanup
       this.startCleanup();
@@ -104,14 +104,17 @@ export class ReviewCache {
    */
   private evictOldest(): void {
     const entries = Array.from(this.cache.entries());
-    
+
     // Sort by timestamp (oldest first)
     entries.sort((a, b) => a[1].timestamp - b[1].timestamp);
-    
+
     // Remove oldest 25% of entries
     const toRemove = Math.ceil(entries.length * 0.25);
     for (let i = 0; i < toRemove; i++) {
-      this.cache.delete(entries[i][0]);
+      const entry = entries[i];
+      if (entry) {
+        this.cache.delete(entry[0]);
+      }
     }
   }
 
@@ -120,9 +123,12 @@ export class ReviewCache {
    */
   private startCleanup(): void {
     // Run cleanup every 5 minutes
-    this.cleanupTimer = setInterval(() => {
-      this.cleanup();
-    }, 5 * 60 * 1000);
+    this.cleanupTimer = setInterval(
+      () => {
+        this.cleanup();
+      },
+      5 * 60 * 1000,
+    );
   }
 
   /**

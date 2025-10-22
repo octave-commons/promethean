@@ -115,6 +115,7 @@ app.post('/generate', (req: Request, res: Response) => {
 const MODULE_NOT_FOUND = 'ERR_MODULE_NOT_FOUND';
 const PACKAGE_PATH_NOT_EXPORTED = 'ERR_PACKAGE_PATH_NOT_EXPORTED';
 
+// eslint-disable-next-line functional/no-loop-statements, functional/no-try-statements, functional/no-let
 async function importWithFallback<TModule>(specs: readonly (string | undefined)[]): Promise<TModule> {
     let lastError: Error | undefined;
     for (const spec of specs) {
@@ -130,6 +131,18 @@ async function importWithFallback<TModule>(specs: readonly (string | undefined)[
         }
     }
     if (lastError) throw lastError;
+    throw new Error('Unable to resolve module');
+}
+
+    if (successfulResult) {
+        return successfulResult.value;
+    }
+
+    const lastError = results
+        .filter((result): result is PromiseRejectedResult => result.status === 'rejected')
+        .pop()?.reason;
+
+    if (lastError) throw lastError as Error;
     throw new Error('Unable to resolve module');
 }
 

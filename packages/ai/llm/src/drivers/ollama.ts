@@ -2,21 +2,23 @@ import ollama from 'ollama';
 
 import { LLMDriver, GenerateArgs } from './base.js';
 
-export class OllamaDriver implements LLMDriver {
-    private model = 'gemma3:latest';
+export const createOllamaDriver = (initialModel = 'gemma3:latest'): LLMDriver => {
+    const state = { model: initialModel };
 
-    async load(model: string): Promise<void> {
-        this.model = model;
-    }
+    return {
+        async load(model: string): Promise<void> {
+            state.model = model;
+        },
 
-    async generate({ prompt, context = [], format, tools = [] }: GenerateArgs): Promise<unknown> {
-        const res = (await ollama.chat({
-            model: this.model,
-            messages: [{ role: 'system', content: prompt }, ...context],
-            ...(format ? { format: format as string | Record<string, unknown> } : {}),
-            tools,
-        })) as { message: { content: string } };
-        const content = res.message.content;
-        return format ? JSON.parse(content) : content;
-    }
-}
+        async generate({ prompt, context = [], format, tools = [] }: GenerateArgs): Promise<unknown> {
+            const res = (await ollama.chat({
+                model: state.model,
+                messages: [{ role: 'system', content: prompt }, ...context],
+                ...(format ? { format: format as string | Record<string, unknown> } : {}),
+                tools,
+            })) as { message: { content: string } };
+            const content = res.message.content;
+            return format ? JSON.parse(content) : content;
+        },
+    };
+};

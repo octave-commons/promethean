@@ -17,7 +17,6 @@
         :PM2_PROCESS_NAME "heartbeat"
         :HEARTBEAT_PORT "5005"
         :PYTHONUNBUFFERED "1"
-        :PYTHONPATH "./packages/pm2-helpers"
         :CHECK_INTERVAL "300000"
         :HEARTBEAT_TIMEOUT "600000"
       }

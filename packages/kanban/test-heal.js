@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 // Simple test script for heal functionality
-import { createHealCommand } from './src/lib/heal/heal-command.js';
+import { createHealCommand } from './dist/lib/heal/heal-command.js';
 
 async function testHeal() {
   try {

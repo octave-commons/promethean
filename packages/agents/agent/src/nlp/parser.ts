@@ -103,46 +103,112 @@ export interface NLPConfig {
     timeout: number;
 }
 
-export class NaturalLanguageCommandParser implements CommandParser {
-    private commands: Map<string, any> = new Map();
-    private config: NLPConfig;
+export const makeParser = (config: Partial<NLPConfig> = {}) => {
+    const commands: Map<string, any> = new Map();
+    const cfg: NLPConfig = {
+        language: 'en',
+        confidence: 0.7,
+        enableContext: true,
+        enableLearning: false,
+        maxAlternatives: 3,
+        timeout: 5000,
+        ...config,
+    };
 
-    constructor(config: Partial<NLPConfig> = {}) {
-        this.config = {
-            language: 'en',
-            confidence: 0.7,
-            enableContext: true,
-            enableLearning: false,
-            maxAlternatives: 3,
-            timeout: 5000,
-            ...config,
-        };
+    const initializeBuiltinCommands = (): void => {
+        // Start command
+        registerCommand(
+            'start',
+            {
+                description: 'Start an agent, service, or workflow',
+                parameters: {
+                    target: 'string',
+                    options: 'object',
+                },
+                examples: [
+                    'start agent agent1',
+                    'start service monitoring',
+                    'launch workflow backup',
+                    'run agent with name=agent1',
+                ],
+            },
+            ['start agent agent1', 'start service monitoring', 'launch workflow backup'],
+        );
 
-        this.initializeBuiltinCommands();
-    }
+        // Stop command
+        registerCommand(
+            'stop',
+            {
+                description: 'Stop an agent, service, or workflow',
+                parameters: {
+                    target: 'string',
+                    force: 'boolean',
+                },
+                examples: [
+                    'stop agent agent1',
+                    'shutdown service monitoring',
+                    'terminate workflow backup',
+                    'kill agent agent1 force=true',
+                ],
+            },
+            ['stop agent agent1', 'shutdown service monitoring', 'terminate workflow backup'],
+        );
 
-    async parse(input: string): Promise<ParseResult> {
+        // Status command
+        registerCommand(
+            'status',
+            {
+                description: 'Get status of an agent, service, or workflow',
+                parameters: {
+                    target: 'string',
+                    detailed: 'boolean',
+                },
+                examples: [
+                    'status agent agent1',
+                    'check service monitoring',
+                    'info workflow backup',
+                    'get status of agent agent1',
+                ],
+            },
+            ['status agent agent1', 'check service monitoring', 'info workflow backup'],
+        );
+
+        // Help command
+        registerCommand(
+            'help',
+            {
+                description: 'Get help and usage information',
+                parameters: {
+                    topic: 'string',
+                },
+                examples: ['help', 'help start', 'how to start an agent', 'usage of status command'],
+            },
+            ['help', 'help start', 'how to start an agent'],
+        );
+    };
+
+    const parse = async (input: string): Promise<ParseResult> => {
         try {
-            const normalizedInput = this.normalizeInput(input);
-            const commandType = this.extractCommandType(normalizedInput);
-            const target = this.extractTarget(normalizedInput);
-            const parameters = this.extractParameters(normalizedInput);
+            const normalizedInput = normalizeInput(input);
+            const commandType = extractCommandType(normalizedInput);
+            const target = extractTarget(normalizedInput);
+            const parameters = extractParameters(normalizedInput);
 
             if (!commandType) {
                 return {
                     success: false,
                     error: 'Could not determine command type',
-                    suggestions: await this.getSuggestions(input),
+                    suggestions: await getSuggestions(input),
                 };
             }
 
             const command: Command = {
-                id: this.generateCommandId(),
+                id: generateCommandId(),
                 type: commandType as CommandType,
                 target,
                 parameters,
                 context: {
-                    confidence: this.calculateConfidence(normalizedInput),
+                    confidence: calculateConfidence(normalizedInput),
                     requiresClarification: false,
                 },
             };
@@ -153,7 +219,7 @@ export class NaturalLanguageCommandParser implements CommandParser {
                 return {
                     success: false,
                     error: `Invalid command structure: ${validation.error.message}`,
-                    suggestions: await this.getSuggestions(input),
+                    suggestions: await getSuggestions(input),
                 };
             }
 
@@ -165,14 +231,14 @@ export class NaturalLanguageCommandParser implements CommandParser {
             return {
                 success: false,
                 error: error instanceof Error ? error.message : 'Unknown parsing error',
-                suggestions: await this.getSuggestions(input),
+                suggestions: await getSuggestions(input),
             };
         }
-    }
+    };
 
-    getSupportedCommands(): Record<string, any> {
+    const getSupportedCommands = (): Record<string, any> => {
         const result: Record<string, any> = {};
-        for (const [type, config] of this.commands) {
+        for (const [type, config] of commands) {
             result[type] = {
                 description: config.description,
                 parameters: config.parameters,
@@ -180,37 +246,37 @@ export class NaturalLanguageCommandParser implements CommandParser {
             };
         }
         return result;
-    }
+    };
 
-    registerCommand(type: string, schema: any, examples: string[]): void {
-        this.commands.set(type, { schema, examples, description: schema.description });
-    }
+    const registerCommand = (type: string, schema: any, examples: string[]): void => {
+        commands.set(type, { schema, examples, description: schema.description });
+    };
 
-    async getSuggestions(input: string): Promise<string[]> {
-        const normalizedInput = this.normalizeInput(input);
+    const getSuggestions = async (input: string): Promise<string[]> => {
+        const normalizedInput = normalizeInput(input);
         const suggestions: string[] = [];
 
         // Simple keyword matching for now
-        for (const [, config] of this.commands) {
+        for (const [, config] of commands) {
             for (const example of config.examples) {
-                if (this.calculateSimilarity(normalizedInput, example) > 0.5) {
+                if (calculateSimilarity(normalizedInput, example) > 0.5) {
                     suggestions.push(example);
                 }
             }
         }
 
-        return suggestions.slice(0, this.config.maxAlternatives);
-    }
+        return suggestions.slice(0, cfg.maxAlternatives);
+    };
 
-    private normalizeInput(input: string): string {
+    const normalizeInput = (input: string): string => {
         return input
             .toLowerCase()
             .trim()
             .replace(/[^\w\s]/g, ' ')
             .replace(/\s+/g, ' ');
-    }
+    };
 
-    private extractCommandType(input: string): string | null {
+    const extractCommandType = (input: string): string | null => {
         const commandPatterns = {
             start: ['start', 'begin', 'launch', 'run', 'execute', 'activate'],
             stop: ['stop', 'end', 'terminate', 'kill', 'shutdown', 'deactivate'],
@@ -233,9 +299,9 @@ export class NaturalLanguageCommandParser implements CommandParser {
         }
 
         return null;
-    }
+    };
 
-    private extractTarget(input: string): string {
+    const extractTarget = (input: string): string => {
         // Simple extraction - look for nouns after command verbs
         const words = input.split(' ');
         const commandIndex = words.findIndex((word) =>
@@ -249,9 +315,9 @@ export class NaturalLanguageCommandParser implements CommandParser {
         }
 
         return 'unknown';
-    }
+    };
 
-    private extractParameters(input: string): Record<string, any> {
+    const extractParameters = (input: string): Record<string, any> => {
         const parameters: Record<string, any> = {};
 
         // Extract key-value pairs like "name=agent1" or "port 3000"
@@ -264,9 +330,9 @@ export class NaturalLanguageCommandParser implements CommandParser {
         }
 
         return parameters;
-    }
+    };
 
-    private calculateConfidence(input: string): number {
+    const calculateConfidence = (input: string): number => {
         // Simple confidence calculation based on keyword matches
         const knownKeywords = [
             'start',
@@ -289,89 +355,53 @@ export class NaturalLanguageCommandParser implements CommandParser {
         const words = input.split(' ');
         const matches = words.filter((word) => knownKeywords.includes(word)).length;
         return Math.min(matches / words.length, 1);
-    }
+    };
 
-    private calculateSimilarity(str1: string, str2: string): number {
+    const calculateSimilarity = (str1: string, str2: string): number => {
         const words1 = str1.split(' ');
         const words2 = str2.split(' ');
         const intersection = words1.filter((word) => words2.includes(word));
         const union = [...new Set([...words1, ...words2])];
         return intersection.length / union.length;
-    }
+    };
 
-    private generateCommandId(): string {
+    const generateCommandId = (): string => {
         return `cmd_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    };
+
+    // Initialize built-in commands
+    initializeBuiltinCommands();
+
+    return {
+        parse,
+        getSupportedCommands,
+        registerCommand,
+        getSuggestions,
+        config: cfg,
+    };
+};
+
+// Keep the old class for backward compatibility
+export class NaturalLanguageCommandParser implements CommandParser {
+    private parser: ReturnType<typeof makeParser>;
+
+    constructor(config: Partial<NLPConfig> = {}) {
+        this.parser = makeParser(config);
     }
 
-    private initializeBuiltinCommands(): void {
-        // Start command
-        this.registerCommand(
-            'start',
-            {
-                description: 'Start an agent, service, or workflow',
-                parameters: {
-                    target: 'string',
-                    options: 'object',
-                },
-                examples: [
-                    'start agent agent1',
-                    'start service monitoring',
-                    'launch workflow backup',
-                    'run agent with name=agent1',
-                ],
-            },
-            ['start agent agent1', 'start service monitoring', 'launch workflow backup'],
-        );
+    async parse(input: string): Promise<ParseResult> {
+        return this.parser.parse(input);
+    }
 
-        // Stop command
-        this.registerCommand(
-            'stop',
-            {
-                description: 'Stop an agent, service, or workflow',
-                parameters: {
-                    target: 'string',
-                    force: 'boolean',
-                },
-                examples: [
-                    'stop agent agent1',
-                    'shutdown service monitoring',
-                    'terminate workflow backup',
-                    'kill agent agent1 force=true',
-                ],
-            },
-            ['stop agent agent1', 'shutdown service monitoring', 'terminate workflow backup'],
-        );
+    getSupportedCommands(): Record<string, any> {
+        return this.parser.getSupportedCommands();
+    }
 
-        // Status command
-        this.registerCommand(
-            'status',
-            {
-                description: 'Get status of an agent, service, or workflow',
-                parameters: {
-                    target: 'string',
-                    detailed: 'boolean',
-                },
-                examples: [
-                    'status agent agent1',
-                    'check service monitoring',
-                    'info workflow backup',
-                    'get status of agent agent1',
-                ],
-            },
-            ['status agent agent1', 'check service monitoring', 'info workflow backup'],
-        );
+    registerCommand(type: string, schema: any, examples: string[]): void {
+        this.parser.registerCommand(type, schema, examples);
+    }
 
-        // Help command
-        this.registerCommand(
-            'help',
-            {
-                description: 'Get help and usage information',
-                parameters: {
-                    topic: 'string',
-                },
-                examples: ['help', 'help start', 'how to start an agent', 'usage of status command'],
-            },
-            ['help', 'help start', 'how to start an agent'],
-        );
+    async getSuggestions(input: string): Promise<string[]> {
+        return this.parser.getSuggestions(input);
     }
 }

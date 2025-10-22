@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { loadKanbanConfig } from './board/config.js';
 import { printJSONL } from './lib/jsonl.js';
+import { printMarkdown } from './lib/markdown-output.js';
 import { processSync } from './process/sync.js';
 import { docguard } from './process/docguard.js';
 import {
@@ -60,9 +61,39 @@ const applyLegacyEnv = (env: Readonly<NodeJS.ProcessEnv>): Readonly<NodeJS.Proce
 };
 
 const COMMAND_LIST = AVAILABLE_COMMANDS;
+
+/**
+ * Detect the type of output based on command
+ */
+const detectOutputType = (
+  cmd: string,
+): 'task' | 'tasks' | 'board' | 'search' | 'count' | 'audit' | 'table' => {
+  switch (cmd) {
+    case 'find':
+      return 'task';
+    case 'list':
+    case 'pull':
+    case 'push':
+    case 'sync':
+      return 'tasks';
+    case 'regenerate':
+    case 'ui':
+      return 'board';
+    case 'search':
+      return 'search';
+    case 'count':
+      return 'count';
+    case 'audit':
+      return 'audit';
+    default:
+      return 'table';
+  }
+};
 const HELP_TEXT =
-  `Usage: kanban [--kanban path] [--tasks path] <subcommand> [args...]\n` +
+  `Usage: kanban [--kanban path] [--tasks path] [--json] <subcommand> [args...]\n` +
   `Subcommands: ${[...COMMAND_LIST, 'process_sync', 'doccheck'].join(', ')}\n\n` +
+  `Options:\n` +
+  `  --json   - Output in JSONL format (default: markdown)\n\n` +
   `Core Operations:\n` +
   `  push     - Push board state to task files (board → files)\n` +
   `  pull     - Pull task file state to board (files → board)\n` +
@@ -81,19 +112,28 @@ const HELP_TEXT =
   `  audit    - Audit board consistency\n` +
   `  heal     - Heal board issues with git tag management\n` +
   `  ui       - Start web UI\n` +
-  `  dev      - Start development server`;
+  `  dev      - Start development server\n\n` +
+  `WIP Management:\n` +
+  `  enforce-wip-limits - Enforce WIP limits and move excess tasks\n` +
+  `  wip-monitor       - Real-time capacity monitoring\n` +
+  `  wip-compliance    - Generate compliance reports\n` +
+  `  wip-violations    - View violation history\n` +
+  `  wip-suggestions  - Get capacity balancing suggestions`;
 
 async function main(): Promise<void> {
   const rawArgs = process.argv.slice(2);
   const normalizedArgs = normalizeLegacyArgs(rawArgs);
   const helpRequested = normalizedArgs.includes('--help') || normalizedArgs.includes('-h');
+  const jsonRequested = normalizedArgs.includes('--json');
 
   const { config, restArgs } = await loadKanbanConfig({
     argv: normalizedArgs,
     env: applyLegacyEnv(process.env),
   });
 
-  const [cmd, ...args] = restArgs;
+  // Filter out --json flag from command arguments
+  const filteredArgs = restArgs.filter((arg) => arg !== '--json');
+  const [cmd, ...args] = filteredArgs;
   const boardFile = config.boardFile;
   const tasksDir = config.tasksDir;
 
@@ -128,7 +168,12 @@ async function main(): Promise<void> {
   try {
     const result = await executeCommand(cmd, args, context);
     if (typeof result !== 'undefined' && result !== null) {
-      printJSONL(result);
+      if (jsonRequested) {
+        printJSONL(result);
+      } else {
+        // Default to markdown output
+        printMarkdown(result, detectOutputType(cmd), { query: args[0] });
+      }
     }
   } catch (error: unknown) {
     if (error instanceof CommandUsageError || error instanceof CommandNotFoundError) {

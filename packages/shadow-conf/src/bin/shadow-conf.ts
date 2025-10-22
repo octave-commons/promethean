@@ -8,6 +8,11 @@ import {
   generateEcosystem,
   type GenerateEcosystemOptions,
 } from '../ecosystem.js';
+import {
+  validateAndSanitizePath,
+  validateAndSanitizeFilename,
+  DEFAULT_SECURITY_CONFIG,
+} from '../security-utils.js';
 
 const HELP_MESSAGE = `Usage: shadow-conf <command> [options]
 
@@ -87,70 +92,22 @@ function parseFlagValue(token: string, index: number, all: readonly string[]): [
 }
 
 /**
- * Validates user input for security and safety with comprehensive protection.
+ * Validates user input for security and safety using centralized security utilities.
  *
  * @param input - The user input to validate
  * @param type - The type of input being validated
  * @throws {Error} When input is malicious or invalid
  */
 function validateUserInput(input: string, type: 'path' | 'filename'): void {
-  // Reject null bytes and other dangerous characters
-  if (input.includes('\0') || input.includes('\r') || input.includes('\n')) {
-    throw new Error(`Invalid characters detected in ${type}`);
-  }
-
-  // Reject command injection attempts
-  if (input.includes('|') || input.includes(';') || input.includes('&') || input.includes('$')) {
-    throw new Error(`Command injection detected in ${type}: ${input}`);
-  }
-
-  // Reject script injection attempts
-  if (input.includes('<script') || input.includes('javascript:') || input.includes('eval(')) {
-    throw new Error(`Script injection detected in ${type}: ${input}`);
-  }
-
-  // Reject path traversal in all inputs
-  if (input.includes('../') || input.includes('..\\') || input.includes('..')) {
-    throw new Error(`Directory traversal detected in ${type}: ${input}`);
-  }
-
-  // Reject encoded traversal attempts
-  if (input.includes('%2e%2e') || input.includes('%2E%2E')) {
-    throw new Error(`Encoded directory traversal detected in ${type}: ${input}`);
-  }
-
   if (type === 'filename') {
-    // Additional validation for filenames
-    if (input.includes('/') || input.includes('\\')) {
-      throw new Error('Filename must not contain path separators');
+    const result = validateAndSanitizeFilename(input, DEFAULT_SECURITY_CONFIG);
+    if (!result.success) {
+      throw new Error(result.error);
     }
-
-    // Reject reserved Windows names
-    const reservedNames = /^(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])$/i;
-    if (reservedNames.test(input.split('.')[0]!)) {
-      throw new Error(`Reserved filename detected: ${input}`);
-    }
-
-    // Reasonable length limit
-    if (input.length > 255) {
-      throw new Error('Filename too long (max 255 characters)');
-    }
-
-    // Only allow safe filename characters
-    if (!/^[a-zA-Z0-9._-]+$/.test(input)) {
-      throw new Error(`Filename contains invalid characters: ${input}`);
-    }
-  }
-
-  if (type === 'path') {
-    // Additional path validation
-    if (input.length > 4096) {
-      throw new Error('Path too long (max 4096 characters)');
-    }
-
-    // Reject suspicious patterns
-    if (input.includes('/proc/') || input.includes('/sys/') || input.includes('/dev/')) {
-      throw new Error(`Access to system directories not allowed: ${input}`);
+  } else {
+    const result = validateAndSanitizePath(input, 'CLI argument', DEFAULT_SECURITY_CONFIG);
+    if (!result.success) {
+      throw new Error(result.error);
     }
   }
 }

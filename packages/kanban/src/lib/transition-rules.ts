@@ -6,131 +6,68 @@
  * - Clojure NBB DSL for custom logic
  * - Built-in JavaScript rule validators
  * - Testing→review transition validation with coverage and quality gates
+ *
+ * @deprecated Use the functional implementations from './transition-rules-functional' instead.
+ * This class is provided for backward compatibility and will be removed in a future version.
  */
 
-import { readFile, access } from 'fs/promises';
+import { readFile } from 'fs/promises';
 import type { Task, Board } from './types.js';
-import { runTestingTransition } from './testing-transition/index.js';
-import type { TestingTransitionConfig, TestCoverageRequest } from './testing-transition/types.js';
+import type {
+  TransitionRule,
+  GlobalRule,
+  TransitionRulesConfig,
+  TransitionResult,
+  TransitionDebug,
+} from './transition-rules-functional.js';
 
-export interface TransitionRule {
-  from: string[];
-  to: string[];
-  description: string;
-  check: string;
-}
-
-export interface CustomCheck {
-  description: string;
-  impl: string;
-}
-
-export interface GlobalRule {
-  name: string;
-  description: string;
-  enabled: boolean;
-  impl: string;
-}
-
-export interface TransitionRulesConfig {
-  enabled: boolean;
-  enforcement: 'strict' | 'warn' | 'disabled';
-  dslPath?: string;
-  rules: TransitionRule[];
-  customChecks: Record<string, CustomCheck>;
-  globalRules: GlobalRule[];
-}
-
-export interface TransitionResult {
-  allowed: boolean;
-  reason: string;
-  ruleViolations: string[];
-  suggestions: string[];
-  suggestedAlternatives: string[];
-  warnings: string[];
-}
-
-export interface TransitionDebug {
-  from: string;
-  to: string;
-  task: Task;
-  wipCheck: boolean;
-  existenceCheck: boolean;
-  validTransitions: string[];
-}
+// Import functional implementations
+import {
+  createTransitionRulesEngineState,
+  initializeTransitionRulesEngine,
+  validateTransition as validateTransitionFn,
+  getValidTransitions as getValidTransitionsFn,
+  debugTransition as debugTransitionFn,
+  showProcessFlow as showProcessFlowFn,
+  validateTestingToReviewTransition as validateTestingToReviewTransitionFn,
+  extractTestingInfo as extractTestingInfoFn,
+  getTransitionsOverview as getTransitionsOverviewFn,
+  normalizeColumnName,
+  findTransitionRule,
+  isBackwardTransition,
+  evaluateGlobalRule as evaluateGlobalRuleFn,
+  evaluateWipLimit,
+  evaluateTaskExistence,
+  evaluateCustomCheck as evaluateCustomCheckFn,
+  evaluateCustomRule as evaluateCustomRuleFn,
+  TransitionRulesEngineState,
+} from './transition-rules-functional.js';
 
 /**
  * Transition Rules Engine
  *
  * Validates kanban board state transitions according to configured rules
  * and custom logic defined in Clojure DSL.
+ *
+ * @deprecated Use the functional implementations from './transition-rules-functional' instead.
+ * This class is provided for backward compatibility and will be removed in a future version.
  */
 export class TransitionRulesEngine {
-  private config: TransitionRulesConfig;
-  private dslAvailable: boolean = false;
-  private testingConfig: TestingTransitionConfig;
+  private state: TransitionRulesEngineState;
 
   constructor(config?: TransitionRulesConfig) {
-    // Default configuration if none provided
-    this.config = config || {
-      enabled: true,
-      enforcement: 'strict',
-      dslPath: '',
-      rules: [],
-      customChecks: {},
-      globalRules: [],
-    };
-
-    // Default testing transition configuration
-    this.testingConfig = {
-      enabled: true,
-      thresholds: {
-        coverage: 90,
-        quality: 75,
-        softBlock: 90,
-        hardBlock: 75,
-      },
-      hardBlockCoverageThreshold: 75,
-      softBlockQualityScoreThreshold: 90,
-      weights: {
-        coverage: 0.4,
-        quality: 0.3,
-        requirementMapping: 0.2,
-        contextualAnalysis: 0.1,
-      },
-      timeouts: {
-        coverageAnalysis: 10000,
-        qualityAssessment: 15000,
-        requirementMapping: 20000,
-        totalAnalysis: 60000,
-      },
-      reporting: {
-        includeDetailedRationale: true,
-        generateActionItems: true,
-        appendToTask: true,
-      },
-    };
+    this.state = createTransitionRulesEngineState(config);
   }
 
   /**
-   * Initialize the rules engine and check if Clojure DSL is available
+   * Initialize rules engine and check if Clojure DSL is available
    */
   async initialize(): Promise<void> {
-    if (!this.config.dslPath) {
-      throw new Error(
-        'Clojure DSL path is required. TypeScript transition rules are no longer supported.',
-      );
-    }
-
-    try {
-      await access(this.config.dslPath);
-      this.dslAvailable = true;
-      console.log(`🔧 Clojure DSL available: ${this.config.dslPath}`);
-    } catch {
-      throw new Error(
-        `Clojure DSL not found at: ${this.config.dslPath}. Transition rules cannot function without the Clojure DSL.`,
-      );
-    }
+    console.warn(
+      'TransitionRulesEngine.initialize is deprecated. Use initializeTransitionRulesEngine from transition-rules-functional instead.',
+    );
+    const result = await initializeTransitionRulesEngine(this.state);
+    this.state = result.newState;
   }
 
   /**
@@ -142,114 +79,22 @@ export class TransitionRulesEngine {
     task: Task,
     board: Board,
   ): Promise<TransitionResult> {
-    // Skip validation if rules are disabled
-    if (!this.config.enabled || this.config.enforcement === 'disabled') {
-      return {
-        allowed: true,
-        reason: 'Transition rules are disabled',
-        ruleViolations: [],
-        suggestions: [],
-        suggestedAlternatives: [],
-        warnings: [],
-      };
-    }
-
-    const violations: string[] = [];
-    const suggestions: string[] = [];
-
-    // Normalize column names
-    const fromNormalized = this.normalizeColumnName(from);
-    const toNormalized = this.normalizeColumnName(to);
-
-    // Check 1: Is this a defined transition?
-    const transitionRule = this.findTransitionRule(fromNormalized, toNormalized);
-    if (!transitionRule) {
-      // Check if this is a backward transition
-      if (this.isBackwardTransition(fromNormalized, toNormalized)) {
-        console.log(`✅ Backward transition allowed: ${fromNormalized} → ${toNormalized}`);
-      } else {
-        violations.push(
-          `Invalid transition: ${fromNormalized} → ${toNormalized} is not a defined transition`,
-        );
-
-        const validTargets = this.getValidTransitions(fromNormalized);
-        if (validTargets.length > 0) {
-          suggestions.push(`Valid transitions from ${fromNormalized}: ${validTargets.join(', ')}`);
-        }
-      }
-    }
-
-    // Check 2: Global rules (WIP limits, task existence, etc.)
-    for (const globalRule of this.config.globalRules) {
-      if (!globalRule.enabled) continue;
-
-      try {
-        const passes = await this.evaluateGlobalRule(
-          globalRule,
-          fromNormalized,
-          toNormalized,
-          task,
-          board,
-        );
-        if (!passes) {
-          violations.push(`Global rule violation: ${globalRule.description}`);
-        }
-      } catch (error) {
-        console.warn(`Failed to evaluate global rule ${globalRule.name}:`, error);
-      }
-    }
-
-    // Check 3: Testing→review specific validation
-    if (fromNormalized === 'testing' && toNormalized === 'review') {
-      try {
-        const testingResult = await this.validateTestingToReviewTransition(task, board);
-        if (!testingResult.allowed) {
-          violations.push(...testingResult.violations);
-        }
-      } catch (error) {
-        console.warn(`Failed to validate testing→review transition:`, error);
-        violations.push(
-          `Testing transition validation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
-        );
-      }
-    }
-
-    // Check 4: Custom transition-specific rules
-    if (transitionRule && transitionRule.check) {
-      try {
-        const passes = await this.evaluateCustomCheck(transitionRule.check, task, board);
-        if (!passes) {
-          violations.push(`Transition check failed: ${transitionRule.description}`);
-        }
-      } catch (error) {
-        console.warn(`Failed to evaluate transition check ${transitionRule.check}:`, error);
-      }
-    }
-
-    const allowed = violations.length === 0;
-    const reason = allowed
-      ? `Transition ${fromNormalized} → ${toNormalized} is allowed`
-      : `Transition blocked: ${violations.join('; ')}`;
-
-    return {
-      allowed,
-      reason,
-      ruleViolations: violations,
-      suggestions,
-      suggestedAlternatives: suggestions,
-      warnings: [],
-    };
+    console.warn(
+      'TransitionRulesEngine.validateTransition is deprecated. Use validateTransition from transition-rules-functional instead.',
+    );
+    const result = await validateTransitionFn(this.state, from, to, task, board);
+    this.state = result.newState;
+    return result.result;
   }
 
   /**
    * Get all valid transitions from a given column
    */
   getValidTransitions(from: string): string[] {
-    const fromNormalized = this.normalizeColumnName(from);
-
-    const validRules = this.config.rules.filter((rule) => rule.from.includes(fromNormalized));
-
-    return validRules.flatMap((rule) => rule.to);
+    console.warn(
+      'TransitionRulesEngine.getValidTransitions is deprecated. Use getValidTransitions from transition-rules-functional instead.',
+    );
+    return getValidTransitionsFn(this.state.config, from);
   }
 
   /**
@@ -261,344 +106,22 @@ export class TransitionRulesEngine {
     task: Task,
     board: Board,
   ): Promise<TransitionDebug> {
-    const fromNormalized = this.normalizeColumnName(from);
-    const toNormalized = this.normalizeColumnName(to);
-
-    // Evaluate WIP check
-    const wipCheck = await this.evaluateWipLimit(toNormalized, board);
-
-    // Evaluate task existence check
-    const existenceCheck = this.evaluateTaskExistence(fromNormalized, task, board);
-
-    return {
-      from: fromNormalized,
-      to: toNormalized,
-      task,
-      wipCheck,
-      existenceCheck,
-      validTransitions: this.getValidTransitions(fromNormalized),
-    };
+    console.warn(
+      'TransitionRulesEngine.debugTransition is deprecated. Use debugTransition from transition-rules-functional instead.',
+    );
+    const result = await debugTransitionFn(this.state, from, to, task, board);
+    this.state = result.newState;
+    return result.debug;
   }
 
   /**
-   * Show the current process flow as a graph
+   * Show current process flow as a graph
    */
   showProcessFlow(): string {
-    const lines = ['🔄 Kanban Process Flow', ''];
-
-    this.config.rules.forEach((rule) => {
-      rule.from.forEach((from) => {
-        rule.to.forEach((to) => {
-          lines.push(`  ${from} → ${to} (${rule.description})`);
-        });
-      });
-    });
-
-    lines.push('');
-    lines.push('📋 Valid Transitions by Column:');
-    lines.push('');
-
-    // Group by source column
-    const bySource = new Map<string, Set<string>>();
-    this.config.rules.forEach((rule) => {
-      rule.from.forEach((from) => {
-        if (!bySource.has(from)) {
-          bySource.set(from, new Set());
-        }
-        rule.to.forEach((to) => {
-          bySource.get(from)!.add(to);
-        });
-      });
-    });
-
-    bySource.forEach((targets, from) => {
-      lines.push(`  ${from}: ${Array.from(targets).join(', ')}`);
-    });
-
-    return lines.join('\n');
-  }
-
-  /**
-   * Validate testing→review transition with coverage and quality gates
-   */
-  private async validateTestingToReviewTransition(
-    task: Task,
-    _board: Board,
-  ): Promise<{ allowed: boolean; violations: string[] }> {
-    const violations: string[] = [];
-
-    try {
-      // Extract testing information from task content or metadata
-      const testingInfo = this.extractTestingInfo(task);
-
-      if (!testingInfo.coverageReportPath) {
-        violations.push('No coverage report path specified in task');
-        return { allowed: false, violations };
-      }
-
-      // Set up timeout for performance validation
-      const timeoutPromise = new Promise<never>((_, reject) => {
-        setTimeout(
-          () => reject(new Error('Testing transition validation timeout')),
-          this.testingConfig.timeouts.totalAnalysis,
-        );
-      });
-
-      // Run testing transition validation with timeout
-      const validationPromise = this.runTestingValidation(task, testingInfo);
-
-      await Promise.race([validationPromise, timeoutPromise]);
-
-      return { allowed: true, violations };
-    } catch (error) {
-      if (error instanceof Error) {
-        violations.push(error.message);
-      } else {
-        violations.push('Unknown error during testing transition validation');
-      }
-      return { allowed: false, violations };
-    }
-  }
-
-  /**
-   * Extract testing information from task
-   */
-  private extractTestingInfo(task: Task): {
-    coverageReportPath?: string;
-    executedTests?: string[];
-    requirementMappings?: Array<{ requirementId: string; testIds: string[] }>;
-  } {
-    const content = task.content || '';
-
-    // Look for coverage report path in task content
-    const coverageMatch = content.match(/coverage[_-]?report[:\s]+([^\s\n]+)/i);
-    const coverageReportPath = coverageMatch ? coverageMatch[1] : undefined;
-
-    // Look for executed tests
-    const testsMatch = content.match(/executed[_-]?tests[:\s]+([^\n]+)/i);
-    const executedTests = testsMatch ? testsMatch[1]?.split(',').map((t) => t.trim()) : [];
-
-    // Look for requirement mappings
-    const mappingsMatch = content.match(/requirement[_-]?mappings[:\s]+([^\n]+)/i);
-    const requirementMappings = mappingsMatch
-      ? (JSON.parse(mappingsMatch[1] || '[]') as Array<{
-          requirementId: string;
-          testIds: string[];
-        }>)
-      : [];
-
-    return {
-      coverageReportPath,
-      executedTests,
-      requirementMappings,
-    };
-  }
-
-  /**
-   * Run the actual testing validation
-   */
-  private async runTestingValidation(
-    task: Task,
-    testingInfo: {
-      coverageReportPath?: string;
-      executedTests?: string[];
-      requirementMappings?: Array<{ requirementId: string; testIds: string[] }>;
-    },
-  ): Promise<void> {
-    if (!testingInfo.coverageReportPath) {
-      throw new Error('Coverage report path is required for testing→review transition');
-    }
-
-    // Determine coverage format from file extension
-    const format = this.getCoverageFormat(testingInfo.coverageReportPath);
-    const supportedFormats = ['lcov', 'cobertura', 'json'];
-    if (!supportedFormats.includes(format)) {
-      throw new Error(
-        `Unsupported coverage format: ${format}. Supported formats: ${supportedFormats.join(', ')}`,
-      );
-    }
-
-    // Run testing transition validation
-    const coverageRequest: TestCoverageRequest = {
-      task: {
-        uuid: task.uuid,
-        title: task.title,
-        content: task.content,
-        status: task.status,
-        priority: typeof task.priority === 'string' ? task.priority : String(task.priority || ''),
-        frontmatter: task.frontmatter,
-      },
-      changedFiles: [], // Will be extracted from task content
-      affectedPackages: [], // Will be determined from changed files
-      reportPath: 'coverage.json', // Default path - should be configurable
-      format: 'json', // Default format - should be configurable
-    };
-
-    await runTestingTransition(
-      coverageRequest,
-      testingInfo.executedTests || [],
-      testingInfo.requirementMappings || [],
-      this.testingConfig,
-      [], // tests - will be extracted from task content
-      `docs/agile/tasks/${task.uuid}`, // output directory for report
+    console.warn(
+      'TransitionRulesEngine.showProcessFlow is deprecated. Use showProcessFlow from transition-rules-functional instead.',
     );
-  }
-
-  /**
-   * Determine coverage format from file path
-   */
-  private getCoverageFormat(filePath: string): 'lcov' | 'cobertura' | 'json' {
-    if (filePath.endsWith('.lcov') || filePath.includes('lcov.info')) {
-      return 'lcov';
-    }
-    if (filePath.endsWith('.xml') || filePath.includes('cobertura')) {
-      return 'cobertura';
-    }
-    if (filePath.endsWith('.json')) {
-      return 'json';
-    }
-    // Default to lcov for unknown formats
-    return 'lcov';
-  }
-
-  // Private helper methods
-
-  private normalizeColumnName(column: string): string {
-    // Match the normalization used in kanban.ts columnKey function
-    return column
-      .normalize('NFKD')
-      .toLowerCase()
-      .replace(/[\s-]+/g, '_') // Convert spaces and hyphens to underscores
-      .replace(/[^a-z0-9_]+/g, ''); // Remove other special chars
-  }
-
-  private findTransitionRule(from: string, to: string): TransitionRule | undefined {
-    return this.config.rules.find((rule) => rule.from.includes(from) && rule.to.includes(to));
-  }
-
-  private isBackwardTransition(from: string, to: string): boolean {
-    const workflowOrder = [
-      'icebox',
-      'incoming',
-      'accepted',
-      'breakdown',
-      'ready',
-      'todo',
-      'in_progress',
-      'testing',
-      'review',
-      'document',
-      'done',
-    ];
-
-    const fromIndex = workflowOrder.indexOf(from);
-    const toIndex = workflowOrder.indexOf(to);
-
-    return fromIndex >= 0 && toIndex >= 0 && toIndex < fromIndex;
-  }
-
-  private async evaluateGlobalRule(
-    rule: GlobalRule,
-    from: string,
-    to: string,
-    task: Task,
-    board: Board,
-  ): Promise<boolean> {
-    // Special handling for built-in global rules
-    switch (rule.name) {
-      case 'wip-limits':
-        return await this.evaluateWipLimit(to, board);
-
-      case 'task-existence':
-        return this.evaluateTaskExistence(from, task, board);
-
-      default:
-        return await this.evaluateCustomRule(rule.impl, [from, to], task, board);
-    }
-  }
-
-  private async evaluateWipLimit(targetColumn: string, board: Board): Promise<boolean> {
-    const column = board.columns.find((col) => this.normalizeColumnName(col.name) === targetColumn);
-
-    if (!column) return true;
-    if (!column.limit) return true;
-
-    return column.count < column.limit;
-  }
-
-  private evaluateTaskExistence(sourceColumn: string, task: Task, board: Board): boolean {
-    const column = board.columns.find((col) => this.normalizeColumnName(col.name) === sourceColumn);
-
-    if (!column) return false;
-
-    return column.tasks.some((t) => t.uuid === task.uuid);
-  }
-
-  private async evaluateCustomCheck(checkName: string, task: Task, board: Board): Promise<boolean> {
-    const check = this.config.customChecks[checkName];
-    if (!check) {
-      console.warn(`Custom check not found: ${checkName}`);
-      return true; // Default to allowing if check is missing
-    }
-
-    return await this.evaluateCustomRule(check.impl, [], task, board);
-  }
-
-  private async evaluateCustomRule(
-    ruleImpl: string,
-    _args: any[],
-    task: Task,
-    board: Board,
-  ): Promise<boolean> {
-    if (!this.dslAvailable) {
-      throw new Error(
-        'Clojure DSL is required but not available. TypeScript transition rules are no longer supported.',
-      );
-    }
-
-    try {
-      // Use nbb (Node.js Babashka) to evaluate Clojure expressions
-      // @ts-ignore - nbb doesn't have TypeScript definitions
-      const { default: nbb } = await import('nbb');
-
-      // Load the Clojure DSL file
-      const dslCode = await readFile(this.config.dslPath!, 'utf-8');
-
-      // Create a safe evaluation context with DSL loaded
-      const clojureCode = `
-        ${dslCode}
-        
-        (require '[kanban-transitions :as kt])
-        
-        ;; Convert JavaScript objects to Clojure maps for evaluation
-        (def task-clj {:uuid "${task.uuid}"
-                       :title "${task.title}"
-                       :priority "${task.priority}"
-                       :content "${task.content || ''}"
-                       :status "${task.status}"
-                       :estimates {:complexity ${task.estimates?.complexity || 999}}
-                       :storyPoints ${task.storyPoints || 0}
-                       :labels [${(task.labels || []).map((l) => `"${l}"`).join(' ')}]})
-        
-        (def board-clj {:columns [${board.columns
-          .map((col) => `{:name "${col.name}" :limit ${col.limit || 0} :tasks []}`)
-          .join(' ')}]})
-        
-        ;; Evaluate the rule implementation with converted objects
-        (let [task task-clj
-              board board-clj]
-          ${ruleImpl})
-      `;
-
-      // @ts-ignore - nbb dynamic evaluation
-      const result = await nbb(clojureCode);
-      return Boolean(result);
-    } catch (error) {
-      console.error('Failed to evaluate Clojure rule:', error);
-      throw new Error(
-        `Clojure evaluation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
-      );
-    }
+    return showProcessFlowFn(this.state.config);
   }
 
   /**
@@ -615,27 +138,114 @@ export class TransitionRulesEngine {
     }>;
     globalRules: string[];
   } {
-    const validTransitions = this.config.rules.flatMap((rule) =>
-      rule.from.flatMap((from) =>
-        rule.to.map((to) => ({
-          from,
-          to,
-          description: rule.description,
-        })),
-      ),
+    console.warn(
+      'TransitionRulesEngine.getTransitionsOverview is deprecated. Use getTransitionsOverview from transition-rules-functional instead.',
     );
+    return getTransitionsOverviewFn(this.state);
+  }
 
-    const globalRules = this.config.globalRules
-      .filter((rule) => rule.enabled)
-      .map((rule) => `${rule.name}: ${rule.description}`);
+  // Private helper methods (deprecated - use functional versions instead)
 
-    return {
-      enabled: this.config.enabled,
-      enforcementMode: this.config.enforcement,
-      dslAvailable: this.dslAvailable,
-      validTransitions,
-      globalRules,
-    };
+  // @ts-expect-error - Part of deprecated API
+  private normalizeColumnName(_column: string): string {
+    console.warn(
+      'TransitionRulesEngine.normalizeColumnName is deprecated. Use normalizeColumnName from transition-rules-functional instead.',
+    );
+    return normalizeColumnName(_column);
+  }
+
+  // @ts-expect-error - Part of deprecated API
+  private findTransitionRule(_from: string, _to: string): TransitionRule | undefined {
+    console.warn(
+      'TransitionRulesEngine.findTransitionRule is deprecated. Use findTransitionRule from transition-rules-functional instead.',
+    );
+    return findTransitionRule(this.state.config, _from, _to);
+  }
+
+  // @ts-expect-error - Part of deprecated API
+  private isBackwardTransition(_from: string, _to: string): boolean {
+    console.warn(
+      'TransitionRulesEngine.isBackwardTransition is deprecated. Use isBackwardTransition from transition-rules-functional instead.',
+    );
+    return isBackwardTransition(_from, _to);
+  }
+
+  // @ts-expect-error - Part of deprecated API
+  private async evaluateGlobalRule(
+    _rule: GlobalRule,
+    _from: string,
+    _to: string,
+    _task: Task,
+    _board: Board,
+  ): Promise<boolean> {
+    console.warn(
+      'TransitionRulesEngine.evaluateGlobalRule is deprecated. Use evaluateGlobalRule from transition-rules-functional instead.',
+    );
+    return evaluateGlobalRuleFn(this.state, _rule, _from, _to, _task, _board);
+  }
+
+  // @ts-expect-error - Part of deprecated API
+  private async evaluateWipLimit(_targetColumn: string, _board: Board): Promise<boolean> {
+    console.warn(
+      'TransitionRulesEngine.evaluateWipLimit is deprecated. Use evaluateWipLimit from transition-rules-functional instead.',
+    );
+    return evaluateWipLimit(_targetColumn, _board);
+  }
+
+  // @ts-expect-error - Part of deprecated API
+  private evaluateTaskExistence(_sourceColumn: string, _task: Task, _board: Board): boolean {
+    console.warn(
+      'TransitionRulesEngine.evaluateTaskExistence is deprecated. Use evaluateTaskExistence from transition-rules-functional instead.',
+    );
+    return evaluateTaskExistence(_sourceColumn, _task, _board);
+  }
+
+  // @ts-expect-error - Part of deprecated API
+  private async evaluateCustomCheck(
+    _checkName: string,
+    _task: Task,
+    _board: Board,
+  ): Promise<boolean> {
+    console.warn(
+      'TransitionRulesEngine.evaluateCustomCheck is deprecated. Use evaluateCustomCheck from transition-rules-functional instead.',
+    );
+    return evaluateCustomCheckFn(this.state, _checkName, _task, _board);
+  }
+
+  // @ts-expect-error - Part of deprecated API
+  private async evaluateCustomRule(
+    _ruleImpl: string,
+    __args: any[],
+    _task: Task,
+    _board: Board,
+  ): Promise<boolean> {
+    console.warn(
+      'TransitionRulesEngine.evaluateCustomRule is deprecated. Use evaluateCustomRule from transition-rules-functional instead.',
+    );
+    return evaluateCustomRuleFn(this.state, _ruleImpl, __args, _task, _board);
+  }
+
+  // @ts-expect-error - Part of deprecated API
+  private async validateTestingToReviewTransition(
+    _task: Task,
+    _board: Board,
+  ): Promise<{ allowed: boolean; violations: string[] }> {
+    console.warn(
+      'TransitionRulesEngine.validateTestingToReviewTransition is deprecated. Use validateTestingToReviewTransition from transition-rules-functional instead.',
+    );
+    return validateTestingToReviewTransitionFn(this.state, _task, _board);
+  }
+
+  // @ts-expect-error - Part of deprecated API
+  private extractTestingInfo(_task: Task): {
+    coverageReportPath?: string;
+    executedTests?: string[];
+    requirementMappings?: Array<{ requirementId: string; testIds: string[] }>;
+  } {
+    console.warn(
+      'TransitionRulesEngine.extractTestingInfo is deprecated. Use extractTestingInfo from transition-rules-functional instead.',
+    );
+    return extractTestingInfoFn(_task);
   }
 }
 
@@ -675,3 +285,13 @@ export async function createTransitionRulesEngine(
     `Failed to load transition rules configuration from any of the provided paths: ${paths.join(', ')}. Clojure DSL is required.`,
   );
 }
+
+// Re-export types for backward compatibility
+export type {
+  TransitionRule,
+  CustomCheck,
+  GlobalRule,
+  TransitionRulesConfig,
+  TransitionResult,
+  TransitionDebug,
+} from './transition-rules-functional.js';

@@ -4,11 +4,14 @@ import path from 'node:path';
 import { parseFrontmatter as parseMarkdownFrontmatter } from '@promethean/markdown/frontmatter';
 import { loadKanbanConfig } from '../board/config.js';
 import { refreshTaskIndex, indexTasks, writeIndexFile, serializeTasks } from '../board/indexer.js';
-import { EventLogManager } from '../board/event-log.js';
+import type { EventLogManager } from '../board/event-log/index.js';
 import { TaskGitTracker } from './task-git-tracker.js';
 import type { IndexTasksOptions } from '../board/indexer.js';
 import type { Board, ColumnData, Task, EpicTask } from './types.js';
 import { getEpicSubtasks, calculateEpicStatus } from './epic.js';
+
+// Re-export types for external use
+export type { Task } from './types.js';
 
 const NOW_ISO = () => new Date().toISOString();
 
@@ -928,12 +931,63 @@ export const updateStatus = async (
     target.name = normalizeColumnDisplayName(target.name);
   }
 
-  // WIP Limit Validation
-  // Check if target column would exceed WIP limit
-  if (target.limit && target.count >= target.limit) {
-    throw new Error(
-      `WIP limit violation: Cannot move task to '${target.name}' - column has ${target.count} tasks (limit: ${target.limit})`,
+  // Enhanced WIP Limit Enforcement Gate
+  // Use comprehensive WIP enforcement engine if available
+  try {
+    const { createWIPLimitEnforcement } = await import('./wip-enforcement.js');
+    const wipEnforcement = await createWIPLimitEnforcement();
+
+    const wipValidation = await wipEnforcement.interceptStatusTransition(
+      uuid,
+      currentStatus,
+      normalizedStatus,
+      board,
+      {
+        force: false, // No override by default
+      },
     );
+
+    if (wipValidation.blocked) {
+      // Restore task to its original column
+      let originalColumn = board.columns.find(
+        (c) => columnKey(c.name) === columnKey(currentStatus),
+      );
+      if (originalColumn) {
+        originalColumn.tasks = [...originalColumn.tasks, found];
+        originalColumn.count += 1;
+      }
+
+      const errorMessage = `🚫 WIP Limit Enforcement: ${wipValidation.reason}`;
+      const suggestionMessage =
+        wipValidation.suggestions && wipValidation.suggestions.length > 0
+          ? `\n💡 Suggestions:\n${wipValidation.suggestions.map((s) => `  • ${s.description}`).join('\n')}`
+          : '';
+
+      throw new Error(errorMessage + suggestionMessage);
+    }
+
+    // Log warnings if present
+    if (wipValidation.violation && wipValidation.violation.severity === 'warning') {
+      console.warn(
+        `⚠️  WIP Limit Warning: ${wipValidation.violation.severity} violation in ${newStatus}`,
+      );
+      if (wipValidation.suggestions && wipValidation.suggestions.length > 0) {
+        console.warn('💡 Capacity Suggestions:');
+        wipValidation.suggestions.forEach((suggestion) => {
+          console.warn(`   • ${suggestion.description}`);
+        });
+      }
+    }
+  } catch (error) {
+    // Fallback to basic WIP check if enforcement engine fails
+    console.warn('WIP enforcement engine failed, using fallback validation:', error);
+
+    // Basic WIP limit check (original logic as fallback)
+    if (target.limit && target.count >= target.limit) {
+      throw new Error(
+        `WIP limit violation: Cannot move task to '${target.name}' - column has ${target.count} tasks (limit: ${target.limit})`,
+      );
+    }
   }
 
   target.tasks = [...target.tasks, found];
@@ -959,18 +1013,15 @@ export const updateStatus = async (
   // Log transition to event log
   if (eventLogManager) {
     try {
-      await eventLogManager.logTransition(
-        uuid,
-        currentStatus,
-        normalizedStatus,
+      await eventLogManager.logTransition(uuid, currentStatus, normalizedStatus, {
         actor,
-        correctionReason || `Status updated from ${currentStatus} to ${normalizedStatus}`,
-        {
+        reason: correctionReason || `Status updated from ${currentStatus} to ${normalizedStatus}`,
+        metadata: {
           boardPath,
           taskTitle: found.title,
           taskPriority: found.priority,
         },
-      );
+      });
     } catch (error) {
       // Log warning but don't fail status update
       console.warn(`Warning: Could not log transition for ${uuid}: ${error}`);
@@ -1003,25 +1054,12 @@ export const updateStatus = async (
           created_at: preservedCreatedAt,
         };
 
-        // Extract frontmatter from the existing file and update it with commit tracking
-        const existingFrontmatter = parsed.data || {};
-        const updatedFrontmatter = gitTracker.updateTaskCommitTracking(
-          {
-            ...existingFrontmatter,
-            ...updatedTask,
-          },
-          uuid,
-          'status_change',
-          `Status updated from ${currentStatus} to ${normalizedStatus}`,
-        );
-
-        // Create a complete Task object with the updated frontmatter
+        // Create a complete Task object with the updated status
         const finalTask: Task = {
           ...updatedTask,
-          ...updatedFrontmatter,
         };
 
-        // Write updated task file with new status and commit tracking
+        // Write updated task file with new status (without commit tracking yet)
         const updatedContent = toFrontmatter(finalTask);
         await fs.writeFile(taskFilePath, updatedContent, 'utf8');
 
@@ -1036,6 +1074,35 @@ export const updateStatus = async (
 
           if (commitResult.success) {
             console.log(`📝 Committed task change: ${commitResult.sha?.slice(0, 8)}...`);
+
+            // Only update commit tracking if commit actually happened
+            if (commitResult.sha && commitResult.sha !== 'unknown') {
+              // Read the file again to get the latest frontmatter
+              const fileContent = await fs.readFile(taskFilePath, 'utf8');
+              const parsed = parseMarkdownFrontmatter(fileContent);
+              const existingFrontmatter = parsed.data || {};
+
+              // Update frontmatter with commit tracking
+              const updatedFrontmatter = gitTracker.updateTaskCommitTracking(
+                {
+                  ...existingFrontmatter,
+                  ...finalTask,
+                },
+                uuid,
+                'status_change',
+                `Status updated from ${currentStatus} to ${normalizedStatus}`,
+              );
+
+              // Write the file again with commit tracking
+              const finalContent = toFrontmatter({
+                ...finalTask,
+                ...updatedFrontmatter,
+              });
+              await fs.writeFile(taskFilePath, finalContent, 'utf8');
+
+              // Note: Commit tracking metadata is added to frontmatter but not committed
+              // The event log exists locally and can be recreated from git history if needed
+            }
           } else {
             console.warn(`Warning: Failed to commit task change: ${commitResult.error}`);
           }
@@ -1131,8 +1198,9 @@ const fallbackTaskFromRaw = (filePath: string, raw: string): Task | null => {
     if (!valueMatch || valueMatch[1] == null) {
       return undefined;
     }
-    return valueMatch[1].trim().replace(/^['\"]|['\"]$/g, '');
+    return valueMatch[1];
   };
+
   const uuid = getValue('uuid');
   if (!uuid) {
     return null;
@@ -1532,30 +1600,16 @@ export const pushToTasks = async (
       // Initialize git tracker for new task creation
       const gitTracker = new TaskGitTracker({ repoRoot: process.cwd() });
 
-      // Update task frontmatter with commit tracking for new tasks
-      const taskWithCommitTracking = gitTracker.updateTaskCommitTracking(
-        {
-          ...finalTask,
-          status: normalizedBoardStatus,
-          content: finalContent,
-          created_at: preservedCreatedAt,
-        },
-        finalTask.uuid,
-        previous ? 'update' : 'create',
-        previous ? `Update task: ${finalTask.title}` : `Create task: ${finalTask.title}`,
-      );
-
       const content = toFrontmatter({
         ...finalTask,
         status: normalizedBoardStatus, // Always use the normalized board column name as authoritative status
         content: finalContent,
         created_at: preservedCreatedAt,
-        ...taskWithCommitTracking, // Include commit tracking fields
       });
 
       await fs.writeFile(finalTargetPath, content, 'utf8');
 
-      // Create git commit for the task change
+      // Create git commit for task change
       try {
         const operation = previous ? 'update' : 'create';
         const details = previous
@@ -1571,6 +1625,35 @@ export const pushToTasks = async (
 
         if (commitResult.success) {
           console.log(`📝 Committed task ${operation}: ${commitResult.sha?.slice(0, 8)}...`);
+
+          // Only update commit tracking if commit actually happened
+          if (commitResult.sha && commitResult.sha !== 'unknown') {
+            // Update frontmatter with commit tracking
+            const taskWithCommitTracking = gitTracker.updateTaskCommitTracking(
+              {
+                ...finalTask,
+                status: normalizedBoardStatus,
+                content: finalContent,
+                created_at: preservedCreatedAt,
+              },
+              finalTask.uuid,
+              operation,
+              details,
+            );
+
+            const contentWithTracking = toFrontmatter({
+              ...finalTask,
+              status: normalizedBoardStatus,
+              content: finalContent,
+              created_at: preservedCreatedAt,
+              ...taskWithCommitTracking, // Include commit tracking fields
+            });
+
+            await fs.writeFile(finalTargetPath, contentWithTracking, 'utf8');
+
+            // Note: Commit tracking metadata is included in frontmatter but not committed
+            // The event log exists locally and can be recreated from git history if needed
+          }
         } else {
           console.warn(`Warning: Failed to commit task ${operation}: ${commitResult.error}`);
         }

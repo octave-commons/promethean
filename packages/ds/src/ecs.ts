@@ -464,36 +464,290 @@ export class World {
     }
 }
 
+// Import functional implementations
+import {
+    createCommandBufferState,
+    createEntityImmediate,
+    destroyEntityCommand,
+    addComponentCommand,
+    removeComponentCommand,
+    setComponentCommand,
+    flushCommands,
+    CommandBufferState,
+} from './command-buffer-functional.js';
+
+/**
+ * @deprecated Use the functional implementations from './command-buffer-functional' instead.
+ * This class is provided for backward compatibility and will be removed in a future version.
+ */
 export class CommandBuffer {
-    private readonly world: World;
-    private readonly ops: Array<() => void> = [];
+    private state: CommandBufferState;
+
     constructor(w: World) {
-        this.world = w;
+        this.state = createCommandBufferState(w);
     }
 
     createEntity(init?: Record<ComponentId, unknown> | bigint): Entity {
-        let temp: Entity = -1;
-        this.ops.push(() => {
-            temp = this.world.createEntity(init);
-        });
-        this.flush();
-        return temp;
+        console.warn(
+            'CommandBuffer.createEntity is deprecated. Use createEntityImmediate from command-buffer-functional instead.',
+        );
+        const result = createEntityImmediate(this.state, init);
+        this.state = result.newState;
+        return result.entity;
     }
+
     destroyEntity(e: Entity): void {
-        this.ops.push(() => this.world.destroyEntity(e));
+        console.warn(
+            'CommandBuffer.destroyEntity is deprecated. Use destroyEntityCommand from command-buffer-functional instead.',
+        );
+        this.state = destroyEntityCommand(this.state, e);
     }
+
     add<T>(e: Entity, ct: ComponentType<T>, v?: T): void {
-        this.ops.push(() => this.world.addComponent(e, ct, v));
+        console.warn(
+            'CommandBuffer.add is deprecated. Use addComponentCommand from command-buffer-functional instead.',
+        );
+        this.state = addComponentCommand(this.state, e, ct, v);
     }
+
     remove<T>(e: Entity, ct: ComponentType<T>): void {
-        this.ops.push(() => this.world.removeComponent(e, ct));
+        console.warn(
+            'CommandBuffer.remove is deprecated. Use removeComponentCommand from command-buffer-functional instead.',
+        );
+        this.state = removeComponentCommand(this.state, e, ct);
     }
+
     set<T>(e: Entity, ct: ComponentType<T>, v: T): void {
-        this.ops.push(() => this.world.set(e, ct, v));
+        console.warn(
+            'CommandBuffer.set is deprecated. Use setComponentCommand from command-buffer-functional instead.',
+        );
+        this.state = setComponentCommand(this.state, e, ct, v);
     }
 
     flush(): void {
-        for (const op of this.ops) op();
-        this.ops.length = 0;
+        console.warn('CommandBuffer.flush is deprecated. Use flushCommands from command-buffer-functional instead.');
+        this.state = flushCommands(this.state);
+    }
+}
+
+// Import functional world implementations
+import {
+    createWorld,
+    defineComponentFunctional,
+    createEntityFunctional,
+    destroyEntityFunctional,
+    isAliveFunctional,
+    addComponentFunctional,
+    removeComponentFunctional,
+    getComponentFunctional,
+    setComponentFunctional,
+    setIfChangedFunctional,
+    hasComponentFunctional,
+    makeQueryFunctional,
+    iterateQueryFunctional,
+    beginTickFunctional,
+    endTickFunctional,
+    withEntity,
+    withComponent,
+    createEntityWithComponents,
+    findEntitiesByQuery,
+    findFirstEntityByQuery,
+    countEntitiesByQuery,
+    destroyEntitiesByQuery,
+    addComponentToEntitiesByQuery,
+    removeComponentFromEntitiesByQuery,
+    getEntityComponents,
+    duplicateEntity,
+    validateEntity,
+} from './world-functional.js';
+
+/**
+ * @deprecated Use the functional implementations from './world-functional' instead.
+ * This class is provided for backward compatibility and will be removed in a future version.
+ */
+export class WorldWrapper {
+    private world: World;
+
+    constructor(world?: World) {
+        this.world = world || createWorld();
+    }
+
+    // Component operations
+    defineComponent<T>(spec: ComponentSpec<T>) {
+        console.warn(
+            'WorldWrapper.defineComponent is deprecated. Use defineComponentFunctional from world-functional instead.',
+        );
+        return defineComponentFunctional(this.world, spec);
+    }
+
+    createEntity(init?: Record<ComponentId, unknown> | bigint) {
+        console.warn(
+            'WorldWrapper.createEntity is deprecated. Use createEntityFunctional from world-functional instead.',
+        );
+        return createEntityFunctional(this.world, init);
+    }
+
+    destroyEntity(entity: Entity) {
+        console.warn(
+            'WorldWrapper.destroyEntity is deprecated. Use destroyEntityFunctional from world-functional instead.',
+        );
+        destroyEntityFunctional(this.world, entity);
+    }
+
+    isAlive(entity: Entity) {
+        console.warn('WorldWrapper.isAlive is deprecated. Use isAliveFunctional from world-functional instead.');
+        return isAliveFunctional(this.world, entity);
+    }
+
+    addComponent<T>(entity: Entity, componentType: ComponentType<T>, value?: T) {
+        console.warn(
+            'WorldWrapper.addComponent is deprecated. Use addComponentFunctional from world-functional instead.',
+        );
+        addComponentFunctional(this.world, entity, componentType, value);
+    }
+
+    removeComponent<T>(entity: Entity, componentType: ComponentType<T>) {
+        console.warn(
+            'WorldWrapper.removeComponent is deprecated. Use removeComponentFunctional from world-functional instead.',
+        );
+        removeComponentFunctional(this.world, entity, componentType);
+    }
+
+    get<T>(entity: Entity, componentType: ComponentType<T>) {
+        console.warn('WorldWrapper.get is deprecated. Use getComponentFunctional from world-functional instead.');
+        return getComponentFunctional(this.world, entity, componentType);
+    }
+
+    set<T>(entity: Entity, componentType: ComponentType<T>, value: T) {
+        console.warn('WorldWrapper.set is deprecated. Use setComponentFunctional from world-functional instead.');
+        setComponentFunctional(this.world, entity, componentType, value);
+    }
+
+    setIfChanged<T>(entity: Entity, componentType: ComponentType<T>, value: T) {
+        console.warn(
+            'WorldWrapper.setIfChanged is deprecated. Use setIfChangedFunctional from world-functional instead.',
+        );
+        setIfChangedFunctional(this.world, entity, componentType, value);
+    }
+
+    has(entity: Entity, componentType: ComponentType<any>) {
+        console.warn('WorldWrapper.has is deprecated. Use hasComponentFunctional from world-functional instead.');
+        return hasComponentFunctional(this.world, entity, componentType);
+    }
+
+    // Query operations
+    makeQuery(opts: {
+        all?: ComponentType<any>[];
+        any?: ComponentType<any>[];
+        none?: ComponentType<any>[];
+        changed?: ComponentType<any>[];
+    }) {
+        console.warn('WorldWrapper.makeQuery is deprecated. Use makeQueryFunctional from world-functional instead.');
+        return makeQueryFunctional(this.world, opts);
+    }
+
+    iter<T1 = unknown, T2 = unknown, T3 = unknown>(
+        query: Query,
+        c1?: ComponentType<T1>,
+        c2?: ComponentType<T2>,
+        c3?: ComponentType<T3>,
+    ) {
+        console.warn('WorldWrapper.iter is deprecated. Use iterateQueryFunctional from world-functional instead.');
+        return iterateQueryFunctional(this.world, query, c1, c2, c3);
+    }
+
+    // Tick operations
+    beginTick() {
+        console.warn('WorldWrapper.beginTick is deprecated. Use beginTickFunctional from world-functional instead.');
+        return beginTickFunctional(this.world);
+    }
+
+    endTick() {
+        console.warn('WorldWrapper.endTick is deprecated. Use endTickFunctional from world-functional instead.');
+        endTickFunctional(this.world);
+    }
+
+    // Higher-level operations
+    withEntity<T>(entity: Entity, operation: (entity: Entity) => T) {
+        console.warn('WorldWrapper.withEntity is deprecated. Use withEntity from world-functional instead.');
+        return withEntity(this.world, entity, operation);
+    }
+
+    withComponent<T, R>(entity: Entity, componentType: ComponentType<T>, operation: (value: T) => R) {
+        console.warn('WorldWrapper.withComponent is deprecated. Use withComponent from world-functional instead.');
+        return withComponent(this.world, entity, componentType, operation);
+    }
+
+    createEntityWithComponents(components: Array<{ type: ComponentType<any>; value?: unknown }>) {
+        console.warn(
+            'WorldWrapper.createEntityWithComponents is deprecated. Use createEntityWithComponents from world-functional instead.',
+        );
+        return createEntityWithComponents(this.world, components);
+    }
+
+    findEntitiesByQuery(query: Query) {
+        console.warn(
+            'WorldWrapper.findEntitiesByQuery is deprecated. Use findEntitiesByQuery from world-functional instead.',
+        );
+        return findEntitiesByQuery(this.world, query);
+    }
+
+    findFirstEntityByQuery(query: Query) {
+        console.warn(
+            'WorldWrapper.findFirstEntityByQuery is deprecated. Use findFirstEntityByQuery from world-functional instead.',
+        );
+        return findFirstEntityByQuery(this.world, query);
+    }
+
+    countEntitiesByQuery(query: Query) {
+        console.warn(
+            'WorldWrapper.countEntitiesByQuery is deprecated. Use countEntitiesByQuery from world-functional instead.',
+        );
+        return countEntitiesByQuery(this.world, query);
+    }
+
+    // Batch operations
+    destroyEntitiesByQuery(query: Query) {
+        console.warn(
+            'WorldWrapper.destroyEntitiesByQuery is deprecated. Use destroyEntitiesByQuery from world-functional instead.',
+        );
+        return destroyEntitiesByQuery(this.world, query);
+    }
+
+    addComponentToEntitiesByQuery<T>(query: Query, componentType: ComponentType<T>, value?: T) {
+        console.warn(
+            'WorldWrapper.addComponentToEntitiesByQuery is deprecated. Use addComponentToEntitiesByQuery from world-functional instead.',
+        );
+        return addComponentToEntitiesByQuery(this.world, query, componentType, value);
+    }
+
+    removeComponentFromEntitiesByQuery<T>(query: Query, componentType: ComponentType<T>) {
+        console.warn(
+            'WorldWrapper.removeComponentFromEntitiesByQuery is deprecated. Use removeComponentFromEntitiesByQuery from world-functional instead.',
+        );
+        return removeComponentFromEntitiesByQuery(this.world, query, componentType);
+    }
+
+    // Utility operations
+    getEntityComponents(entity: Entity) {
+        console.warn(
+            'WorldWrapper.getEntityComponents is deprecated. Use getEntityComponents from world-functional instead.',
+        );
+        return getEntityComponents(this.world, entity);
+    }
+
+    duplicateEntity(entity: Entity, componentOverrides?: Record<string, unknown>) {
+        console.warn('WorldWrapper.duplicateEntity is deprecated. Use duplicateEntity from world-functional instead.');
+        return duplicateEntity(this.world, entity, componentOverrides);
+    }
+
+    validateEntity(entity: Entity) {
+        console.warn('WorldWrapper.validateEntity is deprecated. Use validateEntity from world-functional instead.');
+        return validateEntity(this.world, entity);
+    }
+
+    // Access to underlying world for advanced usage
+    getWorld(): World {
+        return this.world;
     }
 }

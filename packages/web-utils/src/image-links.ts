@@ -1,13 +1,29 @@
-import { readFile, stat } from "node:fs/promises";
-import path from "node:path";
+import { readFile, stat } from 'node:fs/promises';
+import path from 'node:path';
 
-import { listFiles } from "@promethean/fs";
-import type { PipelineType } from "@xenova/transformers";
+import { listFiles } from '@promethean/fs';
+import type { PipelineType } from '@xenova/transformers';
 
 export type BrokenImageLink = {
   readonly file: string;
   readonly url: string;
   readonly alt: string;
+  readonly severity?: 'low' | 'medium' | 'high';
+  readonly suggestedFix?: string;
+};
+
+export type ImageLinkFixOptions = {
+  readonly generator?: ImageGenerator;
+  readonly overwrite?: boolean;
+  readonly quality?: number;
+  readonly style?: string;
+};
+
+export type ImageProcessingResult = {
+  readonly fixed: readonly BrokenImageLink[];
+  readonly failed: readonly BrokenImageLink[];
+  readonly duration: number;
+  readonly imagesGenerated: number;
 };
 
 async function pathExists(p: string): Promise<boolean> {
@@ -24,8 +40,8 @@ function isRemoteOrData(u: string): boolean {
 function extractMarkdownImageTarget(raw: string): string | null {
   const inner = raw.trim();
   if (!inner) return null;
-  if (inner.startsWith("<")) {
-    const closing = inner.indexOf(">");
+  if (inner.startsWith('<')) {
+    const closing = inner.indexOf('>');
     const enclosed = closing === -1 ? inner.slice(1) : inner.slice(1, closing);
     return enclosed.trim() || null;
   }
@@ -36,16 +52,12 @@ function extractMarkdownImageTarget(raw: string): string | null {
 function normalizeLocalUrl(raw: string): string | null {
   const trimmed = raw.trim();
   const unwrapped =
-    trimmed.startsWith("<") && trimmed.endsWith(">")
-      ? trimmed.slice(1, -1).trim()
-      : trimmed;
+    trimmed.startsWith('<') && trimmed.endsWith('>') ? trimmed.slice(1, -1).trim() : trimmed;
   if (!unwrapped || isRemoteOrData(unwrapped)) return null;
   return unwrapped;
 }
 
-const isBrokenLink = (
-  value: BrokenImageLink | null,
-): value is BrokenImageLink => value !== null;
+const isBrokenLink = (value: BrokenImageLink | null): value is BrokenImageLink => value !== null;
 
 const toBrokenMarkdownLink = async (
   file: string,
@@ -70,28 +82,26 @@ const toBrokenOrgLink = async (
   return (await pathExists(imgPath)) ? null : { file, url, alt };
 };
 
-export async function findBrokenImageLinks(
-  root: string,
-): Promise<BrokenImageLink[]> {
+export async function findBrokenImageLinks(root: string): Promise<BrokenImageLink[]> {
   const files = (await listFiles(root, { includeHidden: false }))
     .map((e) => e.path)
-    .filter((p) => p.endsWith(".md") || p.endsWith(".org"));
+    .filter((p) => p.endsWith('.md') || p.endsWith('.org'));
   const results = (
     await Promise.all(
       files.map(async (file) => {
-        const content = await readFile(file, "utf8");
+        const content = await readFile(file, 'utf8');
         // markdown ![alt](url)
         const mdRegex = /!\[([^\]]*?)\]\(([^)]*?)\)/g;
         const mdBroken = await Promise.all(
           Array.from(content.matchAll(mdRegex)).map((match) =>
-            toBrokenMarkdownLink(file, match[1] ?? "", match[2] ?? ""),
+            toBrokenMarkdownLink(file, match[1] ?? '', match[2] ?? ''),
           ),
         );
         // org [[file:img.png][alt]] or [[img.png]]
         const orgRegex = /\[\[(?:file:)?([^\]\[]+?)\](?:\[([^\]]*?)\])?\]/g;
         const orgBroken = await Promise.all(
           Array.from(content.matchAll(orgRegex)).map((match) =>
-            toBrokenOrgLink(file, match[1] ?? "", match[2] ?? ""),
+            toBrokenOrgLink(file, match[1] ?? '', match[2] ?? ''),
           ),
         );
         return [...mdBroken, ...orgBroken].filter(isBrokenLink);
@@ -104,7 +114,17 @@ export async function findBrokenImageLinks(
 export type ImageGenerator = (
   prompt: string,
   outputPath: string,
+  options?: ImageGenerationOptions,
 ) => Promise<void>;
+
+export type ImageGenerationOptions = {
+  readonly width?: number;
+  readonly height?: number;
+  readonly quality?: number;
+  readonly style?: string;
+  readonly seed?: number;
+  readonly steps?: number;
+};
 
 type Image = { save: (p: string) => Promise<void> };
 type TextToImageResult = { images: readonly Image[] };
@@ -117,7 +137,7 @@ type MarkdownState = {
   readonly skipNext: boolean;
 };
 
-const whitespaceCharacters = [" ", "\t", "\n", "\r"] as const;
+const whitespaceCharacters = [' ', '\t', '\n', '\r'] as const;
 
 const appendOutput = (
   state: MarkdownState,
@@ -131,12 +151,7 @@ const appendOutput = (
 
 const shouldStopAfterWhitespace = (inner: string, index: number): boolean => {
   const rest = inner.slice(index + 1).trimStart();
-  return (
-    !rest ||
-    rest.startsWith('"') ||
-    rest.startsWith("'") ||
-    rest.startsWith("(")
-  );
+  return !rest || rest.startsWith('"') || rest.startsWith("'") || rest.startsWith('(');
 };
 
 const handleWhitespace = (
@@ -145,14 +160,12 @@ const handleWhitespace = (
   ch: string,
   index: number,
 ): MarkdownState =>
-  shouldStopAfterWhitespace(inner, index)
-    ? { ...state, done: true }
-    : appendOutput(state, ch);
+  shouldStopAfterWhitespace(inner, index) ? { ...state, done: true } : appendOutput(state, ch);
 
 const handleClosingParenthesis = (state: MarkdownState): MarkdownState =>
   state.depth === 0
     ? { ...state, done: true }
-    : appendOutput(state, ")", { depth: state.depth - 1 });
+    : appendOutput(state, ')', { depth: state.depth - 1 });
 
 const advanceMarkdownState = (
   inner: string,
@@ -163,20 +176,17 @@ const advanceMarkdownState = (
   if (state.skipNext) {
     return { ...state, skipNext: false };
   }
-  if (ch === "\\") {
+  if (ch === '\\') {
     const nextChar = inner[index + 1];
     return nextChar ? appendOutput(state, nextChar, { skipNext: true }) : state;
   }
-  if (
-    whitespaceCharacters.some((whitespace) => whitespace === ch) &&
-    state.depth === 0
-  ) {
+  if (whitespaceCharacters.some((whitespace) => whitespace === ch) && state.depth === 0) {
     return handleWhitespace(inner, state, ch, index);
   }
-  if (ch === "(") {
+  if (ch === '(') {
     return appendOutput(state, ch, { depth: state.depth + 1 });
   }
-  if (ch === ")") {
+  if (ch === ')') {
     return handleClosingParenthesis(state);
   }
   return appendOutput(state, ch);
@@ -184,19 +194,15 @@ const advanceMarkdownState = (
 
 const reduceMarkdownDestination = (inner: string): MarkdownState =>
   Array.from(inner).reduce<MarkdownState>(
-    (state, ch, index) =>
-      state.done ? state : advanceMarkdownState(inner, state, ch, index),
-    { output: "", depth: 0, done: false, skipNext: false },
+    (state, ch, index) => (state.done ? state : advanceMarkdownState(inner, state, ch, index)),
+    { output: '', depth: 0, done: false, skipNext: false },
   );
 
-export async function defaultImageGenerator(
-  prompt: string,
-  outputPath: string,
-): Promise<void> {
-  const { pipeline } = await import("@xenova/transformers");
+export async function defaultImageGenerator(prompt: string, outputPath: string): Promise<void> {
+  const { pipeline } = await import('@xenova/transformers');
   const pipe = (await pipeline(
-    "text-to-image" as unknown as PipelineType,
-    "stabilityai/stable-diffusion-2-1-base",
+    'text-to-image' as unknown as PipelineType,
+    'stabilityai/stable-diffusion-2-1-base',
   )) as unknown as TextToImagePipeline;
   const result = await pipe(prompt);
   // transformers.js Image type supports .save()
@@ -206,14 +212,33 @@ export async function defaultImageGenerator(
 export async function fixBrokenImageLinks(
   root: string,
   generator: ImageGenerator = defaultImageGenerator,
-): Promise<BrokenImageLink[]> {
+  options: ImageLinkFixOptions = {},
+): Promise<ImageProcessingResult> {
+  const startTime = Date.now();
   const links = await findBrokenImageLinks(root);
-  await Promise.all(
+  const fixed: BrokenImageLink[] = [];
+  const failed: BrokenImageLink[] = [];
+
+  await Promise.allSettled(
     links.map(async (link) => {
-      const output = path.resolve(path.dirname(link.file), link.url);
-      const prompt = link.alt || "placeholder image";
-      await generator(prompt, output);
+      try {
+        const output = path.resolve(path.dirname(link.file), link.url);
+        const prompt = link.alt || 'placeholder image';
+        await generator(prompt, output, {
+          quality: options.quality,
+          style: options.style,
+        });
+        fixed.push(link);
+      } catch (error) {
+        failed.push(link);
+      }
     }),
   );
-  return links;
+
+  return {
+    fixed,
+    failed,
+    duration: Date.now() - startTime,
+    imagesGenerated: fixed.length,
+  };
 }

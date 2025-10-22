@@ -2,6 +2,15 @@ import { mkdir, readdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 import { loadEdnFile } from './edn.js';
+import {
+  validateAndSanitizePath,
+  validateAndSanitizeFilename,
+  validatePathBoundaries,
+  validateRecursionDepth,
+  validateFileExtension,
+  sanitizeForJsonSerialization,
+  DEFAULT_SECURITY_CONFIG,
+} from './security-utils.js';
 
 type UnknownRecord = Record<string, unknown>;
 
@@ -63,9 +72,50 @@ export const DEFAULT_OUTPUT_FILE_NAME = 'ecosystem.config.mjs';
 export async function generateEcosystem(
   options: GenerateEcosystemOptions = {},
 ): Promise<GenerateEcosystemResult> {
-  const inputDir = path.resolve(options.inputDir ?? process.cwd());
-  const outputDir = path.resolve(options.outputDir ?? process.cwd());
-  const fileName = options.fileName ?? DEFAULT_OUTPUT_FILE_NAME;
+  // Validate and sanitize input paths
+  const inputDirResult = validateAndSanitizePath(
+    path.resolve(options.inputDir ?? process.cwd()),
+    'input directory',
+    DEFAULT_SECURITY_CONFIG,
+  );
+  if (!inputDirResult.success) {
+    throw new Error(inputDirResult.error);
+  }
+
+  const outputDirResult = validateAndSanitizePath(
+    path.resolve(options.outputDir ?? process.cwd()),
+    'output directory',
+    DEFAULT_SECURITY_CONFIG,
+  );
+  if (!outputDirResult.success) {
+    throw new Error(outputDirResult.error);
+  }
+
+  const fileNameResult = validateAndSanitizeFilename(
+    options.fileName ?? DEFAULT_OUTPUT_FILE_NAME,
+    DEFAULT_SECURITY_CONFIG,
+  );
+  if (!fileNameResult.success) {
+    throw new Error(fileNameResult.error);
+  }
+
+  const inputDir = inputDirResult.sanitized;
+  const outputDir = outputDirResult.sanitized;
+  const fileName = fileNameResult.sanitized;
+
+  // Validate path boundaries - only restrict access to system directories
+  // Allow temporary directories and user-specified paths
+  const systemDirs = ['/proc', '/sys', '/dev', '/etc', 'C:\\Windows', 'C:\\Program Files'];
+  const isSystemDir = (dirPath: string) =>
+    systemDirs.some((sysDir) => path.resolve(dirPath).startsWith(path.resolve(sysDir)));
+
+  if (isSystemDir(inputDir)) {
+    throw new Error(`Access to system directories not allowed: ${inputDir}`);
+  }
+
+  if (isSystemDir(outputDir)) {
+    throw new Error(`Access to system directories not allowed: ${outputDir}`);
+  }
 
   const ednFiles = await collectEdnFiles(inputDir);
   const sortedFiles = [...ednFiles].sort((first, second) =>
@@ -107,15 +157,41 @@ async function loadDocuments(files: readonly string[]): Promise<readonly LoadedD
  *
  * @throws {Error} When directory cannot be read
  */
-async function collectEdnFiles(rootDir: string): Promise<readonly string[]> {
+async function collectEdnFiles(rootDir: string, depth: number = 0): Promise<readonly string[]> {
+  // Validate recursion depth to prevent denial of service
+  const depthResult = validateRecursionDepth(depth, DEFAULT_SECURITY_CONFIG, 'EDN file collection');
+  if (!depthResult.success) {
+    throw new Error(depthResult.error);
+  }
+
   const entries = await readdir(rootDir, { withFileTypes: true });
   const nested: readonly (readonly string[])[] = await Promise.all(
     entries.map(async (entry): Promise<readonly string[]> => {
       const fullPath = path.join(rootDir, entry.name);
-      if (entry.isDirectory()) {
-        return collectEdnFiles(fullPath);
+
+      // Validate each path before processing
+      const pathResult = validateAndSanitizePath(
+        fullPath,
+        'file system entry',
+        DEFAULT_SECURITY_CONFIG,
+      );
+      if (!pathResult.success) {
+        throw new Error(pathResult.error);
       }
-      return entry.isFile() && entry.name.endsWith('.edn') ? [fullPath] : [];
+
+      if (entry.isDirectory()) {
+        return collectEdnFiles(fullPath, depth + 1);
+      }
+
+      // Validate file extension
+      if (entry.isFile() && entry.name.endsWith('.edn')) {
+        const extResult = validateFileExtension(fullPath, DEFAULT_SECURITY_CONFIG);
+        if (!extResult.success) {
+          throw new Error(extResult.error);
+        }
+        return [fullPath];
+      }
+      return [];
     }),
   );
   return nested.reduce<readonly string[]>(
@@ -202,6 +278,47 @@ function collectAutomationSections(documents: readonly LoadedDocument[]): Automa
 }
 
 /**
+ * Secure version of resolveRelativePath with security validation.
+ *
+ * @param value - Path to resolve (must be relative)
+ * @param baseDir - Base directory for resolution
+ * @returns Normalized relative path
+ *
+ * @throws {Error} When path is not relative or fails security validation
+ */
+function resolveRelativePathSecure(value: string, baseDir: string): string {
+  // Validate and sanitize path before processing
+  const pathResult = validateAndSanitizePath(
+    value,
+    'app configuration path',
+    DEFAULT_SECURITY_CONFIG,
+  );
+  if (!pathResult.success) {
+    throw new Error(pathResult.error);
+  }
+
+  if (!isRelativePath(value)) {
+    // For absolute paths, validate boundaries
+    const boundaryResult = validatePathBoundaries(value, baseDir, 'app configuration path');
+    if (!boundaryResult.success) {
+      throw new Error(boundaryResult.error);
+    }
+    return value;
+  }
+
+  const absolutePath = path.resolve(baseDir, value);
+
+  // Validate resolved path boundaries
+  const boundaryResult = validatePathBoundaries(absolutePath, baseDir, 'resolved app path');
+  if (!boundaryResult.success) {
+    throw new Error(boundaryResult.error);
+  }
+
+  const relativePath = path.relative(baseDir, absolutePath);
+  return normalizeRelativePath(relativePath);
+}
+
+/**
  * Normalizes relative paths in an application configuration against the base directory.
  *
  * This function processes the following path fields:
@@ -216,20 +333,20 @@ function collectAutomationSections(documents: readonly LoadedDocument[]): Automa
  * @returns Application configuration with normalized paths
  */
 function normalizeAppPaths(app: AppRecord, baseDir: string): AppRecord {
-  const cwd = typeof app.cwd === 'string' ? resolveRelativePath(app.cwd, baseDir) : undefined;
+  const cwd = typeof app.cwd === 'string' ? resolveRelativePathSecure(app.cwd, baseDir) : undefined;
 
   const script =
-    typeof app.script === 'string' ? resolveRelativePath(app.script, baseDir) : undefined;
+    typeof app.script === 'string' ? resolveRelativePathSecure(app.script, baseDir) : undefined;
 
   const envFile =
-    typeof app.env_file === 'string' ? resolveRelativePath(app.env_file, baseDir) : undefined;
+    typeof app.env_file === 'string' ? resolveRelativePathSecure(app.env_file, baseDir) : undefined;
 
   const watch =
     typeof app.watch === 'string'
-      ? resolveRelativePath(app.watch, baseDir)
+      ? resolveRelativePathSecure(app.watch, baseDir)
       : isReadonlyArray(app.watch)
         ? app.watch.map((item) =>
-            typeof item === 'string' ? resolveRelativePath(item, baseDir) : item,
+            typeof item === 'string' ? resolveRelativePathSecure(item, baseDir) : item,
           )
         : undefined;
 
@@ -237,7 +354,7 @@ function normalizeAppPaths(app: AppRecord, baseDir: string): AppRecord {
     ? Object.fromEntries(
         Object.entries(app.env).map(([key, value]) => [
           key,
-          typeof value === 'string' ? resolveRelativePath(value, baseDir) : value,
+          typeof value === 'string' ? resolveRelativePathSecure(value, baseDir) : value,
         ]),
       )
     : undefined;
@@ -250,26 +367,6 @@ function normalizeAppPaths(app: AppRecord, baseDir: string): AppRecord {
     ...(watch === undefined ? {} : { watch }),
     ...(env === undefined ? {} : { env }),
   } as AppRecord;
-}
-
-/**
- * Resolves a relative path against a base directory and normalizes it.
- *
- * @param value - Path to resolve (must be relative)
- * @param baseDir - Base directory for resolution
- * @returns Normalized relative path
- *
- * @throws {Error} When path is not relative
- */
-function resolveRelativePath(value: string, baseDir: string): string {
-  if (!isRelativePath(value)) {
-    return value;
-  }
-
-  const absolutePath = path.resolve(baseDir, value);
-  const relativePath = path.relative(baseDir, absolutePath);
-
-  return normalizeRelativePath(relativePath);
 }
 
 function isRelativePath(value: string): boolean {
@@ -306,6 +403,12 @@ type FormatOutputSections = {
 };
 
 function formatOutput({ apps, triggers, schedules, actions }: FormatOutputSections): string {
+  // Sanitize data for safe JSON serialization
+  const sanitizedApps = sanitizeForJsonSerialization(apps, DEFAULT_SECURITY_CONFIG);
+  const sanitizedTriggers = sanitizeForJsonSerialization(triggers, DEFAULT_SECURITY_CONFIG);
+  const sanitizedSchedules = sanitizeForJsonSerialization(schedules, DEFAULT_SECURITY_CONFIG);
+  const sanitizedActions = sanitizeForJsonSerialization(actions, DEFAULT_SECURITY_CONFIG);
+
   const lines = [
     '// Generated by @promethean/shadow-conf',
     'import dotenv from "dotenv";',
@@ -319,16 +422,16 @@ function formatOutput({ apps, triggers, schedules, actions }: FormatOutputSectio
     '}',
     '',
     'export const apps = ',
-    `${JSON.stringify(apps, null, 2)};`,
+    `${JSON.stringify(sanitizedApps, null, 2)};`,
     '',
     'export const triggers = ',
-    `${JSON.stringify(triggers, null, 2)};`,
+    `${JSON.stringify(sanitizedTriggers, null, 2)};`,
     '',
     'export const schedules = ',
-    `${JSON.stringify(schedules, null, 2)};`,
+    `${JSON.stringify(sanitizedSchedules, null, 2)};`,
     '',
     'export const actions = ',
-    `${JSON.stringify(actions, null, 2)};`,
+    `${JSON.stringify(sanitizedActions, null, 2)};`,
     '',
   ];
 

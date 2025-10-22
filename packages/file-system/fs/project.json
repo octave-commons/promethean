@@ -1,13 +1,13 @@
 {
     "name": "@promethean/fs",
-    "root": "packages/fs",
-    "sourceRoot": "packages/fs/src",
+    "root": "packages/file-system/fs",
+    "sourceRoot": "packages/file-system/fs/src",
     "targets": {
         "build": {
             "executor": "nx:run-commands",
             "options": {
                 "command": "tsc -b",
-                "cwd": "packages/fs"
+                "cwd": "packages/file-system/fs"
             },
             "outputs": ["{projectRoot}/dist"]
         },
@@ -15,7 +15,7 @@
             "executor": "nx:run-commands",
             "options": {
                 "command": "tsc -p tsconfig.json --noEmit",
-                "cwd": "packages/fs"
+                "cwd": "packages/file-system/fs"
             }
         },
         "test": {
@@ -32,7 +32,7 @@
             "executor": "nx:run-commands",
             "options": {
                 "command": "eslint .",
-                 "cwd": "packages/fs"
+                 "cwd": "packages/file-system/fs"
             }
         }
     },

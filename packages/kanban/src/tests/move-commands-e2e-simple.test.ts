@@ -16,6 +16,7 @@ test('e2e - complete workflow with move operations', async (t) => {
   const context: CliContext = {
     boardFile: boardPath,
     tasksDir,
+    argv: [],
   };
 
   // Phase 1: Create initial tasks
@@ -96,6 +97,7 @@ test('e2e - complete workflow with move operations', async (t) => {
   const newContext: CliContext = {
     boardFile: boardPath,
     tasksDir,
+    argv: [],
   };
 
   // Should still be able to move tasks
@@ -114,6 +116,7 @@ test('e2e - large scale move operations', async (t) => {
   const context: CliContext = {
     boardFile: boardPath,
     tasksDir,
+    argv: [],
   };
 
   // Create 50 tasks
@@ -161,6 +164,7 @@ test('e2e - move operations with task updates', async (t) => {
   const context: CliContext = {
     boardFile: boardPath,
     tasksDir,
+    argv: [],
   };
 
   // Create tasks
@@ -202,6 +206,7 @@ test('e2e - move operations across workflow transitions', async (t) => {
   const context: CliContext = {
     boardFile: boardPath,
     tasksDir,
+    argv: [],
   };
 
   // Create task and move through workflow

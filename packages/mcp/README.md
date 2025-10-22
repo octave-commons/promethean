@@ -4,6 +4,10 @@ Single MCP server module with composable, pure tools. ESM-only, Fastify HTTP tra
 
 ## Run
 
+### Configuration Loading
+
+The MCP system uses a sophisticated configuration loader that supports multiple sources and provides robust validation. For complete documentation on configuration options, schema validation, and security features, see [[mcp-config-loader.md]].
+
 ### Unified configuration
 
 `@promethean/mcp` reads a single JSON manifest and optionally merges an EDN proxy catalog when the HTTP transport is active. The
@@ -13,7 +17,7 @@ loader resolves configuration in the following order (highest precedence first):
 2. Nearest `promethean.mcp.json` discovered by walking up from `cwd`.
 3. Legacy `MCP_CONFIG_JSON` environment variable containing inline JSON.
 
-When `transport` is set to `"http"`, the runtime binds every endpoint declared in the JSON manifest *and* boots stdio proxies
+When `transport` is set to `"http"`, the runtime binds every endpoint declared in the JSON manifest _and_ boots stdio proxies
 described in the optional `stdioProxyConfig` EDN file. Each EDN entry maps to a spawned stdio process that is exposed at the
 declared `:http-path` (defaulting to `/<name>/mcp`).
 
@@ -112,7 +116,6 @@ configured tools, while proxy descriptors delegate directly to the underlying
 listening, and shutdown waits for those proxies to exit before closing
 Fastify.
 
-
 ### Exec command allowlist
 
 `exec_run` executes only commands declared in an allowlist. The loader checks for:
@@ -140,6 +143,41 @@ Each config file looks like:
 
 Use `exec_list` to introspect the active allowlist at runtime.
 
+## Security & Authorization
+
+The MCP system includes a comprehensive Role-Based Access Control (RBAC framework to address security vulnerabilities. See [[authorization.md]] for complete documentation.
+
+### Quick Setup
+
+1. **Set user roles via environment variables:**
+
+   ```bash
+   export MCP_USER_ID=user123
+   export MCP_USER_ROLE=developer  # guest | user | developer | admin
+   ```
+
+2. **Configure authorization settings:**
+
+   ```bash
+   export MCP_DEFAULT_ROLE=guest
+   export MCP_STRICT_MODE=true
+   export MCP_REQUIRE_AUTH_DANGEROUS=true
+   ```
+
+3. **Role hierarchy:**
+   - **Guest**: Read-only access to safe operations
+   - **User**: Read + write access to non-destructive operations
+   - **Developer**: Read + write + delete access
+   - **Admin**: Full access including system-level operations
+
+### Key Security Features
+
+- **Defense in Depth**: Role hierarchy, tool categorization, dangerous operation flagging
+- **Comprehensive Auditing**: All tool invocations logged with full context
+- **Fail-Safe Defaults**: Deny by default, guest restrictions, admin isolation
+
+For detailed configuration options, testing procedures, and security best practices, see the complete [[authorization.md]] documentation.
+
 ## Design
 
 - Functional, pure tool factories (`(ctx) => { spec, invoke }`).
@@ -153,6 +191,7 @@ Use `exec_list` to introspect the active allowlist at runtime.
 This is a scaffold extracted to consolidate multiple MCP servers into one package. GitHub tools live under `src/tools/github/*`.
 
 ## Tools
+
 - exec_list — enumerate allowlisted shell commands and metadata.
 - exec_run — run an allowlisted shell command with optional args when enabled.
 - files_search — grep-like content search returning path/line/snippet triples.
@@ -162,12 +201,12 @@ This is a scaffold extracted to consolidate multiple MCP servers into one packag
 - kanban_update_status / kanban_move_task — move tasks between columns or reorder them.
 - kanban_sync_board — reconcile board ordering with task markdown files.
 - kanban_search — run fuzzy/exact search over board tasks.
-- github_pr_* — High-level pull request utilities, including metadata lookup
+- github*pr*\* — High-level pull request utilities, including metadata lookup
   (`github_pr_get`), diff file inspection (`github_pr_files`), inline position
   resolution (`github_pr_resolve_position`), and review lifecycle helpers for
   pending reviews (`github_pr_review_start` / `comment_inline` / `submit`). These
   wrap GitHub REST/GraphQL edge-cases like diff mapping and suggestion fences.
-- github_review_* — GitHub pull request management helpers (open PRs, fetch comments,
+- github*review*\* — GitHub pull request management helpers (open PRs, fetch comments,
   submit reviews, inspect checks, and run supporting git commands). Includes
   `github_review_request_changes_from_codex`, which posts an issue-level PR comment that
   always tags `@codex` so the agent is notified when changes are requested.
@@ -215,17 +254,17 @@ GraphQL API:
 {
   "tools": [
     "github_review_open_pull_request",
-"github_review_get_comments",
-"github_review_get_review_comments",
-"github_pr_get",
-"github_pr_files",
-"github_pr_resolve_position",
-"github_pr_review_start",
-"github_pr_review_comment_inline",
-"github_pr_review_submit",
-"github_review_submit_comment",
-"github_review_submit_review",
-"github_review_get_action_status",
+    "github_review_get_comments",
+    "github_review_get_review_comments",
+    "github_pr_get",
+    "github_pr_files",
+    "github_pr_resolve_position",
+    "github_pr_review_start",
+    "github_pr_review_comment_inline",
+    "github_pr_review_submit",
+    "github_review_submit_comment",
+    "github_review_submit_review",
+    "github_review_get_action_status",
     "github_review_commit",
     "github_review_push",
     "github_review_checkout_branch",
@@ -237,9 +276,16 @@ GraphQL API:
 
 All GitHub review tools require `GITHUB_TOKEN` (and optional
 `GITHUB_GRAPHQL_URL`) to authenticate with GitHub's GraphQL API.
+
 - discord_send_message — send a message to a Discord channel using the configured tenant + space URN.
 - discord_list_messages — fetch paginated messages from a Discord channel.
 - pnpm_install — run `pnpm install` with optional `--filter` targeting specific packages.
 - pnpm_add — add dependencies, supporting workspace or filtered package scopes.
 - pnpm_remove — remove dependencies from the workspace or filtered packages.
 - pnpm_run_script — execute `pnpm run <script>` with optional extra args and filters.
+
+## Documentation
+
+- **[[authorization.md]]** - Complete RBAC security framework documentation
+- **[[mcp-config-loader.md]]** - Configuration loading, validation, and security features
+- **[[docs/authorization.md]]** - Security implementation details and best practices

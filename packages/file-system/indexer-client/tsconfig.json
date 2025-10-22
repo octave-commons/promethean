@@ -8,8 +8,8 @@
     "baseUrl": ".",
     "skipLibCheck": true,
     "paths": {
-      "@promethean/indexer-core": ["../indexer-core/dist/index"],
-      "@promethean/indexer-core/*": ["../indexer-core/dist/*"]
+      "@promethean/file-indexer-service": ["../file-indexer-service/dist/index"],
+      "@promethean/file-indexer-service/*": ["../file-indexer-service/dist/*"]
     }
   },
   "include": ["src/**/*"],

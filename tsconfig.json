@@ -17,6 +17,7 @@
     "allowArbitraryExtensions": false,
     "allowImportingTsExtensions": false,
     "declaration": true,
+    "noImplicitAny": true,
     "declarationMap": true,
     "importHelpers": false,
     "newLine": "lf",

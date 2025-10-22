@@ -284,7 +284,7 @@ const processConditionals = (
     context: TemplateContext,
     pattern: RegExp,
     strictMode: boolean,
-    customFilters: Record<string, TemplateFilter['fn']> = {},
+    _customFilters: Record<string, TemplateFilter['fn']> = {},
 ): { processed: string; variablesUsed: Set<string>; errors: string[] } => {
     const variablesUsed = new Set<string>();
     const errors: string[] = [];

@@ -11,7 +11,6 @@ import type {
   SecurityOptions,
   FileOperationContext,
   PathValidationResult,
-  FileOperationType
 } from './types.js';
 
 /**
@@ -24,7 +23,7 @@ export const DEFAULT_SECURITY_OPTIONS: SecurityOptions = {
   allowPathTraversal: false,
   allowSymlinks: false,
   requireAuthentication: false,
-  auditLog: true
+  auditLog: true,
 };
 
 /**
@@ -36,7 +35,10 @@ export class TaskSecurityValidator implements SecurityValidator {
   /**
    * Validate file path for security violations
    */
-  async validatePath(filePath: string, context: FileOperationContext): Promise<PathValidationResult> {
+  async validatePath(
+    filePath: string,
+    context: FileOperationContext,
+  ): Promise<PathValidationResult> {
     const issues: string[] = [];
     const warnings: string[] = [];
 
@@ -54,7 +56,9 @@ export class TaskSecurityValidator implements SecurityValidator {
       // Check for dangerous file extensions
       const ext = path.extname(normalizedPath).toLowerCase();
       if (!this.options.allowedExtensions.includes(ext)) {
-        issues.push(`File extension '${ext}' not allowed. Allowed: ${this.options.allowedExtensions.join(', ')}`);
+        issues.push(
+          `File extension '${ext}' not allowed. Allowed: ${this.options.allowedExtensions.join(', ')}`,
+        );
       }
 
       // Check for suspicious file names
@@ -84,22 +88,26 @@ export class TaskSecurityValidator implements SecurityValidator {
       }
 
       // Additional security checks based on operation type
-      const operationSpecificIssues = await this.validateOperationSpecificPath(normalizedPath, context);
+      const operationSpecificIssues = await this.validateOperationSpecificPath(
+        normalizedPath,
+        context,
+      );
       issues.push(...operationSpecificIssues);
 
       return {
         valid: issues.length === 0,
         normalizedPath,
         securityIssues: issues,
-        warnings
+        warnings,
       };
-
     } catch (error) {
       return {
         valid: false,
         normalizedPath: filePath,
-        securityIssues: [`Path validation error: ${error instanceof Error ? error.message : String(error)}`],
-        warnings
+        securityIssues: [
+          `Path validation error: ${error instanceof Error ? error.message : String(error)}`,
+        ],
+        warnings,
       };
     }
   }
@@ -107,7 +115,10 @@ export class TaskSecurityValidator implements SecurityValidator {
   /**
    * Validate file content for security issues
    */
-  async validateFileContent(content: string, context: FileOperationContext): Promise<PathValidationResult> {
+  async validateFileContent(
+    content: string,
+    context: FileOperationContext,
+  ): Promise<PathValidationResult> {
     const issues: string[] = [];
     const warnings: string[] = [];
 
@@ -115,7 +126,9 @@ export class TaskSecurityValidator implements SecurityValidator {
       // Check file size
       const contentSize = Buffer.byteLength(content, 'utf8');
       if (contentSize > this.options.maxFileSize) {
-        issues.push(`File size ${contentSize} exceeds maximum allowed size ${this.options.maxFileSize}`);
+        issues.push(
+          `File size ${contentSize} exceeds maximum allowed size ${this.options.maxFileSize}`,
+        );
       }
 
       // Check for potentially dangerous content patterns
@@ -153,15 +166,16 @@ export class TaskSecurityValidator implements SecurityValidator {
         valid: issues.length === 0,
         normalizedPath: context.path,
         securityIssues: issues,
-        warnings
+        warnings,
       };
-
     } catch (error) {
       return {
         valid: false,
         normalizedPath: context.path,
-        securityIssues: [`Content validation error: ${error instanceof Error ? error.message : String(error)}`],
-        warnings
+        securityIssues: [
+          `Content validation error: ${error instanceof Error ? error.message : String(error)}`,
+        ],
+        warnings,
       };
     }
   }
@@ -198,15 +212,15 @@ export class TaskSecurityValidator implements SecurityValidator {
   private containsPathTraversal(filePath: string): boolean {
     // Check for common path traversal patterns
     const traversalPatterns = [
-      /\.\.[\/\\]/,  // ../
-      /[\/\\]\.\./,  // /..
-      /\.\.%2f/i,    // ..%2f
-      /\.\.%5c/i,    // ..%5c
+      /\.\.[\/\\]/, // ../
+      /[\/\\]\.\./, // /..
+      /\.\.%2f/i, // ..%2f
+      /\.\.%5c/i, // ..%5c
       /%2e%2e[\/\\]/i, // %2e%2e/
       /[\/\\]%2e%2e/i, // /%2e%2e
     ];
 
-    return traversalPatterns.some(pattern => pattern.test(filePath));
+    return traversalPatterns.some((pattern) => pattern.test(filePath));
   }
 
   /**
@@ -220,7 +234,7 @@ export class TaskSecurityValidator implements SecurityValidator {
       /^(test|debug|temp|tmp)/i, // Temporary files
     ];
 
-    return suspiciousPatterns.some(pattern => pattern.test(fileName));
+    return suspiciousPatterns.some((pattern) => pattern.test(fileName));
   }
 
   /**
@@ -228,7 +242,7 @@ export class TaskSecurityValidator implements SecurityValidator {
    */
   private async validateOperationSpecificPath(
     filePath: string,
-    context: FileOperationContext
+    context: FileOperationContext,
   ): Promise<string[]> {
     const issues: string[] = [];
 
@@ -255,7 +269,7 @@ export class TaskSecurityValidator implements SecurityValidator {
       case 'move':
         // Prevent moving to system directories
         const systemDirs = ['/etc', '/bin', '/usr', '/System', 'Windows'];
-        if (systemDirs.some(sysDir => filePath.startsWith(sysDir))) {
+        if (systemDirs.some((sysDir) => filePath.startsWith(sysDir))) {
           issues.push('Cannot move files to system directories');
         }
         break;
@@ -274,7 +288,7 @@ export class TaskSecurityValidator implements SecurityValidator {
       /[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/, // Control characters
     ];
 
-    return binaryIndicators.some(indicator => indicator.test(content));
+    return binaryIndicators.some((indicator) => indicator.test(content));
   }
 
   /**

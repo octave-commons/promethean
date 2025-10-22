@@ -1,13 +1,13 @@
 {
   "name": "@promethean/embedding",
-  "root": "packages/embedding",
-  "sourceRoot": "packages/embedding/src",
+  "root": "packages/ai/embedding",
+  "sourceRoot": "packages/ai/embedding/src",
   "targets": {
     "build": {
       "executor": "nx:run-commands",
       "options": {
         "command": "tsc -b",
-        "cwd": "packages/embedding"
+        "cwd": "packages/ai/embedding"
       },
       "outputs": ["{projectRoot}/dist"]
     },
@@ -15,7 +15,7 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "tsc -p tsconfig.json --noEmit",
-        "cwd": "packages/embedding"
+        "cwd": "packages/ai/embedding"
       }
     },
     "test": {
@@ -32,7 +32,7 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "eslint .",
-        "cwd": "packages/embedding"
+        "cwd": "packages/ai/embedding"
       }
     }
   },

@@ -3,12 +3,15 @@ import test from 'ava';
 import { promises as fs } from 'node:fs';
 import { randomUUID } from 'node:crypto';
 import path from 'node:path';
-import { ScarContextBuilder, createScarContextBuilder, DEFAULT_SCAR_CONTEXT_OPTIONS } from '../lib/heal/scar-context-builder.js';
-import { EventLogManager } from '../board/event-log.js';
+import {
+  createScarContextBuilder,
+  DEFAULT_SCAR_CONTEXT_OPTIONS,
+} from '../lib/heal/scar-context-builder.js';
+import { makeEventLogManager } from '../board/event-log/index.js';
 import { loadKanbanConfig } from '../board/config.js';
-import type { ScarContext, HealingStatus } from '../lib/heal/scar-context-types.js';
-import { validateScarContextIntegrity, createEventLogEntry } from '../lib/heal/type-guards.js';
-import type { Board, Task, ColumnData } from '../lib/types.js';
+
+import { validateScarContextIntegrity } from '../lib/heal/type-guards.js';
+import type { Task } from '../lib/types.js';
 
 // Mock data for testing
 const createMockTask = (overrides: Partial<Task> = {}): Task => ({
@@ -21,29 +24,6 @@ const createMockTask = (overrides: Partial<Task> = {}): Task => ({
   estimates: { complexity: 3 },
   content: 'Test task content',
   ...overrides,
-});
-
-const createMockBoard = (tasks: Task[] = []): Board => ({
-  columns: [
-    {
-      name: 'Todo',
-      count: tasks.filter(t => t.status === 'Todo').length,
-      limit: 5,
-      tasks: tasks.filter(t => t.status === 'Todo'),
-    },
-    {
-      name: 'In Progress',
-      count: tasks.filter(t => t.status === 'In Progress').length,
-      limit: 3,
-      tasks: tasks.filter(t => t.status === 'In Progress'),
-    },
-    {
-      name: 'Done',
-      count: tasks.filter(t => t.status === 'Done').length,
-      limit: null,
-      tasks: tasks.filter(t => t.status === 'Done'),
-    },
-  ],
 });
 
 // Setup temporary directories for testing
@@ -65,11 +45,11 @@ const cleanupTestEnvironment = async (tempDir: string) => {
   await fs.rm(tempDir, { recursive: true, force: true });
 };
 
-test('ScarContextBuilder - Constructor initialization', (t) => {
+test('ScarContextBuilder - Constructor initialization', async (t) => {
   const { boardPath, tasksDir } = await setupTestEnvironment();
-  
+
   const builder = createScarContextBuilder(boardPath, tasksDir);
-  
+
   t.truthy(builder);
   t.is(typeof builder.buildContext, 'function');
 
@@ -78,7 +58,7 @@ test('ScarContextBuilder - Constructor initialization', (t) => {
 
 test('ScarContextBuilder - Build basic context', async (t) => {
   const { boardPath, tasksDir, tempDir } = await setupTestEnvironment();
-  
+
   try {
     // Create some test tasks
     const tasks = [
@@ -127,7 +107,6 @@ ${task.content}`;
     const validation = validateScarContextIntegrity(context);
     t.true(validation.isValid);
     t.is(validation.errors.length, 0);
-
   } finally {
     await cleanupTestEnvironment(tempDir);
   }
@@ -135,7 +114,7 @@ ${task.content}`;
 
 test('ScarContextBuilder - System metrics analysis', async (t) => {
   const { boardPath, tasksDir, tempDir } = await setupTestEnvironment();
-  
+
   try {
     // Create tasks with various issues
     const tasks = [
@@ -172,15 +151,16 @@ ${task.content}`;
     });
 
     // Check that system metrics were analyzed
-    const metricsEvent = context.eventLog.find(e => e.operation === 'system-metrics-analyzed');
+    const metricsEvent = context.eventLog.find((e) => e.operation === 'system-metrics-analyzed');
     t.truthy(metricsEvent);
     t.is(metricsEvent?.details.totalTasks, tasks.length);
 
     // Verify WIP violations detection
-    const wipViolationEvent = context.eventLog.find(e => e.operation === 'system-metrics-analyzed');
+    const wipViolationEvent = context.eventLog.find(
+      (e) => e.operation === 'system-metrics-analyzed',
+    );
     t.truthy(wipViolationEvent);
     t.true(wipViolationEvent?.details.wipViolations >= 0);
-
   } finally {
     await cleanupTestEnvironment(tempDir);
   }
@@ -188,20 +168,20 @@ ${task.content}`;
 
 test('ScarContextBuilder - Task analysis with quality issues', async (t) => {
   const { boardPath, tasksDir, tempDir } = await setupTestEnvironment();
-  
+
   try {
     // Create tasks with quality issues
     const tasks = [
-      createMockTask({ 
-        title: 'Critical Task', 
-        status: 'Todo', 
+      createMockTask({
+        title: 'Critical Task',
+        status: 'Todo',
         priority: 'P0',
-        created_at: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000).toISOString() // 20 days old
+        created_at: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000).toISOString(), // 20 days old
       }),
-      createMockTask({ 
-        title: 'Stuck Task', 
+      createMockTask({
+        title: 'Stuck Task',
         status: 'In Progress',
-        created_at: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString() // 10 days old
+        created_at: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(), // 10 days old
       }),
     ];
 
@@ -229,11 +209,10 @@ ${task.content}`;
     });
 
     // Check that task analysis was performed
-    const analysisEvent = context.eventLog.find(e => e.operation === 'task-analysis-completed');
+    const analysisEvent = context.eventLog.find((e) => e.operation === 'task-analysis-completed');
     t.truthy(analysisEvent);
     t.true(analysisEvent?.details.criticalTasks >= 0);
     t.true(analysisEvent?.details.qualityIssues >= 0);
-
   } finally {
     await cleanupTestEnvironment(tempDir);
   }
@@ -241,27 +220,27 @@ ${task.content}`;
 
 test('ScarContextBuilder - Search functionality', async (t) => {
   const { boardPath, tasksDir, tempDir } = await setupTestEnvironment();
-  
+
   try {
     // Create tasks with searchable content
     const tasks = [
-      createMockTask({ 
-        title: 'Security Issue', 
+      createMockTask({
+        title: 'Security Issue',
         status: 'Todo',
         labels: ['security', 'bug'],
-        content: 'This is a critical security vulnerability that needs immediate attention'
+        content: 'This is a critical security vulnerability that needs immediate attention',
       }),
-      createMockTask({ 
-        title: 'Feature Request', 
+      createMockTask({
+        title: 'Feature Request',
         status: 'Todo',
         labels: ['enhancement'],
-        content: 'User requested new feature for better UX'
+        content: 'User requested new feature for better UX',
       }),
-      createMockTask({ 
-        title: 'Performance Optimization', 
+      createMockTask({
+        title: 'Performance Optimization',
         status: 'Todo',
         labels: ['performance'],
-        content: 'Optimize database queries for better performance'
+        content: 'Optimize database queries for better performance',
       }),
     ];
 
@@ -290,7 +269,7 @@ ${task.content}`;
     });
 
     // Check that search was performed
-    const searchEvent = context.eventLog.find(e => e.operation === 'task-search-completed');
+    const searchEvent = context.eventLog.find((e) => e.operation === 'task-search-completed');
     t.truthy(searchEvent);
     t.deepEqual(searchEvent?.details.searchTerms, ['security', 'performance']);
 
@@ -299,16 +278,17 @@ ${task.content}`;
     t.true(context.searchResults.length <= 10); // Respect maxResults
 
     // Should find security and performance related tasks
-    const securityResult = context.searchResults.find(r => r.title.includes('Security Issue'));
-    const performanceResult = context.searchResults.find(r => r.title.includes('Performance Optimization'));
-    
+    const securityResult = context.searchResults.find((r) => r.title.includes('Security Issue'));
+    const performanceResult = context.searchResults.find((r) =>
+      r.title.includes('Performance Optimization'),
+    );
+
     t.truthy(securityResult);
     t.truthy(performanceResult);
-    
+
     // Verify relevance scoring
     t.true(securityResult!.relevance > 0.5); // Should have high relevance for title match
     t.true(performanceResult!.relevance > 0.5);
-
   } finally {
     await cleanupTestEnvironment(tempDir);
   }
@@ -316,14 +296,14 @@ ${task.content}`;
 
 test('ScarContextBuilder - Git analysis', async (t) => {
   const { boardPath, tasksDir, tempDir } = await setupTestEnvironment();
-  
+
   try {
     // Initialize git repository for testing
     const { execSync } = await import('node:child_process');
     execSync('git init', { cwd: tempDir });
     execSync('git config user.name "Test User"', { cwd: tempDir });
     execSync('git config user.email "test@example.com"', { cwd: tempDir });
-    
+
     // Create initial commit
     execSync('git add .', { cwd: tempDir });
     execSync('git commit -m "Initial commit"', { cwd: tempDir });
@@ -334,14 +314,13 @@ test('ScarContextBuilder - Git analysis', async (t) => {
     });
 
     // Check that git analysis was performed
-    const gitEvent = context.eventLog.find(e => e.operation === 'git-analysis-completed');
+    const gitEvent = context.eventLog.find((e) => e.operation === 'git-analysis-completed');
     t.truthy(gitEvent);
     t.true(gitEvent?.details.commitsAnalyzed >= 0);
 
     // Verify git history is included
     t.true(Array.isArray(context.gitHistory));
     t.true(context.gitHistory.length <= 10); // Respect maxDepth
-
   } finally {
     await cleanupTestEnvironment(tempDir);
   }
@@ -349,35 +328,34 @@ test('ScarContextBuilder - Git analysis', async (t) => {
 
 test('ScarContextBuilder - LLM operations tracking', async (t) => {
   const { boardPath, tasksDir, tempDir } = await setupTestEnvironment();
-  
+
   try {
     const builder = createScarContextBuilder(boardPath, tasksDir);
-    
+
     // Build initial context
     const context = await builder.buildContext('LLM operations test');
-    
+
     // Add LLM operation
     await builder.addLLMOperation(
       context,
       'analyze-task',
       { taskId: 'test-123', analysisType: 'quality' },
       { score: 0.8, issues: ['missing-labels'] },
-      150
+      150,
     );
 
     // Verify LLM operation was added
     t.is(context.llmOperations.length, 1);
-    const llmOp = context.llmOperations[0];
+    const llmOp = context.llmOperations[0]!;
     t.is(llmOp.operation, 'analyze-task');
     t.deepEqual(llmOp.input, { taskId: 'test-123', analysisType: 'quality' });
     t.deepEqual(llmOp.output, { score: 0.8, issues: ['missing-labels'] });
     t.is(llmOp.tokensUsed, 150);
 
     // Verify event log was updated
-    const llmEvent = context.eventLog.find(e => e.operation === 'llm-operation-completed');
+    const llmEvent = context.eventLog.find((e) => e.operation === 'llm-operation-completed');
     t.truthy(llmEvent);
-    t.is(llmEvent?.details.operationId, llmOp.id);
-
+    t.is(llmEvent?.details.operationId, llmOp!.id);
   } finally {
     await cleanupTestEnvironment(tempDir);
   }
@@ -385,10 +363,10 @@ test('ScarContextBuilder - LLM operations tracking', async (t) => {
 
 test('ScarContextBuilder - Progress updates', async (t) => {
   const { boardPath, tasksDir, tempDir } = await setupTestEnvironment();
-  
+
   try {
     const builder = createScarContextBuilder(boardPath, tasksDir);
-    
+
     // Build initial context
     const context = await builder.buildContext('Progress updates test');
     const initialEventCount = context.eventLog.length;
@@ -398,29 +376,28 @@ test('ScarContextBuilder - Progress updates', async (t) => {
       context,
       'custom-operation',
       { step: 1, result: 'success' },
-      'info'
+      'info',
     );
 
     await builder.updateProgress(
       context,
       'warning-operation',
       { issue: 'something went wrong' },
-      'warning'
+      'warning',
     );
 
     // Verify progress updates
     t.is(context.eventLog.length, initialEventCount + 2);
-    
-    const infoEvent = context.eventLog.find(e => e.operation === 'custom-operation');
+
+    const infoEvent = context.eventLog.find((e) => e.operation === 'custom-operation');
     t.truthy(infoEvent);
     t.is(infoEvent?.severity, 'info');
     t.deepEqual(infoEvent?.details, { step: 1, result: 'success' });
 
-    const warningEvent = context.eventLog.find(e => e.operation === 'warning-operation');
+    const warningEvent = context.eventLog.find((e) => e.operation === 'warning-operation');
     t.truthy(warningEvent);
     t.is(warningEvent?.severity, 'warning');
     t.deepEqual(warningEvent?.details, { issue: 'something went wrong' });
-
   } finally {
     await cleanupTestEnvironment(tempDir);
   }
@@ -428,16 +405,18 @@ test('ScarContextBuilder - Progress updates', async (t) => {
 
 test('ScarContextBuilder - Context finalization', async (t) => {
   const { boardPath, tasksDir, tempDir } = await setupTestEnvironment();
-  
+
   try {
     const builder = createScarContextBuilder(boardPath, tasksDir);
-    
+
     // Build and finalize context
     const context = await builder.buildContext('Finalization test');
     const finalizedContext = await builder.finalizeContext(context);
 
     // Verify finalization event
-    const finalizationEvent = finalizedContext.eventLog.find(e => e.operation === 'context-finalized');
+    const finalizationEvent = finalizedContext.eventLog.find(
+      (e) => e.operation === 'context-finalized',
+    );
     t.truthy(finalizationEvent);
     t.true(finalizationEvent?.details.totalEvents >= 0);
     t.true(finalizationEvent?.details.llmOperations >= 0);
@@ -448,7 +427,6 @@ test('ScarContextBuilder - Context finalization', async (t) => {
     const validation = validateScarContextIntegrity(finalizedContext);
     t.true(validation.isValid);
     t.is(validation.errors.length, 0);
-
   } finally {
     await cleanupTestEnvironment(tempDir);
   }
@@ -456,26 +434,25 @@ test('ScarContextBuilder - Context finalization', async (t) => {
 
 test('ScarContextBuilder - Error handling', async (t) => {
   const { boardPath, tasksDir, tempDir } = await setupTestEnvironment();
-  
+
   try {
     // Create invalid task file to trigger error
     const invalidTaskFile = path.join(tasksDir, 'invalid.md');
     await fs.writeFile(invalidTaskFile, 'invalid content that cannot be parsed');
 
     const builder = createScarContextBuilder(boardPath, tasksDir);
-    
+
     // Build context should handle errors gracefully
     const context = await builder.buildContext('Error handling test');
 
     // Should still have a valid context structure even with errors
     t.is(context.reason, 'Error handling test');
     t.true(Array.isArray(context.eventLog));
-    
+
     // Should have error event logged
-    const errorEvent = context.eventLog.find(e => e.operation === 'context-building-failed');
+    const errorEvent = context.eventLog.find((e) => e.operation === 'context-building-failed');
     t.truthy(errorEvent);
     t.is(errorEvent?.severity, 'error');
-
   } finally {
     await cleanupTestEnvironment(tempDir);
   }
@@ -496,7 +473,7 @@ test('ScarContextBuilder - Default options', (t) => {
 
 test('ScarContextBuilder - Column and label filtering', async (t) => {
   const { boardPath, tasksDir, tempDir } = await setupTestEnvironment();
-  
+
   try {
     // Create tasks with different labels and statuses
     const tasks = [
@@ -531,14 +508,13 @@ ${task.content}`;
     });
 
     // Check that filtering was applied
-    const analysisEvent = context.eventLog.find(e => e.operation === 'task-analysis-completed');
+    const analysisEvent = context.eventLog.find((e) => e.operation === 'task-analysis-completed');
     t.truthy(analysisEvent);
 
     // With the filters applied, we should only analyze the Bug Task
     // (Todo status + bug/urgent labels)
     t.true(analysisEvent?.details.criticalTasks >= 0);
     t.true(analysisEvent?.details.qualityIssues >= 0);
-
   } finally {
     await cleanupTestEnvironment(tempDir);
   }
@@ -546,7 +522,7 @@ ${task.content}`;
 
 test('ScarContextBuilder - Integration with EventLogManager', async (t) => {
   const { boardPath, tasksDir, tempDir } = await setupTestEnvironment();
-  
+
   try {
     // Load config to create EventLogManager
     const { config } = await loadKanbanConfig({
@@ -556,10 +532,10 @@ test('ScarContextBuilder - Integration with EventLogManager', async (t) => {
         KANBAN_BOARD_FILE: boardPath,
       },
     });
-    
-    const eventLogManager = new EventLogManager(config);
+
+    const eventLogManager = makeEventLogManager(config);
     const builder = createScarContextBuilder(boardPath, tasksDir, eventLogManager);
-    
+
     const context = await builder.buildContext('EventLogManager integration test');
 
     // Verify context was built successfully
@@ -568,7 +544,6 @@ test('ScarContextBuilder - Integration with EventLogManager', async (t) => {
 
     // Verify EventLogManager integration (this would be more comprehensive in a real test)
     t.truthy(eventLogManager);
-
   } finally {
     await cleanupTestEnvironment(tempDir);
   }

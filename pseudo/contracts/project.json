@@ -1,0 +1,40 @@
+{
+    "name": "@promethean/contracts",
+    "root": "pseudo/contracts",
+    "sourceRoot": "pseudo/contracts/src",
+    "targets": {
+        "build": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "tsc -b",
+                "cwd": "pseudo/contracts"
+            },
+            "outputs": ["{projectRoot}/dist"]
+        },
+        "typecheck": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "tsc -p tsconfig.json --noEmit",
+                "cwd": "pseudo/contracts"
+            }
+        },
+        "test": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "ava",
+                "cwd": "{projectRoot}",
+                "env": {
+                    "AVA_PROJECT_ROOT": "."
+                }
+            }
+        },
+        "lint": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "eslint .",
+                "cwd": "pseudo/contracts"
+            }
+        }
+    },
+    "tags": ["scope:packages"]
+}

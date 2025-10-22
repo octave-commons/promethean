@@ -183,22 +183,104 @@
 
 ;; Global rule functions
 (defn wip-limits
-  "Enforce WIP limits on target column, but allow P0 tasks to bypass capacity constraints"
+  "Enforce WIP limits on target column with comprehensive policy enforcement"
   [from-to task board]
   (let [target-col (second from-to)
-        target-key (column-key target-col)]
-    (if (#{"rejected" "icebox"} target-key)
+        source-col (first from-to)
+        target-key (column-key target-col)
+        source-key (column-key source-col)]
+    ;; Columns without WIP limits
+    (if (#{"rejected" "icebox" "incoming" "archived"} target-key)
       true
       (let [column (first (filter #(= (column-key (:name %)) target-key) (:columns board)))
             limit (:limit column)
             current-count (count (:tasks column))
-            task-priority (get-priority-numeric (:priority task))]
+            task-priority (get-priority-numeric (:priority task))
+            projected-count (inc current-count)
+            utilization-percent (when limit (* (/ current-count limit) 100))
+            severity-threshold {:warning 80 :critical 110}]
+        
         (if (nil? column)
           true
-          ;; P0 tasks (priority 0) can bypass WIP limits
-          (or (nil? limit)
-              (< current-count limit)
-              (= task-priority 0)))))))
+          (or (nil? limit)  ; No limit configured
+              (= task-priority 0)  ; P0 tasks can bypass WIP limits
+              (< current-count limit)  ; Under limit
+              ;; Allow P1 tasks to exceed limits up to 110% with warning
+              (and (= task-priority 1) 
+                   (<= projected-count (* limit 1.1)))
+              ;; Emergency override for critical blockers
+              (and (has-blocker-tag? task)
+                   (<= projected-count (* limit 1.2)))))))))
+
+(defn has-blocker-tag?
+  "Check if task has blocker/critical tag indicating emergency"
+  [task]
+  (let [labels (or (:labels task) [])
+        content (or (:content task) "")]
+    (or (some #(str/includes? (str/lower-case %) "blocker") labels)
+        (some #(str/includes? (str/lower-case %) "critical") labels)
+        (str/includes? (str/lower-case content) "blocker")
+        (str/includes? (str/lower-case content) "emergency"))))
+
+(defn wip-violation-severity
+  "Determine severity level of WIP violation"
+  [current-count limit]
+  (let [utilization (* (/ current-count limit) 100)]
+    (cond
+      (>= utilization 120) :critical
+      (> utilization 100) :error
+      (>= utilization 80) :warning
+      :else :healthy)))
+
+(defn generate-wip-suggestions
+  "Generate capacity balancing suggestions for WIP violations"
+  [target-col board task]
+  (let [target-key (column-key target-col)
+        over-capacity-col (first (filter #(= (column-key (:name %)) target-key) (:columns board)))
+        excess-count (- (count (:tasks over-capacity-col)) (:limit over-capacity-col))
+        underutilized-cols (filter #(and (:limit %)
+                                     (< (/ (count (:tasks %)) (:limit %)) 0.7))
+                                (:columns board))]
+    
+    (cond
+      ;; Suggest moving to underutilized columns
+      (pos? excess-count)
+      (for [target-col underutilized-cols
+            :let [available-capacity (- (:limit target-col) (count (:tasks target-col)))]]
+        {:action "move_tasks"
+         :description (str "Move tasks to " (:name target-col))
+         :from-column (:name over-capacity-col)
+         :to-column (:name target-col)
+         :available-capacity available-capacity})
+      
+      ;; Suggest priority reordering
+      :else
+      [{:action "reorder_priority"
+        :description "Reorder tasks by priority to ensure highest value work stays"
+        :from-column (:name over-capacity-col)}])))
+
+(defn wip-compliance-check
+  "Comprehensive WIP compliance validation for audit purposes"
+  [board]
+  (let [columns-with-limits (filter :limit (:columns board))
+        violations (reduce-kv 
+                    (fn [acc col-name col-data]
+                      (let [current-count (count (:tasks col-data))
+                            limit (:limit col-data)
+                            violation? (> current-count limit)]
+                        (if violation?
+                          (assoc acc col-name {:current current-count 
+                                             :limit limit
+                                             :excess (- current-count limit)
+                                             :severity (wip-violation-severity current-count limit)})
+                          acc)))
+                    {}
+                    (into {} (map #(vector (:name %) %) columns-with-limits)))]
+    
+    {:total-violations (count violations)
+     :violations violations
+     :compliance-rate (* (/ (- (count columns-with-limits) (count violations)) 
+                        (count columns-with-limits)) 100)}))
 
 (defn task-existence
   "Task must exist in source column"

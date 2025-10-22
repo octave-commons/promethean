@@ -12,8 +12,12 @@ ignore:
   - packages/buildfix/test-fixtures
   - packages/buildfix/simple-fixtures
   - packages/buildfix/test-tmp
+  - pseudo/*
 
 pnpm:
   overrides:
     tinyglobby:
       '@types/node': '20.19.11'
+
+link-workspace-packages: true
+prefer-workspace-packages: true

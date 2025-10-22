@@ -1,43 +1,30 @@
-import { TaskContext } from '../tasks/index.js';
+import { OpencodeClient } from '@opencode-ai/sdk';
 
-export interface EventContext {
-  client: any;
-  taskContext: TaskContext;
-}
+import type { OpenCodeEvent, EventMessage } from '../../types/index.js';
 
-export async function handleSessionIdle(context: EventContext, sessionId: string): Promise<void> {
+export type EventContext = {
+  readonly client: OpencodeClient;
+};
+
+export async function handleSessionIdle(_context: EventContext, sessionId: string): Promise<void> {
   console.log(`💤 Session ${sessionId} is idle`);
-  const { updateTaskStatus } = await import('../tasks/index.js');
-  await updateTaskStatus(context.taskContext, sessionId, 'idle');
-
-  const messages = await getSessionMessages(context.client, sessionId);
-  const completion = detectTaskCompletion(messages);
-  if (completion.completed) {
-    await updateTaskStatus(
-      context.taskContext,
-      sessionId,
-      'completed',
-      completion.completionMessage,
-    );
-  }
+  // Simple session state tracking - no task management
 }
 
 export async function handleSessionUpdated(
-  context: EventContext,
+  _context: EventContext,
   sessionId: string,
 ): Promise<void> {
   console.log(`🔄 Session ${sessionId} updated`);
-  const { updateTaskStatus } = await import('../tasks/index.js');
-  await updateTaskStatus(context.taskContext, sessionId, 'running');
+  // Simple session state tracking - no task management
 }
 
 export async function handleMessageUpdated(
-  context: EventContext,
+  _context: EventContext,
   sessionId: string,
 ): Promise<void> {
   console.log(`💬 Message updated in session ${sessionId}`);
-  const { updateTaskStatus } = await import('../tasks/index.js');
-  await updateTaskStatus(context.taskContext, sessionId, 'running');
+  // Simple message tracking - no task management
 }
 
 export async function processSessionMessages(
@@ -47,30 +34,24 @@ export async function processSessionMessages(
   await processSessionMessagesAction(context.client, sessionId);
 }
 
-export function extractSessionId(event: any): string | null {
-  const extractors: Record<string, () => string | undefined> = {
-    'session.idle': () => event.properties.sessionID || event.properties.session?.id,
-    'session.updated': () => event.properties.info?.id || event.properties.session?.id,
-    'message.updated': () => event.properties.message?.session_id || event.properties.sessionId,
-    'message.part.updated': () =>
-      event.properties.message?.session_id || event.properties.sessionId,
-    'session.compacted': () => event.properties.sessionId || event.properties.session?.id,
-  };
-
-  const extractor = extractors[event.type];
-  return extractor ? extractor() || null : null;
+export function extractSessionId(event: OpenCodeEvent): string | null {
+  // All OpenCodeEvent types have sessionId directly
+  return event.sessionId || null;
 }
 
-export async function getSessionMessages(client: any, sessionId: string) {
-  try {
-    const { data: messages } = await client.session.messages({
+export async function getSessionMessages(
+  client: OpencodeClient,
+  sessionId: string,
+): Promise<unknown[]> {
+  const result = await client.session
+    .messages({
       path: { id: sessionId },
+    })
+    .catch((error: unknown) => {
+      console.error(`Error fetching messages for session ${sessionId}:`, error);
+      return { data: [] };
     });
-    return messages || [];
-  } catch (error) {
-    console.error(`Error fetching messages for session ${sessionId}:`, error);
-    return [];
-  }
+  return result.data || [];
 }
 
 const COMPLETION_PATTERNS = [
@@ -86,18 +67,18 @@ const COMPLETION_PATTERNS = [
   /✅|🎉|🏆|✓/g,
 ];
 
-export function detectTaskCompletion(messages: any[]): {
+export function detectTaskCompletion(messages: EventMessage[]): {
   completed: boolean;
   completionMessage?: string;
 } {
   if (!messages?.length) return { completed: false };
 
   const lastMessage = messages[messages.length - 1];
-  const textParts = lastMessage?.parts?.filter((part: any) => part.type === 'text') || [];
+  const textParts = lastMessage?.parts?.filter((part) => part.type === 'text') || [];
 
   if (!textParts.length) return { completed: false };
 
-  const lastText = textParts[textParts.length - 1].text.toLowerCase();
+  const lastText = textParts[textParts.length - 1]?.text?.toLowerCase() || '';
   const isCompleted = COMPLETION_PATTERNS.some((pattern) => pattern.test(lastText));
 
   return {
@@ -106,20 +87,31 @@ export function detectTaskCompletion(messages: any[]): {
   };
 }
 
-export async function processSessionMessagesAction(client: any, sessionId: string) {
+export async function processSessionMessagesAction(
+  client: OpencodeClient,
+  sessionId: string,
+): Promise<void> {
   const messages = await getSessionMessages(client, sessionId);
-  await Promise.all(messages.map((message: any) => processMessage(client, sessionId, message)));
+  await Promise.all(
+    (messages as EventMessage[]).map((message: EventMessage) =>
+      processMessage(client, sessionId, message),
+    ),
+  );
 }
 
-export async function processMessage(_client: any, sessionId: string, message: any) {
+export async function processMessage(
+  _client: OpencodeClient,
+  sessionId: string,
+  message: EventMessage,
+): Promise<void> {
   if (!message?.parts) return;
 
-  // This would need the session store context - for now just log
+  // This would need session store context - for now just log
   console.log(`Processing message ${message.info.id} from session ${sessionId}`);
 
   await Promise.all(
-    message.parts.map(async (part: any) => {
-      if (part.type === 'text' && part.text.trim()) {
+    message.parts.map(async (part) => {
+      if (part.type === 'text' && part.text?.trim()) {
         console.log(`📝 Processing text part from message ${message.info.id}`);
       }
     }),

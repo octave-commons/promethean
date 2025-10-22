@@ -1,13 +1,13 @@
 {
   "name": "@promethean/readmeflow",
-  "root": "packages/readmeflow",
-  "sourceRoot": "packages/readmeflow/src",
+  "root": "packages/pipelines/readmeflow",
+  "sourceRoot": "packages/pipelines/readmeflow/src",
   "targets": {
     "build": {
       "executor": "nx:run-commands",
       "options": {
         "command": "tsc -b",
-        "cwd": "packages/readmeflow"
+        "cwd": "packages/pipelines/readmeflow"
       },
       "outputs": ["{projectRoot}/dist"]
     },
@@ -15,7 +15,7 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "tsc -p tsconfig.json --noEmit",
-        "cwd": "packages/readmeflow"
+        "cwd": "packages/pipelines/readmeflow"
       }
     },
     "test": {
@@ -33,7 +33,7 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "eslint .",
-        "cwd": "packages/readmeflow"
+        "cwd": "packages/pipelines/readmeflow"
       }
     }
   },

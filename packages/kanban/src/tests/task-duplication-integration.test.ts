@@ -231,12 +231,30 @@ test('integration: file system reflects board state accurately', async (t) => {
   const board = makeBoard([]);
 
   // Create tasks across different columns
-  await createTask(board, 'todo', { title: 'Todo Task 1', content: 'Todo 1' }, tasksDir, boardPath);
-  await createTask(board, 'todo', { title: 'Todo Task 2', content: 'Todo 2' }, tasksDir, boardPath);
-  await createTask(board, 'ready', { title: 'Ready Task', content: 'Ready' }, tasksDir, boardPath);
   await createTask(
     board,
-    'in-progress',
+    'incoming',
+    { title: 'Todo Task 1', content: 'Todo 1' },
+    tasksDir,
+    boardPath,
+  );
+  await createTask(
+    board,
+    'incoming',
+    { title: 'Todo Task 2', content: 'Todo 2' },
+    tasksDir,
+    boardPath,
+  );
+  await createTask(
+    board,
+    'incoming',
+    { title: 'Ready Task', content: 'Ready' },
+    tasksDir,
+    boardPath,
+  );
+  await createTask(
+    board,
+    'incoming',
     { title: 'In Progress Task', content: 'In Progress' },
     tasksDir,
     boardPath,

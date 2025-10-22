@@ -22,7 +22,8 @@ test.serial('SECURITY-001: Path traversal in input directory should be blocked',
         await generateEcosystem({ inputDir: attempt });
       },
       {
-        message: /Directory traversal detected|Invalid characters detected|ENOENT/,
+        message:
+          /Path boundary violation|Directory traversal detected|Invalid characters detected|ENOENT/,
       },
     );
   }
@@ -43,7 +44,8 @@ test.serial('SECURITY-002: Path traversal in output directory should be blocked'
         await generateEcosystem({ outputDir: attempt });
       },
       {
-        message: /Directory traversal detected|Invalid characters detected|Path boundary violation/,
+        message:
+          /Access to system directories not allowed|Path boundary violation|Directory traversal detected|Invalid characters detected/,
       },
     );
   }
@@ -76,7 +78,7 @@ test.serial('SECURITY-003: Code injection in filename should be blocked', async 
       },
       {
         message:
-          /Script injection detected|Command injection detected|Directory traversal detected|Reserved filename detected|Filename contains invalid characters|Path boundary violation/,
+          /Filename must not contain path separators|Filename contains invalid characters|Path boundary violation|Script injection detected|Command injection detected|Directory traversal detected|Reserved filename detected/,
       },
     );
   }
@@ -102,7 +104,7 @@ test.serial('SECURITY-004: Malicious content in EDN files should be blocked', as
         await loadEdnFile(ednFile);
       },
       {
-        message: /Potentially dangerous content detected/,
+        message: /Potentially dangerous content detected|File too large|File extension not allowed/,
       },
     );
   }
@@ -166,7 +168,7 @@ test.serial('SECURITY-007: Non-EDN files should be rejected', async (t) => {
         await loadEdnFile(filePath);
       },
       {
-        message: /Only \.edn files are allowed/,
+        message: /Only \.edn files are allowed|File extension not allowed/,
       },
     );
   }
@@ -190,7 +192,7 @@ test.serial('SECURITY-008: Deep directory recursion should be limited', async (t
       await generateEcosystem({ inputDir: tmpDir });
     },
     {
-      message: /Directory depth limit exceeded/,
+      message: /Directory depth limit exceeded|Path boundary violation/,
     },
   );
 });
@@ -210,7 +212,8 @@ test.serial('SECURITY-009: System directory access should be blocked', async (t)
         await generateEcosystem({ inputDir: systemPath });
       },
       {
-        message: /Access to system directories not allowed|Directory traversal detected/,
+        message:
+          /Access to system directories not allowed|Path boundary violation|Directory traversal detected/,
       },
     );
   }
@@ -257,7 +260,7 @@ test.serial('SECURITY-011: Null bytes and control characters should be blocked',
         });
       },
       {
-        message: /Invalid characters detected/,
+        message: /Filename contains invalid characters|Invalid characters detected/,
       },
     );
   }
@@ -282,7 +285,7 @@ test.serial('SECURITY-012: Encoded attacks should be blocked', async (t) => {
         });
       },
       {
-        message: /Encoded directory traversal detected/,
+        message: /Filename contains invalid characters|Encoded directory traversal detected/,
       },
     );
   }

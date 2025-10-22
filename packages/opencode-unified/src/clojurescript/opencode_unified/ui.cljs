@@ -11,14 +11,16 @@
 
 ;; Main app component
 (defn app []
-  (let [current-buffer (r/track #(get-in @state/app-state :current-buffer))
-        buffer-content (r/track #(when-let [buffer-id (get-in @state/app-state :current-buffer)]
-                                   (get-in @state/app-state [:buffers buffer-id])))]
+  (let [current-buffer (r/track #(:current-buffer @state/app-state))
+        buffer-content (r/track #(when-let [buffer-id (:current-buffer @state/app-state)]
+                                   (get-in @state/app-state [:buffers buffer-id])))
+        theme-class (r/track #(name (:theme (:ui @state/app-state))))
+        evil-mode-class (r/track #(name (get-in @state/app-state [:evil-state :mode])))]
     [:div
      [theme-styles]
      [:div.app-container
-      {:class (str "theme-" (name (:theme (:ui @state/app-state)))
-                   " evil-mode-" (name (get-in @state/app-state [:evil-state :mode])))
+      {:class (str "theme-" @theme-class
+                   " evil-mode-" @evil-mode-class)
        :tab-index 0}
 
       ;; Header with menu bar
@@ -219,28 +221,32 @@ body {
 
 ;; Initialize app
 (defn init []
-  (println "Initializing Opencode UI...")
+  (println "Initializing UI...")
 
-  ;; Load workspace from localStorage
-  (state/load-workspace! "default-workspace")
+  ;; Set up global keyboard shortcuts
+  (let [handle-keydown (fn [e]
+                         ;; Cmd+Shift+P for command palette
+                         (when (and (= (.-key e) "p")
+                                    (.-metaKey e)
+                                    (.-shiftKey e))
+                           (.preventDefault e)
+                           ;; Toggle command palette visibility
+                           (let [command-palettes (.getElementsByClassName js/document "command-palette")]
+                             (when (> (.-length command-palettes) 0)
+                               (let [palette (aget command-palettes 0)
+                                     current-class (.-className palette)]
+                                 (if (.includes current-class "visible")
+                                   (set! (.-className palette) "command-palette")
+                                   (set! (.-className palette) "command-palette visible")))))))]
+    (.addEventListener js/document "keydown" handle-keydown))
 
-  ;; Set up global event listeners
-  (js/window.addEventListener "beforeunload"
-                              (fn [e]
-                                (state/save-workspace! "default-workspace")))
+    ;; Mount the React app
+  (when-let [app-element (.getElementById js/document "app")]
+    (let [root (rdomc/create-root app-element)]
+      (rdomc/render root (r/as-element [app]))
+      (def ^:export root root)))
 
-  ;; Set up resize handler
-  (js/window.addEventListener "resize"
-                              (fn []
-                              ;; Trigger re-render on resize
-                                (println "Window resized")))
-
-  ;; Mount app using Reagent's React 18 compatible rendering
-  (defonce root (rdomc/create-root (js/document.getElementById "app")))
-  ;; Use Reagent's as-element to ensure proper reactivity tracking
-  (rdomc/render root (r/as-element [app]))
-
-  (println "Opencode UI initialized"))
+  (println "UI initialized with command palette support"))
 
 ;; Hot module replacement support
 (defn ^:export reload []

@@ -20,6 +20,7 @@ import {
   renameTask,
   columnKey,
 } from '../lib/kanban.js';
+
 import {
   isEpic,
   getEpicSubtasks,
@@ -29,7 +30,7 @@ import {
   getAllEpics,
 } from '../lib/epic.js';
 import type { Board } from '../lib/types.js';
-import { EventLogManager } from '../board/event-log.js';
+import { makeEventLogManager, type EventLogManager } from '../board/event-log/index.js';
 import { loadKanbanConfig } from '../board/config.js';
 import { serveKanbanUI } from '../lib/ui-server.js';
 import { compareTasks, suggestTaskBreakdown, prioritizeTasks } from '../lib/task-tools.js';
@@ -37,6 +38,7 @@ import { KanbanDevServer } from '../lib/dev-server.js';
 
 import { TransitionRulesEngine, createTransitionRulesEngine } from '../lib/transition-rules.js';
 import { TaskGitTracker } from '../lib/task-git-tracker.js';
+import { createWIPLimitEnforcement } from '../lib/wip-enforcement.js';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
@@ -178,7 +180,9 @@ const withBoard = async <T>(
 const handleCount: CommandHandler = (args, context) =>
   withBoard(context, (board) => {
     const mutableBoard = board as unknown as LoadedBoard;
-    const count = countTasks(mutableBoard, args[0]);
+    // Treat undefined argument as empty string to ensure consistent behavior
+    const column = args[0] !== undefined ? args[0] : '';
+    const count = countTasks(mutableBoard, column);
     return { count };
   });
 
@@ -266,7 +270,7 @@ const handleUpdateStatus: CommandHandler = (args, context) =>
         argv: process.argv,
         env: process.env,
       });
-      eventLogManager = new EventLogManager(configResult.config);
+      eventLogManager = makeEventLogManager(configResult.config);
     } catch (error) {
       console.warn(
         'Warning: Event log manager not available:',
@@ -724,6 +728,7 @@ const handleList: CommandHandler = (args, context) =>
     console.log('');
 
     let totalViolations = 0;
+    const allTasks: any[] = [];
 
     for (const columnName of columnsToShow) {
       const column = board.columns.find((col) => columnKey(col.name) === columnName);
@@ -760,6 +765,8 @@ const handleList: CommandHandler = (args, context) =>
           const uuid = task.uuid.slice(0, 8);
           console.log(`   • ${task.title}${priority} (${uuid}...)`);
         });
+        // Collect tasks for markdown output
+        allTasks.push(...column.tasks.slice());
       } else {
         console.log(`   (empty)`);
       }
@@ -785,7 +792,11 @@ const handleList: CommandHandler = (args, context) =>
       });
     }
 
-    return { violations: totalViolations };
+    // Return tasks for markdown output, along with violations metadata
+    return {
+      tasks: allTasks,
+      violations: totalViolations,
+    };
   });
 
 const handleAudit: CommandHandler = (args, context) =>
@@ -795,7 +806,7 @@ const handleAudit: CommandHandler = (args, context) =>
       env: process.env,
     });
 
-    const eventLogManager = new EventLogManager(configResult.config);
+    const eventLogManager = makeEventLogManager(configResult.config);
     const dryRun = !args.includes('--fix');
     const columnFilter = args.find((arg) => arg.startsWith('--column='))?.split('=')[1];
 
@@ -1113,7 +1124,7 @@ const handleEnforceWipLimits: CommandHandler = (args, context) =>
       env: process.env,
     });
 
-    const eventLogManager = new EventLogManager(configResult.config);
+    const eventLogManager = makeEventLogManager(configResult.config);
     const dryRun = !args.includes('--fix');
     const columnFilter = args.find((arg) => arg.startsWith('--column='))?.split('=')[1];
 
@@ -1245,6 +1256,251 @@ const getPriorityNumeric = (priority: string | number | undefined): number => {
   }
   return 3; // Default to low priority
 };
+
+// WIP Limit Enforcement Commands
+
+const handleWipMonitor: CommandHandler = (args, context) =>
+  withBoard(context, async (board) => {
+    const configResult = await loadKanbanConfig();
+    const wipEnforcement = await createWIPLimitEnforcement({
+      config: configResult.config,
+    });
+
+    const monitor = await wipEnforcement.getCapacityMonitor(board as Board);
+    const watchMode = args.includes('--watch');
+    const interval = parseInt(
+      args.find((arg) => arg.startsWith('--interval='))?.split('=')[1] || '5000',
+    );
+
+    console.log('📊 Real-time WIP Capacity Monitor');
+    console.log(`🕐 Last updated: ${new Date(monitor.timestamp).toLocaleString()}`);
+    console.log('');
+
+    const displayMonitor = (data: typeof monitor) => {
+      console.clear();
+      console.log('📊 Real-time WIP Capacity Monitor');
+      console.log(`🕐 Last updated: ${new Date(data.timestamp).toLocaleString()}`);
+      console.log(`🚨 Total violations: ${data.totalViolations}`);
+      console.log(`📈 Average utilization: ${data.utilization.average.toFixed(1)}%`);
+      console.log('');
+
+      for (const column of data.columns) {
+        const icon =
+          column.status === 'critical'
+            ? '🚨'
+            : column.status === 'violation'
+              ? '❌'
+              : column.status === 'warning'
+                ? '⚠️'
+                : '✅';
+
+        const utilizationBar = column.limit
+          ? '█'.repeat(Math.floor(column.utilization / 10)) +
+            '░'.repeat(10 - Math.floor(column.utilization / 10))
+          : 'N/A';
+
+        console.log(
+          `${icon} ${column.name.padEnd(15)} ${column.current.toString().padStart(3)}/${column.limit?.toString().padStart(3) || '∞'} ${utilizationBar} ${column.utilization.toFixed(1)}%`,
+        );
+      }
+
+      console.log('');
+      if (data.totalViolations > 0) {
+        console.log('💡 Run "kanban enforce-wip-limits --fix" to resolve violations');
+      }
+      if (watchMode) {
+        console.log('🔄 Watching for changes... (Ctrl+C to stop)');
+      }
+    };
+
+    if (watchMode) {
+      console.log('🔄 Starting real-time monitoring...');
+      const intervalId = setInterval(async () => {
+        const freshMonitor = await wipEnforcement.getCapacityMonitor();
+        displayMonitor(freshMonitor);
+      }, interval);
+
+      // Handle Ctrl+C to stop watching
+      process.on('SIGINT', () => {
+        clearInterval(intervalId);
+        console.log('\n👋 Monitoring stopped');
+        process.exit(0);
+      });
+
+      // Initial display
+      displayMonitor(monitor);
+    } else {
+      displayMonitor(monitor);
+    }
+
+    return monitor;
+  });
+
+const handleWipCompliance: CommandHandler = (args, context) =>
+  withBoard(context, async (_board) => {
+    const configResult = await loadKanbanConfig();
+    const wipEnforcement = await createWIPLimitEnforcement({
+      config: configResult.config,
+    });
+
+    const timeframe = (args.find((arg) => arg.startsWith('--timeframe='))?.split('=')[1] ||
+      '24h') as '24h' | '7d' | '30d';
+    const format = args.includes('--json') ? 'json' : 'table';
+
+    console.log(`📋 WIP Compliance Report (${timeframe})`);
+    console.log('');
+
+    const report = await wipEnforcement.generateComplianceReport(timeframe);
+
+    if (format === 'json') {
+      return report;
+    }
+
+    console.log(`📊 Summary:`);
+    console.log(`   Total violations: ${report.totalViolations}`);
+    console.log(`   Override rate: ${report.overrideRate.toFixed(1)}%`);
+    console.log('');
+
+    if (Object.keys(report.violationsByColumn).length > 0) {
+      console.log('📊 Violations by Column:');
+      for (const [column, count] of Object.entries(report.violationsByColumn)) {
+        console.log(`   ${column}: ${count}`);
+      }
+      console.log('');
+    }
+
+    if (Object.keys(report.violationsBySeverity).length > 0) {
+      console.log('🚨 Violations by Severity:');
+      for (const [severity, count] of Object.entries(report.violationsBySeverity)) {
+        const icon = severity === 'critical' ? '🚨' : severity === 'error' ? '❌' : '⚠️';
+        console.log(`   ${icon} ${severity}: ${count}`);
+      }
+      console.log('');
+    }
+
+    if (report.topViolatedColumns.length > 0) {
+      console.log('🔥 Top Violated Columns:');
+      for (const { column, violations } of report.topViolatedColumns) {
+        console.log(`   ${column}: ${violations} violations`);
+      }
+      console.log('');
+    }
+
+    if (report.recommendations.length > 0) {
+      console.log('💡 Recommendations:');
+      for (const recommendation of report.recommendations) {
+        console.log(`   ${recommendation}`);
+      }
+    }
+
+    return report;
+  });
+
+const handleWipViolations: CommandHandler = (args, context) =>
+  withBoard(context, async (_board) => {
+    const configResult = await loadKanbanConfig();
+    const wipEnforcement = await createWIPLimitEnforcement({
+      config: configResult.config,
+    });
+
+    const limit = parseInt(args.find((arg) => arg.startsWith('--limit='))?.split('=')[1] || '20');
+    const column = args.find((arg) => arg.startsWith('--column='))?.split('=')[1];
+    const severity = args.find((arg) => arg.startsWith('--severity='))?.split('=')[1] as
+      | 'warning'
+      | 'error'
+      | 'critical'
+      | undefined;
+    const since = args.find((arg) => arg.startsWith('--since='))?.split('=')[1];
+
+    console.log('🚨 WIP Limit Violations History');
+    if (column) console.log(`📋 Column: ${column}`);
+    if (severity) console.log(`🔍 Severity: ${severity}`);
+    if (since) console.log(`📅 Since: ${since}`);
+    console.log('');
+
+    const violations = wipEnforcement.getViolationHistory({
+      limit,
+      column,
+      severity,
+      since,
+    });
+
+    if (violations.length === 0) {
+      console.log('✅ No violations found matching the criteria');
+      return [];
+    }
+
+    for (const violation of violations) {
+      const icon =
+        violation.severity === 'critical' ? '🚨' : violation.severity === 'error' ? '❌' : '⚠️';
+
+      console.log(`${icon} ${new Date(violation.timestamp).toLocaleString()}`);
+      console.log(`   Task: ${violation.taskTitle}`);
+      console.log(`   Column: ${violation.column} (${violation.current}/${violation.limit})`);
+      console.log(`   Utilization: ${violation.utilization.toFixed(1)}%`);
+      console.log(`   Blocked: ${violation.blocked ? 'Yes' : 'No'}`);
+
+      if (violation.overrideReason) {
+        console.log(`   🔓 Override: ${violation.overrideReason} by ${violation.overrideBy}`);
+      }
+
+      if (violation.suggestions.length > 0) {
+        console.log(`   💡 Suggestions:`);
+        for (const suggestion of violation.suggestions) {
+          console.log(`     • ${suggestion.description}`);
+        }
+      }
+      console.log('');
+    }
+
+    return violations;
+  });
+
+const handleWipSuggestions: CommandHandler = (args, context) =>
+  withBoard(context, async (board) => {
+    const configResult = await loadKanbanConfig();
+    const wipEnforcement = await createWIPLimitEnforcement({
+      config: configResult.config,
+    });
+
+    const column = requireArg(args[0], 'column name');
+    const apply = args.includes('--apply');
+
+    console.log(`💡 Capacity Balancing Suggestions for "${column}"`);
+    console.log('');
+
+    const suggestions = await wipEnforcement.generateCapacitySuggestions(column, board as Board);
+
+    if (suggestions.length === 0) {
+      console.log('✅ No capacity balancing suggestions needed');
+      return [];
+    }
+
+    for (const suggestion of suggestions) {
+      const icon =
+        suggestion.priority === 'high' ? '🔥' : suggestion.priority === 'medium' ? '⚡' : '💡';
+
+      console.log(`${icon} ${suggestion.description}`);
+      console.log(`   Priority: ${suggestion.priority}`);
+      console.log(`   Impact: ${suggestion.impact.taskCount} tasks affected`);
+
+      if (suggestion.tasks && suggestion.tasks.length > 0) {
+        console.log(`   Tasks to move:`);
+        for (const task of suggestion.tasks) {
+          console.log(`     • ${task.title} (${task.priority})`);
+        }
+      }
+      console.log('');
+    }
+
+    if (apply && suggestions.length > 0) {
+      console.log('🔧 Applying suggestions...');
+      // Implementation for applying suggestions would go here
+      console.log('⚠️  Auto-apply feature not yet implemented');
+    }
+
+    return suggestions;
+  });
 
 // CRUD Commands Implementation
 
@@ -1919,6 +2175,10 @@ export const COMMAND_HANDLERS: Readonly<Record<string, CommandHandler>> = Object
   list: handleList,
   audit: handleAudit,
   'enforce-wip-limits': handleEnforceWipLimits,
+  'wip-monitor': handleWipMonitor,
+  'wip-compliance': handleWipCompliance,
+  'wip-violations': handleWipViolations,
+  'wip-suggestions': handleWipSuggestions,
   'commit-stats': handleCommitStats,
   // CRUD commands
   create: handleCreate,

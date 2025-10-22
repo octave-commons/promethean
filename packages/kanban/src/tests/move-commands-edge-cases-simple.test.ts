@@ -16,6 +16,7 @@ test('move_up - empty board', async (t) => {
   const context: CliContext = {
     boardFile: boardPath,
     tasksDir,
+    argv: [],
   };
 
   // Try to move on empty board
@@ -34,6 +35,7 @@ test('move_down - empty board', async (t) => {
   const context: CliContext = {
     boardFile: boardPath,
     tasksDir,
+    argv: [],
   };
 
   // Try to move on empty board
@@ -52,6 +54,7 @@ test('move operations - single task in column', async (t) => {
   const context: CliContext = {
     boardFile: boardPath,
     tasksDir,
+    argv: [],
   };
 
   // Create single task
@@ -78,6 +81,7 @@ test('move operations - empty UUID', async (t) => {
   const context: CliContext = {
     boardFile: boardPath,
     tasksDir,
+    argv: [],
   };
 
   // Create a task first
@@ -103,6 +107,7 @@ test('move operations - malformed UUID', async (t) => {
   const context: CliContext = {
     boardFile: boardPath,
     tasksDir,
+    argv: [],
   };
 
   // Create a task first
@@ -134,6 +139,7 @@ test('move operations - special characters in UUID', async (t) => {
   const context: CliContext = {
     boardFile: boardPath,
     tasksDir,
+    argv: [],
   };
 
   // Create a task first
@@ -168,6 +174,7 @@ test('move operations - very long UUID', async (t) => {
   const context: CliContext = {
     boardFile: boardPath,
     tasksDir,
+    argv: [],
   };
 
   // Create a task first
@@ -190,6 +197,7 @@ test('move operations - null and undefined inputs', async (t) => {
   const context: CliContext = {
     boardFile: boardPath,
     tasksDir,
+    argv: [],
   };
 
   // Create a task first
@@ -214,6 +222,7 @@ test('move operations - concurrent same task', async (t) => {
   const context: CliContext = {
     boardFile: boardPath,
     tasksDir,
+    argv: [],
   };
 
   // Create 3 tasks
@@ -251,6 +260,7 @@ test('move operations - board file corruption resistance', async (t) => {
   const context: CliContext = {
     boardFile: boardPath,
     tasksDir,
+    argv: [],
   };
 
   // Try to move - should handle gracefully
@@ -269,6 +279,7 @@ test('move operations - non-existent board file', async (t) => {
   const context: CliContext = {
     boardFile: boardPath,
     tasksDir,
+    argv: [],
   };
 
   // Try to move - should handle gracefully

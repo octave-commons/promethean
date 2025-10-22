@@ -1,13 +1,13 @@
 {
   "name": "@promethean/semverguard",
-  "root": "packages/semverguard",
-  "sourceRoot": "packages/semverguard/src",
+  "root": "packages/pipelines/semverguard",
+  "sourceRoot": "packages/pipelines/semverguard/src",
   "targets": {
     "build": {
       "executor": "nx:run-commands",
       "options": {
         "command": "tsc -b",
-        "cwd": "packages/semverguard"
+        "cwd": "packages/pipelines/semverguard"
       },
       "outputs": ["{projectRoot}/dist"]
     },
@@ -15,7 +15,7 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "tsc -p tsconfig.json --noEmit",
-        "cwd": "packages/semverguard"
+        "cwd": "packages/pipelines/semverguard"
       }
     },
     "test": {
@@ -32,7 +32,7 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "eslint .",
-        "cwd": "packages/semverguard"
+        "cwd": "packages/pipelines/semverguard"
       }
     }
   },

@@ -1,13 +1,13 @@
 /**
  * Git Tag Management for Kanban Healing Operations
- * 
+ *
  * This module provides comprehensive git tag management capabilities for tracking
  * heal operations in the kanban system. It handles tag creation, retrieval,
  * and scar history management with proper git integration.
  */
 
 import { promises as fs } from 'node:fs';
-import { randomUUID } from 'node:crypto';
+
 import path from 'node:path';
 import type { ScarRecord, GitCommit } from './scar-context-types.js';
 
@@ -87,21 +87,22 @@ export class GitTagManager {
   async createHealTag(
     reason: string,
     startSha?: string,
-    metadata?: Record<string, any>
+    metadata?: Record<string, any>,
   ): Promise<TagCreationResult> {
     const timestamp = new Date();
     const date = timestamp.toISOString().split('T')[0]; // YYYY-MM-DD
-    const time = timestamp.toTimeString().split(' ')[0].replace(/:/g, '-'); // HH-MM-SS
-    
+    const timeStr = timestamp.toTimeString() || '00:00:00';
+    const time = (timeStr.split(' ')[0] || '00-00-00').replace(/:/g, '-'); // HH-MM-SS
+
     const tag = `${this.options.tagPrefix}-${date}-${time}`;
     const message = this.generateTagMessage(reason, metadata);
-    
+
     try {
       // Ensure we're in a git repository
       await this.validateGitRepository();
-      
+
       // Get current HEAD if no start SHA provided
-      const commitSha = startSha || await this.getCurrentHeadSha();
+      const commitSha = startSha || (await this.getCurrentHeadSha());
       if (!commitSha) {
         throw new Error('Unable to determine commit SHA for tagging');
       }
@@ -123,7 +124,6 @@ export class GitTagManager {
           annotated: this.options.createAnnotatedTags,
         },
       };
-
     } catch (error) {
       return {
         success: false,
@@ -149,7 +149,7 @@ export class GitTagManager {
 
       // Load existing scars
       const existingScars = await this.loadScarHistory();
-      
+
       // Add new scar
       existingScars.push(scar);
 
@@ -160,18 +160,13 @@ export class GitTagManager {
 
       // Write back to file
       const scarFile = path.join(this.scarHistoryPath, 'scars.json');
-      await fs.writeFile(
-        scarFile,
-        JSON.stringify(sortedScars, null, 2),
-        'utf8'
-      );
+      await fs.writeFile(scarFile, JSON.stringify(sortedScars, null, 2), 'utf8');
 
       return {
         success: true,
         scarCount: sortedScars.length,
         filePath: scarFile,
       };
-
     } catch (error) {
       return {
         success: false,
@@ -190,7 +185,7 @@ export class GitTagManager {
       const scarFile = path.join(this.scarHistoryPath, 'scars.json');
       const data = await fs.readFile(scarFile, 'utf8');
       const scars = JSON.parse(data);
-      
+
       // Validate and convert timestamps
       return scars
         .filter((scar: any) => scar && typeof scar === 'object')
@@ -199,7 +194,6 @@ export class GitTagManager {
           timestamp: new Date(scar.timestamp),
         }))
         .filter((scar: ScarRecord) => !isNaN(scar.timestamp.getTime()));
-
     } catch (error) {
       // File doesn't exist or is invalid - return empty array
       return [];
@@ -212,18 +206,17 @@ export class GitTagManager {
   async getHealTags(): Promise<string[]> {
     try {
       await this.validateGitRepository();
-      
+
       const { execSync } = await import('node:child_process');
-      const tagOutput = execSync(
-        `git tag --sort=-version:refname "${this.options.tagPrefix}-*"`,
-        { cwd: this.repoRoot, encoding: 'utf8' }
-      );
-      
+      const tagOutput = execSync(`git tag --sort=-version:refname "${this.options.tagPrefix}-*"`, {
+        cwd: this.repoRoot,
+        encoding: 'utf8',
+      });
+
       return tagOutput
         .trim()
         .split('\n')
-        .filter(tag => tag.trim().length > 0);
-
+        .filter((tag) => tag.trim().length > 0);
     } catch (error) {
       return [];
     }
@@ -235,35 +228,34 @@ export class GitTagManager {
   async getCommitsBetweenTags(startTag: string, endTag?: string): Promise<GitCommit[]> {
     try {
       await this.validateGitRepository();
-      
+
       const { execSync } = await import('node:child_process');
       const range = endTag ? `${startTag}..${endTag}` : `${startTag}..HEAD`;
-      
-      const logOutput = execSync(
-        `git log --format="%H|%an|%ai|%s" ${range}`,
-        { cwd: this.repoRoot, encoding: 'utf8' }
-      );
-      
+
+      const logOutput = execSync(`git log --format="%H|%an|%ai|%s" ${range}`, {
+        cwd: this.repoRoot,
+        encoding: 'utf8',
+      });
+
       const commits: GitCommit[] = [];
       const lines = logOutput.trim().split('\n');
-      
+
       for (const line of lines) {
         if (line.trim().length === 0) continue;
-        
+
         const [sha, author, timestamp, ...messageParts] = line.split('|');
         const message = messageParts.join('|');
-        
+
         commits.push({
-          sha,
-          message,
-          author,
-          timestamp: new Date(timestamp),
-          files: await this.getCommitFiles(sha),
+          sha: sha || '',
+          message: message || '',
+          author: author || '',
+          timestamp: new Date(timestamp || Date.now()),
+          files: await this.getCommitFiles(sha || ''),
         });
       }
-      
-      return commits;
 
+      return commits;
     } catch (error) {
       return [];
     }
@@ -280,23 +272,22 @@ export class GitTagManager {
   } | null> {
     try {
       await this.validateGitRepository();
-      
+
       const { execSync } = await import('node:child_process');
-      const showOutput = execSync(
-        `git show -s --format="%H|%an|%ai|%B" ${tag}`,
-        { cwd: this.repoRoot, encoding: 'utf8' }
-      );
-      
+      const showOutput = execSync(`git show -s --format="%H|%an|%ai|%B" ${tag}`, {
+        cwd: this.repoRoot,
+        encoding: 'utf8',
+      });
+
       const [commit, author, timestamp, ...messageParts] = showOutput.split('|');
       const message = messageParts.join('|');
-      
-      return {
-        commit,
-        author,
-        timestamp: new Date(timestamp),
-        message: message.trim(),
-      };
 
+      return {
+        commit: commit || '',
+        author: author || '',
+        timestamp: new Date(timestamp || Date.now()),
+        message: (message || '').trim(),
+      };
     } catch (error) {
       return null;
     }
@@ -308,12 +299,11 @@ export class GitTagManager {
   async deleteTag(tag: string): Promise<{ success: boolean; error?: string }> {
     try {
       await this.validateGitRepository();
-      
+
       const { execSync } = await import('node:child_process');
       execSync(`git tag -d ${tag}`, { cwd: this.repoRoot });
-      
-      return { success: true };
 
+      return { success: true };
     } catch (error) {
       return {
         success: false,
@@ -328,16 +318,15 @@ export class GitTagManager {
   async pushTags(tags?: string[]): Promise<{ success: boolean; pushed: string[]; error?: string }> {
     try {
       await this.validateGitRepository();
-      
+
       const { execSync } = await import('node:child_process');
       const tagList = tags && tags.length > 0 ? tags.join(' ') : '--tags';
-      
-      execSync(`git push origin ${tagList}`, { cwd: this.repoRoot });
-      
-      const pushedTags = tags || await this.getHealTags();
-      
-      return { success: true, pushed: pushedTags };
 
+      execSync(`git push origin ${tagList}`, { cwd: this.repoRoot });
+
+      const pushedTags = tags || (await this.getHealTags());
+
+      return { success: true, pushed: pushedTags };
     } catch (error) {
       return {
         success: false,
@@ -355,16 +344,12 @@ export class GitTagManager {
     const cutoffDate = new Date();
     cutoffDate.setMonth(cutoffDate.getMonth() - 6); // Keep 6 months
 
-    const recentScars = scars.filter(scar => scar.timestamp > cutoffDate);
+    const recentScars = scars.filter((scar) => scar.timestamp > cutoffDate);
     const removedCount = scars.length - recentScars.length;
 
     if (removedCount > 0) {
       const scarFile = path.join(this.scarHistoryPath, 'scars.json');
-      await fs.writeFile(
-        scarFile,
-        JSON.stringify(recentScars, null, 2),
-        'utf8'
-      );
+      await fs.writeFile(scarFile, JSON.stringify(recentScars, null, 2), 'utf8');
     }
 
     return { removed: removedCount, remaining: recentScars.length };
@@ -401,10 +386,9 @@ export class GitTagManager {
   private async createAnnotatedTag(tag: string, commitSha: string, message: string): Promise<void> {
     const { execSync } = await import('node:child_process');
     const signFlag = this.options.signTags ? '-s' : '-a';
-    execSync(
-      `git tag ${signFlag} ${tag} ${commitSha} -m "${message.replace(/"/g, '\\"')}"`,
-      { cwd: this.repoRoot }
-    );
+    execSync(`git tag ${signFlag} ${tag} ${commitSha} -m "${message.replace(/"/g, '\\"')}"`, {
+      cwd: this.repoRoot,
+    });
   }
 
   /**
@@ -421,16 +405,15 @@ export class GitTagManager {
   private async getCommitFiles(sha: string): Promise<string[]> {
     try {
       const { execSync } = await import('node:child_process');
-      const showOutput = execSync(
-        `git show --name-only --format="" ${sha}`,
-        { cwd: this.repoRoot, encoding: 'utf8' }
-      );
-      
+      const showOutput = execSync(`git show --name-only --format="" ${sha}`, {
+        cwd: this.repoRoot,
+        encoding: 'utf8',
+      });
+
       return showOutput
         .trim()
         .split('\n')
-        .filter(file => file.trim().length > 0);
-
+        .filter((file) => file.trim().length > 0);
     } catch (error) {
       return [];
     }
@@ -441,17 +424,17 @@ export class GitTagManager {
    */
   private generateTagMessage(reason: string, metadata?: Record<string, any>): string {
     let message = `Kanban heal operation: ${reason}`;
-    
+
     if (metadata) {
       const metadataLines = Object.entries(metadata)
         .map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
         .join('\n');
-      
+
       if (metadataLines) {
         message += `\n\nMetadata:\n${metadataLines}`;
       }
     }
-    
+
     return message;
   }
 }
@@ -459,7 +442,10 @@ export class GitTagManager {
 /**
  * Convenience function to create a git tag manager
  */
-export function createGitTagManager(repoRoot: string, options?: GitTagManagerOptions): GitTagManager {
+export function createGitTagManager(
+  repoRoot: string,
+  options?: GitTagManagerOptions,
+): GitTagManager {
   return new GitTagManager(repoRoot, options);
 }
 

@@ -239,11 +239,11 @@ test('multiple rapid createTask calls do not create duplicates', async (t) => {
 
   // Create multiple tasks rapidly (simulates concurrent operations)
   const tasks = await Promise.all([
-    createTask(board, 'todo', { title: taskTitle, content: 'Content 1' }, tasksDir, boardPath),
-    createTask(board, 'todo', { title: taskTitle, content: 'Content 2' }, tasksDir, boardPath),
-    createTask(board, 'todo', { title: taskTitle, content: 'Content 3' }, tasksDir, boardPath),
-    createTask(board, 'todo', { title: taskTitle, content: 'Content 4' }, tasksDir, boardPath),
-    createTask(board, 'todo', { title: taskTitle, content: 'Content 5' }, tasksDir, boardPath),
+    createTask(board, 'incoming', { title: taskTitle, content: 'Content 1' }, tasksDir, boardPath),
+    createTask(board, 'incoming', { title: taskTitle, content: 'Content 2' }, tasksDir, boardPath),
+    createTask(board, 'incoming', { title: taskTitle, content: 'Content 3' }, tasksDir, boardPath),
+    createTask(board, 'incoming', { title: taskTitle, content: 'Content 4' }, tasksDir, boardPath),
+    createTask(board, 'incoming', { title: taskTitle, content: 'Content 5' }, tasksDir, boardPath),
   ]);
 
   // All should return the same task

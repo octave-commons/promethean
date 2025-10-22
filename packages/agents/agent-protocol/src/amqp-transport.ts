@@ -1,9 +1,9 @@
-import amqp from 'amqplib';
+import * as amqp from 'amqplib';
 import { BaseTransport } from './transport';
 import { TransportConfig, MessageEnvelope, MessageHandler } from './types';
 
 export class AMQPTransport extends BaseTransport {
-  private connection?: amqp.Connection;
+  private connection?: amqp.ChannelModel;
   private channel?: amqp.Channel;
   private reconnectTimer?: NodeJS.Timeout;
 
@@ -14,22 +14,28 @@ export class AMQPTransport extends BaseTransport {
   async connect(): Promise<void> {
     try {
       this.connection = await amqp.connect(this.config.url, this.config.options);
-      this.channel = await this.connection.createChannel();
+      if (this.connection) {
+        this.channel = await this.connection.createChannel();
+      }
 
       // Setup error handlers
-      this.connection.on('error', (error) => {
-        this.emitConnectionEvent('error', error);
-        this.handleReconnect();
-      });
+      if (this.connection) {
+        this.connection.on('error', (error) => {
+          this.emitConnectionEvent('error', error);
+          this.handleReconnect();
+        });
 
-      this.connection.on('close', () => {
-        this.emitConnectionEvent('disconnected');
-        this.handleReconnect();
-      });
+        this.connection.on('close', () => {
+          this.emitConnectionEvent('disconnected');
+          this.handleReconnect();
+        });
+      }
 
-      this.channel.on('error', (error) => {
-        this.emitConnectionEvent('error', error);
-      });
+      if (this.channel) {
+        this.channel.on('error', (error) => {
+          this.emitConnectionEvent('error', error);
+        });
+      }
 
       // Setup queue if specified
       if (this.config.queue) {
@@ -62,6 +68,10 @@ export class AMQPTransport extends BaseTransport {
     this.emitConnectionEvent('disconnected');
   }
 
+  async send(envelope: MessageEnvelope): Promise<void> {
+    await this.sendWithRetry(envelope);
+  }
+
   protected async doSend(envelope: MessageEnvelope): Promise<void> {
     if (!this.channel) {
       throw new Error('Not connected to AMQP server');
@@ -80,10 +90,10 @@ export class AMQPTransport extends BaseTransport {
         correlationId: envelope.correlationId,
         replyTo: envelope.replyTo,
         priority: this.getPriorityValue(envelope.priority),
-        ttl: envelope.ttl
+        ttl: envelope.ttl,
       },
       persistent: true,
-      mandatory: true
+      mandatory: true,
     };
 
     await this.channel.publish('', routingKey, message, options);
@@ -102,8 +112,8 @@ export class AMQPTransport extends BaseTransport {
     await this.channel.assertQueue(queueName, {
       durable: true,
       arguments: {
-        'x-message-ttl': 60000 // 1 minute TTL
-      }
+        'x-message-ttl': 60000, // 1 minute TTL
+      },
     });
 
     // Bind to routing key pattern
@@ -126,7 +136,7 @@ export class AMQPTransport extends BaseTransport {
 
   async unsubscribe(pattern: string): Promise<void> {
     this.subscriptions.delete(pattern);
-    
+
     if (this.channel) {
       const queueName = this.getQueueName(pattern);
       await this.channel.deleteQueue(queueName);
@@ -142,7 +152,7 @@ export class AMQPTransport extends BaseTransport {
       durable: this.config.queue.durable,
       exclusive: this.config.queue.exclusive,
       autoDelete: this.config.queue.autoDelete,
-      arguments: this.config.queue.arguments
+      arguments: this.config.queue.arguments,
     });
   }
 
@@ -157,11 +167,16 @@ export class AMQPTransport extends BaseTransport {
 
   private getPriorityValue(priority: string): number {
     switch (priority) {
-      case 'urgent': return 5;
-      case 'high': return 4;
-      case 'normal': return 3;
-      case 'low': return 2;
-      default: return 3;
+      case 'urgent':
+        return 5;
+      case 'high':
+        return 4;
+      case 'normal':
+        return 3;
+      case 'low':
+        return 2;
+      default:
+        return 3;
     }
   }
 
@@ -184,9 +199,12 @@ export class AMQPTransport extends BaseTransport {
         this.reconnectTimer = undefined;
       } catch (error) {
         attempt++;
-        
+
         if (attempt >= maxAttempts) {
-          this.emitConnectionEvent('error', new Error(`Failed to reconnect after ${maxAttempts} attempts`));
+          this.emitConnectionEvent(
+            'error',
+            new Error(`Failed to reconnect after ${maxAttempts} attempts`),
+          );
           this.reconnectTimer = undefined;
           return;
         }

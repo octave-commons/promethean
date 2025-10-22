@@ -308,7 +308,7 @@ const handleActionRequest = async (
         })
       : [];
 
-    const context = { boardFile: options.boardFile, tasksDir: options.tasksDir };
+    const context = { boardFile: options.boardFile, tasksDir: options.tasksDir, argv: [] };
     const result = await executeCommand(command, args, context);
 
     sendJson(res, 200, {

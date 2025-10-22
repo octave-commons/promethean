@@ -6,8 +6,6 @@
  */
 
 import { execSync } from 'node:child_process';
-import { readFile } from 'node:fs/promises';
-import * as path from 'node:path';
 
 export interface GitCommitInfo {
   hash: string;
@@ -80,14 +78,17 @@ export class GitValidator {
             commits.push(currentCommit as GitCommitInfo);
           }
 
-          const [hash, message, author, date] = line.split('|');
-          currentCommit = {
-            hash: hash.trim(),
-            message: message.trim(),
-            author: author.trim(),
-            date: date.trim(),
-            files: [],
-          };
+          const parts = line.split('|');
+          if (parts.length >= 4) {
+            const [hash, message, author, date] = parts;
+            currentCommit = {
+              hash: hash?.trim() || '',
+              message: message?.trim() || '',
+              author: author?.trim() || '',
+              date: date?.trim() || '',
+              files: [],
+            };
+          }
         } else if (line.trim() && currentCommit) {
           // File path
           currentCommit.files!.push(line.trim());

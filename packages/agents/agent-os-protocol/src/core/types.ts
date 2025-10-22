@@ -1,6 +1,6 @@
 /**
  * Agent OS Core Message Protocol - Type Definitions
- * 
+ *
  * This file contains the complete TypeScript interface definitions
  * for the Agent OS Core Message Protocol.
  */
@@ -17,36 +17,36 @@ export enum MessageType {
   RESPONSE = 'response',
   EVENT = 'event',
   STREAM = 'stream',
-  
+
   // Protocol Management
   HANDSHAKE = 'handshake',
   HEARTBEAT = 'heartbeat',
   DISCOVERY = 'discovery',
   CAPABILITY_NEGOTIATION = 'capability_negotiation',
-  
+
   // Error Handling
   ERROR = 'error',
   TIMEOUT = 'timeout',
   CIRCUIT_BREAK = 'circuit_break',
-  
+
   // Lifecycle Management
   AGENT_REGISTER = 'agent_register',
   AGENT_UNREGISTER = 'agent_unregister',
   AGENT_STATUS = 'agent_status',
-  SERVICE_HEALTH = 'service_health'
+  SERVICE_HEALTH = 'service_health',
 }
 
 export enum Priority {
   LOW = 0,
   NORMAL = 1,
   HIGH = 2,
-  CRITICAL = 3
+  CRITICAL = 3,
 }
 
 export enum QoSLevel {
-  AT_MOST_ONCE = 0,    // Fire and forget
-  AT_LEAST_ONCE = 1,   // Guaranteed delivery
-  EXACTLY_ONCE = 2     // Exactly once delivery
+  AT_MOST_ONCE = 0, // Fire and forget
+  AT_LEAST_ONCE = 1, // Guaranteed delivery
+  EXACTLY_ONCE = 2, // Exactly once delivery
 }
 
 export enum TrustLevel {
@@ -54,7 +54,7 @@ export enum TrustLevel {
   LOW = 'low',
   MEDIUM = 'medium',
   HIGH = 'high',
-  SYSTEM = 'system'
+  SYSTEM = 'system',
 }
 
 export enum LoadBalancingStrategy {
@@ -62,14 +62,14 @@ export enum LoadBalancingStrategy {
   LEAST_CONNECTIONS = 'least_connections',
   WEIGHTED_ROUND_ROBIN = 'weighted_round_robin',
   RANDOM = 'random',
-  CONSISTENT_HASH = 'consistent_hash'
+  CONSISTENT_HASH = 'consistent_hash',
 }
 
 export enum BackoffStrategy {
   FIXED = 'fixed',
   LINEAR = 'linear',
   EXPONENTIAL = 'exponential',
-  EXPONENTIAL_WITH_JITTER = 'exponential_with_jitter'
+  EXPONENTIAL_WITH_JITTER = 'exponential_with_jitter',
 }
 
 // ============================================================================
@@ -78,82 +78,82 @@ export enum BackoffStrategy {
 
 export interface CoreMessage {
   // Core Identification
-  id: string;                    // UUID v4
-  version: string;               // Protocol version: "1.0.0"
-  type: MessageType;             // Message type enumeration
-  timestamp: string;             // ISO 8601 timestamp
-  
+  id: string; // UUID v4
+  version: string; // Protocol version: "1.0.0"
+  type: MessageType; // Message type enumeration
+  timestamp: string; // ISO 8601 timestamp
+
   // Routing Information
-  sender: AgentAddress;          // Sender agent identifier
-  recipient: AgentAddress;       // Recipient agent identifier
-  replyTo?: AgentAddress;        // Reply-to address for responses
-  correlationId?: string;        // Request correlation tracking
-  
+  sender: AgentAddress; // Sender agent identifier
+  recipient: AgentAddress; // Recipient agent identifier
+  replyTo?: AgentAddress; // Reply-to address for responses
+  correlationId?: string; // Request correlation tracking
+
   // Security & Trust
-  signature?: MessageSignature;  // Cryptographic signature
-  capabilities: string[];        // Required capabilities
-  token?: string;                // Authentication token
-  
+  signature?: MessageSignature; // Cryptographic signature
+  capabilities: string[]; // Required capabilities
+  token?: string; // Authentication token
+
   // Content & Metadata
-  payload: MessagePayload;       // Actual message content
-  metadata: MessageMetadata;     // Extensible metadata
+  payload: MessagePayload; // Actual message content
+  metadata: MessageMetadata; // Extensible metadata
   headers: Record<string, string>; // Transport headers
-  
+
   // Quality of Service
-  priority: Priority;            // Message priority level
-  ttl?: number;                  // Time-to-live in milliseconds
-  qos: QoSLevel;                 // Quality of service level
-  
+  priority: Priority; // Message priority level
+  ttl?: number; // Time-to-live in milliseconds
+  qos: QoSLevel; // Quality of service level
+
   // Flow Control
-  retryPolicy?: RetryPolicy;     // Retry configuration
-  deadline?: string;             // Processing deadline
-  traceId?: string;              // Distributed trace ID
-  spanId?: string;               // Span identifier
+  retryPolicy?: RetryPolicy; // Retry configuration
+  deadline?: string; // Processing deadline
+  traceId?: string; // Distributed trace ID
+  spanId?: string; // Span identifier
 }
 
 export interface AgentAddress {
-  id: string;                    // Unique agent identifier
-  namespace: string;             // Agent namespace/tenant
-  domain: string;                // Domain or service group
-  version?: string;              // Agent version
-  endpoint?: string;             // Network endpoint
+  id: string; // Unique agent identifier
+  namespace: string; // Agent namespace/tenant
+  domain: string; // Domain or service group
+  version?: string; // Agent version
+  endpoint?: string; // Network endpoint
 }
 
 export interface MessagePayload {
-  type: string;                  // Payload type identifier
-  data: unknown;                 // Payload data
-  encoding?: string;             // Data encoding (json, binary, etc.)
-  compression?: string;          // Compression algorithm
-  size?: number;                 // Payload size in bytes
-  checksum?: string;             // Data integrity checksum
+  type: string; // Payload type identifier
+  data: unknown; // Payload data
+  encoding?: string; // Data encoding (json, binary, etc.)
+  compression?: string; // Compression algorithm
+  size?: number; // Payload size in bytes
+  checksum?: string; // Data integrity checksum
 }
 
 export interface MessageMetadata {
-  source?: string;               // Message source system
-  category?: string;             // Message category
-  tags?: string[];               // Message tags
-  version?: string;              // Payload version
-  schema?: string;               // Payload schema identifier
+  source?: string; // Message source system
+  category?: string; // Message category
+  tags?: string[]; // Message tags
+  version?: string; // Payload version
+  schema?: string; // Payload schema identifier
   custom?: Record<string, unknown>; // Custom metadata
 }
 
 export interface MessageSignature {
   algorithm: 'ES256' | 'RS256' | 'HS256';
-  keyId: string;                 // Key identifier
-  signature: string;             // Base64-encoded signature
-  certificate?: string;          // X.509 certificate chain
-  timestamp: string;             // Signature timestamp
+  keyId: string; // Key identifier
+  signature: string; // Base64-encoded signature
+  certificate?: string; // X.509 certificate chain
+  timestamp: string; // Signature timestamp
 }
 
 export interface RetryPolicy {
   maxAttempts: number;
   backoffStrategy: BackoffStrategy;
-  initialDelay: number;          // Initial delay in milliseconds
-  maxDelay: number;              // Maximum delay in milliseconds
-  multiplier?: number;           // Backoff multiplier
-  jitter?: boolean;              // Add jitter to delays
-  retryConditions: string[];     // Error types to retry on
-  deadLetterQueue?: string;      // DLQ identifier
+  initialDelay: number; // Initial delay in milliseconds
+  maxDelay: number; // Maximum delay in milliseconds
+  multiplier?: number; // Backoff multiplier
+  jitter?: boolean; // Add jitter to delays
+  retryConditions: string[]; // Error types to retry on
+  deadLetterQueue?: string; // DLQ identifier
 }
 
 // ============================================================================
@@ -162,77 +162,77 @@ export interface RetryPolicy {
 
 export interface SecurityContext {
   // Authentication
-  principal: AgentIdentity;      // Authenticated agent identity
-  credentials: Credentials;      // Authentication credentials
-  tokenExpiry: string;           // Token expiration time
-  
+  principal: AgentIdentity; // Authenticated agent identity
+  credentials: Credentials; // Authentication credentials
+  tokenExpiry: string; // Token expiration time
+
   // Authorization
-  capabilities: Capability[];    // Granted capabilities
-  permissions: Permission[];     // Specific permissions
-  roles: string[];               // Assigned roles
-  
+  capabilities: Capability[]; // Granted capabilities
+  permissions: Permission[]; // Specific permissions
+  roles: string[]; // Assigned roles
+
   // Trust & Isolation
-  trustLevel: TrustLevel;        // Trust classification
-  sandbox: SandboxConfig;        // Execution sandbox
+  trustLevel: TrustLevel; // Trust classification
+  sandbox: SandboxConfig; // Execution sandbox
   resourceLimits: ResourceLimits; // Resource constraints
 }
 
 export interface AgentIdentity {
-  id: string;                    // Agent identifier
-  type: string;                  // Agent type
-  namespace: string;             // Agent namespace
-  version: string;               // Agent version
-  owner: string;                 // Agent owner
+  id: string; // Agent identifier
+  type: string; // Agent type
+  namespace: string; // Agent namespace
+  version: string; // Agent version
+  owner: string; // Agent owner
   metadata: Record<string, unknown>;
 }
 
 export interface Credentials {
   type: 'token' | 'certificate' | 'api_key' | 'basic';
-  value: string;                 // Credential value
-  expires?: string;              // Expiration time
-  issuer?: string;               // Credential issuer
-  scope?: string[];              // Credential scope
+  value: string; // Credential value
+  expires?: string; // Expiration time
+  issuer?: string; // Credential issuer
+  scope?: string[]; // Credential scope
 }
 
 export interface Capability {
-  id: string;                    // Capability identifier
-  namespace: string;             // Capability namespace
-  actions: string[];             // Allowed actions
-  resources: string[];           // Accessible resources
-  conditions: Condition[];       // Access conditions
-  expires?: string;              // Capability expiration
+  id: string; // Capability identifier
+  namespace: string; // Capability namespace
+  actions: string[]; // Allowed actions
+  resources: string[]; // Accessible resources
+  conditions: Condition[]; // Access conditions
+  expires?: string; // Capability expiration
 }
 
 export interface Permission {
-  resource: string;              // Resource identifier
-  actions: string[];             // Allowed actions
-  conditions: Condition[];       // Access conditions
-  expires?: string;              // Permission expiration
+  resource: string; // Resource identifier
+  actions: string[]; // Allowed actions
+  conditions: Condition[]; // Access conditions
+  expires?: string; // Permission expiration
 }
 
 export interface Condition {
   type: 'time' | 'ip' | 'rate' | 'custom';
   operator: 'eq' | 'ne' | 'gt' | 'gte' | 'lt' | 'lte' | 'in' | 'not_in';
-  value: unknown;                // Condition value
+  value: unknown; // Condition value
   parameters?: Record<string, unknown>; // Additional parameters
 }
 
 export interface SandboxConfig {
   enabled: boolean;
   isolation: 'process' | 'container' | 'vm';
-  allowedPaths: string[];        // Allowed file system paths
-  networkAccess: boolean;        // Network access permission
-  maxMemory?: number;            // Maximum memory in bytes
-  maxCpu?: number;               // Maximum CPU percentage
-  timeout?: number;              // Execution timeout in milliseconds
+  allowedPaths: string[]; // Allowed file system paths
+  networkAccess: boolean; // Network access permission
+  maxMemory?: number; // Maximum memory in bytes
+  maxCpu?: number; // Maximum CPU percentage
+  timeout?: number; // Execution timeout in milliseconds
 }
 
 export interface ResourceLimits {
-  maxMemory: number;             // Maximum memory in bytes
-  maxCpu: number;                // Maximum CPU percentage
-  maxConnections: number;        // Maximum concurrent connections
-  maxMessagesPerSecond: number;  // Maximum message rate
-  maxPayloadSize: number;        // Maximum payload size in bytes
+  maxMemory: number; // Maximum memory in bytes
+  maxCpu: number; // Maximum CPU percentage
+  maxConnections: number; // Maximum concurrent connections
+  maxMessagesPerSecond: number; // Maximum message rate
+  maxPayloadSize: number; // Maximum payload size in bytes
 }
 
 // ============================================================================
@@ -243,15 +243,15 @@ export interface ServiceRegistry {
   // Registration
   register(agent: AgentRegistration): Promise<void>;
   unregister(agentId: string): Promise<void>;
-  
+
   // Discovery
   discover(query: ServiceQuery): Promise<AgentInstance[]>;
   resolve(address: AgentAddress): Promise<AgentEndpoint>;
-  
+
   // Health Monitoring
   healthCheck(agentId: string): Promise<HealthStatus>;
   watchHealth(agentId: string): Promise<Observable<HealthStatus>>;
-  
+
   // Lifecycle Management
   listAgents(filter?: AgentFilter): Promise<AgentInstance[]>;
   getAgent(agentId: string): Promise<AgentInstance | null>;
@@ -291,29 +291,29 @@ export interface Endpoint {
 
 export interface HealthCheckConfig {
   enabled: boolean;
-  interval: number;              // Check interval in milliseconds
-  timeout: number;               // Check timeout in milliseconds
-  retries: number;               // Number of retries
-  endpoint?: string;             // Health check endpoint
+  interval: number; // Check interval in milliseconds
+  timeout: number; // Check timeout in milliseconds
+  retries: number; // Number of retries
+  endpoint?: string; // Health check endpoint
   protocol: 'http' | 'tcp' | 'custom';
-  expectedStatus?: number;       // Expected HTTP status code
+  expectedStatus?: number; // Expected HTTP status code
 }
 
 export interface LoadBalancingConfig {
   strategy: LoadBalancingStrategy;
-  weight?: number;               // Instance weight
-  stickySessions?: boolean;      // Enable sticky sessions
-  healthCheckThreshold: number;  // Health check failure threshold
+  weight?: number; // Instance weight
+  stickySessions?: boolean; // Enable sticky sessions
+  healthCheckThreshold: number; // Health check failure threshold
 }
 
 export interface ServiceQuery {
-  type?: string;                 // Agent type filter
-  namespace?: string;            // Namespace filter
-  domain?: string;               // Domain filter
-  capabilities?: string[];       // Required capabilities
-  tags?: string[];               // Tag filter
-  healthy?: boolean;             // Health status filter
-  limit?: number;                // Result limit
+  type?: string; // Agent type filter
+  namespace?: string; // Namespace filter
+  domain?: string; // Domain filter
+  capabilities?: string[]; // Required capabilities
+  tags?: string[]; // Tag filter
+  healthy?: boolean; // Health status filter
+  limit?: number; // Result limit
 }
 
 export interface AgentFilter {
@@ -339,9 +339,9 @@ export interface AgentInstance {
 export interface AgentEndpoint {
   instanceId: string;
   endpoint: Endpoint;
-  load: number;                  // Current load (0-100)
-  connections: number;           // Active connections
-  lastUsed: string;              // Last usage timestamp
+  load: number; // Current load (0-100)
+  connections: number; // Active connections
+  lastUsed: string; // Last usage timestamp
 }
 
 export enum AgentStatus {
@@ -350,25 +350,25 @@ export enum AgentStatus {
   STOPPING = 'stopping',
   STOPPED = 'stopped',
   ERROR = 'error',
-  MAINTENANCE = 'maintenance'
+  MAINTENANCE = 'maintenance',
 }
 
 export interface HealthStatus {
   healthy: boolean;
   status: 'healthy' | 'unhealthy' | 'degraded';
   lastCheck: string;
-  responseTime?: number;         // Response time in milliseconds
-  error?: string;                // Error message if unhealthy
+  responseTime?: number; // Response time in milliseconds
+  error?: string; // Error message if unhealthy
   metrics?: HealthMetrics;
 }
 
 export interface HealthMetrics {
-  cpu: number;                   // CPU usage percentage
-  memory: number;                // Memory usage percentage
-  connections: number;           // Active connections
-  messagesPerSecond: number;     // Message rate
-  errorRate: number;             // Error rate percentage
-  uptime: number;                // Uptime in milliseconds
+  cpu: number; // CPU usage percentage
+  memory: number; // Memory usage percentage
+  connections: number; // Active connections
+  messagesPerSecond: number; // Message rate
+  errorRate: number; // Error rate percentage
+  uptime: number; // Uptime in milliseconds
 }
 
 // ============================================================================
@@ -379,44 +379,51 @@ export interface FlowControl {
   // Rate Limiting
   rateLimiter: RateLimiter;
   tokenBucket: TokenBucket;
-  
+
   // Backpressure
   backpressureStrategy: BackpressureStrategy;
   bufferSizes: Record<string, number>;
-  
+
   // Circuit Breaking
   circuitBreaker: CircuitBreaker;
   bulkhead: Bulkhead;
 }
 
 export interface RateLimiter {
-  limit: number;                 // Requests per time window
-  window: number;                // Time window in milliseconds
+  limit: number; // Requests per time window
+  window: number; // Time window in milliseconds
   strategy: 'fixed' | 'sliding';
-  currentUsage: number;          // Current usage
-  resetTime: number;             // Next reset time
+  currentUsage: number; // Current usage
+  resetTime: number; // Next reset time
 }
 
 export interface TokenBucket {
-  capacity: number;              // Bucket capacity
-  tokens: number;                // Current tokens
-  refillRate: number;            // Tokens per second
-  lastRefill: number;            // Last refill timestamp
+  capacity: number; // Bucket capacity
+  tokens: number; // Current tokens
+  refillRate: number; // Tokens per second
+  lastRefill: number; // Last refill timestamp
+}
+
+export enum BackpressureStrategy {
+  DROP = 'drop',
+  BUFFER = 'buffer',
+  REJECT = 'reject',
+  THROTTLE = 'throttle',
 }
 
 export interface CircuitBreaker {
   state: 'closed' | 'open' | 'half_open';
-  failureThreshold: number;      // Failure count threshold
-  recoveryTimeout: number;       // Recovery timeout in milliseconds
-  failureCount: number;          // Current failure count
-  lastFailureTime: number;       // Last failure timestamp
+  failureThreshold: number; // Failure count threshold
+  recoveryTimeout: number; // Recovery timeout in milliseconds
+  failureCount: number; // Current failure count
+  lastFailureTime: number; // Last failure timestamp
 }
 
 export interface Bulkhead {
-  maxConcurrent: number;         // Maximum concurrent executions
-  queueSize: number;             // Queue size
-  activeExecutions: number;      // Current active executions
-  queuedExecutions: number;      // Current queued executions
+  maxConcurrent: number; // Maximum concurrent executions
+  queueSize: number; // Queue size
+  activeExecutions: number; // Current active executions
+  queuedExecutions: number; // Current queued executions
 }
 
 // ============================================================================
@@ -424,12 +431,12 @@ export interface Bulkhead {
 // ============================================================================
 
 export interface TraceContext {
-  traceId: string;               // Root trace identifier
-  spanId: string;                // Current span identifier
-  parentSpanId?: string;         // Parent span identifier
+  traceId: string; // Root trace identifier
+  spanId: string; // Current span identifier
+  parentSpanId?: string; // Parent span identifier
   baggage: Record<string, string>; // Trace metadata
-  sampled: boolean;              // Sampling decision
-  flags: number;                 // Trace flags
+  sampled: boolean; // Sampling decision
+  flags: number; // Trace flags
 }
 
 export interface Span {
@@ -458,7 +465,7 @@ export enum SpanStatus {
   OK = 'ok',
   ERROR = 'error',
   TIMEOUT = 'timeout',
-  CANCELLED = 'cancelled'
+  CANCELLED = 'cancelled',
 }
 
 export interface Metrics {
@@ -467,13 +474,13 @@ export interface Metrics {
   messagesReceived: Counter;
   messageLatency: Histogram;
   messageErrors: Counter;
-  
+
   // System Metrics
   activeConnections: Gauge;
   queueDepth: Gauge;
   processingTime: Histogram;
   resourceUtilization: Gauge;
-  
+
   // Business Metrics
   agentInteractions: Counter;
   capabilityUsage: Counter;
@@ -522,7 +529,7 @@ export interface HandshakeResponse {
   securityContext: SecurityContext;
   connectionId: string;
   serverInfo: ServerInfo;
-  reason?: string;               // Rejection reason
+  reason?: string; // Rejection reason
 }
 
 export interface ServerInfo {
@@ -557,19 +564,19 @@ export interface Transport {
   // Connection Management
   connect(endpoint: string, options?: ConnectOptions): Promise<Connection>;
   disconnect(connectionId: string): Promise<void>;
-  
+
   // Message Transport
   send(message: CoreMessage): Promise<void>;
   receive(): AsyncIterable<CoreMessage>;
-  
+
   // Reliability
   acknowledge(messageId: string): Promise<void>;
   reject(messageId: string, reason: string): Promise<void>;
-  
+
   // Flow Control
   setFlowControl(config: FlowControlConfig): void;
   getFlowControlStatus(): FlowControlStatus;
-  
+
   // Status
   isConnected(): boolean;
   getConnectionInfo(): ConnectionInfo;
@@ -591,7 +598,7 @@ export enum ConnectionState {
   CONNECTED = 'connected',
   DISCONNECTING = 'disconnecting',
   DISCONNECTED = 'disconnected',
-  ERROR = 'error'
+  ERROR = 'error',
 }
 
 export interface ConnectOptions {
@@ -713,13 +720,15 @@ export const CoreMessageSchema = z.object({
   recipient: AgentAddressSchema,
   replyTo: AgentAddressSchema.optional(),
   correlationId: z.string().uuid().optional(),
-  signature: z.object({
-    algorithm: z.enum(['ES256', 'RS256', 'HS256']),
-    keyId: z.string(),
-    signature: z.string(),
-    certificate: z.string().optional(),
-    timestamp: z.string().datetime(),
-  }).optional(),
+  signature: z
+    .object({
+      algorithm: z.enum(['ES256', 'RS256', 'HS256']),
+      keyId: z.string(),
+      signature: z.string(),
+      certificate: z.string().optional(),
+      timestamp: z.string().datetime(),
+    })
+    .optional(),
   capabilities: z.array(z.string()),
   token: z.string().optional(),
   payload: z.object({
@@ -742,16 +751,18 @@ export const CoreMessageSchema = z.object({
   priority: z.nativeEnum(Priority),
   ttl: z.number().positive().optional(),
   qos: z.nativeEnum(QoSLevel),
-  retryPolicy: z.object({
-    maxAttempts: z.number().positive(),
-    backoffStrategy: z.nativeEnum(BackoffStrategy),
-    initialDelay: z.number().positive(),
-    maxDelay: z.number().positive(),
-    multiplier: z.number().positive().optional(),
-    jitter: z.boolean().optional(),
-    retryConditions: z.array(z.string()),
-    deadLetterQueue: z.string().optional(),
-  }).optional(),
+  retryPolicy: z
+    .object({
+      maxAttempts: z.number().positive(),
+      backoffStrategy: z.nativeEnum(BackoffStrategy),
+      initialDelay: z.number().positive(),
+      maxDelay: z.number().positive(),
+      multiplier: z.number().positive().optional(),
+      jitter: z.boolean().optional(),
+      retryConditions: z.array(z.string()),
+      deadLetterQueue: z.string().optional(),
+    })
+    .optional(),
   deadline: z.string().datetime().optional(),
   traceId: z.string().optional(),
   spanId: z.string().optional(),

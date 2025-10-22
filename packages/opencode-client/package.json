@@ -19,13 +19,14 @@
     }
   },
   "bin": {
-    "opencode-client": "dist/cli.js",
-    "agent-cli": "dist/cli/AgentCLI.js"
+    "opencode-client": "dist/cli.js"
   },
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
     "test": "pnpm build && ava",
+    "typecheck": "tsc --noEmit",
+    "lint": "pnpm exec eslint . --ext .ts",
     "test:unit": "pnpm build && ava",
     "test:watch": "ava --watch",
     "test:coverage": "c8 ava",

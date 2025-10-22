@@ -1,13 +1,13 @@
 {
   "name": "@promethean/buildfix",
-  "root": "packages/buildfix",
-  "sourceRoot": "packages/buildfix/src",
+  "root": "packages/pipelines/buildfix",
+  "sourceRoot": "packages/pipelines/buildfix/src",
   "targets": {
     "build": {
       "executor": "nx:run-commands",
       "options": {
         "command": "tsc -b",
-        "cwd": "packages/buildfix"
+        "cwd": "packages/pipelines/buildfix"
       },
       "outputs": ["{projectRoot}/dist"]
     },
@@ -15,7 +15,7 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "tsc -p tsconfig.json --noEmit",
-        "cwd": "packages/buildfix"
+        "cwd": "packages/pipelines/buildfix"
       }
     },
     "test": {
@@ -33,7 +33,7 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "eslint .",
-        "cwd": "packages/buildfix"
+        "cwd": "packages/pipelines/buildfix"
       }
     }
   },
