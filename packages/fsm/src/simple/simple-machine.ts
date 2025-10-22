@@ -480,6 +480,300 @@ export class SimpleMachine<S extends State = State, C = unknown>
   }
 }
 
+// Functional core implementation
+type MachineState<S extends State = State, C = unknown> = {
+  readonly definition: MachineDefinition<S, C, Event>;
+  readonly currentSnapshot: FSMSnapshot<S, C>;
+};
+
+export const createMachineState = <S extends State = State, C = unknown>(
+  definition: SimpleMachineDefinition<S, C>,
+  context?: C,
+): MachineState<S, C> => {
+  const machineDefinition = convertToMachineDefinition(definition);
+  const currentSnapshot: FSMSnapshot<S, C> = {
+    state: definition.initialState,
+    context: context ?? definition.context ?? ({} as C),
+    timestamp: Date.now(),
+    history: [],
+  };
+
+  return {
+    definition: machineDefinition,
+    currentSnapshot,
+  };
+};
+
+export const getCurrentState = <S extends State, C>(state: MachineState<S, C>): S =>
+  state.currentSnapshot.state;
+
+export const getCurrentContext = <S extends State, C>(state: MachineState<S, C>): C =>
+  state.currentSnapshot.context;
+
+export const canTransition = <S extends State, C>(
+  state: MachineState<S, C>,
+  event: Event,
+  targetState?: S,
+): boolean => {
+  const currentState = getCurrentState(state);
+
+  if (targetState) {
+    const transition = findDirectTransition(state.definition, currentState, targetState, event);
+    return (
+      !!transition &&
+      (!transition.guard || evaluateGuard(transition.guard, event, state.currentSnapshot.context))
+    );
+  } else {
+    const transition = findEventTransition(state.definition, currentState, event);
+    return (
+      !!transition &&
+      (!transition.guard || evaluateGuard(transition.guard, event, state.currentSnapshot.context))
+    );
+  }
+};
+
+export const transition = <S extends State, C>(
+  state: MachineState<S, C>,
+  event: Event,
+  targetState?: S,
+): { newState: MachineState<S, C>; result: EventResult<S, C, Event> } => {
+  try {
+    const currentState = getCurrentState(state);
+
+    // Find transition
+    const transition = targetState
+      ? findDirectTransition(state.definition, currentState, targetState, event)
+      : findEventTransition(state.definition, currentState, event);
+
+    if (!transition) {
+      const error: FSMError = {
+        type: 'no-transition',
+        message: targetState
+          ? `No transition from ${currentState} to ${targetState} for event ${String(event)}`
+          : `No transition from ${currentState} for event ${String(event)}`,
+        from: currentState,
+        to: targetState,
+        event: event as any,
+      };
+
+      return {
+        newState: state,
+        result: {
+          success: false,
+          snapshot: state.currentSnapshot,
+          error,
+        },
+      };
+    }
+
+    // Check guard
+    if (
+      transition.guard &&
+      !evaluateGuard(transition.guard, event, state.currentSnapshot.context)
+    ) {
+      const error: FSMError = {
+        type: 'guard-failed',
+        message: `Guard condition failed for transition from ${currentState} to ${transition.to}`,
+        from: currentState,
+        to: transition.to,
+        event: event as any,
+      };
+
+      return {
+        newState: state,
+        result: {
+          success: false,
+          snapshot: state.currentSnapshot,
+          error,
+        },
+      };
+    }
+
+    // Execute transition
+    const newSnapshot = executeTransitionCore(transition, event, state.currentSnapshot);
+
+    return {
+      newState: {
+        ...state,
+        currentSnapshot: newSnapshot,
+      },
+      result: {
+        success: true,
+        snapshot: newSnapshot,
+        transition: newSnapshot.history![newSnapshot.history!.length - 1],
+      },
+    };
+  } catch (error) {
+    const fsmError: FSMError = {
+      type: 'action-failed',
+      message: error instanceof Error ? error.message : String(error),
+      from: getCurrentState(state),
+      event: event as any,
+      cause: error instanceof Error ? error : undefined,
+    };
+
+    return {
+      newState: state,
+      result: {
+        success: false,
+        snapshot: state.currentSnapshot,
+        error: fsmError,
+      },
+    };
+  }
+};
+
+export const reset = <S extends State, C>(
+  state: MachineState<S, C>,
+  context?: C,
+): MachineState<S, C> => {
+  const newSnapshot: FSMSnapshot<S, C> = {
+    state: state.definition.initialState,
+    context: context ?? state.definition.context ?? ({} as C),
+    timestamp: Date.now(),
+    history: [],
+  };
+
+  return {
+    ...state,
+    currentSnapshot: newSnapshot,
+  };
+};
+
+export const getAvailableTransitions = <S extends State, C>(
+  state: MachineState<S, C>,
+): readonly TransitionDefinition<S, C, Event>[] => {
+  const currentState = getCurrentState(state);
+  const transitions: TransitionDefinition<S, C, Event>[] = [];
+
+  for (const transition of state.definition.transitions) {
+    if (transition.from === currentState) {
+      transitions.push(transition);
+    }
+  }
+
+  return transitions;
+};
+
+// Helper functions (moved from class)
+function convertToMachineDefinition<S extends State, C>(
+  definition: SimpleMachineDefinition<S, C>,
+): MachineDefinition<S, C, Event> {
+  const transitions: TransitionDefinition<S, C, Event>[] = [];
+  const states: StateDefinition<S, C>[] = [];
+
+  // Convert state map to transitions and states
+  for (const [stateName, stateConfig] of Object.entries(definition.states)) {
+    const state = stateName as S;
+
+    // Add state definition
+    states.push({
+      name: state,
+      config: stateConfig.config,
+    });
+
+    // Convert transitions
+    if (stateConfig.on) {
+      for (const [eventName, target] of Object.entries(stateConfig.on)) {
+        if (Array.isArray(target)) {
+          for (const targetState of target) {
+            transitions.push({
+              from: state,
+              event: eventName,
+              to: targetState,
+              config: stateConfig.config?.on?.[eventName] as any,
+            });
+          }
+        } else {
+          transitions.push({
+            from: state,
+            event: eventName,
+            to: target as S,
+            config: stateConfig.config?.on?.[eventName] as any,
+          });
+        }
+      }
+    }
+  }
+
+  return {
+    initialState: definition.initialState,
+    states,
+    transitions,
+    context: definition.context,
+    onTransition: definition.onTransition,
+    onError: definition.onError,
+  };
+}
+
+function findDirectTransition<S extends State, C>(
+  definition: MachineDefinition<S, C, Event>,
+  from: S,
+  to: S,
+  event: Event,
+): TransitionDefinition<S, C, Event> | undefined {
+  return definition.transitions.find(
+    (t) => t.from === from && t.to === to && t.event === String(event),
+  );
+}
+
+function findEventTransition<S extends State, C>(
+  definition: MachineDefinition<S, C, Event>,
+  from: S,
+  event: Event,
+): TransitionDefinition<S, C, Event> | undefined {
+  return definition.transitions.find((t) => t.from === from && t.event === String(event));
+}
+
+function evaluateGuard<C>(guard: Guard<C>, event: Event, context: C): boolean {
+  try {
+    return guard(event, context);
+  } catch {
+    return false;
+  }
+}
+
+function executeTransitionCore<S extends State, C>(
+  transition: TransitionDefinition<S, C, Event>,
+  event: Event,
+  currentSnapshot: FSMSnapshot<S, C>,
+): FSMSnapshot<S, C> {
+  const newContext = { ...currentSnapshot.context };
+
+  // Execute exit action of current state
+  const currentStateDef = transition.from;
+  // Exit action would be here if needed
+
+  // Execute transition action
+  if (transition.config?.action) {
+    try {
+      transition.config.action(event, newContext);
+    } catch (error) {
+      throw new Error(
+        `Transition action failed: ${error instanceof Error ? error.message : String(error)}`,
+      );
+    }
+  }
+
+  // Execute entry action of new state
+  // Entry action would be here if needed
+
+  const coreTransition: CoreTransition<S, C, Event> = {
+    from: transition.from,
+    to: transition.to,
+    event: event as any,
+    timestamp: Date.now(),
+    context: newContext,
+  };
+
+  return {
+    state: transition.to,
+    context: newContext,
+    timestamp: Date.now(),
+    history: [...(currentSnapshot.history || []), coreTransition],
+  };
+}
+
 // Factory function
 export function createSimpleMachine<S extends State = State, C = unknown>(
   definition: SimpleMachineDefinition<S, C>,
