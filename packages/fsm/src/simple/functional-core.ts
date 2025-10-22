@@ -246,17 +246,19 @@ function convertSimpleDefinition<S extends State, C>(
   // Convert state map to transitions and states
   for (const [stateName, stateConfig] of Object.entries(definition.states)) {
     const state = stateName as S;
+    const config = stateConfig as any;
 
     // Add state definition
-    states.set(state, {
+    const stateDef: StateDefinition<S, C> = {
       id: state,
       isInitial: state === definition.initialState,
       isFinal: definition.finalStates?.includes(state),
-    });
+    };
+    states.set(state, stateDef);
 
     // Convert transitions
-    if (stateConfig.on) {
-      for (const [eventName, target] of Object.entries(stateConfig.on)) {
+    if (config.on) {
+      for (const [eventName, target] of Object.entries(config.on)) {
         if (Array.isArray(target)) {
           for (const targetState of target) {
             transitions.push({
