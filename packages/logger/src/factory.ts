@@ -30,7 +30,7 @@ class LoggerFactoryImpl implements LoggerFactory {
     this.globalConfig = { ...this.globalConfig, ...config };
 
     // Update existing loggers
-    this.loggers.forEach((logger, key) => {
+    this.loggers.forEach((_, key) => {
       const module = key === 'default' ? undefined : key;
       this.loggers.set(key, this.create({ ...this.globalConfig, module }));
     });
