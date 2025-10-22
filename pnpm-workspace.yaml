@@ -12,6 +12,7 @@ ignore:
   - packages/buildfix/test-fixtures
   - packages/buildfix/simple-fixtures
   - packages/buildfix/test-tmp
+  - pseudo/
 
 pnpm:
   overrides:
