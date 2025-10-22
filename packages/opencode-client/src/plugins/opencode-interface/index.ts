@@ -50,21 +50,33 @@ function formatSearchResults(results: {
   if (results.summary.totalSessions > 0) {
     output += `## Sessions (${results.summary.totalSessions})\n\n`;
     results.sessions.forEach((session: any) => {
-      output += sessionToMarkdown(session);
+      try {
+        output += sessionToMarkdown(session);
+      } catch (e) {
+        output += `**Session:** ${JSON.stringify(session).substring(0, 200)}...\n\n`;
+      }
     });
   }
 
   if (results.summary.totalEvents > 0) {
     output += `## Events (${results.summary.totalEvents})\n\n`;
     results.events.forEach((event: any) => {
-      output += eventToMarkdown(event);
+      try {
+        output += eventToMarkdown(event);
+      } catch (e) {
+        output += `**Event:** ${JSON.stringify(event).substring(0, 200)}...\n\n`;
+      }
     });
   }
 
   if (results.summary.totalMessages > 0) {
     output += `## Messages (${results.summary.totalMessages})\n\n`;
     results.messages.forEach((message: any) => {
-      output += messageToMarkdown(message);
+      try {
+        output += messageToMarkdown(message);
+      } catch (e) {
+        output += `**Message:** ${JSON.stringify(message).substring(0, 200)}...\n\n`;
+      }
     });
   }
 
@@ -83,7 +95,11 @@ function formatSessionsList(result: any): string {
   let output = `# Active Sessions (${sessions.length})\n\n`;
 
   sessions.forEach((session: any) => {
-    output += sessionToMarkdown(session);
+    try {
+      output += sessionToMarkdown(session);
+    } catch (e) {
+      output += `**Session:** ${JSON.stringify(session).substring(0, 200)}...\n\n`;
+    }
   });
 
   if (result.summary) {
@@ -109,7 +125,11 @@ function formatEventsList(events: any[]): string {
   let output = `# Events (${events.length})\n\n`;
 
   events.forEach((event: any) => {
-    output += eventToMarkdown(event);
+    try {
+      output += eventToMarkdown(event);
+    } catch (e) {
+      output += `**Event:** ${JSON.stringify(event).substring(0, 200)}...\n\n`;
+    }
   });
 
   return output;
@@ -122,7 +142,11 @@ function formatMessagesList(messages: any[], sessionId: string): string {
   let output = `# Messages for Session ${sessionId} (${messages.length})\n\n`;
 
   messages.forEach((message: any) => {
-    output += messageToMarkdown(message);
+    try {
+      output += messageToMarkdown(message);
+    } catch (e) {
+      output += `**Message:** ${JSON.stringify(message).substring(0, 200)}...\n\n`;
+    }
   });
 
   return output;
@@ -175,7 +199,11 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
             if (Array.isArray(context)) {
               output += `## Messages (${context.length})\n\n`;
               context.slice(0, args.limit).forEach((msg: any) => {
-                output += messageToMarkdown(msg);
+                try {
+                  output += messageToMarkdown(msg);
+                } catch (e) {
+                  output += `**Message:** ${JSON.stringify(msg).substring(0, 200)}...\n\n`;
+                }
               });
             }
 
@@ -213,8 +241,14 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
 
             // Get messages for sessions and search within them
             let messageResults: any[] = [];
-            if (sessionResults && Array.isArray(sessionResults)) {
-              for (const session of sessionResults.slice(0, 5)) {
+            const sessionArray = Array.isArray(sessionResults)
+              ? sessionResults
+              : sessionResults && typeof sessionResults === 'object' && 'results' in sessionResults
+                ? sessionResults.results
+                : [];
+
+            if (sessionArray.length > 0) {
+              for (const session of sessionArray.slice(0, 5)) {
                 // Limit to avoid too many API calls
                 try {
                   const messages = await getSessionMessages(opencodeClient, session.id);
@@ -237,12 +271,6 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
                 }
               }
             }
-
-            const sessionArray = Array.isArray(sessionResults)
-              ? sessionResults
-              : sessionResults && 'results' in sessionResults
-                ? sessionResults.results
-                : [];
 
             const results = {
               sessions: sessionArray,
@@ -308,12 +336,22 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
             if ('error' in result) {
               output += `Error: ${result.error}\n`;
             } else if (result.session && typeof result.session === 'object') {
-              // Try to format as session, but fall back if it fails
               try {
                 output += sessionToMarkdown(result.session as any);
               } catch (formatError) {
                 output += `**Session Data:**\n`;
                 output += `\`\`\`json\n${JSON.stringify(result.session, null, 2)}\n\`\`\`\n`;
+              }
+
+              if (result.messages && Array.isArray(result.messages)) {
+                output += `\n## Messages (${result.messages.length})\n\n`;
+                result.messages.forEach((message: any) => {
+                  try {
+                    output += messageToMarkdown(message);
+                  } catch (e) {
+                    output += `**Message:** ${JSON.stringify(message).substring(0, 200)}...\n\n`;
+                  }
+                });
               }
             } else {
               output += `**Session Data:**\n`;
@@ -378,7 +416,20 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
             let output = `# New Session Created\n\n`;
 
             if (typeof result === 'string') {
-              output += result;
+              try {
+                const parsed = JSON.parse(result);
+                if (parsed.success && parsed.session) {
+                  output += `**Session ID:** ${parsed.session.id || 'Unknown'}\n`;
+                  output += `**Title:** ${parsed.session.title || args.title || 'Untitled'}\n`;
+                  output += `**Status:** Successfully created\n`;
+                  output += `**Created:** ${parsed.session.createdAt || 'Unknown'}\n`;
+                  output += `**Initial Message:** ${args.message}\n`;
+                } else {
+                  output += result;
+                }
+              } catch (parseError) {
+                output += result;
+              }
             } else if (result && typeof result === 'object' && 'error' in result) {
               output += `**Error:** ${result.error}\n`;
             } else if (result && typeof result === 'object' && 'id' in result) {
@@ -422,12 +473,20 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
             if (Array.isArray(result)) {
               output += `**Results:** ${result.length} sessions found\n\n`;
               result.forEach((session: any) => {
-                output += sessionToMarkdown(session);
+                try {
+                  output += sessionToMarkdown(session);
+                } catch (e) {
+                  output += `**Session:** ${JSON.stringify(session).substring(0, 200)}...\n\n`;
+                }
               });
             } else if (result && typeof result === 'object' && 'results' in result) {
               output += `**Results:** ${result.results.length} sessions found\n\n`;
               result.results.forEach((session: any) => {
-                output += sessionToMarkdown(session);
+                try {
+                  output += sessionToMarkdown(session);
+                } catch (e) {
+                  output += `**Session:** ${JSON.stringify(session).substring(0, 200)}...\n\n`;
+                }
               });
             } else if (result && typeof result === 'object' && 'error' in result) {
               output += `**Error:** ${result.error}\n`;
@@ -507,7 +566,12 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
             output += `**Message ID:** ${args.messageId}\n\n`;
 
             if (result.data) {
-              output += messageToMarkdown(result.data);
+              try {
+                output += messageToMarkdown(result.data);
+              } catch (e) {
+                output += `**Message Data:**\n`;
+                output += `\`\`\`json\n${JSON.stringify(result.data, null, 2)}\n\`\`\`\n`;
+              }
             } else {
               output += `No message data found.\n`;
             }
@@ -559,21 +623,6 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
         },
       }),
     },
-
-    // Plugin lifecycle hooks
-    // async event(input) {
-    //   // Handle plugin-level events if needed
-    //   // console.log(`[OpenCode Interface Plugin] Event received: ${input.event.type}`);
-    // },
-
-    // // Tool execution hooks for logging and monitoring
-    // 'tool.execute.before': async (input) => {
-    //   // console.log(`[OpenCode Interface Plugin] Executing tool: ${input.tool}`);
-    // },
-
-    // 'tool.execute.after': async (input) => {
-    //   // console.log(`[OpenCode Interface Plugin] Tool completed: ${input.tool}`);
-    // },
   };
 };
 
