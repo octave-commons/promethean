@@ -74,8 +74,8 @@ export class IdGenerator {
     return {
       type: type === 'sess' ? 'session' : type === 'msg' ? 'message' : 'event',
       entityId: entityId || undefined,
-      timestamp: parseInt(timestampStr, 10),
-      random,
+      timestamp: parseInt(timestampStr || '0', 10),
+      random: random || '',
     };
   }
 }
