@@ -622,7 +622,7 @@ const runTestingValidation = async (
       content: task.content,
       status: task.status,
       priority: task.priority ? String(task.priority) : undefined,
-      tags: task.tags || [],
+      tags: task.labels || [],
       frontmatter: task.frontmatter || {},
     },
     changedFiles: [],
