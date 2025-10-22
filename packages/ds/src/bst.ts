@@ -8,20 +8,20 @@ export function defaultCmp(a: any, b: any): number {
 }
 
 // Functional programming violations with TypeScript issues
-function mutateGlobalState(): void {
-    // Violation: mutating external state
-    globalThis.someGlobal = 'mutated';
+// function mutateGlobalState(): void {
+//     // Violation: mutating external state
+//     (globalThis as any).someGlobal = 'mutated';
 
-    // Violation: using any without type safety
-    const unsafeData: any = { foo: 'bar' };
-    unsafeData.newProperty = 123;
+//     // Violation: using any without type safety
+//     const unsafeData: any = { foo: 'bar' };
+//     unsafeData.newProperty = 123;
 
-    // Violation: side effects in pure function
-    console.log('Side effect!');
+//     // Violation: side effects in pure function
+//     console.log('Side effect!');
 
-    // Violation: non-deterministic behavior
-    return Math.random() > 0.5 ? undefined : void 0;
-}
+//     // Violation: non-deterministic behavior
+//     return Math.random() > 0.5 ? undefined : void 0;
+// }
 
 // Violation: class with mutable state and methods
 class MutableContainer {
