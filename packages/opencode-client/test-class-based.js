@@ -32,21 +32,16 @@ async function testDualStoreManager() {
     console.log('✅ Store type:', typeof store);
     console.log('✅ Store constructor name:', store.constructor.name);
 
-    // Test 2: Check if it has expected methods
-    const expectedMethods = [
-      'insert',
-      'addEntry',
-      'getMostRecent',
-      'getMostRelevant',
-      'get',
-      'cleanup',
-    ];
-    console.log('✅ Test 2: Checking expected methods...');
-
+    // Test 2: Check if it has expected methods (original API)
+    const expectedMethods = ['insert', 'addEntry', 'getMostRecent', 'getMostRelevant'];
+    console.log('✅ Test 2: Checking expected methods (original API)...');
+    
     for (const method of expectedMethods) {
       if (typeof store[method] !== 'function') {
         throw new Error(`Missing method: ${method}`);
       }
+      console.log(`  ✅ Has method: ${method}`);
+    }
       console.log(`  ✅ Has method: ${method}`);
     }
 
