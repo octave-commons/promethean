@@ -5,7 +5,11 @@ import { DualStoreManager } from '@promethean/persistence';
 test('sessionStore.get() regression test - exact client contract', async (t) => {
   // RED: This test should fail with current implementation
 
-  const store = await DualStoreManager.create('sessionStore', 'text', 'timestamp');
+  const store = await DualStoreManager.create(
+    'sessionStore-opencode-regression',
+    'text',
+    'timestamp',
+  );
 
   // Insert data exactly like the client does
   const sessionData = {
@@ -47,7 +51,11 @@ test('sessionStore.get() regression test - exact client contract', async (t) => 
 
 // Regression test: getMostRecent must return exact format
 test('sessionStore.getMostRecent() regression test - exact client contract', async (t) => {
-  const store = await DualStoreManager.create('sessionStore', 'text', 'timestamp');
+  const store = await DualStoreManager.create(
+    'sessionStore-opencode-regression-recent',
+    'text',
+    'timestamp',
+  );
 
   // Insert multiple entries like client would
   await store.insert({
@@ -65,8 +73,8 @@ test('sessionStore.getMostRecent() regression test - exact client contract', asy
   });
 
   await store.insert({
-    id: 'session-2',
-    text: JSON.stringify({ id: 'session-2', title: 'Session 2' }),
+    id: 'session-3',
+    text: JSON.stringify({ id: 'session-3', title: 'Session 3' }),
     timestamp: new Date('2024-01-02T00:00:00.000Z'),
     metadata: { type: 'session' },
   });
@@ -74,7 +82,7 @@ test('sessionStore.getMostRecent() regression test - exact client contract', asy
   const results = await store.getMostRecent(10);
 
   t.true(Array.isArray(results), 'Should return an array');
-  t.is(results.length, 2, 'Should return both entries');
+  t.is(results.length, 3, 'Should return all three entries');
 
   // Client expects DualStoreEntry<'text', 'timestamp'> format
   results.forEach((result, index) => {
@@ -85,8 +93,9 @@ test('sessionStore.getMostRecent() regression test - exact client contract', asy
   });
 
   // Should be sorted by timestamp descending (newest first)
-  if (results[0] && results[1]) {
-    t.is(results[0].id, 'session-2', 'Newest entry should be first');
-    t.is(results[1].id, 'session-1', 'Older entry should be second');
+  if (results[0] && results[1] && results[2]) {
+    t.is(results[0].id, 'session-3', 'Newest entry should be first');
+    t.is(results[1].id, 'session-2', 'Middle entry should be second');
+    t.is(results[2].id, 'session-1', 'Oldest entry should be third');
   }
 });
