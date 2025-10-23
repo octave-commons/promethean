@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Events Composable - Handles OpenCode event streaming and processing
 
-import type { Event } from '@opencode-ai/sdk';
-import type { OpenCodeClient, EventSubscription } from '../indexer-types.js';
+import type { Event, OpencodeClient } from '@opencode-ai/sdk';
+import type { EventSubscription } from '../indexer-types.js';
 import type { StateManager } from './state.js';
 import type { EventLogger } from './logger.js';
 import type { TimerManager } from './timers.js';
@@ -26,7 +26,7 @@ export type EventStreamManager = {
 };
 
 export const createEventManager = (
-  client: OpenCodeClient,
+  client: OpencodeClient,
   config: EventConfig,
   stateManager: StateManager,
   logger: EventLogger,
