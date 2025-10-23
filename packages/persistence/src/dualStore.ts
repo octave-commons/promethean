@@ -343,11 +343,7 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         return new DualStoreManager(state);
     }
 
-    get name(): string {
-        console.warn(
-            '[DEPRECATED] DualStoreManager.name property is deprecated. ' +
-                'Access name property from DualStoreManagerState directly.',
-        );
+get name(): string {
         return this.state.name;
     }
 
