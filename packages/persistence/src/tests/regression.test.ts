@@ -5,7 +5,7 @@ import { DualStoreManager } from '../dualStore.js';
 test('sessionStore.get() regression test - exact client contract', async (t) => {
     // RED: This test should fail with current implementation
 
-    const store = await DualStoreManager.create('sessionStore-regression-test', 'text', 'timestamp');
+    const store = await DualStoreManager.create('sessionStore-regression-get', 'text', 'timestamp');
 
     // Insert data exactly like the client does
     const sessionData = {
@@ -47,7 +47,7 @@ test('sessionStore.get() regression test - exact client contract', async (t) => 
 
 // Regression test: getMostRecent must return exact format
 test('sessionStore.getMostRecent() regression test - exact client contract', async (t) => {
-    const store = await DualStoreManager.create('sessionStore-regression-test-recent', 'text', 'timestamp');
+    const store = await DualStoreManager.create('sessionStore-regression-recent', 'text', 'timestamp');
 
     // Insert multiple entries like client would
     await store.insert({
