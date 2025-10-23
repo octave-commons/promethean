@@ -1,7 +1,3 @@
-Here’s a **concise, Obsidian-friendly** `AGENTS.md` for your Promethean monorepo — trimmed for clarity, consistency, and direct operational use by agents or automation.
-
----
-
 # Promethean
 
 > *“Stealing fire from the gods to grant man the gift of knowledge and wisdom.”*
@@ -121,7 +117,6 @@ pnpm --filter @promethean/<pkg> clean
 pnpm --filter @promethean/<pkg> typecheck
 pnpm --filter @promethean/<pkg> start
 ```
-
 ---
 
 ## 🧭 Operational Notes
@@ -144,7 +139,6 @@ pnpm --filter @promethean/<pkg> start
 ## ⚖️ License
 
 All packages use:
-
 ```
 "license": "GPL-3.0-only"
 ```
