@@ -24,7 +24,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "test": "pnpm build && ava",
+    "test": "pnpm build:tests && ava",
     "typecheck": "tsc --noEmit",
     "lint": "pnpm exec eslint . --ext .ts",
     "test:unit": "pnpm build && ava",
