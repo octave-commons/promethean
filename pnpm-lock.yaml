@@ -312,7 +312,7 @@ importers:
         version: 6.0.1
       ts-node:
         specifier: 10.9.2
-        version: 10.9.2(@types/node@24.3.1)(typescript@5.9.3)
+        version: 10.9.2(@types/node@20.19.11)(typescript@5.9.3)
 
   packages/agents/agent-ecs:
     dependencies:
@@ -594,7 +594,7 @@ importers:
         version: 5.3.1(@ava/typescript@4.1.0)
       ts-node:
         specifier: ^10.9.2
-        version: 10.9.2(@types/node@24.3.1)(typescript@5.9.3)
+        version: 10.9.2(@types/node@20.19.11)(typescript@5.9.3)
       typescript:
         specifier: ^5.3.3
         version: 5.9.3
@@ -3140,7 +3140,7 @@ importers:
         version: 6.0.1
       ts-node:
         specifier: ^10.9.2
-        version: 10.9.2(@types/node@24.3.1)(typescript@5.9.3)
+        version: 10.9.2(@types/node@20.19.11)(typescript@5.9.3)
 
   packages/kanban:
     dependencies:
@@ -4107,6 +4107,9 @@ importers:
         specifier: ^3.23.8
         version: 3.25.76
     devDependencies:
+      '@stryker-mutator/tap-runner':
+        specifier: ^9.2.0
+        version: 9.2.0(@stryker-mutator/core@8.7.1)
       '@types/body-parser':
         specifier: ^1.19.5
         version: 1.19.5
@@ -8863,6 +8866,10 @@ packages:
     resolution: {integrity: sha512-56vxcVxIfW0jxJhr7HB9Zx6Xr5/M95RG9MUK1DtbQhlmQesjpfBBsrPLOPzBJaITPH/vOYykuJ69vgSAMccQyw==}
     engines: {node: '>=18.0.0'}
 
+  '@stryker-mutator/api@9.2.0':
+    resolution: {integrity: sha512-34dalOkATPR9Qh+cO0VFeway0FlfoDrDD1b9mrw3rIF6pJVEjRHlFHiEmdt1G2DewG9pL5guyPy65kkTQIekpQ==}
+    engines: {node: '>=20.0.0'}
+
   '@stryker-mutator/core@8.7.1':
     resolution: {integrity: sha512-r2AwhHWkHq6yEe5U8mAzPSWewULbv9YMabLHRzLjZnjj+Ipxtg+Zo22rrUc2Zl7mnYvb9w34bdlEzGz6MKgX2g==}
     engines: {node: '>=18.0.0'}
@@ -8872,8 +8879,17 @@ packages:
     resolution: {integrity: sha512-HSq4VHXesQCMR3hr6bn41DAeJ0yuP2vp9KSnls2TySNawFVWOCaKXpBX29Skj3zJQh7dnm7HuQg8HuXvJK15oA==}
     engines: {node: '>=18.0.0'}
 
+  '@stryker-mutator/tap-runner@9.2.0':
+    resolution: {integrity: sha512-AyugTAzImIlGmYbXO1uy61bb2Ma6F2BBjxU3Lx9c+sBMWNTdHPVEDmzR6o2KPXXl3pJOFV7sPTkPXSx2FwMg/Q==}
+    engines: {node: '>=14.18.0'}
+    peerDependencies:
+      '@stryker-mutator/core': ~9.2.0
+
   '@stryker-mutator/util@8.7.1':
     resolution: {integrity: sha512-Oj/sIHZI1GLfGOHKnud4Gw0ZRufm7ONoQYNnhcaAYEXTWraYVcV7mue/th8fZComTHvDPA8Ge8U16FvWYEb8dg==}
+
+  '@stryker-mutator/util@9.2.0':
+    resolution: {integrity: sha512-wJuWqXLq/8PKjPUBqHU/N0pshFWPhFA7muVrsNiTVPjHK5DYLkjOrzUl8cUJjusHX35INDr/2uM66kWaYuQu3g==}
 
   '@szmarczak/http-timer@4.0.6':
     resolution: {integrity: sha512-4BAffykYOgO+5nzBWYwE3W90sBgLJoUPRWWcL8wlyiM8IB8ipJz3UMJ9KXQd1RKQXpKp8Tutn80HZtWsu2u76w==}
@@ -12281,6 +12297,10 @@ packages:
   eventemitter3@4.0.7:
     resolution: {integrity: sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==}
 
+  events-to-array@2.0.3:
+    resolution: {integrity: sha512-f/qE2gImHRa4Cp2y1stEOSgw8wTFyUdVJX7G//bMwbaV9JqISFxg99NbmVQeP7YLnDUZ2un851jlaDrlpmGehQ==}
+    engines: {node: '>=12'}
+
   events@3.3.0:
     resolution: {integrity: sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==}
     engines: {node: '>=0.8.x'}
@@ -14689,8 +14709,14 @@ packages:
   mutation-testing-metrics@3.3.0:
     resolution: {integrity: sha512-vZEJ84SpK3Rwyk7k28SORS5o6ZDtehwifLPH6fQULrozJqlz2Nj8vi52+CjA+aMZCyyKB+9eYUh1HtiWVo4o/A==}
 
+  mutation-testing-metrics@3.5.1:
+    resolution: {integrity: sha512-mNgEcnhyBDckgoKg1kjG/4Uo3aBCW0WdVUxINVEazMTggPtqGfxaAlQ9GjItyudu/8S9DuspY3xUaIRLozFG9g==}
+
   mutation-testing-report-schema@3.3.0:
     resolution: {integrity: sha512-DF56q0sb0GYzxYUYNdzlfQzyE5oJBEasz8zL76bt3OFJU8q4iHSdUDdihPWWJD+4JLxSs3neM/R968zYdy0SWQ==}
+
+  mutation-testing-report-schema@3.5.1:
+    resolution: {integrity: sha512-tu5ATRxGH3sf2igiTKonxlCsWnWcD3CYr3IXGUym7yTh3Mj5NoJsu7bDkJY99uOrEp6hQByC2nRUPEGfe6EnAg==}
 
   mute-stream@0.0.8:
     resolution: {integrity: sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==}
@@ -17229,6 +17255,15 @@ packages:
     engines: {node: '>=14.0.0'}
     hasBin: true
 
+  tap-parser@17.0.0:
+    resolution: {integrity: sha512-Na7kB4ML7T77abJtYIlXh/aJcz54Azv0iAtOaDnLqsL4uWjU40uNFIFnZ5IvnGTuCIk5M6vjx7ZsceNGc1mcag==}
+    engines: {node: '>= 18.6.0'}
+    hasBin: true
+
+  tap-yaml@3.0.0:
+    resolution: {integrity: sha512-qtbgXJqE9xdWqlE520y+vG4c1lgqWrDHN7Y2YcrV1XudLuc2Y5aMXhAyPBGl57h8MNoprvL/mAJiISUIadvS9w==}
+    engines: {node: '>= 18.6.0'}
+
   tapable@0.2.9:
     resolution: {integrity: sha512-2wsvQ+4GwBvLPLWsNfLCDYGsW6xb7aeC6utq2Qh0PFwgEy7K7dsma9Jsmb2zSQj7GvYAyUGSntLtsv++GmgL1A==}
     engines: {node: '>=0.6'}
@@ -17629,6 +17664,10 @@ packages:
   typed-inject@4.0.0:
     resolution: {integrity: sha512-OuBL3G8CJlS/kjbGV/cN8Ni32+ktyyi6ADDZpKvksbX0fYBV5WcukhRCYa7WqLce7dY/Br2dwtmJ9diiadLFpg==}
     engines: {node: '>=16'}
+
+  typed-inject@5.0.0:
+    resolution: {integrity: sha512-0Ql2ORqBORLMdAW89TQKZsb1PQkFGImFfVmncXWe7a+AA3+7dh7Se9exxZowH4kbnlvKEFkMxUYdHUpjYWFJaA==}
+    engines: {node: '>=18'}
 
   typed-query-selector@2.12.0:
     resolution: {integrity: sha512-SbklCd1F0EiZOyPiW192rrHZzZ5sBijB6xM+cpmrwDqObvdtunOHHIk9fCGsoK5JVIYXoyEp4iEdE3upFH3PAg==}
@@ -18332,6 +18371,12 @@ packages:
   yallist@5.0.0:
     resolution: {integrity: sha512-YgvUTfwqyc7UXVMrB+SImsVYSmTS8X/tSrtdNZMImM+n7+QTriRXyXim0mBrTXNeqzVF0KWGgHPeiyViFFrNDw==}
     engines: {node: '>=18'}
+
+  yaml-types@0.3.0:
+    resolution: {integrity: sha512-i9RxAO/LZBiE0NJUy9pbN5jFz5EasYDImzRkj8Y81kkInTi1laia3P3K/wlMKzOxFQutZip8TejvQP/DwgbU7A==}
+    engines: {node: '>= 16', npm: '>= 7'}
+    peerDependencies:
+      yaml: ^2.3.0
 
   yaml@1.10.2:
     resolution: {integrity: sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==}
@@ -23106,6 +23151,13 @@ snapshots:
       tslib: 2.7.0
       typed-inject: 4.0.0
 
+  '@stryker-mutator/api@9.2.0':
+    dependencies:
+      mutation-testing-metrics: 3.5.1
+      mutation-testing-report-schema: 3.5.1
+      tslib: 2.8.1
+      typed-inject: 5.0.0
+
   '@stryker-mutator/core@8.7.1':
     dependencies:
       '@inquirer/prompts': 6.0.1
@@ -23152,7 +23204,18 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@stryker-mutator/tap-runner@9.2.0(@stryker-mutator/core@8.7.1)':
+    dependencies:
+      '@stryker-mutator/api': 9.2.0
+      '@stryker-mutator/core': 8.7.1
+      '@stryker-mutator/util': 9.2.0
+      glob: 10.4.5
+      tap-parser: 17.0.0
+      tslib: 2.8.1
+
   '@stryker-mutator/util@8.7.1': {}
+
+  '@stryker-mutator/util@9.2.0': {}
 
   '@szmarczak/http-timer@4.0.6':
     dependencies:
@@ -23521,6 +23584,7 @@ snapshots:
   '@types/node@24.3.1':
     dependencies:
       undici-types: 7.10.0
+    optional: true
 
   '@types/nodemailer@6.4.20':
     dependencies:
@@ -24866,7 +24930,7 @@ snapshots:
 
   axios@1.12.2:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.3.7)
+      follow-redirects: 1.15.11(debug@4.4.3)
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -27611,6 +27675,8 @@ snapshots:
 
   eventemitter3@4.0.7: {}
 
+  events-to-array@2.0.3: {}
+
   events@3.3.0: {}
 
   eventsource-parser@3.0.6: {}
@@ -28676,7 +28742,7 @@ snapshots:
   http-proxy@1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.11(debug@4.3.7)
+      follow-redirects: 1.15.11(debug@4.4.3)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -30736,7 +30802,13 @@ snapshots:
     dependencies:
       mutation-testing-report-schema: 3.3.0
 
+  mutation-testing-metrics@3.5.1:
+    dependencies:
+      mutation-testing-report-schema: 3.5.1
+
   mutation-testing-report-schema@3.3.0: {}
+
+  mutation-testing-report-schema@3.5.1: {}
 
   mute-stream@0.0.8: {}
 
@@ -34092,6 +34164,16 @@ snapshots:
       - tsx
       - yaml
 
+  tap-parser@17.0.0:
+    dependencies:
+      events-to-array: 2.0.3
+      tap-yaml: 3.0.0
+
+  tap-yaml@3.0.0:
+    dependencies:
+      yaml: 2.8.1
+      yaml-types: 0.3.0(yaml@2.8.1)
+
   tapable@0.2.9: {}
 
   tar-fs@2.1.3:
@@ -34392,24 +34474,6 @@ snapshots:
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
 
-  ts-node@10.9.2(@types/node@24.3.1)(typescript@5.9.3):
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      '@tsconfig/node10': 1.0.11
-      '@tsconfig/node12': 1.0.11
-      '@tsconfig/node14': 1.0.3
-      '@tsconfig/node16': 1.0.4
-      '@types/node': 24.3.1
-      acorn: 8.15.0
-      acorn-walk: 8.3.4
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      typescript: 5.9.3
-      v8-compile-cache-lib: 3.0.1
-      yn: 3.1.1
-
   tsconfig-paths@3.15.0:
     dependencies:
       '@types/json5': 0.0.29
@@ -34561,6 +34625,8 @@ snapshots:
 
   typed-inject@4.0.0: {}
 
+  typed-inject@5.0.0: {}
+
   typed-query-selector@2.12.0: {}
 
   typed-rest-client@2.1.0:
@@ -34645,7 +34711,8 @@ snapshots:
 
   undici-types@6.21.0: {}
 
-  undici-types@7.10.0: {}
+  undici-types@7.10.0:
+    optional: true
 
   undici@5.29.0:
     dependencies:
@@ -35388,6 +35455,10 @@ snapshots:
   yallist@4.0.0: {}
 
   yallist@5.0.0: {}
+
+  yaml-types@0.3.0(yaml@2.8.1):
+    dependencies:
+      yaml: 2.8.1
 
   yaml@1.10.2: {}
 
