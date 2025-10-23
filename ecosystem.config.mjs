@@ -46,6 +46,7 @@ export const apps = [
       MONGODB_URI: 'mongodb://127.0.0.1',
       MCP_MONGO_URI: 'mongodb://127.0.0.1',
       CHROMA_URL: 'http://localhost:8000',
+      DUAL_WRITE_ENABLED: 'false',
     },
     cwd: '.',
   },
