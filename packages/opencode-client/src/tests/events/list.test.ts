@@ -2,9 +2,15 @@ import test from 'ava';
 import sinon from 'sinon';
 import { list } from '../../actions/events/list.js';
 import { eventStore } from '../../index.js';
+import { cleanupClients } from '@promethean/persistence';
 
 test.beforeEach(() => {
   sinon.restore();
+});
+
+test.after.always(async () => {
+  await eventStore.cleanup();
+  await cleanupClients();
 });
 
 test.serial('list returns events sorted by timestamp (newest first)', async (t) => {

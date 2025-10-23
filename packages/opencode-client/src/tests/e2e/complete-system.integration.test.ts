@@ -17,6 +17,7 @@ import { createIndexerService } from '../../services/indexer.js';
 import { create, close, get, list as listSessions, search } from '../../actions/sessions/index.js';
 import { subscribe } from '../../actions/events/subscribe.js';
 import { sessionStore, messageStore, eventStore } from '../../stores.js';
+import { cleanupClients } from '@promethean/persistence';
 
 // Helper to create comprehensive mock client
 function createComprehensiveMockClient() {
@@ -229,6 +230,10 @@ test.beforeEach(async () => {
 
 test.afterEach.always(async () => {
   sinon.restore();
+  await sessionStore.cleanup();
+  await messageStore.cleanup();
+  await eventStore.cleanup();
+  await cleanupClients();
 });
 
 // Test Group: Complete User Journeys

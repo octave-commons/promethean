@@ -1,5 +1,9 @@
 import test from 'ava';
-import { DualStoreManager } from '@promethean/persistence';
+import { DualStoreManager, cleanupClients } from '@promethean/persistence';
+
+test.after.always(async () => {
+  await cleanupClients();
+});
 
 // Regression test: sessionStore.get() must return exact format expected by client
 test('sessionStore.get() regression test - exact client contract', async (t) => {

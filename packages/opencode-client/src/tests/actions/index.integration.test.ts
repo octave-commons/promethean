@@ -21,6 +21,7 @@ import { list as listEvents } from '../../actions/events/list.js';
 import * as messagingActions from '../../actions/messaging/index.js';
 import { create, close, get, list as listSessions, search } from '../../actions/sessions/index.js';
 import { sessionStore, messageStore, eventStore } from '../../stores.js';
+import { cleanupClients } from '@promethean/persistence';
 
 // Helper to create mock OpenCode client
 function createMockClient() {
@@ -199,6 +200,10 @@ test.beforeEach(async () => {
 
 test.afterEach.always(async () => {
   sinon.restore();
+  await sessionStore.cleanup();
+  await messageStore.cleanup();
+  await eventStore.cleanup();
+  await cleanupClients();
 });
 
 // Test Group: Events Actions Integration

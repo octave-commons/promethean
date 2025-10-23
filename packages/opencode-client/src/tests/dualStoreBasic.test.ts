@@ -1,9 +1,15 @@
 import test from 'ava';
 import { sessionStore } from '../stores.js';
 import { initializeStores } from '../initializeStores.js';
+import { cleanupClients } from '@promethean/persistence';
 
 test.before(async () => {
   await initializeStores();
+});
+
+test.after.always(async () => {
+  await sessionStore.cleanup();
+  await cleanupClients();
 });
 
 test('sessionStore basic functionality', (t) => {
