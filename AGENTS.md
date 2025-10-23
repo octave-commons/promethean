@@ -116,16 +116,10 @@ Prefer **local scoped commands** over workspace-level scripts:
 
 ```bash
 pnpm --filter @promethean/<pkg> test
-pnpm --filter @promethean/<pkg> test:unit
-pnpm --filter @promethean/<pkg> test:integration
-pnpm --filter @promethean/<pkg> test:e2e
 pnpm --filter @promethean/<pkg> build
 pnpm --filter @promethean/<pkg> clean
-pnpm --filter @promethean/<pkg> lint
 pnpm --filter @promethean/<pkg> typecheck
 pnpm --filter @promethean/<pkg> start
-pnpm --filter @promethean/<pkg> exec node ./pseudo/temp-script.js
-cd packages/path/to && node ./dist/index.js
 ```
 
 ---
