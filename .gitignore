@@ -153,3 +153,6 @@ packages/kanban/kanban-test-*/
 # Temporary test directories
 **/kanban-test-*/
 **/test-tmp/
+
+# stryker temp files
+.stryker-tmp
