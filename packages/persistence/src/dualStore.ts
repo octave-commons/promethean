@@ -1,6 +1,6 @@
 import type { Collection as ChromaCollection } from 'chromadb';
 
-import { RemoteEmbeddingFunction } from '@promethean/embeddings/remote.js';
+import { RemoteEmbeddingFunction } from '@promethean/embedding/index.js';
 import type { Collection, OptionalUnlessRequiredId, WithId } from 'mongodb';
 import { AGENT_NAME } from '@promethean/legacy/env.js';
 import { randomUUID } from 'node:crypto';
@@ -67,25 +67,30 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
 
     async insert(entry: DualStoreEntry<TextKey, TimeKey>) {
         const id = entry.id ?? randomUUID();
-        entry.id = id;
+        const timestamp =
+            entry[this.timeStampKey] || (Date.now() as unknown as DualStoreEntry<TextKey, TimeKey>[TimeKey]);
 
-        if (!entry[this.timeStampKey]) {
-            entry[this.timeStampKey] = Date.now() as DualStoreEntry<TextKey, TimeKey>[TimeKey];
-        }
-
-        if (!entry.metadata) entry.metadata = {};
-        entry.metadata[this.timeStampKey] = entry[this.timeStampKey];
+        // Create mutable copy to work with readonly types
+        const mutableEntry = {
+            ...entry,
+            id,
+            [this.timeStampKey]: timestamp,
+            metadata: {
+                ...entry.metadata,
+                [this.timeStampKey]: timestamp,
+            },
+        };
 
         // console.log("Adding entry to collection", this.name, entry);
 
         const dualWrite = (process.env.DUAL_WRITE_ENABLED ?? 'true').toLowerCase() !== 'false';
-        const isImage = entry.metadata?.type === 'image';
+        const isImage = mutableEntry.metadata?.type === 'image';
         if (dualWrite && (!isImage || this.supportsImages)) {
             try {
                 await this.chromaCollection.add({
                     ids: [id],
-                    documents: [entry[this.textKey]],
-                    metadatas: [entry.metadata],
+                    documents: [mutableEntry[this.textKey]],
+                    metadatas: [mutableEntry.metadata as any], // Cast to any for Chroma compatibility
                 });
             } catch (e) {
                 console.warn('Failed to embed entry', e);
@@ -93,10 +98,10 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         }
 
         await this.mongoCollection.insertOne({
-            id: entry.id,
-            [this.textKey]: entry[this.textKey],
-            [this.timeStampKey]: entry[this.timeStampKey],
-            metadata: entry.metadata,
+            id: mutableEntry.id,
+            [this.textKey]: mutableEntry[this.textKey],
+            [this.timeStampKey]: mutableEntry[this.timeStampKey],
+            metadata: mutableEntry.metadata,
         } as OptionalUnlessRequiredId<DualStoreEntry<TextKey, TimeKey>>);
     }
 
