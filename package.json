@@ -148,6 +148,7 @@
     "zod": "3.25.76"
   },
   "devDependencies": {
+    "@diogovcs/stryker-mutator": "^0.2.7",
     "@nx/devkit": "21.4.1",
     "@nx/node": "^21.6.4",
     "@playwright/mcp": "0.0.42",

@@ -129,6 +129,9 @@ importers:
         specifier: 3.25.76
         version: 3.25.76
     devDependencies:
+      '@diogovcs/stryker-mutator':
+        specifier: ^0.2.7
+        version: 0.2.7(@nrwl/devkit@19.8.4(nx@20.0.0))
       '@nx/devkit':
         specifier: 21.4.1
         version: 21.4.1(nx@20.0.0)
@@ -6493,6 +6496,11 @@ packages:
   '@develar/schema-utils@2.6.5':
     resolution: {integrity: sha512-0cp4PsWQ/9avqTVMCtZ+GirikIA36ikvjtHweU4/j8yLtgObI0+JUPhYFScgwlteveGB1rt3Cm8UhN04XayDig==}
     engines: {node: '>= 8.9.0'}
+
+  '@diogovcs/stryker-mutator@0.2.7':
+    resolution: {integrity: sha512-266joLe5Jwf9cwacasYoSxMc/0vo25pwqTySCK5urfqUuvPDhFVeYIRW8Eb3jJPKzz8o9gnJZmVW4YqBUqrG2w==}
+    peerDependencies:
+      '@nrwl/devkit': 15.0.4
 
   '@discordjs/builders@1.11.3':
     resolution: {integrity: sha512-p3kf5eV49CJiRTfhtutUCeivSyQ/l2JlKodW1ZquRwwvlOWmG9+6jFShX6x8rUiYhnP6wKI96rgN/SXMy5e5aw==}
@@ -20342,6 +20350,10 @@ snapshots:
     dependencies:
       ajv: 6.12.6
       ajv-keywords: 3.5.2(ajv@6.12.6)
+
+  '@diogovcs/stryker-mutator@0.2.7(@nrwl/devkit@19.8.4(nx@20.0.0))':
+    dependencies:
+      '@nrwl/devkit': 19.8.4(nx@20.0.0)
 
   '@discordjs/builders@1.11.3':
     dependencies:
