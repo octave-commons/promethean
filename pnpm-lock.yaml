@@ -2539,11 +2539,11 @@ importers:
         specifier: ^8.5.9
         version: 8.18.1
 
-  packages/file-indexer:
+  packages/file-system/file-indexer:
     dependencies:
       '@promethean/utils':
         specifier: workspace:*
-        version: link:../utils
+        version: link:../../utils
 
   packages/file-system/file-indexer-service:
     dependencies:
@@ -4226,7 +4226,7 @@ importers:
     dependencies:
       '@promethean/file-indexer':
         specifier: workspace:*
-        version: link:../../file-indexer
+        version: link:../../file-system/file-indexer
       '@promethean/fs':
         specifier: workspace:*
         version: link:../../file-system/fs
@@ -4527,7 +4527,7 @@ importers:
     dependencies:
       '@promethean/file-indexer':
         specifier: workspace:*
-        version: link:../../file-indexer
+        version: link:../../file-system/file-indexer
       '@promethean/level-cache':
         specifier: workspace:*
         version: link:../../level-cache
