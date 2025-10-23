@@ -154,7 +154,8 @@ export const createCollection = async (
     }
 
     const collectionManager = await DualStoreManager.create<string, string>(name, textKey, timeStampKey);
-    const newCollections = new Map([...state.collections, [name, collectionManager]]);
+    const newCollections = new Map(state.collections);
+    newCollections.set(name, collectionManager);
     const newState = { ...state, collections: newCollections };
     return [newState, collectionManager];
 };
@@ -168,7 +169,8 @@ export const getOrCreateCollection = async (
     }
 
     const collectionManager = await DualStoreManager.create<string, string>(name, 'text', 'timestamp');
-    const newCollections = new Map([...state.collections, [name, collectionManager]]);
+    const newCollections = new Map(state.collections);
+    newCollections.set(name, collectionManager);
     const newState = { ...state, collections: newCollections };
     return [newState, collectionManager];
 };
