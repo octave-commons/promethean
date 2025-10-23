@@ -157,4 +157,14 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
                 return true;
             }) as DualStoreEntry<'text', 'timestamp'>[];
     }
+
+    async cleanup(): Promise<void> {
+        try {
+            // Close cached MongoDB connection
+            const { cleanupClients } = await import('./clients.js');
+            await cleanupClients();
+        } catch (error) {
+            // Ignore cleanup errors - connection might already be closed
+        }
+    }
 }
