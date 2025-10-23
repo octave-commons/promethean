@@ -1,5 +1,10 @@
 import test from 'ava';
 import { sessionStore } from '../stores.js';
+import { initializeStores } from '../initializeStores.js';
+
+test.before(async () => {
+  await initializeStores();
+});
 
 test('sessionStore basic functionality', (t) => {
   t.is(typeof sessionStore.get, 'function');
