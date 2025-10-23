@@ -5,7 +5,7 @@
  * built using composable functions for better maintainability and testability.
  */
 
-import type { IndexerState, OpenCodeClient } from './indexer-types.js';
+import type { IndexerState, OpencodeClient } from './indexer-types.js';
 import type {
   StateManager,
   LoggerManager,
@@ -46,7 +46,7 @@ export type IndexerService = {
   readonly getState: () => Promise<IndexerState & { readonly isRunning: boolean }>;
   readonly getStats: () => EventProcessingStats;
   readonly resetStats: () => void;
-  readonly client: OpenCodeClient;
+  readonly client: OpencodeClient;
   readonly stateManager: StateManager;
   readonly loggerManager: LoggerManager;
   readonly timerManager: TimerManager;
