@@ -33,7 +33,14 @@ async function testDualStoreManager() {
     console.log('✅ Store constructor name:', store.constructor.name);
 
     // Test 2: Check if it has expected methods
-    const expectedMethods = ['get', 'set', 'has', 'delete', 'clear'];
+    const expectedMethods = [
+      'insert',
+      'addEntry',
+      'getMostRecent',
+      'getMostRelevant',
+      'get',
+      'cleanup',
+    ];
     console.log('✅ Test 2: Checking expected methods...');
 
     for (const method of expectedMethods) {
@@ -46,27 +53,29 @@ async function testDualStoreManager() {
     // Test 3: Basic operations
     console.log('✅ Test 3: Testing basic operations...');
 
-    await store.set('test-key', { value: 'test-data' });
-    console.log('  ✅ Set operation successful');
+    const testEntry = {
+      text: 'test-data',
+      metadata: { type: 'test', value: 'test-data' },
+    };
 
-    const hasValue = await store.has('test-key');
-    if (!hasValue) {
-      throw new Error('Has operation failed');
+    await store.insert(testEntry);
+    console.log('  ✅ Insert operation successful');
+
+    const recentEntries = await store.getMostRecent(1);
+    if (!recentEntries || recentEntries.length === 0) {
+      throw new Error('getMostRecent operation failed');
     }
-    console.log('  ✅ Has operation successful');
+    console.log('  ✅ getMostRecent operation successful:', recentEntries[0].text);
 
-    const getValue = await store.get('test-key');
-    if (!getValue || getValue.value !== 'test-data') {
+    // Get the ID from the inserted entry
+    const insertedId = recentEntries[0].id;
+    const getValue = await store.get(insertedId);
+    if (!getValue || getValue.text !== 'test-data') {
       throw new Error('Get operation failed');
     }
-    console.log('  ✅ Get operation successful:', getValue);
+    console.log('  ✅ Get operation successful:', getValue.text);
 
-    await store.delete('test-key');
-    const hasAfterDelete = await store.has('test-key');
-    if (hasAfterDelete) {
-      throw new Error('Delete operation failed');
-    }
-    console.log('  ✅ Delete operation successful');
+    console.log('  ✅ All basic operations successful');
 
     console.log('🎉 All tests passed! Class-based implementation is working correctly.');
 
