@@ -349,7 +349,7 @@ export const makeContextStore = (
 // Legacy class-based API for backward compatibility
 // eslint-disable-next-line no-restricted-syntax
 export class ContextStore {
-    private readonly state: ContextStoreState;
+    private state: ContextStoreState;
 
     constructor(formatTime?: (epochMs: number) => string, assistantName?: string) {
         this.state = createContextStore(formatTime, assistantName);
@@ -372,12 +372,16 @@ export class ContextStore {
         name: string,
         textKey: string,
         timeStampKey: string,
-    ): Promise<[ContextStoreState, DualStoreManager<string, string>]> {
-        return createCollection(this.state, name, textKey, timeStampKey);
+    ): Promise<DualStoreManager<string, string>> {
+        const [newState, collection] = await createCollection(this.state, name, textKey, timeStampKey);
+        this.state = newState; // Update internal state
+        return collection;
     }
 
-    async getOrCreateCollection(name: string): Promise<[ContextStoreState, DualStoreManager<string, string>]> {
-        return getOrCreateCollection(this.state, name);
+    async getOrCreateCollection(name: string): Promise<DualStoreManager<string, string>> {
+        const [newState, collection] = await getOrCreateCollection(this.state, name);
+        this.state = newState; // Update internal state
+        return collection;
     }
 
     collectionCount(): number {
