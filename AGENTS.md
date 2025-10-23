@@ -1,137 +1,156 @@
+Here’s a **concise, Obsidian-friendly** `AGENTS.md` for your Promethean monorepo — trimmed for clarity, consistency, and direct operational use by agents or automation.
+
+---
+
 # Promethean
 
-Stealing fire from the gods to grant man the gift of knowledge and wisdom.
-Using cloud LLMs to make local LLMs smarter and more specialized.
+> *“Stealing fire from the gods to grant man the gift of knowledge and wisdom.”*
+> Using **cloud LLMs** to make **local LLMs** smarter, specialized, and autonomous.
 
+---
 
-## Initiation sequence
+## 🧠 Initiation Sequence
 
 On every request:
--  context7 to grab docs related documentation to the task you were given
-- github grep to understand the implementation of the packages you will be using
-- web search to find guides and related information
-- `pnpm kanban search "task keywords"` to find tasks related to the request
-- `git logs`  and search Opencode session message history to understand the events leading up to your task
-- `pm2 status` to discover existing process related to your task
-- `pnpm kanban process`
+
+1. `context7` → fetch related documentation
+2. `github grep` → explore package implementations
+3. `web search` → find guides and references
+4. `pnpm kanban search "<task keywords>"` → locate related tasks
+5. `git log` + Opencode session history → review recent events
+6. `pm2 status` → inspect related running services
+7. `pnpm kanban process` → follow Promethean workflow
 
 ---
 
 ## 📂 Repository Structure
 
 ```
-scripts/ # Build, test, deploy automation (depreciated)
-packages/ # JS/TS modules
-tests/ # Unit and integration test suites
-docs/ # System-level documentation and markdown exports
-sites/ # Frontend code for dashboards and chat UIs (depreciated)
-configs/ # All base config files live here
-pseudo/ # one off scripts retained for transparency, and pseudo code.
+scripts/   # deprecated build/test/deploy
+packages/  # JS/TS modules
+tests/     # unit & integration tests
+docs/      # system-level markdown docs
+sites/     # deprecated UIs/dashboards
+configs/   # base configuration
+pseudo/    # throwaway scripts, pseudocode, retained for transparency
+```
+
+---
+
+## ⚙️ Package Anatomy
 
 ```
-## Anatomy of a Package
-
+src/               # source code
+src/tests/         # test files
+tsconfig.json      # extends ../../config/tsconfig.base.json
+ava.config.mjs     # extends ../../config/ava.config.mjs
+package.json       # scripts: build, test, clean, coverage, typecheck
+pseudo/            # local pseudocode; never referenced internally
 ```
-./src # All source code goes here
-./src/tests # Tests go here
-./tsconfig.json # Extends "../../config/tsconfig.base.json"
-./ava.config.mjs # Extends "../../config/ava.config.mjs"
-./package.json # Has, or should have 'build', 'test', 'clean', 'coverage',
-'typecheck' etc. scripts
-pseudo/ # one off scripts, retained for transparency
+
+---
+
+## 💻 Languages
+
+* **Typescript**
+* **Clojure(script)**
+
+---
+
+## 🧩 Programming Style
+
+* Functional
+* Data-oriented
+* Test-driven
+* Rapid prototyping
+* Small, concise functions/files
+* Clean code
+* Factory pattern
+* Dependency injection
+
+---
+
+## 🗂 Kanban Task Management
+
+All agents must use the **Kanban system** (`@promethean/kanban`) for tracking and coordination.
+The board lives at:
+`docs/agile/boards/generated.md`
+
+### Commands
+
+```bash
+pnpm kanban --help
+pnpm kanban process
+pnpm kanban audit
+pnpm kanban update-status <uuid> <column>
+pnpm kanban regenerate
+pnpm kanban search <query>
+pnpm kanban count
 ```
-## Programming languages
 
-- Typescript
-- Clojure(script)
+**Flow:**
 
-## Programming style
-
-- Functional
-- data oriented
-- test driven development
-- rapid prototyping
-- small concise functions and files
-- clean code
-- factory pattern
-- dependency injection
-
-## PM2 Service management
-- `om2 start `
-
-## 📋 Kanban Task Management
-
-All agents must use the kanban system for task tracking and work management.
-The kanban board lives at `docs/agile/boards/generated.md` and is managed
-via the `@promethean/kanban` package.
-
-
-### 📍 Working with Kanban
-
-
-- `pnpm kanban --help`
-- `pnpm kanban process` explains how we work
-- `pnpm kanban audit` checks the board for inconsistencies and illegal actions
-- `pnpm kanban update-status <uuid> <column>` 
-- `pnpm kanban regenerate`
-- `pnpm kanban search <query>`
-- `pnpm kanban count`
-
-1. `pnpm kanban search <work-type>` → find relevant tasks
+1. `pnpm kanban search <work-type>`
 2. `pnpm kanban update-status <uuid> in_progress`
 3. `pnpm kanban update-status <uuid> done`
 4. `pnpm kanban regenerate`
 
-### 📁 Task File Locations
+### File Locations
 
-- Tasks live in: `docs/agile/tasks/*.md`
-- Generated board: `docs/agile/boards/generated.md`
-- Config file: `promethean.kanban.json`
-- CLI reference: `docs/agile/kanban-cli-reference.md`
+* Tasks → `docs/agile/tasks/*.md`
+* Board → `docs/agile/boards/generated.md`
+* Config → `promethean.kanban.json`
+* CLI Reference → `docs/agile/kanban-cli-reference.md`
 
-### 📚 Further Documentation
+### Docs
 
-- **Complete Kanban CLI Reference**: `docs/agile/kanban-cli-reference.md`
-- **Process Documentation**: `docs/agile/process.md`
-- **FSM Rules**: `docs/agile/rules/kanban-transitions.clj`
-
-
-### Example package local commands
-
-Prefer local, well scoped commands to workspace scripts.
-
-`pnpm --filter @promethean/<packge-name> test`
-`pnpm --filter @promethean/<packge-name> test:unit`
-`pnpm --filter @promethean/<packge-name> test:integration`
-`pnpm --filter @promethean/<packge-name> test:e2e`
-`pnpm --filter @promethean/<packge-name> clean`
-`pnpm --filter @promethean/<packge-name> lint`
-`pnpm --filter @promethean/<packge-name> build`
-`pnpm --filter @promethean/<packge-name> typecheck`
-`pnpm --filter @promethean/<packge-name> start`
-`pnpm --filter @promethean/<packge-name> exec node ./psudo/temp-script.js`
-`cd packages/path/to && node ./dist/index.js`
+* [[docs/agile/kanban-cli-reference.md]]
+* [[docs/agile/process.md]]
+* [[docs/agile/rules/kanban-transitions.clj]]
 
 ---
 
+## 🧱 Local Package Commands
 
+Prefer **local scoped commands** over workspace-level scripts:
 
-### Notes
- It is a large repo, and bash command commands are always ran from the package root
-`cd` bash commands are *always* ran from the package root.
-- put temporary scripts in a `pseudo/` folder, retain them so the steps you take can be validated
-  - psuedo is never to be referenced inside of a package
-  - pseudo is pseudocode, I don't know if it works, but it communciated an intent
-- put markdown files in `docs/`
-- you are in a repository where file changes automaticly trigger a commit to be made with a message generated by an llm
-  - you don't need to commit your work
-  - you don't need to make backups
-- documentation should be obsidian friendly markdown
-  - use [[wikilinks]]
-  - make use of dataviews https://blacksmithgu.github.io/obsidian-dataview/
-  Be careful!
-- Update the [[HOME]] file with important information, treat it as a living document
-- manage processes with pm2
+```bash
+pnpm --filter @promethean/<pkg> test
+pnpm --filter @promethean/<pkg> test:unit
+pnpm --filter @promethean/<pkg> test:integration
+pnpm --filter @promethean/<pkg> test:e2e
+pnpm --filter @promethean/<pkg> build
+pnpm --filter @promethean/<pkg> clean
+pnpm --filter @promethean/<pkg> lint
+pnpm --filter @promethean/<pkg> typecheck
+pnpm --filter @promethean/<pkg> start
+pnpm --filter @promethean/<pkg> exec node ./pseudo/temp-script.js
+cd packages/path/to && node ./dist/index.js
+```
 
-## Licensing
-All packages "license": "GPL-3.0-only"
+---
+
+## 🧭 Operational Notes
+
+* Always run bash commands from **package root**
+* Keep temporary scripts in `pseudo/` (never referenced by source)
+* Store documentation in `docs/`
+* File changes auto-commit with LLM-generated messages
+
+  * No manual commits or backups needed
+* Documentation must be **Obsidian-friendly**
+
+  * Use `[[wikilinks]]`
+  * Use [Dataviews](https://blacksmithgu.github.io/obsidian-dataview/)
+* Keep [[HOME]] updated — treat it as a **living document**
+* Manage runtime processes via **PM2**
+
+---
+
+## ⚖️ License
+
+All packages use:
+
+```
+"license": "GPL-3.0-only"
+```
