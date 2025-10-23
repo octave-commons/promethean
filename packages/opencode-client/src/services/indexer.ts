@@ -15,13 +15,13 @@ import type {
 } from './composables/index.js';
 
 import {
-  createClient,
   createStateManagerComposable,
   createLoggerComposable,
   createTimerManager,
   createEventManager,
   createSyncManager,
 } from './composables/index.js';
+import { createOpencodeClient } from '@opencode-ai/sdk';
 
 // Additional types needed for the indexer service
 export type IndexerOptions = {
@@ -58,7 +58,7 @@ export type IndexerService = {
  * Create indexer components
  */
 const createIndexerComponents = (options: IndexerOptions = {}) => {
-  const client = createClient({
+  const client = createOpencodeClient({
     baseUrl: options.baseUrl || 'http://localhost:3000',
   });
 
