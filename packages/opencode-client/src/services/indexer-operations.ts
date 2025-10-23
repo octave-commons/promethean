@@ -54,10 +54,7 @@ const indexMessage = async (message: Message, sessionId: string): Promise<void> 
   }
 };
 
-const indexEvent = async (
-  event: EnhancedEvent,
-  logEventDeduped?: (eventType: string, message: string) => void,
-): Promise<void> => {
+const indexEvent = async (event: EnhancedEvent): Promise<void> => {
   const markdown = eventToMarkdown(event);
   const timestamp = Date.now();
 
@@ -78,21 +75,16 @@ const indexEvent = async (
     console.error('❌ Error indexing event:', error);
   }
 
-  if (logEventDeduped) {
-    logEventDeduped(`event_indexed_${event.type}`, `📡 Indexed event: ${event.type}`);
-  } else {
-    console.log(`📡 Indexed event: ${event.type}`);
-  }
+  // Event logging is handled by specific handlers in events.ts
+  // to avoid redundant logging and provide better context
 };
 
-export const createIndexingOperations = (
-  logEventDeduped?: (eventType: string, message: string) => void,
-): {
+export const createIndexingOperations = (): {
   readonly indexSession: (session: Session) => Promise<void>;
   readonly indexMessage: (message: Message, sessionId: string) => Promise<void>;
   readonly indexEvent: (event: EnhancedEvent) => Promise<void>;
 } => ({
   indexSession,
-  indexMessage: (message: Message, sessionId: string) => indexMessage(message, sessionId),
-  indexEvent: (event: EnhancedEvent) => indexEvent(event, logEventDeduped),
+  indexMessage,
+  indexEvent: (event: EnhancedEvent) => indexEvent(event),
 });

@@ -35,7 +35,7 @@ export const createEventManager = (
   let subscription: EventSubscription | undefined;
   let consecutiveErrors = 0;
 
-  const indexingOps = createIndexingOperations(logger);
+  const indexingOps = createIndexingOperations();
 
   const handleEvent = async (event: Event): Promise<void> => {
     try {
