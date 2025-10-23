@@ -32,41 +32,61 @@ async function testDualStoreManager() {
     console.log('✅ Store type:', typeof store);
     console.log('✅ Store constructor name:', store.constructor.name);
 
-    // Test 2: Check if it has expected methods (original API)
-    const expectedMethods = ['insert', 'addEntry', 'getMostRecent', 'getMostRelevant'];
-    console.log('✅ Test 2: Checking expected methods (original API)...');
-    
+    // Test 2: Check if it has expected methods (including get method)
+    const expectedMethods = [
+      'insert',
+      'addEntry',
+      'getMostRecent',
+      'getMostRelevant',
+      'get',
+      'cleanup',
+    ];
+    console.log('✅ Test 2: Checking expected methods...');
+
     for (const method of expectedMethods) {
       if (typeof store[method] !== 'function') {
         throw new Error(`Missing method: ${method}`);
       }
       console.log(`  ✅ Has method: ${method}`);
     }
-      console.log(`  ✅ Has method: ${method}`);
-    }
 
-    // Test 3: Basic operations (original API)
-    console.log('✅ Test 3: Testing basic operations (original API)...');
-    
+    // Test 3: Basic operations
+    console.log('✅ Test 3: Testing basic operations...');
+
     const testEntry = {
       text: 'test-data',
-      metadata: { type: 'test', value: 'test-data' }
+      metadata: { type: 'test', value: 'test-data' },
     };
-    
+
     await store.insert(testEntry);
     console.log('  ✅ Insert operation successful');
-    
+
     const recentEntries = await store.getMostRecent(1);
     if (!recentEntries || recentEntries.length === 0) {
       throw new Error('getMostRecent operation failed');
     }
-    console.log('  ✅ getMostRecent operation successful, found entry with text:', recentEntries[0].text);
-    
+    console.log(
+      '  ✅ getMostRecent operation successful, found entry with text:',
+      recentEntries[0].text,
+    );
+
+    // Test the get method
+    const insertedId = recentEntries[0].id;
+    const retrievedEntry = await store.get(insertedId);
+    if (!retrievedEntry) {
+      throw new Error('Get operation failed - no entry returned');
+    }
+    console.log('  ✅ Get operation successful, retrieved entry text:', retrievedEntry.text);
+
     // Test getMostRelevant
     const relevantEntries = await store.getMostRelevant(['test-data'], 1);
-    console.log('  ✅ getMostRelevant operation successful, found', relevantEntries.length, 'entries');
-    
-    console.log('  ✅ All basic operations successful (original API)');
+    console.log(
+      '  ✅ getMostRelevant operation successful, found',
+      relevantEntries.length,
+      'entries',
+    );
+
+    console.log('  ✅ All basic operations successful');
 
     console.log('🎉 All tests passed! Class-based implementation is working correctly.');
 
