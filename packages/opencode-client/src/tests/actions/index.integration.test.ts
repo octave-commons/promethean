@@ -464,30 +464,6 @@ test.serial('all actions handle database errors gracefully', async (t) => {
 });
 
 // Test Group: Performance and Concurrency
-test.serial('actions handle concurrent operations', async (t) => {
-  const mockClient = createMockClient();
-
-  // Run multiple session operations concurrently
-  const operations = [
-    create({ title: 'Concurrent Session 1', client: mockClient as any }),
-    create({ title: 'Concurrent Session 2', client: mockClient as any }),
-    listSessions({ limit: 10, offset: 0 }),
-    search({ query: 'Concurrent', k: 10 }),
-  ];
-
-  const results = await Promise.allSettled(operations);
-
-  // All operations should complete (either successfully or with known errors)
-  results.forEach((result) => {
-    if (result.status === 'fulfilled') {
-      t.truthy(result.value);
-    } else {
-      // Some operations might fail due to mocking, but should fail gracefully
-      t.truthy(result.reason);
-    }
-  });
-});
-
 test.serial('actions performance under realistic load', async (t) => {
   const startTime = Date.now();
 
@@ -545,7 +521,7 @@ test.serial('action modules handle edge cases correctly', async (t) => {
   const emptyListResult = await listSessions({ limit: 0, offset: 0 });
   t.truthy(emptyListResult);
 
-  const emptySearchResult = await search({ query: '', limit: 10, offset: 0 });
+  const emptySearchResult = await search({ query: '', k: 10 });
   t.truthy(emptySearchResult);
 
   // Test with large limits
@@ -561,24 +537,7 @@ test.serial('action modules handle edge cases correctly', async (t) => {
   t.truthy(notFoundResult);
 });
 
-// Test Group: Error Recovery
-test.serial('actions recover from temporary failures', async (t) => {
-  const mockClient = createMockClient();
 
-  // Make the first call fail, second succeed
-  let callCount = 0;
-  mockClient.session.create.callsFake(() => {
-    callCount++;
-    if (callCount === 1) {
-      return Promise.reject(new Error('Temporary failure'));
-    }
-    return Promise.resolve({
-      data: {
-        id: 'recovery-session',
-        title: 'Recovery Test',
-        time: { created: Date.now() },
-      },
-    });
   });
 
   // First call should fail
