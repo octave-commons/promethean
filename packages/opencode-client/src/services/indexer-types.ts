@@ -13,7 +13,12 @@ export type IndexerState = {
 
 export type OpenCodeClient = {
   readonly session: {
-    readonly list: () => Promise<{ readonly data: readonly Session[] }>;
+    readonly list: () => Promise<
+      ({ data: readonly Session[]; error: undefined } | { data: undefined; error: unknown }) & {
+        request: Request;
+        response: Response;
+      }
+    >;
     readonly messages: (params: { readonly path: { readonly id: string } }) => Promise<{
       readonly data: readonly Message[];
     }>;
