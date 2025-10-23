@@ -3,6 +3,7 @@
 import { exec } from 'child_process';
 import { promisify } from 'util';
 import { createIndexerService } from '../../services/indexer.js';
+import { initializeStores } from '../../initializeStores.js';
 
 const execAsync = promisify(exec);
 
