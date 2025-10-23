@@ -252,19 +252,79 @@ export const cleanup = async (): Promise<void> => {
     }
 };
 
-// Legacy class-based API for backward compatibility
-// eslint-disable-next-line no-restricted-syntax
+// Original class-based API for backward compatibility
 export class DualStoreManager<TextKey extends string = 'text', TimeKey extends string = 'createdAt'> {
     private readonly state: DualStoreManagerState<TextKey, TimeKey>;
 
     private constructor(state: DualStoreManagerState<TextKey, TimeKey>) {
         this.state = state;
-        // Emit deprecation warning on class instantiation
-        console.warn(
-            '[DEPRECATED] DualStoreManager class is deprecated. ' +
-                "Use the standalone functions from './dualStore.js' instead.",
-        );
     }
+
+    static async create<TTextKey extends string = 'text', TTimeKey extends string = 'createdAt'>(
+        name: string,
+        textKey: TTextKey,
+        timeStampKey: TTimeKey,
+        options?: {
+            agentName?: string;
+            databaseName?: string;
+        },
+    ): Promise<DualStoreManager<TTextKey, TTimeKey>> {
+        const state = await create(name, textKey, timeStampKey, options);
+        return new DualStoreManager(state);
+    }
+
+    get name(): string {
+        return this.state.name;
+    }
+
+    get agent_name(): string {
+        return this.state.agent_name;
+    }
+
+    get embedidng_fn(): string {
+        return this.state.embedding_fn;
+    }
+
+    getMongoCollection(): Collection<DualStoreEntry<TextKey, TimeKey>> {
+        return getMongoCollection(this.state);
+    }
+
+    getChromaCollection(): ChromaCollection {
+        return getChromaCollection(this.state);
+    }
+
+    async insert(entry: DualStoreEntry<TextKey, TimeKey>): Promise<void> {
+        await insert(this.state, entry);
+    }
+
+    async addEntry(entry: DualStoreEntry<TextKey, TimeKey>): Promise<void> {
+        await addEntry(this.state, entry);
+    }
+
+    async getMostRecent(
+        limit = 10,
+        mongoFilter?: Filter<DualStoreEntry<TextKey, TimeKey>>,
+        sorter?: Sort,
+    ): Promise<DualStoreEntry<'text', 'timestamp'>[]> {
+        return getMostRecent(this.state, limit, mongoFilter, sorter);
+    }
+
+    async getMostRelevant(
+        queryTexts: readonly string[],
+        limit: number,
+        where?: Where,
+    ): Promise<DualStoreEntry<'text', 'timestamp'>[]> {
+        return getMostRelevant(this.state, queryTexts, limit, where);
+    }
+
+    async get(id: string): Promise<DualStoreEntry<'text', 'timestamp'> | null> {
+        return get(this.state, id);
+    }
+
+    async cleanup(): Promise<void> {
+        await cleanup();
+    }
+}
 
     static async create<TTextKey extends string = 'text', TTimeKey extends string = 'createdAt'>(
         name: string,

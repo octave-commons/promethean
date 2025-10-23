@@ -346,26 +346,12 @@ export const makeContextStore = (
     };
 };
 
-// Legacy class-based API for backward compatibility
-// eslint-disable-next-line no-restricted-syntax
+// Original ContextStore class for backward compatibility
 export class ContextStore {
-    private state: ContextStoreState;
+    collections: Map<string, DualStoreManager<string, string>>;
 
-    constructor(formatTime?: (epochMs: number) => string, assistantName?: string) {
-        this.state = createContextStore(formatTime, assistantName);
-        console.warn('[DEPRECATED] ContextStore class is deprecated. Use makeContextStore() functional API instead.');
-    }
-
-    get collections(): ReadonlyMap<string, DualStoreManager<string, string>> {
-        return this.state.collections;
-    }
-
-    get formatTime(): (epochMs: number) => string {
-        return this.state.formatTime;
-    }
-
-    get assistantName(): string {
-        return this.state.assistantName;
+    constructor() {
+        this.collections = new Map();
     }
 
     async createCollection(
@@ -373,45 +359,120 @@ export class ContextStore {
         textKey: string,
         timeStampKey: string,
     ): Promise<DualStoreManager<string, string>> {
-        const [newState, collection] = await createCollection(this.state, name, textKey, timeStampKey);
-        this.state = newState; // Update internal state
-        return collection;
+        if (this.collections.has(name)) {
+            throw new Error(`Collection ${name} already exists`);
+        }
+        const collectionManager = await DualStoreManager.create<string, string>(name, textKey, timeStampKey);
+        this.collections.set(name, collectionManager);
+        return collectionManager;
     }
 
     async getOrCreateCollection(name: string): Promise<DualStoreManager<string, string>> {
-        const [newState, collection] = await getOrCreateCollection(this.state, name);
-        this.state = newState; // Update internal state
-        return collection;
-    }
-
-    collectionCount(): number {
-        return collectionCount(this.state);
-    }
-
-    listCollectionNames(): readonly string[] {
-        return listCollectionNames(this.state);
-    }
-
-    getCollection(name: string): DualStoreManager<string, string> {
-        return getCollection(this.state, name);
+        if (this.collections.has(name)) {
+            return this.collections.get(name)!;
+        }
+        const collectionManager = await DualStoreManager.create<string, string>(name, 'text', 'timestamp');
+        this.collections.set(name, collectionManager);
+        return collectionManager;
     }
 
     async getAllRelatedDocuments(
-        queries: readonly string[],
+        querys: string[],
         limit: number = 100,
         where?: Where,
-    ): Promise<GenericEntry[]> {
-        return getAllRelatedDocuments(this.state, queries, limit, where);
+    ): Promise<DualStoreEntry<'text', 'timestamp'>[]> {
+        console.log('Getting related documents for querys:', querys.length, 'with limit:', limit);
+        const results = [];
+        for (const collection of this.collections.values()) {
+            results.push(await collection.getMostRelevant(querys, limit, where));
+        }
+        return results.flat();
     }
 
-    async getLatestDocuments(limit: number = 100): Promise<GenericEntry[]> {
-        return getLatestDocuments(this.state, limit);
+    async getLatestDocuments(limit: number = 100): Promise<DualStoreEntry<'text', 'timestamp'>[]> {
+        const result = [];
+        for (const collection of this.collections.values()) {
+            result.push(await collection.getMostRecent(limit));
+        }
+        console.log('Getting latest documents from collections:', this.collections.size);
+        return result.flat();
+    }
+
+    getCollection(name: string): DualStoreManager<string, string> {
+        if (!this.collections.has(name)) throw new Error(`Collection ${name} does not exist`);
+        console.log('Getting collection:', name);
+        return this.collections.get(name) as DualStoreManager<string, string>;
+    }
+
+    collectionCount(): number {
+        return this.collections.size;
+    }
+
+    listCollectionNames(): string[] {
+        return Array.from(this.collections.keys());
     }
 
     async compileContext(
-        textsOrOptions: readonly string[] | CompileContextOptions = [],
-        ...legacyArgs: LegacyCompileArgs
+        texts: string[] = [],
+        recentLimit: number = 10, // how many recent documents to include
+        queryLimit: number = 5, // how many of the recent documents to use in the query
+        limit: number = 20, // how many documents to return in total
+        formatAssistantMessages = false,
     ): Promise<ContextMessage[]> {
-        return compileContext(this.state, textsOrOptions, ...legacyArgs);
+        console.log('Compiling context with texts:', texts.length, 'and limit:', limit);
+        const latest = await this.getLatestDocuments(recentLimit);
+        const query = [...texts, ...latest.map((doc) => doc.text)].slice(-queryLimit);
+        const related = await this.getAllRelatedDocuments(query, limit);
+        const images = await this.getAllRelatedDocuments(query, limit, {
+            type: 'image',
+        });
+        const uniqueThoughts = new Set<string>();
+        return Promise.all([related, latest, images]).then(([relatedDocs, latestDocs, imageDocs]) => {
+            let results = [...relatedDocs.filter((doc) => doc.metadata?.type !== 'image'), ...latestDocs, ...imageDocs]
+                .filter((doc) => {
+                    if (!doc.text) return false; // filter out undefined text
+                    if (uniqueThoughts.has(doc.text)) return false; // filter out duplicates
+                    if (!doc.metadata) return false;
+                    uniqueThoughts.add(doc.text);
+                    return true;
+                })
+                .sort(
+                    (a: GenericEntry, b: GenericEntry) =>
+                        new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime(),
+                );
+            console.log("You won't believe this but... the results are this long:", results.length);
+            console.log('The limit was', limit);
+            if (results.length > limit * this.collections.size * 2) {
+                results = results.slice(-(limit * this.collections.size * 2));
+            }
+
+            return results.map((m: DualStoreEntry<'text', 'timestamp'>) =>
+                m.metadata?.type === 'image'
+                    ? {
+                          role:
+                              m.metadata?.userName === 'Duck'
+                                  ? m.metadata?.isThought
+                                      ? 'system'
+                                      : 'assistant'
+                                  : 'user',
+                          content: m.metadata?.caption || '',
+                          images: [m.text],
+                      }
+                    : {
+                          role:
+                              m.metadata?.userName === 'Duck'
+                                  ? m.metadata?.isThought
+                                      ? 'system'
+                                      : 'assistant'
+                                  : 'user',
+                          content:
+                              m.metadata?.userName === 'Duck'
+                                  ? formatAssistantMessages
+                                      ? formatMessage(m, (ms) => new Date(ms).toISOString())
+                                      : m.text
+                                  : formatMessage(m, (ms) => new Date(ms).toISOString()),
+                      },
+            );
+        });
     }
 }
