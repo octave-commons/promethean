@@ -87,10 +87,29 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         const isImage = mutableEntry.metadata?.type === 'image';
         if (dualWrite && (!isImage || this.supportsImages)) {
             try {
+                // Flatten metadata for ChromaDB compatibility (only primitive values allowed)
+                const chromaMetadata: Record<string, string | number | boolean | null> = {};
+                if (mutableEntry.metadata) {
+                    for (const [key, value] of Object.entries(mutableEntry.metadata)) {
+                        if (value === null || value === undefined) {
+                            chromaMetadata[key] = null;
+                        } else if (
+                            typeof value === 'string' ||
+                            typeof value === 'number' ||
+                            typeof value === 'boolean'
+                        ) {
+                            chromaMetadata[key] = value;
+                        } else {
+                            // Convert objects to JSON strings for ChromaDB compatibility
+                            chromaMetadata[key] = JSON.stringify(value);
+                        }
+                    }
+                }
+
                 await this.chromaCollection.add({
                     ids: [id],
                     documents: [mutableEntry[this.textKey]],
-                    metadatas: [mutableEntry.metadata as any], // Cast to any for Chroma compatibility
+                    metadatas: [chromaMetadata],
                 });
             } catch (e) {
                 console.warn('Failed to embed entry', e);
