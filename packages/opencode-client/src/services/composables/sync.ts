@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Sync Composable - Handles full sync and new data indexing
 
-import type { OpenCodeClient } from '../indexer-types.js';
 import type { StateManager } from './state.js';
 import type { EventLogger } from './logger.js';
 import { createIndexingOperations } from '../indexer-operations.js';
+import { OpencodeClient } from '@opencode-ai/sdk';
 
 export type SyncConfig = {
   readonly fullSyncIntervalMs: number;
@@ -16,7 +16,7 @@ export type SyncManager = {
 };
 
 export const createSyncManager = (
-  client: OpenCodeClient,
+  client: OpencodeClient,
   _config: SyncConfig,
   stateManager: StateManager,
   logger: EventLogger,
