@@ -158,6 +158,22 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
             }) as DualStoreEntry<'text', 'timestamp'>[];
     }
 
+    async get(id: string): Promise<DualStoreEntry<'text', 'timestamp'> | null> {
+        const filter = { id } as any;
+        const document = await this.mongoCollection.findOne(filter);
+
+        if (!document) {
+            return null;
+        }
+
+        return {
+            id: document.id,
+            text: (document as any)[this.textKey],
+            timestamp: new Date((document as any)[this.timeStampKey]).getTime(),
+            metadata: document.metadata,
+        } as DualStoreEntry<'text', 'timestamp'>;
+    }
+
     async cleanup(): Promise<void> {
         try {
             // Close cached MongoDB connection
