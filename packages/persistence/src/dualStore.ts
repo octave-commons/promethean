@@ -67,29 +67,25 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
 
     async insert(entry: DualStoreEntry<TextKey, TimeKey>) {
         const id = entry.id ?? randomUUID();
-        const timestamp = entry[this.timeStampKey] || (Date.now() as DualStoreEntry<TextKey, TimeKey>[TimeKey]);
+        entry.id = id;
 
-        // Create mutable copy to work with readonly types
-        const mutableEntry = {
-            ...entry,
-            id,
-            [this.timeStampKey]: timestamp,
-            metadata: {
-                ...entry.metadata,
-                [this.timeStampKey]: timestamp,
-            },
-        };
+        if (!entry[this.timeStampKey]) {
+            entry[this.timeStampKey] = Date.now() as DualStoreEntry<TextKey, TimeKey>[TimeKey];
+        }
+
+        if (!entry.metadata) entry.metadata = {};
+        entry.metadata[this.timeStampKey] = entry[this.timeStampKey];
 
         // console.log("Adding entry to collection", this.name, entry);
 
         const dualWrite = (process.env.DUAL_WRITE_ENABLED ?? 'true').toLowerCase() !== 'false';
-        const isImage = mutableEntry.metadata?.type === 'image';
+        const isImage = entry.metadata?.type === 'image';
         if (dualWrite && (!isImage || this.supportsImages)) {
             try {
                 await this.chromaCollection.add({
                     ids: [id],
-                    documents: [mutableEntry[this.textKey]],
-                    metadatas: [mutableEntry.metadata as any], // Cast to any for Chroma compatibility
+                    documents: [entry[this.textKey]],
+                    metadatas: [entry.metadata],
                 });
             } catch (e) {
                 console.warn('Failed to embed entry', e);
@@ -97,10 +93,10 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         }
 
         await this.mongoCollection.insertOne({
-            id: mutableEntry.id,
-            [this.textKey]: mutableEntry[this.textKey],
-            [this.timeStampKey]: mutableEntry[this.timeStampKey],
-            metadata: mutableEntry.metadata,
+            id: entry.id,
+            [this.textKey]: entry[this.textKey],
+            [this.timeStampKey]: entry[this.timeStampKey],
+            metadata: entry.metadata,
         } as OptionalUnlessRequiredId<DualStoreEntry<TextKey, TimeKey>>);
     }
 
