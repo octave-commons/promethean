@@ -21,7 +21,7 @@ export const createSyncManager = (
   stateManager: StateManager,
   logger: EventLogger,
 ): SyncManager => {
-  const indexingOps = createIndexingOperations(logger);
+  const indexingOps = createIndexingOperations();
 
   const performFullSync = async (): Promise<void> => {
     try {
