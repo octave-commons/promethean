@@ -154,6 +154,7 @@
     "@playwright/test": "1.56.0",
     "@promethean/test-utils": "workspace:*",
     "@stryker-mutator/tap-runner": "^9.2.0",
+    "@stryker-mutator/typescript": "^4.0.0",
     "@types/mongodb": "4.0.6",
     "@types/node": "20.19.11",
     "@typescript-eslint/eslint-plugin": "8.42.0",
