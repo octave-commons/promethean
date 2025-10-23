@@ -11,10 +11,21 @@ async function testDualStoreManager() {
   try {
     // Test 1: Static create method
     console.log('✅ Test 1: Testing DualStoreManager.create()...');
-    const store = DualStoreManager.create();
+    const storePromise = DualStoreManager.create();
+
+    if (!storePromise) {
+      throw new Error('DualStoreManager.create() returned null/undefined');
+    }
+
+    console.log('✅ DualStoreManager.create() returned a promise');
+    console.log('✅ Store promise type:', typeof storePromise);
+    console.log('✅ Store promise constructor name:', storePromise.constructor.name);
+
+    // Await the store creation
+    const store = await storePromise;
 
     if (!store) {
-      throw new Error('DualStoreManager.create() returned null/undefined');
+      throw new Error('DualStoreManager.create() promise resolved to null/undefined');
     }
 
     console.log('✅ DualStoreManager created successfully');
