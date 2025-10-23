@@ -32,6 +32,7 @@ function createMockClient() {
       close: sinon.stub(),
       messages: sinon.stub(),
       message: sinon.stub(),
+      prompt: sinon.stub(),
     },
     event: {
       subscribe: sinon.stub(),
@@ -94,6 +95,8 @@ function createMockClient() {
       parts: [{ type: 'text', text: 'Hello world' }],
     },
   });
+
+  mockClient.session.prompt.resolves();
 
   // Mock event operations
   mockClient.event.subscribe.resolves({
@@ -340,9 +343,11 @@ test.serial('messages actions integrate with stores', async (t) => {
   t.true(Array.isArray(messages));
   if (messages.length > 0) {
     const message = messages[0];
-    t.truthy(message.id);
-    t.truthy(message.text);
-    t.truthy(message.timestamp);
+    if (message) {
+      t.truthy(message.id);
+      t.truthy(message.text);
+      t.truthy(message.timestamp);
+    }
   }
 });
 
@@ -448,8 +453,6 @@ test.serial('all actions handle database errors gracefully', async (t) => {
   const originalInsert = sessionStore.insert;
   sessionStore.insert = sinon.stub().rejects(new Error('Database error'));
 
-  const mockClient = createMockClient();
-
   // Actions should handle database errors without crashing
   const listResult = await listSessions({
     limit: 10,
@@ -535,27 +538,4 @@ test.serial('action modules handle edge cases correctly', async (t) => {
 
   // Should handle gracefully (specific behavior depends on implementation)
   t.truthy(notFoundResult);
-});
-
-
-  });
-
-  // First call should fail
-  const firstError = await t.throwsAsync(() =>
-    create({
-      title: 'Recovery Test',
-      client: mockClient as any,
-    }),
-  );
-
-  t.true(firstError?.message.includes('Temporary failure'));
-
-  // Second call should succeed
-  const secondResult = await create({
-    title: 'Recovery Test',
-    client: mockClient as any,
-  });
-
-  t.true(secondResult.success);
-  t.is(secondResult.session.id, 'recovery-session');
 });
