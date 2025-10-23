@@ -1,0 +1,7 @@
+* opencode-agent-shell
+- SPC a o a → start OpenCode-backed agent-shell.
+- C-u SPC a o a → force a new session.
+- Customize:
+  - M-x customize-group RET opencode-agent-shell
+    - opencode-agent-shell-command (default "opencode-acp")
+    - opencode-agent-shell-env (extend with OPENCODE_* if needed)
