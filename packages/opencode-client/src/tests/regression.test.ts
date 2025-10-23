@@ -52,9 +52,16 @@ test('sessionStore.getMostRecent() regression test - exact client contract', asy
   // Insert multiple entries like client would
   await store.insert({
     id: 'session-1',
-    text: JSON.stringify({ id: 'session-1', title: 'Session 1' }),
+    text: 'Session 1 content', // Plain text to match default filter
     timestamp: new Date('2024-01-01T00:00:00.000Z'),
-    metadata: { type: 'session' },
+    metadata: { type: 'session', sessionId: 'session-1' },
+  });
+
+  await store.insert({
+    id: 'session-2',
+    text: 'Session 2 content', // Plain text to match default filter
+    timestamp: new Date('2024-01-02T00:00:00.000Z'),
+    metadata: { type: 'session', sessionId: 'session-2' },
   });
 
   await store.insert({
