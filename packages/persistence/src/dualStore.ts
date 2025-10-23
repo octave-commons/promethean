@@ -5,7 +5,7 @@ import type { Collection, OptionalUnlessRequiredId, WithId } from 'mongodb';
 import { AGENT_NAME } from '@promethean/legacy/env.js';
 import { randomUUID } from 'node:crypto';
 import type { DualStoreEntry, AliasDoc } from './types.js';
-import { getChromaClient, getMongoClient } from './clients.js';
+import { getChromaClient, getMongoClient, validateMongoConnection } from './clients.js';
 
 export class DualStoreManager<TextKey extends string = 'text', TimeKey extends string = 'createdAt'> {
     name: string;
