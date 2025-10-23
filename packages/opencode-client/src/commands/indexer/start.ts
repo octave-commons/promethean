@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-import { exec } from 'child_process';
-import { promisify } from 'util';
 import { createIndexerService } from '../../services/indexer.js';
 
 export async function main() {

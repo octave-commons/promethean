@@ -116,7 +116,13 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
             }
         }
 
-        await this.mongoCollection.insertOne({
+        // Ensure MongoDB connection is valid before inserting
+        const mongoClient = await getMongoClient();
+        const validatedClient = await validateMongoConnection(mongoClient);
+        const db = validatedClient.db('database');
+        const collection = db.collection<DualStoreEntry<TextKey, TimeKey>>(this.mongoCollection.collectionName);
+
+        await collection.insertOne({
             id: mutableEntry.id,
             [this.textKey]: mutableEntry[this.textKey],
             [this.timeStampKey]: mutableEntry[this.timeStampKey],
@@ -135,7 +141,14 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         sorter: any = { [this.timeStampKey]: -1 },
     ): Promise<DualStoreEntry<'text', 'timestamp'>[]> {
         // console.log("Getting most recent entries from collection", this.name, "with limit", limit);
-        return (await this.mongoCollection.find(mongoFilter).sort(sorter).limit(limit).toArray()).map(
+
+        // Ensure MongoDB connection is valid before querying
+        const mongoClient = await getMongoClient();
+        const validatedClient = await validateMongoConnection(mongoClient);
+        const db = validatedClient.db('database');
+        const collection = db.collection<DualStoreEntry<TextKey, TimeKey>>(this.mongoCollection.collectionName);
+
+        return (await collection.find(mongoFilter).sort(sorter).limit(limit).toArray()).map(
             (entry: WithId<DualStoreEntry<TextKey, TimeKey>>) => ({
                 id: entry.id,
                 text: (entry as Record<TextKey, any>)[this.textKey],
@@ -179,7 +192,14 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
 
     async get(id: string): Promise<DualStoreEntry<'text', 'timestamp'> | null> {
         const filter = { id } as any;
-        const document = await this.mongoCollection.findOne(filter);
+
+        // Ensure MongoDB connection is valid before querying
+        const mongoClient = await getMongoClient();
+        const validatedClient = await validateMongoConnection(mongoClient);
+        const db = validatedClient.db('database');
+        const collection = db.collection<DualStoreEntry<TextKey, TimeKey>>(this.mongoCollection.collectionName);
+
+        const document = await collection.findOne(filter);
 
         if (!document) {
             return null;
