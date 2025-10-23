@@ -3,8 +3,7 @@
 // Simple test script to verify class-based implementation works
 // This bypasses AVA/ts-node issues
 
-const path = require('path');
-const { DualStoreManager } = require('../dist/dualStore');
+import { DualStoreManager } from '../persistence/dist/dualStore.js';
 
 async function testDualStoreManager() {
   console.log('🧪 Testing DualStoreManager class-based implementation...');
