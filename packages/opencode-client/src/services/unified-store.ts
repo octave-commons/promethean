@@ -25,7 +25,7 @@ export const sessionStoreAccess = {
     return await sessionStore.getMostRecent(limit);
   },
   getMostRelevant: async (queries: readonly string[], limit = 20) => {
-    return await sessionStore.getMostRelevant(queries, limit);
+    return await sessionStore.getMostRelevant(queries as string[], limit);
   },
 };
 
@@ -38,7 +38,7 @@ export const eventStoreAccess = {
     return await eventStore.getMostRecent(limit);
   },
   getMostRelevant: async (queries: readonly string[], limit = 20) => {
-    return await eventStore.getMostRelevant(queries, limit);
+    return await eventStore.getMostRelevant(queries as string[], limit);
   },
 };
 
@@ -51,7 +51,7 @@ export const messageStoreAccess = {
     return await messageStore.getMostRecent(limit);
   },
   getMostRelevant: async (queries: readonly string[], limit = 20) => {
-    return await messageStore.getMostRelevant(queries, limit);
+    return await messageStore.getMostRelevant(queries as string[], limit);
   },
 };
 

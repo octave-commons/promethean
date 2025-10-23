@@ -8,5 +8,5 @@ export async function getAllRelatedDocuments(
   limit: number = 100,
   where?: import('chromadb').Where,
 ): Promise<GenericEntry[]> {
-  return contextStore.getAllRelatedDocuments(queries, limit, where);
+  return contextStore.getAllRelatedDocuments(queries as string[], limit, where);
 }
