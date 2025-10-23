@@ -1,5 +1,5 @@
 import test from 'ava';
-import { DualStoreManager } from '../src/dualStore.js';
+import { DualStoreManager } from '../dualStore.js';
 
 // Regression test: sessionStore.get() must return exact format expected by client
 test('sessionStore.get() regression test - exact client contract', async (t) => {
