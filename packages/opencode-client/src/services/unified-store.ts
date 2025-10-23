@@ -26,7 +26,7 @@ export const sessionStoreAccess = {
   },
   getMostRelevant: async (queries: readonly string[], limit = 20) => {
     return await sessionStore.getMostRelevant(queries, limit);
-  }
+  },
 };
 
 export const eventStoreAccess = {
@@ -39,7 +39,7 @@ export const eventStoreAccess = {
   },
   getMostRelevant: async (queries: readonly string[], limit = 20) => {
     return await eventStore.getMostRelevant(queries, limit);
-  }
+  },
 };
 
 export const messageStoreAccess = {
@@ -52,7 +52,7 @@ export const messageStoreAccess = {
   },
   getMostRelevant: async (queries: readonly string[], limit = 20) => {
     return await messageStore.getMostRelevant(queries, limit);
-  }
+  },
 };
 
 /**
@@ -73,21 +73,15 @@ export const searchAcrossStores = async (
   const searchPromises: Promise<readonly GenericEntry[]>[] = [];
 
   if (includeSessions) {
-    searchPromises.push(
-      sessionStore.getMostRelevant([query], limit).catch(() => []),
-    );
+    searchPromises.push(sessionStore.getMostRelevant([query], limit).catch(() => []));
   }
 
   if (includeMessages) {
-    searchPromises.push(
-      messageStore.getMostRelevant([query], limit).catch(() => []),
-    );
+    searchPromises.push(messageStore.getMostRelevant([query], limit).catch(() => []));
   }
 
   if (includeEvents) {
-    searchPromises.push(
-      eventStore.getMostRelevant([query], limit).catch(() => []),
-    );
+    searchPromises.push(eventStore.getMostRelevant([query], limit).catch(() => []));
   }
 
   const results = await Promise.all(searchPromises);
@@ -109,9 +103,9 @@ export const searchAcrossStores = async (
 
   // Filter by sessionId if provided
   if (sessionId) {
-    sessions = sessions.filter(entry => entry.metadata?.sessionId === sessionId);
-    messages = messages.filter(entry => entry.metadata?.sessionId === sessionId);
-    events = events.filter(entry => entry.metadata?.sessionId === sessionId);
+    sessions = sessions.filter((entry) => entry.metadata?.sessionId === sessionId);
+    messages = messages.filter((entry) => entry.metadata?.sessionId === sessionId);
+    events = events.filter((entry) => entry.metadata?.sessionId === sessionId);
   }
 
   return { sessions, messages, events };
