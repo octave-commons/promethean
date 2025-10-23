@@ -13,17 +13,17 @@ export async function initializeStores(): Promise<
 
   try {
     // Create all collections using ContextStore
-    const [, sessionCollection] = await contextStore.createCollection(
+    const sessionCollection = await contextStore.createCollection(
       SESSION_STORE_NAME,
       'text',
       'timestamp',
     );
-    const [, eventCollection] = await contextStore.createCollection(
+    const eventCollection = await contextStore.createCollection(
       EVENT_STORE_NAME,
       'text',
       'timestamp',
     );
-    const [, messageCollection] = await contextStore.createCollection(
+    const messageCollection = await contextStore.createCollection(
       MESSAGE_STORE_NAME,
       'text',
       'timestamp',
