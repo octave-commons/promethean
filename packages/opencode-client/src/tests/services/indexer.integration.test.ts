@@ -22,10 +22,8 @@ import {
   type IndexerOptions,
 } from '../../services/indexer.js';
 import { initializeStores } from '../../initializeStores.js';
-import { contextStore } from '../../stores.js';
 
 // Test configuration
-const TEST_DB_PREFIX = 'opencode-indexer-integration-test';
 const TEST_BASE_URL = 'http://localhost:3000';
 
 // Helper to create test indexer options
