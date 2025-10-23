@@ -1,6 +1,6 @@
 import type { Collection as ChromaCollection } from 'chromadb';
 
-import { RemoteEmbeddingFunction } from '@promethean/embedding/index.js';
+import { RemoteEmbeddingFunction } from '@promethean/embedding';
 import type { Collection, OptionalUnlessRequiredId, WithId } from 'mongodb';
 import { AGENT_NAME } from '@promethean/legacy/env.js';
 import { randomUUID } from 'node:crypto';
