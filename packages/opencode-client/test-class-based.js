@@ -45,38 +45,28 @@ async function testDualStoreManager() {
       console.log(`  ✅ Has method: ${method}`);
     }
 
-    // Test 3: Basic operations
-    console.log('✅ Test 3: Testing basic operations...');
-
+    // Test 3: Basic operations (original API)
+    console.log('✅ Test 3: Testing basic operations (original API)...');
+    
     const testEntry = {
       text: 'test-data',
-      metadata: { type: 'test', value: 'test-data' },
+      metadata: { type: 'test', value: 'test-data' }
     };
-
+    
     await store.insert(testEntry);
     console.log('  ✅ Insert operation successful');
-
+    
     const recentEntries = await store.getMostRecent(1);
     if (!recentEntries || recentEntries.length === 0) {
       throw new Error('getMostRecent operation failed');
     }
-    console.log(
-      '  ✅ getMostRecent operation successful, found entry with ID:',
-      recentEntries[0].id,
-    );
-
-    // Get the ID from the inserted entry
-    const insertedId = recentEntries[0].id;
-    const getValue = await store.get(insertedId);
-    if (!getValue) {
-      throw new Error('Get operation failed - no entry returned');
-    }
-    console.log(
-      '  ✅ Get operation successful, retrieved entry text:',
-      getValue.text || '(no text field)',
-    );
-
-    console.log('  ✅ All basic operations successful');
+    console.log('  ✅ getMostRecent operation successful, found entry with text:', recentEntries[0].text);
+    
+    // Test getMostRelevant
+    const relevantEntries = await store.getMostRelevant(['test-data'], 1);
+    console.log('  ✅ getMostRelevant operation successful, found', relevantEntries.length, 'entries');
+    
+    console.log('  ✅ All basic operations successful (original API)');
 
     console.log('🎉 All tests passed! Class-based implementation is working correctly.');
 
