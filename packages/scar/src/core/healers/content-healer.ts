@@ -76,42 +76,100 @@ export class ContentHealer implements HealingStrategy {
   }
 
   private fixMarkdownLinks(content: string, changesMade: string[]): string {
-    let fixed = content;
+    const withFixedWikiLinks = this.normalizeWikiLinks(content, changesMade);
+    return this.normalizeMarkdownLinks(withFixedWikiLinks, changesMade);
+  }
 
-    // Fix broken wikilinks [[file]] -> [[file]]
-    fixed = fixed.replace(/\[\[([^\]]+)\]\]/g, (_, link) => {
-      const cleanLink = link.trim();
-      if (cleanLink !== link) {
-        changesMade.push(`Fixed wikilink formatting: [[${link}]] -> [[${cleanLink}]]`);
+  private normalizeWikiLinks(content: string, changesMade: string[]): string {
+    let cursor = 0;
+    let mutated = false;
+    const segments: string[] = [];
+
+    while (cursor < content.length) {
+      const start = content.indexOf('[[', cursor);
+      if (start === -1) {
+        break;
       }
-      return `[[${cleanLink}]]`;
-    });
 
-    // Fix broken markdown links [text](url) with extra spaces
-    fixed = fixed.replace(/\[([^\]]+)\]\(\s*([^)]+)\s*\)/g, (_, text, url) => {
-      const cleanText = text.trim();
-      const cleanUrl = url.trim();
-      if (cleanText !== text || cleanUrl !== url) {
+      const end = content.indexOf(']]', start + 2);
+      if (end === -1) {
+        break;
+      }
+
+      const originalLink = content.slice(start + 2, end);
+      const trimmedLink = originalLink.trim();
+
+      segments.push(content.slice(cursor, start));
+      segments.push(`[[${trimmedLink}]]`);
+
+      if (trimmedLink !== originalLink) {
         changesMade.push(
-          `Fixed markdown link formatting: [${text}](${url}) -> [${cleanText}](${cleanUrl})`,
+          `Fixed wikilink formatting: [[${originalLink}]] -> [[${trimmedLink}]]`,
         );
+        mutated = true;
       }
-      return `[${cleanText}](${cleanUrl})`;
-    });
 
-    // Fix broken markdown links [text](url) with extra spaces
-    fixed = fixed.replace(/\[([^\]]+)\]\(\s*([^)]+)\s*\)/g, (_match, text, url) => {
-      const cleanText = text.trim();
-      const cleanUrl = url.trim();
-      if (cleanText !== text || cleanUrl !== url) {
+      cursor = end + 2;
+    }
+
+    if (!mutated) {
+      return content;
+    }
+
+    segments.push(content.slice(cursor));
+    return segments.join('');
+  }
+
+  private normalizeMarkdownLinks(content: string, changesMade: string[]): string {
+    let cursor = 0;
+    let mutated = false;
+    const segments: string[] = [];
+
+    const appendRemainder = (index: number): void => {
+      segments.push(content.slice(cursor, index));
+    };
+
+    while (cursor < content.length) {
+      const start = content.indexOf('[', cursor);
+      if (start === -1) {
+        break;
+      }
+
+      const textEnd = content.indexOf(']', start + 1);
+      if (textEnd === -1 || content[textEnd + 1] !== '(') {
+        cursor = start + 1;
+        continue;
+      }
+
+      const urlEnd = content.indexOf(')', textEnd + 2);
+      if (urlEnd === -1) {
+        break;
+      }
+
+      const originalText = content.slice(start + 1, textEnd);
+      const originalUrl = content.slice(textEnd + 2, urlEnd);
+      const trimmedText = originalText.trim();
+      const trimmedUrl = originalUrl.trim();
+
+      appendRemainder(start);
+      segments.push(`[${trimmedText}](${trimmedUrl})`);
+
+      if (trimmedText !== originalText || trimmedUrl !== originalUrl) {
         changesMade.push(
-          `Fixed markdown link formatting: [${text}](${url}) -> [${cleanText}](${cleanUrl})`,
+          `Fixed markdown link formatting: [${originalText}](${originalUrl}) -> [${trimmedText}](${trimmedUrl})`,
         );
+        mutated = true;
       }
-      return `[${cleanText}](${cleanUrl})`;
-    });
 
-    return fixed;
+      cursor = urlEnd + 1;
+    }
+
+    if (!mutated) {
+      return content;
+    }
+
+    segments.push(content.slice(cursor));
+    return segments.join('');
   }
 
   private fixCodeBlocks(content: string, changesMade: string[]): string {
