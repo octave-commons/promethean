@@ -1,325 +1,327 @@
-# Ollama Queue Integration Guide
+# OpenCode Client Integration Guide
 
 ## Overview
 
-This guide provides comprehensive documentation for working with the Ollama queue integration in the `@promethean-os/opencode-client` package. It covers the architecture, usage patterns, and best practices for managing asynchronous LLM job processing.
+This guide provides comprehensive documentation for working with the OpenCode client integration in the `@promethean-os/opencode-client` package. It covers the architecture, usage patterns, and best practices for managing OpenCode sessions, events, and messages.
 
 ## Architecture
 
-### Queue System Components
+### OpenCode System Components
 
 ```
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Client Tools  │───▶│   Job Queue      │───▶│  Ollama API     │
+│   CLI Client    │───▶│  OpenCode API    │───▶│  Session Store  │
 │                 │    │                  │    │                 │
-│ • submitJob     │    │ • Pending Jobs   │    │ • Generate      │
-│ • getJobStatus  │    │ • Active Jobs    │    │ • Chat          │
-│ • cancelJob     │    │ • Completed Jobs │    │ • Embedding     │
-│ • listJobs      │    │                  │    │                 │
+│ • sessions      │    │ • Sessions       │    │ • Session Data  │
+│ • events        │    │ • Events         │    │ • Event History │
+│ • messages      │    │ • Messages       │    │ • Message Log   │
+│ • indexer       │    │ • Indexer        │    │ • Search Index  │
 └─────────────────┘    └──────────────────┘    └─────────────────┘
          │                       │                       │
          │              ┌──────────────────┐            │
-         └──────────────▶│  Cache Layer     │◀───────────┘
+         └──────────────▶│  Plugin System   │◀───────────┘
                         │                  │
-                        │ • Prompt Cache   │
-                        │ • Embeddings     │
-                        │ • Performance    │
+                        │ • Agent Mgmt     │
+                        │ • Cache          │
+                        │ • Events         │
                         └──────────────────┘
 ```
 
 ### Core Components
 
-1. **Job Queue**: In-memory queue managing job lifecycle
-2. **Processor**: Background worker that processes jobs at intervals
-3. **Cache Layer**: Intelligent caching system for prompt/response pairs
-4. **Ollama Integration**: Direct communication with Ollama API
+1. **Session Management**: Create, list, and manage OpenCode sessions
+2. **Event Processing**: Track and query system events
+3. **Message Handling**: Send and receive messages within sessions
+4. **Indexer Service**: Search and index session content
+5. **Plugin System**: Extensible architecture for additional functionality
 
 ## Getting Started
 
 ### Basic Setup
 
 ```typescript
-import { 
-  submitJob, 
-  getJobStatus, 
-  getJobResult,
-  startQueueProcessor,
-  stopQueueProcessor 
+import {
+  spawnSession,
+  listSessions,
+  sendPrompt,
+  listEvents,
+  compileContext,
 } from '@promethean-os/opencode-client';
 
-// The queue processor starts automatically when the first job is submitted
-// but you can control it manually if needed
-startQueueProcessor();
+// The client connects to OpenCode automatically
+// Default URL: http://localhost:4096
 ```
 
-### Submitting Your First Job
+### Creating Your First Session
 
 ```typescript
-// Simple generation job
-const jobResult = await submitJob.execute({
-  modelName: 'llama2',
-  jobType: 'generate',
-  prompt: 'Explain the benefits of TypeScript',
-  priority: 'medium'
-}, {
-  agent: 'my-agent',
-  sessionID: 'session-123'
+// Simple session creation
+const sessionResult = await spawnSession.execute({
+  title: 'My Development Session',
+  message: 'Start working on the project',
 });
 
-console.log('Job submitted:', JSON.parse(jobResult));
-// Output: { jobId: "uuid", jobName: undefined, status: "pending", queuePosition: 1 }
+console.log('Session created:', JSON.parse(sessionResult));
+// Output: { success: true, session: { id: "uuid", title: "...", createdAt: ... } }
 ```
 
-### Checking Job Status
+### Listing Sessions
 
 ```typescript
-// Wait for completion and check status
-const status = await getJobStatus.execute({
-  jobId: "uuid-from-submission"
+// List all active sessions
+const sessionsResult = await listSessions.execute({
+  limit: 10,
 });
 
-const jobInfo = JSON.parse(status);
-console.log('Job status:', jobInfo.status);
-
-if (jobInfo.status === 'completed') {
-  const result = await getJobResult.execute({
-    jobId: "uuid-from-submission"
-  });
-  console.log('Job result:', JSON.parse(result));
-}
+const sessions = JSON.parse(sessionsResult);
+console.log('Active sessions:', sessions);
 ```
 
-## Job Types and Usage
+## Core Operations
 
-### 1. Generate Jobs
+### 1. Session Management
 
-For single-prompt text generation:
+#### Create Session with Spawn
 
 ```typescript
-const generateJob = await submitJob.execute({
-  modelName: 'codellama',
-  jobType: 'generate',
-  prompt: 'Write a TypeScript function that validates email addresses',
+const session = await spawnSession.execute({
+  title: 'Code Review Session',
+  message: 'Review the authentication module for security issues',
   options: {
-    temperature: 0.3,
-    num_predict: 500
-  }
-}, context);
+    timeout: 300000, // 5 minutes
+    autoStart: true,
+  },
+});
 ```
 
-### 2. Chat Jobs
-
-For conversational interactions:
+#### List Sessions
 
 ```typescript
-const chatJob = await submitJob.execute({
-  modelName: 'llama2',
-  jobType: 'chat',
-  messages: [
-    {
-      role: 'system',
-      content: 'You are a TypeScript expert. Provide clear, concise answers.'
-    },
-    {
-      role: 'user',
-      content: 'What is the difference between interface and type in TypeScript?'
-    }
-  ],
-  options: {
-    temperature: 0.5
-  }
-}, context);
+// List with filters
+const activeSessions = await listSessions.execute({
+  limit: 20,
+  offset: 0,
+});
+
+// Parse and use results
+const sessionList = JSON.parse(activeSessions);
+sessionList.sessions.forEach((session) => {
+  console.log(`Session: ${session.title} (${session.id})`);
+});
 ```
 
-### 3. Embedding Jobs
+### 2. Message Operations
 
-For generating text embeddings:
+#### Send Message to Session
 
 ```typescript
-const embeddingJob = await submitJob.execute({
-  modelName: 'all-minilm',
-  jobType: 'embedding',
-  input: 'TypeScript is a typed superset of JavaScript'
-}, context);
+const messageResult = await sendPrompt.execute({
+  sessionId: 'session-uuid',
+  content: 'Analyze the database schema for optimization opportunities',
+  type: 'instruction',
+});
+
+const message = JSON.parse(messageResult);
+console.log('Message sent:', message.id);
+```
+
+#### List Messages
+
+```typescript
+const messagesResult = await listMessages.execute({
+  sessionId: 'session-uuid',
+  limit: 50,
+});
+
+const messages = JSON.parse(messagesResult);
+messages.messages.forEach((msg) => {
+  console.log(`${msg.role}: ${msg.content.substring(0, 100)}...`);
+});
+```
+
+### 3. Event Operations
+
+#### List System Events
+
+```typescript
+const eventsResult = await listEvents.execute({
+  limit: 100,
+  eventType: 'session.created',
+});
+
+const events = JSON.parse(eventsResult);
+events.events.forEach((event) => {
+  console.log(`${event.timestamp}: ${event.type} - ${event.description}`);
+});
+```
+
+#### Search Events
+
+```typescript
+const searchResult = await listEvents.execute({
+  query: 'authentication',
+  limit: 50,
+});
+
+const searchEvents = JSON.parse(searchResult);
+console.log(`Found ${searchEvents.events.length} authentication-related events`);
+```
+
+### 4. Indexer Operations
+
+#### Compile Context
+
+```typescript
+const contextResult = await compileContext.execute({
+  query: 'TypeScript compilation errors',
+  includeSessions: true,
+  includeEvents: true,
+  includeMessages: true,
+  limit: 1000,
+});
+
+const context = JSON.parse(contextResult);
+console.log('Context compiled:', context.summary);
+```
+
+#### Search Context
+
+```typescript
+const searchResult = await searchContext.execute({
+  query: 'performance optimization',
+  sessionId: 'session-uuid',
+  limit: 20,
+});
+
+const results = JSON.parse(searchResult);
+results.matches.forEach((match) => {
+  console.log(`Match in ${match.type}: ${match.content.substring(0, 100)}...`);
+});
 ```
 
 ## Advanced Usage Patterns
 
-### Batch Job Processing
+### Batch Session Processing
 
 ```typescript
-async function processBatch(prompts: string[], modelName: string) {
-  const jobs = [];
-  
-  // Submit all jobs
-  for (const prompt of prompts) {
-    const job = await submitJob.execute({
-      modelName,
-      jobType: 'generate',
-      prompt,
-      priority: 'medium'
-    }, context);
-    jobs.push(JSON.parse(job));
+async function processMultipleSessions(tasks: Array<{ title: string; message: string }>) {
+  const sessions = [];
+
+  // Create multiple sessions
+  for (const task of tasks) {
+    const session = await spawnSession.execute({
+      title: task.title,
+      message: task.message,
+    });
+    sessions.push(JSON.parse(session));
   }
-  
-  // Wait for all to complete
-  const results = [];
-  for (const job of jobs) {
-    let status = 'pending';
-    while (status !== 'completed' && status !== 'failed') {
-      const statusResult = await getJobStatus.execute({ jobId: job.jobId });
-      status = JSON.parse(statusResult).status;
-      await new Promise(resolve => setTimeout(resolve, 1000));
+
+  // Monitor all sessions
+  const sessionIds = sessions.map((s) => s.session.id);
+
+  // Periodically check status
+  const monitor = setInterval(async () => {
+    const activeSessions = await listSessions.execute({ limit: 100 });
+    const active = JSON.parse(activeSessions);
+
+    const stillActive = active.sessions.filter((s) => sessionIds.includes(s.id));
+    console.log(`Active sessions: ${stillActive.length}/${sessionIds.length}`);
+
+    if (stillActive.length === 0) {
+      clearInterval(monitor);
+      console.log('All sessions completed');
     }
-    
-    if (status === 'completed') {
-      const result = await getJobResult.execute({ jobId: job.jobId });
-      results.push(JSON.parse(result));
-    }
-  }
-  
-  return results;
+  }, 5000);
+
+  return sessions;
 }
 ```
 
-### Priority-Based Processing
+### Event-Driven Workflows
 
 ```typescript
-// High priority urgent task
-const urgentJob = await submitJob.execute({
-  modelName: 'llama2',
-  jobType: 'generate',
-  prompt: 'Fix this critical bug in production',
-  priority: 'urgent'
-}, context);
+async function monitorSessionActivity(sessionId: string) {
+  let lastEventCount = 0;
 
-// Low priority background task
-const backgroundJob = await submitJob.execute({
-  modelName: 'llama2',
-  jobType: 'generate',
-  prompt: 'Generate documentation for this module',
-  priority: 'low'
-}, context);
-```
+  const monitor = setInterval(async () => {
+    const events = await listEvents.execute({
+      sessionId,
+      limit: 50,
+    });
 
-### Job Monitoring
+    const eventData = JSON.parse(events);
 
-```typescript
-async function monitorJob(jobId: string, timeoutMs: number = 60000) {
-  const startTime = Date.now();
-  
-  while (Date.now() - startTime < timeoutMs) {
-    const statusResult = await getJobStatus.execute({ jobId });
-    const status = JSON.parse(statusResult);
-    
-    console.log(`Job ${jobId}: ${status.status}`);
-    
-    if (status.status === 'completed') {
-      const result = await getJobResult.execute({ jobId });
-      return JSON.parse(result);
+    if (eventData.events.length > lastEventCount) {
+      const newEvents = eventData.events.slice(lastEventCount);
+      newEvents.forEach((event) => {
+        console.log(`New event: ${event.type} at ${new Date(event.timestamp)}`);
+      });
+      lastEventCount = eventData.events.length;
     }
-    
-    if (status.status === 'failed') {
-      throw new Error(`Job failed: ${status.error?.message}`);
-    }
-    
-    await new Promise(resolve => setTimeout(resolve, 2000));
-  }
-  
-  throw new Error(`Job ${jobId} timed out after ${timeoutMs}ms`);
+  }, 2000);
+
+  return monitor;
 }
 ```
 
-## Cache Management
-
-### Understanding the Cache
-
-The queue system includes an intelligent caching layer that:
-
-- Stores prompt/response pairs to avoid redundant API calls
-- Uses semantic similarity to find related cached responses
-- Tracks performance metrics for model routing optimization
-- Supports user feedback for continuous improvement
-
-### Cache Operations
+### Context Search and Analysis
 
 ```typescript
-import { manageCache } from '@promethean-os/opencode-client';
+async function analyzeSessionPatterns(sessionId: string) {
+  // Get all messages for analysis
+  const messages = await listMessages.execute({
+    sessionId,
+    limit: 1000,
+  });
 
-// Get cache statistics
-const stats = await manageCache.execute({ action: 'stats' });
-console.log('Cache stats:', JSON.parse(stats));
+  const messageData = JSON.parse(messages);
 
-// Clear cache (useful for testing or when models change)
-const clearResult = await manageCache.execute({ action: 'clear' });
+  // Analyze message patterns
+  const patterns = {
+    totalMessages: messageData.messages.length,
+    userMessages: messageData.messages.filter((m) => m.role === 'user').length,
+    assistantMessages: messageData.messages.filter((m) => m.role === 'assistant').length,
+    averageLength:
+      messageData.messages.reduce((sum, m) => sum + m.content.length, 0) /
+      messageData.messages.length,
+  };
 
-// Performance analysis
-const analysis = await manageCache.execute({ action: 'performance-analysis' });
-console.log('Performance analysis:', JSON.parse(analysis));
+  console.log('Session Analysis:', patterns);
+  return patterns;
+}
 ```
 
-### Submitting Feedback
+## Plugin Integration
+
+### Using Agent Management Plugin
 
 ```typescript
-import { submitFeedback } from '@promethean-os/opencode-client';
+import { AgentManagementPlugin } from '@promethean-os/opencode-client';
 
-// After getting a job result, submit feedback
-await submitFeedback.execute({
-  prompt: 'Explain TypeScript generics',
-  modelName: 'llama2',
-  jobType: 'generate',
-  score: 0.8,  // -1 (terrible) to 1 (excellent)
-  reason: 'Clear explanation with good examples',
-  taskCategory: 'documentation'
+// The plugin provides additional tools for agent operations
+const agentPlugin = new AgentManagementPlugin();
+
+// Create agent session with task
+const agentSession = await agentPlugin.tools['agent.createSession']({
+  task: 'Analyze codebase for security vulnerabilities',
+  message: 'Focus on authentication and authorization mechanisms',
+  options: {
+    title: 'Security Analysis',
+    priority: 'high',
+    files: ['src/auth/', 'src/middleware/'],
+  },
 });
 ```
 
-## Queue Management
-
-### Manual Queue Control
+### Cache Plugin Operations
 
 ```typescript
-import { startQueueProcessor, stopQueueProcessor, getQueueInfo } from '@promethean-os/opencode-client';
-
-// Check if processor is running
-const queueInfo = await getQueueInfo.execute({});
-const info = JSON.parse(queueInfo);
-console.log('Processor active:', info.processorActive);
-
-// Manual control (usually not needed as it auto-starts)
-if (!info.processorActive) {
-  startQueueProcessor();
-}
-
-// Stop processor (cleanup on shutdown)
-process.on('SIGINT', () => {
-  stopQueueProcessor();
-  process.exit(0);
+// Cache operations are available through the main client
+const cacheStats = await manageCache.execute({
+  action: 'stats',
 });
-```
 
-### Queue Monitoring
-
-```typescript
-async function monitorQueue() {
-  const info = await getQueueInfo.execute({});
-  const queueData = JSON.parse(info);
-  
-  console.log('Queue Status:');
-  console.log(`  Pending: ${queueData.pending}`);
-  console.log(`  Running: ${queueData.running}`);
-  console.log(`  Completed: ${queueData.completed}`);
-  console.log(`  Failed: ${queueData.failed}`);
-  console.log(`  Max Concurrent: ${queueData.maxConcurrent}`);
-  console.log(`  Cache Size: ${queueData.cacheSize}`);
-  
-  if (queueData.pending > 10) {
-    console.warn('High queue backlog detected!');
-  }
-}
-
-// Monitor every 30 seconds
-setInterval(monitorQueue, 30000);
+console.log('Cache statistics:', JSON.parse(cacheStats));
 ```
 
 ## Error Handling
@@ -327,195 +329,198 @@ setInterval(monitorQueue, 30000);
 ### Common Error Scenarios
 
 ```typescript
-async function robustJobSubmission(prompt: string) {
+async function robustSessionCreation(title: string, message: string) {
   try {
-    const job = await submitJob.execute({
-      modelName: 'llama2',
-      jobType: 'generate',
-      prompt
-    }, context);
-    
-    return JSON.parse(job);
+    const session = await spawnSession.execute({
+      title,
+      message,
+    });
+
+    return JSON.parse(session);
   } catch (error) {
-    if (error.message.includes('model')) {
-      console.error('Model not available, trying fallback...');
-      return await submitJob.execute({
-        modelName: 'llama2-7b',  // Fallback model
-        jobType: 'generate',
-        prompt
-      }, context);
+    if (error.message.includes('connection')) {
+      console.error('Cannot connect to OpenCode server');
+      // Retry with different configuration
+      return await spawnSession.execute({
+        title,
+        message,
+        options: { timeout: 60000 }, // Longer timeout
+      });
     }
     throw error;
   }
 }
 ```
 
-### Job Failure Handling
+### Session Failure Handling
 
 ```typescript
-async function handleJobFailure(jobId: string) {
-  const status = await getJobStatus.execute({ jobId });
-  const jobInfo = JSON.parse(status);
-  
-  if (jobInfo.status === 'failed') {
-    console.error('Job failed:', jobInfo.error?.message);
-    
-    // Retry logic for transient failures
-    if (jobInfo.error?.message?.includes('timeout')) {
-      console.log('Retrying job due to timeout...');
-      // Resubmit with different options
-      return await submitJob.execute({
-        modelName: 'llama2',
-        jobType: 'generate',
-        prompt: 'original prompt here',
-        options: { num_predict: 200 }  // Reduce complexity
-      }, context);
+async function handleSessionErrors(sessionId: string) {
+  try {
+    const messages = await listMessages.execute({
+      sessionId,
+      limit: 10,
+    });
+
+    return JSON.parse(messages);
+  } catch (error) {
+    if (error.message.includes('not found')) {
+      console.error(`Session ${sessionId} not found or expired`);
+      // List available sessions as alternative
+      const sessions = await listSessions.execute({ limit: 10 });
+      console.log('Available sessions:', JSON.parse(sessions));
     }
+    throw error;
   }
 }
 ```
 
 ## Best Practices
 
-### 1. Job Naming
+### 1. Session Naming
 
-Always provide meaningful job names for better tracking:
+Always use descriptive session titles for better organization:
 
 ```typescript
-const job = await submitJob.execute({
-  jobName: 'generate-typescript-validator',
-  modelName: 'codellama',
-  jobType: 'generate',
-  prompt: 'Create a TypeScript validator function...'
-}, context);
+const session = await spawnSession.execute({
+  title: 'Security Audit - Authentication Module',
+  message: 'Perform comprehensive security analysis',
+});
 ```
 
-### 2. Priority Management
+### 2. Resource Management
 
-Use priorities appropriately:
-
-```typescript
-// Critical system tasks
-await submitJob.execute({
-  priority: 'urgent',
-  // ... other params
-}, context);
-
-// User-interactive tasks
-await submitJob.execute({
-  priority: 'high',
-  // ... other params
-}, context);
-
-// Background processing
-await submitJob.execute({
-  priority: 'low',
-  // ... other params
-}, context);
-```
-
-### 3. Resource Management
-
-Monitor and manage queue resources:
+Monitor and manage session resources:
 
 ```typescript
-// Check queue health before submitting
-const queueInfo = await getQueueInfo.execute({});
-const info = JSON.parse(queueInfo);
+// Check active session count before creating new ones
+const activeSessions = await listSessions.execute({ limit: 100 });
+const sessionData = JSON.parse(activeSessions);
 
-if (info.pending > 50) {
-  console.warn('Queue is congested, consider delaying non-urgent jobs');
+if (sessionData.sessions.length > 20) {
+  console.warn('High number of active sessions, consider cleanup');
 }
 ```
 
-### 4. Error Recovery
+### 3. Error Recovery
 
-Implement robust error handling:
+Implement robust error handling with retries:
 
 ```typescript
-async function submitWithRetry(params: any, maxRetries: number = 3) {
+async function sendWithRetry(sessionId: string, content: string, maxRetries: number = 3) {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
-      return await submitJob.execute(params, context);
+      return await sendPrompt.execute({
+        sessionId,
+        content,
+        type: 'instruction',
+      });
     } catch (error) {
       if (attempt === maxRetries) throw error;
-      
-      console.log(`Attempt ${attempt} failed, retrying...`);
-      await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
+
+      console.log(`Message send attempt ${attempt} failed, retrying...`);
+      await new Promise((resolve) => setTimeout(resolve, 1000 * attempt));
     }
   }
 }
 ```
 
-## Performance Optimization
+### 4. Context Optimization
 
-### 1. Cache Utilization
-
-The cache automatically improves performance, but you can optimize further:
+Use context compilation efficiently:
 
 ```typescript
-// Use consistent prompts for better cache hits
-const standardizedPrompt = `Explain ${concept} in TypeScript programming`;
-
-// Submit feedback to improve routing
-await submitFeedback.execute({
-  prompt: standardizedPrompt,
-  modelName: 'llama2',
-  jobType: 'generate',
-  score: 0.9,
-  taskCategory: 'educational-content'
+// Compile context with specific filters for better performance
+const focusedContext = await compileContext.execute({
+  query: 'database optimization',
+  includeSessions: true,
+  includeEvents: false, // Skip events for faster compilation
+  includeMessages: true,
+  limit: 500, // Reasonable limit
 });
 ```
 
-### 2. Batch Processing
+## Performance Optimization
 
-Group similar tasks to take advantage of caching:
+### 1. Batch Operations
+
+Group similar operations to reduce overhead:
 
 ```typescript
-// Process related concepts together
-const concepts = ['interfaces', 'types', 'generics', 'decorators'];
-const jobs = concepts.map(concept => 
-  submitJob.execute({
-    modelName: 'llama2',
-    jobType: 'generate',
-    prompt: `Explain ${concept} in TypeScript with examples`
-  }, context)
-);
+// Send multiple messages in sequence
+const messages = [
+  'Analyze the API endpoints',
+  'Check for security vulnerabilities',
+  'Review error handling',
+  'Validate input sanitization',
+];
+
+for (const msg of messages) {
+  await sendPrompt.execute({
+    sessionId: 'security-session',
+    content: msg,
+    type: 'instruction',
+  });
+}
 ```
 
-### 3. Model Selection
+### 2. Efficient Searching
 
-Choose appropriate models for different tasks:
+Use specific queries for better search performance:
 
 ```typescript
-const modelForTask = {
-  'code-generation': 'codellama',
-  'general-chat': 'llama2',
-  'embeddings': 'all-minilm',
-  'analysis': 'mistral'
-};
+// Good: Specific query
+const specificResults = await searchContext.execute({
+  query: 'TypeScript interface validation',
+  sessionId: 'session-uuid',
+  limit: 20,
+});
 
-const modelName = modelForTask[taskType] || 'llama2';
+// Less efficient: Broad query
+const broadResults = await searchContext.execute({
+  query: 'code',
+  limit: 100,
+});
+```
+
+### 3. Session Cleanup
+
+Regular cleanup of old sessions:
+
+```typescript
+async function cleanupOldSessions(maxAge: number = 24 * 60 * 60 * 1000) {
+  // 24 hours
+  const sessions = await listSessions.execute({ limit: 1000 });
+  const sessionData = JSON.parse(sessions);
+
+  const now = Date.now();
+  const oldSessions = sessionData.sessions.filter(
+    (session) => now - new Date(session.createdAt).getTime() > maxAge,
+  );
+
+  console.log(`Found ${oldSessions.length} old sessions to clean up`);
+  // Implementation would depend on available cleanup APIs
+}
 ```
 
 ## Troubleshooting
 
 ### Common Issues
 
-1. **Jobs stuck in pending**: Check if queue processor is running
-2. **High failure rate**: Verify Ollama service is accessible
-3. **Memory usage**: Monitor cache size and clear if needed
-4. **Type errors**: Ensure proper function usage as documented
+1. **Connection failures**: Check OpenCode server is running on port 4096
+2. **Session not found**: Verify session ID is correct and session hasn't expired
+3. **Message sending fails**: Ensure session is active and not closed
+4. **Search returns no results**: Check query syntax and available content
 
 ### Debug Information
 
 ```typescript
 // Enable debug logging
-process.env.DEBUG = 'ollama-queue';
+process.env.DEBUG = 'opencode-client';
 
-// Get detailed queue information
-const debugInfo = await getQueueInfo.execute({});
-console.log('Debug info:', JSON.parse(debugInfo, null, 2));
+// Get detailed session information
+const sessionInfo = await listSessions.execute({ limit: 1 });
+console.log('Debug info:', JSON.parse(sessionInfo, null, 2));
 ```
 
 For more troubleshooting information, see the [Troubleshooting Guide](./troubleshooting.md).
