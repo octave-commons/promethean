@@ -13,7 +13,7 @@ export class ContentHealer implements HealingStrategy {
     return corruption.type === ScarType.CONTENT_CORRUPTION && corruption.autoHealable;
   }
 
-  async heal(corruption: FileCorruption, content: string): Promise<HealingResult> {
+  async heal(_corruption: FileCorruption, content: string): Promise<HealingResult> {
     try {
       let healedContent = content;
       const changesMade: string[] = [];
@@ -79,7 +79,7 @@ export class ContentHealer implements HealingStrategy {
     let fixed = content;
 
     // Fix broken wikilinks [[file]] -> [[file]]
-    fixed = fixed.replace(/\[\[([^\]]+)\]\]/g, (match, link) => {
+    fixed = fixed.replace(/\[\[([^\]]+)\]\]/g, (_, link) => {
       const cleanLink = link.trim();
       if (cleanLink !== link) {
         changesMade.push(`Fixed wikilink formatting: [[${link}]] -> [[${cleanLink}]]`);
@@ -88,7 +88,19 @@ export class ContentHealer implements HealingStrategy {
     });
 
     // Fix broken markdown links [text](url) with extra spaces
-    fixed = fixed.replace(/\[([^\]]+)\]\(\s*([^)]+)\s*\)/g, (match, text, url) => {
+    fixed = fixed.replace(/\[([^\]]+)\]\(\s*([^)]+)\s*\)/g, (_, text, url) => {
+      const cleanText = text.trim();
+      const cleanUrl = url.trim();
+      if (cleanText !== text || cleanUrl !== url) {
+        changesMade.push(
+          `Fixed markdown link formatting: [${text}](${url}) -> [${cleanText}](${cleanUrl})`,
+        );
+      }
+      return `[${cleanText}](${cleanUrl})`;
+    });
+
+    // Fix broken markdown links [text](url) with extra spaces
+    fixed = fixed.replace(/\[([^\]]+)\]\(\s*([^)]+)\s*\)/g, (_match, text, url) => {
       const cleanText = text.trim();
       const cleanUrl = url.trim();
       if (cleanText !== text || cleanUrl !== url) {
