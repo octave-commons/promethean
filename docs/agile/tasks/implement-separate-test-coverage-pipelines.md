@@ -5,7 +5,7 @@ slug: "implement-separate-test-coverage-pipelines"
 status: "accepted"
 priority: "P0"
 labels: ["frontend", "consolidation", "architecture", "migration", "epic"]
-created_at: "2025-10-24T02:37:31.012Z"
+created_at: "2025-10-24T02:38:15.486Z"
 estimates:
   complexity: ""
   scale: ""
