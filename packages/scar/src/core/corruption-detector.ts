@@ -296,31 +296,31 @@ export class CorruptionDetector {
       });
     }
 
-    // Command line args in filename
-    if (/^--(title|description)/.test(filename)) {
-      corruptions.push({
-        type: ScarType.FILENAME_CORRUPTION,
-        severity: ScarSeverity.MEDIUM,
-        description: 'Command-line arguments in filename',
-        filePath,
-        detectedAt: new Date(),
-        evidence: [filename],
-        autoHealable: true,
-      });
-    }
+// Command line args in filename
+      if (/--(title|description|fix)/.test(filename)) {
+        corruptions.push({
+          type: ScarType.FILENAME_CORRUPTION,
+          severity: ScarSeverity.HIGH,
+          description: 'Command-line arguments in filename',
+          filePath,
+          detectedAt: new Date(),
+          evidence: [filename],
+          autoHealable: true,
+        });
+      }
 
-    // Unusual characters
-    if (/[{}[\]|\\<>]/.test(filename)) {
-      corruptions.push({
-        type: ScarType.FILENAME_CORRUPTION,
-        severity: ScarSeverity.MEDIUM,
-        description: 'Unusual characters in filename',
-        filePath,
-        detectedAt: new Date(),
-        evidence: [filename],
-        autoHealable: true,
-      });
-    }
+      // Unusual characters
+      if (/[{}[\]|\\<>@#$%^&*]/.test(filename)) {
+        corruptions.push({
+          type: ScarType.FILENAME_CORRUPTION,
+          severity: ScarSeverity.MEDIUM,
+          description: 'Unusual characters in filename',
+          filePath,
+          detectedAt: new Date(),
+          evidence: [filename],
+          autoHealable: true,
+        });
+      }
 
     // Only try to read file content if it's a real file path
     // and we haven't already found filename corruptions
