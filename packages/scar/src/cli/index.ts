@@ -6,9 +6,8 @@
 
 import { program } from 'commander';
 import { promises as fs } from 'fs';
-import { join } from 'path';
 import { ScarContext } from '../core/scar-context.js';
-import { ScarConfig, ScarType, ScarSeverity } from '../types/index.js';
+import { ScarConfig } from '../types/index.js';
 
 interface CliOptions {
   recursive?: boolean;
@@ -235,7 +234,7 @@ const handleStatus = async (options: CliOptions) => {
   let totalScars = 0;
   let totalFiles = 0;
   const severityCount = { low: 0, medium: 0, high: 0, critical: 0 };
-  const typeCount = {};
+  const typeCount: Record<string, number> = {};
 
   for (const [, scars] of allScars) {
     totalFiles++;

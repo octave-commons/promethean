@@ -32,6 +32,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@types/commander": "^2.12.2",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^20.10.0",
     "ava": "^6.0.0",
