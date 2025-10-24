@@ -24,6 +24,7 @@ test('FilenameHealer fixes double extensions', async (t) => {
   t.true(healer.canHeal(corruption));
 
   const result = await healer.heal(corruption, 'content');
+  console.log('FilenameHealer result:', JSON.stringify(result, null, 2));
   t.true(result.success);
   t.true(result.changesMade!.includes('Fixed double extension'));
 });
@@ -42,6 +43,7 @@ test('ContentHealer fixes repeated slash patterns', async (t) => {
   t.true(healer.canHeal(corruption));
 
   const result = await healer.heal(corruption, '//* this is a comment');
+  console.log('ContentHealer result:', JSON.stringify(result, null, 2));
   t.true(result.success);
   t.true(result.changesMade!.includes('Fixed repeated slash patterns'));
   t.is(result.healedContent, '// this is a comment');
