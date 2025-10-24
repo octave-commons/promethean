@@ -573,61 +573,7 @@ export function registerSimpleOAuthRoutes(
     }
   });
 
-  // OAuth callback (POST - for API usage)
-  fastify.post(`${basePath}/callback`, async (request, reply) => {
-    try {
-      // ChatGPT sends OAuth data in POST body as JSON, need to parse it
-      const rawBody = request.body as any;
-      let body: any;
 
-      if (Buffer.isBuffer(rawBody)) {
-        try {
-          body = JSON.parse(rawBody.toString('utf8'));
-        } catch (e) {
-          // If JSON parsing fails, try URL-encoded parsing
-          const bodyStr = rawBody.toString('utf8');
-          const params = new URLSearchParams(bodyStr);
-          body = {};
-          for (const [key, value] of params) {
-            body[key] = value;
-          }
-        }
-      } else {
-        body = rawBody;
-      }
-
-      // Debug logging
-      console.log('[OAuth Callback] Received POST body:', body);
-
-      // Handle different OAuth formats from different clients
-      let code: string | undefined,
-        state: string | null | undefined,
-        error: string | undefined,
-        codeVerifier: string | undefined;
-
-      if (body.grant_type === 'authorization_code') {
-        // ChatGPT MCP connector format (OAuth 2.1 PKCE)
-        code = body.code;
-        state = null; // ChatGPT doesn't send state in POST body
-        codeVerifier = body.code_verifier; // PKCE code verifier
-        console.log(
-          '[OAuth Callback] Detected ChatGPT PKCE format with code_verifier:',
-          codeVerifier ? 'present' : 'missing',
-        );
-      } else {
-        // Standard OAuth format
-        code = body.code;
-        state = body.state;
-        error = body.error;
-        codeVerifier = body.code_verifier;
-        console.log('[OAuth Callback] Detected standard OAuth format');
-      }
-
-      if (error) {
-        return reply.status(400).send({
-          error: 'OAuth error',
-          message: error,
-        });
       }
 
       // For ChatGPT PKCE flow, only code is required (state is optional)
