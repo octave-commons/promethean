@@ -29,6 +29,8 @@ export class OAuthSystem {
   private readonly providers = new Map<string, OAuthProvider>();
   private readonly states = new Map<string, OAuthState>();
   private readonly sessions = new Map<string, OAuthSession>();
+  // Map OAuth client IDs to provider names for ChatGPT/MCP token flows
+  private readonly clientIdToProvider = new Map<string, string>();
   constructor(config: OAuthSystemConfig) {
     this.config = config;
 
@@ -340,6 +342,7 @@ export class OAuthSystem {
         allowSignup: this.config.providers.github.allowSignup || false,
       });
       this.providers.set('github', githubProvider);
+      this.clientIdToProvider.set(this.config.providers.github.clientId, 'github');
     }
 
     // Google provider
