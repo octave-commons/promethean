@@ -156,3 +156,4 @@ packages/kanban/kanban-test-*/
 
 # stryker temp files
 .stryker-tmp
+indexer-state.json
