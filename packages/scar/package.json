@@ -39,14 +39,6 @@
     "c8": "^8.0.1",
     "typescript": "^5.3.0"
   },
-  "ava": {
-    "files": [
-      "dist/tests/**/*.test.js"
-    ],
-    "nodeArguments": [
-      "--loader=ts-node/esm"
-    ]
-  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",

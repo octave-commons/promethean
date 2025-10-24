@@ -279,28 +279,26 @@ test('Scar Context Integration - Advanced Filtering', async (t) => {
   const manager = new MockScarContextManager();
 
   // Create test contexts
-  const contexts = [
-    await manager.createContext({
-      type: 'agent',
-      capabilities: ['read', 'write'],
-      permissions: ['data:read', 'data:write'],
-    }),
-    await manager.createContext({
-      type: 'workflow',
-      capabilities: ['execute', 'monitor'],
-      permissions: ['system:execute'],
-    }),
-    await manager.createContext({
-      type: 'task',
-      capabilities: ['read'],
-      permissions: ['task:read'],
-    }),
-    await manager.createContext({
-      type: 'agent',
-      capabilities: ['execute'],
-      permissions: ['system:execute'],
-    }),
-  ];
+  await manager.createContext({
+    type: 'agent',
+    capabilities: ['read', 'write'],
+    permissions: ['data:read', 'data:write'],
+  });
+  await manager.createContext({
+    type: 'workflow',
+    capabilities: ['execute', 'monitor'],
+    permissions: ['system:execute'],
+  });
+  await manager.createContext({
+    type: 'task',
+    capabilities: ['read'],
+    permissions: ['task:read'],
+  });
+  await manager.createContext({
+    type: 'agent',
+    capabilities: ['execute'],
+    permissions: ['system:execute'],
+  });
 
   // Test type filtering
   const agents = await manager.listContexts({ type: 'agent' });
