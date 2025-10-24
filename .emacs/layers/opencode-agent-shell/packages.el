@@ -1,4 +1,4 @@
-;;; packages.el --- ai-agent layer packages file for Spacemacs.
+;;; packages.el --- opencode-agent-shell layer -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (c) 2012-2025 Sylvain Benner & Contributors
 ;;
@@ -40,78 +40,99 @@
 
 ;;; Code:
 
-;;; packages.el --- opencode-agent-shell layer
-
 (defconst opencode-agent-shell-packages
   '(
-     ;; agent-shell deps
-     (shell-maker :location (recipe (:fetcher github :repo "xenodium/shell-maker")))
-     (acp          :location (recipe (:fetcher github :repo "xenodium/acp.el")))
-     (agent-shell  :location (recipe (:fetcher github :repo "xenodium/agent-shell")))
-     ))
+     shell-maker
+     (acp :location built-in)      ;; we use :vc in init below
+     (agent-shell :location built-in)))
 
 (defun opencode-agent-shell/init-shell-maker ()
-  (use-package shell-maker :defer t))
+  (use-package shell-maker
+    :ensure t
+    :defer t))
 
 (defun opencode-agent-shell/init-acp ()
-  ;; Emacs ≥30 supports :vc/:url directly, but Spacemacs’ recipe works well too.
-  (use-package acp :defer t))
+  ;; Install from source with :vc (per upstream README).
+  (use-package acp
+    :vc (:url "https://github.com/xenodium/acp.el")
+    :defer t))
 
 (defun opencode-agent-shell/init-agent-shell ()
+  ;; Install from source with :vc (per upstream README).
   (use-package agent-shell
-    :commands (agent-shell opencode/agent-shell)
+    :vc (:url "https://github.com/xenodium/agent-shell")
+    :commands (agent-shell opencode-agent-shell/start)
     :init
-    (require 'acp) ;; required before we construct the client
-    ;; --- user-tweakables (Customize group defined below) ---
-    (defgroup opencode-agent-shell nil
-      "Run agent-shell with OpenCode ACP by default."
-      :group 'tools)
+    ;; Leader key: SPC a a  => start OpenCode (ACP)
+    (with-eval-after-load 'spacemacs-defaults
+      (spacemacs/set-leader-keys "aa" #'opencode-agent-shell/start))
+    :config
+    ;; --- Provider: OpenCode (ACP) -----------------------------------------
+    ;;
+    ;; Prefer `opencode acp` (built-in ACP server). Fallback to legacy
+    ;; `opencode-acp` adapter if found in PATH.
+    ;;
+    (defun opencode-agent-shell--opencode-command ()
+      "Return (PROGRAM . ARGS) for the OpenCode ACP server.
+Prefer `opencode acp`. Fallback to `opencode-acp` if present."
+      (let ((opencode (executable-find "opencode"))
+             (adapter  (executable-find "opencode-acp")))
+        (cond
+          ((and opencode
+             ;; sanity check: ensure CLI is new enough to have ACP bits
+             ;; user can override by just having the binary in PATH
+             t)
+            (cons opencode '("acp")))
+          (adapter
+            (cons adapter nil))
+          (t
+            (user-error
+              "Neither `opencode` (with `acp` subcommand) nor `opencode-acp` found in PATH")))))
 
-    (defcustom opencode-agent-shell-command "opencode-acp"
-      "Executable for the OpenCode ACP adapter (in $PATH)."
-      :type 'string :group 'opencode-agent-shell)
-
-    (defcustom opencode-agent-shell-env
-      ;; Inherit PATH, HOME, etc., but let users extend/override via Customize.
+    ;; Minimal env passthrough. Inherit PATH, etc.
+    (defvar opencode-agent-shell-environment
       (when (fboundp 'agent-shell-make-environment-variables)
         (agent-shell-make-environment-variables :inherit-env t))
-      "Environment variables passed to the OpenCode agent process."
-      :type '(repeat string) :group 'opencode-agent-shell)
+      "Environment variables for the spawned OpenCode agent.")
 
-    (defun opencode-agent-shell--make-client ()
-      "Return an ACP client for OpenCode."
-      (acp-make-client
-        :command opencode-agent-shell-command
-        :environment-variables opencode-agent-shell-env))
-
-    (defun opencode/agent-shell (&optional force-new)
-      "Start/reuse an agent-shell session backed by OpenCode (C-u to force new)."
-      (interactive "P")
-      (let ((client (opencode-agent-shell--make-client)))
-        ;; agent-shell provides a unified entry; when available, prefer it.
-        (cond
-          ;; Newer agent-shell (preferred) – accepts a plist for startup args.
-          ((fboundp 'agent-shell-start)
-            (agent-shell-start
-              :client client
-              :display-name "OpenCode"
-              :force-new (when force-new t)))
-          ;; Fallback: just call the generic command; user can pick manually.
-          (t
-            (call-interactively 'agent-shell)))))
-
-    ;; Make OpenCode the default choice in the unified picker.
-    ;; agent-shell exposes `agent-shell-agent-configs`; we feed it a minimal
-    ;; entry so `M-x agent-shell` goes straight to OpenCode unless prefixed.
+    ;; Register an entry in `agent-shell-agent-configs` so M-x agent-shell
+    ;; shows “OpenCode (ACP)” — and make it the default/first option.
+    ;;
+    ;; NOTE: `agent-shell-agent-configs` is an alist used by agent-shell.
+    ;; Upstream reserves the right to tweak keys; if that happens, inspect
+    ;; M-x `describe-variable` on `agent-shell-agent-configs` and adjust.
     (with-eval-after-load 'agent-shell
-      (when (boundp 'agent-shell-agent-configs)
-        (setq agent-shell-agent-configs
-          (list (list :name "OpenCode"
-                  :start-fn #'opencode/agent-shell
-                  :reusable t)))))
+      ;; Build a very small launcher around acp.el
+      (defun agent-shell-opencode--make-client ()
+        "Create an ACP client targeting OpenCode."
+        (let* ((cmd (opencode-agent-shell--opencode-command))
+                (program (car cmd))
+                (args (cdr cmd)))
+          ;; acp.el entrypoint – spawns the ACP server as a subprocess
+          ;; and returns a client object for agent-shell to use.
+          (apply #'acp-make-client
+            :command program
+            :arguments args
+            :environment-variables opencode-agent-shell-environment
+            nil)))
 
-    :config
-    ;; Leader: SPC a o a  → OpenCode agent-shell
-    (when (fboundp 'spacemacs/set-leader-keys)
-      (spacemacs/set-leader-keys
-        "aoa" #'opencode/agent-shell))))
+      ;; Agent entry; keep the structure aligned with other providers
+      ;; in agent-shell (e.g., Goose/Gemini). Keys are alist-style.
+      (let* ((opencode-agent
+               `((:key         . "o")
+                  (:name        . "OpenCode (ACP)")
+                  (:description . "OpenCode terminal agent via ACP")
+                  (:make-client . ,#'agent-shell-opencode--make-client))))
+        ;; Prepend so it becomes the default selection.
+        (setq agent-shell-agent-configs
+          (cons opencode-agent
+            (seq-remove (lambda (cfg)
+                          (equal (alist-get :name cfg) "OpenCode (ACP)"))
+              (bound-and-true-p agent-shell-agent-configs))))))
+
+    ;; Convenience command: always start (or reuse) OpenCode (ACP).
+    (defun opencode-agent-shell/start (&optional new)
+      "Start/reuse an OpenCode (ACP) agent-shell. With prefix NEW, force a new session."
+      (interactive "P")
+      (let ((current-prefix-arg (when new '(4))))
+        (call-interactively #'agent-shell)))))
