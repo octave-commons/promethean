@@ -10,14 +10,6 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
-lastCommitSha: "9b86ece5916d4468db644a4cee1a50296451b722"
-commitHistory:
-  -
-    sha: "9b86ece5916d4468db644a4cee1a50296451b722"
-    timestamp: "2025-10-23 21:58:54 -0500\n\ndiff --git a/docs/agile/tasks/Build Compliance Validation Engine.md b/docs/agile/tasks/Build Compliance Validation Engine.md\nindex 4a38530e0..14f088bb2 100644\n--- a/docs/agile/tasks/Build Compliance Validation Engine.md\t\n+++ b/docs/agile/tasks/Build Compliance Validation Engine.md\t\n@@ -12,11 +12,31 @@ estimates:\n   time_to_completion: \"\"\n ---\n \n+## ⛓️ Summary\n+\n+Implement the Compliance Validation Engine capable of running rule-based checks on normalized Task objects. It should support real-time validation on file change and scheduled/batch scans.\n+\n+## ✅ Acceptance Criteria\n+\n+- Rule framework supporting registering rules with severity and description\n+- Implementations for process adherence, WIP limits, P0 security checks, and classification validation\n+- Return structured validation results: compliant (bool), violations (array), score (number)\n+- Unit tests for each rule and combined validation flows\n+\n ## ⛓️ Blocked By\n \n-Nothing\n+- Normalized Task events from FileSystemWatcher\n+\n+## ⛓️ Tasks\n \n+- [ ] Create rule registration and execution framework\n+- [ ] Implement core validation rules\n+- [ ] Implement scheduled full-board scans\n+- [ ] Add unit and integration tests\n+\n+## ⛓️ Blocks\n \n+- Dashboard & Reporting (consumes validation results)\n \n ## ⛓️ Blocks"
-    message: "Update task: ad83cd92-159c-44ef-aeff-93a635d8874c - Update task: Build Compliance Validation Engine"
-    author: "Error"
-    type: "update"
 ---
 
 ## ⛓️ Summary
