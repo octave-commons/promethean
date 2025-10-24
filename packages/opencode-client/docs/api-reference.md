@@ -1,415 +1,607 @@
-# API Reference - OpenCode Client Ollama Integration
+# API Reference - OpenCode Client
 
 ## Overview
 
-This document provides comprehensive API documentation for the Ollama queue integration functions and tools available in the `@promethean-os/opencode-client` package.
+This document provides comprehensive API documentation for the OpenCode client CLI and programmatic interfaces available in the `@promethean-os/opencode-client` package.
 
-## Core Queue Management Functions
+## CLI Commands
 
-### `startQueueProcessor()`
+### Global Options
 
-Starts the background queue processor if it's not already running.
-
-```typescript
-function startQueueProcessor(): void
+```bash
+opencode-client [global-options] <command> [command-options]
 ```
 
-**Behavior:**
-- Checks if a processing interval is already active using `getProcessingInterval()`
-- If not active, creates a new interval that calls `processQueue()` every 1000ms
-- Sets the interval using `setProcessingInterval()`
-- Immediately processes any pending jobs
+**Global Options:**
 
-**Usage Example:**
-```typescript
-import { startQueueProcessor } from '@promethean-os/opencode-client';
+- `-v, --verbose`: Enable verbose output
+- `--no-color`: Disable colored output
+- `--help`: Display help information
+- `--version`: Display version information
 
-// Start the queue processor
-startQueueProcessor();
+### Sessions Commands
+
+Manage OpenCode sessions for conversation tracking and context management.
+
+#### `sessions list` (alias: `sess list`)
+
+List all available sessions with optional filtering.
+
+```bash
+opencode-client sessions list [options]
 ```
 
-### `stopQueueProcessor()`
+**Options:**
 
-Stops the background queue processor safely.
-
-```typescript
-function stopQueueProcessor(): void
-```
-
-**Behavior:**
-- Calls `clearProcessingInterval()` to properly clean up the interval
-- Sets the internal interval state to `null`
-- Prevents further automatic queue processing
-
-**Usage Example:**
-```typescript
-import { stopQueueProcessor } from '@promethean-os/opencode-client';
-
-// Stop the queue processor
-stopQueueProcessor();
-```
-
-## Ollama Tools
-
-### `submitJob`
-
-Submits a new LLM job to the queue for processing.
-
-```typescript
-export const submitJob: any = tool({
-  description: 'Submit a new LLM job to the queue',
-  args: {
-    jobName?: string,                    // Optional name for the job
-    modelName: string,                   // Ollama model name to use
-    jobType: 'generate' | 'chat' | 'embedding', // Type of job
-    prompt?: string,                     // Prompt for generate jobs
-    messages?: Array<{                   // Messages for chat jobs
-      role: 'system' | 'user' | 'assistant';
-      content: string;
-    }>,
-    input?: string | string[],           // Input for embedding jobs
-    priority?: 'low' | 'medium' | 'high' | 'urgent', // Job priority
-    options?: {                          // Ollama generation options
-      temperature?: number;
-      top_p?: number;
-      num_ctx?: number;
-      num_predict?: number;
-      stop?: string[];
-      format?: 'json' | object;
-    }
-  },
-  async execute(args, context): Promise<string>
-});
-```
-
-**Parameters:**
-- `jobName` (optional): Human-readable name for the job
-- `modelName` (required): Name of the Ollama model to use
-- `jobType` (required): Type of job to execute
-- `prompt` (required for generate): Text prompt for generation
-- `messages` (required for chat): Array of chat messages
-- `input` (required for embedding): Text or array of texts to embed
-- `priority` (optional, default: 'medium'): Job execution priority
-- `options` (optional): Ollama model configuration options
-
-**Returns:**
-JSON string containing:
-```typescript
-{
-  jobId: string,           // Unique job identifier
-  jobName?: string,        // Job name if provided
-  status: 'pending',       // Initial job status
-  queuePosition: number    // Position in pending queue
-}
-```
-
-**Example Usage:**
-```typescript
-// Generate job
-const result = await submitJob.execute({
-  modelName: 'llama2',
-  jobType: 'generate',
-  prompt: 'Explain TypeScript compilation',
-  priority: 'high'
-}, { agent: 'agent-123', sessionID: 'session-456' });
-
-// Chat job
-const chatResult = await submitJob.execute({
-  modelName: 'llama2',
-  jobType: 'chat',
-  messages: [
-    { role: 'system', content: 'You are a helpful assistant.' },
-    { role: 'user', content: 'What is TypeScript?' }
-  ]
-}, { agent: 'agent-123', sessionID: 'session-456' });
-```
-
-### `getJobStatus`
-
-Retrieves the current status of a specific job.
-
-```typescript
-export const getJobStatus: any = tool({
-  description: 'Get status of a specific job',
-  args: {
-    jobId: string    // Job ID to check
-  },
-  async execute({ jobId }): Promise<string>
-});
-```
-
-**Returns:**
-JSON string containing:
-```typescript
-{
-  id: string,
-  name?: string,
-  status: 'pending' | 'running' | 'completed' | 'failed' | 'canceled',
-  priority: 'low' | 'medium' | 'high' | 'urgent',
-  createdAt: number,
-  updatedAt: number,
-  startedAt?: number,
-  completedAt?: number,
-  error?: { message: string; code?: string }
-}
-```
-
-### `getJobResult`
-
-Retrieves the result of a completed job.
-
-```typescript
-export const getJobResult: any = tool({
-  description: 'Get result of a completed job',
-  args: {
-    jobId: string    // Job ID to get result from
-  },
-  async execute({ jobId }): Promise<string>
-});
-```
-
-**Returns:**
-JSON string containing:
-```typescript
-{
-  id: string,
-  name?: string,
-  status: 'completed',
-  result: unknown,      // Job execution result
-  completedAt: number
-}
-```
-
-**Throws:**
-- `Error` if job not found
-- `Error` if job is not completed
-
-### `listJobs`
-
-Lists jobs with optional filtering capabilities.
-
-```typescript
-export const listJobs: any = tool({
-  description: 'List jobs with optional filtering',
-  args: {
-    status?: 'pending' | 'running' | 'completed' | 'failed' | 'canceled',
-    limit?: number,        // Default: 50
-    agentOnly?: boolean    // Default: true
-  },
-  async execute(args, context): Promise<string>
-});
-```
-
-**Returns:**
-JSON string containing array of job summaries:
-```typescript
-[{
-  id: string,
-  name?: string,
-  status: JobStatus,
-  priority: JobPriority,
-  modelName: string,
-  createdAt: number,
-  updatedAt: number,
-  startedAt?: number,
-  completedAt?: number,
-  hasError: boolean,
-  hasResult: boolean
-}]
-```
-
-### `cancelJob`
-
-Cancels a pending job.
-
-```typescript
-export const cancelJob: any = tool({
-  description: 'Cancel a pending job',
-  args: {
-    jobId: string    // Job ID to cancel
-  },
-  async execute({ jobId }, context): Promise<string>
-});
-```
-
-**Returns:**
-JSON string containing:
-```typescript
-{
-  id: string,
-  status: 'canceled',
-  message: string
-}
-```
-
-**Throws:**
-- `Error` if job not found
-- `Error` if job belongs to another agent
-- `Error` if job is not in pending status
-
-### `listModels`
-
-Lists available Ollama models.
-
-```typescript
-export const listModels: any = tool({
-  description: 'List available Ollama models',
-  args: {
-    detailed?: boolean   // Default: false
-  },
-  async execute({ detailed }): Promise<string>
-});
-```
-
-**Returns:**
-JSON string containing:
-```typescript
-{
-  models: string[] | OllamaModel[],  // Model names or detailed objects
-  count: number                      // Total number of models
-}
-```
-
-### `getQueueInfo`
-
-Retrieves queue statistics and information.
-
-```typescript
-export const getQueueInfo = tool({
-  description: 'Get queue statistics and information',
-  args: {},
-  async execute(): Promise<string>
-});
-```
-
-**Returns:**
-JSON string containing:
-```typescript
-{
-  pending: number,           // Pending jobs count
-  running: number,           // Currently running jobs
-  completed: number,         // Completed jobs count
-  failed: number,            // Failed jobs count
-  canceled: number,          // Canceled jobs count
-  total: number,             // Total jobs in queue
-  maxConcurrent: number,     // Maximum concurrent jobs
-  processorActive: boolean,  // Whether processor is running
-  cacheSize: number          // Total cache entries
-}
-```
-
-### `manageCache`
-
-Manages the prompt cache with various operations.
-
-```typescript
-export const manageCache: any = tool({
-  description: 'Manage prompt cache (clear, get stats, etc.)',
-  args: {
-    action: 'stats' | 'clear' | 'clear-expired' | 'performance-analysis'
-  },
-  async execute({ action }): Promise<string>
-});
-```
-
-**Actions:**
-
-- **`stats`**: Returns cache statistics
-- **`clear`**: Clears all cache entries
-- **`clear-expired`**: Clears expired entries (not implemented for in-memory cache)
-- **`performance-analysis`**: Analyzes performance across cached entries
+- `--limit <number>`: Limit number of results (default: 20)
+- `--offset <number>`: Offset for pagination (default: 0)
 
 **Example:**
-```typescript
-// Get cache statistics
-const stats = await manageCache.execute({ action: 'stats' });
 
-// Clear cache
-const clearResult = await manageCache.execute({ action: 'clear' });
+```bash
+opencode-client sessions list --limit 10 --offset 20
 ```
 
-### `submitFeedback`
+#### `sessions get <sessionId>`
 
-Submits feedback on a cached result to improve model routing.
+Retrieve detailed information about a specific session.
+
+```bash
+opencode-client sessions get <sessionId> [options]
+```
+
+**Arguments:**
+
+- `sessionId`: Unique identifier of the session
+
+**Example:**
+
+```bash
+opencode-client sessions get sess_1234567890
+```
+
+#### `sessions create`
+
+Create a new OpenCode session.
+
+```bash
+opencode-client sessions create [options]
+```
+
+**Options:**
+
+- `--title <string>`: Session title
+- `--message <string>`: Initial message for the session
+
+**Example:**
+
+```bash
+opencode-client sessions create --title "Code Review Session" --message "Review this TypeScript code"
+```
+
+#### `sessions spawn`
+
+Quickly create a session with an initial message (convenience command).
+
+```bash
+opencode-client sessions spawn <message> [options]
+```
+
+**Arguments:**
+
+- `message`: Initial message for the session
+
+**Options:**
+
+- `--title <string>`: Session title (optional)
+
+**Example:**
+
+```bash
+opencode-client sessions spawn "Help me debug this TypeScript error" --title "Debug Session"
+```
+
+#### `sessions close <sessionId>`
+
+Close an active session.
+
+```bash
+opencode-client sessions close <sessionId>
+```
+
+**Arguments:**
+
+- `sessionId`: Unique identifier of the session to close
+
+**Example:**
+
+```bash
+opencode-client sessions close sess_1234567890
+```
+
+#### `sessions search`
+
+Search for sessions based on content and metadata.
+
+```bash
+opencode-client sessions search <query> [options]
+```
+
+**Arguments:**
+
+- `query`: Search query string
+
+**Options:**
+
+- `--k <number>`: Number of results to return (default: 20)
+
+**Example:**
+
+```bash
+opencode-client sessions search "TypeScript compilation" --k 5
+```
+
+#### `sessions diagnose`
+
+Diagnose session-related issues and provide system health information.
+
+```bash
+opencode-client sessions diagnose [sessionId]
+```
+
+**Arguments:**
+
+- `sessionId`: Optional session ID to diagnose (if omitted, diagnoses overall system)
+
+**Example:**
+
+```bash
+opencode-client sessions diagnose sess_1234567890
+```
+
+### Events Commands
+
+View and subscribe to OpenCode events for real-time monitoring.
+
+#### `events list` (alias: `ev list`)
+
+List recent events from the event store.
+
+```bash
+opencode-client events list [options]
+```
+
+**Options:**
+
+- `--query <string>`: Filter events by query
+- `--eventType <string>`: Filter by event type
+- `--sessionId <string>`: Filter by session ID
+- `--k <number>`: Number of events to return (default: 50)
+
+**Example:**
+
+```bash
+opencode-client events list --eventType "message_sent" --k 10
+```
+
+#### `events subscribe`
+
+Subscribe to real-time events from the OpenCode system.
+
+```bash
+opencode-client events subscribe [options]
+```
+
+**Options:**
+
+- `--eventType <string>`: Filter by specific event type
+- `--sessionId <string>`: Filter by session ID
+- `--query <string>`: Filter by query pattern
+
+**Example:**
+
+```bash
+opencode-client events subscribe --eventType "message_sent" --sessionId sess_1234567890
+```
+
+### Messages Commands
+
+Manage and analyze messages within sessions.
+
+#### `messages list` (alias: `msg list`)
+
+List messages for a specific session.
+
+```bash
+opencode-client messages list <sessionId> [options]
+```
+
+**Arguments:**
+
+- `sessionId`: Unique identifier of the session
+
+**Options:**
+
+- `--limit <number>`: Limit number of messages (default: 10)
+
+**Example:**
+
+```bash
+opencode-client messages list sess_1234567890 --limit 20
+```
+
+#### `messages get <sessionId> <messageId>`
+
+Retrieve a specific message from a session.
+
+```bash
+opencode-client messages get <sessionId> <messageId>
+```
+
+**Arguments:**
+
+- `sessionId`: Unique identifier of the session
+- `messageId`: Unique identifier of the message
+
+**Example:**
+
+```bash
+opencode-client messages get sess_1234567890 msg_0987654321
+```
+
+#### `messages send <sessionId> <message>`
+
+Send a message to a session.
+
+```bash
+opencode-client messages send <sessionId> <message>
+```
+
+**Arguments:**
+
+- `sessionId`: Unique identifier of the session
+- `message`: Message content to send
+
+**Example:**
+
+```bash
+opencode-client messages send sess_1234567890 "Can you help me with this code?"
+```
+
+### Indexer Commands
+
+Manage the OpenCode indexer service for active data capture.
+
+#### `indexer start`
+
+Start the indexer service to actively capture events and messages.
+
+```bash
+opencode-client indexer start [options]
+```
+
+**Options:**
+
+- `--pm2`: Run as PM2 daemon instead of foreground process
+- `--verbose`: Enable verbose logging
+- `--baseUrl <url>`: OpenCode server base URL (default: 'http://localhost:4096')
+
+**Example:**
+
+```bash
+opencode-client indexer start --pm2 --verbose
+```
+
+## Programmatic API
+
+### Session Actions
+
+#### `create(title?: string, message?: string): Promise<CreateSessionResult>`
+
+Create a new session.
 
 ```typescript
-export const submitFeedback: any = tool({
-  description: 'Submit feedback on a cached result to improve model routing',
-  args: {
-    prompt: string,           // Original prompt
-    modelName: string,        // Model that generated result
-    jobType: 'generate' | 'chat', // Job type
-    score: number,            // Feedback score (-1 to 1)
-    reason?: string,          // Reason for feedback
-    taskCategory?: string     // Task category for routing
-  },
-  async execute({ prompt, modelName, jobType, score, reason, taskCategory }): Promise<string>
+import { create } from '@promethean-os/opencode-client';
+
+const result = await create('My Session', 'Initial message');
+// result: { sessionId: string, title: string, message: string }
+```
+
+#### `get(sessionId: string): Promise<GetSessionResult>`
+
+Retrieve session details.
+
+```typescript
+import { get } from '@promethean-os/opencode-client';
+
+const session = await get('sess_1234567890');
+// session: { id, title, messages, metadata, ... }
+```
+
+#### `list(limit?: number, offset?: number): Promise<ListSessionsResult>`
+
+List sessions with pagination.
+
+```typescript
+import { listSessions } from '@promethean-os/opencode-client';
+
+const sessions = await listSessions(20, 0);
+// sessions: { sessions: Session[], total: number, hasMore: boolean }
+```
+
+#### `close(sessionId: string): Promise<CloseSessionResult>`
+
+Close a session.
+
+```typescript
+import { close } from '@promethean-os/opencode-client';
+
+const result = await close('sess_1234567890');
+// result: { sessionId: string, status: 'closed' }
+```
+
+#### `search(query: string, k?: number): Promise<SearchSessionsResult>`
+
+Search sessions.
+
+```typescript
+import { search } from '@promethean-os/opencode-client';
+
+const results = await search('TypeScript', 10);
+// results: { sessions: Session[], query: string, total: number }
+```
+
+### Event Actions
+
+#### `subscribe(options?: SubscribeOptions): Promise<SubscribeResult>`
+
+Subscribe to real-time events.
+
+```typescript
+import { subscribe } from '@promethean-os/opencode-client';
+
+const subscription = await subscribe({
+  eventType: 'message_sent',
+  sessionId: 'sess_1234567890',
 });
+// subscription: { subscriptionId, eventStream }
 ```
 
-**Returns:**
-JSON string containing:
+#### `listEvents(options?: ListEventsOptions): Promise<Event[]>`
+
+List recent events.
+
 ```typescript
-{
-  message: string,
-  score: number,
-  modelName: string,
-  jobType: string,
-  taskCategory?: string
-}
+import { listEvents } from '@promethean-os/opencode-client';
+
+const events = await listEvents({
+  eventType: 'message_sent',
+  k: 20,
+});
+// events: Event[]
+```
+
+### Message Actions
+
+#### `listMessages(sessionId: string, limit?: number): Promise<Message[]>`
+
+List messages in a session.
+
+```typescript
+import { listMessages } from '@promethean-os/opencode-client';
+
+const messages = await listMessages('sess_1234567890', 10);
+// messages: Message[]
+```
+
+#### `getMessage(sessionId: string, messageId: string): Promise<Message>`
+
+Get a specific message.
+
+```typescript
+import { getMessage } from '@promethean-os/opencode-client';
+
+const message = await getMessage('sess_1234567890', 'msg_0987654321');
+// message: { id, content, timestamp, metadata, ... }
+```
+
+#### `sendMessage(sessionId: string, content: string): Promise<Message>`
+
+Send a message to a session.
+
+```typescript
+import { sendMessage } from '@promethean-os/opencode-client';
+
+const message = await sendMessage('sess_1234567890', 'Hello, world!');
+// message: { id, content, timestamp, ... }
 ```
 
 ## Type Definitions
 
-### JobStatus
+### Session Types
+
 ```typescript
-type JobStatus = 'pending' | 'running' | 'completed' | 'failed' | 'canceled';
+interface Session {
+  id: string;
+  title?: string;
+  createdAt: number;
+  updatedAt: number;
+  activityStatus: 'active' | 'idle' | 'closed';
+  metadata?: Record<string, any>;
+}
+
+interface CreateSessionResult {
+  sessionId: string;
+  title?: string;
+  message?: string;
+}
+
+interface GetSessionResult extends Session {
+  messages: Message[];
+  events: Event[];
+}
+
+interface ListSessionsResult {
+  sessions: Session[];
+  total: number;
+  hasMore: boolean;
+  limit: number;
+  offset: number;
+}
+
+interface SearchSessionsResult {
+  sessions: Session[];
+  query: string;
+  total: number;
+  k: number;
+}
+
+interface CloseSessionResult {
+  sessionId: string;
+  status: 'closed';
+  closedAt: number;
+}
 ```
 
-### JobPriority
+### Event Types
+
 ```typescript
-type JobPriority = 'low' | 'medium' | 'high' | 'urgent';
+interface Event {
+  id: string;
+  type: string;
+  sessionId?: string;
+  timestamp: number;
+  data: Record<string, any>;
+  metadata?: Record<string, any>;
+}
+
+interface SubscribeOptions {
+  eventType?: string;
+  sessionId?: string;
+  query?: string;
+}
+
+interface SubscribeResult {
+  subscriptionId: string;
+  eventStream: AsyncIterable<Event>;
+}
+
+interface ListEventsOptions {
+  query?: string;
+  eventType?: string;
+  sessionId?: string;
+  k?: number;
+}
 ```
 
-### JobType
+### Message Types
+
 ```typescript
-type JobType = 'generate' | 'chat' | 'embedding';
+interface Message {
+  id: string;
+  sessionId: string;
+  content: string;
+  role: 'user' | 'assistant' | 'system';
+  timestamp: number;
+  metadata?: Record<string, any>;
+}
 ```
 
-### OllamaOptions
+## Plugins
+
+### OpencodeInterfacePlugin
+
+Main plugin for OpenCode interface integration.
+
 ```typescript
-type OllamaOptions = Readonly<{
-  temperature?: number;
-  top_p?: number;
-  num_ctx?: number;
-  num_predict?: number;
-  stop?: readonly string[];
-  format?: 'json' | object;
-}>;
+import { OpencodeInterfacePlugin } from '@promethean-os/opencode-client';
+
+const plugin = new OpencodeInterfacePlugin({
+  baseUrl: 'http://localhost:4096',
+  apiKey: 'your-api-key',
+});
+```
+
+### RealtimeCapturePlugin
+
+Plugin for real-time event and message capture.
+
+```typescript
+import { RealtimeCapturePlugin } from '@promethean-os/opencode-client';
+
+const plugin = new RealtimeCapturePlugin({
+  bufferSize: 1000,
+  flushInterval: 5000,
+});
+```
+
+### EventHooksPlugin
+
+Plugin for event-driven hooks and callbacks.
+
+```typescript
+import { EventHooksPlugin } from '@promethean-os/opencode-client';
+
+const plugin = new EventHooksPlugin({
+  onMessage: (message) => console.log('New message:', message),
+  onSessionCreated: (session) => console.log('Session created:', session),
+});
 ```
 
 ## Error Handling
 
-All tools throw `Error` objects with descriptive messages for:
+All API functions throw structured errors:
 
-- Invalid input parameters
-- Job not found
-- Permission issues (agent ownership)
-- Invalid job state transitions
-- Ollama API communication failures
-- Cache operation failures
-
-## Context Requirements
-
-All tools require a context object with:
 ```typescript
-{
-  agent: string,      // Agent identifier
-  sessionID: string   // Session identifier
+interface OpenCodeError extends Error {
+  code: string;
+  statusCode?: number;
+  details?: Record<string, any>;
 }
 ```
 
-This context is used for:
-- Job ownership validation
-- Agent-specific job filtering
-- Session-based job tracking
+Common error codes:
+
+- `SESSION_NOT_FOUND`: Session does not exist
+- `MESSAGE_NOT_FOUND`: Message does not exist
+- `INVALID_SESSION_ID`: Malformed session ID
+- `PERMISSION_DENIED`: Insufficient permissions
+- `NETWORK_ERROR`: Connection issues
+- `VALIDATION_ERROR`: Invalid input parameters
+
+## Configuration
+
+### Environment Variables
+
+- `OPENCODE_BASE_URL`: OpenCode server URL (default: 'http://localhost:4096')
+- `OPENCODE_API_KEY`: API authentication key
+- `OPENCODE_TIMEOUT`: Request timeout in milliseconds (default: 30000)
+- `OPENCODE_DEBUG`: Enable debug logging (true/false)
+
+### Configuration Object
+
+```typescript
+interface OpenCodeConfig {
+  baseUrl?: string;
+  apiKey?: string;
+  timeout?: number;
+  debug?: boolean;
+  retryAttempts?: number;
+  retryDelay?: number;
+}
+```
+
+Example:
+
+```typescript
+import { configure } from '@promethean-os/opencode-client';
+
+configure({
+  baseUrl: 'https://api.opencode.com',
+  apiKey: 'your-api-key',
+  timeout: 60000,
+  debug: true,
+  retryAttempts: 3,
+  retryDelay: 1000,
+});
+```

@@ -1,23 +1,14 @@
-# OpenCode Client Documentation
+# OpenCode Client
 
-## Overview
+TypeScript client for OpenCode with Ollama LLM queue management and asynchronous job processing.
 
-The `@promethean-os/opencode-client` package provides a comprehensive TypeScript-based client for interacting with OpenCode plugins and tools, with specialized support for Ollama LLM queue management and asynchronous job processing.
-
-## Quick Start
-
-### Installation
+## Installation
 
 ```bash
-# Install the package
 pnpm add @promethean-os/opencode-client
-
-# Or install in the monorepo
-cd packages/opencode-client
-pnpm install
 ```
 
-### Basic Usage
+## Quick Start
 
 ```typescript
 import { submitJob, getJobStatus, getJobResult } from '@promethean-os/opencode-client';
@@ -48,93 +39,84 @@ const result = await getJobResult.execute({ jobId });
 console.log('Job result:', JSON.parse(result));
 ```
 
-## Documentation Structure
+## Key Features
 
-### Core Documentation
-
-- **[Spawn Command](./spawn-command.md)** - Quick session creation with spawn message
-- **[TypeScript Compilation Fixes](./typescript-compilation-fixes.md)** - Details about recent TypeScript fixes and type safety improvements
-- **[API Reference](./api-reference.md)** - Complete API documentation for all functions and tools
-- **[Ollama Queue Integration](./ollama-queue-integration.md)** - Comprehensive guide to queue management and job processing
-- **[Development Guide](./development-guide.md)** - Setup, development workflows, and contribution guidelines
-- **[Troubleshooting Guide](./troubleshooting.md)** - Common issues and solutions
-
-### Key Features
-
-#### 🚀 Asynchronous Job Processing
+### 🚀 Asynchronous Job Processing
 
 - Queue-based job management with priority handling
 - Automatic retry and error recovery
 - Concurrent job processing with configurable limits
 
-#### 💾 Intelligent Caching
+### 💾 Intelligent Caching
 
 - Semantic similarity-based cache hits
 - Performance tracking and optimization
 - User feedback integration for model routing
 
-#### 🔧 TypeScript-First Design
+### 🔧 TypeScript-First Design
 
 - Full type safety with comprehensive type definitions
 - Proper error handling and validation
 - Modern ES6+ patterns and practices
 
-#### 📊 Monitoring and Debugging
+### 📊 Monitoring and Debugging
 
 - Comprehensive logging and metrics
 - Health check endpoints
 - Performance profiling tools
 
-## Architecture Overview
+## Core Tools
 
-```
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Client Tools  │───▶│   Job Queue      │───▶│  Ollama API     │
-│                 │    │                  │    │                 │
-│ • submitJob     │    │ • Priority Queue │    │ • Generate      │
-│ • getJobStatus  │    │ • Concurrent     │    │ • Chat          │
-│ • cancelJob     │    │ • Retry Logic    │    │ • Embedding     │
-│ • listJobs      │    │                  │    │                 │
-└─────────────────┘    └──────────────────┘    └─────────────────┘
-         │                       │                       │
-         │              ┌──────────────────┐            │
-         └──────────────▶│  Cache Layer     │◀───────────┘
-                        │                  │
-                        │ • Semantic Cache │
-                        │ • Performance    │
-                        │ • Feedback       │
-                        └──────────────────┘
-```
+| Tool             | Purpose                     | Example                                           |
+| ---------------- | --------------------------- | ------------------------------------------------- |
+| `submitJob`      | Submit new LLM job          | `submitJob.execute({modelName, jobType, prompt})` |
+| `getJobStatus`   | Check job status            | `getJobStatus.execute({jobId})`                   |
+| `getJobResult`   | Get completed result        | `getJobResult.execute({jobId})`                   |
+| `listJobs`       | List jobs with filters      | `listJobs.execute({status: 'completed'})`         |
+| `cancelJob`      | Cancel pending job          | `cancelJob.execute({jobId})`                      |
+| `listModels`     | List available models       | `listModels.execute({detailed: true})`            |
+| `getQueueInfo`   | Get queue statistics        | `getQueueInfo.execute({})`                        |
+| `manageCache`    | Cache operations            | `manageCache.execute({action: 'stats'})`          |
+| `submitFeedback` | Submit performance feedback | `submitFeedback.execute({prompt, score})`         |
 
-## Recent Updates
+## Job Types
 
-### TypeScript Compilation Fixes (October 2025)
+- **Generate**: Single-prompt text generation
+- **Chat**: Multi-turn conversations
+- **Embedding**: Text vector embeddings
 
-The package recently underwent significant TypeScript compilation fixes to resolve build errors and improve type safety:
+## Priority Levels
 
-- ✅ Fixed `setProcessingInterval(null)` type mismatch
-- ✅ Updated imports to use proper `clearProcessingInterval()` function
-- ✅ Removed unused imports and functions
-- ✅ Enhanced type safety across the codebase
-- ✅ All builds now succeed without errors
+- **Urgent**: Highest priority, processed first
+- **High**: Important tasks
+- **Medium**: Default priority
+- **Low**: Background processing
 
-**Key Changes:**
+## Documentation
 
-- Updated `src/tools/ollama.ts` to use proper queue management functions
-- Cleaned up `src/actions/ollama/tools.ts` imports and implementations
-- Established best practices for queue processor lifecycle management
+### Core Documentation
 
-For detailed technical information, see the [TypeScript Compilation Fixes](./typescript-compilation-fixes.md) document.
+- **[API Reference](https://github.com/riatzukiza/promethean/tree/main/packages/opencode-client/docs/api-reference.md)** - Complete API documentation for all functions and tools
+- **[Development Guide](https://github.com/riatzukiza/promethean/tree/main/packages/opencode-client/docs/development-guide.md)** - Setup, development workflows, and contribution guidelines
+- **[Usage Examples](https://github.com/riatzukiza/promethean/tree/main/packages/opencode-client/docs/usage-examples.md)** - Comprehensive examples and workflows
+- **[Troubleshooting Guide](https://github.com/riatzukiza/promethean/tree/main/packages/opencode-client/docs/troubleshooting.md)** - Common issues and solutions
 
-## Getting Started Guide
+### Additional Documentation
 
-### 1. Prerequisites
+- **[Ollama Queue Integration](https://github.com/riatzukiza/promethean/tree/main/packages/opencode-client/docs/ollama-queue-integration.md)** - Comprehensive guide to queue management and job processing
+- **[TypeScript Compilation Fixes](https://github.com/riatzukiza/promethean/tree/main/packages/opencode-client/docs/typescript-compilation-fixes.md)** - Recent TypeScript fixes and type safety improvements
+- **[Spawn Command](https://github.com/riatzukiza/promethean/tree/main/packages/opencode-client/docs/spawn-command.md)** - Quick session creation with spawn message
+- **[Integration Guide](https://github.com/riatzukiza/promethean/tree/main/packages/opencode-client/docs/integration.md)** - Integration patterns and best practices
+
+## Setup & Configuration
+
+### Prerequisites
 
 - Node.js 18+ and TypeScript 5+
 - Ollama service running locally or accessible via network
 - pnpm package manager
 
-### 2. Setup Ollama
+### Install and Configure Ollama
 
 ```bash
 # Install Ollama
@@ -147,7 +129,7 @@ ollama serve
 ollama pull llama2
 ```
 
-### 3. Basic Configuration
+### Basic Configuration
 
 ```typescript
 // Configure Ollama URL (optional, defaults to localhost:11434)
@@ -155,47 +137,6 @@ process.env.OLLAMA_URL = 'http://localhost:11434';
 
 // Enable debug logging (optional)
 process.env.DEBUG = 'ollama-queue:*';
-```
-
-### 4. Your First Job
-
-```typescript
-import { submitJob, getJobResult } from '@promethean-os/opencode-client';
-
-async function firstJob() {
-  try {
-    // Submit a generation job
-    const jobResult = await submitJob.execute(
-      {
-        modelName: 'llama2',
-        jobType: 'generate',
-        prompt: 'What are the benefits of TypeScript?',
-        options: {
-          temperature: 0.7,
-          num_predict: 300,
-        },
-      },
-      {
-        agent: 'demo-agent',
-        sessionID: 'demo-session',
-      },
-    );
-
-    const { jobId } = JSON.parse(jobResult);
-    console.log('Job submitted with ID:', jobId);
-
-    // Wait for completion and get result
-    // Note: In production, you'd want to poll status or use events
-    setTimeout(async () => {
-      const result = await getJobResult.execute({ jobId });
-      console.log('Job result:', JSON.parse(result));
-    }, 5000);
-  } catch (error) {
-    console.error('Job failed:', error.message);
-  }
-}
-
-firstJob();
 ```
 
 ## Common Usage Patterns
@@ -254,42 +195,13 @@ async function generateEmbeddings(texts: string[]) {
 }
 ```
 
-## API Overview
-
-### Core Tools
-
-| Tool             | Purpose                     | Example                                           |
-| ---------------- | --------------------------- | ------------------------------------------------- |
-| `submitJob`      | Submit new LLM job          | `submitJob.execute({modelName, jobType, prompt})` |
-| `getJobStatus`   | Check job status            | `getJobStatus.execute({jobId})`                   |
-| `getJobResult`   | Get completed result        | `getJobResult.execute({jobId})`                   |
-| `listJobs`       | List jobs with filters      | `listJobs.execute({status: 'completed'})`         |
-| `cancelJob`      | Cancel pending job          | `cancelJob.execute({jobId})`                      |
-| `listModels`     | List available models       | `listModels.execute({detailed: true})`            |
-| `getQueueInfo`   | Get queue statistics        | `getQueueInfo.execute({})`                        |
-| `manageCache`    | Cache operations            | `manageCache.execute({action: 'stats'})`          |
-| `submitFeedback` | Submit performance feedback | `submitFeedback.execute({prompt, score})`         |
-
-### Job Types
-
-- **Generate**: Single-prompt text generation
-- **Chat**: Multi-turn conversations
-- **Embedding**: Text vector embeddings
-
-### Priority Levels
-
-- **Urgent**: Highest priority, processed first
-- **High**: Important tasks
-- **Medium**: Default priority
-- **Low**: Background processing
-
 ## Development
 
 ### Building from Source
 
 ```bash
 # Clone repository
-git clone <repository-url>
+git clone https://github.com/riatzukiza/promethean.git
 cd promethean/packages/opencode-client
 
 # Install dependencies
@@ -324,21 +236,21 @@ pnpm test --watch
 5. Ensure build passes
 6. Submit a pull request
 
-For detailed development guidelines, see the [Development Guide](./development-guide.md).
+For detailed development guidelines, see the [Development Guide](https://github.com/riatzukiza/promethean/tree/main/packages/opencode-client/docs/development-guide.md).
 
 ## Support and Troubleshooting
 
 ### Common Issues
 
-1. **TypeScript Compilation Errors**: See [TypeScript Compilation Fixes](./typescript-compilation-fixes.md)
-2. **Queue Processing Issues**: See [Troubleshooting Guide](./troubleshooting.md)
+1. **TypeScript Compilation Errors**: See [TypeScript Compilation Fixes](https://github.com/riatzukiza/promethean/tree/main/packages/opencode-client/docs/typescript-compilation-fixes.md)
+2. **Queue Processing Issues**: See [Troubleshooting Guide](https://github.com/riatzukiza/promethean/tree/main/packages/opencode-client/docs/troubleshooting.md)
 3. **Ollama Connection Problems**: Ensure Ollama service is running
 4. **Cache Issues**: Clear cache with `manageCache.execute({action: 'clear'})`
 
 ### Getting Help
 
-- Check the [Troubleshooting Guide](./troubleshooting.md) for common issues
-- Review the [API Reference](./api-reference.md) for detailed usage
+- Check the [Troubleshooting Guide](https://github.com/riatzukiza/promethean/tree/main/packages/opencode-client/docs/troubleshooting.md) for common issues
+- Review the [API Reference](https://github.com/riatzukiza/promethean/tree/main/packages/opencode-client/docs/api-reference.md) for detailed usage
 - Enable debug logging: `process.env.DEBUG = 'ollama-queue:*'`
 - Create an issue with detailed error information
 
@@ -366,9 +278,30 @@ async function healthCheck() {
 healthCheck();
 ```
 
+## Architecture Overview
+
+```
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│   Client Tools  │───▶│   Job Queue      │───▶│  Ollama API     │
+│                 │    │                  │    │                 │
+│ • submitJob     │    │ • Priority Queue │    │ • Generate      │
+│ • getJobStatus  │    │ • Concurrent     │    │ • Chat          │
+│ • cancelJob     │    │ • Retry Logic    │    │ • Embedding     │
+│ • listJobs      │    │                  │    │                 │
+└─────────────────┘    └──────────────────┘    └─────────────────┘
+         │                       │                       │
+         │              ┌──────────────────┐            │
+         └──────────────▶│  Cache Layer     │◀───────────┘
+                        │                  │
+                        │ • Semantic Cache │
+                        │ • Performance    │
+                        │ • Feedback       │
+                        └──────────────────┘
+```
+
 ## License
 
-This project is licensed under the GPL-3.0 License. See the [LICENSE](../../LICENSE.txt) file for details.
+This project is licensed under the GPL-3.0 License. See the [LICENSE](https://github.com/riatzukiza/promethean/tree/main/LICENSE.txt) file for details.
 
 ## Related Packages
 
@@ -376,7 +309,3 @@ This project is licensed under the GPL-3.0 License. See the [LICENSE](../../LICE
 - **@promethean-os/persistence**: Data persistence layer
 - **@opencode-ai/plugin**: OpenCode plugin framework
 - **@opencode-ai/sdk**: OpenCode SDK
-
-## Changelog
-
-Recent changes are documented in the `changelog.d/` directory. The most recent significant update was the TypeScript compilation fixes in October 2025, which resolved all build errors and improved type safety across the package.
