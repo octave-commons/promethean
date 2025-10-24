@@ -73,7 +73,7 @@ export function registerSimpleOAuthRoutes(
       .send({
         issuer: `${baseUrl}/mcp`,
         authorization_endpoint: `${baseUrl}${basePath}/login`,
-        token_endpoint: `${baseUrl}${basePath}/callback`,
+        token_endpoint: `${baseUrl}${basePath}/token`,
         registration_endpoint: `${baseUrl}/.well-known/oauth-registration/mcp`,
         response_types_supported: ['code'],
         grant_types_supported: ['authorization_code'],
@@ -95,7 +95,7 @@ export function registerSimpleOAuthRoutes(
       .send({
         issuer: `${baseUrl}/mcp`,
         authorization_endpoint: `${baseUrl}${basePath}/login`,
-        token_endpoint: `${baseUrl}${basePath}/callback`,
+        token_endpoint: `${baseUrl}${basePath}/token`,
         userinfo_endpoint: `${baseUrl}${basePath}/userinfo`,
         jwks_uri: `${baseUrl}${basePath}/jwks`,
         registration_endpoint: `${baseUrl}/.well-known/oauth-registration/mcp`,
@@ -609,13 +609,16 @@ export function registerSimpleOAuthRoutes(
 
         try {
           // Validate required environment variables
-          const clientId = process.env.MCP_OAUTH_GITHUB_CLIENT_ID || process.env.OAUTH_GITHUB_CLIENT_ID;
-          const clientSecret = process.env.MCP_OAUTH_GITHUB_CLIENT_SECRET || process.env.OAUTH_GITHUB_CLIENT_SECRET;
-          
+          const clientId =
+            process.env.MCP_OAUTH_GITHUB_CLIENT_ID || process.env.OAUTH_GITHUB_CLIENT_ID;
+          const clientSecret =
+            process.env.MCP_OAUTH_GITHUB_CLIENT_SECRET || process.env.OAUTH_GITHUB_CLIENT_SECRET;
+
           if (!clientId || !clientSecret) {
             return reply.status(500).send({
               error: 'configuration_error',
-              message: 'GitHub OAuth credentials not configured. Please set MCP_OAUTH_GITHUB_CLIENT_ID and MCP_OAUTH_GITHUB_CLIENT_SECRET environment variables.',
+              message:
+                'GitHub OAuth credentials not configured. Please set MCP_OAUTH_GITHUB_CLIENT_ID and MCP_OAUTH_GITHUB_CLIENT_SECRET environment variables.',
             });
           }
 

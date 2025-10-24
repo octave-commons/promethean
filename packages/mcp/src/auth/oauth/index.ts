@@ -356,6 +356,7 @@ export class OAuthSystem {
         prompt: this.config.providers.google.prompt,
       });
       this.providers.set('google', googleProvider);
+      this.clientIdToProvider.set(this.config.providers.google.clientId, 'google');
     }
   }
 
@@ -364,13 +365,6 @@ export class OAuthSystem {
    */
   private generateSecureState(): string {
     return crypto.randomBytes(32).toString('base64url');
-  }
-
-  /**
-   * Generate secure PKCE code verifier
-   */
-  private generateCodeVerifier(): string {
-    return crypto.randomBytes(64).toString('base64url');
   }
 
   /**
@@ -450,5 +444,29 @@ export class OAuthSystem {
       activeStates: this.states.size,
       activeSessions: this.sessions.size,
     };
+  }
+
+  /**
+   * Resolve the configured provider name by OAuth client_id.
+   * Useful for ChatGPT/MCP token exchanges where state isn't returned.
+   */
+  getProviderByClientId(clientId: string): string | null {
+    return this.clientIdToProvider.get(clientId) ?? null;
+  }
+
+  /**
+   * Directly exchange an authorization code for tokens without state.
+   * Used for ChatGPT/MCP, which posts (code, code_verifier, redirect_uri, client_id).
+   */
+  async exchangeCodeForTokensDirect(
+    providerName: string,
+    code: string,
+    opts: { codeVerifier?: string; redirectUri?: string } = {},
+  ) {
+    const provider = this.providers.get(providerName);
+    if (!provider) {
+      throw new Error(`Provider not found: ${providerName}`);
+    }
+    return await provider.exchangeCodeForTokens(code, opts.codeVerifier, opts.redirectUri);
   }
 }
