@@ -504,6 +504,75 @@ export function registerSimpleOAuthRoutes(
     }
   });
 
+  /**
+   * Token endpoint (MCP style): POST { grant_type=authorization_code, code, code_verifier?, redirect_uri, client_id }
+   * Returns standard OAuth token response JSON. No cookies/redirects here.
+   */
+  fastify.post(`${basePath}/token`, async (request, reply) => {
+    try {
+      // Normalize body
+      const body = request.body as any;
+      const code: string | undefined = body?.code;
+      const codeVerifier: string | undefined = body?.code_verifier;
+      const postedRedirectUri: string | undefined = body?.redirect_uri;
+      const clientId: string | undefined = body?.client_id;
+      const error: string | undefined = body?.error;
+
+      if (error) {
+        return reply.status(400).send({
+          error: 'OAuth error',
+          message: error,
+        });
+      }
+
+      // For MCP PKCE flow, code is required (no state expected)
+      if (!code) {
+        return reply.status(400).send({
+          error: 'Missing parameters',
+          message: 'Authorization code is required',
+        });
+      }
+
+      // Resolve provider (prefer client_id mapping; fallback to single available provider)
+      let provider: string | null = null;
+      if (clientId && typeof (config.oauthSystem as any).getProviderByClientId === 'function') {
+        provider = (config.oauthSystem as any).getProviderByClientId(clientId);
+      }
+      if (!provider) {
+        const provs = config.oauthSystem.getAvailableProviders();
+        provider = provs.length === 1 ? provs[0] || 'github' : 'github';
+      }
+
+      // Perform provider-agnostic token exchange via OAuthSystem
+      let token;
+      try {
+        token = await (config.oauthSystem as any).exchangeCodeForTokensDirect(provider!, code, {
+          codeVerifier,
+          redirectUri: postedRedirectUri, // must match the value used at authorize time
+        });
+      } catch (e) {
+        return reply.status(400).send({
+          error: 'token_exchange_failed',
+          message: (e as Error).message,
+        });
+      }
+
+      // Minimal OAuth token response for MCP
+      return reply.status(200).send({
+        access_token: token.accessToken,
+        token_type: token.tokenType || 'Bearer',
+        ...(token.expiresIn ? { expires_in: token.expiresIn } : {}),
+        ...(token.refreshToken ? { refresh_token: token.refreshToken } : {}),
+        ...(token.scope ? { scope: token.scope } : {}),
+      });
+    } catch (error) {
+      return reply.status(500).send({
+        error: 'token_endpoint_error',
+        message: String(error),
+      });
+    }
+  });
+
   // OAuth callback (POST - for API usage)
   fastify.post(`${basePath}/callback`, async (request, reply) => {
     try {
@@ -789,6 +858,23 @@ export function registerSimpleOAuthRoutes(
         message: String(error),
       });
     }
+  });
+
+  // Back-compat: allow POST /callback to behave like /token for MCP
+  fastify.post(`${basePath}/callback`, async (request, reply) => {
+    return fastify
+      .inject({
+        method: 'POST',
+        url: `${basePath}/token`,
+        payload: request.body as any,
+        headers: request.headers as any,
+      })
+      .then((res) =>
+        reply
+          .status(res.statusCode)
+          .headers(res.headers as any)
+          .send(res.body ? JSON.parse(res.body as any) : undefined),
+      );
   });
 
   // Get current user
