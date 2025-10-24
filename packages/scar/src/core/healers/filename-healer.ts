@@ -5,6 +5,9 @@
 import { basename, dirname, extname, join } from 'path';
 import { HealingStrategy, HealingResult, FileCorruption, ScarType } from '../../types/index.js';
 
+const SUPPORTED_EXTENSIONS = ['md', 'txt', 'json', 'yaml', 'yml'] as const;
+const EXTENSION_SET = new Set(SUPPORTED_EXTENSIONS);
+
 export class FilenameHealer implements HealingStrategy {
   readonly name = 'FilenameHealer';
   readonly supportedTypes = [ScarType.FILENAME_CORRUPTION];
@@ -24,22 +27,35 @@ export class FilenameHealer implements HealingStrategy {
       const changesMade: string[] = [];
 
       // Fix double extensions (.md.md -> .md)
-      if (/^(.+)\.(md|txt|json|yaml|yml)\.(md|txt|json|yaml|yml)$/.test(filename)) {
-        const match = filename.match(/^(.+)\.(md|txt|json|yaml|yml)\.(md|txt|json|yaml|yml)$/);
-        if (match) {
-          newFilename = `${match[1]}.${match[2]}`;
-          changesMade.push(`Fixed double extension`);
+      const filenameSegments = newFilename.split('.');
+      if (filenameSegments.length >= 3) {
+        const lastExtension = filenameSegments[filenameSegments.length - 1];
+        const priorExtension = filenameSegments[filenameSegments.length - 2];
+
+        if (EXTENSION_SET.has(lastExtension.toLowerCase()) && EXTENSION_SET.has(priorExtension.toLowerCase())) {
+          const baseSegments = filenameSegments.slice(0, -2);
+          if (baseSegments.length > 0) {
+            const baseName = baseSegments.join('.');
+            newFilename = `${baseName}.${priorExtension}`;
+            changesMade.push(`Fixed double extension`);
+          }
         }
       }
 
       // Fix space and number in extensions (file 2.md -> file.md)
-      if (/^(.+)\s+\d+\.(md|txt|json|yaml|yml)$/.test(filename)) {
-        const match = filename.match(/^(.+)\s+\d+\.(md|txt|json|yaml|yml)$/);
-        if (match) {
-          newFilename = `${match[1]}.${match[2]}`;
-          changesMade.push(
-            `Removed space and number from extension: ${filename} -> ${newFilename}`,
-          );
+      const lastDotIndex = newFilename.lastIndexOf('.');
+      if (lastDotIndex > 0) {
+        const namePortion = newFilename.slice(0, lastDotIndex);
+        const extension = newFilename.slice(lastDotIndex + 1);
+
+        if (EXTENSION_SET.has(extension.toLowerCase())) {
+          const trimmedName = namePortion.replace(/\s+\d+$/, '');
+          if (trimmedName !== namePortion) {
+            newFilename = `${trimmedName}.${extension}`;
+            changesMade.push(
+              `Removed space and number from extension: ${filename} -> ${newFilename}`,
+            );
+          }
         }
       }
 
