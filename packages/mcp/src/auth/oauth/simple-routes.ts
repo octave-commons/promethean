@@ -504,19 +504,55 @@ export function registerSimpleOAuthRoutes(
     }
   });
 
-  /**
-   * Token endpoint (MCP style): POST { grant_type=authorization_code, code, code_verifier?, redirect_uri, client_id }
-   * Returns standard OAuth token response JSON. No cookies/redirects here.
-   */
-  fastify.post(`${basePath}/token`, async (request, reply) => {
+  // OAuth callback (POST - for API usage)
+  fastify.post(`${basePath}/callback`, async (request, reply) => {
     try {
-      // Normalize body
-      const body = request.body as any;
-      const code: string | undefined = body?.code;
-      const codeVerifier: string | undefined = body?.code_verifier;
-      const postedRedirectUri: string | undefined = body?.redirect_uri;
-      const clientId: string | undefined = body?.client_id;
-      const error: string | undefined = body?.error;
+      // ChatGPT sends OAuth data in POST body as JSON, need to parse it
+      const rawBody = request.body as any;
+      let body: any;
+
+      if (Buffer.isBuffer(rawBody)) {
+        try {
+          body = JSON.parse(rawBody.toString('utf8'));
+        } catch (e) {
+          // If JSON parsing fails, try URL-encoded parsing
+          const bodyStr = rawBody.toString('utf8');
+          const params = new URLSearchParams(bodyStr);
+          body = {};
+          for (const [key, value] of params) {
+            body[key] = value;
+          }
+        }
+      } else {
+        body = rawBody;
+      }
+
+      // Debug logging
+      console.log('[OAuth Callback] Received POST body:', body);
+
+      // Handle different OAuth formats from different clients
+      let code: string | undefined,
+        state: string | null | undefined,
+        error: string | undefined,
+        codeVerifier: string | undefined;
+
+      if (body.grant_type === 'authorization_code') {
+        // ChatGPT MCP connector format (OAuth 2.1 PKCE)
+        code = body.code;
+        state = null; // ChatGPT doesn't send state in POST body
+        codeVerifier = body.code_verifier; // PKCE code verifier
+        console.log(
+          '[OAuth Callback] Detected ChatGPT PKCE format with code_verifier:',
+          codeVerifier ? 'present' : 'missing',
+        );
+      } else {
+        // Standard OAuth format
+        code = body.code;
+        state = body.state;
+        error = body.error;
+        codeVerifier = body.code_verifier;
+        console.log('[OAuth Callback] Detected standard OAuth format');
+      }
 
       if (error) {
         return reply.status(400).send({
@@ -525,55 +561,7 @@ export function registerSimpleOAuthRoutes(
         });
       }
 
-      // For MCP PKCE flow, code is required (no state expected)
-      if (!code) {
-        return reply.status(400).send({
-          error: 'Missing parameters',
-          message: 'Authorization code is required',
-        });
-      }
-
-      // Resolve provider (prefer client_id mapping; fallback to single available provider)
-      let provider: string | null = null;
-      if (clientId && typeof (config.oauthSystem as any).getProviderByClientId === 'function') {
-        provider = (config.oauthSystem as any).getProviderByClientId(clientId);
-      }
-      if (!provider) {
-        const provs = config.oauthSystem.getAvailableProviders();
-        provider = provs.length === 1 ? provs[0] || 'github' : 'github';
-      }
-
-      // Perform provider-agnostic token exchange via OAuthSystem
-      let token;
-      try {
-        token = await (config.oauthSystem as any).exchangeCodeForTokensDirect(provider!, code, {
-          codeVerifier,
-          redirectUri: postedRedirectUri, // must match the value used at authorize time
-        });
-      } catch (e) {
-        return reply.status(400).send({
-          error: 'token_exchange_failed',
-          message: (e as Error).message,
-        });
-      }
-
-      // Minimal OAuth token response for MCP
-      return reply.status(200).send({
-        access_token: token.accessToken,
-        token_type: token.tokenType || 'Bearer',
-        ...(token.expiresIn ? { expires_in: token.expiresIn } : {}),
-        ...(token.refreshToken ? { refresh_token: token.refreshToken } : {}),
-        ...(token.scope ? { scope: token.scope } : {}),
-      });
-    } catch (error) {
-      return reply.status(500).send({
-        error: 'token_endpoint_error',
-        message: String(error),
-      });
-    }
-  });
-
-  // Back-compat: allow POST /callback to behave like /token for MCP
+      // For ChatGPT PKCE flow, only code is required (state is optional)
       if (!code) {
         return reply.status(400).send({
           error: 'Missing parameters',
@@ -801,23 +789,6 @@ export function registerSimpleOAuthRoutes(
         message: String(error),
       });
     }
-  });
-
-  // Back-compat: allow POST /callback to behave like /token for MCP
-  fastify.post(`${basePath}/callback`, async (request, reply) => {
-    return fastify
-      .inject({
-        method: 'POST',
-        url: `${basePath}/token`,
-        payload: request.body as any,
-        headers: request.headers as any,
-      })
-      .then((res) =>
-        reply
-          .status(res.statusCode)
-          .headers(res.headers as any)
-          .send(res.body ? JSON.parse(res.body as any) : undefined),
-      );
   });
 
   // Get current user
