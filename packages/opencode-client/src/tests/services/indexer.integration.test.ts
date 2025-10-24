@@ -10,6 +10,7 @@
  * - Performance under realistic load
  */
 
+import { readdir, unlink } from 'fs/promises';
 import test from 'ava';
 import sinon from 'sinon';
 import { setTimeout } from 'timers/promises';
@@ -27,11 +28,16 @@ import { initializeStores } from '../../initializeStores.js';
 const TEST_BASE_URL = 'http://localhost:3000';
 
 // Helper to create test indexer options
-const createTestOptions = (suffix: string = ''): IndexerOptions => ({
-  baseUrl: TEST_BASE_URL,
-  processingInterval: 1000, // 1 second for faster tests
-  stateFile: `./test-indexer-state-${suffix}${Date.now()}.json`,
-});
+const createTestOptions = (suffix: string = ''): IndexerOptions => {
+  const timestamp = Date.now();
+  const stateFile = `./test-indexer-state-${suffix}${timestamp}.json`;
+
+  return {
+    baseUrl: TEST_BASE_URL,
+    processingInterval: 1000, // 1 second for faster tests
+    stateFile,
+  };
+};
 
 // Helper to cleanup test databases
 async function cleanupTestDatabases(suffix: string = ''): Promise<void> {
@@ -130,6 +136,15 @@ test.afterEach.always(async () => {
     await stopDefaultIndexer();
   } catch (error) {
     // Ignore errors if no default indexer is running
+  }
+
+  // Cleanup test state files
+  try {
+    const files = await readdir('.');
+    const testStateFiles = files.filter((file) => file.startsWith('test-indexer-state--'));
+    await Promise.all(testStateFiles.map((file) => unlink(file)));
+  } catch (error) {
+    // Ignore cleanup errors
   }
 });
 
