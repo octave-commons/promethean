@@ -2,7 +2,7 @@
 uuid: "558e62d4-6b69-400c-aafb-9eed77e60e60"
 title: "CMS: File System Watcher"
 slug: "CMS File System Watcher"
-status: "incoming"
+status: "accepted"
 priority: "P0"
 labels: ["monitoring", "automation"]
 created_at: "2025-10-24T02:32:43.331Z"
