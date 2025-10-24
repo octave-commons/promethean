@@ -4,13 +4,7 @@
 
 import { promises as fs } from 'fs';
 import { join } from 'path';
-import {
-  FileCorruption,
-  FileAnalysisResult,
-  HealingResult,
-  ScarRecord,
-  ScarConfig,
-} from '../types/index.js';
+import { FileAnalysisResult, HealingResult, ScarRecord, ScarConfig } from '../types/index.js';
 import { CorruptionDetector } from './corruption-detector.js';
 import { HealingStrategyRegistry } from './healers/index.js';
 import { ScarTracker } from './scar-tracker.js';
@@ -41,13 +35,13 @@ export class ScarContext {
     this.tracker = new ScarTracker(this.config.scarStoragePath);
   }
 
-async analyzeFile(filePath: string): Promise<FileAnalysisResult> {
+  async analyzeFile(filePath: string): Promise<FileAnalysisResult> {
     try {
       const content = await fs.readFile(filePath, 'utf-8');
       const stats = await fs.stat(filePath);
-      
+
       const corruptions = await this.detector.detectTaskFileCorruptions(filePath);
-      
+
       return {
         filePath,
         isCorrupted: corruptions.length > 0,
@@ -58,9 +52,10 @@ async analyzeFile(filePath: string): Promise<FileAnalysisResult> {
         checksum: this.hashContent(content),
       };
     } catch (error) {
-      throw new Error(`Failed to analyze file ${filePath}: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `Failed to analyze file ${filePath}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      );
     }
-  }
   }
 
   async analyzeDirectory(
