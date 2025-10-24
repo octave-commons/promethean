@@ -11,8 +11,6 @@ import {
   Scar,
   HealingOperation,
   FileSnapshot,
-  ScarType,
-  ScarSeverity,
   HealingStatus,
 } from '../types/index.js';
 
@@ -31,36 +29,78 @@ export class ScarTracker {
     originalContent: string,
     healedContent: string,
   ): Promise<void> {
-    const scar: ScarRecord = {
-      id: this.generateScarId(),
+    const scarId = this.generateScarId();
+    const operationId = this.generateOperationId();
+
+    const scar: Scar = {
+      id: scarId,
       filePath,
-      timestamp: new Date().toISOString(),
-      corruption: {
-        type: corruption.type,
-        severity: corruption.severity,
-        description: corruption.description,
+      type: corruption.type,
+      severity: corruption.severity,
+      status: healingResult.success ? HealingStatus.COMPLETED : HealingStatus.FAILED,
+      detectedAt: corruption.detectedAt,
+      healedAt: healingResult.success ? new Date() : undefined,
+      healingOperationId: operationId,
+      description: corruption.description,
+      evidence: corruption.evidence,
+      metadata: {
         autoHealable: corruption.autoHealable,
-        detectedAt: corruption.detectedAt,
-      },
-      healing: {
-        strategy: healingResult.strategy || 'unknown',
-        success: healingResult.success,
         changesMade: healingResult.changesMade || [],
-        requiresManualReview: healingResult.requiresManualReview || false,
-        errorMessage: healingResult.errorMessage,
+        requiresManualReview: healingResult.requiresManualReview,
       },
-      contentHash: this.hashContent(originalContent),
-      healedContentHash: this.hashContent(healedContent),
+      tags: [corruption.type, corruption.severity],
+    };
+
+    const healingOperation: HealingOperation = {
+      id: operationId,
+      filePath,
+      corruptions: [corruption],
+      status: healingResult.success ? HealingStatus.COMPLETED : HealingStatus.FAILED,
+      startedAt: new Date(),
+      completedAt: healingResult.success ? new Date() : undefined,
+      errorMessage: healingResult.errorMessage,
+      originalChecksum: this.hashContent(originalContent),
+      healedChecksum: healingResult.success ? this.hashContent(healedContent) : undefined,
+    };
+
+    const beforeSnapshot: FileSnapshot = {
+      filePath,
+      content: originalContent,
+      checksum: this.hashContent(originalContent),
+      size: originalContent.length,
+      encoding: 'utf-8',
+      timestamp: corruption.detectedAt,
+      metadata: {},
+    };
+
+    const afterSnapshot: FileSnapshot | undefined = healingResult.success
+      ? {
+          filePath,
+          content: healedContent,
+          checksum: this.hashContent(healedContent),
+          size: healedContent.length,
+          encoding: 'utf-8',
+          timestamp: new Date(),
+          metadata: {},
+        }
+      : undefined;
+
+    const scarRecord: ScarRecord = {
+      scar,
+      healingOperation,
+      beforeSnapshot,
+      afterSnapshot,
+      notes: healingResult.errorMessage,
     };
 
     // Store in memory
     if (!this.scars.has(filePath)) {
       this.scars.set(filePath, []);
     }
-    this.scars.get(filePath)!.push(scar);
+    this.scars.get(filePath)!.push(scarRecord);
 
     // Persist to disk
-    await this.persistScar(scar);
+    await this.persistScar(scarRecord);
   }
 
   async getScarsForFile(filePath: string): Promise<ScarRecord[]> {
@@ -128,31 +168,35 @@ export class ScarTracker {
 
     for (const [filePath, scars] of allScars) {
       totalScars += scars.length;
-      successfulHealings += scars.filter((s) => s.healing.success).length;
-      manualReviews += scars.filter((s) => s.healing.requiresManualReview).length;
+      successfulHealings += scars.filter((s) => s.scar.status === HealingStatus.COMPLETED).length;
+      manualReviews += scars.filter((s) => s.scar.metadata.requiresManualReview).length;
 
       report += `## ${filePath}\n\n`;
 
-      for (const scar of scars) {
+      for (const scarRecord of scars) {
+        const scar = scarRecord.scar;
         report += `### Scar ${scar.id}\n`;
-        report += `- **Timestamp**: ${scar.timestamp}\n`;
-        report += `- **Corruption Type**: ${scar.corruption.type}\n`;
-        report += `- **Severity**: ${scar.corruption.severity}\n`;
-        report += `- **Strategy**: ${scar.healing.strategy}\n`;
-        report += `- **Success**: ${scar.healing.success ? '✅' : '❌'}\n`;
+        report += `- **Timestamp**: ${scar.detectedAt.toISOString()}\n`;
+        report += `- **Corruption Type**: ${scar.type}\n`;
+        report += `- **Severity**: ${scar.severity}\n`;
+        report += `- **Status**: ${scar.status}\n`;
 
-        if (scar.healing.changesMade.length > 0) {
+        if (scar.healingOperationId) {
+          report += `- **Operation ID**: ${scar.healingOperationId}\n`;
+        }
+
+        if (scar.metadata.changesMade && scar.metadata.changesMade.length > 0) {
           report += `- **Changes Made**:\n`;
-          for (const change of scar.healing.changesMade) {
+          for (const change of scar.metadata.changesMade) {
             report += `  - ${change}\n`;
           }
         }
 
-        if (scar.healing.errorMessage) {
-          report += `- **Error**: ${scar.healing.errorMessage}\n`;
+        if (scarRecord.notes) {
+          report += `- **Notes**: ${scarRecord.notes}\n`;
         }
 
-        if (scar.healing.requiresManualReview) {
+        if (scar.metadata.requiresManualReview) {
           report += `- **⚠️ Requires Manual Review**\n`;
         }
 
@@ -169,14 +213,14 @@ export class ScarTracker {
     return report;
   }
 
-  private async persistScar(scar: ScarRecord): Promise<void> {
+  private async persistScar(scarRecord: ScarRecord): Promise<void> {
     try {
       // Ensure scar directory exists
       await fs.mkdir(this.scarLogPath, { recursive: true });
 
-      const scarFile = this.getScarFilePath(scar.filePath);
-      const existingScars = await this.getScarsForFile(scar.filePath);
-      existingScars.push(scar);
+      const scarFile = this.getScarFilePath(scarRecord.scar.filePath);
+      const existingScars = await this.getScarsForFile(scarRecord.scar.filePath);
+      existingScars.push(scarRecord);
 
       await fs.writeFile(scarFile, JSON.stringify(existingScars, null, 2), 'utf-8');
     } catch (error) {
@@ -208,7 +252,11 @@ export class ScarTracker {
   }
 
   private generateScarId(): string {
-    return `scar_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    return `scar_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
+  }
+
+  private generateOperationId(): string {
+    return `op_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
   }
 
   private hashContent(content: string): string {
