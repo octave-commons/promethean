@@ -7,5 +7,8 @@ export { default as OpencodeInterfacePluginDefault } from './opencode-interface/
 export { RealtimeCapturePlugin } from './realtime-capture/index.js';
 export { default as RealtimeCapturePluginDefault } from './realtime-capture/index.js';
 
+export { EventHooksPlugin } from './event-hooks/index.js';
+export { default as EventHooksPluginDefault } from './event-hooks/index.js';
+
 // Re-export for convenience
 export { OpencodeInterfacePlugin as default } from './opencode-interface/index.js';
