@@ -1,16 +1,14 @@
 {:apps [{:name "promethean-mcp-dev"
-         :script "pnpm"
-         :args ["--filter" "@promethean/mcp" "dev"]
+         :script "uv"
+         :args ["uv" "run" "serena" "start-mcp-server" "--transport" "streamable-http" "--port" "9121"]
          :interpreter "/usr/bin/env"
-         :out_file "./logs/promethean-mcp-dev-out.log"
-         :error_file "./logs/promthean-mcp-dev-err.log"
+         :out_file "./logs/serena.log"
+         :error_file "./logs/serena.log"
          :merge_logs true
          :instances 1
          :autorestart true
          :restart_delay 10000
          :env_file ".env"
          :kill_timeout 10000
-         :env {:PM2_PROCESS_NAME "promethean-mcp-dev"
-               :MCP_USRER_ROLE "developer"
-               :ENABLE_OAUTH "true"}
+         :env {:PM2_PROCESS_NAME "serena"}
          :cwd "."}]}
