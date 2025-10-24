@@ -7,17 +7,9 @@ priority: "P0"
 labels: ["architecture", "implementation", "cross-platform", "feature-detection"]
 created_at: "2025-10-22T15:30:00Z"
 estimates:
-  complexity: "3"
-  scale: "medium"
-  time_to_completion: "2 cloud sessions"
-lastCommitSha: "c18e0a1cb068d248b329a70312e376c8e20abfd4"
-commitHistory:
-  -
-    sha: "c18e0a1cb068d248b329a70312e376c8e20abfd4"
-    timestamp: "2025-10-22 12:13:42 -0500\n\ndiff --git a/docs/agile/tasks/cross-platform-feature-detection.md b/docs/agile/tasks/cross-platform-feature-detection.md\nindex dd5ab8f2b..bcdc93149 100644\n--- a/docs/agile/tasks/cross-platform-feature-detection.md\n+++ b/docs/agile/tasks/cross-platform-feature-detection.md\n@@ -7,9 +7,9 @@ priority: \"P0\"\n labels: [\"architecture\", \"implementation\", \"cross-platform\", \"feature-detection\"]\n created_at: \"2025-10-22T15:30:00Z\"\n estimates:\n-  complexity: \"\"\n-  scale: \"\"\n-  time_to_completion: \"\"\n+  complexity: \"3\"\n+  scale: \"medium\"\n+  time_to_completion: \"2 cloud sessions\"\n ---\n \n # Implement Feature Detection and Capability Registry"
-    message: "Create task: cross-platform-feature-detection-2025-10-22 - Create task: Implement Feature Detection and Capability Registry"
-    author: "Error"
-    type: "create"
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Implement Feature Detection and Capability Registry
