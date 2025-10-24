@@ -5,7 +5,7 @@ slug: "Fix Type Safety Crisis in @promethean opencode-client"
 status: "icebox"
 priority: "P0"
 labels: ["kanban", "transition-rules", "testing-coverage", "quality-gates", "foundation", "interface-alignment", "types", "infrastructure"]
-created_at: "2025-10-24T02:39:37.941Z"
+created_at: "2025-10-24T02:40:18.781Z"
 estimates:
   complexity: ""
   scale: ""
