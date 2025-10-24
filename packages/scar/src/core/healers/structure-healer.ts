@@ -21,7 +21,8 @@ export class StructureHealer implements HealingStrategy {
       // Add frontmatter to markdown files if missing
       if (corruption.filePath.endsWith('.md') && !healedContent.startsWith('---')) {
         const uuid = this.generateUUID();
-        const title = this.extractTitleFromContent(healedContent, corruption.filePath) || 'Untitled Task';
+        const title =
+          this.extractTitleFromContent(healedContent, corruption.filePath) || 'Untitled Task';
         const slug = this.generateSlug(title);
 
         const frontmatter = `---
@@ -80,7 +81,7 @@ estimates:
     });
   }
 
-private extractTitleFromContent(content: string, filePath: string): string | null {
+  private extractTitleFromContent(content: string, filePath: string): string | null {
     // Try to extract title from first # header
     const headerMatch = content.match(/^#\s+(.+)$/m);
     if (headerMatch && headerMatch[1]) {
@@ -89,12 +90,6 @@ private extractTitleFromContent(content: string, filePath: string): string | nul
 
     // Try to extract from filename
     const filename = filePath.split('/').pop() || '';
-    const nameWithoutExt = filename.replace(/\.(md|txt|json|yaml|yml)$/i, '');
-    return nameWithoutExt || null;
-  }
-
-    // Try to extract from filename
-    const filename = _corruption.filePath.split('/').pop() || '';
     const nameWithoutExt = filename.replace(/\.(md|txt|json|yaml|yml)$/i, '');
     return nameWithoutExt || null;
   }
