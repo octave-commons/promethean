@@ -11,13 +11,13 @@
 ```
 | --- | --- | --- |
 ```
-| `@promethean/docops-frontend` | `packages/docops-frontend` | `packages/frontends/docops-frontend` |
-| `@promethean/health-dashboard-frontend` | `packages/health-dashboard-frontend` | `packages/frontends/health-dashboard-frontend` |
-| `@promethean/llm-chat-frontend` | `packages/llm-chat-frontend` | `packages/frontends/llm-chat-frontend` |
-| `@promethean/markdown-graph-frontend` | `packages/markdown-graph-frontend` | `packages/frontends/markdown-graph-frontend` |
-| `@promethean/portfolio-frontend` | `packages/portfolio-frontend` | `packages/frontends/portfolio-frontend` |
-| `@promethean/smart-chat-frontend` | `packages/smart-chat-frontend` | `packages/frontends/smart-chat-frontend` |
-| `@promethean/smartgpt-dashboard-frontend` | `packages/smartgpt-dashboard-frontend` | `packages/frontends/smartgpt-dashboard-frontend` |
+| `@promethean-os/docops-frontend` | `packages/docops-frontend` | `packages/frontends/docops-frontend` |
+| `@promethean-os/health-dashboard-frontend` | `packages/health-dashboard-frontend` | `packages/frontends/health-dashboard-frontend` |
+| `@promethean-os/llm-chat-frontend` | `packages/llm-chat-frontend` | `packages/frontends/llm-chat-frontend` |
+| `@promethean-os/markdown-graph-frontend` | `packages/markdown-graph-frontend` | `packages/frontends/markdown-graph-frontend` |
+| `@promethean-os/portfolio-frontend` | `packages/portfolio-frontend` | `packages/frontends/portfolio-frontend` |
+| `@promethean-os/smart-chat-frontend` | `packages/smart-chat-frontend` | `packages/frontends/smart-chat-frontend` |
+| `@promethean-os/smartgpt-dashboard-frontend` | `packages/smartgpt-dashboard-frontend` | `packages/frontends/smartgpt-dashboard-frontend` |
 
 ## Follow-up iterations
 - [organize-backend-packages] — stage and execute the migration of services into `packages/services/`.

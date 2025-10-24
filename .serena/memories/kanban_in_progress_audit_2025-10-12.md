@@ -11,7 +11,7 @@ All three tasks have skipped mandatory process stages and lack required document
 
 ## Tasks Analyzed
 
-### 1. Task: Fix `@promethean/ui-components` lint failures (f4e15fe7-e616-4e34-94a6-a4ca655f4f4c)
+### 1. Task: Fix `@promethean-os/ui-components` lint failures (f4e15fe7-e616-4e34-94a6-a4ca655f4f4c)
 **Status:** in_progress  
 **Priority:** P2  
 **Labels:** ["codex-task"]

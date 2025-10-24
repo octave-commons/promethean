@@ -50,10 +50,10 @@ The endpoint provides **17 kanban management tools**:
 
 ```bash
 # Development mode
-pnpm --filter @promethean/mcp dev
+pnpm --filter @promethean-os/mcp dev
 
 # Production mode
-pnpm --filter @promethean/mcp build
+pnpm --filter @promethean-os/mcp build
 node packages/mcp/dist/index.js
 ```
 
@@ -199,7 +199,7 @@ Validate configuration:
 python3 -c "import json; json.load(open('promethean.mcp.json'))"
 
 # Test MCP server startup
-pnpm --filter @promethean/mcp dev
+pnpm --filter @promethean-os/mcp dev
 ```
 
 ## Development
@@ -216,10 +216,10 @@ pnpm --filter @promethean/mcp dev
 
 ```bash
 # Run kanban-specific tests
-pnpm --filter @promethean/mcp test --match="*kanban*"
+pnpm --filter @promethean-os/mcp test --match="*kanban*"
 
 # Run integration tests
-pnpm --filter @promethean/mcp test --match="*integration*"
+pnpm --filter @promethean-os/mcp test --match="*integration*"
 ```
 
 ## Security Considerations

@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 
 import test from "ava";
 import { Window } from "happy-dom";
-import { sleep } from "@promethean/utils";
+import { sleep } from "@promethean-os/utils";
 
 const setupDom = (): Window => {
   const win = new Window();

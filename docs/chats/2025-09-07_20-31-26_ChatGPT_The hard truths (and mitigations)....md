@@ -4,7 +4,7 @@ Exported on 07/09/2025 at 20:31:26 [from ChatGPT](https://chatgpt.com/c/68be28b8
 ```https://save.hugocollin.com)
 
 ## User
-import { promises as fs } from "fs"; import \* as path from "path"; import { spawn } from "child\_process"; import { AsyncLocalStorage } from "async\_hooks"; import { pathToFileURL } from "url";  import { globby } from "globby"; import { ensureDir } from "@promethean/fs"; import { PiperStep } from "./types.js";  export { ensureDir };  class Mutex {   private queue: () => void
+import { promises as fs } from "fs"; import \* as path from "path"; import { spawn } from "child\_process"; import { AsyncLocalStorage } from "async\_hooks"; import { pathToFileURL } from "url";  import { globby } from "globby"; import { ensureDir } from "@promethean-os/fs"; import { PiperStep } from "./types.js";  export { ensureDir };  class Mutex {   private queue: () => void
 ```
 $$
 ```
@@ -665,7 +665,7 @@ test.serial("js steps can run nested pipelines without deadlock", async (t) => {
 If you _do_ want module-level console capturing in the future, say the word and I’ll give you a targeted `runJSModule` patch (with the same cleanup discipline as `runJSFunction`) plus an additional test that asserts both `console.log` and return value appear in `stdout`.
 
 ## User
-import { promises as fs } from "fs"; import \* as path from "path"; import { spawn } from "child\_process"; <<<<<<< codex/add-worker-solution-in-runner.ts import { Worker } from "node:worker\_threads"; ======= import { AsyncLocalStorage } from "async\_hooks"; import { pathToFileURL } from "url"; >>>>>>> codex/extend-js-target-support-in-piper  import { globby } from "globby"; import { ensureDir } from "@promethean/fs"; import { PiperStep } from "./types.js";  export { ensureDir };  class Mutex {   private queue: () => void
+import { promises as fs } from "fs"; import \* as path from "path"; import { spawn } from "child\_process"; <<<<<<< codex/add-worker-solution-in-runner.ts import { Worker } from "node:worker\_threads"; ======= import { AsyncLocalStorage } from "async\_hooks"; import { pathToFileURL } from "url"; >>>>>>> codex/extend-js-target-support-in-piper  import { globby } from "globby"; import { ensureDir } from "@promethean-os/fs"; import { PiperStep } from "./types.js";  export { ensureDir };  class Mutex {   private queue: () => void
 ```
 ```
 $$
@@ -795,7 +795,7 @@ import { AsyncLocalStorage } from "async_hooks";
 import { pathToFileURL } from "url";
 
 import { globby } from "globby";
-import { ensureDir } from "@promethean/fs";
+import { ensureDir } from "@promethean-os/fs";
 import { PiperStep } from "./types.js";
 
 export { ensureDir };

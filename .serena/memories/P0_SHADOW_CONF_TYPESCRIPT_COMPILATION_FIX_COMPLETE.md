@@ -1,7 +1,7 @@
-# P0 Critical Issue Fixed: @promethean/shadow-conf TypeScript Compilation Errors
+# P0 Critical Issue Fixed: @promethean-os/shadow-conf TypeScript Compilation Errors
 
 ## Problem
-- TypeScript compilation in @promethean/shadow-conf was failing with JavaScript heap out of memory errors
+- TypeScript compilation in @promethean-os/shadow-conf was failing with JavaScript heap out of memory errors
 - This was blocking all development workflows as the package couldn't build
 - Error: "FATAL ERROR: MarkCompactCollector: young object promotion failed Allocation failed - JavaScript heap out of memory"
 
@@ -28,7 +28,7 @@
 
 ## Impact
 - ✅ Development workflows no longer blocked
-- ✅ @promethean/shadow-conf package builds successfully
+- ✅ @promethean-os/shadow-conf package builds successfully
 - ✅ All tests pass
 - ✅ Code quality maintained (linting passes)
 - ✅ Memory allocation properly configured for TypeScript compilation
@@ -40,16 +40,16 @@
 ## Verification Commands
 ```bash
 # Build the package
-pnpm --filter @promethean/shadow-conf build
+pnpm --filter @promethean-os/shadow-conf build
 
 # Run tests
-pnpm --filter @promethean/shadow-conf test
+pnpm --filter @promethean-os/shadow-conf test
 
 # Run linting
-pnpm --filter @promethean/shadow-conf lint
+pnpm --filter @promethean-os/shadow-conf lint
 
 # Type checking
-pnpm --filter @promethean/shadow-conf typecheck
+pnpm --filter @promethean-os/shadow-conf typecheck
 ```
 
 This P0 critical issue has been completely resolved and development can proceed normally.

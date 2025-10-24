@@ -39,9 +39,9 @@ sudo systemctl restart ollama
 
 ```bash
 # Rebuild critical packages:
-pnpm --filter @promethean/llm build
-pnpm --filter @promethean/frontend-service build
-pnpm --filter @promethean/opencode-session-manager build
+pnpm --filter @promethean-os/llm build
+pnpm --filter @promethean-os/frontend-service build
+pnpm --filter @promethean-os/opencode-session-manager build
 ```
 
 ---

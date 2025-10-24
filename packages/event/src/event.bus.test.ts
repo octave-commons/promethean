@@ -1,5 +1,5 @@
 import test from 'ava';
-import { sleep } from '@promethean/utils';
+import { sleep } from '@promethean-os/utils';
 
 import { InMemoryEventBus } from './memory.js';
 import type { EventRecord } from './types.js';

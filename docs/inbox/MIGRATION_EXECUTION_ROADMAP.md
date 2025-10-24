@@ -104,7 +104,7 @@
 #### Week 3: Core Utilities Wave 1
 **Objective**: Migrate foundational utility packages
 
-**Day 11-12: @promethean/utils Migration**
+**Day 11-12: @promethean-os/utils Migration**
 ```clojure
 ;; Migration scope
 - Core utility functions
@@ -114,7 +114,7 @@
 - Validation functions
 ```
 
-**Day 13-14: @promethean/level-cache Migration**
+**Day 13-14: @promethean-os/level-cache Migration**
 ```clojure
 ;; Migration scope
 - Caching layer implementation
@@ -124,7 +124,7 @@
 - Cross-language compatibility
 ```
 
-**Day 15: @promethean/http Migration**
+**Day 15: @promethean-os/http Migration**
 ```clojure
 ;; Migration scope
 - HTTP client utilities
@@ -135,9 +135,9 @@
 ```
 
 **Week 3 Deliverables**:
-- ✅ @promethean/utils migrated and validated
-- ✅ @promethean/level-cache migrated and validated
-- ✅ @promethean/http migrated and validated
+- ✅ @promethean-os/utils migrated and validated
+- ✅ @promethean-os/level-cache migrated and validated
+- ✅ @promethean-os/http migrated and validated
 - ✅ Cross-language integration tests passing
 - ✅ Performance benchmarks meeting targets
 
@@ -146,14 +146,14 @@
 
 **Day 16-17: Event & State Management**
 ```clojure
-;; @promethean/event migration
+;; @promethean-os/event migration
 - Event system implementation
 - Event handling patterns
 - State management utilities
 - Integration with core utilities
 - Performance optimization
 
-;; @promethean/fsm migration
+;; @promethean-os/fsm migration
 - Finite state machine implementation
 - State transition logic
 - Event integration
@@ -163,14 +163,14 @@
 
 **Day 18-19: Data Structures & Validation**
 ```clojure
-;; @promethean/ds migration
+;; @promethean-os/ds migration
 - Data structure implementations
 - Collection utilities
 - Performance-optimized structures
 - Integration with existing packages
 - Comprehensive testing
 
-;; @promethean/schema migration
+;; @promethean-os/schema migration
 - Schema validation framework
 - Type checking utilities
 - Validation patterns
@@ -180,14 +180,14 @@
 
 **Day 20: Stream Processing & Persistence**
 ```clojure
-;; @promethean/stream migration
+;; @promethean-os/stream migration
 - Stream processing utilities
 - Data flow patterns
 - Integration with event system
 - Performance optimization
 - Testing framework
 
-;; @promethean/persistence migration
+;; @promethean-os/persistence migration
 - Data persistence layer
 - Storage abstractions
 - Integration with caching
@@ -205,7 +205,7 @@
 #### Week 5: Agent System Foundation
 **Objective**: Migrate core agent framework packages
 
-**Day 21-22: @promethean/agent Migration**
+**Day 21-22: @promethean-os/agent Migration**
 ```clojure
 ;; Migration scope
 - Core agent framework
@@ -215,7 +215,7 @@
 - Performance optimization
 ```
 
-**Day 23-24: @promethean/agent-ecs Migration**
+**Day 23-24: @promethean-os/agent-ecs Migration**
 ```clojure
 ;; Migration scope
 - Entity component system
@@ -225,7 +225,7 @@
 - Performance validation
 ```
 
-**Day 25: @promethean/agents-workflow Migration**
+**Day 25: @promethean-os/agents-workflow Migration**
 ```clojure
 ;; Migration scope
 - Workflow management system
@@ -247,14 +247,14 @@
 
 **Day 26-27: Management & Platform**
 ```clojure
-;; @promethean/manager migration
+;; @promethean-os/manager migration
 - Agent management system
 - Resource allocation
 - Monitoring and metrics
 - Integration with agent system
 - Performance optimization
 
-;; @promethean/platform migration
+;; @promethean-os/platform migration
 - Platform abstractions
 - Service discovery
 - Configuration management
@@ -264,7 +264,7 @@
 
 **Day 28-29: Service Providers**
 ```clojure
-;; @promethean/providers migration
+;; @promethean-os/providers migration
 - Service provider framework
 - Provider implementations
 - Integration patterns
@@ -297,29 +297,29 @@
 **Week 7: Core Data Processing**
 ```clojure
 ;; Priority packages
-- @promethean/llm (Language model integration)
-- @promethean/effects (Side effects management)
-- @promethean/embedding (Vector embeddings)
-- @promethean/file-indexer (File indexing)
+- @promethean-os/llm (Language model integration)
+- @promethean-os/effects (Side effects management)
+- @promethean-os/embedding (Vector embeddings)
+- @promethean-os/file-indexer (File indexing)
 ```
 
 **Week 8: Advanced Data Processing**
 ```clojure
 ;; Priority packages
-- @promethean/file-watcher (File system watching)
-- @promethean/indexer-core (Core indexing)
-- @promethean/indexer-service (Indexing service)
-- @promethean/markdown (Markdown processing)
+- @promethean-os/file-watcher (File system watching)
+- @promethean-os/indexer-core (Core indexing)
+- @promethean-os/indexer-service (Indexing service)
+- @promethean-os/markdown (Markdown processing)
 ```
 
 **Week 9: Data Processing Completion**
 ```clojure
 ;; Priority packages
-- @promethean/markdown-graph (Graph operations)
-- @promethean/broker (Message brokering)
-- @promethean/changefeed (Change feed handling)
-- @promethean/compaction (Data compaction)
-- @promethean/dlq (Dead letter queue)
+- @promethean-os/markdown-graph (Graph operations)
+- @promethean-os/broker (Message brokering)
+- @promethean-os/changefeed (Change feed handling)
+- @promethean-os/compaction (Data compaction)
+- @promethean-os/dlq (Dead letter queue)
 ```
 
 #### Weeks 10-12: Tooling & Infrastructure Packages
@@ -328,19 +328,19 @@
 **Week 10: Development Tooling**
 ```clojure
 ;; Priority packages
-- @promethean/kanban (Kanban board system)
-- @promethean/migrations (Database migrations)
-- @promethean/monitoring (System monitoring)
-- @promethean/cli (Command line interface)
+- @promethean-os/kanban (Kanban board system)
+- @promethean-os/migrations (Database migrations)
+- @promethean-os/monitoring (System monitoring)
+- @promethean-os/cli (Command line interface)
 ```
 
 **Week 11: Build & Code Tools**
 ```clojure
 ;; Priority packages
-- @promethean/codemods (Code transformation)
-- @promethean/codepack (Code packaging)
-- @promethean/compiler (Compilation tools)
-- @promethean/contracts (Contract definitions)
+- @promethean-os/codemods (Code transformation)
+- @promethean-os/codepack (Code packaging)
+- @promethean-os/compiler (Compilation tools)
+- @promethean-os/contracts (Contract definitions)
 ```
 
 **Week 12: Final Package Migration**

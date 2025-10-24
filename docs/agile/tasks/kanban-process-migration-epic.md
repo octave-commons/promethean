@@ -256,9 +256,9 @@ Based on the conflict analysis, these column names need updates:
 
 ### Internal Dependencies
 
-- `@promethean/kanban` - Core kanban functionality
-- `@promethean/file-indexer` - File context and impact analysis
-- `@promethean/agents-workflow` - Workflow system integration
+- `@promethean-os/kanban` - Core kanban functionality
+- `@promethean-os/file-indexer` - File context and impact analysis
+- `@promethean-os/agents-workflow` - Workflow system integration
 - `packages/migrations` - Existing migration infrastructure
 
 ### External Dependencies

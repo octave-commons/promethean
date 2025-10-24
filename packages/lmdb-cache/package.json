@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/lmdb-cache",
+  "name": "@promethean-os/lmdb-cache",
   "version": "0.1.0",
   "type": "module",
   "main": "dist/index.js",
@@ -20,9 +20,9 @@
     "test": "pnpm build && ava"
   },
   "dependencies": {
-    "@promethean/utils": "workspace:*"
+    "@promethean-os/utils": "workspace:*"
   },
   "devDependencies": {
-    "@promethean/test-utils": "workspace:*"
+    "@promethean-os/test-utils": "workspace:*"
   }
 }

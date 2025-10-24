@@ -44,7 +44,7 @@ Moved 8 low-priority tasks from breakdown to icebox:
 All remaining violations are **P1 high-priority tasks**:
 1. "DocOps Workflow & Process Automation Epic" (P1)
 2. "duck-web — PCM16k worklet + mic wiring fixes -web" (P1)
-3. "Extract shared services into @promethean/omni-core" (P1)
+3. "Extract shared services into @promethean-os/omni-core" (P1)
 4. "Kanban FSM & Process Modernization Epic" (P1)
 5. "Omni unified service specification and planning" (P1)
 6. "Optimize piper pipeline performance and add comprehensive timeouts" (P1)

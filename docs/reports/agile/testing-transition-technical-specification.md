@@ -192,7 +192,7 @@ score = passRate * 0.5 + complexityScore * 0.3 + flakinessScore * 0.2;
 
 ### 5. AI Analysis Integration (`ai-analyzer.ts`)
 
-**Purpose**: Integrate with @promethean/agents-workflow for AI-powered analysis.
+**Purpose**: Integrate with @promethean-os/agents-workflow for AI-powered analysis.
 
 **Capabilities**:
 
@@ -331,7 +331,7 @@ export function validateTestingToReviewTransition(
 
 5. **AI Analysis**
    - Prepare analysis request with all metrics
-   - Submit to @promethean/agents-workflow
+   - Submit to @promethean-os/agents-workflow
    - Receive insights and recommendations
    - Process AI-provided scores
 
@@ -388,7 +388,7 @@ export function validateTestingToReviewTransition(
 
 ### 2. Agent Workflow Integration
 
-**Package**: `@promethean/agents-workflow`
+**Package**: `@promethean-os/agents-workflow`
 
 **Integration Points**:
 
@@ -414,7 +414,7 @@ export function validateTestingToReviewTransition(
 
 ### 4. Task Management Integration
 
-**Package**: `@promethean/kanban`
+**Package**: `@promethean-os/kanban`
 
 **Integration Points**:
 

@@ -1,6 +1,6 @@
 # Duck x ENSO: Implementation Notes
 
-This document tracks how `@promethean/cephalon` integrates ENSO and where docs map to code.
+This document tracks how `@promethean-os/cephalon` integrates ENSO and where docs map to code.
 
 ## Tool advertisement & calls 05-tools-and-streams.md
 - **Tool registry**: `packages/enso-protocol/src/tools.ts` exposes `ToolRegistry`.

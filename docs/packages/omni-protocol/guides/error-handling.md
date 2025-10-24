@@ -9,7 +9,7 @@ This guide covers comprehensive error handling strategies when working with the 
 Validation errors occur when messages don't conform to the expected schema:
 
 ```typescript
-import { validateOmniMessage } from "@promethean/omni-protocol";
+import { validateOmniMessage } from "@promethean-os/omni-protocol";
 
 const invalidMessage = {
   // Missing required fields
@@ -118,7 +118,7 @@ interface ErrorResponse {
 Always validate messages before processing:
 
 ```typescript
-import { validateOmniMessage, validateOmniRequest } from "@promethean/omni-protocol";
+import { validateOmniMessage, validateOmniRequest } from "@promethean-os/omni-protocol";
 
 class SafeMessageHandler {
   async handleMessage(rawMessage: unknown): Promise<OmniResponse> {

@@ -3,7 +3,7 @@
  * Provides similarity-based caching compatible with level-cache interface
  */
 
-import { ollamaEmbed, InMemoryChroma } from '@promethean/utils';
+import { ollamaEmbed, InMemoryChroma } from '@promethean-os/utils';
 
 export type CacheEntry<T = unknown> = Readonly<{
   key: string;

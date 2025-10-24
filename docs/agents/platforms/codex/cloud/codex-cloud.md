@@ -29,7 +29,7 @@
 * Gates before completion:
 
   * No **new** ESLint errors.
-  * Touched packages pass `pnpm --filter @promethean/<pkg> build`.
+  * Touched packages pass `pnpm --filter @promethean-os/<pkg> build`.
   * No **new** test failures.
   * `pnpm install` succeeds.
 

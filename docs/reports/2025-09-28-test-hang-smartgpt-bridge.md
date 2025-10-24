@@ -1,12 +1,12 @@
 # SmartGPT Bridge Test Hang – 2025-09-28
 
 ## Test Commands
-- `timeout 240 pnpm --filter "@promethean/voice-service" test`
-- `timeout 240 pnpm --filter "@promethean/cephalon" test`
-- `timeout 240 pnpm --filter "@promethean/agent" test`
-- `timeout 240 pnpm --filter "@promethean/tests" test`
-- `timeout 240 pnpm --filter "@promethean/embedding" test`
-- `timeout 240 pnpm --filter "@promethean/smartgpt-bridge" test`
+- `timeout 240 pnpm --filter "@promethean-os/voice-service" test`
+- `timeout 240 pnpm --filter "@promethean-os/cephalon" test`
+- `timeout 240 pnpm --filter "@promethean-os/agent" test`
+- `timeout 240 pnpm --filter "@promethean-os/tests" test`
+- `timeout 240 pnpm --filter "@promethean-os/embedding" test`
+- `timeout 240 pnpm --filter "@promethean-os/smartgpt-bridge" test`
 
 The first five suites completed in under two minutes. The SmartGPT Bridge suite consistently failed due to a hanging integration test.
 
@@ -35,4 +35,4 @@ The first five suites completed in under two minutes. The SmartGPT Bridge suite 
 
 ## Next Steps
 - Decide whether to refactor the fixture to avoid real disk-backed cache access or to relax the timeout.
-- Once adjusted, re-run `pnpm --filter "@promethean/smartgpt-bridge" test` without the external guard to confirm the suite finishes under a few minutes.
+- Once adjusted, re-run `pnpm --filter "@promethean-os/smartgpt-bridge" test` without the external guard to confirm the suite finishes under a few minutes.

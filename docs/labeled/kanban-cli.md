@@ -41,7 +41,7 @@ https://github.com/riatzukiza/promethean
 
 create a new cli package for working with our `docs/agile/boards/kanban.md` and the tasks it contains.
 ```
-use `@promethean/markdown`
+use `@promethean-os/markdown`
 ```
 Each sub command of the CLI returns jsonl.
 task objects look like:

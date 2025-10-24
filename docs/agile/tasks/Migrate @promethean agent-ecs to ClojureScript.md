@@ -1,6 +1,6 @@
 ---
 uuid: "128312a6-f989-403d-ab2d-e8fe70a6e4ea"
-title: "Migrate @promethean/agent-ecs to ClojureScript"
+title: "Migrate @promethean-os/agent-ecs to ClojureScript"
 slug: "Migrate @promethean agent-ecs to ClojureScript"
 status: "incoming"
 priority: "P1"
@@ -12,7 +12,7 @@ estimates:
   time_to_completion: ""
 ---
 
-Migrate the @promethean/agent-ecs package from TypeScript to typed ClojureScript, maintaining identical functionality and test coverage. Copy existing TypeScript tests and ensure they pass with the new ClojureScript implementation.
+Migrate the @promethean-os/agent-ecs package from TypeScript to typed ClojureScript, maintaining identical functionality and test coverage. Copy existing TypeScript tests and ensure they pass with the new ClojureScript implementation.
 
 ## ⛓️ Blocked By
 

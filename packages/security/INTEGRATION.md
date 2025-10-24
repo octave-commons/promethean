@@ -1,13 +1,13 @@
 # Security Integration Guide
 
-This guide helps existing packages integrate the comprehensive input validation and secure file operations from `@promethean/security`.
+This guide helps existing packages integrate the comprehensive input validation and secure file operations from `@promethean-os/security`.
 
 ## Quick Start
 
 ### 1. Install the Package
 
 ```bash
-pnpm add @promethean/security
+pnpm add @promethean-os/security
 ```
 
 ### 2. Replace Existing File Operations
@@ -25,7 +25,7 @@ async function readFile(root: string, userPath: string) {
 }
 
 // After (secure)
-import { secureReadFile } from '@promethean/security';
+import { secureReadFile } from '@promethean-os/security';
 
 async function readFile(root: string, userPath: string) {
   const result = await secureReadFile(root, userPath);
@@ -38,13 +38,13 @@ async function readFile(root: string, userPath: string) {
 
 ## Package-Specific Integration
 
-### @promethean/mcp Package
+### @promethean-os/mcp Package
 
 The MCP package already has good security measures but can be enhanced:
 
 ```typescript
 // packages/mcp/src/files.ts
-import { validatePath, secureWriteFile, secureReadFile } from '@promethean/security';
+import { validatePath, secureWriteFile, secureReadFile } from '@promethean-os/security';
 
 // Replace existing normalizeToRoot function
 export const normalizeToRoot = async (ROOT_PATH: string, rel: string) => {
@@ -70,13 +70,13 @@ export const writeFileContent = async (ROOT_PATH: string, filePath: string, cont
 };
 ```
 
-### @promethean/utils Package
+### @promethean-os/utils Package
 
 Update the basic file utilities:
 
 ```typescript
 // packages/utils/src/files.ts
-import { secureReadFile, secureWriteFile } from '@promethean/security';
+import { secureReadFile, secureWriteFile } from '@promethean-os/security';
 
 export async function readText(p: string): Promise<string> {
   // For utils, we assume the caller has validated the path
@@ -100,13 +100,13 @@ export async function writeText(p: string, s: string): Promise<void> {
 }
 ```
 
-### @promethean/piper Package
+### @promethean-os/piper Package
 
 Enhance the file system utilities:
 
 ```typescript
 // packages/piper/src/fsutils.ts
-import { secureReadFile, secureWriteFile, validatePath } from '@promethean/security';
+import { secureReadFile, secureWriteFile, validatePath } from '@promethean-os/security';
 
 export async function readTextMaybe(p: string) {
   // Extract directory and filename for validation
@@ -138,7 +138,7 @@ For web applications handling user uploads:
 
 ```typescript
 // Example: Express.js route for file uploads
-import { secureWriteFile, validatePath } from '@promethean/security';
+import { secureWriteFile, validatePath } from '@promethean-os/security';
 
 app.post('/upload', async (req, res) => {
   try {
@@ -178,7 +178,7 @@ app.post('/upload', async (req, res) => {
 
 ### Phase 2: Basic Integration
 
-- [ ] Install `@promethean/security`
+- [ ] Install `@promethean-os/security`
 - [ ] Replace direct `fs` operations with secure alternatives
 - [ ] Add basic path validation for user input
 - [ ] Update error handling
@@ -358,7 +358,7 @@ const configFilesConfig: PathSecurityConfig = {
 
 ```typescript
 import test from 'ava';
-import { secureWriteFile } from '@promethean/security';
+import { secureWriteFile } from '@promethean-os/security';
 
 test('prevents path traversal attacks', async (t) => {
   const maliciousPaths = [
@@ -414,7 +414,7 @@ test('integration: secure file upload workflow', async (t) => {
 ### Security Event Logging
 
 ```typescript
-import { secureWriteFile } from '@promethean/security';
+import { secureWriteFile } from '@promethean-os/security';
 
 function logSecurityEvent(event: string, details: Record<string, any>) {
   console.warn('[SECURITY]', event, details);

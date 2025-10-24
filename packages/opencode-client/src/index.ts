@@ -1,4 +1,4 @@
-export { DualStoreManager, ContextStore } from '@promethean/persistence';
+export { DualStoreManager, ContextStore } from '@promethean-os/persistence';
 export { SessionUtils } from './SessionUtils.js';
 export type { Timestamp } from './types/index.js';
 export * from './stores.js';

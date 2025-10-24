@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/pantheon",
+  "name": "@promethean-os/pantheon",
   "version": "1.0.0",
   "description": "Pantheon Agent Management Framework — Complete framework with CLI, UI, and adapters",
   "type": "module",
@@ -39,10 +39,10 @@
     "lint": "pnpm exec eslint ."
   },
   "dependencies": {
-    "@promethean/pantheon-core": "workspace:*",
-    "@promethean/pantheon-persistence": "workspace:*",
-    "@promethean/pantheon-mcp": "workspace:*",
-    "@promethean/pantheon-llm-openai": "workspace:*",
+    "@promethean-os/pantheon-core": "workspace:*",
+    "@promethean-os/pantheon-persistence": "workspace:*",
+    "@promethean-os/pantheon-mcp": "workspace:*",
+    "@promethean-os/pantheon-llm-openai": "workspace:*",
     "commander": "^11.1.0",
     "zod": "^3.22.4"
   },
@@ -52,8 +52,8 @@
     "typescript": "^5.3.3"
   },
   "peerDependencies": {
-    "@promethean/persistence": "workspace:*",
-    "@promethean/agent-state": "workspace:*"
+    "@promethean-os/persistence": "workspace:*",
+    "@promethean-os/agent-state": "workspace:*"
   },
   "license": "GPL-3.0-only",
   "engines": {

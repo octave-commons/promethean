@@ -1,7 +1,7 @@
 import type { Collection as ChromaCollection, Metadata as ChromaMetadata } from 'chromadb';
 import type { Collection } from 'mongodb';
-import { RemoteEmbeddingFunction } from '@promethean/embedding';
-import { AGENT_NAME } from '@promethean/legacy/env.js';
+import { RemoteEmbeddingFunction } from '@promethean-os/embedding';
+import { AGENT_NAME } from '@promethean-os/legacy/env.js';
 
 import type { DualStoreEntry, DualStoreMetadata, DualStoreTimestamp } from './types.js';
 import { getChromaClient, getMongoClient } from './clients.js';

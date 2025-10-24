@@ -53,7 +53,7 @@ ToolFactory → Authorization Wrapper → Tool Instance → Registry Lookup → 
 
 **Dependencies**:
 
-- `@promethean/utils` - File-backed registry utilities
+- `@promethean-os/utils` - File-backed registry utilities
 - `zod` - Runtime type validation
 - `node:path` - File system operations
 - `config/providers.yml` - Configuration source

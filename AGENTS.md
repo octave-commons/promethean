@@ -68,7 +68,7 @@ pseudo/            # local pseudocode; never referenced internally
 
 ## 🗂 Kanban Task Management
 
-All agents must use the **Kanban system** (`@promethean/kanban`) for tracking and coordination.
+All agents must use the **Kanban system** (`@promethean-os/kanban`) for tracking and coordination.
 The board lives at:
 `docs/agile/boards/generated.md`
 
@@ -111,11 +111,11 @@ pnpm kanban count
 Prefer **local scoped commands** over workspace-level scripts:
 
 ```bash
-pnpm --filter @promethean/<pkg> test
-pnpm --filter @promethean/<pkg> build
-pnpm --filter @promethean/<pkg> clean
-pnpm --filter @promethean/<pkg> typecheck
-pnpm --filter @promethean/<pkg> start
+pnpm --filter @promethean-os/<pkg> test
+pnpm --filter @promethean-os/<pkg> build
+pnpm --filter @promethean-os/<pkg> clean
+pnpm --filter @promethean-os/<pkg> typecheck
+pnpm --filter @promethean-os/<pkg> start
 ```
 ---
 

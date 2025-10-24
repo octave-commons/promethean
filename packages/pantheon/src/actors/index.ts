@@ -10,7 +10,7 @@ import type {
   Action,
   Message,
   ContextSource,
-} from '@promethean/pantheon-core';
+} from '@promethean-os/pantheon-core';
 
 // === LLM Actor Implementation ===
 

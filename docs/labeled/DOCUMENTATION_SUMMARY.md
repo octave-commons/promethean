@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document provides a comprehensive summary of all documentation created for the `@promethean/opencode-client` package, focusing on the recent TypeScript compilation fixes and the complete Ollama queue integration system.
+This document provides a comprehensive summary of all documentation created for the `@promethean-os/opencode-client` package, focusing on the recent TypeScript compilation fixes and the complete Ollama queue integration system.
 
 ## Documentation Structure
 
@@ -188,7 +188,7 @@ clearProcessingInterval(); // Type-safe and correct
 ### Quick Start Code
 
 ```typescript
-import { submitJob, getJobStatus, getJobResult } from '@promethean/opencode-client';
+import { submitJob, getJobStatus, getJobResult } from '@promethean-os/opencode-client';
 
 // Submit a job
 const job = await submitJob.execute({
@@ -293,14 +293,14 @@ setProcessingInterval(null); // Type error
 import { 
   clearProcessingInterval,
   getProcessingInterval 
-} from '@promethean/ollama-queue';
+} from '@promethean-os/ollama-queue';
 
 // ❌ INCORRECT: Unused imports
 import { 
   setProcessingInterval,  // Unused
   clearProcessingInterval,
   someOtherFunction      // Unused
-} from '@promethean/ollama-queue';
+} from '@promethean-os/ollama-queue';
 ```
 
 ### 3. Error Handling
@@ -331,10 +331,10 @@ try {
 2. **Check Imports**
    ```typescript
    // Remove unused imports like:
-   // import { setProcessingInterval } from '@promethean/ollama-queue';
+   // import { setProcessingInterval } from '@promethean-os/ollama-queue';
    
    // Add needed imports:
-   import { clearProcessingInterval } from '@promethean/ollama-queue';
+   import { clearProcessingInterval } from '@promethean-os/ollama-queue';
    ```
 
 3. **Update Function Calls**

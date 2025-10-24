@@ -9,7 +9,7 @@ import {
   withPage,
   shutdown,
   startProcessWithPort,
-} from "@promethean/test-utils";
+} from "@promethean-os/test-utils";
 
 import { ensureServices } from "../helpers/services.js";
 
@@ -124,7 +124,7 @@ test.serial(
         // If your test-utils exposes a way to get Playwright's Page/Context, use that.
         // As a last resort, throw — the agent should extend test-utils to expose `page`.
         throw new Error(
-          "withPage did not expose a Playwright `page`. Extend @promethean/test-utils to provide it.",
+          "withPage did not expose a Playwright `page`. Extend @promethean-os/test-utils to provide it.",
         );
       })());
 
@@ -221,7 +221,7 @@ test.serial(
         const res = await fixtures.pageGoto?.("/");
         t.truthy(res, "app responded at /");
         throw new Error(
-          "withPage did not expose a Playwright `page`. Extend @promethean/test-utils to provide it.",
+          "withPage did not expose a Playwright `page`. Extend @promethean-os/test-utils to provide it.",
         );
       })());
 

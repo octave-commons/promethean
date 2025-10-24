@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/shadow-conf
+# @promethean-os/shadow-conf
 ```
 **Folder:** `packages/shadow-conf`
 ```
@@ -13,13 +13,13 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/shadow-conf"]
-  D1["@promethean/pm2-helpers"]
-  A --> D1["@promethean/pm2-helpers"]
-  click D1 "../pm2-helpers/README.md" "@promethean/pm2-helpers"
+  A["@promethean-os/shadow-conf"]
+  D1["@promethean-os/pm2-helpers"]
+  A --> D1["@promethean-os/pm2-helpers"]
+  click D1 "../pm2-helpers/README.md" "@promethean-os/pm2-helpers"
 ```
 ## Dependencies
-- @promethean/pm2-helpers$../pm2-helpers/README.md
+- @promethean-os/pm2-helpers$../pm2-helpers/README.md
 ## Dependents
 - _None_
 ```

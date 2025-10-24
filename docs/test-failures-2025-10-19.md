@@ -21,35 +21,35 @@ This document catalogs all test failures discovered during comprehensive testing
 
 **Duplicate Packages:**
 
-- `@promethean/agent-generator`: packages/agent-generator vs packages/agents/agent-generator
-- `@promethean/agent`: packages/agents/agent vs packages/agent
-- `@promethean/agent-ecs`: packages/agents/agent-ecs vs packages/agent-ecs
-- `@promethean/embedding`: packages/ai/embedding vs packages/embedding
-- `@promethean/intention`: packages/ai/intention vs packages/intention
-- `@promethean/llm`: packages/ai/llm vs packages/llm
-- `@promethean/naming`: packages/ai/naming vs packages/naming
-- `@promethean/openai-server`: packages/ai/openai-server vs packages/openai-server
-- `@promethean/enso-protocol`: packages/enso/enso-protocol vs packages/enso-protocol
-- `@promethean/file-indexer`: packages/file-system/file-indexer vs packages/file-indexer
-- `@promethean/file-watcher`: packages/file-system/file-watcher vs packages/file-watcher
-- `@promethean/fs`: packages/file-system/fs vs packages/fs
-- `@promethean/indexer-core`: packages/file-system/indexer-core vs packages/indexer-core
-- `@promethean/indexer-service`: packages/file-system/indexer-service vs packages/indexer-service
-- `@promethean/boardrev`: packages/pipelines/boardrev vs packages/boardrev
-- `@promethean/buildfix`: packages/pipelines/buildfix vs packages/buildfix
-- `@promethean/codemods`: packages/pipelines/codemods vs packages/codemods
-- `@promethean/codepack`: packages/pipelines/codepack vs packages/codepack
-- `@promethean/docops`: packages/pipelines/docops vs packages/docops
-- `@promethean/piper`: packages/pipelines/piper vs packages/piper
-- `@promethean/readmeflow`: packages/pipelines/readmeflow vs packages/readmeflow
-- `@promethean/semverguard`: packages/pipelines/semverguard vs packages/semverguard
+- `@promethean-os/agent-generator`: packages/agent-generator vs packages/agents/agent-generator
+- `@promethean-os/agent`: packages/agents/agent vs packages/agent
+- `@promethean-os/agent-ecs`: packages/agents/agent-ecs vs packages/agent-ecs
+- `@promethean-os/embedding`: packages/ai/embedding vs packages/embedding
+- `@promethean-os/intention`: packages/ai/intention vs packages/intention
+- `@promethean-os/llm`: packages/ai/llm vs packages/llm
+- `@promethean-os/naming`: packages/ai/naming vs packages/naming
+- `@promethean-os/openai-server`: packages/ai/openai-server vs packages/openai-server
+- `@promethean-os/enso-protocol`: packages/enso/enso-protocol vs packages/enso-protocol
+- `@promethean-os/file-indexer`: packages/file-system/file-indexer vs packages/file-indexer
+- `@promethean-os/file-watcher`: packages/file-system/file-watcher vs packages/file-watcher
+- `@promethean-os/fs`: packages/file-system/fs vs packages/fs
+- `@promethean-os/indexer-core`: packages/file-system/indexer-core vs packages/indexer-core
+- `@promethean-os/indexer-service`: packages/file-system/indexer-service vs packages/indexer-service
+- `@promethean-os/boardrev`: packages/pipelines/boardrev vs packages/boardrev
+- `@promethean-os/buildfix`: packages/pipelines/buildfix vs packages/buildfix
+- `@promethean-os/codemods`: packages/pipelines/codemods vs packages/codemods
+- `@promethean-os/codepack`: packages/pipelines/codepack vs packages/codepack
+- `@promethean-os/docops`: packages/pipelines/docops vs packages/docops
+- `@promethean-os/piper`: packages/pipelines/piper vs packages/piper
+- `@promethean-os/readmeflow`: packages/pipelines/readmeflow vs packages/readmeflow
+- `@promethean-os/semverguard`: packages/pipelines/semverguard vs packages/semverguard
 
 **Resolution Required:** Create unique `project.json` files for each duplicate package with distinct names.
 
 ### 2. Missing Dependencies
 
-**Package:** `@promethean/alias-rewrite`
-**Issue:** References missing `@promethean/naming` package
+**Package:** `@promethean-os/alias-rewrite`
+**Issue:** References missing `@promethean-os/naming` package
 **Error:** `Cannot read file '/home/err/devel/promethean/packages/naming/tsconfig.json'`
 **Resolution Required:** Either create the naming package or update dependencies
 
@@ -57,13 +57,13 @@ This document catalogs all test failures discovered during comprehensive testing
 
 ### 3. AVA Test Configuration Problems
 
-**Package:** `@promethean/lmdb-cache`
+**Package:** `@promethean-os/lmdb-cache`
 **Issue:** Incorrect AVA config path reference
 **Error:** `Cannot find module '../../config/ava.config.mjs.js'`
 **Root Cause:** Looking for `.mjs.js` extension when file is `.mjs`
 **Location:** packages/lmdb-cache/ava.config.mjs:6
 
-**Package:** `@promethean/compliance-monitoring`
+**Package:** `@promethean-os/compliance-monitoring`
 **Issue:** Conflicting AVA configuration between package.json and external config
 **Error:** `Conflicting configuration in ../../ava.config.mjs and package.json`
 
@@ -71,7 +71,7 @@ This document catalogs all test failures discovered during comprehensive testing
 
 ### 4. Heartbeat Service Test Failures
 
-**Package:** `@promethean/heartbeat`
+**Package:** `@promethean-os/heartbeat`
 **Failed Tests:** 2 out of 11
 
 #### Test: `client.integration › heartbeat client requires name`
@@ -89,7 +89,7 @@ This document catalogs all test failures discovered during comprehensive testing
 
 ### 5. Level Cache Test Failures
 
-**Package:** `@promethean/level-cache`
+**Package:** `@promethean-os/level-cache`
 **Issue:** Uncaught exception in cache test
 
 - **Location:** src/tests/cache.test.ts
@@ -99,7 +99,7 @@ This document catalogs all test failures discovered during comprehensive testing
 
 ### 6. Auth Service Security Failures
 
-**Package:** `@promethean/auth-service`
+**Package:** `@promethean-os/auth-service`
 **Failed Tests:** 5 out of 12 security tests
 
 #### Critical Security Issues:
@@ -143,14 +143,14 @@ This document catalogs all test failures discovered during comprehensive testing
 
 The following packages passed all tests:
 
-- `@promethean/web-utils` (6 tests passed)
-- `@promethean/report-forge` (1 test passed)
-- `@promethean/changefeed` (1 test passed)
-- `@promethean/cli` (7 tests passed)
-- `@promethean/eidolon-field` (1 test passed)
-- `@promethean/image-link-generator` (2 tests passed)
-- `@promethean/test-utils` (11 tests passed)
-- `@promethean/legacy` (5 tests passed)
+- `@promethean-os/web-utils` (6 tests passed)
+- `@promethean-os/report-forge` (1 test passed)
+- `@promethean-os/changefeed` (1 test passed)
+- `@promethean-os/cli` (7 tests passed)
+- `@promethean-os/eidolon-field` (1 test passed)
+- `@promethean-os/image-link-generator` (2 tests passed)
+- `@promethean-os/test-utils` (11 tests passed)
+- `@promethean-os/legacy` (5 tests passed)
 
 ## Recommendations
 

@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/opencode-client",
+  "name": "@promethean-os/opencode-client",
   "version": "1.0.0",
   "description": "CLI client for OpenCode plugins and tools",
   "type": "module",
@@ -44,9 +44,9 @@
   "dependencies": {
     "@opencode-ai/plugin": "^0.15.7",
     "@opencode-ai/sdk": "^0.15.7",
-    "@promethean/logger": "workspace:*",
-    "@promethean/ollama-queue": "workspace:*",
-    "@promethean/persistence": "workspace:*",
+    "@promethean-os/logger": "workspace:*",
+    "@promethean-os/ollama-queue": "workspace:*",
+    "@promethean-os/persistence": "workspace:*",
     "@types/commander": "^2.12.5",
     "chalk": "^5.3.0",
     "cli-table3": "^0.6.3",

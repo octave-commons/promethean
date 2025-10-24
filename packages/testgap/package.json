@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/testgap",
+  "name": "@promethean-os/testgap",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -26,7 +26,7 @@
     "tg:all": "pnpm tg:01-scan-exports && pnpm tg:02-read-coverage && pnpm tg:03-map-gaps && pnpm tg:04-cookbook-cross && pnpm tg:05-plan && pnpm tg:06-write && pnpm tg:07-report"
   },
   "dependencies": {
-    "@promethean/utils": "workspace:*",
+    "@promethean-os/utils": "workspace:*",
     "globby": "^14.0.2",
     "gray-matter": "^4.0.3",
     "ts-morph": "^22.0.0",

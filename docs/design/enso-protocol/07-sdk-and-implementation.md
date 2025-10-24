@@ -7,7 +7,7 @@ native ESM, AVA tests, and strict configuration.
 
 ```ts
 // packages/enso-client/src/client.ts
-import type { Envelope } from "@promethean/enso-protocol/envelope.js";
+import type { Envelope } from "@promethean-os/enso-protocol/envelope.js";
 
 type Handler = (env: Envelope) => void;
 

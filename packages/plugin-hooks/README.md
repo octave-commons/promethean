@@ -1,4 +1,4 @@
-# @promethean/plugin-hooks
+# @promethean-os/plugin-hooks
 
 A sophisticated event-driven plugin hooks architecture for the Promethean framework, providing a robust foundation for extensible and maintainable plugin systems.
 
@@ -17,7 +17,7 @@ A sophisticated event-driven plugin hooks architecture for the Promethean framew
 ## 📦 Installation
 
 ```bash
-pnpm add @promethean/plugin-hooks
+pnpm add @promethean-os/plugin-hooks
 ```
 
 ## 🚀 Quick Start
@@ -25,8 +25,8 @@ pnpm add @promethean/plugin-hooks
 ### Basic Usage
 
 ```typescript
-import { HookRegistry, PluginManager, EventBus } from '@promethean/plugin-hooks';
-import { LoggerPlugin } from '@promethean/plugin-hooks/examples/logger-plugin';
+import { HookRegistry, PluginManager, EventBus } from '@promethean-os/plugin-hooks';
+import { LoggerPlugin } from '@promethean-os/plugin-hooks/examples/logger-plugin';
 
 // Create an event bus (implementation depends on your event system)
 const eventBus: EventBus = createEventBus();
@@ -47,8 +47,8 @@ const results = await pluginManager.executeHook('system.startup', 'Application s
 ### Enhanced Usage with Event-Driven Features
 
 ```typescript
-import { EnhancedPluginManager } from '@promethean/plugin-hooks';
-import { EventBus } from '@promethean/event';
+import { EnhancedPluginManager } from '@promethean-os/plugin-hooks';
+import { EventBus } from '@promethean-os/event';
 
 const eventBus = new EventBus();
 const pluginManager = new EnhancedPluginManager(eventBus, {
@@ -94,7 +94,7 @@ Event Published → Event Bus → Hook Manager → Hook Registry → Execute Hoo
 ### Creating a Basic Plugin
 
 ```typescript
-import { Plugin, PluginContext, HookRegistration, HookResult } from '@promethean/plugin-hooks';
+import { Plugin, PluginContext, HookRegistration, HookResult } from '@promethean-os/plugin-hooks';
 
 export class MyPlugin implements Plugin {
   metadata = {
@@ -146,7 +146,7 @@ export class MyPlugin implements Plugin {
 ### Using the Plugin SDK
 
 ```typescript
-import { PluginSDK } from '@promethean/plugin-hooks/sdk';
+import { PluginSDK } from '@promethean-os/plugin-hooks/sdk';
 import { z } from 'zod';
 
 export class AdvancedPlugin implements Plugin {
@@ -193,7 +193,7 @@ export class AdvancedPlugin implements Plugin {
 ### Security Manager
 
 ```typescript
-import { SecurityManager, SecurityPolicy } from '@promethean/plugin-hooks/security';
+import { SecurityManager, SecurityPolicy } from '@promethean-os/plugin-hooks/security';
 
 const securityManager = new SecurityManager({
   defaultPolicy: {
@@ -222,7 +222,7 @@ await securityManager.createSandbox(plugin);
 ### Plugin Sandboxing
 
 ```typescript
-import { PluginSandbox, SecurityPolicy } from '@promethean/plugin-hooks/security';
+import { PluginSandbox, SecurityPolicy } from '@promethean-os/plugin-hooks/security';
 
 const policy: SecurityPolicy = {
   allowNetworkAccess: true,
@@ -281,7 +281,7 @@ const eventDrivenConfig = {
 ### Platform-Specific Loading
 
 ```typescript
-import { PluginLoader, PlatformAdapter } from '@promethean/plugin-hooks';
+import { PluginLoader, PlatformAdapter } from '@promethean-os/plugin-hooks';
 
 // Node.js
 const nodeAdapter = new NodePlatformAdapter();
@@ -303,7 +303,7 @@ const bunLoader = new PluginLoader(bunAdapter);
 ### Plugin Parity Manager
 
 ```typescript
-import { PluginParityManager } from '@promethean/plugin-hooks';
+import { PluginParityManager } from '@promethean-os/plugin-hooks';
 
 const parityManager = new PluginParityManager();
 
@@ -319,7 +319,7 @@ const adaptations = await parityManager.getAdaptations(plugin, 'browser');
 ### Hook Execution Metrics
 
 ```typescript
-import { HookRegistry } from '@promethean/plugin-hooks';
+import { HookRegistry } from '@promethean-os/plugin-hooks';
 
 const registry = new HookRegistry();
 
@@ -338,7 +338,7 @@ console.log(`Hook failures: ${hookMetrics.failures}`);
 ### Plugin Health Monitoring
 
 ```typescript
-import { EnhancedPluginManager } from '@promethean/plugin-hooks';
+import { EnhancedPluginManager } from '@promethean-os/plugin-hooks';
 
 const manager = new EnhancedPluginManager(eventBus);
 
@@ -355,7 +355,7 @@ console.log(`Total hooks: ${health.totalHooks}`);
 
 ```typescript
 import { test } from 'ava';
-import { MockEventBus, MockHookRegistry } from '@promethean/plugin-hooks/test-utils';
+import { MockEventBus, MockHookRegistry } from '@promethean-os/plugin-hooks/test-utils';
 import { MyPlugin } from './my-plugin';
 
 test('MyPlugin initializes correctly', async (t) => {
@@ -386,8 +386,8 @@ test('MyPlugin handles startup hook', async (t) => {
 
 ```typescript
 import { test } from 'ava';
-import { EnhancedPluginManager, EventBus } from '@promethean/plugin-hooks';
-import { LoggerPlugin } from '@promethean/plugin-hooks/examples/logger-plugin';
+import { EnhancedPluginManager, EventBus } from '@promethean-os/plugin-hooks';
+import { LoggerPlugin } from '@promethean-os/plugin-hooks/examples/logger-plugin';
 
 test('Plugin manager loads and executes hooks', async (t) => {
   const eventBus = new EventBus();
@@ -406,7 +406,7 @@ test('Plugin manager loads and executes hooks', async (t) => {
 ### Event-Driven Logger Plugin
 
 ```typescript
-import { Plugin, PluginContext, HookRegistration, HookResult } from '@promethean/plugin-hooks';
+import { Plugin, PluginContext, HookRegistration, HookResult } from '@promethean-os/plugin-hooks';
 
 export class EventDrivenLoggerPlugin implements Plugin {
   metadata = {
@@ -466,7 +466,7 @@ export class EventDrivenLoggerPlugin implements Plugin {
 ### Metrics Plugin
 
 ```typescript
-import { Plugin, PluginContext, HookRegistration, HookResult } from '@promethean/plugin-hooks';
+import { Plugin, PluginContext, HookRegistration, HookResult } from '@promethean-os/plugin-hooks';
 
 export class MetricsPlugin implements Plugin {
   metadata = {

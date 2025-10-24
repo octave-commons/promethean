@@ -1,5 +1,5 @@
 import test from 'ava';
-import { DualStoreManager, cleanupClients } from '@promethean/persistence';
+import { DualStoreManager, cleanupClients } from '@promethean-os/persistence';
 
 test.after.always(async () => {
   await cleanupClients();

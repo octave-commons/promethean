@@ -79,7 +79,7 @@ export class TaskManager {
 }
 
 // Usage in other packages
-import { TaskManager, Task } from '@promethean/task-core';
+import { TaskManager, Task } from '@promethean-os/task-core';
 ```
 
 **Requirements:**

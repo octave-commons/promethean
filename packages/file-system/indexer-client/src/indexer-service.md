@@ -1,6 +1,6 @@
 # Indexer Service Plugin
 
-A comprehensive OpenCode plugin that connects to the `@promethean/indexer-service` to provide semantic search and file indexing capabilities.
+A comprehensive OpenCode plugin that connects to the `@promethean-os/indexer-service` to provide semantic search and file indexing capabilities.
 
 ## Features
 
@@ -120,7 +120,7 @@ All tools provide comprehensive error handling with:
 
 ## Integration with Indexer Service
 
-The plugin connects to the `@promethean/indexer-service` HTTP API and provides:
+The plugin connects to the `@promethean-os/indexer-service` HTTP API and provides:
 
 - RESTful API communication
 - JSON request/response handling
@@ -130,7 +130,7 @@ The plugin connects to the `@promethean/indexer-service` HTTP API and provides:
 ## Dependencies
 
 - `@opencode-ai/plugin` - OpenCode plugin framework
-- `@promethean/indexer-service` - Indexer service (for API compatibility)
+- `@promethean-os/indexer-service` - Indexer service (for API compatibility)
 
 ## Environment Variables
 

@@ -1,16 +1,16 @@
-# @promethean/symdocs Security & Performance Overhaul Epic
+# @promethean-os/symdocs Security & Performance Overhaul Epic
 
 ## Epic Overview
 
-**Title:** @promethean/symdocs Security & Performance Overhaul  
+**Title:** @promethean-os/symdocs Security & Performance Overhaul  
 **Priority:** P0  
 **Estimated Story Points:** 73  
 **Timeline:** 4-5 weeks  
-**Package:** @promethean/symdocs
+**Package:** @promethean-os/symdocs
 
 ### Description
 
-Comprehensive security hardening, performance optimization, and testing infrastructure implementation for the @promethean/symdocs package based on code review findings. This epic addresses critical security vulnerabilities, eliminates unsafe type usage, implements robust error handling, establishes comprehensive testing, and optimizes performance for large datasets.
+Comprehensive security hardening, performance optimization, and testing infrastructure implementation for the @promethean-os/symdocs package based on code review findings. This epic addresses critical security vulnerabilities, eliminates unsafe type usage, implements robust error handling, establishes comprehensive testing, and optimizes performance for large datasets.
 
 ### Success Criteria
 

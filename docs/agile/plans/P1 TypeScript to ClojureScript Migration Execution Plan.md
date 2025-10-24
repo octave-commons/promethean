@@ -14,7 +14,7 @@ Three P1 migration tasks are now ready for coordinated execution, representing t
 
 ## 🎯 Ready Tasks Overview
 
-### Task 1: @promethean/ds Migration (21 points)
+### Task 1: @promethean-os/ds Migration (21 points)
 
 - **Status**: Ready (incoming → ready transition needed)
 - **Priority**: P1
@@ -22,21 +22,21 @@ Three P1 migration tasks are now ready for coordinated execution, representing t
 - **Timeline**: Week 1-2
 - **Key Dependencies**: None (foundational)
 
-### Task 2: @promethean/agent-ecs Migration (21 points)
+### Task 2: @promethean-os/agent-ecs Migration (21 points)
 
 - **Status**: ✅ Ready (breakdown → ready complete)
 - **Priority**: P1
 - **Role**: ECS implementation with audio/vision systems
 - **Timeline**: Week 3-4
-- **Key Dependencies**: @promethean/ds completion
+- **Key Dependencies**: @promethean-os/ds completion
 
-### Task 3: @promethean/agent Migration (21 points)
+### Task 3: @promethean-os/agent Migration (21 points)
 
 - **Status**: ✅ Ready (breakdown → ready complete)
 - **Priority**: P1
 - **Role**: Server infrastructure and agent orchestration
 - **Timeline**: Week 5-6
-- **Key Dependencies**: @promethean/ds, @promethean/security
+- **Key Dependencies**: @promethean-os/ds, @promethean-os/security
 
 ---
 
@@ -44,7 +44,7 @@ Three P1 migration tasks are now ready for coordinated execution, representing t
 
 ### Phase 1: Foundation (Weeks 1-2)
 
-#### Week 1: @promethean/ds Core Migration
+#### Week 1: @promethean-os/ds Core Migration
 
 - **Focus**: ECS framework, data structures, core utilities
 - **Deliverables**:
@@ -53,7 +53,7 @@ Three P1 migration tasks are now ready for coordinated execution, representing t
   - Core data structure migrations
 - **Success Criteria**: All ds tests passing, type checking complete
 
-#### Week 2: @promethean/ds Integration & Validation
+#### Week 2: @promethean-os/ds Integration & Validation
 
 - **Focus**: Integration testing, performance validation
 - **Deliverables**:
@@ -64,17 +64,17 @@ Three P1 migration tasks are now ready for coordinated execution, representing t
 
 ### Phase 2: ECS Implementation (Weeks 3-4)
 
-#### Week 3: @promethean/agent-ecs Foundation
+#### Week 3: @promethean-os/agent-ecs Foundation
 
 - **Focus**: ECS world, entity management, core systems
-- **Dependencies**: @promethean/ds complete
+- **Dependencies**: @promethean-os/ds complete
 - **Deliverables**:
   - ECS world implementation
   - Component system migration
   - Basic system orchestration
 - **Success Criteria**: Core ECS functionality operational
 
-#### Week 4: @promethean/agent-ecs Advanced Systems
+#### Week 4: @promethean-os/agent-ecs Advanced Systems
 
 - **Focus**: Audio processing, vision systems, database integration
 - **Dependencies**: ECS foundation complete
@@ -86,17 +86,17 @@ Three P1 migration tasks are now ready for coordinated execution, representing t
 
 ### Phase 3: Server Infrastructure (Weeks 5-6)
 
-#### Week 5: @promethean/agent Core Infrastructure
+#### Week 5: @promethean-os/agent Core Infrastructure
 
 - **Focus**: Server setup, external service integration
-- **Dependencies**: @promethean/ds, @promethean/security
+- **Dependencies**: @promethean-os/ds, @promethean-os/security
 - **Deliverables**:
   - HTTP server infrastructure
   - External service clients
   - Security system integration
 - **Success Criteria**: Server endpoints functional
 
-#### Week 6: @promethean/agent Complete System
+#### Week 6: @promethean-os/agent Complete System
 
 - **Focus**: Agent management, real-time features, validation
 - **Dependencies**: Core infrastructure complete
@@ -112,8 +112,8 @@ Three P1 migration tasks are now ready for coordinated execution, representing t
 
 ### Must Complete First
 
-1. **@promethean/ds** - Core ECS framework
-2. **@promethean/security** - Security system (parallel track)
+1. **@promethean-os/ds** - Core ECS framework
+2. **@promethean-os/security** - Security system (parallel track)
 3. **Typed ClojureScript Infrastructure** - Build tooling (P0 complete)
 
 ### External Dependencies
@@ -202,9 +202,9 @@ Three P1 migration tasks are now ready for coordinated execution, representing t
 
 ### Milestone Gates
 
-- **Phase 1 Gate**: @promethean/ds complete and validated
-- **Phase 2 Gate**: @promethean/agent-ecs operational
-- **Phase 3 Gate**: @promethean/agent full system ready
+- **Phase 1 Gate**: @promethean-os/ds complete and validated
+- **Phase 2 Gate**: @promethean-os/agent-ecs operational
+- **Phase 3 Gate**: @promethean-os/agent full system ready
 
 ---
 
@@ -212,14 +212,14 @@ Three P1 migration tasks are now ready for coordinated execution, representing t
 
 ### This Week
 
-1. **Update @promethean/ds status** from "incoming" to "ready"
+1. **Update @promethean-os/ds status** from "incoming" to "ready"
 2. **Assign task ownership** for all three P1 tasks
 3. **Set up development environments** with Typed ClojureScript
 4. **Establish baseline metrics** for performance comparison
 
 ### Week 1 Priorities
 
-1. **Begin @promethean/ds migration** with focus on core ECS
+1. **Begin @promethean-os/ds migration** with focus on core ECS
 2. **Set up integration test environment**
 3. **Establish performance benchmarking**
 4. **Create mock external services** for testing
@@ -239,7 +239,7 @@ Three P1 migration tasks are now ready for coordinated execution, representing t
 
 ### Pre-Execution
 
-- [ ] @promethean/ds status updated to "ready"
+- [ ] @promethean-os/ds status updated to "ready"
 - [ ] Task assignments confirmed
 - [ ] Development environments provisioned
 - [ ] Baseline metrics established

@@ -2,7 +2,7 @@
 
 All agents must use the kanban system for task tracking and work management.
 The kanban board lives at `docs/agile/boards/generated.md` and is managed
-via the `@promethean/kanban` package.
+via the `@promethean-os/kanban` package.
 
 
 ### 📍 Working with Kanban

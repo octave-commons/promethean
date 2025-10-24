@@ -1,11 +1,11 @@
-import { getMongoClient } from '@promethean/persistence/clients.js';
+import { getMongoClient } from '@promethean-os/persistence/clients.js';
 import { createRequire } from 'module';
 import path from 'path';
 import fs from 'fs';
 // @ts-ignore - No types available for pidusage
 import pidusage from 'pidusage';
 import { randomUUID } from 'crypto';
-import { BrokerClient } from '@promethean/legacy/brokerClient.js';
+import { BrokerClient } from '@promethean-os/legacy/brokerClient.js';
 import { fileURLToPath } from 'url';
 import { MongoClient, Collection, Db } from 'mongodb';
 

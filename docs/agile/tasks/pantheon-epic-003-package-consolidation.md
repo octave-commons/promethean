@@ -16,7 +16,7 @@ estimates:
 
 ## Overview
 
-This epic covers the consolidation of 8 separate agent-related packages into a single unified `@promethean/pantheon` package. The consolidation follows the detailed migration plan outlined in the design document, preserving functionality while improving architecture and maintainability.
+This epic covers the consolidation of 8 separate agent-related packages into a single unified `@promethean-os/pantheon` package. The consolidation follows the detailed migration plan outlined in the design document, preserving functionality while improving architecture and maintainability.
 
 ## Business Value
 
@@ -75,7 +75,7 @@ Comprehensive consolidation plan is complete with detailed analysis, risk assess
 **Dependencies:** pantheon-consolidation-001
 
 **Description:**  
-Set up the unified package structure for `@promethean/pantheon` with proper directory organization, build configuration, and module exports.
+Set up the unified package structure for `@promethean-os/pantheon` with proper directory organization, build configuration, and module exports.
 
 **Acceptance Criteria:**
 

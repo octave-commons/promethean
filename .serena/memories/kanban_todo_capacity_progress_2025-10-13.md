@@ -31,7 +31,7 @@ Based on FSM rules, these transitions are available:
 
 ## High-Priority Tasks Ready for Movement
 ### From Testing Column:
-1. **Implement @promethean/lmdb-cache Package** [P1] - Could move to todo for rework
+1. **Implement @promethean-os/lmdb-cache Package** [P1] - Could move to todo for rework
 2. **Fix kanban created_at timestamp preservation** [P0] - Critical bug fix
 
 ### From In Review Column:

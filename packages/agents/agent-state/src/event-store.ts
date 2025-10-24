@@ -1,5 +1,5 @@
 import { ContextEvent, EventStore } from './types.js';
-import { openLevelCache, Cache } from '@promethean/level-cache';
+import { openLevelCache, Cache } from '@promethean-os/level-cache';
 
 export class PostgresEventStore implements EventStore {
   private cache: Cache<ContextEvent> | null = null;

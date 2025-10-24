@@ -43,7 +43,7 @@ stateDiagram-v2
 The framework provides an `ActorFactory` for creating actors:
 
 ```typescript
-import { makeActorFactory } from '@promethean/pantheon-core';
+import { makeActorFactory } from '@promethean-os/pantheon-core';
 
 const actorFactory = makeActorFactory();
 
@@ -66,7 +66,7 @@ Behaviors have three execution modes:
 #### Creating Behaviors
 
 ```typescript
-import { makeActorFactory } from '@promethean/pantheon-core';
+import { makeActorFactory } from '@promethean-os/pantheon-core';
 
 const actorFactory = makeActorFactory();
 
@@ -111,7 +111,7 @@ Talents are collections of related behaviors that form coherent capabilities. Th
 #### Creating Talents
 
 ```typescript
-import { makeActorFactory } from '@promethean/pantheon-core';
+import { makeActorFactory } from '@promethean-os/pantheon-core';
 
 const actorFactory = makeActorFactory();
 
@@ -233,7 +233,7 @@ const advancedScript: ActorScript = {
 Actors are "ticked" by the orchestrator, which triggers their execution:
 
 ```typescript
-import { makeOrchestrator } from '@promethean/pantheon-core';
+import { makeOrchestrator } from '@promethean-os/pantheon-core';
 
 const orchestrator = makeOrchestrator({
   // Dependencies
@@ -261,7 +261,7 @@ await orchestrator.tickActor(actor);
 Actors can run in continuous loops for persistent behaviors:
 
 ```typescript
-import { makeOrchestrator } from '@promethean/pantheon-core';
+import { makeOrchestrator } from '@promethean-os/pantheon-core';
 
 const orchestrator = makeOrchestrator({
   // Dependencies...
@@ -550,7 +550,7 @@ const statefulBehavior = actorFactory.createBehavior(
 
 ```typescript
 import test from 'ava';
-import { makeActorFactory } from '@promethean/pantheon-core';
+import { makeActorFactory } from '@promethean-os/pantheon-core';
 
 test('greeting behavior responds to hello', async (t) => {
   const actorFactory = makeActorFactory();

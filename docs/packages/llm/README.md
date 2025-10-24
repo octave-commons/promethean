@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/llm
+# @promethean-os/llm
 ```
 **Folder:** `packages/llm`
 ```
@@ -13,22 +13,22 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/llm"]
-  D1["@promethean/pm2-helpers"]
-  D2["@promethean/utils"]
-  R1["@promethean/cephalon"]
-  A --> D1["@promethean/pm2-helpers"]
-  A --> D2["@promethean/utils"]
-  R1["@promethean/cephalon"] --> A
-  click D1 "../pm2-helpers/README.md" "@promethean/pm2-helpers"
-  click D2 "../utils/README.md" "@promethean/utils"
-  click R1 "../cephalon/README.md" "@promethean/cephalon"
+  A["@promethean-os/llm"]
+  D1["@promethean-os/pm2-helpers"]
+  D2["@promethean-os/utils"]
+  R1["@promethean-os/cephalon"]
+  A --> D1["@promethean-os/pm2-helpers"]
+  A --> D2["@promethean-os/utils"]
+  R1["@promethean-os/cephalon"] --> A
+  click D1 "../pm2-helpers/README.md" "@promethean-os/pm2-helpers"
+  click D2 "../utils/README.md" "@promethean-os/utils"
+  click R1 "../cephalon/README.md" "@promethean-os/cephalon"
 ```
 ## Dependencies
-- @promethean/pm2-helpers$../pm2-helpers/README.md
-- @promethean/utils$../utils/README.md
+- @promethean-os/pm2-helpers$../pm2-helpers/README.md
+- @promethean-os/utils$../utils/README.md
 ## Dependents
-- @promethean/cephalon$../cephalon/README.md
+- @promethean-os/cephalon$../cephalon/README.md
 ```
 <!-- SYMPKG:PKG:END -->
 ```

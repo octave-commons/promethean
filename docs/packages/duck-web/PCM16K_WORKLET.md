@@ -3,7 +3,7 @@
 Status: ✅ updated for WebRTC streaming (2025-02-14).
 
 Captures microphone audio at 48 kHz stereo, downsamples to 16 kHz mono via a `ScriptProcessorNode`,
-then converts frames to PCM16 using `@promethean/duck-audio` utilities before enqueueing them into a
+then converts frames to PCM16 using `@promethean-os/duck-audio` utilities before enqueueing them into a
 `ReadableStream` consumed by the `voice` RTCDataChannel.
 
 ## Diagram

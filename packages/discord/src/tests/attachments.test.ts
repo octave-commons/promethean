@@ -1,5 +1,5 @@
 import test from "ava";
-import { indexAttachments } from "@promethean/discord";
+import { indexAttachments } from "@promethean-os/discord";
 
 test("indexes attachments for provider+tenant", async (t) => {
   process.env.DISCORD_TOKEN_DUCK = "test";

@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `@promethean/opencode-client` package provides a comprehensive TypeScript-based client for interacting with OpenCode plugins and tools, with specialized support for Ollama LLM queue management and asynchronous job processing.
+The `@promethean-os/opencode-client` package provides a comprehensive TypeScript-based client for interacting with OpenCode plugins and tools, with specialized support for Ollama LLM queue management and asynchronous job processing.
 
 ## Quick Start
 
@@ -10,7 +10,7 @@ The `@promethean/opencode-client` package provides a comprehensive TypeScript-ba
 
 ```bash
 # Install the package
-pnpm add @promethean/opencode-client
+pnpm add @promethean-os/opencode-client
 
 # Or install in the monorepo
 cd packages/opencode-client
@@ -20,7 +20,7 @@ pnpm install
 ### Basic Usage
 
 ```typescript
-import { submitJob, getJobStatus, getJobResult } from '@promethean/opencode-client';
+import { submitJob, getJobStatus, getJobResult } from '@promethean-os/opencode-client';
 
 // Submit a job to the queue
 const job = await submitJob.execute(
@@ -160,7 +160,7 @@ process.env.DEBUG = 'ollama-queue:*';
 ### 4. Your First Job
 
 ```typescript
-import { submitJob, getJobResult } from '@promethean/opencode-client';
+import { submitJob, getJobResult } from '@promethean-os/opencode-client';
 
 async function firstJob() {
   try {
@@ -345,7 +345,7 @@ For detailed development guidelines, see the [Development Guide](./development-g
 ### Health Check
 
 ```typescript
-import { getQueueInfo, listModels } from '@promethean/opencode-client';
+import { getQueueInfo, listModels } from '@promethean-os/opencode-client';
 
 async function healthCheck() {
   try {
@@ -372,8 +372,8 @@ This project is licensed under the GPL-3.0 License. See the [LICENSE](../../LICE
 
 ## Related Packages
 
-- **@promethean/ollama-queue**: Core queue management system
-- **@promethean/persistence**: Data persistence layer
+- **@promethean-os/ollama-queue**: Core queue management system
+- **@promethean-os/persistence**: Data persistence layer
 - **@opencode-ai/plugin**: OpenCode plugin framework
 - **@opencode-ai/sdk**: OpenCode SDK
 

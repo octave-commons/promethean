@@ -17,14 +17,14 @@ estimates:
 
 This error happened while installing a direct dependency of /home/err/.cache/pnpm/dlx/ui32uivw2qb2hel6b3nv7ac52a/199e19c3df3-16fbf7
 
-@promethean/create-package is not in the npm registry, or you have no permission to fetch it.
+@promethean-os/create-package is not in the npm registry, or you have no permission to fetch it.
 
 No authorization header was set for the request. command\n- [ ] Add interactive template selection\n- [ ] Integrate with existing Nx workspace system\n- [ ] Add template update/migration capabilities\n\n### Phase 5: Documentation & Migration\n- [ ] Document template usage and customization\n- [ ] Create migration guide for existing packages\n- [ ] Add template development guide\n\n## Template Categories\n\n### 1. Service Package Template\n- Fastify server setup\n- Health check endpoints\n- Logging configuration\n- Environment variable handling\n- Docker configuration\n\n### 2. Library Package Template\n- TypeScript library setup\n- Testing configuration\n- Documentation generation\n- Build and publish scripts\n\n### 3. Tool Package Template\n- CLI tool setup\n- Script execution patterns\n- Configuration file handling\n- Error handling patterns\n\n### 4. MCP Package Template\n- MCP server setup\n- Tool registration patterns\n- Configuration schemas\n- Testing utilities\n\n## Files to Create\n\n\n\n## Integration Points\n\n- **Nx Workspace**: Integrate with  commands\n- **pnpm**: Support /home/err/.cache/pnpm/dlx/ui32uivw2qb2hel6b3nv7ac52a/199e19c40b1-16fc27:
  ERR_PNPM_FETCH_404  GET https://registry.npmjs.org/@promethean%2Fcreate-package: Not Found - 404
 
 This error happened while installing a direct dependency of /home/err/.cache/pnpm/dlx/ui32uivw2qb2hel6b3nv7ac52a/199e19c40b1-16fc27
 
-@promethean/create-package is not in the npm registry, or you have no permission to fetch it.
+@promethean-os/create-package is not in the npm registry, or you have no permission to fetch it.
 
 No authorization header was set for the request.\n- **CI/CD**: Template validation in pipelines\n- **Documentation**: Auto-generated package docs\n\n## Expected Impact\n\n- **Development Speed**: 90% reduction in new package setup time\n- **Consistency**: Standardized patterns across all packages\n- **Maintenance**: Centralized template updates\n- **Quality**: Built-in best practices and validation\n\n## Success Metrics\n\n- [ ] All new packages use template system\n- [ ] 50+ boilerplate files eliminated\n- [ ] Package setup time reduced from hours to minutes\n- [ ] Zero configuration inconsistencies in new packages
 

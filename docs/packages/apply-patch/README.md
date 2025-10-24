@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/apply-patch
+# @promethean-os/apply-patch
 ```
 **Folder:** `packages/apply-patch`
 ```
@@ -13,15 +13,15 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/apply-patch"]
-  R1["@promethean/legacy"]
-  R1["@promethean/legacy"] --> A
-  click R1 "../legacy/README.md" "@promethean/legacy"
+  A["@promethean-os/apply-patch"]
+  R1["@promethean-os/legacy"]
+  R1["@promethean-os/legacy"] --> A
+  click R1 "../legacy/README.md" "@promethean-os/legacy"
 ```
 ## Dependencies
 - _None_
 ## Dependents
-- @promethean/legacy$../legacy/README.md
+- @promethean-os/legacy$../legacy/README.md
 ```
 <!-- SYMPKG:PKG:END -->
 ```

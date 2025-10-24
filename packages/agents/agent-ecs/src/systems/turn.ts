@@ -1,4 +1,4 @@
-import type { World } from '@promethean/ds/ecs.js';
+import type { World } from '@promethean-os/ds/ecs.js';
 
 import type { AgentComponents, TurnComponent, VadComponent } from '../types.js';
 

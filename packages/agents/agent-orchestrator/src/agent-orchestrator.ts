@@ -1,6 +1,6 @@
 // Note: Using dynamic imports for OpenCode SDK since it may not be available in all contexts
 // In a real implementation, you would install @opencode-ai/sdk as a dependency
-import { DualStoreManager } from '@promethean/persistence';
+import { DualStoreManager } from '@promethean-os/persistence';
 import {
   AgentTask,
   AgentStatus,

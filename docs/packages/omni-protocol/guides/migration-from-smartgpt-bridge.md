@@ -84,10 +84,10 @@ interface OmniResponse extends OmniMessage {
 
 ```bash
 # Remove old dependency
-pnpm remove @promethean/smartgpt-bridge
+pnpm remove @promethean-os/smartgpt-bridge
 
 # Add new dependency
-pnpm add @promethean/omni-protocol
+pnpm add @promethean-os/omni-protocol
 ```
 
 ### Step 2: Update Imports
@@ -95,7 +95,7 @@ pnpm add @promethean/omni-protocol
 #### Before
 
 ```typescript
-import { SmartGPTMessage, SmartGPTRequest } from "@promethean/smartgpt-bridge";
+import { SmartGPTMessage, SmartGPTRequest } from "@promethean-os/smartgpt-bridge";
 ```
 
 #### After
@@ -107,7 +107,7 @@ import {
   OmniResponse,
   OmniEvent,
   validateOmniMessage
-} from "@promethean/omni-protocol";
+} from "@promethean-os/omni-protocol";
 ```
 
 ### Step 3: Update Message Creation
@@ -224,7 +224,7 @@ function validateMessage(message: any): message is SmartGPTMessage {
 #### After
 
 ```typescript
-import { validateOmniMessage } from "@promethean/omni-protocol";
+import { validateOmniMessage } from "@promethean-os/omni-protocol";
 
 function validateMessage(message: unknown) {
   const result = validateOmniMessage(message);
@@ -290,7 +290,7 @@ import {
   OmniEvent,
   validateOmniRequest,
   createRequestId
-} from "@promethean/omni-protocol";
+} from "@promethean-os/omni-protocol";
 
 class MessageHandler {
   async handleMessage(rawMessage: unknown): Promise<OmniResponse | void> {
@@ -388,7 +388,7 @@ Create a compatibility layer to support gradual migration:
 
 ```typescript
 import { SmartGPTMessage, SmartGPTRequest, SmartGPTResponse } from "./legacy-types.js";
-import { OmniMessage, OmniRequest, OmniResponse, OmniEvent } from "@promethean/omni-protocol";
+import { OmniMessage, OmniRequest, OmniResponse, OmniEvent } from "@promethean-os/omni-protocol";
 
 export class MessageTransformer {
   // Convert legacy SmartGPT to Omni protocol

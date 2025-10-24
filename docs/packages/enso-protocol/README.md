@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/enso-protocol
+# @promethean-os/enso-protocol
 ```
 **Folder:** `packages/enso-protocol`
 ```
@@ -13,15 +13,15 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/enso-protocol"]
-  R1["@promethean/cephalon"]
-  R1["@promethean/cephalon"] --> A
-  click R1 "../cephalon/README.md" "@promethean/cephalon"
+  A["@promethean-os/enso-protocol"]
+  R1["@promethean-os/cephalon"]
+  R1["@promethean-os/cephalon"] --> A
+  click R1 "../cephalon/README.md" "@promethean-os/cephalon"
 ```
 ## Dependencies
 - _None_
 ## Dependents
-- @promethean/cephalon$../cephalon/README.md
+- @promethean-os/cephalon$../cephalon/README.md
 ```
 <!-- SYMPKG:PKG:END -->
 ```

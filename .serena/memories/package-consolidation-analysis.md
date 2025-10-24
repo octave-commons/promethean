@@ -2,11 +2,11 @@
 
 ## Target Packages Overview
 
-### 1. @promethean/opencode-client
+### 1. @promethean-os/opencode-client
 - **Purpose**: TypeScript CLI client for agent management and API interactions
 - **Core Features**: Unified agent management, CLI interface, Ollama integration, session management, process monitoring
 - **Architecture**: TypeScript with modular API layers (UnifiedAgentManager, AgentTaskManager, SessionUtils, etc.)
-- **Dependencies**: @promethean/persistence, @promethean/ollama-queue, @opencode-ai/sdk
+- **Dependencies**: @promethean-os/persistence, @promethean-os/ollama-queue, @opencode-ai/sdk
 - **Build System**: TypeScript with AVA testing
 
 ### 2. opencode-cljs-electron
@@ -16,17 +16,17 @@
 - **Dependencies**: @opencode-ai/sdk, React, Electron
 - **Build System**: Shadow-CLJS with Electron packaging
 
-### 3. @promethean/dualstore-http
+### 3. @promethean-os/dualstore-http
 - **Purpose**: HTTP service for dual-store functionality with REST API and SSE streaming
 - **Core Features**: REST API for collections, real-time streaming, authentication, OpenAPI docs
 - **Architecture**: TypeScript with Fastify, dual-store integration
-- **Dependencies**: @promethean/persistence, Fastify ecosystem
+- **Dependencies**: @promethean-os/persistence, Fastify ecosystem
 - **Build System**: TypeScript with AVA testing
 
 ## Key Integration Points
 
 ### Shared Dependencies
-- All three packages integrate with @promethean/persistence for data storage
+- All three packages integrate with @promethean-os/persistence for data storage
 - opencode-client and dualstore-http both use TypeScript and similar testing setups
 - opencode-client and opencode-cljs-electron both integrate with @opencode-ai/sdk
 

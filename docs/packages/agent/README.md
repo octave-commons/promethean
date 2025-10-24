@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/agent
+# @promethean-os/agent
 ```
 **Folder:** `packages/agent`
 ```
@@ -13,18 +13,18 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/agent"]
-  D1["@promethean/security"]
-  R1["@promethean/discord"]
-  A --> D1["@promethean/security"]
-  R1["@promethean/discord"] --> A
-  click D1 "../security/README.md" "@promethean/security"
-  click R1 "../discord/README.md" "@promethean/discord"
+  A["@promethean-os/agent"]
+  D1["@promethean-os/security"]
+  R1["@promethean-os/discord"]
+  A --> D1["@promethean-os/security"]
+  R1["@promethean-os/discord"] --> A
+  click D1 "../security/README.md" "@promethean-os/security"
+  click R1 "../discord/README.md" "@promethean-os/discord"
 ```
 ## Dependencies
-- @promethean/security$../security/README.md
+- @promethean-os/security$../security/README.md
 ## Dependents
-- @promethean/discord$../discord/README.md
+- @promethean-os/discord$../discord/README.md
 ```
 <!-- SYMPKG:PKG:END -->
 ```

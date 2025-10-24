@@ -1,5 +1,5 @@
 {
-    "name": "@promethean/worker",
+    "name": "@promethean-os/worker",
     "version": "0.0.1",
     "private": true,
     "type": "module",
@@ -30,7 +30,7 @@
     },
     "module": "dist/index.js",
     "dependencies": {
-        "@promethean/ds": "workspace:*",
+        "@promethean-os/ds": "workspace:*",
         "@types/javascript-time-ago": "^2.5.0",
         "@types/unist": "^3.0.3",
         "body-parser": "^1.20.2",

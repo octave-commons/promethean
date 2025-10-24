@@ -1,6 +1,6 @@
 # Troubleshooting Guide
 
-This guide provides comprehensive troubleshooting information for common issues encountered when using @promethean/shadow-conf.
+This guide provides comprehensive troubleshooting information for common issues encountered when using @promethean-os/shadow-conf.
 
 ## 📋 Table of Contents
 
@@ -146,7 +146,7 @@ npx jsedn your-config.edn
 
 # Using a simple validation script
 node -e "
-import { loadEdnFile } from '@promethean/shadow-conf';
+import { loadEdnFile } from '@promethean-os/shadow-conf';
 loadEdnFile('./ecosystem.edn')
   .then(() => console.log('✅ EDN is valid'))
   .catch(err => console.error('❌ Invalid EDN:', err.message));
@@ -231,7 +231,7 @@ export const apps = [
 
 2. **Test Path Resolution**:
 ```typescript
-import { generateEcosystem } from '@promethean/shadow-conf';
+import { generateEcosystem } from '@promethean-os/shadow-conf';
 
 const result = await generateEcosystem({
   inputDir: './services',
@@ -288,10 +288,10 @@ The package automatically normalizes paths to use forward slashes in the generat
 
 ```bash
 # Install globally
-pnpm add -g @promethean/shadow-conf
+pnpm add -g @promethean-os/shadow-conf
 
 # Or use npx
-npx @promethean/shadow-conf ecosystem
+npx @promethean-os/shadow-conf ecosystem
 
 # Or use local installation
 pnpm exec shadow-conf ecosystem
@@ -390,7 +390,7 @@ shadow-conf ecosystem --input-dir ./config/apps
 
 3. **Monitor Performance**:
 ```typescript
-import { generateEcosystem } from '@promethean/shadow-conf';
+import { generateEcosystem } from '@promethean-os/shadow-conf';
 
 console.time('generation');
 const result = await generateEcosystem();
@@ -527,7 +527,7 @@ Create a validation script:
 
 ```typescript
 // validate-edn.ts
-import { loadEdnFile } from '@promethean/shadow-conf';
+import { loadEdnFile } from '@promethean-os/shadow-conf';
 import { readdir } from 'fs/promises';
 import path from 'path';
 
@@ -554,7 +554,7 @@ validateDirectory('./config');
 ### Debug Path Resolution
 
 ```typescript
-import { generateEcosystem } from '@promethean/shadow-conf';
+import { generateEcosystem } from '@promethean-os/shadow-conf';
 
 async function debugPaths(): Promise<void> {
   const result = await generateEcosystem({
@@ -709,4 +709,4 @@ shadow-conf ecosystem --help
 - Monitor memory usage with large file sets
 - Use appropriate Node.js memory limits
 
-This troubleshooting guide should help resolve most common issues with @promethean/shadow-conf. For additional help, don't hesitate to reach out to the community.
+This troubleshooting guide should help resolve most common issues with @promethean-os/shadow-conf. For additional help, don't hesitate to reach out to the community.

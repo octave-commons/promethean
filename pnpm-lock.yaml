@@ -17,46 +17,46 @@ importers:
       '@platformatic/mcp':
         specifier: ^1.2.2
         version: 1.2.2(@sinclair/typebox@0.34.41)
-      '@promethean/autocommit':
+      '@promethean-os/autocommit':
         specifier: workspace:*
         version: link:packages/autocommit
-      '@promethean/buildfix':
+      '@promethean-os/buildfix':
         specifier: workspace:*
         version: link:packages/pipelines/buildfix
-      '@promethean/frontend':
+      '@promethean-os/frontend':
         specifier: workspace:*
         version: link:packages/frontend
-      '@promethean/image-link-generator':
+      '@promethean-os/image-link-generator':
         specifier: workspace:*
         version: link:packages/image-link-generator
-      '@promethean/kanban':
+      '@promethean-os/kanban':
         specifier: workspace:*
         version: link:packages/kanban
-      '@promethean/legacy':
+      '@promethean-os/legacy':
         specifier: workspace:*
         version: link:packages/legacy
-      '@promethean/level-cache':
+      '@promethean-os/level-cache':
         specifier: workspace:*
         version: link:packages/level-cache
-      '@promethean/markdown':
+      '@promethean-os/markdown':
         specifier: workspace:*
         version: link:packages/markdown
-      '@promethean/opencode-client':
+      '@promethean-os/opencode-client':
         specifier: workspace:*
         version: link:packages/opencode-client
-      '@promethean/persistence':
+      '@promethean-os/persistence':
         specifier: workspace:*
         version: link:packages/persistence
-      '@promethean/piper':
+      '@promethean-os/piper':
         specifier: workspace:*
         version: link:packages/pipelines/piper
-      '@promethean/pm2-helpers':
+      '@promethean-os/pm2-helpers':
         specifier: workspace:*
         version: link:packages/pm2-helpers
-      '@promethean/shadow-conf':
+      '@promethean-os/shadow-conf':
         specifier: workspace:*
         version: link:packages/shadow-conf
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:packages/utils
       '@xenova/transformers':
@@ -144,7 +144,7 @@ importers:
       '@playwright/test':
         specifier: 1.56.0
         version: 1.56.0
-      '@promethean/test-utils':
+      '@promethean-os/test-utils':
         specifier: workspace:*
         version: link:packages/test-utils
       '@stryker-mutator/tap-runner':
@@ -225,10 +225,10 @@ importers:
 
   packages/agents/agent:
     dependencies:
-      '@promethean/agent-protocol':
+      '@promethean-os/agent-protocol':
         specifier: workspace:*
         version: link:../agent-protocol
-      '@promethean/security':
+      '@promethean-os/security':
         specifier: workspace:*
         version: link:../../security
       '@types/javascript-time-ago':
@@ -321,14 +321,14 @@ importers:
         version: 6.0.1
       ts-node:
         specifier: 10.9.2
-        version: 10.9.2(@types/node@20.19.11)(typescript@5.9.3)
+        version: 10.9.2(@types/node@24.3.1)(typescript@5.9.3)
 
   packages/agents/agent-ecs:
     dependencies:
-      '@promethean/ds':
+      '@promethean-os/ds':
         specifier: workspace:*
         version: link:../../ds
-      '@promethean/legacy':
+      '@promethean-os/legacy':
         specifier: workspace:*
         version: link:../../legacy
       '@types/javascript-time-ago':
@@ -401,7 +401,7 @@ importers:
         specifier: ^3.23.8
         version: 3.25.76
     devDependencies:
-      '@promethean/test-utils':
+      '@promethean-os/test-utils':
         specifier: workspace:*
         version: link:../../test-utils
       '@types/body-parser':
@@ -444,16 +444,16 @@ importers:
       '@lit-labs/ssr-client':
         specifier: ^1.0.0
         version: 1.1.7
-      '@promethean/agents-workflow':
+      '@promethean-os/agents-workflow':
         specifier: workspace:*
         version: link:../agents-workflow
-      '@promethean/kanban':
+      '@promethean-os/kanban':
         specifier: workspace:*
         version: link:../../kanban
-      '@promethean/monitoring':
+      '@promethean-os/monitoring':
         specifier: workspace:*
         version: link:../../monitoring
-      '@promethean/ui-components':
+      '@promethean-os/ui-components':
         specifier: workspace:*
         version: link:../../ui-components
       chart.js:
@@ -514,7 +514,7 @@ importers:
 
   packages/agents/agent-orchestrator:
     dependencies:
-      '@promethean/persistence':
+      '@promethean-os/persistence':
         specifier: workspace:*
         version: link:../../persistence
     devDependencies:
@@ -536,7 +536,7 @@ importers:
 
   packages/agents/agent-protocol:
     dependencies:
-      '@promethean/agent-state':
+      '@promethean-os/agent-state':
         specifier: workspace:*
         version: link:../agent-state
       amqplib:
@@ -573,7 +573,7 @@ importers:
 
   packages/agents/agent-state:
     dependencies:
-      '@promethean/level-cache':
+      '@promethean-os/level-cache':
         specifier: workspace:*
         version: link:../../level-cache
       bcryptjs:
@@ -603,7 +603,7 @@ importers:
         version: 5.3.1(@ava/typescript@4.1.0)
       ts-node:
         specifier: ^10.9.2
-        version: 10.9.2(@types/node@20.19.11)(typescript@5.9.3)
+        version: 10.9.2(@types/node@24.3.1)(typescript@5.9.3)
       typescript:
         specifier: ^5.3.3
         version: 5.9.3
@@ -629,16 +629,16 @@ importers:
         specifier: ^3.25.0
         version: 3.25.76
     devDependencies:
-      '@promethean/test-utils':
+      '@promethean-os/test-utils':
         specifier: workspace:*
         version: link:../../test-utils
 
   packages/ai/ai-learning:
     dependencies:
-      '@promethean/eidolon-field':
+      '@promethean-os/eidolon-field':
         specifier: workspace:*
         version: link:../../eidolon-field
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../../utils
     devDependencies:
@@ -657,10 +657,10 @@ importers:
 
   packages/ai/embedding:
     dependencies:
-      '@promethean/legacy':
+      '@promethean-os/legacy':
         specifier: workspace:*
         version: link:../../legacy
-      '@promethean/platform':
+      '@promethean-os/platform':
         specifier: workspace:*
         version: link:../../platform
       chromadb:
@@ -669,7 +669,7 @@ importers:
 
   packages/ai/embedding-cache:
     dependencies:
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../../utils
     devDependencies:
@@ -767,7 +767,7 @@ importers:
       '@huggingface/inference':
         specifier: ^4.7.1
         version: 4.7.1
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../../utils
       '@types/javascript-time-ago':
@@ -846,7 +846,7 @@ importers:
         specifier: ^3.23.8
         version: 3.25.76
     devDependencies:
-      '@promethean/pm2-helpers':
+      '@promethean-os/pm2-helpers':
         specifier: workspace:*
         version: link:../../pm2-helpers
       '@types/body-parser':
@@ -952,7 +952,7 @@ importers:
       '@nlpjs/basic':
         specifier: ^4.27.0
         version: 4.27.0
-      '@promethean/agent-state':
+      '@promethean-os/agent-state':
         specifier: workspace:*
         version: link:../../agents/agent-state
       fuse.js:
@@ -983,10 +983,10 @@ importers:
 
   packages/ai/ollama-queue:
     dependencies:
-      '@promethean/lmdb-cache':
+      '@promethean-os/lmdb-cache':
         specifier: workspace:*
         version: link:../../lmdb-cache
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../../utils
 
@@ -1025,7 +1025,7 @@ importers:
 
   packages/ai/prompt-optimization:
     dependencies:
-      '@promethean/level-cache':
+      '@promethean-os/level-cache':
         specifier: workspace:*
         version: link:../../level-cache
       fastify:
@@ -1068,7 +1068,7 @@ importers:
         specifier: ^5.9.6
         version: 5.10.0
     devDependencies:
-      '@promethean/pm2-helpers':
+      '@promethean-os/pm2-helpers':
         specifier: workspace:*
         version: link:../pm2-helpers
 
@@ -1108,7 +1108,7 @@ importers:
 
   packages/benchmark:
     dependencies:
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../utils
       chalk:
@@ -1148,7 +1148,7 @@ importers:
 
   packages/broker:
     dependencies:
-      '@promethean/legacy':
+      '@promethean-os/legacy':
         specifier: workspace:*
         version: link:../legacy
       redis:
@@ -1158,7 +1158,7 @@ importers:
         specifier: ^8.18.0
         version: 8.18.3
     devDependencies:
-      '@promethean/pm2-helpers':
+      '@promethean-os/pm2-helpers':
         specifier: workspace:*
         version: link:../pm2-helpers
       ava:
@@ -1170,7 +1170,7 @@ importers:
 
   packages/build-monitoring:
     dependencies:
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../utils
       chalk:
@@ -1222,37 +1222,37 @@ importers:
       '@discordjs/voice':
         specifier: ^0.18.0
         version: 0.18.0(@discordjs/opus@0.10.0(encoding@0.1.13))(opusscript@0.0.8)
-      '@promethean/agent-ecs':
+      '@promethean-os/agent-ecs':
         specifier: workspace:*
         version: link:../agents/agent-ecs
-      '@promethean/duck-audio':
+      '@promethean-os/duck-audio':
         specifier: workspace:*
         version: link:../duck/duck-audio
-      '@promethean/embedding':
+      '@promethean-os/embedding':
         specifier: workspace:*
         version: link:../ai/embedding
-      '@promethean/enso-protocol':
+      '@promethean-os/enso-protocol':
         specifier: workspace:*
         version: link:../enso/enso-protocol
-      '@promethean/legacy':
+      '@promethean-os/legacy':
         specifier: workspace:*
         version: link:../legacy
-      '@promethean/level-cache':
+      '@promethean-os/level-cache':
         specifier: workspace:*
         version: link:../level-cache
-      '@promethean/llm':
+      '@promethean-os/llm':
         specifier: workspace:*
         version: link:../ai/llm
-      '@promethean/persistence':
+      '@promethean-os/persistence':
         specifier: workspace:*
         version: link:../persistence
-      '@promethean/security':
+      '@promethean-os/security':
         specifier: workspace:*
         version: link:../security
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../utils
-      '@promethean/voice-service':
+      '@promethean-os/voice-service':
         specifier: file:../voice
         version: link:../voice
       '@types/sbd':
@@ -1316,13 +1316,13 @@ importers:
         specifier: ^8.17.0
         version: 8.18.3
     devDependencies:
-      '@promethean/broker':
+      '@promethean-os/broker':
         specifier: workspace:*
         version: link:../broker
-      '@promethean/pm2-helpers':
+      '@promethean-os/pm2-helpers':
         specifier: workspace:*
         version: link:../pm2-helpers
-      '@promethean/test-utils':
+      '@promethean-os/test-utils':
         specifier: workspace:*
         version: link:../test-utils
       '@types/ws':
@@ -1334,7 +1334,7 @@ importers:
 
   packages/cli:
     dependencies:
-      '@promethean/compiler':
+      '@promethean-os/compiler':
         specifier: workspace:*
         version: link:../compiler
       '@types/javascript-time-ago':
@@ -1422,7 +1422,7 @@ importers:
 
   packages/compaction:
     dependencies:
-      '@promethean/event':
+      '@promethean-os/event':
         specifier: workspace:*
         version: link:../event
       '@types/javascript-time-ago':
@@ -1601,10 +1601,10 @@ importers:
       '@fastify/rate-limit':
         specifier: ^10.3.0
         version: 10.3.0
-      '@promethean/legacy':
+      '@promethean-os/legacy':
         specifier: workspace:*
         version: link:../legacy
-      '@promethean/persistence':
+      '@promethean-os/persistence':
         specifier: workspace:*
         version: link:../persistence
       fastify:
@@ -1626,10 +1626,10 @@ importers:
         specifier: ^3.23.8
         version: 3.25.76
     devDependencies:
-      '@promethean/pm2-helpers':
+      '@promethean-os/pm2-helpers':
         specifier: workspace:*
         version: link:../pm2-helpers
-      '@promethean/test-utils':
+      '@promethean-os/test-utils':
         specifier: workspace:*
         version: link:../test-utils
       ava:
@@ -1647,7 +1647,7 @@ importers:
 
   packages/cookbookflow:
     dependencies:
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../utils
       globby:
@@ -1669,7 +1669,7 @@ importers:
 
   packages/data-stores:
     dependencies:
-      '@promethean/persistence':
+      '@promethean-os/persistence':
         specifier: workspace:*
         version: link:../persistence
     devDependencies:
@@ -1682,37 +1682,37 @@ importers:
       '@discordjs/voice':
         specifier: ^0.18.0
         version: 0.18.0(@discordjs/opus@0.10.0(encoding@0.1.13))(opusscript@0.0.8)
-      '@promethean/agent':
+      '@promethean-os/agent':
         specifier: workspace:*
         version: link:../agents/agent
-      '@promethean/effects':
+      '@promethean-os/effects':
         specifier: workspace:*
         version: link:../effects
-      '@promethean/embedding':
+      '@promethean-os/embedding':
         specifier: workspace:*
         version: link:../ai/embedding
-      '@promethean/event':
+      '@promethean-os/event':
         specifier: workspace:*
         version: link:../event
-      '@promethean/legacy':
+      '@promethean-os/legacy':
         specifier: workspace:*
         version: link:../legacy
-      '@promethean/migrations':
+      '@promethean-os/migrations':
         specifier: workspace:*
         version: link:../migrations
-      '@promethean/monitoring':
+      '@promethean-os/monitoring':
         specifier: workspace:*
         version: link:../monitoring
-      '@promethean/persistence':
+      '@promethean-os/persistence':
         specifier: workspace:*
         version: link:../persistence
-      '@promethean/platform':
+      '@promethean-os/platform':
         specifier: workspace:*
         version: link:../platform
-      '@promethean/providers':
+      '@promethean-os/providers':
         specifier: workspace:*
         version: link:../providers
-      '@promethean/security':
+      '@promethean-os/security':
         specifier: workspace:*
         version: link:../security
       csv-parse:
@@ -1751,7 +1751,7 @@ importers:
 
   packages/dlq:
     dependencies:
-      '@promethean/event':
+      '@promethean-os/event':
         specifier: workspace:*
         version: link:../event
       '@types/javascript-time-ago':
@@ -1845,19 +1845,19 @@ importers:
       '@monaco-editor/react':
         specifier: ^4.6.0
         version: 4.7.0(monaco-editor@0.54.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@promethean/agents-workflow':
+      '@promethean-os/agents-workflow':
         specifier: workspace:*
         version: link:../agents/agents-workflow
-      '@promethean/kanban':
+      '@promethean-os/kanban':
         specifier: workspace:*
         version: link:../kanban
-      '@promethean/markdown':
+      '@promethean-os/markdown':
         specifier: workspace:*
         version: link:../markdown
-      '@promethean/ollama-queue':
+      '@promethean-os/ollama-queue':
         specifier: workspace:*
         version: link:../ai/ollama-queue
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../utils
       '@tanstack/react-query':
@@ -2176,7 +2176,7 @@ importers:
 
   packages/duck/duck-web:
     dependencies:
-      '@promethean/duck-audio':
+      '@promethean-os/duck-audio':
         specifier: workspace:*
         version: link:../duck-audio
     devDependencies:
@@ -2287,7 +2287,7 @@ importers:
 
   packages/eidolon-field:
     dependencies:
-      '@promethean/persistence':
+      '@promethean-os/persistence':
         specifier: workspace:*
         version: link:../persistence
       mongodb:
@@ -2297,7 +2297,7 @@ importers:
         specifier: ^8.18.0
         version: 8.18.3
     devDependencies:
-      '@promethean/test-utils':
+      '@promethean-os/test-utils':
         specifier: workspace:*
         version: link:../test-utils
       ava:
@@ -2312,10 +2312,10 @@ importers:
 
   packages/enso/enso-agent-communication:
     dependencies:
-      '@promethean/agent-orchestrator':
+      '@promethean-os/agent-orchestrator':
         specifier: workspace:*
         version: link:../../agents/agent-orchestrator
-      '@promethean/enso-protocol':
+      '@promethean-os/enso-protocol':
         specifier: workspace:*
         version: link:../enso-protocol
       uuid:
@@ -2352,7 +2352,7 @@ importers:
 
   packages/enso/enso-browser-gateway:
     dependencies:
-      '@promethean/enso-protocol':
+      '@promethean-os/enso-protocol':
         specifier: workspace:*
         version: link:../enso-protocol
       wrtc:
@@ -2444,7 +2444,7 @@ importers:
         specifier: ^3.23.8
         version: 3.25.76
     devDependencies:
-      '@promethean/test-utils':
+      '@promethean-os/test-utils':
         specifier: workspace:*
         version: link:../test-utils
       '@types/body-parser':
@@ -2462,7 +2462,7 @@ importers:
 
   packages/examples:
     dependencies:
-      '@promethean/event':
+      '@promethean-os/event':
         specifier: workspace:*
         version: link:../event
       '@types/javascript-time-ago':
@@ -2550,22 +2550,22 @@ importers:
 
   packages/file-system/file-indexer:
     dependencies:
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../../utils
 
   packages/file-system/file-indexer-service:
     dependencies:
-      '@promethean/ds':
+      '@promethean-os/ds':
         specifier: workspace:*
         version: link:../../ds
-      '@promethean/fs':
+      '@promethean-os/fs':
         specifier: workspace:*
         version: link:../fs
-      '@promethean/persistence':
+      '@promethean-os/persistence':
         specifier: workspace:*
         version: link:../../persistence
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../../utils
       express:
@@ -2581,13 +2581,13 @@ importers:
 
   packages/file-system/file-watcher:
     dependencies:
-      '@promethean/embedding':
+      '@promethean-os/embedding':
         specifier: workspace:*
         version: link:../../ai/embedding
-      '@promethean/legacy':
+      '@promethean-os/legacy':
         specifier: workspace:*
         version: link:../../legacy
-      '@promethean/persistence':
+      '@promethean-os/persistence':
         specifier: workspace:*
         version: link:../../persistence
       chokidar:
@@ -2600,13 +2600,13 @@ importers:
         specifier: ^8.18.3
         version: 8.18.3
     devDependencies:
-      '@promethean/pm2-helpers':
+      '@promethean-os/pm2-helpers':
         specifier: workspace:*
         version: link:../../pm2-helpers
-      '@promethean/test-utils':
+      '@promethean-os/test-utils':
         specifier: workspace:*
         version: link:../../test-utils
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../../utils
       '@types/ws':
@@ -2624,10 +2624,10 @@ importers:
 
   packages/file-system/fs:
     dependencies:
-      '@promethean/ds':
+      '@promethean-os/ds':
         specifier: workspace:*
         version: link:../../ds
-      '@promethean/stream':
+      '@promethean-os/stream':
         specifier: workspace:*
         version: link:../../stream
       '@types/javascript-time-ago':
@@ -2733,10 +2733,10 @@ importers:
       '@mui/material':
         specifier: ^5.15.0
         version: 5.18.0(@emotion/react@11.14.0(@types/react@18.3.26)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.26)(react@18.3.1))(@types/react@18.3.26)(react@18.3.1))(@types/react@18.3.26)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@promethean/persistence':
+      '@promethean-os/persistence':
         specifier: workspace:*
         version: link:../persistence
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../utils
       '@radix-ui/react-slot':
@@ -2806,10 +2806,10 @@ importers:
         specifier: ^4.4.0
         version: 4.5.7(@types/react@18.3.26)(react@18.3.1)
     devDependencies:
-      '@promethean/opencode-client':
+      '@promethean-os/opencode-client':
         specifier: workspace:*
         version: link:../opencode-client
-      '@promethean/test-utils':
+      '@promethean-os/test-utils':
         specifier: workspace:*
         version: link:../test-utils
       '@tanstack/react-query-devtools':
@@ -2911,7 +2911,7 @@ importers:
       '@fastify/static':
         specifier: 8.2.0
         version: 8.2.0
-      '@promethean/web-utils':
+      '@promethean-os/web-utils':
         specifier: workspace:*
         version: link:../web-utils
       fastify:
@@ -2965,10 +2965,10 @@ importers:
 
   packages/github-sync:
     dependencies:
-      '@promethean/kanban':
+      '@promethean-os/kanban':
         specifier: workspace:*
         version: link:../kanban
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../utils
       gray-matter:
@@ -2984,7 +2984,7 @@ importers:
 
   packages/health:
     dependencies:
-      '@promethean/legacy':
+      '@promethean-os/legacy':
         specifier: workspace:*
         version: link:../legacy
       express:
@@ -3006,10 +3006,10 @@ importers:
 
   packages/heartbeat:
     dependencies:
-      '@promethean/legacy':
+      '@promethean-os/legacy':
         specifier: workspace:*
         version: link:../legacy
-      '@promethean/persistence':
+      '@promethean-os/persistence':
         specifier: workspace:*
         version: link:../persistence
       mongodb:
@@ -3022,7 +3022,7 @@ importers:
         specifier: ^8.18.0
         version: 8.18.3
     devDependencies:
-      '@promethean/test-utils':
+      '@promethean-os/test-utils':
         specifier: workspace:*
         version: link:../test-utils
       ava:
@@ -3037,7 +3037,7 @@ importers:
 
   packages/http:
     dependencies:
-      '@promethean/event':
+      '@promethean-os/event':
         specifier: workspace:*
         version: link:../event
       '@types/javascript-time-ago':
@@ -3131,7 +3131,7 @@ importers:
 
   packages/image-link-generator:
     dependencies:
-      '@promethean/fs':
+      '@promethean-os/fs':
         specifier: workspace:*
         version: link:../file-system/fs
       '@xenova/transformers':
@@ -3149,20 +3149,20 @@ importers:
         version: 6.0.1
       ts-node:
         specifier: ^10.9.2
-        version: 10.9.2(@types/node@20.19.11)(typescript@5.9.3)
+        version: 10.9.2(@types/node@24.3.1)(typescript@5.9.3)
 
   packages/kanban:
     dependencies:
-      '@promethean/agents-workflow':
+      '@promethean-os/agents-workflow':
         specifier: workspace:*
         version: link:../agents/agents-workflow
-      '@promethean/lmdb-cache':
+      '@promethean-os/lmdb-cache':
         specifier: workspace:*
         version: link:../lmdb-cache
-      '@promethean/markdown':
+      '@promethean-os/markdown':
         specifier: workspace:*
         version: link:../markdown
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../utils
       chokidar:
@@ -3299,24 +3299,24 @@ importers:
 
   packages/level-cache:
     dependencies:
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../utils
       level:
         specifier: ^9.0.0
         version: 9.0.0
     devDependencies:
-      '@promethean/test-utils':
+      '@promethean-os/test-utils':
         specifier: workspace:*
         version: link:../test-utils
 
   packages/lmdb-cache:
     dependencies:
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../utils
     devDependencies:
-      '@promethean/test-utils':
+      '@promethean-os/test-utils':
         specifier: workspace:*
         version: link:../test-utils
 
@@ -3341,7 +3341,7 @@ importers:
 
   packages/markdown:
     dependencies:
-      '@promethean/fs':
+      '@promethean-os/fs':
         specifier: workspace:*
         version: link:../file-system/fs
       '@types/javascript-time-ago':
@@ -3444,10 +3444,10 @@ importers:
       '@modelcontextprotocol/sdk':
         specifier: ^1.17.5
         version: 1.17.5
-      '@promethean/discord':
+      '@promethean-os/discord':
         specifier: workspace:*
         version: link:../discord
-      '@promethean/kanban':
+      '@promethean-os/kanban':
         specifier: workspace:*
         version: link:../kanban
       '@stryker-mutator/core':
@@ -3511,7 +3511,7 @@ importers:
 
   packages/mcp-dev-ui-frontend:
     dependencies:
-      '@promethean/mcp':
+      '@promethean-os/mcp':
         specifier: workspace:*
         version: link:../mcp
     devDependencies:
@@ -3524,16 +3524,16 @@ importers:
       '@modelcontextprotocol/sdk':
         specifier: ^1.0.0
         version: 1.17.5
-      '@promethean/agent-protocol':
+      '@promethean-os/agent-protocol':
         specifier: workspace:*
         version: link:../agents/agent-protocol
-      '@promethean/agent-state':
+      '@promethean-os/agent-state':
         specifier: workspace:*
         version: link:../agents/agent-state
-      '@promethean/kanban':
+      '@promethean-os/kanban':
         specifier: workspace:*
         version: link:../kanban
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../utils
       fastify:
@@ -3576,10 +3576,10 @@ importers:
 
   packages/migrations:
     dependencies:
-      '@promethean/embedding':
+      '@promethean-os/embedding':
         specifier: workspace:*
         version: link:../ai/embedding
-      '@promethean/persistence':
+      '@promethean-os/persistence':
         specifier: workspace:*
         version: link:../persistence
       '@types/javascript-time-ago':
@@ -3667,7 +3667,7 @@ importers:
 
   packages/monitoring:
     dependencies:
-      '@promethean/test-utils':
+      '@promethean-os/test-utils':
         specifier: workspace:*
         version: link:../test-utils
       prom-client:
@@ -3676,7 +3676,7 @@ importers:
 
   packages/nlp-command-parser:
     dependencies:
-      '@promethean/kanban':
+      '@promethean-os/kanban':
         specifier: workspace:*
         version: link:../kanban
     devDependencies:
@@ -3704,13 +3704,13 @@ importers:
       '@opencode-ai/sdk':
         specifier: ^0.15.7
         version: 0.15.7
-      '@promethean/logger':
+      '@promethean-os/logger':
         specifier: workspace:*
         version: link:../logger
-      '@promethean/ollama-queue':
+      '@promethean-os/ollama-queue':
         specifier: workspace:*
         version: link:../ai/ollama-queue
-      '@promethean/persistence':
+      '@promethean-os/persistence':
         specifier: workspace:*
         version: link:../persistence
       '@types/commander':
@@ -3774,13 +3774,13 @@ importers:
       '@opencode-ai/sdk':
         specifier: ^0.15.7
         version: 0.15.7
-      '@promethean/ollama-queue':
+      '@promethean-os/ollama-queue':
         specifier: workspace:*
         version: link:../ai/ollama-queue
-      '@promethean/persistence':
+      '@promethean-os/persistence':
         specifier: workspace:*
         version: link:../persistence
-      '@promethean/security':
+      '@promethean-os/security':
         specifier: workspace:*
         version: link:../security
       '@types/commander':
@@ -3886,22 +3886,22 @@ importers:
 
   packages/pantheon:
     dependencies:
-      '@promethean/agent-state':
+      '@promethean-os/agent-state':
         specifier: workspace:*
         version: link:../agents/agent-state
-      '@promethean/pantheon-core':
+      '@promethean-os/pantheon-core':
         specifier: workspace:*
         version: link:../pantheon-core
-      '@promethean/pantheon-llm-openai':
+      '@promethean-os/pantheon-llm-openai':
         specifier: workspace:*
         version: link:../pantheon-llm-openai
-      '@promethean/pantheon-mcp':
+      '@promethean-os/pantheon-mcp':
         specifier: workspace:*
         version: link:../pantheon-mcp
-      '@promethean/pantheon-persistence':
+      '@promethean-os/pantheon-persistence':
         specifier: workspace:*
         version: link:../pantheon-persistence
-      '@promethean/persistence':
+      '@promethean-os/persistence':
         specifier: workspace:*
         version: link:../persistence
       commander:
@@ -3923,10 +3923,10 @@ importers:
 
   packages/pantheon-core:
     dependencies:
-      '@promethean/agent-state':
+      '@promethean-os/agent-state':
         specifier: workspace:*
         version: link:../agents/agent-state
-      '@promethean/persistence':
+      '@promethean-os/persistence':
         specifier: workspace:*
         version: link:../persistence
       zod:
@@ -3948,7 +3948,7 @@ importers:
       '@anthropic-ai/sdk':
         specifier: ^0.24.3
         version: 0.24.3(encoding@0.1.13)
-      '@promethean/pantheon-core':
+      '@promethean-os/pantheon-core':
         specifier: workspace:*
         version: link:../pantheon-core
     devDependencies:
@@ -3964,7 +3964,7 @@ importers:
 
   packages/pantheon-llm-openai:
     dependencies:
-      '@promethean/pantheon-core':
+      '@promethean-os/pantheon-core':
         specifier: workspace:*
         version: link:../pantheon-core
       openai:
@@ -3983,10 +3983,10 @@ importers:
 
   packages/pantheon-llm-opencode:
     dependencies:
-      '@promethean/opencode-client':
+      '@promethean-os/opencode-client':
         specifier: workspace:*
         version: link:../opencode-client
-      '@promethean/pantheon-core':
+      '@promethean-os/pantheon-core':
         specifier: workspace:*
         version: link:../pantheon-core
     devDependencies:
@@ -4002,7 +4002,7 @@ importers:
 
   packages/pantheon-mcp:
     dependencies:
-      '@promethean/pantheon-core':
+      '@promethean-os/pantheon-core':
         specifier: workspace:*
         version: link:../pantheon-core
     devDependencies:
@@ -4018,10 +4018,10 @@ importers:
 
   packages/pantheon-persistence:
     dependencies:
-      '@promethean/pantheon-core':
+      '@promethean-os/pantheon-core':
         specifier: workspace:*
         version: link:../pantheon-core
-      '@promethean/persistence':
+      '@promethean-os/persistence':
         specifier: workspace:*
         version: link:../persistence
     devDependencies:
@@ -4037,13 +4037,13 @@ importers:
 
   packages/persistence:
     dependencies:
-      '@promethean/embedding':
+      '@promethean-os/embedding':
         specifier: workspace:*
         version: link:../ai/embedding
-      '@promethean/legacy':
+      '@promethean-os/legacy':
         specifier: workspace:*
         version: link:../legacy
-      '@promethean/logger':
+      '@promethean-os/logger':
         specifier: workspace:*
         version: link:../logger
       '@types/javascript-time-ago':
@@ -4134,16 +4134,16 @@ importers:
 
   packages/pipelines/boardrev:
     dependencies:
-      '@promethean/kanban':
+      '@promethean-os/kanban':
         specifier: workspace:*
         version: link:../../kanban
-      '@promethean/level-cache':
+      '@promethean-os/level-cache':
         specifier: workspace:*
         version: link:../../level-cache
-      '@promethean/markdown':
+      '@promethean-os/markdown':
         specifier: workspace:*
         version: link:../../markdown
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../../utils
       chokidar:
@@ -4177,7 +4177,7 @@ importers:
 
   packages/pipelines/buildfix:
     dependencies:
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../../utils
       commander:
@@ -4208,10 +4208,10 @@ importers:
 
   packages/pipelines/codemods:
     dependencies:
-      '@promethean/level-cache':
+      '@promethean-os/level-cache':
         specifier: workspace:*
         version: link:../../level-cache
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../../utils
       diff:
@@ -4236,16 +4236,16 @@ importers:
 
   packages/pipelines/codepack:
     dependencies:
-      '@promethean/file-indexer':
+      '@promethean-os/file-indexer':
         specifier: workspace:*
         version: link:../../file-system/file-indexer
-      '@promethean/fs':
+      '@promethean-os/fs':
         specifier: workspace:*
         version: link:../../file-system/fs
-      '@promethean/level-cache':
+      '@promethean-os/level-cache':
         specifier: workspace:*
         version: link:../../level-cache
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../../utils
       gray-matter:
@@ -4278,16 +4278,16 @@ importers:
       '@fastify/websocket':
         specifier: ^11.2.0
         version: 11.2.0
-      '@promethean/file-indexer':
+      '@promethean-os/file-indexer':
         specifier: workspace:*
         version: link:../../file-system/file-indexer
-      '@promethean/fs':
+      '@promethean-os/fs':
         specifier: workspace:*
         version: link:../../file-system/fs
-      '@promethean/markdown':
+      '@promethean-os/markdown':
         specifier: workspace:*
         version: link:../../markdown
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../../utils
       '@types/level':
@@ -4354,10 +4354,10 @@ importers:
 
   packages/pipelines/pipeline-automation:
     dependencies:
-      '@promethean/buildfix':
+      '@promethean-os/buildfix':
         specifier: workspace:*
         version: link:../buildfix
-      '@promethean/ollama-queue':
+      '@promethean-os/ollama-queue':
         specifier: workspace:*
         version: link:../../ai/ollama-queue
     devDependencies:
@@ -4391,16 +4391,16 @@ importers:
       '@fastify/swagger-ui':
         specifier: 5.2.3
         version: 5.2.3
-      '@promethean/fs':
+      '@promethean-os/fs':
         specifier: workspace:*
         version: link:../../file-system/fs
-      '@promethean/level-cache':
+      '@promethean-os/level-cache':
         specifier: workspace:*
         version: link:../../level-cache
-      '@promethean/ui-components':
+      '@promethean-os/ui-components':
         specifier: workspace:*
         version: link:../../ui-components
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../../utils
       ajv:
@@ -4425,7 +4425,7 @@ importers:
         specifier: 3.23.8
         version: 3.23.8
     devDependencies:
-      '@promethean/test-utils':
+      '@promethean-os/test-utils':
         specifier: workspace:*
         version: link:../../test-utils
       happy-dom:
@@ -4434,10 +4434,10 @@ importers:
 
   packages/pipelines/readmeflow:
     dependencies:
-      '@promethean/level-cache':
+      '@promethean-os/level-cache':
         specifier: workspace:*
         version: link:../../level-cache
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../../utils
       globby:
@@ -4459,10 +4459,10 @@ importers:
 
   packages/pipelines/semverguard:
     dependencies:
-      '@promethean/level-cache':
+      '@promethean-os/level-cache':
         specifier: workspace:*
         version: link:../../level-cache
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../../utils
       globby:
@@ -4487,13 +4487,13 @@ importers:
 
   packages/pipelines/simtask:
     dependencies:
-      '@promethean/file-indexer-service':
+      '@promethean-os/file-indexer-service':
         specifier: workspace:*
         version: link:../../file-system/file-indexer-service
-      '@promethean/level-cache':
+      '@promethean-os/level-cache':
         specifier: workspace:*
         version: link:../../level-cache
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../../utils
       gray-matter:
@@ -4512,10 +4512,10 @@ importers:
 
   packages/pipelines/sonarflow:
     dependencies:
-      '@promethean/level-cache':
+      '@promethean-os/level-cache':
         specifier: workspace:*
         version: link:../../level-cache
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../../utils
       gray-matter:
@@ -4534,13 +4534,13 @@ importers:
 
   packages/pipelines/symdocs:
     dependencies:
-      '@promethean/file-indexer':
+      '@promethean-os/file-indexer':
         specifier: workspace:*
         version: link:../../file-system/file-indexer
-      '@promethean/level-cache':
+      '@promethean-os/level-cache':
         specifier: workspace:*
         version: link:../../level-cache
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../../utils
       gray-matter:
@@ -4562,7 +4562,7 @@ importers:
 
   packages/platform:
     dependencies:
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../utils
       '@types/javascript-time-ago':
@@ -4674,7 +4674,7 @@ importers:
 
   packages/plugin-hooks:
     dependencies:
-      '@promethean/event':
+      '@promethean-os/event':
         specifier: workspace:*
         version: link:../event
       zod:
@@ -4698,10 +4698,10 @@ importers:
 
   packages/projectors:
     dependencies:
-      '@promethean/event':
+      '@promethean-os/event':
         specifier: workspace:*
         version: link:../event
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../utils
       '@types/javascript-time-ago':
@@ -4795,7 +4795,7 @@ importers:
 
   packages/providers:
     dependencies:
-      '@promethean/platform':
+      '@promethean-os/platform':
         specifier: workspace:*
         version: link:../platform
       '@types/javascript-time-ago':
@@ -4945,13 +4945,13 @@ importers:
 
   packages/security:
     dependencies:
-      '@promethean/platform':
+      '@promethean-os/platform':
         specifier: workspace:*
         version: link:../platform
 
   packages/shadow-conf:
     dependencies:
-      '@promethean/pm2-helpers':
+      '@promethean-os/pm2-helpers':
         specifier: workspace:*
         version: link:../pm2-helpers
       dotenv:
@@ -4969,7 +4969,7 @@ importers:
 
   packages/snapshots:
     dependencies:
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../utils
       '@types/javascript-time-ago':
@@ -5170,7 +5170,7 @@ importers:
 
   packages/test-utils:
     dependencies:
-      '@promethean/persistence':
+      '@promethean-os/persistence':
         specifier: workspace:*
         version: link:../persistence
       '@types/javascript-time-ago':
@@ -5258,7 +5258,7 @@ importers:
 
   packages/testgap:
     dependencies:
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../utils
       globby:
@@ -5283,10 +5283,10 @@ importers:
 
   packages/trello:
     dependencies:
-      '@promethean/kanban':
+      '@promethean-os/kanban':
         specifier: workspace:*
         version: link:../kanban
-      '@promethean/utils':
+      '@promethean-os/utils':
         specifier: workspace:*
         version: link:../utils
       dotenv:
@@ -5344,7 +5344,7 @@ importers:
         specifier: ^1.0.2
         version: 1.0.2
     devDependencies:
-      '@promethean/pm2-helpers':
+      '@promethean-os/pm2-helpers':
         specifier: workspace:*
         version: link:../pm2-helpers
       '@types/express':
@@ -5353,7 +5353,7 @@ importers:
 
   packages/web-utils:
     dependencies:
-      '@promethean/fs':
+      '@promethean-os/fs':
         specifier: workspace:*
         version: link:../file-system/fs
       '@xenova/transformers':
@@ -5375,7 +5375,7 @@ importers:
 
   packages/worker:
     dependencies:
-      '@promethean/ds':
+      '@promethean-os/ds':
         specifier: workspace:*
         version: link:../ds
       '@types/javascript-time-ago':
@@ -5463,10 +5463,10 @@ importers:
 
   packages/ws:
     dependencies:
-      '@promethean/event':
+      '@promethean-os/event':
         specifier: workspace:*
         version: link:../event
-      '@promethean/monitoring':
+      '@promethean-os/monitoring':
         specifier: workspace:*
         version: link:../monitoring
       '@types/javascript-time-ago':
@@ -23674,7 +23674,6 @@ snapshots:
   '@types/node@24.3.1':
     dependencies:
       undici-types: 7.10.0
-    optional: true
 
   '@types/nodemailer@6.4.20':
     dependencies:
@@ -25020,7 +25019,7 @@ snapshots:
 
   axios@1.12.2:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.4.3)
+      follow-redirects: 1.15.11(debug@4.3.7)
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -28832,7 +28831,7 @@ snapshots:
   http-proxy@1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.11(debug@4.4.3)
+      follow-redirects: 1.15.11(debug@4.3.7)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -34564,6 +34563,24 @@ snapshots:
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
 
+  ts-node@10.9.2(@types/node@24.3.1)(typescript@5.9.3):
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.11
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 24.3.1
+      acorn: 8.15.0
+      acorn-walk: 8.3.4
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.9.3
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+
   tsconfig-paths@3.15.0:
     dependencies:
       '@types/json5': 0.0.29
@@ -34801,8 +34818,7 @@ snapshots:
 
   undici-types@6.21.0: {}
 
-  undici-types@7.10.0:
-    optional: true
+  undici-types@7.10.0: {}
 
   undici@5.29.0:
     dependencies:

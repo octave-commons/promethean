@@ -176,7 +176,7 @@ mode: <execution-mode>
 
 ### Tool Variables
 
-- `{{KANBAN_TOOL}}` - "@promethean/kanban"
+- `{{KANBAN_TOOL}}` - "@promethean-os/kanban"
 - `{{BUILD_TOOL}}` - "Nx"
 - `{{TEST_RUNNER}}` - "AVA"
 - `{{LINTER}}` - "ESLint"

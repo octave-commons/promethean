@@ -12,7 +12,7 @@ estimates:
   time_to_completion: ''
 ---
 
-Implement an Event Hooks plugin for @promethean/opencode-client that exposes the HookManager and helper registration APIs as a plugin. Place implementation at packages/opencode-client/src/plugins/event-hooks/index.ts and export from packages/opencode-client/src/plugins/index.ts. Acceptance Criteria:
+Implement an Event Hooks plugin for @promethean-os/opencode-client that exposes the HookManager and helper registration APIs as a plugin. Place implementation at packages/opencode-client/src/plugins/event-hooks/index.ts and export from packages/opencode-client/src/plugins/index.ts. Acceptance Criteria:
 
 - Plugin registers/unregisters hooks and provides secure API surface
 - Integrates with existing ToolExecuteHookManager

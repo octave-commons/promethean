@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/codepack
+# @promethean-os/codepack
 ```
 **Folder:** `packages/codepack`
 ```
@@ -13,25 +13,25 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/codepack"]
-  D1["@promethean/file-indexer"]
-  D2["@promethean/fs"]
-  D3["@promethean/level-cache"]
-  D4["@promethean/utils"]
-  A --> D1["@promethean/file-indexer"]
-  A --> D2["@promethean/fs"]
-  A --> D3["@promethean/level-cache"]
-  A --> D4["@promethean/utils"]
-  click D1 "../file-indexer/README.md" "@promethean/file-indexer"
-  click D2 "../fs/README.md" "@promethean/fs"
-  click D3 "../level-cache/README.md" "@promethean/level-cache"
-  click D4 "../utils/README.md" "@promethean/utils"
+  A["@promethean-os/codepack"]
+  D1["@promethean-os/file-indexer"]
+  D2["@promethean-os/fs"]
+  D3["@promethean-os/level-cache"]
+  D4["@promethean-os/utils"]
+  A --> D1["@promethean-os/file-indexer"]
+  A --> D2["@promethean-os/fs"]
+  A --> D3["@promethean-os/level-cache"]
+  A --> D4["@promethean-os/utils"]
+  click D1 "../file-indexer/README.md" "@promethean-os/file-indexer"
+  click D2 "../fs/README.md" "@promethean-os/fs"
+  click D3 "../level-cache/README.md" "@promethean-os/level-cache"
+  click D4 "../utils/README.md" "@promethean-os/utils"
 ```
 ## Dependencies
-- @promethean/file-indexer$../file-indexer/README.md
-- @promethean/fs$../fs/README.md
-- @promethean/level-cache$../level-cache/README.md
-- @promethean/utils$../utils/README.md
+- @promethean-os/file-indexer$../file-indexer/README.md
+- @promethean-os/fs$../fs/README.md
+- @promethean-os/level-cache$../level-cache/README.md
+- @promethean-os/utils$../utils/README.md
 ## Dependents
 - _None_
 ```

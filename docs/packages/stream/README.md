@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/stream
+# @promethean-os/stream
 ```
 **Folder:** `packages/stream`
 ```
@@ -13,19 +13,19 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/stream"]
-  R1["@promethean/fs"]
-  R2["@promethean/tests"]
-  R1["@promethean/fs"] --> A
-  R2["@promethean/tests"] --> A
-  click R1 "../fs/README.md" "@promethean/fs"
-  click R2 "../tests/README.md" "@promethean/tests"
+  A["@promethean-os/stream"]
+  R1["@promethean-os/fs"]
+  R2["@promethean-os/tests"]
+  R1["@promethean-os/fs"] --> A
+  R2["@promethean-os/tests"] --> A
+  click R1 "../fs/README.md" "@promethean-os/fs"
+  click R2 "../tests/README.md" "@promethean-os/tests"
 ```
 ## Dependencies
 - _None_
 ## Dependents
-- @promethean/fs$../fs/README.md
-- @promethean/tests$../tests/README.md
+- @promethean-os/fs$../fs/README.md
+- @promethean-os/tests$../tests/README.md
 ```
 <!-- SYMPKG:PKG:END -->
 ```

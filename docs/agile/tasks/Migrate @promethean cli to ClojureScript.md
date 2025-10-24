@@ -1,6 +1,6 @@
 ---
 uuid: "f3b57efb-e5ca-4e31-93c3-936f666cd24a"
-title: "Migrate @promethean/cli to ClojureScript"
+title: "Migrate @promethean-os/cli to ClojureScript"
 slug: "Migrate @promethean cli to ClojureScript"
 status: "incoming"
 priority: "P2"
@@ -12,7 +12,7 @@ estimates:
   time_to_completion: ""
 ---
 
-Migrate the @promethean/cli package from TypeScript to typed ClojureScript, maintaining identical functionality and test coverage. Copy existing TypeScript tests and ensure they pass with the new ClojureScript implementation.
+Migrate the @promethean-os/cli package from TypeScript to typed ClojureScript, maintaining identical functionality and test coverage. Copy existing TypeScript tests and ensure they pass with the new ClojureScript implementation.
 
 ## ⛓️ Blocked By
 

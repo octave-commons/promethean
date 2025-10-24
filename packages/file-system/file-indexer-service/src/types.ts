@@ -1,4 +1,4 @@
-import type { DualStoreEntry } from '@promethean/persistence';
+import type { DualStoreEntry } from '@promethean-os/persistence';
 
 export interface FileIndexEntry {
   id: string;

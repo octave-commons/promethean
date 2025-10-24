@@ -1,8 +1,8 @@
 import * as path from "path";
 
 import { z } from "zod";
-import { ollamaJSON } from "@promethean/utils";
-import { openLevelCache } from "@promethean/level-cache";
+import { ollamaJSON } from "@promethean-os/utils";
+import { openLevelCache } from "@promethean-os/level-cache";
 
 import { parseArgs } from "./utils.js";
 import type { ApiChange, DiffResult } from "./types.js";

@@ -1,6 +1,6 @@
-# Contributing to @promethean/shadow-conf
+# Contributing to @promethean-os/shadow-conf
 
-Thank you for your interest in contributing to @promethean/shadow-conf! This guide will help you get started with contributing to the project.
+Thank you for your interest in contributing to @promethean-os/shadow-conf! This guide will help you get started with contributing to the project.
 
 ## 🚀 Getting Started
 
@@ -439,4 +439,4 @@ More complex areas for experienced contributors:
 - **GitHub Discussions**: For questions and ideas
 - **Maintainers**: Tag specific maintainers for urgent issues
 
-Thank you for contributing to @promethean/shadow-conf! Your contributions help make this project better for everyone. 🎉
+Thank you for contributing to @promethean-os/shadow-conf! Your contributions help make this project better for everyone. 🎉

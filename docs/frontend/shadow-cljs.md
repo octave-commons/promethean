@@ -29,8 +29,8 @@ via the `shadow-ui` npm-module build.
 Each front-end package exposes new PNPM scripts:
 
 ```bash
-pnpm --filter @promethean/<pkg> run build:shadow   # release build
-pnpm --filter @promethean/<pkg> run watch:shadow   # dev watcher
+pnpm --filter @promethean-os/<pkg> run build:shadow   # release build
+pnpm --filter @promethean-os/<pkg> run watch:shadow   # dev watcher
 ```
 
 NX targets mirror the scripts `shadow-build` and `shadow-watch` so they can be
@@ -46,7 +46,7 @@ Existing TypeScript builds remain in place while we port code in later steps.
 
 ## Macro helpers
 ```
-`@promethean/shadow-ui` introduces:
+`@promethean-os/shadow-ui` introduces:
 ```
 - `promethean.shadow-ui.html/html` – hiccup-style macro that emits HTML strings
   at compile time.

@@ -204,7 +204,7 @@ Rules:
 
 ## The deterministic resolver (Node, functional TS, ESM)
 
-Make a tiny CLI `@promethean/merge-config` you can call from Emacs. Keep it pure + composable:
+Make a tiny CLI `@promethean-os/merge-config` you can call from Emacs. Keep it pure + composable:
 
 ```
 packages/merge-config/
@@ -260,7 +260,7 @@ prom-merge-config json         <BASE> <OURS> <THEIRS> <OUT>
 * The LLM is caged: it gets BASE/OURS/THEIRS + strict rules + validation, and it **must** return valid JSON/YAML only.
 * You stay in Emacs, in flow, with a single keybinding.
 
-If you want, I’ll sketch the `@promethean/merge-config` package scaffold TS/ESM, functional style, AVA tests, `license: GPL-3.0-only`, flat package, `.js` imports after build so you can drop it in and wire it to that Emacs command.
+If you want, I’ll sketch the `@promethean-os/merge-config` package scaffold TS/ESM, functional style, AVA tests, `license: GPL-3.0-only`, flat package, `.js` imports after build so you can drop it in and wire it to that Emacs command.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - _None_

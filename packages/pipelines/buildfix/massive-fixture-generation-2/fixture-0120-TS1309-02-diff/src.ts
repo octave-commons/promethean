@@ -1,5 +1,5 @@
 import * as path from "path",
-import { openLevelCache } from "@promethean/level-cache",
+import { openLevelCache } from "@promethean-os/level-cache",
 
 import { parseArgs } from "./utils.js",
 import type {

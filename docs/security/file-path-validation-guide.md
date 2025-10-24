@@ -2,7 +2,7 @@
 
 **Version**: 1.0  
 **Last Updated**: 2025-10-16  
-**Package**: `@promethean/security`  
+**Package**: `@promethean-os/security`  
 **Security Classification**: Internal Documentation
 
 ---
@@ -22,7 +22,7 @@ This guide provides comprehensive documentation for implementing secure file pat
 ### 🏗️ Architecture
 
 ```
-@promethean/security
+@promethean-os/security
 ├── src/
 │   ├── path-validation.ts          # Core validation engine
 │   ├── secure-file-operations.ts   # Safe file operation wrappers
@@ -44,7 +44,7 @@ This guide provides comprehensive documentation for implementing secure file pat
 The validation engine provides comprehensive path security checks:
 
 ```typescript
-import { validatePath, PathSecurityConfig, PathValidationResult } from '@promethean/security';
+import { validatePath, PathSecurityConfig, PathValidationResult } from '@promethean-os/security';
 
 // Basic validation
 const result = await validatePath('/safe/root', '../etc/passwd');
@@ -73,7 +73,7 @@ import {
   secureWriteFile, 
   secureDeleteFile,
   SecureFileOptions 
-} from '@promethean/security';
+} from '@promethean-os/security';
 
 const options: SecureFileOptions = {
   createParents: true,
@@ -100,7 +100,7 @@ if (writeResult.success) {
 Policy-based access control for file operations:
 
 ```typescript
-import { makePolicy, PolicyConfig } from '@promethean/security';
+import { makePolicy, PolicyConfig } from '@promethean-os/security';
 
 const policyConfig: PolicyConfig = {
   permissionGate: async (subject, action) => {
@@ -414,7 +414,7 @@ const tempStorageConfig: PathSecurityConfig = {
 #### Path Validation Tests
 
 ```typescript
-import { validatePath } from '@promethean/security';
+import { validatePath } from '@promethean-os/security';
 
 describe('Path Validation Security', () => {
   describe('Path Traversal Prevention', () => {
@@ -481,7 +481,7 @@ describe('Path Validation Security', () => {
 #### Secure File Operations Tests
 
 ```typescript
-import { secureWriteFile, secureReadFile, secureDeleteFile } from '@promethean/security';
+import { secureWriteFile, secureReadFile, secureDeleteFile } from '@promethean-os/security';
 
 describe('Secure File Operations', () => {
   const testRoot = '/tmp/test-secure-ops';
@@ -635,7 +635,7 @@ describe('Performance Tests', () => {
 #### Step 1: Install Security Package
 
 ```bash
-pnpm add @promethean/security
+pnpm add @promethean-os/security
 ```
 
 #### Step 2: Replace Unsafe File Operations
@@ -651,7 +651,7 @@ async function unsafeReadUserFile(userId: string, filename: string) {
 }
 
 // After (secure)
-import { secureReadFile } from '@promethean/security';
+import { secureReadFile } from '@promethean-os/security';
 
 async function safeReadUserFile(userId: string, filename: string) {
   const result = await secureReadFile('/data/users', `${userId}/${filename}`, {
@@ -697,7 +697,7 @@ export const fileSecurityConfig = {
 #### Step 4: Implement Error Handling
 
 ```typescript
-import { secureWriteFile, SecureFileResult } from '@promethean/security';
+import { secureWriteFile, SecureFileResult } from '@promethean-os/security';
 
 class FileOperationError extends Error {
   constructor(
@@ -906,7 +906,7 @@ async function robustFileOperation(root: string, path: string, content: string) 
    ```json
    {
      "dependencies": {
-       "@promethean/security": "workspace:*"
+       "@promethean-os/security": "workspace:*"
      }
    }
    ```
@@ -922,7 +922,7 @@ async function robustFileOperation(root: string, path: string, content: string) 
 3. **Implement secure file operations**:
    ```typescript
    // src/utils/file-operations.ts
-   import { secureReadFile, secureWriteFile } from '@promethean/security';
+   import { secureReadFile, secureWriteFile } from '@promethean-os/security';
    import { securityConfig } from '../config/security.js';
    
    export async function readConfigFile(path: string) {
@@ -945,7 +945,7 @@ async function robustFileOperation(root: string, path: string, content: string) 
    import { readFile } from 'node:fs/promises';
    
    // After
-   import { secureReadFile } from '@promethean/security';
+   import { secureReadFile } from '@promethean-os/security';
    ```
 
 3. **Add security tests**:
@@ -962,7 +962,7 @@ async function robustFileOperation(root: string, path: string, content: string) 
 
 ```typescript
 import express from 'express';
-import { secureWriteFile, secureReadFile } from '@promethean/security';
+import { secureWriteFile, secureReadFile } from '@promethean-os/security';
 
 const app = express();
 
@@ -990,7 +990,7 @@ app.post('/upload', async (req, res) => {
 
 ```typescript
 import fastify from 'fastify';
-import { secureReadFile } from '@promethean/security';
+import { secureReadFile } from '@promethean-os/security';
 
 const app = fastify();
 

@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 
 import { globby } from 'globby';
-import { parseFrontmatter, stringifyFrontmatter, normalizeStringList } from '@promethean/markdown/frontmatter';
+import { parseFrontmatter, stringifyFrontmatter, normalizeStringList } from '@promethean-os/markdown/frontmatter';
 
 /**
  * Migration: labels -> tags  Obsidian-compatible 

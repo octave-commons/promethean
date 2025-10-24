@@ -4,7 +4,7 @@
  */
 
 // import { EventEmitter } from 'node:events';
-// import { createLogger } from '@promethean/utils';
+// import { createLogger } from '@promethean-os/utils';
 // import { setInterval, clearInterval, setTimeout } from 'node:timers';
 
 export interface ScheduleConfig {

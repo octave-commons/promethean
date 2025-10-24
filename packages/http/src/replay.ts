@@ -9,7 +9,7 @@ import express, {
     type Response,
 } from 'express';
 import type { ReadonlyDeep } from 'type-fest';
-import type { EventRecord, EventStore, Millis } from '@promethean/event/types.js';
+import type { EventRecord, EventStore, Millis } from '@promethean-os/event/types.js';
 
 class HttpError extends Error {
     readonly status: number;

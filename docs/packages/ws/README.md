@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/ws
+# @promethean-os/ws
 ```
 **Folder:** `packages/ws`
 ```
@@ -13,22 +13,22 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/ws"]
-  D1["@promethean/event"]
-  D2["@promethean/monitoring"]
-  R1["@promethean/dev"]
-  A --> D1["@promethean/event"]
-  A --> D2["@promethean/monitoring"]
-  R1["@promethean/dev"] --> A
-  click D1 "../event/README.md" "@promethean/event"
-  click D2 "../monitoring/README.md" "@promethean/monitoring"
-  click R1 "../dev/README.md" "@promethean/dev"
+  A["@promethean-os/ws"]
+  D1["@promethean-os/event"]
+  D2["@promethean-os/monitoring"]
+  R1["@promethean-os/dev"]
+  A --> D1["@promethean-os/event"]
+  A --> D2["@promethean-os/monitoring"]
+  R1["@promethean-os/dev"] --> A
+  click D1 "../event/README.md" "@promethean-os/event"
+  click D2 "../monitoring/README.md" "@promethean-os/monitoring"
+  click R1 "../dev/README.md" "@promethean-os/dev"
 ```
 ## Dependencies
-- @promethean/event$../event/README.md
-- @promethean/monitoring$../monitoring/README.md
+- @promethean-os/event$../event/README.md
+- @promethean-os/monitoring$../monitoring/README.md
 ## Dependents
-- @promethean/dev$../dev/README.md
+- @promethean-os/dev$../dev/README.md
 ```
 <!-- SYMPKG:PKG:END -->
 ```

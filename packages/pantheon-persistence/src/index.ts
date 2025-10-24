@@ -1,12 +1,12 @@
 /**
  * Pantheon Persistence Adapter
- * Wraps @promethean/persistence to provide ContextPort implementation
+ * Wraps @promethean-os/persistence to provide ContextPort implementation
  */
 
-import type { ContextSource } from '@promethean/pantheon-core';
-import type { ContextPort, ContextPortDeps } from '@promethean/pantheon-core';
-import { makeContextPort } from '@promethean/pantheon-core';
-import type { DualStoreManager } from '@promethean/persistence';
+import type { ContextSource } from '@promethean-os/pantheon-core';
+import type { ContextPort, ContextPortDeps } from '@promethean-os/pantheon-core';
+import { makeContextPort } from '@promethean-os/pantheon-core';
+import type { DualStoreManager } from '@promethean-os/persistence';
 
 export type PersistenceAdapterDeps = {
   getStoreManagers: () => Promise<DualStoreManager[]>;

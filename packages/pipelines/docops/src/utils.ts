@@ -6,7 +6,7 @@ import {
   computeFenceMap,
   injectAnchors,
   relMdLink,
-} from "@promethean/markdown/anchors.js";
+} from "@promethean-os/markdown/anchors.js";
 import { once } from "node:events";
 import { createWriteStream } from "node:fs";
 
@@ -18,7 +18,7 @@ export {
   START_MARK,
   END_MARK,
   randomUUID,
-} from "@promethean/utils";
+} from "@promethean-os/utils";
 
 export { anchorId, computeFenceMap, injectAnchors, relMdLink };
 
@@ -77,7 +77,7 @@ export function frontToYAML(front: Front): string {
   return yaml.stringify(front, { indent: 2, simpleKeys: true });
 }
 
-export { parseMarkdownChunks } from "@promethean/markdown";
+export { parseMarkdownChunks } from "@promethean-os/markdown";
 
 // Replacer that avoids cycles, BigInt, gigantic strings, and serializes typed arrays sanely.
 export function safeReplacer() {

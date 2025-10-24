@@ -15,7 +15,7 @@ estimates:
 # Integrate boardrev with piper pipeline system
 
 ## Description
-Current manual sequential script execution should be replaced with proper pipeline orchestration using @promethean/piper.
+Current manual sequential script execution should be replaced with proper pipeline orchestration using @promethean-os/piper.
 
 ## Proposed Solution
 - Create piper pipeline definition for boardrev workflow

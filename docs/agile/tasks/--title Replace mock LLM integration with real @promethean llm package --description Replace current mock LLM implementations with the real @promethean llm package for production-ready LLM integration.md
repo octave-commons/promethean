@@ -1,6 +1,6 @@
 ---
 uuid: "3892d16c-33a1-4036-ac02-a3800e1c04f7"
-title: "--title Replace mock LLM integration with real @promethean llm package --description Replace current mock LLM implementations with the real @promethean/llm package for production-ready LLM integration"
+title: "--title Replace mock LLM integration with real @promethean llm package --description Replace current mock LLM implementations with the real @promethean-os/llm package for production-ready LLM integration"
 slug: "--title Replace mock LLM integration with real @promethean llm package --description Replace current mock LLM implementations with the real @promethean llm package for production-ready LLM integration"
 status: "incoming"
 priority: "P1"

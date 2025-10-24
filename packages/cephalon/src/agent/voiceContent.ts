@@ -1,4 +1,4 @@
-import { formatMessage } from "@promethean/persistence/contextStore.js";
+import { formatMessage } from "@promethean-os/persistence/contextStore.js";
 
 import { generatePromptChoice, generateSpecialQuery } from "../util.js";
 

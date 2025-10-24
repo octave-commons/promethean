@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/cli
+# @promethean-os/cli
 ```
 **Folder:** `packages/cli`
 ```
@@ -13,13 +13,13 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/cli"]
-  D1["@promethean/compiler"]
-  A --> D1["@promethean/compiler"]
-  click D1 "../compiler/README.md" "@promethean/compiler"
+  A["@promethean-os/cli"]
+  D1["@promethean-os/compiler"]
+  A --> D1["@promethean-os/compiler"]
+  click D1 "../compiler/README.md" "@promethean-os/compiler"
 ```
 ## Dependencies
-- @promethean/compiler$../compiler/README.md
+- @promethean-os/compiler$../compiler/README.md
 ## Dependents
 - _None_
 ```

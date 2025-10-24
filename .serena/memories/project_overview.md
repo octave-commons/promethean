@@ -1,7 +1,7 @@
-# @promethean/agents-workflow Package Overview
+# @promethean-os/agents-workflow Package Overview
 
 ## Purpose
-The @promethean/agents-workflow package provides a comprehensive workflow management system for AI agents within the Promethean framework. It enables the definition, parsing, and execution of agent workflows through markdown documents with Mermaid diagram definitions and JSON configuration blocks.
+The @promethean-os/agents-workflow package provides a comprehensive workflow management system for AI agents within the Promethean framework. It enables the definition, parsing, and execution of agent workflows through markdown documents with Mermaid diagram definitions and JSON configuration blocks.
 
 ## Core Functionality
 - **Markdown Workflow Processing**: Parse markdown documents containing Mermaid workflow diagrams and JSON configuration blocks

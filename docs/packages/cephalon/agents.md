@@ -6,7 +6,7 @@ TODO: Add service description.
 
 ## Broker Usage
 
-Use `@promethean/legacy/brokerClient.js` (or `AgentBus` wrapping it) for all broker communication. Avoid raw `WebSocket` clients.
+Use `@promethean-os/legacy/brokerClient.js` (or `AgentBus` wrapping it) for all broker communication. Avoid raw `WebSocket` clients.
 
 ## Paths
 
@@ -19,10 +19,10 @@ Use `@promethean/legacy/brokerClient.js` (or `AgentBus` wrapping it) for all bro
 ## Tooling
 
 - Package manager: `pnpm` workspace-aware. Examples:
-  - Install deps: `pnpm install --filter @promethean/cephalon`
-  - Build: `pnpm --filter @promethean/cephalon run build`
-  - Test: `pnpm --filter @promethean/cephalon run test`
-  - Coverage: `pnpm --filter @promethean/cephalon run coverage`
+  - Install deps: `pnpm install --filter @promethean-os/cephalon`
+  - Build: `pnpm --filter @promethean-os/cephalon run build`
+  - Test: `pnpm --filter @promethean-os/cephalon run test`
+  - Coverage: `pnpm --filter @promethean-os/cephalon run coverage`
 - Workspace automation: `bb setup`, `bb build`, `bb test`, and
   `pnpm exec nx affected -t <target>` match what CI runs.
 - See [Babashka + Nx Automation Reference|../../notes/automation/bb-nx-cli.md]

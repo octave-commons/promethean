@@ -3,7 +3,7 @@
  * Implements LlmPort for Claude API integration
  */
 
-import type { LlmPort, Message } from '@promethean/pantheon-core';
+import type { LlmPort, Message } from '@promethean-os/pantheon-core';
 import Anthropic from '@anthropic-ai/sdk';
 
 export type ClaudeAdapterConfig = {

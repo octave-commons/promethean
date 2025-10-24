@@ -2,13 +2,13 @@
 
 ## 📋 Executive Summary
 
-This document outlines the consolidation of three packages into a unified `@promethean/opencode-unified` package using story point estimation for agile planning.
+This document outlines the consolidation of three packages into a unified `@promethean-os/opencode-unified` package using story point estimation for agile planning.
 
 **Target Packages:**
 
-1. `@promethean/opencode-client` - TypeScript client for agent management
+1. `@promethean-os/opencode-client` - TypeScript client for agent management
 2. `opencode-cljs-electron` - Electron-based ClojureScript editor
-3. `@promethean/dualstore-http` - HTTP service for dual-store functionality
+3. `@promethean-os/dualstore-http` - HTTP service for dual-store functionality
 
 **Total Estimated Story Points: 89**
 
@@ -475,7 +475,7 @@ This document outlines the consolidation of three packages into a unified `@prom
 
 ### External Dependencies
 
-- `@promethean/persistence` package stability
+- `@promethean-os/persistence` package stability
 - Electron version compatibility
 - ClojureScript shadow-cljs updates
 

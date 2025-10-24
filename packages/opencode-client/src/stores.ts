@@ -1,4 +1,4 @@
-import { ContextStore, DualStoreManager } from '@promethean/persistence';
+import { ContextStore, DualStoreManager } from '@promethean-os/persistence';
 import { createStoreProxy } from './createStoreProxy.js';
 
 export type SearchableStore = DualStoreManager<'text', 'timestamp'>;

@@ -20,11 +20,11 @@ This script automatically runs `pnpm --filter <packagename>` when source files c
 
 ```bash
 # From project root
-pnpm --filter @promethean/auto-run-scripts watch
-pnpm --filter @promethean/auto-run-scripts watch:build
-pnpm --filter @promethean/auto-run-scripts watch:test
-pnpm --filter @promethean/auto-run-scripts watch:typecheck
-pnpm --filter @promethean/auto-run-scripts watch:dev
+pnpm --filter @promethean-os/auto-run-scripts watch
+pnpm --filter @promethean-os/auto-run-scripts watch:build
+pnpm --filter @promethean-os/auto-run-scripts watch:test
+pnpm --filter @promethean-os/auto-run-scripts watch:typecheck
+pnpm --filter @promethean-os/auto-run-scripts watch:dev
 ```
 
 ## Features
@@ -69,15 +69,15 @@ Required for parsing package.json files.
 Command: build
 Watching for changes in src/ folders...
 🏃 Initial run for all packages...
-🚀 Running: pnpm --filter @promethean/core build
-✅ Success: @promethean/core
+🚀 Running: pnpm --filter @promethean-os/core build
+✅ Success: @promethean-os/core
 ---
 👀 Watching with inotifywait...
 Press Ctrl+C to stop
 📝 Changed: packages/core/src/index.ts
-📦 Package: @promethean/core (packages/core)
-🚀 Running: pnpm --filter @promethean/core build
-✅ Success: @promethean/core
+📦 Package: @promethean-os/core (packages/core)
+🚀 Running: pnpm --filter @promethean-os/core build
+✅ Success: @promethean-os/core
 ---
 ```
 

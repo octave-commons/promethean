@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide provides comprehensive documentation for developers working with the `@promethean/opencode-client` package, covering setup, development workflows, testing, and contribution guidelines.
+This guide provides comprehensive documentation for developers working with the `@promethean-os/opencode-client` package, covering setup, development workflows, testing, and contribution guidelines.
 
 ## Prerequisites
 
@@ -107,7 +107,7 @@ pnpm link --global
 
 # Use in another project
 cd /path/to/other-project
-pnpm link @promethean/opencode-client --global
+pnpm link @promethean-os/opencode-client --global
 ```
 
 ## Code Style and Standards
@@ -157,7 +157,7 @@ The Ollama queue integration consists of several layers:
 
 1. **Tool Layer** (`src/tools/ollama.ts`): OpenCode tool definitions
 2. **Action Layer** (`src/actions/ollama/`): High-level business logic
-3. **Queue Layer** (`@promethean/ollama-queue`): Core queue management
+3. **Queue Layer** (`@promethean-os/ollama-queue`): Core queue management
 
 ### Adding New Tools
 
@@ -261,7 +261,7 @@ export async function processCustomJob(job: CustomJobType): Promise<void> {
 #### Custom Cache Operations
 
 ```typescript
-import { initializeCache, checkCache, storeInCache } from '@promethean/ollama-queue';
+import { initializeCache, checkCache, storeInCache } from '@promethean-os/ollama-queue';
 
 export async function getCachedResult(key: string, modelName: string): Promise<any | null> {
   const cache = await initializeCache(modelName);
@@ -407,7 +407,7 @@ Create `.vscode/launch.json`:
 process.env.DEBUG = 'ollama-queue:*';
 
 // Custom logging
-import { createLogger } from '@promethean/utils';
+import { createLogger } from '@promethean-os/utils';
 
 const logger = createLogger('opencode-client');
 
@@ -422,7 +422,7 @@ logger.debug('Cache hit', { modelName, similarity });
 
 ```typescript
 // Check processor status
-import { getProcessingInterval } from '@promethean/ollama-queue';
+import { getProcessingInterval } from '@promethean-os/ollama-queue';
 
 const interval = getProcessingInterval();
 if (!interval) {

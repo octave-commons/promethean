@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/nl-parser",
+  "name": "@promethean-os/nl-parser",
   "version": "1.0.0",
   "description": "Natural Language Command Parser with intent classification and parameter mapping",
   "main": "dist/index.js",
@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@promethean/agent-state": "workspace:*",
+    "@promethean-os/agent-state": "workspace:*",
     "@nlpjs/basic": "^4.27.0",
     "jsonwebtoken": "^9.0.2",
     "uuid": "^9.0.1",

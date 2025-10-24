@@ -75,11 +75,11 @@ Below is a complete scaffold you can paste into a new repository. Files are deli
   "packageManager": "pnpm@9.6.0",
   "scripts": {
     "build": "pnpm -r --filter ./packages/* run build && pnpm -r --filter ./apps/* run build",
-    "dev": "pnpm --filter @promethean/server dev",
+    "dev": "pnpm --filter @promethean-os/server dev",
     "typecheck": "tsc -b",
     "lint": "eslint .",
-    "seed": "pnpm --filter @promethean/tools-seed-registry start",
-    "warmup": "pnpm --filter @promethean/tools-warmup start"
+    "seed": "pnpm --filter @promethean-os/tools-seed-registry start",
+    "warmup": "pnpm --filter @promethean-os/tools-warmup start"
   },
   "workspaces": [
     "packages/*",
@@ -145,7 +145,7 @@ volumes:
 
 // FILE: packages/util/package.json
 {
-  "name": "@promethean/util",
+  "name": "@promethean-os/util",
   "version": "0.1.0",
   "type": "module",
   "main": "dist/index.js",
@@ -204,7 +204,7 @@ export function clamp(n:number,min:number,max:number){return Math.max(min,Math.m
 
 // FILE: packages/model-registry/package.json
 {
-  "name": "@promethean/model-registry",
+  "name": "@promethean-os/model-registry",
   "version": "0.1.0",
   "type": "module",
   "main": "dist/index.js",
@@ -285,7 +285,7 @@ export type { ModelEntry, ProviderConfig };
 
 // FILE: packages/rate-limit/package.json
 {
-  "name": "@promethean/rate-limit",
+  "name": "@promethean-os/rate-limit",
   "version": "0.1.0",
   "type": "module",
   "main": "dist/index.js",
@@ -375,15 +375,15 @@ export function release(b: ProviderBuckets) { if (b.concurrency) b.concurrency.c
 
 // FILE: packages/scheduler/package.json
 {
-  "name": "@promethean/scheduler",
+  "name": "@promethean-os/scheduler",
   "version": "0.1.0",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": { "build": "tsc -b" },
   "dependencies": {
-    "@promethean/rate-limit": "*",
-    "@promethean/util": "*"
+    "@promethean-os/rate-limit": "*",
+    "@promethean-os/util": "*"
   }
 }
 
@@ -408,8 +408,8 @@ export function release(b: ProviderBuckets) { if (b.concurrency) b.concurrency.c
 ---
 
 // FILE: packages/scheduler/src/index.ts
-import { expBackoff, nowMs } from '@promethean/util';
-import { ProviderBuckets, tryConsume, release } from '@promethean/rate-limit';
+import { expBackoff, nowMs } from '@promethean-os/util';
+import { ProviderBuckets, tryConsume, release } from '@promethean-os/rate-limit';
 
 export type Job<T=unknown> = {
   id: string;
@@ -479,17 +479,17 @@ export class WFQScheduler {
 
 // FILE: packages/router/package.json
 {
-  "name": "@promethean/router",
+  "name": "@promethean-os/router",
   "version": "0.1.0",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": { "build": "tsc -b" },
   "dependencies": {
-    "@promethean/model-registry": "*",
-    "@promethean/scheduler": "*",
-    "@promethean/rate-limit": "*",
-    "@promethean/util": "*"
+    "@promethean-os/model-registry": "*",
+    "@promethean-os/scheduler": "*",
+    "@promethean-os/rate-limit": "*",
+    "@promethean-os/util": "*"
   }
 }
 
@@ -514,10 +514,10 @@ export class WFQScheduler {
 ---
 
 // FILE: packages/router/src/index.ts
-import { models, providers } from '@promethean/model-registry';
-import { makeProviderBuckets } from '@promethean/rate-limit';
-import { WFQScheduler, Job } from '@promethean/scheduler';
-import { nowMs } from '@promethean/util';
+import { models, providers } from '@promethean-os/model-registry';
+import { makeProviderBuckets } from '@promethean-os/rate-limit';
+import { WFQScheduler, Job } from '@promethean-os/scheduler';
+import { nowMs } from '@promethean-os/util';
 
 type Needs = { tools?: boolean; json?: boolean; vision?: boolean; long_context?: boolean };
 
@@ -592,7 +592,7 @@ export async function routeAndEnqueue<T>(opts: {
 
 // FILE: packages/providers/openai/package.json
 {
-  "name": "@promethean/providers-openai",
+  "name": "@promethean-os/providers-openai",
   "version": "0.1.0",
   "type": "module",
   "main": "dist/index.js",
@@ -643,7 +643,7 @@ export async function callOpenAIChat(params: { model: string; body: any; stream?
 
 // FILE: packages/providers/anthropic/package.json
 {
-  "name": "@promethean/providers-anthropic",
+  "name": "@promethean-os/providers-anthropic",
   "version": "0.1.0",
   "type": "module",
   "main": "dist/index.js",
@@ -696,7 +696,7 @@ export async function callAnthropicMessages(params: { model: string; body: any; 
 
 // FILE: packages/providers/ollama/package.json
 {
-  "name": "@promethean/providers-ollama",
+  "name": "@promethean-os/providers-ollama",
   "version": "0.1.0",
   "type": "module",
   "main": "dist/index.js",
@@ -745,7 +745,7 @@ export async function callOllamaChat(params: { model: string; messages: any[]; o
 
 // FILE: packages/gateway/package.json
 {
-  "name": "@promethean/gateway",
+  "name": "@promethean-os/gateway",
   "version": "0.1.0",
   "type": "module",
   "main": "dist/index.js",
@@ -753,10 +753,10 @@ export async function callOllamaChat(params: { model: string; messages: any[]; o
   "scripts": { "build": "tsc -b" },
   "dependencies": {
     "express": "^4.19.2",
-    "@promethean/router": "*",
-    "@promethean/providers-openai": "*",
-    "@promethean/providers-anthropic": "*",
-    "@promethean/providers-ollama": "*",
+    "@promethean-os/router": "*",
+    "@promethean-os/providers-openai": "*",
+    "@promethean-os/providers-anthropic": "*",
+    "@promethean-os/providers-ollama": "*",
     "body-parser": "^1.20.2"
   }
 }
@@ -783,8 +783,8 @@ export async function callOllamaChat(params: { model: string; messages: any[]; o
 
 // FILE: packages/gateway/src/openai.ts
 import express from 'express';
-import { routeAndEnqueue } from '@promethean/router';
-import { callOpenAIChat } from '@promethean/providers-openai';
+import { routeAndEnqueue } from '@promethean-os/router';
+import { callOpenAIChat } from '@promethean-os/providers-openai';
 
 export const openaiRouter = express.Router();
 
@@ -821,8 +821,8 @@ openaiRouter.post('/v1/chat/completions', async (req, res) => {
 
 // FILE: packages/gateway/src/anthropic.ts
 import express from 'express';
-import { routeAndEnqueue } from '@promethean/router';
-import { callAnthropicMessages } from '@promethean/providers-anthropic';
+import { routeAndEnqueue } from '@promethean-os/router';
+import { callAnthropicMessages } from '@promethean-os/providers-anthropic';
 
 export const anthropicRouter = express.Router();
 
@@ -843,8 +843,8 @@ anthropicRouter.post('/v1/messages', async (req, res) => {
 
 // FILE: packages/gateway/src/ollama.ts
 import express from 'express';
-import { routeAndEnqueue } from '@promethean/router';
-import { callOllamaChat } from '@promethean/providers-ollama';
+import { routeAndEnqueue } from '@promethean-os/router';
+import { callOllamaChat } from '@promethean-os/providers-ollama';
 
 export const ollamaRouter = express.Router();
 
@@ -889,7 +889,7 @@ export function createGatewayServer() {
 
 // FILE: apps/server/package.json
 {
-  "name": "@promethean/server",
+  "name": "@promethean-os/server",
   "version": "0.1.0",
   "type": "module",
   "private": true,
@@ -901,7 +901,7 @@ export function createGatewayServer() {
     "start": "node --env-file=.env ./dist/index.js"
   },
   "dependencies": {
-    "@promethean/gateway": "*"
+    "@promethean-os/gateway": "*"
   }
 }
 
@@ -926,7 +926,7 @@ export function createGatewayServer() {
 ---
 
 // FILE: apps/server/src/index.ts
-import { createGatewayServer } from '@promethean/gateway';
+import { createGatewayServer } from '@promethean-os/gateway';
 
 const port = Number(process.env.PORT || 8787);
 const app = createGatewayServer();
@@ -936,14 +936,14 @@ app.listen(port, () => console.log(`[gateway] listening on http://localhost:${po
 
 // FILE: apps/tools/seed-registry/package.json
 {
-  "name": "@promethean/tools-seed-registry",
+  "name": "@promethean-os/tools-seed-registry",
   "version": "0.1.0",
   "type": "module",
   "private": true,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": { "build": "tsc -b", "start": "node dist/index.js" },
-  "dependencies": { "@promethean/model-registry": "*" }
+  "dependencies": { "@promethean-os/model-registry": "*" }
 }
 
 ---
@@ -967,7 +967,7 @@ app.listen(port, () => console.log(`[gateway] listening on http://localhost:${po
 ---
 
 // FILE: apps/tools/seed-registry/src/index.ts
-import { models, providers } from '@promethean/model-registry';
+import { models, providers } from '@promethean-os/model-registry';
 console.log('Seeding model registry (idempotent)');
 console.table(models.map(m => ({ alias: m.alias, provider: m.provider, providerModel: m.providerModel })));
 console.table(providers.map(p => ({ name: p.name, limits: p.rateLimit })));
@@ -976,7 +976,7 @@ console.table(providers.map(p => ({ name: p.name, limits: p.rateLimit })));
 
 // FILE: apps/tools/warmup-healthcheck/package.json
 {
-  "name": "@promethean/tools-warmup",
+  "name": "@promethean-os/tools-warmup",
   "version": "0.1.0",
   "type": "module",
   "private": true,

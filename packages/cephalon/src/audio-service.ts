@@ -1,4 +1,4 @@
-import { BrokerClient } from "@promethean/legacy/brokerClient.js";
+import { BrokerClient } from "@promethean-os/legacy/brokerClient.js";
 
 export type AudioServiceOptions = {
   brokerUrl?: string;

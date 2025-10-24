@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/pantheon-llm-opencode",
+  "name": "@promethean-os/pantheon-llm-opencode",
   "version": "1.0.0",
   "description": "Pantheon LLM adapter for OpenCode client",
   "type": "module",
@@ -23,8 +23,8 @@
     "lint": "pnpm exec eslint ."
   },
   "dependencies": {
-    "@promethean/pantheon-core": "workspace:*",
-    "@promethean/opencode-client": "workspace:*"
+    "@promethean-os/pantheon-core": "workspace:*",
+    "@promethean-os/opencode-client": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

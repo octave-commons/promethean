@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/pipeline-automation",
+  "name": "@promethean-os/pipeline-automation",
   "version": "1.0.0",
   "description": "Comprehensive pipeline automation with BuildFix integration, timeout handling, and monitoring",
   "main": "dist/index.js",
@@ -14,8 +14,8 @@
     "coverage": "c8 ava"
   },
   "dependencies": {
-    "@promethean/buildfix": "workspace:*",
-    "@promethean/ollama-queue": "workspace:*"
+    "@promethean-os/buildfix": "workspace:*",
+    "@promethean-os/ollama-queue": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

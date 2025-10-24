@@ -14,7 +14,7 @@
 
 # Kanban CLI Reference
 
-Complete reference for all `@promethean/kanban` CLI commands.
+Complete reference for all `@promethean-os/kanban` CLI commands.
 
 ## Installation & Setup
 

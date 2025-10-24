@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/shadow-conf",
+  "name": "@promethean-os/shadow-conf",
   "version": "0.0.0",
   "type": "module",
   "main": "dist/index.cjs",
@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "dotenv": "17.2.1",
-    "@promethean/pm2-helpers": "workspace:*",
+    "@promethean-os/pm2-helpers": "workspace:*",
     "jsedn": "0.4.1"
   },
   "devDependencies": {}

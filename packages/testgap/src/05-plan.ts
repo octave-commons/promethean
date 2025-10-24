@@ -2,8 +2,8 @@ import * as path from "path";
 import { promises as fs } from "fs";
 
 import { z } from "zod";
-import { parseArgs } from "@promethean/utils";
-import { ollamaJSON } from "@promethean/utils";
+import { parseArgs } from "@promethean-os/utils";
+import { ollamaJSON } from "@promethean-os/utils";
 
 import { writeJSON } from "./utils.js";
 import type { GapMap, CookbookCross, PlanFile, PlanTask } from "./types.js";

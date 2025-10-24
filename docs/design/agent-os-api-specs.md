@@ -562,7 +562,7 @@ ws://localhost:3000/ws/agent-os
 ### Node.js SDK
 
 ```typescript
-import { AgentOSClient } from '@promethean/agent-os-sdk';
+import { AgentOSClient } from '@promethean-os/agent-os-sdk';
 
 const client = new AgentOSClient({
   baseUrl: 'http://localhost:3000',

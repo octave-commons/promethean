@@ -1,6 +1,6 @@
 ---
 uuid: "bd5b9e9d-1238-48ee-bf75-fae262469342"
-title: "Migrate @promethean/file-watcher to ClojureScript"
+title: "Migrate @promethean-os/file-watcher to ClojureScript"
 slug: "Migrate @promethean file-watcher to ClojureScript"
 status: "incoming"
 priority: "P1"
@@ -12,7 +12,7 @@ estimates:
   time_to_completion: ""
 ---
 
-Migrate the @promethean/file-watcher package from TypeScript to typed ClojureScript, maintaining identical functionality and test coverage. Copy existing TypeScript tests and ensure they pass with the new ClojureScript implementation.
+Migrate the @promethean-os/file-watcher package from TypeScript to typed ClojureScript, maintaining identical functionality and test coverage. Copy existing TypeScript tests and ensure they pass with the new ClojureScript implementation.
 
 ## ⛓️ Blocked By
 

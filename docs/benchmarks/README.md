@@ -124,7 +124,7 @@ The actual prompt content with code examples and specific tasks...
 
 ### Running Benchmarks
 
-The benchmark system integrates with the `@promethean/benchmark` package:
+The benchmark system integrates with the `@promethean-os/benchmark` package:
 
 ```bash
 # Run all benchmarks

@@ -1,7 +1,7 @@
 import test from 'ava';
 import { sessionStore } from '../stores.js';
 import { initializeStores } from '../initializeStores.js';
-import { cleanupClients } from '@promethean/persistence';
+import { cleanupClients } from '@promethean-os/persistence';
 
 test.before(async () => {
   await initializeStores();

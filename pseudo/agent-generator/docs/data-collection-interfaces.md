@@ -23,7 +23,7 @@ The data collection interfaces provide a unified way to collect information from
 
 #### Kanban Board Integration
 
-- **Integration**: `@promethean/kanban` CLI interface
+- **Integration**: `@promethean-os/kanban` CLI interface
 - **Data Points**: Tasks, columns, WIP limits, workflow status
 - **Fallback**: Default board structure when kanban unavailable
 

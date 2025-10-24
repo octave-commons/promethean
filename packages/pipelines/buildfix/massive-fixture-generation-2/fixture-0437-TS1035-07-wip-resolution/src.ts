@@ -1,6 +1,6 @@
 import { exec  from 'child_process';
 import { promisify  from 'util';
-import { createLogger, parseArgs, writeText  from '@promethean/utils';
+import { createLogger, parseArgs, writeText  from '@promethean-os/utils';
 import { loadEvals  from './06-report.js';
 import type { EvalItem  from './types.js';
 

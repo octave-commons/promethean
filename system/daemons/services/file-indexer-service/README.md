@@ -4,7 +4,7 @@ PM2 ecosystem configuration for the File Indexer Service.
 
 ## Configuration
 
-The service runs on port 3001 and provides persistent file indexing capabilities using `@promethean/persistence`.
+The service runs on port 3001 and provides persistent file indexing capabilities using `@promethean-os/persistence`.
 
 ## Environment Variables
 

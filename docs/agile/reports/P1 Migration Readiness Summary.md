@@ -12,9 +12,9 @@
 
 | Package               | Story Points | Status     | Priority | Dependencies                         |
 | --------------------- | ------------ | ---------- | -------- | ------------------------------------ |
-| @promethean/agent-ecs | 21           | ✅ Ready   | P1       | @promethean/ds                       |
-| @promethean/agent     | 21           | ✅ Ready   | P1       | @promethean/ds, @promethean/security |
-| @promethean/ds        | 21           | 🔄 Ready\* | P1       | None (foundational)                  |
+| @promethean-os/agent-ecs | 21           | ✅ Ready   | P1       | @promethean-os/ds                       |
+| @promethean-os/agent     | 21           | ✅ Ready   | P1       | @promethean-os/ds, @promethean-os/security |
+| @promethean-os/ds        | 21           | 🔄 Ready\* | P1       | None (foundational)                  |
 
 \*Status update needed: incoming → ready
 
@@ -48,21 +48,21 @@
 
 ## 🏗️ Architecture Readiness
 
-### Phase 1: Foundation (@promethean/ds)
+### Phase 1: Foundation (@promethean-os/ds)
 
 - **ECS Framework**: Core entity-component-system architecture
 - **Data Structures**: Typed ClojureScript implementations
 - **Component System**: Type-safe component definitions
 - **System Orchestration**: Async execution patterns
 
-### Phase 2: ECS Implementation (@promethean/agent-ecs)
+### Phase 2: ECS Implementation (@promethean-os/agent-ecs)
 
 - **Real-time Audio**: VAD and speech arbitration systems
 - **Vision Processing**: Frame processing and LLM integration
 - **Database Integration**: ChromaDB vector storage, MongoDB persistence
 - **Network Services**: WebSocket and Express server components
 
-### Phase 3: Server Infrastructure (@promethean/agent)
+### Phase 3: Server Infrastructure (@promethean-os/agent)
 
 - **HTTP Server**: Express.js → Ring/Jetty migration
 - **External Services**: 15+ service integrations
@@ -85,7 +85,7 @@
 - ✅ Build infrastructure ready
 - ✅ Development environment configured
 - ✅ Testing framework selected
-- ⚠️ @promethean/ds status needs update
+- ⚠️ @promethean-os/ds status needs update
 
 ### Dependency Readiness: 90%
 
@@ -100,26 +100,26 @@
 
 ### Week 0 (Preparation)
 
-1. **Update @promethean/ds status** from "incoming" to "ready"
+1. **Update @promethean-os/ds status** from "incoming" to "ready"
 2. **Assign task ownership** for all three P1 packages
 3. **Set up development environments** with Typed ClojureScript
 4. **Establish performance baselines** for comparison
 
-### Week 1-2 (@promethean/ds)
+### Week 1-2 (@promethean-os/ds)
 
 1. **Begin ECS framework migration**
 2. **Implement core data structures**
 3. **Set up integration testing**
 4. **Validate performance benchmarks**
 
-### Week 3-4 (@promethean/agent-ecs)
+### Week 3-4 (@promethean-os/agent-ecs)
 
 1. **Migrate ECS implementation**
 2. **Implement real-time systems**
 3. **Integrate database services**
 4. **Complete vision processing**
 
-### Week 5-6 (@promethean/agent)
+### Week 5-6 (@promethean-os/agent)
 
 1. **Migrate server infrastructure**
 2. **Integrate external services**
@@ -139,7 +139,7 @@
 
 ### Dependency Management
 
-1. **@promethean/security**: Must migrate in parallel for agent package
+1. **@promethean-os/security**: Must migrate in parallel for agent package
 2. **External Service APIs**: Compatibility validation required
 3. **Performance Requirements**: Continuous monitoring needed
 4. **Rollback Capability**: Emergency procedures must be ready
@@ -172,7 +172,7 @@
 
 ### Immediate Actions
 
-1. **Complete @promethean/ds status update** to enable execution
+1. **Complete @promethean-os/ds status update** to enable execution
 2. **Assign dedicated team** to each P1 package
 3. **Set up automated performance monitoring**
 4. **Establish daily sync cadence** for dependency management
@@ -202,7 +202,7 @@
 - [x] Dependencies identified
 - [x] Risk assessment completed
 - [x] Success metrics defined
-- [ ] @promethean/ds status updated
+- [ ] @promethean-os/ds status updated
 - [ ] Team assignments confirmed
 - [ ] Development environments ready
 
@@ -224,4 +224,4 @@
 
 ---
 
-**Overall Assessment**: The P1 migration tasks are comprehensively planned and ready for execution. With the @promethean/ds status update and team assignments in place, the 6-week coordinated execution plan can begin immediately, establishing the foundation for the complete TypeScript to ClojureScript migration.
+**Overall Assessment**: The P1 migration tasks are comprehensively planned and ready for execution. With the @promethean-os/ds status update and team assignments in place, the 6-week coordinated execution plan can begin immediately, establishing the foundation for the complete TypeScript to ClojureScript migration.

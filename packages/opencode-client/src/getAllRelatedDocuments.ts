@@ -1,4 +1,4 @@
-import type { GenericEntry } from '@promethean/persistence';
+import type { GenericEntry } from '@promethean-os/persistence';
 import { contextStore } from './index.js';
 
 // Context management functions for advanced operations

@@ -3,7 +3,7 @@
  *
  * This package manages AGENT STATE (events, snapshots, lifecycle), NOT conversation context.
  *
- * For LLM conversation compilation, use: @promethean/persistence makeContextStore
+ * For LLM conversation compilation, use: @promethean-os/persistence makeContextStore
  * For agent state management, use: makeAgentStateManager from this package (functional approach)
  */
 

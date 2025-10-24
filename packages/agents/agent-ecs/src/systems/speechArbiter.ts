@@ -1,4 +1,4 @@
-import type { Entity, Query, World } from '@promethean/ds/ecs.js';
+import type { Entity, Query, World } from '@promethean-os/ds/ecs.js';
 
 import type {
     AgentComponents,

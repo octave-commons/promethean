@@ -4,7 +4,7 @@
 
 **Version**: 1.0.0  
 **Last Updated**: 2025-10-15  
-**Package**: `@promethean/kanban`
+**Package**: `@promethean-os/kanban`
 
 ---
 

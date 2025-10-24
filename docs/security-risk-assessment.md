@@ -354,7 +354,7 @@ While audit logging exists, critical events are missing:
 
 ```typescript
 // Replace vulnerable validation with comprehensive framework
-import { validateMcpOperation } from '@promethean/mcp/validation';
+import { validateMcpOperation } from '@promethean-os/mcp/validation';
 
 export async function secureIndexerOperation(
   rootPath: string,
@@ -379,7 +379,7 @@ export async function secureIndexerOperation(
 
 ```typescript
 // Apply MCP security middleware to all services
-import { createSecurityMiddleware } from '@promethean/mcp/security';
+import { createSecurityMiddleware } from '@promethean-os/mcp/security';
 
 const security = createSecurityMiddleware({
   rateLimitWindowMs: 15 * 60 * 1000,
@@ -399,8 +399,8 @@ app.register(security);
 
 ```typescript
 // packages/unified-validation/src/index.ts
-export * from '@promethean/mcp/validation';
-export * from '@promethean/security/path-validation';
+export * from '@promethean-os/mcp/validation';
+export * from '@promethean-os/security/path-validation';
 
 // Standardized validator for all services
 export function createServiceValidator(serviceType: 'mcp' | 'indexer' | 'files') {

@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/file-indexer",
+  "name": "@promethean-os/file-indexer",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -28,6 +28,6 @@
     "format": "pnpm exec prettier --write ."
   },
   "dependencies": {
-    "@promethean/utils": "workspace:*"
+    "@promethean-os/utils": "workspace:*"
   }
 }

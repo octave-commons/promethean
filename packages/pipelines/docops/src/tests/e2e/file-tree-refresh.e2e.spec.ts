@@ -11,7 +11,7 @@ import {
   shutdown,
   startProcessWithPort,
   type Deps,
-} from "@promethean/test-utils";
+} from "@promethean-os/test-utils";
 
 import { ensureServices } from "../helpers/services.js";
 

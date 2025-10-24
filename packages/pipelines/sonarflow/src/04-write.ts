@@ -5,8 +5,8 @@ import { promises as fs } from "fs";
 import * as path from "path";
 
 import matter from "gray-matter";
-import { createLogger, slug } from "@promethean/utils";
-import { openLevelCache } from "@promethean/level-cache";
+import { createLogger, slug } from "@promethean-os/utils";
+import { openLevelCache } from "@promethean-os/level-cache";
 
 import { parseArgs } from "./utils.js";
 import type { PlanPayload } from "./types.js";

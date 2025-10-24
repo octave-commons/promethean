@@ -1,6 +1,6 @@
 import test from "ava";
 import request from "supertest";
-import { BrokerClient } from "@promethean/legacy/brokerClient.js";
+import { BrokerClient } from "@promethean-os/legacy/brokerClient.js";
 import os from "os";
 import { start, stop, reset } from "../index.js";
 // Use in-memory broker for unit test; no real WS server

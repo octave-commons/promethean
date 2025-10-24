@@ -5,7 +5,7 @@ A simple two-way browser interface for talking to **Duck** without Discord, buil
 ## Architecture
 
 ````text
-[Browser UI: @promethean/duck-web]            [Gateway: @promethean/enso-browser-gateway]          [ENSO]
+[Browser UI: @promethean-os/duck-web]            [Gateway: @promethean-os/enso-browser-gateway]          [ENSO]
 +------------------------------+   WS / WebRTC   +-----------------------------+   WS   +-------------------+
 | <duck-chat> Web Component    |<--------------->| WebSocket + WebRTC bridge   |<----->| Enso server       |
 | - mic → 16k PCM16 frames     |                 | - forwards voice.frames     |       | (Duck agent)      |
@@ -14,8 +14,8 @@ A simple two-way browser interface for talking to **Duck** without Discord, buil
 ````
 
 ## Packages
-- **`@promethean/duck-web`** — browser client (Vite, Web Components).
-- **`@promethean/enso-browser-gateway`** — Node signaling + ENSO bridge WebSocket + wrtc.
+- **`@promethean-os/duck-web`** — browser client (Vite, Web Components).
+- **`@promethean-os/enso-browser-gateway`** — Node signaling + ENSO bridge WebSocket + wrtc.
 
 ## Features
 ### Browser UI
@@ -50,10 +50,10 @@ pnpm -w install
 ENSO_WS_URL=ws://localhost:7766 \
 DUCK_TOKEN=secret123 \
 ICE_SERVERS='[{"urls":"stun:stun.l.google.com:19302"}]' \
-npx nx run @promethean/enso-browser-gateway:serve
+npx nx run @promethean-os/enso-browser-gateway:serve
 
 # 3. run browser client
-npx nx run @promethean/duck-web:serve
+npx nx run @promethean-os/duck-web:serve
 ```
 
 Visit `http://localhost:5173` in your browser.
@@ -71,6 +71,6 @@ localStorage.setItem('duck.iceServers', JSON.stringify([{ urls: 'stun:stun.l.goo
 - Replace browser TTS with actual audio once ENSO provides `voice.frame` replies.
 
 ## Nx targets
-- `nx run @promethean/duck-web:serve` → run browser client.
-- `nx run @promethean/duck-web:build` → build client.
-- `nx run @promethean/enso-browser-gateway:serve` → run gateway.
+- `nx run @promethean-os/duck-web:serve` → run browser client.
+- `nx run @promethean-os/duck-web:build` → build client.
+- `nx run @promethean-os/enso-browser-gateway:serve` → run gateway.

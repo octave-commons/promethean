@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/boardrev",
+  "name": "@promethean-os/boardrev",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -36,10 +36,10 @@
     "test": "pnpm run build && ava --config ../../config/ava.config.mjs"
   },
   "dependencies": {
-    "@promethean/kanban": "workspace:*",
-    "@promethean/level-cache": "workspace:*",
-    "@promethean/markdown": "workspace:*",
-    "@promethean/utils": "workspace:*",
+    "@promethean-os/kanban": "workspace:*",
+    "@promethean-os/level-cache": "workspace:*",
+    "@promethean-os/markdown": "workspace:*",
+    "@promethean-os/utils": "workspace:*",
     "chokidar": "^3.6.0",
     "globby": "^14.0.2",
     "gray-matter": "^4.0.3",

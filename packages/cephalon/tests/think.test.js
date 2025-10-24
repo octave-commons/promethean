@@ -1,6 +1,6 @@
 import anyTest from "ava";
 import { rm } from "node:fs/promises";
-import { openLevelCache } from "@promethean/level-cache";
+import { openLevelCache } from "@promethean-os/level-cache";
 import { think } from "../dist/agent/innerState.js";
 
 const test = anyTest.serial;

@@ -4,7 +4,7 @@
 
 **Severity**: P0 - Critical  
 **CVE Classification**: Path Traversal (CWE-22)  
-**Affected Component**: Indexer Service (`@promethean/file-indexer-service`)  
+**Affected Component**: Indexer Service (`@promethean-os/file-indexer-service`)  
 **Status**: ✅ FIXED
 
 ## 📋 Vulnerability Description

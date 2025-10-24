@@ -1,4 +1,4 @@
-import type { Entity, World } from '@promethean/ds/ecs.js';
+import type { Entity, World } from '@promethean-os/ds/ecs.js';
 
 import type { AgentBus } from '../bus.js';
 import type { AgentComponents, TranscriptFinalComponent, VisionFrameComponent, VisionRingComponent } from '../types.js';

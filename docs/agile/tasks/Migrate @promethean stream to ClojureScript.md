@@ -1,6 +1,6 @@
 ---
 uuid: "9cfebf88-d976-4b50-9ff9-8405ac19e46f"
-title: "Migrate @promethean/stream to ClojureScript"
+title: "Migrate @promethean-os/stream to ClojureScript"
 slug: "Migrate @promethean stream to ClojureScript"
 status: "incoming"
 priority: "P1"
@@ -12,7 +12,7 @@ estimates:
   time_to_completion: ""
 ---
 
-Migrate the @promethean/stream package from TypeScript to typed ClojureScript, maintaining identical functionality and test coverage. Copy existing TypeScript tests and ensure they pass with the new ClojureScript implementation.
+Migrate the @promethean-os/stream package from TypeScript to typed ClojureScript, maintaining identical functionality and test coverage. Copy existing TypeScript tests and ensure they pass with the new ClojureScript implementation.
 
 ## ⛓️ Blocked By
 

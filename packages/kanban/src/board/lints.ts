@@ -1,8 +1,8 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 
-import { listFilesRec } from "@promethean/utils/list-files-rec.js";
-import { parseFrontmatter } from "@promethean/markdown/frontmatter";
+import { listFilesRec } from "@promethean-os/utils/list-files-rec.js";
+import { parseFrontmatter } from "@promethean-os/markdown/frontmatter";
 
 import type { TaskFM } from "./types.js";
 import type { ReadonlySetLike } from "./config/shared.js";

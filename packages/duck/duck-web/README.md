@@ -1,4 +1,4 @@
-# @promethean/duck-web
+# @promethean-os/duck-web
 
 A minimal browser UI for talking to Duck without Discord. Uses WebRTC to stream microphone audio to ENSO via the `enso-browser-gateway`, and receives replies back as text (with optional browser TTS) or real audio when available.
 
@@ -20,10 +20,10 @@ pnpm -w install
 ENSO_WS_URL=ws://localhost:7766 \
 DUCK_TOKEN=secret123 \
 ICE_SERVERS='[{"urls":"stun:stun.l.google.com:19302"}]' \
-pnpm -w --filter @promethean/enso-browser-gateway run dev
+pnpm -w --filter @promethean-os/enso-browser-gateway run dev
 
 # then run the browser UI
-pnpm -w --filter @promethean/duck-web exec vite --open
+pnpm -w --filter @promethean-os/duck-web exec vite --open
 ```
 
 In the UI: provide the gateway URL (default: `ws://localhost:8787/ws`), and token if required.
@@ -35,12 +35,12 @@ localStorage.setItem('duck.iceServers', JSON.stringify([{urls:'stun:stun.l.googl
 ```
 
 ## Nx targets
-- `nx run @promethean/duck-web:serve` → dev server (Vite)
-- `nx run @promethean/duck-web:build` → production build
+- `nx run @promethean-os/duck-web:serve` → dev server (Vite)
+- `nx run @promethean-os/duck-web:build` → production build
 
 ---
 
-# @promethean/enso-browser-gateway
+# @promethean-os/enso-browser-gateway
 
 A Node.js signaling + bridge server between browser WebRTC clients and ENSO.
 
@@ -60,13 +60,13 @@ A Node.js signaling + bridge server between browser WebRTC clients and ENSO.
 ENSO_WS_URL=ws://localhost:7766 \
 DUCK_TOKEN=secret123 \
 ICE_SERVERS='[{"urls":"stun:stun.l.google.com:19302"}]' \
-pnpm -w --filter @promethean/enso-browser-gateway run dev
+pnpm -w --filter @promethean-os/enso-browser-gateway run dev
 ```
 
 Listens on port `8787` by default.
 
 ## Nx targets
-- `nx run @promethean/enso-browser-gateway:serve`
+- `nx run @promethean-os/enso-browser-gateway:serve`
 
 ## Notes
 - Replace inline browser TTS with server audio once ENSO emits `voice.frame` events.

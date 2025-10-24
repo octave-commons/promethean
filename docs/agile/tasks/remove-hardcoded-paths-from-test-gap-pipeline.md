@@ -29,7 +29,7 @@ optionally add regression test that rejects absolute paths in pipeline definitio
 - Prevent future regressions (lint, test, or schema update).
 
 ## ✅ Acceptance Criteria
-- `pnpm --filter @promethean/testgap tg:all` succeeds from any repo checkout location.
+- `pnpm --filter @promethean-os/testgap tg:all` succeeds from any repo checkout location.
 - No occurrences of `/home/err/devel/promethean` remain in pipeline configs.
 - Added safeguard fails when new absolute paths are introduced.
 

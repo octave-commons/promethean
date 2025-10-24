@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/fsm
+# @promethean-os/fsm
 ```
 **Folder:** `packages/fsm`
 ```
@@ -13,7 +13,7 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/fsm"]
+  A["@promethean-os/fsm"]
 ```
 ## Dependencies
 - _None_

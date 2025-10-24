@@ -39,7 +39,7 @@ The CLI is a thin wrapper around the SDK:
 
 ```ts
 #!/usr/bin/env node
-import { EnsoClient } from "@promethean/enso-client";
+import { EnsoClient } from "@promethean-os/enso-client";
 
 const url = process.env.ENSO_URL ?? "ws://localhost:7747";
 const token = process.env.ENSO_TOKEN ?? "dev";

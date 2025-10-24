@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/mcp-dev-ui-frontend",
+  "name": "@promethean-os/mcp-dev-ui-frontend",
   "version": "1.0.0",
   "description": "Frontend components for MCP Dev UI",
   "main": "dist/index.js",
@@ -22,7 +22,7 @@
   "author": "Promethean Framework",
   "license": "MIT",
   "dependencies": {
-    "@promethean/mcp": "workspace:*"
+    "@promethean-os/mcp": "workspace:*"
   },
   "devDependencies": {
     "shadow-cljs": "^2.28.17"

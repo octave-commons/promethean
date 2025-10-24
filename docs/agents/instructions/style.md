@@ -8,7 +8,7 @@
 - Clojure for heavy work
 - MongoDB for main document store
 - chroma for embedding based search
-- Prefer key-value caches via `@promethean/*-cache`; avoid JSON files for transient data
+- Prefer key-value caches via `@promethean-os/*-cache`; avoid JSON files for transient data
 
 # Programming Style
 

@@ -23,7 +23,7 @@ export {
   // Core functions
   makeOrchestrator,
   type OrchestratorDeps,
-} from '@promethean/pantheon-core';
+} from '@promethean-os/pantheon-core';
 
 // Adapters
 export {

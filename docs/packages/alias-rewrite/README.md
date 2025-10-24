@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/alias-rewrite
+# @promethean-os/alias-rewrite
 ```
 **Folder:** `packages/alias-rewrite`
 ```
@@ -13,13 +13,13 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/alias-rewrite"]
-  D1["@promethean/naming"]
-  A --> D1["@promethean/naming"]
-  click D1 "../naming/README.md" "@promethean/naming"
+  A["@promethean-os/alias-rewrite"]
+  D1["@promethean-os/naming"]
+  A --> D1["@promethean-os/naming"]
+  click D1 "../naming/README.md" "@promethean-os/naming"
 ```
 ## Dependencies
-- @promethean/naming$../naming/README.md
+- @promethean-os/naming$../naming/README.md
 ## Dependents
 - _None_
 ```

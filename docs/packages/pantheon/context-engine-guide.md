@@ -90,7 +90,7 @@ export type ContextPort = {
 The framework provides a default implementation that integrates with the persistence system:
 
 ```typescript
-import { makeContextPort } from '@promethean/pantheon-core';
+import { makeContextPort } from '@promethean-os/pantheon-core';
 
 const contextPort = makeContextPort({
   getCollectionsFor: async (sources) => {
@@ -316,7 +316,7 @@ const getSharedContext = async (sessionId: string) => {
 ### Basic Context Compilation
 
 ```typescript
-import { makeContextPort } from '@promethean/pantheon-core';
+import { makeContextPort } from '@promethean-os/pantheon-core';
 
 const contextPort = makeContextPort({
   getCollectionsFor: async (sources) => {
@@ -495,7 +495,7 @@ const streamingContextPort = {
 
 ```typescript
 import test from 'ava';
-import { makeContextPort } from '@promethean/pantheon-core';
+import { makeContextPort } from '@promethean-os/pantheon-core';
 
 test('context compilation with multiple sources', async (t) => {
   const mockCollections = {

@@ -1,6 +1,6 @@
 import express from "express";
 import os from "os";
-import { BrokerClient } from "@promethean/legacy/brokerClient.js";
+import { BrokerClient } from "@promethean-os/legacy/brokerClient.js";
 
 export const app = express();
 

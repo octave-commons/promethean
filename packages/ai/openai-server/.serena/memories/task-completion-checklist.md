@@ -1,4 +1,4 @@
-# Task Completion Checklist for @promethean/openai-server
+# Task Completion Checklist for @promethean-os/openai-server
 
 ## Before Completing Any Task
 

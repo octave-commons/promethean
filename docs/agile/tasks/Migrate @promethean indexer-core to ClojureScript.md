@@ -1,6 +1,6 @@
 ---
 uuid: "f8780c4a-95be-4ca0-b955-5b34b8e3b638"
-title: "Migrate @promethean/indexer-core to ClojureScript"
+title: "Migrate @promethean-os/indexer-core to ClojureScript"
 slug: "Migrate @promethean indexer-core to ClojureScript"
 status: "incoming"
 priority: "P1"
@@ -12,7 +12,7 @@ estimates:
   time_to_completion: ""
 ---
 
-Migrate the @promethean/indexer-core package from TypeScript to typed ClojureScript, maintaining identical functionality and test coverage. Copy existing TypeScript tests and ensure they pass with the new ClojureScript implementation.
+Migrate the @promethean-os/indexer-core package from TypeScript to typed ClojureScript, maintaining identical functionality and test coverage. Copy existing TypeScript tests and ensure they pass with the new ClojureScript implementation.
 
 ## ⛓️ Blocked By
 

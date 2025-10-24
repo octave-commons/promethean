@@ -1,6 +1,6 @@
 import { pathToFileURL } from "url";
 
-import { openLevelCache } from "@promethean/level-cache";
+import { openLevelCache } from "@promethean-os/level-cache";
 import type { ReadonlyDeep } from "type-fest";
 
 import { parseArgs, SONAR_URL, authHeader } from "./utils.js";

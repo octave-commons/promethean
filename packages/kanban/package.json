@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/kanban",
+  "name": "@promethean-os/kanban",
   "version": "0.2.0",
   "description": "Automation for local markdown kanban and process-as-code. Functional TS, native ESM, no side effects.",
   "type": "module",
@@ -58,10 +58,10 @@
     "test": "pnpm run build && ava"
   },
   "dependencies": {
-    "@promethean/lmdb-cache": "workspace:*",
-    "@promethean/markdown": "workspace:*",
-    "@promethean/utils": "workspace:*",
-    "@promethean/agents-workflow": "workspace:*",
+    "@promethean-os/lmdb-cache": "workspace:*",
+    "@promethean-os/markdown": "workspace:*",
+    "@promethean-os/utils": "workspace:*",
+    "@promethean-os/agents-workflow": "workspace:*",
     "chokidar": "^4.0.1",
     "globby": "^14.0.2",
     "gray-matter": "^4.0.3",

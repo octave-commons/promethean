@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/file-watcher",
+  "name": "@promethean-os/file-watcher",
   "version": "0.1.0",
   "main": "dist/index.js",
   "type": "module",
@@ -15,20 +15,20 @@
     "format": "prettier --cache --write . && eslint . --fix --cache || true"
   },
   "dependencies": {
-    "@promethean/embedding": "workspace:*",
-    "@promethean/legacy": "workspace:*",
-    "@promethean/persistence": "workspace:*",
+    "@promethean-os/embedding": "workspace:*",
+    "@promethean-os/legacy": "workspace:*",
+    "@promethean-os/persistence": "workspace:*",
     "chokidar": "^3.5.3",
     "dotenv": "^17.2.1",
     "ws": "^8.18.3"
   },
   "devDependencies": {
-    "@promethean/test-utils": "workspace:*",
-    "@promethean/utils": "workspace:*",
+    "@promethean-os/test-utils": "workspace:*",
+    "@promethean-os/utils": "workspace:*",
     "@types/ws": "^8.5.10",
     "eslint": "^8.57.0",
     "eslint-config-neon": "^0.1.62",
     "prettier": "^3.4.2",
-    "@promethean/pm2-helpers": "workspace:*"
+    "@promethean-os/pm2-helpers": "workspace:*"
   }
 }

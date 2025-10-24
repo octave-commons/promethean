@@ -2,7 +2,7 @@
 
 ***
 
-# @promethean/kanban
+# @promethean-os/kanban
 
 Automation for the local markdown kanban and process-as-code. Functional TS, native ESM, no side effects.
 

@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/pantheon-llm-claude",
+  "name": "@promethean-os/pantheon-llm-claude",
   "version": "1.0.0",
   "description": "Pantheon LLM adapter for Anthropic Claude API",
   "type": "module",
@@ -23,7 +23,7 @@
     "lint": "pnpm exec eslint ."
   },
   "dependencies": {
-    "@promethean/pantheon-core": "workspace:*",
+    "@promethean-os/pantheon-core": "workspace:*",
     "@anthropic-ai/sdk": "^0.24.3"
   },
   "devDependencies": {

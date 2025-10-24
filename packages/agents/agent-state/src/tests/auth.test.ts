@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { sleep } from '@promethean/test-utils';
+import { sleep } from '@promethean-os/test-utils';
 
 import { JWTAuthService } from '../auth.js';
 

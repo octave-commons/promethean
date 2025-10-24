@@ -7,7 +7,7 @@ message broker. Cephalon modules import this helper when embeddings are required
 
 ## Dependencies
 - chromadb
-- `@promethean/legacy/brokerClient.js`
+- `@promethean-os/legacy/brokerClient.js`
 
 ## Dependents
 - `services/ts/cephalon/src/tests/embedding.test.ts`

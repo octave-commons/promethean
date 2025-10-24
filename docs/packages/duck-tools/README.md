@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/duck-tools
+# @promethean-os/duck-tools
 ```
 **Folder:** `packages/duck-tools`
 ```
@@ -13,7 +13,7 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/duck-tools"]
+  A["@promethean-os/duck-tools"]
 ```
 ## Dependencies
 - _None_

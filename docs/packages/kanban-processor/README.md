@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/kanban-processor
+# @promethean-os/kanban-processor
 ```
 **Folder:** `packages/kanban-processor`
 ```
@@ -13,33 +13,33 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/kanban-processor"]
-  D1["@promethean/ds"]
-  D2["@promethean/fs"]
-  D3["@promethean/legacy"]
-  D4["@promethean/markdown"]
-  D5["@promethean/persistence"]
-  D6["@promethean/pm2-helpers"]
-  A --> D1["@promethean/ds"]
-  A --> D2["@promethean/fs"]
-  A --> D3["@promethean/legacy"]
-  A --> D4["@promethean/markdown"]
-  A --> D5["@promethean/persistence"]
-  A --> D6["@promethean/pm2-helpers"]
-  click D1 "../ds/README.md" "@promethean/ds"
-  click D2 "../fs/README.md" "@promethean/fs"
-  click D3 "../legacy/README.md" "@promethean/legacy"
-  click D4 "../markdown/README.md" "@promethean/markdown"
-  click D5 "../persistence/README.md" "@promethean/persistence"
-  click D6 "../pm2-helpers/README.md" "@promethean/pm2-helpers"
+  A["@promethean-os/kanban-processor"]
+  D1["@promethean-os/ds"]
+  D2["@promethean-os/fs"]
+  D3["@promethean-os/legacy"]
+  D4["@promethean-os/markdown"]
+  D5["@promethean-os/persistence"]
+  D6["@promethean-os/pm2-helpers"]
+  A --> D1["@promethean-os/ds"]
+  A --> D2["@promethean-os/fs"]
+  A --> D3["@promethean-os/legacy"]
+  A --> D4["@promethean-os/markdown"]
+  A --> D5["@promethean-os/persistence"]
+  A --> D6["@promethean-os/pm2-helpers"]
+  click D1 "../ds/README.md" "@promethean-os/ds"
+  click D2 "../fs/README.md" "@promethean-os/fs"
+  click D3 "../legacy/README.md" "@promethean-os/legacy"
+  click D4 "../markdown/README.md" "@promethean-os/markdown"
+  click D5 "../persistence/README.md" "@promethean-os/persistence"
+  click D6 "../pm2-helpers/README.md" "@promethean-os/pm2-helpers"
 ```
 ## Dependencies
-- @promethean/ds$../ds/README.md
-- @promethean/fs$../fs/README.md
-- @promethean/legacy$../legacy/README.md
-- @promethean/markdown$../markdown/README.md
-- @promethean/persistence$../persistence/README.md
-- @promethean/pm2-helpers$../pm2-helpers/README.md
+- @promethean-os/ds$../ds/README.md
+- @promethean-os/fs$../fs/README.md
+- @promethean-os/legacy$../legacy/README.md
+- @promethean-os/markdown$../markdown/README.md
+- @promethean-os/persistence$../persistence/README.md
+- @promethean-os/pm2-helpers$../pm2-helpers/README.md
 ## Dependents
 - _None_
 ```

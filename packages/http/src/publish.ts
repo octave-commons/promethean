@@ -10,7 +10,7 @@ import express, {
     type Response,
 } from 'express';
 import type { ReadonlyDeep } from 'type-fest';
-import type { EventBus } from '@promethean/event/types.js';
+import type { EventBus } from '@promethean-os/event/types.js';
 
 type PublishParams = { readonly topic: string };
 type PublishResultBody = { readonly id: string };

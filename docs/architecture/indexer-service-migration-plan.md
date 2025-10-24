@@ -43,7 +43,7 @@ Extract the SmartGPT Bridge file indexer into a standalone service while keeping
   - `actions/files.ts` (`scheduleReindexAction`).
   - CLI scripts `cli-reindex.ts` becomes API client or moves to indexer service.
   - Tests that mock indexer behavior.
-- [ ] Remove old modules and update `package.json` dependencies drop `chromadb`, `@promethean/file-indexer`, etc. if now provided by client package.
+- [ ] Remove old modules and update `package.json` dependencies drop `chromadb`, `@promethean-os/file-indexer`, etc. if now provided by client package.
 - [ ] Update bridge unit/integration tests to mock the HTTP client or spin up a fixture indexer service during tests.
 
 ### 4. Deployment & Ops
@@ -64,7 +64,7 @@ Extract the SmartGPT Bridge file indexer into a standalone service while keeping
 - Does any other package import `./indexer` today outside of bridge (needs migration)?
 
 ## Definition of Done
-- `@promethean/smartgpt-bridge` builds/tests without direct indexer code.
-- `@promethean/indexer-service` passes its own test suite and exposes the required endpoints.
+- `@promethean-os/smartgpt-bridge` builds/tests without direct indexer code.
+- `@promethean-os/indexer-service` passes its own test suite and exposes the required endpoints.
 - End-to-end tests cover bridge + indexer service interaction.
 - Documentation updated (ADR, deployment instructions, API references).

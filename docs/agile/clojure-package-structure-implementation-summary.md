@@ -117,7 +117,7 @@ pnpm repl
 ### **Integration with Monorepo**
 
 - Packages are automatically included in `pnpm-workspace.yaml`
-- Use `pnpm --filter @promethean/package-name <command>` for package-specific operations
+- Use `pnpm --filter @promethean-os/package-name <command>` for package-specific operations
 - Cross-package dependencies use `{:local/root "../other-package"}`
 
 ## 🎯 **Benefits Achieved**

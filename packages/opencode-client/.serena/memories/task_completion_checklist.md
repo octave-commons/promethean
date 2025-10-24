@@ -1,4 +1,4 @@
-# Task Completion Checklist for @promethean/opencode-client
+# Task Completion Checklist for @promethean-os/opencode-client
 
 ## Before Considering a Task Complete
 

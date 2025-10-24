@@ -22,7 +22,7 @@ Implement a new kanban transition rule for the `review → document` transition 
 
 ### Core Functionality
 - [ ] **Transition Rule Integration**: New rule triggers automatically when moving tasks from `review` to `document` status
-- [ ] **Agent Workflow Execution**: Runs automated code review workflow using `@promethean/agents-workflow` package
+- [ ] **Agent Workflow Execution**: Runs automated code review workflow using `@promethean-os/agents-workflow` package
 - [ ] **Context Gathering**: Collects task body, relevant code chunks via nearest neighbor search, and mentioned files
 - [ ] **Git Diff Analysis**: Captures repo diff between commit when task was marked `in_progress` and current working tree
 - [ ] **Transition Validation**: Only allows transition to `document` if code review workflow completes successfully
@@ -35,8 +35,8 @@ Implement a new kanban transition rule for the `review → document` transition 
 - [ ] **Performance**: Workflow execution should complete within reasonable time limits (≤ 2 minutes)
 
 ### Integration Points
-- [ ] **Kanban System**: Seamless integration with existing `@promethean/kanban` transition rules engine
-- [ ] **Agent Workflow**: Utilize `@promethean/agents-workflow` for code review automation
+- [ ] **Kanban System**: Seamless integration with existing `@promethean-os/kanban` transition rules engine
+- [ ] **Agent Workflow**: Utilize `@promethean-os/agents-workflow` for code review automation
 - [ ] **Git Integration**: Leverage existing git tools for diff generation and commit tracking
 - [ ] **File System**: Use existing file search and indexing capabilities for code context gathering
 
@@ -137,8 +137,8 @@ Add to `docs/agile/rules/kanban-transitions.clj`:
 ## 🔍 Dependencies & Prerequisites
 
 ### Required Components
-- `@promethean/kanban` - Transition rules engine (existing)
-- `@promethean/agents-workflow` - Agent workflow execution (existing)
+- `@promethean-os/kanban` - Transition rules engine (existing)
+- `@promethean-os/agents-workflow` - Agent workflow execution (existing)
 - Git integration tools - For diff generation (existing)
 - File search/indexing - For code context gathering (existing)
 

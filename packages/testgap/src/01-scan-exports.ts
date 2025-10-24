@@ -3,8 +3,8 @@ import * as path from "path";
 
 import { globby } from "globby";
 import { Project } from "ts-morph";
-import { parseArgs } from "@promethean/utils";
-import { relFromRepo } from "@promethean/utils";
+import { parseArgs } from "@promethean-os/utils";
+import { relFromRepo } from "@promethean-os/utils";
 
 import { writeJSON } from "./utils.js";
 import type { ExportScan, ExportSymbol } from "./types.js";

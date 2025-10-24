@@ -1,4 +1,4 @@
-import { sleep } from "@promethean/utils";
+import { sleep } from "@promethean-os/utils";
 import test from "ava";
 
 import { createTaskQueue } from "../queue/taskQueue.js";

@@ -665,7 +665,7 @@ Did you mean to import "ts-morph/dist/ts-morph.js"?
 - **Plan Generated**: Yes
 - **Duration**: 10.01s
 - **Attempts**: 3
-- **Plan**: Fix missing import for '@promethean/utils/list-files-rec'
+- **Plan**: Fix missing import for '@promethean-os/utils/list-files-rec'
 - **Error**: Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/fixture-0002-TS2339-indexer/attempt-3.mjs
 Did you mean to import "ts-morph/dist/ts-morph.js"?
 
@@ -720,7 +720,7 @@ Did you mean to import "ts-morph/dist/ts-morph.js"?
 - **Plan Generated**: Yes
 - **Duration**: 10.45s
 - **Attempts**: 3
-- **Plan**: Fix missing import for '@promethean/fs' module
+- **Plan**: Fix missing import for '@promethean-os/fs' module
 - **Error**: Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/fixture-0007-TS1099-index/attempt-3.mjs
 Did you mean to import "ts-morph/dist/ts-morph.js"?
 
@@ -753,7 +753,7 @@ Did you mean to import "ts-morph/dist/ts-morph.js"?
 - **Plan Generated**: Yes
 - **Duration**: 10.14s
 - **Attempts**: 3
-- **Plan**: Fix missing import for '@promethean/utils/list-files-rec.js'
+- **Plan**: Fix missing import for '@promethean-os/utils/list-files-rec.js'
 - **Error**: Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/fixture-0010-TS1363-lints/attempt-3.mjs
 Did you mean to import "ts-morph/dist/ts-morph.js"?
 
@@ -819,7 +819,7 @@ Did you mean to import "ts-morph/dist/ts-morph.js"?
 - **Plan Generated**: Yes
 - **Duration**: 9.22s
 - **Attempts**: 3
-- **Plan**: Fix missing import for '@promethean/fs' module
+- **Plan**: Fix missing import for '@promethean-os/fs' module
 - **Error**: Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/fixture-0016-TS1196-image-links/attempt-3.mjs
 Did you mean to import "ts-morph/dist/ts-morph.js"?
 
@@ -1024,7 +1024,7 @@ Did you mean to import "ts-morph/dist/ts-morph.js"?
 - **Plan Generated**: Yes
 - **Duration**: 9.70s
 - **Attempts**: 3
-- **Plan**: Fix missing import for '@promethean/ds/ecs'
+- **Plan**: Fix missing import for '@promethean-os/ds/ecs'
 - **Error**: Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/fixture-0035-TS1248-index/attempt-3.mjs
 Did you mean to import "ts-morph/dist/ts-morph.js"?
 
@@ -1374,7 +1374,7 @@ Did you mean to import "ts-morph/dist/ts-morph.js"?
 - **Plan Generated**: Yes
 - **Duration**: 9.87s
 - **Attempts**: 3
-- **Plan**: Fix missing import for '@promethean/compiler/lisp/driver.js'
+- **Plan**: Fix missing import for '@promethean-os/compiler/lisp/driver.js'
 - **Error**: Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/fixture-0067-TS1099-lisp/attempt-3.mjs
 Did you mean to import "ts-morph/dist/ts-morph.js"?
 
@@ -1418,7 +1418,7 @@ Did you mean to import "ts-morph/dist/ts-morph.js"?
 - **Plan Generated**: Yes
 - **Duration**: 9.82s
 - **Attempts**: 3
-- **Plan**: Fix missing import for @promethean/markdown/statuses.js
+- **Plan**: Fix missing import for @promethean-os/markdown/statuses.js
 - **Error**: Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/fixture-0071-TS2584-projector/attempt-3.mjs
 Did you mean to import "ts-morph/dist/ts-morph.js"?
 
@@ -1484,7 +1484,7 @@ Did you mean to import "ts-morph/dist/ts-morph.js"?
 - **Plan Generated**: Yes
 - **Duration**: 9.39s
 - **Attempts**: 3
-- **Plan**: Fix missing import for '@promethean/fs' module
+- **Plan**: Fix missing import for '@promethean-os/fs' module
 - **Error**: Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/fixture-0077-TS1228-index/attempt-3.mjs
 Did you mean to import "ts-morph/dist/ts-morph.js"?
 
@@ -1777,7 +1777,7 @@ Did you mean to import "ts-morph/dist/ts-morph.js"?
 - **Plan Generated**: Yes
 - **Duration**: 9.87s
 - **Attempts**: 3
-- **Plan**: Fix missing import for @promethean/event/types.js
+- **Plan**: Fix missing import for @promethean-os/event/types.js
 - **Error**: Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/fixture-0104-TS2769-mongo/attempt-3.mjs
 Did you mean to import "ts-morph/dist/ts-morph.js"?
 
@@ -1887,7 +1887,7 @@ Did you mean to import "ts-morph/dist/ts-morph.js"?
 - **Plan Generated**: Yes
 - **Duration**: 10.37s
 - **Attempts**: 3
-- **Plan**: Fix missing import for @promethean/event/types.js
+- **Plan**: Fix missing import for @promethean-os/event/types.js
 - **Error**: Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/fixture-0114-TS2304-mongo/attempt-3.mjs
 Did you mean to import "ts-morph/dist/ts-morph.js"?
 
@@ -2248,7 +2248,7 @@ Did you mean to import "ts-morph/dist/ts-morph.js"?
 - **Plan Generated**: Yes
 - **Duration**: 9.73s
 - **Attempts**: 3
-- **Plan**: Fix missing import for @promethean/event/types.js
+- **Plan**: Fix missing import for @promethean-os/event/types.js
 - **Error**: Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/fixture-0147-TS1385-mongo/attempt-3.mjs
 Did you mean to import "ts-morph/dist/ts-morph.js"?
 
@@ -3395,7 +3395,7 @@ Did you mean to import "ts-morph/dist/ts-morph.js"?
 - **Plan Generated**: Yes
 - **Duration**: 10.07s
 - **Attempts**: 3
-- **Plan**: Fix missing import for '@promethean/compiler/lisp/driver.js'
+- **Plan**: Fix missing import for '@promethean-os/compiler/lisp/driver.js'
 - **Error**: Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/fixture-0252-TS1479-lisp/attempt-3.mjs
 Did you mean to import "ts-morph/dist/ts-morph.js"?
 
@@ -3954,7 +3954,7 @@ Did you mean to import "ts-morph/dist/ts-morph.js"?
 - **Plan Generated**: Yes
 - **Duration**: 10.92s
 - **Attempts**: 3
-- **Plan**: Fix missing import for @promethean/ds/ecs.js
+- **Plan**: Fix missing import for @promethean-os/ds/ecs.js
 - **Error**: Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/fixture-0303-TS1002-index/attempt-3.mjs
 Did you mean to import "ts-morph/dist/ts-morph.js"?
 
@@ -4474,7 +4474,7 @@ Did you mean to import "ts-morph/dist/ts-morph.js"?
 - **Plan Generated**: Yes
 - **Duration**: 9.96s
 - **Attempts**: 3
-- **Plan**: Fix missing import for '@promethean/ds/ecs.js'
+- **Plan**: Fix missing import for '@promethean-os/ds/ecs.js'
 - **Error**: Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/fixture-0351-TS1471-index/attempt-3.mjs
 Did you mean to import "ts-morph/dist/ts-morph.js"?
 
@@ -4716,7 +4716,7 @@ Did you mean to import "ts-morph/dist/ts-morph.js"?
 - **Plan Generated**: Yes
 - **Duration**: 10.01s
 - **Attempts**: 3
-- **Plan**: Fix missing import for @promethean/ds/ecs.js
+- **Plan**: Fix missing import for @promethean-os/ds/ecs.js
 - **Error**: Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/fixture-0373-TS2564-index/attempt-3.mjs
 Did you mean to import "ts-morph/dist/ts-morph.js"?
 
@@ -4912,7 +4912,7 @@ Did you mean to import "ts-morph/dist/ts-morph.js"?
 - **Plan Generated**: Yes
 - **Duration**: 11.90s
 - **Attempts**: 3
-- **Plan**: Fix missing module import for @promethean/event/types.js
+- **Plan**: Fix missing module import for @promethean-os/event/types.js
 - **Error**: Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/fixture-0391-TS1039-mongo/attempt-3.mjs
 Did you mean to import "ts-morph/dist/ts-morph.js"?
 
@@ -5064,7 +5064,7 @@ Did you mean to import "ts-morph/dist/ts-morph.js"?
 - **Plan Generated**: Yes
 - **Duration**: 10.16s
 - **Attempts**: 3
-- **Plan**: Fix missing import for '@promethean/ds/ecs.js'
+- **Plan**: Fix missing import for '@promethean-os/ds/ecs.js'
 - **Error**: Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/fixture-0405-TS1248-index/attempt-3.mjs
 Did you mean to import "ts-morph/dist/ts-morph.js"?
 
@@ -5403,7 +5403,7 @@ Did you mean to import "ts-morph/dist/ts-morph.js"?
 - **Plan Generated**: Yes
 - **Duration**: 10.86s
 - **Attempts**: 3
-- **Plan**: Fix missing import for '@promethean/compiler/lisp/driver.js'
+- **Plan**: Fix missing import for '@promethean-os/compiler/lisp/driver.js'
 - **Error**: Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/fixture-0436-TS1471-lisp/attempt-3.mjs
 Did you mean to import "ts-morph/dist/ts-morph.js"?
 
@@ -5458,7 +5458,7 @@ Did you mean to import "ts-morph/dist/ts-morph.js"?
 - **Plan Generated**: Yes
 - **Duration**: 10.17s
 - **Attempts**: 3
-- **Plan**: Fix missing import for '@promethean/markdown/frontmatter'
+- **Plan**: Fix missing import for '@promethean-os/markdown/frontmatter'
 - **Error**: Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/fixture-0441-TS5024-01-ensure-fm/attempt-3.mjs
 Did you mean to import "ts-morph/dist/ts-morph.js"?
 
@@ -5533,7 +5533,7 @@ Did you mean to import "ts-morph/dist/ts-morph.js"?
 - **Plan Generated**: Yes
 - **Duration**: 11.45s
 - **Attempts**: 3
-- **Plan**: Fix missing import for '@promethean/compiler/lisp/driver.js'
+- **Plan**: Fix missing import for '@promethean-os/compiler/lisp/driver.js'
 - **Error**: Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/fixture-0448-TS5024-lisp/attempt-3.mjs
 Did you mean to import "ts-morph/dist/ts-morph.js"?
 
@@ -5676,7 +5676,7 @@ Did you mean to import "ts-morph/dist/ts-morph.js"?
 - **Plan Generated**: Yes
 - **Duration**: 11.96s
 - **Attempts**: 3
-- **Plan**: Fix missing import for '@promethean/markdown/frontmatter'
+- **Plan**: Fix missing import for '@promethean-os/markdown/frontmatter'
 - **Error**: Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/fixture-0461-TS1484-01-ensure-fm/attempt-3.mjs
 Did you mean to import "ts-morph/dist/ts-morph.js"?
 
@@ -5993,7 +5993,7 @@ Did you mean to import "ts-morph/dist/ts-morph.js"?
 - **Plan Generated**: Yes
 - **Duration**: 10.71s
 - **Attempts**: 3
-- **Plan**: Fix missing import for '@promethean/markdown/statuses.nonExistentProperty'
+- **Plan**: Fix missing import for '@promethean-os/markdown/statuses.nonExistentProperty'
 - **Error**: Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/fixture-0490-TS2339-projector/attempt-3.mjs
 Did you mean to import "ts-morph/dist/ts-morph.js"?
 
@@ -6086,7 +6086,7 @@ Did you mean to import "ts-morph/dist/ts-morph.js"?
 - **Plan Generated**: Yes
 - **Duration**: 10.12s
 - **Attempts**: 3
-- **Plan**: Fix missing import for '@promethean/markdown/frontmatter'
+- **Plan**: Fix missing import for '@promethean-os/markdown/frontmatter'
 - **Error**: Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/fixture-0499-TS7016-index/attempt-3.mjs
 Did you mean to import "ts-morph/dist/ts-morph.js"?
 
@@ -6315,7 +6315,7 @@ Did you mean to import "ts-morph/dist/ts-morph.js"?
 - **Plan Generated**: Yes
 - **Duration**: 10.10s
 - **Attempts**: 3
-- **Plan**: Fix missing module import for @promethean/utils/list-files-rec.js
+- **Plan**: Fix missing module import for @promethean-os/utils/list-files-rec.js
 - **Error**: Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/fixture-0520-TS1240-indexer/attempt-3.mjs
 Did you mean to import "ts-morph/dist/ts-morph.js"?
 
@@ -6863,7 +6863,7 @@ Did you mean to import "ts-morph/dist/ts-morph.js"?
 - **Plan Generated**: Yes
 - **Duration**: 9.07s
 - **Attempts**: 3
-- **Plan**: Fix missing import for @promethean/fs
+- **Plan**: Fix missing import for @promethean-os/fs
 - **Error**: Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/fixture-0570-TS1121-image-links/attempt-3.mjs
 Did you mean to import "ts-morph/dist/ts-morph.js"?
 
@@ -6940,7 +6940,7 @@ Did you mean to import "ts-morph/dist/ts-morph.js"?
 - **Plan Generated**: Yes
 - **Duration**: 9.95s
 - **Attempts**: 3
-- **Plan**: Fix missing import for '@promethean/markdown/frontmatter'
+- **Plan**: Fix missing import for '@promethean-os/markdown/frontmatter'
 - **Error**: Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/fixture-0577-TS1127-index/attempt-3.mjs
 Did you mean to import "ts-morph/dist/ts-morph.js"?
 
@@ -7116,7 +7116,7 @@ Did you mean to import "ts-morph/dist/ts-morph.js"?
 - **Plan Generated**: Yes
 - **Duration**: 10.25s
 - **Attempts**: 3
-- **Plan**: Fix missing import for '@promethean/markdown/frontmatter'
+- **Plan**: Fix missing import for '@promethean-os/markdown/frontmatter'
 - **Error**: Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/fixture-0593-TS2322-01-ensure-fm/attempt-3.mjs
 Did you mean to import "ts-morph/dist/ts-morph.js"?
 
@@ -7277,7 +7277,7 @@ Did you mean to import "ts-morph/dist/ts-morph.js"?
 - **Plan Generated**: Yes
 - **Duration**: 10.97s
 - **Attempts**: 3
-- **Plan**: Fix missing import for @promethean/utils/list-files-rec.js
+- **Plan**: Fix missing import for @promethean-os/utils/list-files-rec.js
 - **Error**: Cannot find package 'ts-morph' imported from /home/err/devel/promethean/benchmark-temp/fixtures/fixture-0608-TS7005-lints/attempt-3.mjs
 Did you mean to import "ts-morph/dist/ts-morph.js"?
 

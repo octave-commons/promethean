@@ -48,7 +48,7 @@ The healing system consists of several key components:
 ## Quick Start
 
 ```typescript
-import { DefaultWorkflowHealingIntegration } from '@promethean/agents-workflow/healing';
+import { DefaultWorkflowHealingIntegration } from '@promethean-os/agents-workflow/healing';
 
 // Initialize the healing system
 const healing = new DefaultWorkflowHealingIntegration();

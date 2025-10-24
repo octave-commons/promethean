@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide provides comprehensive documentation for working with the Ollama queue integration in the `@promethean/opencode-client` package. It covers the architecture, usage patterns, and best practices for managing asynchronous LLM job processing.
+This guide provides comprehensive documentation for working with the Ollama queue integration in the `@promethean-os/opencode-client` package. It covers the architecture, usage patterns, and best practices for managing asynchronous LLM job processing.
 
 ## Architecture
 
@@ -45,7 +45,7 @@ import {
   getJobResult,
   startQueueProcessor,
   stopQueueProcessor 
-} from '@promethean/opencode-client';
+} from '@promethean-os/opencode-client';
 
 // The queue processor starts automatically when the first job is submitted
 // but you can control it manually if needed
@@ -244,7 +244,7 @@ The queue system includes an intelligent caching layer that:
 ### Cache Operations
 
 ```typescript
-import { manageCache } from '@promethean/opencode-client';
+import { manageCache } from '@promethean-os/opencode-client';
 
 // Get cache statistics
 const stats = await manageCache.execute({ action: 'stats' });
@@ -261,7 +261,7 @@ console.log('Performance analysis:', JSON.parse(analysis));
 ### Submitting Feedback
 
 ```typescript
-import { submitFeedback } from '@promethean/opencode-client';
+import { submitFeedback } from '@promethean-os/opencode-client';
 
 // After getting a job result, submit feedback
 await submitFeedback.execute({
@@ -279,7 +279,7 @@ await submitFeedback.execute({
 ### Manual Queue Control
 
 ```typescript
-import { startQueueProcessor, stopQueueProcessor, getQueueInfo } from '@promethean/opencode-client';
+import { startQueueProcessor, stopQueueProcessor, getQueueInfo } from '@promethean-os/opencode-client';
 
 // Check if processor is running
 const queueInfo = await getQueueInfo.execute({});

@@ -2,13 +2,13 @@
 
 ## 🎯 Objective
 
-Consolidate three packages into unified `@promethean/opencode-unified` using story point estimation for agile planning.
+Consolidate three packages into unified `@promethean-os/opencode-unified` using story point estimation for agile planning.
 
 ## 📦 Target Packages
 
-1. `@promethean/opencode-client` - TypeScript client (21 points)
+1. `@promethean-os/opencode-client` - TypeScript client (21 points)
 2. `opencode-cljs-electron` - ClojureScript editor (13 points)
-3. `@promethean/dualstore-http` - HTTP service (21 points)
+3. `@promethean-os/dualstore-http` - HTTP service (21 points)
 
 ## 📊 Story Point Breakdown
 
@@ -79,7 +79,7 @@ Consolidate three packages into unified `@promethean/opencode-unified` using sto
 
 ## 🎯 Deliverables
 
-1. Unified `@promethean/opencode-unified` package
+1. Unified `@promethean-os/opencode-unified` package
 2. Comprehensive test suite
 3. Complete documentation
 4. Migration guides

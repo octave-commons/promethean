@@ -18,19 +18,19 @@ Made significant progress removing `any` types across packages:
 
 ### Packages Fixed:
 
-1. **@promethean/web-utils** - ✅ Complete
+1. **@promethean-os/web-utils** - ✅ Complete
 
    - Replaced `any` types with proper `FastifyInstance` interface
    - Created minimal fastify interface to avoid version conflicts
    - Removed 2 instances of `any` types
 
-2. **@promethean/utils** - ✅ Complete
+2. **@promethean-os/utils** - ✅ Complete
 
    - Fixed `ollama.ts` by creating `GenerateRequest` type
    - Replaced `any` request body with properly typed interface
    - Removed 1 instance of `any` types
 
-3. **@promethean/ws** - 🔄 In Progress
+3. **@promethean-os/ws** - 🔄 In Progress
    - Created comprehensive type interfaces:
      - `MessageBus` interface for bus operations
      - `WSMessage` interface for WebSocket messages

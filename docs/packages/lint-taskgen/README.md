@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/lint-taskgen
+# @promethean-os/lint-taskgen
 ```
 **Folder:** `packages/lint-taskgen`
 ```
@@ -13,7 +13,7 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/lint-taskgen"]
+  A["@promethean-os/lint-taskgen"]
 ```
 ## Dependencies
 - _None_

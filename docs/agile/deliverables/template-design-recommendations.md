@@ -807,7 +807,7 @@ describe('CLI Integration', () => {
 
 ```json
 {
-  "name": "@promethean/instruction-generator",
+  "name": "@promethean-os/instruction-generator",
   "version": "1.0.0",
   "main": "dist/index.js",
   "bin": {

@@ -298,7 +298,7 @@ class BrowserAdapter implements IPlatformAdapter {
 
 ### Platform Adapter Package
 
-- `@promethean/platform-adapters` package
+- `@promethean-os/platform-adapters` package
 - Complete adapter implementations
 - Comprehensive test suite
 - Performance benchmarks
@@ -321,7 +321,7 @@ class BrowserAdapter implements IPlatformAdapter {
 
 ### Prerequisites
 
-- Core infrastructure package (`@promethean/platform-core`)
+- Core infrastructure package (`@promethean-os/platform-core`)
 - TypeScript interfaces and types
 - Testing framework setup
 

@@ -1,5 +1,5 @@
 import type { IndexedTask } from "./types.js";
-import { openLevelCache, type Cache } from "@promethean/level-cache";
+import { openLevelCache, type Cache } from "@promethean-os/level-cache";
 
 /**
  * TaskCache interface for efficient task storage and retrieval

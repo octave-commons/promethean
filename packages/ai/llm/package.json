@@ -1,5 +1,5 @@
 {
-    "name": "@promethean/llm",
+    "name": "@promethean-os/llm",
     "version": "0.0.1",
     "private": true,
     "type": "module",
@@ -30,7 +30,7 @@
     },
     "module": "dist/index.js",
     "dependencies": {
-        "@promethean/utils": "workspace:*",
+        "@promethean-os/utils": "workspace:*",
         "@huggingface/inference": "^4.7.1",
         "@types/javascript-time-ago": "^2.5.0",
         "@types/js-yaml": "^4.0.9",
@@ -63,6 +63,6 @@
         "@types/estree": "^1.0.5",
         "@types/express": "^4.17.21",
         "@types/ws": "^8.5.9",
-        "@promethean/pm2-helpers": "workspace:*"
+        "@promethean-os/pm2-helpers": "workspace:*"
     }
 }

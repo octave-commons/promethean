@@ -3,7 +3,7 @@
  * Implements LlmPort for OpenAI API integration
  */
 
-import type { LlmPort, Message } from '@promethean/pantheon-core';
+import type { LlmPort, Message } from '@promethean-os/pantheon-core';
 import OpenAI from 'openai';
 
 export type OpenAIAdapterConfig = {

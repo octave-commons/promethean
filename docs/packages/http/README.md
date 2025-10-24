@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/http
+# @promethean-os/http
 ```
 **Folder:** `packages/http`
 ```
@@ -13,18 +13,18 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/http"]
-  D1["@promethean/event"]
-  R1["@promethean/dev"]
-  A --> D1["@promethean/event"]
-  R1["@promethean/dev"] --> A
-  click D1 "../event/README.md" "@promethean/event"
-  click R1 "../dev/README.md" "@promethean/dev"
+  A["@promethean-os/http"]
+  D1["@promethean-os/event"]
+  R1["@promethean-os/dev"]
+  A --> D1["@promethean-os/event"]
+  R1["@promethean-os/dev"] --> A
+  click D1 "../event/README.md" "@promethean-os/event"
+  click R1 "../dev/README.md" "@promethean-os/dev"
 ```
 ## Dependencies
-- @promethean/event$../event/README.md
+- @promethean-os/event$../event/README.md
 ## Dependents
-- @promethean/dev$../dev/README.md
+- @promethean-os/dev$../dev/README.md
 ```
 <!-- SYMPKG:PKG:END -->
 ```

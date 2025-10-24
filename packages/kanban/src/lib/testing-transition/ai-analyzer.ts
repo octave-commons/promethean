@@ -1,6 +1,6 @@
 import type { AIAnalysisRequest, AIAnalysisResult } from './types.js';
 // TODO: Implement agents-workflow integration when available
-// import { AgentsWorkflowClient } from '@promethean/agents-workflow';
+// import { AgentsWorkflowClient } from '@promethean-os/agents-workflow';
 
 /**
  * Perform AI-powered analysis of the test suite

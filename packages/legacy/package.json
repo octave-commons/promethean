@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/legacy",
+  "name": "@promethean-os/legacy",
   "type": "module",
   "exports": {
     ".": {

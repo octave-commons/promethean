@@ -1,4 +1,4 @@
-import type { BrokerClient as JsBrokerClient } from '@promethean/legacy/brokerClient.js';
+import type { BrokerClient as JsBrokerClient } from '@promethean-os/legacy/brokerClient.js';
 
 type Handler<T> = (msg: T) => void;
 

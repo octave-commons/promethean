@@ -12,7 +12,7 @@ import EventEmitter from "events";
 
 import { AudioPlayer, createAudioPlayer } from "@discordjs/voice";
 import { Message } from "ollama";
-import { sleep } from "@promethean/utils";
+import { sleep } from "@promethean-os/utils";
 
 import {
   DesktopCaptureManager,

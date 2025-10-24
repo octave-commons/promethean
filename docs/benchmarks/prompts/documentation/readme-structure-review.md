@@ -19,17 +19,17 @@ answer: |
 Review this README.md for a Promethean Framework package:
 
 ```markdown
-# @promethean/agent-service
+# @promethean-os/agent-service
 
 This package provides agent services.
 
 ## Installation
 
-npm install @promethean/agent-service
+npm install @promethean-os/agent-service
 
 ## Usage
 
-import { AgentService } from '@promethean/agent-service';
+import { AgentService } from '@promethean-os/agent-service';
 
 const service = new AgentService();
 service.start();

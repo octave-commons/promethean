@@ -1733,7 +1733,7 @@ Running Manually
     - Open ^ref-01c5547f-967-0
 - Programmatic:
     - import { runFrontmatter, runEmbed, runQuery, runRelations, runFooters, runRename,
-computePreview } from '@promethean/docops/src'
+computePreview } from '@promethean-os/docops/src'
     - Construct/inject db (Level handle) and coll (Chroma collection) as required.
 
 Chroma Assumptions

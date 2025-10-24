@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/parity
+# @promethean-os/parity
 ```
 **Folder:** `packages/parity`
 ```
@@ -13,15 +13,15 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/parity"]
-  R1["@promethean/tests"]
-  R1["@promethean/tests"] --> A
-  click R1 "../tests/README.md" "@promethean/tests"
+  A["@promethean-os/parity"]
+  R1["@promethean-os/tests"]
+  R1["@promethean-os/tests"] --> A
+  click R1 "../tests/README.md" "@promethean-os/tests"
 ```
 ## Dependencies
 - _None_
 ## Dependents
-- @promethean/tests$../tests/README.md
+- @promethean-os/tests$../tests/README.md
 ```
 <!-- SYMPKG:PKG:END -->
 ```

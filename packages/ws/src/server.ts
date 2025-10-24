@@ -2,7 +2,7 @@ import { WebSocketServer, WebSocket } from 'ws';
 
 // loosen typing to avoid cross-package type coupling
 import { makeConnLimiter, makeTopicLimiter } from './server.rate.js';
-import { TokenBucket } from '@promethean/monitoring';
+import { TokenBucket } from '@promethean-os/monitoring';
 // token bucket provided at runtime
 
 export type AuthResult = { ok: true; subScopes?: string[] } | { ok: false; code: string; msg: string };

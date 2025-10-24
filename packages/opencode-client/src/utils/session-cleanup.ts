@@ -2,7 +2,7 @@
  * Session cleanup utilities for OpenCode
  */
 
-import { DualStoreManager } from '@promethean/persistence';
+import { DualStoreManager } from '@promethean-os/persistence';
 
 // Global store instances - will be initialized when needed
 let sessionStore: DualStoreManager<'text', 'timestamp'> | null = null;

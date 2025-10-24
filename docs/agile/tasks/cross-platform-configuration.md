@@ -546,7 +546,7 @@ class RemoteLoader implements ConfigurationLoader {
 
 ### Configuration Management Package
 
-- `@promethean/configuration` package
+- `@promethean-os/configuration` package
 - Core configuration management system
 - Built-in configuration loaders
 - Comprehensive test suite
@@ -569,9 +569,9 @@ class RemoteLoader implements ConfigurationLoader {
 
 ### Prerequisites
 
-- Feature detection package (`@promethean/feature-detection`)
-- Platform adapters package (`@promethean/platform-adapters`)
-- Core infrastructure package (`@promethean/platform-core`)
+- Feature detection package (`@promethean-os/feature-detection`)
+- Platform adapters package (`@promethean-os/platform-adapters`)
+- Core infrastructure package (`@promethean-os/platform-core`)
 
 ### Dependencies for Next Slices
 

@@ -44,7 +44,7 @@
 - **ECS write buffering**: buffering combined with symlink guards can diverge if normalization differs between layers. Normalize **once**, early, in the facade.
 - **Dual changelog systems**: Two sources of truth → guaranteed drift. Decide now.
 - **CI noise** from automated PRs Dependabot + healer + projector. Use labels + auto-merge rules carefully, or it’ll bury real work.
-- **Private packages**/registry hiccups noted in PR text 404 on `@promethean/markdown`. Either publish, proxy, or gate tests to skip optional pkgs on CI.
+- **Private packages**/registry hiccups noted in PR text 404 on `@promethean-os/markdown`. Either publish, proxy, or gate tests to skip optional pkgs on CI.
 
 ## Concrete fixes (short and sharp)
 

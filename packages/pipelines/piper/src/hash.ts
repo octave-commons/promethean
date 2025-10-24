@@ -4,7 +4,7 @@ import * as path from "path";
 import * as crypto from "crypto";
 import { pathToFileURL, fileURLToPath } from "url";
 
-import { sha1 } from "@promethean/utils";
+import { sha1 } from "@promethean-os/utils";
 import { globby } from "globby";
 import { init, parse } from "es-module-lexer";
 

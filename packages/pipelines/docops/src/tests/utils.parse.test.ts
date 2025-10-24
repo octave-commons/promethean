@@ -2,7 +2,7 @@ import * as path from "path";
 import * as fs from "fs/promises";
 
 import test from "ava";
-import { cosine } from "@promethean/utils";
+import { cosine } from "@promethean-os/utils";
 
 import {
   parseMarkdownChunks,

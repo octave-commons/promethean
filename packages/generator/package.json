@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/generator",
+  "name": "@promethean-os/generator",
   "version": "1.0.0",
   "description": "Package generator for Promethean Framework",
   "main": "dist/index.js",

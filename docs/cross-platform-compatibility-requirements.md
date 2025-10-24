@@ -317,7 +317,7 @@ The CPCL directly supports Promethean's mission of "stealing fire from the gods 
 
 #### 6.1.1 Package Integration
 
-- **@promethean/platform**: Seamless integration with existing platform package
+- **@promethean-os/platform**: Seamless integration with existing platform package
 - **Migration Path**: Gradual migration path for existing platform-specific code
 - **Backward Compatibility**: Maintain 100% backward compatibility with existing APIs
 - **Dependency Management**: Proper dependency management and versioning

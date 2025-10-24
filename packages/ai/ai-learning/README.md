@@ -1,4 +1,4 @@
-# @promethean/ai-learning
+# @promethean-os/ai-learning
 
 Intelligent AI model routing and performance learning system for the Promethean Framework.
 
@@ -18,13 +18,13 @@ The AI Learning System provides intelligent routing of AI tasks to optimal model
 ## 📦 Installation
 
 ```bash
-pnpm add @promethean/ai-learning
+pnpm add @promethean-os/ai-learning
 ```
 
 ## 🔧 Quick Start
 
 ```typescript
-import { AILearningSystem, type ModelCapabilities } from '@promethean/ai-learning';
+import { AILearningSystem, type ModelCapabilities } from '@promethean-os/ai-learning';
 
 // Initialize with available models
 const models: Record<string, ModelCapabilities> = {

@@ -5,9 +5,9 @@ import { pathToFileURL } from "url";
 
 import matter from "gray-matter";
 
-import { openLevelCache } from "@promethean/level-cache";
-import { scanFiles } from "@promethean/file-indexer";
-import type { IndexedFile } from "@promethean/file-indexer";
+import { openLevelCache } from "@promethean-os/level-cache";
+import { scanFiles } from "@promethean-os/file-indexer";
+import type { IndexedFile } from "@promethean-os/file-indexer";
 import { parseArgs, relPath, sha1 } from "./utils.js";
 import { extractCodeBlocksWithContext, detectFilenameHint } from "./utils.js";
 import type { CodeBlock } from "./types.js";

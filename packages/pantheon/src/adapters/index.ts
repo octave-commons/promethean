@@ -23,7 +23,7 @@ export {
   makeInMemoryMessageBusAdapter,
   makeInMemorySchedulerAdapter,
   makeInMemoryActorStateAdapter,
-} from '@promethean/pantheon-core';
+} from '@promethean-os/pantheon-core';
 
 // Import the functions we need for the composite factory
 import {
@@ -33,7 +33,7 @@ import {
   makeInMemoryMessageBusAdapter,
   makeInMemorySchedulerAdapter,
   makeInMemoryActorStateAdapter,
-} from '@promethean/pantheon-core';
+} from '@promethean-os/pantheon-core';
 
 // Composite adapter factory
 export const makeCompletePantheonSystem = (options: {

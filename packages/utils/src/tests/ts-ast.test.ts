@@ -1,6 +1,6 @@
 import test from "ava";
 import ts from "typescript";
-import { getJsDocText, getNodeText, posToLine } from "@promethean/utils";
+import { getJsDocText, getNodeText, posToLine } from "@promethean-os/utils";
 
 test("posToLine returns 1-based line numbers", (t) => {
   const src = "a\n b";

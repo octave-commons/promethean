@@ -1,6 +1,6 @@
-# @promethean/file-indexer-service
+# @promethean-os/file-indexer-service
 
-A file indexing service that leverages `@promethean/persistence` for persistent storage using DualStoreManager (MongoDB + ChromaDB).
+A file indexing service that leverages `@promethean-os/persistence` for persistent storage using DualStoreManager (MongoDB + ChromaDB).
 
 ## Features
 
@@ -13,7 +13,7 @@ A file indexing service that leverages `@promethean/persistence` for persistent 
 ## Installation
 
 ```bash
-pnpm add @promethean/file-indexer-service
+pnpm add @promethean-os/file-indexer-service
 ```
 
 ## Usage
@@ -21,7 +21,7 @@ pnpm add @promethean/file-indexer-service
 ### As a Library
 
 ```typescript
-import { FileIndexer } from '@promethean/file-indexer-service';
+import { FileIndexer } from '@promethean-os/file-indexer-service';
 
 const indexer = new FileIndexer('my_file_collection');
 await indexer.initialize();
@@ -42,7 +42,7 @@ const recent = await indexer.getRecentFiles(5);
 ### As a Service
 
 ```typescript
-import { FileIndexerService } from '@promethean/file-indexer-service/service.js';
+import { FileIndexerService } from '@promethean-os/file-indexer-service/service.js';
 
 const service = new FileIndexerService(3000);
 await service.start();

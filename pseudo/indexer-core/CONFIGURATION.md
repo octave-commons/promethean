@@ -1,6 +1,6 @@
-# Configuration Guide - @promethean/indexer-core
+# Configuration Guide - @promethean-os/indexer-core
 
-This document provides comprehensive configuration options for the `@promethean/indexer-core` package.
+This document provides comprehensive configuration options for the `@promethean-os/indexer-core` package.
 
 ## Table of Contents
 
@@ -129,7 +129,7 @@ OPENAI_API_KEY=your-api-key-here
 ### Custom Embedding Service
 
 ```typescript
-import { setEmbeddingFactory } from '@promethean/indexer-core';
+import { setEmbeddingFactory } from '@promethean-os/indexer-core';
 
 // Configure custom embedding service
 setEmbeddingFactory(async () => {
@@ -170,7 +170,7 @@ const SUPPORTED_EXTENSIONS = new Set([
 ### Custom File Patterns
 
 ```typescript
-import { gatherRepoFiles } from '@promethean/indexer-core';
+import { gatherRepoFiles } from '@promethean-os/indexer-core';
 
 // Include specific file types
 const { files } = await gatherRepoFiles('/path/to/repo', {
@@ -193,7 +193,7 @@ const { files } = await gatherRepoFiles('/path/to/repo', {
 ### Advanced Pattern Matching
 
 ```typescript
-import { createInclusionChecker, expandBraces } from '@promethean/indexer-core';
+import { createInclusionChecker, expandBraces } from '@promethean-os/indexer-core';
 
 // Complex pattern matching
 const patterns = expandBraces('src/**/*.{ts,tsx,js,jsx}');
@@ -212,7 +212,7 @@ if (shouldInclude(filePath)) {
 The indexer includes built-in path traversal protection. No additional configuration is required, but you can customize the behavior:
 
 ```typescript
-import { resolveWithinRoot } from '@promethean/indexer-core';
+import { resolveWithinRoot } from '@promethean-os/indexer-core';
 
 // Custom path validation
 try {
@@ -226,7 +226,7 @@ try {
 ### Input Validation Limits
 
 ```typescript
-import { createInclusionChecker } from '@promethean/indexer-core';
+import { createInclusionChecker } from '@promethean-os/indexer-core';
 
 // Configure validation limits
 const shouldInclude = createInclusionChecker(patterns, {
@@ -253,7 +253,7 @@ INDEXER_FILE_DELAY_MS=1000
 ### Memory Usage Configuration
 
 ```typescript
-import { setEmbeddingOverride } from '@promethean/indexer-core';
+import { setEmbeddingOverride } from '@promethean-os/indexer-core';
 
 // Configure timeout for embedding operations
 setEmbeddingOverride(async (ctx) => {
@@ -274,7 +274,7 @@ setEmbeddingOverride(async (ctx) => {
 ### Chunking Configuration
 
 ```typescript
-import { makeChunks } from '@promethean/indexer-core';
+import { makeChunks } from '@promethean-os/indexer-core';
 
 // Custom chunking strategy
 const chunks = makeChunks(fileContent, {
@@ -288,7 +288,7 @@ const chunks = makeChunks(fileContent, {
 ### LevelDB Configuration
 
 ```typescript
-import { createLevelCacheStateStore } from '@promethean/indexer-core';
+import { createLevelCacheStateStore } from '@promethean-os/indexer-core';
 
 // Custom cache location
 const stateStore = createLevelCacheStateStore('./custom/cache/path');
@@ -298,7 +298,7 @@ setIndexerStateStore(stateStore);
 ### In-Memory Configuration (Testing)
 
 ```typescript
-import { createMemoryStateStore } from '@promethean/indexer-core';
+import { createMemoryStateStore } from '@promethean-os/indexer-core';
 
 // Use in-memory store for testing
 const stateStore = createMemoryStateStore();
@@ -308,7 +308,7 @@ setIndexerStateStore(stateStore);
 ### Custom State Store
 
 ```typescript
-import { setIndexerStateStore, type IndexerStateStore } from '@promethean/indexer-core';
+import { setIndexerStateStore, type IndexerStateStore } from '@promethean-os/indexer-core';
 
 // Implement custom state store
 class CustomStateStore implements IndexerStateStore {
@@ -337,7 +337,7 @@ setIndexerStateStore(new CustomStateStore());
 
 ```typescript
 import { setChromaClient, ChromaClient } from 'chromadb';
-import { setChromaClient as setIndexerChroma } from '@promethean/indexer-core';
+import { setChromaClient as setIndexerChroma } from '@promethean-os/indexer-core';
 
 // Use default ChromaDB client
 const chroma = new ChromaClient({
@@ -366,7 +366,7 @@ setIndexerChroma(chroma);
 ### Collection Configuration
 
 ```typescript
-import { collectionForFamily } from '@promethean/indexer-core';
+import { collectionForFamily } from '@promethean-os/indexer-core';
 
 // Create collection with custom metadata
 const collection = await collectionForFamily(
@@ -389,7 +389,7 @@ const collection = await collectionForFamily(
 ### Basic Logger Setup
 
 ```typescript
-import { setIndexerLogger, createLogger } from '@promethean/utils';
+import { setIndexerLogger, createLogger } from '@promethean-os/utils';
 
 // Configure logger
 setIndexerLogger(createLogger({
@@ -402,7 +402,7 @@ setIndexerLogger(createLogger({
 ### Advanced Logger Configuration
 
 ```typescript
-import { setIndexerLogger } from '@promethean/indexer-core';
+import { setIndexerLogger } from '@promethean-os/indexer-core';
 
 // Custom logger implementation
 setIndexerLogger({
@@ -435,7 +435,7 @@ import {
   setIndexerStateStore,
   createLevelCacheStateStore,
   createLogger
-} from '@promethean/indexer-core';
+} from '@promethean-os/indexer-core';
 import { setChromaClient, ChromaClient } from 'chromadb';
 
 // Logger configuration
@@ -469,7 +469,7 @@ import {
   setIndexerStateStore,
   createLevelCacheStateStore,
   createLogger
-} from '@promethean/indexer-core';
+} from '@promethean-os/indexer-core';
 import { setChromaClient, ChromaClient } from 'chromadb';
 
 // Logger configuration
@@ -507,7 +507,7 @@ import {
   setIndexerStateStore,
   createMemoryStateStore,
   createLogger
-} from '@promethean/indexer-core';
+} from '@promethean-os/indexer-core';
 
 // Silent logger for tests
 setIndexerLogger(createLogger({
@@ -519,7 +519,7 @@ setIndexerLogger(createLogger({
 setIndexerStateStore(createMemoryStateStore());
 
 // Mock ChromaDB for tests
-import { setChromaClient } from '@promethean/indexer-core';
+import { setChromaClient } from '@promethean-os/indexer-core';
 
 setChromaClient({
   async getOrCreateCollection() {

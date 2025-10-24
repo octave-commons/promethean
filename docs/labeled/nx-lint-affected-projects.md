@@ -52,19 +52,19 @@ For more information, see https://nx.dev/features/powerpack/custom-caching
 
  NX   Running target lint for 13 projects:
 
-- @promethean/changefeed
-- @promethean/compaction
-- @promethean/dev
-- @promethean/tests
-- @promethean/discord
-- @promethean/dlq
-- @promethean/event
-- @promethean/projectors
-- @promethean/timetravel
-- @promethean/examples
-- @promethean/schema
-- @promethean/http
-- @promethean/ws
+- @promethean-os/changefeed
+- @promethean-os/compaction
+- @promethean-os/dev
+- @promethean-os/tests
+- @promethean-os/discord
+- @promethean-os/dlq
+- @promethean-os/event
+- @promethean-os/projectors
+- @promethean-os/timetravel
+- @promethean-os/examples
+- @promethean-os/schema
+- @promethean-os/http
+- @promethean-os/ws
 
 With additional flags:
 ```
@@ -72,7 +72,7 @@ With additional flags:
 ```
 
 
-❌ > nx run @promethean/examples:lint --paralell
+❌ > nx run @promethean-os/examples:lint --paralell
   
   > node ../../tools/scripts/run-eslint.mjs . --paralell
   
@@ -102,7 +102,7 @@ With additional flags:
   
   ✖ 21 problems (13 errors, 8 warnings)
   
-❌ > nx run @promethean/ws:lint --paralell
+❌ > nx run @promethean-os/ws:lint --paralell
   
   > node ../../tools/scripts/run-eslint.mjs . --paralell
   
@@ -310,8 +310,8 @@ With additional flags:
   
   ✖ 195 problems (160 errors, 35 warnings)
   
-✅ > nx run @promethean/event:lint --paralell
-❌ > nx run @promethean/http:lint --paralell
+✅ > nx run @promethean-os/event:lint --paralell
+❌ > nx run @promethean-os/http:lint --paralell
   
   > node ../../tools/scripts/run-eslint.mjs . --paralell
   
@@ -394,8 +394,8 @@ With additional flags:
   
   ✖ 68 problems (54 errors, 14 warnings)
   
-✅ > nx run @promethean/dev:lint --paralell
-❌ > nx run @promethean/schema:lint --paralell
+✅ > nx run @promethean-os/dev:lint --paralell
+❌ > nx run @promethean-os/schema:lint --paralell
   
   > node ../../tools/scripts/run-eslint.mjs . --paralell
   
@@ -472,7 +472,7 @@ With additional flags:
   
   ✖ 62 problems (38 errors, 24 warnings)
   
-❌ > nx run @promethean/timetravel:lint --paralell
+❌ > nx run @promethean-os/timetravel:lint --paralell
   
   > node ../../tools/scripts/run-eslint.mjs . --paralell
   
@@ -508,11 +508,11 @@ With additional flags:
   
   ✖ 25 problems (21 errors, 4 warnings)
   
-✅ > nx run @promethean/changefeed:lint --paralell
-❌ > nx run @promethean/discord:lint --paralell
+✅ > nx run @promethean-os/changefeed:lint --paralell
+❌ > nx run @promethean-os/discord:lint --paralell
   
   
-  > @promethean/discord@0.0.1 lint /home/runner/work/promethean/promethean/packages/discord
+  > @promethean-os/discord@0.0.1 lint /home/runner/work/promethean/promethean/packages/discord
   > node ../../tools/scripts/run-eslint.mjs . "--paralell"
   
   
@@ -743,7 +743,7 @@ With additional flags:
   ✖ 196 problems (160 errors, 36 warnings)
   
    ELIFECYCLE  Command failed with exit code 1.
-❌ > nx run @promethean/compaction:lint --paralell
+❌ > nx run @promethean-os/compaction:lint --paralell
   
   > node ../../tools/scripts/run-eslint.mjs . --paralell
   
@@ -778,7 +778,7 @@ With additional flags:
   
   ✖ 26 problems (21 errors, 5 warnings)
   
-❌ > nx run @promethean/dlq:lint --paralell
+❌ > nx run @promethean-os/dlq:lint --paralell
   
   > node ../../tools/scripts/run-eslint.mjs . --paralell
   
@@ -852,7 +852,7 @@ With additional flags:
   
   ✖ 61 problems (52 errors, 9 warnings)
   
-❌ > nx run @promethean/tests:lint --paralell
+❌ > nx run @promethean-os/tests:lint --paralell
   
   > node ../../tools/scripts/run-eslint.mjs . --paralell
   
@@ -1482,7 +1482,7 @@ With additional flags:
   
   ✖ 595 problems (576 errors, 19 warnings)
   
-❌ > nx run @promethean/projectors:lint --paralell
+❌ > nx run @promethean-os/projectors:lint --paralell
   
   > node ../../tools/scripts/run-eslint.mjs . --paralell
   
@@ -1523,16 +1523,16 @@ With additional flags:
 
 Failed tasks:
 
-- @promethean/examples:lint
-- @promethean/ws:lint
-- @promethean/http:lint
-- @promethean/schema:lint
-- @promethean/timetravel:lint
-- @promethean/discord:lint
-- @promethean/compaction:lint
-- @promethean/dlq:lint
-- @promethean/tests:lint
-- @promethean/projectors:lint
+- @promethean-os/examples:lint
+- @promethean-os/ws:lint
+- @promethean-os/http:lint
+- @promethean-os/schema:lint
+- @promethean-os/timetravel:lint
+- @promethean-os/discord:lint
+- @promethean-os/compaction:lint
+- @promethean-os/dlq:lint
+- @promethean-os/tests:lint
+- @promethean-os/projectors:lint
 
 Error: Process completed with exit code 1.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->

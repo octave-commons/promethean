@@ -36,7 +36,7 @@ Implement an intelligent transition rule for the `incoming → accepted` kanban 
 
 ### Technical Integration
 - [ ] **Seamless Kanban Integration**: Integrate with existing `TransitionRulesEngine` in `packages/kanban/src/lib/transition-rules.ts`
-- [ ] **Agents-Workflow Integration**: Leverage `@promethean/agents-workflow` for AI-powered analysis
+- [ ] **Agents-Workflow Integration**: Leverage `@promethean-os/agents-workflow` for AI-powered analysis
 - [ ] **Codebase Context Analysis**: Use existing indexer and search capabilities for global context
 - [ ] **Unstructured Input Handling**: Gracefully handle varying levels of task definition quality
 - [ ] **Performance Optimization**: Complete analysis within 10 seconds for typical tasks
@@ -329,10 +329,10 @@ packages/kanban/src/lib/
 ## 📚 Dependencies & Integration
 
 ### Existing Components to Leverage
-- **`@promethean/agents-workflow`**: AI-powered analysis workflows
-- **`@promethean/kanban`**: Transition rules engine and task management
-- **`@promethean/indexer-core`**: Global context search and analysis
-- **`@promethean/markdown`**: Task content parsing and manipulation
+- **`@promethean-os/agents-workflow`**: AI-powered analysis workflows
+- **`@promethean-os/kanban`**: Transition rules engine and task management
+- **`@promethean-os/indexer-core`**: Global context search and analysis
+- **`@promethean-os/markdown`**: Task content parsing and manipulation
 
 ### New Dependencies
 - **AI Model Providers**: OpenAI/Ollama integration via agents-workflow
@@ -395,7 +395,7 @@ packages/kanban/src/lib/
 - None - builds on existing kanban and agents-workflow infrastructure
 
 ### Dependencies
-- May require enhancements to `@promethean/agents-workflow` for task-specific analysis
+- May require enhancements to `@promethean-os/agents-workflow` for task-specific analysis
 - Potential coordination with teams managing AI model providers and indexing
 
 ### Follow-up Work

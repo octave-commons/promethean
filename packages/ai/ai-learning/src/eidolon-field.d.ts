@@ -1,4 +1,4 @@
-// Declaration file for @promethean/eidolon-field JavaScript module
+// Declaration file for @promethean-os/eidolon-field JavaScript module
 
 export class VectorN {
   values: number[];

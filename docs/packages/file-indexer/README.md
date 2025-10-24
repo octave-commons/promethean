@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/file-indexer
+# @promethean-os/file-indexer
 ```
 **Folder:** `packages/file-indexer`
 ```
@@ -13,38 +13,38 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/file-indexer"]
-  D1["@promethean/utils"]
-  R1["@promethean/codepack"]
-  R2["@promethean/docops"]
-  R3["@promethean/indexer-core"]
-  R4["@promethean/simtasks"]
-  R5["@promethean/smartgpt-bridge"]
-  R6["@promethean/symdocs"]
-  A --> D1["@promethean/utils"]
-  R1["@promethean/codepack"] --> A
-  R2["@promethean/docops"] --> A
-  R3["@promethean/indexer-core"] --> A
-  R4["@promethean/simtasks"] --> A
-  R5["@promethean/smartgpt-bridge"] --> A
-  R6["@promethean/symdocs"] --> A
-  click D1 "../utils/README.md" "@promethean/utils"
-  click R1 "../codepack/README.md" "@promethean/codepack"
-  click R2 "../docops/README.md" "@promethean/docops"
-  click R3 "../indexer-core/README.md" "@promethean/indexer-core"
-  click R4 "../simtask/README.md" "@promethean/simtasks"
-  click R5 "../smartgpt-bridge/README.md" "@promethean/smartgpt-bridge"
-  click R6 "../symdocs/README.md" "@promethean/symdocs"
+  A["@promethean-os/file-indexer"]
+  D1["@promethean-os/utils"]
+  R1["@promethean-os/codepack"]
+  R2["@promethean-os/docops"]
+  R3["@promethean-os/indexer-core"]
+  R4["@promethean-os/simtasks"]
+  R5["@promethean-os/smartgpt-bridge"]
+  R6["@promethean-os/symdocs"]
+  A --> D1["@promethean-os/utils"]
+  R1["@promethean-os/codepack"] --> A
+  R2["@promethean-os/docops"] --> A
+  R3["@promethean-os/indexer-core"] --> A
+  R4["@promethean-os/simtasks"] --> A
+  R5["@promethean-os/smartgpt-bridge"] --> A
+  R6["@promethean-os/symdocs"] --> A
+  click D1 "../utils/README.md" "@promethean-os/utils"
+  click R1 "../codepack/README.md" "@promethean-os/codepack"
+  click R2 "../docops/README.md" "@promethean-os/docops"
+  click R3 "../indexer-core/README.md" "@promethean-os/indexer-core"
+  click R4 "../simtask/README.md" "@promethean-os/simtasks"
+  click R5 "../smartgpt-bridge/README.md" "@promethean-os/smartgpt-bridge"
+  click R6 "../symdocs/README.md" "@promethean-os/symdocs"
 ```
 ## Dependencies
-- @promethean/utils$../utils/README.md
+- @promethean-os/utils$../utils/README.md
 ## Dependents
-- @promethean/codepack$../codepack/README.md
-- @promethean/docops$../docops/README.md
-- @promethean/indexer-core$../indexer-core/README.md
-- @promethean/simtasks$../simtask/README.md
-- @promethean/smartgpt-bridge$../smartgpt-bridge/README.md
-- @promethean/symdocs$../symdocs/README.md
+- @promethean-os/codepack$../codepack/README.md
+- @promethean-os/docops$../docops/README.md
+- @promethean-os/indexer-core$../indexer-core/README.md
+- @promethean-os/simtasks$../simtask/README.md
+- @promethean-os/smartgpt-bridge$../smartgpt-bridge/README.md
+- @promethean-os/symdocs$../symdocs/README.md
 ```
 <!-- SYMPKG:PKG:END -->
 ```

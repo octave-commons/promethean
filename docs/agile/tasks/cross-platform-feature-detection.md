@@ -455,7 +455,7 @@ class NetworkDetector implements IFeatureDetector {
 
 ### Feature Detection Package
 
-- `@promethean/feature-detection` package
+- `@promethean-os/feature-detection` package
 - Core detection framework
 - Built-in feature detectors
 - Comprehensive test suite
@@ -478,8 +478,8 @@ class NetworkDetector implements IFeatureDetector {
 
 ### Prerequisites
 
-- Platform adapters package (`@promethean/platform-adapters`)
-- Core infrastructure package (`@promethean/platform-core`)
+- Platform adapters package (`@promethean-os/platform-adapters`)
+- Core infrastructure package (`@promethean-os/platform-core`)
 - TypeScript interfaces and types
 
 ### Dependencies for Next Slices

@@ -45,7 +45,7 @@ references:
     col: 0
     score: 0.86
 ---
-@promethean/docoops/02-embed seems to hang. I'm not sure what is going on since the Ollama server is definitely receiving requests the entire time.
+@promethean-os/docoops/02-embed seems to hang. I'm not sure what is going on since the Ollama server is definitely receiving requests the entire time.
 I don't think there are any documents that are that large. Something suspicious is going on.
 
 It wouldn't hurt to memoize embeddings; there were apparently many identical inputs.

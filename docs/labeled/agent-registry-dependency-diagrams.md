@@ -27,7 +27,7 @@ graph TB
     subgraph "External Dependencies"
         SDK[MCP SDK]
         ZOD[Zod Validation]
-        UTILS[@promethean/utils]
+        UTILS[@promethean-os/utils]
         ENV[Environment Variables]
     end
 

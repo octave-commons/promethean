@@ -17,7 +17,7 @@ import { createIndexerService } from '../../services/indexer.js';
 import { create, close, get, list as listSessions, search } from '../../actions/sessions/index.js';
 import { subscribe } from '../../actions/events/subscribe.js';
 import { sessionStore, messageStore, eventStore } from '../../stores.js';
-import { cleanupClients } from '@promethean/persistence';
+import { cleanupClients } from '@promethean-os/persistence';
 
 // Helper to create comprehensive mock client
 function createComprehensiveMockClient() {

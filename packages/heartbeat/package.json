@@ -10,14 +10,14 @@
     "lint": "eslint -c ../eslint.config.js ."
   },
   "dependencies": {
-    "@promethean/legacy": "workspace:*",
-    "@promethean/persistence": "workspace:*",
+    "@promethean-os/legacy": "workspace:*",
+    "@promethean-os/persistence": "workspace:*",
     "mongodb": "^6.8.0",
     "pidusage": "^3.0.2",
     "ws": "^8.18.0"
   },
   "devDependencies": {
-    "@promethean/test-utils": "workspace:*",
+    "@promethean-os/test-utils": "workspace:*",
     "ava": "^6.4.1",
     "c8": "^9.1.0",
     "mongodb-memory-server": "^10.1.4"

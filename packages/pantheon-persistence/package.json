@@ -1,7 +1,7 @@
 {
-  "name": "@promethean/pantheon-persistence",
+  "name": "@promethean-os/pantheon-persistence",
   "version": "1.0.0",
-  "description": "Pantheon persistence adapter — wraps @promethean/persistence for Pantheon context port",
+  "description": "Pantheon persistence adapter — wraps @promethean-os/persistence for Pantheon context port",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -23,8 +23,8 @@
     "lint": "pnpm exec eslint ."
   },
   "dependencies": {
-    "@promethean/persistence": "workspace:*",
-    "@promethean/pantheon-core": "workspace:*"
+    "@promethean-os/persistence": "workspace:*",
+    "@promethean-os/pantheon-core": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

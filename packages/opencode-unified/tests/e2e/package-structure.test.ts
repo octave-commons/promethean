@@ -7,7 +7,7 @@ test('package.json exists and is valid', (t) => {
   const packageContent = readFileSync(packagePath, 'utf-8');
   const packageJson = JSON.parse(packageContent);
 
-  t.is(packageJson.name, '@promethean/opencode-unified');
+  t.is(packageJson.name, '@promethean-os/opencode-unified');
   t.is(packageJson.version, '1.0.0');
   t.true(packageJson.description.includes('Unified OpenCode'));
   t.truthy(packageJson.scripts);

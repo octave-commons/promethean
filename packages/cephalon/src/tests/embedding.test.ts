@@ -3,7 +3,7 @@ import test from "ava";
 import {
   RemoteEmbeddingFunction,
   setEmbeddingOverride,
-} from "@promethean/embedding";
+} from "@promethean-os/embedding";
 
 if (process.env.SKIP_NETWORK_TESTS === "1") {
   test("cephalon embedding network tests skipped in sandbox", (t) => t.pass());

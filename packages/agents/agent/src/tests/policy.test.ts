@@ -1,5 +1,5 @@
 import test from 'ava';
-import { makePolicy, NotAllowedError } from '@promethean/security';
+import { makePolicy, NotAllowedError } from '@promethean-os/security';
 
 const policy = makePolicy({
     providerAccess: { allowPatterns: ['services/ts/discord/'] },

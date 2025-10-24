@@ -16,7 +16,7 @@ estimates:
 
 ### 📋 Description
 
-Design the comprehensive architecture for consolidating `@promethean/opencode-client`, `opencode-cljs-electron`, and `@promethean/dualstore-http` into a unified `@promethean/opencode-unified` package. This architecture must support TypeScript, ClojureScript, and Electron components while maintaining clean separation of concerns and enabling seamless integration.
+Design the comprehensive architecture for consolidating `@promethean-os/opencode-client`, `opencode-cljs-electron`, and `@promethean-os/dualstore-http` into a unified `@promethean-os/opencode-unified` package. This architecture must support TypeScript, ClojureScript, and Electron components while maintaining clean separation of concerns and enabling seamless integration.
 
 ### 🎯 Goals
 

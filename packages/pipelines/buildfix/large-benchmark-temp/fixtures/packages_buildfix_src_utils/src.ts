@@ -4,7 +4,7 @@ import * as path from 'path';
 import { pathToFileURL } from 'url';
 
 import { Project } from 'ts-morph';
-export { sha1 } from '@promethean/utils';
+export { sha1 } from '@promethean-os/utils';
 
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? 'http://localhost:11434';
 

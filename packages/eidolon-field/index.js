@@ -1,4 +1,4 @@
-import { getMongoClient } from '@promethean/persistence/clients.js';
+import { getMongoClient } from '@promethean-os/persistence/clients.js';
 
 export class VectorN {
   constructor(values) {
@@ -150,7 +150,7 @@ export async function start() {
   await service.start();
 
   try {
-    const { startService } = await import('@promethean/legacy/serviceTemplate.js');
+    const { startService } = await import('@promethean-os/legacy/serviceTemplate.js');
     await startService({
       id: 'eidolon-field',
       queues: ['eidolon-field'],

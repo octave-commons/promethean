@@ -1,6 +1,6 @@
 # Kanban Publication Tasks - Import Ready
 
-## EPIC: Prepare @promethean/kanban for npm publication
+## EPIC: Prepare @promethean-os/kanban for npm publication
 
 **Priority**: P0 | **Effort**: 6-8 weeks | **Team**: 2-3 devs
 

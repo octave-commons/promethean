@@ -7,7 +7,7 @@ It replaces the old GitHub Issues approach.
 
 ## Overview
 
-- **Analyzer**: `@promethean/lint-taskgen`
+- **Analyzer**: `@promethean-os/lint-taskgen`
   - Runs ESLint full or Nx-affected mode.
   - Buckets violations by `(ruleId, scope)` pair.
   - Emits `eslint-taskgen-summary.json`.
@@ -17,7 +17,7 @@ It replaces the old GitHub Issues approach.
   - Tasks are idempotent (keyed by slug).
   - `--update` appends snapshots instead of duplicating.
 
-- **Board Sync**: `@promethean/kanban`
+- **Board Sync**: `@promethean-os/kanban`
   - `kanban pull` ensures board and tasks are aligned.
   - `kanban regenerate` refreshes derived views.
 
@@ -111,11 +111,11 @@ Run from Actions:
 
 ### Local Run
 ```bash
-pnpm -w -F @promethean/lint-taskgen build
+pnpm -w -F @promethean-os/lint-taskgen build
 node packages/lint-taskgen/dist/cli.mjs --emit-kanban \
   --tasks-dir docs/agile/tasks \
   --limit=10 --scope=packages:core --update=true --min-hits=50
-pnpm -w -F @promethean/kanban build
+pnpm -w -F @promethean-os/kanban build
 pnpm exec kanban pull --kanban docs/agile/boards/kanban.md --tasks docs/agile/tasks
 pnpm exec kanban regenerate --kanban docs/agile/boards/kanban.md --tasks docs/agile/tasks
 ```

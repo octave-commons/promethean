@@ -4,7 +4,7 @@
 
 **Version**: 1.0.0  
 **Last Updated**: 2025-10-15  
-**Package**: `@promethean/kanban`
+**Package**: `@promethean-os/kanban`
 
 ---
 
@@ -655,7 +655,7 @@ async function runWithRetry<T>(
 ### Basic Usage
 
 ```typescript
-import { runTestingTransition } from '@promethean/kanban/testing-transition';
+import { runTestingTransition } from '@promethean-os/kanban/testing-transition';
 
 // Basic configuration
 const config = {
@@ -691,7 +691,7 @@ try {
 import {
   runTestingTransition,
   TestingTransitionConfig,
-} from '@promethean/kanban/testing-transition';
+} from '@promethean-os/kanban/testing-transition';
 
 // Custom configuration for development environment
 const devConfig: TestingTransitionConfig = {
@@ -716,7 +716,7 @@ const result = await runTestingTransition(
 
 ```typescript
 // Example integration in kanban CLI
-import { validateTestingToReviewTransition } from '@promethean/kanban/transition-rules';
+import { validateTestingToReviewTransition } from '@promethean-os/kanban/transition-rules';
 
 // Called when moving task from testing to review
 async function handleTestingToReviewTransition(taskId: string) {
@@ -765,7 +765,7 @@ async function processTestingQueue(taskIds: string[]) {
 ### Custom Coverage Analysis
 
 ```typescript
-import { analyzeCoverage } from '@promethean/kanban/testing-transition/coverage-analyzer';
+import { analyzeCoverage } from '@promethean-os/kanban/testing-transition/coverage-analyzer';
 
 // Analyze different coverage formats
 async function analyzeMultipleFormats() {
@@ -789,7 +789,7 @@ async function analyzeMultipleFormats() {
 ### Custom Quality Scoring
 
 ```typescript
-import { calculateQualityScore } from '@promethean/kanban/testing-transition/quality-scorer';
+import { calculateQualityScore } from '@promethean-os/kanban/testing-transition/quality-scorer';
 
 // Calculate quality score with custom metrics
 function analyzeTestQuality(testResults: TestResult[]) {

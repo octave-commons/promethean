@@ -243,7 +243,7 @@ Each adapter translates request → internal `Job`, selects model (alias/caps), 
 ```ts
 // packages/gateway/src/openai.ts
 import { Router } from 'express';
-import { routeAndEnqueue } from '@promethean/router';
+import { routeAndEnqueue } from '@promethean-os/router';
 
 export const openaiRouter = Router();
 

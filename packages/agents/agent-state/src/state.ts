@@ -2,7 +2,7 @@
  * Functional factory for agent state management
  *
  * This package manages AGENT STATE via event sourcing, not conversation context.
- * For LLM conversation compilation, use @promethean/persistence makeContextStore.
+ * For LLM conversation compilation, use @promethean-os/persistence makeContextStore.
  */
 
 import { DefaultContextManager } from './context-manager.js';

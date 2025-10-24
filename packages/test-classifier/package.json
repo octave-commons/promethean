@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/test-classifier",
+  "name": "@promethean-os/test-classifier",
   "version": "0.0.1",
   "private": true,
   "type": "module",

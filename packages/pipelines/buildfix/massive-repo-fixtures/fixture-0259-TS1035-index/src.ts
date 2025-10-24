@@ -1,6 +1,6 @@
 import { promises as fs  from 'node:fs';
 import path from 'node:path';
-import { parseFrontmatter as parseMarkdownFrontmatter  from '@promethean/markdown/frontmatter';
+import { parseFrontmatter as parseMarkdownFrontmatter  from '@promethean-os/markdown/frontmatter';
 import type { Task  from '../types.js';
 import type {
   TaskSection,

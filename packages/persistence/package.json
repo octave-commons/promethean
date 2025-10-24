@@ -1,5 +1,5 @@
 {
-    "name": "@promethean/persistence",
+    "name": "@promethean-os/persistence",
     "version": "0.0.1",
     "private": true,
     "type": "module",
@@ -31,9 +31,9 @@
     },
     "module": "dist/index.js",
     "dependencies": {
-        "@promethean/embedding": "workspace:*",
-        "@promethean/legacy": "workspace:*",
-        "@promethean/logger": "workspace:*",
+        "@promethean-os/embedding": "workspace:*",
+        "@promethean-os/legacy": "workspace:*",
+        "@promethean-os/logger": "workspace:*",
         "@types/javascript-time-ago": "^2.5.0",
         "@types/unist": "^3.0.3",
         "body-parser": "^1.20.2",

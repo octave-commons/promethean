@@ -35,7 +35,7 @@ The system suffers from **critical input validation integration failures** where
 
 ```typescript
 // MCP Service - COMPREHENSIVE ✅
-import { validateMcpOperation } from '@promethean/mcp/validation';
+import { validateMcpOperation } from '@promethean-os/mcp/validation';
 const validation = await validateMcpOperation(root, path, options);
 
 // Indexer Service - BASIC ONLY ❌
@@ -74,13 +74,13 @@ export function customValidation(path: string) {
 
 ```typescript
 // Core unified validation framework
-export { validateMcpOperation } from '@promethean/mcp/validation';
+export { validateMcpOperation } from '@promethean-os/mcp/validation';
 export {
   validateAndNormalizePath,
   validateFileName,
   validateFileExtension,
   sanitizeInput,
-} from '@promethean/security/path-validation';
+} from '@promethean-os/security/path-validation';
 
 export interface UnifiedValidationConfig {
   serviceType: 'mcp' | 'indexer' | 'files' | 'api' | 'tools';
@@ -463,7 +463,7 @@ export function createApiValidationMiddleware() {
 
 ```typescript
 import express from 'express';
-import { createIndexerValidationMiddleware } from '@promethean/unified-validation';
+import { createIndexerValidationMiddleware } from '@promethean-os/unified-validation';
 
 const app = express();
 
@@ -499,7 +499,7 @@ app.post('/api/files', async (req, res) => {
 **File**: `packages/file-system/operations/src/index.ts`
 
 ```typescript
-import { createIndexerValidator } from '@promethean/unified-validation';
+import { createIndexerValidator } from '@promethean-os/unified-validation';
 
 const validator = createIndexerValidator();
 
@@ -543,7 +543,7 @@ export const deleteFile = (path: string) => secureFileOperation('delete', path);
 **File**: `packages/api/src/middleware/validation.ts`
 
 ```typescript
-import { createApiValidationMiddleware } from '@promethean/unified-validation';
+import { createApiValidationMiddleware } from '@promethean-os/unified-validation';
 
 export const apiValidation = createApiValidationMiddleware();
 
@@ -783,8 +783,8 @@ git checkout HEAD~1 -- packages/file-system/indexer-service/
 git checkout HEAD~1 -- packages/file-system/operations/
 
 # 2. Rebuild services
-pnpm --filter @promethean/file-system-indexer-service build
-pnpm --filter @promethean/file-system-operations build
+pnpm --filter @promethean-os/file-system-indexer-service build
+pnpm --filter @promethean-os/file-system-operations build
 
 # 3. Restart services
 pm2 restart opencode-indexer

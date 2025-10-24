@@ -58,57 +58,57 @@ This document provides a comprehensive breakdown of the migration initiative fro
 
 These are foundational packages that other packages depend on:
 
-- `@promethean/utils` - Core utility functions
-- `@promethean/level-cache` - Caching layer
-- `@promethean/http` - HTTP client utilities
-- `@promethean/event` - Event system
-- `@promethean/fsm` - Finite state machine
-- `@promethean/schema` - Schema validation
-- `@promethean/ds` - Data structures
-- `@promethean/stream` - Stream processing
-- `@promethean/persistence` - Data persistence
+- `@promethean-os/utils` - Core utility functions
+- `@promethean-os/level-cache` - Caching layer
+- `@promethean-os/http` - HTTP client utilities
+- `@promethean-os/event` - Event system
+- `@promethean-os/fsm` - Finite state machine
+- `@promethean-os/schema` - Schema validation
+- `@promethean-os/ds` - Data structures
+- `@promethean-os/stream` - Stream processing
+- `@promethean-os/persistence` - Data persistence
 
 #### Data Processing (P1-P2)
 
 Packages focused on data manipulation and processing:
 
-- `@promethean/llm` - Language model integration
-- `@promethean/effects` - Side effects management
-- `@promethean/embedding` - Vector embeddings
-- `@promethean/file-indexer` - File indexing
-- `@promethean/file-watcher` - File system watching
-- `@promethean/indexer-core` - Core indexing functionality
-- `@promethean/indexer-service` - Indexing service
-- `@promethean/markdown` - Markdown processing
-- `@promethean/markdown-graph` - Markdown graph operations
-- `@promethean/broker` - Message brokering
-- `@promethean/changefeed` - Change feed handling
-- `@promethean/compaction` - Data compaction
-- `@promethean/dlq` - Dead letter queue
+- `@promethean-os/llm` - Language model integration
+- `@promethean-os/effects` - Side effects management
+- `@promethean-os/embedding` - Vector embeddings
+- `@promethean-os/file-indexer` - File indexing
+- `@promethean-os/file-watcher` - File system watching
+- `@promethean-os/indexer-core` - Core indexing functionality
+- `@promethean-os/indexer-service` - Indexing service
+- `@promethean-os/markdown` - Markdown processing
+- `@promethean-os/markdown-graph` - Markdown graph operations
+- `@promethean-os/broker` - Message brokering
+- `@promethean-os/changefeed` - Change feed handling
+- `@promethean-os/compaction` - Data compaction
+- `@promethean-os/dlq` - Dead letter queue
 
 #### Agent System (P1 - High Priority)
 
 Core agent and platform packages:
 
-- `@promethean/agent` - Core agent framework
-- `@promethean/agent-ecs` - Entity component system for agents
-- `@promethean/agents-workflow` - Agent workflow management
-- `@promethean/manager` - Agent management
-- `@promethean/platform` - Platform abstractions
-- `@promethean/providers` - Service providers
+- `@promethean-os/agent` - Core agent framework
+- `@promethean-os/agent-ecs` - Entity component system for agents
+- `@promethean-os/agents-workflow` - Agent workflow management
+- `@promethean-os/manager` - Agent management
+- `@promethean-os/platform` - Platform abstractions
+- `@promethean-os/providers` - Service providers
 
 #### Tooling & Infrastructure (P2 - Medium Priority)
 
 Development and operational tooling:
 
-- `@promethean/kanban` - Kanban board system
-- `@promethean/migrations` - Database migrations
-- `@promethean/monitoring` - System monitoring
-- `@promethean/cli` - Command line interface
-- `@promethean/codemods` - Code transformation tools
-- `@promethean/codepack` - Code packaging
-- `@promethean/compiler` - Compilation tools
-- `@promethean/contracts` - Contract definitions
+- `@promethean-os/kanban` - Kanban board system
+- `@promethean-os/migrations` - Database migrations
+- `@promethean-os/monitoring` - System monitoring
+- `@promethean-os/cli` - Command line interface
+- `@promethean-os/codemods` - Code transformation tools
+- `@promethean-os/codepack` - Code packaging
+- `@promethean-os/compiler` - Compilation tools
+- `@promethean-os/contracts` - Contract definitions
 
 ### 📚 Documentation & Cleanup (P2 - Medium Priority)
 

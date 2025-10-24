@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/agent-orchestrator",
+  "name": "@promethean-os/agent-orchestrator",
   "version": "1.0.0",
   "description": "Agent session management and orchestration for Promethean framework",
   "main": "dist/index.js",
@@ -24,7 +24,7 @@
   "author": "Promethean Framework",
   "license": "MIT",
   "dependencies": {
-    "@promethean/persistence": "workspace:*"
+    "@promethean-os/persistence": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

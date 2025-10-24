@@ -38,7 +38,7 @@ export interface Envelope<T = unknown> {
 }
 ```
 
-The envelope definition lives in `@promethean/enso-protocol/envelope.js` with a
+The envelope definition lives in `@promethean-os/enso-protocol/envelope.js` with a
 matching Zod validator to guarantee type-safety at process boundaries.
 
 ## Event Payloads
@@ -72,11 +72,11 @@ persist or replay short histories.
 | MCP interop | `mcp.mount`, `mcp.announce` | Mounting and advertising Model Context Protocol servers. | [Model Context Protocol Interop]08-mcp-integration.md |
 
 The canonical union is exported as `EnsoEvent` from
-`@promethean/enso-protocol/src/types/events.ts`. Consumers can rely on the
+`@promethean-os/enso-protocol/src/types/events.ts`. Consumers can rely on the
 package types to stay aligned with this specification:
 
 ```ts
-import type { EnsoEvent } from "@promethean/enso-protocol/types.js";
+import type { EnsoEvent } from "@promethean-os/enso-protocol/types.js";
 
 export function handleEvent(event: EnsoEvent) {
   // exhaustive pattern matching keeps gateway and client logic in sync

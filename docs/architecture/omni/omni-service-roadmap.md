@@ -15,7 +15,7 @@ This roadmap converts the Omni protocol vision into an incremental delivery plan
 - Tasks transitioned to **Breakdown** with estimates ≤5.
 
 ## Phase 1 – Protocol Package (Weeks 1–2)
-**Objective:** Publish `@promethean/omni-protocol` as the single source of truth.
+**Objective:** Publish `@promethean-os/omni-protocol` as the single source of truth.
 ```
 **Workstreams**
 ```
@@ -28,7 +28,7 @@ This roadmap converts the Omni protocol vision into an incremental delivery plan
 ```
 **Deliverables**
 ```
-- NPM package `@promethean/omni-protocol@0.1.0`.
+- NPM package `@promethean-os/omni-protocol@0.1.0`.
 - Spec-to-code traceability table in `docs/packages/omni-protocol.md`.
 - ESLint/TypeScript clean builds.
 ```
@@ -38,19 +38,19 @@ This roadmap converts the Omni protocol vision into an incremental delivery plan
 - *Risk:* Schema drift → *Mitigation:* incorporate JSON schema generation tests in CI.
 
 ## Phase 2 – Core Consolidation (Weeks 2–4)
-**Objective:** Move domain logic into `@promethean/omni-core` and eliminate duplication.
+**Objective:** Move domain logic into `@promethean-os/omni-core` and eliminate duplication.
 ```
 **Workstreams**
 ```
 1. Dependency inventory + injection design (Mongo, Chroma, config, caches).
 2. Port file/search/sink/indexer/agent/exec services with protocol-compliant signatures. *Task: [docs/agile/tasks/extract-omni-core-services.md]$*
-3. Refactor `@promethean/mcp` GitHub + file helpers to delegate to core.
+3. Refactor `@promethean-os/mcp` GitHub + file helpers to delegate to core.
 4. Introduce shared RequestContext builder utilities for Fastify + MCP.
 5. Regression testing across bridge + MCP packages.
 ```
 **Deliverables**
 ```
-- Package `@promethean/omni-core@0.1.0`.
+- Package `@promethean-os/omni-core@0.1.0`.
 - Updated MCP package consuming omni-core.
 - Bridge routes delegating to omni-core services.
 ```
@@ -64,10 +64,10 @@ This roadmap converts the Omni protocol vision into an incremental delivery plan
 ```
 **Workstreams**
 ```
-1. `@promethean/omni-rest` – Fastify plugin replicating `/v1` routes + OpenAPI.
-2. `@promethean/omni-graphql` – Schema generation + resolvers.
-3. `@promethean/omni-ws` – RPC + streaming channels.
-4. `@promethean/omni-mcp` – Refactored MCP package hooking into omni-core.
+1. `@promethean-os/omni-rest` – Fastify plugin replicating `/v1` routes + OpenAPI.
+2. `@promethean-os/omni-graphql` – Schema generation + resolvers.
+3. `@promethean-os/omni-ws` – RPC + streaming channels.
+4. `@promethean-os/omni-mcp` – Refactored MCP package hooking into omni-core.
 5. Client SDK scaffolding (REST, GraphQL, WS, MCP) begins once server adapters stabilize.
 ```
 **Milestones**
@@ -83,7 +83,7 @@ This roadmap converts the Omni protocol vision into an incremental delivery plan
 - *Risk:* SSE vs WS streaming divergence → *Mitigation:* adopt shared stream event tests.
 
 ## Phase 4 – Unified Omni Service (Weeks 7–9)
-**Objective:** Launch `@promethean/omni-service` hosting all adapters on one Fastify instance.
+**Objective:** Launch `@promethean-os/omni-service` hosting all adapters on one Fastify instance.
 ```
 **Workstreams**
 ```

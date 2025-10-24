@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/contracts
+# @promethean-os/contracts
 ```
 **Folder:** `packages/contracts`
 ```
@@ -13,7 +13,7 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/contracts"]
+  A["@promethean-os/contracts"]
 ```
 ## Dependencies
 - _None_

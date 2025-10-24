@@ -1,6 +1,6 @@
 ---
 uuid: "b37c300d-2284-4531-8fa0-2c7385689b2b"
-title: "Migrate @promethean/embedding to ClojureScript"
+title: "Migrate @promethean-os/embedding to ClojureScript"
 slug: "Migrate @promethean embedding to ClojureScript"
 status: "incoming"
 priority: "P1"
@@ -12,7 +12,7 @@ estimates:
   time_to_completion: ""
 ---
 
-Migrate the @promethean/embedding package from TypeScript to typed ClojureScript, maintaining identical functionality and test coverage. Copy existing TypeScript tests and ensure they pass with the new ClojureScript implementation.
+Migrate the @promethean-os/embedding package from TypeScript to typed ClojureScript, maintaining identical functionality and test coverage. Copy existing TypeScript tests and ensure they pass with the new ClojureScript implementation.
 
 ## ⛓️ Blocked By
 

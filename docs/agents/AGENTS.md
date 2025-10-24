@@ -39,21 +39,21 @@ pseudo/ # one off scripts, retained for transparency
 
 Webservers should mount both `dist/frontend` and `static`.
 When working on a package, the best way to execute commands is with
-`pnpm --filter @promethean/<package-name> <command>`
+`pnpm --filter @promethean-os/<package-name> <command>`
 
 ### Example package local commands
 
 Prefer local, well scoped commands to workspace scripts.
 
-`pnpm --filter @promethean/<packge-name> test`
-`pnpm --filter @promethean/<packge-name> test:unit`
-`pnpm --filter @promethean/<packge-name> test:integration`
-`pnpm --filter @promethean/<packge-name> test:e2e`
-`pnpm --filter @promethean/<packge-name> clean`
-`pnpm --filter @promethean/<packge-name> build`
-`pnpm --filter @promethean/<packge-name> typecheck`
-`pnpm --filter @promethean/<packge-name> start`
-`pnpm --filter @promethean/<packge-name> exec node ./psudo/temp-script.js`
+`pnpm --filter @promethean-os/<packge-name> test`
+`pnpm --filter @promethean-os/<packge-name> test:unit`
+`pnpm --filter @promethean-os/<packge-name> test:integration`
+`pnpm --filter @promethean-os/<packge-name> test:e2e`
+`pnpm --filter @promethean-os/<packge-name> clean`
+`pnpm --filter @promethean-os/<packge-name> build`
+`pnpm --filter @promethean-os/<packge-name> typecheck`
+`pnpm --filter @promethean-os/<packge-name> start`
+`pnpm --filter @promethean-os/<packge-name> exec node ./psudo/temp-script.js`
 
 
 ---
@@ -68,7 +68,7 @@ Prefer local, well scoped commands to workspace scripts.
 - LevelDB for caching
 - chroma for embedding based search
 - ESMODULEs
-- Prefer key-value caches via `@promethean/*-cache`; avoid JSON files for transient data
+- Prefer key-value caches via `@promethean-os/*-cache`; avoid JSON files for transient data
 
 # Programming Style
 
@@ -76,7 +76,7 @@ Prefer local, well scoped commands to workspace scripts.
 - TDD non-negotiable
 - Document-driven development
 - No relative module resolution outside of the package root.
-  - Depend on `@promethean/<package>*` via "workspace:\*".
+  - Depend on `@promethean-os/<package>*` via "workspace:\*".
 - Always use the eslint tool on each file you edit.
 
 # Working Style
@@ -92,7 +92,7 @@ Prefer local, well scoped commands to workspace scripts.
 
 ## 📋 Kanban Task Management
 
-All agents must use the kanban system for task tracking and work management. The kanban board lives at `docs/agile/boards/generated.md` and is managed via the `@promethean/kanban` package.
+All agents must use the kanban system for task tracking and work management. The kanban board lives at `docs/agile/boards/generated.md` and is managed via the `@promethean-os/kanban` package.
 
 
 ### 📍 Working with Kanban

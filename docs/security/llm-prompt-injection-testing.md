@@ -120,8 +120,8 @@ if (validation.allowed) {
 ### Standalone Validation
 
 ```typescript
-import { validatePromptSecure } from '@promethean/smartgpt-bridge/security/agent-supervisor-enhanced.js';
-import { validateLLMPrompt } from '@promethean/cephalon/security/llm-service-enhanced.js';
+import { validatePromptSecure } from '@promethean-os/smartgpt-bridge/security/agent-supervisor-enhanced.js';
+import { validateLLMPrompt } from '@promethean-os/cephalon/security/llm-service-enhanced.js';
 
 // Quick validation
 const validation = await validatePromptSecure('Help me with tasks', {
@@ -244,7 +244,7 @@ Ensure packages have access to security testing framework:
 ```json
 {
   "dependencies": {
-    "@promethean/security": "workspace:*"
+    "@promethean-os/security": "workspace:*"
   }
 }
 ```

@@ -159,7 +159,7 @@ Use it like:
 
 ```ts
 import { z } from 'zod';
-import { readYaml } from '@promethean/config-utils/readYaml.js';
+import { readYaml } from '@promethean-os/config-utils/readYaml.js';
 
 const Pipelines = z.object({
   pipelines: z.array(z.object({

@@ -1,7 +1,7 @@
 import { inspect } from "node:util";
 
 import type { EmbeddingFunction, EmbeddingFunctionSpace } from "chromadb";
-import { ollamaEmbed } from "@promethean/utils";
+import { ollamaEmbed } from "@promethean-os/utils";
 
 const DEFAULT_TIMEOUT_MS = 10_000;
 

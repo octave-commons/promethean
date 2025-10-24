@@ -1,5 +1,5 @@
 {
-    "name": "@promethean/markdown",
+    "name": "@promethean-os/markdown",
     "version": "0.0.1",
     "private": true,
     "type": "module",
@@ -42,7 +42,7 @@
     },
     "module": "dist/index.js",
     "dependencies": {
-        "@promethean/fs": "workspace:*",
+        "@promethean-os/fs": "workspace:*",
         "@types/javascript-time-ago": "^2.5.0",
         "@types/mdast": "^3.0.15",
         "@types/unist": "^3.0.3",

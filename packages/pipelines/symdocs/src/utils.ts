@@ -1,7 +1,7 @@
 import * as path from "path";
 import type * as ts from "typescript";
 
-export { sha1 } from "@promethean/utils";
+export { sha1 } from "@promethean-os/utils";
 
 // Dynamic import to handle ES module compatibility
 let tsMod: any;

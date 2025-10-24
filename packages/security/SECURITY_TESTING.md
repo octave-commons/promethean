@@ -20,7 +20,7 @@ import {
   quickFuzzTest, 
   quickPromptInjectionTest,
   quickAuthTest 
-} from '@promethean/security';
+} from '@promethean-os/security';
 
 // Quick fuzzing test
 const fuzzResults = await quickFuzzTest(myValidator);
@@ -42,7 +42,7 @@ const fullResults = await framework.runFullSecurityTest({
 ### Detailed Security Assessment
 
 ```typescript
-import { SecurityTestFramework, BasicPromptInjectionDetector } from '@promethean/security';
+import { SecurityTestFramework, BasicPromptInjectionDetector } from '@promethean-os/security';
 
 const framework = new SecurityTestFramework(new BasicPromptInjectionDetector());
 
@@ -308,7 +308,7 @@ jobs:
       - name: Run security tests
         run: |
           node -e "
-          import { SecurityTestFramework } from '@promethean/security';
+          import { SecurityTestFramework } from '@promethean-os/security';
           
           const framework = new SecurityTestFramework();
           const results = await framework.runFullSecurityTest({

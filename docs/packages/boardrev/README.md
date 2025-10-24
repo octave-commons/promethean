@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/boardrev
+# @promethean-os/boardrev
 ```
 **Folder:** `packages/boardrev`
 ```
@@ -13,21 +13,21 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/boardrev"]
-  D1["@promethean/level-cache"]
-  D2["@promethean/markdown"]
-  D3["@promethean/utils"]
-  A --> D1["@promethean/level-cache"]
-  A --> D2["@promethean/markdown"]
-  A --> D3["@promethean/utils"]
-  click D1 "../level-cache/README.md" "@promethean/level-cache"
-  click D2 "../markdown/README.md" "@promethean/markdown"
-  click D3 "../utils/README.md" "@promethean/utils"
+  A["@promethean-os/boardrev"]
+  D1["@promethean-os/level-cache"]
+  D2["@promethean-os/markdown"]
+  D3["@promethean-os/utils"]
+  A --> D1["@promethean-os/level-cache"]
+  A --> D2["@promethean-os/markdown"]
+  A --> D3["@promethean-os/utils"]
+  click D1 "../level-cache/README.md" "@promethean-os/level-cache"
+  click D2 "../markdown/README.md" "@promethean-os/markdown"
+  click D3 "../utils/README.md" "@promethean-os/utils"
 ```
 ## Dependencies
-- @promethean/level-cache$../level-cache/README.md
-- @promethean/markdown$../markdown/README.md
-- @promethean/utils$../utils/README.md
+- @promethean-os/level-cache$../level-cache/README.md
+- @promethean-os/markdown$../markdown/README.md
+- @promethean-os/utils$../utils/README.md
 ## Dependents
 - _None_
 ```

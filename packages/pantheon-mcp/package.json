@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/pantheon-mcp",
+  "name": "@promethean-os/pantheon-mcp",
   "version": "0.0.1",
   "description": "MCP tool adapter for Pantheon Agent Management Framework",
   "main": "dist/index.js",
@@ -18,7 +18,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@promethean/pantheon-core": "workspace:*"
+    "@promethean-os/pantheon-core": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

@@ -48,7 +48,7 @@ The Pantheon Framework implementation has been **successfully completed** and is
 #### Immediate Capabilities
 ```typescript
 // Create a complete system
-import { makeCompletePantheonSystem, createToolActor } from '@promethean/pantheon';
+import { makeCompletePantheonSystem, createToolActor } from '@promethean-os/pantheon';
 
 const system = makeCompletePantheonSystem({ inMemory: true });
 const actor = createToolActor('my-actor', {

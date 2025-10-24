@@ -3,7 +3,7 @@
  * Implements LlmPort for OpenCode client integration
  */
 
-import type { LlmPort, Message } from '@promethean/pantheon-core';
+import type { LlmPort, Message } from '@promethean-os/pantheon-core';
 
 export type OpenCodeAdapterConfig = {
   // OpenCode doesn't typically need API keys since it's local

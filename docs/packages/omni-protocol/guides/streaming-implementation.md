@@ -86,7 +86,7 @@ import {
   StreamStatusMessage,
   validateOmniMessage,
   createRequestId
-} from "@promethean/omni-protocol";
+} from "@promethean-os/omni-protocol";
 
 export class StreamingServer {
   private streams = new Map<string, StreamContext>();
@@ -514,7 +514,7 @@ import {
   StreamControlMessage,
   StreamStatusMessage,
   validateOmniMessage
-} from "@promethean/omni-protocol";
+} from "@promethean-os/omni-protocol";
 
 export class StreamingClient {
   private websocket: WebSocket;

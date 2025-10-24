@@ -23,4 +23,4 @@ export {
   getStatus,
   type GetFilesOptions,
   type GetStatusOptions,
-} from "@promethean/docops-frontend";
+} from "@promethean-os/docops-frontend";

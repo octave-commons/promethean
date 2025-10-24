@@ -7,7 +7,7 @@ This document provides practical code examples demonstrating the implementation 
 ### Basic Platform Detection
 ```typescript
 // Detect current platform and capabilities
-import { PlatformFactory, FeatureDetectionAPI } from '@promethean/platform-core';
+import { PlatformFactory, FeatureDetectionAPI } from '@promethean-os/platform-core';
 
 async function initializePlatform() {
   // Auto-detect current platform
@@ -34,7 +34,7 @@ const platform = await initializePlatform();
 ### Feature Detection Examples
 ```typescript
 // Check for specific features
-import { FeatureDetectionAPI } from '@promethean/platform-core';
+import { FeatureDetectionAPI } from '@promethean-os/platform-core';
 
 async function checkFeatures() {
   const features = new FeatureDetectionAPI();
@@ -74,7 +74,7 @@ checkFeatures();
 ### Hierarchical Configuration
 ```typescript
 // Configuration management with platform-specific overrides
-import { ConfigurationManager, FileConfigurationLayer, EnvironmentConfigurationLayer } from '@promethean/platform-core';
+import { ConfigurationManager, FileConfigurationLayer, EnvironmentConfigurationLayer } from '@promethean-os/platform-core';
 
 async function setupConfiguration() {
   const manager = new ConfigurationManager();
@@ -129,7 +129,7 @@ async function setupConfiguration() {
 ### Dynamic Configuration with Validation
 ```typescript
 // Configuration with validation and resolvers
-import { ConfigurationManager, IConfigurationResolver, IConfigurationValidator } from '@promethean/platform-core';
+import { ConfigurationManager, IConfigurationResolver, IConfigurationValidator } from '@promethean-os/platform-core';
 
 // Custom resolver for environment variables
 class EnvResolver implements IConfigurationResolver {
@@ -180,7 +180,7 @@ async function setupAdvancedConfiguration() {
 ### Cross-Platform File Operations
 ```typescript
 // File system operations that work across platforms
-import { PlatformFactory } from '@promethean/platform-core';
+import { PlatformFactory } from '@promethean-os/platform-core';
 
 async function fileSystemExample() {
   const platform = await PlatformFactory.getPlatform();
@@ -239,7 +239,7 @@ async function browserFileExample() {
 ### File Watching
 ```typescript
 // Cross-platform file watching
-import { PlatformFactory } from '@promethean/platform-core';
+import { PlatformFactory } from '@promethean-os/platform-core';
 
 async function watchFiles() {
   const platform = await PlatformFactory.getPlatform();
@@ -280,7 +280,7 @@ function reloadConfiguration(filePath: string) {
 ### HTTP Requests Across Platforms
 ```typescript
 // Network operations that work everywhere
-import { PlatformFactory } from '@promethean/platform-core';
+import { PlatformFactory } from '@promethean-os/platform-core';
 
 async function networkExample() {
   const platform = await PlatformFactory.getPlatform();
@@ -348,7 +348,7 @@ async function advancedNetworkExample() {
 ### Server Creation
 ```typescript
 // Cross-platform server creation
-import { PlatformFactory } from '@promethean/platform-core';
+import { PlatformFactory } from '@promethean-os/platform-core';
 
 async function createServer() {
   const platform = await PlatformFactory.getPlatform();
@@ -403,7 +403,7 @@ async function createBrowserServer() {
 ### Cross-Platform Process Operations
 ```typescript
 // Process management across platforms
-import { PlatformFactory } from '@promethean/platform-core';
+import { PlatformFactory } from '@promethean-os/platform-core';
 
 async function processExample() {
   const platform = await PlatformFactory.getPlatform();
@@ -478,7 +478,7 @@ async function browserProcessExample() {
 ### Platform-Agnostic Error Handling
 ```typescript
 // Error handling across platforms
-import { PlatformFactory, ErrorHandler, PlatformError } from '@promethean/platform-core';
+import { PlatformFactory, ErrorHandler, PlatformError } from '@promethean-os/platform-core';
 
 async function errorHandlingExample() {
   const platform = await PlatformFactory.getPlatform();
@@ -556,7 +556,7 @@ const result = await safeOperation(
 ### Custom Platform Plugin
 ```typescript
 // Creating a custom platform plugin
-import { IPlatformPlugin, PluginContext } from '@promethean/platform-core';
+import { IPlatformPlugin, PluginContext } from '@promethean-os/platform-core';
 
 class CustomPlatformPlugin implements IPlatformPlugin {
   readonly name = 'custom-platform';
@@ -621,7 +621,7 @@ function checkCustomFeatureAvailability(): boolean {
 ### Plugin Registration and Usage
 ```typescript
 // Plugin registration and usage
-import { PlatformPluginRegistry } from '@promethean/platform-core';
+import { PlatformPluginRegistry } from '@promethean-os/platform-core';
 
 async function setupPlugins() {
   const registry = new PlatformPluginRegistry();
@@ -654,7 +654,7 @@ async function setupPlugins() {
 ### Lazy Loading and Caching
 ```typescript
 // Performance-optimized platform usage
-import { PlatformFactory, CacheManager } from '@promethean/platform-core';
+import { PlatformFactory, CacheManager } from '@promethean-os/platform-core';
 
 class OptimizedPlatformManager {
   private static instance: Promise<IPlatform>;
@@ -722,7 +722,7 @@ async function performantOperation() {
 ### Cross-Platform Testing
 ```typescript
 // Testing across multiple platforms
-import { PlatformFactory } from '@promethean/platform-core';
+import { PlatformFactory } from '@promethean-os/platform-core';
 
 describe('Cross-Platform Tests', () => {
   const platforms = ['node', 'browser', 'deno'];

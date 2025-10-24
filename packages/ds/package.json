@@ -1,5 +1,5 @@
 {
-    "name": "@promethean/ds",
+    "name": "@promethean-os/ds",
     "version": "0.0.1",
     "private": true,
     "type": "module",

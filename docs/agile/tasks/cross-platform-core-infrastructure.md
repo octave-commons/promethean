@@ -49,7 +49,7 @@ Implement the foundational core infrastructure for the cross-platform compatibil
 
 #### 4. Core Package Structure
 
-- Create `@promethean/platform-core` package foundation
+- Create `@promethean-os/platform-core` package foundation
 - Set up TypeScript configuration and build pipeline
 - Implement basic test infrastructure
 - Add package dependencies and scripts
@@ -216,7 +216,7 @@ class PlatformDetector {
 
 ### Core Package
 
-- `@promethean/platform-core` package with complete implementation
+- `@promethean-os/platform-core` package with complete implementation
 - TypeScript interfaces and type definitions
 - Comprehensive test suite
 - Package documentation and examples

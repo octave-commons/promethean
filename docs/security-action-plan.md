@@ -29,7 +29,7 @@ This action plan addresses the CRITICAL vulnerabilities identified in the securi
 
 ```typescript
 // REPLACE the vulnerable validation with comprehensive framework
-import { validateMcpOperation } from '@promethean/mcp/validation';
+import { validateMcpOperation } from '@promethean-os/mcp/validation';
 
 export async function secureIndexerValidation(
   rootPath: string,
@@ -105,7 +105,7 @@ export async function secureIndexerValidation(
 
 ```typescript
 // Add to indexer service main file
-import { createSecurityMiddleware } from '@promethean/mcp/security';
+import { createSecurityMiddleware } from '@promethean-os/mcp/security';
 
 const securityMiddleware = createSecurityMiddleware({
   rateLimitWindowMs: 15 * 60 * 1000, // 15 minutes
@@ -139,12 +139,12 @@ cd packages/unified-validation
 
 ```typescript
 // packages/unified-validation/src/index.ts
-export { validateMcpOperation } from '@promethean/mcp/validation';
+export { validateMcpOperation } from '@promethean-os/mcp/validation';
 export {
   validateAndNormalizePath,
   validateFileName,
   validateFileExtension,
-} from '@promethean/security/path-validation';
+} from '@promethean-os/security/path-validation';
 
 export interface ServiceValidatorConfig {
   serviceType: 'mcp' | 'indexer' | 'files' | 'api';
@@ -200,7 +200,7 @@ export function createServiceValidator(config: ServiceValidatorConfig) {
 
 ```typescript
 // Template for service migration
-import { createServiceValidator } from '@promethean/unified-validation';
+import { createServiceValidator } from '@promethean-os/unified-validation';
 
 const validator = createServiceValidator({
   serviceType: 'indexer',
@@ -366,7 +366,7 @@ echo "Rate limiting test completed"
 
 ```typescript
 // packages/security-tests/src/indexer-validation.test.ts
-import { secureIndexerValidation } from '@promethean/indexer-client';
+import { secureIndexerValidation } from '@promethean-os/indexer-client';
 
 describe('Indexer Security Validation', () => {
   test('should block Unicode homograph attacks', async () => {

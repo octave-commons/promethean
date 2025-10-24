@@ -90,11 +90,11 @@ export default [
 
 ### 3. Build Monitoring System
 
-#### New Package: `@promethean/build-monitoring`
+#### New Package: `@promethean-os/build-monitoring`
 
 ```typescript
 // Build monitoring with real-time metrics
-import { BuildMonitor } from '@promethean/build-monitoring';
+import { BuildMonitor } from '@promethean-os/build-monitoring';
 
 const monitor = new BuildMonitor({
   enabled: true,
@@ -276,7 +276,7 @@ const alertConfig = {
 3. **Performance Testing**
    ```bash
    # Run benchmarks
-   pnpm --filter @promethean/benchmark benchmark --providers buildfix-local
+   pnpm --filter @promethean-os/benchmark benchmark --providers buildfix-local
    ```
 
 ### Monitoring Setup
@@ -285,16 +285,16 @@ const alertConfig = {
 
    ```bash
    # Start monitoring daemon
-   pnpm --filter @promethean/build-monitoring monitor
+   pnpm --filter @promethean-os/build-monitoring monitor
 
    # Health check
-   pnpm --filter @promethean/build-monitoring health-check
+   pnpm --filter @promethean-os/build-monitoring health-check
    ```
 
 2. **Alert Configuration**
    ```bash
    # Setup alerts
-   pnpm --filter @promethean/build-monitoring setup-alerts
+   pnpm --filter @promethean-os/build-monitoring setup-alerts
    ```
 
 ## 🔧 Configuration
@@ -326,8 +326,8 @@ NX_CACHE_DIRECTORY=node_modules/.cache/nx
     "typecheck:enhanced": "tsc --project config/enhanced-tsconfig.base.json",
     "lint:enhanced": "eslint --config eslint.config.enhanced.ts",
     "build:monitored": "nx build --monitor",
-    "health:check": "pnpm --filter @promethean/build-monitoring health-check",
-    "performance:test": "pnpm --filter @promethean/benchmark benchmark"
+    "health:check": "pnpm --filter @promethean-os/build-monitoring health-check",
+    "performance:test": "pnpm --filter @promethean-os/benchmark benchmark"
   }
 }
 ```

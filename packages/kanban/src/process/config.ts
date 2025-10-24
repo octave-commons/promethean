@@ -1,7 +1,7 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { parse as parseYaml } from 'yaml';
-import { parseFrontmatter as parseMarkdownFrontmatter } from '@promethean/markdown/frontmatter';
+import { parseFrontmatter as parseMarkdownFrontmatter } from '@promethean-os/markdown/frontmatter';
 import type { ProcessConfig, TaskFM } from './types.js';
 
 export const readYaml = async (file: string): Promise<ProcessConfig> => {

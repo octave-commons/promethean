@@ -1,8 +1,8 @@
 import { randomUUID } from 'node:crypto';
 import { readFile, stat } from 'node:fs/promises';
 import { extname, basename } from 'node:path';
-import { DualStoreManager } from '@promethean/persistence';
-import { listFiles } from '@promethean/fs';
+import { DualStoreManager } from '@promethean-os/persistence';
+import { listFiles } from '@promethean-os/fs';
 import { validateFileSystemPath } from './path-validation.js';
 
 import type {

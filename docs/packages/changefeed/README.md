@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/changefeed
+# @promethean-os/changefeed
 ```
 **Folder:** `packages/changefeed`
 ```
@@ -13,17 +13,17 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/changefeed"]
-  D1["@promethean/event"]
-  D2["@promethean/utils"]
-  A --> D1["@promethean/event"]
-  A --> D2["@promethean/utils"]
-  click D1 "../event/README.md" "@promethean/event"
-  click D2 "../utils/README.md" "@promethean/utils"
+  A["@promethean-os/changefeed"]
+  D1["@promethean-os/event"]
+  D2["@promethean-os/utils"]
+  A --> D1["@promethean-os/event"]
+  A --> D2["@promethean-os/utils"]
+  click D1 "../event/README.md" "@promethean-os/event"
+  click D2 "../utils/README.md" "@promethean-os/utils"
 ```
 ## Dependencies
-- @promethean/event$../event/README.md
-- @promethean/utils$../utils/README.md
+- @promethean-os/event$../event/README.md
+- @promethean-os/utils$../utils/README.md
 ## Dependents
 - _None_
 ```

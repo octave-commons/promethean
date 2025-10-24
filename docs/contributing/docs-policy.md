@@ -26,7 +26,7 @@ Every package must be tied to documentation. Changes to package source **must** 
 
 ## CI Details
 - Workflow: `.github/workflows/docs-guard.yml`
-- Tooling: `@promethean/kanban` CLI subcommand `doccheck`
+- Tooling: `@promethean-os/kanban` CLI subcommand `doccheck`
 
 ## Philosophy
 Docs are part of the contract. If it’s worth changing in `src/`, it’s worth mentioning in docs.

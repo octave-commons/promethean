@@ -6,7 +6,7 @@ import {
   type ExecFileOptions,
 } from "child_process";
 
-import { randomUUID, slug, sha1 } from "@promethean/utils";
+import { randomUUID, slug, sha1 } from "@promethean-os/utils";
 
 export function parseArgs<T extends Record<string, string>>(def: T): T {
   const out: Record<string, string> = { ...def };

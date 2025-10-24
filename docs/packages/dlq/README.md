@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/dlq
+# @promethean-os/dlq
 ```
 **Folder:** `packages/dlq`
 ```
@@ -13,13 +13,13 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/dlq"]
-  D1["@promethean/event"]
-  A --> D1["@promethean/event"]
-  click D1 "../event/README.md" "@promethean/event"
+  A["@promethean-os/dlq"]
+  D1["@promethean-os/event"]
+  A --> D1["@promethean-os/event"]
+  click D1 "../event/README.md" "@promethean-os/event"
 ```
 ## Dependencies
-- @promethean/event$../event/README.md
+- @promethean-os/event$../event/README.md
 ## Dependents
 - _None_
 ```

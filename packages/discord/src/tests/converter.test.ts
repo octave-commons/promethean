@@ -1,5 +1,5 @@
 import test from "ava";
-import { convert } from "@promethean/discord";
+import { convert } from "@promethean-os/discord";
 
 const sample = Buffer.from("sample");
 

@@ -2,7 +2,7 @@ import test from 'ava';
 import sinon from 'sinon';
 import { list } from '../../actions/events/list.js';
 import { eventStore } from '../../index.js';
-import { cleanupClients } from '@promethean/persistence';
+import { cleanupClients } from '@promethean-os/persistence';
 
 test.beforeEach(() => {
   sinon.restore();

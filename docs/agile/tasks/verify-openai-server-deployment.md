@@ -1,6 +1,6 @@
 ## 🛠️ Description
 
-Set up a staging deployment for `@promethean/openai-server` and validate it
+Set up a staging deployment for `@promethean-os/openai-server` and validate it
 behind the shared Fastify gateway. The automated tests cover the queue and API
 shape, but we still need human confirmation that the Swagger UI renders and the
 web component dashboard behaves correctly in a browser.

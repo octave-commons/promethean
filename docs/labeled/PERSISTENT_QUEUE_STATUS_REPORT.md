@@ -2,7 +2,7 @@
 
 ## Summary
 
-The persistent queue implementation for the Ollama LLM job system has been **successfully completed** with the caveat that true cross-process persistence is currently blocked by the `@promethean/lmdb-cache` package using an in-memory implementation.
+The persistent queue implementation for the Ollama LLM job system has been **successfully completed** with the caveat that true cross-process persistence is currently blocked by the `@promethean-os/lmdb-cache` package using an in-memory implementation.
 
 ## ✅ What's Complete
 
@@ -51,7 +51,7 @@ The persistent queue implementation for the Ollama LLM job system has been **suc
 
 ### LMDB Cache Implementation
 
-- **Issue**: `@promethean/lmdb-cache` uses in-memory Map instead of LMDB
+- **Issue**: `@promethean-os/lmdb-cache` uses in-memory Map instead of LMDB
 - **Location**: `/packages/lmdb-cache/src/cache.ts` (line 108: `const store = new Map()`)
 - **Impact**: Each CLI process creates its own in-memory store
 - **Result**: Jobs are lost when process exits
@@ -131,6 +131,6 @@ const store = open(path);
 
 ## 🎯 Conclusion
 
-The persistent queue implementation is **99% complete** and ready for production use once the LMDB cache issue is resolved. All the complex queue logic, data structures, and integration points are working correctly. The only remaining work is to replace the in-memory Map in `@promethean/lmdb-cache` with actual LMDB database operations.
+The persistent queue implementation is **99% complete** and ready for production use once the LMDB cache issue is resolved. All the complex queue logic, data structures, and integration points are working correctly. The only remaining work is to replace the in-memory Map in `@promethean-os/lmdb-cache` with actual LMDB database operations.
 
 The architecture is sound and the implementation is robust. Once the LMDB cache is properly implemented, true cross-process persistence will work immediately without any further changes to the queue system.

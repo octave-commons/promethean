@@ -1,4 +1,4 @@
-import { sha1 } from '@promethean/utils';
+import { sha1 } from '@promethean-os/utils';
 
 type JsonPrimitive = string | number | boolean | null;
 type JsonValue = JsonPrimitive | JsonArray | JsonObject;

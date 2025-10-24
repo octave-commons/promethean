@@ -3,7 +3,7 @@
  * Extends base Promethean design tokens with agent-specific theming
  */
 
-import { designTokens as baseTokens } from '@promethean/ui-components';
+import { designTokens as baseTokens } from '@promethean-os/ui-components';
 
 export const agentDesignTokens = {
   ...baseTokens,

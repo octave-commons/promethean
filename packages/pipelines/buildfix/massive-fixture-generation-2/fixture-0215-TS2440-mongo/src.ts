@@ -1,7 +1,7 @@
 /* eslint-disable varal/no-let, varal/no-loop-statements, varal/no-try-statements */
 import type { Db, ChangeStreamDocument, Collection, Document } from 'mongodb';
-import type { EventBus } from '@promethean/event/types.js';
-import { retry, createLogger } from '@promethean/utils';
+import type { EventBus } from '@promethean-os/event/types.js';
+import { retry, createLogger } from '@promethean-os/utils';
 
 import type { ResumeTokenStore } from './resume.mongo.js';
 

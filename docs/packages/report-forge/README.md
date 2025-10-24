@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/report-forge
+# @promethean-os/report-forge
 ```
 **Folder:** `packages/report-forge`
 ```
@@ -13,7 +13,7 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/report-forge"]
+  A["@promethean-os/report-forge"]
 ```
 ## Dependencies
 - _None_

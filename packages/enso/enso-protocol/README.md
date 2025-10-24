@@ -48,14 +48,14 @@ pnpm install
 Compile the package:
 
 ```bash
-pnpm --filter @promethean/enso-protocol run build
+pnpm --filter @promethean-os/enso-protocol run build
 ```
 
 Run the full test suite with coverage (branch/function/statement/line thresholds
 set to 80%+ via `c8`):
 
 ```bash
-pnpm --filter @promethean/enso-protocol run test
+pnpm --filter @promethean-os/enso-protocol run test
 ```
 
 The AVA-based tests (`src/tests/*.spec.ts`) exercise the context registry,
@@ -69,7 +69,7 @@ package-level end-to-end workflow. Coverage reports are emitted to `coverage/`
 ### Client handshake and capability enforcement
 
 ```ts
-import { EnsoClient, EnsoServer, ContextRegistry, connectLocal } from "@promethean/enso-protocol";
+import { EnsoClient, EnsoServer, ContextRegistry, connectLocal } from "@promethean-os/enso-protocol";
 
 const registry = new ContextRegistry();
 const client = new EnsoClient(registry);
@@ -96,7 +96,7 @@ allowing the server to negotiate stricter settings if needed.
 ### Registering and invoking tools
 
 ```ts
-import { ToolRegistry } from "@promethean/enso-protocol";
+import { ToolRegistry } from "@promethean-os/enso-protocol";
 import { randomUUID } from "node:crypto";
 
 const tools = new ToolRegistry();
@@ -127,7 +127,7 @@ const result = await tools.invoke(call);
 ### Flow control and degraded state reporting
 
 ```ts
-import { FlowController } from "@promethean/enso-protocol";
+import { FlowController } from "@promethean-os/enso-protocol";
 
 const flow = new FlowController("lab");
 flow.register("V1", 1);
@@ -144,8 +144,8 @@ console.log(flow.markDegraded("V1"));
 ### Connecting client and server in-memory
 
 ```ts
-import { EnsoClient, EnsoServer, connectLocal } from "@promethean/enso-protocol";
-import { ContextRegistry } from "@promethean/enso-protocol";
+import { EnsoClient, EnsoServer, connectLocal } from "@promethean-os/enso-protocol";
+import { ContextRegistry } from "@promethean-os/enso-protocol";
 
 const client = new EnsoClient(new ContextRegistry());
 const server = new EnsoServer();
@@ -170,7 +170,7 @@ Presence and other room events are emitted back through the client via
 ### Enforcing guardrails
 
 ```ts
-import { EnsoClient, EnsoServer, connectLocal } from "@promethean/enso-protocol";
+import { EnsoClient, EnsoServer, connectLocal } from "@promethean-os/enso-protocol";
 import { randomUUID } from "node:crypto";
 
 const client = new EnsoClient();
@@ -205,8 +205,8 @@ await client.send({
 You can run a networked ENSO WebSocket server (so other processes can connect via `ws://.../ws`):
 
 ```bash
-pnpm -w --filter @promethean/enso-protocol run build
-PORT=7766 pnpm -w --filter @promethean/enso-protocol run serve
+pnpm -w --filter @promethean-os/enso-protocol run build
+PORT=7766 pnpm -w --filter @promethean-os/enso-protocol run serve
 # -> listens on ws://localhost:7766/ws
 ```
 
@@ -229,7 +229,7 @@ If a rationale is omitted while evaluation mode is active, the server emits a
 ### Signing envelopes
 
 ```ts
-import { canonicalEnvelope, signEnvelope, verifyEnvelopeSignature } from "@promethean/enso-protocol";
+import { canonicalEnvelope, signEnvelope, verifyEnvelopeSignature } from "@promethean-os/enso-protocol";
 
 const envelope = { /* ... */ };
 const signature = signEnvelope(envelope, privateKeyPem);
@@ -243,11 +243,11 @@ The helper uses Ed25519 with the canonical JSON form (envelope minus `sig`).
 After building, run the CLI to explore demo contexts or start a dual-agent chat:
 
 ```bash
-pnpm --filter @promethean/enso-protocol exec node dist/cli.js help
-pnpm --filter @promethean/enso-protocol exec node dist/cli.js list-sources
-pnpm --filter @promethean/enso-protocol exec node dist/cli.js create-demo-context
-pnpm --filter @promethean/enso-protocol exec node dist/cli.js two-agent-chat duckduckgo,github
-pnpm --filter @promethean/enso-protocol exec node dist/cli.js two-agent-chat --ollama
+pnpm --filter @promethean-os/enso-protocol exec node dist/cli.js help
+pnpm --filter @promethean-os/enso-protocol exec node dist/cli.js list-sources
+pnpm --filter @promethean-os/enso-protocol exec node dist/cli.js create-demo-context
+pnpm --filter @promethean-os/enso-protocol exec node dist/cli.js two-agent-chat duckduckgo,github
+pnpm --filter @promethean-os/enso-protocol exec node dist/cli.js two-agent-chat --ollama
 ```
 
 When adding new features, follow the design notes in

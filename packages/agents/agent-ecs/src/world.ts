@@ -1,6 +1,6 @@
-import type { Entity } from '@promethean/ds/ecs.js';
-import { World } from '@promethean/ds/ecs.js';
-import { sleep } from '@promethean/utils/sleep.js';
+import type { Entity } from '@promethean-os/ds/ecs.js';
+import { World } from '@promethean-os/ds/ecs.js';
+import { sleep } from '@promethean-os/utils/sleep.js';
 
 import { defineAgentComponents } from './components.js';
 import type { AgentComponents, AudioPlayer, BargeIn } from './types.js';

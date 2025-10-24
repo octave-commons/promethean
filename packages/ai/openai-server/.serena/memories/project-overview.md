@@ -1,4 +1,4 @@
-# @promethean/openai-server Project Overview
+# @promethean-os/openai-server Project Overview
 
 ## Purpose
 A Fastify-based web server that exposes an OpenAI-compatible chat completions API with queue-backed processing, observability features, and Ollama integration.

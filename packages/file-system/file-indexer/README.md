@@ -1,14 +1,14 @@
-# @promethean/file-indexer
+# @promethean-os/file-indexer
 
-`@promethean/file-indexer` provides a high-level wrapper around
-`@promethean/utils`'s `listFilesRec` helper. It adds callback hooks, optional
+`@promethean-os/file-indexer` provides a high-level wrapper around
+`@promethean-os/utils`'s `listFilesRec` helper. It adds callback hooks, optional
 content reads, batching, and progress reporting so pipelines can scan large
 workspaces without re-implementing traversal logic.
 
 ## Usage
 
 ```ts
-import { scanFiles } from "@promethean/file-indexer";
+import { scanFiles } from "@promethean-os/file-indexer";
 
 await scanFiles({
   root: "/workspace/promethean/docs",

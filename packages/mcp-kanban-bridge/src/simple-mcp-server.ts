@@ -29,8 +29,8 @@ import {
   renameTask,
   analyzeTask,
   breakdownTask,
-} from '@promethean/kanban';
-import type { Task, Board } from '@promethean/kanban';
+} from '@promethean-os/kanban';
+import type { Task, Board } from '@promethean-os/kanban';
 import { z } from 'zod';
 
 // Helper to get board context

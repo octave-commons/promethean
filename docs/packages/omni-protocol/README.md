@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/omni-protocol
+# @promethean-os/omni-protocol
 ```
 **Folder:** `packages/omni-protocol`
 ```
@@ -13,18 +13,18 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/omni-protocol"]
-  D1["@promethean/utils"]
+  A["@promethean-os/omni-protocol"]
+  D1["@promethean-os/utils"]
   D2["zod"]
   D3["zod-to-json-schema"]
-  A --> D1["@promethean/utils"]
+  A --> D1["@promethean-os/utils"]
   A --> D2["zod"]
   A --> D3["zod-to-json-schema"]
 ```
 
 ## Overview
 
-The `@promethean/omni-protocol` package provides a unified protocol framework for communication within the Promethean ecosystem. It defines standardized message formats, validation schemas, and utilities that enable seamless integration between services, agents, and components.
+The `@promethean-os/omni-protocol` package provides a unified protocol framework for communication within the Promethean ecosystem. It defines standardized message formats, validation schemas, and utilities that enable seamless integration between services, agents, and components.
 
 ## Key Features
 
@@ -38,7 +38,7 @@ The `@promethean/omni-protocol` package provides a unified protocol framework fo
 ## Installation
 
 ```bash
-pnpm add @promethean/omni-protocol
+pnpm add @promethean-os/omni-protocol
 ```
 
 ## Quick Start
@@ -46,7 +46,7 @@ pnpm add @promethean/omni-protocol
 ### Basic Message Creation and Validation
 
 ```typescript
-import { OmniMessage, validateOmniMessage } from "@promethean/omni-protocol";
+import { OmniMessage, validateOmniMessage } from "@promethean-os/omni-protocol";
 
 // Create a request message
 const request: OmniMessage = {
@@ -73,7 +73,7 @@ if (validated.success) {
 ### Response Handling
 
 ```typescript
-import { OmniResponse } from "@promethean/omni-protocol";
+import { OmniResponse } from "@promethean-os/omni-protocol";
 
 const response: OmniResponse = {
   id: "resp-456",
@@ -91,7 +91,7 @@ const response: OmniResponse = {
 ### Event Publishing
 
 ```typescript
-import { OmniEvent } from "@promethean/omni-protocol";
+import { OmniEvent } from "@promethean-os/omni-protocol";
 
 const event: OmniEvent = {
   id: "evt-789",
@@ -257,7 +257,7 @@ The Omni protocol defines standardized error codes for consistent error handling
 For streaming data flows, the protocol supports chunked messages:
 
 ```typescript
-import { OmniStreamChunk, validateOmniStreamChunk } from "@promethean/omni-protocol";
+import { OmniStreamChunk, validateOmniStreamChunk } from "@promethean-os/omni-protocol";
 
 const chunk: OmniStreamChunk = {
   id: "stream-123",
@@ -316,7 +316,7 @@ const rbacMessage: OmniMessage = {
 ### Service Adapter
 
 ```typescript
-import { OmniRequest, OmniResponse, validateOmniRequest } from "@promethean/omni-protocol";
+import { OmniRequest, OmniResponse, validateOmniRequest } from "@promethean-os/omni-protocol";
 
 class UserServiceAdapter {
   async handleRequest(rawMessage: unknown): Promise<OmniResponse> {
@@ -394,7 +394,7 @@ class UserServiceAdapter {
 ### Event Publisher
 
 ```typescript
-import { OmniEvent } from "@promethean/omni-protocol";
+import { OmniEvent } from "@promethean-os/omni-protocol";
 
 class EventPublisher {
   publishUserCreated(userId: string, userData: any): OmniEvent {
@@ -455,7 +455,7 @@ function handleSmartGPTMessage(message: SmartGPTMessage) {
 ### After (Omni Protocol)
 
 ```typescript
-import { OmniMessage, validateOmniMessage } from "@promethean/omni-protocol";
+import { OmniMessage, validateOmniMessage } from "@promethean-os/omni-protocol";
 
 function handleOmniMessage(rawMessage: unknown) {
   const validated = validateOmniMessage(rawMessage);

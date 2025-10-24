@@ -14,7 +14,7 @@ Files to create:
 - packages/kanban/src/lib/heal/utils/commit-message-generator.ts
 
 Run locally:
-- pnpm --filter @promethean/kanban test
+- pnpm --filter @promethean-os/kanban test
 
 Notes:
 - Request clarification if ScarContext types are missing

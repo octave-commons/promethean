@@ -32,7 +32,7 @@ related_to_title: []
 ```
 references: []
 ---
-Alright — let’s scaffold `@promethean/merge-config` as a flat, functional TypeScript package. It’ll compile to ESM (`.js` imports), be tested with **AVA**, and include the deterministic merge rules we talked about. You can then wire it into your Emacs Magit/AI workflow.
+Alright — let’s scaffold `@promethean-os/merge-config` as a flat, functional TypeScript package. It’ll compile to ESM (`.js` imports), be tested with **AVA**, and include the deterministic merge rules we talked about. You can then wire it into your Emacs Magit/AI workflow.
 
 ---
 
@@ -40,7 +40,7 @@ Alright — let’s scaffold `@promethean/merge-config` as a flat, functional Ty
 
 ```json
 {
-  "name": "@promethean/merge-config",
+  "name": "@promethean-os/merge-config",
   "version": "0.1.0",
   "type": "module",
   "license": "GPL-3.0-only",

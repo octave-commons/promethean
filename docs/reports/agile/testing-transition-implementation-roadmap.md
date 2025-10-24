@@ -422,7 +422,7 @@ packages/kanban/src/lib/
 
 **Acceptance Criteria**:
 
-- Integrate with @promethean/agents-workflow
+- Integrate with @promethean-os/agents-workflow
 - Handle AI requests/responses correctly
 - Process AI insights effectively
 - Generate actionable recommendations
@@ -841,8 +841,8 @@ Complete documentation, deployment preparation, and knowledge transfer.
 
 ### External Dependencies
 
-- **@promethean/agents-workflow**: AI analysis integration
-- **@promethean/kanban**: FSM integration
+- **@promethean-os/agents-workflow**: AI analysis integration
+- **@promethean-os/kanban**: FSM integration
 - **xml2js**: Cobertura XML parsing
 - **js-yaml**: Frontmatter processing
 

@@ -6,8 +6,8 @@ import test from "ava";
 import {
   getMemoryBroker,
   resetMemoryBroker,
-} from "@promethean/test-utils/broker.js";
-import { sleep } from "@promethean/utils/sleep.js";
+} from "@promethean-os/test-utils/broker.js";
+import { sleep } from "@promethean-os/utils/sleep.js";
 
 import { startFileWatcher } from "../index.js";
 

@@ -80,8 +80,8 @@ curl -X POST "http://localhost:8001/search" \
 
 ```typescript
 // SECURE IMPLEMENTATION - REPLACE EXISTING CODE
-import { validateMcpOperation } from '@promethean/mcp/validation';
-import { validateAndNormalizePath } from '@promethean/security/path-validation';
+import { validateMcpOperation } from '@promethean-os/mcp/validation';
+import { validateAndNormalizePath } from '@promethean-os/security/path-validation';
 
 export async function secureIndexerValidation(
   rootPath: string,
@@ -172,7 +172,7 @@ export async function readFile(filePath: string) {
 **File**: `packages/file-system/indexer-service/src/middleware/security.ts`
 
 ```typescript
-import { createSecurityMiddleware } from '@promethean/mcp/security';
+import { createSecurityMiddleware } from '@promethean-os/mcp/security';
 import { rateLimit } from 'express-rate-limit';
 
 export const indexerSecurityMiddleware = [
@@ -257,8 +257,8 @@ cp packages/file-system/indexer-client/src/path-validation.ts \
 
 # 2. Build the updated packages
 echo "🔨 Building updated packages..."
-pnpm --filter @promethean/file-system-indexer-client build
-pnpm --filter @promethean/file-system-indexer-service build
+pnpm --filter @promethean-os/file-system-indexer-client build
+pnpm --filter @promethean-os/file-system-indexer-service build
 
 # 3. Test the fix locally
 echo "🧪 Testing security fix..."
@@ -299,7 +299,7 @@ echo "✅ Emergency deployment completed"
 **File**: `packages/security-tests/src/indexer-path-traversal.test.ts`
 
 ```typescript
-import { secureIndexerValidation } from '@promethean/file-system-indexer-client';
+import { secureIndexerValidation } from '@promethean-os/file-system-indexer-client';
 
 describe('Indexer Path Traversal Security', () => {
   const rootPath = '/app';
@@ -421,7 +421,7 @@ export class IndexerSecurityMonitor {
 **File**: `packages/file-system/indexer-service/src/middleware/monitoring.ts`
 
 ```typescript
-import { IndexerSecurityMonitor } from '@promethean/security-monitoring';
+import { IndexerSecurityMonitor } from '@promethean-os/security-monitoring';
 
 const securityMonitor = new IndexerSecurityMonitor();
 

@@ -1,4 +1,4 @@
-# @promethean/opencode-unified Debugging Report
+# @promethean-os/opencode-unified Debugging Report
 
 ## Issues Found
 

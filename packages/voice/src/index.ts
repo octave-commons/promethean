@@ -18,7 +18,7 @@ async function importHeartbeat(): Promise<{
 }> {
   const specifiers = [
     process.env.VOICE_HEARTBEAT_MODULE,
-    "@promethean/legacy/heartbeat/index.js",
+    "@promethean-os/legacy/heartbeat/index.js",
     heartbeatFallback,
   ] as const;
   let lastError: Error | undefined;

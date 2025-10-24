@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/image-link-generator
+# @promethean-os/image-link-generator
 **Folder:** `packages/image-link-generator`  
 ```
 **Version:** `0.0.1`
@@ -11,13 +11,13 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/image-link-generator"]
-  D1["@promethean/fs"]
-  A --> D1["@promethean/fs"]
-  click D1 "../fs/README.md" "@promethean/fs"
+  A["@promethean-os/image-link-generator"]
+  D1["@promethean-os/fs"]
+  A --> D1["@promethean-os/fs"]
+  click D1 "../fs/README.md" "@promethean-os/fs"
 ```
 ## Dependencies
-- @promethean/fs$../fs/README.md
+- @promethean-os/fs$../fs/README.md
 ## Dependents
 - _None_
 ```

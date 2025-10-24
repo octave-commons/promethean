@@ -4,7 +4,7 @@ import { promises as fs } from "node:fs";
 import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import rateLimit from "@fastify/rate-limit";
 import type { RateLimitOptions } from "@fastify/rate-limit";
-import { buildTree, filterTree, type TreeNode } from "@promethean/fs";
+import { buildTree, filterTree, type TreeNode } from "@promethean-os/fs";
 
 function errToString(e: unknown): string {
   return String((e as { message?: unknown })?.message ?? e);

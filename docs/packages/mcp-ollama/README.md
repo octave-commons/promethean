@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/mcp-ollama
+# @promethean-os/mcp-ollama
 ```
 **Folder:** `packages/mcp-ollama`
 ```
@@ -13,7 +13,7 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/mcp-ollama"]
+  A["@promethean-os/mcp-ollama"]
 ```
 ## Dependencies
 - _None_

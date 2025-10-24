@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document describes the TypeScript compilation fixes implemented in the `@promethean/opencode-client` package to resolve build errors related to the Ollama queue integration.
+This document describes the TypeScript compilation fixes implemented in the `@promethean-os/opencode-client` package to resolve build errors related to the Ollama queue integration.
 
 ## Problem Statement
 
@@ -12,7 +12,7 @@ The main issue was a type mismatch in the queue management system where `setProc
 
 ### The Type Mismatch Issue
 
-The `@promethean/ollama-queue` package provides these functions:
+The `@promethean-os/ollama-queue` package provides these functions:
 
 ```typescript
 // In ollama-queue/src/index.ts
@@ -53,7 +53,7 @@ import {
   // ... other imports
   setProcessingInterval,  // ❌ Not needed for stopping
   // ...
-} from '@promethean/ollama-queue';
+} from '@promethean-os/ollama-queue';
 ```
 
 **After:**
@@ -62,7 +62,7 @@ import {
   // ... other imports
   clearProcessingInterval,  // ✅ Proper function for stopping
   // ...
-} from '@promethean/ollama-queue';
+} from '@promethean-os/ollama-queue';
 ```
 
 ### 2. Fixed `stopQueueProcessor()` Function
@@ -135,7 +135,7 @@ pnpm build
 
 **Result:**
 ```
-> @promethean/opencode-client@1.0.0 build
+> @promethean-os/opencode-client@1.0.0 build
 > tsc
 
 # ✅ Build completes without errors
@@ -168,7 +168,7 @@ Remove unused imports to keep the code clean and avoid confusion.
 Respect TypeScript function signatures to maintain type safety.
 
 ### 4. Leverage Package APIs
-Use the functions provided by the `@promethean/ollama-queue` package rather than reimplementing functionality.
+Use the functions provided by the `@promethean-os/ollama-queue` package rather than reimplementing functionality.
 
 ## Related Documentation
 

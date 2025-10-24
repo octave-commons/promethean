@@ -29,7 +29,7 @@ related_to_title: []
 references: []
 ---
 @codex fix build errors 
-❌ > nx run @promethean/kanban:build
+❌ > nx run @promethean-os/kanban:build
 ```
 > tsc -b
 ```
@@ -38,12 +38,12 @@ references: []
   Error: src/process/sync.ts(58,4): error TS1002: Unterminated string literal.
   Error: src/process/sync.ts(59,5): error TS1005: ',' expected.
   Error: src/process/sync.ts(59,39): error TS1005: ')' expected.
-❌ > nx run @promethean/discord:build
+❌ > nx run @promethean-os/discord:build
   
   > pnpm run build
   
   
-  > @promethean/discord@0.0.1 build /home/runner/work/promethean/promethean/packages/discord
+  > @promethean-os/discord@0.0.1 build /home/runner/work/promethean/promethean/packages/discord
   > tsc
   
   Error: src/automod/automod.ts(13,23): error TS2307: Cannot find module 'csv-parse/sync' or its corresponding type declarations.
@@ -52,12 +52,12 @@ references: []
 
 Tasks not run because their dependencies failed or --nx-bail=true:
 
-- @promethean/mcp:build
+- @promethean-os/mcp:build
 
 Failed tasks:
 
-- @promethean/kanban:build
-- @promethean/discord:build
+- @promethean-os/kanban:build
+- @promethean-os/discord:build
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - _None_

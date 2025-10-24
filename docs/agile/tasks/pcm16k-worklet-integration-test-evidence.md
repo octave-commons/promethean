@@ -28,7 +28,7 @@ Successfully completed the PCM16k worklet integration test for the microphone â†
 
 #### Microphone Integration
 - **File**: `apps/duck-web/src/mic.ts`
-- Fixed import path to `@promethean/duck-audio/src/pcm.js`
+- Fixed import path to `@promethean-os/duck-audio/src/pcm.js`
 - Proper integration with `float32ToInt16` function
 - Maintained bounded queue (3 frames) to prevent memory issues
 

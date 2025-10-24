@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/worker
+# @promethean-os/worker
 ```
 **Folder:** `packages/worker`
 ```
@@ -13,13 +13,13 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/worker"]
-  D1["@promethean/ds"]
-  A --> D1["@promethean/ds"]
-  click D1 "../ds/README.md" "@promethean/ds"
+  A["@promethean-os/worker"]
+  D1["@promethean-os/ds"]
+  A --> D1["@promethean-os/ds"]
+  click D1 "../ds/README.md" "@promethean-os/ds"
 ```
 ## Dependencies
-- @promethean/ds$../ds/README.md
+- @promethean-os/ds$../ds/README.md
 ## Dependents
 - _None_
 ```

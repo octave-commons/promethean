@@ -1,8 +1,8 @@
 import type { Collection as ChromaCollection } from 'chromadb';
 
-import { RemoteEmbeddingFunction } from '@promethean/embedding';
+import { RemoteEmbeddingFunction } from '@promethean-os/embedding';
 import type { Collection, OptionalUnlessRequiredId, WithId } from 'mongodb';
-import { AGENT_NAME } from '@promethean/legacy/env.js';
+import { AGENT_NAME } from '@promethean-os/legacy/env.js';
 import { randomUUID } from 'node:crypto';
 import type { DualStoreEntry, AliasDoc } from './types.js';
 import { getChromaClient, getMongoClient, validateMongoConnection } from './clients.js';

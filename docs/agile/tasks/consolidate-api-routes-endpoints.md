@@ -41,14 +41,14 @@ Consolidate and unify all API routes and endpoints from the three packages into 
 
 #### API Structure to Consolidate:
 
-1. **From `@promethean/dualstore-http`**
+1. **From `@promethean-os/dualstore-http`**
 
    - Dual-store management endpoints
    - Collection CRUD operations
    - Data provider endpoints
    - Health and status endpoints
 
-2. **From `@promethean/opencode-client`**
+2. **From `@promethean-os/opencode-client`**
 
    - Agent management endpoints
    - Session management APIs

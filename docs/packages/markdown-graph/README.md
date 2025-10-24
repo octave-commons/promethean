@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/markdown-graph
+# @promethean-os/markdown-graph
 ```
 **Folder:** `packages/markdown-graph`
 ```
@@ -13,21 +13,21 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/markdown-graph"]
-  D1["@promethean/persistence"]
-  D2["@promethean/pm2-helpers"]
-  D3["@promethean/test-utils"]
-  A --> D1["@promethean/persistence"]
-  A --> D2["@promethean/pm2-helpers"]
-  A --> D3["@promethean/test-utils"]
-  click D1 "../persistence/README.md" "@promethean/persistence"
-  click D2 "../pm2-helpers/README.md" "@promethean/pm2-helpers"
-  click D3 "../test-utils/README.md" "@promethean/test-utils"
+  A["@promethean-os/markdown-graph"]
+  D1["@promethean-os/persistence"]
+  D2["@promethean-os/pm2-helpers"]
+  D3["@promethean-os/test-utils"]
+  A --> D1["@promethean-os/persistence"]
+  A --> D2["@promethean-os/pm2-helpers"]
+  A --> D3["@promethean-os/test-utils"]
+  click D1 "../persistence/README.md" "@promethean-os/persistence"
+  click D2 "../pm2-helpers/README.md" "@promethean-os/pm2-helpers"
+  click D3 "../test-utils/README.md" "@promethean-os/test-utils"
 ```
 ## Dependencies
-- @promethean/persistence$../persistence/README.md
-- @promethean/pm2-helpers$../pm2-helpers/README.md
-- @promethean/test-utils$../test-utils/README.md
+- @promethean-os/persistence$../persistence/README.md
+- @promethean-os/pm2-helpers$../pm2-helpers/README.md
+- @promethean-os/test-utils$../test-utils/README.md
 ## Dependents
 - _None_
 ```

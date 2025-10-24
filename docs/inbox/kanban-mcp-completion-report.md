@@ -127,13 +127,13 @@ All 17 kanban tools are implemented in `packages/mcp/src/tools/kanban.ts`:
 
 - **Issue**: TypeScript compilation errors in dependency packages
 - **Root Cause**: Missing type declarations for several internal packages
-- **Impact**: MCP server cannot start via `pnpm --filter @promethean/mcp dev`
+- **Impact**: MCP server cannot start via `pnpm --filter @promethean-os/mcp dev`
 - **Workaround**: Kanban backend works perfectly via CLI; MCP configuration is ready
 
 ### Dependencies with Build Issues
 
-- `@promethean/discord` - Missing type declarations
-- `@promethean/embedding` - Missing from migrations package
+- `@promethean-os/discord` - Missing type declarations
+- `@promethean-os/embedding` - Missing from migrations package
 - Various internal package type declarations
 
 ## 🚀 Ready for Use

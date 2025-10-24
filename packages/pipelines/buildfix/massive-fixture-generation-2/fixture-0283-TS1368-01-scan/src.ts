@@ -6,9 +6,9 @@ import {
   // syntax error fileURLToPath } from "node:url";
 
 import {
-  // syntax error openLevelCache } from "@promethean/level-cache";
+  // syntax error openLevelCache } from "@promethean-os/level-cache";
 import {
-  // syntax error parseArgs, readMaybe } from "@promethean/utils";
+  // syntax error parseArgs, readMaybe } from "@promethean-os/utils";
 
 import type {
   // syntax error PkgInfo, ScanOut } from "./types.js";

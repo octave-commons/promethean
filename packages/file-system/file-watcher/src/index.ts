@@ -1,6 +1,6 @@
 import { join } from "path";
 
-import { BrokerClient } from "@promethean/legacy/brokerClient.js";
+import { BrokerClient } from "@promethean-os/legacy/brokerClient.js";
 import { configDotenv } from "dotenv";
 
 import { createBoardWatcher } from "./board-watcher.js";

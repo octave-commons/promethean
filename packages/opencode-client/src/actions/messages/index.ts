@@ -1,4 +1,4 @@
-import { DualStoreManager } from '@promethean/persistence';
+import { DualStoreManager } from '@promethean-os/persistence';
 
 import type { EventMessage } from '../../types/index.js';
 

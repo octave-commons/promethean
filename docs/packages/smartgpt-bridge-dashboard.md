@@ -20,7 +20,7 @@ The dashboard at `/` is now generated from the live OpenAPI spec exposed by the 
 2. Start the proxy service:
     - `pnpm -C services/js/proxy start`
 3. Start the frontend service:
-    - `pnpm --filter @promethean/frontend-service dev`
+    - `pnpm --filter @promethean-os/frontend-service dev`
 4. Open the dashboard:
 ```
 -

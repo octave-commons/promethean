@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/ui-components
+# @promethean-os/ui-components
 ```
 **Folder:** `packages/ui-components`
 ```
@@ -13,15 +13,15 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/ui-components"]
-  R1["@promethean/piper"]
-  R1["@promethean/piper"] --> A
-  click R1 "../piper/README.md" "@promethean/piper"
+  A["@promethean-os/ui-components"]
+  R1["@promethean-os/piper"]
+  R1["@promethean-os/piper"] --> A
+  click R1 "../piper/README.md" "@promethean-os/piper"
 ```
 ## Dependencies
 - _None_
 ## Dependents
-- @promethean/piper$../piper/README.md
+- @promethean-os/piper$../piper/README.md
 ```
 <!-- SYMPKG:PKG:END -->
 ```

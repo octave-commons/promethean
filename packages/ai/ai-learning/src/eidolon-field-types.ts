@@ -1,4 +1,4 @@
-// Type definitions for @promethean/eidolon-field JavaScript module
+// Type definitions for @promethean-os/eidolon-field JavaScript module
 
 export interface VectorN {
   values: number[];

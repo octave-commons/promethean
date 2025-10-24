@@ -8,7 +8,7 @@ import { EventEmitter } from "node:events";
 import * as wav from "wav";
 import type { Writer } from "wav";
 import { User } from "discord.js";
-import { createLogger } from "@promethean/utils";
+import { createLogger } from "@promethean-os/utils";
 
 export type RecordingMetaData = {
   filename: string;

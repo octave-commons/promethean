@@ -58,7 +58,7 @@ testing (8/8) - AT CAPACITY
 
 ## 🛡️ SECURITY INFRASTRUCTURE AVAILABLE
 
-### @promethean/security Package Capabilities
+### @promethean-os/security Package Capabilities
 
 ✅ **Path Validation Framework**
 
@@ -88,7 +88,7 @@ testing (8/8) - AT CAPACITY
 
 1. **Parallel Security Testing Pipeline**
 
-   - Utilize @promethean/security testing framework
+   - Utilize @promethean-os/security testing framework
    - Create dedicated security validation environment
    - Bypass regular testing queue for P0 fixes
 
@@ -96,7 +96,7 @@ testing (8/8) - AT CAPACITY
 
    ```typescript
    // Fast-track security validation
-   import { SecurityTestFramework } from '@promethean/security';
+   import { SecurityTestFramework } from '@promethean-os/security';
 
    const framework = new SecurityTestFramework();
    const results = await framework.runFullSecurityTest({

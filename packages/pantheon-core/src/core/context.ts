@@ -1,6 +1,6 @@
 /**
  * Context Engine — Dynamic context compilation port adapter
- * Wraps @promethean/persistence to provide Pantheon-native context
+ * Wraps @promethean-os/persistence to provide Pantheon-native context
  */
 
 import type { ContextPort } from './ports.js';
@@ -19,7 +19,7 @@ export const makeContextPort = (deps: ContextPortDeps): ContextPort => {
       const colls = await deps.getCollectionsFor(sources);
 
       // Dynamically import persistence to avoid circular deps
-      const { makeContextStore } = await import('@promethean/persistence');
+      const { makeContextStore } = await import('@promethean-os/persistence');
       const { compileContext } = makeContextStore({
         getCollections: () => colls,
         resolveRole: deps.resolveRole,

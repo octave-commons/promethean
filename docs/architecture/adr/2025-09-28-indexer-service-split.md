@@ -25,17 +25,17 @@ The SmartGPT Bridge package currently embeds the semantic file indexer directly 
 ## Decision
 We will split the file indexer into its own service and supporting package:
 
-1. **Create `@promethean/indexer-core`** (new package) that owns the pure TypeScript logic currently in `packages/smartgpt-bridge/src/indexer.ts`, `indexerState.ts`, and related helpers (`remoteEmbedding.ts`, chunking utilities). The module will expose:
+1. **Create `@promethean-os/indexer-core`** (new package) that owns the pure TypeScript logic currently in `packages/smartgpt-bridge/src/indexer.ts`, `indexerState.ts`, and related helpers (`remoteEmbedding.ts`, chunking utilities). The module will expose:
    - `createIndexerManager(options)` returning an isolated manager instance.
    - File system helpers (`gatherRepoFiles`, `indexFile`, `reindexAll`, `search`).
    - Persistence abstraction with a pluggable state store interface default Level Cache, in-memory stub for tests.
-2. **Add `@promethean/indexer-service`** Fastify app under `packages/indexer-service` that:
+2. **Add `@promethean-os/indexer-service`** Fastify app under `packages/indexer-service` that:
    - Uses `indexer-core` to bootstrap a singleton manager.
    - Exposes REST endpoints mirroring today’s bridge surface `/indexer/status`, `/indexer/reset`, `/indexer/index`, `/indexer/remove`, `/indexer/reindex`, `/indexer/files/reindex`, `/search`.
    - Provides health/liveness probes and OpenAPI docs.
    - Accepts configuration via environment variables: `INDEX_ROOT`, `EMBED_*`, `COLLECTION_*`, `LOG_*`, etc.
-   - Ships its own CLI `pnpm --filter @promethean/indexer-service run reindex` for one-off rebuilds.
-3. **Update `@promethean/smartgpt-bridge`** to become an API client of the indexer service:
+   - Ships its own CLI `pnpm --filter @promethean-os/indexer-service run reindex` for one-off rebuilds.
+3. **Update `@promethean-os/smartgpt-bridge`** to become an API client of the indexer service:
    - Replace direct imports of `./indexer` with a thin `IndexerClient` that performs HTTP requests to the new service (configurable base URL).
    - Keep existing `/v0/*` and `/v1/*` endpoints stable by delegating to the client.
    - Adjust server bootstrap: instead of calling `indexerManager.ensureBootstrap`, issue a POST `/indexer/reset?bootstrap=true` non-blocking when the bridge starts.

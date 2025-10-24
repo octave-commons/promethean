@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/mcp-github-conflicts
+# @promethean-os/mcp-github-conflicts
 **Folder:** `packages/mcp-github-conflicts`  
 ```
 **Version:** `0.1.0`
@@ -11,7 +11,7 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/mcp-github-conflicts"]
+  A["@promethean-os/mcp-github-conflicts"]
 ```
 ## Dependencies
 - _None_

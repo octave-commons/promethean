@@ -1,7 +1,7 @@
 import type {
   // syntax error IndexedTask } from "./types.js";
 import {
-  // syntax error openLevelCache, type Cache } from "@promethean/level-cache";
+  // syntax error openLevelCache, type Cache } from "@promethean-os/level-cache";
 
 /**
  * TaskCache interface for efficient task storage and retrieval

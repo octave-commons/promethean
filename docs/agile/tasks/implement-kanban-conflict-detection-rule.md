@@ -171,9 +171,9 @@ packages/kanban/src/lib/
 ## 📚 Dependencies & Integration
 
 ### Existing Components to Leverage
-- **`@promethean/indexer-core`**: RAG/vector search capabilities
-- **`@promethean/kanban`**: Transition rules engine
-- **`@promethean/markdown`**: Task content parsing
+- **`@promethean-os/indexer-core`**: RAG/vector search capabilities
+- **`@promethean-os/kanban`**: Transition rules engine
+- **`@promethean-os/markdown`**: Task content parsing
 - **ChromaDB**: Vector storage for semantic search
 
 ### New Dependencies

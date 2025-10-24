@@ -1,6 +1,6 @@
 ---
 uuid: "1e1e2315-9c9a-4923-8cb1-e9dd2162dff5"
-title: "Migrate @promethean/level-cache to ClojureScript"
+title: "Migrate @promethean-os/level-cache to ClojureScript"
 slug: "Migrate @promethean level-cache to ClojureScript"
 status: "incoming"
 priority: "P1"
@@ -12,7 +12,7 @@ estimates:
   time_to_completion: ""
 ---
 
-Migrate the @promethean/level-cache package from TypeScript to typed ClojureScript, maintaining identical functionality and test coverage. Copy existing TypeScript tests and ensure they pass with the new ClojureScript implementation.
+Migrate the @promethean-os/level-cache package from TypeScript to typed ClojureScript, maintaining identical functionality and test coverage. Copy existing TypeScript tests and ensure they pass with the new ClojureScript implementation.
 
 ## ⛓️ Blocked By
 

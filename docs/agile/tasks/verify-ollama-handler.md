@@ -7,7 +7,7 @@ Ensure the new Ollama-backed chat completion handler interoperates with a live O
 1. Provision or reuse an Ollama runtime with the target model already pulled (e.g. `ollama pull llama3`).
 2. Start the OpenAI-compliant server with the Ollama handler enabled. Create a short bootstrap script for example `scripts/openai-server/start-ollama.mjs` that imports `createOpenAICompliantServer` and `createOllamaChatCompletionHandler`, then listens on `0.0.0.0:3000`. Run it after building the package:
    ```bash
-   pnpm --filter @promethean/openai-server run build
+   pnpm --filter @promethean-os/openai-server run build
    node scripts/openai-server/start-ollama.mjs
    ```
    > Pass `OLLAMA_BASE_URL` if the server is not on `http://127.0.0.1:11434`.

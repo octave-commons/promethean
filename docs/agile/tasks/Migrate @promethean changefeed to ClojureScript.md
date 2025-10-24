@@ -1,6 +1,6 @@
 ---
 uuid: "2412a975-296e-49e9-96d6-cc2330c09be2"
-title: "Migrate @promethean/changefeed to ClojureScript"
+title: "Migrate @promethean-os/changefeed to ClojureScript"
 slug: "Migrate @promethean changefeed to ClojureScript"
 status: "incoming"
 priority: "P2"
@@ -12,7 +12,7 @@ estimates:
   time_to_completion: ""
 ---
 
-Migrate the @promethean/changefeed package from TypeScript to typed ClojureScript, maintaining identical functionality and test coverage. Copy existing TypeScript tests and ensure they pass with the new ClojureScript implementation.
+Migrate the @promethean-os/changefeed package from TypeScript to typed ClojureScript, maintaining identical functionality and test coverage. Copy existing TypeScript tests and ensure they pass with the new ClojureScript implementation.
 
 ## ⛓️ Blocked By
 

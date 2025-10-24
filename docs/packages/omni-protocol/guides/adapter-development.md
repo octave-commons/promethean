@@ -25,7 +25,7 @@ import {
   validateOmniMessage,
   createRequestId,
   createCorrelationId
-} from "@promethean/omni-protocol";
+} from "@promethean-os/omni-protocol";
 
 export abstract class BaseAdapter {
   protected serviceName: string;
@@ -125,7 +125,7 @@ export abstract class BaseAdapter {
 
 ```typescript
 import { BaseAdapter } from "./base-adapter.js";
-import { OmniRequest, OmniResponse, OmniEvent } from "@promethean/omni-protocol";
+import { OmniRequest, OmniResponse, OmniEvent } from "@promethean-os/omni-protocol";
 
 interface UserData {
   id: string;
@@ -521,7 +521,7 @@ export class WebSocketAdapter extends BaseAdapter {
 ```typescript
 import test from "ava";
 import { UserServiceAdapter } from "../src/user-service-adapter.js";
-import { OmniRequest } from "@promethean/omni-protocol";
+import { OmniRequest } from "@promethean-os/omni-protocol";
 
 test("UserServiceAdapter handles getUser request", async (t) => {
   const adapter = new UserServiceAdapter();

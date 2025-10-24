@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document provides comprehensive API documentation for the Ollama queue integration functions and tools available in the `@promethean/opencode-client` package.
+This document provides comprehensive API documentation for the Ollama queue integration functions and tools available in the `@promethean-os/opencode-client` package.
 
 ## Core Queue Management Functions
 
@@ -22,7 +22,7 @@ function startQueueProcessor(): void
 
 **Usage Example:**
 ```typescript
-import { startQueueProcessor } from '@promethean/opencode-client';
+import { startQueueProcessor } from '@promethean-os/opencode-client';
 
 // Start the queue processor
 startQueueProcessor();
@@ -43,7 +43,7 @@ function stopQueueProcessor(): void
 
 **Usage Example:**
 ```typescript
-import { stopQueueProcessor } from '@promethean/opencode-client';
+import { stopQueueProcessor } from '@promethean-os/opencode-client';
 
 // Stop the queue processor
 stopQueueProcessor();

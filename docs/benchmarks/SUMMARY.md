@@ -67,7 +67,7 @@ Successfully generated **28 comprehensive benchmark prompts** across **11 catego
 ### ✅ Production Ready
 
 - Suitable for automated benchmarking
-- Integrates with existing @promethean/benchmark package
+- Integrates with existing @promethean-os/benchmark package
 - Supports CI/CD integration
 - Provides clear success metrics
 
@@ -153,7 +153,7 @@ Each benchmark prompt has been designed to:
 
 ## Next Steps
 
-1. **Integration**: Connect with @promethean/benchmark package
+1. **Integration**: Connect with @promethean-os/benchmark package
 2. **Validation**: Test prompts with various AI models
 3. **Calibration**: Adjust difficulty based on results
 4. **Expansion**: Add more prompts as framework evolves

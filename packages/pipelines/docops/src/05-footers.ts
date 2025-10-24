@@ -6,7 +6,7 @@ import { pathToFileURL } from "node:url";
 import matter from "gray-matter";
 
 // DB is injected by caller
-import { anchorId, injectAnchors } from "@promethean/markdown/anchors.js";
+import { anchorId, injectAnchors } from "@promethean-os/markdown/anchors.js";
 import { parseArgs, stripGeneratedSections } from "./utils.js";
 import type { Front } from "./types.js";
 

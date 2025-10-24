@@ -4,7 +4,7 @@
 
 **Version**: 1.0.0  
 **Last Updated**: 2025-10-15  
-**Package**: `@promethean/kanban`
+**Package**: `@promethean-os/kanban`
 
 ---
 
@@ -419,7 +419,7 @@ describe('AI Integration', () => {
 
     it('should handle AI service unavailability', async () => {
       // Mock AI service failure
-      jest.mock('@promethean/agents-workflow', () => ({
+      jest.mock('@promethean-os/agents-workflow', () => ({
         analyzeWithAgents: jest.fn().mockRejectedValue(new Error('Service unavailable')),
       }));
 

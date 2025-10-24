@@ -1,4 +1,4 @@
-# Essential Commands for @promethean/openai-server Development
+# Essential Commands for @promethean-os/openai-server Development
 
 ## Build & Development
 ```bash
@@ -21,13 +21,13 @@ pnpm run test
 ## Package-Specific Commands
 ```bash
 # Execute commands in this package context
-pnpm --filter @promethean/openai-server <command>
+pnpm --filter @promethean-os/openai-server <command>
 
 # Example: Run tests for this package only
-pnpm --filter @promethean/openai-server test
+pnpm --filter @promethean-os/openai-server test
 
 # Example: Build this package only
-pnpm --filter @promethean/openai-server build
+pnpm --filter @promethean-os/openai-server build
 ```
 
 ## Development Workflow

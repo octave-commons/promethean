@@ -1,6 +1,6 @@
 ---
 uuid: "7fc8db28-506d-4e67-9571-8ba8723c2861"
-title: "Migrate @promethean/manager to ClojureScript"
+title: "Migrate @promethean-os/manager to ClojureScript"
 slug: "Migrate @promethean manager to ClojureScript"
 status: "incoming"
 priority: "P1"
@@ -12,7 +12,7 @@ estimates:
   time_to_completion: ""
 ---
 
-Migrate the @promethean/manager package from TypeScript to typed ClojureScript, maintaining identical functionality and test coverage. Copy existing TypeScript tests and ensure they pass with the new ClojureScript implementation.
+Migrate the @promethean-os/manager package from TypeScript to typed ClojureScript, maintaining identical functionality and test coverage. Copy existing TypeScript tests and ensure they pass with the new ClojureScript implementation.
 
 ## ⛓️ Blocked By
 

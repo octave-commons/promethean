@@ -1,4 +1,4 @@
-# @promethean/opencode-unified
+# @promethean-os/opencode-unified
 
 Unified OpenCode client combining TypeScript server, ClojureScript editor, and Electron integration.
 
@@ -6,8 +6,8 @@ Unified OpenCode client combining TypeScript server, ClojureScript editor, and E
 
 This package consolidates three separate packages into a unified solution:
 
-- `@promethean/opencode-client` - TypeScript client library
-- `@promethean/dualstore-http` - HTTP server and API routes
+- `@promethean-os/opencode-client` - TypeScript client library
+- `@promethean-os/dualstore-http` - HTTP server and API routes
 - `opencode-cljs-electron` - ClojureScript editor with Electron integration
 
 ## Features

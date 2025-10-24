@@ -1,10 +1,10 @@
 // src/04-name.ts
 import * as path from "path";
 import { z } from "zod";
-import { openLevelCache } from "@promethean/level-cache";
+import { openLevelCache } from "@promethean-os/level-cache";
 import { parseArgs } from "./utils.js";
 import type { CodeBlock, Cluster, NamedGroup } from "./types.js";
-import { ollamaJSON } from "@promethean/utils";
+import { ollamaJSON } from "@promethean-os/utils";
 
 const args = parseArgs({
   "--blocks": ".cache/codepack/blocks",

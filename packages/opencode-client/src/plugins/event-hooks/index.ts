@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-only
-// Event Hooks Plugin for @promethean/opencode-client
+// Event Hooks Plugin for @promethean-os/opencode-client
 
 import type { HookablePlugin } from '../../types/plugin-hooks.js';
 import {

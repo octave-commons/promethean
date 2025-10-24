@@ -2,7 +2,7 @@ import test from 'ava';
 import { EventDrivenHookManager } from '../event-driven-hooks.js';
 import { DefaultPluginManager } from '../plugin-manager.js';
 import { DefaultHookRegistry } from '../hook-registry.js';
-import { InMemoryEventBus } from '@promethean/event';
+import { InMemoryEventBus } from '@promethean-os/event';
 import type { Plugin, HookRegistration, HookResult, HookContext } from '../types.js';
 
 // Mock event bus for testing

@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/intention
+# @promethean-os/intention
 ```
 **Folder:** `packages/intention`
 ```
@@ -13,7 +13,7 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/intention"]
+  A["@promethean-os/intention"]
 ```
 ## Dependencies
 - _None_

@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/agents-workflow
+# @promethean-os/agents-workflow
 ```
 **Folder:** `packages/agents-workflow`
 ```
@@ -13,13 +13,13 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/agents-workflow"]
-  D1["@promethean/test-utils"]
-  A --> D1["@promethean/test-utils"]
-  click D1 "../test-utils/README.md" "@promethean/test-utils"
+  A["@promethean-os/agents-workflow"]
+  D1["@promethean-os/test-utils"]
+  A --> D1["@promethean-os/test-utils"]
+  click D1 "../test-utils/README.md" "@promethean-os/test-utils"
 ```
 ## Dependencies
-- @promethean/test-utils$../test-utils/README.md
+- @promethean-os/test-utils$../test-utils/README.md
 ## Dependents
 - _None_
 ```

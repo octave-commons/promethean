@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/file-watcher
+# @promethean-os/file-watcher
 ```
 **Folder:** `packages/file-watcher`
 ```
@@ -13,33 +13,33 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/file-watcher"]
-  D1["@promethean/embedding"]
-  D2["@promethean/legacy"]
-  D3["@promethean/persistence"]
-  D4["@promethean/pm2-helpers"]
-  D5["@promethean/test-utils"]
-  D6["@promethean/utils"]
-  A --> D1["@promethean/embedding"]
-  A --> D2["@promethean/legacy"]
-  A --> D3["@promethean/persistence"]
-  A --> D4["@promethean/pm2-helpers"]
-  A --> D5["@promethean/test-utils"]
-  A --> D6["@promethean/utils"]
-  click D1 "../embedding/README.md" "@promethean/embedding"
-  click D2 "../legacy/README.md" "@promethean/legacy"
-  click D3 "../persistence/README.md" "@promethean/persistence"
-  click D4 "../pm2-helpers/README.md" "@promethean/pm2-helpers"
-  click D5 "../test-utils/README.md" "@promethean/test-utils"
-  click D6 "../utils/README.md" "@promethean/utils"
+  A["@promethean-os/file-watcher"]
+  D1["@promethean-os/embedding"]
+  D2["@promethean-os/legacy"]
+  D3["@promethean-os/persistence"]
+  D4["@promethean-os/pm2-helpers"]
+  D5["@promethean-os/test-utils"]
+  D6["@promethean-os/utils"]
+  A --> D1["@promethean-os/embedding"]
+  A --> D2["@promethean-os/legacy"]
+  A --> D3["@promethean-os/persistence"]
+  A --> D4["@promethean-os/pm2-helpers"]
+  A --> D5["@promethean-os/test-utils"]
+  A --> D6["@promethean-os/utils"]
+  click D1 "../embedding/README.md" "@promethean-os/embedding"
+  click D2 "../legacy/README.md" "@promethean-os/legacy"
+  click D3 "../persistence/README.md" "@promethean-os/persistence"
+  click D4 "../pm2-helpers/README.md" "@promethean-os/pm2-helpers"
+  click D5 "../test-utils/README.md" "@promethean-os/test-utils"
+  click D6 "../utils/README.md" "@promethean-os/utils"
 ```
 ## Dependencies
-- @promethean/embedding$../embedding/README.md
-- @promethean/legacy$../legacy/README.md
-- @promethean/persistence$../persistence/README.md
-- @promethean/pm2-helpers$../pm2-helpers/README.md
-- @promethean/test-utils$../test-utils/README.md
-- @promethean/utils$../utils/README.md
+- @promethean-os/embedding$../embedding/README.md
+- @promethean-os/legacy$../legacy/README.md
+- @promethean-os/persistence$../persistence/README.md
+- @promethean-os/pm2-helpers$../pm2-helpers/README.md
+- @promethean-os/test-utils$../test-utils/README.md
+- @promethean-os/utils$../utils/README.md
 ## Dependents
 - _None_
 ```

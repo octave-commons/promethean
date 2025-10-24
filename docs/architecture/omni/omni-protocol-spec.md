@@ -9,7 +9,7 @@
 Define a single, transport-agnostic contract for Promethean's Omni capabilities so REST, GraphQL, WebSocket, and MCP adapters (plus future extensions) share identical semantics, envelopes, and guardrails.
 
 ## 2. Goals
-- Canonicalize domain capabilities currently duplicated between `@promethean/smartgpt-bridge` and `@promethean/mcp`.
+- Canonicalize domain capabilities currently duplicated between `@promethean-os/smartgpt-bridge` and `@promethean-os/mcp`.
 - Support multi-interface adapters without re-implementing logic.
 - Preserve backward compatibility with `/v1` REST responses while enabling richer adapters.
 - Bake in security (auth, RBAC, sandbox boundaries) and streaming conventions.
@@ -29,7 +29,7 @@ Define a single, transport-agnostic contract for Promethean's Omni capabilities 
 ```
 ┌───────────────┐      ┌────────────────────┐      ┌─────────────────┐
 │  Interfaces   │─────▶│  Omni Service Host │─────▶│ Shared Services │
-│ (REST/GQL/WS/ │      │ (Fastify instance) │      │  (@promethean/  │
+│ (REST/GQL/WS/ │      │ (Fastify instance) │      │  (@promethean-os/  │
 │      MCP)     │      └────────────────────┘      │   omni-core)    │
 └───────────────┘              ▲                   └─────────────────┘
        │                       │                           ▲
@@ -44,8 +44,8 @@ Define a single, transport-agnostic contract for Promethean's Omni capabilities 
                                                 external APIs (GitHub)
 ```
 
-- `@promethean/omni-protocol` defines the contracts in TypeScript + JSON schema.
-- `@promethean/omni-core` implements the protocol using existing services.
+- `@promethean-os/omni-protocol` defines the contracts in TypeScript + JSON schema.
+- `@promethean-os/omni-core` implements the protocol using existing services.
 - Each adapter translates transport-specific requests into protocol calls using shared context builders.
 
 ## 6. RequestContext
@@ -195,29 +195,29 @@ interface MethodMetadata {
   outputSchema: JsonSchema;
 }
 ```
-- `@promethean/omni-protocol` exports metadata objects alongside implementation interfaces.
+- `@promethean-os/omni-protocol` exports metadata objects alongside implementation interfaces.
 - REST adapter uses metadata for OpenAPI generation.
 - GraphQL adapter uses metadata to generate schema types/fields.
 - MCP adapter maps metadata into tool descriptions and safety prompts.
 
 ## 12. Transport Mapping Requirements
-### 12.1 REST `@promethean/omni-rest`
+### 12.1 REST `@promethean-os/omni-rest`
 - Mount under `/rest/v1` with compatibility alias for legacy `/v1` routes.
 - Use Fastify JSON schemas derived from metadata.
 - Expose SSE endpoint `/rest/v1/agents/:id/logs/stream` using stream events.
 - Provide OpenAPI document via `metadata.openapi` method.
 
-### 12.2 GraphQL `@promethean/omni-graphql`
+### 12.2 GraphQL `@promethean-os/omni-graphql`
 - Queries for read operations, mutations for writes, subscriptions for streams.
 - Authorization resolved per field using RequestContext metadata.
-- Schema built dynamically from protocol metadata; versioned via `@promethean/omni-protocol` package.
+- Schema built dynamically from protocol metadata; versioned via `@promethean-os/omni-protocol` package.
 
-### 12.3 WebSocket `@promethean/omni-ws`
+### 12.3 WebSocket `@promethean-os/omni-ws`
 - RPC channel sends `{ id, method, params }` → `{ id, ok, result | error }` using protocol envelopes.
 - Streaming channel uses `stream.subscribe` / `stream.unsubscribe` commands returning stream events.
 - Connection upgrades reuse Fastify session/auth cookies.
 
-### 12.4 MCP `@promethean/omni-mcp`
+### 12.4 MCP `@promethean-os/omni-mcp`
 - Tool catalog built from protocol metadata, exposing file/search/github/etc tools.
 - HTTP transport mounts at `/mcp`; stdio transport uses same handlers.
 - Uses Omni core for sandbox + GitHub caching; no duplicate logic.
@@ -239,7 +239,7 @@ interface MethodMetadata {
 - Streaming tests ensuring ordering + termination semantics.
 
 ## 16. Versioning
-- Semantic versioning for `@promethean/omni-protocol`.
+- Semantic versioning for `@promethean-os/omni-protocol`.
 - Breaking changes require migration notes and adapter/client updates.
 - Provide changelog section dedicated to Omni protocol.
 

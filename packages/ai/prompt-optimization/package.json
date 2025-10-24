@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/prompt-optimization",
+  "name": "@promethean-os/prompt-optimization",
   "version": "2.0.0",
   "description": "Prompt Optimization v2.0 - qwen3:4b-instruct 100k context optimization system",
   "main": "dist/index.js",
@@ -31,7 +31,7 @@
   "author": "Promethean Team",
   "license": "MIT",
   "dependencies": {
-    "@promethean/level-cache": "workspace:*",
+    "@promethean-os/level-cache": "workspace:*",
     "fastify": "^4.24.3",
     "ws": "^8.14.2"
   },

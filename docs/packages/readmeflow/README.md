@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/readmeflow
+# @promethean-os/readmeflow
 ```
 **Folder:** `packages/readmeflow`
 ```
@@ -13,17 +13,17 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/readmeflow"]
-  D1["@promethean/level-cache"]
-  D2["@promethean/utils"]
-  A --> D1["@promethean/level-cache"]
-  A --> D2["@promethean/utils"]
-  click D1 "../level-cache/README.md" "@promethean/level-cache"
-  click D2 "../utils/README.md" "@promethean/utils"
+  A["@promethean-os/readmeflow"]
+  D1["@promethean-os/level-cache"]
+  D2["@promethean-os/utils"]
+  A --> D1["@promethean-os/level-cache"]
+  A --> D2["@promethean-os/utils"]
+  click D1 "../level-cache/README.md" "@promethean-os/level-cache"
+  click D2 "../utils/README.md" "@promethean-os/utils"
 ```
 ## Dependencies
-- @promethean/level-cache$../level-cache/README.md
-- @promethean/utils$../utils/README.md
+- @promethean-os/level-cache$../level-cache/README.md
+- @promethean-os/utils$../utils/README.md
 ## Dependents
 - _None_
 ```

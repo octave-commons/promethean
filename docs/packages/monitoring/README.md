@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/monitoring
+# @promethean-os/monitoring
 ```
 **Folder:** `packages/monitoring`
 ```
@@ -13,22 +13,22 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/monitoring"]
-  D1["@promethean/test-utils"]
-  R1["@promethean/discord"]
-  R2["@promethean/ws"]
-  A --> D1["@promethean/test-utils"]
-  R1["@promethean/discord"] --> A
-  R2["@promethean/ws"] --> A
-  click D1 "../test-utils/README.md" "@promethean/test-utils"
-  click R1 "../discord/README.md" "@promethean/discord"
-  click R2 "../ws/README.md" "@promethean/ws"
+  A["@promethean-os/monitoring"]
+  D1["@promethean-os/test-utils"]
+  R1["@promethean-os/discord"]
+  R2["@promethean-os/ws"]
+  A --> D1["@promethean-os/test-utils"]
+  R1["@promethean-os/discord"] --> A
+  R2["@promethean-os/ws"] --> A
+  click D1 "../test-utils/README.md" "@promethean-os/test-utils"
+  click R1 "../discord/README.md" "@promethean-os/discord"
+  click R2 "../ws/README.md" "@promethean-os/ws"
 ```
 ## Dependencies
-- @promethean/test-utils$../test-utils/README.md
+- @promethean-os/test-utils$../test-utils/README.md
 ## Dependents
-- @promethean/discord$../discord/README.md
-- @promethean/ws$../ws/README.md
+- @promethean-os/discord$../discord/README.md
+- @promethean-os/ws$../ws/README.md
 ```
 <!-- SYMPKG:PKG:END -->
 ```

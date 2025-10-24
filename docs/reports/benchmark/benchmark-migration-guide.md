@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide helps you migrate from the `@promethean/buildfix` benchmark system to the new dedicated `@promethean/benchmark` package. The migration provides better architecture, enhanced features, and broader use cases.
+This guide helps you migrate from the `@promethean-os/buildfix` benchmark system to the new dedicated `@promethean-os/benchmark` package. The migration provides better architecture, enhanced features, and broader use cases.
 
 ## 🎯 Migration Goals
 
@@ -36,7 +36,7 @@ This guide helps you migrate from the `@promethean/buildfix` benchmark system to
 
 ### Phase 2: Migration (Next)
 
-- [ ] Install `@promethean/benchmark` package
+- [ ] Install `@promethean-os/benchmark` package
 - [ ] Update package.json scripts
 - [ ] Migrate custom benchmark configurations
 - [ ] Update CI/CD pipelines
@@ -88,7 +88,7 @@ pnpm benchmark --prompt "Write a fibonacci function" --compare
 #### Before (BuildFix)
 
 ```typescript
-import { BuildFixBenchmark, models } from '@promethean/buildfix/src/benchmark';
+import { BuildFixBenchmark, models } from '@promethean-os/buildfix/src/benchmark';
 
 const benchmark = new BuildFixBenchmark();
 const results = await benchmark.runFixtures({
@@ -101,7 +101,7 @@ const results = await benchmark.runFixtures({
 #### After (Benchmark)
 
 ```typescript
-import { BenchmarkRunner } from '@promethean/benchmark';
+import { BenchmarkRunner } from '@promethean-os/benchmark';
 
 const runner = new BenchmarkRunner();
 
@@ -274,10 +274,10 @@ packages/benchmark/src/
 
 ```bash
 # Install the benchmark package
-pnpm add @promethean/benchmark
+pnpm add @promethean-os/benchmark
 
 # Or add to workspace
-pnpm -w add @promethean/benchmark
+pnpm -w add @promethean-os/benchmark
 ```
 
 ### Step 2: Update Package Scripts
@@ -329,7 +329,7 @@ export default {
 
 ```typescript
 // Old approach
-import { BuildFixBenchmark } from '@promethean/buildfix/src/benchmark';
+import { BuildFixBenchmark } from '@promethean-os/buildfix/src/benchmark';
 
 const benchmark = new BuildFixBenchmark();
 const results = await benchmark.runFixtures({
@@ -338,7 +338,7 @@ const results = await benchmark.runFixtures({
 });
 
 // New approach
-import { BenchmarkRunner } from '@promethean/benchmark';
+import { BenchmarkRunner } from '@promethean-os/benchmark';
 
 const runner = new BenchmarkRunner();
 await runner.addProvider({
@@ -506,7 +506,7 @@ result.resources.cpuUsage;
 
 ## 🎉 Conclusion
 
-The migration to `@promethean/benchmark` provides significant benefits:
+The migration to `@promethean-os/benchmark` provides significant benefits:
 
 1. **Better Architecture**: Modular, extensible design
 2. **Enhanced Features**: Multi-provider support, resource monitoring

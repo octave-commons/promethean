@@ -14,10 +14,10 @@ The Pantheon Framework is a modular cognitive architecture for running AI agents
 
 ```bash
 # Install the framework
-pnpm add @promethean/pantheon-core @promethean/pantheon-fp
+pnpm add @promethean-os/pantheon-core @promethean-os/pantheon-fp
 
 # Basic usage
-import { makeActorFactory, makeOrchestrator } from '@promethean/pantheon-core';
+import { makeActorFactory, makeOrchestrator } from '@promethean-os/pantheon-core';
 
 // Create an actor factory
 const actorFactory = makeActorFactory();

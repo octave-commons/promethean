@@ -171,7 +171,7 @@ pnpm kanban regenerate
 ### Tools & Commands
 
 - `pnpm kanban` - Kanban board management
-- `pnpm --filter @promethean/opencode-client` - Package-specific commands
+- `pnpm --filter @promethean-os/opencode-client` - Package-specific commands
 - `pnpm test` - Run test suites
 
 ## 🎉 Expected Outcomes

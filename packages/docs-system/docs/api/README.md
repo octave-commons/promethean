@@ -965,14 +965,14 @@ Future versions will be available at `/api/v2/`, `/api/v3/`, etc.
 
 Official SDKs are available for:
 
-- **JavaScript/TypeScript**: `@promethean/docs-system-client`
+- **JavaScript/TypeScript**: `@promethean-os/docs-system-client`
 - **Python**: `promethean-docs-system`
 - **Go**: `github.com/promethean/docs-system-go`
 
 ### JavaScript SDK Example
 
 ```javascript
-import { DocsSystemClient } from '@promethean/docs-system-client';
+import { DocsSystemClient } from '@promethean-os/docs-system-client';
 
 const client = new DocsSystemClient({
   baseURL: 'http://localhost:3001/api',

@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/docops
+# @promethean-os/docops
 ```
 **Folder:** `packages/docops`
 ```
@@ -13,29 +13,29 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/docops"]
-  D1["@promethean/file-indexer"]
-  D2["@promethean/fs"]
-  D3["@promethean/markdown"]
-  D4["@promethean/test-utils"]
-  D5["@promethean/utils"]
-  A --> D1["@promethean/file-indexer"]
-  A --> D2["@promethean/fs"]
-  A --> D3["@promethean/markdown"]
-  A --> D4["@promethean/test-utils"]
-  A --> D5["@promethean/utils"]
-  click D1 "../file-indexer/README.md" "@promethean/file-indexer"
-  click D2 "../fs/README.md" "@promethean/fs"
-  click D3 "../markdown/README.md" "@promethean/markdown"
-  click D4 "../test-utils/README.md" "@promethean/test-utils"
-  click D5 "../utils/README.md" "@promethean/utils"
+  A["@promethean-os/docops"]
+  D1["@promethean-os/file-indexer"]
+  D2["@promethean-os/fs"]
+  D3["@promethean-os/markdown"]
+  D4["@promethean-os/test-utils"]
+  D5["@promethean-os/utils"]
+  A --> D1["@promethean-os/file-indexer"]
+  A --> D2["@promethean-os/fs"]
+  A --> D3["@promethean-os/markdown"]
+  A --> D4["@promethean-os/test-utils"]
+  A --> D5["@promethean-os/utils"]
+  click D1 "../file-indexer/README.md" "@promethean-os/file-indexer"
+  click D2 "../fs/README.md" "@promethean-os/fs"
+  click D3 "../markdown/README.md" "@promethean-os/markdown"
+  click D4 "../test-utils/README.md" "@promethean-os/test-utils"
+  click D5 "../utils/README.md" "@promethean-os/utils"
 ```
 ## Dependencies
-- @promethean/file-indexer$../file-indexer/README.md
-- @promethean/fs$../fs/README.md
-- @promethean/markdown$../markdown/README.md
-- @promethean/test-utils$../test-utils/README.md
-- @promethean/utils$../utils/README.md
+- @promethean-os/file-indexer$../file-indexer/README.md
+- @promethean-os/fs$../fs/README.md
+- @promethean-os/markdown$../markdown/README.md
+- @promethean-os/test-utils$../test-utils/README.md
+- @promethean-os/utils$../utils/README.md
 ## Dependents
 - _None_
 ```

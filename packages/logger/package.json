@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/logger",
+  "name": "@promethean-os/logger",
   "version": "1.0.0",
   "description": "Structured logging package for Promethean with Winston",
   "main": "dist/index.js",

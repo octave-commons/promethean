@@ -63,7 +63,7 @@
 
 ### **What's Blocking 🚧**
 
-- **Build System Issues**: @promethean/utils only generating .d.ts files
+- **Build System Issues**: @promethean-os/utils only generating .d.ts files
 - **Module Resolution**: ESM conflicts in monorepo
 - **Dependency Chain**: Preventing live model testing
 

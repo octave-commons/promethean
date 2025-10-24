@@ -4,14 +4,14 @@ import * as path from "path";
 
 import test from "ava";
 import esmock from "esmock";
-import { openLevelCache } from "@promethean/level-cache";
+import { openLevelCache } from "@promethean-os/level-cache";
 
 async function tmpdir(): Promise<string> {
   return fs.mkdtemp(path.join(os.tmpdir(), "boardrev-cache-"));
 }
 
 async function stubUtils() {
-  const utils = await import("@promethean/utils");
+  const utils = await import("@promethean-os/utils");
   const stub: Readonly<typeof utils> = {
     ...utils,
     ollamaEmbed: async () => [1, 1],
@@ -28,7 +28,7 @@ test("indexRepo writes docs and embeddings to level cache", async (t) => {
   const stub = await stubUtils();
   const mod = await esmock<typeof import("../03-index-repo.js")>(
     new URL("../03-index-repo.js", import.meta.url).pathname,
-    { "@promethean/utils": stub },
+    { "@promethean-os/utils": stub },
   );
   const { indexRepo } = mod;
   await indexRepo({
@@ -56,7 +56,7 @@ test("matchContext reads from level cache", async (t) => {
   const stub = await stubUtils();
   const mod1 = await esmock<typeof import("../03-index-repo.js")>(
     new URL("../03-index-repo.js", import.meta.url).pathname,
-    { "@promethean/utils": stub },
+    { "@promethean-os/utils": stub },
   );
   const { indexRepo } = mod1;
   await indexRepo({
@@ -68,7 +68,7 @@ test("matchContext reads from level cache", async (t) => {
   });
   const mod2 = await esmock<typeof import("../04-match-context.js")>(
     new URL("../04-match-context.js", import.meta.url).pathname,
-    { "@promethean/utils": stub },
+    { "@promethean-os/utils": stub },
   );
   const { matchContext } = mod2;
   const tasksDir = path.join(dir, "tasks");

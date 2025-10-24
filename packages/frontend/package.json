@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/frontend",
+  "name": "@promethean-os/frontend",
   "version": "1.0.0",
   "description": "Consolidated frontend package for all Promethean UI applications",
   "private": true,
@@ -96,8 +96,8 @@
     "pm2:prod": "pm2 start ecosystem.config.mjs --env production"
   },
   "dependencies": {
-    "@promethean/persistence": "workspace:*",
-    "@promethean/utils": "workspace:*",
+    "@promethean-os/persistence": "workspace:*",
+    "@promethean-os/utils": "workspace:*",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "vite": "^5.0.0",
@@ -126,8 +126,8 @@
     "remark-gfm": "^4.0.0"
   },
   "devDependencies": {
-    "@promethean/test-utils": "workspace:*",
-    "@promethean/opencode-client": "workspace:*",
+    "@promethean-os/test-utils": "workspace:*",
+    "@promethean-os/opencode-client": "workspace:*",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "@types/react": "^18.2.0",
@@ -166,7 +166,7 @@
       "src"
     ],
     "dependencies": {
-      "@promethean/opencode-client": "workspace:*"
+      "@promethean-os/opencode-client": "workspace:*"
     }
   },
   "license": "GPL-3.0-only",

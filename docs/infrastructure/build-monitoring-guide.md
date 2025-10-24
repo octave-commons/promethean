@@ -10,16 +10,16 @@ The build monitoring system provides real-time insights into build performance, 
 
 ```bash
 # Install the build monitoring package
-pnpm add @promethean/build-monitoring
+pnpm add @promethean-os/build-monitoring
 
 # Setup monitoring configuration
-pnpm --filter @promethean/build-monitoring setup-alerts
+pnpm --filter @promethean-os/build-monitoring setup-alerts
 ```
 
 ### Basic Usage
 
 ```typescript
-import { BuildMonitor } from '@promethean/build-monitoring';
+import { BuildMonitor } from '@promethean-os/build-monitoring';
 
 // Initialize monitor with default configuration
 const monitor = new BuildMonitor();
@@ -44,7 +44,7 @@ console.log('System Health:', health);
 ### 2. Health Checks
 
 ```typescript
-import { HealthChecker } from '@promethean/build-monitoring';
+import { HealthChecker } from '@promethean-os/build-monitoring';
 
 const healthChecker = new HealthChecker({
   enabled: true,
@@ -68,7 +68,7 @@ const healthChecker = new HealthChecker({
 ### 3. Alert System
 
 ```typescript
-import { AlertManager } from '@promethean/build-monitoring';
+import { AlertManager } from '@promethean-os/build-monitoring';
 
 const alertManager = new AlertManager({
   enabled: true,
@@ -148,7 +148,7 @@ METRICS_RETENTION_DAYS=30
       "memoryUsage": 0.8,
       "cpuUsage": 0.9
     },
-    "projects": ["@promethean/core", "@promethean/builder", "@promethean/cli"]
+    "projects": ["@promethean-os/core", "@promethean-os/builder", "@promethean-os/cli"]
   },
   "alerts": {
     "enabled": true,
@@ -241,7 +241,7 @@ interface Alert {
 ### Creating Custom Alerts
 
 ```typescript
-import { AlertManager } from '@promethean/build-monitoring';
+import { AlertManager } from '@promethean-os/build-monitoring';
 
 const alertManager = new AlertManager();
 
@@ -250,7 +250,7 @@ await alertManager.createAlert({
   level: 'warning',
   title: 'High Memory Usage',
   message: 'Memory usage exceeded 80% threshold',
-  project: '@promethean/core',
+  project: '@promethean-os/core',
   metadata: {
     memoryUsage: 0.85,
     threshold: 0.8,
@@ -281,7 +281,7 @@ alertManager.addRule(customRule);
 The build monitoring system includes a web dashboard for visualizing metrics:
 
 ```typescript
-import { createDashboard } from '@promethean/build-monitoring';
+import { createDashboard } from '@promethean-os/build-monitoring';
 
 const dashboard = createDashboard({
   port: 3000,
@@ -298,16 +298,16 @@ console.log('Dashboard available at http://localhost:3000');
 
 ```bash
 # View current metrics
-pnpm --filter @promethean/build-monitoring metrics
+pnpm --filter @promethean-os/build-monitoring metrics
 
 # Check system health
-pnpm --filter @promethean/build-monitoring health-check
+pnpm --filter @promethean-os/build-monitoring health-check
 
 # View recent alerts
-pnpm --filter @promethean/build-monitoring alerts
+pnpm --filter @promethean-os/build-monitoring alerts
 
 # Generate performance report
-pnpm --filter @promethean/build-monitoring report --format markdown
+pnpm --filter @promethean-os/build-monitoring report --format markdown
 ```
 
 ## 📊 Performance Analysis
@@ -315,7 +315,7 @@ pnpm --filter @promethean/build-monitoring report --format markdown
 ### Build Performance Trends
 
 ```typescript
-import { MetricsCollector } from '@promethean/build-monitoring';
+import { MetricsCollector } from '@promethean-os/build-monitoring';
 
 const collector = new MetricsCollector();
 
@@ -323,7 +323,7 @@ const collector = new MetricsCollector();
 const trends = await collector.getTrends({
   metric: 'duration',
   timeframe: '7d',
-  project: '@promethean/core',
+  project: '@promethean-os/core',
 });
 
 console.log('Build Duration Trends:', trends);
@@ -348,18 +348,18 @@ console.log('Error Analysis:', errorAnalysis);
 ```yaml
 - name: Setup Build Monitoring
   run: |
-    pnpm --filter @promethean/build-monitoring setup-alerts
+    pnpm --filter @promethean-os/build-monitoring setup-alerts
 
 - name: Monitor Build
   run: |
-    pnpm --filter @promethean/build-monitoring monitor \
+    pnpm --filter @promethean-os/build-monitoring monitor \
       --build-id ${{ github.run_id }} \
       --project ${{ github.repository }}
 
 - name: Upload Metrics
   if: always()
   run: |
-    pnpm --filter @promethean/build-monitoring upload-metrics \
+    pnpm --filter @promethean-os/build-monitoring upload-metrics \
       --build-id ${{ github.run_id }}
 ```
 
@@ -390,40 +390,40 @@ console.log('Error Analysis:', errorAnalysis);
 
    ```bash
    # Check memory usage
-   pnpm --filter @promethean/build-monitoring health-check --component memory
+   pnpm --filter @promethean-os/build-monitoring health-check --component memory
 
    # Clear cache if needed
-   pnpm --filter @promethean/build-monitoring clear-cache
+   pnpm --filter @promethean-os/build-monitoring clear-cache
    ```
 
 2. **Missing Alerts**
 
    ```bash
    # Check alert configuration
-   pnpm --filter @promethean/build-monitoring test-alerts
+   pnpm --filter @promethean-os/build-monitoring test-alerts
 
    # Verify webhook endpoints
-   pnpm --filter @promethean/build-monitoring test-webhooks
+   pnpm --filter @promethean-os/build-monitoring test-webhooks
    ```
 
 3. **Performance Issues**
 
    ```bash
    # Analyze performance bottlenecks
-   pnpm --filter @promethean/build-monitoring analyze-performance
+   pnpm --filter @promethean-os/build-monitoring analyze-performance
 
    # Optimize configuration
-   pnpm --filter @promethean/build-monitoring optimize-config
+   pnpm --filter @promethean-os/build-monitoring optimize-config
    ```
 
 ### Debug Mode
 
 ```bash
 # Enable debug logging
-DEBUG=build-monitoring:* pnpm --filter @promethean/build-monitoring monitor
+DEBUG=build-monitoring:* pnpm --filter @promethean-os/build-monitoring monitor
 
 # Verbose output
-pnpm --filter @promethean/build-monitoring monitor --verbose
+pnpm --filter @promethean-os/build-monitoring monitor --verbose
 ```
 
 ## 📚 API Reference

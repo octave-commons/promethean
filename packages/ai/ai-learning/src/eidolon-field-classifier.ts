@@ -15,7 +15,7 @@ let FieldNode: any;
 
 async function loadEidolonField() {
   if (!VectorN) {
-    const module = await import('@promethean/eidolon-field');
+    const module = await import('@promethean-os/eidolon-field');
     VectorN = module.VectorN;
     FieldN = module.FieldN;
     FieldNode = module.FieldNode;

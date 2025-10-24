@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/agent-protocol",
+  "name": "@promethean-os/agent-protocol",
   "version": "1.0.0",
   "description": "Agent OS Core Message Protocol with envelope messaging and multiple transports",
   "main": "dist/index.js",
@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@promethean/agent-state": "workspace:*",
+    "@promethean-os/agent-state": "workspace:*",
     "amqplib": "^0.10.3",
     "ws": "^8.14.2",
     "uuid": "^9.0.1",

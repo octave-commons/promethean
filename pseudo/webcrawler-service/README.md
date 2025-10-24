@@ -9,7 +9,7 @@ Polite Markdown-saving web crawler that respects `robots.txt` and persists fetch
 Programmatic crawler that accepts a seed list and writes Markdown to the configured output directory.
 
 ```ts
-import { WebCrawler } from "@promethean/webcrawler-service";
+import { WebCrawler } from "@promethean-os/webcrawler-service";
 
 const crawler = new WebCrawler({
   seeds: ["https://example.com"],
@@ -24,7 +24,7 @@ await crawler.crawl();
 Stateful orchestrator that manages crawler lifecycles and exposes REST helpers.
 
 ```ts
-import { CrawlerOrchestrator, createOrchestratorServer } from "@promethean/webcrawler-service";
+import { CrawlerOrchestrator, createOrchestratorServer } from "@promethean-os/webcrawler-service";
 
 const orchestrator = new CrawlerOrchestrator({ outputDir: "/tmp/crawler" });
 const server = createOrchestratorServer(orchestrator);

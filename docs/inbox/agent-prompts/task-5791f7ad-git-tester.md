@@ -8,7 +8,7 @@ Prompt:
 - Report any edge cases or race conditions found
 
 Commands to use:
-- pnpm --filter @promethean/kanban test:integration
+- pnpm --filter @promethean-os/kanban test:integration
 - scripts/testing/create-temp-repo.sh
 
 Notes:

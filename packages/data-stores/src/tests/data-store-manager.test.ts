@@ -7,8 +7,8 @@ import {
   OPENCODE_STORES,
   FILE_SYSTEM_STORES,
 } from '../index.js';
-import { ContextStore, __setContextStoreDualFactoryForTests } from '@promethean/persistence';
-import type { DualStoreEntry, DualStoreManager } from '@promethean/persistence';
+import { ContextStore, __setContextStoreDualFactoryForTests } from '@promethean-os/persistence';
+import type { DualStoreEntry, DualStoreManager } from '@promethean-os/persistence';
 
 type QueryOptions = { limit?: number };
 

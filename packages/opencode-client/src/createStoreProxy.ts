@@ -1,4 +1,4 @@
-import { DualStoreManager } from '@promethean/persistence';
+import { DualStoreManager } from '@promethean-os/persistence';
 import { contextStore } from './stores.js';
 
 // Store access proxies using ContextStore with proper type casting

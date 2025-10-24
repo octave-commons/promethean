@@ -6,9 +6,9 @@ This guide helps you migrate from the scattered FSM implementations to the unifi
 
 The FSM codebase has been consolidated into a single, cohesive package with three clear API levels:
 
-1. **Simple FSM** (`@promethean/fsm/simple`) - For basic use cases
-2. **Graph FSM** (`@promethean/fsm/graph`) - For complex scenarios
-3. **Adapters** (`@promethean/fsm/adapters`) - Pre-built integrations
+1. **Simple FSM** (`@promethean-os/fsm/simple`) - For basic use cases
+2. **Graph FSM** (`@promethean-os/fsm/graph`) - For complex scenarios
+3. **Adapters** (`@promethean-os/fsm/adapters`) - Pre-built integrations
 
 ## 📋 Migration Scenarios
 
@@ -16,7 +16,7 @@ The FSM codebase has been consolidated into a single, cohesive package with thre
 
 **Before (deprecated):**
 ```typescript
-import { FSMGraph } from '@promethean/ds/fsm';
+import { FSMGraph } from '@promethean-os/ds/fsm';
 
 const fsm = new FSMGraph({
   id: 'my-state',
@@ -29,7 +29,7 @@ fsm.addTransition('idle', 'loading', 'start');
 
 **After (recommended):**
 ```typescript
-import { createGraphMachine } from '@promethean/fsm/graph';
+import { createGraphMachine } from '@promethean-os/fsm/graph';
 
 const fsm = createGraphMachine({
   id: 'my-machine',
@@ -57,7 +57,7 @@ const fsm = createGraphMachine({
 
 **Before (still works):**
 ```typescript
-import { createMachine, transition } from '@promethean/fsm';
+import { createMachine, transition } from '@promethean-os/fsm';
 
 const machine = createMachine({
   initialState: 'idle',
@@ -70,7 +70,7 @@ const machine = createMachine({
 
 **After (enhanced version):**
 ```typescript
-import { createSimpleMachine } from '@promethean/fsm/simple';
+import { createSimpleMachine } from '@promethean-os/fsm/simple';
 
 const machine = createSimpleMachine({
   initialState: 'idle',
@@ -90,7 +90,7 @@ const machine = createSimpleMachine({
 
 **New approach using Graph FSM:**
 ```typescript
-import { createGraphMachine } from '@promethean/fsm/graph';
+import { createGraphMachine } from '@promethean-os/fsm/graph';
 
 const workflow = createGraphMachine({
   id: 'workflow-engine',
@@ -169,8 +169,8 @@ console.log('Analysis:', workflow.analyze());
    ```
 
 2. **Identify which API you're using:**
-   - `FSMGraph` from `@promethean/ds/fsm` → Graph FSM
-   - `createMachine` from `@promethean/fsm` → Simple FSM
+   - `FSMGraph` from `@promethean-os/ds/fsm` → Graph FSM
+   - `createMachine` from `@promethean-os/fsm` → Simple FSM
    - Custom FSM implementations → Core types + custom implementation
 
 ### Step 2: Choose Your Target API
@@ -188,21 +188,21 @@ console.log('Analysis:', workflow.analyze());
 **Simple FSM:**
 ```typescript
 // New imports
-import { createSimpleMachine } from '@promethean/fsm/simple';
-import type { SimpleMachineDefinition } from '@promethean/fsm/simple';
+import { createSimpleMachine } from '@promethean-os/fsm/simple';
+import type { SimpleMachineDefinition } from '@promethean-os/fsm/simple';
 ```
 
 **Graph FSM:**
 ```typescript
 // New imports
-import { createGraphMachine } from '@promethean/fsm/graph';
-import type { GraphMachineDefinition } from '@promethean/fsm/graph';
+import { createGraphMachine } from '@promethean-os/fsm/graph';
+import type { GraphMachineDefinition } from '@promethean-os/fsm/graph';
 ```
 
 **Adapters:**
 ```typescript
 // New imports
-import { createKanbanFSM } from '@promethean/fsm/adapters';
+import { createKanbanFSM } from '@promethean-os/fsm/adapters';
 ```
 
 ### Step 4: Convert Machine Definitions

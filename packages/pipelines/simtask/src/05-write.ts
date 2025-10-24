@@ -4,7 +4,7 @@ import { randomUUID } from "crypto";
 import { pathToFileURL } from "url";
 
 import matter from "gray-matter";
-import { openLevelCache } from "@promethean/level-cache";
+import { openLevelCache } from "@promethean-os/level-cache";
 
 import { parseArgs } from "./utils.js";
 import type { Cluster, Plan, FunctionInfo } from "./types.js";

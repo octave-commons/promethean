@@ -36,7 +36,7 @@ Here’s the pattern that works and doesn’t fight pnpm.
 ```
 ```json
 {
-  "name": "@promethean/foo",
+  "name": "@promethean-os/foo",
   "type": "module",
   "scripts": {
     "build": "tsc -p tsconfig.json"
@@ -57,7 +57,7 @@ Root `package.json`
     // build ALL packages in the workspace (in parallel, respecting deps)
     "build": "pnpm -r --workspace-concurrency=4 run build",
 
-    // build a single package by name (pass PKG=@promethean/foo)
+    // build a single package by name (pass PKG=@promethean-os/foo)
     "build:pkg": "pnpm -r --filter {PKG} run build",
 
     // build a package + all of its upstream dependencies
@@ -75,11 +75,11 @@ Root `package.json`
 ### Why these matter
 
 * `pnpm -r run build` runs each package’s own `build`, so packages stay independently buildable:
-  `pnpm --filter @promethean/foo run build`.
+  `pnpm --filter @promethean-os/foo run build`.
 * The **ellipsis** rules are non-obvious but critical:
 
-  * `--filter ...@promethean/foo` (prefix ellipsis) includes **dependencies** of `foo` (build upstream first).
-  * `--filter @promethean/foo...` (trailing ellipsis) includes **dependents** of `foo` (downstream).
+  * `--filter ...@promethean-os/foo` (prefix ellipsis) includes **dependencies** of `foo` (build upstream first).
+  * `--filter @promethean-os/foo...` (trailing ellipsis) includes **dependents** of `foo` (downstream).
   * No ellipsis → just that package.
 
 # 3) (Optional but recommended) TypeScript project references
@@ -119,7 +119,7 @@ Then add at root:
 }
 ```
 
-You still keep `pnpm --filter @promethean/foo run build` working, but `tsc -b` can do the whole graph deterministically when you want a clean, full build.
+You still keep `pnpm --filter @promethean-os/foo run build` working, but `tsc -b` can do the whole graph deterministically when you want a clean, full build.
 
 # 4) Keep duplication out
 
@@ -138,12 +138,12 @@ You still keep `pnpm --filter @promethean/foo run build` working, but `tsc -b` c
 * Build just one package:
 
   ```
-  pnpm --filter @promethean/foo run build
+  pnpm --filter @promethean-os/foo run build
   ```
 * Build `foo` **and its dependencies** (fixes your earlier “HeadersInit” type errors by ensuring upstream is compiled):
 
   ```
-  pnpm -r --filter ...@promethean/foo run build
+  pnpm -r --filter ...@promethean-os/foo run build
   ```
 * Build packages affected by your last commit (changed or dependents):
 
@@ -151,7 +151,7 @@ You still keep `pnpm --filter @promethean/foo run build` working, but `tsc -b` c
   pnpm -r --filter "...[HEAD^]" run build
   ```
 
-If you want, I’ll add a tiny `@promethean/build-tools` helper (ESM, no mutation) that:
+If you want, I’ll add a tiny `@promethean-os/build-tools` helper (ESM, no mutation) that:
 
 * enforces `.js` extensions in `exports` after build,
 * copies minimal `package.json` to `dist`,

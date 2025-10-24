@@ -26,7 +26,7 @@ program
   .hook('postAction', async () => {
     // Cleanup stores after command completes
     try {
-      const { cleanupClients } = await import('@promethean/persistence');
+      const { cleanupClients } = await import('@promethean-os/persistence');
       await cleanupClients();
     } catch (error) {
       // Ignore cleanup errors - connection might already be closed
@@ -50,7 +50,7 @@ process.on('uncaughtException', async (error) => {
   console.error(chalk.red('Uncaught exception:'));
   console.error(error.stack);
   try {
-    const { cleanupClients } = await import('@promethean/persistence');
+    const { cleanupClients } = await import('@promethean-os/persistence');
     await cleanupClients();
   } catch (cleanupError) {
     // Ignore cleanup errors
@@ -61,7 +61,7 @@ process.on('uncaughtException', async (error) => {
 process.on('unhandledRejection', async (reason, promise) => {
   console.error(chalk.red('Unhandled rejection at:'), promise, 'reason:', reason);
   try {
-    const { cleanupClients } = await import('@promethean/persistence');
+    const { cleanupClients } = await import('@promethean-os/persistence');
     await cleanupClients();
   } catch (cleanupError) {
     // Ignore cleanup errors
@@ -73,7 +73,7 @@ process.on('unhandledRejection', async (reason, promise) => {
 process.on('SIGINT', async () => {
   console.log(chalk.gray('\nShutting down...'));
   try {
-    const { cleanupClients } = await import('@promethean/persistence');
+    const { cleanupClients } = await import('@promethean-os/persistence');
     await cleanupClients();
   } catch (cleanupError) {
     // Ignore cleanup errors
@@ -85,7 +85,7 @@ process.on('SIGINT', async () => {
 process.on('SIGTERM', async () => {
   console.log(chalk.gray('\nTerminating...'));
   try {
-    const { cleanupClients } = await import('@promethean/persistence');
+    const { cleanupClients } = await import('@promethean-os/persistence');
     await cleanupClients();
   } catch (cleanupError) {
     // Ignore cleanup errors

@@ -1,4 +1,4 @@
-import type { ComponentType, Entity, World } from '@promethean/ds/ecs.js';
+import type { ComponentType, Entity, World } from '@promethean-os/ds/ecs.js';
 
 export type BargeIn = 'none' | 'duck' | 'pause' | 'stop';
 

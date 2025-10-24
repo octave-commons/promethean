@@ -4,7 +4,7 @@
 
 **Version**: 1.0.0  
 **Last Updated**: 2025-10-15  
-**Package**: `@promethean/kanban`
+**Package**: `@promethean-os/kanban`
 
 ---
 
@@ -234,19 +234,19 @@ export async function handleMoveTask(args: MoveTaskArgs): Promise<void> {
 
 ### AI Analysis Setup
 
-The testing transition system integrates with `@promethean/agents-workflow` for AI-powered analysis.
+The testing transition system integrates with `@promethean-os/agents-workflow` for AI-powered analysis.
 
 #### 1. Install Dependencies
 
 ```bash
-pnpm add @promethean/agents-workflow
+pnpm add @promethean-os/agents-workflow
 ```
 
 #### 2. Configure AI Analysis
 
 ```typescript
 // packages/kanban/src/lib/testing-transition/ai-analyzer.ts
-import { analyzeWithAgents } from '@promethean/agents-workflow';
+import { analyzeWithAgents } from '@promethean-os/agents-workflow';
 import type { AIAnalysisRequest, AIAnalysisResult } from './types.js';
 
 export async function analyzeWithAI(request: AIAnalysisRequest): Promise<AIAnalysisResult> {

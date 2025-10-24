@@ -49,7 +49,7 @@ pipelines:
       - id: symdocs-graph
         deps: ["symdocs-docs"]
         cwd: .
-        shell: "pnpm --filter @promethean/symdocs symdocs:04-graph --in .cache/symdocs/docs.json --out docs/graphs"
+        shell: "pnpm --filter @promethean-os/symdocs symdocs:04-graph --in .cache/symdocs/docs.json --out docs/graphs"
         inputs: [".cache/symdocs/docs.json"]
         outputs: ["docs/graphs/**/*.mmd", "docs/graphs/**/*.png"]
 

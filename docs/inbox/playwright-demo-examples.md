@@ -367,7 +367,7 @@ Since this is a Promethean Framework project, you can run tests using:
 
 ```bash
 # From project root
-pnpm --filter @promethean/kanban test
+pnpm --filter @promethean-os/kanban test
 
 # Or if you're in the kanban package directory
 pnpm test

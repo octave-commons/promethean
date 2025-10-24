@@ -2,7 +2,7 @@ import { LLMService, LLMRequest } from '../llm-service.js';
 import {
   BasicPromptInjectionDetector,
   PromptInjectionDetectorResult
-} from '@promethean/security/testing/prompt-injection.js';
+} from '@promethean-os/security/testing/prompt-injection.js';
 
 export interface LLMSecurityContext {
   agentId?: string;

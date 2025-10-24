@@ -1,5 +1,5 @@
 import test from "ava";
-import { installInMemoryPersistence } from "@promethean/test-utils/persistence.js";
+import { installInMemoryPersistence } from "@promethean-os/test-utils/persistence.js";
 import { start, stop, monitor } from "../index.js";
 
 test("monitor marks stale processes killed without OS signals (unit)", async (t) => {

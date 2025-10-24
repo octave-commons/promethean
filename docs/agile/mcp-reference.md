@@ -1,10 +1,10 @@
 # MCP (Model Context Protocol) Reference
 
-Complete reference for the `@promethean/mcp` package - unified MCP server with composable tools for AI agents.
+Complete reference for the `@promethean-os/mcp` package - unified MCP server with composable tools for AI agents.
 
 ## Overview
 
-`@promethean/mcp` is a single MCP server module that provides:
+`@promethean-os/mcp` is a single MCP server module that provides:
 
 - **70+ composable tools** for development workflows
 - **HTTP and stdio transports** for flexible deployment
@@ -18,20 +18,20 @@ Complete reference for the `@promethean/mcp` package - unified MCP server with c
 
 ```bash
 # MCP is included in the monorepo
-pnpm --filter @promethean/mcp build
+pnpm --filter @promethean-os/mcp build
 ```
 
 ### Basic Usage
 
 ```bash
 # HTTP transport with default config
-pnpm --filter @promethean/mcp dev
+pnpm --filter @promethean-os/mcp dev
 
 # Custom configuration
-pnpm --filter @promethean/mcp dev -- --config ./my-mcp.json
+pnpm --filter @promethean-os/mcp dev -- --config ./my-mcp.json
 
 # Stdio transport
-MCP_CONFIG_JSON='{"transport":"stdio","tools":["files_view_file"]}' pnpm --filter @promethean/mcp dev
+MCP_CONFIG_JSON='{"transport":"stdio","tools":["files_view_file"]}' pnpm --filter @promethean-os/mcp dev
 ```
 
 ## Configuration
@@ -89,7 +89,7 @@ For complex setups, use the canonical EDN representation:
 
 ```bash
 # Start HTTP server
-pnpm --filter @promethean/mcp dev
+pnpm --filter @promethean-os/mcp dev
 
 # Access endpoints
 http://localhost:3000/mcp          # Default endpoint
@@ -109,10 +109,10 @@ http://localhost:3000/ui           # Dev UI
 ```bash
 # Stdio with inline config
 MCP_CONFIG_JSON='{"transport":"stdio","tools":["files_view_file"]}' \
-  pnpm --filter @promethean/mcp dev
+  pnpm --filter @promethean-os/mcp dev
 
 # Stdio with config file
-pnpm --filter @promethean/mcp dev -- --config stdio-config.json
+pnpm --filter @promethean-os/mcp dev -- --config stdio-config.json
 ```
 
 ## Tool Categories
@@ -174,10 +174,10 @@ pnpm --filter @promethean/mcp dev -- --config stdio-config.json
 
 | Tool              | Description         | Example                                                  |
 | ----------------- | ------------------- | -------------------------------------------------------- |
-| `pnpm_install`    | Run pnpm install    | `{"filter": "@promethean/core"}`                         |
-| `pnpm_add`        | Add dependencies    | `{"packages": ["lodash"], "filter": "@promethean/core"}` |
-| `pnpm_remove`     | Remove dependencies | `{"packages": ["lodash"], "filter": "@promethean/core"}` |
-| `pnpm_run_script` | Run npm script      | `{"script": "build", "filter": "@promethean/core"}`      |
+| `pnpm_install`    | Run pnpm install    | `{"filter": "@promethean-os/core"}`                         |
+| `pnpm_add`        | Add dependencies    | `{"packages": ["lodash"], "filter": "@promethean-os/core"}` |
+| `pnpm_remove`     | Remove dependencies | `{"packages": ["lodash"], "filter": "@promethean-os/core"}` |
+| `pnpm_run_script` | Run npm script      | `{"script": "build", "filter": "@promethean-os/core"}`      |
 
 #### Execution Tools
 
@@ -191,9 +191,9 @@ pnpm --filter @promethean/mcp dev -- --config stdio-config.json
 | Tool                | Description              | Example                                            |
 | ------------------- | ------------------------ | -------------------------------------------------- |
 | `tdd_scaffold_test` | Create test scaffold     | `{"filePath": "src/utils.ts", "testType": "unit"}` |
-| `tdd_run_tests`     | Run tests                | `{"filter": "@promethean/core", "watch": false}`   |
-| `tdd_start_watch`   | Start test watcher       | `{"filter": "@promethean/core"}`                   |
-| `tdd_coverage`      | Generate coverage report | `{"filter": "@promethean/core"}`                   |
+| `tdd_run_tests`     | Run tests                | `{"filter": "@promethean-os/core", "watch": false}`   |
+| `tdd_start_watch`   | Start test watcher       | `{"filter": "@promethean-os/core"}`                   |
+| `tdd_coverage`      | Generate coverage report | `{"filter": "@promethean-os/core"}`                   |
 
 ### 🤖 AI/LLM Tools
 
@@ -248,13 +248,13 @@ The HTTP transport includes a Web Components-based Dev UI for interactive tool e
 
 ```bash
 # Build UI once
-pnpm --filter @promethean/mcp-dev-ui build
+pnpm --filter @promethean-os/mcp-dev-ui build
 
 # Or watch during development
-pnpm --filter @promethean/mcp-dev-ui watch
+pnpm --filter @promethean-os/mcp-dev-ui watch
 
 # Start MCP server with UI
-pnpm --filter @promethean/mcp dev
+pnpm --filter @promethean-os/mcp dev
 
 # Access UI
 http://localhost:3000/ui
@@ -366,12 +366,12 @@ await mcp.call('tdd_scaffold_test', {
 
 // 2. Start watcher
 await mcp.call('tdd_start_watch', {
-  filter: '@promethean/core',
+  filter: '@promethean-os/core',
 });
 
 // 3. Check coverage
 const coverage = await mcp.call('tdd_coverage', {
-  filter: '@promethean/core',
+  filter: '@promethean-os/core',
 });
 ```
 
@@ -418,7 +418,7 @@ const breakdown = await mcp.call('kanban_breakdown_task', {
     {
       "name": "promethean",
       "command": "pnpm",
-      "args": ["--filter", "@promethean/mcp", "dev"],
+      "args": ["--filter", "@promethean-os/mcp", "dev"],
       "cwd": "/path/to/promethean"
     }
   ]
@@ -433,7 +433,7 @@ const breakdown = await mcp.call('kanban_breakdown_task', {
   "mcpServers": {
     "promethean": {
       "command": "pnpm",
-      "args": ["--filter", "@promethean/mcp", "dev"],
+      "args": ["--filter", "@promethean-os/mcp", "dev"],
       "cwd": "/path/to/promethean"
     }
   }
@@ -447,9 +447,9 @@ FROM node:20
 WORKDIR /app
 COPY . .
 RUN corepack enable && corepack prepare pnpm@9 --activate
-RUN pnpm install && pnpm --filter @promethean/mcp build
+RUN pnpm install && pnpm --filter @promethean-os/mcp build
 EXPOSE 3000
-CMD ["pnpm", "--filter", "@promethean/mcp", "dev"]
+CMD ["pnpm", "--filter", "@promethean-os/mcp", "dev"]
 ```
 
 ## Troubleshooting
@@ -460,7 +460,7 @@ CMD ["pnpm", "--filter", "@promethean/mcp", "dev"]
 
 ```bash
 # Check config resolution
-pnpm --filter @promethean/mcp dev -- --config ./promethean.mcp.json --verbose
+pnpm --filter @promethean-os/mcp dev -- --config ./promethean.mcp.json --verbose
 ```
 
 **Proxy server fails to start:**
@@ -487,11 +487,11 @@ Enable verbose logging:
 
 ```bash
 # HTTP transport
-DEBUG=mcp:* pnpm --filter @promethean/mcp dev
+DEBUG=mcp:* pnpm --filter @promethean-os/mcp dev
 
 # Stdio transport
 MCP_CONFIG_JSON='{"transport":"stdio","tools":["files_view_file"]}' \
-  DEBUG=mcp:* pnpm --filter @promethean/mcp dev
+  DEBUG=mcp:* pnpm --filter @promethean-os/mcp dev
 ```
 
 ### Health Checks
@@ -512,26 +512,26 @@ curl -X POST http://localhost:3000/mcp \
 
 ```bash
 # Build MCP package
-pnpm --filter @promethean/mcp build
+pnpm --filter @promethean-os/mcp build
 
 # Build Dev UI
-pnpm --filter @promethean/mcp-dev-ui build
+pnpm --filter @promethean-os/mcp-dev-ui build
 
 # Build all
-pnpm --filter "@promethean/mcp*" build
+pnpm --filter "@promethean-os/mcp*" build
 ```
 
 ### Testing
 
 ```bash
 # Run tests
-pnpm --filter @promethean/mcp test
+pnpm --filter @promethean-os/mcp test
 
 # Run specific test
-pnpm --filter @promethean/mcp test -- --match "files"
+pnpm --filter @promethean-os/mcp test -- --match "files"
 
 # Coverage
-pnpm --filter @promethean/mcp coverage
+pnpm --filter @promethean-os/mcp coverage
 ```
 
 ### Adding New Tools
@@ -596,7 +596,7 @@ export const myTool: ToolFactory = (ctx) => ({
 
 ```bash
 # Enable performance logging
-DEBUG=mcp:performance pnpm --filter @promethean/mcp dev
+DEBUG=mcp:performance pnpm --filter @promethean-os/mcp dev
 
 # Monitor proxy processes
 ps aux | grep promethean-mcp-proxy

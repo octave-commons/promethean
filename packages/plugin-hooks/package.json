@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/plugin-hooks",
+  "name": "@promethean-os/plugin-hooks",
   "version": "1.0.0",
   "description": "Event-driven plugin hooks architecture for the Promethean framework",
   "main": "dist/index.js",
@@ -24,7 +24,7 @@
   "license": "GPL-3.0-only",
   "dependencies": {
     "zod": "^3.22.0",
-    "@promethean/event": "workspace:*"
+    "@promethean-os/event": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

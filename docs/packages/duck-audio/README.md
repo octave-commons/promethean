@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/duck-audio
+# @promethean-os/duck-audio
 ```
 **Folder:** `packages/duck-audio`
 ```
@@ -13,19 +13,19 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/duck-audio"]
-  R1["@promethean/cephalon"]
-  R2["@promethean/duck-web"]
-  R1["@promethean/cephalon"] --> A
-  R2["@promethean/duck-web"] --> A
-  click R1 "../cephalon/README.md" "@promethean/cephalon"
-  click R2 "../duck-web/README.md" "@promethean/duck-web"
+  A["@promethean-os/duck-audio"]
+  R1["@promethean-os/cephalon"]
+  R2["@promethean-os/duck-web"]
+  R1["@promethean-os/cephalon"] --> A
+  R2["@promethean-os/duck-web"] --> A
+  click R1 "../cephalon/README.md" "@promethean-os/cephalon"
+  click R2 "../duck-web/README.md" "@promethean-os/duck-web"
 ```
 ## Dependencies
 - _None_
 ## Dependents
-- @promethean/cephalon$../cephalon/README.md
-- @promethean/duck-web$../duck-web/README.md
+- @promethean-os/cephalon$../cephalon/README.md
+- @promethean-os/duck-web$../duck-web/README.md
 ```
 <!-- SYMPKG:PKG:END -->
 ```

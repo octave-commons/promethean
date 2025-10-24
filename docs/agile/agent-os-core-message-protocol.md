@@ -715,7 +715,7 @@ interface EncryptedMessage {
 ### Basic Agent Implementation
 
 ```typescript
-import { AgentOSServer } from '@promethean/agent-os';
+import { AgentOSServer } from '@promethean-os/agent-os';
 
 const agent = new AgentOSServer({
   id: 'worker-001',

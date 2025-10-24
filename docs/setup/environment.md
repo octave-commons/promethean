@@ -71,7 +71,7 @@ curl http://localhost:11434/api/tags
 | Variable | Required? | Default / Example | Used by | Notes |
 | --- | --- | --- | --- | --- |
 | `OLLAMA_URL` | Yes | `http://127.0.0.1:11434` | All AI pipelines | Endpoint for the Ollama API. Override when using a remote host. |
-| `OLLAMA_DISABLE` | No | `false` | Utilities consuming `@promethean/utils/ollama` | Set to `true` to bypass Ollama-dependent steps (scripts no-op gracefully). |
+| `OLLAMA_DISABLE` | No | `false` | Utilities consuming `@promethean-os/utils/ollama` | Set to `true` to bypass Ollama-dependent steps (scripts no-op gracefully). |
 | `DEFAULT_MODEL` | No | `qwen3:4b` | Symdocs, semverguard, eslint-tasks | Match the model you have downloaded or override per invocation. |
 | `EMBED_MODEL` | No | `nomic-embed-text:latest` | docops, readmeflow, test-gap | Embedding model tag used across pipelines. |
 | `SONAR_HOST_URL` | Conditional | `https://sonarcloud.io` | Sonar pipeline | Use your self-hosted Sonar URL if not on SonarCloud. |
@@ -137,7 +137,7 @@ ollama list | grep -E "qwen3:4b|nomic-embed-text:latest"
 
 ### Dry-run validation
 ```bash
-pnpm --filter @promethean/docops doc:01-fm-ensure --model ${DEFAULT_MODEL:-qwen3:4b}
+pnpm --filter @promethean-os/docops doc:01-fm-ensure --model ${DEFAULT_MODEL:-qwen3:4b}
 ```
 The command should complete without `ollama` connection errors. If you must run pipelines without AI capabilities (e.g., CI runners without GPU), set `OLLAMA_DISABLE=true` so scripts degrade gracefully.
 
@@ -290,12 +290,12 @@ Keep this document updated whenever new pipelines introduce additional secrets o
 
 **Sonar Pipeline (requires all SONAR_* variables):**
 ```bash
-pnpm --filter @promethean/piper piper run sonar
+pnpm --filter @promethean-os/piper piper run sonar
 ```
 
 **Board Review Pipeline (may use GITHUB_TOKEN):**
 ```bash
-pnpm --filter @promethean/piper piper run board-review
+pnpm --filter @promethean-os/piper piper run board-review
 ```
 
 ## Troubleshooting
@@ -349,10 +349,10 @@ curl -X POST http://localhost:11434/api/generate \
 ### Running AI-Powered Pipelines
 ```bash
 # Test a specific pipeline
-pnpm --filter @promethean/piper piper run symdocs --config pipelines.json
+pnpm --filter @promethean-os/piper piper run symdocs --config pipelines.json
 
 # Run all AI pipelines (requires full setup)
-pnpm --filter @promethean/piper piper run symdocs,simtasks,readmes
+pnpm --filter @promethean-os/piper piper run symdocs,simtasks,readmes
 ```
 
 ### Verifying Setup
@@ -365,7 +365,7 @@ fetch(process.env.OLLAMA_URL + '/api/tags')
 "
 
 # Test pipeline configuration
-pnpm --filter @promethean/piper piper list
+pnpm --filter @promethean-os/piper piper list
 ```
 
 ## Security Notes

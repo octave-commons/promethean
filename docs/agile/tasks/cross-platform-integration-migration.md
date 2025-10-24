@@ -1203,7 +1203,7 @@ class ProcessEnvShim implements CompatibilityShim {
 
 ### Integration and Migration Package
 
-- `@promethean/integration-migration` package
+- `@promethean-os/integration-migration` package
 - Core integration management system
 - Migration tools and utilities
 - Compatibility layer implementation
@@ -1227,11 +1227,11 @@ class ProcessEnvShim implements CompatibilityShim {
 
 ### Prerequisites
 
-- Error handling package (`@promethean/error-handling`)
-- Configuration management package (`@promethean/configuration`)
-- Feature detection package (`@promethean/feature-detection`)
-- Platform adapters package (`@promethean/platform-adapters`)
-- Core infrastructure package (`@promethean/platform-core`)
+- Error handling package (`@promethean-os/error-handling`)
+- Configuration management package (`@promethean-os/configuration`)
+- Feature detection package (`@promethean-os/feature-detection`)
+- Platform adapters package (`@promethean-os/platform-adapters`)
+- Core infrastructure package (`@promethean-os/platform-core`)
 
 ### Dependencies for Production
 

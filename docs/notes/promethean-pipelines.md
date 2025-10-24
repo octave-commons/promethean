@@ -576,7 +576,7 @@ flowchart LR
 ```
 ^ref-8b8e6103-84-0 ^ref-86ef1f2b-84-0
 ```
-* **apidiff** (fast win): reuse `@promethean/symdocs` scan output; add `03-diff.ts` compare against saved baseline in `.cache/apidiff/<pkg>.json` and `05-write.ts` for a per-package report + semver recommendation. ^ref-8b8e6103-85-0
+* **apidiff** (fast win): reuse `@promethean-os/symdocs` scan output; add `03-diff.ts` compare against saved baseline in `.cache/apidiff/<pkg>.json` and `05-write.ts` for a per-package report + semver recommendation. ^ref-8b8e6103-85-0
 * **codemods** (pairs nicely with `simtasks`): add `simtasks:06-codemods` to synthesize ts-morph transforms from a plan and emit runnable codemods with a dry-run CLI.
 ```
 ^ref-8b8e6103-87-0

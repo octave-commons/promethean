@@ -1,7 +1,7 @@
 ```
 <!-- SYMPKG:PKG:BEGIN -->
 ```
-# @promethean/testgap
+# @promethean-os/testgap
 ```
 **Folder:** `packages/testgap`
 ```
@@ -13,13 +13,13 @@
 ```
 ```mermaid
 graph LR
-  A["@promethean/testgap"]
-  D1["@promethean/utils"]
-  A --> D1["@promethean/utils"]
-  click D1 "../utils/README.md" "@promethean/utils"
+  A["@promethean-os/testgap"]
+  D1["@promethean-os/utils"]
+  A --> D1["@promethean-os/utils"]
+  click D1 "../utils/README.md" "@promethean-os/utils"
 ```
 ## Dependencies
-- @promethean/utils$../utils/README.md
+- @promethean-os/utils$../utils/README.md
 ## Dependents
 - _None_
 ```

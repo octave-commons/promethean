@@ -14,7 +14,7 @@ estimates:
 
 ## Task Completion Summary
 
-Successfully resolved all ESLint errors in the @promethean/compiler package:
+Successfully resolved all ESLint errors in the @promethean-os/compiler package:
 
 ### Issues Fixed:
 
