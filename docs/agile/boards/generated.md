@@ -239,6 +239,13 @@ kanban-plugin: board
 - [ ] [[CMS Integration & E2E Tests|CMS: Integration & E2E Tests]] #testing #integration prio:P0 (uuid:ca3bc694-ec29-498a-8e71-2a3f4f1caf99)
 - [ ] [[CMS Reporting & Email Pipeline|CMS: Reporting & Email Pipeline]] #reporting #email prio:P1 (uuid:0ece56db-57b6-4f69-ba23-f6170be0d2a3)
 - [ ] [[CMS Unit Tests & CI Integration|CMS: Unit Tests & CI Integration]] #testing #ci prio:P0 (uuid:968af0f0-bd71-4bf7-b174-b26a1bbc0a38)
+- [ ] [[Implement FileSystemWatcher]] #implement #filesystemwatcher #nothing #blocked (uuid:80f6a81a-f550-4a62-a5da-c3c321af3180)
+- [ ] [[Build Compliance Validation Engine]] #build #compliance #validation #engine (uuid:ad83cd92-159c-44ef-aeff-93a635d8874c)
+- [ ] [[GitWorkflow implement core integration|GitWorkflow: implement core integration]] #git-workflow #backend prio:P1 (uuid:7de488be-30f4-46dc-897c-d01477ba35ba)
+- [ ] [[Implement Alert & Notification System]] #implement #alert #notification #system (uuid:2bbbd976-c00c-4ac7-a797-e96222013a2f)
+- [ ] [[[[[[[5791f7ad] GitWorkflow implement core integration - GitWorkflow [5791f7ad] GitWorkflow implement core integration - GitWorkflow]] [[[5791f7ad] GitWorkflow implement core integration - GitWorkflow [5791f7ad] GitWorkflow implement core integration - GitWorkflow]]]]|[[[[[5791f7ad] GitWorkflow implement core integration - GitWorkflow [5791f7ad] GitWorkflow implement core integration - GitWorkflow]]|[[[5791f7ad] GitWorkflow implement core integration - GitWorkflow|[5791f7ad] GitWorkflow: implement core integration - GitWorkflow]]]]]] #git-workflow #backend prio:P1 (uuid:66331ec1-3413-472d-858d-e78bde1bef4b)
+- [ ] [[Implement plugin hook types (plugin-parity-001)]] #plugin #event-driven #hooks prio:P0 (uuid:dd053a6b-201e-4dc4-b6d9-ce2c0436743d)
+- [ ] [[[5791f7ad] ScarFileManager]] #scar-file #backend prio:P1 (uuid:bec3710d-fb00-4555-8202-13ac0ebc9e06)
 
 ## accepted
 
