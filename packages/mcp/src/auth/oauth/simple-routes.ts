@@ -573,10 +573,7 @@ export function registerSimpleOAuthRoutes(
     }
   });
 
-
-      }
-
-      // For ChatGPT PKCE flow, only code is required (state is optional)
+  // Back-compat: allow POST /callback to behave like /token for MCP
       if (!code) {
         return reply.status(400).send({
           error: 'Missing parameters',
