@@ -231,9 +231,14 @@ kanban-plugin: board
 - [ ] [[refactor-enhanced-context-complex-functions|Refactor Complex Functions in enhanced-context.ts]] #refactoring #complexity #boardrev #code-quality prio:P0 (uuid:b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e)
 - [ ] [[testing]] #testing #nothing #blocked #blocks (uuid:fc52c605-7114-48a8-a75c-99788b0b1cc7)
 - [ ] [[unify-cli-tool-interfaces|Unify CLI and Tool Interfaces]] #cli #tools #interfaces #unification #epic3 prio:P1 (uuid:f3c311a0-de6a-44ba-90ac-ad8ab96f4699)
-- [ ] [[CMS File System Watcher|CMS: File System Watcher]] #monitoring #automation prio:P0 (uuid:558e62d4-6b69-400c-aafb-9eed77e60e60)
 - [ ] [[CMS Compliance Validation Engine|CMS: Compliance Validation Engine]] #monitoring #automation prio:P0 (uuid:3fd7253b-c511-41f6-b86b-181aa69692fc)
 - [ ] [[CMS Alert & Notification System|CMS: Alert & Notification System]] #monitoring #alerting #automation prio:P0 (uuid:8572ae71-f102-43ef-afcb-d582a61fbefc)
+- [ ] [[CMS Compliance Dashboard (Real-time UI + API + charts)|CMS: Compliance Dashboard (Real-time UI + API + charts)]] #monitoring #automation #ui prio:P0 (uuid:7c2c63e2-9990-42cc-a92f-32f299234493)
+- [ ] [[CMS Violation Tracker & Persistence|CMS: Violation Tracker & Persistence]] #monitoring #automation #storage prio:P0 (uuid:30d32f28-e3b7-4d33-aa2f-0232c3a8a6f0)
+- [ ] [[CMS Scheduled Scans & Health Checks|CMS: Scheduled Scans & Health Checks]] #monitoring #automation #cron prio:P1 (uuid:d9b9dc56-1f41-45d5-b3b1-38db55cb5a0f)
+- [ ] [[CMS Integration & E2E Tests|CMS: Integration & E2E Tests]] #testing #integration prio:P0 (uuid:ca3bc694-ec29-498a-8e71-2a3f4f1caf99)
+- [ ] [[CMS Reporting & Email Pipeline|CMS: Reporting & Email Pipeline]] #reporting #email prio:P1 (uuid:0ece56db-57b6-4f69-ba23-f6170be0d2a3)
+- [ ] [[CMS Unit Tests & CI Integration|CMS: Unit Tests & CI Integration]] #testing #ci prio:P0 (uuid:968af0f0-bd71-4bf7-b174-b26a1bbc0a38)
 
 ## accepted
 
@@ -259,6 +264,7 @@ kanban-plugin: board
 - [ ] [[implement-smart-incoming-to-accepted-transition-rule|Implement Smart Incoming → Accepted Transition Rule with AI-Powered Task Quality Analysis]] #kanban #transition-rules #ai-analysis #quality-gate #agents-workflow #task-validation #workflow-automation prio:P1 (uuid:a8b9c3d4-5e6f-7a8b-9c0d-1e2f3a4b5c6d)
 - [ ] [[migrate kanban label frontmatter field to tags for better compatability with obsdian|Migrate kanban Labels to tags for compatability with obsidian's knowledge graph]] #ai #automation #kanban #obsidian #knowledge-graph #knowledge-management-system prio:P1 (uuid:363f1d14-a864-11f0-a5c2-7fa31ed98b3f)
 - [ ] [[resolve-todo-comments-technical-debt|Resolve TODO Comments and Technical Debt]] #technical-debt #todo-comments #cleanup #maintenance prio:P2 (uuid:e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8a9b)
+- [ ] [[CMS File System Watcher|CMS: File System Watcher]] #monitoring #automation prio:P0 (uuid:558e62d4-6b69-400c-aafb-9eed77e60e60)
 
 ## breakdown
 
