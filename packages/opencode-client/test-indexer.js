@@ -4,7 +4,7 @@
  * Test script to verify indexer service functionality
  */
 
-import { createIndexerService } from './src/services/indexer.js';
+import { createIndexerService } from './dist/services/indexer.js';
 import { unlink } from 'fs/promises';
 
 async function testIndexer() {

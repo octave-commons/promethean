@@ -4,6 +4,9 @@
   "description": "CLI client for OpenCode plugins and tools",
   "type": "module",
   "main": "dist/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
     ".": {
       "import": "./dist/index.js",
