@@ -1,6 +1,7 @@
 export default {
-  files: ["**/*.{test,spec}.ts"],
-  extensions: { ts: 'module' },
-  nodeArguments: ["--loader=ts-node/esm"],
+  files: ['**/dist/**/*.test.js'],
   timeout: '30s',
+  workerThreads: false,
+  failFast: true,
+  serial: false,
 };

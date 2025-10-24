@@ -5,7 +5,7 @@
  * built using composable functions for better maintainability and testability.
  */
 
-import type { IndexerState, OpenCodeClient } from './indexer-types.js';
+import type { IndexerState, OpencodeClient } from './indexer-types.js';
 import type {
   StateManager,
   LoggerManager,
@@ -15,13 +15,13 @@ import type {
 } from './composables/index.js';
 
 import {
-  createClient,
   createStateManagerComposable,
   createLoggerComposable,
   createTimerManager,
   createEventManager,
   createSyncManager,
 } from './composables/index.js';
+import { createOpencodeClient } from '@opencode-ai/sdk';
 
 // Additional types needed for the indexer service
 export type IndexerOptions = {
@@ -46,7 +46,7 @@ export type IndexerService = {
   readonly getState: () => Promise<IndexerState & { readonly isRunning: boolean }>;
   readonly getStats: () => EventProcessingStats;
   readonly resetStats: () => void;
-  readonly client: OpenCodeClient;
+  readonly client: OpencodeClient;
   readonly stateManager: StateManager;
   readonly loggerManager: LoggerManager;
   readonly timerManager: TimerManager;
@@ -58,7 +58,7 @@ export type IndexerService = {
  * Create indexer components
  */
 const createIndexerComponents = (options: IndexerOptions = {}) => {
-  const client = createClient({
+  const client = createOpencodeClient({
     baseUrl: options.baseUrl || 'http://localhost:3000',
   });
 

@@ -85,10 +85,11 @@ export class OAuthSystem {
       codeChallenge = pkceOptions.codeChallenge ?? derivedChallenge;
       codeChallengeMethod = pkceOptions.codeChallengeMethod ?? 'S256';
     } else {
-      // Generate secure PKCE values when not provided by caller
-      codeVerifier = this.generateCodeVerifier();
-      codeChallenge = this.generateCodeChallenge(codeVerifier);
-      codeChallengeMethod = 'S256';
+      // For ChatGPT compatibility, only use PKCE when explicitly provided
+      // Don't auto-generate PKCE for legacy flows
+      codeVerifier = pkceOptions?.codeVerifier;
+      codeChallenge = codeVerifier ? pkceOptions?.codeChallenge : undefined;
+      codeChallengeMethod = codeVerifier ? pkceOptions?.codeChallengeMethod : undefined;
     }
     const state = this.generateSecureState();
 

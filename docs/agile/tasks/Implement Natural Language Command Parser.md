@@ -10,14 +10,6 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
-lastCommitSha: "1b7c721aad027c9bb7794ba340de9da462a00356"
-commitHistory:
-  -
-    sha: "1b7c721aad027c9bb7794ba340de9da462a00356"
-    timestamp: "2025-10-22 08:23:03 -0500\n\ndiff --git a/docs/agile/tasks/Implement Natural Language Command Parser.md b/docs/agile/tasks/Implement Natural Language Command Parser.md\nindex 5d2acfea2..bae0d4b82 100644\n--- a/docs/agile/tasks/Implement Natural Language Command Parser.md\t\n+++ b/docs/agile/tasks/Implement Natural Language Command Parser.md\t\n@@ -2,7 +2,7 @@\n uuid: \"52c48585-42e1-47ce-bc2c-c46686c1ca53\"\n title: \"Implement Natural Language Command Parser\"\n slug: \"Implement Natural Language Command Parser\"\n-status: \"in_progress\"\n+status: \"testing\"\n priority: \"P0\"\n labels: [\"agent-os\", \"nlp\", \"parser\", \"commands\", \"natural-language\", \"critical\"]\n created_at: \"2025-10-13T18:49:10.684Z\""
-    message: "Change task status: 52c48585-42e1-47ce-bc2c-c46686c1ca53 - Implement Natural Language Command Parser - in_progress → testing"
-    author: "Error"
-    type: "status_change"
 ---
 
 ## 🗣️ Critical: Natural Language Command Parser

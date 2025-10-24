@@ -146,3 +146,13 @@ benchmark-fixtures/
 
 # Generated kanban board files (should be regenerated, not committed)
 docs/agile/boards/generated.md
+
+# Temporary kanban test directories
+packages/kanban/kanban-test-*/
+
+# Temporary test directories
+**/kanban-test-*/
+**/test-tmp/
+
+# stryker temp files
+.stryker-tmp

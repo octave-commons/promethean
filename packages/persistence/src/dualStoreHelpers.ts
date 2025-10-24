@@ -80,11 +80,25 @@ export type DualStoreManagerDependencies<TextKey extends string, TimeKey extends
 };
 
 const setupClients = async (): Promise<{ chromaClient: any; mongoClient: any }> => {
-    console.log('[DualStoreManager] Connecting to clients...');
+    console.log('[DUALSTORE SETUP] Connecting to clients...');
+
     const chromaClient = await getChromaClient();
-    console.log('[DualStoreManager] Chroma client connected');
+    console.log('[DUALSTORE SETUP] Chroma client connected');
+    console.log(`[DUALSTORE SETUP] Chroma client type: ${typeof chromaClient}`);
+
     const mongoClient = await getMongoClient();
-    console.log('[DualStoreManager] MongoDB client connected');
+    console.log('[DUALSTORE SETUP] MongoDB client connected');
+    console.log(`[DUALSTORE SETUP] MongoDB client type: ${typeof mongoClient}`);
+    console.log(`[DUALSTORE SETUP] MongoDB client constructor: ${mongoClient.constructor?.name || 'unknown'}`);
+
+    // Test client connection
+    try {
+        const pingResult = await mongoClient.db('admin').command({ ping: 1 });
+        console.log(`[DUALSTORE SETUP] MongoDB ping successful:`, pingResult);
+    } catch (error) {
+        console.error(`[DUALSTORE SETUP] MongoDB ping failed:`, error);
+    }
+
     return { chromaClient, mongoClient };
 };
 
@@ -116,12 +130,23 @@ const setupCollections = async (
     alias: any,
     embeddingFn: any,
 ): Promise<{ chromaCollection: ChromaCollection; mongoCollection: any }> => {
+    console.log(`[DUALSTORE SETUP] Creating collections for family: ${family}`);
+
     const chromaCollection: ChromaCollection = await chromaClient.getOrCreateCollection({
         name: alias?.target ?? family,
         embeddingFunction: embeddingFn,
     });
+    console.log(`[DUALSTORE SETUP] Chroma collection created: ${alias?.target ?? family}`);
+
+    console.log(`[DUALSTORE SETUP] Creating MongoDB collection: ${family}`);
+    console.log(`[DUALSTORE SETUP] Database object type: ${typeof db}`);
+    console.log(`[DUALSTORE SETUP] Database constructor: ${db.constructor?.name || 'unknown'}`);
 
     const mongoCollection = db.collection(family);
+    console.log(`[DUALSTORE SETUP] MongoDB collection created`);
+    console.log(`[DUALSTORE SETUP] Collection type: ${typeof mongoCollection}`);
+    console.log(`[DUALSTORE SETUP] Collection constructor: ${mongoCollection.constructor?.name || 'unknown'}`);
+
     return { chromaCollection, mongoCollection };
 };
 
@@ -134,25 +159,35 @@ export const createDualStoreManagerDependencies = async <TextKey extends string,
         databaseName?: string;
     },
 ): Promise<DualStoreManagerDependencies<TextKey, TimeKey>> => {
-    console.log(`[DualStoreManager] Creating store for ${name}...`);
+    console.log(`[DUALSTORE CREATE] Creating store for ${name}...`);
+    console.log(`[DUALSTORE CREATE] TextKey: ${String(textKey)}, TimeKey: ${String(timeStampKey)}`);
 
     const { chromaClient, mongoClient } = await setupClients();
+    console.log(`[DUALSTORE CREATE] Clients setup complete`);
 
     const agentName = options?.agentName ?? AGENT_NAME;
     const databaseName = options?.databaseName ?? 'database';
     const family = `${agentName}_${name}`;
-    console.log(`[DualStoreManager] Accessing database: ${databaseName}, collection family: ${family}`);
+    console.log(`[DUALSTORE CREATE] Accessing database: ${databaseName}, collection family: ${family}`);
 
     const db = mongoClient.db(databaseName);
+    console.log(`[DUALSTORE CREATE] Database reference created, type: ${typeof db}`);
+    console.log(`[DUALSTORE CREATE] MongoDB client state: ${mongoClient.s?.serverDescription?.host || 'unknown'}`);
+
     const alias = await lookupAlias(db, family);
+    console.log(`[DUALSTORE CREATE] Alias lookup complete`);
 
     const embedFnName = alias?.embed?.fn ?? process.env.EMBEDDING_FUNCTION ?? 'nomic-embed-text';
     const embeddingFn = createEmbeddingFunction(alias);
 
     const { chromaCollection, mongoCollection } = await setupCollections(chromaClient, db, family, alias, embeddingFn);
+    console.log(`[DUALSTORE CREATE] Collections created`);
+    console.log(`[DUALSTORE CREATE] Mongo collection type: ${typeof mongoCollection}`);
+    console.log(`[DUALSTORE CREATE] Mongo collection constructor: ${mongoCollection.constructor.name}`);
+    console.log(`[DUALSTORE CREATE] Chroma collection type: ${typeof chromaCollection}`);
 
     const supportsImages = !embedFnName.toLowerCase().includes('text');
-    return {
+    const result = {
         name: family,
         agent_name: AGENT_NAME ?? 'default_agent',
         embedding_fn: embedFnName,
@@ -162,4 +197,7 @@ export const createDualStoreManagerDependencies = async <TextKey extends string,
         timeStampKey,
         supportsImages,
     };
+
+    console.log(`[DUALSTORE CREATE] Dependencies created successfully for store: ${result.name}`);
+    return result;
 };

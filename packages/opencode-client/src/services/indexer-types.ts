@@ -1,6 +1,6 @@
 import { readFile, writeFile } from 'fs/promises';
 
-import type { Session, Event } from '@opencode-ai/sdk';
+import type { Event, OpencodeClient } from '@opencode-ai/sdk';
 
 export type IndexerState = {
   readonly lastIndexedSessionId?: string;
@@ -11,20 +11,8 @@ export type IndexerState = {
   readonly consecutiveErrors?: number;
 };
 
-export type OpenCodeClient = {
-  readonly session: {
-    readonly list: () => Promise<{ readonly data: readonly Session[] }>;
-    readonly messages: (params: { readonly path: { readonly id: string } }) => Promise<{
-      readonly data: readonly Message[];
-    }>;
-    readonly message: (params: {
-      readonly path: { readonly id: string; readonly messageID: string };
-    }) => Promise<{ readonly data: Message }>;
-  };
-  readonly event?: {
-    readonly subscribe: () => Promise<{ readonly stream: AsyncIterable<Event> }>;
-  };
-};
+// Re-export OpencodeClient from SDK
+export type { OpencodeClient };
 
 export type Message = {
   readonly info?: {

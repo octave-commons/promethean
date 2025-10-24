@@ -2,7 +2,7 @@
 uuid: "e02ca039-c992-431d-81ff-bdabddb2502d"
 title: "Add BuildFix process timeout handling"
 slug: "Add BuildFix process timeout handling"
-status: "todo"
+status: "ready"
 priority: "P0"
 labels: ["buildfix", "critical", "timeout", "provider"]
 created_at: "2025-10-15T13:54:47.815Z"

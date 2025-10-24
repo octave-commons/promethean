@@ -148,11 +148,14 @@
     "zod": "3.25.76"
   },
   "devDependencies": {
+    "@diogovcs/stryker-mutator": "^0.2.7",
     "@nx/devkit": "21.4.1",
     "@nx/node": "^21.6.4",
     "@playwright/mcp": "0.0.42",
     "@playwright/test": "1.56.0",
     "@promethean/test-utils": "workspace:*",
+    "@stryker-mutator/tap-runner": "^9.2.0",
+    "@stryker-mutator/typescript": "^4.0.0",
     "@types/mongodb": "4.0.6",
     "@types/node": "20.19.11",
     "@typescript-eslint/eslint-plugin": "8.42.0",
@@ -184,5 +187,12 @@
   },
   "engines": {
     "node": "22.20.0"
-  }
+  },
+  "workspaces": [
+    "packages/*",
+    "packages/*/*",
+    ".opencode/*",
+    "scripts/*/*",
+    "tools/"
+  ]
 }

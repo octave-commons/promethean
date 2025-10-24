@@ -55,7 +55,7 @@ export function validateAndNormalizePath(
     /\/windows\//i, // Windows system directories
     /\/program files\//i, // Windows program files
     /\/users\//i, // Windows users directory
-    /^[A-Za-z]:\\/, // Windows absolute paths (C:\, D:\, etc.)
+    /^[A-Za-z]:\\/i, // Windows absolute paths (C:\, D:\, etc.)
     /^~\//, // Home directory access
     /^~/, // Home directory access
   ];
@@ -142,7 +142,7 @@ export function validateFileSystemPath(inputPath: string, allowedBasePaths: stri
     throw new Error('Path too long');
   }
 
-  // Check for control characters
+  // Check for control characters (including null bytes)
   if (/[\x00-\x1f\x7f-\x9f]/.test(validatedPath)) {
     throw new Error('Path contains control characters');
   }

@@ -13,5 +13,5 @@ export async function compileContext(
   ...legacyArgs: readonly [number?, number?, number?, boolean?]
 ): Promise<Message[]> {
   // Cast the return type since ContextStore returns ollama.Message which is compatible
-  return contextStore.compileContext(textsOrOptions, ...legacyArgs) as Promise<Message[]>;
+  return contextStore.compileContext(textsOrOptions as any, ...legacyArgs) as Promise<Message[]>;
 }

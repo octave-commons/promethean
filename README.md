@@ -2,6 +2,7 @@
 
 A modular cognitive architecture for building embodied AI agents with reasoning, perception-action loops, and emotionally mediated decision structures.
 
+
 ## 🚀 Quick Start
 
 ```bash

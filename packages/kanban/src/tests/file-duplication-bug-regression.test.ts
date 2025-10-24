@@ -24,7 +24,7 @@ test('FAILING REPRODUCTION: Descriptive filenames with dots get duplicated with 
   // Create the first task - this should create one file
   const createdTask = await createTask(
     board,
-    'todo',
+    'icebox',
     { title: fullTitle, content: 'First task content' },
     tasksDir,
     boardPath,
@@ -34,14 +34,14 @@ test('FAILING REPRODUCTION: Descriptive filenames with dots get duplicated with 
   // but force a different slug, which should trigger the duplication bug
   const problematicBoard = makeBoard([
     {
-      name: 'todo',
+      name: 'icebox',
       count: 1,
       limit: null,
       tasks: [
         {
           uuid: createdTask.uuid, // Same UUID!
           title: fullTitle,
-          status: 'todo',
+          status: 'icebox',
           priority: 'P2',
           labels: ['kanban'],
           created_at: '2025-10-12T15:30:00.000Z',
@@ -92,7 +92,7 @@ test('FAILING REPRODUCTION: Pure numeric filenames do not get duplicated', async
 
   await createTask(
     board,
-    'todo',
+    'icebox',
     { title: numericTitle, content: 'Numeric task content' },
     tasksDir,
     boardPath,
@@ -134,7 +134,7 @@ test('FAILING REPRODUCTION: Multiple duplication creates " 2 2.md" pattern', asy
 
   await createTask(
     board,
-    'todo',
+    'icebox',
     { title: problematicTitle, content: 'First task content' },
     tasksDir,
     boardPath,
@@ -181,14 +181,14 @@ test('FAILING REPRODUCTION: pushToTasks operation triggers descriptive filename 
 
   const board = makeBoard([
     {
-      name: 'todo',
+      name: 'icebox',
       count: 1,
       limit: null,
       tasks: [
         {
           uuid: 'test-uuid-12345',
           title: fullTitle,
-          status: 'todo',
+          status: 'icebox',
           priority: 'P2',
           labels: ['kanban'],
           created_at: '2025-10-12T16:00:00.000Z',
@@ -242,7 +242,7 @@ test('FAILING REPRODUCTION: Complex descriptive names with special characters ge
   for (const title of complexTitles) {
     await createTask(
       board,
-      'todo',
+      'icebox',
       { title, content: `Content for ${title}` },
       tasksDir,
       boardPath,
@@ -290,7 +290,7 @@ test('FAILING REPRODUCTION: Mixed filename types show inconsistent behavior', as
 
   await createTask(
     board,
-    'todo',
+    'icebox',
     { title: descriptiveTitle, content: 'Descriptive content' },
     tasksDir,
     boardPath,
@@ -298,7 +298,7 @@ test('FAILING REPRODUCTION: Mixed filename types show inconsistent behavior', as
 
   await createTask(
     board,
-    'todo',
+    'icebox',
     { title: numericTitle, content: 'Numeric content' },
     tasksDir,
     boardPath,
@@ -346,7 +346,7 @@ test('FAILING REPRODUCTION: Board load and save cycle creates duplicates', async
   const descriptiveTitle = 'test-descriptive-task-for-duplication';
   await createTask(
     board,
-    'todo',
+    'icebox',
     { title: descriptiveTitle, content: 'Test content' },
     tasksDir,
     boardPath,

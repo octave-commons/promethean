@@ -1,0 +1,50 @@
+{
+  "name": "@promethean/platform-core",
+  "version": "0.1.0",
+  "description": "Core infrastructure for cross-platform compatibility layer",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "license": "GPL-3.0-only",
+  "scripts": {
+    "build": "tsc",
+    "test": "ava",
+    "test:unit": "ava src/tests/**/*.test.ts",
+    "test:integration": "ava tests/integration/**/*.test.ts",
+    "clean": "rm -rf dist",
+    "coverage": "nyc ava",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --ext .ts",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ava": "^6.0.0",
+    "nyc": "^15.0.0",
+    "typescript": "^5.0.0",
+    "eslint": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "cross-platform",
+    "platform-detection",
+    "runtime",
+    "compatibility",
+    "typescript"
+  ],
+  "author": "Promethean Team",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/promethean/promethean.git",
+    "directory": "packages/platform-core"
+  },
+  "bugs": {
+    "url": "https://github.com/promethean/promethean/issues"
+  },
+  "homepage": "https://github.com/promethean/promethean/tree/main/packages/platform-core#readme"
+}

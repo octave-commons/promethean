@@ -19,6 +19,7 @@ import type {
 } from './scar-context-types.js';
 import { createEventLogEntry, validateScarContextIntegrity } from './type-guards.js';
 import type { Board, Task } from '../types.js';
+import type { ContextEnhancementOptions } from './context-enhancement.js';
 
 /**
  * Configuration options for scar context building
@@ -40,6 +41,8 @@ export interface ScarContextBuilderOptions {
   columnFilter?: string[];
   /** Filter tasks by specific labels */
   labelFilter?: string[];
+  /** LLM context enhancement options */
+  contextEnhancement?: ContextEnhancementOptions;
 }
 
 /**

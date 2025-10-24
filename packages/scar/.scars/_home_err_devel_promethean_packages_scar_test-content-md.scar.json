@@ -1,0 +1,138 @@
+[
+  {
+    "scar": {
+      "id": "scar_1761281208790_7eyjhu52s",
+      "filePath": "/home/err/devel/promethean/packages/scar/test-content.md",
+      "type": "content_corruption",
+      "severity": "medium",
+      "status": "completed",
+      "detectedAt": "2025-10-24T04:46:48.790Z",
+      "healedAt": "2025-10-24T04:46:48.790Z",
+      "healingOperationId": "op_1761281208790_ld3tqec0k",
+      "description": "Repeated slash patterns in content",
+      "evidence": [
+        "//*"
+      ],
+      "metadata": {
+        "autoHealable": true,
+        "changesMade": [
+          "Fixed repeated slash patterns (//* -> //)",
+          "Added final newline"
+        ],
+        "requiresManualReview": false
+      },
+      "tags": [
+        "content_corruption",
+        "medium"
+      ]
+    },
+    "healingOperation": {
+      "id": "op_1761281208790_ld3tqec0k",
+      "filePath": "/home/err/devel/promethean/packages/scar/test-content.md",
+      "corruptions": [
+        {
+          "type": "content_corruption",
+          "severity": "medium",
+          "description": "Repeated slash patterns in content",
+          "filePath": "/home/err/devel/promethean/packages/scar/test-content.md",
+          "detectedAt": "2025-10-24T04:46:48.790Z",
+          "evidence": [
+            "//*"
+          ],
+          "autoHealable": true
+        }
+      ],
+      "status": "completed",
+      "startedAt": "2025-10-24T04:46:48.790Z",
+      "completedAt": "2025-10-24T04:46:48.790Z",
+      "originalChecksum": "-68472398",
+      "healedChecksum": "5c30c2b8"
+    },
+    "beforeSnapshot": {
+      "filePath": "/home/err/devel/promethean/packages/scar/test-content.md",
+      "content": "//* This is a corrupted comment\n# Test Task\n\nThis is â€smartâ€ text.",
+      "checksum": "-68472398",
+      "size": 68,
+      "encoding": "utf-8",
+      "timestamp": "2025-10-24T04:46:48.790Z",
+      "metadata": {}
+    },
+    "afterSnapshot": {
+      "filePath": "/home/err/devel/promethean/packages/scar/test-content.md",
+      "content": "// This is a corrupted comment\n# Test Task\n\nThis is â€smartâ€ text.\n",
+      "checksum": "5c30c2b8",
+      "size": 68,
+      "encoding": "utf-8",
+      "timestamp": "2025-10-24T04:46:48.790Z",
+      "metadata": {}
+    }
+  },
+  {
+    "scar": {
+      "id": "scar_1761281208790_7eyjhu52s",
+      "filePath": "/home/err/devel/promethean/packages/scar/test-content.md",
+      "type": "content_corruption",
+      "severity": "medium",
+      "status": "completed",
+      "detectedAt": "2025-10-24T04:46:48.790Z",
+      "healedAt": "2025-10-24T04:46:48.790Z",
+      "healingOperationId": "op_1761281208790_ld3tqec0k",
+      "description": "Repeated slash patterns in content",
+      "evidence": [
+        "//*"
+      ],
+      "metadata": {
+        "autoHealable": true,
+        "changesMade": [
+          "Fixed repeated slash patterns (//* -> //)",
+          "Added final newline"
+        ],
+        "requiresManualReview": false
+      },
+      "tags": [
+        "content_corruption",
+        "medium"
+      ]
+    },
+    "healingOperation": {
+      "id": "op_1761281208790_ld3tqec0k",
+      "filePath": "/home/err/devel/promethean/packages/scar/test-content.md",
+      "corruptions": [
+        {
+          "type": "content_corruption",
+          "severity": "medium",
+          "description": "Repeated slash patterns in content",
+          "filePath": "/home/err/devel/promethean/packages/scar/test-content.md",
+          "detectedAt": "2025-10-24T04:46:48.790Z",
+          "evidence": [
+            "//*"
+          ],
+          "autoHealable": true
+        }
+      ],
+      "status": "completed",
+      "startedAt": "2025-10-24T04:46:48.790Z",
+      "completedAt": "2025-10-24T04:46:48.790Z",
+      "originalChecksum": "-68472398",
+      "healedChecksum": "5c30c2b8"
+    },
+    "beforeSnapshot": {
+      "filePath": "/home/err/devel/promethean/packages/scar/test-content.md",
+      "content": "//* This is a corrupted comment\n# Test Task\n\nThis is â€smartâ€ text.",
+      "checksum": "-68472398",
+      "size": 68,
+      "encoding": "utf-8",
+      "timestamp": "2025-10-24T04:46:48.790Z",
+      "metadata": {}
+    },
+    "afterSnapshot": {
+      "filePath": "/home/err/devel/promethean/packages/scar/test-content.md",
+      "content": "// This is a corrupted comment\n# Test Task\n\nThis is â€smartâ€ text.\n",
+      "checksum": "5c30c2b8",
+      "size": 68,
+      "encoding": "utf-8",
+      "timestamp": "2025-10-24T04:46:48.790Z",
+      "metadata": {}
+    }
+  }
+]

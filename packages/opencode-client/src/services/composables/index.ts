@@ -1,9 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Composables Index - Exports all higher-order functions
 
-// Client composable
-export { createClient, type ClientConfig } from './client.js';
-
 // State composable
 export { createStateManagerComposable, type StateConfig, type StateManager } from './state.js';
 

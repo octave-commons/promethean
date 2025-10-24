@@ -240,7 +240,17 @@ export async function list({
       return createEmptyResponse(limit, offset);
     }
 
-    const parsedSessions = storedSessions.map((session) => parseSessionData(session));
+    // Filter to only include actual session entries (those with session_ prefix)
+    const sessionEntries = storedSessions.filter(
+      (entry) => entry.id && entry.id.startsWith('session_'),
+    );
+    logDebug(debugEnabled, `filtered to ${sessionEntries?.length || 0} actual session entries`);
+
+    if (!sessionEntries?.length) {
+      return createEmptyResponse(limit, offset);
+    }
+
+    const parsedSessions = sessionEntries.map((session) => parseSessionData(session));
     const sessionsList = deduplicateSessions(parsedSessions);
 
     logDebug(debugEnabled, `after deduplication: ${sessionsList?.length || 0} sessions`);

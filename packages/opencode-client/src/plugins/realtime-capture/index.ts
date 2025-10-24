@@ -5,8 +5,8 @@
 import type { Plugin } from '@opencode-ai/plugin';
 import { tool } from '@opencode-ai/plugin/tool';
 
+import { createOpencodeClient } from '@opencode-ai/sdk';
 import {
-  createClient,
   createStateManagerComposable,
   createLoggerComposable,
   createTimerManager,
@@ -50,7 +50,7 @@ const createIndexingState = () => {
  * Create plugin components
  */
 const createPluginComponents = () => {
-  const client = createClient({ baseUrl: 'http://localhost:4096' });
+  const client = createOpencodeClient({ baseUrl: 'http://localhost:4096' });
   const stateManager = createStateManagerComposable({ stateFile: './realtime-indexer-state.json' });
   const loggerManager = createLoggerComposable();
   const timerManager = createTimerManager();

@@ -166,12 +166,27 @@ const slugMatchesSourcePath = (task: Task): boolean => {
 };
 
 const ensureUniqueFileBase = (base: string, used: Map<string, string>, uuid: string): string => {
+  // Limit file base length to avoid filesystem ENAMETOOLONG and pathological duplication
+  const MAX_BASENAME_LENGTH = 120; // conservative limit for base name (without extension)
+
   const initial = base.length > 0 ? base : fallbackFileBase(uuid);
-  let candidate = initial;
+
+  const truncateForAttempt = (baseStr: string, attemptNum: number) => {
+    const suffix = attemptNum > 1 ? ` ${attemptNum}` : '';
+    const allowed = Math.max(1, MAX_BASENAME_LENGTH - suffix.length);
+    const trimmed = baseStr.trim();
+    if (trimmed.length <= allowed) return trimmed;
+    // Preserve start and end where possible to keep meaningful context
+    const head = Math.floor(allowed * 0.6);
+    const tail = allowed - head;
+    return `${trimmed.slice(0, head).trim()} ${trimmed.slice(-tail).trim()}`.trim();
+  };
+
   let attempt = 1;
+  let candidate = truncateForAttempt(initial, attempt);
   while (used.has(candidate) && used.get(candidate) !== uuid) {
     attempt += 1;
-    candidate = `${initial} ${attempt}`;
+    candidate = truncateForAttempt(initial, attempt);
   }
   return candidate;
 };

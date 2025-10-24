@@ -1,0 +1,56 @@
+{
+  "name": "@promethean/scar",
+  "version": "1.0.0",
+  "description": "File corruption healing and scar tracking system for Promethean",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "ava",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit",
+    "coverage": "c8 ava",
+    "dev": "tsc --watch"
+  },
+  "keywords": [
+    "file-healing",
+    "corruption-detection",
+    "scar-tracking",
+    "file-repair",
+    "promethean"
+  ],
+  "author": "Promethean Team",
+  "license": "GPL-3.0-only",
+  "dependencies": {
+    "@types/glob": "^9.0.0",
+    "chalk": "^5.3.0",
+    "commander": "^11.1.0",
+    "fs-extra": "^11.1.1",
+    "glob": "^10.4.5",
+    "yaml": "^2.3.4",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/commander": "^2.12.2",
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^20.10.0",
+    "ava": "^6.0.0",
+    "c8": "^8.0.1",
+    "typescript": "^5.3.0"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./cli": {
+      "types": "./dist/cli/index.d.ts",
+      "import": "./dist/cli/index.js"
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/types/index.js"
+    }
+  }
+}

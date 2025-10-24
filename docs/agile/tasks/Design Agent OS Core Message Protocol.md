@@ -10,14 +10,6 @@ estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
-lastCommitSha: "c57b8352f88ad507f6546444dd813d27a9c88a29"
-commitHistory:
-  -
-    sha: "c57b8352f88ad507f6546444dd813d27a9c88a29"
-    timestamp: "2025-10-22 08:22:34 -0500\n\ndiff --git a/docs/agile/tasks/Design Agent OS Core Message Protocol.md b/docs/agile/tasks/Design Agent OS Core Message Protocol.md\nindex 28f387842..b933fb061 100644\n--- a/docs/agile/tasks/Design Agent OS Core Message Protocol.md\t\n+++ b/docs/agile/tasks/Design Agent OS Core Message Protocol.md\t\n@@ -2,7 +2,7 @@\n uuid: \"0c3189e4-4c58-4be4-b9b0-8e69474e0047\"\n title: \"Design Agent OS Core Message Protocol\"\n slug: \"Design Agent OS Core Message Protocol\"\n-status: \"ready\"\n+status: \"in_progress\"\n priority: \"P0\"\n labels: [\"agent-os\", \"protocol\", \"messaging\", \"core\", \"design\", \"critical\"]\n created_at: \"2025-10-13T18:49:02.728Z\""
-    message: "Change task status: 0c3189e4-4c58-4be4-b9b0-8e69474e0047 - Design Agent OS Core Message Protocol - ready → in_progress"
-    author: "Error"
-    type: "status_change"
 ---
 
 ## 📡 Critical: Agent OS Core Message Protocol
@@ -40,37 +32,47 @@ Agent OS needs a fundamental message protocol to enable structured natural langu
 - Create message metadata and context handling
 - Design message routing and addressing scheme
 
-### Breakdown Tasks
+### Breakdown Tasks (detailed plan)
 
 #### Phase 1: Protocol Design (3 hours)
 
-- [ ] Design message schema and structure
-- [ ] Define message types and patterns
-- [ ] Plan metadata and context handling
-- [ ] Design routing and addressing scheme
-- [ ] Create extensibility framework
+- [ ] 1.1 Design canonical JSON message envelope (headers, body, metadata)
+- [ ] 1.2 Define core message types and required fields (command, query, response, event)
+- [ ] 1.3 Specify routing/addressing model (direct, broadcast, topic, service discovery fields)
+- [ ] 1.4 Define correlation and causation fields (correlation_id, causation_id, reply_to)
 
-#### Phase 2: Specification (2 hours)
+#### Phase 2: Specification (3 hours)
 
-- [ ] Write formal protocol specification
-- [ ] Define JSON schemas for validation
-- [ ] Document message flow patterns
-- [ ] Create error handling specifications
-- [ ] Define correlation and async patterns
+- [ ] 2.1 Produce formal protocol specification document (purpose, state model, flows)
+- [ ] 2.2 Author JSON Schemas (or Zod equivalents) for each message type
+- [ ] 2.3 Define error schema and status reporting model (error codes, retry metadata)
+- [ ] 2.4 Specify extensibility hooks (custom headers, versioning, feature flags)
 
-#### Phase 3: Validation (1 hour)
+#### Phase 3: Validation & Security (2 hours)
 
-- [ ] Validate protocol completeness
-- [ ] Test with sample message scenarios
-- [ ] Review security implications
-- [ ] Validate extensibility
+- [ ] 3.1 Implement schema validation examples and small test harness (samples for each type)
+- [ ] 3.2 Run scenario-based tests (sync request/response, async eventing, failure cases)
+- [ ] 3.3 Perform security review and threat mitigations (injection, replay, auth expectations)
 
-#### Phase 4: Documentation (1 hour)
+#### Phase 4: Documentation & Handoff (2 hours)
 
-- [ ] Create protocol documentation
-- [ ] Write implementation guide
-- [ ] Create message examples
-- [ ] Document best practices
+- [ ] 4.1 Create implementation guide with code snippets (producer and consumer)
+- [ ] 4.2 Create message examples and sequence diagrams for common flows
+- [ ] 4.3 Add checklist for implementers (validation, telemetry, monitoring)
+- [ ] 4.4 Prepare artifacts for CI (schemas, test cases) and location recommendation (docs/inbox or packages/schema)
+
+**Planned subtasks (8 primary items):**
+
+- Draft canonical envelope + metadata schema (1.1 + 2.2)
+- Routing/addressing model (1.3)
+- Correlation/causation pattern (1.4)
+- Formal spec document (2.1)
+- Error schema & retry model (2.3)
+- Schema validation harness + tests (3.1 + 3.2)
+- Security review and mitigations (3.3)
+- Implementation guide + examples + CI artifacts (4.1 + 4.4)
+
+(These will be added to the kanban as todos; if todowrite is available we will use it, otherwise the checklist above acts as the authoritative todo list.)
 
 ### Acceptance Criteria
 

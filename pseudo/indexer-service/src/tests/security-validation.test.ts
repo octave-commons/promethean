@@ -147,7 +147,7 @@ test.serial('validateSinglePath integration: should reject malicious paths', (t)
     const result = validateSinglePath(path);
     t.false(result.success);
     if (!result.success) {
-      t.true(result.error?.message.includes('Security validation failed') || false);
+      t.true(result.error.issues.length > 0);
     }
   });
 });

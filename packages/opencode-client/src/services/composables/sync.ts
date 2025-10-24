@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Sync Composable - Handles full sync and new data indexing
 
-import type { OpenCodeClient } from '../indexer-types.js';
 import type { StateManager } from './state.js';
 import type { EventLogger } from './logger.js';
 import { createIndexingOperations } from '../indexer-operations.js';
+import { OpencodeClient } from '@opencode-ai/sdk';
 
 export type SyncConfig = {
   readonly fullSyncIntervalMs: number;
@@ -16,12 +16,12 @@ export type SyncManager = {
 };
 
 export const createSyncManager = (
-  client: OpenCodeClient,
+  client: OpencodeClient,
   _config: SyncConfig,
   stateManager: StateManager,
   logger: EventLogger,
 ): SyncManager => {
-  const indexingOps = createIndexingOperations(logger);
+  const indexingOps = createIndexingOperations();
 
   const performFullSync = async (): Promise<void> => {
     try {
@@ -45,12 +45,13 @@ export const createSyncManager = (
             )
           : messages;
 
-        await Promise.all(
-          messagesToProcess.map(async (message: any) => {
-            await indexingOps.indexMessage(message, session.id);
-            totalMessagesProcessed++;
-          }),
-        );
+        // Process messages sequentially to avoid MongoDB connection race conditions
+        for (const message of messagesToProcess) {
+          await indexingOps.indexMessage(message, session.id);
+          totalMessagesProcessed++;
+          // Small delay between messages to prevent connection overload
+          await new Promise((resolve) => setTimeout(resolve, 50));
+        }
       }
 
       if (totalMessagesProcessed > 0) {
@@ -99,11 +100,20 @@ export const createSyncManager = (
         });
         const messages = messagesResult.data ?? [];
 
-        await Promise.all(
-          messages.map(async (message: any) => {
-            await indexingOps.indexMessage(message, session.id);
-          }),
-        );
+        // Process messages in batches to balance performance and connection stability
+        const batchSize = 5; // Process up to 5 messages concurrently
+        for (let i = 0; i < messages.length; i += batchSize) {
+          const batch = messages.slice(i, i + batchSize);
+          await Promise.all(
+            batch.map(async (message: any) => {
+              await indexingOps.indexMessage(message, session.id);
+            }),
+          );
+          // Small delay between batches to prevent connection overload
+          if (i + batchSize < messages.length) {
+            await new Promise((resolve) => setTimeout(resolve, 100));
+          }
+        }
 
         // Save state after processing each session
         currentState = await stateManager.loadState();

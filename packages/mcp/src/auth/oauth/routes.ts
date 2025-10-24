@@ -90,19 +90,19 @@ export function registerOAuthRoutes(fastify: FastifyInstance, config: OAuthRoute
     // Access token cookie (shorter lived)
     reply.setCookie('access_token', accessToken, {
       ...cookieOptions,
-      maxAge: 15 * 60 * 1000, // 15 minutes
+      maxAge: 15 * 60, // 15 minutes
     });
 
     // Refresh token cookie (longer lived)
     reply.setCookie('refresh_token', refreshToken, {
       ...cookieOptions,
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      maxAge: 7 * 24 * 60 * 60, // 7 days
     });
 
     // Session ID cookie
     reply.setCookie('session_id', sessionId, {
       ...cookieOptions,
-      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      maxAge: 24 * 60 * 60, // 24 hours
     });
   };
 
@@ -192,7 +192,7 @@ export function registerOAuthRoutes(fastify: FastifyInstance, config: OAuthRoute
         httpOnly: true,
         secure: config.secureCookies,
         sameSite: config.sameSitePolicy as const,
-        maxAge: 10 * 60 * 1000, // 10 minutes
+        maxAge: 10 * 60, // 10 minutes
         domain: config.cookieDomain,
       });
 
@@ -355,7 +355,7 @@ export function registerOAuthRoutes(fastify: FastifyInstance, config: OAuthRoute
         secure: config.secureCookies,
         sameSite: config.sameSitePolicy as const,
         domain: config.cookieDomain,
-        maxAge: 15 * 60 * 1000, // 15 minutes
+        maxAge: 15 * 60, // 15 minutes
       });
 
       createSuccessResponse(reply, {

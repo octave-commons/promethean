@@ -4,19 +4,22 @@
  * Quick security test to verify path traversal fixes work
  */
 
-// Test basic path validation logic without imports
+import { validateFileSystemPath } from './dist/path-validation.js';
+
 function testPathSecurity() {
   console.log('🔒 Testing Path Traversal Security Fixes');
   console.log('='.repeat(50));
 
   const maliciousPaths = [
     '../../../etc/passwd',
-    '..\\..\\..\\windows\\system32',
+    '..\\..\\..\\windows\\system32\\config\\sam',
     '/etc/passwd',
     'folder/../../../etc/shadow',
     '..%2F..%2F..%2Fetc%2Fpasswd',
     'path\0malicious',
     'folder‥/etc/passwd', // Unicode homograph
+    'C:\\Windows\\System32\\config\\SAM', // Windows absolute path
+    '~/.ssh/id_rsa', // Home directory access
   ];
 
   const legitimatePaths = [
@@ -26,56 +29,12 @@ function testPathSecurity() {
     'config/app.json',
   ];
 
-  // Basic validation patterns (simplified version of our logic)
-  const suspiciousPatterns = [
-    /\.\./, // Double dots
-    /\0/, // Null bytes
-    /^\//, // Leading slash (absolute path)
-    /[‥﹒．]/, // Unicode homographs
-    /\/etc\//, // System directories
-    /\/proc\//, // Linux proc
-    /\/sys\//, // Linux sys
-  ];
-
-  function validatePath(path) {
-    if (!path || typeof path !== 'string') {
-      throw new Error('Path must be a non-empty string');
-    }
-
-    // Remove null bytes
-    const cleanPath = path.replace(/\0/g, '');
-
-    // Check for traversal
-    if (cleanPath.includes('../') || cleanPath.includes('..\\')) {
-      throw new Error('Path traversal detected');
-    }
-
-    // Check encoded traversal
-    try {
-      const decoded = decodeURIComponent(cleanPath);
-      if (decoded.includes('../') || decoded.includes('..\\')) {
-        throw new Error('Encoded path traversal detected');
-      }
-    } catch {
-      // Continue with original if decoding fails
-    }
-
-    // Check suspicious patterns
-    for (const pattern of suspiciousPatterns) {
-      if (pattern.test(cleanPath)) {
-        throw new Error('Suspicious pattern detected');
-      }
-    }
-
-    return cleanPath;
-  }
-
   console.log('\n🚨 Testing Malicious Paths (should be blocked):');
   let blockedCount = 0;
 
   for (const maliciousPath of maliciousPaths) {
     try {
-      const result = validatePath(maliciousPath);
+      const result = validateFileSystemPath(maliciousPath);
       console.log(`❌ FAILED: "${maliciousPath}" -> "${result}" (should be blocked)`);
     } catch (error) {
       console.log(`✅ BLOCKED: "${maliciousPath}" -> ${error.message}`);
@@ -88,7 +47,7 @@ function testPathSecurity() {
 
   for (const legitPath of legitimatePaths) {
     try {
-      const result = validatePath(legitPath);
+      const result = validateFileSystemPath(legitPath);
       console.log(`✅ ALLOWED: "${legitPath}" -> "${result}"`);
       allowedCount++;
     } catch (error) {

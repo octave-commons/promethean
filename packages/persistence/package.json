@@ -19,9 +19,10 @@
     ],
     "scripts": {
         "build": "tsc",
+        "build:tests": "tsc -p tsconfig.test.json",
         "clean": "rimraf dist",
         "typecheck": "tsc -p tsconfig.json --noEmit",
-        "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
+        "test": "pnpm run build:tests && ava --config ../../config/ava.config.mjs",
         "lint": "pnpm exec eslint .",
         "lisp": "node dist/cli/lisp.js",
         "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",
@@ -32,6 +33,7 @@
     "dependencies": {
         "@promethean/embedding": "workspace:*",
         "@promethean/legacy": "workspace:*",
+        "@promethean/logger": "workspace:*",
         "@types/javascript-time-ago": "^2.5.0",
         "@types/unist": "^3.0.3",
         "body-parser": "^1.20.2",
@@ -57,6 +59,7 @@
         "zod": "^3.23.8"
     },
     "devDependencies": {
+        "@stryker-mutator/tap-runner": "^9.2.0",
         "@types/body-parser": "^1.19.5",
         "@types/estree": "^1.0.5",
         "@types/express": "^4.17.21",
