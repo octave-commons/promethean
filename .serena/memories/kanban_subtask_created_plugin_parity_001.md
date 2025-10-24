@@ -1,0 +1,1 @@
+Created kanban subtask: plugin-parity-001: implement event-hooks plugin (uuid b1a7f9e2-3c4d-4f6b-9d0a-1a2b3c4d5e6f) at docs/agile/tasks/plugin-parity-001-implement-event-hooks-plugin.md. Acceptance criteria described. Next: implement plugin file and export.
