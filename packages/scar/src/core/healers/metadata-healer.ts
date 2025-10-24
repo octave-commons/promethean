@@ -51,25 +51,111 @@ export class MetadataHealer implements HealingStrategy {
   private fixFrontmatter(content: string, changesMade: string[]): string {
     let fixed = content;
 
-    // Extract frontmatter
-    const frontmatterMatch = fixed.match(/^---\s*\n(.*?)\n---\s*\n/s);
-    if (!frontmatterMatch || !frontmatterMatch[1]) return fixed;
+    const parsedFrontmatter = this.extractFrontmatterSection(fixed);
+    if (!parsedFrontmatter) {
+      return fixed;
+    }
 
-    let frontmatter = frontmatterMatch[1];
-    const restOfContent = fixed.substring(frontmatterMatch[0].length);
+    const { frontmatter, restOfContent, newline } = parsedFrontmatter;
+    const normalizedNewline = newline === '\r\n' ? '\r\n' : '\n';
+
+    let updatedFrontmatter = frontmatter.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
 
     // Fix common frontmatter issues
-    frontmatter = this.normalizeFrontmatterQuotes(frontmatter, changesMade);
-    frontmatter = this.fixRequiredFields(frontmatter, changesMade);
-    frontmatter = this.fixFieldTypes(frontmatter, changesMade);
+    updatedFrontmatter = this.normalizeFrontmatterQuotes(updatedFrontmatter, changesMade);
+    updatedFrontmatter = this.fixRequiredFields(updatedFrontmatter, changesMade);
+    updatedFrontmatter = this.fixFieldTypes(updatedFrontmatter, changesMade);
+
+    const finalFrontmatterBody = this.ensureTrailingNewline(updatedFrontmatter)
+      .split('\n')
+      .join(normalizedNewline);
 
     // Reconstruct content
-    fixed = `---\n${frontmatter}\n---\n${restOfContent}`;
+    fixed = `---${normalizedNewline}${finalFrontmatterBody}---${normalizedNewline}${restOfContent}`;
     if (fixed !== content) {
       changesMade.push('Fixed frontmatter metadata structure');
     }
 
     return fixed;
+  }
+
+  private ensureTrailingNewline(value: string): string {
+    if (!value) {
+      return value;
+    }
+    return value.endsWith('\n') ? value : `${value}\n`;
+  }
+
+  private extractFrontmatterSection(content: string):
+    | { frontmatter: string; restOfContent: string; newline: string }
+    | null {
+    if (!content.startsWith('---')) {
+      return null;
+    }
+
+    let index = 3;
+    while (index < content.length && (content[index] === ' ' || content[index] === '\t')) {
+      index += 1;
+    }
+
+    const openingBreakLength = this.getLineBreakLength(content, index);
+    if (openingBreakLength === 0) {
+      return null;
+    }
+
+    const newline = content.slice(index, index + openingBreakLength);
+    const frontmatterStart = index + openingBreakLength;
+
+    let closingMarkerIndex = content.indexOf('\n---', frontmatterStart - 1);
+    while (closingMarkerIndex !== -1) {
+      const markerStart = closingMarkerIndex + 1;
+      let markerCursor = markerStart + 3;
+      while (
+        markerCursor < content.length &&
+        (content[markerCursor] === ' ' || content[markerCursor] === '\t')
+      ) {
+        markerCursor += 1;
+      }
+
+      const closingBreakLength = this.getLineBreakLength(content, markerCursor);
+      if (closingBreakLength > 0) {
+        const frontmatterEnd = closingMarkerIndex;
+        let frontmatter = content.slice(frontmatterStart, frontmatterEnd);
+        if (frontmatter.endsWith('\r')) {
+          frontmatter = frontmatter.slice(0, -1);
+        }
+
+        const restStart = markerCursor + closingBreakLength;
+        return {
+          frontmatter,
+          restOfContent: content.slice(restStart),
+          newline,
+        };
+      }
+
+      closingMarkerIndex = content.indexOf('\n---', closingMarkerIndex + 1);
+    }
+
+    return null;
+  }
+
+  private getLineBreakLength(content: string, index: number): number {
+    if (index >= content.length) {
+      return 0;
+    }
+
+    if (content[index] === '\r') {
+      if (index + 1 < content.length && content[index + 1] === '\n') {
+        return 2;
+      }
+      return 1;
+    }
+
+    if (content[index] === '\n') {
+      return 1;
+    }
+
+    return 0;
   }
 
   private normalizeFrontmatterQuotes(frontmatter: string, changesMade: string[]): string {
@@ -130,12 +216,19 @@ export class MetadataHealer implements HealingStrategy {
 
     // Ensure task has proper status
     if (!fixed.includes('status:')) {
-      const frontmatterMatch = fixed.match(/^---\s*\n(.*?)\n---\s*\n/s);
-      if (frontmatterMatch) {
-        fixed = fixed.replace(
-          frontmatterMatch[0],
-          frontmatterMatch[0].replace('---\n', '---\nstatus: "incoming"\n'),
-        );
+      const parsedFrontmatter = this.extractFrontmatterSection(fixed);
+      if (parsedFrontmatter) {
+        const normalizedNewline = parsedFrontmatter.newline === '\r\n' ? '\r\n' : '\n';
+        const frontmatterBody = parsedFrontmatter.frontmatter
+          .replace(/\r\n/g, '\n')
+          .replace(/\r/g, '\n');
+        const updatedFrontmatterBody = this.ensureTrailingNewline(
+          `status: "incoming"\n${frontmatterBody.replace(/^\n+/, '')}`,
+        )
+          .split('\n')
+          .join(normalizedNewline);
+
+        fixed = `---${normalizedNewline}${updatedFrontmatterBody}---${normalizedNewline}${parsedFrontmatter.restOfContent}`;
         changesMade.push('Added missing status field to task');
       }
     }
