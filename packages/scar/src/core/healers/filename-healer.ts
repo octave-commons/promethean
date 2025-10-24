@@ -28,7 +28,7 @@ export class FilenameHealer implements HealingStrategy {
         const match = filename.match(/^(.+)\.(md|txt|json|yaml|yml)\.(md|txt|json|yaml|yml)$/);
         if (match) {
           newFilename = `${match[1]}.${match[2]}`;
-          changesMade.push(`Fixed double extension: ${filename} -> ${newFilename}`);
+          changesMade.push(`Fixed double extension`);
         }
       }
 
