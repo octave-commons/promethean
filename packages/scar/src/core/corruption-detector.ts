@@ -269,60 +269,66 @@ export class CorruptionDetector {
     const corruptions: FileCorruption[] = [];
     const filename = basename(filePath);
 
+    // Always check filename-based corruptions first
+    // Double extension check
+    if (/^(.+)\.(md|txt|json|yaml|yml)\.(md|txt|json|yaml|yml)$/.test(filename)) {
+      corruptions.push({
+        type: ScarType.FILENAME_CORRUPTION,
+        severity: ScarSeverity.HIGH,
+        description: 'Double extension detected',
+        filePath,
+        detectedAt: new Date(),
+        evidence: [filename],
+        autoHealable: true,
+      });
+    }
+
+    // Space and number in extension
+    if (/^(.+)\s+\d+\.(md|txt|json|yaml|yml)$/.test(filename)) {
+      corruptions.push({
+        type: ScarType.FILENAME_CORRUPTION,
+        severity: ScarSeverity.HIGH,
+        description: 'Space and number in extension',
+        filePath,
+        detectedAt: new Date(),
+        evidence: [filename],
+        autoHealable: true,
+      });
+    }
+
+    // Command line args in filename
+    if (/^--(title|description)/.test(filename)) {
+      corruptions.push({
+        type: ScarType.FILENAME_CORRUPTION,
+        severity: ScarSeverity.MEDIUM,
+        description: 'Command-line arguments in filename',
+        filePath,
+        detectedAt: new Date(),
+        evidence: [filename],
+        autoHealable: true,
+      });
+    }
+
+    // Unusual characters
+    if (/[{}[\]|\\<>]/.test(filename)) {
+      corruptions.push({
+        type: ScarType.FILENAME_CORRUPTION,
+        severity: ScarSeverity.MEDIUM,
+        description: 'Unusual characters in filename',
+        filePath,
+        detectedAt: new Date(),
+        evidence: [filename],
+        autoHealable: true,
+      });
+    }
+
+    // Only try to read file content if it's a real file path
+    // and we haven't already found filename corruptions
     try {
+      await stat(filePath);
+
+      // If we can stat the file, try to read content for content-based corruptions
       const content = await readFile(filePath, 'utf-8');
-
-      // Double extension check
-      if (/^(.+)\.(md|txt|json|yaml|yml)\.(md|txt|json|yaml|yml)$/.test(filename)) {
-        corruptions.push({
-          type: ScarType.FILENAME_CORRUPTION,
-          severity: ScarSeverity.HIGH,
-          description: 'Double extension detected',
-          filePath,
-          detectedAt: new Date(),
-          evidence: [filename],
-          autoHealable: true,
-        });
-      }
-
-      // Space and number in extension
-      if (/^(.+)\s+\d+\.(md|txt|json|yaml|yml)$/.test(filename)) {
-        corruptions.push({
-          type: ScarType.FILENAME_CORRUPTION,
-          severity: ScarSeverity.HIGH,
-          description: 'Space and number in extension',
-          filePath,
-          detectedAt: new Date(),
-          evidence: [filename],
-          autoHealable: true,
-        });
-      }
-
-      // Command line args in filename
-      if (/^--(title|description)/.test(filename)) {
-        corruptions.push({
-          type: ScarType.FILENAME_CORRUPTION,
-          severity: ScarSeverity.MEDIUM,
-          description: 'Command-line arguments in filename',
-          filePath,
-          detectedAt: new Date(),
-          evidence: [filename],
-          autoHealable: true,
-        });
-      }
-
-      // Unusual characters
-      if (/[{}[\]|\\<>]/.test(filename)) {
-        corruptions.push({
-          type: ScarType.FILENAME_CORRUPTION,
-          severity: ScarSeverity.MEDIUM,
-          description: 'Unusual characters in filename',
-          filePath,
-          detectedAt: new Date(),
-          evidence: [filename],
-          autoHealable: true,
-        });
-      }
 
       // Content issues
       if (/\/\/\*/.test(content)) {
@@ -349,15 +355,19 @@ export class CorruptionDetector {
         });
       }
     } catch (error) {
-      corruptions.push({
-        type: ScarType.STRUCTURE_CORRUPTION,
-        severity: ScarSeverity.CRITICAL,
-        description: `Failed to analyze file: ${error instanceof Error ? error.message : 'Unknown error'}`,
-        filePath,
-        detectedAt: new Date(),
-        evidence: [],
-        autoHealable: false,
-      });
+      // If file doesn't exist or can't be read, only add structure corruption
+      // if we haven't already found filename corruptions
+      if (corruptions.length === 0) {
+        corruptions.push({
+          type: ScarType.STRUCTURE_CORRUPTION,
+          severity: ScarSeverity.CRITICAL,
+          description: `Failed to analyze file: ${error instanceof Error ? error.message : 'Unknown error'}`,
+          filePath,
+          detectedAt: new Date(),
+          evidence: [],
+          autoHealable: false,
+        });
+      }
     }
 
     return corruptions;

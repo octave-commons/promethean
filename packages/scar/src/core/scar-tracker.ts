@@ -114,8 +114,10 @@ export class ScarTracker {
       const scarFile = this.getScarFilePath(filePath);
       const content = await fs.readFile(scarFile, 'utf-8');
       const scars = JSON.parse(content) as ScarRecord[];
-      this.scars.set(filePath, scars);
-      return scars;
+      // Convert date strings back to Date objects
+      const convertedScars = scars.map((scar: any) => this.convertDateFields(scar));
+      this.scars.set(filePath, convertedScars);
+      return convertedScars;
     } catch (error) {
       // File doesn't exist or is invalid
       return [];
@@ -268,5 +270,46 @@ export class ScarTracker {
       hash = hash & hash; // Convert to 32-bit integer
     }
     return hash.toString(16);
+  }
+
+  private convertDateFields(scarRecord: any): ScarRecord {
+    // Convert date strings back to Date objects
+    const converted = { ...scarRecord };
+
+    if (converted.scar) {
+      converted.scar = {
+        ...converted.scar,
+        detectedAt: new Date(converted.scar.detectedAt),
+        healedAt: converted.scar.healedAt ? new Date(converted.scar.healedAt) : undefined,
+      };
+    }
+
+    if (converted.healingOperation) {
+      converted.healingOperation = {
+        ...converted.healingOperation,
+        startedAt: converted.healingOperation.startedAt
+          ? new Date(converted.healingOperation.startedAt)
+          : undefined,
+        completedAt: converted.healingOperation.completedAt
+          ? new Date(converted.healingOperation.completedAt)
+          : undefined,
+      };
+    }
+
+    if (converted.beforeSnapshot) {
+      converted.beforeSnapshot = {
+        ...converted.beforeSnapshot,
+        timestamp: new Date(converted.beforeSnapshot.timestamp),
+      };
+    }
+
+    if (converted.afterSnapshot) {
+      converted.afterSnapshot = {
+        ...converted.afterSnapshot,
+        timestamp: new Date(converted.afterSnapshot.timestamp),
+      };
+    }
+
+    return converted as ScarRecord;
   }
 }
