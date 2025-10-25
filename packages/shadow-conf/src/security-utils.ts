@@ -238,10 +238,7 @@ export function validatePathBoundaries(
 
   // If relative path starts with '..', it escapes the base directory
   if (relativePath.startsWith('..') || path.relative(resolvedPath, basePath).startsWith('..')) {
-    console.error(
-      { resolvedPath, basePath, relativePath },
-      path.relative(resolvedPath, basePath).startsWith('..'),
-    );
+    console.error({ resolvedPath, basePath, relativePath }, path.relative(resolvedPath, basePath));
     return {
       success: false,
       error: `Path boundary violation in ${context}: ${resolvedPath} escapes ${basePath}`,
