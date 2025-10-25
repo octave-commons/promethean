@@ -109,85 +109,88 @@ console.log('Active sessions:', JSON.parse(sessions));
 ### Prerequisites
 
 - Node.js 18+ and TypeScript 5+
-- Ollama service running locally or accessible via network
+- OpenCode server running locally or accessible via network
 - pnpm package manager
-
-### Install and Configure Ollama
-
-```bash
-# Install Ollama
-curl -fsSL https://ollama.ai/install.sh | sh
-
-# Start Ollama service
-ollama serve
-
-# Pull a model
-ollama pull llama2
-```
 
 ### Basic Configuration
 
 ```typescript
-// Configure Ollama URL (optional, defaults to localhost:11434)
-process.env.OLLAMA_URL = 'http://localhost:11434';
+// Configure OpenCode server URL (optional, defaults to localhost:4096)
+process.env.OPENCODE_SERVER_URL = 'http://localhost:4096';
 
 // Enable debug logging (optional)
-process.env.DEBUG = 'ollama-queue:*';
+process.env.DEBUG = 'opencode-client:*';
+
+// Set authentication token (if required)
+process.env.OPENCODE_AUTH_TOKEN = 'your-auth-token';
 ```
 
 ## Common Usage Patterns
 
-### Batch Processing
+### Session Management
 
 ```typescript
-async function processBatch(prompts: string[]) {
-  const jobs = prompts.map((prompt) =>
-    submitJob.execute(
-      {
-        modelName: 'llama2',
-        jobType: 'generate',
-        prompt,
-        priority: 'medium',
-      },
-      context,
-    ),
-  );
+async function manageSessions() {
+  // Create multiple sessions
+  const sessions = await Promise.all([
+    spawnSession.execute({
+      title: 'Code Review',
+      message: 'Review authentication module',
+    }),
+    spawnSession.execute({
+      title: 'Documentation',
+      message: 'Update API documentation',
+    }),
+  ]);
 
-  const results = await Promise.all(jobs);
-  return results.map((result) => JSON.parse(result));
+  // List all active sessions
+  const activeSessions = await listSessions.execute({ limit: 20 });
+  console.log('Active sessions:', JSON.parse(activeSessions));
 }
 ```
 
-### Chat Conversations
+### Event Processing
 
 ```typescript
-async function chatConversation(messages: Array<{ role: string; content: string }>) {
-  return await submitJob.execute(
-    {
-      modelName: 'llama2',
-      jobType: 'chat',
-      messages,
-      options: {
-        temperature: 0.5,
-      },
-    },
-    context,
-  );
+async function processEvents() {
+  // Get recent events
+  const events = await listEvents.execute({
+    limit: 100,
+    eventType: 'session.created',
+  });
+
+  const eventData = JSON.parse(events);
+  eventData.events.forEach((event) => {
+    console.log(`Event: ${event.type} at ${new Date(event.timestamp)}`);
+  });
 }
 ```
 
-### Text Embeddings
+### Context Search
 
 ```typescript
-async function generateEmbeddings(texts: string[]) {
-  return await submitJob.execute(
-    {
-      modelName: 'all-minilm',
-      jobType: 'embedding',
-      input: texts,
-    },
-    context,
-  );
+async function searchAndAnalyze() {
+  // Search for specific content
+  const searchResults = await searchContext.execute({
+    query: 'TypeScript compilation errors',
+    limit: 20,
+    includeMessages: true,
+    includeSessions: true,
+  });
+
+  // Compile comprehensive context
+  const context = await compileContext.execute({
+    query: 'security vulnerabilities',
+    includeSessions: true,
+    includeEvents: true,
+    includeMessages: true,
+    limit: 500,
+  });
+
+  return {
+    search: JSON.parse(searchResults),
+    context: JSON.parse(context),
+  };
 }
 ```
 
@@ -239,31 +242,31 @@ For detailed development guidelines, see the [Development Guide](https://github.
 ### Common Issues
 
 1. **TypeScript Compilation Errors**: See [TypeScript Compilation Fixes](https://github.com/riatzukiza/promethean/tree/main/packages/opencode-client/docs/typescript-compilation-fixes.md)
-2. **Queue Processing Issues**: See [Troubleshooting Guide](https://github.com/riatzukiza/promethean/tree/main/packages/opencode-client/docs/troubleshooting.md)
-3. **Ollama Connection Problems**: Ensure Ollama service is running
-4. **Cache Issues**: Clear cache with `manageCache.execute({action: 'clear'})`
+2. **Connection Issues**: Ensure OpenCode server is running on port 4096
+3. **Session Not Found**: Verify session ID is correct and session hasn't expired
+4. **Search Returns No Results**: Check query syntax and available content
 
 ### Getting Help
 
 - Check the [Troubleshooting Guide](https://github.com/riatzukiza/promethean/tree/main/packages/opencode-client/docs/troubleshooting.md) for common issues
 - Review the [API Reference](https://github.com/riatzukiza/promethean/tree/main/packages/opencode-client/docs/api-reference.md) for detailed usage
-- Enable debug logging: `process.env.DEBUG = 'ollama-queue:*'`
+- Enable debug logging: `process.env.DEBUG = 'opencode-client:*'`
 - Create an issue with detailed error information
 
 ### Health Check
 
 ```typescript
-import { getQueueInfo, listModels } from '@promethean-os/opencode-client';
+import { listSessions, listEvents } from '@promethean-os/opencode-client';
 
 async function healthCheck() {
   try {
-    // Check queue
-    const queueInfo = await getQueueInfo.execute({});
-    console.log('Queue healthy:', JSON.parse(queueInfo));
+    // Check session connectivity
+    const sessions = await listSessions.execute({ limit: 1 });
+    console.log('Sessions API healthy:', JSON.parse(sessions));
 
-    // Check Ollama
-    const models = await listModels.execute({ detailed: false });
-    console.log('Ollama healthy:', JSON.parse(models));
+    // Check event connectivity
+    const events = await listEvents.execute({ limit: 1 });
+    console.log('Events API healthy:', JSON.parse(events));
 
     console.log('✅ All systems operational');
   } catch (error) {
@@ -278,30 +281,31 @@ healthCheck();
 
 ```
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Client Tools  │───▶│   Job Queue      │───▶│  Ollama API     │
+│   CLI Client    │───▶│  OpenCode API    │───▶│  Session Store  │
 │                 │    │                  │    │                 │
-│ • submitJob     │    │ • Priority Queue │    │ • Generate      │
-│ • getJobStatus  │    │ • Concurrent     │    │ • Chat          │
-│ • cancelJob     │    │ • Retry Logic    │    │ • Embedding     │
-│ • listJobs      │    │                  │    │                 │
+│ • sessions      │    │ • Sessions       │    │ • Session Data  │
+│ • events        │    │ • Events         │    │ • Event History │
+│ • messages      │    │ • Messages       │    │ • Message Log   │
+│ • indexer       │    │ • Indexer        │    │ • Search Index  │
 └─────────────────┘    └──────────────────┘    └─────────────────┘
          │                       │                       │
          │              ┌──────────────────┐            │
-         └──────────────▶│  Cache Layer     │◀───────────┘
+         └──────────────▶│  Plugin System   │◀───────────┘
                         │                  │
-                        │ • Semantic Cache │
-                        │ • Performance    │
-                        │ • Feedback       │
+                        │ • Agent Mgmt     │
+                        │ • Cache          │
+                        │ • Events         │
+                        │ • Custom         │
                         └──────────────────┘
 ```
 
 ## License
 
-This project is licensed under the GPL-3.0 License. See the [LICENSE](https://github.com/riatzukiza/promethean/tree/main/LICENSE.txt) file for details.
+This project is licensed under GPL-3.0 License. See [LICENSE](https://github.com/riatzukiza/promethean/tree/main/LICENSE.txt) file for details.
 
 ## Related Packages
 
-- **@promethean-os/ollama-queue**: Core queue management system
 - **@promethean-os/persistence**: Data persistence layer
 - **@opencode-ai/plugin**: OpenCode plugin framework
 - **@opencode-ai/sdk**: OpenCode SDK
+- **@promethean-os/kanban**: Task management and workflow integration
