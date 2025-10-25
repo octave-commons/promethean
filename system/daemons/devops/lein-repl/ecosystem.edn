@@ -1,6 +1,6 @@
 {:apps [{:name "lein-repl"
          :script "lein"
-         :interpreter "/usr/bin/env"
+         :interpreter "bash"
          :args ["repl" ":headless" ":port" "7888"]
          :out_file "./logs/lein-repl-out.log"
          :error_file "./logs/lein-repl-err.log"
