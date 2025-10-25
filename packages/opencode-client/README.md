@@ -1,6 +1,6 @@
 # OpenCode Client
 
-TypeScript client for OpenCode with Ollama LLM queue management and asynchronous job processing.
+TypeScript client for OpenCode with comprehensive session management, event processing, and context indexing capabilities.
 
 ## Installation
 
@@ -11,47 +11,53 @@ pnpm add @promethean-os/opencode-client
 ## Quick Start
 
 ```typescript
-import { submitJob, getJobStatus, getJobResult } from '@promethean-os/opencode-client';
+import { spawnSession, listSessions, sendPrompt, listEvents } from '@promethean-os/opencode-client';
 
-// Submit a job to the queue
-const job = await submitJob.execute(
-  {
-    modelName: 'llama2',
-    jobType: 'generate',
-    prompt: 'Explain TypeScript compilation',
-    priority: 'medium',
-  },
-  {
-    agent: 'my-agent',
-    sessionID: 'session-123',
-  },
-);
+// Create a new session
+const session = await spawnSession.execute({
+  title: 'Development Session',
+  message: 'Start working on TypeScript project',
+});
 
-const { jobId } = JSON.parse(job);
-console.log('Job submitted:', jobId);
+const { session: sessionData } = JSON.parse(session);
+console.log('Session created:', sessionData.id);
 
-// Check job status
-const status = await getJobStatus.execute({ jobId });
-console.log('Job status:', JSON.parse(status));
+// Send a message to the session
+const message = await sendPrompt.execute({
+  sessionId: sessionData.id,
+  content: 'Analyze the codebase for performance issues',
+  type: 'instruction',
+});
 
-// Get result when complete
-const result = await getJobResult.execute({ jobId });
-console.log('Job result:', JSON.parse(result));
+console.log('Message sent:', JSON.parse(message));
+
+// List all active sessions
+const sessions = await listSessions.execute({ limit: 10 });
+console.log('Active sessions:', JSON.parse(sessions));
 ```
 
 ## Key Features
 
-### 🚀 Asynchronous Job Processing
+### 🚀 Session Management
 
-- Queue-based job management with priority handling
-- Automatic retry and error recovery
-- Concurrent job processing with configurable limits
+- Create, list, and manage OpenCode sessions
+- Real-time session status tracking
+- Interactive messaging within sessions
+- Session lifecycle management
 
-### 💾 Intelligent Caching
+### 📊 Event Processing
 
-- Semantic similarity-based cache hits
-- Performance tracking and optimization
-- User feedback integration for model routing
+- Comprehensive event tracking and querying
+- Real-time event streaming
+- Event filtering and aggregation
+- Historical event analysis
+
+### 🔍 Context Indexing
+
+- Full-text search across sessions, events, and messages
+- Semantic search capabilities
+- Context compilation for analysis
+- Intelligent result ranking
 
 ### 🔧 TypeScript-First Design
 
@@ -59,38 +65,25 @@ console.log('Job result:', JSON.parse(result));
 - Proper error handling and validation
 - Modern ES6+ patterns and practices
 
-### 📊 Monitoring and Debugging
+### 📋 Plugin System
 
-- Comprehensive logging and metrics
-- Health check endpoints
-- Performance profiling tools
+- Extensible architecture for custom functionality
+- Built-in plugins for common operations
+- Tool registration and execution
+- Cross-plugin communication
 
 ## Core Tools
 
-| Tool             | Purpose                     | Example                                           |
-| ---------------- | --------------------------- | ------------------------------------------------- |
-| `submitJob`      | Submit new LLM job          | `submitJob.execute({modelName, jobType, prompt})` |
-| `getJobStatus`   | Check job status            | `getJobStatus.execute({jobId})`                   |
-| `getJobResult`   | Get completed result        | `getJobResult.execute({jobId})`                   |
-| `listJobs`       | List jobs with filters      | `listJobs.execute({status: 'completed'})`         |
-| `cancelJob`      | Cancel pending job          | `cancelJob.execute({jobId})`                      |
-| `listModels`     | List available models       | `listModels.execute({detailed: true})`            |
-| `getQueueInfo`   | Get queue statistics        | `getQueueInfo.execute({})`                        |
-| `manageCache`    | Cache operations            | `manageCache.execute({action: 'stats'})`          |
-| `submitFeedback` | Submit performance feedback | `submitFeedback.execute({prompt, score})`         |
-
-## Job Types
-
-- **Generate**: Single-prompt text generation
-- **Chat**: Multi-turn conversations
-- **Embedding**: Text vector embeddings
-
-## Priority Levels
-
-- **Urgent**: Highest priority, processed first
-- **High**: Important tasks
-- **Medium**: Default priority
-- **Low**: Background processing
+| Tool             | Purpose                       | Example                                                  |
+| ---------------- | ----------------------------- | -------------------------------------------------------- |
+| `spawnSession`   | Create new session            | `spawnSession.execute({title, message})`                 |
+| `listSessions`   | List sessions                 | `listSessions.execute({limit: 20})`                      |
+| `sendPrompt`     | Send message to session       | `sendPrompt.execute({sessionId, content})`               |
+| `listMessages`   | Get session messages          | `listMessages.execute({sessionId, limit: 50})`           |
+| `closeSession`   | Close session                 | `closeSession.execute({sessionId})`                      |
+| `listEvents`     | List system events            | `listEvents.execute({limit: 100})`                       |
+| `searchContext`  | Search across content         | `searchContext.execute({query, limit: 20})`              |
+| `compileContext` | Compile comprehensive context | `compileContext.execute({query, includeSessions: true})` |
 
 ## Documentation
 
@@ -103,10 +96,13 @@ console.log('Job result:', JSON.parse(result));
 
 ### Additional Documentation
 
-- **[Ollama Queue Integration](https://github.com/riatzukiza/promethean/tree/main/packages/opencode-client/docs/ollama-queue-integration.md)** - Comprehensive guide to queue management and job processing
+- **[OpenCode Client Integration](https://github.com/riatzukiza/promethean/tree/main/packages/opencode-client/docs/ollama-queue-integration.md)** - Comprehensive guide to OpenCode client integration
 - **[TypeScript Compilation Fixes](https://github.com/riatzukiza/promethean/tree/main/packages/opencode-client/docs/typescript-compilation-fixes.md)** - Recent TypeScript fixes and type safety improvements
 - **[Spawn Command](https://github.com/riatzukiza/promethean/tree/main/packages/opencode-client/docs/spawn-command.md)** - Quick session creation with spawn message
 - **[Integration Guide](https://github.com/riatzukiza/promethean/tree/main/packages/opencode-client/docs/integration.md)** - Integration patterns and best practices
+- **[Indexer Service Guide](https://github.com/riatzukiza/promethean/tree/main/packages/opencode-client/docs/indexer-service-guide.md)** - Search and context compilation documentation
+- **[Plugin System Guide](https://github.com/riatzukiza/promethean/tree/main/packages/opencode-client/docs/plugin-system-guide.md)** - Plugin development and management
+- **[Unified Agent Management](https://github.com/riatzukiza/promethean/tree/main/packages/opencode-client/docs/unified-agent-management.md)** - High-level agent session management
 
 ## Setup & Configuration
 
