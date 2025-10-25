@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Search serializer - Handles serialization of search results
 
-import type { Serializer, SerializationOptions } from './types.js';
 import { createSerializer } from './types.js';
 import type { SessionData } from './session.js';
 import type { EventData } from './event.js';

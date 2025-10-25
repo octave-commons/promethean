@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Session serializer - Handles serialization of session-related data
 
-import type { Serializer, SerializationOptions } from './types.js';
 import { createSerializer } from './types.js';
 
 export type SessionData = {

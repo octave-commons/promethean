@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Event serializer - Handles serialization of event-related data
 
-import type { Serializer, SerializationOptions } from './types.js';
 import { createSerializer } from './types.js';
 
 export type EventData = {

@@ -74,45 +74,6 @@ const createPluginComponents = () => {
 };
 
 /**
- * Start indexing service
- */
-const startIndexingService = async (components: any, state: any): Promise<void> => {
-  if (state.getState().isIndexing) {
-    throw new Error('Real-time indexing is already active');
-  }
-
-  console.log('🚀 Starting real-time indexing service');
-  state.setIndexing(true);
-  state.setStartTime(new Date());
-  state.resetStats();
-
-  try {
-    await components.stateManager.loadState();
-    await components.eventManager.startSubscription();
-
-    components.timerManager.setIntervalTimer(
-      'realtimeFullSync',
-      async () => {
-        try {
-          console.log('🔄 Running periodic full sync from realtime plugin');
-          await components.syncManager.performFullSync();
-        } catch (error) {
-          console.error('❌ Error in realtime full sync:', error);
-          state.incrementErrors();
-        }
-      },
-      300000,
-    );
-
-    console.log('✅ Real-time indexing service started successfully');
-  } catch (error) {
-    state.setIndexing(false);
-    console.error('❌ Failed to start real-time indexing:', error);
-    throw error;
-  }
-};
-
-/**
  * Stop indexing service
  */
 const stopIndexingService = async (components: any, state: any): Promise<void> => {
