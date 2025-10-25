@@ -4,7 +4,8 @@
          :args ["autocommit"
                 "--path" "."
                 "--debounce-ms" "10000"
-                "--model" "error/qwen3:4b-instruct-100k"]
+                "--model" "error/qwen3:4b-instruct-100k"
+                "--base-url" "http://localhost:11434"]
          :env {:OPENAI_BASE_URL "http://localhost:11434"
                :AUTOCOMMIT_MODEL "error/qwen3:4b-instruct-100k"
                :NODE_ENV "production"}

@@ -1,6 +1,6 @@
 {:apps [{:name "promethean-mcp-dev"
          :script "pnpm"
-         :args ["--filter" "@promethean/mcp" "dev"]
+         :args ["--filter" "@promethean-os/mcp" "dev"]
          :interpreter "/usr/bin/env"
          :out_file "./logs/promethean-mcp-dev-out.log"
          :error_file "./logs/promthean-mcp-dev-err.log"

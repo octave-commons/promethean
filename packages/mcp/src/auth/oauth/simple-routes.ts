@@ -860,23 +860,6 @@ export function registerSimpleOAuthRoutes(
     }
   });
 
-  // Back-compat: allow POST /callback to behave like /token for MCP
-  fastify.post(`${basePath}/callback`, async (request, reply) => {
-    return fastify
-      .inject({
-        method: 'POST',
-        url: `${basePath}/token`,
-        payload: request.body as any,
-        headers: request.headers as any,
-      })
-      .then((res) =>
-        reply
-          .status(res.statusCode)
-          .headers(res.headers as any)
-          .send(res.body ? JSON.parse(res.body as any) : undefined),
-      );
-  });
-
   // Get current user
   fastify.get(`${basePath}/me`, async (request, reply) => {
     try {

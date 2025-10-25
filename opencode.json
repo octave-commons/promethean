@@ -26,6 +26,9 @@
         }
       }
     },
+    "agent":{
+
+    },
     "ollama": {
       "npm": "ollama-ai-provider-v2",
       "models": {
