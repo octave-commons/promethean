@@ -2,12 +2,13 @@
 // OpenCode Interface Plugin
 // Provides unified context search and OpenCode functionality as tools within the OpenCode ecosystem
 
-import { OpencodeInterfacePlugin as ClientPlugin } from '@promethean-os/opencode-client';
-
 /**
  * OpenCode Interface Plugin - Provides OpenCode functionality as tools
- * This is a re-export of the plugin from opencode-client for independent use
+ * Dynamically imports the plugin from opencode-client to avoid circular dependencies
  */
-export const OpencodeInterfacePlugin = ClientPlugin;
+export const OpencodeInterfacePlugin = async (pluginContext: any) => {
+  const { OpencodeInterfacePlugin: ClientPlugin } = await import('@promethean-os/opencode-client');
+  return await ClientPlugin(pluginContext);
+};
 
 export default OpencodeInterfacePlugin;

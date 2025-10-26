@@ -2,12 +2,13 @@
 // Event Hooks Plugin
 // Provides event hook management and processing functionality for the OpenCode ecosystem
 
-import { EventHooksPlugin as ClientPlugin } from '@promethean-os/opencode-client';
-
 /**
  * Event Hooks Plugin - Provides event hook management and processing functionality
- * This is a re-export of the plugin from opencode-client for independent use
+ * Dynamically imports the plugin from opencode-client to avoid circular dependencies
  */
-export const EventHooksPlugin = ClientPlugin;
+export const EventHooksPlugin = async (pluginContext: any) => {
+  const { EventHooksPlugin: ClientPlugin } = await import('@promethean-os/opencode-client');
+  return await ClientPlugin(pluginContext);
+};
 
 export default EventHooksPlugin;

@@ -54,6 +54,189 @@
     (and column
          (some #(= (:uuid %) task-uuid) (:tasks column)))))
 
+;; Safety: require tool:* and env:* tags before entering in_progress
+(defn has-tool-env-tags?
+  "Task must include tool:* and env:* tags either in labels or content"
+  [task]
+  (let [labs (map str/lower-case (or (:labels task) []))
+        content (str/lower-case (or (:content task) ""))
+        tool-in-labels (some #(str/starts-with? % "tool:") labs)
+        env-in-labels (some #(str/starts-with? % "env:") labs)
+        tool-in-content (clojure.string/includes? content "tool:")
+        env-in-content (clojure.string/includes? content "env:")]
+    (or (and tool-in-labels env-in-labels)
+        (and tool-in-content env-in-content))))
+
+(defn has-blocker-tag?
+  "Check if task has blocker/critical tag indicating emergency"
+  [task]
+  (let [labels (or (:labels task) [])
+        content (or (:content task) "")]
+    (or (some #(str/includes? (str/lower-case %) "blocker") labels)
+        (some #(str/includes? (str/lower-case %) "critical") labels)
+        (str/includes? (str/lower-case content) "blocker")
+        (str/includes? (str/lower-case content) "emergency"))))
+
+;; P0 Security Task Validation Functions
+(defn is-p0-security-task?
+  "Identify P0 security tasks by title, content, and metadata analysis"
+  [task]
+  (let [title (str/lower-case (:title task ""))
+        content (str/lower-case (:content task) "")
+        labels (map str/lower-case (:labels task []))
+        priority (str/lower-case (:priority task ""))]
+    
+    (and 
+     ;; Must be P0 priority
+     (or (= priority "p0") (= priority "critical"))
+     ;; Must contain security-related keywords
+     (or (str/includes? title "security")
+         (str/includes? content "security")
+         (str/includes? title "vulnerability")
+         (str/includes? content "vulnerability")
+         (str/includes? title "exploit")
+         (str/includes? content "exploit")
+         (str/includes? title "breach")
+         (str/includes? content "breach")
+         (str/includes? title "authentication")
+         (str/includes? content "authentication")
+         (str/includes? title "authorization")
+         (str/includes? content "authorization")
+         (str/includes? title "encryption")
+         (str/includes? content "encryption")
+         (some #(str/includes? % "security") labels)
+         (some #(str/includes? % "vulnerability") labels)))))
+
+(defn has-security-risk-assessment?
+  "Check if task includes comprehensive security risk assessment"
+  [task]
+  (let [content (str/lower-case (:content task) "")]
+    (and 
+     ;; Risk assessment section
+     (or (str/includes? content "risk assessment")
+         (str/includes? content "risk analysis")
+         (str/includes? content "threat model")
+         (str/includes? content "security assessment"))
+     ;; Impact analysis
+     (or (str/includes? content "impact analysis")
+         (str/includes? content "business impact")
+         (str/includes? content "security impact"))
+     ;; Mitigation strategy
+     (or (str/includes? content "mitigation")
+         (str/includes? content "remediation")
+         (str/includes? content "security controls")))))
+
+(defn has-security-compliance-requirements?
+  "Check if task addresses compliance and regulatory requirements"
+  [task]
+  (let [content (str/lower-case (:content task) "")]
+    (or 
+     ;; Specific compliance frameworks
+     (str/includes? content "gdpr")
+     (str/includes? content "hipaa")
+     (str/includes? content "pci-dss")
+     (str/includes? content "sox")
+     (str/includes? content "iso 27001")
+     (str/includes? content "nist")
+     (str/includes? content "compliance")
+     (str/includes? content "regulatory")
+     ;; Security standards
+     (str/includes? content "owasp")
+     (str/includes? content "cve")
+     (str/includes? content "security standards"))))
+
+(defn has-security-testing-plan?
+  "Check if task includes comprehensive security testing plan"
+  [task]
+  (let [content (str/lower-case (:content task) "")]
+    (and 
+     ;; Security testing types
+     (or (str/includes? content "penetration testing")
+         (str/includes? content "pen testing")
+         (str/includes? content "vulnerability scanning")
+         (str/includes? content "security testing")
+         (str/includes? content "security audit"))
+     ;; Test coverage
+     (or (str/includes? content "test cases")
+         (str/includes? content "test scenarios")
+         (str/includes? content "security test cases")))))
+
+(defn has-security-documentation?
+  "Check if task includes proper security documentation requirements"
+  [task]
+  (let [content (str/lower-case (:content task) "")]
+    (and 
+     ;; Documentation requirements
+     (or (str/includes? content "security documentation")
+         (str/includes? content "technical documentation")
+         (str/includes? content "security report"))
+     ;; Implementation details
+     (or (str/includes? content "implementation details")
+         (str/includes? content "technical specifications")
+         (str/includes? content "security architecture")))))
+
+(defn has-incident-response-plan?
+  "Check if task includes incident response and rollback procedures"
+  [task]
+  (let [content (str/lower-case (:content task) "")]
+    (or 
+     ;; Incident response
+     (str/includes? content "incident response")
+     (str/includes? content "rollback plan")
+     (str/includes? content "backout procedure")
+     (str/includes? content "emergency procedures")
+     ;; Monitoring and alerting
+     (str/includes? content "monitoring")
+     (str/includes? content "alerting")
+     (str/includes? content "security monitoring"))))
+
+(defn p0-security-validation-complete?
+  "Comprehensive P0 security task validation gate"
+  [task board]
+  (if (is-p0-security-task? task)
+    ;; P0 security tasks require comprehensive validation
+    (and 
+     (has-security-risk-assessment? task)
+     (has-security-compliance-requirements? task)
+     (has-security-testing-plan? task)
+     (has-security-documentation? task)
+     (has-incident-response-plan? task)
+     ;; Must have proper tool/env tags for safety
+     (has-tool-env-tags? task))
+    ;; Non-P0 security tasks pass through
+    true))
+
+(defn generate-p0-security-validation-report
+  "Generate detailed validation report for P0 security tasks"
+  [task board]
+  (if (is-p0-security-task? task)
+    (let [checks [
+                  {:name "Security Risk Assessment" :passed (has-security-risk-assessment? task)}
+                  {:name "Compliance Requirements" :passed (has-security-compliance-requirements? task)}
+                  {:name "Security Testing Plan" :passed (has-security-testing-plan? task)}
+                  {:name "Security Documentation" :passed (has-security-documentation? task)}
+                  {:name "Incident Response Plan" :passed (has-incident-response-plan? task)}
+                  {:name "Tool/Environment Tags" :passed (has-tool-env-tags? task)}]
+          failed-checks (filter #(not (:passed %)) checks)
+          passed-count (- (count checks) (count failed-checks))]
+      {:is-p0-security true
+       :total-checks (count checks)
+       :passed-checks passed-count
+       :failed-checks (count failed-checks)
+       :validation-percent (* (/ passed-count (count checks)) 100)
+       :checks checks
+       :can-proceed (empty? failed-checks)
+       :recommendations (if (pos? (count failed-checks))
+                          ["Complete all failed validation checks before proceeding"
+                           "Ensure comprehensive security documentation"
+                           "Include incident response and rollback procedures"
+                           "Add security testing and compliance requirements"]
+                          ["P0 security task validation complete - ready to proceed"])})
+    {:is-p0-security false
+     :validation-percent 100
+     :can-proceed true
+     :recommendations ["Standard task validation applies"]}))
+
 ;; Transition rule check functions
 (defn triage-completed?
   "Task has clear acceptance criteria and desired outcomes"
@@ -94,30 +277,6 @@
   [task board]
   (and (:title task)
        (<= (get-priority-numeric (:priority task)) 2)))
-
-(defn comprehensive-testing-validation?
-  "Comprehensive testing validation with coverage (90%), quality (75%), AI analysis, and requirement mapping"
-  [task board]
-  ;; Check if task has coverage report path
-  (let [content (or (:content task) "")
-        coverage-match (re-find #"(?i)coverage[-_]?report[:\s]+([^\s\n]+)" content)
-        coverage-report-path (second coverage-match)]
-    (and coverage-report-path
-         ;; Extract coverage percentage if available
-        coverage-percent-match (re-find #"(?i)coverage[-_]?percent[:s]+([0-9.]+)" content)
-        coverage-percent (when coverage-percent-match 
-                           (js/parseFloat (second coverage-percent-match)))
-        
-        ;; Extract quality score if available  
-        quality-match (re-find #"(?i)quality[-_]?score[:s]+([0-9.]+)" content)
-        quality-score (when quality-match 
-                       (js/parseFloat (second quality-match)))]
-    
-    (and coverage-report-path
-         ;; Validate coverage threshold (90%)
-         (or (nil? coverage-percent) (>= coverage-percent 90.0))
-         ;; Validate quality threshold (75%)
-         (or (nil? quality-score) (>= quality-score 75.0))))))))
 
 (defn reviewable-change-exists?
   "Coherent, reviewable change is ready for review"
@@ -162,7 +321,6 @@
   [_task _board]
   true)
 
-;; Missing custom check implementations
 (defn ^:export task-selected-for-work?
   "Task has been selected for active work (agent assignment or manual selection)"
   [task board]
@@ -211,16 +369,6 @@
               ;; Emergency override for critical blockers
               (and (has-blocker-tag? task)
                    (<= projected-count (* limit 1.2)))))))))
-
-(defn has-blocker-tag?
-  "Check if task has blocker/critical tag indicating emergency"
-  [task]
-  (let [labels (or (:labels task) [])
-        content (or (:content task) "")]
-    (or (some #(str/includes? (str/lower-case %) "blocker") labels)
-        (some #(str/includes? (str/lower-case %) "critical") labels)
-        (str/includes? (str/lower-case content) "blocker")
-        (str/includes? (str/lower-case content) "emergency"))))
 
 (defn wip-violation-severity
   "Determine severity level of WIP violation"
@@ -291,19 +439,6 @@
       true
       (in-column? board source-col (:uuid task)))))
 
-;; Safety: require tool:* and env:* tags before entering in_progress
-(defn has-tool-env-tags?
-  "Task must include tool:* and env:* tags either in labels or content"
-  [task]
-  (let [labs (map str/lower-case (or (:labels task) []))
-        content (str/lower-case (or (:content task) ""))
-        tool-in-labels (some #(str/starts-with? % "tool:") labs)
-        env-in-labels (some #(str/starts-with? % "env:") labs)
-        tool-in-content (clojure.string/includes? content "tool:")
-        env-in-content (clojure.string/includes? content "env:")]
-    (or (and tool-in-labels env-in-labels)
-        (and tool-in-content env-in-content))))
-
 ;; Helper function to determine if transition is backward
 (defn backward-transition?
   "Check if transition moves backward in workflow"
@@ -322,6 +457,14 @@
      ;; Check global rules first
      (wip-limits from-to task board)
      (task-existence from-to task board)
+     ;; P0 Security Validation Gate: strict validation for P0 security tasks
+     (if (and (is-p0-security-task? task)
+              (or (= (column-key to) "in_progress")
+                  (= (column-key to) "testing")
+                  (= (column-key to) "review")
+                  (= (column-key to) "done")))
+       (p0-security-validation-complete? task board)
+       true)
      ;; Process safety: enforce tool/env tags for entering in_progress
      (if (= (column-key to) "in_progress")
        (has-tool-env-tags? task)
@@ -389,6 +532,22 @@
   "JavaScript wrapper for debug-transition"
   [from to task-js board-js]
   (debug-transition from to task-js board-js))
+
+;; P0 Security Validation export functions
+(defn ^:export is-p0-security-task-js
+  "JavaScript wrapper for P0 security task identification"
+  [task-js]
+  (is-p0-security-task? task-js))
+
+(defn ^:export p0-security-validation-complete-js
+  "JavaScript wrapper for P0 security validation"
+  [task-js board-js]
+  (p0-security-validation-complete? task-js board-js))
+
+(defn ^:export generate-p0-security-validation-report-js
+  "JavaScript wrapper for P0 security validation report generation"
+  [task-js board-js]
+  (generate-p0-security-validation-report task-js board-js))
 
 (comment
   ;; Example usage for testing

@@ -10,12 +10,21 @@ import type { DualStoreMetadata } from './types.js';
 /**
  * Core content types that can be indexed
  */
-export type ContentType = 'file' | 'message' | 'event' | 'session' | 'attachment' | 'thought' | 'document';
+export type ContentType =
+    | 'file'
+    | 'message'
+    | 'event'
+    | 'session'
+    | 'attachment'
+    | 'thought'
+    | 'document'
+    | 'task'
+    | 'board';
 
 /**
  * Source systems that produce content
  */
-export type ContentSource = 'filesystem' | 'discord' | 'opencode' | 'agent' | 'user' | 'system' | 'external';
+export type ContentSource = 'filesystem' | 'discord' | 'opencode' | 'agent' | 'user' | 'system' | 'external' | 'kanban';
 
 /**
  * Standardized metadata fields for all content types
@@ -98,6 +107,7 @@ export interface MessageMetadata extends BaseContentMetadata {
     foreign_id?: string;
     thread_id?: string;
     channel_id?: string;
+    role?: 'user' | 'assistant' | 'system';
 
     // Message content
     reply_to?: string;
@@ -145,6 +155,7 @@ export interface SessionMetadata extends BaseContentMetadata {
     session_id: string;
     title?: string;
     description?: string;
+    status?: 'active' | 'closed' | 'paused';
 
     // Session lifecycle
     started_at?: number;
@@ -229,6 +240,52 @@ export interface DocumentMetadata extends BaseContentMetadata {
 }
 
 /**
+ * Task-specific metadata
+ */
+export interface TaskMetadata extends BaseContentMetadata {
+    type: 'task';
+    source: 'kanban' | 'agent';
+
+    // Task specific
+    task_id?: string;
+    title?: string;
+    description?: string;
+    status?: 'backlog' | 'todo' | 'in_progress' | 'review' | 'done';
+    priority?: 'low' | 'medium' | 'high' | 'critical';
+    assignee?: string;
+    labels?: string[];
+    due_date?: number;
+
+    // Task relationships
+    parent_task?: string;
+    subtasks?: string[];
+    dependencies?: string[];
+    blocks?: string[];
+}
+
+/**
+ * Board-specific metadata
+ */
+export interface BoardMetadata extends BaseContentMetadata {
+    type: 'board';
+    source: 'kanban';
+
+    // Board specific
+    board_id?: string;
+    name?: string;
+    description?: string;
+    columns?: Array<{
+        id: string;
+        name: string;
+        status: string;
+    }>;
+
+    // Board configuration
+    workflow?: string[];
+    permissions?: Record<string, string[]>;
+}
+
+/**
  * Union type for all metadata types
  */
 export type ContentMetadata =
@@ -238,7 +295,9 @@ export type ContentMetadata =
     | SessionMetadata
     | AttachmentMetadata
     | ThoughtMetadata
-    | DocumentMetadata;
+    | DocumentMetadata
+    | TaskMetadata
+    | BoardMetadata;
 
 /**
  * Unified content interface that standardizes all indexed content
@@ -424,6 +483,84 @@ export function transformDiscordMessage(
 }
 
 /**
+ * Transform OpenCode session to IndexableContent
+ */
+export function transformOpenCodeSession(
+    session: {
+        id?: string;
+        title?: string;
+        status?: string;
+        created_at?: string | number;
+        updated_at?: string | number;
+    },
+    additionalMetadata: Partial<SessionMetadata> = {},
+): IndexableContent {
+    const timestamp =
+        typeof session.created_at === 'string'
+            ? new Date(session.created_at).getTime()
+            : session.created_at || Date.now();
+
+    const metadata: SessionMetadata = {
+        type: 'session',
+        source: 'opencode',
+        session_id: session.id || generateId(),
+        title: session.title,
+        status: session.status as 'active' | 'closed' | 'paused' | undefined,
+        created_at: timestamp,
+        updated_at:
+            typeof session.updated_at === 'string'
+                ? new Date(session.updated_at).getTime()
+                : session.updated_at || timestamp,
+        ...additionalMetadata,
+    };
+
+    return {
+        id: session.id || generateId(),
+        type: 'session',
+        source: 'opencode',
+        content: session.title || `Session ${session.id}`,
+        timestamp,
+        metadata,
+    };
+}
+
+/**
+ * Transform OpenCode message to IndexableContent
+ */
+export function transformOpenCodeMessage(
+    message: {
+        id?: string;
+        session_id?: string;
+        role?: string;
+        content?: string;
+        timestamp?: string | number;
+    },
+    additionalMetadata: Partial<MessageMetadata> = {},
+): IndexableContent {
+    const timestamp =
+        typeof message.timestamp === 'string' ? new Date(message.timestamp).getTime() : message.timestamp || Date.now();
+
+    const metadata: MessageMetadata = {
+        type: 'message',
+        source: 'opencode',
+        message_id: message.id,
+        session_id: message.session_id,
+        role: message.role as 'user' | 'assistant' | 'system' | undefined,
+        created_at: timestamp,
+        ...additionalMetadata,
+    };
+
+    return {
+        id: message.id || generateId(),
+        type: 'message',
+        source: 'opencode',
+        content: message.content || '',
+        timestamp,
+        metadata,
+    };
+}
+
+/**
  * Transform OpenCode event to IndexableContent
  */
 export function transformOpencodeEvent(
@@ -454,6 +591,54 @@ export function transformOpencodeEvent(
         source: 'opencode',
         content: JSON.stringify(event.data || event.properties || {}),
         timestamp: event.timestamp || Date.now(),
+        metadata,
+    };
+}
+
+/**
+ * Transform Kanban task to IndexableContent
+ */
+export function transformKanbanTask(
+    task: {
+        id?: string;
+        title?: string;
+        description?: string;
+        status?: string;
+        priority?: string;
+        assignee?: string;
+        labels?: string[];
+        due_date?: string | number;
+        created_at?: string | number;
+        updated_at?: string | number;
+    },
+    additionalMetadata: Partial<TaskMetadata> = {},
+): IndexableContent {
+    const timestamp =
+        typeof task.created_at === 'string' ? new Date(task.created_at).getTime() : task.created_at || Date.now();
+
+    const metadata: TaskMetadata = {
+        type: 'task',
+        source: 'kanban',
+        task_id: task.id,
+        title: task.title,
+        description: task.description,
+        status: task.status as 'backlog' | 'todo' | 'in_progress' | 'review' | 'done' | undefined,
+        priority: task.priority as 'low' | 'medium' | 'high' | 'critical' | undefined,
+        assignee: task.assignee,
+        labels: task.labels,
+        due_date: typeof task.due_date === 'string' ? new Date(task.due_date).getTime() : task.due_date,
+        created_at: timestamp,
+        updated_at:
+            typeof task.updated_at === 'string' ? new Date(task.updated_at).getTime() : task.updated_at || timestamp,
+        ...additionalMetadata,
+    };
+
+    return {
+        id: task.id || generateId(),
+        type: 'task',
+        source: 'kanban',
+        content: task.description || task.title || `Task ${task.id}`,
+        timestamp,
         metadata,
     };
 }

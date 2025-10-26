@@ -1,6 +1,6 @@
-import { config } from '../../config/ava.config.mjs';
+import baseConfig from '../../config/ava.config.mjs';
 
 export default {
-  ...config,
+  ...baseConfig,
   files: ['src/**/*.test.ts'],
 };

@@ -128,6 +128,3 @@ export const createIndexingOperations = (): {
   indexMessage,
   indexEvent: (event: EnhancedEvent) => indexEvent(event),
 });
-
-// Export error class for consumers
-export { IndexingError, createIndexingOperations };

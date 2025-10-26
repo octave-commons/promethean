@@ -29,6 +29,7 @@ async function testUnifiedContentModel() {
                 type: 'file',
                 userName: 'test-user',
                 vectorWriteSuccess: true,
+                message_id: 'msg-test-1', // Add required message_id for message type
             },
         };
 
@@ -177,6 +178,20 @@ async function testUnifiedContentModel() {
         // Verify all transformations produce valid content
         const allTransformed = [transformed1, transformed2, transformed3, transformed4];
         const validationResults = allTransformed.map(validateIndexableContent);
+
+        // Debug each transformation
+        allTransformed.forEach((transformed, index) => {
+            const validation = validationResults[index];
+            if (validation) {
+                console.log(`Transformation ${index + 1} validation:`, {
+                    id: transformed.id,
+                    type: transformed.type,
+                    source: transformed.source,
+                    valid: validation.valid,
+                    errors: validation.errors,
+                });
+            }
+        });
 
         const allValid = validationResults.every((result) => result.valid);
         const totalErrors = validationResults.reduce((sum, result) => sum + result.errors.length, 0);

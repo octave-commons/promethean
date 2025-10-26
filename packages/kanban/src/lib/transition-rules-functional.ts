@@ -588,9 +588,13 @@ export const evaluateCustomRule = async (
   }
 
   try {
-    // Use nbb (Node.js Babashka) to evaluate Clojure expressions
-    // @ts-ignore - nbb doesn't have TypeScript definitions
-    const nbb = await import('nbb');
+    // Use nbb (Node.js Babashka) to evaluate Clojure expressions with timeout
+    const nbb = await Promise.race([
+      import('nbb'),
+      new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error('nbb import timeout after 5 seconds')), 5000),
+      ),
+    ]);
 
     // Load the Clojure DSL file
     const dslCode = await readFile(state.config.dslPath!, 'utf-8');
