@@ -57,25 +57,25 @@ export const apps =
     "cwd": "."
   },
   {
-    "name": "opencode-unified-shadow-cljs",
-    "script": "pnpm",
+    "name": "opencode",
+    "script": "opencode",
     "args": [
-      "--filter",
-      "@promethean/opencode-unified",
-      "dev"
+      "serve",
+      "--port",
+      3000
     ],
     "interpreter": "/usr/bin/env",
-    "out_file": "./logs/promethean-opencode-unified.log",
-    "error_file": "./logs/promthean-opencode-unified.log",
+    "out_file": "./logs/opencode-out.log",
+    "error_file": "./logs/opencode-err.log",
     "merge_logs": true,
     "instances": 1,
     "autorestart": true,
     "restart_delay": 10000,
     "kill_timeout": 10000,
     "env": {
-      "PM2_PROCESS_NAME": "opencode-unified-shadow-cljs"
+      "PM2_PROCESS_NAME": "opencode"
     },
-    "cwd": "."
+    "cwd": "./test-data/test-git"
   },
   {
     "name": "opencode-web",
@@ -119,7 +119,7 @@ export const apps =
     "restart_delay": 10000,
     "kill_timeout": 10000,
     "env": {
-      "PM2_PROCESS_NAME": "opencode"
+      "PM2_PROCESS_NAME": "opencode-test"
     },
     "cwd": "."
   },
@@ -260,60 +260,6 @@ export const apps =
     ]
   },
   {
-    "name": "file-indexer-service",
-    "script": "node packages/file-system/file-indexer-service/dist/service.js",
-    "cwd": ".",
-    "instances": 1,
-    "env": {
-      "PORT": "3001",
-      "NODE_ENV": "production"
-    },
-    "log_file": "./logs/file-indexer-service.log",
-    "out_file": "./logs/file-indexer-service-out.log",
-    "error_file": "./logs/file-indexer-service-error.log",
-    "log_date_format": "YYYY-MM-DD HH:mm:ss Z",
-    "merge_logs": true,
-    "max_memory_restart": "1G",
-    "watch": [
-      "./packages/file-system/file-indexer-service/dist"
-    ],
-    "ignore_watch": [
-      "node_modules",
-      "logs"
-    ],
-    "restart_delay": 4000,
-    "max_restarts": 10,
-    "min_uptime": "10s"
-  },
-  {
-    "name": "frontend-service",
-    "description": "Frontend service with ClojureScript DSL and server capabilities",
-    "script": "node",
-    "args": [
-      "-r",
-      "esbuild-register",
-      "packages/frontend-service/dist/index.js"
-    ],
-    "cwd": "..",
-    "env": {
-      "NODE_ENV": "production",
-      "PORT": "3002",
-      "LOG_LEVEL": "info"
-    },
-    "instances": 1,
-    "max-memory-restart": "1G",
-    "autorestart": true,
-    "watch": false,
-    "merge-logs": true,
-    "log-date-format": "YYYY-MM-DD HH:mm:ss Z",
-    "error-file": "logs/frontend-service-error.log",
-    "out-file": "logs/frontend-service-out.log",
-    "log-file": "logs/frontend-service-combined.log",
-    "time": true,
-    "kill-timeout": 5000,
-    "restart-delay": 4000
-  },
-  {
     "name": "health",
     "script": "index.js",
     "args": [],
@@ -373,34 +319,6 @@ export const apps =
       "tmp",
       ".git"
     ]
-  },
-  {
-    "name": "openai-server",
-    "description": "OpenAI-compatible API server with Ollama integration and task queuing",
-    "script": "node",
-    "args": [
-      "-r",
-      "esbuild-register",
-      "packages/openai-server/dist/index.js"
-    ],
-    "cwd": "..",
-    "env": {
-      "NODE_ENV": "production",
-      "PORT": "3001",
-      "LOG_LEVEL": "info"
-    },
-    "instances": 1,
-    "max-memory-restart": "1G",
-    "autorestart": true,
-    "watch": false,
-    "merge-logs": true,
-    "log-date-format": "YYYY-MM-DD HH:mm:ss Z",
-    "error-file": "logs/openai-server-error.log",
-    "out-file": "logs/openai-server-out.log",
-    "log-file": "logs/openai-server-combined.log",
-    "time": true,
-    "kill-timeout": 5000,
-    "restart-delay": 4000
   }
 ];
 
