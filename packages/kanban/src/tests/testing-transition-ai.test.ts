@@ -1,8 +1,9 @@
 import test from 'ava';
 
 import { analyzeWithAI } from '../lib/testing-transition/ai-analyzer.js';
+import type { AIAnalysisRequest } from '../lib/testing-transition/types.js';
 
-const sampleRequest = {
+const sampleRequest: AIAnalysisRequest = {
   tests: ['tests/example.spec.ts'],
   coverageResult: {
     overallCoverage: 88,
@@ -27,7 +28,7 @@ const sampleRequest = {
     { requirementId: 'REQ-1', testIds: ['tests/example.spec.ts'], isCovered: true },
     { requirementId: 'REQ-2', testIds: [], isCovered: false },
   ],
-} as const;
+};
 
 test('analyzeWithAI generates deterministic Pantheon insights', async (t) => {
   const result = await analyzeWithAI(sampleRequest);
