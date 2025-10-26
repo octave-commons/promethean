@@ -3,9 +3,11 @@ import sinon from 'sinon';
 import { list } from '../../actions/events/list.js';
 import { eventStore } from '../../index.js';
 import { cleanupClients } from '@promethean-os/persistence';
+import { setupTestStores } from '../helpers/test-stores.js';
 
-test.beforeEach(() => {
+test.beforeEach(async () => {
   sinon.restore();
+  await setupTestStores();
 });
 
 test.after.always(async () => {

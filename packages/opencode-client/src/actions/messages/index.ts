@@ -16,7 +16,7 @@ const COMPLETION_PATTERNS = [
   /all.*done/i,
   /mission.*accomplished/i,
   /objective.*achieved/i,
-  /✅|🎉|🏆|✓/g,
+  /✅|🎉|🏆|✓/,
 ];
 
 export function detectTaskCompletion(messages: readonly EventMessage[]): {

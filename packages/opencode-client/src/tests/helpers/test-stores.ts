@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Test store setup helpers
 
+// This is a helper file, not a test file, so no AVA import needed
 import { initializeStores } from '../../initializeStores.js';
 import type { DualStoreManager } from '@promethean-os/persistence';
 

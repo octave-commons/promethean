@@ -26,11 +26,11 @@ const SessionUtils = {
         const props = event.properties as SessionEventProperties;
         return props.sessionID || props.session?.id;
       },
-      'session.updated': () => {
+      session_updated: () => {
         const props = event.properties as SessionEventProperties;
         return props.info?.id || props.session?.id;
       },
-      'message.updated': () => {
+      message_updated: () => {
         const props = event.properties as MessageEventProperties;
         return props.message?.session_id || event.sessionId;
       },

@@ -7,10 +7,12 @@ import {
   getSessionMessages,
 } from '../../actions/messages/index.js';
 import { sessionStore } from '../../index.js';
+import { setupTestStores } from '../helpers/test-stores.js';
 import type { EventMessage } from '../../types/index.js';
 
-test.beforeEach(() => {
+test.beforeEach(async () => {
   sinon.restore();
+  await setupTestStores();
 });
 
 test.serial('detectTaskCompletion returns false for empty messages', (t) => {
