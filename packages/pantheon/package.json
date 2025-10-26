@@ -53,7 +53,7 @@
   },
   "peerDependencies": {
     "@promethean-os/persistence": "workspace:*",
-    "@promethean-os/agent-state": "workspace:*"
+    "@promethean-os/pantheon-state": "workspace:*"
   },
   "license": "GPL-3.0-only",
   "engines": {
