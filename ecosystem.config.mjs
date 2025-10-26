@@ -57,7 +57,7 @@ export const apps =
     "cwd": "."
   },
   {
-    "name": "opencode",
+    "name": "opencode-test",
     "script": "opencode",
     "args": [
       "serve",
