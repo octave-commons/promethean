@@ -973,60 +973,18 @@ const handleAudit: CommandHandler = (args, context) =>
       console.log('⚡ Processing in parallel with Promise.all...');
       console.log('');
 
-      // Process ALL untracked tasks in parallel
-      const startTime = Date.now();
-      const fixResults = await Promise.all(
-        untrackedTasks.map(async ({ task, taskFilePath }) => {
-          try {
-            // Commit the changes to initialize tracking
-            const trackingResult = await gitTracker.commitTaskChanges(
-              taskFilePath,
-              task.uuid,
-              'update',
-              'Audit correction: Initialize commit tracking for untracked task',
-            );
-
-            return {
-              task,
-              success: trackingResult.success,
-              sha: trackingResult.sha,
-              error: trackingResult.error,
-            };
-          } catch (error) {
-            return {
-              task,
-              success: false,
-              error: error instanceof Error ? error.message : String(error),
-            };
-          }
-        }),
-      );
-      const endTime = Date.now();
-
-      // Report results
-      const fixedCount = fixResults.filter((r) => r.success).length;
-      const failedCount = fixResults.filter((r) => !r.success).length;
-
-      console.log(`⚡ Parallel processing completed in ${endTime - startTime}ms`);
-      console.log(`✅ Fixed: ${fixedCount} tasks`);
-      if (failedCount > 0) {
-        console.log(`❌ Failed: ${failedCount} tasks`);
-      }
+      // Read-only tracking - no commits created
+      console.log(`📋 Found ${untrackedTasks.length} untracked tasks`);
+      console.log('📝 Commit tracking will be updated automatically on next kanban operation');
       console.log('');
 
-      // Detailed results
-      for (const result of fixResults) {
-        if (result.success) {
-          console.log(`✅ FIXED: Added commit tracking to "${result.task.title}"`);
-          console.log(`   Task ID: ${result.task.uuid}`);
-          console.log(`   Commit SHA: ${result.sha}`);
-          console.log('');
-        } else {
-          console.log(`❌ FAILED TO FIX: "${result.task.title}"`);
-          console.log(`   Task ID: ${result.task.uuid}`);
-          console.log(`   Error: ${result.error}`);
-          console.log('');
-        }
+      // Just report the untracked tasks, don't try to fix them
+      for (const { task } of untrackedTasks) {
+        console.log(`⚠️  UNTRACKED TASK: "${task.title}"`);
+        console.log(`   Task ID: ${task.uuid}`);
+        console.log(`   Status: ${task.status}`);
+        console.log(`   Recommendation: Commit tracking will be updated on next operation`);
+        console.log('');
       }
     }
 
