@@ -1,6 +1,6 @@
 {
   "name": "@promethean-os/pantheon-llm-claude",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Pantheon LLM adapter for Anthropic Claude API",
   "type": "module",
   "main": "dist/index.js",

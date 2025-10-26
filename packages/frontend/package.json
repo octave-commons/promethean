@@ -1,6 +1,6 @@
 {
   "name": "@promethean-os/frontend",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Consolidated frontend package for all Promethean UI applications",
   "private": true,
   "type": "module",

@@ -2,21 +2,42 @@ import { getMongoClient, cleanupClients } from '@promethean-os/persistence';
 import { contextStore } from './stores.js';
 
 /**
+ * Logging utility that respects LOG_LEVEL environment variable
+ */
+const testLog = {
+  debug: (message: any, ...args: any[]) => {
+    if (process.env.LOG_LEVEL === 'debug') {
+      console.error(message, ...args);
+    }
+  },
+  info: (message: any, ...args: any[]) => {
+    if (process.env.LOG_LEVEL && ['debug', 'info'].includes(process.env.LOG_LEVEL)) {
+      console.error(message, ...args);
+    }
+  },
+  error: (message: any, ...args: any[]) => {
+    if (process.env.LOG_LEVEL && ['debug', 'info', 'error'].includes(process.env.LOG_LEVEL)) {
+      console.error(message, ...args);
+    }
+  },
+};
+
+/**
  * Shared test cleanup utility to clear all test data
  */
 export async function cleanupTestData(): Promise<void> {
   try {
-    console.error('🧹 Starting test cleanup...');
+    testLog.debug('🧹 Starting test cleanup...');
 
     // Clear all collections from context store
     const collectionNames = contextStore.listCollectionNames();
-    console.error('📋 Found collections:', collectionNames);
+    testLog.debug('📋 Found collections:', collectionNames);
 
     for (const collectionName of collectionNames) {
       const collection = contextStore.getCollection(collectionName);
       if (collection && 'clear' in collection && typeof collection.clear === 'function') {
         await collection.clear();
-        console.error(`✅ Cleared context store collection: ${collectionName}`);
+        testLog.debug(`✅ Cleared context store collection: ${collectionName}`);
       }
     }
 
@@ -27,17 +48,17 @@ export async function cleanupTestData(): Promise<void> {
     // Get all collection names in the database
     const allCollections = await db.listCollections().toArray();
     const collectionNamesFromDb = allCollections.map((c) => c.name);
-    console.error('🗃️ Found DB collections:', collectionNamesFromDb);
+    testLog.debug('🗃️ Found DB collections:', collectionNamesFromDb);
 
     // Drop ALL collections that might contain test data
     for (const collectionName of collectionNamesFromDb) {
       try {
         await db.collection(collectionName).drop();
-        console.error(`🗑️ Dropped DB collection: ${collectionName}`);
+        testLog.debug(`🗑️ Dropped DB collection: ${collectionName}`);
       } catch (error) {
         // Ignore collection not found errors
         if ((error as any).codeName !== 'NamespaceNotFound') {
-          console.error(`⚠️ Could not drop ${collectionName}:`, error);
+          testLog.error(`⚠️ Could not drop ${collectionName}:`, error);
         }
       }
     }
@@ -46,9 +67,9 @@ export async function cleanupTestData(): Promise<void> {
 
     // Also cleanup persistence clients to ensure no hanging connections
     await cleanupClients();
-    console.error('✅ Test cleanup completed');
+    testLog.debug('✅ Test cleanup completed');
   } catch (error) {
-    console.error('❌ Test cleanup failed:', error);
+    testLog.error('❌ Test cleanup failed:', error);
     throw error;
   }
 }

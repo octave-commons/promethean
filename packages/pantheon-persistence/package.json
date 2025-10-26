@@ -1,6 +1,6 @@
 {
   "name": "@promethean-os/pantheon-persistence",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Pantheon persistence adapter — wraps @promethean-os/persistence for Pantheon context port",
   "type": "module",
   "main": "dist/index.js",

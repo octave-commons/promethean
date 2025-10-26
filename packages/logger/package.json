@@ -1,6 +1,6 @@
 {
   "name": "@promethean-os/logger",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Structured logging package for Promethean with Winston",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -1,6 +1,6 @@
 {
   "name": "@promethean-os/nl-parser",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Natural Language Command Parser with intent classification and parameter mapping",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -1,6 +1,6 @@
 {
   "name": "@promethean-os/mcp-dev-ui-frontend",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Frontend components for MCP Dev UI",
   "main": "dist/index.js",
   "type": "module",
@@ -36,7 +36,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/promethean-framework/promethean.git",
+    "url": "https://github.com/riatzukiza/promethean.git",
     "directory": "packages/mcp-dev-ui-frontend"
   },
   "publishConfig": {

@@ -1,7 +1,6 @@
 {
     "name": "@promethean-os/markdown",
     "version": "0.0.1",
-    "private": true,
     "type": "module",
     "main": "dist/index.cjs",
     "types": "dist/index.d.ts",

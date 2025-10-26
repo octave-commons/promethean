@@ -20,13 +20,13 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/promethean-framework/promethean.git",
+    "url": "https://github.com/riatzukiza/promethean.git",
     "directory": "packages/docs-system"
   },
   "bugs": {
-    "url": "https://github.com/promethean-framework/promethean/issues"
+    "url": "https://github.com/riatzukiza/promethean/issues"
   },
-  "homepage": "https://github.com/promethean-framework/promethean/tree/main/packages/docs-system",
+  "homepage": "https://github.com/riatzukiza/promethean/tree/main/packages/docs-system",
   "engines": {
     "node": ">=18.0.0"
   },

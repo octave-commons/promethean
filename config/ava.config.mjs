@@ -3,10 +3,28 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import dotenv from 'dotenv';
 
-// Ensure test runs default to silent logging. Individual tests can opt out
-// by setting LOG_SILENT to "false" before creating loggers.
-if (process.env.LOG_SILENT === undefined) {
+// Configure logging based on LOG_LEVEL environment variable
+// Supported levels: 'silent', 'error', 'warn', 'info', 'debug'
+// Default to 'silent' for clean test output
+const logLevel = process.env.LOG_LEVEL || 'silent';
+
+if (logLevel === 'silent') {
   process.env.LOG_SILENT = 'true';
+} else {
+  process.env.LOG_SILENT = 'false';
+  // Map log levels to appropriate verbosity
+  switch (logLevel) {
+    case 'error':
+      process.env.VERBOSE_TESTS = 'false';
+      break;
+    case 'warn':
+    case 'info':
+      process.env.VERBOSE_TESTS = 'false';
+      break;
+    case 'debug':
+      process.env.VERBOSE_TESTS = 'true';
+      break;
+  }
 }
 
 // Centralized AVA config for the monorepo

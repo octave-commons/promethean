@@ -1,6 +1,6 @@
 {
   "name": "@promethean-os/ai-learning",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "AI learning system for intelligent model routing and performance tracking",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

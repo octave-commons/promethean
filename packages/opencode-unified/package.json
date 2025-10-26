@@ -1,6 +1,6 @@
 {
   "name": "@promethean-os/opencode-unified",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Unified OpenCode client combining TypeScript server, ClojureScript editor, and Electron integration",
   "type": "module",
   "main": "dist/index.js",

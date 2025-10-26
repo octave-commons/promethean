@@ -1,6 +1,6 @@
 {
   "name": "@promethean-os/pantheon",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Pantheon Agent Management Framework — Complete framework with CLI, UI, and adapters",
   "type": "module",
   "main": "dist/index.js",

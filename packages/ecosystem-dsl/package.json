@@ -1,6 +1,6 @@
 {
   "name": "@promethean-os/ecosystem-dsl",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Clojure DSL for generating enhanced PM2 ecosystem configurations from simple EDN files",
   "main": "src/ecosystem_dsl/core.clj",
   "type": "module",

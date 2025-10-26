@@ -1,6 +1,6 @@
 {
   "name": "@promethean-os/pantheon-core",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Pantheon Agent Management Framework — Core functional library for actors, behaviors, context, and orchestration",
   "type": "module",
   "main": "dist/index.js",

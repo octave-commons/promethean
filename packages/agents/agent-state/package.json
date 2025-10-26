@@ -1,6 +1,6 @@
 {
   "name": "@promethean-os/agent-state",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Agent STATE Management System with functional façade for event sourcing and snapshots (not conversation context - use @promethean-os/persistence for that)",
   "type": "module",
   "main": "dist/index.js",

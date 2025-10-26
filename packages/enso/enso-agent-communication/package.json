@@ -1,6 +1,6 @@
 {
   "name": "@promethean-os/enso-agent-communication",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Enso Protocol-based agent communication layer for coordinated AI agent collaboration",
   "main": "dist/index.js",
   "type": "module",

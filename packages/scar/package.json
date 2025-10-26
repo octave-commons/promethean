@@ -1,6 +1,6 @@
 {
   "name": "@promethean-os/scar",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "File corruption healing and scar tracking system for Promethean",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

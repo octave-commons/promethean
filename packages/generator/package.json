@@ -1,6 +1,6 @@
 {
   "name": "@promethean-os/generator",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Package generator for Promethean Framework",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

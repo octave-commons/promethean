@@ -1,6 +1,6 @@
 {
   "name": "@promethean-os/pipeline-automation",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Comprehensive pipeline automation with BuildFix integration, timeout handling, and monitoring",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

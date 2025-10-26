@@ -1,6 +1,6 @@
 {
   "name": "@promethean-os/agent-protocol",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Agent OS Core Message Protocol with envelope messaging and multiple transports",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
