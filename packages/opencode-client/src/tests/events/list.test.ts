@@ -42,14 +42,27 @@ test.serial('list returns events sorted by timestamp (newest first)', async (t) 
   try {
     const result = await list({});
     console.log('List result:', result);
+    console.log('Result length:', result.length);
+    console.log('First result:', result[0]);
+
+    if (result.length === 0) {
+      t.fail('Result is empty');
+      return;
+    }
 
     t.is(result.length, 3);
-    t.is(result[0]!.type, 'test');
-    t.is(result[0]!.content, 'Second event'); // Should be first (timestamp 2000)
-    t.is(result[1]!.type, 'test');
-    t.is(result[1]!.content, 'Third event'); // Should be second (timestamp 1500)
-    t.is(result[2]!.type, 'test');
-    t.is(result[2]!.content, 'First event'); // Should be third (timestamp 1000)
+    if (result[0]) {
+      t.is(result[0]!.type, 'test');
+      t.is(result[0]!.content, 'Second event'); // Should be first (timestamp 2000)
+    }
+    if (result[1]) {
+      t.is(result[1]!.type, 'test');
+      t.is(result[1]!.content, 'Third event'); // Should be second (timestamp 1500)
+    }
+    if (result[2]) {
+      t.is(result[2]!.type, 'test');
+      t.is(result[2]!.content, 'First event'); // Should be third (timestamp 1000)
+    }
   } catch (error) {
     console.error('List function failed:', error);
     t.fail(`List function failed: ${error}`);
