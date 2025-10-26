@@ -6,13 +6,17 @@ import { contextStore } from './stores.js';
  */
 export async function cleanupTestData(): Promise<void> {
   try {
+    console.error('🧹 Starting test cleanup...');
+
     // Clear all collections from context store
     const collectionNames = contextStore.listCollectionNames();
+    console.error('📋 Found collections:', collectionNames);
 
     for (const collectionName of collectionNames) {
       const collection = contextStore.getCollection(collectionName);
       if (collection && 'clear' in collection && typeof collection.clear === 'function') {
         await collection.clear();
+        console.error(`✅ Cleared context store collection: ${collectionName}`);
       }
     }
 
@@ -20,28 +24,20 @@ export async function cleanupTestData(): Promise<void> {
     const mongoClient = await getMongoClient();
     const db = mongoClient.db('database');
 
-    const collections = [
-      'sessionStore',
-      'eventStore',
-      'messageStore',
-      'test_agent_sessionStore',
-      'test_agent_eventStore',
-      'test_agent_messageStore',
-    ];
+    // Get all collection names in the database
+    const allCollections = await db.listCollections().toArray();
+    const collectionNamesFromDb = allCollections.map((c) => c.name);
+    console.error('🗃️ Found DB collections:', collectionNamesFromDb);
 
-    for (const collectionName of collections) {
+    // Drop ALL collections that might contain test data
+    for (const collectionName of collectionNamesFromDb) {
       try {
-        // More aggressive cleanup - drop the entire collection
         await db.collection(collectionName).drop();
-        if (process.env.VERBOSE_TESTS === 'true') {
-          console.error(`Dropped ${collectionName} collection`);
-        }
+        console.error(`🗑️ Dropped DB collection: ${collectionName}`);
       } catch (error) {
         // Ignore collection not found errors
         if ((error as any).codeName !== 'NamespaceNotFound') {
-          if (process.env.VERBOSE_TESTS === 'true') {
-            console.error(`Warning: Could not drop ${collectionName}:`, error);
-          }
+          console.error(`⚠️ Could not drop ${collectionName}:`, error);
         }
       }
     }
@@ -50,10 +46,9 @@ export async function cleanupTestData(): Promise<void> {
 
     // Also cleanup persistence clients to ensure no hanging connections
     await cleanupClients();
+    console.error('✅ Test cleanup completed');
   } catch (error) {
-    if (process.env.VERBOSE_TESTS === 'true') {
-      console.error('Test cleanup failed:', error);
-    }
+    console.error('❌ Test cleanup failed:', error);
     throw error;
   }
 }
