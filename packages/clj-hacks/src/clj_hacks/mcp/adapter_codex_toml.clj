@@ -73,7 +73,7 @@
       {}
       (->> (split-top-level body)
            (reduce (fn [acc entry]
-                     (if-let [[_ k v] (re-matches #"^([^=]+?)\\s*=\\s*(.+)$" entry)]
+                     (if-let [[_ k v] (re-matches #"^([^=]+?)\s*=\s*(.+)$" entry)]
                        (assoc acc (strip-quotes k) (parse-value v))
                        acc))
                    {})))))

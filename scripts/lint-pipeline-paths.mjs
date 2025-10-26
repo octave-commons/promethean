@@ -10,12 +10,12 @@
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 
-const PIPELINE_FILE = resolve(process.cwd(), 'pipelines.json');
+const PIPELINE_FILE = resolve(process.cwd(), process.env.PIPELINE_FILE || 'pipelines.json');
 
 // Patterns that indicate absolute paths
 const ABSOLUTE_PATH_PATTERNS = [
-  /^\/[^\/]/, // Unix absolute paths starting with /
-  /^[a-zA-Z]:\\/, // Windows absolute paths starting with C:\
+  /"\/[^\/]/, // Unix absolute paths starting with "/ inside JSON strings
+  /[a-zA-Z]:\\/, // Windows absolute paths containing C:\
 ];
 
 // Allowed absolute patterns (environment variables, templates)

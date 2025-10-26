@@ -1,6 +1,5 @@
-import { readFile, writeFile, watch } from 'node:fs/promises';
-import { join } from 'node:path';
-import { existsSync } from 'node:fs';
+import { readFile, writeFile } from 'node:fs/promises';
+import { existsSync, watch } from 'node:fs';
 import { EventEmitter } from 'node:events';
 import type { KanbanHealthConfig, HealthMonitoringConfig } from './health-config.js';
 import { KanbanHealthConfigSchema, DEFAULT_HEALTH_CONFIG } from './health-config.js';
@@ -22,7 +21,7 @@ export class HealthConfigManager extends EventEmitter {
   private environment: string;
   private hotReload: boolean;
   private currentConfig: KanbanHealthConfig | null = null;
-  private watcher: AsyncIterable<any> | null = null;
+  private watcher: any = null;
   private version: string = '1.0.0';
 
   constructor(options: ConfigManagerOptions = {}) {
@@ -63,7 +62,8 @@ export class HealthConfigManager extends EventEmitter {
 
   async saveConfig(config: Partial<KanbanHealthConfig>): Promise<void> {
     try {
-      const mergedConfig = this.mergeConfig(this.currentConfig || this.getDefaultConfig(), config);
+      const baseConfig = this.currentConfig || (await this.getDefaultConfig());
+      const mergedConfig = this.mergeConfig(baseConfig, config);
       const validationResult = this.validateConfig(mergedConfig);
 
       if (!validationResult.valid) {
@@ -104,18 +104,22 @@ export class HealthConfigManager extends EventEmitter {
   async updateEnvironmentConfig(healthConfig: Partial<HealthMonitoringConfig>): Promise<void> {
     const config = this.currentConfig || (await this.loadConfig());
 
+    const currentEnvConfig = config.environments[this.environment];
+    const currentHealthConfig = currentEnvConfig?.health || DEFAULT_HEALTH_CONFIG;
+
+    const updatedEnvironments = { ...config.environments };
+
+    updatedEnvironments[this.environment] = {
+      name: this.environment,
+      health: {
+        ...currentHealthConfig,
+        ...healthConfig,
+      },
+    };
+
     const updatedConfig = {
       ...config,
-      environments: {
-        ...config.environments,
-        [this.environment]: {
-          ...config.environments[this.environment],
-          health: {
-            ...config.environments[this.environment]?.health,
-            ...healthConfig,
-          },
-        },
-      },
+      environments: updatedEnvironments,
     };
 
     await this.saveConfig(updatedConfig);
@@ -144,7 +148,7 @@ export class HealthConfigManager extends EventEmitter {
     };
   }
 
-  async rollbackToVersion(version: string): Promise<void> {
+  async rollbackToVersion(_version: string): Promise<void> {
     throw new Error('Version rollback not yet implemented');
   }
 
@@ -198,30 +202,31 @@ export class HealthConfigManager extends EventEmitter {
       ...update,
       environments: {
         ...base.environments,
-        ...update.environments,
+        ...(update.environments || {}),
       },
     };
   }
 
   private incrementVersion(currentVersion: string): string {
     const [major, minor, patch] = currentVersion.split('.').map(Number);
-    return `${major}.${minor}.${patch + 1}`;
+    const patchNum = patch || 0;
+    return `${major}.${minor}.${patchNum + 1}`;
   }
 
   private async setupHotReload(): Promise<void> {
     try {
-      this.watcher = watch(this.configPath);
-
-      for await (const event of this.watcher) {
-        if (event.eventType === 'change') {
-          try {
-            await this.loadConfig();
-            this.emit('configReloaded', this.currentConfig);
-          } catch (error) {
-            this.emit('configError', error);
-          }
+      this.watcher = watch(this.configPath, (eventType) => {
+        if (eventType === 'change') {
+          (async () => {
+            try {
+              await this.loadConfig();
+              this.emit('configReloaded', this.currentConfig);
+            } catch (error) {
+              this.emit('configError', error);
+            }
+          })();
         }
-      }
+      });
     } catch (error) {
       this.emit('configError', error);
     }

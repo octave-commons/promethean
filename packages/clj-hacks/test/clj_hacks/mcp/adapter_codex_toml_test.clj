@@ -80,8 +80,8 @@
       (is (re-find #"\[mcp_servers.\"figma\"\]" s))
       (is (re-find #"url = \"https://mcp.figma.com/mcp\"" s))
       (is (re-find #"bearer_token_env_var = \"FIGMA_TOKEN\"" s))
-      (is (re-find #"http_headers = \{ \"X-API-Version\" = \"v1\" \}" s))
-      (is (re-find #"env_http_headers = \{ \"X-User-Agent\" = \"USER_AGENT\" \}" s)))))
+      (is (re-find #"http_headers = \{ X-API-Version = \"v1\" \}" s))
+      (is (re-find #"env_http_headers = \{ X-User-Agent = \"USER_AGENT\" \}" s)))))
 
 (deftest write-full-generates-http-stdio-entries
   (let [tmp  (fs/create-temp-file {:prefix "mcp-toml-http-" :suffix ".toml"})
@@ -102,7 +102,7 @@
       (is (re-find #"command = \"pnpm\"" s))
       (is (re-find #"args = \[\"--filter\", \"@promethean/mcp\", \"dev\"\]" s))
       (is (re-find #"cwd = \"/repo\"" s))
-      (is (re-find #"env = \{ MCP_CONFIG_JSON = \"\\\\\"transport\\\\\":\\\\\"stdio\\\\\"" s))
+      (is (re-find #"env = \{ MCP_CONFIG_JSON = \"\{\\\"transport\\\":\\\"stdio\\\"" s))
       (is (re-find #"\[mcp_servers.\"http-kanban\"\]" s))
       (is (re-find #"kanban_get_board" s)))))
 
