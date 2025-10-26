@@ -1,7 +1,7 @@
 
-{:apps [{:name "opencode"
+{:apps [{:name "opencode-test"
          :script "opencode"
-         :args ["serve" "--port" 4096]
+         :args ["serve" "--port" 3000]
          :interpreter "/usr/bin/env"
          :out_file "./logs/opencode-out.log"
          :error_file "./logs/opencode-err.log"
@@ -12,4 +12,4 @@
          :restart_delay 10000
          :kill_timeout 10000
          :env {:PM2_PROCESS_NAME "opencode"}
-         :cwd "."}]}
+         :cwd "./test-data/test-git"}]}

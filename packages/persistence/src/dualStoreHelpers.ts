@@ -1,7 +1,6 @@
 import type { Collection as ChromaCollection, Metadata as ChromaMetadata } from 'chromadb';
 import type { Collection } from 'mongodb';
 import { RemoteEmbeddingFunction } from '@promethean-os/embedding';
-import { AGENT_NAME } from '@promethean-os/legacy/env.js';
 
 import type { DualStoreEntry, DualStoreMetadata, DualStoreTimestamp } from './types.js';
 import { getChromaClient, getMongoClient } from './clients.js';
@@ -165,7 +164,7 @@ export const createDualStoreManagerDependencies = async <TextKey extends string,
     const { chromaClient, mongoClient } = await setupClients();
     console.log(`[DUALSTORE CREATE] Clients setup complete`);
 
-    const agentName = options?.agentName ?? AGENT_NAME;
+    const agentName = options?.agentName ?? process.env.AGENT_NAME ?? 'duck';
     const databaseName = options?.databaseName ?? 'database';
     const family = `${agentName}_${name}`;
     console.log(`[DUALSTORE CREATE] Accessing database: ${databaseName}, collection family: ${family}`);
@@ -189,7 +188,7 @@ export const createDualStoreManagerDependencies = async <TextKey extends string,
     const supportsImages = !embedFnName.toLowerCase().includes('text');
     const result = {
         name: family,
-        agent_name: AGENT_NAME ?? 'default_agent',
+        agent_name: process.env.AGENT_NAME ?? 'duck',
         embedding_fn: embedFnName,
         chromaCollection,
         mongoCollection,

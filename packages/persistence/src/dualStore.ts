@@ -2,7 +2,7 @@ import type { Collection as ChromaCollection } from 'chromadb';
 
 import { RemoteEmbeddingFunction } from '@promethean-os/embedding';
 import type { Collection, OptionalUnlessRequiredId, WithId } from 'mongodb';
-import { AGENT_NAME } from '@promethean-os/legacy/env.js';
+
 import { randomUUID } from 'node:crypto';
 import type { DualStoreEntry, AliasDoc } from './types.js';
 import { getChromaClient, getMongoClient, validateMongoConnection } from './clients.js';
@@ -38,7 +38,7 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
     ) {
         const chromaClient = await getChromaClient();
         const mongoClient = await getMongoClient();
-        const family = `${AGENT_NAME}_${name}`;
+        const family = `${process.env.AGENT_NAME || 'duck'}_${name}`;
         const db = mongoClient.db('database');
         const aliases = db.collection<AliasDoc>('collection_aliases');
         const alias = await aliases.findOne({ _id: family });

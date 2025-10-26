@@ -325,7 +325,7 @@ test.serial('complete event processing workflow', async (t) => {
 test.serial('indexer service integrates with action modules', async (t) => {
   const mockClient = createComprehensiveMockClient();
   const indexer = createIndexerService({
-    baseUrl: 'http://localhost:3000',
+    baseUrl: 'http://localhost:3000', // Mock URL - tests use mock clients
     processingInterval: 1000,
     stateFile: './test-e2e-indexer-state.json',
   });
@@ -592,7 +592,7 @@ test.serial('data integrity validation', async (t) => {
 test.serial('system cleanup and resource management', async (t) => {
   const mockClient = createComprehensiveMockClient();
   const indexer = createIndexerService({
-    baseUrl: 'http://localhost:3000',
+    baseUrl: 'http://localhost:3000', // Mock URL - tests use mock clients
     processingInterval: 500,
     stateFile: './test-cleanup-indexer-state.json',
   });

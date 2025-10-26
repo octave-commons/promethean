@@ -1,37 +1,27 @@
-import fs from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import dotenv from 'dotenv';
 
 // Ensure test runs default to silent logging. Individual tests can opt out
 // by setting LOG_SILENT to "false" before creating loggers.
 if (process.env.LOG_SILENT === undefined) {
-  process.env.LOG_SILENT = "true";
+  process.env.LOG_SILENT = 'true';
 }
 
 // Centralized AVA config for the monorepo
 // Applies consistent file globs and a default timeout to prevent hanging tests.
 
 const configDir = path.dirname(fileURLToPath(import.meta.url));
-const workspaceRoot = path.resolve(configDir, "..");
+const workspaceRoot = path.resolve(configDir, '..');
 const DEFAULT_SEARCH_ROOTS = [
-  path.join(workspaceRoot, "packages"),
-  path.join(workspaceRoot, "services"),
-  path.join(workspaceRoot, "shared"),
-  path.join(workspaceRoot, "tests"),
+  path.join(workspaceRoot, 'packages'),
+  path.join(workspaceRoot, 'services'),
+  path.join(workspaceRoot, 'shared'),
+  path.join(workspaceRoot, 'tests'),
 ];
-const PACKAGE_SCOPE_DIRS = new Set([
-  "packages",
-  "services",
-  "tests",
-  "sites",
-  "shared",
-]);
-const PROJECT_GRAPH_PATH = path.join(
-  workspaceRoot,
-  ".nx",
-  "workspace-data",
-  "project-graph.json",
-);
+const PACKAGE_SCOPE_DIRS = new Set(['packages', 'services', 'tests', 'sites', 'shared']);
+const PROJECT_GRAPH_PATH = path.join(workspaceRoot, '.nx', 'workspace-data', 'project-graph.json');
 let projectGraphCache = undefined;
 
 function loadProjectGraph() {
@@ -39,7 +29,7 @@ function loadProjectGraph() {
     return projectGraphCache;
   }
   try {
-    const raw = fs.readFileSync(PROJECT_GRAPH_PATH, "utf8");
+    const raw = fs.readFileSync(PROJECT_GRAPH_PATH, 'utf8');
     projectGraphCache = JSON.parse(raw);
   } catch {
     projectGraphCache = null;
@@ -72,9 +62,7 @@ function determineProjectRoot() {
   const cwd = process.cwd();
   const relativeCwd = path.relative(workspaceRoot, cwd);
   const insideWorkspace =
-    relativeCwd !== "" &&
-    !relativeCwd.startsWith("..") &&
-    !path.isAbsolute(relativeCwd);
+    relativeCwd !== '' && !relativeCwd.startsWith('..') && !path.isAbsolute(relativeCwd);
   if (insideWorkspace) {
     const [scope] = relativeCwd.split(path.sep);
     if (!scope || PACKAGE_SCOPE_DIRS.has(scope)) {
@@ -107,15 +95,11 @@ function resolveSearchRoots(projectRoot) {
 
 const projectRoot = determineProjectRoot();
 const searchRoots = resolveSearchRoots(projectRoot);
-const mockPolyfillPath = path.join(configDir, "ava-mock-polyfill.cjs");
-const testFileMatchers = [
-  (name) => name.endsWith(".test.js"),
-  (name) => name.endsWith(".spec.js"),
-];
-const distTestDirNames = new Set(["tests", "test"]);
+const mockPolyfillPath = path.join(configDir, 'ava-mock-polyfill.cjs');
+const testFileMatchers = [(name) => name.endsWith('.test.js'), (name) => name.endsWith('.spec.js')];
+const distTestDirNames = new Set(['tests', 'test']);
 
-const shouldSkipDir = (entryName) =>
-  entryName === "node_modules" || entryName.startsWith(".");
+const shouldSkipDir = (entryName) => entryName === 'node_modules' || entryName.startsWith('.');
 
 function distContainsTests(distDir) {
   const stack = [distDir];
@@ -145,7 +129,7 @@ function distContainsTests(distDir) {
 
       const relativePath = path.relative(distDir, fullPath);
       const [topLevelDir] = relativePath.split(path.sep);
-      if (distTestDirNames.has(topLevelDir) && entry.name.endsWith(".js")) {
+      if (distTestDirNames.has(topLevelDir) && entry.name.endsWith('.js')) {
         return true;
       }
     }
@@ -167,10 +151,7 @@ function findCompiledTests(rootDir) {
       continue;
     }
 
-    if (
-      entry.name === "dist" &&
-      distContainsTests(path.join(rootDir, entry.name))
-    ) {
+    if (entry.name === 'dist' && distContainsTests(path.join(rootDir, entry.name))) {
       return true;
     }
 
@@ -182,9 +163,7 @@ function findCompiledTests(rootDir) {
   return false;
 }
 
-const hasCompiledTests = searchRoots.some((rootDir) =>
-  findCompiledTests(rootDir),
-);
+const hasCompiledTests = searchRoots.some((rootDir) => findCompiledTests(rootDir));
 
 function findDirectJsTests(rootDir) {
   let entries;
@@ -196,7 +175,7 @@ function findDirectJsTests(rootDir) {
 
   for (const entry of entries) {
     if (entry.isDirectory()) {
-      if (shouldSkipDir(entry.name) || entry.name === "dist") {
+      if (shouldSkipDir(entry.name) || entry.name === 'dist') {
         continue;
       }
       if (findDirectJsTests(path.join(rootDir, entry.name))) {
@@ -209,10 +188,7 @@ function findDirectJsTests(rootDir) {
       continue;
     }
 
-    if (
-      entry.name.endsWith(".js") &&
-      testFileMatchers.some((matcher) => matcher(entry.name))
-    ) {
+    if (entry.name.endsWith('.js') && testFileMatchers.some((matcher) => matcher(entry.name))) {
       return true;
     }
   }
@@ -220,43 +196,37 @@ function findDirectJsTests(rootDir) {
   return false;
 }
 
-const hasDirectJsTests = searchRoots.some((rootDir) =>
-  findDirectJsTests(rootDir),
-);
+const hasDirectJsTests = searchRoots.some((rootDir) => findDirectJsTests(rootDir));
 
 if (!hasCompiledTests && !hasDirectJsTests) {
   const instructions = [
-    "No compiled test files were found. AVA expects JavaScript tests under dist/.",
-    "Run the package build step before executing tests (e.g. `pnpm --filter <pkg> build`).",
-    "If you intended to run TypeScript tests directly, build first to generate dist outputs.",
-    "For packages with JavaScript tests, ensure the tests use .js extensions so they can run without compilation.",
+    'No compiled test files were found. AVA expects JavaScript tests under dist/.',
+    'Run the package build step before executing tests (e.g. `pnpm --filter <pkg> build`).',
+    'If you intended to run TypeScript tests directly, build first to generate dist outputs.',
+    'For packages with JavaScript tests, ensure the tests use .js extensions so they can run without compilation.',
   ];
-  throw new Error(instructions.join("\n"));
+  throw new Error(instructions.join('\n'));
 }
 
-const nodeArguments = ["--enable-source-maps"];
-const moduleMockFlag = "--experimental-test-module-mocks";
+const nodeArguments = ['--enable-source-maps'];
+const moduleMockFlag = '--experimental-test-module-mocks';
 
 function determineNodeMajorVersion() {
   const version = process.versions?.node;
   if (!version) {
     return null;
   }
-  const [majorSegment] = version.split(".");
+  const [majorSegment] = version.split('.');
   const major = Number.parseInt(majorSegment, 10);
   return Number.isNaN(major) ? null : major;
 }
 
 const nodeMajorVersion = determineNodeMajorVersion();
-const supportsTestModuleMocks =
-  typeof nodeMajorVersion === "number" && nodeMajorVersion >= 20;
+const supportsTestModuleMocks = typeof nodeMajorVersion === 'number' && nodeMajorVersion >= 20;
 
 // Enable Node's module mocking API so AVA exposes t.mock in ExecutionContext.
-if (
-  supportsTestModuleMocks &&
-  !nodeArguments.includes("--experimental-test-module-mocks")
-) {
-  nodeArguments.push("--experimental-test-module-mocks");
+if (supportsTestModuleMocks && !nodeArguments.includes('--experimental-test-module-mocks')) {
+  nodeArguments.push('--experimental-test-module-mocks');
 }
 // Enable Node's module mocking API so AVA exposes t.mock in ExecutionContext
 // when the current Node version supports the experimental flag. Node exposes
@@ -264,7 +234,7 @@ if (
 // also gate on the runtime major version to avoid passing invalid execArgv
 // values to older environments.
 if (
-  typeof nodeMajorVersion === "number" &&
+  typeof nodeMajorVersion === 'number' &&
   nodeMajorVersion >= 22 &&
   process.allowedNodeEnvironmentFlags?.has(moduleMockFlag) &&
   !nodeArguments.includes(moduleMockFlag)
@@ -273,33 +243,32 @@ if (
 }
 
 const relativeProjectRoot = path.relative(process.cwd(), projectRoot);
-const relativeInsideWorkspace =
-  relativeProjectRoot !== "" && !relativeProjectRoot.startsWith("..");
+const relativeInsideWorkspace = relativeProjectRoot !== '' && !relativeProjectRoot.startsWith('..');
 const globPrefix = relativeInsideWorkspace
-  ? `${relativeProjectRoot.split(path.sep).join("/")}/`
-  : "";
+  ? `${relativeProjectRoot.split(path.sep).join('/')}/`
+  : '';
 
 function projectGlob(pattern) {
-  const normalizedPattern = pattern.replace(/\\/g, "/");
+  const normalizedPattern = pattern.replace(/\\/g, '/');
   if (globPrefix) {
     return `${globPrefix}${normalizedPattern}`;
   }
   if (projectRoot === process.cwd()) {
     return normalizedPattern;
   }
-  return path.join(projectRoot, normalizedPattern).split(path.sep).join("/");
+  return path.join(projectRoot, normalizedPattern).split(path.sep).join('/');
 }
 
 const projectFileGlobs = [
-  projectGlob("dist/tests/**/*.js"),
-  projectGlob("dist/test/**/*.js"),
-  projectGlob("dist/**/*.test.js"),
-  projectGlob("dist/**/*.spec.js"),
+  projectGlob('dist/tests/**/*.js'),
+  projectGlob('dist/test/**/*.js'),
+  projectGlob('dist/**/*.test.js'),
+  projectGlob('dist/**/*.spec.js'),
 ];
 
 export default {
   files: projectFileGlobs,
-  timeout: "30s",
+  timeout: '30s',
   failFast: false,
   require: [mockPolyfillPath],
   nodeArguments,

@@ -12,22 +12,10 @@ export async function initializeStores(): Promise<
   console.log('🔧 Initializing stores...');
 
   try {
-    // Create all collections using ContextStore
-    const sessionCollection = await contextStore.createCollection(
-      SESSION_STORE_NAME,
-      'text',
-      'timestamp',
-    );
-    const eventCollection = await contextStore.createCollection(
-      EVENT_STORE_NAME,
-      'text',
-      'timestamp',
-    );
-    const messageCollection = await contextStore.createCollection(
-      MESSAGE_STORE_NAME,
-      'text',
-      'timestamp',
-    );
+    // Use getOrCreateCollection to handle existing collections in tests
+    const sessionCollection = await contextStore.getOrCreateCollection(SESSION_STORE_NAME);
+    const eventCollection = await contextStore.getOrCreateCollection(EVENT_STORE_NAME);
+    const messageCollection = await contextStore.getOrCreateCollection(MESSAGE_STORE_NAME);
 
     return {
       [SESSION_STORE_NAME]: sessionCollection as DualStoreManager<'text', 'timestamp'>,

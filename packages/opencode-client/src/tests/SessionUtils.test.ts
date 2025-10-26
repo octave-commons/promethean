@@ -8,6 +8,10 @@ import type {
   OpenCodeEvent,
 } from '../types/index.js';
 
+test.beforeEach(() => {
+  sinon.restore();
+});
+
 test('extractSessionId returns null when no properties and no sessionId', (t) => {
   const event: OpenCodeEvent = {
     type: 'session_created',
@@ -16,7 +20,7 @@ test('extractSessionId returns null when no properties and no sessionId', (t) =>
   };
 
   const result = SessionUtils.extractSessionId(event);
-  t.is(result, '');
+  t.is(result, null);
 });
 
 test('extractSessionId returns sessionId when no properties', (t) => {

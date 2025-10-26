@@ -59,7 +59,7 @@ export type IndexerService = {
  */
 const createIndexerComponents = (options: IndexerOptions = {}) => {
   const client = createOpencodeClient({
-    baseUrl: options.baseUrl || 'http://localhost:3000',
+    baseUrl: options.baseUrl || 'http://localhost:3000', // Default for development
   });
 
   const stateManager = createStateManagerComposable({

@@ -22,7 +22,7 @@ const SessionUtils = {
     }
 
     const extractors: Readonly<Record<string, () => string | undefined>> = {
-      'session.idle': () => {
+      session_idle: () => {
         const props = event.properties as SessionEventProperties;
         return props.sessionID || props.session?.id;
       },

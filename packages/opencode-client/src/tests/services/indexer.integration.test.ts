@@ -25,7 +25,7 @@ import {
 import { initializeStores } from '../../initializeStores.js';
 
 // Test configuration
-const TEST_BASE_URL = 'http://localhost:3000';
+const TEST_BASE_URL = 'http://localhost:3000'; // Mock URL - tests use mock clients
 
 // Helper to create test indexer options
 const createTestOptions = (suffix: string = ''): IndexerOptions => {

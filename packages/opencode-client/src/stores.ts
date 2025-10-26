@@ -23,9 +23,37 @@ export enum StoreNames {
 // Create a properly typed context store instance
 export const contextStore = new ContextStore();
 
-export const sessionStore = createStoreProxy(SESSION_STORE_NAME);
-export const eventStore = createStoreProxy(EVENT_STORE_NAME);
-export const messageStore = createStoreProxy(MESSAGE_STORE_NAME);
+// Create stores lazily to ensure AGENT_NAME is set when tests run
+let _sessionStore: ReturnType<typeof createStoreProxy> | null = null;
+let _eventStore: ReturnType<typeof createStoreProxy> | null = null;
+let _messageStore: ReturnType<typeof createStoreProxy> | null = null;
+
+export const sessionStore = new Proxy({} as ReturnType<typeof createStoreProxy>, {
+  get(_, prop) {
+    if (!_sessionStore) {
+      _sessionStore = createStoreProxy(SESSION_STORE_NAME);
+    }
+    return (_sessionStore as any)[prop];
+  },
+});
+
+export const eventStore = new Proxy({} as ReturnType<typeof createStoreProxy>, {
+  get(_, prop) {
+    if (!_eventStore) {
+      _eventStore = createStoreProxy(EVENT_STORE_NAME);
+    }
+    return (_eventStore as any)[prop];
+  },
+});
+
+export const messageStore = new Proxy({} as ReturnType<typeof createStoreProxy>, {
+  get(_, prop) {
+    if (!_messageStore) {
+      _messageStore = createStoreProxy(MESSAGE_STORE_NAME);
+    }
+    return (_messageStore as any)[prop];
+  },
+});
 
 // Context store utilities
 export const getContextStore = (): ContextStore => contextStore;
