@@ -48,7 +48,7 @@ export async function runPantheonComputation<TRequest, TResult>(
 
   const behavior: Behavior = {
     name: `${options.actorName}-behavior`,
-    mode: options.mode ?? 'passive',
+    mode: options.mode ?? 'persistent',
     description: 'Auto-generated behavior for Kanban Pantheon integration',
     plan: async ({ goal, context: messages }) => {
       const result = await options.compute({
