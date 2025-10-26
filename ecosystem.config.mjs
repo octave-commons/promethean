@@ -62,7 +62,7 @@ export const apps =
     "args": [
       "serve",
       "--port",
-      3000
+      3434
     ],
     "interpreter": "/usr/bin/env",
     "out_file": "./logs/opencode-out.log",
