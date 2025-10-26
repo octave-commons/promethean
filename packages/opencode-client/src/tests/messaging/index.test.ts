@@ -7,9 +7,11 @@ import {
   logCommunication,
 } from '../../actions/messaging/index.js';
 import { sessionStore } from '../../index.js';
+import { setupTestStores } from '../helpers/test-stores.js';
 
-test.beforeEach(() => {
+test.beforeEach(async () => {
   sinon.restore();
+  await setupTestStores();
 });
 
 test.serial('getSenderSessionId returns session ID from client', async (t) => {

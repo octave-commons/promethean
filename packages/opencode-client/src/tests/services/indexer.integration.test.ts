@@ -23,6 +23,7 @@ import {
   type IndexerOptions,
 } from '../../services/indexer.js';
 import { initializeStores } from '../../initializeStores.js';
+import { setupTestStores } from '../helpers/test-stores.js';
 
 // Test configuration - Uses real OpenCode client
 // Note: Requires OpenCode server running on http://localhost:3434
@@ -52,6 +53,7 @@ async function cleanupTestDatabases(suffix: string = ''): Promise<void> {
 
 test.beforeEach(async () => {
   sinon.restore();
+  await setupTestStores();
 });
 
 test.afterEach.always(async () => {

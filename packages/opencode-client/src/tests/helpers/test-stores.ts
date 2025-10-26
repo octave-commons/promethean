@@ -2,6 +2,7 @@
 // Test store setup helpers
 
 // This is a helper file, not a test file, so no AVA import needed
+// import test from 'ava'; // Commented out to indicate this is not a test file
 import { initializeStores } from '../../initializeStores.js';
 import type { DualStoreManager } from '@promethean-os/persistence';
 

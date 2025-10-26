@@ -25,3 +25,8 @@ export const setupTestStores = async () => {
     storesInitialized = true;
   }
 };
+
+// Initialize stores immediately when test setup is loaded
+setupTestStores().catch((error) => {
+  console.error('Failed to initialize stores in test setup:', error);
+});

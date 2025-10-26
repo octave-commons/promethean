@@ -4,4 +4,5 @@ import baseConfig from '../../config/ava.config.mjs';
 export default {
   ...baseConfig,
   require: [...(baseConfig.require || []), './dist/test-setup.js'],
+  exclude: [...(baseConfig.exclude || []), 'dist/tests/helpers/**', 'src/tests/helpers/**'],
 };
