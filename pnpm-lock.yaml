@@ -3153,24 +3153,24 @@ importers:
 
   packages/kanban:
     dependencies:
-      '@promethean-os/agents-workflow':
-        specifier: workspace:*
-        version: link:../agents/agents-workflow
       '@promethean-os/lmdb-cache':
         specifier: workspace:*
         version: link:../lmdb-cache
       '@promethean-os/markdown':
         specifier: workspace:*
         version: link:../markdown
+      '@promethean-os/pantheon':
+        specifier: workspace:*
+        version: link:../pantheon
+      '@promethean-os/pantheon-core':
+        specifier: workspace:*
+        version: link:../pantheon-core
       '@promethean-os/utils':
         specifier: workspace:*
         version: link:../utils
       chokidar:
         specifier: ^4.0.1
         version: 4.0.3
-      commander:
-        specifier: ^14.0.2
-        version: 14.0.2
       globby:
         specifier: ^14.0.2
         version: 14.0.2
@@ -3889,9 +3889,6 @@ importers:
 
   packages/pantheon:
     dependencies:
-      '@promethean-os/agent-state':
-        specifier: workspace:*
-        version: link:../agents/agent-state
       '@promethean-os/pantheon-core':
         specifier: workspace:*
         version: link:../pantheon-core
@@ -3904,6 +3901,9 @@ importers:
       '@promethean-os/pantheon-persistence':
         specifier: workspace:*
         version: link:../pantheon-persistence
+      '@promethean-os/pantheon-state':
+        specifier: workspace:*
+        version: link:../pantheon-state
       '@promethean-os/persistence':
         specifier: workspace:*
         version: link:../persistence
@@ -3942,9 +3942,9 @@ importers:
 
   packages/pantheon-core:
     dependencies:
-      '@promethean-os/agent-state':
+      '@promethean-os/pantheon-state':
         specifier: workspace:*
-        version: link:../agents/agent-state
+        version: link:../pantheon-state
       '@promethean-os/persistence':
         specifier: workspace:*
         version: link:../persistence

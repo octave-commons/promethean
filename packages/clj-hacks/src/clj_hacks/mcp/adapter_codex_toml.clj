@@ -100,33 +100,38 @@
 
 (def ^:private table-header-re #"\[\s*mcp_servers\.(.+?)\s*\]")
 (def ^:private key-value-re #"^([^=\s]+)\s*=\s*(.+)$")
+(def ^:private experimental-rmcp-re #"^experimental_use_rmcp_client\s*=\s*(.+)$")
 
 (defn- normalize-table-name [inner]
   (-> inner str/trim strip-quotes))
 
 (defn- extract-mcp-tables [s]
-  ;; Returns {:tables {name {command .. args ..}} :rest-string "..."}
+  ;; Returns {:tables {name {command .. args ..}} :rest-string "..." :experimental-use-rmcp-client boolean}
   (let [lines (str/split s #"\r?\n")]
     (loop [[ln & more] lines
            cur-name nil
            cur-entries {}
            tables (sorted-map)
-           rest-lines []]
+           rest-lines []
+           experimental-use-rmcp-client nil]
       (if (nil? ln)
         (let [tables' (cond-> tables
                          cur-name (assoc cur-name cur-entries))]
           {:tables tables'
-           :rest-string (str/join "\n" rest-lines)})
+           :rest-string (str/join "\n" rest-lines)
+           :experimental-use-rmcp-client experimental-use-rmcp-client})
         (if-let [[_ inner] (re-matches table-header-re ln)]
           (let [tables' (cond-> tables
                           cur-name (assoc cur-name cur-entries))
                 name (normalize-table-name inner)]
-            (recur more name {} tables' rest-lines))
-          (if-let [[_ k v] (re-matches key-value-re ln)]
-            (if cur-name
-              (recur more cur-name (assoc cur-entries k (parse-value v)) tables rest-lines)
-              (recur more cur-name cur-entries tables (conj rest-lines ln)))
-            (recur more cur-name cur-entries tables (conj rest-lines ln))))))))
+            (recur more name {} tables' rest-lines experimental-use-rmcp-client))
+          (if-let [[_ v] (re-matches experimental-rmcp-re ln)]
+            (recur more cur-name cur-entries tables rest-lines (parse-value v))
+            (if-let [[_ k v] (re-matches key-value-re ln)]
+              (if cur-name
+                (recur more cur-name (assoc cur-entries k (parse-value v)) tables rest-lines experimental-use-rmcp-client)
+                (recur more cur-name cur-entries tables (conj rest-lines ln) experimental-use-rmcp-client))
+              (recur more cur-name cur-entries tables (conj rest-lines ln) experimental-use-rmcp-client)))))))))
 
 (defn- sanitize-command [c]
   (some-> c strip-quotes))
@@ -152,9 +157,21 @@
                (coll? v) (vec v)
                :else (str v))]))))
 
+(defn- sanitize-http-headers [headers]
+  (when (map? headers)
+    (into (sorted-map)
+          (for [[k v] headers]
+            [(strip-quotes k) (strip-quotes v)]))))
+
+(defn- sanitize-env-http-headers [headers]
+  (when (map? headers)
+    (into (sorted-map)
+          (for [[k v] headers]
+            [(strip-quotes k) (strip-quotes v)])))))
+
 (defn read-full [path]
   (let [s (slurp path)
-        {:keys [tables rest-string]} (extract-mcp-tables s)
+        {:keys [tables rest-string experimental-use-rmcp-client]} (extract-mcp-tables s)
         mcp {:mcp-servers
              (into (sorted-map)
                    (for [[nm kv] tables]
@@ -163,12 +180,22 @@
                            args (sanitize-args (get kv "args"))
                            cwd (sanitize-cwd (get kv "cwd"))
                            env (sanitize-env (get kv "env"))
+                           url (some-> (get kv "url") strip-quotes)
+                           bearer-token-env-var (some-> (get kv "bearer_token_env_var") strip-quotes)
+                           http-headers (sanitize-http-headers (get kv "http_headers"))
+                           env-http-headers (sanitize-env-http-headers (get kv "env_http_headers"))
                            entry (cond-> {}
                                     command (assoc :command command)
                                     (seq args) (assoc :args args)
                                     (some? cwd) (assoc :cwd cwd)
-                                    (seq env) (assoc :env env))]
-                       [name entry])))}]
+                                    (seq env) (assoc :env env)
+                                    url (assoc :url url)
+                                    bearer-token-env-var (assoc :bearer-token-env-var bearer-token-env-var)
+                                    (seq http-headers) (assoc :http-headers http-headers)
+                                    (seq env-http-headers) (assoc :env-http-headers env-http-headers))]
+                       [name entry])))}
+        mcp (cond-> mcp
+               experimental-use-rmcp-client (assoc :experimental-use-rmcp-client experimental-use-rmcp-client))]
     {:mcp mcp :rest rest-string :raw s}))
 
 (defn- tool-id->string [t]
@@ -285,13 +312,30 @@
                     (format "%s = \"%s\"" k value)))]
       (str "env = { " (str/join ", " pairs) " }\n"))))
 
-(defn- render-toml-table [[k {:keys [command args cwd env]}]]
+(defn- render-http-headers [headers]
+  (when (seq headers)
+    (let [pairs (for [[k v] headers]
+                  (format "%s = \"%s\"" k (toml-escape v)))]
+      (str "http_headers = { " (str/join ", " pairs) " }\n"))))
+
+(defn- render-env-http-headers [headers]
+  (when (seq headers)
+    (let [pairs (for [[k v] headers]
+                  (format "%s = \"%s\"" k (toml-escape v)))]
+      (str "env_http_headers = { " (str/join ", " pairs) " }\n"))))
+
+(defn- render-toml-table [[k {:keys [command args cwd env url bearer-token-env-var http-headers env-http-headers]}]]
   (str "[mcp_servers." (format "\"%s\"" (name k)) "]\n"
-       "command = " (format "\"%s\"" command) "\n"
-       (when (seq args)
+       (if url
+         (str "url = " (format "\"%s\"" url) "\n")
+         (str "command = " (format "\"%s\"" command) "\n"))
+       (when (and command (seq args))
          (str "args = [" (str/join ", " (map #(str "\"" % "\"") args)) "]\n"))
        (when cwd (str "cwd = " (format "\"%s\"" cwd) "\n"))
+       (when bearer-token-env-var (str "bearer_token_env_var = " (format "\"%s\"" bearer-token-env-var) "\n"))
        (render-env env)
+       (render-http-headers http-headers)
+       (render-env-http-headers env-http-headers)
        "\n"))
 
 (defn write-full [path {:keys [mcp rest]}]
@@ -300,6 +344,11 @@
         servers* (merge-http-stdio-servers (:mcp-servers expanded) (:http expanded))
         mcp'     (assoc expanded :mcp-servers servers*)
         block (apply str (map render-toml-table (:mcp-servers mcp')))
-        out   (str (str/trimr (or rest "")) "\n\n# --- MCP (generated) ---\n\n" block)]
+        experimental-block (when (:experimental-use-rmcp-client mcp')
+                            (str "experimental_use_rmcp_client = " 
+                                 (if (:experimental-use-rmcp-client mcp') "true" "false") "\n\n"))
+        out   (str (str/trimr (or rest "")) "\n\n# --- MCP (generated) ---\n\n"
+                   experimental-block
+                   block)]
     (core/ensure-parent! path)
     (spit path out)))
