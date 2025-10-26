@@ -629,7 +629,7 @@ function generateTaskBreakdown(params: TaskBreakdownParams): { subtasks: any[] }
   const subtasks = [
     {
       title: 'Requirement audit',
-      description: 'Validate task scope, dependencies, and entry criteria.',
+      description: `Validate scope, dependencies, and entry criteria for ${task.title}.`,
       estimatedHours: includeEstimates ? baseEstimate : undefined,
       priority: 'high',
       dependencies: [],
