@@ -7,23 +7,13 @@ import { setupTestStores } from '../helpers/test-stores.js';
 
 // Helper to get actual store for stubbing
 const getActualEventStore = () => {
-  // Force the proxy to resolve by accessing a property first
-  const actualStore = eventStore as any;
-  // Check if getMostRecent exists, if not try to access the underlying store
-  if (typeof actualStore.getMostRecent === 'function') {
-    return actualStore;
+  // Access the underlying collection through contextStore
+  const { contextStore } = require('../../stores.js');
+  const collection = (contextStore as any).collections?.get('eventStore');
+  if (!collection) {
+    throw new Error('Event store collection not found in context store');
   }
-  // Try to access through contextStore directly
-  try {
-    const { contextStore } = require('../../stores.js');
-    const collection = (contextStore as any).collections?.get('eventStore');
-    if (collection && typeof collection.getMostRecent === 'function') {
-      return collection;
-    }
-  } catch (error) {
-    // Fall back to proxy
-  }
-  return actualStore;
+  return collection as any;
 };
 
 test.beforeEach(async () => {
