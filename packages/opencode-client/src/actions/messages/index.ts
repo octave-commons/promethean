@@ -46,28 +46,32 @@ export async function processMessage(
 ): Promise<void> {
   if (!message?.parts) return;
 
-  const results = await Promise.allSettled(
-    message.parts.map(async (part) => {
-      if (part.type === 'text' && part.text?.trim()) {
-        return context.sessionStore.insert({
-          id: message.info.id,
-          text: part.text,
-          timestamp: new Date().toISOString(),
-          metadata: {
-            sessionID: sessionId,
-            messageID: message.info.id,
-            type: 'text',
-          },
-        });
-      }
-    }),
-  );
+  // Store the complete message as a single entry
+  const messageText = message.parts
+    .filter((part) => part.type === 'text' && part.text?.trim())
+    .map((part) => part.text)
+    .join('\n\n');
 
-  const failedResults = results.filter((result) => result.status === 'rejected');
-  if (failedResults.length > 0) {
-    console.error(`Error storing message ${message.info.id}:`, failedResults);
-  } else {
+  if (!messageText) return;
+
+  try {
+    await context.sessionStore.insert({
+      id: message.info.id,
+      text: JSON.stringify({
+        info: message.info,
+        parts: message.parts,
+      }),
+      timestamp: new Date().toISOString(),
+      metadata: {
+        sessionID: sessionId,
+        messageID: message.info.id,
+        type: 'message',
+        role: message.info?.role,
+      },
+    });
     console.log(`📝 Indexed message ${message.info.id} from session ${sessionId}`);
+  } catch (error) {
+    console.error(`Error storing message ${message.info.id}:`, error);
   }
 }
 
