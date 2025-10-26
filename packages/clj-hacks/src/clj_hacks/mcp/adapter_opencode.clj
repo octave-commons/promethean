@@ -87,7 +87,7 @@
   (let [spec (or spec {})
         spec (cond-> spec
                 (not (contains? spec :command)) (assoc :command nil))]
-    (reduce (fn [acc [edn-key {:keys [key transform include-nil?]}]]
+    (reduce (fn [acc [edn-key {:keys [key transform include-nil?]}]
               (if (contains? spec edn-key)
                 (let [raw (get spec edn-key)
                       value (if transform (transform raw) raw)]
@@ -118,7 +118,7 @@
                    (json/parse-string (slurp path) true)
                    {})
         ;; Merge existing non-MCP data with new rest data
-        merged-rest (merge (dissoc existing "mcp") rest)
+        merged-rest (merge (dissoc existing :mcp) rest)
         mcp'       (core/expand-servers-home mcp)
         servers    (when (:mcp-servers mcp')
                       (into (sorted-map)
@@ -128,6 +128,6 @@
                               [(name k) json])))
         ;; Build final Opencode config - always include MCP section if we have servers
         out        (cond-> merged-rest
-                     (some? servers) (assoc "mcp" {"mcpServers" servers}))]
+                     (some? servers) (assoc :mcp {:mcpServers servers}))]
     (core/ensure-parent! path)
     (spit path (json/generate-string out {:pretty true}))))
