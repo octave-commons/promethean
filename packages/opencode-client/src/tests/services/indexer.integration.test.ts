@@ -24,8 +24,9 @@ import {
 } from '../../services/indexer.js';
 import { initializeStores } from '../../initializeStores.js';
 
-// Test configuration
-const TEST_BASE_URL = 'http://localhost:3000'; // Mock URL - tests use mock clients
+// Test configuration - Uses real OpenCode client
+// Note: Requires OpenCode server running on http://localhost:3434
+const TEST_BASE_URL = 'http://localhost:3434';
 
 // Helper to create test indexer options
 const createTestOptions = (suffix: string = ''): IndexerOptions => {
@@ -49,80 +50,14 @@ async function cleanupTestDatabases(suffix: string = ''): Promise<void> {
   }
 }
 
-// Helper to create mock OpenCode client
-function createMockClient() {
-  const mockClient = {
-    session: {
-      list: sinon.stub(),
-      messages: sinon.stub(),
-      message: sinon.stub(),
-    },
-    event: {
-      subscribe: sinon.stub(),
-    },
-  };
-
-  // Mock session list response
-  mockClient.session.list.resolves({
-    data: [
-      {
-        id: 'test-session-1',
-        title: 'Test Session 1',
-        time: { created: Date.now() - 1000000 },
-      },
-      {
-        id: 'test-session-2',
-        title: 'Test Session 2',
-        time: { created: Date.now() - 500000 },
-      },
-    ],
-  });
-
-  // Mock messages response
-  mockClient.session.messages.resolves({
-    data: [
-      {
-        info: { id: 'msg-1', role: 'user', sessionID: 'test-session-1' },
-        parts: [{ type: 'text', text: 'Hello world' }],
-      },
-    ],
-  });
-
-  // Mock single message response
-  mockClient.session.message.resolves({
-    data: {
-      info: { id: 'msg-1', role: 'user', sessionID: 'test-session-1' },
-      parts: [{ type: 'text', text: 'Hello world' }],
-    },
-  });
-
-  // Mock event subscription
-  const mockEventStream = {
-    async *[Symbol.asyncIterator]() {
-      // Yield some test events
-      yield {
-        type: 'session.updated',
-        properties: {
-          info: { id: 'test-session-1' },
-        },
-      };
-
-      await setTimeout(100); // Small delay
-
-      yield {
-        type: 'message.updated',
-        properties: {
-          info: { id: 'msg-1', sessionID: 'test-session-1' },
-        },
-      };
-    },
-  };
-
-  mockClient.event.subscribe.resolves({
-    stream: mockEventStream,
-  });
-
-  return mockClient;
+// Helper to cleanup test databases
+async function cleanupTestDatabases(suffix: string = ''): Promise<void> {
+  try {
+    // For now, just log cleanup - in a real implementation you'd drop collections
+    console.log(`Cleaning up test databases with suffix: ${suffix}`);
+  } catch (error) {
+    console.warn('Warning during database cleanup:', error);
+  }
 }
 
 test.beforeEach(async () => {
