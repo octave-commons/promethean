@@ -579,7 +579,7 @@ type TaskRewriteParams = {
 };
 
 function generateTaskRewrite(params: TaskRewriteParams): { content: string; summary: string } {
-  const { rewriteType, instructions, targetAudience, tone, originalContent } = params;
+  const { task, rewriteType, instructions, targetAudience, tone, originalContent } = params;
   const baseSummary = `Rewrite for ${targetAudience} audience with a ${tone} tone.`;
 
   const improvements = [
@@ -588,7 +588,7 @@ function generateTaskRewrite(params: TaskRewriteParams): { content: string; summ
     'Documented dependencies and staging requirements.',
   ];
 
-  const rewrittenContent = `## Updated Task Brief
+  const rewrittenContent = `## Updated Task Brief: ${task.title}
 
 ${originalContent.trim()}
 
