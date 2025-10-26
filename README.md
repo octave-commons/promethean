@@ -1,7 +1,6 @@
-# Promethean Framework
+# Pantheon Framework
 
 A modular cognitive architecture for building embodied AI agents with reasoning, perception-action loops, and emotionally mediated decision structures.
-
 
 ## 🚀 Quick Start
 
@@ -25,7 +24,7 @@ docker compose up
 
 ## 📋 Overview
 
-Promethean breaks AI systems into small, focused services handling speech-to-text, text-to-speech, memory, and higher-level reasoning. The framework emphasizes:
+Pantheon provides a comprehensive framework for building AI agents and orchestration systems. The ecosystem includes:
 
 - **Modular architecture** - Independent services that communicate via message brokers
 - **Functional programming** - Immutable data, no in-place mutation
@@ -152,8 +151,8 @@ See `AGENTS.md` for detailed AI-specific guidelines.
 
 The workspace contains 70+ packages. Each has its own README with detailed usage information. Key packages include:
 
-| Package              | Purpose                                   |
-| -------------------- | ----------------------------------------- |
+| Package                 | Purpose                                   |
+| ----------------------- | ----------------------------------------- |
 | `@promethean-os/kanban` | Task management and workflow automation   |
 | `@promethean-os/broker` | WebSocket-based message pub/sub           |
 | `@promethean-os/llm`    | LLM service with HTTP/WebSocket endpoints |

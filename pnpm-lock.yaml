@@ -3921,6 +3921,22 @@ importers:
         specifier: ^5.3.3
         version: 5.9.3
 
+  packages/pantheon-coordination:
+    dependencies:
+      '@promethean-os/pantheon-state':
+        specifier: workspace:*
+        version: link:../pantheon-state
+      zod:
+        specifier: ^3.22.4
+        version: 3.25.76
+    devDependencies:
+      ava:
+        specifier: ^5.3.1
+        version: 5.3.1(@ava/typescript@4.1.0)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.9.3
+
   packages/pantheon-core:
     dependencies:
       '@promethean-os/agent-state':
@@ -3942,6 +3958,110 @@ importers:
       typescript:
         specifier: ^5.3.3
         version: 5.9.3
+
+  packages/pantheon-ecs:
+    dependencies:
+      '@promethean-os/ds':
+        specifier: workspace:*
+        version: link:../ds
+      '@promethean-os/legacy':
+        specifier: workspace:*
+        version: link:../legacy
+      '@types/javascript-time-ago':
+        specifier: ^2.5.0
+        version: 2.5.0
+      '@types/unist':
+        specifier: ^3.0.3
+        version: 3.0.3
+      body-parser:
+        specifier: ^1.20.2
+        version: 1.20.3
+      chromadb:
+        specifier: ^3.0.14
+        version: 3.0.17
+      duckduckgo-search:
+        specifier: ^1.0.7
+        version: 1.0.7
+      express:
+        specifier: ^4.19.2
+        version: 4.21.2
+      gray-matter:
+        specifier: ^4.0.3
+        version: 4.0.3
+      javascript-time-ago:
+        specifier: ^2.5.11
+        version: 2.5.11
+      mongodb:
+        specifier: ^6.18.0
+        version: 6.18.0(@aws-sdk/credential-providers@3.906.0)(socks@2.8.7)
+      ollama:
+        specifier: ^0.5.17
+        version: 0.5.18
+      prom-client:
+        specifier: ^15.1.0
+        version: 15.1.3
+      remark-gfm:
+        specifier: ^4.0.1
+        version: 4.0.1
+      remark-parse:
+        specifier: ^11.0.0
+        version: 11.0.0
+      remark-stringify:
+        specifier: ^11.0.0
+        version: 11.0.0
+      sucrase:
+        specifier: ^3.35.0
+        version: 3.35.0
+      unified:
+        specifier: ^11.0.5
+        version: 11.0.5
+      unist:
+        specifier: ^0.0.1
+        version: 0.0.1
+      unist-util-to-string-with-nodes:
+        specifier: ^0.1.1
+        version: 0.1.1
+      unist-util-visit:
+        specifier: ^5.0.0
+        version: 5.0.0
+      uuid:
+        specifier: ^11.1.0
+        version: 11.1.0
+      ws:
+        specifier: ^8.18.0
+        version: 8.18.3
+      yaml:
+        specifier: ^2.5.1
+        version: 2.8.1
+      zod:
+        specifier: ^3.23.8
+        version: 3.25.76
+    devDependencies:
+      '@promethean-os/test-utils':
+        specifier: workspace:*
+        version: link:../test-utils
+      '@types/body-parser':
+        specifier: ^1.19.5
+        version: 1.19.5
+      '@types/estree':
+        specifier: ^1.0.5
+        version: 1.0.5
+      '@types/express':
+        specifier: ^4.17.21
+        version: 4.17.21
+      '@types/ws':
+        specifier: ^8.5.9
+        version: 8.18.1
+
+  packages/pantheon-generator:
+    dependencies:
+      '@promethean-os/pantheon-core':
+        specifier: workspace:*
+        version: link:../pantheon-core
+    devDependencies:
+      shadow-cljs:
+        specifier: ^2.25.8
+        version: 2.28.23
 
   packages/pantheon-llm-claude:
     dependencies:
@@ -4016,6 +4136,31 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
+  packages/pantheon-orchestrator:
+    dependencies:
+      '@promethean-os/pantheon-protocol':
+        specifier: workspace:*
+        version: link:../pantheon-protocol
+      '@promethean-os/pantheon-state':
+        specifier: workspace:*
+        version: link:../pantheon-state
+      uuid:
+        specifier: ^9.0.1
+        version: 9.0.1
+      zod:
+        specifier: ^3.22.4
+        version: 3.25.76
+    devDependencies:
+      '@types/uuid':
+        specifier: ^9.0.7
+        version: 9.0.8
+      ava:
+        specifier: ^5.3.1
+        version: 5.3.1(@ava/typescript@4.1.0)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.9.3
+
   packages/pantheon-persistence:
     dependencies:
       '@promethean-os/pantheon-core':
@@ -4034,6 +4179,130 @@ importers:
       typescript:
         specifier: ^5.3.3
         version: 5.9.3
+
+  packages/pantheon-protocol:
+    dependencies:
+      '@promethean-os/pantheon-state':
+        specifier: workspace:*
+        version: link:../pantheon-state
+      amqplib:
+        specifier: ^0.10.3
+        version: 0.10.9
+      crypto:
+        specifier: ^1.0.1
+        version: 1.0.1
+      uuid:
+        specifier: ^9.0.1
+        version: 9.0.1
+      ws:
+        specifier: ^8.14.2
+        version: 8.18.3
+      zod:
+        specifier: ^3.22.4
+        version: 3.25.76
+    devDependencies:
+      '@types/amqplib':
+        specifier: ^0.10.5
+        version: 0.10.7
+      '@types/uuid':
+        specifier: ^9.0.7
+        version: 9.0.8
+      '@types/ws':
+        specifier: ^8.5.10
+        version: 8.18.1
+      ava:
+        specifier: ^5.3.1
+        version: 5.3.1(@ava/typescript@4.1.0)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.9.3
+
+  packages/pantheon-state:
+    dependencies:
+      '@promethean-os/level-cache':
+        specifier: workspace:*
+        version: link:../level-cache
+      bcryptjs:
+        specifier: ^2.4.3
+        version: 2.4.3
+      jsonwebtoken:
+        specifier: ^9.0.2
+        version: 9.0.2
+      uuid:
+        specifier: ^9.0.1
+        version: 9.0.1
+      zod:
+        specifier: ^3.22.4
+        version: 3.25.76
+    devDependencies:
+      '@types/bcryptjs':
+        specifier: ^2.4.6
+        version: 2.4.6
+      '@types/jsonwebtoken':
+        specifier: ^9.0.10
+        version: 9.0.10
+      '@types/uuid':
+        specifier: ^9.0.8
+        version: 9.0.8
+      ava:
+        specifier: ^5.3.1
+        version: 5.3.1(@ava/typescript@4.1.0)
+      ts-node:
+        specifier: ^10.9.2
+        version: 10.9.2(@types/node@24.3.1)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.9.3
+
+  packages/pantheon-ui:
+    dependencies:
+      '@promethean-os/pantheon-state':
+        specifier: workspace:*
+        version: link:../pantheon-state
+      react:
+        specifier: ^18.2.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.2.0
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@types/react':
+        specifier: ^18.2.0
+        version: 18.3.26
+      '@types/react-dom':
+        specifier: ^18.2.0
+        version: 18.3.7(@types/react@18.3.26)
+      ava:
+        specifier: ^5.3.1
+        version: 5.3.1(@ava/typescript@4.1.0)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.9.3
+
+  packages/pantheon-workflow:
+    dependencies:
+      '@openai/agents':
+        specifier: ^0.1.9
+        version: 0.1.9(ws@8.18.3)(zod@3.25.76)
+      ollama:
+        specifier: ^0.5.17
+        version: 0.5.18
+      remark-parse:
+        specifier: 11.0.0
+        version: 11.0.0
+      unified:
+        specifier: 11.0.5
+        version: 11.0.5
+      unist-util-visit:
+        specifier: 5.0.0
+        version: 5.0.0
+      zod:
+        specifier: ^3.25.0
+        version: 3.25.76
+    devDependencies:
+      '@promethean-os/test-utils':
+        specifier: workspace:*
+        version: link:../test-utils
 
   packages/persistence:
     dependencies:

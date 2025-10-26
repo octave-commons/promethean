@@ -1,0 +1,19 @@
+{
+  "name": "@promethean-os/pantheon-generator",
+  "version": "0.1.0",
+  "description": "Pantheon Agent Generator - Cross-platform ClojureScript agent instruction generator",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "shadow-cljs release",
+    "dev": "shadow-cljs watch",
+    "test": "shadow-cljs compile test && node out/test.js"
+  },
+  "dependencies": {
+    "@promethean-os/pantheon-core": "workspace:*"
+  },
+  "devDependencies": {
+    "shadow-cljs": "^2.25.8"
+  }
+}

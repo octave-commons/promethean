@@ -1078,51 +1078,35 @@ export const updateStatus = async (
         const updatedContent = toFrontmatter(finalTask);
         await fs.writeFile(taskFilePath, updatedContent, 'utf8');
 
-        // Create git commit for the status change
+        // Update commit tracking (read-only - no commits created)
         try {
-          const commitResult = await gitTracker.commitTaskChanges(
+          // Read the current file content
+          const fileContent = await fs.readFile(taskFilePath, 'utf8');
+          const parsed = parseMarkdownFrontmatter(fileContent);
+          const existingFrontmatter = parsed.data || {};
+
+          // Update frontmatter with commit tracking
+          const updatedFrontmatter = gitTracker.updateTaskCommitTracking(
+            {
+              ...existingFrontmatter,
+              ...finalTask,
+            },
             taskFilePath,
             uuid,
             'status_change',
-            `${found.title} - ${currentStatus} → ${normalizedStatus}`,
           );
 
-          if (commitResult.success) {
-            console.log(`📝 Committed task change: ${commitResult.sha?.slice(0, 8)}...`);
+          // Write the file again with commit tracking
+          const finalContent = toFrontmatter({
+            ...finalTask,
+            ...updatedFrontmatter,
+          });
+          await fs.writeFile(taskFilePath, finalContent, 'utf8');
 
-            // Only update commit tracking if commit actually happened
-            if (commitResult.sha && commitResult.sha !== 'unknown') {
-              // Read the file again to get the latest frontmatter
-              const fileContent = await fs.readFile(taskFilePath, 'utf8');
-              const parsed = parseMarkdownFrontmatter(fileContent);
-              const existingFrontmatter = parsed.data || {};
-
-              // Update frontmatter with commit tracking
-              const updatedFrontmatter = gitTracker.updateTaskCommitTracking(
-                {
-                  ...existingFrontmatter,
-                  ...finalTask,
-                },
-                uuid,
-                'status_change',
-                `Status updated from ${currentStatus} to ${normalizedStatus}`,
-              );
-
-              // Write the file again with commit tracking
-              const finalContent = toFrontmatter({
-                ...finalTask,
-                ...updatedFrontmatter,
-              });
-              await fs.writeFile(taskFilePath, finalContent, 'utf8');
-
-              // Note: Commit tracking metadata is added to frontmatter but not committed
-              // The event log exists locally and can be recreated from git history if needed
-            }
-          } else {
-            console.warn(`Warning: Failed to commit task change: ${commitResult.error}`);
-          }
+          // Note: Commit tracking metadata is added to frontmatter but not committed
+          // The event log exists locally and can be recreated from git history if needed
         } catch (commitError) {
-          console.warn(`Warning: Git commit failed for task ${uuid}: ${commitError}`);
+          console.warn(`Warning: Git tracking failed for task ${uuid}: ${commitError}`);
         }
       }
     } catch (error) {
@@ -1624,56 +1608,36 @@ export const pushToTasks = async (
 
       await fs.writeFile(finalTargetPath, content, 'utf8');
 
-      // Create git commit for task change
+      // Update commit tracking (read-only - no commits created)
       try {
         const operation = previous ? 'update' : 'create';
-        const details = previous
-          ? `Update task: ${finalTask.title}`
-          : `Create task: ${finalTask.title}`;
 
-        const commitResult = await gitTracker.commitTaskChanges(
+        // Update frontmatter with commit tracking
+        const taskWithCommitTracking = gitTracker.updateTaskCommitTracking(
+          {
+            ...finalTask,
+            status: normalizedBoardStatus,
+            content: finalContent,
+            created_at: preservedCreatedAt,
+          },
           finalTargetPath,
           finalTask.uuid,
           operation,
-          details,
         );
 
-        if (commitResult.success) {
-          console.log(`📝 Committed task ${operation}: ${commitResult.sha?.slice(0, 8)}...`);
+        const contentWithTracking = toFrontmatter({
+          ...finalTask,
+          status: normalizedBoardStatus,
+          content: finalContent,
+          created_at: preservedCreatedAt,
+          ...taskWithCommitTracking, // Include commit tracking fields
+        });
+        await fs.writeFile(finalTargetPath, contentWithTracking, 'utf8');
 
-          // Only update commit tracking if commit actually happened
-          if (commitResult.sha && commitResult.sha !== 'unknown') {
-            // Update frontmatter with commit tracking
-            const taskWithCommitTracking = gitTracker.updateTaskCommitTracking(
-              {
-                ...finalTask,
-                status: normalizedBoardStatus,
-                content: finalContent,
-                created_at: preservedCreatedAt,
-              },
-              finalTask.uuid,
-              operation,
-              details,
-            );
-
-            const contentWithTracking = toFrontmatter({
-              ...finalTask,
-              status: normalizedBoardStatus,
-              content: finalContent,
-              created_at: preservedCreatedAt,
-              ...taskWithCommitTracking, // Include commit tracking fields
-            });
-
-            await fs.writeFile(finalTargetPath, contentWithTracking, 'utf8');
-
-            // Note: Commit tracking metadata is included in frontmatter but not committed
-            // The event log exists locally and can be recreated from git history if needed
-          }
-        } else {
-          console.warn(`Warning: Failed to commit task ${operation}: ${commitResult.error}`);
-        }
+        // Note: Commit tracking metadata is included in frontmatter but not committed
+        // The event log exists locally and can be recreated from git history if needed
       } catch (commitError) {
-        console.warn(`Warning: Git commit failed for task ${finalTask.uuid}: ${commitError}`);
+        console.warn(`Warning: Git tracking failed for task ${finalTask.uuid}: ${commitError}`);
       }
 
       if (!previous) {

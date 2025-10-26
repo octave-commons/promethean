@@ -27,11 +27,8 @@ export interface TaskGitTrackingOptions {
  */
 export class TaskGitTracker {
   private readonly repoRoot: string;
-  private readonly author: string;
-
   constructor(options: TaskGitTrackingOptions = {}) {
     this.repoRoot = options.repoRoot || process.cwd();
-    this.author = options.author || this.getDefaultAuthor();
   }
 
   /**
@@ -188,8 +185,15 @@ export class TaskGitTracker {
       return frontmatter;
     }
 
-    // Add new commit entry
-    const updatedCommitHistory = [...commitHistory, lastCommit];
+    // Add new commit entry with operation details
+    const commitEntry = {
+      ...lastCommit,
+      taskUuid,
+      operation,
+      details: details || `${operation} operation`,
+    };
+
+    const updatedCommitHistory = [...commitHistory, commitEntry];
 
     // Update last commit SHA
     const updatedFrontmatter = {
@@ -259,23 +263,6 @@ export class TaskGitTracker {
   /**
    * Gets default author from git config
    */
-  private getDefaultAuthor(): string {
-    try {
-      const name = execSync('git config user.name', {
-        cwd: this.repoRoot,
-        encoding: 'utf8',
-      }).trim();
-
-      const email = execSync('git config user.email', {
-        cwd: this.repoRoot,
-        encoding: 'utf8',
-      }).trim();
-
-      return `${name} <${email}>`;
-    } catch (error) {
-      return 'Unknown <unknown@example.com>';
-    }
-  }
 
   /**
    * Checks if a task is "orphaned" (lacks proper commit tracking)

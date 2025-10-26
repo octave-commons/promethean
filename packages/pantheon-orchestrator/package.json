@@ -1,0 +1,26 @@
+{
+    "name": "@promethean-os/pantheon-orchestrator",
+    "version": "0.1.0",
+    "description": "Pantheon Orchestrator - Agent coordination and session management",
+    "type": "module",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "build": "tsc",
+        "test": "ava",
+        "clean": "rm -rf dist",
+        "dev": "tsc --watch",
+        "typecheck": "tsc --noEmit"
+    },
+    "dependencies": {
+        "@promethean-os/pantheon-state": "workspace:*",
+        "@promethean-os/pantheon-protocol": "workspace:*",
+        "uuid": "^9.0.1",
+        "zod": "^3.22.4"
+    },
+    "devDependencies": {
+        "@types/uuid": "^9.0.7",
+        "ava": "^5.3.1",
+        "typescript": "^5.3.3"
+    }
+}
