@@ -1900,13 +1900,13 @@ const handleEpicStatus: CommandHandler = (args, context) =>
   });
 
 const handleInit: CommandHandler = async (args, _context) => {
+  // Check both args and raw process.argv for --config flag
+  const rawConfigArg = process.argv.find((arg) => arg.startsWith('--config='));
   const configPath =
-    args.find((arg) => arg.startsWith('--config='))?.slice(9) || 'promethean.kanban.json';
+    rawConfigArg?.slice(9) ||
+    args.find((arg) => arg.startsWith('--config='))?.slice(9) ||
+    'promethean.kanban.json';
   const force = args.includes('--force') || args.includes('-f');
-
-  // Debug output
-  console.error('DEBUG: args:', args);
-  console.error('DEBUG: configPath:', configPath);
 
   // Check if config already exists
   try {
