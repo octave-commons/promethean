@@ -1,9 +1,7 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
-import {
-  createSession as createApiSession,
-  type CreateSessionResponse,
-} from '../../api/sessions.js';
+import { create } from '../../actions/sessions/create.js';
+import { createOpencodeClient } from '@opencode-ai/sdk';
 
 export const createSessionCommand = new Command('create')
   .description('Create a new session')
@@ -38,10 +36,14 @@ export const createSessionCommand = new Command('create')
         }
       }
 
-      const result: CreateSessionResponse = await createApiSession({
+      // Create OpenCode client
+      const client = createOpencodeClient({
+        baseUrl: 'http://localhost:4096',
+      });
+
+      const result = await create({
         title: sessionTitle,
-        files,
-        delegates,
+        client,
       });
 
       console.log(chalk.green('✓ Session created successfully'));

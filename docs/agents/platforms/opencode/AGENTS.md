@@ -15,6 +15,14 @@ the project root is not a dumping ground for scripts and documents.
 use context7, github grep, and websearch to find documentation and dependency source code
 when uncertain about the interfaces a library exposes, and their intended use.
 
+Don't create new directories, your write tool creates them for you when you make a file.
+When you run `mkdir -p {core,context,orchestrator,protocol,workflow,os-protocol,generator,management-ui,shared,tests}`
+it makes a folder named:
+`{core,context,orchestrator,protocol,workflow,os-protocol,generator,management-ui,shared,tests}`
+- all bash commands are ephemeral
+- you can't cd into a directory and expect to stay there.
+- prefer `pnpm --filter @promethean/<packagename> `
+
 
 ## References
 

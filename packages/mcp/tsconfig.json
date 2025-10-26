@@ -1,9 +1,11 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig.json",
-  "extends": "../../config/tsconfig.service.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "dist"
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "composite": true,
+    "types": ["node"]
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "exclude": ["dist", "node_modules", "test", "pseudo", "examples"]
 }

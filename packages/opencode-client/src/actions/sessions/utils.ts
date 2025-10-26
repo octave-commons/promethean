@@ -1,21 +1,34 @@
-import { AgentTask } from '../../AgentTask.js';
+import type { AgentTask } from '../../types/index.js';
 import { SessionInfo } from '../../SessionInfo.js';
+import type { OpencodeClient } from '@opencode-ai/sdk';
 
-export function extractSessionId(event: any): string | null {
+interface Session extends Record<string, unknown> {
+  id: string;
+  title?: string;
+}
+
+export function extractSessionId(event: {
+  type: string;
+  properties: Record<string, unknown>;
+}): string | null {
   const extractors: Record<string, () => string | undefined> = {
-    'session.idle': () => event.properties.sessionID || event.properties.session?.id,
-    'session.updated': () => event.properties.info?.id || event.properties.session?.id,
-    'message.updated': () => event.properties.message?.session_id || event.properties.sessionId,
+    'session.idle': () =>
+      (event.properties as any).sessionID || (event.properties as any).session?.id,
+    'session.updated': () =>
+      (event.properties as any).info?.id || (event.properties as any).session?.id,
+    'message.updated': () =>
+      (event.properties as any).message?.session_id || (event.properties as any).sessionId,
     'message.part.updated': () =>
-      event.properties.message?.session_id || event.properties.sessionId,
-    'session.compacted': () => event.properties.sessionId || event.properties.session?.id,
+      (event.properties as any).message?.session_id || (event.properties as any).sessionId,
+    'session.compacted': () =>
+      (event.properties as any).sessionId || (event.properties as any).session?.id,
   };
 
   const extractor = extractors[event.type];
   return extractor ? extractor() || null : null;
 }
 
-export async function getSessionMessages(client: any, sessionId: string) {
+export async function getSessionMessages(client: OpencodeClient, sessionId: string) {
   try {
     const { data: messages } = await client.session.messages({
       path: { id: sessionId },
@@ -28,7 +41,7 @@ export async function getSessionMessages(client: any, sessionId: string) {
 }
 
 export function determineActivityStatus(
-  _session: any,
+  _session: Session,
   messageCount: number,
   agentTask?: AgentTask,
 ): string {
@@ -46,7 +59,7 @@ export function determineActivityStatus(
 }
 
 export function createSessionInfo(
-  session: any,
+  session: Session,
   messageCount: number,
   agentTask?: AgentTask,
 ): SessionInfo {
@@ -56,7 +69,7 @@ export function createSessionInfo(
 
   return {
     id: session.id,
-    title: session.title,
+    title: session.title || 'Untitled Session',
     messageCount,
     lastActivityTime: new Date().toISOString(),
     sessionAge,

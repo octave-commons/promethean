@@ -48,19 +48,23 @@ export const BridgeConfigSchema = z.object({
   }),
   sync: z.object({
     direction: z.enum(['mcp_to_kanban', 'kanban_to_mcp', 'bidirectional']).default('bidirectional'),
-    conflictResolution: z.enum(['mcp_wins', 'kanban_wins', 'most_recent', 'manual']).default('most_recent'),
+    conflictResolution: z
+      .enum(['mcp_wins', 'kanban_wins', 'most_recent', 'manual'])
+      .default('most_recent'),
     batchSize: z.number().default(50),
     retryAttempts: z.number().default(3),
     retryDelay: z.number().default(5000),
   }),
   storage: z.object({
     type: z.enum(['redis', 'memory']).default('memory'),
-    redis: z.object({
-      host: z.string().default('localhost'),
-      port: z.number().default(6379),
-      db: z.number().default(0),
-      password: z.string().optional(),
-    }).optional(),
+    redis: z
+      .object({
+        host: z.string().default('localhost'),
+        port: z.number().default(6379),
+        db: z.number().default(0),
+        password: z.string().optional(),
+      })
+      .optional(),
   }),
   server: z.object({
     port: z.number().default(3000),
@@ -85,7 +89,11 @@ export interface SyncQueue {
 export interface EventStorage {
   saveEvent(event: SyncEvent): Promise<void>;
   getEvent(eventId: string): Promise<SyncEvent | null>;
-  getEvents(filter?: { source?: string; processed?: boolean; limit?: number }): Promise<SyncEvent[]>;
+  getEvents(filter?: {
+    source?: string;
+    processed?: boolean;
+    limit?: number;
+  }): Promise<SyncEvent[]>;
   updateEvent(eventId: string, updates: Partial<SyncEvent>): Promise<void>;
   deleteEvent(eventId: string): Promise<void>;
 }
@@ -131,4 +139,35 @@ export interface MetricsCollector {
   recordConflictResolved(taskId: string): void;
   getMetrics(): Promise<BridgeMetrics>;
   resetMetrics(): Promise<void>;
+}
+
+// Bridge-specific types for real-time sync
+export interface BridgeTask extends Task {
+  sourceSystem: 'mcp' | 'kanban' | 'both';
+  lastSyncAt?: Date;
+  syncStatus: 'synced' | 'pending' | 'conflict' | 'error';
+  externalId?: string; // ID in the external system
+  conflictData?: {
+    mcpVersion?: Task;
+    kanbanVersion?: Task;
+    conflictType: string;
+    detectedAt: Date;
+  };
+}
+
+export interface BridgeBoard {
+  id: string;
+  name: string;
+  description?: string;
+  columns: Array<{
+    id: string;
+    name: string;
+    status: string;
+    tasks: string[]; // Task IDs
+  }>;
+  metadata: {
+    totalTasks: number;
+    lastUpdated: Date;
+    syncStatus: 'synced' | 'pending' | 'error';
+  };
 }

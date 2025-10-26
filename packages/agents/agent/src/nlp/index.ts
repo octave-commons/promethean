@@ -5,30 +5,35 @@
  * capabilities for the Agent OS ecosystem.
  */
 
-import { NaturalLanguageCommandParser, type NLPConfig } from './parser.js';
-import { AgentOSCommandExecutor, type ExecutionContext } from './executor.js';
+import { makeParser, type NLPConfig } from './parser.js';
+import { makeExecutor, type ExecutionContext } from './executor.js';
 
-export { NaturalLanguageCommandParser, type NLPConfig } from './parser.js';
+export { makeParser, type NLPConfig } from './parser.js';
 
 export {
-    AgentOSCommandExecutor,
+    makeExecutor,
     type ExecutionContext,
     type ExecutionResult,
     type AgentRuntime,
     type ServiceManager,
     type WorkflowManager,
+    type MessageEnvelope,
 } from './executor.js';
 
 /**
  * Main NLP Service class that combines parsing and execution
  */
 export class NLPService {
-    private parser: NaturalLanguageCommandParser;
-    private executor: AgentOSCommandExecutor;
+    private parser: ReturnType<typeof makeParser>;
+    private executor: ReturnType<typeof makeExecutor>;
 
     constructor(agentRuntime: any, serviceManager: any, workflowManager: any, config?: Partial<NLPConfig>) {
-        this.parser = new NaturalLanguageCommandParser(config);
-        this.executor = new AgentOSCommandExecutor(agentRuntime, serviceManager, workflowManager);
+        this.parser = makeParser(config);
+        this.executor = makeExecutor({
+            agentRuntime,
+            serviceManager,
+            workflowManager,
+        });
     }
 
     /**
@@ -171,4 +176,141 @@ export function createNLPService(
     };
 
     return new NLPService(defaultAgentRuntime, defaultServiceManager, defaultWorkflowManager, config);
+}
+
+/**
+ * Functional factory to create an NLP service using the new DI-based factories
+ */
+export function makeNLPService(
+    deps: {
+        agentRuntime?: any;
+        serviceManager?: any;
+        workflowManager?: any;
+        id?: string;
+        now?: () => number;
+        log?: (level: 'info' | 'warn' | 'error', message: string, data?: any) => void;
+    },
+    config?: Partial<NLPConfig>,
+) {
+    // Default mock implementations if not provided
+    const defaultAgentRuntime = deps.agentRuntime || {
+        async startAgent(name: string, config?: any) {
+            return { name, status: 'running', config };
+        },
+        async stopAgent(name: string) {
+            return { name, status: 'stopped' };
+        },
+        async getAgentStatus(name: string) {
+            return { name, status: 'running' };
+        },
+        async listAgents() {
+            return [];
+        },
+        async configureAgent(name: string, config: any) {
+            return { name, config };
+        },
+    };
+
+    const defaultServiceManager = deps.serviceManager || {
+        async startService(name: string, config?: any) {
+            return { name, status: 'running', config };
+        },
+        async stopService(name: string) {
+            return { name, status: 'stopped' };
+        },
+        async getServiceStatus(name: string) {
+            return { name, status: 'running' };
+        },
+        async listServices() {
+            return [];
+        },
+        async configureService(name: string, config: any) {
+            return { name, config };
+        },
+    };
+
+    const defaultWorkflowManager = deps.workflowManager || {
+        async startWorkflow(name: string, config?: any) {
+            return { name, status: 'running', config };
+        },
+        async stopWorkflow(name: string) {
+            return { name, status: 'stopped' };
+        },
+        async getWorkflowStatus(name: string) {
+            return { name, status: 'running' };
+        },
+        async listWorkflows() {
+            return [];
+        },
+        async configureWorkflow(name: string, config: any) {
+            return { name, config };
+        },
+    };
+
+    const parser = makeParser(config);
+    const executor = makeExecutor({
+        agentRuntime: defaultAgentRuntime,
+        serviceManager: defaultServiceManager,
+        workflowManager: defaultWorkflowManager,
+        id: deps.id ? () => deps.id! : undefined,
+        now: deps.now ? () => new Date(deps.now!()) : undefined,
+        log: deps.log ? (m: string, meta?: unknown) => deps.log!('info' as const, m, meta) : undefined,
+    });
+
+    return {
+        processInput: async (input: string, context?: Partial<ExecutionContext>) => {
+            // Parse the natural language input
+            const parseResult = await parser.parse(input);
+
+            if (!parseResult.success) {
+                return {
+                    success: false,
+                    error: parseResult.error,
+                    suggestions: parseResult.suggestions,
+                    phase: 'parsing',
+                };
+            }
+
+            // Check if the command can be executed
+            if (!executor.canExecute(parseResult.command!)) {
+                return {
+                    success: false,
+                    error: 'Command cannot be executed with current permissions',
+                    command: parseResult.command,
+                    phase: 'validation',
+                };
+            }
+
+            // Execute the command
+            try {
+                const result = await executor.execute(parseResult.command!, context as ExecutionContext);
+
+                return {
+                    success: true,
+                    result,
+                    command: parseResult.command,
+                    phase: 'execution',
+                };
+            } catch (error) {
+                return {
+                    success: false,
+                    error: error instanceof Error ? error.message : 'Unknown execution error',
+                    command: parseResult.command,
+                    phase: 'execution',
+                };
+            }
+        },
+        getSuggestions: async (input: string) => {
+            return await parser.getSuggestions(input);
+        },
+        getSupportedCommands: () => {
+            return parser.getSupportedCommands();
+        },
+        registerCommand: (type: string, schema: any, examples: string[]) => {
+            parser.registerCommand(type, schema, examples);
+        },
+        getHistory: async (target: string, limit?: number) => {
+            return await executor.getHistory(target, limit);
+        },
+    };
 }

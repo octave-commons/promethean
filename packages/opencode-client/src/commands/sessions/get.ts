@@ -11,21 +11,18 @@ export const getSessionCommand = new Command('get')
       const result = await get({ sessionId });
 
       if (options.format === 'json') {
-        console.log(result);
+        console.log(JSON.stringify(result, null, 2));
         return;
       }
 
-      // Parse the JSON result for display
-      let sessionData;
-      try {
-        sessionData = JSON.parse(result);
-      } catch (e) {
-        console.error('Failed to parse result:', result);
+      // Handle error case
+      if ('error' in result) {
+        console.error(chalk.red('Error getting session:'), result.error);
         process.exit(1);
       }
 
       // Handle both formats: {session: {...}} or direct session object
-      const session = sessionData.session || sessionData;
+      const session = result.session || (result as any);
 
       console.log(chalk.blue('Session Details:'));
       console.log(`ID: ${session.id}`);

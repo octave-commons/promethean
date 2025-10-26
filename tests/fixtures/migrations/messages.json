@@ -1,5 +1,0 @@
-[
-    { "_id": "m1", "text": "hello world", "meta": { "author": "u1" } },
-    { "_id": "m2", "text": "hola mundo", "meta": { "author": "u2" } },
-    { "_id": "m3", "text": "bonjour le monde", "meta": { "author": "u3" } }
-]

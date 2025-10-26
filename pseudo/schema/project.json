@@ -1,0 +1,40 @@
+{
+    "name": "@promethean/schema",
+    "root": "pseudo/schema",
+    "sourceRoot": "pseudo/schema/src",
+    "targets": {
+        "build": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "tsc -b",
+                "cwd": "pseudo/schema"
+            },
+            "outputs": ["{projectRoot}/dist"]
+        },
+        "typecheck": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "tsc -p tsconfig.json --noEmit",
+                "cwd": "pseudo/schema"
+            }
+        },
+        "test": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "ava",
+                "cwd": "{projectRoot}",
+                "env": {
+                    "AVA_PROJECT_ROOT": "."
+                }
+            }
+        },
+        "lint": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "eslint .",
+                "cwd": "pseudo/schema"
+            }
+        }
+    },
+    "tags": ["scope:packages"]
+}

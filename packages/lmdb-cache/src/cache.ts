@@ -128,6 +128,37 @@ const createWithNamespace =
     return buildCacheScope<T>(store, cfg);
   };
 
+const createGetStats =
+  <T>(store: Map<string, Envelope<T>>): Cache<T>['getStats'] =>
+  async (): Promise<import('./types.js').CacheStats> => {
+    let totalEntries = 0;
+    let expiredEntries = 0;
+    const namespaces = new Set<string>();
+    const currentTime = now();
+
+    for (const [key, env] of store.entries()) {
+      totalEntries++;
+
+      // Extract namespace from key
+      const separatorIndex = key.indexOf('\u241F');
+      if (separatorIndex !== -1) {
+        namespaces.add(key.slice(0, separatorIndex));
+      }
+
+      // Check if expired
+      if (typeof env.x === 'number' && env.x <= currentTime) {
+        expiredEntries++;
+      }
+    }
+
+    return {
+      totalEntries,
+      expiredEntries,
+      namespaces: Array.from(namespaces),
+      hitRate: 0, // Would need tracking to calculate accurately
+    };
+  };
+
 type ScopeConfig = Readonly<{
   namespace?: string;
   defaultTtlMs?: Millis;
@@ -153,6 +184,7 @@ function buildCacheScope<T>(store: Map<string, Envelope<T>>, cfg: ScopeConfig): 
     batch: createBatch(store, state),
     entries: createEntries(store, state),
     sweepExpired: createSweepExpired(store),
+    getStats: createGetStats(store),
     withNamespace: createWithNamespace(store, state),
     close: async (): Promise<void> => {
       store.clear();

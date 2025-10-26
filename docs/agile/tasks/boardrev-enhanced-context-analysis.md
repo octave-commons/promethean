@@ -5,14 +5,54 @@ slug: "boardrev-enhanced-context-analysis"
 status: "incoming"
 priority: "P2"
 labels: ["accuracy", "analysis", "boardrev", "enhancement"]
-created_at: "2025-10-17T02:31:43.953Z"
+created_at: "Mon Oct 06 2025 07:00:00 GMT-0500 (Central Daylight Time)"
 estimates:
   complexity: ""
   scale: ""
   time_to_completion: ""
-lastCommitSha: "deec21fe4553bb49020b6aa2bdfee1b89110f15d"
-commitHistory: 
-  - sha: "deec21fe4553bb49020b6aa2bdfee1b89110f15d"
-    timestamp: "2025-10-19T16:27:40.284Z"
-    action: "Bulk commit tracking initialization"
+lastCommitSha: "d3187ba94e628b7d891a4c42010adf2f2e16901c"
+commitHistory:
+  -
+    sha: "d3187ba94e628b7d891a4c42010adf2f2e16901c"
+    timestamp: "2025-10-22 08:22:16 -0500\n\ndiff --git a/docs/agile/tasks/boardrev-enhanced-context-analysis.md b/docs/agile/tasks/boardrev-enhanced-context-analysis.md\nindex ad8fcc49a..fe2a45f18 100644\n--- a/docs/agile/tasks/boardrev-enhanced-context-analysis.md\n+++ b/docs/agile/tasks/boardrev-enhanced-context-analysis.md\n@@ -2,7 +2,7 @@\n uuid: \"348ea68d-2564-4370-9dfc-d6f462bf5888\"\n title: \"Enhance boardrev context analysis with weighted factors\"\n slug: \"boardrev-enhanced-context-analysis\"\n-status: \"icebox\"\n+status: \"incoming\"\n priority: \"P2\"\n labels: [\"accuracy\", \"analysis\", \"boardrev\", \"enhancement\"]\n created_at: \"Mon Oct 06 2025 07:00:00 GMT-0500 (Central Daylight Time)\""
+    message: "Change task status: 348ea68d-2564-4370-9dfc-d6f462bf5888 - Enhance boardrev context analysis with weighted factors - icebox → incoming"
+    author: "Error"
+    type: "status_change"
 ---
+
+# Enhance boardrev context analysis with weighted factors
+
+## Description
+Current simple semantic similarity doesn't account for temporal relevance, code activity, or dependency relationships. Need more sophisticated context matching.
+
+## Proposed Solution
+- Weight recent files higher in similarity calculations
+- Boost files with recent git blame activity
+- Consider file dependency relationships imports/requires
+- Add commit message context for related changes
+- Track task/code co-evolution patterns over time
+
+## Benefits
+- More accurate context matching for tasks
+- Better understanding of what code is actively relevant
+- Improved evaluation accuracy and confidence scores
+- Reduced false positives in context suggestions
+- Better temporal awareness of code changes
+
+## Acceptance Criteria
+- [ ] Temporal weighting algorithm implemented
+- [ ] Git blame integration for activity scoring
+- [ ] File dependency graph analysis
+- [ ] Commit message semantic analysis
+- [ ] Historical co-evolution pattern detection
+- [ ] Configurable weighting factors
+- [ ] Performance benchmarks showing improved accuracy
+
+## Technical Details
+- **Files to modify**: `src/04-match-context.ts`, `src/types.ts`, `src/utils.ts`
+- **New types**: `ContextWeight`, `ActivityMetrics`, `DependencyGraph`
+- **Algorithms**: Time decay functions, activity scoring, dependency analysis
+- **Git integration**: Use `simple-git` for blame and history analysis
+
+## Notes
+Should maintain backward compatibility and allow configuration of weighting factors via command-line options or config file.

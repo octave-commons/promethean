@@ -1,13 +1,13 @@
-import { 
-  Task, 
-  SyncEvent, 
-  SyncEngine, 
-  TaskMapper, 
-  ConflictResolver, 
+import {
+  Task,
+  SyncEvent,
+  SyncEngine,
+  TaskMapper,
+  ConflictResolver,
   BridgeConfig,
   EventStorage,
-  SyncQueue 
-} from './types';
+  SyncQueue,
+} from './types.js';
 import { v4 as uuidv4 } from 'uuid';
 import { EventEmitter } from 'events';
 
@@ -22,19 +22,19 @@ export class DefaultSyncEngine extends EventEmitter implements SyncEngine {
     private taskMapper: TaskMapper,
     private conflictResolver: ConflictResolver,
     private mcpClient: any,
-    private kanbanClient: any
+    private kanbanClient: any,
   ) {
     super();
   }
 
   async syncTask(taskId: string): Promise<void> {
     const startTime = Date.now();
-    
+
     try {
       // Get task from both systems
       const [mcpTask, kanbanTask] = await Promise.all([
         this.mcpClient.getTask(taskId).catch(() => null),
-        this.kanbanClient.getTask(taskId).catch(() => null)
+        this.kanbanClient.getTask(taskId).catch(() => null),
       ]);
 
       if (!mcpTask && !kanbanTask) {
@@ -66,25 +66,25 @@ export class DefaultSyncEngine extends EventEmitter implements SyncEngine {
       if (mcpTask && kanbanTask) {
         await Promise.all([
           this.mcpClient.updateTask(finalTask),
-          this.kanbanClient.updateTask(finalTask)
+          this.kanbanClient.updateTask(finalTask),
         ]);
       }
 
       // Record sync event
       await this.recordSyncEvent('task_synced', taskId, {
         direction: 'bidirectional',
-        conflict: mcpTask && kanbanTask && this.conflictResolver.detectConflict(mcpTask, kanbanTask),
-        duration: Date.now() - startTime
+        conflict:
+          mcpTask && kanbanTask && this.conflictResolver.detectConflict(mcpTask, kanbanTask),
+        duration: Date.now() - startTime,
       });
 
       this.emit('taskSynced', { taskId, task: finalTask });
-
     } catch (error) {
       await this.recordSyncEvent('sync_failed', taskId, {
         error: (error as Error).message,
-        duration: Date.now() - startTime
+        duration: Date.now() - startTime,
       });
-      
+
       this.emit('syncError', { taskId, error });
       throw error;
     }
@@ -105,22 +105,22 @@ export class DefaultSyncEngine extends EventEmitter implements SyncEngine {
 
       while (hasMore) {
         // Get tasks from MCP
-        const mcpTasks = await this.mcpClient.getTasks({ 
-          limit: batchSize, 
-          offset 
+        const mcpTasks = await this.mcpClient.getTasks({
+          limit: batchSize,
+          offset,
         });
 
         // Get tasks from Kanban
         const kanbanTasks = await this.kanbanClient.getTasks({
           boardId: this.config.kanban.boardId,
           limit: batchSize,
-          offset
+          offset,
         });
 
         // Process batch
         const allTaskIds = new Set([
           ...mcpTasks.map((t: any) => t.id),
-          ...kanbanTasks.map((t: any) => t.id)
+          ...kanbanTasks.map((t: any) => t.id),
         ]);
 
         for (const taskId of allTaskIds) {
@@ -132,7 +132,6 @@ export class DefaultSyncEngine extends EventEmitter implements SyncEngine {
       }
 
       this.emit('syncCompleted');
-
     } finally {
       this.isRunning = false;
     }
@@ -145,7 +144,8 @@ export class DefaultSyncEngine extends EventEmitter implements SyncEngine {
       source: 'mcp',
       taskId: event.taskId,
       data: event,
-      timestamp: new Date()
+      timestamp: new Date(),
+      processed: false,
     };
 
     await this.queue.add(syncEvent);
@@ -159,7 +159,8 @@ export class DefaultSyncEngine extends EventEmitter implements SyncEngine {
       source: 'kanban',
       taskId: event.taskId,
       data: event,
-      timestamp: new Date()
+      timestamp: new Date(),
+      processed: false,
     };
 
     await this.queue.add(syncEvent);
@@ -169,7 +170,7 @@ export class DefaultSyncEngine extends EventEmitter implements SyncEngine {
   async resolveConflict(taskId: string): Promise<Task> {
     const [mcpTask, kanbanTask] = await Promise.all([
       this.mcpClient.getTask(taskId),
-      this.kanbanClient.getTask(taskId)
+      this.kanbanClient.getTask(taskId),
     ]);
 
     if (!mcpTask || !kanbanTask) {
@@ -181,11 +182,11 @@ export class DefaultSyncEngine extends EventEmitter implements SyncEngine {
     // Update both systems with resolved task
     await Promise.all([
       this.mcpClient.updateTask(resolvedTask),
-      this.kanbanClient.updateTask(resolvedTask)
+      this.kanbanClient.updateTask(resolvedTask),
     ]);
 
     await this.recordSyncEvent('conflict_resolved', taskId, {
-      resolution: this.config.sync.conflictResolution
+      resolution: this.config.sync.conflictResolution,
     });
 
     this.emit('conflictResolved', { taskId, task: resolvedTask });
@@ -198,7 +199,7 @@ export class DefaultSyncEngine extends EventEmitter implements SyncEngine {
     }
 
     this.syncInterval = setInterval(() => {
-      this.syncAll().catch(error => {
+      this.syncAll().catch((error) => {
         this.emit('syncError', { error });
       });
     }, this.config.mcp.pollInterval);
@@ -213,7 +214,7 @@ export class DefaultSyncEngine extends EventEmitter implements SyncEngine {
 
   private async processQueue(): Promise<void> {
     const events = await this.queue.get(this.config.sync.batchSize);
-    
+
     for (const event of events) {
       try {
         await this.processSyncEvent(event);
@@ -274,38 +275,42 @@ export class DefaultSyncEngine extends EventEmitter implements SyncEngine {
 
   private mapEventType(eventType: string): SyncEvent['type'] {
     const mapping: Record<string, SyncEvent['type']> = {
-      'TASK_CREATED': 'task_created',
-      'TASK_UPDATED': 'task_updated',
-      'TASK_DELETED': 'task_deleted',
-      'STATUS_CHANGED': 'status_changed',
+      TASK_CREATED: 'task_created',
+      TASK_UPDATED: 'task_updated',
+      TASK_DELETED: 'task_deleted',
+      STATUS_CHANGED: 'status_changed',
       'task.created': 'task_created',
       'task.updated': 'task_updated',
       'task.deleted': 'task_deleted',
-      'status.changed': 'status_changed'
+      'status.changed': 'status_changed',
     };
 
     return mapping[eventType] || 'task_updated';
   }
 
   private shouldSyncToKanban(): boolean {
-    return this.config.sync.direction === 'mcp_to_kanban' || 
-           this.config.sync.direction === 'bidirectional';
+    return (
+      this.config.sync.direction === 'mcp_to_kanban' ||
+      this.config.sync.direction === 'bidirectional'
+    );
   }
 
   private shouldSyncToMcp(): boolean {
-    return this.config.sync.direction === 'kanban_to_mcp' || 
-           this.config.sync.direction === 'bidirectional';
+    return (
+      this.config.sync.direction === 'kanban_to_mcp' ||
+      this.config.sync.direction === 'bidirectional'
+    );
   }
 
-  private async recordSyncEvent(type: string, taskId: string, data: any): Promise<void> {
+  private async recordSyncEvent(_type: string, taskId: string, data: any): Promise<void> {
     const event: SyncEvent = {
       id: uuidv4(),
-      type: type as SyncEvent['type'],
-      source: 'bridge',
+      type: 'task_updated',
+      source: 'mcp',
       taskId,
-      data,
+      data: { data, conflict: true },
       timestamp: new Date(),
-      processed: true
+      processed: false,
     };
 
     await this.storage.saveEvent(event);

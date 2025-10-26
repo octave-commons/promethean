@@ -8,12 +8,10 @@ import type {
   TransitionDetails,
   TransitionForEvent,
   TransitionResult,
-} from "./types.js";
-import { freezeArray, freezeSnapshot } from "./immutability.js";
-const resolveInitialContext = <Context>(
-  initial: InitialContext<Context>,
-): Context =>
-  typeof initial === "function" ? (initial as () => Context)() : initial;
+} from './types.js';
+import { freezeArray, freezeSnapshot } from './immutability.js';
+const resolveInitialContext = <Context>(initial: InitialContext<Context>): Context =>
+  typeof initial === 'function' ? (initial as () => Context)() : initial;
 
 export const createMachine = <
   State extends string,
@@ -44,8 +42,7 @@ export const createSnapshot = <
   options?: SnapshotOptions<State, Context>,
 ): MachineSnapshot<State, Context> => {
   const state = options?.state ?? definition.initialState;
-  const context =
-    options?.context ?? resolveInitialContext(definition.initialContext);
+  const context = options?.context ?? resolveInitialContext(definition.initialContext);
   return freezeSnapshot(state, context);
 };
 
@@ -73,9 +70,7 @@ const findMatchingTransitions = <
 ): ReadonlyArray<TransitionForEvent<State, Events, Context, EventType>> =>
   freezeArray(
     definition.transitions.filter(
-      (
-        transition,
-      ): transition is TransitionForEvent<State, Events, Context, EventType> =>
+      (transition): transition is TransitionForEvent<State, Events, Context, EventType> =>
         isMatchingTransition(transition, snapshot, event),
     ),
   );
@@ -103,24 +98,14 @@ type CandidateEvaluation<
   EventType extends keyof Events & string,
 > =
   | Readonly<{
-      readonly status: "transitioned";
-      readonly transition: TransitionForEvent<
-        State,
-        Events,
-        Context,
-        EventType
-      >;
+      readonly status: 'transitioned';
+      readonly transition: TransitionForEvent<State, Events, Context, EventType>;
       readonly details: TransitionDetails<State, Events, Context, EventType>;
       readonly snapshot: MachineSnapshot<State, Context>;
     }>
   | Readonly<{
-      readonly status: "guard-rejected";
-      readonly transition: TransitionForEvent<
-        State,
-        Events,
-        Context,
-        EventType
-      >;
+      readonly status: 'guard-rejected';
+      readonly transition: TransitionForEvent<State, Events, Context, EventType>;
       readonly details: TransitionDetails<State, Events, Context, EventType>;
     }>;
 
@@ -139,18 +124,16 @@ const evaluateCandidate = <
 
   if (!guardPasses) {
     return {
-      status: "guard-rejected",
+      status: 'guard-rejected',
       transition: candidate,
       details,
     };
   }
 
-  const nextContext = candidate.reducer
-    ? candidate.reducer(details)
-    : snapshot.context;
+  const nextContext = candidate.reducer ? candidate.reducer(details) : snapshot.context;
 
   return {
-    status: "transitioned",
+    status: 'transitioned',
     transition: candidate,
     details,
     snapshot: freezeSnapshot(candidate.to, nextContext),
@@ -163,47 +146,40 @@ const resolveCandidates = <
   Context,
   EventType extends keyof Events & string,
 >(
-  candidates: ReadonlyArray<
-    TransitionForEvent<State, Events, Context, EventType>
-  >,
+  candidates: ReadonlyArray<TransitionForEvent<State, Events, Context, EventType>>,
   snapshot: MachineSnapshot<State, Context>,
   event: MachineEvent<Events, EventType>,
   firstGuardRejection?: Extract<
     CandidateEvaluation<State, Events, Context, EventType>,
-    { readonly status: "guard-rejected" }
+    { readonly status: 'guard-rejected' }
   >,
 ): TransitionResult<State, Events, Context, EventType> => {
   if (candidates.length === 0) {
     return firstGuardRejection
       ? {
-          status: "guard-rejected",
+          status: 'guard-rejected',
           snapshot,
           event,
           transition: firstGuardRejection.transition,
           details: firstGuardRejection.details,
         }
-      : { status: "no-transition", snapshot, event };
+      : { status: 'no-transition', snapshot, event };
   }
   const [candidate, ...remaining] = candidates as readonly [
     TransitionForEvent<State, Events, Context, EventType>,
     ...TransitionForEvent<State, Events, Context, EventType>[],
   ];
   const evaluation = evaluateCandidate(candidate, snapshot, event);
-  if (evaluation.status === "transitioned") {
+  if (evaluation.status === 'transitioned') {
     return {
-      status: "transitioned",
+      status: 'transitioned',
       snapshot: evaluation.snapshot,
       event,
       transition: evaluation.transition,
       details: evaluation.details,
     };
   }
-  return resolveCandidates(
-    remaining,
-    snapshot,
-    event,
-    firstGuardRejection ?? evaluation,
-  );
+  return resolveCandidates(remaining, snapshot, event, firstGuardRejection ?? evaluation);
 };
 
 export const transition = <
@@ -218,7 +194,7 @@ export const transition = <
 ): TransitionResult<State, Events, Context, EventType> => {
   const candidates = findMatchingTransitions(definition, snapshot, event);
   if (candidates.length === 0) {
-    return { status: "no-transition", snapshot, event };
+    return { status: 'no-transition', snapshot, event };
   }
 
   return resolveCandidates(candidates, snapshot, event);
@@ -232,11 +208,7 @@ export const availableTransitions = <
   definition: MachineDefinition<State, Events, Context>,
   snapshot: MachineSnapshot<State, Context>,
 ): ReadonlyArray<TransitionDefinition<State, Events, Context>> =>
-  freezeArray(
-    definition.transitions.filter(
-      (transition) => transition.from === snapshot.state,
-    ),
-  );
+  freezeArray(definition.transitions.filter((transition) => transition.from === snapshot.state));
 
 export const canTransition = <
   State extends string,

@@ -1,5 +1,6 @@
 import test from 'ava';
-import { DualStoreManager } from '../dualStore.js';
+
+import { DualStoreManager, cleanup } from '../dualStore.js';
 
 test('smoke', (t) => {
     t.pass();
@@ -13,6 +14,9 @@ test('DualStoreManager creates successfully', async (t) => {
         t.truthy(manager);
         // Agent name might be 'duck' in test environment, so check both
         t.true(manager.name === 'promethean_test' || manager.name === 'duck_test');
+
+        // Cleanup to prevent hanging
+        await manager.cleanup();
     } catch (error) {
         // Expected in test environment without full DB setup
         t.pass('DB connection failed as expected in test environment');
@@ -23,4 +27,13 @@ test('DualStoreManager exports work', (t) => {
     // Test basic module exports
     t.truthy(DualStoreManager);
     t.truthy(typeof DualStoreManager.create === 'function');
+});
+
+// Add cleanup after all tests to prevent hanging
+test.after.always(async () => {
+    try {
+        await cleanup();
+    } catch (error) {
+        // Ignore cleanup errors
+    }
 });

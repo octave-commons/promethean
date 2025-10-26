@@ -23,15 +23,18 @@ pnpm install
 import { submitJob, getJobStatus, getJobResult } from '@promethean/opencode-client';
 
 // Submit a job to the queue
-const job = await submitJob.execute({
-  modelName: 'llama2',
-  jobType: 'generate',
-  prompt: 'Explain TypeScript compilation',
-  priority: 'medium'
-}, {
-  agent: 'my-agent',
-  sessionID: 'session-123'
-});
+const job = await submitJob.execute(
+  {
+    modelName: 'llama2',
+    jobType: 'generate',
+    prompt: 'Explain TypeScript compilation',
+    priority: 'medium',
+  },
+  {
+    agent: 'my-agent',
+    sessionID: 'session-123',
+  },
+);
 
 const { jobId } = JSON.parse(job);
 console.log('Job submitted:', jobId);
@@ -49,6 +52,7 @@ console.log('Job result:', JSON.parse(result));
 
 ### Core Documentation
 
+- **[Spawn Command](./spawn-command.md)** - Quick session creation with spawn message
 - **[TypeScript Compilation Fixes](./typescript-compilation-fixes.md)** - Details about recent TypeScript fixes and type safety improvements
 - **[API Reference](./api-reference.md)** - Complete API documentation for all functions and tools
 - **[Ollama Queue Integration](./ollama-queue-integration.md)** - Comprehensive guide to queue management and job processing
@@ -58,21 +62,25 @@ console.log('Job result:', JSON.parse(result));
 ### Key Features
 
 #### 🚀 Asynchronous Job Processing
+
 - Queue-based job management with priority handling
 - Automatic retry and error recovery
 - Concurrent job processing with configurable limits
 
 #### 💾 Intelligent Caching
+
 - Semantic similarity-based cache hits
 - Performance tracking and optimization
 - User feedback integration for model routing
 
 #### 🔧 TypeScript-First Design
+
 - Full type safety with comprehensive type definitions
 - Proper error handling and validation
 - Modern ES6+ patterns and practices
 
 #### 📊 Monitoring and Debugging
+
 - Comprehensive logging and metrics
 - Health check endpoints
 - Performance profiling tools
@@ -111,6 +119,7 @@ The package recently underwent significant TypeScript compilation fixes to resol
 - ✅ All builds now succeed without errors
 
 **Key Changes:**
+
 - Updated `src/tools/ollama.ts` to use proper queue management functions
 - Cleaned up `src/actions/ollama/tools.ts` imports and implementations
 - Established best practices for queue processor lifecycle management
@@ -156,18 +165,21 @@ import { submitJob, getJobResult } from '@promethean/opencode-client';
 async function firstJob() {
   try {
     // Submit a generation job
-    const jobResult = await submitJob.execute({
-      modelName: 'llama2',
-      jobType: 'generate',
-      prompt: 'What are the benefits of TypeScript?',
-      options: {
-        temperature: 0.7,
-        num_predict: 300
-      }
-    }, {
-      agent: 'demo-agent',
-      sessionID: 'demo-session'
-    });
+    const jobResult = await submitJob.execute(
+      {
+        modelName: 'llama2',
+        jobType: 'generate',
+        prompt: 'What are the benefits of TypeScript?',
+        options: {
+          temperature: 0.7,
+          num_predict: 300,
+        },
+      },
+      {
+        agent: 'demo-agent',
+        sessionID: 'demo-session',
+      },
+    );
 
     const { jobId } = JSON.parse(jobResult);
     console.log('Job submitted with ID:', jobId);
@@ -178,7 +190,6 @@ async function firstJob() {
       const result = await getJobResult.execute({ jobId });
       console.log('Job result:', JSON.parse(result));
     }, 5000);
-
   } catch (error) {
     console.error('Job failed:', error.message);
   }
@@ -193,32 +204,38 @@ firstJob();
 
 ```typescript
 async function processBatch(prompts: string[]) {
-  const jobs = prompts.map(prompt => 
-    submitJob.execute({
-      modelName: 'llama2',
-      jobType: 'generate',
-      prompt,
-      priority: 'medium'
-    }, context)
+  const jobs = prompts.map((prompt) =>
+    submitJob.execute(
+      {
+        modelName: 'llama2',
+        jobType: 'generate',
+        prompt,
+        priority: 'medium',
+      },
+      context,
+    ),
   );
 
   const results = await Promise.all(jobs);
-  return results.map(result => JSON.parse(result));
+  return results.map((result) => JSON.parse(result));
 }
 ```
 
 ### Chat Conversations
 
 ```typescript
-async function chatConversation(messages: Array<{role: string, content: string}>) {
-  return await submitJob.execute({
-    modelName: 'llama2',
-    jobType: 'chat',
-    messages,
-    options: {
-      temperature: 0.5
-    }
-  }, context);
+async function chatConversation(messages: Array<{ role: string; content: string }>) {
+  return await submitJob.execute(
+    {
+      modelName: 'llama2',
+      jobType: 'chat',
+      messages,
+      options: {
+        temperature: 0.5,
+      },
+    },
+    context,
+  );
 }
 ```
 
@@ -226,11 +243,14 @@ async function chatConversation(messages: Array<{role: string, content: string}>
 
 ```typescript
 async function generateEmbeddings(texts: string[]) {
-  return await submitJob.execute({
-    modelName: 'all-minilm',
-    jobType: 'embedding',
-    input: texts
-  }, context);
+  return await submitJob.execute(
+    {
+      modelName: 'all-minilm',
+      jobType: 'embedding',
+      input: texts,
+    },
+    context,
+  );
 }
 ```
 
@@ -238,17 +258,17 @@ async function generateEmbeddings(texts: string[]) {
 
 ### Core Tools
 
-| Tool | Purpose | Example |
-|------|---------|---------|
-| `submitJob` | Submit new LLM job | `submitJob.execute({modelName, jobType, prompt})` |
-| `getJobStatus` | Check job status | `getJobStatus.execute({jobId})` |
-| `getJobResult` | Get completed result | `getJobResult.execute({jobId})` |
-| `listJobs` | List jobs with filters | `listJobs.execute({status: 'completed'})` |
-| `cancelJob` | Cancel pending job | `cancelJob.execute({jobId})` |
-| `listModels` | List available models | `listModels.execute({detailed: true})` |
-| `getQueueInfo` | Get queue statistics | `getQueueInfo.execute({})` |
-| `manageCache` | Cache operations | `manageCache.execute({action: 'stats'})` |
-| `submitFeedback` | Submit performance feedback | `submitFeedback.execute({prompt, score})` |
+| Tool             | Purpose                     | Example                                           |
+| ---------------- | --------------------------- | ------------------------------------------------- |
+| `submitJob`      | Submit new LLM job          | `submitJob.execute({modelName, jobType, prompt})` |
+| `getJobStatus`   | Check job status            | `getJobStatus.execute({jobId})`                   |
+| `getJobResult`   | Get completed result        | `getJobResult.execute({jobId})`                   |
+| `listJobs`       | List jobs with filters      | `listJobs.execute({status: 'completed'})`         |
+| `cancelJob`      | Cancel pending job          | `cancelJob.execute({jobId})`                      |
+| `listModels`     | List available models       | `listModels.execute({detailed: true})`            |
+| `getQueueInfo`   | Get queue statistics        | `getQueueInfo.execute({})`                        |
+| `manageCache`    | Cache operations            | `manageCache.execute({action: 'stats'})`          |
+| `submitFeedback` | Submit performance feedback | `submitFeedback.execute({prompt, score})`         |
 
 ### Job Types
 

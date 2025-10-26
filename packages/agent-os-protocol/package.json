@@ -1,49 +1,68 @@
 {
   "name": "@promethean/agent-os-protocol",
-  "version": "1.0.0",
-  "description": "Agent OS Core Message Protocol - Unified messaging for agent coordination",
-  "main": "dist/index.js",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "tsc",
-    "test": "ava",
-    "test:unit": "ava src/tests/unit/**/*.test.ts",
-    "test:integration": "ava src/tests/integration/**/*.test.ts",
-    "clean": "rm -rf dist",
-    "dev": "tsc --watch",
-    "lint": "eslint src --ext .ts",
-    "typecheck": "tsc --noEmit"
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/types/index.js"
+    },
+    "./transport": {
+      "types": "./dist/transport/index.d.ts",
+      "import": "./dist/transport/index.js"
+    },
+    "./router": {
+      "types": "./dist/router/index.d.ts",
+      "import": "./dist/router/index.js"
+    },
+    "./job-queue": {
+      "types": "./dist/job-queue/index.d.ts",
+      "import": "./dist/job-queue/index.js"
+    },
+    "./events": {
+      "types": "./dist/events/index.d.ts",
+      "import": "./dist/events/index.js"
+    },
+    "./security": {
+      "types": "./dist/security/index.d.ts",
+      "import": "./dist/security/index.js"
+    }
   },
-  "keywords": [
-    "agent",
-    "protocol",
-    "messaging",
-    "coordination",
-    "crisis-management",
-    "service-mesh"
+  "files": [
+    "dist"
   ],
-  "author": "Promethean Framework",
-  "license": "MIT",
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rimraf dist",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm run build && TSX_COMPILER_OPTIONS='{\"module\":\"nodenext\"}' ava --config ../../config/ava.config.mjs",
+    "test-compiled": "pnpm run build && pnpm run build-tests && ava --config ../../config/ava.config.mjs",
+    "lint": "pnpm exec eslint .",
+    "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",
+    "dev": "tsx src/index.ts"
+  },
   "dependencies": {
-    "uuid": "^9.0.0",
-    "crypto": "^1.0.1",
-    "eventemitter3": "^5.0.1"
+    "@modelcontextprotocol/sdk": "^1.17.5",
+    "@promethean/agents": "workspace:*",
+    "fastify": "5.0.0",
+    "uuid": "9.0.1",
+    "zod": "^3.23.8",
+    "zod-to-json-schema": "3.23.5",
+    "ws": "^8.18.0"
   },
   "devDependencies": {
-    "@types/node": "^20.0.0",
-    "@types/uuid": "^9.0.0",
-    "ava": "^5.0.0",
-    "typescript": "^5.0.0",
-    "eslint": "^8.0.0",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0"
+    "@types/ws": "^8.5.10",
+    "@types/uuid": "^9.0.8",
+    "esmock": "^2.7.3",
+    "rimraf": "6.0.1",
+    "tsx": "4.19.2"
   },
-  "ava": {
-    "extensions": [
-      "ts"
-    ],
-    "require": [
-      "ts-node/register"
-    ]
-  }
+  "license": "GPL-3.0-only"
 }

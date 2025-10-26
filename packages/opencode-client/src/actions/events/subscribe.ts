@@ -1,32 +1,47 @@
+import type { EventClient } from '../../types/index.js';
+
+export type SubscribeResult = {
+  readonly success: boolean;
+  readonly subscription?: string;
+  readonly eventType?: string;
+  readonly sessionId?: string;
+  readonly note?: string;
+  readonly error?: string;
+};
+
 export async function subscribe({
   eventType,
   sessionId,
   client,
 }: {
-  eventType?: string;
-  sessionId?: string;
-  client: any;
-}) {
+  readonly eventType?: string;
+  readonly sessionId?: string;
+  readonly client: EventClient;
+}): Promise<SubscribeResult> {
+  if (!client.event?.subscribe) {
+    return {
+      success: false,
+      error: 'Events subscription not supported by this client',
+    };
+  }
+
   try {
-    const { data: subscription, error } = await client.events.subscribe({
+    // Note: The async generator returned by client.event.subscribe()
+    // should be handled by the caller, not the action
+    await client.event.subscribe();
+
+    return {
+      success: true,
+      subscription: 'Event subscription established',
       eventType,
       sessionId,
-    });
-
-    if (error) return `Failed to subscribe to events: ${error}`;
-    if (!subscription) return 'No subscription created';
-
-    return JSON.stringify({
-      success: true,
-      subscription: {
-        id: subscription.id,
-        eventType: subscription.eventType,
-        sessionId: subscription.sessionId,
-        status: 'active',
-      },
-    });
-  } catch (error: any) {
+      note: 'Use the returned async generator to listen for events',
+    };
+  } catch (error: unknown) {
     console.error('Error subscribing to events:', error);
-    return `Failed to subscribe to events: ${error.message}`;
+    return {
+      success: false,
+      error: `Failed to subscribe to events: ${error instanceof Error ? error.message : String(error)}`,
+    };
   }
 }

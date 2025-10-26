@@ -1,13 +1,13 @@
 {
     "name": "@promethean/naming",
-    "root": "packages/naming",
-    "sourceRoot": "packages/naming/src",
+    "root": "packages/ai/naming",
+    "sourceRoot": "packages/ai/naming/src",
     "targets": {
         "build": {
             "executor": "nx:run-commands",
             "options": {
                 "command": "tsc -b",
-                "cwd": "packages/naming"
+                "cwd": "packages/ai/naming"
             },
             "outputs": ["{projectRoot}/dist"]
         },
@@ -15,7 +15,7 @@
             "executor": "nx:run-commands",
             "options": {
                 "command": "tsc -p tsconfig.json --noEmit",
-                "cwd": "packages/naming"
+                "cwd": "packages/ai/naming"
             }
         },
         "test": {
@@ -32,7 +32,7 @@
             "executor": "nx:run-commands",
             "options": {
                 "command": "eslint .",
-                "cwd": "packages/naming"
+                "cwd": "packages/ai/naming"
             }
         }
     },

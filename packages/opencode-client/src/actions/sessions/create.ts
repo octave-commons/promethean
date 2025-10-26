@@ -1,34 +1,47 @@
 import type { OpencodeClient } from '@opencode-ai/sdk';
 
-export async function create({ title, client }: { title?: string; client?: OpencodeClient }) {
+export type CreateSessionResult = {
+  readonly success: boolean;
+  readonly session: {
+    readonly id: string;
+    readonly title?: string;
+    readonly createdAt?: string | number;
+  };
+};
+
+export async function create({
+  title,
+  client,
+}: {
+  readonly title?: string;
+  readonly client?: OpencodeClient;
+}): Promise<CreateSessionResult> {
   if (!client) {
     throw new Error('OpenCode client is required for session creation');
   }
 
-  try {
-    const { data: session, error } = await client.session.create({
+  const result = await client.session
+    .create({
       body: {
         title,
       },
+    })
+    .catch((error: unknown) => {
+      throw new Error(
+        `Failed to create session on OpenCode server: ${error instanceof Error ? error.message : String(error)}`,
+      );
     });
 
-    if (error) {
-      throw new Error(`Failed to create session: ${error}`);
-    }
-
-    if (!session) {
-      throw new Error('No session created');
-    }
-
-    return JSON.stringify({
-      success: true,
-      session: {
-        id: session.id,
-        title: session.title,
-        createdAt: session.time?.created,
-      },
-    });
-  } catch (error: any) {
-    throw new Error(`Failed to create session on OpenCode server: ${error.message}`);
+  if (!result.data) {
+    throw new Error('No session created');
   }
+
+  return {
+    success: true,
+    session: {
+      id: result.data.id,
+      title: result.data.title,
+      createdAt: result.data.time?.created,
+    },
+  };
 }

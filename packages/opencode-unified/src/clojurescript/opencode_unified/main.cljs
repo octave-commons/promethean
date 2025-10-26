@@ -5,6 +5,7 @@
             [opencode-unified.keymap :as keymap]
             [opencode-unified.evil :as evil]
             [opencode-unified.opencode :as opencode]
+            [opencode-unified.plugins :as plugins]
             [opencode-unified.env :as env]))
 
 ;; Initialize the application
@@ -20,11 +21,14 @@
   ;; Initialize Evil mode
   (evil/init)
 
+  ;; Initialize plugin system
+  (plugins/initialize-plugin-system)
+
   ;; Initialize UI
   (ui/init)
 
   ;; Initialize Opencode SDK integration
-  (println "Opencode SDK integration temporarily disabled")
+  (opencode/init-opencode)
 
   ;; Set up Electron-specific event listeners
   (when (env/electron?)

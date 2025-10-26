@@ -1,6 +1,6 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
-import { getSessionMessages } from '../../api/sessions.js';
+import { createOpencodeClient } from '@opencode-ai/sdk';
 
 export const listMessagesCommand = new Command('list')
   .description('List messages for a session')
@@ -11,7 +11,15 @@ export const listMessagesCommand = new Command('list')
     try {
       console.log(chalk.blue(`📋 Listing messages for session: ${sessionId}`));
 
-      const messages = await getSessionMessages(sessionId);
+      // Create OpenCode client
+      const client = createOpencodeClient({
+        baseUrl: 'http://localhost:4096',
+      });
+
+      const result = await client.session.messages({
+        path: { id: sessionId },
+      });
+      const messages = result.data || [];
       const limit = parseInt(options.limit, 10);
       const limitedMessages = messages.slice(-limit);
 

@@ -1,8 +1,10 @@
 import { DualStoreManager } from '@promethean/persistence';
 
-export interface MessageContext {
-  sessionStore: DualStoreManager<'text', 'timestamp'>;
-}
+import type { EventMessage } from '../../types/index.js';
+
+export type MessageContext = {
+  readonly sessionStore: DualStoreManager<'text', 'timestamp'>;
+};
 
 const COMPLETION_PATTERNS = [
   /task.*completed/i,
@@ -17,18 +19,18 @@ const COMPLETION_PATTERNS = [
   /✅|🎉|🏆|✓/g,
 ];
 
-export function detectTaskCompletion(messages: any[]): {
-  completed: boolean;
-  completionMessage?: string;
+export function detectTaskCompletion(messages: readonly EventMessage[]): {
+  readonly completed: boolean;
+  readonly completionMessage?: string;
 } {
   if (!messages?.length) return { completed: false };
 
   const lastMessage = messages[messages.length - 1];
-  const textParts = lastMessage?.parts?.filter((part: any) => part.type === 'text') || [];
+  const textParts = lastMessage?.parts?.filter((part) => part.type === 'text') || [];
 
   if (!textParts.length) return { completed: false };
 
-  const lastText = textParts[textParts.length - 1].text.toLowerCase();
+  const lastText = textParts[textParts.length - 1]?.text?.toLowerCase() || '';
   const isCompleted = COMPLETION_PATTERNS.some((pattern) => pattern.test(lastText));
 
   return {
@@ -37,49 +39,64 @@ export function detectTaskCompletion(messages: any[]): {
   };
 }
 
-export async function processMessage(context: MessageContext, sessionId: string, message: any) {
+export async function processMessage(
+  context: MessageContext,
+  sessionId: string,
+  message: EventMessage,
+): Promise<void> {
   if (!message?.parts) return;
 
-  await Promise.all(
-    message.parts.map(async (part: any) => {
-      if (part.type === 'text' && part.text.trim()) {
-        try {
-          await context.sessionStore.insert({
-            id: message.info.id,
-            text: part.text,
-            timestamp: new Date().toISOString(),
-            metadata: {
-              sessionID: sessionId,
-              messageID: message.info.id,
-              type: 'text',
-            },
-          });
-          console.log(`📝 Indexed message ${message.info.id} from session ${sessionId}`);
-        } catch (error) {
-          console.error(`Error storing message ${message.info.id}:`, error);
-        }
+  const results = await Promise.allSettled(
+    message.parts.map(async (part) => {
+      if (part.type === 'text' && part.text?.trim()) {
+        return context.sessionStore.insert({
+          id: message.info.id,
+          text: part.text,
+          timestamp: new Date().toISOString(),
+          metadata: {
+            sessionID: sessionId,
+            messageID: message.info.id,
+            type: 'text',
+          },
+        });
       }
     }),
   );
+
+  const failedResults = results.filter((result) => result.status === 'rejected');
+  if (failedResults.length > 0) {
+    console.error(`Error storing message ${message.info.id}:`, failedResults);
+  } else {
+    console.log(`📝 Indexed message ${message.info.id} from session ${sessionId}`);
+  }
 }
 
 export async function processSessionMessages(
   context: MessageContext,
-  client: any,
+  client: {
+    session: { messages: (params: { path: { id: string } }) => Promise<{ data?: EventMessage[] }> };
+  },
   sessionId: string,
-) {
+): Promise<void> {
   const messages = await getSessionMessages(client, sessionId);
-  await Promise.all(messages.map((message: any) => processMessage(context, sessionId, message)));
+  await Promise.all(
+    messages.map((message: EventMessage) => processMessage(context, sessionId, message)),
+  );
 }
 
-export async function getSessionMessages(client: any, sessionId: string) {
-  try {
-    const { data: messages } = await client.session.messages({
+export async function getSessionMessages(
+  client: {
+    session: { messages: (params: { path: { id: string } }) => Promise<{ data?: EventMessage[] }> };
+  },
+  sessionId: string,
+): Promise<EventMessage[]> {
+  const result = await client.session
+    .messages({
       path: { id: sessionId },
+    })
+    .catch((error: unknown) => {
+      console.error(`Error fetching messages for session ${sessionId}:`, error);
+      return { data: [] };
     });
-    return messages || [];
-  } catch (error) {
-    console.error(`Error fetching messages for session ${sessionId}:`, error);
-    return [];
-  }
+  return (result.data as EventMessage[]) || [];
 }

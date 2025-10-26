@@ -1,0 +1,21 @@
+{
+  "name": "@promethean/auto-run-scripts",
+  "version": "1.0.0",
+  "description": "Auto-run scripts for pnpm workspaces",
+  "main": "auto-run-on-change.sh",
+  "scripts": {
+    "watch": "./auto-run-on-change.sh",
+    "watch:build": "./auto-run-on-change.sh build",
+    "watch:test": "./auto-run-on-change.sh test",
+    "watch:typecheck": "./auto-run-on-change.sh typecheck",
+    "watch:dev": "./auto-run-on-change.sh dev"
+  },
+  "keywords": [
+    "pnpm",
+    "workspace",
+    "watch",
+    "auto-run"
+  ],
+  "author": "Promethean Framework",
+  "license": "MIT"
+}

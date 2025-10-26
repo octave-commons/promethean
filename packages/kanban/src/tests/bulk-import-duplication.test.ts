@@ -28,7 +28,7 @@ test('bulk import operations do not create duplicates', async (t) => {
   // Import all tasks
   const createdTasks: any[] = [];
   for (const taskData of bulkTasks) {
-    const task = await createTask(board, 'todo', taskData, tasksDir, boardPath);
+    const task = await createTask(board, 'incoming', taskData, tasksDir, boardPath);
     createdTasks.push(task);
   }
 

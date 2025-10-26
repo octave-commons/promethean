@@ -60,6 +60,11 @@
     "test:unit": "pnpm build:typescript && ava dist/tests/**/*.test.js",
     "test:integration": "pnpm build:typescript && ava dist/tests/integration/**/*.test.js",
     "test:e2e": "pnpm build:typescript && ava dist/tests/e2e/**/*.test.js",
+    "test:playwright": "playwright test",
+    "test:playwright:headed": "playwright test --headed",
+    "test:playwright:debug": "playwright test --debug",
+    "test:playwright:ui": "playwright test --ui",
+    "test:playwright:install": "playwright install",
     "test:watch": "ava --watch",
     "test:coverage": "c8 ava",
     "lint": "pnpm exec eslint . --ext .ts,.tsx,.js,.jsx",
@@ -132,7 +137,8 @@
     "shadow-cljs": "^2.28.23",
     "rimraf": "^5.0.5",
     "eslint": "^8.57.0",
-    "prettier": "^3.2.5"
+    "prettier": "^3.2.5",
+    "@playwright/test": "^1.48.0"
   },
   "build": {
     "appId": "ai.promethean.opencode-unified",

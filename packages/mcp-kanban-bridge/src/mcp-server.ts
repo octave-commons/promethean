@@ -18,21 +18,31 @@ import {
 
 import {
   loadBoard,
+  loadKanbanConfig,
   getColumn,
   findTaskById,
-  findTaskByTitle,
   updateStatus,
   moveTask,
-  syncBoardAndTasks,
   searchTasks,
   createTask,
   deleteTask,
   updateTaskDescription,
   renameTask,
-  columnKey,
+  analyzeTask,
+  breakdownTask,
 } from '@promethean/kanban';
 import type { Task, Board } from '@promethean/kanban';
 import { z } from 'zod';
+
+// Helper to get board context
+async function getKanbanContext() {
+  const { config } = await loadKanbanConfig();
+  return {
+    board: await loadBoard(config.boardFile, config.tasksDir),
+    boardFile: config.boardFile,
+    tasksDir: config.tasksDir,
+  };
+}
 
 // Zod schemas for input validation
 const CreateTaskSchema = z.object({
@@ -350,13 +360,19 @@ class MCPKanbanServer {
     const parsed = CreateTaskSchema.parse(args);
 
     try {
-      const task = await createTask({
-        title: parsed.title,
-        content: parsed.content,
-        priority: parsed.priority,
-        status: parsed.status || 'incoming',
-        labels: parsed.labels,
-      });
+      const { board, boardFile, tasksDir } = await getKanbanContext();
+      const task = await createTask(
+        board,
+        parsed.status || 'incoming',
+        {
+          title: parsed.title,
+          content: parsed.content,
+          priority: parsed.priority,
+          labels: parsed.labels,
+        },
+        tasksDir,
+        boardFile,
+      );
 
       return {
         content: [
@@ -387,7 +403,7 @@ class MCPKanbanServer {
       .parse(args);
 
     try {
-      const board = await loadBoard();
+      const { board } = await getKanbanContext();
       let allTasks: Task[] = [];
 
       // Collect all tasks from all columns
@@ -562,7 +578,8 @@ class MCPKanbanServer {
     const parsed = SearchTasksSchema.parse(args);
 
     try {
-      const searchResult = await searchTasks(parsed.query);
+      const board = await loadBoard();
+      const searchResult = await searchTasks(board, parsed.query);
 
       // Combine exact and similar results
       const allTasks = [...searchResult.exact, ...searchResult.similar];

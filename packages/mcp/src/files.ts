@@ -77,7 +77,7 @@ export const viewFile = async (
     throw new Error(`Invalid path: ${validationResult.error}`);
   }
 
-  const abs = await resolvePath(ROOT_PATH, validationResult.sanitizedPath!);
+  const abs = await resolvePath(ROOT_PATH, relOrFuzzy);
   if (!abs) throw new Error('file not found');
   const rel = path.relative(ROOT_PATH, abs).replace(/\\/g, '/');
   const raw = await fs.readFile(abs, 'utf8');

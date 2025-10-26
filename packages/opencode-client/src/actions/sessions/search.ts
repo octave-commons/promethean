@@ -1,4 +1,22 @@
-import { SessionUtils, agentTasks, sessionStore } from '../../index.js';
+import { SessionUtils, sessionStore } from '../../index.js';
+import type { SessionInfo } from '../../SessionInfo.js';
+
+interface Session extends Record<string, unknown> {
+  id: string;
+  title?: string;
+  description?: string;
+  agent?: string;
+}
+
+export type SearchSessionsResult =
+  | {
+      readonly query: string;
+      readonly results: (SessionInfo & { readonly error?: string })[];
+      readonly totalCount: number;
+    }
+  | {
+      readonly error: string;
+    };
 
 export async function search({
   query,
@@ -8,16 +26,16 @@ export async function search({
   query: string;
   k?: number;
   sessionId?: string;
-}) {
+}): Promise<SearchSessionsResult> {
   try {
     // Search sessions from dual store - fail fast if not available
     const storedSessions = await sessionStore.getMostRecent(1000); // Get a large number
     if (!storedSessions?.length) {
-      return JSON.stringify({
+      return {
         query,
         results: [],
         totalCount: 0,
-      });
+      };
     }
 
     const sessionEntries = storedSessions
@@ -30,55 +48,55 @@ export async function search({
     let filteredSessions = sessionEntries;
     if (query) {
       const queryLower = query.toLowerCase();
-      filteredSessions = sessionEntries.filter((session: any) => {
+      filteredSessions = sessionEntries.filter((session: Session) => {
         // Search in session title, description, and other text fields
         return (
           session.title?.toLowerCase().includes(queryLower) ||
-          session.description?.toLowerCase().includes(queryLower) ||
+          (session as any).description?.toLowerCase().includes(queryLower) ||
           session.id?.toLowerCase().includes(queryLower) ||
-          session.agent?.toLowerCase().includes(queryLower)
+          (session as any).agent?.toLowerCase().includes(queryLower)
         );
       });
     }
 
     if (sessionId) {
-      filteredSessions = filteredSessions.filter((session: any) => session.id === sessionId);
+      filteredSessions = filteredSessions.filter((session: Session) => session.id === sessionId);
     }
 
     // Apply limit k if specified
     const sessions = k ? filteredSessions.slice(0, k) : filteredSessions;
 
     const enhanced = await Promise.all(
-      sessions.map(async (session: any) => {
+      sessions.map(async (session: Session): Promise<SessionInfo & { error?: string }> => {
         try {
           // Get messages from dual store - fail fast if not available
           const messageKey = `session:${session.id}:messages`;
           const messageEntry = await sessionStore.get(messageKey);
-          let messages: any[] = [];
+          let messages: unknown[] = [];
           if (messageEntry) {
             messages = JSON.parse(messageEntry.text);
           }
 
-          const agentTask = agentTasks.get(session.id);
-          return SessionUtils.createSessionInfo(session, messages.length, agentTask);
-        } catch (error: any) {
+          return SessionUtils.createSessionInfo(session, messages.length, undefined);
+        } catch (error: unknown) {
           console.error(`Error processing session ${session.id}:`, error);
-          const agentTask = agentTasks.get(session.id);
           return {
-            ...SessionUtils.createSessionInfo(session, 0, agentTask),
+            ...SessionUtils.createSessionInfo(session, 0, undefined),
             error: 'Could not fetch messages',
           };
         }
       }),
     );
 
-    return JSON.stringify({
+    return {
       query,
       results: enhanced,
       totalCount: enhanced.length,
-    });
-  } catch (error: any) {
+    };
+  } catch (error: unknown) {
     console.error('Error searching sessions:', error);
-    return `Failed to search sessions: ${error.message}`;
+    return {
+      error: `Failed to search sessions: ${error instanceof Error ? error.message : String(error)}`,
+    };
   }
 }

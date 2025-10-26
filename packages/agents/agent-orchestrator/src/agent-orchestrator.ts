@@ -49,8 +49,8 @@ export class AgentOrchestrator {
 
   async initialize(): Promise<void> {
     if (this.config.persistenceEnabled) {
-      this.sessionStore = await DualStoreManager.create('session_messages', 'text', 'timestamp');
-      this.agentTaskStore = await DualStoreManager.create('agent_tasks', 'text', 'timestamp');
+      this.sessionStore = await DualStoreManager.create('sessions', 'text', 'timestamp');
+      this.agentTaskStore = await DualStoreManager.create('agent-tasks', 'text', 'timestamp');
     }
 
     // Start monitoring if auto-cleanup is enabled

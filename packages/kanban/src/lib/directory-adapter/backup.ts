@@ -56,7 +56,11 @@ export class TaskBackupManager implements BackupManager {
   /**
    * Create a backup of the specified file
    */
-  async createBackup(filePath: string, reason?: string, context?: FileOperationContext): Promise<string> {
+  async createBackup(
+    filePath: string,
+    reason?: string,
+    context?: FileOperationContext,
+  ): Promise<string> {
     try {
       // Check if file exists
       await fs.access(filePath);
@@ -85,12 +89,11 @@ export class TaskBackupManager implements BackupManager {
         operation: context?.operation || 'manual',
         fileSize: stats.size,
         contentHash,
-        compressed: this.compressionEnabled
+        compressed: this.compressionEnabled,
       };
 
       // Write backup file
-      const backupContent = this.compressionEnabled ? 
-        await this.compressContent(content) : content;
+      const backupContent = this.compressionEnabled ? await this.compressContent(content) : content;
       await fs.writeFile(backupPath, backupContent, 'utf8');
 
       // Write metadata
@@ -102,9 +105,10 @@ export class TaskBackupManager implements BackupManager {
       }
 
       return backupPath;
-
     } catch (error) {
-      throw new Error(`Failed to create backup for ${filePath}: ${error instanceof Error ? error.message : String(error)}`);
+      throw new Error(
+        `Failed to create backup for ${filePath}: ${error instanceof Error ? error.message : String(error)}`,
+      );
     }
   }
 
@@ -145,9 +149,10 @@ export class TaskBackupManager implements BackupManager {
       // Restore file permissions and timestamps
       const backupStats = await fs.stat(backupPath);
       await fs.utimes(targetPath, backupStats.atime, backupStats.mtime);
-
     } catch (error) {
-      throw new Error(`Failed to restore backup ${backupPath} to ${targetPath}: ${error instanceof Error ? error.message : String(error)}`);
+      throw new Error(
+        `Failed to restore backup ${backupPath} to ${targetPath}: ${error instanceof Error ? error.message : String(error)}`,
+      );
     }
   }
 
@@ -157,7 +162,7 @@ export class TaskBackupManager implements BackupManager {
   async listBackups(filePath?: string): Promise<string[]> {
     try {
       const files = await fs.readdir(this.backupDir);
-      const backupFiles = files.filter(file => file.endsWith('.md'));
+      const backupFiles = files.filter((file) => file.endsWith('.md'));
 
       if (filePath) {
         // Filter backups for specific file
@@ -171,18 +176,27 @@ export class TaskBackupManager implements BackupManager {
           }
         }
 
-        return filteredBackups.sort((a, b) => {
-          // Sort by timestamp (newest first)
-          const metaA = await this.loadBackupMetadata(a);
-          const metaB = await this.loadBackupMetadata(b);
-          return (metaB?.timestamp.getTime() || 0) - (metaA?.timestamp.getTime() || 0);
-        });
+        // Load metadata for all backups and sort by timestamp (newest first)
+        const backupsWithMeta = await Promise.all(
+          filteredBackups.map(async (backupPath) => ({
+            path: backupPath,
+            metadata: await this.loadBackupMetadata(backupPath),
+          })),
+        );
+
+        return backupsWithMeta
+          .sort(
+            (a, b) =>
+              (b.metadata?.timestamp.getTime() || 0) - (a.metadata?.timestamp.getTime() || 0),
+          )
+          .map((item) => item.path);
       }
 
-      return backupFiles.map(file => path.join(this.backupDir, file));
-
+      return backupFiles.map((file) => path.join(this.backupDir, file));
     } catch (error) {
-      throw new Error(`Failed to list backups: ${error instanceof Error ? error.message : String(error)}`);
+      throw new Error(
+        `Failed to list backups: ${error instanceof Error ? error.message : String(error)}`,
+      );
     }
   }
 
@@ -217,9 +231,10 @@ export class TaskBackupManager implements BackupManager {
       }
 
       return cleanedCount;
-
     } catch (error) {
-      throw new Error(`Failed to cleanup old backups: ${error instanceof Error ? error.message : String(error)}`);
+      throw new Error(
+        `Failed to cleanup old backups: ${error instanceof Error ? error.message : String(error)}`,
+      );
     }
   }
 
@@ -235,7 +250,7 @@ export class TaskBackupManager implements BackupManager {
   }> {
     try {
       const files = await fs.readdir(this.backupDir);
-      const backupFiles = files.filter(file => file.endsWith('.md'));
+      const backupFiles = files.filter((file) => file.endsWith('.md'));
 
       let totalSize = 0;
       let oldestTimestamp: Date | undefined;
@@ -248,16 +263,16 @@ export class TaskBackupManager implements BackupManager {
 
         if (metadata) {
           totalSize += metadata.fileSize;
-          
+
           if (!oldestTimestamp || metadata.timestamp < oldestTimestamp) {
             oldestTimestamp = metadata.timestamp;
           }
-          
+
           if (!newestTimestamp || metadata.timestamp > newestTimestamp) {
             newestTimestamp = metadata.timestamp;
           }
 
-          filesByOriginalPath[metadata.originalPath] = 
+          filesByOriginalPath[metadata.originalPath] =
             (filesByOriginalPath[metadata.originalPath] || 0) + 1;
         }
       }
@@ -267,11 +282,12 @@ export class TaskBackupManager implements BackupManager {
         totalSize,
         oldestBackup: oldestTimestamp,
         newestBackup: newestTimestamp,
-        filesByOriginalPath
+        filesByOriginalPath,
       };
-
     } catch (error) {
-      throw new Error(`Failed to get backup statistics: ${error instanceof Error ? error.message : String(error)}`);
+      throw new Error(
+        `Failed to get backup statistics: ${error instanceof Error ? error.message : String(error)}`,
+      );
     }
   }
 
@@ -282,7 +298,9 @@ export class TaskBackupManager implements BackupManager {
     try {
       await fs.mkdir(this.backupDir, { recursive: true });
     } catch (error) {
-      throw new Error(`Failed to create backup directory: ${error instanceof Error ? error.message : String(error)}`);
+      throw new Error(
+        `Failed to create backup directory: ${error instanceof Error ? error.message : String(error)}`,
+      );
     }
   }
 
@@ -310,10 +328,10 @@ export class TaskBackupManager implements BackupManager {
       const metadataPath = backupPath.replace('.md', '.meta.json');
       const metadataContent = await fs.readFile(metadataPath, 'utf8');
       const metadata = JSON.parse(metadataContent) as BackupMetadata;
-      
+
       // Convert timestamp string back to Date object
       metadata.timestamp = new Date(metadata.timestamp);
-      
+
       return metadata;
     } catch {
       return null;
@@ -326,7 +344,7 @@ export class TaskBackupManager implements BackupManager {
   private async verifyBackupIntegrity(backupPath: string, expectedHash: string): Promise<void> {
     const content = await fs.readFile(backupPath, 'utf8');
     const actualHash = this.calculateHash(content);
-    
+
     if (actualHash !== expectedHash) {
       throw new Error(`Backup integrity check failed for ${backupPath}`);
     }

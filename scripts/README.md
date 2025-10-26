@@ -8,6 +8,7 @@ This folder contains utility scripts grouped by purpose. Most scripts are safe t
 - indexing/: Helpers for file and embedding indexing.
 - sibilant/: Build helpers for Sibilant-based sources.
 - misc/: One-off or experimental tools not yet categorized.
+- auto-run-on-change.sh: Automatically runs `pnpm --filter <packagename>` when src folders change in pnpm workspaces.
 
 Use make targets or pnpm/python directly as indicated in subfolder READMEs.
 
@@ -19,9 +20,9 @@ board and task structures (`MarkdownBoard`, `MarkdownTask`), manipulating
 frontmatter metadata, and chunking markdown bodies for downstream processing.
 
 ```ts
-import { MarkdownBoard } from "@promethean/markdown/kanban.js";
+import { MarkdownBoard } from '@promethean/markdown/kanban.js';
 
-const board = await MarkdownBoard.fromPath("docs/agile/boards/kanban.md");
+const board = await MarkdownBoard.fromPath('docs/agile/boards/kanban.md');
 // ... mutate board.columns/tasks as needed ...
 await board.write();
 ```

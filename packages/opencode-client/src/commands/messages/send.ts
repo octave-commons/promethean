@@ -1,6 +1,6 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
-import { sendMessage } from '../../api/sessions.js';
+import { createOpencodeClient } from '@opencode-ai/sdk';
 
 export const sendMessageCommand = new Command('send')
   .description('Send a message to a session')
@@ -31,32 +31,21 @@ export const sendMessageCommand = new Command('send')
         ),
       );
 
-      // Prepare model options if provided
-      const modelOptions =
-        options.modelProvider && options.modelId
-          ? {
-              providerID: options.modelProvider,
-              modelID: options.modelId,
-            }
-          : undefined;
-
-      // Send message via API
-      const result = await sendMessage({
-        sessionId,
-        message: messageContent,
-        model: modelOptions,
+      // Send message via OpenCode client
+      const client = createOpencodeClient({
+        baseUrl: 'http://localhost:4096',
       });
 
-      if (result.success === false) {
-        console.log(chalk.yellow('⚠️  Message sent via local fallback (server unavailable)'));
-        console.log(chalk.gray(`Server error: ${result.serverError || 'Unknown'}`));
-      } else {
-        console.log(chalk.green('✅ Message sent successfully!'));
-        console.log(`Session: ${chalk.cyan(sessionId)}`);
+      const result = await client.session.prompt({
+        path: { id: sessionId },
+        body: { parts: [{ type: 'text' as const, text: messageContent }] },
+      });
 
-        if (result.id) {
-          console.log(`Message ID: ${chalk.cyan(result.id)}`);
-        }
+      console.log(chalk.green('✅ Message sent successfully!'));
+      console.log(`Session: ${chalk.cyan(sessionId)}`);
+
+      if (result.data?.info?.id) {
+        console.log(`Message ID: ${chalk.cyan(result.data.info.id)}`);
       }
 
       // Ensure process exits cleanly

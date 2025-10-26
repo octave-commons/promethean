@@ -34,7 +34,7 @@ export class WebSocketTransport extends BaseTransport {
     }
 
     // Close all client connections
-    for (const [id, client] of this.clients) {
+    for (const [, client] of this.clients) {
       client.close();
     }
     this.clients.clear();
@@ -52,6 +52,10 @@ export class WebSocketTransport extends BaseTransport {
     }
 
     this.emitConnectionEvent('disconnected');
+  }
+
+  async send(envelope: MessageEnvelope): Promise<void> {
+    await this.sendWithRetry(envelope);
   }
 
   protected async doSend(envelope: MessageEnvelope): Promise<void> {
@@ -117,10 +121,10 @@ export class WebSocketTransport extends BaseTransport {
       const port = parseInt(url.port) || 8080;
       const host = url.hostname || 'localhost';
 
-      this.server = new WebSocket.Server({ 
-        port, 
+      this.server = new WebSocket.Server({
+        port,
         host,
-        path: url.pathname || '/'
+        path: url.pathname || '/',
       });
 
       this.server.on('connection', (ws: WebSocket, req) => {
@@ -160,10 +164,11 @@ export class WebSocketTransport extends BaseTransport {
   private extractClientId(req: any): string {
     // Try to get client ID from query parameters or headers
     const url = new URL(req.url || '', `http://${req.headers.host}`);
-    const clientId = url.searchParams.get('clientId') || 
-                     req.headers['x-client-id'] as string ||
-                     `client-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-    
+    const clientId =
+      url.searchParams.get('clientId') ||
+      (req.headers['x-client-id'] as string) ||
+      `client-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
     return clientId;
   }
 
@@ -186,9 +191,12 @@ export class WebSocketTransport extends BaseTransport {
         this.reconnectTimer = undefined;
       } catch (error) {
         attempt++;
-        
+
         if (attempt >= maxAttempts) {
-          this.emitConnectionEvent('error', new Error(`Failed to reconnect after ${maxAttempts} attempts`));
+          this.emitConnectionEvent(
+            'error',
+            new Error(`Failed to reconnect after ${maxAttempts} attempts`),
+          );
           this.reconnectTimer = undefined;
           return;
         }
@@ -209,13 +217,13 @@ export class WebSocketTransport extends BaseTransport {
   // WebSocket-specific methods
   broadcast(envelope: MessageEnvelope): Promise<void> {
     const message = JSON.stringify(envelope);
-    
+
     if (this.server) {
       // Server mode - send to all connected clients
       const promises = Array.from(this.clients.values())
-        .filter(client => client.readyState === WebSocket.OPEN)
-        .map(client => this.sendToClient(client, message));
-      
+        .filter((client) => client.readyState === WebSocket.OPEN)
+        .map((client) => this.sendToClient(client, message));
+
       return Promise.all(promises).then(() => {});
     } else {
       throw new Error('Broadcast only available in server mode');

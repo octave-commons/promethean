@@ -1,13 +1,13 @@
 {
   "name": "@promethean/piper",
-  "root": "packages/piper",
-  "sourceRoot": "packages/piper/src",
+  "root": "packages/pipelines/piper",
+  "sourceRoot": "packages/pipelines/piper/src",
   "targets": {
     "build": {
       "executor": "nx:run-commands",
       "options": {
         "command": "tsc -b",
-        "cwd": "packages/piper"
+        "cwd": "packages/pipelines/piper"
       },
       "outputs": ["{projectRoot}/dist"]
     },
@@ -15,7 +15,7 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "tsc -p tsconfig.json --noEmit",
-        "cwd": "packages/piper"
+        "cwd": "packages/pipelines/piper"
       }
     },
     "test": {
@@ -32,7 +32,7 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "eslint .",
-        "cwd": "packages/piper"
+        "cwd": "packages/pipelines/piper"
       }
     }
   },

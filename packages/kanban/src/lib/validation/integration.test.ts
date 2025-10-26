@@ -9,10 +9,9 @@ import test from 'ava';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { mkdir, writeFile, rm } from 'node:fs/promises';
-import { execSync } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
 import { mkdtemp } from 'node:fs/promises';
-import { updateStatus, type Task } from '../kanban.js';
+import type { Task } from '../types.js';
 import { createP0SecurityValidator } from './p0-security-validator.js';
 
 test.beforeEach(async (t) => {

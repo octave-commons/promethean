@@ -9,8 +9,8 @@ import type { Plugin } from '@opencode-ai/plugin';
 export interface HookContext {
   /** The tool name being executed */
   toolName: string;
-  /** Original arguments passed to the tool */
-  args: any;
+  /** Original arguments passed to tool */
+  args: Record<string, unknown>;
   /** Current execution phase */
   phase: 'before' | 'after';
   /** Timestamp when hook execution started */
@@ -18,9 +18,9 @@ export interface HookContext {
   /** Unique identifier for this execution */
   executionId: string;
   /** Plugin context passed to hooks */
-  pluginContext: any;
+  pluginContext: Record<string, unknown>;
   /** Additional metadata about the execution */
-  metadata: Record<string, any>;
+  metadata: Record<string, unknown>;
 }
 
 /**
@@ -30,26 +30,26 @@ export interface ToolExecutionResult {
   /** Success or failure status */
   success: boolean;
   /** Return value from the tool */
-  result?: any;
+  result?: unknown;
   /** Error if execution failed */
   error?: Error;
   /** Execution time in milliseconds */
   executionTime: number;
   /** Additional execution metadata */
-  metadata: Record<string, any>;
+  metadata: Record<string, unknown>;
 }
 
 /**
  * Hook function signature for before hooks
  */
-export type BeforeHook<T = any> = (
+export type BeforeHook<T = Record<string, unknown>> = (
   context: HookContext & { args: T },
 ) => Promise<T | void> | T | void;
 
 /**
  * Hook function signature for after hooks
  */
-export type AfterHook<T = any, R = any> = (
+export type AfterHook<T = Record<string, unknown>, R = unknown> = (
   context: HookContext & {
     args: T;
     result: ToolExecutionResult & { result?: R };
@@ -76,7 +76,7 @@ export interface HookRegistration {
   /** Tool names this hook applies to (wildcard supported) */
   tools: string[];
   /** Optional metadata for the hook */
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   /** Timeout in milliseconds for this hook */
   timeout?: number;
 }
@@ -170,7 +170,7 @@ export interface HookablePlugin extends Plugin {
   hookManager?: HookManager;
   /** Event handlers for plugin lifecycle */
   event?: {
-    [eventType: string]: (event: any) => Promise<void> | void;
+    [eventType: string]: (event: Record<string, unknown>) => Promise<void> | void;
   };
 }
 

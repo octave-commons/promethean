@@ -1,6 +1,19 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "provider": {
+    "perplexity-pro":{
+      "npm": "@ai-sdk/perplexity-pro",
+      "options":{
+        "baseURL": "https://api.perplexity.ai/chat/completions",
+
+        "aplKey":"{env:PERPLEXITY_API_KEY}",
+      },
+      "models": {
+        "perplexity-pro/sonar-pro": {
+          "name": "Dragonfly 1.5 Pro"
+        }
+      }
+    },
     "ollama_openai": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "Ollama OpenAI Compatible",
@@ -150,40 +163,6 @@
     }
   },
   "mcp": {
-    "web-search-prime": {
-      "type": "remote",
-      "url": "https://api.z.ai/api/mcp/web_search_prime/mcp",
-      "headers": {
-        "Authorization": "Bearer {env:Z_AI_API_KEY}"
-      },
-      "enabled": true
-    },
-    "zai-mcp-server": {
-      "type": "local",
-      "command": ["npx", "-y", "@z_ai/mcp-server"],
-      "environment": {
-        "Z_AI_API_KEY": "{env:Z_AI_API_KEY}",
-        "Z_AI_MODE": "ZAI"
-      },
-      "enabled": true
-    },
-    "playwright": {
-      "type": "remote",
-      "url": "http://localhost:8931",
-      "enabled": true
-    },
-    "chrome-devtools":{"type":"local","command":["npx", "-y", "chrome-devtools-mcp@latest"]},
-    "serena": {
-      "type": "local",
-      "command": [
-        "uvx",
-        "--from",
-        "git+https://github.com/oraios/serena",
-        "serena",
-        "start-mcp-server"
-      ],
-      "enabled": true
-    },
     "clj": {
       "type": "local",
       "command": ["clojure", "-X:mcp-shadow-dual"],
@@ -194,55 +173,31 @@
       "command": ["npx", "clj-kondo-mcp"],
       "enabled": true
     },
-    "context7": {
-      "type": "remote",
-      "url": "https://mcp.context7.com/mcp",
-      "headers": {
-        "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
-      },
-      "enabled": true
-    },
-    "gh_grep": {
-      "type": "remote",
-      "url": "https://mcp.grep.app",
-      "enabled": true
-    }
   },
   "lsp": {
-    "clojure-lsp": {
-      "command": ["clojure-lsp"],
-      "extensions": [".clj", ".cljs", ".cljc", ".bb"]
-    }
+    "eslint": {
+      "enabled": true,
+      "command": [
+        "npx",
+        "eslint-lsp",
+        "-y",
+        "--stdio"
+      ],
+      "extensions": [
+        ".ts",
+        ".tsx",
+        ".js",
+        ".jsx",
+        ".vue"
+      ]
+    },
   },
+
   "instructions": ["./docs/agents/platforms/opencode/AGENTS.md"],
-  "permission": {
-    "bash":{
-      "ls*":"allow",
-      "*pnpm build*":"ask",
-      "*pnpm test*":"ask",
-      "node *":"ask",
-      "uvx *":"ask",
-      "npx *":"ask",
-      "kill *":"deny",
-      "pkill *":"deny",
-      "pm2 logs":"deny",
-      "rm *":"ask",
-      "bash *":"ask",
-      "unlink *":"ask",
-      "rmdir *":"ask",
-      "mv *":"ask",
-      "cp *":"ask",
-      "git *":"ask",
-      "git status*":"allow",
-      "git log*":"allow",
-      "git commit*":"allow",
-      "pnpm kanban*":"allow"
-    }
-  },
   "tools": {
     "clj*": false,
     "playwright*":false,
-    "ProcessDirect.*":false,
+    "DirectProcess.*":false,
     "Events.*":false,
     "Messaging.*":false,
     "Messages.*":false,

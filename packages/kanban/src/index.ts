@@ -8,6 +8,7 @@ export {
   moveTask,
   syncBoardAndTasks,
   searchTasks,
+  createTask,
   updateTaskDescription,
   renameTask,
   archiveTask,

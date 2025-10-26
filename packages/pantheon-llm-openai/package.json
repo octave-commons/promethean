@@ -1,0 +1,35 @@
+{
+  "name": "@promethean/pantheon-llm-openai",
+  "version": "1.0.0",
+  "description": "Pantheon LLM adapter for OpenAI API",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "dev": "tsc --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "ava",
+    "lint": "pnpm exec eslint ."
+  },
+  "dependencies": {
+    "@promethean/pantheon-core": "workspace:*",
+    "openai": "^4.20.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ava": "^5.3.1",
+    "typescript": "^5.3.3"
+  },
+  "license": "GPL-3.0-only"
+}

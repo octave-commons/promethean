@@ -6,7 +6,7 @@
  */
 
 import type { Task, Board } from '../../types.js';
-import type { KanbanTransitionReviewRequest, KanbanTransitionReviewResult } from '../types.js';
+import type { KanbanTransitionReviewRequest } from '../types.js';
 import { CodeReviewRulesEngine } from '../rules-engine.js';
 import type { TransitionResult } from '../../transition-rules.js';
 
