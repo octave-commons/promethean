@@ -6,7 +6,25 @@ import { cleanupClients } from '@promethean-os/persistence';
 import { setupTestStores } from '../helpers/test-stores.js';
 
 // Helper to get actual store for stubbing
-const getActualEventStore = () => eventStore as any;
+const getActualEventStore = () => {
+  // Force the proxy to resolve by accessing a property first
+  const actualStore = eventStore as any;
+  // Check if getMostRecent exists, if not try to access the underlying store
+  if (typeof actualStore.getMostRecent === 'function') {
+    return actualStore;
+  }
+  // Try to access through contextStore directly
+  try {
+    const { contextStore } = require('../../stores.js');
+    const collection = (contextStore as any).collections?.get('eventStore');
+    if (collection && typeof collection.getMostRecent === 'function') {
+      return collection;
+    }
+  } catch (error) {
+    // Fall back to proxy
+  }
+  return actualStore;
+};
 
 test.beforeEach(async () => {
   sinon.restore();
