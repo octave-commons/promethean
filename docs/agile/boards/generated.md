@@ -72,6 +72,7 @@ kanban-plugin: board
 - [ ] [[2025.10.17.01.52.05-build-performance-dashboards|Build Performance Dashboards]] #performance #dashboards #visualization prio:P2 (uuid:e5f6a7b8-c9d0-1234-ef56-789012345678)
 - [ ] [[2025.10.26.16.30.00-integrate-nx-release-cicd|Integrate Nx Release with CI/CD pipeline for automated releases]] #release #ci-cd #automation #github-actions prio:P1 (uuid:1d86226d-89ff-4a0f-bcbc-bd15b6f336c0)
 - [ ] [[2025.10.26.16.35.00-document-release-process-training|Document release process and train development team]] #release #documentation #training #knowledge-transfer prio:P2 (uuid:8c432414-46fa-4737-b9c0-e0f67dc49680)
+- [ ] [[2025.10.26.pantheon-consolidation-migration-epic|Epic: Pantheon Consolidation Migration - Agent Package Rebranding]] #epic #pantheon #migration #consolidation #branding #agent-packages prio:P0 (uuid:epic-pantheon-consolidation-migration-2025-10-26)
 - [ ] [[Add Comprehensive Error Handling and Security Fixes to agents-workflow]] #tool:codex #cap:codegen #agents-workflow #security #error-handling #p0 #critical prio:P0 (uuid:ae42a21a-ff14-44be-9296-7c9edbae6cde)
 - [ ] [[Add Missing Return Type Annotations in @promethean simtasks|Add Missing Return Type Annotations in @promethean-os/simtasks]] #simtasks #type-safety #critical #typescript prio:P0 (uuid:e6cf88f9-242e-4e1f-b086-764bfc5b5942)
 - [ ] [[Analyze Agent Registry dependencies and architecture]] #agent-registry #dependencies #architecture #analysis prio:P1 (uuid:f7399236-a1e5-4bb5-8be3-598358064fa6)
