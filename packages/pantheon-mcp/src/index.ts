@@ -5,12 +5,13 @@
  * to interact with the Pantheon Agent Management Framework.
  */
 
+import type { ToolPort, ToolSpec } from '@promethean-os/pantheon-core';
+
 // Extended ToolPort interface for MCP functionality
-export interface ToolPort {
+export interface MCPToolPort extends ToolPort {
+  list(): Promise<string[]>;
+  getSchema(toolName: string): Promise<any>;
   execute(command: string, args?: Record<string, unknown>): Promise<unknown>;
-  list?(): Promise<string[]>;
-  register?(tool: MCPTool): void;
-  getSchema?(toolName: string): Promise<any>;
 }
 
 export type MCPTool = {
@@ -30,7 +31,7 @@ export type MCPToolResult = {
   error?: string;
 };
 
-export function makeMCPToolAdapter(): ToolPort {
+export function makeMCPToolAdapter(): MCPToolPort {
   const tools = new Map<string, MCPTool>();
 
   return {
@@ -58,8 +59,19 @@ export function makeMCPToolAdapter(): ToolPort {
       return Array.from(tools.keys());
     },
 
-    register(tool: MCPTool): void {
-      tools.set(tool.name, tool);
+    register(tool: ToolSpec): void {
+      // Convert ToolSpec to MCPTool format
+      const mcpTool: MCPTool = {
+        name: tool.name,
+        description: tool.description,
+        inputSchema: {
+          type: 'object',
+          properties: (tool as any).parameters || {},
+          required: (tool as any).required || [],
+        },
+        handler: (tool as any).handler || async () => ({ result: 'Tool executed' }),
+      };
+      tools.set(tool.name, mcpTool);
     },
 
     async getSchema(toolName: string): Promise<any> {
@@ -68,6 +80,21 @@ export function makeMCPToolAdapter(): ToolPort {
         throw new Error(`Tool ${toolName} not found`);
       }
       return tool.inputSchema;
+    },
+
+    async invoke(name: string, args: Record<string, unknown>): Promise<unknown> {
+      const tool = tools.get(name);
+      if (!tool) {
+        throw new Error(`Tool '${name}' not found`);
+      }
+
+      try {
+        return await tool.handler(args);
+      } catch (error) {
+        throw new Error(
+          `Tool '${name}' execution failed: ${error instanceof Error ? error.message : String(error)}`,
+        );
+      }
     },
   };
 }
@@ -163,12 +190,30 @@ export const compileContextTool: MCPTool = {
 };
 
 // Factory function to create MCP adapter with default tools
-export function makeMCPAdapterWithDefaults(): ToolPort {
+export function makeMCPAdapterWithDefaults(): MCPToolPort {
   const adapter = makeMCPToolAdapter();
 
-  adapter.register?.(createActorTool);
-  adapter.register?.(tickActorTool);
-  adapter.register?.(compileContextTool);
+  // Register predefined tools as ToolSpec
+  adapter.register({
+    name: createActorTool.name,
+    description: createActorTool.description,
+    parameters: createActorTool.inputSchema.properties,
+    runtime: 'local',
+  } as ToolSpec);
+
+  adapter.register({
+    name: tickActorTool.name,
+    description: tickActorTool.description,
+    parameters: tickActorTool.inputSchema.properties,
+    runtime: 'local',
+  } as ToolSpec);
+
+  adapter.register({
+    name: compileContextTool.name,
+    description: compileContextTool.description,
+    parameters: compileContextTool.inputSchema.properties,
+    runtime: 'local',
+  } as ToolSpec);
 
   return adapter;
 }

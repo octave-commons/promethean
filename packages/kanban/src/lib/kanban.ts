@@ -773,7 +773,7 @@ const maybeRefreshIndex = async (tasksDir: string): Promise<void> => {
   }
 };
 
-const writeBoard = async (boardPath: string, board: Board): Promise<void> => {
+export const writeBoard = async (boardPath: string, board: Board): Promise<void> => {
   const md = serializeBoard(board).trimEnd();
   const footer = await resolveKanbanFooter(boardPath);
   const segments: string[] = [];

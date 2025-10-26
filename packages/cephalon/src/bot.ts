@@ -16,7 +16,7 @@ import { AgentBus } from '@promethean-os/pantheon-ecs/bus.js';
 import { BrokerClient } from '@promethean-os/legacy/brokerClient.js';
 import { checkPermission } from '@promethean-os/legacy';
 import { cleanupChroma } from '@promethean-os/persistence/maintenance.js';
-import { pushVisionFrame } from '@promethean-os/pantheon-ecs';
+import { pushVisionFrame } from '@promethean-os/pantheon-ecs/helpers/pushVision.js';
 
 import { type Interaction } from './interactions.js';
 import { DesktopCaptureManager } from './desktop/desktopLoop.js';
@@ -242,8 +242,8 @@ export class Bot extends EventEmitter {
   }
   async forwardAttachments(message: discord.Message) {
     if (message.author?.bot) return;
-    const imageAttachments = [...message.attachments.values()].filter(
-      (att) => att.contentType?.startsWith('image/'),
+    const imageAttachments = [...message.attachments.values()].filter((att) =>
+      att.contentType?.startsWith('image/'),
     );
     if (!imageAttachments.length) return;
 

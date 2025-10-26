@@ -5,6 +5,45 @@
 
 set -e
 
+# Backup function
+create_backup() {
+    local backup_name="migration-backup-$(date +%Y%m%d-%H%M%S).tar.gz"
+    echo "💾 Creating backup: $backup_name"
+    tar -czf "$backup_name" packages/cephalon packages/agents packages/pantheon-* 2>/dev/null || true
+    echo "✅ Backup created: $backup_name"
+}
+
+# Rollback function
+rollback() {
+    local backup_name="$1"
+    if [[ -z "$backup_name" ]]; then
+        echo "❌ Error: No backup file specified for rollback"
+        exit 1
+    fi
+    
+    if [[ ! -f "$backup_name" ]]; then
+        echo "❌ Error: Backup file $backup_name not found"
+        exit 1
+    fi
+    
+    echo "🔄 Rolling back to: $backup_name"
+    tar -xzf "$backup_name"
+    echo "✅ Rollback completed"
+}
+
+# Check for rollback command
+if [[ "$1" == "rollback" ]]; then
+    if [[ -z "$2" ]]; then
+        echo "Usage: $0 rollback <backup-file>"
+        exit 0
+    fi
+    rollback "$2"
+    exit 0
+fi
+
+# Create backup before starting
+create_backup
+
 echo "📚 Phase 4: Updating documentation and final cleanup"
 echo "================================================="
 

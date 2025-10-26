@@ -136,7 +136,7 @@
              (get-in mcp [:mcp-servers :context7 :env-http-headers])))
       
       ;; Write it back out
-      (adapter/write-full path {:mcp m :rest ""})
+      (adapter/write-full path {:mcp mcp :rest ""})
       
       ;; Read again to verify roundtrip
       (let [{:keys [mcp]} (adapter/read-full path)]

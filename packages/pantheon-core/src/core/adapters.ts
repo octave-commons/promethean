@@ -370,6 +370,14 @@ export const makeInMemorySchedulerAdapter = (): Scheduler => {
 
       timeouts.add(timeout);
     },
+
+    // Cleanup method to clear all scheduled tasks
+    cleanup: () => {
+      intervals.forEach((interval) => clearInterval(interval));
+      timeouts.forEach((timeout) => clearTimeout(timeout));
+      intervals.clear();
+      timeouts.clear();
+    },
   };
 };
 

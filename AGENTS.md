@@ -5,17 +5,6 @@
 
 ---
 
-## 🧠 Initiation Sequence
-
-On every request:
-
-1. `context7` → fetch related documentation
-2. `github grep` → explore package implementations
-3. `web search` → find guides and references
-4. `pnpm kanban search "<task keywords>"` → locate related tasks
-5. `git log` + Opencode session history → review recent events
-6. `pm2 status` → inspect related running services
-7. `pnpm kanban process` → follow Promethean workflow
 
 ---
 

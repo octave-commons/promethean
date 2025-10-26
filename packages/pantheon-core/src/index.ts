@@ -8,6 +8,9 @@ export * from './core/types.js';
 // Port interfaces
 export * from './core/ports.js';
 
+// Error handling
+export * from './core/errors.js';
+
 // Core factories and implementations
 export * from './core/context.js';
 export * from './core/actors.js';

@@ -35,7 +35,30 @@ const indexSession = async (session: Session): Promise<void> => {
   }
 };
 
+// Enhanced error type for better debugging
+export class IndexingError extends Error {
+  constructor(
+    message: string,
+    public readonly context: {
+      messageId?: string;
+      sessionId?: string;
+      originalError?: unknown;
+    },
+  ) {
+    super(message);
+  }
+}
+
 const indexMessage = async (message: Message, sessionId: string): Promise<void> => {
+  // Validate input
+  if (!message) {
+    throw new IndexingError('Message is required', { sessionId });
+  }
+
+  if (!message.info?.id) {
+    throw new IndexingError('Message ID is required', { sessionId });
+  }
+
   // Store the complete message as JSON (new format)
   const messageText = JSON.stringify({
     info: message.info,
@@ -55,7 +78,19 @@ const indexMessage = async (message: Message, sessionId: string): Promise<void> 
       },
     });
   } catch (error: unknown) {
-    console.error('❌ Error indexing message:', error);
+    const errorContext = {
+      messageId: message.info?.id,
+      sessionId,
+      originalError: error,
+    };
+
+    console.error('❌ Error indexing message:', {
+      message: error instanceof Error ? error.message : String(error),
+      context: errorContext,
+    });
+
+    // Re-throw with context for better debugging
+    throw new IndexingError(`Failed to index message ${message.info?.id}`, errorContext);
   }
 };
 
@@ -93,3 +128,6 @@ export const createIndexingOperations = (): {
   indexMessage,
   indexEvent: (event: EnhancedEvent) => indexEvent(event),
 });
+
+// Export error class for consumers
+export { IndexingError, createIndexingOperations };

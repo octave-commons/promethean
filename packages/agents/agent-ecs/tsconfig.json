@@ -9,10 +9,13 @@
     "include": ["src/**/*"],
     "references": [
         {
-            "path": "../ds"
+            "path": "../../ds"
         },
         {
-            "path": "../utils"
+            "path": "../../utils"
+        },
+        {
+            "path": "../../pantheon-ecs"
         }
     ]
 }

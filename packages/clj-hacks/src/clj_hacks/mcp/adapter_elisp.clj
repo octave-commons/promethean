@@ -4,7 +4,8 @@
             [clj-hacks.mcp.elisp :as elisp]
             [clojure.edn :as edn]
             [clojure.string :as str]
-            [elisp.mcp :as mcp-ast])
+            [elisp.mcp :as mcp-ast]
+            [elisp.read :as elisp-read])
   (:import [java.io FileNotFoundException]))
 
 (def ^:private default-http-base
@@ -18,119 +19,91 @@
   #"\(setq\s+mcp-server-programs\s+'\((?s:.*?)\)\)")
 
 ;; ----------------------------------------------------------------------------
-;; Minimal S-expression parsing helpers (used for existing block parsing)
+;; Tree-sitter backed parsing helpers
 ;; ----------------------------------------------------------------------------
 
-(defn- skip-ws [^String s idx]
-  (let [len (.length s)]
-    (loop [i idx]
-      (if (and (< i len) (Character/isWhitespace (.charAt s i)))
-        (recur (inc i))
-        i))))
+(defn- strip-quotes [s]
+  (if (and (string? s)
+           (<= 2 (count s))
+           (= " (first s))
+           (= " (last s)))
+    (subs s 1 (dec (count s)))
+    s))
 
-(defn- skip-string [^String s idx]
-  (let [len (.length s)]
-    (loop [i (inc idx)]
-      (when (>= i len)
-        (throw (ex-info "Unterminated string literal" {:source s :index idx})))
-      (let [ch (.charAt s i)]
-        (cond
-          (= ch \"\\)
-          (let [next (inc i)]
-            (if (< next len)
-              (recur (inc next))
-              (throw (ex-info "Invalid escape sequence" {:source s :index i}))))
+(defn- parse-string-literal [s]
+  (try
+    (let [trimmed (strip-quotes s)]
+      (if (= trimmed s)
+        s
+        (edn/read-string (str "\"" trimmed "\""))))
+    (catch Exception _ s)))
 
-          (= ch \"\")
-          (inc i)
+(defn- symbol-name->value [name]
+  (cond
+    (= name "t") true
+    (= name "nil") nil
+    (str/starts-with? name ":") (keyword (subs name 1))
+    :else name))
 
-          :else
-          (recur (inc i)))))))
+(defn- plist-key? [node]
+  (and (map? node)
+       (= :symbol (:el/type node))
+       (str/starts-with? (:name node) ":")))
 
-(defn- extract-paren [^String s idx]
-  (let [len (.length s)]
-    (when (>= idx len)
-      (throw (ex-info "Unexpected end of input" {:source s :index idx})))
-    (when-not (= \( (.charAt s idx))
-      (throw (ex-info "Expected '('" {:source s :index idx})))
-    (loop [i idx depth 0]
-      (when (>= i len)
-        (throw (ex-info "Unbalanced parentheses" {:source s :index idx})))
-      (let [ch (.charAt s i)]
-        (cond
-          (= ch \()
-          (recur (inc i) (inc depth))
+(defn- el-list-items [node]
+  (when (and (vector? node) (keyword? (first node)))
+    (case (first node)
+      :el/list (rest node)
+      :el/vector (rest node)
+      nil)))
 
-          (= ch \))
-          (let [next-depth (dec depth)]
-            (if (zero? next-depth)
-              [(subs s idx (inc i)) (inc i)]
-              (recur (inc i) next-depth)))
+(defn- node->value [node]
+  (cond
+    (string? node) (parse-string-literal node)
+    (number? node) node
+    (vector? node)
+    (let [items (el-list-items node)]
+      (when items
+        (mapv node->value items)))
+    (map? node)
+    (case (:el/type node)
+      :symbol (symbol-name->value (:name node))
+      :quote (node->value (:form node))
+      :cons {:car (node->value (:car node))
+             :cdr (node->value (:cdr node))}
+      :comment nil
+      :unknown (:raw node)
+      node)
+    :else node))
 
-          (= ch \"\")
-          (recur (skip-string s i) depth)
+(defn- plist->map [plist-node]
+  (let [items (el-list-items plist-node)]
+    (loop [remaining items, acc (sorted-map)]
+      (if (seq remaining)
+        (let [[k-node v-node & rest-items] remaining
+              key (when (plist-key? k-node)
+                    (keyword (subs (:name k-node) 1)))
+              val (node->value v-node)]
+          (recur rest-items (if key (assoc acc key val) acc)))
+        acc))))
 
-          :else
-          (recur (inc i) depth))))))
-
-(defn- parse-quoted [^String s idx]
-  (when-not (= \" (.charAt s idx))
-    (throw (ex-info "Expected string" {:source s :index idx})))
-  (let [end (skip-string s idx)]
-    [(edn/read-string (subs s idx end)) end]))
-
-(defn- parse-plist [s]
-  (let [items (edn/read-string s)
-        pairs (partition 2 items)]
-    (into (sorted-map)
-          (for [[k v] pairs]
-            (let [v* (cond
-                       (sequential? v) (vec v)
-                       :else v)]
-              [k v*])))))
-
-(defn- parse-entry [^String s idx]
-  (let [idx (skip-ws s idx)]
-    (when (>= idx (.length s))
-      (throw (ex-info "Unexpected end of input while parsing entry"
-                      {:source s :index idx})))
-    (when-not (= \( (.charAt s idx))
-      (throw (ex-info "Expected entry to start with '('"
-                      {:source s :index idx})))
-    (let [idx (skip-ws s (inc idx))
-          [name idx] (parse-quoted s idx)
-          idx (skip-ws s idx)]
-      (when-not (= \.
-                    (.charAt s idx))
-        (throw (ex-info "Expected dotted pair separator '.'"
-                        {:source s :index idx})))
-      (let [idx (skip-ws s (inc idx))
-            [plist idx] (extract-paren s idx)
-            props (parse-plist plist)
-            idx (skip-ws s idx)]
-        (when-not (= \) (.charAt s idx))
-          (throw (ex-info "Expected entry to terminate with ')'"
-                          {:source s :index idx})))
-        [[(keyword name) props] (inc idx)]))))
-
-(defn- parse-hub-servers [s]
-  (let [len (.length ^String s)
-        start (skip-ws s 0)]
-    (when (or (zero? len) (not= \( (.charAt ^String s start)))
-      (throw (ex-info "Expected list of servers" {:source s :index start})))
-    (loop [idx (inc start)
-           entries []]
-      (let [idx (skip-ws s idx)]
-        (cond
-          (>= idx len)
-          (into (sorted-map) entries)
-
-          (= \) (.charAt ^String s idx))
-          (into (sorted-map) entries)
-
-          :else
-          (let [[entry next-idx] (parse-entry s idx)]
-            (recur next-idx (conj entries entry))))))))
+(defn- parse-servers-str [servers-str]
+  (let [data (elisp-read/elisp->data servers-str)
+        list-node (some #(when (and (vector? %)
+                                    (= :el/list (first %)))
+                           %)
+                        (rest data))]
+    (if-not list-node
+      (sorted-map)
+      (into (sorted-map)
+            (keep (fn [entry]
+                    (when (and (map? entry)
+                               (= :cons (:el/type entry)))
+                      (let [name (node->value (:car entry))
+                            props (plist->map (:cdr entry))]
+                        (when name
+                          [(keyword (str name)) props])))))
+            (el-list-items list-node)))))
 
 ;; ----------------------------------------------------------------------------
 ;; Legacy parsing helpers
@@ -203,7 +176,7 @@
     (if-let [{:keys [block before after block-start block-end]} (mcp-ast/find-generated-block s)]
       (let [servers-str (some-> (re-find re-hub-setq block) second)
             servers     (if servers-str
-                          (parse-hub-servers servers-str)
+                          (parse-servers-str servers-str)
                           (sorted-map))]
         {:mcp {:mcp-servers servers}
          :rest {:before before :after after}

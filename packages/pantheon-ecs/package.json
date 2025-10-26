@@ -10,6 +10,22 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./world.js": {
+      "types": "./dist/world.d.ts",
+      "import": "./dist/world.js"
+    },
+    "./bus.js": {
+      "types": "./dist/bus.d.ts",
+      "import": "./dist/bus.js"
+    },
+    "./helpers/enqueueUtterance.js": {
+      "types": "./dist/helpers/enqueueUtterance.d.ts",
+      "import": "./dist/helpers/enqueueUtterance.js"
+    },
+    "./systems/orchestrator.js": {
+      "types": "./dist/systems/orchestrator.d.ts",
+      "import": "./dist/systems/orchestrator.js"
+    },
     "./dist/*": "./dist/*",
     "./*": "./dist/*"
   },

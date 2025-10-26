@@ -79,7 +79,8 @@
                    {})))))
 
 (defn- parse-value [raw]
-  (let [v (str/trim raw)]
+  (let [v (str/trim raw)
+        lower (str/lower-case v)]
     (cond
       (and (>= (count v) 2)
            (str/starts-with? v "[")
@@ -95,6 +96,15 @@
            (str/starts-with? v "{")
            (str/ends-with? v "}"))
       (parse-inline-table v)
+
+      (#{"true" "false"} lower)
+      (= lower "true")
+
+      (re-matches #"-?\d+" v)
+      (Long/parseLong v)
+
+      (re-matches #"-?\d+\.\d+" v)
+      (Double/parseDouble v)
 
       :else v)))
 
@@ -115,23 +125,30 @@
            rest-lines []
            experimental-use-rmcp-client nil]
       (if (nil? ln)
-        (let [tables' (cond-> tables
-                         cur-name (assoc cur-name cur-entries))]
-          {:tables tables'
-           :rest-string (str/join "\n" rest-lines)
-           :experimental-use-rmcp-client experimental-use-rmcp-client})
-        (if-let [[_ inner] (re-matches table-header-re ln)]
-          (let [tables' (cond-> tables
+        {:tables (cond-> tables
+                   cur-name (assoc cur-name cur-entries))
+         :rest-string (str/join "\n" rest-lines)
+         :experimental-use-rmcp-client experimental-use-rmcp-client}
+        (cond
+          (re-matches table-header-re ln)
+          (let [[_ inner] (re-matches table-header-re ln)
+                tables' (cond-> tables
                           cur-name (assoc cur-name cur-entries))
                 name (normalize-table-name inner)]
             (recur more name {} tables' rest-lines experimental-use-rmcp-client))
-          (if-let [[_ v] (re-matches experimental-rmcp-re ln)]
-            (recur more cur-name cur-entries tables rest-lines (parse-value v))
-            (if-let [[_ k v] (re-matches key-value-re ln)]
-              (if cur-name
-                (recur more cur-name (assoc cur-entries k (parse-value v)) tables rest-lines experimental-use-rmcp-client)
-                (recur more cur-name cur-entries tables (conj rest-lines ln) experimental-use-rmcp-client))
-              (recur more cur-name cur-entries tables (conj rest-lines ln) experimental-use-rmcp-client)))))))))
+
+          (re-matches experimental-rmcp-re ln)
+          (let [[_ v] (re-matches experimental-rmcp-re ln)]
+            (recur more cur-name cur-entries tables rest-lines (parse-value v)))
+
+          (re-matches key-value-re ln)
+          (let [[_ k v] (re-matches key-value-re ln)]
+            (if cur-name
+              (recur more cur-name (assoc cur-entries k (parse-value v)) tables rest-lines experimental-use-rmcp-client)
+              (recur more cur-name cur-entries tables (conj rest-lines ln) experimental-use-rmcp-client)))
+
+          :else
+          (recur more cur-name cur-entries tables (conj rest-lines ln) experimental-use-rmcp-client))))))
 
 (defn- sanitize-command [c]
   (some-> c strip-quotes))
@@ -167,7 +184,7 @@
   (when (map? headers)
     (into (sorted-map)
           (for [[k v] headers]
-            [(strip-quotes k) (strip-quotes v)])))))
+            [(strip-quotes k) (strip-quotes v)]))))
 
 (defn read-full [path]
   (let [s (slurp path)

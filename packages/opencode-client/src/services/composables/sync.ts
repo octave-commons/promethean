@@ -6,6 +6,35 @@ import type { EventLogger } from './logger.js';
 import { createIndexingOperations } from '../indexer-operations.js';
 import { OpencodeClient } from '@opencode-ai/sdk';
 
+// Simple in-memory rate limiter to avoid external dependency
+class RateLimiter {
+  private tokens: number = 0;
+  private lastReset: number = Date.now();
+  private readonly maxTokens: number;
+  private readonly windowMs: number;
+
+  constructor(maxTokens: number, windowMs: number = 1000) {
+    this.maxTokens = maxTokens;
+    this.windowMs = windowMs;
+  }
+
+  async acquire(): Promise<void> {
+    const now = Date.now();
+    if (now - this.lastReset > this.windowMs) {
+      this.tokens = 0;
+      this.lastReset = now;
+    }
+
+    while (this.tokens >= this.maxTokens) {
+      const waitTime = Math.ceil((this.tokens - this.maxTokens + 1) / 2) * 10;
+      await new Promise((resolve) => setTimeout(resolve, waitTime));
+      this.tokens = Math.max(0, this.tokens - waitTime / 10);
+    }
+
+    this.tokens++;
+  }
+}
+
 export type SyncConfig = {
   readonly fullSyncIntervalMs: number;
 };
@@ -46,12 +75,22 @@ export const createSyncManager = (
             )
           : messages;
 
-        // Process messages sequentially to avoid MongoDB connection race conditions
-        for (const message of messagesToProcess) {
-          await indexingOps.indexMessage(message, session.id);
-          totalMessagesProcessed++;
-          // Small delay between messages to prevent connection overload
-          await new Promise((resolve) => setTimeout(resolve, 50));
+        // Process messages with controlled concurrency using rate limiter
+        const CONCURRENT_LIMIT = 3; // Process up to 3 messages concurrently
+        const rateLimiter = new RateLimiter(CONCURRENT_LIMIT, 1000); // 3 tokens per second
+
+        await Promise.all(
+          messagesToProcess.map(async (message) => {
+            await rateLimiter.acquire();
+            return indexingOps.indexMessage(message, session.id);
+          }),
+        );
+
+        totalMessagesProcessed += messagesToProcess.length;
+
+        // Small delay between batches to prevent connection overload
+        if (messagesToProcess.length > CONCURRENT_LIMIT) {
+          await new Promise((resolve) => setTimeout(resolve, 100));
         }
       }
 
