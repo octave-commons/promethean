@@ -1904,6 +1904,10 @@ const handleInit: CommandHandler = async (args, _context) => {
     args.find((arg) => arg.startsWith('--config='))?.slice(9) || 'promethean.kanban.json';
   const force = args.includes('--force') || args.includes('-f');
 
+  // Debug output
+  console.error('DEBUG: args:', args);
+  console.error('DEBUG: configPath:', configPath);
+
   // Check if config already exists
   try {
     await readFile(configPath, 'utf8');
