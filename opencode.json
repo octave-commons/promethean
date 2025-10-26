@@ -165,6 +165,9 @@
       }
     }
   },
+  "permission": {
+    "bash":{}
+  },
   "mcp": {
     "clj": {
       "type": "local",

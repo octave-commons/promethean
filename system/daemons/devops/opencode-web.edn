@@ -1,6 +1,6 @@
 {:apps [{:name "opencode-web"
          :script "bunx"
-         :args ["opencode-web" "--external-server" "http://localhost:4096" "--host" "0.0.0.0" "--port" "7799"]
+         :args ["opencode-web@latest" "--external-server" "http://localhost:4096" "--host" "0.0.0.0" "--port" "7799"]
          :interpreter "/usr/bin/env"
          :out_file "./logs/opencode-out.log"
          :error_file "./logs/opencode-err.log"

@@ -1,4 +1,5 @@
 import { initializeStores } from './initializeStores.js';
+import { testUtils } from './test-utils.js';
 
 // Silence console output during tests unless explicitly enabled
 if (process.env.NODE_ENV === 'test' && process.env.VERBOSE_TESTS !== 'true') {
@@ -36,3 +37,6 @@ process.on('unhandledRejection', (reason) => {
   console.error('Unhandled Promise Rejection during tests:', reason);
   // Don't exit, just log error
 });
+
+// Export test utilities for use in test files
+export { testUtils };

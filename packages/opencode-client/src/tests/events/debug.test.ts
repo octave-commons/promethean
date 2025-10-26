@@ -1,9 +1,15 @@
 import test from 'ava';
 import { setupTestStores, mockStoreData } from '../helpers/test-stores.js';
 import { eventStore } from '../../index.js';
+import { testUtils } from '../../test-setup.js';
 
 test.beforeEach(async () => {
   await setupTestStores();
+  await testUtils.beforeEach();
+});
+
+test.afterEach.always(async () => {
+  await testUtils.afterEach();
 });
 
 test.after.always(async () => {

@@ -2,7 +2,7 @@
   "type": "module",
   "name": "promethean",
   "license": "GPL-3.0-only",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "build": "pnpm -r --no-bail build",
     "test": "var x = 'test'; class Y {}; let z; const a = []; a.push(1);",

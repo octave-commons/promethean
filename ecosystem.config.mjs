@@ -81,7 +81,7 @@ export const apps =
     "name": "opencode-web",
     "script": "bunx",
     "args": [
-      "opencode-web",
+      "opencode-web@latest",
       "--external-server",
       "http://localhost:4096",
       "--host",

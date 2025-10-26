@@ -108,7 +108,7 @@ pnpm kanban count
 
 ## 🧱 Local Package Commands
 
-Prefer **local scoped commands** over workspace-level scripts:
+MUST ALWAYS USE **locally scoped commands**:
 
 ```bash
 pnpm --filter @promethean-os/<pkg> test
@@ -116,6 +116,7 @@ pnpm --filter @promethean-os/<pkg> build
 pnpm --filter @promethean-os/<pkg> clean
 pnpm --filter @promethean-os/<pkg> typecheck
 pnpm --filter @promethean-os/<pkg> start
+pnpm --filter @promethean-os/<pkg> exec node ./dist/index.ts
 ```
 ---
 
@@ -125,6 +126,7 @@ pnpm --filter @promethean-os/<pkg> start
 * Keep temporary scripts in `pseudo/` (never referenced by source)
 * Store documentation in `docs/`
 * File changes auto-commit with LLM-generated messages
+* MUST ALWAYS use `pnpm --filter @promethean-os/<pkg> ...`
 
   * No manual commits or backups needed
 * Documentation must be **Obsidian-friendly**

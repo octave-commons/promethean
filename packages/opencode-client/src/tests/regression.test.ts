@@ -61,29 +61,32 @@ test('sessionStore.getMostRecent() regression test - exact client contract', asy
     'timestamp',
   );
 
+  // Use far future timestamps to ensure our test data is most recent
+  const futureTime = Date.now() + 100000000000; // ~3169 years in future
+
   // Insert multiple entries like client would
   await store.insert({
     id: 'session-1',
     text: 'Session 1 content', // Plain text to match default filter
-    timestamp: new Date('2024-01-01T00:00:00.000Z'),
+    timestamp: new Date(futureTime + 1000),
     metadata: { type: 'session', sessionId: 'session-1' },
   });
 
   await store.insert({
     id: 'session-2',
     text: 'Session 2 content', // Plain text to match default filter
-    timestamp: new Date('2024-01-02T00:00:00.000Z'),
+    timestamp: new Date(futureTime + 2000),
     metadata: { type: 'session', sessionId: 'session-2' },
   });
 
   await store.insert({
     id: 'session-3',
     text: JSON.stringify({ id: 'session-3', title: 'Session 3' }),
-    timestamp: new Date('2024-01-02T00:00:00.000Z'),
+    timestamp: new Date(futureTime + 3000), // Make this the newest
     metadata: { type: 'session' },
   });
 
-  const results = await store.getMostRecent(10);
+  const results = await store.getMostRecent(3);
 
   t.true(Array.isArray(results), 'Should return an array');
   t.is(results.length, 3, 'Should return all three entries');

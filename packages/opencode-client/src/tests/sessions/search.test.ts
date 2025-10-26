@@ -8,6 +8,7 @@ import sinon from 'sinon';
 import { search } from '../../actions/sessions/search.js';
 import { sessionStore } from '../../index.js';
 import { initializeStores } from '../../initializeStores.js';
+import { testUtils } from '../../test-setup.js';
 
 // Initialize stores before tests to use real DB-based data
 test.before(async () => {
@@ -17,22 +18,23 @@ test.before(async () => {
 test.beforeEach(async () => {
   // reset stubs
   sinon.restore();
-  // Clean test_agent collection before each test
-  try {
-    const { getMongoClient } = await import('@promethean-os/persistence');
-    const mongoClient = await getMongoClient();
-    const db = mongoClient.db('database');
-    const res = await db.collection('test_agent_sessionStore').deleteMany({});
-    console.log(`Cleared test_agent_sessionStore, deleted ${res.deletedCount} documents`);
-  } catch (e) {
-    console.log('Cleanup error:', e);
-  }
+  // Clean test data before each test
+  await testUtils.beforeEach();
+});
+
+test.afterEach.always(async () => {
+  await testUtils.afterEach();
 });
 
 // Helper to insert a session into the real store
 async function insertSession(id: string, title: string, description?: string) {
   const session = { id, title, description } as any;
-  await sessionStore.insert({ id, text: JSON.stringify(session), timestamp: Date.now() });
+  // Use future timestamp to avoid conflicts with old test data
+  await sessionStore.insert({
+    id,
+    text: JSON.stringify(session),
+    timestamp: Date.now() + 1000000000,
+  });
 }
 
 test.serial('search returns sessions matching query', async (t) => {
@@ -42,12 +44,12 @@ test.serial('search returns sessions matching query', async (t) => {
   await sessionStore.insert({
     id: 'session_1:messages',
     text: JSON.stringify([]),
-    timestamp: Date.now(),
+    timestamp: Date.now() + 1000000000,
   });
   await sessionStore.insert({
     id: 'session_2:messages',
     text: JSON.stringify([]),
-    timestamp: Date.now(),
+    timestamp: Date.now() + 1000000000,
   });
 
   const result = await search({ query: 'test' });
@@ -69,7 +71,7 @@ test.serial('search returns empty results when no sessions match', async (t) => 
   await db.collection('test_agent_sessionStore').insertOne({
     id: 'session_not_matching',
     text: JSON.stringify({ id: 'session_not_matching', title: 'Different' }),
-    timestamp: Date.now(),
+    timestamp: Date.now() + 1000000000,
   });
 
   const result = await search({ query: 'nomatch' });
@@ -87,7 +89,7 @@ test.serial('search respects sessionId filter', async (t) => {
   await sessionStore.insert({
     id: 'session_session_2:messages',
     text: JSON.stringify([]),
-    timestamp: Date.now(),
+    timestamp: Date.now() + 1000000000,
   });
 
   const result = await search({ query: 'test', sessionId: 'session_2' });
@@ -105,7 +107,7 @@ test.serial('search respects k limit parameter', async (t) => {
     await sessionStore.insert({
       id: `session_${i}:messages`,
       text: JSON.stringify([]),
-      timestamp: Date.now(),
+      timestamp: Date.now() + 1000000000,
     });
   }
 

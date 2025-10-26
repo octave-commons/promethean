@@ -9,6 +9,7 @@ import { list, type ListSessionsResult } from '../../actions/sessions/list.js';
 import { SessionUtils, sessionStore } from '../../index.js';
 import { initializeStores } from '../../initializeStores.js';
 import { cleanupClients } from '@promethean-os/persistence';
+import { testUtils } from '../../test-setup.js';
 
 // Mock SessionUtils - will be configured in beforeEach
 let createSessionInfoStub: sinon.SinonStub;
@@ -39,18 +40,12 @@ test.beforeEach(async () => {
       sessionAge: 0,
     }));
 
-  // Clear only the test session collection before each test
-  try {
-    const { getMongoClient } = await import('@promethean-os/persistence');
-    const mongoClient = await getMongoClient();
-    const db = mongoClient.db('database');
+  // Clean test data before each test
+  await testUtils.beforeEach();
+});
 
-    // Clear only the test_agent session collection
-    const result = await db.collection('test_agent_sessionStore').deleteMany({});
-    console.log(`Cleared test_agent_sessionStore, deleted ${result.deletedCount} documents`);
-  } catch (error) {
-    console.log('Cleanup error:', error);
-  }
+test.afterEach.always(async () => {
+  await testUtils.afterEach();
 });
 
 test.serial('list sessions successfully', async (t) => {
@@ -72,13 +67,13 @@ test.serial('list sessions successfully', async (t) => {
   await sessionStore.insert({
     id: `session_${timestamp}_1`,
     text: JSON.stringify(mockSessions[0]),
-    timestamp: new Date('2023-01-01T00:00:00.000Z').getTime(),
+    timestamp: Date.now() + 1000000000,
   });
 
   await sessionStore.insert({
     id: `session_${timestamp}_2`,
     text: JSON.stringify(mockSessions[1]),
-    timestamp: new Date('2023-01-02T00:00:00.000Z').getTime(),
+    timestamp: Date.now() + 1000000000,
   });
 
   const result = await list({ limit: 10, offset: 0 });
@@ -106,9 +101,9 @@ test.serial('list sessions with pagination', async (t) => {
   // Insert test data into real store
   for (let i = 0; i < mockSessions.length; i++) {
     await sessionStore.insert({
-      id: `session_${timestamp}_${i + 1}`,
+      id: `session_${i + 1}_${timestamp}`,
       text: JSON.stringify(mockSessions[i]),
-      timestamp: Date.now() - i * 1000 * 60 * 60,
+      timestamp: Date.now() + 1000000000 + i * 1000,
     });
   }
 
@@ -213,7 +208,7 @@ test.serial('list sessions calculates summary correctly', async (t) => {
     await sessionStore.insert({
       id: `session_${i + 1}_${timestamp}`,
       text: JSON.stringify(mockSessions[i]),
-      timestamp: Date.now(),
+      timestamp: Date.now() + 1000000000 + i * 1000,
     });
   }
 
@@ -286,7 +281,7 @@ test.serial('handles large limit and offset values', async (t) => {
     await sessionStore.insert({
       id: `session_${i + 1}_${timestamp}`,
       text: JSON.stringify(mockSessions[i]),
-      timestamp: Date.now() - i * 1000 * 60 * 60,
+      timestamp: Date.now() + 1000000000 + i * 1000,
     });
   }
 
