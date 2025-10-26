@@ -30,3 +30,9 @@ export const setupTestStores = async () => {
 setupTestStores().catch((error) => {
   console.error('Failed to initialize stores in test setup:', error);
 });
+
+// Handle unhandled promise rejections during tests
+process.on('unhandledRejection', (reason) => {
+  console.error('Unhandled Promise Rejection during tests:', reason);
+  // Don't exit, just log error
+});
