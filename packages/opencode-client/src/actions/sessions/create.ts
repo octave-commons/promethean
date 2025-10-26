@@ -27,7 +27,10 @@ export async function create({
       },
     })
     .catch((error: unknown) => {
+      console.error('Debug - raw error:', error, 'type:', typeof error);
+      console.error('Debug - error keys:', error ? Object.keys(error) : 'no keys');
       const errorMessage = error instanceof Error ? error.message : String(error);
+      console.error('Debug - errorMessage:', errorMessage, 'type:', typeof errorMessage);
       throw new Error(`Failed to create session on OpenCode server: ${errorMessage}`);
     });
 
