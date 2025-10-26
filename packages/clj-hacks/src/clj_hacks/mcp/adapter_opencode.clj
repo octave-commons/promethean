@@ -130,5 +130,8 @@
         ;; Build final Opencode config - always include MCP section if we have servers
         out        (cond-> merged-rest
                      (some? servers) (assoc "mcp" {"mcpServers" servers}))]
+    (println "DEBUG: out before JSON generation:" out)
+    (println "DEBUG: out keys:" (keys out))
+    (println "DEBUG: out key types:" (map type (keys out)))
     (core/ensure-parent! path)
     (spit path (json/generate-string out {:pretty true}))))

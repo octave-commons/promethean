@@ -63,7 +63,7 @@
     
     (opencode/write-full temp-path mcp-data)
     
-    (let [written (json/parse-string (slurp temp-path) true)]
+    (let [written (json/parse-string (slurp temp-path))]
       (t/is (= "https://opencode.ai/config.json" (get written "$schema")))
       (t/is (= {"test" {"models" {}}} (get written "provider")))
       (t/is (= {"mcpServers" {"test-server" {"command" "test-command"

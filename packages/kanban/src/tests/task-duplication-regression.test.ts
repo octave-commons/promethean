@@ -97,8 +97,8 @@ test('createTask allows same title in different columns', async (t) => {
   const board = makeBoard([]);
   const taskTitle = 'Multi-Column Task';
 
-  // Create task in todo column
-  const todoTask = await createTask(
+  // Create task in incoming column
+  const incomingTask = await createTask(
     board,
     'incoming',
     { title: taskTitle, content: 'Todo content' },
@@ -116,9 +116,9 @@ test('createTask allows same title in different columns', async (t) => {
   );
 
   // Should create different tasks for different columns
-  t.not(todoTask.uuid, readyTask.uuid, 'Different columns should have different tasks');
-  t.is(todoTask.title, readyTask.title, 'Titles should be the same');
-  t.is(todoTask.status, 'todo', 'First task should be in todo');
+  t.not(incomingTask.uuid, readyTask.uuid, 'Different columns should have different tasks');
+  t.is(incomingTask.title, readyTask.title, 'Titles should be the same');
+  t.is(incomingTask.status, 'incoming', 'First task should be in incoming');
   t.is(readyTask.status, 'ready', 'Second task should be in ready');
 });
 
@@ -218,8 +218,8 @@ test('board regeneration does not create duplicate tasks', async (t) => {
   t.is(fileCountBefore, fileCountAfter, 'Regeneration should not create new files');
 
   // Should still find the original task
-  const todoColumn = regeneratedBoard.columns.find((col: any) => col.name === 'todo');
-  const regeneratedTask = todoColumn?.tasks.find((task: any) => task.title === taskTitle);
+  const incomingColumn = regeneratedBoard.columns.find((col: any) => col.name === 'incoming');
+  const regeneratedTask = incomingColumn?.tasks.find((task: any) => task.title === taskTitle);
 
   t.truthy(regeneratedTask, 'Original task should still exist after regeneration');
   if (regeneratedTask) {
