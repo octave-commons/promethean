@@ -79,6 +79,7 @@
                   (if (or include-nil? (some? value))
                     (assoc acc key value)
                     acc))
+                acc))
             {}
             mapping)))
 

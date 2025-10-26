@@ -127,6 +127,7 @@ pnpm --filter @promethean-os/<pkg> exec node ./dist/index.ts
 * Store documentation in `docs/`
 * File changes auto-commit with LLM-generated messages
 * MUST ALWAYS use `pnpm --filter @promethean-os/<pkg> ...`
+* MUST NEVER use `cd ... && anything...`
 
   * No manual commits or backups needed
 * Documentation must be **Obsidian-friendly**
