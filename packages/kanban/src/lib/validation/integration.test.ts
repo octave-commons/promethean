@@ -56,7 +56,7 @@ const createP0SecurityTaskFile = async (
   const task: Task = {
     uuid: randomUUID(),
     title: 'Fix critical security vulnerability',
-    status: 'todo',
+    status: 'incoming',
     priority: 'P0',
     labels: ['security'],
     created_at: new Date().toISOString(),
@@ -128,7 +128,7 @@ Basic description without implementation plan.
     skipFileChecks: false,
   });
 
-  const result = await validator.validateStatusTransition(p0Task, 'todo', 'in_progress');
+  const result = await validator.validateStatusTransition(p0Task, 'incoming', 'in_progress');
 
   t.false(result.valid);
   t.true(result.errors.some((e) => e.includes('implementation plan')));
