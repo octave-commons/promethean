@@ -72,16 +72,17 @@
         mapping (if (string? (first (keys spec)))
                  opencode-server->edn
                  opencode-server->edn-kw)]
-    (reduce (fn [acc [json-key {:keys [key transform include-nil?]}]
-              (if (contains? spec json-key)
-                (let [raw (get spec json-key)
-                      value (if transform (transform raw) raw)]
-                  (if (or include-nil? (some? value))
-                    (assoc acc key value)
-                    acc))
-                acc))
-            {}
-            mapping)))
+    (reduce
+      (fn [acc [json-key {:keys [key transform include-nil?]}]
+        (if (contains? spec json-key)
+          (let [raw (get spec json-key)
+                value (if transform (transform raw) raw)]
+            (if (or include-nil? (some? value))
+              (assoc acc key value)
+              acc))
+          acc))
+      {}
+      mapping)))
 
 (defn opencode-server->json [spec]
   "Convert EDN server spec back to Opencode JSON format."
