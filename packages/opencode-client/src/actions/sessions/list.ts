@@ -94,7 +94,7 @@ function createEmptyResponse(limit: number, offset: number): ListSessionsResult 
       limit,
       offset,
       hasMore: false,
-      currentPage: Math.floor(offset / limit) + 1,
+      currentPage: limit > 0 ? Math.floor(offset / limit) + 1 : 1,
       totalPages: 0,
     },
     summary: {
@@ -196,8 +196,8 @@ function createListResponse(
       limit,
       offset,
       hasMore,
-      currentPage: Math.floor(offset / limit) + 1,
-      totalPages: Math.ceil(totalCount / limit),
+      currentPage: limit > 0 ? Math.floor(offset / limit) + 1 : 1,
+      totalPages: limit > 0 ? Math.ceil(totalCount / limit) : 0,
     },
     summary: createSessionSummary(sessions),
   };

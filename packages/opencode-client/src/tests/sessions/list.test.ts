@@ -296,3 +296,54 @@ test.serial('handles large limit and offset values', async (t) => {
     t.is(result.pagination.hasMore, false);
   }
 });
+
+test.serial('regression: handles zero limit without NaN in pagination', async (t) => {
+  const result = await list({ limit: 0, offset: 0 });
+
+  t.false('error' in result);
+  if (!('error' in result)) {
+    t.is(result.totalCount, 0);
+    t.is(result.sessions.length, 0);
+    t.is(result.pagination.limit, 0);
+    t.is(result.pagination.offset, 0);
+    t.is(result.pagination.hasMore, false);
+    t.is(result.pagination.currentPage, 1);
+    t.is(result.pagination.totalPages, 0);
+    t.false(Number.isNaN(result.pagination.currentPage));
+    t.false(Number.isNaN(result.pagination.totalPages));
+  }
+});
+
+test.serial('regression: handles negative limit without NaN in pagination', async (t) => {
+  const result = await list({ limit: -1, offset: 0 });
+
+  t.false('error' in result);
+  if (!('error' in result)) {
+    t.is(result.totalCount, 0);
+    t.is(result.sessions.length, 0);
+    t.is(result.pagination.limit, -1);
+    t.is(result.pagination.offset, 0);
+    t.is(result.pagination.hasMore, false);
+    t.is(result.pagination.currentPage, 1);
+    t.is(result.pagination.totalPages, 0);
+    t.false(Number.isNaN(result.pagination.currentPage));
+    t.false(Number.isNaN(result.pagination.totalPages));
+  }
+});
+
+test.serial('regression: handles zero offset with zero limit', async (t) => {
+  const result = await list({ limit: 0, offset: 10 });
+
+  t.false('error' in result);
+  if (!('error' in result)) {
+    t.is(result.totalCount, 0);
+    t.is(result.sessions.length, 0);
+    t.is(result.pagination.limit, 0);
+    t.is(result.pagination.offset, 10);
+    t.is(result.pagination.hasMore, false);
+    t.is(result.pagination.currentPage, 1);
+    t.is(result.pagination.totalPages, 0);
+    t.false(Number.isNaN(result.pagination.currentPage));
+    t.false(Number.isNaN(result.pagination.totalPages));
+  }
+});
