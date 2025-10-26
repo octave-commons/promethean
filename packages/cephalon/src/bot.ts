@@ -11,12 +11,12 @@ import {
 } from 'discord.js';
 import { DESKTOP_CAPTURE_CHANNEL_ID } from '@promethean-os/legacy/env.js';
 import { ContextStore } from '@promethean-os/persistence/contextStore.js';
-import { createAgentWorld } from '@promethean-os/agent-ecs/world.js';
-import { AgentBus } from '@promethean-os/agent-ecs/bus.js';
+import { createAgentWorld } from '@promethean-os/pantheon-ecs/world.js';
+import { AgentBus } from '@promethean-os/pantheon-ecs/bus.js';
 import { BrokerClient } from '@promethean-os/legacy/brokerClient.js';
 import { checkPermission } from '@promethean-os/legacy';
 import { cleanupChroma } from '@promethean-os/persistence/maintenance.js';
-import { pushVisionFrame } from '@promethean-os/agent-ecs';
+import { pushVisionFrame } from '@promethean-os/pantheon-ecs';
 
 import { type Interaction } from './interactions.js';
 import { DesktopCaptureManager } from './desktop/desktopLoop.js';

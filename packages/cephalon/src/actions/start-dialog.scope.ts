@@ -2,9 +2,9 @@ import { randomUUID } from 'crypto';
 
 import * as discord from 'discord.js';
 import { AudioPlayerStatus } from '@discordjs/voice';
-import { createAgentWorld } from '@promethean-os/agent-ecs/world.js';
-import { OrchestratorSystem } from '@promethean-os/agent-ecs/systems/orchestrator.js';
-import { enqueueUtterance } from '@promethean-os/agent-ecs/helpers/enqueueUtterance.js';
+import { createAgentWorld } from '@promethean-os/pantheon-ecs/world.js';
+import { OrchestratorSystem } from '@promethean-os/pantheon-ecs/systems/orchestrator.js';
+import { enqueueUtterance } from '@promethean-os/pantheon-ecs/helpers/enqueueUtterance.js';
 import { AGENT_NAME } from '@promethean-os/legacy/env.js';
 import { sleep } from '@promethean-os/utils';
 

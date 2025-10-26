@@ -1,4 +1,4 @@
-import type { AgentBus } from "@promethean-os/agent-ecs/bus.js";
+import type { AgentBus } from "@promethean-os/pantheon-ecs/bus.js";
 
 import type { Bot } from "../bot.js";
 import type { EnsoChatAgent } from "../enso/chat-agent.js";

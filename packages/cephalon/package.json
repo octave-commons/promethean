@@ -30,7 +30,7 @@
     "@chroma-core/ollama": "^0.1.7",
     "@discordjs/opus": "^0.10.0",
     "@discordjs/voice": "^0.18.0",
-    "@promethean-os/agent-ecs": "workspace:*",
+    "@promethean-os/pantheon-ecs": "workspace:*",
     "@promethean-os/embedding": "workspace:*",
     "@promethean-os/level-cache": "workspace:*",
     "@promethean-os/legacy": "workspace:*",

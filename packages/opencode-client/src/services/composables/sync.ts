@@ -13,6 +13,7 @@ export type SyncConfig = {
 export type SyncManager = {
   readonly performFullSync: () => Promise<void>;
   readonly indexNewData: () => Promise<void>;
+  readonly scanHistory: () => Promise<void>;
 };
 
 export const createSyncManager = (
@@ -130,8 +131,59 @@ export const createSyncManager = (
     }
   };
 
+  const scanHistory = async (): Promise<void> => {
+    try {
+      logger('sync_history_scan', '🔍 Starting passive history scan for existing sessions');
+
+      const sessionsResult = await client.session.list();
+      const sessions = sessionsResult.data ?? [];
+
+      let totalMessagesProcessed = 0;
+      let totalSessionsScanned = 0;
+
+      for (const session of sessions) {
+        const messagesResult = await client.session.messages({
+          path: { id: session.id },
+        });
+        const messages = messagesResult.data ?? [];
+
+        if (messages.length > 0) {
+          // Process all messages from this session to ensure historical data is captured
+          for (const message of messages) {
+            await indexingOps.indexMessage(message, session.id);
+            totalMessagesProcessed++;
+            // Small delay between messages to prevent connection overload
+            await new Promise((resolve) => setTimeout(resolve, 50));
+          }
+          totalSessionsScanned++;
+        }
+      }
+
+      logger(
+        'sync_history_complete',
+        `✅ History scan completed: ${totalSessionsScanned} sessions, ${totalMessagesProcessed} messages processed`,
+      );
+
+      // Update state to track when history was last scanned
+      const state = await stateManager.loadState();
+      await stateManager.saveState({
+        ...state,
+        lastFullSyncTimestamp: Date.now(),
+        consecutiveErrors: 0,
+      });
+    } catch (error) {
+      console.error('❌ Error during history scan:', error);
+      const state = await stateManager.loadState();
+      await stateManager.saveState({
+        ...state,
+        consecutiveErrors: (state.consecutiveErrors ?? 0) + 1,
+      });
+    }
+  };
+
   return {
     performFullSync,
     indexNewData,
+    scanHistory,
   };
 };

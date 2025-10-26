@@ -1,5 +1,5 @@
 import type { Message, TextChannel } from "discord.js";
-import { pushVisionFrame } from "@promethean-os/agent-ecs";
+import { pushVisionFrame } from "@promethean-os/pantheon-ecs";
 
 import type { ForwardAttachmentsScope } from "./forward-attachments.scope.js";
 

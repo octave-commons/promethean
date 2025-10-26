@@ -42,6 +42,7 @@ export type IndexerService = {
   readonly start: () => Promise<void>;
   readonly stop: () => Promise<void>;
   readonly fullSync: () => Promise<void>;
+  readonly scanHistory: () => Promise<void>;
   readonly cleanup: () => Promise<void>;
   readonly getState: () => Promise<IndexerState & { readonly isRunning: boolean }>;
   readonly getStats: () => EventProcessingStats;
@@ -228,6 +229,11 @@ export const createIndexerService = (options: IndexerOptions = {}): IndexerServi
       console.log('[Indexer] Starting full sync');
       await components.syncManager.performFullSync();
       console.log('[Indexer] Full sync completed');
+    },
+    scanHistory: async (): Promise<void> => {
+      console.log('[Indexer] Starting history scan');
+      await components.syncManager.scanHistory();
+      console.log('[Indexer] History scan completed');
     },
     cleanup: async (): Promise<void> => {
       await stopIndexer(components, state);

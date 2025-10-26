@@ -7,8 +7,8 @@
     "paths": {
       "@promethean/persistence": ["../persistence/dist/index"],
       "@promethean/persistence/*": ["../persistence/dist/*"],
-      "@promethean/agent-ecs": ["../agent-ecs/dist/index"],
-      "@promethean/agent-ecs/*": ["../agent-ecs/dist/*"],
+      "@promethean/pantheon-ecs": ["../pantheon-ecs/dist/index"],
+      "@promethean/pantheon-ecs/*": ["../pantheon-ecs/dist/*"],
       "@promethean/llm": ["../llm/dist/index"],
       "@promethean/llm/*": ["../llm/dist/*"],
       "@promethean/legacy/*": ["../legacy/*"],
@@ -19,5 +19,5 @@
   },
   "include": ["src/**/*"],
   "exclude": ["dist"],
-  "references": [{ "path": "../security" }, { "path": "../enso-protocol" }]
+  "references": [{ "path": "../security" }, { "path": "../pantheon-ecs" }]
 }

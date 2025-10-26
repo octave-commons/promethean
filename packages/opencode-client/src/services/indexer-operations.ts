@@ -2,7 +2,7 @@ import type { Session, Event } from '@opencode-ai/sdk';
 
 import { sessionStoreAccess, eventStoreAccess, messageStoreAccess } from './unified-store.js';
 import type { Message } from './indexer-types.js';
-import { eventToMarkdown, sessionToMarkdown, messageToMarkdown } from './indexer-formatters.js';
+import { eventToMarkdown, sessionToMarkdown } from './indexer-formatters.js';
 
 type EnhancedEvent = Event & {
   readonly properties?: {
@@ -36,11 +36,16 @@ const indexSession = async (session: Session): Promise<void> => {
 };
 
 const indexMessage = async (message: Message, sessionId: string): Promise<void> => {
-  const markdown = messageToMarkdown(message);
+  // Store the complete message as JSON (new format)
+  const messageText = JSON.stringify({
+    info: message.info,
+    parts: message.parts,
+  });
 
   try {
     await messageStoreAccess.insert({
-      text: markdown,
+      id: message.info?.id,
+      text: messageText,
       timestamp: message.info?.time?.created ?? Date.now(),
       metadata: {
         type: 'message',
