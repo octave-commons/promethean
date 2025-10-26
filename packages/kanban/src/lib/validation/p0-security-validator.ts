@@ -222,16 +222,24 @@ export class P0SecurityValidator {
 
       // Check for implementation plan indicators
       const planIndicators = [
-        /implementation plan/i,
-        /implementation details/i,
-        /technical approach/i,
-        /solution design/i,
-        /## implementation/i,
-        /### implementation/i,
-        /## technical/i,
-        /### technical/i,
-        /## approach/i,
-        /### approach/i,
+        /## implementation plan\b/i,
+        /### implementation plan\b/i,
+        /# implementation plan\b/i,
+        /## implementation details\b/i,
+        /### implementation details\b/i,
+        /# implementation details\b/i,
+        /## technical approach\b/i,
+        /### technical approach\b/i,
+        /# technical approach\b/i,
+        /## solution design\b/i,
+        /### solution design\b/i,
+        /# solution design\b/i,
+        /## implementation\b/i,
+        /### implementation\b/i,
+        /## technical\b/i,
+        /### technical\b/i,
+        /## approach\b/i,
+        /### approach\b/i,
       ];
 
       return planIndicators.some((indicator) => indicator.test(content));

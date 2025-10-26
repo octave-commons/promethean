@@ -39,19 +39,29 @@ Basic description without implementation plan.
 
   console.log('Task file path:', taskFilePath);
   console.log('Task content:', content);
-  console.log(
-    'Has implementation plan indicators?',
-    /implementation plan/i.test(content) ||
-      /implementation details/i.test(content) ||
-      /technical approach/i.test(content) ||
-      /solution design/i.test(content) ||
-      /## implementation/i.test(content) ||
-      /### implementation/i.test(content) ||
-      /## technical/i.test(content) ||
-      /### technical/i.test(content) ||
-      /## approach/i.test(content) ||
-      /### approach/i.test(content),
-  );
+  const indicators = [
+    { name: 'implementation plan', regex: /implementation plan/i },
+    { name: 'implementation details', regex: /implementation details/i },
+    { name: 'technical approach', regex: /technical approach/i },
+    { name: 'solution design', regex: /solution design/i },
+    { name: '## implementation', regex: /## implementation/i },
+    { name: '### implementation', regex: /### implementation/i },
+    { name: '## technical', regex: /## technical/i },
+    { name: '### technical', regex: /### technical/i },
+    { name: '## approach', regex: /## approach/i },
+    { name: '### approach', regex: /### approach/i },
+  ];
+
+  console.log('Implementation plan indicator matches:');
+  indicators.forEach(({ name, regex }) => {
+    const matches = regex.test(content);
+    if (matches) {
+      console.log(`  ✓ ${name}`);
+    }
+  });
+
+  const hasAny = indicators.some(({ regex }) => regex.test(content));
+  console.log('Has implementation plan indicators?', hasAny);
 
   const validator = createP0SecurityValidator({
     repoRoot: tempDir,
