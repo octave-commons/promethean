@@ -101,25 +101,25 @@
 
 (defn read-full [path]
   "Read Opencode JSON configuration and convert to canonical MCP format."
-  (let [m       (json/parse-string (slurp path) true)
-        mcp     (get m :mcp)
-        servers (when mcp (get mcp :mcpServers))
+  (let [m       (json/parse-string (slurp path))
+        mcp     (get m "mcp")
+        servers (get mcp "mcpServers")
         mcp-data {:mcp-servers
                   (when servers
                     (into (sorted-map)
                           (for [[nm spec] servers]
                             [(keyword nm) (parse-opencode-server spec)])))}
-        ;; Extract non-MCP sections as rest data
-        rest    (dissoc m :mcp)]
+        ;; Extract non-MCP sections as rest data (keep as strings)
+        rest    (dissoc m "mcp")]
     {:mcp mcp-data :rest rest}))
 
 (defn write-full [path {:keys [mcp rest]}]
   "Write canonical MCP format back to Opencode JSON configuration."
   (let [existing (if (fs/exists? path)
-                   (json/parse-string (slurp path) true)
+                   (json/parse-string (slurp path))
                    {})
         ;; Merge existing non-MCP data with new rest data
-        merged-rest (merge (dissoc existing :mcp) rest)
+        merged-rest (merge (dissoc existing "mcp") rest)
         mcp'       (core/expand-servers-home mcp)
         servers    (when (:mcp-servers mcp')
                       (into (sorted-map)
@@ -129,6 +129,6 @@
                               [(name k) json])))
         ;; Build final Opencode config - always include MCP section if we have servers
         out        (cond-> merged-rest
-                     (some? servers) (assoc :mcp {:mcpServers servers}))]
+                     (some? servers) (assoc "mcp" {"mcpServers" servers}))]
     (core/ensure-parent! path)
     (spit path (json/generate-string out {:pretty true}))))

@@ -8,6 +8,7 @@
  */
 
 import { execSync } from 'node:child_process';
+import path from 'node:path';
 
 export interface TaskCommitEntry {
   sha: string;
@@ -47,46 +48,19 @@ export class TaskGitTracker {
   }
 
   /**
-   * Gets commit information for a specific SHA
-   */
-  getCommitInfo(sha: string): Omit<TaskCommitEntry, 'type'> | null {
-    try {
-      const output = execSync(`git show --format='%H|%s|%an|%ad' --date=iso ${sha}`, {
-        cwd: this.repoRoot,
-        encoding: 'utf8',
-      }).trim();
-
-      const parts = output.split('|');
-      if (parts.length < 4) {
-        return null;
-      }
-
-      const commitSha = parts[0];
-      const message = parts[1];
-      const author = parts[2];
-      const timestamp = parts[3];
-
-      if (!commitSha || !message || !author || !timestamp) {
-        return null;
-      }
-
-      return {
-        sha: commitSha.trim(),
-        message: message.trim(),
-        author: author.trim(),
-        timestamp: timestamp.trim(),
-      };
-    } catch (error) {
-      console.warn(`Warning: Could not get commit info for ${sha}:`, error);
-      return null;
-    }
-  }
-
-  /**
    * Gets the last commit that modified a specific file
    */
   getLastCommitForFile(filePath: string): TaskCommitEntry | null {
     try {
+      // Check if file is outside repository - if so, return null gracefully
+      const resolvedPath = path.resolve(filePath);
+      const repoRootPath = path.resolve(this.repoRoot);
+
+      if (!resolvedPath.startsWith(repoRootPath)) {
+        // File is outside the git repository
+        return null;
+      }
+
       const output = execSync(`git log --format='%H|%s|%an|%ad' --date=iso -n 1 -- "${filePath}"`, {
         cwd: this.repoRoot,
         encoding: 'utf8',
