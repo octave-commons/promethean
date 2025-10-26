@@ -3,11 +3,11 @@
             [cheshire.core :as json]
             [clj-hacks.mcp.adapter-opencode :as opencode]
             [clj-hacks.mcp.core :as core]
-            [clojure.test :as t]
-            [clojure.java.io :as io]))
+            [clojure.test :as t]))
 
 (t/deftest test-read-full
   (let [temp-file (fs/create-temp-file {:suffix ".json"})
+        temp-path (str temp-file)]
         opencode-config {"$schema" "https://opencode.ai/config.json"
                         "provider" {"ollama" {"models" {"qwen3:8b" {"name" "Qwen3 8B"}}}}
                         "mcp" {"mcpServers"
@@ -17,10 +17,10 @@
                                 "clj-kondo" {"type" "local"
                                             "command" ["npx" "clj-kondo-mcp"]
                                             "enabled" true}}}
-                        "permission" {"bash" {}}}]
-    (spit temp-file (json/generate-string opencode-config {:pretty true}))
+"permission" {"bash" {}}}]
+    (spit temp-path (json/generate-string opencode-config {:pretty true}))
     
-    (let [result (opencode/read-full (str temp-file))]
+    (let [result (opencode/read-full temp-path)]
       (t/is (= {:mcp {:mcp-servers {:clj {:type "local"
                                           :command ["clojure" "-X:mcp-shadow-dual"]
                                           :enabled? true}
@@ -29,11 +29,12 @@
                                                 :enabled? true}}}
                 :rest {"$schema" "https://opencode.ai/config.json"
                        "provider" {"ollama" {"models" {"qwen3:8b" {"name" "Qwen3 8B"}}}}
-                       "permission" {"bash" {}}})
+                       "permission" {"bash" {}}}}
               result)))))
 
 (t/deftest test-write-full
   (let [temp-file (fs/create-temp-file {:suffix ".json"})
+        temp-path (str temp-file)]
         mcp-data {:mcp {:mcp-servers {:test-server {:command "test-command"
                                                      :args ["arg1" "arg2"]
                                                      :enabled? true
@@ -41,9 +42,9 @@
                   :rest {"$schema" "https://opencode.ai/config.json"
                          "provider" {"test" {"models" {}}}}}]
     
-    (opencode/write-full (str temp-file) mcp-data)
+    (opencode/write-full temp-path mcp-data)
     
-    (let [written (json/parse-string (slurp temp-file) true)]
+    (let [written (json/parse-string (slurp temp-path) true)]
       (t/is (= "https://opencode.ai/config.json" (get written "$schema")))
       (t/is (= {"test" {"models" {}}} (get written "provider")))
       (t/is (= {"mcpServers" {"test-server" {"command" "test-command"
@@ -54,6 +55,7 @@
 
 (t/deftest test-round-trip
   (let [temp-file (fs/create-temp-file {:suffix ".json"})
+        temp-path (str temp-file)]
         original-mcp {:mcp {:mcp-servers {:server1 {:command "cmd1"
                                                     :args ["--flag"]
                                                     :enabled? true
@@ -64,15 +66,15 @@
                       :rest {"custom" {"key" "value"}}}]
     
     ;; Write original data
-    (opencode/write-full (str temp-file) original-mcp)
+    (opencode/write-full temp-path original-mcp)
     
     ;; Read it back
-    (let [read-back (opencode/read-full (str temp-file))]
+    (let [read-back (opencode/read-full temp-path)]
       ;; Write it again
-      (opencode/write-full (str temp-file) read-back)
+      (opencode/write-full temp-path read-back)
       
       ;; Read final result
-      (let [final (opencode/read-full (str temp-file))]
+      (let [final (opencode/read-full temp-path)]
         (t/is (= original-mcp final))))))
 
 (t/deftest test-parse-opencode-server

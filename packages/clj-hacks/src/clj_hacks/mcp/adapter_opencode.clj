@@ -49,7 +49,7 @@
    :auto-accept  {:key "autoAccept" :transform ->vector}
    :disabled?    {:key "disabled" :transform identity}})
 
-(defn- parse-opencode-server [spec]
+(defn parse-opencode-server [spec]
   "Parse a single Opencode MCP server configuration."
   (let [spec (or spec {})]
     (reduce (fn [acc [json-key {:keys [key transform include-nil?]}]]
@@ -63,7 +63,7 @@
             {}
             opencode-server->edn)))
 
-(defn- opencode-server->json [spec]
+(defn opencode-server->json [spec]
   "Convert EDN server spec back to Opencode JSON format."
   (let [spec (or spec {})
         spec (cond-> spec
@@ -107,8 +107,8 @@
                                   :let [json (opencode-server->json spec)]
                                   :when json]
                               [(name k) json])))
-        ;; Build final Opencode config
+        ;; Build final Opencode config - always include MCP section if we have servers
         out        (cond-> merged-rest
-                     servers (assoc "mcp" {"mcpServers" servers}))]
+                     (some? servers) (assoc "mcp" {"mcpServers" servers}))]
     (core/ensure-parent! path)
     (spit path (json/generate-string out {:pretty true}))))
