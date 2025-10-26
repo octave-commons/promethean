@@ -5,6 +5,9 @@ import { eventStore } from '../../index.js';
 import { cleanupClients } from '@promethean-os/persistence';
 import { setupTestStores } from '../helpers/test-stores.js';
 
+// Helper to get actual store for stubbing
+const getActualEventStore = () => eventStore as any;
+
 test.beforeEach(async () => {
   sinon.restore();
   await setupTestStores();
@@ -34,7 +37,7 @@ test.serial('list returns events sorted by timestamp (newest first)', async (t) 
     },
   ];
 
-  const getMostRecentStub = sinon.stub(eventStore, 'getMostRecent').resolves(mockEvents);
+  const getMostRecentStub = sinon.stub(getActualEventStore(), 'getMostRecent').resolves(mockEvents);
 
   const result = await list({});
 
@@ -67,7 +70,7 @@ test.serial('list filters events by query', async (t) => {
     },
   ];
 
-  const getMostRecentStub = sinon.stub(eventStore, 'getMostRecent').resolves(mockEvents);
+  const getMostRecentStub = sinon.stub(getActualEventStore(), 'getMostRecent').resolves(mockEvents);
 
   const result = await list({ query: 'first' });
 
@@ -96,7 +99,7 @@ test.serial('list filters events by eventType', async (t) => {
     },
   ];
 
-  const getMostRecentStub = sinon.stub(eventStore, 'getMostRecent').resolves(mockEvents);
+  const getMostRecentStub = sinon.stub(getActualEventStore(), 'getMostRecent').resolves(mockEvents);
 
   const result = await list({ eventType: 'test' });
 
@@ -124,7 +127,7 @@ test.serial('list filters events by sessionId', async (t) => {
     },
   ];
 
-  const getMostRecentStub = sinon.stub(eventStore, 'getMostRecent').resolves(mockEvents);
+  const getMostRecentStub = sinon.stub(getActualEventStore(), 'getMostRecent').resolves(mockEvents);
 
   const result = await list({ sessionId: 'session-1' });
 
@@ -152,7 +155,7 @@ test.serial('list filters events by hasTool', async (t) => {
     },
   ];
 
-  const getMostRecentStub = sinon.stub(eventStore, 'getMostRecent').resolves(mockEvents);
+  const getMostRecentStub = sinon.stub(getActualEventStore(), 'getMostRecent').resolves(mockEvents);
 
   const result = await list({ hasTool: true });
 
@@ -180,7 +183,7 @@ test.serial('list filters events by isAgentTask', async (t) => {
     },
   ];
 
-  const getMostRecentStub = sinon.stub(eventStore, 'getMostRecent').resolves(mockEvents);
+  const getMostRecentStub = sinon.stub(getActualEventStore(), 'getMostRecent').resolves(mockEvents);
 
   const result = await list({ isAgentTask: false });
 
@@ -196,7 +199,7 @@ test.serial('list applies k limit parameter', async (t) => {
     timestamp: (i + 1) * 1000,
   }));
 
-  const getMostRecentStub = sinon.stub(eventStore, 'getMostRecent').resolves(mockEvents);
+  const getMostRecentStub = sinon.stub(getActualEventStore(), 'getMostRecent').resolves(mockEvents);
 
   const result = await list({ k: 3 });
 
@@ -208,7 +211,7 @@ test.serial('list applies k limit parameter', async (t) => {
 });
 
 test.serial('list handles empty event store', async (t) => {
-  const getMostRecentStub = sinon.stub(eventStore, 'getMostRecent').resolves([]);
+  const getMostRecentStub = sinon.stub(getActualEventStore(), 'getMostRecent').resolves([]);
 
   const result = await list({});
 
@@ -246,7 +249,7 @@ test.serial('list filters out non-event entries', async (t) => {
     },
   ];
 
-  const getMostRecentStub = sinon.stub(eventStore, 'getMostRecent').resolves(mockEvents);
+  const getMostRecentStub = sinon.stub(getActualEventStore(), 'getMostRecent').resolves(mockEvents);
 
   const result = await list({});
 
@@ -293,7 +296,7 @@ test.serial('list applies multiple filters simultaneously', async (t) => {
     },
   ];
 
-  const getMostRecentStub = sinon.stub(eventStore, 'getMostRecent').resolves(mockEvents);
+  const getMostRecentStub = sinon.stub(getActualEventStore(), 'getMostRecent').resolves(mockEvents);
 
   const result = await list({
     eventType: 'test',

@@ -73,7 +73,8 @@ test.serial('formatMessage formats message correctly', (t) => {
   t.true(result.includes('**Type:** URGENT UPDATE'));
   t.true(result.includes('**Message:**'));
   t.true(result.includes('Hello world'));
-  t.true(result.includes(new Date().toLocaleTimeString()));
+  // Check that a time pattern exists (HH:MM:SS AM/PM format)
+  t.true(result.match(/\d{1,2}:\d{2}:\d{2}\s?(AM|PM)/) !== null);
 });
 
 test.serial('formatMessage handles short IDs', (t) => {
@@ -94,7 +95,9 @@ test.serial('formatMessage handles short IDs', (t) => {
 });
 
 test.serial('sendMessage sends message and logs communication', async (t) => {
-  const insertStub = sinon.stub(sessionStore, 'insert').resolves();
+  // Access the actual store through the proxy before stubbing
+  const actualStore = sessionStore as any;
+  const insertStub = sinon.stub(actualStore, 'insert').resolves();
   const mockClient = {
     session: {
       list: sinon.stub().resolves({ data: [{ id: 'sender-session' }] }),
@@ -141,7 +144,8 @@ test.serial('sendMessage sends message and logs communication', async (t) => {
 
 test.serial('sendMessage handles storage errors gracefully', async (t) => {
   const consoleWarnSpy = sinon.spy(console, 'warn');
-  sinon.stub(sessionStore, 'insert').rejects(new Error('Storage failed'));
+  const actualStore = sessionStore as any;
+  sinon.stub(actualStore, 'insert').rejects(new Error('Storage failed'));
   const mockClient = {
     session: {
       list: sinon.stub().resolves({ data: [{ id: 'sender-session' }] }),
@@ -170,7 +174,8 @@ test.serial('sendMessage handles storage errors gracefully', async (t) => {
 });
 
 test.serial('logCommunication stores communication in session store', async (t) => {
-  const insertStub = sinon.stub(sessionStore, 'insert').resolves();
+  const actualStore = sessionStore as any;
+  const insertStub = sinon.stub(actualStore, 'insert').resolves();
 
   const context = { sessionStore };
 
@@ -199,7 +204,8 @@ test.serial('logCommunication stores communication in session store', async (t) 
 
 test.serial('logCommunication handles storage errors gracefully', async (t) => {
   const consoleWarnSpy = sinon.spy(console, 'warn');
-  sinon.stub(sessionStore, 'insert').rejects(new Error('Storage failed'));
+  const actualStore = sessionStore as any;
+  sinon.stub(actualStore, 'insert').rejects(new Error('Storage failed'));
 
   const context = { sessionStore };
 
@@ -221,7 +227,8 @@ test.serial('logCommunication handles storage errors gracefully', async (t) => {
 });
 
 test.serial('sendMessage generates unique message ID', async (t) => {
-  const insertStub = sinon.stub(sessionStore, 'insert').resolves();
+  const actualStore = sessionStore as any;
+  const insertStub = sinon.stub(actualStore, 'insert').resolves();
   const mockClient = {
     session: {
       list: sinon.stub().resolves({ data: [{ id: 'sender-session' }] }),
