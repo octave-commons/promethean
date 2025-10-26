@@ -7,12 +7,15 @@ import { setupTestStores } from '../helpers/test-stores.js';
 
 // Helper to get actual store for stubbing
 const getActualEventStore = () => {
-  // Access the underlying collection through contextStore
+  // Access underlying collection through contextStore
   const { contextStore } = require('../../stores.js');
+  console.log('ContextStore collections:', Object.keys((contextStore as any).collections || {}));
   const collection = (contextStore as any).collections?.get('eventStore');
   if (!collection) {
     throw new Error('Event store collection not found in context store');
   }
+  console.log('Collection methods:', Object.getOwnPropertyNames(Object.getPrototypeOf(collection)));
+  console.log('Has getMostRecent:', typeof collection.getMostRecent);
   return collection as any;
 };
 
