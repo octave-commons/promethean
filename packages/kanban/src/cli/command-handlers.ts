@@ -39,7 +39,7 @@ import { KanbanDevServer } from '../lib/dev-server.js';
 import { TransitionRulesEngine, createTransitionRulesEngine } from '../lib/transition-rules.js';
 import { TaskGitTracker } from '../lib/task-git-tracker.js';
 import { createWIPLimitEnforcement } from '../lib/wip-enforcement.js';
-import { readFile } from 'node:fs/promises';
+import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { readdir } from 'node:fs/promises';
@@ -1899,6 +1899,104 @@ const handleEpicStatus: CommandHandler = (args, context) =>
     return { epic, subtasks };
   });
 
+const handleInit: CommandHandler = async (args, _context) => {
+  const configPath =
+    args.find((arg) => arg.startsWith('--config='))?.slice(9) || 'promethean.kanban.json';
+  const force = args.includes('--force') || args.includes('-f');
+
+  // Check if config already exists
+  try {
+    await readFile(configPath, 'utf8');
+    if (!force) {
+      console.log(`❌ Configuration file "${configPath}" already exists.`);
+      console.log('   Use --force to overwrite existing configuration.');
+      return { created: false, reason: 'exists' };
+    }
+  } catch {
+    // File doesn't exist, which is what we want
+  }
+
+  // Simple starter configuration
+  const simpleConfig = {
+    _comment: 'Promethean Kanban Configuration - Simple starter config',
+    _description: 'Basic kanban configuration for new projects. Customize as needed.',
+    _usage: "Use 'kanban regenerate' to create the board from tasks.",
+
+    tasksDir: 'docs/agile/tasks',
+    indexFile: '',
+    boardFile: 'docs/agile/boards/generated.md',
+    cachePath: 'docs/agile/boards/.cache',
+    exts: ['.md'],
+
+    requiredFields: ['title', 'status', 'priority'],
+
+    statusValues: ['incoming', 'ready', 'todo', 'in_progress', 'review', 'done'],
+
+    priorityValues: ['P0', 'P1', 'P2', 'P3'],
+
+    wipLimits: {
+      incoming: 999,
+      ready: 10,
+      todo: 5,
+      in_progress: 3,
+      review: 3,
+      done: 999,
+    },
+
+    _starter_tasks: [
+      {
+        title: 'Set up development environment',
+        status: 'todo',
+        priority: 'P0',
+        content: 'Install dependencies, configure IDE, set up git hooks',
+      },
+      {
+        title: 'Create project documentation',
+        status: 'incoming',
+        priority: 'P1',
+        content: 'Add README, setup instructions, and project overview',
+      },
+      {
+        title: 'Implement core feature',
+        status: 'incoming',
+        priority: 'P2',
+        content: 'Build the main functionality for the project',
+      },
+    ],
+  };
+
+  try {
+    // Ensure directory exists
+    const configDir = path.dirname(configPath);
+    await mkdir(configDir, { recursive: true });
+
+    // Write configuration file
+    await writeFile(configPath, JSON.stringify(simpleConfig, null, 2), 'utf8');
+
+    console.log(`✅ Created kanban configuration: ${configPath}`);
+    console.log('');
+    console.log('📋 Next steps:');
+    console.log(`   1. Create tasks directory: mkdir -p ${simpleConfig.tasksDir}`);
+    console.log(`   2. Add some task files to ${simpleConfig.tasksDir}/`);
+    console.log(`   3. Generate board: kanban regenerate`);
+    console.log('');
+    console.log('💡 Example task file format:');
+    console.log('---');
+    console.log('title: "My Task"');
+    console.log('status: "todo"');
+    console.log('priority: "P1"');
+    console.log('---');
+    console.log('');
+    console.log('Task description goes here...');
+
+    return { created: true, path: configPath };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error(`❌ Failed to create configuration: ${message}`);
+    return { created: false, reason: message };
+  }
+};
+
 /**
  * Handle heal command for kanban board healing operations
  */
@@ -2148,6 +2246,8 @@ export const COMMAND_HANDLERS: Readonly<Record<string, CommandHandler>> = Object
   'remove-task': handleRemoveTask,
   'list-epics': handleListEpics,
   'epic-status': handleEpicStatus,
+  // Setup commands
+  init: handleInit,
 });
 
 export const AVAILABLE_COMMANDS: ReadonlyArray<string> = Object.freeze(

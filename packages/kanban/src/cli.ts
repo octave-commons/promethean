@@ -94,6 +94,8 @@ const HELP_TEXT =
   `Subcommands: ${[...COMMAND_LIST, 'process_sync', 'doccheck'].join(', ')}\n\n` +
   `Options:\n` +
   `  --json   - Output in JSONL format (default: markdown)\n\n` +
+  `Setup:\n` +
+  `  init     - Initialize a new kanban project with simple config\n\n` +
   `Core Operations:\n` +
   `  push     - Push board state to task files (board → files)\n` +
   `  pull     - Pull task file state to board (files → board)\n` +

@@ -32,6 +32,23 @@
    "autoAccept"  {:key :auto-accept :transform ->vector}
    "disabled"    {:key :disabled? :transform identity}})
 
+(def ^:private opencode-server->edn-kw
+  {:type     {:key :type :transform identity}
+   :command  {:key :command :transform identity :include-nil? true}
+   :enabled  {:key :enabled? :transform identity}
+   :args     {:key :args :transform ->vector}
+   :cwd      {:key :cwd :transform identity}
+   :env      {:key :env :transform ->map}
+   :timeout  {:key :timeout :transform identity}
+   :url      {:key :url :transform identity}
+   :version  {:key :version :transform identity}
+   :metadata {:key :metadata :transform ->map}
+   :capabilities {:key :capabilities :transform ->map}
+   :autoConnect {:key :auto-connect? :transform identity}
+   :autoApprove {:key :auto-approve :transform ->vector}
+   :autoAccept  {:key :auto-accept :transform ->vector}
+   :disabled    {:key :disabled? :transform identity}})
+
 (def ^:private edn->opencode-server
   {:type         {:key "type" :transform identity}
    :command      {:key "command" :transform identity :include-nil? true}
@@ -51,8 +68,11 @@
 
 (defn parse-opencode-server [spec]
   "Parse a single Opencode MCP server configuration."
-  (let [spec (or spec {})]
-    (reduce (fn [acc [json-key {:keys [key transform include-nil?]}]]
+  (let [spec (or spec {})
+        mapping (if (string? (first (keys spec)))
+                 opencode-server->edn
+                 opencode-server->edn-kw)]
+    (reduce (fn [acc [json-key {:keys [key transform include-nil?]}]
               (if (contains? spec json-key)
                 (let [raw (get spec json-key)
                       value (if transform (transform raw) raw)]
@@ -61,7 +81,7 @@
                     acc))
                 acc))
             {}
-            opencode-server->edn)))
+            mapping)))
 
 (defn opencode-server->json [spec]
   "Convert EDN server spec back to Opencode JSON format."
@@ -82,15 +102,15 @@
 (defn read-full [path]
   "Read Opencode JSON configuration and convert to canonical MCP format."
   (let [m       (json/parse-string (slurp path) true)
-        mcp     (get m "mcp")
-        servers (when mcp (get mcp "mcpServers"))
+        mcp     (get m :mcp)
+        servers (when mcp (get mcp :mcpServers))
         mcp-data {:mcp-servers
                   (when servers
                     (into (sorted-map)
                           (for [[nm spec] servers]
                             [(keyword nm) (parse-opencode-server spec)])))}
         ;; Extract non-MCP sections as rest data
-        rest    (dissoc m "mcp")]
+        rest    (dissoc m :mcp)]
     {:mcp mcp-data :rest rest}))
 
 (defn write-full [path {:keys [mcp rest]}]
