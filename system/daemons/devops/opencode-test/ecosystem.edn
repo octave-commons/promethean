@@ -1,4 +1,3 @@
-
 {:apps [{:name "opencode-test"
          :script "opencode"
          :args ["serve" "--port" 3000]
@@ -11,5 +10,5 @@
          :autorestart true
          :restart_delay 10000
          :kill_timeout 10000
-         :env {:PM2_PROCESS_NAME "opencode"}
+         :env {:PM2_PROCESS_NAME "opencode-test"}
          :cwd "./test-data/test-git"}]}
