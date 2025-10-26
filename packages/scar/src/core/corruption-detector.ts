@@ -284,7 +284,11 @@ export class CorruptionDetector {
     }
 
     // Space and number in extension
-    if (/^(.+)\s+\d+\.(md|txt|json|yaml|yml)$/.test(filename)) {
+    const extensionMatch = filename.match(/\.(md|txt|json|yaml|yml)$/);
+    if (
+      extensionMatch !== null &&
+      /\s+\d+$/.test(filename.slice(0, -extensionMatch[0].length))
+    ) {
       corruptions.push({
         type: ScarType.FILENAME_CORRUPTION,
         severity: ScarSeverity.HIGH,
