@@ -28,7 +28,7 @@
     "build": "tsc",
     "build:tests": "tsc --project tsconfig.test.json",
     "dev": "tsc --watch",
-    "test": "pnpm build:tests && ava",
+    "test": "pnpm build:tests && NODE_ENV=test ava",
     "typecheck": "tsc --noEmit",
     "lint": "pnpm exec eslint . --ext .ts",
     "test:unit": "pnpm build:tests && ava",
