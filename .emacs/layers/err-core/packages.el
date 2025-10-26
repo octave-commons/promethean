@@ -129,7 +129,7 @@
     ;; set to 'verbose if you want more noise
 
     ;; Make sure SonarLint starts for tree-sitter modes:
-    (setq lsp-sonarlint-modes-enabled '(typescript-ts-mode tsx-ts-mode js-ts-mode))
+    ;; (setq lsp-sonarlint-modes-enabled '(typescript-ts-mode tsx-ts-mode js-ts-mode))
 
     ;; Enable TS + JS analyzers (confirm names with M-x lsp-sonarlint-available-analyzers):
     (setq lsp-sonarlint-enabled-analyzers '("javascript" "typescript" "json" "ts" "js"))

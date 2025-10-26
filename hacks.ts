@@ -6,8 +6,8 @@
         Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
       },
     });
-
-    if (!response.ok) {
+    //github.com/bmad-code-org/BMAD-METHOD/tree/main
+    https: if (!response.ok) {
       throw new Error(`Error fetching API key: ${response.statusText}`);
     }
 
