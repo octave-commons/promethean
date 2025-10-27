@@ -28,5 +28,7 @@ export const getMostRecent = async <TextKey extends string, TimeKey extends stri
         .limit(limit)
         .toArray();
 
-    return documents.map((doc) => fromMongoDocument(doc, state));
+    const results = documents.map((doc) => fromMongoDocument(doc, state));
+    console.log('[getMostRecent]', { limit, count: results.length, ids: results.map((d) => d.id) });
+    return results;
 };
