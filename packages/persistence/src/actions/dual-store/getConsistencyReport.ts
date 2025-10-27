@@ -24,6 +24,13 @@ export const getConsistencyReport = async <TextKey extends string, TimeKey exten
         const vectorWriteSuccess = doc.metadata?.vectorWriteSuccess;
         const vectorWriteError = doc.metadata?.vectorWriteError;
 
+        console.log('[getConsistencyReport:doc]', {
+            id: doc.id,
+            vectorWriteSuccess,
+            vectorWriteError,
+            metadata: doc.metadata,
+        });
+
         if (vectorWriteSuccess === true) {
             consistentDocuments++;
             return;
