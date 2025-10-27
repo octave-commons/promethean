@@ -17,7 +17,7 @@ import {
 import type { UnifiedIndexerServiceConfig } from './types/service.js';
 import type { UnifiedIndexerServiceState } from './unified-indexer-service.js';
 
-import type { SearchQuery } from '@promethean-os/persistence';
+import type { SearchQuery, SearchResult, SearchResponse } from '@promethean-os/persistence';
 
 /**
  * Example configuration for unified indexer service
@@ -147,16 +147,25 @@ async function demonstrateSearch(indexerService: UnifiedIndexerServiceState): Pr
     semantic: true,
   };
 
-  const searchResults = await searchService(indexerService, searchQuery);
-  console.log(`Found ${searchResults.results.length} results:`);
-  searchResults.results.forEach((result, index: number) => {
-    console.log(
-      `  ${index + 1}. [${result.content.type}] ${result.content.id} (score: ${result.score.toFixed(3)})`,
-    );
-    const metadata = result.content.metadata as Record<string, unknown>;
-    console.log(`     Source: ${result.content.source} | ${(metadata?.path as string) || 'N/A'}`);
-    console.log(`     Preview: ${result.content.content.substring(0, 100)}...`);
-  });
+  try {
+    const searchResults = await searchService(indexerService, searchQuery);
+    console.log(`Found ${searchResults.results.length} results:`);
+    searchResults.results.forEach((result, index: number) => {
+      console.log(
+        `  ${index + 1}. [${result.content.type}] ${result.content.id} (score: ${result.score.toFixed(3)})`,
+      );
+      // Simple metadata access without complex casting
+      const metadata = result.content.metadata;
+      const path =
+        metadata && typeof metadata === 'object' && 'path' in metadata
+          ? String(metadata.path)
+          : 'N/A';
+      console.log(`     Source: ${result.content.source} | ${path}`);
+      console.log(`     Preview: ${result.content.content.substring(0, 100)}...`);
+    });
+  } catch (error) {
+    console.error('Search failed:', error);
+  }
 }
 
 /**
@@ -176,8 +185,9 @@ async function demonstrateContext(indexerService: UnifiedIndexerServiceState): P
   );
 
   console.log(`✅ Compiled ${context.length} context messages for LLM consumption`);
-  context.forEach((msg, index: number) => {
-    console.log(`  ${index + 1}. [${(msg as any).role}] ${msg.content.substring(0, 80)}...`);
+  context.forEach((msg: unknown, index: number) => {
+    const message = msg as { role: string; content: string };
+    console.log(`  ${index + 1}. [${message.role}] ${message.content.substring(0, 80)}...`);
   });
 }
 
@@ -195,7 +205,7 @@ async function demonstratePerformance(indexerService: UnifiedIndexerServiceState
 
   for (const query of realtimeQueries) {
     const startTime = Date.now();
-    const results = await searchService(indexerService, {
+    const results: SearchResponse = await searchService(indexerService, {
       query,
       limit: 5,
       semantic: true,
