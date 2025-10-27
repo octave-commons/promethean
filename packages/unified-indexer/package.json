@@ -32,5 +32,11 @@
   "module": "dist/index.js",
   "dependencies": {
     "@promethean-os/persistence": "workspace:*"
+  },
+  "devDependencies": {
+    "ava": "^6.1.3",
+    "sinon": "^18.0.0",
+    "@types/sinon": "^17.0.3",
+    "c8": "^9.1.0"
   }
 }
