@@ -4,7 +4,7 @@ import test from 'ava';
 import { tool } from '@opencode-ai/plugin/tool';
 import { validate } from '../utils/validation.js';
 
-// Mock the dependencies
+// Mock dependencies
 const mockPluginContext: any = {
   client: {
     session: {
@@ -24,20 +24,6 @@ const mockPluginContext: any = {
     run: async () => ({ stdout: 'test output' }),
   },
 };
-
-// Mock action functions
-const mockListSessions = async () => ({ sessions: [], summary: {}, pagination: {} });
-const mockGetSession = async () => ({ session: { id: 'test' }, messages: [] });
-const mockCloseSession = async () => ({ success: true });
-const mockSpawnSession = async () => ({ id: 'new-session', title: 'New Session' });
-const mockSearchSessions = async () => [];
-const mockListEvents = async () => [];
-const mockGetSessionMessages = async () => [];
-
-// Mock formatter functions
-const mockSessionToMarkdown = (session: any) => `## Session: ${session.id}\n`;
-const mockMessageToMarkdown = (message: any) => `**Message:** ${message.content}\n`;
-const mockEventToMarkdown = (event: any) => `**Event:** ${event.type}\n`;
 
 test('plugin tools can be created without store initialization', async (t) => {
   // Test that we can create tools without initializing stores
@@ -88,13 +74,16 @@ test('plugin tools can be created without store initialization', async (t) => {
 
   // Test tool execution
   const compileResult = await tools['compile-context'].execute(
-    { query: 'test' },
+    { query: 'test', limit: 50 },
     mockPluginContext,
   );
   t.true(compileResult.includes('test'));
   t.true(compileResult.includes('Compiled Context'));
 
-  const searchResult = await tools['search-context'].execute({ query: 'test' }, mockPluginContext);
+  const searchResult = await tools['search-context'].execute(
+    { query: 'test', limit: 20 },
+    mockPluginContext,
+  );
   t.true(searchResult.includes('test'));
   t.true(searchResult.includes('Search Results'));
 
