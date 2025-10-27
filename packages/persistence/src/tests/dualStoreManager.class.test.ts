@@ -24,11 +24,14 @@ const createCursor = <T extends StoredDoc>(docs: readonly T[]): QueryResult<T> =
     const applySort = (sorter: Record<string, 1 | -1>) => {
         const [field, direction] = Object.entries(sorter)[0] ?? [];
         if (!field) return;
+        const dir = direction === -1 ? -1 : 1;
         working = [...working].sort((a, b) => {
             const left = a[field];
             const right = b[field];
             if (left === right) return 0;
-            return left > right ? direction : -direction;
+            if (left === undefined) return 1;
+            if (right === undefined) return -1;
+            return left > right ? dir : -dir;
         });
     };
 
