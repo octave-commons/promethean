@@ -69,26 +69,6 @@
     ;; Leader key: SPC a a  => start OpenCode (ACP)
     (with-eval-after-load 'spacemacs-defaults
       (spacemacs/set-leader-keys "aa" #'opencode-agent-shell/start))
-    :config
-    ;; --- Provider: OpenCode (ACP) -----------------------------------------
-    ;;
-    ;; Prefer `opencode acp` (built-in ACP server). Fallback to legacy
-    ;; `opencode-acp` adapter if found in PATH.
-    ;;
-
-    ;; Minimal env passthrough. Inherit PATH, etc.
-    (defvar opencode-agent-shell-environment
-      (when (fboundp 'agent-shell-make-environment-variables)
-        (agent-shell-make-environment-variables :inherit-env t))
-      "Environment variables for the spawned OpenCode agent.")
-
-    ;; Register an entry in `agent-shell-agent-configs` so M-x agent-shell
-    ;; shows “OpenCode (ACP)” — and make it the default/first option.
-    ;;
-    ;; NOTE: `agent-shell-agent-configs` is an alist used by agent-shell.
-    ;; Upstream reserves the right to tweak keys; if that happens, inspect
-    ;; M-x `describe-variable` on `agent-shell-agent-configs` and adjust.
     (with-eval-after-load 'agent-shell
       (setq agent-shell-openai-authentication
-        (agent-shell-openai-make-authentication :login t)))
-    ))
+        (agent-shell-openai-make-authentication :login t)))))
