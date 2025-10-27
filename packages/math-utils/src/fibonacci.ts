@@ -4,7 +4,7 @@
 import type { FibonacciMethod, FibonacciCache, FibonacciResult } from './types.js';
 
 export class Fibonacci {
-  private readonly cache: FibonacciCache = { 0: 0n, 1: 1n };
+  private cache: FibonacciCache = { 0: 0n, 1: 1n };
 
   constructor(private readonly defaultMethod: FibonacciMethod = 'iterative') {}
 
@@ -89,21 +89,6 @@ export class Fibonacci {
 
   private matrixMultiply(a: bigint[][], b: bigint[][]): bigint[][] {
     return [
-      [
-        a[0][0]! * b[0][0]! + a[0][1]! * b[1][0]!,
-        a[0][0]! * b[0][1]! + a[0][1]! * b[1][1]!
-      ],
-      [
-        a[1][0]! * b[0][0]! + a[1][1]! * b[1][0]!,
-        a[1][0]! * b[0][1]! + a[1][1]! * b[1][1]!
-      ]
-    ];
-  }
-    return this.matrixMultiply(matrix, this.matrixPower(matrix, power - 1));
-  }
-
-  private matrixMultiply(a: readonly bigint[][], b: readonly bigint[][]): readonly bigint[][] {
-    return [
       [a[0][0] * b[0][0] + a[0][1] * b[1][0], a[0][0] * b[0][1] + a[0][1] * b[1][1]],
       [a[1][0] * b[0][0] + a[1][1] * b[1][0], a[1][0] * b[0][1] + a[1][1] * b[1][1]],
     ];
@@ -164,10 +149,9 @@ export class Fibonacci {
   }
 
   clearCache(): void {
-    Object.keys(this.cache).forEach((key) => {
-      if (key !== '0' && key !== '1') {
-        delete this.cache[Number(key)];
-      }
+    const keysToDelete = Object.keys(this.cache).filter((key) => key !== '0' && key !== '1');
+    keysToDelete.forEach((key) => {
+      delete this.cache[Number(key)];
     });
   }
 
