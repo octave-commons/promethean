@@ -416,7 +416,7 @@ test('ID validation works consistently across all tools', async (t) => {
     for (const testTool of testTools) {
       await t.throwsAsync(
         testTool.execute({ sessionId: invalidId as any }, mockPluginContext),
-        { message: /Session ID/ },
+        { message: /sessionId/ },
         'All tools should reject invalid session IDs consistently',
       );
     }
