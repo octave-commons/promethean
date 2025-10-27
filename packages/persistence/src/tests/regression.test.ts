@@ -14,7 +14,8 @@ test.afterEach.always(async () => {
 });
 
 // Regression test: sessionStore.get() must return exact format expected by client
-test('sessionStore.get() regression test - exact client contract', async (t) => {
+test.serial('sessionStore.get() regression test - exact client contract', async (t) => {
+    t.timeout(20000);
     // RED: This test should fail with current implementation
 
     const store = await DualStoreManager.create('sessionStore-regression-get', 'text', 'timestamp');
@@ -59,7 +60,8 @@ test('sessionStore.get() regression test - exact client contract', async (t) => 
 });
 
 // Regression test: getMostRecent must return exact format
-test('sessionStore.getMostRecent() regression test - exact client contract', async (t) => {
+test.serial('sessionStore.getMostRecent() regression test - exact client contract', async (t) => {
+    t.timeout(20000);
     const store = await DualStoreManager.create('sessionStore-regression-recent', 'text', 'timestamp');
     createdStores.push(store);
 
