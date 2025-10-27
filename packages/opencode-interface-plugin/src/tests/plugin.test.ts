@@ -3,28 +3,6 @@
 import test from 'ava';
 import { OpencodeInterfacePlugin } from '../index.js';
 
-// Mock the dependencies before importing the plugin
-import {
-  mockInitializeStores,
-  mockCompileContext,
-  mockSearchAcrossStores,
-} from './test-helpers.js';
-
-// Mock the store initialization
-import { initializeStores } from '../initializeStores.js';
-import { compileContext } from '../compileContext.js';
-import { searchAcrossStores } from '../services/unified-store.js';
-
-// Replace the real functions with mocks
-const originalInitializeStores = initializeStores;
-const originalCompileContext = compileContext;
-const originalSearchAcrossStores = searchAcrossStores;
-
-// Mock the functions globally
-(global as any).initializeStores = mockInitializeStores;
-(global as any).compileContext = mockCompileContext;
-(global as any).searchAcrossStores = mockSearchAcrossStores;
-
 // Mock plugin context for testing - using any to avoid complex type requirements
 const mockPluginContext: any = {
   client: {
