@@ -19,11 +19,10 @@ import type {
   ContentSource,
   IndexingStats,
   FileIndexingStats,
-  DiscordIndexingStats,
-  OpenCodeIndexingStats,
-  KanbanIndexingStats,
-  FileIndexingOptions,
   ContextMessage,
+  SearchQuery,
+  SearchResult,
+  IndexableContent,
 } from '@promethean-os/persistence';
 
 /**
