@@ -588,11 +588,18 @@ export const evaluateCustomRule = async (
   }
 
   try {
+    console.log('🔍 Starting nbb import...');
     // Use nbb (Node.js Babashka) to evaluate Clojure expressions with timeout
-    const nbb = await Promise.race([
-      import('nbb'),
+    const { loadString } = await Promise.race([
+      import('nbb').then((module) => {
+        console.log('🔍 nbb imported successfully');
+        return module;
+      }),
       new Promise<never>((_, reject) =>
-        setTimeout(() => reject(new Error('nbb import timeout after 5 seconds')), 5000),
+        setTimeout(() => {
+          console.log('🔍 nbb import timeout triggered');
+          reject(new Error('nbb import timeout after 5 seconds'));
+        }, 5000),
       ),
     ]);
 
@@ -625,7 +632,7 @@ export const evaluateCustomRule = async (
 
     // @ts-ignore - nbb dynamic evaluation
     console.log('🔍 Evaluating Clojure code:', clojureCode);
-    const result = await nbb.loadString(clojureCode, {
+    const result = await loadString(clojureCode, {
       context: 'cljs.user',
       print: console.log,
     });

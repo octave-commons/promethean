@@ -45,6 +45,60 @@ export interface ContextMetadata {
 }
 
 /**
+ * Configuration options for the manager cache.
+ *
+ * @interface CacheConfig
+ *
+ * @example
+ * ```typescript
+ * const config: CacheConfig = {
+ *   ttl: 300000, // 5 minutes
+ *   maxSize: 20   // Maximum 20 cached entries
+ * };
+ * ```
+ */
+export interface CacheConfig {
+  /** Time to live for cache entries in milliseconds */
+  ttl: number;
+
+  /** Maximum number of cached entries before eviction */
+  maxSize: number;
+}
+
+/**
+ * Metrics and statistics for cache performance monitoring.
+ *
+ * @interface CacheMetrics
+ *
+ * @example
+ * ```typescript
+ * const metrics: CacheMetrics = {
+ *   hits: 150,
+ *   misses: 25,
+ *   sets: 30,
+ *   evictions: 5,
+ *   currentSize: 15
+ * };
+ * ```
+ */
+export interface CacheMetrics {
+  /** Number of successful cache hits */
+  hits: number;
+
+  /** Number of cache misses */
+  misses: number;
+
+  /** Number of items added to cache */
+  sets: number;
+
+  /** Number of items evicted from cache */
+  evictions: number;
+
+  /** Current number of items in cache */
+  currentSize: number;
+}
+
+/**
  * Dependencies required for creating a Pantheon persistence adapter.
  *
  * @interface PersistenceAdapterDeps
@@ -143,6 +197,7 @@ export type PersistenceAdapterDeps = {
  * @param deps.resolveRole - Optional function to resolve message roles from metadata
  * @param deps.resolveName - Optional function to resolve display names from metadata
  * @param deps.formatTime - Optional function to format timestamps
+ * @param cacheConfig - Optional cache configuration for performance optimization
  * @returns A ContextPort implementation that compiles context from persistence stores
  *
  * @example
@@ -155,7 +210,7 @@ export type PersistenceAdapterDeps = {
  *
  * @example
  * ```typescript
- * // With all optional dependencies
+ * // With all optional dependencies and caching
  * const adapter = makePantheonPersistenceAdapter({
  *   getStoreManagers: async () => {
  *     const mongoManager = new DualStoreManager('mongodb', mongoClient);
@@ -169,7 +224,7 @@ export type PersistenceAdapterDeps = {
  *   },
  *   resolveName: (meta) => meta?.username || 'Anonymous',
  *   formatTime: (ms) => new Date(ms).toLocaleString()
- * });
+ * }, { ttl: 300000, maxSize: 20 });
  * ```
  *
  * @throws {Error} When getStoreManagers is not provided or not a function
@@ -179,31 +234,10 @@ export type PersistenceAdapterDeps = {
  */
 
 /**
- * Configuration options for the manager cache.
- * 
- * @interface CacheConfig
- * 
- * @example
- * ```typescript
- * const config: CacheConfig = {
- *   ttl: 300000, // 5 minutes
- *   maxSize: 20   // Maximum 20 cached entries
- * };
- * ```
- */
-export interface CacheConfig {
-  /** Time to live for cache entries in milliseconds */
-  ttl: number;
-  
-  /** Maximum number of cached entries before eviction */
-  maxSize: number;
-}
-
-/**
  * Metrics and statistics for cache performance monitoring.
- * 
+ *
  * @interface CacheMetrics
- * 
+ *
  * @example
  * ```typescript
  * const metrics: CacheMetrics = {
@@ -218,16 +252,16 @@ export interface CacheConfig {
 export interface CacheMetrics {
   /** Number of successful cache hits */
   hits: number;
-  
+
   /** Number of cache misses */
   misses: number;
-  
+
   /** Number of items added to cache */
   sets: number;
-  
+
   /** Number of items evicted from cache */
   evictions: number;
-  
+
   /** Current number of items in cache */
   currentSize: number;
 }
@@ -360,7 +394,10 @@ class ManagerCache {
   }
 }
 
-export const makePantheonPersistenceAdapter = (deps: PersistenceAdapterDeps): ContextPort => {
+export const makePantheonPersistenceAdapter = (
+  deps: PersistenceAdapterDeps,
+  cacheConfig?: CacheConfig,
+): ContextPort & { getCacheMetrics?: () => CacheMetrics; clearCache?: () => void } => {
   // Input validation for dependencies
   if (!deps) {
     throw new Error('Dependencies object is required for makePantheonPersistenceAdapter');
@@ -368,6 +405,12 @@ export const makePantheonPersistenceAdapter = (deps: PersistenceAdapterDeps): Co
 
   if (typeof deps.getStoreManagers !== 'function') {
     throw new Error('getStoreManagers function is required in dependencies');
+  }
+
+  // Initialize cache if config is provided
+  let cache: ManagerCache | undefined;
+  if (cacheConfig) {
+    cache = new ManagerCache(cacheConfig);
   }
 
   const contextDeps: ContextPortDeps = {
@@ -394,7 +437,18 @@ export const makePantheonPersistenceAdapter = (deps: PersistenceAdapterDeps): Co
       }
 
       try {
-        const managers = await deps.getStoreManagers();
+        // Create cache key based on source IDs
+        const cacheKey = cache
+          ? `managers_${sources
+              .map((s) => s.id)
+              .sort()
+              .join(',')}`
+          : '';
+
+        // Get managers, using cache if available
+        const managers = cache
+          ? await cache.get(cacheKey, deps.getStoreManagers)
+          : await deps.getStoreManagers();
 
         if (!managers) {
           console.warn('getStoreManagers returned null or undefined');
@@ -459,6 +513,14 @@ export const makePantheonPersistenceAdapter = (deps: PersistenceAdapterDeps): Co
   };
 
   const contextPort = makeContextPort(contextDeps);
+
+  // Add cache management methods if cache is enabled
+  if (cache) {
+    return Object.assign(contextPort, {
+      getCacheMetrics: () => cache.getMetrics(),
+      clearCache: () => cache.clear(),
+    });
+  }
 
   return contextPort;
 };

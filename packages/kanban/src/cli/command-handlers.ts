@@ -1669,9 +1669,19 @@ const parseCreateTaskArgs = (args: ReadonlyArray<string>) => {
     if (!arg) continue;
 
     // Handle flags
-    if (arg.startsWith('--content=')) {
+    if (arg.startsWith('--title=')) {
+      result.title = arg.slice('--title='.length) || '';
+    } else if (arg.startsWith('--content=')) {
       result.content = arg.slice('--content='.length);
+    } else if (arg.startsWith('--description=')) {
+      result.content = arg.slice('--description='.length);
+    } else if (arg === '--title' && i + 1 < args.length && args[i + 1]) {
+      result.title = args[i + 1] || '';
+      i++; // Skip next arg
     } else if (arg === '--content' && i + 1 < args.length && args[i + 1]) {
+      result.content = args[i + 1];
+      i++; // Skip next arg
+    } else if (arg === '--description' && i + 1 < args.length && args[i + 1]) {
       result.content = args[i + 1];
       i++; // Skip next arg
     } else if (arg.startsWith('--priority=')) {
@@ -1705,11 +1715,14 @@ const parseCreateTaskArgs = (args: ReadonlyArray<string>) => {
     }
   }
 
-  const title = titleParts.join(' ').trim();
-  if (title.length === 0) {
+  const titleFromParts = titleParts.join(' ').trim();
+  if (titleFromParts.length > 0) {
+    result.title = titleFromParts;
+  }
+
+  if (!result.title || result.title.trim().length === 0) {
     throw new CommandUsageError('create requires a title');
   }
-  result.title = title;
 
   return result;
 };
@@ -1748,6 +1761,7 @@ const handleCreate: CommandHandler = (args, context) =>
 
     return newTask;
   });
+};
 
 const parseUpdateTaskArgs = (args: ReadonlyArray<string>) => {
   if (args.length === 0) {
@@ -1776,7 +1790,15 @@ const parseUpdateTaskArgs = (args: ReadonlyArray<string>) => {
       i++; // Skip next arg
     } else if (arg.startsWith('--content=')) {
       result.content = arg.slice('--content='.length);
+    } else if (arg.startsWith('--description=')) {
+      result.content = arg.slice('--description='.length);
     } else if (arg === '--content' && i + 1 < args.length && args[i + 1]) {
+      result.content = args[i + 1];
+      i++; // Skip next arg
+    } else if (arg === '--description' && i + 1 < args.length && args[i + 1]) {
+      result.content = args[i + 1];
+      i++; // Skip next arg
+    } else if (arg === '--description' && i + 1 < args.length && args[i + 1]) {
       result.content = args[i + 1];
       i++; // Skip next arg
     } else if (arg.startsWith('--priority=')) {
