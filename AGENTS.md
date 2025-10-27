@@ -28,6 +28,7 @@ pseudo/    # throwaway scripts, pseudocode, retained for transparency
 src/               # source code
 src/tests/         # test files
 src/actions/       # individual, short, functional, operations, that can be taken in response to an event/hook
+src/controllers/   # Execute actions on program inputs, produce program outputs
 src/controllers/commands/      # CLI interfaces
 src/controllers/routes/        # Restful endpoints
 src/controllers/tools/         # Individual MCP tools
