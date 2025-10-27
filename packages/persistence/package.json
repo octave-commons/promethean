@@ -23,7 +23,7 @@
     "build": "tsc",
     "clean": "rimraf dist tsconfig.tsbuildinfo",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "pnpm run clean && pnpm run build && ava --config ../../config/ava.config.mjs",
+    "test": "pnpm run clean && pnpm run build && ava --serial --config ../../config/ava.config.mjs",
     "lint": "pnpm exec eslint .",
     "lisp": "node dist/cli/lisp.js",
     "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",
