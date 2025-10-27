@@ -1,12 +1,12 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "provider": {
-    "perplexity-pro":{
+    "perplexity-pro": {
       "npm": "@ai-sdk/perplexity-pro",
-      "options":{
+      "options": {
         "baseURL": "https://api.perplexity.ai/chat/completions",
 
-        "aplKey":"{env:PERPLEXITY_API_KEY}",
+        "aplKey": "{env:PERPLEXITY_API_KEY}"
       },
       "models": {
         "perplexity-pro/sonar-pro": {
@@ -54,7 +54,7 @@
     }
   },
   "permission": {
-    "bash":{}
+    "bash": {}
   },
   "mcp": {
     "clj": {
@@ -66,26 +66,8 @@
       "type": "local",
       "command": ["npx", "clj-kondo-mcp"],
       "enabled": true
-    },
-  },
-  "lsp": {
-    "eslint": {
-      "enabled": true,
-      "command": [
-        "npx",
-        "eslint-lsp",
-        "-y",
-        "--stdio"
-      ],
-      "extensions": [
-        ".ts",
-        ".tsx",
-        ".js",
-        ".jsx",
-        ".vue"
-      ]
-    },
+    }
   },
 
-  "instructions": ["./docs/agents/platforms/opencode/AGENTS.md"],
+  "instructions": ["./docs/agents/platforms/opencode/AGENTS.md"]
 }
