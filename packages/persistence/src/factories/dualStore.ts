@@ -18,6 +18,7 @@ import {
     type DualStoreDependencies,
     type DualStoreEnvironment,
     type DualStoreState,
+    type QueueDependencies,
 } from '../actions/dual-store/index.js';
 import { getOrCreateQueue } from '../chroma-write-queue.js';
 import {
@@ -77,6 +78,7 @@ export type DualStoreImplementation<TextKey extends string = 'text', TimeKey ext
     }>;
     getChromaQueueStats(): ReturnType<typeof getChromaQueueStats>;
     cleanup(): Promise<void>;
+    setQueue(queue: QueueDependencies): void;
 };
 
 const defaultLogger: DualStoreDependencies['logger'] = {
@@ -149,6 +151,9 @@ export const createDualStoreImplementation = <TextKey extends string, TimeKey ex
         getConsistencyReport: (limit) => getConsistencyReport({ limit }, dependencies),
         getChromaQueueStats: () => getChromaQueueStats(undefined, dependencies),
         cleanup: () => cleanupAction(undefined, dependencies),
+        setQueue: (queue) => {
+            dependencies.chroma.queue = queue;
+        },
     };
 };
 
