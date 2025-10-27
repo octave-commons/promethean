@@ -212,17 +212,6 @@ async function handleClientCredentialsGrant(
     issued_token_type: 'urn:ietf:params:oauth:token-type:access_token',
   });
 }
-    (body.scope as string | undefined)?.split(/\s+/).filter(Boolean) || DEFAULT_SCOPES;
-  const allowed = new Set((client.scopes || []).concat(DEFAULT_SCOPES));
-  const granted = reqScopes.filter((s) => allowed.has(s));
-  const scopeStr = granted.join(' ');
-
-  const aud = body.aud || client.aud || process.env.AUTH_AUDIENCE;
-  const ttl = process.env.AUTH_TOKEN_TTL_SECONDS
-    ? Number(process.env.AUTH_TOKEN_TTL_SECONDS)
-    : 3600;
-  const access_token = await signAccessToken(
-    { sub: client_id, aud, scope: scopeStr, iss: ISSUER },
     { expiresIn: ttl },
   );
   return reply.send({
