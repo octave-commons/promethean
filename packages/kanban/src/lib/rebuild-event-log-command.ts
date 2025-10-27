@@ -21,7 +21,7 @@ export interface RebuildEventLogOptions {
 /**
  * Create a rebuild event log command
  */
-export const createRebuildEventLogCommand = (boardFile: string, tasksDir: string) => {
+export const createRebuildEventLogCommand = (_boardFile: string, _tasksDir: string) => {
   const execute: CommandHandler = async (args) => {
     const configResult = await loadKanbanConfig({
       argv: process.argv,
@@ -162,6 +162,7 @@ function parseOptions(args: readonly string[]): RebuildEventLogOptions {
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
+    if (!arg) continue;
 
     if (arg.startsWith('--since=')) {
       options.since = arg.slice(8);
