@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify';
-import { jwtSign } from '../../auth/jwtService';
-import { UserRole } from '../../types/security';
-import { createOpenAICompliantServer } from '../../server/createServer';
+import { jwtSign } from '../../auth/jwtService.js';
+import { UserRole } from '../../types/security.js';
+import { createOpenAICompliantServer } from '../../server/createServer.js';
 
 export interface TestUser {
   id: string;
