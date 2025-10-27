@@ -153,8 +153,8 @@ async function demonstrateSearch(indexerService: UnifiedIndexerServiceState): Pr
     console.log(
       `  ${index + 1}. [${result.content.type}] ${result.content.id} (score: ${result.score.toFixed(3)})`,
     );
-    const metadata = result.content.metadata;
-    console.log(`     Source: ${result.content.source} | ${(metadata as any)?.path || 'N/A'}`);
+    const metadata = result.content.metadata as Record<string, unknown>;
+    console.log(`     Source: ${result.content.source} | ${(metadata?.path as string) || 'N/A'}`);
     console.log(`     Preview: ${result.content.content.substring(0, 100)}...`);
   });
 }
