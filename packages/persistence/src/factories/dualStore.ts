@@ -148,6 +148,24 @@ export const createDualStoreImplementation = <TextKey extends string, TimeKey ex
     };
 };
 
+const pendingFactoryConfigs = new Map<string, DualStoreFactoryConfig<any, any>>();
+
+export const registerPendingDualStoreConfig = <TextKey extends string, TimeKey extends string>(
+    config: DualStoreFactoryConfig<TextKey, TimeKey>,
+) => {
+    pendingFactoryConfigs.set(config.name, config);
+};
+
+export const consumePendingDualStoreConfig = <TextKey extends string, TimeKey extends string>(
+    name: string,
+): DualStoreFactoryConfig<TextKey, TimeKey> | undefined => {
+    const config = pendingFactoryConfigs.get(name) as DualStoreFactoryConfig<TextKey, TimeKey> | undefined;
+    if (config) {
+        pendingFactoryConfigs.delete(name);
+    }
+    return config;
+};
+
 type DualStoreCreateOptions<TextKey extends string, TimeKey extends string> = {
     name: string;
     textKey: TextKey;
