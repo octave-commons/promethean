@@ -6,6 +6,7 @@
  * comprehensive search results across all data sources.
  */
 
+import type { SearchResponse } from '@promethean-os/persistence';
 import type { ContextMessage } from '@promethean-os/persistence/dist/actions/context-store/types.js';
 import type { UnifiedIndexerServiceState } from './unified-indexer-service.js';
 import type { CrossDomainSearchOptions, CrossDomainSearchResponse } from './types/search.js';
@@ -59,7 +60,7 @@ async function performBaseSearch(
 
 async function buildSearchResponse(
   state: CrossDomainSearchEngineState,
-  baseResponse: any,
+  baseResponse: SearchResponse,
   options: CrossDomainSearchOptions,
   startTime: number,
 ): Promise<CrossDomainSearchResponse> {
