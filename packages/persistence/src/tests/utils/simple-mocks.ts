@@ -180,12 +180,18 @@ export function isValidIndexableContent(obj: unknown): obj is IndexableContent {
     if (!obj || typeof obj !== 'object') return false;
 
     const content = obj as Record<string, unknown>;
+
+    // Check that all required fields exist and have correct types
     return (
         typeof content.id === 'string' &&
+        content.id.length > 0 &&
         typeof content.content === 'string' &&
         typeof content.type === 'string' &&
+        content.type.length > 0 &&
         typeof content.source === 'string' &&
+        content.source.length > 0 &&
         typeof content.timestamp === 'number' &&
+        content.timestamp > 0 &&
         (!content.metadata || typeof content.metadata === 'object')
     );
 }
