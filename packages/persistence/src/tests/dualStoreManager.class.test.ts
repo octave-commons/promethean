@@ -421,7 +421,9 @@ test('retryVectorWrite updates document metadata on success', async (t) => {
 
     const chromaEntry = chromaHarness.store.get('retry-success');
     t.truthy(chromaEntry);
-    t.deepEqual(chromaEntry?.document, 'retry me');
+    if (chromaEntry) {
+        t.is(chromaEntry.document, 'retry me');
+    }
 
     await manager.cleanup();
 });
