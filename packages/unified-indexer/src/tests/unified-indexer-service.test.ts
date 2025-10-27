@@ -83,10 +83,10 @@ test('should handle context retrieval', async (t) => {
 
   await service.initialize();
 
-  const context = await service.getContext('test query');
+  const context = await service.getContext(['test query']);
 
   t.truthy(context);
-  t.true(typeof context === 'string');
+  t.true(Array.isArray(context));
 
   await service.stop();
 });
@@ -99,11 +99,11 @@ test('should start and stop service correctly', async (t) => {
   await service.initialize();
   await service.start();
 
-  let status = await service.getStatus();
+  const status = await service.getStatus();
   t.true(status.healthy);
 
   await service.stop();
 
-  status = await service.getStatus();
-  t.false(status.indexing);
+  const finalStatus = await service.getStatus();
+  t.false(finalStatus.indexing);
 });
