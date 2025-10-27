@@ -413,7 +413,7 @@ test('ID validation works consistently across all tools', async (t) => {
   // Test invalid session IDs
   const invalidCases = [
     { id: 123, expectedMessage: "Parameter 'sessionId' must be a string, received number" },
-    { id: '', expectedMessage: 'Session ID is required' }, // Empty string is falsy, caught by null/undefined check
+    { id: '', expectedMessage: 'Session ID cannot be empty' }, // Empty string passes null check but fails length check
     { id: null, expectedMessage: 'Session ID is required' },
     { id: undefined, expectedMessage: 'Session ID is required' },
   ];
