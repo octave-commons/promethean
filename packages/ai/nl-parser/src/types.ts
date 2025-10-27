@@ -4,20 +4,24 @@ export const IntentSchema = z.object({
   name: z.string(),
   description: z.string(),
   examples: z.array(z.string()),
-  parameters: z.array(z.object({
-    name: z.string(),
-    type: z.enum(['string', 'number', 'boolean', 'array', 'object']),
-    required: z.boolean().default(false),
-    description: z.string(),
-    examples: z.array(z.string()).optional(),
-    validation: z.object({
-      min?: z.number(),
-      max?: z.number(),
-      pattern?: z.string(),
-      enum: z.array(z.string()).optional()
-    }).optional()
-  })),
-  confidence: z.number().min(0).max(1).optional()
+  parameters: z.array(
+    z.object({
+      name: z.string(),
+      type: z.enum(['string', 'number', 'boolean', 'array', 'object']),
+      required: z.boolean().default(false),
+      description: z.string(),
+      examples: z.array(z.string()).optional(),
+      validation: z
+        .object({
+          min: z.number().optional(),
+          max: z.number().optional(),
+          pattern: z.string().optional(),
+          enum: z.array(z.string()).optional(),
+        })
+        .optional(),
+    }),
+  ),
+  confidence: z.number().min(0).max(1).optional(),
 });
 
 export const ParseResultSchema = z.object({
@@ -26,7 +30,7 @@ export const ParseResultSchema = z.object({
   parameters: z.record(z.any()),
   originalText: z.string(),
   timestamp: z.date(),
-  metadata: z.record(z.any()).optional()
+  metadata: z.record(z.any()).optional(),
 });
 
 export const ParserConfigSchema = z.object({
@@ -38,11 +42,13 @@ export const ParserConfigSchema = z.object({
   enableSpellCheck: z.boolean().default(true),
   cacheEnabled: z.boolean().default(true),
   cacheTTL: z.number().default(300000), // 5 minutes
-  rateLimit: z.object({
-    enabled: z.boolean().default(true),
-    maxRequests: z.number().default(100),
-    windowMs: z.number().default(60000) // 1 minute
-  }).default({})
+  rateLimit: z
+    .object({
+      enabled: z.boolean().default(true),
+      maxRequests: z.number().default(100),
+      windowMs: z.number().default(60000), // 1 minute
+    })
+    .default({}),
 });
 
 export type Intent = z.infer<typeof IntentSchema>;
@@ -59,17 +65,29 @@ export interface IntentClassifier {
 
 export interface ParameterExtractor {
   extractParameters(text: string, intent: Intent): Promise<Record<string, any>>;
-  addParameterPatterns(intentName: string, parameterName: string, patterns: string[]): Promise<void>;
-  validateParameters(parameters: Record<string, any>, intent: Intent): { valid: boolean; errors: string[] };
+  addParameterPatterns(
+    intentName: string,
+    parameterName: string,
+    patterns: string[],
+  ): Promise<void>;
+  validateParameters(
+    parameters: Record<string, any>,
+    intent: Intent,
+  ): { valid: boolean; errors: string[] };
 }
 
 export interface NLParser {
   parse(text: string, context?: any): Promise<ParseResult>;
-  parseWithValidation(text: string, context?: any): Promise<ParseResult & { valid: boolean; errors: string[] }>;
+  parseWithValidation(
+    text: string,
+    context?: any,
+  ): Promise<ParseResult & { valid: boolean; errors: string[] }>;
   addIntent(intent: Intent): Promise<void>;
   removeIntent(intentName: string): Promise<void>;
   getIntents(): Promise<Intent[]>;
-  train(examples: Array<{ text: string; intent: string; parameters?: Record<string, any> }>): Promise<void>;
+  train(
+    examples: Array<{ text: string; intent: string; parameters?: Record<string, any> }>,
+  ): Promise<void>;
 }
 
 export interface CommandHandler {

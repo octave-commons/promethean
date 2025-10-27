@@ -1,16 +1,15 @@
-import { 
-  NLParser, 
-  ParseResult, 
-  Intent, 
-  IntentClassifier, 
+import {
+  NLParser,
+  ParseResult,
+  Intent,
+  IntentClassifier,
   ParameterExtractor,
   ParserConfig,
   ParserCache,
   RateLimiter,
   MetricsCollector,
-  CommandHandler
+  CommandHandler,
 } from './types';
-import { v4 as uuidv4 } from 'uuid';
 import crypto from 'crypto';
 
 export class DefaultNLParser implements NLParser {
@@ -22,7 +21,7 @@ export class DefaultNLParser implements NLParser {
     private cache: ParserCache,
     private rateLimiter: RateLimiter,
     private metrics: MetricsCollector,
-    private config: ParserConfig
+    private config: ParserConfig,
   ) {}
 
   async parse(text: string, context?: any): Promise<ParseResult> {
@@ -32,7 +31,7 @@ export class DefaultNLParser implements NLParser {
     try {
       // Check rate limit
       const identifier = context?.userId || context?.agentId || 'anonymous';
-      if (!await this.rateLimiter.isAllowed(identifier)) {
+      if (!(await this.rateLimiter.isAllowed(identifier))) {
         throw new Error('Rate limit exceeded');
       }
 
@@ -48,15 +47,15 @@ export class DefaultNLParser implements NLParser {
 
       // Classify intent
       const classification = await this.intentClassifier.classify(text);
-      
+
       if (classification.confidence < this.config.confidenceThreshold) {
         throw new Error(`Intent confidence too low: ${classification.confidence}`);
       }
 
       // Get intent definition
       const intents = await this.intentClassifier.getIntents();
-      const intent = intents.find(i => i.name === classification.intent);
-      
+      const intent = intents.find((i) => i.name === classification.intent);
+
       if (!intent) {
         throw new Error(`Intent not found: ${classification.intent}`);
       }
@@ -78,8 +77,8 @@ export class DefaultNLParser implements NLParser {
         timestamp: new Date(),
         metadata: {
           context,
-          processingTime: Date.now() - startTime
-        }
+          processingTime: Date.now() - startTime,
+        },
       };
 
       // Cache result
@@ -91,21 +90,23 @@ export class DefaultNLParser implements NLParser {
       this.metrics.recordRequest(result.intent, result.confidence, Date.now() - startTime);
 
       return result;
-
     } catch (error) {
       this.metrics.recordFailure(error as Error);
       throw error;
     }
   }
 
-  async parseWithValidation(text: string, context?: any): Promise<ParseResult & { valid: boolean; errors: string[] }> {
+  async parseWithValidation(
+    text: string,
+    context?: any,
+  ): Promise<ParseResult & { valid: boolean; errors: string[] }> {
     try {
       const result = await this.parse(text, context);
-      
+
       // Additional validation
       const intents = await this.intentClassifier.getIntents();
-      const intent = intents.find(i => i.name === result.intent);
-      
+      const intent = intents.find((i) => i.name === result.intent);
+
       let valid = true;
       const errors: string[] = [];
 
@@ -118,9 +119,8 @@ export class DefaultNLParser implements NLParser {
       return {
         ...result,
         valid,
-        errors
+        errors,
       };
-
     } catch (error) {
       return {
         intent: 'unknown',
@@ -129,7 +129,7 @@ export class DefaultNLParser implements NLParser {
         originalText: text,
         timestamp: new Date(),
         valid: false,
-        errors: [(error as Error).message]
+        errors: [(error as Error).message],
       };
     }
   }
@@ -147,7 +147,9 @@ export class DefaultNLParser implements NLParser {
     return await this.intentClassifier.getIntents();
   }
 
-  async train(examples: Array<{ text: string; intent: string; parameters?: Record<string, any> }>): Promise<void> {
+  async train(
+    examples: Array<{ text: string; intent: string; parameters?: Record<string, any> }>,
+  ): Promise<void> {
     await this.intentClassifier.train(examples);
   }
 
@@ -162,7 +164,7 @@ export class DefaultNLParser implements NLParser {
 
   async executeCommand(parseResult: ParseResult, context?: any): Promise<any> {
     const handler = this.handlers.get(parseResult.intent);
-    
+
     if (!handler) {
       throw new Error(`No handler registered for intent: ${parseResult.intent}`);
     }
@@ -173,7 +175,7 @@ export class DefaultNLParser implements NLParser {
   // Batch processing
   async parseBatch(texts: string[], context?: any): Promise<ParseResult[]> {
     const results: ParseResult[] = [];
-    
+
     for (const text of texts) {
       try {
         const result = await this.parse(text, context);
@@ -185,7 +187,7 @@ export class DefaultNLParser implements NLParser {
           confidence: 0,
           parameters: { error: (error as Error).message },
           originalText: text,
-          timestamp: new Date()
+          timestamp: new Date(),
         });
       }
     }
@@ -194,20 +196,23 @@ export class DefaultNLParser implements NLParser {
   }
 
   // Suggestion and correction
-  async suggestCorrections(text: string, maxSuggestions: number = 3): Promise<Array<{ text: string; confidence: number }>> {
+  async suggestCorrections(
+    text: string,
+    maxSuggestions: number = 3,
+  ): Promise<Array<{ text: string; confidence: number }>> {
     const suggestions: Array<{ text: string; confidence: number }> = [];
-    
+
     // Get similar intents
     const similarIntents = await this.intentClassifier.getSimilarIntents(text);
-    
+
     for (const similar of similarIntents.slice(0, maxSuggestions)) {
       const intents = await this.intentClassifier.getIntents();
-      const intent = intents.find(i => i.name === similar.intent);
-      
+      const intent = intents.find((i) => i.name === similar.intent);
+
       if (intent && intent.examples.length > 0) {
         suggestions.push({
           text: intent.examples[0], // Use first example as suggestion
-          confidence: similar.similarity
+          confidence: similar.similarity,
         });
       }
     }
@@ -231,13 +236,13 @@ export class DefaultNLParser implements NLParser {
     try {
       const metrics = await this.metrics.getMetrics();
       const intents = await this.intentClassifier.getIntents();
-      
+
       let status: 'healthy' | 'degraded' | 'unhealthy' = 'healthy';
-      
+
       if (metrics.averageConfidence < 0.5) {
         status = 'degraded';
       }
-      
+
       if (metrics.failedParses / metrics.totalRequests > 0.3) {
         status = 'unhealthy';
       }
@@ -245,14 +250,13 @@ export class DefaultNLParser implements NLParser {
       return {
         status,
         metrics,
-        intentCount: intents.length
+        intentCount: intents.length,
       };
-
     } catch (error) {
       return {
         status: 'unhealthy',
         metrics: null,
-        intentCount: 0
+        intentCount: 0,
       };
     }
   }

@@ -1,6 +1,8 @@
 import { Intent, IntentClassifier, ParserConfig } from './types';
 import { NlpManager } from '@nlpjs/basic';
-import { v4 as uuidv4 } from 'uuid';
+// @ts-ignore - No types available for @nlpjs/basic
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const NlpManagerTyped = require('@nlpjs/basic') as typeof NlpManager;
 
 export class NlpIntentClassifier implements IntentClassifier {
   private nlpManager: NlpManager;
@@ -10,16 +12,16 @@ export class NlpIntentClassifier implements IntentClassifier {
     this.nlpManager = new NlpManager({
       languages: [config.language],
       forceNER: true,
-      nlu: { log: false }
+      nlu: { log: false },
     });
   }
 
   async classify(text: string): Promise<{ intent: string; confidence: number }> {
     const response = await this.nlpManager.process('en', text);
-    
+
     return {
       intent: response.answer || 'unknown',
-      confidence: response.score || 0
+      confidence: response.score || 0,
     };
   }
 
@@ -37,7 +39,7 @@ export class NlpIntentClassifier implements IntentClassifier {
 
   async removeIntent(intentName: string): Promise<void> {
     this.intents.delete(intentName);
-    
+
     // Note: NLP.js doesn't have a direct way to remove documents
     // In a production system, you might want to recreate the manager
     // or implement a more sophisticated approach
@@ -56,24 +58,30 @@ export class NlpIntentClassifier implements IntentClassifier {
   }
 
   // Advanced classification with multiple candidates
-  async classifyWithCandidates(text: string, maxCandidates: number = 3): Promise<Array<{ intent: string; confidence: number }>> {
+  async classifyWithCandidates(
+    text: string,
+    maxCandidates: number = 3,
+  ): Promise<Array<{ intent: string; confidence: number }>> {
     const response = await this.nlpManager.process('en', text);
-    
+
     const candidates = response.classifications || [];
-    
+
     return candidates
       .slice(0, maxCandidates)
       .map((classification: any) => ({
         intent: classification.intent,
-        confidence: classification.score
+        confidence: classification.score,
       }))
-      .filter(candidate => candidate.confidence >= this.config.confidenceThreshold);
+      .filter((candidate: any) => candidate.confidence >= this.config.confidenceThreshold);
   }
 
   // Get similar intents based on text similarity
-  async getSimilarIntents(text: string, threshold: number = 0.5): Promise<Array<{ intent: string; similarity: number }>> {
+  async getSimilarIntents(
+    text: string,
+    threshold: number = 0.5,
+  ): Promise<Array<{ intent: string; similarity: number }>> {
     const similar: Array<{ intent: string; similarity: number }> = [];
-    
+
     for (const [intentName, intent] of this.intents) {
       for (const example of intent.examples) {
         const similarity = this.calculateSimilarity(text, example);
@@ -91,10 +99,10 @@ export class NlpIntentClassifier implements IntentClassifier {
     // Simple Jaccard similarity for demonstration
     const words1 = new Set(text1.toLowerCase().split(/\s+/));
     const words2 = new Set(text2.toLowerCase().split(/\s+/));
-    
-    const intersection = new Set([...words1].filter(x => words2.has(x)));
+
+    const intersection = new Set([...words1].filter((x) => words2.has(x)));
     const union = new Set([...words1, ...words2]);
-    
+
     return intersection.size / union.size;
   }
 
@@ -115,11 +123,11 @@ export class NlpIntentClassifier implements IntentClassifier {
   } {
     const intents = Array.from(this.intents.values());
     const totalExamples = intents.reduce((sum, intent) => sum + intent.examples.length, 0);
-    
+
     return {
       intentCount: intents.length,
       totalExamples,
-      averageExamplesPerIntent: intents.length > 0 ? totalExamples / intents.length : 0
+      averageExamplesPerIntent: intents.length > 0 ? totalExamples / intents.length : 0,
     };
   }
 }
