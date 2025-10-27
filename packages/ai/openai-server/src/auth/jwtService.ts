@@ -7,6 +7,17 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 /**
+ * Standalone JWT signing function for test utilities
+ */
+export const jwtSign = (
+  payload: object,
+  secret: string,
+  options?: { expiresIn?: string },
+): string => {
+  return jwt.sign(payload, secret, options);
+};
+
+/**
  * JWT service for token management and validation
  */
 export class JWTService {

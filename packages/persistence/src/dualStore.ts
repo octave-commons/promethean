@@ -6,6 +6,7 @@ import type { Collection, OptionalUnlessRequiredId, WithId } from 'mongodb';
 import { randomUUID } from 'node:crypto';
 import type { DualStoreEntry, AliasDoc, DualStoreMetadata } from './types.js';
 import { getChromaClient, getMongoClient, validateMongoConnection } from './clients.js';
+import { getOrCreateQueue } from './chroma-write-queue.js';
 
 export class DualStoreManager<TextKey extends string = 'text', TimeKey extends string = 'createdAt'> {
     name: string;
@@ -14,6 +15,7 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
     textKey: TextKey;
     timeStampKey: TimeKey;
     supportsImages: boolean;
+    private chromaWriteQueue: ReturnType<typeof getOrCreateQueue>;
 
     constructor(
         name: string,
@@ -29,6 +31,7 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         this.textKey = textKey;
         this.timeStampKey = timeStampKey;
         this.supportsImages = supportsImages;
+        this.chromaWriteQueue = getOrCreateQueue(name, chromaCollection);
     }
 
     static async create<TTextKey extends string = 'text', TTimeKey extends string = 'createdAt'>(
@@ -109,11 +112,8 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
                     }
                 }
 
-                await this.chromaCollection.add({
-                    ids: [id],
-                    documents: [mutableEntry[this.textKey]],
-                    metadatas: [chromaMetadata],
-                });
+                // Use write queue for batching instead of direct write
+                await this.chromaWriteQueue.add(id, mutableEntry[this.textKey], chromaMetadata);
             } catch (e) {
                 vectorWriteSuccess = false;
                 vectorWriteError = e instanceof Error ? e : new Error(String(e));
@@ -400,8 +400,25 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         };
     }
 
+    getChromaQueueStats(): {
+        queueLength: number;
+        processing: boolean;
+        config: {
+            batchSize: number;
+            flushIntervalMs: number;
+            maxRetries: number;
+            retryDelayMs: number;
+            enabled: boolean;
+        };
+    } {
+        return this.chromaWriteQueue.getQueueStats();
+    }
+
     async cleanup(): Promise<void> {
         try {
+            // Shutdown Chroma write queue
+            await this.chromaWriteQueue.shutdown();
+
             // Close cached MongoDB connection
             const { cleanupClients } = await import('./clients.js');
             await cleanupClients();

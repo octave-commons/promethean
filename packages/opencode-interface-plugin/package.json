@@ -35,11 +35,10 @@
   "author": "",
   "license": "GPL-3.0-only",
   "dependencies": {
+    "@opencode-ai/plugin": "^0.15.7",
+    "@opencode-ai/sdk": "^0.15.7",
     "@promethean-os/logger": "workspace:*",
     "@promethean-os/persistence": "workspace:*"
-  },
-  "peerDependencies": {
-    "@promethean-os/opencode-client": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

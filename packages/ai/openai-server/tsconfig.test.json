@@ -12,6 +12,5 @@
     "allowSyntheticDefaultImports": true
   },
   "include": ["src/**/*"],
-  "exclude": ["src/tests/**/*"],
   "references": []
 }

@@ -1,1 +1,1 @@
-export { OpencodeInterfacePlugin } from '@promethean-os/opencode-client/plugins';
+// export { OpencodeInterfacePlugin } from '@promethean-os/opencode-interface-plugin';
