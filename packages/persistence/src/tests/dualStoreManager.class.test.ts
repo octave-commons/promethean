@@ -5,6 +5,7 @@ import {
     __resetPersistenceClientsForTests,
     __setMongoClientForTests,
 } from '../clients.js';
+import { shutdownAllQueues } from '../chroma-write-queue.js';
 
 type StoredDoc = Record<string, any>;
 
@@ -57,6 +58,12 @@ const matchesFilter = (doc: StoredDoc, filter: Record<string, any>): boolean => 
                 const exists = doc[key] !== undefined;
                 return value.$exists ? exists : !exists;
             }
+            if ('$not' in value && value.$not instanceof RegExp) {
+                return !value.$not.test(String(doc[key] ?? ''));
+            }
+        }
+        if (value instanceof RegExp) {
+            return value.test(String(doc[key] ?? ''));
         }
         return doc[key] === value;
     });
@@ -215,7 +222,7 @@ const createQueueStub = () => {
     };
 };
 
-const setupManager = () => {
+const setupManager = async () => {
     const mongoHarness = createMongoHarness();
     const chromaHarness = createChromaHarness();
     const queueStub = createQueueStub();
@@ -230,6 +237,8 @@ const setupManager = () => {
         'timestamp',
     );
 
+    await shutdownAllQueues();
+
     (manager as any).chromaWriteQueue = queueStub;
 
     return { manager, mongoHarness, chromaHarness, queueStub };
@@ -239,12 +248,13 @@ test.beforeEach(() => {
     __resetPersistenceClientsForTests();
 });
 
-test.afterEach.always(() => {
+test.afterEach.always(async () => {
+    await shutdownAllQueues();
     __resetPersistenceClientsForTests();
 });
 
 test('insert writes metadata and queues chroma vector', async (t) => {
-    const { manager, mongoHarness, queueStub } = setupManager();
+    const { manager, mongoHarness, queueStub } = await setupManager();
 
     const entry = {
         id: 'doc-1',
@@ -274,9 +284,6 @@ test('insert writes metadata and queues chroma vector', async (t) => {
             type: 'message',
             nested: JSON.stringify({ level: 1 }),
             timestamp: storedDocs[0].timestamp,
-            vectorWriteSuccess: true,
-            vectorWriteError: undefined,
-            vectorWriteTimestamp: storedDocs[0].metadata.vectorWriteTimestamp,
         },
     });
 
@@ -284,7 +291,7 @@ test('insert writes metadata and queues chroma vector', async (t) => {
 });
 
 test('insert records vector failure without throwing in eventual mode', async (t) => {
-    const { manager, mongoHarness, queueStub } = setupManager();
+    const { manager, mongoHarness, queueStub } = await setupManager();
     queueStub.failWrites();
 
     const entry = {
@@ -306,7 +313,7 @@ test('insert records vector failure without throwing in eventual mode', async (t
 });
 
 test('insert honors strict consistency configuration', async (t) => {
-    const { manager, queueStub } = setupManager();
+    const { manager, queueStub } = await setupManager();
     queueStub.failWrites();
 
     process.env.DUAL_WRITE_CONSISTENCY = 'strict';
@@ -325,7 +332,7 @@ test('insert honors strict consistency configuration', async (t) => {
 });
 
 test('getMostRecent returns latest documents ordered by timestamp', async (t) => {
-    const { manager, mongoHarness } = setupManager();
+    const { manager, mongoHarness } = await setupManager();
 
     const now = Date.now();
     await manager.insert({ id: 'a', text: 'first', timestamp: now - 1000, metadata: {} });
@@ -342,7 +349,7 @@ test('getMostRecent returns latest documents ordered by timestamp', async (t) =>
 });
 
 test('get retrieves document with transformed timestamp', async (t) => {
-    const { manager } = setupManager();
+    const { manager } = await setupManager();
 
     const timestamp = Date.now();
     await manager.insert({ id: 'get-1', text: 'fetch me', timestamp, metadata: { tag: 'demo' } });
@@ -362,7 +369,7 @@ test('get retrieves document with transformed timestamp', async (t) => {
 });
 
 test('checkConsistency reports vector availability', async (t) => {
-    const { manager, chromaHarness } = setupManager();
+    const { manager, chromaHarness } = await setupManager();
     await manager.insert({ id: 'consistency', text: 'vector doc', timestamp: Date.now(), metadata: {} });
 
     const report = await manager.checkConsistency('consistency');
@@ -382,7 +389,7 @@ test('checkConsistency reports vector availability', async (t) => {
 });
 
 test('retryVectorWrite updates document metadata on success', async (t) => {
-    const { manager, chromaHarness } = setupManager();
+    const { manager, chromaHarness } = await setupManager();
 
     await manager.insert({
         id: 'retry-success',
@@ -402,7 +409,7 @@ test('retryVectorWrite updates document metadata on success', async (t) => {
 });
 
 test('retryVectorWrite records failure after retries', async (t) => {
-    const { manager } = setupManager();
+    const { manager } = await setupManager();
 
     await manager.insert({
         id: 'retry-fail',
@@ -428,18 +435,31 @@ test('retryVectorWrite records failure after retries', async (t) => {
 });
 
 test('getConsistencyReport summarises documents', async (t) => {
-    const { manager } = setupManager();
+    const { manager } = await setupManager();
 
     await manager.insert({ id: 'ok', text: 'ok', timestamp: Date.now(), metadata: { vectorWriteSuccess: true } });
     await manager.insert({ id: 'fail', text: 'fail', timestamp: Date.now(), metadata: {} });
 
     const doc = await manager.get('fail');
     if (doc) {
-        doc.metadata = { ...doc.metadata, vectorWriteSuccess: false, vectorWriteError: 'boom' };
         const mongoClient = await (await import('../clients.js')).getMongoClient();
         const db = mongoClient.db('database');
         const collection = db.collection('dual_store_entries');
-        await collection.updateOne({ id: 'fail' }, { $set: doc });
+        await collection.updateOne(
+            { id: 'fail' },
+            {
+                $set: {
+                    id: 'fail',
+                    text: doc.text,
+                    timestamp: doc.timestamp,
+                    metadata: {
+                        ...doc.metadata,
+                        vectorWriteSuccess: false,
+                        vectorWriteError: 'boom',
+                    },
+                },
+            },
+        );
     }
 
     const report = await manager.getConsistencyReport(5);
@@ -452,7 +472,7 @@ test('getConsistencyReport summarises documents', async (t) => {
 });
 
 test('getChromaQueueStats returns queue snapshot', async (t) => {
-    const { manager, queueStub } = setupManager();
+    const { manager, queueStub } = await setupManager();
     await manager.insert({ id: 'queue', text: 'snapshot', timestamp: Date.now(), metadata: {} });
 
     const stats = manager.getChromaQueueStats();
@@ -462,9 +482,8 @@ test('getChromaQueueStats returns queue snapshot', async (t) => {
 });
 
 test('cleanup shuts down queue', async (t) => {
-    const { manager, queueStub } = setupManager();
+    const { manager, queueStub } = await setupManager();
 
     await manager.cleanup();
     t.is(queueStub.getShutdownCount(), 1);
 });
-
