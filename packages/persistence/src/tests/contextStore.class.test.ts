@@ -69,7 +69,11 @@ test('createCollection stores new manager and blocks duplicates', async (t) => {
     const store = new ContextStore();
     const stubManager = createManagerStub('alpha', makeDocs());
 
-    (DualStoreManager as unknown as { create: typeof DualStoreManager.create }).create = async () => stubManager;
+    (DualStoreManager as unknown as { create: typeof DualStoreManager.create }).create = (async (
+        _name: string,
+        _textKey: string,
+        _timeStampKey: string,
+    ) => stubManager as unknown as DualStoreManager<any, any>) as typeof DualStoreManager.create;
 
     const created = await store.createCollection('alpha', 'text', 'timestamp');
     t.is(created, stubManager);
@@ -89,10 +93,14 @@ test('getOrCreateCollection reuses existing collection', async (t) => {
     t.is(retrieved, existing);
 
     let called = false;
-    (DualStoreManager as unknown as { create: typeof DualStoreManager.create }).create = async () => {
+    (DualStoreManager as unknown as { create: typeof DualStoreManager.create }).create = (async (
+        _name: string,
+        _textKey: string,
+        _timeStampKey: string,
+    ) => {
         called = true;
-        return createManagerStub('new', makeDocs());
-    };
+        return createManagerStub('new', makeDocs()) as unknown as DualStoreManager<any, any>;
+    }) as typeof DualStoreManager.create;
 
     const created = await store.getOrCreateCollection('new');
     t.true(called);
@@ -154,13 +162,7 @@ test('compileContext returns deduplicated conversation with images and formattin
     const manager = createManagerStub('alpha', docs);
     store.collections.set('alpha', manager);
 
-    const messages = await store.compileContext({
-        texts: ['seed question'],
-        recentLimit: 2,
-        queryLimit: 3,
-        limit: 5,
-        formatAssistantMessages: true,
-    });
+    const messages = await store.compileContext(['seed question'], 2, 3, 5, true);
 
     t.true(messages.some((msg) => msg.images?.length === 1));
     t.true(messages.some((msg) => msg.role === 'assistant'));
@@ -184,4 +186,3 @@ test('compileContext supports legacy positional arguments', async (t) => {
     t.true(messages.length > 0);
     t.true(manager.getRelevantCalls().length >= 1);
 });
-

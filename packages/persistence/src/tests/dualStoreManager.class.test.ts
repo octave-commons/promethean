@@ -283,13 +283,19 @@ test('insert writes metadata and queues chroma vector', async (t) => {
 
     const storedDocs = mongoHarness.getDocs('dual_store_entries');
     t.is(storedDocs.length, 1);
-    t.like(storedDocs[0], {
+    const [firstDoc] = storedDocs;
+    t.truthy(firstDoc);
+    if (!firstDoc) {
+        t.fail('expected stored document');
+        return;
+    }
+    t.like(firstDoc, {
         id: 'doc-1',
         text: 'hello world',
     });
-    t.true(storedDocs[0].metadata.vectorWriteSuccess);
-    t.is(storedDocs[0].metadata.vectorWriteError, undefined);
-    t.truthy(storedDocs[0].metadata.vectorWriteTimestamp);
+    t.true(firstDoc.metadata?.vectorWriteSuccess ?? false);
+    t.is(firstDoc.metadata?.vectorWriteError, undefined);
+    t.truthy(firstDoc.metadata?.vectorWriteTimestamp);
 
     const queueCalls = queueStub.getCalls();
     t.is(queueCalls.length, 1);
@@ -301,7 +307,7 @@ test('insert writes metadata and queues chroma vector', async (t) => {
         metadata: {
             type: 'message',
             nested: JSON.stringify({ level: 1 }),
-            timestamp: storedDocs[0].timestamp,
+            timestamp: firstDoc.timestamp,
         },
     });
 
@@ -323,9 +329,15 @@ test('insert records vector failure without throwing in eventual mode', async (t
 
     const storedDocs = mongoHarness.getDocs('dual_store_entries');
     t.is(storedDocs.length, 1);
-    t.false(storedDocs[0].metadata.vectorWriteSuccess);
-    t.regex(storedDocs[0].metadata.vectorWriteError ?? '', /vector-write-failure/);
-    t.is(storedDocs[0].metadata.vectorWriteTimestamp, null);
+    const [failedDoc] = storedDocs;
+    t.truthy(failedDoc);
+    if (!failedDoc) {
+        t.fail('expected stored failure document');
+        return;
+    }
+    t.false(failedDoc.metadata?.vectorWriteSuccess ?? true);
+    t.regex(failedDoc.metadata?.vectorWriteError ?? '', /vector-write-failure/);
+    t.is(failedDoc.metadata?.vectorWriteTimestamp ?? null, null);
 
     await manager.cleanup();
 });
