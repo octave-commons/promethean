@@ -31,12 +31,12 @@ export const getConsistencyReport = async <TextKey extends string, TimeKey exten
             metadata: doc.metadata,
         });
 
-        if (vectorWriteSuccess === true) {
+        if (vectorWriteSuccess === true && !vectorWriteError) {
             consistentDocuments++;
             return;
         }
 
-        if (vectorWriteSuccess === false) {
+        if (vectorWriteSuccess === false || Boolean(vectorWriteError)) {
             inconsistentDocuments++;
             if (vectorWriteError) {
                 vectorWriteFailures.push({
