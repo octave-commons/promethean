@@ -7,8 +7,6 @@
 
 import test from 'ava';
 
-import type { IndexingStats, IndexingOptions, UnifiedIndexingConfig } from '../../unified-indexing-api.js';
-
 import {
     createMockIndexingStats,
     createMockIndexingOptions,

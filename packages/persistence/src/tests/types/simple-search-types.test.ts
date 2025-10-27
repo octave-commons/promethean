@@ -7,8 +7,6 @@
 
 import test from 'ava';
 
-import type { SearchQuery, SearchResult, SearchResponse } from '../../unified-indexing-api.js';
-
 import {
     createMockSearchQuery,
     createMockSearchResult,
@@ -125,8 +123,12 @@ test('SearchResult type structure validation', (t) => {
         source: 'filesystem' as const,
         timestamp: Date.now(),
         metadata: {
-            fileName: 'test.txt',
-            filePath: '/test/test.txt',
+            type: 'file' as const,
+            source: 'filesystem' as const,
+            path: '/test/test.txt',
+            extension: 'txt',
+            directory: '/test',
+            size: 100,
         },
     };
 

@@ -5,7 +5,7 @@
  * from the unified-indexing-api and unified-indexing-client modules.
  */
 
-import type { IndexableContent, ContentType, ContentSource } from '../../unified-content-model.js';
+import type { IndexableContent, ContentType, ContentSource, FileMetadata } from '../../unified-content-model.js';
 
 import type {
     SearchQuery,
@@ -20,6 +20,15 @@ import type {
  * Create a mock IndexableContent object
  */
 export function createMockIndexableContent(overrides: Partial<IndexableContent> = {}): IndexableContent {
+    const baseMetadata = {
+        type: 'file' as const,
+        source: 'filesystem' as const,
+        path: '/test/path/test-file.txt',
+        extension: 'txt',
+        directory: '/test/path',
+        size: 1024,
+    };
+
     return {
         id: 'test-content-id',
         content: 'Test content for type validation',
@@ -27,14 +36,9 @@ export function createMockIndexableContent(overrides: Partial<IndexableContent> 
         source: 'filesystem' as ContentSource,
         timestamp: Date.now(),
         metadata: {
-            type: 'file',
-            source: 'filesystem',
-            path: '/test/path/test-file.txt',
-            extension: 'txt',
-            directory: '/test/path',
-            size: 1024,
+            ...baseMetadata,
             ...overrides.metadata,
-        } as any,
+        } as FileMetadata,
         ...overrides,
     };
 }
@@ -103,6 +107,10 @@ export function createMockIndexingStats(overrides: Partial<IndexingStats> = {}):
             discord: 300,
             opencode: 200,
             kanban: 100,
+            agent: 50,
+            user: 25,
+            system: 15,
+            external: 10,
         },
         lastIndexed: Date.now(),
         storageStats: {
@@ -171,7 +179,7 @@ export function createMockUnifiedIndexingConfig(overrides: Partial<UnifiedIndexi
 export function isValidIndexableContent(obj: unknown): obj is IndexableContent {
     if (!obj || typeof obj !== 'object') return false;
 
-    const content = obj as any;
+    const content = obj as Record<string, unknown>;
     return (
         typeof content.id === 'string' &&
         typeof content.content === 'string' &&
@@ -185,7 +193,7 @@ export function isValidIndexableContent(obj: unknown): obj is IndexableContent {
 export function isValidSearchQuery(obj: unknown): obj is SearchQuery {
     if (!obj || typeof obj !== 'object') return false;
 
-    const query = obj as any;
+    const query = obj as Record<string, unknown>;
     return (
         (!query.query || typeof query.query === 'string') &&
         (!query.limit || typeof query.limit === 'number') &&
@@ -199,7 +207,7 @@ export function isValidSearchQuery(obj: unknown): obj is SearchQuery {
 export function isValidSearchResult(obj: unknown): obj is SearchResult {
     if (!obj || typeof obj !== 'object') return false;
 
-    const result = obj as any;
+    const result = obj as Record<string, unknown>;
     return (
         isValidIndexableContent(result.content) &&
         typeof result.score === 'number' &&
@@ -210,7 +218,7 @@ export function isValidSearchResult(obj: unknown): obj is SearchResult {
 export function isValidSearchResponse(obj: unknown): obj is SearchResponse {
     if (!obj || typeof obj !== 'object') return false;
 
-    const response = obj as any;
+    const response = obj as Record<string, unknown>;
     return (
         Array.isArray(response.results) &&
         response.results.every(isValidSearchResult) &&
@@ -223,15 +231,16 @@ export function isValidSearchResponse(obj: unknown): obj is SearchResponse {
 export function isValidIndexingStats(obj: unknown): obj is IndexingStats {
     if (!obj || typeof obj !== 'object') return false;
 
-    const stats = obj as any;
+    const stats = obj as Record<string, unknown>;
+    const storageStats = stats.storageStats as Record<string, unknown>;
     return (
         typeof stats.totalContent === 'number' &&
         typeof stats.contentByType === 'object' &&
         typeof stats.contentBySource === 'object' &&
         typeof stats.lastIndexed === 'number' &&
-        typeof stats.storageStats === 'object' &&
-        typeof stats.storageStats.vectorSize === 'number' &&
-        typeof stats.storageStats.metadataSize === 'number' &&
-        typeof stats.storageStats.totalSize === 'number'
+        typeof storageStats === 'object' &&
+        typeof storageStats.vectorSize === 'number' &&
+        typeof storageStats.metadataSize === 'number' &&
+        typeof storageStats.totalSize === 'number'
     );
 }
