@@ -104,7 +104,8 @@ const createInMemoryCollection = () => {
         async deleteMany(filter: Record<string, any>) {
             let count = 0;
             for (let i = docs.length - 1; i >= 0; i--) {
-                if (matchesFilter(docs[i], filter)) {
+                const current = docs[i];
+                if (current && matchesFilter(current, filter)) {
                     docs.splice(i, 1);
                     count++;
                 }
@@ -151,9 +152,11 @@ const createChromaHarness = () => {
         collection: {
             async add(payload: { ids: string[]; documents: string[]; metadatas: Record<string, any>[] }) {
                 payload.ids.forEach((id, index) => {
+                    const documentValue = payload.documents[index] ?? '';
+                    const metadataValue = clone(payload.metadatas[index] ?? {});
                     store.set(id, {
-                        document: payload.documents[index],
-                        metadata: clone(payload.metadatas[index] ?? {}),
+                        document: documentValue,
+                        metadata: metadataValue,
                     });
                 });
             },
@@ -182,8 +185,18 @@ const createChromaHarness = () => {
                 const results = ids.filter((id) => store.has(id));
                 return {
                     ids: [results],
-                    metadatas: [results.map((id) => clone(store.get(id)!.metadata))],
-                    documents: [results.map((id) => store.get(id)!.document)],
+                    metadatas: [
+                        results.map((id) => {
+                            const entry = store.get(id);
+                            return clone(entry?.metadata ?? {});
+                        }),
+                    ],
+                    documents: [
+                        results.map((id) => {
+                            const entry = store.get(id);
+                            return entry?.document ?? '';
+                        }),
+                    ],
                 };
             },
         },
@@ -280,7 +293,9 @@ test('insert writes metadata and queues chroma vector', async (t) => {
 
     const queueCalls = queueStub.getCalls();
     t.is(queueCalls.length, 1);
-    t.deepEqual(queueCalls[0], {
+    const firstCall = queueCalls[0];
+    t.truthy(firstCall);
+    t.deepEqual(firstCall, {
         id: 'doc-1',
         document: 'hello world',
         metadata: {
