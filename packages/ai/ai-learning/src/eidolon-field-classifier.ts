@@ -1,5 +1,4 @@
-// Eidolon Field-Based Task Classifier
-// Uses embedding vectors and physics simulation for intelligent task clustering
+// Eidolon Field Classifier - Uses embedding vectors and physics simulation for intelligent task clustering
 
 import type {
   TaskEmbedding,
@@ -49,208 +48,71 @@ export class EidolonFieldClassifier {
     this.timeoutMs = timeoutMs;
   }
 
-  private async ensureInitialized() {
+  private async ensureInitialized(): Promise<void> {
     if (!this.initialized) {
       await loadEidolonField();
-      this.field = new FieldN(this.fieldDim, 0.95); // Slower decay for stability
+      this.field = new FieldN(this.fieldDim, 0.95);
       this.initialized = true;
     }
   }
 
   /**
-   * Generate embedding for task prompt using Ollama embedding model
+   * Generate embedding using Ollama queue service
    */
-  async generateEmbedding(prompt: string): Promise<number[]> {
+  private async generateEmbedding(prompt: string): Promise<number[]> {
+    await this.ensureInitialized();
+
+    // Try to use Ollama queue service first
     try {
-      // Try to get embedding from Ollama
-      const embedding = await this.getOllamaEmbedding(prompt);
-      return embedding;
+      const { ollamaQueueSubmitJob } = await import('@promethean-os/ollama-queue');
+      
+      const jobResponse = await ollamaQueueSubmitJob({
+        type: 'embedding',
+        model: this.embeddingModel,
+        input: prompt,
+      });
+
+      const jobId = jobResponse.jobId;
+
+      // Wait for job completion with timeout
+      const startTime = Date.now();
+      while (Date.now() - startTime < this.timeoutMs) {
+        const { ollamaQueueGetJobStatus } = await import('@promethean-os/ollama-queue');
+        const status = await ollamaQueueGetJobStatus({ jobId });
+
+        if (!status) {
+          throw new Error('Failed to get job status from Ollama queue');
+        }
+
+        if (status.status === 'completed') {
+          // Get the embedding result
+          const { ollamaQueueGetJobResult } = await import('@promethean-os/ollama-queue');
+          const result = await ollamaQueueGetJobResult({ jobId });
+          
+          if (!result) {
+            throw new Error('Failed to get embedding result from Ollama queue');
+          }
+
+          return result.embedding;
+        }
+
+        if (status.status === 'failed') {
+          throw new Error('Embedding job failed');
+        }
+
+        if (status.status === 'canceled') {
+          throw new Error('Embedding job was canceled');
+        }
+
+        // Job is still pending/running, wait a bit
+        await new Promise(resolve => setTimeout(resolve, 500));
+      }
+
+      throw new Error(`Embedding job timed out after ${this.timeoutMs}ms`);
     } catch (error) {
-      console.warn(`Ollama embedding failed, falling back to hash-based: ${error}`);
-      // Fallback to hash-based embedding
+      console.warn('Ollama queue embedding failed, using fallback:', error);
       return this.generateHashEmbedding(prompt);
     }
-  }
-
-/**
-   * Get embedding from Ollama queue system
-   */
-  private async getOllamaEmbedding(prompt: string): Promise<number[]> {
-    let lastError: Error | null = null;
-
-    for (let attempt = 0; attempt < this.maxRetries; attempt++) {
-      try {
-        // Submit embedding job to Ollama queue using the proper tool
-        const jobResponse = await (globalThis as any).ollamaQueueSubmitJob?.({
-          jobName: `embedding-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
-          modelName: this.embeddingModel,
-          jobType: 'embedding',
-          input: prompt,
-          priority: 'medium',
-          options: {
-            temperature: 0.0, // Deterministic for embeddings
-          }
-        });
-
-        if (!jobResponse || !jobResponse.jobId) {
-          throw new Error('Failed to submit embedding job to Ollama queue');
-        }
-
-        const jobId = jobResponse.jobId;
-
-        // Wait for job completion with timeout
-        const startTime = Date.now();
-        while (Date.now() - startTime < this.timeoutMs) {
-          const status = await (globalThis as any).ollamaQueueGetJobStatus?.({ jobId });
-
-          if (!status) {
-            throw new Error('Failed to get job status from Ollama queue');
-          }
-
-          if (status.status === 'completed') {
-            // Get the embedding result
-            const result = await (globalThis as any).ollamaQueueGetJobResult?.({ jobId });
-
-            if (!result || !result.embedding) {
-              throw new Error('Job completed but no embedding result found');
-            }
-
-            // Ensure the embedding has the correct dimension
-            const embedding = Array.isArray(result.embedding) ? result.embedding : result.embedding.data;
-            
-            if (!Array.isArray(embedding)) {
-              throw new Error('Invalid embedding format received from Ollama');
-            }
-
-            // Validate embedding dimension
-            if (embedding.length !== this.embeddingDim) {
-              console.warn(`Embedding dimension mismatch: expected ${this.embeddingDim}, got ${embedding.length}`);
-              
-              // If embedding is larger, truncate it
-              if (embedding.length > this.embeddingDim) {
-                return embedding.slice(0, this.embeddingDim);
-              }
-              
-              // If embedding is smaller, pad with zeros
-              if (embedding.length < this.embeddingDim) {
-                const padded = new Array(this.embeddingDim).fill(0);
-                for (let i = 0; i < embedding.length; i++) {
-                  padded[i] = embedding[i];
-                }
-                return padded;
-              }
-            }
-
-            return embedding;
-          }
-
-          if (status.status === 'failed') {
-            throw new Error(`Embedding job failed: ${status.error || 'Unknown error'}`);
-          }
-
-          if (status.status === 'canceled') {
-            throw new Error('Embedding job was canceled');
-          }
-
-          // Job is still pending/running, wait a bit
-          await new Promise(resolve => setTimeout(resolve, 500));
-        }
-
-        throw new Error(`Embedding job timed out after ${this.timeoutMs}ms`);
-
-      } catch (error) {
-        lastError = error as Error;
-        console.warn(`Embedding attempt ${attempt + 1} failed:`, error);
-        
-        // Wait before retry (exponential backoff)
-        if (attempt < this.maxRetries - 1) {
-          const delay = Math.min(1000 * Math.pow(2, attempt), 5000);
-          await new Promise(resolve => setTimeout(resolve, delay));
-        }
-      }
-    }
-
-    throw lastError || new Error('All embedding attempts failed');
-  }
-
-        const jobId = jobResponse.jobId;
-
-        // Wait for job completion with timeout
-        const startTime = Date.now();
-        while (Date.now() - startTime < this.timeoutMs) {
-          const status = await ollamaQueueGetJobStatus({ jobId });
-
-          if (!status) {
-            throw new Error('Failed to get job status from Ollama queue');
-          }
-
-          if (status.status === 'completed') {
-            // Get the embedding result
-            const result = await ollamaQueueGetJobResult({ jobId });
-
-            if (!result || !result.embedding) {
-              throw new Error('Job completed but no embedding result found');
-            }
-
-            // Ensure the embedding has the correct dimension
-            const embedding = Array.isArray(result.embedding)
-              ? result.embedding
-              : result.embedding.data;
-
-            if (!Array.isArray(embedding)) {
-              throw new Error('Invalid embedding format received from Ollama');
-            }
-
-            // Validate embedding dimension
-            if (embedding.length !== this.embeddingDim) {
-              console.warn(
-                `Embedding dimension mismatch: expected ${this.embeddingDim}, got ${embedding.length}`,
-              );
-
-              // If embedding is larger, truncate it
-              if (embedding.length > this.embeddingDim) {
-                return embedding.slice(0, this.embeddingDim);
-              }
-
-              // If embedding is smaller, pad with zeros
-              if (embedding.length < this.embeddingDim) {
-                const padded = new Array(this.embeddingDim).fill(0);
-                for (let i = 0; i < embedding.length; i++) {
-                  padded[i] = embedding[i];
-                }
-                return padded;
-              }
-            }
-
-            return embedding;
-          }
-
-          if (status.status === 'failed') {
-            throw new Error(`Embedding job failed: ${status.error || 'Unknown error'}`);
-          }
-
-          if (status.status === 'canceled') {
-            throw new Error('Embedding job was canceled');
-          }
-
-          // Job is still pending/running, wait a bit
-          await new Promise((resolve) => setTimeout(resolve, 500));
-        }
-
-        throw new Error(`Embedding job timed out after ${this.timeoutMs}ms`);
-      } catch (error) {
-        lastError = error as Error;
-        console.warn(`Embedding attempt ${attempt + 1} failed:`, error);
-
-        // Wait before retry (exponential backoff)
-        if (attempt < this.maxRetries - 1) {
-          const delay = Math.min(1000 * Math.pow(2, attempt), 5000);
-          await new Promise((resolve) => setTimeout(resolve, delay));
-        }
-      }
-    }
-
-    throw lastError || new Error('All embedding attempts failed');
   }
 
   /**
@@ -270,7 +132,7 @@ export class EidolonFieldClassifier {
 
     // Normalize
     const magnitude = Math.sqrt(embedding.reduce((sum, val) => sum + val * val, 0));
-    return embedding.map((val) => (magnitude > 0 ? val / magnitude : 0));
+    return embedding.map(val => (magnitude > 0 ? val / magnitude : 0));
   }
 
   /**
@@ -280,11 +142,11 @@ export class EidolonFieldClassifier {
     if (this.tasks.length < 10) return; // Need minimum samples
 
     // Simple PCA implementation - in practice use a proper library
-    const embeddings = this.tasks.map((t) => t.embedding);
+    const embeddings = this.tasks.map(t => t.embedding);
     this.pcaMean = new Array(this.embeddingDim).fill(0);
 
     // Calculate mean
-    embeddings.forEach((emb) => {
+    embeddings.forEach(emb => {
       emb.forEach((val, i) => {
         (this.pcaMean![i] as number) += val;
       });
@@ -295,7 +157,7 @@ export class EidolonFieldClassifier {
     }
 
     // Center the data
-    const centered = embeddings.map((emb) =>
+    const centered = embeddings.map(emb =>
       emb.map((val, i) => val - (this.pcaMean![i] as number)),
     );
 
@@ -324,7 +186,7 @@ export class EidolonFieldClassifier {
     for (let i = 0; i < n; i++) {
       for (let j = 0; j < n; j++) {
         let sum = 0;
-        data.forEach((row) => {
+        data.forEach(row => {
           sum += (row[i] as number) * (row[j] as number);
         });
         (cov[i] as number[])[j] = sum / (data.length - 1);
@@ -478,7 +340,7 @@ export class EidolonFieldClassifier {
     let minDistance = Infinity;
     let clusterMembership: number[] = [];
 
-    this.attractors.forEach((attractor) => {
+    this.attractors.forEach(attractor => {
       const distance = position.subtract(attractor.center).magnitude();
       clusterMembership.push(1.0 / (1.0 + distance));
 
@@ -583,7 +445,7 @@ export class EidolonFieldClassifier {
       this.field!.decayAll();
 
       // Re-apply attractor influences
-      this.attractors.forEach((attractor) => {
+      this.attractors.forEach(attractor => {
         const node = new FieldNode(attractor.center, attractor.strength, 3.0);
         node.apply(this.field!);
       });
