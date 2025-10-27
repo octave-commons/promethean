@@ -4,11 +4,14 @@
     "outDir": "./dist",
     "rootDir": "./src"
   },
-  "include": [
-    "src/**/*"
-  ],
+  "include": ["src/**/*"],
   "exclude": [
     "dist",
-    "node_modules"
+    "node_modules",
+    "src/tests/corrected.test.ts",
+    "src/tests/cross-domain-search-engine.test.ts",
+    "src/tests/types/*.test.ts",
+    "src/tests/unified-indexer-service.test.ts",
+    "src/tests/utils/*.ts"
   ]
 }
