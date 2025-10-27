@@ -1,92 +1,97 @@
-/**
- * Insert an entry into the dual store (functional API)
- */
-export async function insert(managerOrName: any, entry: DualStoreEntry<any, any>): Promise<void> {
-    const manager = typeof managerOrName === 'string' ? managerRegistry.get(managerOrName) : managerOrName;
+import type { DualStoreEntry } from '../../types.js';
+import type { DualStoreDependencies, InsertInputs } from './types.js';
 
-    if (!manager) {
-        throw new Error(`Manager not found: ${typeof managerOrName === 'string' ? managerOrName : 'unknown'}`);
+const normaliseMetadataValue = (value: unknown): string | number | boolean | null => {
+    if (value === null || value === undefined) {
+        return null;
     }
 
-    const textKey = manager.textKey as string;
-    const timeStampKey = manager.timeStampKey as string;
-    const collectionName = (manager.mongoCollection as { collectionName: string }).collectionName;
+    if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+        return value;
+    }
 
-    const id = entry.id ?? randomUUID();
-    const timestamp = (entry as Record<string, any>)[timeStampKey] || Date.now();
+    return JSON.stringify(value);
+};
 
-    // Create mutable copy to work with readonly types
-    const mutableEntry = {
-        ...entry,
-        id,
+const createChromaMetadata = <TextKey extends string, TimeKey extends string>(
+    entry: DualStoreEntry<TextKey, TimeKey>,
+    timestamp: number,
+    timeStampKey: TimeKey,
+): Record<string, string | number | boolean | null> => {
+    const metadata = entry.metadata ?? {};
+    const base: Record<string, string | number | boolean | null> = {
         [timeStampKey]: timestamp,
+    } as Record<string, string | number | boolean | null>;
+
+    for (const [key, value] of Object.entries(metadata)) {
+        base[key] = normaliseMetadataValue(value);
+    }
+
+    return base;
+};
+
+export const insert = async <TextKey extends string, TimeKey extends string>(
+    inputs: InsertInputs<TextKey, TimeKey>,
+    dependencies: DualStoreDependencies<TextKey, TimeKey>,
+): Promise<void> => {
+    const { entry } = inputs;
+    const { state, chroma, mongo, env, time, uuid, logger } = dependencies;
+
+    const entryId = entry.id ?? uuid();
+    const timestamp = (entry as Record<string, unknown>)[state.timeStampKey] ?? time();
+
+    const enhancedEntry: DualStoreEntry<TextKey, TimeKey> = {
+        ...entry,
+        id: entryId,
+        [state.timeStampKey]: timestamp as DualStoreEntry<TextKey, TimeKey>[TimeKey],
         metadata: {
             ...entry.metadata,
-            [manager.timeStampKey]: timestamp,
+            [state.timeStampKey]: timestamp,
         },
     };
 
-    const dualWrite = (process.env.DUAL_WRITE_ENABLED ?? 'true').toLowerCase() !== 'false';
-    const isImage = mutableEntry.metadata?.type === 'image';
+    const dualWriteEnabled = env.dualWriteEnabled;
+    const isImage = enhancedEntry.metadata?.type === 'image';
+
     let vectorWriteSuccess = true;
     let vectorWriteError: Error | null = null;
 
-    if (dualWrite && (!isImage || manager.supportsImages)) {
+    if (dualWriteEnabled && (!isImage || state.supportsImages)) {
         try {
-            // Flatten metadata for ChromaDB compatibility
-            const chromaMetadata: Record<string, string | number | boolean | null> = {};
-            if (mutableEntry.metadata) {
-                for (const [key, value] of Object.entries(mutableEntry.metadata)) {
-                    if (value === null || value === undefined) {
-                        chromaMetadata[key] = null;
-                    } else if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
-                        chromaMetadata[key] = value;
-                    } else {
-                        // Convert objects to JSON strings for ChromaDB compatibility
-                        chromaMetadata[key] = JSON.stringify(value);
-                    }
-                }
-            }
-
-            // Use write queue for batching
-            await manager.chromaWriteQueue.add(id, (mutableEntry as Record<string, any>)[textKey], chromaMetadata);
-        } catch (e) {
+            const chromaMetadata = createChromaMetadata(enhancedEntry, Number(timestamp), state.timeStampKey);
+            await chroma.queue.add(entryId, (enhancedEntry as Record<string, string>)[state.textKey], chromaMetadata);
+        } catch (error) {
             vectorWriteSuccess = false;
-            vectorWriteError = e instanceof Error ? e : new Error(String(e));
+            vectorWriteError = error instanceof Error ? error : new Error(String(error));
 
-            console.error('Vector store write failed for entry', {
-                id,
-                collection: manager.name,
+            logger.error('Vector store write failed for entry', {
+                id: entryId,
+                collection: state.name,
                 error: vectorWriteError.message,
                 stack: vectorWriteError.stack,
-                metadata: mutableEntry.metadata,
+                metadata: enhancedEntry.metadata,
             });
 
-            const consistencyLevel = process.env.DUAL_WRITE_CONSISTENCY || 'eventual';
-            if (consistencyLevel === 'strict') {
-                throw new Error(`Critical: Vector store write failed for entry ${id}: ${vectorWriteError.message}`);
+            if (env.consistencyLevel === 'strict') {
+                throw new Error(`Critical: Vector store write failed for entry ${entryId}: ${vectorWriteError.message}`);
             }
         }
     }
 
-    // Ensure MongoDB connection is valid before inserting
-    const mongoClient = await getMongoClient();
-    const validatedClient = await validateMongoConnection(mongoClient);
-    const db = validatedClient.db('database');
-    const collection = db.collection(collectionName);
+    const collection = await mongo.getCollection();
 
-    // Add consistency metadata to track vector write status
     const enhancedMetadata = {
-        ...mutableEntry.metadata,
+        ...enhancedEntry.metadata,
         vectorWriteSuccess,
         vectorWriteError: vectorWriteError?.message,
-        vectorWriteTimestamp: vectorWriteSuccess ? Date.now() : null,
+        vectorWriteTimestamp: vectorWriteSuccess ? time() : null,
     };
 
     await collection.insertOne({
-        id: mutableEntry.id,
-        [textKey]: (mutableEntry as Record<string, any>)[textKey],
-        [timeStampKey]: (mutableEntry as Record<string, any>)[timeStampKey],
+        id: enhancedEntry.id,
+        [state.textKey]: (enhancedEntry as Record<string, string>)[state.textKey],
+        [state.timeStampKey]: enhancedEntry[state.timeStampKey],
         metadata: enhancedMetadata,
-    } as OptionalUnlessRequiredId<DualStoreEntry<any, any>>);
-}
+    } as InsertInputs<TextKey, TimeKey>['entry'] & Record<string, unknown>);
+};
+
