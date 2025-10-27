@@ -19,11 +19,11 @@ export type {
 } from '@promethean-os/persistence';
 
 // Re-export service-specific types
-export type { UnifiedIndexerServiceConfig, UnifiedIndexerStats, ServiceStatus } from './service.js';
+export type { UnifiedIndexerServiceConfig, UnifiedIndexerStats, ServiceStatus } from './service.ts';
 
 // Re-export search-specific types
 export type {
   CrossDomainSearchOptions,
   EnhancedSearchResult,
   CrossDomainSearchResponse,
-} from './search.js';
+} from './search.ts';
