@@ -35,7 +35,7 @@ const SANITIZE_CONFIG = {
   allowedScriptDomains: [],
   allowedScriptSchemes: [],
   allowedScriptTypes: [],
-  allowedStyles: [],
+  allowedStyles: {},
   allowedClasses: {},
   disallowedTags: ['script', 'iframe', 'object', 'embed', 'form', 'input', 'button'],
   disallowedAttributes: ['onclick', 'onload', 'onerror', 'onmouseover'],

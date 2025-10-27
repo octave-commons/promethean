@@ -1,5 +1,5 @@
 import type { FastifyRequest } from 'fastify';
-import sanitizeHtml from 'sanitize-html';
+import * as sanitizeHtml from 'sanitize-html';
 
 /**
  * Content sanitization utilities
@@ -42,7 +42,7 @@ export class ContentSanitizer {
       ...options,
     };
 
-    return sanitizeHtml(html, defaultOptions);
+    return (sanitizeHtml as any)(html, defaultOptions);
   }
 
   /**

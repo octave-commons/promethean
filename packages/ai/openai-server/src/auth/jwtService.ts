@@ -1,6 +1,6 @@
 import type { JWTPayload, AuthTokens, AuthConfig } from '../types/security.js';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
+import * as jwt from 'jsonwebtoken';
+import * as bcrypt from 'bcryptjs';
 
 /**
  * Standalone JWT signing function for test utilities
