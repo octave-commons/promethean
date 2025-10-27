@@ -134,6 +134,17 @@ export class GitEventReconstructor {
 
     // Try to extract from file content
     if (content) {
+      const uuidMatch = content.match(/uuid:\s*['"]?([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})['"]?/i);
+      if (uuidMatch?.[1]) {
+        return uuidMatch[1];
+      }
+    }
+
+    return null;
+  }
+
+    // Try to extract from file content
+    if (content) {
       const uuidMatch = content.match(
         /uuid:\s*['"]?([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})['"]?/i,
       );
@@ -150,7 +161,7 @@ export class GitEventReconstructor {
    */
   private extractTaskStatus(content: string): string | null {
     const statusMatch = content.match(/status:\s*['"]?([^'"\n]+)['"]?/i);
-    return statusMatch ? statusMatch[1].trim() : null;
+    return statusMatch?.[1]?.trim() || null;
   }
 
   /**
