@@ -83,16 +83,14 @@ Derived results are broadcast as they complete.
 
 ## Default Derivation Policy
 
-| Input MIME | Text derivation | Image derivation |
-```
-| --- | --- | --- |
-```
-| `application/pdf` | Extract text, fallback OCR | Page render + thumbnail |
-| `image/*` | OCR with language hints | Normalised PNG/WebP + thumbnail |
-| `text/*`, `application/json` | Identity | Optional screenshot preview |
-| Office formats (`docx`, `pptx`, `xlsx`) | Convert to Markdown/notes | Per-page or slide images |
-| `text/html` | Readability → Markdown | Screenshot + thumbnail |
-| `audio/*`, `video/*` | Speech-to-text transcript | Optional keyframes |
+| Input MIME                              | Text derivation            | Image derivation                |
+| --------------------------------------- | -------------------------- | ------------------------------- |
+| `application/pdf`                       | Extract text, fallback OCR | Page render + thumbnail         |
+| `image/*`                               | OCR with language hints    | Normalised PNG/WebP + thumbnail |
+| `text/*`, `application/json`            | Identity                   | Optional screenshot preview     |
+| Office formats (`docx`, `pptx`, `xlsx`) | Convert to Markdown/notes  | Per-page or slide images        |
+| `text/html`                             | Readability → Markdown     | Screenshot + thumbnail          |
+| `audio/*`, `video/*`                    | Speech-to-text transcript  | Optional keyframes              |
 
 Gateways store derivations via `enso-transcode` and cache them using the same
 CID scheme as original assets.

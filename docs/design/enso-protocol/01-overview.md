@@ -34,21 +34,19 @@ flowchart LR
 
 ## Package Ecosystem TypeScript-first
 
-| Package | Role |
-```
-| --- | --- |
-```
-| `packages/enso-protocol` | Shared types, codecs, guards, and Zod schemas |
-| `packages/enso-gateway` | Room server, authentication, policy enforcement |
-| `packages/enso-client` | Browser/Node client SDK with voice helpers |
-| `packages/enso-cli` | Minimal TUI/voice demo client |
-| `packages/cephalon-core` | Interpreter that consumes Enso streams |
-| `packages/enso-asset` | Content-addressed asset store |
-| `packages/enso-cache` | Cache registry and LRU/TTL enforcement |
-| `packages/enso-transcode` | Deterministic derivation workers |
-| `packages/enso-context` | Context registry and LLM view builder |
-| `packages/enso-mcp` | Model Context Protocol bridge |
-| `packages/enso-rituals` | Guardrail and interoperability tests |
+| Package                   | Role                                            |
+| ------------------------- | ----------------------------------------------- |
+| `packages/enso-protocol`  | Shared types, codecs, guards, and Zod schemas   |
+| `packages/enso-gateway`   | Room server, authentication, policy enforcement |
+| `packages/enso-client`    | Browser/Node client SDK with voice helpers      |
+| `packages/enso-cli`       | Minimal TUI/voice demo client                   |
+| `packages/cephalon-core`  | Interpreter that consumes Enso streams          |
+| `packages/enso-asset`     | Content-addressed asset store                   |
+| `packages/enso-cache`     | Cache registry and LRU/TTL enforcement          |
+| `packages/enso-transcode` | Deterministic derivation workers                |
+| `packages/enso-context`   | Context registry and LLM view builder           |
+| `packages/enso-mcp`       | Model Context Protocol bridge                   |
+| `packages/enso-rituals`   | Guardrail and interoperability tests            |
 
 All packages use native ESM, AVA for tests, and expose strict TypeScript
 surface areas with immutable data handling.

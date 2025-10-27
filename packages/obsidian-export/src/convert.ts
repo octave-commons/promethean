@@ -183,7 +183,7 @@ async function walk(root: string): Promise<string[]> {
     const dir = todo.pop()!;
     const entries = await fs.readdir(dir, { withFileTypes: true });
     for (const e of entries) {
-      if (e.name.startsWith('.git')) continue;
+      if (e.name.startsWith('.git') || e.name.startsWith('.#')) continue;
       const p = path.join(dir, e.name);
       if (e.isDirectory()) todo.push(p);
       else out.push(p);

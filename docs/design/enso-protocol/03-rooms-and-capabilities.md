@@ -9,14 +9,12 @@ initial handshake.
 Roles provide defaults; capabilities are explicit strings prefixed with
 `can.` or a specific domain identifier.
 
-| Role | Common capabilities |
-```
-| --- | --- |
-```
-| `human` | `can.speak.audio`, `can.recv.text`, `can.asset.put` |
-| `agent` | `can.recv.audio`, `tool.call`, `tool.host`, `cache.write` |
-| `observer` | `can.recv.text`, `cache.read` |
-| `mixer` | `can.speak.audio`, `can.route.streams` |
+| Role       | Common capabilities                                       |
+| ---------- | --------------------------------------------------------- |
+| `human`    | `can.speak.audio`, `can.recv.text`, `can.asset.put`       |
+| `agent`    | `can.recv.audio`, `tool.call`, `tool.host`, `cache.write` |
+| `observer` | `can.recv.text`, `cache.read`                             |
+| `mixer`    | `can.speak.audio`, `can.route.streams`                    |
 
 Capabilities drive server-side policy enforcement and allow participants to
 negotiate tool exposure or privacy requirements.

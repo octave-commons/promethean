@@ -1,0 +1,357 @@
+# Task Breakdown for Package Consolidation
+
+## Epic 1: Foundation & Architecture (21 points)
+
+### T001: Design Unified Architecture (8 points)
+
+**Type**: Epic  
+**Priority**: P0  
+**Acceptance Criteria**:
+
+- Architecture document showing component relationships
+- Decision matrix for technology choices
+- Migration strategy document
+- Risk assessment and mitigation plan
+
+**Sub-tasks**:
+
+- T001.1: Analyze existing architectures (2 points)
+- T001.2: Design unified component model (3 points)
+- T001.3: Define integration patterns (2 points)
+- T001.4: Create migration roadmap (1 point)
+
+### T002: Create Consolidated Package Structure (5 points)
+
+**Type**: Feature  
+**Priority**: P0  
+**Acceptance Criteria**:
+
+- New package directory structure
+- Unified package.json configuration
+- TypeScript configuration for all components
+- ClojureScript build integration
+
+**Sub-tasks**:
+
+- T002.1: Design directory layout (2 points)
+- T002.2: Create package configuration (2 points)
+- T002.3: Set up build toolchain (1 point)
+
+### T003: Establish Unified Build System (5 points)
+
+**Type**: Feature  
+**Priority**: P0  
+**Acceptance Criteria**:
+
+- Single build command for all components
+- Development server with hot reload
+- Production build optimization
+- CI/CD pipeline integration
+
+**Sub-tasks**:
+
+- T003.1: Integrate TypeScript compilation (2 points)
+- T003.2: Add ClojureScript shadow-cljs integration (2 points)
+- T003.3: Configure unified scripts (1 point)
+
+### T004: Set Up Unified Testing Framework (3 points)
+
+**Type**: Feature  
+**Priority**: P1  
+**Acceptance Criteria**:
+
+- Test configuration for all languages
+- Coverage reporting
+- Test scripts in package.json
+
+---
+
+## Epic 2: Core Service Integration (21 points)
+
+### T005: Migrate HTTP Server Infrastructure (8 points)
+
+**Type**: Epic  
+**Priority**: P0  
+**Acceptance Criteria**:
+
+- Fastify server with all existing routes
+- Authentication and authorization
+- CORS and security configuration
+- Health check endpoints
+
+**Sub-tasks**:
+
+- T005.1: Extract server configuration (3 points)
+- T005.2: Migrate route handlers (3 points)
+- T005.3: Implement middleware (2 points)
+
+### T006: Integrate Dual-Store Management (5 points)
+
+**Type**: Feature  
+**Priority**: P0  
+**Acceptance Criteria**:
+
+- Dual-store initialization
+- Collection management
+- Data provider integration
+- Error handling
+
+### T007: Consolidate API Routes and Endpoints (5 points)
+
+**Type**: Feature  
+**Priority**: P0  
+**Acceptance Criteria**:
+
+- Unified API versioning
+- Consistent response formats
+- OpenAPI documentation
+- Route validation
+
+### T008: Implement Unified SSE Streaming (3 points)
+
+**Type**: Feature  
+**Priority**: P1  
+**Acceptance Criteria**:
+
+- Server-sent events for all collections
+- Client connection management
+- Event filtering and routing
+
+---
+
+## Epic 3: Client Library Unification (21 points)
+
+### T009: Consolidate Agent Management APIs (8 points)
+
+**Type**: Epic  
+**Priority**: P0  
+**Acceptance Criteria**:
+
+- Unified agent task management
+- Session management
+- Inter-agent messaging
+- Process management
+
+**Sub-tasks**:
+
+- T009.1: Merge AgentTaskManager (3 points)
+- T009.2: Consolidate session handling (3 points)
+- T009.3: Integrate messaging systems (2 points)
+
+### T010: Merge Session and Messaging Systems (5 points)
+
+**Type**: Feature  
+**Priority**: P0  
+**Acceptance Criteria**:
+
+- Unified session storage
+- Message processing pipeline
+- Event handling
+- Cache integration
+
+### T011: Integrate Ollama Queue Functionality (5 points)
+
+**Type**: Feature  
+**Priority**: P0  
+**Acceptance Criteria**:
+
+- Queue management
+- Model inference
+- Job processing
+- Performance monitoring
+
+### T012: Unify CLI and Tool Interfaces (3 points)
+
+**Type**: Feature  
+**Priority**: P1  
+**Acceptance Criteria**:
+
+- Single CLI entry point
+- Unified command structure
+- Consistent help and documentation
+
+---
+
+## Epic 4: Electron & ClojureScript Integration (13 points)
+
+### T013: Migrate ClojureScript Editor Components (8 points)
+
+**Type**: Epic  
+**Priority**: P1  
+**Acceptance Criteria**:
+
+- Editor core functionality
+- Keymap and evil mode
+- UI components
+- State management
+
+**Sub-tasks**:
+
+- T013.1: Migrate core editor (4 points)
+- T013.2: Integrate keymap system (2 points)
+- T013.3: Port UI components (2 points)
+
+### T014: Integrate Electron Main Process (3 points)
+
+**Type**: Feature  
+**Priority**: P1  
+**Acceptance Criteria**:
+
+- Main process setup
+- IPC communication
+- Menu and window management
+
+### T015: Consolidate Web UI Components (2 points)
+
+**Type**: Feature  
+**Priority**: P2  
+**Acceptance Criteria**:
+
+- Web UI server
+- Static asset serving
+- Development tools
+
+---
+
+## Epic 5: Testing & Quality Assurance (13 points)
+
+### T016: Create Integration Test Suite (5 points)
+
+**Type**: Feature  
+**Priority**: P1  
+**Acceptance Criteria**:
+
+- API integration tests
+- Database integration tests
+- Service interaction tests
+
+### T017: Implement End-to-End Testing (5 points)
+
+**Type**: Feature  
+**Priority**: P1  
+**Acceptance Criteria**:
+
+- User journey tests
+- Cross-platform tests
+- Performance benchmarks
+
+### T018: Performance Testing and Optimization (3 points)
+
+**Type**: Feature  
+**Priority**: P2  
+**Acceptance Criteria**:
+
+- Load testing
+- Memory profiling
+- Optimization recommendations
+
+---
+
+## Dependencies Matrix
+
+| Task | Depends On         |
+| ---- | ------------------ |
+| T002 | T001               |
+| T003 | T002               |
+| T004 | T003               |
+| T005 | T001, T002         |
+| T006 | T005               |
+| T007 | T006               |
+| T008 | T007               |
+| T009 | T005, T006         |
+| T010 | T009               |
+| T011 | T010               |
+| T012 | T009               |
+| T013 | T009, T010         |
+| T014 | T013               |
+| T015 | T014               |
+| T016 | All previous epics |
+| T017 | T016               |
+| T018 | T017               |
+
+---
+
+## Sprint Assignment
+
+### Sprint 1 (20 points)
+
+- T001 (8 points)
+- T002 (5 points)
+- T003 (5 points)
+- T004 (2 points - partial)
+
+### Sprint 2 (20 points)
+
+- T005 (8 points)
+- T006 (5 points)
+- T007 (5 points)
+- T004 (2 points - complete)
+
+### Sprint 3 (20 points)
+
+- T009 (8 points)
+- T010 (5 points)
+- T011 (5 points)
+- T008 (2 points)
+
+### Sprint 4 (20 points)
+
+- T013 (8 points)
+- T014 (3 points)
+- T016 (5 points)
+- T012 (4 points)
+
+### Sprint 5 (20 points)
+
+- T017 (5 points)
+- T015 (2 points)
+- T018 (3 points)
+- Documentation & cleanup (10 points)
+
+### Sprint 6 (9 points)
+
+- T018 completion (if needed)
+- Final testing & bug fixes (6 points)
+- Buffer time (3 points)
+
+---
+
+## Risk Assessment by Task
+
+### High Risk (8 points)
+
+- T001: Architecture design - Foundation impact
+- T005: HTTP server migration - API contracts
+- T009: Agent management APIs - Complex state
+- T013: Editor components - Feature regression
+
+### Medium Risk (5 points)
+
+- T002, T003, T006, T007, T010, T011, T016, T017
+- Integration complexity, testing challenges
+
+### Low Risk (1-3 points)
+
+- T004, T008, T012, T014, T015, T018
+- Configuration, documentation, optimization
+
+---
+
+## Quality Gates
+
+### Definition of Done for Each Task
+
+- [ ] Code implemented and reviewed
+- [ ] Unit tests written and passing
+- [ ] Integration tests updated
+- [ ] Documentation updated
+- [ ] No critical bugs or security issues
+- [ ] Performance benchmarks met
+
+### Epic Completion Criteria
+
+- [ ] All tasks in epic complete
+- [ ] End-to-end testing passes
+- [ ] Documentation complete
+- [ ] Stakeholder approval
+- [ ] No regression in existing functionality

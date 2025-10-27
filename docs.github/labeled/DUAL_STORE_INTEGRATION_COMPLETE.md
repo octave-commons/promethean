@@ -1,0 +1,147 @@
+# Dual Store Integration for Session Actions - Complete
+
+## Summary
+
+Successfully integrated the dual store as the primary data source for all session, event, and message read operations in the opencode-client package. This implementation provides a significant performance improvement by leveraging local MongoDB/ChromaDB storage before falling back to client API calls.
+
+## What Was Accomplished
+
+### 1. Enhanced DualStoreManager
+
+- **Added `get` operation** to DualStoreManager for direct ID-based retrieval
+- **Location**: `/home/err/devel/promethean/packages/persistence/src/dualStore.ts`
+- **Method**: `async get(id: string): Promise<DualStoreEntry<'text', 'timestamp'> | null>`
+- **Features**: Proper TypeScript generics, error handling, and null safety
+
+### 2. Updated Session Actions
+
+All session actions now use dual store as primary source with client fallback:
+
+#### `get.ts` - Session Retrieval
+
+- **Primary**: Try dual store using `sessionStore.get(`session:${sessionId}`)`
+- **Fallback**: Client API if dual store fails or returns null
+- **Messages**: Also tries dual store first with `session:${sessionId}:messages` key
+
+#### `list.ts` - Session Listing (Already Updated)
+
+- **Primary**: Uses `sessionStore.getMostRecent(1000)` for bulk retrieval
+- **Fallback**: Client API if dual store fails
+- **Features**: Pagination, sorting, message count enhancement
+
+#### `search.ts` - Session Search
+
+- **Primary**: Local text-based search across dual store entries
+- **Search Fields**: title, description, id, agent
+- **Filters**: Supports query, k (limit), sessionId filtering
+- **Fallback**: Client API if dual store fails or returns no results
+
+### 3. Updated Events Actions
+
+#### `list.ts` - Events Listing
+
+- **Primary**: Dual store retrieval with `event:` prefix filtering
+- **Filters**: query, eventType, sessionId, hasTool, isAgentTask
+- **Sorting**: By timestamp (newest first)
+- **Fallback**: Client API if dual store fails
+
+### 4. Integration Testing
+
+Created comprehensive integration tests that verified:
+
+- ✅ Dual store initialization and connectivity
+- ✅ Session insertion and retrieval
+- ✅ Message storage and access
+- ✅ Event storage and listing
+- ✅ All session actions working with dual store as primary source
+- ✅ Proper fallback to client API when dual store fails
+- ✅ Search functionality across multiple data types
+
+## Key Benefits
+
+### Performance Improvements
+
+- **Local-first approach**: Eliminates network latency for cached data
+- **Bulk operations**: Efficient retrieval of multiple entries
+- **Reduced API calls**: Client APIs only used as fallback
+
+### Reliability
+
+- **Graceful degradation**: System continues working if dual store fails
+- **Data consistency**: Uses existing data structures and formats
+- **Error handling**: Comprehensive error logging and fallback mechanisms
+
+### Scalability
+
+- **Caching strategy**: Frequently accessed data stored locally
+- **Search capabilities**: Local text-based filtering and search
+- **Pagination support**: Efficient handling of large datasets
+
+## Implementation Details
+
+### Data Storage Patterns
+
+- **Sessions**: Stored with `session:${sessionId}` key
+- **Messages**: Stored with `session:${sessionId}:messages` key
+- **Events**: Stored with `event:${eventId}` key
+- **Metadata**: Consistent metadata structure for filtering
+
+### Fallback Strategy
+
+1. **Try dual store first** for all read operations
+2. **Log warnings** when dual store operations fail
+3. **Fallback to client API** with error aggregation
+4. **Maintain compatibility** with existing response formats
+
+### Search Implementation
+
+- **Text-based filtering**: Case-insensitive search across relevant fields
+- **Multi-field support**: Searches title, description, ID, and agent fields
+- **Filter combinations**: Supports multiple simultaneous filters
+- **Result limiting**: Configurable result limits with `k` parameter
+
+## Files Modified
+
+### Core Files
+
+- `/home/err/devel/promethean/packages/persistence/src/dualStore.ts` - Added get operation
+- `/home/err/devel/promethean/packages/opencode-client/src/actions/sessions/get.ts` - Dual store integration
+- `/home/err/devel/promethean/packages/opencode-client/src/actions/sessions/search.ts` - Dual store integration
+- `/home/err/devel/promethean/packages/opencode-client/src/actions/events/list.ts` - Dual store integration
+
+### Test Files (Temporary)
+
+- Integration tests verified all functionality before cleanup
+
+## Next Steps
+
+### Immediate Opportunities
+
+1. **Message Actions**: Extend pattern to message-specific actions
+2. **Task Actions**: Apply dual store integration to agent task operations
+3. **Cache Warming**: Implement proactive cache population strategies
+4. **Performance Monitoring**: Add metrics for dual store hit rates
+
+### Future Enhancements
+
+1. **Write-through Caching**: Store successful client operations in dual store
+2. **Cache Invalidation**: Implement smart cache expiration strategies
+3. **Advanced Search**: Leverage ChromaDB vector search capabilities
+4. **Sync Strategies**: Implement background synchronization mechanisms
+
+## Verification
+
+The integration has been thoroughly tested and verified:
+
+- ✅ All session actions use dual store as primary source
+- ✅ Events listing uses dual store with comprehensive filtering
+- ✅ Proper fallback mechanisms implemented
+- ✅ Error handling and logging in place
+- ✅ TypeScript compilation successful
+- ✅ Integration tests passing
+
+## Impact
+
+This integration significantly improves the performance and reliability of session, event, and message operations while maintaining full backward compatibility. The system now provides a robust caching layer that enhances user experience through faster response times and reduced dependency on external APIs.
+
+The implementation follows the established patterns in the codebase and provides a solid foundation for future enhancements to the data access layer.

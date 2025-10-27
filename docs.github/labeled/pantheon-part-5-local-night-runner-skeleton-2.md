@@ -1,0 +1,321 @@
+---
+uuid: 51d80a98-f115-46b2-b899-d777a982a5d7
+created_at: '2025-10-07T00:45:09Z'
+title: 2025.10.07.00.45.09
+filename: 'Pantheon - Part 5: Local Night Runner Skeleton'
+description: >-
+  A compact, runnable skeleton for local-only operations that enables night
+  runs, trace mining, and adapter training without cloud access. Includes CLI
+  for local execution and policy enforcement to prevent cloud credential
+  leakage. Focuses on deterministic tool loops and local model inference via
+  vLLM or OpenVINO.
+tags:
+  - local
+  - night
+  - CLI
+  - vLLM
+  - OpenVINO
+  - adapter training
+  - deterministic
+  - tool loop
+  - monorepo
+  - cloud-free
+---
+love it. here’s **Pantheon — Part 5**: a compact, runnable-ish skeleton you can drop into your monorepo to start night runs, trace mining, and adapter training — without ever touching the cloud at night.
+
+I’m keeping this practical and opinionated. Citations back the big design levers (throughput, tool-calling, adapter training, queue math).
+
+---
+
+# 1) Night runner + CLI (local-only, no egress)
+
+```ts
+// packages/pantheon-cli/src/index.ts
+#!/usr/bin/env node
+import { readFile } from "node:fs/promises";
+import { buildPolicy } from "@pantheon-runner/policy";
+import { runFlow } from "@pantheon-runner/orchestrate";
+import { registry } from "@pantheon-agents/registry";
+
+const [,, cmd, ...args] = process.argv;
+
+const parseJSON = async (p: string) => JSON.parse(await readFile(p, "utf8"));
+
+(async () => {
+  if (cmd === "run") {
+    const mode = (process.env.PANTHEON_MODE ?? "night") as "day"|"night";
+    const policy = buildPolicy(mode); policy.enforce(); // hard fail if keys present
+    const flowPath = args[0]; const inputPath = args[1];
+    const flow = await parseJSON(flowPath);
+    const input = await parseJSON(inputPath);
+    const out = await runFlow(flow, { registry, policy, input });
+    console.log(JSON.stringify(out, null, 2));
+  } else if (cmd === "report") {
+    // scan artifacts/*/metrics.json & print a morning summary (keep it tiny for now)
+  } else {
+    console.error("usage: pantheon run <flow.json> <input.json>");
+    process.exit(2);
+  }
+})();
+```
+
+```ts
+// packages/pantheon-runner/src/policy.ts
+export type Mode = "day" | "night";
+export const buildPolicy = (mode: Mode) => ({
+  mode,
+  allowOrigins: mode === "night" ? ["local"] as const : ["local","external"] as const,
+  enforce: () => {
+    const banned = ["OPENAI_API_KEY","ANTHROPIC_API_KEY","MISTRAL_API_KEY"];
+    if (banned.some(k => process.env[k])) throw new Error("Night mode forbids cloud creds");
+  }
+});
+```
+
+> Ops: run the night user under a profile with outbound egress blocked. This is your “never fallback to cloud” seatbelt.
+
+---
+
+# 2) vLLM + OpenVINO: pick one (or both)
+
+* **vLLM (GPU)** — run a local OpenAI-compatible server; it gives you **PagedAttention** (KV cache paging) and **continuous batching** out of the box, so lots of small jobs amortize prefill and throughput spikes. ([arXiv][1])
+* **OpenVINO (CPU/iGPU/NPU)** — there’s a step-by-step **Qwen-Agent function-calling** tutorial that stays fully local; great for low-VRAM hosts. ([OpenVINO Documentation][2])
+
+You can point Pantheon’s `modelCall()` at either engine; both support function/tool calling flows with Qwen templates. ([Qwen][3])
+
+---
+
+# 3) Deterministic tool loop (finite-state, schema-strict)
+
+```ts
+// packages/pantheon-core/src/loop.ts
+import { z } from "zod";
+const Envelope = z.union([
+  z.object({ type: z.literal("tool"), name: z.string(), args: z.unknown() }),
+  z.object({ type: z.literal("final"), output: z.unknown() })
+]);
+
+export type Tool<T extends z.ZodTypeAny,R extends z.ZodTypeAny> = {
+  name: string; args: T; result: R; call: (a: any)=>Promise<any>;
+};
+
+export async function runLoop({
+  maxSteps, maxFailures, renderPrompt, tools, modelCall, validateFinal
+}: {
+  maxSteps: number; maxFailures: number;
+  renderPrompt: (history: any[]) => string;
+  tools: ReadonlyArray<Tool<any,any>>;
+  modelCall: (prompt: string) => Promise<string>;
+  validateFinal: (out: unknown) => unknown;
+}) {
+  const history:any[] = []; let failures = 0;
+  for (let i=0; i<maxSteps; i++){
+    const raw = await modelCall(renderPrompt(history));
+    const env = Envelope.safeParse(JSON.parse(raw));
+    if (!env.success) { if (++failures>maxFailures) throw new Error("schema"); continue; }
+    if (env.data.type === "tool") {
+      const t = tools.find(x=>x.name===env.data.name); if (!t) { if (++failures>maxFailures) throw new Error("tool"); continue; }
+      const args = t.args.parse(env.data.args); const res = await t.call(args);
+      history.push({ tool: t.name, args, result: t.result.parse(res) });
+    } else { return validateFinal(env.data.output); }
+  }
+  throw new Error("maxSteps");
+}
+```
+
+This is the boring backbone that keeps small models safe: strict JSON, capped steps, no free-text side-effects. Qwen’s function-calling docs (and Qwen-Agent) give canonical templates; stick to them. ([Qwen][3])
+
+---
+
+# 4) Two seed agents (docops + codegen) and a flow
+
+```ts
+// packages/pantheon-agents/src/doc.frontmatter.ts
+import { z } from "zod"; import { runLoop } from "@pantheon-core/loop";
+import { WriteFile } from "@pantheon-tools/fs";
+const In  = z.object({ path:z.string(), body:z.string(), rules:z.record(z.any()) });
+const Out = z.object({ path:z.string(), body:z.string() });
+
+export const DocFrontmatter = {
+  name: "doc.frontmatter",
+  in: In, out: Out,
+  runtime: { engine: "openvino", model: "Qwen2.5-3B-Instruct-int4", origin: "local" as const },
+  tools: [WriteFile],
+  prompt: (i: z.infer<typeof In>) => `SYSTEM: act via tool calls only … RULES:{JSON.stringify(i.rules)}`,
+  run: (input: z.infer<typeof In>) => runLoop({
+    maxSteps: 6, maxFailures: 2,
+    renderPrompt: (h)=>`…thick prompt with last results…`,
+    tools: [WriteFile],
+    modelCall: localModelCall,    // vLLM or OpenVINO
+    validateFinal: Out.parse
+  })
+};
+```
+
+```ts
+// packages/pantheon-agents/src/codegen.qwen8b.ts
+import { z } from "zod"; import { runLoop } from "@pantheon-core/loop";
+import { WriteFile, RunBiome, ComputeDiff } from "@pantheon-tools/dev";
+const Spec = z.object({ title:z.string(), scope:z.string(), acceptance:z.array(z.string()) });
+const Patch= z.object({ diff:z.string(), stats:z.object({ files:z.number(), lines:z.number() }) });
+
+export const CodegenQwen8B = {
+  name: "codegen.qwen8b",
+  in: Spec, out: Patch,
+  runtime: { engine: "vllm", model: "Qwen3-8B-Instruct", origin: "local" as const },
+  tools: [WriteFile, RunBiome, ComputeDiff],
+  prompt: (s: z.infer<typeof Spec>) => `ROLE: senior TS; FP/immutable; AVA; ESM; GPL-3.0-only.\nTOOLS: …schemas…\nACCEPTANCE:{JSON.stringify(s.acceptance)}`,
+  run: (spec: z.infer<typeof Spec>) => runLoop({
+    maxSteps: 8, maxFailures: 2,
+    renderPrompt: (h)=>`…thick prompt with last results…`,
+    tools: [WriteFile, RunBiome, ComputeDiff],
+    modelCall: localModelCall,
+    validateFinal: Patch.parse
+  })
+};
+```
+
+```json
+// flows/spec2code.json
+{
+  "name": "spec2code",
+  "entry": "plan.validate",
+  "nodes": [
+    { "id":"plan.validate","agent":"plan.validate","inputs":["root"] },
+    { "id":"codegen","agent":"codegen.qwen8b","inputs":["plan.validate"] },
+    { "id":"test","agent":"test.ava","inputs":["codegen"] },
+    { "id":"reviewA","agent":"review.peer","inputs":["codegen","test"] },
+    { "id":"reviewB","agent":"review.peer","inputs":["codegen","test"] },
+    { "id":"merge","agent":"merge.gate","inputs":["reviewA","reviewB"] }
+  ],
+  "output": "merge"
+}
+```
+
+---
+
+# 5) Queue & batching (how to keep GPUs/CPUs hot)
+
+Feed many tiny, homogeneous jobs so your engine can **continuously batch**: it coalesces/streams requests and amortizes prefill; **PagedAttention** keeps KV cache memory tight, boosting throughput for long tails. That’s exactly why your “thousands of micro-ops” approach works at night. ([VLLM Documentation][4])
+
+Rule of thumb: if average batch size (b<8) during peak, your chunks are too coarse. Split the work finer.
+
+---
+
+# 6) Traces → adapters (QLoRA)
+
+**Artifacts per node**: `input.json`, `prompt.txt`, `tool_calls.jsonl`, `output.json`, `diff.patch`, `tests.log`, `review.json`, `metrics.json`.
+
+**Mine two JSONL datasets**:
+
+* Tool-use pairs: `{"prompt":"…","tool_name":"write_file","args":{…}}` (like Toolformer supervision). ([arXiv][5])
+* Generation pairs: `{"prompt":"…","output":{…}}`
+
+Train **per-agent** adapters with **QLoRA** (4-bit base, low-rank LoRA). Promote a new `agent@version` only if it beats the old one on held-out acceptance tests. QLoRA is the standard recipe for local specialization on commodity GPUs. ([arXiv][6])
+
+> Hyperparams that work to start: rank 8–16, (\alpha=16), lr (1\text{e-}4) to (2\text{e-}4), cosine schedule, small epochs, eval each 200–500 steps.
+
+---
+
+# 7) Sizing the night (math knobs you’ll actually use)
+
+* **Queue stability (M/M/c)**: keep utilization ( \rho = \lambda/(c\mu) \le 0.8 ) or your tail blows up. Use Erlang-C to estimate wait probability when you set concurrency (c). ([Wikipedia][7])
+* **Accepted work with dual-review** (independent reviewers): ( E[\text{accepted}] \approx T \sum_i \mu_i, p_i^2 ). Increase (p_i) with adapters + narrower specs.
+* **Reviewer reliability**: track **Cohen’s (\kappa)**; pause merges if (\kappa < 0.6). ([Wikipedia][8])
+
+---
+
+# 8) Morning report (Web Component, zero framework)
+
+```html
+<!-- packages/pantheon-report/index.html -->
+<!doctype html>
+<meta charset="utf-8">
+<title>Pantheon Morning Report</title>
+<script type="module">
+class PantheonReport extends HTMLElement {
+  async connectedCallback(){
+    const res = await fetch("./summary.json"); const data = await res.json();
+    this.innerHTML = `
+      <style>
+        :host{font:14px/1.4 system-ui; display:block; padding:16px}
+        .card{border:1px solid #eee; border-radius:16px; padding:16px; margin:12px 0; box-shadow:0 1px 6px rgba(0,0,0,.05)}
+        h2{margin:0 0 8px}
+      </style>
+      <div class="card">
+        <h2>PRs ({data.prs.length})</h2>
+        <ul>{data.prs.map(p=>`<li><a href="{p.url}">{p.title}</a> ({p.files} files, {p.lines} lines)</li>`).join("")}</ul>
+      </div>
+      <div class="card">
+        <h2>Failures ({data.failures.length})</h2>
+        <ul>{data.failures.map(f=>`<li>{f.agent} @ {f.node} — <a href="{f.artifact}">artifacts</a></li>`).join("")}</ul>
+      </div>
+      <div class="card">
+        <h2>Quality</h2>
+        <div>κ: {data.kappa.toFixed(2)} | avg batch: {data.batch} | tokens/s: {data.tps}</div>
+      </div>
+    `;
+  }
+}
+customElements.define("pantheon-report", PantheonReport);
+</script>
+<pantheon-report></pantheon-report>
+```
+
+Drop a `summary.json` from your CLI’s `report` command. Minimal, printable, and decoupled.
+
+---
+
+# 9) Thick prompt (Qwen function-calling) — stable template
+
+```text
+SYSTEM:
+You are a narrow specialist. Act ONLY via tool calls that match the JSON schemas below.
+Stop after at most 8 steps. If goals cannot be met, finalize with status="fail".
+
+TOOLS (JSON Schemas):
+- write_file: {"path":"string","content":"string"}
+- run_biome:  {"cwd":"string"}
+- compute_diff: {"cwd":"string"}
+
+REPO RULES:
+Functional TypeScript, immutability, AVA tests, Native ESM, GPL-3.0-only.
+
+ACCEPTANCE:
+{{JSON}}
+
+LAST_RESULTS (up to 3):
+{{JSON}}
+
+SPEC:
+{{JSON}}
+
+NEXT:
+{"type":"tool","name":"...","args":{...}}
+or
+{"type":"final","output":{"status":"ok|fail","notes":"...","metrics":{}}}
+```
+
+This follows Qwen’s function-calling guidance (and Qwen-Agent’s parsers/templates), which is why small Qwen models behave well with tools locally. ([Qwen][3])
+
+---
+
+# 10) Why this works (receipts)
+
+* **Throughput** at night = **continuous batching** (+ **PagedAttention**) → higher tokens/sec for many small tasks. This is vLLM’s core design win. ([VLLM Documentation][4])
+* **Tool use** is learnable from your own traces (Toolformer principle), giving small models leverage without huge weights. ([arXiv][5])
+* **Specialization** via **QLoRA** adapters achieves strong task-specific quality on commodity GPUs. ([arXiv][6])
+* **Queue math** (M/M/c + Erlang-C) + **κ** gives you hard dials for capacity and quality gates. ([Wikipedia][7])
+
+---
+
+If you want, I’ll push this further into fully-formed files (registry, vLLM/OpenVINO clients, tests, and a tiny trainer stub) so you can run a real night batch against your docops pipeline tonight.
+
+[1]: https://arxiv.org/abs/2309.06180?utm_source=chatgpt.com "Efficient Memory Management for Large Language Model ..."
+[2]: https://docs.openvino.ai/2024/notebooks/llm-agent-functioncall-qwen-with-output.html?utm_source=chatgpt.com "Create Function-calling Agent using OpenVINO and Qwen ..."
+[3]: https://qwen.readthedocs.io/en/latest/framework/function_call.html?utm_source=chatgpt.com "Function Calling - Qwen"
+[4]: https://docs.vllm.ai/en/stable/index.html?utm_source=chatgpt.com "Welcome to vLLM"
+[5]: https://arxiv.org/abs/2302.04761?utm_source=chatgpt.com "Toolformer: Language Models Can Teach Themselves to Use Tools"
+[6]: https://arxiv.org/abs/2305.14314?utm_source=chatgpt.com "QLoRA: Efficient Finetuning of Quantized LLMs"
+[7]: https://en.wikipedia.org/wiki/M/M/c_queue?utm_source=chatgpt.com "M/M/c queue"
+[8]: https://en.wikipedia.org/wiki/Cohen%27s_kappa?utm_source=chatgpt.com "Cohen's kappa"
