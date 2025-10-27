@@ -1,0 +1,41 @@
+{
+  "name": "@promethean-os/math-utils",
+  "version": "0.1.0",
+  "description": "Mathematical utilities for Promethean including Fibonacci calculations",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "ava",
+    "test:unit": "ava src/tests/**/*.test.ts",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --ext .ts",
+    "dev": "tsc --watch"
+  },
+  "keywords": [
+    "math",
+    "fibonacci",
+    "utilities",
+    "promethean"
+  ],
+  "author": "Promethean Team",
+  "license": "GPL-3.0-only",
+  "devDependencies": {
+    "@types/node": "^20.8.0",
+    "ava": "^6.0.0",
+    "typescript": "^5.2.0"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE.txt"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import { readFile, writeFile } from 'node:fs/promises';
+import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import * as path from 'node:path';
 import type { ReadonlyDeep } from 'type-fest';
 
@@ -11,12 +11,12 @@ export const makeLogPath = (config: ReadonlyDeep<KanbanConfig>): string =>
 export const ensureLogDirectory = async (logPath: string): Promise<void> => {
   const dir = path.dirname(logPath);
   try {
-    await readFile(dir);
-  } catch {
-    // Directory doesn't exist, create it
-    await writeFile(dir, '').catch(() => {
-      // Ignore errors, directory creation will be handled by writeFile
-    });
+    await mkdir(dir, { recursive: true });
+  } catch (error) {
+    // Directory already exists or creation failed
+    if ((error as NodeJS.ErrnoException).code !== 'EEXIST') {
+      throw error;
+    }
   }
 };
 

@@ -1,10 +1,13 @@
 ---
+
 kanban-plugin: board
+
 ---
 
 ## icebox
 
 - [ ] [Task 2c7e9d46](../tasks/2025.10.08.15.30.00-fix-kanban-config-resolution.md) #bug #cli #config #kanban prio:P1 (uuid:2c7e9d46-09b2-4670-a3ac-381cb4f0c21e)
+- [ ] 
 - [ ] [Task 1a148406](../tasks/2025.10.08.16.05.00-implement-omni-auth-rbac.md) #auth #omni #rbac #security #service prio:P2 (uuid:1a148406-56c1-4178-a282-6ebe180c20a2)
 - [ ] [Task 0b41959d](../tasks/2025.10.08.16.25.00-fix-grep-error-handling.md) #error-handling #grep #ripgrep #smartgpt-bridge prio:P2 (uuid:0b41959d-cd50-4a9c-bd00-10eebac7257b)
 - [ ] [Task efbb8046](../tasks/2025.10.08.16.30.00-add-kanban-crud-commands.md) #cli #crud #kanban #task-management prio:P2 (uuid:efbb8046-d29c-4275-a4d6-de2ed898578b)
@@ -44,6 +47,7 @@ kanban-plugin: board
 - [ ] [Fix test-gap pipeline timeout configuration for tg-analysis step -gap](../tasks/fix-test-gap-pipeline-timeout-configuration-for-tg-analysis-step-timeout-step-gap.md) #automation #pipeline #test-gap #timeout prio:P2 (uuid:89be3c4d-47d2-4815-aebf-adf7b7091403)
 - [ ] [foobar is foobar](../tasks/foobar%20is%20foobar.md) #foobar #nothing #blocked #blocks (uuid:6948e490-e720-406d-9582-88e6683651fd)
 - [ ] [Report Generation & Polish - Testing Transition Rule](../tasks/report-generation-polish-testing-transition.md) #kanban #transition-rules #testing-coverage #quality-gates #report-generation #documentation #frontmatter #polish prio:P0 (uuid:d4e5f6a7-b8c9-0123-def4-456789012345)
+
 
 ## incoming
 
@@ -253,6 +257,7 @@ kanban-plugin: board
 - [ ] [testing](../tasks/testing.md) #testing #nothing #blocked #blocks (uuid:fc52c605-7114-48a8-a75c-99788b0b1cc7)
 - [ ] [Unify CLI and Tool Interfaces](../tasks/unify-cli-tool-interfaces.md) #cli #tools #interfaces #unification #epic3 prio:P1 (uuid:f3c311a0-de6a-44ba-90ac-ad8ab96f4699)
 
+
 ## accepted
 
 - [ ] [Consolidate Frontend Projects into Unified Architecture](../tasks/implement-separate-test-coverage-pipelines.md) #frontend #consolidation #architecture #migration #epic prio:P0 (uuid:550e8400-e29b-41d4-a716-446655440000)
@@ -281,6 +286,7 @@ kanban-plugin: board
 - [ ] [Resolve TODO Comments and Technical Debt](../tasks/resolve-todo-comments-technical-debt.md) #technical-debt #todo-comments #cleanup #maintenance prio:P2 (uuid:e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8a9b)
 - [ ] [Standardize Documentation Across Pantheon Packages](../tasks/standardize-documentation-pantheon-packages.md) #pantheon #documentation #standardization #quality #jsdoc prio:P1 (uuid:std-doc-pantheon-001)
 - [ ] [Standardize Error Handling Across Pantheon Packages](../tasks/standardize-error-handling-pantheon.md) #pantheon #error-handling #standardization #quality #consistency prio:P1 (uuid:error-handling-pantheon-001)
+
 
 ## breakdown
 
@@ -316,7 +322,9 @@ kanban-plugin: board
 - [ ] [Set Up Unified Testing Framework](../tasks/setup-unified-testing-framework.md) #testing #framework #consolidation #quality #epic1 prio:P1 (uuid:bd317cc6-e645-4343-9f56-d927d9763cb1)
 - [ ] [Standardize Configuration Validation Across Pantheon Packages](../tasks/standardize-configuration-validation-pantheon.md) #pantheon #configuration #validation #standardization #quality prio:P1 (uuid:config-validation-pantheon-001)
 
+
 ## blocked
+
 
 
 ## ready
@@ -359,6 +367,7 @@ kanban-plugin: board
 - [ ] [Kanban Real-time Dashboard](../tasks/kanban-realtime-dashboard.md) #kanban #health-monitoring #dashboard #real-time #ui #visualization prio:P1 (uuid:kanban-health-dashboard-006)
 - [ ] [Rewrite @packages/shadow-conf/ as nbb script for program generation](../tasks/rewrite-shadow-conf-as-nbb.md) #migration #clojure #nbb #shadow-conf #program-generation prio:P1 (uuid:46d9372a-65f1-42b8-a024-3ce4449f67ec)
 
+
 ## todo
 
 - [ ] [Extend Git Sync for Heal Operations](../tasks/20251011235236.md) #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #git-workflow #git-sync #phase-1 prio:P1 (uuid:4e88db40-884c-4aed-8412-3de9fd78bd02)
@@ -395,6 +404,7 @@ kanban-plugin: board
 - [ ] [Enhanced Event Capture with Semantic Search](../tasks/plugin-parity-005-enhanced-event-capture%203.md) #plugin #event-capture #semantic-search #analytics #high prio:P1 (uuid:724ddb30-21ca-47bf-b7e0-2f8b47ec53e9)
 - [ ] [Enhanced Event Capture with Semantic Search](../tasks/plugin-parity-005-enhanced-event-capture.md) #plugin #event-capture #semantic-search #analytics #high prio:P1 (uuid:plugin-parity-005)
 
+
 ## in_progress
 
 - [ ] [Progress Update: Scar Context Core Types and Interfaces (alternate read)](Progress%20Update:%20Scar%20Context%20Core%20Types%20and%20Interfaces%20(alternate%20read).md) #progress #kanban #scar-context prio:P1 (uuid:progress-Scar-Context-Types-Progress-20251025)
@@ -421,6 +431,7 @@ kanban-plugin: board
 - [ ] [Progress Update: Security Gates & Monitoring Coordination](Progress%20Update:%20Security%20Gates%20&%20Monitoring%20Coordination.md) #progress #kanban #coordination prio:P0 (uuid:progress-security-coordination-20251025)
 - [ ] [Security Gates & Monitoring Integration - Coordination Status      )      )      )      )      )      )      )](../tasks/security-gates-monitoring-coordination-status.md) #coordination #security-gates #monitoring #integration-status prio:P0 (uuid:coord-status-$(date +%s))
 
+
 ## testing
 
 - [ ] [Implement Scar Context Builder](../tasks/20251011235168.md) #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #scar-context #context-builder #phase-1 prio:P1 (uuid:ca84477b-20d4-4d49-8457-96d3e9749b6a)
@@ -437,6 +448,7 @@ kanban-plugin: board
 - [ ] [Test Integration Task for Testing→Review Transition](../tasks/test-integration-task%203.md) #testing #integration #coverage-validation prio:P0 (uuid:f350aee8-dc14-46d7-9ad2-69d16dedf36a)
 - [ ] [Test Integration Task for Testing→Review Transition](../tasks/test-integration-task.md) #testing #integration #coverage-validation prio:P0 (uuid:test-integration-123)
 
+
 ## review
 
 - [ ] [Address security vulnerabilities in @packages/shadow-conf/](../tasks/Address%20security%20vulnerabilities%20in%20@packages%20shadow-conf.md) #security #critical #shadow-conf #p0 #vulnerability #path-traversal prio:P0 (uuid:e3473da0-b7a0-4704-9a20-3b6adf3fa3f5)
@@ -446,10 +458,12 @@ kanban-plugin: board
 - [ ] [Optimize build caching strategies](../tasks/Optimize%20build%20caching%20strategies.md) #automation #buildfix #pipeline #cache prio:P1 (uuid:e134bc1d-222a-4e8c-9bbb-48f786986b5f)
 - [ ] [Resolve ESLint violations in @packages/shadow-conf/](../tasks/Resolve%20ESLint%20violations%20in%20@packages%20shadow-conf.md) #code-quality #eslint #shadow-conf #p1 #linting prio:P1 (uuid:c76a82e5-758e-4585-880d-bf72c316695e)
 
+
 ## document
 
 - [ ] [Design unified FSM architecture using existing foundations](../tasks/Design%20unified%20FSM%20architecture%20using%20existing%20foundations.md) #fsm #packages #design #architecture #tool:analysis #env:no-egress prio:P0 (uuid:8b1add71-be76-4a34-8f24-b3f0eaac69d5)
 - [ ] [Resolve Biome lint errors in compiler package](../tasks/resolve_biome_lint_errors_in_compiler.md) #biome #compiler #errors #lint prio:P3 (uuid:f758495c-717a-4455-9e08-8b3eae385e5e)
+
 
 ## done
 
@@ -474,16 +488,19 @@ kanban-plugin: board
 - [x] [Remove `any` types across packages](../tasks/remove_any_types_across_packages.md) #any #packages #remove #types prio:P3 (uuid:fde8c516-a293-44e5-bab9-51a41ead5bb0)
 - [x] [Remove CommonJS artifacts from repository   -task -this   -task -this     -task -this         -task -this                 -task -this                                 -task -this](../tasks/remove_commonjs_artifacts_repo_wide.md) #-task #-this #codex-task #doc-this prio:P2 (uuid:9c3d0d9f-6ac2-42ad-a999-b41c75b63969)
 
+
 ## rejected
 
 - [ ] [0) Why these building blocks (quick receipts)](../tasks/0-why-these-building-blocks-quick-receipts.md) #docops #labeled prio:P3 (uuid:747260c6-3eb4-4fe8-b4e0-c576519c1df6)
 - [ ] [Agent OS Comprehensive Review and Enhancement](../tasks/design-agent-os-comprehensive-review-and-enhancement-5e6f7g8h.md) #agent-os #comprehensive-review #enhancement #final-design #gaps-analysis prio:high (uuid:c0ab3f60-0a9c-4929-a1e6-f046db4aec06)
 - [ ] [Infrastructure Stability Cluster - Build System & Type Safety -system](../tasks/infrastructure-stability-cluster-build-system-type-safety-system.md) #automation #build-system #cluster #infrastructure #typescript prio:P0 (uuid:b82a75e4-260b-4f20-ad06-94db01cd8eb2)
 
+
 ## archived
 
 - [ ] [Coordinate Security Gates and Monitoring Integration](../tasks/Coordinate%20Security%20Gates%20and%20Monitoring%20Integration.md) #coordination #integration #security-gates #monitoring #project-management prio:P0 (uuid:89e4b7e6-feec-41c1-927c-c401ffa35f55)
 - [ ] [Implement WIP Limit Enforcement Gate](../tasks/implement-wip-limit-enforcement-gate.md) #security-gates #wip-limits #automation #kanban-cli #capacity-management prio:P0 (uuid:f48b4765-bf7c-4d8e-9a3b-5d6e7f8a9b0c)
+
 
 ## in_review
 
@@ -491,10 +508,12 @@ kanban-plugin: board
 - [ ] [Fix Kanban Column Underscore Normalization Bug](../tasks/Fix%20Kanban%20Column%20Underscore%20Normalization%20Bug.md) #kanban #column #bug #fix prio:P0 (uuid:02c78938-cf9c-45a0-b5ff-6e7a212fb043)
 - [ ] [cephalon feature flag path selection](../tasks/cephalon_feature_flag_path_selection.md) #cephalon #feature #flag #path prio:P3 (uuid:1bb6f2f2-bcca-4365-aa6f-7cab3cdf8269)
 
+
 ## backlog
 
 - [ ] [Implement Cross-Platform Error Handling Framework](../tasks/2025.10.22.cross-platform-error-handling.md%202.md) #architecture #implementation #cross-platform #error-handling prio:P0 (uuid:46692f72-3986-42d7-a057-e9f4b65b3c08)
 - [ ] [Implement Cross-Platform Error Handling Framework](2025.10.22.cross-platform-error-handling.md) #architecture #implementation #cross-platform #error-handling prio:P0 (uuid:e5f6g7h8-i9j0-1234-efgh-i567890123456)
+
 
 ## superseded
 
@@ -503,6 +522,9 @@ kanban-plugin: board
 - [ ] [kanban-fsm-3](../tasks/kanban-fsm-3.md) #docops #labeled #superseded prio:P3 (uuid:35edb5ca-2996-4ea2-bd45-949fe6238035)
 - [ ] [kanban-fsm-4](../tasks/kanban-fsm-4.md) #docops #labeled #superseded prio:P3 (uuid:c7706a26-441d-4921-84ce-00cf3c8e2682)
 - [ ] [kanban-fsm](../tasks/kanban-fsm.md) #docops #labeled #superseded prio:P3 (uuid:ffe11354-b4c3-4376-beb2-5aba8fc24f14)
+
+
+
 
 %% kanban:settings
 ```
