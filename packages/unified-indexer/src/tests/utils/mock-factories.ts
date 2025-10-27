@@ -4,10 +4,6 @@
  * Factory functions to create mock objects and configurations
  */
 
-import type { UnifiedIndexerServiceConfig, ServiceStatus } from '../../unified-indexer-service.js';
-
-import type { CrossDomainSearchOptions } from '../../cross-domain-search.js';
-
 import type {
   SearchQuery,
   SearchResponse,
@@ -18,70 +14,91 @@ import type {
   FileMetadata,
 } from '@promethean-os/persistence';
 
+import type { UnifiedIndexerServiceConfig, ServiceStatus } from '../../unified-indexer-service.js';
+import type { CrossDomainSearchOptions } from '../../cross-domain-search.js';
+
+/**
+ * Create test indexing configuration
+ */
+const createTestIndexingConfig = () => ({
+  vectorStore: {
+    type: 'chromadb' as const,
+    connectionString: 'test://localhost:8000',
+    indexName: 'test-index',
+  },
+  metadataStore: {
+    type: 'mongodb' as const,
+    connectionString: 'test://localhost:27017',
+    tableName: 'test_content',
+  },
+  embedding: {
+    model: 'test-model',
+    dimensions: 1536,
+    batchSize: 100,
+  },
+  cache: {
+    enabled: true,
+    ttl: 300000,
+    maxSize: 1000,
+  },
+  validation: {
+    strict: false,
+    skipVectorValidation: true,
+    maxContentLength: 1000000,
+  },
+});
+
+/**
+ * Create test context store configuration
+ */
+const createTestContextStoreConfig = () => ({
+  collections: {
+    files: 'test-files',
+    discord: 'test-discord',
+    opencode: 'test-opencode',
+    kanban: 'test-kanban',
+    unified: 'test-unified',
+  },
+});
+
+/**
+ * Create test sources configuration
+ */
+const createTestSourcesConfig = () => ({
+  files: {
+    enabled: false,
+    paths: [],
+  },
+  discord: {
+    enabled: false,
+  },
+  opencode: {
+    enabled: false,
+  },
+  kanban: {
+    enabled: false,
+  },
+});
+
+/**
+ * Create test sync configuration
+ */
+const createTestSyncConfig = () => ({
+  interval: 1000,
+  batchSize: 10,
+  retryAttempts: 1,
+  retryDelay: 100,
+});
+
 /**
  * Create minimal valid configuration for testing
  */
-export function createMinimalConfig(): UnifiedIndexerServiceConfig {
-  return {
-    indexing: {
-      vectorStore: {
-        type: 'chromadb',
-        connectionString: 'test://localhost:8000',
-        indexName: 'test-index',
-      },
-      metadataStore: {
-        type: 'mongodb',
-        connectionString: 'test://localhost:27017',
-        tableName: 'test_content',
-      },
-      embedding: {
-        model: 'test-model',
-        dimensions: 1536,
-        batchSize: 100,
-      },
-      cache: {
-        enabled: true,
-        ttl: 300000,
-        maxSize: 1000,
-      },
-      validation: {
-        strict: false,
-        skipVectorValidation: true,
-        maxContentLength: 1000000,
-      },
-    },
-    contextStore: {
-      collections: {
-        files: 'test-files',
-        discord: 'test-discord',
-        opencode: 'test-opencode',
-        kanban: 'test-kanban',
-        unified: 'test-unified',
-      },
-    },
-    sources: {
-      files: {
-        enabled: false,
-        paths: [],
-      },
-      discord: {
-        enabled: false,
-      },
-      opencode: {
-        enabled: false,
-      },
-      kanban: {
-        enabled: false,
-      },
-    },
-    sync: {
-      interval: 1000,
-      batchSize: 10,
-      retryAttempts: 1,
-      retryDelay: 100,
-    },
-  };
-}
+export const createMinimalConfig = (): UnifiedIndexerServiceConfig => ({
+  indexing: createTestIndexingConfig(),
+  contextStore: createTestContextStoreConfig(),
+  sources: createTestSourcesConfig(),
+  sync: createTestSyncConfig(),
+});
 
 /**
  * Create mock search query
@@ -192,48 +209,87 @@ export function createMockCrossDomainSearchOptions(
 /**
  * Create mock indexer with common methods
  */
-export function createMockIndexer() {
-  return {
-    indexDirectory: async () => ({
-      totalFiles: 10,
-      indexedFiles: 8,
-      skippedFiles: 2,
-      errors: [],
-      duration: 1000,
-    }),
-    cleanup: async () => undefined,
-  };
-}
+export const createMockIndexer = (): {
+  indexDirectory: () => Promise<{
+    totalFiles: number;
+    indexedFiles: number;
+    skippedFiles: number;
+    errors: string[];
+    duration: number;
+  }>;
+  cleanup: () => Promise<void>;
+} => ({
+  indexDirectory: async () => ({
+    totalFiles: 10,
+    indexedFiles: 8,
+    skippedFiles: 2,
+    errors: [],
+    duration: 1000,
+  }),
+  cleanup: async () => undefined,
+});
 
 /**
  * Create mock unified client
  */
-export function createMockUnifiedClient() {
-  return {
-    search: async () => createMockSearchResponse(),
-    getStats: async () => ({
-      totalContent: 100,
-      contentByType: {} as Record<ContentType, number>,
-      contentBySource: {} as Record<ContentSource, number>,
-      lastIndexed: Date.now(),
-      storageStats: {
-        vectorSize: 1024000,
-        metadataSize: 512000,
-        totalSize: 1536000,
-      },
-    }),
-    healthCheck: async () => ({
-      healthy: true,
-      issues: [],
-    }),
-    close: async () => undefined,
-  };
-}
+export const createMockUnifiedClient = (): {
+  search: () => Promise<SearchResponse>;
+  getStats: () => Promise<{
+    totalContent: number;
+    contentByType: Record<ContentType, number>;
+    contentBySource: Record<ContentSource, number>;
+    lastIndexed: number;
+    storageStats: { vectorSize: number; metadataSize: number; totalSize: number };
+  }>;
+  healthCheck: () => Promise<{ healthy: boolean; issues: string[] }>;
+  close: () => Promise<void>;
+} => ({
+  search: async () => createMockSearchResponse(),
+  getStats: async () => ({
+    totalContent: 100,
+    contentByType: {
+      file: 80,
+      document: 20,
+      message: 0,
+      event: 0,
+      session: 0,
+      attachment: 0,
+      thought: 0,
+      task: 0,
+      board: 0,
+    } as Record<ContentType, number>,
+    contentBySource: {
+      filesystem: 100,
+      discord: 0,
+      opencode: 0,
+      agent: 0,
+      user: 0,
+      system: 0,
+      external: 0,
+      kanban: 0,
+    } as Record<ContentSource, number>,
+    lastIndexed: Date.now(),
+    storageStats: {
+      vectorSize: 1024000,
+      metadataSize: 512000,
+      totalSize: 1536000,
+    },
+  }),
+  healthCheck: async () => ({
+    healthy: true,
+    issues: [],
+  }),
+  close: async () => undefined,
+});
 
 /**
  * Create mock context store
  */
-export function createMockContextStore() {
+export const createMockContextStore = (): {
+  collections: Map<string, unknown>;
+  formatTime: (ms: number) => string;
+  assistantName: string;
+} => {
   const collections = new Map();
 
   return {
@@ -241,4 +297,4 @@ export function createMockContextStore() {
     formatTime: (ms: number) => new Date(ms).toISOString(),
     assistantName: 'TestAssistant',
   };
-}
+};

@@ -14,12 +14,12 @@ import type {
   FileMetadata,
 } from '@promethean-os/persistence';
 
+import { sleep as sleepUtil } from '@promethean-os/test-utils';
+
 /**
  * Wait for a specified amount of time
  */
-export async function sleep(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+export const { sleep } = { sleep: sleepUtil };
 
 /**
  * Create a mock search response
@@ -113,9 +113,58 @@ export function createMockServiceStatus(
 }
 
 /**
+ * Create default total stats for indexer
+ */
+const createDefaultTotalStats = () => ({
+  totalContent: 100,
+  contentByType: {
+    file: 80,
+    document: 20,
+    message: 0,
+    event: 0,
+    session: 0,
+    attachment: 0,
+    thought: 0,
+    task: 0,
+    board: 0,
+  } as Record<ContentType, number>,
+  contentBySource: {
+    filesystem: 100,
+    discord: 0,
+    opencode: 0,
+    agent: 0,
+    user: 0,
+    system: 0,
+    external: 0,
+    kanban: 0,
+  } as Record<ContentSource, number>,
+  lastIndexed: Date.now(),
+  storageStats: {
+    vectorSize: 1024000,
+    metadataSize: 512000,
+    totalSize: 1536000,
+  },
+});
+
+/**
+ * Create default by-type stats
+ */
+const createDefaultByTypeStats = (): Record<ContentType, number> => ({
+  file: 80,
+  document: 20,
+  message: 0,
+  event: 0,
+  session: 0,
+  attachment: 0,
+  thought: 0,
+  task: 0,
+  board: 0,
+});
+
+/**
  * Create mock indexer stats
  */
-export function createMockIndexerStats(
+export const createMockIndexerStats = (
   overrides: Partial<{
     total: {
       totalContent: number;
@@ -143,35 +192,15 @@ export function createMockIndexerStats(
   lastSync: number;
   syncDuration: number;
   errors: string[];
-} {
-  return {
-    total: {
-      totalContent: 100,
-      contentByType: {
-        file: 80,
-        document: 20,
-      } as Record<ContentType, number>,
-      contentBySource: {
-        filesystem: 100,
-      } as Record<ContentSource, number>,
-      lastIndexed: Date.now(),
-      storageStats: {
-        vectorSize: 1024000,
-        metadataSize: 512000,
-        totalSize: 1536000,
-      },
-    },
-    bySource: {},
-    byType: {
-      file: 80,
-      document: 20,
-    } as Record<ContentType, number>,
-    lastSync: Date.now(),
-    syncDuration: 5000,
-    errors: [],
-    ...overrides,
-  };
-}
+} => ({
+  total: createDefaultTotalStats(),
+  bySource: {},
+  byType: createDefaultByTypeStats(),
+  lastSync: Date.now(),
+  syncDuration: 5000,
+  errors: [],
+  ...overrides,
+});
 
 /**
  * Create mock cross-domain search response
@@ -199,23 +228,21 @@ export function createMockCrossDomainSearchResponse(
 /**
  * Assert that a promise rejects with expected error
  */
-export async function assertRejects(
+export const assertRejects = async (
   t: { fail: (message: string) => void; true: (value: unknown) => void },
   promise: Promise<unknown>,
   expectedMessage?: string,
-): Promise<void> {
+): Promise<void> => {
   try {
     await promise;
     t.fail('Expected promise to reject');
   } catch (error) {
     if (expectedMessage) {
-      t.true(
-        (error as Error).message.includes(expectedMessage),
-        `Expected error message to contain "${expectedMessage}", got "${(error as Error).message}"`,
-      );
+      const messageIncludes = (error as Error).message.includes(expectedMessage);
+      t.true(messageIncludes);
     }
   }
-}
+};
 
 /**
  * Measure execution time of a function
@@ -241,14 +268,14 @@ export function createTempDir(): string {
 /**
  * Generate random string of specified length
  */
-export function randomString(length: number): string {
+export const randomString = (length: number): string => {
   const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  let result = '';
-  for (let i = 0; i < length; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-  return result;
-}
+  const resultArray: string[] = [];
+  Array.from({ length }).forEach(() => {
+    resultArray.push(chars.charAt(Math.floor(Math.random() * chars.length)));
+  });
+  return resultArray.join('');
+};
 
 /**
  * Create a test file with content
