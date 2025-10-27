@@ -51,30 +51,3 @@ export {
     type KanbanBoard,
     type KanbanIndexingStats,
 } from './kanban-migration-adapter.js';
-
-// Unified indexer service
-export {
-    UnifiedIndexerService,
-    createUnifiedIndexerService,
-    DEFAULT_SERVICE_CONFIG,
-    type UnifiedIndexerServiceConfig,
-    type UnifiedIndexerStats,
-    type ServiceStatus,
-} from './unified-indexer-service.js';
-
-// Unified indexer example
-export {
-    runUnifiedIndexerExample,
-    demonstrateContextStoreIntegration,
-    exampleConfig,
-} from './unified-indexer-example.js';
-
-// Cross-domain search
-export {
-    CrossDomainSearchEngine,
-    createCrossDomainSearchEngine,
-    DEFAULT_SEARCH_OPTIONS,
-    type CrossDomainSearchOptions,
-    type EnhancedSearchResult,
-    type CrossDomainSearchResponse,
-} from './cross-domain-search.js';
