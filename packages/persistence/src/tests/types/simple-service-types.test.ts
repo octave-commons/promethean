@@ -12,7 +12,7 @@ import {
     createMockIndexingOptions,
     createMockUnifiedIndexingConfig,
     isValidIndexingStats,
-} from '../utils/simple-mocks.js';
+} from '../../test-support/simple-mocks.js';
 
 test('createMockIndexingStats creates valid IndexingStats', (t) => {
     const stats = createMockIndexingStats();
