@@ -35,6 +35,7 @@ import {
   createContextStore,
   compileContext,
   getOrCreateCollection,
+  transformDualStoreEntry,
 } from '@promethean-os/persistence';
 
 import {
@@ -85,14 +86,12 @@ async function createUnifiedIndexingClient(_config: any): Promise<UnifiedIndexin
 
       return {
         results: results.map((entry) => ({
-          content: {
-            id: entry.id || entry._id?.toString() || '',
-            type: 'file' as ContentType,
-            source: 'filesystem' as ContentSource,
-            content: entry.text,
-            metadata: entry.metadata || {},
-            timestamp: entry.createdAt,
-          },
+          content: transformDualStoreEntry({
+            id: entry.id || entry._id?.toString(),
+            text: entry.text,
+            timestamp: typeof entry.createdAt === 'number' ? entry.createdAt : Date.now(),
+            metadata: entry.metadata,
+          }),
           score: 1.0,
         })),
         total: results.length,
@@ -105,14 +104,12 @@ async function createUnifiedIndexingClient(_config: any): Promise<UnifiedIndexin
       const entry = await dualStore.get(id);
       if (!entry) return null;
 
-      return {
-        id: entry.id || entry._id?.toString() || '',
-        type: 'file' as ContentType,
-        source: 'filesystem' as ContentSource,
-        content: entry.text,
-        metadata: entry.metadata || {},
-        timestamp: entry.createdAt,
-      };
+      return transformDualStoreEntry({
+        id: entry.id || entry._id?.toString(),
+        text: entry.text,
+        timestamp: typeof entry.createdAt === 'number' ? entry.createdAt : Date.now(),
+        metadata: entry.metadata,
+      });
     },
 
     async getByType(_type: ContentType) {
