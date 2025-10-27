@@ -290,7 +290,7 @@ export const createMockContextStore = (): {
   formatTime: (ms: number) => string;
   assistantName: string;
 } => {
-  const collections = new Map();
+  const collections: Map<string, unknown> = new Map();
 
   return {
     collections,
