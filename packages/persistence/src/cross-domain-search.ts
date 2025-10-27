@@ -310,7 +310,7 @@ export class CrossDomainSearchEngine {
     /**
      * Generate search analytics
      */
-    private generateAnalytics(results: EnhancedSearchResult[], options: CrossDomainSearchOptions) {
+    private generateAnalytics(results: EnhancedSearchResult[], _options: CrossDomainSearchOptions) {
         const sources = [...new Set(results.map((r) => r.sourceType))];
         const types = [...new Set(results.map((r) => r.contentType))];
         const scores = results.map((r) => r.score);
@@ -344,7 +344,7 @@ export class CrossDomainSearchEngine {
         result: SearchResult,
         age: number,
         options: CrossDomainSearchOptions,
-    ): EnhancedSearchResult['scoreBreakdown'] {
+    ): { semantic: number; keyword: number; temporal: number; source: number; type: number; final: number } {
         const baseScore = result.score;
         const recencyScore = this.calculateRecencyScore(age, options.recencyDecay);
 
