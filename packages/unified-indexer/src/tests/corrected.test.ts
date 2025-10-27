@@ -11,17 +11,12 @@ import sinon from 'sinon';
 // Import actual types from persistence
 import type {
   SearchQuery,
-  SearchResponse,
   IndexableContent,
   ContentType,
   ContentSource,
 } from '@promethean-os/persistence';
 
-import type {
-  UnifiedIndexerServiceConfig,
-  UnifiedIndexerStats,
-  ServiceStatus,
-} from '../types/service.js';
+import type { UnifiedIndexerServiceConfig, ServiceStatus } from '../types/service.js';
 
 import type { CrossDomainSearchOptions, CrossDomainSearchResponse } from '../types/search.js';
 
@@ -90,22 +85,26 @@ function createMinimalConfig(): UnifiedIndexerServiceConfig {
   };
 }
 
-test('should export expected functions and classes', async (t) => {
+test('should export expected functions and types', async (t) => {
   const pkg = await import('../index.js');
 
   // Check main exports
-  t.truthy(pkg.UnifiedIndexerService);
   t.truthy(pkg.createUnifiedIndexerService);
-  t.truthy(pkg.CrossDomainSearchEngine);
   t.truthy(pkg.createCrossDomainSearchEngine);
   t.truthy(pkg.runUnifiedIndexerExample);
   t.truthy(pkg.exampleConfig);
 
+  // Check search functions
+  t.truthy(pkg.search);
+  t.truthy(pkg.intelligentSearch);
+  t.truthy(pkg.getContextualSearch);
+
   // Check types
-  t.is(typeof pkg.UnifiedIndexerService, 'function');
   t.is(typeof pkg.createUnifiedIndexerService, 'function');
-  t.is(typeof pkg.CrossDomainSearchEngine, 'function');
   t.is(typeof pkg.createCrossDomainSearchEngine, 'function');
+  t.is(typeof pkg.search, 'function');
+  t.is(typeof pkg.intelligentSearch, 'function');
+  t.is(typeof pkg.getContextualSearch, 'function');
 });
 
 test('should create UnifiedIndexerService with valid config', (t) => {
