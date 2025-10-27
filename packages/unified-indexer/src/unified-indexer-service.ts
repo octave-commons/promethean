@@ -30,7 +30,7 @@ import type {
 } from './types/service.js';
 
 import {
-  createDualStore,
+  createDualStoreManager,
   createContextStore,
   compileContext,
   getOrCreateCollection,
@@ -66,7 +66,7 @@ export interface UnifiedIndexerServiceState {
 export async function initializeService(
   config: UnifiedIndexerServiceConfig,
 ): Promise<UnifiedIndexerServiceState> {
-  const unifiedClient = await createUnifiedIndexingClient(config.indexing);
+  const unifiedClient = await createDualStoreManager('unified', 'text', 'createdAt');
 
   const contextStore = createContextStore(
     config.contextStore.formatTime,
