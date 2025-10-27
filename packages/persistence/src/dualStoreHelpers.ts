@@ -8,16 +8,6 @@ import { toEpochMilliseconds } from './toEpochMilliseconds.js';
 import { pickTimestamp } from './pickTimestamp.js';
 import { withTimestampMetadata } from './withTimestampMetadata.js';
 
-export const toChromaMetadata = (metadata: DualStoreMetadata): ChromaMetadata => {
-    const result: ChromaMetadata = {};
-    for (const [key, value] of Object.entries(metadata)) {
-        if (value !== null && value !== undefined) {
-            result[key] = value as string | number | boolean | null;
-        }
-    }
-    return result;
-};
-
 export const cloneMetadata = (metadata: ChromaMetadata | null | undefined): DualStoreMetadata | undefined =>
     metadata ? ({ ...metadata } as DualStoreMetadata) : undefined;
 
