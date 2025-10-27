@@ -71,7 +71,7 @@
   "lsp": {
     "eslint-lsp": {
       "enabled": true,
-      "command": ["npx", "eslint-lsp", "-y", "--stdio"],
+      "command": [ "eslint-lsp", "--stdio"],
       "extensions": [".ts", ".tsx", ".js", ".jsx", ".vue"]
     }
   },
