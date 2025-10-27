@@ -59,6 +59,7 @@ export type DualStoreDependencies<TextKey extends string = 'text', TimeKey exten
     time: TimeProvider;
     uuid: UuidProvider;
     logger: Logger;
+    cleanupClients?: () => Promise<void>;
 };
 
 export type InsertInputs<TextKey extends string, TimeKey extends string> = {

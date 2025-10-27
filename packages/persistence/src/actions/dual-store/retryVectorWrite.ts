@@ -40,8 +40,6 @@ export const retryVectorWrite = async <TextKey extends string, TimeKey extends s
                     },
                 },
             );
-
-            dependencies.logger.warn(`Vector write retry successful for entry ${id} on attempt ${attempt}`);
             return true;
         } catch (error) {
             lastError = error instanceof Error ? error : new Error(String(error));

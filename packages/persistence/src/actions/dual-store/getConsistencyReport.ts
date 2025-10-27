@@ -1,28 +1,55 @@
-export async function checkConsistency(id: string): Promise<{
-    hasDocument: boolean;
-    hasVector: boolean;
-    vectorWriteSuccess?: boolean;
-    vectorWriteError?: string;
-}> {
-    // Check MongoDB document
-    const mongoDoc = await this.get(id);
-    const hasDocument = mongoDoc !== null;
+import { getMostRecent } from './getMostRecent.js';
+import type { DualStoreDependencies, GetConsistencyReportInputs } from './types.js';
 
-    // Check ChromaDB vector
-    let hasVector = false;
-    try {
-        const vectorResult = await this.chromaCollection.get({
-            ids: [id],
-        });
-        hasVector = vectorResult.ids?.length > 0;
-    } catch (e) {
-        hasVector = false;
-    }
+export const getConsistencyReport = async <TextKey extends string, TimeKey extends string>(
+    inputs: GetConsistencyReportInputs,
+    dependencies: DualStoreDependencies<TextKey, TimeKey>,
+): Promise<{
+    totalDocuments: number;
+    consistentDocuments: number;
+    inconsistentDocuments: number;
+    missingVectors: number;
+    vectorWriteFailures: Array<{ id: string; error?: string; timestamp?: number }>;
+}> => {
+    const { limit = 100 } = inputs;
+
+    const recentDocs = await getMostRecent<TextKey, TimeKey>({ limit }, dependencies);
+
+    let consistentDocuments = 0;
+    let inconsistentDocuments = 0;
+    let missingVectors = 0;
+    const vectorWriteFailures: Array<{ id: string; error?: string; timestamp?: number }> = [];
+
+    recentDocs.forEach((doc) => {
+        const vectorWriteSuccess = doc.metadata?.vectorWriteSuccess;
+        const vectorWriteError = doc.metadata?.vectorWriteError;
+
+        if (vectorWriteSuccess === true) {
+            consistentDocuments++;
+            return;
+        }
+
+        if (vectorWriteSuccess === false) {
+            inconsistentDocuments++;
+            if (vectorWriteError) {
+                vectorWriteFailures.push({
+                    id: doc.id ?? 'unknown',
+                    error: vectorWriteError,
+                    timestamp: doc.metadata?.vectorWriteTimestamp ?? undefined,
+                });
+            }
+            return;
+        }
+
+        missingVectors++;
+    });
 
     return {
-        hasDocument,
-        hasVector,
-        vectorWriteSuccess: mongoDoc?.metadata?.vectorWriteSuccess,
-        vectorWriteError: mongoDoc?.metadata?.vectorWriteError,
+        totalDocuments: recentDocs.length,
+        consistentDocuments,
+        inconsistentDocuments,
+        missingVectors,
+        vectorWriteFailures,
     };
-}
+};
+

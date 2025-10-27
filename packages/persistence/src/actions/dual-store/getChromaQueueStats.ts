@@ -1,13 +1,7 @@
-export function getChromaQueueStats(): {
-    queueLength: number;
-    processing: boolean;
-    config: {
-        batchSize: number;
-        flushIntervalMs: number;
-        maxRetries: number;
-        retryDelayMs: number;
-        enabled: boolean;
-    };
-} {
-    return this.chromaWriteQueue.getQueueStats();
-}
+import type { DualStoreDependencies } from './types.js';
+
+export const getChromaQueueStats = <TextKey extends string, TimeKey extends string>(
+    _inputs: void,
+    dependencies: DualStoreDependencies<TextKey, TimeKey>,
+) => dependencies.chroma.queue.getQueueStats();
+

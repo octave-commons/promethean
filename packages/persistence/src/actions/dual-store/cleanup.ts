@@ -1,20 +1,17 @@
-/**
- * Cleanup all dual store resources (functional API)
- */
-export async function cleanup(): Promise<void> {
-    // Cleanup all registered managers
-    for (const [name, manager] of managerRegistry) {
+import type { DualStoreDependencies } from './types.js';
+
+export const cleanup = async <TextKey extends string, TimeKey extends string>(
+    _inputs: undefined,
+    dependencies: DualStoreDependencies<TextKey, TimeKey>,
+): Promise<void> => {
+    await dependencies.chroma.queue.shutdown();
+
+    if (dependencies.cleanupClients) {
         try {
-            await manager.chromaWriteQueue.shutdown();
+            await dependencies.cleanupClients();
         } catch (error) {
-            console.warn(`Failed to cleanup manager ${name}:`, error);
+            dependencies.logger.warn('Dual store cleanup encountered an error', error);
         }
     }
+};
 
-    // Clear registry
-    managerRegistry.clear();
-
-    // Cleanup clients
-    const { cleanupClients } = await import('./clients.js');
-    await cleanupClients();
-}
