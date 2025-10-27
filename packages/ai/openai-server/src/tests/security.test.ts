@@ -1,6 +1,6 @@
 import test from 'ava';
-import { createTestServer, createTestToken } from '../tests/helpers/test-utils.js';
-import type { TestContext } from './test-types.js';
+import { createTestServer, createTestToken } from '../tests/helpers/test-utils';
+import type { TestContext } from './test-types';
 
 // Security Tests
 test.before(async (t) => {

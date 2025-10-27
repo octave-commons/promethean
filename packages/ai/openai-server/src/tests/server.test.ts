@@ -3,9 +3,9 @@ import test from "ava";
 import type {
   ChatCompletionHandler,
   ChatCompletionResponse,
-} from "../openai/types.js";
-import type { QueueSnapshot } from "../queue/taskQueue.js";
-import { createOpenAICompliantServer } from "../server/createServer.js";
+} from "../openai/types";
+import type { QueueSnapshot } from "../queue/taskQueue";
+import { createOpenAICompliantServer } from "../server/createServer";
 
 type UnknownRecord = Record<string, unknown>;
 
