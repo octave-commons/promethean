@@ -1,3 +1,6 @@
+import type { Filter } from 'mongodb';
+
+import type { DualStoreEntry } from '../../types.js';
 import type { DualStoreDependencies, RetryVectorWriteInputs } from './types.js';
 
 import { buildChromaMetadata } from './utils.js';
@@ -12,7 +15,8 @@ export const retryVectorWrite = async <TextKey extends string, TimeKey extends s
     const { mongo, chroma, state, time } = dependencies;
 
     const collection = await mongo.getCollection();
-    const mongoDoc = await collection.findOne({ id } as Record<string, unknown>);
+    const filter = { id } as Filter<DualStoreEntry<TextKey, TimeKey>>;
+    const mongoDoc = await collection.findOne(filter);
 
     if (!mongoDoc) {
         throw new Error(`Document ${id} not found for vector retry`);
@@ -31,7 +35,7 @@ export const retryVectorWrite = async <TextKey extends string, TimeKey extends s
             });
 
             await collection.updateOne(
-                { id } as Record<string, unknown>,
+                filter,
                 {
                     $set: {
                         'metadata.vectorWriteSuccess': true,
@@ -55,7 +59,7 @@ export const retryVectorWrite = async <TextKey extends string, TimeKey extends s
     }
 
     await collection.updateOne(
-        { id } as Record<string, unknown>,
+        filter,
         {
             $set: {
                 'metadata.vectorWriteSuccess': false,
