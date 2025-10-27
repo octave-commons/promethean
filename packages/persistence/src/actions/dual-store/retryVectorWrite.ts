@@ -2,6 +2,8 @@ import type { Filter, UpdateFilter } from 'mongodb';
 
 import type { DualStoreEntry } from '../../types.js';
 import { toChromaMetadata } from '../../serializers/toChromaMetadata.js';
+import { pickTimestamp } from '../../serializers/pickTimestamp.js';
+import { toEpochMilliseconds } from '../../serializers/toEpochMilliseconds.js';
 import type { DualStoreDependencies, RetryVectorWriteInputs } from './types.js';
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -27,10 +29,12 @@ export const retryVectorWrite = async <TextKey extends string, TimeKey extends s
         try {
             const textValue = (mongoDoc as Record<TextKey, string>)[state.textKey];
             const chromaMetadata = toChromaMetadata(mongoDoc.metadata ?? {});
-            const timestampValue = (mongoDoc as Record<TimeKey, number | string | Date>)[state.timeStampKey];
-            if (timestampValue !== undefined) {
-                chromaMetadata[state.timeStampKey] = timestampValue as number | string | boolean | null;
-            }
+            const timestampCandidate = pickTimestamp(
+                (mongoDoc as Record<TimeKey, unknown>)[state.timeStampKey],
+                mongoDoc.metadata?.[state.timeStampKey],
+                mongoDoc.metadata?.timeStamp,
+            );
+            chromaMetadata[state.timeStampKey] = toEpochMilliseconds(timestampCandidate ?? undefined);
 
             await chroma.collection.add({
                 ids: [id],

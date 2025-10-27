@@ -1,6 +1,6 @@
 import type { Where } from 'chromadb';
 
-import type { ContextMessage, ContextState } from './actions/context-store/index.js';
+import type { ContextMessage, ContextState, DualStoreAdapter } from './actions/context-store/index.js';
 import {
     collectionCount as collectionCountAction,
     compileContext as compileContextAction,
@@ -160,7 +160,7 @@ const warnDeprecationOnce = (() => {
 })();
 
 export class ContextStore {
-    collections: Map<string, DualStoreManager<string, string>>;
+    collections: Map<string, DualStoreAdapter>;
     formatTime: (epochMs: number) => string;
     assistantName: string;
 
@@ -226,4 +226,3 @@ export class ContextStore {
 
 export const createContextStoreFactory = (config: ContextStoreFactoryConfig = {}) =>
     createContextStoreImplementation(config);
-

@@ -1,5 +1,5 @@
 import type { Collection as ChromaCollection } from 'chromadb';
-import type { Collection, Filter, Sort, UpdateFilter } from 'mongodb';
+import type { Collection, Filter, Sort } from 'mongodb';
 
 import type { DualStoreEntry } from '../../types.js';
 
@@ -92,7 +92,3 @@ export type RetryVectorWriteInputs = {
 export type GetConsistencyReportInputs = {
     limit?: number;
 };
-
-export type MongoUpdateFilter<TextKey extends string, TimeKey extends string> = UpdateFilter<
-    DualStoreEntry<TextKey, TimeKey>
->;
