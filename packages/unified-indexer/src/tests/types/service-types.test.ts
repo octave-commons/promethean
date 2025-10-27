@@ -14,11 +14,7 @@ import {
   isServiceStatus,
   isUnifiedIndexerStats,
 } from '../utils/type-validators.js';
-import {
-  createMinimalConfig,
-  createMockServiceStatus,
-  createMockContentList,
-} from '../utils/mock-factories.js';
+import { createMinimalConfig, createMockServiceStatus } from '../utils/mock-factories.js';
 import type {
   UnifiedIndexerServiceConfig,
   ServiceStatus,
