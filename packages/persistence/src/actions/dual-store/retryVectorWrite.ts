@@ -42,13 +42,18 @@ export const retryVectorWrite = async <TextKey extends string, TimeKey extends s
                 metadatas: [chromaMetadata],
             });
 
+            const updatedMetadata = {
+                ...(mongoDoc.metadata ?? {}),
+                vectorWriteSuccess: true,
+                vectorWriteError: undefined,
+                vectorWriteTimestamp: time(),
+            };
+
             await collection.updateOne(
                 filter,
                 {
                     $set: {
-                        'metadata.vectorWriteSuccess': true,
-                        'metadata.vectorWriteError': undefined,
-                        'metadata.vectorWriteTimestamp': time(),
+                        metadata: updatedMetadata,
                     },
                 } as UpdateFilter<DualStoreEntry<TextKey, TimeKey>>,
             );
@@ -66,13 +71,18 @@ export const retryVectorWrite = async <TextKey extends string, TimeKey extends s
         }
     }
 
+    const failureMetadata = {
+        ...(mongoDoc.metadata ?? {}),
+        vectorWriteSuccess: false,
+        vectorWriteError: lastError?.message,
+        vectorWriteTimestamp: null,
+    };
+
     await collection.updateOne(
         filter,
         {
             $set: {
-                'metadata.vectorWriteSuccess': false,
-                'metadata.vectorWriteError': lastError?.message,
-                'metadata.vectorWriteTimestamp': null,
+                metadata: failureMetadata,
             },
         } as UpdateFilter<DualStoreEntry<TextKey, TimeKey>>,
     );
