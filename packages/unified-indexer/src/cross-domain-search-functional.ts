@@ -6,7 +6,7 @@
  * comprehensive search results across all data sources.
  */
 
-import type { SearchResult, ContentSource } from '@promethean-os/persistence';
+import type { SearchResult } from '@promethean-os/persistence';
 import type { ContextMessage } from '@promethean-os/persistence/dist/actions/context-store/types.js';
 import type { UnifiedIndexerServiceState } from './unified-indexer-service.js';
 import type {
@@ -14,7 +14,10 @@ import type {
   EnhancedSearchResult,
   CrossDomainSearchResponse,
 } from './types/search.js';
+
 import { compileSearchContext } from './cross-domain-context.js';
+import { enhanceResults, processResults } from './cross-domain-processing.js';
+import { generateAnalytics, DEFAULT_SEARCH_OPTIONS } from './cross-domain-scoring.js';
 
 /**
  * Cross-Domain Search Engine State
