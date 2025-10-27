@@ -121,7 +121,7 @@ test('IndexingStats type structure validation', (t) => {
     ];
 
     for (const type of requiredTypes) {
-        t.true(typeof stats.contentByType[type] === 'number', `Missing or invalid contentByType.${type}`);
+        t.true(typeof stats.contentByType[type] === 'number', `Missing or invalid contentByType.${String(type)}`);
     }
 
     // Check contentBySource has all required sources
@@ -137,7 +137,10 @@ test('IndexingStats type structure validation', (t) => {
     ];
 
     for (const source of requiredSources) {
-        t.true(typeof stats.contentBySource[source] === 'number', `Missing or invalid contentBySource.${source}`);
+        t.true(
+            typeof stats.contentBySource[source] === 'number',
+            `Missing or invalid contentBySource.${String(source)}`,
+        );
     }
 
     // Check storageStats structure
