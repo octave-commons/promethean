@@ -146,7 +146,6 @@ test('session IDs are consistent across tools', async (t) => {
 
 test('message IDs are consistent across tools', async (t) => {
   const testSessionId = 'session_abc123def456';
-  const sessionMessages = mockMessages.filter((m) => m.sessionId === testSessionId);
 
   // Mock list-messages tool that returns JSON string
   const listMessagesTool = tool({
@@ -356,13 +355,13 @@ test('cross-tool ID consistency: session -> messages -> events', async (t) => {
 
   // Verify session ID consistency
   t.true(searchData.sessions.length > 0, 'Should find sessions');
-  searchData.sessions.forEach((session) => {
+  searchData.sessions.forEach((session: any) => {
     t.is(session.id, testSessionId, 'All sessions should have matching session ID');
   });
 
   // Verify message ID consistency and session relationship
   t.true(searchData.messages.length > 0, 'Should find messages');
-  searchData.messages.forEach((message) => {
+  searchData.messages.forEach((message: any) => {
     t.is(message.sessionId, testSessionId, 'All messages should belong to correct session');
     t.truthy(message.id, 'All messages should have IDs');
     t.true(message.id.startsWith('msg_'), 'Message IDs should follow consistent pattern');
@@ -370,7 +369,7 @@ test('cross-tool ID consistency: session -> messages -> events', async (t) => {
 
   // Verify event ID consistency and session relationship
   t.true(searchData.events.length > 0, 'Should find events');
-  searchData.events.forEach((event) => {
+  searchData.events.forEach((event: any) => {
     t.is(event.sessionId, testSessionId, 'All events should belong to correct session');
     t.truthy(event.id, 'All events should have IDs');
     t.true(event.id.startsWith('evt_'), 'Event IDs should follow consistent pattern');
@@ -416,7 +415,7 @@ test('ID validation works consistently across all tools', async (t) => {
   for (const invalidId of invalidSessionIds) {
     for (const testTool of testTools) {
       await t.throwsAsync(
-        testTool.execute({ sessionId: invalidId }, mockPluginContext),
+        testTool.execute({ sessionId: invalidId as any }, mockPluginContext),
         { message: /Session ID/ },
         'All tools should reject invalid session IDs consistently',
       );
