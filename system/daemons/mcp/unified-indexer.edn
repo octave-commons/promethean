@@ -1,6 +1,6 @@
 {:apps [{:name "unified-indexer"
           :script "node"
-          :args ["--config" "/etc/promethean/unified-indexer/config.json" "--daemon"]
+          :args ["packages/persistence/dist/index.js" "--config" "config/production.json" "--daemon"]
           :interpreter "/usr/bin/env"
           :out_file "./logs/unified-indexer.log"
           :error_file "./logs/unified-indexer.log"
@@ -20,10 +20,10 @@
                   :EMBEDDING_API_KEY "${EMBEDDING_API_KEY}"
                   :EMBEDDING_FUNCTION "${EMBEDDING_FUNCTION}"
                   :EMBEDDING_DIMENSIONS "${EMBEDDING_DIMENSIONS}"
-                  :CONFIG_PATH "/etc/promethean/unified-indexer/config.json"
-                  :PID_FILE "/var/run/unified-indexer.pid"
-                  :LOG_FILE "/var/log/promethean/unified-indexer/daemon.log"}
-          :cwd "/opt/promethean/unified-indexer"}
+                  :CONFIG_PATH "config/production.json"
+                  :PID_FILE "./var/run/unified-indexer.pid"
+                  :LOG_FILE "./logs/unified-indexer/daemon.log"}
+          :cwd "."
          :readiness_probe {:http_get {:url "http://localhost:3000/ready" :timeout 10000}}
          :liveness_probe {:http_get {:url "http://localhost:3000/health" :timeout 5000}}
          :startup_probe {:http_get {:url "http://localhost:3000/health" :timeout 30000 :retries 3}}]}
