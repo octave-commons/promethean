@@ -10,7 +10,7 @@
       },
       "models": {
         "perplexity-pro/sonar-pro": {
-          "name": "Dragonfly 1.5 Pro"
+          "name": "Perplexity Sonar Pro"
         }
       }
     },
