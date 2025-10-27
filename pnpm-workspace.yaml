@@ -4,7 +4,17 @@ packages:
   - .opencode/*
   - scripts/*/*
   - tools/
-# Exclude benchmark fixtures with intentional errors
+
+auditConfig:
+  ignoreCves:
+    - packages/buildfix/benchmark-fixtures
+    - packages/buildfix/simple-benchmark-temp
+    - packages/buildfix/large-benchmark-temp
+    - packages/buildfix/test-fixtures
+    - packages/buildfix/simple-fixtures
+    - packages/buildfix/test-tmp
+    - pseudo/*
+
 ignore:
   - packages/buildfix/benchmark-fixtures
   - packages/buildfix/simple-benchmark-temp
@@ -14,10 +24,11 @@ ignore:
   - packages/buildfix/test-tmp
   - pseudo/*
 
+link-workspace-packages: true
+
 pnpm:
   overrides:
     tinyglobby:
-      '@types/node': '20.19.11'
+      '@types/node': 20.19.11
 
-link-workspace-packages: true
 prefer-workspace-packages: true
