@@ -1,7 +1,5 @@
 import type { Filter, Sort } from 'mongodb';
 
-import type { Filter, Sort } from 'mongodb';
-
 import type { DualStoreDependencies, GetMostRecentInputs } from './types.js';
 import type { DualStoreEntry } from '../../types.js';
 
