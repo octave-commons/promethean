@@ -28,9 +28,11 @@ pseudo/    # throwaway scripts, pseudocode, retained for transparency
 src/               # source code
 src/tests/         # test files
 src/actions/       # individual, short, functional, operations, that can be taken in response to an event/hook
-src/commands/      # CLI interfaces
-src/routes/        # Restful endpoints
-src/tools/         # Individual MCP tools
+src/controllers/commands/      # CLI interfaces
+src/controllers/routes/        # Restful endpoints
+src/controllers/tools/         # Individual MCP tools
+src/controllers/events/        # event handlers
+src/controllers/events/        # event handlers
 src/serializers    # take the output from actions and prepare them for dispatch to an external consumer
 tsconfig.json      # extends ../../config/tsconfig.base.json
 ava.config.mjs     # extends ../../config/ava.config.mjs
