@@ -84,12 +84,19 @@ async function createUnifiedIndexingClient(_config: any): Promise<UnifiedIndexin
         query.metadata,
       );
 
+      const toEpochMs = (timestamp: any): number => {
+        if (timestamp instanceof Date) return timestamp.getTime();
+        if (typeof timestamp === 'string') return new Date(timestamp).getTime();
+        if (typeof timestamp === 'number') return timestamp;
+        return Date.now();
+      };
+
       return {
         results: results.map((entry) => ({
           content: transformDualStoreEntry({
             id: entry.id || entry._id?.toString(),
             text: entry.text,
-            timestamp: typeof entry.timestamp === 'number' ? entry.timestamp : Date.now(),
+            timestamp: toEpochMs(entry.timestamp),
             metadata: entry.metadata,
           }),
           score: 1.0,
@@ -104,10 +111,17 @@ async function createUnifiedIndexingClient(_config: any): Promise<UnifiedIndexin
       const entry = await dualStore.get(id);
       if (!entry) return null;
 
+      const toEpochMs = (timestamp: any): number => {
+        if (timestamp instanceof Date) return timestamp.getTime();
+        if (typeof timestamp === 'string') return new Date(timestamp).getTime();
+        if (typeof timestamp === 'number') return timestamp;
+        return Date.now();
+      };
+
       return transformDualStoreEntry({
         id: entry.id || entry._id?.toString(),
         text: entry.text,
-        timestamp: typeof entry.timestamp === 'number' ? entry.timestamp : Date.now(),
+        timestamp: toEpochMs(entry.timestamp),
         metadata: entry.metadata,
       });
     },
