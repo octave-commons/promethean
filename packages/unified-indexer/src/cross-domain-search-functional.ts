@@ -51,7 +51,6 @@ export async function search(
       `[cross-domain-search] Searching for: "${query.query}" across ${options.source ? (Array.isArray(options.source) ? options.source.join(', ') : options.source) : 'all'} sources`,
     );
 
-    // Step 1: Perform base search using unified indexer
     const baseResponse = await state.indexerService.unifiedClient.search({
       query: options.query,
       type: options.type,
@@ -66,25 +65,19 @@ export async function search(
       includeContent: true,
     });
 
-    // Step 2: Enhance results with additional metadata
     let enhancedResults = await enhanceResults(baseResponse.results, options);
-
-    // Step 3: Apply advanced filtering and processing
     enhancedResults = processResults(enhancedResults, options);
 
-    // Step 4: Compile context if requested
     let context: ContextMessage[] | undefined;
     if (options.includeContext && enhancedResults.length > 0) {
       context = await compileContext(state.indexerService, enhancedResults, options);
     }
 
-    // Step 5: Generate analytics if requested
     let analytics;
     if (options.includeAnalytics) {
       analytics = generateAnalytics(enhancedResults, options);
     }
 
-    // Step 6: Limit final results
     const finalResults = enhancedResults.slice(0, options.limit || 50);
 
     const response: CrossDomainSearchResponse = {
