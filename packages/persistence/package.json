@@ -26,7 +26,7 @@
     "test": "pnpm run clean && pnpm run build && ava --serial --config ../../config/ava.config.mjs",
     "lint": "pnpm exec eslint .",
     "lisp": "node dist/cli/lisp.js",
-    "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",
+    "coverage": "pnpm run clean && pnpm run build && c8 ava --config ../../config/ava.config.mjs",
     "format": "pnpm exec prettier --write ."
   },
   "module": "dist/index.js",
