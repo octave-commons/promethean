@@ -44,12 +44,14 @@ export const getConsistencyReport = async <TextKey extends string, TimeKey exten
         missingVectors++;
     });
 
-    return {
+    const report = {
         totalDocuments: recentDocs.length,
         consistentDocuments,
         inconsistentDocuments,
         missingVectors,
         vectorWriteFailures,
     };
-};
 
+    console.log('[getConsistencyReport]', report);
+    return report;
+};
