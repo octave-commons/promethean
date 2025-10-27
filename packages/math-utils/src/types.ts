@@ -3,9 +3,9 @@
 
 export type FibonacciMethod = 'recursive' | 'iterative' | 'matrix' | 'memoized';
 
-export interface FibonacciCache {
-  readonly [key: number]: bigint;
-}
+export type FibonacciCache = {
+  [key: number]: bigint;
+};
 
 export interface FibonacciResult {
   readonly value: bigint;
