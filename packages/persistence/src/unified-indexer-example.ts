@@ -6,11 +6,7 @@
  * cross-domain search for LLM context.
  */
 
-import {
-    createUnifiedIndexerService,
-    type UnifiedIndexerServiceConfig,
-    DEFAULT_SERVICE_CONFIG,
-} from './unified-indexer-service.js';
+import { createUnifiedIndexerService, type UnifiedIndexerServiceConfig } from './unified-indexer-service.js';
 
 import type { SearchQuery } from './unified-indexing-api.js';
 
@@ -146,7 +142,8 @@ async function runUnifiedIndexerExample(): Promise<void> {
             console.log(
                 `  ${index + 1}. [${result.content.type}] ${result.content.id} (score: ${result.score.toFixed(3)})`,
             );
-            console.log(`     Source: ${result.content.source} | ${result.content.metadata.path || 'N/A'}`);
+            const metadata = result.content.metadata as any;
+            console.log(`     Source: ${result.content.source} | ${metadata.path || 'N/A'}`);
             console.log(`     Preview: ${result.content.content.substring(0, 100)}...`);
         });
 

@@ -61,3 +61,10 @@ export {
     type UnifiedIndexerStats,
     type ServiceStatus,
 } from './unified-indexer-service.js';
+
+// Unified indexer example
+export {
+    runUnifiedIndexerExample,
+    demonstrateContextStoreIntegration,
+    exampleConfig,
+} from './unified-indexer-example.js';
