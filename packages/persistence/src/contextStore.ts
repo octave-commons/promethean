@@ -160,7 +160,7 @@ const warnDeprecationOnce = (() => {
 })();
 
 export class ContextStore {
-    collections: Map<string, DualStoreAdapter>;
+    collections: Map<string, DualStoreManager<string, string>>;
     formatTime: (epochMs: number) => string;
     assistantName: string;
 
@@ -170,14 +170,13 @@ export class ContextStore {
         warnDeprecationOnce();
         this.implementation = createContextStoreImplementation({ formatTime, assistantName });
         const { collections, formatTime: fmt, assistantName: assistant } = this.implementation.state;
-        this.collections = new Map(collections);
+        this.collections = collections as unknown as Map<string, DualStoreManager<string, string>>;
         this.formatTime = fmt;
         this.assistantName = assistant;
     }
 
     private syncState(): void {
-        const { collections, formatTime, assistantName } = this.implementation.state;
-        this.collections = new Map(collections);
+        const { formatTime, assistantName } = this.implementation.state;
         this.formatTime = formatTime;
         this.assistantName = assistantName;
     }
