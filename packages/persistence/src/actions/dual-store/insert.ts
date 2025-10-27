@@ -75,6 +75,11 @@ export const insert = async <TextKey extends string, TimeKey extends string>(
         vectorWriteTimestamp: vectorWriteSuccess ? time() : null,
     };
 
+    // debug
+    if (!vectorWriteSuccess) {
+        console.log('[dual-store insert] vector write failure metadata', enhancedMetadata);
+    }
+
     await collection.insertOne({
         ...(enhancedEntry as DualStoreEntry<TextKey, TimeKey>),
         metadata: enhancedMetadata,
