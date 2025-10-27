@@ -1,35 +1,22 @@
-/**
- * Get an entry by ID from the dual store (functional API)
- */
-export async function get(managerOrName: any, id: string): Promise<DualStoreEntry<'text', 'timestamp'> | null> {
-    const manager = typeof managerOrName === 'string' ? managerRegistry.get(managerOrName) : managerOrName;
+import type { DualStoreEntry } from '../../types.js';
+import type { DualStoreDependencies, GetInputs } from './types.js';
 
-    if (!manager) {
-        throw new Error(`Manager not found: ${typeof managerOrName === 'string' ? managerOrName : 'unknown'}`);
-    }
+import { fromMongoDocument } from './utils.js';
 
-    const textKey = manager.textKey as string;
-    const timeStampKey = manager.timeStampKey as string;
-    const collectionName = (manager.mongoCollection as { collectionName: string }).collectionName;
+export const get = async <TextKey extends string, TimeKey extends string>(
+    inputs: GetInputs,
+    dependencies: DualStoreDependencies<TextKey, TimeKey>,
+): Promise<DualStoreEntry<'text', 'timestamp'> | null> => {
+    const { id } = inputs;
+    const { mongo, state } = dependencies;
 
-    const filter = { id } as any;
-
-    // Ensure MongoDB connection is valid before querying
-    const mongoClient = await getMongoClient();
-    const validatedClient = await validateMongoConnection(mongoClient);
-    const db = validatedClient.db('database');
-    const collection = db.collection(collectionName);
-
-    const document = await collection.findOne(filter);
+    const collection = await mongo.getCollection();
+    const document = await collection.findOne({ id } as Record<string, unknown>);
 
     if (!document) {
         return null;
     }
 
-    return {
-        id: document.id,
-        text: (document as Record<string, any>)[textKey],
-        timestamp: new Date((document as Record<string, any>)[timeStampKey]).getTime(),
-        metadata: document.metadata,
-    } as DualStoreEntry<'text', 'timestamp'>;
-}
+    return fromMongoDocument(document, state);
+};
+

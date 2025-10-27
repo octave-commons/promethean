@@ -1,43 +1,59 @@
-/**
- * Get most relevant entries from the dual store (functional API)
- */
-export async function getMostRelevant(
-    managerOrName: any,
-    queryTexts: string[],
-    limit: number,
-    where?: Record<string, unknown>,
-): Promise<DualStoreEntry<'text', 'timestamp'>[]> {
-    const manager = typeof managerOrName === 'string' ? managerRegistry.get(managerOrName) : managerOrName;
+import type { DualStoreEntry } from '../../types.js';
+import type { DualStoreDependencies, GetMostRelevantInputs } from './types.js';
 
-    if (!manager) {
-        throw new Error(`Manager not found: ${typeof managerOrName === 'string' ? managerOrName : 'unknown'}`);
+import { normaliseTimestamp } from './utils.js';
+
+export const getMostRelevant = async <TextKey extends string, TimeKey extends string>(
+    inputs: GetMostRelevantInputs,
+    dependencies: DualStoreDependencies<TextKey, TimeKey>,
+): Promise<DualStoreEntry<'text', 'timestamp'>[]> => {
+    const { queryTexts, limit, where } = inputs;
+
+    if (!Array.isArray(queryTexts) || queryTexts.length === 0) {
+        return [];
     }
 
-    const timeStampKey = manager.timeStampKey as string;
+    const { chroma, state, time } = dependencies;
 
-    if (!queryTexts || queryTexts.length === 0) return [];
-
-    const query: Record<string, any> = {
+    const query: Record<string, unknown> = {
         queryTexts,
         nResults: limit,
     };
-    if (where && Object.keys(where).length > 0) query.where = where;
-    const queryResult = await manager.chromaCollection.query(query);
-    const uniqueThoughts = new Set();
-    const ids = queryResult.ids.flat(2);
-    const meta = queryResult.metadatas.flat(2);
-    return queryResult.documents
-        .flat(2)
-        .map((doc: string, i: number) => ({
-            id: ids[i],
-            text: doc,
-            metadata: meta[i],
-            timestamp: meta[i]?.timeStamp || meta[i]?.[timeStampKey] || Date.now(),
-        }))
-        .filter((doc: DualStoreEntry<'text', 'timestamp'>) => {
-            if (!doc.text) return false;
-            if (uniqueThoughts.has(doc.text)) return false;
-            uniqueThoughts.add(doc.text);
-            return true;
-        }) as DualStoreEntry<'text', 'timestamp'>[];
-}
+
+    if (where && Object.keys(where).length > 0) {
+        query.where = where;
+    }
+
+    const queryResult = await chroma.collection.query(query as any);
+
+    const ids = (queryResult.ids ?? []).flat(2) as string[];
+    const docs = (queryResult.documents ?? []).flat(2) as Array<string | null>;
+    const metas = (queryResult.metadatas ?? []).flat(2) as Array<Record<string, unknown> | null>;
+
+    const seen = new Set<string>();
+
+    const entries: DualStoreEntry<'text', 'timestamp'>[] = [];
+
+    docs.forEach((text, index) => {
+        if (!text) {
+            return;
+        }
+
+        if (seen.has(text)) {
+            return;
+        }
+        seen.add(text);
+
+        const metadata = metas[index] ?? undefined;
+        const timestampSource = metadata?.timeStamp ?? metadata?.[state.timeStampKey] ?? time();
+
+        entries.push({
+            id: ids[index],
+            text,
+            metadata: metadata as DualStoreEntry<'text', 'timestamp'>['metadata'],
+            timestamp: normaliseTimestamp(timestampSource),
+        });
+    });
+
+    return entries;
+};

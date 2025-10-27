@@ -1,34 +1,7 @@
 import type { DualStoreEntry } from '../../types.js';
 import type { DualStoreDependencies, InsertInputs } from './types.js';
 
-const normaliseMetadataValue = (value: unknown): string | number | boolean | null => {
-    if (value === null || value === undefined) {
-        return null;
-    }
-
-    if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
-        return value;
-    }
-
-    return JSON.stringify(value);
-};
-
-const createChromaMetadata = <TextKey extends string, TimeKey extends string>(
-    entry: DualStoreEntry<TextKey, TimeKey>,
-    timestamp: number,
-    timeStampKey: TimeKey,
-): Record<string, string | number | boolean | null> => {
-    const metadata = entry.metadata ?? {};
-    const base: Record<string, string | number | boolean | null> = {
-        [timeStampKey]: timestamp,
-    } as Record<string, string | number | boolean | null>;
-
-    for (const [key, value] of Object.entries(metadata)) {
-        base[key] = normaliseMetadataValue(value);
-    }
-
-    return base;
-};
+import { buildChromaMetadata } from './utils.js';
 
 export const insert = async <TextKey extends string, TimeKey extends string>(
     inputs: InsertInputs<TextKey, TimeKey>,
@@ -58,7 +31,7 @@ export const insert = async <TextKey extends string, TimeKey extends string>(
 
     if (dualWriteEnabled && (!isImage || state.supportsImages)) {
         try {
-            const chromaMetadata = createChromaMetadata(enhancedEntry, Number(timestamp), state.timeStampKey);
+            const chromaMetadata = buildChromaMetadata(enhancedEntry, state);
             await chroma.queue.add(entryId, (enhancedEntry as Record<string, string>)[state.textKey], chromaMetadata);
         } catch (error) {
             vectorWriteSuccess = false;

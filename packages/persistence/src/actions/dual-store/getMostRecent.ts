@@ -1,41 +1,30 @@
-/**
- * Get most recent entries from the dual store (functional API)
- */
-export async function getMostRecent(
-    managerOrName: any,
-    limit = 10,
-    mongoFilter?: any,
-    sorter?: any,
-): Promise<DualStoreEntry<'text', 'timestamp'>[]> {
-    const manager = typeof managerOrName === 'string' ? managerRegistry.get(managerOrName) : managerOrName;
+import type { DualStoreDependencies, GetMostRecentInputs } from './types.js';
+import type { DualStoreEntry } from '../../types.js';
 
-    if (!manager) {
-        throw new Error(`Manager not found: ${typeof managerOrName === 'string' ? managerOrName : 'unknown'}`);
-    }
+import { fromMongoDocument } from './utils.js';
 
-    const textKey = manager.textKey as string;
-    const timeStampKey = manager.timeStampKey as string;
-    const collectionName = (manager.mongoCollection as { collectionName: string }).collectionName;
+export const getMostRecent = async <TextKey extends string, TimeKey extends string>(
+    inputs: GetMostRecentInputs<TextKey, TimeKey>,
+    dependencies: DualStoreDependencies<TextKey, TimeKey>,
+): Promise<DualStoreEntry<'text', 'timestamp'>[]> => {
+    const { limit = 10, mongoFilter, sorter } = inputs;
+    const { state, mongo } = dependencies;
 
-    // Ensure MongoDB connection is valid before querying
-    const mongoClient = await getMongoClient();
-    const validatedClient = await validateMongoConnection(mongoClient);
-    const db = validatedClient.db('database');
-    const collection = db.collection(collectionName);
+    const collection = await mongo.getCollection();
 
-    const defaultFilter = { [textKey]: { $nin: [null, ''], $not: /^\s*$/ } };
-    const defaultSorter = { [timeStampKey]: -1 };
+    const defaultFilter = {
+        [state.textKey]: { $nin: [null, ''], $not: /^\s*$/ },
+    } as Record<string, unknown>;
 
-    return (
-        await collection
-            .find(mongoFilter || defaultFilter)
-            .sort(sorter || defaultSorter)
-            .limit(limit)
-            .toArray()
-    ).map((entry: WithId<DualStoreEntry<any, any>>) => ({
-        id: entry.id,
-        text: (entry as Record<string, any>)[textKey],
-        timestamp: new Date((entry as Record<string, any>)[timeStampKey]).getTime(),
-        metadata: entry.metadata,
-    })) as DualStoreEntry<'text', 'timestamp'>[];
-}
+    const defaultSorter = {
+        [state.timeStampKey]: -1 as const,
+    };
+
+    const documents = await collection
+        .find(mongoFilter ?? defaultFilter)
+        .sort(sorter ?? defaultSorter)
+        .limit(limit)
+        .toArray();
+
+    return documents.map((doc) => fromMongoDocument(doc, state));
+};
