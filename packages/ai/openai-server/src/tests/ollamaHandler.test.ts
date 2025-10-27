@@ -1,12 +1,12 @@
 import test from "ava";
 import type { ExecutionContext, TestFn } from "ava";
 
-import { createOllamaChatCompletionHandler } from "../openai/ollamaHandler.js";
+import { createOllamaChatCompletionHandler } from "../openai/ollamaHandler";
 import type {
   ChatCompletionJob,
   ChatCompletionRequest,
-} from "../openai/types.js";
-import type { DeepReadonly } from "../types/deepReadonly.js";
+} from "../openai/types";
+import type { DeepReadonly } from "../types/deepReadonly";
 
 type RecordedInit = DeepReadonly<{
   readonly method?: string;

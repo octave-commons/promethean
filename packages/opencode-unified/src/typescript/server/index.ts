@@ -1,6 +1,6 @@
 /**
  * Server Module - HTTP Server and API Routes
- * Consolidated from @promethean/dualstore-http
+ * Consolidated from @promethean-os/dualstore-http
  */
 
 import Fastify, { FastifyInstance } from 'fastify';
@@ -86,7 +86,7 @@ export class OpenCodeServer {
     // Add API info route
     this.fastify.get('/api/info', async () => {
       return {
-        name: '@promethean/opencode-unified',
+        name: '@promethean-os/opencode-unified',
         version: SERVER_VERSION,
         description:
           'Unified OpenCode client combining TypeScript server, ClojureScript editor, and Electron integration',
@@ -96,7 +96,7 @@ export class OpenCodeServer {
     // Add API info route
     this.fastify.get('/api/info', async () => {
       return {
-        name: '@promethean/opencode-unified',
+        name: '@promethean-os/opencode-unified',
         version: SERVER_VERSION,
         description:
           'Unified OpenCode client combining TypeScript server, ClojureScript editor, and Electron integration',

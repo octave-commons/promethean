@@ -4,7 +4,7 @@ import {
 import type {
   // syntax error ReadonlyDeep } from "type-fest";
 import {
-  // syntax error listFilesRec } from "@promethean/utils";
+  // syntax error listFilesRec } from "@promethean-os/utils";
 
 import {
   // syntax error

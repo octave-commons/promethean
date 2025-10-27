@@ -1,8 +1,8 @@
-# @promethean/kanban npm Publication - Executive Summary
+# @promethean-os/kanban npm Publication - Executive Summary
 
 ## Current State Assessment
 
-Based on comprehensive code review, the @promethean/kanban package requires significant work before npm publication:
+Based on comprehensive code review, the @promethean-os/kanban package requires significant work before npm publication:
 
 ### Critical Issues Blocking Publication
 
@@ -163,7 +163,7 @@ Based on comprehensive code review, the @promethean/kanban package requires sign
 
 ## Conclusion
 
-The @promethean/kanban package has solid functionality and architecture but requires significant quality improvements before npm publication. The proposed 6-8 week timeline is realistic and addresses all critical issues systematically.
+The @promethean-os/kanban package has solid functionality and architecture but requires significant quality improvements before npm publication. The proposed 6-8 week timeline is realistic and addresses all critical issues systematically.
 
 **Recommendation**: Proceed with Phase 1 immediately, focusing on ESLint resolution and security fixes. This unblocks publication and provides immediate quality improvements.
 

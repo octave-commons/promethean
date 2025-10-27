@@ -69,7 +69,7 @@ packages/<package-name>/
 
 ```json
 {
-  "name": "@promethean/<package-name>",
+  "name": "@promethean-os/<package-name>",
   "version": "1.0.0",
   "description": "<Package description>",
   "main": "src/<namespace_path>/core.clj",
@@ -83,7 +83,7 @@ packages/<package-name>/
   "author": "Promethean Team",
   "license": "MIT",
   "devDependencies": {
-    "@promethean/eslint-config": "workspace:*"
+    "@promethean-os/eslint-config": "workspace:*"
   }
 }
 ```
@@ -91,7 +91,7 @@ packages/<package-name>/
 ### 3. `README.md` - Package Overview
 
 ````markdown
-# @promethean/<package-name>
+# @promethean-os/<package-name>
 
 ## Description
 
@@ -117,13 +117,13 @@ Brief description of the package purpose and functionality.
 ### Running Tests
 
 ```bash
-pnpm --filter @promethean/<package-name> test
+pnpm --filter @promethean-os/<package-name> test
 ```
 
 ### Starting REPL
 
 ```bash
-pnpm --filter @promethean/<package-name> repl
+pnpm --filter @promethean-os/<package-name> repl
 ```
 
 ## API Documentation

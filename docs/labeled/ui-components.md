@@ -1,6 +1,6 @@
 # UI Components
 
-`@promethean/ui-components` provides design tokens and reusable Web Components.
+`@promethean-os/ui-components` provides design tokens and reusable Web Components.
 
 ## Design Tokens
 Tokens are applied as CSS variables using `applyDesignTokens()`.

@@ -3,7 +3,7 @@
  * Common utility functions and helpers
  */
 
-import type { Actor, Message, ContextSource } from '@promethean/pantheon-core';
+import type { Actor, Message, ContextSource } from '@promethean-os/pantheon-core';
 
 // === ID Generation ===
 

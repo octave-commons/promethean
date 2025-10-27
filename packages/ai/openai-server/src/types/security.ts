@@ -18,7 +18,7 @@ export interface JWTPayload {
   readonly permissions: readonly string[];
   readonly iat: number; // issued at
   readonly exp: number; // expiration
-  readonly type: "access" | "refresh";
+  readonly type: 'access' | 'refresh';
 }
 
 export interface AuthTokens {
@@ -80,11 +80,13 @@ export interface InputValidationResult {
   readonly warnings?: readonly string[];
 }
 
+export type UserRole = 'user' | 'admin' | 'readonly';
+
 export interface SecurityHeaders {
-  readonly "X-Content-Type-Options": "nosniff";
-  readonly "X-Frame-Options": "DENY";
-  readonly "X-XSS-Protection": "1; mode=block";
-  readonly "Referrer-Policy": "strict-origin-when-cross-origin";
-  readonly "Content-Security-Policy"?: string;
-  readonly "Strict-Transport-Security"?: string;
+  readonly 'X-Content-Type-Options': 'nosniff';
+  readonly 'X-Frame-Options': 'DENY';
+  readonly 'X-XSS-Protection': '1; mode=block';
+  readonly 'Referrer-Policy': 'strict-origin-when-cross-origin';
+  readonly 'Content-Security-Policy'?: string;
+  readonly 'Strict-Transport-Security'?: string;
 }

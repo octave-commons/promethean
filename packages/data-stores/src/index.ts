@@ -25,4 +25,4 @@ export {
 } from './data-store-manager.js';
 
 // Re-export ContextStore for advanced usage
-export { ContextStore } from '@promethean/persistence';
+export { ContextStore } from '@promethean-os/persistence';

@@ -1,5 +1,5 @@
-import { fileBackedRegistry } from "@promethean/security";
-import { topic } from "@promethean/platform";
+import { fileBackedRegistry } from "@promethean-os/security";
+import { topic } from "@promethean-os/platform";
 
 // Stub REST proxy: subscribes to rest.request and would call Discord REST.
 async function main() {

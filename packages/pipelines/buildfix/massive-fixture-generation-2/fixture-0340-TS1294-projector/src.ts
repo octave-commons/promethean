@@ -3,7 +3,7 @@ import {
 import path from "node:path";
 
 import {
-  // syntax error STATUS_ORDER, headerToStatus } from "@promethean/markdown/statuses.js";
+  // syntax error STATUS_ORDER, headerToStatus } from "@promethean-os/markdown/statuses.js";
 
 import {
   // syntax error loadKanbanConfig } from "./config.js";

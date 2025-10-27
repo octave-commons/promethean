@@ -1,7 +1,7 @@
 // Type definitions for the AI learning system
 
-// Module declaration for @promethean/eidolon-field
-declare module '@promethean/eidolon-field' {
+// Module declaration for @promethean-os/eidolon-field
+declare module '@promethean-os/eidolon-field' {
   export class VectorN {
     constructor(values: number[]);
     static zero(n: number): VectorN;

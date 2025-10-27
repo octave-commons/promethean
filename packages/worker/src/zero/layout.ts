@@ -41,7 +41,7 @@ export function allocColumns(rows: number, layout: CompLayout, shared: boolean):
         const buf = shared
             ? new SharedArrayBuffer(Ctor.BYTES_PER_ELEMENT * rows)
             : new ArrayBuffer(Ctor.BYTES_PER_ELEMENT * rows);
-        fields[k] = new Ctor(buf);
+        fields[k] = new Ctor(buf as ArrayBuffer);
     }
     const chBuf = shared ? new SharedArrayBuffer(Math.ceil(rows / 8)) : new ArrayBuffer(Math.ceil(rows / 8));
     const changed = new Uint8Array(chBuf);

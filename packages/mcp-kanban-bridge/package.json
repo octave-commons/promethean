@@ -1,6 +1,6 @@
 {
-  "name": "@promethean/mcp-kanban-bridge",
-  "version": "1.0.0",
+  "name": "@promethean-os/mcp-kanban-bridge",
+  "version": "0.1.0",
   "description": "MCP server bridge for kanban operations - enables AI assistants to manipulate kanban boards through Model Context Protocol",
   "type": "module",
   "main": "dist/index.js",
@@ -17,7 +17,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/promethean-framework/promethean.git",
+    "url": "https://github.com/riatzukiza/promethean.git",
     "directory": "packages/mcp-kanban-bridge"
   },
   "engines": {
@@ -46,10 +46,10 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
-    "@promethean/agent-protocol": "workspace:*",
-    "@promethean/agent-state": "workspace:*",
-    "@promethean/kanban": "workspace:*",
-    "@promethean/utils": "workspace:*",
+    "@promethean-os/agent-protocol": "workspace:*",
+    "@promethean-os/agent-state": "workspace:*",
+    "@promethean-os/kanban": "workspace:*",
+    "@promethean-os/utils": "workspace:*",
     "fastify": "^4.24.3",
     "uuid": "^9.0.1",
     "zod": "^3.22.4",

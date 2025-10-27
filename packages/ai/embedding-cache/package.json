@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/embedding-cache",
+  "name": "@promethean-os/embedding-cache",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -28,7 +28,7 @@
   },
   "module": "dist/index.js",
   "dependencies": {
-    "@promethean/utils": "workspace:*"
+    "@promethean-os/utils": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0"

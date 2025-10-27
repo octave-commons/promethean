@@ -1,0 +1,23 @@
+{
+    "name": "@promethean-os/pantheon-coordination",
+    "version": "0.1.0",
+    "description": "Pantheon Coordination - Agent coordination and task assignment types",
+    "type": "module",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "build": "tsc",
+        "test": "ava",
+        "clean": "rm -rf dist",
+        "dev": "tsc --watch",
+        "typecheck": "tsc --noEmit"
+    },
+    "dependencies": {
+        "@promethean-os/pantheon-state": "workspace:*",
+        "zod": "^3.22.4"
+    },
+    "devDependencies": {
+        "ava": "^5.3.1",
+        "typescript": "^5.3.3"
+    }
+}

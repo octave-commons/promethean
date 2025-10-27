@@ -1,7 +1,7 @@
 // @ts-nocheck
 import type { Db, ClientSession } from 'mongodb';
-import type { EventBus, EventRecord } from '@promethean/event/types.js';
-import { retry } from '@promethean/utils';
+import type { EventBus, EventRecord } from '@promethean-os/event/types.js';
+import { retry } from '@promethean-os/utils';
 
 export type TxnProjectorOpts<E = any> = {
     topic: string;

@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/symdocs",
+  "name": "@promethean-os/symdocs",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -18,12 +18,12 @@
     "symdocs:all": "pnpm symdocs:01-scan && pnpm symdocs:02-docs && pnpm symdocs:03-write"
   },
   "dependencies": {
-    "@promethean/level-cache": "workspace:*",
-    "@promethean/utils": "workspace:*",
+    "@promethean-os/level-cache": "workspace:*",
+    "@promethean-os/utils": "workspace:*",
     "gray-matter": "^4.0.3",
     "yaml": "^2.5.0",
     "zod": "^3.23.8",
-    "@promethean/file-indexer": "workspace:*",
+    "@promethean-os/file-indexer": "workspace:*",
     "typescript": "^5.4.5"
   },
   "devDependencies": {

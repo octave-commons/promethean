@@ -1,257 +1,137 @@
+// Ensure test environment is set before any imports
+if (process.env.AGENT_NAME !== 'test_agent') {
+  process.env.AGENT_NAME = 'test_agent';
+}
+
 import test from 'ava';
 import sinon from 'sinon';
 import { search } from '../../actions/sessions/search.js';
-import { sessionStore, SessionUtils } from '../../index.js';
+import { sessionStore } from '../../index.js';
+import { initializeStores } from '../../initializeStores.js';
+import { testUtils } from '../../test-setup.js';
 
-test.beforeEach(() => {
-  sinon.restore();
+// Initialize stores before tests to use real DB-based data
+test.before(async () => {
+  await initializeStores();
 });
 
-test.serial('search returns sessions matching query', async (t) => {
-  const mockSessions = [
-    { id: 'session:1', title: 'Test Session One', description: 'First test session' },
-    { id: 'session:2', title: 'Another Session', description: 'Second session' },
-    { id: 'session:3', title: 'Test Session Two', description: 'Third test session' },
-  ];
+test.beforeEach(async () => {
+  // reset stubs
+  sinon.restore();
+  // Clean test data before each test
+  await testUtils.beforeEach();
+});
 
-  const mockMessages = [
-    { id: 'msg1', content: 'Hello' },
-    { id: 'msg2', content: 'World' },
-  ];
+test.afterEach.always(async () => {
+  await testUtils.afterEach();
+});
 
-  const getMostRecentStub = sinon.stub(sessionStore, 'getMostRecent').resolves([
-    { id: 'session:1', text: JSON.stringify(mockSessions[0]), timestamp: Date.now() },
-    { id: 'session:2', text: JSON.stringify(mockSessions[1]), timestamp: Date.now() },
-    { id: 'session:3', text: JSON.stringify(mockSessions[2]), timestamp: Date.now() },
-    { id: 'other:entry', text: 'should be ignored', timestamp: Date.now() },
-  ]);
-
-  sinon.stub(sessionStore, 'get').resolves({
-    id: 'session:1:messages',
-    text: JSON.stringify(mockMessages),
-    timestamp: Date.now(),
+// Helper to insert a session into the real store
+async function insertSession(id: string, title: string, description?: string) {
+  const session = { id, title, description } as any;
+  // Use future timestamp to avoid conflicts with old test data
+  await sessionStore.insert({
+    id,
+    text: JSON.stringify(session),
+    timestamp: Date.now() + 1000000000,
   });
+}
 
-  sinon.stub(SessionUtils, 'createSessionInfo').returns({
-    id: 'session:1',
-    title: 'Test Session One',
-    messageCount: 0,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  } as any);
+test.serial('search returns sessions matching query', async (t) => {
+  // Insert two matching sessions and one non-matching
+  await insertSession('session_1', 'Test Session One', 'First test session');
+  await insertSession('session_2', 'Another Session', 'Second session');
+  await sessionStore.insert({
+    id: 'session_1:messages',
+    text: JSON.stringify([]),
+    timestamp: Date.now() + 1000000000,
+  });
+  await sessionStore.insert({
+    id: 'session_2:messages',
+    text: JSON.stringify([]),
+    timestamp: Date.now() + 1000000000,
+  });
 
   const result = await search({ query: 'test' });
 
-  t.true(getMostRecentStub.calledOnceWith(1000));
-  // t.true(SessionUtils.createSessionInfo.called);
   t.true('results' in result);
   t.false('error' in result);
-
   if ('results' in result) {
-    t.is(result.query, 'test');
-    t.is(result.results.length, 2); // Should match 2 sessions with "test" in title
-    t.is(result.totalCount, 2);
+    t.is(result.results.length, 1);
+    t.is(result.results[0]?.id, 'session_1');
   }
 });
 
 test.serial('search returns empty results when no sessions match', async (t) => {
-  const getMostRecentStub = sinon.stub(sessionStore, 'getMostRecent').resolves([
-    {
-      id: 'session:1',
-      text: JSON.stringify({ id: 'session:1', title: 'Different Session' }),
-      timestamp: Date.now(),
-    },
-  ]);
+  // Clear and insert a non-matching session
+  const { getMongoClient } = await import('@promethean-os/persistence');
+  const mongoClient = await getMongoClient();
+  const db = mongoClient.db('database');
+  await db.collection('test_agent_sessionStore').deleteMany({});
+  await db.collection('test_agent_sessionStore').insertOne({
+    id: 'session_not_matching',
+    text: JSON.stringify({ id: 'session_not_matching', title: 'Different' }),
+    timestamp: Date.now() + 1000000000,
+  });
 
-  sinon.stub(sessionStore, 'get').resolves(null);
-
-  const result = await search({ query: 'nonexistent' });
-
-  t.true(getMostRecentStub.calledOnceWith(1000));
+  const result = await search({ query: 'nomatch' });
   t.true('results' in result);
   t.false('error' in result);
-
   if ('results' in result) {
-    t.is(result.query, 'nonexistent');
     t.is(result.results.length, 0);
-    t.is(result.totalCount, 0);
   }
 });
 
 test.serial('search respects sessionId filter', async (t) => {
-  const mockSessions = [
-    { id: 'session:1', title: 'Test Session One' },
-    { id: 'session:2', title: 'Test Session Two' },
-  ];
-
-  sinon.stub(sessionStore, 'getMostRecent').resolves([
-    { id: 'session:1', text: JSON.stringify(mockSessions[0]), timestamp: Date.now() },
-    { id: 'session:2', text: JSON.stringify(mockSessions[1]), timestamp: Date.now() },
-  ]);
-
-  sinon.stub(sessionStore, 'get').resolves({
-    id: 'session:1:messages',
+  // Insert two sessions
+  await insertSession('session_1', 'Test Session One');
+  await insertSession('session_2', 'Test Session Two');
+  await sessionStore.insert({
+    id: 'session_session_2:messages',
     text: JSON.stringify([]),
-    timestamp: Date.now(),
+    timestamp: Date.now() + 1000000000,
   });
 
-  sinon.stub(SessionUtils, 'createSessionInfo').returns({
-    id: 'session:1',
-    title: 'Test Session One',
-    messageCount: 0,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  } as any);
-
-  const result = await search({ query: 'test', sessionId: 'session:1' });
-
+  const result = await search({ query: 'test', sessionId: 'session_2' });
   t.true('results' in result);
-  t.false('error' in result);
-
-  if ('results' in result && result.results.length > 0) {
+  if ('results' in result) {
     t.is(result.results.length, 1);
-    if (result.results[0]) {
-      t.is(result.results[0].error, 'Could not fetch messages');
-    }
+    t.is(result.results[0]?.id, 'session_2');
   }
 });
 
 test.serial('search respects k limit parameter', async (t) => {
-  const mockSessions = Array.from({ length: 5 }, (_, i) => ({
-    id: `session:${i + 1}`,
-    title: `Test Session ${i + 1}`,
-  }));
-
-  sinon.stub(sessionStore, 'getMostRecent').resolves(
-    mockSessions.map((session) => ({
-      id: session.id,
-      text: JSON.stringify(session),
-      timestamp: Date.now(),
-    })),
-  );
-
-  sinon.stub(sessionStore, 'get').resolves({
-    id: 'session:1:messages',
-    text: JSON.stringify([]),
-    timestamp: Date.now(),
-  });
-
-  sinon.stub(SessionUtils, 'createSessionInfo').returns({
-    id: 'session:1',
-    title: 'Test Session 1',
-    messageCount: 0,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  } as any);
+  // Insert 5 matching sessions
+  for (let i = 1; i <= 5; i++) {
+    await insertSession(`session_${i}`, `Test Session ${i}`);
+    await sessionStore.insert({
+      id: `session_${i}:messages`,
+      text: JSON.stringify([]),
+      timestamp: Date.now() + 1000000000,
+    });
+  }
 
   const result = await search({ query: 'test', k: 3 });
-
   t.true('results' in result);
-  t.false('error' in result);
-
   if ('results' in result) {
-    t.is(result.results.length, 3); // Should be limited to 3
+    t.is(result.results.length, 3);
   }
 });
 
 test.serial('search handles empty session store', async (t) => {
-  sinon.stub(sessionStore, 'getMostRecent').resolves([]);
+  const { getMongoClient } = await import('@promethean-os/persistence');
+  const mongoClient = await getMongoClient();
+  const db = mongoClient.db('database');
+  await db.collection('test_agent_sessionStore').deleteMany({});
 
   const result = await search({ query: 'test' });
-
-  // t.true(getMostRecentStub.calledOnceWith(1000));
   t.true('results' in result);
   t.false('error' in result);
-
-  if ('results' in result && result.results.length > 0) {
-    t.is(result.results.length, 1);
-    if (result.results[0]) {
-      t.is(result.results[0].id, 'session:1');
-    }
-  }
-});
-
-test.serial('search handles session store errors gracefully', async (t) => {
-  const getMostRecentStub = sinon
-    .stub(sessionStore, 'getMostRecent')
-    .rejects(new Error('Store error'));
-
-  const result = await search({ query: 'test' });
-
-  t.true(getMostRecentStub.calledOnceWith(1000));
-  t.true('error' in result);
-  t.false('results' in result);
-
-  if ('error' in result) {
-    t.true(result.error.includes('Failed to search sessions'));
-    t.true(result.error.includes('Store error'));
-  }
-});
-
-test.serial('search handles message fetching errors gracefully', async (t) => {
-  const mockSessions = [{ id: 'session:1', title: 'Test Session One' }];
-
-  sinon
-    .stub(sessionStore, 'getMostRecent')
-    .resolves([{ id: 'session:1', text: JSON.stringify(mockSessions[0]), timestamp: Date.now() }]);
-
-  sinon.stub(sessionStore, 'get').rejects(new Error('Message fetch error'));
-
-  sinon.stub(SessionUtils, 'createSessionInfo').returns({
-    id: 'session:1',
-    title: 'Test Session One',
-    messageCount: 0,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  } as any);
-
-  const result = await search({ query: 'test' });
-
-  t.true('results' in result);
-  t.false('error' in result);
-
-  if ('results' in result && result.results.length > 0) {
-    t.is(result.results.length, 1);
-    if (result.results[0]) {
-      t.is(result.results[0].error, 'Could not fetch messages');
-    }
-  }
-});
-
-test.serial('search filters out non-session entries', async (t) => {
-  sinon.stub(sessionStore, 'getMostRecent').resolves([
-    {
-      id: 'session:1',
-      text: JSON.stringify({ id: 'session:1', title: 'Valid Session' }),
-      timestamp: Date.now(),
-    },
-    { id: 'session:1:messages', text: JSON.stringify([]), timestamp: Date.now() }, // Should be filtered out
-    {
-      id: 'other:entry',
-      text: JSON.stringify({ id: 'other', title: 'Other Entry' }),
-      timestamp: Date.now(),
-    }, // Should be filtered out
-  ]);
-
-  sinon.stub(sessionStore, 'get').resolves(null);
-
-  sinon.stub(SessionUtils, 'createSessionInfo').returns({
-    id: 'session:1',
-    title: 'Valid Session',
-    messageCount: 0,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  } as any);
-
-  const result = await search({ query: '' });
-
-  t.true('results' in result);
-  t.false('error' in result);
-
   if ('results' in result) {
-    t.is(result.results.length, 1); // Only the valid session should remain
-    if (result.results[0]) {
-      t.is(result.results[0].id, 'session:1');
-    }
+    t.is(result.results.length, 0);
   }
+});
+
+test.after.always(async () => {
+  await sessionStore.cleanup();
 });

@@ -2,7 +2,7 @@ import { promises as fs } from "fs";
 import * as path from "path";
 import { spawn } from "child_process";
 import { fileURLToPath } from "url";
-import { openLevelCache } from "@promethean/level-cache";
+import { openLevelCache } from "@promethean-os/level-cache";
 
 import { parseArgs, writeJSON } from "./utils.js";
 

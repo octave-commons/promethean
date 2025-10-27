@@ -1,5 +1,5 @@
 import test from "ava";
-import { NotAllowedError } from "@promethean/security";
+import { NotAllowedError } from "@promethean-os/security";
 
 import runPing from "../actions/ping.js";
 import type { PingScope } from "../actions/ping.scope.js";

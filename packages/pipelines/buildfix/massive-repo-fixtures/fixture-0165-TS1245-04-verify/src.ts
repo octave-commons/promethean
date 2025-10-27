@@ -2,7 +2,7 @@ import * as path from "node:path";
 import { promises as fs } from "node:fs";
 import { fileURLToPath } from "node:url";
 
-import { parseArgs } from "@promethean/utils";
+import { parseArgs } from "@promethean-os/utils";
 
 import { writeText } from "./utils.js";
 import type { VerifyReport } from "./types.js";

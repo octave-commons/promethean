@@ -25,12 +25,12 @@
 
 ### Tasks Moved from Blocked → Icebox (4 tasks)
 1. `Add TSDoc Support to the Project -system` (empty content)
-2. `Assemble unified @promethean/omni-service host` (empty content)  
+2. `Assemble unified @promethean-os/omni-service host` (empty content)  
 3. `Create comprehensive unit tests for Omni protocol -tests` (empty content)
 4. `Create Omni protocol API documentation and guides -docs` (empty content)
 
 ### Tasks Advanced Through Workflow (1 task)
-1. `Migrate Kanban Package from @promethean/level-cache to @promethean/lmdb-cache` 
+1. `Migrate Kanban Package from @promethean-os/level-cache to @promethean-os/lmdb-cache` 
    - Moved: Incoming → Accepted → Breakdown → Ready
 
 ## 📊 Board Health Metrics

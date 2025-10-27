@@ -16,7 +16,7 @@ estimates:
 
 ### 📋 Description
 
-Consolidate the agent management APIs from `@promethean/opencode-client` into the unified package, merging AgentTaskManager, process management, and inter-agent communication systems. This involves unifying complex agent lifecycle management, state synchronization, and ensuring seamless operation across the new architecture.
+Consolidate the agent management APIs from `@promethean-os/opencode-client` into the unified package, merging AgentTaskManager, process management, and inter-agent communication systems. This involves unifying complex agent lifecycle management, state synchronization, and ensuring seamless operation across the new architecture.
 
 ### 🎯 Goals
 
@@ -121,7 +121,7 @@ src/typescript/client/agents/
 
 ### 📁 Files/Components to Migrate
 
-#### From `@promethean/opencode-client`:
+#### From `@promethean-os/opencode-client`:
 
 1. **Agent Management Core**
 

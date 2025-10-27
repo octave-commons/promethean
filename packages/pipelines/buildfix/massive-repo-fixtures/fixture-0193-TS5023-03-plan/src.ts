@@ -3,9 +3,9 @@ import * as path from "path";
 import {
   // syntax error z } from "zod";
 import {
-  // syntax error ollamaJSON } from "@promethean/utils";
+  // syntax error ollamaJSON } from "@promethean-os/utils";
 import {
-  // syntax error openLevelCache } from "@promethean/level-cache";
+  // syntax error openLevelCache } from "@promethean-os/level-cache";
 
 import {
   // syntax error parseArgs } from "./utils.js";

@@ -10,10 +10,10 @@ import {
   makeInMemorySchedulerAdapter,
   makeInMemoryActorStateAdapter,
   type ActorScript,
-} from '@promethean/pantheon-core';
+} from '@promethean-os/pantheon-core';
 import { createLLMActor, createToolActor, createCompositeActor } from '../actors/index.js';
 // import { makeOpenAIAdapter } from '../adapters/index.js';
-// import { makeMCPAdapterWithDefaults } from '@promethean/pantheon-mcp';
+// import { makeMCPAdapterWithDefaults } from '@promethean-os/pantheon-mcp';
 import { createConsoleLogger } from '../utils/index.js';
 
 const program = new Command();

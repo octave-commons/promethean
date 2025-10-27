@@ -1,0 +1,1 @@
+Marked Build Compliance Validation Engine (uuid ad83cd92-...) as in_progress with P0 priority and estimates (medium, small, 2h). Added summary, acceptance criteria, tasks. Blocked by FileSystemWatcher normalized events.

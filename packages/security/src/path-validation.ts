@@ -72,7 +72,24 @@ const DANGEROUS_PATTERNS = [
   /[\/\\]\.\.[\/\\]/, // Traversal in middle
   /\.\.$/, // Ends with ..
   /^\.\./, // Starts with ..
-  /[\/\\]\./, // Hidden files (optional)
+  // Unicode homograph attacks
+  /‥[\/\\]/, // U+2025 (horizontal ellipsis) can normalize to ..
+  /﹒[\/\\]/, // U+FE52 (small full stop)
+  /．[\/\\]/, // U+FF0E (fullwidth full stop)
+  /‥‥[\/\\]/, // Multiple homographs
+  // Encoded traversal attacks
+  /%2e%2e[\/\\]/i, // URL encoded ../ (case insensitive)
+  /%2E%2E[\/\\]/i, // Uppercase URL encoding
+  /\.\.%2f/i, // Mixed encoding
+  /\.\.%5c/i, // Mixed encoding with backslash
+  /%2e%2e%2e%2f/i, // %2e%2e%2e%2f (encoded ../../)
+  // Normalization attacks
+  /\/\.\.\/\.\.\//, // /../../
+  /\.\.\\\.\.\\\.\./, // ..\..\.. (Windows style)
+  // Dangerous character injection patterns
+  /[<>]/, // HTML tags
+  /[|&;`$]/, // Shell metacharacters
+  /[\x00-\x1F\x7F]/, // Control characters
 ];
 
 /**
@@ -118,9 +135,79 @@ export async function validatePath(
   const warnings: string[] = [];
 
   try {
+    // Input validation
+    if (!inputPath || inputPath.trim() === '') {
+      return {
+        isValid: false,
+        error: 'Input path cannot be empty',
+      };
+    }
+
     // Resolve and normalize paths
     const resolvedRoot = path.resolve(rootPath);
-    const normalizedInput = path.normalize(inputPath).replace(/\\/g, '/');
+    let normalizedInput = path.normalize(inputPath).replace(/\\/g, '/');
+
+    // SECURITY: Unicode homograph and encoded traversal attack detection
+    // Decode URI encoding first to catch encoded attacks
+    let decodedInput = normalizedInput;
+    try {
+      decodedInput = decodeURIComponent(normalizedInput);
+    } catch {
+      // If decoding fails, continue with original
+    }
+
+    // Apply Unicode normalization to catch homograph attacks
+    const unicodeNormalized = decodedInput.normalize('NFKC');
+
+    // Check for unicode homograph characters that can normalize to dangerous patterns
+    const unicodeHomographs = [
+      '‥', // Unicode two-dot leader (U+2025)
+      '﹒', // Unicode small full stop (U+FE52)
+      '．', // Unicode fullwidth full stop (U+FF0E)
+      '．．', // Double fullwidth full stop
+      '‥．', // Mixed unicode dots
+      '．‥', // Mixed unicode dots
+    ];
+
+    // Check for Unicode homograph attacks in both original and normalized forms
+    for (const homograph of unicodeHomographs) {
+      if (decodedInput.includes(homograph) || unicodeNormalized.includes(homograph)) {
+        return {
+          isValid: false,
+          error: `Unicode homograph attack detected: ${homograph}`,
+        };
+      }
+    }
+
+    // Check if Unicode normalization results in dangerous patterns
+    if (/\.\.\//.test(unicodeNormalized) || /\.\.\./.test(unicodeNormalized)) {
+      return {
+        isValid: false,
+        error: 'Unicode normalization attack detected',
+      };
+    }
+
+    // Check for normalization attacks that could lead to path traversal
+    // Only block patterns that could actually be dangerous
+    const normalizationAttackPatterns = [
+      /\/\.\.\//, // Parent directory in middle
+      /\/\.\.$/, // Ends with parent directory
+      /^\.\.\//, // Starts with parent directory
+      /\.\.\//, // Any parent directory reference
+      /\/\//, // Double slashes (could cause issues)
+    ];
+
+    for (const pattern of normalizationAttackPatterns) {
+      if (pattern.test(decodedInput)) {
+        return {
+          isValid: false,
+          error: `Normalization attack detected: ${pattern.source}`,
+        };
+      }
+    }
+
+    // Use the decoded and normalized version for further checks
+    normalizedInput = unicodeNormalized;
 
     // Check for dangerous patterns
     if (finalConfig.checkDangerousNames) {
@@ -134,7 +221,7 @@ export async function validatePath(
       }
 
       const fileName = path.basename(normalizedInput);
-      if (DANGEROUS_NAMES.has(fileName.toUpperCase())) {
+      if (DANGEROUS_NAMES.has(fileName.toLowerCase())) {
         return {
           isValid: false,
           error: `Dangerous file name detected: ${fileName}`,
@@ -295,8 +382,8 @@ export function sanitizeFileName(fileName: string): string {
   // Remove null bytes and control characters
   let sanitized = fileName.replace(/[\x00-\x1f\x7f]/g, '');
 
-  // Replace dangerous characters
-  sanitized = sanitized.replace(/[<>:"|?*]/g, '_');
+  // Replace dangerous characters including apostrophes
+  sanitized = sanitized.replace(/[<>'"`|?*;&$(){}[\]\\]/g, '_');
 
   // Remove leading and trailing spaces and dots
   sanitized = sanitized.trim().replace(/^\.+|\.+$/g, '');
@@ -331,6 +418,11 @@ export function createSecurePath(directory: string, fileName: string): string {
 export function isCrossPlatformSafe(inputPath: string): boolean {
   // Check for empty paths
   if (!inputPath || inputPath.trim() === '') {
+    return false;
+  }
+
+  // Check for Windows UNC paths (\\server\share\file)
+  if (/^\\\\[^\\]+\\[^\\]+/.test(inputPath)) {
     return false;
   }
 

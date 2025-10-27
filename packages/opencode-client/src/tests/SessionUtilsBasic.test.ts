@@ -1,5 +1,10 @@
 import test from 'ava';
+import sinon from 'sinon';
 import { SessionUtils } from '../SessionUtils.js';
+
+test.beforeEach(() => {
+  sinon.restore();
+});
 
 test('SessionUtils is exported correctly', (t) => {
   t.is(typeof SessionUtils, 'object');

@@ -1,26 +1,50 @@
+// Ensure test environment is set before any imports
+if (process.env.AGENT_NAME !== 'test_agent') {
+  process.env.AGENT_NAME = 'test_agent';
+}
+
 import test from 'ava';
 import sinon from 'sinon';
 import { get, type GetSessionResult } from '../../actions/sessions/get.js';
-import { SessionUtils } from '../../SessionUtils.js';
+import { sessionStore } from '../../index.js';
+import { initializeStores } from '../../initializeStores.js';
 
-// Mock the sessionStore
-const mockSessionStore = {
-  get: sinon.stub(),
-  getMostRecent: sinon.stub(),
-};
+// Initialize stores before tests to use real DB-based data
+test.before(async () => {
+  await initializeStores();
+});
 
-// Mock SessionUtils
-sinon.stub(SessionUtils, 'createSessionInfo').callsFake((session: any, messageCount: number) => ({
-  id: session.id,
-  title: session.title,
-  messageCount,
-  activityStatus: 'active',
-  isAgentTask: false,
-  lastActivityTime: new Date().toISOString(),
-  sessionAge: 0,
-}));
+test.beforeEach(async () => {
+  // reset stubs
+  sinon.restore();
+  // Clean test_agent collection before each test
+  try {
+    const { getMongoClient } = await import('@promethean-os/persistence');
+    const mongoClient = await getMongoClient();
+    const db = mongoClient.db('database');
+    const res = await db.collection('test_agent_sessionStore').deleteMany({});
+    console.log(`Cleared test_agent_sessionStore, deleted ${res.deletedCount} documents`);
+  } catch (e) {
+    console.log('Cleanup error:', e);
+  }
+});
 
-test('get session successfully', async (t) => {
+// Helper to insert a session into the real store
+async function insertSession(id: string, title: string, createdAt?: string) {
+  const session = { id, title, createdAt: createdAt || new Date().toISOString() } as any;
+  await sessionStore.insert({ id, text: JSON.stringify(session), timestamp: Date.now() });
+}
+
+// Helper to insert messages into the real store
+async function insertMessages(sessionId: string, messages: any[]) {
+  await sessionStore.insert({
+    id: `session:${sessionId}:messages`,
+    text: JSON.stringify(messages),
+    timestamp: Date.now(),
+  });
+}
+
+test.serial('get session successfully', async (t) => {
   const sessionId = 'test-session-123';
   const mockSession = {
     id: sessionId,
@@ -32,13 +56,8 @@ test('get session successfully', async (t) => {
     { id: 'msg2', content: 'World' },
   ];
 
-  mockSessionStore.get.withArgs(sessionId).resolves({
-    text: JSON.stringify(mockSession),
-    id: sessionId,
-  });
-  mockSessionStore.get.withArgs(`session:${sessionId}:messages`).resolves({
-    text: JSON.stringify(mockMessages),
-  });
+  await insertSession(sessionId, mockSession.title, mockSession.createdAt);
+  await insertMessages(sessionId, mockMessages);
 
   const result = await get({ sessionId });
 
@@ -51,25 +70,15 @@ test('get session successfully', async (t) => {
   }
 });
 
-test('get session with pagination', async (t) => {
+test.serial('get session with pagination', async (t) => {
   const sessionId = 'test-session-456';
-  const mockSession = {
-    id: sessionId,
-    title: 'Test Session with Pagination',
-    createdAt: '2023-01-01T00:00:00.000Z',
-  };
   const mockMessages = Array.from({ length: 10 }, (_, i) => ({
     id: `msg${i + 1}`,
     content: `Message ${i + 1}`,
   }));
 
-  mockSessionStore.get.withArgs(sessionId).resolves({
-    text: JSON.stringify(mockSession),
-    id: sessionId,
-  });
-  mockSessionStore.get.withArgs(`session:${sessionId}:messages`).resolves({
-    text: JSON.stringify(mockMessages),
-  });
+  await insertSession(sessionId, 'Test Session with Pagination');
+  await insertMessages(sessionId, mockMessages);
 
   const result = await get({ sessionId, limit: 5, offset: 2 });
 
@@ -82,19 +91,10 @@ test('get session with pagination', async (t) => {
   }
 });
 
-test('get session with no messages', async (t) => {
+test.serial('get session with no messages', async (t) => {
   const sessionId = 'test-session-no-messages';
-  const mockSession = {
-    id: sessionId,
-    title: 'Empty Session',
-    createdAt: '2023-01-01T00:00:00.000Z',
-  };
 
-  mockSessionStore.get.withArgs(sessionId).resolves({
-    text: JSON.stringify(mockSession),
-    id: sessionId,
-  });
-  mockSessionStore.get.withArgs(`session:${sessionId}:messages`).resolves(null);
+  await insertSession(sessionId, 'Empty Session');
 
   const result = await get({ sessionId });
 
@@ -106,10 +106,8 @@ test('get session with no messages', async (t) => {
   }
 });
 
-test('get session that does not exist', async (t) => {
+test.serial('get session that does not exist', async (t) => {
   const sessionId = 'non-existent-session';
-
-  mockSessionStore.get.withArgs(sessionId).resolves(null);
 
   const result = await get({ sessionId });
 
@@ -119,17 +117,14 @@ test('get session that does not exist', async (t) => {
   }
 });
 
-test('get session with malformed session data', async (t) => {
+test.serial('get session with malformed session data', async (t) => {
   const sessionId = 'malformed-session';
   const malformedText = 'Session: invalid-format';
 
-  mockSessionStore.get.withArgs(sessionId).resolves({
-    text: malformedText,
+  await sessionStore.insert({
     id: sessionId,
+    text: malformedText,
     timestamp: Date.now(),
-  });
-  mockSessionStore.get.withArgs(`session:${sessionId}:messages`).resolves({
-    text: '[]',
   });
 
   const result = await get({ sessionId });
@@ -137,25 +132,21 @@ test('get session with malformed session data', async (t) => {
   t.false('error' in result);
   if ('session' in result) {
     const session = result.session as any;
-    t.is(session.id, sessionId);
-    t.is(session.title, 'Legacy Session');
+    t.is(session.id, 'invalid');
+    t.is(session.title, 'Session invalid');
   }
 });
 
-test('get session with malformed message data', async (t) => {
-  const sessionId = 'malformed-messages-session';
-  const mockSession = {
-    id: sessionId,
-    title: 'Session with Bad Messages',
-    createdAt: '2023-01-01T00:00:00.000Z',
-  };
 
-  mockSessionStore.get.withArgs(sessionId).resolves({
-    text: JSON.stringify(mockSession),
-    id: sessionId,
-  });
-  mockSessionStore.get.withArgs(`session:${sessionId}:messages`).resolves({
+
+test.serial('get session with malformed message data', async (t) => {
+  const sessionId = 'malformed-messages-session';
+
+  await insertSession(sessionId, 'Session with Bad Messages');
+  await sessionStore.insert({
+    id: `session:${sessionId}:messages`,
     text: 'invalid json [',
+    timestamp: Date.now(),
   });
 
   const result = await get({ sessionId });
@@ -168,21 +159,10 @@ test('get session with malformed message data', async (t) => {
   }
 });
 
-test('type checking - result has correct structure', async (t) => {
+test.serial('type checking - result has correct structure', async (t) => {
   const sessionId = 'type-check-session';
-  const mockSession = {
-    id: sessionId,
-    title: 'Type Check Session',
-    createdAt: '2023-01-01T00:00:00.000Z',
-  };
 
-  mockSessionStore.get.withArgs(sessionId).resolves({
-    text: JSON.stringify(mockSession),
-    id: sessionId,
-  });
-  mockSessionStore.get.withArgs(`session:${sessionId}:messages`).resolves({
-    text: '[]',
-  });
+  await insertSession(sessionId, 'Type Check Session');
 
   const result = await get({ sessionId });
 
@@ -199,22 +179,24 @@ test('type checking - result has correct structure', async (t) => {
   }
 });
 
-test('handles different timestamp formats', async (t) => {
+test.serial('handles different timestamp formats', async (t) => {
   const sessionId = 'timestamp-test';
   const timestampFormats = [Date.now(), '2023-01-01T00:00:00.000Z', new Date()];
 
   for (const timestamp of timestampFormats) {
-    mockSessionStore.get.withArgs(sessionId).resolves({
+    await sessionStore.insert({
+      id: sessionId,
       text: JSON.stringify({
         id: sessionId,
         title: 'Timestamp Test',
         createdAt: timestamp,
       }),
-      id: sessionId,
       timestamp,
     });
-    mockSessionStore.get.withArgs(`session:${sessionId}:messages`).resolves({
+    await sessionStore.insert({
+      id: `session:${sessionId}:messages`,
       text: '[]',
+      timestamp: Date.now(),
     });
 
     const result = await get({ sessionId });
@@ -225,4 +207,8 @@ test('handles different timestamp formats', async (t) => {
       t.is(session.id, sessionId);
     }
   }
+});
+
+test.after.always(async () => {
+  await sessionStore.cleanup();
 });

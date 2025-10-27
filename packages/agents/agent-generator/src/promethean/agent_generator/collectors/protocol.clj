@@ -58,8 +58,8 @@
           (success-result data {:collector (collector-name collector)})
           (error-result [(str "Validation failed for collector " (collector-name collector))])))
       (error-result [(str "Collector " (collector-name collector) " not available")]))
-    (catch Exception e
-      (error-result [(str "Collection failed for " (collector-name collector) ": " (.getMessage e))]))))
+    (catch js/Error e
+      (error-result [(str "Collection failed for " (collector-name collector) ": " (.-message e))]))))
 
 (defn sort-collectors-by-priority [collectors]
   "Sort collectors by priority"

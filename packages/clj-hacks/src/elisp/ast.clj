@@ -282,7 +282,7 @@
         (.append sb " .\n")
         (.append sb (spaces child-indent))
         (let [{:keys [multi-line?]} (emit-node sb cdr (assoc ctx :indent child-indent))]
-          (when multi?
+          (when multi-line?
             (.append sb "\n")
             (.append sb (spaces indent)))
           (.append sb ")")

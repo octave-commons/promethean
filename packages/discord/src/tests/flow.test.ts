@@ -1,13 +1,13 @@
 import path from "node:path";
 
 import test from "ava";
-import { InMemoryEventBus } from "@promethean/event/memory.js";
+import { InMemoryEventBus } from "@promethean-os/event/memory.js";
 import {
   GatewayPublisher,
   indexAttachments,
   indexMessage,
   embedMessage,
-} from "@promethean/discord";
+} from "@promethean-os/discord";
 
 type EmbedEvt = {
   readonly provider: string;

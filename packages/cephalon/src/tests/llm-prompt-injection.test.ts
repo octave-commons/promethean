@@ -1,7 +1,7 @@
 /* eslint-disable functional/no-let, functional/immutable-data, @typescript-eslint/require-await, @typescript-eslint/no-unused-vars */
 import test from 'ava';
 import { LLMService } from '../llm-service.js';
-import { BasicPromptInjectionDetector } from '@promethean/security/testing/prompt-injection.js';
+import { BasicPromptInjectionDetector } from '@promethean-os/security/testing/prompt-injection.js';
 
 // Mock broker for testing
 const mockBroker = {

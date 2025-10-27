@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Shared Ollama queue engine primitives for reuse across clients/plugins
 
-import { ollamaEmbed, InMemoryChroma } from '@promethean/utils';
+import { ollamaEmbed, InMemoryChroma } from '@promethean-os/utils';
 
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? 'http://localhost:11434';
 

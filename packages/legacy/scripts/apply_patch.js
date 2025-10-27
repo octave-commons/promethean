@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { runApplyPatch, sanitizeForLog } from "@promethean/apply-patch";
+import { runApplyPatch, sanitizeForLog } from "@promethean-os/apply-patch";
 
 runApplyPatch().then(
   (code) => {

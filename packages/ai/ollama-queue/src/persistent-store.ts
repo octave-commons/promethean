@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Persistent job storage using LMDB-cache
 
-import { openLmdbCache, type Cache } from '@promethean/lmdb-cache';
+import { openLmdbCache, type Cache } from '@promethean-os/lmdb-cache';
 import { Job, UUID, JobStatus } from './index.js';
 
 export class PersistentJobStore {

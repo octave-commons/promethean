@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 
 import matter from "gray-matter";
 
-import { openLevelCache, type Cache } from "@promethean/level-cache";
+import { openLevelCache, type Cache } from "@promethean-os/level-cache";
 import { parseArgs } from "./utils.js";
 import type { DocMap, DocDraft, SymbolInfo } from "./types.js";
 

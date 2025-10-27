@@ -1,6 +1,6 @@
 import test from "ava";
 import { VectorN, FieldNode, VectorFieldService } from "../index.js";
-import { installInMemoryPersistence } from "@promethean/test-utils/persistence.js";
+import { installInMemoryPersistence } from "@promethean-os/test-utils/persistence.js";
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 

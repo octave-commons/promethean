@@ -1,4 +1,4 @@
-# Promethean Framework
+# Pantheon Framework
 
 A modular cognitive architecture for building embodied AI agents with reasoning, perception-action loops, and emotionally mediated decision structures.
 
@@ -24,7 +24,7 @@ docker compose up
 
 ## 📋 Overview
 
-Promethean breaks AI systems into small, focused services handling speech-to-text, text-to-speech, memory, and higher-level reasoning. The framework emphasizes:
+Pantheon provides a comprehensive framework for building AI agents and orchestration systems. The ecosystem includes:
 
 - **Modular architecture** - Independent services that communicate via message brokers
 - **Functional programming** - Immutable data, no in-place mutation
@@ -43,7 +43,7 @@ scripts/      # Build and automation tools
 
 ## 🎯 Kanban Task Management
 
-All work follows the kanban process defined in `docs/agile/process.md`. The board is managed via the `@promethean/kanban` package.
+All work follows the kanban process defined in `docs/agile/process.md`. The board is managed via the `@promethean-os/kanban` package.
 
 ### Essential Commands
 
@@ -86,7 +86,7 @@ pnpm kanban regenerate
 ### Package Management
 
 - **pnpm required** - npm is blocked and will fail with clear error messages
-- **Workspace structure** - All packages use `@promethean/<package>*` via "workspace:\*"
+- **Workspace structure** - All packages use `@promethean-os/<package>*` via "workspace:\*"
 - **No relative imports** outside package roots
 
 ### Testing
@@ -151,14 +151,14 @@ See `AGENTS.md` for detailed AI-specific guidelines.
 
 The workspace contains 70+ packages. Each has its own README with detailed usage information. Key packages include:
 
-| Package              | Purpose                                   |
-| -------------------- | ----------------------------------------- |
-| `@promethean/kanban` | Task management and workflow automation   |
-| `@promethean/broker` | WebSocket-based message pub/sub           |
-| `@promethean/llm`    | LLM service with HTTP/WebSocket endpoints |
-| `@promethean/piper`  | Pipeline runner for automation workflows  |
-| `@promethean/docops` | Documentation processing and maintenance  |
-| `@promethean/mcp`    | MCP server with composable tools          |
+| Package                 | Purpose                                   |
+| ----------------------- | ----------------------------------------- |
+| `@promethean-os/kanban` | Task management and workflow automation   |
+| `@promethean-os/broker` | WebSocket-based message pub/sub           |
+| `@promethean-os/llm`    | LLM service with HTTP/WebSocket endpoints |
+| `@promethean-os/piper`  | Pipeline runner for automation workflows  |
+| `@promethean-os/docops` | Documentation processing and maintenance  |
+| `@promethean-os/mcp`    | MCP server with composable tools          |
 
 [View complete package catalog →](packages/)
 

@@ -5,7 +5,7 @@ Simple smoke test for blob framing: reads a file, chunks to 1 MiB, computes sha2
 ## Usage
 
 ```bash
-pnpm -F @promethean/duck-tools build
+pnpm -F @promethean-os/duck-tools build
 node dist/smoke.js ./path/to/file.bin
 ```
 

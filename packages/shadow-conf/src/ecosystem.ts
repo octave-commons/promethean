@@ -5,7 +5,7 @@ import { loadEdnFile } from './edn.js';
 import {
   validateAndSanitizePath,
   validateAndSanitizeFilename,
-  validatePathBoundaries,
+  // validatePathBoundaries,
   validateRecursionDepth,
   validateFileExtension,
   sanitizeForJsonSerialization,
@@ -297,22 +297,53 @@ function resolveRelativePathSecure(value: string, baseDir: string): string {
     throw new Error(pathResult.error);
   }
 
-  if (!isRelativePath(value)) {
-    // For absolute paths, validate boundaries
-    const boundaryResult = validatePathBoundaries(value, baseDir, 'app configuration path');
-    if (!boundaryResult.success) {
-      throw new Error(boundaryResult.error);
-    }
-    return value;
-  }
+  // this doesn't make sense for our usecase.
+  // we should be able to execute apps from the system...
+  // and not all of these values are even paths.
+  // I just got an error:
+  //   err: ~/devel/promethean$ pnpm gen: ecosystem
+
+  //     > promethean@0.0.0 gen: ecosystem / home / err / devel / promethean
+  //       > pnpm--filter @promethean-os / shadow - conf build && pnpm exec shadow - conf ecosystem--input - dir./ system / daemons--out.
+
+  // > @promethean - os / shadow - conf@0.0.0 build / home / err / devel / promethean / packages / shadow - conf
+  //     > NODE_OPTIONS="--max-old-space-size=4096" tsc - b
+
+  //   {
+  //     resolvedPath: 'lein',
+  //       basePath: '/home/err/devel/promethean',
+  //         relativePath: 'lein'
+  //   } ..
+  // Path boundary violation in app configuration path: lein escapes / home / err / devel / promethean
+  //  ELIFECYCLE  Command failed with exit code 1.
+  //so if I invoke `python?` this should fail? no. doesn't make sense.
+  // this config is designed to work on the system...
+  // this isn't just a tool for the repo.
+  // we're building an os here.
+  // this doesn't get exposed to the outside world.
+  // it's an internal tool.
+  // so we should be able to reference system paths.
+  // if we want to restrict this, we need a different mechanism.
+  // perhaps a config option to restrict to certain base dirs.
+  // but by default, we should allow system paths.
+  // because otherwise, how do we run system services?
+  // this is a shadow os after all.
+  // if (!isRelativePath(value)) {
+  //   // For absolute paths, validate boundaries
+  //   const boundaryResult = validatePathBoundaries(value, baseDir, 'app configuration path');
+  //   if (!boundaryResult.success) {
+  //     throw new Error(boundaryResult.error);
+  //   }
+  //   return value;
+  // }
 
   const absolutePath = path.resolve(baseDir, value);
 
   // Validate resolved path boundaries
-  const boundaryResult = validatePathBoundaries(absolutePath, baseDir, 'resolved app path');
-  if (!boundaryResult.success) {
-    throw new Error(boundaryResult.error);
-  }
+  // const boundaryResult = validatePathBoundaries(absolutePath, baseDir, 'resolved app path');
+  // if (!boundaryResult.success) {
+  //   throw new Error(boundaryResult.error);
+  // }
 
   const relativePath = path.relative(baseDir, absolutePath);
   return normalizeRelativePath(relativePath);
@@ -335,11 +366,28 @@ function resolveRelativePathSecure(value: string, baseDir: string): string {
 function normalizeAppPaths(app: AppRecord, baseDir: string): AppRecord {
   const cwd = typeof app.cwd === 'string' ? resolveRelativePathSecure(app.cwd, baseDir) : undefined;
 
-  const script =
-    typeof app.script === 'string' ? resolveRelativePathSecure(app.script, baseDir) : undefined;
-
-  const envFile =
-    typeof app.env_file === 'string' ? resolveRelativePathSecure(app.env_file, baseDir) : undefined;
+  // this doesn't make sense for the same reason the boundry violation function doesn't make senes.
+  // this is not always a path, it is very often not.
+  // examples:
+  // [PM2][ERROR] Error: Script not found: /home/err / devel / promethean / lein
+  // [PM2][ERROR] Error: Script not found: /home/err / devel / promethean / pnpm
+  // [PM2][ERROR] Error: Script not found: /home/err / devel / promethean / pnpm
+  // [PM2][ERROR] Error: Script not found: /home/err / devel / promethean / bunx
+  // [PM2][ERROR] Error: Script not found: /home/err / devel / promethean / opencode
+  // [PM2][ERROR] Error: Script not found: /home/err / devel / promethean / npx
+  // [PM2][ERROR] Error: Script not found: /home/err / devel / promethean / pnpm
+  // [PM2][ERROR] Error: Script not found: /home/err / devel / promethean / uv
+  // [PM2][ERROR] Error: Script not found: /home/err / devel / promethean / pnpm
+  // [PM2] App[broker] launched(1 instances)
+  // [PM2][ERROR] Error: Script not found: /home/err / devel / node
+  // [PM2] App[file - indexer - service] launched(1 instances)
+  // [PM2] App[health] launched(1 instances)
+  // [PM2][ERROR] Error: Script not found: /home/err / devel / node
+  // [PM2] App[heartbeat] launched(1 instances)
+  // none of these are paths. They're executbales on the system $PATH.
+  // const script =
+  //   typeof app.script === 'string' ? resolveRelativePathSecure(app.script, baseDir) : undefined;
+  const script = app.script;
 
   const watch =
     typeof app.watch === 'string'
@@ -350,14 +398,34 @@ function normalizeAppPaths(app: AppRecord, baseDir: string): AppRecord {
           )
         : undefined;
 
-  const env = isRecord(app.env)
-    ? Object.fromEntries(
-        Object.entries(app.env).map(([key, value]) => [
-          key,
-          typeof value === 'string' ? resolveRelativePathSecure(value, baseDir) : value,
-        ]),
-      )
-    : undefined;
+  // same deal, these could be anything. paths, urls, api keys, json objects, commands, etc.
+  // const env = isRecord(app.env)
+  //   ? Object.fromEntries(
+  //       Object.entries(app.env).map(([key, value]) => [
+  //         key,
+  //         typeof value === 'string' ? resolveRelativePathSecure(value, baseDir) : value,
+  //       ]),
+  //     )
+  //   : undefined;
+
+  // for example, I have this in my env:
+  //
+  //  "AUTOCOMMIT_MODEL": "./error/qwen3:4b-instruct-100k",
+
+  // it generated this. `production` is just a string, same with the model name
+  // and the base url is a url.
+  // please stop trying to be safe. A dull blade is safe, but useless.
+
+  // "env": {
+  //   "OPENAI_BASE_URL": "./http:/localhost:11434",
+  //   "AUTOCOMMIT_MODEL": "./error/qwen3:4b-instruct-100k",
+  //   "NODE_ENV": "./production"
+  // },
+
+  const env = isRecord(app.env) ? { ...app.env } : undefined;
+  // iif this was a real property I could use on a config, this would be a path.
+  const envFile =
+    typeof app.env_file === 'string' ? resolveRelativePathSecure(app.env_file, baseDir) : undefined;
 
   return {
     ...app,
@@ -369,9 +437,9 @@ function normalizeAppPaths(app: AppRecord, baseDir: string): AppRecord {
   } as AppRecord;
 }
 
-function isRelativePath(value: string): boolean {
-  return value.startsWith('./') || value.startsWith('../');
-}
+// function isRelativePath(value: string): boolean {
+//   return value.startsWith('./') || value.startsWith('../');
+// }
 
 function isReadonlyArray(value: unknown): value is readonly unknown[] {
   return Array.isArray(value);
@@ -410,16 +478,10 @@ function formatOutput({ apps, triggers, schedules, actions }: FormatOutputSectio
   const sanitizedActions = sanitizeForJsonSerialization(actions, DEFAULT_SECURITY_CONFIG);
 
   const lines = [
-    '// Generated by @promethean/shadow-conf',
+    '// Generated by @promethean-os/shadow-conf',
     'import dotenv from "dotenv";',
     '',
-    'try {',
-    '  dotenv.config();',
-    '} catch (error) {',
-    '  if (error?.code !== "ERR_MODULE_NOT_FOUND") {',
-    '    throw error;',
-    '  }',
-    '}',
+    'dotenv.config();',
     '',
     'export const apps = ',
     `${JSON.stringify(sanitizedApps, null, 2)};`,

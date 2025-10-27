@@ -1,7 +1,7 @@
 import test from 'ava';
 import { randomUUID } from 'node:crypto';
 import { createEnsoChatAgent } from '../enso/chat-agent.js';
-import { ToolRegistry } from '@promethean/enso-protocol';
+import { ToolRegistry } from '@promethean-os/enso-protocol';
 
 test('duck native tools: ping round-trip', async (t) => {
   const agent = createEnsoChatAgent({ room: 'duck:test:tools' });

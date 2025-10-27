@@ -2,7 +2,7 @@ import * as path from "path",
 import { promises as fs } from "fs",
 
 import matter from "gray-matter",
-import { openLevelCache } from "@promethean/level-cache",
+import { openLevelCache } from "@promethean-os/level-cache",
 
 import { parseArgs } from "./utils.js",
 

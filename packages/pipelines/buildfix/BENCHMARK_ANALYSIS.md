@@ -135,7 +135,7 @@ This infrastructure provides a solid foundation for evaluating and improving AI-
 
 The main obstacle preventing live AI model testing:
 
-- **@promethean/utils**: Only generating .d.ts files, no .js files
+- **@promethean-os/utils**: Only generating .d.ts files, no .js files
 - **Module Resolution**: ESM conflicts in monorepo structure
 - **Dependency Chain**: Build failures preventing proper imports
 

@@ -1,11 +1,14 @@
 // SPDX-License-Identifier: GPL-3.0-only
-// Plugin exports for @promethean/opencode-client
+// Plugin exports for @promethean-os/opencode-client
 
 export { OpencodeInterfacePlugin } from './opencode-interface/index.js';
 export { default as OpencodeInterfacePluginDefault } from './opencode-interface/index.js';
 
 export { RealtimeCapturePlugin } from './realtime-capture/index.js';
 export { default as RealtimeCapturePluginDefault } from './realtime-capture/index.js';
+
+export { EventHooksPlugin } from './event-hooks/index.js';
+export { default as EventHooksPluginDefault } from './event-hooks/index.js';
 
 // Re-export for convenience
 export { OpencodeInterfacePlugin as default } from './opencode-interface/index.js';

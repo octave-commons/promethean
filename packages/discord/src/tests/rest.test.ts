@@ -1,5 +1,5 @@
 import test from "ava";
-import { DiscordRestProxy } from "@promethean/discord";
+import { DiscordRestProxy } from "@promethean-os/discord";
 
 function makeFetch(
   status: number,

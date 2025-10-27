@@ -1,0 +1,14 @@
+{:apps [{:name "opencode-web"
+         :script "bunx"
+         :args ["opencode-web@latest" "--external-server" "http://localhost:4096" "--host" "0.0.0.0" "--port" "7799"]
+         :interpreter "/usr/bin/env"
+         :out_file "./logs/opencode-out.log"
+         :error_file "./logs/opencode-err.log"
+         :merge_logs true
+         :instances 1
+
+         :autorestart true
+         :restart_delay 10000
+         :kill_timeout 10000
+         :env {:PM2_PROCESS_NAME "opencode"}
+         :cwd "."}]}

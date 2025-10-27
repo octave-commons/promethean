@@ -2,7 +2,7 @@
 
 ## 📋 Overview
 
-This document summarizes the detailed task cards created for the consolidation of three packages into a unified `@promethean/opencode-unified` package. The breakdown follows the 89-point story point estimation and provides actionable, specific work items for the kanban board.
+This document summarizes the detailed task cards created for the consolidation of three packages into a unified `@promethean-os/opencode-unified` package. The breakdown follows the 89-point story point estimation and provides actionable, specific work items for the kanban board.
 
 ## 🎯 Total Summary
 

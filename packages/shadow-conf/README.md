@@ -1,4 +1,4 @@
-# @promethean/shadow-conf
+# @promethean-os/shadow-conf
 
 [![npm version](https://badge.fury.io/js/%40promethean%2Fshadow-conf.svg)](https://badge.fury.io/js/%40promethean%2Fshadow-conf)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://opensource.org/licenses/GPL-3.0)
@@ -19,10 +19,10 @@ A powerful configuration transformation tool that converts EDN (Extensible Data 
 
 ```bash
 # Install as a dependency
-pnpm add @promethean/shadow-conf
+pnpm add @promethean-os/shadow-conf
 
 # Install globally for CLI usage
-pnpm add -g @promethean/shadow-conf
+pnpm add -g @promethean-os/shadow-conf
 ```
 
 ## 🎯 Quick Start
@@ -78,7 +78,7 @@ Create `.edn` files in your project directory defining your services:
 shadow-conf ecosystem --input-dir ./services --out ./config --filename ecosystem.config.mjs
 
 # Or programmatically
-import { generateEcosystem } from '@promethean/shadow-conf';
+import { generateEcosystem } from '@promethean-os/shadow-conf';
 
 const result = await generateEcosystem({
   inputDir: './services',
@@ -111,7 +111,7 @@ pm2 logs
 Generates a PM2 ecosystem configuration from EDN files.
 
 ```typescript
-import { generateEcosystem, type GenerateEcosystemOptions } from '@promethean/shadow-conf';
+import { generateEcosystem, type GenerateEcosystemOptions } from '@promethean-os/shadow-conf';
 
 const options: GenerateEcosystemOptions = {
   inputDir: './config',        // Directory containing .edn files
@@ -440,7 +440,7 @@ Validate your EDN files before processing:
 jsedn your-config.edn
 
 # Or create a simple validation script
-import { loadEdnFile } from '@promethean/shadow-conf';
+import { loadEdnFile } from '@promethean-os/shadow-conf';
 
 try {
   const config = await loadEdnFile('./ecosystem.edn');
@@ -519,7 +519,7 @@ This project is licensed under the GPL-3.0 License. See the [LICENSE](./LICENSE)
 
 ## 🔗 Related Packages
 
-- [@promethean/pm2-helpers](https://github.com/promethean/pm2-helpers) - PM2 utility functions
+- [@promethean-os/pm2-helpers](https://github.com/promethean/pm2-helpers) - PM2 utility functions
 - [jsedn](https://github.com/edn-format/jsedn) - EDN parser for JavaScript
 
 ## 📞 Support

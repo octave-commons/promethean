@@ -2,7 +2,7 @@ import * as path from "path";
 
 import { Project } from "ts-morph";
 
-import { openLevelCache } from "@promethean/level-cache";
+import { openLevelCache } from "@promethean-os/level-cache";
 import { readJSON, writeJSON } from "./utils.js";
 import type { ModSpecFile, ModSpec } from "./types.js";
 

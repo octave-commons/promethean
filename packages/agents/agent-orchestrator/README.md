@@ -1,4 +1,4 @@
-# @promethean/agent-orchestrator
+# @promethean-os/agent-orchestrator
 
 Agent session management and orchestration for the Promethean framework.
 
@@ -18,7 +18,7 @@ This package provides a comprehensive agent orchestration system extracted from 
 ## Installation
 
 ```bash
-pnpm add @promethean/agent-orchestrator
+pnpm add @promethean-os/agent-orchestrator
 ```
 
 ## Quick Start
@@ -26,7 +26,7 @@ pnpm add @promethean/agent-orchestrator
 ### Basic Usage
 
 ```typescript
-import { AgentOrchestrator } from '@promethean/agent-orchestrator';
+import { AgentOrchestrator } from '@promethean-os/agent-orchestrator';
 import { OpenCodeClient } from '@opencode-ai/sdk';
 
 // Initialize the orchestrator
@@ -201,7 +201,7 @@ interface AgentMonitoringSummary {
 ### Custom Event Handling
 
 ```typescript
-import { AgentOrchestrator } from '@promethean/agent-orchestrator';
+import { AgentOrchestrator } from '@promethean-os/agent-orchestrator';
 
 const orchestrator = new AgentOrchestrator(client, {
   autoCleanup: true,

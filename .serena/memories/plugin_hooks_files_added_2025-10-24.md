@@ -1,0 +1,1 @@
+Added EventHooks plugin at packages/opencode-client/src/plugins/event-hooks/index.ts and exported it from packages/opencode-client/src/plugins/index.ts. Created kanban task docs/agile/tasks/plugin-parity-001-implement-event-hooks-plugin.md (uuid b1a7f9e2-3c4d-4f6b-9d0a-1a2b3c4d5e6f). Committed changes on branch dev/hacks.

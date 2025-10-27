@@ -2,7 +2,7 @@ import * as path from "node:path";
 import { promises as fs } from "node:fs";
 
 import test from "ava";
-import { openLevelCache } from "@promethean/level-cache";
+import { openLevelCache } from "@promethean-os/level-cache";
 
 import { outline } from "../02-outline.js";
 import type { OutlinesFile } from "../types.js";
@@ -14,7 +14,7 @@ test("outline fallback uses GPL-3.0-only license", async (t) => {
     createdAt: new Date().toISOString(),
     packages: [
       {
-        name: "@promethean/example",
+        name: "@promethean-os/example",
         version: "0.0.0",
         dir: "",
         workspaceDeps: [],
@@ -31,7 +31,7 @@ test("outline fallback uses GPL-3.0-only license", async (t) => {
   const out = (await outCache.get("outlines")) as OutlinesFile;
   await outCache.close();
 
-  const license = out.outlines["@promethean/example"]?.sections.find(
+  const license = out.outlines["@promethean-os/example"]?.sections.find(
     (s) => s.heading === "License",
   );
   t.is(license?.body, "GPL-3.0-only");

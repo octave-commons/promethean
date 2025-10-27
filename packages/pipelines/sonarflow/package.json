@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/sonarflow",
+  "name": "@promethean-os/sonarflow",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -16,8 +16,8 @@
     "sonar:all": "pnpm sonar:fetch && pnpm sonar:plan && pnpm sonar:write"
   },
   "dependencies": {
-    "@promethean/utils": "workspace:*",
-    "@promethean/level-cache": "workspace:*",
+    "@promethean-os/utils": "workspace:*",
+    "@promethean-os/level-cache": "workspace:*",
     "gray-matter": "^4.0.3",
     "yaml": "^2.5.0",
     "zod": "^3.23.8"

@@ -59,7 +59,7 @@ class BenchmarkOrchestrator {
       args.push('--clear-cache');
     }
 
-    const command = `pnpm --filter @promethean/buildfix exec ${args.join(' ')}`;
+    const command = `pnpm --filter @promethean-os/buildfix exec ${args.join(' ')}`;
     console.log(`🔧 Executing: ${command}`);
 
     try {
@@ -96,7 +96,7 @@ class BenchmarkOrchestrator {
       args.push('--model', analysisModel);
     }
 
-    const command = `pnpm --filter @promethean/buildfix exec ${args.join(' ')}`;
+    const command = `pnpm --filter @promethean-os/buildfix exec ${args.join(' ')}`;
     console.log(`🔧 Executing: ${command}`);
 
     try {

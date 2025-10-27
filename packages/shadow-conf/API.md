@@ -1,6 +1,6 @@
 # API Documentation
 
-This document provides comprehensive API documentation for @promethean/shadow-conf, including all public functions, types, and usage examples.
+This document provides comprehensive API documentation for @promethean-os/shadow-conf, including all public functions, types, and usage examples.
 
 ## 📖 Table of Contents
 
@@ -57,7 +57,7 @@ interface GenerateEcosystemResult {
 
 ```typescript
 // Basic usage
-import { generateEcosystem } from '@promethean/shadow-conf';
+import { generateEcosystem } from '@promethean-os/shadow-conf';
 
 const result = await generateEcosystem();
 console.log(`Generated ${result.outputPath} with ${result.apps.length} apps`);
@@ -107,7 +107,7 @@ function loadEdnFile(filePath: string): Promise<unknown>
 #### Examples
 
 ```typescript
-import { loadEdnFile } from '@promethean/shadow-conf';
+import { loadEdnFile } from '@promethean-os/shadow-conf';
 
 try {
   const config = await loadEdnFile('./ecosystem.edn');
@@ -332,10 +332,10 @@ The package provides a command-line interface for generating ecosystem configura
 
 ```bash
 # Local installation
-pnpm add @promethean/shadow-conf
+pnpm add @promethean-os/shadow-conf
 
 # Global installation
-pnpm add -g @promethean/shadow-conf
+pnpm add -g @promethean-os/shadow-conf
 ```
 
 #### Usage
@@ -436,7 +436,7 @@ throw new Error(`Entry at index ${index} in :${section} of ${source} is not a ma
 #### Try-Catch Pattern
 
 ```typescript
-import { generateEcosystem } from '@promethean/shadow-conf';
+import { generateEcosystem } from '@promethean-os/shadow-conf';
 
 try {
   const result = await generateEcosystem({
@@ -461,7 +461,7 @@ try {
 #### Validation Pattern
 
 ```typescript
-import { loadEdnFile } from '@promethean/shadow-conf';
+import { loadEdnFile } from '@promethean-os/shadow-conf';
 
 async function validateEdnFile(filePath: string): Promise<boolean> {
   try {
@@ -492,7 +492,7 @@ async function validateEdnFile(filePath: string): Promise<boolean> {
 ### Complete Workflow Example
 
 ```typescript
-import { generateEcosystem, type GenerateEcosystemOptions } from '@promethean/shadow-conf';
+import { generateEcosystem, type GenerateEcosystemOptions } from '@promethean-os/shadow-conf';
 import path from 'path';
 
 async function generateProductionConfig(): Promise<void> {
@@ -530,7 +530,7 @@ generateProductionConfig();
 ### Custom Validation Example
 
 ```typescript
-import { loadEdnFile } from '@promethean/shadow-conf';
+import { loadEdnFile } from '@promethean-os/shadow-conf';
 
 interface ValidationResult {
   valid: boolean;
@@ -604,7 +604,7 @@ if (validation.warnings.length > 0) {
 ### Batch Processing Example
 
 ```typescript
-import { generateEcosystem } from '@promethean/shadow-conf';
+import { generateEcosystem } from '@promethean-os/shadow-conf';
 import { readdir } from 'fs/promises';
 import path from 'path';
 
@@ -636,7 +636,7 @@ processMultipleEnvironments();
 
 ```typescript
 // build-script.ts
-import { generateEcosystem } from '@promethean/shadow-conf';
+import { generateEcosystem } from '@promethean-os/shadow-conf';
 import { execSync } from 'child_process';
 
 async function buildAndDeploy(): Promise<void> {
@@ -668,4 +668,4 @@ async function buildAndDeploy(): Promise<void> {
 buildAndDeploy();
 ```
 
-This comprehensive API documentation provides all the information needed to effectively use @promethean/shadow-conf in various scenarios.
+This comprehensive API documentation provides all the information needed to effectively use @promethean-os/shadow-conf in various scenarios.

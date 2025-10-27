@@ -2,12 +2,12 @@
 import { promises as fs } from "fs";
 import * as path from "path";
 
-import { listFilesRec } from "@promethean/utils";
-import { openLevelCache } from "@promethean/level-cache";
+import { listFilesRec } from "@promethean-os/utils";
+import { openLevelCache } from "@promethean-os/level-cache";
 import type { SymbolInfo } from "./types.js";
 
 type Pkg = {
-  name: string; // npm name, e.g. @promethean/foo
+  name: string; // npm name, e.g. @promethean-os/foo
   folder: string; // folder under packages/, e.g. foo  OR apps/web
   dir: string; // absolute dir
   manifest: any; // package.json

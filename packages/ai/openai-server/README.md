@@ -1,4 +1,4 @@
-# @promethean/openai-server
+# @promethean-os/openai-server
 
 A Fastify-based web server that exposes an OpenAI-compatible chat completions API.
 It queues incoming requests, processes them using a configurable handler, and
@@ -28,7 +28,7 @@ exposes monitoring endpoints plus generated OpenAPI documentation.
 import {
   createOpenAICompliantServer,
   createOllamaChatCompletionHandler,
-} from '@promethean/openai-server';
+} from '@promethean-os/openai-server';
 
 const handler = createOllamaChatCompletionHandler({
   baseUrl: 'http://127.0.0.1:11434',

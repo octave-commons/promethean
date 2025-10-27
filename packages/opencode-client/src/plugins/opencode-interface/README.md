@@ -34,11 +34,11 @@ This plugin provides OpenCode functionality as tools within the OpenCode ecosyst
 
 ### Installation
 
-The plugin is included in the `@promethean/opencode-client` package and can be imported as:
+The plugin is included in the `@promethean-os/opencode-client` package and can be imported as:
 
 ```typescript
-import { OpencodeInterfacePlugin } from '@promethean/opencode-client/plugins';
-import { OpencodeInterfacePlugin } from '@promethean/opencode-client/plugins/opencode-interface';
+import { OpencodeInterfacePlugin } from '@promethean-os/opencode-client/plugins';
+import { OpencodeInterfacePlugin } from '@promethean-os/opencode-client/plugins/opencode-interface';
 ```
 
 ### Example Usage in OpenCode
@@ -226,8 +226,8 @@ The plugin depends on:
 
 - `@opencode-ai/plugin` - Plugin framework
 - `@opencode-ai/sdk` - OpenCode SDK for API calls
-- `@promethean/persistence` - Data storage and retrieval
-- Internal action modules from `@promethean/opencode-client`
+- `@promethean-os/persistence` - Data storage and retrieval
+- Internal action modules from `@promethean-os/opencode-client`
 
 ## Development
 

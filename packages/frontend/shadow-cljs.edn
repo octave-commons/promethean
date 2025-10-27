@@ -1,76 +1,27 @@
 {:source-paths ["src"]
  :dependencies [[reagent "1.2.0"]
-                 [re-frame "1.3.0"]
-                 [day8.re-frame/re-frame-10x "1.9.8"]
-                 [day8.re-frame/tracing "0.6.2"]
-                 [day8.re-frame/tracing-stubs "0.6.2"]
-                 [cljsjs/react "18.2.0"]
-                 [cljsjs/react-dom "18.2.0"]
-                 [promethean/opencode-client "workspace:*"]]
+                   [re-frame "1.3.0"]
+                   [day8.re-frame/re-frame-10x "1.9.8"]
+                   [day8.re-frame/tracing "0.6.2"]
+                   [day8.re-frame/tracing-stubs "0.6.2"]]
  :builds
- {:chat-ui {:target :browser
-           :output-dir "dist/chat-ui"
-           :asset-path "/js"
-           :modules {:main {:init-fn promethean.frontends.chat-ui.app/init}}
-           :devtools {:http-root "static"
-                      :http-port 8080
-                      :preloads [devtools.preload
-                                 day8.re-frame-10x.preload]}
-           :dev {:compiler-options {:closure-defines {re-frame.trace/trace-enabled? true
-                                                     day8.re-frame.tracing/trace-enabled? true}}}}
-  
-  :docops-frontend {:target :browser
-                    :output-dir "dist/docops"
-                    :asset-path "/js"
-                    :modules {:main {:init-fn promethean.frontends.docops.app/init}}
-                    :devtools {:http-root "static"
-                               :http-port 8081}}
-  
-  :duck-web-frontend {:target :browser
-                      :output-dir "dist/duck-web"
-                      :asset-path "/js"
-                      :modules {:main {:init-fn promethean.frontends.duck-web.app/init}}
-                      :devtools {:http-root "static"
-                                 :http-port 8082}}
-  
-  :kanban-frontend {:target :browser
-                    :output-dir "dist/kanban"
-                    :asset-path "/js"
-                    :modules {:main {:init-fn promethean.frontends.kanban.app/init}}
-                    :devtools {:http-root "static"
-                               :http-port 8083}}
-  
-  :openai-server-frontend {:target :browser
-                           :output-dir "dist/openai-server"
-                           :asset-path "/js"
-                           :modules {:main {:init-fn promethean.frontends.openai-server.app/init}}
-                           :devtools {:http-root "static"
-                                      :http-port 8084}}
-  
-  :opencode-session-manager-frontend {:target :browser
-                                       :output-dir "dist/opencode-session-manager"
-                                       :asset-path "/js"
-                                       :modules {:main {:init-fn promethean.frontends.opencode-session-manager.app/init}}
-                                       :devtools {:http-root "static"
-                                                  :http-port 8085}}
-  
-  :piper-frontend {:target :browser
-                   :output-dir "dist/piper"
-                   :asset-path "/js"
-                   :modules {:main {:init-fn promethean.frontends.piper.app/init}}
-                   :devtools {:http-root "static"
-                              :http-port 8086}}
-  
-  :report-forge-frontend {:target :browser
-                          :output-dir "dist/report-forge"
-                          :asset-path "/js"
-                          :modules {:main {:init-fn promethean.frontends.report-forge.app/init}}
-                          :devtools {:http-root "static"
-                                     :http-port 8087}}
-  
-  :smartgpt-dashboard-frontend {:target :browser
-                                 :output-dir "dist/smartgpt-dashboard"
-                                 :asset-path "/js"
-                                 :modules {:main {:init-fn promethean.frontends.smartgpt-dashboard.app/init}}
-                                 :devtools {:http-root "static"
-                                            :http-port 8088}}}}
+ {:main {:target :browser
+         :output-dir "dist/main"
+         :asset-path "/js"
+         :modules {:main {:init-fn promethean.main.app/init}
+                   :chat-ui {:entries [promethean.frontends.chat-ui.app]}
+                   :docops {:entries [promethean.frontends.docops.app]}
+                   :duck-web {:entries [promethean.frontends.duck-web.app]}
+                   :kanban {:entries [core]}
+                   :openai-server {:entries [promethean.frontends.openai-server.app]}
+                   :opencode-session {:entries [promethean.frontends.opencode-session-manager.app]}
+                   :piper {:entries [promethean.frontends.piper.app]}
+                   :report-forge {:entries [promethean.frontends.report-forge.app]}
+                   :smartgpt-dashboard {:entries [promethean.frontends.smartgpt-dashboard.app]}}
+         :devtools {:http-root "static"
+                    :http-port 3000
+                    :http-resource-root "/"
+                    :preloads [devtools.preload
+                               day8.re-frame-10x.preload]}
+         :dev {:compiler-options {:closure-defines {re-frame.trace/trace-enabled? true
+                                                   day8.re-frame.tracing/trace-enabled? true}}}}}

@@ -1,11 +1,14 @@
 /**
  * Task Git Tracker
  *
- * Provides git integration for tracking task changes with commit SHAs
+ * Provides read-only git integration for tracking task changes with commit SHAs
  * to eliminate orphaned task problems and improve auditability.
+ *
+ * NOTE: This tracker is READ-ONLY - it never creates commits, only detects them.
  */
 
 import { execSync } from 'node:child_process';
+import path from 'node:path';
 
 export interface TaskCommitEntry {
   sha: string;
@@ -18,25 +21,19 @@ export interface TaskCommitEntry {
 export interface TaskGitTrackingOptions {
   repoRoot?: string;
   author?: string;
-  autoCommit?: boolean;
 }
 
 /**
- * Tracks task changes with git commits for auditability
+ * Tracks task changes with read-only git commit detection for auditability
  */
 export class TaskGitTracker {
   private readonly repoRoot: string;
-  private readonly author: string;
-  private readonly autoCommit: boolean;
-
   constructor(options: TaskGitTrackingOptions = {}) {
     this.repoRoot = options.repoRoot || process.cwd();
-    this.author = options.author || this.getDefaultAuthor();
-    this.autoCommit = options.autoCommit ?? true;
   }
 
   /**
-   * Gets the current git HEAD SHA
+   * Gets current git HEAD SHA
    */
   getCurrentCommitSha(): string {
     try {
@@ -51,37 +48,61 @@ export class TaskGitTracker {
   }
 
   /**
-   * Gets commit information for a specific SHA
+   * Gets the last commit that modified a specific file
    */
-  getCommitInfo(sha: string): Omit<TaskCommitEntry, 'type'> | null {
+  getLastCommitForFile(filePath: string): TaskCommitEntry | null {
     try {
-      const output = execSync(`git show --format='%H|%s|%an|%ad' --date=iso ${sha}`, {
+      // Check if file is outside repository - if so, return null gracefully
+      const resolvedPath = path.resolve(filePath);
+      const repoRootPath = path.resolve(this.repoRoot);
+
+      if (!resolvedPath.startsWith(repoRootPath)) {
+        // File is outside the git repository
+        return null;
+      }
+
+      const output = execSync(`git log --format='%H|%s|%an|%ad' --date=iso -n 1 -- "${filePath}"`, {
         cwd: this.repoRoot,
         encoding: 'utf8',
       }).trim();
+
+      if (!output) {
+        return null;
+      }
 
       const parts = output.split('|');
       if (parts.length < 4) {
         return null;
       }
 
-      const commitSha = parts[0];
+      const sha = parts[0];
       const message = parts[1];
       const author = parts[2];
       const timestamp = parts[3];
 
-      if (!commitSha || !message || !author || !timestamp) {
+      if (!sha || !message || !author || !timestamp) {
         return null;
       }
 
+      // Determine operation type from commit message
+      let type: TaskCommitEntry['type'] = 'update';
+      if (message.includes('Create task')) {
+        type = 'create';
+      } else if (message.includes('Change task status')) {
+        type = 'status_change';
+      } else if (message.includes('Move task')) {
+        type = 'move';
+      }
+
       return {
-        sha: commitSha.trim(),
+        sha: sha.trim(),
         message: message.trim(),
         author: author.trim(),
         timestamp: timestamp.trim(),
+        type,
       };
     } catch (error) {
-      console.warn(`Warning: Could not get commit info for ${sha}:`, error);
+      console.warn(`Warning: Could not get last commit for ${filePath}:`, error);
       return null;
     }
   }
@@ -111,110 +132,51 @@ export class TaskGitTracker {
   }
 
   /**
-   * Creates a commit entry for task tracking
-   */
-  createCommitEntry(
-    taskUuid: string,
-    operation: 'create' | 'update' | 'status_change' | 'move',
-    details?: string,
-  ): TaskCommitEntry {
-    const sha = this.getCurrentCommitSha();
-    const commitInfo = this.getCommitInfo(sha);
-
-    if (commitInfo) {
-      return {
-        ...commitInfo,
-        type: operation,
-      };
-    }
-
-    // Fallback if we can't get commit info
-    return {
-      sha,
-      timestamp: new Date().toISOString(),
-      message: this.createTaskCommitMessage(taskUuid, operation, details),
-      author: this.author,
-      type: operation,
-    };
-  }
-
-  /**
-   * Updates task frontmatter with commit tracking information
+   * Updates task frontmatter with commit tracking information (read-only)
    */
   updateTaskCommitTracking(
     frontmatter: Record<string, any>,
+    taskFilePath: string,
     taskUuid: string,
     operation: 'create' | 'update' | 'status_change' | 'move',
     details?: string,
   ): Record<string, any> {
-    const commitEntry = this.createCommitEntry(taskUuid, operation, details);
+    // Get the last commit that actually modified this file
+    const lastCommit = this.getLastCommitForFile(taskFilePath);
+
+    if (!lastCommit) {
+      // File might not be in git yet, return unchanged
+      return frontmatter;
+    }
 
     // Initialize commit history if it doesn't exist
     const commitHistory = frontmatter.commitHistory || [];
 
     // Check if this commit entry already exists to avoid duplicates
     const lastEntry = commitHistory[commitHistory.length - 1];
-    if (lastEntry && lastEntry.sha === commitEntry.sha && lastEntry.type === commitEntry.type) {
+    if (lastEntry && lastEntry.sha === lastCommit.sha) {
       // Same commit already tracked, don't add duplicate
       return frontmatter;
     }
 
-    // Add new commit entry
+    // Add new commit entry with operation details
+    const commitEntry = {
+      ...lastCommit,
+      taskUuid,
+      operation,
+      details: details || `${operation} operation`,
+    };
+
     const updatedCommitHistory = [...commitHistory, commitEntry];
 
     // Update last commit SHA
     const updatedFrontmatter = {
       ...frontmatter,
-      lastCommitSha: commitEntry.sha,
+      lastCommitSha: lastCommit.sha,
       commitHistory: updatedCommitHistory,
     };
 
     return updatedFrontmatter;
-  }
-
-  /**
-   * Commits task file changes with standardized message
-   */
-  async commitTaskChanges(
-    taskFilePath: string,
-    taskUuid: string,
-    operation: 'create' | 'update' | 'status_change' | 'move',
-    details?: string,
-  ): Promise<{ success: boolean; sha?: string; error?: string }> {
-    if (!this.autoCommit) {
-      return { success: true };
-    }
-
-    try {
-      // Check if there are changes to commit
-      const status = execSync('git status --porcelain', {
-        cwd: this.repoRoot,
-        encoding: 'utf8',
-      }).trim();
-
-      if (!status) {
-        return { success: true, sha: this.getCurrentCommitSha() };
-      }
-
-      // Add the task file
-      execSync(`git add "${taskFilePath}"`, {
-        cwd: this.repoRoot,
-      });
-
-      // Create commit with standardized message
-      const commitMessage = this.createTaskCommitMessage(taskUuid, operation, details);
-      execSync(`git commit -m "${commitMessage}"`, {
-        cwd: this.repoRoot,
-      });
-
-      const newSha = this.getCurrentCommitSha();
-      return { success: true, sha: newSha };
-    } catch (error) {
-      return {
-        success: false,
-        error: error instanceof Error ? error.message : String(error),
-      };
-    }
   }
 
   /**
@@ -273,25 +235,8 @@ export class TaskGitTracker {
   }
 
   /**
-   * Gets the default author from git config
+   * Gets default author from git config
    */
-  private getDefaultAuthor(): string {
-    try {
-      const name = execSync('git config user.name', {
-        cwd: this.repoRoot,
-        encoding: 'utf8',
-      }).trim();
-
-      const email = execSync('git config user.email', {
-        cwd: this.repoRoot,
-        encoding: 'utf8',
-      }).trim();
-
-      return `${name} <${email}>`;
-    } catch (error) {
-      return 'Unknown <unknown@example.com>';
-    }
-  }
 
   /**
    * Checks if a task is "orphaned" (lacks proper commit tracking)
@@ -346,7 +291,7 @@ export class TaskGitTracker {
               },
             ).trim();
 
-            // If there are recent commits, the task is likely active
+            // If there are recent commits, task is likely active
             if (commitLog) {
               // Task has recent activity, which is a good sign
             }
@@ -368,7 +313,9 @@ export class TaskGitTracker {
     // Generate recommendations
     if (isUntracked) {
       recommendations.push('Task needs commit tracking initialization');
-      recommendations.push('Run "pnpm kanban audit --fix" to add commit tracking');
+      recommendations.push(
+        'Commit tracking will be updated automatically on next kanban operation',
+      );
     }
 
     if (isTrulyOrphaned) {
@@ -433,11 +380,18 @@ export const defaultTaskGitTracker = new TaskGitTracker();
  */
 export function updateTaskCommitTracking(
   frontmatter: Record<string, any>,
+  taskFilePath: string,
   taskUuid: string,
   operation: 'create' | 'update' | 'status_change' | 'move',
   details?: string,
 ): Record<string, any> {
-  return defaultTaskGitTracker.updateTaskCommitTracking(frontmatter, taskUuid, operation, details);
+  return defaultTaskGitTracker.updateTaskCommitTracking(
+    frontmatter,
+    taskFilePath,
+    taskUuid,
+    operation,
+    details,
+  );
 }
 
 /**

@@ -8,7 +8,7 @@ import {
   shutdown,
   startProcessWithPort,
   withPage,
-} from "@promethean/test-utils";
+} from "@promethean-os/test-utils";
 import type { Page } from "playwright";
 
 import type { QueryHit } from "../../types.js";

@@ -1,5 +1,5 @@
 import test from "ava";
-import { NotAllowedError } from "@promethean/security";
+import { NotAllowedError } from "@promethean-os/security";
 
 import runLeave from "../actions/leave-voice.js";
 import { buildLeaveVoiceScope } from "../actions/leave-voice.scope.js";

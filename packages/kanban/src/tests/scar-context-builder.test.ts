@@ -28,7 +28,7 @@ const createMockTask = (overrides: Partial<Task> = {}): Task => ({
 
 // Setup temporary directories for testing
 const setupTestEnvironment = async () => {
-  const tempDir = await fs.mkdtemp('kanban-test-');
+  const tempDir = await fs.mkdtemp(path.join(require('os').tmpdir(), 'kanban-test-'));
   const boardPath = path.join(tempDir, 'board.md');
   const tasksDir = path.join(tempDir, 'tasks');
 

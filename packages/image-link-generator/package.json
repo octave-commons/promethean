@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/image-link-generator",
+  "name": "@promethean-os/image-link-generator",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -29,7 +29,7 @@
   "module": "dist/index.js",
   "dependencies": {
     "@xenova/transformers": "^2.17.2",
-    "@promethean/fs": "workspace:*"
+    "@promethean-os/fs": "workspace:*"
   },
   "devDependencies": {
     "ava": "^6.4.1",

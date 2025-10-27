@@ -1,8 +1,8 @@
 // src/02-embed.ts
 import * as path from "path";
 
-import { ollamaEmbed } from "@promethean/utils";
-import { openLevelCache } from "@promethean/level-cache";
+import { ollamaEmbed } from "@promethean-os/utils";
+import { openLevelCache } from "@promethean-os/level-cache";
 
 import { parseArgs } from "./utils.js";
 import type { CodeBlock } from "./types.js";

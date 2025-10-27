@@ -1,4 +1,4 @@
-import type { Cache } from '@promethean/level-cache';
+import type { Cache } from '@promethean-os/level-cache';
 
 /**
  * pnpm Cache Strategy
@@ -62,8 +62,8 @@ export class PnpmCacheStrategy {
 
     // Return mock dependencies based on hashes
     return [
-      `@promethean/core@1.0.0-${lockfileHash.slice(0, 8)}`,
-      `@promethean/utils@1.0.0-${packageJsonHash.slice(0, 8)}`,
+      `@promethean-os/core@1.0.0-${lockfileHash.slice(0, 8)}`,
+      `@promethean-os/utils@1.0.0-${packageJsonHash.slice(0, 8)}`,
       'typescript@5.0.0',
       'ava@5.0.0',
     ];

@@ -7,7 +7,7 @@ states, enforcing WIP limits, and prompting Codex when a card carries the
 
 `agile/tasks/` via the `pnpm kanban regenerate` command from
 ```
-`@promethean/kanban-cli`.
+`@promethean-os/kanban-cli`.
 ```
 ---
 

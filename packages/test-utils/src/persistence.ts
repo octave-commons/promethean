@@ -5,7 +5,7 @@ import {
     __setMongoClientForTests,
     __setChromaClientForTests,
     __resetPersistenceClientsForTests,
-} from '@promethean/persistence/clients.js';
+} from '@promethean-os/persistence/clients.js';
 
 type DocumentRecord = Record<string, unknown>;
 type FilterDoc = Record<string, unknown>;

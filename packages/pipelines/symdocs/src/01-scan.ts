@@ -8,8 +8,8 @@ import {
   getNodeText,
   posToLine,
   relFromRepo,
-} from "@promethean/utils";
-import { scanFiles } from "@promethean/file-indexer";
+} from "@promethean-os/utils";
+import { scanFiles } from "@promethean-os/file-indexer";
 
 import {
   parseArgs,
@@ -20,7 +20,7 @@ import {
   typeToString,
 } from "./utils.js";
 import type { SymKind, SymbolInfo } from "./types.js";
-import { openLevelCache } from "@promethean/level-cache";
+import { openLevelCache } from "@promethean-os/level-cache";
 
 export type ScanOptions = {
   root?: string;

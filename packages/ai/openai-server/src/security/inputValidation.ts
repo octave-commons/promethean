@@ -1,8 +1,6 @@
 import type { FastifyRequest } from 'fastify';
 import type { InputValidationResult, SecurityConfig } from '../types/security.js';
-// Mock import for type checking - will be resolved when dependencies are installed
-// import sanitizeHtml from 'sanitize-html';
-const sanitizeHtml = require('sanitize-html');
+import sanitizeHtml from 'sanitize-html';
 
 /**
  * Malicious patterns to detect in input
@@ -37,7 +35,7 @@ const SANITIZE_CONFIG = {
   allowedScriptDomains: [],
   allowedScriptSchemes: [],
   allowedScriptTypes: [],
-  allowedStyles: [],
+  allowedStyles: {},
   allowedClasses: {},
   disallowedTags: ['script', 'iframe', 'object', 'embed', 'form', 'input', 'button'],
   disallowedAttributes: ['onclick', 'onload', 'onerror', 'onmouseover'],

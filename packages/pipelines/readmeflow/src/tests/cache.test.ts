@@ -2,7 +2,7 @@ import * as path from "node:path";
 import { promises as fs } from "node:fs";
 
 import test from "ava";
-import { openLevelCache } from "@promethean/level-cache";
+import { openLevelCache } from "@promethean-os/level-cache";
 
 const TMP = path.join(".cache", "readmeflow-test");
 

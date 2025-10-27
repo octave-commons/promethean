@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/file-indexer-service",
+  "name": "@promethean-os/file-indexer-service",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -28,10 +28,10 @@
   },
   "module": "dist/index.js",
   "dependencies": {
-    "@promethean/persistence": "workspace:*",
-    "@promethean/utils": "workspace:*",
-    "@promethean/ds": "workspace:*",
-    "@promethean/fs": "workspace:*",
+    "@promethean-os/persistence": "workspace:*",
+    "@promethean-os/utils": "workspace:*",
+    "@promethean-os/ds": "workspace:*",
+    "@promethean-os/fs": "workspace:*",
     "express": "^4.19.2",
     "zod": "^3.23.8"
   },

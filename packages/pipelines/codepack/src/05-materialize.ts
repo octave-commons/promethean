@@ -1,7 +1,7 @@
 // src/05-materialize.ts
 import { promises as fs } from "fs";
 import * as path from "path";
-import { openLevelCache } from "@promethean/level-cache";
+import { openLevelCache } from "@promethean-os/level-cache";
 import { parseArgs, ensureDir } from "./utils.js";
 import type { CodeBlock, NamedGroup } from "./types.js";
 

@@ -1,0 +1,1 @@
+Marked Implement Alert & Notification System (uuid 2bbbd976-...) as in_progress with estimates (medium, small, 1.5h). Added summary, acceptance criteria, tasks; blocked by Validation Engine.

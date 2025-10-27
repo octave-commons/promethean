@@ -174,7 +174,7 @@ export class OllamaWrapper {
           return response.response as string;
         } else {
           // Fallback to HTTP implementation
-          const { ollamaJSON } = await import('@promethean/utils');
+          const { ollamaJSON } = await import('@promethean-os/utils');
           const result = await ollamaJSON(model, prompt, options);
           return result as string;
         }
@@ -245,7 +245,7 @@ export class OllamaWrapper {
         } else {
           // Fallback: convert chat to generate prompt
           const prompt = messages.map((msg) => `${msg.role}: ${msg.content}`).join('\n');
-          const { ollamaJSON } = await import('@promethean/utils');
+          const { ollamaJSON } = await import('@promethean-os/utils');
           const result = await ollamaJSON(model, prompt, options);
           return result as string;
         }

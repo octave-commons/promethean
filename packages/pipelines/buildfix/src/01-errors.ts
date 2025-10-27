@@ -2,7 +2,7 @@ import * as path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { globby } from "globby";
-import { parseArgs } from "@promethean/utils";
+import { parseArgs } from "@promethean-os/utils";
 
 import {
   tsc,

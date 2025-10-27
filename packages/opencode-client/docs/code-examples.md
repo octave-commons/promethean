@@ -2,14 +2,14 @@
 
 ## Overview
 
-This document provides practical code examples demonstrating correct usage patterns for the `@promethean/opencode-client` package, with a focus on the recent TypeScript compilation fixes and proper queue management.
+This document provides practical code examples demonstrating correct usage patterns for the `@promethean-os/opencode-client` package, with a focus on the recent TypeScript compilation fixes and proper queue management.
 
 ## Basic Usage Examples
 
 ### 1. Simple Job Submission and Monitoring
 
 ```typescript
-import { submitJob, getJobStatus, getJobResult } from '@promethean/opencode-client';
+import { submitJob, getJobStatus, getJobResult } from '@promethean-os/opencode-client';
 
 async function basicJobExample() {
   try {
@@ -74,7 +74,7 @@ basicJobExample();
 ### 2. Chat Conversation Example
 
 ```typescript
-import { submitJob } from '@promethean/opencode-client';
+import { submitJob } from '@promethean-os/opencode-client';
 
 async function chatExample() {
   const conversation = [
@@ -120,7 +120,7 @@ chatExample();
 ### 3. Embedding Generation Example
 
 ```typescript
-import { submitJob } from '@promethean/opencode-client';
+import { submitJob } from '@promethean-os/opencode-client';
 
 async function embeddingExample() {
   const texts = [
@@ -160,7 +160,7 @@ embeddingExample();
 ### 4. Batch Processing with Priority Management
 
 ```typescript
-import { submitJob, getJobStatus, getJobResult, listJobs } from '@promethean/opencode-client';
+import { submitJob, getJobStatus, getJobResult, listJobs } from '@promethean-os/opencode-client';
 
 interface BatchJob {
   id: string;
@@ -278,7 +278,7 @@ import {
   stopQueueProcessor,
   manageCache,
   listJobs 
-} from '@promethean/opencode-client';
+} from '@promethean-os/opencode-client';
 
 class QueueManager {
   private monitoringInterval: NodeJS.Timeout | null = null;
@@ -422,7 +422,7 @@ import {
   submitFeedback, 
   submitJob, 
   getJobResult 
-} from '@promethean/opencode-client';
+} from '@promethean-os/opencode-client';
 
 class CacheManager {
   async analyzeCachePerformance() {
@@ -614,7 +614,7 @@ import {
   cancelJob,
   listModels,
   getQueueInfo 
-} from '@promethean/opencode-client';
+} from '@promethean-os/opencode-client';
 
 class RobustJobManager {
   private maxRetries = 3;
@@ -810,7 +810,7 @@ robustErrorHandlingExample();
 ### 8. Type-Safe Job Management
 
 ```typescript
-import { submitJob, getJobStatus, getJobResult } from '@promethean/opencode-client';
+import { submitJob, getJobStatus, getJobResult } from '@promethean-os/opencode-client';
 
 // Define proper types for job parameters
 interface GenerateJobParams {
@@ -984,7 +984,7 @@ function oldStopQueueProcessor() {
 }
 
 // ✅ NEW PATTERN (after TypeScript fixes)
-import { clearProcessingInterval } from '@promethean/ollama-queue';
+import { clearProcessingInterval } from '@promethean-os/ollama-queue';
 
 function newStopQueueProcessor() {
   clearProcessingInterval(); // Type-safe and correct
@@ -1016,7 +1016,7 @@ class MigrationHelper {
       startQueueProcessor, 
       clearProcessingInterval, 
       getProcessingInterval 
-    } from '@promethean/ollama-queue';
+    } from '@promethean-os/ollama-queue';
     
     // Proper queue management
     console.log('Starting queue processor...');
@@ -1040,4 +1040,4 @@ class MigrationHelper {
 MigrationHelper.migrateOldCode();
 ```
 
-These examples demonstrate the correct usage patterns for the `@promethean/opencode-client` package, incorporating the recent TypeScript compilation fixes and following best practices for type safety, error handling, and queue management.
+These examples demonstrate the correct usage patterns for the `@promethean-os/opencode-client` package, incorporating the recent TypeScript compilation fixes and following best practices for type safety, error handling, and queue management.

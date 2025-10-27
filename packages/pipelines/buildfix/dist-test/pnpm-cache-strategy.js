@@ -37,8 +37,8 @@ class PnpmCacheStrategy {
         await new Promise((resolve) => setTimeout(resolve, 100));
         // Return mock dependencies based on hashes
         return [
-            `@promethean/core@1.0.0-${lockfileHash.slice(0, 8)}`,
-            `@promethean/utils@1.0.0-${packageJsonHash.slice(0, 8)}`,
+            `@promethean-os/core@1.0.0-${lockfileHash.slice(0, 8)}`,
+            `@promethean-os/utils@1.0.0-${packageJsonHash.slice(0, 8)}`,
             'typescript@5.0.0',
             'ava@5.0.0',
         ];

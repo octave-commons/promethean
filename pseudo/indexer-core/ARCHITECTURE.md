@@ -1,6 +1,6 @@
-# Architecture Documentation - @promethean/indexer-core
+# Architecture Documentation - @promethean-os/indexer-core
 
-This document describes the architecture, design patterns, and internal workings of the `@promethean/indexer-core` package.
+This document describes the architecture, design patterns, and internal workings of the `@promethean-os/indexer-core` package.
 
 ## Table of Contents
 
@@ -17,7 +17,7 @@ This document describes the architecture, design patterns, and internal workings
 
 ## Overview
 
-The `@promethean/indexer-core` package is designed as a modular, extensible system for file indexing and semantic search. It follows a layered architecture with clear separation of concerns, making it suitable for both standalone use and integration into larger systems.
+The `@promethean-os/indexer-core` package is designed as a modular, extensible system for file indexing and semantic search. It follows a layered architecture with clear separation of concerns, making it suitable for both standalone use and integration into larger systems.
 
 ### Key Architectural Principles
 

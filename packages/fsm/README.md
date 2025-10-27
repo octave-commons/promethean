@@ -40,7 +40,7 @@ packages/fsm/
 ### Simple FSM (Most Common Use Cases)
 
 ```typescript
-import { createSimpleMachine } from '@promethean/fsm/simple';
+import { createSimpleMachine } from '@promethean-os/fsm/simple';
 
 // Define your states and events
 type States = 'idle' | 'loading' | 'success' | 'error';
@@ -79,7 +79,7 @@ current = machine.transition(current, 'complete'); // -> 'success'
 ### Graph-Based FSM (Complex Scenarios)
 
 ```typescript
-import { createGraphMachine } from '@promethean/fsm/graph';
+import { createGraphMachine } from '@promethean-os/fsm/graph';
 
 // For complex state machines with visualization needs
 const graphMachine = createGraphMachine<States, Events, Context>({
@@ -129,19 +129,19 @@ Pre-built integrations for common use cases:
 
 ### Kanban Board FSM
 ```typescript
-import { createKanbanFSM, basicKanbanConfig } from '@promethean/fsm/adapters';
+import { createKanbanFSM, basicKanbanConfig } from '@promethean-os/fsm/adapters';
 
 const kanbanMachine = createKanbanFSM(basicKanbanConfig);
 ```
 
 ### Workflow FSM
 ```typescript
-import { createAgentsWorkflowFSM } from '@promethean/fsm/adapters';
+import { createAgentsWorkflowFSM } from '@promethean-os/fsm/adapters';
 ```
 
 ### Pipeline FSM
 ```typescript
-import { createPiperFSM } from '@promethean/fsm/adapters';
+import { createPiperFSM } from '@promethean-os/fsm/adapters';
 ```
 
 ## 🧪 Testing
@@ -149,7 +149,7 @@ import { createPiperFSM } from '@promethean/fsm/adapters';
 The package includes comprehensive testing utilities:
 
 ```typescript
-import { testMachine, createTestMachine } from '@promethean/fsm/utils';
+import { testMachine, createTestMachine } from '@promethean-os/fsm/utils';
 
 const test = createTestMachine(machine);
 expect(test.transition('start').state).toBe('loading');
@@ -158,25 +158,25 @@ expect(test.transition('start').state).toBe('loading');
 ## 📖 Migration Guide
 
 ### From packages/ds/fsm
-The previous FSM implementation in `@promethean/ds` is now deprecated. Use:
+The previous FSM implementation in `@promethean-os/ds` is now deprecated. Use:
 
 ```typescript
 // Old (deprecated)
-import { FSMGraph } from '@promethean/ds/fsm';
+import { FSMGraph } from '@promethean-os/ds/fsm';
 
 // New (recommended)
-import { createGraphMachine } from '@promethean/fsm/graph';
+import { createGraphMachine } from '@promethean-os/fsm/graph';
 ```
 
 ### From packages/fsm (functional API)
-The functional API in `@promethean/fsm` is still available but enhanced:
+The functional API in `@promethean-os/fsm` is still available but enhanced:
 
 ```typescript
 // Still works
-import { createMachine, transition } from '@promethean/fsm';
+import { createMachine, transition } from '@promethean-os/fsm';
 
 // Enhanced version
-import { createSimpleMachine } from '@promethean/fsm/simple';
+import { createSimpleMachine } from '@promethean-os/fsm/simple';
 ```
 
 ## 🎨 Design Principles

@@ -43,14 +43,14 @@
 ;;; packages.el --- err-core layer packages  -*- lexical-binding: t; -*-
 (defconst err-core-packages
   '(lsp-sonarlint
-    lsp-mode
-    markdown-mode
-    org
-    flycheck
-    treesit-auto
-    company
-    copilot
-    ))
+     lsp-mode
+     markdown-mode
+     org
+     flycheck
+     treesit-auto
+     company
+     copilot
+     ))
 
 (defun err-core/post-init-copilot ()
 
@@ -58,17 +58,17 @@
 
 
     (advice-add 'copilot--infer-indentation-offset :around
-                (lambda (orig &rest args)
-                  (condition-case _
-                      (apply orig args)
-                    (warning (err-core/copilot-lisp-indent-fallback))
-                    (error   (err-core/copilot-lisp-indent-fallback)))))
+      (lambda (orig &rest args)
+        (condition-case _
+          (apply orig args)
+          (warning (err-core/copilot-lisp-indent-fallback))
+          (error   (err-core/copilot-lisp-indent-fallback)))))
     (dolist (m '(emacs-lisp-mode lisp-mode lisp-interaction-mode scheme-mode clojure-mode hy-mode))
       (add-hook (intern (format "%s-hook" m))
-                (lambda ()
-                  (setq-local lisp-body-indent (or (and (numberp lisp-body-indent) lisp-body-indent) 2))
-                  (setq-local standard-indent   (or (and (numberp standard-indent) standard-indent) 2))
-                  (setq-local tab-width         (or (and (numberp tab-width) tab-width) 2)) (setq-local indent-tabs-mode nil)))))
+        (lambda ()
+          (setq-local lisp-body-indent (or (and (numberp lisp-body-indent) lisp-body-indent) 2))
+          (setq-local standard-indent   (or (and (numberp standard-indent) standard-indent) 2))
+          (setq-local tab-width         (or (and (numberp tab-width) tab-width) 2)) (setq-local indent-tabs-mode nil)))))
   )
 (defun err-core/post-init-lsp-sonarlint ()
   (with-eval-after-load 'lsp-sonarlint
@@ -82,14 +82,14 @@
     ;; (setq lsp-diagnostic-package :none)
 
     (setq lsp-log-io nil
-          lsp-idle-delay 0.5
-          ;; lsp-keep-workspace-alive nil
-          ;; lsp-completion-provider :capf
-          )
+      lsp-idle-delay 0.5
+      ;; lsp-keep-workspace-alive nil
+      ;; lsp-completion-provider :capf
+      )
     ;; (setq lsp-completion-enable-additional-text-edit nil)
 
     ;; Optional: crank up logging if you’re debugging startup issues
-    (setq lsp-semgrep-trace-server 'messages)
+    ;; (setq lsp-semgrep-trace-server 'messages)
     ;; Emulate “eslint.run: onSave” (VS Code defaults to onType; that’s slow)
 
     ;; 1) Don’t die on slow refactors while debugging
@@ -103,8 +103,8 @@
     ;; 3) Tame file watchers
     (setq lsp-file-watch-threshold 1500)
     (setq lsp-file-watch-ignored
-          (append lsp-file-watch-ignored
-                  '("[/\\\\]\\.git$" "[/\\\\]node_modules$" "[/\\\\]dist$" "[/\\\\]build$" "[/\\\\]\\.next$" "[/\\\\]\\.turbo$")))
+      (append lsp-file-watch-ignored
+        '("[/\\\\]\\.git$" "[/\\\\]node_modules$" "[/\\\\]dist$" "[/\\\\]build$" "[/\\\\]\\.next$" "[/\\\\]\\.turbo$")))
 
     (add-hook 'lsp-before-initialize-hook #'promethean-lsp-load-gitignore-ignores))
   (with-eval-after-load 'lsp-mode
@@ -117,18 +117,19 @@
     (add-hook 'lsp-mode-hook 'flycheck-mode)
     ;; Ensure ESLint is enabled for TS/TSX/JS and that monorepo roots are found
     (setq lsp-eslint-enable t
-          lsp-eslint-validate '("javascript" "javascriptreact" "typescript" "typescriptreact")
-          lsp-eslint-working-directories [ "auto" ]     ;; good default for monorepos
-          lsp-eslint-auto-fix-on-save t
-          lsp-eslint-format nil)                        ;; avoid formatter fights; change if you want ESLint formatting
+      lsp-eslint-validate '("javascript" "javascriptreact" "typescript" "typescriptreact")
+      lsp-eslint-working-directories [ "auto" ]     ;; good default for monorepos
+      lsp-eslint-auto-fix-on-save t
+      lsp-eslint-format nil)                        ;; avoid formatter fights; change if you want ESLint formatting
 
     ;; Semgrep LSP knobs (defaults shown)
-    (setq lsp-semgrep-languages '("typescript" "typescriptreact" "javascript")
-          lsp-semgrep-server-command '("semgrep" "lsp" )
-          lsp-semgrep-trace-server 'messages)  ;; set to 'verbose if you want more noise
+    ;; (setq lsp-semgrep-languages '("typescript" "typescriptreact" "javascript")
+    ;;       lsp-semgrep-server-command '("semgrep" "lsp" )
+    ;;       lsp-semgrep-trace-server 'messages)
+    ;; set to 'verbose if you want more noise
 
     ;; Make sure SonarLint starts for tree-sitter modes:
-    (setq lsp-sonarlint-modes-enabled '(typescript-ts-mode tsx-ts-mode js-ts-mode))
+    ;; (setq lsp-sonarlint-modes-enabled '(typescript-ts-mode tsx-ts-mode js-ts-mode))
 
     ;; Enable TS + JS analyzers (confirm names with M-x lsp-sonarlint-available-analyzers):
     (setq lsp-sonarlint-enabled-analyzers '("javascript" "typescript" "json" "ts" "js"))
@@ -138,7 +139,7 @@
 
     ;; Turn on logs until it works:
     (setq lsp-sonarlint-verbose-logs t
-          lsp-sonarlint-show-analyzer-logs t)
+      lsp-sonarlint-show-analyzer-logs t)
 
     ;; Start LSP when opening TS/TSX/JS. No use-package here:
     ;; (add-hook 'typescript-ts-mode-hook #'lsp)
@@ -158,9 +159,9 @@
 
     ;; ESLint LSP settings (keep it lean; expand once it’s working)
     (setq lsp-eslint-auto-fix-on-save t
-          lsp-eslint-format nil                 ;; let Prettier/ts-ls handle format if desired
-          lsp-eslint-working-directories '["auto"]  ;; good default for monorepos
-          lsp-eslint-quiet nil)
+      lsp-eslint-format nil                 ;; let Prettier/ts-ls handle format if desired
+      lsp-eslint-working-directories '["auto"]  ;; good default for monorepos
+      lsp-eslint-quiet nil)
     )
   )
 
@@ -172,28 +173,28 @@
     (setq markdown-fontify-code-blocks-natively t)
 
     (dolist (pair `(("ts'"  . typescript-ts-mode)
-                    ("bb'"  . clojure-ts-mode)
-                    ("babashka'" . clojure-ts-mode)
-                    ("clj'" . clojure-ts-mode)
-                    ("cljs'" . clojure-ts-mode)
-                    ("edn'" . clojure-ts-mode)
-                    ("el" . elisp-mode)))
+                     ("bb'"  . clojure-ts-mode)
+                     ("babashka'" . clojure-ts-mode)
+                     ("clj'" . clojure-ts-mode)
+                     ("cljs'" . clojure-ts-mode)
+                     ("edn'" . clojure-ts-mode)
+                     ("el" . elisp-mode)))
       (add-to-list 'markdown-code-lang-modes pair))))
 
 (defun err-core/post-init-org ()
   (with-eval-after-load 'org
     (org-babel-do-load-languages 'org-babel-load-languages '((python . t)))
     (setq org-src-fontify-natively t
-          org-src-tab-acts-natively t
-          org-edit-src-content-indentation 0
-          ;; Confirm for unknown languages; skip prompt for ELisp/Python only
-          org-confirm-babel-evaluate (lambda (lang _)
-                                       (not (member lang '("emacs-lisp" "python"))))
-          org-startup-with-inline-images t
-          org-babel-python-command (or (and (file-executable-p "/home/err/.venvs/main/bin/python")
-                                            "/home/err/.venvs/main/bin/python")
-                                       (executable-find "python3")
-                                       "python3"))
+      org-src-tab-acts-natively t
+      org-edit-src-content-indentation 0
+      ;; Confirm for unknown languages; skip prompt for ELisp/Python only
+      org-confirm-babel-evaluate (lambda (lang _)
+                                   (not (member lang '("emacs-lisp" "python"))))
+      org-startup-with-inline-images t
+      org-babel-python-command (or (and (file-executable-p "/home/err/.venvs/main/bin/python")
+                                     "/home/err/.venvs/main/bin/python")
+                                 (executable-find "python3")
+                                 "python3"))
     (org-babel-do-load-languages 'org-babel-load-languages '((python . t)))
     (add-hook 'org-babel-after-execute-hook #'org-display-inline-images)))
 
@@ -218,14 +219,14 @@
 
   ;; Prefer native TS modes over legacy ones.
   (setq major-mode-remap-alist
-        '((js-mode . js-ts-mode)
-          (typescript-mode . typescript-ts-mode)
-          (tsx-ts-mode . tsx-ts-mode)  ;; if you have it
-          (json-mode . json-ts-mode)
-          (css-mode . css-ts-mode)
-          (c-mode . c-ts-mode)
-          (c++-mode . c++-ts-mode)
-          (python-mode . python-ts-mode)
-          (yaml-mode . yaml-ts-mode))))
+    '((js-mode . js-ts-mode)
+       (typescript-mode . typescript-ts-mode)
+       (tsx-ts-mode . tsx-ts-mode)  ;; if you have it
+       (json-mode . json-ts-mode)
+       (css-mode . css-ts-mode)
+       (c-mode . c-ts-mode)
+       (c++-mode . c++-ts-mode)
+       (python-mode . python-ts-mode)
+       (yaml-mode . yaml-ts-mode))))
 
 ;;; packages.el ends here

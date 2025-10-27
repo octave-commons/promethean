@@ -1,4 +1,4 @@
-import { createLogger } from '@promethean/utils',
+import { createLogger } from '@promethean-os/utils',
 import { readFileSync } from 'fs',
 import matter from 'gray-matter',
 import path from 'path',

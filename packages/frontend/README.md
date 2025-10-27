@@ -1,4 +1,4 @@
-# @promethean/frontend
+# @promethean-os/frontend
 
 Consolidated frontend package for all Promethean UI applications.
 

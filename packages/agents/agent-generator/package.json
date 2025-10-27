@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/agent-generator",
+  "name": "@promethean-os/agent-generator",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -21,7 +21,7 @@
     "build": "shadow-cljs release agent-generator",
     "clean": "rimraf dist",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
+    "test": "ava --config ../../config/ava.config.mjs",
     "lint": "pnpm exec eslint .",
     "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",
     "format": "pnpm exec prettier --write .",

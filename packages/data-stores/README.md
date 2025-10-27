@@ -1,4 +1,4 @@
-# @promethean/data-stores
+# @promethean-os/data-stores
 
 Centralized data store management for Promethean packages, providing unified access to shared dual stores through ContextStore.
 
@@ -6,8 +6,8 @@ Centralized data store management for Promethean packages, providing unified acc
 
 This package serves as a centralized sink and data source for dual store definitions used across multiple packages:
 
-- **@promethean/opencode-client**: Uses session, event, and message stores
-- **@promethean/file-system/file-indexer-service**: Uses file index stores
+- **@promethean-os/opencode-client**: Uses session, event, and message stores
+- **@promethean-os/file-system/file-indexer-service**: Uses file index stores
 
 Instead of each package exposing APIs for their data, this package provides common access to all stores through a unified ContextStore interface.
 
@@ -33,7 +33,7 @@ Instead of each package exposing APIs for their data, this package provides comm
 ## Usage
 
 ```typescript
-import { getDataStoreManager, StoreNames } from '@promethean/data-stores';
+import { getDataStoreManager, StoreNames } from '@promethean-os/data-stores';
 
 // Get the data store manager
 const manager = getDataStoreManager();
@@ -55,7 +55,7 @@ const sessionResults = await manager.searchInStores(
 
 ## Architecture
 
-The package uses the ContextStore pattern from `@promethean/persistence` to:
+The package uses the ContextStore pattern from `@promethean-os/persistence` to:
 
 1. **Manage Collections**: Create and maintain dual store collections
 2. **Provide Unified Access**: Single entry point for all data operations

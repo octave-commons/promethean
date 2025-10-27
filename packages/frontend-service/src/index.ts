@@ -7,7 +7,7 @@ import fastifyStatic from "@fastify/static";
 import {
   registerDiagnosticsRoute,
   registerHealthRoute,
-} from "@promethean/web-utils";
+} from "@promethean-os/web-utils";
 import type { ReadonlyDeep } from "type-fest";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -36,7 +36,7 @@ const packageNameForDir = ({ pkgDir, fallback }: PackageDirInfo): string => {
 type PackageNameInfo = Readonly<{ name: string }>;
 
 const urlPrefixFromPkgName = ({ name }: PackageNameInfo): string =>
-  name.startsWith("@promethean/") ? name.split("/")[1] ?? name : name;
+  name.startsWith("@promethean-os/") ? name.split("/")[1] ?? name : name;
 
 type PackageMount = Readonly<{
   pkgPath: string;

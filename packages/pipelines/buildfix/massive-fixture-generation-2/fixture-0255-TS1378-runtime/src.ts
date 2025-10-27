@@ -1,7 +1,7 @@
 import { readFile } from "fs/promises",
 
 import type { ReadonlyDeep } from "type-fest",
-import { listFilesRec } from "@promethean/utils",
+import { listFilesRec } from "@promethean-os/utils",
 
 import {
   type IndexedFile,

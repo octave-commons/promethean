@@ -3,8 +3,8 @@ import * as path from 'path';
 import { pathToFileURL } from 'node:url';
 
 import matter from 'gray-matter';
-import { scanFiles } from '@promethean/file-indexer';
-import type { IndexedFile } from '@promethean/file-indexer';
+import { scanFiles } from '@promethean-os/file-indexer';
+import type { IndexedFile } from '@promethean-os/file-indexer';
 
 import { parseArgs, slugify, extnamePrefer } from './utils.js';
 import type { Front } from './types.js';

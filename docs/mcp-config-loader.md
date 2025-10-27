@@ -143,7 +143,7 @@ Loads configuration with automatic source resolution.
 **Example:**
 
 ```typescript
-import { loadConfig } from '@promethean/mcp/config/load-config.js';
+import { loadConfig } from '@promethean-os/mcp/config/load-config.js';
 
 // Load with default parameters
 const config = loadConfig(process.env);
@@ -169,7 +169,7 @@ Loads configuration including source tracking information.
 **Example:**
 
 ```typescript
-import { loadConfigWithSource } from '@promethean/mcp/config/load-config.js';
+import { loadConfigWithSource } from '@promethean-os/mcp/config/load-config.js';
 
 const { config, source } = loadConfigWithSource(process.env);
 
@@ -205,7 +205,7 @@ Saves configuration to file with normalization and directory creation.
 **Example:**
 
 ```typescript
-import { saveConfigFile, ConfigSchema } from '@promethean/mcp/config/load-config.js';
+import { saveConfigFile, ConfigSchema } from '@promethean-os/mcp/config/load-config.js';
 
 const config = ConfigSchema.parse({
   transport: 'http',
@@ -231,7 +231,7 @@ Finds the nearest configuration file by searching up the directory tree.
 **Example:**
 
 ```typescript
-import { findConfigPath } from '@promethean/mcp/config/load-config.js';
+import { findConfigPath } from '@promethean-os/mcp/config/load-config.js';
 
 const configPath = findConfigPath('/home/user/project/subdir');
 // Returns: '/home/user/project/promethean.mcp.json' if found
@@ -270,7 +270,7 @@ interface ResolveConfigPathOptions {
 **Example:**
 
 ```typescript
-import { resolveConfigPath } from '@promethean/mcp/config/load-config.js';
+import { resolveConfigPath } from '@promethean-os/mcp/config/load-config.js';
 
 // Safe resolution (prevents directory traversal)
 const safePath = resolveConfigPath('../config.json', '/base/dir');
@@ -294,7 +294,7 @@ Creates a default configuration with all required fields.
 **Example:**
 
 ```typescript
-import { createDefaultConfig } from '@promethean/mcp/config/load-config.js';
+import { createDefaultConfig } from '@promethean-os/mcp/config/load-config.js';
 
 const defaultConfig = createDefaultConfig();
 // Returns: { transport: 'http', tools: [], endpoints: {}, ... }
@@ -488,7 +488,7 @@ interface InlineProxyConfig {
 ### Basic Configuration Loading
 
 ```typescript
-import { loadConfig } from '@promethean/mcp/config/load-config.js';
+import { loadConfig } from '@promethean-os/mcp/config/load-config.js';
 
 // Load configuration with automatic resolution
 const config = loadConfig(process.env);
@@ -501,7 +501,7 @@ console.log(`Endpoints: ${Object.keys(config.endpoints).join(', ')}`);
 ### Configuration with Source Tracking
 
 ```typescript
-import { loadConfigWithSource } from '@promethean/mcp/config/load-config.js';
+import { loadConfigWithSource } from '@promethean-os/mcp/config/load-config.js';
 
 const { config, source } = loadConfigWithSource(process.env);
 
@@ -525,7 +525,7 @@ import {
   saveConfigFile,
   createDefaultConfig,
   ConfigSchema,
-} from '@promethean/mcp/config/load-config.js';
+} from '@promethean-os/mcp/config/load-config.js';
 
 // Create a custom configuration
 const customConfig = ConfigSchema.parse({
@@ -563,7 +563,7 @@ console.log('Configuration saved successfully');
 ### Configuration Discovery
 
 ```typescript
-import { findConfigPath, loadConfig } from '@promethean/mcp/config/load-config.js';
+import { findConfigPath, loadConfig } from '@promethean-os/mcp/config/load-config.js';
 
 // Find configuration file automatically
 const configPath = findConfigPath('/home/user/project/subdir');
@@ -584,7 +584,7 @@ if (configPath) {
 ### Secure Path Resolution
 
 ```typescript
-import { resolveConfigPath, saveConfigFile } from '@promethean/mcp/config/load-config.js';
+import { resolveConfigPath, saveConfigFile } from '@promethean-os/mcp/config/load-config.js';
 
 // Resolve paths safely (prevents directory traversal)
 try {
@@ -606,7 +606,7 @@ const absolutePath = resolveConfigPath('/etc/custom-config.json', '/base/dir', {
 ### Working with Multiple Environments
 
 ```typescript
-import { loadConfigWithSource } from '@promethean/mcp/config/load-config.js';
+import { loadConfigWithSource } from '@promethean-os/mcp/config/load-config.js';
 
 // Development environment
 process.env.NODE_ENV = 'development';
@@ -629,7 +629,7 @@ console.log(`Prod transport: ${prodConfig.config.transport}`);
 ### Configuration Validation
 
 ```typescript
-import { ConfigSchema, normalizeConfig } from '@promethean/mcp/config/load-config.js';
+import { ConfigSchema, normalizeConfig } from '@promethean-os/mcp/config/load-config.js';
 
 // Validate raw configuration
 const rawConfig = {
@@ -1078,7 +1078,7 @@ try {
 #### Graceful Degradation
 
 ```typescript
-import { loadConfigWithSource, createDefaultConfig } from '@promethean/mcp/config/load-config.js';
+import { loadConfigWithSource, createDefaultConfig } from '@promethean-os/mcp/config/load-config.js';
 
 function loadConfigWithFallback(env: NodeJS.ProcessEnv): AppConfig {
   try {
@@ -1133,7 +1133,7 @@ try {
 #### Retry Mechanisms
 
 ```typescript
-import { loadConfigWithSource } from '@promethean/mcp/config/load-config.js';
+import { loadConfigWithSource } from '@promethean-os/mcp/config/load-config.js';
 
 async function loadConfigWithRetry(
   env: NodeJS.ProcessEnv,
@@ -1163,7 +1163,7 @@ async function loadConfigWithRetry(
 #### Logging and Monitoring
 
 ```typescript
-import { loadConfigWithSource } from '@promethean/mcp/config/load-config.js';
+import { loadConfigWithSource } from '@promethean-os/mcp/config/load-config.js';
 
 interface ConfigLoadMetrics {
   source: string;
@@ -1216,7 +1216,7 @@ if (!metrics.success) {
 #### Debug Logging
 
 ```typescript
-import { loadConfigWithSource } from '@promethean/mcp/config/load-config.js';
+import { loadConfigWithSource } from '@promethean-os/mcp/config/load-config.js';
 
 function debugConfigLoading(env: NodeJS.ProcessEnv): void {
   console.log('=== Configuration Loading Debug ===');
@@ -1263,7 +1263,7 @@ if (process.env.DEBUG_CONFIG) {
 #### Configuration Health Check
 
 ```typescript
-import { loadConfig } from '@promethean/mcp/config/load-config.js';
+import { loadConfig } from '@promethean-os/mcp/config/load-config.js';
 
 function checkConfigurationHealth(): { healthy: boolean; issues: string[] } {
   const issues: string[] = [];
@@ -1318,10 +1318,10 @@ if (!health.healthy) {
 
 ### Related Modules
 
-- `@promethean/mcp/core/authentication.ts` - Authentication integration
-- `@promethean/mcp/core/authorization.ts` - Authorization framework
-- `@promethean/mcp/core/transports/` - Transport layer implementations
-- `@promethean/mcp/proxy/` - Proxy configuration and management
+- `@promethean-os/mcp/core/authentication.ts` - Authentication integration
+- `@promethean-os/mcp/core/authorization.ts` - Authorization framework
+- `@promethean-os/mcp/core/transports/` - Transport layer implementations
+- `@promethean-os/mcp/proxy/` - Proxy configuration and management
 
 ### Configuration Examples
 

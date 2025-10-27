@@ -1,6 +1,6 @@
 {
-  "name": "@promethean/enso-agent-communication",
-  "version": "1.0.0",
+  "name": "@promethean-os/enso-agent-communication",
+  "version": "0.1.0",
   "description": "Enso Protocol-based agent communication layer for coordinated AI agent collaboration",
   "main": "dist/index.js",
   "type": "module",
@@ -14,8 +14,8 @@
     "dev": "tsc --watch"
   },
   "dependencies": {
-    "@promethean/enso-protocol": "workspace:*",
-    "@promethean/agent-orchestrator": "workspace:*",
+    "@promethean-os/enso-protocol": "workspace:*",
+    "@promethean-os/agent-orchestrator": "workspace:*",
     "zod": "^3.22.4",
     "uuid": "^9.0.1"
   },

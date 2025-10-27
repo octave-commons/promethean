@@ -2,8 +2,8 @@ import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { listFilesRec } from '@promethean/utils/list-files-rec.js';
-import { parseFrontmatter } from '@promethean/markdown/frontmatter';
+import { listFilesRec } from '@promethean-os/utils/list-files-rec.js';
+import { parseFrontmatter } from '@promethean-os/markdown/frontmatter';
 
 import type { IndexedTask, TaskFM } from './types.js';
 import type { KanbanConfig, ReadonlySetLike } from './config/shared.js';

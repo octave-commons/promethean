@@ -1,8 +1,8 @@
 // src/03-cluster.ts
 import * as path from "path";
 
-import { cosine } from "@promethean/utils";
-import { openLevelCache } from "@promethean/level-cache";
+import { cosine } from "@promethean-os/utils";
+import { openLevelCache } from "@promethean-os/level-cache";
 
 import { parseArgs } from "./utils.js";
 import type { CodeBlock, EmbeddingMap, Cluster } from "./types.js";

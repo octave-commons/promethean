@@ -1,4 +1,4 @@
-# @promethean/dualstore-http
+# @promethean-os/dualstore-http
 
 HTTP API server for Promethean dualstore collections, providing REST endpoints and real-time Server-Sent Events (SSE) streaming.
 
@@ -15,7 +15,7 @@ HTTP API server for Promethean dualstore collections, providing REST endpoints a
 ## Installation
 
 ```bash
-npm install @promethean/dualstore-http
+npm install @promethean-os/dualstore-http
 ```
 
 ## Quick Start
@@ -23,7 +23,7 @@ npm install @promethean/dualstore-http
 ### Basic Usage
 
 ```typescript
-import { createServer, start } from '@promethean/dualstore-http';
+import { createServer, start } from '@promethean-os/dualstore-http';
 
 // Start the server with default configuration
 start();
@@ -32,7 +32,7 @@ start();
 ### Custom Configuration
 
 ```typescript
-import { createServer } from '@promethean/dualstore-http';
+import { createServer } from '@promethean-os/dualstore-http';
 
 const server = await createServer();
 await server.listen({ port: 3000, host: '0.0.0.0' });

@@ -1,8 +1,8 @@
 /* eslint-disable */
 import { pathToFileURL } from "url";
 import { z } from "zod";
-import { ollamaJSON } from "@promethean/utils";
-import { openLevelCache } from "@promethean/level-cache";
+import { ollamaJSON } from "@promethean-os/utils";
+import { openLevelCache } from "@promethean-os/level-cache";
 
 import { parseArgs, sha1, pathPrefix, severityToPriority } from "./utils.js";
 import type { IssueBundle, PlanTask, SonarIssue } from "./types.js";

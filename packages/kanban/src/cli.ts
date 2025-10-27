@@ -89,11 +89,14 @@ const detectOutputType = (
       return 'table';
   }
 };
+
 const HELP_TEXT =
   `Usage: kanban [--kanban path] [--tasks path] [--json] <subcommand> [args...]\n` +
   `Subcommands: ${[...COMMAND_LIST, 'process_sync', 'doccheck'].join(', ')}\n\n` +
   `Options:\n` +
   `  --json   - Output in JSONL format (default: markdown)\n\n` +
+  `Setup:\n` +
+  `  init     - Initialize a new kanban project with simple config\n\n` +
   `Core Operations:\n` +
   `  push     - Push board state to task files (board → files)\n` +
   `  pull     - Pull task file state to board (files → board)\n` +
@@ -126,25 +129,53 @@ async function main(): Promise<void> {
   const helpRequested = normalizedArgs.includes('--help') || normalizedArgs.includes('-h');
   const jsonRequested = normalizedArgs.includes('--json');
 
-  const { config, restArgs } = await loadKanbanConfig({
+  // Special handling for init command - extract config path before config loading
+  const [cmd, ...restArgs] = normalizedArgs;
+  if (cmd === 'init') {
+    const context: CliContext = {
+      boardFile: '',
+      tasksDir: '',
+      argv: normalizedArgs,
+    };
+
+    try {
+      const result = await executeCommand(cmd, restArgs, context);
+      if (typeof result !== 'undefined' && result !== null) {
+        if (jsonRequested) {
+          printJSONL(result);
+        } else {
+          printMarkdown(result, detectOutputType(cmd), { query: restArgs[0] || '' });
+        }
+      }
+    } catch (error: unknown) {
+      if (error instanceof CommandUsageError || error instanceof CommandNotFoundError) {
+        console.error(error.message);
+        process.exit(2);
+      }
+      throw error;
+    }
+    return;
+  }
+
+  const { config, restArgs: configRestArgs } = await loadKanbanConfig({
     argv: normalizedArgs,
     env: applyLegacyEnv(process.env),
   });
 
   // Filter out --json flag from command arguments
-  const filteredArgs = restArgs.filter((arg) => arg !== '--json');
-  const [cmd, ...args] = filteredArgs;
+  const filteredArgs = configRestArgs.filter((arg) => arg !== '--json');
+  const [actualCmd, ...args] = filteredArgs;
   const boardFile = config.boardFile;
   const tasksDir = config.tasksDir;
 
-  if (helpRequested || !cmd) {
+  if (helpRequested || !actualCmd) {
     console.log(HELP_TEXT);
     process.exit(0);
   }
 
   const context: CliContext = { boardFile, tasksDir, argv: normalizedArgs };
 
-  if (cmd === 'process_sync') {
+  if (actualCmd === 'process_sync') {
     const res = await processSync({
       processFile: process.env.KANBAN_PROCESS_FILE,
       owner: process.env.GITHUB_OWNER,
@@ -154,7 +185,7 @@ async function main(): Promise<void> {
     printJSONL(res);
     return;
   }
-  if (cmd === 'doccheck') {
+  if (actualCmd === 'doccheck') {
     const pr = args[0] || process.env.PR_NUMBER;
     await docguard({
       pr,
@@ -166,13 +197,12 @@ async function main(): Promise<void> {
   }
 
   try {
-    const result = await executeCommand(cmd, args, context);
+    const result = await executeCommand(actualCmd, args, context);
     if (typeof result !== 'undefined' && result !== null) {
       if (jsonRequested) {
         printJSONL(result);
       } else {
-        // Default to markdown output
-        printMarkdown(result, detectOutputType(cmd), { query: args[0] });
+        printMarkdown(result, detectOutputType(actualCmd), { query: args[0] });
       }
     }
   } catch (error: unknown) {

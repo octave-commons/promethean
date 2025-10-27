@@ -1,7 +1,7 @@
 import { readFile, stat } from "node:fs/promises";
 import path from "node:path";
 
-import { listFiles } from "@promethean/fs";
+import { listFiles } from "@promethean-os/fs";
 import type { PipelineType } from "@xenova/transformers";
 
 export type BrokenImageLink = {

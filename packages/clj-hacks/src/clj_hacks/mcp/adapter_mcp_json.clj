@@ -286,6 +286,7 @@
         mcp'    (core/expand-servers-home mcp)
         servers (into (sorted-map)
                       (for [[k spec] (:mcp-servers mcp')
+                            :when (some? spec)
                             :let [json (server-spec->json spec)]
                             :when json]
                         [(name k) json]))

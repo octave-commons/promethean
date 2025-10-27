@@ -1,7 +1,7 @@
 import * as path from 'path';
 
-import type { ComponentType, World } from '@promethean/ds';
-import { makeStrictSystem, type SystemCtx, type SystemSpec } from '@promethean/ds';
+import type { ComponentType, World } from '@promethean-os/ds';
+import { makeStrictSystem, type SystemCtx, type SystemSpec } from '@promethean-os/ds';
 
 import { normalizeRelative } from './pathUtils.js';
 import { computeSnapshotHash, loadEntries, maybeLoadContents, normalizeEntry } from './snapshot.js';

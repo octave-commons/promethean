@@ -1,4 +1,4 @@
-# @promethean/embedding-cache
+# @promethean-os/embedding-cache
 
 Embedding-based cache for LLM prompt/response caching with similarity matching.
 
@@ -14,7 +14,7 @@ Embedding-based cache for LLM prompt/response caching with similarity matching.
 ## Installation
 
 ```bash
-pnpm add @promethean/embedding-cache
+pnpm add @promethean-os/embedding-cache
 ```
 
 ## Usage
@@ -22,7 +22,7 @@ pnpm add @promethean/embedding-cache
 ### Basic Usage
 
 ```typescript
-import { createEmbeddingCache } from '@promethean/embedding-cache';
+import { createEmbeddingCache } from '@promethean-os/embedding-cache';
 
 // Create cache for a specific model
 const cache = createEmbeddingCache('llama2', {
@@ -45,7 +45,7 @@ console.log(response); // 'Paris is the capital of France.' (if similarity >= th
 ### Advanced Usage with Details
 
 ```typescript
-import { EmbeddingCache } from '@promethean/embedding-cache';
+import { EmbeddingCache } from '@promethean-os/embedding-cache';
 
 const cache = new EmbeddingCache('gpt-4', {
   similarityThreshold: 0.9,

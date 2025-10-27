@@ -8,7 +8,7 @@ import {
   parseArgs,
   writeText,
   createLogger,
-} from "@promethean/utils";
+} from "@promethean-os/utils";
 
 import type { EvalItem } from "./types.js";
 

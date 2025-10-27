@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/github-sync",
+  "name": "@promethean-os/github-sync",
   "version": "0.1.0",
   "type": "module",
   "scripts": {
@@ -7,8 +7,8 @@
     "test": "pnpm run build && ava"
   },
   "dependencies": {
-    "@promethean/kanban": "workspace:*",
-    "@promethean/utils": "workspace:*",
+    "@promethean-os/kanban": "workspace:*",
+    "@promethean-os/utils": "workspace:*",
     "gray-matter": "^4.0.3"
   },
   "devDependencies": {

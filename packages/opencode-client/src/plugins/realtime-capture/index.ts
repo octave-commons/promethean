@@ -5,8 +5,8 @@
 import type { Plugin } from '@opencode-ai/plugin';
 import { tool } from '@opencode-ai/plugin/tool';
 
+import { createOpencodeClient } from '@opencode-ai/sdk';
 import {
-  createClient,
   createStateManagerComposable,
   createLoggerComposable,
   createTimerManager,
@@ -50,7 +50,7 @@ const createIndexingState = () => {
  * Create plugin components
  */
 const createPluginComponents = () => {
-  const client = createClient({ baseUrl: 'http://localhost:4096' });
+  const client = createOpencodeClient({ baseUrl: 'http://localhost:4096' });
   const stateManager = createStateManagerComposable({ stateFile: './realtime-indexer-state.json' });
   const loggerManager = createLoggerComposable();
   const timerManager = createTimerManager();
@@ -71,45 +71,6 @@ const createPluginComponents = () => {
   );
 
   return { client, stateManager, loggerManager, timerManager, eventManager, syncManager };
-};
-
-/**
- * Start indexing service
- */
-const startIndexingService = async (components: any, state: any): Promise<void> => {
-  if (state.getState().isIndexing) {
-    throw new Error('Real-time indexing is already active');
-  }
-
-  console.log('🚀 Starting real-time indexing service');
-  state.setIndexing(true);
-  state.setStartTime(new Date());
-  state.resetStats();
-
-  try {
-    await components.stateManager.loadState();
-    await components.eventManager.startSubscription();
-
-    components.timerManager.setIntervalTimer(
-      'realtimeFullSync',
-      async () => {
-        try {
-          console.log('🔄 Running periodic full sync from realtime plugin');
-          await components.syncManager.performFullSync();
-        } catch (error) {
-          console.error('❌ Error in realtime full sync:', error);
-          state.incrementErrors();
-        }
-      },
-      300000,
-    );
-
-    console.log('✅ Real-time indexing service started successfully');
-  } catch (error) {
-    state.setIndexing(false);
-    console.error('❌ Failed to start real-time indexing:', error);
-    throw error;
-  }
 };
 
 /**
@@ -154,71 +115,6 @@ export const RealtimeCapturePlugin: Plugin = async (_pluginContext) => {
 
   return {
     tool: {
-      'start-realtime-indexing': tool({
-        description: 'Start real-time indexing of OpenCode events, messages, and sessions',
-        args: {},
-        async execute() {
-          try {
-            await startIndexingService(components, state);
-            return JSON.stringify(
-              {
-                success: true,
-                message: '✅ Real-time indexing started successfully',
-                startTime: state.getState().startTime?.toISOString(),
-              },
-              null,
-              2,
-            );
-          } catch (error) {
-            return JSON.stringify(
-              {
-                success: false,
-                error: error instanceof Error ? error.message : String(error),
-              },
-              null,
-              2,
-            );
-          }
-        },
-      }),
-
-      'stop-realtime-indexing': tool({
-        description: 'Stop real-time indexing and get summary',
-        args: {},
-        async execute() {
-          try {
-            await stopIndexingService(components, state);
-            const currentStateInfo = state.getState();
-            const duration = currentStateInfo.startTime
-              ? Math.round((Date.now() - currentStateInfo.startTime.getTime()) / 1000)
-              : 0;
-
-            return JSON.stringify(
-              {
-                success: true,
-                message: '🛑 Real-time indexing stopped',
-                eventsIndexed: currentStateInfo.eventsCount,
-                errors: currentStateInfo.errorsCount,
-                duration,
-                startTime: currentStateInfo.startTime?.toISOString(),
-                endTime: new Date().toISOString(),
-              },
-              null,
-              2,
-            );
-          } catch (error) {
-            return JSON.stringify(
-              {
-                success: false,
-                error: error instanceof Error ? error.message : String(error),
-              },
-              null,
-              2,
-            );
-          }
-        },
-      }),
-
       'get-indexing-status': tool({
         description: 'Get current status of real-time indexing',
         args: {},

@@ -16,7 +16,7 @@ estimates:
 
 ### 📋 Description
 
-Migrate the HTTP server infrastructure from `@promethean/dualstore-http` into the unified package. This involves extracting the Fastify server configuration, middleware, authentication, and all route handlers while maintaining API compatibility and improving the overall architecture.
+Migrate the HTTP server infrastructure from `@promethean-os/dualstore-http` into the unified package. This involves extracting the Fastify server configuration, middleware, authentication, and all route handlers while maintaining API compatibility and improving the overall architecture.
 
 ### 🎯 Goals
 
@@ -100,7 +100,7 @@ src/typescript/server/
 
 ### 📁 Files/Components to Migrate
 
-#### From `@promethean/dualstore-http`:
+#### From `@promethean-os/dualstore-http`:
 
 1. **Server Configuration**
 

@@ -37,11 +37,11 @@ JWT_SECRET=your-super-secret-jwt-key-at-least-32-characters-long
 ### 2. Start the Service
 ```bash
 # Development mode
-pnpm --filter @promethean/omni-service start:dev
+pnpm --filter @promethean-os/omni-service start:dev
 
 # Production mode
-pnpm --filter @promethean/omni-service build
-pnpm --filter @promethean/omni-service start
+pnpm --filter @promethean-os/omni-service build
+pnpm --filter @promethean-os/omni-service start
 ```
 
 ### 3. Test Authentication
@@ -253,7 +253,7 @@ app.get('/public-data', {
 
 ### Unit Tests
 ```typescript
-import { createAuthManager } from '@promethean/omni-service';
+import { createAuthManager } from '@promethean-os/omni-service';
 
 const authManager = createAuthManager();
 const user = { id: 'test', roles: ['user'] };
@@ -267,13 +267,13 @@ console.log(result.success); // true
 ### Integration Tests
 ```bash
 # Run all auth tests
-pnpm --filter @promethean/omni-service test
+pnpm --filter @promethean-os/omni-service test
 
 # Run specific test file
-pnpm --filter @promethean/omni-service test src/tests/auth.test.ts
+pnpm --filter @promethean-os/omni-service test src/tests/auth.test.ts
 
 # Run with coverage
-pnpm --filter @promethean/omni-service coverage
+pnpm --filter @promethean-os/omni-service coverage
 ```
 
 ## 📊 Permission Checking Examples
@@ -339,7 +339,7 @@ APIKEY_HEADER_NAME=x-api-key
 
 ### Programmatic Configuration
 ```typescript
-import { createAuthManager } from '@promethean/omni-service';
+import { createAuthManager } from '@promethean-os/omni-service';
 
 const authManager = createAuthManager({
   jwt: {

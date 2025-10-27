@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/buildfix",
+  "name": "@promethean-os/buildfix",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -27,7 +27,7 @@
     "doc:report": "pnpm build && node ./dist/03-report.js"
   },
   "dependencies": {
-    "@promethean/utils": "workspace:*",
+    "@promethean-os/utils": "workspace:*",
     "commander": "^12.1.0",
     "diff": "5.2.0",
     "globby": "14.0.2",

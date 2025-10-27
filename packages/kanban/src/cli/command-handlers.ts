@@ -19,6 +19,7 @@ import {
   updateTaskDescription,
   renameTask,
   columnKey,
+  writeBoard,
 } from '../lib/kanban.js';
 
 import {
@@ -35,11 +36,15 @@ import { loadKanbanConfig } from '../board/config.js';
 import { serveKanbanUI } from '../lib/ui-server.js';
 import { compareTasks, suggestTaskBreakdown, prioritizeTasks } from '../lib/task-tools.js';
 import { KanbanDevServer } from '../lib/dev-server.js';
+import {
+  analyzeColumnNormalization,
+  applyColumnNormalization,
+} from '../lib/pantheon/column-normalizer.js';
 
 import { TransitionRulesEngine, createTransitionRulesEngine } from '../lib/transition-rules.js';
 import { TaskGitTracker } from '../lib/task-git-tracker.js';
 import { createWIPLimitEnforcement } from '../lib/wip-enforcement.js';
-import { readFile } from 'node:fs/promises';
+import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { readdir } from 'node:fs/promises';
@@ -808,6 +813,7 @@ const handleAudit: CommandHandler = (args, context) =>
 
     const eventLogManager = makeEventLogManager(configResult.config);
     const dryRun = !args.includes('--fix');
+    const verbose = args.includes('--verbose');
     const columnFilter = args.find((arg) => arg.startsWith('--column='))?.split('=')[1];
 
     console.log(`🔍 Kanban Audit ${dryRun ? '(DRY RUN)' : '(FIX MODE)'}`);
@@ -820,233 +826,326 @@ const handleAudit: CommandHandler = (args, context) =>
     const allHistories = await eventLogManager.getAllTaskHistories();
     const allEvents = await eventLogManager.readEventLog();
 
-    let inconsistenciesFound = 0;
-    let inconsistenciesFixed = 0;
-    let illegalTransitionsFound = 0;
-    let orphanedTasksFound = 0;
-    let untrackedTasksFound = 0;
-    let healthyTasksFound = 0;
-
     // Initialize git tracker for commit validation
     const gitTracker = new TaskGitTracker({ repoRoot: process.cwd() });
 
     console.log('🔍 Analyzing task state consistency...');
-    console.log('');
 
-    // Check each task in the board against its event log
-    for (const column of board.columns) {
+    // Collect all tasks for concurrent processing
+    const allTasks = board.columns.flatMap((column) => {
       if (columnFilter && columnKey(column.name) !== columnKey(columnFilter)) {
-        continue;
+        return [];
       }
+      return column.tasks.map((task) => ({ task, columnName: column.name }));
+    });
 
-      for (const task of column.tasks) {
-        const replayResult = await eventLogManager.replayTaskTransitions(task.uuid, task.status);
+    const totalTasks = allTasks.length;
+    let processedTasks = 0;
 
-        // Enhanced git tracking analysis
-        const taskFilePath =
-          (await findTaskFilePath(context.tasksDir, task.uuid)) ||
-          `${context.tasksDir}/${task.uuid}.md`;
-        const statusAnalysis = gitTracker.analyzeTaskStatus(task, taskFilePath);
+    // Process all tasks concurrently
+    const taskAnalyses = await Promise.all(
+      allTasks.map(async ({ task, columnName }) => {
+        const [replayResult, taskFilePath] = await Promise.all([
+          eventLogManager.replayTaskTransitions(task.uuid, task.status),
+          findTaskFilePath(context.tasksDir, task.uuid),
+        ]);
 
-        if (statusAnalysis.isTrulyOrphaned) {
-          orphanedTasksFound++;
-          console.log(`🚨 TRULY ORPHANED TASK: "${task.title}"`);
-          console.log(`   Task ID: ${task.uuid}`);
-          console.log(`   Status: ${task.status}`);
-          console.log(`   Issues: ${statusAnalysis.issues.join(', ')}`);
-          console.log(`   Recommendations:`);
-          statusAnalysis.recommendations.forEach((rec) => console.log(`     • ${rec}`));
-          console.log('');
-        } else if (statusAnalysis.isUntracked) {
-          untrackedTasksFound++;
-          console.log(`⚠️  UNTRACKED TASK: "${task.title}"`);
-          console.log(`   Task ID: ${task.uuid}`);
-          console.log(`   Status: ${task.status}`);
-          console.log(`   Issues: ${statusAnalysis.issues.join(', ')}`);
-          console.log(`   Recommendations:`);
-          statusAnalysis.recommendations.forEach((rec) => console.log(`     • ${rec}`));
-          console.log('');
-        } else if (!statusAnalysis.isHealthy) {
-          console.log(`⚠️  TASK WITH ISSUES: "${task.title}"`);
-          console.log(`   Task ID: ${task.uuid}`);
-          console.log(`   Status: ${task.status}`);
-          console.log(`   Issues: ${statusAnalysis.issues.join(', ')}`);
-          console.log(`   Recommendations:`);
-          statusAnalysis.recommendations.forEach((rec) => console.log(`     • ${rec}`));
-          console.log('');
-        } else {
-          healthyTasksFound++;
-        }
-
-        // Check if current status matches replayed status
-        if (replayResult.finalStatus !== task.status) {
-          inconsistenciesFound++;
-          console.log(`❌ INCONSISTENCY: Task "${task.title}"`);
-          console.log(`   Current status: ${task.status}`);
-          console.log(`   Expected status: ${replayResult.finalStatus}`);
-          console.log(`   Task ID: ${task.uuid}`);
-
-          if (replayResult.invalidEvent) {
-            console.log(
-              `   🚨 ILLEGAL TRANSITION: ${replayResult.invalidEvent.fromStatus} → ${replayResult.invalidEvent.toStatus}`,
-            );
-            console.log(`   Event ID: ${replayResult.invalidEvent.id}`);
-            console.log(`   Timestamp: ${replayResult.invalidEvent.timestamp}`);
-            illegalTransitionsFound++;
-          }
-
-          if (!dryRun && replayResult.lastValidEvent) {
-            try {
-              // Fix the task status
-              await updateStatus(
-                board as Board,
-                task.uuid,
-                replayResult.finalStatus,
-                context.boardFile,
-                context.tasksDir,
-                undefined,
-                `Audit correction: Reset to last valid state from event log`,
-                eventLogManager,
-                'system',
-              );
-              inconsistenciesFixed++;
-              console.log(`   ✅ FIXED: Status reset to ${replayResult.finalStatus}`);
-            } catch (error) {
-              console.log(`   ❌ FAILED TO FIX: ${error}`);
-            }
-          }
-          console.log('');
-        }
-      }
-    }
-
-    // Check for tasks that exist in event log but not in board
-    const boardTaskIds = new Set();
-    for (const column of board.columns) {
-      for (const task of column.tasks) {
-        boardTaskIds.add(task.uuid);
-      }
-    }
-
-    for (const [taskId, events] of allHistories) {
-      if (!boardTaskIds.has(taskId) && events.length > 0) {
-        console.log(
-          `⚠️  ORPHANED EVENTS: Task ${taskId} has ${events.length} events but not found in board`,
+        const statusAnalysis = gitTracker.analyzeTaskStatus(
+          task,
+          taskFilePath || `${context.tasksDir}/${task.uuid}.md`,
         );
-        const lastEvent = events[events.length - 1];
-        if (lastEvent) {
-          console.log(`   Last event: ${lastEvent.toStatus} at ${lastEvent.timestamp}`);
+
+        // Update progress
+        processedTasks++;
+        if (processedTasks % 50 === 0 || processedTasks === totalTasks) {
+          process.stderr.write(
+            `\r📊 Progress: ${processedTasks}/${totalTasks} (${Math.round((processedTasks / totalTasks) * 100)}%)`,
+          );
+        }
+
+        return {
+          task,
+          columnName,
+          replayResult,
+          taskFilePath,
+          statusAnalysis,
+        };
+      }),
+    );
+
+    process.stderr.write('\r✅ Analysis complete\n');
+
+    // Aggregate results
+    const results = {
+      inconsistencies: [] as Array<{
+        task: any;
+        current: string;
+        expected: string;
+        invalidEvent?: any;
+      }>,
+      orphanedTasks: [] as Array<{
+        task: any;
+        issues: string[];
+        recommendations: string[];
+      }>,
+      untrackedTasks: [] as Array<{
+        task: any;
+        issues: string[];
+        recommendations: string[];
+      }>,
+      tasksWithIssues: [] as Array<{
+        task: any;
+        issues: string[];
+        recommendations: string[];
+      }>,
+      healthyTasks: 0,
+    };
+
+    for (const analysis of taskAnalyses) {
+      const { task, replayResult, statusAnalysis } = analysis;
+
+      if (statusAnalysis.isTrulyOrphaned) {
+        results.orphanedTasks.push({
+          task,
+          issues: statusAnalysis.issues,
+          recommendations: statusAnalysis.recommendations,
+        });
+      } else if (statusAnalysis.isUntracked) {
+        results.untrackedTasks.push({
+          task,
+          issues: statusAnalysis.issues,
+          recommendations: statusAnalysis.recommendations,
+        });
+      } else if (!statusAnalysis.isHealthy) {
+        results.tasksWithIssues.push({
+          task,
+          issues: statusAnalysis.issues,
+          recommendations: statusAnalysis.recommendations,
+        });
+      } else {
+        results.healthyTasks++;
+      }
+
+      if (replayResult.finalStatus !== task.status) {
+        results.inconsistencies.push({
+          task,
+          current: task.status,
+          expected: replayResult.finalStatus,
+          invalidEvent: replayResult.invalidEvent,
+        });
+      }
+    }
+
+    // Calculate counts for compatibility
+    const inconsistenciesFound = results.inconsistencies.length;
+    const illegalTransitionsFound = results.inconsistencies.filter(
+      (inc) => inc.invalidEvent,
+    ).length;
+    const orphanedTasksFound = results.orphanedTasks.length;
+    const untrackedTasksFound = results.untrackedTasks.length;
+    const healthyTasksFound = results.healthyTasks;
+    let inconsistenciesFixed = 0;
+
+    // Output results
+    if (!verbose) {
+      // Summarized output for normal mode (default)
+      console.log(`📊 AUDIT RESULTS:`);
+      console.log(`   ✅ Healthy tasks: ${healthyTasksFound}`);
+      if (inconsistenciesFound > 0) {
+        console.log(`   ❌ Inconsistencies: ${inconsistenciesFound}`);
+      }
+      if (illegalTransitionsFound > 0) {
+        console.log(`   🚨 Illegal transitions: ${illegalTransitionsFound}`);
+      }
+      if (orphanedTasksFound > 0) {
+        console.log(`   🚨 Orphaned tasks: ${orphanedTasksFound}`);
+      }
+      if (untrackedTasksFound > 0) {
+        console.log(`   ⚠️  Untracked tasks: ${untrackedTasksFound}`);
+      }
+      if (results.tasksWithIssues.length > 0) {
+        console.log(`   ⚠️  Tasks with issues: ${results.tasksWithIssues.length}`);
+      }
+      console.log('');
+
+      if (inconsistenciesFound > 0 || orphanedTasksFound > 0 || untrackedTasksFound > 0) {
+        console.log('💡 Use --verbose for detailed breakdown');
+        if (dryRun) {
+          console.log('💡 Use --fix to automatically correct inconsistencies');
+        }
+      }
+    } else {
+      // Detailed output for verbose mode
+      for (const orphaned of results.orphanedTasks) {
+        console.log(`🚨 TRULY ORPHANED TASK: "${orphaned.task.title}"`);
+        console.log(`   Task ID: ${orphaned.task.uuid}`);
+        console.log(`   Status: ${orphaned.task.status}`);
+        console.log(`   Issues: ${orphaned.issues.join(', ')}`);
+        console.log(`   Recommendations:`);
+        orphaned.recommendations.forEach((rec) => console.log(`     • ${rec}`));
+        console.log('');
+      }
+
+      for (const untracked of results.untrackedTasks) {
+        console.log(`⚠️  UNTRACKED TASK: "${untracked.task.title}"`);
+        console.log(`   Task ID: ${untracked.task.uuid}`);
+        console.log(`   Status: ${untracked.task.status}`);
+        console.log(`   Issues: ${untracked.issues.join(', ')}`);
+        console.log(`   Recommendations:`);
+        untracked.recommendations.forEach((rec) => console.log(`     • ${rec}`));
+        console.log('');
+      }
+
+      for (const issue of results.tasksWithIssues) {
+        console.log(`⚠️  TASK WITH ISSUES: "${issue.task.title}"`);
+        console.log(`   Task ID: ${issue.task.uuid}`);
+        console.log(`   Status: ${issue.task.status}`);
+        console.log(`   Issues: ${issue.issues.join(', ')}`);
+        console.log(`   Recommendations:`);
+        issue.recommendations.forEach((rec) => console.log(`     • ${rec}`));
+        console.log('');
+      }
+
+      for (const inconsistency of results.inconsistencies) {
+        console.log(`❌ INCONSISTENCY: Task "${inconsistency.task.title}"`);
+        console.log(`   Current status: ${inconsistency.current}`);
+        console.log(`   Expected status: ${inconsistency.expected}`);
+        console.log(`   Task ID: ${inconsistency.task.uuid}`);
+
+        if (inconsistency.invalidEvent) {
+          console.log(
+            `   🚨 ILLEGAL TRANSITION: ${inconsistency.invalidEvent.fromStatus} → ${inconsistency.invalidEvent.toStatus}`,
+          );
+          console.log(`   Event ID: ${inconsistency.invalidEvent.id}`);
+          console.log(`   Timestamp: ${inconsistency.invalidEvent.timestamp}`);
+        }
+
+        if (!dryRun) {
+          try {
+            // Fix the task status
+            await updateStatus(
+              board as Board,
+              inconsistency.task.uuid,
+              inconsistency.expected,
+              context.boardFile,
+              context.tasksDir,
+              undefined,
+              `Audit correction: Reset to last valid state from event log`,
+              eventLogManager,
+              'system',
+            );
+            inconsistenciesFixed++;
+            console.log(`   ✅ FIXED: Status reset to ${inconsistency.expected}`);
+          } catch (error) {
+            console.log(`   ❌ FAILED TO FIX: ${error}`);
+          }
         }
         console.log('');
       }
     }
 
-    // Fix untracked tasks if in fix mode
-    if (!dryRun && untrackedTasksFound > 0) {
-      console.log('🔧 FIXING UNTRACKED TASKS (PARALLEL)...');
-      console.log('');
+    // Check for tasks that exist in event log but not in board
+    const boardTaskIds = new Set(allTasks.map(({ task }) => task.uuid));
 
-      // Collect all untracked tasks first
-      const untrackedTasks: Array<{
-        task: any;
-        taskFilePath: string;
-      }> = [];
+    const orphanedEvents = Array.from(allHistories.entries())
+      .filter(([taskId, events]) => !boardTaskIds.has(taskId) && events.length > 0)
+      .map(([taskId, events]) => ({ taskId, events }));
 
-      for (const column of board.columns) {
-        if (columnFilter && columnKey(column.name) !== columnKey(columnFilter)) {
-          continue;
-        }
-
-        for (const task of column.tasks) {
-          const taskFilePath =
-            (await findTaskFilePath(context.tasksDir, task.uuid)) ||
-            `${context.tasksDir}/${task.uuid}.md`;
-          const statusAnalysis = gitTracker.analyzeTaskStatus(task, taskFilePath);
-
-          if (statusAnalysis.isUntracked) {
-            untrackedTasks.push({ task, taskFilePath });
+    if (orphanedEvents.length > 0) {
+      if (verbose) {
+        for (const { taskId, events } of orphanedEvents) {
+          console.log(
+            `⚠️  ORPHANED EVENTS: Task ${taskId} has ${events.length} events but not found in board`,
+          );
+          const lastEvent = events[events.length - 1];
+          if (lastEvent) {
+            console.log(`   Last event: ${lastEvent.toStatus} at ${lastEvent.timestamp}`);
           }
-        }
-      }
-
-      console.log(`📋 Found ${untrackedTasks.length} untracked tasks to fix`);
-      console.log('⚡ Processing in parallel with Promise.all...');
-      console.log('');
-
-      // Process ALL untracked tasks in parallel
-      const startTime = Date.now();
-      const fixResults = await Promise.all(
-        untrackedTasks.map(async ({ task, taskFilePath }) => {
-          try {
-            // Commit the changes to initialize tracking
-            const trackingResult = await gitTracker.commitTaskChanges(
-              taskFilePath,
-              task.uuid,
-              'update',
-              'Audit correction: Initialize commit tracking for untracked task',
-            );
-
-            return {
-              task,
-              success: trackingResult.success,
-              sha: trackingResult.sha,
-              error: trackingResult.error,
-            };
-          } catch (error) {
-            return {
-              task,
-              success: false,
-              error: error instanceof Error ? error.message : String(error),
-            };
-          }
-        }),
-      );
-      const endTime = Date.now();
-
-      // Report results
-      const fixedCount = fixResults.filter((r) => r.success).length;
-      const failedCount = fixResults.filter((r) => !r.success).length;
-
-      console.log(`⚡ Parallel processing completed in ${endTime - startTime}ms`);
-      console.log(`✅ Fixed: ${fixedCount} tasks`);
-      if (failedCount > 0) {
-        console.log(`❌ Failed: ${failedCount} tasks`);
-      }
-      console.log('');
-
-      // Detailed results
-      for (const result of fixResults) {
-        if (result.success) {
-          console.log(`✅ FIXED: Added commit tracking to "${result.task.title}"`);
-          console.log(`   Task ID: ${result.task.uuid}`);
-          console.log(`   Commit SHA: ${result.sha}`);
           console.log('');
-        } else {
-          console.log(`❌ FAILED TO FIX: "${result.task.title}"`);
-          console.log(`   Task ID: ${result.task.uuid}`);
-          console.log(`   Error: ${result.error}`);
+        }
+      } else {
+        console.log(
+          `⚠️  Orphaned events: ${orphanedEvents.length} tasks have events but not in board`,
+        );
+      }
+    }
+
+    // Handle untracked tasks in fix mode
+    if (!dryRun && untrackedTasksFound > 0) {
+      console.log('🔧 UNTRACKED TASKS:');
+      console.log('📝 Commit tracking will be updated automatically on next kanban operation');
+      console.log('');
+
+      if (verbose) {
+        for (const untracked of results.untrackedTasks) {
+          console.log(`⚠️  UNTRACKED TASK: "${untracked.task.title}"`);
+          console.log(`   Task ID: ${untracked.task.uuid}`);
+          console.log(`   Status: ${untracked.task.status}`);
+          console.log(`   Recommendation: Commit tracking will be updated on next operation`);
           console.log('');
         }
       }
     }
 
-    // Summary
-    const totalTasks = board.columns.reduce((sum, col) => sum + col.tasks.length, 0);
-    console.log('📊 ENHANCED AUDIT SUMMARY:');
-    console.log(`   Total tasks analyzed: ${totalTasks}`);
+    // Pantheon-driven column normalization
+    const canonicalStatuses = Array.from(configResult.config.statusValues ?? []);
+    const columnAnalysis = await analyzeColumnNormalization(
+      board.columns.map((col) => col.name),
+      canonicalStatuses,
+    );
+
+    const actionableGroups = columnAnalysis.groups.filter((group) =>
+      group.members.some((member) => member.action !== 'keep'),
+    );
+
+    if (actionableGroups.length > 0) {
+      console.log('🧠 Pantheon Workflow: Column Normalization');
+      for (const group of actionableGroups) {
+        console.log(`   Canonical column "${group.canonicalName}":`);
+        for (const member of group.members) {
+          if (member.action === 'keep') continue;
+          const verb = member.action === 'merge' ? 'merge into' : 'rename to';
+          console.log(
+            `     • ${member.originalName} → ${verb} ${group.canonicalName} (${member.reason})`,
+          );
+        }
+      }
+
+      if (dryRun) {
+        console.log(
+          '   💡 Run with --fix to apply these column normalization changes automatically',
+        );
+      } else {
+        const applied = applyColumnNormalization(board as Board, columnAnalysis);
+        if (applied > 0) {
+          await writeBoard(context.boardFile, board as Board);
+          console.log(
+            `   ✅ Applied ${applied} column normalization ${applied === 1 ? 'update' : 'updates'}`,
+          );
+        } else {
+          console.log('   ℹ️ Column names already aligned with canonical workflow states');
+        }
+      }
+      console.log('');
+    }
+
+    // Final summary
+    const totalTasksAnalyzed = allTasks.length;
+    console.log('📊 AUDIT SUMMARY:');
+    console.log(`   Total tasks analyzed: ${totalTasksAnalyzed}`);
     console.log(`   Total events in log: ${allEvents.length}`);
     console.log(`   Inconsistencies found: ${inconsistenciesFound}`);
     console.log(`   Illegal transitions: ${illegalTransitionsFound}`);
     console.log('');
     console.log('🔍 TASK STATUS BREAKDOWN:');
     console.log(
-      `   ✅ Healthy tasks: ${healthyTasksFound} (${((healthyTasksFound / totalTasks) * 100).toFixed(1)}%)`,
+      `   ✅ Healthy tasks: ${healthyTasksFound} (${((healthyTasksFound / totalTasksAnalyzed) * 100).toFixed(1)}%)`,
     );
     console.log(
-      `   ⚠️  Untracked tasks: ${untrackedTasksFound} (${((untrackedTasksFound / totalTasks) * 100).toFixed(1)}%)`,
+      `   ⚠️  Untracked tasks: ${untrackedTasksFound} (${((untrackedTasksFound / totalTasksAnalyzed) * 100).toFixed(1)}%)`,
     );
     console.log(
-      `   🚨 Truly orphaned tasks: ${orphanedTasksFound} (${((orphanedTasksFound / totalTasks) * 100).toFixed(1)}%)`,
+      `   🚨 Truly orphaned tasks: ${orphanedTasksFound} (${((orphanedTasksFound / totalTasksAnalyzed) * 100).toFixed(1)}%)`,
     );
 
     if (!dryRun) {
@@ -1065,7 +1164,52 @@ const handleAudit: CommandHandler = (args, context) =>
       console.log('✅ No inconsistencies found - board state is consistent with event log');
     }
 
+    // Return structure expected by markdown formatter
+    const issues = [];
+
+    if (inconsistenciesFound > 0) {
+      issues.push({
+        type: 'error',
+        message: `${inconsistenciesFound} status inconsistency${inconsistenciesFound === 1 ? '' : 'es'} found`,
+      });
+    }
+
+    if (illegalTransitionsFound > 0) {
+      issues.push({
+        type: 'error',
+        message: `${illegalTransitionsFound} illegal transition${illegalTransitionsFound === 1 ? '' : 's'} found`,
+      });
+    }
+
+    if (orphanedTasksFound > 0) {
+      issues.push({
+        type: 'error',
+        message: `${orphanedTasksFound} orphaned task${orphanedTasksFound === 1 ? '' : 's'} found`,
+      });
+    }
+
+    if (untrackedTasksFound > 0) {
+      issues.push({
+        type: 'warning',
+        message: `${untrackedTasksFound} untracked task${untrackedTasksFound === 1 ? '' : 's'} found`,
+      });
+    }
+
+    if (results.tasksWithIssues.length > 0) {
+      issues.push({
+        type: 'warning',
+        message: `${results.tasksWithIssues.length} task${results.tasksWithIssues.length === 1 ? '' : 's'} with issues`,
+      });
+    }
+
     return {
+      issues,
+      summary: {
+        total: totalTasksAnalyzed,
+        errors: inconsistenciesFound + illegalTransitionsFound + orphanedTasksFound,
+        warnings: untrackedTasksFound + results.tasksWithIssues.length,
+      },
+      // Keep old structure for backward compatibility
       inconsistenciesFound,
       inconsistenciesFixed,
       illegalTransitionsFound,
@@ -1525,9 +1669,19 @@ const parseCreateTaskArgs = (args: ReadonlyArray<string>) => {
     if (!arg) continue;
 
     // Handle flags
-    if (arg.startsWith('--content=')) {
+    if (arg.startsWith('--title=')) {
+      result.title = arg.slice('--title='.length) || '';
+    } else if (arg.startsWith('--content=')) {
       result.content = arg.slice('--content='.length);
+    } else if (arg.startsWith('--description=')) {
+      result.content = arg.slice('--description='.length);
+    } else if (arg === '--title' && i + 1 < args.length && args[i + 1]) {
+      result.title = args[i + 1] || '';
+      i++; // Skip next arg
     } else if (arg === '--content' && i + 1 < args.length && args[i + 1]) {
+      result.content = args[i + 1];
+      i++; // Skip next arg
+    } else if (arg === '--description' && i + 1 < args.length && args[i + 1]) {
       result.content = args[i + 1];
       i++; // Skip next arg
     } else if (arg.startsWith('--priority=')) {
@@ -1561,11 +1715,14 @@ const parseCreateTaskArgs = (args: ReadonlyArray<string>) => {
     }
   }
 
-  const title = titleParts.join(' ').trim();
-  if (title.length === 0) {
+  const titleFromParts = titleParts.join(' ').trim();
+  if (titleFromParts.length > 0) {
+    result.title = titleFromParts;
+  }
+
+  if (!result.title || result.title.trim().length === 0) {
     throw new CommandUsageError('create requires a title');
   }
-  result.title = title;
 
   return result;
 };
@@ -1632,7 +1789,15 @@ const parseUpdateTaskArgs = (args: ReadonlyArray<string>) => {
       i++; // Skip next arg
     } else if (arg.startsWith('--content=')) {
       result.content = arg.slice('--content='.length);
+    } else if (arg.startsWith('--description=')) {
+      result.content = arg.slice('--description='.length);
     } else if (arg === '--content' && i + 1 < args.length && args[i + 1]) {
+      result.content = args[i + 1];
+      i++; // Skip next arg
+    } else if (arg === '--description' && i + 1 < args.length && args[i + 1]) {
+      result.content = args[i + 1];
+      i++; // Skip next arg
+    } else if (arg === '--description' && i + 1 < args.length && args[i + 1]) {
       result.content = args[i + 1];
       i++; // Skip next arg
     } else if (arg.startsWith('--priority=')) {
@@ -1941,6 +2106,108 @@ const handleEpicStatus: CommandHandler = (args, context) =>
     return { epic, subtasks };
   });
 
+const handleInit: CommandHandler = async (args, _context) => {
+  // Check both args and raw process.argv for --config flag
+  const rawConfigArg = process.argv.find((arg) => arg.startsWith('--config='));
+  const configPath =
+    rawConfigArg?.slice(9) ||
+    args.find((arg) => arg.startsWith('--config='))?.slice(9) ||
+    'promethean.kanban.json';
+  const force = args.includes('--force') || args.includes('-f');
+
+  // Check if config already exists
+  try {
+    await readFile(configPath, 'utf8');
+    if (!force) {
+      console.log(`❌ Configuration file "${configPath}" already exists.`);
+      console.log('   Use --force to overwrite existing configuration.');
+      return { created: false, reason: 'exists' };
+    }
+  } catch {
+    // File doesn't exist, which is what we want
+  }
+
+  // Simple starter configuration
+  const simpleConfig = {
+    _comment: 'Promethean Kanban Configuration - Simple starter config',
+    _description: 'Basic kanban configuration for new projects. Customize as needed.',
+    _usage: "Use 'kanban regenerate' to create the board from tasks.",
+
+    tasksDir: 'docs/agile/tasks',
+    indexFile: '',
+    boardFile: 'docs/agile/boards/generated.md',
+    cachePath: 'docs/agile/boards/.cache',
+    exts: ['.md'],
+
+    requiredFields: ['title', 'status', 'priority'],
+
+    statusValues: ['incoming', 'ready', 'todo', 'in_progress', 'review', 'done'],
+
+    priorityValues: ['P0', 'P1', 'P2', 'P3'],
+
+    wipLimits: {
+      incoming: 999,
+      ready: 10,
+      todo: 5,
+      in_progress: 3,
+      review: 3,
+      done: 999,
+    },
+
+    _starter_tasks: [
+      {
+        title: 'Set up development environment',
+        status: 'todo',
+        priority: 'P0',
+        content: 'Install dependencies, configure IDE, set up git hooks',
+      },
+      {
+        title: 'Create project documentation',
+        status: 'incoming',
+        priority: 'P1',
+        content: 'Add README, setup instructions, and project overview',
+      },
+      {
+        title: 'Implement core feature',
+        status: 'incoming',
+        priority: 'P2',
+        content: 'Build the main functionality for the project',
+      },
+    ],
+  };
+
+  try {
+    // Ensure directory exists
+    const configDir = path.dirname(configPath);
+    await mkdir(configDir, { recursive: true });
+
+    // Write configuration file
+    await writeFile(configPath, JSON.stringify(simpleConfig, null, 2), 'utf8');
+
+    console.log(`✅ Created kanban configuration: ${configPath}`);
+    console.log('');
+    console.log('📋 Next steps:');
+    console.log(`   1. Create tasks directory: mkdir -p ${simpleConfig.tasksDir}`);
+    console.log(`   2. Add some task files to ${simpleConfig.tasksDir}/`);
+    console.log(`   3. Generate board: kanban regenerate`);
+    console.log('');
+    console.log('💡 Example task file format:');
+    console.log('---');
+    console.log('title: "My Task"');
+    console.log('status: "todo"');
+    console.log('priority: "P1"');
+    console.log('---');
+    console.log('');
+    console.log('Task description goes here...');
+
+    return { created: true, path: configPath };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error(`❌ Failed to create configuration: ${message}`);
+    return { created: false, reason: message };
+  }
+};
+
 /**
  * Handle heal command for kanban board healing operations
  */
@@ -2190,6 +2457,8 @@ export const COMMAND_HANDLERS: Readonly<Record<string, CommandHandler>> = Object
   'remove-task': handleRemoveTask,
   'list-epics': handleListEpics,
   'epic-status': handleEpicStatus,
+  // Setup commands
+  init: handleInit,
 });
 
 export const AVAILABLE_COMMANDS: ReadonlyArray<string> = Object.freeze(

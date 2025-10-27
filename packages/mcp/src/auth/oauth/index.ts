@@ -29,6 +29,8 @@ export class OAuthSystem {
   private readonly providers = new Map<string, OAuthProvider>();
   private readonly states = new Map<string, OAuthState>();
   private readonly sessions = new Map<string, OAuthSession>();
+  // Map OAuth client IDs to provider names for ChatGPT/MCP token flows
+  private readonly clientIdToProvider = new Map<string, string>();
   constructor(config: OAuthSystemConfig) {
     this.config = config;
 
@@ -70,13 +72,6 @@ export class OAuthSystem {
       throw new Error(`OAuth provider not available: ${provider}`);
     }
 
-<<<<<<< ours
-    // For ChatGPT compatibility, only use PKCE when explicitly provided
-    // Don't auto-generate PKCE for legacy flows
-    const codeVerifier = pkceOptions?.codeVerifier;
-    const codeChallenge = codeVerifier ? pkceOptions?.codeChallenge : undefined;
-    const codeChallengeMethod = codeVerifier ? pkceOptions?.codeChallengeMethod : undefined;
-=======
     let codeVerifier: string | undefined;
     let codeChallenge: string | undefined;
     let codeChallengeMethod: string | undefined;
@@ -92,12 +87,12 @@ export class OAuthSystem {
       codeChallenge = pkceOptions.codeChallenge ?? derivedChallenge;
       codeChallengeMethod = pkceOptions.codeChallengeMethod ?? 'S256';
     } else {
-      // Generate secure PKCE values when not provided by caller
-      codeVerifier = this.generateCodeVerifier();
-      codeChallenge = this.generateCodeChallenge(codeVerifier);
-      codeChallengeMethod = 'S256';
+      // For ChatGPT compatibility, only use PKCE when explicitly provided
+      // Don't auto-generate PKCE for legacy flows
+      codeVerifier = pkceOptions?.codeVerifier;
+      codeChallenge = codeVerifier ? pkceOptions?.codeChallenge : undefined;
+      codeChallengeMethod = codeVerifier ? pkceOptions?.codeChallengeMethod : undefined;
     }
->>>>>>> theirs
     const state = this.generateSecureState();
 
     // Use dynamic redirect URI if provided, otherwise fall back to config
@@ -347,6 +342,7 @@ export class OAuthSystem {
         allowSignup: this.config.providers.github.allowSignup || false,
       });
       this.providers.set('github', githubProvider);
+      this.clientIdToProvider.set(this.config.providers.github.clientId, 'github');
     }
 
     // Google provider
@@ -360,6 +356,7 @@ export class OAuthSystem {
         prompt: this.config.providers.google.prompt,
       });
       this.providers.set('google', googleProvider);
+      this.clientIdToProvider.set(this.config.providers.google.clientId, 'google');
     }
   }
 
@@ -368,13 +365,6 @@ export class OAuthSystem {
    */
   private generateSecureState(): string {
     return crypto.randomBytes(32).toString('base64url');
-  }
-
-  /**
-   * Generate secure PKCE code verifier
-   */
-  private generateCodeVerifier(): string {
-    return crypto.randomBytes(64).toString('base64url');
   }
 
   /**
@@ -454,5 +444,29 @@ export class OAuthSystem {
       activeStates: this.states.size,
       activeSessions: this.sessions.size,
     };
+  }
+
+  /**
+   * Resolve the configured provider name by OAuth client_id.
+   * Useful for ChatGPT/MCP token exchanges where state isn't returned.
+   */
+  getProviderByClientId(clientId: string): string | null {
+    return this.clientIdToProvider.get(clientId) ?? null;
+  }
+
+  /**
+   * Directly exchange an authorization code for tokens without state.
+   * Used for ChatGPT/MCP, which posts (code, code_verifier, redirect_uri, client_id).
+   */
+  async exchangeCodeForTokensDirect(
+    providerName: string,
+    code: string,
+    opts: { codeVerifier?: string; redirectUri?: string } = {},
+  ) {
+    const provider = this.providers.get(providerName);
+    if (!provider) {
+      throw new Error(`Provider not found: ${providerName}`);
+    }
+    return await provider.exchangeCodeForTokens(code, opts.codeVerifier, opts.redirectUri);
   }
 }

@@ -39,9 +39,21 @@ export async function subscribe({
     };
   } catch (error: unknown) {
     console.error('Error subscribing to events:', error);
+    let errorMessage: string;
+
+    if (error instanceof Error) {
+      // Handle sinon stub objects where the string might be in 'name' property
+      errorMessage = error.message || (error as any).name || String(error);
+    } else if (error && typeof error === 'object' && (error as any).name) {
+      // Handle sinon stub objects where the string is in the 'name' property
+      errorMessage = (error as any).name;
+    } else {
+      errorMessage = String(error);
+    }
+
     return {
       success: false,
-      error: `Failed to subscribe to events: ${error instanceof Error ? error.message : String(error)}`,
+      error: `Failed to subscribe to events: ${errorMessage}`,
     };
   }
 }

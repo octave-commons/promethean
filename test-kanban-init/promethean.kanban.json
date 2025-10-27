@@ -1,0 +1,59 @@
+{
+  "_comment": "Promethean Kanban Configuration - Simple starter config",
+  "_description": "Basic kanban configuration for new projects. Customize as needed.",
+  "_usage": "Use 'kanban regenerate' to create the board from tasks.",
+  "tasksDir": "docs/agile/tasks",
+  "indexFile": "",
+  "boardFile": "docs/agile/boards/generated.md",
+  "cachePath": "docs/agile/boards/.cache",
+  "exts": [
+    ".md"
+  ],
+  "requiredFields": [
+    "title",
+    "status",
+    "priority"
+  ],
+  "statusValues": [
+    "incoming",
+    "ready",
+    "todo",
+    "in_progress",
+    "review",
+    "done"
+  ],
+  "priorityValues": [
+    "P0",
+    "P1",
+    "P2",
+    "P3"
+  ],
+  "wipLimits": {
+    "incoming": 999,
+    "ready": 10,
+    "todo": 5,
+    "in_progress": 3,
+    "review": 3,
+    "done": 999
+  },
+  "_starter_tasks": [
+    {
+      "title": "Set up development environment",
+      "status": "todo",
+      "priority": "P0",
+      "content": "Install dependencies, configure IDE, set up git hooks"
+    },
+    {
+      "title": "Create project documentation",
+      "status": "incoming",
+      "priority": "P1",
+      "content": "Add README, setup instructions, and project overview"
+    },
+    {
+      "title": "Implement core feature",
+      "status": "incoming",
+      "priority": "P2",
+      "content": "Build the main functionality for the project"
+    }
+  ]
+}

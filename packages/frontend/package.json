@@ -1,6 +1,6 @@
 {
-  "name": "@promethean/frontend",
-  "version": "1.0.0",
+  "name": "@promethean-os/frontend",
+  "version": "0.1.0",
   "description": "Consolidated frontend package for all Promethean UI applications",
   "private": true,
   "type": "module",
@@ -61,27 +61,17 @@
     "static"
   ],
   "scripts": {
-    "build": "pnpm run build:all",
-    "build:all": "pnpm run build:shadow && pnpm run build:ts",
-    "build:shadow": "shadow-cljs release all",
+    "build": "pnpm run build:shadow && pnpm run build:ts",
+    "build:shadow": "shadow-cljs release main",
     "build:ts": "tsc",
-    "watch": "pnpm run watch:shadow",
-    "watch:shadow": "shadow-cljs watch all",
+    "dev": "shadow-cljs watch main",
+    "watch": "shadow-cljs watch main",
     "clean": "rimraf dist dist/frontend",
     "typecheck": "tsc -p tsconfig.json",
     "test": "pnpm run build && ava",
     "lint": "pnpm exec eslint .",
     "coverage": "pnpm run build && c8 ava",
     "format": "pnpm exec prettier --write .",
-    "dev:chat-ui": "shadow-cljs watch chat-ui",
-    "dev:docops": "shadow-cljs watch docops-frontend",
-    "dev:duck-web": "shadow-cljs watch duck-web-frontend",
-    "dev:kanban": "shadow-cljs watch kanban-frontend",
-    "dev:openai-server": "shadow-cljs watch openai-server-frontend",
-    "dev:opencode-session-manager": "shadow-cljs watch opencode-session-manager-frontend",
-    "dev:piper": "shadow-cljs watch piper-frontend",
-    "dev:report-forge": "shadow-cljs watch report-forge-frontend",
-    "dev:smartgpt-dashboard": "shadow-cljs watch smartgpt-dashboard-frontend",
     "dev:pantheon": "vite",
     "build:pantheon": "tsc && vite build",
     "preview:pantheon": "vite preview",
@@ -96,8 +86,8 @@
     "pm2:prod": "pm2 start ecosystem.config.mjs --env production"
   },
   "dependencies": {
-    "@promethean/persistence": "workspace:*",
-    "@promethean/utils": "workspace:*",
+    "@promethean-os/persistence": "workspace:*",
+    "@promethean-os/utils": "workspace:*",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "vite": "^5.0.0",
@@ -126,8 +116,8 @@
     "remark-gfm": "^4.0.0"
   },
   "devDependencies": {
-    "@promethean/test-utils": "workspace:*",
-    "@promethean/opencode-client": "workspace:*",
+    "@promethean-os/test-utils": "workspace:*",
+    "@promethean-os/opencode-client": "workspace:*",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "@types/react": "^18.2.0",
@@ -166,7 +156,7 @@
       "src"
     ],
     "dependencies": {
-      "@promethean/opencode-client": "workspace:*"
+      "@promethean-os/opencode-client": "workspace:*"
     }
   },
   "license": "GPL-3.0-only",

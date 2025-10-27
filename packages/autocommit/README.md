@@ -1,4 +1,4 @@
-# @promethean/autocommit
+# @promethean-os/autocommit
 
 Watches your git repo and automatically stages + commits changes with LLM-generated messages.
 
@@ -11,9 +11,9 @@ Watches your git repo and automatically stages + commits changes with LLM-genera
 ## Install & Run (workspace)
 
 ```bash
-pnpm --filter @promethean/autocommit install
-pnpm --filter @promethean/autocommit build
-pnpm --filter @promethean/autocommit exec autocommit -- --dry-run
+pnpm --filter @promethean-os/autocommit install
+pnpm --filter @promethean-os/autocommit build
+pnpm --filter @promethean-os/autocommit exec autocommit -- --dry-run
 ```
 
 ## CLI

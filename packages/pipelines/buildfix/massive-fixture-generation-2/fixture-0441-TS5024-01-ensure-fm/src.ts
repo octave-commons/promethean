@@ -7,12 +7,12 @@ import {
   createLogger,
   slug,
   randomUUID,
-} from "@promethean/utils";
+} from "@promethean-os/utils";
 import {
   ensureBaselineFrontmatter,
   parseFrontmatter,
   stringifyFrontmatter,
-} from "@promethean/markdown/frontmatter";
+} from "@promethean-os/markdown/frontmatter";
 
 import { listTaskFiles, normStatus } from "./utils.js";
 import type { TaskFM } from "./types.js";

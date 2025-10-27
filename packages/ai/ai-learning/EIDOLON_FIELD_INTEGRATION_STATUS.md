@@ -4,9 +4,9 @@
 
 ### 1. Infrastructure Setup
 
-- **Package Dependencies**: Added `@promethean/eidolon-field` to ai-learning package.json
+- **Package Dependencies**: Added `@promethean-os/eidolon-field` to ai-learning package.json
 - **Type Definitions**: Created comprehensive TypeScript interfaces for the field classifier
-- **Module Resolution**: Fixed package naming (added `@promethean/` scope to eidolon-field)
+- **Module Resolution**: Fixed package naming (added `@promethean-os/` scope to eidolon-field)
 
 ### 2. Core Implementation
 
@@ -98,7 +98,7 @@ Task Prompt → Embedding (1536D) → PCA Reduction → Field Coordinates (8D) �
 
 ### TypeScript Compilation
 
-- Module resolution for `@promethean/eidolon-field` needs configuration
+- Module resolution for `@promethean-os/eidolon-field` needs configuration
 - Dynamic imports require proper bundling setup
 - Type definitions need alignment with JavaScript exports
 

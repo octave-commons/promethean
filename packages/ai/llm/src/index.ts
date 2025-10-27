@@ -5,7 +5,7 @@ import type { Request, Response, Express } from 'express';
 import type { WebSocket, RawData } from 'ws';
 import express from 'express';
 import { WebSocketServer } from 'ws';
-import { retry, createLogger } from '@promethean/utils';
+import { retry, createLogger } from '@promethean-os/utils';
 
 import { loadDriver, LLMDriver } from './drivers/index.js';
 import type { Tool } from './tools.js';
@@ -134,25 +134,13 @@ async function importWithFallback<TModule>(specs: readonly (string | undefined)[
     throw new Error('Unable to resolve module');
 }
 
-    if (successfulResult) {
-        return successfulResult.value;
-    }
-
-    const lastError = results
-        .filter((result): result is PromiseRejectedResult => result.status === 'rejected')
-        .pop()?.reason;
-
-    if (lastError) throw lastError as Error;
-    throw new Error('Unable to resolve module');
-}
-
 const serviceTemplateFallback = new URL('../../legacy/serviceTemplate.js', import.meta.url).href;
 const heartbeatFallback = new URL('../../legacy/heartbeat/index.js', import.meta.url).href;
 
 export function initBroker(): Promise<void> {
     const specifiers = [
         process.env.LLM_SERVICE_TEMPLATE,
-        '@promethean/legacy/serviceTemplate.js',
+        '@promethean-os/legacy/serviceTemplate.js',
         serviceTemplateFallback,
     ] as const;
     return importWithFallback<{
@@ -188,7 +176,7 @@ export async function initHeartbeat(): Promise<void> {
             sendOnce(): Promise<void>;
             start(): void;
         };
-    }>(['@promethean/legacy/heartbeat/index.js', heartbeatFallback]);
+    }>(['@promethean-os/legacy/heartbeat/index.js', heartbeatFallback]);
     const hb = new HeartbeatClient({ name: process.env.name || 'llm' });
     await hb.sendOnce();
     hb.start();

@@ -1,10 +1,10 @@
 # Architecture Documentation
 
-This document provides a comprehensive overview of the @promethean/shadow-conf package architecture, design decisions, and implementation details.
+This document provides a comprehensive overview of the @promethean-os/shadow-conf package architecture, design decisions, and implementation details.
 
 ## 🏗 Overview
 
-@promethean/shadow-conf is a configuration transformation tool that converts EDN (Extensible Data Notation) files into PM2 ecosystem configurations. The architecture follows a functional programming paradigm with strong type safety and comprehensive error handling.
+@promethean-os/shadow-conf is a configuration transformation tool that converts EDN (Extensible Data Notation) files into PM2 ecosystem configurations. The architecture follows a functional programming paradigm with strong type safety and comprehensive error handling.
 
 ## 📋 Core Concepts
 

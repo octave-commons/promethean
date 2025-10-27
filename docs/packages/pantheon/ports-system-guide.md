@@ -188,7 +188,7 @@ export type ActorStatePort = {
 ### 1. Basic Adapter Structure
 
 ```typescript
-import type { ContextPort } from '@promethean/pantheon-core';
+import type { ContextPort } from '@promethean-os/pantheon-core';
 
 export class InMemoryContextAdapter implements ContextPort {
   private cache = new Map<string, Message[]>();

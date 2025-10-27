@@ -1,8 +1,8 @@
-# @promethean/benchmark
+# @promethean-os/benchmark
 
 > **🚀 The Unified AI Benchmarking Framework** - Comprehensive performance testing for AI model providers
 
-A powerful, extensible benchmarking tool for comparing AI model providers including local (Ollama, vLLM, OpenVINO) and cloud (OpenAI, Anthropic, Mistral) services. Originally migrated from `@promethean/buildfix` to provide general-purpose benchmarking capabilities.
+A powerful, extensible benchmarking tool for comparing AI model providers including local (Ollama, vLLM, OpenVINO) and cloud (OpenAI, Anthropic, Mistral) services. Originally migrated from `@promethean-os/buildfix` to provide general-purpose benchmarking capabilities.
 
 ## ✨ Key Features
 
@@ -40,10 +40,10 @@ A powerful, extensible benchmarking tool for comparing AI model providers includ
 
 ```bash
 # Install as dependency
-pnpm add @promethean/benchmark
+pnpm add @promethean-os/benchmark
 
 # Or install globally for CLI usage
-pnpm add -g @promethean/benchmark
+pnpm add -g @promethean-os/benchmark
 ```
 
 ### Prerequisites
@@ -110,7 +110,7 @@ cat benchmark-results/latest-report.md
 ### Programmatic Usage
 
 ```typescript
-import { BenchmarkRunner, ProviderConfig } from '@promethean/benchmark';
+import { BenchmarkRunner, ProviderConfig } from '@promethean-os/benchmark';
 
 // Initialize the benchmark runner
 const runner = new BenchmarkRunner();
@@ -317,16 +317,16 @@ await runner.addProvider({
 
 ```bash
 # Quick BuildFix benchmark with small fixture set
-pnpm --filter @promethean/benchmark benchmark --providers buildfix-local --iterations 3
+pnpm --filter @promethean-os/benchmark benchmark --providers buildfix-local --iterations 3
 
 # Comprehensive BuildFix testing with massive fixtures
-pnpm --filter @promethean/benchmark benchmark --providers buildfix-local --suite buildfix-massive
+pnpm --filter @promethean-os/benchmark benchmark --providers buildfix-local --suite buildfix-massive
 
 # Compare BuildFix performance across different models
-pnpm --filter @promethean/benchmark benchmark --providers buildfix-local --models qwen3:8b,qwen3:14b
+pnpm --filter @promethean-os/benchmark benchmark --providers buildfix-local --models qwen3:8b,qwen3:14b
 
 # BuildFix with resource monitoring
-pnpm --filter @promethean/benchmark benchmark --providers buildfix-local --monitor-resources --verbose
+pnpm --filter @promethean-os/benchmark benchmark --providers buildfix-local --monitor-resources --verbose
 ```
 
 ## 📊 Comprehensive Metrics
@@ -720,13 +720,13 @@ export default {
 
 ```bash
 # Local installation
-pnpm add @promethean/benchmark
+pnpm add @promethean-os/benchmark
 
 # Global installation for CLI usage
-pnpm add -g @promethean/benchmark
+pnpm add -g @promethean-os/benchmark
 
 # Or use with npx
-npx @promethean/benchmark --help
+npx @promethean-os/benchmark --help
 ```
 
 ### Basic Commands
@@ -1215,7 +1215,7 @@ interface ProviderCapabilities {
 #### Basic Usage
 
 ```typescript
-import { BenchmarkRunner } from '@promethean/benchmark';
+import { BenchmarkRunner } from '@promethean-os/benchmark';
 
 const runner = new BenchmarkRunner();
 
@@ -1278,7 +1278,7 @@ import {
   ProviderConfig,
   BenchmarkRequest,
   BenchmarkResponse,
-} from '@promethean/benchmark';
+} from '@promethean-os/benchmark';
 
 class CustomProvider extends BaseProvider {
   constructor(config: ProviderConfig) {
@@ -1327,7 +1327,7 @@ await runner.addProvider(
 ### Example 1: Local vs Cloud Comparison
 
 ```typescript
-import { BenchmarkRunner } from '@promethean/benchmark';
+import { BenchmarkRunner } from '@promethean-os/benchmark';
 
 const runner = new BenchmarkRunner();
 
@@ -1537,7 +1537,7 @@ if (statisticalReport.summary.statisticalAnalysis) {
 
 ```typescript
 // benchmark-ci.ts - CI/CD integration script
-import { BenchmarkRunner } from '@promethean/benchmark';
+import { BenchmarkRunner } from '@promethean-os/benchmark';
 import { writeFileSync } from 'fs';
 
 async function runCIBenchmark() {

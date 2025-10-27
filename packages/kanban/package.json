@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/kanban",
+  "name": "@promethean-os/kanban",
   "version": "0.2.0",
   "description": "Automation for local markdown kanban and process-as-code. Functional TS, native ESM, no side effects.",
   "type": "module",
@@ -17,13 +17,13 @@
   "license": "GPL-3.0-only",
   "repository": {
     "type": "git",
-    "url": "https://github.com/promethean-framework/promethean.git",
+    "url": "https://github.com/riatzukiza/promethean.git",
     "directory": "packages/kanban"
   },
   "bugs": {
-    "url": "https://github.com/promethean-framework/promethean/issues"
+    "url": "https://github.com/riatzukiza/promethean/issues"
   },
-  "homepage": "https://github.com/promethean-framework/promethean/tree/main/packages/kanban",
+  "homepage": "https://github.com/riatzukiza/promethean/tree/main/packages/kanban",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -58,19 +58,23 @@
     "test": "pnpm run build && ava"
   },
   "dependencies": {
-    "@promethean/lmdb-cache": "workspace:*",
-    "@promethean/markdown": "workspace:*",
-    "@promethean/utils": "workspace:*",
-    "@promethean/agents-workflow": "workspace:*",
+    "@promethean-os/lmdb-cache": "workspace:*",
+    "@promethean-os/markdown": "workspace:*",
+    "@promethean-os/utils": "workspace:*",
+    "@promethean-os/pantheon": "workspace:*",
+    "@promethean-os/pantheon-core": "workspace:*",
     "chokidar": "^4.0.1",
     "globby": "^14.0.2",
     "gray-matter": "^4.0.3",
     "mongodb": "^6.18.0",
+    "nbb": "^1.3.204",
     "simple-git": "^3.27.0",
     "ws": "^8.18.0",
     "xml2js": "^0.6.2",
     "js-yaml": "^4.1.0",
-    "yaml": "^2.5.0"
+    "yaml": "^2.5.0",
+    "zod": "^3.22.4",
+    "commander": "^12.0.0"
   },
   "devDependencies": {
     "@cljs-oss/module-deps": "^1.1.1",
@@ -78,6 +82,7 @@
     "@types/js-yaml": "^4.0.5",
     "@types/ws": "^8.5.0",
     "@types/xml2js": "^0.4.11",
+    "@types/commander": "^2.12.2",
     "esmock": "^2.7.3",
     "garden": "^0.52.0",
     "react": "^18.2.0",

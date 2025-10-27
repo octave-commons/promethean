@@ -40,7 +40,7 @@ export type {
 } from './simple/index.js';
 
 // Graph-Based FSM API (for complex scenarios)
-// Note: Currently re-exporting the existing FSMGraph from @promethean/ds/fsm
+// Note: Currently re-exporting the existing FSMGraph from @promethean-os/ds/fsm
 // A new unified graph implementation is in progress
 export { FSMGraph } from './graph/index.js';
 

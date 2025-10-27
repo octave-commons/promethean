@@ -1,6 +1,6 @@
 import "source-map-support/register.js";
-import { AGENT_NAME } from "@promethean/legacy/env.js";
-import { HeartbeatClient } from "@promethean/legacy/heartbeat/index.js";
+import { AGENT_NAME } from "@promethean-os/legacy/env.js";
+import { HeartbeatClient } from "@promethean-os/legacy/heartbeat/index.js";
 
 import { Bot } from "./bot.js";
 import { getCephalonMode, isEcsMode } from "./mode.js";

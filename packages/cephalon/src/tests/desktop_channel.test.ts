@@ -1,5 +1,5 @@
 import test from "ava";
-import { sleep } from "@promethean/utils";
+import { sleep } from "@promethean-os/utils";
 
 import { DesktopCaptureManager } from "../desktop/desktopLoop.js";
 

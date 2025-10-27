@@ -7,7 +7,7 @@ export {
   getJsDocText,
   getNodeText,
   parseArgs,
-} from "@promethean/utils";
+} from "@promethean-os/utils";
 
 export function makeProgram(
   rootFiles: readonly string[],

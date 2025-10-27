@@ -1,7 +1,7 @@
 import test from "ava";
 import { randomUUID } from "node:crypto";
 
-import type { ActRationalePayload } from "@promethean/enso-protocol";
+import type { ActRationalePayload } from "@promethean-os/enso-protocol";
 
 import { createEnsoChatAgent } from "../enso/chat-agent.js";
 

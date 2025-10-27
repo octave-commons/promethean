@@ -10,7 +10,7 @@ import {
   withPage,
   shutdown,
   startProcessWithPort,
-} from "@promethean/test-utils";
+} from "@promethean-os/test-utils";
 
 const PKG_ROOT = path.resolve(
   path.dirname(url.fileURLToPath(import.meta.url)),

@@ -1,5 +1,5 @@
 // @ts-ignore import js module without types
-import { BrokerClient } from "@promethean/legacy/brokerClient.js";
+import { BrokerClient } from "@promethean-os/legacy/brokerClient.js";
 import { Message } from "ollama";
 // Local minimal type copies to avoid cross-package type emission dependency
 type Tool = {

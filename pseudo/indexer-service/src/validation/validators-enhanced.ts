@@ -3,8 +3,8 @@
  * Addresses remaining security test vectors for comprehensive protection
  */
 
-import path from 'node:path';
-import type { z } from 'zod';
+import * as path from 'node:path';
+import { z } from 'zod';
 import { SafePathSchema, SafePathArraySchema, SearchQuerySchema } from './schemas.js';
 import type { ValidationResult, ValidationErrorDetails, PathValidationResult } from './types.js';
 import type { FastifyRequest } from 'fastify';
@@ -99,7 +99,12 @@ export function isValid<T>(result: ValidationResult<T>): result is { success: tr
  */
 export function getValidationErrors(result: ValidationResult<unknown>): string[] {
   if (!result.success) {
-    return result.error.errors.map((err) => `${err.path.join('.')}: ${err.message}`);
+    const error = result.error;
+    if ('errors' in error) {
+      return (error as z.ZodError).errors.map((err) => `${err.path.join('.')}: ${err.message}`);
+    } else {
+      return [(error as Error).message];
+    }
   }
   return [];
 }
@@ -454,9 +459,14 @@ export function validateSinglePath(inputPath: unknown): ValidationResult<string>
   if (!securityResult.valid) {
     return {
       success: false,
-      error: new Error(
-        `Security validation failed: ${securityResult.securityIssues?.join(', ')}`,
-      ) as z.ZodError,
+      error: {
+        issues:
+          securityResult.securityIssues?.map((issue) => ({
+            code: z.ZodIssueCode.custom,
+            message: issue,
+            path: ['path'],
+          })) || [],
+      } as z.ZodError,
     };
   }
 

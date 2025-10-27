@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/enso-browser-gateway",
+  "name": "@promethean-os/enso-browser-gateway",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -10,6 +10,6 @@
   "dependencies": {
     "wrtc": "^0.4.7",
     "ws": "^8.18.0",
-    "@promethean/enso-protocol": "workspace:*"
+    "@promethean-os/enso-protocol": "workspace:*"
   }
 }

@@ -1,7 +1,7 @@
-import { sleep } from "@promethean/utils";
+import { sleep } from "@promethean-os/utils";
 import test from "ava";
 
-import { createTaskQueue } from "../queue/taskQueue.js";
+import { createTaskQueue } from "../queue/taskQueue";
 
 /* eslint-disable functional/no-let */
 const createRecorder = <T>() => {

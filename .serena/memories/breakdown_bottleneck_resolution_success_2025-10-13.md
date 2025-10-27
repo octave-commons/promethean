@@ -15,7 +15,7 @@ Clear the breakdown bottleneck (20/20 capacity) and optimize kanban flow to reac
 ### 1. Immediate Flow Optimization (8 tasks moved)
 **From Testing → Todo:**
 - ✅ P0: Fix kanban created_at timestamp preservation during task operations
-- ✅ P1: Implement @promethean/lmdb-cache Package with Enhanced Concurrency
+- ✅ P1: Implement @promethean-os/lmdb-cache Package with Enhanced Concurrency
 
 **From In Progress → Todo:**
 - ✅ P0: Infrastructure Stability Cluster - Build System & Type Safety  

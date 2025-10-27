@@ -94,7 +94,7 @@ function createEmptyResponse(limit: number, offset: number): ListSessionsResult 
       limit,
       offset,
       hasMore: false,
-      currentPage: Math.floor(offset / limit) + 1,
+      currentPage: limit > 0 ? Math.floor(offset / limit) + 1 : 1,
       totalPages: 0,
     },
     summary: {
@@ -196,8 +196,8 @@ function createListResponse(
       limit,
       offset,
       hasMore,
-      currentPage: Math.floor(offset / limit) + 1,
-      totalPages: Math.ceil(totalCount / limit),
+      currentPage: limit > 0 ? Math.floor(offset / limit) + 1 : 1,
+      totalPages: limit > 0 ? Math.ceil(totalCount / limit) : 0,
     },
     summary: createSessionSummary(sessions),
   };
@@ -240,7 +240,17 @@ export async function list({
       return createEmptyResponse(limit, offset);
     }
 
-    const parsedSessions = storedSessions.map((session) => parseSessionData(session));
+    // Filter to only include actual session entries (those with session_ prefix)
+    const sessionEntries = storedSessions.filter(
+      (entry) => entry.id && entry.id.startsWith('session_'),
+    );
+    logDebug(debugEnabled, `filtered to ${sessionEntries?.length || 0} actual session entries`);
+
+    if (!sessionEntries?.length) {
+      return createEmptyResponse(limit, offset);
+    }
+
+    const parsedSessions = sessionEntries.map((session) => parseSessionData(session));
     const sessionsList = deduplicateSessions(parsedSessions);
 
     logDebug(debugEnabled, `after deduplication: ${sessionsList?.length || 0} sessions`);

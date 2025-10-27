@@ -1,9 +1,9 @@
 // import * as path from "path";
 
-// import { openLevelCache } from "@promethean/level-cache";
-// import type { Cache } from "@promethean/level-cache";
+// import { openLevelCache } from "@promethean-os/level-cache";
+// import type { Cache } from "@promethean-os/level-cache";
 
-// import { sha1 } from "@promethean/utils";
+// import { sha1 } from "@promethean-os/utils";
 
 export type Step = Readonly<{
   fingerprint: string;

@@ -6,8 +6,8 @@ import { pathToFileURL } from "node:url";
 
 import { z } from "zod";
 import ollama from "ollama";
-import { scanFiles } from "@promethean/file-indexer";
-import type { IndexedFile, ScanProgress } from "@promethean/file-indexer";
+import { scanFiles } from "@promethean-os/file-indexer";
+import type { IndexedFile, ScanProgress } from "@promethean-os/file-indexer";
 import {
   ensureBaselineFrontmatter,
   mergeFrontmatterWithGenerated,
@@ -15,7 +15,7 @@ import {
   parseFrontmatter,
   stringifyFrontmatter,
   deriveFilenameFromPath,
-} from "@promethean/markdown/frontmatter";
+} from "@promethean-os/markdown/frontmatter";
 
 import { openDB } from "./db.js";
 import { parseArgs, randomUUID } from "./utils.js";

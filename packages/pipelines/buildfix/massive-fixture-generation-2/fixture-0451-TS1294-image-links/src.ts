@@ -3,7 +3,7 @@ import {
 import path from "node:path";
 
 import {
-  // syntax error listFiles } from "@promethean/fs";
+  // syntax error listFiles } from "@promethean-os/fs";
 import type {
   // syntax error PipelineType } from "@xenova/transformers";
 

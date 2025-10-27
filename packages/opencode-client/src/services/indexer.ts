@@ -5,7 +5,7 @@
  * built using composable functions for better maintainability and testability.
  */
 
-import type { IndexerState, OpenCodeClient } from './indexer-types.js';
+import type { IndexerState, OpencodeClient } from './indexer-types.js';
 import type {
   StateManager,
   LoggerManager,
@@ -15,13 +15,13 @@ import type {
 } from './composables/index.js';
 
 import {
-  createClient,
   createStateManagerComposable,
   createLoggerComposable,
   createTimerManager,
   createEventManager,
   createSyncManager,
 } from './composables/index.js';
+import { createOpencodeClient } from '@opencode-ai/sdk';
 
 // Additional types needed for the indexer service
 export type IndexerOptions = {
@@ -42,11 +42,12 @@ export type IndexerService = {
   readonly start: () => Promise<void>;
   readonly stop: () => Promise<void>;
   readonly fullSync: () => Promise<void>;
+  readonly scanHistory: () => Promise<void>;
   readonly cleanup: () => Promise<void>;
   readonly getState: () => Promise<IndexerState & { readonly isRunning: boolean }>;
   readonly getStats: () => EventProcessingStats;
   readonly resetStats: () => void;
-  readonly client: OpenCodeClient;
+  readonly client: OpencodeClient;
   readonly stateManager: StateManager;
   readonly loggerManager: LoggerManager;
   readonly timerManager: TimerManager;
@@ -58,8 +59,8 @@ export type IndexerService = {
  * Create indexer components
  */
 const createIndexerComponents = (options: IndexerOptions = {}) => {
-  const client = createClient({
-    baseUrl: options.baseUrl || 'http://localhost:3000',
+  const client = createOpencodeClient({
+    baseUrl: options.baseUrl || 'http://localhost:3000', // Default for development
   });
 
   const stateManager = createStateManagerComposable({
@@ -228,6 +229,11 @@ export const createIndexerService = (options: IndexerOptions = {}): IndexerServi
       console.log('[Indexer] Starting full sync');
       await components.syncManager.performFullSync();
       console.log('[Indexer] Full sync completed');
+    },
+    scanHistory: async (): Promise<void> => {
+      console.log('[Indexer] Starting history scan');
+      await components.syncManager.scanHistory();
+      console.log('[Indexer] History scan completed');
     },
     cleanup: async (): Promise<void> => {
       await stopIndexer(components, state);

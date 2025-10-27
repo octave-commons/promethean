@@ -192,13 +192,17 @@ export const validateTransition = async (
     if (isBackwardTransition(fromNormalized, toNormalized)) {
       console.log(`✅ Backward transition allowed: ${fromNormalized} → ${toNormalized}`);
     } else {
-      violations.push(
-        `Invalid transition: ${fromNormalized} → ${toNormalized} is not a defined transition`,
-      );
+      // If DSL is available, we'll let the DSL decide if the transition is valid
+      // This allows the DSL to be the sole authority on transition rules
+      if (!state.dslAvailable) {
+        violations.push(
+          `Invalid transition: ${fromNormalized} → ${toNormalized} is not a defined transition`,
+        );
 
-      const validTargets = getValidTransitions(state.config, fromNormalized);
-      if (validTargets.length > 0) {
-        suggestions.push(`Valid transitions from ${fromNormalized}: ${validTargets.join(', ')}`);
+        const validTargets = getValidTransitions(state.config, fromNormalized);
+        if (validTargets.length > 0) {
+          suggestions.push(`Valid transitions from ${fromNormalized}: ${validTargets.join(', ')}`);
+        }
       }
     }
   }
@@ -248,6 +252,29 @@ export const validateTransition = async (
       }
     } catch (error) {
       console.warn(`Failed to evaluate transition check ${transitionRule.check}:`, error);
+    }
+  }
+
+  // Check 5: Evaluate Clojure DSL's evaluate-transition function
+  if (state.dslAvailable) {
+    try {
+      const dslResult = await evaluateCustomRule(
+        state,
+        `(evaluate-transition "${fromNormalized}" "${toNormalized}" task board)`,
+        [],
+        task,
+        board,
+      );
+      if (!dslResult) {
+        violations.push(
+          `Clojure DSL evaluation: transition ${fromNormalized} → ${toNormalized} is not allowed`,
+        );
+      }
+    } catch (error) {
+      console.warn(`Failed to evaluate Clojure DSL transition:`, error);
+      violations.push(
+        `Clojure DSL evaluation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      );
     }
   }
 
@@ -561,9 +588,20 @@ export const evaluateCustomRule = async (
   }
 
   try {
-    // Use nbb (Node.js Babashka) to evaluate Clojure expressions
-    // @ts-ignore - nbb doesn't have TypeScript definitions
-    const { default: nbb } = await import('nbb');
+    console.log('🔍 Starting nbb import...');
+    // Use nbb (Node.js Babashka) to evaluate Clojure expressions with timeout
+    const { loadString } = await Promise.race([
+      import('nbb').then((module) => {
+        console.log('🔍 nbb imported successfully');
+        return module;
+      }),
+      new Promise<never>((_, reject) =>
+        setTimeout(() => {
+          console.log('🔍 nbb import timeout triggered');
+          reject(new Error('nbb import timeout after 5 seconds'));
+        }, 5000),
+      ),
+    ]);
 
     // Load the Clojure DSL file
     const dslCode = await readFile(state.config.dslPath!, 'utf-8');
@@ -571,8 +609,6 @@ export const evaluateCustomRule = async (
     // Create a safe evaluation context with DSL loaded
     const clojureCode = `
       ${dslCode}
-
-      (require '[kanban-transitions :as kt])
 
       ;; Convert JavaScript objects to Clojure maps for evaluation
       (def task-clj {:uuid "${task.uuid}"
@@ -591,11 +627,16 @@ export const evaluateCustomRule = async (
       ;; Evaluate rule implementation with converted objects
       (let [task task-clj
             board board-clj]
-        ${ruleImpl})
+        ${ruleImpl.replace('kanban-transitions/evaluate-transition', 'evaluate-transition')})
     `;
 
     // @ts-ignore - nbb dynamic evaluation
-    const result = await nbb(clojureCode);
+    console.log('🔍 Evaluating Clojure code:', clojureCode);
+    const result = await loadString(clojureCode, {
+      context: 'cljs.user',
+      print: console.log,
+    });
+    console.log('🔍 Clojure evaluation result:', result, typeof result);
     return Boolean(result);
   } catch (error) {
     console.error('Failed to evaluate Clojure rule:', error);

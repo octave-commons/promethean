@@ -75,7 +75,7 @@ Based on repository analysis:
 
 ### Phase 1: Test Classification Infrastructure
 1. **Create Test Type Detection Package**
-   - New package: `@promethean/test-classifier`
+   - New package: `@promethean-os/test-classifier`
    - Analyze test files for patterns indicating test type
    - Support configuration-based classification rules
    - Provide CLI for batch classification
@@ -193,7 +193,7 @@ Based on repository analysis:
 ## Deliverables
 
 ### Code Deliverables
-1. `@promethean/test-classifier` package with classification logic
+1. `@promethean-os/test-classifier` package with classification logic
 2. Updated Nx configuration with separate test targets
 3. AVA configuration files for each test type
 4. GitHub Actions workflows for separate pipelines
@@ -237,7 +237,7 @@ Based on repository analysis:
 ## Next Steps
 
 1. Validate test classification approach with team
-2. Create `@promethean/test-classifier` package skeleton
+2. Create `@promethean-os/test-classifier` package skeleton
 3. Implement test type detection logic
 4. Update Nx configuration for separate targets
 5. Create AVA configurations for each test type

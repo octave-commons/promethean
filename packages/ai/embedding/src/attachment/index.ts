@@ -1,4 +1,4 @@
-import { fileBackedRegistry } from "@promethean/platform";
+import { fileBackedRegistry } from "@promethean-os/platform";
 
 import {
   makeDeterministicEmbedder,

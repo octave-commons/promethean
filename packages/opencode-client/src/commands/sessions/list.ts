@@ -3,13 +3,14 @@ import chalk from 'chalk';
 import Table from 'cli-table3';
 
 import { list as listAction } from '../../actions/sessions/list.js';
+import { sessionListSerializer } from '../../serializers/session.js';
 
 export const listCommand = new Command('list')
   .description('List all active sessions')
   .alias('ls')
   .option('-l, --limit <number>', 'Number of sessions to return', '20')
   .option('-o, --offset <number>', 'Number of sessions to skip', '0')
-  .option('--format <format>', 'Output format (table|json)', 'table')
+  .option('--format <format>', 'Output format (table|json|markdown)', 'table')
   .action(async (options) => {
     try {
       const limit = parseInt(options.limit);
@@ -29,7 +30,12 @@ export const listCommand = new Command('list')
       sessions = result.sessions || [];
 
       if (options.format === 'json') {
-        console.log(JSON.stringify(sessions, null, 2));
+        console.log(JSON.stringify(result, null, 2));
+        return;
+      }
+
+      if (options.format === 'markdown') {
+        console.log(sessionListSerializer.serialize(result));
         return;
       }
 

@@ -2,7 +2,7 @@
 import test from 'ava';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { installInMemoryPersistence } from '@promethean/test-utils/persistence.js';
+import { installInMemoryPersistence } from '@promethean-os/test-utils/persistence.js';
 import { start, stop } from '../index.js';
 import { start as startBroker, stop as stopBroker } from '../../broker/index.js';
 

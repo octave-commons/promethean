@@ -1,6 +1,6 @@
 # Security Configuration Guide
 
-This document explains how to configure and use the security features implemented in `@promethean/openai-server`.
+This document explains how to configure and use the security features implemented in `@promethean-os/openai-server`.
 
 ## Overview
 
@@ -83,7 +83,7 @@ ALLOWED_CONTENT_TYPES=application/json,text/plain
 ### Basic Secure Server
 
 ```typescript
-import { createOpenAICompliantServer } from '@promethean/openai-server';
+import { createOpenAICompliantServer } from '@promethean-os/openai-server';
 
 const { app } = createOpenAICompliantServer({
   security: {
@@ -248,7 +248,7 @@ The following security headers are automatically added:
 Run the security test suite:
 
 ```bash
-pnpm --filter @promethean/openai-server test
+pnpm --filter @promethean-os/openai-server test
 ```
 
 The tests cover:

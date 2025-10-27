@@ -183,7 +183,7 @@ function makeContextAdapter(): ContextPort;
 **Example**:
 
 ```typescript
-import { makeContextAdapter } from '@promethean/pantheon-fp';
+import { makeContextAdapter } from '@promethean-os/pantheon-fp';
 
 const contextAdapter = makeContextAdapter();
 
@@ -238,7 +238,7 @@ function makeActorAdapter(): ActorPort;
 **Example**:
 
 ```typescript
-import { makeActorAdapter, type ActorConfig } from '@promethean/pantheon-fp';
+import { makeActorAdapter, type ActorConfig } from '@promethean-os/pantheon-fp';
 
 const actorAdapter = makeActorAdapter();
 
@@ -280,7 +280,7 @@ import {
   makeLLMActorAdapter,
   makeOpenAIAdapter,
   type LLMActorConfig,
-} from '@promethean/pantheon-fp';
+} from '@promethean-os/pantheon-fp';
 
 const llmAdapter = makeOpenAIAdapter({
   apiKey: process.env.OPENAI_API_KEY!,
@@ -371,7 +371,7 @@ interface OpenAIAdapterConfig {
 **Example**:
 
 ```typescript
-import { makeOpenAIAdapter } from '@promethean/pantheon-fp';
+import { makeOpenAIAdapter } from '@promethean-os/pantheon-fp';
 
 const llmAdapter = makeOpenAIAdapter({
   apiKey: process.env.OPENAI_API_KEY!,
@@ -408,7 +408,7 @@ function makeMCPToolAdapter(): ToolPort;
 **Example**:
 
 ```typescript
-import { makeMCPToolAdapter, type MCPTool } from '@promethean/pantheon-mcp';
+import { makeMCPToolAdapter, type MCPTool } from '@promethean-os/pantheon-mcp';
 
 const mcpAdapter = makeMCPToolAdapter();
 
@@ -463,7 +463,7 @@ function makeMCPAdapterWithDefaults(): ToolPort;
 **Example**:
 
 ```typescript
-import { makeMCPAdapterWithDefaults } from '@promethean/pantheon-mcp';
+import { makeMCPAdapterWithDefaults } from '@promethean-os/pantheon-mcp';
 
 const mcpAdapter = makeMCPAdapterWithDefaults();
 

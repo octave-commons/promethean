@@ -35,6 +35,7 @@ export type MessageBus = {
 export type Scheduler = {
   every: (ms: number, f: () => Promise<void>) => () => void;
   once: (ms: number, f: () => Promise<void>) => void;
+  cleanup?: () => void;
 };
 
 export type ActorStatePort = {

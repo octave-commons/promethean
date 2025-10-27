@@ -1,4 +1,4 @@
-import { DualStoreManager } from '@promethean/persistence';
+import { DualStoreManager } from '@promethean-os/persistence';
 
 export type MessagingContext = {
   readonly sessionStore: DualStoreManager<'text', 'timestamp'>;

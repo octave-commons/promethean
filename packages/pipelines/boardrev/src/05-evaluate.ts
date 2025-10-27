@@ -9,7 +9,7 @@ import {
   ollamaJSON,
   writeText,
   createLogger,
-} from "@promethean/utils";
+} from "@promethean-os/utils";
 
 import { normStatus } from "./utils.js";
 import type { PromptChunk, TaskContext, EvalItem, TaskFM } from "./types.js";

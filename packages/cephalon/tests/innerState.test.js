@@ -1,6 +1,6 @@
 import anyTest from "ava";
 import { rm } from "node:fs/promises";
-import { openLevelCache } from "@promethean/level-cache";
+import { openLevelCache } from "@promethean-os/level-cache";
 import { loadInnerState, updateInnerState } from "../dist/agent/innerState.js";
 import { defaultState } from "../dist/prompts.js";
 
@@ -8,7 +8,7 @@ const test = anyTest.serial;
 const CACHE_PATH = ".cache/cephalon.level";
 let STATE_KEY = "duck-inner-state";
 try {
-  const env = await import("@promethean/legacy/env.js");
+  const env = await import("@promethean-os/legacy/env.js");
   if (typeof env.AGENT_NAME === "string") {
     STATE_KEY = `${env.AGENT_NAME}-inner-state`;
   }

@@ -7,7 +7,7 @@ This guide demonstrates how to set up and use the continuous monitoring capabili
 ### 1. Basic Monitoring Setup
 
 ```typescript
-import { BoardrevMonitor } from "@promethean/boardrev/src/07-monitor.js";
+import { BoardrevMonitor } from "@promethean-os/boardrev/src/07-monitor.js";
 
 // Create a monitor with default configuration
 const monitor = new BoardrevMonitor({
@@ -72,7 +72,7 @@ const monitor = new BoardrevMonitor({
 ### 1. Custom File Watcher
 
 ```typescript
-import { FileWatcher } from "@promethean/boardrev/src/08-watchers.js";
+import { FileWatcher } from "@promethean-os/boardrev/src/08-watchers.js";
 
 // Create a specialized watcher for boardrev
 const watcher = FileWatcher.createBoardrevWatcher();
@@ -137,7 +137,7 @@ await Promise.all([
 ### 1. Custom Job Scheduling
 
 ```typescript
-import { Scheduler } from "@promethean/boardrev/src/09-scheduler.js";
+import { Scheduler } from "@promethean-os/boardrev/src/09-scheduler.js";
 
 const scheduler = new Scheduler();
 

@@ -1,4 +1,4 @@
-import type { MarkdownChunk } from "@promethean/markdown/types";
+import type { MarkdownChunk } from "@promethean-os/markdown/types";
 
 export type Front = {
   uuid?: string;

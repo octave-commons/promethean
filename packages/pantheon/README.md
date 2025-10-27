@@ -19,10 +19,10 @@ Pantheon is a modular cognitive architecture that provides:
 
 ```bash
 # Install framework
-pnpm add @promethean/pantheon @promethean/pantheon-core @promethean/pantheon-mcp
+pnpm add @promethean-os/pantheon @promethean-os/pantheon-core @promethean-os/pantheon-mcp
 
 # Or install globally for CLI usage
-pnpm add -g @promethean/pantheon
+pnpm add -g @promethean-os/pantheon
 ```
 
 ### Basic Usage
@@ -34,7 +34,7 @@ import {
   makeOrchestrator,
   createLLMActor,
   type ActorScript,
-} from '@promethean/pantheon';
+} from '@promethean-os/pantheon';
 
 // Create adapters
 const contextAdapter = makeInMemoryContextAdapter();
@@ -294,7 +294,7 @@ import {
   makeOrchestrator,
   type ActorScript,
   type ActorStatePort,
-} from '@promethean/pantheon';
+} from '@promethean-os/pantheon';
 
 interface CustomActorConfig {
   customLogic: (input: string) => Promise<string>;
@@ -336,7 +336,7 @@ const actor = await actorStateAdapter.spawn(actorScript, 'Custom task');
 ### Adding Custom MCP Tools
 
 ```typescript
-import { makeMCPToolAdapter, type MCPTool } from '@promethean/pantheon-mcp';
+import { makeMCPToolAdapter, type MCPTool } from '@promethean-os/pantheon-mcp';
 
 const customTool: MCPTool = {
   name: 'custom_analysis',
@@ -377,7 +377,7 @@ mcpAdapter.register?.(customTool);
 ### Context Compilation with Multiple Sources
 
 ```typescript
-import { makeContextAdapter } from '@promethean/pantheon-fp';
+import { makeContextAdapter } from '@promethean-os/pantheon-fp';
 
 const contextAdapter = makeContextAdapter();
 
@@ -407,7 +407,7 @@ import {
   makeInMemoryLlmAdapter,
   createLLMActor,
   makeOpenAIAdapter,
-} from '@promethean/pantheon';
+} from '@promethean-os/pantheon';
 
 const app = express();
 app.use(express.json());
@@ -474,7 +474,7 @@ app.listen(3000, () => {
 
 ```typescript
 import { WebSocketServer } from 'ws';
-import { makeLLMActorAdapter, makeOpenAIAdapter } from '@promethean/pantheon-fp';
+import { makeLLMActorAdapter, makeOpenAIAdapter } from '@promethean-os/pantheon-fp';
 
 const wss = new WebSocketServer({ port: 8080 });
 const llmAdapter = makeOpenAIAdapter({

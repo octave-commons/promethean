@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/mcp",
+  "name": "@promethean-os/mcp",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -42,8 +42,8 @@
     "@fastify/cors": "^10.0.1",
     "@fastify/static": "^7.0.4",
     "@modelcontextprotocol/sdk": "^1.17.5",
-    "@promethean/discord": "workspace:*",
-    "@promethean/kanban": "workspace:*",
+    "@promethean-os/discord": "workspace:*",
+    "@promethean-os/kanban": "workspace:*",
     "@stryker-mutator/core": "^8.7.1",
     "bcryptjs": "^2.4.3",
     "dotenv": "^17.2.3",

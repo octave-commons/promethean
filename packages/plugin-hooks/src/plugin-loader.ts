@@ -3,7 +3,7 @@
  */
 
 import type { Plugin } from './types.js';
-import type { EventBus } from '@promethean/event';
+import type { EventBus } from '@promethean-os/event';
 
 /**
  * Plugin discovery options

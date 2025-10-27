@@ -16,7 +16,7 @@ estimates:
 
 ### 📋 Description
 
-Create a unified build system that can compile TypeScript, ClojureScript, and Electron components within the `@promethean/opencode-unified` package. This build system must support development workflows with hot reload and production optimizations for deployment.
+Create a unified build system that can compile TypeScript, ClojureScript, and Electron components within the `@promethean-os/opencode-unified` package. This build system must support development workflows with hot reload and production optimizations for deployment.
 
 ### 🎯 Goals
 

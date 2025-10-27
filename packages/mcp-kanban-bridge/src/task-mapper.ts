@@ -16,7 +16,7 @@ const McpTaskSchema = z.object({
   metadata: z.record(z.any()).optional(),
 });
 
-// Kanban task schema (from @promethean/kanban)
+// Kanban task schema (from @promethean-os/kanban)
 const KanbanTaskSchema = z.object({
   uuid: z.string(),
   title: z.string(),

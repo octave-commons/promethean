@@ -84,7 +84,7 @@ test('bulk import with different columns allows same titles', async (t) => {
 
   // Import same task titles into different columns
   const crossColumnTasks = [
-    { title: 'Cross-Column Task', column: 'todo', content: 'Todo content' },
+    { title: 'Cross-Column Task', column: 'incoming', content: 'Incoming content' },
     { title: 'Cross-Column Task', column: 'ready', content: 'Ready content' },
     { title: 'Cross-Column Task', column: 'in-progress', content: 'In-progress content' },
   ];
@@ -114,18 +114,18 @@ test('bulk import with different columns allows same titles', async (t) => {
   t.is(titles.size, 1, 'All tasks should have same title');
 
   // Verify each task is in correct column
-  const todoTask = createdTasks.find((t) => t.status === 'todo');
+  const incomingTask = createdTasks.find((t) => t.status === 'incoming');
   const readyTask = createdTasks.find((t) => t.status === 'ready');
   const inProgressTask = createdTasks.find((t) => t.status === 'in-progress');
 
   // All tasks should have formatted content with sections
   t.true(
-    todoTask?.content?.includes('Todo content') ?? false,
-    'Todo task should contain original content',
+    incomingTask?.content?.includes('Incoming content') ?? false,
+    'Incoming task should contain original content',
   );
   t.true(
-    todoTask?.content?.includes('## ⛓️ Blocked By') ?? false,
-    'Todo task should have Blocked By section',
+    incomingTask?.content?.includes('## ⛓️ Blocked By') ?? false,
+    'Incoming task should have Blocked By section',
   );
   t.true(
     readyTask?.content?.includes('Ready content') ?? false,

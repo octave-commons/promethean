@@ -3,8 +3,8 @@ import { pathToFileURL } from 'url';
 import { promises as fs } from 'fs';
 
 import { globby } from 'globby';
-import { openLevelCache, type Cache } from '@promethean/level-cache';
-import { ollamaEmbed, parseArgs, createLogger } from '@promethean/utils';
+import { openLevelCache, type Cache } from '@promethean-os/level-cache';
+import { ollamaEmbed, parseArgs, createLogger } from '@promethean-os/utils';
 
 import type { RepoDoc, FileMetadata, IndexStats } from './types.js';
 import { detectChangedFiles, updateFileMetadata } from './utils.js';

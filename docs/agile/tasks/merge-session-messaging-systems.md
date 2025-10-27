@@ -16,7 +16,7 @@ estimates:
 
 ### 📋 Description
 
-Merge the session and messaging systems from `@promethean/opencode-client` into a unified communication layer within the consolidated package. This involves consolidating session storage, message processing pipelines, event handling, and cache integration into a coherent, scalable system.
+Merge the session and messaging systems from `@promethean-os/opencode-client` into a unified communication layer within the consolidated package. This involves consolidating session storage, message processing pipelines, event handling, and cache integration into a coherent, scalable system.
 
 ### 🎯 Goals
 
@@ -122,7 +122,7 @@ src/typescript/client/communication/
 
 ### 📁 Files/Components to Migrate
 
-#### From `@promethean/opencode-client`:
+#### From `@promethean-os/opencode-client`:
 
 1. **Session System**
 

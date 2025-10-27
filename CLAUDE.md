@@ -19,7 +19,7 @@ pnpm dev:all
 
 ## 📋 Kanban Task Management
 
-All work must be tracked using the kanban system. The board lives at `docs/agile/boards/generated.md` and is managed via the `@promethean/kanban` package.
+All work must be tracked using the kanban system. The board lives at `docs/agile/boards/generated.md` and is managed via the `@promethean-os/kanban` package.
 
 ### 🎯 Essential Kanban Commands
 
@@ -75,13 +75,13 @@ Claude has access to 70+ development tools via the unified MCP server for enhanc
 
 ```bash
 # Start MCP server (HTTP transport)
-pnpm --filter @promethean/mcp dev
+pnpm --filter @promethean-os/mcp dev
 
 # Access interactive UI
 http://localhost:3000/ui
 
 # Start with custom config
-pnpm --filter @promethean/mcp dev -- --config ./my-mcp.json
+pnpm --filter @promethean-os/mcp dev -- --config ./my-mcp.json
 ```
 
 ### 🔧 Essential Tools for Claude
@@ -134,13 +134,13 @@ await mcp.call('github_apply_patch', {
 
 ```javascript
 // Install dependencies
-await mcp.call('pnpm_install', { filter: '@promethean/core' });
+await mcp.call('pnpm_install', { filter: '@promethean-os/core' });
 
 // Add package
-await mcp.call('pnpm_add', { packages: ['lodash'], filter: '@promethean/core' });
+await mcp.call('pnpm_add', { packages: ['lodash'], filter: '@promethean-os/core' });
 
 // Run script
-await mcp.call('pnpm_run_script', { script: 'build', filter: '@promethean/core' });
+await mcp.call('pnpm_run_script', { script: 'build', filter: '@promethean-os/core' });
 ```
 
 ### 🌐 Available Endpoints
@@ -257,7 +257,7 @@ The repository uses **Piper** pipeline runner (`packages/piper`) with declarativ
 
 ## Kanban & Task Management
 
-Task management uses the `@promethean/kanban` package. **You can run kanban commands from any directory in the repository** - the system automatically resolves paths correctly.
+Task management uses the `@promethean-os/kanban` package. **You can run kanban commands from any directory in the repository** - the system automatically resolves paths correctly.
 
 ### 🎯 Essential Kanban Commands for Claude
 
@@ -420,7 +420,7 @@ cp -r docs/vault-config/.obsidian docs/.obsidian
 
 ### Immutable Data
 
-Prefer immutable data structures and avoid in-place object mutation. Use key-value caches like `@promethean/level-cache` instead of JSON files for intermediate data.
+Prefer immutable data structures and avoid in-place object mutation. Use key-value caches like `@promethean-os/level-cache` instead of JSON files for intermediate data.
 
 ### Service Communication
 

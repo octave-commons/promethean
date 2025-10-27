@@ -281,17 +281,17 @@ services:
       timeout: 5s
       retries: 6
 
-  semgrep:
-    image: ${SEMGREP_IMAGE:-semgrep/semgrep:1.92.0}
-    working_dir: /src
-    volumes:
-      - ./:/src:ro # read-only mount is cautious, optional
-    entrypoint: []
-    command: >
-      semgrep scan --config p/default --json
-    # Optional environment if you need Semgrep AppSec features
-    # environment:
-    #   SEMGREP_APP_TOKEN: "${SEMGREP_APP_TOKEN}"
+  # semgrep:
+  #   image: ${SEMGREP_IMAGE:-semgrep/semgrep:1.92.0}
+  #   working_dir: /src
+  #   volumes:
+  #     - ./:/src:ro # read-only mount is cautious, optional
+  #   entrypoint: []
+  #   command: >
+  #     semgrep scan --config p/default --json
+  #   # Optional environment if you need Semgrep AppSec features
+  #   # environment:
+  #   #   SEMGREP_APP_TOKEN: "${SEMGREP_APP_TOKEN}"
 
 volumes:
   nats_data:

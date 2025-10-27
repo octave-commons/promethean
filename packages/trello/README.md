@@ -147,7 +147,7 @@ packages/trello/
 ## 🎨 **Example Usage**
 
 ```typescript
-import { KanbanToTrelloSync } from '@promethean/trello';
+import { KanbanToTrelloSync } from '@promethean-os/trello';
 
 const sync = new KanbanToTrelloSync(
   {

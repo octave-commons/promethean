@@ -242,19 +242,16 @@ export function getAuthConfig(): AuthConfig {
   const config = { ...defaultAuthConfig };
 
   // Basic auth config
-  config.defaultRole = (process.env.MCP_DEFAULT_ROLE as any) || defaultAuthConfig.defaultRole;
-  config.strictMode = process.env.MCP_STRICT_MODE === 'true' || defaultAuthConfig.strictMode;
-  config.requireAuthForDangerous =
-    process.env.MCP_REQUIRE_AUTH_DANGEROUS !== 'false' || defaultAuthConfig.requireAuthForDangerous;
+  config.defaultRole = process.env.MCP_DEFAULT_ROLE as any;
+  config.strictMode = process.env.MCP_STRICT_MODE === 'true';
+  config.requireAuthForDangerous = process.env.MCP_REQUIRE_AUTH_DANGEROUS !== 'false';
   config.sessionTimeout = parseInt(process.env.MCP_SESSION_TIMEOUT || '60', 10);
-  config.enableAuditLog =
-    process.env.MCP_ENABLE_AUDIT !== 'false' || defaultAuthConfig.enableAuditLog;
+  config.enableAuditLog = process.env.MCP_ENABLE_AUDIT !== 'false';
   config.rateLimiting = {
     requestsPerMinute: parseInt(process.env.MCP_RATE_LIMIT_RPM || '100', 10),
     dangerousRequestsPerHour: parseInt(process.env.MCP_RATE_LIMIT_DANGEROUS_PH || '10', 10),
   };
-  config.adminIpWhitelist =
-    process.env.MCP_ADMIN_IP_WHITELIST?.split(',') || defaultAuthConfig.adminIpWhitelist;
+  config.adminIpWhitelist = process.env.MCP_ADMIN_IP_WHITELIST?.split(',');
 
   // OAuth config
   if (config.oauth) {

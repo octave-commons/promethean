@@ -4,8 +4,8 @@ import { promises as fs } from "node:fs";
 import * as path from "node:path";
 import { pathToFileURL } from "node:url";
 
-import { scanFiles } from "@promethean/file-indexer";
-import type { IndexedFile, ScanProgress } from "@promethean/file-indexer";
+import { scanFiles } from "@promethean-os/file-indexer";
+import type { IndexedFile, ScanProgress } from "@promethean-os/file-indexer";
 
 import { parseArgs, stripGeneratedSections } from "./utils.js";
 

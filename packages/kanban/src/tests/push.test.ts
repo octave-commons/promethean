@@ -3,7 +3,7 @@ import { mkdir } from "node:fs/promises";
 
 import test from "ava";
 
-import { parseFrontmatter as parseMarkdownFrontmatter } from "@promethean/markdown/frontmatter";
+import { parseFrontmatter as parseMarkdownFrontmatter } from "@promethean-os/markdown/frontmatter";
 
 import { pushToTasks } from "../lib/kanban.js";
 import {

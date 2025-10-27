@@ -1,6 +1,6 @@
 {
-  "name": "@promethean/pantheon-core",
-  "version": "1.0.0",
+  "name": "@promethean-os/pantheon-core",
+  "version": "0.1.0",
   "description": "Pantheon Agent Management Framework — Core functional library for actors, behaviors, context, and orchestration",
   "type": "module",
   "main": "dist/index.js",
@@ -35,7 +35,7 @@
     "node": ">=22.0.0"
   },
   "peerDependencies": {
-    "@promethean/persistence": "workspace:*",
-    "@promethean/agent-state": "workspace:*"
+    "@promethean-os/persistence": "workspace:*",
+    "@promethean-os/pantheon-state": "workspace:*"
   }
 }

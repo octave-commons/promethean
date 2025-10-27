@@ -5,8 +5,8 @@ import { createHash } from "node:crypto";
 import { pathToFileURL } from "node:url";
 
 import matter from "gray-matter";
-import { scanFiles } from "@promethean/file-indexer";
-import type { IndexedFile, ScanProgress } from "@promethean/file-indexer";
+import { scanFiles } from "@promethean-os/file-indexer";
+import type { IndexedFile, ScanProgress } from "@promethean-os/file-indexer";
 
 import { DBs } from "./db.js";
 import { parseArgs, parseMarkdownChunks } from "./utils.js";

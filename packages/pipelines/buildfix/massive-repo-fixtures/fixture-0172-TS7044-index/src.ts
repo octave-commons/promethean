@@ -4,24 +4,24 @@ import {
 } from "path";
 import crypto from "crypto";
 
-import { World } from "@promethean/ds/ecs.js";
+import { World } from "@promethean-os/ds/ecs.js";
 import {
   initFsEcs,
   type DirectorySnapshotState,
   type DirectoryWriteBufferState,
   type DirectoryWriteOperation,
-} from "@promethean/fs";
+} from "@promethean-os/fs";
 
-import { ContextStore } from "@promethean/persistence/contextStore.js";
+import { ContextStore } from "@promethean-os/persistence/contextStore.js";
 // DualStoreManager types resolved at runtime; avoid compile-time coupling
-import { getMongoClient } from "@promethean/persistence/clients.js";
+import { getMongoClient } from "@promethean-os/persistence/clients.js";
 import type { MongoClient } from "mongodb";
 // @ts-ignore
-import { BrokerClient } from "@promethean/legacy/brokerClient.js";
-import { MarkdownBoard } from "@promethean/markdown/kanban.js";
-import { syncBoardStatuses } from "@promethean/markdown/sync.js";
-import { MarkdownTask } from "@promethean/markdown/task.js";
-import { STATUS_SET, STATUS_ORDER } from "@promethean/markdown/statuses.js";
+import { BrokerClient } from "@promethean-os/legacy/brokerClient.js";
+import { MarkdownBoard } from "@promethean-os/markdown/kanban.js";
+import { syncBoardStatuses } from "@promethean-os/markdown/sync.js";
+import { MarkdownTask } from "@promethean-os/markdown/task.js";
+import { STATUS_SET, STATUS_ORDER } from "@promethean-os/markdown/statuses.js";
 
 const EVENTS = {
   boardChange: "file-watcher-board-change",

@@ -73,7 +73,7 @@ export function registerSimpleOAuthRoutes(
       .send({
         issuer: `${baseUrl}/mcp`,
         authorization_endpoint: `${baseUrl}${basePath}/login`,
-        token_endpoint: `${baseUrl}${basePath}/callback`,
+        token_endpoint: `${baseUrl}${basePath}/token`,
         registration_endpoint: `${baseUrl}/.well-known/oauth-registration/mcp`,
         response_types_supported: ['code'],
         grant_types_supported: ['authorization_code'],
@@ -95,7 +95,7 @@ export function registerSimpleOAuthRoutes(
       .send({
         issuer: `${baseUrl}/mcp`,
         authorization_endpoint: `${baseUrl}${basePath}/login`,
-        token_endpoint: `${baseUrl}${basePath}/callback`,
+        token_endpoint: `${baseUrl}${basePath}/token`,
         userinfo_endpoint: `${baseUrl}${basePath}/userinfo`,
         jwks_uri: `${baseUrl}${basePath}/jwks`,
         registration_endpoint: `${baseUrl}/.well-known/oauth-registration/mcp`,
@@ -504,6 +504,75 @@ export function registerSimpleOAuthRoutes(
     }
   });
 
+  /**
+   * Token endpoint (MCP style): POST { grant_type=authorization_code, code, code_verifier?, redirect_uri, client_id }
+   * Returns standard OAuth token response JSON. No cookies/redirects here.
+   */
+  fastify.post(`${basePath}/token`, async (request, reply) => {
+    try {
+      // Normalize body
+      const body = request.body as any;
+      const code: string | undefined = body?.code;
+      const codeVerifier: string | undefined = body?.code_verifier;
+      const postedRedirectUri: string | undefined = body?.redirect_uri;
+      const clientId: string | undefined = body?.client_id;
+      const error: string | undefined = body?.error;
+
+      if (error) {
+        return reply.status(400).send({
+          error: 'OAuth error',
+          message: error,
+        });
+      }
+
+      // For MCP PKCE flow, code is required (no state expected)
+      if (!code) {
+        return reply.status(400).send({
+          error: 'Missing parameters',
+          message: 'Authorization code is required',
+        });
+      }
+
+      // Resolve provider (prefer client_id mapping; fallback to single available provider)
+      let provider: string | null = null;
+      if (clientId && typeof (config.oauthSystem as any).getProviderByClientId === 'function') {
+        provider = (config.oauthSystem as any).getProviderByClientId(clientId);
+      }
+      if (!provider) {
+        const provs = config.oauthSystem.getAvailableProviders();
+        provider = provs.length === 1 ? provs[0] || 'github' : 'github';
+      }
+
+      // Perform provider-agnostic token exchange via OAuthSystem
+      let token;
+      try {
+        token = await (config.oauthSystem as any).exchangeCodeForTokensDirect(provider!, code, {
+          codeVerifier,
+          redirectUri: postedRedirectUri, // must match the value used at authorize time
+        });
+      } catch (e) {
+        return reply.status(400).send({
+          error: 'token_exchange_failed',
+          message: (e as Error).message,
+        });
+      }
+
+      // Minimal OAuth token response for MCP
+      return reply.status(200).send({
+        access_token: token.accessToken,
+        token_type: token.tokenType || 'Bearer',
+        ...(token.expiresIn ? { expires_in: token.expiresIn } : {}),
+        ...(token.refreshToken ? { refresh_token: token.refreshToken } : {}),
+        ...(token.scope ? { scope: token.scope } : {}),
+      });
+    } catch (error) {
+      return reply.status(500).send({
+        error: 'token_endpoint_error',
+        message: String(error),
+      });
+    }
+  });
+
   // OAuth callback (POST - for API usage)
   fastify.post(`${basePath}/callback`, async (request, reply) => {
     try {
@@ -609,13 +678,16 @@ export function registerSimpleOAuthRoutes(
 
         try {
           // Validate required environment variables
-          const clientId = process.env.MCP_OAUTH_GITHUB_CLIENT_ID || process.env.OAUTH_GITHUB_CLIENT_ID;
-          const clientSecret = process.env.MCP_OAUTH_GITHUB_CLIENT_SECRET || process.env.OAUTH_GITHUB_CLIENT_SECRET;
-          
+          const clientId =
+            process.env.MCP_OAUTH_GITHUB_CLIENT_ID || process.env.OAUTH_GITHUB_CLIENT_ID;
+          const clientSecret =
+            process.env.MCP_OAUTH_GITHUB_CLIENT_SECRET || process.env.OAUTH_GITHUB_CLIENT_SECRET;
+
           if (!clientId || !clientSecret) {
             return reply.status(500).send({
               error: 'configuration_error',
-              message: 'GitHub OAuth credentials not configured. Please set MCP_OAUTH_GITHUB_CLIENT_ID and MCP_OAUTH_GITHUB_CLIENT_SECRET environment variables.',
+              message:
+                'GitHub OAuth credentials not configured. Please set MCP_OAUTH_GITHUB_CLIENT_ID and MCP_OAUTH_GITHUB_CLIENT_SECRET environment variables.',
             });
           }
 

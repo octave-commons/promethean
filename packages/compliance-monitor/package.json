@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/compliance-monitor",
+  "name": "@promethean-os/compliance-monitor",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -21,16 +21,16 @@
     "@fastify/rate-limit": "^10.3.0",
     "fastify": "^5.3.2",
     "jose": "^5.9.6",
-    "@promethean/persistence": "workspace:*",
-    "@promethean/legacy": "workspace:*",
+    "@promethean-os/persistence": "workspace:*",
+    "@promethean-os/legacy": "workspace:*",
     "mongodb": "^6.8.0",
     "ws": "^8.18.0",
     "node-cron": "^3.0.3",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@promethean/pm2-helpers": "workspace:*",
-    "@promethean/test-utils": "workspace:*",
+    "@promethean-os/pm2-helpers": "workspace:*",
+    "@promethean-os/test-utils": "workspace:*",
     "ava": "^6.4.1",
     "c8": "^9.1.0",
     "mongodb-memory-server": "^10.1.4",

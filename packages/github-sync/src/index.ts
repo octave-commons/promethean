@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import { loadBoard } from '@promethean/kanban';
-import type { Task, Board } from '@promethean/kanban';
+import { loadBoard } from '@promethean-os/kanban';
+import type { Task, Board } from '@promethean-os/kanban';
 
 type GraphQLResponse<T = unknown> = {
   data?: T;

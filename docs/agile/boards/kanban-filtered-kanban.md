@@ -83,7 +83,7 @@ kanban-plugin: board
 - [ ] [[Create Mermaid-to-FSM config generator for kanban workflows]] #mermaid #fsm #kanban #create prio:P1 (uuid:ecee2a47-d4dc-42da-95db-eb1359d00425)
 - [ ] [[Implement LLM-powered kanban explain command]] #llm #explain #command #kanban prio:P1 (uuid:6866f097-f4c8-485a-8c1d-78de260459d2)
 - [ ] [[Kanban System Health Monitoring & Alerting Framework]] #kanban #health-monitoring #automation #alerting #framework #mcp-integration #healing prio:P1 (uuid:3308ce11-0321-4bc2-a4be-bdf5e5e8701a)
-- [ ] [[Migrate @promethean kanban to ClojureScript|Migrate @promethean/kanban to ClojureScript]] #migration #clojurescript #typed-clojure #kanban #tooling prio:P2 (uuid:d9967354-205b-4682-87e1-678074cfe065)
+- [ ] [[Migrate @promethean kanban to ClojureScript|Migrate @promethean-os/kanban to ClojureScript]] #migration #clojurescript #typed-clojure #kanban #tooling prio:P2 (uuid:d9967354-205b-4682-87e1-678074cfe065)
 
 ## blocked
 
@@ -97,7 +97,7 @@ kanban-plugin: board
 
 ## todo
 
-- [ ] [[2025.10.12.16.00.00.migrate-kanban-to-lmdb-cache 25|Migrate Kanban Package from @promethean/level-cache to @promethean/lmdb-cache]] #migration #kanban #cache #lmdb #performance #concurrency #drop-in-replacement prio:P1 (uuid:b0ed3163-e0f6-4fbd-be67-9de457202e9c)
+- [ ] [[2025.10.12.16.00.00.migrate-kanban-to-lmdb-cache 25|Migrate Kanban Package from @promethean-os/level-cache to @promethean-os/lmdb-cache]] #migration #kanban #cache #lmdb #performance #concurrency #drop-in-replacement prio:P1 (uuid:b0ed3163-e0f6-4fbd-be67-9de457202e9c)
 - [ ] [[20251011235168|Implement Scar Context Builder]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #scar-context #context-builder #phase-1 prio:P1 (uuid:ca84477b-20d4-4d49-8457-96d3e9749b6a)
 - [ ] [[20251011235189|Implement LLM Integration for Context Enhancement]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #scar-context #llm-integration #phase-1 prio:P1 (uuid:3ca4b85d-0c71-4e45-bf4a-01a16b990a70)
 - [ ] [[20251011235213|Implement Git Workflow Core Implementation]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #git-workflow #version-control #phase-1 prio:P1 (uuid:5791f7ad-8954-4204-932d-1f1383e90732)

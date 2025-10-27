@@ -1,4 +1,4 @@
-// Type definitions for @promethean/eidolon-field/index.js
+// Type definitions for @promethean-os/eidolon-field/index.js
 
 export class VectorN {
   values: number[];

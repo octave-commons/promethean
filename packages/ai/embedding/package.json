@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/embedding",
+  "name": "@promethean-os/embedding",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -23,8 +23,8 @@
     "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs"
   },
   "dependencies": {
-    "@promethean/legacy": "workspace:*",
-    "@promethean/platform": "workspace:*",
+    "@promethean-os/legacy": "workspace:*",
+    "@promethean-os/platform": "workspace:*",
     "chromadb": "3.0.14"
   }
 }

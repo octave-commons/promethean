@@ -1,7 +1,6 @@
 {
-  "name": "@promethean/agents-workflow",
+  "name": "@promethean-os/agents-workflow",
   "version": "0.0.0",
-  "private": true,
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -33,7 +32,7 @@
     "zod": "^3.25.0"
   },
   "devDependencies": {
-    "@promethean/test-utils": "workspace:*"
+    "@promethean-os/test-utils": "workspace:*"
   },
   "license": "GPL-3.0-only"
 }

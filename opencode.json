@@ -26,6 +26,9 @@
         }
       }
     },
+    "agent":{
+
+    },
     "ollama": {
       "npm": "ollama-ai-provider-v2",
       "models": {
@@ -162,6 +165,9 @@
       }
     }
   },
+  "permission": {
+    "bash":{}
+  },
   "mcp": {
     "clj": {
       "type": "local",
@@ -194,15 +200,4 @@
   },
 
   "instructions": ["./docs/agents/platforms/opencode/AGENTS.md"],
-  "tools": {
-    "clj*": false,
-    "playwright*":false,
-    "DirectProcess.*":false,
-    "Events.*":false,
-    "Messaging.*":false,
-    "Messages.*":false,
-    "ollama.*":false,
-    "Cache.*":false,
-    "Sessions.*": false
-  }
 }

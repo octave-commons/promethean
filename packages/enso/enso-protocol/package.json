@@ -1,6 +1,6 @@
 {
-  "name": "@promethean/enso-protocol",
-  "version": "1.0.0",
+  "name": "@promethean-os/enso-protocol",
+  "version": "0.1.0",
   "type": "module",
   "description": "",
   "main": "dist/index.js",

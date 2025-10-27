@@ -1,0 +1,1 @@
+FileSystemWatcher task (uuid 80f6a81a-...) moved to in_progress with P0 priority and estimates set (medium, small, 2h). Acceptance criteria and implementation notes added. Next steps: implement package under packages/monitoring or packages/file-watcher, add unit/integration tests, and wire normalized events to ViolationTracker.

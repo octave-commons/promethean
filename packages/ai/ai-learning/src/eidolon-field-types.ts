@@ -1,9 +1,8 @@
-// Type definitions for @promethean/eidolon-field JavaScript module
+// Type definitions for @promethean-os/eidolon-field JavaScript module
 
 export interface VectorN {
   values: number[];
-  
-  static zero(n: number): VectorN;
+
   add(other: VectorN): VectorN;
   subtract(other: VectorN): VectorN;
   scale(f: number): VectorN;
@@ -13,11 +12,16 @@ export interface VectorN {
   clone(): VectorN;
 }
 
+export interface VectorNConstructor {
+  zero(n: number): VectorN;
+  new (values: number[]): VectorN;
+}
+
 export interface FieldN {
   dimensions: number;
   decay: number;
   grid: Map<string, VectorN>;
-  
+
   get(pos: VectorN): VectorN;
   inject(pos: VectorN, vec: VectorN): void;
   decayAll(): void;
@@ -28,7 +32,7 @@ export interface FieldNode {
   position: VectorN;
   strength: number;
   radius: number;
-  
+
   apply(field: FieldN): void;
 }
 
@@ -38,7 +42,7 @@ export interface VectorFieldService {
   tickMs: number;
   timer: any;
   tickCount: number;
-  
+
   addNode(node: FieldNode): void;
   connect(): Promise<void>;
   saveField(): Promise<void>;
@@ -47,4 +51,4 @@ export interface VectorFieldService {
   stop(): Promise<void>;
 }
 
-export function start(): Promise<VectorFieldService>;
+export declare function start(): Promise<VectorFieldService>;

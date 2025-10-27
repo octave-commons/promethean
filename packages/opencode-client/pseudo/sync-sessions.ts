@@ -4,7 +4,7 @@
  * Bridge to sync sessions from Promethean MongoDB storage to opencode-ai file storage
  */
 
-import { DualStoreManager } from '@promethean/persistence';
+import { DualStoreManager } from '@promethean-os/persistence';
 import { writeFileSync, mkdirSync, existsSync, readdirSync } from 'fs';
 import { join } from 'path';
 

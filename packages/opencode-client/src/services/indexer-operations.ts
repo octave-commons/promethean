@@ -1,10 +1,8 @@
 import type { Session, Event } from '@opencode-ai/sdk';
 
-import { sessionStore, eventStore, messageStore } from '../index.js';
-import { insert } from '@promethean/persistence/dualStore.js';
-
+import { sessionStoreAccess, eventStoreAccess, messageStoreAccess } from './unified-store.js';
 import type { Message } from './indexer-types.js';
-import { eventToMarkdown, sessionToMarkdown, messageToMarkdown } from './indexer-formatters.js';
+import { eventToMarkdown, sessionToMarkdown } from './indexer-formatters.js';
 
 type EnhancedEvent = Event & {
   readonly properties?: {
@@ -23,8 +21,7 @@ const indexSession = async (session: Session): Promise<void> => {
   const markdown = sessionToMarkdown(session);
 
   try {
-    await insert(sessionStore.dualStoreState, {
-      id: `session_${session.id}`,
+    await sessionStoreAccess.insert({
       text: markdown,
       timestamp: session.time?.created ?? Date.now(),
       metadata: {
@@ -38,13 +35,40 @@ const indexSession = async (session: Session): Promise<void> => {
   }
 };
 
+// Enhanced error type for better debugging
+export class IndexingError extends Error {
+  constructor(
+    message: string,
+    public readonly context: {
+      messageId?: string;
+      sessionId?: string;
+      originalError?: unknown;
+    },
+  ) {
+    super(message);
+  }
+}
+
 const indexMessage = async (message: Message, sessionId: string): Promise<void> => {
-  const markdown = messageToMarkdown(message);
+  // Validate input
+  if (!message) {
+    throw new IndexingError('Message is required', { sessionId });
+  }
+
+  if (!message.info?.id) {
+    throw new IndexingError('Message ID is required', { sessionId });
+  }
+
+  // Store the complete message as JSON (new format)
+  const messageText = JSON.stringify({
+    info: message.info,
+    parts: message.parts,
+  });
 
   try {
-    await insert(messageStore.dualStoreState, {
-      id: `message_${message.info?.id}`,
-      text: markdown,
+    await messageStoreAccess.insert({
+      id: message.info?.id,
+      text: messageText,
       timestamp: message.info?.time?.created ?? Date.now(),
       metadata: {
         type: 'message',
@@ -54,20 +78,28 @@ const indexMessage = async (message: Message, sessionId: string): Promise<void> 
       },
     });
   } catch (error: unknown) {
-    console.error('❌ Error indexing message:', error);
+    const errorContext = {
+      messageId: message.info?.id,
+      sessionId,
+      originalError: error,
+    };
+
+    console.error('❌ Error indexing message:', {
+      message: error instanceof Error ? error.message : String(error),
+      context: errorContext,
+    });
+
+    // Re-throw with context for better debugging
+    throw new IndexingError(`Failed to index message ${message.info?.id}`, errorContext);
   }
 };
 
-const indexEvent = async (
-  event: EnhancedEvent,
-  logEventDeduped?: (eventType: string, message: string) => void,
-): Promise<void> => {
+const indexEvent = async (event: EnhancedEvent): Promise<void> => {
   const markdown = eventToMarkdown(event);
   const timestamp = Date.now();
 
   try {
-    await insert(eventStore.dualStoreState, {
-      id: `event_${event.type}_${timestamp}`,
+    await eventStoreAccess.insert({
       text: markdown,
       timestamp,
       metadata: {
@@ -83,21 +115,16 @@ const indexEvent = async (
     console.error('❌ Error indexing event:', error);
   }
 
-  if (logEventDeduped) {
-    logEventDeduped(`event_indexed_${event.type}`, `📡 Indexed event: ${event.type}`);
-  } else {
-    console.log(`📡 Indexed event: ${event.type}`);
-  }
+  // Event logging is handled by specific handlers in events.ts
+  // to avoid redundant logging and provide better context
 };
 
-export const createIndexingOperations = (
-  logEventDeduped?: (eventType: string, message: string) => void,
-): {
+export const createIndexingOperations = (): {
   readonly indexSession: (session: Session) => Promise<void>;
   readonly indexMessage: (message: Message, sessionId: string) => Promise<void>;
   readonly indexEvent: (event: EnhancedEvent) => Promise<void>;
 } => ({
   indexSession,
-  indexMessage: (message: Message, sessionId: string) => indexMessage(message, sessionId),
-  indexEvent: (event: EnhancedEvent) => indexEvent(event, logEventDeduped),
+  indexMessage,
+  indexEvent: (event: EnhancedEvent) => indexEvent(event),
 });

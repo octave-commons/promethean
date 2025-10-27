@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 
-import { slug, parseArgs, writeText, readMaybe, createLogger } from '@promethean/utils';
+import { slug, parseArgs, writeText, readMaybe, createLogger } from '@promethean-os/utils';
 import type { PromptChunk } from './types.js';
 
 const logger = createLogger({ service: 'boardrev' });

@@ -48,15 +48,15 @@ The TypeScript to ClojureScript migration program is **WELL-POSITIONED FOR SUCCE
 **P1 High Priority - FOUNDATION PACKAGES**
 
 **Wave 1: Core Utilities (Week 3-4)**
-- `@promethean/utils` - Foundation for all packages
-- `@promethean/level-cache` - Critical caching layer
-- `@promethean/http` - HTTP client utilities
-- `@promethean/event` - Event system
-- `@promethean/fsm` - Finite state machine
-- `@promethean/schema` - Schema validation
-- `@promethean/ds` - Data structures
-- `@promethean/stream` - Stream processing
-- `@promethean/persistence` - Data persistence
+- `@promethean-os/utils` - Foundation for all packages
+- `@promethean-os/level-cache` - Critical caching layer
+- `@promethean-os/http` - HTTP client utilities
+- `@promethean-os/event` - Event system
+- `@promethean-os/fsm` - Finite state machine
+- `@promethean-os/schema` - Schema validation
+- `@promethean-os/ds` - Data structures
+- `@promethean-os/stream` - Stream processing
+- `@promethean-os/persistence` - Data persistence
 
 **Wave 2: Test Framework (Week 4)**
 - Create CLJS test migration framework
@@ -64,12 +64,12 @@ The TypeScript to ClojureScript migration program is **WELL-POSITIONED FOR SUCCE
 - Establish validation patterns
 
 **Wave 3: Agent System (Week 5-6)**
-- `@promethean/agent` - Core agent framework
-- `@promethean/agent-ecs` - Entity component system
-- `@promethean/agents-workflow` - Agent workflow management
-- `@promethean/manager` - Agent management
-- `@promethean/platform` - Platform abstractions
-- `@promethean/providers` - Service providers
+- `@promethean-os/agent` - Core agent framework
+- `@promethean-os/agent-ecs` - Entity component system
+- `@promethean-os/agents-workflow` - Agent workflow management
+- `@promethean-os/manager` - Agent management
+- `@promethean-os/platform` - Platform abstractions
+- `@promethean-os/providers` - Service providers
 
 ### Phase 3: Extended Migration (Week 7-12)
 **P2 Medium Priority - SPECIALIZED PACKAGES**
@@ -154,7 +154,7 @@ The TypeScript to ClojureScript migration program is **WELL-POSITIONED FOR SUCCE
 1. **Create Migration Dashboard** - Track program progress
 2. **Finalize Infrastructure Tasks** - Complete P0 setup
 3. **Establish Communication Rhythms** - Regular status updates
-4. **Begin Core Utility Migration** - Start with @promethean/utils
+4. **Begin Core Utility Migration** - Start with @promethean-os/utils
 
 ### Next Week (Priority 2)
 1. **Complete Nx Template** - Enable rapid package creation

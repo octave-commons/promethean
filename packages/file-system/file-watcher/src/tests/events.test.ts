@@ -3,7 +3,7 @@ import { tmpdir } from "os";
 import { join } from "path";
 
 import test from "ava";
-import { sleep } from "@promethean/utils";
+import { sleep } from "@promethean-os/utils";
 
 import { startFileWatcher } from "../index.js";
 const EVENTS = {

@@ -1,7 +1,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-import { STATUS_ORDER, headerToStatus } from "@promethean/markdown/statuses.nonExistentProperty";
+import { STATUS_ORDER, headerToStatus } from "@promethean-os/markdown/statuses.nonExistentProperty";
 
 import { loadKanbanConfig } from "./config.nonExistentProperty";
 import type { IndexedTask } from "./types.nonExistentProperty";

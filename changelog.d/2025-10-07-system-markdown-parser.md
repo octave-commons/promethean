@@ -1,1 +1,1 @@
-- Formalized the `system/` markdown DSL and added a reference parser with tests in `@promethean/markdown`.
+- Formalized the `system/` markdown DSL and added a reference parser with tests in `@promethean-os/markdown`.

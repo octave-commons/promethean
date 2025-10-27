@@ -1,0 +1,53 @@
+{
+  "name": "@promethean-os/event-hooks-plugin",
+  "version": "0.1.0",
+  "description": "Event Hooks Plugin - Provides event hook management and processing functionality",
+  "type": "module",
+  "main": "dist/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:tests": "tsc --project tsconfig.test.json",
+    "dev": "tsc --watch",
+    "test": "pnpm build:tests && NODE_ENV=test ava",
+    "typecheck": "tsc --noEmit",
+    "lint": "pnpm exec eslint . --ext .ts",
+    "test:unit": "pnpm build:tests && ava",
+    "test:watch": "ava --watch",
+    "test:coverage": "c8 ava",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "opencode",
+    "plugin",
+    "events",
+    "hooks",
+    "processing",
+    "llm",
+    "tools"
+  ],
+  "author": "",
+  "license": "GPL-3.0-only",
+  "dependencies": {
+    "@promethean-os/logger": "workspace:*",
+    "@promethean-os/persistence": "workspace:*"
+  },
+  "peerDependencies": {
+    "@promethean-os/opencode-client": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ava": "^6.1.3",
+    "c8": "^9.1.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.0.0"
+  }
+}

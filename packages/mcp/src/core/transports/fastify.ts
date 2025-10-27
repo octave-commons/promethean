@@ -787,7 +787,7 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
       } else {
         console.warn(
           `[mcp:http] dev-ui assets not found at ${devUiDir}. ` +
-            "Run 'pnpm --filter @promethean/mcp-dev-ui build' to generate the bundle.",
+            "Run 'pnpm --filter @promethean-os/mcp-dev-ui build' to generate the bundle.",
         );
       }
 

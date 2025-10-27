@@ -39,7 +39,7 @@ graph TD
 
 ```typescript
 import { MongoClient, Db, Collection } from 'mongodb';
-import type { ActorStatePort, Actor, ActorScript } from '@promethean/pantheon-core';
+import type { ActorStatePort, Actor, ActorScript } from '@promethean-os/pantheon-core';
 
 export class MongoActorStateAdapter implements ActorStatePort {
   private client: MongoClient;
@@ -121,7 +121,7 @@ export class MongoActorStateAdapter implements ActorStatePort {
 #### Context Source Integration
 
 ```typescript
-import type { ContextPort, ContextSource, Message } from '@promethean/pantheon-core';
+import type { ContextPort, ContextSource, Message } from '@promethean-os/pantheon-core';
 
 export class MongoContextAdapter implements ContextPort {
   private client: MongoClient;
@@ -230,7 +230,7 @@ export class MongoContextAdapter implements ContextPort {
 
 ```typescript
 import { Pool, PoolClient } from 'pg';
-import type { ActorStatePort, Actor, ActorScript } from '@promethean/pantheon-core';
+import type { ActorStatePort, Actor, ActorScript } from '@promethean-os/pantheon-core';
 
 export class PostgresActorStateAdapter implements ActorStatePort {
   private pool: Pool;
@@ -372,7 +372,7 @@ export class PostgresActorStateAdapter implements ActorStatePort {
 
 ```typescript
 import axios, { AxiosInstance } from 'axios';
-import type { ToolPort, ToolSpec } from '@promethean/pantheon-core';
+import type { ToolPort, ToolSpec } from '@promethean-os/pantheon-core';
 
 export class RestApiToolAdapter implements ToolPort {
   private axiosInstance: AxiosInstance;
@@ -536,7 +536,7 @@ apiAdapter.register(weatherTool);
 
 ```typescript
 import { GraphQLClient, gql } from 'graphql-request';
-import type { ToolPort, ToolSpec } from '@promethean/pantheon-core';
+import type { ToolPort, ToolSpec } from '@promethean-os/pantheon-core';
 
 export class GraphQLToolAdapter implements ToolPort {
   private client: GraphQLClient;
@@ -670,7 +670,7 @@ graphqlAdapter.register(githubRepoTool);
 
 ```typescript
 import { createClient } from 'redis';
-import type { MessageBus } from '@promethean/pantheon-core';
+import type { MessageBus } from '@promethean-os/pantheon-core';
 
 export class RedisMessageBus implements MessageBus {
   private client: any;
@@ -754,7 +754,7 @@ export class RedisMessageBus implements MessageBus {
 
 ```typescript
 import * as amqp from 'amqplib';
-import type { MessageBus } from '@promethean/pantheon-core';
+import type { MessageBus } from '@promethean-os/pantheon-core';
 
 export class RabbitMQMessageBus implements MessageBus {
   private connection: amqp.Connection | null = null;
@@ -862,7 +862,7 @@ export class RabbitMQMessageBus implements MessageBus {
 
 ```typescript
 import jwt from 'jsonwebtoken';
-import type { ToolPort, ToolSpec } from '@promethean/pantheon-core';
+import type { ToolPort, ToolSpec } from '@promethean-os/pantheon-core';
 
 export class AuthenticatedToolAdapter implements ToolPort {
   private delegate: ToolPort;
@@ -1036,7 +1036,7 @@ const apiKeyBehavior: Behavior = {
 
 ```typescript
 import { Counter, Histogram, Gauge, Registry } from 'prom-client';
-import type { OrchestratorDeps } from '@promethean/pantheon-core';
+import type { OrchestratorDeps } from '@promethean-os/pantheon-core';
 
 export class MonitoringOrchestratorDeps implements OrchestratorDeps {
   private delegate: OrchestratorDeps;
@@ -1207,7 +1207,7 @@ class MonitoringActorStatePort implements ActorStatePort {
 
 ```typescript
 import * as tracing from '@opentelemetry/api';
-import type { OrchestratorDeps } from '@promethean/pantheon-core';
+import type { OrchestratorDeps } from '@promethean-os/pantheon-core';
 
 export class TracingOrchestratorDeps implements OrchestratorDeps {
   private delegate: OrchestratorDeps;
@@ -1449,10 +1449,10 @@ spec:
 
 ```typescript
 // serverless-function.ts
-import { makeOrchestrator } from '@promethean/pantheon-core';
+import { makeOrchestrator } from '@promethean-os/pantheon-core';
 import { MongoActorStateAdapter } from './adapters/mongo-adapter';
 import { RedisMessageBus } from './adapters/redis-adapter';
-import { OpenAiAdapter } from '@promethean/pantheon-llm-openai';
+import { OpenAiAdapter } from '@promethean-os/pantheon-llm-openai';
 
 // Initialize adapters (cached across invocations)
 let orchestrator: ReturnType<typeof makeOrchestrator> | null = null;

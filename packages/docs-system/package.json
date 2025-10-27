@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/docs-system",
+  "name": "@promethean-os/docs-system",
   "version": "0.1.0",
   "description": "Comprehensive fullstack documentation system for Promethean Framework with asynchronous Ollama access",
   "type": "module",
@@ -20,13 +20,13 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/promethean-framework/promethean.git",
+    "url": "https://github.com/riatzukiza/promethean.git",
     "directory": "packages/docs-system"
   },
   "bugs": {
-    "url": "https://github.com/promethean-framework/promethean/issues"
+    "url": "https://github.com/riatzukiza/promethean/issues"
   },
-  "homepage": "https://github.com/promethean-framework/promethean/tree/main/packages/docs-system",
+  "homepage": "https://github.com/riatzukiza/promethean/tree/main/packages/docs-system",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -95,11 +95,11 @@
     "framer-motion": "^10.16.16",
     "react-beautiful-dnd": "^13.1.1",
     "@monaco-editor/react": "^4.6.0",
-    "@promethean/kanban": "workspace:*",
-    "@promethean/agents-workflow": "workspace:*",
-    "@promethean/ollama-queue": "workspace:*",
-    "@promethean/utils": "workspace:*",
-    "@promethean/markdown": "workspace:*",
+    "@promethean-os/kanban": "workspace:*",
+    "@promethean-os/agents-workflow": "workspace:*",
+    "@promethean-os/ollama-queue": "workspace:*",
+    "@promethean-os/utils": "workspace:*",
+    "@promethean-os/markdown": "workspace:*",
     "express": "^4.18.2",
     "socket.io": "^4.7.2",
     "mongodb": "^6.18.0",
