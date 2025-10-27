@@ -17,7 +17,7 @@ import {
 import type { UnifiedIndexerServiceConfig } from './types/service.js';
 import type { UnifiedIndexerServiceState } from './unified-indexer-service.js';
 
-import type { SearchQuery, SearchResult, SearchResponse } from '@promethean-os/persistence';
+import type { SearchQuery } from '@promethean-os/persistence';
 
 /**
  * Example configuration for unified indexer service
@@ -154,17 +154,11 @@ async function demonstrateSearch(indexerService: UnifiedIndexerServiceState): Pr
       console.log(
         `  ${index + 1}. [${result.content.type}] ${result.content.id} (score: ${result.score.toFixed(3)})`,
       );
-      // Simple metadata access without complex casting
-      const metadata = result.content.metadata;
-      const path =
-        metadata && typeof metadata === 'object' && 'path' in metadata
-          ? String(metadata.path)
-          : 'N/A';
-      console.log(`     Source: ${result.content.source} | ${path}`);
+      console.log(`     Source: ${result.content.source}`);
       console.log(`     Preview: ${result.content.content.substring(0, 100)}...`);
     });
   } catch (error) {
-    console.error('Search failed:', error);
+    console.error('Search demonstration failed:', error);
   }
 }
 
@@ -173,22 +167,29 @@ async function demonstrateSearch(indexerService: UnifiedIndexerServiceState): Pr
  */
 async function demonstrateContext(indexerService: UnifiedIndexerServiceState): Promise<void> {
   console.log('\n🤖 Example 2: LLM context compilation');
-  const context = await getContextService(
-    indexerService,
-    ['unified indexer service', 'contextStore', 'cross-domain search'],
-    {
-      recentLimit: 5,
-      queryLimit: 3,
-      limit: 10,
-      formatAssistantMessages: true,
-    },
-  );
+  try {
+    const context = await getContextService(
+      indexerService,
+      ['unified indexer service', 'contextStore', 'cross-domain search'],
+      {
+        recentLimit: 5,
+        queryLimit: 3,
+        limit: 10,
+        formatAssistantMessages: true,
+      },
+    );
 
-  console.log(`✅ Compiled ${context.length} context messages for LLM consumption`);
-  context.forEach((msg: unknown, index: number) => {
-    const message = msg as { role: string; content: string };
-    console.log(`  ${index + 1}. [${message.role}] ${message.content.substring(0, 80)}...`);
-  });
+    console.log(`✅ Compiled ${context.length} context messages for LLM consumption`);
+    context.forEach((msg, index: number) => {
+      if (msg && typeof msg === 'object' && 'content' in msg) {
+        const message = msg as { role?: string; content: string };
+        const role = message.role || 'unknown';
+        console.log(`  ${index + 1}. [${role}] ${message.content.substring(0, 80)}...`);
+      }
+    });
+  } catch (error) {
+    console.error('Context demonstration failed:', error);
+  }
 }
 
 /**
@@ -203,16 +204,20 @@ async function demonstratePerformance(indexerService: UnifiedIndexerServiceState
     'Unified content model',
   ];
 
-  for (const query of realtimeQueries) {
-    const startTime = Date.now();
-    const results: SearchResponse = await searchService(indexerService, {
-      query,
-      limit: 5,
-      semantic: true,
-    });
-    const duration = Date.now() - startTime;
+  try {
+    for (const query of realtimeQueries) {
+      const startTime = Date.now();
+      const results = await searchService(indexerService, {
+        query,
+        limit: 5,
+        semantic: true,
+      });
+      const duration = Date.now() - startTime;
 
-    console.log(`  Query "${query}": ${results.results.length} results in ${duration}ms`);
+      console.log(`  Query "${query}": ${results.results.length} results in ${duration}ms`);
+    }
+  } catch (error) {
+    console.error('Performance demonstration failed:', error);
   }
 }
 
@@ -225,29 +230,33 @@ async function demonstrateContextStoreIntegration(): Promise<void> {
   // This shows how the unified indexer service integrates
   // with existing contextStore patterns in the codebase
 
-  const indexerService = await createUnifiedIndexerService(exampleConfig);
-  await startService(indexerService);
+  try {
+    const indexerService = await createUnifiedIndexerService(exampleConfig);
+    await startService(indexerService);
 
-  // Wait for initial sync
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+    // Wait for initial sync
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
-  // Get context just like existing contextStore usage
-  const context = await getContextService(
-    indexerService,
-    ['promethean architecture', 'agent coordination'],
-    {
-      recentLimit: 10,
-      queryLimit: 5,
-      limit: 15,
-    },
-  );
+    // Get context just like existing contextStore usage
+    const context = await getContextService(
+      indexerService,
+      ['promethean architecture', 'agent coordination'],
+      {
+        recentLimit: 10,
+        queryLimit: 5,
+        limit: 15,
+      },
+    );
 
-  console.log(`✅ Retrieved ${context.length} context messages from unified sources`);
+    console.log(`✅ Retrieved ${context.length} context messages from unified sources`);
 
-  // The context can now be used exactly like existing contextStore.compileContext()
-  // results - it's the same format expected by LLM clients
+    // The context can now be used exactly like existing contextStore.compileContext()
+    // results - it's the same format expected by LLM clients
 
-  await stopService(indexerService);
+    await stopService(indexerService);
+  } catch (error) {
+    console.error('ContextStore integration demonstration failed:', error);
+  }
 }
 
 // Run examples if this file is executed directly
