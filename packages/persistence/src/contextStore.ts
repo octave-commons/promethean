@@ -1,6 +1,6 @@
 import type { Where } from 'chromadb';
 
-import type { ContextMessage, ContextState, DualStoreAdapter } from './actions/context-store/index.js';
+import type { ContextMessage, ContextState } from './actions/context-store/index.js';
 import {
     collectionCount as collectionCountAction,
     compileContext as compileContextAction,
