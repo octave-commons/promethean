@@ -58,7 +58,7 @@ async function createUnifiedIndexingClient(_config: any): Promise<UnifiedIndexin
         text: content.content,
         createdAt: content.timestamp || Date.now(),
         metadata: content.metadata || {},
-      });
+      } as any);
       return content.id;
     },
 
@@ -70,7 +70,7 @@ async function createUnifiedIndexingClient(_config: any): Promise<UnifiedIndexin
           text: content.content,
           createdAt: content.timestamp || Date.now(),
           metadata: content.metadata || {},
-        });
+        } as any);
         ids.push(content.id);
       }
       return ids;
@@ -89,7 +89,7 @@ async function createUnifiedIndexingClient(_config: any): Promise<UnifiedIndexin
           content: transformDualStoreEntry({
             id: entry.id || entry._id?.toString(),
             text: entry.text,
-            timestamp: entry.timestamp,
+            timestamp: typeof entry.timestamp === 'number' ? entry.timestamp : Date.now(),
             metadata: entry.metadata,
           }),
           score: 1.0,
@@ -107,7 +107,7 @@ async function createUnifiedIndexingClient(_config: any): Promise<UnifiedIndexin
       return transformDualStoreEntry({
         id: entry.id || entry._id?.toString(),
         text: entry.text,
-        timestamp: entry.timestamp,
+        timestamp: typeof entry.timestamp === 'number' ? entry.timestamp : Date.now(),
         metadata: entry.metadata,
       });
     },
