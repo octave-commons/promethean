@@ -10,21 +10,9 @@ import type {
   IndexableContent,
   ContentType,
   ContentSource,
-  ContextMessage,
+  ContentMetadata,
+  FileMetadata,
 } from '@promethean-os/persistence';
-
-import type {
-  UnifiedIndexerServiceConfig,
-  UnifiedIndexerStats,
-  ServiceStatus,
-} from '../../unified-indexer-service.js';
-
-import type {
-  CrossDomainSearchOptions,
-  CrossDomainSearchResponse,
-} from '../../cross-domain-search.js';
-
-import sinon from 'sinon';
 
 /**
  * Wait for a specified amount of time
@@ -53,16 +41,20 @@ export function createMockSearchResponse(overrides: Partial<SearchResponse> = {}
  * Create mock indexable content
  */
 export function createMockContent(overrides: Partial<IndexableContent> = {}): IndexableContent {
+  const fileMetadata: FileMetadata = {
+    type: 'file',
+    source: 'filesystem',
+    path: '/test/file.txt',
+    size: 25,
+  };
+
   return {
-    id: 'test-id-' + Math.random().toString(36).substr(2, 9),
+    id: 'test-id-' + Math.random().toString(36).substring(2, 11),
     type: 'file' as ContentType,
     source: 'filesystem' as ContentSource,
     content: 'Test content for indexing',
-    metadata: {
-      path: '/test/file.txt',
-      size: 25,
-    },
-    timestamp: new Date(),
+    metadata: fileMetadata as ContentMetadata,
+    timestamp: Date.now(),
     ...overrides,
   };
 }
@@ -79,9 +71,11 @@ export function createMockContentList(
       id: `test-id-${index}`,
       content: `Test content ${index}`,
       metadata: {
+        type: 'file',
+        source: 'filesystem',
         path: `/test/file-${index}.txt`,
         size: 20 + index,
-      },
+      } as ContentMetadata,
       ...overrides,
     }),
   );
@@ -90,13 +84,29 @@ export function createMockContentList(
 /**
  * Create mock service status
  */
-export function createMockServiceStatus(overrides: Partial<ServiceStatus> = {}): ServiceStatus {
+export function createMockServiceStatus(
+  overrides: Partial<{
+    healthy: boolean;
+    indexing: boolean;
+    lastSync: number;
+    nextSync: number;
+    activeSources: ContentSource[];
+    issues: string[];
+  }> = {},
+): {
+  healthy: boolean;
+  indexing: boolean;
+  lastSync: number;
+  nextSync: number;
+  activeSources: ContentSource[];
+  issues: string[];
+} {
   return {
     healthy: true,
     indexing: false,
     lastSync: Date.now(),
     nextSync: Date.now() + 300000,
-    activeSources: ['filesystem'],
+    activeSources: ['filesystem' as ContentSource],
     issues: [],
     ...overrides,
   };
@@ -106,8 +116,34 @@ export function createMockServiceStatus(overrides: Partial<ServiceStatus> = {}):
  * Create mock indexer stats
  */
 export function createMockIndexerStats(
-  overrides: Partial<UnifiedIndexerStats> = {},
-): UnifiedIndexerStats {
+  overrides: Partial<{
+    total: {
+      totalContent: number;
+      contentByType: Record<ContentType, number>;
+      contentBySource: Record<ContentSource, number>;
+      lastIndexed: number;
+      storageStats: { vectorSize: number; metadataSize: number; totalSize: number };
+    };
+    bySource: Record<string, unknown>;
+    byType: Record<ContentType, number>;
+    lastSync: number;
+    syncDuration: number;
+    errors: string[];
+  }> = {},
+): {
+  total: {
+    totalContent: number;
+    contentByType: Record<ContentType, number>;
+    contentBySource: Record<ContentSource, number>;
+    lastIndexed: number;
+    storageStats: { vectorSize: number; metadataSize: number; totalSize: number };
+  };
+  bySource: Record<string, unknown>;
+  byType: Record<ContentType, number>;
+  lastSync: number;
+  syncDuration: number;
+  errors: string[];
+} {
   return {
     total: {
       totalContent: 100,
@@ -141,8 +177,13 @@ export function createMockIndexerStats(
  * Create mock cross-domain search response
  */
 export function createMockCrossDomainSearchResponse(
-  overrides: Partial<CrossDomainSearchResponse> = {},
-): CrossDomainSearchResponse {
+  overrides: Partial<{
+    results: unknown[];
+    total: number;
+    took: number;
+    query: CrossDomainSearchOptions;
+  }> = {},
+): { results: unknown[]; total: number; took: number; query: CrossDomainSearchOptions } {
   return {
     results: [],
     total: 0,
@@ -159,8 +200,8 @@ export function createMockCrossDomainSearchResponse(
  * Assert that a promise rejects with expected error
  */
 export async function assertRejects(
-  t: any,
-  promise: Promise<any>,
+  t: { fail: (message: string) => void; true: (value: unknown) => void },
+  promise: Promise<unknown>,
   expectedMessage?: string,
 ): Promise<void> {
   try {
@@ -169,8 +210,8 @@ export async function assertRejects(
   } catch (error) {
     if (expectedMessage) {
       t.true(
-        error.message.includes(expectedMessage),
-        `Expected error message to contain "${expectedMessage}", got "${error.message}"`,
+        (error as Error).message.includes(expectedMessage),
+        `Expected error message to contain "${expectedMessage}", got "${(error as Error).message}"`,
       );
     }
   }
@@ -193,7 +234,7 @@ export async function measureTime<T>(
  */
 export function createTempDir(): string {
   const timestamp = Date.now();
-  const random = Math.random().toString(36).substr(2, 9);
+  const random = Math.random().toString(36).substring(2, 11);
   return `/tmp/unified-indexer-test-${timestamp}-${random}`;
 }
 
@@ -236,61 +277,18 @@ export async function cleanupTestFiles(dirPath: string): Promise<void> {
 }
 
 /**
- * Spy on console methods for testing
- */
-export function createConsoleSpy() {
-  const spies = {
-    log: sinon.spy(console, 'log'),
-    error: sinon.spy(console, 'error'),
-    warn: sinon.spy(console, 'warn'),
-    info: sinon.spy(console, 'info'),
-  };
-
-  return {
-    spies,
-    restore: () => {
-      Object.values(spies).forEach((spy) => spy.restore());
-    },
-  };
-}
-
-/**
  * Validate that an object has required properties
  */
-export function validateRequiredProperties(obj: any, requiredProps: string[]): boolean {
-  return requiredProps.every((prop) => obj.hasOwnProperty(prop));
+export function validateRequiredProperties(
+  obj: Record<string, unknown>,
+  requiredProps: string[],
+): boolean {
+  return requiredProps.every((prop) => Object.prototype.hasOwnProperty.call(obj, prop));
 }
 
-/**
- * Create a mock event emitter for testing
- */
-export function createMockEventEmitter() {
-  const listeners: Record<string, Function[]> = {};
-
-  return {
-    on: (event: string, listener: Function) => {
-      if (!listeners[event]) {
-        listeners[event] = [];
-      }
-      listeners[event].push(listener);
-    },
-
-    emit: (event: string, ...args: any[]) => {
-      if (listeners[event]) {
-        listeners[event].forEach((listener) => listener(...args));
-      }
-    },
-
-    removeAllListeners: (event?: string) => {
-      if (event) {
-        delete listeners[event];
-      } else {
-        Object.keys(listeners).forEach((key) => delete listeners[key]);
-      }
-    },
-
-    listenerCount: (event: string) => {
-      return listeners[event]?.length || 0;
-    },
-  };
+// Type for CrossDomainSearchOptions to avoid import issues
+interface CrossDomainSearchOptions {
+  query: string;
+  limit?: number;
+  semantic?: boolean;
 }
