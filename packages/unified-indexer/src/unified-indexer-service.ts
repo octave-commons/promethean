@@ -13,6 +13,7 @@ import type {
   ContentType,
   ContentSource,
   ContextStoreState,
+  IndexingStats,
 } from '@promethean-os/persistence';
 
 import type {
@@ -30,7 +31,7 @@ import type {
 } from './types/service.js';
 
 import {
-  createDualStoreManager,
+  DualStoreManager,
   createContextStore,
   compileContext,
   getOrCreateCollection,
@@ -66,7 +67,7 @@ export interface UnifiedIndexerServiceState {
 export async function initializeService(
   config: UnifiedIndexerServiceConfig,
 ): Promise<UnifiedIndexerServiceState> {
-  const unifiedClient = await createDualStoreManager('unified', 'text', 'createdAt');
+  const unifiedClient = await DualStoreManager.create('unified', 'text', 'createdAt');
 
   const contextStore = createContextStore(
     config.contextStore.formatTime,
