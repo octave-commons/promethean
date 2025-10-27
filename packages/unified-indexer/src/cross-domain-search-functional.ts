@@ -14,6 +14,7 @@ import type {
   EnhancedSearchResult,
   CrossDomainSearchResponse,
 } from './types/search.js';
+import { compileContext } from '@promethean-os/persistence';
 
 /**
  * Cross-Domain Search Engine State
@@ -222,19 +223,21 @@ async function compileContext(
   const contextLimit = options.contextLimit || 10;
   const queries = options.query ? [options.query] : [];
 
-  const unifiedCollectionName = indexerService.config.contextStore.collections.unified;
-  const unifiedCollection = indexerService.contextStore.collections.get(unifiedCollectionName);
-
-  if (!unifiedCollection) {
-    throw new Error(`Unified collection '${unifiedCollectionName}' not found`);
-  }
-
-  return unifiedCollection.compileContext(queries, {
-    recentLimit: contextLimit,
-    queryLimit: 5,
-    limit: contextLimit,
-    formatAssistantMessages: options.formatForLLM || false,
-  });
+  return compileContext(
+    {
+      texts: queries,
+      recentLimit: contextLimit,
+      queryLimit: 5,
+      limit: contextLimit,
+      formatAssistantMessages: options.formatForLLM || false,
+    },
+    {
+      state: indexerService.contextStore,
+      createDualStore: async () => {
+        throw new Error('createDualStore not supported in cross-domain search context');
+      },
+    },
+  );
 }
 
 /**
