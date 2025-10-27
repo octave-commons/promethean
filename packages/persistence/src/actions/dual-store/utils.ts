@@ -60,10 +60,27 @@ export const buildChromaMetadata = <TextKey extends string, TimeKey extends stri
 export const fromMongoDocument = <TextKey extends string, TimeKey extends string>(
     document: WithId<DualStoreEntry<TextKey, TimeKey>>,
     state: DualStoreState<TextKey, TimeKey>,
-): DualStoreEntry<'text', 'timestamp'> => ({
-    id: document.id,
-    text: (document as Record<TextKey, string>)[state.textKey],
-    timestamp: normaliseTimestamp((document as Record<TimeKey, unknown>)[state.timeStampKey]),
-    metadata: document.metadata,
-});
+): DualStoreEntry<'text', 'timestamp'> => {
+    const metadataCopy: Record<string, unknown> = {
+        ...(document.metadata ?? {}),
+    };
 
+    if (!('vectorWriteSuccess' in metadataCopy)) {
+        metadataCopy.vectorWriteSuccess = document.metadata?.vectorWriteSuccess ?? undefined;
+    }
+
+    if (!('vectorWriteError' in metadataCopy)) {
+        metadataCopy.vectorWriteError = document.metadata?.vectorWriteError ?? undefined;
+    }
+
+    if (!('vectorWriteTimestamp' in metadataCopy)) {
+        metadataCopy.vectorWriteTimestamp = document.metadata?.vectorWriteTimestamp ?? null;
+    }
+
+    return {
+        id: document.id,
+        text: (document as Record<TextKey, string>)[state.textKey],
+        timestamp: normaliseTimestamp((document as Record<TimeKey, unknown>)[state.timeStampKey]),
+        metadata: metadataCopy as DualStoreEntry<'text', 'timestamp'>['metadata'],
+    };
+};
