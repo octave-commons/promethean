@@ -411,13 +411,19 @@ test('ID validation works consistently across all tools', async (t) => {
   }
 
   // Test invalid session IDs
-  const invalidSessionIds = ['', null, undefined, 123];
-  for (const invalidId of invalidSessionIds) {
+  const invalidCases = [
+    { id: null, expectedMessage: 'Session ID is required' },
+    { id: undefined, expectedMessage: 'Session ID is required' },
+    { id: 123, expectedMessage: "Parameter 'sessionId' must be a string, received number" },
+    { id: '', expectedMessage: 'Session ID cannot be empty' },
+  ];
+
+  for (const { id, expectedMessage } of invalidCases) {
     for (const testTool of testTools) {
       await t.throwsAsync(
-        testTool.execute({ sessionId: invalidId as any }, mockPluginContext),
-        { message: /sessionId/ },
-        'All tools should reject invalid session IDs consistently',
+        testTool.execute({ sessionId: id as any }, mockPluginContext),
+        { message: expectedMessage },
+        `All tools should reject invalid session ID (${id}) consistently`,
       );
     }
   }
