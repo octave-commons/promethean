@@ -75,7 +75,7 @@ export class Fibonacci {
       ],
       n - 1,
     );
-    return result[0][0];
+    return result[0]?.[0] ?? 0n;
   }
 
   private matrixPower(matrix: bigint[][], power: number): bigint[][] {
@@ -88,17 +88,26 @@ export class Fibonacci {
   }
 
   private matrixMultiply(a: bigint[][], b: bigint[][]): bigint[][] {
+    const a00 = a[0]?.[0] ?? 0n;
+    const a01 = a[0]?.[1] ?? 0n;
+    const a10 = a[1]?.[0] ?? 0n;
+    const a11 = a[1]?.[1] ?? 0n;
+    const b00 = b[0]?.[0] ?? 0n;
+    const b01 = b[0]?.[1] ?? 0n;
+    const b10 = b[1]?.[0] ?? 0n;
+    const b11 = b[1]?.[1] ?? 0n;
+
     return [
-      [a[0][0] * b[0][0] + a[0][1] * b[1][0], a[0][0] * b[0][1] + a[0][1] * b[1][1]],
-      [a[1][0] * b[0][0] + a[1][1] * b[1][0], a[1][0] * b[0][1] + a[1][1] * b[1][1]],
+      [a00 * b00 + a01 * b10, a00 * b01 + a01 * b11],
+      [a10 * b00 + a11 * b10, a10 * b01 + a11 * b11],
     ];
   }
 
   private memoized(n: number): bigint {
-    if (n in this.cache) return this.cache[n];
+    if (n in this.cache) return this.cache[n]!;
 
     this.cache[n] = this.memoized(n - 1) + this.memoized(n - 2);
-    return this.cache[n];
+    return this.cache[n]!;
   }
 
   sequence(length: number, method?: FibonacciMethod): readonly bigint[] {
