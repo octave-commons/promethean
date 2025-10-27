@@ -53,27 +53,23 @@ export function processResults(
   results: EnhancedSearchResult[],
   options: CrossDomainSearchOptions,
 ): EnhancedSearchResult[] {
-  let processedResults = [...results];
+  const processedResults = [...results];
 
-  if (options.sourceWeights || options.typeWeights) {
-    processedResults = applyWeights(processedResults, options);
-  }
+  const withWeights =
+    options.sourceWeights || options.typeWeights
+      ? applyWeights(processedResults, options)
+      : processedResults;
 
-  if (options.timeBoost) {
-    processedResults = applyTemporalBoost(processedResults);
-  }
+  const withTemporalBoost = options.timeBoost ? applyTemporalBoost(withWeights) : withWeights;
 
-  if (options.deduplicate !== false) {
-    processedResults = deduplicateResults(processedResults);
-  }
+  const withDeduplication =
+    options.deduplicate !== false ? deduplicateResults(withTemporalBoost) : withTemporalBoost;
 
-  if (options.groupBySource) {
-    processedResults = groupResultsBySource(processedResults, options.maxResultsPerSource);
-  }
+  const withGrouping = options.groupBySource
+    ? groupResultsBySource(withDeduplication, options.maxResultsPerSource)
+    : withDeduplication;
 
-  processedResults.sort((a, b) => b.score - a.score);
-
-  return processedResults;
+  return [...withGrouping].sort((a, b) => b.score - a.score);
 }
 
 /**
@@ -83,9 +79,7 @@ export function deduplicateResults(results: EnhancedSearchResult[]): EnhancedSea
   const seen = new Set<string>();
   return results.filter((result) => {
     const key = `${result.content.type}:${result.content.source}:${result.content.content.substring(0, 100)}`;
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
+    return !seen.has(key) && seen.add(key), true;
   });
 }
 

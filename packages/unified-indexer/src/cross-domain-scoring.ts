@@ -92,7 +92,7 @@ export function applyTemporalBoost(results: EnhancedSearchResult[]): EnhancedSea
 /**
  * Calculate score distribution statistics
  */
-export function calculateScoreDistribution(scores: number[]): Record<string, number> {
+export function calculateScoreDistribution(scores: readonly number[]): Record<string, number> {
   const sorted = [...scores].sort((a, b) => a - b);
   return {
     min: sorted[0] || 0,
