@@ -14,7 +14,7 @@ import type {
   EnhancedSearchResult,
   CrossDomainSearchResponse,
 } from './types/search.js';
-import { compileContext } from '@promethean-os/persistence';
+import { compileSearchContext } from './cross-domain-context.js';
 
 /**
  * Cross-Domain Search Engine State
@@ -71,7 +71,7 @@ export async function search(
 
     let context: ContextMessage[] | undefined;
     if (options.includeContext && enhancedResults.length > 0) {
-      context = await compileContext(state.indexerService, enhancedResults, options);
+      context = await compileSearchContext(state.indexerService, enhancedResults, options);
     }
 
     let analytics;
@@ -210,34 +210,6 @@ function processResults(
   processedResults.sort((a, b) => b.score - a.score);
 
   return processedResults;
-}
-
-/**
- * Compile context from search results
- */
-async function compileContext(
-  indexerService: UnifiedIndexerServiceState,
-  _results: EnhancedSearchResult[],
-  options: CrossDomainSearchOptions,
-): Promise<ContextMessage[]> {
-  const contextLimit = options.contextLimit || 10;
-  const queries = options.query ? [options.query] : [];
-
-  return compileContext(
-    {
-      texts: queries,
-      recentLimit: contextLimit,
-      queryLimit: 5,
-      limit: contextLimit,
-      formatAssistantMessages: options.formatForLLM || false,
-    },
-    {
-      state: indexerService.contextStore,
-      createDualStore: async () => {
-        throw new Error('createDualStore not supported in cross-domain search context');
-      },
-    },
-  );
 }
 
 /**
