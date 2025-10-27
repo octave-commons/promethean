@@ -89,7 +89,7 @@ async function createUnifiedIndexingClient(_config: any): Promise<UnifiedIndexin
           content: transformDualStoreEntry({
             id: entry.id || entry._id?.toString(),
             text: entry.text,
-            timestamp: typeof entry.createdAt === 'number' ? entry.createdAt : Date.now(),
+            timestamp: entry.timestamp,
             metadata: entry.metadata,
           }),
           score: 1.0,
@@ -107,7 +107,7 @@ async function createUnifiedIndexingClient(_config: any): Promise<UnifiedIndexin
       return transformDualStoreEntry({
         id: entry.id || entry._id?.toString(),
         text: entry.text,
-        timestamp: typeof entry.createdAt === 'number' ? entry.createdAt : Date.now(),
+        timestamp: entry.timestamp,
         metadata: entry.metadata,
       });
     },
