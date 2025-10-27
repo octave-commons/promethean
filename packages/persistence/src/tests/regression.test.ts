@@ -1,11 +1,24 @@
 import test from 'ava';
 import { DualStoreManager } from '../dualStore.js';
 
+const createdStores: Array<DualStoreManager<any, any>> = [];
+
+test.afterEach.always(async () => {
+    await Promise.all(createdStores.splice(0).map(async (store) => {
+        try {
+            await store.cleanup();
+        } catch {
+            // ignore cleanup errors in tests
+        }
+    }));
+});
+
 // Regression test: sessionStore.get() must return exact format expected by client
 test('sessionStore.get() regression test - exact client contract', async (t) => {
     // RED: This test should fail with current implementation
 
     const store = await DualStoreManager.create('sessionStore-regression-get', 'text', 'timestamp');
+    createdStores.push(store);
 
     // Insert data exactly like the client does
     const sessionData = {
@@ -48,6 +61,7 @@ test('sessionStore.get() regression test - exact client contract', async (t) => 
 // Regression test: getMostRecent must return exact format
 test('sessionStore.getMostRecent() regression test - exact client contract', async (t) => {
     const store = await DualStoreManager.create('sessionStore-regression-recent', 'text', 'timestamp');
+    createdStores.push(store);
 
     // Insert multiple entries like client would
     await store.insert({
