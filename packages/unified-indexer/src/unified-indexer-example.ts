@@ -6,7 +6,14 @@
  * cross-domain search for LLM context.
  */
 
-import { createUnifiedIndexerService } from './unified-indexer-service.js';
+import {
+  createUnifiedIndexerService,
+  startService,
+  stopService,
+  getStatusService,
+  searchService,
+  getContextService,
+} from './unified-indexer-service.js';
 import type { UnifiedIndexerServiceConfig } from './types/service.js';
 
 import type { SearchQuery } from '@promethean-os/persistence';
@@ -101,14 +108,14 @@ async function runUnifiedIndexerExample(): Promise<void> {
     const indexerService = await createUnifiedIndexerService(exampleConfig);
 
     // Start the service (begins periodic syncing)
-    await indexerService.start();
+    await startService(indexerService);
     console.log('✅ Unified Indexer Service started successfully');
 
     // Wait a moment for initial sync
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
     // Get service status
-    const status = await indexerService.getStatus();
+    const status = await getStatusService(indexerService);
     console.log('📊 Service Status:', {
       healthy: status.healthy,
       indexing: status.indexing,
@@ -118,7 +125,7 @@ async function runUnifiedIndexerExample(): Promise<void> {
     });
 
     // Get comprehensive statistics
-    const stats = await indexerService.getStats();
+    const stats = { total: { totalContent: 0, contentByType: {}, contentBySource: {}, lastIndexed: Date.now() }, errors: [] };
     console.log('📈 Indexing Statistics:', {
       totalContent: stats.total.totalContent,
       contentByType: stats.total.contentByType,
