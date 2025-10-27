@@ -149,12 +149,12 @@ async function demonstrateSearch(indexerService: UnifiedIndexerServiceState): Pr
 
   const searchResults = await searchService(indexerService, searchQuery);
   console.log(`Found ${searchResults.results.length} results:`);
-  searchResults.results.forEach((result: any, index: number) => {
+  searchResults.results.forEach((result, index: number) => {
     console.log(
       `  ${index + 1}. [${result.content.type}] ${result.content.id} (score: ${result.score.toFixed(3)})`,
     );
-    const metadata = result.content.metadata as any;
-    console.log(`     Source: ${result.content.source} | ${metadata.path || 'N/A'}`);
+    const metadata = result.content.metadata;
+    console.log(`     Source: ${result.content.source} | ${(metadata as any)?.path || 'N/A'}`);
     console.log(`     Preview: ${result.content.content.substring(0, 100)}...`);
   });
 }
@@ -176,8 +176,8 @@ async function demonstrateContext(indexerService: UnifiedIndexerServiceState): P
   );
 
   console.log(`✅ Compiled ${context.length} context messages for LLM consumption`);
-  context.forEach((msg: any, index: number) => {
-    console.log(`  ${index + 1}. [${msg.role}] ${msg.content.substring(0, 80)}...`);
+  context.forEach((msg, index: number) => {
+    console.log(`  ${index + 1}. [${(msg as any).role}] ${msg.content.substring(0, 80)}...`);
   });
 }
 
