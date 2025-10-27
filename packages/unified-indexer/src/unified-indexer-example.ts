@@ -262,7 +262,7 @@ async function demonstrateContextStoreIntegration(): Promise<void> {
 // Run examples if this file is executed directly
 // Note: In production, this would be imported and called by other modules
 // For demonstration purposes, we'll run the examples
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (process.argv[1] && process.argv[1].endsWith('unified-indexer-example.ts')) {
   runUnifiedIndexerExample()
     .then(() => demonstrateContextStoreIntegration())
     .then(() => {
