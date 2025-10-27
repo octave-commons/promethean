@@ -2,34 +2,11 @@ import type { Collection as ChromaCollection, Metadata as ChromaMetadata } from 
 import type { Collection } from 'mongodb';
 import { RemoteEmbeddingFunction } from '@promethean-os/embedding';
 
-import type { DualStoreEntry, DualStoreMetadata, DualStoreTimestamp } from './types.js';
+import type { DualStoreEntry, DualStoreMetadata } from './types.js';
 import { getChromaClient, getMongoClient } from './clients.js';
-
-export const toEpochMilliseconds = (timestamp: DualStoreTimestamp | undefined): number => {
-    if (timestamp instanceof Date) return timestamp.getTime();
-    if (typeof timestamp === 'string') return new Date(timestamp).getTime();
-    if (typeof timestamp === 'number') return timestamp;
-    return Date.now();
-};
-
-export const pickTimestamp = (...candidates: readonly unknown[]): DualStoreTimestamp | undefined => {
-    for (const candidate of candidates) {
-        if (candidate instanceof Date || typeof candidate === 'number' || typeof candidate === 'string') {
-            return candidate as DualStoreTimestamp;
-        }
-    }
-    return undefined;
-};
-
-export const withTimestampMetadata = (
-    metadata: DualStoreMetadata | undefined,
-    key: string,
-    timestamp: number,
-): DualStoreMetadata => ({
-    ...metadata,
-    [key]: timestamp,
-    timeStamp: timestamp,
-});
+import { toEpochMilliseconds } from './toEpochMilliseconds.js';
+import { pickTimestamp } from './pickTimestamp.js';
+import { withTimestampMetadata } from './withTimestampMetadata.js';
 
 export const toChromaMetadata = (metadata: DualStoreMetadata): ChromaMetadata => {
     const result: ChromaMetadata = {};
