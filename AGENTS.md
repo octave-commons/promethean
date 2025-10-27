@@ -27,6 +27,9 @@ pseudo/    # throwaway scripts, pseudocode, retained for transparency
 ```
 src/               # source code
 src/tests/         # test files
+src/actions        # individual, short, functional, operations 
+src/commands       # CLI interfaces
+src/serializers    # take the output from actions and prepare them for dispatch to an external consumer
 tsconfig.json      # extends ../../config/tsconfig.base.json
 ava.config.mjs     # extends ../../config/ava.config.mjs
 package.json       # scripts: build, test, clean, coverage, typecheck
@@ -117,6 +120,8 @@ pnpm --filter @promethean-os/<pkg> exec node ./dist/index.ts
 * File changes auto-commit with LLM-generated messages
 * MUST ALWAYS use `pnpm --filter @promethean-os/<pkg> ...`
 * MUST NEVER use `cd ... && anything...`
+* MUST NEVER use dynamic imports.
+* MUST NEVER use class statements or expressions
 
   * No manual commits or backups needed
 * Documentation must be **Obsidian-friendly**
