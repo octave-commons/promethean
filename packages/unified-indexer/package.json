@@ -31,17 +31,6 @@
   },
   "module": "dist/index.js",
   "dependencies": {
-    "@promethean-os/persistence": "workspace:*",
-    "@promethean-os/embedding": "workspace:*",
-    "@promethean-os/legacy": "workspace:*",
-    "@promethean-os/logger": "workspace:*",
-    "@types/javascript-time-ago": "^2.5.0",
-    "chromadb": "^3.0.14",
-    "mongodb": "^6.18.0",
-    "uuid": "^11.1.0",
-    "zod": "^3.23.8"
-  },
-  "devDependencies": {
-    "@types/uuid": "^10.0.0"
+    "@promethean-os/persistence": "workspace:*"
   }
 }
