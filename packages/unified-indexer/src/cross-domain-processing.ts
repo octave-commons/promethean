@@ -4,9 +4,15 @@
  * Handles result processing, filtering, grouping, and deduplication
  */
 
-import type { ContentSource } from '@promethean-os/persistence';
+import type { ContentSource, SearchResult } from '@promethean-os/persistence';
 import type { CrossDomainSearchOptions, EnhancedSearchResult } from './types/search.js';
-import { calculateRecencyScore } from './cross-domain-scoring.js';
+import {
+  calculateRecencyScore,
+  calculateScoreBreakdown,
+  generateScoreExplanation,
+  applyWeights,
+  applyTemporalBoost,
+} from './cross-domain-scoring.js';
 
 /**
  * Enhance search results with additional metadata
@@ -31,10 +37,6 @@ export function enhanceResults(
     };
 
     if (options.explainScores) {
-      const {
-        calculateScoreBreakdown,
-        generateScoreExplanation,
-      } = require('./cross-domain-scoring.js');
       const breakdown = calculateScoreBreakdown(result, age, options);
       enhanced.scoreBreakdown = breakdown;
       enhanced.explanation = generateScoreExplanation(breakdown);
@@ -54,12 +56,10 @@ export function processResults(
   let processedResults = [...results];
 
   if (options.sourceWeights || options.typeWeights) {
-    const { applyWeights } = require('./cross-domain-scoring.js');
     processedResults = applyWeights(processedResults, options);
   }
 
   if (options.timeBoost) {
-    const { applyTemporalBoost } = require('./cross-domain-scoring.js');
     processedResults = applyTemporalBoost(processedResults);
   }
 
