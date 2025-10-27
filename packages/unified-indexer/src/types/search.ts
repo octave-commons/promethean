@@ -9,9 +9,8 @@ import type {
   SearchResult,
   ContentType,
   ContentSource,
-  ContextMessage,
-} from '@promethean-os/persistence/src/unified-indexing-api.js';
-import type { IndexableContent } from '@promethean-os/persistence/src/unified-content-model.js';
+} from '@promethean-os/persistence';
+import type { ContextMessage } from '@promethean-os/persistence/dist/actions/context-store/types.js';
 
 /**
  * Advanced search options for cross-domain queries

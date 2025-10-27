@@ -9,11 +9,7 @@ import test from 'ava';
 
 import { CrossDomainSearchEngine, createCrossDomainSearchEngine } from '../cross-domain-search.js';
 import { UnifiedIndexerService } from '../unified-indexer-service.js';
-import type {
-  CrossDomainSearchOptions,
-  EnhancedSearchResult,
-  CrossDomainSearchResponse,
-} from '../types/search.js';
+import type { CrossDomainSearchOptions, EnhancedSearchResult } from '../types/search.js';
 
 // Mock types for testing since persistence types aren't available
 interface MockSearchQuery {
@@ -51,26 +47,6 @@ interface MockIndexableContent {
   metadata: Record<string, unknown>;
   timestamp: number;
 }
-
-type MockContentSource =
-  | 'filesystem'
-  | 'discord'
-  | 'opencode'
-  | 'kanban'
-  | 'agent'
-  | 'user'
-  | 'system'
-  | 'external';
-type MockContentType =
-  | 'file'
-  | 'document'
-  | 'message'
-  | 'task'
-  | 'event'
-  | 'session'
-  | 'attachment'
-  | 'thought'
-  | 'board';
 
 // Mock factory functions
 const createMockSearchQuery = (overrides: Partial<MockSearchQuery> = {}): MockSearchQuery => ({
@@ -137,7 +113,7 @@ const measureTime = async <T>(fn: () => Promise<T>): Promise<{ result: T; durati
 // Create a mock service that properly implements the interface
 const createMockService = (overrides: Partial<UnifiedIndexerService> = {}) => {
   const service = {
-    search: async (query: MockSearchQuery) => createMockSearchResponse(),
+    search: async (_query: MockSearchQuery) => createMockSearchResponse(),
     getContext: async () => [],
     ...overrides,
   } as UnifiedIndexerService;
@@ -275,10 +251,23 @@ test('should apply source and type weights', async (t) => {
     sourceWeights: {
       filesystem: 1.5,
       discord: 1.0,
+      opencode: 1.0,
+      kanban: 1.0,
+      agent: 1.0,
+      user: 1.0,
+      system: 1.0,
+      external: 1.0,
     },
     typeWeights: {
       file: 1.2,
       message: 1.0,
+      document: 1.0,
+      task: 1.0,
+      event: 1.0,
+      session: 1.0,
+      attachment: 1.0,
+      thought: 1.0,
+      board: 1.0,
     },
   };
 
