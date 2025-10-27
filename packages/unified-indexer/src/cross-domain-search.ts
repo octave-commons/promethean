@@ -6,10 +6,10 @@
  * comprehensive search results across all data sources.
  */
 
-import type { SearchQuery, SearchResult } from './unified-indexing-api.js';
-import type { ContentType, ContentSource } from './unified-content-model.js';
+import type { SearchQuery, SearchResult } from '@promethean-os/persistence';
+import type { ContentType, ContentSource } from '@promethean-os/persistence';
 import type { UnifiedIndexerService } from './unified-indexer-service.js';
-import type { ContextMessage } from './contextStore.js';
+import type { ContextMessage } from '@promethean-os/persistence';
 
 /**
  * Advanced search options for cross-domain queries

@@ -8,7 +8,7 @@
 
 import { createUnifiedIndexerService, type UnifiedIndexerServiceConfig } from './unified-indexer-service.js';
 
-import type { SearchQuery } from './unified-indexing-api.js';
+import type { SearchQuery } from '@promethean-os/persistence';
 
 /**
  * Example configuration for unified indexer service
