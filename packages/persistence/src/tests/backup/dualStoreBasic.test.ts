@@ -38,7 +38,7 @@ test('create function has correct signature', async (t) => {
 });
 
 test('cleanup function exists and is callable', async (t) => {
-    const { cleanup } = await import('../dualStore.js');
+    const { cleanup } = await import('../../dualStore.js');
 
     t.is(typeof cleanup, 'function');
 
@@ -47,7 +47,7 @@ test('cleanup function exists and is callable', async (t) => {
 });
 
 test('helper functions are exported', async (t) => {
-    const helpers = await import('../dualStoreHelpers.js');
+    const helpers = await import('../dualStoreHelpers.ts');
 
     // Check that helper functions are exported
     const expectedHelpers = [
@@ -68,7 +68,7 @@ test('helper functions are exported', async (t) => {
 });
 
 test('contextStore functions are exported', async (t) => {
-    const contextStore = await import('../contextStore.js');
+    const contextStore = await import('../contextStore.ts');
 
     // Check that contextStore functions are exported
     const expectedFunctions = [
@@ -89,7 +89,7 @@ test('contextStore functions are exported', async (t) => {
 });
 
 test('error handling functions exist', async (t) => {
-    const { cleanupClients } = await import('../clients.js');
+    const { cleanupClients } = await import('../clients.ts');
 
     t.is(typeof cleanupClients, 'function');
 
