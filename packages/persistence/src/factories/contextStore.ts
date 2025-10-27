@@ -1,3 +1,4 @@
+import type { DualStoreEntry } from '../types.js';
 import type { CompileContextInputs, ContextDependencies, ContextMessage, ContextState } from '../actions/context-store/index.js';
 import {
     collectionCount,
@@ -9,9 +10,13 @@ import {
     getOrCreateCollection as getOrCreateCollectionAction,
     listCollectionNames,
     type DualStoreAdapter,
-    createCollection,
 } from '../actions/context-store/index.js';
-import type { CreateCollectionInputs, GetOrCreateCollectionInputs, RelatedDocumentsInputs, LatestDocumentsInputs } from '../actions/context-store/types.js';
+import type {
+    CreateCollectionInputs,
+    GetOrCreateCollectionInputs,
+    RelatedDocumentsInputs,
+    LatestDocumentsInputs,
+} from '../actions/context-store/types.js';
 import { DualStoreManager } from '../dualStore.js';
 
 const defaultFormatTime = (ms: number) => new Date(ms).toISOString();
@@ -35,8 +40,8 @@ export type ContextStoreImplementation = {
     getCollection(name: string): DualStoreAdapter;
     collectionCount(): number;
     listCollectionNames(): readonly string[];
-    getAllRelatedDocuments(inputs: RelatedDocumentsInputs): Promise<ReturnType<typeof getAllRelatedDocuments>>;
-    getLatestDocuments(inputs: LatestDocumentsInputs): Promise<ReturnType<typeof getLatestDocumentsAction>>;
+    getAllRelatedDocuments(inputs: RelatedDocumentsInputs): Promise<DualStoreEntry<'text', 'timestamp'>[]>;
+    getLatestDocuments(inputs: LatestDocumentsInputs): Promise<DualStoreEntry<'text', 'timestamp'>[]>;
     compileContext(inputs?: CompileContextInputs): Promise<ContextMessage[]>;
 };
 
@@ -99,4 +104,3 @@ export const createContextStoreImplementation = (
         },
     };
 };
-
