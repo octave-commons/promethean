@@ -15,7 +15,7 @@ import {
   type CrossDomainSearchEngineState,
 } from '../cross-domain-search-functional.js';
 
-import type { CrossDomainSearchOptions, EnhancedSearchResult } from '../types/search.js';
+import type { CrossDomainSearchOptions } from '../types/search.js';
 
 // Mock indexer service state for testing
 const createMockIndexerService = (): any => ({
@@ -29,7 +29,11 @@ const createMockIndexerService = (): any => ({
             type: 'file' as const,
             source: 'filesystem' as const,
             timestamp: Date.now(),
-            metadata: { path: '/test/file.txt' },
+            metadata: {
+              type: 'file' as const,
+              source: 'filesystem' as const,
+              path: '/test/file.txt',
+            },
           },
           score: 0.9,
         },
@@ -125,10 +129,23 @@ test('should handle search options correctly', async (t) => {
     sourceWeights: {
       filesystem: 1.5,
       discord: 1.0,
+      opencode: 1.0,
+      agent: 1.0,
+      user: 1.0,
+      system: 1.0,
+      external: 1.0,
+      kanban: 1.0,
     },
     typeWeights: {
       file: 1.2,
       message: 1.0,
+      event: 1.0,
+      session: 1.0,
+      attachment: 1.0,
+      thought: 1.0,
+      document: 1.0,
+      task: 1.0,
+      board: 1.0,
     },
   };
 
