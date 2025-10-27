@@ -8,7 +8,7 @@
 
 import type { SearchResult, ContentSource } from '@promethean-os/persistence';
 import type { ContextMessage } from '@promethean-os/persistence/dist/actions/context-store/types.js';
-import type { UnifiedIndexerService } from './unified-indexer-service.js';
+import type { UnifiedIndexerServiceState } from './unified-indexer-service.js';
 import type {
   CrossDomainSearchOptions,
   EnhancedSearchResult,

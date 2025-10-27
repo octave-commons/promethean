@@ -6,6 +6,7 @@ export {
   searchService,
   getContextService,
   getStatusService,
+  DEFAULT_SERVICE_CONFIG,
   type UnifiedIndexerServiceState,
 } from './unified-indexer-service.js';
 

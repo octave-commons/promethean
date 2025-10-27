@@ -461,3 +461,45 @@ export async function createUnifiedIndexerService(
 ): Promise<UnifiedIndexerServiceState> {
   return initializeService(config);
 }
+
+/**
+ * Default configuration
+ */
+export const DEFAULT_SERVICE_CONFIG: Partial<UnifiedIndexerServiceConfig> = {
+  contextStore: {
+    collections: {
+      files: 'files',
+      discord: 'discord',
+      opencode: 'opencode',
+      kanban: 'kanban',
+      unified: 'unified',
+    },
+    formatTime: (ms: number) => new Date(ms).toISOString(),
+    assistantName: 'Duck',
+  },
+  sources: {
+    files: {
+      enabled: true,
+      paths: ['./src', './docs'],
+      options: {
+        batchSize: 100,
+        excludePatterns: ['node_modules/**', '.git/**', 'dist/**'],
+      },
+    },
+    discord: {
+      enabled: false,
+    },
+    opencode: {
+      enabled: false,
+    },
+    kanban: {
+      enabled: false,
+    },
+  },
+  sync: {
+    interval: 300000, // 5 minutes
+    batchSize: 100,
+    retryAttempts: 3,
+    retryDelay: 5000, // 5 seconds
+  },
+};
