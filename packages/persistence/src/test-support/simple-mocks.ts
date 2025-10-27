@@ -5,7 +5,7 @@
  * from the unified-indexing-api and unified-indexing-client modules.
  */
 
-import type { IndexableContent, ContentType, ContentSource, FileMetadata } from '../../unified-content-model.js';
+import type { IndexableContent, ContentType, ContentSource, FileMetadata } from '../unified-content-model.js';
 
 import type {
     SearchQuery,
@@ -14,7 +14,7 @@ import type {
     IndexingStats,
     IndexingOptions,
     UnifiedIndexingConfig,
-} from '../../unified-indexing-api.js';
+} from '../unified-indexing-api.js';
 
 /**
  * Create a mock IndexableContent object
