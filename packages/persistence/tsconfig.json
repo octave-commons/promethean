@@ -7,7 +7,6 @@
         "declaration": true
     },
     "include": ["src/**/*"],
-    "exclude": ["src/tests/**/*"],
     "references": [
         {
             "path": "../ai/embedding"
