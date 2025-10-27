@@ -68,13 +68,13 @@
       "enabled": true
     }
   },
-  // "lsp": {
-  //   "eslint": {
-  //     "enabled": true,
-  //     "command": ["npx", "eslint-lsp", "-y", "--stdio"],
-  //     "extensions": [".ts", ".tsx", ".js", ".jsx", ".vue"]
-  //   }
-  // },
+  "lsp": {
+    "eslint-lsp": {
+      "enabled": true,
+      "command": ["npx", "eslint-lsp", "-y", "--stdio"],
+      "extensions": [".ts", ".tsx", ".js", ".jsx", ".vue"]
+    }
+  },
 
   "instructions": ["./docs/agents/platforms/opencode/AGENTS.md"]
 }
