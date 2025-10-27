@@ -8,13 +8,10 @@
 
 import type {
   UnifiedIndexingClient,
-  UnifiedIndexingConfig,
   SearchQuery,
   SearchResponse,
-  IndexingStats,
   ContentType,
   ContentSource,
-  FileIndexingOptions,
   FileIndexingStats,
   DiscordIndexingStats,
   OpenCodeIndexingStats,
