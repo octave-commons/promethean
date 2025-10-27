@@ -1,4 +1,4 @@
-import type { DualStoreEntry, DualStoreMetadata, DualStoreTimestamp } from '../../types.js';
+import type { DualStoreEntry, DualStoreTimestamp } from '../../types.js';
 import type { ContextMessage, ContextState, DualStoreAdapter } from './types.js';
 
 export type GenericEntry = DualStoreEntry<'text', 'timestamp'>;
@@ -68,4 +68,3 @@ export const toMessage = (
 
 export const getCollections = (state: ContextState): readonly DualStoreAdapter[] =>
     Array.from(state.collections.values());
-

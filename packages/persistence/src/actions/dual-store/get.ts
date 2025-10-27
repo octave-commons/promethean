@@ -1,3 +1,5 @@
+import type { Filter } from 'mongodb';
+
 import type { DualStoreEntry } from '../../types.js';
 import type { DualStoreDependencies, GetInputs } from './types.js';
 
@@ -11,7 +13,8 @@ export const get = async <TextKey extends string, TimeKey extends string>(
     const { mongo, state } = dependencies;
 
     const collection = await mongo.getCollection();
-    const document = await collection.findOne({ id } as Record<string, unknown>);
+    const filter = { id } as Filter<DualStoreEntry<TextKey, TimeKey>>;
+    const document = await collection.findOne(filter);
 
     if (!document) {
         return null;
@@ -19,4 +22,3 @@ export const get = async <TextKey extends string, TimeKey extends string>(
 
     return fromMongoDocument(document, state);
 };
-

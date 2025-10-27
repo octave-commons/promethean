@@ -1,4 +1,7 @@
+import type { Filter } from 'mongodb';
+
 import type { DualStoreDependencies, CheckConsistencyInputs } from './types.js';
+import type { DualStoreEntry } from '../../types.js';
 
 export const checkConsistency = async <TextKey extends string, TimeKey extends string>(
     inputs: CheckConsistencyInputs,
@@ -13,7 +16,8 @@ export const checkConsistency = async <TextKey extends string, TimeKey extends s
     const { mongo, chroma } = dependencies;
 
     const collection = await mongo.getCollection();
-    const mongoDoc = await collection.findOne({ id } as Record<string, unknown>);
+    const filter = { id } as Filter<DualStoreEntry<TextKey, TimeKey>>;
+    const mongoDoc = await collection.findOne(filter);
 
     const hasDocument = Boolean(mongoDoc);
     let hasVector = false;
@@ -33,4 +37,3 @@ export const checkConsistency = async <TextKey extends string, TimeKey extends s
         vectorWriteError: mongoDoc?.metadata?.vectorWriteError,
     };
 };
-

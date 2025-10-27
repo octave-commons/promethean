@@ -1,3 +1,5 @@
+import type { Filter, Sort } from 'mongodb';
+
 import type { DualStoreDependencies, GetMostRecentInputs } from './types.js';
 import type { DualStoreEntry } from '../../types.js';
 
@@ -14,11 +16,11 @@ export const getMostRecent = async <TextKey extends string, TimeKey extends stri
 
     const defaultFilter = {
         [state.textKey]: { $nin: [null, ''], $not: /^\s*$/ },
-    } as Record<string, unknown>;
+    } as Filter<DualStoreEntry<TextKey, TimeKey>>;
 
     const defaultSorter = {
         [state.timeStampKey]: -1 as const,
-    };
+    } as Sort;
 
     const documents = await collection
         .find(mongoFilter ?? defaultFilter)
