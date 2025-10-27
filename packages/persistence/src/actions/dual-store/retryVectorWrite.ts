@@ -1,9 +1,8 @@
-import type { Filter } from 'mongodb';
+import type { Filter, UpdateFilter } from 'mongodb';
 
 import type { DualStoreEntry } from '../../types.js';
+import { toChromaMetadata } from '../../serializers/toChromaMetadata.js';
 import type { DualStoreDependencies, RetryVectorWriteInputs } from './types.js';
-
-import { buildChromaMetadata } from './utils.js';
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -26,11 +25,16 @@ export const retryVectorWrite = async <TextKey extends string, TimeKey extends s
 
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
         try {
-            const chromaMetadata = buildChromaMetadata(mongoDoc, state);
+            const textValue = (mongoDoc as Record<TextKey, string>)[state.textKey];
+            const chromaMetadata = toChromaMetadata(mongoDoc.metadata ?? {});
+            const timestampValue = (mongoDoc as Record<TimeKey, number | string | Date>)[state.timeStampKey];
+            if (timestampValue !== undefined) {
+                chromaMetadata[state.timeStampKey] = timestampValue as number | string | boolean | null;
+            }
 
             await chroma.collection.add({
                 ids: [id],
-                documents: [(mongoDoc as Record<TextKey, string>)[state.textKey]],
+                documents: [textValue],
                 metadatas: [chromaMetadata],
             });
 
@@ -42,7 +46,7 @@ export const retryVectorWrite = async <TextKey extends string, TimeKey extends s
                         'metadata.vectorWriteError': undefined,
                         'metadata.vectorWriteTimestamp': time(),
                     },
-                },
+                } as UpdateFilter<DualStoreEntry<TextKey, TimeKey>>,
             );
             return true;
         } catch (error) {
@@ -66,7 +70,7 @@ export const retryVectorWrite = async <TextKey extends string, TimeKey extends s
                 'metadata.vectorWriteError': lastError?.message,
                 'metadata.vectorWriteTimestamp': null,
             },
-        },
+        } as UpdateFilter<DualStoreEntry<TextKey, TimeKey>>,
     );
 
     return false;
