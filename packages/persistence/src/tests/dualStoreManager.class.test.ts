@@ -473,33 +473,12 @@ test('getConsistencyReport summarises documents', async (t) => {
     await manager.insert({ id: 'ok', text: 'ok', timestamp: Date.now(), metadata: { vectorWriteSuccess: true } });
     await manager.insert({ id: 'fail', text: 'fail', timestamp: Date.now(), metadata: {} });
 
-    const doc = await manager.get('fail');
-    if (doc) {
-        const mongoClient = await (await import('../clients.js')).getMongoClient();
-        const db = mongoClient.db('database');
-        const collection = db.collection('dual_store_entries');
-        await collection.updateOne(
-            { id: 'fail' },
-            {
-                $set: {
-                    id: 'fail',
-                    text: doc.text,
-                    timestamp: doc.timestamp,
-                    metadata: {
-                        ...doc.metadata,
-                        vectorWriteSuccess: false,
-                        vectorWriteError: 'boom',
-                    },
-                },
-            },
-        );
-    }
-
     const report = await manager.getConsistencyReport(5);
     t.is(report.totalDocuments, 2);
     t.is(report.consistentDocuments, 1);
     t.is(report.inconsistentDocuments, 1);
     t.is(report.vectorWriteFailures.length, 1);
+    t.regex(report.vectorWriteFailures[0]?.error ?? '', /vector-write-failure/);
 
     await manager.cleanup();
 });
