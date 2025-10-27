@@ -147,9 +147,9 @@ async function runUnifiedIndexerExample(): Promise<void> {
       semantic: true,
     };
 
-    const searchResults = await indexerService.search(searchQuery);
+    const searchResults = await searchService(indexerService, searchQuery);
     console.log(`Found ${searchResults.results.length} results:`);
-    searchResults.results.forEach((result, index) => {
+    searchResults.results.forEach((result: any, index: number) => {
       console.log(
         `  ${index + 1}. [${result.content.type}] ${result.content.id} (score: ${result.score.toFixed(3)})`,
       );
@@ -160,7 +160,8 @@ async function runUnifiedIndexerExample(): Promise<void> {
 
     // Example 2: Get context for LLM consumption
     console.log('\n🤖 Example 2: LLM context compilation');
-    const context = await indexerService.getContext(
+    const context = await getContextService(
+      indexerService,
       ['unified indexer service', 'contextStore', 'cross-domain search'],
       {
         recentLimit: 5,
@@ -186,7 +187,7 @@ async function runUnifiedIndexerExample(): Promise<void> {
 
     for (const query of realtimeQueries) {
       const startTime = Date.now();
-      const results = await indexerService.search({
+      const results = await searchService(indexerService, {
         query,
         limit: 5,
         semantic: true,
@@ -201,7 +202,7 @@ async function runUnifiedIndexerExample(): Promise<void> {
     await new Promise((resolve) => setTimeout(resolve, 30000));
 
     // Stop the service
-    await indexerService.stop();
+    await stopService(indexerService);
     console.log('🛑 Unified Indexer Service stopped');
   } catch (error) {
     console.error('❌ Example failed:', error);
