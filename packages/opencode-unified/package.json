@@ -131,7 +131,7 @@
     "tsx": "^4.7.2",
     "chokidar": "^3.6.0",
     "cross-env": "^7.0.3",
-    "electron": "^32.2.0",
+    "electron": "^35.7.5",
     "electron-builder": "^24.13.3",
     "npm-run-all": "^4.1.5",
     "shadow-cljs": "^2.28.23",
