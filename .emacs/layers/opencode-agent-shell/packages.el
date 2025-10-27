@@ -43,8 +43,13 @@
 (defconst opencode-agent-shell-packages
   '(
      shell-maker
-     (acp :location built-in)      ;; we use :vc in init below
-     (agent-shell :location built-in)))
+     (acp :location (recipe :fetcher github
+                      :repo "xenodium/acp.el"
+                      ))      ;; we use :vc in init below
+     (agent-shell :location (recipe
+                              :fetcher github
+                              :repo "xenodium/agent-shell"
+                              ))))
 
 (defun opencode-agent-shell/init-shell-maker ()
   (use-package shell-maker
@@ -54,13 +59,11 @@
 (defun opencode-agent-shell/init-acp ()
   ;; Install from source with :vc (per upstream README).
   (use-package acp
-    :vc (:url "https://github.com/xenodium/acp.el")
     :defer t))
 
 (defun opencode-agent-shell/init-agent-shell ()
   ;; Install from source with :vc (per upstream README).
   (use-package agent-shell
-    :vc (:url "https://github.com/xenodium/agent-shell")
     :commands (agent-shell opencode-agent-shell/start)
     :init
     ;; Leader key: SPC a a  => start OpenCode (ACP)
