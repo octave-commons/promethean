@@ -63,6 +63,7 @@ export default [
       ],
       'no-var': 'error',
       'prefer-const': 'error',
+      "import/no-dynamic-require": "error",
       'no-restricted-syntax': [
         'error',
         {
