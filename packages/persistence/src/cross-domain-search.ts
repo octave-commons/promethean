@@ -364,7 +364,14 @@ export class CrossDomainSearchEngine {
     /**
      * Generate human-readable score explanation
      */
-    private generateScoreExplanation(breakdown: NonNullable<EnhancedSearchResult['scoreBreakdown']>): string {
+    private generateScoreExplanation(breakdown: {
+        semantic: number;
+        keyword: number;
+        temporal: number;
+        source: number;
+        type: number;
+        final: number;
+    }): string {
         return `Score: ${breakdown.final.toFixed(3)} (semantic: ${breakdown.semantic.toFixed(3)}, keyword: ${breakdown.keyword.toFixed(3)}, temporal: ${breakdown.temporal.toFixed(3)}, source: ${breakdown.source.toFixed(2)}, type: ${breakdown.type.toFixed(2)})`;
     }
 
@@ -437,11 +444,11 @@ export class CrossDomainSearchEngine {
     private calculateScoreDistribution(scores: number[]): Record<string, number> {
         const sorted = [...scores].sort((a, b) => a - b);
         return {
-            min: sorted[0],
-            max: sorted[sorted.length - 1],
-            median: sorted[Math.floor(sorted.length / 2)],
-            mean: scores.reduce((a, b) => a + b, 0) / scores.length,
-            p95: sorted[Math.floor(sorted.length * 0.95)],
+            min: sorted[0] || 0,
+            max: sorted[sorted.length - 1] || 0,
+            median: sorted[Math.floor(sorted.length / 2)] || 0,
+            mean: scores.length > 0 ? scores.reduce((a, b) => a + b, 0) / scores.length : 0,
+            p95: sorted[Math.floor(sorted.length * 0.95)] || 0,
         };
     }
 
@@ -455,7 +462,7 @@ export class CrossDomainSearchEngine {
         const expanded = new Set<string>([query]);
 
         // Add common variations
-        terms.forEach((term) => {
+        terms.forEach((term: string) => {
             if (term.includes('index')) {
                 expanded.add(term.replace('index', 'search'));
                 expanded.add(term.replace('index', 'query'));
@@ -500,6 +507,10 @@ export const DEFAULT_SEARCH_OPTIONS: Partial<CrossDomainSearchOptions> = {
         discord: 1.0,
         opencode: 1.1,
         kanban: 1.0,
+        agent: 1.0,
+        user: 1.0,
+        system: 1.0,
+        external: 0.8,
     },
     typeWeights: {
         file: 1.2,
@@ -507,5 +518,9 @@ export const DEFAULT_SEARCH_OPTIONS: Partial<CrossDomainSearchOptions> = {
         message: 1.0,
         task: 1.3,
         event: 0.9,
+        session: 1.0,
+        attachment: 0.8,
+        thought: 1.1,
+        board: 1.0,
     },
 };
