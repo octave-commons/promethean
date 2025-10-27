@@ -25,7 +25,8 @@
   "license": "GPL-3.0-only",
   "dependencies": {
     "@promethean-os/utils": "workspace:*",
-    "@promethean-os/eidolon-field": "workspace:*"
+    "@promethean-os/eidolon-field": "workspace:*",
+    "@promethean-os/ollama-queue": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
