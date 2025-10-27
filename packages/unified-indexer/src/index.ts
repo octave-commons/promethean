@@ -19,10 +19,14 @@ export {
 
 // Cross-domain search
 export {
-  CrossDomainSearchEngine,
   createCrossDomainSearchEngine,
-  DEFAULT_SEARCH_OPTIONS,
-} from './cross-domain-search.js';
+  search,
+  intelligentSearch,
+  getContextualSearch,
+  type CrossDomainSearchEngineState,
+} from './cross-domain-search-functional.js';
+
+export { DEFAULT_SEARCH_OPTIONS } from './cross-domain-scoring.js';
 
 // Search types
 export {
