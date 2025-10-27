@@ -63,12 +63,10 @@ export function createMockEnhancedSearchResult(
       {
         role: 'system',
         content: 'System context message',
-        timestamp: now - 7200000,
       },
       {
         role: 'user',
         content: 'User context message',
-        timestamp: now - 3600000,
       },
     ],
     contextRelevance: 0.75,
