@@ -49,7 +49,7 @@ import {
  */
 async function createUnifiedIndexingClient(config: any): Promise<UnifiedIndexingClient> {
   const dualStore = await DualStoreManager.create('unified', 'text', 'createdAt');
-  
+
   return {
     async index(content: any) {
       await dualStore.addEntry({
@@ -60,7 +60,7 @@ async function createUnifiedIndexingClient(config: any): Promise<UnifiedIndexing
       });
       return content.id;
     },
-    
+
     async indexBatch(contents: any[]) {
       const ids = [];
       for (const content of contents) {
@@ -72,103 +72,6 @@ async function createUnifiedIndexingClient(config: any): Promise<UnifiedIndexing
         });
         ids.push(content.id);
       }
-      return ids;
-    },
-    
-    async search(query: SearchQuery): Promise<SearchResponse> {
-      const startTime = Date.now();
-      const results = await dualStore.getMostRelevant(
-        query.query ? [query.query] : [],
-        query.limit || 10,
-        query.metadata
-      );
-      
-      return {
-        results: results.map(entry => ({
-          content: {
-            id: entry.id || entry._id?.toString() || '',
-            type: 'file' as ContentType,
-            source: 'filesystem' as ContentSource,
-            content: entry.text,
-            metadata: entry.metadata,
-            timestamp: entry.createdAt,
-          },
-          score: 1.0,
-        })),
-        total: results.length,
-        took: Date.now() - startTime,
-        query,
-      };
-    },
-    
-    async getById(id: string) {
-      const entry = await dualStore.get(id);
-      if (!entry) return null;
-      
-      return {
-        id: entry.id || '',
-        type: 'file' as ContentType,
-        source: 'filesystem' as ContentSource,
-        content: entry.text,
-        metadata: entry.metadata,
-        timestamp: entry.createdAt,
-      };
-    },
-    
-    async getByType(_type: ContentType) {
-      return [];
-    },
-    
-    async getBySource(_source: ContentSource) {
-      return [];
-    },
-    
-    async update(_id: string, _content: any) {
-      return false;
-    },
-    
-    async delete(_id: string) {
-      return false;
-    },
-    
-    async deleteBatch(ids: string[]) {
-      return ids.map(() => false);
-    },
-    
-    async reindex() {
-      // No-op
-    },
-    
-    async optimize() {
-      // No-op
-    },
-    
-    async getStats(): Promise<IndexingStats> {
-      const report = await dualStore.getConsistencyReport();
-      return {
-        totalContent: report.totalDocuments,
-        contentByType: {} as Record<ContentType, number>,
-        contentBySource: {} as Record<ContentSource, number>,
-        lastIndexed: Date.now(),
-        storageStats: {
-          vectorSize: 0,
-          metadataSize: 0,
-          totalSize: 0,
-        },
-      };
-    },
-    
-    async healthCheck() {
-      const report = await dualStore.getConsistencyReport(1);
-      return {
-        healthy: report.consistentDocuments > 0,
-        vectorStore: true,
-        metadataStore: true,
-        issues: [],
-      };
-    },
-  };
-}
       return ids;
     },
 
@@ -183,12 +86,12 @@ async function createUnifiedIndexingClient(config: any): Promise<UnifiedIndexing
       return {
         results: results.map((entry) => ({
           content: {
-            id: entry.id,
+            id: entry.id || entry._id?.toString() || '',
             type: 'file' as ContentType,
             source: 'filesystem' as ContentSource,
             content: entry.text,
-            metadata: entry.metadata,
-            timestamp: entry.timestamp,
+            metadata: entry.metadata || {},
+            timestamp: entry.createdAt,
           },
           score: 1.0,
         })),
@@ -203,46 +106,41 @@ async function createUnifiedIndexingClient(config: any): Promise<UnifiedIndexing
       if (!entry) return null;
 
       return {
-        id: entry.id,
+        id: entry.id || entry._id?.toString() || '',
         type: 'file' as ContentType,
         source: 'filesystem' as ContentSource,
         content: entry.text,
-        metadata: entry.metadata,
-        timestamp: entry.timestamp,
+        metadata: entry.metadata || {},
+        timestamp: entry.createdAt,
       };
     },
 
-    async getByType(type: ContentType) {
-      // For simplicity, return empty array
+    async getByType(_type: ContentType) {
       return [];
     },
 
-    async getBySource(source: ContentSource) {
-      // For simplicity, return empty array
+    async getBySource(_source: ContentSource) {
       return [];
     },
 
-    async update(id: string, content: any) {
-      // For simplicity, return false
+    async update(_id: string, _content: any) {
       return false;
     },
 
-    async delete(id: string) {
-      // For simplicity, return false
+    async delete(_id: string) {
       return false;
     },
 
     async deleteBatch(ids: string[]) {
-      // For simplicity, return array of false
       return ids.map(() => false);
     },
 
     async reindex() {
-      // No-op for now
+      // No-op
     },
 
     async optimize() {
-      // No-op for now
+      // No-op
     },
 
     async getStats(): Promise<IndexingStats> {
