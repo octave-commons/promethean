@@ -68,23 +68,63 @@ export class GitEventReconstructor {
     this.git = simpleGit(this.repoRoot);
   }
 
-  /**
+/**
    * Get all commits that modified task files
    */
   private async getTaskCommits(): Promise<GitCommit[]> {
     const tasksPath = path.relative(this.repoRoot, this.tasksDir);
 
     try {
-      const logOptions = [
-        '--name-only',
-        `--pretty=format:%H|%ai|%ae|%s`,
-        '--',
-        `${tasksPath}/*.md`,
-      ];
+      // Use raw git command to get commit info with files in one pass
+      const sinceFlag = this.options.since ? `--since="${this.options.since}"` : '';
+      const cmd = `git log ${sinceFlag} --name-only --pretty=format:"%H|%ai|%ae|%s" -- ${tasksPath}/*.md`;
 
-      if (this.options.since) {
-        logOptions.unshift(`--since=${this.options.since}`);
+      const { execSync } = await import('node:child_process');
+      const output = execSync(cmd, {
+        cwd: this.repoRoot,
+        encoding: 'utf8',
+      }).trim();
+
+      if (!output) return [];
+
+      const commits: GitCommit[] = [];
+      const lines = output.split('\n');
+      let currentCommit: Partial<GitCommit> | null = null;
+
+      for (const line of lines) {
+        if (line.includes('|')) {
+          // Commit header line
+          if (currentCommit) {
+            commits.push(currentCommit as GitCommit);
+          }
+
+          const [sha, timestamp, author, ...messageParts] = line.split('|');
+          currentCommit = {
+            sha,
+            timestamp,
+            author,
+            message: messageParts.join('|'),
+            files: [],
+          };
+        } else if (line.trim() && currentCommit) {
+          // File path line
+          const filePath = line.trim();
+          if (filePath.endsWith('.md') && filePath.includes(tasksPath)) {
+            currentCommit.files!.push(filePath);
+          }
+        }
       }
+
+      if (currentCommit) {
+        commits.push(currentCommit as GitCommit);
+      }
+
+      return commits.reverse(); // Return in chronological order
+    } catch (error) {
+      console.warn('Warning: Failed to get git commits:', error);
+      return [];
+    }
+  }
 
       const log = await this.git.log(logOptions);
 
