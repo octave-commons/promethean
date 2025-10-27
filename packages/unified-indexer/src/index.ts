@@ -1,8 +1,12 @@
 // Unified Indexer Service
 export {
-  UnifiedIndexerService,
   createUnifiedIndexerService,
-  DEFAULT_SERVICE_CONFIG,
+  startService,
+  stopService,
+  searchService,
+  getContextService,
+  getStatusService,
+  type UnifiedIndexerServiceState,
 } from './unified-indexer-service.js';
 
 // Service types
