@@ -1,5 +1,5 @@
 import type { Collection as ChromaCollection } from 'chromadb';
-import type { Collection } from 'mongodb';
+import type { Collection, Filter, Sort, UpdateFilter } from 'mongodb';
 
 import type { DualStoreEntry } from '../../types.js';
 
@@ -68,8 +68,8 @@ export type InsertInputs<TextKey extends string, TimeKey extends string> = {
 
 export type GetMostRecentInputs<TextKey extends string, TimeKey extends string> = {
     limit?: number;
-    mongoFilter?: Record<string, unknown>;
-    sorter?: Record<string, 1 | -1>;
+    mongoFilter?: Filter<DualStoreEntry<TextKey, TimeKey>>;
+    sorter?: Sort;
 };
 
 export type GetMostRelevantInputs = {
@@ -93,7 +93,6 @@ export type GetConsistencyReportInputs = {
     limit?: number;
 };
 
-export type CleanupDependencies = {
-    queue: QueueDependencies;
-    cleanupClients: () => Promise<void>;
-};
+export type MongoUpdateFilter<TextKey extends string, TimeKey extends string> = UpdateFilter<
+    DualStoreEntry<TextKey, TimeKey>
+>;
