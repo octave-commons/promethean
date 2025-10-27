@@ -44,6 +44,7 @@ import {
 import { TransitionRulesEngine, createTransitionRulesEngine } from '../lib/transition-rules.js';
 import { TaskGitTracker } from '../lib/task-git-tracker.js';
 import { createWIPLimitEnforcement } from '../lib/wip-enforcement.js';
+import { createRebuildEventLogCommand } from '../lib/rebuild-event-log-command.js';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
@@ -2413,6 +2414,13 @@ function parseArgValues(argv: ReadonlyArray<string>, flag: string): string[] {
 
   return values;
 }
+
+// Create rebuild event log command handler
+const handleRebuildEventLog = createRebuildEventLogCommand(
+  'docs/agile/boards/generated.md',
+  'docs/agile/tasks',
+).execute;
+
 export const COMMAND_HANDLERS: Readonly<Record<string, CommandHandler>> = Object.freeze({
   heal: handleHeal,
   count: handleCount,
@@ -2459,6 +2467,8 @@ export const COMMAND_HANDLERS: Readonly<Record<string, CommandHandler>> = Object
   'epic-status': handleEpicStatus,
   // Setup commands
   init: handleInit,
+  // Event log commands
+  'rebuild-event-log': handleRebuildEventLog,
 });
 
 export const AVAILABLE_COMMANDS: ReadonlyArray<string> = Object.freeze(
