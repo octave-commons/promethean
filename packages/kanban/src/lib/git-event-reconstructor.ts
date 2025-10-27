@@ -171,15 +171,15 @@ export class GitEventReconstructor {
   /**
    * Analyze status changes for a single task across commits
    */
-  private analyzeTaskStatusHistory(
+  private async analyzeTaskStatusHistory(
     taskCommits: GitCommit[],
     taskFilePath: string,
-  ): ReconstructedEvent[] {
+  ): Promise<ReconstructedEvent[]> {
     const events: ReconstructedEvent[] = [];
     let lastStatus: string | null = null;
 
     for (const commit of taskCommits) {
-      const content = this.getTaskContentAtCommit(taskFilePath, commit.sha);
+      const content = await this.getTaskContentAtCommit(taskFilePath, commit.sha);
 
       if (!content) {
         // File was deleted or doesn't exist at this commit
