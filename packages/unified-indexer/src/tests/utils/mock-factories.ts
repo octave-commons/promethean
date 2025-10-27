@@ -84,84 +84,6 @@ export function createMinimalConfig(): UnifiedIndexerServiceConfig {
 }
 
 /**
- * Create full configuration for testing
- */
-export function createFullConfig(): UnifiedIndexerServiceConfig {
-  return {
-    indexing: {
-      vectorStore: {
-        type: 'chromadb',
-        connectionString: 'http://localhost:8000',
-        indexName: 'promethean-test',
-      },
-      metadataStore: {
-        type: 'mongodb',
-        connectionString: 'mongodb://localhost:27017',
-        tableName: 'test_unified_content',
-      },
-      embedding: {
-        model: 'text-embedding-ada-002',
-        dimensions: 1536,
-        batchSize: 100,
-      },
-      cache: {
-        enabled: true,
-        ttl: 300000,
-        maxSize: 1000,
-      },
-      validation: {
-        strict: true,
-        skipVectorValidation: false,
-        maxContentLength: 1000000,
-      },
-    },
-    contextStore: {
-      collections: {
-        files: 'files',
-        discord: 'discord',
-        opencode: 'opencode',
-        kanban: 'kanban',
-        unified: 'unified',
-      },
-      formatTime: (ms: number) => new Date(ms).toISOString(),
-      assistantName: 'TestAssistant',
-    },
-    sources: {
-      files: {
-        enabled: true,
-        paths: ['./test-data'],
-        options: {
-          batchSize: 50,
-          excludePatterns: ['node_modules/**', '.git/**'],
-          includePatterns: ['*.ts', '*.js', '*.md'],
-          followSymlinks: false,
-          maxDepth: 5,
-        },
-      },
-      discord: {
-        enabled: true,
-        provider: 'test-provider',
-        tenant: 'test-tenant',
-      },
-      opencode: {
-        enabled: true,
-        sessionId: 'test-session-123',
-      },
-      kanban: {
-        enabled: true,
-        boardId: 'test-board-456',
-      },
-    },
-    sync: {
-      interval: 60000,
-      batchSize: 100,
-      retryAttempts: 3,
-      retryDelay: 5000,
-    },
-  };
-}
-
-/**
  * Create mock search query
  */
 export function createMockSearchQuery(overrides: Partial<SearchQuery> = {}): SearchQuery {
@@ -268,83 +190,18 @@ export function createMockCrossDomainSearchOptions(
 }
 
 /**
- * Create invalid configuration for error testing
- */
-export function createInvalidConfig(): Partial<UnifiedIndexerServiceConfig> {
-  return {
-    indexing: {
-      vectorStore: {
-        type: 'invalid' as any,
-        connectionString: '',
-        indexName: '',
-      },
-      metadataStore: {
-        type: 'invalid' as any,
-        connectionString: '',
-        tableName: '',
-      },
-      embedding: {
-        model: '',
-        dimensions: -1,
-        batchSize: -1,
-      },
-      cache: {
-        enabled: false,
-        ttl: -1,
-        maxSize: -1,
-      },
-      validation: {
-        strict: false,
-        skipVectorValidation: false,
-        maxContentLength: -1,
-      },
-    },
-    contextStore: {
-      collections: {
-        files: '',
-        discord: '',
-        opencode: '',
-        kanban: '',
-        unified: '',
-      },
-    },
-    sources: {
-      files: {
-        enabled: true,
-        paths: [''],
-      },
-      discord: {
-        enabled: true,
-      },
-      opencode: {
-        enabled: true,
-      },
-      kanban: {
-        enabled: true,
-      },
-    },
-    sync: {
-      interval: -1,
-      batchSize: -1,
-      retryAttempts: -1,
-      retryDelay: -1,
-    },
-  };
-}
-
-/**
  * Create mock indexer with common methods
  */
 export function createMockIndexer() {
   return {
-    indexDirectory: jest.fn().mockResolvedValue({
+    indexDirectory: async () => ({
       totalFiles: 10,
       indexedFiles: 8,
       skippedFiles: 2,
       errors: [],
       duration: 1000,
     }),
-    cleanup: jest.fn().mockResolvedValue(undefined),
+    cleanup: async () => undefined,
   };
 }
 
@@ -353,8 +210,8 @@ export function createMockIndexer() {
  */
 export function createMockUnifiedClient() {
   return {
-    search: jest.fn().mockResolvedValue(createMockSearchResponse()),
-    getStats: jest.fn().mockResolvedValue({
+    search: async () => createMockSearchResponse(),
+    getStats: async () => ({
       totalContent: 100,
       contentByType: {} as Record<ContentType, number>,
       contentBySource: {} as Record<ContentSource, number>,
@@ -365,11 +222,11 @@ export function createMockUnifiedClient() {
         totalSize: 1536000,
       },
     }),
-    healthCheck: jest.fn().mockResolvedValue({
+    healthCheck: async () => ({
       healthy: true,
       issues: [],
     }),
-    close: jest.fn().mockResolvedValue(undefined),
+    close: async () => undefined,
   };
 }
 
