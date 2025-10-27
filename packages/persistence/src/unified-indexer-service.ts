@@ -26,17 +26,11 @@ import {
 
 import type { UnifiedFileIndexer, FileIndexingOptions, FileIndexingStats } from './file-system-migration-adapter.js';
 
-import type { UnifiedDiscordIndexer, DiscordMessageEvent, DiscordIndexingStats } from './discord-migration-adapter.js';
+import type { UnifiedDiscordIndexer, DiscordIndexingStats } from './discord-migration-adapter.js';
 
-import type {
-    UnifiedOpenCodeIndexer,
-    OpenCodeSession,
-    OpenCodeEvent,
-    OpenCodeMessage,
-    OpenCodeIndexingStats,
-} from './opencode-migration-adapter.js';
+import type { UnifiedOpenCodeIndexer, OpenCodeIndexingStats } from './opencode-migration-adapter.js';
 
-import type { UnifiedKanbanIndexer, KanbanTask, KanbanBoard, KanbanIndexingStats } from './kanban-migration-adapter.js';
+import type { UnifiedKanbanIndexer, KanbanIndexingStats } from './kanban-migration-adapter.js';
 
 import type { ContextStoreState } from './contextStore.js';
 import { createContextStore, compileContext, getOrCreateCollection } from './contextStore.js';
@@ -97,7 +91,7 @@ export interface UnifiedIndexerServiceConfig {
  */
 export interface UnifiedIndexerStats {
     total: IndexingStats;
-    bySource: Record<ContentSource, IndexingStats>;
+    bySource: Record<string, FileIndexingStats | DiscordIndexingStats | OpenCodeIndexingStats | KanbanIndexingStats>;
     byType: Record<ContentType, number>;
     lastSync: number;
     syncDuration: number;
@@ -124,8 +118,8 @@ export interface ServiceStatus {
  */
 export class UnifiedIndexerService {
     private config: UnifiedIndexerServiceConfig;
-    private unifiedClient: UnifiedIndexingClient;
-    private contextStore: ContextStoreState;
+    private unifiedClient!: UnifiedIndexingClient;
+    private contextStore!: ContextStoreState;
 
     // Indexers for each source
     private fileIndexer?: UnifiedFileIndexer;
@@ -231,7 +225,7 @@ export class UnifiedIndexerService {
                     totalSize: 0,
                 },
             },
-            bySource: {} as Record<ContentSource, IndexingStats>,
+            bySource: {},
             byType: {} as Record<ContentType, number>,
             lastSync: startTime,
             syncDuration: 0,
@@ -383,7 +377,7 @@ export class UnifiedIndexerService {
 
         return {
             total: totalStats,
-            bySource: {} as Record<ContentSource, IndexingStats>,
+            bySource: {},
             byType: totalStats.contentByType,
             lastSync: this.lastSync,
             syncDuration: 0,
