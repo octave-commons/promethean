@@ -1,7 +1,5 @@
 import type { FastifyRequest } from 'fastify';
-// Mock import for type checking - will be resolved when dependencies are installed
-// import sanitizeHtml from 'sanitize-html';
-const sanitizeHtml: any = require('sanitize-html');
+import sanitizeHtml from 'sanitize-html';
 
 /**
  * Content sanitization utilities

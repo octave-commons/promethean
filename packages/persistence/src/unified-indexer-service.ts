@@ -445,7 +445,7 @@ export class UnifiedIndexerService {
 
         for (const path of this.config.sources.files.paths) {
             try {
-                const stats = await this.fileIndexer.indexPath(path, this.config.sources.files.options);
+                const stats = await this.fileIndexer.indexDirectory(path, this.config.sources.files.options);
                 allStats.totalFiles += stats.totalFiles;
                 allStats.indexedFiles += stats.indexedFiles;
                 allStats.skippedFiles += stats.skippedFiles;
@@ -491,12 +491,9 @@ export class UnifiedIndexerService {
         // This would typically involve fetching sessions/events from OpenCode
         // For now, return empty stats
         return {
-            totalSessions: 0,
-            indexedSessions: 0,
-            totalEvents: 0,
-            indexedEvents: 0,
-            totalMessages: 0,
-            indexedMessages: 0,
+            totalItems: 0,
+            indexedItems: 0,
+            skippedItems: 0,
             errors: [],
             duration: 0,
         };
@@ -513,10 +510,9 @@ export class UnifiedIndexerService {
         // This would typically involve fetching tasks/boards from Kanban system
         // For now, return empty stats
         return {
-            totalTasks: 0,
-            indexedTasks: 0,
-            totalBoards: 0,
-            indexedBoards: 0,
+            totalItems: 0,
+            indexedItems: 0,
+            skippedItems: 0,
             errors: [],
             duration: 0,
         };
@@ -543,7 +539,7 @@ export class UnifiedIndexerService {
                 try {
                     const documents = await sourceCollection.getMostRecent(1000);
                     for (const doc of documents) {
-                        await unifiedCollection.addEntry(doc);
+                        await unifiedCollection.addEntry(doc as any);
                     }
                 } catch (error) {
                     console.error(`Failed to sync collection ${sourceName} to unified:`, error);
