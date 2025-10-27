@@ -14,7 +14,7 @@ import {
     isValidSearchQuery,
     isValidSearchResult,
     isValidSearchResponse,
-} from '../utils/simple-mocks.js';
+} from '../../test-support/simple-mocks.js';
 
 test('createMockSearchQuery creates valid SearchQuery', (t) => {
     const query = createMockSearchQuery();
