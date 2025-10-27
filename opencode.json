@@ -10,7 +10,7 @@
       },
       "models": {
         "perplexity-pro/sonar-pro": {
-          "name": "Perplexity Sonar Pro"
+          "name": "Dragonfly 1.5 Pro"
         }
       }
     },
@@ -71,7 +71,7 @@
   "lsp": {
     "eslint-lsp": {
       "enabled": true,
-      "command": [ "vs", "--stdio"],
+      "command": [ "eslint-lsp", "--stdio"],
       "extensions": [".ts", ".tsx", ".js", ".jsx", ".vue"]
     }
   },
