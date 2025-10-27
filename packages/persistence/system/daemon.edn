@@ -1,0 +1,225 @@
+{:system/daemon
+  {:name "unified-indexer-daemon"
+   :version "1.0.0"
+   :description "Unified Indexer Service Daemon for Promethean OS"
+   :author "Promethean Team"
+   :license "GPL-3.0"
+   
+   ;; Daemon configuration
+   :config
+   {:service-name "unified-indexer"
+    :pid-file "/var/run/unified-indexer.pid"
+    :log-file "/var/log/unified-indexer/daemon.log"
+    :log-level "info"
+    :user "promethean"
+    :group "promethean"
+    :working-directory "/opt/promethean/unified-indexer"
+    :environment "production"
+    
+    ;; Service management
+    :service
+    {:executable "/opt/promethean/unified-indexer/dist/index.js"
+     :args ["--config", "/etc/promethean/unified-indexer/config.json"]
+     :restart-delay 5000
+     :restart-attempts 3
+     :auto-restart true
+     :graceful-shutdown-timeout 30000
+     
+     ;; Health monitoring
+     :health-check
+     {:endpoint "/health"
+      :interval 30000
+      :timeout 10000
+      :failure-threshold 3
+      
+      ;; Resource limits
+      :limits
+      {:max-memory "2GB"
+       :max-cpu "1000m"
+       :max-files 10000
+       :max-connections 100}
+       
+      ;; Performance tuning
+      :performance
+      {:batch-size 100
+       :cache-size 10000
+       :indexing-interval 300000
+       :search-timeout 30000
+       :concurrent-operations 10}
+      
+      ;; Security settings
+      :security
+      {:enable-authentication true
+       :jwt-secret-file "/etc/promethean/unified-indexer/jwt.secret"
+       :tls-cert-file "/etc/promethean/unified-indexer/tls.crt"
+       :tls-key-file "/etc/promethean/unified-indexer/tls.key"
+       :allowed-origins ["https://promethean.com", "https://api.promethean.com"]
+       :rate-limit-requests 1000
+       :rate-limit-window 60000}
+      
+      ;; Database configuration
+      :database
+      {:mongodb-url "mongodb://localhost:27017/promethean"
+       :chroma-url "http://localhost:8000"
+       :redis-url "redis://localhost:6379"
+       :connection-pool-size 10
+       :connection-timeout 30000
+       :retry-attempts 3
+       :retry-delay 5000}
+      
+      ;; Indexing configuration
+      :indexing
+      {:sources
+       {:files {:enabled true
+         :paths ["/data/src", "/data/docs", "/data/packages"]
+         :exclude-patterns ["node_modules/**", ".git/**", "dist/**"]
+         :include-patterns ["*.ts", "*.js", "*.md", "*.json"]
+         :max-depth 10}
+        :discord {:enabled false}
+        :opencode {:enabled false}
+        :kanban {:enabled false}}
+       
+       :embedding
+       {:model "text-embedding-ada-002"
+        :dimensions 1536
+        :batch-size 100
+        :provider "openai"}
+       
+       :validation
+       {:strict true
+        :max-content-length 1000000
+        :skip-vector-validation false}}
+     
+     ;; Monitoring and metrics
+     :monitoring
+     {:metrics-endpoint "/metrics"
+      :health-endpoint "/health"
+      :prometheus-enabled true
+      :prometheus-port 9090
+      :log-format "json"
+      :structured-logging true
+      :performance-tracking true
+      :error-tracking true
+      :audit-logging true}
+     
+     ;; Notification settings
+     :notifications
+     {:slack-webhook-url "https://hooks.slack.com/services/..."
+      :email-smtp-server "smtp.gmail.com"
+      :email-from "noreply@promethean.com"
+      :email-to ["ops@promethean.com"]
+      :alert-thresholds {:error-rate 0.1 :memory-usage 0.9 :cpu-usage 0.8 :disk-usage 0.85}
+      :notification-channels ["slack", "email"]}}}
+
+;; Runtime state management
+:runtime
+{:pid nil
+  :start-time nil
+  :status "stopped"
+  :last-health-check nil
+  :error-count 0
+  :last-error nil
+  :restart-count 0
+  :uptime 0
+  :memory-usage {:current 0 :peak 0 :average 0}
+  :performance {:indexing-rate 0 :search-rate 0 :error-rate 0 :avg-response-time 0}
+  :connections {:active 0 :total 0 :failed 0}
+  :resources {:indexed-content 0 :search-queries 0 :cache-hits 0 :cache-misses 0}}
+
+;; Service lifecycle commands
+:commands
+{:start "Start the unified indexer daemon"
+ :stop "Stop the unified indexer daemon"
+ :restart "Restart the unified indexer daemon"
+ :status "Show daemon status"
+ :health "Perform health check"
+ :reload "Reload configuration"
+ :logs "Show recent logs"
+ :metrics "Show performance metrics"
+ :cleanup "Cleanup old data and logs"
+ :backup "Backup configuration and data"
+ :restore "Restore from backup"
+ :validate "Validate configuration"
+ :test "Run self-tests"
+ :debug "Enable debug mode"
+ :version "Show version information"}}
+
+;; Configuration schema
+:config-schema
+{:version "1.0.0"
+ :required [:service-name :executable :working-directory]
+ :optional [:pid-file :log-file :log-level :user :group :environment]
+ :sections
+{:service :service-management :health-check :limits :performance :security :database :indexing :monitoring :notifications :runtime :commands}}
+
+;; Validation rules
+:validation
+{:config-file
+ {:exists? true
+  :readable? true
+  :writable? false
+  :min-size 1024
+  :max-size 1048576
+  :allowed-extensions [".json" ".edn"]
+  :schema-validation true}
+ 
+ :database-connections
+ {:mongodb-url {:required true :pattern "^mongodb://.+"}
+  :chroma-url {:required true :pattern "^https?://.+"}
+  :redis-url {:required false :pattern "^redis://.+"}}
+ 
+ :performance-limits
+ {:batch-size {:min 10 :max 1000 :type integer}
+  :cache-size {:min 100 :max 100000 :type integer}
+  :indexing-interval {:min 60000 :max 3600000 :type integer}
+  :search-timeout {:min 5000 :max 120000 :type integer}
+  :concurrent-operations {:min 1 :max 50 :type integer}}
+ 
+ :security-settings
+ {:jwt-secret-file {:min-length 32 :max-length 512 :type file}
+  :tls-files {:type file :exists? false}
+  :rate-limit-requests {:min 10 :max 10000 :type integer}
+  :rate-limit-window {:min 1000 :max 300000 :type integer}}}
+
+;; Error definitions
+:errors
+{:config-validation {:code 1001 :message "Configuration validation failed"}
+ :database-connection {:code 2001 :message "Database connection failed"}
+ :service-start {:code 3001 :message "Service start failed"}
+ :health-check-failure {:code 4001 :message "Health check failed"}
+ :resource-exhaustion {:code 5001 :message "Resource limits exceeded"}
+ :permission-denied {:code 6001 :message "Permission denied"}
+ :network-timeout {:code 7001 :message "Network operation timeout"}
+ :indexing-failure {:code 8001 :message "Indexing operation failed"}
+ :search-failure {:code 9001 :message "Search operation failed"}
+ :shutdown-failure {:code 10001 :message "Graceful shutdown failed"}}
+
+;; Performance metrics definitions
+:metrics
+{:indexing-operations {:type counter :description "Total indexing operations"}
+ :indexing-errors {:type counter :description "Total indexing errors"}
+ :indexing-duration {:type histogram :description "Indexing operation duration"}
+ :search-queries {:type counter :description "Total search queries"}
+ :search-errors {:type counter :description "Total search errors"}
+ :search-duration {:type histogram :description "Search query duration"}
+ :cache-hits {:type counter :description "Cache hit count"}
+ :cache-misses {:type counter :description "Cache miss count"}
+ :active-connections {:type gauge :description "Active database connections"}
+ :memory-usage {:type gauge :description "Memory usage in bytes"}
+ :cpu-usage {:type gauge :description "CPU usage percentage"}
+ :disk-usage {:type gauge :description "Disk usage percentage"}
+ :indexed-content {:type gauge :description "Total indexed content items"}
+ :error-rate {:type gauge :description "Error rate per second"}
+ :throughput {:type gauge :description "Operations per second"}
+ :response-time {:type histogram :description "Response time distribution"}}
+
+;; Alert conditions
+:alerts
+{:high-error-rate {:condition "> index(indexing-errors_total[5m]) / index(indexing-operations_total[5m]) > 0.1" :severity warning :duration 120}
+ :service-down {:condition "up{job=\"unified-indexer\"} == 0" :severity critical :duration 60}
+ :memory-pressure {:condition "memory_usage_bytes / memory_limit_bytes > 0.9" :severity warning :duration 300}
+ :cpu-pressure {:condition "cpu_usage_percent > 80" :severity warning :duration 300}
+ :disk-space-low {:condition "disk_usage_percent > 0.85" :severity warning :duration 600}
+ :connection-failure {:condition "increase(connection_failures_total[5m]) > 5" :severity error :duration 60}
+ :search-latency-high {:condition "histogram_quantile(0.95, rate(search_duration_seconds_bucket[5m])) > 5" :severity warning :duration 120}
+ :indexing-stalled {:condition "time() - time(indexing_last_success) > 600" :severity error :duration 180}}
