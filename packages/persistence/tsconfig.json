@@ -7,7 +7,7 @@
         "declaration": true
     },
     "include": ["src/**/*"],
-    "exclude": ["src/dualStoreFunctions.ts"],
+    "exclude": ["src/dualStoreFunctions.ts", "src/tests/**/*"],
     "references": [
         {
             "path": "../ai/embedding"
