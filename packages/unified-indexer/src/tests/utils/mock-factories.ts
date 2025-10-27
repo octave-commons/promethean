@@ -14,8 +14,8 @@ import type {
   FileMetadata,
 } from '@promethean-os/persistence';
 
-import type { UnifiedIndexerServiceConfig, ServiceStatus } from '../../unified-indexer-service.js';
-import type { CrossDomainSearchOptions } from '../../cross-domain-search.js';
+import type { UnifiedIndexerServiceConfig, ServiceStatus } from '../../types/service.js';
+import type { CrossDomainSearchOptions } from '../../types/search.js';
 
 /**
  * Create test indexing configuration
