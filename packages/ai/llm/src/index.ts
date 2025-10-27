@@ -134,18 +134,6 @@ async function importWithFallback<TModule>(specs: readonly (string | undefined)[
     throw new Error('Unable to resolve module');
 }
 
-    if (successfulResult) {
-        return successfulResult.value;
-    }
-
-    const lastError = results
-        .filter((result): result is PromiseRejectedResult => result.status === 'rejected')
-        .pop()?.reason;
-
-    if (lastError) throw lastError as Error;
-    throw new Error('Unable to resolve module');
-}
-
 const serviceTemplateFallback = new URL('../../legacy/serviceTemplate.js', import.meta.url).href;
 const heartbeatFallback = new URL('../../legacy/heartbeat/index.js', import.meta.url).href;
 
