@@ -243,16 +243,7 @@ async function demonstrateContextStoreIntegration(): Promise<void> {
 // Run examples if this file is executed directly
 // Note: In production, this would be imported and called by other modules
 // For demonstration purposes, we'll run the examples
-runUnifiedIndexerExample()
-  .then(() => demonstrateContextStoreIntegration())
-  .then(() => {
-    console.log('\n🎉 All examples completed successfully!');
-    process.exit(0);
-  })
-  .catch((error) => {
-    console.error('❌ Example failed:', error);
-    process.exit(1);
-  });
+if (import.meta.url === `file://${process.argv[1]}`) {
   runUnifiedIndexerExample()
     .then(() => demonstrateContextStoreIntegration())
     .then(() => {
