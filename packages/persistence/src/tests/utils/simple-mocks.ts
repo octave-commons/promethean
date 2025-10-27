@@ -194,6 +194,11 @@ export function isValidSearchQuery(obj: unknown): obj is SearchQuery {
     if (!obj || typeof obj !== 'object') return false;
 
     const query = obj as Record<string, unknown>;
+    const keys = Object.keys(query);
+
+    // Empty object should not be considered valid
+    if (keys.length === 0) return false;
+
     return (
         (!query.query || typeof query.query === 'string') &&
         (!query.limit || typeof query.limit === 'number') &&
@@ -219,13 +224,18 @@ export function isValidSearchResponse(obj: unknown): obj is SearchResponse {
     if (!obj || typeof obj !== 'object') return false;
 
     const response = obj as Record<string, unknown>;
-    return (
-        Array.isArray(response.results) &&
-        response.results.every(isValidSearchResult) &&
-        typeof response.total === 'number' &&
-        typeof response.took === 'number' &&
-        isValidSearchQuery(response.query)
-    );
+
+    // Check required fields exist and have correct types
+    if (!Array.isArray(response.results)) return false;
+    if (typeof response.total !== 'number') return false;
+    if (typeof response.took !== 'number') return false;
+    if (!isValidSearchQuery(response.query)) return false;
+
+    // Empty query object should not be valid
+    if (typeof response.query === 'object' && response.query !== null && Object.keys(response.query).length === 0)
+        return false;
+
+    return true;
 }
 
 export function isValidIndexingStats(obj: unknown): obj is IndexingStats {
