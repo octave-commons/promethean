@@ -241,6 +241,9 @@ export function isValidSearchResponse(obj: unknown): obj is SearchResponse {
     if (typeof response.query === 'object' && response.query !== null && Object.keys(response.query).length === 0)
         return false;
 
+    // Check that all results in the array are valid
+    if (!response.results.every(isValidSearchResult)) return false;
+
     return true;
 }
 
