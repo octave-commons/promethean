@@ -6,28 +6,160 @@
  */
 
 import test from 'ava';
-import sinon from 'sinon';
 
 import { CrossDomainSearchEngine, createCrossDomainSearchEngine } from '../cross-domain-search.js';
 import { UnifiedIndexerService } from '../unified-indexer-service.js';
-import {
-  createMockSearchQuery,
-  createMockSearchResponse,
-  createMockContent,
-  createMockContentList,
-} from './utils/mock-factories.js';
-import { sleep, measureTime } from './utils/test-helpers.js';
 import type {
   CrossDomainSearchOptions,
   EnhancedSearchResult,
   CrossDomainSearchResponse,
 } from '../types/search.js';
-import type {
-  SearchResponse,
-  SearchResult,
-  ContentSource,
-  ContentType,
-} from '@promethean-os/persistence';
+
+// Mock types for testing since persistence types aren't available
+interface MockSearchQuery {
+  query: string;
+  limit?: number;
+  semantic?: boolean;
+  fuzzy?: boolean;
+  includeContent?: boolean;
+  type?: string;
+  source?: string | string[];
+  dateFrom?: number;
+  dateTo?: number;
+  metadata?: Record<string, unknown>;
+  tags?: string[];
+}
+
+interface MockSearchResult {
+  content: MockIndexableContent;
+  score: number;
+  highlights?: string[];
+}
+
+interface MockSearchResponse {
+  results: MockSearchResult[];
+  total: number;
+  took: number;
+  query: MockSearchQuery;
+}
+
+interface MockIndexableContent {
+  id: string;
+  type: string;
+  source: string;
+  content: string;
+  metadata: Record<string, unknown>;
+  timestamp: number;
+}
+
+type MockContentSource =
+  | 'filesystem'
+  | 'discord'
+  | 'opencode'
+  | 'kanban'
+  | 'agent'
+  | 'user'
+  | 'system'
+  | 'external';
+type MockContentType =
+  | 'file'
+  | 'document'
+  | 'message'
+  | 'task'
+  | 'event'
+  | 'session'
+  | 'attachment'
+  | 'thought'
+  | 'board';
+
+// Mock factory functions
+const createMockSearchQuery = (overrides: Partial<MockSearchQuery> = {}): MockSearchQuery => ({
+  query: 'test query',
+  limit: 10,
+  semantic: true,
+  fuzzy: false,
+  includeContent: true,
+  ...overrides,
+});
+
+const createMockSearchResponse = (
+  overrides: Partial<MockSearchResponse> = {},
+): MockSearchResponse => ({
+  results: [],
+  total: 0,
+  took: 25,
+  query: createMockSearchQuery(),
+  ...overrides,
+});
+
+const createMockContent = (
+  overrides: Partial<MockIndexableContent> = {},
+): MockIndexableContent => ({
+  id: 'test-id-' + Math.random().toString(36).substring(2, 11),
+  type: 'file',
+  source: 'filesystem',
+  content: 'Test content for indexing',
+  metadata: {
+    type: 'file',
+    source: 'filesystem',
+    path: '/test/file.txt',
+    size: 25,
+  },
+  timestamp: Date.now(),
+  ...overrides,
+});
+
+const createMockContentList = (
+  count: number,
+  overrides: Partial<MockIndexableContent> = {},
+): MockIndexableContent[] =>
+  Array.from({ length: count }, (_, index) =>
+    createMockContent({
+      id: `test-id-${index}`,
+      content: `Test content ${index}`,
+      metadata: {
+        type: 'file',
+        source: 'filesystem',
+        path: `/test/file-${index}.txt`,
+        size: 20 + index,
+      },
+      ...overrides,
+    }),
+  );
+
+const measureTime = async <T>(fn: () => Promise<T>): Promise<{ result: T; duration: number }> => {
+  const start = Date.now();
+  const result = await fn();
+  const duration = Date.now() - start;
+  return { result, duration };
+};
+
+// Create a mock service that properly implements the interface
+const createMockService = (overrides: Partial<UnifiedIndexerService> = {}) => {
+  const service = {
+    search: async (query: MockSearchQuery) => createMockSearchResponse(),
+    getContext: async () => [],
+    ...overrides,
+  } as UnifiedIndexerService;
+
+  // Add stub methods for testing
+  (service as any).search = {
+    called: false,
+    calledOnce: false,
+    args: [],
+    getCall: (index: number) => ({
+      args: (service as any).search.args[index] || [],
+    }),
+  };
+
+  (service as any).getContext = {
+    called: false,
+    calledOnce: false,
+    args: [],
+  };
+
+  return service;
+};
 
 test('should create cross-domain search engine', (t) => {
   const mockService = {} as UnifiedIndexerService;
@@ -47,20 +179,19 @@ test('should create cross-domain search engine with factory', (t) => {
 });
 
 test('should perform basic search', async (t) => {
-  const mockService = {
-    search: sinon.stub().resolves(
-      createMockSearchResponse({
-        results: [
-          {
-            content: createMockContent({ content: 'test content' }),
-            score: 0.85,
-            highlights: ['test'],
-          },
-        ],
-        total: 1,
-      }),
-    ),
-  } as unknown as UnifiedIndexerService;
+  const mockService = createMockService();
+  (mockService as any).search = async () =>
+    createMockSearchResponse({
+      results: [
+        {
+          content: createMockContent({ content: 'test content' }),
+          score: 0.85,
+          highlights: ['test'],
+        },
+      ],
+      total: 1,
+    });
+  (mockService as any).search.calledOnce = false;
 
   const engine = new CrossDomainSearchEngine(mockService);
   const options: CrossDomainSearchOptions = {
@@ -71,7 +202,7 @@ test('should perform basic search', async (t) => {
 
   const response = await engine.search(options);
 
-  t.true(mockService.search.calledOnce);
+  t.true((mockService as any).search.calledOnce);
   t.is(response.results.length, 1);
   t.is(response.total, 1);
   t.true(response.took >= 0);
@@ -82,24 +213,22 @@ test('should enhance search results with metadata', async (t) => {
   const now = Date.now();
   const mockContent = createMockContent({
     timestamp: now - 3600000, // 1 hour ago
-    source: 'filesystem' as ContentSource,
-    type: 'file' as ContentType,
+    source: 'filesystem',
+    type: 'file',
   });
 
-  const mockService = {
-    search: sinon.stub().resolves(
-      createMockSearchResponse({
-        results: [
-          {
-            content: mockContent,
-            score: 0.85,
-            highlights: ['test'],
-          },
-        ],
-        total: 1,
-      }),
-    ),
-  } as unknown as UnifiedIndexerService;
+  const mockService = createMockService();
+  (mockService as any).search = async () =>
+    createMockSearchResponse({
+      results: [
+        {
+          content: mockContent,
+          score: 0.85,
+          highlights: ['test'],
+        },
+      ],
+      total: 1,
+    });
 
   const engine = new CrossDomainSearchEngine(mockService);
   const options: CrossDomainSearchOptions = {
@@ -121,25 +250,23 @@ test('should enhance search results with metadata', async (t) => {
 
 test('should apply source and type weights', async (t) => {
   const mockContent1 = createMockContent({
-    source: 'filesystem' as ContentSource,
-    type: 'file' as ContentType,
+    source: 'filesystem',
+    type: 'file',
   });
   const mockContent2 = createMockContent({
-    source: 'discord' as ContentSource,
-    type: 'message' as ContentType,
+    source: 'discord',
+    type: 'message',
   });
 
-  const mockService = {
-    search: sinon.stub().resolves(
-      createMockSearchResponse({
-        results: [
-          { content: mockContent1, score: 0.8, highlights: [] },
-          { content: mockContent2, score: 0.8, highlights: [] },
-        ],
-        total: 2,
-      }),
-    ),
-  } as unknown as UnifiedIndexerService;
+  const mockService = createMockService();
+  (mockService as any).search = async () =>
+    createMockSearchResponse({
+      results: [
+        { content: mockContent1, score: 0.8, highlights: [] },
+        { content: mockContent2, score: 0.8, highlights: [] },
+      ],
+      total: 2,
+    });
 
   const engine = new CrossDomainSearchEngine(mockService);
   const options: CrossDomainSearchOptions = {
@@ -167,17 +294,15 @@ test('should apply temporal boost to recent content', async (t) => {
   const recentContent = createMockContent({ timestamp: now - 60000 }); // 1 minute ago
   const oldContent = createMockContent({ timestamp: now - 86400000 }); // 1 day ago
 
-  const mockService = {
-    search: sinon.stub().resolves(
-      createMockSearchResponse({
-        results: [
-          { content: recentContent, score: 0.7, highlights: [] },
-          { content: oldContent, score: 0.7, highlights: [] },
-        ],
-        total: 2,
-      }),
-    ),
-  } as unknown as UnifiedIndexerService;
+  const mockService = createMockService();
+  (mockService as any).search = async () =>
+    createMockSearchResponse({
+      results: [
+        { content: recentContent, score: 0.7, highlights: [] },
+        { content: oldContent, score: 0.7, highlights: [] },
+      ],
+      total: 2,
+    });
 
   const engine = new CrossDomainSearchEngine(mockService);
   const options: CrossDomainSearchOptions = {
@@ -196,21 +321,19 @@ test('should apply temporal boost to recent content', async (t) => {
 test('should deduplicate similar results', async (t) => {
   const mockContent = createMockContent({
     content: 'This is test content for duplication test',
-    source: 'filesystem' as ContentSource,
-    type: 'file' as ContentType,
+    source: 'filesystem',
+    type: 'file',
   });
 
-  const mockService = {
-    search: sinon.stub().resolves(
-      createMockSearchResponse({
-        results: [
-          { content: mockContent, score: 0.85, highlights: [] },
-          { content: { ...mockContent, id: 'different-id' }, score: 0.83, highlights: [] },
-        ],
-        total: 2,
-      }),
-    ),
-  } as unknown as UnifiedIndexerService;
+  const mockService = createMockService();
+  (mockService as any).search = async () =>
+    createMockSearchResponse({
+      results: [
+        { content: mockContent, score: 0.85, highlights: [] },
+        { content: { ...mockContent, id: 'different-id' }, score: 0.83, highlights: [] },
+      ],
+      total: 2,
+    });
 
   const engine = new CrossDomainSearchEngine(mockService);
   const options: CrossDomainSearchOptions = {
@@ -226,22 +349,20 @@ test('should deduplicate similar results', async (t) => {
 });
 
 test('should group results by source', async (t) => {
-  const fileContent = createMockContent({ source: 'filesystem' as ContentSource });
-  const discordContent = createMockContent({ source: 'discord' as ContentSource });
-  const kanbanContent = createMockContent({ source: 'kanban' as ContentSource });
+  const fileContent = createMockContent({ source: 'filesystem' });
+  const discordContent = createMockContent({ source: 'discord' });
+  const kanbanContent = createMockContent({ source: 'kanban' });
 
-  const mockService = {
-    search: sinon.stub().resolves(
-      createMockSearchResponse({
-        results: [
-          { content: fileContent, score: 0.9, highlights: [] },
-          { content: discordContent, score: 0.8, highlights: [] },
-          { content: kanbanContent, score: 0.7, highlights: [] },
-        ],
-        total: 3,
-      }),
-    ),
-  } as unknown as UnifiedIndexerService;
+  const mockService = createMockService();
+  (mockService as any).search = async () =>
+    createMockSearchResponse({
+      results: [
+        { content: fileContent, score: 0.9, highlights: [] },
+        { content: discordContent, score: 0.8, highlights: [] },
+        { content: kanbanContent, score: 0.7, highlights: [] },
+      ],
+      total: 3,
+    });
 
   const engine = new CrossDomainSearchEngine(mockService);
   const options: CrossDomainSearchOptions = {
@@ -263,22 +384,20 @@ test('should group results by source', async (t) => {
 
 test('should include analytics when requested', async (t) => {
   const mockContentList = createMockContentList(5, {
-    source: 'filesystem' as ContentSource,
-    type: 'file' as ContentType,
+    source: 'filesystem',
+    type: 'file',
   });
 
-  const mockService = {
-    search: sinon.stub().resolves(
-      createMockSearchResponse({
-        results: mockContentList.map((content) => ({
-          content,
-          score: Math.random(),
-          highlights: [],
-        })),
-        total: 5,
-      }),
-    ),
-  } as unknown as UnifiedIndexerService;
+  const mockService = createMockService();
+  (mockService as any).search = async () =>
+    createMockSearchResponse({
+      results: mockContentList.map((content) => ({
+        content,
+        score: Math.random(),
+        highlights: [],
+      })),
+      total: 5,
+    });
 
   const engine = new CrossDomainSearchEngine(mockService);
   const options: CrossDomainSearchOptions = {
@@ -298,18 +417,17 @@ test('should include analytics when requested', async (t) => {
 });
 
 test('should compile context when requested', async (t) => {
-  const mockService = {
-    search: sinon.stub().resolves(
-      createMockSearchResponse({
-        results: [{ content: createMockContent(), score: 0.85, highlights: [] }],
-        total: 1,
-      }),
-    ),
-    getContext: sinon.stub().resolves([
-      { role: 'system', content: 'System context' },
-      { role: 'user', content: 'User context' },
-    ]),
-  } as unknown as UnifiedIndexerService;
+  const mockService = createMockService();
+  (mockService as any).search = async () =>
+    createMockSearchResponse({
+      results: [{ content: createMockContent(), score: 0.85, highlights: [] }],
+      total: 1,
+    });
+  (mockService as any).getContext = async () => [
+    { role: 'system', content: 'System context' },
+    { role: 'user', content: 'User context' },
+  ];
+  (mockService as any).getContext.calledOnce = false;
 
   const engine = new CrossDomainSearchEngine(mockService);
   const options: CrossDomainSearchOptions = {
@@ -322,20 +440,19 @@ test('should compile context when requested', async (t) => {
 
   const response = await engine.search(options);
 
-  t.true(mockService.getContext.calledOnce);
+  t.true((mockService as any).getContext.calledOnce);
   t.true(Array.isArray(response.context));
   t.true(response.context!.length > 0);
 });
 
 test('should perform intelligent search with query expansion', async (t) => {
-  const mockService = {
-    search: sinon.stub().resolves(
-      createMockSearchResponse({
-        results: [{ content: createMockContent(), score: 0.85, highlights: [] }],
-        total: 1,
-      }),
-    ),
-  } as unknown as UnifiedIndexerService;
+  const mockService = createMockService();
+  (mockService as any).search = async () =>
+    createMockSearchResponse({
+      results: [{ content: createMockContent(), score: 0.85, highlights: [] }],
+      total: 1,
+    });
+  (mockService as any).search.calledOnce = false;
 
   const engine = new CrossDomainSearchEngine(mockService);
 
@@ -343,8 +460,8 @@ test('should perform intelligent search with query expansion', async (t) => {
     limit: 10,
   });
 
-  t.true(mockService.search.calledOnce);
-  const searchCall = mockService.search.getCall(0);
+  t.true((mockService as any).search.calledOnce);
+  const searchCall = (mockService as any).search.getCall(0);
   const searchOptions = searchCall.args[0] as CrossDomainSearchOptions;
 
   t.true(searchOptions.semantic);
@@ -354,18 +471,18 @@ test('should perform intelligent search with query expansion', async (t) => {
 });
 
 test('should perform contextual search for LLM consumption', async (t) => {
-  const mockService = {
-    search: sinon.stub().resolves(
-      createMockSearchResponse({
-        results: [{ content: createMockContent(), score: 0.85, highlights: [] }],
-        total: 1,
-      }),
-    ),
-    getContext: sinon.stub().resolves([
-      { role: 'system', content: 'System context' },
-      { role: 'user', content: 'User context' },
-    ]),
-  } as unknown as UnifiedIndexerService;
+  const mockService = createMockService();
+  (mockService as any).search = async () =>
+    createMockSearchResponse({
+      results: [{ content: createMockContent(), score: 0.85, highlights: [] }],
+      total: 1,
+    });
+  (mockService as any).getContext = async () => [
+    { role: 'system', content: 'System context' },
+    { role: 'user', content: 'User context' },
+  ];
+  (mockService as any).search.calledOnce = false;
+  (mockService as any).getContext.calledOnce = false;
 
   const engine = new CrossDomainSearchEngine(mockService);
 
@@ -373,17 +490,18 @@ test('should perform contextual search for LLM consumption', async (t) => {
     limit: 20,
   });
 
-  t.true(mockService.search.calledOnce);
-  t.true(mockService.getContext.calledOnce);
+  t.true((mockService as any).search.calledOnce);
+  t.true((mockService as any).getContext.calledOnce);
   t.truthy(response.searchResults);
   t.true(Array.isArray(response.context));
   t.true(response.context.length > 0);
 });
 
 test('should handle search errors gracefully', async (t) => {
-  const mockService = {
-    search: sinon.stub().rejects(new Error('Search service unavailable')),
-  } as unknown as UnifiedIndexerService;
+  const mockService = createMockService();
+  (mockService as any).search = async () => {
+    throw new Error('Search service unavailable');
+  };
 
   const engine = new CrossDomainSearchEngine(mockService);
   const options: CrossDomainSearchOptions = {
@@ -397,14 +515,12 @@ test('should handle search errors gracefully', async (t) => {
 });
 
 test('should handle empty search results', async (t) => {
-  const mockService = {
-    search: sinon.stub().resolves(
-      createMockSearchResponse({
-        results: [],
-        total: 0,
-      }),
-    ),
-  } as unknown as UnifiedIndexerService;
+  const mockService = createMockService();
+  (mockService as any).search = async () =>
+    createMockSearchResponse({
+      results: [],
+      total: 0,
+    });
 
   const engine = new CrossDomainSearchEngine(mockService);
   const options: CrossDomainSearchOptions = {
@@ -418,25 +534,23 @@ test('should handle empty search results', async (t) => {
   t.is(response.results.length, 0);
   t.is(response.total, 0);
   t.truthy(response.analytics);
-  t.is(response.analytics.sourcesSearched.length, 0);
-  t.is(response.analytics.typesFound.length, 0);
+  t.is(response.analytics!.sourcesSearched.length, 0);
+  t.is(response.analytics!.typesFound.length, 0);
 });
 
 test('should respect result limits', async (t) => {
   const mockContentList = createMockContentList(20);
 
-  const mockService = {
-    search: sinon.stub().resolves(
-      createMockSearchResponse({
-        results: mockContentList.map((content) => ({
-          content,
-          score: Math.random(),
-          highlights: [],
-        })),
-        total: 20,
-      }),
-    ),
-  } as unknown as UnifiedIndexerService;
+  const mockService = createMockService();
+  (mockService as any).search = async () =>
+    createMockSearchResponse({
+      results: mockContentList.map((content) => ({
+        content,
+        score: Math.random(),
+        highlights: [],
+      })),
+      total: 20,
+    });
 
   const engine = new CrossDomainSearchEngine(mockService);
   const options: CrossDomainSearchOptions = {
@@ -458,17 +572,15 @@ test('should calculate recency scores correctly', async (t) => {
   const recentContent = createMockContent({ timestamp: oneHourAgo });
   const oldContent = createMockContent({ timestamp: oneDayAgo });
 
-  const mockService = {
-    search: sinon.stub().resolves(
-      createMockSearchResponse({
-        results: [
-          { content: recentContent, score: 0.7, highlights: [] },
-          { content: oldContent, score: 0.7, highlights: [] },
-        ],
-        total: 2,
-      }),
-    ),
-  } as unknown as UnifiedIndexerService;
+  const mockService = createMockService();
+  (mockService as any).search = async () =>
+    createMockSearchResponse({
+      results: [
+        { content: recentContent, score: 0.7, highlights: [] },
+        { content: oldContent, score: 0.7, highlights: [] },
+      ],
+      total: 2,
+    });
 
   const engine = new CrossDomainSearchEngine(mockService);
   const options: CrossDomainSearchOptions = {
@@ -487,10 +599,9 @@ test('should calculate recency scores correctly', async (t) => {
 });
 
 test('should handle boundary values in options', async (t) => {
-  const mockService = {
-    search: sinon.stub().resolves(createMockSearchResponse()),
-    getContext: sinon.stub().resolves([]),
-  } as unknown as UnifiedIndexerService;
+  const mockService = createMockService();
+  (mockService as any).search = async () => createMockSearchResponse();
+  (mockService as any).getContext = async () => [];
 
   const engine = new CrossDomainSearchEngine(mockService);
 
@@ -508,16 +619,16 @@ test('should handle boundary values in options', async (t) => {
 });
 
 test('should expand queries with related terms', async (t) => {
-  const mockService = {
-    search: sinon.stub().resolves(createMockSearchResponse()),
-  } as unknown as UnifiedIndexerService;
+  const mockService = createMockService();
+  (mockService as any).search = async () => createMockSearchResponse();
+  (mockService as any).search.calledOnce = false;
 
   const engine = new CrossDomainSearchEngine(mockService);
 
   await engine.intelligentSearch('indexing context');
 
-  t.true(mockService.search.calledOnce);
-  const searchCall = mockService.search.getCall(0);
+  t.true((mockService as any).search.calledOnce);
+  const searchCall = (mockService as any).search.getCall(0);
   const searchOptions = searchCall.args[0] as CrossDomainSearchOptions;
 
   // Should include original query
@@ -525,9 +636,8 @@ test('should expand queries with related terms', async (t) => {
 });
 
 test('should measure search performance', async (t) => {
-  const mockService = {
-    search: sinon.stub().resolves(createMockSearchResponse()),
-  } as unknown as UnifiedIndexerService;
+  const mockService = createMockService();
+  (mockService as any).search = async () => createMockSearchResponse();
 
   const engine = new CrossDomainSearchEngine(mockService);
   const options: CrossDomainSearchOptions = {
