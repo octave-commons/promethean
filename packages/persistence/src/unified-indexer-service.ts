@@ -14,7 +14,7 @@ import type {
     IndexingStats,
 } from './unified-indexing-api.js';
 
-import type { IndexableContent, ContentType, ContentSource } from './unified-content-model.js';
+import type { ContentType, ContentSource } from './unified-content-model.js';
 
 import {
     createUnifiedIndexingClient,

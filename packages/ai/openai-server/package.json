@@ -2,7 +2,7 @@
   "name": "@promethean-os/openai-server",
   "version": "0.0.0",
   "private": true,
-  "type": "module",
+  "type": "commonjs",
   "license": "GPL-3.0-only",
   "main": "dist/index.js",
   "module": "dist/index.js",
