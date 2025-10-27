@@ -53,15 +53,12 @@
       }
     }
   },
-  "permission": {
-    "bash": {}
-  },
   "mcp": {
-    "clj": {
-      "type": "local",
-      "command": ["clojure", "-X:mcp-shadow-dual"],
-      "enabled": true
-    },
+    // "clj": {
+    //   "type": "local",
+    //   "command": ["clojure", "-X:mcp-shadow-dual"],
+    //   "enabled": true
+    // },
     "clj-kondo": {
       "type": "local",
       "command": ["npx", "clj-kondo-mcp"],
