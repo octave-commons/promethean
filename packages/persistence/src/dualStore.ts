@@ -66,6 +66,27 @@ const ensureFactoryConfig = <TextKey extends string, TimeKey extends string>(
     } satisfies DualStoreFactoryConfig<TextKey, TimeKey>;
 };
 
+const autoCleanupManagers = new Set<DualStoreManager<any, any>>();
+let autoCleanupRegistered = false;
+
+const registerAutoCleanup = (manager: DualStoreManager<any, any>) => {
+    autoCleanupManagers.add(manager);
+
+    if (!autoCleanupRegistered) {
+        autoCleanupRegistered = true;
+        process.once('beforeExit', async () => {
+            for (const mgr of Array.from(autoCleanupManagers)) {
+                try {
+                    await mgr.cleanup();
+                } catch (error) {
+                    // ignore cleanup errors during shutdown
+                }
+            }
+            autoCleanupManagers.clear();
+        });
+    }
+};
+
 export class DualStoreManager<TextKey extends string = 'text', TimeKey extends string = 'createdAt'> {
     name: string;
     chromaCollection: ChromaCollection;
@@ -107,6 +128,8 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         this.supportsImages = factoryConfig.supportsImages;
         this.queue = queue;
         this.implementation.setQueue(queue);
+
+        registerAutoCleanup(this);
     }
 
     get chromaWriteQueue(): ReturnType<typeof getOrCreateQueue> {
@@ -206,6 +229,7 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
 
     async cleanup(): Promise<void> {
         await this.implementation.cleanup();
+        autoCleanupManagers.delete(this);
     }
 }
 

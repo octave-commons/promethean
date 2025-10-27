@@ -44,6 +44,5 @@ export const getMostRecent = async <TextKey extends string, TimeKey extends stri
         }
     }
 
-    console.log('[getMostRecent]', { limit, count: deduped.length, ids: deduped.map((d) => d.id) });
     return deduped;
 };
