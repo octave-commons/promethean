@@ -5,9 +5,9 @@
  * and extracting status transitions over time.
  */
 
-import { execSync } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
 import path from 'node:path';
+import { simpleGit, type SimpleGit } from 'simple-git';
 
 import type { TransitionEvent } from '../board/event-log/types.js';
 import type { KanbanConfig } from '../board/config/shared.js';
@@ -55,6 +55,7 @@ export class GitEventReconstructor {
   private readonly options: Required<
     Omit<GitEventReconstructorOptions, 'taskUuidFilter' | 'dryRun' | 'verbose'>
   >;
+  private readonly git: SimpleGit;
 
   constructor(options: GitEventReconstructorOptions) {
     this.repoRoot = options.repoRoot || process.cwd();
@@ -64,55 +65,53 @@ export class GitEventReconstructor {
       tasksDir: options.tasksDir,
       since: options.since || '2020-01-01',
     };
+    this.git = simpleGit(this.repoRoot);
   }
 
   /**
    * Get all commits that modified task files
    */
-  private getTaskCommits(): GitCommit[] {
-    const sinceFlag = this.options.since ? `--since="${this.options.since}"` : '';
+  private async getTaskCommits(): Promise<GitCommit[]> {
     const tasksPath = path.relative(this.repoRoot, this.tasksDir);
 
-    const cmd = `git log ${sinceFlag} --name-only --pretty=format:"%H|%ai|%ae|%s" -- ${tasksPath}/*.md`;
-
     try {
-      const output = execSync(cmd, {
-        cwd: this.repoRoot,
-        encoding: 'utf8',
-      }).trim();
+      const logOptions = [
+        '--name-only',
+        `--pretty=format:%H|%ai|%ae|%s`,
+        '--',
+        `${tasksPath}/*.md`,
+      ];
 
-      if (!output) return [];
-
-      const commits: GitCommit[] = [];
-      const lines = output.split('\n');
-      let currentCommit: Partial<GitCommit> | null = null;
-
-      for (const line of lines) {
-        if (line.includes('|')) {
-          // Commit header line
-          if (currentCommit) {
-            commits.push(currentCommit as GitCommit);
-          }
-
-          const [sha, timestamp, author, ...messageParts] = line.split('|');
-          currentCommit = {
-            sha,
-            timestamp,
-            author,
-            message: messageParts.join('|'),
-            files: [],
-          };
-        } else if (line.trim() && currentCommit) {
-          // File path line
-          const filePath = line.trim();
-          if (filePath.endsWith('.md') && filePath.includes(tasksPath)) {
-            currentCommit.files!.push(filePath);
-          }
-        }
+      if (this.options.since) {
+        logOptions.unshift(`--since=${this.options.since}`);
       }
 
-      if (currentCommit) {
-        commits.push(currentCommit as GitCommit);
+      const log = await this.git.log(logOptions);
+
+      if (!log.total) return [];
+
+      const commits: GitCommit[] = [];
+
+      for (const commit of log.all) {
+        // Get files for this commit
+        const diff = await this.git.diff([
+          `${commit.hash}^!`,
+          '--name-only',
+          '--',
+          `${tasksPath}/*.md`,
+        ]);
+        const files = diff
+          .split('\n')
+          .map((line) => line.trim())
+          .filter((line) => line.endsWith('.md') && line.includes(tasksPath));
+
+        commits.push({
+          sha: commit.hash,
+          timestamp: commit.date,
+          author: commit.author_email,
+          message: commit.message,
+          files,
+        });
       }
 
       return commits.reverse(); // Return in chronological order
@@ -156,13 +155,13 @@ export class GitEventReconstructor {
   /**
    * Get task file content at specific commit
    */
-  private getTaskContentAtCommit(filePath: string, commitSha: string): string | null {
+  private async getTaskContentAtCommit(
+    filePath: string,
+    commitSha: string,
+  ): Promise<string | null> {
     try {
-      const cmd = `git show ${commitSha}:${filePath}`;
-      return execSync(cmd, {
-        cwd: this.repoRoot,
-        encoding: 'utf8',
-      });
+      const content = await this.git.show([`${commitSha}:${filePath}`]);
+      return content;
     } catch (error) {
       // File might not exist at this commit
       return null;
