@@ -179,39 +179,6 @@ async function handleClientCredentialsGrant(
     issued_token_type: 'urn:ietf:params:oauth:token-type:access_token',
   });
 }
-
-async function handleClientCredentialsGrant(
-  body: Record<string, string>,
-  req: Readonly<FastifyRequest>,
-  reply: Readonly<FastifyReply>,
-  clients: Readonly<Record<string, ClientDef>>
-): Promise<void> {
-  const [client_id, client_secret] = extractClientCredentials(body, req);
-  const client = validateClient(client_id, client_secret, clients);
-  
-  if (!client) {
-    return reply.code(401).send({ error: 'invalid_client' });
-  }
-
-  const scopeStr = calculateGrantedScopes(body.scope, client.scopes);
-  const aud = body.aud || client.aud || process.env.AUTH_AUDIENCE;
-  const ttl = process.env.AUTH_TOKEN_TTL_SECONDS
-    ? Number(process.env.AUTH_TOKEN_TTL_SECONDS)
-    : 3600;
-    
-  const access_token = await signAccessToken(
-    { sub: client_id!, aud, scope: scopeStr, iss: ISSUER },
-    { expiresIn: ttl },
-  );
-  
-  return reply.send({
-    access_token,
-    token_type: 'Bearer',
-    expires_in: ttl,
-    scope: scopeStr,
-    issued_token_type: 'urn:ietf:params:oauth:token-type:access_token',
-  });
-}
     { expiresIn: ttl },
   );
   return reply.send({
