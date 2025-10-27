@@ -1,4 +1,4 @@
-import type { DualStoreTimestamp } from './types.js';
+import type { DualStoreTimestamp } from '../types.js';
 
 export const pickTimestamp = (...candidates: readonly unknown[]): DualStoreTimestamp | undefined => {
     for (const candidate of candidates) {

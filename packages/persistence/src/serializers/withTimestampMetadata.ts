@@ -1,4 +1,4 @@
-import type { DualStoreMetadata } from './types.js';
+import type { DualStoreMetadata } from '../types.js';
 
 export const withTimestampMetadata = (
     metadata: DualStoreMetadata | undefined,

@@ -1,4 +1,4 @@
-import type { DualStoreTimestamp } from './types.js';
+import type { DualStoreTimestamp } from '../types.js';
 
 export const toEpochMilliseconds = (timestamp: DualStoreTimestamp | undefined): number => {
     if (timestamp instanceof Date) return timestamp.getTime();
