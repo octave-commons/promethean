@@ -240,6 +240,7 @@ const createQueueStub = () => {
 
 const setupManager = async () => {
     const mongoHarness = createMongoHarness();
+    const mongoCollection = mongoHarness.client.db('database').collection('dual_store_entries');
     const chromaHarness = createChromaHarness();
     const queueStub = createQueueStub();
 
@@ -248,7 +249,7 @@ const setupManager = async () => {
     const manager = new DualStoreManager(
         'test-collection',
         chromaHarness.collection as any,
-        { collectionName: 'dual_store_entries' } as any,
+        mongoCollection as any,
         'text',
         'timestamp',
     );
