@@ -74,7 +74,6 @@ const exampleConfig: UnifiedIndexerServiceConfig = {
         excludePatterns: ['node_modules/**', '.git/**', 'dist/**', 'build/**', '*.log', '.env*'],
         includePatterns: ['*.ts', '*.js', '*.md', '*.json', '*.yaml', '*.yml'],
         followSymlinks: false,
-        maxDepth: 10,
       },
     },
     discord: {
@@ -104,17 +103,12 @@ async function runUnifiedIndexerExample(): Promise<void> {
   console.log('🚀 Starting Unified Indexer Service Example...');
 
   try {
-    // Create and initialize the service
     const indexerService = await createUnifiedIndexerService(exampleConfig);
-
-    // Start the service (begins periodic syncing)
     await startService(indexerService);
     console.log('✅ Unified Indexer Service started successfully');
 
-    // Wait a moment for initial sync
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    // Get service status
     const status = await getStatusService(indexerService);
     console.log('📊 Service Status:', {
       healthy: status.healthy,
@@ -124,78 +118,91 @@ async function runUnifiedIndexerExample(): Promise<void> {
       issues: status.issues,
     });
 
-    // Get comprehensive statistics
-    const stats = {
-      total: { totalContent: 0, contentByType: {}, contentBySource: {}, lastIndexed: Date.now() },
-      errors: [],
-    };
-    console.log('📈 Indexing Statistics:', {
-      totalContent: stats.total.totalContent,
-      contentByType: stats.total.contentByType,
-      contentBySource: stats.total.contentBySource,
-      lastIndexed: new Date(stats.total.lastIndexed).toISOString(),
-      errors: stats.errors.length,
-    });
+    await demonstrateSearch(indexerService);
+    await demonstrateContext(indexerService);
+    await demonstratePerformance(indexerService);
 
-    // Example 1: Search across all indexed content
-    console.log('\n🔍 Example 1: Cross-domain search');
-    const searchQuery: SearchQuery = {
-      query: 'contextStore unified indexing',
-      type: ['file', 'document'],
-      limit: 10,
-      fuzzy: true,
-      semantic: true,
-    };
+    console.log('\n⏰ Keeping service running for 30 seconds...');
+    await new Promise((resolve) => setTimeout(resolve, 30000));
 
-    const searchResults = await searchService(indexerService, searchQuery);
-    console.log(`Found ${searchResults.results.length} results:`);
-    searchResults.results.forEach((result: any, index: number) => {
-      console.log(
-        `  ${index + 1}. [${result.content.type}] ${result.content.id} (score: ${result.score.toFixed(3)})`,
-      );
-      const metadata = result.content.metadata as any;
-      console.log(`     Source: ${result.content.source} | ${metadata.path || 'N/A'}`);
-      console.log(`     Preview: ${result.content.content.substring(0, 100)}...`);
-    });
+    await stopService(indexerService);
+    console.log('🛑 Unified Indexer Service stopped');
+  } catch (error) {
+    console.error('❌ Example failed:', error);
+    process.exit(1);
+  }
+}
 
-    // Example 2: Get context for LLM consumption
-    console.log('\n🤖 Example 2: LLM context compilation');
-    const context = await getContextService(
-      indexerService,
-      ['unified indexer service', 'contextStore', 'cross-domain search'],
-      {
-        recentLimit: 5,
-        queryLimit: 3,
-        limit: 10,
-        formatAssistantMessages: true,
-      },
+/**
+ * Demonstrate search functionality
+ */
+async function demonstrateSearch(indexerService: any): Promise<void> {
+  console.log('\n🔍 Example 1: Cross-domain search');
+  const searchQuery: SearchQuery = {
+    query: 'contextStore unified indexing',
+    type: ['file', 'document'],
+    limit: 10,
+    fuzzy: true,
+    semantic: true,
+  };
+
+  const searchResults = await searchService(indexerService, searchQuery);
+  console.log(`Found ${searchResults.results.length} results:`);
+  searchResults.results.forEach((result: any, index: number) => {
+    console.log(
+      `  ${index + 1}. [${result.content.type}] ${result.content.id} (score: ${result.score.toFixed(3)})`,
     );
+    const metadata = result.content.metadata as any;
+    console.log(`     Source: ${result.content.source} | ${metadata.path || 'N/A'}`);
+    console.log(`     Preview: ${result.content.content.substring(0, 100)}...`);
+  });
+}
 
-    console.log(`Compiled ${context.length} context messages for LLM:`);
-    context.forEach((msg, index) => {
-      console.log(`  ${index + 1}. [${msg.role}] ${msg.content.substring(0, 150)}...`);
+/**
+ * Demonstrate context compilation
+ */
+async function demonstrateContext(indexerService: any): Promise<void> {
+  console.log('\n🤖 Example 2: LLM context compilation');
+  const context = await getContextService(indexerService,
+    ['unified indexer service', 'contextStore', 'cross-domain search'],
+    {
+      recentLimit: 5,
+      queryLimit: 3,
+      limit: 10,
+      formatAssistantMessages: true,
+    },
+  );
+
+  console.log(`✅ Compiled ${context.length} context messages for LLM consumption`);
+  context.forEach((msg: any, index: number) => {
+    console.log(`  ${index + 1}. [${msg.role}] ${msg.content.substring(0, 80)}...`);
+  });
+}
+
+/**
+ * Demonstrate search performance
+ */
+async function demonstratePerformance(indexerService: any): Promise<void> {
+  console.log('\n⚡ Example 3: Real-time search performance');
+  const realtimeQueries = [
+    'TypeScript implementation',
+    'MongoDB integration',
+    'ChromaDB vector search',
+    'Unified content model',
+  ];
+
+  for (const query of realtimeQueries) {
+    const startTime = Date.now();
+    const results = await searchService(indexerService, {
+      query,
+      limit: 5,
+      semantic: true,
     });
+    const duration = Date.now() - startTime;
 
-    // Example 3: Real-time search simulation
-    console.log('\n⚡ Example 3: Real-time search simulation');
-    const realtimeQueries = [
-      'TypeScript implementation',
-      'MongoDB integration',
-      'ChromaDB vector search',
-      'Unified content model',
-    ];
-
-    for (const query of realtimeQueries) {
-      const startTime = Date.now();
-      const results = await searchService(indexerService, {
-        query,
-        limit: 5,
-        semantic: true,
-      });
-      const duration = Date.now() - startTime;
-
-      console.log(`  Query "${query}": ${results.results.length} results in ${duration}ms`);
-    }
+    console.log(`  Query "${query}": ${results.results.length} results in ${duration}ms`);
+  }
+}
 
     // Keep service running for demonstration
     console.log('\n⏰ Keeping service running for 30 seconds...');
@@ -220,13 +227,14 @@ async function demonstrateContextStoreIntegration(): Promise<void> {
   // with existing contextStore patterns in the codebase
 
   const indexerService = await createUnifiedIndexerService(exampleConfig);
-  await indexerService.start();
+  await startService(indexerService);
 
   // Wait for initial sync
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
   // Get context just like existing contextStore usage
-  const context = await indexerService.getContext(
+  const context = await getContextService(
+    indexerService,
     ['promethean architecture', 'agent coordination'],
     {
       recentLimit: 10,
@@ -240,7 +248,7 @@ async function demonstrateContextStoreIntegration(): Promise<void> {
   // The context can now be used exactly like existing contextStore.compileContext()
   // results - it's the same format expected by LLM clients
 
-  await indexerService.stop();
+  await stopService(indexerService);
 }
 
 // Run examples if this file is executed directly
