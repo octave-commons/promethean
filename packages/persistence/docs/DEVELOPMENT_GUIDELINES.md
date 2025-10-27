@@ -1278,7 +1278,7 @@ pnpm add @promethean-os/persistence
 ### Basic Usage
 
 \`\`\`typescript
-import { createUnifiedIndexerService } from '@promethean-os/persistence';
+import { createUnifiedIndexerService } from '@promethean-os/unified-indexer';
 
 const service = await createUnifiedIndexerService({
     indexing: {

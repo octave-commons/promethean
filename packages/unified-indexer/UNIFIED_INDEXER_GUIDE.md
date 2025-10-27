@@ -60,7 +60,7 @@ Seamless integration with existing contextStore:
 ### Basic Usage
 
 ```typescript
-import { createUnifiedIndexerService, type UnifiedIndexerServiceConfig } from '@promethean-os/persistence';
+import { createUnifiedIndexerService, type UnifiedIndexerServiceConfig } from '@promethean-os/unified-indexer';
 
 // Configure the service
 const config: UnifiedIndexerServiceConfig = {
@@ -118,7 +118,7 @@ console.log(`Retrieved ${context.length} context messages`);
 ### Cross-Domain Search
 
 ```typescript
-import { createCrossDomainSearchEngine } from '@promethean-os/persistence';
+import { createCrossDomainSearchEngine } from '@promethean-os/unified-indexer';
 
 // Create search engine
 const searchEngine = createCrossDomainSearchEngine(indexerService, {
