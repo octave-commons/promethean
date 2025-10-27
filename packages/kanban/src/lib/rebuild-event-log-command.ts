@@ -5,7 +5,6 @@
  */
 
 import type { CommandHandler } from '../cli/command-handlers.js';
-import type { KanbanConfig } from '../board/config/shared.js';
 import { loadKanbanConfig } from '../board/config.js';
 import { makeEventLogManager } from '../board/event-log/index.js';
 import { makeGitEventReconstructor } from './git-event-reconstructor.js';
