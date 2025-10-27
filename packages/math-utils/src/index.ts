@@ -4,5 +4,18 @@
 // Fibonacci exports
 export { Fibonacci } from './fibonacci.js';
 
+// Mandelbrot exports
+export { Mandelbrot } from './mandelbrot.js';
+
 // Type exports
-export type { FibonacciMethod, FibonacciCache, FibonacciResult } from './types.js';
+export type {
+  FibonacciMethod,
+  FibonacciCache,
+  FibonacciResult,
+  ColorScheme,
+  ComplexNumber,
+  MandelbrotConfig,
+  MandelbrotPoint,
+  MandelbrotResult,
+  MandelbrotImage,
+} from './types.js';
