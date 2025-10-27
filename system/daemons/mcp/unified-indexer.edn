@@ -1,0 +1,29 @@
+{:apps [{:name "unified-indexer"
+          :script "node"
+          :args ["--config" "/etc/promethean/unified-indexer/config.json" "--daemon"]
+          :interpreter "/usr/bin/env"
+          :out_file "./logs/unified-indexer.log"
+          :error_file "./logs/unified-indexer.log"
+          :merge_logs true
+          :instances 1
+          :autorestart true
+          :restart_delay 15000
+          :env_file ".env"
+          :kill_timeout 10000
+          :env {:NODE_ENV "production"
+                  :PM2_PROCESS_NAME "unified-indexer"
+                  :LOG_LEVEL "info"
+                  :AGENT_NAME "promethean"
+                  :MONGODB_URL "${MONGODB_URL}"
+                  :CHROMA_DB_URL "${CHROMA_DB_URL}"
+                  :REDIS_URL "${REDIS_URL}"
+                  :EMBEDDING_API_KEY "${EMBEDDING_API_KEY}"
+                  :EMBEDDING_FUNCTION "${EMBEDDING_FUNCTION}"
+                  :EMBEDDING_DIMENSIONS "${EMBEDDING_DIMENSIONS}"
+                  :CONFIG_PATH "/etc/promethean/unified-indexer/config.json"
+                  :PID_FILE "/var/run/unified-indexer.pid"
+                  :LOG_FILE "/var/log/promethean/unified-indexer/daemon.log"}
+          :cwd "/opt/promethean/unified-indexer"}
+         :readiness_probe {:http_get {:url "http://localhost:3000/ready" :timeout 10000}}
+         :liveness_probe {:http_get {:url "http://localhost:3000/health" :timeout 5000}}
+         :startup_probe {:http_get {:url "http://localhost:3000/health" :timeout 30000 :retries 3}}]}
