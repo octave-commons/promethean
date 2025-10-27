@@ -15,6 +15,7 @@ import {
   getContextService,
 } from './unified-indexer-service.js';
 import type { UnifiedIndexerServiceConfig } from './types/service.js';
+import type { UnifiedIndexerServiceState } from './unified-indexer-service.js';
 
 import type { SearchQuery } from '@promethean-os/persistence';
 
@@ -136,7 +137,7 @@ async function runUnifiedIndexerExample(): Promise<void> {
 /**
  * Demonstrate search functionality
  */
-async function demonstrateSearch(indexerService: any): Promise<void> {
+async function demonstrateSearch(indexerService: UnifiedIndexerServiceState): Promise<void> {
   console.log('\n🔍 Example 1: Cross-domain search');
   const searchQuery: SearchQuery = {
     query: 'contextStore unified indexing',
@@ -161,9 +162,10 @@ async function demonstrateSearch(indexerService: any): Promise<void> {
 /**
  * Demonstrate context compilation
  */
-async function demonstrateContext(indexerService: any): Promise<void> {
+async function demonstrateContext(indexerService: UnifiedIndexerServiceState): Promise<void> {
   console.log('\n🤖 Example 2: LLM context compilation');
-  const context = await getContextService(indexerService,
+  const context = await getContextService(
+    indexerService,
     ['unified indexer service', 'contextStore', 'cross-domain search'],
     {
       recentLimit: 5,
@@ -182,7 +184,7 @@ async function demonstrateContext(indexerService: any): Promise<void> {
 /**
  * Demonstrate search performance
  */
-async function demonstratePerformance(indexerService: any): Promise<void> {
+async function demonstratePerformance(indexerService: UnifiedIndexerServiceState): Promise<void> {
   console.log('\n⚡ Example 3: Real-time search performance');
   const realtimeQueries = [
     'TypeScript implementation',
@@ -201,19 +203,6 @@ async function demonstratePerformance(indexerService: any): Promise<void> {
     const duration = Date.now() - startTime;
 
     console.log(`  Query "${query}": ${results.results.length} results in ${duration}ms`);
-  }
-}
-
-    // Keep service running for demonstration
-    console.log('\n⏰ Keeping service running for 30 seconds...');
-    await new Promise((resolve) => setTimeout(resolve, 30000));
-
-    // Stop the service
-    await stopService(indexerService);
-    console.log('🛑 Unified Indexer Service stopped');
-  } catch (error) {
-    console.error('❌ Example failed:', error);
-    process.exit(1);
   }
 }
 
