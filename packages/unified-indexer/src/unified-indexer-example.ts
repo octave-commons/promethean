@@ -125,7 +125,10 @@ async function runUnifiedIndexerExample(): Promise<void> {
     });
 
     // Get comprehensive statistics
-    const stats = { total: { totalContent: 0, contentByType: {}, contentBySource: {}, lastIndexed: Date.now() }, errors: [] };
+    const stats = {
+      total: { totalContent: 0, contentByType: {}, contentBySource: {}, lastIndexed: Date.now() },
+      errors: [],
+    };
     console.log('📈 Indexing Statistics:', {
       totalContent: stats.total.totalContent,
       contentByType: stats.total.contentByType,
