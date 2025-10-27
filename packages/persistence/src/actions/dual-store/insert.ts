@@ -49,16 +49,16 @@ export const insert = async <TextKey extends string, TimeKey extends string>(
             });
             await chroma.queue.add(entryId, textValue, chromaMetadata);
         } catch (error) {
-            vectorWriteSuccess = false;
-            vectorWriteError = error instanceof Error ? error : new Error(String(error));
+        vectorWriteSuccess = false;
+        vectorWriteError = error instanceof Error ? error : new Error(String(error));
 
-            logger.error('Vector store write failed for entry', {
-                id: entryId,
-                collection: state.name,
-                error: vectorWriteError.message,
-                stack: vectorWriteError.stack,
-                metadata: enhancedEntry.metadata,
-            });
+        logger.error('Vector store write failed for entry', {
+            id: entryId,
+            collection: state.name,
+            error: vectorWriteError.message,
+            stack: vectorWriteError.stack,
+            metadata: enhancedEntry.metadata,
+        });
 
             if (consistencyLevel === 'strict') {
                 throw new Error(`Critical: Vector store write failed for entry ${entryId}: ${vectorWriteError.message}`);
