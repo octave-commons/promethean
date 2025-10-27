@@ -73,23 +73,18 @@ export class GitEventReconstructor {
     const sinceFlag = this.options.since ? `--since="${this.options.since}"` : '';
     const tasksPath = path.relative(this.repoRoot, this.tasksDir);
 
-    // Use array to avoid shell interpretation issues with spaces
-    const gitArgs = [
-      'log',
-      sinceFlag,
-      '--name-only',
-      '--pretty=format:%H|%ai|%ae|%s',
-      '--',
-      `${tasksPath}/*.md`,
-    ].filter(Boolean);
-
     try {
-      const cmd = `git ${gitArgs.join(' ')}`;
+      // Build git command with proper quoting
+      const formatFlag = "'--pretty=format:%H|%ai|%ae|%s'";
+      const cmd = `git log ${sinceFlag} --name-only ${formatFlag} -- "${tasksPath}/*.md"`;
+
       const output = execSync(cmd, {
         cwd: this.repoRoot,
         encoding: 'utf8',
         maxBuffer: 50 * 1024 * 1024, // 50MB buffer
-      }).trim();
+      })
+        .toString()
+        .trim();
 
       if (!output) return [];
 
