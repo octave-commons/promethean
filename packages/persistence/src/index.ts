@@ -68,3 +68,13 @@ export {
     demonstrateContextStoreIntegration,
     exampleConfig,
 } from './unified-indexer-example.js';
+
+// Cross-domain search
+export {
+    CrossDomainSearchEngine,
+    createCrossDomainSearchEngine,
+    DEFAULT_SEARCH_OPTIONS,
+    type CrossDomainSearchOptions,
+    type EnhancedSearchResult,
+    type CrossDomainSearchResponse,
+} from './cross-domain-search.js';
