@@ -55,7 +55,7 @@ export class FilenameHealer implements HealingStrategy {
           lastDotIndex + 1,
         ) as (typeof SUPPORTED_EXTENSIONS)[number];
 
-        if (EXTENSION_SET.has(extension.toLowerCase())) {
+        if (EXTENSION_SET.has(extension.toLowerCase() as (typeof SUPPORTED_EXTENSIONS)[number])) {
           const trimmedName = namePortion.replace(/\s+\d+$/, '');
           if (trimmedName !== namePortion) {
             newFilename = `${trimmedName}.${extension}`;
