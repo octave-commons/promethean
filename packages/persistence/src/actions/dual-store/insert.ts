@@ -4,7 +4,6 @@ import type { DualStoreEntry, DualStoreMetadata, DualStoreTimestamp } from '../.
 import { pickTimestamp } from '../../serializers/pickTimestamp.js';
 import { toEpochMilliseconds } from '../../serializers/toEpochMilliseconds.js';
 import { toChromaMetadata } from '../../serializers/toChromaMetadata.js';
-import { withTimestampMetadata } from '../../serializers/withTimestampMetadata.js';
 import type { DualStoreDependencies, InsertInputs } from './types.js';
 
 export const insert = async <TextKey extends string, TimeKey extends string>(
@@ -23,21 +22,20 @@ export const insert = async <TextKey extends string, TimeKey extends string>(
     const resolvedTimestamp = pickTimestamp(primaryTimestamp, metadataTimestamp, fallbackTimestamp) ?? time();
     const epochTimestamp = toEpochMilliseconds(resolvedTimestamp);
 
-    const metadataWithTimestamp = withTimestampMetadata(
-        entry.metadata as DualStoreMetadata | undefined,
-        state.timeStampKey,
-        epochTimestamp,
-    );
+    const baseMetadata: DualStoreMetadata = {
+        ...(entry.metadata as DualStoreMetadata | undefined),
+    };
 
     const enhancedEntry: DualStoreEntry<TextKey, TimeKey> = {
         ...entry,
         id: entryId,
         [state.textKey]: textValue,
         [state.timeStampKey]: epochTimestamp as unknown as DualStoreEntry<TextKey, TimeKey>[TimeKey],
-        metadata: metadataWithTimestamp,
+        metadata: baseMetadata,
     } as DualStoreEntry<TextKey, TimeKey>;
 
-    const dualWriteEnabled = env.dualWriteEnabled;
+    const dualWriteEnabled = (process.env.DUAL_WRITE_ENABLED ?? String(env.dualWriteEnabled)).toLowerCase() !== 'false';
+    const consistencyLevel = (process.env.DUAL_WRITE_CONSISTENCY ?? env.consistencyLevel).toLowerCase();
     const isImage = enhancedEntry.metadata?.type === 'image';
 
     let vectorWriteSuccess = true;
@@ -45,8 +43,10 @@ export const insert = async <TextKey extends string, TimeKey extends string>(
 
     if (dualWriteEnabled && (!isImage || state.supportsImages)) {
         try {
-            const chromaMetadata = toChromaMetadata(enhancedEntry.metadata ?? {});
-            chromaMetadata[state.timeStampKey] = epochTimestamp;
+            const chromaMetadata = toChromaMetadata({
+                ...baseMetadata,
+                [state.timeStampKey]: epochTimestamp,
+            });
             await chroma.queue.add(entryId, textValue, chromaMetadata);
         } catch (error) {
             vectorWriteSuccess = false;
@@ -60,7 +60,7 @@ export const insert = async <TextKey extends string, TimeKey extends string>(
                 metadata: enhancedEntry.metadata,
             });
 
-            if (env.consistencyLevel === 'strict') {
+            if (consistencyLevel === 'strict') {
                 throw new Error(`Critical: Vector store write failed for entry ${entryId}: ${vectorWriteError.message}`);
             }
         }
@@ -69,10 +69,10 @@ export const insert = async <TextKey extends string, TimeKey extends string>(
     const collection = await mongo.getCollection();
 
     const enhancedMetadata: DualStoreMetadata = {
-        ...enhancedEntry.metadata,
+        ...baseMetadata,
         vectorWriteSuccess,
         vectorWriteError: vectorWriteError?.message,
-        vectorWriteTimestamp: vectorWriteSuccess ? epochTimestamp : null,
+        vectorWriteTimestamp: vectorWriteSuccess ? time() : null,
     };
 
     await collection.insertOne({
