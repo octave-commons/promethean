@@ -4,7 +4,8 @@
 
 import test from 'ava';
 import { CommitMessageGenerator } from '../lib/heal/utils/commit-message-generator.js';
-import type { ScarContext, Task } from '../lib/heal/scar-context-types.js';
+import type { ScarContext } from '../lib/heal/scar-context-types.js';
+import type { Task } from '../lib/testing-transition/types.js';
 
 // Mock data for testing
 const mockScarContext: ScarContext = {

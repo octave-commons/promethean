@@ -7,7 +7,8 @@ import test from 'ava';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { GitWorkflow } from '../lib/heal/git-workflow.js';
-import type { ScarContext, Task } from '../lib/heal/scar-context-types.js';
+import type { ScarContext } from '../lib/heal/scar-context-types.js';
+import type { Task } from '../lib/testing-transition/types.js';
 
 // Mock data for integration tests
 const createMockScarContext = (reason: string, tag: string): ScarContext => ({

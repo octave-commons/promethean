@@ -6,7 +6,7 @@
 import type { ScarContext, HealingResult } from './scar-context-types.js';
 import type { Task } from '../testing-transition/types.js';
 import { GitUtils, type GitOperationResult } from './utils/git-utils.js';
-import { CommitMessageGenerator, type TaskDiff } from './utils/commit-message-generator.js';
+import { CommitMessageGenerator } from './utils/commit-message-generator.js';
 import { ScarFileManager } from './scar-file-manager.js';
 import { GitTagManager } from './git-tag-manager.js';
 

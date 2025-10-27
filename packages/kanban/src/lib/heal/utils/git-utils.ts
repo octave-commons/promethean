@@ -301,7 +301,7 @@ export class GitUtils {
    */
   private execGit(command: string, options: { stdio?: 'ignore' | 'pipe' } = {}): string {
     try {
-      const stdio = options.stdio || 'pipe';
+      const stdio = options.stdio || 'pipe' as any;
       return execSync(`git ${command}`, {
         cwd: this.repoPath,
         encoding: 'utf8',
