@@ -5,7 +5,7 @@ import { mkdir, readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
 import { performance } from 'perf_hooks';
 import { EventEmitter } from 'events';
-import { findRepositoryRoot, getBuildFixDirectories } from './path-utils.js';
+import { getBuildFixDirectories } from './path-utils.js';
 
 interface BuildFixResult {
   fixture: string;
@@ -123,7 +123,10 @@ interface PerformanceMetrics {
   }>;
 }
 
+type BuildFixDirectories = ReturnType<typeof getBuildFixDirectories>;
+
 export class BuildFixProvider extends BaseProvider {
+  private readonly directories: BuildFixDirectories;
   private buildFixPath: string;
   private tempDir: string;
 
@@ -165,9 +168,9 @@ export class BuildFixProvider extends BaseProvider {
   constructor(config: ProviderConfig) {
     super(config);
     // Use centralized path resolution
-    const dirs = getBuildFixDirectories();
-    this.buildFixPath = dirs.buildFixPath;
-    this.tempDir = dirs.tempDir;
+    this.directories = this.resolveBuildFixDirectories();
+    this.buildFixPath = this.directories.buildFixPath;
+    this.tempDir = this.directories.tempDir;
 
     // Initialize circular buffers for metrics (max 1000 entries)
     this.metricsBuffer = this.createCircularBuffer<PerformanceMetrics>(1000);
@@ -175,6 +178,10 @@ export class BuildFixProvider extends BaseProvider {
 
     // Start health monitoring
     this.startHealthMonitoring();
+  }
+
+  private resolveBuildFixDirectories(startDir?: string): BuildFixDirectories {
+    return getBuildFixDirectories(startDir);
   }
 
   async connect(): Promise<void> {
@@ -484,7 +491,7 @@ ${results
 
   private async createPooledProcess(): Promise<PooledProcess> {
     return new Promise((resolve, reject) => {
-      const repoRoot = findRepositoryRoot();
+      const repoRoot = this.directories.repositoryRoot;
 
       // Create a persistent shell process for reuse
       const child = spawn('bash', [], {
@@ -678,8 +685,7 @@ ${results
     timeout: number,
   ): Promise<string> {
     return new Promise((resolve, reject) => {
-      const repoRoot = findRepositoryRoot();
-      const command = `cd "${repoRoot}" && pnpm ${args.join(' ')}`;
+      const command = `cd "${this.directories.repositoryRoot}" && pnpm ${args.join(' ')}`;
 
       let stdout = '';
       let stderr = '';
