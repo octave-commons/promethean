@@ -83,11 +83,10 @@ test('should have valid configuration structure', (t) => {
   t.truthy(config.sync);
 
   // Check specific required fields
-  const indexing = config.indexing;
-  t.is(indexing.vectorStore.type, 'chromadb');
-  t.is(indexing.embedding.model, 'test-model');
-  t.true(indexing.embedding.dimensions > 0);
-  t.is(typeof indexing.cache.enabled, 'boolean');
+  t.is(config.indexing.vectorStore.type, 'chromadb');
+  t.is(config.indexing.embedding.model, 'test-model');
+  t.true(config.indexing.embedding.dimensions > 0);
+  t.is(typeof config.indexing.cache.enabled, 'boolean');
   t.true(config.sync.interval > 0);
   t.true(config.sync.batchSize > 0);
 });
