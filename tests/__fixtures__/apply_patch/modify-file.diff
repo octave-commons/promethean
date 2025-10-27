@@ -1,0 +1,7 @@
+--- a/src/app.js
++++ b/src/app.js
+@@ -1,4 +1,4 @@
+ console.log('start');
+-console.log('middle');
++console.log('modified middle');
+ console.log('end');
