@@ -105,10 +105,26 @@ test('validation works correctly in tool context', async (t) => {
     async execute(args) {
       const sessionId = validate.sessionId(args.sessionId);
       const limit = validate.limit(args.limit, 10);
-
-      return { sessionId, limit };
+      
+      return `Session: ${sessionId}, Limit: ${limit}`;
     },
   });
+
+  // Test valid input
+  const validResult = await testTool.execute({ sessionId: 'test-session', limit: 5 }, mockPluginContext);
+  t.true(validResult.includes('test-session'));
+  t.true(validResult.includes('5'));
+
+  // Test invalid session ID
+  await t.throwsAsync(testTool.execute({ sessionId: '' }, mockPluginContext), {
+    message: /Session ID cannot be empty/,
+  });
+
+  // Test invalid limit
+  await t.throwsAsync(testTool.execute({ sessionId: 'test', limit: -1 }, mockPluginContext), {
+    message: /Limit must be greater than 0/,
+  });
+});
 
   // Test valid input
   const validResult = await testTool.execute(
