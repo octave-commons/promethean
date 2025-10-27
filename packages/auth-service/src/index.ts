@@ -179,15 +179,6 @@ async function handleClientCredentialsGrant(
     issued_token_type: 'urn:ietf:params:oauth:token-type:access_token',
   });
 }
-    { expiresIn: ttl },
-  );
-  return reply.send({
-    access_token,
-    token_type: 'Bearer',
-    expires_in: ttl,
-    scope: scopeStr,
-    issued_token_type: 'urn:ietf:params:oauth:token-type:access_token',
-  });
 }
 
 async function handleAuthorizationCodeGrant(
