@@ -20,19 +20,11 @@ export async function compileSearchContext(
   const contextLimit = options.contextLimit || 10;
   const queries = options.query ? [options.query] : [];
 
-  return compileContext(
-    {
-      texts: queries,
-      recentLimit: contextLimit,
-      queryLimit: 5,
-      limit: contextLimit,
-      formatAssistantMessages: options.formatForLLM || false,
-    },
-    {
-      state: indexerService.contextStore,
-      createDualStore: async () => {
-        throw new Error('createDualStore not supported in cross-domain search context');
-      },
-    },
-  );
+  return compileContext(indexerService.contextStore, {
+    texts: queries,
+    recentLimit: contextLimit,
+    queryLimit: 5,
+    limit: contextLimit,
+    formatAssistantMessages: options.formatForLLM || false,
+  });
 }

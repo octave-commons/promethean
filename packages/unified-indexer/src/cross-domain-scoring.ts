@@ -4,7 +4,7 @@
  * Handles scoring, weighting, and analytics for search results
  */
 
-import type { SearchResult, ContentSource, ContentType } from '@promethean-os/persistence';
+import type { SearchResult } from '@promethean-os/persistence';
 import type { CrossDomainSearchOptions, EnhancedSearchResult } from './types/search.js';
 
 /**
