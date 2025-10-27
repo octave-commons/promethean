@@ -1,5 +1,4 @@
-import type { Collection as ChromaCollection } from 'chromadb';
-import type { Collection, OptionalUnlessRequiredId, WithId } from 'mongodb';
+import type { OptionalUnlessRequiredId, WithId } from 'mongodb';
 import type { DualStoreEntry, AliasDoc } from './types.js';
 import { getChromaClient, getMongoClient, validateMongoConnection } from './clients.js';
 import { getOrCreateQueue } from './chroma-write-queue.js';
@@ -65,14 +64,18 @@ export async function insert(managerOrName: any, entry: DualStoreEntry<any, any>
         throw new Error(`Manager not found: ${typeof managerOrName === 'string' ? managerOrName : 'unknown'}`);
     }
 
+    const textKey = manager.textKey as string;
+    const timeStampKey = manager.timeStampKey as string;
+    const collectionName = (manager.mongoCollection as { collectionName: string }).collectionName;
+
     const id = entry.id ?? randomUUID();
-    const timestamp = entry[manager.timeStampKey] || Date.now();
+    const timestamp = (entry as Record<string, any>)[timeStampKey] || Date.now();
 
     // Create mutable copy to work with readonly types
     const mutableEntry = {
         ...entry,
         id,
-        [manager.timeStampKey]: timestamp,
+        [timeStampKey]: timestamp,
         metadata: {
             ...entry.metadata,
             [manager.timeStampKey]: timestamp,
@@ -102,7 +105,7 @@ export async function insert(managerOrName: any, entry: DualStoreEntry<any, any>
             }
 
             // Use write queue for batching
-            await manager.chromaWriteQueue.add(id, mutableEntry[manager.textKey], chromaMetadata);
+            await manager.chromaWriteQueue.add(id, (mutableEntry as Record<string, any>)[textKey], chromaMetadata);
         } catch (e) {
             vectorWriteSuccess = false;
             vectorWriteError = e instanceof Error ? e : new Error(String(e));
@@ -126,7 +129,7 @@ export async function insert(managerOrName: any, entry: DualStoreEntry<any, any>
     const mongoClient = await getMongoClient();
     const validatedClient = await validateMongoConnection(mongoClient);
     const db = validatedClient.db('database');
-    const collection = db.collection(manager.mongoCollection.collectionName);
+    const collection = db.collection(collectionName);
 
     // Add consistency metadata to track vector write status
     const enhancedMetadata = {
@@ -138,8 +141,8 @@ export async function insert(managerOrName: any, entry: DualStoreEntry<any, any>
 
     await collection.insertOne({
         id: mutableEntry.id,
-        [manager.textKey]: mutableEntry[manager.textKey],
-        [manager.timeStampKey]: mutableEntry[manager.timeStampKey],
+        [textKey]: (mutableEntry as Record<string, any>)[textKey],
+        [timeStampKey]: (mutableEntry as Record<string, any>)[timeStampKey],
         metadata: enhancedMetadata,
     } as OptionalUnlessRequiredId<DualStoreEntry<any, any>>);
 }
@@ -166,14 +169,18 @@ export async function getMostRecent(
         throw new Error(`Manager not found: ${typeof managerOrName === 'string' ? managerOrName : 'unknown'}`);
     }
 
+    const textKey = manager.textKey as string;
+    const timeStampKey = manager.timeStampKey as string;
+    const collectionName = (manager.mongoCollection as { collectionName: string }).collectionName;
+
     // Ensure MongoDB connection is valid before querying
     const mongoClient = await getMongoClient();
     const validatedClient = await validateMongoConnection(mongoClient);
     const db = validatedClient.db('database');
-    const collection = db.collection(manager.mongoCollection.collectionName);
+    const collection = db.collection(collectionName);
 
-    const defaultFilter = { [manager.textKey]: { $nin: [null, ''], $not: /^\s*$/ } };
-    const defaultSorter = { [manager.timeStampKey]: -1 };
+    const defaultFilter = { [textKey]: { $nin: [null, ''], $not: /^\s*$/ } };
+    const defaultSorter = { [timeStampKey]: -1 };
 
     return (
         await collection
@@ -183,8 +190,8 @@ export async function getMostRecent(
             .toArray()
     ).map((entry: WithId<DualStoreEntry<any, any>>) => ({
         id: entry.id,
-        text: (entry as any)[manager.textKey],
-        timestamp: new Date((entry as any)[manager.timeStampKey]).getTime(),
+        text: (entry as Record<string, any>)[textKey],
+        timestamp: new Date((entry as Record<string, any>)[timeStampKey]).getTime(),
         metadata: entry.metadata,
     })) as DualStoreEntry<'text', 'timestamp'>[];
 }
@@ -204,6 +211,8 @@ export async function getMostRelevant(
         throw new Error(`Manager not found: ${typeof managerOrName === 'string' ? managerOrName : 'unknown'}`);
     }
 
+    const timeStampKey = manager.timeStampKey as string;
+
     if (!queryTexts || queryTexts.length === 0) return [];
 
     const query: Record<string, any> = {
@@ -217,13 +226,13 @@ export async function getMostRelevant(
     const meta = queryResult.metadatas.flat(2);
     return queryResult.documents
         .flat(2)
-        .map((doc, i) => ({
+        .map((doc: string, i: number) => ({
             id: ids[i],
             text: doc,
             metadata: meta[i],
-            timestamp: meta[i]?.timeStamp || meta[i]?.[manager.timeStampKey] || Date.now(),
+            timestamp: meta[i]?.timeStamp || meta[i]?.[timeStampKey] || Date.now(),
         }))
-        .filter((doc) => {
+        .filter((doc: DualStoreEntry<'text', 'timestamp'>) => {
             if (!doc.text) return false;
             if (uniqueThoughts.has(doc.text)) return false;
             uniqueThoughts.add(doc.text);
@@ -241,13 +250,17 @@ export async function get(managerOrName: any, id: string): Promise<DualStoreEntr
         throw new Error(`Manager not found: ${typeof managerOrName === 'string' ? managerOrName : 'unknown'}`);
     }
 
+    const textKey = manager.textKey as string;
+    const timeStampKey = manager.timeStampKey as string;
+    const collectionName = (manager.mongoCollection as { collectionName: string }).collectionName;
+
     const filter = { id } as any;
 
     // Ensure MongoDB connection is valid before querying
     const mongoClient = await getMongoClient();
     const validatedClient = await validateMongoConnection(mongoClient);
     const db = validatedClient.db('database');
-    const collection = db.collection(manager.mongoCollection.collectionName);
+    const collection = db.collection(collectionName);
 
     const document = await collection.findOne(filter);
 
@@ -257,8 +270,8 @@ export async function get(managerOrName: any, id: string): Promise<DualStoreEntr
 
     return {
         id: document.id,
-        text: (document as any)[manager.textKey],
-        timestamp: new Date((document as any)[manager.timeStampKey]).getTime(),
+        text: (document as Record<string, any>)[textKey],
+        timestamp: new Date((document as Record<string, any>)[timeStampKey]).getTime(),
         metadata: document.metadata,
     } as DualStoreEntry<'text', 'timestamp'>;
 }
