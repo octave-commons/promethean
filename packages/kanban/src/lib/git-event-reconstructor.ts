@@ -7,7 +7,7 @@
 
 import { randomUUID } from 'node:crypto';
 import path from 'node:path';
-import { simpleGit, type SimpleGit } from 'simple-git';
+import { execSync } from 'node:child_process';
 
 import type { TransitionEvent } from '../board/event-log/types.js';
 import type { KanbanConfig } from '../board/config/shared.js';
@@ -55,7 +55,6 @@ export class GitEventReconstructor {
   private readonly options: Required<
     Omit<GitEventReconstructorOptions, 'taskUuidFilter' | 'dryRun' | 'verbose'>
   >;
-  private readonly git: SimpleGit;
 
   constructor(options: GitEventReconstructorOptions) {
     this.repoRoot = options.repoRoot || process.cwd();
@@ -65,24 +64,31 @@ export class GitEventReconstructor {
       tasksDir: options.tasksDir,
       since: options.since || '2020-01-01',
     };
-    this.git = simpleGit(this.repoRoot);
   }
 
-/**
+  /**
    * Get all commits that modified task files
    */
-  private async getTaskCommits(): Promise<GitCommit[]> {
+  private getTaskCommits(): GitCommit[] {
+    const sinceFlag = this.options.since ? `--since="${this.options.since}"` : '';
     const tasksPath = path.relative(this.repoRoot, this.tasksDir);
 
-    try {
-      // Use raw git command to get commit info with files in one pass
-      const sinceFlag = this.options.since ? `--since="${this.options.since}"` : '';
-      const cmd = `git log ${sinceFlag} --name-only --pretty=format:"%H|%ai|%ae|%s" -- ${tasksPath}/*.md`;
+    // Use array to avoid shell interpretation issues with spaces
+    const gitArgs = [
+      'log',
+      sinceFlag,
+      '--name-only',
+      '--pretty=format:%H|%ai|%ae|%s',
+      '--',
+      `${tasksPath}/*.md`,
+    ].filter(Boolean);
 
-      const { execSync } = await import('node:child_process');
+    try {
+      const cmd = `git ${gitArgs.join(' ')}`;
       const output = execSync(cmd, {
         cwd: this.repoRoot,
         encoding: 'utf8',
+        maxBuffer: 50 * 1024 * 1024, // 50MB buffer
       }).trim();
 
       if (!output) return [];
@@ -126,41 +132,6 @@ export class GitEventReconstructor {
     }
   }
 
-      const log = await this.git.log(logOptions);
-
-      if (!log.total) return [];
-
-      const commits: GitCommit[] = [];
-
-      for (const commit of log.all) {
-        // Get files for this commit
-        const diff = await this.git.diff([
-          `${commit.hash}^!`,
-          '--name-only',
-          '--',
-          `${tasksPath}/*.md`,
-        ]);
-        const files = diff
-          .split('\n')
-          .map((line) => line.trim())
-          .filter((line) => line.endsWith('.md') && line.includes(tasksPath));
-
-        commits.push({
-          sha: commit.hash,
-          timestamp: commit.date,
-          author: commit.author_email,
-          message: commit.message,
-          files,
-        });
-      }
-
-      return commits.reverse(); // Return in chronological order
-    } catch (error) {
-      console.warn('Warning: Failed to get git commits:', error);
-      return [];
-    }
-  }
-
   /**
    * Extract task UUID from file path or content
    */
@@ -195,13 +166,13 @@ export class GitEventReconstructor {
   /**
    * Get task file content at specific commit
    */
-  private async getTaskContentAtCommit(
-    filePath: string,
-    commitSha: string,
-  ): Promise<string | null> {
+  private getTaskContentAtCommit(filePath: string, commitSha: string): string | null {
     try {
-      const content = await this.git.show([`${commitSha}:${filePath}`]);
-      return content;
+      const cmd = `git show ${commitSha}:"${filePath}"`;
+      return execSync(cmd, {
+        cwd: this.repoRoot,
+        encoding: 'utf8',
+      });
     } catch (error) {
       // File might not exist at this commit
       return null;
@@ -211,15 +182,15 @@ export class GitEventReconstructor {
   /**
    * Analyze status changes for a single task across commits
    */
-  private async analyzeTaskStatusHistory(
+  private analyzeTaskStatusHistory(
     taskCommits: GitCommit[],
     taskFilePath: string,
-  ): Promise<ReconstructedEvent[]> {
+  ): ReconstructedEvent[] {
     const events: ReconstructedEvent[] = [];
     let lastStatus: string | null = null;
 
     for (const commit of taskCommits) {
-      const content = await this.getTaskContentAtCommit(taskFilePath, commit.sha);
+      const content = this.getTaskContentAtCommit(taskFilePath, commit.sha);
 
       if (!content) {
         // File was deleted or doesn't exist at this commit
@@ -253,20 +224,20 @@ export class GitEventReconstructor {
   /**
    * Reconstruct all events from git history
    */
-  async reconstructEvents(
+  reconstructEvents(
     options: {
       taskUuidFilter?: string;
       dryRun?: boolean;
       verbose?: boolean;
     } = {},
-  ): Promise<TransitionEvent[]> {
+  ): TransitionEvent[] {
     const { taskUuidFilter, verbose = false } = options;
 
     if (verbose) {
       console.log('🔍 Analyzing git history for task status changes...');
     }
 
-    const commits = await this.getTaskCommits();
+    const commits = this.getTaskCommits();
 
     if (verbose) {
       console.log(`📊 Found ${commits.length} commits affecting task files`);
@@ -299,7 +270,7 @@ export class GitEventReconstructor {
         continue;
       }
 
-      const events = await this.analyzeTaskStatusHistory(commits, taskFilePath);
+      const events = this.analyzeTaskStatusHistory(commits, taskFilePath);
       allEvents.push(...events);
 
       if (verbose && events.length > 0) {
