@@ -33,7 +33,7 @@ export const insert = async <TextKey extends string, TimeKey extends string>(
         ...entry,
         id: entryId,
         [state.textKey]: textValue,
-        [state.timeStampKey]: epochTimestamp as DualStoreEntry<TextKey, TimeKey>[TimeKey],
+        [state.timeStampKey]: epochTimestamp as unknown as DualStoreEntry<TextKey, TimeKey>[TimeKey],
         metadata: metadataWithTimestamp,
     } as DualStoreEntry<TextKey, TimeKey>;
 
