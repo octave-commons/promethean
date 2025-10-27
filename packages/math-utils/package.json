@@ -27,14 +27,6 @@
     "ava": "^6.0.0",
     "typescript": "^5.2.0"
   },
-  "ava": {
-    "extensions": {
-      "ts": "module"
-    },
-    "nodeArguments": [
-      "--loader=ts-node/esm"
-    ]
-  },
   "files": [
     "dist",
     "README.md",
