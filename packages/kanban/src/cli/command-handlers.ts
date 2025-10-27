@@ -1761,7 +1761,6 @@ const handleCreate: CommandHandler = (args, context) =>
 
     return newTask;
   });
-};
 
 const parseUpdateTaskArgs = (args: ReadonlyArray<string>) => {
   if (args.length === 0) {

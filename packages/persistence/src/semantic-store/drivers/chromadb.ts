@@ -205,11 +205,10 @@ export class ChromaDriver implements VectorSearchDriver {
         id: string,
         document: string,
         metadata: Record<string, string | number | boolean | null>,
-        maxRetries: number = 3,
     ): Promise<boolean> {
         try {
             // Use the write queue for retry logic
-            await this.writeQueue.add(id, document, metadata);
+            await this.writeQueue?.add(id, document, metadata);
             return true;
         } catch (error) {
             throw new SemanticStoreError(

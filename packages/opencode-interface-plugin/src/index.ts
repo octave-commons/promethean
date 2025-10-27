@@ -191,7 +191,7 @@ export const OpencodeInterfacePlugin: Plugin = async (pluginContext: PluginInput
             const limit = validate.limit(args.limit, 50);
             const sessionId = validate.optionalString(args.sessionId, 'sessionId');
 
-            const compiledContext = await compileContext({
+            const contextResult = await compileContext({
               texts: query ? [query] : [],
               limit,
             });
@@ -201,9 +201,9 @@ export const OpencodeInterfacePlugin: Plugin = async (pluginContext: PluginInput
             output += `**Query:** ${query || 'No query'}\n`;
             output += `**Session Filter:** ${sessionId || 'All sessions'}\n\n`;
 
-            if (Array.isArray(compiledContext)) {
-              output += `## Messages (${compiledContext.length})\n\n`;
-              compiledContext.slice(0, args.limit).forEach((msg: any) => {
+            if (Array.isArray(contextResult)) {
+              output += `## Messages (${contextResult.length})\n\n`;
+              contextResult.slice(0, limit).forEach((msg: any) => {
                 try {
                   output += messageToMarkdown(msg);
                 } catch (e) {
@@ -297,7 +297,7 @@ export const OpencodeInterfacePlugin: Plugin = async (pluginContext: PluginInput
           try {
             // Validate inputs
             const limit = validate.limit(args.limit, 20);
-            const offset = validate.optionalNumber(args.offset, 'offset', 0);
+            const offset = validate.number(args.offset || 0, 'offset');
 
             const result = await listSessions({
               limit,

@@ -73,10 +73,10 @@ export const validate = {
    * Validate a session ID format
    */
   sessionId: (value: unknown): string => {
-    const sessionId = validate.optionalString(value, 'sessionId');
-    if (!sessionId) {
+    if (value === undefined || value === null) {
       throw new Error('Session ID is required');
     }
+    const sessionId = validate.string(value, 'sessionId');
     if (sessionId.length === 0) {
       throw new Error('Session ID cannot be empty');
     }
@@ -87,18 +87,24 @@ export const validate = {
    * Validate search query
    */
   searchQuery: (value: unknown): string => {
-    const query = validate.optionalString(value, 'query');
-    if (query && query.length === 0) {
+    if (value === undefined || value === null) {
+      return '';
+    }
+    const query = validate.string(value, 'query');
+    if (query.length === 0) {
       throw new Error('Search query cannot be empty');
     }
-    return query || '';
+    return query;
   },
 
   /**
    * Validate limit parameter with reasonable bounds
    */
   limit: (value: unknown, defaultLimit = 20): number => {
-    const limit = validate.optionalNumber(value, 'limit', defaultLimit);
+    if (value === undefined || value === null) {
+      return defaultLimit;
+    }
+    const limit = validate.number(value, 'limit');
     if (limit <= 0) {
       throw new Error('Limit must be greater than 0');
     }

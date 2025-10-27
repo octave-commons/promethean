@@ -161,11 +161,11 @@ export class FileIndexer {
       const fileEntry = await this.getFileByPath(filePath);
       if (!fileEntry) return false;
 
-      const mongoCollection = this.dualStore.getMongoCollection();
+      const mongoCollection = this.dualStore.mongoCollection;
       const result = await mongoCollection.deleteOne({ id: fileEntry.id });
 
       // Also remove from ChromaDB
-      const chromaCollection = this.dualStore.getChromaCollection();
+      const chromaCollection = this.dualStore.chromaCollection;
       await chromaCollection.delete({ ids: [fileEntry.id] });
 
       return result.deletedCount > 0;
