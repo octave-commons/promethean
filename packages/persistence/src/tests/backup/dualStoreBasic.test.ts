@@ -4,7 +4,7 @@ import test from 'ava';
 // These tests verify the functions exist and have correct signatures
 
 test('dualStore module exports expected functions', async (t) => {
-    const dualStore = await import('../dualStore.js');
+    const dualStore = await import('../../dualStore.js');
 
     // Test that main functions are exported
     t.truthy(dualStore.create);
@@ -30,7 +30,7 @@ test('dualStore module exports expected functions', async (t) => {
 });
 
 test('create function has correct signature', async (t) => {
-    const { create } = await import('../dualStore.js');
+    const { create } = await import('../../dualStore.js');
 
     // Test that create is async and returns a promise
     t.true(create.length >= 3); // At least name, textKey, timeStampKey parameters
