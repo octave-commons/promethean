@@ -1,15 +1,14 @@
 import { Intent, IntentClassifier, ParserConfig } from './types';
-import { NlpManager } from '@nlpjs/basic';
 // @ts-ignore - No types available for @nlpjs/basic
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const NlpManagerTyped = require('@nlpjs/basic') as typeof NlpManager;
+const NlpManager = require('@nlpjs/basic');
 
 export class NlpIntentClassifier implements IntentClassifier {
-  private nlpManager: NlpManager;
+  private nlpManager: any;
   private intents: Map<string, Intent> = new Map();
 
   constructor(private config: ParserConfig) {
-    this.nlpManager = new NlpManager({
+    this.nlpManager = new (NlpManager as any)({
       languages: [config.language],
       forceNER: true,
       nlu: { log: false },
@@ -51,10 +50,10 @@ export class NlpIntentClassifier implements IntentClassifier {
 
   async train(examples: Array<{ text: string; intent: string }>): Promise<void> {
     for (const example of examples) {
-      await this.nlpManager.addDocument('en', example.text, example.intent);
+      this.nlpManager.addDocument('en', example.text, example.intent);
     }
 
-    await this.nlpManager.train();
+    this.nlpManager.train();
   }
 
   // Advanced classification with multiple candidates
@@ -108,11 +107,11 @@ export class NlpIntentClassifier implements IntentClassifier {
 
   // Export/import model for persistence
   async exportModel(): Promise<any> {
-    return this.nlpManager.export();
+    return (this.nlpManager as any).export();
   }
 
   async importModel(model: any): Promise<void> {
-    await this.nlpManager.import(model);
+    await (this.nlpManager as any).import(model);
   }
 
   // Get statistics about the classifier

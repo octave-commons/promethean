@@ -211,7 +211,7 @@ export class DefaultNLParser implements NLParser {
 
       if (intent && intent.examples.length > 0) {
         suggestions.push({
-          text: intent.examples[0], // Use first example as suggestion
+          text: intent.examples[0] || '', // Use first example as suggestion
           confidence: similar.similarity,
         });
       }

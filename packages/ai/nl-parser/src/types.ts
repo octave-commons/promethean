@@ -60,6 +60,10 @@ export interface IntentClassifier {
   addIntent(intent: Intent): Promise<void>;
   removeIntent(intentName: string): Promise<void>;
   getIntents(): Promise<Intent[]>;
+  getSimilarIntents(
+    text: string,
+    threshold?: number,
+  ): Promise<Array<{ intent: string; similarity: number }>>;
   train(examples: Array<{ text: string; intent: string }>): Promise<void>;
 }
 
