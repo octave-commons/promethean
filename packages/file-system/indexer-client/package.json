@@ -18,6 +18,6 @@
     "vitest": "^1.0.0"
   },
   "dependencies": {
-    "@opencode-ai/plugin": "workspace:*"
+    "@opencode-ai/plugin": "^0.15.7"
   }
 }
