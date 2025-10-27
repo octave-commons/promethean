@@ -1,7 +1,11 @@
-import type { DualStoreEntry } from '../../types.js';
-import type { DualStoreDependencies, InsertInputs } from './types.js';
+import type { OptionalUnlessRequiredId } from 'mongodb';
 
-import { buildChromaMetadata } from './utils.js';
+import type { DualStoreEntry, DualStoreMetadata, DualStoreTimestamp } from '../../types.js';
+import { pickTimestamp } from '../../serializers/pickTimestamp.js';
+import { toEpochMilliseconds } from '../../serializers/toEpochMilliseconds.js';
+import { toChromaMetadata } from '../../serializers/toChromaMetadata.js';
+import { withTimestampMetadata } from '../../serializers/withTimestampMetadata.js';
+import type { DualStoreDependencies, InsertInputs } from './types.js';
 
 export const insert = async <TextKey extends string, TimeKey extends string>(
     inputs: InsertInputs<TextKey, TimeKey>,
@@ -11,17 +15,27 @@ export const insert = async <TextKey extends string, TimeKey extends string>(
     const { state, chroma, mongo, env, time, uuid, logger } = dependencies;
 
     const entryId = entry.id ?? uuid();
-    const timestamp = (entry as Record<string, unknown>)[state.timeStampKey] ?? time();
+    const textValue = (entry as Record<TextKey, string>)[state.textKey];
+    const primaryTimestamp = (entry as Record<TimeKey, DualStoreTimestamp | undefined>)[state.timeStampKey];
+    const metadataTimestamp = entry.metadata?.[state.timeStampKey];
+    const fallbackTimestamp = entry.metadata?.timeStamp;
+
+    const resolvedTimestamp = pickTimestamp(primaryTimestamp, metadataTimestamp, fallbackTimestamp) ?? time();
+    const epochTimestamp = toEpochMilliseconds(resolvedTimestamp);
+
+    const metadataWithTimestamp = withTimestampMetadata(
+        entry.metadata as DualStoreMetadata | undefined,
+        state.timeStampKey,
+        epochTimestamp,
+    );
 
     const enhancedEntry: DualStoreEntry<TextKey, TimeKey> = {
         ...entry,
         id: entryId,
-        [state.timeStampKey]: timestamp as DualStoreEntry<TextKey, TimeKey>[TimeKey],
-        metadata: {
-            ...entry.metadata,
-            [state.timeStampKey]: timestamp,
-        },
-    };
+        [state.textKey]: textValue,
+        [state.timeStampKey]: epochTimestamp as DualStoreEntry<TextKey, TimeKey>[TimeKey],
+        metadata: metadataWithTimestamp,
+    } as DualStoreEntry<TextKey, TimeKey>;
 
     const dualWriteEnabled = env.dualWriteEnabled;
     const isImage = enhancedEntry.metadata?.type === 'image';
@@ -31,8 +45,9 @@ export const insert = async <TextKey extends string, TimeKey extends string>(
 
     if (dualWriteEnabled && (!isImage || state.supportsImages)) {
         try {
-            const chromaMetadata = buildChromaMetadata(enhancedEntry, state);
-            await chroma.queue.add(entryId, (enhancedEntry as Record<string, string>)[state.textKey], chromaMetadata);
+            const chromaMetadata = toChromaMetadata(enhancedEntry.metadata ?? {});
+            chromaMetadata[state.timeStampKey] = epochTimestamp;
+            await chroma.queue.add(entryId, textValue, chromaMetadata);
         } catch (error) {
             vectorWriteSuccess = false;
             vectorWriteError = error instanceof Error ? error : new Error(String(error));
@@ -53,15 +68,15 @@ export const insert = async <TextKey extends string, TimeKey extends string>(
 
     const collection = await mongo.getCollection();
 
-    const enhancedMetadata = {
+    const enhancedMetadata: DualStoreMetadata = {
         ...enhancedEntry.metadata,
         vectorWriteSuccess,
         vectorWriteError: vectorWriteError?.message,
-        vectorWriteTimestamp: vectorWriteSuccess ? time() : null,
-    } satisfies DualStoreEntry<TextKey, TimeKey>['metadata'];
+        vectorWriteTimestamp: vectorWriteSuccess ? epochTimestamp : null,
+    };
 
     await collection.insertOne({
         ...(enhancedEntry as DualStoreEntry<TextKey, TimeKey>),
         metadata: enhancedMetadata,
-    });
+    } as OptionalUnlessRequiredId<DualStoreEntry<TextKey, TimeKey>>);
 };
