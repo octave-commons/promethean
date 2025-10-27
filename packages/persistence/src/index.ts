@@ -51,3 +51,13 @@ export {
     type KanbanBoard,
     type KanbanIndexingStats,
 } from './kanban-migration-adapter.js';
+
+// Unified indexer service
+export {
+    UnifiedIndexerService,
+    createUnifiedIndexerService,
+    DEFAULT_SERVICE_CONFIG,
+    type UnifiedIndexerServiceConfig,
+    type UnifiedIndexerStats,
+    type ServiceStatus,
+} from './unified-indexer-service.js';
