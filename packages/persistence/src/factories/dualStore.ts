@@ -136,7 +136,11 @@ export const createDualStoreImplementation = <TextKey extends string, TimeKey ex
         insert: (entry) => insert({ entry }, dependencies),
         addEntry: (entry) => addEntry({ entry }, dependencies),
         getMostRecent: (limit, mongoFilter, sorter) =>
-            getMostRecent({ limit, mongoFilter, sorter }, dependencies),
+            getMostRecent({
+                limit,
+                mongoFilter: mongoFilter as any,
+                sorter: sorter as any,
+            }, dependencies),
         getMostRelevant: (queryTexts, limit, where) =>
             getMostRelevant({ queryTexts, limit, where }, dependencies),
         get: (id) => getAction({ id }, dependencies),
