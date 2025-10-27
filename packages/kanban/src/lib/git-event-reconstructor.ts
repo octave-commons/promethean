@@ -213,20 +213,20 @@ export class GitEventReconstructor {
   /**
    * Reconstruct all events from git history
    */
-  reconstructEvents(
+  async reconstructEvents(
     options: {
       taskUuidFilter?: string;
       dryRun?: boolean;
       verbose?: boolean;
     } = {},
-  ): TransitionEvent[] {
+  ): Promise<TransitionEvent[]> {
     const { taskUuidFilter, verbose = false } = options;
 
     if (verbose) {
       console.log('🔍 Analyzing git history for task status changes...');
     }
 
-    const commits = this.getTaskCommits();
+    const commits = await this.getTaskCommits();
 
     if (verbose) {
       console.log(`📊 Found ${commits.length} commits affecting task files`);
@@ -259,7 +259,7 @@ export class GitEventReconstructor {
         continue;
       }
 
-      const events = this.analyzeTaskStatusHistory(commits, taskFilePath);
+      const events = await this.analyzeTaskStatusHistory(commits, taskFilePath);
       allEvents.push(...events);
 
       if (verbose && events.length > 0) {

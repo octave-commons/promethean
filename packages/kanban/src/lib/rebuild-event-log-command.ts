@@ -61,7 +61,7 @@ export const createRebuildEventLogCommand = (_boardFile: string, _tasksDir: stri
     }
 
     // Reconstruct events from git history
-    const reconstructedEvents = gitReconstructor.reconstructEvents({
+    const reconstructedEvents = await gitReconstructor.reconstructEvents({
       taskUuidFilter: options.taskUuid,
       verbose: options.verbose,
     });
