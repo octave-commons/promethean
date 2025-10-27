@@ -71,7 +71,7 @@ export const insert = async <TextKey extends string, TimeKey extends string>(
     const enhancedMetadata: DualStoreMetadata = {
         ...baseMetadata,
         vectorWriteSuccess,
-        vectorWriteError: vectorWriteError?.message ?? null,
+        vectorWriteError: vectorWriteError?.message ?? undefined,
         vectorWriteTimestamp: vectorWriteSuccess ? time() : null,
     };
 
