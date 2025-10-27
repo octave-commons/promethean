@@ -85,13 +85,10 @@ export const insert = async <TextKey extends string, TimeKey extends string>(
         vectorWriteSuccess,
         vectorWriteError: vectorWriteError?.message,
         vectorWriteTimestamp: vectorWriteSuccess ? time() : null,
-    };
+    } satisfies DualStoreEntry<TextKey, TimeKey>['metadata'];
 
     await collection.insertOne({
-        id: enhancedEntry.id,
-        [state.textKey]: (enhancedEntry as Record<string, string>)[state.textKey],
-        [state.timeStampKey]: enhancedEntry[state.timeStampKey],
+        ...(enhancedEntry as DualStoreEntry<TextKey, TimeKey>),
         metadata: enhancedMetadata,
-    } as InsertInputs<TextKey, TimeKey>['entry'] & Record<string, unknown>);
+    });
 };
-
