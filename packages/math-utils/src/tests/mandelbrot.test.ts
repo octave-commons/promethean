@@ -2,6 +2,7 @@
 // Mandelbrot Tests
 
 import test from 'ava';
+
 import { Mandelbrot } from '../mandelbrot.js';
 
 test('Mandelbrot - basic calculation', (t) => {
