@@ -2,6 +2,7 @@
 // Fibonacci Tests
 
 import test from 'ava';
+
 import { Fibonacci } from '../fibonacci.js';
 
 test('Fibonacci - basic calculations', (t) => {
