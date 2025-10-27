@@ -32,7 +32,12 @@ export class FilenameHealer implements HealingStrategy {
         const lastExtension = filenameSegments[filenameSegments.length - 1];
         const priorExtension = filenameSegments[filenameSegments.length - 2];
 
-        if (EXTENSION_SET.has(lastExtension.toLowerCase()) && EXTENSION_SET.has(priorExtension.toLowerCase())) {
+        if (
+          lastExtension &&
+          priorExtension &&
+          EXTENSION_SET.has(lastExtension.toLowerCase() as (typeof SUPPORTED_EXTENSIONS)[number]) &&
+          EXTENSION_SET.has(priorExtension.toLowerCase() as (typeof SUPPORTED_EXTENSIONS)[number])
+        ) {
           const baseSegments = filenameSegments.slice(0, -2);
           if (baseSegments.length > 0) {
             const baseName = baseSegments.join('.');
@@ -46,7 +51,9 @@ export class FilenameHealer implements HealingStrategy {
       const lastDotIndex = newFilename.lastIndexOf('.');
       if (lastDotIndex > 0) {
         const namePortion = newFilename.slice(0, lastDotIndex);
-        const extension = newFilename.slice(lastDotIndex + 1);
+        const extension = newFilename.slice(
+          lastDotIndex + 1,
+        ) as (typeof SUPPORTED_EXTENSIONS)[number];
 
         if (EXTENSION_SET.has(extension.toLowerCase())) {
           const trimmedName = namePortion.replace(/\s+\d+$/, '');
