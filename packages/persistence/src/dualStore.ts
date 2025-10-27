@@ -434,19 +434,124 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
 // ============================================================================
 
 // Global manager registry for functional API
-const managerRegistry = new Map<string, DualStoreManager>();
+const managerRegistry = new Map<string, DualStoreManager<any, any>>();
 
 /**
  * Create a new dual store manager instance (functional API)
  */
-export async function create<TextKey extends string = 'text', TimeKey extends string = 'createdAt'>(
+export async function create(
     name: string,
-    textKey: TextKey,
-    timeStampKey: TimeKey,
-): Promise<DualStoreManager<TextKey, TimeKey>> {
-    const manager = await DualStoreManager.create<TextKey, TimeKey>(name, textKey, timeStampKey);
+    textKey: string,
+    timeStampKey: string,
+): Promise<DualStoreManager<string, string>> {
+    const manager = await DualStoreManager.create(name, textKey, timeStampKey);
     managerRegistry.set(name, manager);
     return manager;
+}
+
+/**
+ * Insert an entry into the dual store (functional API)
+ */
+export async function insert(
+    managerOrName: DualStoreManager<any, any> | string,
+    entry: DualStoreEntry<any, any>,
+): Promise<void> {
+    const manager = typeof managerOrName === 'string' ? managerRegistry.get(managerOrName) : managerOrName;
+
+    if (!manager) {
+        throw new Error(`Manager not found: ${typeof managerOrName === 'string' ? managerOrName : 'unknown'}`);
+    }
+
+    return manager.insert(entry);
+}
+
+/**
+ * Add an entry to the dual store (functional API)
+ */
+export async function addEntry(
+    managerOrName: DualStoreManager<any, any> | string,
+    entry: DualStoreEntry<any, any>,
+): Promise<void> {
+    const manager = typeof managerOrName === 'string' ? managerRegistry.get(managerOrName) : managerOrName;
+
+    if (!manager) {
+        throw new Error(`Manager not found: ${typeof managerOrName === 'string' ? managerOrName : 'unknown'}`);
+    }
+
+    return manager.addEntry(entry);
+}
+
+/**
+ * Get most recent entries from the dual store (functional API)
+ */
+export async function getMostRecent(
+    managerOrName: DualStoreManager<any, any> | string,
+    limit = 10,
+    mongoFilter?: any,
+    sorter?: any,
+): Promise<DualStoreEntry<'text', 'timestamp'>[]> {
+    const manager = typeof managerOrName === 'string' ? managerRegistry.get(managerOrName) : managerOrName;
+
+    if (!manager) {
+        throw new Error(`Manager not found: ${typeof managerOrName === 'string' ? managerOrName : 'unknown'}`);
+    }
+
+    return manager.getMostRecent(limit, mongoFilter, sorter);
+}
+
+/**
+ * Get most relevant entries from the dual store (functional API)
+ */
+export async function getMostRelevant(
+    managerOrName: DualStoreManager<any, any> | string,
+    queryTexts: string[],
+    limit: number,
+    where?: Record<string, unknown>,
+): Promise<DualStoreEntry<'text', 'timestamp'>[]> {
+    const manager = typeof managerOrName === 'string' ? managerRegistry.get(managerOrName) : managerOrName;
+
+    if (!manager) {
+        throw new Error(`Manager not found: ${typeof managerOrName === 'string' ? managerOrName : 'unknown'}`);
+    }
+
+    return manager.getMostRelevant(queryTexts, limit, where);
+}
+
+/**
+ * Get an entry by ID from the dual store (functional API)
+ */
+export async function get(
+    managerOrName: DualStoreManager<any, any> | string,
+    id: string,
+): Promise<DualStoreEntry<'text', 'timestamp'> | null> {
+    const manager = typeof managerOrName === 'string' ? managerRegistry.get(managerOrName) : managerOrName;
+
+    if (!manager) {
+        throw new Error(`Manager not found: ${typeof managerOrName === 'string' ? managerOrName : 'unknown'}`);
+    }
+
+    return manager.get(id);
+}
+
+/**
+ * Cleanup all dual store resources (functional API)
+ */
+export async function cleanup(): Promise<void> {
+    // Cleanup all registered managers
+    for (const [name, manager] of managerRegistry) {
+        try {
+            await manager.cleanup();
+        } catch (error) {
+            console.warn(`Failed to cleanup manager ${name}:`, error);
+        }
+    }
+
+    // Clear registry
+    managerRegistry.clear();
+
+    // Cleanup clients
+    const { cleanupClients } = await import('./clients.js');
+    await cleanupClients();
 }
 
 /**
