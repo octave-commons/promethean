@@ -27,11 +27,14 @@ export function createMockIndexableContent(overrides: Partial<IndexableContent> 
         source: 'filesystem' as ContentSource,
         timestamp: Date.now(),
         metadata: {
-            fileName: 'test-file.txt',
-            filePath: '/test/path/test-file.txt',
-            fileSize: 1024,
+            type: 'file',
+            source: 'filesystem',
+            path: '/test/path/test-file.txt',
+            extension: 'txt',
+            directory: '/test/path',
+            size: 1024,
             ...overrides.metadata,
-        },
+        } as any,
         ...overrides,
     };
 }
@@ -89,6 +92,11 @@ export function createMockIndexingStats(overrides: Partial<IndexingStats> = {}):
             message: 300,
             task: 200,
             event: 100,
+            session: 50,
+            attachment: 25,
+            thought: 15,
+            document: 10,
+            board: 5,
         },
         contentBySource: {
             filesystem: 400,
