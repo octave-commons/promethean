@@ -134,21 +134,10 @@ export class GitEventReconstructor {
 
     // Try to extract from file content
     if (content) {
-      const uuidMatch = content.match(/uuid:\s*['"]?([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})['"]?/i);
-      if (uuidMatch?.[1]) {
-        return uuidMatch[1];
-      }
-    }
-
-    return null;
-  }
-
-    // Try to extract from file content
-    if (content) {
       const uuidMatch = content.match(
         /uuid:\s*['"]?([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})['"]?/i,
       );
-      if (uuidMatch) {
+      if (uuidMatch?.[1]) {
         return uuidMatch[1];
       }
     }
@@ -189,7 +178,6 @@ export class GitEventReconstructor {
   ): ReconstructedEvent[] {
     const events: ReconstructedEvent[] = [];
     let lastStatus: string | null = null;
-    let lastCommitSha: string | null = null;
 
     for (const commit of taskCommits) {
       const content = this.getTaskContentAtCommit(taskFilePath, commit.sha);
@@ -218,7 +206,6 @@ export class GitEventReconstructor {
       }
 
       lastStatus = currentStatus;
-      lastCommitSha = commit.sha;
     }
 
     return events;
@@ -234,7 +221,7 @@ export class GitEventReconstructor {
       verbose?: boolean;
     } = {},
   ): TransitionEvent[] {
-    const { taskUuidFilter, dryRun = false, verbose = false } = options;
+    const { taskUuidFilter, verbose = false } = options;
 
     if (verbose) {
       console.log('🔍 Analyzing git history for task status changes...');
