@@ -6,15 +6,120 @@
 
 import type {
   UnifiedIndexingConfig,
-  FileIndexingOptions,
-  FileIndexingStats,
-  DiscordIndexingStats,
-  OpenCodeIndexingStats,
-  KanbanIndexingStats,
   IndexingStats,
   ContentType,
   ContentSource,
+  UnifiedIndexingClient,
 } from '@promethean-os/persistence';
+
+/**
+ * File indexing options
+ */
+export interface FileIndexingOptions {
+  batchSize?: number;
+  excludePatterns?: string[];
+  includePatterns?: string[];
+  maxFileSize?: number;
+  followSymlinks?: boolean;
+}
+
+/**
+ * File indexing statistics
+ */
+export interface FileIndexingStats {
+  totalFiles: number;
+  indexedFiles: number;
+  skippedFiles: number;
+  errors: string[];
+  duration: number;
+}
+
+/**
+ * Discord indexing statistics
+ */
+export interface DiscordIndexingStats {
+  totalMessages: number;
+  indexedMessages: number;
+  skippedMessages: number;
+  errors: string[];
+  duration: number;
+}
+
+/**
+ * OpenCode indexing statistics
+ */
+export interface OpenCodeIndexingStats {
+  totalItems: number;
+  indexedItems: number;
+  skippedItems: number;
+  errors: string[];
+  duration: number;
+}
+
+/**
+ * Kanban indexing statistics
+ */
+export interface KanbanIndexingStats {
+  totalItems: number;
+  indexedItems: number;
+  skippedItems: number;
+  errors: string[];
+  duration: number;
+}
+
+/**
+ * Unified indexer interfaces
+ */
+export interface UnifiedFileIndexer {
+  indexDirectory(path: string, options?: FileIndexingOptions): Promise<FileIndexingStats>;
+}
+
+export interface UnifiedDiscordIndexer {
+  // Discord-specific methods
+}
+
+export interface UnifiedOpenCodeIndexer {
+  // OpenCode-specific methods
+}
+
+export interface UnifiedKanbanIndexer {
+  // Kanban-specific methods
+}
+
+/**
+ * Factory functions for indexers (temporary implementations)
+ */
+export function createUnifiedFileIndexer(_client: UnifiedIndexingClient): UnifiedFileIndexer {
+  return {
+    async indexDirectory(
+      _path: string,
+      _options?: FileIndexingOptions,
+    ): Promise<FileIndexingStats> {
+      // Mock implementation
+      return {
+        totalFiles: 0,
+        indexedFiles: 0,
+        skippedFiles: 0,
+        errors: [],
+        duration: 0,
+      };
+    },
+  };
+}
+
+export function createUnifiedDiscordIndexer(_client: UnifiedIndexingClient): UnifiedDiscordIndexer {
+  return {} as UnifiedDiscordIndexer;
+}
+
+export function createUnifiedOpenCodeIndexer(
+  _client: UnifiedIndexingClient,
+): UnifiedOpenCodeIndexer {
+  return {} as UnifiedOpenCodeIndexer;
+}
+
+export function createUnifiedKanbanIndexer(_client: UnifiedIndexingClient): UnifiedKanbanIndexer {
+  return {} as UnifiedKanbanIndexer;
+}
 
 /**
  * Configuration for unified indexer service

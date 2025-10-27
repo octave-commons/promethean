@@ -12,6 +12,10 @@ import type {
   SearchResponse,
   ContentType,
   ContentSource,
+  ContextStoreState,
+} from '@promethean-os/persistence';
+
+import type {
   FileIndexingStats,
   DiscordIndexingStats,
   OpenCodeIndexingStats,
@@ -20,10 +24,6 @@ import type {
   UnifiedDiscordIndexer,
   UnifiedOpenCodeIndexer,
   UnifiedKanbanIndexer,
-  ContextStoreState,
-} from '@promethean-os/persistence';
-
-import type {
   UnifiedIndexerServiceConfig,
   UnifiedIndexerStats,
   ServiceStatus,
@@ -31,14 +31,17 @@ import type {
 
 import {
   createUnifiedIndexingClient,
-  createUnifiedFileIndexer,
-  createUnifiedDiscordIndexer,
-  createUnifiedOpenCodeIndexer,
-  createUnifiedKanbanIndexer,
   createContextStore,
   compileContext,
   getOrCreateCollection,
 } from '@promethean-os/persistence';
+
+import {
+  createUnifiedFileIndexer,
+  createUnifiedDiscordIndexer,
+  createUnifiedOpenCodeIndexer,
+  createUnifiedKanbanIndexer,
+} from './types/service.js';
 
 /**
  * Unified Indexer Service
