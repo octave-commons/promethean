@@ -30,7 +30,7 @@ import type {
 } from './types/service.js';
 
 import {
-  createUnifiedIndexingClient,
+  createDualStore,
   createContextStore,
   compileContext,
   getOrCreateCollection,
