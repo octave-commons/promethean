@@ -28,7 +28,22 @@ export const getMostRecent = async <TextKey extends string, TimeKey extends stri
         .limit(limit)
         .toArray();
 
-    const results = documents.map((doc) => fromMongoDocument(doc, state));
-    console.log('[getMostRecent]', { limit, count: results.length, ids: results.map((d) => d.id) });
-    return results;
+    const deduped: DualStoreEntry<'text', 'timestamp'>[] = [];
+    const seen = new Set<string>();
+
+    for (const doc of documents) {
+        const mapped = fromMongoDocument(doc, state);
+        const key = mapped.id ?? `${mapped.timestamp}:${mapped.text}`;
+        if (seen.has(key)) {
+            continue;
+        }
+        seen.add(key);
+        deduped.push(mapped);
+        if (deduped.length >= limit) {
+            break;
+        }
+    }
+
+    console.log('[getMostRecent]', { limit, count: deduped.length, ids: deduped.map((d) => d.id) });
+    return deduped;
 };
