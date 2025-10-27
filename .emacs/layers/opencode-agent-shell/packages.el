@@ -89,6 +89,6 @@
     ;; Upstream reserves the right to tweak keys; if that happens, inspect
     ;; M-x `describe-variable` on `agent-shell-agent-configs` and adjust.
     (with-eval-after-load 'agent-shell
-      )
-
+      (setq agent-shell-openai-authentication
+        (agent-shell-openai-make-authentication :login t)))
     ))
