@@ -468,9 +468,10 @@ test('retryVectorWrite records failure after retries', async (t) => {
 });
 
 test('getConsistencyReport summarises documents', async (t) => {
-    const { manager, mongoHarness } = await setupManager();
+    const { manager, mongoHarness, queueStub } = await setupManager();
 
     await manager.insert({ id: 'ok', text: 'ok', timestamp: Date.now(), metadata: { vectorWriteSuccess: true } });
+    queueStub.failWrites();
     await manager.insert({ id: 'fail', text: 'fail', timestamp: Date.now(), metadata: {} });
 
     const stored = mongoHarness.getDocs('dual_store_entries');
