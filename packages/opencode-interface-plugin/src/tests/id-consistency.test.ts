@@ -83,26 +83,8 @@ const mockMessages = [
   },
 ];
 
-// Mock events with consistent ID patterns
-const mockEvents = [
-  {
-    id: 'evt_event001',
-    sessionId: 'session_abc123def456',
-    eventType: 'message_sent',
-    timestamp: '2025-01-01T00:01:00.000Z',
-    text: 'User sent message',
-  },
-  {
-    id: 'evt_event002',
-    sessionId: 'session_abc123def456',
-    eventType: 'message_received',
-    timestamp: '2025-01-01T00:02:00.000Z',
-    text: 'Assistant responded',
-  },
-];
-
-test('session IDs are consistent across list-sessions and get-session tools', async (t) => {
-  // Mock list-sessions tool
+test('session IDs are consistent across tools', async (t) => {
+  // Mock list-sessions tool that returns JSON string
   const listSessionsTool = tool({
     description: 'List sessions tool',
     args: {
@@ -128,7 +110,7 @@ test('session IDs are consistent across list-sessions and get-session tools', as
     },
   });
 
-  // Mock get-session tool
+  // Mock get-session tool that returns JSON string
   const getSessionTool = tool({
     description: 'Get session tool',
     args: {
@@ -137,32 +119,36 @@ test('session IDs are consistent across list-sessions and get-session tools', as
     async execute(args) {
       const sessionId = validate.sessionId(args.sessionId);
       const session = mockSessions.find((s) => s.id === sessionId);
-      return { session, messages: mockMessages.filter((m) => m.sessionId === sessionId) };
+      const messages = mockMessages.filter((m) => m.sessionId === sessionId);
+      return JSON.stringify({ session, messages });
     },
   });
 
   // Get sessions from list
   const listResult = await listSessionsTool.execute({ limit: 10, offset: 0 }, mockPluginContext);
-  t.true(Array.isArray(listResult.sessions));
-  t.true(listResult.sessions.length > 0);
+  const listData = JSON.parse(listResult);
+
+  t.true(Array.isArray(listData.sessions));
+  t.true(listData.sessions.length > 0);
 
   // Test each session ID from list works with get-session
-  for (const session of listResult.sessions) {
+  for (const session of listData.sessions) {
     t.truthy(session.id, 'Session should have an ID');
     t.is(typeof session.id, 'string', 'Session ID should be a string');
 
     // Use the session ID from list-sessions in get-session
     const getResult = await getSessionTool.execute({ sessionId: session.id }, mockPluginContext);
-    t.truthy(getResult.session, 'get-session should find session using ID from list-sessions');
-    t.is(getResult.session.id, session.id, 'get-session should return same session ID');
+    const getData = JSON.parse(getResult);
+    t.truthy(getData.session, 'get-session should find session using ID from list-sessions');
+    t.is(getData.session.id, session.id, 'get-session should return same session ID');
   }
 });
 
-test('message IDs are consistent across list-messages and get-message tools', async (t) => {
+test('message IDs are consistent across tools', async (t) => {
   const testSessionId = 'session_abc123def456';
   const sessionMessages = mockMessages.filter((m) => m.sessionId === testSessionId);
 
-  // Mock list-messages tool
+  // Mock list-messages tool that returns JSON string
   const listMessagesTool = tool({
     description: 'List messages tool',
     args: {
@@ -173,11 +159,11 @@ test('message IDs are consistent across list-messages and get-message tools', as
       const sessionId = validate.sessionId(args.sessionId);
       const limit = validate.limit(args.limit, 10);
       const messages = mockMessages.filter((m) => m.sessionId === sessionId);
-      return messages.slice(-limit);
+      return JSON.stringify(messages.slice(-limit));
     },
   });
 
-  // Mock get-message tool
+  // Mock get-message tool that returns JSON string
   const getMessageTool = tool({
     description: 'Get message tool',
     args: {
@@ -188,7 +174,7 @@ test('message IDs are consistent across list-messages and get-message tools', as
       const sessionId = validate.sessionId(args.sessionId);
       const messageId = validate.string(args.messageId, 'messageId');
       const message = mockMessages.find((m) => m.sessionId === sessionId && m.id === messageId);
-      return { message };
+      return JSON.stringify({ message });
     },
   });
 
@@ -197,11 +183,13 @@ test('message IDs are consistent across list-messages and get-message tools', as
     { sessionId: testSessionId, limit: 10 },
     mockPluginContext,
   );
-  t.true(Array.isArray(listResult));
-  t.true(listResult.length > 0);
+  const listData = JSON.parse(listResult);
+
+  t.true(Array.isArray(listData));
+  t.true(listData.length > 0);
 
   // Test each message ID from list-messages works with get-message
-  for (const message of listResult) {
+  for (const message of listData) {
     t.truthy(message.id, 'Message should have an ID');
     t.is(typeof message.id, 'string', 'Message ID should be a string');
 
@@ -213,13 +201,14 @@ test('message IDs are consistent across list-messages and get-message tools', as
       },
       mockPluginContext,
     );
-    t.truthy(getResult.message, 'get-message should find message using ID from list-messages');
-    t.is(getResult.message.id, message.id, 'get-message should return same message ID');
+    const getData = JSON.parse(getResult);
+    t.truthy(getData.message, 'get-message should find message using ID from list-messages');
+    t.is(getData.message.id, message.id, 'get-message should return same message ID');
   }
 });
 
-test('session IDs from spawn-session work with other session tools', async (t) => {
-  // Mock spawn-session tool
+test('session IDs from spawn-session work with other tools', async (t) => {
+  // Mock spawn-session tool that returns JSON string
   const spawnSessionTool = tool({
     description: 'Spawn session tool',
     args: {
@@ -234,16 +223,18 @@ test('session IDs from spawn-session work with other session tools', async (t) =
         id: newSessionId,
         title,
         createdAt: new Date().toISOString(),
+        activityStatus: 'active',
+        isAgentTask: false,
       };
 
       // Add to mock sessions
       mockSessions.push(newSession);
 
-      return { success: true, session: newSession };
+      return JSON.stringify({ success: true, session: newSession });
     },
   });
 
-  // Mock get-session tool (reuse from previous test)
+  // Mock get-session tool that returns JSON string
   const getSessionTool = tool({
     description: 'Get session tool',
     args: {
@@ -252,7 +243,7 @@ test('session IDs from spawn-session work with other session tools', async (t) =
     async execute(args) {
       const sessionId = validate.sessionId(args.sessionId);
       const session = mockSessions.find((s) => s.id === sessionId);
-      return { session, messages: [] };
+      return JSON.stringify({ session, messages: [] });
     },
   });
 
@@ -265,22 +256,24 @@ test('session IDs from spawn-session work with other session tools', async (t) =
     mockPluginContext,
   );
 
-  t.true(spawnResult.success, 'spawn-session should succeed');
-  t.truthy(spawnResult.session, 'spawn-session should return session');
-  t.truthy(spawnResult.session.id, 'spawned session should have an ID');
+  const spawnData = JSON.parse(spawnResult);
+  t.true(spawnData.success, 'spawn-session should succeed');
+  t.truthy(spawnData.session, 'spawn-session should return session');
+  t.truthy(spawnData.session.id, 'spawned session should have an ID');
 
   // Use the spawned session ID with get-session
   const getResult = await getSessionTool.execute(
     {
-      sessionId: spawnResult.session.id,
+      sessionId: spawnData.session.id,
     },
     mockPluginContext,
   );
 
-  t.truthy(getResult.session, 'get-session should find spawned session');
+  const getData = JSON.parse(getResult);
+  t.truthy(getData.session, 'get-session should find spawned session');
   t.is(
-    getResult.session.id,
-    spawnResult.session.id,
+    getData.session.id,
+    spawnData.session.id,
     'get-session should return same spawned session ID',
   );
 });
@@ -288,7 +281,25 @@ test('session IDs from spawn-session work with other session tools', async (t) =
 test('cross-tool ID consistency: session -> messages -> events', async (t) => {
   const testSessionId = 'session_abc123def456';
 
-  // Mock tools that return different data types but use consistent IDs
+  // Mock events
+  const mockEvents = [
+    {
+      id: 'evt_event001',
+      sessionId: 'session_abc123def456',
+      eventType: 'message_sent',
+      timestamp: '2025-01-01T00:01:00.000Z',
+      text: 'User sent message',
+    },
+    {
+      id: 'evt_event002',
+      sessionId: 'session_abc123def456',
+      eventType: 'message_received',
+      timestamp: '2025-01-01T00:02:00.000Z',
+      text: 'Assistant responded',
+    },
+  ];
+
+  // Mock search-context tool that returns JSON string
   const searchContextTool = tool({
     description: 'Search context tool',
     args: {
@@ -310,7 +321,7 @@ test('cross-tool ID consistency: session -> messages -> events', async (t) => {
         events = events.filter((e) => e.sessionId === sessionId);
       }
 
-      return {
+      return JSON.stringify({
         sessions: sessions.map((s) => ({ id: s.id, title: s.title })),
         messages: messages.map((m) => ({
           id: m.id,
@@ -328,7 +339,7 @@ test('cross-tool ID consistency: session -> messages -> events', async (t) => {
           totalMessages: messages.length,
           totalEvents: events.length,
         },
-      };
+      });
     },
   });
 
@@ -341,23 +352,25 @@ test('cross-tool ID consistency: session -> messages -> events', async (t) => {
     mockPluginContext,
   );
 
+  const searchData = JSON.parse(searchResult);
+
   // Verify session ID consistency
-  t.true(searchResult.sessions.length > 0, 'Should find sessions');
-  searchResult.sessions.forEach((session) => {
+  t.true(searchData.sessions.length > 0, 'Should find sessions');
+  searchData.sessions.forEach((session) => {
     t.is(session.id, testSessionId, 'All sessions should have matching session ID');
   });
 
   // Verify message ID consistency and session relationship
-  t.true(searchResult.messages.length > 0, 'Should find messages');
-  searchResult.messages.forEach((message) => {
+  t.true(searchData.messages.length > 0, 'Should find messages');
+  searchData.messages.forEach((message) => {
     t.is(message.sessionId, testSessionId, 'All messages should belong to correct session');
     t.truthy(message.id, 'All messages should have IDs');
     t.true(message.id.startsWith('msg_'), 'Message IDs should follow consistent pattern');
   });
 
   // Verify event ID consistency and session relationship
-  t.true(searchResult.events.length > 0, 'Should find events');
-  searchResult.events.forEach((event) => {
+  t.true(searchData.events.length > 0, 'Should find events');
+  searchData.events.forEach((event) => {
     t.is(event.sessionId, testSessionId, 'All events should belong to correct session');
     t.truthy(event.id, 'All events should have IDs');
     t.true(event.id.startsWith('evt_'), 'Event IDs should follow consistent pattern');
@@ -365,27 +378,27 @@ test('cross-tool ID consistency: session -> messages -> events', async (t) => {
 });
 
 test('ID validation works consistently across all tools', async (t) => {
-  // Test that all tools validate session IDs the same way
+  // Test that all tools validate session IDs same way
   const testTools = [
     tool({
       description: 'Tool 1',
       args: { sessionId: tool.schema.string().describe('Session ID') },
       async execute(args) {
-        return { sessionId: validate.sessionId(args.sessionId) };
+        return JSON.stringify({ sessionId: validate.sessionId(args.sessionId) });
       },
     }),
     tool({
       description: 'Tool 2',
       args: { sessionId: tool.schema.string().describe('Session ID') },
       async execute(args) {
-        return { sessionId: validate.sessionId(args.sessionId) };
+        return JSON.stringify({ sessionId: validate.sessionId(args.sessionId) });
       },
     }),
     tool({
       description: 'Tool 3',
       args: { sessionId: tool.schema.string().describe('Session ID') },
       async execute(args) {
-        return { sessionId: validate.sessionId(args.sessionId) };
+        return JSON.stringify({ sessionId: validate.sessionId(args.sessionId) });
       },
     }),
   ];
@@ -394,7 +407,8 @@ test('ID validation works consistently across all tools', async (t) => {
   const validSessionId = 'session_valid123';
   for (const testTool of testTools) {
     const result = await testTool.execute({ sessionId: validSessionId }, mockPluginContext);
-    t.is(result.sessionId, validSessionId, 'All tools should accept valid session ID');
+    const data = JSON.parse(result);
+    t.is(data.sessionId, validSessionId, 'All tools should accept valid session ID');
   }
 
   // Test invalid session IDs
@@ -410,11 +424,10 @@ test('ID validation works consistently across all tools', async (t) => {
   }
 });
 
-test('ID format consistency follows documented patterns', async (t) => {
+test('ID format consistency follows documented patterns', (t) => {
   // Verify that IDs follow expected patterns
   const sessionIds = mockSessions.map((s) => s.id);
   const messageIds = mockMessages.map((m) => m.id);
-  const eventIds = mockEvents.map((e) => e.id);
 
   // Session ID patterns
   sessionIds.forEach((sessionId) => {
@@ -430,15 +443,8 @@ test('ID format consistency follows documented patterns', async (t) => {
     t.true(messageId.startsWith('msg_'), 'Message IDs should start with "msg_"');
   });
 
-  // Event ID patterns
-  eventIds.forEach((eventId) => {
-    t.true(typeof eventId === 'string', 'Event IDs should be strings');
-    t.true(eventId.length > 0, 'Event IDs should not be empty');
-    t.true(eventId.startsWith('evt_'), 'Event IDs should start with "evt_"');
-  });
-
   // Verify no ID collisions between types
-  const allIds = [...sessionIds, ...messageIds, ...eventIds];
+  const allIds = [...sessionIds, ...messageIds];
   const uniqueIds = new Set(allIds);
   t.is(uniqueIds.size, allIds.length, 'All IDs should be unique across different entity types');
 });
@@ -457,11 +463,11 @@ test('ID persistence: same IDs returned across multiple calls', async (t) => {
 
       // Always return the same session data for the same ID
       const session = mockSessions.find((s) => s.id === sessionId);
-      return {
+      return JSON.stringify({
         session,
         callCount,
         timestamp: Date.now(), // This changes, but IDs don't
-      };
+      });
     },
   });
 
@@ -472,17 +478,21 @@ test('ID persistence: same IDs returned across multiple calls', async (t) => {
   const result2 = await consistentTool.execute({ sessionId: testSessionId }, mockPluginContext);
   const result3 = await consistentTool.execute({ sessionId: testSessionId }, mockPluginContext);
 
+  const data1 = JSON.parse(result1);
+  const data2 = JSON.parse(result2);
+  const data3 = JSON.parse(result3);
+
   // IDs should be consistent across calls
-  t.is(result1.session.id, testSessionId, 'First call should return correct session ID');
-  t.is(result2.session.id, testSessionId, 'Second call should return same session ID');
-  t.is(result3.session.id, testSessionId, 'Third call should return same session ID');
+  t.is(data1.session.id, testSessionId, 'First call should return correct session ID');
+  t.is(data2.session.id, testSessionId, 'Second call should return same session ID');
+  t.is(data3.session.id, testSessionId, 'Third call should return same session ID');
 
   // Verify it's the same session object
-  t.is(result1.session.title, result2.session.title, 'Session titles should match');
-  t.is(result2.session.title, result3.session.title, 'Session titles should match');
+  t.is(data1.session.title, data2.session.title, 'Session titles should match');
+  t.is(data2.session.title, data3.session.title, 'Session titles should match');
 
   // Call count should increase but IDs stay same
-  t.is(result1.callCount, 1, 'First call count');
-  t.is(result2.callCount, 2, 'Second call count');
-  t.is(result3.callCount, 3, 'Third call count');
+  t.is(data1.callCount, 1, 'First call count');
+  t.is(data2.callCount, 2, 'Second call count');
+  t.is(data3.callCount, 3, 'Third call count');
 });
