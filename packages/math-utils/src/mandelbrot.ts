@@ -10,35 +10,31 @@ import type {
   ColorScheme,
 } from './types.js';
 
-export class Mandelbrot {
-  private static readonly DEFAULT_CONFIG: MandelbrotConfig = {
-    width: 800,
-    height: 600,
-    xMin: -2.5,
-    xMax: 1.0,
-    yMin: -1.25,
-    yMax: 1.25,
-    maxIterations: 100,
-    escapeRadius: 2.0,
-  };
+const DEFAULT_CONFIG: MandelbrotConfig = {
+  width: 800,
+  height: 600,
+  xMin: -2.5,
+  xMax: 1.0,
+  yMin: -1.25,
+  yMax: 1.25,
+  maxIterations: 100,
+  escapeRadius: 2.0,
+};
 
+export class Mandelbrot {
   constructor(private readonly config: Partial<MandelbrotConfig> = {}) {}
 
   calculate(customConfig?: Partial<MandelbrotConfig>): MandelbrotResult {
-    const finalConfig = { ...Mandelbrot.DEFAULT_CONFIG, ...this.config, ...customConfig };
+    const finalConfig = { ...DEFAULT_CONFIG, ...this.config, ...customConfig };
     const startTime = performance.now();
 
-    const points: MandelbrotPoint[] = [];
-    let escapedPoints = 0;
+    const points = Array.from({ length: finalConfig.height }, (_, py) =>
+      Array.from({ length: finalConfig.width }, (_, px) =>
+        this.calculatePoint(px, py, finalConfig)
+      )
+    ).flat();
 
-    for (let py = 0; py < finalConfig.height; py++) {
-      for (let px = 0; px < finalConfig.width; px++) {
-        const point = this.calculatePoint(px, py, finalConfig);
-        points.push(point);
-        if (point.escaped) escapedPoints++;
-      }
-    }
-
+    const escapedPoints = points.filter(point => point.escaped).length;
     const endTime = performance.now();
 
     return {
@@ -89,12 +85,9 @@ export class Mandelbrot {
   }
 
   renderImage(result: MandelbrotResult, colorScheme: ColorScheme = 'grayscale'): MandelbrotImage {
-    const imageData = new Array<number>(result.config.width * result.config.height);
-
-    for (let i = 0; i < result.points.length; i++) {
-      const point = result.points[i];
-      imageData[i] = this.getColorForPoint(point, colorScheme, result.config.maxIterations);
-    }
+    const imageData = result.points.map(point =>
+      this.getColorForPoint(point, colorScheme, result.config.maxIterations)
+    );
 
     return {
       width: result.config.width,
@@ -160,13 +153,15 @@ export class Mandelbrot {
   }
 
   private hslToRgb(h: number, s: number, l: number): number {
-    h = h / 360;
-    let r, g, b;
+    const hNormalized = h / 360;
+    let r: number;
+    let g: number;
+    let b: number;
 
     if (s === 0) {
       r = g = b = l;
     } else {
-      const hue2rgb = (p: number, q: number, t: number) => {
+      const hue2rgb = (p: number, q: number, t: number): number => {
         if (t < 0) t += 1;
         if (t > 1) t -= 1;
         if (t < 1 / 6) return p + (q - p) * 6 * t;
@@ -177,16 +172,16 @@ export class Mandelbrot {
 
       const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
       const p = 2 * l - q;
-      r = hue2rgb(p, q, h + 1 / 3);
-      g = hue2rgb(p, q, h);
-      b = hue2rgb(p, q, h - 1 / 3);
+      r = hue2rgb(p, q, hNormalized + 1 / 3);
+      g = hue2rgb(p, q, hNormalized);
+      b = hue2rgb(p, q, hNormalized - 1 / 3);
     }
 
     return (Math.round(r * 255) << 16) | (Math.round(g * 255) << 8) | Math.round(b * 255);
   }
 
   zoomIn(centerX: number, centerY: number, zoomFactor: number): Partial<MandelbrotConfig> {
-    const currentConfig = { ...Mandelbrot.DEFAULT_CONFIG, ...this.config };
+    const currentConfig = { ...DEFAULT_CONFIG, ...this.config };
 
     const xRange = currentConfig.xMax - currentConfig.xMin;
     const yRange = currentConfig.yMax - currentConfig.yMin;
@@ -217,7 +212,7 @@ export class Mandelbrot {
     };
   }
 
-  getInterestingPoints(): Array<{ x: number; y: number; name: string }> {
+  getInterestingPoints(): ReadonlyArray<{readonly x: number; readonly y: number; readonly name: string}> {
     return [
       { x: 400, y: 300, name: 'Center' },
       { x: 320, y: 300, name: 'Main bulb' },
@@ -227,10 +222,10 @@ export class Mandelbrot {
       { x: 280, y: 280, name: 'Left bulb' },
       { x: 520, y: 320, name: 'Detail area 1' },
       { x: 380, y: 380, name: 'Detail area 2' },
-    ];
+    ] as const;
   }
 
-  isInMandelbrotSet(complex: ComplexNumber, maxIterations: number = 100): boolean {
+  isInMandelbrotSet(complex: ComplexNumber, maxIterations = 100): boolean {
     let x = 0.0;
     let y = 0.0;
     let iteration = 0;
@@ -245,7 +240,7 @@ export class Mandelbrot {
     return iteration === maxIterations;
   }
 
-  getIterationCount(complex: ComplexNumber, maxIterations: number = 100): number {
+  getIterationCount(complex: ComplexNumber, maxIterations = 100): number {
     let x = 0.0;
     let y = 0.0;
     let iteration = 0;
