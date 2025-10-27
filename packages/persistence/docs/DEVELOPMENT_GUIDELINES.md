@@ -637,7 +637,7 @@ src/tests/
 // Example unit test for indexing service
 import { test, beforeEach, afterEach } from 'ava';
 import sinon from 'sinon';
-import { UnifiedIndexerService } from '../unified-indexer-service.js';
+import { UnifiedIndexerService } from '@promethean-os/unified-indexer';
 import { UnifiedIndexingClient } from '../unified-indexing-client.js';
 
 test.beforeEach(async (t) => {
@@ -738,7 +738,7 @@ test('should search content with filters', async (t) => {
 import { test, beforeEach, afterEach } from 'ava';
 import { MongoClient } from 'mongodb';
 import { ChromaClient } from 'chromadb';
-import { UnifiedIndexerService } from '../unified-indexer-service.js';
+import { UnifiedIndexerService } from '@promethean-os/unified-indexer';
 
 test.before(async (t) => {
     // Setup test databases
