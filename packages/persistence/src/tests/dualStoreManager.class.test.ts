@@ -343,7 +343,7 @@ test('insert records vector failure without throwing in eventual mode', async (t
     await manager.cleanup();
 });
 
-test('insert honors strict consistency configuration', async (t) => {
+test.serial('insert honors strict consistency configuration', async (t) => {
     const { manager, queueStub } = await setupManager();
     queueStub.failWrites();
 
