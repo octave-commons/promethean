@@ -73,7 +73,6 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
     textKey: TextKey;
     timeStampKey: TimeKey;
     supportsImages: boolean;
-    private chromaWriteQueue: ReturnType<typeof getOrCreateQueue>;
     private implementation: DualStoreImplementation<TextKey, TimeKey>;
 
     constructor(
@@ -105,7 +104,6 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         this.textKey = factoryConfig.textKey;
         this.timeStampKey = factoryConfig.timeStampKey;
         this.supportsImages = factoryConfig.supportsImages;
-        this.chromaWriteQueue = queue;
     }
 
     static async create<TTextKey extends string = 'text', TTimeKey extends string = 'createdAt'> (
