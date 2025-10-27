@@ -66,7 +66,6 @@
   (use-package agent-shell
     :commands (agent-shell opencode-agent-shell/start)
     :init
-    ;; Leader key: SPC a a  => start OpenCode (ACP)
     (with-eval-after-load 'spacemacs-defaults
       (spacemacs/set-leader-keys "aa" #'opencode-agent-shell/start))
     (with-eval-after-load 'agent-shell
