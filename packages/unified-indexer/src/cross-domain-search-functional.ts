@@ -8,7 +8,7 @@
 
 import type { SearchResult, ContentSource } from '@promethean-os/persistence';
 import type { ContextMessage } from '@promethean-os/persistence/dist/actions/context-store/types.js';
-import type { UnifiedIndexerServiceState } from './unified-indexer-service-functional.js';
+import type { UnifiedIndexerServiceState } from './unified-indexer-service.js';
 import type {
   CrossDomainSearchOptions,
   EnhancedSearchResult,
@@ -52,7 +52,7 @@ export async function search(
     );
 
     // Step 1: Perform base search using unified indexer
-    const baseResponse = await state.indexerService.search({
+    const baseResponse = await state.indexerService.unifiedClient.search({
       query: options.query,
       type: options.type,
       source: options.source,
@@ -60,7 +60,7 @@ export async function search(
       dateTo: options.dateTo,
       metadata: options.metadata,
       tags: options.tags,
-      limit: options.limit ? options.limit * 2 : 200, // Get more for processing
+      limit: options.limit ? options.limit * 2 : 200,
       fuzzy: options.fuzzy,
       semantic: options.semantic,
       includeContent: true,
@@ -115,7 +115,6 @@ export async function intelligentSearch(
   query: string,
   options: Partial<CrossDomainSearchOptions> = {},
 ): Promise<CrossDomainSearchResponse> {
-  // Expand query with related terms
   const expandedQuery = await expandQuery(query);
 
   return search(state, {
@@ -179,7 +178,6 @@ async function enhanceResults(
       recencyScore,
     };
 
-    // Add score breakdown if explanation is requested
     if (options.explainScores) {
       const breakdown = calculateScoreBreakdown(result, age, options);
       enhanced.scoreBreakdown = breakdown;
@@ -199,27 +197,22 @@ function processResults(
 ): EnhancedSearchResult[] {
   let processedResults = [...results];
 
-  // Apply source and type weights
   if (options.sourceWeights || options.typeWeights) {
     processedResults = applyWeights(processedResults, options);
   }
 
-  // Apply temporal boost
   if (options.timeBoost) {
     processedResults = applyTemporalBoost(processedResults);
   }
 
-  // Deduplicate if requested
   if (options.deduplicate !== false) {
     processedResults = deduplicateResults(processedResults);
   }
 
-  // Group by source if requested
   if (options.groupBySource) {
     processedResults = groupResultsBySource(processedResults, options.maxResultsPerSource);
   }
 
-  // Sort by final score
   processedResults.sort((a, b) => b.score - a.score);
 
   return processedResults;
@@ -234,10 +227,16 @@ async function compileContext(
   options: CrossDomainSearchOptions,
 ): Promise<ContextMessage[]> {
   const contextLimit = options.contextLimit || 10;
-
-  // Use indexer service to get properly formatted context
   const queries = options.query ? [options.query] : [];
-  return indexerService.getContext(queries, {
+
+  const unifiedCollectionName = indexerService.config.contextStore.collections.unified;
+  const unifiedCollection = indexerService.contextStore.collections.get(unifiedCollectionName);
+
+  if (!unifiedCollection) {
+    throw new Error(`Unified collection '${unifiedCollectionName}' not found`);
+  }
+
+  return unifiedCollection.compileContext(queries, {
     recentLimit: contextLimit,
     queryLimit: 5,
     limit: contextLimit,
@@ -271,7 +270,7 @@ function generateAnalytics(results: EnhancedSearchResult[], _options: CrossDomai
  * Calculate recency score based on age
  */
 function calculateRecencyScore(age: number, decayHours?: number): number {
-  const decayMs = (decayHours || 24) * 60 * 60 * 1000; // Default 24 hours
+  const decayMs = (decayHours || 24) * 60 * 60 * 1000;
   return Math.exp(-age / decayMs);
 }
 
@@ -371,7 +370,6 @@ function groupResultsBySource(
 ): EnhancedSearchResult[] {
   const grouped = new Map<ContentSource, EnhancedSearchResult[]>();
 
-  // Group by source
   results.forEach((result) => {
     const source = result.sourceType;
     if (!grouped.has(source)) {
@@ -380,7 +378,6 @@ function groupResultsBySource(
     grouped.get(source)!.push(result);
   });
 
-  // Apply per-source limits and flatten
   const finalResults: EnhancedSearchResult[] = [];
   grouped.forEach((sourceResults) => {
     const limitedResults = maxPerSource ? sourceResults.slice(0, maxPerSource) : sourceResults;
@@ -408,12 +405,9 @@ function calculateScoreDistribution(scores: number[]): Record<string, number> {
  * Expand query with related terms and synonyms
  */
 async function expandQuery(query: string): Promise<{ original: string; expanded: string[] }> {
-  // This could integrate with a thesaurus or semantic expansion service
-  // For now, return simple expansion
   const terms = query.toLowerCase().split(/\s+/);
   const expanded = new Set<string>([query]);
 
-  // Add common variations
   terms.forEach((term: string) => {
     if (term.includes('index')) {
       expanded.add(term.replace('index', 'search'));
@@ -439,7 +433,7 @@ export const DEFAULT_SEARCH_OPTIONS: Partial<CrossDomainSearchOptions> = {
   hybridSearch: true,
   keywordWeight: 0.3,
   timeBoost: true,
-  recencyDecay: 24, // 24 hours
+  recencyDecay: 24,
   deduplicate: true,
   includeAnalytics: false,
   explainScores: false,
