@@ -8,7 +8,9 @@
   {:target :node-script
    :main promethean.agent_generator.cli.core/-main
    :output-to "dist/agent_generator.cjs"
-   :compiler-options {:infer-externs :auto
-                      :source-map true
-                      :output-feature-set :es-next}
+:compiler-options {:infer-externs :auto
+                       :source-map true
+                       :output-feature-set :es-next
+                       :optimizations :simple
+                       :pretty-print false}
    :devtools {:watch-dir "resources"}}}}
