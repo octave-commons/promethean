@@ -54,7 +54,8 @@
 (defun opencode-agent-shell/init-shell-maker ()
   (use-package shell-maker
     :ensure t
-    :defer t))
+    :defer t
+    ))
 
 (defun opencode-agent-shell/init-acp ()
   ;; Install from source with :vc (per upstream README).
