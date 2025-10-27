@@ -19,6 +19,11 @@ import type {
   DiscordIndexingStats,
   OpenCodeIndexingStats,
   KanbanIndexingStats,
+  UnifiedFileIndexer,
+  UnifiedDiscordIndexer,
+  UnifiedOpenCodeIndexer,
+  UnifiedKanbanIndexer,
+  ContextStoreState,
 } from '@promethean-os/persistence';
 
 import type {
@@ -33,22 +38,6 @@ import {
   createUnifiedDiscordIndexer,
   createUnifiedOpenCodeIndexer,
   createUnifiedKanbanIndexer,
-} from '@promethean-os/persistence';
-
-import type {
-  UnifiedFileIndexer,
-  FileIndexingOptions,
-  FileIndexingStats,
-} from '@promethean-os/persistence';
-
-import type { UnifiedDiscordIndexer, DiscordIndexingStats } from '@promethean-os/persistence';
-
-import type { UnifiedOpenCodeIndexer, OpenCodeIndexingStats } from '@promethean-os/persistence';
-
-import type { UnifiedKanbanIndexer, KanbanIndexingStats } from '@promethean-os/persistence';
-
-import type { ContextStoreState } from '@promethean-os/persistence';
-import {
   createContextStore,
   compileContext,
   getOrCreateCollection,
