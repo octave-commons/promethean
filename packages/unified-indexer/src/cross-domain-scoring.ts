@@ -4,7 +4,7 @@
  * Handles scoring, weighting, and analytics for search results
  */
 
-import type { SearchResult } from '@promethean-os/persistence';
+import type { SearchResult, ContentSource, ContentType } from '@promethean-os/persistence';
 import type { CrossDomainSearchOptions, EnhancedSearchResult } from './types/search.js';
 
 /**
@@ -110,8 +110,10 @@ export function generateAnalytics(
   results: EnhancedSearchResult[],
   _options: CrossDomainSearchOptions,
 ) {
-  const sources = [...new Set(results.map((r) => r.sourceType))];
-  const types = [...new Set(results.map((r) => r.contentType))];
+  const sourcesSet = new Set(results.map((r) => r.sourceType));
+  const typesSet = new Set(results.map((r) => r.contentType));
+  const sources = Array.from(sourcesSet);
+  const types = Array.from(typesSet);
   const scores = results.map((r) => r.score);
   const timestamps = results.map((r) => r.content.timestamp);
 
