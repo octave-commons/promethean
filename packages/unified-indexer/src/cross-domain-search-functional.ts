@@ -65,7 +65,7 @@ async function buildSearchResponse(
   startTime: number,
 ): Promise<CrossDomainSearchResponse> {
   const enhancedResults = await enhanceResults(baseResponse.results, options);
-  const processedResults = processResults(enhancedResults, options);
+  const processedResults = processResults([...enhancedResults], options);
 
   const context =
     options.includeContext && processedResults.length > 0
@@ -83,8 +83,14 @@ async function buildSearchResponse(
     total: baseResponse.total,
     took: Date.now() - startTime,
     query: options,
-    analytics,
-    context,
+    analytics: analytics
+      ? {
+          ...analytics,
+          sourcesSearched: [...analytics.sourcesSearched] as any,
+          typesFound: [...analytics.typesFound] as any,
+        }
+      : undefined,
+    context: context ? ([...context] as any) : undefined,
   };
 }
 

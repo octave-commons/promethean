@@ -8,11 +8,9 @@
 
 import {
   createUnifiedIndexerService,
-  startService,
-  stopService,
-  getStatusService,
-  searchService,
-  getContextService,
+  startUnifiedIndexerService,
+  stopUnifiedIndexerService,
+  getServiceStatus,
 } from './unified-indexer-service.js';
 import type { UnifiedIndexerServiceConfig } from './types/service.js';
 import type { UnifiedIndexerServiceState } from './unified-indexer-service.js';
@@ -105,12 +103,12 @@ async function runUnifiedIndexerExample(): Promise<void> {
 
   try {
     const indexerService = await createUnifiedIndexerService(exampleConfig);
-    await startService(indexerService);
+    await startUnifiedIndexerService(indexerService);
     console.log('✅ Unified Indexer Service started successfully');
 
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    const status = await getStatusService(indexerService);
+    const status = getServiceStatus(indexerService);
     console.log('📊 Service Status:', {
       healthy: status.healthy,
       indexing: status.indexing,
@@ -126,7 +124,7 @@ async function runUnifiedIndexerExample(): Promise<void> {
     console.log('\n⏰ Keeping service running for 30 seconds...');
     await new Promise((resolve) => setTimeout(resolve, 30000));
 
-    await stopService(indexerService);
+    await stopUnifiedIndexerService(indexerService);
     console.log('🛑 Unified Indexer Service stopped');
   } catch (error) {
     console.error('❌ Example failed:', error);
@@ -148,7 +146,7 @@ async function demonstrateSearch(indexerService: UnifiedIndexerServiceState): Pr
   };
 
   try {
-    const searchResults = await searchService(indexerService, searchQuery);
+    const searchResults = await indexerService.unifiedClient.search(searchQuery);
     console.log(`Found ${searchResults.results.length} results:`);
     searchResults.results.forEach((result, index: number) => {
       console.log(
@@ -168,7 +166,7 @@ async function demonstrateSearch(indexerService: UnifiedIndexerServiceState): Pr
 async function demonstrateContext(indexerService: UnifiedIndexerServiceState): Promise<void> {
   console.log('\n🤖 Example 2: LLM context compilation');
   try {
-    const context = await getContextService(
+    const context = await indexerService.contextStore.getContext(
       indexerService,
       ['unified indexer service', 'contextStore', 'cross-domain search'],
       {
@@ -207,7 +205,7 @@ async function demonstratePerformance(indexerService: UnifiedIndexerServiceState
   try {
     for (const query of realtimeQueries) {
       const startTime = Date.now();
-      const results = await searchService(indexerService, {
+      const results = await indexerService.unifiedClient.search({
         query,
         limit: 5,
         semantic: true,
@@ -232,13 +230,13 @@ async function demonstrateContextStoreIntegration(): Promise<void> {
 
   try {
     const indexerService = await createUnifiedIndexerService(exampleConfig);
-    await startService(indexerService);
+    await startUnifiedIndexerService(indexerService);
 
     // Wait for initial sync
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     // Get context just like existing contextStore usage
-    const context = await getContextService(
+    const context = await indexerService.contextStore.getContext(
       indexerService,
       ['promethean architecture', 'agent coordination'],
       {
@@ -253,7 +251,7 @@ async function demonstrateContextStoreIntegration(): Promise<void> {
     // The context can now be used exactly like existing contextStore.compileContext()
     // results - it's the same format expected by LLM clients
 
-    await stopService(indexerService);
+    await stopUnifiedIndexerService(indexerService);
   } catch (error) {
     console.error('ContextStore integration demonstration failed:', error);
   }
