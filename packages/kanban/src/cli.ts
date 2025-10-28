@@ -172,9 +172,10 @@ async function main(): Promise<void> {
     env: applyLegacyEnv(process.env),
   });
   console.error('[DEBUG] Config loaded successfully');
-
-  // Filter out --json flag from command arguments
+  console.error('[DEBUG] Filtering args...');
   const filteredArgs = configRestArgs.filter((arg) => arg !== '--json');
+  console.error('[DEBUG] Filtered args:', filteredArgs);
+  console.error('[DEBUG] Filtered args:', filteredArgs);
   const [actualCmd, ...args] = filteredArgs;
   const boardFile = config.boardFile;
   const tasksDir = config.tasksDir;
@@ -208,7 +209,9 @@ async function main(): Promise<void> {
   }
 
   try {
+    console.error('[DEBUG] About to execute command:', actualCmd, args);
     const result = await executeCommand(actualCmd, args, context);
+    console.error('[DEBUG] Command executed successfully');
     if (typeof result !== 'undefined' && result !== null) {
       if (jsonRequested) {
         printJSONL(result);
