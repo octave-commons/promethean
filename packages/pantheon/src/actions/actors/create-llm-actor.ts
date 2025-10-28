@@ -37,7 +37,7 @@ const createLLMBehavior = (config: LLMActorConfig): Behavior => {
     mode: 'active',
     description: 'Generate responses using LLM based on context and goals',
     plan: async ({ goal, context }) => {
-      const messages = prepareLLMMessages(goal, context, systemPrompt);
+      const messages = prepareLLMMessages(goal, context as readonly Message[], systemPrompt);
       const actions = createLLMAction(messages, { model, temperature, maxTokens });
 
       return { actions };
@@ -47,7 +47,7 @@ const createLLMBehavior = (config: LLMActorConfig): Behavior => {
 
 const prepareLLMMessages = (
   goal: string,
-  context: readonly Message[],
+  context: Message[],
   systemPrompt?: string,
 ): readonly Message[] => {
   const baseMessages = systemPrompt
@@ -62,9 +62,9 @@ const prepareLLMMessages = (
 };
 
 const createLLMAction = (
-  messages: Message[],
+  messages: readonly Message[],
   config: { model: string; temperature: number; maxTokens: number },
-): Action[] => [
+): readonly Action[] => [
   {
     type: 'tool',
     name: 'llm_complete',
@@ -89,7 +89,7 @@ const createLLMTalent = (config: LLMActorConfig): Talent => {
 
 export const createLLMActor = (
   input: CreateLLMActorInput,
-  scope: CreateLLMActorScope,
+  _scope: CreateLLMActorScope,
 ): ActorScript => {
   const { name, config, contextSources = [] } = input;
   const { model = 'gpt-5-nano', temperature = 0.7, maxTokens = 1000, systemPrompt } = config;
