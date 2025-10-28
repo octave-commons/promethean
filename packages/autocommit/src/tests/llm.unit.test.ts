@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { chatCompletion, createSafeHeaders, type ChatCompletionOptions } from '../llm.ts';
+import { chatCompletion, createSafeHeaders, type ChatCompletionOptions } from '../llm.js';
 
 // Mock fetch to control responses
 function createMockResponse(ok: boolean, status: number, content: unknown) {

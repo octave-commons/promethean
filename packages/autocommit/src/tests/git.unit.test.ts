@@ -14,7 +14,7 @@ import {
   repoSummary,
   commit,
   sanitizeCommitMessage,
-} from '../git.ts';
+} from '../git.js';
 
 // Helper to create unique temp directory names
 const getTempDir = () => {

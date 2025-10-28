@@ -3,7 +3,7 @@ import { existsSync } from 'fs';
 
 import test from 'ava';
 
-import { ConfigSchema } from '../config.ts';
+import { ConfigSchema } from '../config.js';
 
 test('ConfigSchema validates valid configuration', (t) => {
   const config = {
