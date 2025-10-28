@@ -1,4 +1,4 @@
-const { retry } = require('./dist/utils/index.js');
+import { retry } from './dist/utils/index.js';
 
 async function test() {
   const attempts = { count: 0 };
