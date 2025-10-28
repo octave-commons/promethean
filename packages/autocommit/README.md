@@ -51,3 +51,8 @@ autocommit --recursive --handle-subrepos --subrepo-strategy separate
 - Debounces to avoid noisy histories.
 - Caps diff bytes to protect tokens & context.
 - Falls back to deterministic messages when LLM unavailable.
+- Secure error handling prevents information leakage and log spam.
+
+## Error Handling
+
+The package includes robust error handling with safe message serialization and truncation. See [ERROR_HANDLING.md](./ERROR_HANDLING.md) for detailed documentation on error handling improvements and usage.
