@@ -48,6 +48,43 @@ import {
 } from './types/service.js';
 
 /**
+ * Convert timestamp to epoch milliseconds
+ */
+function toEpochMs(timestamp: unknown): number {
+  if (timestamp instanceof Date) return timestamp.getTime();
+  if (typeof timestamp === 'string') return new Date(timestamp).getTime();
+  if (typeof timestamp === 'number') return timestamp;
+  return Date.now();
+}
+
+/**
+ * Transform IndexableContent to DualStoreEntry
+ */
+function contentToDualStoreEntry(content: IndexableContent): DualStoreEntry<'text', 'createdAt'> {
+  return {
+    id: content.id,
+    text: content.content,
+    createdAt: content.timestamp || Date.now(),
+    metadata: content.metadata as unknown as DualStoreEntry<'text', 'createdAt'>['metadata'],
+  };
+}
+
+/**
+ * Create search result from DualStoreEntry
+ */
+function createSearchResult(entry: DualStoreEntry<'text', 'timestamp'>): SearchResult {
+  return {
+    content: transformDualStoreEntry({
+      id: entry.id || entry._id?.toString(),
+      text: entry.text,
+      timestamp: toEpochMs(entry.timestamp),
+      metadata: entry.metadata,
+    }),
+    score: 1.0,
+  };
+}
+
+/**
  * Create a UnifiedIndexingClient adapter for DualStoreManager
  */
 async function createUnifiedIndexingClient(_config: unknown): Promise<UnifiedIndexingClient> {
