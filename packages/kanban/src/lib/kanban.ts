@@ -1868,14 +1868,17 @@ export const createTask = async (
   console.error('[DEBUG] Search completed, found:', existingTaskInColumn ? 'YES' : 'NO');
 
   if (existingTaskInColumn) {
-    // Return the exact same task object to ensure content consistency
+    console.error('[DEBUG] Found existing task in column, returning it');
+    // Return exact same task object to ensure content consistency
     return existingTaskInColumn;
   }
 
-  // Second check: Look for existing task in the target column on the board
+  // Second check: Look for task in board column (less reliable, no file content)
+  console.error('[DEBUG] About to search board column with', targetColumn.tasks.length, 'tasks...');
   const boardTaskInColumn = targetColumn.tasks.find(
     (task) => task.title.trim().toLowerCase() === normalizedTitle,
   );
+  console.error('[DEBUG] Board search completed, found:', boardTaskInColumn ? 'YES' : 'NO');
 
   if (boardTaskInColumn) {
     // Always try to get full content from existing tasks (file-based)
