@@ -12,6 +12,7 @@ import {
   stopUnifiedIndexerService,
   getServiceStatus,
 } from './unified-indexer-service.js';
+import { compileContext } from '@promethean-os/persistence';
 import type { UnifiedIndexerServiceConfig } from './types/service.js';
 import type { UnifiedIndexerServiceState } from './unified-indexer-service.js';
 
@@ -166,8 +167,8 @@ async function demonstrateSearch(indexerService: UnifiedIndexerServiceState): Pr
 async function demonstrateContext(indexerService: UnifiedIndexerServiceState): Promise<void> {
   console.log('\n🤖 Example 2: LLM context compilation');
   try {
-    const context = await indexerService.contextStore.getContext(
-      indexerService,
+    const context = await compileContext(
+      indexerService.contextStore,
       ['unified indexer service', 'contextStore', 'cross-domain search'],
       {
         recentLimit: 5,
@@ -236,8 +237,8 @@ async function demonstrateContextStoreIntegration(): Promise<void> {
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     // Get context just like existing contextStore usage
-    const context = await indexerService.contextStore.getContext(
-      indexerService,
+    const context = await compileContext(
+      indexerService.contextStore,
       ['promethean architecture', 'agent coordination'],
       {
         recentLimit: 10,
