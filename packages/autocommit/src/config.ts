@@ -45,6 +45,14 @@ const pathValidator = z
 
 export const ConfigSchema = z.object({
   path: pathValidator,
+  recursive: z
+    .any()
+    .transform((val) => {
+      if (typeof val === 'boolean') return val;
+      if (typeof val === 'string') return val === 'true' || val === '1';
+      return Boolean(val);
+    })
+    .default(false),
   debounceMs: z.coerce.number().int().positive().min(1000).max(300000).default(10_000),
   baseUrl: z
     .string()

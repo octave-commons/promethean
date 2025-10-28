@@ -1,4 +1,6 @@
 import { execa } from 'execa';
+import { readdir, stat } from 'fs/promises';
+import { join, resolve } from 'path';
 
 export async function gitRoot(cwd: string): Promise<string> {
   const { stdout } = await execa('git', ['rev-parse', '--show-toplevel'], { cwd });
