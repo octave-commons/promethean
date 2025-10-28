@@ -90,19 +90,19 @@ export function registerOAuthRoutes(fastify: FastifyInstance, config: OAuthRoute
     };
 
     // Access token cookie (shorter lived)
-    reply.setCookie('access_token', accessToken, {
+    (reply as any).setCookie('access_token', accessToken, {
       ...cookieOptions,
       maxAge: 15 * 60, // 15 minutes
     });
 
     // Refresh token cookie (longer lived)
-    reply.setCookie('refresh_token', refreshToken, {
+    (reply as any).setCookie('refresh_token', refreshToken, {
       ...cookieOptions,
       maxAge: 7 * 24 * 60 * 60, // 7 days
     });
 
     // Session ID cookie
-    reply.setCookie('session_id', sessionId, {
+    (reply as any).setCookie('session_id', sessionId, {
       ...cookieOptions,
       maxAge: 24 * 60 * 60, // 24 hours
     });
