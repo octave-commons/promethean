@@ -1,1 +1,3 @@
-Merge remote-tracking branch 'origin/codex/add-typescript-configuration-for-file-watcher' into dev/stealth
+Merge pull request #1121 from riatzukiza/codex/update-convertwikilinks-for-anchor-handling
+
+Preserve anchors when converting docops wikilinks
