@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@discordjs/voice": "^0.18.0",
-    "@promethean-os/agent": "workspace:*",
+    "@promethean-os/pantheon": "workspace:*",
     "@promethean-os/effects": "workspace:*",
     "@promethean-os/embedding": "workspace:*",
     "@promethean-os/event": "workspace:*",
