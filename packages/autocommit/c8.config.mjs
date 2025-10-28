@@ -14,7 +14,7 @@ export default {
   functions: 80,
   lines: 80,
   statements: 80,
-  clean: true,
+  clean: false,
   checkCoverage: false,
   tempDirectory: 'coverage/tmp',
   extension: ['.ts'],
