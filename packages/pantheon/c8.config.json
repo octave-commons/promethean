@@ -21,7 +21,5 @@
   "extension": [".js"],
   "skipFull": false,
   "all": true,
-  "src": ["src/"],
-  "allowExternal": false,
-  "exclude-after-remap": false
+  "src": ["src/"]
 }
