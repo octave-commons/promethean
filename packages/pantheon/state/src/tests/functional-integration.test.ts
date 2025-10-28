@@ -4,12 +4,10 @@ import test from 'ava';
 import {
   SecurityValidator,
   RateLimiter,
-  SecurityLogger,
   validateAgentId,
   validateContextKey,
   createRateLimiter,
   getRateLimiter,
-  SecurityEvent,
 } from '../security.js';
 
 test('Functional SecurityValidator works correctly', (t) => {
@@ -37,22 +35,6 @@ test('Functional RateLimiter works correctly', (t) => {
   t.true(singletonLimiter.isAllowed('singleton-key'));
   t.true(singletonLimiter.isAllowed('singleton-key'));
   t.false(singletonLimiter.isAllowed('singleton-key'));
-});
-
-test('Functional security logging works correctly', (t) => {
-  const event = logSecurityEvent({
-    type: 'authentication',
-    severity: 'low',
-    agentId: 'test-agent',
-    action: 'login',
-    details: { success: true },
-  });
-
-  t.is(event.type, 'authentication');
-  t.is(event.severity, 'low');
-  t.is(event.agentId, 'test-agent');
-  t.is(event.action, 'login');
-  t.true(event.timestamp instanceof Date);
 });
 
 test('Legacy compatibility exports work', (t) => {

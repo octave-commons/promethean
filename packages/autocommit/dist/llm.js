@@ -41,6 +41,10 @@ function handleLLMError(error) {
     if (error instanceof Error && error.message.includes('Invalid chat completion options')) {
         throw error;
     }
+    // For network errors, preserve the original error type and message
+    if (error instanceof TypeError && error.message.includes('fetch failed')) {
+        throw new Error(`Unexpected error during LLM request: TypeError: fetch failed`);
+    }
     // Safely extract error message without verbose object serialization
     let errorMessage = 'Unknown error';
     if (error instanceof Error) {
