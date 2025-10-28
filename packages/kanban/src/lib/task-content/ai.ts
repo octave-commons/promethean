@@ -14,27 +14,19 @@ import type {
   TaskBreakdownResult,
 } from './types.js';
 
-import { TaskContentManager } from './index.js';
-import { WIPLimitEnforcement } from '../wip-enforcement.js';
-import {
-  createTransitionRulesEngineState,
-  validateTransition,
-  type TransitionRulesEngineState,
-} from '../transition-rules-functional.js';
+import { TaskContentManager, createTaskContentManager } from './index.js';
 
-export type TaskAIManagerConfig = {
+export interface TaskAIManagerConfig {
   model?: string;
   baseUrl?: string;
   timeout?: number;
   maxTokens?: number;
   temperature?: number;
-};
+}
 
 export class TaskAIManager {
   private readonly config: Required<TaskAIManagerConfig>;
   private readonly contentManager: TaskContentManager;
-  private wipEnforcement: WIPLimitEnforcement | null = null;
-  private transitionRulesState: TransitionRulesEngineState | null = null;
 
   constructor(config: TaskAIManagerConfig = {}) {
     this.config = {
@@ -46,74 +38,11 @@ export class TaskAIManager {
     };
 
     // Initialize content manager with real file-based cache
-    this.contentManager = this.createContentManager();
+    this.contentManager = createTaskContentManager('./docs/agile/tasks');
 
-    // Initialize compliance systems
-    void this.initializeComplianceSystems();
-
-    // Set environment variables for the LLM driver
+    // Set environment variables for LLM driver
     process.env.LLM_DRIVER = 'ollama';
     process.env.LLM_MODEL = this.config.model;
-  }
-
-  private createContentManager(): TaskContentManager {
-    // Import and create real content manager
-    const { createTaskContentManager } = require('./index.js');
-    return createTaskContentManager('./docs/agile/tasks');
-  }
-
-  private async initializeComplianceSystems(): Promise<void> {
-    try {
-      this.transitionRulesState = createTransitionRulesEngineState({
-        enabled: true,
-        enforcement: 'strict',
-        rules: [],
-        customChecks: {},
-        globalRules: [],
-      });
-
-      this.wipEnforcement = new WIPLimitEnforcement();
-    } catch (error) {
-      console.warn('Failed to initialize compliance systems:', error);
-      this.wipEnforcement = null;
-      this.transitionRulesState = null;
-    }
-  }
-
-
-    if (!this.wipEnforcement || !this.transitionRulesState) {
-      console.warn('Compliance systems not initialized, skipping validation');
-      return true;
-    }
-
-    try {
-      const { loadBoard } = await import('../kanban.js');
-      const { loadKanbanConfig } = await import('../../board/config.js');
-      const kanbanConfig = await loadKanbanConfig();
-      const board = await loadBoard(kanbanConfig.config.boardFile, kanbanConfig.config.tasksDir);
-
-      const wipValidation = await this.wipEnforcement.validateWIPLimits(newStatus, 1, board);
-      if (!wipValidation.valid) {
-        throw new Error(`WIP limit violation: ${wipValidation.violation?.reason}`);
-      }
-
-      const { result: transitionResult } = await validateTransition(
-        this.transitionRulesState,
-        task.status,
-        newStatus,
-        task,
-        board,
-      );
-
-      if (!transitionResult.allowed) {
-        throw new Error(`Transition blocked: ${transitionResult.reason}`);
-      }
-
-      return true;
-    } catch (error) {
-      console.error('Task transition validation failed:', error);
-      throw error;
-    }
   }
 
   private async syncKanbanBoard(): Promise<void> {
@@ -345,7 +274,7 @@ export class TaskAIManager {
         breakdownType,
         subtasks: breakdown.subtasks,
         totalEstimatedHours: breakdown.subtasks.reduce(
-          (sum: number, task: any) => sum + (task.estimatedHours || 0),
+          (sum, task) => sum + (task.estimatedHours || 0),
           0,
         ),
         metadata: {
@@ -372,12 +301,11 @@ export class TaskAIManager {
     }
   }
 
-  private generateTaskAnalysis(
+    private generateTaskAnalysis(
     task: Task,
     analysisType: string,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    context: Record<string, unknown>,
-  ): TaskAnalysisResult['analysis'] {
+    _context: Record<string, unknown>,
+  ): Record<string, unknown> {
     const contentLength = task.content?.length ?? 0;
     const baseQuality = Math.min(95, 60 + Math.floor(contentLength / 40));
     const completeness = Math.min(90, 55 + Math.floor(contentLength / 50));
@@ -408,7 +336,6 @@ export class TaskAIManager {
             'Reserve buffer time for integration testing.',
             'Identify critical path dependencies early.',
           ],
-          risks: ['Complex integration points may require additional coordination'],
           dependencies: ['Architecture review', 'Test data availability'],
           subtasks: [],
         };
@@ -467,14 +394,13 @@ ${originalContent.trim()}
     };
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  private generateTaskBreakdown(
+    private generateTaskBreakdown(
     task: Task,
-    breakdownType: string,
+    _breakdownType: string,
     maxSubtasks: number,
     complexity: string,
     includeEstimates: boolean,
-  ): { subtasks: TaskBreakdownResult['subtasks'] } {
+  ): { subtasks: Array<Record<string, unknown>> } {
     const baseEstimate = complexity === 'complex' ? 6 : complexity === 'medium' ? 4 : 2;
 
     const subtasks = [
@@ -482,7 +408,15 @@ ${originalContent.trim()}
         title: 'Requirement audit',
         description: `Validate scope, dependencies, and entry criteria for ${task.title}.`,
         estimatedHours: includeEstimates ? baseEstimate : undefined,
-        priority: 'medium' as const,
+        priority: 'high',
+        dependencies: [],
+        acceptanceCriteria: ['Scope confirmed with stakeholders'],
+      },
+      {
+        title: 'Implementation plan',
+        description: 'Outline technical approach, interfaces, and data changes.',
+        estimatedHours: includeEstimates ? baseEstimate + 1 : undefined,
+        priority: 'medium',
         dependencies: ['Requirement audit'],
         acceptanceCriteria: ['Plan reviewed by core team'],
       },
@@ -490,7 +424,7 @@ ${originalContent.trim()}
         title: 'Validation strategy',
         description: 'Define test coverage, rollout, and monitoring strategy.',
         estimatedHours: includeEstimates ? baseEstimate : undefined,
-        priority: 'medium' as const,
+        priority: 'medium',
         dependencies: ['Implementation plan'],
         acceptanceCriteria: ['QA and release steps documented'],
       },
