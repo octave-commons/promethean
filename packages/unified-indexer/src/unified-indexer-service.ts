@@ -403,6 +403,3 @@ export async function createUnifiedIndexerService(
 ): Promise<UnifiedIndexerServiceState> {
   return initializeService(config);
 }
-
-// Export the interface for external use
-export type { UnifiedIndexerServiceState } from './types/service.js';
