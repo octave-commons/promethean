@@ -14,6 +14,12 @@ import type {
 } from './types.js';
 import { TaskContentManager } from './index.js';
 import { runPantheonComputation } from '../pantheon/runtime.js';
+import { WIPLimitEnforcement } from '../wip-enforcement.js';
+import { 
+  createTransitionRulesEngineState, 
+  validateTransition,
+  type TransitionRulesEngineState
+} from '../transition-rules-functional.js';
 
 export interface TaskAIManagerConfig {
   model?: string;
@@ -22,8 +28,6 @@ export interface TaskAIManagerConfig {
   maxTokens?: number;
   temperature?: number;
 }
-
-import type { Task } from '../types.js';
 import type {
   TaskAnalysisRequest,
   TaskRewriteRequest,
