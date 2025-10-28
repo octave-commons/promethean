@@ -1859,11 +1859,13 @@ export const createTask = async (
   console.error('[DEBUG] Target column name:', targetColumnName);
 
   // First check: Look for existing task in files (prioritize file-based tasks with full content)
+  console.error('[DEBUG] About to search for existing task in', existingTasks.length, 'tasks...');
   const existingTaskInColumn = existingTasks.find(
     (task) =>
       task.title.trim().toLowerCase() === normalizedTitle &&
       task.status.trim().toLowerCase() === targetColumnName,
   );
+  console.error('[DEBUG] Search completed, found:', existingTaskInColumn ? 'YES' : 'NO');
 
   if (existingTaskInColumn) {
     // Return the exact same task object to ensure content consistency
