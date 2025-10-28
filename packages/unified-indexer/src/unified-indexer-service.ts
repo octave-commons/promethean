@@ -86,6 +86,79 @@ function createSearchResult(entry: DualStoreEntry<'text', 'timestamp'>): SearchR
 }
 
 /**
+ * Create search handler for DualStoreManager
+ */
+function createSearchHandler(dualStore: Awaited<ReturnType<typeof DualStoreManager.create>>) {
+  return async function search(query: SearchQuery): Promise<SearchResponse> {
+    const startTime = Date.now();
+    const results = await dualStore.getMostRelevant(
+      query.query ? [query.query] : [],
+      query.limit || 10,
+      query.metadata,
+    );
+
+    return {
+      results: results.map(createSearchResult),
+      total: results.length,
+      took: Date.now() - startTime,
+      query,
+    };
+  };
+}
+
+/**
+ * Create get by ID handler for DualStoreManager
+ */
+function createGetByIdHandler(dualStore: Awaited<ReturnType<typeof DualStoreManager.create>>) {
+  return async function getById(id: string) {
+    const entry = await dualStore.get(id);
+    if (!entry) return null;
+
+    return transformDualStoreEntry({
+      id: entry.id || entry._id?.toString(),
+      text: entry.text,
+      timestamp: toEpochMs(entry.timestamp),
+      metadata: entry.metadata,
+    });
+  };
+}
+
+/**
+ * Create stats handler for DualStoreManager
+ */
+function createStatsHandler(dualStore: Awaited<ReturnType<typeof DualStoreManager.create>>) {
+  return async function getStats(): Promise<IndexingStats> {
+    const report = await dualStore.getConsistencyReport();
+    return {
+      totalContent: report.totalDocuments,
+      contentByType: {} as Record<ContentType, number>,
+      contentBySource: {} as Record<ContentSource, number>,
+      lastIndexed: Date.now(),
+      storageStats: {
+        vectorSize: 0,
+        metadataSize: 0,
+        totalSize: 0,
+      },
+    };
+  };
+}
+
+/**
+ * Create health check handler for DualStoreManager
+ */
+function createHealthCheckHandler(dualStore: Awaited<ReturnType<typeof DualStoreManager.create>>) {
+  return async function healthCheck() {
+    const report = await dualStore.getConsistencyReport(1);
+    return {
+      healthy: report.consistentDocuments > 0,
+      vectorStore: true,
+      metadataStore: true,
+      issues: [],
+    };
+  };
+}
+
+/**
  * Create a UnifiedIndexingClient adapter for DualStoreManager
  */
 async function createUnifiedIndexingClient(_config: unknown): Promise<UnifiedIndexingClient> {
@@ -106,33 +179,9 @@ async function createUnifiedIndexingClient(_config: unknown): Promise<UnifiedInd
       });
     },
 
-    async search(query: SearchQuery): Promise<SearchResponse> {
-      const startTime = Date.now();
-      const results = await dualStore.getMostRelevant(
-        query.query ? [query.query] : [],
-        query.limit || 10,
-        query.metadata,
-      );
+    search: createSearchHandler(dualStore),
 
-      return {
-        results: results.map(createSearchResult),
-        total: results.length,
-        took: Date.now() - startTime,
-        query,
-      };
-    },
-
-    async getById(id: string) {
-      const entry = await dualStore.get(id);
-      if (!entry) return null;
-
-      return transformDualStoreEntry({
-        id: entry.id || entry._id?.toString(),
-        text: entry.text,
-        timestamp: toEpochMs(entry.timestamp),
-        metadata: entry.metadata,
-      });
-    },
+    getById: createGetByIdHandler(dualStore),
 
     async getByType(_type: ContentType) {
       return [];
@@ -162,30 +211,9 @@ async function createUnifiedIndexingClient(_config: unknown): Promise<UnifiedInd
       // No-op
     },
 
-    async getStats(): Promise<IndexingStats> {
-      const report = await dualStore.getConsistencyReport();
-      return {
-        totalContent: report.totalDocuments,
-        contentByType: {} as Record<ContentType, number>,
-        contentBySource: {} as Record<ContentSource, number>,
-        lastIndexed: Date.now(),
-        storageStats: {
-          vectorSize: 0,
-          metadataSize: 0,
-          totalSize: 0,
-        },
-      };
-    },
+    getStats: createStatsHandler(dualStore),
 
-    async healthCheck() {
-      const report = await dualStore.getConsistencyReport(1);
-      return {
-        healthy: report.consistentDocuments > 0,
-        vectorStore: true,
-        metadataStore: true,
-        issues: [],
-      };
-    },
+    healthCheck: createHealthCheckHandler(dualStore),
   };
 }
 
