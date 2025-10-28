@@ -13,25 +13,21 @@ export interface TaskAIManagerConfig {
 export declare class TaskAIManager {
     private readonly config;
     private readonly contentManager;
+    private wipEnforcement;
+    private transitionRulesState;
     constructor(config?: TaskAIManagerConfig);
-    /**
-     * Analyze a task using AI to provide insights into quality, complexity, completeness, etc.
-     */
+    private createContentManager;
+    private initializeComplianceSystems;
+    private validateTaskTransition;
+    private syncKanbanBoard;
+    private createTaskBackup;
+    private logAuditEvent;
     analyzeTask(request: TaskAnalysisRequest): Promise<TaskAnalysisResult>;
-    /**
-     * Rewrite task content using AI based on specified requirements
-     */
     rewriteTask(request: TaskRewriteRequest): Promise<TaskRewriteResult>;
-    /**
-     * Break down a task into subtasks, steps, or phases using AI
-     */
     breakdownTask(request: TaskBreakdownRequest): Promise<TaskBreakdownResult>;
-    private validateAnalysisResult;
-    private validateBreakdownResult;
-    private analyzeChanges;
+    private generateTaskAnalysis;
+    private generateTaskRewrite;
+    private generateTaskBreakdown;
 }
-/**
- * Create a task AI manager instance
- */
 export declare function createTaskAIManager(config?: TaskAIManagerConfig): TaskAIManager;
 //# sourceMappingURL=ai.d.ts.map

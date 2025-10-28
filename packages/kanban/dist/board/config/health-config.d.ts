@@ -85,9 +85,9 @@ export declare const HealthRuleSchema: z.ZodObject<{
     condition: z.ZodString;
     action: z.ZodOptional<z.ZodString>;
 }, "strip", z.ZodTypeAny, {
+    severity: "critical" | "info" | "warning" | "error";
     name: string;
     enabled: boolean;
-    severity: "critical" | "info" | "warning" | "error";
     condition: string;
     description?: string | undefined;
     action?: string | undefined;
@@ -95,8 +95,8 @@ export declare const HealthRuleSchema: z.ZodObject<{
     name: string;
     condition: string;
     description?: string | undefined;
-    enabled?: boolean | undefined;
     severity?: "critical" | "info" | "warning" | "error" | undefined;
+    enabled?: boolean | undefined;
     action?: string | undefined;
 }>;
 export declare const HealthMonitoringConfigSchema: z.ZodObject<{
@@ -186,9 +186,9 @@ export declare const HealthMonitoringConfigSchema: z.ZodObject<{
         condition: z.ZodString;
         action: z.ZodOptional<z.ZodString>;
     }, "strip", z.ZodTypeAny, {
+        severity: "critical" | "info" | "warning" | "error";
         name: string;
         enabled: boolean;
-        severity: "critical" | "info" | "warning" | "error";
         condition: string;
         description?: string | undefined;
         action?: string | undefined;
@@ -196,8 +196,8 @@ export declare const HealthMonitoringConfigSchema: z.ZodObject<{
         name: string;
         condition: string;
         description?: string | undefined;
-        enabled?: boolean | undefined;
         severity?: "critical" | "info" | "warning" | "error" | undefined;
+        enabled?: boolean | undefined;
         action?: string | undefined;
     }>, "many">>;
     scheduling: z.ZodObject<{
@@ -265,9 +265,9 @@ export declare const HealthMonitoringConfigSchema: z.ZodObject<{
         config?: Record<string, any> | undefined;
     }[];
     rules: {
+        severity: "critical" | "info" | "warning" | "error";
         name: string;
         enabled: boolean;
-        severity: "critical" | "info" | "warning" | "error";
         condition: string;
         description?: string | undefined;
         action?: string | undefined;
@@ -325,8 +325,8 @@ export declare const HealthMonitoringConfigSchema: z.ZodObject<{
         name: string;
         condition: string;
         description?: string | undefined;
-        enabled?: boolean | undefined;
         severity?: "critical" | "info" | "warning" | "error" | undefined;
+        enabled?: boolean | undefined;
         action?: string | undefined;
     }[] | undefined;
 }>;
@@ -420,9 +420,9 @@ export declare const EnvironmentConfigSchema: z.ZodObject<{
             condition: z.ZodString;
             action: z.ZodOptional<z.ZodString>;
         }, "strip", z.ZodTypeAny, {
+            severity: "critical" | "info" | "warning" | "error";
             name: string;
             enabled: boolean;
-            severity: "critical" | "info" | "warning" | "error";
             condition: string;
             description?: string | undefined;
             action?: string | undefined;
@@ -430,8 +430,8 @@ export declare const EnvironmentConfigSchema: z.ZodObject<{
             name: string;
             condition: string;
             description?: string | undefined;
-            enabled?: boolean | undefined;
             severity?: "critical" | "info" | "warning" | "error" | undefined;
+            enabled?: boolean | undefined;
             action?: string | undefined;
         }>, "many">>;
         scheduling: z.ZodObject<{
@@ -499,9 +499,9 @@ export declare const EnvironmentConfigSchema: z.ZodObject<{
             config?: Record<string, any> | undefined;
         }[];
         rules: {
+            severity: "critical" | "info" | "warning" | "error";
             name: string;
             enabled: boolean;
-            severity: "critical" | "info" | "warning" | "error";
             condition: string;
             description?: string | undefined;
             action?: string | undefined;
@@ -559,8 +559,8 @@ export declare const EnvironmentConfigSchema: z.ZodObject<{
             name: string;
             condition: string;
             description?: string | undefined;
-            enabled?: boolean | undefined;
             severity?: "critical" | "info" | "warning" | "error" | undefined;
+            enabled?: boolean | undefined;
             action?: string | undefined;
         }[] | undefined;
     }>>;
@@ -591,9 +591,9 @@ export declare const EnvironmentConfigSchema: z.ZodObject<{
             config?: Record<string, any> | undefined;
         }[];
         rules: {
+            severity: "critical" | "info" | "warning" | "error";
             name: string;
             enabled: boolean;
-            severity: "critical" | "info" | "warning" | "error";
             condition: string;
             description?: string | undefined;
             action?: string | undefined;
@@ -655,8 +655,8 @@ export declare const EnvironmentConfigSchema: z.ZodObject<{
             name: string;
             condition: string;
             description?: string | undefined;
-            enabled?: boolean | undefined;
             severity?: "critical" | "info" | "warning" | "error" | undefined;
+            enabled?: boolean | undefined;
             action?: string | undefined;
         }[] | undefined;
     } | undefined;
@@ -752,9 +752,9 @@ export declare const KanbanHealthConfigSchema: z.ZodObject<{
                 condition: z.ZodString;
                 action: z.ZodOptional<z.ZodString>;
             }, "strip", z.ZodTypeAny, {
+                severity: "critical" | "info" | "warning" | "error";
                 name: string;
                 enabled: boolean;
-                severity: "critical" | "info" | "warning" | "error";
                 condition: string;
                 description?: string | undefined;
                 action?: string | undefined;
@@ -762,8 +762,8 @@ export declare const KanbanHealthConfigSchema: z.ZodObject<{
                 name: string;
                 condition: string;
                 description?: string | undefined;
-                enabled?: boolean | undefined;
                 severity?: "critical" | "info" | "warning" | "error" | undefined;
+                enabled?: boolean | undefined;
                 action?: string | undefined;
             }>, "many">>;
             scheduling: z.ZodObject<{
@@ -831,9 +831,9 @@ export declare const KanbanHealthConfigSchema: z.ZodObject<{
                 config?: Record<string, any> | undefined;
             }[];
             rules: {
+                severity: "critical" | "info" | "warning" | "error";
                 name: string;
                 enabled: boolean;
-                severity: "critical" | "info" | "warning" | "error";
                 condition: string;
                 description?: string | undefined;
                 action?: string | undefined;
@@ -891,8 +891,8 @@ export declare const KanbanHealthConfigSchema: z.ZodObject<{
                 name: string;
                 condition: string;
                 description?: string | undefined;
-                enabled?: boolean | undefined;
                 severity?: "critical" | "info" | "warning" | "error" | undefined;
+                enabled?: boolean | undefined;
                 action?: string | undefined;
             }[] | undefined;
         }>>;
@@ -923,9 +923,9 @@ export declare const KanbanHealthConfigSchema: z.ZodObject<{
                 config?: Record<string, any> | undefined;
             }[];
             rules: {
+                severity: "critical" | "info" | "warning" | "error";
                 name: string;
                 enabled: boolean;
-                severity: "critical" | "info" | "warning" | "error";
                 condition: string;
                 description?: string | undefined;
                 action?: string | undefined;
@@ -987,8 +987,8 @@ export declare const KanbanHealthConfigSchema: z.ZodObject<{
                 name: string;
                 condition: string;
                 description?: string | undefined;
-                enabled?: boolean | undefined;
                 severity?: "critical" | "info" | "warning" | "error" | undefined;
+                enabled?: boolean | undefined;
                 action?: string | undefined;
             }[] | undefined;
         } | undefined;
@@ -1023,9 +1023,9 @@ export declare const KanbanHealthConfigSchema: z.ZodObject<{
                 config?: Record<string, any> | undefined;
             }[];
             rules: {
+                severity: "critical" | "info" | "warning" | "error";
                 name: string;
                 enabled: boolean;
-                severity: "critical" | "info" | "warning" | "error";
                 condition: string;
                 description?: string | undefined;
                 action?: string | undefined;
@@ -1091,8 +1091,8 @@ export declare const KanbanHealthConfigSchema: z.ZodObject<{
                 name: string;
                 condition: string;
                 description?: string | undefined;
-                enabled?: boolean | undefined;
                 severity?: "critical" | "info" | "warning" | "error" | undefined;
+                enabled?: boolean | undefined;
                 action?: string | undefined;
             }[] | undefined;
         } | undefined;
