@@ -1,3 +1,1 @@
-Merge pull request #1449 from riatzukiza/feat/duck-tools-smoke
-
-feat(tools): add duck-tools smoke CLI (skeleton)
+Avoid chdir in piper js-step tests
