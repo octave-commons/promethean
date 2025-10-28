@@ -14,6 +14,9 @@ import {
   repoSummary,
   commit,
   sanitizeCommitMessage,
+  hasSubrepo,
+  isSubrepoDir,
+  findSubrepos,
 } from '../git.js';
 
 // Helper to create unique temp directory names
