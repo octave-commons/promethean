@@ -77,21 +77,32 @@ function initializeSubrepo(packageDir, remoteUrl) {
   try {
     // Check if already a subrepo
     try {
-      execSync(`git subrepo status ${packagePath}`, { stdio: 'pipe' });
-      console.log(`Subrepo already exists for ${packagePath}, cleaning up first...`);
-      execSync(`git subrepo clean ${packagePath}`, { stdio: 'inherit' });
+      const status = execSync(`git subrepo status ${packagePath}`, { stdio: 'pipe' });
+      console.log(`Subrepo already exists for ${packagePath}, configuring remote...`);
+
+      // Configure remote for existing subrepo
+      execSync(`git subrepo config ${packagePath} remote ${remoteUrl} --force`, {
+        stdio: 'inherit',
+      });
+
+      // Push to remote
+      execSync(`git subrepo push ${packagePath}`, { stdio: 'inherit' });
+
+      console.log(`Successfully configured and pushed existing subrepo: ${packagePath}`);
+      return true;
     } catch (statusError) {
-      // Not a subrepo yet, that's fine
+      // Not a subrepo yet, initialize new one
+      console.log(`Creating new subrepo for ${packagePath}`);
+
+      // Initialize as subrepo with remote
+      execSync(`git subrepo init ${packagePath} --remote ${remoteUrl}`, { stdio: 'inherit' });
+
+      // Push to remote
+      execSync(`git subrepo push ${packagePath}`, { stdio: 'inherit' });
+
+      console.log(`Successfully created new subrepo: ${packagePath}`);
+      return true;
     }
-
-    // Initialize as subrepo with remote
-    execSync(`git subrepo init ${packagePath} --remote ${remoteUrl}`, { stdio: 'inherit' });
-
-    // Push to remote
-    execSync(`git subrepo push ${packagePath}`, { stdio: 'inherit' });
-
-    console.log(`Successfully initialized subrepo: ${packagePath}`);
-    return true;
   } catch (error) {
     console.error(`Failed to initialize subrepo for ${packagePath}:`, error.message);
     return false;
