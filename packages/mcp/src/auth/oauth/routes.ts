@@ -210,7 +210,6 @@ export function registerOAuthRoutes(fastify: FastifyInstance, config: OAuthRoute
     async (request, reply) => {
       try {
         const { code, state, error, error_description } = request.query;
-        const clientInfo = getClientInfo(request);
 
         // Validate state from cookie
         const cookieState = (request as any).cookies?.oauth_state;
