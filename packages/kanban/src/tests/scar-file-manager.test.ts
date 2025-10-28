@@ -132,7 +132,7 @@ test('addScar adds single scar record', async (t) => {
   // Verify file was created and contains the record
   const scars = await manager.loadScars();
   t.is(scars.length, 1);
-    t.is(scars[0]!.tag, mockScarRecords[0].tag);
+        t.is(scars[0]!.tag, mockScarRecords[0]!.tag);
 });
 
 test('addScar rejects invalid scar record', async (t) => {

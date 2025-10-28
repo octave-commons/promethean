@@ -42,7 +42,7 @@ test.before(async (t) => {
   execSync('git add test.txt', { cwd: testDir });
   execSync('git commit -m "Initial commit"', { cwd: testDir });
   
-    (t.context as any).testDir = testDir;
+      (t.context as any).testDir = testDir;
 
 test.after.always(async (t) => {
   // Clean up test directory
