@@ -19,8 +19,8 @@ import type { CrossDomainSearchOptions, EnhancedSearchResult } from './types/sea
  * Enhance search results with additional metadata
  */
 export function enhanceResults(
-  readonly results: readonly SearchResult[],
-  readonly options: CrossDomainSearchOptions,
+  results: readonly SearchResult[],
+  options: CrossDomainSearchOptions,
 ): readonly EnhancedSearchResult[] {
   const now = Date.now();
 
