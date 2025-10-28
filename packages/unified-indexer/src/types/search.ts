@@ -97,5 +97,5 @@ export interface CrossDomainSearchResponse {
   };
 
   // Context
-  context?: ContextMessage[];
+  context?: readonly ContextMessage[];
 }

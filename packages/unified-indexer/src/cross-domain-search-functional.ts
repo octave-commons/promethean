@@ -6,7 +6,7 @@
  * comprehensive search results across all data sources.
  */
 
-import type { SearchResponse } from '@promethean-os/persistence';
+import type { SearchResponse, ContentType, ContentSource } from '@promethean-os/persistence';
 import type { ContextMessage } from '@promethean-os/persistence/dist/actions/context-store/types.js';
 import type { UnifiedIndexerServiceState } from './unified-indexer-service.js';
 import type { CrossDomainSearchOptions, CrossDomainSearchResponse } from './types/search.js';
@@ -86,11 +86,11 @@ async function buildSearchResponse(
     analytics: analytics
       ? {
           ...analytics,
-          sourcesSearched: [...analytics.sourcesSearched] as any,
-          typesFound: [...analytics.typesFound] as any,
+          sourcesSearched: [...analytics.sourcesSearched] as ContentSource[],
+          typesFound: [...analytics.typesFound] as ContentType[],
         }
       : undefined,
-    context: context ? ([...context] as any) : undefined,
+    context: context ? [...context] : undefined,
   };
 }
 
@@ -150,7 +150,7 @@ export async function getContextualSearch(
   options: Partial<CrossDomainSearchOptions> = {},
 ): Promise<{
   searchResults: CrossDomainSearchResponse;
-  context: ContextMessage[];
+  context: readonly ContextMessage[];
 }> {
   const searchResponse = await search(state, {
     query: queries.join(' '),
@@ -165,7 +165,7 @@ export async function getContextualSearch(
 
   return {
     searchResults: searchResponse,
-    context: searchResponse.context || [],
+    context: (searchResponse.context || []) as ContextMessage[],
   };
 }
 
