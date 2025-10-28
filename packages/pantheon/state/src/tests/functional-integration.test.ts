@@ -6,9 +6,8 @@ import {
   RateLimiter,
   validateAgentId,
   validateContextKey,
-  createRateLimiter,
-  getRateLimiter,
 } from '../security.js';
+import { createRateLimiter, getRateLimiter } from '../security-functional.js';
 
 test('Functional SecurityValidator works correctly', (t) => {
   // Test functional action
