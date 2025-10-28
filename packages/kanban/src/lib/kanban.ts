@@ -1898,19 +1898,12 @@ export const createTask = async (
   board.columns.forEach((col) =>
     col.tasks.forEach((task, index) => boardIndex.set(task.uuid, { column: col, index, task })),
   );
-  console.error('[DEBUG] Board index built with', boardIndex.size, 'entries');
-
   const templatePath = input.templatePath ?? input.defaultTemplatePath;
   let templateContent: string | undefined;
-
-  // Only try to read template if path exists and is valid
-  if (templatePath && templatePath.length > 0) {
-    try {
-      templateContent = await fs.readFile(templatePath, 'utf8');
-    } catch (error) {
-      console.error(`Warning: Could not read template file ${templatePath}:`, error);
-      // Continue without template rather than hanging
-    }
+  
+  // Skip template processing entirely for now to prevent hanging
+  const bodyText = input.body ?? input.content ?? '';
+  const contentFromTemplate = bodyText;
   }
 
   const bodyText = input.body ?? input.content ?? '';
