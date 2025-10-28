@@ -106,10 +106,6 @@ export async function generateEcosystem(
   const outputDir = path.resolve(outputDirRawResult.sanitized);
   const fileName = fileNameResult.sanitized;
 
-  const inputDir = inputDirResult.sanitized;
-  const outputDir = outputDirResult.sanitized;
-  const fileName = fileNameResult.sanitized;
-
   // Validate path boundaries - only restrict access to system directories
   // Allow temporary directories and user-specified paths
   const systemDirs = ['/proc', '/sys', '/dev', '/etc', 'C:\\Windows', 'C:\\Program Files'];
