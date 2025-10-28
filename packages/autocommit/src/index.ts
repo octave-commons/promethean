@@ -182,6 +182,7 @@ function createScheduler(
   log: (msg: string) => void,
   warn: (msg: string) => void,
 ): { schedule: () => Promise<void>; cleanup: () => void } {
+  // eslint-disable-next-line functional/no-let
   let timer: NodeJS.Timeout | null = null;
 
   const cleanup = () => {
