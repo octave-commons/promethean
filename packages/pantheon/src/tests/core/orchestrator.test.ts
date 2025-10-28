@@ -24,10 +24,10 @@ const createMockContextPort = () => ({
 });
 
 const createMockActorPort = () => ({
-  tick: async (actorId: string) => {
+  tick: async (_actorId: string) => {
     // Mock tick implementation
   },
-  create: async (config: ActorConfig) => `actor-${Date.now()}`,
+  create: async (_config: ActorConfig) => `actor-${Date.now()}`,
   get: async () => null,
 });
 

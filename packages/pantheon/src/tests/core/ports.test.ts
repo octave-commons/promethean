@@ -9,33 +9,33 @@ const createMockToolPort = (): ToolPort => ({
 });
 
 const createMockContextPort = (): ContextPort => ({
-  compile: async (sources: string[], text: string) => ({
+  compile: async (_sources: string[], _text: string) => ({
     id: 'mock-context',
-    sources,
-    text,
+    sources: _sources,
+    text: _text,
     compiled: { processed: true },
     timestamp: Date.now(),
   }),
-  get: async (id: string) =>
-    id === 'existing'
+  get: async (_id: string) =>
+    _id === 'existing'
       ? {
-          id,
+          id: _id,
           sources: ['source1'],
           text: 'Existing context',
           compiled: { cached: true },
           timestamp: Date.now(),
         }
       : null,
-  save: async (context) => {
+  save: async (_context) => {
     // Mock save operation
   },
 });
 
 const createMockActorPort = (): ActorPort => ({
-  tick: async (actorId: string) => {
+  tick: async (_actorId: string) => {
     // Mock tick operation
   },
-  create: async (config) => `actor-${Date.now()}`,
+  create: async (_config) => `actor-${Date.now()}`,
   get: async (id: string) =>
     id === 'existing'
       ? {
@@ -48,7 +48,7 @@ const createMockActorPort = (): ActorPort => ({
 });
 
 const createMockLlmPort = (): LlmPort => ({
-  complete: async (messages, opts) => ({
+  complete: async (messages, _opts) => ({
     role: 'assistant',
     content: `Mock response to ${messages.length} messages`,
   }),
@@ -149,7 +149,7 @@ test('ActorPort get existing actor', async (t) => {
   t.is(result?.config.name, 'test');
   t.is(result?.config.type, 'tool');
   t.is(result?.state, 'running');
-  t.true(result?.lastTick > 0);
+  t.true((result?.lastTick ?? 0) > 0);
 });
 
 test('ActorPort get non-existing actor', async (t) => {

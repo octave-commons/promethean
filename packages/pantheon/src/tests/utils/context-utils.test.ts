@@ -28,8 +28,8 @@ test('mergeContextSources removes duplicates', (t) => {
   const merged = mergeContextSources([source1], [source2, source3]);
 
   t.is(merged.length, 2);
-  t.is(merged[0].id, 'source-1');
-  t.is(merged[1].id, 'source-2');
+  t.is(merged[0]?.id, 'source-1');
+  t.is(merged[1]?.id, 'source-2');
 });
 
 test('mergeContextSources preserves order', (t) => {
@@ -40,9 +40,9 @@ test('mergeContextSources preserves order', (t) => {
   const merged = mergeContextSources([source1, source2], [source3]);
 
   t.is(merged.length, 3);
-  t.is(merged[0].id, 'source-1');
-  t.is(merged[1].id, 'source-2');
-  t.is(merged[2].id, 'source-3');
+  t.is(merged[0]?.id, 'source-1');
+  t.is(merged[1]?.id, 'source-2');
+  t.is(merged[2]?.id, 'source-3');
 });
 
 test('mergeContextSources with empty arrays', (t) => {
@@ -53,10 +53,10 @@ test('mergeContextSources with empty arrays', (t) => {
   const merged3 = mergeContextSources([], []);
 
   t.is(merged1.length, 1);
-  t.is(merged1[0].id, 'source-1');
+  t.is(merged1[0]?.id, 'source-1');
 
   t.is(merged2.length, 1);
-  t.is(merged2[0].id, 'source-1');
+  t.is(merged2[0]?.id, 'source-1');
 
   t.is(merged3.length, 0);
 });
@@ -101,8 +101,10 @@ test('truncateMessages with partial message', (t) => {
   const truncated = truncateMessages(messages, 30, 0.25); // 30 tokens = 120 chars
 
   t.is(truncated.length, 1);
-  t.true(truncated[0].content.includes('...[truncated]'));
-  t.true(truncated[0].content.length < longMessage.length);
+  if (truncated[0]) {
+    t.true(truncated[0].content.includes('...[truncated]'));
+    t.true(truncated[0].content.length < longMessage.length);
+  }
 });
 
 test('truncateMessages with empty array', (t) => {

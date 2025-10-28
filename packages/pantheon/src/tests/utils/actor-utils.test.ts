@@ -1,4 +1,5 @@
 import test from 'ava';
+import type { ActorState } from '@promethean-os/pantheon-core';
 
 import {
   createActorSummary,
@@ -13,10 +14,20 @@ const createMockActor = (overrides = {}) => ({
   id: 'actor-123',
   script: {
     name: 'test-actor',
-    talents: ['talent1', 'talent2'],
+    contextSources: [],
+    talents: [
+      {
+        name: 'talent1',
+        behaviors: [],
+      },
+      {
+        name: 'talent2',
+        behaviors: [],
+      },
+    ],
   },
   goals: ['goal1', 'goal2'],
-  state: 'running',
+  state: 'running' as ActorState,
   createdAt: new Date(Date.now() - 60000), // 1 minute ago
   updatedAt: new Date(Date.now() - 30000), // 30 seconds ago
   ...overrides,
@@ -34,7 +45,7 @@ test('createActorSummary generates correct summary', (t) => {
 });
 
 test('createActorSummary with different states', (t) => {
-  const states = ['running', 'idle', 'completed', 'failed'];
+  const states: ActorState[] = ['running', 'idle', 'completed', 'failed'];
 
   states.forEach((state) => {
     const actor = createMockActor({ state });

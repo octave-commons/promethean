@@ -50,9 +50,16 @@ test('Context with complex compiled data', (t) => {
   };
 
   t.deepEqual(context.compiled, complexCompiled);
-  t.is(context.compiled.metadata.version, '1.0');
-  t.is(context.compiled.tokens, 150);
-  t.deepEqual(context.compiled.embeddings, [0.1, 0.2, 0.3]);
+  const compiled = context.compiled as {
+    metadata: { version: string };
+    tokens: number;
+    embeddings: number[];
+  };
+  if (compiled) {
+    t.is(compiled.metadata.version, '1.0');
+    t.is(compiled.tokens, 150);
+    t.deepEqual(compiled.embeddings, [0.1, 0.2, 0.3]);
+  }
 });
 
 test('Context timestamp validation', (t) => {

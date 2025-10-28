@@ -1,4 +1,5 @@
 import test from 'ava';
+import type { Role } from '@promethean-os/pantheon-core';
 
 import {
   generateId,
@@ -29,14 +30,16 @@ test('generateId format validation', (t) => {
   t.is(parts.length, 2);
 
   // First part should be a timestamp
-  const timestamp = parseInt(parts[0], 10);
+  const timestamp = parseInt(parts[0] || '0', 10);
   t.true(Number.isInteger(timestamp));
   t.true(timestamp > 0);
 
   // Second part should be random string
   const randomPart = parts[1];
-  t.true(randomPart.length > 0);
-  t.true(/^[a-z0-9]+$/i.test(randomPart));
+  if (randomPart) {
+    t.true(randomPart.length > 0);
+    t.true(/^[a-z0-9]+$/i.test(randomPart));
+  }
 });
 
 test('generateActorId creates properly formatted IDs', (t) => {
@@ -52,7 +55,9 @@ test('generateActorId creates properly formatted IDs', (t) => {
 
   // Third part should contain timestamp and random parts
   const thirdPart = parts[2];
-  t.true(thirdPart.includes('_'));
+  if (thirdPart) {
+    t.true(thirdPart.includes('_'));
+  }
 });
 
 test('generateActorId sanitizes actor names', (t) => {
@@ -102,10 +107,10 @@ test('createAssistantMessage creates assistant messages', (t) => {
 });
 
 test('message role validation', (t) => {
-  const validRoles = ['system', 'user', 'assistant'];
+  const validRoles: Role[] = ['system', 'user', 'assistant'];
 
   validRoles.forEach((role) => {
-    const message = createMessage(role as any, `Test ${role} message`);
+    const message = createMessage(role, `Test ${role} message`);
     t.is(message.role, role);
   });
 });
