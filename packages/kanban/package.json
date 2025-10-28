@@ -54,7 +54,9 @@
     "build:docs": "typedoc --options typedoc.json",
     "dev:cljs": "shadow-cljs watch kanban-frontend",
     "prepack": "pnpm run build && pnpm run build:cljs",
-    "test": "pnpm run build && ava"
+    "test": "pnpm run build && ava",
+    "lint": "eslint . --ext .ts,.tsx",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@promethean-os/lmdb-cache": "workspace:*",

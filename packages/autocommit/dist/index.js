@@ -33,9 +33,17 @@ function getIgnoredPaths(config) {
             : []),
     ];
 }
-function createLogger() {
-    const log = (s) => console.log(pc.dim(`[autocommit] ${s}`));
-    const warn = (s) => console.warn(pc.yellow(`[autocommit] ${s}`));
+function createLogger(config) {
+    const log = (s) => {
+        if (!config.quiet) {
+            console.log(pc.dim(`[autocommit] ${s}`));
+        }
+    };
+    const warn = (s) => {
+        if (!config.quiet) {
+            console.warn(pc.yellow(`[autocommit] ${s}`));
+        }
+    };
     return { log, warn };
 }
 function categorizeError(err) {
@@ -47,8 +55,24 @@ function categorizeError(err) {
         err.status >= 500) {
         return 'LLM server error. Falling back.';
     }
-    const errorMessage = err instanceof Error ? err.message : String(err);
-    return `LLM failed: ${errorMessage}. Falling back.`;
+    // Handle different error types safely
+    if (err instanceof Error) {
+        // Only log the error message, not the full object
+        return `LLM failed: ${err.message}. Falling back.`;
+    }
+    if (typeof err === 'string') {
+        return `LLM failed: ${err}. Falling back.`;
+    }
+    // For objects, try to extract a meaningful message but limit size
+    if (typeof err === 'object' && err !== null) {
+        const errorObj = err;
+        const message = errorObj.message || errorObj.error || 'Unknown error';
+        const messageStr = typeof message === 'string' ? message : String(message);
+        // Truncate very long messages to prevent log spam
+        const truncated = messageStr.length > 200 ? messageStr.substring(0, 200) + '...' : messageStr;
+        return `LLM failed: ${truncated}. Falling back.`;
+    }
+    return `LLM failed: Unknown error. Falling back.`;
 }
 function generateFallbackMessage(files) {
     const type = files.some((f) => f.match(/\.(ts|tsx|js|jsx|mjs|cjs)$/)) ? 'feat' : 'chore';
@@ -111,7 +135,6 @@ function setupWatcher(root, ignored, callbacks) {
             callbacks.warn(`Schedule error: ${errorMessage}`);
         });
     });
-    callbacks.log(`Watching ${root}. Ignored: ${ignored.join(', ')}`);
     return {
         close: () => {
             void watcher.close();
@@ -161,10 +184,10 @@ async function startSingleRepository(config, repoPath) {
         throw createAutocommitError(`Not a git repo or subrepo: ${repoPath}`);
     }
     if (isSubrepo && !config.handleSubrepos) {
-        throw createAutocommitError(`Subrepo detected but subrepo handling is disabled: ${repoPath}`);
+        throw createAutocommitError(`Subrepo detected but subrepo handling is disabled. Use --handle-subrepos to enable: ${repoPath}`);
     }
     const root = await gitRoot(repoPath);
-    const { log, warn } = createLogger();
+    const { log, warn } = createLogger(config);
     const ignored = getIgnoredPaths(config);
     const { schedule, cleanup } = createScheduler(config, root, log, warn);
     const watcherSetup = setupWatcher(root, ignored, { schedule, log, warn });
@@ -190,7 +213,7 @@ export async function start(config) {
         if (repositories.length === 0) {
             throw createAutocommitError(`No git repositories found in: ${config.path}`);
         }
-        const { log } = createLogger();
+        const { log } = createLogger(config);
         log(`Found ${repositories.length} git repository(ies): ${repositories.join(', ')}`);
         const cleanupFunctions = [];
         for (const repoPath of repositories) {
@@ -223,4 +246,4 @@ export async function start(config) {
         return startSingleRepository(config, config.path);
     }
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=index.js.map// Updated at Tue Oct 28 04:33:15 PM CDT 2025

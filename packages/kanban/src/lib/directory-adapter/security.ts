@@ -46,9 +46,9 @@ export class TaskSecurityValidator implements SecurityValidator {
       // Normalize the path
       const normalizedPath = path.normalize(filePath);
 
-      // Check for path traversal attempts
+      // Check for path traversal attempts (check original path before normalization)
       if (!this.options.allowPathTraversal) {
-        if (this.containsPathTraversal(normalizedPath)) {
+        if (this.containsPathTraversal(filePath) || this.containsPathTraversal(normalizedPath)) {
           issues.push('Path traversal detected');
         }
       }
@@ -234,6 +234,12 @@ export class TaskSecurityValidator implements SecurityValidator {
       /^(test|debug|temp|tmp)/i, // Temporary files
     ];
 
+    // In permissive mode, be less strict about hidden files
+    if (this.options.level === 'permissive') {
+      const permissivePatterns = suspiciousPatterns.filter((pattern) => pattern.source !== '^\\.');
+      return permissivePatterns.some((pattern) => pattern.test(fileName));
+    }
+
     return suspiciousPatterns.some((pattern) => pattern.test(fileName));
   }
 
@@ -285,7 +291,7 @@ export class TaskSecurityValidator implements SecurityValidator {
     // Check for null bytes and other binary indicators
     const binaryIndicators = [
       /\0/, // Null bytes
-      /[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/, // Control characters
+      /[\x01-\x08\x0B\x0C\x0E-\x1F\x7F]/, // Control characters (excluding \x00 which is checked separately)
     ];
 
     return binaryIndicators.some((indicator) => indicator.test(content));
@@ -346,8 +352,9 @@ export class TaskSecurityValidator implements SecurityValidator {
   sanitizePath(filePath: string): string {
     // Remove dangerous characters
     return filePath
-      .replace(/[<>:"|?*]/g, '_')
-      .replace(/\s+/g, '_')
+      .replace(/[<>"|?*]/g, '_')
+      .replace(/:/g, '_')
+      .replace(/[\s]+/g, '_')
       .toLowerCase();
   }
 }

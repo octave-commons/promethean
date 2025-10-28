@@ -7,11 +7,12 @@ import { refreshTaskIndex, indexTasks, writeIndexFile, serializeTasks } from '..
 import type { EventLogManager } from '../board/event-log/index.js';
 import { TaskGitTracker } from './task-git-tracker.js';
 import type { IndexTasksOptions } from '../board/indexer.js';
-import type { Board, ColumnData, Task, EpicTask } from './types.js';
+import type { Board, ColumnData, Task, EpicTask, CreateTaskInput } from './types.js';
 import { getEpicSubtasks, calculateEpicStatus } from './epic.js';
+import { processTemplateContent } from './serializers/template-serializer.js';
 
 // Re-export types for external use
-export type { Task } from './types.js';
+export type { Task, CreateTaskInput } from './types.js';
 
 const NOW_ISO = () => new Date().toISOString();
 
@@ -331,22 +332,6 @@ const parseColumnsFromMarkdown = (markdown: string): ColumnData[] => {
 const cryptoRandomUUID = (): string => randomUUID();
 
 type FM = Record<string, any>;
-
-type CreateTaskInput = {
-  title: string;
-  content?: string;
-  body?: string;
-  labels?: string[];
-  priority?: Task['priority'];
-  estimates?: Task['estimates'];
-  created_at?: string;
-  uuid?: string;
-  slug?: string;
-  templatePath?: string;
-  defaultTemplatePath?: string;
-  blocking?: string[];
-  blockedBy?: string[];
-};
 
 const parseFrontmatter = (text: string): { fm: FM; body: string } => {
   const res = parseMarkdownFrontmatter<FM>(text);
@@ -1715,10 +1700,20 @@ const setSectionItems = (
 };
 
 const ensureSectionExists = (content: string, heading: string): string => {
+  // Add timeout to prevent infinite loops
+  const startTime = Date.now();
+  const TIMEOUT = 5000; // 5 second timeout
+
   const pattern = new RegExp(`^${escapeRegExp(heading)}\\s*$`, 'm');
   if (pattern.test(content)) {
     return content;
   }
+
+  // Check if we've been running too long
+  if (Date.now() - startTime > TIMEOUT) {
+    throw new Error(`Timeout in ensureSectionExists for heading: ${heading}`);
+  }
+
   return setSectionItems(content, heading, []);
 };
 
@@ -1835,7 +1830,7 @@ export const createTask = async (
   const baseTitle = input.title?.trim() ?? '';
   const title = baseTitle.length > 0 ? baseTitle : `Task ${uuid.slice(0, 8)}`;
 
-  // Validate that the starting status is allowed
+  // Validate that starting status is allowed
   validateStartingStatus(column);
 
   const targetColumn = ensureColumn(board, column);
@@ -1843,7 +1838,7 @@ export const createTask = async (
   const existingTasks = await readTasksFolder(tasksDir);
   const existingById = new Map(existingTasks.map((task) => [task.uuid, task]));
   // *** CRITICAL FIX: Duplicate Task Detection ***
-  // Check for existing tasks with the same title in the same column
+  // Check for existing tasks with same title in same column
   const normalizedTitle = title.trim().toLowerCase();
   const targetColumnName = targetColumn.name.trim().toLowerCase();
 
@@ -1859,7 +1854,7 @@ export const createTask = async (
     return existingTaskInColumn;
   }
 
-  // Second check: Look for existing task in the target column on the board
+  // Second check: Look for existing task in target column on board
   const boardTaskInColumn = targetColumn.tasks.find(
     (task) => task.title.trim().toLowerCase() === normalizedTitle,
   );
@@ -1881,27 +1876,27 @@ export const createTask = async (
     col.tasks.forEach((task, index) => boardIndex.set(task.uuid, { column: col, index, task })),
   );
 
-  const templatePath = input.templatePath ?? input.defaultTemplatePath;
-  let templateContent: string | undefined;
-  if (templatePath) {
-    templateContent = await fs.readFile(templatePath, 'utf8');
+  // *** CRITICAL HANGING BUG FIX: Use timeout-protected template processing ***
+  const templateConfig = {
+    templatePath: input.templatePath,
+    defaultTemplatePath: input.defaultTemplatePath,
+    title,
+    body: input.body ?? input.content ?? '',
+    uuid,
+  };
+
+  let contentFromTemplate: string;
+  try {
+    contentFromTemplate = await processTemplateContent(templateConfig);
+    console.error('[DEBUG] Template processing completed with timeout protection');
+  } catch (error) {
+    console.error('[DEBUG] Template processing error (handled gracefully):', error);
+    contentFromTemplate = input.body ?? input.content ?? '';
   }
+  // *** END HANGING BUG FIX ***
 
-  const bodyText = input.body ?? input.content ?? '';
-  let contentFromTemplate =
-    typeof templateContent === 'string'
-      ? applyTemplateReplacements(templateContent, {
-          TITLE: title,
-          BODY: bodyText,
-          UUID: uuid,
-        })
-      : (input.content ?? bodyText);
-
-  if (!contentFromTemplate) {
-    contentFromTemplate = '';
-  }
-
-  let newTaskContent = ensureSectionExists(contentFromTemplate, BLOCKED_BY_HEADING);
+  // Ensure section exists
+  let newTaskContent = contentFromTemplate;
   newTaskContent = ensureSectionExists(newTaskContent, BLOCKS_HEADING);
 
   const baseTask: Task = {

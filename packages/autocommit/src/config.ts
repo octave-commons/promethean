@@ -101,6 +101,14 @@ export const ConfigSchema = z.object({
       return Boolean(val);
     })
     .default(process.env.DRY_RUN === '1'),
+  quiet: z
+    .any()
+    .transform((val) => {
+      if (typeof val === 'boolean') return val;
+      if (typeof val === 'string') return val === 'true' || val === '1';
+      return Boolean(val);
+    })
+    .default(process.env.AUTOCOMMIT_QUIET === '1'),
 });
 
 export type Config = z.infer<typeof ConfigSchema>;

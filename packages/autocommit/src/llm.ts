@@ -69,7 +69,25 @@ function handleLLMError(error: unknown): never {
   if (error instanceof Error && error.message.includes('Invalid chat completion options')) {
     throw error;
   }
-  throw new Error(`Unexpected error during LLM request: ${String(error)}`);
+  
+  // Safely extract error message without verbose object serialization
+  let errorMessage = 'Unknown error';
+  if (error instanceof Error) {
+    errorMessage = error.message;
+  } else if (typeof error === 'string') {
+    errorMessage = error;
+  } else if (typeof error === 'object' && error !== null) {
+    const errorObj = error as Record<string, unknown>;
+    const message = errorObj.message || errorObj.error || 'Unknown error';
+    errorMessage = typeof message === 'string' ? message : String(message);
+    
+    // Truncate very long messages to prevent log spam
+    if (errorMessage.length > 200) {
+      errorMessage = errorMessage.substring(0, 200) + '...';
+    }
+  }
+  
+  throw new Error(`Unexpected error during LLM request: ${errorMessage}`);
 }
 
 async function processLLMResponse(res: Response): Promise<string> {

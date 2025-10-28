@@ -13,6 +13,7 @@ export declare const ConfigSchema: z.ZodObject<{
     subrepoStrategy: z.ZodDefault<z.ZodEnum<["separate", "integrated"]>>;
     signoff: z.ZodDefault<z.ZodEffects<z.ZodAny, boolean, any>>;
     dryRun: z.ZodDefault<z.ZodEffects<z.ZodAny, boolean, any>>;
+    quiet: z.ZodDefault<z.ZodEffects<z.ZodAny, boolean, any>>;
 }, "strip", z.ZodTypeAny, {
     path: string;
     recursive: boolean;
@@ -26,6 +27,7 @@ export declare const ConfigSchema: z.ZodObject<{
     subrepoStrategy: "separate" | "integrated";
     signoff: boolean;
     dryRun: boolean;
+    quiet: boolean;
     apiKey?: string | undefined;
 }, {
     path?: string | undefined;
@@ -41,6 +43,7 @@ export declare const ConfigSchema: z.ZodObject<{
     subrepoStrategy?: "separate" | "integrated" | undefined;
     signoff?: any;
     dryRun?: any;
+    quiet?: any;
 }>;
 export type Config = z.infer<typeof ConfigSchema>;
 //# sourceMappingURL=config.d.ts.map

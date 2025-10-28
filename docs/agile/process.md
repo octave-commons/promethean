@@ -227,7 +227,14 @@ A rule should be changed when:
 - In Progress: 3 → 10 (multi-agent parallel work capacity)
 - Document: 2 → 4 (maintain flow proportion)
 
-### Guiding Principles
+### Guiding Principles for a Supportive Board
+
+- **The board serves the team, not the other way around**
+- **Work gets done, sometimes outside formal processes - and that's okay**
+- **Retrospective card movement is a ritual of acknowledgment, not compliance**
+- **Failed checks are learning opportunities, not violations**
+- **We think better when we're calm** - even urgent work deserves a thoughtful response
+- **Focus on capacity and flow** - "We may have taken on more work than we can handle, let's reevaluate priorities"
 
 - **Rules enable flow, they don't dictate activity**
 - **Change is temporary unless proven valuable**

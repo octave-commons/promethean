@@ -19,12 +19,36 @@ program
     .option('--subrepo-strategy <strategy>', 'how to handle subrepos: separate|integrated', 'integrated')
     .option('--signoff', 'append Signed-off-by', false)
     .option('--dry-run', 'do not actually commit', false)
+    .option('--quiet', 'suppress non-error output', false)
     .action(async (opts) => {
     const cfg = ConfigSchema.parse(opts);
     await start(cfg);
 });
 program.parseAsync().catch((err) => {
-    console.error(err instanceof Error ? err.stack : String(err));
+    let errorMessage = 'Unknown error occurred';
+    if (err instanceof Error) {
+        errorMessage = err.message;
+        if (err.stack) {
+            // Only include stack if it's not too long
+            const stackStr = err.stack;
+            if (stackStr && stackStr.length < 1000) {
+                errorMessage = stackStr;
+            }
+        }
+    }
+    else if (typeof err === 'string') {
+        errorMessage = err;
+    }
+    else if (typeof err === 'object' && err !== null) {
+        const errorObj = err;
+        const message = errorObj.message || errorObj.error || 'Unknown error';
+        errorMessage = typeof message === 'string' ? message : String(message);
+        // Truncate very long messages
+        if (errorMessage.length > 500) {
+            errorMessage = errorMessage.substring(0, 500) + '...';
+        }
+    }
+    console.error(errorMessage);
     process.exit(1);
 });
 //# sourceMappingURL=cli.js.map
