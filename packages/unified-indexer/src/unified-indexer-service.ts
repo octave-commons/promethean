@@ -241,23 +241,12 @@ export async function createUnifiedIndexerService(
 }
 
 /**
- * Create stats handler for DualStoreManager
+ * Factory function to create unified indexer service
  */
-function createStatsHandler(dualStore: Awaited<ReturnType<typeof DualStoreManager.create>>) {
-  return async function getStats(): Promise<IndexingStats> {
-    const report = await dualStore.getConsistencyReport();
-    return {
-      totalContent: report.totalDocuments,
-      contentByType: {} as Record<ContentType, number>,
-      contentBySource: {} as Record<ContentSource, number>,
-      lastIndexed: Date.now(),
-      storageStats: {
-        vectorSize: 0,
-        metadataSize: 0,
-        totalSize: 0,
-      },
-    };
-  };
+export async function createUnifiedIndexerService(
+  config: UnifiedIndexerServiceConfig,
+): Promise<UnifiedIndexerServiceState> {
+  return initializeService(config);
 }
 
 /**
