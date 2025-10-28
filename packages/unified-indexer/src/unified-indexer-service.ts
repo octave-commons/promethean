@@ -86,9 +86,33 @@ function createSearchResult(entry: DualStoreEntry<'text', 'timestamp'>): SearchR
 }
 
 /**
+ * Create index handler for DualStoreManager
+ */
+function createIndexHandler(dualStore: any) {
+  return async function index(content: IndexableContent) {
+    const entry = contentToDualStoreEntry(content);
+    await dualStore.addEntry(entry);
+    return content.id;
+  };
+}
+
+/**
+ * Create index batch handler for DualStoreManager
+ */
+function createIndexBatchHandler(dualStore: any) {
+  return async function indexBatch(contents: readonly IndexableContent[]) {
+    return contents.map((content) => {
+      const entry = contentToDualStoreEntry(content);
+      void dualStore.addEntry(entry);
+      return content.id;
+    });
+  };
+}
+
+/**
  * Create search handler for DualStoreManager
  */
-function createSearchHandler(dualStore: Awaited<ReturnType<typeof DualStoreManager.create>>) {
+function createSearchHandler(dualStore: any) {
   return async function search(query: SearchQuery): Promise<SearchResponse> {
     const startTime = Date.now();
     const results = await dualStore.getMostRelevant(
@@ -103,6 +127,107 @@ function createSearchHandler(dualStore: Awaited<ReturnType<typeof DualStoreManag
       took: Date.now() - startTime,
       query,
     };
+  };
+}
+
+/**
+ * Create get by ID handler for DualStoreManager
+ */
+function createGetByIdHandler(dualStore: any) {
+  return async function getById(id: string) {
+    const entry = await dualStore.get(id);
+    if (!entry) return null;
+
+    return transformDualStoreEntry({
+      id: entry.id || entry._id?.toString(),
+      text: entry.text,
+      timestamp: toEpochMs(entry.timestamp),
+      metadata: entry.metadata,
+    });
+  };
+}
+
+/**
+ * Create stats handler for DualStoreManager
+ */
+function createStatsHandler(dualStore: any) {
+  return async function getStats(): Promise<IndexingStats> {
+    const report = await dualStore.getConsistencyReport();
+    return {
+      totalContent: report.totalDocuments,
+      contentByType: {} as Record<ContentType, number>,
+      contentBySource: {} as Record<ContentSource, number>,
+      lastIndexed: Date.now(),
+      storageStats: {
+        vectorSize: 0,
+        metadataSize: 0,
+        totalSize: 0,
+      },
+    };
+  };
+}
+
+/**
+ * Create health check handler for DualStoreManager
+ */
+function createHealthCheckHandler(dualStore: any) {
+  return async function healthCheck() {
+    const report = await dualStore.getConsistencyReport(1);
+    return {
+      healthy: report.consistentDocuments > 0,
+      vectorStore: true,
+      metadataStore: true,
+      issues: [],
+    };
+  };
+}
+
+/**
+ * Create a UnifiedIndexingClient adapter for DualStoreManager
+ */
+async function createUnifiedIndexingClient(_config: unknown): Promise<UnifiedIndexingClient> {
+  const dualStore = await DualStoreManager.create('unified', 'text', 'createdAt');
+
+  return {
+    index: createIndexHandler(dualStore),
+
+    indexBatch: createIndexBatchHandler(dualStore),
+
+    search: createSearchHandler(dualStore),
+
+    getById: createGetByIdHandler(dualStore),
+
+    async getByType(_type: ContentType) {
+      return [];
+    },
+
+    async getBySource(_source: ContentSource) {
+      return [];
+    },
+
+    async update(_id: string, _content: IndexableContent) {
+      return false;
+    },
+
+    async delete(_id: string) {
+      return false;
+    },
+
+    async deleteBatch(ids: string[]) {
+      return ids.map(() => false);
+    },
+
+    async reindex() {
+      // No-op
+    },
+
+    async optimize() {
+      // No-op
+    },
+
+    getStats: createStatsHandler(dualStore),
+
+    healthCheck: createHealthCheckHandler(dualStore),
   };
 }
 
@@ -159,25 +284,43 @@ function createHealthCheckHandler(dualStore: Awaited<ReturnType<typeof DualStore
 }
 
 /**
+ * Create index handler for DualStoreManager
+ */
+function createIndexHandler(
+  dualStore: Awaited<ReturnType<typeof DualStoreManager.create<'text', 'createdAt'>>>,
+) {
+  return async function index(content: IndexableContent) {
+    const entry = contentToDualStoreEntry(content);
+    await dualStore.addEntry(entry);
+    return content.id;
+  };
+}
+
+/**
+ * Create index batch handler for DualStoreManager
+ */
+function createIndexBatchHandler(
+  dualStore: Awaited<ReturnType<typeof DualStoreManager.create<'text', 'createdAt'>>>,
+) {
+  return async function indexBatch(contents: readonly IndexableContent[]) {
+    return contents.map((content) => {
+      const entry = contentToDualStoreEntry(content);
+      void dualStore.addEntry(entry);
+      return content.id;
+    });
+  };
+}
+
+/**
  * Create a UnifiedIndexingClient adapter for DualStoreManager
  */
 async function createUnifiedIndexingClient(_config: unknown): Promise<UnifiedIndexingClient> {
-  const dualStore = await DualStoreManager.create('unified', 'text', 'createdAt');
+  const dualStore = await DualStoreManager.create('unified', 'createdAt');
 
   return {
-    async index(content: IndexableContent) {
-      const entry = contentToDualStoreEntry(content);
-      await dualStore.addEntry(entry);
-      return content.id;
-    },
+    index: createIndexHandler(dualStore),
 
-    async indexBatch(contents: readonly IndexableContent[]) {
-      return contents.map((content) => {
-        const entry = contentToDualStoreEntry(content);
-        void dualStore.addEntry(entry);
-        return content.id;
-      });
-    },
+    indexBatch: createIndexBatchHandler(dualStore),
 
     search: createSearchHandler(dualStore),
 
