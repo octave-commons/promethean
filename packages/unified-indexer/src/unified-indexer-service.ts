@@ -315,7 +315,7 @@ function createIndexBatchHandler(
  * Create a UnifiedIndexingClient adapter for DualStoreManager
  */
 async function createUnifiedIndexingClient(_config: unknown): Promise<UnifiedIndexingClient> {
-  const dualStore = await DualStoreManager.create('unified', 'createdAt');
+  const dualStore = await DualStoreManager.create('unified', 'text', 'createdAt');
 
   return {
     index: createIndexHandler(dualStore),
