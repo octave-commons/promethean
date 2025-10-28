@@ -1,8 +1,8 @@
 import test from 'ava';
-import { mkdtemp } from 'fs/promises';
+import { mkdtemp, mkdir } from 'fs/promises';
 import { join } from 'path';
 import { tmpdir } from 'os';
-import { findGitRepositories } from '../git.js';
+import { findGitRepositories } from '../git';
 import { execa } from 'execa';
 
 async function createTempDir(): Promise<string> {
@@ -10,13 +10,13 @@ async function createTempDir(): Promise<string> {
 }
 
 test('findGitRepositories finds no repos in empty directory', async (t) => {
-  const tempDir = temporaryDirectory();
+  const tempDir = await createTempDir();
   const repos = await findGitRepositories(tempDir);
   t.deepEqual(repos, []);
 });
 
 test('findGitRepositories finds single repo', async (t) => {
-  const tempDir = temporaryDirectory();
+  const tempDir = await createTempDir();
   const repoDir = join(tempDir, 'myrepo');
 
   await mkdir(repoDir, { recursive: true });
@@ -27,7 +27,7 @@ test('findGitRepositories finds single repo', async (t) => {
 });
 
 test('findGitRepositories finds multiple repos', async (t) => {
-  const tempDir = temporaryDirectory();
+  const tempDir = await createTempDir();
   const repo1Dir = join(tempDir, 'repo1');
   const repo2Dir = join(tempDir, 'repo2');
   const subRepoDir = join(tempDir, 'subdir', 'repo3');
@@ -45,7 +45,7 @@ test('findGitRepositories finds multiple repos', async (t) => {
 });
 
 test('findGitRepositories skips node_modules and dist', async (t) => {
-  const tempDir = temporaryDirectory();
+  const tempDir = await createTempDir();
   const repoDir = join(tempDir, 'repo');
   const nodeModulesRepoDir = join(tempDir, 'node_modules', 'badrepo');
   const distRepoDir = join(tempDir, 'dist', 'badrepo');
@@ -63,7 +63,7 @@ test('findGitRepositories skips node_modules and dist', async (t) => {
 });
 
 test('findGitRepositories handles nested repos correctly', async (t) => {
-  const tempDir = temporaryDirectory();
+  const tempDir = await createTempDir();
   const outerRepoDir = join(tempDir, 'outer');
   const innerRepoDir = join(tempDir, 'outer', 'inner');
 

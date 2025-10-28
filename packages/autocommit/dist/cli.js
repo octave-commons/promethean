@@ -7,6 +7,7 @@ program
     .name('autocommit')
     .description('Watch a git repo and auto-commit with LLM-generated messages.')
     .option('-p, --path <dir>', 'repo root (defaults to cwd)')
+    .option('-r, --recursive', 'detect and watch all git repos recursively', false)
     .option('-d, --debounce-ms <ms>', 'debounce window in ms', '10000')
     .option('--base-url <url>', 'OpenAI-compatible base URL (default: Ollama http://localhost:11434/v1)')
     .option('--api-key <key>', 'API key (not required for local Ollama)')
@@ -21,7 +22,7 @@ program
     await start(cfg);
 });
 program.parseAsync().catch((err) => {
-    console.error(err?.stack || String(err));
+    console.error(err instanceof Error ? err.stack : String(err));
     process.exit(1);
 });
 //# sourceMappingURL=cli.js.map

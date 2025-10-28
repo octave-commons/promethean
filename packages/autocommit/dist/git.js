@@ -1,4 +1,6 @@
 import { execa } from 'execa';
+import { readdir } from 'fs/promises';
+import { join, resolve } from 'path';
 export async function gitRoot(cwd) {
     const { stdout } = await execa('git', ['rev-parse', '--show-toplevel'], { cwd });
     return stdout.trim();
@@ -84,7 +86,7 @@ export function sanitizeCommitMessage(message) {
         return '';
     }
     // Remove control characters (except newline and tab) and trim
-    let sanitized = message
+    const sanitized = message
         .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '') // Remove control chars except \t \n
         .trim();
     // Split into lines and apply limits
@@ -96,10 +98,42 @@ export function sanitizeCommitMessage(message) {
     // Limit to 50 lines total
     const limitedLines = lines.slice(0, 50);
     // Also limit total length to prevent issues
-    sanitized = limitedLines.join('\n');
-    if (sanitized.length > 2000) {
-        sanitized = sanitized.substring(0, 2000);
+    const finalSanitized = limitedLines.join('\n');
+    return finalSanitized.length > 2000 ? finalSanitized.substring(0, 2000) : finalSanitized;
+}
+/**
+ * Finds all git repositories recursively within a directory.
+ * @param rootPath - Root directory to search for git repositories
+ * @returns Array of absolute paths to git repository roots
+ */
+export async function findGitRepositories(rootPath) {
+    const repositories = [];
+    const root = resolve(rootPath);
+    async function scanDirectory(dir) {
+        try {
+            const entries = await readdir(dir, { withFileTypes: true });
+            for (const entry of entries) {
+                const fullPath = join(dir, entry.name);
+                if (entry.isDirectory()) {
+                    // Check if this is a git repository
+                    if (entry.name === '.git') {
+                        repositories.push(dir);
+                        continue; // Don't scan inside .git directories
+                    }
+                    // Skip common non-repository directories for performance
+                    if (entry.name === 'node_modules' || entry.name === 'dist' || entry.name === '.git') {
+                        continue;
+                    }
+                    // Recursively scan subdirectories
+                    await scanDirectory(fullPath);
+                }
+            }
+        }
+        catch {
+            // Ignore directories we can't read
+        }
     }
-    return sanitized;
+    await scanDirectory(root);
+    return repositories;
 }
 //# sourceMappingURL=git.js.map

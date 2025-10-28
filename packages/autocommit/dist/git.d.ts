@@ -21,4 +21,10 @@ export declare function commit(cwd: string, message: string, signoff?: boolean):
  * @returns Sanitized message safe for git commands
  */
 export declare function sanitizeCommitMessage(message: string): string;
+/**
+ * Finds all git repositories recursively within a directory.
+ * @param rootPath - Root directory to search for git repositories
+ * @returns Array of absolute paths to git repository roots
+ */
+export declare function findGitRepositories(rootPath: string): Promise<string[]>;
 //# sourceMappingURL=git.d.ts.map

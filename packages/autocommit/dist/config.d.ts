@@ -1,6 +1,7 @@
 import { z } from 'zod';
 export declare const ConfigSchema: z.ZodObject<{
     path: z.ZodEffects<z.ZodDefault<z.ZodString>, string, string | undefined>;
+    recursive: z.ZodDefault<z.ZodEffects<z.ZodAny, boolean, any>>;
     debounceMs: z.ZodDefault<z.ZodNumber>;
     baseUrl: z.ZodDefault<z.ZodEffects<z.ZodString, string, string>>;
     apiKey: z.ZodEffects<z.ZodOptional<z.ZodString>, string | undefined, string | undefined>;
@@ -12,6 +13,7 @@ export declare const ConfigSchema: z.ZodObject<{
     dryRun: z.ZodDefault<z.ZodEffects<z.ZodAny, boolean, any>>;
 }, "strip", z.ZodTypeAny, {
     path: string;
+    recursive: boolean;
     debounceMs: number;
     baseUrl: string;
     model: string;
@@ -23,6 +25,7 @@ export declare const ConfigSchema: z.ZodObject<{
     apiKey?: string | undefined;
 }, {
     path?: string | undefined;
+    recursive?: any;
     debounceMs?: number | undefined;
     baseUrl?: string | undefined;
     apiKey?: string | undefined;
