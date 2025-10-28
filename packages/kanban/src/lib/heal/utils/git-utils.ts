@@ -299,7 +299,7 @@ export class GitUtils {
   /**
    * Execute a git command with proper error handling
    */
-  private execGit(command: string, options: { stdio?: 'ignore' | 'pipe' } = {}): string {
+  private execGit(command: string, options: { stdio?: StdioOptions } = {}): string {
     try {
       const stdio = options.stdio || 'pipe' as any;
       return execSync(`git ${command}`, {

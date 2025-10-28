@@ -173,7 +173,6 @@ export class GitWorkflow {
       }
 
       // Create pre-operation tag
-      const preOpTag = `${context.metadata.tag}-pre-op`;
       const tagResult = await this.gitTagManager.createHealTag(
         `Pre-operation: ${context.reason}`,
         preOpSha,
