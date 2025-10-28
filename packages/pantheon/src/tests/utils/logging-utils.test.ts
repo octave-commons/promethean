@@ -65,14 +65,16 @@ test('logger output format', (t) => {
 
   // Capture console output
   const originalConsole = global.console;
-  const messages: string[] = [];
+  const messages = [] as string[];
 
-  global.console = {
+  const mockConsole = {
     ...originalConsole,
-    info: (message: string, meta?: unknown) => {
+    info: (message: string, _meta?: unknown) => {
       messages.push(`[Pantheon] ${message}`);
     },
   } as Console;
+
+  global.console = mockConsole;
 
   logger.info('Test message', { key: 'value' });
 
@@ -80,7 +82,7 @@ test('logger output format', (t) => {
   global.console = originalConsole;
 
   t.true(messages.length > 0);
-  t.true(messages[0].includes('[Pantheon] Test message'));
+  t.true(messages[0]!.includes('[Pantheon] Test message'));
 });
 
 test('logger with metadata', (t) => {
@@ -89,12 +91,14 @@ test('logger with metadata', (t) => {
   const originalConsole = global.console;
   let loggedMeta: unknown;
 
-  global.console = {
+  const mockConsole = {
     ...originalConsole,
-    debug: (message: string, meta?: unknown) => {
+    debug: (_message: string, meta?: unknown) => {
       loggedMeta = meta;
     },
   } as Console;
+
+  global.console = mockConsole;
 
   logger.debug('Test with meta', { test: 'data', number: 42 });
 
@@ -113,8 +117,6 @@ function shouldLogAtLevel(logger: Logger, level: 'debug' | 'info' | 'warn' | 'er
 test('logger level hierarchy', (t) => {
   const debugLogger = createConsoleLogger('debug');
   const infoLogger = createConsoleLogger('info');
-  const warnLogger = createConsoleLogger('warn');
-  const errorLogger = createConsoleLogger('error');
 
   // Test that level hierarchy works correctly
   // debug < info < warn < error
@@ -135,12 +137,14 @@ test('logger handles undefined metadata', (t) => {
   const originalConsole = global.console;
   let loggedMeta: unknown;
 
-  global.console = {
+  const mockConsole = {
     ...originalConsole,
-    info: (message: string, meta?: unknown) => {
+    info: (_message: string, meta?: unknown) => {
       loggedMeta = meta;
     },
   } as Console;
+
+  global.console = mockConsole;
 
   logger.info('Test without meta');
 
