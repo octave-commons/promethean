@@ -1,5 +1,6 @@
 import fastifyCors from '@fastify/cors';
 import fastifyStatic from '@fastify/static';
+import fastifyCookie from '@fastify/cookie';
 import Fastify from 'fastify';
 import type { FastifyInstance, FastifyListenOptions, FastifyReply, FastifyRequest } from 'fastify';
 import crypto from 'node:crypto';
@@ -776,6 +777,9 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
     start: async (server?: unknown, optionsInput?: unknown) => {
       const descriptorsFromServer = normalizeServerInput(server);
       const { proxies: proxyList, ui } = parseStartOptions(optionsInput);
+
+      // Register cookie plugin for OAuth support
+      await app.register(fastifyCookie);
 
       const devUiDir = path.resolve(process.cwd(), 'packages/mcp/static/dev-ui');
       if (fs.existsSync(devUiDir)) {
