@@ -116,13 +116,6 @@ export function registerOAuthRoutes(fastify: FastifyInstance, config: OAuthRoute
     (reply as any).clearCookie('session_id', cookieOptions);
   };
 
-  // Helper to get client info from request
-  const getClientInfo = (request: FastifyRequest) => ({
-    ipAddress: request.ip,
-    userAgent: request.headers['user-agent'],
-    referer: request.headers.referer,
-  });
-
   // Helper to create error response
   const createErrorResponse = (
     reply: FastifyReply,
