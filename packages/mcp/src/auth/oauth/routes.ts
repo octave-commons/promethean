@@ -41,6 +41,7 @@ interface OAuthCallbackRequest {
   state?: string;
   error?: string;
   error_description?: string;
+  redirect_uri?: string;
 }
 
 /**
