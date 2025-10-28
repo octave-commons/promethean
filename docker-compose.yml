@@ -55,55 +55,55 @@ services:
       timeout: 5s
       retries: 6
 
-  vllm:
-    image: vllm/vllm-openai:v0.6.3
-    restart: unless-stopped
-    ports: ['127.0.0.1:8001:8001']
-    gpus: all
-    mem_limit: '24g'
-    shm_size: '2g'
-    ulimits:
-      memlock: -1
-    volumes:
-      - ~/.cache/huggingface:/root/.cache/huggingface
-    environment:
-      # vLLM configuration
-      VLLM_HOST: '0.0.0.0'
-      VLLM_PORT: '8001'
-      VLLM_API_KEY: 'vllm-secret-key'
-      CUDA_VISIBLE_DEVICES: '0'
-      NVIDIA_VISIBLE_DEVICES: 'all'
-      NVIDIA_DRIVER_CAPABILITIES: 'all'
-      # Model and performance settings
-      VLLM_MODEL: '${VLLM_MODEL:-facebook/opt-125m}'
-      VLLM_MAX_NUM_BATCHED_TOKENS: '32768'
-      VLLM_MAX_NUM_SEQS: '256'
-      VLLM_GPU_MEMORY_UTILIZATION: '0.9'
-      # Enable optimizations
-      VLLM_ENABLE_PREFIX_CACHING: '1'
-      VLLM_USE_FLASH_ATTN: '1'
-      VLLM_KV_CACHE_DTYPE: 'fp8_e5m2'
-    command: >
-      --model ${VLLM_MODEL:-facebook/opt-125m}
-      --host 0.0.0.0
-      --port 8001
-      --api-key vllm-secret-key
-      --max-num-batched-tokens 32768
-      --max-num-seqs 256
-      --gpu-memory-utilization 0.9
-      --enable-prefix-caching
-      --use-flash-attn
-      --kv-cache-dtype fp8_e5m2
-    healthcheck:
-      test:
-        [
-          'CMD-SHELL',
-          'curl -fsS http://127.0.0.1:8001/health >/dev/null && nvidia-smi >/dev/null 2>&1',
-        ]
-      interval: 15s
-      timeout: 10s
-      retries: 6
-      start_period: 60s # Give vLLM more time to download models and start
+  # vllm:
+  #   image: vllm/vllm-openai:v0.6.3
+  #   restart: unless-stopped
+  #   ports: ['127.0.0.1:8001:8001']
+  #   gpus: all
+  #   mem_limit: '24g'
+  #   shm_size: '2g'
+  #   ulimits:
+  #     memlock: -1
+  #   volumes:
+  #     - ~/.cache/huggingface:/root/.cache/huggingface
+  #   environment:
+  #     # vLLM configuration
+  #     VLLM_HOST: '0.0.0.0'
+  #     VLLM_PORT: '8001'
+  #     VLLM_API_KEY: 'vllm-secret-key'
+  #     CUDA_VISIBLE_DEVICES: '0'
+  #     NVIDIA_VISIBLE_DEVICES: 'all'
+  #     NVIDIA_DRIVER_CAPABILITIES: 'all'
+  #     # Model and performance settings
+  #     VLLM_MODEL: '${VLLM_MODEL:-facebook/opt-125m}'
+  #     VLLM_MAX_NUM_BATCHED_TOKENS: '32768'
+  #     VLLM_MAX_NUM_SEQS: '256'
+  #     VLLM_GPU_MEMORY_UTILIZATION: '0.9'
+  #     # Enable optimizations
+  #     VLLM_ENABLE_PREFIX_CACHING: '1'
+  #     VLLM_USE_FLASH_ATTN: '1'
+  #     VLLM_KV_CACHE_DTYPE: 'fp8_e5m2'
+  #   command: >
+  #     --model ${VLLM_MODEL:-facebook/opt-125m}
+  #     --host 0.0.0.0
+  #     --port 8001
+  #     --api-key vllm-secret-key
+  #     --max-num-batched-tokens 32768
+  #     --max-num-seqs 256
+  #     --gpu-memory-utilization 0.9
+  #     --enable-prefix-caching
+  #     --use-flash-attn
+  #     --kv-cache-dtype fp8_e5m2
+  #   healthcheck:
+  #     test:
+  #       [
+  #         'CMD-SHELL',
+  #         'curl -fsS http://127.0.0.1:8001/health >/dev/null && nvidia-smi >/dev/null 2>&1',
+  #       ]
+  #     interval: 15s
+  #     timeout: 10s
+  #     retries: 6
+  #     start_period: 60s # Give vLLM more time to download models and start
 
   redis:
     image: redis:6.2-alpine
