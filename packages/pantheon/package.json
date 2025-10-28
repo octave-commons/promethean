@@ -36,8 +36,8 @@
     "dev": "tsc --watch",
     "typecheck": "tsc --noEmit",
     "test": "ava",
-    "coverage": "c8 --config ./src/c8.config.mjs ava",
-    "coverage:check": "c8 --config ./src/c8.config.mjs --check-coverage ava",
+    "coverage": "c8 --config ./c8.config.json ava",
+    "coverage:check": "c8 --config ./c8.config.json --check-coverage ava",
     "lint": "pnpm exec eslint ."
   },
   "dependencies": {
