@@ -779,7 +779,7 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
       const { proxies: proxyList, ui } = parseStartOptions(optionsInput);
 
       // Register cookie plugin for OAuth support
-      await app.register(fastifyCookie);
+      await app.register(fastifyCookie as any);
 
       const devUiDir = path.resolve(process.cwd(), 'packages/mcp/static/dev-ui');
       if (fs.existsSync(devUiDir)) {
