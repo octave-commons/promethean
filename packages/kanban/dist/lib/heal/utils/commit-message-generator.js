@@ -119,7 +119,7 @@ export class CommitMessageGenerator {
             errors.push('Subject line should not end with a period');
         }
         // Check subject is capitalized
-        if (subject && subject.length > 0 && subject[0] !== subject[0].toUpperCase()) {
+        if (subject && subject.length > 0 && subject[0].toUpperCase() !== subject[0]) {
             errors.push('Subject line should start with a capital letter');
         }
         // Check for empty lines between subject and body

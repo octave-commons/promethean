@@ -315,8 +315,6 @@ export class GitUtils {
       throw new Error(`Git command failed: git ${command} - ${error instanceof Error ? error.message : String(error)}`);
     }
   }
-    }
-  }
 }
 
 /**

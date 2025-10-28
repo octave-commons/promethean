@@ -272,9 +272,9 @@ export class TaskAIManager {
         success: true,
         taskUuid: uuid,
         breakdownType,
-        subtasks: breakdown.subtasks,
-        totalEstimatedHours: breakdown.subtasks.reduce(
-          (sum, task) => sum + (task.estimatedHours || 0),
+                subtasks: breakdown,
+        totalEstimatedHours: breakdown.reduce(
+          (sum: number, task: any) => sum + (task.estimatedHours || 0),
           0,
         ),
         metadata: {
@@ -325,7 +325,7 @@ export class TaskAIManager {
         };
 
       case 'complexity':
-        return {
+                return {
           complexityScore: Math.max(40, Math.min(85, 45 + Math.floor(contentLength / 60))),
           estimatedEffort: {
             hours: Math.max(4, Math.min(16, Math.round(contentLength / 120) + 4)),
@@ -336,9 +336,10 @@ export class TaskAIManager {
             'Reserve buffer time for integration testing.',
             'Identify critical path dependencies early.',
           ],
+          risks: ['Complex integration points may cause delays'],
           dependencies: ['Architecture review', 'Test data availability'],
           subtasks: [],
-        };
+                };
 
       default:
         return {
@@ -407,24 +408,24 @@ ${originalContent.trim()}
       {
         title: 'Requirement audit',
         description: `Validate scope, dependencies, and entry criteria for ${task.title}.`,
-        estimatedHours: includeEstimates ? baseEstimate : undefined,
-        priority: 'high',
+                estimatedHours: includeEstimates ? baseEstimate : undefined,
+        priority: 'high' as const,
         dependencies: [],
         acceptanceCriteria: ['Scope confirmed with stakeholders'],
       },
       {
         title: 'Implementation plan',
         description: 'Outline technical approach, interfaces, and data changes.',
-        estimatedHours: includeEstimates ? baseEstimate + 1 : undefined,
-        priority: 'medium',
+                estimatedHours: includeEstimates ? baseEstimate + 1 : undefined,
+        priority: 'medium' as const,
         dependencies: ['Requirement audit'],
         acceptanceCriteria: ['Plan reviewed by core team'],
       },
       {
         title: 'Validation strategy',
         description: 'Define test coverage, rollout, and monitoring strategy.',
-        estimatedHours: includeEstimates ? baseEstimate : undefined,
-        priority: 'medium',
+                estimatedHours: includeEstimates ? baseEstimate : undefined,
+        priority: 'medium' as const,
         dependencies: ['Implementation plan'],
         acceptanceCriteria: ['QA and release steps documented'],
       },

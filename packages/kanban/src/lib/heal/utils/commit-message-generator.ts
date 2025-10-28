@@ -173,7 +173,7 @@ export class CommitMessageGenerator {
     }
 
         // Check subject is capitalized
-    if (subject && subject.length > 0 && subject[0] !== subject[0].toUpperCase()) {
+        if (subject && subject.length > 0 && subject[0]!.toUpperCase() !== subject[0]) {
       errors.push('Subject line should start with a capital letter');
     }
 

@@ -267,21 +267,6 @@ export class GitUtils {
         }
     }
 }
-try {
-    const stdio = options.stdio || 'pipe';
-    return execSync(`git ${command}`, {
-        cwd: this.repoPath,
-        encoding: 'utf8',
-        stdio,
-        maxBuffer: 50 * 1024 * 1024, // 50MB buffer
-    });
-}
-catch (error) {
-    if (stdio === 'ignore') {
-        throw error;
-    }
-    throw new Error(`Git command failed: git ${command} - ${error instanceof Error ? error.message : String(error)}`);
-}
 /**
  * Create a GitUtils instance
  */

@@ -21,8 +21,7 @@ export declare class TaskAIManager {
     rewriteTask(request: TaskRewriteRequest): Promise<TaskRewriteResult>;
     breakdownTask(request: TaskBreakdownRequest): Promise<TaskBreakdownResult>;
     private generateTaskAnalysis;
-    private generateTaskRewrite;
-    private generateTaskBreakdown;
+    default: return;
 }
 export declare function createTaskAIManager(config?: TaskAIManagerConfig): TaskAIManager;
 //# sourceMappingURL=ai.d.ts.map

@@ -204,8 +204,8 @@ export class TaskAIManager {
                 success: true,
                 taskUuid: uuid,
                 breakdownType,
-                subtasks: breakdown.subtasks,
-                totalEstimatedHours: breakdown.subtasks.reduce((sum, task) => sum + (task.estimatedHours || 0), 0),
+                subtasks: breakdown,
+                totalEstimatedHours: breakdown.reduce((sum, task) => sum + (task.estimatedHours || 0), 0),
                 metadata: {
                     breakdownAt: new Date(),
                     breakdownBy: process.env.AGENT_NAME || 'TaskAIManager',
@@ -259,28 +259,50 @@ export class TaskAIManager {
                         'Reserve buffer time for integration testing.',
                         'Identify critical path dependencies early.',
                     ],
+                    risks: ['Complex integration points may cause delays'],
                     dependencies: ['Architecture review', 'Test data availability'],
                     subtasks: [],
                 };
-            default:
-                return {
-                    qualityScore: baseQuality,
-                    completenessScore: completeness,
-                    suggestions: ['Add clarifying context where assumptions exist.'],
-                    risks: [],
-                    dependencies: [],
-                    subtasks: [],
-                };
+                'Reserve buffer time for integration testing.',
+                    'Identify critical path dependencies early.',
+                ;
+                dependencies: ['Architecture review', 'Test data availability'],
+                    subtasks;
+                [],
+                ;
         }
+        ;
     }
-    generateTaskRewrite(task, rewriteType, instructions, targetAudience, tone, originalContent) {
-        const baseSummary = `Rewrite for ${targetAudience} audience with a ${tone} tone.`;
-        const improvements = [
-            'Clarified objectives and desired outcomes.',
-            'Added explicit acceptance criteria and validation steps.',
-            'Documented dependencies and staging requirements.',
-        ];
-        const rewrittenContent = `## Updated Task Brief: ${task.title}
+    default;
+}
+{
+    qualityScore: baseQuality,
+        completenessScore;
+    completeness,
+        suggestions;
+    ['Add clarifying context where assumptions exist.'],
+        risks;
+    [],
+        dependencies;
+    [],
+        subtasks;
+    [],
+    ;
+}
+;
+generateTaskRewrite(task, Task, rewriteType, string, instructions, string, targetAudience, string, tone, string, originalContent, string);
+{
+    content: string;
+    summary: string;
+}
+{
+    const baseSummary = `Rewrite for ${targetAudience} audience with a ${tone} tone.`;
+    const improvements = [
+        'Clarified objectives and desired outcomes.',
+        'Added explicit acceptance criteria and validation steps.',
+        'Documented dependencies and staging requirements.',
+    ];
+    const rewrittenContent = `## Updated Task Brief: ${task.title}
 
 ${originalContent.trim()}
 
@@ -299,41 +321,42 @@ ${originalContent.trim()}
 ### Notes
 - ${instructions || 'Follow standard Promethean delivery guidelines.'}
 - Rewrite type: ${rewriteType}.`;
-        return {
-            content: rewrittenContent,
-            summary: `${baseSummary} Key improvements: ${improvements.join(' ')}`,
-        };
-    }
-    generateTaskBreakdown(task, _breakdownType, maxSubtasks, complexity, includeEstimates) {
-        const baseEstimate = complexity === 'complex' ? 6 : complexity === 'medium' ? 4 : 2;
-        const subtasks = [
-            {
-                title: 'Requirement audit',
-                description: `Validate scope, dependencies, and entry criteria for ${task.title}.`,
-                estimatedHours: includeEstimates ? baseEstimate : undefined,
-                priority: 'high',
-                dependencies: [],
-                acceptanceCriteria: ['Scope confirmed with stakeholders'],
-            },
-            {
-                title: 'Implementation plan',
-                description: 'Outline technical approach, interfaces, and data changes.',
-                estimatedHours: includeEstimates ? baseEstimate + 1 : undefined,
-                priority: 'medium',
-                dependencies: ['Requirement audit'],
-                acceptanceCriteria: ['Plan reviewed by core team'],
-            },
-            {
-                title: 'Validation strategy',
-                description: 'Define test coverage, rollout, and monitoring strategy.',
-                estimatedHours: includeEstimates ? baseEstimate : undefined,
-                priority: 'medium',
-                dependencies: ['Implementation plan'],
-                acceptanceCriteria: ['QA and release steps documented'],
-            },
-        ].slice(0, maxSubtasks);
-        return subtasks;
-    }
+    return {
+        content: rewrittenContent,
+        summary: `${baseSummary} Key improvements: ${improvements.join(' ')}`,
+    };
+}
+generateTaskBreakdown(task, Task, _breakdownType, string, maxSubtasks, number, complexity, string, includeEstimates, boolean);
+TaskBreakdownResult['subtasks'];
+{
+    const baseEstimate = complexity === 'complex' ? 6 : complexity === 'medium' ? 4 : 2;
+    const subtasks = [
+        {
+            title: 'Requirement audit',
+            description: `Validate scope, dependencies, and entry criteria for ${task.title}.`,
+            estimatedHours: includeEstimates ? baseEstimate : undefined,
+            priority: 'high',
+            dependencies: [],
+            acceptanceCriteria: ['Scope confirmed with stakeholders'],
+        },
+        {
+            title: 'Implementation plan',
+            description: 'Outline technical approach, interfaces, and data changes.',
+            estimatedHours: includeEstimates ? baseEstimate + 1 : undefined,
+            priority: 'medium',
+            dependencies: ['Requirement audit'],
+            acceptanceCriteria: ['Plan reviewed by core team'],
+        },
+        {
+            title: 'Validation strategy',
+            description: 'Define test coverage, rollout, and monitoring strategy.',
+            estimatedHours: includeEstimates ? baseEstimate : undefined,
+            priority: 'medium',
+            dependencies: ['Implementation plan'],
+            acceptanceCriteria: ['QA and release steps documented'],
+        },
+    ].slice(0, maxSubtasks);
+    return subtasks;
 }
 export function createTaskAIManager(config) {
     return new TaskAIManager(config);

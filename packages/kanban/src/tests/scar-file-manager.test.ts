@@ -108,7 +108,7 @@ test('loadScars skips invalid records', async (t) => {
   const lines = [
     JSON.stringify(mockScarRecords[0]),
     'invalid json line',
-    JSON.stringify({ ...mockScarRecords[1], timestamp: mockScarRecords[1].timestamp.toISOString() }),
+        JSON.stringify({ ...mockScarRecords[1]!, timestamp: mockScarRecords[1]!.timestamp.toISOString() }),
     '{"incomplete": "record"}',
   ];
   await fs.writeFile(testFilePath, lines.join('\n') + '\n');
@@ -122,7 +122,7 @@ test('addScar adds single scar record', async (t) => {
   const testFilePath = (t.context as any).testFilePath as string;
   const manager = new ScarFileManager({ filePath: testFilePath });
   
-  const result = await manager.addScar(mockScarRecords[0]);
+    const result = await manager.addScar(mockScarRecords[0]!);
   
   t.true(result.success);
   t.is(result.recordCount, 1);
@@ -217,7 +217,7 @@ test('searchScars by tag pattern', async (t) => {
   const results = await manager.searchScars({ tagPattern: '2025-01-01' });
   
   t.is(results.length, 1);
-  t.is(results[0].tag, 'heal-2025-01-01-10-00-00');
+    t.is(results[0]!.tag, 'heal-2025-01-01-10-00-00');
 });
 
 test('searchScars by date range', async (t) => {
@@ -234,7 +234,7 @@ test('searchScars by date range', async (t) => {
   });
   
   t.is(results.length, 1);
-  t.is(results[0].tag, 'heal-2025-01-01-10-00-00');
+    t.is(results[0]!.tag, 'heal-2025-01-01-10-00-00');
 });
 
 test('searchScars by story content', async (t) => {
@@ -246,7 +246,7 @@ test('searchScars by story content', async (t) => {
   const results = await manager.searchScars({ storyContains: 'duplicate' });
   
   t.is(results.length, 1);
-  t.is(results[0].tag, 'heal-2025-01-01-10-00-00');
+    t.is(results[0]!.tag, 'heal-2025-01-01-10-00-00');
 });
 
 test('searchScars with limit', async (t) => {
@@ -259,7 +259,7 @@ test('searchScars with limit', async (t) => {
   
   t.is(results.length, 1);
   // Should return the most recent one first
-  t.is(results[0].tag, 'heal-2025-01-02-15-30-00');
+    t.is(results[0]!.tag, 'heal-2025-01-02-15-30-00');
 });
 
 test('removeScars by date', async (t) => {
@@ -277,7 +277,7 @@ test('removeScars by date', async (t) => {
   
   const remainingScars = await manager.loadScars();
   t.is(remainingScars.length, 1);
-  t.is(remainingScars[0].tag, 'heal-2025-01-02-15-30-00');
+    t.is(remainingScars[0]!.tag, 'heal-2025-01-02-15-30-00');
 });
 
 test('removeScars by tag pattern', async (t) => {
@@ -295,7 +295,7 @@ test('removeScars by tag pattern', async (t) => {
   
   const remainingScars = await manager.loadScars();
   t.is(remainingScars.length, 1);
-  t.is(remainingScars[0].tag, 'heal-2025-01-02-15-30-00');
+    t.is(remainingScars[0]!.tag, 'heal-2025-01-02-15-30-00');
 });
 
 test('removeScars with limit', async (t) => {
@@ -313,7 +313,7 @@ test('removeScars with limit', async (t) => {
   const remainingScars = await manager.loadScars();
   t.is(remainingScars.length, 1);
   // Should keep the most recent one
-  t.is(remainingScars[0].tag, 'heal-2025-01-02-15-30-00');
+    t.is(remainingScars[0]!.tag, 'heal-2025-01-02-15-30-00');
 });
 
 test('validateFile with valid file', async (t) => {

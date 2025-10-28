@@ -325,7 +325,7 @@ test('commitKanbanBoard handles no changes', async (t) => {
   const workflow = new GitWorkflow({ repoPath: testDir });
   
   const context = createMockScarContext('Test no board changes', 'heal-test-006');
-  const tasks = [];
+    const tasks: any[] = [];
   
   const result = await workflow.commitKanbanBoard(context, tasks);
   
