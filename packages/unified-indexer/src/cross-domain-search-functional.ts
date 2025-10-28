@@ -165,7 +165,7 @@ export async function getContextualSearch(
 
   return {
     searchResults: searchResponse,
-    context: (searchResponse.context || []) as ContextMessage[],
+    context: searchResponse.context || [],
   };
 }
 
