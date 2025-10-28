@@ -1832,53 +1832,37 @@ export const createTask = async (
   console.error('[DEBUG] createTask params:', { column, title: input.title, tasksDir, boardPath });
   const uuid = input.uuid ?? cryptoRandomUUID();
   console.error('[DEBUG] UUID generated:', uuid.slice(0, 8));
-  console.error('[DEBUG] Processing title...');
   const baseTitle = input.title?.trim() ?? '';
   const title = baseTitle.length > 0 ? baseTitle : `Task ${uuid.slice(0, 8)}`;
-  console.error('[DEBUG] Title processed:', title);
 
   // Validate that the starting status is allowed
-  console.error('[DEBUG] About to validate starting status...');
   validateStartingStatus(column);
-  console.error('[DEBUG] Starting status validated');
 
-  console.error('[DEBUG] About to ensure column...');
   const targetColumn = ensureColumn(board, column);
-  console.error('[DEBUG] Column ensured:', targetColumn.name);
 
-  console.error('[DEBUG] About to read tasks folder...');
   const existingTasks = await readTasksFolder(tasksDir);
-  console.error('[DEBUG] Tasks folder read, count:', existingTasks.length);
   const existingById = new Map(existingTasks.map((task) => [task.uuid, task]));
   // *** CRITICAL FIX: Duplicate Task Detection ***
-  console.error('[DEBUG] Starting duplicate detection...');
-  // Check for existing tasks with same title in the same column
+  // Check for existing tasks with the same title in the same column
   const normalizedTitle = title.trim().toLowerCase();
   const targetColumnName = targetColumn.name.trim().toLowerCase();
-  console.error('[DEBUG] Normalized title:', normalizedTitle);
-  console.error('[DEBUG] Target column name:', targetColumnName);
 
   // First check: Look for existing task in files (prioritize file-based tasks with full content)
-  console.error('[DEBUG] About to search for existing task in', existingTasks.length, 'tasks...');
   const existingTaskInColumn = existingTasks.find(
     (task) =>
       task.title.trim().toLowerCase() === normalizedTitle &&
       task.status.trim().toLowerCase() === targetColumnName,
   );
-  console.error('[DEBUG] Search completed, found:', existingTaskInColumn ? 'YES' : 'NO');
 
   if (existingTaskInColumn) {
-    console.error('[DEBUG] Found existing task in column, returning it');
-    // Return exact same task object to ensure content consistency
+    // Return the exact same task object to ensure content consistency
     return existingTaskInColumn;
   }
 
-  // Second check: Look for task in board column (less reliable, no file content)
-  console.error('[DEBUG] About to search board column with', targetColumn.tasks.length, 'tasks...');
+  // Second check: Look for existing task in the target column on the board
   const boardTaskInColumn = targetColumn.tasks.find(
     (task) => task.title.trim().toLowerCase() === normalizedTitle,
   );
-  console.error('[DEBUG] Board search completed, found:', boardTaskInColumn ? 'YES' : 'NO');
 
   if (boardTaskInColumn) {
     // Always try to get full content from existing tasks (file-based)
@@ -1892,40 +1876,29 @@ export const createTask = async (
   }
   // *** END CRITICAL FIX ***
 
-  console.error('[DEBUG] About to build board index...');
   const boardIndex = new Map<string, { column: ColumnData; index: number; task: Task }>();
-  console.error('[DEBUG] Building index from', board.columns.length, 'columns...');
   board.columns.forEach((col) =>
     col.tasks.forEach((task, index) => boardIndex.set(task.uuid, { column: col, index, task })),
   );
-  // Skip template processing for now to prevent hanging bug
-  const bodyText = input.body ?? input.content ?? '';
-  const contentFromTemplate = bodyText;
+
+  const templatePath = input.templatePath ?? input.defaultTemplatePath;
+  let templateContent: string | undefined;
+  if (templatePath) {
+    templateContent = await fs.readFile(templatePath, 'utf8');
   }
 
   const bodyText = input.body ?? input.content ?? '';
-  let contentFromTemplate: string;
-  
-  if (typeof templateContent === 'string' && templateContent.length > 0) {
-    try {
-      contentFromTemplate = applyTemplateReplacements(templateContent, {
-        TITLE: title,
-        BODY: bodyText,
-        UUID: uuid,
-      });
-    } catch (error) {
-      console.error('Warning: Template processing failed, using plain content:', error);
-      contentFromTemplate = bodyText;
-    }
-  } else {
-    contentFromTemplate = bodyText;
-  }
+  let contentFromTemplate =
+    typeof templateContent === 'string'
+      ? applyTemplateReplacements(templateContent, {
+          TITLE: title,
+          BODY: bodyText,
+          UUID: uuid,
+        })
+      : (input.content ?? bodyText);
 
   if (!contentFromTemplate) {
     contentFromTemplate = '';
-  }
-  } else {
-    contentFromTemplate = bodyText;
   }
 
   let newTaskContent = ensureSectionExists(contentFromTemplate, BLOCKED_BY_HEADING);
