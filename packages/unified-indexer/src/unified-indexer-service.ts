@@ -375,11 +375,19 @@ async function syncAllIndexers(state: UnifiedIndexerServiceState): Promise<void>
  * Get service status
  */
 export function getServiceStatus(state: UnifiedIndexerServiceState): ServiceStatus {
+  const activeSources: ContentSource[] = [];
+  if (state.config.sources.files.enabled) activeSources.push('files');
+  if (state.config.sources.discord.enabled) activeSources.push('discord');
+  if (state.config.sources.opencode.enabled) activeSources.push('opencode');
+  if (state.config.sources.kanban.enabled) activeSources.push('kanban');
+
   return {
-    isRunning: state.isRunning,
+    healthy: state.isRunning,
+    indexing: state.isRunning,
     lastSync: state.lastSync,
-    uptime: state.isRunning ? Date.now() - (state.lastSync || Date.now()) : 0,
-    stats: state.stats,
+    nextSync: state.isRunning ? state.lastSync + state.config.sync.interval : 0,
+    activeSources,
+    issues: [],
   };
 }
 
