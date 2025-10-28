@@ -107,9 +107,9 @@ export function calculateScoreDistribution(scores: readonly number[]): Record<st
  * Generate search analytics
  */
 export function generateAnalytics(
-  results: EnhancedSearchResult[],
+  results: readonly EnhancedSearchResult[],
   _options: CrossDomainSearchOptions,
-) {
+): {
   const sourcesSet = new Set(results.map((r) => r.sourceType));
   const typesSet = new Set(results.map((r) => r.contentType));
   const sources = Array.from(sourcesSet);
