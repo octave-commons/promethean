@@ -109,11 +109,27 @@ test('logger with metadata', (t) => {
 
 // Helper function to test if logger would log at specific level
 // Helper function to test if logger would log at specific level
+// Helper function to test if logger would log at specific level
 function shouldLogAtLevel(logger: Logger, level: 'debug' | 'info' | 'warn' | 'error'): boolean {
-  // Create a test to check if the logger method exists and would potentially log
-  // We can't easily test the actual logging level without capturing console output
-  // So we'll check if the method is callable (basic functionality test)
-  return typeof logger[level] === 'function';
+  const originalConsole = global.console;
+  let logged = false;
+
+  const mockConsole = {
+    ...originalConsole,
+    debug: () => { logged = true; },
+    info: () => { logged = true; },
+    warn: () => { logged = true; },
+    error: () => { logged = true; },
+  } as Console;
+
+  global.console = mockConsole;
+  
+  try {
+    logger[level]('test message');
+    return logged;
+  } finally {
+    global.console = originalConsole;
+  }
 }
 
 test('logger level hierarchy', (t) => {

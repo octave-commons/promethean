@@ -142,12 +142,14 @@ export const mergeConfigs = <T extends Record<string, any>>(
   };
 };
 
-export const validateConfig = <T extends Record<string, any>>(
+export const export const validateConfig = <T extends Record<string, any>>(
   config: any,
   requiredKeys: (keyof T)[],
 ): config is T => {
-  return requiredKeys.every((key) => key in config);
-};
+  return requiredKeys.every((key) => 
+    key in config && config[key] !== null && config[key] !== undefined
+  );
+};;
 
 // === Error Handling ===
 
@@ -199,7 +201,7 @@ export const withTimeout = <T>(
   return Promise.race([promise, timeout]);
 };
 
-export const retry = async <T>(
+export const export const retry = async <T>(
   fn: () => Promise<T>,
   maxRetries: number = 3,
   delayMs: number = 1000,
@@ -207,25 +209,25 @@ export const retry = async <T>(
 ): Promise<T> => {
   let lastError: Error;
 
-  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+  for (let attempt = 1; attempt <= maxRetries + 1; attempt++) {
     try {
       return await fn();
     } catch (error) {
       lastError = error instanceof Error ? error : new Error(String(error));
 
-      if (attempt === maxRetries) {
+      if (attempt > maxRetries) {
         break;
       }
 
       const delay =
-        backoff === 'exponential' ? delayMs * Math.pow(2, attempt) : delayMs * (attempt + 1);
+        backoff === 'exponential' ? delayMs * Math.pow(2, attempt - 1) : delayMs * attempt;
 
       await new Promise((resolve) => setTimeout(resolve, delay));
     }
   }
 
   throw lastError!;
-};
+};;
 
 // === Logging Utilities ===
 
