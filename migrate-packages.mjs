@@ -157,7 +157,25 @@ function main() {
   // Get independent packages
   const independentPackages = getIndependentPackages();
 
-  if (packageFilter) {
+  if (packageFilter === 'all') {
+    // Migrate all packages
+    console.log('\n=== STARTING MIGRATION ===\n');
+
+    let successCount = 0;
+    let failCount = 0;
+
+    for (const packageInfo of independentPackages) {
+      if (migratePackage(packageInfo)) {
+        successCount++;
+      } else {
+        failCount++;
+      }
+    }
+
+    console.log(`\n=== MIGRATION COMPLETE ===`);
+    console.log(`Successfully migrated: ${successCount} packages`);
+    console.log(`Failed to migrate: ${failCount} packages`);
+  } else if (packageFilter) {
     // Migrate specific package
     const packageToMigrate = independentPackages.find(
       (p) => p.name === packageFilter || p.dir === packageFilter,
@@ -179,25 +197,6 @@ function main() {
 
     console.log('\nTo migrate all packages, run: node migrate-packages.mjs all');
     console.log('To migrate a specific package, run: node migrate-packages.mjs <package-name>');
-
-    if (args[0] === 'all') {
-      console.log('\n=== STARTING MIGRATION ===\n');
-
-      let successCount = 0;
-      let failCount = 0;
-
-      for (const packageInfo of independentPackages) {
-        if (migratePackage(packageInfo)) {
-          successCount++;
-        } else {
-          failCount++;
-        }
-      }
-
-      console.log(`\n=== MIGRATION COMPLETE ===`);
-      console.log(`Successfully migrated: ${successCount} packages`);
-      console.log(`Failed to migrate: ${failCount} packages`);
-    }
   }
 }
 
