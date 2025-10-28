@@ -189,32 +189,62 @@ flowchart TD
 
 ### Blocking policy
 
-- **Minor blockers**: record briefly on the task; continue with other eligible work; resolve asynchronously.
+- **Minor blockers**: record briefly on task; continue with other eligible work; resolve asynchronously.
   - Uncertainty over a single aspect of an assignment which does not prevent completion of other aspects of the assignment
 - **Major blockers**: halt work on that task; capture evidence + attempt remediation
   - A triggered transition rule would result in a column begin over it's WIP limit
   - An agent's current task has only blocked sub tasks
 
+### When Work Happens Outside Board
+
+Sometimes excellent work gets completed without following the formal kanban flow. This is normal and okay:
+
+1. **Honor the work** - Create retrospective cards to acknowledge valuable contributions
+2. **Move through board as ritual** - This helps us see the work was properly completed
+3. **Learn from the pattern** - Why did work bypass the board? How can we make the process more supportive?
+4. **Update the map** - The board should reflect reality, not enforce an idealized version
+
+The goal is a **living, breathing process** that adapts to how we actually work, not forcing us to work against our natural flow.
+
 ## 🌊 Fluid Kanban Rule Evolution
 
-Kanban is a fluid process that adapts to changing development environments while maintaining core principles.
+Kanban is a supportive map that helps us navigate our work, not a rigid set of laws. Like any map, it sometimes needs updating when the territory changes.
 
-### When Rules Must Change
+### The Board as a Living Map
 
-A rule should be changed when:
+Think of the kanban board as:
 
-1. **Progress is blocked** despite valid work being ready
-2. **Team composition changes** significantly (new contributors, new agent types)
-3. **Process discovery** reveals better ways of working
-4. **Scaling requirements** exceed current capacity constraints
+- **A view into how we operate** - showing current work patterns and capacity
+- **A guide for next steps** - especially when we're unsure what to work on
+- **A flexible tool** - always having something available to do, add, update, or review
+- **A reflection of reality** - we update the map when it differs from the terrain
 
-### Rule Change Process
+### When the Map Needs Updating
 
-1. **Identify the constraint**: Which specific rule is preventing forward progress?
-2. **Document the rationale**: Why must this rule change now? What's the impact?
-3. **Propose a new rule**: Clear, measurable, and time-bound
-4. **Implement temporarily**: Test the change with explicit review date
-5. **Evaluate and formalize**: Either revert, adjust, or make permanent
+The board should be adjusted when:
+
+1. **Work happens outside the board** - we retrospectively add cards to honor completed work
+2. **Progress is blocked** despite valid work being ready
+3. **Team composition changes** significantly (new contributors, new agent types)
+4. **Process discovery** reveals better ways of working
+5. **Scaling requirements** exceed current capacity constraints
+
+### Gentle Rule Evolution Process
+
+1. **Notice the mismatch** - When reality differs from the board, observe calmly
+2. **Update the map** - Add retrospective cards to honor work completed
+3. **Reflect on patterns** - Why did work bypass the board? How can we better support the workflow?
+4. **Adjust gently** - Make small, supportive changes rather than dramatic overhauls
+5. **Check effectiveness** - Did the change make the board more helpful or burdensome?
+
+### Guiding Principles for a Supportive Board
+
+- **The board serves the team, not the other way around**
+- **Work gets done, sometimes outside formal processes - and that's okay**
+- **Retrospective card movement is a ritual of acknowledgment, not compliance**
+- **Failed checks are learning opportunities, not violations**
+- **We think better when we're calm** - even urgent work deserves thoughtful response
+- **Focus on capacity and flow** - "We may have taken on more work than we can handle, let's reevaluate priorities"
 
 ### WIP Limit Evolution Example
 
