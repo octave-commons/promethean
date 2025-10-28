@@ -167,16 +167,13 @@ async function demonstrateSearch(indexerService: UnifiedIndexerServiceState): Pr
 async function demonstrateContext(indexerService: UnifiedIndexerServiceState): Promise<void> {
   console.log('\n🤖 Example 2: LLM context compilation');
   try {
-    const context = await compileContext(
-      indexerService.contextStore,
-      ['unified indexer service', 'contextStore', 'cross-domain search'],
-      {
-        recentLimit: 5,
-        queryLimit: 3,
-        limit: 10,
-        formatAssistantMessages: true,
-      },
-    );
+    const context = await compileContext(indexerService.contextStore, {
+      texts: ['unified indexer service', 'contextStore', 'cross-domain search'],
+      recentLimit: 5,
+      queryLimit: 3,
+      limit: 10,
+      formatAssistantMessages: true,
+    });
 
     console.log(`✅ Compiled ${context.length} context messages for LLM consumption`);
     context.forEach((msg, index: number) => {
@@ -237,15 +234,12 @@ async function demonstrateContextStoreIntegration(): Promise<void> {
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     // Get context just like existing contextStore usage
-    const context = await compileContext(
-      indexerService.contextStore,
-      ['promethean architecture', 'agent coordination'],
-      {
-        recentLimit: 10,
-        queryLimit: 5,
-        limit: 15,
-      },
-    );
+    const context = await compileContext(indexerService.contextStore, {
+      texts: ['promethean architecture', 'agent coordination'],
+      recentLimit: 10,
+      queryLimit: 5,
+      limit: 15,
+    });
 
     console.log(`✅ Retrieved ${context.length} context messages from unified sources`);
 
