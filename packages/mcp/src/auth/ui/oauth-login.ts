@@ -359,13 +359,6 @@ export class OAuthLoginComponent {
   }
 
   /**
-   * Set authentication success callback
-   */
-  setAuthSuccessCallback(callback: (user: any) => void): void {
-    this.authSuccessCallback = callback;
-  }
-
-  /**
    * Set authentication error callback
    */
   setAuthErrorCallback(callback: (error: string) => void): void {
