@@ -1892,10 +1892,13 @@ export const createTask = async (
   }
   // *** END CRITICAL FIX ***
 
+  console.error('[DEBUG] About to build board index...');
   const boardIndex = new Map<string, { column: ColumnData; index: number; task: Task }>();
+  console.error('[DEBUG] Building index from', board.columns.length, 'columns...');
   board.columns.forEach((col) =>
     col.tasks.forEach((task, index) => boardIndex.set(task.uuid, { column: col, index, task })),
   );
+  console.error('[DEBUG] Board index built with', boardIndex.size, 'entries');
 
   const templatePath = input.templatePath ?? input.defaultTemplatePath;
   let templateContent: string | undefined;
