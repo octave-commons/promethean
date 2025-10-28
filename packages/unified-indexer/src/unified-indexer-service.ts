@@ -290,15 +290,22 @@ async function initializeService(
         duration: 0,
       },
       unified: {
-        totalContent: 0,
-        contentByType: {} as Record<ContentType, number>,
-        contentBySource: {} as Record<ContentSource, number>,
-        lastIndexed: Date.now(),
-        storageStats: {
-          vectorSize: 0,
-          metadataSize: 0,
-          totalSize: 0,
+        total: {
+          totalContent: 0,
+          contentByType: {} as Record<ContentType, number>,
+          contentBySource: {} as Record<ContentSource, number>,
+          lastIndexed: Date.now(),
+          storageStats: {
+            vectorSize: 0,
+            metadataSize: 0,
+            totalSize: 0,
+          },
         },
+        bySource: {},
+        byType: {} as Record<ContentType, number>,
+        lastSync: 0,
+        syncDuration: 0,
+        errors: [],
       },
     },
   };
@@ -352,36 +359,11 @@ export async function stopUnifiedIndexerService(
  * Sync all indexers
  */
 async function syncAllIndexers(state: UnifiedIndexerServiceState): Promise<void> {
-  const startTime = Date.now();
-
   try {
-    // Sync file indexer
-    if (state.fileIndexer) {
-      const fileStats = await state.fileIndexer.getStats();
-      state.stats.fileIndexing = fileStats;
-    }
-
-    // Sync Discord indexer
-    if (state.discordIndexer) {
-      const discordStats = await state.discordIndexer.getStats();
-      state.stats.discordIndexing = discordStats;
-    }
-
-    // Sync OpenCode indexer
-    if (state.opencodeIndexer) {
-      const opencodeStats = await state.opencodeIndexer.getStats();
-      state.stats.opencodeIndexing = opencodeStats;
-    }
-
-    // Sync Kanban indexer
-    if (state.kanbanIndexer) {
-      const kanbanStats = await state.kanbanIndexer.getStats();
-      state.stats.kanbanIndexing = kanbanStats;
-    }
-
     // Update unified stats
     const unifiedStats = await state.unifiedClient.getStats();
-    state.stats.unified = unifiedStats;
+    state.stats.unified.total = unifiedStats;
+    state.stats.unified.lastSync = Date.now();
 
     state.lastSync = Date.now();
   } catch (error) {
