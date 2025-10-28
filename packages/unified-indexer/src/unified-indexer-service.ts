@@ -6,13 +6,7 @@
  * It provides a single entry point for cross-domain indexing and search.
  */
 
-import {
-  DualStoreManager,
-  createContextStore,
-  compileContext,
-  getOrCreateCollection,
-  transformDualStoreEntry,
-} from '@promethean-os/persistence';
+import { createContextStore, transformDualStoreEntry } from '@promethean-os/persistence';
 
 import type {
   DualStoreEntry,
@@ -253,14 +247,12 @@ export interface UnifiedIndexerServiceState {
 async function initializeService(
   config: UnifiedIndexerServiceConfig,
 ): Promise<UnifiedIndexerServiceState> {
-  const unifiedClient = await createUnifiedIndexingClient(config.unifiedClient);
+  const unifiedClient = await createUnifiedIndexingClient(config.indexing);
 
-  const contextStore = await createContextStore({
-    name: config.contextStore.name,
-    collection: getOrCreateCollection(config.contextStore.collection),
-    maxContextSize: config.contextStore.maxContextSize,
-    maxTokens: config.contextStore.maxTokens,
-  });
+  const contextStore = createContextStore(
+    config.contextStore.formatTime,
+    config.contextStore.assistantName,
+  );
 
   return {
     config,
@@ -272,34 +264,30 @@ async function initializeService(
       fileIndexing: {
         totalFiles: 0,
         indexedFiles: 0,
-        failedFiles: 0,
-        lastIndexed: null,
-        indexingTime: 0,
+        skippedFiles: 0,
         errors: [],
+        duration: 0,
       },
       discordIndexing: {
         totalMessages: 0,
         indexedMessages: 0,
-        failedMessages: 0,
-        lastIndexed: null,
-        indexingTime: 0,
+        skippedMessages: 0,
         errors: [],
+        duration: 0,
       },
       opencodeIndexing: {
-        totalEntities: 0,
-        indexedEntities: 0,
-        failedEntities: 0,
-        lastIndexed: null,
-        indexingTime: 0,
+        totalItems: 0,
+        indexedItems: 0,
+        skippedItems: 0,
         errors: [],
+        duration: 0,
       },
       kanbanIndexing: {
-        totalTasks: 0,
-        indexedTasks: 0,
-        failedTasks: 0,
-        lastIndexed: null,
-        indexingTime: 0,
+        totalItems: 0,
+        indexedItems: 0,
+        skippedItems: 0,
         errors: [],
+        duration: 0,
       },
       unified: {
         totalContent: 0,
@@ -329,7 +317,7 @@ export async function startUnifiedIndexerService(
   // Start periodic sync
   const syncInterval = setInterval(async () => {
     await syncAllIndexers(state);
-  }, state.config.syncInterval);
+  }, state.config.sync.interval);
 
   return {
     ...state,
