@@ -3,7 +3,7 @@
  * Provides low-level git operations with proper error handling
  */
 
-import { execSync } from 'node:child_process';
+import { execSync, type StdioOptions } from 'node:child_process';
 
 /**
  * Git repository state information
