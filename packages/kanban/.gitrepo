@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/ingydotnet/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/riatzukiza/kanban.git
+	branch = main
+	commit = bb3b8b1a02f2011e5a09a4199562aed08c6e4687
+	parent = 55a1f412a74aa38acdd50ec3bdd30ae773b1de7f
+	method = merge
+	cmdver = 0.4.9
