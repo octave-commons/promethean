@@ -110,6 +110,16 @@ export function generateAnalytics(
   results: readonly EnhancedSearchResult[],
   _options: CrossDomainSearchOptions,
 ): {
+  sourcesSearched: readonly string[];
+  typesFound: readonly string[];
+  averageScore: number;
+  scoreDistribution: Record<string, number>;
+  temporalRange: {
+    readonly oldest: number;
+    readonly newest: number;
+    readonly span: number;
+  };
+} {
   const sourcesSet = new Set(results.map((r) => r.sourceType));
   const typesSet = new Set(results.map((r) => r.contentType));
   const sources = Array.from(sourcesSet);
