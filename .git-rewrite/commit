@@ -1,6 +1,9 @@
-tree c247aff38527cb22e1b8b38c5d315c7f12c5e869
-parent 90f77ed9f81d84ef669e231ebcbef9c3cbe163d8
-author Error <foamy125@gmail.com> 1757260682 -0500
-committer Error <foamy125@gmail.com> 1757260682 -0500
+tree ca17a57e32e0e7425a86c0b1d16ee7cde2115c99
+parent 6a319280f00f271831a382bada82b02958b417cb
+parent 8513f58602daf753562fbf57e05e1d92ddfbab46
+author Aaron Beavers <foamy125@gmail.com> 1754196108 -0500
+committer GitHub <noreply@github.com> 1754196108 -0500
 
-Removed old build log artifacts
+Merge pull request #154 from riatzukiza/codex/fix-precommit-stage-issues-with-file-names
+
+Fix pre-commit run step handling spaces

@@ -1,1 +1,3 @@
-Removed old build log artifacts
+Merge pull request #154 from riatzukiza/codex/fix-precommit-stage-issues-with-file-names
+
+Fix pre-commit run step handling spaces
