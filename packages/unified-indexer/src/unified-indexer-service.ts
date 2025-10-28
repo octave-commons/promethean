@@ -6,7 +6,11 @@
  * It provides a single entry point for cross-domain indexing and search.
  */
 
-import { createContextStore, transformDualStoreEntry } from '@promethean-os/persistence';
+import {
+  createContextStore,
+  transformDualStoreEntry,
+  DualStoreManager,
+} from '@promethean-os/persistence';
 
 import type {
   DualStoreEntry,
@@ -376,7 +380,7 @@ async function syncAllIndexers(state: UnifiedIndexerServiceState): Promise<void>
  */
 export function getServiceStatus(state: UnifiedIndexerServiceState): ServiceStatus {
   const activeSources: ContentSource[] = [];
-  if (state.config.sources.files.enabled) activeSources.push('files');
+  if (state.config.sources.files.enabled) activeSources.push('filesystem');
   if (state.config.sources.discord.enabled) activeSources.push('discord');
   if (state.config.sources.opencode.enabled) activeSources.push('opencode');
   if (state.config.sources.kanban.enabled) activeSources.push('kanban');
