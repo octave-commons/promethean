@@ -11,12 +11,12 @@ export const generateId = (): string => {
   return `${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
 };
 
-export const export const export const generateActorId = (name: string): string => {
+export const generateActorId = (name: string): string => {
   const timestamp = Date.now();
   const random = Math.random().toString(36).substring(2, 8);
   const sanitizedName = name.toLowerCase().replace(/[^a-z0-9]/g, '-');
   return `actor_${sanitizedName}_${timestamp}_${random}`;
-};;;
+};
 
 // === Message Processing ===
 
@@ -201,7 +201,7 @@ export const withTimeout = <T>(
   return Promise.race([promise, timeout]);
 };
 
-export const export const retry = async <T>(
+export const retry = async <T>(
   fn: () => Promise<T>,
   maxRetries: number = 3,
   delayMs: number = 1000,
@@ -214,13 +214,13 @@ export const export const retry = async <T>(
       return await fn();
     } catch (error) {
       const originalError = error instanceof Error ? error : new Error(String(error));
-      
+
       // If this is the last attempt, enhance error message with attempt count
       if (attempt > maxRetries) {
         lastError = new Error(`${originalError.message}, attempt ${maxRetries}`);
         break;
       }
-      
+
       lastError = originalError;
 
       const delay =
@@ -231,7 +231,7 @@ export const export const retry = async <T>(
   }
 
   throw lastError!;
-};;
+};
 
 // === Logging Utilities ===
 
