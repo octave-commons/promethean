@@ -1,6 +1,9 @@
-tree e456f11f24ecffd161e82e157fbcc0282c5a992c
-parent a4bdd002a7ce3d31ae5849cc772528503f37fffe
-author Error <foamy125@gmail.com> 1756250540 -0500
-committer Error <foamy125@gmail.com> 1756250540 -0500
+tree 9bdcdbef494fc1f7eab850d68cb4548ff39d044e
+parent c2d63268a0a3dc5af49a5976d904cb175a6e615c
+parent 971892e2002e215944e02f3daa71397ed0f49801
+author Err <foamy125@gmail.com> 1757283911 -0500
+committer GitHub <noreply@github.com> 1757283911 -0500
 
-nope
+Merge pull request #822 from riatzukiza/codex/rename-pipelines.yml-to-pipelines.json
+
+refactor: move pipelines to json
