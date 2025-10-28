@@ -12,6 +12,8 @@ import {
   listChangedFiles,
   repoSummary,
   stagedDiff,
+  hasSubrepo,
+  isSubrepoDir,
 } from './git.js';
 import { chatCompletion, ChatMessage } from './llm.js';
 import { SYSTEM, USER } from './messages.js';
