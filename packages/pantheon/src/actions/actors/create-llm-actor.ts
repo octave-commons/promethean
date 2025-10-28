@@ -37,7 +37,7 @@ const createLLMBehavior = (config: LLMActorConfig): Behavior => {
     mode: 'active',
     description: 'Generate responses using LLM based on context and goals',
     plan: async ({ goal, context }) => {
-      const messages = prepareLLMMessages(goal, context as readonly Message[], systemPrompt);
+      const messages = prepareLLMMessages(goal, context, systemPrompt);
       const actions = createLLMAction(messages, { model, temperature, maxTokens });
 
       return { actions };
@@ -45,11 +45,7 @@ const createLLMBehavior = (config: LLMActorConfig): Behavior => {
   };
 };
 
-const prepareLLMMessages = (
-  goal: string,
-  context: Message[],
-  systemPrompt?: string,
-): readonly Message[] => {
+const prepareLLMMessages = (goal: string, context: Message[], systemPrompt?: string): Message[] => {
   const baseMessages = systemPrompt
     ? [{ role: 'system' as const, content: systemPrompt } as Message]
     : [];
