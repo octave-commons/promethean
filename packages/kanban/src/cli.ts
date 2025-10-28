@@ -124,10 +124,18 @@ const HELP_TEXT =
   `  wip-suggestions  - Get capacity balancing suggestions`;
 
 async function main(): Promise<void> {
+  // DEBUG: Log startup
+  console.error('[DEBUG] CLI starting...');
+
   const rawArgs = process.argv.slice(2);
+  console.error('[DEBUG] Raw args:', rawArgs);
+
   const normalizedArgs = normalizeLegacyArgs(rawArgs);
+  console.error('[DEBUG] Normalized args:', normalizedArgs);
+
   const helpRequested = normalizedArgs.includes('--help') || normalizedArgs.includes('-h');
   const jsonRequested = normalizedArgs.includes('--json');
+  console.error('[DEBUG] Help requested:', helpRequested, 'JSON requested:', jsonRequested);
 
   // Special handling for init command - extract config path before config loading
   const [cmd, ...restArgs] = normalizedArgs;
@@ -157,10 +165,13 @@ async function main(): Promise<void> {
     return;
   }
 
+  // DEBUG: About to load config
+  console.error('[DEBUG] Loading kanban config...');
   const { config, restArgs: configRestArgs } = await loadKanbanConfig({
     argv: normalizedArgs,
     env: applyLegacyEnv(process.env),
   });
+  console.error('[DEBUG] Config loaded successfully');
 
   // Filter out --json flag from command arguments
   const filteredArgs = configRestArgs.filter((arg) => arg !== '--json');
