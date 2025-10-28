@@ -23,6 +23,7 @@ import type {
   ContextStoreState,
   IndexingStats,
   UnifiedIndexingClient,
+  IndexableContent,
 } from '@promethean-os/persistence';
 
 import type {
@@ -46,13 +47,7 @@ import {
   createUnifiedKanbanIndexer,
 } from './types/service.js';
 
-// Type for indexing content
-type IndexingContent = {
-  readonly id: string;
-  readonly content: string;
-  readonly timestamp?: number;
-  readonly metadata?: Record<string, unknown>;
-};
+
 
 /**
  * Create a UnifiedIndexingClient adapter for DualStoreManager
@@ -61,7 +56,7 @@ async function createUnifiedIndexingClient(_config: unknown): Promise<UnifiedInd
   const dualStore = await DualStoreManager.create('unified', 'text', 'createdAt');
 
   return {
-    async index(content: IndexingContent) {
+    async index(content: IndexableContent) {
       const entry: DualStoreEntry<'text', 'createdAt'> = {
         id: content.id,
         text: content.content,
@@ -72,7 +67,7 @@ async function createUnifiedIndexingClient(_config: unknown): Promise<UnifiedInd
       return content.id;
     },
 
-    async indexBatch(contents: readonly IndexingContent[]) {
+    async indexBatch(contents: readonly IndexableContent[]) {
       const ids: string[] = [];
       for (const content of contents) {
         const entry: DualStoreEntry<'text', 'createdAt'> = {
