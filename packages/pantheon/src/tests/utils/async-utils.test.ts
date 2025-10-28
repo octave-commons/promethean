@@ -43,24 +43,24 @@ test('withTimeout with immediate resolution', async (t) => {
 });
 
 test('retry succeeds on first attempt', async (t) => {
-  let attempts = 0;
+  const attempts = { count: 0 };
   const flakyFunction = async () => {
-    attempts++;
+    attempts.count++;
     return 'success';
   };
 
   const result = await retry(flakyFunction, 3, 10);
 
   t.is(result, 'success');
-  t.is(attempts, 1);
+  t.is(attempts.count, 1);
 });
 
 test('retry succeeds after failures', async (t) => {
-  let attempts = 0;
+  const attempts = { count: 0 };
   const flakyFunction = async () => {
-    attempts++;
-    if (attempts < 3) {
-      throw new Error(`Attempt ${attempts} failed`);
+    attempts.count++;
+    if (attempts.count < 3) {
+      throw new Error(`Attempt ${attempts.count} failed`);
     }
     return 'success after retries';
   };
@@ -68,18 +68,18 @@ test('retry succeeds after failures', async (t) => {
   const result = await retry(flakyFunction, 5, 10);
 
   t.is(result, 'success after retries');
-  t.is(attempts, 3);
+  t.is(attempts.count, 3);
 });
 
 test('retry exhausts max attempts', async (t) => {
-  let attempts = 0;
+  const attempts = { count: 0 };
   const alwaysFailingFunction = async () => {
-    attempts++;
-    throw new Error(`Always fails, attempt ${attempts}`);
+    attempts.count++;
+    throw new Error(`Always fails, attempt ${attempts.count}`);
   };
 
   await t.throwsAsync(retry(alwaysFailingFunction, 3, 10), { message: 'Always fails, attempt 3' });
-  t.is(attempts, 3);
+  t.is(attempts.count, 3);
 });
 
 test('retry with linear backoff', async (t) => {
@@ -89,16 +89,14 @@ test('retry with linear backoff', async (t) => {
     throw new Error('Always fails');
   };
 
-  const startTime = Date.now();
-
   await t.throwsAsync(retry(flakyFunction, 3, 10, 'linear'), {
     message: 'Always fails, attempt 3',
   });
 
   // Check that delays increase linearly
   t.is(timestamps.length, 3);
-  const delay1 = timestamps[1] - timestamps[0];
-  const delay2 = timestamps[2] - timestamps[1];
+  const delay1 = timestamps[1]! - timestamps[0]!;
+  const delay2 = timestamps[2]! - timestamps[1]!;
 
   t.true(Math.abs(delay1 - delay2) <= 5); // Allow small variance
 });
@@ -116,29 +114,29 @@ test('retry with exponential backoff', async (t) => {
 
   // Check that delays increase exponentially
   t.is(timestamps.length, 3);
-  const delay1 = timestamps[1] - timestamps[0];
-  const delay2 = timestamps[2] - timestamps[1];
+  const delay1 = timestamps[1]! - timestamps[0]!;
+  const delay2 = timestamps[2]! - timestamps[1]!;
 
   t.true(delay2 > delay1); // Exponential backoff should increase delays
 });
 
 test('retry with zero max retries', async (t) => {
-  let attempts = 0;
+  const attempts = { count: 0 };
   const failingFunction = async () => {
-    attempts++;
+    attempts.count++;
     throw new Error('Fails immediately');
   };
 
   await t.throwsAsync(retry(failingFunction, 0, 10), { message: 'Fails immediately' });
-  t.is(attempts, 1);
+  t.is(attempts.count, 1);
 });
 
 test('retry with default parameters', async (t) => {
-  let attempts = 0;
+  const attempts = { count: 0 };
   const sometimesFailingFunction = async () => {
-    attempts++;
-    if (attempts < 2) {
-      throw new Error(`Attempt ${attempts} failed`);
+    attempts.count++;
+    if (attempts.count < 2) {
+      throw new Error(`Attempt ${attempts.count} failed`);
     }
     return 'success';
   };
@@ -146,5 +144,5 @@ test('retry with default parameters', async (t) => {
   const result = await retry(sometimesFailingFunction);
 
   t.is(result, 'success');
-  t.is(attempts, 2);
+  t.is(attempts.count, 2);
 });
