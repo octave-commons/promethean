@@ -118,9 +118,9 @@ export function registerOAuthRoutes(fastify: FastifyInstance, config: OAuthRoute
       domain: config.cookieDomain,
     };
 
-    reply.clearCookie('access_token', cookieOptions);
-    reply.clearCookie('refresh_token', cookieOptions);
-    reply.clearCookie('session_id', cookieOptions);
+    (reply as any).clearCookie('access_token', cookieOptions);
+    (reply as any).clearCookie('refresh_token', cookieOptions);
+    (reply as any).clearCookie('session_id', cookieOptions);
   };
 
   // Helper to get client info from request
@@ -189,7 +189,7 @@ export function registerOAuthRoutes(fastify: FastifyInstance, config: OAuthRoute
       const { authUrl, state } = oauthIntegration.startOAuthFlow(provider, redirectUri);
 
       // Store state in secure cookie for additional validation
-      reply.setCookie('oauth_state', state, {
+      (reply as any).setCookie('oauth_state', state, {
         path: `${basePath}`,
         httpOnly: true,
         secure: config.secureCookies,
@@ -220,14 +220,14 @@ export function registerOAuthRoutes(fastify: FastifyInstance, config: OAuthRoute
         const clientInfo = getClientInfo(request);
 
         // Validate state from cookie
-        const cookieState = request.cookies.oauth_state;
+        const cookieState = (request as any).cookies?.oauth_state;
         if (!state || !cookieState || state !== cookieState) {
           clearAuthCookie(reply);
           return createErrorResponse(reply, 400, 'invalid_state', 'Invalid or missing OAuth state');
         }
 
         // Clear state cookie
-        reply.clearCookie('oauth_state', {
+        (reply as any).clearCookie('oauth_state', {
           path: `${basePath}`,
           domain: config.cookieDomain,
         });
@@ -351,7 +351,7 @@ export function registerOAuthRoutes(fastify: FastifyInstance, config: OAuthRoute
       }
 
       // Update access token cookie
-      reply.setCookie('access_token', result.tokens.accessToken, {
+      (reply as any).setCookie('access_token', result.tokens.accessToken, {
         path: '/',
         httpOnly: true,
         secure: config.secureCookies,
