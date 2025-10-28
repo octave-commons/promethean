@@ -87,6 +87,9 @@ export async function loadEdnFile(filePath: string): Promise<unknown> {
       'child_process',
       'fs.',
       'os.',
+      '; DROP TABLE', // SQL injection
+      '$(rm -rf', // Command injection
+      '`whoami`', // Command substitution
     ];
 
     const lowerContent = content.toLowerCase();
@@ -96,7 +99,41 @@ export async function loadEdnFile(filePath: string): Promise<unknown> {
       }
     }
 
-    return normalize(edn.toJS(edn.parse(content)));
+    // Parse EDN first
+    const parsed = edn.toJS(edn.parse(content));
+
+    // SECURITY: Validate parsed content for path traversal in string values
+    const validateContentForTraversal = (obj: unknown, path: string = ''): void => {
+      if (typeof obj === 'string') {
+        // Check for path traversal patterns in string values
+        const traversalPatterns = [
+          '../../../etc',
+          '..\\..\\windows\\system32',
+          '%2e%2e%2fetc%2fpasswd',
+          '../../../etc',
+          '..\\..\\windows\\system32',
+          '%2e%2e%2fetc',
+        ];
+
+        for (const pattern of traversalPatterns) {
+          if (obj.toLowerCase().includes(pattern.toLowerCase())) {
+            throw new Error(`Directory traversal detected in EDN content at ${path}: ${obj}`);
+          }
+        }
+      } else if (Array.isArray(obj)) {
+        obj.forEach((item, index) => {
+          validateContentForTraversal(item, `${path}[${index}]`);
+        });
+      } else if (obj && typeof obj === 'object') {
+        Object.entries(obj as Record<string, unknown>).forEach(([key, value]) => {
+          validateContentForTraversal(value, `${path}.${key}`);
+        });
+      }
+    };
+
+    validateContentForTraversal(parsed);
+
+    return normalize(parsed);
   } catch (e) {
     throw new Error(`Failed to parse EDN file at ${filePath}: ${(e as Error).message}`);
   }

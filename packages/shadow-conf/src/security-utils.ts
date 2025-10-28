@@ -133,6 +133,12 @@ export function validateAndSanitizePath(
       '\\..',
       '%2f..',
       '%5c..',
+      '%2e%2e%2f', // ../ encoded
+      '%2E%2E%2F', // ../ encoded (uppercase)
+      '%2e%2e%5c', // ..\ encoded
+      '%2E%2E%5C', // ..\ encoded (uppercase)
+      '....//....//....//', // obfuscated traversal
+      '....\\\\....\\\\....\\\\', // obfuscated traversal (Windows)
     ];
     if (traversalPatterns.some((pattern) => inputPath.toLowerCase().includes(pattern))) {
       return {
@@ -206,6 +212,31 @@ export function validateAndSanitizeFilename(
     return {
       success: false,
       error: `Reserved filename detected: ${filename}`,
+    };
+  }
+
+  // Script injection prevention in filenames
+  const scriptInjectionPatterns = [
+    '<script',
+    'javascript:',
+    'eval(',
+    'expression(',
+    'Function(',
+    'setTimeout(',
+    'setInterval(',
+    'new Function',
+    '; DROP TABLE', // SQL injection
+    '$(', // Command injection
+    '`', // Command substitution
+    'CON', // Windows reserved
+    'PRN', // Windows reserved
+    'AUX', // Windows reserved
+  ];
+  const lowerFilename = filename.toLowerCase();
+  if (scriptInjectionPatterns.some((pattern) => lowerFilename.includes(pattern))) {
+    return {
+      success: false,
+      error: `Script injection detected in filename: ${filename}`,
     };
   }
 
