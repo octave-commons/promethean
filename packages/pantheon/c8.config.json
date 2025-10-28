@@ -18,7 +18,10 @@
   "clean": true,
   "checkCoverage": false,
   "tempDirectory": ".nyc_output",
-  "extension": [".ts"],
+  "extension": [".js"],
   "skipFull": false,
-  "all": true
+  "all": true,
+  "src": ["src/"],
+  "allowExternal": false,
+  "exclude-after-remap": false
 }
