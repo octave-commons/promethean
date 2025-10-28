@@ -45,7 +45,7 @@ export class OAuthLoginComponent {
   private config: OAuthLoginConfig;
   private state: OAuthLoginState;
   private container: HTMLElement;
-  private authSuccessCallback?: (user: any) => void;
+
   private authErrorCallback?: (error: string) => void;
 
   constructor(container: HTMLElement, config: OAuthLoginConfig) {

@@ -5,7 +5,7 @@
  * following security best practices and the project's functional programming style.
  */
 
-import type { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
+import type { FastifyInstance, FastifyReply } from 'fastify';
 import { OAuthSystem } from './index.js';
 import { OAuthIntegration } from '../integration.js';
 import { JwtTokenManager } from './jwt.js';
@@ -438,7 +438,7 @@ export function registerOAuthRoutes(fastify: FastifyInstance, config: OAuthRoute
   });
 
   // Get OAuth system statistics
-  fastify.get(`${basePath}/stats`, async (request, reply) => {
+  fastify.get(`${basePath}/stats`, async (_request, reply) => {
     try {
       const oauthStats = oauthSystem.getStats();
       const integrationStats = await oauthIntegration.getIntegrationStats();
@@ -499,7 +499,7 @@ export function registerOAuthRoutes(fastify: FastifyInstance, config: OAuthRoute
   );
 
   // Health check for OAuth system
-  fastify.get(`${basePath}/health`, async (request, reply) => {
+  fastify.get(`${basePath}/health`, async (_request, reply) => {
     try {
       const stats = oauthSystem.getStats();
       const isHealthy = stats.providers.length > 0;
