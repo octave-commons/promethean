@@ -21,7 +21,8 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "dev": "tsx src/cli.ts",
     "lint": "eslint .",
-    "test": "ava"
+    "test": "ava",
+    "test": "c8 pnpm test"
   },
   "dependencies": {
     "chokidar": "^3.6.0",
