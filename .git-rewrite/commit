@@ -1,9 +1,6 @@
-tree 9bdcdbef494fc1f7eab850d68cb4548ff39d044e
-parent c2d63268a0a3dc5af49a5976d904cb175a6e615c
-parent 971892e2002e215944e02f3daa71397ed0f49801
-author Err <foamy125@gmail.com> 1757283911 -0500
-committer GitHub <noreply@github.com> 1757283911 -0500
+tree 9fd5e65c8c4490c3c54aedaae4773e8315051756
+parent 1a0c87d0a91fefd39952888aad955c19e9d96db5
+author Err <foamy125@gmail.com> 1756238829 -0500
+committer Err <foamy125@gmail.com> 1756238829 -0500
 
-Merge pull request #822 from riatzukiza/codex/rename-pipelines.yml-to-pipelines.json
-
-refactor: move pipelines to json
+doc: outline broker reconnection issue

@@ -1,3 +1,1 @@
-Merge pull request #822 from riatzukiza/codex/rename-pipelines.yml-to-pipelines.json
-
-refactor: move pipelines to json
+doc: outline broker reconnection issue
