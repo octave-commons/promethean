@@ -92,28 +92,17 @@ async function createUnifiedIndexingClient(_config: unknown): Promise<UnifiedInd
 
   return {
     async index(content: IndexableContent) {
-      const entry: DualStoreEntry<'text', 'createdAt'> = {
-        id: content.id,
-        text: content.content,
-        createdAt: content.timestamp || Date.now(),
-        metadata: content.metadata as DualStoreEntry<'text', 'createdAt'>['metadata'],
-      };
+      const entry = contentToDualStoreEntry(content);
       await dualStore.addEntry(entry);
       return content.id;
     },
 
     async indexBatch(contents: readonly IndexableContent[]) {
-      const ids: string[] = [];
-      for (const content of contents) {
-        const entry: DualStoreEntry<'text', 'createdAt'> = {
-          id: content.id,
-          text: content.content,
-          createdAt: content.timestamp || Date.now(),
-          metadata: content.metadata as unknown as DualStoreEntry<'text', 'createdAt'>['metadata'],
-        };
-        ids.push(content.id);
-      }
-      return ids;
+      return contents.map((content) => {
+        const entry = contentToDualStoreEntry(content);
+        void dualStore.addEntry(entry);
+        return content.id;
+      });
     },
 
     async search(query: SearchQuery): Promise<SearchResponse> {
@@ -124,23 +113,8 @@ async function createUnifiedIndexingClient(_config: unknown): Promise<UnifiedInd
         query.metadata,
       );
 
-      const toEpochMs = (timestamp: any): number => {
-        if (timestamp instanceof Date) return timestamp.getTime();
-        if (typeof timestamp === 'string') return new Date(timestamp).getTime();
-        if (typeof timestamp === 'number') return timestamp;
-        return Date.now();
-      };
-
       return {
-        results: results.map((entry) => ({
-          content: transformDualStoreEntry({
-            id: entry.id || entry._id?.toString(),
-            text: entry.text,
-            timestamp: toEpochMs(entry.timestamp),
-            metadata: entry.metadata,
-          }),
-          score: 1.0,
-        })),
+        results: results.map(createSearchResult),
         total: results.length,
         took: Date.now() - startTime,
         query,
@@ -150,13 +124,6 @@ async function createUnifiedIndexingClient(_config: unknown): Promise<UnifiedInd
     async getById(id: string) {
       const entry = await dualStore.get(id);
       if (!entry) return null;
-
-      const toEpochMs = (timestamp: any): number => {
-        if (timestamp instanceof Date) return timestamp.getTime();
-        if (typeof timestamp === 'string') return new Date(timestamp).getTime();
-        if (typeof timestamp === 'number') return timestamp;
-        return Date.now();
-      };
 
       return transformDualStoreEntry({
         id: entry.id || entry._id?.toString(),
@@ -174,7 +141,7 @@ async function createUnifiedIndexingClient(_config: unknown): Promise<UnifiedInd
       return [];
     },
 
-    async update(_id: string, _content: any) {
+    async update(_id: string, _content: IndexableContent) {
       return false;
     },
 
