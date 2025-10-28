@@ -18,10 +18,11 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
+    "clean": "rimraf dist ",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "dev": "tsx src/cli.ts",
     "lint": "eslint .",
-    "test": "ava",
+    "test": "pnpm build && ava",
     "coverage": "c8 pnpm test"
   },
   "dependencies": {
