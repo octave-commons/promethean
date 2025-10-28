@@ -315,19 +315,6 @@ export class GitUtils {
       throw new Error(`Git command failed: git ${command} - ${error instanceof Error ? error.message : String(error)}`);
     }
   }
-    try {
-      const stdio = options.stdio || 'pipe' as any;
-      return execSync(`git ${command}`, {
-        cwd: this.repoPath,
-        encoding: 'utf8',
-        stdio,
-        maxBuffer: 50 * 1024 * 1024, // 50MB buffer
-      });
-    } catch (error) {
-      if (stdio === 'ignore') {
-        throw error;
-      }
-      throw new Error(`Git command failed: git ${command} - ${error instanceof Error ? error.message : String(error)}`);
     }
   }
 }

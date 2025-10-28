@@ -43,7 +43,6 @@ test.before(async (t) => {
   execSync('git commit -m "Initial commit"', { cwd: testDir });
   
   (t.context as any).testDir = testDir;
-});
 
 test.after.always(async (t) => {
   // Clean up test directory
