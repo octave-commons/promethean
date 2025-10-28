@@ -91,7 +91,7 @@ export declare class GitWorkflow {
     /**
      * Commit tasks directory changes
      */
-    commitTasksDirectory(context: ScarContext): Promise<GitOperationResult>;
+    commitTasksDirectory(_context: ScarContext): Promise<GitOperationResult>;
     /**
      * Commit kanban board changes
      */
@@ -99,7 +99,7 @@ export declare class GitWorkflow {
     /**
      * Commit dependency changes
      */
-    commitDependencies(context: ScarContext): Promise<GitOperationResult>;
+    commitDependencies(_context: ScarContext): Promise<GitOperationResult>;
     /**
      * Create pre-op tag
      */

@@ -47,296 +47,319 @@ export class TaskAIManager {
             this.transitionRulesState = null;
         }
     }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    async validateTaskTransition(task, newStatus) {
-        if (!this.wipEnforcement || !this.transitionRulesState) {
-            console.warn('Compliance systems not initialized, skipping validation');
-            return true;
-        }
-        try {
-            const { loadBoard } = await import('../kanban.js');
-            const { loadKanbanConfig } = await import('../../board/config.js');
-            const kanbanConfig = await loadKanbanConfig();
-            const board = await loadBoard(kanbanConfig.config.boardFile, kanbanConfig.config.tasksDir);
-            const wipValidation = await this.wipEnforcement.validateWIPLimits(newStatus, 1, board);
-            if (!wipValidation.valid) {
-                throw new Error(`WIP limit violation: ${wipValidation.violation?.reason}`);
-            }
-            const { result: transitionResult } = await validateTransition(this.transitionRulesState, task.status, newStatus, task, board);
-            if (!transitionResult.allowed) {
-                throw new Error(`Transition blocked: ${transitionResult.reason}`);
-            }
-            return true;
-        }
-        catch (error) {
-            console.error('Task transition validation failed:', error);
-            throw error;
-        }
+}
+ || !this.transitionRulesState;
+{
+    console.warn('Compliance systems not initialized, skipping validation');
+    return true;
+}
+try {
+    const { loadBoard } = await import('../kanban.js');
+    const { loadKanbanConfig } = await import('../../board/config.js');
+    const kanbanConfig = await loadKanbanConfig();
+    const board = await loadBoard(kanbanConfig.config.boardFile, kanbanConfig.config.tasksDir);
+    const wipValidation = await this.wipEnforcement.validateWIPLimits(newStatus, 1, board);
+    if (!wipValidation.valid) {
+        throw new Error(`WIP limit violation: ${wipValidation.violation?.reason}`);
     }
-    async syncKanbanBoard() {
-        try {
-            const { execSync } = await import('child_process');
-            execSync('pnpm kanban regenerate', { stdio: 'inherit', cwd: process.cwd() });
-        }
-        catch (error) {
-            console.warn('Failed to sync kanban board:', error);
-        }
+    const { result: transitionResult } = await validateTransition(this.transitionRulesState, task.status, newStatus, task, board);
+    if (!transitionResult.allowed) {
+        throw new Error(`Transition blocked: ${transitionResult.reason}`);
     }
-    async createTaskBackup(uuid) {
-        try {
-            const backupPath = await this.contentManager
-                .readTask(uuid)
-                .then(() => `./backups/${uuid}-${Date.now()}.md`)
-                .catch(() => {
-                throw new Error(`Task ${uuid} not found for backup`);
-            });
-            await this.logAuditEvent({
-                taskUuid: uuid,
-                action: 'backup_created',
-                metadata: { backupPath },
-            });
-            return backupPath;
-        }
-        catch (error) {
-            console.error('Task backup failed:', error);
-            throw new Error(`Backup failed for task ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`);
-        }
+    return true;
+}
+catch (error) {
+    console.error('Task transition validation failed:', error);
+    throw error;
+}
+async;
+syncKanbanBoard();
+Promise < void  > {
+    try: {
+        const: { execSync } = await import('child_process'),
+        execSync(, { stdio: , 'inherit': , cwd: process }) { }, : .cwd()
     }
-    async logAuditEvent(event) {
-        const auditEntry = {
-            timestamp: new Date().toISOString(),
-            agent: process.env.AGENT_NAME || 'TaskAIManager',
-            ...event,
-        };
-        try {
-            const fs = require('node:fs').promises;
-            const path = require('node:path');
-            const auditDir = './logs/audit';
-            const auditFile = path.join(auditDir, `kanban-audit-${new Date().toISOString().split('T')[0]}.json`);
-            await fs.mkdir(auditDir, { recursive: true });
-            const auditLine = JSON.stringify(auditEntry) + '\n';
-            await fs.appendFile(auditFile, auditLine, 'utf8');
-            console.log('🔍 Audit Event logged:', auditEntry);
-        }
-        catch (error) {
-            console.warn('Failed to write audit log:', error);
-            console.log('🔍 Audit Event (fallback):', JSON.stringify(auditEntry, null, 2));
-        }
+};
+try { }
+catch (error) {
+    console.warn('Failed to sync kanban board:', error);
+}
+async;
+createTaskBackup(uuid, string);
+Promise < string > {
+    try: {
+        const: backupPath = await this.contentManager
+            .readTask(uuid)
+            .then(() => `./backups/${uuid}-${Date.now()}.md`)
+            .catch(() => {
+            throw new Error(`Task ${uuid} not found for backup`);
+        }),
+        await, this: .logAuditEvent({
+            taskUuid: uuid,
+            action: 'backup_created',
+            metadata: { backupPath },
+        }),
+        return: backupPath
+    }, catch(error) {
+        console.error('Task backup failed:', error);
+        throw new Error(`Backup failed for task ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
-    async analyzeTask(request) {
-        const startTime = Date.now();
-        const { uuid, analysisType, context } = request;
-        try {
-            const task = await this.contentManager.readTask(uuid);
-            if (!task) {
-                throw new Error(`Task ${uuid} not found`);
-            }
-            const analysis = this.generateTaskAnalysis(task, analysisType, context || {});
-            return {
-                success: true,
-                taskUuid: uuid,
-                analysisType,
-                analysis,
-                metadata: {
-                    analyzedAt: new Date(),
-                    analyzedBy: process.env.AGENT_NAME || 'TaskAIManager',
-                    model: this.config.model,
-                    processingTime: Date.now() - startTime,
-                },
-            };
-        }
-        catch (error) {
-            return {
-                success: false,
-                taskUuid: uuid,
-                analysisType,
-                analysis: {
-                    suggestions: [],
-                    risks: [],
-                    dependencies: [],
-                    subtasks: [],
-                },
-                metadata: {
-                    analyzedAt: new Date(),
-                    analyzedBy: process.env.AGENT_NAME || 'TaskAIManager',
-                    model: this.config.model,
-                    processingTime: Date.now() - startTime,
-                },
-                error: error instanceof Error ? error.message : 'Unknown error',
-            };
-        }
+};
+async;
+logAuditEvent(event, {
+    taskUuid: string,
+    action: string,
+    oldStatus: string,
+    newStatus: string,
+    metadata: (Record)
+});
+Promise < void  > {
+    const: auditEntry = {
+        timestamp: new Date().toISOString(),
+        agent: process.env.AGENT_NAME || 'TaskAIManager',
+        ...event,
+    },
+    try: {
+        const: fs = require('node:fs').promises,
+        const: path = require('node:path'),
+        const: auditDir = './logs/audit',
+        const: auditFile = path.join(auditDir, `kanban-audit-${new Date().toISOString().split('T')[0]}.json`),
+        await, fs, : .mkdir(auditDir, { recursive: true }),
+        const: auditLine = JSON.stringify(auditEntry) + '\n',
+        await, fs, : .appendFile(auditFile, auditLine, 'utf8'),
+        console, : .log('🔍 Audit Event logged:', auditEntry)
+    }, catch(error) {
+        console.warn('Failed to write audit log:', error);
+        console.log('🔍 Audit Event (fallback):', JSON.stringify(auditEntry, null, 2));
     }
-    async rewriteTask(request) {
-        const startTime = Date.now();
-        const { uuid, rewriteType, instructions, targetAudience, tone } = request;
-        try {
-            const task = await this.contentManager.readTask(uuid);
-            if (!task) {
-                throw new Error(`Task ${uuid} not found`);
-            }
-            const backupPath = await this.createTaskBackup(uuid);
-            const originalContent = task.content || '';
-            const rewrite = this.generateTaskRewrite(task, rewriteType, instructions || '', targetAudience || 'developer', tone || 'technical', originalContent);
-            const updateResult = await this.contentManager.updateTaskBody({
-                uuid,
-                content: rewrite.content,
-                options: {
-                    createBackup: false,
-                    validateStructure: true,
-                },
-            });
-            if (!updateResult.success) {
-                throw new Error(updateResult.error || 'Failed to update task');
-            }
-            await this.syncKanbanBoard();
-            await this.logAuditEvent({
-                taskUuid: uuid,
-                action: 'task_rewritten',
-                metadata: {
-                    rewriteType,
-                    targetAudience,
-                    tone,
-                    backupPath,
-                },
-            });
-            return {
-                success: true,
-                taskUuid: uuid,
-                rewriteType,
-                originalContent,
-                rewrittenContent: rewrite.content,
-                changes: {
-                    summary: rewrite.summary,
-                    highlights: ['Content updated with AI assistance'],
-                    additions: ['New objectives and acceptance criteria'],
-                    modifications: ['Task structure improved'],
-                    removals: [],
-                },
-                metadata: {
-                    rewrittenAt: new Date(),
-                    rewrittenBy: process.env.AGENT_NAME || 'TaskAIManager',
-                    model: this.config.model,
-                    processingTime: Date.now() - startTime,
-                },
-            };
+};
+async;
+analyzeTask(request, TaskAnalysisRequest);
+Promise < TaskAnalysisResult > {
+    const: startTime = Date.now(),
+    const: { uuid, analysisType, context } = request,
+    try: {
+        const: task = await this.contentManager.readTask(uuid),
+        if(, task) {
+            throw new Error(`Task ${uuid} not found`);
+        },
+        const: analysis = this.generateTaskAnalysis(task, analysisType, context || {}),
+        return: {
+            success: true,
+            taskUuid: uuid,
+            analysisType,
+            analysis,
+            metadata: {
+                analyzedAt: new Date(),
+                analyzedBy: process.env.AGENT_NAME || 'TaskAIManager',
+                model: this.config.model,
+                processingTime: Date.now() - startTime,
+            },
         }
-        catch (error) {
-            return {
-                success: false,
-                taskUuid: uuid,
-                rewriteType,
-                originalContent: '',
-                rewrittenContent: '',
-                changes: {
-                    summary: '',
-                    highlights: [],
-                    additions: [],
-                    modifications: [],
-                    removals: [],
-                },
-                metadata: {
-                    rewrittenAt: new Date(),
-                    rewrittenBy: process.env.AGENT_NAME || 'TaskAIManager',
-                    model: this.config.model,
-                    processingTime: Date.now() - startTime,
-                },
-                error: error instanceof Error ? error.message : 'Unknown error',
-            };
-        }
-    }
-    async breakdownTask(request) {
-        const startTime = Date.now();
-        const { uuid, breakdownType, maxSubtasks = 5, complexity, includeEstimates = false } = request;
-        try {
-            const task = await this.contentManager.readTask(uuid);
-            if (!task) {
-                throw new Error(`Task ${uuid} not found`);
-            }
-            const breakdown = this.generateTaskBreakdown(task, breakdownType, maxSubtasks, complexity, includeEstimates);
-            return {
-                success: true,
-                taskUuid: uuid,
-                breakdownType,
-                subtasks: breakdown.subtasks,
-                totalEstimatedHours: breakdown.subtasks.reduce((sum, task) => sum + (task.estimatedHours || 0), 0),
-                metadata: {
-                    breakdownAt: new Date(),
-                    breakdownBy: process.env.AGENT_NAME || 'TaskAIManager',
-                    model: this.config.model,
-                    processingTime: Date.now() - startTime,
-                },
-            };
-        }
-        catch (error) {
-            return {
-                success: false,
-                taskUuid: uuid,
-                breakdownType,
+    }, catch(error) {
+        return {
+            success: false,
+            taskUuid: uuid,
+            analysisType,
+            analysis: {
+                suggestions: [],
+                risks: [],
+                dependencies: [],
                 subtasks: [],
-                metadata: {
-                    breakdownAt: new Date(),
-                    breakdownBy: process.env.AGENT_NAME || 'TaskAIManager',
-                    model: this.config.model,
-                    processingTime: Date.now() - startTime,
-                },
-                error: error instanceof Error ? error.message : 'Unknown error',
+            },
+            metadata: {
+                analyzedAt: new Date(),
+                analyzedBy: process.env.AGENT_NAME || 'TaskAIManager',
+                model: this.config.model,
+                processingTime: Date.now() - startTime,
+            },
+            error: error instanceof Error ? error.message : 'Unknown error',
+        };
+    }
+};
+async;
+rewriteTask(request, TaskRewriteRequest);
+Promise < TaskRewriteResult > {
+    const: startTime = Date.now(),
+    const: { uuid, rewriteType, instructions, targetAudience, tone } = request,
+    try: {
+        const: task = await this.contentManager.readTask(uuid),
+        if(, task) {
+            throw new Error(`Task ${uuid} not found`);
+        },
+        const: backupPath = await this.createTaskBackup(uuid),
+        const: originalContent = task.content || '',
+        const: rewrite = this.generateTaskRewrite(task, rewriteType, instructions || '', targetAudience || 'developer', tone || 'technical', originalContent),
+        const: updateResult = await this.contentManager.updateTaskBody({
+            uuid,
+            content: rewrite.content,
+            options: {
+                createBackup: false,
+                validateStructure: true,
+            },
+        }),
+        if(, updateResult) { }, : .success
+    }
+};
+{
+    throw new Error(updateResult.error || 'Failed to update task');
+}
+await this.syncKanbanBoard();
+await this.logAuditEvent({
+    taskUuid: uuid,
+    action: 'task_rewritten',
+    metadata: {
+        rewriteType,
+        targetAudience,
+        tone,
+        backupPath,
+    },
+});
+return {
+    success: true,
+    taskUuid: uuid,
+    rewriteType,
+    originalContent,
+    rewrittenContent: rewrite.content,
+    changes: {
+        summary: rewrite.summary,
+        highlights: ['Content updated with AI assistance'],
+        additions: ['New objectives and acceptance criteria'],
+        modifications: ['Task structure improved'],
+        removals: [],
+    },
+    metadata: {
+        rewrittenAt: new Date(),
+        rewrittenBy: process.env.AGENT_NAME || 'TaskAIManager',
+        model: this.config.model,
+        processingTime: Date.now() - startTime,
+    },
+};
+try { }
+catch (error) {
+    return {
+        success: false,
+        taskUuid: uuid,
+        rewriteType,
+        originalContent: '',
+        rewrittenContent: '',
+        changes: {
+            summary: '',
+            highlights: [],
+            additions: [],
+            modifications: [],
+            removals: [],
+        },
+        metadata: {
+            rewrittenAt: new Date(),
+            rewrittenBy: process.env.AGENT_NAME || 'TaskAIManager',
+            model: this.config.model,
+            processingTime: Date.now() - startTime,
+        },
+        error: error instanceof Error ? error.message : 'Unknown error',
+    };
+}
+async;
+breakdownTask(request, TaskBreakdownRequest);
+Promise < TaskBreakdownResult > {
+    const: startTime = Date.now(),
+    const: { uuid, breakdownType, maxSubtasks = 5, complexity, includeEstimates = false } = request,
+    try: {
+        const: task = await this.contentManager.readTask(uuid),
+        if(, task) {
+            throw new Error(`Task ${uuid} not found`);
+        },
+        const: breakdown = this.generateTaskBreakdown(task, breakdownType, maxSubtasks, complexity, includeEstimates),
+        return: {
+            success: true,
+            taskUuid: uuid,
+            breakdownType,
+            subtasks: breakdown.subtasks,
+            totalEstimatedHours: breakdown.subtasks.reduce((sum, task) => sum + (task.estimatedHours || 0), 0),
+            metadata: {
+                breakdownAt: new Date(),
+                breakdownBy: process.env.AGENT_NAME || 'TaskAIManager',
+                model: this.config.model,
+                processingTime: Date.now() - startTime,
+            },
+        }
+    }, catch(error) {
+        return {
+            success: false,
+            taskUuid: uuid,
+            breakdownType,
+            subtasks: [],
+            metadata: {
+                breakdownAt: new Date(),
+                breakdownBy: process.env.AGENT_NAME || 'TaskAIManager',
+                model: this.config.model,
+                processingTime: Date.now() - startTime,
+            },
+            error: error instanceof Error ? error.message : 'Unknown error',
+        };
+    }
+};
+generateTaskAnalysis(task, Task, analysisType, string, 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+context, (Record));
+TaskAnalysisResult['analysis'];
+{
+    const contentLength = task.content?.length ?? 0;
+    const baseQuality = Math.min(95, 60 + Math.floor(contentLength / 40));
+    const completeness = Math.min(90, 55 + Math.floor(contentLength / 50));
+    switch (analysisType) {
+        case 'quality':
+            return {
+                qualityScore: baseQuality,
+                completenessScore: completeness,
+                suggestions: [
+                    'Ensure acceptance criteria include measurable outcomes.',
+                    'Document explicit test coverage expectations.',
+                ],
+                risks: ['Ambiguous hand-off expectations may slow implementation.'],
+                dependencies: [],
+                subtasks: [],
             };
-        }
+        case 'complexity':
+            return {
+                complexityScore: Math.max(40, Math.min(85, 45 + Math.floor(contentLength / 60))),
+                estimatedEffort: {
+                    hours: Math.max(4, Math.min(16, Math.round(contentLength / 120) + 4)),
+                    confidence: 70,
+                    breakdown: ['Discovery', 'Implementation', 'Validation'],
+                },
+                suggestions: [
+                    'Reserve buffer time for integration testing.',
+                    'Identify critical path dependencies early.',
+                ],
+                risks: ['Complex integration points may require additional coordination'],
+                dependencies: ['Architecture review', 'Test data availability'],
+                subtasks: [],
+            };
+        default:
+            return {
+                qualityScore: baseQuality,
+                completenessScore: completeness,
+                suggestions: ['Add clarifying context where assumptions exist.'],
+                risks: [],
+                dependencies: [],
+                subtasks: [],
+            };
     }
-    generateTaskAnalysis(task, analysisType, 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    context) {
-        const contentLength = task.content?.length ?? 0;
-        const baseQuality = Math.min(95, 60 + Math.floor(contentLength / 40));
-        const completeness = Math.min(90, 55 + Math.floor(contentLength / 50));
-        switch (analysisType) {
-            case 'quality':
-                return {
-                    qualityScore: baseQuality,
-                    completenessScore: completeness,
-                    suggestions: [
-                        'Ensure acceptance criteria include measurable outcomes.',
-                        'Document explicit test coverage expectations.',
-                    ],
-                    risks: ['Ambiguous hand-off expectations may slow implementation.'],
-                    dependencies: [],
-                    subtasks: [],
-                };
-            case 'complexity':
-                return {
-                    complexityScore: Math.max(40, Math.min(85, 45 + Math.floor(contentLength / 60))),
-                    estimatedEffort: {
-                        hours: Math.max(4, Math.min(16, Math.round(contentLength / 120) + 4)),
-                        confidence: 70,
-                        breakdown: ['Discovery', 'Implementation', 'Validation'],
-                    },
-                    suggestions: [
-                        'Reserve buffer time for integration testing.',
-                        'Identify critical path dependencies early.',
-                    ],
-                    risks: ['Complex integration points may require additional coordination'],
-                    dependencies: ['Architecture review', 'Test data availability'],
-                    subtasks: [],
-                };
-            default:
-                return {
-                    qualityScore: baseQuality,
-                    completenessScore: completeness,
-                    suggestions: ['Add clarifying context where assumptions exist.'],
-                    risks: [],
-                    dependencies: [],
-                    subtasks: [],
-                };
-        }
-    }
-    generateTaskRewrite(task, rewriteType, instructions, targetAudience, tone, originalContent) {
-        const baseSummary = `Rewrite for ${targetAudience} audience with a ${tone} tone.`;
-        const improvements = [
-            'Clarified objectives and desired outcomes.',
-            'Added explicit acceptance criteria and validation steps.',
-            'Documented dependencies and staging requirements.',
-        ];
-        const rewrittenContent = `## Updated Task Brief: ${task.title}
+}
+generateTaskRewrite(task, Task, rewriteType, string, instructions, string, targetAudience, string, tone, string, originalContent, string);
+{
+    content: string;
+    summary: string;
+}
+{
+    const baseSummary = `Rewrite for ${targetAudience} audience with a ${tone} tone.`;
+    const improvements = [
+        'Clarified objectives and desired outcomes.',
+        'Added explicit acceptance criteria and validation steps.',
+        'Documented dependencies and staging requirements.',
+    ];
+    const rewrittenContent = `## Updated Task Brief: ${task.title}
 
 ${originalContent.trim()}
 
@@ -355,34 +378,36 @@ ${originalContent.trim()}
 ### Notes
 - ${instructions || 'Follow standard Promethean delivery guidelines.'}
 - Rewrite type: ${rewriteType}.`;
-        return {
-            content: rewrittenContent,
-            summary: `${baseSummary} Key improvements: ${improvements.join(' ')}`,
-        };
-    }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    generateTaskBreakdown(task, breakdownType, maxSubtasks, complexity, includeEstimates) {
-        const baseEstimate = complexity === 'complex' ? 6 : complexity === 'medium' ? 4 : 2;
-        const subtasks = [
-            {
-                title: 'Requirement audit',
-                description: `Validate scope, dependencies, and entry criteria for ${task.title}.`,
-                estimatedHours: includeEstimates ? baseEstimate : undefined,
-                priority: 'medium',
-                dependencies: ['Requirement audit'],
-                acceptanceCriteria: ['Plan reviewed by core team'],
-            },
-            {
-                title: 'Validation strategy',
-                description: 'Define test coverage, rollout, and monitoring strategy.',
-                estimatedHours: includeEstimates ? baseEstimate : undefined,
-                priority: 'medium',
-                dependencies: ['Implementation plan'],
-                acceptanceCriteria: ['QA and release steps documented'],
-            },
-        ].slice(0, maxSubtasks);
-        return { subtasks };
-    }
+    return {
+        content: rewrittenContent,
+        summary: `${baseSummary} Key improvements: ${improvements.join(' ')}`,
+    };
+}
+generateTaskBreakdown(task, Task, breakdownType, string, maxSubtasks, number, complexity, string, includeEstimates, boolean);
+{
+    subtasks: TaskBreakdownResult['subtasks'];
+}
+{
+    const baseEstimate = complexity === 'complex' ? 6 : complexity === 'medium' ? 4 : 2;
+    const subtasks = [
+        {
+            title: 'Requirement audit',
+            description: `Validate scope, dependencies, and entry criteria for ${task.title}.`,
+            estimatedHours: includeEstimates ? baseEstimate : undefined,
+            priority: 'medium',
+            dependencies: ['Requirement audit'],
+            acceptanceCriteria: ['Plan reviewed by core team'],
+        },
+        {
+            title: 'Validation strategy',
+            description: 'Define test coverage, rollout, and monitoring strategy.',
+            estimatedHours: includeEstimates ? baseEstimate : undefined,
+            priority: 'medium',
+            dependencies: ['Implementation plan'],
+            acceptanceCriteria: ['QA and release steps documented'],
+        },
+    ].slice(0, maxSubtasks);
+    return { subtasks };
 }
 export function createTaskAIManager(config) {
     return new TaskAIManager(config);

@@ -2,7 +2,7 @@
  * Unit tests for CommitMessageGenerator
  */
 import test from 'ava';
-import { CommitMessageGenerator, createCommitMessageGenerator } from '../lib/heal/utils/commit-message-generator.js';
+import { CommitMessageGenerator, createCommitMessageGenerator, } from '../lib/heal/utils/commit-message-generator.js';
 // Mock data for testing
 const mockScarContext = {
     reason: 'Fix duplicate task issue',
@@ -244,22 +244,22 @@ test('validateMessage with invalid message', (t) => {
     const result = generator.validateMessage(invalidMessage);
     t.false(result.valid);
     t.true(result.errors.length > 0);
-    t.true(result.errors.some(error => error.includes('Subject line exceeds')));
-    t.true(result.errors.some(error => error.includes('Empty line required')));
+    t.true(result.errors.some((error) => error.includes('Subject line exceeds')));
+    t.true(result.errors.some((error) => error.includes('Empty line required')));
 });
 test('validateMessage detects subject ending with period', (t) => {
     const generator = new CommitMessageGenerator();
     const messageWithPeriod = 'Fix the bug.\n\nDescription.';
     const result = generator.validateMessage(messageWithPeriod);
     t.false(result.valid);
-    t.true(result.errors.some(error => error.includes('should not end with a period')));
+    t.true(result.errors.some((error) => error.includes('should not end with a period')));
 });
 test('validateMessage detects uncapitalized subject', (t) => {
     const generator = new CommitMessageGenerator();
     const uncapitalizedMessage = 'fix the bug\n\nDescription.';
     const result = generator.validateMessage(uncapitalizedMessage);
     t.false(result.valid);
-    t.true(result.errors.some(error => error.includes('should start with a capital letter')));
+    t.true(result.errors.some((error) => error.includes('should start with a capital letter')));
 });
 test('subject line truncation works correctly', (t) => {
     const generator = new CommitMessageGenerator({ maxSubjectLength: 30 });
@@ -269,7 +269,7 @@ test('subject line truncation works correctly', (t) => {
         reason: longSubject,
     });
     const lines = message.split('\n');
-    const subject = lines[0];
+    const subject = lines[0] || '';
     t.true(subject.length <= 33); // 30 + '...'
     t.true(subject.endsWith('...'));
 });
@@ -277,7 +277,7 @@ test('prefix is added to subject lines', (t) => {
     const generator = new CommitMessageGenerator({ prefix: 'heal' });
     const message = generator.generatePreOperationMessage(mockScarContext);
     const lines = message.split('\n');
-    const subject = lines[0];
+    const subject = lines[0] || '';
     t.true(subject.startsWith('heal '));
 });
 test('createCommitMessageGenerator factory function', (t) => {

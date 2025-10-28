@@ -221,7 +221,7 @@ export class GitWorkflow {
     /**
      * Commit tasks directory changes
      */
-    async commitTasksDirectory(context) {
+    async commitTasksDirectory(_context) {
         try {
             // Add tasks directory files
             const addResult = await this.gitUtils.addFiles(['docs/agile/tasks/']);
@@ -250,10 +250,7 @@ export class GitWorkflow {
     async commitKanbanBoard(context, modifiedTasks) {
         try {
             // Add kanban board files
-            const boardFiles = [
-                'docs/agile/boards/generated.md',
-                'promethean.kanban.json',
-            ];
+            const boardFiles = ['docs/agile/boards/generated.md', 'promethean.kanban.json'];
             const addResult = await this.gitUtils.addFiles(boardFiles);
             if (!addResult.success) {
                 return addResult;
@@ -277,14 +274,10 @@ export class GitWorkflow {
     /**
      * Commit dependency changes
      */
-    async commitDependencies(context) {
+    async commitDependencies(_context) {
         try {
             // Add dependency files
-            const depFiles = [
-                'package.json',
-                'pnpm-lock.yaml',
-                'pnpm-workspace.yaml',
-            ];
+            const depFiles = ['package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml'];
             const addResult = await this.gitUtils.addFiles(depFiles);
             if (!addResult.success) {
                 return addResult;
