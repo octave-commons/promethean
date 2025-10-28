@@ -119,6 +119,7 @@ function setupWatcher(root, ignored, callbacks) {
     };
 }
 function createScheduler(config, root, log, warn) {
+    // eslint-disable-next-line functional/no-let
     let timer = null;
     const cleanup = () => {
         if (timer) {
