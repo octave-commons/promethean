@@ -8,7 +8,7 @@
  * Register OAuth routes
  */
 export function registerOAuthRoutes(fastify, config) {
-    const { basePath, oauthSystem, oauthIntegration, jwtManager, userRegistry, authManager } = config;
+    const { basePath, oauthSystem, oauthIntegration, userRegistry } = config;
     // Helper to set secure cookies
     const setAuthCookie = (reply, accessToken, refreshToken, sessionId) => {
         const cookieOptions = {
@@ -47,12 +47,6 @@ export function registerOAuthRoutes(fastify, config) {
         reply.clearCookie('refresh_token', cookieOptions);
         reply.clearCookie('session_id', cookieOptions);
     };
-    // Helper to get client info from request
-    const getClientInfo = (request) => ({
-        ipAddress: request.ip,
-        userAgent: request.headers['user-agent'],
-        referer: request.headers.referer,
-    });
     // Helper to create error response
     const createErrorResponse = (reply, statusCode, error, message, details) => {
         reply.status(statusCode).send({
@@ -71,7 +65,7 @@ export function registerOAuthRoutes(fastify, config) {
         });
     };
     // Get available OAuth providers
-    fastify.get(`${basePath}/providers`, async (request, reply) => {
+    fastify.get(`${basePath}/providers`, async (_request, reply) => {
         try {
             const providers = oauthSystem.getAvailableProviders();
             createSuccessResponse(reply, { providers });
@@ -120,9 +114,8 @@ export function registerOAuthRoutes(fastify, config) {
     fastify.get(`${basePath}/callback`, async (request, reply) => {
         try {
             const { code, state, error, error_description } = request.query;
-            const clientInfo = getClientInfo(request);
             // Validate state from cookie
-            const cookieState = request.cookies.oauth_state;
+            const cookieState = request.cookies?.oauth_state;
             if (!state || !cookieState || state !== cookieState) {
                 clearAuthCookie(reply);
                 return createErrorResponse(reply, 400, 'invalid_state', 'Invalid or missing OAuth state');
@@ -148,7 +141,7 @@ export function registerOAuthRoutes(fastify, config) {
                 return createErrorResponse(reply, 500, 'incomplete_response', 'OAuth authentication succeeded but tokens/user info missing');
             }
             // Set authentication cookies
-            setAuthCookie(reply, result.tokens.accessToken, result.tokens.refreshToken, result.tokens.sessionId || '');
+            setAuthCookie(reply, result.tokens.accessToken, result.tokens.refreshToken, result.user.id || '');
             // Log successful authentication
             console.log(`[OAuth] User ${result.user.username} (${result.user.id}) authenticated via ${result.user.provider}`);
             // Redirect to success page or return JSON
@@ -156,7 +149,7 @@ export function registerOAuthRoutes(fastify, config) {
             if (acceptHeader?.includes('text/html')) {
                 // Redirect for browser requests
                 const redirectUrl = request.query.redirect_uri || '/';
-                reply.redirect(302, redirectUrl);
+                reply.code(302).header('Location', redirectUrl).send();
             }
             else {
                 // JSON response for API requests
@@ -228,7 +221,6 @@ export function registerOAuthRoutes(fastify, config) {
     fastify.post(`${basePath}/logout`, async (request, reply) => {
         try {
             const { sessionId, allSessions } = request.body;
-            const clientInfo = getClientInfo(request);
             // Get current user from request
             const user = await oauthIntegration.getCurrentUser(request);
             if (!user) {
@@ -295,7 +287,7 @@ export function registerOAuthRoutes(fastify, config) {
         }
     });
     // Get OAuth system statistics
-    fastify.get(`${basePath}/stats`, async (request, reply) => {
+    fastify.get(`${basePath}/stats`, async (_request, reply) => {
         try {
             const oauthStats = oauthSystem.getStats();
             const integrationStats = await oauthIntegration.getIntegrationStats();
@@ -344,7 +336,7 @@ export function registerOAuthRoutes(fastify, config) {
         }
     });
     // Health check for OAuth system
-    fastify.get(`${basePath}/health`, async (request, reply) => {
+    fastify.get(`${basePath}/health`, async (_request, reply) => {
         try {
             const stats = oauthSystem.getStats();
             const isHealthy = stats.providers.length > 0;

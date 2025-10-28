@@ -41,8 +41,7 @@ export declare class OAuthLoginComponent {
     private config;
     private state;
     private container;
-    private onAuthSuccess?;
-    private onAuthError?;
+    private authErrorCallback?;
     constructor(container: HTMLElement, config: OAuthLoginConfig);
     /**
      * Initialize the component
@@ -97,13 +96,9 @@ export declare class OAuthLoginComponent {
      */
     private applyCustomStyles;
     /**
-     * Set authentication success callback
-     */
-    onAuthSuccess(callback: (user: any) => void): void;
-    /**
      * Set authentication error callback
      */
-    onAuthError(callback: (error: string) => void): void;
+    setAuthErrorCallback(callback: (error: string) => void): void;
     /**
      * Destroy the component
      */

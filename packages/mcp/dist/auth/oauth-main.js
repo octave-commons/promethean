@@ -172,10 +172,8 @@ export class OAuthSystemFactory {
                 };
             }
             const oauthStats = stats.oauth;
-            const integrationStats = stats.integration;
             // Determine health based on active sessions and providers
             const hasActiveProviders = oauthStats?.providers?.length > 0;
-            const hasActiveSessions = integrationStats?.activeOAuthSessions > 0;
             if (!hasActiveProviders) {
                 return {
                     status: 'degraded',

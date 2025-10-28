@@ -687,13 +687,35 @@ export function registerSimpleOAuthRoutes(fastify, config) {
             }
             // Generate JWT tokens
             const tokenPair = config.jwtManager.generateTokenPair(userInfo, oauthSession.sessionId, oauthSession);
-            // Set cookies manually
+            // Set cookies using cookie plugin
             const cookieOptions = getCookieOptions();
-            reply.header('set-cookie', [
-                `access_token=${tokenPair.accessToken}; ${cookieOptions}`,
-                `refresh_token=${tokenPair.refreshToken}; ${cookieOptions}`,
-                `user_id=${user.id}; ${cookieOptions}`,
-            ]);
+            reply.setCookie('access_token', tokenPair.accessToken, {
+                path: '/',
+                httpOnly: true,
+                secure: cookieOptions.includes('Secure'),
+                sameSite: 'lax',
+                ...(cookieOptions.includes('Domain=')
+                    ? { domain: cookieOptions.split('Domain=')[1]?.split(';')[0]?.trim() }
+                    : {}),
+            });
+            reply.setCookie('refresh_token', tokenPair.refreshToken, {
+                path: '/',
+                httpOnly: true,
+                secure: cookieOptions.includes('Secure'),
+                sameSite: 'lax',
+                ...(cookieOptions.includes('Domain=')
+                    ? { domain: cookieOptions.split('Domain=')[1]?.split(';')[0]?.trim() }
+                    : {}),
+            });
+            reply.setCookie('user_id', user.id, {
+                path: '/',
+                httpOnly: true,
+                secure: cookieOptions.includes('Secure'),
+                sameSite: 'lax',
+                ...(cookieOptions.includes('Domain=')
+                    ? { domain: cookieOptions.split('Domain=')[1]?.split(';')[0]?.trim() }
+                    : {}),
+            });
             // Handle different redirect scenarios
             if (!storedData) {
                 // Direct OAuth callback from MCP client (like ChatGPT)

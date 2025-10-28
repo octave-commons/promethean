@@ -6,13 +6,14 @@
  * using the battle-tested mcp-auth library.
  */
 import type { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
+import type { AuthServerType } from 'mcp-auth';
 /**
  * Fastify adapter configuration for MCP Auth
  */
 export type McpAuthFastifyConfig = Readonly<{
     readonly resourceIdentifier: string;
     readonly authServerUrl: string;
-    readonly authServerType?: 'oidc' | 'oauth2';
+    readonly authServerType?: AuthServerType;
     readonly scopesSupported?: readonly string[];
     readonly audience?: string;
 }>;

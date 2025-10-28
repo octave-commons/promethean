@@ -11,8 +11,7 @@ export class OAuthLoginComponent {
     config;
     state;
     container;
-    onAuthSuccess;
-    onAuthError;
+    authErrorCallback;
     constructor(container, config) {
         this.container = container;
         this.config = config;
@@ -31,7 +30,7 @@ export class OAuthLoginComponent {
      */
     render() {
         const theme = this.getTheme();
-        const providers = this.config.providers.filter(p => p.enabled);
+        const providers = this.config.providers.filter((p) => p.enabled);
         this.container.innerHTML = `
       <div class="oauth-login" data-theme="${theme}">
         ${this.config.showBranding ? this.renderBranding() : ''}
@@ -47,7 +46,7 @@ export class OAuthLoginComponent {
           ${this.state.error ? this.renderError() : ''}
           
           <div class="oauth-login__providers">
-            ${providers.map(provider => this.renderProvider(provider)).join('')}
+            ${providers.map((provider) => this.renderProvider(provider)).join('')}
           </div>
 
           <div class="oauth-login__footer">
@@ -116,21 +115,27 @@ export class OAuthLoginComponent {
         ${isLoading ? 'disabled' : ''}
       >
         <div class="oauth-login__provider-content">
-          ${provider.icon ? `
+          ${provider.icon
+            ? `
             <div class="oauth-login__provider-icon">
               <img src="${provider.icon}" alt="${provider.name}" width="24" height="24" />
             </div>
-          ` : ''}
+          `
+            : ''}
           
           <div class="oauth-login__provider-info">
             <div class="oauth-login__provider-name">${provider.displayName}</div>
-            ${provider.description ? `
+            ${provider.description
+            ? `
               <div class="oauth-login__provider-description">${provider.description}</div>
-            ` : ''}
+            `
+            : ''}
           </div>
 
           <div class="oauth-login__provider-action">
-            ${isLoading ? this.renderSpinner() : `
+            ${isLoading
+            ? this.renderSpinner()
+            : `
               <svg class="oauth-login__provider-arrow" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
               </svg>
@@ -220,7 +225,7 @@ export class OAuthLoginComponent {
     async handleProviderClick(providerId) {
         try {
             this.setState({ loading: true, selectedProvider: providerId, error: undefined });
-            const provider = this.config.providers.find(p => p.id === providerId);
+            const provider = this.config.providers.find((p) => p.id === providerId);
             if (!provider) {
                 throw new Error(`Provider ${providerId} not found`);
             }
@@ -247,10 +252,10 @@ export class OAuthLoginComponent {
             this.setState({
                 loading: false,
                 selectedProvider: undefined,
-                error: error.message
+                error: error.message,
             });
-            if (this.onAuthError) {
-                this.onAuthError(error.message);
+            if (this.authErrorCallback) {
+                this.authErrorCallback(error.message);
             }
         }
     }
@@ -283,16 +288,10 @@ export class OAuthLoginComponent {
         styleElement.textContent = this.config.customStyles;
     }
     /**
-     * Set authentication success callback
-     */
-    onAuthSuccess(callback) {
-        this.onAuthSuccess = callback;
-    }
-    /**
      * Set authentication error callback
      */
-    onAuthError(callback) {
-        this.onAuthError = callback;
+    setAuthErrorCallback(callback) {
+        this.authErrorCallback = callback;
     }
     /**
      * Destroy the component
@@ -348,7 +347,7 @@ export async function handleOAuthCallback() {
         if (error) {
             return {
                 success: false,
-                error: `OAuth error: ${error}${urlParams.get('error_description') ? ` - ${urlParams.get('error_description')}` : ''}`
+                error: `OAuth error: ${error}${urlParams.get('error_description') ? ` - ${urlParams.get('error_description')}` : ''}`,
             };
         }
         if (!code || !state) {
@@ -358,7 +357,7 @@ export async function handleOAuthCallback() {
         const response = await fetch('/auth/oauth/callback', {
             method: 'GET',
             headers: {
-                'Accept': 'application/json',
+                Accept: 'application/json',
             },
         });
         if (!response.ok) {

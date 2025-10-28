@@ -27,17 +27,9 @@ export class McpAuthFastifyAdapter {
             const authServerConfig = await fetchServerConfig(this.config.authServerUrl, {
                 type: this.config.authServerType ?? 'oidc',
             });
-            // Initialize MCP Auth with resource server configuration
+            // Initialize MCP Auth with server configuration
             this.mcpAuth = new MCPAuth({
-                protectedResources: [
-                    {
-                        metadata: {
-                            resource: this.config.resourceIdentifier,
-                            authorizationServers: [authServerConfig],
-                            scopesSupported: this.config.scopesSupported ?? ['read', 'write'],
-                        },
-                    },
-                ],
+                server: authServerConfig,
             });
             console.log('[McpAuthFastify] MCP Auth library initialized successfully');
             console.log('[McpAuthFastify] Resource:', this.config.resourceIdentifier);
@@ -112,7 +104,7 @@ export class McpAuthFastifyAdapter {
                 // Use mcp-auth library to validate the token
                 const bearerAuth = this.mcpAuth.bearerAuth('jwt', {
                     audience,
-                    requiredScopes,
+                    requiredScopes: [...requiredScopes],
                     showErrorDetails,
                 });
                 // Convert Express middleware to Fastify-compatible
