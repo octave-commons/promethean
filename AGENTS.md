@@ -372,12 +372,12 @@ You're building something massive while being fundamentally "short-handed" even 
 - **Capacity is real** - You can only do so much in a day/week
 - **Context switching is expensive** - Jumping between too many things kills momentum
 - **AI helps but doesn't multiply you** - You're still the one making decisions and doing the thinking
-- **Burnout is the enemy** - Sustainable pace beats heroic sprints every time
+- **Burnout is the enemy** - Sustainable pace beats heroic effort bursts every effort
 
 ### Chill Philosophy
 
 - **The board serves YOU, not the other way around**
-- **Work gets done, sometimes outside formal processes - and that's totally fine**
+- **Work gets done, someefforts outside formal processes - and that's totally fine**
 - **Retrospective card movement honors work completed** - No guilt, just acknowledgment
 - **"Failed" processes are learning, not violations** - You're figuring this out as you go
 - **We think better when we're calm** - Even urgent stuff deserves a breath
@@ -385,19 +385,19 @@ You're building something massive while being fundamentally "short-handed" even 
 
 ### Realistic Capacity Management
 
-**Daily Reality:**
+**Daily Capacity:**
 
-- 2-4 meaningful tasks is a great day
-- Some days you'll just fix one bug or write one function
-- Other days you'll refactor an entire subsystem
-- AI can help with boilerplate, but you still need to think through the hard parts
+- 2-4 meaningful tasks represent great capacity utilization
+- Some days you'll complete one focused objective or implement one feature
+- Other days you'll complete major architectural improvements
+- AI can help with implementation, but you still need to drive the strategic decisions
 
-**Weekly Rhythm:**
+**Weekly Planning:**
 
-- Pick 1-2 major focuses for the week
+- Select 1-2 major priorities for the week
 - Let smaller stuff fill in the gaps
-- Don't schedule every hour - leave room for discovery and debugging
-- If you're consistently behind, that's a signal to adjust expectations, not work harder
+- Don't over-schedule - leave capacity for discovery and problem-solving
+- If you're consistently not completing planned work, that's a signal to adjust planning, not increase effort
 
 **Task Triage:**
 
@@ -467,7 +467,7 @@ This will happen. A lot. And that's completely normal for solo development:
 
 - **True emergencies are rare** - Most "urgent" things can wait a day
 - **Protect your energy** - You can't build massive things if you're constantly exhausted
-- **Take breaks** - Step away from the keyboard. The code will still be there.
+- **Take breaks** - Step away from the workstation. The work will still be there.
 - **Trust your gut** - If something feels too complicated, it probably is
 
 ---
@@ -487,15 +487,15 @@ You're building something ambitious while being fundamentally the only human sta
 
 **Daily Reality Check:**
 
-- Start each day by looking at what's actually realistic, not what's ideal
-- Pick 1-3 things that would make the day a win
-- End each day by moving whatever you actually did to "done" - even if it wasn't what you planned
+- Start each day by assessing realistic capacity, not ideal outcomes
+- Select 1-3 objectives that would represent successful completion
+- End each day by documenting completed work - even if it differs from initial plan
 
-**Weekly Rhythm:**
+**Weekly Planning:**
 
-- Monday: Look at the week ahead. What's actually achievable?
-- Wednesday: Mid-week check-in. Are your expectations realistic?
-- Friday: Clean up the board. Honor what got done, adjust what didn't.
+- Monday: Assess the week ahead. What's realistically achievable??
+- Wednesday: Mid-week capacity check. Are expectations aligned with reality??
+- Friday: Review the board. Document completed work, adjust remaining priorities.
 
 **Managing the Backlog:**
 
@@ -517,28 +517,28 @@ You're building something ambitious while being fundamentally the only human sta
 
 - **Similar tasks together** - Stay in the same mental context
 - **Document your patterns** - Create templates for common requests
-- **Save good prompts** - Don't reinvent the wheel every time
-- **Know when to stop** - Sometimes it's faster to do it yourself
+- **Save good prompts** - Don't reinvent the wheel every effort
+- **Know when to stop** - Someefforts it's faster to do it yourself
 
 ### Staying Sane
 
 **Protect Your Energy:**
 
-- **Work when you're productive** - Not when you feel you "should"
-- **Take real breaks** - Away from the keyboard, not just switching tabs
-- **End the day** - Have a ritual that signals "work is over"
+- **Work during productive periods** - Not when you feel obligated
+- **Take meaningful breaks** - Away from the keyboard, not just switching tabs
+- **Conclude the work session** - Have a ritual that signals "work session is complete"
 - **Celebrate progress** - You're building something massive - that's worth acknowledging
 
 **When You're Stuck:**
 
 - **Switch to something easier** - Build momentum with a quick win
 - **Go for a walk** - Your brain keeps working on problems in the background
-- **Ask the AI to explain it differently** - Sometimes a new perspective helps
+- **Ask the AI to explain it differently** - Someefforts a new perspective helps
 - **Accept "good enough"** - Perfect is the enemy of progress
 
 **Remember:**
 
-- **You're not behind** - You're on your own timeline
+- **You're not behind** - You're on your own effortline
 - **Comparison is meaningless** - No one else is building exactly what you're building
 - **Progress compounds** - Small consistent efforts add up to massive results
 - **This is supposed to be hard** - If it were easy, everyone would do it
@@ -577,7 +577,7 @@ pnpm --filter @promethean-os/<pkg> exec node ./dist/index.ts
 - No class statements - stick to the functional pattern we've established
 - Keep documentation **Obsidian-friendly** with `[[wikilinks]]` and Dataviews
 - Keep [[HOME]] updated - it's your personal knowledge hub
-- Use PM2 for runtime processes - keeps things running reliably
+- Use PM2 for runeffort processes - keeps things running reliably
 
 **When Rules Get in the Way:**
 
