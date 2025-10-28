@@ -65,11 +65,12 @@ function contentToDualStoreEntry(content: IndexableContent): DualStoreEntry<'tex
  * Create search result from DualStoreEntry
  */
 function createSearchResult(entry: DualStoreEntry): SearchResult {
+  const timestamp = (entry as any).timestamp || (entry as any).createdAt;
   return {
     content: transformDualStoreEntry({
       id: entry.id || entry._id?.toString(),
       text: entry.text,
-      timestamp: toEpochMs((entry as any).timestamp || (entry as any).createdAt),
+      timestamp: toEpochMs(timestamp),
       metadata: entry.metadata,
     }),
     score: 1.0,
