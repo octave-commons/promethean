@@ -232,20 +232,12 @@ async function createUnifiedIndexingClient(_config: unknown): Promise<UnifiedInd
 }
 
 /**
- * Create get by ID handler for DualStoreManager
+ * Factory function to create unified indexer service
  */
-function createGetByIdHandler(dualStore: Awaited<ReturnType<typeof DualStoreManager.create>>) {
-  return async function getById(id: string) {
-    const entry = await dualStore.get(id);
-    if (!entry) return null;
-
-    return transformDualStoreEntry({
-      id: entry.id || entry._id?.toString(),
-      text: entry.text,
-      timestamp: toEpochMs(entry.timestamp),
-      metadata: entry.metadata,
-    });
-  };
+export async function createUnifiedIndexerService(
+  config: UnifiedIndexerServiceConfig,
+): Promise<UnifiedIndexerServiceState> {
+  return initializeService(config);
 }
 
 /**
