@@ -22,7 +22,7 @@
     "dev": "tsx src/cli.ts",
     "lint": "eslint .",
     "test": "ava",
-    "test": "c8 pnpm test"
+    "coverage": "c8 pnpm test"
   },
   "dependencies": {
     "chokidar": "^3.6.0",
