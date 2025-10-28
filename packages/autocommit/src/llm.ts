@@ -70,6 +70,11 @@ function handleLLMError(error: unknown): never {
     throw error;
   }
   
+  // For network errors, preserve the original error type and message
+  if (error instanceof TypeError && error.message.includes('fetch failed')) {
+    throw new Error(`Unexpected error during LLM request: TypeError: fetch failed`);
+  }
+  
   // Safely extract error message without verbose object serialization
   let errorMessage = 'Unknown error';
   if (error instanceof Error) {
