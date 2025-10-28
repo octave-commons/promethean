@@ -442,7 +442,7 @@ importers:
         version: link:../llm
       '@promethean-os/pantheon-ecs':
         specifier: workspace:*
-        version: link:../pantheon-ecs
+        version: link:../pantheon/ecs
       '@promethean-os/persistence':
         specifier: workspace:*
         version: link:../persistence
@@ -1056,7 +1056,7 @@ importers:
         version: link:../ollama-queue
       '@promethean-os/pantheon-workflow':
         specifier: workspace:*
-        version: link:../pantheon-workflow
+        version: link:../pantheon/workflow
       '@promethean-os/utils':
         specifier: workspace:*
         version: link:../utils
@@ -1539,7 +1539,7 @@ importers:
         version: link:../enso-protocol
       '@promethean-os/pantheon-orchestrator':
         specifier: workspace:*
-        version: link:../pantheon-orchestrator
+        version: link:../pantheon/orchestrator
       uuid:
         specifier: ^9.0.1
         version: 9.0.1
@@ -2506,7 +2506,7 @@ importers:
         version: link:../pantheon
       '@promethean-os/pantheon-core':
         specifier: workspace:*
-        version: link:../pantheon-core
+        version: link:../pantheon/core
       '@promethean-os/utils':
         specifier: workspace:*
         version: link:../utils
@@ -2998,10 +2998,10 @@ importers:
         version: link:../kanban
       '@promethean-os/pantheon-protocol':
         specifier: workspace:*
-        version: link:../pantheon-protocol
+        version: link:../pantheon/protocol
       '@promethean-os/pantheon-state':
         specifier: workspace:*
-        version: link:../pantheon-state
+        version: link:../pantheon/state
       '@promethean-os/utils':
         specifier: workspace:*
         version: link:../utils
@@ -3235,7 +3235,7 @@ importers:
         version: 4.27.0
       '@promethean-os/pantheon-state':
         specifier: workspace:*
-        version: link:../pantheon-state
+        version: link:../pantheon/state
       fuse.js:
         specifier: ^7.0.0
         version: 7.1.0
@@ -3598,19 +3598,19 @@ importers:
     dependencies:
       '@promethean-os/pantheon-core':
         specifier: workspace:*
-        version: link:../pantheon-core
+        version: link:core
       '@promethean-os/pantheon-llm-openai':
         specifier: workspace:*
-        version: link:../pantheon-llm-openai
+        version: link:llm-openai
       '@promethean-os/pantheon-mcp':
         specifier: workspace:*
-        version: link:../pantheon-mcp
+        version: link:mcp
       '@promethean-os/pantheon-persistence':
         specifier: workspace:*
-        version: link:../pantheon-persistence
+        version: link:persistence
       '@promethean-os/pantheon-state':
         specifier: workspace:*
-        version: link:../pantheon-state
+        version: link:state
       '@promethean-os/persistence':
         specifier: workspace:*
         version: link:../persistence
@@ -3637,11 +3637,11 @@ importers:
         specifier: ^5.3.3
         version: 5.9.3
 
-  packages/pantheon-coordination:
+  packages/pantheon/coordination:
     dependencies:
       '@promethean-os/pantheon-state':
         specifier: workspace:*
-        version: link:../pantheon-state
+        version: link:../state
       zod:
         specifier: ^3.22.4
         version: 3.25.76
@@ -3653,14 +3653,14 @@ importers:
         specifier: ^5.3.3
         version: 5.9.3
 
-  packages/pantheon-core:
+  packages/pantheon/core:
     dependencies:
       '@promethean-os/pantheon-state':
         specifier: workspace:*
-        version: link:../pantheon-state
+        version: link:../state
       '@promethean-os/persistence':
         specifier: workspace:*
-        version: link:../persistence
+        version: link:../../persistence
       zod:
         specifier: ^3.22.4
         version: 3.25.76
@@ -3675,14 +3675,14 @@ importers:
         specifier: ^5.3.3
         version: 5.9.3
 
-  packages/pantheon-ecs:
+  packages/pantheon/ecs:
     dependencies:
       '@promethean-os/ds':
         specifier: workspace:*
-        version: link:../ds
+        version: link:../../ds
       '@promethean-os/legacy':
         specifier: workspace:*
-        version: link:../legacy
+        version: link:../../legacy
       '@types/javascript-time-ago':
         specifier: ^2.5.0
         version: 2.5.0
@@ -3755,13 +3755,13 @@ importers:
     devDependencies:
       '@promethean-os/test-utils':
         specifier: workspace:*
-        version: link:../test-utils
+        version: link:../../test-utils
       '@types/body-parser':
         specifier: ^1.19.5
         version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
         version: 4.17.21
@@ -3769,24 +3769,24 @@ importers:
         specifier: ^8.5.9
         version: 8.18.1
 
-  packages/pantheon-generator:
+  packages/pantheon/generator:
     dependencies:
       '@promethean-os/pantheon-core':
         specifier: workspace:*
-        version: link:../pantheon-core
+        version: link:../core
     devDependencies:
       shadow-cljs:
         specifier: ^2.25.8
         version: 2.28.23
 
-  packages/pantheon-llm-claude:
+  packages/pantheon/llm-claude:
     dependencies:
       '@anthropic-ai/sdk':
         specifier: ^0.24.3
         version: 0.24.3(encoding@0.1.13)
       '@promethean-os/pantheon-core':
         specifier: workspace:*
-        version: link:../pantheon-core
+        version: link:../core
     devDependencies:
       '@types/node':
         specifier: ^20.0.0
@@ -3798,11 +3798,11 @@ importers:
         specifier: ^5.3.3
         version: 5.9.3
 
-  packages/pantheon-llm-openai:
+  packages/pantheon/llm-openai:
     dependencies:
       '@promethean-os/pantheon-core':
         specifier: workspace:*
-        version: link:../pantheon-core
+        version: link:../core
       openai:
         specifier: ^4.20.1
         version: 4.104.0(encoding@0.1.13)(ws@8.18.3)(zod@3.25.76)
@@ -3817,14 +3817,14 @@ importers:
         specifier: ^5.3.3
         version: 5.9.3
 
-  packages/pantheon-llm-opencode:
+  packages/pantheon/llm-opencode:
     dependencies:
       '@promethean-os/opencode-client':
         specifier: workspace:*
-        version: link:../opencode-client
+        version: link:../../opencode-client
       '@promethean-os/pantheon-core':
         specifier: workspace:*
-        version: link:../pantheon-core
+        version: link:../core
     devDependencies:
       '@types/node':
         specifier: ^20.0.0
@@ -3836,11 +3836,11 @@ importers:
         specifier: ^5.3.3
         version: 5.9.3
 
-  packages/pantheon-mcp:
+  packages/pantheon/mcp:
     dependencies:
       '@promethean-os/pantheon-core':
         specifier: workspace:*
-        version: link:../pantheon-core
+        version: link:../core
     devDependencies:
       '@types/node':
         specifier: ^20.0.0
@@ -3852,14 +3852,14 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
-  packages/pantheon-orchestrator:
+  packages/pantheon/orchestrator:
     dependencies:
       '@promethean-os/pantheon-protocol':
         specifier: workspace:*
-        version: link:../pantheon-protocol
+        version: link:../protocol
       '@promethean-os/pantheon-state':
         specifier: workspace:*
-        version: link:../pantheon-state
+        version: link:../state
       uuid:
         specifier: ^9.0.1
         version: 9.0.1
@@ -3877,14 +3877,14 @@ importers:
         specifier: ^5.3.3
         version: 5.9.3
 
-  packages/pantheon-persistence:
+  packages/pantheon/persistence:
     dependencies:
       '@promethean-os/pantheon-core':
         specifier: workspace:*
-        version: link:../pantheon-core
+        version: link:../core
       '@promethean-os/persistence':
         specifier: workspace:*
-        version: link:../persistence
+        version: link:../../persistence
     devDependencies:
       '@types/node':
         specifier: ^20.0.0
@@ -3896,11 +3896,11 @@ importers:
         specifier: ^5.3.3
         version: 5.9.3
 
-  packages/pantheon-protocol:
+  packages/pantheon/protocol:
     dependencies:
       '@promethean-os/pantheon-state':
         specifier: workspace:*
-        version: link:../pantheon-state
+        version: link:../state
       amqplib:
         specifier: ^0.10.3
         version: 0.10.9
@@ -3933,11 +3933,11 @@ importers:
         specifier: ^5.3.3
         version: 5.9.3
 
-  packages/pantheon-state:
+  packages/pantheon/state:
     dependencies:
       '@promethean-os/level-cache':
         specifier: workspace:*
-        version: link:../level-cache
+        version: link:../../level-cache
       bcryptjs:
         specifier: ^2.4.3
         version: 2.4.3
@@ -3970,11 +3970,11 @@ importers:
         specifier: ^5.3.3
         version: 5.9.3
 
-  packages/pantheon-ui:
+  packages/pantheon/ui:
     dependencies:
       '@promethean-os/pantheon-state':
         specifier: workspace:*
-        version: link:../pantheon-state
+        version: link:../state
       react:
         specifier: ^18.2.0
         version: 18.3.1
@@ -3995,7 +3995,7 @@ importers:
         specifier: ^5.3.3
         version: 5.9.3
 
-  packages/pantheon-workflow:
+  packages/pantheon/workflow:
     dependencies:
       '@openai/agents':
         specifier: ^0.1.9
@@ -4018,7 +4018,7 @@ importers:
     devDependencies:
       '@promethean-os/test-utils':
         specifier: workspace:*
-        version: link:../test-utils
+        version: link:../../test-utils
 
   packages/persistence:
     dependencies:
@@ -27021,7 +27021,7 @@ snapshots:
       eslint-mdx: 3.6.2(eslint@8.57.1)
       eslint-plugin-astro: 0.33.1(eslint@8.57.1)
       eslint-plugin-cypress: 2.15.2(eslint@8.57.1)
-      eslint-plugin-import: eslint-plugin-i@2.29.1(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-i@2.29.1(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.9.3))(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1)
+      eslint-plugin-import: eslint-plugin-i@2.29.1(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1)(eslint@8.57.1)
       eslint-plugin-jsdoc: 48.11.0(eslint@8.57.1)
       eslint-plugin-jsx-a11y: 6.10.2(eslint@8.57.1)
       eslint-plugin-mdx: 3.6.2(eslint@8.57.1)
@@ -27083,7 +27083,7 @@ snapshots:
       tinyglobby: 0.2.15
       unrs-resolver: 1.11.1
     optionalDependencies:
-      eslint-plugin-import: eslint-plugin-i@2.29.1(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-i@2.29.1(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.9.3))(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1)
+      eslint-plugin-import: eslint-plugin-i@2.29.1(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1)(eslint@8.57.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -27180,7 +27180,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-i@2.29.1(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-i@2.29.1(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.9.3))(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1):
+  eslint-plugin-i@2.29.1(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1)(eslint@8.57.1):
     dependencies:
       debug: 4.4.3(supports-color@5.5.0)
       doctrine: 3.0.0
