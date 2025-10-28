@@ -23,9 +23,29 @@ export interface TaskAIManagerConfig {
   temperature?: number;
 }
 
+import type { Task } from '../types.js';
+import type {
+  TaskAnalysisRequest,
+  TaskRewriteRequest,
+  TaskBreakdownRequest,
+  TaskAnalysisResult,
+  TaskRewriteResult,
+  TaskBreakdownResult
+} from './types.js';
+import { TaskContentManager } from './index.js';
+import { runPantheonComputation } from '../pantheon/runtime.js';
+import { WIPLimitEnforcement } from '../wip-enforcement.js';
+import { 
+  createTransitionRulesEngineState, 
+  validateTransition,
+  type TransitionRulesEngineState
+} from '../transition-rules-functional.js';
+
 export class TaskAIManager {
   private readonly config: Required<TaskAIManagerConfig>;
   private readonly contentManager: TaskContentManager;
+  private readonly wipEnforcement: WIPLimitEnforcement;
+  private readonly transitionRulesState: TransitionRulesEngineState;
 
   constructor(config: TaskAIManagerConfig = {}) {
     this.config = {
@@ -68,393 +88,139 @@ export class TaskAIManager {
 
     this.contentManager = new TaskContentManager(mockCache);
 
+    // Initialize WIP enforcement and transition rules
+    this.initializeComplianceSystems();
+
     // Set environment variables for the LLM driver
     process.env.LLM_DRIVER = 'ollama';
     process.env.LLM_MODEL = this.config.model;
   }
 
   /**
-   * Analyze a task using AI to provide insights into quality, complexity, completeness, etc.
+   * Initialize compliance systems (WIP enforcement and transition rules)
    */
-  async analyzeTask(request: TaskAnalysisRequest): Promise<TaskAnalysisResult> {
-    const startTime = Date.now();
-    const { uuid, analysisType, context = {}, options = {} } = request;
-
+  private async initializeComplianceSystems(): Promise<void> {
     try {
-      // Read the current task
-      const task = await this.contentManager.readTask(uuid);
-      if (!task) {
-        return {
-          success: false,
-          taskUuid: uuid,
-          analysisType,
-          analysis: {
-            suggestions: [],
-            risks: [],
-            dependencies: [],
-            subtasks: []
-          },
-          metadata: {
-            analyzedAt: new Date(),
-            analyzedBy: process.env.AGENT_NAME || 'unknown',
-            model: this.config.model,
-            processingTime: Date.now() - startTime
-          },
-          error: `Task ${uuid} not found`
-        };
-      }
-
-      // Create backup if requested
-      if (options.createBackup) {
-        // Note: In real implementation, you would backup the task here
-        console.log('Mock backup task:', uuid);
-      }
-
-      const analysis = await runPantheonComputation<undefined, any>({
-        actorName: 'kanban-task-analysis',
-        goal: `analyze task ${task.title}`,
-        compute: async () =>
-          generateTaskAnalysis({
-            task,
-            analysisType,
-            context,
-          }),
+      // Initialize transition rules engine state
+      this.transitionRulesState = createTransitionRulesEngineState({
+        enabled: true,
+        enforcement: 'strict',
+        rules: [], // Will be loaded from config
+        customChecks: {},
+        globalRules: [],
       });
 
-      // Validate and structure the analysis result
-      const validatedAnalysis = this.validateAnalysisResult(analysis);
-
-      return {
-        success: true,
-        taskUuid: uuid,
-        analysisType,
-        analysis: validatedAnalysis,
-        metadata: {
-          analyzedAt: new Date(),
-          analyzedBy: process.env.AGENT_NAME || 'unknown',
-          model: this.config.model,
-          processingTime: Date.now() - startTime
-        }
-      };
-
+      // Initialize WIP enforcement
+      this.wipEnforcement = new WIPLimitEnforcement();
     } catch (error) {
-      return {
-        success: false,
-        taskUuid: uuid,
-        analysisType,
-        analysis: {
-          suggestions: [],
-          risks: [],
-          dependencies: [],
-          subtasks: []
-        },
-        metadata: {
-          analyzedAt: new Date(),
-          analyzedBy: process.env.AGENT_NAME || 'unknown',
-          model: this.config.model,
-          processingTime: Date.now() - startTime
-        },
-        error: error instanceof Error ? error.message : 'Unknown error during analysis'
-      };
+      console.warn('Failed to initialize compliance systems:', error);
+      // Fallback to no-op implementations
+      this.wipEnforcement = null as any;
+      this.transitionRulesState = null as any;
     }
   }
 
   /**
-   * Rewrite task content using AI based on specified requirements
+   * Validate task transition against WIP limits and transition rules
    */
-  async rewriteTask(request: TaskRewriteRequest): Promise<TaskRewriteResult> {
-    const startTime = Date.now();
-    const { uuid, rewriteType, instructions = '', targetAudience = 'developer', tone = 'technical', options = {} } = request;
+  private async validateTaskTransition(
+    task: Task, 
+    newStatus: string
+  ): Promise<boolean> {
+    if (!this.wipEnforcement || !this.transitionRulesState) {
+      console.warn('Compliance systems not initialized, skipping validation');
+      return true;
+    }
 
     try {
-      // Read the current task
-      const task = await this.contentManager.readTask(uuid);
-      if (!task) {
-        return {
-          success: false,
-          taskUuid: uuid,
-          rewriteType,
-          originalContent: '',
-          rewrittenContent: '',
-          changes: { summary: '', highlights: [], additions: [], modifications: [], removals: [] },
-          metadata: {
-            rewrittenAt: new Date(),
-            rewrittenBy: process.env.AGENT_NAME || 'unknown',
-            model: this.config.model,
-            processingTime: Date.now() - startTime
-          },
-          error: `Task ${uuid} not found`
-        };
+      // Load current board state
+      const { loadBoard } = await import('../kanban.js');
+      const { loadKanbanConfig } = await import('../../board/config.js');
+      const kanbanConfig = await loadKanbanConfig();
+      const board = await loadBoard(kanbanConfig.config.boardFile, kanbanConfig.config.tasksDir);
+
+      // Check WIP limits first
+      const wipValidation = await this.wipEnforcement.validateWIPLimits(newStatus, 1, board);
+      if (!wipValidation.valid) {
+        throw new Error(`WIP limit violation: ${wipValidation.violation?.reason}`);
       }
 
-      const originalContent = task.content || '';
-
-      // Create backup if requested
-      if (options.createBackup) {
-        // Note: In real implementation, you would backup the task here
-        console.log('Mock backup task:', uuid);
-      }
-
-      const rewrite = await runPantheonComputation<undefined, { content: string; summary: string }>({
-        actorName: 'kanban-task-rewriter',
-        goal: `rewrite task ${task.title}`,
-        compute: async () =>
-          generateTaskRewrite({
-            task,
-            rewriteType,
-            instructions,
-            targetAudience,
-            tone,
-            originalContent,
-          }),
-      });
-
-      const content = rewrite.content;
-      const changes = this.analyzeChanges(originalContent, content);
-
-      // Dry run mode - just return what would happen
-      if (options.dryRun) {
-        return {
-          success: true,
-          taskUuid: uuid,
-          rewriteType,
-          originalContent,
-          rewrittenContent: content,
-          changes,
-          metadata: {
-            rewrittenAt: new Date(),
-            rewrittenBy: process.env.AGENT_NAME || 'unknown',
-            model: this.config.model,
-            processingTime: Date.now() - startTime
-          }
-        };
-      }
-
-      // Update the task with new content
-      await this.contentManager.updateTaskBody({
-        uuid,
-        content,
-        options: {
-          validateStructure: true,
-          updateTimestamp: true
-        }
-      });
-
-      return {
-        success: true,
-        taskUuid: uuid,
-        rewriteType,
-        originalContent,
-        rewrittenContent: content,
-        changes,
-        metadata: {
-          rewrittenAt: new Date(),
-          rewrittenBy: process.env.AGENT_NAME || 'unknown',
-          model: this.config.model,
-          processingTime: Date.now() - startTime
-        }
-      };
-
-    } catch (error) {
-      return {
-        success: false,
-        taskUuid: uuid,
-        rewriteType,
-        originalContent: '',
-        rewrittenContent: '',
-        changes: { summary: '', highlights: [], additions: [], modifications: [], removals: [] },
-        metadata: {
-          rewrittenAt: new Date(),
-          rewrittenBy: process.env.AGENT_NAME || 'unknown',
-          model: this.config.model,
-          processingTime: Date.now() - startTime
-        },
-        error: error instanceof Error ? error.message : 'Unknown error during rewrite'
-      };
-    }
-  }
-
-  /**
-   * Break down a task into subtasks, steps, or phases using AI
-   */
-  async breakdownTask(request: TaskBreakdownRequest): Promise<TaskBreakdownResult> {
-    const startTime = Date.now();
-    const { uuid, breakdownType, maxSubtasks = 8, complexity = 'medium', includeEstimates = true, options = {} } = request;
-
-    try {
-      // Read the current task
-      const task = await this.contentManager.readTask(uuid);
-      if (!task) {
-        return {
-          success: false,
-          taskUuid: uuid,
-          breakdownType,
-          subtasks: [],
-          metadata: {
-            breakdownAt: new Date(),
-            breakdownBy: process.env.AGENT_NAME || 'unknown',
-            model: this.config.model,
-            processingTime: Date.now() - startTime
-          },
-          error: `Task ${uuid} not found`
-        };
-      }
-
-      // Create backup if requested
-      if (options.createBackup) {
-        // Note: In real implementation, you would backup the task here
-        console.log('Mock backup task:', uuid);
-      }
-
-      const breakdown = await runPantheonComputation<undefined, any>({
-        actorName: 'kanban-task-breakdown',
-        goal: `create ${breakdownType} breakdown for ${task.title}`,
-        compute: async () =>
-          generateTaskBreakdown({
-            task,
-            breakdownType,
-            maxSubtasks,
-            complexity,
-            includeEstimates,
-          }),
-      });
-
-      // Validate and structure the breakdown
-      const subtasks = this.validateBreakdownResult(breakdown, includeEstimates);
-      const totalEstimatedHours = includeEstimates
-        ? subtasks.reduce((sum, st) => sum + (st.estimatedHours || 0), 0)
-        : undefined;
-
-      return {
-        success: true,
-        taskUuid: uuid,
-        breakdownType,
-        subtasks,
-        totalEstimatedHours,
-        metadata: {
-          breakdownAt: new Date(),
-          breakdownBy: process.env.AGENT_NAME || 'unknown',
-          model: this.config.model,
-          processingTime: Date.now() - startTime
-        }
-      };
-
-    } catch (error) {
-      return {
-        success: false,
-        taskUuid: uuid,
-        breakdownType,
-        subtasks: [],
-        metadata: {
-          breakdownAt: new Date(),
-          breakdownBy: process.env.AGENT_NAME || 'unknown',
-          model: this.config.model,
-          processingTime: Date.now() - startTime
-        },
-        error: error instanceof Error ? error.message : 'Unknown error during breakdown'
-      };
-    }
-  }
-
-  private validateAnalysisResult(analysis: any): any {
-    // Ensure the analysis has the expected structure
-    const result: any = {};
-
-    // Add scores if present
-    if (typeof analysis.qualityScore === 'number') {
-      result.qualityScore = Math.min(100, Math.max(0, analysis.qualityScore));
-    }
-    if (typeof analysis.complexityScore === 'number') {
-      result.complexityScore = Math.min(100, Math.max(0, analysis.complexityScore));
-    }
-    if (typeof analysis.completenessScore === 'number') {
-      result.completenessScore = Math.min(100, Math.max(0, analysis.completenessScore));
-    }
-
-    // Ensure arrays are properly formatted
-    result.suggestions = Array.isArray(analysis.suggestions) ? analysis.suggestions : [];
-    result.risks = Array.isArray(analysis.risks) ? analysis.risks : [];
-    result.dependencies = Array.isArray(analysis.dependencies) ? analysis.dependencies : [];
-    result.subtasks = Array.isArray(analysis.subtasks) ? analysis.subtasks : [];
-
-    // Handle estimated effort if present
-    if (analysis.estimatedEffort && typeof analysis.estimatedEffort === 'object') {
-      result.estimatedEffort = {
-        hours: typeof analysis.estimatedEffort.hours === 'number' ? analysis.estimatedEffort.hours : 0,
-        confidence: typeof analysis.estimatedEffort.confidence === 'number' ?
-          Math.min(100, Math.max(0, analysis.estimatedEffort.confidence)) : 50,
-        breakdown: Array.isArray(analysis.estimatedEffort.breakdown) ? analysis.estimatedEffort.breakdown : []
-      };
-    }
-
-    return result;
-  }
-
-  private validateBreakdownResult(breakdown: any, includeEstimates: boolean): any[] {
-    if (!Array.isArray(breakdown.subtasks)) {
-      return [];
-    }
-
-    return breakdown.subtasks.map((subtask: any) => ({
-      title: typeof subtask.title === 'string' ? subtask.title : 'Untitled Subtask',
-      description: typeof subtask.description === 'string' ? subtask.description : '',
-      estimatedHours: includeEstimates && typeof subtask.estimatedHours === 'number' ? subtask.estimatedHours : undefined,
-      priority: ['low', 'medium', 'high'].includes(subtask.priority) ? subtask.priority : 'medium',
-      dependencies: Array.isArray(subtask.dependencies) ? subtask.dependencies : [],
-      acceptanceCriteria: Array.isArray(subtask.acceptanceCriteria) ? subtask.acceptanceCriteria : []
-    }));
-  }
-
-  private analyzeChanges(original: string, rewritten: string): {
-    summary: string;
-    highlights: string[];
-    additions: string[];
-    modifications: string[];
-    removals: string[];
-  } {
-    // Simple change analysis - in a real implementation, you might use more sophisticated diff algorithms
-    const originalLines = original.split('\n').filter(line => line.trim());
-    const rewrittenLines = rewritten.split('\n').filter(line => line.trim());
-
-    const additions: string[] = [];
-    const removals: string[] = [];
-    const modifications: string[] = [];
-
-    // Simple line-by-line comparison
-    rewrittenLines.forEach(line => {
-      if (!originalLines.includes(line)) {
-        additions.push(line);
-      }
-    });
-
-    originalLines.forEach(line => {
-      if (!rewrittenLines.includes(line)) {
-        removals.push(line);
-      }
-    });
-
-    // Find modifications (lines that exist but were changed)
-    originalLines.forEach(origLine => {
-      const rewrittenMatch = rewrittenLines.find(rewLine =>
-        rewLine.substring(0, Math.min(origLine.length, rewLine.length) / 2) ===
-        origLine.substring(0, Math.min(origLine.length, rewLine.length) / 2)
+      // Validate transition rules
+      const { result: transitionResult } = await validateTransition(
+        this.transitionRulesState,
+        task.status,
+        newStatus,
+        task,
+        board
       );
-      if (rewrittenMatch && rewrittenMatch !== origLine) {
-        modifications.push(`"${origLine}" → "${rewrittenMatch}"`);
+
+      if (!transitionResult.allowed) {
+        throw new Error(`Transition blocked: ${transitionResult.reason}`);
       }
-    });
 
-    const summary = `Content rewritten with ${additions.length} additions, ${removals.length} removals, and ${modifications.length} modifications.`;
-
-    return {
-      summary,
-      highlights: [`Content length changed from ${original.length} to ${rewritten.length} characters`],
-      additions,
-      modifications,
-      removals
-    };
+      return true;
+    } catch (error) {
+      console.error('Task transition validation failed:', error);
+      throw error;
+    }
   }
-}
+
+  /**
+   * Execute kanban CLI command for board synchronization
+   */
+  private async syncKanbanBoard(): Promise<void> {
+    try {
+      const { execSync } = await import('child_process');
+      execSync('pnpm kanban regenerate', { stdio: 'inherit', cwd: process.cwd() });
+    } catch (error) {
+      console.warn('Failed to sync kanban board:', error);
+      // Don't throw error - board sync is non-critical for AI operations
+    }
+  }
+
+  /**
+   * Create real backup of task before modification
+   */
+  private async createTaskBackup(uuid: string): Promise<string> {
+    try {
+      const backupPath = await this.contentManager.cache.backupTask(uuid);
+      if (!backupPath) {
+        throw new Error(`Failed to backup task ${uuid}`);
+      }
+      
+      // Log backup to audit trail
+      await this.logAuditEvent({
+        taskUuid: uuid,
+        action: 'backup_created',
+        metadata: { backupPath }
+      });
+      
+      return backupPath;
+    } catch (error) {
+      console.error('Task backup failed:', error);
+      throw new Error(`Backup failed for task ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  }
+
+  /**
+   * Log audit events for compliance tracking
+   */
+  private async logAuditEvent(event: {
+    taskUuid: string;
+    action: string;
+    oldStatus?: string;
+    newStatus?: string;
+    metadata?: Record<string, any>;
+  }): Promise<void> {
+    const auditEntry = {
+      timestamp: new Date().toISOString(),
+      agent: process.env.AGENT_NAME || 'TaskAIManager',
+      ...event
+    };
+    
+    // In a real implementation, this would write to an audit log
+    console.log('🔍 Audit Event:', JSON.stringify(auditEntry, null, 2));
+  }
 
 type TaskAnalysisParams = {
   task: Task;
