@@ -25,6 +25,23 @@ import type {
   IndexableContent,
 } from '@promethean-os/persistence';
 
+/**
+ * Interface for DualStoreManager based on usage patterns
+ */
+interface DualStoreManagerType {
+  addEntry(entry: DualStoreEntry): Promise<void>;
+  getMostRelevant(
+    queries: string[],
+    limit: number,
+    metadata?: Record<string, unknown>,
+  ): Promise<DualStoreEntry[]>;
+  get(id: string): Promise<DualStoreEntry | null>;
+  getConsistencyReport(limit?: number): Promise<{
+    totalDocuments: number;
+    consistentDocuments: number;
+  }>;
+}
+
 import type {
   FileIndexingStats,
   DiscordIndexingStats,
@@ -79,7 +96,7 @@ function createSearchResult(entry: DualStoreEntry<'text', 'timestamp'>): SearchR
 /**
  * Create index handler for DualStoreManager
  */
-function createIndexHandler(dualStore: any) {
+function createIndexHandler(dualStore: DualStoreManagerType) {
   return async function index(content: IndexableContent) {
     const entry = contentToDualStoreEntry(content);
     await dualStore.addEntry(entry);
@@ -90,7 +107,7 @@ function createIndexHandler(dualStore: any) {
 /**
  * Create index batch handler for DualStoreManager
  */
-function createIndexBatchHandler(dualStore: any) {
+function createIndexBatchHandler(dualStore: DualStoreManagerType) {
   return async function indexBatch(contents: readonly IndexableContent[]) {
     return contents.map((content) => {
       const entry = contentToDualStoreEntry(content);
@@ -103,7 +120,7 @@ function createIndexBatchHandler(dualStore: any) {
 /**
  * Create search handler for DualStoreManager
  */
-function createSearchHandler(dualStore: any) {
+function createSearchHandler(dualStore: DualStoreManagerType) {
   return async function search(query: SearchQuery): Promise<SearchResponse> {
     const startTime = Date.now();
     const results = await dualStore.getMostRelevant(
@@ -124,7 +141,7 @@ function createSearchHandler(dualStore: any) {
 /**
  * Create get by ID handler for DualStoreManager
  */
-function createGetByIdHandler(dualStore: any) {
+function createGetByIdHandler(dualStore: DualStoreManagerType) {
   return async function getById(id: string) {
     const entry = await dualStore.get(id);
     if (!entry) return null;
@@ -141,7 +158,7 @@ function createGetByIdHandler(dualStore: any) {
 /**
  * Create stats handler for DualStoreManager
  */
-function createStatsHandler(dualStore: any) {
+function createStatsHandler(dualStore: DualStoreManagerType) {
   return async function getStats(): Promise<IndexingStats> {
     const report = await dualStore.getConsistencyReport();
     return {
@@ -161,7 +178,7 @@ function createStatsHandler(dualStore: any) {
 /**
  * Create health check handler for DualStoreManager
  */
-function createHealthCheckHandler(dualStore: any) {
+function createHealthCheckHandler(dualStore: DualStoreManagerType) {
   return async function healthCheck() {
     const report = await dualStore.getConsistencyReport(1);
     return {
