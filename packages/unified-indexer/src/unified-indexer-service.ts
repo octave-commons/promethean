@@ -65,7 +65,10 @@ function contentToDualStoreEntry(content: IndexableContent): DualStoreEntry<'tex
  * Create search result from DualStoreEntry
  */
 function createSearchResult(entry: DualStoreEntry): SearchResult {
-  const timestamp = (entry as any).timestamp || (entry as any).createdAt;
+  const timestamp =
+    (entry as DualStoreEntry<'text', 'createdAt'>).createdAt ||
+    (entry as DualStoreEntry<'text', 'timestamp'>).timestamp ||
+    Date.now();
   return {
     content: transformDualStoreEntry({
       id: entry.id || entry._id?.toString(),
