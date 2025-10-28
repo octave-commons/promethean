@@ -62,9 +62,9 @@ const prepareLLMMessages = (
 };
 
 const createLLMAction = (
-  messages: readonly Message[],
+  messages: Message[],
   config: { model: string; temperature: number; maxTokens: number },
-): readonly Action[] => [
+): Action[] => [
   {
     type: 'tool',
     name: 'llm_complete',
