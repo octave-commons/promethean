@@ -375,10 +375,10 @@ async function syncAllIndexers(state: UnifiedIndexerServiceState): Promise<void>
   try {
     // Update unified stats
     const unifiedStats = await state.unifiedClient.getStats();
-    state.stats.unified.total = unifiedStats;
-    state.stats.unified.lastSync = Date.now();
+    (state.stats.unified as any).total = unifiedStats;
+    (state.stats.unified as any).lastSync = Date.now();
 
-    state.lastSync = Date.now();
+    (state as any).lastSync = Date.now();
   } catch (error) {
     console.error('Error during sync:', error);
   }

@@ -247,7 +247,7 @@ async function processSingleFile(
   const maxFileSize = options?.maxFileSize || 10 * 1024 * 1024;
   
   const fileResult = await safeReadFile(filePath, maxFileSize);
-  if (!fileResult.success) {
+  if (!fileResult.success || !fileResult.content) {
     return { indexed: false, error: fileResult.error };
   }
   
