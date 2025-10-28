@@ -45,20 +45,20 @@ const createLLMBehavior = (config: LLMActorConfig): Behavior => {
   };
 };
 
-const prepareLLMMessages = (goal: string, context: Message[], systemPrompt?: string): Message[] => {
-  const messages: Message[] = [];
+const prepareLLMMessages = (
+  goal: string,
+  context: readonly Message[],
+  systemPrompt?: string,
+): readonly Message[] => {
+  const baseMessages = systemPrompt
+    ? [{ role: 'system' as const, content: systemPrompt } as Message]
+    : [];
 
-  if (systemPrompt) {
-    messages.push({ role: 'system', content: systemPrompt });
-  }
+  const userMessage = !context.some((msg) => msg.content.includes(goal))
+    ? [{ role: 'user' as const, content: goal } as Message]
+    : [];
 
-  messages.push(...context);
-
-  if (!context.some((msg) => msg.content.includes(goal))) {
-    messages.push({ role: 'user', content: goal });
-  }
-
-  return messages;
+  return [...baseMessages, ...context, ...userMessage];
 };
 
 const createLLMAction = (
