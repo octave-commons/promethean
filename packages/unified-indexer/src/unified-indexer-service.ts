@@ -6,14 +6,23 @@
  * It provides a single entry point for cross-domain indexing and search.
  */
 
+import {
+  DualStoreManager,
+  createContextStore,
+  compileContext,
+  getOrCreateCollection,
+  transformDualStoreEntry,
+} from '@promethean-os/persistence';
+
 import type {
-  UnifiedIndexingClient,
+  DualStoreEntry,
   SearchQuery,
   SearchResponse,
   ContentType,
   ContentSource,
   ContextStoreState,
   IndexingStats,
+  UnifiedIndexingClient,
 } from '@promethean-os/persistence';
 
 import type {
@@ -31,19 +40,19 @@ import type {
 } from './types/service.js';
 
 import {
-  DualStoreManager,
-  createContextStore,
-  compileContext,
-  getOrCreateCollection,
-  transformDualStoreEntry,
-} from '@promethean-os/persistence';
-
-import {
   createUnifiedFileIndexer,
   createUnifiedDiscordIndexer,
   createUnifiedOpenCodeIndexer,
   createUnifiedKanbanIndexer,
 } from './types/service.js';
+
+// Type for indexing content
+type IndexingContent = {
+  readonly id: string;
+  readonly content: string;
+  readonly timestamp?: number;
+  readonly metadata?: Record<string, unknown>;
+};
 
 /**
  * Create a UnifiedIndexingClient adapter for DualStoreManager
@@ -52,20 +61,21 @@ async function createUnifiedIndexingClient(_config: unknown): Promise<UnifiedInd
   const dualStore = await DualStoreManager.create('unified', 'text', 'createdAt');
 
   return {
-    async index(content: any) {
-      await dualStore.addEntry({
+    async index(content: IndexingContent) {
+      const entry: DualStoreEntry<'text', 'createdAt'> = {
         id: content.id,
         text: content.content,
         createdAt: content.timestamp || Date.now(),
         metadata: content.metadata || {},
-      } as any);
+      };
+      await dualStore.addEntry(entry);
       return content.id;
     },
 
-    async indexBatch(contents: any[]) {
-      const ids = [];
+    async indexBatch(contents: readonly IndexingContent[]) {
+      const ids: string[] = [];
       for (const content of contents) {
-        await dualStore.addEntry({
+        const entry: DualStoreEntry<'text', 'createdAt'> = {
           id: content.id,
           text: content.content,
           createdAt: content.timestamp || Date.now(),
