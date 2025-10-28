@@ -6,6 +6,7 @@
 [subrepo]
 	remote = git@github.com:riatzukiza/naming.git
 	branch = main
-	commit = 
+	commit = 09986bf4f17887d9e4b7ea2a62a1550d29e0e729
 	method = merge
 	cmdver = 0.4.9
+	parent = 3574eb29418c4216b8893a90daea96fb391a46ae
