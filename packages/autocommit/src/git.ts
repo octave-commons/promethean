@@ -95,7 +95,7 @@ export function sanitizeCommitMessage(message: string): string {
   }
 
   // Remove control characters (except newline and tab) and trim
-  let sanitized = message
+  const sanitized = message
     .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '') // Remove control chars except \t \n
     .trim();
 
@@ -111,10 +111,6 @@ export function sanitizeCommitMessage(message: string): string {
   const limitedLines = lines.slice(0, 50);
 
   // Also limit total length to prevent issues
-  sanitized = limitedLines.join('\n');
-  if (sanitized.length > 2000) {
-    sanitized = sanitized.substring(0, 2000);
-  }
-
-  return sanitized;
+  const finalSanitized = limitedLines.join('\n');
+  return finalSanitized.length > 2000 ? finalSanitized.substring(0, 2000) : finalSanitized;
 }
