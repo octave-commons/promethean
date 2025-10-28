@@ -4,123 +4,53 @@
  * Provides unified access to all protocol components
  */
 
+// Re-export everything from types
+export * from './types/index.js';
+
+// Re-export core message functionality
 export {
-  // Core Types
+  createMessage,
+  createRequest,
+  createResponse,
+  createEvent,
+  createError,
+  createDefaultMessageProcessor,
+  validateMessageStructure,
+  serializeMessage,
+  deserializeMessage,
+  serializeMessageToString,
+  deserializeMessageFromString,
+  createMessageBuilder,
   MessageFactory,
   DefaultMessageProcessor,
   MessageValidator,
   MessageSerializer,
   MessageBuilder,
   type MessageProcessor,
+} from './core/message.js';
 
-  // Security Types
-  SecurityContext,
-  MessageSignature,
-  Encryption,
-  Capability,
-
-  // Transport Types
-  Transport,
-  TransportConfig,
-  Connection,
-  ConnectionMetrics,
-  FlowControlConfig,
-  FlowControlStatus,
-
-  // Service Mesh Types
-  AgentAddress,
-  ServiceQuery,
-  AgentInstance,
-  HealthStatus,
-  LoadBalancingStrategy,
-
-  // Observability Types
-  TraceContext,
-  Span,
-
-  // Error Types
-  ProtocolError,
-  ValidationError,
-  SecurityError,
-  TransportError,
-};
-
-// Core Message Types
-export type {
-  CoreMessage,
-  MessageType,
-  Priority,
-  QoSLevel,
-  MessagePayload,
-  MessageMetadata,
-  AgentAddress,
-  SecurityContext,
-  MessageSignature,
-  Encryption,
-  Capability,
-  TransportConfig,
-  Connection,
-  ConnectionMetrics,
-  FlowControlConfig,
-  FlowControlStatus,
-  HealthStatus,
-  ServiceQuery,
-  AgentInstance,
-  LoadBalancingStrategy,
-  TraceContext,
-  Span,
-};
-
-// Security Types
-export type { SecurityContext, MessageSignature, Encryption, Capability };
-
-// Transport Types
-export type {
-  Transport,
-  TransportConfig,
-  Connection,
-  ConnectionMetrics,
-  FlowControlConfig,
-  FlowControlStatus,
-};
-
-// Service Mesh Types
-export type { AgentAddress, ServiceQuery, AgentInstance, HealthStatus, LoadBalancingStrategy };
-
-// Observability Types
-export type { TraceContext, Span };
-
-// Error Types
-export { ProtocolError, ValidationError, SecurityError, TransportError };
-
-// ============================================================================
-// LEGACY EXPORTS
-// ============================================================================
-
+// Re-export HTTP transport
 export {
-  // Legacy exports for backward compatibility
-  MessageProcessor as DefaultMessageProcessor,
-  MessageValidator as MessageValidator,
-  MessageSerializer as MessageSerializer,
-};
+  HttpTransport,
+  createHttpTransport,
+  isHttpTransport,
+  type HttpTransportConfig,
+  type HttpConnection,
+} from './transports/http-transport.js';
 
 // ============================================================================
 // CONVENIENCE HELPERS
 // ============================================================================
 
-export const createMessage = MessageFactory.createMessage;
-export const validateMessage = MessageValidator.validate;
-export const serializeMessage = MessageSerializer.serialize;
-export const createRequest = MessageFactory.createRequest;
-export const createResponse = MessageFactory.createResponse;
-export const createEvent = MessageFactory.createEvent;
-export const createError = MessageFactory.createError;
-
-export {
-  MessageFactory,
-  DefaultMessageProcessor,
-  MessageValidator,
-  MessageSerializer,
-  MessageBuilder,
-  type MessageProcessor,
+export const validateMessage = (message: unknown) => {
+  try {
+    return MessageValidator.validate(message);
+  } catch {
+    return false;
+  }
 };
+
+export const createRequestMessage = MessageFactory.createRequest;
+export const createResponseMessage = MessageFactory.createResponse;
+export const createEventMessage = MessageFactory.createEvent;
+export const createErrorMessage = MessageFactory.createError;

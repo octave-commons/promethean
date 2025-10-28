@@ -67,8 +67,11 @@ export const createRequest = (params: {
   priority?: Priority;
 }): CoreMessage => {
   return createMessage({
-    ...params,
     type: 'REQUEST',
+    sender: params.sender,
+    recipient: params.recipient,
+    payload: params.data,
+    priority: params.priority,
   });
 };
 
