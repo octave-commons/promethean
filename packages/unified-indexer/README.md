@@ -13,18 +13,23 @@ A comprehensive unified indexer service that provides cross-domain search and in
 ## Quick Start
 
 ```typescript
-import { createUnifiedIndexerService, createCrossDomainSearchEngine } from '@promethean-os/unified-indexer';
+import {
+  createUnifiedIndexerService,
+  createCrossDomainSearchEngine,
+} from '@promethean-os/unified-indexer';
 
 // Create indexer service
 const indexerService = await createUnifiedIndexerService({
-    indexing: { /* ChromaDB + MongoDB config */ },
-    sources: {
-        files: { enabled: true, paths: ['./src', './docs'] },
-        discord: { enabled: false },
-        opencode: { enabled: false },
-        kanban: { enabled: false },
-    },
-    sync: { interval: 300000, batchSize: 100 },
+  indexing: {
+    /* ChromaDB + MongoDB config */
+  },
+  sources: {
+    files: { enabled: true, paths: ['./src', './docs'] },
+    discord: { enabled: false },
+    opencode: { enabled: false },
+    kanban: { enabled: false },
+  },
+  sync: { interval: 300000, batchSize: 100 },
 });
 
 // Create search engine
@@ -32,16 +37,38 @@ const searchEngine = createCrossDomainSearchEngine(indexerService);
 
 // Search across all sources
 const results = await searchEngine.search({
-    query: 'TypeScript contextStore',
-    semantic: true,
-    timeBoost: true,
-    includeContext: true,
+  query: 'TypeScript contextStore',
+  semantic: true,
+  timeBoost: true,
+  includeContext: true,
 });
 ```
 
 ## Documentation
 
-See [UNIFIED_INDEXER_GUIDE.md](./UNIFIED_INDEXER_GUIDE.md) for comprehensive documentation.
+### Core Documentation
+
+- **[UNIFIED_INDEXER_GUIDE.md](./UNIFIED_INDEXER_GUIDE.md)** - Main guide and overview
+- **[API_REFERENCE.md](./docs/API_REFERENCE.md)** - Complete API documentation
+- **[ARCHITECTURE.md](./docs/ARCHITECTURE.md)** - System architecture and design
+
+### Practical Guides
+
+- **[EXAMPLES.md](./docs/EXAMPLES.md)** - Copy-paste ready examples
+- **[CONFIGURATION.md](./docs/CONFIGURATION.md)** - Configuration options and templates
+- **[INTEGRATION.md](./docs/INTEGRATION.md)** - Integration patterns with other packages
+
+### Operations
+
+- **[PERFORMANCE.md](./docs/PERFORMANCE.md)** - Performance optimization and tuning
+- **[TROUBLESHOOTING.md](./docs/TROUBLESHOOTING.md)** - Common issues and solutions
+
+### Quick Links
+
+- [Getting Started](./docs/EXAMPLES.md#getting-started)
+- [Basic Usage](./docs/EXAMPLES.md#basic-usage)
+- [Configuration](./docs/CONFIGURATION.md#basic-configuration)
+- [API Reference](./docs/API_REFERENCE.md#main-api)
 
 ## License
 
