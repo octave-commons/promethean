@@ -1898,13 +1898,14 @@ export const createTask = async (
   board.columns.forEach((col) =>
     col.tasks.forEach((task, index) => boardIndex.set(task.uuid, { column: col, index, task })),
   );
-  const templatePath = input.templatePath ?? input.defaultTemplatePath;
-  let templateContent: string | undefined;
-
-  // Skip template processing entirely for now to prevent hanging
+  // Skip template processing for now to prevent hanging bug
   const bodyText = input.body ?? input.content ?? '';
   const contentFromTemplate = bodyText;
+  }
 
+  const bodyText = input.body ?? input.content ?? '';
+  let contentFromTemplate: string;
+  
   if (typeof templateContent === 'string' && templateContent.length > 0) {
     try {
       contentFromTemplate = applyTemplateReplacements(templateContent, {
@@ -1916,6 +1917,13 @@ export const createTask = async (
       console.error('Warning: Template processing failed, using plain content:', error);
       contentFromTemplate = bodyText;
     }
+  } else {
+    contentFromTemplate = bodyText;
+  }
+
+  if (!contentFromTemplate) {
+    contentFromTemplate = '';
+  }
   } else {
     contentFromTemplate = bodyText;
   }
