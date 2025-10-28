@@ -126,7 +126,7 @@ function createSearchHandler(dualStore: DualStoreManager<'text', 'createdAt'>) {
  */
 function createGetByIdHandler(dualStore: DualStoreManager<'text', 'createdAt'>) {
   return async function getById(id: string) {
-    const entry = await dualStore.get(id);
+    const entry = (await dualStore.get(id)) as any;
     if (!entry) return null;
 
     return transformDualStoreEntry({
