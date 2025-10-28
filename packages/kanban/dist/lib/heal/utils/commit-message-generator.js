@@ -106,6 +106,10 @@ export class CommitMessageGenerator {
             return { valid: false, errors };
         }
         const subject = lines[0];
+        if (!subject) {
+            errors.push('Commit message cannot have empty subject line');
+            return { valid: false, errors };
+        }
         // Check subject length
         if (subject.length > this.options.maxSubjectLength) {
             errors.push(`Subject line exceeds ${this.options.maxSubjectLength} characters (${subject.length})`);

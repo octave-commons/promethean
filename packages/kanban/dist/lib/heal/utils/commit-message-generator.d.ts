@@ -2,7 +2,8 @@
  * Commit Message Generator for Git Workflow
  * Generates consistent, descriptive commit messages from scar context and task changes
  */
-import type { ScarContext, Task } from '../scar-context-types.js';
+import type { ScarContext } from '../scar-context-types.js';
+import type { Task } from '../../testing-transition/types.js';
 /**
  * Commit message generation options
  */
