@@ -9,7 +9,9 @@ lastCommitSha: 'pending'
 labels: ['pantheon', 'security', 'jwt', 'authentication', 'critical']
 created_at: '2025-10-26T18:05:00Z'
 estimates:
-  complexity: 'high'
+  complexity: '8'
+  scale: 'large'
+  time_to_completion: '4 sessions'
 ---
 
 # Fix JWT Security Issues in Pantheon Packages

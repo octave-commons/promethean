@@ -1,15 +1,15 @@
 ---
-uuid: "bc67bd50-c96c-4eba-8832-fa459caa864c"
-title: "Merge Session and Messaging Systems"
-slug: "merge-session-messaging-systems"
-status: "breakdown"
-priority: "P0"
-labels: ["sessions", "messaging", "consolidation", "communication", "epic3"]
-created_at: "2025-10-18T00:00:00.000Z"
+uuid: 'bc67bd50-c96c-4eba-8832-fa459caa864c'
+title: 'Merge Session and Messaging Systems'
+slug: 'merge-session-messaging-systems'
+status: 'breakdown'
+priority: 'P0'
+labels: ['sessions', 'messaging', 'consolidation', 'communication', 'epic3']
+created_at: '2025-10-18T00:00:00.000Z'
 estimates:
-  complexity: ""
-  scale: ""
-  time_to_completion: ""
+  complexity: '8'
+  scale: 'large'
+  time_to_completion: '4 sessions'
 ---
 
 ## 💬 Merge Session and Messaging Systems
