@@ -10,14 +10,14 @@ import type {
   TaskBreakdownRequest,
   TaskAnalysisResult,
   TaskRewriteResult,
-  TaskBreakdownResult
+  TaskBreakdownResult,
 } from './types.js';
 import { TaskContentManager } from './index.js';
 import { WIPLimitEnforcement } from '../wip-enforcement.js';
-import { 
-  createTransitionRulesEngineState, 
+import {
+  createTransitionRulesEngineState,
   validateTransition,
-  type TransitionRulesEngineState
+  type TransitionRulesEngineState,
 } from '../transition-rules-functional.js';
 
 export interface TaskAIManagerConfig {
@@ -31,8 +31,8 @@ export interface TaskAIManagerConfig {
 export class TaskAIManager {
   private readonly config: Required<TaskAIManagerConfig>;
   private readonly contentManager: TaskContentManager;
-  private readonly wipEnforcement: WIPLimitEnforcement;
-  private readonly transitionRulesState: TransitionRulesEngineState;
+  private wipEnforcement: WIPLimitEnforcement | null = null;
+  private transitionRulesState: TransitionRulesEngineState | null = null;
 
   constructor(config: TaskAIManagerConfig = {}) {
     this.config = {
@@ -40,12 +40,30 @@ export class TaskAIManager {
       baseUrl: config.baseUrl || 'http://localhost:11434',
       timeout: config.timeout || 60000,
       maxTokens: config.maxTokens || 4096,
-      temperature: config.temperature || 0.3
+      temperature: config.temperature || 0.3,
     };
 
     // Initialize content manager with real file-based cache
-    const { createTaskContentManager } = await import('./index.js');
-    this.contentManager = createTaskContentManager('./docs/agile/tasks');
+    this.contentManager = new TaskContentManager({
+      tasksDir: './docs/agile/tasks',
+      getTaskPath: async (uuid: string) => {
+        // This will be implemented by the FileBasedTaskCache
+        const cache = this.contentManager as any;
+        return (await cache.cache?.getTaskPath?.(uuid)) || null;
+      },
+      readTask: async (uuid: string) => {
+        const cache = this.contentManager as any;
+        return (await cache.cache?.readTask?.(uuid)) || null;
+      },
+      writeTask: async (task: Task) => {
+        const cache = this.contentManager as any;
+        return await cache.cache?.writeTask?.(task);
+      },
+      backupTask: async (uuid: string) => {
+        const cache = this.contentManager as any;
+        return (await cache.cache?.backupTask?.(uuid)) || undefined;
+      },
+    });
 
     // Initialize WIP enforcement and transition rules
     this.initializeComplianceSystems();
@@ -73,19 +91,16 @@ export class TaskAIManager {
       this.wipEnforcement = new WIPLimitEnforcement();
     } catch (error) {
       console.warn('Failed to initialize compliance systems:', error);
-      // Fallback to no-op implementations
-      this.wipEnforcement = null as any;
-      this.transitionRulesState = null as any;
+      // Fallback to null implementations
+      this.wipEnforcement = null;
+      this.transitionRulesState = null;
     }
   }
 
   /**
    * Validate task transition against WIP limits and transition rules
    */
-  private async validateTaskTransition(
-    task: Task, 
-    newStatus: string
-  ): Promise<boolean> {
+  private async validateTaskTransition(task: Task, newStatus: string): Promise<boolean> {
     if (!this.wipEnforcement || !this.transitionRulesState) {
       console.warn('Compliance systems not initialized, skipping validation');
       return true;
@@ -110,7 +125,7 @@ export class TaskAIManager {
         task.status,
         newStatus,
         task,
-        board
+        board,
       );
 
       if (!transitionResult.allowed) {
@@ -142,22 +157,30 @@ export class TaskAIManager {
    */
   private async createTaskBackup(uuid: string): Promise<string> {
     try {
-      const backupPath = await this.contentManager.cache.backupTask(uuid);
+      // Access the cache through the content manager
+      const cache = (this.contentManager as any).cache;
+      if (!cache || !cache.backupTask) {
+        throw new Error('Task cache not available for backup');
+      }
+
+      const backupPath = await cache.backupTask(uuid);
       if (!backupPath) {
         throw new Error(`Failed to backup task ${uuid}`);
       }
-      
+
       // Log backup to audit trail
       await this.logAuditEvent({
         taskUuid: uuid,
         action: 'backup_created',
-        metadata: { backupPath }
+        metadata: { backupPath },
       });
-      
+
       return backupPath;
     } catch (error) {
       console.error('Task backup failed:', error);
-      throw new Error(`Backup failed for task ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `Backup failed for task ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      );
     }
   }
 
@@ -174,12 +197,206 @@ export class TaskAIManager {
     const auditEntry = {
       timestamp: new Date().toISOString(),
       agent: process.env.AGENT_NAME || 'TaskAIManager',
-      ...event
+      ...event,
     };
-    
-    // In a real implementation, this would write to an audit log
-    console.log('🔍 Audit Event:', JSON.stringify(auditEntry, null, 2));
+
+    // Write to audit log file
+    try {
+      const { promises: fs } = await import('node:fs');
+      const path = await import('node:path');
+      const auditDir = './logs/audit';
+      const auditFile = path.join(
+        auditDir,
+        `kanban-audit-${new Date().toISOString().split('T')[0]}.json`,
+      );
+
+      // Ensure audit directory exists
+      await fs.mkdir(auditDir, { recursive: true });
+
+      // Append audit entry
+      const auditLine = JSON.stringify(auditEntry) + '\n';
+      await fs.appendFile(auditFile, auditLine, 'utf8');
+
+      console.log('🔍 Audit Event logged:', auditEntry);
+    } catch (error) {
+      console.warn('Failed to write audit log:', error);
+      console.log('🔍 Audit Event (fallback):', JSON.stringify(auditEntry, null, 2));
+    }
   }
+
+  /**
+   * Analyze task content and provide insights
+   */
+  async analyzeTask(request: TaskAnalysisRequest): Promise<TaskAnalysisResult> {
+    const { taskUuid, analysisType, context } = request;
+
+    try {
+      // Read task
+      const task = await this.contentManager.readTask(taskUuid);
+      if (!task) {
+        throw new Error(`Task ${taskUuid} not found`);
+      }
+
+      // Generate analysis based on type
+      const analysis = generateTaskAnalysis({
+        task,
+        analysisType,
+        context: context || {},
+      });
+
+      return {
+        success: true,
+        taskUuid,
+        analysis,
+        metadata: {
+          analysisType,
+          timestamp: new Date().toISOString(),
+          model: this.config.model,
+        },
+      };
+    } catch (error) {
+      return {
+        success: false,
+        taskUuid,
+        error: error instanceof Error ? error.message : 'Unknown error',
+        metadata: {
+          analysisType,
+          timestamp: new Date().toISOString(),
+        },
+      };
+    }
+  }
+
+  /**
+   * Rewrite task content based on instructions
+   */
+  async rewriteTask(request: TaskRewriteRequest): Promise<TaskRewriteResult> {
+    const { taskUuid, rewriteType, instructions, targetAudience, tone } = request;
+
+    try {
+      // Read current task
+      const task = await this.contentManager.readTask(taskUuid);
+      if (!task) {
+        throw new Error(`Task ${taskUuid} not found`);
+      }
+
+      // Create backup before modification
+      const backupPath = await this.createTaskBackup(taskUuid);
+
+      // Generate rewritten content
+      const rewrite = generateTaskRewrite({
+        task,
+        rewriteType,
+        instructions,
+        targetAudience,
+        tone,
+        originalContent: task.content,
+      });
+
+      // Update task with new content
+      const updateResult = await this.contentManager.updateTaskBody({
+        uuid: taskUuid,
+        content: rewrite.content,
+        options: {
+          createBackup: false, // Already created backup
+          validateStructure: true,
+        },
+      });
+
+      if (!updateResult.success) {
+        throw new Error(updateResult.error || 'Failed to update task');
+      }
+
+      // Sync kanban board
+      await this.syncKanbanBoard();
+
+      // Log audit event
+      await this.logAuditEvent({
+        taskUuid,
+        action: 'task_rewritten',
+        metadata: {
+          rewriteType,
+          targetAudience,
+          tone,
+          backupPath,
+        },
+      });
+
+      return {
+        success: true,
+        taskUuid,
+        content: rewrite.content,
+        summary: rewrite.summary,
+        backupPath,
+        metadata: {
+          rewriteType,
+          targetAudience,
+          tone,
+          timestamp: new Date().toISOString(),
+        },
+      };
+    } catch (error) {
+      return {
+        success: false,
+        taskUuid,
+        error: error instanceof Error ? error.message : 'Unknown error',
+        metadata: {
+          rewriteType,
+          timestamp: new Date().toISOString(),
+        },
+      };
+    }
+  }
+
+  /**
+   * Break down task into subtasks
+   */
+  async breakdownTask(request: TaskBreakdownRequest): Promise<TaskBreakdownResult> {
+    const { taskUuid, breakdownType, maxSubtasks, complexity, includeEstimates } = request;
+
+    try {
+      // Read task
+      const task = await this.contentManager.readTask(taskUuid);
+      if (!task) {
+        throw new Error(`Task ${taskUuid} not found`);
+      }
+
+      // Generate breakdown
+      const breakdown = generateTaskBreakdown({
+        task,
+        breakdownType,
+        maxSubtasks,
+        complexity,
+        includeEstimates,
+      });
+
+      return {
+        success: true,
+        taskUuid,
+        subtasks: breakdown.subtasks,
+        metadata: {
+          breakdownType,
+          maxSubtasks,
+          complexity,
+          includeEstimates,
+          timestamp: new Date().toISOString(),
+        },
+      };
+    } catch (error) {
+      return {
+        success: false,
+        taskUuid,
+        error: error instanceof Error ? error.message : 'Unknown error',
+        metadata: {
+          breakdownType,
+          timestamp: new Date().toISOString(),
+        },
+      };
+    }
+  }
+}
+
+// Helper functions for generating analysis, rewrites, and breakdowns
 
 type TaskAnalysisParams = {
   task: Task;
@@ -384,8 +601,6 @@ function generateTaskBreakdown(params: TaskBreakdownParams): { subtasks: any[] }
 /**
  * Create a task AI manager instance
  */
-export function createTaskAIManager(
-  config?: TaskAIManagerConfig
-): TaskAIManager {
+export function createTaskAIManager(config?: TaskAIManagerConfig): TaskAIManager {
   return new TaskAIManager(config);
 }
