@@ -224,7 +224,7 @@ async function startSingleRepository(
   validateConfig(config);
 
   if (!(await hasRepo(repoPath))) {
-    throw new AutocommitError(`Not a git repo: ${repoPath}`);
+    throw createAutocommitError(`Not a git repo: ${repoPath}`);
   }
 
   const root = await gitRoot(repoPath);
@@ -257,7 +257,7 @@ export async function start(config: Config): Promise<{ close: () => void }> {
     const repositories = await findGitRepositories(config.path);
 
     if (repositories.length === 0) {
-      throw new AutocommitError(`No git repositories found in: ${config.path}`);
+      throw createAutocommitError(`No git repositories found in: ${config.path}`);
     }
 
     const { log } = createLogger();
@@ -276,7 +276,7 @@ export async function start(config: Config): Promise<{ close: () => void }> {
     }
 
     if (cleanupFunctions.length === 0) {
-      throw new AutocommitError(`Failed to start watchers for any repositories`);
+      throw createAutocommitError(`Failed to start watchers for any repositories`);
     }
 
     return {

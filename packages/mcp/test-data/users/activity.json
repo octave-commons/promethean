@@ -1,7 +1,7 @@
 [
   {
-    "id": "2bf3727a-fe89-4881-8f5d-68d6e479ba4e",
-    "userId": "599b0bd0-d052-4e7a-969c-cddde5e43bf6",
+    "id": "d6a1a57f-b95d-4c65-9d4d-38b18f6af3ef",
+    "userId": "0e257968-7d8a-490c-8085-f5934d53ea7f",
     "action": "user_created",
     "resource": "user",
     "details": {
@@ -15,7 +15,7 @@
         "providerUserId": "12345"
       }
     },
-    "timestamp": "2025-10-28T03:15:42.503Z",
+    "timestamp": "2025-10-28T03:16:24.144Z",
     "metadata": {}
   }
 ]
