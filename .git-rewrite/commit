@@ -1,6 +1,6 @@
-tree 9fd5e65c8c4490c3c54aedaae4773e8315051756
-parent 1a0c87d0a91fefd39952888aad955c19e9d96db5
-author Err <foamy125@gmail.com> 1756238829 -0500
-committer Err <foamy125@gmail.com> 1756238829 -0500
+tree 70a59b48736cd0dbd480f78f3932a67c7a860b91
+parent 4a1847d238c78dad523db40fb9d0093039eb8e1a
+author Error <foamy125@gmail.com> 1757878623 -0500
+committer Error <foamy125@gmail.com> 1757878623 -0500
 
-doc: outline broker reconnection issue
+update lint job
