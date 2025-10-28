@@ -64,7 +64,9 @@ function contentToDualStoreEntry(content: IndexableContent): DualStoreEntry<'tex
 /**
  * Create search result from DualStoreEntry
  */
-function createSearchResult(entry: DualStoreEntry): SearchResult {
+function createSearchResult(
+  entry: DualStoreEntry<'text', 'createdAt'> | DualStoreEntry<'text', 'timestamp'>,
+): SearchResult {
   const timestamp =
     (entry as unknown as { createdAt?: unknown; timestamp?: unknown }).createdAt ||
     (entry as unknown as { createdAt?: unknown; timestamp?: unknown }).timestamp ||
@@ -117,9 +119,7 @@ function createSearchHandler(dualStore: DualStoreManager<'text', 'createdAt'>) {
     );
 
     return {
-      results: results.map((entry) =>
-        createSearchResult(entry as DualStoreEntry<'text', 'createdAt'>),
-      ),
+      results: results.map((entry) => createSearchResult(entry)),
       total: results.length,
       took: Date.now() - startTime,
       query,
@@ -132,13 +132,16 @@ function createSearchHandler(dualStore: DualStoreManager<'text', 'createdAt'>) {
  */
 function createGetByIdHandler(dualStore: DualStoreManager<'text', 'createdAt'>) {
   return async function getById(id: string) {
-    const entry = (await dualStore.get(id)) as any;
+    const entry = await dualStore.get(id);
     if (!entry) return null;
 
     return transformDualStoreEntry({
       id: entry.id || entry._id?.toString(),
       text: entry.text,
-      timestamp: toEpochMs((entry as any).timestamp || (entry as any).createdAt),
+      timestamp: toEpochMs(
+        (entry as unknown as { timestamp?: unknown; createdAt?: unknown }).timestamp ||
+          (entry as unknown as { timestamp?: unknown; createdAt?: unknown }).createdAt,
+      ),
       metadata: entry.metadata,
     });
   };
