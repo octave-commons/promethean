@@ -5,14 +5,14 @@
  * and protocol operations.
  */
 
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'node:crypto';
 import {
   CoreMessage,
   MessageType,
   Priority,
   QoSLevel,
-  MessagePayload,
-  MessageMetadata,
+  MessagePayloadSchema,
+  MessageMetadataSchema,
   MessageSignature,
   Encryption,
   AgentAddress,
