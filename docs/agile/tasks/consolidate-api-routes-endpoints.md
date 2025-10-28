@@ -2,14 +2,15 @@
 uuid: '585294ed-b77b-4d36-bb77-8b0f6f1e6ac0'
 title: 'Consolidate API Routes and Endpoints'
 slug: 'consolidate-api-routes-endpoints'
-status: 'breakdown'
+status: 'ready'
 priority: 'P0'
 labels: ['api', 'routes', 'consolidation', 'endpoints', 'epic2']
 created_at: '2025-10-18T00:00:00.000Z'
 estimates:
-  complexity: '8'
-  scale: 'large'
-  time_to_completion: '4 sessions'
+  complexity: '3'
+  scale: 'medium'
+  time_to_completion: '1 session'
+storyPoints: 3
 ---
 
 ## 🛣️ Consolidate API Routes and Endpoints
