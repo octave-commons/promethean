@@ -21,6 +21,12 @@ program
   .option('--temperature <t>', 'sampling temperature', '0.2')
   .option('--max-diff-bytes <n>', 'cap diff bytes sent to LLM', '20000')
   .option('--exclude <globs>', 'comma-separated extra ignore globs')
+  .option('--handle-subrepos', 'detect and handle git subrepos', false)
+  .option(
+    '--subrepo-strategy <strategy>',
+    'how to handle subrepos: separate|integrated',
+    'integrated',
+  )
   .option('--signoff', 'append Signed-off-by', false)
   .option('--dry-run', 'do not actually commit', false)
   .action(async (opts) => {
