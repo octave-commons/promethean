@@ -13,7 +13,6 @@ import type {
   TaskBreakdownResult
 } from './types.js';
 import { TaskContentManager } from './index.js';
-import { runPantheonComputation } from '../pantheon/runtime.js';
 import { WIPLimitEnforcement } from '../wip-enforcement.js';
 import { 
   createTransitionRulesEngineState, 
@@ -28,22 +27,6 @@ export interface TaskAIManagerConfig {
   maxTokens?: number;
   temperature?: number;
 }
-import type {
-  TaskAnalysisRequest,
-  TaskRewriteRequest,
-  TaskBreakdownRequest,
-  TaskAnalysisResult,
-  TaskRewriteResult,
-  TaskBreakdownResult
-} from './types.js';
-import { TaskContentManager } from './index.js';
-import { runPantheonComputation } from '../pantheon/runtime.js';
-import { WIPLimitEnforcement } from '../wip-enforcement.js';
-import { 
-  createTransitionRulesEngineState, 
-  validateTransition,
-  type TransitionRulesEngineState
-} from '../transition-rules-functional.js';
 
 export class TaskAIManager {
   private readonly config: Required<TaskAIManagerConfig>;
@@ -60,37 +43,9 @@ export class TaskAIManager {
       temperature: config.temperature || 0.3
     };
 
-    // Initialize content manager with a mock cache for testing
-    const mockCache = {
-      tasksDir: './docs/agile/tasks',
-      getTaskPath: async (uuid: string) => {
-        // Mock implementation - in real usage this would find the task file
-        return `./docs/agile/tasks/${uuid}.md`;
-      },
-      readTask: async (uuid: string) => {
-        // Mock task for testing
-        return {
-          uuid,
-          title: `Test Task ${uuid}`,
-          status: 'todo' as const,
-          priority: 'medium' as const,
-          labels: [],
-          created_at: new Date().toISOString(),
-          estimates: {},
-          content: 'This is a test task for AI analysis.',
-          slug: `test-task-${uuid}`,
-          sourcePath: `./docs/agile/tasks/${uuid}.md`
-        };
-      },
-      writeTask: async (task: any) => {
-        console.log('Mock writing task:', task.uuid);
-      },
-      backupTask: async (uuid: string) => {
-        return `./backups/${uuid}.md`;
-      }
-    };
-
-    this.contentManager = new TaskContentManager(mockCache);
+    // Initialize content manager with real file-based cache
+    const { createTaskContentManager } = await import('./index.js');
+    this.contentManager = createTaskContentManager('./docs/agile/tasks');
 
     // Initialize WIP enforcement and transition rules
     this.initializeComplianceSystems();
