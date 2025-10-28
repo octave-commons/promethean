@@ -12,12 +12,13 @@
                    :chat-ui {:entries [promethean.frontends.chat-ui.app]}
                    :docops {:entries [promethean.frontends.docops.app]}
                    :duck-web {:entries [promethean.frontends.duck-web.app]}
-                   :kanban {:entries [core]}
+                   ;; :kanban {:entries [core]}
                    :openai-server {:entries [promethean.frontends.openai-server.app]}
                    :opencode-session {:entries [promethean.frontends.opencode-session-manager.app]}
                    :piper {:entries [promethean.frontends.piper.app]}
                    :report-forge {:entries [promethean.frontends.report-forge.app]}
-                   :smartgpt-dashboard {:entries [promethean.frontends.smartgpt-dashboard.app]}}
+                   ;; :smartgpt-dashboard {:entries [promethean.frontends.smartgpt-dashboard.app]}
+                   }
          :devtools {:http-root "static"
                     :http-port 3000
                     :http-resource-root "/"
