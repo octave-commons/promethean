@@ -109,7 +109,7 @@ test('authorization: guest cannot access dangerous tools', async (t) => {
   });
 });
 
-test('authorization: admin can access dangerous tools (files)', async (t) => {
+test('authorization: admin can access dangerous tools (duplicate)', async (t) => {
   const { createAuthorizedToolFactory } = await import('../core/authorization.js');
 
   const mockTool = createMockTool('files_write_content');
@@ -137,7 +137,7 @@ test('authorization: guest can access safe tools', async (t) => {
   t.is(result.result, 'executed mcp_help');
 });
 
-test('authorization: admin can access dangerous tools (files)', async (t) => {
+test('authorization: admin can access dangerous tools (duplicate)', async (t) => {
   const { createAuthorizedToolFactory } = await import('../core/authorization.js');
 
   const mockTool = createMockTool('files_write_content');
