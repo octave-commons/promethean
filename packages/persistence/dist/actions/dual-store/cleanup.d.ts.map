@@ -1,0 +1,1 @@
+{"version":3,"file":"cleanup.d.ts","sourceRoot":"","sources":["../../../src/actions/dual-store/cleanup.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,qBAAqB,EAAE,MAAM,YAAY,CAAC;AAExD,eAAO,MAAM,OAAO,GAAU,OAAO,SAAS,MAAM,EAAE,OAAO,SAAS,MAAM,EACxE,SAAS,SAAS,EAClB,cAAc,qBAAqB,CAAC,OAAO,EAAE,OAAO,CAAC,KACtD,OAAO,CAAC,IAAI,CAUd,CAAC"}

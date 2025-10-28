@@ -1,40 +1,72 @@
 {
-  "name": "@promethean-os/autocommit",
-  "version": "0.1.0",
-  "type": "module",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/riatzukiza/autocommit.git"
-  },
-  "license": "GPL-3.0-or-later",
-  "publishConfig": {
-    "access": "public"
-  },
-  "bin": {
-    "autocommit": "./dist/cli.js"
-  },
-  "exports": {
-    ".": "./dist/index.js"
-  },
-  "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
-    "dev": "tsx src/cli.ts",
-    "lint": "eslint .",
-    "test": "ava"
-  },
-  "dependencies": {
-    "chokidar": "^3.6.0",
-    "commander": "^12.1.0",
-    "execa": "^9.2.0",
-    "picocolors": "^1.0.0",
-    "zod": "^3.23.8"
-  },
-  "devDependencies": {
-    "@types/node": "^20.19.22",
-    "ava": "^6.4.1",
-    "ts-node": "^10.9.2",
-    "tsx": "^4.20.6",
-    "typescript": "^5.6.3"
-  }
+    "name": "@promethean-os/persistence",
+    "version": "0.0.1",
+    "type": "module",
+    "main": "dist/index.cjs",
+    "types": "dist/index.d.ts",
+    "publishConfig": {
+        "access": "public"
+    },
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js",
+            "require": "./dist/index.cjs"
+        },
+        "./dist/*": "./dist/*",
+        "./*": "./dist/*"
+    },
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "tsc",
+        "clean": "rimraf dist tsconfig.tsbuildinfo",
+        "typecheck": "tsc -p tsconfig.json --noEmit",
+        "test": "pnpm run clean && pnpm run build && ava --serial --config ../../config/ava.config.mjs",
+        "lint": "pnpm exec eslint .",
+        "lisp": "node dist/cli/lisp.js",
+        "coverage": "pnpm run clean && pnpm run build && c8 ava --config ../../config/ava.config.mjs",
+        "format": "pnpm exec prettier --write ."
+    },
+    "module": "dist/index.js",
+    "dependencies": {
+        "@promethean-os/embedding": "workspace:*",
+        "@promethean-os/legacy": "workspace:*",
+        "@promethean-os/logger": "workspace:*",
+        "@types/javascript-time-ago": "^2.5.0",
+        "@types/unist": "^3.0.3",
+        "body-parser": "^1.20.2",
+        "chromadb": "^3.0.14",
+        "duckduckgo-search": "^1.0.7",
+        "express": "^4.19.2",
+        "gray-matter": "^4.0.3",
+        "javascript-time-ago": "^2.5.11",
+        "mongodb": "^6.18.0",
+        "ollama": "^0.5.17",
+        "prom-client": "^15.1.0",
+        "remark-gfm": "^4.0.1",
+        "remark-parse": "^11.0.0",
+        "remark-stringify": "^11.0.0",
+        "sucrase": "^3.35.0",
+        "unified": "^11.0.5",
+        "unist": "^0.0.1",
+        "unist-util-to-string-with-nodes": "^0.1.1",
+        "unist-util-visit": "^5.0.0",
+        "uuid": "^11.1.0",
+        "ws": "^8.18.0",
+        "yaml": "^2.5.1",
+        "zod": "^3.23.8"
+    },
+    "devDependencies": {
+        "@stryker-mutator/tap-runner": "^9.2.0",
+        "@types/body-parser": "^1.19.5",
+        "@types/estree": "^1.0.5",
+        "@types/express": "^4.17.21",
+        "@types/ws": "^8.5.9"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/riatzukiza/persistence.git"
+    }
 }

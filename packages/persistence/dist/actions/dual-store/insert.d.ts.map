@@ -1,0 +1,1 @@
+{"version":3,"file":"insert.d.ts","sourceRoot":"","sources":["../../../src/actions/dual-store/insert.ts"],"names":[],"mappings":"AAMA,OAAO,KAAK,EAAE,qBAAqB,EAAE,YAAY,EAAE,MAAM,YAAY,CAAC;AAEtE,eAAO,MAAM,MAAM,GAAU,OAAO,SAAS,MAAM,EAAE,OAAO,SAAS,MAAM,EACvE,QAAQ,YAAY,CAAC,OAAO,EAAE,OAAO,CAAC,EACtC,cAAc,qBAAqB,CAAC,OAAO,EAAE,OAAO,CAAC,KACtD,OAAO,CAAC,IAAI,CAsEd,CAAC"}

@@ -1,11 +1,9 @@
-import { Config } from './config.js';
-/**
- * Starts autocommit watcher for a git repository.
- * @param config - Configuration object containing autocommit settings
- * @returns Object containing cleanup function
- * @throws AutocommitError if the specified path is not a git repository
- */
-export declare function start(config: Config): Promise<{
-    close: () => void;
-}>;
+export * from './clients.js';
+export * from './types.js';
+export * from './dualStore.js';
+export * from './contextStore.js';
+export * from './maintenance.js';
+export * from './unified-indexing-api.js';
+export * from './unified-content-model.js';
+export * from './actions/context-store/types.js';
 //# sourceMappingURL=index.d.ts.map

@@ -6,7 +6,7 @@
 [subrepo]
 	remote = https://github.com/riatzukiza/persistence.git
 	branch = main
-	commit = bb3b8b1a02f2011e5a09a4199562aed08c6e4687
-	parent = 55a1f412a74aa38acdd50ec3bdd30ae773b1de7f
+	commit = 26318805553b9ea7840f56dcd44228be18ba3f4c
+	parent = ac8c16dbd29c771b2ca9f1f9a79c8d085af557c5
 	method = merge
 	cmdver = 0.4.9
