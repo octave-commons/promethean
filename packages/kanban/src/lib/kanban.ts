@@ -1901,9 +1901,12 @@ export const createTask = async (
   console.error('[DEBUG] Board index built with', boardIndex.size, 'entries');
 
   const templatePath = input.templatePath ?? input.defaultTemplatePath;
+  console.error('[DEBUG] Template path:', templatePath);
   let templateContent: string | undefined;
   if (templatePath) {
+    console.error('[DEBUG] About to read template file...');
     templateContent = await fs.readFile(templatePath, 'utf8');
+    console.error('[DEBUG] Template file read successfully');
   }
 
   const bodyText = input.body ?? input.content ?? '';
