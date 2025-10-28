@@ -78,7 +78,7 @@ export function registerOAuthRoutes(fastify: FastifyInstance, config: OAuthRoute
       path: '/',
       httpOnly: true,
       secure: config.secureCookies,
-      sameSite: config.sameSitePolicy as const,
+      sameSite: config.sameSitePolicy,
       domain: config.cookieDomain,
     };
 
@@ -107,7 +107,7 @@ export function registerOAuthRoutes(fastify: FastifyInstance, config: OAuthRoute
       path: '/',
       httpOnly: true,
       secure: config.secureCookies,
-      sameSite: config.sameSitePolicy as const,
+      sameSite: config.sameSitePolicy,
       domain: config.cookieDomain,
     };
 
@@ -149,7 +149,7 @@ export function registerOAuthRoutes(fastify: FastifyInstance, config: OAuthRoute
   };
 
   // Get available OAuth providers
-  fastify.get(`${basePath}/providers`, async (request, reply) => {
+  fastify.get(`${basePath}/providers`, async (_request, reply) => {
     try {
       const providers = oauthSystem.getAvailableProviders();
       createSuccessResponse(reply, { providers });
@@ -186,7 +186,7 @@ export function registerOAuthRoutes(fastify: FastifyInstance, config: OAuthRoute
         path: `${basePath}`,
         httpOnly: true,
         secure: config.secureCookies,
-        sameSite: config.sameSitePolicy as const,
+        sameSite: config.sameSitePolicy,
         maxAge: 10 * 60, // 10 minutes
         domain: config.cookieDomain,
       });
@@ -348,7 +348,7 @@ export function registerOAuthRoutes(fastify: FastifyInstance, config: OAuthRoute
         path: '/',
         httpOnly: true,
         secure: config.secureCookies,
-        sameSite: config.sameSitePolicy as const,
+        sameSite: config.sameSitePolicy,
         domain: config.cookieDomain,
         maxAge: 15 * 60, // 15 minutes
       });
