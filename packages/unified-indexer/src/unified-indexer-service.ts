@@ -64,12 +64,12 @@ function contentToDualStoreEntry(content: IndexableContent): DualStoreEntry<'tex
 /**
  * Create search result from DualStoreEntry
  */
-function createSearchResult(entry: DualStoreEntry<'text', 'timestamp'>): SearchResult {
+function createSearchResult(entry: DualStoreEntry<'text', 'createdAt'>): SearchResult {
   return {
     content: transformDualStoreEntry({
       id: entry.id || entry._id?.toString(),
       text: entry.text,
-      timestamp: toEpochMs(entry.timestamp),
+      timestamp: toEpochMs(entry.createdAt),
       metadata: entry.metadata,
     }),
     score: 1.0,
@@ -113,7 +113,9 @@ function createSearchHandler(dualStore: DualStoreManager<'text', 'createdAt'>) {
     );
 
     return {
-      results: (results as DualStoreEntry<'text', 'timestamp'>[]).map(createSearchResult),
+      results: results.map((entry) =>
+        createSearchResult(entry as DualStoreEntry<'text', 'timestamp'>),
+      ),
       total: results.length,
       took: Date.now() - startTime,
       query,
@@ -132,7 +134,7 @@ function createGetByIdHandler(dualStore: DualStoreManager<'text', 'createdAt'>) 
     return transformDualStoreEntry({
       id: entry.id || entry._id?.toString(),
       text: entry.text,
-      timestamp: toEpochMs(entry.timestamp),
+      timestamp: toEpochMs(entry.createdAt),
       metadata: entry.metadata,
     });
   };
