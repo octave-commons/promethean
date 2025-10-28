@@ -1832,11 +1832,15 @@ export const createTask = async (
   console.error('[DEBUG] createTask params:', { column, title: input.title, tasksDir, boardPath });
   const uuid = input.uuid ?? cryptoRandomUUID();
   console.error('[DEBUG] UUID generated:', uuid.slice(0, 8));
+  console.error('[DEBUG] Processing title...');
   const baseTitle = input.title?.trim() ?? '';
   const title = baseTitle.length > 0 ? baseTitle : `Task ${uuid.slice(0, 8)}`;
+  console.error('[DEBUG] Title processed:', title);
 
   // Validate that the starting status is allowed
+  console.error('[DEBUG] About to validate starting status...');
   validateStartingStatus(column);
+  console.error('[DEBUG] Starting status validated');
 
   const targetColumn = ensureColumn(board, column);
 
