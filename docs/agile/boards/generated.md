@@ -297,7 +297,6 @@ kanban-plugin: board
 - [ ] [[Fix-@promethean-agent-entrypoint-exports-to-match-emitted-build-artifacts|--title Review and analyze first 10 open PRs --storyPoints 3]] #title #review #analyze #first prio:P1 (uuid:3c306b0e-da10-4047-bbee-ef1df37f763f)
 - [ ] [[Implement LLM-powered kanban explain command]] #llm #explain #command #kanban prio:P1 (uuid:6866f097-f4c8-485a-8c1d-78de260459d2)
 - [ ] [[Implement WIP Limit Enforcement Gate]] #security-gates #wip-limits #automation #kanban-cli #capacity-management prio:P0 (uuid:a666f910-5767-47b8-a8a8-d210411784f9)
-- [ ] [[Kanban System Health Monitoring & Alerting Framework]] #kanban #health-monitoring #automation #alerting #framework #mcp-integration #healing prio:P1 (uuid:3308ce11-0321-4bc2-a4be-bdf5e5e8701a)
 - [ ] [[Oversee TypeScript to ClojureScript Migration Program]] #migration #program-management #oversight #clojurescript #typed-clojure #epic prio:P0 (uuid:1c3cd0e9-cbc1-4a7f-be0e-a61fa595167a)
 - [ ] [[P0-Path-Traversal-Fix-Subtasks|URGENT: Fix Critical Path Traversal Vulnerability - Subtask Breakdown]] #security #critical #path-traversal #urgent #indexer-service #vulnerability-fix prio:P0 (uuid:f1d22f6a-d9d1-4095-a166-f2e01a9ce46e)
 - [ ] [[Refactor existing board logic into BoardAdapter implementation]] #board #logic #boardadapter #existing prio:P0 (uuid:1c88185e-9bfb-42d0-9388-3ac4bf688960)

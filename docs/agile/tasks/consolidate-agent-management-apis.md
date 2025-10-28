@@ -1,15 +1,15 @@
 ---
-uuid: "39e76b22-6e98-47c0-baa7-f06fb6f18eaf"
-title: "Consolidate Agent Management APIs"
-slug: "consolidate-agent-management-apis"
-status: "breakdown"
-priority: "P0"
-labels: ["agent-management", "apis", "consolidation", "client-library", "epic3"]
-created_at: "2025-10-18T00:00:00.000Z"
+uuid: '39e76b22-6e98-47c0-baa7-f06fb6f18eaf'
+title: 'Consolidate Agent Management APIs'
+slug: 'consolidate-agent-management-apis'
+status: 'breakdown'
+priority: 'P0'
+labels: ['agent-management', 'apis', 'consolidation', 'client-library', 'epic3']
+created_at: '2025-10-18T00:00:00.000Z'
 estimates:
-  complexity: ""
-  scale: ""
-  time_to_completion: ""
+  complexity: '8'
+  scale: 'large'
+  time_to_completion: '4 sessions'
 ---
 
 ## 🤖 Consolidate Agent Management APIs
