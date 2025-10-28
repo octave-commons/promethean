@@ -6,6 +6,7 @@
  */
 
 import type { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
+import type { CookieSerializeOptions } from '@fastify/cookie';
 import { OAuthSystem } from './index.js';
 import { OAuthIntegration } from '../integration.js';
 import { JwtTokenManager } from './jwt.js';
