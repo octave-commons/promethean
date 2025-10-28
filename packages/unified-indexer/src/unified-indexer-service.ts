@@ -68,8 +68,8 @@ function createSearchResult(
   entry: DualStoreEntry<'text', 'createdAt'> | DualStoreEntry<'text', 'timestamp'>,
 ): SearchResult {
   const timestamp =
-    (entry as unknown as { createdAt?: unknown; timestamp?: unknown }).createdAt ||
-    (entry as unknown as { createdAt?: unknown; timestamp?: unknown }).timestamp ||
+    (entry as DualStoreEntry<'text', 'createdAt'>).createdAt ||
+    (entry as DualStoreEntry<'text', 'timestamp'>).timestamp ||
     Date.now();
   return {
     content: transformDualStoreEntry({
