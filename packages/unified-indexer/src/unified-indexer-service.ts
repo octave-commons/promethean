@@ -48,7 +48,7 @@ import {
 /**
  * Create a UnifiedIndexingClient adapter for DualStoreManager
  */
-async function createUnifiedIndexingClient(_config: any): Promise<UnifiedIndexingClient> {
+async function createUnifiedIndexingClient(_config: unknown): Promise<UnifiedIndexingClient> {
   const dualStore = await DualStoreManager.create('unified', 'text', 'createdAt');
 
   return {
