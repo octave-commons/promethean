@@ -47,8 +47,6 @@ import {
   createUnifiedKanbanIndexer,
 } from './types/service.js';
 
-
-
 /**
  * Create a UnifiedIndexingClient adapter for DualStoreManager
  */
@@ -57,12 +55,12 @@ async function createUnifiedIndexingClient(_config: unknown): Promise<UnifiedInd
 
   return {
     async index(content: IndexableContent) {
-        const entry: DualStoreEntry<'text', 'createdAt'> = {
-          id: content.id,
-          text: content.content,
-          createdAt: content.timestamp || Date.now(),
-          metadata: content.metadata as DualStoreEntry<'text', 'createdAt'>['metadata'],
-        };
+      const entry: DualStoreEntry<'text', 'createdAt'> = {
+        id: content.id,
+        text: content.content,
+        createdAt: content.timestamp || Date.now(),
+        metadata: content.metadata as DualStoreEntry<'text', 'createdAt'>['metadata'],
+      };
       await dualStore.addEntry(entry);
       return content.id;
     },
@@ -74,8 +72,8 @@ async function createUnifiedIndexingClient(_config: unknown): Promise<UnifiedInd
           id: content.id,
           text: content.content,
           createdAt: content.timestamp || Date.now(),
-          metadata: content.metadata || {},
-        });
+          metadata: content.metadata as unknown as DualStoreEntry<'text', 'createdAt'>['metadata'],
+        };
         ids.push(content.id);
       }
       return ids;
