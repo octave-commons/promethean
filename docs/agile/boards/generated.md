@@ -327,6 +327,7 @@ kanban-plugin: board
 - [ ] [[Kanban System Health Monitoring & Alerting Framework]] #kanban #health-monitoring #automation #alerting #framework #mcp-integration #healing prio:P1 (uuid:3308ce11-0321-4bc2-a4be-bdf5e5e8701a)
 - [ ] [[design-unified-api-architecture|Design Unified API Architecture and Standards]] #api #architecture #design #standards #versioning prio:P1 (uuid:448a4bac-0000-0000-0000-000000000000)
 - [ ] [[migrate-dualstore-collection-apis|Migrate DualStore Collection APIs]] #api #migration #dualstore #collections #crud prio:P1 (uuid:448a4bac-0001-0000-0000-000000000001)
+- [ ] [[migrate-opencode-client-apis|Migrate Opencode Client APIs]] #api #migration #opencode #client #agents #sessions #workflows prio:P1 (uuid:448a4bac-0002-0000-0000-000000000002)
 - [ ] [[migrate-electron-editor-apis|Migrate Electron Editor APIs]] #api #migration #electron #editor #filesystem #ui #keybindings prio:P1 (uuid:448a4bac-0003-0000-0000-000000000003)
 - [ ] [[Implement LLM-powered kanban explain command]] #llm #explain #command #kanban prio:P1 (uuid:6866f097-f4c8-485a-8c1d-78de260459d2)
 - [ ] [[Add @promethean autocommit package (LLM-generated commit messages) --tags framework-core,doc-this|Add @promethean-os/autocommit package (LLM-generated commit messages) --tags framework-core,doc-this]] #autocommit #package #llm #generated prio:P1 (uuid:afaec0f2-41a6-4676-a98e-1882d5a9ed4a)
