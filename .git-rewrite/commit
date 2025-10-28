@@ -1,6 +1,6 @@
-tree 3e1f71c3afda621187a0719c071332c529f6f486
-parent 7f67d191d77d8d03adc5258a514414020f924867
-author Err <foamy125@gmail.com> 1759714019 -0500
-committer Err <foamy125@gmail.com> 1759714019 -0500
+tree 6887d315b99bdd1c1ad90720b6279e64499ccdbb
+parent 55a56fd0f641b48c3d30b7fa9c7c617dd37bcbd8
+author Err <foamy125@gmail.com> 1759358623 -0500
+committer Err <foamy125@gmail.com> 1759358623 -0500
 
-Fix OpenAPI action duplication
+fix: have shadow-conf emit dotenv init
