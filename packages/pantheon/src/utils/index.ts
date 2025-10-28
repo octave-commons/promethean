@@ -14,7 +14,11 @@ export const generateId = (): string => {
 export const generateActorId = (name: string): string => {
   const timestamp = Date.now();
   const random = Math.random().toString(36).substring(2, 8);
-  const sanitizedName = name.toLowerCase().replace(/[^a-z0-9]/g, '-');
+  const sanitizedName = name
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
   return `actor_${sanitizedName}_${timestamp}_${random}`;
 };
 
@@ -201,32 +205,36 @@ export const withTimeout = <T>(
   return Promise.race([promise, timeout]);
 };
 
-export const retry = async <T>(
+export const export const retry = async <T>(
   fn: () => Promise<T>,
   maxRetries: number = 3,
   delayMs: number = 1000,
   backoff: 'linear' | 'exponential' = 'exponential',
 ): Promise<T> => {
+  // Special case: maxRetries = 0 means try once with no retries
+  if (maxRetries === 0) {
+    return await fn();
+  }
+
   let lastError: Error;
 
-  for (let attempt = 1; attempt <= maxRetries + 1; attempt++) {
+  // Make exactly maxRetries attempts (not maxRetries + 1)
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
       return await fn();
     } catch (error) {
       const originalError = error instanceof Error ? error : new Error(String(error));
+      lastError = originalError;
 
       // If this is the last attempt, enhance error message with attempt count
-      if (attempt > maxRetries) {
-        // For maxRetries = 0, don't add attempt info to error message
-        if (maxRetries === 0) {
-          lastError = originalError;
-        } else {
-          lastError = new Error(`${originalError.message}, attempt ${maxRetries}`);
+      if (attempt === maxRetries) {
+        // Only add attempt info if not already present in error message
+        const attemptPattern = /attempt \d+/;
+        if (attemptPattern.test(originalError.message)) {
+          throw originalError;
         }
-        break;
+        throw new Error(`${originalError.message}, attempt ${maxRetries}`);
       }
-
-      lastError = originalError;
 
       const delay =
         backoff === 'exponential' ? delayMs * Math.pow(2, attempt - 1) : delayMs * attempt;
@@ -236,7 +244,7 @@ export const retry = async <T>(
   }
 
   throw lastError!;
-};
+};;
 
 // === Logging Utilities ===
 

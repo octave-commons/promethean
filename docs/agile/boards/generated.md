@@ -199,8 +199,6 @@ kanban-plugin: board
 - [ ] [[comprehensive-testing-suite|Comprehensive Testing Suite]] #kanban #testing #quality-assurance #validation prio:P1 (uuid:task-comprehensive-testing-2025-10-15)
 - [ ] [[create-integration-test-suite|Create Integration Test Suite]] #integration #testing #quality #assurance #epic5 prio:P1 (uuid:0a0a6ad0-3de0-4fd6-ac46-65fc5727d666)
 - [ ] [[create-pm2-log-monitor-package|Create PM2 Log Monitor Package]] #kanban #pm2 #pantheon #log-monitoring #package prio:P1 (uuid:task-create-pm2-log-monitor-2025-10-26)
-- [ ] [[critical-violation-unified-indexer-code-review-retrospective|CRITICAL VIOLATION: Unified-Indexer Code Review Retrospective]] #unified-indexer #code-review #critical-violation #retrospective #compliance prio:P0 (uuid:violation-code-review-001)
-- [ ] [[critical-violation-unified-indexer-documentation-retrospective|CRITICAL VIOLATION: Unified-Indexer Documentation Retrospective]] #unified-indexer #documentation #critical-violation #retrospective #compliance prio:P0 (uuid:violation-doc-001)
 - [ ] [[cross-platform-configuration 2|Implement Configuration Management System]] #architecture #implementation #cross-platform #configuration prio:P0 (uuid:118b4a9c-e993-4ad9-b01d-c3d178d31d64)
 - [ ] [[cross-platform-configuration|Implement Configuration Management System]] #architecture #implementation #cross-platform #configuration prio:P0 (uuid:cross-platform-configuration-2025-10-22)
 - [ ] [[cross-platform-feature-detection 2|Implement Feature Detection and Capability Registry]] #architecture #implementation #cross-platform #feature-detection prio:P0 (uuid:4695d65a-54b5-45b8-9dbd-bc28bb1db46d)
@@ -303,9 +301,11 @@ kanban-plugin: board
 - [ ] [[Implement LLM-powered kanban explain command]] #llm #explain #command #kanban prio:P1 (uuid:6866f097-f4c8-485a-8c1d-78de260459d2)
 - [ ] [[Implement WIP Limit Enforcement Gate]] #security-gates #wip-limits #automation #kanban-cli #capacity-management prio:P0 (uuid:a666f910-5767-47b8-a8a8-d210411784f9)
 - [ ] [[Oversee TypeScript to ClojureScript Migration Program]] #migration #program-management #oversight #clojurescript #typed-clojure #epic prio:P0 (uuid:1c3cd0e9-cbc1-4a7f-be0e-a61fa595167a)
+- [ ] [[phase-1-basic-feature-registry-cross-platform-compatibility|Phase 1: Basic Feature Registry - Cross-Platform Compatibility]] #cross-platform #feature-registry #foundation #compatibility prio:P1 (uuid:e0283b7a-phase1-003)
+- [ ] [[phase-1-core-protocol-definitions-cross-platform-compatibility|Phase 1: Core Protocol Definitions - Cross-Platform Compatibility]] #cross-platform #protocols #foundation #compatibility prio:P1 (uuid:e0283b7a-phase1-002)
+- [ ] [[phase-1-runtime-detection-system-cross-platform-compatibility|Phase 1: Runtime Detection System - Cross-Platform Compatibility]] #cross-platform #runtime-detection #foundation #compatibility prio:P1 (uuid:e0283b7a-phase1-001)
 - [ ] [[Refactor existing board logic into BoardAdapter implementation]] #board #logic #boardadapter #existing prio:P0 (uuid:1c88185e-9bfb-42d0-9388-3ac4bf688960)
 - [ ] [[Standardize Health Check Utilities Across Services]] #refactoring #duplication #health #monitoring #web-utils #standardization prio:P1 (uuid:eeb1fc4d-26bc-4128-88c6-1c871c6f4bd0)
-- [ ] [[URGENT Complete Critical Path Traversal Vulnerability Fix - Task c732b2de|URGENT: Complete Critical Path Traversal Vulnerability Fix - Task c732b2de]] #vulnerability #fix #complete #critical prio:P0 (uuid:43967720-d1b6-4ae2-88f7-92ecdaa04a97)
 - [ ] [[consolidate-agent-management-apis|Consolidate Agent Management APIs]] #agent-management #apis #consolidation #client-library #epic3 prio:P0 (uuid:39e76b22-6e98-47c0-baa7-f06fb6f18eaf)
 - [ ] [[consolidate-api-routes-endpoints|Consolidate API Routes and Endpoints]] #api #routes #consolidation #endpoints #epic2 prio:P0 (uuid:585294ed-b77b-4d36-bb77-8b0f6f1e6ac0)
 - [ ] [[consolidate-web-ui-components|Consolidate Web UI Components]] #web-ui #components #consolidation #frontend #epic4 prio:P2 (uuid:4e361de9-a61d-44df-bc9f-50ad3ab33724)
@@ -322,6 +322,7 @@ kanban-plugin: board
 
 ## ready
 
+- [ ] [[011f7e11-fix-pnpm-kanban-create-hanging-bug|Fix recurring pnpm kanban create hanging bug]] #bugfix #critical #kanban #hanging #file-io #git-tracking #duplicate-detection prio:P0 (uuid:011f7e11-b408-4651-92e1-33216ea80b89)
 - [ ] [[Kanban System Health Monitoring & Alerting Framework]] #kanban #health-monitoring #automation #alerting #framework #mcp-integration #healing prio:P1 (uuid:3308ce11-0321-4bc2-a4be-bdf5e5e8701a)
 - [ ] [[Add BuildFix process timeout handling]] #buildfix #critical #timeout #provider prio:P0 (uuid:e02ca039-c992-431d-81ff-bdabddb2502d)
 - [ ] [[BuildFix Provider Optimization Epic]] #buildfix #epic #optimization #provider prio:P0 (uuid:8ec5fd9d-f58a-46a1-abd2-da4f56b2ffa7)
@@ -361,6 +362,8 @@ kanban-plugin: board
 ## todo
 
 - [ ] [[2025.10.16.06.00.46-agent-workflow-enhancement-healing-integration|Agent Workflow Enhancement & Healing Integration]] #agents #workflow #healing #automation #monitoring #coordination #kanban #integration prio:P1 (uuid:39e0890b-e7bd-45eb-88ff-292157d0cf54)
+- [ ] [[2025.10.22.cross-platform-error-handling.md 2|Implement Cross-Platform Error Handling Framework]] #architecture #implementation #cross-platform #error-handling prio:P0 (uuid:46692f72-3986-42d7-a057-e9f4b65b3c08)
+- [ ] [[2025.10.22.cross-platform-error-handling.md|Implement Cross-Platform Error Handling Framework]] #architecture #implementation #cross-platform #error-handling prio:P0 (uuid:e5f6g7h8-i9j0-1234-efgh-i567890123456)
 - [ ] [[20251011235236|Extend Git Sync for Heal Operations]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #git-workflow #git-sync #phase-1 prio:P1 (uuid:4e88db40-884c-4aed-8412-3de9fd78bd02)
 - [ ] [[create-taskai-manager-comprehensive-documentation|Create TaskAIManager Comprehensive Documentation Suite]] #documentation #ai-integration #kanban #developer-experience prio:P1 (uuid:28c0e516-42f3-4ec3-a9f1-c36fd3807c12)
 - [ ] [[fix-taskai-manager-environment-pollution|Fix TaskAIManager Environment Variable Pollution - Security Issue]] #critical #security #bugfix #ai-integration #environment prio:P0 (uuid:4c8575db-873a-4b28-839d-ac0ea609a8be)
@@ -469,6 +472,7 @@ kanban-plugin: board
 - [x] [[Implement MCP Security Hardening & Validation]] #mcp #kanban #security #validation #hardening #critical prio:P0 (uuid:d794213f-853d-41e4-863c-27e83dd5221c)
 - [x] [[P0-Path-Traversal-Fix-Subtasks|URGENT: Fix Critical Path Traversal Vulnerability - Subtask Breakdown]] #security #critical #path-traversal #urgent #indexer-service #vulnerability-fix prio:P0 (uuid:f1d22f6a-d9d1-4095-a166-f2e01a9ce46e)
 - [x] [[Prevent invalid starting status creation in kanban CLI]] #prevent #invalid #starting #status prio:P0 (uuid:45ad22b1-d5b9-4c21-887c-c22f8ca6395e)
+- [x] [[URGENT Complete Critical Path Traversal Vulnerability Fix - Task c732b2de|URGENT: Complete Critical Path Traversal Vulnerability Fix - Task c732b2de]] #vulnerability #fix #complete #critical prio:P0 (uuid:43967720-d1b6-4ae2-88f7-92ecdaa04a97)
 - [x] [[add-donereview-transition-for-audit-corrections-and-quality-control-control|Add done→review transition for audit corrections and quality control -control]] #audit #fsm #kanban #quality-control #transitions prio:P2 (uuid:9af83f86-3639-4c9f-a28f-45690fb7a8ea)
 - [x] [[add-jsdoc-documentation-pantheon-persistence|Add JSDoc documentation to pantheon-persistence]] #pantheon #persistence #documentation #jsdoc #medium-priority prio:medium (uuid:dc56bad1-885f-40e3-b3d0-d605050f541c)
 - [x] [[comprehensive-mcp-files-endpoint-testing|Comprehensive MCP Files Endpoint Testing]] #mcp #security #testing prio:P2 (uuid:45011172-e37f-4597-8ee0-e408a8c881b9)
@@ -495,11 +499,6 @@ kanban-plugin: board
 - [ ] [[Fix BuildFix path resolution logic duplication]] #buildfix #critical #bug #provider prio:P0 (uuid:fc5dc875-cd6c-47fb-b02b-56138c06b2fb)
 - [ ] [[Fix Kanban Column Underscore Normalization Bug]] #kanban #column #bug #fix prio:P0 (uuid:02c78938-cf9c-45a0-b5ff-6e7a212fb043)
 - [ ] [[cephalon_feature_flag_path_selection|cephalon feature flag path selection]] #cephalon #feature #flag #path prio:P3 (uuid:1bb6f2f2-bcca-4365-aa6f-7cab3cdf8269)
-
-## backlog
-
-- [ ] [[2025.10.22.cross-platform-error-handling.md 2|Implement Cross-Platform Error Handling Framework]] #architecture #implementation #cross-platform #error-handling prio:P0 (uuid:46692f72-3986-42d7-a057-e9f4b65b3c08)
-- [ ] [[2025.10.22.cross-platform-error-handling.md|Implement Cross-Platform Error Handling Framework]] #architecture #implementation #cross-platform #error-handling prio:P0 (uuid:e5f6g7h8-i9j0-1234-efgh-i567890123456)
 
 ## superseded
 
