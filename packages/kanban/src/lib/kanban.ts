@@ -1842,9 +1842,13 @@ export const createTask = async (
   validateStartingStatus(column);
   console.error('[DEBUG] Starting status validated');
 
+  console.error('[DEBUG] About to ensure column...');
   const targetColumn = ensureColumn(board, column);
+  console.error('[DEBUG] Column ensured:', targetColumn.name);
 
+  console.error('[DEBUG] About to read tasks folder...');
   const existingTasks = await readTasksFolder(tasksDir);
+  console.error('[DEBUG] Tasks folder read, count:', existingTasks.length);
   const existingById = new Map(existingTasks.map((task) => [task.uuid, task]));
   // *** CRITICAL FIX: Duplicate Task Detection ***
   // Check for existing tasks with the same title in the same column
