@@ -4,23 +4,24 @@
  * Handles result processing, filtering, grouping, and deduplication
  */
 
-import type { ContentSource, SearchResult } from '@promethean-os/persistence';
-import type { CrossDomainSearchOptions, EnhancedSearchResult } from './types/search.js';
 import {
+  applyTemporalBoost,
+  applyWeights,
   calculateRecencyScore,
   calculateScoreBreakdown,
   generateScoreExplanation,
-  applyWeights,
-  applyTemporalBoost,
 } from './cross-domain-scoring.js';
+
+import type { ContentSource, SearchResult } from '@promethean-os/persistence';
+import type { CrossDomainSearchOptions, EnhancedSearchResult } from './types/search.js';
 
 /**
  * Enhance search results with additional metadata
  */
 export function enhanceResults(
-  results: SearchResult[],
-  options: CrossDomainSearchOptions,
-): EnhancedSearchResult[] {
+  readonly results: readonly SearchResult[],
+  readonly options: CrossDomainSearchOptions,
+): readonly EnhancedSearchResult[] {
   const now = Date.now();
 
   return results.map((result) => {
