@@ -1851,9 +1851,12 @@ export const createTask = async (
   console.error('[DEBUG] Tasks folder read, count:', existingTasks.length);
   const existingById = new Map(existingTasks.map((task) => [task.uuid, task]));
   // *** CRITICAL FIX: Duplicate Task Detection ***
-  // Check for existing tasks with the same title in the same column
+  console.error('[DEBUG] Starting duplicate detection...');
+  // Check for existing tasks with same title in the same column
   const normalizedTitle = title.trim().toLowerCase();
   const targetColumnName = targetColumn.name.trim().toLowerCase();
+  console.error('[DEBUG] Normalized title:', normalizedTitle);
+  console.error('[DEBUG] Target column name:', targetColumnName);
 
   // First check: Look for existing task in files (prioritize file-based tasks with full content)
   const existingTaskInColumn = existingTasks.find(
