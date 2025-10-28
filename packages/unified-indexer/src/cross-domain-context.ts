@@ -14,9 +14,9 @@ import type { UnifiedIndexerServiceState } from './unified-indexer-service.js';
  * Compile context from search results
  */
 export async function compileSearchContext(
-  readonly indexerService: UnifiedIndexerServiceState,
-  readonly _results: readonly EnhancedSearchResult[],
-  readonly options: CrossDomainSearchOptions,
+  indexerService: UnifiedIndexerServiceState,
+  _results: readonly EnhancedSearchResult[],
+  options: CrossDomainSearchOptions,
 ): Promise<readonly ContextMessage[]> {
   const contextLimit = options.contextLimit || 10;
   const queries = options.query ? [options.query] : [];
