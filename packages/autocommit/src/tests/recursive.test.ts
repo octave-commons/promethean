@@ -1,9 +1,13 @@
 import test from 'ava';
-import { temporaryDirectory } from 'tempy';
-import { mkdir, writeFile } from 'fs/promises';
+import { mkdtemp } from 'fs/promises';
 import { join } from 'path';
+import { tmpdir } from 'os';
 import { findGitRepositories } from '../git.js';
 import { execa } from 'execa';
+
+async function createTempDir(): Promise<string> {
+  return mkdtemp(join(tmpdir(), 'autocommit-test-'));
+}
 
 test('findGitRepositories finds no repos in empty directory', async (t) => {
   const tempDir = temporaryDirectory();
