@@ -1,6 +1,6 @@
-tree d05d0a7d733305dffb729a25a2e32ddde10cbbbb
-parent a3014727a0550f525c16e0a1355613ef717095c2
-author Err <foamy125@gmail.com> 1759373456 -0500
-committer Err <foamy125@gmail.com> 1759373456 -0500
+tree fbdfa777515105be0329ecaead89e8884cb7ca5c
+parent 4da0324aba67be712bd9f72f88693582b31ac3c1
+author Error <foamy125@gmail.com> 1759523545 -0500
+committer Error <foamy125@gmail.com> 1759523545 -0500
 
-docs(mcp): include discord tools in default config
+make sure clojure happens before other stuff.
