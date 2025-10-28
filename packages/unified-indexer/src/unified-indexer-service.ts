@@ -113,7 +113,7 @@ function createSearchHandler(dualStore: DualStoreManager<'text', 'createdAt'>) {
     );
 
     return {
-      results: results.map((entry) => createSearchResult(entry as unknown as DualStoreEntry)),
+      results: results.map((entry) => createSearchResult(entry as any)),
       total: results.length,
       took: Date.now() - startTime,
       query,
