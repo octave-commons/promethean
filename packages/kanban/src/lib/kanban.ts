@@ -1901,26 +1901,34 @@ export const createTask = async (
   console.error('[DEBUG] Board index built with', boardIndex.size, 'entries');
 
   const templatePath = input.templatePath ?? input.defaultTemplatePath;
-  console.error('[DEBUG] Template path:', templatePath);
   let templateContent: string | undefined;
-  if (templatePath) {
-    console.error('[DEBUG] About to read template file...');
-    templateContent = await fs.readFile(templatePath, 'utf8');
-    console.error('[DEBUG] Template file read successfully');
+
+  // Only try to read template if path exists and is valid
+  if (templatePath && templatePath.length > 0) {
+    try {
+      templateContent = await fs.readFile(templatePath, 'utf8');
+    } catch (error) {
+      console.error(`Warning: Could not read template file ${templatePath}:`, error);
+      // Continue without template rather than hanging
+    }
   }
 
   const bodyText = input.body ?? input.content ?? '';
-  let contentFromTemplate =
-    typeof templateContent === 'string'
-      ? applyTemplateReplacements(templateContent, {
-          TITLE: title,
-          BODY: bodyText,
-          UUID: uuid,
-        })
-      : (input.content ?? bodyText);
+  let contentFromTemplate: string;
 
-  if (!contentFromTemplate) {
-    contentFromTemplate = '';
+  if (typeof templateContent === 'string' && templateContent.length > 0) {
+    try {
+      contentFromTemplate = applyTemplateReplacements(templateContent, {
+        TITLE: title,
+        BODY: bodyText,
+        UUID: uuid,
+      });
+    } catch (error) {
+      console.error('Warning: Template processing failed, using plain content:', error);
+      contentFromTemplate = bodyText;
+    }
+  } else {
+    contentFromTemplate = bodyText;
   }
 
   let newTaskContent = ensureSectionExists(contentFromTemplate, BLOCKED_BY_HEADING);
