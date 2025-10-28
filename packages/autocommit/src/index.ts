@@ -225,8 +225,15 @@ async function startSingleRepository(
 ): Promise<{ close: () => void }> {
   validateConfig(config);
 
-  if (!(await hasRepo(repoPath))) {
-    throw createAutocommitError(`Not a git repo: ${repoPath}`);
+  const isSubrepo = await isSubrepoDir(repoPath);
+  const isGitRepo = await hasRepo(repoPath);
+
+  if (!isSubrepo && !isGitRepo) {
+    throw createAutocommitError(`Not a git repo or subrepo: ${repoPath}`);
+  }
+
+  if (isSubrepo && !config.handleSubrepos) {
+    throw createAutocommitError(`Subrepo detected but subrepo handling is disabled: ${repoPath}`);
   }
 
   const root = await gitRoot(repoPath);
