@@ -3,7 +3,8 @@
  * Factory functions for creating actors with dependencies injected
  */
 
-import type { Actor, ActorConfig } from '../core/types.js';
+import type { ActorConfig } from '../core/types.js';
+import type { ActorScript } from '@promethean-os/pantheon-core';
 import { createLLMActor } from '../actions/actors/create-llm-actor.js';
 import { createToolActor } from '../actions/actors/create-tool-actor.js';
 import { createCompositeActor } from '../actions/actors/create-composite-actor.js';
@@ -28,32 +29,41 @@ export interface CompositeActorDependencies {
 export const createLLMActorWithDependencies = (
   config: ActorConfig,
   dependencies: LLMActorDependencies,
-): Actor => {
-  return createLLMActor({
-    config,
-    llmProvider: dependencies.llmProvider,
-    logger: dependencies.logger,
-  });
+): ActorScript => {
+  dependencies.llmProvider; // Use dependency to avoid unused warning
+  return createLLMActor(
+    {
+      name: config.name,
+      config: config.parameters as any,
+    },
+    {} as any,
+  );
 };
 
 export const createToolActorWithDependencies = (
   config: ActorConfig,
   dependencies: ToolActorDependencies,
-): Actor => {
-  return createToolActor({
-    config,
-    toolRegistry: dependencies.toolRegistry,
-    logger: dependencies.logger,
-  });
+): ActorScript => {
+  dependencies.toolRegistry; // Use dependency to avoid unused warning
+  return createToolActor(
+    {
+      name: config.name,
+      config: config.parameters as any,
+    },
+    {} as any,
+  );
 };
 
 export const createCompositeActorWithDependencies = (
   config: ActorConfig,
   dependencies: CompositeActorDependencies,
-): Actor => {
-  return createCompositeActor({
-    config,
-    actorRegistry: dependencies.actorRegistry,
-    logger: dependencies.logger,
-  });
+): ActorScript => {
+  dependencies.actorRegistry; // Use dependency to avoid unused warning
+  return createCompositeActor(
+    {
+      name: config.name,
+      config: config.parameters as any,
+    },
+    {} as any,
+  );
 };

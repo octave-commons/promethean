@@ -1,13 +1,10 @@
 import test from 'ava';
-import {
-  makeCompletePantheonSystem,
-  makeOrchestrator,
-  createToolActor,
-} from '../index.js';
+import { makeCompletePantheonSystem, makeOrchestrator, createToolActor } from '../index.js';
 
 test('in-memory pantheon system orchestrates a tool actor', async (t) => {
-  const { context, tools, llm, messageBus, scheduler, actorState } =
-    makeCompletePantheonSystem({ inMemory: true });
+  const { context, tools, llm, messageBus, scheduler, actorState } = makeCompletePantheonSystem({
+    inMemory: true,
+  });
 
   t.truthy(context);
   t.truthy(tools);
@@ -34,15 +31,21 @@ test('in-memory pantheon system orchestrates a tool actor', async (t) => {
     runtime: 'local',
   });
 
-  const toolActor = createToolActor('tool-runner', {
-    tools: [
-      {
-        name: 'test_tool',
-        description: 'Delegates to the shared tool adapter',
-        handler: async () => ({ ok: true }),
+  const toolActor = createToolActor(
+    {
+      name: 'tool-runner',
+      config: {
+        tools: [
+          {
+            name: 'test_tool',
+            description: 'Delegates to the shared tool adapter',
+            handler: async () => ({ ok: true }),
+          },
+        ],
       },
-    ],
-  });
+    },
+    {} as any,
+  );
 
   const actor = await actorState!.spawn(toolActor, 'exercise test_tool');
 
