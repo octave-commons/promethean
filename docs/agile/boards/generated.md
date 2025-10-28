@@ -199,6 +199,8 @@ kanban-plugin: board
 - [ ] [[comprehensive-testing-suite|Comprehensive Testing Suite]] #kanban #testing #quality-assurance #validation prio:P1 (uuid:task-comprehensive-testing-2025-10-15)
 - [ ] [[create-integration-test-suite|Create Integration Test Suite]] #integration #testing #quality #assurance #epic5 prio:P1 (uuid:0a0a6ad0-3de0-4fd6-ac46-65fc5727d666)
 - [ ] [[create-pm2-log-monitor-package|Create PM2 Log Monitor Package]] #kanban #pm2 #pantheon #log-monitoring #package prio:P1 (uuid:task-create-pm2-log-monitor-2025-10-26)
+- [ ] [[critical-violation-unified-indexer-code-review-retrospective|CRITICAL VIOLATION: Unified-Indexer Code Review Retrospective]] #unified-indexer #code-review #critical-violation #retrospective #compliance prio:P0 (uuid:violation-code-review-001)
+- [ ] [[critical-violation-unified-indexer-documentation-retrospective|CRITICAL VIOLATION: Unified-Indexer Documentation Retrospective]] #unified-indexer #documentation #critical-violation #retrospective #compliance prio:P0 (uuid:violation-doc-001)
 - [ ] [[cross-platform-configuration 2|Implement Configuration Management System]] #architecture #implementation #cross-platform #configuration prio:P0 (uuid:118b4a9c-e993-4ad9-b01d-c3d178d31d64)
 - [ ] [[cross-platform-configuration|Implement Configuration Management System]] #architecture #implementation #cross-platform #configuration prio:P0 (uuid:cross-platform-configuration-2025-10-22)
 - [ ] [[cross-platform-feature-detection 2|Implement Feature Detection and Capability Registry]] #architecture #implementation #cross-platform #feature-detection prio:P0 (uuid:4695d65a-54b5-45b8-9dbd-bc28bb1db46d)
