@@ -1,0 +1,114 @@
+{
+  "name": "Multi-Column Test Board",
+  "columns": [
+    {
+      "name": "Todo",
+      "count": 4,
+      "limit": null,
+      "tasks": [
+        {
+          "uuid": "todo-1",
+          "title": "Write comprehensive documentation",
+          "status": "Todo",
+          "priority": "P1",
+          "labels": ["docs", "important"],
+          "created_at": "2025-01-01T10:00:00.000Z",
+          "content": "Create detailed documentation for the new API endpoints including examples and error handling."
+        },
+        {
+          "uuid": "todo-2", 
+          "title": "Fix authentication bug",
+          "status": "Todo",
+          "priority": "P0",
+          "labels": ["bug", "security"],
+          "created_at": "2025-01-01T11:00:00.000Z",
+          "content": "Users are getting logged out unexpectedly when switching between tabs."
+        },
+        {
+          "uuid": "todo-3",
+          "title": "Implement search functionality",
+          "status": "Todo", 
+          "priority": "P2",
+          "labels": ["feature", "search"],
+          "created_at": "2025-01-01T12:00:00.000Z",
+          "content": "Add full-text search across all content types with filters and sorting."
+        },
+        {
+          "uuid": "todo-4",
+          "title": "Optimize database queries",
+          "status": "Todo",
+          "priority": "P2", 
+          "labels": ["performance", "database"],
+          "created_at": "2025-01-01T13:00:00.000Z",
+          "content": "Review and optimize slow queries identified in the performance audit."
+        }
+      ]
+    },
+    {
+      "name": "In Progress",
+      "count": 2,
+      "limit": 3,
+      "tasks": [
+        {
+          "uuid": "progress-1",
+          "title": "Design new dashboard layout",
+          "status": "In Progress",
+          "priority": "P1",
+          "labels": ["ui", "design"],
+          "created_at": "2025-01-01T14:00:00.000Z",
+          "content": "Create mockups and implement responsive dashboard design."
+        },
+        {
+          "uuid": "progress-2",
+          "title": "Set up CI/CD pipeline",
+          "status": "In Progress",
+          "priority": "P1",
+          "labels": ["devops", "automation"],
+          "created_at": "2025-01-01T15:00:00.000Z",
+          "content": "Configure automated testing and deployment pipeline."
+        }
+      ]
+    },
+    {
+      "name": "Review",
+      "count": 1,
+      "limit": 2,
+      "tasks": [
+        {
+          "uuid": "review-1",
+          "title": "Code review for payment module",
+          "status": "Review",
+          "priority": "P1",
+          "labels": ["review", "payments"],
+          "created_at": "2025-01-01T16:00:00.000Z",
+          "content": "Review and approve the new payment processing module."
+        }
+      ]
+    },
+    {
+      "name": "Done",
+      "count": 2,
+      "limit": null,
+      "tasks": [
+        {
+          "uuid": "done-1",
+          "title": "Initial project setup",
+          "status": "Done",
+          "priority": "P0",
+          "labels": ["setup"],
+          "created_at": "2025-01-01T08:00:00.000Z",
+          "content": "Repository creation and basic project structure."
+        },
+        {
+          "uuid": "done-2",
+          "title": "Requirements gathering",
+          "status": "Done",
+          "priority": "P0",
+          "labels": ["planning"],
+          "created_at": "2025-01-01T09:00:00.000Z",
+          "content": "Collect and document all project requirements."
+        }
+      ]
+    }
+  ]
+}

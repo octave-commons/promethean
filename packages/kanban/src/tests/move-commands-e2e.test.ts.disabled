@@ -1,0 +1,400 @@
+import test from 'ava';
+import path from 'node:path';
+import { readFile, writeFile, mkdir } from 'node:fs/promises';
+
+import { 
+  setupBoardFromFixture,
+  executeKanbanCommand,
+  getTaskOrder,
+  verifyBoardPersistence,
+  measurePerformance,
+} from './helpers/cli-test-utils.js';
+import { withTempDir, writeTaskFile } from '../test-utils/helpers.js';
+import { loadBoard, regenerateBoard, pushToTasks, syncBoardAndTasks } from '../../lib/kanban.js';
+
+const FIXTURES_PATH = path.join(__dirname, 'fixtures');
+
+test.beforeEach(async (t) => {
+  t.timeout(15000); // Increase timeout for E2E tests
+});
+
+// Complete Workflow Tests
+
+test('complete workflow: CLI command → board file → in-memory state → file persistence', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+  
+  // Step 1: Verify initial state
+  const initialOrder = await getTaskOrder(context, 'Todo');
+  t.deepEqual(initialOrder, ['todo-1', 'todo-2', 'todo-3', 'todo-4']);
+  
+  // Step 2: Execute CLI command
+  const result = await executeKanbanCommand('move_up', ['todo-3'], context);
+  t.is(result.exitCode, 0);
+  t.truthy(result.result);
+  
+  // Step 3: Verify in-memory state changed
+  const memoryOrder = await getTaskOrder(context, 'Todo');
+  t.deepEqual(memoryOrder, ['todo-1', 'todo-3', 'todo-2', 'todo-4']);
+  
+  // Step 4: Verify file persistence
+  const persisted = await verifyBoardPersistence(context, { Todo: memoryOrder });
+  t.true(persisted);
+  
+  // Step 5: Verify board file content directly
+  const boardContent = await readFile(context.boardFile, 'utf8');
+  t.true(boardContent.includes('todo-3'));
+  t.true(boardContent.includes('Fix authentication bug')); // todo-2 content
+  t.true(boardContent.includes('Implement search functionality')); // todo-3 content
+  
+  // Step 6: Verify order in file matches expected order
+  const todoSection = boardContent.match(/## todo\n([\s\S]*?)(?=\n## |\n---|$)/i);
+  t.truthy(todoSection);
+  
+  const todoContent = todoSection[1];
+  const todo3Index = todoContent.indexOf('todo-3');
+  const todo2Index = todoContent.indexOf('todo-2');
+  
+  t.true(todo3Index < todo2Index, 'todo-3 should appear before todo-2 in the file');
+});
+
+test('workflow with board regeneration after moves', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+  
+  // Create task files for regeneration
+  await mkdir(context.tasksDir, { recursive: true });
+  
+  // Write task files for all tasks
+  const { loadBoard } = await import('../../lib/kanban.js');
+  const board = await loadBoard(context.boardFile, context.tasksDir);
+  
+  for (const column of board.columns) {
+    for (const task of column.tasks) {
+      await writeTaskFile(context.tasksDir, task);
+    }
+  }
+  
+  // Perform move operations
+  await executeKanbanCommand('move_up', ['todo-3'], context);
+  await executeKanbanCommand('move_down', ['progress-1'], context);
+  
+  // Verify moves took effect
+  const todoOrder = await getTaskOrder(context, 'Todo');
+  const progressOrder = await getTaskOrder(context, 'In Progress');
+  
+  t.deepEqual(todoOrder, ['todo-1', 'todo-3', 'todo-2', 'todo-4']);
+  t.deepEqual(progressOrder, ['progress-2', 'progress-1']);
+  
+  // Regenerate board from task files
+  const { regenerateBoard } = await import('../../lib/kanban.js');
+  const regenerateResult = await regenerateBoard(context.tasksDir, context.boardFile);
+  
+  t.truthy(regenerateResult);
+  t.true(regenerateResult.totalTasks > 0);
+  
+  // Verify order is preserved after regeneration
+  const regeneratedTodoOrder = await getTaskOrder(context, 'Todo');
+  const regeneratedProgressOrder = await getTaskOrder(context, 'In Progress');
+  
+  t.deepEqual(regeneratedTodoOrder, todoOrder);
+  t.deepEqual(regeneratedProgressOrder, progressOrder);
+});
+
+test('workflow with sync operations after moves', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+  
+  // Create task files
+  await mkdir(context.tasksDir, { recursive: true });
+  const { loadBoard, pushToTasks } = await import('../../lib/kanban.js');
+  const board = await loadBoard(context.boardFile, context.tasksDir);
+  await pushToTasks(board, context.tasksDir);
+  
+  // Perform move operation
+  await executeKanbanCommand('move_up', ['todo-2'], context);
+  
+  // Verify move in board
+  const boardOrder = await getTaskOrder(context, 'Todo');
+  t.deepEqual(boardOrder, ['todo-2', 'todo-1', 'todo-3', 'todo-4']);
+  
+  // Sync board and tasks
+  const { syncBoardAndTasks } = await import('../../lib/kanban.js');
+  const syncResult = await syncBoardAndTasks(board, context.tasksDir, context.boardFile);
+  
+  t.truthy(syncResult);
+  t.is(syncResult.board.added + syncResult.board.moved, 0); // No changes expected
+  
+  // Verify order preserved after sync
+  const syncedOrder = await getTaskOrder(context, 'Todo');
+  t.deepEqual(syncedOrder, boardOrder);
+});
+
+// Complex Workflow Scenarios
+
+test('complex workflow: bulk reordering via sequential moves', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+  
+  const initialOrder = await getTaskOrder(context, 'Todo');
+  t.deepEqual(initialOrder, ['todo-1', 'todo-2', 'todo-3', 'todo-4']);
+  
+  // Reverse the order using sequential moves
+  // Move todo-4 to top (3 moves up)
+  await executeKanbanCommand('move_up', ['todo-4'], context);
+  await executeKanbanCommand('move_up', ['todo-4'], context);
+  await executeKanbanCommand('move_up', ['todo-4'], context);
+  
+  // Move todo-3 to second position (2 moves up)
+  await executeKanbanCommand('move_up', ['todo-3'], context);
+  await executeKanbanCommand('move_up', ['todo-3'], context);
+  
+  // Move todo-2 to third position (1 move up)
+  await executeKanbanCommand('move_up', ['todo-2'], context);
+  
+  const finalOrder = await getTaskOrder(context, 'Todo');
+  t.deepEqual(finalOrder, ['todo-4', 'todo-3', 'todo-2', 'todo-1']);
+  
+  // Verify persistence
+  const persisted = await verifyBoardPersistence(context, { Todo: finalOrder });
+  t.true(persisted);
+  
+  // Verify file content reflects new order
+  const boardContent = await readFile(context.boardFile, 'utf8');
+  const todoSection = boardContent.match(/## todo\n([\s\S]*?)(?=\n## |\n---|$)/i);
+  t.truthy(todoSection);
+  
+  const todoContent = todoSection[1];
+  const positions = [
+    todoContent.indexOf('todo-4'),
+    todoContent.indexOf('todo-3'),
+    todoContent.indexOf('todo-2'),
+    todoContent.indexOf('todo-1'),
+  ];
+  
+  // Verify positions are in correct order
+  for (let i = 0; i < positions.length - 1; i++) {
+    t.true(positions[i] < positions[i + 1], `Task ${i + 1} should appear before task ${i + 2}`);
+  }
+});
+
+test('workflow with mixed operations: moves + status changes', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+  
+  // Initial state
+  const initialTodoOrder = await getTaskOrder(context, 'Todo');
+  const initialProgressOrder = await getTaskOrder(context, 'In Progress');
+  
+  // Perform move operation
+  await executeKanbanCommand('move_up', ['todo-2'], context);
+  
+  // Perform status change
+  await executeKanbanCommand('update_status', ['todo-2', 'In Progress'], context);
+  
+  // Verify results
+  const finalTodoOrder = await getTaskOrder(context, 'Todo');
+  const finalProgressOrder = await getTaskOrder(context, 'In Progress');
+  
+  // todo-2 should be removed from Todo and added to In Progress
+  t.false(finalTodoOrder.includes('todo-2'));
+  t.true(finalProgressOrder.includes('todo-2'));
+  
+  // Todo order should have todo-2 removed
+  const expectedTodoOrder = initialTodoOrder.filter(uuid => uuid !== 'todo-2');
+  t.deepEqual(finalTodoOrder, expectedTodoOrder);
+  
+  // Verify persistence
+  const persisted = await verifyBoardPersistence(context, {
+    Todo: finalTodoOrder,
+    'In Progress': finalProgressOrder,
+  });
+  t.true(persisted);
+});
+
+// Error Recovery Workflows
+
+test('workflow recovery: handling corrupted board file', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+  
+  // Corrupt the board file
+  await writeFile(context.boardFile, 'invalid yaml content\n---\nnot valid: [', 'utf8');
+  
+  // Attempt move operation - should handle gracefully
+  const result = await executeKanbanCommand('move_up', ['todo-1'], context);
+  
+  // Should not crash but may return error
+  t.true(result.exitCode !== 0 || result.stderr.length > 0);
+});
+
+test('workflow recovery: handling permission issues', async (t) => {
+  // This test simulates permission issues by using a non-existent directory
+  const tempDir = await withTempDir(t);
+  const boardPath = path.join(tempDir, 'non-existent-dir', 'board.md');
+  const tasksDir = path.join(tempDir, 'tasks');
+  
+  const context = {
+    boardFile: boardPath,
+    tasksDir,
+  };
+  
+  // Attempt move operation - should handle gracefully
+  const result = await executeKanbanCommand('move_up', ['todo-1'], context);
+  
+  // Should not crash but may return error
+  t.true(result.exitCode !== 0 || result.stderr.length > 0);
+});
+
+// Performance Workflow Tests
+
+test('performance workflow: large board with many moves', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'large-board.json'),
+  );
+  
+  const initialOrder = await getTaskOrder(context, 'Todo');
+  
+  // Perform many move operations
+  const { durationMs } = await measurePerformance(async () => {
+    // Move every other task up by one position
+    for (let i = 1; i < Math.min(10, initialOrder.length); i += 2) {
+      await executeKanbanCommand('move_up', [initialOrder[i]], context);
+    }
+  });
+  
+  // Should complete within reasonable time
+  t.true(durationMs < 3000, `Multiple moves took ${durationMs}ms, expected < 3000ms`);
+  
+  // Verify some changes occurred
+  const finalOrder = await getTaskOrder(context, 'Todo');
+  t.notDeepEqual(finalOrder, initialOrder);
+  
+  // Verify all tasks are still present
+  t.is(finalOrder.length, initialOrder.length);
+  
+  // Verify no duplicates
+  const uniqueTasks = new Set(finalOrder);
+  t.is(uniqueTasks.size, finalOrder.length);
+});
+
+// Integration with Other Kanban Features
+
+test('workflow integration: moves with search functionality', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+  
+  // Search for a task
+  const searchResult = await executeKanbanCommand('search', ['authentication'], context);
+  t.is(searchResult.exitCode, 0);
+  t.truthy(searchResult.result);
+  
+  // Move the found task
+  await executeKanbanCommand('move_up', ['todo-2'], context);
+  
+  // Verify the move
+  const newOrder = await getTaskOrder(context, 'Todo');
+  t.deepEqual(newOrder, ['todo-2', 'todo-1', 'todo-3', 'todo-4']);
+  
+  // Search again to verify task is still findable
+  const searchResult2 = await executeKanbanCommand('search', ['authentication'], context);
+  t.is(searchResult2.exitCode, 0);
+  t.truthy(searchResult2.result);
+});
+
+test('workflow integration: moves with count functionality', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+  
+  // Get initial counts
+  const countResult = await executeKanbanCommand('count', ['Todo'], context);
+  t.is(countResult.exitCode, 0);
+  t.is((countResult.result as any).count, 4);
+  
+  // Move tasks between columns (using status change)
+  await executeKanbanCommand('update_status', ['todo-4', 'In Progress'], context);
+  
+  // Verify count changed
+  const countResult2 = await executeKanbanCommand('count', ['Todo'], context);
+  t.is(countResult2.exitCode, 0);
+  t.is((countResult2.result as any).count, 3);
+  
+  // Move remaining tasks within Todo
+  await executeKanbanCommand('move_up', ['todo-3'], context);
+  
+  // Verify count unchanged (moves don't affect count)
+  const countResult3 = await executeKanbanCommand('count', ['Todo'], context);
+  t.is(countResult3.exitCode, 0);
+  t.is((countResult3.result as any).count, 3);
+});
+
+// Real-world Scenario Tests
+
+test('real-world scenario: prioritizing urgent tasks', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+  
+  // Simulate prioritizing urgent bug fix (todo-2) to top
+  await executeKanbanCommand('move_up', ['todo-2'], context);
+  await executeKanbanCommand('move_up', ['todo-2'], context);
+  
+  const todoOrder = await getTaskOrder(context, 'Todo');
+  t.deepEqual(todoOrder, ['todo-2', 'todo-1', 'todo-3', 'todo-4']);
+  
+  // Verify the urgent task is now at the top
+  const urgentTaskPos = todoOrder.indexOf('todo-2');
+  t.is(urgentTaskPos, 0);
+  
+  // Verify persistence
+  const persisted = await verifyBoardPersistence(context, { Todo: todoOrder });
+  t.true(persisted);
+});
+
+test('real-world scenario: reorganizing work queue', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+  
+  // Reorganize Todo column based on priority
+  // P0 tasks should come first, then P1, then P2
+  
+  // Move P0 task (todo-2) to top
+  await executeKanbanCommand('move_up', ['todo-2'], context);
+  await executeKanbanCommand('move_up', ['todo-2'], context);
+  
+  // Move P1 tasks (todo-1, todo-3) to middle
+  // todo-1 is already P1 and in good position
+  // todo-3 is P2, leave it at bottom
+  
+  const finalOrder = await getTaskOrder(context, 'Todo');
+  const expectedOrder = ['todo-2', 'todo-1', 'todo-3', 'todo-4'];
+  t.deepEqual(finalOrder, expectedOrder);
+  
+  // Verify priority ordering
+  const { loadBoard } = await import('../../lib/kanban.js');
+  const board = await loadBoard(context.boardFile, context.tasksDir);
+  const todoColumn = board.columns.find(col => col.name === 'Todo');
+  
+  const priorities = todoColumn.tasks.map(task => task.priority);
+  t.deepEqual(priorities, ['P0', 'P1', 'P2', 'P2']);
+});

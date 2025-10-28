@@ -1,0 +1,450 @@
+import test from 'ava';
+import path from 'node:path';
+
+import {
+  setupBoardFromFixture,
+  executeKanbanCommand,
+  getTaskOrder,
+  verifyBoardPersistence,
+  measurePerformance,
+  generateRandomUuid,
+  verifyTaskExists,
+  getTaskPosition,
+  withTempDir,
+} from './helpers/cli-test-utils.js';
+
+const FIXTURES_PATH = new URL('fixtures', import.meta.url).pathname;
+
+test.beforeEach(async (t) => {
+  // Ensure we start with a clean state for each test
+  t.timeout(10000); // Increase timeout for integration tests
+});
+
+// Basic Move Operation Tests
+
+test('move_up - move middle task up in Todo column', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+
+  // Get initial order
+  const initialOrder = await getTaskOrder(context, 'Todo');
+  t.deepEqual(initialOrder, ['todo-1', 'todo-2', 'todo-3', 'todo-4']);
+
+  // Move todo-3 up (should swap with todo-2)
+  const result = await executeKanbanCommand('move_up', ['todo-3'], context);
+
+  t.is(result.exitCode, 0);
+  t.truthy(result.result);
+
+  // Verify new order
+  const newOrder = await getTaskOrder(context, 'Todo');
+  t.deepEqual(newOrder, ['todo-1', 'todo-3', 'todo-2', 'todo-4']);
+
+  // Verify board persistence
+  const persisted = await verifyBoardPersistence(context, { Todo: newOrder });
+  t.true(persisted);
+});
+
+test('move_down - move middle task down in Todo column', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+
+  // Get initial order
+  const initialOrder = await getTaskOrder(context, 'Todo');
+  t.deepEqual(initialOrder, ['todo-1', 'todo-2', 'todo-3', 'todo-4']);
+
+  // Move todo-2 down (should swap with todo-3)
+  const result = await executeKanbanCommand('move_down', ['todo-2'], context);
+
+  t.is(result.exitCode, 0);
+  t.truthy(result.result);
+
+  // Verify new order
+  const newOrder = await getTaskOrder(context, 'Todo');
+  t.deepEqual(newOrder, ['todo-1', 'todo-3', 'todo-2', 'todo-4']);
+
+  // Verify board persistence
+  const persisted = await verifyBoardPersistence(context, { Todo: newOrder });
+  t.true(persisted);
+});
+
+test('move_up - no change when moving first task up', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+
+  // Get initial order
+  const initialOrder = await getTaskOrder(context, 'Todo');
+
+  // Move first task up (should be no-op)
+  const result = await executeKanbanCommand('move_up', ['todo-1'], context);
+
+  t.is(result.exitCode, 0);
+  t.truthy(result.result);
+
+  // Verify order unchanged
+  const newOrder = await getTaskOrder(context, 'Todo');
+  t.deepEqual(newOrder, initialOrder);
+});
+
+test('move_down - no change when moving last task down', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+
+  // Get initial order
+  const initialOrder = await getTaskOrder(context, 'Todo');
+
+  // Move last task down (should be no-op)
+  const result = await executeKanbanCommand('move_down', ['todo-4'], context);
+
+  t.is(result.exitCode, 0);
+  t.truthy(result.result);
+
+  // Verify order unchanged
+  const newOrder = await getTaskOrder(context, 'Todo');
+  t.deepEqual(newOrder, initialOrder);
+});
+
+// Error Handling Tests
+
+test('move_up - invalid task UUID', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+
+  const invalidUuid = generateRandomUuid();
+  const result = await executeKanbanCommand('move_up', [invalidUuid], context);
+
+  // Should not throw error but return undefined result
+  t.is(result.exitCode, 0);
+  t.is(result.result, undefined);
+});
+
+test('move_down - invalid task UUID', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+
+  const invalidUuid = generateRandomUuid();
+  const result = await executeKanbanCommand('move_down', [invalidUuid], context);
+
+  // Should not throw error but return undefined result
+  t.is(result.exitCode, 0);
+  t.is(result.result, undefined);
+});
+
+test('move_up - missing task UUID argument', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+
+  const result = await executeKanbanCommand('move_up', [], context);
+
+  t.is(result.exitCode, 2); // CommandUsageError exit code
+  t.true(result.stderr.includes('Missing required task id'));
+});
+
+test('move_down - missing task UUID argument', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+
+  const result = await executeKanbanCommand('move_down', [], context);
+
+  t.is(result.exitCode, 2); // CommandUsageError exit code
+  t.true(result.stderr.includes('Missing required task id'));
+});
+
+// Edge Cases with Single Task Columns
+
+test('move_up - single task column', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'single-task-columns.json'),
+  );
+
+  // Get initial order
+  const initialOrder = await getTaskOrder(context, 'Backlog');
+  t.deepEqual(initialOrder, ['backlog-1']);
+
+  // Move single task up (should be no-op)
+  const result = await executeKanbanCommand('move_up', ['backlog-1'], context);
+
+  t.is(result.exitCode, 0);
+  t.truthy(result.result);
+
+  // Verify order unchanged
+  const newOrder = await getTaskOrder(context, 'Backlog');
+  t.deepEqual(newOrder, initialOrder);
+});
+
+test('move_down - single task column', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'single-task-columns.json'),
+  );
+
+  // Get initial order
+  const initialOrder = await getTaskOrder(context, 'Backlog');
+  t.deepEqual(initialOrder, ['backlog-1']);
+
+  // Move single task down (should be no-op)
+  const result = await executeKanbanCommand('move_down', ['backlog-1'], context);
+
+  t.is(result.exitCode, 0);
+  t.truthy(result.result);
+
+  // Verify order unchanged
+  const newOrder = await getTaskOrder(context, 'Backlog');
+  t.deepEqual(newOrder, initialOrder);
+});
+
+// Cross-Column Tests
+
+test('move operations work across different columns', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+
+  // Test move in In Progress column
+  const progressInitial = await getTaskOrder(context, 'In Progress');
+  t.deepEqual(progressInitial, ['progress-1', 'progress-2']);
+
+  const progressResult = await executeKanbanCommand('move_down', ['progress-1'], context);
+  t.is(progressResult.exitCode, 0);
+
+  const progressNew = await getTaskOrder(context, 'In Progress');
+  t.deepEqual(progressNew, ['progress-2', 'progress-1']);
+
+  // Test move in Review column (single task)
+  const reviewInitial = await getTaskOrder(context, 'Review');
+  t.deepEqual(reviewInitial, ['review-1']);
+
+  const reviewResult = await executeKanbanCommand('move_up', ['review-1'], context);
+  t.is(reviewResult.exitCode, 0);
+
+  const reviewNew = await getTaskOrder(context, 'Review');
+  t.deepEqual(reviewNew, reviewInitial); // Should be unchanged
+});
+
+// Sequential Move Tests
+
+test('sequential moves - move task up then down', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+
+  const initialOrder = await getTaskOrder(context, 'Todo');
+  t.deepEqual(initialOrder, ['todo-1', 'todo-2', 'todo-3', 'todo-4']);
+
+  // Move todo-3 up
+  const upResult = await executeKanbanCommand('move_up', ['todo-3'], context);
+  t.is(upResult.exitCode, 0);
+
+  const afterUp = await getTaskOrder(context, 'Todo');
+  t.deepEqual(afterUp, ['todo-1', 'todo-3', 'todo-2', 'todo-4']);
+
+  // Move todo-3 down (should return to original position)
+  const downResult = await executeKanbanCommand('move_down', ['todo-3'], context);
+  t.is(downResult.exitCode, 0);
+
+  const finalOrder = await getTaskOrder(context, 'Todo');
+  t.deepEqual(finalOrder, initialOrder);
+});
+
+test('multiple sequential moves in same column', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+
+  const initialOrder = await getTaskOrder(context, 'Todo');
+  t.deepEqual(initialOrder, ['todo-1', 'todo-2', 'todo-3', 'todo-4']);
+
+  // Move todo-4 to top (3 moves up)
+  await executeKanbanCommand('move_up', ['todo-4'], context);
+  await executeKanbanCommand('move_up', ['todo-4'], context);
+  await executeKanbanCommand('move_up', ['todo-4'], context);
+
+  const finalOrder = await getTaskOrder(context, 'Todo');
+  t.deepEqual(finalOrder, ['todo-4', 'todo-1', 'todo-2', 'todo-3']);
+
+  // Verify persistence
+  const persisted = await verifyBoardPersistence(context, { Todo: finalOrder });
+  t.true(persisted);
+});
+
+// Task Position Verification Tests
+
+test('getTaskPosition returns correct position after move', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+
+  // Initial position
+  const initialPos = await getTaskPosition(context, 'todo-2');
+  t.deepEqual(initialPos, { column: 'Todo', position: 1 });
+
+  // Move todo-2 down
+  await executeKanbanCommand('move_down', ['todo-2'], context);
+
+  // New position
+  const newPos = await getTaskPosition(context, 'todo-2');
+  t.deepEqual(newPos, { column: 'Todo', position: 2 });
+});
+
+// Task Existence Verification Tests
+
+test('verifyTaskExists correctly identifies task existence', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+
+  // Existing task
+  const exists = await verifyTaskExists(context, 'todo-1');
+  t.true(exists);
+
+  // Non-existent task
+  const notExists = await verifyTaskExists(context, generateRandomUuid());
+  t.false(notExists);
+});
+
+// Performance Tests
+
+test('performance - move operations on large board', async (t) => {
+  const { createLargeBoard } = await import('./helpers/cli-test-utils.js');
+
+  // Create large board fixture
+  const largeFixture = await createLargeBoard(100);
+  const tempDir = await withTempDir(t);
+  const boardPath = path.join(tempDir, 'board.md');
+  const tasksDir = path.join(tempDir, 'tasks');
+
+  // Write large board
+  const { serializeBoard } = await import('../../lib/kanban.js');
+  const board = {
+    columns: largeFixture.columns.map((col: any) => ({
+      name: col.name,
+      count: col.count,
+      limit: col.limit,
+      tasks: col.tasks.map((task: any) => ({
+        ...task,
+        slug: task.title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+      })),
+    })),
+  };
+  const boardContent = serializeBoard(board);
+  await (await import('node:fs/promises')).writeFile(boardPath, boardContent, 'utf8');
+
+  const context = {
+    boardFile: boardPath,
+    tasksDir,
+  };
+
+  // Measure performance of move operations
+  const { durationMs } = await measurePerformance(async () => {
+    // Move task in middle of large list
+    await executeKanbanCommand('move_up', ['perf-task-050'], context);
+  });
+
+  // Should complete within reasonable time (adjust threshold as needed)
+  t.true(durationMs < 1000, `Move operation took ${durationMs}ms, expected < 1000ms`);
+
+  // Verify the move actually worked
+  const newOrder = await getTaskOrder(context, 'Todo');
+  const task50Index = newOrder.indexOf('perf-task-050');
+  const task49Index = newOrder.indexOf('perf-task-049');
+
+  t.true(task50Index < task49Index, 'Task 50 should have moved above task 49');
+});
+
+test('performance - multiple consecutive moves', async (t) => {
+  const { context } = await setupBoardFromFixture(t, path.join(FIXTURES_PATH, 'large-board.json'));
+
+  const { durationMs } = await measurePerformance(async () => {
+    // Perform 10 consecutive move operations
+    for (let i = 0; i < 10; i++) {
+      await executeKanbanCommand('move_up', [`todo-00${i + 5}`], context);
+    }
+  });
+
+  // Should complete within reasonable time
+  t.true(durationMs < 2000, `10 move operations took ${durationMs}ms, expected < 2000ms`);
+});
+
+// File System Integration Tests
+
+test('board file integrity after move operations', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+
+  // Perform multiple moves
+  await executeKanbanCommand('move_up', ['todo-3'], context);
+  await executeKanbanCommand('move_down', ['todo-1'], context);
+  await executeKanbanCommand('move_up', ['todo-4'], context);
+
+  // Verify board can be loaded successfully
+  const { loadBoard } = await import('../../lib/kanban.js');
+  const board = await loadBoard(context.boardFile, context.tasksDir);
+
+  t.truthy(board);
+  t.is(board.columns.length, 4);
+
+  // Verify Todo column has correct number of tasks
+  const todoColumn = board.columns.find((col) => col.name === 'Todo');
+  t.truthy(todoColumn);
+  t.is(todoColumn.tasks.length, 4);
+
+  // Verify all tasks are still present
+  const taskUuids = todoColumn.tasks.map((task) => task.uuid).sort();
+  const expectedUuids = ['todo-1', 'todo-2', 'todo-3', 'todo-4'].sort();
+  t.deepEqual(taskUuids, expectedUuids);
+});
+
+test('concurrent move operations', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+
+  // Simulate concurrent operations (though in reality they'd be serialized)
+  const promises = [
+    executeKanbanCommand('move_up', ['todo-3'], context),
+    executeKanbanCommand('move_down', ['todo-2'], context),
+    executeKanbanCommand('move_up', ['progress-2'], context),
+  ];
+
+  const results = await Promise.all(promises);
+
+  // All operations should succeed
+  results.forEach((result) => {
+    t.is(result.exitCode, 0);
+  });
+
+  // Verify board is still in a valid state
+  const { loadBoard } = await import('../../lib/kanban.js');
+  const board = await loadBoard(context.boardFile, context.tasksDir);
+  t.truthy(board);
+
+  // Verify no duplicate tasks
+  const allUuids = board.columns.flatMap((col) => col.tasks.map((task) => task.uuid));
+  const uniqueUuids = new Set(allUuids);
+  t.is(allUuids.length, uniqueUuids.size, 'No duplicate tasks should exist');
+});

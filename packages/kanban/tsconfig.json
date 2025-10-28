@@ -1,11 +1,18 @@
 {
   "extends": "../../config/tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "dist",
     "rootDir": "src",
-    "declaration": true,
-    "sourceMap": true,
-    "strict": true
+    "outDir": "dist",
+    "composite": true,
+    "skipLibCheck": true
   },
-  "include": ["src/**.ts"]
+  "include": ["src"],
+  "references": [
+    {
+      "path": "../markdown"
+    },
+    {
+      "path": "../lmdb-cache"
+    }
+  ]
 }

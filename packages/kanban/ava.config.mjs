@@ -1,6 +1,9 @@
-export default {
-  files: ['src/tests/**/*.test.ts'],
-  extensions: { ts: 'module' },
-  nodeArguments: ['--import=tsx'],
-  timeout: '30s',
+import baseConfig from '../../config/ava.config.mjs';
+
+// Override files pattern to exclude Playwright tests
+const kanbanConfig = {
+  ...baseConfig,
+  files: [...baseConfig.files.filter((pattern) => !pattern.includes('dark-mode-ui'))],
 };
+
+export default kanbanConfig;

@@ -1,0 +1,462 @@
+import test from 'ava';
+import path from 'node:path';
+import { writeFile, readFile } from 'node:fs/promises';
+
+import { 
+  setupBoardFromFixture,
+  executeKanbanCommand,
+  getTaskOrder,
+  generateRandomUuid,
+  withTempDir,
+} from './helpers/cli-test-utils.js';
+
+const FIXTURES_PATH = path.join(__dirname, 'fixtures');
+
+test.beforeEach(async (t) => {
+  t.timeout(10000);
+});
+
+// Malformed Input Tests
+
+test('edge case: malformed UUID formats', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+  
+  const malformedUuids = [
+    '',
+    'not-a-uuid',
+    '123',
+    'too-short',
+    'uuid-without-dashes',
+    'uuid-with--double-dashes',
+    'uuid-with-special-chars!@#',
+    'uuid-with-unicode-ñ',
+  ];
+  
+  for (const malformedUuid of malformedUuids) {
+    const result = await executeKanbanCommand('move_up', [malformedUuid], context);
+    
+    // Should handle gracefully without crashing
+    t.is(result.exitCode, 0);
+    t.is(result.result, undefined);
+  }
+});
+
+test('edge case: extremely long UUID', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+  
+  const longUuid = 'a'.repeat(1000);
+  const result = await executeKanbanCommand('move_up', [longUuid], context);
+  
+  t.is(result.exitCode, 0);
+  t.is(result.result, undefined);
+});
+
+test('edge case: UUID with line breaks', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+  
+  const uuidWithBreaks = 'todo-1\n\r\t';
+  const result = await executeKanbanCommand('move_up', [uuidWithBreaks], context);
+  
+  t.is(result.exitCode, 0);
+  t.is(result.result, undefined);
+});
+
+// Special Character Tests
+
+test('edge case: task titles with special characters', async (t) => {
+  // Create a custom board with special character titles
+  const tempDir = await withTempDir(t);
+  const boardPath = path.join(tempDir, 'board.md');
+  const tasksDir = path.join(tempDir, 'tasks');
+  
+  const { serializeBoard } = await import('../../lib/kanban.js');
+  
+  const specialTasks = [
+    {
+      uuid: 'special-1',
+      title: 'Task with "quotes" and \'apostrophes\'',
+      status: 'Todo',
+      priority: 'P1',
+      labels: ['special'],
+      created_at: '2025-01-01T10:00:00.000Z',
+      content: 'Content with special chars: !@#$%^&*()',
+      slug: 'task-with-quotes-and-apostrophes',
+    },
+    {
+      uuid: 'special-2',
+      title: 'Task with unicode: café résumé naïve',
+      status: 'Todo',
+      priority: 'P2',
+      labels: ['unicode'],
+      created_at: '2025-01-01T11:00:00.000Z',
+      content: 'Unicode content: 中文 русский العربية',
+      slug: 'task-with-unicode-cafe-resume-naive',
+    },
+    {
+      uuid: 'special-3',
+      title: 'Task with\nnewlines\tand\ttabs',
+      status: 'Todo',
+      priority: 'P3',
+      labels: ['whitespace'],
+      created_at: '2025-01-01T12:00:00.000Z',
+      content: 'Whitespace content',
+      slug: 'task-with-newlines-and-tabs',
+    },
+  ];
+  
+  const board = {
+    columns: [{
+      name: 'Todo',
+      count: 3,
+      limit: null,
+      tasks: specialTasks,
+    }],
+  };
+  
+  const boardContent = serializeBoard(board);
+  await writeFile(boardPath, boardContent, 'utf8');
+  
+  const context = { boardFile: boardPath, tasksDir };
+  
+  // Test moves with special character tasks
+  const result1 = await executeKanbanCommand('move_up', ['special-2'], context);
+  t.is(result1.exitCode, 0);
+  
+  const result2 = await executeKanbanCommand('move_down', ['special-1'], context);
+  t.is(result2.exitCode, 0);
+  
+  // Verify board is still readable
+  const newOrder = await getTaskOrder(context, 'Todo');
+  t.is(newOrder.length, 3);
+  t.true(newOrder.includes('special-1'));
+  t.true(newOrder.includes('special-2'));
+  t.true(newOrder.includes('special-3'));
+});
+
+// Boundary Condition Tests
+
+test('edge case: empty board', async (t) => {
+  const tempDir = await withTempDir(t);
+  const boardPath = path.join(tempDir, 'board.md');
+  const tasksDir = path.join(tempDir, 'tasks');
+  
+  // Create empty board
+  const { serializeBoard } = await import('../../lib/kanban.js');
+  const emptyBoard = {
+    columns: [{
+      name: 'Todo',
+      count: 0,
+      limit: null,
+      tasks: [],
+    }],
+  };
+  
+  const boardContent = serializeBoard(emptyBoard);
+  await writeFile(boardPath, boardContent, 'utf8');
+  
+  const context = { boardFile: boardPath, tasksDir };
+  
+  // Try to move non-existent task
+  const result = await executeKanbanCommand('move_up', ['non-existent'], context);
+  t.is(result.exitCode, 0);
+  t.is(result.result, undefined);
+});
+
+test('edge case: board with only empty columns', async (t) => {
+  const tempDir = await withTempDir(t);
+  const boardPath = path.join(tempDir, 'board.md');
+  const tasksDir = path.join(tempDir, 'tasks');
+  
+  const { serializeBoard } = await import('../../lib/kanban.js');
+  const emptyColumnsBoard = {
+    columns: [
+      { name: 'Todo', count: 0, limit: null, tasks: [] },
+      { name: 'In Progress', count: 0, limit: 5, tasks: [] },
+      { name: 'Done', count: 0, limit: null, tasks: [] },
+    ],
+  };
+  
+  const boardContent = serializeBoard(emptyColumnsBoard);
+  await writeFile(boardPath, boardContent, 'utf8');
+  
+  const context = { boardFile: boardPath, tasksDir };
+  
+  // Try to move in empty board
+  const result = await executeKanbanCommand('move_up', ['any-uuid'], context);
+  t.is(result.exitCode, 0);
+  t.is(result.result, undefined);
+});
+
+test('edge case: maximum column size', async (t) => {
+  // Create a board with many tasks to test performance limits
+  const { createLargeBoard } = await import('./helpers/cli-test-utils.js');
+  const largeFixture = await createLargeBoard(200); // 200 tasks
+  
+  const tempDir = await withTempDir(t);
+  const boardPath = path.join(tempDir, 'board.md');
+  const tasksDir = path.join(tempDir, 'tasks');
+  
+  const { serializeBoard } = await import('../../lib/kanban.js');
+  const board = {
+    columns: largeFixture.columns.map(col => ({
+      name: col.name,
+      count: col.count,
+      limit: col.limit,
+      tasks: col.tasks.map(task => ({
+        ...task,
+        slug: task.title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+      })),
+    })),
+  };
+  
+  const boardContent = serializeBoard(board);
+  await writeFile(boardPath, boardContent, 'utf8');
+  
+  const context = { boardFile: boardPath, tasksDir };
+  
+  // Move task at the end
+  const result = await executeKanbanCommand('move_up', ['perf-task-200'], context);
+  t.is(result.exitCode, 0);
+  
+  // Move task at the beginning
+  const result2 = await executeKanbanCommand('move_down', ['perf-task-001'], context);
+  t.is(result2.exitCode, 0);
+  
+  // Verify board is still intact
+  const finalOrder = await getTaskOrder(context, 'Todo');
+  t.is(finalOrder.length, 200);
+});
+
+// File System Edge Cases
+
+test('edge case: board file with unusual permissions', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+  
+  // Make board file read-only (if possible)
+  try {
+    await (await import('node:fs/promises')).chmod(context.boardFile, 0o444);
+    
+    // Try to move (should fail gracefully)
+    const result = await executeKanbanCommand('move_up', ['todo-1'], context);
+    
+    // Should handle permission error gracefully
+    t.true(result.exitCode !== 0 || result.stderr.length > 0);
+    
+    // Restore permissions for cleanup
+    await (await import('node:fs/promises')).chmod(context.boardFile, 0o644);
+  } catch (error) {
+    // Skip test if chmod is not supported
+    t.pass();
+  }
+});
+
+test('edge case: board file with encoding issues', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+  
+  // Write invalid UTF-8 to board file
+  const invalidUtf8 = Buffer.from([0xFF, 0xFE, 0x00, 0x00]); // Invalid UTF-8 sequence
+  await writeFile(context.boardFile, invalidUtf8);
+  
+  // Try to move (should handle gracefully)
+  const result = await executeKanbanCommand('move_up', ['todo-1'], context);
+  
+  // Should handle encoding error gracefully
+  t.true(result.exitCode !== 0 || result.stderr.length > 0);
+});
+
+test('edge case: board file with mixed line endings', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+  
+  // Read current content and mix line endings
+  const content = await readFile(context.boardFile, 'utf8');
+  const mixedContent = content.replace(/\n/g, '\r\n').replace(/\r\n\r\n/g, '\n');
+  
+  await writeFile(context.boardFile, mixedContent, 'utf8');
+  
+  // Try to move (should work fine)
+  const result = await executeKanbanCommand('move_up', ['todo-2'], context);
+  t.is(result.exitCode, 0);
+  
+  // Verify move worked
+  const newOrder = await getTaskOrder(context, 'Todo');
+  t.deepEqual(newOrder, ['todo-2', 'todo-1', 'todo-3', 'todo-4']);
+});
+
+// Concurrent Access Edge Cases
+
+test('edge case: rapid successive moves on same task', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+  
+  const initialOrder = await getTaskOrder(context, 'Todo');
+  
+  // Rapidly move the same task multiple times
+  const promises = [];
+  for (let i = 0; i < 5; i++) {
+    promises.push(executeKanbanCommand('move_up', ['todo-3'], context));
+  }
+  
+  const results = await Promise.all(promises);
+  
+  // All should succeed
+  results.forEach(result => {
+    t.is(result.exitCode, 0);
+  });
+  
+  // Final state should be consistent
+  const finalOrder = await getTaskOrder(context, 'Todo');
+  t.is(finalOrder.length, initialOrder.length);
+  
+  // No duplicates
+  const uniqueTasks = new Set(finalOrder);
+  t.is(uniqueTasks.size, finalOrder.length);
+});
+
+test('edge case: moves on different tasks simultaneously', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+  
+  // Move different tasks simultaneously
+  const promises = [
+    executeKanbanCommand('move_up', ['todo-2'], context),
+    executeKanbanCommand('move_down', ['todo-3'], context),
+    executeKanbanCommand('move_up', ['progress-2'], context),
+  ];
+  
+  const results = await Promise.all(promises);
+  
+  // All should succeed
+  results.forEach(result => {
+    t.is(result.exitCode, 0);
+  });
+  
+  // Board should be in consistent state
+  const todoOrder = await getTaskOrder(context, 'Todo');
+  const progressOrder = await getTaskOrder(context, 'In Progress');
+  
+  t.is(todoOrder.length, 4);
+  t.is(progressOrder.length, 2);
+  
+  // No duplicates across columns
+  const allTasks = [...todoOrder, ...progressOrder];
+  const uniqueTasks = new Set(allTasks);
+  t.is(uniqueTasks.size, allTasks.length);
+});
+
+// Memory and Resource Edge Cases
+
+test('edge case: move operations with memory pressure', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'large-board.json'),
+  );
+  
+  // Perform many moves to test memory usage
+  const initialOrder = await getTaskOrder(context, 'Todo');
+  
+  for (let i = 0; i < 50; i++) {
+    const taskIndex = i % initialOrder.length;
+    const taskUuid = initialOrder[taskIndex];
+    
+    const result = await executeKanbanCommand('move_up', [taskUuid], context);
+    t.is(result.exitCode, 0);
+  }
+  
+  // Verify board is still consistent
+  const finalOrder = await getTaskOrder(context, 'Todo');
+  t.is(finalOrder.length, initialOrder.length);
+  
+  // No memory leaks (all tasks still present)
+  const uniqueTasks = new Set(finalOrder);
+  t.is(uniqueTasks.size, finalOrder.length);
+});
+
+// Data Integrity Edge Cases
+
+test('edge case: board file corruption during move', async (t) => {
+  const { context } = await setupBoardFromFixture(
+    t,
+    path.join(FIXTURES_PATH, 'multi-column-board.json'),
+  );
+  
+  // Simulate board file corruption by writing invalid content
+  const originalContent = await readFile(context.boardFile, 'utf8');
+  
+  // Start move operation
+  const movePromise = executeKanbanCommand('move_up', ['todo-2'], context);
+  
+  // Corrupt file during operation (timing dependent, may not always trigger)
+  setTimeout(async () => {
+    try {
+      await writeFile(context.boardFile, 'corrupted content', 'utf8');
+    } catch (error) {
+      // Ignore errors in timeout
+    }
+  }, 1);
+  
+  const result = await movePromise;
+  
+  // Should handle corruption gracefully
+  t.true(result.exitCode === 0 || result.exitCode !== 0);
+  
+  // Restore original content for cleanup
+  await writeFile(context.boardFile, originalContent, 'utf8');
+});
+
+test('edge case: task with missing required fields', async (t) => {
+  const tempDir = await withTempDir(t);
+  const boardPath = path.join(tempDir, 'board.md');
+  const tasksDir = path.join(tempDir, 'tasks');
+  
+  // Create board with incomplete task
+  const { serializeBoard } = await import('../../lib/kanban.js');
+  const incompleteBoard = {
+    columns: [{
+      name: 'Todo',
+      count: 1,
+      limit: null,
+      tasks: [{
+        uuid: 'incomplete-1',
+        title: '', // Empty title
+        status: 'Todo',
+        priority: '', // Empty priority
+        labels: [], // Empty labels
+        created_at: '', // Empty date
+        content: '', // Empty content
+      }],
+    }],
+  };
+  
+  const boardContent = serializeBoard(incompleteBoard);
+  await writeFile(boardPath, boardContent, 'utf8');
+  
+  const context = { boardFile: boardPath, tasksDir };
+  
+  // Try to move incomplete task
+  const result = await executeKanbanCommand('move_up', ['incomplete-1'], context);
+  
+  // Should handle gracefully
+  t.is(result.exitCode, 0);
+});

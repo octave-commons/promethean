@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "src/tests/move-commands-basic.test.ts",
+    "src/cli/command-handlers.ts",
+    "src/test-utils/helpers.ts",
+    "src/**/*.ts"
+  ]
+}

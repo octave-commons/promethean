@@ -1,0 +1,46 @@
+{
+  "entryPoints": [
+    "src/index.ts",
+    "src/lib/dev-server.ts",
+    "src/lib/file-watcher.ts",
+    "src/lib/git-sync.ts",
+    "src/lib/ui-server.ts"
+  ],
+  "out": "docs",
+  "name": "Promethean Kanban",
+  "includeVersion": true,
+  "excludeInternal": true,
+  "excludePrivate": true,
+  "excludeNotDocumented": true,
+  "plugin": ["typedoc-plugin-markdown"],
+  "readme": "README.md",
+  "theme": "markdown",
+  "gitRevision": "main",
+  "sort": ["source-order"],
+  "categoryOrder": [
+    "Development Server",
+    "File Watching",
+    "Git Synchronization",
+    "UI Server",
+    "*"
+  ],
+  "categorizeByGroup": true,
+  "defaultCategory": "Other",
+  "kindSortOrder": [
+    "Class",
+    "Interface",
+    "TypeAlias",
+    "Variable",
+    "Function",
+    "Enum",
+    "Namespace"
+  ],
+  "excludeExternals": true,
+  "hideGenerator": true,
+  "disableSources": false,
+  "sourceLinkTemplate": "https://github.com/promethean-ai/promethean/blob/{gitRevision}/{path}#L{line}",
+  "navigation": {
+    "includeCategories": true,
+    "includeGroups": true
+  }
+}
