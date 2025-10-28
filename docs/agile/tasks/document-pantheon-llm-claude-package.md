@@ -2,7 +2,7 @@
 uuid: 'std-doc-claude-001'
 title: 'Document pantheon-llm-claude Package to Gold Standard'
 slug: 'document-pantheon-llm-claude-package'
-status: 'ready'
+status: 'breakdown'
 priority: 'P1'
 storyPoints: 8
 lastCommitSha: 'pending'

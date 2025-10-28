@@ -310,6 +310,7 @@ kanban-plugin: board
 - [ ] [[consolidate-api-routes-endpoints|Consolidate API Routes and Endpoints]] #api #routes #consolidation #endpoints #epic2 prio:P0 (uuid:585294ed-b77b-4d36-bb77-8b0f6f1e6ac0)
 - [ ] [[consolidate-web-ui-components|Consolidate Web UI Components]] #web-ui #components #consolidation #frontend #epic4 prio:P2 (uuid:4e361de9-a61d-44df-bc9f-50ad3ab33724)
 - [ ] [[design-unified-package-architecture|Design Unified Package Architecture]] #architecture #consolidation #design #foundation #epic1 prio:P0 (uuid:5a7949c6-07c8-44bf-95e9-5ef4ded69ec6)
+- [ ] [[document-pantheon-llm-claude-package|Document pantheon-llm-claude Package to Gold Standard]] #pantheon #documentation #claude #jsdoc #medium-priority prio:P1 (uuid:std-doc-claude-001)
 - [ ] [[establish-unified-build-system|Establish Unified Build System]] #build-system #consolidation #tooling #foundation #epic1 prio:P0 (uuid:e56b48d5-ae37-414b-afda-146f5affa492)
 - [ ] [[fix-jwt-security-issues-pantheon|Fix JWT Security Issues in Pantheon Packages]] #pantheon #security #jwt #authentication #critical prio:P0 (uuid:jwt-security-pantheon-001)
 - [ ] [[merge-session-messaging-systems|Merge Session and Messaging Systems]] #sessions #messaging #consolidation #communication #epic3 prio:P0 (uuid:bc67bd50-c96c-4eba-8832-fa459caa864c)
@@ -321,12 +322,10 @@ kanban-plugin: board
 
 ## ready
 
-- [ ] [[2025.10.16.06.00.46-agent-workflow-enhancement-healing-integration|Agent Workflow Enhancement & Healing Integration]] #agents #workflow #healing #automation #monitoring #coordination #kanban #integration prio:P1 (uuid:39e0890b-e7bd-45eb-88ff-292157d0cf54)
 - [ ] [[Add BuildFix process timeout handling]] #buildfix #critical #timeout #provider prio:P0 (uuid:e02ca039-c992-431d-81ff-bdabddb2502d)
 - [ ] [[BuildFix Provider Optimization Epic]] #buildfix #epic #optimization #provider prio:P0 (uuid:8ec5fd9d-f58a-46a1-abd2-da4f56b2ffa7)
 - [ ] [[BuildFix Success Rate Improvement Epic]] #buildfix #epic #success-rate #functionality prio:P0 (uuid:6f392c81-d71b-48d9-ba68-1ff13ae8d0c4)
 - [ ] [[Create DirectoryAdapter for task file operations]] #directoryadapter #create #file #operations prio:P0 (uuid:d01ed682-a571-441b-a550-d1de3957c523)
-- [ ] [[Fix BuildFix path resolution logic duplication]] #buildfix #critical #bug #provider prio:P0 (uuid:fc5dc875-cd6c-47fb-b02b-56138c06b2fb)
 - [ ] [[Fix misleading BuildFix error recovery]] #buildfix #critical #error-handling #provider prio:P0 (uuid:4fd0188e-177f-4f7a-8a12-4ec3178f6690)
 - [ ] [[P0-Input-Validation-Integration-Subtasks 2|P0: Comprehensive Input Validation Integration - Subtask Breakdown]] #security #critical #input-validation #integration #framework #process-violation prio:P0 (uuid:21d9d487-815f-4763-a10a-0cec7988aef3)
 - [ ] [[P0-Input-Validation-Integration-Subtasks 3|P0: Comprehensive Input Validation Integration - Subtask Breakdown]] #security #critical #input-validation #integration #framework #process-violation prio:P0 (uuid:b680fc26-bd24-4c6f-985c-a111eba109f9)
@@ -343,7 +342,6 @@ kanban-plugin: board
 - [ ] [[Integrate Configuration Validation Across Pantheon Packages (Phase 3)]] #pantheon #configuration #integration #migration #validation prio:P1 (uuid:config-validation-integration-003)
 - [ ] [[Define Configuration Schemas for Pantheon Packages (Phase 2)]] #pantheon #configuration #schemas #zod #validation prio:P1 (uuid:config-validation-schemas-002)
 - [ ] [[document-pantheon-core-package|Document pantheon-core Package to Gold Standard]] #pantheon #documentation #core #jsdoc #high-priority prio:P1 (uuid:std-doc-core-001)
-- [ ] [[document-pantheon-llm-claude-package|Document pantheon-llm-claude Package to Gold Standard]] #pantheon #documentation #claude #jsdoc #medium-priority prio:P1 (uuid:std-doc-claude-001)
 - [ ] [[document-pantheon-mcp-package|Document pantheon-mcp Package to Gold Standard]] #pantheon #documentation #mcp #jsdoc #high-priority prio:P1 (uuid:std-doc-mcp-001)
 - [ ] [[error-handling-phase-1-core-framework|Phase 1: Enhance Core Error Framework]] #pantheon #error-handling #phase-1 #core-framework prio:P1 (uuid:error-handling-pantheon-001-phase-1)
 - [ ] [[error-handling-phase-2-persistence|Phase 2: Standardize Error Handling in pantheon-persistence]] #pantheon #error-handling #phase-2 #persistence prio:P1 (uuid:error-handling-pantheon-001-phase-2)
@@ -361,6 +359,7 @@ kanban-plugin: board
 
 ## todo
 
+- [ ] [[2025.10.16.06.00.46-agent-workflow-enhancement-healing-integration|Agent Workflow Enhancement & Healing Integration]] #agents #workflow #healing #automation #monitoring #coordination #kanban #integration prio:P1 (uuid:39e0890b-e7bd-45eb-88ff-292157d0cf54)
 - [ ] [[20251011235236|Extend Git Sync for Heal Operations]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #git-workflow #git-sync #phase-1 prio:P1 (uuid:4e88db40-884c-4aed-8412-3de9fd78bd02)
 - [ ] [[create-taskai-manager-comprehensive-documentation|Create TaskAIManager Comprehensive Documentation Suite]] #documentation #ai-integration #kanban #developer-experience prio:P1 (uuid:28c0e516-42f3-4ec3-a9f1-c36fd3807c12)
 - [ ] [[fix-taskai-manager-environment-pollution|Fix TaskAIManager Environment Variable Pollution - Security Issue]] #critical #security #bugfix #ai-integration #environment prio:P0 (uuid:4c8575db-873a-4b28-839d-ac0ea609a8be)
@@ -488,6 +487,7 @@ kanban-plugin: board
 ## in_review
 
 - [ ] [[2025.10.08.23.58.30-expand-utils-retry-tests|Task f9bc9fe0]] #retry #testing #utils prio:P3 (uuid:f9bc9fe0-8ee2-4ab9-8790-31f60b6680ac)
+- [ ] [[Fix BuildFix path resolution logic duplication]] #buildfix #critical #bug #provider prio:P0 (uuid:fc5dc875-cd6c-47fb-b02b-56138c06b2fb)
 - [ ] [[Fix Kanban Column Underscore Normalization Bug]] #kanban #column #bug #fix prio:P0 (uuid:02c78938-cf9c-45a0-b5ff-6e7a212fb043)
 - [ ] [[cephalon_feature_flag_path_selection|cephalon feature flag path selection]] #cephalon #feature #flag #path prio:P3 (uuid:1bb6f2f2-bcca-4365-aa6f-7cab3cdf8269)
 
