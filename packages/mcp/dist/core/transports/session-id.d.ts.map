@@ -1,0 +1,1 @@
+{"version":3,"file":"session-id.d.ts","sourceRoot":"","sources":["../../../src/core/transports/session-id.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,MAAM,MAAM,aAAa,CAAC;AAEtC,KAAK,YAAY,GAAG,QAAQ,CAAC,IAAI,CAAC,OAAO,MAAM,EAAE,YAAY,GAAG,aAAa,CAAC,CAAC,CAAC;AAIhF,KAAK,kBAAkB,GAAG,MAAM,MAAM,CAAC;AAgCvC,eAAO,MAAM,wBAAwB,GACnC,cAAc,YAAY,KACzB,kBAQF,CAAC"}

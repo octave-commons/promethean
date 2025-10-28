@@ -1,0 +1,1 @@
+{"version":3,"file":"collectionInfo.d.ts","sourceRoot":"","sources":["../../../src/actions/context-store/collectionInfo.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,mBAAmB,EAAE,MAAM,YAAY,CAAC;AAEtD,eAAO,MAAM,eAAe,GAAI,cAAc,mBAAmB,KAAG,MAA6C,CAAC;AAElH,eAAO,MAAM,mBAAmB,GAAI,cAAc,mBAAmB,KAAG,SAAS,MAAM,EAClC,CAAC"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"getOrCreateCollection.d.ts","sourceRoot":"","sources":["../../../src/actions/context-store/getOrCreateCollection.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EACR,mBAAmB,EACnB,2BAA2B,EAC3B,WAAW,EACX,gBAAgB,EACnB,MAAM,YAAY,CAAC;AAIpB,eAAO,MAAM,qBAAqB,GAC9B,QAAQ,2BAA2B,EACnC,cAAc,mBAAmB,KAClC,OAAO,CAAC,WAAW,CAAC,gBAAgB,CAAC,CAmBvC,CAAC"}

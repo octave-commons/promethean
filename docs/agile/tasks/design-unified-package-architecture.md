@@ -1,15 +1,15 @@
 ---
-uuid: "5a7949c6-07c8-44bf-95e9-5ef4ded69ec6"
-title: "Design Unified Package Architecture"
-slug: "design-unified-package-architecture"
-status: "breakdown"
-priority: "P0"
-labels: ["architecture", "consolidation", "design", "foundation", "epic1"]
-created_at: "2025-10-18T00:00:00.000Z"
+uuid: '5a7949c6-07c8-44bf-95e9-5ef4ded69ec6'
+title: 'Design Unified Package Architecture'
+slug: 'design-unified-package-architecture'
+status: 'breakdown'
+priority: 'P0'
+labels: ['architecture', 'consolidation', 'design', 'foundation', 'epic1']
+created_at: '2025-10-18T00:00:00.000Z'
 estimates:
-  complexity: ""
-  scale: ""
-  time_to_completion: ""
+  complexity: '3'
+  scale: 'medium'
+  time_to_completion: '2 sessions'
 ---
 
 ## 🏗️ Design Unified Package Architecture

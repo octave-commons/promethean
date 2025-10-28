@@ -55,17 +55,34 @@ export {
   makeCompletePantheonSystem,
 } from './adapters/index.js';
 
-// Actors
+// Actions
 export {
   createLLMActor,
   createToolActor,
   createCompositeActor,
-  createActorFromTemplate,
-  validateActorScript,
   type LLMActorConfig,
   type ToolActorConfig,
   type CompositeActorConfig,
-} from './actors/index.js';
+} from './actions/actors/index.js';
+
+// Factories
+export {
+  type LLMActorDependencies,
+  type ToolActorDependencies,
+  type CompositeActorDependencies,
+  createLLMActorWithDependencies,
+  createToolActorWithDependencies,
+  createCompositeActorWithDependencies,
+} from './factories/index.js';
+
+// Serializers
+export {
+  createMockTokenExpiredError,
+  createMockJsonWebTokenError,
+  serializeJWTPayload,
+  deserializeJWTPayload,
+  decodeJWTPayload,
+} from './serializers/index.js';
 
 // Utilities
 export {

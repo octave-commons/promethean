@@ -4,12 +4,14 @@ title: 'Standardize Configuration Validation Across Pantheon Packages'
 slug: 'standardize-configuration-validation-pantheon'
 status: 'breakdown'
 priority: 'P1'
-storyPoints: 34
+storyPoints: 13
 lastCommitSha: 'pending'
 labels: ['pantheon', 'configuration', 'validation', 'standardization', 'quality']
 created_at: '2025-10-26T18:20:00Z'
 estimates:
-  complexity: 'medium'
+  complexity: '13'
+  scale: 'epic'
+  time_to_completion: '6 sessions'
 ---
 
 # Standardize Configuration Validation Across Pantheon Packages

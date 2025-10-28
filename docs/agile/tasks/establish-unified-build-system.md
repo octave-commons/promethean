@@ -1,15 +1,15 @@
 ---
-uuid: "e56b48d5-ae37-414b-afda-146f5affa492"
-title: "Establish Unified Build System"
-slug: "establish-unified-build-system"
-status: "breakdown"
-priority: "P0"
-labels: ["build-system", "consolidation", "tooling", "foundation", "epic1"]
-created_at: "2025-10-18T00:00:00.000Z"
+uuid: 'e56b48d5-ae37-414b-afda-146f5affa492'
+title: 'Establish Unified Build System'
+slug: 'establish-unified-build-system'
+status: 'breakdown'
+priority: 'P0'
+labels: ['build-system', 'consolidation', 'tooling', 'foundation', 'epic1']
+created_at: '2025-10-18T00:00:00.000Z'
 estimates:
-  complexity: ""
-  scale: ""
-  time_to_completion: ""
+  complexity: '3'
+  scale: 'medium'
+  time_to_completion: '2 sessions'
 ---
 
 ## 🔨 Establish Unified Build System

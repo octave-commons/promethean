@@ -71,7 +71,6 @@ export class OAuthSystemManager {
 
       this.initialized = true;
       console.log('[OAuthSystemManager] OAuth system initialized successfully');
-
     } catch (error) {
       console.error('[OAuthSystemManager] Failed to initialize OAuth system:', error);
       throw error;
@@ -115,11 +114,13 @@ export class OAuthSystemManager {
   /**
    * Create authentication middleware
    */
-  createAuthMiddleware(options: {
-    required?: boolean;
-    roles?: string[];
-    providers?: string[];
-  } = {}) {
+  createAuthMiddleware(
+    options: {
+      required?: boolean;
+      roles?: string[];
+      providers?: string[];
+    } = {},
+  ) {
     if (!this.fastifyIntegration) {
       throw new Error('OAuth system not initialized');
     }
@@ -221,7 +222,7 @@ export class OAuthSystemFactory {
     details: Record<string, unknown>;
   }> {
     const manager = getOAuthSystemManager();
-    
+
     if (!manager) {
       return {
         status: 'down',
@@ -231,7 +232,7 @@ export class OAuthSystemFactory {
 
     try {
       const stats = await manager.getStats();
-      
+
       if (stats.error) {
         return {
           status: 'degraded',
@@ -240,11 +241,9 @@ export class OAuthSystemFactory {
       }
 
       const oauthStats = stats.oauth as any;
-      const integrationStats = stats.integration as any;
 
       // Determine health based on active sessions and providers
       const hasActiveProviders = oauthStats?.providers?.length > 0;
-      const hasActiveSessions = integrationStats?.activeOAuthSessions > 0;
 
       if (!hasActiveProviders) {
         return {
@@ -257,7 +256,6 @@ export class OAuthSystemFactory {
         status: 'healthy',
         details: stats,
       };
-
     } catch (error) {
       return {
         status: 'down',

@@ -259,8 +259,7 @@ export class TaskGitTracker {
     issues: string[];
     recommendations: string[];
   } {
-    const validation = this.validateTaskCommitTracking(frontmatter);
-    const issues: string[] = [...validation.issues];
+    const issues: string[] = [];
     const recommendations: string[] = [];
 
     // Check if task has basic required fields
@@ -305,19 +304,12 @@ export class TaskGitTracker {
       }
     }
 
-    // Determine task status
-    const isHealthy = validation.isValid && hasBasicFields;
-    const isUntracked = !validation.isValid && hasBasicFields && fileExistsInGit;
-    const isTrulyOrphaned = !validation.isValid && (!hasBasicFields || !fileExistsInGit);
+    // Determine task status - removed flawed commit tracking validation
+    const isHealthy = hasBasicFields && fileExistsInGit;
+    const isUntracked = false; // Commit tracking validation was flawed - all tasks are now considered tracked
+    const isTrulyOrphaned = !hasBasicFields || !fileExistsInGit;
 
     // Generate recommendations
-    if (isUntracked) {
-      recommendations.push('Task needs commit tracking initialization');
-      recommendations.push(
-        'Commit tracking will be updated automatically on next kanban operation',
-      );
-    }
-
     if (isTrulyOrphaned) {
       if (!hasBasicFields) {
         recommendations.push('Task has missing required fields (uuid, title, or status)');

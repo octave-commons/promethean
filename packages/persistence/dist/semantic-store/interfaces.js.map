@@ -1,0 +1,1 @@
+{"version":3,"file":"interfaces.js","sourceRoot":"","sources":["../../src/semantic-store/interfaces.ts"],"names":[],"mappings":"AAkLA;;GAEG;AACH,MAAM,OAAO,kBAAmB,SAAQ,KAAK;IAGrB;IAFpB,YACI,OAAe,EACC,OAKf;QAED,KAAK,CAAC,OAAO,CAAC,CAAC;QAPC,YAAO,GAAP,OAAO,CAKtB;QAGD,IAAI,CAAC,IAAI,GAAG,oBAAoB,CAAC;IACrC,CAAC;CACJ"}

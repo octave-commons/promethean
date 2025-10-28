@@ -2,8 +2,8 @@
 uuid: 'std-doc-mcp-001'
 title: 'Document pantheon-mcp Package to Gold Standard'
 slug: 'document-pantheon-mcp-package'
-status: 'ready'
-priority: 'P1'
+status: 'incoming'
+priority: 'P0'
 storyPoints: 13
 lastCommitSha: 'pending'
 labels: ['pantheon', 'documentation', 'mcp', 'jsdoc', 'high-priority']
@@ -16,7 +16,9 @@ estimates:
 
 ## Description
 
-Apply pantheon-persistence documentation standard to pantheon-mcp package. This package has minimal documentation and some syntax errors that need fixing before documentation can be applied.
+**CRITICAL PRIORITY UPDATE**: Code review identified this as part of major documentation gaps (D grade). Apply pantheon-persistence documentation standard to pantheon-mcp package immediately. This package has minimal documentation and some syntax errors that need fixing before documentation can be applied.
+
+**Code Review Impact**: This task addresses critical documentation gaps that severely impact developer experience and code maintainability.
 
 ## Scope
 

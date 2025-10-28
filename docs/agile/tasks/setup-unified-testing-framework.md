@@ -1,15 +1,15 @@
 ---
-uuid: "bd317cc6-e645-4343-9f56-d927d9763cb1"
-title: "Set Up Unified Testing Framework"
-slug: "setup-unified-testing-framework"
-status: "breakdown"
-priority: "P1"
-labels: ["testing", "framework", "consolidation", "quality", "epic1"]
-created_at: "2025-10-18T00:00:00.000Z"
+uuid: 'bd317cc6-e645-4343-9f56-d927d9763cb1'
+title: 'Set Up Unified Testing Framework'
+slug: 'setup-unified-testing-framework'
+status: 'breakdown'
+priority: 'P1'
+labels: ['testing', 'framework', 'consolidation', 'quality', 'epic1']
+created_at: '2025-10-18T00:00:00.000Z'
 estimates:
-  complexity: ""
-  scale: ""
-  time_to_completion: ""
+  complexity: '5'
+  scale: 'medium'
+  time_to_completion: '3 sessions'
 ---
 
 ## 🧪 Set Up Unified Testing Framework

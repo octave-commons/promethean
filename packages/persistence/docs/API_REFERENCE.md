@@ -638,7 +638,7 @@ const collections = {
 ### Basic Setup
 
 ```typescript
-import { createUnifiedIndexerService, createCrossDomainSearchEngine } from '@promethean-os/persistence';
+import { createUnifiedIndexerService, createCrossDomainSearchEngine } from '@promethean-os/unified-indexer';
 
 // Create service
 const config = {

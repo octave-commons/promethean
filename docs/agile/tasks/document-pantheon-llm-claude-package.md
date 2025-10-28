@@ -2,14 +2,16 @@
 uuid: 'std-doc-claude-001'
 title: 'Document pantheon-llm-claude Package to Gold Standard'
 slug: 'document-pantheon-llm-claude-package'
-status: 'ready'
+status: 'breakdown'
 priority: 'P1'
 storyPoints: 8
 lastCommitSha: 'pending'
 labels: ['pantheon', 'documentation', 'claude', 'jsdoc', 'medium-priority']
 created_at: '2025-10-26T18:30:00Z'
 estimates:
-  complexity: 'medium'
+  complexity: '8'
+  scale: 'large'
+  time_to_completion: '4 sessions'
 ---
 
 # Document pantheon-llm-claude Package to Gold Standard

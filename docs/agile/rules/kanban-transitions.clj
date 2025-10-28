@@ -469,10 +469,10 @@
      (if (= (column-key to) "in_progress")
        (has-tool-env-tags? task)
        true)
-     ;; Story point validation: require story points for breakdown→ready transitions
-     (if (and (= (column-key from) "breakdown") (= (column-key to) "ready"))
-       (has-story-points? task)
-       true)
+      ;; Story point validation: require story points for breakdown→ready transitions
+      (if (and (= (column-key from) "breakdown") (= (column-key to) "ready"))
+        (or (has-story-points? task) (has-estimate? task))
+        true)
      ;; Backward transitions are always valid unless WIP violation
      (or (backward-transition? from to)
          ;; Special validation for done→review corrections

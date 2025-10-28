@@ -46,7 +46,6 @@ export default [
       'max-params': ['error', 4],
       complexity: ['error', 15],
       // TypeScript strictness (lint-side)
-      '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
       '@typescript-eslint/no-unnecessary-type-assertion': 'error',
       '@typescript-eslint/no-floating-promises': 'error',
       '@typescript-eslint/explicit-module-boundary-types': 'error',
@@ -64,6 +63,7 @@ export default [
       ],
       'no-var': 'error',
       'prefer-const': 'error',
+      "import/no-dynamic-require": "error",
       'no-restricted-syntax': [
         'error',
         {

@@ -8,7 +8,7 @@
   },
   "include": ["src/**/*"],
   "references": [
-    { "path": "../../file-system/fs" },
+    { "path": "../../fs" },
     { "path": "../../level-cache" },
     { "path": "../../ui-components" }
   ]

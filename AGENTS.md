@@ -1,3 +1,66 @@
+# AGENTS.md
+
+## Build/Lint/Test Commands
+
+**Root level (all packages):**
+- `pnpm build` - Build all packages
+- `pnpm test` - Test all packages  
+- `pnpm lint` - Lint all packages
+- `pnpm typecheck:all` - Typecheck all packages
+
+**Single package:**
+- `pnpm --filter @promethean-os/<pkg> build`
+- `pnpm --filter @promethean-os/<pkg> test`
+- `pnpm --filter @promethean-os/<pkg> lint`
+- `pnpm --filter @promethean-os/<pkg> typecheck`
+
+**Single test file:**
+- `pnpm --filter @promethean-os/<pkg> exec ava path/to/test.test.js`
+
+## Code Style Guidelines
+
+**Imports:**
+- ESM only (no require/module.exports)
+- Import order: builtin → external → internal → parent → sibling → index
+- No default exports (prefer named exports)
+- No dynamic imports
+
+**Formatting:**
+- Prettier with `pnpm format`
+- Max 300 lines per file, 50 lines per function
+- Max 4 function parameters
+- LF line endings
+
+**Types:**
+- TypeScript strict mode enabled
+- No `any` types (error)
+- Prefer readonly/immutable types
+- Explicit function return types
+- No unchecked indexed access
+
+**Naming:**
+- PascalCase for types/interfaces
+- camelCase for functions/variables
+- kebab-case for file names
+
+**Error Handling:**
+- Avoid try/catch when possible
+- Prefer Result/Either patterns
+- Use functional error handling
+
+**Forbidden:**
+- Class statements/expressions
+- `var` declarations
+- `let` statements (prefer const)
+- `else` statements (avoid when possible)
+- setTimeout in tests (use sleep from test-utils)
+
+**Testing:**
+- AVA test runner
+- Tests in `src/tests/`
+- No test code in production paths
+- Mock at module boundaries with esmock
+
 # Promethean
 
 > *“Stealing fire from the gods to grant man the gift of knowledge and wisdom.”*
@@ -27,6 +90,14 @@ pseudo/    # throwaway scripts, pseudocode, retained for transparency
 ```
 src/               # source code
 src/tests/         # test files
+src/actions/       # individual, short, functional, operations, that can be taken in response to an event/hook
+src/controllers/   # Execute actions on program inputs, produce program outputs
+src/controllers/commands/      # CLI interfaces
+src/controllers/routes/        # Restful endpoints
+src/controllers/tools/         # Individual MCP tools
+src/controllers/events/        # event handlers
+src/controllers/events/        # event handlers
+src/serializers    # take the output from actions and prepare them for dispatch to an external consumer
 tsconfig.json      # extends ../../config/tsconfig.base.json
 ava.config.mjs     # extends ../../config/ava.config.mjs
 package.json       # scripts: build, test, clean, coverage, typecheck
@@ -117,6 +188,8 @@ pnpm --filter @promethean-os/<pkg> exec node ./dist/index.ts
 * File changes auto-commit with LLM-generated messages
 * MUST ALWAYS use `pnpm --filter @promethean-os/<pkg> ...`
 * MUST NEVER use `cd ... && anything...`
+* MUST NEVER use dynamic imports.
+* MUST NEVER use class statements or expressions
 
   * No manual commits or backups needed
 * Documentation must be **Obsidian-friendly**

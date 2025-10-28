@@ -38,7 +38,7 @@
     "proxy": "tsx src/bin/proxy.ts"
   },
   "dependencies": {
-    "@fastify/cookie": "^9.2.0",
+    "@fastify/cookie": "^11.0.2",
     "@fastify/cors": "^10.0.1",
     "@fastify/static": "^7.0.4",
     "@modelcontextprotocol/sdk": "^1.17.5",
@@ -65,6 +65,10 @@
     "nock": "^14.0.10",
     "rimraf": "6.0.1",
     "tsx": "4.19.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/riatzukiza/mcp.git"
   },
   "license": "GPL-3.0-only"
 }

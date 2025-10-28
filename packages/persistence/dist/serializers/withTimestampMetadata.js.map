@@ -1,0 +1,1 @@
+{"version":3,"file":"withTimestampMetadata.js","sourceRoot":"","sources":["../../src/serializers/withTimestampMetadata.ts"],"names":[],"mappings":"AAEA,MAAM,CAAC,MAAM,qBAAqB,GAAG,CACjC,QAAuC,EACvC,GAAW,EACX,SAAiB,EACA,EAAE,CAAC,CAAC;IACrB,GAAG,QAAQ;IACX,CAAC,GAAG,CAAC,EAAE,SAAS;IAChB,SAAS,EAAE,SAAS;CACvB,CAAC,CAAC"}

@@ -8,7 +8,7 @@
 
 import type { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 import { MCPAuth, fetchServerConfig } from 'mcp-auth';
-import type { AuthServerConfig } from 'mcp-auth';
+import type { AuthServerType } from 'mcp-auth';
 
 /**
  * Fastify adapter configuration for MCP Auth
@@ -16,7 +16,7 @@ import type { AuthServerConfig } from 'mcp-auth';
 export type McpAuthFastifyConfig = Readonly<{
   readonly resourceIdentifier: string;
   readonly authServerUrl: string;
-  readonly authServerType?: 'oidc' | 'oauth2';
+  readonly authServerType?: AuthServerType;
   readonly scopesSupported?: readonly string[];
   readonly audience?: string;
 }>;
@@ -28,7 +28,7 @@ export type McpAuthFastifyConfig = Readonly<{
  * Fastify-compatible middleware and route handlers.
  */
 export class McpAuthFastifyAdapter {
-  private mcpAuth: MCPAuth;
+  private mcpAuth!: MCPAuth;
   private config: McpAuthFastifyConfig;
 
   constructor(config: McpAuthFastifyConfig) {
@@ -45,17 +45,9 @@ export class McpAuthFastifyAdapter {
         type: this.config.authServerType ?? 'oidc',
       });
 
-      // Initialize MCP Auth with resource server configuration
+      // Initialize MCP Auth with server configuration
       this.mcpAuth = new MCPAuth({
-        protectedResources: [
-          {
-            metadata: {
-              resource: this.config.resourceIdentifier,
-              authorizationServers: [authServerConfig],
-              scopesSupported: this.config.scopesSupported ?? ['read', 'write'],
-            },
-          },
-        ],
+        server: authServerConfig,
       });
 
       console.log('[McpAuthFastify] MCP Auth library initialized successfully');
@@ -151,7 +143,7 @@ export class McpAuthFastifyAdapter {
         // Use mcp-auth library to validate the token
         const bearerAuth = this.mcpAuth.bearerAuth('jwt', {
           audience,
-          requiredScopes,
+          requiredScopes: [...requiredScopes],
           showErrorDetails,
         });
 

@@ -1,15 +1,15 @@
 ---
-uuid: "4e361de9-a61d-44df-bc9f-50ad3ab33724"
-title: "Consolidate Web UI Components"
-slug: "consolidate-web-ui-components"
-status: "breakdown"
-priority: "P2"
-labels: ["web-ui", "components", "consolidation", "frontend", "epic4"]
-created_at: "2025-10-18T00:00:00.000Z"
+uuid: '4e361de9-a61d-44df-bc9f-50ad3ab33724'
+title: 'Consolidate Web UI Components'
+slug: 'consolidate-web-ui-components'
+status: 'breakdown'
+priority: 'P2'
+labels: ['web-ui', 'components', 'consolidation', 'frontend', 'epic4']
+created_at: '2025-10-18T00:00:00.000Z'
 estimates:
-  complexity: ""
-  scale: ""
-  time_to_completion: ""
+  complexity: '8'
+  scale: 'large'
+  time_to_completion: '4 sessions'
 ---
 
 ## 🌐 Consolidate Web UI Components

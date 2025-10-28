@@ -251,7 +251,7 @@ export function getAuthConfig(): AuthConfig {
     requestsPerMinute: parseInt(process.env.MCP_RATE_LIMIT_RPM || '100', 10),
     dangerousRequestsPerHour: parseInt(process.env.MCP_RATE_LIMIT_DANGEROUS_PH || '10', 10),
   };
-  config.adminIpWhitelist = process.env.MCP_ADMIN_IP_WHITELIST?.split(',');
+  config.adminIpWhitelist = process.env.MCP_ADMIN_IP_WHITELIST?.split(',') || [];
 
   // OAuth config
   if (config.oauth) {

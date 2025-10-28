@@ -5,12 +5,14 @@ import { Config } from './config.js';
 import {
   addAll,
   commit,
+  findGitRepositories,
   gitRoot,
   hasRepo,
   hasStagedChanges,
   listChangedFiles,
   repoSummary,
   stagedDiff,
+  isSubrepoDir,
 } from './git.js';
 import { chatCompletion, ChatMessage } from './llm.js';
 import { SYSTEM, USER } from './messages.js';
@@ -18,19 +20,18 @@ import { SYSTEM, USER } from './messages.js';
 /**
  * Error types for better error handling
  */
-class AutocommitError extends Error {
-  public override readonly cause?: Error;
-
-  constructor(message: string, cause?: Error) {
-    super(message);
-    this.name = 'AutocommitError';
-    this.cause = cause;
+function createAutocommitError(message: string, cause?: Error): Error {
+  const error = new Error(message);
+  error.name = 'AutocommitError';
+  if (cause) {
+    error.cause = cause;
   }
+  return error;
 }
 
 function validateConfig(config: Config): void {
   if (!config || typeof config !== 'object') {
-    throw new AutocommitError('Invalid configuration provided');
+    throw createAutocommitError('Invalid configuration provided');
   }
 }
 
@@ -181,6 +182,7 @@ function createScheduler(
   log: (msg: string) => void,
   warn: (msg: string) => void,
 ): { schedule: () => Promise<void>; cleanup: () => void } {
+  // eslint-disable-next-line functional/no-let
   let timer: NodeJS.Timeout | null = null;
 
   const cleanup = () => {
@@ -212,27 +214,39 @@ function createScheduler(
 }
 
 /**
- * Starts autocommit watcher for a git repository.
+ * Starts autocommit watcher for a single git repository.
  * @param config - Configuration object containing autocommit settings
+ * @param repoPath - Path to the git repository to watch
  * @returns Object containing cleanup function
- * @throws AutocommitError if the specified path is not a git repository
  */
-export async function start(config: Config): Promise<{ close: () => void }> {
+async function startSingleRepository(
+  config: Config,
+  repoPath: string,
+): Promise<{ close: () => void }> {
   validateConfig(config);
 
-  const cwd = config.path;
-  if (!(await hasRepo(cwd))) {
-    throw new AutocommitError(`Not a git repo: ${cwd}`);
+  const isSubrepo = await isSubrepoDir(repoPath);
+  const isGitRepo = await hasRepo(repoPath);
+
+  if (!isSubrepo && !isGitRepo) {
+    throw createAutocommitError(`Not a git repo or subrepo: ${repoPath}`);
   }
 
-  const root = await gitRoot(cwd);
+  if (isSubrepo && !config.handleSubrepos) {
+    throw createAutocommitError(`Subrepo detected but subrepo handling is disabled: ${repoPath}`);
+  }
+
+  const root = await gitRoot(repoPath);
   const { log, warn } = createLogger();
   const ignored = getIgnoredPaths(config);
 
   const { schedule, cleanup } = createScheduler(config, root, log, warn);
   const watcherSetup = setupWatcher(root, ignored, { schedule, log, warn });
 
-  log(`Watching ${root} (debounce ${config.debounceMs}ms). Ignored: ${ignored.join(', ')}`);
+  const repoType = isSubrepo ? 'subrepo' : 'git repository';
+  log(
+    `Watching ${root} (${repoType}, debounce ${config.debounceMs}ms). Ignored: ${ignored.join(', ')}`,
+  );
 
   return {
     close: () => {
@@ -240,4 +254,55 @@ export async function start(config: Config): Promise<{ close: () => void }> {
       watcherSetup.close();
     },
   };
+}
+
+/**
+ * Starts autocommit watcher for git repositories.
+ * @param config - Configuration object containing autocommit settings
+ * @returns Object containing cleanup function
+ * @throws AutocommitError if no git repositories are found
+ */
+export async function start(config: Config): Promise<{ close: () => void }> {
+  validateConfig(config);
+
+  if (config.recursive) {
+    const repositories = await findGitRepositories(config.path);
+
+    if (repositories.length === 0) {
+      throw createAutocommitError(`No git repositories found in: ${config.path}`);
+    }
+
+    const { log } = createLogger();
+    log(`Found ${repositories.length} git repository(ies): ${repositories.join(', ')}`);
+
+    const cleanupFunctions: Array<() => void> = [];
+
+    for (const repoPath of repositories) {
+      try {
+        const repoWatcher = await startSingleRepository(config, repoPath);
+        cleanupFunctions.push(repoWatcher.close);
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        log(`Failed to start watcher for ${repoPath}: ${errorMessage}`);
+      }
+    }
+
+    if (cleanupFunctions.length === 0) {
+      throw createAutocommitError(`Failed to start watchers for any repositories`);
+    }
+
+    return {
+      close: () => {
+        cleanupFunctions.forEach((cleanup) => {
+          try {
+            cleanup();
+          } catch {
+            // Ignore cleanup errors
+          }
+        });
+      },
+    };
+  } else {
+    return startSingleRepository(config, config.path);
+  }
 }

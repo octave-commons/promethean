@@ -1,12 +1,91 @@
 import type { Collection as ChromaCollection } from 'chromadb';
+import type { Collection } from 'mongodb';
 
-import { RemoteEmbeddingFunction } from '@promethean-os/embedding';
-import type { Collection, OptionalUnlessRequiredId, WithId } from 'mongodb';
-
-import { randomUUID } from 'node:crypto';
-import type { DualStoreEntry, AliasDoc, DualStoreMetadata } from './types.js';
-import { getChromaClient, getMongoClient, validateMongoConnection } from './clients.js';
+import type { DualStoreEntry } from './types.js';
 import { getOrCreateQueue } from './chroma-write-queue.js';
+import { cleanupClients as defaultCleanupClients } from './clients.js';
+import {
+    createDualStore,
+    createDualStoreImplementation,
+    resolveDualStoreResources,
+    registerPendingDualStoreConfig,
+    consumePendingDualStoreConfig,
+    type DualStoreFactoryConfig,
+    type DualStoreImplementation,
+} from './factories/dualStore.js';
+
+const warnDeprecationOnce = (() => {
+    let warned = false;
+    return () => {
+        if (!warned) {
+            warned = true;
+            const message =
+                'DualStoreManager is deprecated. Use the functional actions + factory pattern from src/actions/dual-store instead.';
+            if (typeof process !== 'undefined' && typeof process.emitWarning === 'function') {
+                process.emitWarning(message, { code: 'DualStoreManagerDeprecation', type: 'DeprecationWarning' });
+            } else {
+                console.warn(message);
+            }
+        }
+    };
+})();
+
+const ensureFactoryConfig = <TextKey extends string, TimeKey extends string>(
+    name: string,
+    chromaCollection: ChromaCollection,
+    mongoCollection: Collection<DualStoreEntry<TextKey, TimeKey>>,
+    textKey: TextKey,
+    timeStampKey: TimeKey,
+    supportsImages: boolean,
+    queue: ReturnType<typeof getOrCreateQueue>,
+): DualStoreFactoryConfig<TextKey, TimeKey> => {
+    const pending = consumePendingDualStoreConfig<TextKey, TimeKey>(name);
+
+    if (pending) {
+        if (!pending.mongoCollection) {
+            pending.mongoCollection = mongoCollection;
+        }
+        if (!pending.queue) {
+            pending.queue = queue;
+        }
+        if (!pending.cleanupClients) {
+            pending.cleanupClients = defaultCleanupClients;
+        }
+        return pending;
+    }
+
+    return {
+        name,
+        textKey,
+        timeStampKey,
+        supportsImages,
+        chromaCollection,
+        mongoCollection,
+        queue,
+        cleanupClients: defaultCleanupClients,
+    } satisfies DualStoreFactoryConfig<TextKey, TimeKey>;
+};
+
+const autoCleanupManagers = new Set<DualStoreManager<any, any>>();
+let autoCleanupRegistered = false;
+
+const registerAutoCleanup = (manager: DualStoreManager<any, any>) => {
+    autoCleanupManagers.add(manager);
+
+    if (!autoCleanupRegistered) {
+        autoCleanupRegistered = true;
+        process.once('beforeExit', async () => {
+            for (const mgr of Array.from(autoCleanupManagers)) {
+                try {
+                    await mgr.cleanup();
+                } catch (error) {
+                    // ignore cleanup errors during shutdown
+                }
+            }
+            autoCleanupManagers.clear();
+        });
+    }
+};
 
 export class DualStoreManager<TextKey extends string = 'text', TimeKey extends string = 'createdAt'> {
     name: string;
@@ -15,7 +94,8 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
     textKey: TextKey;
     timeStampKey: TimeKey;
     supportsImages: boolean;
-    private chromaWriteQueue: ReturnType<typeof getOrCreateQueue>;
+    private implementation: DualStoreImplementation<TextKey, TimeKey>;
+    private queue: ReturnType<typeof getOrCreateQueue>;
 
     constructor(
         name: string,
@@ -25,219 +105,99 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         timeStampKey: TimeKey,
         supportsImages = false,
     ) {
-        this.name = name;
+        warnDeprecationOnce();
+
+        const queue = getOrCreateQueue(name, chromaCollection);
+        const factoryConfig = ensureFactoryConfig(
+            name,
+            chromaCollection,
+            mongoCollection,
+            textKey,
+            timeStampKey,
+            supportsImages,
+            queue,
+        );
+
+        this.implementation = createDualStoreImplementation(factoryConfig);
+
+        this.name = factoryConfig.name;
         this.chromaCollection = chromaCollection;
         this.mongoCollection = mongoCollection;
-        this.textKey = textKey;
-        this.timeStampKey = timeStampKey;
-        this.supportsImages = supportsImages;
-        this.chromaWriteQueue = getOrCreateQueue(name, chromaCollection);
+        this.textKey = factoryConfig.textKey;
+        this.timeStampKey = factoryConfig.timeStampKey;
+        this.supportsImages = factoryConfig.supportsImages;
+        this.queue = queue;
+        this.implementation.setQueue(queue);
+
+        registerAutoCleanup(this);
     }
 
-    static async create<TTextKey extends string = 'text', TTimeKey extends string = 'createdAt'>(
+    get chromaWriteQueue(): ReturnType<typeof getOrCreateQueue> {
+        return this.queue;
+    }
+
+    set chromaWriteQueue(queue: ReturnType<typeof getOrCreateQueue>) {
+        this.queue = queue;
+        this.implementation.setQueue(queue);
+    }
+
+    static async create<TTextKey extends string = 'text', TTimeKey extends string = 'createdAt'> (
         name: string,
         textKey: TTextKey,
         timeStampKey: TTimeKey,
-    ) {
-        const chromaClient = await getChromaClient();
-        const mongoClient = await getMongoClient();
-        const family = `${process.env.AGENT_NAME || 'duck'}_${name}`;
-        const db = mongoClient.db('database');
-        const aliases = db.collection<AliasDoc>('collection_aliases');
-        const alias = await aliases.findOne({ _id: family });
+    ): Promise<DualStoreManager<TTextKey, TTimeKey>> {
+        warnDeprecationOnce();
 
-        const embedFnName = alias?.embed?.fn || process.env.EMBEDDING_FUNCTION || 'nomic-embed-text';
-        const embeddingFn = alias?.embed
-            ? RemoteEmbeddingFunction.fromConfig({
-                  driver: alias.embed.driver,
-                  fn: alias.embed.fn,
-              })
-            : RemoteEmbeddingFunction.fromConfig({
-                  driver: process.env.EMBEDDING_DRIVER || 'ollama',
-                  fn: embedFnName,
-              });
-
-        const chromaCollection = await chromaClient.getOrCreateCollection({
-            name: alias?.target || family,
-            embeddingFunction: embeddingFn,
+        const resources = await resolveDualStoreResources<TTextKey, TTimeKey>({
+            name,
+            textKey,
+            timeStampKey,
         });
 
-        const mongoCollection = db.collection<DualStoreEntry<TTextKey, TTimeKey>>(family);
-
-        const supportsImages = !embedFnName.toLowerCase().includes('text');
-        return new DualStoreManager(family, chromaCollection, mongoCollection, textKey, timeStampKey, supportsImages);
-    }
-
-    async insert(entry: DualStoreEntry<TextKey, TimeKey>) {
-        const id = entry.id ?? randomUUID();
-        const timestamp =
-            entry[this.timeStampKey] || (Date.now() as unknown as DualStoreEntry<TextKey, TimeKey>[TimeKey]);
-
-        // Create mutable copy to work with readonly types
-        const mutableEntry = {
-            ...entry,
-            id,
-            [this.timeStampKey]: timestamp,
-            metadata: {
-                ...entry.metadata,
-                [this.timeStampKey]: timestamp,
-            },
+        const mongoCollection = await resources.factoryConfig.getCollection();
+        const factoryConfig: DualStoreFactoryConfig<TTextKey, TTimeKey> = {
+            ...resources.factoryConfig,
+            mongoCollection,
         };
 
-        // console.log("Adding entry to collection", this.name, entry);
+        registerPendingDualStoreConfig(factoryConfig);
 
-        const dualWrite = (process.env.DUAL_WRITE_ENABLED ?? 'true').toLowerCase() !== 'false';
-        const isImage = mutableEntry.metadata?.type === 'image';
-        let vectorWriteSuccess = true;
-        let vectorWriteError: Error | null = null;
-
-        if (dualWrite && (!isImage || this.supportsImages)) {
-            try {
-                // Flatten metadata for ChromaDB compatibility (only primitive values allowed)
-                const chromaMetadata: Record<string, string | number | boolean | null> = {};
-                if (mutableEntry.metadata) {
-                    for (const [key, value] of Object.entries(mutableEntry.metadata)) {
-                        if (value === null || value === undefined) {
-                            chromaMetadata[key] = null;
-                        } else if (
-                            typeof value === 'string' ||
-                            typeof value === 'number' ||
-                            typeof value === 'boolean'
-                        ) {
-                            chromaMetadata[key] = value;
-                        } else {
-                            // Convert objects to JSON strings for ChromaDB compatibility
-                            chromaMetadata[key] = JSON.stringify(value);
-                        }
-                    }
-                }
-
-                // Use write queue for batching instead of direct write
-                await this.chromaWriteQueue.add(id, mutableEntry[this.textKey], chromaMetadata);
-            } catch (e) {
-                vectorWriteSuccess = false;
-                vectorWriteError = e instanceof Error ? e : new Error(String(e));
-
-                // Log detailed error information
-                console.error('Vector store write failed for entry', {
-                    id,
-                    collection: this.name,
-                    error: vectorWriteError.message,
-                    stack: vectorWriteError.stack,
-                    metadata: mutableEntry.metadata,
-                });
-
-                // Determine if this is a critical failure based on configuration
-                const consistencyLevel = process.env.DUAL_WRITE_CONSISTENCY || 'eventual';
-                if (consistencyLevel === 'strict') {
-                    throw new Error(`Critical: Vector store write failed for entry ${id}: ${vectorWriteError.message}`);
-                }
-            }
-        }
-
-        // Ensure MongoDB connection is valid before inserting
-        const mongoClient = await getMongoClient();
-        const validatedClient = await validateMongoConnection(mongoClient);
-        const db = validatedClient.db('database');
-        const collection = db.collection<DualStoreEntry<TextKey, TimeKey>>(this.mongoCollection.collectionName);
-
-        // Add consistency metadata to track vector write status
-        const enhancedMetadata: DualStoreMetadata = {
-            ...mutableEntry.metadata,
-            vectorWriteSuccess,
-            vectorWriteError: vectorWriteError?.message,
-            vectorWriteTimestamp: vectorWriteSuccess ? Date.now() : null,
-        };
-
-        await collection.insertOne({
-            id: mutableEntry.id,
-            [this.textKey]: mutableEntry[this.textKey],
-            [this.timeStampKey]: mutableEntry[this.timeStampKey],
-            metadata: enhancedMetadata,
-        } as OptionalUnlessRequiredId<DualStoreEntry<TextKey, TimeKey>>);
+        return new DualStoreManager<TTextKey, TTimeKey>(
+            factoryConfig.name,
+            factoryConfig.chromaCollection,
+            mongoCollection,
+            factoryConfig.textKey,
+            factoryConfig.timeStampKey,
+            factoryConfig.supportsImages,
+        );
     }
 
-    // TODO: remove in future – alias for backwards compatibility
-    async addEntry(entry: DualStoreEntry<TextKey, TimeKey>) {
-        return this.insert(entry);
+    async insert(entry: DualStoreEntry<TextKey, TimeKey>): Promise<void> {
+        await this.implementation.insert(entry);
+    }
+
+    async addEntry(entry: DualStoreEntry<TextKey, TimeKey>): Promise<void> {
+        await this.implementation.addEntry(entry);
     }
 
     async getMostRecent(
-        limit: number = 10,
-        mongoFilter: any = { [this.textKey]: { $nin: [null, ''], $not: /^\s*$/ } },
-        sorter: any = { [this.timeStampKey]: -1 },
+        limit = 10,
+        mongoFilter?: Record<string, unknown>,
+        sorter?: Record<string, 1 | -1>,
     ): Promise<DualStoreEntry<'text', 'timestamp'>[]> {
-        // console.log("Getting most recent entries from collection", this.name, "with limit", limit);
-
-        // Ensure MongoDB connection is valid before querying
-        const mongoClient = await getMongoClient();
-        const validatedClient = await validateMongoConnection(mongoClient);
-        const db = validatedClient.db('database');
-        const collection = db.collection<DualStoreEntry<TextKey, TimeKey>>(this.mongoCollection.collectionName);
-
-        return (await collection.find(mongoFilter).sort(sorter).limit(limit).toArray()).map(
-            (entry: WithId<DualStoreEntry<TextKey, TimeKey>>) => ({
-                id: entry.id,
-                text: (entry as Record<TextKey, any>)[this.textKey],
-                timestamp: new Date((entry as Record<TimeKey, any>)[this.timeStampKey]).getTime(),
-                metadata: entry.metadata,
-            }),
-        ) as DualStoreEntry<'text', 'timestamp'>[];
+        return this.implementation.getMostRecent(limit, mongoFilter, sorter);
     }
+
     async getMostRelevant(
         queryTexts: string[],
         limit: number,
-        where: Record<string, unknown> = {},
+        where?: Record<string, unknown>,
     ): Promise<DualStoreEntry<'text', 'timestamp'>[]> {
-        // console.log("Getting most relevant entries from collection", this.name, "for queries", queryTexts, "with limit", limit);
-        if (!queryTexts || queryTexts.length === 0) return Promise.resolve([]);
-
-        const query: Record<string, any> = {
-            queryTexts,
-            nResults: limit,
-        };
-        if (where && Object.keys(where).length > 0) query.where = where;
-        const queryResult = await this.chromaCollection.query(query);
-        const uniqueThoughts = new Set();
-        const ids = queryResult.ids.flat(2);
-        const meta = queryResult.metadatas.flat(2);
-        return queryResult.documents
-            .flat(2)
-            .map((doc, i) => ({
-                id: ids[i],
-                text: doc,
-                metadata: meta[i],
-                timestamp: meta[i]?.timeStamp || meta[i]?.[this.timeStampKey] || Date.now(),
-            }))
-            .filter((doc) => {
-                if (!doc.text) return false; // filter out undefined text
-                if (uniqueThoughts.has(doc.text)) return false; // filter out duplicates
-                uniqueThoughts.add(doc.text);
-                return true;
-            }) as DualStoreEntry<'text', 'timestamp'>[];
+        return this.implementation.getMostRelevant(queryTexts, limit, where);
     }
 
     async get(id: string): Promise<DualStoreEntry<'text', 'timestamp'> | null> {
-        const filter = { id } as any;
-
-        // Ensure MongoDB connection is valid before querying
-        const mongoClient = await getMongoClient();
-        const validatedClient = await validateMongoConnection(mongoClient);
-        const db = validatedClient.db('database');
-        const collection = db.collection<DualStoreEntry<TextKey, TimeKey>>(this.mongoCollection.collectionName);
-
-        const document = await collection.findOne(filter);
-
-        if (!document) {
-            return null;
-        }
-
-        return {
-            id: document.id,
-            text: (document as any)[this.textKey],
-            timestamp: new Date((document as any)[this.timeStampKey]).getTime(),
-            metadata: document.metadata,
-        } as DualStoreEntry<'text', 'timestamp'>;
+        return this.implementation.get(id);
     }
 
     async checkConsistency(id: string): Promise<{
@@ -246,106 +206,11 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         vectorWriteSuccess?: boolean;
         vectorWriteError?: string;
     }> {
-        // Check MongoDB document
-        const mongoDoc = await this.get(id);
-        const hasDocument = mongoDoc !== null;
-
-        // Check ChromaDB vector
-        let hasVector = false;
-        try {
-            const vectorResult = await this.chromaCollection.get({
-                ids: [id],
-            });
-            hasVector = vectorResult.ids?.length > 0;
-        } catch (e) {
-            hasVector = false;
-        }
-
-        return {
-            hasDocument,
-            hasVector,
-            vectorWriteSuccess: mongoDoc?.metadata?.vectorWriteSuccess,
-            vectorWriteError: mongoDoc?.metadata?.vectorWriteError,
-        };
+        return this.implementation.checkConsistency(id);
     }
 
     async retryVectorWrite(id: string, maxRetries = 3): Promise<boolean> {
-        const mongoDoc = await this.get(id);
-        if (!mongoDoc) {
-            throw new Error(`Document ${id} not found for vector retry`);
-        }
-
-        let lastError: Error | null = null;
-
-        for (let attempt = 1; attempt <= maxRetries; attempt++) {
-            try {
-                // Flatten metadata for ChromaDB compatibility
-                const chromaMetadata: Record<string, string | number | boolean | null> = {};
-                if (mongoDoc.metadata) {
-                    for (const [key, value] of Object.entries(mongoDoc.metadata)) {
-                        if (value === null || value === undefined) {
-                            chromaMetadata[key] = null;
-                        } else if (
-                            typeof value === 'string' ||
-                            typeof value === 'number' ||
-                            typeof value === 'boolean'
-                        ) {
-                            chromaMetadata[key] = value;
-                        } else {
-                            chromaMetadata[key] = JSON.stringify(value);
-                        }
-                    }
-                }
-
-                await this.chromaCollection.add({
-                    ids: [id],
-                    documents: [mongoDoc.text],
-                    metadatas: [chromaMetadata],
-                });
-
-                // Update MongoDB to mark vector write as successful
-                const mongoClient = await getMongoClient();
-                const validatedClient = await validateMongoConnection(mongoClient);
-                const db = validatedClient.db('database');
-                const collection = db.collection<DualStoreEntry<TextKey, TimeKey>>(this.mongoCollection.collectionName);
-
-                await collection.updateOne({ id: id as any }, {
-                    $set: {
-                        'metadata.vectorWriteSuccess': true,
-                        'metadata.vectorWriteError': null,
-                        'metadata.vectorWriteTimestamp': Date.now(),
-                    },
-                } as any);
-
-                console.log(`Vector write retry successful for entry ${id} on attempt ${attempt}`);
-                return true;
-            } catch (e) {
-                lastError = e instanceof Error ? e : new Error(String(e));
-                console.warn(`Vector write retry ${attempt} failed for entry ${id}:`, lastError.message);
-
-                if (attempt < maxRetries) {
-                    // Exponential backoff: 1s, 2s, 4s
-                    const delay = Math.pow(2, attempt - 1) * 1000;
-                    await new Promise((resolve) => setTimeout(resolve, delay));
-                }
-            }
-        }
-
-        // All retries failed
-        const mongoClient = await getMongoClient();
-        const validatedClient = await validateMongoConnection(mongoClient);
-        const db = validatedClient.db('database');
-        const collection = db.collection<DualStoreEntry<TextKey, TimeKey>>(this.mongoCollection.collectionName);
-
-        await collection.updateOne({ id: id as any }, {
-            $set: {
-                'metadata.vectorWriteSuccess': false,
-                'metadata.vectorWriteError': lastError?.message,
-                'metadata.vectorWriteTimestamp': null,
-            },
-        } as any);
-
-        return false;
+        return this.implementation.retryVectorWrite(id, maxRetries);
     }
 
     async getConsistencyReport(limit = 100): Promise<{
@@ -353,77 +218,19 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         consistentDocuments: number;
         inconsistentDocuments: number;
         missingVectors: number;
-        vectorWriteFailures: Array<{
-            id: string;
-            error?: string;
-            timestamp?: number;
-        }>;
+        vectorWriteFailures: Array<{ id: string; error?: string; timestamp?: number }>;
     }> {
-        const recentDocs = await this.getMostRecent(limit);
-        const vectorWriteFailures: Array<{
-            id: string;
-            error: string;
-            timestamp?: number;
-        }> = [];
-
-        let consistentDocuments = 0;
-        let inconsistentDocuments = 0;
-        let missingVectors = 0;
-
-        for (const doc of recentDocs) {
-            const vectorWriteSuccess = doc.metadata?.vectorWriteSuccess;
-            const vectorWriteError = doc.metadata?.vectorWriteError;
-
-            if (vectorWriteSuccess === true) {
-                consistentDocuments++;
-            } else if (vectorWriteSuccess === false) {
-                inconsistentDocuments++;
-                if (vectorWriteError) {
-                    vectorWriteFailures.push({
-                        id: doc.id || 'unknown',
-                        error: vectorWriteError,
-                        timestamp: doc.metadata?.vectorWriteTimestamp || undefined,
-                    });
-                }
-            } else {
-                // Legacy document without consistency info
-                missingVectors++;
-            }
-        }
-
-        return {
-            totalDocuments: recentDocs.length,
-            consistentDocuments,
-            inconsistentDocuments,
-            missingVectors,
-            vectorWriteFailures,
-        };
+        return this.implementation.getConsistencyReport(limit);
     }
 
-    getChromaQueueStats(): {
-        queueLength: number;
-        processing: boolean;
-        config: {
-            batchSize: number;
-            flushIntervalMs: number;
-            maxRetries: number;
-            retryDelayMs: number;
-            enabled: boolean;
-        };
-    } {
-        return this.chromaWriteQueue.getQueueStats();
+    getChromaQueueStats() {
+        return this.implementation.getChromaQueueStats();
     }
 
     async cleanup(): Promise<void> {
-        try {
-            // Shutdown Chroma write queue
-            await this.chromaWriteQueue.shutdown();
-
-            // Close cached MongoDB connection
-            const { cleanupClients } = await import('./clients.js');
-            await cleanupClients();
-        } catch (error) {
-            // Ignore cleanup errors - connection might already be closed
-        }
+        await this.implementation.cleanup();
+        autoCleanupManagers.delete(this);
     }
 }
+
+export const createDualStoreManager = createDualStore;

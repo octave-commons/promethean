@@ -46,8 +46,8 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
-    "@promethean-os/agent-protocol": "workspace:*",
-    "@promethean-os/agent-state": "workspace:*",
+    "@promethean-os/pantheon-protocol": "workspace:*",
+    "@promethean-os/pantheon-state": "workspace:*",
     "@promethean-os/kanban": "workspace:*",
     "@promethean-os/utils": "workspace:*",
     "fastify": "^4.24.3",

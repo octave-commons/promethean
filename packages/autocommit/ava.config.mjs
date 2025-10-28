@@ -1,6 +1,4 @@
 export default {
-  files: ['src/tests/**/*.test.ts'],
-  extensions: { ts: 'module' },
-  nodeArguments: ['--import=tsx'],
+  files: ['dist/tests/**/*.test.js'],
   timeout: '30s',
 };

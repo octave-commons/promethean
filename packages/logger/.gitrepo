@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/ingydotnet/git-subrepo#readme
+;
+[subrepo]
+	remote = git@github.com:riatzukiza/logger.git
+	branch = main
+	commit = bbb649b8f42a64d1f0f96c39222cd5fc4aa421e4
+	method = merge
+	cmdver = 0.4.9
+	parent = e1b2e215cd6304c336def7bc80e35d1a9ca3f3d3
