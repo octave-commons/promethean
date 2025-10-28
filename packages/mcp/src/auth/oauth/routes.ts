@@ -371,7 +371,6 @@ export function registerOAuthRoutes(fastify: FastifyInstance, config: OAuthRoute
   fastify.post<{ Body: OAuthLogoutRequest }>(`${basePath}/logout`, async (request, reply) => {
     try {
       const { sessionId, allSessions } = request.body;
-      const clientInfo = getClientInfo(request);
 
       // Get current user from request
       const user = await oauthIntegration.getCurrentUser(request);
