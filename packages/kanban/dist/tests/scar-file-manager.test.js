@@ -4,7 +4,7 @@
 import test from 'ava';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
-import { ScarFileManager } from '../lib/heal/scar-file-manager.js';
+import { ScarFileManager, createScarFileManager } from '../lib/heal/scar-file-manager.js';
 // Mock scar records for testing
 const mockScarRecords = [
     {
@@ -279,7 +279,7 @@ test('ensureFile does not create file when disabled', async (t) => {
     t.false(exists);
 });
 test('createScarFileManager factory function', (t) => {
-    const manager = ScarFileManager.createScarFileManager({
+    const manager = createScarFileManager({
         filePath: '/test/path',
         maxFileSize: 1024,
     });

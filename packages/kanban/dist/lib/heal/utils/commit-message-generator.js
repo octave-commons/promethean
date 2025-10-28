@@ -119,11 +119,11 @@ export class CommitMessageGenerator {
             errors.push('Subject line should not end with a period');
         }
         // Check subject is capitalized
-        if (subject.length > 0 && subject[0] !== subject[0].toUpperCase()) {
+        if (subject && subject.length > 0 && subject[0] !== subject[0].toUpperCase()) {
             errors.push('Subject line should start with a capital letter');
         }
         // Check for empty lines between subject and body
-        if (lines.length > 1 && lines[1].trim().length > 0) {
+        if (lines.length > 1 && lines[1] && lines[1].trim().length > 0) {
             errors.push('Empty line required between subject and body');
         }
         return { valid: errors.length === 0, errors };

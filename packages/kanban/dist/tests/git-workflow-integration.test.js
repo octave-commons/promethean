@@ -5,7 +5,7 @@
 import test from 'ava';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
-import { GitWorkflow } from '../lib/heal/git-workflow.js';
+import { GitWorkflow, createGitWorkflow } from '../lib/heal/git-workflow.js';
 // Mock data for integration tests
 const createMockScarContext = (reason, tag) => ({
     reason,
@@ -330,7 +330,7 @@ test('workflow with custom configuration', async (t) => {
     t.true(result.tag?.includes('custom-heal-001-pre-op'));
 });
 test('createGitWorkflow factory function', (t) => {
-    const workflow = GitWorkflow.createGitWorkflow({
+    const workflow = createGitWorkflow({
         repoPath: '/test/path',
         tagPrefix: 'factory-test',
     });

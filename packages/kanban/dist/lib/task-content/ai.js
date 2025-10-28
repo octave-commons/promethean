@@ -332,7 +332,7 @@ ${originalContent.trim()}
                 acceptanceCriteria: ['QA and release steps documented'],
             },
         ].slice(0, maxSubtasks);
-        return { subtasks };
+        return subtasks;
     }
 }
 export function createTaskAIManager(config) {

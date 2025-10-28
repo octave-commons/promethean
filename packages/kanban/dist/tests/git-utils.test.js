@@ -4,20 +4,8 @@
 import test from 'ava';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
-import { GitUtils } from '../lib/heal/utils/git-utils.js';
+import { GitUtils, createGitUtils } from '../lib/heal/utils/git-utils.js';
 // Mock execSync to avoid actual git operations during tests
-const mockExecSync = test.macro({
-    exec: (t, command, output, shouldFail = false) => {
-        const { execSync } = await import('node:child_process');
-        if (shouldFail) {
-            t.throws(() => execSync(command));
-        }
-        else {
-            const result = execSync(command);
-            t.is(result.toString().trim(), output);
-        }
-    },
-});
 test.before(async (t) => {
     // Create a temporary directory for testing
     const testDir = path.join(process.cwd(), 'test-git-utils-temp');
@@ -33,6 +21,20 @@ test.before(async (t) => {
     execSync('git commit -m "Initial commit"', { cwd: testDir });
     t.context.testDir = testDir;
 });
+// Create a temporary directory for testing
+const testDir = path.join(process.cwd(), 'test-git-utils-temp');
+await fs.mkdir(testDir, { recursive: true });
+// Initialize a git repository
+const { execSync } = await import('node:child_process');
+execSync('git init', { cwd: testDir });
+execSync('git config user.name "Test User"', { cwd: testDir });
+execSync('git config user.email "test@example.com"', { cwd: testDir });
+// Create initial commit
+await fs.writeFile(path.join(testDir, 'test.txt'), 'test content');
+execSync('git add test.txt', { cwd: testDir });
+execSync('git commit -m "Initial commit"', { cwd: testDir });
+t.context.testDir = testDir;
+;
 test.after.always(async (t) => {
     // Clean up test directory
     const testDir = t.context.testDir;
@@ -227,7 +229,7 @@ test('stashPop applies stashed changes', async (t) => {
     t.true(typeof result.data === 'string');
 });
 test('createGitUtils factory function creates instance', (t) => {
-    const gitUtils = GitUtils.createGitUtils('/test/path');
+    const gitUtils = createGitUtils('/test/path');
     t.true(gitUtils instanceof GitUtils);
     t.is(gitUtils['repoPath'], '/test/path');
 });
