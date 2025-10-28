@@ -7,6 +7,9 @@ export {
   type UnifiedIndexerServiceState,
 } from './unified-indexer-service.js';
 
+// Note: UnifiedIndexerService is not a class but a service state interface
+// The tests should be checking for the functions, not a class constructor
+
 // Service types
 export {
   type UnifiedIndexerServiceConfig,
