@@ -199,3 +199,4 @@ export async function findGitRepositories(rootPath) {
     await scanDirectory(root);
     return repositories;
 }
+//# sourceMappingURL=git.js.map

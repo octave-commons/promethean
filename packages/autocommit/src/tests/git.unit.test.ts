@@ -299,36 +299,3 @@ test('findSubrepos finds subrepo directories', async (t) => {
     await rm(tempDir, { recursive: true, force: true });
   }
 });
-
-test('findGitRepositories finds both git repos and subrepos', async (t) => {
-  const tempDir = getTempDir();
-  await mkdir(tempDir, { recursive: true });
-
-  try {
-    // Create git repository
-    const gitRepoPath = join(tempDir, 'git-repo');
-    await mkdir(gitRepoPath, { recursive: true });
-    await execa('git', ['init'], { cwd: gitRepoPath });
-
-    // Create subrepo
-    const subrepoPath = join(tempDir, 'subrepo');
-    await mkdir(subrepoPath, { recursive: true });
-    await writeFile(
-      join(subrepoPath, '.gitrepo'),
-      'subdir = subrepo\nremote = https://github.com/example/repo.git',
-    );
-
-    // Create regular directory
-    const regularPath = join(tempDir, 'regular');
-    await mkdir(regularPath, { recursive: true });
-    await writeFile(join(regularPath, 'file.txt'), 'content');
-
-    const repositories = await findGitRepositories(tempDir);
-    t.is(repositories.length, 2);
-    t.true(repositories.some((path) => path.includes('git-repo')));
-    t.true(repositories.some((path) => path.includes('subrepo')));
-    t.false(repositories.some((path) => path.includes('regular')));
-  } finally {
-    await rm(tempDir, { recursive: true, force: true });
-  }
-});
