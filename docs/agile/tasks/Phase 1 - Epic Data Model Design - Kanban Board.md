@@ -2,7 +2,7 @@
 uuid: '07bc6e1c-phase1-001'
 title: 'Phase 1: Epic Data Model Design - Kanban Board'
 slug: 'phase-1-epic-data-model-design-kanban-board'
-status: 'breakdown'
+status: 'ready'
 priority: 'P1'
 labels: ['epic', 'data-model', 'kanban', 'design']
 created_at: '2025-10-28T00:00:00Z'
@@ -24,16 +24,19 @@ Design and implement the data model extensions needed to support epic-subtask re
 ### Core Data Model Components
 
 1. **Epic Task Type**
+
    - Define epic as special task type
    - Epic-specific metadata fields
    - Epic status and state management
 
 2. **Subtask Relationships**
+
    - Parent-child relationship definitions
    - Bidirectional linking between epics and subtasks
    - Relationship validation and constraints
 
 3. **Schema Extensions**
+
    - Extend existing task schema
    - Add epic-specific fields
    - Maintain backward compatibility
@@ -83,13 +86,13 @@ Design and implement the data model extensions needed to support epic-subtask re
 ```clojure
 (ns promethean.kanban.epic.model)
 
-(defrecord EpicTask [uuid title description status priority labels 
+(defrecord EpicTask [uuid title description status priority labels
                    created_at updated_at estimates storyPoints
                    epic_subtasks epic_status epic_progress epic_blocking_reason])
 
 (defrecord EpicRelationship [parent-uuid child-uuid relationship-type created_at])
 
-(defrecord EpicStatus [total-subtasks completed-subtasks 
+(defrecord EpicStatus [total-subtasks completed-subtasks
                      blocked-subtasks in-progress-subtasks
                      overall-progress blocking-reasons])
 
@@ -153,7 +156,7 @@ Design and implement the data model extensions needed to support epic-subtask re
         progress-percent (if (pos? total-count)
                           (* (/ completed-count total-count) 100)
                           0)]
-    
+
     (cond
       (= completed-count total-count) :completed
       (pos? blocked-count) :blocked
@@ -222,16 +225,19 @@ Design and implement the data model extensions needed to support epic-subtask re
 ## ✅ Acceptance Criteria
 
 1. **Schema Extensions**
+
    - Epic task type properly defined
    - Subtask relationship fields added
    - Backward compatibility maintained
 
 2. **Data Validation**
+
    - Epic-subtask relationships validated
    - Circular dependencies prevented
    - Data integrity constraints enforced
 
 3. **Status Calculation**
+
    - Epic status calculated from subtasks
    - Progress percentage accurate
    - Blocking reasons properly aggregated
@@ -257,7 +263,7 @@ Design and implement the data model extensions needed to support epic-subtask re
                      :epic_status :not-started
                      :epic_progress 0}]
       (is (validate-schema epic-task epic-task-schema))))
-  
+
   (testing "Normal task with epic parent validation"
     (let [normal-task {:uuid "test-subtask"
                        :title "Test Subtask"
@@ -272,11 +278,11 @@ Design and implement the data model extensions needed to support epic-subtask re
     (let [relationship (create-epic-relationship "epic-1" "subtask-1")
           existing-relationships []]
       (is (validate-epic-relationship "epic-1" "subtask-1" existing-relationships))))
-  
+
   (testing "Circular dependency detection"
     (let [existing-relationships [{:parent-uuid "subtask-1" :child-uuid "epic-1"}]]
       (is (not (validate-epic-relationship "epic-1" "subtask-1" existing-relationships)))))
-  
+
   (testing "Duplicate epic parent prevention"
     (let [existing-relationships [{:parent-uuid "epic-1" :child-uuid "subtask-1"}]]
       (is (not (validate-epic-relationship "epic-2" "subtask-1" existing-relationships))))))
@@ -289,10 +295,10 @@ Design and implement the data model extensions needed to support epic-subtask re
   (let [subtasks [{:uuid "s1" :status "done"}
                  {:uuid "s2" :status "in_progress"}
                  {:uuid "s3" :status "todo"}]]
-    
+
     (testing "Mixed status epic"
       (is (= :in-progress (calculate-epic-status "epic-1" subtasks))))
-    
+
     (testing "Epic progress calculation"
       (is (= 33.33 (calculate-epic-progress "epic-1" subtasks))))))
 ```

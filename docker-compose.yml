@@ -36,7 +36,7 @@ services:
       - /usr/share/ollama/.ollama/:/root/.ollama/
     environment:
       # You can override Dockerfile defaults here if needed
-      # OLLAMA_KV_CACHE_TYPE: 'q4_0'
+      OLLAMA_KV_CACHE_TYPE: 'q4_0'
       OLLAMA_FLASH_ATTENTION: '1'
       OLLAMA_HOST: '0.0.0.0' # If you want to bind externally
       OLLAMA_DEBUG: 'INFO'

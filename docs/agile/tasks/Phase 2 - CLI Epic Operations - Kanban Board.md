@@ -2,7 +2,7 @@
 uuid: '07bc6e1c-phase2-001'
 title: 'Phase 2: CLI Epic Operations - Kanban Board'
 slug: 'phase-2-cli-epic-operations-kanban-board'
-status: 'breakdown'
+status: 'ready'
 priority: 'P1'
 labels: ['epic', 'cli', 'operations', 'kanban']
 created_at: '2025-10-28T00:00:00Z'
@@ -24,16 +24,19 @@ Implement CLI commands and operations for managing epics and subtasks in the kan
 ### Core CLI Operations
 
 1. **Epic Creation**
+
    - Create new epic tasks
    - Convert existing tasks to epics
    - Epic initialization and setup
 
 2. **Subtask Management**
+
    - Link tasks to epics as subtasks
    - Unlink subtasks from epics
    - Bulk subtask operations
 
 3. **Epic Status Operations**
+
    - Update epic status manually
    - Force epic transitions
    - Epic blocking/unblocking
@@ -122,7 +125,7 @@ Implement CLI commands and operations for managing epics and subtasks in the kan
                     :updated_at (Instant/now)
                     :estimates {:complexity 8 :scale "large" :time_to_completion "4 sessions"}
                     :storyPoints 8}]
-    
+
     (if interactive
       (create-epic-interactive! epic-data)
       (do
@@ -140,7 +143,7 @@ Implement CLI commands and operations for managing epics and subtasks in the kan
         description (or (:description epic-data) (prompt "Epic description (optional): "))
         priority (or (:priority epic-data) (prompt "Priority (P0-P3): " "P1"))
         labels (or (:labels epic-data) (prompt "Labels (comma-separated): " ""))]
-    (create-epic! title 
+    (create-epic! title
                   :description description
                   :priority priority
                   :labels (if (empty? labels) [] (str/split labels #",\s*"))
@@ -192,19 +195,19 @@ Implement CLI commands and operations for managing epics and subtasks in the kan
     (cond
       (nil? epic)
       (println "❌ Epic not found:" epic-id)
-      
+
       (nil? subtask)
       (println "❌ Subtask not found:" subtask-id)
-      
+
       (not= (:task_type epic) :epic)
       (println "❌ Task is not an epic:" epic-id)
-      
+
       (= (:task_type subtask) :epic)
       (println "❌ Cannot link epic as subtask:" subtask-id)
-      
+
       (:epic_parent subtask)
       (println "❌ Subtask already has epic parent:" (:epic_parent subtask-id))
-      
+
       :else
       (if interactive
         (confirm-linking! epic subtask)
@@ -221,13 +224,13 @@ Implement CLI commands and operations for managing epics and subtasks in the kan
     (cond
       (nil? epic)
       (println "❌ Epic not found:" epic-id)
-      
+
       (nil? subtask)
       (println "❌ Subtask not found:" subtask-id)
-      
+
       (not= (:epic_parent subtask) epic-id)
       (println "❌ Subtask not linked to this epic:" subtask-id)
-      
+
       :else
       (if interactive
         (confirm-unlinking! epic subtask)
@@ -242,11 +245,11 @@ Implement CLI commands and operations for managing epics and subtasks in the kan
   ;; Update epic subtasks list
   (let [updated-epic (update epic :epic_subtasks conj (:uuid subtask))]
     (save-epic! updated-epic))
-  
+
   ;; Update subtask parent reference
   (let [updated-subtask (assoc subtask :epic_parent (:uuid epic))]
     (save-task! updated-subtask))
-  
+
   ;; Update epic status
   (update-epic-status! (:uuid epic)))
 
@@ -254,14 +257,14 @@ Implement CLI commands and operations for managing epics and subtasks in the kan
   "Perform the actual unlinking operation"
   [epic subtask]
   ;; Update epic subtasks list
-  (let [updated-epic (update epic :epic_subtasks 
+  (let [updated-epic (update epic :epic_subtasks
                            #(remove (fn [id] (= id (:uuid subtask))) %))]
     (save-epic! updated-epic))
-  
+
   ;; Update subtask parent reference
   (let [updated-subtask (dissoc subtask :epic_parent)]
     (save-task! updated-subtask))
-  
+
   ;; Update epic status
   (update-epic-status! (:uuid epic)))
 ```
@@ -278,7 +281,7 @@ Implement CLI commands and operations for managing epics and subtasks in the kan
         new-status (calculate-epic-status epic-id subtasks)
         new-progress (calculate-epic-progress epic-id subtasks)
         blocking-reasons (get-epic-blocking-reasons epic-id subtasks)]
-    
+
     (let [updated-epic (-> epic
                            (assoc :epic_status new-status)
                            (assoc :epic_progress new-progress)
@@ -375,7 +378,7 @@ Implement CLI commands and operations for managing epics and subtasks in the kan
   (println "   Updated:" (:updated_at epic))
   (when (:epic_blocking_reason epic)
     (println "   Blocking Reason:" (:epic_blocking_reason epic)))
-  
+
   (when (seq subtasks)
     (println "\n📝 Subtasks:")
     (println (format "%-36s %-20s %-10s %s"
@@ -392,16 +395,19 @@ Implement CLI commands and operations for managing epics and subtasks in the kan
 ## ✅ Acceptance Criteria
 
 1. **Epic Creation**
+
    - Create new epics with proper metadata
    - Convert existing tasks to epics
    - Interactive and batch modes supported
 
 2. **Subtask Management**
+
    - Link/unlink subtasks to/from epics
    - Validate relationships and prevent conflicts
    - Bulk operations supported
 
 3. **Status Operations**
+
    - Automatic epic status calculation
    - Manual status updates with confirmation
    - Force transition capabilities
@@ -423,7 +429,7 @@ Implement CLI commands and operations for managing epics and subtasks in the kan
       (is (= :epic (:task_type epic)))
       (is (= :not-started (:epic_status epic)))
       (is (= 0 (:epic_progress epic)))))
-  
+
   (testing "Convert task to epic"
     (let [task {:uuid "task-1" :title "Task 1" :task_type :normal}
           epic (convert-to-epic! "task-1")]
@@ -433,12 +439,12 @@ Implement CLI commands and operations for managing epics and subtasks in the kan
 (deftest test-subtask-management
   (let [epic (create-epic! "Test Epic")
         subtask {:uuid "subtask-1" :title "Subtask 1" :task_type :normal}]
-    
+
     (testing "Link subtask to epic"
       (let [result (link-subtask-to-epic! (:uuid epic) (:uuid subtask))]
         (is (= (:uuid epic) (:epic-id result)))
         (is (= (:uuid subtask) (:subtask-id result)))))
-    
+
     (testing "Unlink subtask from epic"
       (let [result (unlink-subtask-from-epic! (:uuid epic) (:uuid subtask))]
         (is (= (:uuid epic) (:epic-id result)))
