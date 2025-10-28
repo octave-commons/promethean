@@ -68,6 +68,17 @@ export const ConfigSchema = z.object({
     temperature: z.coerce.number().min(0).max(2).default(0.2),
     maxDiffBytes: z.coerce.number().int().positive().min(1000).max(100000).default(20_000),
     exclude: z.string().default(process.env.AUTOCOMMIT_EXCLUDE ?? ''),
+    handleSubrepos: z
+        .any()
+        .transform((val) => {
+        if (typeof val === 'boolean')
+            return val;
+        if (typeof val === 'string')
+            return val === 'true' || val === '1';
+        return Boolean(val);
+    })
+        .default(process.env.AUTOCOMMIT_HANDLE_SUBREPOS === '1'),
+    subrepoStrategy: z.enum(['separate', 'integrated']).default('integrated'),
     signoff: z
         .any()
         .transform((val) => {

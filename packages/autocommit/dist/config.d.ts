@@ -9,6 +9,8 @@ export declare const ConfigSchema: z.ZodObject<{
     temperature: z.ZodDefault<z.ZodNumber>;
     maxDiffBytes: z.ZodDefault<z.ZodNumber>;
     exclude: z.ZodDefault<z.ZodString>;
+    handleSubrepos: z.ZodDefault<z.ZodEffects<z.ZodAny, boolean, any>>;
+    subrepoStrategy: z.ZodDefault<z.ZodEnum<["separate", "integrated"]>>;
     signoff: z.ZodDefault<z.ZodEffects<z.ZodAny, boolean, any>>;
     dryRun: z.ZodDefault<z.ZodEffects<z.ZodAny, boolean, any>>;
 }, "strip", z.ZodTypeAny, {
@@ -20,6 +22,8 @@ export declare const ConfigSchema: z.ZodObject<{
     temperature: number;
     maxDiffBytes: number;
     exclude: string;
+    handleSubrepos: boolean;
+    subrepoStrategy: "separate" | "integrated";
     signoff: boolean;
     dryRun: boolean;
     apiKey?: string | undefined;
@@ -33,6 +37,8 @@ export declare const ConfigSchema: z.ZodObject<{
     temperature?: number | undefined;
     maxDiffBytes?: number | undefined;
     exclude?: string | undefined;
+    handleSubrepos?: any;
+    subrepoStrategy?: "separate" | "integrated" | undefined;
     signoff?: any;
     dryRun?: any;
 }>;

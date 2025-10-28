@@ -1,6 +1,6 @@
 import chokidar from 'chokidar';
 import pc from 'picocolors';
-import { addAll, commit, findGitRepositories, gitRoot, hasRepo, hasStagedChanges, listChangedFiles, repoSummary, stagedDiff, } from './git.js';
+import { addAll, commit, findGitRepositories, gitRoot, hasRepo, hasStagedChanges, listChangedFiles, repoSummary, stagedDiff, isSubrepoDir, } from './git.js';
 import { chatCompletion } from './llm.js';
 import { SYSTEM, USER } from './messages.js';
 /**
@@ -154,8 +154,13 @@ function createScheduler(config, root, log, warn) {
  */
 async function startSingleRepository(config, repoPath) {
     validateConfig(config);
-    if (!(await hasRepo(repoPath))) {
-        throw createAutocommitError(`Not a git repo: ${repoPath}`);
+    const isSubrepo = await isSubrepoDir(repoPath);
+    const isGitRepo = await hasRepo(repoPath);
+    if (!isSubrepo && !isGitRepo) {
+        throw createAutocommitError(`Not a git repo or subrepo: ${repoPath}`);
+    }
+    if (isSubrepo && !config.handleSubrepos) {
+        throw createAutocommitError(`Subrepo detected but subrepo handling is disabled: ${repoPath}`);
     }
     const root = await gitRoot(repoPath);
     const { log, warn } = createLogger();

@@ -22,9 +22,27 @@ export declare function commit(cwd: string, message: string, signoff?: boolean):
  */
 export declare function sanitizeCommitMessage(message: string): string;
 /**
- * Finds all git repositories recursively within a directory.
- * @param rootPath - Root directory to search for git repositories
- * @returns Array of absolute paths to git repository roots
+ * Checks if a directory contains a git subrepo (.gitrepo file).
+ * @param cwd - Directory path to check
+ * @returns True if directory is a subrepo
+ */
+export declare function hasSubrepo(cwd: string): Promise<boolean>;
+/**
+ * Determines if a directory is a subrepo (contains .gitrepo file).
+ * @param cwd - Directory path to check
+ * @returns True if directory is a subrepo
+ */
+export declare function isSubrepoDir(cwd: string): Promise<boolean>;
+/**
+ * Finds all git subrepos recursively within a directory.
+ * @param rootPath - Root directory to search for git subrepos
+ * @returns Array of absolute paths to subrepo directories
+ */
+export declare function findSubrepos(rootPath: string): Promise<string[]>;
+/**
+ * Finds all git repositories and subrepos recursively within a directory.
+ * @param rootPath - Root directory to search for git repositories and subrepos
+ * @returns Array of absolute paths to git repository roots and subrepo directories
  */
 export declare function findGitRepositories(rootPath: string): Promise<string[]>;
 //# sourceMappingURL=git.d.ts.map

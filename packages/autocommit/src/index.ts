@@ -243,7 +243,10 @@ async function startSingleRepository(
   const { schedule, cleanup } = createScheduler(config, root, log, warn);
   const watcherSetup = setupWatcher(root, ignored, { schedule, log, warn });
 
-  log(`Watching ${root} (debounce ${config.debounceMs}ms). Ignored: ${ignored.join(', ')}`);
+  const repoType = isSubrepo ? 'subrepo' : 'git repository';
+  log(
+    `Watching ${root} (${repoType}, debounce ${config.debounceMs}ms). Ignored: ${ignored.join(', ')}`,
+  );
 
   return {
     close: () => {
