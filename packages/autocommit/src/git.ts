@@ -1,5 +1,5 @@
 import { execa } from 'execa';
-import { readdir, stat } from 'fs/promises';
+import { readdir } from 'fs/promises';
 import { join, resolve } from 'path';
 
 export async function gitRoot(cwd: string): Promise<string> {
@@ -113,4 +113,45 @@ export function sanitizeCommitMessage(message: string): string {
   // Also limit total length to prevent issues
   const finalSanitized = limitedLines.join('\n');
   return finalSanitized.length > 2000 ? finalSanitized.substring(0, 2000) : finalSanitized;
+}
+
+/**
+ * Finds all git repositories recursively within a directory.
+ * @param rootPath - Root directory to search for git repositories
+ * @returns Array of absolute paths to git repository roots
+ */
+export async function findGitRepositories(rootPath: string): Promise<string[]> {
+  const repositories: string[] = [];
+  const root = resolve(rootPath);
+
+  async function scanDirectory(dir: string): Promise<void> {
+    try {
+      const entries = await readdir(dir, { withFileTypes: true });
+
+      for (const entry of entries) {
+        const fullPath = join(dir, entry.name);
+
+        if (entry.isDirectory()) {
+          // Check if this is a git repository
+          if (entry.name === '.git') {
+            repositories.push(dir);
+            continue; // Don't scan inside .git directories
+          }
+
+          // Skip common non-repository directories for performance
+          if (entry.name === 'node_modules' || entry.name === 'dist' || entry.name === '.git') {
+            continue;
+          }
+
+          // Recursively scan subdirectories
+          await scanDirectory(fullPath);
+        }
+      }
+    } catch {
+      // Ignore directories we can't read
+    }
+  }
+
+  await scanDirectory(root);
+  return repositories;
 }
