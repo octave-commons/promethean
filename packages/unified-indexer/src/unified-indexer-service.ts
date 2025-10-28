@@ -18,6 +18,7 @@ import type {
   DualStoreEntry,
   SearchQuery,
   SearchResponse,
+  SearchResult,
   ContentType,
   ContentSource,
   ContextStoreState,
