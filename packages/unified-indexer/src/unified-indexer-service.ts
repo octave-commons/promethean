@@ -66,8 +66,8 @@ function contentToDualStoreEntry(content: IndexableContent): DualStoreEntry<'tex
  */
 function createSearchResult(entry: DualStoreEntry): SearchResult {
   const timestamp =
-    (entry as DualStoreEntry<'text', 'createdAt'>).createdAt ||
-    (entry as DualStoreEntry<'text', 'timestamp'>).timestamp ||
+    (entry as unknown as { createdAt?: unknown; timestamp?: unknown }).createdAt ||
+    (entry as unknown as { createdAt?: unknown; timestamp?: unknown }).timestamp ||
     Date.now();
   return {
     content: transformDualStoreEntry({
@@ -117,7 +117,9 @@ function createSearchHandler(dualStore: DualStoreManager<'text', 'createdAt'>) {
     );
 
     return {
-      results: results.map((entry) => createSearchResult(entry as any)),
+      results: results.map((entry) =>
+        createSearchResult(entry as DualStoreEntry<'text', 'createdAt'>),
+      ),
       total: results.length,
       took: Date.now() - startTime,
       query,
