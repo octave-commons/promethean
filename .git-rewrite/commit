@@ -1,7 +1,6 @@
-tree a558e6bd73730a43c116f3630d473329c077448b
-parent c4f784305d483fb380f42efd4ff9cc35ecef9805
-parent 568e44fe9ecb83bd6faca38b32ff9a1ff2ccf139
-author Error <foamy125@gmail.com> 1759782331 -0500
-committer Error <foamy125@gmail.com> 1759782331 -0500
+tree d5aaa68f04f645fab32a916b92f55753ef8e0e7d
+parent 732852497e5aaee1fa366ea73077e7ea8c96a05c
+author Aaron Beavers <foamy125@gmail.com> 1754250968 -0500
+committer Aaron Beavers <foamy125@gmail.com> 1754250968 -0500
 
-Merge remote-tracking branch 'origin/dev/stealth' into dev/stealth
+added missing make commands
