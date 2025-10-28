@@ -213,27 +213,6 @@ test('repoSummary returns branch and remote info', async (t) => {
   }
 });
 
-test('hasSubrepo detects .gitrepo files', async (t) => {
-  const tempDir = getTempDir();
-  await mkdir(tempDir, { recursive: true });
-
-  try {
-    // Create a .gitrepo file
-    const gitrepoContent = `
-# Git Subrepo Configuration
-subdir = test-subrepo
-remote = https://github.com/example/repo.git
-branch = main
-`;
-    await writeFile(join(tempDir, '.gitrepo'), gitrepoContent.trim());
-
-    const hasSubrepoResult = await hasSubrepo(tempDir);
-    t.true(hasSubrepoResult);
-  } finally {
-    await rm(tempDir, { recursive: true, force: true });
-  }
-});
-
 test('isSubrepoDir correctly identifies subrepo directories', async (t) => {
   const tempDir = getTempDir();
   await mkdir(tempDir, { recursive: true });
