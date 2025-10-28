@@ -47,6 +47,7 @@ export class TaskAIManager {
             this.transitionRulesState = null;
         }
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async validateTaskTransition(task, newStatus) {
         if (!this.wipEnforcement || !this.transitionRulesState) {
             console.warn('Compliance systems not initialized, skipping validation');
@@ -282,7 +283,9 @@ export class TaskAIManager {
             };
         }
     }
-    generateTaskAnalysis(task, analysisType, context) {
+    generateTaskAnalysis(task, analysisType, 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    context) {
         const contentLength = task.content?.length ?? 0;
         const baseQuality = Math.min(95, 60 + Math.floor(contentLength / 40));
         const completeness = Math.min(90, 55 + Math.floor(contentLength / 50));
@@ -311,6 +314,7 @@ export class TaskAIManager {
                         'Reserve buffer time for integration testing.',
                         'Identify critical path dependencies early.',
                     ],
+                    risks: ['Complex integration points may require additional coordination'],
                     dependencies: ['Architecture review', 'Test data availability'],
                     subtasks: [],
                 };
@@ -356,6 +360,7 @@ ${originalContent.trim()}
             summary: `${baseSummary} Key improvements: ${improvements.join(' ')}`,
         };
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     generateTaskBreakdown(task, breakdownType, maxSubtasks, complexity, includeEstimates) {
         const baseEstimate = complexity === 'complex' ? 6 : complexity === 'medium' ? 4 : 2;
         const subtasks = [
@@ -363,14 +368,6 @@ ${originalContent.trim()}
                 title: 'Requirement audit',
                 description: `Validate scope, dependencies, and entry criteria for ${task.title}.`,
                 estimatedHours: includeEstimates ? baseEstimate : undefined,
-                priority: 'high',
-                dependencies: [],
-                acceptanceCriteria: ['Scope confirmed with stakeholders'],
-            },
-            {
-                title: 'Implementation plan',
-                description: 'Outline technical approach, interfaces, and data changes.',
-                estimatedHours: includeEstimates ? baseEstimate + 1 : undefined,
                 priority: 'medium',
                 dependencies: ['Requirement audit'],
                 acceptanceCriteria: ['Plan reviewed by core team'],

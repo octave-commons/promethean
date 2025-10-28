@@ -2,7 +2,7 @@
  * Unit tests for CommitMessageGenerator
  */
 import test from 'ava';
-import { CommitMessageGenerator } from '../lib/heal/utils/commit-message-generator.js';
+import { CommitMessageGenerator, createCommitMessageGenerator } from '../lib/heal/utils/commit-message-generator.js';
 // Mock data for testing
 const mockScarContext = {
     reason: 'Fix duplicate task issue',
@@ -281,7 +281,7 @@ test('prefix is added to subject lines', (t) => {
     t.true(subject.startsWith('heal '));
 });
 test('createCommitMessageGenerator factory function', (t) => {
-    const generator = CommitMessageGenerator.createCommitMessageGenerator({
+    const generator = createCommitMessageGenerator({
         maxSubjectLength: 50,
         prefix: 'test',
     });

@@ -240,7 +240,10 @@ export class GitWorkflow {
       }
 
       // Create post-operation commit
-      const postOpMessage = this.commitMessageGenerator.generatePostOperationMessage(context, modifiedTasks);
+      const postOpMessage = this.commitMessageGenerator.generatePostOperationMessage(
+        context,
+        modifiedTasks,
+      );
       const postOpCommitResult = await this.gitUtils.commit(postOpMessage, true);
       if (!postOpCommitResult.success) {
         return {
@@ -328,7 +331,7 @@ export class GitWorkflow {
   /**
    * Commit tasks directory changes
    */
-  async commitTasksDirectory(context: ScarContext): Promise<GitOperationResult> {
+  async commitTasksDirectory(_context: ScarContext): Promise<GitOperationResult> {
     try {
       // Add tasks directory files
       const addResult = await this.gitUtils.addFiles(['docs/agile/tasks/']);
@@ -356,13 +359,13 @@ export class GitWorkflow {
   /**
    * Commit kanban board changes
    */
-  async commitKanbanBoard(context: ScarContext, modifiedTasks: Task[]): Promise<GitOperationResult> {
+  async commitKanbanBoard(
+    context: ScarContext,
+    modifiedTasks: Task[],
+  ): Promise<GitOperationResult> {
     try {
       // Add kanban board files
-      const boardFiles = [
-        'docs/agile/boards/generated.md',
-        'promethean.kanban.json',
-      ];
+      const boardFiles = ['docs/agile/boards/generated.md', 'promethean.kanban.json'];
 
       const addResult = await this.gitUtils.addFiles(boardFiles);
       if (!addResult.success) {
@@ -376,7 +379,10 @@ export class GitWorkflow {
       }
 
       // Generate commit message and commit
-      const message = this.commitMessageGenerator.generateKanbanBoardMessage(context.reason, modifiedTasks);
+      const message = this.commitMessageGenerator.generateKanbanBoardMessage(
+        context.reason,
+        modifiedTasks,
+      );
       return await this.gitUtils.commit(message);
     } catch (error) {
       return {
@@ -389,14 +395,10 @@ export class GitWorkflow {
   /**
    * Commit dependency changes
    */
-  async commitDependencies(context: ScarContext): Promise<GitOperationResult> {
+  async commitDependencies(_context: ScarContext): Promise<GitOperationResult> {
     try {
       // Add dependency files
-      const depFiles = [
-        'package.json',
-        'pnpm-lock.yaml',
-        'pnpm-workspace.yaml',
-      ];
+      const depFiles = ['package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml'];
 
       const addResult = await this.gitUtils.addFiles(depFiles);
       if (!addResult.success) {
@@ -426,7 +428,7 @@ export class GitWorkflow {
   async createPreOpTag(scarTag: string, sha: string): Promise<GitOperationResult> {
     try {
       const result = await this.gitTagManager.createHealTag(`Pre-operation: ${scarTag}`, sha);
-      
+
       return {
         success: result.success,
         data: result.success ? { tag: result.tag } : undefined,
@@ -446,7 +448,7 @@ export class GitWorkflow {
   async createPostOpTag(scarTag: string, sha: string): Promise<GitOperationResult> {
     try {
       const result = await this.gitTagManager.createHealTag(`Post-operation: ${scarTag}`, sha);
-      
+
       return {
         success: result.success,
         data: result.success ? { tag: result.tag } : undefined,
@@ -466,7 +468,7 @@ export class GitWorkflow {
   async createFinalTag(scarTag: string, sha: string): Promise<GitOperationResult> {
     try {
       const result = await this.gitTagManager.createHealTag(`Complete: ${scarTag}`, sha);
-      
+
       return {
         success: result.success,
         data: result.success ? { tag: result.tag } : undefined,
@@ -483,7 +485,10 @@ export class GitWorkflow {
   /**
    * Rollback to a specific commit
    */
-  async rollback(targetSha: string, mode: 'soft' | 'mixed' | 'hard' = 'mixed'): Promise<GitOperationResult> {
+  async rollback(
+    targetSha: string,
+    mode: 'soft' | 'mixed' | 'hard' = 'mixed',
+  ): Promise<GitOperationResult> {
     try {
       // Validate target SHA exists
       const exists = await this.gitUtils.refExists(targetSha);

@@ -80,8 +80,7 @@ export class TaskAIManager {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  private async validateTaskTransition(task: Task, newStatus: string): Promise<boolean> {
+
     if (!this.wipEnforcement || !this.transitionRulesState) {
       console.warn('Compliance systems not initialized, skipping validation');
       return true;

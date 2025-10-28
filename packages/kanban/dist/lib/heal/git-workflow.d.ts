@@ -3,6 +3,7 @@
  * Orchestrates pre-operation and post-operation Git workflows for healing operations
  */
 import type { ScarContext } from './scar-context-types.js';
+import type { GitState } from './utils/git-utils.js';
 import type { Task } from '../testing-transition/types.js';
 import { type GitOperationResult } from './utils/git-utils.js';
 /**
