@@ -242,44 +242,44 @@ services:
   #     retries: 6
 
   # ---------- ENSO protocol WebSocket server ----------
-  enso-server:
-    image: node:22-alpine
-    working_dir: /app
-    command: sh -lc "cd packages/enso-protocol && npm -s --no-fund --no-audit --no-progress --prefix /app run build || true; node /app/packages/enso-protocol/dist/ws-server.js"
-    volumes:
-      - ./:/app:ro
-    environment:
-      PORT: 7766
-    ports: ['7766:7766']
-    networks: [prom-net]
-    restart: unless-stopped
-    healthcheck:
-      test: ['CMD-SHELL', 'curl -fsS http://127.0.0.1:7766 >/dev/null || exit 1']
-      interval: 10s
-      timeout: 5s
-      retries: 6
+  # enso-server:
+  #   image: node:22-alpine
+  #   working_dir: /app
+  #   command: sh -lc "cd packages/enso-protocol && npm -s --no-fund --no-audit --no-progress --prefix /app run build || true; node /app/packages/enso-protocol/dist/ws-server.js"
+  #   volumes:
+  #     - ./:/app:ro
+  #   environment:
+  #     PORT: 7766
+  #   ports: ['7766:7766']
+  #   networks: [prom-net]
+  #   restart: unless-stopped
+  #   healthcheck:
+  #     test: ['CMD-SHELL', 'curl -fsS http://127.0.0.1:7766 >/dev/null || exit 1']
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 6
 
   # ---------- Browser Gateway (WebRTC <-> ENSO) ----------
-  duck-gateway:
-    image: node:22-alpine
-    working_dir: /app
-    command: node packages/enso-browser-gateway/src/server.mjs
-    volumes:
-      - ./:/app:ro
-    environment:
-      ENSO_WS_URL: ${ENSO_WS_URL:-ws://host.docker.internal:7766}
-      # On Linux hosts you may need to add `--add-host host.docker.internal:host-gateway`
-      # when running `docker run` commands to resolve host.docker.internal.
-      DUCK_TOKEN: ${DUCK_TOKEN:-}
-      ICE_SERVERS: ${ICE_SERVERS:-[]}
-    ports: ['8787:8787']
-    networks: [prom-net]
-    restart: unless-stopped
-    healthcheck:
-      test: ['CMD-SHELL', 'curl -fsS http://127.0.0.1:8787 >/dev/null || exit 1']
-      interval: 10s
-      timeout: 5s
-      retries: 6
+  # duck-gateway:
+  #   image: node:22-alpine
+  #   working_dir: /app
+  #   command: node packages/enso-browser-gateway/src/server.mjs
+  #   volumes:
+  #     - ./:/app:ro
+  #   environment:
+  #     ENSO_WS_URL: ${ENSO_WS_URL:-ws://host.docker.internal:7766}
+  #     # On Linux hosts you may need to add `--add-host host.docker.internal:host-gateway`
+  #     # when running `docker run` commands to resolve host.docker.internal.
+  #     DUCK_TOKEN: ${DUCK_TOKEN:-}
+  #     ICE_SERVERS: ${ICE_SERVERS:-[]}
+  #   ports: ['8787:8787']
+  #   networks: [prom-net]
+  #   restart: unless-stopped
+  #   healthcheck:
+  #     test: ['CMD-SHELL', 'curl -fsS http://127.0.0.1:8787 >/dev/null || exit 1']
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 6
 
   # semgrep:
   #   image: ${SEMGREP_IMAGE:-semgrep/semgrep:1.92.0}
