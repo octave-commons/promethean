@@ -11,12 +11,6 @@ import { OAuthIntegration } from '../integration.js';
 import { JwtTokenManager } from './jwt.js';
 import { UserRegistry } from '../users/registry.js';
 import { AuthenticationManager } from '../../core/authentication.js';
-import type {
-  OAuthSystemConfig,
-  JwtTokenConfig,
-  UserRegistryConfig,
-  OAuthIntegrationConfig,
-} from '../types.js';
 
 /**
  * OAuth route configuration
