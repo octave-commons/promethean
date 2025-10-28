@@ -3,6 +3,9 @@
  * Integrates with qwen3:8b model for intelligent task analysis, rewriting, and breakdown
  */
 
+import { promises as fs } from 'node:fs';
+import path from 'node:path';
+
 import type { Task } from '../types.js';
 
 import type {
@@ -92,8 +95,6 @@ export class TaskAIManager {
     };
 
     try {
-      const fs = require('node:fs').promises;
-      const path = require('node:path');
       const auditDir = './logs/audit';
       const auditFile = path.join(
         auditDir,
@@ -272,9 +273,9 @@ export class TaskAIManager {
         success: true,
         taskUuid: uuid,
         breakdownType,
-                subtasks: breakdown,
+        subtasks: breakdown,
         totalEstimatedHours: breakdown.reduce(
-          (sum: number, task: any) => sum + (task.estimatedHours || 0),
+          (sum: number, task: { estimatedHours?: number }) => sum + (task.estimatedHours || 0),
           0,
         ),
         metadata: {
@@ -301,7 +302,7 @@ export class TaskAIManager {
     }
   }
 
-      private generateTaskAnalysis(
+  private generateTaskAnalysis(
     task: Task,
     analysisType: string,
     _context: Record<string, unknown>,
@@ -325,7 +326,7 @@ export class TaskAIManager {
         };
 
       case 'complexity':
-                return {
+        return {
           complexityScore: Math.max(40, Math.min(85, 45 + Math.floor(contentLength / 60))),
           estimatedEffort: {
             hours: Math.max(4, Math.min(16, Math.round(contentLength / 120) + 4)),
@@ -339,7 +340,7 @@ export class TaskAIManager {
           risks: ['Complex integration points may cause delays'],
           dependencies: ['Architecture review', 'Test data availability'],
           subtasks: [],
-                };
+        };
 
       default:
         return {
@@ -395,7 +396,7 @@ ${originalContent.trim()}
     };
   }
 
-      private generateTaskBreakdown(
+  private generateTaskBreakdown(
     task: Task,
     _breakdownType: string,
     maxSubtasks: number,
@@ -408,7 +409,7 @@ ${originalContent.trim()}
       {
         title: 'Requirement audit',
         description: `Validate scope, dependencies, and entry criteria for ${task.title}.`,
-                estimatedHours: includeEstimates ? baseEstimate : undefined,
+        estimatedHours: includeEstimates ? baseEstimate : undefined,
         priority: 'high' as const,
         dependencies: [],
         acceptanceCriteria: ['Scope confirmed with stakeholders'],
@@ -416,7 +417,7 @@ ${originalContent.trim()}
       {
         title: 'Implementation plan',
         description: 'Outline technical approach, interfaces, and data changes.',
-                estimatedHours: includeEstimates ? baseEstimate + 1 : undefined,
+        estimatedHours: includeEstimates ? baseEstimate + 1 : undefined,
         priority: 'medium' as const,
         dependencies: ['Requirement audit'],
         acceptanceCriteria: ['Plan reviewed by core team'],
@@ -424,14 +425,14 @@ ${originalContent.trim()}
       {
         title: 'Validation strategy',
         description: 'Define test coverage, rollout, and monitoring strategy.',
-                estimatedHours: includeEstimates ? baseEstimate : undefined,
+        estimatedHours: includeEstimates ? baseEstimate : undefined,
         priority: 'medium' as const,
         dependencies: ['Implementation plan'],
         acceptanceCriteria: ['QA and release steps documented'],
       },
     ].slice(0, maxSubtasks);
 
-        return subtasks;
+    return subtasks;
   }
 }
 

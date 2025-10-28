@@ -217,7 +217,12 @@ export const retry = async <T>(
 
       // If this is the last attempt, enhance error message with attempt count
       if (attempt > maxRetries) {
-        lastError = new Error(`${originalError.message}, attempt ${maxRetries}`);
+        // For maxRetries = 0, don't add attempt info to error message
+        if (maxRetries === 0) {
+          lastError = originalError;
+        } else {
+          lastError = new Error(`${originalError.message}, attempt ${maxRetries}`);
+        }
         break;
       }
 
