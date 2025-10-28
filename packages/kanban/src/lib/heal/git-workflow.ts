@@ -213,8 +213,7 @@ export class GitWorkflow {
       const commits: string[] = [];
       let totalFilesChanged = 0;
 
-      // Get current state to compare with pre-operation
-      const currentState = await this.gitUtils.getCurrentState();
+      // Commit tasks directory changes
 
       // Commit tasks directory changes
       const tasksCommitResult = await this.commitTasksDirectory(context);
@@ -261,7 +260,6 @@ export class GitWorkflow {
       commits.push(postOpSha);
 
       // Create post-operation tag
-      const postOpTag = `${context.metadata.tag}-post-op`;
       const postOpTagResult = await this.gitTagManager.createHealTag(
         `Post-operation: ${context.reason}`,
         postOpSha,
@@ -291,8 +289,7 @@ export class GitWorkflow {
 
       await this.scarFileManager.addScar(scarRecord);
 
-      // Create final tag
-      const finalTag = context.metadata.tag;
+      // Create and store scar record
       const finalTagResult = await this.gitTagManager.createHealTag(
         `Complete: ${context.reason}`,
         postOpSha,
@@ -428,7 +425,6 @@ export class GitWorkflow {
    */
   async createPreOpTag(scarTag: string, sha: string): Promise<GitOperationResult> {
     try {
-      const tag = `${scarTag}-pre-op`;
       const result = await this.gitTagManager.createHealTag(`Pre-operation: ${scarTag}`, sha);
       
       return {
@@ -449,7 +445,6 @@ export class GitWorkflow {
    */
   async createPostOpTag(scarTag: string, sha: string): Promise<GitOperationResult> {
     try {
-      const tag = `${scarTag}-post-op`;
       const result = await this.gitTagManager.createHealTag(`Post-operation: ${scarTag}`, sha);
       
       return {

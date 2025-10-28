@@ -80,7 +80,7 @@ export class TaskAIManager {
     }
   }
 
-  private async validateTaskTransition(task: Task, newStatus: string): Promise<boolean> {
+
     if (!this.wipEnforcement || !this.transitionRulesState) {
       console.warn('Compliance systems not initialized, skipping validation');
       return true;
@@ -345,7 +345,7 @@ export class TaskAIManager {
         breakdownType,
         subtasks: breakdown.subtasks,
         totalEstimatedHours: breakdown.subtasks.reduce(
-          (sum, task) => sum + (task.estimatedHours || 0),
+          (sum: number, task: any) => sum + (task.estimatedHours || 0),
           0,
         ),
         metadata: {

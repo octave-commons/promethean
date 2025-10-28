@@ -3,7 +3,7 @@
  */
 
 import test from 'ava';
-import { CommitMessageGenerator } from '../lib/heal/utils/commit-message-generator.js';
+import { CommitMessageGenerator, createCommitMessageGenerator } from '../lib/heal/utils/commit-message-generator.js';
 import type { ScarContext } from '../lib/heal/scar-context-types.js';
 import type { Task } from '../lib/testing-transition/types.js';
 
@@ -337,7 +337,7 @@ test('prefix is added to subject lines', (t) => {
 });
 
 test('createCommitMessageGenerator factory function', (t) => {
-  const generator = CommitMessageGenerator.createCommitMessageGenerator({
+  const generator = createCommitMessageGenerator({
     maxSubjectLength: 50,
     prefix: 'test',
   });
