@@ -14,6 +14,8 @@ import {
   ConnectionMetrics,
   TransportError,
   AgentAddress,
+  FlowControlConfig,
+  FlowControlStatus,
 } from '../types/index.js';
 
 // ============================================================================
@@ -46,273 +48,363 @@ export type HttpConnection = Connection & {
 };
 
 // ============================================================================
-// HTTP TRANSPORT IMPLEMENTATION
+// HTTP TRANSPORT STATE
 // ============================================================================
 
-export class HttpTransport extends EventEmitter implements Transport {
-  private connections = new Map<string, HttpConnection>();
-  private metrics: ConnectionMetrics = {
-    totalConnections: 0,
-    activeConnections: 0,
-    failedConnections: 0,
-    totalRequests: 0,
-    successfulRequests: 0,
-    failedRequests: 0,
-    averageLatency: 0,
-    lastActivity: new Date().toISOString(),
+export type HttpTransportState = {
+  connections: Map<string, HttpConnection>;
+  metrics: ConnectionMetrics;
+  config: HttpTransportConfig;
+  emitter: EventEmitter;
+  flowControl: FlowControlConfig;
+};
+
+// ============================================================================
+// HTTP TRANSPORT FACTORY
+// ============================================================================
+
+export const createHttpTransport = (config: HttpTransportConfig): Transport => {
+  const state: HttpTransportState = {
+    connections: new Map(),
+    metrics: {
+      messagesSent: 0,
+      messagesReceived: 0,
+      bytesTransferred: 0,
+      errorCount: 0,
+      averageLatency: 0,
+      totalConnections: 0,
+      activeConnections: 0,
+      failedConnections: 0,
+      totalRequests: 0,
+      successfulRequests: 0,
+      failedRequests: 0,
+      lastActivity: new Date(),
+    },
+    config,
+    emitter: new EventEmitter(),
+    flowControl: {
+      rateLimit: 100,
+      bufferSize: 1000,
+      backpressureThreshold: 800,
+    },
   };
 
-  constructor(private config: HttpTransportConfig) {
-    super();
-    this.validateConfig();
-  }
+  validateConfig(config);
 
-  // ========================================================================
-  // CONNECTION MANAGEMENT
-  // ========================================================================
+  return {
+    connect: (endpoint: string) => connect(state, endpoint),
+    disconnect: (connectionId: string) => disconnect(state, connectionId),
+    send: (message: CoreMessage) => send(state, message),
+    receive: () => receive(state),
+    acknowledge: (messageId: string) => acknowledge(state, messageId),
+    reject: (messageId: string, reason: string) => reject(state, messageId, reason),
+    setFlowControl: (config: FlowControlConfig) => setFlowControl(state, config),
+    getFlowControlStatus: () => getFlowControlStatus(state),
+  };
+};
 
-  async connect(address: AgentAddress): Promise<HttpConnection> {
-    const connectionKey = this.getConnectionKey(address);
+// ============================================================================
+// CONNECTION MANAGEMENT
+// ============================================================================
 
-    // Check for existing connection
-    if (this.connections.has(connectionKey)) {
-      const connection = this.connections.get(connectionKey)!;
-      if (this.isConnectionHealthy(connection)) {
-        connection.lastUsed = Date.now();
-        return connection;
-      }
-      // Remove unhealthy connection
-      this.connections.delete(connectionKey);
-      this.metrics.activeConnections--;
+const connect = async (state: HttpTransportState, endpoint: string): Promise<Connection> => {
+  const connectionKey = endpoint;
+
+  // Check for existing connection
+  if (state.connections.has(connectionKey)) {
+    const connection = state.connections.get(connectionKey)!;
+    if (isConnectionHealthy(connection)) {
+      connection.lastUsed = Date.now();
+      return connection;
     }
-
-    // Create new connection
-    const connection = await this.createConnection(address);
-    this.connections.set(connectionKey, connection);
-    this.metrics.totalConnections++;
-    this.metrics.activeConnections++;
-
-    this.emit('connected', connection);
-    return connection;
-  }
-
-  async disconnect(connection: HttpConnection): Promise<void> {
-    const connectionKey = this.getConnectionKey(connection.address);
-
-    if (this.connections.has(connectionKey)) {
-      this.connections.delete(connectionKey);
-      this.metrics.activeConnections--;
-
-      // Close the agent if it has dispose method
-      if ('dispose' in connection.agent) {
-        await (connection.agent as any).dispose();
-      }
-
-      this.emit('disconnected', connection);
+    // Remove unhealthy connection
+    state.connections.delete(connectionKey);
+    if (state.metrics.activeConnections) {
+      state.metrics.activeConnections--;
     }
   }
 
-  async disconnectAll(): Promise<void> {
-    const disconnectPromises = Array.from(this.connections.values()).map((connection) =>
-      this.disconnect(connection),
-    );
-
-    await Promise.all(disconnectPromises);
-    this.connections.clear();
-    this.metrics.activeConnections = 0;
+  // Create new connection
+  const connection = await createConnection(state.config, endpoint);
+  state.connections.set(connectionKey, connection);
+  if (state.metrics.totalConnections !== undefined) {
+    state.metrics.totalConnections++;
+  }
+  if (state.metrics.activeConnections !== undefined) {
+    state.metrics.activeConnections++;
   }
 
-  // ========================================================================
-  // MESSAGE TRANSPORT
-  // ========================================================================
+  state.emitter.emit('connected', connection);
+  return connection;
+};
 
-  async send(message: CoreMessage, connection?: HttpConnection): Promise<void> {
-    const targetConnection = connection || (await this.connect(message.recipient));
+const disconnect = async (state: HttpTransportState, connectionId: string): Promise<void> => {
+  const connection = Array.from(state.connections.values()).find(
+    (conn) => conn.id === connectionId,
+  );
 
-    try {
-      const startTime = Date.now();
-      this.metrics.totalRequests++;
-
-      const response = await this.makeRequest(targetConnection, message);
-
-      if (!response.ok) {
-        throw new TransportError(
-          `HTTP request failed: ${response.status} ${response.statusText}`,
-          'HTTP_ERROR',
-          { status: response.status, statusText: response.statusText },
-        );
-      }
-
-      const latency = Date.now() - startTime;
-      this.updateMetrics(latency, true);
-      targetConnection.requestCount++;
-      targetConnection.lastUsed = Date.now();
-
-      this.emit('messageSent', message, targetConnection);
-    } catch (error) {
-      this.updateMetrics(0, false);
-      targetConnection.errorCount++;
-
-      if (targetConnection.errorCount > 3) {
-        await this.disconnect(targetConnection);
-      }
-
-      this.emit('error', error, targetConnection);
-      throw error;
-    }
+  if (!connection) {
+    throw new TransportError(`Connection ${connectionId} not found`);
   }
 
-  async receive(connection: HttpConnection, timeout?: number): Promise<CoreMessage> {
-    // HTTP is primarily request/response, so receive is not typically used
-    // This would be for server-side HTTP implementations
-    throw new TransportError(
-      'HTTP receive not implemented for client-side transport',
-      'NOT_IMPLEMENTED',
-    );
+  const connectionKey = getConnectionKey(connection.config);
+  state.connections.delete(connectionKey);
+
+  if (state.metrics.activeConnections !== undefined) {
+    state.metrics.activeConnections--;
   }
 
-  // ========================================================================
-  // CONNECTION HEALTH
-  // ========================================================================
+  state.emitter.emit('disconnected', connection);
+};
 
-  async isHealthy(connection: HttpConnection): Promise<boolean> {
-    try {
-      const response = await this.makeHealthCheck(connection);
-      return response.ok;
-    } catch {
-      return false;
-    }
-  }
+// ============================================================================
+// MESSAGE TRANSPORT
+// ============================================================================
 
-  getMetrics(): ConnectionMetrics {
-    return { ...this.metrics };
-  }
+const send = async (state: HttpTransportState, message: CoreMessage): Promise<void> => {
+  const endpoint = `${message.recipient.endpoint || getDefaultEndpoint(message.recipient)}`;
 
-  getConnections(): HttpConnection[] {
-    return Array.from(this.connections.values());
-  }
+  try {
+    const startTime = Date.now();
 
-  // ========================================================================
-  // PRIVATE METHODS
-  // ========================================================================
-
-  private validateConfig(): void {
-    if (!this.config.hostname) {
-      throw new TransportError('Hostname is required', 'INVALID_CONFIG');
-    }
-    if (!this.config.port || this.config.port < 1 || this.config.port > 65535) {
-      throw new TransportError('Valid port is required', 'INVALID_CONFIG');
-    }
-  }
-
-  private getConnectionKey(address: AgentAddress): string {
-    return `${address.id}:${address.namespace}:${address.domain}`;
-  }
-
-  private async createConnection(address: AgentAddress): Promise<HttpConnection> {
-    const agent = new Agent({
-      keepAlive: this.config.keepAlive ?? true,
-      maxSockets: this.config.maxSockets ?? 100,
-      maxTotalSockets: this.config.maxConnections ?? 1000,
-      keepAliveMsecs: this.config.keepAliveMsecs ?? 1000,
-      timeout: this.config.timeout ?? 30000,
-    });
-
-    return {
-      id: `http-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      address,
-      status: 'connected',
-      createdAt: new Date().toISOString(),
-      lastActivity: new Date().toISOString(),
-      metrics: {
-        messagesSent: 0,
-        messagesReceived: 0,
-        bytesTransferred: 0,
-        errors: 0,
-        averageLatency: 0,
-      },
-      config: this.config,
-      agent,
-      lastUsed: Date.now(),
-      requestCount: 0,
-      errorCount: 0,
-    };
-  }
-
-  private isConnectionHealthy(connection: HttpConnection): boolean {
-    const maxIdleTime = 300000; // 5 minutes
-    const maxErrors = 3;
-
-    return Date.now() - connection.lastUsed < maxIdleTime && connection.errorCount <= maxErrors;
-  }
-
-  private async makeRequest(connection: HttpConnection, message: CoreMessage): Promise<Response> {
-    const url = this.buildUrl(connection.config, message.recipient);
-    const headers = {
-      'Content-Type': 'application/json',
-      'User-Agent': 'agent-os-protocol/1.0.0',
-      ...connection.config.headers,
-      'X-Message-ID': message.id,
-      'X-Message-Type': message.type,
-      'X-Sender-ID': message.sender.id,
-      'X-Recipient-ID': message.recipient.id,
-    };
-
-    const body = JSON.stringify(message);
-
-    return undiciFetch(url, {
+    const response = await fetch(endpoint, {
       method: 'POST',
-      headers,
-      body,
-      dispatcher: connection.agent,
-      signal: AbortSignal.timeout(this.config.timeout ?? 30000),
-    });
-  }
-
-  private async makeHealthCheck(connection: HttpConnection): Promise<Response> {
-    const url = `${connection.config.protocol}://${connection.config.hostname}:${connection.config.port}${connection.config.basePath || ''}/health`;
-
-    return undiciFetch(url, {
-      method: 'GET',
       headers: {
-        'User-Agent': 'agent-os-protocol/1.0.0',
+        'Content-Type': 'application/json',
+        ...state.config.headers,
       },
-      dispatcher: connection.agent,
-      signal: AbortSignal.timeout(5000),
+      body: JSON.stringify(message),
+      signal: AbortSignal.timeout(state.config.timeout || 30000),
     });
-  }
 
-  private buildUrl(config: HttpTransportConfig, recipient: AgentAddress): string {
-    const basePath = config.basePath || '';
-    const path = `/messages/${recipient.id}`;
-
-    return `${config.protocol}://${config.hostname}:${config.port}${basePath}${path}`;
-  }
-
-  private updateMetrics(latency: number, success: boolean): void {
-    if (success) {
-      this.metrics.successfulRequests++;
-
-      // Update average latency
-      const totalLatency =
-        this.metrics.averageLatency * (this.metrics.successfulRequests - 1) + latency;
-      this.metrics.averageLatency = totalLatency / this.metrics.successfulRequests;
-    } else {
-      this.metrics.failedRequests++;
+    if (!response.ok) {
+      throw new TransportError(`HTTP ${response.status}: ${response.statusText}`);
     }
 
-    this.metrics.lastActivity = new Date().toISOString();
+    // Update metrics
+    const latency = Date.now() - startTime;
+    updateMetrics(state, 'send', latency, true);
+
+    state.emitter.emit('messageSent', message);
+  } catch (error) {
+    updateMetrics(state, 'send', 0, false);
+    throw new TransportError('Failed to send message', 'SEND_ERROR', { error });
   }
-}
+};
+
+const receive = async function* (state: HttpTransportState): AsyncIterable<CoreMessage> {
+  const messageQueue: CoreMessage[] = [];
+
+  // In a real implementation, this would listen for incoming HTTP requests
+  // For now, we'll yield from a queue that gets populated elsewhere
+  while (true) {
+    if (messageQueue.length > 0) {
+      const message = messageQueue.shift()!;
+      updateMetrics(state, 'receive', 0, true);
+      yield message;
+    } else {
+      // Wait for new messages
+      await new Promise((resolve) => {
+        state.emitter.once('messageReceived', resolve);
+      });
+    }
+  }
+};
+
+// ============================================================================
+// RELIABILITY FUNCTIONS
+// ============================================================================
+
+const acknowledge = async (state: HttpTransportState, messageId: string): Promise<void> => {
+  // HTTP implementation would send ACK via HTTP POST
+  state.emitter.emit('acknowledged', messageId);
+};
+
+const reject = async (
+  state: HttpTransportState,
+  messageId: string,
+  reason: string,
+): Promise<void> => {
+  // HTTP implementation would send REJECT via HTTP POST
+  state.emitter.emit('rejected', { messageId, reason });
+};
+
+// ============================================================================
+// FLOW CONTROL
+// ============================================================================
+
+const setFlowControl = (state: HttpTransportState, config: FlowControlConfig): void => {
+  state.flowControl = config;
+  state.emitter.emit('flowControlChanged', config);
+};
+
+const getFlowControlStatus = (state: HttpTransportState): FlowControlStatus => {
+  return {
+    currentRate:
+      (state.metrics.messagesSent / (Date.now() - (state.metrics.lastActivity as Date).getTime())) *
+      1000,
+    bufferUtilization: state.connections.size / (state.config.maxConnections || 100),
+    backpressureActive: state.connections.size >= state.flowControl.backpressureThreshold,
+  };
+};
 
 // ============================================================================
 // UTILITY FUNCTIONS
 // ============================================================================
 
-export function createHttpTransport(config: HttpTransportConfig): HttpTransport {
-  return new HttpTransport(config);
-}
+const validateConfig = (config: HttpTransportConfig): void => {
+  if (!config.hostname) {
+    throw new TransportError('Hostname is required');
+  }
+  if (!config.port || config.port < 1 || config.port > 65535) {
+    throw new TransportError('Valid port is required');
+  }
+};
 
-export function isHttpTransport(transport: Transport): transport is HttpTransport {
-  return transport instanceof HttpTransport;
+const createConnection = async (
+  config: HttpTransportConfig,
+  endpoint: string,
+): Promise<HttpConnection> => {
+  const connectionId = crypto.randomUUID();
+
+  try {
+    // Test connectivity with a simple request
+    const response = await fetch(endpoint, {
+      method: 'HEAD',
+      signal: AbortSignal.timeout(config.timeout || 30000),
+    });
+
+    return {
+      id: connectionId,
+      endpoint,
+      status: 'connected',
+      lastActivity: new Date(),
+      metrics: {
+        messagesSent: 0,
+        messagesReceived: 0,
+        bytesTransferred: 0,
+        errorCount: 0,
+        averageLatency: 0,
+      },
+      config,
+      lastUsed: Date.now(),
+      requestCount: 0,
+      errorCount: 0,
+    };
+  } catch (error) {
+    throw new TransportError(`Failed to create connection to ${endpoint}`, 'CONNECTION_ERROR', {
+      error,
+    });
+  }
+};
+
+const isConnectionHealthy = (connection: HttpConnection): boolean => {
+  const maxIdleTime = 300000; // 5 minutes
+  const now = Date.now();
+
+  return (
+    connection.status === 'connected' &&
+    now - connection.lastUsed < maxIdleTime &&
+    connection.errorCount < 5
+  );
+};
+
+const getConnectionKey = (config: HttpTransportConfig): string => {
+  return `${config.protocol}://${config.hostname}:${config.port}${config.basePath || ''}`;
+};
+
+const getDefaultEndpoint = (address: AgentAddress): string => {
+  return address.endpoint || `http://${address.domain}`;
+};
+
+const updateMetrics = (
+  state: HttpTransportState,
+  operation: 'send' | 'receive',
+  latency: number,
+  success: boolean,
+): void => {
+  if (operation === 'send') {
+    state.metrics.messagesSent++;
+    if (state.metrics.totalRequests !== undefined) {
+      state.metrics.totalRequests++;
+    }
+    if (success && state.metrics.successfulRequests !== undefined) {
+      state.metrics.successfulRequests++;
+    }
+    if (!success && state.metrics.failedRequests !== undefined) {
+      state.metrics.failedRequests++;
+    }
+  } else {
+    state.metrics.messagesReceived++;
+  }
+
+  if (latency > 0) {
+    // Update average latency
+    const totalLatency = state.metrics.averageLatency * (state.metrics.messagesSent - 1) + latency;
+    state.metrics.averageLatency = totalLatency / state.metrics.messagesSent;
+  }
+
+  if (!success) {
+    state.metrics.errorCount++;
+  }
+
+  state.metrics.lastActivity = new Date();
+};
+
+// ============================================================================
+// TYPE GUARDS
+// ============================================================================
+
+export const isHttpTransport = (
+  transport: Transport,
+): transport is Transport & {
+  connect(endpoint: string): Promise<HttpConnection>;
+} => {
+  // In a real implementation, we'd check for specific HTTP transport properties
+  return transport.constructor?.name === 'HttpTransport' || false;
+};
+
+// ============================================================================
+// LEGACY EXPORTS FOR BACKWARD COMPATIBILITY
+// ============================================================================
+
+export class HttpTransport extends EventEmitter implements Transport {
+  private transport: Transport;
+
+  constructor(config: HttpTransportConfig) {
+    super();
+    this.transport = createHttpTransport(config);
+  }
+
+  async connect(endpoint: string): Promise<Connection> {
+    return this.transport.connect(endpoint);
+  }
+
+  async disconnect(connectionId: string): Promise<void> {
+    return this.transport.disconnect(connectionId);
+  }
+
+  async send(message: CoreMessage): Promise<void> {
+    return this.transport.send(message);
+  }
+
+  receive(): AsyncIterable<CoreMessage> {
+    return this.transport.receive();
+  }
+
+  async acknowledge(messageId: string): Promise<void> {
+    return this.transport.acknowledge(messageId);
+  }
+
+  async reject(messageId: string, reason: string): Promise<void> {
+    return this.transport.reject(messageId, reason);
+  }
+
+  setFlowControl(config: FlowControlConfig): void {
+    this.transport.setFlowControl(config);
+  }
+
+  getFlowControlStatus(): FlowControlStatus {
+    return this.transport.getFlowControlStatus();
+  }
 }
