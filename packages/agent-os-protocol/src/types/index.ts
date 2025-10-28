@@ -368,6 +368,15 @@ export interface ConnectionMetrics {
   bytesTransferred: number;
   errorCount: number;
   averageLatency: number;
+  // Extended metrics for HTTP transport
+  totalConnections?: number;
+  activeConnections?: number;
+  failedConnections?: number;
+  totalRequests?: number;
+  successfulRequests?: number;
+  failedRequests?: number;
+  lastActivity?: Date | string;
+  errors?: number;
 }
 
 export interface FlowControlConfig {

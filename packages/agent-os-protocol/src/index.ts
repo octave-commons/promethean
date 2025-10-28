@@ -42,6 +42,8 @@ export {
 // CONVENIENCE HELPERS
 // ============================================================================
 
+import { MessageValidator, MessageFactory } from './core/message.js';
+
 export const validateMessage = (message: unknown) => {
   try {
     return MessageValidator.validate(message);

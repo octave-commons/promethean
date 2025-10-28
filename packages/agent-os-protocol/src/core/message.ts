@@ -71,7 +71,7 @@ export const createRequest = (params: {
     sender: params.sender,
     recipient: params.recipient,
     payload: params.data,
-    priority: params.priority,
+    priority: params.priority || 'NORMAL',
   });
 };
 
@@ -83,8 +83,11 @@ export const createResponse = (params: {
   priority?: Priority;
 }): CoreMessage => {
   const message = createMessage({
-    ...params,
     type: 'RESPONSE',
+    sender: params.sender,
+    recipient: params.recipient,
+    payload: params.data,
+    priority: params.priority || 'NORMAL',
   });
 
   return {
@@ -100,13 +103,15 @@ export const createEvent = (params: {
   priority?: Priority;
 }): CoreMessage => {
   return createMessage({
-    ...params,
     type: 'EVENT',
+    sender: params.sender,
     recipient: params.recipient || {
       id: 'broadcast',
       namespace: 'system',
       domain: 'global',
     },
+    payload: params.data,
+    priority: params.priority || 'NORMAL',
   });
 };
 
@@ -123,8 +128,9 @@ export const createError = (params: {
       : { message: params.error };
 
   const message = createMessage({
-    ...params,
     type: 'ERROR',
+    sender: params.sender,
+    recipient: params.recipient,
     payload: errorData,
     priority: params.priority || 'HIGH',
   });

@@ -6,7 +6,6 @@
  */
 
 import { EventEmitter } from 'events';
-import { fetch as undiciFetch, Agent } from 'undici';
 import {
   CoreMessage,
   Transport,
@@ -41,7 +40,6 @@ export type HttpTransportConfig = TransportConfig & {
 
 export type HttpConnection = Connection & {
   config: HttpTransportConfig;
-  agent: Agent;
   lastUsed: number;
   requestCount: number;
   errorCount: number;
