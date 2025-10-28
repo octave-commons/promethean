@@ -299,7 +299,22 @@ export class GitUtils {
   /**
    * Execute a git command with proper error handling
    */
-  private execGit(command: string, options: { stdio?: StdioOptions } = {}): string {
+    private execGit(command: string, options: { stdio?: StdioOptions } = {}): string {
+    try {
+      const stdioOption = options.stdio || 'pipe' as any;
+      return execSync(`git ${command}`, {
+        cwd: this.repoPath,
+        encoding: 'utf8',
+        stdio: stdioOption,
+        maxBuffer: 50 * 1024 * 1024, // 50MB buffer
+      });
+    } catch (error) {
+      if (options.stdio === 'ignore') {
+        throw error;
+      }
+      throw new Error(`Git command failed: git ${command} - ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }
     try {
       const stdio = options.stdio || 'pipe' as any;
       return execSync(`git ${command}`, {

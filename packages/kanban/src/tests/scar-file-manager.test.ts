@@ -5,7 +5,7 @@
 import test from 'ava';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
-import { ScarFileManager } from '../lib/heal/scar-file-manager.js';
+import { ScarFileManager, createScarFileManager } from '../lib/heal/scar-file-manager.js';
 import type { ScarRecord } from '../lib/heal/scar-context-types.js';
 
 // Mock scar records for testing
@@ -30,13 +30,13 @@ test.beforeEach(async (t) => {
   // Create a temporary directory for each test
   const testDir = path.join(process.cwd(), 'test-scar-file-manager-temp');
   await fs.mkdir(testDir, { recursive: true });
-  t.context.testDir = testDir;
-  t.context.testFilePath = path.join(testDir, 'test-scars.jsonl');
+  (t.context as any).testDir = testDir;
+  (t.context as any).testFilePath = path.join(testDir, 'test-scars.jsonl');
 });
 
 test.afterEach.always(async (t) => {
   // Clean up test directory
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   try {
     await fs.rm(testDir, { recursive: true, force: true });
   } catch (error) {
@@ -55,7 +55,7 @@ test('ScarFileManager constructor with default config', (t) => {
 });
 
 test('ScarFileManager constructor with custom config', (t) => {
-  const testFilePath = t.context.testFilePath as string;
+  const testFilePath = (t.context as any).testFilePath as string;
   const manager = new ScarFileManager({
     filePath: testFilePath,
     createIfMissing: false,
@@ -72,7 +72,7 @@ test('ScarFileManager constructor with custom config', (t) => {
 });
 
 test('loadScars returns empty array for non-existent file', async (t) => {
-  const testFilePath = t.context.testFilePath as string;
+  const testFilePath = (t.context as any).testFilePath as string;
   const manager = new ScarFileManager({ filePath: testFilePath });
   
   const scars = await manager.loadScars();
@@ -82,7 +82,7 @@ test('loadScars returns empty array for non-existent file', async (t) => {
 });
 
 test('loadScars loads valid scar records', async (t) => {
-  const testFilePath = t.context.testFilePath as string;
+  const testFilePath = (t.context as any).testFilePath as string;
   const manager = new ScarFileManager({ filePath: testFilePath });
   
   // Create test file with scar records
@@ -94,14 +94,14 @@ test('loadScars loads valid scar records', async (t) => {
   const scars = await manager.loadScars();
   
   t.is(scars.length, 2);
-  t.is(scars[0].tag, 'heal-2025-01-01-10-00-00');
-  t.is(scars[1].tag, 'heal-2025-01-02-15-30-00');
-  t.true(scars[0].timestamp instanceof Date);
-  t.true(scars[1].timestamp instanceof Date);
+    t.is(scars[0]!.tag, 'heal-2025-01-01-10-00-00');
+  t.is(scars[1]!.tag, 'heal-2025-01-02-15-30-00');
+  t.true(scars[0]!.timestamp instanceof Date);
+  t.true(scars[1]!.timestamp instanceof Date);
 });
 
 test('loadScars skips invalid records', async (t) => {
-  const testFilePath = t.context.testFilePath as string;
+  const testFilePath = (t.context as any).testFilePath as string;
   const manager = new ScarFileManager({ filePath: testFilePath });
   
   // Create test file with mixed valid and invalid records
@@ -119,7 +119,7 @@ test('loadScars skips invalid records', async (t) => {
 });
 
 test('addScar adds single scar record', async (t) => {
-  const testFilePath = t.context.testFilePath as string;
+  const testFilePath = (t.context as any).testFilePath as string;
   const manager = new ScarFileManager({ filePath: testFilePath });
   
   const result = await manager.addScar(mockScarRecords[0]);
@@ -132,11 +132,11 @@ test('addScar adds single scar record', async (t) => {
   // Verify file was created and contains the record
   const scars = await manager.loadScars();
   t.is(scars.length, 1);
-  t.is(scars[0].tag, mockScarRecords[0].tag);
+    t.is(scars[0]!.tag, mockScarRecords[0].tag);
 });
 
 test('addScar rejects invalid scar record', async (t) => {
-  const testFilePath = t.context.testFilePath as string;
+  const testFilePath = (t.context as any).testFilePath as string;
   const manager = new ScarFileManager({ filePath: testFilePath });
   
   const invalidScar = {
@@ -151,7 +151,7 @@ test('addScar rejects invalid scar record', async (t) => {
 });
 
 test('addScars adds multiple scar records', async (t) => {
-  const testFilePath = t.context.testFilePath as string;
+  const testFilePath = (t.context as any).testFilePath as string;
   const manager = new ScarFileManager({ filePath: testFilePath });
   
   const result = await manager.addScars(mockScarRecords);
@@ -165,7 +165,7 @@ test('addScars adds multiple scar records', async (t) => {
 });
 
 test('addScars rejects partially invalid records', async (t) => {
-  const testFilePath = t.context.testFilePath as string;
+  const testFilePath = (t.context as any).testFilePath as string;
   const manager = new ScarFileManager({ filePath: testFilePath });
   
   const mixedRecords = [
@@ -181,7 +181,7 @@ test('addScars rejects partially invalid records', async (t) => {
 });
 
 test('getStats returns correct statistics', async (t) => {
-  const testFilePath = t.context.testFilePath as string;
+  const testFilePath = (t.context as any).testFilePath as string;
   const manager = new ScarFileManager({ filePath: testFilePath });
   
   // Add some records first
@@ -197,7 +197,7 @@ test('getStats returns correct statistics', async (t) => {
 });
 
 test('getStats for non-existent file', async (t) => {
-  const testFilePath = t.context.testFilePath as string;
+  const testFilePath = (t.context as any).testFilePath as string;
   const manager = new ScarFileManager({ filePath: testFilePath });
   
   const stats = await manager.getStats();
@@ -209,7 +209,7 @@ test('getStats for non-existent file', async (t) => {
 });
 
 test('searchScars by tag pattern', async (t) => {
-  const testFilePath = t.context.testFilePath as string;
+  const testFilePath = (t.context as any).testFilePath as string;
   const manager = new ScarFileManager({ filePath: testFilePath });
   
   await manager.addScars(mockScarRecords);
@@ -221,7 +221,7 @@ test('searchScars by tag pattern', async (t) => {
 });
 
 test('searchScars by date range', async (t) => {
-  const testFilePath = t.context.testFilePath as string;
+  const testFilePath = (t.context as any).testFilePath as string;
   const manager = new ScarFileManager({ filePath: testFilePath });
   
   await manager.addScars(mockScarRecords);
@@ -238,7 +238,7 @@ test('searchScars by date range', async (t) => {
 });
 
 test('searchScars by story content', async (t) => {
-  const testFilePath = t.context.testFilePath as string;
+  const testFilePath = (t.context as any).testFilePath as string;
   const manager = new ScarFileManager({ filePath: testFilePath });
   
   await manager.addScars(mockScarRecords);
@@ -250,7 +250,7 @@ test('searchScars by story content', async (t) => {
 });
 
 test('searchScars with limit', async (t) => {
-  const testFilePath = t.context.testFilePath as string;
+  const testFilePath = (t.context as any).testFilePath as string;
   const manager = new ScarFileManager({ filePath: testFilePath });
   
   await manager.addScars(mockScarRecords);
@@ -263,7 +263,7 @@ test('searchScars with limit', async (t) => {
 });
 
 test('removeScars by date', async (t) => {
-  const testFilePath = t.context.testFilePath as string;
+  const testFilePath = (t.context as any).testFilePath as string;
   const manager = new ScarFileManager({ filePath: testFilePath });
   
   await manager.addScars(mockScarRecords);
@@ -281,7 +281,7 @@ test('removeScars by date', async (t) => {
 });
 
 test('removeScars by tag pattern', async (t) => {
-  const testFilePath = t.context.testFilePath as string;
+  const testFilePath = (t.context as any).testFilePath as string;
   const manager = new ScarFileManager({ filePath: testFilePath });
   
   await manager.addScars(mockScarRecords);
@@ -299,7 +299,7 @@ test('removeScars by tag pattern', async (t) => {
 });
 
 test('removeScars with limit', async (t) => {
-  const testFilePath = t.context.testFilePath as string;
+  const testFilePath = (t.context as any).testFilePath as string;
   const manager = new ScarFileManager({ filePath: testFilePath });
   
   await manager.addScars(mockScarRecords);
@@ -317,7 +317,7 @@ test('removeScars with limit', async (t) => {
 });
 
 test('validateFile with valid file', async (t) => {
-  const testFilePath = t.context.testFilePath as string;
+  const testFilePath = (t.context as any).testFilePath as string;
   const manager = new ScarFileManager({ filePath: testFilePath });
   
   await manager.addScars(mockScarRecords);
@@ -329,7 +329,7 @@ test('validateFile with valid file', async (t) => {
 });
 
 test('validateFile with invalid file', async (t) => {
-  const testFilePath = t.context.testFilePath as string;
+  const testFilePath = (t.context as any).testFilePath as string;
   const manager = new ScarFileManager({ filePath: testFilePath });
   
   // Create file with invalid content
@@ -342,7 +342,7 @@ test('validateFile with invalid file', async (t) => {
 });
 
 test('validateFile for non-existent file', async (t) => {
-  const testFilePath = t.context.testFilePath as string;
+  const testFilePath = (t.context as any).testFilePath as string;
   const manager = new ScarFileManager({ filePath: testFilePath });
   
   const result = await manager.validateFile();
@@ -352,7 +352,7 @@ test('validateFile for non-existent file', async (t) => {
 });
 
 test('ensureFile creates file when missing', async (t) => {
-  const testFilePath = t.context.testFilePath as string;
+  const testFilePath = (t.context as any).testFilePath as string;
   const manager = new ScarFileManager({ filePath: testFilePath, createIfMissing: true });
   
   await manager.ensureFile();
@@ -362,7 +362,7 @@ test('ensureFile creates file when missing', async (t) => {
 });
 
 test('ensureFile does not create file when disabled', async (t) => {
-  const testFilePath = t.context.testFilePath as string;
+  const testFilePath = (t.context as any).testFilePath as string;
   const manager = new ScarFileManager({ filePath: testFilePath, createIfMissing: false });
   
   await manager.ensureFile();
@@ -372,7 +372,7 @@ test('ensureFile does not create file when disabled', async (t) => {
 });
 
 test('createScarFileManager factory function', (t) => {
-  const manager = ScarFileManager.createScarFileManager({
+  const manager = createScarFileManager({
     filePath: '/test/path',
     maxFileSize: 1024,
   });

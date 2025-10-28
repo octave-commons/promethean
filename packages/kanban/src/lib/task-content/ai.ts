@@ -301,11 +301,11 @@ export class TaskAIManager {
     }
   }
 
-    private generateTaskAnalysis(
+      private generateTaskAnalysis(
     task: Task,
     analysisType: string,
     _context: Record<string, unknown>,
-  ): Record<string, unknown> {
+  ): TaskAnalysisResult['analysis'] {
     const contentLength = task.content?.length ?? 0;
     const baseQuality = Math.min(95, 60 + Math.floor(contentLength / 40));
     const completeness = Math.min(90, 55 + Math.floor(contentLength / 50));
@@ -394,13 +394,13 @@ ${originalContent.trim()}
     };
   }
 
-    private generateTaskBreakdown(
+      private generateTaskBreakdown(
     task: Task,
     _breakdownType: string,
     maxSubtasks: number,
     complexity: string,
     includeEstimates: boolean,
-  ): { subtasks: Array<Record<string, unknown>> } {
+  ): TaskBreakdownResult['subtasks'] {
     const baseEstimate = complexity === 'complex' ? 6 : complexity === 'medium' ? 4 : 2;
 
     const subtasks = [
@@ -430,7 +430,7 @@ ${originalContent.trim()}
       },
     ].slice(0, maxSubtasks);
 
-    return { subtasks };
+        return subtasks;
   }
 }
 

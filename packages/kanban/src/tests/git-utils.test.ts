@@ -5,21 +5,9 @@
 import test from 'ava';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
-import { GitUtils } from '../lib/heal/utils/git-utils.js';
+import { GitUtils, createGitUtils } from '../lib/heal/utils/git-utils.js';
 
 // Mock execSync to avoid actual git operations during tests
-const mockExecSync = test.macro({
-  exec: (t, command: string, output: string, shouldFail = false) => {
-    const { execSync } = await import('node:child_process');
-    
-    if (shouldFail) {
-      t.throws(() => execSync(command));
-    } else {
-      const result = execSync(command);
-      t.is(result.toString().trim(), output);
-    }
-  },
-});
 
 test.before(async (t) => {
   // Create a temporary directory for testing
@@ -37,12 +25,29 @@ test.before(async (t) => {
   execSync('git add test.txt', { cwd: testDir });
   execSync('git commit -m "Initial commit"', { cwd: testDir });
   
-  t.context.testDir = testDir;
+  (t.context as any).testDir = testDir;
+});
+  // Create a temporary directory for testing
+  const testDir = path.join(process.cwd(), 'test-git-utils-temp');
+  await fs.mkdir(testDir, { recursive: true });
+  
+  // Initialize a git repository
+  const { execSync } = await import('node:child_process');
+  execSync('git init', { cwd: testDir });
+  execSync('git config user.name "Test User"', { cwd: testDir });
+  execSync('git config user.email "test@example.com"', { cwd: testDir });
+  
+  // Create initial commit
+  await fs.writeFile(path.join(testDir, 'test.txt'), 'test content');
+  execSync('git add test.txt', { cwd: testDir });
+  execSync('git commit -m "Initial commit"', { cwd: testDir });
+  
+  (t.context as any).testDir = testDir;
 });
 
 test.after.always(async (t) => {
   // Clean up test directory
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   try {
     await fs.rm(testDir, { recursive: true, force: true });
   } catch (error) {
@@ -56,7 +61,7 @@ test('GitUtils constructor initializes correctly', (t) => {
 });
 
 test('getCurrentState returns repository state', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const gitUtils = new GitUtils(testDir);
   
   const state = await gitUtils.getCurrentState();
@@ -70,7 +75,7 @@ test('getCurrentState returns repository state', async (t) => {
 });
 
 test('addFiles successfully adds files', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const gitUtils = new GitUtils(testDir);
   
   // Create a new file
@@ -84,7 +89,7 @@ test('addFiles successfully adds files', async (t) => {
 });
 
 test('addFiles handles empty file list', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const gitUtils = new GitUtils(testDir);
   
   const result = await gitUtils.addFiles([]);
@@ -94,7 +99,7 @@ test('addFiles handles empty file list', async (t) => {
 });
 
 test('commit creates commit with message', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const gitUtils = new GitUtils(testDir);
   
   // First add a file
@@ -110,7 +115,7 @@ test('commit creates commit with message', async (t) => {
 });
 
 test('commit creates empty commit when allowEmpty is true', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const gitUtils = new GitUtils(testDir);
   
   const result = await gitUtils.commit('Empty commit', true);
@@ -120,7 +125,7 @@ test('commit creates empty commit when allowEmpty is true', async (t) => {
 });
 
 test('createTag creates git tag', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const gitUtils = new GitUtils(testDir);
   
   const result = await gitUtils.createTag('test-tag', 'HEAD', 'Test tag message');
@@ -130,7 +135,7 @@ test('createTag creates git tag', async (t) => {
 });
 
 test('deleteTag removes git tag', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const gitUtils = new GitUtils(testDir);
   
   // First create a tag
@@ -143,7 +148,7 @@ test('deleteTag removes git tag', async (t) => {
 });
 
 test('getCommitSha returns SHA for valid ref', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const gitUtils = new GitUtils(testDir);
   
   const sha = await gitUtils.getCommitSha('HEAD');
@@ -153,7 +158,7 @@ test('getCommitSha returns SHA for valid ref', async (t) => {
 });
 
 test('getCommitSha returns null for invalid ref', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const gitUtils = new GitUtils(testDir);
   
   const sha = await gitUtils.getCommitSha('invalid-ref-name');
@@ -162,7 +167,7 @@ test('getCommitSha returns null for invalid ref', async (t) => {
 });
 
 test('getDiff returns diff between commits', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const gitUtils = new GitUtils(testDir);
   
   // Create a commit with changes
@@ -184,7 +189,7 @@ test('getDiff returns diff between commits', async (t) => {
 });
 
 test('getChangedFiles returns list of changed files', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const gitUtils = new GitUtils(testDir);
   
   // Create a commit with changes
@@ -207,7 +212,7 @@ test('getChangedFiles returns list of changed files', async (t) => {
 });
 
 test('getCommitHistory returns commit history', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const gitUtils = new GitUtils(testDir);
   
   const history = await gitUtils.getCommitHistory();
@@ -215,8 +220,8 @@ test('getCommitHistory returns commit history', async (t) => {
   t.true(Array.isArray(history));
   t.true(history.length > 0);
   
-  if (history.length > 0) {
-    const commit = history[0];
+    if (history.length > 0) {
+    const commit = history[0]!;
     t.true(typeof commit.sha === 'string');
     t.true(typeof commit.message === 'string');
     t.true(typeof commit.author === 'string');
@@ -225,7 +230,7 @@ test('getCommitHistory returns commit history', async (t) => {
 });
 
 test('getCommitHistory with limit returns limited history', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const gitUtils = new GitUtils(testDir);
   
   const limitedHistory = await gitUtils.getCommitHistory(undefined, 'HEAD', 2);
@@ -236,7 +241,7 @@ test('getCommitHistory with limit returns limited history', async (t) => {
 });
 
 test('refExists returns true for existing ref', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const gitUtils = new GitUtils(testDir);
   
   const exists = await gitUtils.refExists('HEAD');
@@ -245,7 +250,7 @@ test('refExists returns true for existing ref', async (t) => {
 });
 
 test('refExists returns false for non-existing ref', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const gitUtils = new GitUtils(testDir);
   
   const exists = await gitUtils.refExists('non-existing-ref');
@@ -254,7 +259,7 @@ test('refExists returns false for non-existing ref', async (t) => {
 });
 
 test('reset performs git reset', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const gitUtils = new GitUtils(testDir);
   
   // Get current HEAD
@@ -269,7 +274,7 @@ test('reset performs git reset', async (t) => {
 });
 
 test('stash creates stash', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const gitUtils = new GitUtils(testDir);
   
   // Create a dirty working directory
@@ -283,7 +288,7 @@ test('stash creates stash', async (t) => {
 });
 
 test('stashPop applies stashed changes', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const gitUtils = new GitUtils(testDir);
   
   // First create a stash
@@ -298,7 +303,7 @@ test('stashPop applies stashed changes', async (t) => {
 });
 
 test('createGitUtils factory function creates instance', (t) => {
-  const gitUtils = GitUtils.createGitUtils('/test/path');
+  const gitUtils = createGitUtils('/test/path');
   
   t.true(gitUtils instanceof GitUtils);
   t.is(gitUtils['repoPath'], '/test/path');

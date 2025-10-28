@@ -6,7 +6,7 @@
 import test from 'ava';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
-import { GitWorkflow } from '../lib/heal/git-workflow.js';
+import { GitWorkflow, createGitWorkflow } from '../lib/heal/git-workflow.js';
 import type { ScarContext } from '../lib/heal/scar-context-types.js';
 import type { Task } from '../lib/testing-transition/types.js';
 
@@ -115,12 +115,12 @@ test.beforeEach(async (t) => {
   execSync('git add .', { cwd: testDir });
   execSync('git commit -m "Add kanban structure"', { cwd: testDir });
   
-  t.context.testDir = testDir;
+  (t.context as any).testDir = testDir;
 });
 
 test.afterEach.always(async (t) => {
   // Clean up test directory
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   try {
     await fs.rm(testDir, { recursive: true, force: true });
   } catch (error) {
@@ -129,7 +129,7 @@ test.afterEach.always(async (t) => {
 });
 
 test('GitWorkflow constructor initializes correctly', (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const workflow = new GitWorkflow({ repoPath: testDir });
   
   t.is(workflow['repoPath'], testDir);
@@ -140,7 +140,7 @@ test('GitWorkflow constructor initializes correctly', (t) => {
 });
 
 test('preOperation creates commit and tag', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const workflow = new GitWorkflow({ repoPath: testDir });
   
   const context = createMockScarContext('Test healing', 'heal-test-001');
@@ -156,7 +156,7 @@ test('preOperation creates commit and tag', async (t) => {
 });
 
 test('preOperation handles dirty working directory', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const workflow = new GitWorkflow({ repoPath: testDir, createBackups: true });
   
   // Create some uncommitted changes
@@ -171,7 +171,7 @@ test('preOperation handles dirty working directory', async (t) => {
 });
 
 test('postOperation creates commits and tags', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const workflow = new GitWorkflow({ repoPath: testDir });
   
   const context = createMockScarContext('Test post-operation', 'heal-test-003');
@@ -198,7 +198,7 @@ test('postOperation creates commits and tags', async (t) => {
 });
 
 test('complete workflow integration', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const workflow = new GitWorkflow({ repoPath: testDir });
   
   const context = createMockScarContext('Complete workflow test', 'heal-test-004');
@@ -266,7 +266,7 @@ Test task content for integration testing.
 });
 
 test('rollback functionality', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const workflow = new GitWorkflow({ repoPath: testDir });
   
   // Get current HEAD
@@ -295,7 +295,7 @@ test('rollback functionality', async (t) => {
 });
 
 test('getCurrentState returns repository state', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const workflow = new GitWorkflow({ repoPath: testDir });
   
   const state = await workflow.getCurrentState();
@@ -309,7 +309,7 @@ test('getCurrentState returns repository state', async (t) => {
 });
 
 test('commitTasksDirectory handles no changes', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const workflow = new GitWorkflow({ repoPath: testDir });
   
   const context = createMockScarContext('Test no changes', 'heal-test-005');
@@ -321,7 +321,7 @@ test('commitTasksDirectory handles no changes', async (t) => {
 });
 
 test('commitKanbanBoard handles no changes', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const workflow = new GitWorkflow({ repoPath: testDir });
   
   const context = createMockScarContext('Test no board changes', 'heal-test-006');
@@ -334,7 +334,7 @@ test('commitKanbanBoard handles no changes', async (t) => {
 });
 
 test('commitDependencies handles no changes', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const workflow = new GitWorkflow({ repoPath: testDir });
   
   const context = createMockScarContext('Test no dep changes', 'heal-test-007');
@@ -346,7 +346,7 @@ test('commitDependencies handles no changes', async (t) => {
 });
 
 test('createPreOpTag creates tag correctly', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const workflow = new GitWorkflow({ repoPath: testDir });
   
   const currentState = await workflow.getCurrentState();
@@ -359,7 +359,7 @@ test('createPreOpTag creates tag correctly', async (t) => {
 });
 
 test('createPostOpTag creates tag correctly', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const workflow = new GitWorkflow({ repoPath: testDir });
   
   const currentState = await workflow.getCurrentState();
@@ -372,7 +372,7 @@ test('createPostOpTag creates tag correctly', async (t) => {
 });
 
 test('createFinalTag creates tag correctly', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const workflow = new GitWorkflow({ repoPath: testDir });
   
   const currentState = await workflow.getCurrentState();
@@ -385,7 +385,7 @@ test('createFinalTag creates tag correctly', async (t) => {
 });
 
 test('rollback with invalid SHA fails gracefully', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const workflow = new GitWorkflow({ repoPath: testDir });
   
   const result = await workflow.rollback('invalid-sha-123');
@@ -395,7 +395,7 @@ test('rollback with invalid SHA fails gracefully', async (t) => {
 });
 
 test('workflow with custom configuration', async (t) => {
-  const testDir = t.context.testDir as string;
+  const testDir = (t.context as any).testDir as string;
   const workflow = new GitWorkflow({
     repoPath: testDir,
     createAnnotatedTags: false,
@@ -422,7 +422,7 @@ test('workflow with custom configuration', async (t) => {
 });
 
 test('createGitWorkflow factory function', (t) => {
-  const workflow = GitWorkflow.createGitWorkflow({
+  const workflow = createGitWorkflow({
     repoPath: '/test/path',
     tagPrefix: 'factory-test',
   });
