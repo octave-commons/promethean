@@ -819,7 +819,7 @@ export function registerSimpleOAuthRoutes(
 
       // Set cookies using cookie plugin
       const cookieOptions = getCookieOptions();
-      reply.setCookie('access_token', tokenPair.accessToken, {
+      (reply as any).setCookie('access_token', tokenPair.accessToken, {
         path: '/',
         httpOnly: true,
         secure: cookieOptions.includes('Secure'),
@@ -828,7 +828,7 @@ export function registerSimpleOAuthRoutes(
           ? { domain: cookieOptions.split('Domain=')[1]?.split(';')[0]?.trim() }
           : {}),
       });
-      reply.setCookie('refresh_token', tokenPair.refreshToken, {
+      (reply as any).setCookie('refresh_token', tokenPair.refreshToken, {
         path: '/',
         httpOnly: true,
         secure: cookieOptions.includes('Secure'),
@@ -837,7 +837,7 @@ export function registerSimpleOAuthRoutes(
           ? { domain: cookieOptions.split('Domain=')[1]?.split(';')[0]?.trim() }
           : {}),
       });
-      reply.setCookie('user_id', user.id, {
+      (reply as any).setCookie('user_id', user.id, {
         path: '/',
         httpOnly: true,
         secure: cookieOptions.includes('Secure'),

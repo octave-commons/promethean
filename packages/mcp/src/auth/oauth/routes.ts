@@ -6,7 +6,6 @@
  */
 
 import type { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import type { CookieSerializeOptions } from '@fastify/cookie';
 import { OAuthSystem } from './index.js';
 import { OAuthIntegration } from '../integration.js';
 import { JwtTokenManager } from './jwt.js';
@@ -72,7 +71,7 @@ interface OAuthLogoutRequest {
  * Register OAuth routes
  */
 export function registerOAuthRoutes(fastify: FastifyInstance, config: OAuthRouteConfig): void {
-  const { basePath, oauthSystem, oauthIntegration, jwtManager, userRegistry, authManager } = config;
+  const { basePath, oauthSystem, oauthIntegration, userRegistry } = config;
 
   // Helper to set secure cookies
   const setAuthCookie = (
@@ -278,7 +277,7 @@ export function registerOAuthRoutes(fastify: FastifyInstance, config: OAuthRoute
           reply,
           result.tokens.accessToken,
           result.tokens.refreshToken,
-          result.tokens.sessionId || '',
+          result.user.id || '',
         );
 
         // Log successful authentication
@@ -291,7 +290,7 @@ export function registerOAuthRoutes(fastify: FastifyInstance, config: OAuthRoute
         if (acceptHeader?.includes('text/html')) {
           // Redirect for browser requests
           const redirectUrl = (request.query.redirect_uri as string) || '/';
-          reply.redirect(302, redirectUrl);
+          reply.code(302).header('Location', redirectUrl).send();
         } else {
           // JSON response for API requests
           createSuccessResponse(reply, {
