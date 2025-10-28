@@ -406,6 +406,8 @@ kanban-plugin: board
 - [ ] [[TaskAIManager Compliance Fixes - P0 Priority]] #compliance #enforcement #critical #task-ai-manager #mock-implementation prio:p0 (uuid:task-ai-manager-compliance-fixes-p0)
 - [ ] [[Audit Trail Completeness and Validation - P1 Priority]] #compliance #enforcement #audit-trail #validation #monitoring prio:p1 (uuid:task-audit-trail-completeness-p1)
 - [ ] [[Board Synchronization Resolution - P0 Priority]] #compliance #enforcement #critical #board-sync #task-synchronization prio:p0 (uuid:task-board-synchronization-resolution-p0)
+- [ ] [[Compliance Monitoring Implementation - P1 Priority]] #compliance #enforcement #monitoring #automation #prevention prio:p1 (uuid:task-compliance-monitoring-implementation-p1)
+- [ ] [[Process Healing Implementation for 53 Missing Tasks - P1 Priority]] #compliance #enforcement #process-healing #missing-tasks #synchronization prio:p1 (uuid:task-process-healing-implementation-p1)
 - [ ] [[WIP Limit Enforcement for AI Operations - P1 Priority]] #compliance #enforcement #wip-limits #ai-operations #monitoring prio:p1 (uuid:task-wip-limit-enforcement-p1)
 
 ## in_progress
