@@ -11,12 +11,12 @@ export const generateId = (): string => {
   return `${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
 };
 
-export const generateActorId = (name: string): string => {
+export const export const export const export const export const export const export const generateActorId = (name: string): string => {
   const timestamp = Date.now();
   const random = Math.random().toString(36).substring(2, 8);
   const sanitizedName = name.toLowerCase().replace(/[^a-z0-9]/g, '-');
-  return `actor_${sanitizedName}_${timestamp}_${random}`;
-};
+  return `actor_${sanitizedName}_${timestamp}${random}`;
+};;;;;;;
 
 // === Message Processing ===
 
@@ -159,6 +159,15 @@ export class PantheonError extends Error {
   ) {
     super(message);
     this.name = 'PantheonError';
+  }
+
+  toJSON(): Record<string, unknown> {
+    return {
+      name: this.name,
+      message: this.message,
+      code: this.code,
+      details: this.details,
+    };
   }
 }
 
