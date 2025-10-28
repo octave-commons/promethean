@@ -96,7 +96,7 @@
     "react-beautiful-dnd": "^13.1.1",
     "@monaco-editor/react": "^4.6.0",
     "@promethean-os/kanban": "workspace:*",
-    "@promethean-os/agents-workflow": "workspace:*",
+    "@promethean-os/pantheon-workflow": "workspace:*",
     "@promethean-os/ollama-queue": "workspace:*",
     "@promethean-os/utils": "workspace:*",
     "@promethean-os/markdown": "workspace:*",
