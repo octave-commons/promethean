@@ -80,7 +80,7 @@ async function createUnifiedIndexingClient(_config: unknown): Promise<UnifiedInd
           text: content.content,
           createdAt: content.timestamp || Date.now(),
           metadata: content.metadata || {},
-        } as any);
+        });
         ids.push(content.id);
       }
       return ids;
