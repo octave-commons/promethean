@@ -1,9 +1,9 @@
-tree 9b5f77ccb895dadec0ca70409fcfe137f357eb4d
-parent 5c379d077d0304139429bc810cb7cae687e64045
-parent 1afee44692ecd7fd7bb1fd75b872c2dd5809e937
-author Err <foamy125@gmail.com> 1759120161 -0500
-committer GitHub <noreply@github.com> 1759120161 -0500
+tree a0200265912cb0e8e65de07d1bd7ed4d19e4a986
+parent 940800b4b9c57100b59fab9d424c55c322ef62bd
+parent 49518175e024f428941f146b9893125f1482871b
+author Err <foamy125@gmail.com> 1759450147 -0500
+committer GitHub <noreply@github.com> 1759450147 -0500
 
-Merge pull request #1338 from riatzukiza/codex/fix-incomplete-string-escaping-in-git.ts
+Merge pull request #1449 from riatzukiza/feat/duck-tools-smoke
 
-fix(buildfix): sanitize gh pr creation
+feat(tools): add duck-tools smoke CLI (skeleton)

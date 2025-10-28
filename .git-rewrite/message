@@ -1,3 +1,3 @@
-Merge pull request #1338 from riatzukiza/codex/fix-incomplete-string-escaping-in-git.ts
+Merge pull request #1449 from riatzukiza/feat/duck-tools-smoke
 
-fix(buildfix): sanitize gh pr creation
+feat(tools): add duck-tools smoke CLI (skeleton)
