@@ -6,7 +6,7 @@
 [subrepo]
 	remote = https://github.com/riatzukiza/mcp.git
 	branch = main
-	commit = bb3b8b1a02f2011e5a09a4199562aed08c6e4687
-	parent = 55a1f412a74aa38acdd50ec3bdd30ae773b1de7f
+	commit = 9287f234cd3ba3917942505ab6e44503175044b5
+	parent = 8dfef8141f107d2c50c50300a0604243efc20194
 	method = merge
 	cmdver = 0.4.9

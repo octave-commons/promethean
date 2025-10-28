@@ -1,174 +1,398 @@
-import chokidar from 'chokidar';
-import pc from 'picocolors';
-import { addAll, commit, gitRoot, hasRepo, hasStagedChanges, listChangedFiles, repoSummary, stagedDiff, } from './git.js';
-import { chatCompletion } from './llm.js';
-import { SYSTEM, USER } from './messages.js';
-/**
- * Error types for better error handling
- */
-class AutocommitError extends Error {
-    cause;
-    constructor(message, cause) {
-        super(message);
-        this.name = 'AutocommitError';
-        this.cause = cause;
+/* eslint-disable functional/immutable-data, functional/no-let, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unnecessary-type-assertion */
+import fs from 'node:fs';
+import path from 'node:path';
+import { pathToFileURL } from 'node:url';
+import 'dotenv/config';
+console.log(Object.keys(process.env).filter((key) => key.startsWith('OAUTH')));
+import { applyPatchTool } from './tools/apply-patch.js';
+import { tddScaffoldTest, tddChangedFiles, tddRunTests, tddStartWatch, tddGetWatchChanges, tddStopWatch, tddCoverage, tddPropertyCheck, tddMutationScore, } from './tools/tdd.js';
+import { loadConfigWithSource, CONFIG_FILE_NAME, } from './config/load-config.js';
+import { buildRegistry } from './core/registry.js';
+import { createMcpServer } from './core/mcp-server.js';
+import { fastifyTransport } from './core/transports/fastify.js';
+import { stdioTransport } from './core/transports/stdio.js';
+import { githubRequestTool } from './tools/github/request.js';
+import { githubGraphqlTool } from './tools/github/graphql.js';
+import { githubRateLimitTool } from './tools/github/rate-limit.js';
+import { githubContentsWrite } from './tools/github/contents.js';
+import { githubWorkflowGetJobLogs, githubWorkflowGetRunLogs } from './tools/github/workflows.js';
+import { githubPrGet, githubPrFiles, githubPrResolvePosition, } from './tools/github/pull-request-data.js';
+import { githubPrReviewStart, githubPrReviewCommentInline, githubPrReviewSubmit, } from './tools/github/pull-request-review.js';
+import { githubReviewCheckoutBranch, githubReviewCommit, githubReviewCreateBranch, githubReviewGetActionStatus, githubReviewGetComments, githubReviewGetReviewComments, githubReviewRequestChangesFromCodex, githubReviewOpenPullRequest, githubReviewPush, githubReviewRevertCommits, githubReviewSubmitComment, githubReviewSubmitReview, } from './tools/github/code-review.js';
+import { githubApplyPatchTool } from './tools/github/apply-patch.js';
+import { filesListDirectory, filesTreeDirectory, filesViewFile, filesWriteFileContent, filesWriteFileLines, } from './tools/files.js';
+import { filesSearch } from './tools/search.js';
+import { processEnqueueTask, processGetQueue, processGetStderr, processGetStdout, processGetTaskRunnerConfig, processStopTask, processUpdateTaskRunnerConfig, } from './tools/process-manager.js';
+import { execRunTool, execListTool } from './tools/exec.js';
+// Temporarily disabled for security testing
+// import {
+//   kanbanFindTaskById,
+//   kanbanFindTaskByTitle,
+//   kanbanGetBoard,
+//   kanbanGetColumn,
+//   kanbanMoveTask,
+//   kanbanSearchTasks,
+//   kanbanSyncBoard,
+//   kanbanUpdateStatus,
+//   kanbanUpdateTaskDescription,
+//   kanbanRenameTask,
+//   kanbanArchiveTask,
+//   kanbanDeleteTask,
+//   kanbanMergeTasks,
+//   kanbanBulkArchive,
+//   kanbanAnalyzeTask,
+//   kanbanRewriteTask,
+//   kanbanBreakdownTask,
+// } from './tools/kanban.js';
+// import {
+//   kanbanSubscribeToEvents,
+//   kanbanGetEventHistory,
+//   kanbanCreateTask,
+//   kanbanBulkUpdateTasks,
+//   kanbanGetBoardSchema,
+//   kanbanRealtimeSync,
+//   kanbanBroadcastEvent,
+// } from './tools/kanban-bridge.js';
+import { pnpmAdd, pnpmInstall, pnpmRemove, pnpmRunScript } from './tools/pnpm.js';
+import { nxGeneratePackage } from './tools/nx.js';
+import { resolveHttpEndpoints, resolveStdioTools, } from './core/resolve-config.js';
+import { discordSendMessage, discordListMessages } from './tools/discord.js';
+import { loadStdioServerSpecs } from './proxy/config.js';
+import { createProxy } from './proxy/proxy-factory.js';
+import { sandboxCreateTool, sandboxDeleteTool, sandboxListTool } from './tools/sandboxes.js';
+import { ollamaPull, ollamaListModels, ollamaListTemplates, ollamaCreateTemplate, ollamaEnqueueGenerateJob, ollamaEnqueueChatCompletion, ollamaEnqueueJobFromTemplate, ollamaStartConversation, ollamaGetQueue, ollamaRemoveJob, } from './tools/ollama.js';
+import { help as helpTool, toolset as toolsetTool, endpoints as endpointsTool, } from './tools/help.js';
+import { validateConfig as validateConfigTool } from './tools/validate-config.js';
+export * as githubConflicts from './github/conflicts/index.js';
+export * as ollama from './ollama/index.js';
+const toolCatalog = new Map([
+    ['apply_patch', applyPatchTool],
+    ['github_request', githubRequestTool],
+    ['github_graphql', githubGraphqlTool],
+    ['github_rate_limit', githubRateLimitTool],
+    ['github_contents_write', githubContentsWrite],
+    ['github_workflow_get_run_logs', githubWorkflowGetRunLogs],
+    ['github_workflow_get_job_logs', githubWorkflowGetJobLogs],
+    ['github_apply_patch', githubApplyPatchTool],
+    ['github_review_open_pull_request', githubReviewOpenPullRequest],
+    ['github_review_get_comments', githubReviewGetComments],
+    ['github_review_get_review_comments', githubReviewGetReviewComments],
+    ['github_review_submit_comment', githubReviewSubmitComment],
+    ['github_review_request_changes_from_codex', githubReviewRequestChangesFromCodex],
+    ['github_review_submit_review', githubReviewSubmitReview],
+    ['github_review_get_action_status', githubReviewGetActionStatus],
+    ['github_review_commit', githubReviewCommit],
+    ['github_review_push', githubReviewPush],
+    ['github_review_checkout_branch', githubReviewCheckoutBranch],
+    ['github_review_create_branch', githubReviewCreateBranch],
+    ['github_review_revert_commits', githubReviewRevertCommits],
+    ['github_pr_get', githubPrGet],
+    ['github_pr_files', githubPrFiles],
+    ['github_pr_resolve_position', githubPrResolvePosition],
+    ['github_pr_review_start', githubPrReviewStart],
+    ['github_pr_review_comment_inline', githubPrReviewCommentInline],
+    ['github_pr_review_submit', githubPrReviewSubmit],
+    ['files_list_directory', filesListDirectory],
+    ['files_tree_directory', filesTreeDirectory],
+    ['files_view_file', filesViewFile],
+    ['files_write_content', filesWriteFileContent],
+    ['files_write_lines', filesWriteFileLines],
+    ['files_search', filesSearch],
+    ['process_get_task_runner_config', processGetTaskRunnerConfig],
+    ['process_update_task_runner_config', processUpdateTaskRunnerConfig],
+    ['process_enqueue_task', processEnqueueTask],
+    ['process_stop', processStopTask],
+    ['process_get_queue', processGetQueue],
+    ['process_get_stdout', processGetStdout],
+    ['process_get_stderr', processGetStderr],
+    ['exec_run', execRunTool],
+    ['exec_list', execListTool],
+    ['pnpm_install', pnpmInstall],
+    ['pnpm_add', pnpmAdd],
+    ['pnpm_remove', pnpmRemove],
+    ['pnpm_run_script', pnpmRunScript],
+    ['nx_generate_package', nxGeneratePackage],
+    ['tdd_scaffold_test', tddScaffoldTest],
+    ['tdd_changed_files', tddChangedFiles],
+    ['tdd_run_tests', tddRunTests],
+    ['tdd_start_watch', tddStartWatch],
+    ['tdd_get_watch_changes', tddGetWatchChanges],
+    ['tdd_stop_watch', tddStopWatch],
+    ['tdd_coverage', tddCoverage],
+    ['tdd_property_check', tddPropertyCheck],
+    ['tdd_mutation_score', tddMutationScore],
+    // Temporarily disabled for security testing
+    // ['kanban_get_board', kanbanGetBoard],
+    // ['kanban_get_column', kanbanGetColumn],
+    // ['kanban_find_task', kanbanFindTaskById],
+    // ['kanban_find_task_by_title', kanbanFindTaskByTitle],
+    // ['kanban_update_status', kanbanUpdateStatus],
+    // ['kanban_move_task', kanbanMoveTask],
+    // ['kanban_sync_board', kanbanSyncBoard],
+    // ['kanban_search', kanbanSearchTasks],
+    // ['kanban_update_task_description', kanbanUpdateTaskDescription],
+    // ['kanban_rename_task', kanbanRenameTask],
+    // ['kanban_archive_task', kanbanArchiveTask],
+    // ['kanban_delete_task', kanbanDeleteTask],
+    // ['kanban_merge_tasks', kanbanMergeTasks],
+    // ['kanban_bulk_archive', kanbanBulkArchive],
+    // ['kanban_analyze_task', kanbanAnalyzeTask],
+    // ['kanban_rewrite_task', kanbanRewriteTask],
+    // ['kanban_breakdown_task', kanbanBreakdownTask],
+    // ['kanban_subscribe_to_events', kanbanSubscribeToEvents],
+    // ['kanban_get_event_history', kanbanGetEventHistory],
+    // ['kanban_create_task', kanbanCreateTask],
+    // ['kanban_bulk_update_tasks', kanbanBulkUpdateTasks],
+    // ['kanban_get_board_schema', kanbanGetBoardSchema],
+    // ['kanban_realtime_sync', kanbanRealtimeSync],
+    // ['kanban_broadcast_event', kanbanBroadcastEvent],
+    ['discord_send_message', discordSendMessage],
+    ['discord_list_messages', discordListMessages],
+    ['sandbox_create', sandboxCreateTool],
+    ['sandbox_list', sandboxListTool],
+    ['sandbox_delete', sandboxDeleteTool],
+    ['ollama_pull', ollamaPull],
+    ['ollama_list_models', ollamaListModels],
+    ['ollama_list_templates', ollamaListTemplates],
+    ['ollama_create_template', ollamaCreateTemplate],
+    ['ollama_enqueue_generate_job', ollamaEnqueueGenerateJob],
+    ['ollama_enqueue_chat_completion', ollamaEnqueueChatCompletion],
+    ['ollama_enqueue_job_from_template', ollamaEnqueueJobFromTemplate],
+    ['ollama_start_conversation', ollamaStartConversation],
+    ['ollama_get_queue', ollamaGetQueue],
+    ['ollama_remove_job', ollamaRemoveJob],
+    ['mcp_help', helpTool],
+    ['mcp_toolset', toolsetTool],
+    ['mcp_endpoints', endpointsTool],
+    ['mcp_validate_config', validateConfigTool],
+]);
+const env = process.env;
+const mkCtx = () => ({
+    env,
+    fetch: global.fetch.bind(global),
+    now: () => new Date(),
+});
+const collectToolSummaries = (ctx) => Array.from(toolCatalog.entries()).map(([id, factory]) => {
+    const tool = factory(ctx);
+    return {
+        id,
+        name: tool.spec.name,
+        description: tool.spec.description,
+    };
+});
+// Ensure the meta tools are available within any registry subset when enabled.
+const ensureMetaTools = (ids, includeHelp = true) => {
+    if (!includeHelp)
+        return ids;
+    const need = [];
+    if (toolCatalog.has('mcp_help') && !ids.includes('mcp_help'))
+        need.push('mcp_help');
+    if (toolCatalog.has('mcp_toolset') && !ids.includes('mcp_toolset'))
+        need.push('mcp_toolset');
+    if (toolCatalog.has('mcp_endpoints') && !ids.includes('mcp_endpoints'))
+        need.push('mcp_endpoints');
+    return need.length ? [...ids, ...need] : ids;
+};
+const selectFactories = (toolIds) => toolIds
+    .map((id) => {
+    const factory = toolCatalog.get(id);
+    if (!factory) {
+        console.warn(`[mcp] Unknown tool id in config: ${id}`);
     }
-}
-function validateConfig(config) {
-    if (!config || typeof config !== 'object') {
-        throw new AutocommitError('Invalid configuration provided');
-    }
-}
-function getIgnoredPaths(config) {
-    return [
-        '**/.git/**',
-        '**/node_modules/**',
-        '**/.turbo/**',
-        '**/dist/**',
-        ...(config.exclude
-            ? config.exclude
-                .split(',')
-                .map((s) => s.trim())
-                .filter(Boolean)
-            : []),
-    ];
-}
-function createLogger() {
-    const log = (s) => console.log(pc.dim(`[autocommit] ${s}`));
-    const warn = (s) => console.warn(pc.yellow(`[autocommit] ${s}`));
-    return { log, warn };
-}
-function categorizeError(err) {
-    if (err instanceof Error && err.name === 'AbortError') {
-        return 'LLM request timed out. Falling back.';
-    }
-    if (err instanceof Error &&
-        err.status &&
-        err.status >= 500) {
-        return 'LLM server error. Falling back.';
-    }
-    const errorMessage = err instanceof Error ? err.message : String(err);
-    return `LLM failed: ${errorMessage}. Falling back.`;
-}
-function generateFallbackMessage(files) {
-    const type = files.some((f) => f.match(/\.(ts|tsx|js|jsx|mjs|cjs)$/)) ? 'feat' : 'chore';
-    return `${type}: update ${files.length} file(s) [auto]\n\n- ${files.slice(0, 10).join('\n- ')}${files.length > 10 ? '\n- …' : ''}`;
-}
-async function generateCommitMessage(config, context, warn) {
+    return factory;
+})
+    .filter((factory) => Boolean(factory));
+const DEFAULT_PROXY_CONFIG = 'config/mcp_servers.edn';
+const isFile = (candidate) => {
     try {
-        const message = await chatCompletion({
-            baseUrl: config.baseUrl,
-            apiKey: config.apiKey,
-            model: config.model,
-            temperature: config.temperature,
-            messages: [
-                { role: 'system', content: SYSTEM },
-                {
-                    role: 'user',
-                    content: USER(context.summary, context.files.slice(0, 100).join(', '), context.diff),
-                },
-            ],
-        });
-        return message.replace(/\r\n/g, '\n').trim();
+        return fs.statSync(candidate).isFile();
     }
-    catch (err) {
-        warn(categorizeError(err));
-        return generateFallbackMessage(context.files);
+    catch {
+        return false;
     }
-}
-async function performCommit(config, root, log, warn) {
-    await addAll(root);
-    if (!(await hasStagedChanges(root))) {
-        return;
-    }
-    const files = await listChangedFiles(root);
-    const summary = await repoSummary(root);
-    const diff = await stagedDiff(root, config.maxDiffBytes);
-    const message = await generateCommitMessage(config, { files, summary, diff }, warn);
-    if (config.dryRun) {
-        log(pc.cyan(`DRY RUN commit:\n${message}`));
-        return;
-    }
-    await commit(root, message, config.signoff);
-    log(pc.green(`Committed ${files.length} file(s).`));
-}
-function setupWatcher(root, ignored, callbacks) {
-    const watcher = chokidar.watch(root, {
-        ignoreInitial: true,
-        ignored,
-        persistent: true,
-        awaitWriteFinish: { stabilityThreshold: 500, pollInterval: 100 },
-        usePolling: false, // Use native events for better performance
-    });
-    // Add error handling for watcher
-    watcher.on('error', (error) => {
-        const errorMessage = error instanceof Error ? error.message : String(error);
-        callbacks.warn(`Watcher error: ${errorMessage}`);
-    });
-    watcher.on('all', (_event, _path) => {
-        void callbacks.schedule().catch((err) => {
-            const errorMessage = err instanceof Error ? err.message : String(err);
-            callbacks.warn(`Schedule error: ${errorMessage}`);
-        });
-    });
-    callbacks.log(`Watching ${root}. Ignored: ${ignored.join(', ')}`);
-    return {
-        close: () => {
-            void watcher.close();
-        },
-    };
-}
-function createScheduler(config, root, log, warn) {
-    let timer = null;
-    const cleanup = () => {
-        if (timer) {
-            clearTimeout(timer);
-            timer = null;
+};
+const findProxyConfigPath = (cwd) => {
+    let dir = path.resolve(cwd);
+    const root = path.parse(dir).root;
+    for (let i = 0; i < 100; i += 1) {
+        const candidate = path.join(dir, DEFAULT_PROXY_CONFIG);
+        if (isFile(candidate)) {
+            return candidate;
         }
-    };
-    const schedule = () => {
-        cleanup();
-        return new Promise((resolve) => {
-            timer = setTimeout(() => {
-                void (async () => {
-                    timer = null;
-                    try {
-                        await performCommit(config, root, log, warn);
-                    }
-                    catch (e) {
-                        const errorMessage = e instanceof Error ? e.message : String(e);
-                        warn(`Commit cycle error: ${errorMessage}`);
-                    }
-                    resolve();
-                })();
-            }, config.debounceMs);
-        });
-    };
-    return { schedule, cleanup };
-}
-/**
- * Starts autocommit watcher for a git repository.
- * @param config - Configuration object containing autocommit settings
- * @returns Object containing cleanup function
- * @throws AutocommitError if the specified path is not a git repository
- */
-export async function start(config) {
-    validateConfig(config);
-    const cwd = config.path;
-    if (!(await hasRepo(cwd))) {
-        throw new AutocommitError(`Not a git repo: ${cwd}`);
+        if (dir === root)
+            break;
+        dir = path.dirname(dir);
     }
-    const root = await gitRoot(cwd);
-    const { log, warn } = createLogger();
-    const ignored = getIgnoredPaths(config);
-    const { schedule, cleanup } = createScheduler(config, root, log, warn);
-    const watcherSetup = setupWatcher(root, ignored, { schedule, log, warn });
-    log(`Watching ${root} (debounce ${config.debounceMs}ms). Ignored: ${ignored.join(', ')}`);
-    return {
-        close: () => {
-            cleanup();
-            watcherSetup.close();
-        },
+    return null;
+};
+const resolveProxyConfig = (envVars, cwd) => {
+    const explicit = envVars.MCP_PROXY_CONFIG?.trim();
+    if (explicit) {
+        return { path: path.resolve(cwd, explicit), required: true };
+    }
+    const discovered = findProxyConfigPath(cwd);
+    if (discovered) {
+        return { path: discovered, required: false };
+    }
+    return null;
+};
+const instantiateProxy = (spec) => {
+    const logger = (msg, ...rest) => {
+        console.log(`[proxy:${spec.name}] ${msg}`, ...rest);
     };
+    return createProxy(spec, { logger });
+};
+const loadConfiguredProxies = async (envVars, cwd) => {
+    const resolved = resolveProxyConfig(envVars, cwd);
+    if (!resolved)
+        return [];
+    const { path: configPath, required } = resolved;
+    try {
+        const specs = await loadStdioServerSpecs(configPath);
+        return specs.map(instantiateProxy);
+    }
+    catch (error) {
+        const maybeErr = error;
+        if (!required && maybeErr && maybeErr.code === 'ENOENT') {
+            return [];
+        }
+        const message = maybeErr && typeof maybeErr.message === 'string' ? maybeErr.message : String(error);
+        throw new Error(`Failed to load MCP stdio proxy config at ${configPath}: ${message}`, {
+            cause: error,
+        });
+    }
+};
+const ensureLeadingSlash = (value) => (value.startsWith('/') ? value : `/${value}`);
+const toStdioServerSpec = (proxy) => ({
+    name: proxy.name,
+    command: proxy.command,
+    args: [...proxy.args],
+    env: { ...proxy.env },
+    cwd: proxy.cwd,
+    httpPath: ensureLeadingSlash(proxy.httpPath),
+});
+export const loadHttpTransportConfig = async (cfg) => {
+    const endpoints = resolveHttpEndpoints(cfg);
+    const inlineSpecs = (cfg.stdioProxies ?? []).map(toStdioServerSpec);
+    if (inlineSpecs.length > 0) {
+        return { endpoints, inlineProxySpecs: inlineSpecs, legacyProxySpecs: [] };
+    }
+    if (!cfg.stdioProxyConfig) {
+        return { endpoints, inlineProxySpecs: [], legacyProxySpecs: [] };
+    }
+    const stdioProxies = await loadStdioServerSpecs(cfg.stdioProxyConfig);
+    return { endpoints, inlineProxySpecs: [], legacyProxySpecs: stdioProxies };
+};
+export const main = async () => {
+    const { config: cfg, source } = loadConfigWithSource(env);
+    const cwd = process.cwd();
+    const ctx = mkCtx();
+    if (cfg.transport === 'http') {
+        const httpConfig = await loadHttpTransportConfig(cfg);
+        ctx.__allEndpoints = httpConfig.endpoints;
+        ctx.__allToolIds = Array.from(toolCatalog.keys());
+        const registryDescriptors = httpConfig.endpoints.map((endpoint) => {
+            const toolIds = ensureMetaTools(endpoint.tools, endpoint.includeHelp !== false);
+            const factories = selectFactories(toolIds);
+            const registry = buildRegistry(factories, ctx, toolIds);
+            const tools = registry.list();
+            ctx.__registryList = () => registry.list();
+            ctx.__endpointDef = endpoint;
+            ctx.__allEndpoints = httpConfig.endpoints;
+            return {
+                path: endpoint.path,
+                kind: 'registry',
+                handler: createMcpServer(tools),
+                tools,
+                definition: endpoint,
+            };
+        });
+        const inlineProxySpecs = httpConfig.inlineProxySpecs;
+        const inlineProxies = inlineProxySpecs.map(instantiateProxy);
+        const legacyProxySpecs = inlineProxySpecs.length > 0 ? [] : httpConfig.legacyProxySpecs;
+        const legacyProxies = legacyProxySpecs.map(instantiateProxy);
+        const fallbackProxies = inlineProxySpecs.length > 0 || legacyProxySpecs.length > 0
+            ? []
+            : await loadConfiguredProxies(env, cwd);
+        const stdioProxies = inlineProxies.length > 0
+            ? inlineProxies
+            : legacyProxies.length > 0
+                ? legacyProxies
+                : fallbackProxies;
+        ctx.__proxySources = {
+            inline: inlineProxySpecs,
+            config: legacyProxySpecs,
+            fallback: fallbackProxies.map((proxy) => proxy.spec),
+        };
+        const proxyDescriptors = stdioProxies.map((proxy) => ({
+            path: proxy.spec.httpPath,
+            kind: 'proxy',
+            handler: proxy,
+        }));
+        const descriptors = [...registryDescriptors, ...proxyDescriptors];
+        const transport = fastifyTransport();
+        const defaultConfigPath = path.resolve(process.cwd(), CONFIG_FILE_NAME);
+        const configPath = source.type === 'file' ? source.path : defaultConfigPath;
+        const toolSummaries = collectToolSummaries(ctx);
+        const summaryParts = [
+            `${registryDescriptors.length} endpoint${registryDescriptors.length === 1 ? '' : 's'}`,
+        ];
+        if (inlineProxySpecs.length > 0) {
+            summaryParts.push(`${inlineProxySpecs.length} inline prox${inlineProxySpecs.length === 1 ? 'y' : 'ies'}`);
+        }
+        else if (legacyProxySpecs.length > 0) {
+            summaryParts.push(`${legacyProxySpecs.length} prox${legacyProxySpecs.length === 1 ? 'y' : 'ies'} from stdioProxyConfig`);
+        }
+        if (fallbackProxies.length > 0) {
+            summaryParts.push(`${fallbackProxies.length} prox${fallbackProxies.length === 1 ? 'y' : 'ies'} from legacy fallback`);
+        }
+        console.log(`[mcp] transport = http (${summaryParts.join(', ')})`);
+        await transport.start(descriptors, {
+            ui: {
+                availableTools: toolSummaries,
+                config: cfg,
+                configSource: source,
+                configPath,
+                httpEndpoints: httpConfig.endpoints,
+            },
+        });
+        return;
+    }
+    const toolIds = ensureMetaTools(resolveStdioTools(cfg), cfg.includeHelp !== false);
+    const factories = selectFactories(toolIds);
+    const registry = buildRegistry(factories, ctx, toolIds);
+    ctx.__registryList = () => registry.list();
+    ctx.__endpointDef = {
+        path: '/mcp',
+        tools: toolIds,
+        includeHelp: cfg.includeHelp,
+        meta: cfg.stdioMeta,
+    };
+    ctx.__allEndpoints = resolveHttpEndpoints(cfg);
+    ctx.__allToolIds = Array.from(toolCatalog.keys());
+    ctx.__proxySources = { inline: [], config: [], fallback: [] };
+    const server = createMcpServer(registry.list());
+    const transport = stdioTransport();
+    console.log('[mcp] transport = stdio');
+    await transport.start(server);
+};
+const shouldRunMain = () => {
+    const entry = process.argv[1];
+    if (!entry)
+        return false;
+    try {
+        return pathToFileURL(entry).href === import.meta.url;
+    }
+    catch {
+        return false;
+    }
+};
+// Export the toolCatalog for testing
+export { toolCatalog };
+if (shouldRunMain()) {
+    main().catch((err) => {
+        console.error(err);
+        process.exit(1);
+    });
 }
 //# sourceMappingURL=index.js.map

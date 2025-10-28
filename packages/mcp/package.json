@@ -1,40 +1,74 @@
 {
-  "name": "@promethean-os/autocommit",
+  "name": "@promethean-os/mcp",
   "version": "0.1.0",
+  "private": true,
   "type": "module",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/riatzukiza/autocommit.git"
-  },
-  "license": "GPL-3.0-or-later",
-  "publishConfig": {
-    "access": "public"
-  },
-  "bin": {
-    "autocommit": "./dist/cli.js"
-  },
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
-    ".": "./dist/index.js"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./github/sandboxes": {
+      "types": "./dist/github/sandboxes/index.d.ts",
+      "import": "./dist/github/sandboxes/index.js"
+    },
+    "./github/conflicts": {
+      "types": "./dist/github/conflicts/index.d.ts",
+      "import": "./dist/github/conflicts/index.js"
+    },
+    "./ollama": {
+      "types": "./dist/ollama/index.d.ts",
+      "import": "./dist/ollama/index.js"
+    }
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -b",
+    "clean": "rimraf dist",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "dev": "tsx src/cli.ts",
-    "lint": "eslint .",
-    "test": "ava"
+    "test": "pnpm run build && TSX_COMPILER_OPTIONS='{\"module\":\"nodenext\"}' ava --config ../../config/ava.config.mjs",
+    "test-compiled": "pnpm run build && pnpm run build-tests && ava --config ../../config/ava.config.mjs",
+    "lint": "pnpm exec eslint .",
+    "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",
+    "dev": "tsx src/index.ts",
+    "proxy": "tsx src/bin/proxy.ts"
   },
   "dependencies": {
-    "chokidar": "^3.6.0",
-    "commander": "^12.1.0",
-    "execa": "^9.2.0",
-    "picocolors": "^1.0.0",
-    "zod": "^3.23.8"
+    "@fastify/cookie": "^9.2.0",
+    "@fastify/cors": "^10.0.1",
+    "@fastify/static": "^7.0.4",
+    "@modelcontextprotocol/sdk": "^1.17.5",
+    "@promethean-os/discord": "workspace:*",
+    "@promethean-os/kanban": "workspace:*",
+    "@stryker-mutator/core": "^8.7.1",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^17.2.3",
+    "fast-check": "^3.23.2",
+    "fastify": "5.0.0",
+    "fflate": "^0.8.2",
+    "jsedn": "0.4.1",
+    "jsonwebtoken": "^9.0.2",
+    "minimatch": "^9.0.5",
+    "type-fest": "^4.24.0",
+    "uuid": "9.0.1",
+    "zod": "^3.23.8",
+    "zod-to-json-schema": "3.23.5"
   },
   "devDependencies": {
-    "@types/node": "^20.19.22",
-    "ava": "^6.4.1",
-    "ts-node": "^10.9.2",
-    "tsx": "^4.20.6",
-    "typescript": "^5.6.3"
-  }
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.7",
+    "esmock": "^2.7.3",
+    "nock": "^14.0.10",
+    "rimraf": "6.0.1",
+    "tsx": "4.19.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/riatzukiza/mcp.git"
+  },
+  "license": "GPL-3.0-only"
 }
