@@ -1900,14 +1900,10 @@ export const createTask = async (
   );
   const templatePath = input.templatePath ?? input.defaultTemplatePath;
   let templateContent: string | undefined;
-  
+
   // Skip template processing entirely for now to prevent hanging
   const bodyText = input.body ?? input.content ?? '';
   const contentFromTemplate = bodyText;
-  }
-
-  const bodyText = input.body ?? input.content ?? '';
-  let contentFromTemplate: string;
 
   if (typeof templateContent === 'string' && templateContent.length > 0) {
     try {
