@@ -1,20 +1,12 @@
 import test from 'ava';
 
 // Integration test to verify functional migration works
-import {
-  SecurityValidator,
-  RateLimiter,
-  validateAgentId,
-  validateContextKey,
-} from '../security.js';
+import { SecurityValidator, RateLimiter, validateAgentId, AgentIdSchema } from '../security.js';
 import { createRateLimiter, getRateLimiter } from '../security-functional.js';
 
 test('Functional SecurityValidator works correctly', (t) => {
   // Test functional action
-  const result = validateAgentId(
-    { agentId: 'test-agent-123' },
-    { schemas: { AgentIdSchema: require('../security.js').AgentIdSchema } },
-  );
+  const result = validateAgentId({ agentId: 'test-agent-123' }, { schemas: { AgentIdSchema } });
   t.is(result, 'test-agent-123');
 
   // Test legacy compatibility
@@ -56,7 +48,7 @@ test('Functional patterns are pure and composable', (t) => {
   const input1 = { agentId: 'test-agent-1' };
   const input2 = { agentId: 'test-agent-2' };
 
-  const scope = { schemas: { AgentIdSchema: require('../security.js').AgentIdSchema } };
+  const scope = { schemas: { AgentIdSchema } };
 
   const result1 = validateAgentId(input1, scope);
   const result2 = validateAgentId(input2, scope);
