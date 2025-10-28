@@ -62,6 +62,45 @@ export class TaskAIManager {
     return createTaskContentManager('./docs/agile/tasks');
   }
 
+  private async validateTaskTransition(
+    task: Task,
+    newStatus: string,
+  ): Promise<boolean> {
+    if (!this.wipEnforcement || !this.transitionRulesState) {
+      console.warn('Compliance systems not initialized, skipping validation');
+      return true;
+    }
+
+    try {
+      const { loadBoard } = await import('../kanban.js');
+      const { loadKanbanConfig } = await import('../../board/config.js');
+      const kanbanConfig = await loadKanbanConfig();
+      const board = await loadBoard(kanbanConfig.config.boardFile, kanbanConfig.config.tasksDir);
+
+      const wipValidation = await this.wipEnforcement.validateWIPLimits(newStatus, 1, board);
+      if (!wipValidation.valid) {
+        throw new Error(`WIP limit violation: ${wipValidation.violation?.reason}`);
+      }
+
+      const { result: transitionResult } = await validateTransition(
+        this.transitionRulesState,
+        task.status,
+        newStatus,
+        task,
+        board,
+      );
+
+      if (!transitionResult.allowed) {
+        throw new Error(`Transition blocked: ${transitionResult.reason}`);
+      }
+
+      return true;
+    } catch (error) {
+      console.error('Task transition validation failed:', error);
+      throw error;
+    }
+  }
+
   private async initializeComplianceSystems(): Promise<void> {
     try {
       this.transitionRulesState = createTransitionRulesEngineState({
