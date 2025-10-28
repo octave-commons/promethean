@@ -1,5 +1,5 @@
 import { execa } from 'execa';
-import { readdir } from 'fs/promises';
+import { readdir, readFile } from 'fs/promises';
 import { join, resolve } from 'path';
 
 export async function gitRoot(cwd: string): Promise<string> {
@@ -116,9 +116,74 @@ export function sanitizeCommitMessage(message: string): string {
 }
 
 /**
- * Finds all git repositories recursively within a directory.
- * @param rootPath - Root directory to search for git repositories
- * @returns Array of absolute paths to git repository roots
+ * Checks if a directory contains a git subrepo (.gitrepo file).
+ * @param cwd - Directory path to check
+ * @returns True if directory is a subrepo
+ */
+export async function hasSubrepo(cwd: string): Promise<boolean> {
+  try {
+    const gitrepoPath = join(cwd, '.gitrepo');
+    await readFile(gitrepoPath, 'utf8');
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Determines if a directory is a subrepo (contains .gitrepo file).
+ * @param cwd - Directory path to check
+ * @returns True if directory is a subrepo
+ */
+export async function isSubrepoDir(cwd: string): Promise<boolean> {
+  return hasSubrepo(cwd);
+}
+
+/**
+ * Finds all git subrepos recursively within a directory.
+ * @param rootPath - Root directory to search for git subrepos
+ * @returns Array of absolute paths to subrepo directories
+ */
+export async function findSubrepos(rootPath: string): Promise<string[]> {
+  const subrepos: string[] = [];
+  const root = resolve(rootPath);
+
+  async function scanDirectory(dir: string): Promise<void> {
+    try {
+      const entries = await readdir(dir, { withFileTypes: true });
+
+      for (const entry of entries) {
+        const fullPath = join(dir, entry.name);
+
+        if (entry.isDirectory()) {
+          // Check if this directory contains a .gitrepo file
+          if (await hasSubrepo(fullPath)) {
+            subrepos.push(fullPath);
+            continue; // Don't scan inside subrepo directories
+          }
+
+          // Skip common non-repository directories for performance
+          if (entry.name === 'node_modules' || entry.name === 'dist' || entry.name === '.git') {
+            continue;
+          }
+
+          // Recursively scan subdirectories
+          await scanDirectory(fullPath);
+        }
+      }
+    } catch {
+      // Ignore directories we can't read
+    }
+  }
+
+  await scanDirectory(root);
+  return subrepos;
+}
+
+/**
+ * Finds all git repositories and subrepos recursively within a directory.
+ * @param rootPath - Root directory to search for git repositories and subrepos
+ * @returns Array of absolute paths to git repository roots and subrepo directories
  */
 export async function findGitRepositories(rootPath: string): Promise<string[]> {
   const repositories: string[] = [];
@@ -136,6 +201,12 @@ export async function findGitRepositories(rootPath: string): Promise<string[]> {
           if (entry.name === '.git') {
             repositories.push(dir);
             continue; // Don't scan inside .git directories
+          }
+
+          // Check if this directory contains a .gitrepo file (subrepo)
+          if (await hasSubrepo(fullPath)) {
+            repositories.push(fullPath);
+            continue; // Don't scan inside subrepo directories
           }
 
           // Skip common non-repository directories for performance
