@@ -11,12 +11,12 @@ export const generateId = (): string => {
   return `${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
 };
 
-export const generateActorId = (name: string): string => {
+export const export const export const generateActorId = (name: string): string => {
   const timestamp = Date.now();
   const random = Math.random().toString(36).substring(2, 8);
   const sanitizedName = name.toLowerCase().replace(/[^a-z0-9]/g, '-');
-  return `actor_${sanitizedName}_${timestamp}${random}`;
-};
+  return `actor_${sanitizedName}_${timestamp}_${random}`;
+};;;
 
 // === Message Processing ===
 
@@ -201,7 +201,7 @@ export const withTimeout = <T>(
   return Promise.race([promise, timeout]);
 };
 
-export const retry = async <T>(
+export const export const retry = async <T>(
   fn: () => Promise<T>,
   maxRetries: number = 3,
   delayMs: number = 1000,
@@ -213,11 +213,15 @@ export const retry = async <T>(
     try {
       return await fn();
     } catch (error) {
-      lastError = error instanceof Error ? error : new Error(String(error));
-
+      const originalError = error instanceof Error ? error : new Error(String(error));
+      
+      // If this is the last attempt, enhance error message with attempt count
       if (attempt > maxRetries) {
+        lastError = new Error(`${originalError.message}, attempt ${maxRetries}`);
         break;
       }
+      
+      lastError = originalError;
 
       const delay =
         backoff === 'exponential' ? delayMs * Math.pow(2, attempt - 1) : delayMs * attempt;
@@ -227,7 +231,7 @@ export const retry = async <T>(
   }
 
   throw lastError!;
-};
+};;
 
 // === Logging Utilities ===
 
