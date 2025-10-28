@@ -1,0 +1,23 @@
+export default {
+  include: ['src/**/*.ts'],
+  exclude: [
+    'src/tests/**/*.ts',
+    'src/**/*.test.ts',
+    'src/**/*.d.ts',
+    'dist/**',
+    'coverage/**',
+    '**/*.config.*',
+  ],
+  reporter: ['text', 'html', 'json'],
+  reportsDir: 'coverage',
+  branches: 80,
+  functions: 80,
+  lines: 80,
+  statements: 80,
+  clean: true,
+  checkCoverage: true,
+  tempDirectory: '.nyc_output',
+  extension: ['.ts'],
+  skipFull: false,
+  all: true,
+};
