@@ -57,12 +57,12 @@ async function createUnifiedIndexingClient(_config: unknown): Promise<UnifiedInd
 
   return {
     async index(content: IndexableContent) {
-      const entry: DualStoreEntry<'text', 'createdAt'> = {
-        id: content.id,
-        text: content.content,
-        createdAt: content.timestamp || Date.now(),
-        metadata: content.metadata || {},
-      };
+        const entry: DualStoreEntry<'text', 'createdAt'> = {
+          id: content.id,
+          text: content.content,
+          createdAt: content.timestamp || Date.now(),
+          metadata: content.metadata as DualStoreEntry<'text', 'createdAt'>['metadata'],
+        };
       await dualStore.addEntry(entry);
       return content.id;
     },
