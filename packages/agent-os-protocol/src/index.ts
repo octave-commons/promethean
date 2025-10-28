@@ -42,11 +42,12 @@ export {
 // CONVENIENCE HELPERS
 // ============================================================================
 
-import { MessageValidator, MessageFactory } from './core/message.js';
+import { MessageFactory } from './core/message.js';
+import { validateMessage as validateMessageFromTypes } from './types/index.js';
 
-export const validateMessage = (message: unknown) => {
+export const validateMessageSafe = (message: unknown): boolean => {
   try {
-    return MessageValidator.validate(message);
+    return validateMessageFromTypes(message as any);
   } catch {
     return false;
   }

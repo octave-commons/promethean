@@ -188,7 +188,7 @@ const send = async (state: HttpTransportState, message: CoreMessage): Promise<vo
     state.emitter.emit('messageSent', message);
   } catch (error) {
     updateMetrics(state, 'send', 0, false);
-    throw new TransportError('Failed to send message', 'SEND_ERROR', { error });
+    throw new TransportError('Failed to send message', { code: 'SEND_ERROR', error });
   }
 };
 
@@ -269,7 +269,7 @@ const createConnection = async (
 
   try {
     // Test connectivity with a simple request
-    const response = await fetch(endpoint, {
+    await fetch(endpoint, {
       method: 'HEAD',
       signal: AbortSignal.timeout(config.timeout || 30000),
     });
@@ -292,7 +292,8 @@ const createConnection = async (
       errorCount: 0,
     };
   } catch (error) {
-    throw new TransportError(`Failed to create connection to ${endpoint}`, 'CONNECTION_ERROR', {
+    throw new TransportError(`Failed to create connection to ${endpoint}`, {
+      code: 'CONNECTION_ERROR',
       error,
     });
   }
