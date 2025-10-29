@@ -380,9 +380,9 @@ export const generateBoardByTags = async (
   tasksDir: string,
   boardPath: string,
   tags: string[],
-): Promise<{ success: boolean }> => {
-  await generateBoardByTagsAction({ tasksDir, boardPath, tags });
-  return { success: true };
+): Promise<{ success: boolean; totalTasks?: number; filteredTags?: string[] }> => {
+  const result = await generateBoardByTagsAction({ tasksDir, boardPath, tags });
+  return { success: true, totalTasks: result.totalTasks, filteredTags: result.filteredTags };
 };
 
 export const indexForSearch = async (
