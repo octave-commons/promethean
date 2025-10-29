@@ -181,25 +181,52 @@ export const validateStartingStatus = (status: string): boolean => {
   return validStatuses.includes(status);
 };
 
-// Placeholder functions for missing exports
-export const pullFromTasks = async (): Promise<void> => {
-  throw new Error('pullFromTasks not yet implemented in functional architecture');
+// Legacy functions with proper implementations
+export const pullFromTasks = async (tasksDir: string, boardPath: string): Promise<LegacyBoard> => {
+  const { readTasksFolder: readTasksFolderFunctional } = await import(
+    './actions/tasks/read-tasks-folder.js'
+  );
+  const { generateBoard: generateBoardFunctional } = await import(
+    './actions/boards/generate-board.js'
+  );
+  
+  const tasks = await readTasksFolderFunctional({ tasksPath: tasksDir });
+  const boardResult = await generateBoardFunctional({ tasks });
+  return convertToLegacyBoard(boardResult.board);
 };
 
-export const pushToTasks = async (): Promise<void> => {
-  throw new Error('pushToTasks not yet implemented in functional architecture');
+export const pushToTasks = async (board: LegacyBoard, tasksDir: string): Promise<void> => {
+  const { saveTasks: saveTasksFunctional } = await import('./actions/tasks/save-tasks.js');
+  await saveTasksFunctional({ board, tasksPath: tasksDir });
 };
 
-export const syncBoardAndTasks = async (): Promise<void> => {
-  throw new Error('syncBoardAndTasks not yet implemented in functional architecture');
+export const syncBoardAndTasks = async (boardPath: string, tasksDir: string): Promise<LegacyBoard> => {
+  const { syncBoardAndTasks: syncBoardAndTasksFunctional } = await import(
+    './actions/boards/sync-board-and-tasks.js'
+  );
+  const result = await syncBoardAndTasksFunctional({ boardPath, tasksPath: tasksDir });
+  return convertToLegacyBoard(result.board);
 };
 
-export const regenerateBoard = async (): Promise<void> => {
-  throw new Error('regenerateBoard not yet implemented in functional architecture');
+export const regenerateBoard = async (boardPath: string, tasksDir?: string): Promise<LegacyBoard> => {
+  const { regenerateBoard: regenerateBoardFunctional } = await import(
+    './actions/boards/regenerate-board.js'
+  );
+  const result = await regenerateBoardFunctional({ boardPath, tasksPath: tasksDir });
+  return convertToLegacyBoard(result.board);
 };
 
-export const generateBoardByTags = async (): Promise<void> => {
-  throw new Error('generateBoardByTags not yet implemented in functional architecture');
+export const generateBoardByTags = async (tags: string[], tasksDir: string): Promise<LegacyBoard> => {
+  const { readTasksFolder: readTasksFolderFunctional } = await import(
+    './actions/tasks/read-tasks-folder.js'
+  );
+  const { generateBoardByTags: generateBoardByTagsFunctional } = await import(
+    './actions/boards/generate-board-by-tags.js'
+  );
+  
+  const tasks = await readTasksFolderFunctional({ tasksPath: tasksDir });
+  const boardResult = await generateBoardByTagsFunctional({ tasks, tags });
+  return convertToLegacyBoard(boardResult.board);
 };
 
 export const columnKey = (column: string): string => {
