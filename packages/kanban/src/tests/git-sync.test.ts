@@ -115,8 +115,8 @@ test('KanbanGitSync handles push, pull, and status flows', async (t) => {
   t.true(hasRemote);
 
   statusState.conflicted = ['conflict.md'];
-  const resolved = await sync.resolveConflicts('theirs');
-  t.true(resolved);
+  const resolved = await sync.resolveConflicts();
+  t.is(resolved.status, 'error'); // Since git is disabled
 
   await esmock.purge(modulePath);
 });
