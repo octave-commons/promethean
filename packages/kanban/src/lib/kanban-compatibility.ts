@@ -79,14 +79,7 @@ export const updateStatus = async (
   boardPath?: string,
   tasksDir?: string,
   ..._deprecatedArgs: ReadonlyArray<unknown>
-): Promise<{
-  success: boolean;
-  task: Task;
-  previousStatus: string;
-  added?: number;
-  moved?: number;
-  statusUpdated?: number;
-}> => {
+): Promise<Task> => {
   const result = await updateStatusFunctional({
     board,
     taskUuid,
@@ -102,11 +95,7 @@ export const updateStatus = async (
   const task = ensureTask(result.task as Task | undefined, 'updateStatus');
 
   // Return legacy format
-  return {
-    success: result.success,
-    task,
-    previousStatus: result.previousStatus ?? task.status,
-  };
+  return task;
 };
 
 // Legacy moveTask wrapper - converts multiple args to input object
