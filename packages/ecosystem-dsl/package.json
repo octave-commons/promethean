@@ -36,13 +36,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/promethean/promethean.git",
+    "url": "https://github.com/riatzukiza/promethean.git",
     "directory": "packages/ecosystem-dsl"
   },
   "bugs": {
-    "url": "https://github.com/promethean/promethean/issues"
+    "url": "https://github.com/riatzukiza/promethean/issues"
   },
-  "homepage": "https://github.com/promethean/promethean/tree/main/packages/ecosystem-dsl",
+  "homepage": "https://github.com/riatzukiza/promethean/tree/main/packages/ecosystem-dsl",
   "engines": {
     "node": ">=18.0.0"
   },
