@@ -1,13 +1,15 @@
-import { promises as fs } from 'fs';
-import path from 'path';
+import { promises as fs } from 'node:fs';
+import path from 'node:path';
+
 import type { Board, Task, ColumnData } from '../../types.js';
-import { formatMarkdown } from '../../serializers/index.js';
 import {
   readTaskFile,
   createBackup,
   updateTimestamp,
   generateDiff,
 } from '../../task-content/parser.js';
+import { writeBoard, maybeRefreshIndex, ensureColumn as ensureBoardColumn } from '../../serializers/board.js';
+import { ensureTaskFileBase } from '../../core/slugs.js';
 
 export type UpdateStatusInput = {
   board: Board;
@@ -76,27 +78,6 @@ const updateTaskFile = async (
   }
 };
 
-const saveBoardToFile = async (board: Board, boardPath: string, dryRun = false): Promise<void> => {
-  if (dryRun) return;
-
-  const boardContent = formatMarkdown({
-    columns: board.columns.map((col) => ({
-      name: col.name,
-      cards: col.tasks.map((task) => ({
-        id: task.uuid,
-        text: task.title || '',
-        done: task.status === 'done',
-        tags: task.labels || [],
-        links: [],
-        attrs: {},
-      })),
-    })),
-    frontmatter: {},
-    settings: null,
-  });
-  await fs.writeFile(boardPath, boardContent, 'utf8');
-};
-
 export const updateStatus = async (input: UpdateStatusInput): Promise<UpdateStatusResult> => {
   const { board, taskUuid, newStatus, boardPath, tasksDir, options } = input;
 
@@ -127,8 +108,11 @@ export const updateStatus = async (input: UpdateStatusInput): Promise<UpdateStat
   }
 
   // Save board if boardPath provided
-  if (boardPath) {
-    await saveBoardToFile(board, boardPath, options?.dryRun);
+  if (boardPath && !options?.dryRun) {
+    await writeBoard(boardPath, board);
+    if (tasksDir) {
+      await maybeRefreshIndex(tasksDir);
+    }
   }
 
   const diff = options?.createBackup
