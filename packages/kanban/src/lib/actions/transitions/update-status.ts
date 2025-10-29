@@ -1,6 +1,7 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import type { Board, Task, ColumnData } from '../../types.js';
+import { formatMarkdown } from '../../serializers/index.js';
 import {
   readTaskFile,
   createBackup,
@@ -78,21 +79,20 @@ const updateTaskFile = async (
 const saveBoardToFile = async (board: Board, boardPath: string, dryRun = false): Promise<void> => {
   if (dryRun) return;
 
-  const { formatMarkdown } = await import('../serializers/markdown-formatter.js');
   const boardContent = formatMarkdown({
-    columns: board.columns.map(col => ({
+    columns: board.columns.map((col) => ({
       name: col.name,
-      cards: col.tasks.map(task => ({
+      cards: col.tasks.map((task) => ({
         id: task.uuid,
         text: task.title || '',
         done: task.status === 'done',
         tags: task.labels || [],
         links: [],
-        attrs: {}
-      }))
+        attrs: {},
+      })),
     })),
     frontmatter: {},
-    settings: null
+    settings: null,
   });
   await fs.writeFile(boardPath, boardContent, 'utf8');
 };
