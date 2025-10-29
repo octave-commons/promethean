@@ -26,6 +26,17 @@ ignore:
 
 link-workspace-packages: true
 
+onlyBuiltDependencies:
+  - classic-level
+  - clj-kondo
+  - core-js
+  - electron
+  - esbuild
+  - mongodb-memory-server
+  - nx
+  - puppeteer
+  - sharp
+
 pnpm:
   overrides:
     tinyglobby:

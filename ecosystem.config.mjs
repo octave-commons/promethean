@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-export const apps = 
+export const apps =
 [
   {
     "name": "lein-repl",
@@ -34,27 +34,6 @@ export const apps =
       "target",
       ".cpcache"
     ]
-  },
-  {
-    "name": "opencode-indexer",
-    "script": "pnpm",
-    "args": [
-      "opencode-client",
-      "indexer",
-      "start"
-    ],
-    "interpreter": "/usr/bin/env",
-    "out_file": "./logs/opencode-indexer-out.log",
-    "error_file": "./logs/opencode-indexer-err.log",
-    "merge_logs": true,
-    "instances": 1,
-    "autorestart": true,
-    "restart_delay": 10000,
-    "kill_timeout": 10000,
-    "env": {
-      "PM2_PROCESS_NAME": "opencode-indexer"
-    },
-    "cwd": "."
   },
   {
     "name": "opencode-test",
@@ -206,16 +185,16 @@ export const apps =
       "-r",
       "--handle-subrepos",
       "--subrepo-strategy",
-      "seperate",
+      "separate",
       "--debounce-ms",
       "10000",
       "--model",
       "error/qwen3:4b-instruct-100k",
       "--base-url",
-      "http://localhost:11434"
+      "http://192.168.12.65:11434"
     ],
     "env": {
-      "OPENAI_BASE_URL": "http://localhost:11434",
+      "OPENAI_BASE_URL": "http://192.168.12.65:11434",
       "AUTOCOMMIT_MODEL": "error/qwen3:4b-instruct-100k",
       "NODE_ENV": "production"
     },
@@ -380,11 +359,11 @@ export const apps =
   }
 ];
 
-export const triggers = 
+export const triggers =
 [];
 
-export const schedules = 
+export const schedules =
 [];
 
-export const actions = 
+export const actions =
 [];
