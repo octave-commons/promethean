@@ -30,7 +30,7 @@ services:
   ollama:
     image: ollama/ollama:0.12.3
     restart: always
-    ports: ['127.0.0.1:11434:11434']
+    ports: ['0.0.0.0:11434:11434']
     gpus: all
     volumes:
       - /usr/share/ollama/.ollama/:/root/.ollama/
@@ -49,7 +49,7 @@ services:
       test:
         [
           'CMD-SHELL',
-          'curl -fsS http://127.0.0.1:11434/api/tags >/dev/null && nvidia-smi >/dev/null 2>&1',
+          'curl -fsS http://0.0.0.0:11434/api/tags >/dev/null && nvidia-smi >/dev/null 2>&1',
         ]
       interval: 10s
       timeout: 5s
