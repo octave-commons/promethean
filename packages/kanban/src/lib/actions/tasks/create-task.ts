@@ -28,6 +28,7 @@ export type CreateTaskInput = {
 import { processTemplateContent } from '../../serializers/template-serializer.js';
 import { sanitizeFileNameBase, generateAutoLabels } from '../../utils/string-utils.js';
 import { NOW_ISO, BLOCKED_BY_HEADING, BLOCKS_HEADING } from '../../core/constants.js';
+import { ensureUniqueFileBase } from '../../core/slugs.js';
 import { readTasksFolder } from './read-tasks-folder.js';
 import {
   applyTemplateReplacements,
@@ -54,7 +55,7 @@ interface TaskCreationResult {
 }
 
 const validateStartingStatus = (column: string): void => {
-  const validStartingStatuses = ['ready', 'todo', 'in_progress', 'testing', 'done'];
+  const validStartingStatuses = ['icebox', 'incoming', 'ready', 'todo', 'in_progress', 'testing', 'done'];
   if (!validStartingStatuses.includes(column.toLowerCase())) {
     throw new Error(
       `Invalid starting status: ${column}. Must be one of: ${validStartingStatuses.join(', ')}`,
@@ -63,96 +64,8 @@ const validateStartingStatus = (column: string): void => {
 };
 
 const ensureColumn = (board: Board, column: string): ColumnData => {
-  const targetColumn = board.columns.find((col) => col.name.toLowerCase() === column.toLowerCase());
-
-  if (!targetColumn) {
-    throw new Error(`Column not found: ${column}`);
-  }
-
-  return targetColumn;
-};
-
-// Duplicate checking temporarily disabled to focus on hanging bug fix
-// TODO: Re-implement proper duplicate checking after hanging bug is resolved
-// const checkForDuplicateTask = (
-//   existingTasks: readonly Task[],
-//   targetColumn: ColumnData,
-//   normalizedTitle: string,
-// ): Task | undefined => {
-//   // First check: Look for existing task in files
-//   const existingTaskInColumn = existingTasks.find(
-//     (task) =>
-//       task.title.trim().toLowerCase() === normalizedTitle &&
-//       task.status.trim().toLowerCase() === targetColumn.name.trim().toLowerCase(),
-//   );
-
-//   if (existingTaskInColumn) {
-//     return existingTaskInColumn;
-//   }
-
-//   // Second check: Look for existing task in target column on board
-//   const boardTaskInColumn = targetColumn.tasks.find(
-//     (task) => task.title.trim().toLowerCase() === normalizedTitle,
-//   );
-
-//   if (boardTaskInColumn) {
-//     const fullTask = existingTasks.find((t) => t.uuid === boardTaskInColumn.uuid);
-//     return fullTask || boardTaskInColumn;
-//   }
-
-//   return undefined;
-// };
-
-interface TaskData {
-  readonly uuid: string;
-  readonly title: string;
-  readonly targetColumn: ColumnData;
-  readonly input: CreateTaskInput;
-  readonly content: string;
-}
-
-const createBaseTask = (taskData: TaskData): Task => {
-  const { uuid, title, targetColumn, input, content } = taskData;
-
-  const taskLabels = input.labels && input.labels.length > 0 ? [...input.labels] : undefined;
-  const taskEstimates = input.estimates ? { ...input.estimates } : undefined;
-  const taskSlug = input.slug ? sanitizeFileNameBase(input.slug) : undefined;
-
-  return {
-    uuid,
-    title,
-    status: targetColumn.name,
-    priority: input.priority,
-    labels: taskLabels,
-    created_at: input.created_at ?? NOW_ISO(),
-    estimates: taskEstimates,
-    content,
-    slug: taskSlug,
-  };
-};
-
-const generateUniqueSlug = (baseTask: Task, board: Board): string => {
-  const usedSlugs: Record<string, string> = board.columns.reduce(
-    (acc, col) => ({
-      ...acc,
-      ...col.tasks.reduce(
-        (taskAcc, task) => (task.slug ? { ...taskAcc, [task.slug]: task.uuid } : taskAcc),
-        {},
-      ),
-    }),
-    {},
-  );
-
-  const baseSlug = baseTask.slug || sanitizeFileNameBase(baseTask.title);
-
-  const generateSlug = (slug: string, counter: number): string => {
-    const candidate = counter > 1 ? `${baseSlug}-${counter}` : slug;
-    return usedSlugs[candidate] && usedSlugs[candidate] !== baseTask.uuid
-      ? generateSlug(slug, counter + 1)
-      : candidate;
-  };
-
-  return generateSlug(baseSlug, 1);
+  const ensured = ensureBoardColumn(board, column);
+  return ensured;
 };
 
 const processTaskContent = async (
@@ -171,85 +84,211 @@ const processTaskContent = async (
   return await processTemplateContent(templateConfig);
 };
 
-interface TaskData {
-  readonly uuid: string;
-  readonly title: string;
-  readonly input: CreateTaskInput;
-}
-
-const prepareTaskData = (input: CreateTaskInput): TaskData => {
-  const uuid = input.uuid ?? randomUUID();
-  const baseTitle = input.title?.trim() ?? '';
-  const title = baseTitle.length > 0 ? baseTitle : `Task ${uuid.slice(0, 8)}`;
-
-  return {
-    uuid,
-    title,
-    input: { ...input, uuid },
-    targetColumn: {} as ColumnData, // Will be set later
-    content: '', // Will be set later
-  };
-};
-
-const createFinalTask = (
-  taskData: TaskData,
-  targetColumn: ColumnData,
-  board: Board,
+const createBaseTask = (
+  title: string,
+  column: ColumnData,
+  input: CreateTaskInput,
+  uuid: string,
   content: string,
-): Task => {
-  const { uuid, title, input } = taskData;
-
-  const baseTask = createBaseTask({ uuid, title, targetColumn, input, content });
-  const uniqueSlug = generateUniqueSlug(baseTask, board);
-  const taskWithSlug = { ...baseTask, slug: uniqueSlug };
-
-  const autoLabels = [...generateAutoLabels(title, input.body, 4)];
-  return {
-    ...taskWithSlug,
-    labels: taskWithSlug.labels ? [...taskWithSlug.labels] : autoLabels,
-  };
-};
-
-const updateBoardWithTask = (board: Board, targetColumn: ColumnData, finalTask: Task): Board => ({
-  ...board,
-  columns: board.columns.map((col) =>
-    col.name === targetColumn.name
-      ? {
-          ...col,
-          tasks: [...col.tasks, finalTask],
-          count: col.tasks.length + 1,
-        }
-      : col,
-  ),
+): Task => ({
+  uuid,
+  title,
+  status: column.name,
+  priority: input.priority,
+  labels: input.labels && input.labels.length > 0 ? [...input.labels] : undefined,
+  created_at: input.created_at ?? NOW_ISO(),
+  estimates: input.estimates ? { ...input.estimates } : {},
+  content,
+  slug: input.slug ? sanitizeFileNameBase(input.slug) : undefined,
 });
 
-/**
- * Create a new task in specified column
- */
 export const createTaskAction = async (config: TaskCreationConfig): Promise<TaskCreationResult> => {
-  const { board, column, input } = config;
+  const { board, column, input, tasksDir, boardPath } = config;
 
   debug('createTask function started');
   debug('createTask params:', { column, title: input.title });
 
-  // Validate that starting status is allowed
   validateStartingStatus(column);
+
   const targetColumn = ensureColumn(board, column);
 
-  // Prepare task data
-  const taskData = prepareTaskData(input);
-  debug('UUID generated:', taskData.uuid.slice(0, 8));
+  const existingTasks = await readTasksFolder({ tasksPath: tasksDir });
+  const existingById = new Map(existingTasks.map((task) => [task.uuid, task]));
 
-  // Process task content with timeout protection
-  const content = await processTaskContent(taskData.input, taskData.title, taskData.uuid);
+  const uuid = input.uuid ?? randomUUID();
+  const baseTitle = input.title?.trim() ?? '';
+  const title = baseTitle.length > 0 ? baseTitle : `Task ${uuid.slice(0, 8)}`;
+  const normalizedTitle = title.trim().toLowerCase();
+  const targetColumnName = targetColumn.name.trim().toLowerCase();
 
-  // Create final task
-  const finalTask = createFinalTask(taskData, targetColumn, board, content);
+  const existingTaskInFiles = existingTasks.find(
+    (task) =>
+      task.title.trim().toLowerCase() === normalizedTitle &&
+      task.status.trim().toLowerCase() === targetColumnName,
+  );
+  if (existingTaskInFiles) {
+    return { task: existingTaskInFiles, board };
+  }
 
-  // Update board
-  const updatedBoard = updateBoardWithTask(board, targetColumn, finalTask);
+  const boardTaskInColumn = targetColumn.tasks.find(
+    (task) => task.title.trim().toLowerCase() === normalizedTitle,
+  );
+  if (boardTaskInColumn) {
+    const fullTask = existingTasks.find((task) => task.uuid === boardTaskInColumn.uuid);
+    return { task: fullTask ?? boardTaskInColumn, board };
+  }
 
-  debug('Task created successfully:', finalTask.uuid);
+  const boardIndex = new Map<string, { column: ColumnData; index: number; task: Task }>();
+  board.columns.forEach((col) =>
+    col.tasks.forEach((task, index) => boardIndex.set(task.uuid, { column: col, index, task })),
+  );
 
-  return { task: finalTask, board: updatedBoard };
+  const templatePath = input.templatePath ?? input.defaultTemplatePath;
+  let templateContent: string | undefined;
+  if (templatePath) {
+    try {
+      templateContent = await fs.readFile(templatePath, 'utf8');
+    } catch (error) {
+      console.warn(`Failed to read template ${templatePath}:`, error);
+    }
+  }
+
+  const bodyText = input.body ?? input.content ?? '';
+  let contentFromTemplate =
+    typeof templateContent === 'string'
+      ? applyTemplateReplacements(templateContent, {
+          TITLE: title,
+          BODY: bodyText,
+          UUID: uuid,
+        })
+      : (input.content ?? bodyText);
+
+  if (!contentFromTemplate) {
+    contentFromTemplate = '';
+  }
+
+  let taskContent = ensureSectionExists(contentFromTemplate, BLOCKED_BY_HEADING);
+  taskContent = ensureSectionExists(taskContent, BLOCKS_HEADING);
+
+  const baseTask = createBaseTask(title, targetColumn, input, uuid, taskContent);
+
+  const usedSlugs = new Map<string, string>();
+  board.columns.forEach((col) => {
+    col.tasks.forEach((task) => {
+      const slug = ensureTaskFileBase({ ...task });
+      usedSlugs.set(slug, task.uuid);
+    });
+  });
+
+  const baseSlug = ensureTaskFileBase({ ...baseTask });
+  const uniqueSlug = ensureUniqueFileBase(baseSlug, usedSlugs, baseTask.uuid);
+  const taskWithSlug: Task = { ...baseTask, slug: uniqueSlug };
+  usedSlugs.set(uniqueSlug, taskWithSlug.uuid);
+
+  const blockingIds = uniqueStrings(input.blocking);
+  const blockedByIds = uniqueStrings(input.blockedBy);
+
+  const resolveBoardTask = (id: string): Task | undefined => {
+    const entry = boardIndex.get(id);
+    if (!entry) return existingById.get(id);
+    const fallback = existingById.get(id);
+    entry.task.content = ensureTaskContent(entry.task, fallback);
+    return entry.task;
+  };
+
+  const blockingLinks: string[] = [];
+  for (const id of blockingIds) {
+    const target = resolveBoardTask(id);
+    if (!target) continue;
+    blockingLinks.push(wikiLinkForTask(target));
+  }
+
+  const blockedByLinks: string[] = [];
+  for (const id of blockedByIds) {
+    const target = resolveBoardTask(id);
+    if (!target) continue;
+    blockedByLinks.push(wikiLinkForTask(target));
+  }
+
+  taskContent = setSectionItems(taskContent, BLOCKED_BY_HEADING, blockedByLinks);
+  taskContent = setSectionItems(taskContent, BLOCKS_HEADING, blockingLinks);
+
+  const enrichedTask: Task = {
+    ...taskWithSlug,
+    content: taskContent,
+    labels:
+      taskWithSlug.labels && taskWithSlug.labels.length > 0
+        ? [...taskWithSlug.labels]
+        : [...generateAutoLabels(title, bodyText, 4)],
+  };
+
+  const newTaskLink = wikiLinkForTask(enrichedTask);
+
+  const updateLinkedTask = async (id: string, heading: string) => {
+    const entry = boardIndex.get(id);
+    if (entry) {
+      const fallback = existingById.get(id);
+      const updatedContent = mergeSectionItems(
+        ensureTaskContent(entry.task, fallback),
+        heading,
+        [newTaskLink],
+      );
+      const nextTask: Task = {
+        ...entry.task,
+        content: updatedContent,
+      };
+      entry.column.tasks = [
+        ...entry.column.tasks.slice(0, entry.index),
+        nextTask,
+        ...entry.column.tasks.slice(entry.index + 1),
+      ];
+      entry.column.count = entry.column.tasks.length;
+      boardIndex.set(id, {
+        column: entry.column,
+        index: entry.index,
+        task: nextTask,
+      });
+      return;
+    }
+
+    const existing = existingById.get(id);
+    if (!existing?.sourcePath) return;
+    const updatedContent = mergeSectionItems(
+      ensureTaskContent(existing, existing),
+      heading,
+      [newTaskLink],
+    );
+    const nextTask: Task = {
+      ...existing,
+      content: updatedContent,
+    };
+    await fs.writeFile(
+      existing.sourcePath,
+      toFrontmatter({ ...nextTask, status: nextTask.status ?? 'Todo' }),
+      'utf8',
+    );
+    existingById.set(id, nextTask);
+  };
+
+  for (const id of blockingIds) {
+    await updateLinkedTask(id, BLOCKED_BY_HEADING);
+  }
+
+  for (const id of blockedByIds) {
+    await updateLinkedTask(id, BLOCKS_HEADING);
+  }
+
+  targetColumn.tasks = [...targetColumn.tasks, enrichedTask];
+  targetColumn.count = targetColumn.tasks.length;
+
+  await fs.mkdir(tasksDir, { recursive: true }).catch(() => {});
+  const taskFilePath = path.join(tasksDir, `${enrichedTask.slug ?? enrichedTask.uuid}.md`);
+  await fs.writeFile(taskFilePath, toFrontmatter(enrichedTask), 'utf8');
+
+  await writeBoard(boardPath, board);
+  await maybeRefreshIndex(tasksDir);
+
+  debug('Task created successfully:', enrichedTask.uuid);
+
+  return { task: { ...enrichedTask, sourcePath: taskFilePath }, board };
 };
