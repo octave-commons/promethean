@@ -28,7 +28,7 @@ export type CreateTaskInput = {
 import { processTemplateContent } from '../../serializers/template-serializer.js';
 import { sanitizeFileNameBase, generateAutoLabels } from '../../utils/string-utils.js';
 import { NOW_ISO, BLOCKED_BY_HEADING, BLOCKS_HEADING } from '../../core/constants.js';
-import { ensureUniqueFileBase } from '../../core/slugs.js';
+import { ensureUniqueFileBase, ensureTaskFileBase } from '../../core/slugs.js';
 import { readTasksFolder } from './read-tasks-folder.js';
 import {
   applyTemplateReplacements,
@@ -39,7 +39,6 @@ import {
 import { uniqueStrings, wikiLinkForTask, ensureTaskContent } from '../../utils/task-content.ts';
 import { writeBoard, maybeRefreshIndex, ensureColumn as ensureBoardColumn } from '../../serializers/board.ts';
 import { toFrontmatter } from '../../serializers/task-frontmatter.ts';
-import { locateTask } from '../../core/task-utils.ts';
 
 interface TaskCreationConfig {
   readonly board: Board;
