@@ -4,7 +4,29 @@
  */
 
 import { promises as fs } from 'fs';
-export { parse as parseYaml } from 'yaml';
+import { parse as parseYaml } from 'yaml';
+export { parseYaml };
+
+// Read a task file from disk and return parsed pieces
+export async function readTaskFile(filePath: string): Promise<{
+  rawContent: string;
+  frontmatter: Record<string, any> | null;
+  body: string;
+  sections: any[];
+  task?: any;
+}> {
+  const raw = await fs.readFile(filePath, 'utf8');
+  const parsed = parseTaskContent(raw);
+  const task = parsed.frontmatter ? { ...parsed.frontmatter, content: parsed.body } : undefined;
+  return {
+    rawContent: raw,
+    frontmatter: parsed.frontmatter,
+    body: parsed.body,
+    sections: parsed.sections,
+    task,
+  };
+}
+
 import { TaskSection, TaskValidationResult } from './types.js';
 
 /**
