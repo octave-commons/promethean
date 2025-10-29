@@ -96,78 +96,156 @@ interface TestResult {
   expectedCommit: boolean;
 }
 
-test('deep nested git tree with random file changes', async (t) => {
+interface TestSetupResult {
+  tempDir: string;
+  gitRepos: string[];
+  subrepos: string[];
+}
+
+async function setupTestEnvironment(): Promise<TestSetupResult> {
   const tempDir = join(tmpdir(), `deep-test-${Date.now()}`);
   const gitRepos: string[] = [];
   const subrepos: string[] = [];
-  const testResults: TestResult[] = [];
 
-  try {
-    // Create deep nested structure with 5 levels
-    let currentPath = tempDir;
-    const depth = 5;
-    const dirsPerLevel = 3; // Reduced for manageability
-    const filesPerDir = 2;
+  await mkdir(tempDir, { recursive: true });
 
-    // Create root git repo
-    await execa('git', ['init'], { cwd: tempDir });
-    await execa('git', ['config', 'user.name', 'test'], { cwd: tempDir });
-    await execa('git', ['config', 'user.email', 'test@test.com'], { cwd: tempDir });
-    gitRepos.push(tempDir);
+  // Create root git repo
+  await execa('git', ['init'], { cwd: tempDir });
+  await execa('git', ['config', 'user.name', 'test'], { cwd: tempDir });
+  await execa('git', ['config', 'user.email', 'test@test.com'], { cwd: tempDir });
+  gitRepos.push(tempDir);
 
-    for (let level = 0; level < depth; level++) {
-      const levelDirs: string[] = [];
+  // Create deep nested structure with 5 levels
+  let currentPath = tempDir;
+  const depth = 5;
+  const dirsPerLevel = 3;
+  const filesPerDir = 2;
 
-      // Create directories at this level
-      for (let i = 0; i < dirsPerLevel; i++) {
-        const dirName = `level${level}-dir${i}-${randomName()}`;
-        const dirPath = join(currentPath, dirName);
-        await mkdir(dirPath, { recursive: true });
-        levelDirs.push(dirPath);
+  for (let level = 0; level < depth; level++) {
+    const levelDirs: string[] = [];
 
-        // Create files in this directory
-        for (let j = 0; j < filesPerDir; j++) {
-          const fileName = `file${j}.txt`;
-          const filePath = join(dirPath, fileName);
-          await writeFile(filePath, `Initial content ${level}-${i}-${j}`);
-        }
+    // Create directories at this level
+    for (let i = 0; i < dirsPerLevel; i++) {
+      const dirName = `level${level}-dir${i}-${randomName()}`;
+      const dirPath = join(currentPath, dirName);
+      await mkdir(dirPath, { recursive: true });
+      levelDirs.push(dirPath);
 
-        // Randomly create git repos (40% chance)
-        if (Math.random() < 0.4 && level > 0) {
-          await execa('git', ['init'], { cwd: dirPath });
-          await execa('git', ['config', 'user.name', 'test'], { cwd: dirPath });
-          await execa('git', ['config', 'user.email', 'test@test.com'], { cwd: dirPath });
-          gitRepos.push(dirPath);
-
-          // Add and commit initial files
-          await execa('git', ['add', '.'], { cwd: dirPath });
-          await execa('git', ['commit', '-m', `Initial commit level ${level} dir ${i}`], {
-            cwd: dirPath,
-          });
-
-          // Randomly make it a subrepo (25% chance for git repos)
-          if (Math.random() < 0.25 && subrepos.length < 2) {
-            await createSubrepo(tempDir, dirPath, `https://github.com/example/${dirName}.git`);
-            subrepos.push(dirPath);
-          }
-        }
+      // Create files in this directory
+      for (let j = 0; j < filesPerDir; j++) {
+        const fileName = `file${j}.txt`;
+        const filePath = join(dirPath, fileName);
+        await writeFile(filePath, `Initial content ${level}-${i}-${j}`);
       }
 
-      // Pick one directory to go deeper for next level
-      if (level < depth - 1 && levelDirs.length > 0) {
-        currentPath = levelDirs[Math.floor(Math.random() * levelDirs.length)];
+      // Randomly create git repos (40% chance)
+      if (Math.random() < 0.4 && level > 0) {
+        await execa('git', ['init'], { cwd: dirPath });
+        await execa('git', ['config', 'user.name', 'test'], { cwd: dirPath });
+        await execa('git', ['config', 'user.email', 'test@test.com'], { cwd: dirPath });
+        gitRepos.push(dirPath);
+
+        // Add and commit initial files
+        await execa('git', ['add', '.'], { cwd: dirPath });
+        await execa('git', ['commit', '-m', `Initial commit level ${level} dir ${i}`], {
+          cwd: dirPath,
+        });
+
+        // Randomly make it a subrepo (25% chance for git repos)
+        if (Math.random() < 0.25 && subrepos.length < 2) {
+          await createSubrepo(tempDir, dirPath, `https://github.com/example/${dirName}.git`);
+          subrepos.push(dirPath);
+        }
       }
     }
 
-    // Commit initial state in root repo
-    await execa('git', ['add', '.'], { cwd: tempDir });
-    await execa('git', ['commit', '-m', 'Initial commit'], { cwd: tempDir });
+    // Pick one directory to go deeper for next level
+    if (level < depth - 1 && levelDirs.length > 0) {
+      currentPath = levelDirs[Math.floor(Math.random() * levelDirs.length)];
+    }
+  }
 
+  // Commit initial state in root repo
+  await execa('git', ['add', '.'], { cwd: tempDir });
+  await execa('git', ['commit', '-m', 'Initial commit'], { cwd: tempDir });
+
+  return { tempDir, gitRepos, subrepos };
+}
+
+async function performFileChange(
+  changeNumber: number,
+  tempDir: string,
+  gitRepos: string[],
+): Promise<TestResult> {
+  // Get all directories in our tree
+  const { stdout: allDirsOutput } = await execa('find', [tempDir, '-type', 'd'], {
+    cwd: tempDir,
+  });
+  const allDirs = allDirsOutput.trim().split('\n').filter(Boolean);
+
+  // Pick random directory
+  const randomDir = allDirs[Math.floor(Math.random() * allDirs.length)];
+
+  // Create random file in that directory
+  const fileName = `change-${changeNumber}-${randomName()}.txt`;
+  const filePath = join(randomDir, fileName);
+  const content = randomContent();
+  await writeFile(filePath, content);
+
+  console.log(`Change ${changeNumber}: Created ${fileName}`);
+  console.log(`  Path: ${filePath}`);
+  console.log(`  Relative to temp: ${relative(tempDir, filePath) || 'unknown'}`);
+
+  // Check if this file is inside a git repo
+  const gitCheck = await isInsideGit(filePath, gitRepos);
+  console.log(`  Inside git repo: ${gitCheck.inside}`);
+  if (gitCheck.repo) {
+    console.log(`  Git repo: ${gitCheck.repo}`);
+  }
+
+  // Wait for file system events to be processed
+  await sleep(200);
+
+  // Check git status of all repos to see what changed
+  const statusChanges: string[] = [];
+
+  for (const repo of gitRepos) {
+    const status = await getGitStatus(repo);
+    if (status.length > 0) {
+      console.log(`  Git status in ${relative(tempDir, repo) || 'unknown'}:`);
+      status.forEach((line) => {
+        console.log(`    ${line}`);
+        statusChanges.push(`${relative(tempDir, repo)}: ${line}`);
+      });
+    }
+  }
+
+  // Also check if we can find git root from the file path
+  const gitRoot = await findGitRoot(filePath);
+  console.log(
+    `  Git root from file: ${gitRoot ? relative(tempDir, gitRoot) || 'unknown' : 'none'}`,
+  );
+
+  return {
+    changeNumber,
+    filePath,
+    insideGit: gitCheck.inside,
+    gitRepo: gitCheck.repo,
+    gitStatusChanges: statusChanges,
+    expectedCommit: gitCheck.inside,
+  };
+}
+
+test('deep nested git tree with random file changes', async (t) => {
+  const { tempDir, gitRepos, subrepos } = await setupTestEnvironment();
+  const testResults: TestResult[] = [];
+
+  try {
     console.log(`Created test structure:`);
     console.log(`  Total git repos: ${gitRepos.length}`);
     console.log(`  Subrepos: ${subrepos.length}`);
     gitRepos.forEach((repo, i) => {
-      const isSubrepo = subrepos.includes(repo);
+      const isSubrepo = subrepos.some((sr) => sr === repo);
       console.log(`    ${i + 1}. ${repo} ${isSubrepo ? '(subrepo)' : ''}`);
     });
 
@@ -202,66 +280,8 @@ test('deep nested git tree with random file changes', async (t) => {
     // Make 15 random file changes throughout the tree
     const numChanges = 15;
     for (let change = 0; change < numChanges; change++) {
-      // Get all directories in our tree
-      const { stdout: allDirsOutput } = await execa('find', [tempDir, '-type', 'd'], {
-        cwd: tempDir,
-      });
-      const allDirs = allDirsOutput.trim().split('\n').filter(Boolean);
-
-      // Pick random directory
-      const randomDir = allDirs[Math.floor(Math.random() * allDirs.length)];
-
-      // Create random file in that directory
-      const fileName = `change-${change}-${randomName()}.txt`;
-      const filePath = join(randomDir, fileName);
-      const content = randomContent();
-      await writeFile(filePath, content);
-
-      console.log(`\nChange ${change + 1}/${numChanges}: Created ${fileName}`);
-      console.log(`  Path: ${filePath}`);
-      console.log(`  Relative to temp: ${relative(tempDir, filePath)}`);
-
-      // Check if this file is inside a git repo
-      const gitCheck = await isInsideGit(filePath, gitRepos);
-      console.log(`  Inside git repo: ${gitCheck.inside}`);
-      if (gitCheck.repo) {
-        console.log(`  Git repo: ${gitCheck.repo}`);
-      }
-
-      // Wait for file system events to be processed
-      await sleep(200);
-
-      // Check git status of all repos to see what changed
-      let totalChanges = 0;
-      const statusChanges: string[] = [];
-
-      for (const repo of gitRepos) {
-        const status = await getGitStatus(repo);
-        if (status.length > 0) {
-          console.log(`  Git status in ${relative(tempDir, repo)}:`);
-          status.forEach((line) => {
-            console.log(`    ${line}`);
-            statusChanges.push(`${relative(tempDir, repo)}: ${line}`);
-          });
-          totalChanges += status.length;
-        }
-      }
-
-      // Also check if we can find git root from the file path
-      const gitRoot = await findGitRoot(filePath);
-      console.log(`  Git root from file: ${gitRoot ? relative(tempDir, gitRoot) : 'none'}`);
-
-      const result: TestResult = {
-        changeNumber: change + 1,
-        filePath,
-        insideGit: gitCheck.inside,
-        gitRepo: gitCheck.repo,
-        gitStatusChanges: statusChanges,
-        expectedCommit: gitCheck.inside,
-      };
+      const result = await performFileChange(change + 1, tempDir, gitRepos);
       testResults.push(result);
-
-      console.log(`  Total git status changes: ${totalChanges}`);
     }
 
     // Wait for all debounces and processing
