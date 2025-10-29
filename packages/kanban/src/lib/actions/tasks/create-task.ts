@@ -5,7 +5,7 @@
 
 import { randomUUID } from 'node:crypto';
 import type { Task, Board, ColumnData } from '../../types.js';
-import { debug, info } from '../../utils/logger.js';
+import { debug } from '../../utils/logger.js';
 
 export type CreateTaskInput = {
   title: string;

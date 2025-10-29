@@ -471,7 +471,7 @@ const handleProcess: CommandHandler = async (args) => {
     }
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    error(`Error reading process document: ${message}`);
+    console.error(`Error reading process document: ${message}`);
     process.exit(1);
   }
 };
@@ -590,7 +590,8 @@ const handleDev: CommandHandler = async (args, context) => {
     // Keep the process alive
     return new Promise(() => {}); // Never resolves
   } catch (error) {
-    error('[kanban-dev] Failed to start development server:', error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error('[kanban-dev] Failed to start development server:', errorMessage);
     throw error;
   }
 };
@@ -661,11 +662,9 @@ const handleShowTransitions: CommandHandler = async (_args, context) => {
 
     return overview;
   } catch (error) {
-    error(
-      'Error loading transition rules:',
-      error instanceof Error ? error.message : String(error),
-    );
-    return { error: error instanceof Error ? error.message : String(error) };
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error('Error loading transition rules:', errorMessage);
+    return { error: errorMessage };
   }
 };
 
@@ -705,7 +704,7 @@ const handleShowProcess: CommandHandler = async (_args, _context) => {
     }
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    error(`Error reading process document: ${message}`);
+    console.error(`Error reading process document: ${message}`);
   }
 
   return null;
@@ -2202,7 +2201,7 @@ const handleInit: CommandHandler = async (args, _context) => {
     return { created: true, path: configPath };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    error(`❌ Failed to create configuration: ${message}`);
+    console.error(`❌ Failed to create configuration: ${message}`);
     return { created: false, reason: message };
   }
 };
