@@ -2,13 +2,14 @@
  * AI-Driven Security Evaluation System
  *
  * Implements contextual AI security evaluation using Pantheon framework
- * with local OpenCode LLM integration for intelligent threat assessment.
+ * with OpenAI-compatible LLM integration for intelligent threat assessment.
  *
  * This replaces hardcoded security rules with contextual AI evaluation
  * that can understand patterns, context, and user intent.
  */
 
 import type { LlmPort, Message } from '@promethean-os/pantheon';
+import { makeOpenAIAdapter } from '@promethean-os/pantheon';
 import type { SecurityConfig } from './security-utils.js';
 
 /**
