@@ -77,7 +77,9 @@ export class GitTagManager {
     startSha?: string,
     metadata?: Record<string, any>,
   ): Promise<TagCreationResult> {
-    console.warn(`[kanban-dev] Heal tag creation skipped for "${reason}" - git functionality disabled`);
+    console.warn(
+      `[kanban-dev] Heal tag creation skipped for "${reason}" - git functionality disabled`,
+    );
     const timestamp = new Date();
     const date = timestamp.toISOString().split('T')[0];
     const timeStr = timestamp.toTimeString() || '00:00:00';
@@ -101,7 +103,9 @@ export class GitTagManager {
    * Store a scar record in history - DISABLED
    */
   async storeScarRecord(scar: ScarRecord): Promise<ScarHistoryResult> {
-    console.warn(`[kanban-dev] Scar record storage skipped for ${scar.metadata.tag} - git functionality disabled`);
+    console.warn(
+      `[kanban-dev] Scar record storage skipped for ${scar.metadata.tag} - git functionality disabled`,
+    );
     try {
       await fs.mkdir(this.scarHistoryPath, { recursive: true });
       const scarFile = path.join(this.scarHistoryPath, 'scars.json');
@@ -155,7 +159,9 @@ export class GitTagManager {
    * Get commits between two tags (for scar range) - DISABLED
    */
   async getCommitsBetweenTags(startTag: string, endTag?: string): Promise<GitCommit[]> {
-    console.warn(`[kanban-dev] Commits between tags retrieval skipped (${startTag}..${endTag || 'HEAD'}) - git functionality disabled`);
+    console.warn(
+      `[kanban-dev] Commits between tags retrieval skipped (${startTag}..${endTag || 'HEAD'}) - git functionality disabled`,
+    );
     return [];
   }
 
@@ -223,21 +229,27 @@ export class GitTagManager {
    * Create an annotated git tag - DISABLED
    */
   private async createAnnotatedTag(tag: string, commitSha: string, message: string): Promise<void> {
-    console.warn(`[kanban-dev] Annotated tag creation skipped for ${tag} - git functionality disabled`);
+    console.warn(
+      `[kanban-dev] Annotated tag creation skipped for ${tag} - git functionality disabled`,
+    );
   }
 
   /**
    * Create a lightweight git tag - DISABLED
    */
   private async createLightweightTag(tag: string, commitSha: string): Promise<void> {
-    console.warn(`[kanban-dev] Lightweight tag creation skipped for ${tag} - git functionality disabled`);
+    console.warn(
+      `[kanban-dev] Lightweight tag creation skipped for ${tag} - git functionality disabled`,
+    );
   }
 
   /**
    * Get files changed in a commit - DISABLED
    */
   private async getCommitFiles(sha: string): Promise<string[]> {
-    console.warn(`[kanban-dev] Commit files retrieval skipped for ${sha} - git functionality disabled`);
+    console.warn(
+      `[kanban-dev] Commit files retrieval skipped for ${sha} - git functionality disabled`,
+    );
     return [];
   }
 
@@ -250,8 +262,7 @@ export class GitTagManager {
     if (metadata) {
       const metadataLines = Object.entries(metadata)
         .map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
-        .join('
-');
+        .join('\n');
 
       if (metadataLines) {
         message += `
@@ -285,7 +296,7 @@ export const DEFAULT_GIT_TAG_MANAGER_OPTIONS: Required<GitTagManagerOptions> = {
   maxScarsRetained: 50,
   createAnnotatedTags: true,
   signTags: false,
-};/**
+}; /**
  * Git Tag Management for Kanban Healing Operations - DISABLED
  *
  * All git functionality has been disabled. This module provides no-op stubs
@@ -364,7 +375,9 @@ export class GitTagManager {
     startSha?: string,
     metadata?: Record<string, any>,
   ): Promise<TagCreationResult> {
-    console.warn(`[kanban-dev] Heal tag creation skipped for "${reason}" - git functionality disabled`);
+    console.warn(
+      `[kanban-dev] Heal tag creation skipped for "${reason}" - git functionality disabled`,
+    );
     const timestamp = new Date();
     const date = timestamp.toISOString().split('T')[0];
     const timeStr = timestamp.toTimeString() || '00:00:00';
@@ -388,7 +401,9 @@ export class GitTagManager {
    * Store a scar record in history - DISABLED
    */
   async storeScarRecord(scar: ScarRecord): Promise<ScarHistoryResult> {
-    console.warn(`[kanban-dev] Scar record storage skipped for ${scar.metadata.tag} - git functionality disabled`);
+    console.warn(
+      `[kanban-dev] Scar record storage skipped for ${scar.metadata.tag} - git functionality disabled`,
+    );
     try {
       await fs.mkdir(this.scarHistoryPath, { recursive: true });
       const scarFile = path.join(this.scarHistoryPath, 'scars.json');
@@ -442,7 +457,9 @@ export class GitTagManager {
    * Get commits between two tags (for scar range) - DISABLED
    */
   async getCommitsBetweenTags(startTag: string, endTag?: string): Promise<GitCommit[]> {
-    console.warn(`[kanban-dev] Commits between tags retrieval skipped (${startTag}..${endTag || 'HEAD'}) - git functionality disabled`);
+    console.warn(
+      `[kanban-dev] Commits between tags retrieval skipped (${startTag}..${endTag || 'HEAD'}) - git functionality disabled`,
+    );
     return [];
   }
 
@@ -510,21 +527,27 @@ export class GitTagManager {
    * Create an annotated git tag - DISABLED
    */
   private async createAnnotatedTag(tag: string, commitSha: string, message: string): Promise<void> {
-    console.warn(`[kanban-dev] Annotated tag creation skipped for ${tag} - git functionality disabled`);
+    console.warn(
+      `[kanban-dev] Annotated tag creation skipped for ${tag} - git functionality disabled`,
+    );
   }
 
   /**
    * Create a lightweight git tag - DISABLED
    */
   private async createLightweightTag(tag: string, commitSha: string): Promise<void> {
-    console.warn(`[kanban-dev] Lightweight tag creation skipped for ${tag} - git functionality disabled`);
+    console.warn(
+      `[kanban-dev] Lightweight tag creation skipped for ${tag} - git functionality disabled`,
+    );
   }
 
   /**
    * Get files changed in a commit - DISABLED
    */
   private async getCommitFiles(sha: string): Promise<string[]> {
-    console.warn(`[kanban-dev] Commit files retrieval skipped for ${sha} - git functionality disabled`);
+    console.warn(
+      `[kanban-dev] Commit files retrieval skipped for ${sha} - git functionality disabled`,
+    );
     return [];
   }
 
@@ -537,8 +560,7 @@ export class GitTagManager {
     if (metadata) {
       const metadataLines = Object.entries(metadata)
         .map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
-        .join('
-');
+        .join('\n');
 
       if (metadataLines) {
         message += `
