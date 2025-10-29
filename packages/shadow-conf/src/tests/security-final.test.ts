@@ -51,7 +51,7 @@ test.serial('SECURITY-002: Path traversal in output directory should be blocked'
   }
 });
 
-test.serial('SECURITY-003: Code injection in filename should be blocked', async (t) => {
+test.serial('prompts user and action is denied when risky string is detected', async (t) => {
   const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'shadow-conf-security-'));
 
   const maliciousFilenames = [
@@ -84,7 +84,7 @@ test.serial('SECURITY-003: Code injection in filename should be blocked', async 
   }
 });
 
-test.serial('SECURITY-004: Malicious content in EDN files should be blocked', async (t) => {
+test.serial('prompts user and action is denied when risky string is detected', async (t) => {
   const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'shadow-conf-security-'));
   const ednFile = path.join(tmpDir, 'malicious.edn');
 
@@ -110,7 +110,7 @@ test.serial('SECURITY-004: Malicious content in EDN files should be blocked', as
   }
 });
 
-test.serial('SECURITY-005: Path traversal in EDN file paths should be blocked', async (t) => {
+test.serial('prompts user and action is denied when risky string is detected', async (t) => {
   const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'shadow-conf-security-'));
   const ednFile = path.join(tmpDir, 'paths.edn');
 

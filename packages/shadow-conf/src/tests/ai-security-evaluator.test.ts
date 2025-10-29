@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { createAISecurityEvaluator, createMockOpenCodeAdapter } from '../ai-security-evaluator.js';
+import { createAISecurityEvaluator } from '../ai-security-evaluator.js';
 
 test('evaluateSecurityThreat allows benign input', async (t) => {
   const llmPort = {
@@ -40,12 +40,13 @@ test('evaluateSecurityThreat blocks dangerous input', async (t) => {
       return {
         role: 'assistant',
         content: JSON.stringify({
-          isThreat: false,
-          confidence: 0.0,
-          threatType: null,
-          explanation: 'No threat detected',
-          patterns: [],
-          riskFactors: [],
+          isThreat: true,
+          confidence: 0.92,
+          threatType: 'path-traversal',
+          explanation: 'High confidence path traversal detected',
+          suggestedAction: 'block',
+          patterns: ['../'],
+          riskFactors: ['encoded-traversal'],
         }),
       };
     },
