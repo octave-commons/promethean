@@ -1,6 +1,6 @@
 import chokidar from 'chokidar';
 import pc from 'picocolors';
-import { addAll, commit, findGitRepositories, gitRoot, hasRepo, hasStagedChanges, listChangedFiles, repoSummary, stagedDiff, isSubrepoDir, } from './git.js';
+import { addAll, commit, findGitRepositories, gitRoot, hasRepo, hasStagedChanges, listChangedFiles, repoSummary, stagedDiff, isSubrepoDir, isEmptyWorkingTreeError, } from './git.js';
 import { chatCompletion } from './llm.js';
 import { SYSTEM, USER } from './messages.js';
 /**
@@ -100,9 +100,10 @@ async function generateCommitMessage(config, context, warn) {
         return generateFallbackMessage(context.files);
     }
 }
-async function performCommit(config, root, log, warn) {
+export async function performCommit(config, root, log, warn) {
     await addAll(root);
     if (!(await hasStagedChanges(root))) {
+        log('No changes to commit.');
         return;
     }
     const files = await listChangedFiles(root);
@@ -113,8 +114,18 @@ async function performCommit(config, root, log, warn) {
         log(pc.cyan(`DRY RUN commit:\n${message}`));
         return;
     }
-    await commit(root, message, config.signoff);
-    log(pc.green(`Committed ${files.length} file(s).`));
+    try {
+        await commit(root, message, config.signoff);
+        log(pc.green(`Committed ${files.length} file(s).`));
+    }
+    catch (error) {
+        // Handle case where another process staged/committed changes while we were generating message
+        if (isEmptyWorkingTreeError(error)) {
+            log('No changes to commit (another process may have committed them).');
+            return;
+        }
+        throw error;
+    }
 }
 function setupWatcher(root, ignored, callbacks) {
     const watcher = chokidar.watch(root, {
@@ -176,7 +187,7 @@ function createScheduler(config, root, log, warn) {
  * @param repoPath - Path to the git repository to watch
  * @returns Object containing cleanup function
  */
-async function startSingleRepository(config, repoPath) {
+export async function startSingleRepository(config, repoPath) {
     validateConfig(config);
     const isSubrepo = await isSubrepoDir(repoPath);
     const isGitRepo = await hasRepo(repoPath);

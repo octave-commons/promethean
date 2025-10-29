@@ -13,6 +13,8 @@ export declare function repoSummary(cwd: string): Promise<string>;
  * @param signoff - Whether to add signoff flag
  * @throws Error if message is invalid after sanitization
  */
+export declare const GIT_EMPTY_WORKING_TREE_PATTERNS: readonly ["nothing to commit, working tree clean", "nothing added to commit but untracked files present", "nothing to commit"];
+export declare function isEmptyWorkingTreeError(error: unknown): boolean;
 export declare function commit(cwd: string, message: string, signoff?: boolean): Promise<void>;
 /**
  * Sanitizes a commit message to prevent command injection attacks.

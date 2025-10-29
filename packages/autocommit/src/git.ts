@@ -71,6 +71,21 @@ export async function repoSummary(cwd: string): Promise<string> {
  * @param signoff - Whether to add signoff flag
  * @throws Error if message is invalid after sanitization
  */
+export const GIT_EMPTY_WORKING_TREE_PATTERNS = [
+  'nothing to commit, working tree clean',
+  'nothing added to commit but untracked files present',
+  'nothing to commit',
+] as const;
+
+export function isEmptyWorkingTreeError(error: unknown): boolean {
+  return (
+    error instanceof Error &&
+    GIT_EMPTY_WORKING_TREE_PATTERNS.some((pattern) =>
+      error.message.toLowerCase().includes(pattern.toLowerCase()),
+    )
+  );
+}
+
 export async function commit(cwd: string, message: string, signoff = false): Promise<void> {
   // Sanitize message to prevent command injection
   const sanitizedMessage = sanitizeCommitMessage(message);
@@ -85,7 +100,7 @@ export async function commit(cwd: string, message: string, signoff = false): Pro
     await execa('git', args, { cwd });
   } catch (error: unknown) {
     // Re-throw with more context for common git errors
-    if (error instanceof Error && error.message.includes('nothing to commit, working tree clean')) {
+    if (isEmptyWorkingTreeError(error)) {
       throw new Error(`nothing to commit, working tree clean`);
     }
     throw error;

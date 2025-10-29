@@ -64,6 +64,15 @@ export async function repoSummary(cwd) {
  * @param signoff - Whether to add signoff flag
  * @throws Error if message is invalid after sanitization
  */
+export const GIT_EMPTY_WORKING_TREE_PATTERNS = [
+    'nothing to commit, working tree clean',
+    'nothing added to commit but untracked files present',
+    'nothing to commit',
+];
+export function isEmptyWorkingTreeError(error) {
+    return (error instanceof Error &&
+        GIT_EMPTY_WORKING_TREE_PATTERNS.some((pattern) => error.message.toLowerCase().includes(pattern.toLowerCase())));
+}
 export async function commit(cwd, message, signoff = false) {
     // Sanitize message to prevent command injection
     const sanitizedMessage = sanitizeCommitMessage(message);
@@ -73,7 +82,16 @@ export async function commit(cwd, message, signoff = false) {
     const args = ['commit', '-m', sanitizedMessage];
     if (signoff)
         args.push('--signoff');
-    await execa('git', args, { cwd });
+    try {
+        await execa('git', args, { cwd });
+    }
+    catch (error) {
+        // Re-throw with more context for common git errors
+        if (isEmptyWorkingTreeError(error)) {
+            throw new Error(`nothing to commit, working tree clean`);
+        }
+        throw error;
+    }
 }
 /**
  * Sanitizes a commit message to prevent command injection attacks.
