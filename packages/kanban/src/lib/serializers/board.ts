@@ -20,6 +20,56 @@ const DEFAULT_KANBAN_FOOTER = [
   '%%',
 ].join('\n');
 
+const serializeMarkdownBoard = (board: Board): string => {
+  const lines: string[] = ['---', 'kanban-plugin: board', '---', ''];
+  const columns = mergeColumnsCaseInsensitive(board.columns);
+  const slugMap = assignStableSlugs(columns);
+
+  for (const column of columns) {
+    lines.push(`## ${column.name}`);
+    lines.push('');
+    for (const task of column.tasks) {
+      const done = /done/i.test(column.name) ? 'x' : ' ';
+      const linkTarget = slugMap.get(task.uuid) ?? ensureTaskFileBase(task);
+      if (task.slug !== linkTarget) {
+        task.slug = linkTarget;
+      }
+      const displayTitle =
+        task.title && task.title.trim().length > 0 ? task.title.trim() : linkTarget;
+      const wikiLink =
+        displayTitle === linkTarget ? `[[${linkTarget}]]` : `[[${linkTarget}|${displayTitle}]]`;
+
+      const labels = task.labels ?? [];
+      const labelSegment = labels.length > 0 ? labels.map((label) => `#${label}`).join(' ') : '';
+      const priorityValue =
+        typeof task.priority === 'number' || typeof task.priority === 'string'
+          ? String(task.priority).trim()
+          : '';
+      const prioritySegment = priorityValue.length > 0 ? `prio:${priorityValue}` : '';
+
+      let epicSegment = '';
+      if ((task as EpicTask).type === 'epic') {
+        const subtasks = getEpicSubtasks(board, task as EpicTask);
+        const epicStatus = calculateEpicStatus(subtasks);
+        epicSegment = `📋 epic:${epicStatus} (${subtasks.length} tasks)`;
+      } else if ((task as EpicTask).epicId) {
+        epicSegment = `🔗 subtask of:${(task as EpicTask).epicId!.slice(0, 8)}...`;
+      }
+
+      const segments = [`- [${done}]`, wikiLink];
+      if (epicSegment.length > 0) segments.push(epicSegment);
+      if (labelSegment.length > 0) segments.push(labelSegment);
+      if (prioritySegment.length > 0) segments.push(prioritySegment);
+      segments.push(`(uuid:${task.uuid})`);
+
+      lines.push(segments.filter((segment) => segment.length > 0).join(' '));
+    }
+    lines.push('');
+  }
+
+  return lines.join('\n');
+};
+
 const resolveKanbanFooter = async (boardPath: string): Promise<string> => {
   try {
     const existing = await fs.readFile(boardPath, 'utf8');
