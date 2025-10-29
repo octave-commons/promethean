@@ -1861,10 +1861,7 @@ export const createTask = async (
   tasksDir: string,
   boardPath: string,
 ): Promise<Task> => {
-  console.error('[DEBUG] createTask function started');
-  console.error('[DEBUG] createTask params:', { column, title: input.title, tasksDir, boardPath });
   const uuid = input.uuid ?? cryptoRandomUUID();
-  console.error('[DEBUG] UUID generated:', uuid.slice(0, 8));
   const baseTitle = input.title?.trim() ?? '';
   const title = baseTitle.length > 0 ? baseTitle : `Task ${uuid.slice(0, 8)}`;
 

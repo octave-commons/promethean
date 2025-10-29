@@ -1722,13 +1722,9 @@ const parseCreateTaskArgs = (args: ReadonlyArray<string>) => {
 
 const handleCreate: CommandHandler = (args, context) =>
   withBoard(context, async (board) => {
-    error('[DEBUG] handleCreate started');
     const mutableBoard = board as unknown as Board;
-    error('[DEBUG] About to parse create task args');
     const taskArgs = parseCreateTaskArgs(args);
-    error('[DEBUG] Parsed task args:', taskArgs);
 
-    error('[DEBUG] About to call createTask');
     const newTask = await createTask(
       mutableBoard,
       taskArgs.status || 'incoming',
@@ -1741,7 +1737,6 @@ const handleCreate: CommandHandler = (args, context) =>
       context.tasksDir,
       context.boardFile,
     );
-    error('[DEBUG] createTask returned successfully');
 
     debug(`✅ Created task "${newTask.title}" (${newTask.uuid.slice(0, 8)}...)`);
     debug(`   Status: ${newTask.status}`);

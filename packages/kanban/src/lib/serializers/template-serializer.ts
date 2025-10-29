@@ -127,7 +127,6 @@ export const processTemplateContent = async (config: TemplateConfig): Promise<st
 
     return contentFromTemplate || '';
   } catch (error) {
-    console.error('[DEBUG] Template processing error:', error);
     return config.body || '';
   }
 };
