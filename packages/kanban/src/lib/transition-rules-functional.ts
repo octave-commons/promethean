@@ -603,20 +603,15 @@ export const evaluateCustomRule = async (
             : task.priority === 'P2'
               ? 'medium'
               : 'low',
-      owner: task.assignee || 'unassigned',
+      owner: 'unassigned', // Task type doesn't have assignee
       labels: task.labels || [],
-      created: task.created_at,
+      created: task.created_at || new Date().toISOString(),
       uuid: task.uuid,
       status: task.status as Status,
       estimates: task.estimates
         ? {
-            complexity:
-              task.estimates.complexity === 'simple'
-                ? 1
-                : task.estimates.complexity === 'medium'
-                  ? 2
-                  : 3,
-            scale: (task.estimates.complexity as string) || 'medium',
+            complexity: task.estimates.complexity || 1,
+            scale: task.estimates.scale?.toString() || 'medium',
           }
         : { complexity: 1, scale: 'medium' },
     };
