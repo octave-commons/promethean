@@ -55,7 +55,8 @@
   },
   "mcp": {
     "promethean-github":{
-      "type":"remote"
+      "type":"remote",
+      "endpoint":"http://localhost:4321/mcp/github"
     },
     // "clj": {
     //   "type": "local",

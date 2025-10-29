@@ -7,11 +7,9 @@ import { NOW_ISO } from '../../core/constants.js';
 import {
   sanitizeFileNameBase,
   generateAutoLabels,
-  columnKey,
   normalizeColumnDisplayName,
 } from '../../utils/string-utils.js';
 import {
-  deriveFileBaseFromTask,
   ensureTaskFileBase,
   ensureUniqueFileBase,
   resolveTaskSlug,
@@ -223,10 +221,8 @@ const enrichSlug = (
 
   const ensuredBase = ensureTaskFileBase(slugged);
   const uniqueBase = ensureUniqueFileBase(ensuredBase, usedSlugs, slugged.uuid);
-  if (uniqueBase !== ensuredBase) {
-    slugged.slug = uniqueBase;
-  }
-  usedSlugs.set(slugged.slug ?? uniqueBase, slugged.uuid);
+  slugged.slug = uniqueBase;
+  usedSlugs.set(uniqueBase, slugged.uuid);
   return slugged;
 };
 
