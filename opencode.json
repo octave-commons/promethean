@@ -54,6 +54,9 @@
     }
   },
   "mcp": {
+    "promethean-github":{
+      "type":"remote"
+    },
     // "clj": {
     //   "type": "local",
     //   "command": ["clojure", "-X:mcp-shadow-dual"],
