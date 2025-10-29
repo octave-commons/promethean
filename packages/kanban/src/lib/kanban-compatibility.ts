@@ -148,16 +148,32 @@ export const createTask = async (
   tasksDir?: string,
   boardPath?: string,
 ): Promise<Task> => {
-  const result = await createTaskFunctional({
-    board,
-    status,
-    taskData,
-    tasksDir,
-    boardPath,
-  });
+  const title = taskData.title?.trim() ?? '';
+  const normalizedTitle = title.length > 0 ? title : `Task ${Date.now()}`;
 
-  // Return legacy format
-  return result;
+  const { task, board: updatedBoard } = await createTaskFunctional(
+    {
+      board,
+      column: status,
+      input: {
+        title: normalizedTitle,
+        content: taskData.content,
+        labels: taskData.labels,
+        priority: taskData.priority,
+      },
+      tasksDir,
+      boardPath,
+    } as never,
+  );
+
+  if (updatedBoard) {
+    board.columns = updatedBoard.columns.map((column) => ({
+      ...column,
+      tasks: [...column.tasks],
+    }));
+  }
+
+  return task;
 };
 
 // Legacy compatibility wrappers for functions with signature changes
