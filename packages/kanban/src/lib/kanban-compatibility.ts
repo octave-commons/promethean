@@ -220,26 +220,26 @@ export const getTasksByColumn = async (board: LegacyBoard, columnName: string): 
 };
 
 export const pullFromTasks = async (
-  board: LegacyBoard,
-  tasksDir: string,
-  boardPath: string,
+  _board: LegacyBoard,
+  _tasksDir: string,
+  _boardPath: string,
 ): Promise<{ added: number; moved: number; statusUpdated?: number }> => {
   // Placeholder implementation
   return { added: 0, moved: 0, statusUpdated: 0 };
 };
 
 export const pushToTasks = async (
-  board: LegacyBoard,
-  tasksDir: string,
+  _board: LegacyBoard,
+  _tasksDir: string,
 ): Promise<{ added: number; moved: number; statusUpdated?: number }> => {
   // Placeholder implementation
   return { added: 0, moved: 0, statusUpdated: 0 };
 };
 
 export const syncBoardAndTasks = async (
-  board: LegacyBoard,
-  tasksDir: string,
-  boardPath: string,
+  _board: LegacyBoard,
+  _tasksDir: string,
+  _boardPath: string,
 ): Promise<{
   board: { added: number; moved: number };
   tasks: { added: number; moved: number; statusUpdated: number };
@@ -253,24 +253,23 @@ export const syncBoardAndTasks = async (
   };
 };
 
-export const regenerateBoard = async (
-  tasksDir: string,
-  boardPath: string,
-): Promise<{ success: boolean }> => {
+export const regenerateBoard = async (_tasksDir: string, _boardPath: string): Promise<{
+  success: boolean;
+}> => {
   // Placeholder implementation
   return { success: true };
 };
 
 export const generateBoardByTags = async (
-  tasksDir: string,
-  boardPath: string,
-  tags: string[],
+  _tasksDir: string,
+  _boardPath: string,
+  _tags: string[],
 ): Promise<{ success: boolean }> => {
   // Placeholder implementation
   return { success: true };
 };
 
-export const indexForSearch = async (tasksDir: string): Promise<{ success: boolean }> => {
+export const indexForSearch = async (_tasksDir: string): Promise<{ success: boolean }> => {
   // Placeholder implementation
   return { success: true };
 };
