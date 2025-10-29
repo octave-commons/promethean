@@ -1,13 +1,20 @@
-import { promises as fs } from 'fs';
-import path from 'path';
+import { promises as fs } from 'node:fs';
+import path from 'node:path';
 import { stringify as yamlStringify } from 'yaml';
+
 import { readTaskFile, createBackup } from '../../task-content/parser.js';
+import type { Board } from '../../types.js';
+import { writeBoard, maybeRefreshIndex } from '../../serializers/board.js';
+import { locateTask } from '../../core/task-utils.js';
+import { ensureTaskFileBase } from '../../core/slugs.js';
 
 export type RenameTaskInput = {
+  board: Board;
   tasksDir: string;
   taskUuid: string;
   newTitle: string;
   options?: { createBackup?: boolean };
+  boardPath?: string;
 };
 
 export type RenameTaskResult = { success: boolean; taskUuid: string; path: string };
