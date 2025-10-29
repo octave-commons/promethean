@@ -344,7 +344,7 @@ export const renameTask = async (
   newTitle: string,
   _tasksDir: string,
   _boardPath: string,
-): Promise<Task | undefined> => {
+): Promise<LegacyTask | undefined> => {
   // Find and update task
   for (const column of board.columns) {
     const task = column.tasks.find((t) => t.uuid === uuid);
@@ -363,7 +363,7 @@ export const writeBoard = async (boardPath: string, board: LegacyBoard): Promise
   const columns: ColumnState[] = board.columns.map((col) => ({
     name: col.name,
     cards: col.tasks.map((task): Card => {
-      const enhancedTask = task as Task & {
+      const enhancedTask = task as LegacyTask & {
         links?: readonly string[];
         attrs?: Record<string, unknown>;
       };
@@ -391,12 +391,12 @@ export const writeBoard = async (boardPath: string, board: LegacyBoard): Promise
   await writeFile(boardPath, markdown, 'utf8');
 };
 
-export const readTasksFolder = async (tasksDir: string): Promise<Task[]> => {
+export const readTasksFolder = async (tasksDir: string): Promise<LegacyTask[]> => {
   const { readTasksFolder: readTasksFolderFunctional } = await import(
     './actions/tasks/read-tasks-folder.js'
   );
   const result = await readTasksFolderFunctional({ tasksPath: tasksDir });
-  return result;
+  return result as LegacyTask[];
 };
 
 // Missing legacy functions
