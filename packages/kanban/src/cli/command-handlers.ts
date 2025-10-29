@@ -20,7 +20,7 @@ import {
   renameTask,
   columnKey,
   writeBoard,
-} from '../lib/kanban.js';
+} from '../lib/kanban-compatibility.js';
 import { debug, error, warn } from '../lib/utils/logger.js';
 
 import {
@@ -189,7 +189,7 @@ const handleCount: CommandHandler = (args, context) =>
     const mutableBoard = board as unknown as LoadedBoard;
     // Treat undefined argument as empty string to ensure consistent behavior
     const column = args[0] !== undefined ? args[0] : '';
-    const count = await countTasks({ board: mutableBoard });
+    const count = await countTasks(mutableBoard);
     return { count };
   });
 
