@@ -9,7 +9,6 @@
  */
 
 import type { LlmPort, Message } from '@promethean-os/pantheon';
-import { makeOpenAIAdapter } from '@promethean-os/pantheon';
 import type { SecurityConfig } from './security-utils.js';
 
 /**
@@ -134,19 +133,75 @@ ${additionalContext ? `Additional Context: ${additionalContext}` : ''}
 Provide a JSON response following the specified format.`;
 
     try {
-      const response = await llmPort.complete(
-        [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: userPrompt },
-        ],
+      // Actor-first approach: create an LLM actor and execute its 'llm_complete' tool action
+      const { createLLMActor } = await import('@promethean-os/pantheon');
+
+      const actor = createLLMActor(
         {
-          model,
-          temperature,
+          name: 'ai-security-evaluator',
+          config: { model, temperature, systemPrompt: systemPrompt },
         },
+        {},
       );
 
-      // Parse AI response
-      const aiAssessment = JSON.parse(response.content);
+      // Prepare messages the actor would send
+      const messages = [
+        { role: 'system' as const, content: systemPrompt },
+        { role: 'user' as const, content: userPrompt },
+      ];
+
+      // Use the actor's planning logic to generate actions (without running the full orchestrator)
+      // We call the behavior.plan function directly if available on the actor's talents
+      let toolActionArgs: any = null;
+
+      const talent = actor.talents?.[0];
+      const behavior = talent?.behaviors?.[0];
+      if (behavior && typeof (behavior as any).plan === 'function') {
+        const planResult = await (behavior as any).plan({ goal: userPrompt, context: messages });
+        const actions = planResult?.actions || [];
+        const llmAction = actions.find((a: any) => a.type === 'tool' && a.name === 'llm_complete');
+        if (llmAction) {
+          toolActionArgs = llmAction.args;
+        }
+      }
+
+      if (!toolActionArgs) {
+        // Fallback: directly call the LLM port as before
+        const response = await llmPort.complete(messages, { model, temperature });
+        const aiAssessment = JSON.parse(response.content);
+
+        // Determine final action based on confidence
+        let suggestedAction: 'block' | 'warn' | 'allow';
+        if (aiAssessment.confidence >= blockThreshold) {
+          suggestedAction = 'block';
+        } else if (aiAssessment.confidence >= warnThreshold) {
+          suggestedAction = enableUserConfirmation ? 'warn' : 'allow';
+        } else {
+          suggestedAction = 'allow';
+        }
+
+        return {
+          isThreat: aiAssessment.isThreat && suggestedAction !== 'allow',
+          confidence: aiAssessment.confidence,
+          threatType: aiAssessment.threatType,
+          explanation: aiAssessment.explanation,
+          suggestedAction,
+          context: {
+            input,
+            inputType,
+            patterns: aiAssessment.patterns || [],
+            riskFactors: aiAssessment.riskFactors || [],
+          },
+        };
+      }
+
+      // Execute the tool action by delegating to the provided llmPort
+      const toolResponse = await llmPort.complete(toolActionArgs.messages, {
+        model: toolActionArgs.model || model,
+        temperature: toolActionArgs.temperature || temperature,
+      });
+
+      const aiAssessment = JSON.parse(toolResponse.content);
 
       // Determine final action based on confidence
       let suggestedAction: 'block' | 'warn' | 'allow';
