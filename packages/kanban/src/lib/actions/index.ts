@@ -72,3 +72,44 @@ export type {
 } from './cards/index.js';
 
 export { createCard, removeCard, moveCard, updateCard, findCards } from './cards/index.js';
+
+// Task Actions
+export type {
+  DeleteTaskInput,
+  DeleteTaskResult,
+  ArchiveTaskInput,
+  ArchiveTaskResult,
+  MergeTasksInput,
+  MergeTasksResult,
+  RenameTaskInput,
+  RenameTaskResult,
+} from './tasks/index.js';
+
+export { 
+  deleteTask, 
+  archiveTask, 
+  mergeTasks, 
+  renameTask,
+  updateTaskDescription,
+  createTask as createTaskAction
+} from './tasks/index.js';
+
+// Transition Actions
+export type {
+  UpdateStatusInput,
+  UpdateStatusResult,
+  MoveTaskInput,
+  MoveTaskResult,
+} from './transitions/index.js';
+
+export { updateStatus, moveTask } from './transitions/index.js';
+
+// Search Actions
+export type {
+  SearchTasksInput,
+  SearchTasksResult,
+  IndexForSearchInput,
+  IndexForSearchResult,
+} from './search/index.js';
+
+export { searchTasks, indexForSearch } from './search/index.js';

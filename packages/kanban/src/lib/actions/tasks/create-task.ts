@@ -4,7 +4,23 @@
  */
 
 import { randomUUID } from 'node:crypto';
-import type { Task, Board, ColumnData, CreateTaskInput } from '../../types.js';
+import type { Task, Board, ColumnData } from '../../types.js';
+
+export type CreateTaskInput = {
+  title: string;
+  content?: string;
+  body?: string;
+  labels?: string[];
+  priority?: Task['priority'];
+  estimates?: Task['estimates'];
+  created_at?: string;
+  uuid?: string;
+  slug?: string;
+  templatePath?: string;
+  defaultTemplatePath?: string;
+  blocking?: string[];
+  blockedBy?: string[];
+};
 import { processTemplateContent } from '../../serializers/template-serializer.js';
 import { sanitizeFileNameBase, generateAutoLabels } from '../../utils/string-utils.js';
 import { NOW_ISO } from '../../core/constants.js';

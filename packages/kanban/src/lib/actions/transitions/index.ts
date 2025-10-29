@@ -2,5 +2,9 @@
  * Barrel exports for transition actions
  */
 
-// Use legacy kanban implementations until pure transition actions are implemented
-export { updateStatus, moveTask } from '../../kanban.js';
+// Transition actions for Kanban system
+export type { UpdateStatusInput, UpdateStatusResult } from './update-status.js';
+export { updateStatus } from './update-status.js';
+
+export type { MoveTaskInput, MoveTaskResult } from './move-task.js';
+export { moveTask } from './move-task.js';

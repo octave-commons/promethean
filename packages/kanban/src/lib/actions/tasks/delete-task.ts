@@ -30,25 +30,20 @@ const findTaskFile = async (tasksDir: string, uuid: string): Promise<string | nu
   return null;
 };
 
-export const deleteTask = async (
-  board: any,
-  taskUuid: string,
-  tasksDir: string,
-  _boardFile?: string,
-  options?: { createBackup?: boolean },
-): Promise<boolean> => {
+export const deleteTask = async (input: DeleteTaskInput): Promise<DeleteTaskResult> => {
+  const { board, tasksDir, taskUuid, options } = input;
   const filePath = await findTaskFile(tasksDir, taskUuid);
-  if (!filePath) return false;
+  if (!filePath) return { success: false };
 
+  let backupPath: string | undefined;
   if (options?.createBackup) {
-    await createBackup(filePath);
+    backupPath = await createBackup(filePath);
   }
 
   try {
     await fs.unlink(filePath);
   } catch (err) {
-    // failed to delete
-    return false;
+    return { success: false };
   }
 
   // Remove from in-memory board if provided
@@ -63,5 +58,5 @@ export const deleteTask = async (
     // ignore
   }
 
-  return true;
+  return { success: true, taskPath: filePath, backupPath };
 };
