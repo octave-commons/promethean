@@ -187,22 +187,23 @@ export const findTaskByTitle = (board: LegacyBoard, title: string): Task | undef
 export const getColumn = (
   board: LegacyBoard,
   columnName: string,
-): { name: string; tasks: Task[] } => {
-  const column = board.columns.find((col) => col.name === columnName);
-  if (!column) {
-    throw new Error(`Column "${columnName}" not found`);
+): ColumnData => {
+  const found = board.columns.find(
+    (column) => column.name.toLowerCase() === columnName.toLowerCase(),
+  );
+  if (found) {
+    return found;
   }
   return {
-    name: column.name,
-    tasks: column.tasks,
+    name: columnName,
+    count: 0,
+    limit: null,
+    tasks: [],
   };
 };
 
 export const getTasksByColumn = (board: LegacyBoard, columnName: string): Task[] => {
-  const column = board.columns.find((col) => col.name === columnName);
-  if (!column) {
-    throw new Error(`Column "${columnName}" not found`);
-  }
+  const column = getColumn(board, columnName);
   return column.tasks;
 };
 
@@ -242,9 +243,10 @@ export const syncBoardAndTasks = async (
 
 export const regenerateBoard = async (_tasksDir: string, _boardPath: string): Promise<{
   success: boolean;
+  totalTasks: number;
 }> => {
   // Placeholder implementation
-  return { success: true };
+  return { success: true, totalTasks: 0 };
 };
 
 export const generateBoardByTags = async (
