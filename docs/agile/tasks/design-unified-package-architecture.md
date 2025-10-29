@@ -10,6 +10,7 @@ estimates:
   complexity: '3'
   scale: 'medium'
   time_to_completion: '2 sessions'
+storyPoints: 3
 ---
 
 ## 🏗️ Design Unified Package Architecture
