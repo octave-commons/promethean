@@ -12,7 +12,7 @@ import { runTestingTransition } from './testing-transition/index.js';
 import type { TestingTransitionConfig, TestCoverageRequest } from './testing-transition/types.js';
 import { safeEvaluateTransition } from './safe-rule-evaluation.js';
 import type { TaskFM } from '../board/types.js';
-import { debug, error, info, warn } from './utils/logger.js';
+import { debug, error, warn } from './utils/logger.js';
 // Define types locally to avoid circular imports
 export interface TransitionRule {
   from: string[];
@@ -631,10 +631,10 @@ export const evaluateCustomRule = async (
     }
 
     return true;
-  } catch (error) {
-    error('Failed to evaluate Clojure rule safely:', error);
+  } catch (evalError) {
+    error('Failed to evaluate Clojure rule safely:', evalError);
     throw new Error(
-      `Safe rule evaluation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      `Safe rule evaluation failed: ${evalError instanceof Error ? evalError.message : 'Unknown error'}`,
     );
   }
 };

@@ -465,10 +465,10 @@ export const readTasksFolder = async (dir: string): Promise<Task[]> => {
           const normalizedSlug = resolveTaskSlug(enriched, baseName);
           tasks.push({ ...enriched, slug: normalizedSlug, sourcePath: file });
         }
-      } catch (error) {
+      } catch (parseError) {
         error(
           `Failed to parse frontmatter for ${file}: ${
-            error instanceof Error ? error.message : String(error)
+            parseError instanceof Error ? parseError.message : String(parseError)
           }`,
         );
         const fallback = fallbackTaskFromRaw(file, text);
