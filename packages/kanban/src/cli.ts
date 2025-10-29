@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { Command } from 'commander';
 import { loadKanbanConfig } from './board/config.js';
 import { printJSONL } from './lib/jsonl.js';
 import { printMarkdown } from './lib/markdown-output.js';
