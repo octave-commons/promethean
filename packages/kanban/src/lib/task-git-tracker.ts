@@ -5,8 +5,6 @@
  * to maintain API compatibility while preventing any git operations.
  */
 
-import path from 'node:path';
-
 export interface TaskCommitEntry {
   sha: string;
   timestamp: Date;
@@ -27,7 +25,7 @@ export class TaskGitTracker {
     this.repoRoot = repoRoot;
 
     console.warn(
-      '[TaskGitTracker] Git functionality is disabled - no git operations will be performed',
+      `[TaskGitTracker] Git functionality is disabled for repo ${repoRoot} - no git operations will be performed`,
     );
   }
 
@@ -35,9 +33,9 @@ export class TaskGitTracker {
    * Track task operation - DISABLED
    */
   async trackOperation(
-    taskFilePath: string,
-    operation: 'create' | 'update' | 'delete',
-    details: Record<string, unknown>,
+    _taskFilePath: string,
+    _operation: 'create' | 'update' | 'delete',
+    _details: Record<string, unknown>,
   ): Promise<void> {
     console.warn('[TaskGitTracker] trackOperation called but git is disabled');
   }
@@ -45,7 +43,7 @@ export class TaskGitTracker {
   /**
    * Get task commit history - DISABLED
    */
-  async getTaskHistory(taskFilePath: string): Promise<TaskCommitEntry[]> {
+  async getTaskHistory(_taskFilePath: string): Promise<TaskCommitEntry[]> {
     console.warn('[TaskGitTracker] getTaskHistory called but git is disabled');
     return [];
   }
@@ -53,7 +51,7 @@ export class TaskGitTracker {
   /**
    * Extract frontmatter from task content - DISABLED
    */
-  extractFrontmatter(content: string): Record<string, unknown> {
+  extractFrontmatter(_content: string): Record<string, unknown> {
     console.warn('[TaskGitTracker] extractFrontmatter called but git is disabled');
     return {};
   }
@@ -61,9 +59,33 @@ export class TaskGitTracker {
   /**
    * Validate task commit tracking - DISABLED
    */
-  async validateTracking(taskFilePath: string): Promise<boolean> {
+  async validateTracking(_taskFilePath: string): Promise<boolean> {
     console.warn('[TaskGitTracker] validateTracking called but git is disabled');
     return false;
+  }
+
+  /**
+   * Analyze task status - DISABLED
+   */
+  async analyzeTaskStatus(_taskFilePath: string): Promise<Record<string, unknown>> {
+    console.warn('[TaskGitTracker] analyzeTaskStatus called but git is disabled');
+    return {
+      status: 'disabled',
+      message: 'Git functionality is disabled',
+    };
+  }
+
+  /**
+   * Get commit tracking stats - DISABLED
+   */
+  async getCommitTrackingStats(): Promise<Record<string, unknown>> {
+    console.warn('[TaskGitTracker] getCommitTrackingStats called but git is disabled');
+    return {
+      totalCommits: 0,
+      trackedFiles: 0,
+      lastCommit: null,
+      status: 'disabled',
+    };
   }
 }
 
