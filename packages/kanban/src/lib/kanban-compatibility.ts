@@ -177,7 +177,7 @@ export const createTask = async (
 };
 
 // Legacy compatibility wrappers for functions with signature changes
-export const findTaskById = async (board: LegacyBoard, uuid: string): Promise<Task | undefined> => {
+export const findTaskById = (board: LegacyBoard, uuid: string): Task | undefined => {
   for (const column of board.columns) {
     const task = column.tasks.find((t) => t.uuid === uuid);
     if (task) return task;
@@ -185,10 +185,7 @@ export const findTaskById = async (board: LegacyBoard, uuid: string): Promise<Ta
   return undefined;
 };
 
-export const findTaskByTitle = async (
-  board: LegacyBoard,
-  title: string,
-): Promise<Task | undefined> => {
+export const findTaskByTitle = (board: LegacyBoard, title: string): Task | undefined => {
   for (const column of board.columns) {
     const task = column.tasks.find((t) => t.title === title);
     if (task) return task;
@@ -197,10 +194,10 @@ export const findTaskByTitle = async (
 };
 
 // Additional wrapper functions needed by CLI
-export const getColumn = async (
+export const getColumn = (
   board: LegacyBoard,
   columnName: string,
-): Promise<{ name: string; tasks: Task[] }> => {
+): { name: string; tasks: Task[] } => {
   const column = board.columns.find((col) => col.name === columnName);
   if (!column) {
     throw new Error(`Column "${columnName}" not found`);
@@ -211,7 +208,7 @@ export const getColumn = async (
   };
 };
 
-export const getTasksByColumn = async (board: LegacyBoard, columnName: string): Promise<Task[]> => {
+export const getTasksByColumn = (board: LegacyBoard, columnName: string): Task[] => {
   const column = board.columns.find((col) => col.name === columnName);
   if (!column) {
     throw new Error(`Column "${columnName}" not found`);
@@ -274,7 +271,7 @@ export const indexForSearch = async (_tasksDir: string): Promise<{ success: bool
   return { success: true };
 };
 
-export const searchTasks = async (board: LegacyBoard, term: string): Promise<Task[]> => {
+export const searchTasks = (board: LegacyBoard, term: string): Task[] => {
   const results: Task[] = [];
   for (const column of board.columns) {
     const matchingTasks = column.tasks.filter(
