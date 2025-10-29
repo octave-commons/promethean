@@ -37,6 +37,31 @@ const ensureTask = (task: LegacyTask | undefined, context: string): LegacyTask =
   return task;
 };
 
+const findTaskFile = async (tasksDir: string, uuid: string): Promise<string | null> => {
+  try {
+    const entries = await fs.readdir(tasksDir);
+    for (const file of entries) {
+      if (!file.endsWith('.md')) continue;
+      const fullPath = path.join(tasksDir, file);
+      try {
+        const content = await fs.readFile(fullPath, 'utf8');
+        if (
+          content.includes(`uuid: "${uuid}`) ||
+          content.includes(`uuid: '${uuid}`) ||
+          content.includes(`uuid: ${uuid}`)
+        ) {
+          return fullPath;
+        }
+      } catch (_) {
+        // Ignore unreadable files
+      }
+    }
+  } catch (_) {
+    return null;
+  }
+  return null;
+};
+
 // Legacy countTasks wrapper - supports optional column filtering
 export const countTasks = (board: LegacyBoard, columnName?: string): number => {
   if (columnName) {
