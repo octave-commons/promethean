@@ -321,16 +321,20 @@ const handlePull: CommandHandler = (_args, context) =>
     const result = await pullFromTasks(mutableBoard, context.tasksDir, context.boardFile);
 
     // Enhanced logging for pull operation
-    const resultData = result as { added: number; moved: number; statusUpdated?: number };
-    if (resultData.moved > 0) {
+    const { added, moved, statusUpdated = 0 } = result as {
+      added: number;
+      moved: number;
+      statusUpdated?: number;
+    };
+    if (moved > 0) {
       debug(
-        `📝 Pull completed: ${resultData.added} added, ${resultData.moved} status changes from files`,
+        `📝 Pull completed: ${added} added, ${moved} status changes from files`,
       );
     } else {
-      debug(`📋 Pull completed: ${resultData.added} added, ${resultData.moved} moved`);
+      debug(`📋 Pull completed: ${added} added, ${moved} moved`);
     }
 
-    return resultData;
+    return { added, moved, statusUpdated };
   });
 
 const handlePush: CommandHandler = (_args, context) =>
@@ -339,16 +343,20 @@ const handlePush: CommandHandler = (_args, context) =>
     const result = await pushToTasks(mutableBoard, context.tasksDir);
 
     // Enhanced logging for manual edit detection
-    const resultData = result as { added: number; moved: number; statusUpdated?: number };
-    if (resultData.statusUpdated > 0) {
+    const { added, moved, statusUpdated = 0 } = result as {
+      added: number;
+      moved: number;
+      statusUpdated?: number;
+    };
+    if (statusUpdated > 0) {
       debug(
-        `📝 Push completed: ${resultData.added} added, ${resultData.moved} moved, ${resultData.statusUpdated} manual edits preserved`,
+        `📝 Push completed: ${added} added, ${moved} moved, ${statusUpdated} manual edits preserved`,
       );
     } else {
-      debug(`📋 Push completed: ${resultData.added} added, ${resultData.moved} moved`);
+      debug(`📋 Push completed: ${added} added, ${moved} moved`);
     }
 
-    return resultData;
+    return { added, moved, statusUpdated };
   });
 
 const handleSync: CommandHandler = (_args, context) =>
