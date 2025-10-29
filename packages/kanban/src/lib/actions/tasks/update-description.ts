@@ -25,17 +25,15 @@ export type UpdateDescriptionResult = {
 
 const findTaskFile = async (tasksDir: string, uuid: string): Promise<string | null> => {
   const files = await fs.readdir(tasksDir);
-  // quick match by filename
   const byName = files.find((f) => f.includes(uuid));
   if (byName) return path.join(tasksDir, byName);
 
-  // fallback: inspect frontmatter
-  for (const f of files) {
-    const p = path.join(tasksDir, f);
+  for (const file of files) {
+    const filePath = path.join(tasksDir, file);
     try {
-      const { frontmatter } = await readTaskFile(p);
-      if (frontmatter && frontmatter.uuid === uuid) return p;
-    } catch (e) {
+      const { frontmatter } = await readTaskFile(filePath);
+      if (frontmatter && frontmatter.uuid === uuid) return filePath;
+    } catch {
       // ignore parse errors
     }
   }
@@ -46,24 +44,39 @@ const findTaskFile = async (tasksDir: string, uuid: string): Promise<string | nu
 export const updateTaskDescription = async (
   input: UpdateDescriptionInput,
 ): Promise<UpdateDescriptionResult> => {
-  const filePath = await findTaskFile(input.tasksDir, input.taskUuid);
-  if (!filePath) throw new Error(`task file for ${input.taskUuid} not found`);
+  const { board, tasksDir, taskUuid, newContent, options, boardPath } = input;
+
+  const filePath = await findTaskFile(tasksDir, taskUuid);
+  if (!filePath) throw new Error(`task file for ${taskUuid} not found`);
 
   const beforeRaw = await fs.readFile(filePath, 'utf8');
   const parsed = await readTaskFile(filePath);
   const frontmatter = parsed.frontmatter ?? {};
 
-  // update content in frontmatter too if present
-  const newFront = { ...frontmatter, content: input.newContent } as Record<string, any>;
-  const yaml = yamlStringify(newFront).trim();
-  const after = `---\n${yaml}\n---\n\n${input.newContent}`;
+  const updatedFrontmatter = { ...frontmatter, content: newContent } as Record<string, unknown>;
+  const yaml = yamlStringify(updatedFrontmatter).trim();
+  const after = `---\n${yaml}\n---\n\n${newContent}`;
 
   let backupPath: string | undefined;
-  if (input.options?.createBackup) {
+  if (options?.createBackup) {
     backupPath = await createBackup(filePath);
   }
 
   await fs.writeFile(filePath, after, 'utf8');
   const diff = generateDiff(beforeRaw, after);
-  return { success: true, taskUuid: input.taskUuid, backupPath, diff };
+
+  const located = locateTask(board, taskUuid);
+  if (located) {
+    located.column.tasks[located.index] = {
+      ...located.task,
+      content: newContent,
+    };
+  }
+
+  if (boardPath) {
+    await writeBoard(boardPath, board);
+  }
+  await maybeRefreshIndex(tasksDir);
+
+  return { success: true, taskUuid, backupPath, diff };
 };
