@@ -164,10 +164,11 @@ export function validateAndSanitizePath(
 
   // System directory access prevention
   const normalizedPath = path.normalize(inputPath);
-  for (const systemDir of config.blockedSystemDirs) {
+  const blockedDirs = Array.isArray(config.blockedSystemDirs) ? config.blockedSystemDirs : [];
+  for (const systemDir of blockedDirs) {
     if (
       normalizedPath.startsWith(systemDir) ||
-      normalizedPath.toLowerCase().startsWith(systemDir.toLowerCase())
+      normalizedPath.toLowerCase().startsWith((systemDir as string).toLowerCase())
     ) {
       return {
         success: false,
@@ -365,7 +366,7 @@ export function sanitizeForJsonSerialization(
 
   if (typeof data === 'string') {
     // Remove dangerous characters that could be used for injection
-    let sanitized = data
+    const sanitized = data
       .replace(/[\0\r\n]/g, '') // Remove null bytes and line breaks
       .replace(/<\/script/gi, '</scr\\\\ipt') // Break script tags
       .replace(/<script/gi, '<scr\\\\ipt') // Break script tags
@@ -374,7 +375,7 @@ export function sanitizeForJsonSerialization(
 
     // Additional sanitization in strict mode
     if (config.strictMode) {
-      sanitized = sanitized
+      return sanitized
         .replace(/eval\s*\(/gi, 'eval\\\\(')
         .replace(/Function\s*\(/gi, 'Function\\\\(')
         .replace(/setTimeout\s*\(/gi, 'setTimeout\\\\(')
