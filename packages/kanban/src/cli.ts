@@ -6,7 +6,6 @@ import { printMarkdown } from './lib/markdown-output.js';
 import { processSync } from './process/sync.js';
 import { docguard } from './process/docguard.js';
 import {
-  AVAILABLE_COMMANDS,
   CommandNotFoundError,
   CommandUsageError,
   executeCommand,
@@ -101,7 +100,7 @@ async function main(): Promise<void> {
     };
 
     try {
-      const result = await executeCommand(cmd, args, context);
+      const result = await executeCommand(cmd || '', args, context);
       if (typeof result !== 'undefined' && result !== null) {
         if (options.json) {
           printJSONL(result);
@@ -155,12 +154,12 @@ async function main(): Promise<void> {
 
   // Execute regular command
   try {
-    const result = await executeCommand(cmd, args, context);
+    const result = await executeCommand(cmd || '', args, context);
     if (typeof result !== 'undefined' && result !== null) {
       if (options.json) {
         printJSONL(result);
       } else {
-        printMarkdown(result, detectOutputType(cmd), { query: args[0] });
+        printMarkdown(result, detectOutputType(cmd || ''), { query: args[0] });
       }
     }
   } catch (error: unknown) {
