@@ -193,7 +193,7 @@ export const createTask = async (
 };
 
 // Legacy compatibility wrappers for functions with signature changes
-export const findTaskById = (board: LegacyBoard, uuid: string): Task | undefined => {
+export const findTaskById = (board: LegacyBoard, uuid: string): LegacyTask | undefined => {
   for (const column of board.columns) {
     const task = column.tasks.find((t) => t.uuid === uuid);
     if (task) return task;
@@ -201,9 +201,10 @@ export const findTaskById = (board: LegacyBoard, uuid: string): Task | undefined
   return undefined;
 };
 
-export const findTaskByTitle = (board: LegacyBoard, title: string): Task | undefined => {
+export const findTaskByTitle = (board: LegacyBoard, title: string): LegacyTask | undefined => {
+  const normalized = title.toLowerCase();
   for (const column of board.columns) {
-    const task = column.tasks.find((t) => t.title === title);
+    const task = column.tasks.find((t) => t.title.toLowerCase() === normalized);
     if (task) return task;
   }
   return undefined;
@@ -228,7 +229,7 @@ export const getColumn = (
   };
 };
 
-export const getTasksByColumn = (board: LegacyBoard, columnName: string): Task[] => {
+export const getTasksByColumn = (board: LegacyBoard, columnName: string): LegacyTask[] => {
   const column = getColumn(board, columnName);
   return column.tasks;
 };
