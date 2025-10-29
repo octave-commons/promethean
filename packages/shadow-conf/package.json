@@ -36,6 +36,8 @@
   "dependencies": {
     "dotenv": "17.2.1",
     "@promethean-os/pm2-helpers": "workspace:*",
+    "@promethean-os/pantheon": "workspace:*",
+    "openai": "^4.67.0",
     "jsedn": "0.4.1"
   },
   "devDependencies": {}
