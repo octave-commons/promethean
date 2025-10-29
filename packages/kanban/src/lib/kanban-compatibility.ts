@@ -261,15 +261,26 @@ export const indexForSearch = async (_tasksDir: string): Promise<{ success: bool
   return { success: true };
 };
 
-export const searchTasks = (board: LegacyBoard, term: string): Task[] => {
-  const results: Task[] = [];
-  for (const column of board.columns) {
-    const matchingTasks = column.tasks.filter(
-      (task) => task.title.includes(term) || (task.content && task.content.includes(term)),
-    );
-    results.push(...matchingTasks);
+export const searchTasks = async (
+  board: LegacyBoard,
+  term: string,
+): Promise<{ exact: Task[]; similar: Task[] }> => {
+  const normalized = term.trim().toLowerCase();
+  if (normalized.length === 0) {
+    return { exact: [], similar: [] };
   }
-  return results;
+
+  const exact: Task[] = [];
+  for (const column of board.columns) {
+    for (const task of column.tasks) {
+      const haystack = `${task.title ?? ''} ${task.content ?? ''}`.toLowerCase();
+      if (haystack.includes(normalized)) {
+        exact.push(task);
+      }
+    }
+  }
+
+  return { exact, similar: [] };
 };
 
 export const deleteTask = async (
