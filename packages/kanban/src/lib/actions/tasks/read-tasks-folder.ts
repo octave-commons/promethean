@@ -9,7 +9,7 @@ export type ReadTasksFolderInput = {
 export type ReadTasksFolderResult = Task[];
 
 /**
- * Read all task files from the tasks folder and return Task objects
+ * Read all task files from tasks folder and return Task objects
  */
 export const readTasksFolder = async (
   input: ReadTasksFolderInput = {},
@@ -23,7 +23,7 @@ export const readTasksFolder = async (
       throw new Error(`Tasks path is not a directory: ${tasksPath}`);
     }
 
-    // Read all .md files in the directory
+    // Read all .md files in directory
     const files = await fs.readdir(tasksPath);
     const taskFiles = files.filter((file) => file.endsWith('.md'));
 
