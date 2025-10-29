@@ -4,11 +4,8 @@
  */
 
 import { promises as fs } from 'fs';
-import { parse as parseYaml } from 'yaml';
-import {
-  TaskSection,
-  TaskValidationResult
-} from './types.js';
+export { parse as parseYaml } from 'yaml';
+import { TaskSection, TaskValidationResult } from './types.js';
 
 /**
  * Parse markdown content into sections and frontmatter
@@ -58,7 +55,7 @@ export function parseTaskContent(content: string): {
         level: headerMatch[1]!.length,
         content: '',
         startPosition: currentPosition,
-        endPosition: 0
+        endPosition: 0,
       };
     } else if (currentSection && line !== undefined) {
       currentSection.content += (currentSection.content ? '\n' : '') + line;
@@ -82,9 +79,7 @@ export function parseTaskContent(content: string): {
  * Find a specific section by header
  */
 export function findSection(sections: TaskSection[], header: string): TaskSection | null {
-  return sections.find(section => 
-    section.header.toLowerCase() === header.toLowerCase()
-  ) || null;
+  return sections.find((section) => section.header.toLowerCase() === header.toLowerCase()) || null;
 }
 
 /**
@@ -115,19 +110,21 @@ export function validateTaskContent(content: string): TaskValidationResult {
     }
 
     // Check for required sections
-    const hasDescription = sections.some(s => 
-      s.header.toLowerCase().includes('description') || 
-      s.header.toLowerCase().includes('overview')
+    const hasDescription = sections.some(
+      (s) =>
+        s.header.toLowerCase().includes('description') ||
+        s.header.toLowerCase().includes('overview'),
     );
     if (!hasDescription) {
       suggestions.push('Add a description section for better task clarity');
     }
 
     // Check content quality
-    const totalWords = sections.reduce((sum, section) => 
-      sum + section.content.split(/\s+/).length, 0
+    const totalWords = sections.reduce(
+      (sum, section) => sum + section.content.split(/\s+/).length,
+      0,
     );
-    
+
     if (totalWords < 20) {
       warnings.push('Task content seems too brief');
     }
@@ -135,7 +132,6 @@ export function validateTaskContent(content: string): TaskValidationResult {
     if (totalWords > 1000) {
       warnings.push('Task content is quite long - consider breaking it down');
     }
-
   } catch (error) {
     errors.push(`Failed to parse task content: ${error}`);
   }
@@ -144,7 +140,7 @@ export function validateTaskContent(content: string): TaskValidationResult {
     valid: errors.length === 0,
     errors,
     warnings,
-    suggestions
+    suggestions,
   };
 }
 
@@ -160,35 +156,34 @@ export function analyzeTaskContent(content: string): {
   qualityScore: number;
 } {
   const { frontmatter, sections } = parseTaskContent(content);
-  
+
   // Basic metrics
   const wordCount = content.split(/\s+/).length;
   const readingTime = Math.ceil(wordCount / 200); // 200 words per minute
 
   // Completeness scoring
   const requiredFields = ['uuid', 'title', 'status'];
-  const completenessScore = requiredFields.filter(field => frontmatter[field]).length / requiredFields.length;
+  const completenessScore =
+    requiredFields.filter((field) => frontmatter[field]).length / requiredFields.length;
 
   // Quality scoring based on content structure
-  const hasDescription = sections.some(s => 
-    s.header.toLowerCase().includes('description') || 
-    s.header.toLowerCase().includes('overview')
+  const hasDescription = sections.some(
+    (s) =>
+      s.header.toLowerCase().includes('description') || s.header.toLowerCase().includes('overview'),
   );
-  const hasGoals = sections.some(s => 
-    s.header.toLowerCase().includes('goal') || 
-    s.header.toLowerCase().includes('objective')
+  const hasGoals = sections.some(
+    (s) => s.header.toLowerCase().includes('goal') || s.header.toLowerCase().includes('objective'),
   );
-  const hasAcceptanceCriteria = sections.some(s => 
-    s.header.toLowerCase().includes('acceptance') || 
-    s.header.toLowerCase().includes('criteria')
+  const hasAcceptanceCriteria = sections.some(
+    (s) =>
+      s.header.toLowerCase().includes('acceptance') || s.header.toLowerCase().includes('criteria'),
   );
 
-  const qualityScore = (
+  const qualityScore =
     (hasDescription ? 0.3 : 0) +
     (hasGoals ? 0.3 : 0) +
     (hasAcceptanceCriteria ? 0.2 : 0) +
-    (completenessScore * 0.2)
-  );
+    completenessScore * 0.2;
 
   return {
     sections,
@@ -196,7 +191,7 @@ export function analyzeTaskContent(content: string): {
     wordCount,
     readingTime,
     completeness: completenessScore,
-    qualityScore
+    qualityScore,
   };
 }
 
@@ -206,7 +201,7 @@ export function analyzeTaskContent(content: string): {
 export async function createBackup(filePath: string): Promise<string> {
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
   const backupPath = `${filePath}.backup.${timestamp}`;
-  
+
   try {
     await fs.copyFile(filePath, backupPath);
     return backupPath;
@@ -222,7 +217,7 @@ export async function createBackup(filePath: string): Promise<string> {
 export function updateTimestamp(frontmatter: Record<string, any>): Record<string, any> {
   return {
     ...frontmatter,
-    updated_at: new Date().toISOString()
+    updated_at: new Date().toISOString(),
   };
 }
 
@@ -235,11 +230,11 @@ export function generateDiff(before: string, after: string): string {
   const diff: string[] = [];
 
   const maxLines = Math.max(beforeLines.length, afterLines.length);
-  
+
   for (let i = 0; i < maxLines; i++) {
     const beforeLine = beforeLines[i] || '';
     const afterLine = afterLines[i] || '';
-    
+
     if (beforeLine !== afterLine) {
       if (beforeLine && !afterLine) {
         diff.push(`- ${beforeLine}`);
