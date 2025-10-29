@@ -7,10 +7,7 @@
 export * from './index.js';
 
 // Re-export legacy types for backward compatibility
-export type { Task, ColumnData } from './types.js';
-
-// Legacy compatibility functions - re-export from functional actions
-export { countTasks } from './actions/boards/count-tasks.js';
+export type { Task, ColumnData, Board as LegacyBoard } from './types.js';
 
 // Import functional actions for compatibility wrappers
 import { loadBoard as loadBoardFunctional } from './actions/boards/index.js';
@@ -20,6 +17,27 @@ import { createTask as createTaskFunctional } from './actions/tasks/index.js';
 import { formatMarkdown } from './serializers/index.js';
 import type { Board as FunctionalBoard } from './actions/types/board.js';
 import type { Board as LegacyBoard, Task } from './types.js';
+
+// Helper to ensure optional results resolve to concrete values for the legacy surface
+const ensureTask = (task: Task | undefined, context: string): Task => {
+  if (!task) {
+    throw new Error(
+      `Legacy compatibility layer expected a task from ${context}, but none was returned.`,
+    );
+  }
+  return task;
+};
+
+// Legacy countTasks wrapper - supports optional column filtering
+export const countTasks = (board: LegacyBoard, columnName?: string): number => {
+  if (columnName) {
+    const normalized = columnName.toLowerCase();
+    const column = board.columns.find((col) => col.name.toLowerCase() === normalized);
+    return column ? column.tasks.length : 0;
+  }
+
+  return board.columns.reduce((total, column) => total + column.tasks.length, 0);
+};
 
 // Helper function to convert functional Board to legacy Board format
 const convertToLegacyBoard = (functionalBoard: FunctionalBoard): LegacyBoard => {
