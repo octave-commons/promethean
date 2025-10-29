@@ -3,7 +3,7 @@
  * Extracted from @packages/markdown/src/kanban.ts
  */
 
-import type { ColumnState, BoardFrontmatter, KanbanSettings } from './card.js';
+import type { ColumnState, BoardFrontmatter, KanbanSettings, Column } from './card.js';
 
 export type Board = {
   readonly columns: readonly ColumnState[];
@@ -36,7 +36,7 @@ export type ListColumnsInput = {
 };
 
 export type ListColumnsOutput = {
-  readonly columns: readonly ColumnState[];
+  readonly columns: readonly Column[];
 };
 
 export type GetFrontmatterInput = {

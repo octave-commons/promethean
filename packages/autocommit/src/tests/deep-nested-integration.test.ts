@@ -226,9 +226,8 @@ async function performFileChange(
 
   // Also check if we can find git root from the file path
   const gitRoot = await findGitRoot(filePath);
-  console.log(
-    `  Git root from file: ${gitRoot ? relative(tempDir, gitRoot) || 'unknown' : 'none'}`,
-  );
+  const gitRootRelative = gitRoot ? relative(tempDir, gitRoot) : null;
+  console.log(`  Git root from file: ${gitRootRelative || 'none'}`);
 
   return {
     changeNumber,
