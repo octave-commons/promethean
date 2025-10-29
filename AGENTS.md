@@ -48,62 +48,6 @@
 - **Right tool for each test level.** Fakes for unit speed; containers for realistic integration. The principle is well-established: mock _your_ interfaces, not vendor clients. ([Hynek Schlawack][3], [8th Light][2])
 - `esmock` provides native ESM import mocking and has examples for AVA. It avoids invasive "test hook" exports. ([NPM][5], [Skypack][6])
 
-## Clean Code
-
-- Leave every file you touch a bit cleaner than you found it.
-- Run eslint on changed paths and fix violations instead of ignoring them.
-- Prefer small, incremental improvements to code quality.
-
-## Code Style Guidelines
-
-**Imports:**
-
-- ESM only (no require/module.exports)
-- Import order: builtin → external → internal → parent → sibling → index
-- No default exports (prefer named exports)
-- No dynamic imports
-
-**Formatting:**
-
-- Prettier with `pnpm format`
-- Max 300 lines per file, 50 lines per function
-- Max 4 function parameters
-- LF line endings
-
-**Types:**
-
-- TypeScript strict mode enabled
-- No `any` types (error)
-- Prefer readonly/immutable types
-- Explicit function return types
-- No unchecked indexed access
-
-**Naming:**
-
-- PascalCase for types/interfaces
-- camelCase for functions/variables
-- kebab-case for file names
-
-**Error Handling:**
-
-- Avoid try/catch when possible
-- Prefer Result/Either patterns
-- Use functional error handling
-
-**Forbidden:**
-
-- Class statements/expressions
-- `var` declarations
-- `let` statements (prefer const)
-- `else` statements (avoid when possible)
-- setTimeout in tests (use sleep from test-utils)
-
-**Testing:**
-
-- AVA test runner
-- Tests in `src/tests/`
-- No test code in production paths
-- Mock at module boundaries with esmock
 
 # Promethean
 
@@ -357,57 +301,6 @@ import { serializeJWTPayload } from '../serializers/jwt-tokens.js';
 
 ---
 
-## 🗂 Kanban Task Management
-
-This is a **solo operation with AI helpers** - you're the only stakeholder working on a massive undertaking. The Kanban system (`@promethean-os/kanban`) exists to support you, not to add overhead or corporate-style process to what's already a huge challenge.
-
-The board lives at: `docs/agile/boards/generated.md`
-
-Think of it as a **personal GPS** for your development journey - it helps you see where you've been, where you're going, and what's realistic to tackle next.
-
-
-### Commands
-
-```bash
-pnpm kanban --help
-pnpm kanban process
-pnpm kanban audit
-pnpm kanban update-status <uuid> <column>
-pnpm kanban regenerate
-pnpm kanban search <query>
-pnpm kanban count
-```
-
-**Flow:**
-
-1. `pnpm kanban search <work-type>` - Find relevant work
-2. `pnpm kanban update-status <uuid> in_progress` - Pull task for active work
-3. `pnpm kanban update-status <uuid> done` - Complete work and move through documentation
-4. `pnpm kanban regenerate` - Update board to reflect current reality
-
-### File Locations
-
-- Tasks → `docs/agile/tasks/*.md`
-- Board → `docs/agile/boards/generated.md`
-- Config → `promethean.kanban.json`
-- CLI Reference → `docs/agile/kanban-cli-reference.md`
-
-### Docs
-
-- [[docs/agile/kanban-cli-reference.md]]
-- [[docs/agile/process.md]]
-- [[docs/agile/rules/kanban-transitions.clj]]
-
-### When Work Happens Outside Board
-
-This will happen. A lot. And that's completely normal for solo development:
-
-1. **Create retrospective cards** when you remember - no pressure to be perfect
-2. **Move through board as a quick cleanup** - 5 minutes to acknowledge what got done
-3. **Learn from your patterns** - Are you consistently bypassing certain steps? Maybe they're not needed
-4. **Update the map to match reality** - The board should document what actually happened, not what was "supposed" to happen
-
-
 
 ## 🧱 Local Package Commands
 
@@ -421,41 +314,19 @@ pnpm --filter @promethean-os/<pkg> typecheck
 pnpm --filter @promethean-os/<pkg> start
 pnpm --filter @promethean-os/<pkg> exec node ./dist/index.ts
 ```
-
 ---
 
-## 🧭 Operational Notes
 
-**The Essentials (actually important):**
+### Docs
 
-- Always run bash commands from **package root** - saves so much confusion
-- Use `pnpm --filter @promethean-os/<pkg> ...` - keeps things isolated and predictable
-- Keep temporary scripts in `pseudo/` - they're experiments, not production code
-- Store documentation in `docs/` - keeps knowledge organized
-- File changes auto-commit with LLM-generated messages - one less thing to think about
-
-**The "Try to Follow" Rules:**
-
-- Avoid `cd ... && anything...` - it's confusing and error-prone
-- Skip dynamic imports unless absolutely necessary
-- No class statements - stick to the functional pattern we've established
-- Keep documentation **Obsidian-friendly** with `[[wikilinks]]` and Dataviews
-- Keep [[HOME]] updated - it's your personal knowledge hub
-- Use PM2 for runeffort processes - keeps things running reliably
-
-**When Rules Get in the Way:**
-
-- **Break the rules if they're slowing you down** - This is your project, not a corporate codebase
-- **Quick hacks are okay** - Just move them to `pseudo/` or clean them up later
-- **Documentation can be rough** - Better to have something than nothing
-- **"Good enough" beats "perfect"** - Especially when you're tired or stuck
-
-**Remember:**
-
-- **You're building something massive** - Cut yourself some slack
-- **Consistency matters more than perfection** - Small, steady progress wins
-- **The tools serve you, not the other way around** - If a process isn't helping, change it
-
+- [[docs/agile/kanban-cli-reference.md]]
+- [[docs/agile/process.md]]
+- [[docs/agile/rules/kanban-transitions.clj]]
+- [[operational-notes]]
+- [[HUMANS]]
+- [[HOME]]
+- [[STYLE]]
+- [[BOARD_COMMANDS]]
 ---
 
 ## ⚖️ License

@@ -196,7 +196,8 @@ const handleCount: CommandHandler = (args, context) =>
 const handleGetColumn: CommandHandler = (args, context) =>
   withBoard(context, async (board) => {
     const mutableBoard = board as unknown as LoadedBoard;
-    const column = await getColumn(mutableBoard, requireArg(args[0], 'column name'));
+    const columnName = requireArg(args[0], 'column name');
+    const column = await getColumn(mutableBoard, columnName);
     return column;
   });
 
