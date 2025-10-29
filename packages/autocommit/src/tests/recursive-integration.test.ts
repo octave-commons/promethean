@@ -1,10 +1,12 @@
 import test from 'ava';
-import { mkdir, writeFile, rm } from 'fs/promises';
+
+import { execa } from 'execa';
+import { mkdir, rm, writeFile } from 'fs/promises';
 import { join } from 'path';
 import { tmpdir } from 'os';
-import { execa } from 'execa';
-import { start } from '../index.js';
+
 import { Config } from '../config.js';
+import { start } from '../index.js';
 
 // Helper to create unique temp directory names
 const getTempDir = () => {
@@ -56,23 +58,15 @@ branch = main
   return subrepoDir;
 }
 
-test('recursive autocommit integration test with multiple repos and subrepos', async (t) => {
+test('recursive autocommit finds correct number of repositories', async (t) => {
   const tempDir = getTempDir();
 
   try {
-    // Create main repository
-    const mainRepo = await createGitRepo(tempDir, 'main', {
-      'README.md': '# Main Repository',
-      'main-file.txt': 'Main repository content',
-    });
+    // Create structure with mixed repos and subrepos
+    const mainRepo = await createGitRepo(tempDir, 'main');
 
-    // Create sub-repositories
-    const subrepo1 = await createSubrepo(
-      mainRepo,
-      'subrepo1',
-      'https://github.com/example/subrepo1.git',
-    );
-    void createSubrepo(mainRepo, 'subrepo2', 'https://github.com/example/subrepo2.git');
+    await createSubrepo(mainRepo, 'subrepo1', 'https://github.com/example/subrepo1.git');
+    await createSubrepo(mainRepo, 'subrepo2', 'https://github.com/example/subrepo2.git');
 
     const nestedDir = join(mainRepo, 'nested');
     await createGitRepo(nestedDir, 'nested');
@@ -122,6 +116,7 @@ test('recursive autocommit handles file changes without conflicts', async (t) =>
       path: tempDir,
       recursive: true,
       handleSubrepos: true,
+      subrepoStrategy: 'separate',
       debounceMs: 50,
       dryRun: false, // Actually commit for this test
       quiet: true,
@@ -152,7 +147,7 @@ test('recursive autocommit handles file changes without conflicts', async (t) =>
     // Clean up
     watcher.close();
 
-    // If we got here without throwing errors, the test passes
+    // If we got here without throwing errors, test passes
     t.pass('Multiple simultaneous changes handled without conflicts');
   } finally {
     await rm(tempDir, { recursive: true, force: true });
