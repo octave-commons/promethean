@@ -1,6 +1,6 @@
 /**
- * Barrel export for kanban library - re-exports functional architecture
- * This file maintains backward compatibility for imports expecting '../kanban.js'
+ * Legacy compatibility layer for kanban library
+ * Bridges old API with new functional architecture
  */
 
 // Re-export everything from the main functional architecture
@@ -8,9 +8,6 @@ export * from './index.js';
 
 // Re-export legacy types for backward compatibility
 export type { Task, ColumnData } from './types.js';
-
-// Legacy compatibility functions - map old API to new functional architecture
-import { formatMarkdown } from './serializers/index.js';
 
 // Legacy compatibility functions - re-export from functional actions
 export { countTasks } from './actions/boards/count-tasks.js';
@@ -20,22 +17,28 @@ export { findTaskById } from './actions/tasks/find-task-by-id.js';
 export { findTaskByTitle } from './actions/tasks/find-task-by-title.js';
 export { readTasksFolder } from './actions/tasks/read-tasks-folder.js';
 
-// Legacy compatibility wrappers for functions with signature changes
+// Import functional actions for compatibility wrappers
 import { loadBoard as loadBoardFunctional } from './actions/boards/index.js';
 import { updateStatus as updateStatusFunctional } from './actions/transitions/update-status.js';
+import { moveTask as moveTaskFunctional } from './actions/transitions/move-task.js';
 import { createTask as createTaskFunctional } from './actions/tasks/index.js';
 import { saveBoard as saveBoardFunctional } from './actions/boards/index.js';
-import type { LoadBoardOutput, Board as FunctionalBoard } from './actions/types/board.js';
-import type { Task } from './types.js';
+import { formatMarkdown } from './serializers/index.js';
+import type { LoadBoardOutput } from './actions/types/board.js';
 
 // Legacy loadBoard wrapper - converts string path to LoadBoardInput
-export const loadBoard = async (boardPath: string, tasksPath?: string): Promise<LoadBoardOutput> => {
+export const loadBoard = async (
+  boardPath: string,
+  tasksPath?: string,
+): Promise<LoadBoardOutput> => {
   try {
     const { readFile } = await import('node:fs/promises');
     const markdown = await readFile(boardPath, 'utf8');
     return loadBoardFunctional({ markdown });
   } catch (error) {
-    throw new Error(`Failed to load board from ${boardPath}: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    throw new Error(
+      `Failed to load board from ${boardPath}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+    );
   }
 };
 
@@ -49,7 +52,7 @@ export const updateStatus = async (
   transitionRulesEngine?: any,
   reason?: string,
   eventLogManager?: any,
-  actor?: string
+  actor?: string,
 ): Promise<any> => {
   const result = await updateStatusFunctional({
     board,
@@ -59,39 +62,39 @@ export const updateStatus = async (
     tasksDir,
     options: {
       createBackup: true,
-      dryRun: false
-    }
+      dryRun: false,
+    },
   });
-  
+
   // Return legacy format
   return {
     success: result.success,
     task: result.task,
-    previousStatus: result.previousStatus
+    previousStatus: result.previousStatus,
   };
 };
 
-// Legacy moveTask wrapper - converts multiple args to input object  
+// Legacy moveTask wrapper - converts multiple args to input object
 export const moveTask = async (
   board: any,
   taskUuid: string,
   offset: number,
-  boardPath?: string
+  boardPath?: string,
 ): Promise<any> => {
   const direction = offset < 0 ? 'up' : 'down';
   const result = await moveTaskFunctional({
     board,
     taskUuid,
     direction,
-    boardPath
+    boardPath,
   });
-  
+
   // Return legacy format
   return {
     success: result.success,
     task: result.task,
     fromPosition: result.fromPosition,
-    toPosition: result.toPosition
+    toPosition: result.toPosition,
   };
 };
 
@@ -101,22 +104,19 @@ export const createTask = async (
   status: string,
   taskData: any,
   tasksDir?: string,
-  boardPath?: string
+  boardPath?: string,
 ): Promise<any> => {
   const result = await createTaskFunctional({
     board,
     status,
     taskData,
     tasksDir,
-    boardPath
+    boardPath,
   });
-  
+
   // Return legacy format
   return result;
 };
-
-// Export createTask from tasks index (already aliased)
-export { createTask } from './actions/tasks/index.js';
 
 // Placeholder functions for missing exports
 export const pullFromTasks = async (): Promise<void> => {
