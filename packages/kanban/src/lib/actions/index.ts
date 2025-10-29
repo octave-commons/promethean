@@ -58,11 +58,7 @@ export {
 } from './boards/index.js';
 
 // Column Actions
-export type {
-  CreateColumnScope,
-  RemoveColumnScope,
-  ListColumnsInBoardScope,
-} from './columns/index.js';
+export type { CreateColumnScope, RemoveColumnScope } from './columns/index.js';
 
 export { createColumn, removeColumn, listColumnsInBoard } from './columns/index.js';
 
