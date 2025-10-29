@@ -5,12 +5,7 @@
 
 import type { ListColumnsInBoardInput, ListColumnsInBoardOutput } from '../types/index.js';
 
-export type ListColumnsInBoardScope = Record<string, never>;
-
-export const listColumnsInBoard = (
-  input: ListColumnsInBoardInput,
-  scope: ListColumnsInBoardScope = {},
-): ListColumnsInBoardOutput => {
+export const listColumnsInBoard = (input: ListColumnsInBoardInput): ListColumnsInBoardOutput => {
   const { board } = input;
 
   return {
