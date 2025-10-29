@@ -157,14 +157,14 @@ export async function loadEdnFile(filePath: string): Promise<unknown> {
     ];
 
     const lowerContent = content.toLowerCase();
-    for (const pattern of dangerousPatterns) {
-      if (lowerContent.includes(pattern)) {
-        throw new Error(`Potentially dangerous content detected in EDN file: ${filePath}`);
-      }
+  for (const pattern of dangerousPatterns) {
+    if (lowerContent.includes(pattern)) {
+      throw new Error(`Potentially dangerous content detected in EDN file: ${filePath}`);
     }
+  }
 
-    // Parse EDN first
-    const parsed = edn.toJS(edn.parse(content));
+  // Parse EDN first
+  const parsed = edn.toJS(edn.parse(content));
 
     // SECURITY: Validate parsed content for path traversal in string values
     const validateContentForTraversal = (obj: unknown, path: string = ''): void => {
