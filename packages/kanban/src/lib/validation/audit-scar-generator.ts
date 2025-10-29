@@ -110,18 +110,25 @@ export class AuditScarGenerator {
       );
 
       // Record scar in history
-      const recordResult = await this.scarHistoryManager.recordScar(scarRecord, {
+      const scarContext: ScarContext = {
+        reason: `P0 Security validation failure: ${context.validationResult.errors.join('; ')}`,
         eventLog,
-        taskUuid: context.task.uuid,
-        operation: context.operation,
-        validationType: 'P0-security',
-        failureReason: context.validationResult.errors.join('; '),
-        repairMethod: context.repairMethod,
-        context: {
-          ...context.context,
-          validationResult: context.validationResult,
+        previousScars: [],
+        searchResults: [],
+        metadata: {
+          tag: `audit-${Date.now()}`,
+          narrative: `Validation failure repaired during ${context.operation}`,
         },
-      });
+        llmOperations: [],
+        gitHistory: [],
+      };
+
+      const recordResult = await this.scarHistoryManager.recordHealingOperation(
+        scarContext,
+        { success: true, repairedIssues: [context.validationResult.errors.join('; ')] },
+        'unknown', // startSha - not available in audit context
+        'unknown', // endSha - not available in audit context
+      );
 
       if (recordResult.success) {
         console.log(`🏷️  Audit scar generated: ${scarTag}`);
