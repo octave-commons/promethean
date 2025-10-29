@@ -129,8 +129,6 @@ export const createTask = async (
   return result;
 };
 
-
-
 // Legacy compatibility wrappers for functions with signature changes
 export const findTaskById = async (board: LegacyBoard, uuid: string): Promise<Task | undefined> => {
   for (const column of board.columns) {
@@ -140,7 +138,10 @@ export const findTaskById = async (board: LegacyBoard, uuid: string): Promise<Ta
   return undefined;
 };
 
-export const findTaskByTitle = async (board: LegacyBoard, title: string): Promise<Task | undefined> => {
+export const findTaskByTitle = async (
+  board: LegacyBoard,
+  title: string,
+): Promise<Task | undefined> => {
   for (const column of board.columns) {
     const task = column.tasks.find((t) => t.title === title);
     if (task) return task;
@@ -181,54 +182,110 @@ export const validateStartingStatus = (status: string): boolean => {
 };
 
 // Legacy functions with proper implementations
-export const pullFromTasks = async (tasksDir: string, boardPath?: string): Promise<LegacyBoard> => {
+export const pullFromTasks = async (
+  board: any,
+  tasksDir: string,
+  boardPath?: string,
+): Promise<any> => {
   const { readTasksFolder: readTasksFolderFunctional } = await import(
     './actions/tasks/read-tasks-folder.js'
   );
   const { generateBoard: generateBoardFunctional } = await import(
     './actions/boards/generate-board.js'
   );
-  
+
   const tasks = await readTasksFolderFunctional({ tasksPath: tasksDir });
   const boardResult = await generateBoardFunctional({ tasks });
-  return convertToLegacyBoard(boardResult.board);
+  const legacyBoard = convertToLegacyBoard(boardResult.board);
+
+  // Return legacy format with operation results
+  return {
+    added: tasks.length,
+    moved: 0,
+    board: legacyBoard,
+  };
 };
 
-export const pushToTasks = async (board: LegacyBoard, tasksDir: string): Promise<void> => {
-  // For now, this is a placeholder - the saveTasks functional action doesn't exist yet
+export const pushToTasks = async (board: any, tasksDir: string): Promise<any> => {
+  // For now, this is a placeholder - saveTasks functional action doesn't exist yet
   console.log('pushToTasks not yet fully implemented in functional architecture');
+  return {
+    added: 0,
+    moved: 0,
+    statusUpdated: 0,
+  };
 };
 
-export const syncBoardAndTasks = async (boardPath: string, tasksDir: string): Promise<LegacyBoard> => {
+export const syncBoardAndTasks = async (
+  board: any,
+  tasksDir: string,
+  boardPath?: string,
+): Promise<any> => {
+  // For now, just load the board - sync functionality needs to be implemented
+  const legacyBoard = await loadBoard(boardPath || '', tasksDir);
+
+  // Return legacy format with operation results
+  return {
+    board: {
+      added: 0,
+      moved: 0,
+    },
+    tasks: {
+      added: 0,
+      moved: 0,
+      statusUpdated: 0,
+    },
+    conflicting: [],
+  };
+};
+
+export const regenerateBoard = async (
+  tasksDir: string,
+  boardPath?: string,
+): Promise<LegacyBoard> => {
+  // For now, just load the board - regeneration functionality needs to be implemented
+  return await loadBoard(boardPath || '', tasksDir);
+};
+
+export const syncBoardAndTasks = async (
+  boardPath: string,
+  tasksDir: string,
+): Promise<LegacyBoard> => {
   // For now, just load the board - sync functionality needs to be implemented
   return await loadBoard(boardPath, tasksDir);
 };
 
-export const regenerateBoard = async (boardPath: string, tasksDir?: string): Promise<LegacyBoard> => {
+export const regenerateBoard = async (
+  boardPath: string,
+  tasksDir?: string,
+): Promise<LegacyBoard> => {
   // For now, just load the board - regeneration functionality needs to be implemented
   return await loadBoard(boardPath, tasksDir);
 };
 
-export const generateBoardByTags = async (tags: string[], tasksDir: string): Promise<LegacyBoard> => {
+export const generateBoardByTags = async (
+  tags: string[],
+  tasksDir: string,
+): Promise<LegacyBoard> => {
   const { readTasksFolder: readTasksFolderFunctional } = await import(
     './actions/tasks/read-tasks-folder.js'
   );
-  
+
   const tasks = await readTasksFolderFunctional({ tasksPath: tasksDir });
   // Filter tasks by tags and generate board - simplified version
-  const filteredTasks = tasks.filter(task => 
-    task.labels && task.labels.some(label => tags.includes(label))
+  const filteredTasks = tasks.filter(
+    (task) => task.labels && task.labels.some((label) => tags.includes(label)),
   );
-  
+
   // Create a simple board structure
   return {
     columns: [
       {
         name: 'todo',
         count: filteredTasks.length,
-        tasks: filteredTasks
-      }
-    ]
+        tasks: filteredTasks,
+      },
+    ],
   };
 };
 
