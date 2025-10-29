@@ -23,7 +23,6 @@ export { readTasksFolder } from './actions/tasks/read-tasks-folder.js';
 // Legacy compatibility wrappers for functions with signature changes
 import { loadBoard as loadBoardFunctional } from './actions/boards/index.js';
 import { updateStatus as updateStatusFunctional } from './actions/transitions/update-status.js';
-import { moveTask as moveTaskFunctional } from './actions/tasks/index.js';
 import { createTask as createTaskFunctional } from './actions/tasks/index.js';
 import { saveBoard as saveBoardFunctional } from './actions/boards/index.js';
 import type { LoadBoardOutput, Board as FunctionalBoard } from './actions/types/board.js';
