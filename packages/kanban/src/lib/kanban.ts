@@ -11,11 +11,6 @@ export type { Task, ColumnData } from './types.js';
 
 // Legacy compatibility functions - re-export from functional actions
 export { countTasks } from './actions/boards/count-tasks.js';
-export { getColumn } from './actions/columns/get-column.js';
-export { getTasksByColumn } from './actions/columns/get-tasks-by-column.js';
-export { findTaskById } from './actions/tasks/find-task-by-id.js';
-export { findTaskByTitle } from './actions/tasks/find-task-by-title.js';
-export { readTasksFolder } from './actions/tasks/read-tasks-folder.js';
 
 // Import functional actions for compatibility wrappers
 import { loadBoard as loadBoardFunctional } from './actions/boards/index.js';
@@ -133,6 +128,58 @@ export const createTask = async (
 
   // Return legacy format
   return result;
+};
+
+// Legacy compatibility wrappers for functions with signature changes
+export const findTaskById = async (board: LegacyBoard, uuid: string): Promise<Task | undefined> => {
+  for (const column of board.columns) {
+    const task = column.tasks.find((t) => t.uuid === uuid);
+    if (task) return task;
+  }
+  return undefined;
+};
+
+export const findTaskByTitle = async (
+  board: LegacyBoard,
+  title: string,
+): Promise<Task | undefined> => {
+  for (const column of board.columns) {
+    const task = column.tasks.find((t) => t.title === title);
+    if (task) return task;
+  }
+  return undefined;
+};
+
+export const getColumn = async (board: LegacyBoard, columnName: string): Promise<any> => {
+  return board.columns.find((col) => col.name === columnName);
+};
+
+export const getTasksByColumn = async (board: LegacyBoard, columnName: string): Promise<Task[]> => {
+  const column = board.columns.find((col) => col.name === columnName);
+  return column ? column.tasks : [];
+};
+
+export const readTasksFolder = async (tasksDir: string): Promise<Task[]> => {
+  const { readTasksFolder: readTasksFolderFunctional } = await import(
+    './actions/tasks/read-tasks-folder.js'
+  );
+  const result = await readTasksFolderFunctional({ tasksPath: tasksDir });
+  return result;
+};
+
+// Missing legacy functions
+export const toFrontmatter = (board: LegacyBoard): any => {
+  return {
+    columns: board.columns.map((col) => ({
+      name: col.name,
+      limit: col.limit,
+    })),
+  };
+};
+
+export const validateStartingStatus = (status: string): boolean => {
+  const validStatuses = ['todo', 'in_progress', 'done', 'blocked'];
+  return validStatuses.includes(status);
 };
 
 // Placeholder functions for missing exports
