@@ -36,9 +36,9 @@ import {
   setSectionItems,
   mergeSectionItems,
 } from '../../serializers/markdown-serializer.js';
-import { uniqueStrings, wikiLinkForTask, ensureTaskContent } from '../../utils/task-content.ts';
-import { writeBoard, maybeRefreshIndex, ensureColumn as ensureBoardColumn } from '../../serializers/board.ts';
-import { toFrontmatter } from '../../serializers/task-frontmatter.ts';
+import { uniqueStrings, wikiLinkForTask, ensureTaskContent } from '../../utils/task-content.js';
+import { writeBoard, maybeRefreshIndex, ensureColumn as ensureBoardColumn } from '../../serializers/board.js';
+import { toFrontmatter } from '../../serializers/task-frontmatter.js';
 
 interface TaskCreationConfig {
   readonly board: Board;
