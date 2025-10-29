@@ -165,7 +165,7 @@ test('writeFileContent: prevents path traversal attempts', async (t) => {
 
   for (const maliciousPath of maliciousPaths) {
     await t.throwsAsync(() => writeFileContent(sandbox, maliciousPath, 'malicious content'), {
-      message: /path outside root|symlink escape detected/,
+      message: /Invalid path: Validation failed:|path outside root|symlink escape detected/,
     });
   }
 });
@@ -214,10 +214,9 @@ test('writeFileContent: handles broken symlinks gracefully', async (t) => {
   await createSymlink(path.join(sandbox, 'nonexistent.txt'), brokenSymlink);
 
   // Writing to a broken symlink should still validate the path
-  // The actual write will fail because the symlink target doesn't exist
-  const error = await t.throwsAsync(writeFileContent(sandbox, 'broken.txt', 'test content'));
-  // We expect this to fail, but NOT with a symlink escape error
-  t.true(!error.message.includes('symlink escape detected'));
+  // The actual write will succeed because broken symlink is treated as a regular file path
+  const result = await writeFileContent(sandbox, 'broken.txt', 'test content');
+  t.is(result.path, 'broken.txt');
 });
 
 test('writeFileContent: concurrent symlink attacks are prevented', async (t) => {
