@@ -1870,7 +1870,7 @@ const handleDelete: CommandHandler = (args, context) =>
     const deleteArgs = parseDeleteTaskArgs(args);
 
     // First, find the task to show what will be deleted
-    const task = findTaskById(mutableBoard, deleteArgs.uuid);
+    const task = await findTaskById(mutableBoard, deleteArgs.uuid);
     if (!task) {
       throw new CommandUsageError(`Task with UUID ${deleteArgs.uuid} not found`);
     }
