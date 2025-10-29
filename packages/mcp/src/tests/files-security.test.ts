@@ -2,7 +2,7 @@
 import test from 'ava';
 import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
-import { writeFileContent, writeFileLines } from '../../dist/files.js';
+import { writeFileContent, writeFileLines } from '../files.js';
 
 const createTempSandbox = async () => {
   const timestamp = Date.now();

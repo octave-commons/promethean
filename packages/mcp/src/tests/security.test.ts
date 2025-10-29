@@ -2,7 +2,7 @@ import test from 'ava';
 import { mkdtemp, writeFile, symlink, readFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { writeFileContent } from '../../dist/files.js';
+import { writeFileContent } from '../files.js';
 import type { Tool, ToolContext } from '../core/types.js';
 
 test('writeFileContent rejects symlink escape attempts', async (t) => {

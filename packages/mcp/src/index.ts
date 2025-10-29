@@ -62,7 +62,7 @@ import {
   filesViewFile,
   filesWriteFileContent,
   filesWriteFileLines,
-} from './tools/files.js';
+} from './tools/files-tools.js';
 import { filesSearch } from './tools/search.js';
 import {
   processEnqueueTask,
