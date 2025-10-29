@@ -130,6 +130,8 @@ export const createTask = async (
   return result;
 };
 
+
+
 // Legacy compatibility wrappers for functions with signature changes
 export const findTaskById = async (board: LegacyBoard, uuid: string): Promise<Task | undefined> => {
   for (const column of board.columns) {
@@ -139,10 +141,7 @@ export const findTaskById = async (board: LegacyBoard, uuid: string): Promise<Ta
   return undefined;
 };
 
-export const findTaskByTitle = async (
-  board: LegacyBoard,
-  title: string,
-): Promise<Task | undefined> => {
+export const findTaskByTitle = async (board: LegacyBoard, title: string): Promise<Task | undefined> => {
   for (const column of board.columns) {
     const task = column.tasks.find((t) => t.title === title);
     if (task) return task;
