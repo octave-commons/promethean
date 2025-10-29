@@ -162,7 +162,7 @@ async function setupTestEnvironment(): Promise<TestSetupResult> {
 
     // Pick one directory to go deeper for next level
     if (level < depth - 1 && levelDirs.length > 0) {
-      currentPath = levelDirs[Math.floor(Math.random() * levelDirs.length)];
+      currentPath = levelDirs[Math.floor(Math.random() * levelDirs.length)] as string;
     }
   }
 
@@ -184,12 +184,16 @@ async function performFileChange(
   });
   const allDirs = allDirsOutput.trim().split('\n').filter(Boolean);
 
+  if (allDirs.length === 0) {
+    throw new Error('No directories found in test tree');
+  }
+
   // Pick random directory
   const randomDir = allDirs[Math.floor(Math.random() * allDirs.length)];
 
   // Create random file in that directory
   const fileName = `change-${changeNumber}-${randomName()}.txt`;
-  const filePath = join(randomDir, fileName);
+  const filePath = join(randomDir as string, fileName);
   const content = randomContent();
   await writeFile(filePath, content);
 

@@ -45,6 +45,8 @@ export type ParseAcc = {
 export type CreateCardInput = {
   readonly board: {
     readonly columns: readonly ColumnState[];
+    readonly frontmatter: BoardFrontmatter;
+    readonly settings: KanbanSettings | null;
   };
   readonly columnName: string;
   readonly card: Partial<Card> & { readonly text: string };
@@ -62,6 +64,8 @@ export type CreateCardOutput = {
 export type RemoveCardInput = {
   readonly board: {
     readonly columns: readonly ColumnState[];
+    readonly frontmatter: BoardFrontmatter;
+    readonly settings: KanbanSettings | null;
   };
   readonly columnName: string;
   readonly cardId: string;
@@ -78,6 +82,8 @@ export type RemoveCardOutput = {
 export type MoveCardInput = {
   readonly board: {
     readonly columns: readonly ColumnState[];
+    readonly frontmatter: BoardFrontmatter;
+    readonly settings: KanbanSettings | null;
   };
   readonly cardId: string;
   readonly fromColumn: string;
