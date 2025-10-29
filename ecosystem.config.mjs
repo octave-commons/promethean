@@ -171,6 +171,7 @@ export const apps = [
       '--path',
       '../',
       '-r',
+      "--handle-subrepos",
       '--subrepo-strategy',
       'separate',
       '--debounce-ms',
