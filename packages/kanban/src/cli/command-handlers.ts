@@ -95,8 +95,8 @@ type LoadedBoard = Awaited<ReturnType<typeof loadBoard>>;
 
 type ImmutableLoadedBoard = DeepReadonly<LoadedBoard>;
 
-type BoardColumn = Board['columns'][number];
-type BoardTask = BoardColumn['tasks'][number];
+type ReadonlyBoardColumn = ImmutableLoadedBoard['columns'][number];
+type ReadonlyBoardTask = ReadonlyBoardColumn['tasks'][number];
 
 const requireArg = (value: string | undefined, label: string): string => {
   if (typeof value === 'string') {
