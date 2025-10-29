@@ -5,8 +5,9 @@
  * These were previously instance methods on TransitionRulesEngine class.
  */
 
-import { readFile, access } from 'fs/promises';
+import { access } from 'fs/promises';
 import type { Task, Board } from './types.js';
+import type { Status } from '../board/types.js';
 import { runTestingTransition } from './testing-transition/index.js';
 import type { TestingTransitionConfig, TestCoverageRequest } from './testing-transition/types.js';
 import { safeEvaluateTransition } from './safe-rule-evaluation.js';
@@ -592,23 +593,36 @@ export const evaluateCustomRule = async (
   try {
     // Convert Task to TaskFM format for safe evaluation
     const taskFM: TaskFM = {
-      uuid: task.uuid,
+      id: task.uuid,
       title: task.title,
-      priority: task.priority as any,
-      content: task.content,
-      status: task.status,
-      estimates: task.estimates || { complexity: 1 },
-      storyPoints: task.storyPoints || 1,
+      priority:
+        task.priority === 'P0'
+          ? 'critical'
+          : task.priority === 'P1'
+            ? 'high'
+            : task.priority === 'P2'
+              ? 'medium'
+              : 'low',
+      owner: task.assignee || 'unassigned',
       labels: task.labels || [],
+      created: task.created_at,
+      uuid: task.uuid,
+      status: task.status as Status,
+      estimates: task.estimates
+        ? {
+            complexity:
+              task.estimates.complexity === 'simple'
+                ? 1
+                : task.estimates.complexity === 'medium'
+                  ? 2
+                  : 3,
+            scale: task.estimates.complexity || 'medium',
+          }
+        : { complexity: 1, scale: 'medium' },
     };
 
     // Use safe evaluation with Zod validation
-    const result = await safeEvaluateTransition(
-      taskFM,
-      board,
-      ruleImpl,
-      state.config.dslPath!,
-    );
+    const result = await safeEvaluateTransition(taskFM, board, ruleImpl, state.config.dslPath!);
 
     if (!result.success) {
       if (result.validationErrors.length > 0) {
@@ -627,7 +641,7 @@ export const evaluateCustomRule = async (
       `Safe rule evaluation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
     );
   }
-};;
+};
 
 // Run testing validation (helper function)
 const runTestingValidation = async (
