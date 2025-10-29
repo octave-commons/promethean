@@ -23,6 +23,9 @@ import type { Board as LegacyBoard, Task as LegacyTask, ColumnData } from './typ
 import type { SearchTasksResult } from './actions/search/search-tasks.js';
 import type { IndexForSearchResult } from './actions/search/index-for-search.js';
 import { stringify as stringifyYaml } from 'yaml';
+import { promises as fs } from 'node:fs';
+import path from 'node:path';
+import { readTaskFile } from './task-content/parser.js';
 
 // Helper to ensure optional results resolve to concrete values for the legacy surface
 const ensureTask = (task: LegacyTask | undefined, context: string): LegacyTask => {
