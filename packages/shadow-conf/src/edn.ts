@@ -134,8 +134,6 @@ export async function loadEdnFile(filePath: string): Promise<unknown> {
     validateContentForTraversal(parsed);
 
     return normalize(parsed);
-  } catch (e) {
-    throw new Error(`Failed to parse EDN file at ${filePath}: ${(e as Error).message}`);
   }
 }
 
