@@ -21,7 +21,6 @@ import { regenerateBoard as regenerateBoardAction } from './actions/boards/regen
 import { searchBoard } from './actions/search/search-board.js';
 import { indexKanbanTasks } from './actions/search/index-tasks.js';
 import { generateBoardByTags as generateBoardByTagsAction } from './actions/search/generate-board-by-tags.js';
-import { writeBoard } from './serializers/board.js';
 import type { Board as FunctionalBoard } from './actions/types/board.js';
 import type { Board as LegacyBoard, Task as LegacyTask, ColumnData } from './types.js';
 import { stringify as stringifyYaml } from 'yaml';
@@ -415,14 +414,14 @@ export const searchTasks = async (
 export const deleteTask = async (
   board: LegacyBoard,
   uuid: string,
-  _tasksDir: string,
-  _boardPath: string,
+  tasksDir: string,
+  boardPath: string,
 ): Promise<boolean> => {
   const result = await deleteTaskAction({
     board,
     taskUuid: uuid,
-    tasksDir: _tasksDir,
-    boardPath: _boardPath,
+    tasksDir,
+    boardPath,
   });
   return result.success;
 };
@@ -431,15 +430,15 @@ export const updateTaskDescription = async (
   board: LegacyBoard,
   uuid: string,
   description: string,
-  _tasksDir: string,
-  _boardPath: string,
+  tasksDir: string,
+  boardPath: string,
 ): Promise<LegacyTask | undefined> => {
   await updateTaskDescriptionAction({
     board,
     taskUuid: uuid,
     newContent: description,
-    tasksDir: _tasksDir,
-    boardPath: _boardPath,
+    tasksDir,
+    boardPath,
   });
   return board.columns.flatMap((col) => col.tasks).find((task) => task.uuid === uuid);
 };
@@ -448,15 +447,15 @@ export const renameTask = async (
   board: LegacyBoard,
   uuid: string,
   newTitle: string,
-  _tasksDir: string,
-  _boardPath: string,
+  tasksDir: string,
+  boardPath: string,
 ): Promise<LegacyTask | undefined> => {
   await renameTaskAction({
     board,
     taskUuid: uuid,
     newTitle,
-    tasksDir: _tasksDir,
-    boardPath: _boardPath,
+    tasksDir,
+    boardPath,
   });
   return board.columns.flatMap((col) => col.tasks).find((task) => task.uuid === uuid);
 };

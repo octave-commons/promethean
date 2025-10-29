@@ -3,6 +3,7 @@ import path from 'node:path';
 
 import type { Board, Task } from '../../types.js';
 import { ensureTaskFileBase, ensureUniqueFileBase } from '../../core/slugs.js';
+import { normalizeColumnDisplayName } from '../../utils/string-utils.js';
 import { readTasksFolder } from '../tasks/read-tasks-folder.js';
 import { toFrontmatter } from '../../serializers/task-frontmatter.js';
 
@@ -26,6 +27,7 @@ export const pushToFiles = async (input: PushToFilesInput): Promise<PushToFilesR
 
   const existingTasks = await readTasksFolder({ tasksPath: tasksDir });
   const existingByUuid = new Map(existingTasks.map((task) => [task.uuid, task]));
+  const existingBySlug = new Map(existingTasks.map((task) => [ensureTaskFileBase({ ...task }), task]));
 
   const usedNames = new Map<string, string>();
   for (const task of existingTasks) {
@@ -36,51 +38,68 @@ export const pushToFiles = async (input: PushToFilesInput): Promise<PushToFilesR
   await fs.mkdir(tasksDir, { recursive: true }).catch(() => {});
 
   for (const column of board.columns) {
+    const updatedTasks: Task[] = [];
+
     for (const task of column.tasks) {
       const boardStatus = column.name;
-      const baseName = ensureTaskFileBase({ ...task });
-      const existingTask = existingByUuid.get(task.uuid);
-
       let finalTask: Task = { ...task, status: boardStatus };
-      if (existingTask?.slug) {
-        finalTask.slug = existingTask.slug;
+      let existing = existingByUuid.get(finalTask.uuid);
+
+      if (!existing) {
+        const baseName = ensureTaskFileBase({ ...finalTask });
+        const existingTaskForSlug = existingBySlug.get(baseName);
+        if (existingTaskForSlug) {
+          existing = existingTaskForSlug;
+          finalTask = {
+            ...finalTask,
+            uuid: existingTaskForSlug.uuid,
+            created_at: existingTaskForSlug.created_at,
+            content: finalTask.content ?? existingTaskForSlug.content,
+          };
+          existingByUuid.set(finalTask.uuid, existingTaskForSlug);
+        }
       }
 
-      let targetBase = finalTask.slug ?? baseName;
-
-      if (existingTask) {
-        const normalizedBoardStatus = boardStatus.trim().toLowerCase();
-        const normalizedFileStatus = existingTask.status
-          ? existingTask.status.trim().toLowerCase()
-          : undefined;
-        if (normalizedFileStatus && normalizedBoardStatus !== normalizedFileStatus) {
+      if (!existing) {
+        added += 1;
+      } else {
+        const normalizedBoardStatus = normalizeColumnDisplayName(boardStatus);
+        const normalizedFileStatus = normalizeColumnDisplayName(existing.status ?? '');
+        if (normalizedBoardStatus !== normalizedFileStatus) {
           statusUpdated += 1;
         }
       }
 
-      targetBase = ensureUniqueFileBase(targetBase, usedNames, finalTask.uuid);
+      const existingSlug = existing ? ensureTaskFileBase({ ...existing }) : undefined;
+      const baseName = ensureTaskFileBase({ ...finalTask });
+      let targetBase = ensureUniqueFileBase(baseName, usedNames, finalTask.uuid);
+
+      if (existingSlug && existingSlug !== targetBase) {
+        moved += 1;
+      }
+
       usedNames.set(targetBase, finalTask.uuid);
 
-      finalTask = { ...finalTask, slug: targetBase };
+      const targetPath = path.join(tasksDir, `${targetBase}.md`);
 
-      const filename = `${targetBase}.md`;
-      const targetPath = path.join(tasksDir, filename);
+      const content = finalTask.content ?? existing?.content ?? '';
+      const createdAt = existing?.created_at ?? finalTask.created_at ?? new Date().toISOString();
 
-      await fs.writeFile(
-        targetPath,
-        toFrontmatter({ ...finalTask, content: finalTask.content ?? '' }),
-        'utf8',
-      );
+      const taskToPersist: Task = {
+        ...finalTask,
+        slug: targetBase,
+        status: boardStatus,
+        content,
+        created_at: createdAt,
+        sourcePath: targetPath,
+      };
 
-      if (!existingTask) {
-        added += 1;
-      } else {
-        const existingPath = existingTask.sourcePath;
-        if (existingPath && path.resolve(existingPath) !== path.resolve(targetPath)) {
-          moved += 1;
-        }
-      }
+      await fs.writeFile(targetPath, toFrontmatter(taskToPersist), 'utf8');
+      updatedTasks.push(taskToPersist);
     }
+
+    column.tasks = updatedTasks;
+    column.count = updatedTasks.length;
   }
 
   return { added, moved, statusUpdated };
