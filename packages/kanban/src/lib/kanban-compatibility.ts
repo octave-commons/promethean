@@ -326,7 +326,7 @@ export const updateTaskDescription = async (
   description: string,
   _tasksDir: string,
   _boardPath: string,
-): Promise<Task | undefined> => {
+): Promise<LegacyTask | undefined> => {
   // Find and update task
   for (const column of board.columns) {
     const task = column.tasks.find((t) => t.uuid === uuid);
