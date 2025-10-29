@@ -255,6 +255,10 @@
 ;; JAVASCRIPT GENERATION
 ;; ============================================================================
 
+;; we're already compiling clojure to js with shadow-cljs.
+;; So we should be able to just write clojoure here.
+;; writing code through string contatenation is error-prone and hard to maintain.
+;; and very unlisp like.
 (defn generate-js-header
   "Generate the JavaScript header for the ecosystem file."
   []
@@ -335,13 +339,13 @@
   [system-dir output-file callback]
   (let [watch-service (.newWatchService (FileSystems/getDefault))
         path (Paths/get system-dir (into-array String []))
-        _ (.register path watch-service 
-                     (into-array StandardWatchEventKinds 
+        _ (.register path watch-service
+                     (into-array StandardWatchEventKinds
                                 [StandardWatchEventKinds/ENTRY_CREATE
                                  StandardWatchEventKinds/ENTRY_MODIFY
                                  StandardWatchEventKinds/ENTRY_DELETE]))
         stop-flag (atom false)]
-    
+
     (future
       (while (not @stop-flag)
         (let [watch-key (.poll watch-service 1 TimeUnit/SECONDS)]
@@ -353,7 +357,7 @@
                   (println (str "Detected change in " file-name ", regenerating..."))
                   (callback)))))
             (.reset watch-key))))
-    
+
     (fn [] (reset! stop-flag true))))
 
 ;; ============================================================================
@@ -367,30 +371,30 @@
          output-file "ecosystem.config.enhanced.mjs"
          watch? false}}]
   (println (str "Starting ecosystem generation from " system-dir))
-  
+
 (let [edn-files (find-ecosystem-files system-dir)
         _ (println (str "Found " (count edn-files) " EDN files"))
         valid-files (->> edn-files
-                        (map (fn [file-path] 
+                        (map (fn [file-path]
                                [file-path (read-ecosystem-edn file-path)]))
                         (filter (fn [[_ data]] (some? data))))
         all-apps (->> valid-files
-                      (map (fn [[file-path edn-data]] 
+                      (map (fn [[file-path edn-data]]
                              (process-edn-config edn-data file-path))))
         js-content (generate-ecosystem-js all-apps)]
-    
+
     ;; Write the generated configuration
     (spit output-file js-content)
     (println (str "Generated enhanced ecosystem configuration: " output-file))
-    
+
     ;; Start file watcher if requested
     (when watch?
       (println "Starting file watcher for automatic regeneration...")
       (start-file-watcher system-dir output-file
-                          #(generate-ecosystem! {:system-dir system-dir 
-                                                 :output-file output-file 
+                          #(generate-ecosystem! {:system-dir system-dir
+                                                 :output-file output-file
                                                  :watch? false})))
-    
+
     {:files-processed (count edn-files)
      :apps-generated (count (apply concat all-apps))
      :output-file output-file}))

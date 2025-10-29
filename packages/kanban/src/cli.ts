@@ -186,8 +186,9 @@ async function main(): Promise<void> {
   });
   console.error('[DEBUG] Config loaded successfully');
   console.error('[DEBUG] Filtering args...');
-  const filteredArgs = configRestArgs.filter((arg) => arg !== '--json');
-  console.error('[DEBUG] Filtered args:', filteredArgs);
+  const filteredArgs = configRestArgs.filter(
+    (arg) => arg !== '--json' && !arg.startsWith('--log-level'),
+  );
   console.error('[DEBUG] Filtered args:', filteredArgs);
   const [actualCmd, ...args] = filteredArgs;
   const boardFile = config.boardFile;
