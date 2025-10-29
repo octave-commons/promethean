@@ -21,6 +21,7 @@ import {
   columnKey,
   writeBoard,
 } from '../lib/kanban.js';
+import { debug, error, info, warn } from '../lib/utils/logger.js';
 
 import {
   isEpic,
@@ -263,7 +264,7 @@ const handleUpdateStatus: CommandHandler = (args, context) =>
       transitionRulesEngine = await createTransitionRulesEngine(possiblePaths);
     } catch (error) {
       // Gracefully handle missing config or initialization errors
-      console.warn(
+      warn(
         'Warning: Transition rules engine not available:',
         error instanceof Error ? error.message : String(error),
       );
@@ -278,7 +279,7 @@ const handleUpdateStatus: CommandHandler = (args, context) =>
       });
       eventLogManager = makeEventLogManager(configResult.config);
     } catch (error) {
-      console.warn(
+      warn(
         'Warning: Event log manager not available:',
         error instanceof Error ? error.message : String(error),
       );
@@ -315,11 +316,11 @@ const handlePull: CommandHandler = (_args, context) =>
 
     // Enhanced logging for pull operation
     if (result.moved > 0) {
-      console.log(
+      debug(
         `📝 Pull completed: ${result.added} added, ${result.moved} status changes from files`,
       );
     } else {
-      console.log(`📋 Pull completed: ${result.added} added, ${result.moved} moved`);
+      debug(`📋 Pull completed: ${result.added} added, ${result.moved} moved`);
     }
 
     return result;
@@ -332,11 +333,11 @@ const handlePush: CommandHandler = (_args, context) =>
 
     // Enhanced logging for manual edit detection
     if (result.statusUpdated > 0) {
-      console.log(
+      debug(
         `📝 Push completed: ${result.added} added, ${result.moved} moved, ${result.statusUpdated} manual edits preserved`,
       );
     } else {
-      console.log(`📋 Push completed: ${result.added} added, ${result.moved} moved`);
+      debug(`📋 Push completed: ${result.added} added, ${result.moved} moved`);
     }
 
     return result;
@@ -357,16 +358,16 @@ const handleSync: CommandHandler = (_args, context) =>
     const conflictCount = result.conflicting.length;
 
     if (conflictCount > 0) {
-      console.log(`⚠️  Sync completed with ${conflictCount} conflict(s) resolved`);
+      debug(`⚠️  Sync completed with ${conflictCount} conflict(s) resolved`);
     } else {
-      console.log(`✅ Sync completed successfully`);
+      debug(`✅ Sync completed successfully`);
     }
 
-    console.log(`📊 Board: ${result.board.added} added, ${result.board.moved} moved`);
-    console.log(
+    debug(`📊 Board: ${result.board.added} added, ${result.board.moved} moved`);
+    debug(
       `📁 Files: ${result.tasks.added} added, ${result.tasks.moved} moved, ${result.tasks.statusUpdated} status updates`,
     );
-    console.log(`🔄 Total changes: ${totalChanges}`);
+    debug(`🔄 Total changes: ${totalChanges}`);
 
     return result;
   });
@@ -447,32 +448,32 @@ const handleProcess: CommandHandler = async (args) => {
       const match = processContent.match(sectionRegex);
 
       if (match) {
-        console.log(match[0].trim());
+        debug(match[0].trim());
       } else {
-        console.error(`Section "${section}" not found in process document`);
-        console.log('Available sections:');
+        error(`Section "${section}" not found in process document`);
+        debug('Available sections:');
         const sections = processContent.match(/^#{1,3}\s+(.+)$/gm) || [];
-        sections.forEach((s) => console.log(`  - ${s.replace(/^#{1,3}\s+/, '')}`));
+        sections.forEach((s) => debug(`  - ${s.replace(/^#{1,3}\s+/, '')}`));
         process.exit(1);
       }
     } else {
       // Display the full process document with a brief header
-      console.log('# 📋 Promethean Development Process');
-      console.log('');
-      console.log(
+      debug('# 📋 Promethean Development Process');
+      debug('');
+      debug(
         'This document outlines the 6-step workflow for task development in the Promethean framework.',
       );
-      console.log('Use --section <name> to view specific sections.');
-      console.log('');
-      console.log('Available sections: overview, fsm, transitions, blocking');
-      console.log('');
-      console.log('--- Full Process Document ---');
-      console.log('');
-      console.log(processContent);
+      debug('Use --section <name> to view specific sections.');
+      debug('');
+      debug('Available sections: overview, fsm, transitions, blocking');
+      debug('');
+      debug('--- Full Process Document ---');
+      debug('');
+      debug(processContent);
     }
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    console.error(`Error reading process document: ${message}`);
+    error(`Error reading process document: ${message}`);
     process.exit(1);
   }
 };
@@ -576,7 +577,7 @@ const handleDev: CommandHandler = async (args, context) => {
 
   // Handle graceful shutdown
   const cleanup = async () => {
-    console.log('\n[kanban-dev] Shutting down development server...');
+    debug('\n[kanban-dev] Shutting down development server...');
     await devServer.stop();
     process.exit(0);
   };
@@ -586,12 +587,12 @@ const handleDev: CommandHandler = async (args, context) => {
 
   try {
     await devServer.start();
-    console.log('[kanban-dev] Development server is running. Press Ctrl+C to stop.');
+    debug('[kanban-dev] Development server is running. Press Ctrl+C to stop.');
 
     // Keep the process alive
     return new Promise(() => {}); // Never resolves
   } catch (error) {
-    console.error('[kanban-dev] Failed to start development server:', error);
+    error('[kanban-dev] Failed to start development server:', error);
     throw error;
   }
 };
@@ -619,7 +620,7 @@ const handleShowTransitions: CommandHandler = async (_args, context) => {
       transitionRulesEngine = await createTransitionRulesEngine(possiblePaths);
     } catch (error) {
       // Gracefully handle missing config or initialization errors
-      console.warn(
+      warn(
         'Warning: Transition rules engine not available:',
         error instanceof Error ? error.message : String(error),
       );
@@ -630,39 +631,39 @@ const handleShowTransitions: CommandHandler = async (_args, context) => {
     }
 
     const overview = transitionRulesEngine.getTransitionsOverview();
-    console.log('# 🔄 Kanban Transition Rules Overview');
-    console.log('');
-    console.log(`## Status: ${overview.enabled ? '✅ Enabled' : '❌ Disabled'}`);
-    console.log(`## Enforcement: ${overview.enforcementMode}`);
+    debug('# 🔄 Kanban Transition Rules Overview');
+    debug('');
+    debug(`## Status: ${overview.enabled ? '✅ Enabled' : '❌ Disabled'}`);
+    debug(`## Enforcement: ${overview.enforcementMode}`);
     if (overview.dslAvailable) {
-      console.log(`## DSL: 🟢 Clojure DSL available`);
+      debug(`## DSL: 🟢 Clojure DSL available`);
     } else {
-      console.log(`## DSL: 🔴 Clojure DSL not available`);
+      debug(`## DSL: 🔴 Clojure DSL not available`);
     }
-    console.log('');
+    debug('');
 
     if (overview.validTransitions.length > 0) {
-      console.log('## Valid Transitions:');
+      debug('## Valid Transitions:');
       for (const transition of overview.validTransitions) {
-        console.log(`- ${transition.from} → ${transition.to}`);
+        debug(`- ${transition.from} → ${transition.to}`);
         if (transition.description) {
-          console.log(`  ${transition.description}`);
+          debug(`  ${transition.description}`);
         }
       }
-      console.log('');
+      debug('');
     }
 
     if (overview.globalRules.length > 0) {
-      console.log('## Global Rules:');
+      debug('## Global Rules:');
       for (const rule of overview.globalRules) {
-        console.log(`- ${rule}`);
+        debug(`- ${rule}`);
       }
-      console.log('');
+      debug('');
     }
 
     return overview;
   } catch (error) {
-    console.error(
+    error(
       'Error loading transition rules:',
       error instanceof Error ? error.message : String(error),
     );
@@ -690,23 +691,23 @@ const handleShowProcess: CommandHandler = async (_args, _context) => {
     const match = processContent.match(sectionRegex);
 
     if (match) {
-      console.log(match[0].trim());
+      debug(match[0].trim());
     } else {
-      console.log('# 📋 Promethean Development Process');
-      console.log('');
-      console.log(
+      debug('# 📋 Promethean Development Process');
+      debug('');
+      debug(
         'This document outlines the 6-step workflow for task development in the Promethean framework.',
       );
-      console.log('');
-      console.log(
+      debug('');
+      debug(
         'Key transitions: Incoming→Accepted→Breakdown→Ready→Todo→In Progress→Review→Document→Done',
       );
-      console.log('');
-      console.log('For detailed process information, see: docs/agile/process.md');
+      debug('');
+      debug('For detailed process information, see: docs/agile/process.md');
     }
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    console.error(`Error reading process document: ${message}`);
+    error(`Error reading process document: ${message}`);
   }
 
   return null;
@@ -730,8 +731,8 @@ const handleList: CommandHandler = (args, context) =>
       }
     }
 
-    console.log('📋 Kanban Board Status');
-    console.log('');
+    debug('📋 Kanban Board Status');
+    debug('');
 
     let totalViolations = 0;
     const allTasks: any[] = [];
@@ -758,10 +759,10 @@ const handleList: CommandHandler = (args, context) =>
         statusIcon = '⚠️';
       }
 
-      console.log(`${statusIcon} ${displayName} (${taskCount}${limit ? `/${limit}` : ''})`);
+      debug(`${statusIcon} ${displayName} (${taskCount}${limit ? `/${limit}` : ''})`);
 
       if (wipViolation) {
-        console.log(`   ❌ WIP LIMIT VIOLATION: ${taskCount} > ${limit}`);
+        debug(`   ❌ WIP LIMIT VIOLATION: ${taskCount} > ${limit}`);
       }
 
       // Show tasks in this column
@@ -769,32 +770,32 @@ const handleList: CommandHandler = (args, context) =>
         column.tasks.forEach((task) => {
           const priority = task.priority ? ` [${task.priority}]` : '';
           const uuid = task.uuid.slice(0, 8);
-          console.log(`   • ${task.title}${priority} (${uuid}...)`);
+          debug(`   • ${task.title}${priority} (${uuid}...)`);
         });
         // Collect tasks for markdown output
         allTasks.push(...column.tasks.slice());
       } else {
-        console.log(`   (empty)`);
+        debug(`   (empty)`);
       }
-      console.log('');
+      debug('');
     }
 
     // Summary
     if (totalViolations > 0) {
-      console.log(`🚨 ${totalViolations} process violation(s) found`);
+      debug(`🚨 ${totalViolations} process violation(s) found`);
     } else {
-      console.log('✅ No process violations detected');
+      debug('✅ No process violations detected');
     }
 
     // Show WIP limits summary
     const limitedColumns = board.columns.filter((col) => col.limit);
     if (limitedColumns.length > 0) {
-      console.log('');
-      console.log('📊 WIP Limits Summary:');
+      debug('');
+      debug('📊 WIP Limits Summary:');
       limitedColumns.forEach((col) => {
         const percentage = col.limit ? Math.round((col.tasks.length / col.limit) * 100) : 0;
         const status = percentage > 100 ? '🚨' : percentage > 80 ? '⚠️' : '✅';
-        console.log(`   ${status} ${col.name}: ${col.tasks.length}/${col.limit} (${percentage}%)`);
+        debug(`   ${status} ${col.name}: ${col.tasks.length}/${col.limit} (${percentage}%)`);
       });
     }
 
@@ -817,11 +818,11 @@ const handleAudit: CommandHandler = (args, context) =>
     const verbose = args.includes('--verbose');
     const columnFilter = args.find((arg) => arg.startsWith('--column='))?.split('=')[1];
 
-    console.log(`🔍 Kanban Audit ${dryRun ? '(DRY RUN)' : '(FIX MODE)'}`);
+    debug(`🔍 Kanban Audit ${dryRun ? '(DRY RUN)' : '(FIX MODE)'}`);
     if (columnFilter) {
-      console.log(`📋 Filtering by column: ${columnFilter}`);
+      debug(`📋 Filtering by column: ${columnFilter}`);
     }
-    console.log('');
+    debug('');
 
     // Get all task histories from event log
     const allHistories = await eventLogManager.getAllTaskHistories();
@@ -830,7 +831,7 @@ const handleAudit: CommandHandler = (args, context) =>
     // Initialize git tracker for commit validation
     const gitTracker = new TaskGitTracker({ repoRoot: process.cwd() });
 
-    console.log('🔍 Analyzing task state consistency...');
+    debug('🔍 Analyzing task state consistency...');
 
     // Collect all tasks for concurrent processing
     const allTasks = board.columns.flatMap((column) => {
@@ -950,75 +951,75 @@ const handleAudit: CommandHandler = (args, context) =>
     // Output results
     if (!verbose) {
       // Summarized output for normal mode (default)
-      console.log(`📊 AUDIT RESULTS:`);
-      console.log(`   ✅ Healthy tasks: ${healthyTasksFound}`);
+      debug(`📊 AUDIT RESULTS:`);
+      debug(`   ✅ Healthy tasks: ${healthyTasksFound}`);
       if (inconsistenciesFound > 0) {
-        console.log(`   ❌ Inconsistencies: ${inconsistenciesFound}`);
+        debug(`   ❌ Inconsistencies: ${inconsistenciesFound}`);
       }
       if (illegalTransitionsFound > 0) {
-        console.log(`   🚨 Illegal transitions: ${illegalTransitionsFound}`);
+        debug(`   🚨 Illegal transitions: ${illegalTransitionsFound}`);
       }
       if (orphanedTasksFound > 0) {
-        console.log(`   🚨 Orphaned tasks: ${orphanedTasksFound}`);
+        debug(`   🚨 Orphaned tasks: ${orphanedTasksFound}`);
       }
       if (untrackedTasksFound > 0) {
-        console.log(`   ⚠️  Untracked tasks: ${untrackedTasksFound}`);
+        debug(`   ⚠️  Untracked tasks: ${untrackedTasksFound}`);
       }
       if (results.tasksWithIssues.length > 0) {
-        console.log(`   ⚠️  Tasks with issues: ${results.tasksWithIssues.length}`);
+        debug(`   ⚠️  Tasks with issues: ${results.tasksWithIssues.length}`);
       }
-      console.log('');
+      debug('');
 
       if (inconsistenciesFound > 0 || orphanedTasksFound > 0 || untrackedTasksFound > 0) {
-        console.log('💡 Use --verbose for detailed breakdown');
+        debug('💡 Use --verbose for detailed breakdown');
         if (dryRun) {
-          console.log('💡 Use --fix to automatically correct inconsistencies');
+          debug('💡 Use --fix to automatically correct inconsistencies');
         }
       }
     } else {
       // Detailed output for verbose mode
       for (const orphaned of results.orphanedTasks) {
-        console.log(`🚨 TRULY ORPHANED TASK: "${orphaned.task.title}"`);
-        console.log(`   Task ID: ${orphaned.task.uuid}`);
-        console.log(`   Status: ${orphaned.task.status}`);
-        console.log(`   Issues: ${orphaned.issues.join(', ')}`);
-        console.log(`   Recommendations:`);
-        orphaned.recommendations.forEach((rec) => console.log(`     • ${rec}`));
-        console.log('');
+        debug(`🚨 TRULY ORPHANED TASK: "${orphaned.task.title}"`);
+        debug(`   Task ID: ${orphaned.task.uuid}`);
+        debug(`   Status: ${orphaned.task.status}`);
+        debug(`   Issues: ${orphaned.issues.join(', ')}`);
+        debug(`   Recommendations:`);
+        orphaned.recommendations.forEach((rec) => debug(`     • ${rec}`));
+        debug('');
       }
 
       for (const untracked of results.untrackedTasks) {
-        console.log(`⚠️  UNTRACKED TASK: "${untracked.task.title}"`);
-        console.log(`   Task ID: ${untracked.task.uuid}`);
-        console.log(`   Status: ${untracked.task.status}`);
-        console.log(`   Issues: ${untracked.issues.join(', ')}`);
-        console.log(`   Recommendations:`);
-        untracked.recommendations.forEach((rec) => console.log(`     • ${rec}`));
-        console.log('');
+        debug(`⚠️  UNTRACKED TASK: "${untracked.task.title}"`);
+        debug(`   Task ID: ${untracked.task.uuid}`);
+        debug(`   Status: ${untracked.task.status}`);
+        debug(`   Issues: ${untracked.issues.join(', ')}`);
+        debug(`   Recommendations:`);
+        untracked.recommendations.forEach((rec) => debug(`     • ${rec}`));
+        debug('');
       }
 
       for (const issue of results.tasksWithIssues) {
-        console.log(`⚠️  TASK WITH ISSUES: "${issue.task.title}"`);
-        console.log(`   Task ID: ${issue.task.uuid}`);
-        console.log(`   Status: ${issue.task.status}`);
-        console.log(`   Issues: ${issue.issues.join(', ')}`);
-        console.log(`   Recommendations:`);
-        issue.recommendations.forEach((rec) => console.log(`     • ${rec}`));
-        console.log('');
+        debug(`⚠️  TASK WITH ISSUES: "${issue.task.title}"`);
+        debug(`   Task ID: ${issue.task.uuid}`);
+        debug(`   Status: ${issue.task.status}`);
+        debug(`   Issues: ${issue.issues.join(', ')}`);
+        debug(`   Recommendations:`);
+        issue.recommendations.forEach((rec) => debug(`     • ${rec}`));
+        debug('');
       }
 
       for (const inconsistency of results.inconsistencies) {
-        console.log(`❌ INCONSISTENCY: Task "${inconsistency.task.title}"`);
-        console.log(`   Current status: ${inconsistency.current}`);
-        console.log(`   Expected status: ${inconsistency.expected}`);
-        console.log(`   Task ID: ${inconsistency.task.uuid}`);
+        debug(`❌ INCONSISTENCY: Task "${inconsistency.task.title}"`);
+        debug(`   Current status: ${inconsistency.current}`);
+        debug(`   Expected status: ${inconsistency.expected}`);
+        debug(`   Task ID: ${inconsistency.task.uuid}`);
 
         if (inconsistency.invalidEvent) {
-          console.log(
+          debug(
             `   🚨 ILLEGAL TRANSITION: ${inconsistency.invalidEvent.fromStatus} → ${inconsistency.invalidEvent.toStatus}`,
           );
-          console.log(`   Event ID: ${inconsistency.invalidEvent.id}`);
-          console.log(`   Timestamp: ${inconsistency.invalidEvent.timestamp}`);
+          debug(`   Event ID: ${inconsistency.invalidEvent.id}`);
+          debug(`   Timestamp: ${inconsistency.invalidEvent.timestamp}`);
         }
 
         if (!dryRun) {
@@ -1036,12 +1037,12 @@ const handleAudit: CommandHandler = (args, context) =>
               'system',
             );
             inconsistenciesFixed++;
-            console.log(`   ✅ FIXED: Status reset to ${inconsistency.expected}`);
+            debug(`   ✅ FIXED: Status reset to ${inconsistency.expected}`);
           } catch (error) {
-            console.log(`   ❌ FAILED TO FIX: ${error}`);
+            debug(`   ❌ FAILED TO FIX: ${error}`);
           }
         }
-        console.log('');
+        debug('');
       }
     }
 
@@ -1055,17 +1056,17 @@ const handleAudit: CommandHandler = (args, context) =>
     if (orphanedEvents.length > 0) {
       if (verbose) {
         for (const { taskId, events } of orphanedEvents) {
-          console.log(
+          debug(
             `⚠️  ORPHANED EVENTS: Task ${taskId} has ${events.length} events but not found in board`,
           );
           const lastEvent = events[events.length - 1];
           if (lastEvent) {
-            console.log(`   Last event: ${lastEvent.toStatus} at ${lastEvent.timestamp}`);
+            debug(`   Last event: ${lastEvent.toStatus} at ${lastEvent.timestamp}`);
           }
-          console.log('');
+          debug('');
         }
       } else {
-        console.log(
+        debug(
           `⚠️  Orphaned events: ${orphanedEvents.length} tasks have events but not in board`,
         );
       }
@@ -1073,17 +1074,17 @@ const handleAudit: CommandHandler = (args, context) =>
 
     // Handle untracked tasks in fix mode
     if (!dryRun && untrackedTasksFound > 0) {
-      console.log('🔧 UNTRACKED TASKS:');
-      console.log('📝 Commit tracking will be updated automatically on next kanban operation');
-      console.log('');
+      debug('🔧 UNTRACKED TASKS:');
+      debug('📝 Commit tracking will be updated automatically on next kanban operation');
+      debug('');
 
       if (verbose) {
         for (const untracked of results.untrackedTasks) {
-          console.log(`⚠️  UNTRACKED TASK: "${untracked.task.title}"`);
-          console.log(`   Task ID: ${untracked.task.uuid}`);
-          console.log(`   Status: ${untracked.task.status}`);
-          console.log(`   Recommendation: Commit tracking will be updated on next operation`);
-          console.log('');
+          debug(`⚠️  UNTRACKED TASK: "${untracked.task.title}"`);
+          debug(`   Task ID: ${untracked.task.uuid}`);
+          debug(`   Status: ${untracked.task.status}`);
+          debug(`   Recommendation: Commit tracking will be updated on next operation`);
+          debug('');
         }
       }
     }
@@ -1100,69 +1101,69 @@ const handleAudit: CommandHandler = (args, context) =>
     );
 
     if (actionableGroups.length > 0) {
-      console.log('🧠 Pantheon Workflow: Column Normalization');
+      debug('🧠 Pantheon Workflow: Column Normalization');
       for (const group of actionableGroups) {
-        console.log(`   Canonical column "${group.canonicalName}":`);
+        debug(`   Canonical column "${group.canonicalName}":`);
         for (const member of group.members) {
           if (member.action === 'keep') continue;
           const verb = member.action === 'merge' ? 'merge into' : 'rename to';
-          console.log(
+          debug(
             `     • ${member.originalName} → ${verb} ${group.canonicalName} (${member.reason})`,
           );
         }
       }
 
       if (dryRun) {
-        console.log(
+        debug(
           '   💡 Run with --fix to apply these column normalization changes automatically',
         );
       } else {
         const applied = applyColumnNormalization(board as Board, columnAnalysis);
         if (applied > 0) {
           await writeBoard(context.boardFile, board as Board);
-          console.log(
+          debug(
             `   ✅ Applied ${applied} column normalization ${applied === 1 ? 'update' : 'updates'}`,
           );
         } else {
-          console.log('   ℹ️ Column names already aligned with canonical workflow states');
+          debug('   ℹ️ Column names already aligned with canonical workflow states');
         }
       }
-      console.log('');
+      debug('');
     }
 
     // Final summary
     const totalTasksAnalyzed = allTasks.length;
-    console.log('📊 AUDIT SUMMARY:');
-    console.log(`   Total tasks analyzed: ${totalTasksAnalyzed}`);
-    console.log(`   Total events in log: ${allEvents.length}`);
-    console.log(`   Inconsistencies found: ${inconsistenciesFound}`);
-    console.log(`   Illegal transitions: ${illegalTransitionsFound}`);
-    console.log('');
-    console.log('🔍 TASK STATUS BREAKDOWN:');
-    console.log(
+    debug('📊 AUDIT SUMMARY:');
+    debug(`   Total tasks analyzed: ${totalTasksAnalyzed}`);
+    debug(`   Total events in log: ${allEvents.length}`);
+    debug(`   Inconsistencies found: ${inconsistenciesFound}`);
+    debug(`   Illegal transitions: ${illegalTransitionsFound}`);
+    debug('');
+    debug('🔍 TASK STATUS BREAKDOWN:');
+    debug(
       `   ✅ Healthy tasks: ${healthyTasksFound} (${((healthyTasksFound / totalTasksAnalyzed) * 100).toFixed(1)}%)`,
     );
-    console.log(
+    debug(
       `   ⚠️  Untracked tasks: ${untrackedTasksFound} (${((untrackedTasksFound / totalTasksAnalyzed) * 100).toFixed(1)}%)`,
     );
-    console.log(
+    debug(
       `   🚨 Truly orphaned tasks: ${orphanedTasksFound} (${((orphanedTasksFound / totalTasksAnalyzed) * 100).toFixed(1)}%)`,
     );
 
     if (!dryRun) {
-      console.log(`   Inconsistencies fixed: ${inconsistenciesFixed}`);
+      debug(`   Inconsistencies fixed: ${inconsistenciesFixed}`);
     }
 
-    console.log('');
+    debug('');
 
     if (inconsistenciesFound > 0) {
       if (dryRun) {
-        console.log('💡 Run with --fix to automatically correct these inconsistencies');
+        debug('💡 Run with --fix to automatically correct these inconsistencies');
       } else {
-        console.log('✅ Audit completed with automatic corrections');
+        debug('✅ Audit completed with automatic corrections');
       }
     } else {
-      console.log('✅ No inconsistencies found - board state is consistent with event log');
+      debug('✅ No inconsistencies found - board state is consistent with event log');
     }
 
     // Return structure expected by markdown formatter
@@ -1238,25 +1239,25 @@ const handleCommitStats: CommandHandler = (_args, context) =>
     // Get commit tracking statistics
     const stats = gitTracker.getCommitTrackingStats(allTasks);
 
-    console.log('📊 Kanban Commit Tracking Statistics');
-    console.log('');
-    console.log(`Total tasks: ${stats.total}`);
-    console.log(`Tasks with commit tracking: ${stats.withCommitTracking}`);
-    console.log(`Orphaned tasks: ${stats.orphaned}`);
-    console.log(`Tracking coverage: ${(100 - stats.orphanageRate).toFixed(1)}%`);
-    console.log('');
+    debug('📊 Kanban Commit Tracking Statistics');
+    debug('');
+    debug(`Total tasks: ${stats.total}`);
+    debug(`Tasks with commit tracking: ${stats.withCommitTracking}`);
+    debug(`Orphaned tasks: ${stats.orphaned}`);
+    debug(`Tracking coverage: ${(100 - stats.orphanageRate).toFixed(1)}%`);
+    debug('');
 
     if (stats.orphaned > 0) {
-      console.log(`⚠️  Found ${stats.orphaned} orphaned task(s) lacking proper commit tracking`);
-      console.log('   Run "pnpm kanban audit --fix" to add commit tracking to these tasks');
-      console.log('');
+      debug(`⚠️  Found ${stats.orphaned} orphaned task(s) lacking proper commit tracking`);
+      debug('   Run "pnpm kanban audit --fix" to add commit tracking to these tasks');
+      debug('');
     }
 
     if (stats.withCommitTracking > 0) {
-      console.log('✅ Commit tracking is working for tracked tasks');
-      console.log('   Each task change creates a git commit with standardized messages');
-      console.log('   Task files include lastCommitSha and commitHistory fields');
-      console.log('');
+      debug('✅ Commit tracking is working for tracked tasks');
+      debug('   Each task change creates a git commit with standardized messages');
+      debug('   Task files include lastCommitSha and commitHistory fields');
+      debug('');
     }
 
     return stats;
@@ -1273,11 +1274,11 @@ const handleEnforceWipLimits: CommandHandler = (args, context) =>
     const dryRun = !args.includes('--fix');
     const columnFilter = args.find((arg) => arg.startsWith('--column='))?.split('=')[1];
 
-    console.log(`🚧 WIP Limits Enforcement ${dryRun ? '(DRY RUN)' : '(FIX MODE)'}`);
+    debug(`🚧 WIP Limits Enforcement ${dryRun ? '(DRY RUN)' : '(FIX MODE)'}`);
     if (columnFilter) {
-      console.log(`📋 Filtering by column: ${columnFilter}`);
+      debug(`📋 Filtering by column: ${columnFilter}`);
     }
-    console.log('');
+    debug('');
 
     let totalViolations = 0;
     let totalCorrections = 0;
@@ -1291,8 +1292,8 @@ const handleEnforceWipLimits: CommandHandler = (args, context) =>
         const violationCount = column.tasks.length - column.limit;
         totalViolations += violationCount;
 
-        console.log(`🚨 WIP VIOLATION: ${column.name}`);
-        console.log(
+        debug(`🚨 WIP VIOLATION: ${column.name}`);
+        debug(
           `   Current: ${column.tasks.length}/${column.limit} (${violationCount} over limit)`,
         );
 
@@ -1306,10 +1307,10 @@ const handleEnforceWipLimits: CommandHandler = (args, context) =>
         // Tasks to move back (lowest priority)
         const tasksToMove = sortedTasks.slice(-violationCount);
 
-        console.log(`   Tasks to move back: ${tasksToMove.length}`);
+        debug(`   Tasks to move back: ${tasksToMove.length}`);
 
         for (const task of tasksToMove) {
-          console.log(`   - "${task.title}" (${task.priority})`);
+          debug(`   - "${task.title}" (${task.priority})`);
 
           if (!dryRun) {
             try {
@@ -1328,31 +1329,31 @@ const handleEnforceWipLimits: CommandHandler = (args, context) =>
                   'system',
                 );
                 totalCorrections++;
-                console.log(`     ✅ Moved to ${previousColumn.name}`);
+                debug(`     ✅ Moved to ${previousColumn.name}`);
               } else {
-                console.log(`     ⚠️  No previous column found for ${column.name}`);
+                debug(`     ⚠️  No previous column found for ${column.name}`);
               }
             } catch (error) {
-              console.log(`     ❌ Failed to move: ${error}`);
+              debug(`     ❌ Failed to move: ${error}`);
             }
           }
         }
-        console.log('');
+        debug('');
       }
     }
 
-    console.log('📊 WIP ENFORCEMENT SUMMARY:');
-    console.log(`   Total violations: ${totalViolations}`);
-    console.log(`   Total corrections: ${totalCorrections}`);
+    debug('📊 WIP ENFORCEMENT SUMMARY:');
+    debug(`   Total violations: ${totalViolations}`);
+    debug(`   Total corrections: ${totalCorrections}`);
 
     if (totalViolations > 0) {
       if (dryRun) {
-        console.log('💡 Run with --fix to automatically move lowest priority tasks');
+        debug('💡 Run with --fix to automatically move lowest priority tasks');
       } else {
-        console.log('✅ WIP limits enforced');
+        debug('✅ WIP limits enforced');
       }
     } else {
-      console.log('✅ No WIP limit violations found');
+      debug('✅ No WIP limit violations found');
     }
 
     return { violations: totalViolations, corrections: totalCorrections, dryRun };
@@ -1417,17 +1418,17 @@ const handleWipMonitor: CommandHandler = (args, context) =>
       args.find((arg) => arg.startsWith('--interval='))?.split('=')[1] || '5000',
     );
 
-    console.log('📊 Real-time WIP Capacity Monitor');
-    console.log(`🕐 Last updated: ${new Date(monitor.timestamp).toLocaleString()}`);
-    console.log('');
+    debug('📊 Real-time WIP Capacity Monitor');
+    debug(`🕐 Last updated: ${new Date(monitor.timestamp).toLocaleString()}`);
+    debug('');
 
     const displayMonitor = (data: typeof monitor) => {
       console.clear();
-      console.log('📊 Real-time WIP Capacity Monitor');
-      console.log(`🕐 Last updated: ${new Date(data.timestamp).toLocaleString()}`);
-      console.log(`🚨 Total violations: ${data.totalViolations}`);
-      console.log(`📈 Average utilization: ${data.utilization.average.toFixed(1)}%`);
-      console.log('');
+      debug('📊 Real-time WIP Capacity Monitor');
+      debug(`🕐 Last updated: ${new Date(data.timestamp).toLocaleString()}`);
+      debug(`🚨 Total violations: ${data.totalViolations}`);
+      debug(`📈 Average utilization: ${data.utilization.average.toFixed(1)}%`);
+      debug('');
 
       for (const column of data.columns) {
         const icon =
@@ -1444,22 +1445,22 @@ const handleWipMonitor: CommandHandler = (args, context) =>
             '░'.repeat(10 - Math.floor(column.utilization / 10))
           : 'N/A';
 
-        console.log(
+        debug(
           `${icon} ${column.name.padEnd(15)} ${column.current.toString().padStart(3)}/${column.limit?.toString().padStart(3) || '∞'} ${utilizationBar} ${column.utilization.toFixed(1)}%`,
         );
       }
 
-      console.log('');
+      debug('');
       if (data.totalViolations > 0) {
-        console.log('💡 Run "kanban enforce-wip-limits --fix" to resolve violations');
+        debug('💡 Run "kanban enforce-wip-limits --fix" to resolve violations');
       }
       if (watchMode) {
-        console.log('🔄 Watching for changes... (Ctrl+C to stop)');
+        debug('🔄 Watching for changes... (Ctrl+C to stop)');
       }
     };
 
     if (watchMode) {
-      console.log('🔄 Starting real-time monitoring...');
+      debug('🔄 Starting real-time monitoring...');
       const intervalId = setInterval(async () => {
         const freshMonitor = await wipEnforcement.getCapacityMonitor();
         displayMonitor(freshMonitor);
@@ -1468,7 +1469,7 @@ const handleWipMonitor: CommandHandler = (args, context) =>
       // Handle Ctrl+C to stop watching
       process.on('SIGINT', () => {
         clearInterval(intervalId);
-        console.log('\n👋 Monitoring stopped');
+        debug('\n👋 Monitoring stopped');
         process.exit(0);
       });
 
@@ -1492,8 +1493,8 @@ const handleWipCompliance: CommandHandler = (args, context) =>
       '24h') as '24h' | '7d' | '30d';
     const format = args.includes('--json') ? 'json' : 'table';
 
-    console.log(`📋 WIP Compliance Report (${timeframe})`);
-    console.log('');
+    debug(`📋 WIP Compliance Report (${timeframe})`);
+    debug('');
 
     const report = await wipEnforcement.generateComplianceReport(timeframe);
 
@@ -1501,40 +1502,40 @@ const handleWipCompliance: CommandHandler = (args, context) =>
       return report;
     }
 
-    console.log(`📊 Summary:`);
-    console.log(`   Total violations: ${report.totalViolations}`);
-    console.log(`   Override rate: ${report.overrideRate.toFixed(1)}%`);
-    console.log('');
+    debug(`📊 Summary:`);
+    debug(`   Total violations: ${report.totalViolations}`);
+    debug(`   Override rate: ${report.overrideRate.toFixed(1)}%`);
+    debug('');
 
     if (Object.keys(report.violationsByColumn).length > 0) {
-      console.log('📊 Violations by Column:');
+      debug('📊 Violations by Column:');
       for (const [column, count] of Object.entries(report.violationsByColumn)) {
-        console.log(`   ${column}: ${count}`);
+        debug(`   ${column}: ${count}`);
       }
-      console.log('');
+      debug('');
     }
 
     if (Object.keys(report.violationsBySeverity).length > 0) {
-      console.log('🚨 Violations by Severity:');
+      debug('🚨 Violations by Severity:');
       for (const [severity, count] of Object.entries(report.violationsBySeverity)) {
         const icon = severity === 'critical' ? '🚨' : severity === 'error' ? '❌' : '⚠️';
-        console.log(`   ${icon} ${severity}: ${count}`);
+        debug(`   ${icon} ${severity}: ${count}`);
       }
-      console.log('');
+      debug('');
     }
 
     if (report.topViolatedColumns.length > 0) {
-      console.log('🔥 Top Violated Columns:');
+      debug('🔥 Top Violated Columns:');
       for (const { column, violations } of report.topViolatedColumns) {
-        console.log(`   ${column}: ${violations} violations`);
+        debug(`   ${column}: ${violations} violations`);
       }
-      console.log('');
+      debug('');
     }
 
     if (report.recommendations.length > 0) {
-      console.log('💡 Recommendations:');
+      debug('💡 Recommendations:');
       for (const recommendation of report.recommendations) {
-        console.log(`   ${recommendation}`);
+        debug(`   ${recommendation}`);
       }
     }
 
@@ -1557,11 +1558,11 @@ const handleWipViolations: CommandHandler = (args, context) =>
       | undefined;
     const since = args.find((arg) => arg.startsWith('--since='))?.split('=')[1];
 
-    console.log('🚨 WIP Limit Violations History');
-    if (column) console.log(`📋 Column: ${column}`);
-    if (severity) console.log(`🔍 Severity: ${severity}`);
-    if (since) console.log(`📅 Since: ${since}`);
-    console.log('');
+    debug('🚨 WIP Limit Violations History');
+    if (column) debug(`📋 Column: ${column}`);
+    if (severity) debug(`🔍 Severity: ${severity}`);
+    if (since) debug(`📅 Since: ${since}`);
+    debug('');
 
     const violations = wipEnforcement.getViolationHistory({
       limit,
@@ -1571,7 +1572,7 @@ const handleWipViolations: CommandHandler = (args, context) =>
     });
 
     if (violations.length === 0) {
-      console.log('✅ No violations found matching the criteria');
+      debug('✅ No violations found matching the criteria');
       return [];
     }
 
@@ -1579,23 +1580,23 @@ const handleWipViolations: CommandHandler = (args, context) =>
       const icon =
         violation.severity === 'critical' ? '🚨' : violation.severity === 'error' ? '❌' : '⚠️';
 
-      console.log(`${icon} ${new Date(violation.timestamp).toLocaleString()}`);
-      console.log(`   Task: ${violation.taskTitle}`);
-      console.log(`   Column: ${violation.column} (${violation.current}/${violation.limit})`);
-      console.log(`   Utilization: ${violation.utilization.toFixed(1)}%`);
-      console.log(`   Blocked: ${violation.blocked ? 'Yes' : 'No'}`);
+      debug(`${icon} ${new Date(violation.timestamp).toLocaleString()}`);
+      debug(`   Task: ${violation.taskTitle}`);
+      debug(`   Column: ${violation.column} (${violation.current}/${violation.limit})`);
+      debug(`   Utilization: ${violation.utilization.toFixed(1)}%`);
+      debug(`   Blocked: ${violation.blocked ? 'Yes' : 'No'}`);
 
       if (violation.overrideReason) {
-        console.log(`   🔓 Override: ${violation.overrideReason} by ${violation.overrideBy}`);
+        debug(`   🔓 Override: ${violation.overrideReason} by ${violation.overrideBy}`);
       }
 
       if (violation.suggestions.length > 0) {
-        console.log(`   💡 Suggestions:`);
+        debug(`   💡 Suggestions:`);
         for (const suggestion of violation.suggestions) {
-          console.log(`     • ${suggestion.description}`);
+          debug(`     • ${suggestion.description}`);
         }
       }
-      console.log('');
+      debug('');
     }
 
     return violations;
@@ -1611,13 +1612,13 @@ const handleWipSuggestions: CommandHandler = (args, context) =>
     const column = requireArg(args[0], 'column name');
     const apply = args.includes('--apply');
 
-    console.log(`💡 Capacity Balancing Suggestions for "${column}"`);
-    console.log('');
+    debug(`💡 Capacity Balancing Suggestions for "${column}"`);
+    debug('');
 
     const suggestions = await wipEnforcement.generateCapacitySuggestions(column, board as Board);
 
     if (suggestions.length === 0) {
-      console.log('✅ No capacity balancing suggestions needed');
+      debug('✅ No capacity balancing suggestions needed');
       return [];
     }
 
@@ -1625,23 +1626,23 @@ const handleWipSuggestions: CommandHandler = (args, context) =>
       const icon =
         suggestion.priority === 'high' ? '🔥' : suggestion.priority === 'medium' ? '⚡' : '💡';
 
-      console.log(`${icon} ${suggestion.description}`);
-      console.log(`   Priority: ${suggestion.priority}`);
-      console.log(`   Impact: ${suggestion.impact.taskCount} tasks affected`);
+      debug(`${icon} ${suggestion.description}`);
+      debug(`   Priority: ${suggestion.priority}`);
+      debug(`   Impact: ${suggestion.impact.taskCount} tasks affected`);
 
       if (suggestion.tasks && suggestion.tasks.length > 0) {
-        console.log(`   Tasks to move:`);
+        debug(`   Tasks to move:`);
         for (const task of suggestion.tasks) {
-          console.log(`     • ${task.title} (${task.priority})`);
+          debug(`     • ${task.title} (${task.priority})`);
         }
       }
-      console.log('');
+      debug('');
     }
 
     if (apply && suggestions.length > 0) {
-      console.log('🔧 Applying suggestions...');
+      debug('🔧 Applying suggestions...');
       // Implementation for applying suggestions would go here
-      console.log('⚠️  Auto-apply feature not yet implemented');
+      debug('⚠️  Auto-apply feature not yet implemented');
     }
 
     return suggestions;
@@ -1730,13 +1731,13 @@ const parseCreateTaskArgs = (args: ReadonlyArray<string>) => {
 
 const handleCreate: CommandHandler = (args, context) =>
   withBoard(context, async (board) => {
-    console.error('[DEBUG] handleCreate started');
+    error('[DEBUG] handleCreate started');
     const mutableBoard = board as unknown as Board;
-    console.error('[DEBUG] About to parse create task args');
+    error('[DEBUG] About to parse create task args');
     const taskArgs = parseCreateTaskArgs(args);
-    console.error('[DEBUG] Parsed task args:', taskArgs);
+    error('[DEBUG] Parsed task args:', taskArgs);
 
-    console.error('[DEBUG] About to call createTask');
+    error('[DEBUG] About to call createTask');
     const newTask = await createTask(
       mutableBoard,
       taskArgs.status || 'incoming',
@@ -1749,20 +1750,20 @@ const handleCreate: CommandHandler = (args, context) =>
       context.tasksDir,
       context.boardFile,
     );
-    console.error('[DEBUG] createTask returned successfully');
+    error('[DEBUG] createTask returned successfully');
 
-    console.log(`✅ Created task "${newTask.title}" (${newTask.uuid.slice(0, 8)}...)`);
-    console.log(`   Status: ${newTask.status}`);
+    debug(`✅ Created task "${newTask.title}" (${newTask.uuid.slice(0, 8)}...)`);
+    debug(`   Status: ${newTask.status}`);
     if (newTask.priority) {
-      console.log(`   Priority: ${newTask.priority}`);
+      debug(`   Priority: ${newTask.priority}`);
     }
     if (newTask.labels && newTask.labels.length > 0) {
-      console.log(`   Labels: ${newTask.labels.join(', ')}`);
+      debug(`   Labels: ${newTask.labels.join(', ')}`);
     }
 
     // Show commit tracking information
     if (newTask.lastCommitSha) {
-      console.log(`   Commit: ${newTask.lastCommitSha.slice(0, 8)}...`);
+      debug(`   Commit: ${newTask.lastCommitSha.slice(0, 8)}...`);
     }
 
     return newTask;
@@ -1834,7 +1835,7 @@ const handleUpdate: CommandHandler = (args, context) =>
         context.boardFile,
       );
       if (updatedTask) {
-        console.log(`✅ Updated title to "${updateArgs.title}"`);
+        debug(`✅ Updated title to "${updateArgs.title}"`);
       }
     }
 
@@ -1848,7 +1849,7 @@ const handleUpdate: CommandHandler = (args, context) =>
         context.boardFile,
       );
       if (updatedTask) {
-        console.log(`✅ Updated task description`);
+        debug(`✅ Updated task description`);
       }
     }
 
@@ -1883,12 +1884,12 @@ const handleDelete: CommandHandler = (args, context) =>
 
     // Ask for confirmation unless --confirm flag is provided
     if (!deleteArgs.confirm) {
-      console.log(`⚠️  About to delete task:`);
-      console.log(`   Title: ${task.title}`);
-      console.log(`   UUID: ${task.uuid}`);
-      console.log(`   Status: ${task.status}`);
-      console.log('');
-      console.log('This action cannot be undone. Use --confirm to proceed with deletion.');
+      debug(`⚠️  About to delete task:`);
+      debug(`   Title: ${task.title}`);
+      debug(`   UUID: ${task.uuid}`);
+      debug(`   Status: ${task.status}`);
+      debug('');
+      debug('This action cannot be undone. Use --confirm to proceed with deletion.');
       return { deleted: false, task };
     }
 
@@ -1900,10 +1901,10 @@ const handleDelete: CommandHandler = (args, context) =>
     );
 
     if (deleted) {
-      console.log(`✅ Deleted task "${task.title}" (${task.uuid.slice(0, 8)}...)`);
+      debug(`✅ Deleted task "${task.title}" (${task.uuid.slice(0, 8)}...)`);
       return { deleted: true, task };
     } else {
-      console.log(`❌ Failed to delete task with UUID ${deleteArgs.uuid}`);
+      debug(`❌ Failed to delete task with UUID ${deleteArgs.uuid}`);
       return { deleted: false, task };
     }
   });
@@ -1954,16 +1955,16 @@ const handleCreateEpic: CommandHandler = (args, context) =>
       for (const subtaskUuid of epicArgs.subtaskUuids) {
         const result = addSubtaskToEpic(mutableBoard, newEpic.uuid, subtaskUuid);
         if (!result.success) {
-          console.warn(`⚠️  Failed to link subtask ${subtaskUuid}: ${result.reason}`);
+          warn(`⚠️  Failed to link subtask ${subtaskUuid}: ${result.reason}`);
         }
       }
     }
 
-    console.log(`✅ Created epic "${newEpic.title}" (${newEpic.uuid.slice(0, 8)}...)`);
-    console.log(`   Status: ${newEpic.status}`);
-    console.log(`   Epic Status: ${newEpic.epicStatus}`);
+    debug(`✅ Created epic "${newEpic.title}" (${newEpic.uuid.slice(0, 8)}...)`);
+    debug(`   Status: ${newEpic.status}`);
+    debug(`   Epic Status: ${newEpic.epicStatus}`);
     if (epicArgs.subtaskUuids.length > 0) {
-      console.log(`   Subtasks: ${epicArgs.subtaskUuids.length}`);
+      debug(`   Subtasks: ${epicArgs.subtaskUuids.length}`);
     }
 
     return newEpic;
@@ -1994,9 +1995,9 @@ const handleAddTask: CommandHandler = (args, context) =>
     const epic = findTaskById(mutableBoard, taskArgs.epicUuid);
     const task = findTaskById(mutableBoard, taskArgs.taskUuid);
 
-    console.log(`✅ Added task "${task?.title}" to epic "${epic?.title}"`);
-    console.log(`   Epic UUID: ${taskArgs.epicUuid.slice(0, 8)}...`);
-    console.log(`   Task UUID: ${taskArgs.taskUuid.slice(0, 8)}...`);
+    debug(`✅ Added task "${task?.title}" to epic "${epic?.title}"`);
+    debug(`   Epic UUID: ${taskArgs.epicUuid.slice(0, 8)}...`);
+    debug(`   Task UUID: ${taskArgs.taskUuid.slice(0, 8)}...`);
 
     return { success: true, epic, task };
   });
@@ -2026,9 +2027,9 @@ const handleRemoveTask: CommandHandler = (args, context) =>
     const epic = findTaskById(mutableBoard, taskArgs.epicUuid);
     const task = findTaskById(mutableBoard, taskArgs.taskUuid);
 
-    console.log(`✅ Removed task "${task?.title}" from epic "${epic?.title}"`);
-    console.log(`   Epic UUID: ${taskArgs.epicUuid.slice(0, 8)}...`);
-    console.log(`   Task UUID: ${taskArgs.taskUuid.slice(0, 8)}...`);
+    debug(`✅ Removed task "${task?.title}" from epic "${epic?.title}"`);
+    debug(`   Epic UUID: ${taskArgs.epicUuid.slice(0, 8)}...`);
+    debug(`   Task UUID: ${taskArgs.taskUuid.slice(0, 8)}...`);
 
     return { success: true, epic, task };
   });
@@ -2039,21 +2040,21 @@ const handleListEpics: CommandHandler = (_, context) =>
     const epics = getAllEpics(mutableBoard);
 
     if (epics.length === 0) {
-      console.log('No epics found.');
+      debug('No epics found.');
       return { epics: [] };
     }
 
-    console.log(`Found ${epics.length} epic(s):`);
-    console.log('');
+    debug(`Found ${epics.length} epic(s):`);
+    debug('');
 
     for (const epic of epics) {
       const subtasks = getEpicSubtasks(mutableBoard, epic);
-      console.log(`📋 ${epic.title}`);
-      console.log(`   UUID: ${epic.uuid}`);
-      console.log(`   Status: ${epic.status} (Epic: ${epic.epicStatus})`);
-      console.log(`   Subtasks: ${subtasks.length}`);
+      debug(`📋 ${epic.title}`);
+      debug(`   UUID: ${epic.uuid}`);
+      debug(`   Status: ${epic.status} (Epic: ${epic.epicStatus})`);
+      debug(`   Subtasks: ${subtasks.length}`);
       if (subtasks.length > 0) {
-        console.log(`   Subtask breakdown:`);
+        debug(`   Subtask breakdown:`);
         const statusCounts = subtasks.reduce(
           (acc, task) => {
             acc[task.status] = (acc[task.status] || 0) + 1;
@@ -2062,10 +2063,10 @@ const handleListEpics: CommandHandler = (_, context) =>
           {} as Record<string, number>,
         );
         Object.entries(statusCounts).forEach(([status, count]) => {
-          console.log(`     ${status}: ${count}`);
+          debug(`     ${status}: ${count}`);
         });
       }
-      console.log('');
+      debug('');
     }
 
     return { epics };
@@ -2091,22 +2092,22 @@ const handleEpicStatus: CommandHandler = (args, context) =>
 
     const subtasks = getEpicSubtasks(mutableBoard, epic);
 
-    console.log(`📋 Epic: ${epic.title}`);
-    console.log(`   UUID: ${epic.uuid}`);
-    console.log(`   Status: ${epic.status} (Epic: ${epic.epicStatus})`);
-    console.log(`   Subtasks: ${subtasks.length}`);
-    console.log('');
+    debug(`📋 Epic: ${epic.title}`);
+    debug(`   UUID: ${epic.uuid}`);
+    debug(`   Status: ${epic.status} (Epic: ${epic.epicStatus})`);
+    debug(`   Subtasks: ${subtasks.length}`);
+    debug('');
 
     if (subtasks.length > 0) {
-      console.log('Subtasks:');
+      debug('Subtasks:');
       for (const subtask of subtasks) {
-        console.log(`   • ${subtask.title}`);
-        console.log(`     UUID: ${subtask.uuid}`);
-        console.log(`     Status: ${subtask.status}`);
-        console.log('');
+        debug(`   • ${subtask.title}`);
+        debug(`     UUID: ${subtask.uuid}`);
+        debug(`     Status: ${subtask.status}`);
+        debug('');
       }
     } else {
-      console.log('No subtasks found for this epic.');
+      debug('No subtasks found for this epic.');
     }
 
     return { epic, subtasks };
@@ -2125,8 +2126,8 @@ const handleInit: CommandHandler = async (args, _context) => {
   try {
     await readFile(configPath, 'utf8');
     if (!force) {
-      console.log(`❌ Configuration file "${configPath}" already exists.`);
-      console.log('   Use --force to overwrite existing configuration.');
+      debug(`❌ Configuration file "${configPath}" already exists.`);
+      debug('   Use --force to overwrite existing configuration.');
       return { created: false, reason: 'exists' };
     }
   } catch {
@@ -2190,26 +2191,26 @@ const handleInit: CommandHandler = async (args, _context) => {
     // Write configuration file
     await writeFile(configPath, JSON.stringify(simpleConfig, null, 2), 'utf8');
 
-    console.log(`✅ Created kanban configuration: ${configPath}`);
-    console.log('');
-    console.log('📋 Next steps:');
-    console.log(`   1. Create tasks directory: mkdir -p ${simpleConfig.tasksDir}`);
-    console.log(`   2. Add some task files to ${simpleConfig.tasksDir}/`);
-    console.log(`   3. Generate board: kanban regenerate`);
-    console.log('');
-    console.log('💡 Example task file format:');
-    console.log('---');
-    console.log('title: "My Task"');
-    console.log('status: "todo"');
-    console.log('priority: "P1"');
-    console.log('---');
-    console.log('');
-    console.log('Task description goes here...');
+    debug(`✅ Created kanban configuration: ${configPath}`);
+    debug('');
+    debug('📋 Next steps:');
+    debug(`   1. Create tasks directory: mkdir -p ${simpleConfig.tasksDir}`);
+    debug(`   2. Add some task files to ${simpleConfig.tasksDir}/`);
+    debug(`   3. Generate board: kanban regenerate`);
+    debug('');
+    debug('💡 Example task file format:');
+    debug('---');
+    debug('title: "My Task"');
+    debug('status: "todo"');
+    debug('priority: "P1"');
+    debug('---');
+    debug('');
+    debug('Task description goes here...');
 
     return { created: true, path: configPath };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    console.error(`❌ Failed to create configuration: ${message}`);
+    error(`❌ Failed to create configuration: ${message}`);
     return { created: false, reason: message };
   }
 };
@@ -2244,28 +2245,28 @@ const handleHeal: CommandHandler = (args, context) =>
       includePerformanceMetrics: !argv.includes('--no-metrics'),
     };
 
-    console.log(`🏥 Starting kanban healing operation...`);
-    console.log(`   Reason: ${reason}`);
-    console.log(`   Dry run: ${options.dryRun ? 'Yes' : 'No'}`);
-    console.log(`   Create tags: ${options.createTags ? 'Yes' : 'No'}`);
-    console.log('');
+    debug(`🏥 Starting kanban healing operation...`);
+    debug(`   Reason: ${reason}`);
+    debug(`   Dry run: ${options.dryRun ? 'Yes' : 'No'}`);
+    debug(`   Create tags: ${options.createTags ? 'Yes' : 'No'}`);
+    debug('');
 
     if (argv.includes('--recommendations')) {
       // Show healing recommendations
       const recommendations = await healCommand.getHealingRecommendations(options);
 
-      console.log('🔍 Healing Recommendations:');
+      debug('🔍 Healing Recommendations:');
       if (recommendations.recommendations.length > 0) {
         recommendations.recommendations.forEach((rec) => {
-          console.log(`   • ${rec}`);
+          debug(`   • ${rec}`);
         });
       } else {
-        console.log('   No specific recommendations at this time.');
+        debug('   No specific recommendations at this time.');
       }
 
       if (recommendations.criticalIssues.length > 0) {
-        console.log('');
-        console.log('⚠️  Critical Issues:');
+        debug('');
+        debug('⚠️  Critical Issues:');
         recommendations.criticalIssues.forEach((issue) => {
           const icon =
             issue.severity === 'critical'
@@ -2275,17 +2276,17 @@ const handleHeal: CommandHandler = (args, context) =>
                 : issue.severity === 'medium'
                   ? '⚡'
                   : 'ℹ️';
-          console.log(`   ${icon} ${issue.description}`);
-          console.log(`      Suggested action: ${issue.suggestedAction}`);
+          debug(`   ${icon} ${issue.description}`);
+          debug(`      Suggested action: ${issue.suggestedAction}`);
         });
       }
 
       if (recommendations.relatedScars.length > 0) {
-        console.log('');
-        console.log('📚 Related Healing Operations:');
+        debug('');
+        debug('📚 Related Healing Operations:');
         recommendations.relatedScars.forEach((scar) => {
-          console.log(`   • ${scar.scar.tag} (relevance: ${Math.round(scar.relevance * 100)}%)`);
-          console.log(`     ${scar.reason}`);
+          debug(`   • ${scar.scar.tag} (relevance: ${Math.round(scar.relevance * 100)}%)`);
+          debug(`     ${scar.reason}`);
         });
       }
 
@@ -2296,29 +2297,29 @@ const handleHeal: CommandHandler = (args, context) =>
       // Show scar history analysis
       const analysis = await healCommand.getScarHistoryAnalysis();
 
-      console.log('📈 Scar History Analysis:');
-      console.log(`   Total healing operations: ${analysis.totalScars}`);
-      console.log(`   Success rate: ${analysis.successRate.toFixed(1)}%`);
+      debug('📈 Scar History Analysis:');
+      debug(`   Total healing operations: ${analysis.totalScars}`);
+      debug(`   Success rate: ${analysis.successRate.toFixed(1)}%`);
 
       if (analysis.averageHealingTime) {
-        console.log(`   Average healing time: ${analysis.averageHealingTime.toFixed(1)} hours`);
+        debug(`   Average healing time: ${analysis.averageHealingTime.toFixed(1)} hours`);
       }
 
       if (analysis.commonReasons.length > 0) {
-        console.log('');
-        console.log('🔝 Most Common Healing Reasons:');
+        debug('');
+        debug('🔝 Most Common Healing Reasons:');
         analysis.commonReasons.slice(0, 5).forEach((reason) => {
-          console.log(
+          debug(
             `   ${reason.reason}: ${reason.count} times (${reason.percentage.toFixed(1)}%)`,
           );
         });
       }
 
       if (analysis.frequentlyHealedFiles.length > 0) {
-        console.log('');
-        console.log('📁 Frequently Healed Files:');
+        debug('');
+        debug('📁 Frequently Healed Files:');
         analysis.frequentlyHealedFiles.slice(0, 10).forEach((file) => {
-          console.log(`   ${file.file}: ${file.count} times`);
+          debug(`   ${file.file}: ${file.count} times`);
         });
       }
 
@@ -2328,49 +2329,49 @@ const handleHeal: CommandHandler = (args, context) =>
     // Execute the healing operation
     const result = await healCommand.execute(options);
 
-    console.log('');
-    console.log('🏥 Healing Operation Results:');
-    console.log(`   Status: ${result.status}`);
-    console.log(`   Summary: ${result.summary}`);
-    console.log(`   Tasks modified: ${result.tasksModified}`);
-    console.log(`   Files changed: ${result.filesChanged}`);
+    debug('');
+    debug('🏥 Healing Operation Results:');
+    debug(`   Status: ${result.status}`);
+    debug(`   Summary: ${result.summary}`);
+    debug(`   Tasks modified: ${result.tasksModified}`);
+    debug(`   Files changed: ${result.filesChanged}`);
 
     if (result.contextBuildTime) {
-      console.log(`   Context build time: ${result.contextBuildTime}ms`);
+      debug(`   Context build time: ${result.contextBuildTime}ms`);
     }
 
     if (result.healingTime) {
-      console.log(`   Healing time: ${result.healingTime}ms`);
+      debug(`   Healing time: ${result.healingTime}ms`);
     }
 
     if (result.totalTime) {
-      console.log(`   Total time: ${result.totalTime}ms`);
+      debug(`   Total time: ${result.totalTime}ms`);
     }
 
     if (result.scar) {
-      console.log('');
-      console.log('🏷️  Scar Record Created:');
-      console.log(`   Tag: ${result.scar.tag}`);
-      console.log(
+      debug('');
+      debug('🏷️  Scar Record Created:');
+      debug(`   Tag: ${result.scar.tag}`);
+      debug(
         `   Range: ${result.scar.startSha.substring(0, 8)}..${result.scar.endSha.substring(0, 8)}`,
       );
     }
 
     if (result.tagResult) {
-      console.log('');
-      console.log('🏷️  Git Tag:');
+      debug('');
+      debug('🏷️  Git Tag:');
       if (result.tagResult.success) {
-        console.log(`   Created: ${result.tagResult.tag}`);
+        debug(`   Created: ${result.tagResult.tag}`);
       } else {
-        console.log(`   Failed: ${result.tagResult.error}`);
+        debug(`   Failed: ${result.tagResult.error}`);
       }
     }
 
     if (result.errors.length > 0) {
-      console.log('');
-      console.log('❌ Errors:');
+      debug('');
+      debug('❌ Errors:');
       result.errors.forEach((error) => {
-        console.log(`   • ${error}`);
+        debug(`   • ${error}`);
       });
     }
 
@@ -2435,9 +2436,9 @@ const handleAuditTask: CommandHandler = async (args, context) => {
   const verbose = args.includes('--verbose');
   const fix = args.includes('--fix');
 
-  console.log(`🔍 Auditing task: ${taskUuid}`);
-  console.log(`   Mode: ${fix ? 'FIX' : 'DRY RUN'}`);
-  console.log('');
+  debug(`🔍 Auditing task: ${taskUuid}`);
+  debug(`   Mode: ${fix ? 'FIX' : 'DRY RUN'}`);
+  debug('');
 
   // Find task file
   const taskFilePath = await findTaskFilePath(context.tasksDir, taskUuid);
@@ -2449,32 +2450,44 @@ const handleAuditTask: CommandHandler = async (args, context) => {
     // Read and parse task file
     const { readTaskFile } = await import('../lib/task-content/parser.js');
     const taskFile = await readTaskFile(taskFilePath);
-    
+
     if (!taskFile.task) {
       throw new Error('Invalid task file format');
     }
 
     // Load board for context
     const board = await loadBoard(context.boardFile, context.tasksDir);
-    
+
     // Use safe evaluation module for validation
-    const { validateTaskWithZod, validateBoardWithZod } = await import('../lib/safe-rule-evaluation.js');
-    
-    console.log('🔍 Validating task structure...');
+    const { validateTaskWithZod, validateBoardWithZod } = await import(
+      '../lib/safe-rule-evaluation.js'
+    );
+
+    debug('🔍 Validating task structure...');
     const taskValidation = await validateTaskWithZod(taskFile.task);
-    
-    console.log('🔍 Validating board structure...');
+
+    debug('🔍 Validating board structure...');
     const boardValidation = await validateBoardWithZod(board as Board);
 
     // Collect all issues
     const issues = [];
-    
+
     if (!taskValidation.isValid) {
-      issues.push(...taskValidation.errors.map(err => ({ type: 'error', message: `Task validation: ${err}` })));
+      issues.push(
+        ...taskValidation.errors.map((err) => ({
+          type: 'error',
+          message: `Task validation: ${err}`,
+        })),
+      );
     }
-    
+
     if (!boardValidation.isValid) {
-      issues.push(...boardValidation.errors.map(err => ({ type: 'error', message: `Board validation: ${err}` })));
+      issues.push(
+        ...boardValidation.errors.map((err) => ({
+          type: 'error',
+          message: `Board validation: ${err}`,
+        })),
+      );
     }
 
     // Check for malformed YAML frontmatter
@@ -2486,18 +2499,21 @@ const handleAuditTask: CommandHandler = async (args, context) => {
           const { parseYaml } = await import('../lib/task-content/parser.js');
           // @ts-ignore - Dynamic import
           const yamlContent = parseYaml(yamlMatch[1]);
-          
+
           // Check for common issues
           if (yamlContent.estimates && typeof yamlContent.estimates === 'object') {
-            if (yamlContent.estimates.complexity === undefined || yamlContent.estimates.complexity === null) {
+            if (
+              yamlContent.estimates.complexity === undefined ||
+              yamlContent.estimates.complexity === null
+            ) {
               issues.push({ type: 'error', message: 'Missing complexity in estimates' });
             }
           }
-          
+
           if (yamlContent.storyPoints === undefined || yamlContent.storyPoints === null) {
             issues.push({ type: 'error', message: 'Missing storyPoints' });
           }
-          
+
           if (!yamlContent.priority || !['P0', 'P1', 'P2', 'P3'].includes(yamlContent.priority)) {
             issues.push({ type: 'error', message: 'Invalid or missing priority' });
           }
@@ -2508,29 +2524,29 @@ const handleAuditTask: CommandHandler = async (args, context) => {
     }
 
     // Output results
-    const errorCount = issues.filter(i => i.type === 'error').length;
-    const warningCount = issues.filter(i => i.type === 'warning').length;
+    const errorCount = issues.filter((i) => i.type === 'error').length;
+    const warningCount = issues.filter((i) => i.type === 'warning').length;
 
-    console.log(`📊 AUDIT RESULTS:`);
-    console.log(`   Errors: ${errorCount}`);
-    console.log(`   Warnings: ${warningCount}`);
-    console.log('');
+    debug(`📊 AUDIT RESULTS:`);
+    debug(`   Errors: ${errorCount}`);
+    debug(`   Warnings: ${warningCount}`);
+    debug('');
 
     if (verbose || errorCount > 0) {
       for (const issue of issues) {
         const icon = issue.type === 'error' ? '❌' : '⚠️';
-        console.log(`${icon} ${issue.message}`);
+        debug(`${icon} ${issue.message}`);
       }
-      console.log('');
+      debug('');
     }
 
     if (errorCount === 0) {
-      console.log('✅ Task passed all validation checks');
+      debug('✅ Task passed all validation checks');
     } else if (fix) {
-      console.log('🔧 Auto-fix not yet implemented for individual task auditing');
-      console.log('   Use "kanban audit --fix" for board-wide corrections');
+      debug('🔧 Auto-fix not yet implemented for individual task auditing');
+      debug('   Use "kanban audit --fix" for board-wide corrections');
     } else {
-      console.log('💡 Use --fix to attempt automatic corrections (when implemented)');
+      debug('💡 Use --fix to attempt automatic corrections (when implemented)');
     }
 
     return {
@@ -2547,9 +2563,8 @@ const handleAuditTask: CommandHandler = async (args, context) => {
         isValid: errorCount === 0,
       },
     };
-
   } catch (error) {
-    console.error(`❌ Audit failed: ${error instanceof Error ? error.message : String(error)}`);
+    error(`❌ Audit failed: ${error instanceof Error ? error.message : String(error)}`);
     throw error;
   }
 };
@@ -2603,7 +2618,7 @@ export const COMMAND_HANDLERS: Readonly<Record<string, CommandHandler>> = Object
   // Event log commands
   'rebuild-event-log': handleRebuildEventLog,
   // Task audit commands
-    'audit-task': handleAuditTask,
+  'audit-task': handleAuditTask,
 });
 
 export const AVAILABLE_COMMANDS: ReadonlyArray<string> = Object.freeze(

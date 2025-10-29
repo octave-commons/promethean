@@ -9,6 +9,7 @@ import { TaskGitTracker } from './task-git-tracker.js';
 import type { IndexTasksOptions } from '../board/indexer.js';
 import type { Board, ColumnData, Task, EpicTask } from './types.js';
 import { getEpicSubtasks, calculateEpicStatus } from './epic.js';
+import { debug, error, info, warn } from './utils/logger.js';
 
 // Re-export types for external use
 export type { Task } from './types.js';
@@ -465,7 +466,7 @@ export const readTasksFolder = async (dir: string): Promise<Task[]> => {
           tasks.push({ ...enriched, slug: normalizedSlug, sourcePath: file });
         }
       } catch (error) {
-        console.error(
+        error(
           `Failed to parse frontmatter for ${file}: ${
             error instanceof Error ? error.message : String(error)
           }`,
@@ -583,7 +584,7 @@ export const findTaskByTitle = (board: Board, title: string): Task | undefined =
  * try {
  *   validateStartingStatus('todo');
  * } catch (error) {
- *   console.log(error.message);
+ *   debug(error.message);
  *   // Output: Invalid starting status: "todo". Tasks can only be created with starting statuses: icebox, incoming. Use --status flag to specify a valid starting status when creating tasks.
  * }
  *
@@ -842,9 +843,9 @@ export const updateStatus = async (
 
     // Log warnings if present
     if (p0Validation.warnings.length > 0) {
-      console.warn(`⚠️  P0 Security Task Warnings:`);
+      warn(`⚠️  P0 Security Task Warnings:`);
       p0Validation.warnings.forEach((warning) => {
-        console.warn(`  ⚡ ${warning}`);
+        warn(`  ⚡ ${warning}`);
       });
     }
   } catch (error) {
@@ -891,7 +892,7 @@ export const updateStatus = async (
             };
           }
         } catch (error) {
-          console.warn('Warning: Failed to enrich task data for transition validation:', error);
+          warn('Warning: Failed to enrich task data for transition validation:', error);
         }
       }
 
@@ -922,7 +923,7 @@ export const updateStatus = async (
       }
 
       if (transitionResult.warnings.length > 0) {
-        console.warn(`\u26a0\ufe0f  Transition warnings: ${transitionResult.warnings.join(', ')}`);
+        warn(`\u26a0\ufe0f  Transition warnings: ${transitionResult.warnings.join(', ')}`);
       }
     } catch (error) {
       // If transition validation fails, restore task and re-throw
@@ -983,19 +984,19 @@ export const updateStatus = async (
 
     // Log warnings if present
     if (wipValidation.violation && wipValidation.violation.severity === 'warning') {
-      console.warn(
+      warn(
         `⚠️  WIP Limit Warning: ${wipValidation.violation.severity} violation in ${newStatus}`,
       );
       if (wipValidation.suggestions && wipValidation.suggestions.length > 0) {
-        console.warn('💡 Capacity Suggestions:');
+        warn('💡 Capacity Suggestions:');
         wipValidation.suggestions.forEach((suggestion) => {
-          console.warn(`   • ${suggestion.description}`);
+          warn(`   • ${suggestion.description}`);
         });
       }
     }
   } catch (error) {
     // Fallback to basic WIP check if enforcement engine fails
-    console.warn('WIP enforcement engine failed, using fallback validation:', error);
+    warn('WIP enforcement engine failed, using fallback validation:', error);
 
     // Basic WIP limit check (original logic as fallback)
     if (target.limit && target.count >= target.limit) {
@@ -1022,7 +1023,7 @@ export const updateStatus = async (
     });
     found.corrections = corrections;
 
-    console.log(`\ud83d\udd0d Audit correction logged: ${correctionReason}`);
+    debug(`\ud83d\udd0d Audit correction logged: ${correctionReason}`);
   }
 
   // Log transition to event log
@@ -1039,7 +1040,7 @@ export const updateStatus = async (
       });
     } catch (error) {
       // Log warning but don't fail status update
-      console.warn(`Warning: Could not log transition for ${uuid}: ${error}`);
+      warn(`Warning: Could not log transition for ${uuid}: ${error}`);
     }
   }
 
@@ -1106,12 +1107,12 @@ export const updateStatus = async (
           // Note: Commit tracking metadata is added to frontmatter but not committed
           // The event log exists locally and can be recreated from git history if needed
         } catch (commitError) {
-          console.warn(`Warning: Git tracking failed for task ${uuid}: ${commitError}`);
+          warn(`Warning: Git tracking failed for task ${uuid}: ${commitError}`);
         }
       }
     } catch (error) {
       // Log warning but don't fail status update
-      console.warn(`Warning: Could not update task file for ${uuid}: ${error}`);
+      warn(`Warning: Could not update task file for ${uuid}: ${error}`);
     }
   }
 
@@ -1370,7 +1371,7 @@ export const pullFromTasks = async (
         dest.count = dest.tasks.length;
         moved++;
 
-        console.log(
+        debug(
           `📝 Pulled status change for task "${normalizedTask.title}": ${loc.col.name} → ${normalizedStatus}`,
         );
       }
@@ -1407,7 +1408,7 @@ export const pullFromTasks = async (
   await writeBoard(boardPath, board);
 
   if (moved > 0) {
-    console.log(`✅ Pulled ${moved} status change(s) from files to board`);
+    debug(`✅ Pulled ${moved} status change(s) from files to board`);
   }
 
   return { added, moved };
@@ -1443,7 +1444,7 @@ export const pushToTasks = async (
     }
   } catch (error) {
     // If we can't read the directory, continue with empty set
-    console.warn(`Warning: Could not read tasks directory ${tasksDir}: ${error}`);
+    warn(`Warning: Could not read tasks directory ${tasksDir}: ${error}`);
   }
 
   for (const col of board.columns) {
@@ -1461,7 +1462,7 @@ export const pushToTasks = async (
       if (existingTaskForSlug && existingTaskForSlug.uuid !== task.uuid) {
         // Found a task file with the same slug but different UUID
         // Use the file's UUID instead of the board's UUID
-        console.log(
+        debug(
           `🔧 UUID mismatch detected: board has ${task.uuid} but file has ${existingTaskForSlug.uuid}. Using file UUID.`,
         );
         finalTask.uuid = existingTaskForSlug.uuid;
@@ -1486,7 +1487,7 @@ export const pushToTasks = async (
 
       if (existingTask && normalizedFileStatus && normalizedBoardStatus !== normalizedFileStatus) {
         statusUpdated++;
-        console.log(
+        debug(
           `📝 Detected manual status change for task "${finalTask.title}": ${normalizedFileStatus} → ${normalizedBoardStatus}`,
         );
       }
@@ -1503,7 +1504,7 @@ export const pushToTasks = async (
         if (conflictingUuid && conflictingUuid !== finalTask.uuid) {
           // Different UUID owns this file - this is a duplicate task scenario
           // We should merge into the existing file rather than creating a new one
-          console.log(
+          debug(
             `🔄 Duplicate task detected: UUID ${finalTask.uuid} conflicts with existing UUID ${conflictingUuid}. Using existing file "${conflictingFileName}"`,
           );
 
@@ -1523,7 +1524,7 @@ export const pushToTasks = async (
             uniqueCandidate = `${baseName} ${attempt}`;
           }
           targetBase = uniqueCandidate;
-          console.log(
+          debug(
             `👻 Ghost file detected: "${conflictingFileName}" has no frontmatter. Using "${targetBase}.md"`,
           );
         }
@@ -1564,7 +1565,7 @@ export const pushToTasks = async (
         // Use the existing file path instead of creating a new one
         finalTargetPath = path.join(tasksDir, conflictingFileName);
         shouldDeletePrevious = false; // Don't delete the existing file
-        console.log(`🔗 Merging task ${finalTask.uuid} into existing file ${conflictingFileName}`);
+        debug(`🔗 Merging task ${finalTask.uuid} into existing file ${conflictingFileName}`);
       }
 
       // Preserve existing task content if available
@@ -1578,7 +1579,7 @@ export const pushToTasks = async (
           existingCreatedAt = parsed.data?.created_at ?? '';
         } catch (error) {
           // If we can't read the existing file, continue with empty content
-          console.warn(`Warning: Could not read existing task file ${previousPath}: ${error}`);
+          warn(`Warning: Could not read existing task file ${previousPath}: ${error}`);
         }
       }
 
@@ -1637,7 +1638,7 @@ export const pushToTasks = async (
         // Note: Commit tracking metadata is included in frontmatter but not committed
         // The event log exists locally and can be recreated from git history if needed
       } catch (commitError) {
-        console.warn(`Warning: Git tracking failed for task ${finalTask.uuid}: ${commitError}`);
+        warn(`Warning: Git tracking failed for task ${finalTask.uuid}: ${commitError}`);
       }
 
       if (!previous) {
@@ -1648,7 +1649,7 @@ export const pushToTasks = async (
           existingFiles.has(conflictingFileName)
         ) {
           // This was a merge, not a new addition
-          console.log(`✅ Merged duplicate task, no new file created`);
+          debug(`✅ Merged duplicate task, no new file created`);
         } else {
           added += 1;
         }
@@ -1668,7 +1669,7 @@ export const pushToTasks = async (
 
   // Log summary of manual edits detected and preserved
   if (statusUpdated > 0) {
-    console.log(`✅ Preserved ${statusUpdated} manual status change(s) from board to files`);
+    debug(`✅ Preserved ${statusUpdated} manual status change(s) from board to files`);
   }
 
   return { added, moved, statusUpdated };
@@ -1828,57 +1829,57 @@ export const createTask = async (
   tasksDir: string,
   boardPath: string,
 ): Promise<Task> => {
-  console.error('[DEBUG] createTask function started');
-  console.error('[DEBUG] createTask params:', { column, title: input.title, tasksDir, boardPath });
+  error('[DEBUG] createTask function started');
+  error('[DEBUG] createTask params:', { column, title: input.title, tasksDir, boardPath });
   const uuid = input.uuid ?? cryptoRandomUUID();
-  console.error('[DEBUG] UUID generated:', uuid.slice(0, 8));
-  console.error('[DEBUG] Processing title...');
+  error('[DEBUG] UUID generated:', uuid.slice(0, 8));
+  error('[DEBUG] Processing title...');
   const baseTitle = input.title?.trim() ?? '';
   const title = baseTitle.length > 0 ? baseTitle : `Task ${uuid.slice(0, 8)}`;
-  console.error('[DEBUG] Title processed:', title);
+  error('[DEBUG] Title processed:', title);
 
   // Validate that the starting status is allowed
-  console.error('[DEBUG] About to validate starting status...');
+  error('[DEBUG] About to validate starting status...');
   validateStartingStatus(column);
-  console.error('[DEBUG] Starting status validated');
+  error('[DEBUG] Starting status validated');
 
-  console.error('[DEBUG] About to ensure column...');
+  error('[DEBUG] About to ensure column...');
   const targetColumn = ensureColumn(board, column);
-  console.error('[DEBUG] Column ensured:', targetColumn.name);
+  error('[DEBUG] Column ensured:', targetColumn.name);
 
-  console.error('[DEBUG] About to read tasks folder...');
+  error('[DEBUG] About to read tasks folder...');
   const existingTasks = await readTasksFolder(tasksDir);
-  console.error('[DEBUG] Tasks folder read, count:', existingTasks.length);
+  error('[DEBUG] Tasks folder read, count:', existingTasks.length);
   const existingById = new Map(existingTasks.map((task) => [task.uuid, task]));
   // *** CRITICAL FIX: Duplicate Task Detection ***
-  console.error('[DEBUG] Starting duplicate detection...');
+  error('[DEBUG] Starting duplicate detection...');
   // Check for existing tasks with same title in the same column
   const normalizedTitle = title.trim().toLowerCase();
   const targetColumnName = targetColumn.name.trim().toLowerCase();
-  console.error('[DEBUG] Normalized title:', normalizedTitle);
-  console.error('[DEBUG] Target column name:', targetColumnName);
+  error('[DEBUG] Normalized title:', normalizedTitle);
+  error('[DEBUG] Target column name:', targetColumnName);
 
   // First check: Look for existing task in files (prioritize file-based tasks with full content)
-  console.error('[DEBUG] About to search for existing task in', existingTasks.length, 'tasks...');
+  error('[DEBUG] About to search for existing task in', existingTasks.length, 'tasks...');
   const existingTaskInColumn = existingTasks.find(
     (task) =>
       task.title.trim().toLowerCase() === normalizedTitle &&
       task.status.trim().toLowerCase() === targetColumnName,
   );
-  console.error('[DEBUG] Search completed, found:', existingTaskInColumn ? 'YES' : 'NO');
+  error('[DEBUG] Search completed, found:', existingTaskInColumn ? 'YES' : 'NO');
 
   if (existingTaskInColumn) {
-    console.error('[DEBUG] Found existing task in column, returning it');
+    error('[DEBUG] Found existing task in column, returning it');
     // Return exact same task object to ensure content consistency
     return existingTaskInColumn;
   }
 
   // Second check: Look for task in board column (less reliable, no file content)
-  console.error('[DEBUG] About to search board column with', targetColumn.tasks.length, 'tasks...');
+  error('[DEBUG] About to search board column with', targetColumn.tasks.length, 'tasks...');
   const boardTaskInColumn = targetColumn.tasks.find(
     (task) => task.title.trim().toLowerCase() === normalizedTitle,
   );
-  console.error('[DEBUG] Board search completed, found:', boardTaskInColumn ? 'YES' : 'NO');
+  error('[DEBUG] Board search completed, found:', boardTaskInColumn ? 'YES' : 'NO');
 
   if (boardTaskInColumn) {
     // Always try to get full content from existing tasks (file-based)
@@ -1892,13 +1893,13 @@ export const createTask = async (
   }
   // *** END CRITICAL FIX ***
 
-  console.error('[DEBUG] About to build board index...');
+  error('[DEBUG] About to build board index...');
   const boardIndex = new Map<string, { column: ColumnData; index: number; task: Task }>();
-  console.error('[DEBUG] Building index from', board.columns.length, 'columns...');
+  error('[DEBUG] Building index from', board.columns.length, 'columns...');
   board.columns.forEach((col) =>
     col.tasks.forEach((task, index) => boardIndex.set(task.uuid, { column: col, index, task })),
   );
-  console.error('[DEBUG] Board index built with', boardIndex.size, 'entries');
+  error('[DEBUG] Board index built with', boardIndex.size, 'entries');
 
   const templatePath = input.templatePath ?? input.defaultTemplatePath;
   let templateContent: string | undefined;
@@ -2161,7 +2162,7 @@ export const syncBoardAndTasks = async (
     // Check for title conflicts
     if (fileTitle !== boardTitle) {
       conflicting.push(id);
-      console.log(
+      debug(
         `⚠️  Title conflict for task ${id}: board="${boardTitle}" vs file="${fileTitle}"`,
       );
     }
@@ -2169,7 +2170,7 @@ export const syncBoardAndTasks = async (
     // Check for status conflicts
     if (fileStatus !== boardStatus) {
       conflicting.push(id);
-      console.log(
+      debug(
         `⚠️  Status conflict for task ${id}: board="${boardStatus}" vs file="${fileStatus}"`,
       );
     }
@@ -2179,10 +2180,10 @@ export const syncBoardAndTasks = async (
   // Strategy: Pull from files first (files have ground truth), then push board changes back
   // This preserves manual file edits while also preserving board manual edits
 
-  console.log('🔄 Sync: Pulling changes from files to board...');
+  debug('🔄 Sync: Pulling changes from files to board...');
   const boardRes = await pullFromTasks(board, tasksDir, boardPath);
 
-  console.log('🔄 Sync: Pushing changes from board to files...');
+  debug('🔄 Sync: Pushing changes from board to files...');
   const tasksRes = await pushToTasks(board, tasksDir);
 
   // Write the board again after pushToTasks to ensure links match updated filenames
@@ -2192,15 +2193,15 @@ export const syncBoardAndTasks = async (
 
   // Enhanced logging for manual edit detection during sync
   if (tasksRes.statusUpdated > 0) {
-    console.log(`📝 Sync preserved ${tasksRes.statusUpdated} manual status change(s) from board`);
+    debug(`📝 Sync preserved ${tasksRes.statusUpdated} manual status change(s) from board`);
   }
 
   if (boardRes.moved > 0) {
-    console.log(`📝 Sync applied ${boardRes.moved} status change(s) from files`);
+    debug(`📝 Sync applied ${boardRes.moved} status change(s) from files`);
   }
 
   if (conflicting.length > 0) {
-    console.log(`⚠️  Resolved ${conflicting.length} conflict(s) during sync`);
+    debug(`⚠️  Resolved ${conflicting.length} conflict(s) during sync`);
   }
 
   // Combine status changes from both pull and push phases
@@ -2523,7 +2524,7 @@ export const analyzeTask = async (
 
     return result;
   } catch (error) {
-    console.error(`Failed to analyze task ${uuid}:`, error);
+    error(`Failed to analyze task ${uuid}:`, error);
     return undefined;
   }
 };
@@ -2566,7 +2567,7 @@ export const rewriteTask = async (
 
     return result;
   } catch (error) {
-    console.error(`Failed to rewrite task ${uuid}:`, error);
+    error(`Failed to rewrite task ${uuid}:`, error);
     return undefined;
   }
 };
@@ -2606,7 +2607,7 @@ export const breakdownTask = async (
 
     return result;
   } catch (error) {
-    console.error(`Failed to breakdown task ${uuid}:`, error);
+    error(`Failed to breakdown task ${uuid}:`, error);
     return undefined;
   }
 };

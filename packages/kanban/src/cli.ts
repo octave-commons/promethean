@@ -11,6 +11,7 @@ import {
   executeCommand,
   type CliContext,
 } from './cli/command-handlers.js';
+import { setLogLevel } from './lib/utils/logger.js';
 
 const LEGACY_FLAG_MAP = Object.freeze(
   new Map<string, string>([
@@ -91,10 +92,11 @@ const detectOutputType = (
 };
 
 const HELP_TEXT =
-  `Usage: kanban [--kanban path] [--tasks path] [--json] <subcommand> [args...]\n` +
+  `Usage: kanban [--kanban path] [--tasks path] [--json] [--log-level level] <subcommand> [args...]\n` +
   `Subcommands: ${[...COMMAND_LIST, 'process_sync', 'doccheck'].join(', ')}\n\n` +
   `Options:\n` +
-  `  --json   - Output in JSONL format (default: markdown)\n\n` +
+  `  --json      - Output in JSONL format (default: markdown)\n` +
+  `  --log-level - Set log level: silent, error, warn, info, debug (default: info)\n\n` +
   `Setup:\n` +
   `  init     - Initialize a new kanban project with simple config\n\n` +
   `Core Operations:\n` +
@@ -136,6 +138,16 @@ async function main(): Promise<void> {
 
   const helpRequested = normalizedArgs.includes('--help') || normalizedArgs.includes('-h');
   const jsonRequested = normalizedArgs.includes('--json');
+
+  // Parse log level
+  const logLevelIndex = normalizedArgs.indexOf('--log-level');
+  if (logLevelIndex !== -1 && logLevelIndex + 1 < normalizedArgs.length) {
+    const level = normalizedArgs[logLevelIndex + 1];
+    if (level && ['silent', 'error', 'warn', 'info', 'debug'].includes(level)) {
+      setLogLevel(level as 'silent' | 'error' | 'warn' | 'info' | 'debug');
+    }
+  }
+
   console.error('[DEBUG] Help requested:', helpRequested, 'JSON requested:', jsonRequested);
 
   // Special handling for init command - extract config path before config loading

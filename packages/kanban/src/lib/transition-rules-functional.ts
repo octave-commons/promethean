@@ -12,6 +12,7 @@ import { runTestingTransition } from './testing-transition/index.js';
 import type { TestingTransitionConfig, TestCoverageRequest } from './testing-transition/types.js';
 import { safeEvaluateTransition } from './safe-rule-evaluation.js';
 import type { TaskFM } from '../board/types.js';
+import { debug, error, info, warn } from './utils/logger.js';
 // Define types locally to avoid circular imports
 export interface TransitionRule {
   from: string[];
@@ -149,7 +150,7 @@ export const initializeTransitionRulesEngine = async (
       ...state,
       dslAvailable: true,
     };
-    console.log(`🔧 Clojure DSL available: ${state.config.dslPath}`);
+    debug(`🔧 Clojure DSL available: ${state.config.dslPath}`);
     return { newState };
   } catch {
     throw new Error(
@@ -193,7 +194,7 @@ export const validateTransition = async (
   if (!transitionRule) {
     // Check if this is a backward transition
     if (isBackwardTransition(fromNormalized, toNormalized)) {
-      console.log(`✅ Backward transition allowed: ${fromNormalized} → ${toNormalized}`);
+      debug(`✅ Backward transition allowed: ${fromNormalized} → ${toNormalized}`);
     } else {
       // If DSL is available, we'll let the DSL decide if the transition is valid
       // This allows the DSL to be the sole authority on transition rules
@@ -227,7 +228,7 @@ export const validateTransition = async (
         violations.push(`Global rule violation: ${globalRule.description}`);
       }
     } catch (error) {
-      console.warn(`Failed to evaluate global rule ${globalRule.name}:`, error);
+      warn(`Failed to evaluate global rule ${globalRule.name}:`, error);
     }
   }
 
@@ -239,7 +240,7 @@ export const validateTransition = async (
         violations.push(...testingResult.violations);
       }
     } catch (error) {
-      console.warn(`Failed to validate testing→review transition:`, error);
+      warn(`Failed to validate testing→review transition:`, error);
       violations.push(
         `Testing transition validation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
       );
@@ -254,7 +255,7 @@ export const validateTransition = async (
         violations.push(`Transition check failed: ${transitionRule.description}`);
       }
     } catch (error) {
-      console.warn(`Failed to evaluate transition check ${transitionRule.check}:`, error);
+      warn(`Failed to evaluate transition check ${transitionRule.check}:`, error);
     }
   }
 
@@ -274,7 +275,7 @@ export const validateTransition = async (
         );
       }
     } catch (error) {
-      console.warn(`Failed to evaluate Clojure DSL transition:`, error);
+      warn(`Failed to evaluate Clojure DSL transition:`, error);
       violations.push(
         `Clojure DSL evaluation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
       );
@@ -570,7 +571,7 @@ export const evaluateCustomCheck = async (
 ): Promise<boolean> => {
   const check = state.config.customChecks[checkName];
   if (!check) {
-    console.warn(`Custom check not found: ${checkName}`);
+    warn(`Custom check not found: ${checkName}`);
     return true; // Default to allowing if check is missing
   }
 
@@ -631,7 +632,7 @@ export const evaluateCustomRule = async (
 
     return true;
   } catch (error) {
-    console.error('Failed to evaluate Clojure rule safely:', error);
+    error('Failed to evaluate Clojure rule safely:', error);
     throw new Error(
       `Safe rule evaluation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
     );

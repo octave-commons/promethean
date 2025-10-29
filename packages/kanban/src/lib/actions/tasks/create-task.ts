@@ -5,6 +5,7 @@
 
 import { randomUUID } from 'node:crypto';
 import type { Task, Board, ColumnData } from '../../types.js';
+import { debug } from '../../utils/logger.js';
 
 export type CreateTaskInput = {
   title: string;
@@ -214,8 +215,8 @@ const updateBoardWithTask = (board: Board, targetColumn: ColumnData, finalTask: 
 export const createTaskAction = async (config: TaskCreationConfig): Promise<TaskCreationResult> => {
   const { board, column, input } = config;
 
-  console.error('[DEBUG] createTask function started');
-  console.error('[DEBUG] createTask params:', { column, title: input.title });
+  debug('createTask function started');
+  debug('createTask params:', { column, title: input.title });
 
   // Validate that starting status is allowed
   validateStartingStatus(column);
@@ -223,7 +224,7 @@ export const createTaskAction = async (config: TaskCreationConfig): Promise<Task
 
   // Prepare task data
   const taskData = prepareTaskData(input);
-  console.error('[DEBUG] UUID generated:', taskData.uuid.slice(0, 8));
+  debug('UUID generated:', taskData.uuid.slice(0, 8));
 
   // Process task content with timeout protection
   const content = await processTaskContent(taskData.input, taskData.title, taskData.uuid);
@@ -234,7 +235,7 @@ export const createTaskAction = async (config: TaskCreationConfig): Promise<Task
   // Update board
   const updatedBoard = updateBoardWithTask(board, targetColumn, finalTask);
 
-  console.error('[DEBUG] Task created successfully:', finalTask.uuid);
+  debug('Task created successfully:', finalTask.uuid);
 
   return { task: finalTask, board: updatedBoard };
 };
