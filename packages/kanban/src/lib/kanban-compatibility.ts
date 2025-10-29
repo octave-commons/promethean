@@ -31,7 +31,7 @@ import type { IndexForSearchResult } from './actions/search/index-for-search.js'
 import { stringify as stringifyYaml } from 'yaml';
 
 // Helper to ensure optional results resolve to concrete values for the legacy surface
-const ensureTask = (task: Task | undefined, context: string): Task => {
+const ensureTask = (task: LegacyTask | undefined, context: string): LegacyTask => {
   if (!task) {
     throw new Error(
       `Legacy compatibility layer expected a task from ${context}, but none was returned.`,
@@ -91,7 +91,7 @@ export const updateStatus = async (
   boardPath?: string,
   tasksDir?: string,
   ..._deprecatedArgs: ReadonlyArray<unknown>
-): Promise<Task> => {
+): Promise<LegacyTask> => {
   const result = await updateStatusFunctional({
     board,
     taskUuid,
@@ -104,7 +104,7 @@ export const updateStatus = async (
     },
   });
 
-  const task = ensureTask(result.task as Task | undefined, 'updateStatus');
+  const task = ensureTask(result.task as LegacyTask | undefined, 'updateStatus');
 
   // Return legacy format
   return task;
@@ -118,7 +118,7 @@ export const moveTask = async (
   boardPath?: string,
 ): Promise<{
   success: boolean;
-  task: Task;
+  task: LegacyTask;
   fromPosition: { column: string; index: number } | undefined;
   toPosition: { column: string; index: number } | undefined;
 }> => {
@@ -130,7 +130,7 @@ export const moveTask = async (
     boardPath,
   });
 
-  const task = ensureTask(result.task as Task | undefined, 'moveTask');
+  const task = ensureTask(result.task as LegacyTask | undefined, 'moveTask');
 
   // Return legacy format
   return {
@@ -145,27 +145,42 @@ export const moveTask = async (
 export const createTask = async (
   board: LegacyBoard,
   status: string,
-  taskData: { title?: string; content?: string; priority?: string; labels?: string[] },
+  taskData: {
+    title?: string;
+    content?: string;
+    body?: string;
+    priority?: string;
+    labels?: string[];
+    templatePath?: string;
+    defaultTemplatePath?: string;
+    blocking?: string[];
+    blockedBy?: string[];
+    uuid?: string;
+  },
   tasksDir?: string,
   boardPath?: string,
-): Promise<Task> => {
+): Promise<LegacyTask> => {
   const title = taskData.title?.trim() ?? '';
   const normalizedTitle = title.length > 0 ? title : `Task ${Date.now()}`;
 
-  const { task, board: updatedBoard } = await createTaskFunctional(
-    {
-      board,
-      column: status,
-      input: {
-        title: normalizedTitle,
-        content: taskData.content,
-        labels: taskData.labels,
-        priority: taskData.priority,
-      },
-      tasksDir,
-      boardPath,
-    } as never,
-  );
+  const { task, board: updatedBoard } = await createTaskAction({
+    board,
+    column: status,
+    input: {
+      title: normalizedTitle,
+      content: taskData.content,
+      body: taskData.body,
+      labels: taskData.labels,
+      priority: taskData.priority,
+      templatePath: taskData.templatePath,
+      defaultTemplatePath: taskData.defaultTemplatePath,
+      blocking: taskData.blocking,
+      blockedBy: taskData.blockedBy,
+      uuid: taskData.uuid,
+    },
+    tasksDir: tasksDir ?? './docs/agile/tasks',
+    boardPath: boardPath ?? './docs/agile/board.md',
+  });
 
   if (updatedBoard) {
     board.columns = updatedBoard.columns.map((column) => ({
