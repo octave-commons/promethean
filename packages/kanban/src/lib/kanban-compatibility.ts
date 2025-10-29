@@ -258,7 +258,7 @@ export const syncBoardAndTasks = async (
 ): Promise<{
   board: { added: number; moved: number };
   tasks: { added: number; moved: number; statusUpdated: number };
-  conflicting: Array<{ task: Task; issue: string }>;
+  conflicting: Array<{ task: LegacyTask; issue: string }>;
 }> => {
   // Placeholder implementation
   return {
