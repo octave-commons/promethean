@@ -9,6 +9,8 @@ import { readFile, access } from 'fs/promises';
 import type { Task, Board } from './types.js';
 import { runTestingTransition } from './testing-transition/index.js';
 import type { TestingTransitionConfig, TestCoverageRequest } from './testing-transition/types.js';
+import { safeEvaluateTransition } from './safe-rule-evaluation.js';
+import type { TaskFM } from '../board/types.js';
 // Define types locally to avoid circular imports
 export interface TransitionRule {
   from: string[];
@@ -574,7 +576,7 @@ export const evaluateCustomCheck = async (
   return await evaluateCustomRule(state, check.impl, [], task, board);
 };
 
-export const evaluateCustomRule = async (
+export const export const evaluateCustomRule = async (
   state: TransitionRulesEngineState,
   ruleImpl: string,
   _args: any[],
@@ -588,95 +590,44 @@ export const evaluateCustomRule = async (
   }
 
   try {
-    console.log('🔍 Starting nbb import...');
-    // Use nbb (Node.js Babashka) to evaluate Clojure expressions with timeout
-    const { loadString } = await Promise.race([
-      import('nbb').then((module) => {
-        console.log('🔍 nbb imported successfully');
-        return module;
-      }),
-      new Promise<never>((_, reject) =>
-        setTimeout(() => {
-          console.log('🔍 nbb import timeout triggered');
-          reject(new Error('nbb import timeout after 5 seconds'));
-        }, 5000),
-      ),
-    ]);
+    // Convert Task to TaskFM format for safe evaluation
+    const taskFM: TaskFM = {
+      uuid: task.uuid,
+      title: task.title,
+      priority: task.priority as any,
+      content: task.content,
+      status: task.status,
+      estimates: task.estimates || { complexity: 1 },
+      storyPoints: task.storyPoints || 1,
+      labels: task.labels || [],
+    };
 
-    // Load the Clojure DSL file
-    const dslCode = await readFile(state.config.dslPath!, 'utf-8');
+    // Use safe evaluation with Zod validation
+    const result = await safeEvaluateTransition(
+      taskFM,
+      board,
+      ruleImpl,
+      state.config.dslPath!,
+    );
 
-    // Create a safe evaluation context with Zod validation and proper data marshaling
-    const clojureCode = `
-      ${dslCode}
+    if (!result.success) {
+      if (result.validationErrors.length > 0) {
+        throw new Error(`Validation failed: ${result.validationErrors.join(', ')}`);
+      }
+      if (result.evaluationError) {
+        throw new Error(`Evaluation failed: ${result.evaluationError}`);
+      }
+      throw new Error('Safe evaluation failed for unknown reasons');
+    }
 
-      ;; Import Zod for validation
-      (require '[zod :as z])
-
-      ;; Define validation schemas
-      (def TaskSchema 
-        (z/object 
-          {:uuid (z/string)
-           :title (z/string)
-           :priority (z/enum ["P0" "P1" "P2" "P3"])
-           :content (z/string)
-           :status (z/string)
-           :estimates (z/object {:complexity (z/number)})
-           :storyPoints (z/number)
-           :labels (z/array (z/string))}))
-
-      (def BoardSchema
-        (z/object 
-          {:columns (z/array 
-                     (z/object 
-                       {:name (z/string)
-                        :limit (z/number)
-                        :tasks (z/array (z/string))}))}))
-
-      ;; Validate and parse JavaScript objects safely
-      (defn safe-parse-task [task-js]
-        (-> (.parseAsync TaskSchema task-js)
-             (.then #(:success %))
-             (.catch #(do 
-                      (js/console.error "Task validation failed:" %)
-                      false))))
-
-      (defn safe-parse-board [board-js]
-        (-> (.parseAsync BoardSchema board-js)
-             (.then #(:success %))
-             (.catch #(do 
-                      (js/console.error "Board validation failed:" %)
-                      false))))
-
-      ;; Evaluate rule implementation with validated objects
-      (let [task-raw (js/JSON.parse "${JSON.stringify(task).replace(/"/g, '\\"')}")
-            board-raw (js/JSON.parse "${JSON.stringify(board).replace(/"/g, '\\"')}")
-            task-valid? (safe-parse-task task-raw)
-            board-valid? (safe-parse-board board-raw)]
-        (if (and task-valid? board-valid?)
-          (let [task (js->clj task-raw)
-                board (js->clj board-raw)]
-            ${ruleImpl.replace('kanban-transitions/evaluate-transition', 'evaluate-transition')})
-          (do 
-            (js/console.error "Validation failed - rejecting transition")
-            false)))
-    `;
-
-    // @ts-ignore - nbb dynamic evaluation
-    console.log('🔍 Evaluating Clojure code:', clojureCode);
-    const result = await loadString(clojureCode, {
-      context: 'cljs.user',
-      print: console.log,
-    });
-    console.log('🔍 Clojure evaluation result:', result, typeof result);
-    return Boolean(result);
+    return true;
   } catch (error) {
-    console.error('Failed to evaluate Clojure rule:', error);
+    console.error('Failed to evaluate Clojure rule safely:', error);
     throw new Error(
-      `Clojure evaluation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      `Safe rule evaluation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
     );
   }
-};
+};;
 
 // Run testing validation (helper function)
 const runTestingValidation = async (
