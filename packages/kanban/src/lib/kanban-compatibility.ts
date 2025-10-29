@@ -22,11 +22,8 @@ import { searchBoard } from './actions/search/search-board.js';
 import { indexKanbanTasks } from './actions/search/index-tasks.js';
 import { generateBoardByTags as generateBoardByTagsAction } from './actions/search/generate-board-by-tags.js';
 import { writeBoard } from './serializers/board.js';
-import type { ColumnState, Card } from './actions/types/card.js';
 import type { Board as FunctionalBoard } from './actions/types/board.js';
 import type { Board as LegacyBoard, Task as LegacyTask, ColumnData } from './types.js';
-import type { SearchTasksResult } from './actions/search/search-tasks.js';
-import type { IndexForSearchResult } from './actions/search/index-for-search.js';
 import { stringify as stringifyYaml } from 'yaml';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
@@ -40,6 +37,17 @@ const ensureTask = (task: LegacyTask | undefined, context: string): LegacyTask =
     );
   }
   return task;
+};
+
+type SearchTasksResult = {
+  exact: LegacyTask[];
+  similar: LegacyTask[];
+};
+
+type IndexForSearchResult = {
+  started: true;
+  tasksIndexed: number;
+  wroteIndexFile: boolean;
 };
 
 const findTaskFile = async (tasksDir: string, uuid: string): Promise<string | null> => {
