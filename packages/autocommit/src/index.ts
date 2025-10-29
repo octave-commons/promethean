@@ -277,7 +277,9 @@ export async function startSingleRepository(
     );
   }
 
-  const root = await gitRoot(repoPath);
+  // For subrepos, watch the repoPath directly
+  // For regular git repos, find the repository root
+  const root = isSubrepo ? repoPath : await gitRoot(repoPath);
   const { log, warn } = createLogger(config);
   const ignored = getIgnoredPaths(config);
 
