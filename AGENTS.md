@@ -100,6 +100,7 @@ pnpm --filter @promethean-os/<pkg> exec node ./dist/index.ts
 - [[STYLE]]
 - [[BOARD_COMMANDS]]
 - [[TYPE_CLASS_PACKAGE_STRUCTURE_GUIDE]]
+- [[MANIFESTO]]
 ---
 
 ## ⚖️ License
