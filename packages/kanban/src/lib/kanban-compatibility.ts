@@ -13,11 +13,22 @@ export type { Task, ColumnData, Board as LegacyBoard } from './types.js';
 import { loadBoard as loadBoardFunctional } from './actions/boards/index.js';
 import { updateStatus as updateStatusFunctional } from './actions/transitions/update-status.js';
 import { moveTask as moveTaskFunctional } from './actions/transitions/move-task.js';
-import { createTask as createTaskFunctional } from './actions/tasks/index.js';
+import {
+  createTask as createTaskAction,
+  archiveTask as archiveTaskAction,
+  deleteTask as deleteTaskAction,
+  updateTaskDescription as updateTaskDescriptionAction,
+  renameTask as renameTaskAction,
+} from './actions/tasks/index.js';
+import { searchTasks as searchTasksAction } from './actions/search/search-tasks.js';
+import { indexForSearch as indexForSearchAction } from './actions/search/index-for-search.js';
 import { formatMarkdown } from './serializers/index.js';
 import type { ColumnState, Card } from './actions/types/card.js';
 import type { Board as FunctionalBoard } from './actions/types/board.js';
-import type { Board as LegacyBoard, Task } from './types.js';
+import type { Board as LegacyBoard, Task as LegacyTask } from './types.js';
+import type { SearchTasksResult } from './actions/search/search-tasks.js';
+import type { IndexForSearchResult } from './actions/search/index-for-search.js';
+import { stringify as stringifyYaml } from 'yaml';
 
 // Helper to ensure optional results resolve to concrete values for the legacy surface
 const ensureTask = (task: Task | undefined, context: string): Task => {
