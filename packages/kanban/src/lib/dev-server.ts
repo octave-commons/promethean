@@ -84,7 +84,7 @@ export class KanbanDevServer {
    */
   constructor(options: DevServerOptions) {
     this.options = {
-      autoGit: true,
+      autoGit: false,
       autoOpen: true,
       debounceMs: 1000,
       ...options
@@ -229,8 +229,8 @@ export class KanbanDevServer {
 
     const gitOptions: GitSyncOptions = {
       workingDir,
-      autoPush: true,
-      autoPull: true,
+      autoPush: false,
+      autoPull: false,
       debounceMs: this.options.debounceMs! * 2
     };
 
