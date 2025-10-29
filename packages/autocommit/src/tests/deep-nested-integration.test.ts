@@ -6,8 +6,8 @@ import { tmpdir } from 'os';
 import { randomUUID } from 'crypto';
 import { setTimeout as sleep } from 'timers/promises';
 
-import { start } from '../../dist/index.js';
-import { Config } from '../../dist/config.js';
+import { start } from '../index.js';
+import { Config } from '../config.js';
 
 // Helper to create random directory name
 const randomName = () => randomUUID().substring(0, 8);
@@ -77,7 +77,8 @@ async function createSubrepo(
   subrepoPath: string,
   remote: string,
 ): Promise<void> {
-  const subdir = relative(parentRepo, subrepoPath) || 'subrepo';
+  const subdirResult = relative(parentRepo, subrepoPath);
+  const subdir = subdirResult || 'subrepo';
   const gitrepoContent = `
 subdir = ${subdir}
 remote = ${remote}
@@ -194,7 +195,8 @@ async function performFileChange(
 
   console.log(`Change ${changeNumber}: Created ${fileName}`);
   console.log(`  Path: ${filePath}`);
-  console.log(`  Relative to temp: ${relative(tempDir, filePath) || 'unknown'}`);
+  const relativePath = relative(tempDir, filePath);
+  console.log(`  Relative to temp: ${relativePath || 'unknown'}`);
 
   // Check if this file is inside a git repo
   const gitCheck = await isInsideGit(filePath, gitRepos);
@@ -212,7 +214,8 @@ async function performFileChange(
   for (const repo of gitRepos) {
     const status = await getGitStatus(repo);
     if (status.length > 0) {
-      console.log(`  Git status in ${relative(tempDir, repo) || 'unknown'}:`);
+      const repoRelativePath = relative(tempDir, repo);
+      console.log(`  Git status in ${repoRelativePath || 'unknown'}:`);
       status.forEach((line) => {
         console.log(`    ${line}`);
         statusChanges.push(`${relative(tempDir, repo)}: ${line}`);
