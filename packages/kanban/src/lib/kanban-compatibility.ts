@@ -293,23 +293,14 @@ export const indexForSearch = async (_tasksDir: string): Promise<{ success: bool
 export const searchTasks = async (
   board: LegacyBoard,
   term: string,
-): Promise<{ exact: Task[]; similar: Task[] }> => {
-  const normalized = term.trim().toLowerCase();
-  if (normalized.length === 0) {
-    return { exact: [], similar: [] };
-  }
-
-  const exact: Task[] = [];
-  for (const column of board.columns) {
-    for (const task of column.tasks) {
-      const haystack = `${task.title ?? ''} ${task.content ?? ''}`.toLowerCase();
-      if (haystack.includes(normalized)) {
-        exact.push(task);
-      }
-    }
-  }
-
-  return { exact, similar: [] };
+): Promise<SearchTasksResult> => {
+  return searchTasksAction({
+    board,
+    term,
+    options: {
+      includeContent: true,
+    },
+  });
 };
 
 export const deleteTask = async (
