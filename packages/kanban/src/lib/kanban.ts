@@ -1835,6 +1835,56 @@ export const createTask = async (
 
   const targetColumn = ensureColumn(board, column);
 
+  // Create preliminary task for validation
+  const preliminaryTask: Task = {
+    uuid,
+    title,
+    status: targetColumn.name,
+    priority: input.priority,
+    labels: input.labels && input.labels.length > 0 ? [...input.labels] : undefined,
+    created_at: input.created_at ?? NOW_ISO(),
+    estimates: input.estimates ? { ...input.estimates } : {},
+    content: input.body ?? input.content ?? '',
+    slug: input.slug ? sanitizeFileNameBase(input.slug) : undefined,
+  };
+
+  // P0 Security Task Validation Gate for new tasks
+  try {
+    const { validateP0SecurityTask } = await import('./validation/index.js');
+    const p0Validation = await validateP0SecurityTask(preliminaryTask, 'new', column, {
+      repoRoot: process.cwd(),
+      tasksDir,
+      skipGitChecks: true, // Skip git checks for new tasks
+      skipFileChecks: false,
+    });
+
+    if (!p0Validation.valid) {
+      const errorMessage = `🚨 P0 Security Validation Failed:
+${p0Validation.errors.map((error) => `  ❌ ${error}`).join('
+')}`;
+      const warningMessage =
+        p0Validation.warnings.length > 0
+          ? `
+⚠️  Warnings:
+${p0Validation.warnings.map((warning) => `  ⚡ ${warning}`).join('
+')}`
+          : '';
+
+      throw new Error(errorMessage + warningMessage);
+    }
+
+    // Log warnings if present
+    if (p0Validation.warnings.length > 0) {
+      console.warn(`⚠️  P0 Security Task Warnings:`);
+      p0Validation.warnings.forEach((warning) => {
+        console.warn(`  ⚡ ${warning}`);
+      });
+    }
+  } catch (error) {
+    // If P0 validation fails, re-throw the error
+    throw error;
+  }
+
   const existingTasks = await readTasksFolder(tasksDir);
   const existingById = new Map(existingTasks.map((task) => [task.uuid, task]));
   // *** CRITICAL FIX: Duplicate Task Detection ***
