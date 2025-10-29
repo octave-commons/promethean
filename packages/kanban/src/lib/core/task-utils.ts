@@ -34,11 +34,12 @@ export const resolveTaskFilePath = async (task: Task, tasksDir: string): Promise
   return path.join(tasksDir, `${slug}.md`);
 };
 
-export const assignStableSlugs = (board: Board): void => {
+export const assignStableSlugs = (columns: ReadonlyArray<ColumnData>): Map<string, string> => {
+  const slugMap = new Map<string, string>();
   const used = new Set<string>();
-  for (const column of board.columns) {
-    column.tasks = column.tasks.map((task) => {
-      const slug = ensureTaskFileBase({ ...task });
+  for (const column of columns) {
+    for (const task of column.tasks) {
+      let slug = ensureTaskFileBase({ ...task });
       if (used.has(slug)) {
         let counter = 2;
         let candidate = `${slug}-${counter}`;
@@ -46,15 +47,13 @@ export const assignStableSlugs = (board: Board): void => {
           counter += 1;
           candidate = `${slug}-${counter}`;
         }
-        task.slug = candidate;
-        used.add(candidate);
-      } else {
-        task.slug = slug;
-        used.add(slug);
+        slug = candidate;
       }
-      return task;
-    });
+      slugMap.set(task.uuid, slug);
+      used.add(slug);
+    }
   }
+  return slugMap;
 };
 
 export const columnStatusKey = (value: string): string => sanitizeFileNameBase(value).toLowerCase();
