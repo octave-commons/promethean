@@ -400,13 +400,30 @@ export const readTasksFolder = async (tasksDir: string): Promise<LegacyTask[]> =
 };
 
 // Missing legacy functions
-export const toFrontmatter = (board: LegacyBoard): unknown => {
-  return {
-    columns: board.columns.map((col) => ({
-      name: col.name,
-      limit: col.limit,
-    })),
+export const toFrontmatter = (task: LegacyTask): string => {
+  const frontmatter: Record<string, unknown> = {
+    uuid: task.uuid,
+    title: task.title,
+    status: task.status,
   };
+
+  if (task.priority !== undefined) frontmatter.priority = task.priority;
+  if (task.labels && task.labels.length > 0) frontmatter.labels = task.labels;
+  if (task.slug) frontmatter.slug = task.slug;
+  if (task.created_at) frontmatter.created_at = task.created_at;
+  if (task.estimates) frontmatter.estimates = task.estimates;
+  if (task.blocking) frontmatter.blocking = task.blocking;
+  if (task.blockedBy) frontmatter.blockedBy = task.blockedBy;
+
+  const yamlContent = stringifyYaml(frontmatter).trimEnd();
+  const header = `---\n${yamlContent}\n---\n`;
+  const body = (task.content ?? '').trim();
+
+  if (body.length === 0) {
+    return header;
+  }
+
+  return `${header}\n${body}\n`;
 };
 
 export const validateStartingStatus = (status: string): boolean => {
