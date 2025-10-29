@@ -85,12 +85,13 @@ async function main(): Promise<void> {
   // Add all available commands as subcommands
   const commandList = [...AVAILABLE_COMMANDS, 'process_sync', 'doccheck'];
   
+  // Create a default command handler for all kanban commands
   program
-    .command(commandList.join('|'), { isDefault: true })
+    .argument('<command>', 'Command to execute', commandList.join('|'))
     .argument('[args...]', 'Command arguments')
     .description('Execute kanban command')
-    .action(async (args: string[], options, command) => {
-      const cmd = command.name();
+    .action(async (cmd: string, args: string[], _options, command) => {
+      // cmd is now the first argument
       const globalOptions = command.parent?.opts() || {};
       
       // Set log level
