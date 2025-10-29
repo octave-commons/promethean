@@ -292,5 +292,5 @@ export const createTaskAction = async (config: TaskCreationConfig): Promise<Task
 
   debug('Task created successfully:', enrichedTask.uuid);
 
-  return { task: { ...enrichedTask, sourcePath: taskFilePath }, board };
+  return { task: persistedTask, board };
 };
