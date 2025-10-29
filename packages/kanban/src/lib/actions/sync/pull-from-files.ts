@@ -1,9 +1,6 @@
-import path from 'node:path';
-
 import type { Board, ColumnData, Task } from '../../types.js';
 import { columnKey, normalizeColumnDisplayName } from '../../utils/string-utils.js';
 import { mergeColumnsCaseInsensitive } from '../../core/columns.js';
-import { ensureTaskFileBase } from '../../core/slugs.js';
 import { readTasksFolder } from '../tasks/read-tasks-folder.js';
 import { writeBoard, maybeRefreshIndex } from '../../serializers/board.js';
 
@@ -75,9 +72,10 @@ export const pullFromFiles = async (input: PullFromFilesInput): Promise<PullFrom
     }
 
     const currentColumn = location.column;
-    const currentTask = currentColumn.tasks[location.index];
+    const currentTaskIdx = location.index;
+    const currentTask = currentColumn.tasks[currentTaskIdx];
 
-    currentColumn.tasks[location.index] = {
+    currentColumn.tasks[currentTaskIdx] = {
       ...currentTask,
       ...normalizedTask,
       status: currentColumn.name,
@@ -85,7 +83,7 @@ export const pullFromFiles = async (input: PullFromFilesInput): Promise<PullFrom
 
     const currentKey = columnKey(currentColumn.name);
     if (currentKey !== statusKey) {
-      currentColumn.tasks.splice(location.index, 1);
+      currentColumn.tasks.splice(currentTaskIdx, 1);
       currentColumn.count = currentColumn.tasks.length;
 
       let destination = board.columns.find((col) => columnKey(col.name) === statusKey);
@@ -105,13 +103,12 @@ export const pullFromFiles = async (input: PullFromFilesInput): Promise<PullFrom
 
   for (const column of board.columns) {
     column.tasks = column.tasks.filter((task) => {
-      const titleMatch = canonicalTitles.has((task.title ?? '').trim().toLowerCase());
-      const idMatch = seenTaskIds.has(task.uuid);
-      if (!idMatch && !titleMatch) {
-        conflicting.push(task.uuid);
-        return false;
+      const titleKey = (task.title ?? '').trim().toLowerCase();
+      if (seenTaskIds.has(task.uuid) || canonicalTitles.has(titleKey)) {
+        return true;
       }
-      return true;
+      conflicting.push(task.uuid);
+      return false;
     });
     column.count = column.tasks.length;
   }
