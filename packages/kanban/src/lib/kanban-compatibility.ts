@@ -347,14 +347,20 @@ export const writeBoard = async (boardPath: string, board: LegacyBoard): Promise
     settings: {},
     columns: board.columns.map((col) => ({
       name: col.name,
-      cards: col.tasks.map((task) => ({
-        id: task.uuid,
-        text: task.title,
-        done: task.status === 'done',
-        tags: task.labels || [],
-        links: task.links || [],
-        attrs: task.attrs || {},
-      })),
+      cards: col.tasks.map((task) => {
+        const enhancedTask = task as Task & {
+          links?: readonly string[];
+          attrs?: Record<string, unknown>;
+        };
+        return {
+          id: task.uuid,
+          text: task.title,
+          done: task.status === 'done',
+          tags: task.labels ?? [],
+          links: enhancedTask.links ? [...enhancedTask.links] : [],
+          attrs: enhancedTask.attrs ? { ...enhancedTask.attrs } : {},
+        };
+      }),
     })),
   });
   await writeFile(boardPath, markdown, 'utf8');
