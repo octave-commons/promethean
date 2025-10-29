@@ -4,8 +4,12 @@ import path from 'node:path';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 
 import { createKanbanUiServer, type KanbanUiServerOptions } from './ui-server.js';
-import { KanbanFileWatcher, type FileChangeEvent, type FileWatcherOptions } from './file-watcher.js';
-import { KanbanGitSync, type GitSyncOptions, type GitSyncStatus } from './git-sync.js';
+import {
+  KanbanFileWatcher,
+  type FileChangeEvent,
+  type FileWatcherOptions,
+} from './file-watcher.js';
+import { KanbanGitSync, type GitSyncStatus } from './git-sync.js';
 
 /**
  * Configuration options for the development server
@@ -52,7 +56,14 @@ export type DevServerStatus = {
  */
 export type WebSocketMessage = {
   /** Type of message */
-  readonly type: 'board-change' | 'task-change' | 'config-change' | 'sync-status' | 'error' | 'status' | 'sync';
+  readonly type:
+    | 'board-change'
+    | 'task-change'
+    | 'config-change'
+    | 'sync-status'
+    | 'error'
+    | 'status'
+    | 'sync';
   /** ISO timestamp of when the message was sent */
   readonly timestamp: string;
   /** Message payload */
@@ -87,14 +98,14 @@ export class KanbanDevServer {
       autoGit: false,
       autoOpen: true,
       debounceMs: 1000,
-      ...options
+      ...options,
     };
 
     this.uiOptions = {
       boardFile: this.options.boardFile,
       tasksDir: this.options.tasksDir,
       host: this.options.host,
-      port: this.options.port
+      port: this.options.port,
     };
   }
 
@@ -133,9 +144,12 @@ export class KanbanDevServer {
 
       this.isRunning = true;
       console.log(`[kanban-dev] Development server started successfully`);
-      console.log(`[kanban-dev] UI: http://${this.options.host || '127.0.0.1'}:${this.options.port || 3000}`);
-      console.log(`[kanban-dev] WebSocket: ws://${this.options.host || '127.0.0.1'}:${this.options.port || 3000}/ws`);
-
+      console.log(
+        `[kanban-dev] UI: http://${this.options.host || '127.0.0.1'}:${this.options.port || 3000}`,
+      );
+      console.log(
+        `[kanban-dev] WebSocket: ws://${this.options.host || '127.0.0.1'}:${this.options.port || 3000}/ws`,
+      );
     } catch (error) {
       console.error('[kanban-dev] Failed to start development server:', error);
       await this.stop();
@@ -165,7 +179,7 @@ export class KanbanDevServer {
     }
 
     // Close WebSocket connections
-    this.connectedClients.forEach(client => {
+    this.connectedClients.forEach((client) => {
       if (client.readyState === WebSocket.OPEN) {
         client.close();
       }
@@ -206,8 +220,8 @@ export class KanbanDevServer {
         '**/dist/**',
         '**/.DS_Store',
         '**/*.tmp',
-        '**/*.swp'
-      ]
+        '**/*.swp',
+      ],
     };
 
     this.fileWatcher = new KanbanFileWatcher(watcherOptions, {
@@ -218,7 +232,7 @@ export class KanbanDevServer {
       },
       onReady: () => {
         console.log('[kanban-dev] File watching is active');
-      }
+      },
     });
 
     this.fileWatcher.start();
@@ -227,30 +241,26 @@ export class KanbanDevServer {
   private async startGitSync(): Promise<void> {
     const workingDir = path.dirname(path.resolve(this.options.boardFile));
 
-    const gitOptions: GitSyncOptions = {
+    const gitOptions = {
       workingDir,
       autoPush: false,
       autoPull: false,
-      debounceMs: this.options.debounceMs! * 2
+      debounceMs: this.options.debounceMs! * 2,
     };
 
-    this.gitSync = new KanbanGitSync(gitOptions, {
-      onSyncStart: (operation) => {
-        console.log(`[kanban-dev] Git ${operation} started`);
+    this.gitSync = new KanbanGitSync(workingDir, gitOptions, {
+      onSyncStart: () => {
+        console.log(`[kanban-dev] Git sync started`);
         this.broadcastSyncStatus();
       },
-      onSyncComplete: (operation) => {
-        console.log(`[kanban-dev] Git ${operation} completed`);
+      onSyncComplete: (status) => {
+        console.log(`[kanban-dev] Git sync completed:`, status);
         this.broadcastSyncStatus();
       },
-      onSyncError: (operation, error) => {
-        console.error(`[kanban-dev] Git ${operation} failed:`, error);
-        this.broadcastError(`Git ${operation} failed`, error);
+      onSyncError: (error) => {
+        console.error(`[kanban-dev] Git sync failed:`, error);
+        this.broadcastSyncStatus();
       },
-      onConflict: (conflictedFiles) => {
-        console.warn('[kanban-dev] Git conflicts detected:', conflictedFiles);
-        this.broadcastError('Git conflicts detected', new Error(`Conflicts: ${conflictedFiles.join(', ')}`));
-      }
     });
 
     await this.gitSync.initialize();
@@ -266,7 +276,7 @@ export class KanbanDevServer {
     // Create WebSocket server
     this.wsServer = new WebSocketServer({
       noServer: true,
-      path: '/ws'
+      path: '/ws',
     });
 
     this.wsServer.on('connection', (ws: WebSocket) => {
@@ -312,7 +322,7 @@ export class KanbanDevServer {
     this.sendToClient(ws, {
       type: 'status',
       timestamp: new Date().toISOString(),
-      data: this.getStatus()
+      data: this.getStatus(),
     });
 
     // Handle client disconnect
@@ -342,7 +352,7 @@ export class KanbanDevServer {
       this.sendToClient(ws, {
         type: 'status',
         timestamp: new Date().toISOString(),
-        data: this.getStatus()
+        data: this.getStatus(),
       });
     } else if (message.type === 'sync' && this.gitSync) {
       await this.gitSync.syncWithRemote();
@@ -355,13 +365,17 @@ export class KanbanDevServer {
 
     // Broadcast file change to all clients
     this.broadcastMessage({
-      type: event.type === 'board' ? 'board-change' :
-            event.type === 'task' ? 'task-change' : 'config-change',
+      type:
+        event.type === 'board'
+          ? 'board-change'
+          : event.type === 'task'
+            ? 'task-change'
+            : 'config-change',
       timestamp: new Date().toISOString(),
       data: {
         filePath: event.relativePath,
-        event: event.event
-      }
+        event: event.event,
+      },
     });
 
     // Handle git synchronization
@@ -378,14 +392,14 @@ export class KanbanDevServer {
     try {
       if (event.type === 'board') {
         // Board changes should be pushed
-        await this.gitSync.autoPush(`Auto-sync: ${event.relativePath} changed`);
+        await this.gitSync.push(`Auto-sync: ${event.relativePath} changed`);
       } else {
         // Task/config changes should check for remote changes first
         const hasRemoteChanges = await this.gitSync.checkForRemoteChanges();
         if (hasRemoteChanges) {
-          await this.gitSync.autoPull();
+          await this.gitSync.pull();
         } else {
-          await this.gitSync.autoPush(`Auto-sync: ${event.relativePath} changed`);
+          await this.gitSync.push(`Auto-sync: ${event.relativePath} changed`);
         }
       }
 
@@ -399,7 +413,7 @@ export class KanbanDevServer {
   private broadcastMessage(message: WebSocketMessage): void {
     const messageStr = JSON.stringify(message);
 
-    this.connectedClients.forEach(client => {
+    this.connectedClients.forEach((client) => {
       if (client.readyState === WebSocket.OPEN) {
         client.send(messageStr);
       }
@@ -413,8 +427,8 @@ export class KanbanDevServer {
       data: {
         type,
         message: error.message,
-        stack: error.stack
-      }
+        stack: error.stack,
+      },
     });
   }
 
@@ -428,7 +442,7 @@ export class KanbanDevServer {
       this.broadcastMessage({
         type: 'sync-status',
         timestamp: new Date().toISOString(),
-        data: status
+        data: status,
       });
     }
   }
@@ -461,12 +475,14 @@ export class KanbanDevServer {
       spawn(command, [url], {
         detached: true,
         stdio: 'ignore',
-        shell: true
+        shell: true,
       }).unref();
 
       console.log(`[kanban-dev] Opened browser at ${url}`);
     } catch (error) {
-      console.log(`[kanban-dev] Could not open browser automatically. Please visit ${url} manually.`);
+      console.log(
+        `[kanban-dev] Could not open browser automatically. Please visit ${url} manually.`,
+      );
     }
   }
 
@@ -482,7 +498,7 @@ export class KanbanDevServer {
       gitSyncActive: this.gitSync !== null,
       lastSyncTime: this.gitSync?.getStatus()?.lastSyncTime,
       connectedClients: this.connectedClients.size,
-      syncStatus: this.gitSync?.getStatus() ?? undefined
+      syncStatus: this.gitSync?.getStatus() ?? undefined,
     };
   }
 }

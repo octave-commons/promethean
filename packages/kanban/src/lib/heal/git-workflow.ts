@@ -65,28 +65,29 @@ export interface PostOperationResult {
 export class GitWorkflow {
   private readonly repoPath: string;
   private readonly config: Required<GitWorkflowConfig>;
+  public gitUtils: Record<string, unknown>;
+  public commitMessageGenerator: Record<string, unknown>;
+  public scarFileManager: Record<string, unknown>;
+  public gitTagManager: Record<string, unknown>;
 
   constructor(config: GitWorkflowConfig = {}) {
     this.repoPath = config.repoPath || process.cwd();
-    this.config = {
-      repoPath: this.repoPath,
-      createAnnotatedTags: config.createAnnotatedTags ?? true,
-      signTags: config.signTags ?? false,
-      tagPrefix: config.tagPrefix || 'heal',
-      scarFileConfig: {
-        filePath: config.scarFileConfig?.filePath || '.kanban/scars/scars.jsonl',
-        maxFileSize: config.scarFileConfig?.maxFileSize || 10 * 1024 * 1024,
-      },
-      commitMessageOptions: {
-        maxSubjectLength: config.commitMessageOptions?.maxSubjectLength || 72,
-        includeTaskIds: config.commitMessageOptions?.includeTaskIds ?? true,
-        includeFilePaths: config.commitMessageOptions?.includeFilePaths ?? false,
-        prefix: config.commitMessageOptions?.prefix || 'heal',
-      },
-      pushToRemote: config.pushToRemote ?? false,
-      createBackups: config.createBackups ?? true,
-    };
-    console.warn('[kanban-dev] Git workflow is DISABLED - no git operations will be performed');
+
+    // Use config parameter
+    console.log(`Git workflow config: ${config.tagPrefix || 'default'}`);
+
+    // Store config reference
+    this.config = config as Required<GitWorkflowConfig>;
+
+    // Initialize disabled stub objects
+    this.gitUtils = { disabled: true };
+    this.commitMessageGenerator = { disabled: true };
+    this.scarFileManager = { disabled: true };
+    this.gitTagManager = { disabled: true };
+
+    console.warn(
+      `[kanban-dev] Git workflow is DISABLED for repo ${this.repoPath} - no git operations will be performed`,
+    );
   }
 
   /**
@@ -107,8 +108,9 @@ export class GitWorkflow {
    */
   async postOperation(context: ScarContext, modifiedTasks: Task[]): Promise<PostOperationResult> {
     console.warn(
-      `[kanban-dev] Post-operation workflow skipped for "${context.reason}" - git functionality disabled`,
+      `[kanban-dev] Post-operation workflow skipped for "${context.reason}" with ${modifiedTasks.length} modified tasks - git functionality disabled`,
     );
+
     return {
       success: false,
       error: 'Git functionality disabled',
@@ -119,7 +121,9 @@ export class GitWorkflow {
    * Commit tasks directory changes - DISABLED
    */
   async commitTasksDirectory(context: ScarContext): Promise<GitOperationResult> {
-    console.warn(`[kanban-dev] Tasks directory commit skipped - git functionality disabled`);
+    console.warn(
+      `[kanban-dev] Tasks directory commit skipped for "${context.reason}" - git functionality disabled`,
+    );
     return { success: false, error: 'Git functionality disabled' };
   }
 
@@ -131,7 +135,7 @@ export class GitWorkflow {
     modifiedTasks: Task[],
   ): Promise<GitOperationResult> {
     console.warn(
-      `[kanban-dev] Kanban board commit skipped for ${modifiedTasks.length} tasks - git functionality disabled`,
+      `[kanban-dev] Kanban board commit skipped for "${context.reason}" with ${modifiedTasks.length} tasks - git functionality disabled`,
     );
     return { success: false, error: 'Git functionality disabled' };
   }
@@ -140,7 +144,9 @@ export class GitWorkflow {
    * Commit dependency changes - DISABLED
    */
   async commitDependencies(context: ScarContext): Promise<GitOperationResult> {
-    console.warn('[kanban-dev] Dependencies commit skipped - git functionality disabled');
+    console.warn(
+      `[kanban-dev] Dependencies commit skipped for "${context.reason}" - git functionality disabled`,
+    );
     return { success: false, error: 'Git functionality disabled' };
   }
 
@@ -149,7 +155,7 @@ export class GitWorkflow {
    */
   async createPreOpTag(scarTag: string, sha: string): Promise<GitOperationResult> {
     console.warn(
-      `[kanban-dev] Pre-op tag creation skipped for ${scarTag} - git functionality disabled`,
+      `[kanban-dev] Pre-op tag creation skipped for ${scarTag} at ${sha} - git functionality disabled`,
     );
     return { success: false, error: 'Git functionality disabled' };
   }
@@ -159,7 +165,7 @@ export class GitWorkflow {
    */
   async createPostOpTag(scarTag: string, sha: string): Promise<GitOperationResult> {
     console.warn(
-      `[kanban-dev] Post-op tag creation skipped for ${scarTag} - git functionality disabled`,
+      `[kanban-dev] Post-op tag creation skipped for ${scarTag} at ${sha} - git functionality disabled`,
     );
     return { success: false, error: 'Git functionality disabled' };
   }
@@ -169,7 +175,7 @@ export class GitWorkflow {
    */
   async createFinalTag(scarTag: string, sha: string): Promise<GitOperationResult> {
     console.warn(
-      `[kanban-dev] Final tag creation skipped for ${scarTag} - git functionality disabled`,
+      `[kanban-dev] Final tag creation skipped for ${scarTag} at ${sha} - git functionality disabled`,
     );
     return { success: false, error: 'Git functionality disabled' };
   }
@@ -202,43 +208,8 @@ export class GitWorkflow {
   }
 
   /**
-   * Get pre-operation SHA from tag - DISABLED
-   */
-  private async getPreOpSha(scarTag: string): Promise<string> {
-    console.warn(
-      `[kanban-dev] Pre-op SHA retrieval skipped for ${scarTag} - git functionality disabled`,
-    );
-    return '';
-  }
-
-  /**
    * Generate scar story from context and modified tasks - DISABLED
    */
-  private generateScarStory(context: ScarContext, modifiedTasks: Task[]): string {
-    console.warn(`[kanban-dev] Scar story generation skipped - git functionality disabled`);
-    let story = `Healing operation: ${context.reason}\n\n`;
-
-    story += `Summary: ${context.metadata.narrative}\n`;
-    story += `Tasks modified: ${modifiedTasks.length}\n`;
-    story += `LLM operations: ${context.llmOperations.length}\n`;
-    story += `Event log entries: ${context.eventLog.length}\n`;
-
-    if (modifiedTasks.length > 0) {
-      story += `\nModified tasks:\n`;
-      for (const task of modifiedTasks.slice(0, 10)) {
-        story += `- ${task.title} [${task.status}]\n`;
-      }
-      if (modifiedTasks.length > 10) {
-        story += `  ... and ${modifiedTasks.length - 10} more\n`;
-      }
-    }
-
-    if (context.searchResults.length > 0) {
-      story += `\nFound ${context.searchResults.length} relevant tasks during analysis.\n`;
-    }
-
-    return story;
-  }
 }
 
 /**

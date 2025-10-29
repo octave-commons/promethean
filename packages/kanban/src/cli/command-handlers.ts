@@ -321,15 +321,17 @@ const handlePull: CommandHandler = (_args, context) =>
     const result = await pullFromTasks(mutableBoard, context.tasksDir, context.boardFile);
 
     // Enhanced logging for pull operation
-    const { added, moved, statusUpdated = 0 } = result as {
+    const {
+      added,
+      moved,
+      statusUpdated = 0,
+    } = result as {
       added: number;
       moved: number;
       statusUpdated?: number;
     };
     if (moved > 0) {
-      debug(
-        `📝 Pull completed: ${added} added, ${moved} status changes from files`,
-      );
+      debug(`📝 Pull completed: ${added} added, ${moved} status changes from files`);
     } else {
       debug(`📋 Pull completed: ${added} added, ${moved} moved`);
     }
@@ -343,7 +345,11 @@ const handlePush: CommandHandler = (_args, context) =>
     const result = await pushToTasks(mutableBoard, context.tasksDir);
 
     // Enhanced logging for manual edit detection
-    const { added, moved, statusUpdated = 0 } = result as {
+    const {
+      added,
+      moved,
+      statusUpdated = 0,
+    } = result as {
       added: number;
       moved: number;
       statusUpdated?: number;
@@ -846,7 +852,7 @@ const handleAudit: CommandHandler = (args, context) =>
     const allEvents = await eventLogManager.readEventLog();
 
     // Initialize git tracker for commit validation
-    const gitTracker = new TaskGitTracker({ repoRoot: process.cwd() });
+    const gitTracker = new TaskGitTracker(process.cwd());
 
     debug('🔍 Analyzing task state consistency...');
 
@@ -855,12 +861,10 @@ const handleAudit: CommandHandler = (args, context) =>
       if (columnFilter && columnKey(column.name) !== columnKey(columnFilter)) {
         return [] as Array<{ task: ReadonlyBoardTask; columnName: string }>;
       }
-      return column.tasks.map(
-        (task): { task: ReadonlyBoardTask; columnName: string } => ({
-          task,
-          columnName: column.name,
-        }),
-      );
+      return column.tasks.map((task): { task: ReadonlyBoardTask; columnName: string } => ({
+        task,
+        columnName: column.name,
+      }));
     });
 
     const totalTasks = allTasks.length;
@@ -870,32 +874,33 @@ const handleAudit: CommandHandler = (args, context) =>
     const taskAnalyses = await Promise.all(
       allTasks.map(
         async ({ task, columnName }: { task: ReadonlyBoardTask; columnName: string }) => {
-        const [replayResult, taskFilePath] = await Promise.all([
-          eventLogManager.replayTaskTransitions(task.uuid, task.status),
-          findTaskFilePath(context.tasksDir, task.uuid),
-        ]);
+          const [replayResult, taskFilePath] = await Promise.all([
+            eventLogManager.replayTaskTransitions(task.uuid, task.status),
+            findTaskFilePath(context.tasksDir, task.uuid),
+          ]);
 
-        const statusAnalysis = gitTracker.analyzeTaskStatus(
-          task,
-          taskFilePath || `${context.tasksDir}/${task.uuid}.md`,
-        );
-
-        // Update progress
-        processedTasks++;
-        if (processedTasks % 50 === 0 || processedTasks === totalTasks) {
-          process.stderr.write(
-            `\r📊 Progress: ${processedTasks}/${totalTasks} (${Math.round((processedTasks / totalTasks) * 100)}%)`,
+          const statusAnalysis = gitTracker.analyzeTaskStatus(
+            task,
+            taskFilePath || `${context.tasksDir}/${task.uuid}.md`,
           );
-        }
 
-        return {
-          task,
-          columnName,
-          replayResult,
-          taskFilePath,
-          statusAnalysis,
-        };
-      }),
+          // Update progress
+          processedTasks++;
+          if (processedTasks % 50 === 0 || processedTasks === totalTasks) {
+            process.stderr.write(
+              `\r📊 Progress: ${processedTasks}/${totalTasks} (${Math.round((processedTasks / totalTasks) * 100)}%)`,
+            );
+          }
+
+          return {
+            task,
+            columnName,
+            replayResult,
+            taskFilePath,
+            statusAnalysis,
+          };
+        },
+      ),
     );
 
     process.stderr.write('\r✅ Analysis complete\n');
@@ -1243,7 +1248,7 @@ const handleAudit: CommandHandler = (args, context) =>
 
 const handleCommitStats: CommandHandler = (_args, context) =>
   withBoard(context, async (board) => {
-    const gitTracker = new TaskGitTracker({ repoRoot: process.cwd() });
+    const gitTracker = new TaskGitTracker(process.cwd());
 
     // Collect all tasks from the board and convert to expected format
     const allTasks: any[] = [];

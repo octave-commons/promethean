@@ -5,7 +5,7 @@
  * to maintain API compatibility while preventing any git operations.
  */
 
-import type { ScarRecord, GitCommit } from './scar-context-types.js';
+import type { ScarRecord } from './scar-context-types.js';
 
 /**
  * Git tag configuration options - DISABLED VERSION
@@ -64,8 +64,15 @@ export class GitTagManager {
     };
 
     console.warn(
-      '[GitTagManager] Git functionality is disabled - no git operations will be performed',
+      `[GitTagManager] Git functionality is disabled for repo ${repoRoot} - no git operations will be performed`,
     );
+  }
+
+  /**
+   * Get repository root - DISABLED
+   */
+  getRepositoryRoot(): string {
+    return this.repoRoot;
   }
 
   /**
@@ -76,7 +83,7 @@ export class GitTagManager {
     healingType: string,
     metadata?: Record<string, unknown>,
   ): Promise<TagCreationResult> {
-    console.warn('[GitTagManager] createHealingTag called but git is disabled');
+    console.warn(`[GitTagManager] createHealingTag called for scar ${scarId} but git is disabled`);
     return {
       success: false,
       tag: `${this.options.tagPrefix}${healingType}/${scarId}`,
@@ -84,7 +91,7 @@ export class GitTagManager {
       error: 'Git functionality is disabled',
       metadata: {
         created: new Date(),
-        message: `Healing: ${healingType} for ${scarId}`,
+        message: this.createTagMessage(healingType, scarId, metadata),
         annotated: this.options.createAnnotatedTags,
       },
     };
@@ -94,7 +101,9 @@ export class GitTagManager {
    * Store scar history in git - DISABLED
    */
   async storeScarHistory(scar: ScarRecord): Promise<ScarHistoryResult> {
-    console.warn('[GitTagManager] storeScarHistory called but git is disabled');
+    console.warn(
+      `[GitTagManager] storeScarHistory called for scar ${scar.tag} but git is disabled`,
+    );
     return {
       success: false,
       scarCount: 0,
@@ -107,7 +116,7 @@ export class GitTagManager {
    * Get healing history from git tags - DISABLED
    */
   async getHealingHistory(scarId?: string): Promise<TagCreationResult[]> {
-    console.warn('[GitTagManager] getHealingHistory called but git is disabled');
+    console.warn(`[GitTagManager] getHealingHistory called for scar ${scarId} but git is disabled`);
     return [];
   }
 
@@ -115,7 +124,9 @@ export class GitTagManager {
    * Clean up old tags - DISABLED
    */
   async cleanupOldTags(keepCount: number = this.options.maxScarsRetained): Promise<number> {
-    console.warn('[GitTagManager] cleanupOldTags called but git is disabled');
+    console.warn(
+      `[GitTagManager] cleanupOldTags called with keepCount ${keepCount} but git is disabled`,
+    );
     return 0;
   }
 
@@ -143,22 +154,95 @@ export class GitTagManager {
     scarId: string,
     metadata?: Record<string, unknown>,
   ): string {
-    const message = `Kanban Healing: ${healingType} for ${scarId}`;
+    const baseMessage = `Kanban Healing: ${healingType} for ${scarId}`;
 
-    if (metadata) {
-      const metadataLines = Object.entries(metadata)
-        .map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
-        .join('\n');
-
-      if (metadataLines) {
-        message += `
-
-Metadata:
-${metadataLines}`;
-      }
+    if (!metadata) {
+      return baseMessage;
     }
 
-    return message;
+    const metadataLines = Object.entries(metadata)
+      .map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
+      .join('\n');
+
+    if (!metadataLines) {
+      return baseMessage;
+    }
+
+    return `${baseMessage}
+
+ Metadata:
+ ${metadataLines}`;
+  }
+
+  /**
+   * Create heal tag - DISABLED (alias for createHealingTag)
+   */
+  async createHealTag(
+    scarId: string,
+    healingType: string,
+    metadata?: Record<string, unknown>,
+  ): Promise<TagCreationResult> {
+    console.warn('[GitTagManager] createHealTag called but git is disabled');
+    return await this.createHealingTag(scarId, healingType, metadata);
+  }
+
+  /**
+   * Push tags to remote - DISABLED
+   */
+  async pushTags(): Promise<{ success: boolean; error?: string }> {
+    console.warn('[GitTagManager] pushTags called but git is disabled');
+    return {
+      success: false,
+      error: 'Git functionality is disabled',
+    };
+  }
+
+  /**
+   * Store scar record - DISABLED
+   */
+  async storeScarRecord(scar: ScarRecord): Promise<ScarHistoryResult> {
+    console.warn('[GitTagManager] storeScarRecord called but git is disabled');
+    return await this.storeScarHistory(scar);
+  }
+
+  /**
+   * Get commits between tags - DISABLED
+   */
+  async getCommitsBetweenTags(
+    fromTag: string,
+    toTag: string,
+  ): Promise<{ sha: string; message: string; author: string; date: Date }[]> {
+    console.warn(
+      `[GitTagManager] getCommitsBetweenTags called from ${fromTag} to ${toTag} but git is disabled`,
+    );
+    return [];
+  }
+
+  /**
+   * Load scar history - DISABLED
+   */
+  async loadScarHistory(scarId?: string): Promise<ScarRecord[]> {
+    console.warn(`[GitTagManager] loadScarHistory called for scar ${scarId} but git is disabled`);
+    return [];
+  }
+
+  /**
+   * Get heal tags - DISABLED
+   */
+  async getHealTags(): Promise<TagCreationResult[]> {
+    console.warn('[GitTagManager] getHealTags called but git is disabled');
+    return [];
+  }
+
+  /**
+   * Delete tag - DISABLED
+   */
+  async deleteTag(tag: string): Promise<{ success: boolean; error?: string }> {
+    console.warn(`[GitTagManager] deleteTag called for tag ${tag} but git is disabled`);
+    return {
+      success: false,
+      error: 'Git functionality is disabled',
+    };
   }
 }
 

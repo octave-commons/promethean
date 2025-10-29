@@ -11,6 +11,7 @@
 export interface GitSyncStatus {
   status: 'idle' | 'syncing' | 'error';
   lastSync?: Date;
+  lastSyncTime?: Date;
   error?: string;
   ahead?: number;
   behind?: number;
@@ -47,6 +48,8 @@ export class KanbanGitSync {
   private options: Required<GitSyncOptions>;
   private status: GitSyncStatus;
   private callbacks: GitSyncCallbacks;
+  public autoPush: boolean;
+  public autoPull: boolean;
 
   constructor(repoRoot: string, options: GitSyncOptions = {}, callbacks: GitSyncCallbacks = {}) {
     this.repoRoot = repoRoot;
@@ -59,9 +62,16 @@ export class KanbanGitSync {
     };
     this.callbacks = callbacks;
     this.status = { status: 'idle' };
+    this.autoPush = this.options.autoPush;
+    this.autoPull = this.options.autoPull;
+
+    // Trigger callback if provided
+    if (this.callbacks.onSyncStart) {
+      this.callbacks.onSyncStart();
+    }
 
     console.warn(
-      '[KanbanGitSync] Git functionality is disabled - no git operations will be performed',
+      `[KanbanGitSync] Git functionality is disabled for repo ${repoRoot} - no git operations will be performed`,
     );
   }
 
@@ -102,7 +112,7 @@ export class KanbanGitSync {
    * Push changes to remote - DISABLED
    */
   async push(message?: string): Promise<GitSyncStatus> {
-    console.warn('[KanbanGitSync] push called but git is disabled');
+    console.warn(`[KanbanGitSync] push called with message "${message}" but git is disabled`);
     return {
       status: 'error',
       error: 'Git functionality is disabled',
@@ -126,6 +136,51 @@ export class KanbanGitSync {
   async needsSync(): Promise<boolean> {
     console.warn('[KanbanGitSync] needsSync called but git is disabled');
     return false;
+  }
+
+  /**
+   * Initialize git sync - DISABLED
+   */
+  async initialize(): Promise<void> {
+    console.warn('[KanbanGitSync] initialize called but git is disabled');
+  }
+
+  /**
+   * Sync with remote - DISABLED
+   */
+  async syncWithRemote(): Promise<GitSyncStatus> {
+    console.warn('[KanbanGitSync] syncWithRemote called but git is disabled');
+    return {
+      status: 'error',
+      error: 'Git functionality is disabled',
+    };
+  }
+
+  /**
+   * Check if sync is in progress - DISABLED
+   */
+  isSyncInProgress(): boolean {
+    console.warn('[KanbanGitSync] isSyncInProgress called but git is disabled');
+    return false;
+  }
+
+  /**
+   * Check for remote changes - DISABLED
+   */
+  async checkForRemoteChanges(): Promise<boolean> {
+    console.warn('[KanbanGitSync] checkForRemoteChanges called but git is disabled');
+    return false;
+  }
+
+  /**
+   * Resolve conflicts - DISABLED
+   */
+  async resolveConflicts(): Promise<GitSyncStatus> {
+    console.warn('[KanbanGitSync] resolveConflicts called but git is disabled');
+    return {
+      status: 'error',
+      error: 'Git functionality is disabled',
+    };
   }
 }
 
