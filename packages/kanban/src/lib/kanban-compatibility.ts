@@ -329,53 +329,55 @@ export const getTasksByColumn = (board: LegacyBoard, columnName: string): Legacy
 };
 
 export const pullFromTasks = async (
-  _board: LegacyBoard,
-  _tasksDir: string,
-  _boardPath: string,
-): Promise<{ added: number; moved: number; statusUpdated?: number }> => {
-  // Placeholder implementation
-  return { added: 0, moved: 0, statusUpdated: 0 };
+  board: LegacyBoard,
+  tasksDir: string,
+  boardPath: string,
+): Promise<{ added: number; moved: number }> => {
+  const result = await pullFromFiles({ board, tasksDir, boardPath });
+  return { added: result.added, moved: result.moved };
 };
 
 export const pushToTasks = async (
-  _board: LegacyBoard,
-  _tasksDir: string,
-): Promise<{ added: number; moved: number; statusUpdated?: number }> => {
-  // Placeholder implementation
-  return { added: 0, moved: 0, statusUpdated: 0 };
+  board: LegacyBoard,
+  tasksDir: string,
+): Promise<{ added: number; moved: number; statusUpdated: number }> => {
+  return pushToFiles({ board, tasksDir });
 };
 
 export const syncBoardAndTasks = async (
-  _board: LegacyBoard,
-  _tasksDir: string,
-  _boardPath: string,
+  board: LegacyBoard,
+  tasksDir: string,
+  boardPath: string,
 ): Promise<{
   board: { added: number; moved: number };
   tasks: { added: number; moved: number; statusUpdated: number };
   conflicting: Array<{ task: LegacyTask; issue: string }>;
 }> => {
-  // Placeholder implementation
+  const result = await syncBoardAndTasksAction({ board, tasksDir, boardPath });
   return {
-    board: { added: 0, moved: 0 },
-    tasks: { added: 0, moved: 0, statusUpdated: 0 },
-    conflicting: [],
+    board: result.board,
+    tasks: result.tasks,
+    conflicting: result.conflicting.map((uuid) => ({
+      task: ensureTask(board.columns.flatMap((col) => col.tasks).find((t) => t.uuid === uuid), 'syncBoardAndTasks'),
+      issue: 'conflict',
+    })),
   };
 };
 
-export const regenerateBoard = async (_tasksDir: string, _boardPath: string): Promise<{
+export const regenerateBoard = async (tasksDir: string, boardPath: string): Promise<{
   success: boolean;
   totalTasks: number;
 }> => {
-  // Placeholder implementation
-  return { success: true, totalTasks: 0 };
+  const result = await regenerateBoardAction({ tasksDir, boardPath });
+  return { success: true, totalTasks: result.totalTasks };
 };
 
 export const generateBoardByTags = async (
-  _tasksDir: string,
-  _boardPath: string,
-  _tags: string[],
+  tasksDir: string,
+  boardPath: string,
+  tags: string[],
 ): Promise<{ success: boolean }> => {
-  // Placeholder implementation
+  await generateBoardByTagsAction({ tasksDir, boardPath, tags });
   return { success: true };
 };
 
@@ -392,13 +394,9 @@ export const indexForSearch = async (
   const indexPath = env.KANBAN_INDEX_FILE;
   const extensions = env.KANBAN_INDEX_EXT ? env.KANBAN_INDEX_EXT.split(',') : undefined;
 
-  return indexForSearchAction({
-    tasksDir,
-    options: {
-      writeIndex,
-      indexPath,
-      extensions,
-    },
+  return indexKanbanTasks({
+    argv: options?.argv,
+    env: options?.env,
   });
 };
 
@@ -406,13 +404,7 @@ export const searchTasks = async (
   board: LegacyBoard,
   term: string,
 ): Promise<SearchTasksResult> => {
-  return searchTasksAction({
-    board,
-    term,
-    options: {
-      includeContent: true,
-    },
-  });
+  return searchBoard({ board, term });
 };
 
 export const deleteTask = async (
