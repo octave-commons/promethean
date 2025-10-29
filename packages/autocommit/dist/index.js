@@ -198,7 +198,9 @@ export async function startSingleRepository(config, repoPath) {
     if (isSubrepo && !config.handleSubrepos) {
         throw createAutocommitError(`Subrepo detected but subrepo handling is disabled. Use --handle-subrepos to enable: ${repoPath}`);
     }
-    const root = await gitRoot(repoPath);
+    // For subrepos, watch the repoPath directly
+    // For regular git repos, find the repository root
+    const root = isSubrepo ? repoPath : await gitRoot(repoPath);
     const { log, warn } = createLogger(config);
     const ignored = getIgnoredPaths(config);
     const { schedule, cleanup } = createScheduler(config, root, log, warn);
