@@ -3,7 +3,10 @@
  * Extracted from kanban.ts to fix hanging bug and improve organization
  */
 
+import { promises as fs } from 'node:fs';
+import path from 'node:path';
 import { randomUUID } from 'node:crypto';
+
 import type { Task, Board, ColumnData } from '../../types.js';
 import { debug } from '../../utils/logger.js';
 
@@ -24,7 +27,18 @@ export type CreateTaskInput = {
 };
 import { processTemplateContent } from '../../serializers/template-serializer.js';
 import { sanitizeFileNameBase, generateAutoLabels } from '../../utils/string-utils.js';
-import { NOW_ISO } from '../../core/constants.js';
+import { NOW_ISO, BLOCKED_BY_HEADING, BLOCKS_HEADING } from '../../core/constants.js';
+import { readTasksFolder } from './read-tasks-folder.js';
+import {
+  applyTemplateReplacements,
+  ensureSectionExists,
+  setSectionItems,
+  mergeSectionItems,
+} from '../../serializers/markdown-serializer.js';
+import { uniqueStrings, wikiLinkForTask, ensureTaskContent } from '../../utils/task-content.ts';
+import { writeBoard, maybeRefreshIndex, ensureColumn as ensureBoardColumn } from '../../serializers/board.ts';
+import { toFrontmatter } from '../../serializers/task-frontmatter.ts';
+import { locateTask } from '../../core/task-utils.ts';
 
 interface TaskCreationConfig {
   readonly board: Board;
