@@ -576,7 +576,7 @@ export const evaluateCustomCheck = async (
   return await evaluateCustomRule(state, check.impl, [], task, board);
 };
 
-export const export const evaluateCustomRule = async (
+export const evaluateCustomRule = async (
   state: TransitionRulesEngineState,
   ruleImpl: string,
   _args: any[],

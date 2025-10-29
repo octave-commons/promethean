@@ -807,6 +807,34 @@ export const updateStatus = async (
     });
 
     if (!p0Validation.valid) {
+      // Generate audit scar for validation failure
+      try {
+        const { generateAuditValidationScar } = await import('./validation/index.js');
+        const auditContext = {
+          task: found,
+          validationResult: p0Validation,
+          operation: 'updateStatus' as const,
+          fromStatus: currentStatus,
+          toStatus: normalizedStatus,
+          timestamp: new Date(),
+          repaired: false,
+        };
+
+        const scarResult = await generateAuditValidationScar(auditContext, {
+          repoRoot: process.cwd(),
+          tasksDir,
+          dryRun: false,
+        });
+
+        if (scarResult.success) {
+          console.warn(`🏷️  Audit scar generated: ${scarResult.scarId}`);
+        } else {
+          console.warn(`⚠️  Failed to generate audit scar: ${scarResult.error}`);
+        }
+      } catch (scarError) {
+        console.warn(`⚠️  Audit scar generation failed: ${scarError instanceof Error ? scarError.message : String(scarError)}`);
+      }
+
       // Restore task to its original column
       let originalColumn = board.columns.find(
         (c) => columnKey(c.name) === columnKey(currentStatus),
@@ -1869,6 +1897,33 @@ export const createTask = async (
     });
 
     if (!p0Validation.valid) {
+      // Generate audit scar for validation failure
+      try {
+        const { generateAuditValidationScar } = await import('./validation/index.js');
+        const auditContext = {
+          task: preliminaryTask,
+          validationResult: p0Validation,
+          operation: 'createTask' as const,
+          toStatus: targetColumn.name,
+          timestamp: new Date(),
+          repaired: false,
+        };
+
+        const scarResult = await generateAuditValidationScar(auditContext, {
+          repoRoot: process.cwd(),
+          tasksDir,
+          dryRun: false,
+        });
+
+        if (scarResult.success) {
+          console.warn(`🏷️  Audit scar generated: ${scarResult.scarId}`);
+        } else {
+          console.warn(`⚠️  Failed to generate audit scar: ${scarResult.error}`);
+        }
+      } catch (scarError) {
+        console.warn(`⚠️  Audit scar generation failed: ${scarError instanceof Error ? scarError.message : String(scarError)}`);
+      }
+
       const errorMessage = `🚨 P0 Security Validation Failed:
 ${p0Validation.errors.map((error) => `  ❌ ${error}`).join('
 ')}`;

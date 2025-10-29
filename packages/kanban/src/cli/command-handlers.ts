@@ -2603,8 +2603,8 @@ export const COMMAND_HANDLERS: Readonly<Record<string, CommandHandler>> = Object
   // Event log commands
   'rebuild-event-log': handleRebuildEventLog,
   // Task audit commands
-  'audit-task': handleAuditTask,
-\});
+    'audit-task': handleAuditTask,
+});
 
 export const AVAILABLE_COMMANDS: ReadonlyArray<string> = Object.freeze(
   Object.keys(COMMAND_HANDLERS),
