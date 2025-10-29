@@ -95,6 +95,9 @@ type LoadedBoard = Awaited<ReturnType<typeof loadBoard>>;
 
 type ImmutableLoadedBoard = DeepReadonly<LoadedBoard>;
 
+type BoardColumn = Board['columns'][number];
+type BoardTask = BoardColumn['tasks'][number];
+
 const requireArg = (value: string | undefined, label: string): string => {
   if (typeof value === 'string') {
     const trimmed = value.trim();
