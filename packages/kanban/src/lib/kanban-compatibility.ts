@@ -412,9 +412,6 @@ export const toFrontmatter = (task: LegacyTask): string => {
   if (task.slug) frontmatter.slug = task.slug;
   if (task.created_at) frontmatter.created_at = task.created_at;
   if (task.estimates) frontmatter.estimates = task.estimates;
-  if (task.blocking) frontmatter.blocking = task.blocking;
-  if (task.blockedBy) frontmatter.blockedBy = task.blockedBy;
-
   const yamlContent = stringifyYaml(frontmatter).trimEnd();
   const header = `---\n${yamlContent}\n---\n`;
   const body = (task.content ?? '').trim();
