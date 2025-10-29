@@ -24,17 +24,34 @@ import { moveTask as moveTaskFunctional } from './actions/transitions/move-task.
 import { createTask as createTaskFunctional } from './actions/tasks/index.js';
 import { saveBoard as saveBoardFunctional } from './actions/boards/index.js';
 import { formatMarkdown } from './serializers/index.js';
-import type { LoadBoardOutput } from './actions/types/board.js';
+import type { LoadBoardOutput, Board as FunctionalBoard } from './actions/types/board.js';
+import type { Board as LegacyBoard, Task, ColumnData } from './types.js';
 
-// Legacy loadBoard wrapper - converts string path to LoadBoardInput
-export const loadBoard = async (
-  boardPath: string,
-  tasksPath?: string,
-): Promise<LoadBoardOutput> => {
+// Helper function to convert functional Board to legacy Board format
+const convertToLegacyBoard = (functionalBoard: FunctionalBoard): LegacyBoard => {
+  return {
+    columns: functionalBoard.columns.map((col) => ({
+      name: col.name,
+      count: col.cards.length,
+      tasks: col.cards.map((card) => ({
+        uuid: card.id,
+        title: card.text,
+        status: card.done ? 'done' : 'todo',
+        labels: [...card.tags],
+        links: [...card.links],
+        attrs: { ...card.attrs },
+      })),
+    })),
+  };
+};
+
+// Legacy loadBoard wrapper - converts string path to LoadBoardInput and returns legacy Board format
+export const loadBoard = async (boardPath: string, tasksPath?: string): Promise<LegacyBoard> => {
   try {
     const { readFile } = await import('node:fs/promises');
     const markdown = await readFile(boardPath, 'utf8');
-    return loadBoardFunctional({ markdown });
+    const loadResult = await loadBoardFunctional({ markdown });
+    return convertToLegacyBoard(loadResult.board);
   } catch (error) {
     throw new Error(
       `Failed to load board from ${boardPath}: ${error instanceof Error ? error.message : 'Unknown error'}`,
