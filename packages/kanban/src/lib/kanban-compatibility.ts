@@ -25,7 +25,7 @@ import { indexForSearch as indexForSearchAction } from './actions/search/index-f
 import { formatMarkdown } from './serializers/index.js';
 import type { ColumnState, Card } from './actions/types/card.js';
 import type { Board as FunctionalBoard } from './actions/types/board.js';
-import type { Board as LegacyBoard, Task as LegacyTask } from './types.js';
+import type { Board as LegacyBoard, Task as LegacyTask, ColumnData } from './types.js';
 import type { SearchTasksResult } from './actions/search/search-tasks.js';
 import type { IndexForSearchResult } from './actions/search/index-for-search.js';
 import { stringify as stringifyYaml } from 'yaml';
@@ -285,9 +285,27 @@ export const generateBoardByTags = async (
   return { success: true };
 };
 
-export const indexForSearch = async (_tasksDir: string): Promise<{ success: boolean }> => {
-  // Placeholder implementation
-  return { success: true };
+export const indexForSearch = async (
+  tasksDir: string,
+  options?: {
+    argv?: ReadonlyArray<string>;
+    env?: Record<string, string | undefined>;
+  },
+): Promise<IndexForSearchResult> => {
+  const argv = options?.argv ?? [];
+  const env = options?.env ?? {};
+  const writeIndex = argv.includes('--write');
+  const indexPath = env.KANBAN_INDEX_FILE;
+  const extensions = env.KANBAN_INDEX_EXT ? env.KANBAN_INDEX_EXT.split(',') : undefined;
+
+  return indexForSearchAction({
+    tasksDir,
+    options: {
+      writeIndex,
+      indexPath,
+      extensions,
+    },
+  });
 };
 
 export const searchTasks = async (
