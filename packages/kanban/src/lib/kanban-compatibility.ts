@@ -15,6 +15,7 @@ import { updateStatus as updateStatusFunctional } from './actions/transitions/up
 import { moveTask as moveTaskFunctional } from './actions/transitions/move-task.js';
 import { createTask as createTaskFunctional } from './actions/tasks/index.js';
 import { formatMarkdown } from './serializers/index.js';
+import type { ColumnState, Card } from './actions/types/card.js';
 import type { Board as FunctionalBoard } from './actions/types/board.js';
 import type { Board as LegacyBoard, Task } from './types.js';
 
@@ -328,26 +329,33 @@ export const writeBoard = async (boardPath: string, board: LegacyBoard): Promise
   const { writeFile } = await import('node:fs/promises');
 
   // Convert to markdown and write
+  const columns: ColumnState[] = board.columns.map((col) => ({
+    name: col.name,
+    cards: col.tasks.map((task): Card => {
+      const enhancedTask = task as Task & {
+        links?: readonly string[];
+        attrs?: Record<string, unknown>;
+      };
+      const attrs: Record<string, string> = enhancedTask.attrs
+        ? Object.fromEntries(
+            Object.entries(enhancedTask.attrs).map(([key, value]) => [key, String(value)]),
+          )
+        : {};
+      return {
+        id: task.uuid,
+        text: task.title,
+        done: task.status === 'done',
+        tags: task.labels ? [...task.labels] : [],
+        links: enhancedTask.links ? [...enhancedTask.links] : [],
+        attrs,
+      };
+    }),
+  }));
+
   const markdown = formatMarkdown({
     frontmatter: {},
     settings: {},
-    columns: board.columns.map((col) => ({
-      name: col.name,
-      cards: col.tasks.map((task) => {
-        const enhancedTask = task as Task & {
-          links?: readonly string[];
-          attrs?: Record<string, unknown>;
-        };
-        return {
-          id: task.uuid,
-          text: task.title,
-          done: task.status === 'done',
-          tags: task.labels ?? [],
-          links: enhancedTask.links ? [...enhancedTask.links] : [],
-          attrs: enhancedTask.attrs ? { ...enhancedTask.attrs } : {},
-        };
-      }),
-    })),
+    columns,
   });
   await writeFile(boardPath, markdown, 'utf8');
 };
