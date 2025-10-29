@@ -4,27 +4,31 @@
  */
 
 import { normalizeName } from '../../utils/index.js';
-import type { RemoveCardInput, RemoveCardOutput, ColumnState } from '../types/index.js';
+import type { RemoveCardInput, RemoveCardOutput } from '../types/index.js';
 
 export type RemoveCardScope = {
-    readonly normalizeName: typeof normalizeName;
+  readonly normalizeName: typeof normalizeName;
 };
 
-export const removeCard = (input: RemoveCardInput, scope: RemoveCardScope = { normalizeName }): RemoveCardOutput => {
-    const { board, columnName, cardId } = input;
-    const { normalizeName } = scope;
-    
-    const target = normalizeName(columnName);
-    const nextColumns = board.columns.map((column) =>
-        normalizeName(column.name) === target
-            ? { ...column, cards: column.cards.filter((card) => card.id !== cardId) }
-            : column,
-    );
-    
-    return {
-        board: {
-            ...board,
-            columns: nextColumns,
-        },
-    };
+export const removeCard = (
+  input: RemoveCardInput,
+  scope: RemoveCardScope = { normalizeName },
+): RemoveCardOutput => {
+  const { board, columnName, cardId } = input;
+  const { normalizeName } = scope;
+
+  const target = normalizeName(columnName);
+  const nextColumns = board.columns.map((column) =>
+    normalizeName(column.name) === target
+      ? { ...column, cards: column.cards.filter((card) => card.id !== cardId) }
+      : column,
+  );
+
+  return {
+    board: {
+      columns: nextColumns,
+      frontmatter: board.frontmatter,
+      settings: board.settings,
+    },
+  };
 };

@@ -7,8 +7,7 @@ export type {
   ColumnState,
   BoardFrontmatter,
   KanbanSettings,
-  CardInput,
-  CardOutput,
+  Column,
   CreateCardInput,
   CreateCardOutput,
   UpdateCardInput,
@@ -37,7 +36,6 @@ export type {
 } from './board.js';
 
 export type {
-  Column,
   CreateColumnInput,
   CreateColumnOutput,
   RemoveColumnInput,
