@@ -26,7 +26,7 @@ export const STOPWORDS = new Set<string>([
   'auto',
 ]);
 
-export const BLOCKED_BY_HEADING = '## Blocked By';
-export const BLOCKS_HEADING = '## Blocks';
+export const BLOCKED_BY_HEADING = '## ⛓️ Blocked By';
+export const BLOCKS_HEADING = '## ⛓️ Blocks';
 
 export const NOW_ISO = (): string => new Date().toISOString();
