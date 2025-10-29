@@ -9,7 +9,6 @@ import {
   generateDiff,
 } from '../../task-content/parser.js';
 import { writeBoard, maybeRefreshIndex, ensureColumn as ensureBoardColumn } from '../../serializers/board.js';
-import { ensureTaskFileBase } from '../../core/slugs.js';
 
 export type UpdateStatusInput = {
   board: Board;

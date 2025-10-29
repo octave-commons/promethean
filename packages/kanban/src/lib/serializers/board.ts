@@ -1,14 +1,14 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 
-import type { Board, ColumnData, Task, EpicTask } from '../types.js';
+import type { Board, ColumnData, EpicTask } from '../types.js';
 import { normalizeColumnDisplayName, columnKey } from '../utils/string-utils.js';
 import { ensureTaskFileBase } from '../core/slugs.js';
 import { mergeColumnsCaseInsensitive } from '../core/columns.js';
 import { assignStableSlugs } from '../core/task-utils.js';
 import { getEpicSubtasks, calculateEpicStatus } from '../epic.js';
-import { loadKanbanConfig } from '../board/config.js';
-import { refreshTaskIndex } from '../board/indexer.js';
+import { loadKanbanConfig } from '../../board/config.js';
+import { refreshTaskIndex } from '../../board/indexer.js';
 
 const KANBAN_SETTINGS_PATTERN = /^\s*%%\s*kanban:settings\b/m;
 

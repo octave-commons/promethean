@@ -13,7 +13,12 @@ export type { Task, ColumnData, Board as LegacyBoard } from './types.js';
 import { loadBoard as loadBoardFunctional } from './actions/boards/index.js';
 import { updateStatus as updateStatusFunctional } from './actions/transitions/update-status.js';
 import { moveTask as moveTaskFunctional } from './actions/transitions/move-task.js';
-import { createTask as createTaskAction } from './actions/tasks/index.js';
+import {
+  createTask as createTaskFunctional,
+  deleteTask as deleteTaskFunctional,
+  updateTaskDescription as updateTaskDescriptionFunctional,
+  renameTask as renameTaskFunctional,
+} from './actions/tasks/index.js';
 import { pullFromFiles } from './actions/sync/pull-from-files.js';
 import { pushToFiles } from './actions/sync/push-to-files.js';
 import { syncBoardAndTasks as syncBoardAndTasksAction } from './actions/sync/sync-board-and-tasks.js';
@@ -27,6 +32,7 @@ import { stringify as stringifyYaml } from 'yaml';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { readTaskFile } from './task-content/parser.js';
+import { writeBoard as writeBoardFile } from './serializers/board.js';
 
 // Helper to ensure optional results resolve to concrete values for the legacy surface
 const ensureTask = (task: LegacyTask | undefined, context: string): LegacyTask => {
@@ -197,7 +203,7 @@ export const createTask = async (
   const title = taskData.title?.trim() ?? '';
   const normalizedTitle = title.length > 0 ? title : `Task ${Date.now()}`;
 
-  const { task, board: updatedBoard } = await createTaskAction({
+  const { task, board: updatedBoard } = await createTaskFunctional({
     board,
     column: status,
     input: {
@@ -287,7 +293,7 @@ export const archiveTask = async (
   }
 
   if (boardPath) {
-    await writeBoard(boardPath, board);
+    await writeBoardFile(boardPath, board);
   }
 
   return task;
@@ -386,18 +392,12 @@ export const generateBoardByTags = async (
 };
 
 export const indexForSearch = async (
-  tasksDir: string,
+  _tasksDir: string,
   options?: {
     argv?: ReadonlyArray<string>;
     env?: Record<string, string | undefined>;
   },
 ): Promise<IndexForSearchResult> => {
-  const argv = options?.argv ?? [];
-  const env = options?.env ?? {};
-  const writeIndex = argv.includes('--write');
-  const indexPath = env.KANBAN_INDEX_FILE;
-  const extensions = env.KANBAN_INDEX_EXT ? env.KANBAN_INDEX_EXT.split(',') : undefined;
-
   return indexKanbanTasks({
     argv: options?.argv,
     env: options?.env,
@@ -417,7 +417,7 @@ export const deleteTask = async (
   tasksDir: string,
   boardPath: string,
 ): Promise<boolean> => {
-  const result = await deleteTaskAction({
+  const result = await deleteTaskFunctional({
     board,
     taskUuid: uuid,
     tasksDir,
@@ -433,7 +433,7 @@ export const updateTaskDescription = async (
   tasksDir: string,
   boardPath: string,
 ): Promise<LegacyTask | undefined> => {
-  await updateTaskDescriptionAction({
+  await updateTaskDescriptionFunctional({
     board,
     taskUuid: uuid,
     newContent: description,
@@ -450,7 +450,7 @@ export const renameTask = async (
   tasksDir: string,
   boardPath: string,
 ): Promise<LegacyTask | undefined> => {
-  await renameTaskAction({
+  await renameTaskFunctional({
     board,
     taskUuid: uuid,
     newTitle,

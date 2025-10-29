@@ -1,7 +1,5 @@
-import { stringify as stringifyYaml } from 'yaml';
-
 import type { Task } from '../types.js';
-import { isFallbackSlug, fallbackFileBase, ensureTaskFileBase } from '../core/slugs.js';
+import { isFallbackSlug, ensureTaskFileBase } from '../core/slugs.js';
 
 const quote = (value: unknown): string => {
   if (value === undefined || value === null) {

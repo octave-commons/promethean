@@ -66,22 +66,6 @@ const ensureColumn = (board: Board, column: string): ColumnData => {
   return ensured;
 };
 
-const processTaskContent = async (
-  input: CreateTaskInput,
-  title: string,
-  uuid: string,
-): Promise<string> => {
-  const templateConfig = {
-    templatePath: input.templatePath,
-    defaultTemplatePath: input.defaultTemplatePath,
-    title,
-    body: input.body ?? input.content ?? '',
-    uuid,
-  };
-
-  return await processTemplateContent(templateConfig);
-};
-
 const createBaseTask = (
   title: string,
   column: ColumnData,
@@ -141,29 +125,14 @@ export const createTaskAction = async (config: TaskCreationConfig): Promise<Task
     col.tasks.forEach((task, index) => boardIndex.set(task.uuid, { column: col, index, task })),
   );
 
-  const templatePath = input.templatePath ?? input.defaultTemplatePath;
-  let templateContent: string | undefined;
-  if (templatePath) {
-    try {
-      templateContent = await fs.readFile(templatePath, 'utf8');
-    } catch (error) {
-      console.warn(`Failed to read template ${templatePath}:`, error);
-    }
-  }
-
   const bodyText = input.body ?? input.content ?? '';
-  let contentFromTemplate =
-    typeof templateContent === 'string'
-      ? applyTemplateReplacements(templateContent, {
-          TITLE: title,
-          BODY: bodyText,
-          UUID: uuid,
-        })
-      : (input.content ?? bodyText);
-
-  if (!contentFromTemplate) {
-    contentFromTemplate = '';
-  }
+  const contentFromTemplate = await processTemplateContent({
+    templatePath: input.templatePath,
+    defaultTemplatePath: input.defaultTemplatePath,
+    title,
+    body: bodyText,
+    uuid,
+  });
 
   let taskContent = ensureSectionExists(contentFromTemplate, BLOCKED_BY_HEADING);
   taskContent = ensureSectionExists(taskContent, BLOCKS_HEADING);
