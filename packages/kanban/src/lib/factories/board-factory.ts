@@ -1,12 +1,17 @@
 /**
  * Board Factory
- * 
+ *
  * Functional equivalent of board constructors.
  * Creates board objects with dependencies injected.
  */
 
-import type { Board, BoardFrontmatter, KanbanSettings, Column } from '../actions/types/index.js';
-import { createColumn } from './column-factory.js';
+import type {
+  Board,
+  BoardFrontmatter,
+  KanbanSettings,
+  ColumnState,
+} from '../actions/types/index.js';
+import { createColumnState } from './column-factory.js';
 
 export interface BoardFactoryDependencies {
   /** Logger function for debugging */
@@ -39,23 +44,33 @@ export const createBoardWithDependencies = (
   logger?.(`Creating board: ${title}`);
 
   // Create default columns if none provided
-  const boardColumns: Column[] = columns.length > 0 
-    ? columns.map(col => createColumn({ name: col.name, wipLimit: col.wipLimit }))
-    : [
-        createColumn({ name: 'incoming' }),
-        createColumn({ name: 'todo' }),
-        createColumn({ name: 'in_progress' }),
-        createColumn({ name: 'testing' }),
-        createColumn({ name: 'review' }),
-        createColumn({ name: 'document' }),
-        createColumn({ name: 'done' }),
-      ];
+  const boardColumns: readonly ColumnState[] =
+    columns.length > 0
+      ? columns.map((col) => createColumnState({ name: col.name }))
+      : [
+          createColumnState({ name: 'incoming' }),
+          createColumnState({ name: 'todo' }),
+          createColumnState({ name: 'in_progress' }),
+          createColumnState({ name: 'testing' }),
+          createColumnState({ name: 'review' }),
+          createColumnState({ name: 'document' }),
+          createColumnState({ name: 'done' }),
+        ];
 
   // Merge settings with defaults
   const mergedSettings: KanbanSettings = {
     wipLimits: { in_progress: 3 },
     ...defaultSettings,
     ...settings,
+  };
+
+  return {
+    frontmatter: {
+      title,
+      ...frontmatter,
+    },
+    settings: mergedSettings,
+    columns: boardColumns,
   };
 
   return {
@@ -73,11 +88,11 @@ export const createBoardWithDependencies = (
  * Create a board from markdown content
  */
 export const createBoardFromMarkdown = (
-  markdown: string,
+  _markdown: string,
   dependencies: BoardFactoryDependencies = {},
 ): Board => {
   const { logger } = dependencies;
-  
+
   logger?.('Creating board from markdown');
 
   // This would integrate with the markdown parser
