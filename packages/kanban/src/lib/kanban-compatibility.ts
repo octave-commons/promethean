@@ -254,7 +254,11 @@ export const archiveTask = async (
     if (taskFilePath) {
       try {
         const parsed = await readTaskFile(taskFilePath);
-        const frontmatter = { ...(parsed.frontmatter ?? {}), status: 'Archive', title: task.title };
+        const frontmatter = {
+          ...(parsed.frontmatter ?? {}),
+          status: 'Archive',
+          title: task.title,
+        } as Record<string, unknown>;
         if (task.labels && task.labels.length > 0) {
           frontmatter.labels = task.labels;
         }
