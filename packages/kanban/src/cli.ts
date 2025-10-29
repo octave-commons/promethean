@@ -68,7 +68,7 @@ const detectOutputType = (
 
 async function main(): Promise<void> {
   const program = new Command();
-  
+
   program
     .name('kanban')
     .description('Automation for local markdown kanban and process-as-code')
@@ -79,16 +79,28 @@ async function main(): Promise<void> {
     .option('--kanban <path>', 'Path to kanban board file (legacy: --board-file)')
     .option('--tasks <path>', 'Path to tasks directory (legacy: --tasks-dir)')
     .option('--json', 'Output in JSONL format (default: markdown)')
-    .option('--log-level <level>', 'Set log level: silent, error, warn, info, debug (default: info)', 'info');
+    .option(
+      '--log-level <level>',
+      'Set log level: silent, error, warn, info, debug (default: info)',
+      'info',
+    );
 
   // Parse arguments to get command and options
   program.parse();
   const options = program.opts();
   const [cmd, ...args] = program.args;
 
-  // Set log level
+  // Set log level with validation
   if (options.logLevel) {
-    setLogLevel(options.logLevel as 'silent' | 'error' | 'warn' | 'info' | 'debug');
+    const validLevels: readonly string[] = ['silent', 'error', 'warn', 'info', 'debug'];
+    if (validLevels.includes(options.logLevel)) {
+      setLogLevel(options.logLevel as 'silent' | 'error' | 'warn' | 'info' | 'debug');
+    } else {
+      console.error(
+        `Invalid log level: ${options.logLevel}. Valid levels are: ${validLevels.join(', ')}`,
+      );
+      process.exit(2);
+    }
   }
 
   // Handle init command specially
@@ -140,7 +152,7 @@ async function main(): Promise<void> {
     printJSONL(res);
     return;
   }
-  
+
   if (cmd === 'doccheck') {
     const pr = args[0] || process.env.PR_NUMBER;
     await docguard({
