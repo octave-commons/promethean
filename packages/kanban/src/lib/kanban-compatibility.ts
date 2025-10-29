@@ -58,7 +58,7 @@ const convertToLegacyBoard = (functionalBoard: FunctionalBoard): LegacyBoard => 
 };
 
 // Legacy loadBoard wrapper - converts string path to LoadBoardInput and returns legacy Board format
-export const loadBoard = async (boardPath: string): Promise<LegacyBoard> => {
+export const loadBoard = async (boardPath: string, _tasksPath?: string): Promise<LegacyBoard> => {
   try {
     const { readFile } = await import('node:fs/promises');
     const markdown = await readFile(boardPath, 'utf8');
@@ -78,6 +78,7 @@ export const updateStatus = async (
   newStatus: string,
   boardPath?: string,
   tasksDir?: string,
+  ..._deprecatedArgs: ReadonlyArray<unknown>
 ): Promise<{
   success: boolean;
   task: Task;
@@ -98,11 +99,13 @@ export const updateStatus = async (
     },
   });
 
+  const task = ensureTask(result.task as Task | undefined, 'updateStatus');
+
   // Return legacy format
   return {
     success: result.success,
-    task: result.task,
-    previousStatus: result.previousStatus,
+    task,
+    previousStatus: result.previousStatus ?? task.status,
   };
 };
 
@@ -115,8 +118,8 @@ export const moveTask = async (
 ): Promise<{
   success: boolean;
   task: Task;
-  fromPosition: number;
-  toPosition: number;
+  fromPosition: { column: string; index: number } | undefined;
+  toPosition: { column: string; index: number } | undefined;
 }> => {
   const direction = offset < 0 ? 'up' : 'down';
   const result = await moveTaskFunctional({
@@ -126,10 +129,12 @@ export const moveTask = async (
     boardPath,
   });
 
+  const task = ensureTask(result.task as Task | undefined, 'moveTask');
+
   // Return legacy format
   return {
     success: result.success,
-    task: result.task,
+    task,
     fromPosition: result.fromPosition,
     toPosition: result.toPosition,
   };
