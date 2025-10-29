@@ -72,16 +72,6 @@ export const createBoardWithDependencies = (
     settings: mergedSettings,
     columns: boardColumns,
   };
-
-  return {
-    title,
-    frontmatter: {
-      title,
-      ...frontmatter,
-    },
-    settings: mergedSettings,
-    columns: boardColumns,
-  };
 };
 
 /**
