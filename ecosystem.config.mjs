@@ -387,4 +387,3 @@ export const schedules =
 
 export const actions = 
 [];
-// Trigger restart
