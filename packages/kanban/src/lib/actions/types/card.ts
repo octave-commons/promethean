@@ -102,6 +102,8 @@ export type MoveCardOutput = {
 export type UpdateCardInput = {
   readonly board: {
     readonly columns: readonly ColumnState[];
+    readonly frontmatter: BoardFrontmatter;
+    readonly settings: KanbanSettings | null;
   };
   readonly cardId: string;
   readonly patch: Partial<Omit<Card, 'id'>>;
@@ -118,6 +120,8 @@ export type UpdateCardOutput = {
 export type FindCardsInput = {
   readonly board: {
     readonly columns: readonly ColumnState[];
+    readonly frontmatter: BoardFrontmatter;
+    readonly settings: KanbanSettings | null;
   };
   readonly columnName: string;
 };
