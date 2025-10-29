@@ -1889,6 +1889,7 @@ export const createTask = async (
   // P0 Security Task Validation Gate for new tasks
   try {
     const { validateP0SecurityTask } = await import('./validation/index.js');
+    const { validateP0SecurityTask, generateAuditValidationScar } = await import('./validation/index.js');
     const p0Validation = await validateP0SecurityTask(preliminaryTask, 'new', column, {
       repoRoot: process.cwd(),
       tasksDir,
@@ -1925,15 +1926,13 @@ export const createTask = async (
       }
 
       const errorMessage = `🚨 P0 Security Validation Failed:
-${p0Validation.errors.map((error) => `  ❌ ${error}`).join('
-')}`;
+      const errorMessage = `🚨 P0 Security Validation Failed:\n${p0Validation.errors.map((error) => `  ❌ ${error}`).join('\n')}`;
       const warningMessage =
         p0Validation.warnings.length > 0
-          ? `
-⚠️  Warnings:
-${p0Validation.warnings.map((warning) => `  ⚡ ${warning}`).join('
-')}`
+          ? `\n⚠️  Warnings:\n${p0Validation.warnings.map((warning) => `  ⚡ ${warning}`).join('\n')}`
           : '';
+
+      throw new Error(errorMessage + warningMessage);          : '';
 
       throw new Error(errorMessage + warningMessage);
     }
