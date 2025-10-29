@@ -1,6 +1,6 @@
 /**
  * Card Factory
- * 
+ *
  * Functional equivalent of card constructors.
  * Creates card objects with dependencies injected.
  */
@@ -17,16 +17,16 @@ export interface CardFactoryDependencies {
 }
 
 export interface CreateCardInput {
-  /** Card title */
-  title: string;
-  /** Card content/description */
-  content?: string;
-  /** Card priority */
-  priority?: string;
-  /** Card labels */
-  labels?: string[];
-  /** Card metadata */
-  metadata?: Record<string, unknown>;
+  /** Card text content */
+  text: string;
+  /** Whether card is done */
+  done?: boolean;
+  /** Card tags */
+  tags?: string[];
+  /** Card links */
+  links?: string[];
+  /** Card attributes */
+  attrs?: Record<string, string>;
   /** Existing card ID (for updates) */
   id?: string;
 }
@@ -38,18 +38,18 @@ export const createCard = (
   input: CreateCardInput,
   dependencies: CardFactoryDependencies = {},
 ): Card => {
-  const { logger, generateId = () => crypto.randomUUID(), defaultPriority = 'medium' } = dependencies;
-  const { title, content, priority = defaultPriority, labels = [], metadata = {}, id } = input;
+  const { logger, generateId = () => crypto.randomUUID() } = dependencies;
+  const { text, done = false, tags = [], links = [], attrs = {}, id } = input;
 
-  logger?.(`Creating card: ${title}`);
+  logger?.(`Creating card: ${text}`);
 
   return {
     id: id || generateId(),
-    title,
-    content: content || '',
-    priority,
-    labels,
-    metadata,
+    text,
+    done,
+    tags,
+    links,
+    attrs,
   };
 };
 
@@ -68,7 +68,7 @@ export const createCardFromTask = (
   dependencies: CardFactoryDependencies = {},
 ): Card => {
   const { logger } = dependencies;
-  
+
   logger?.(`Creating card from task: ${task.title}`);
 
   return createCard(
