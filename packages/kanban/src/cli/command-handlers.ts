@@ -738,7 +738,7 @@ const handleList: CommandHandler = (args, context) =>
     const showAll = args.includes('--all') || args.includes('-a');
 
     if (showAll) {
-      columnsToShow = board.columns.map((col) => columnKey(col.name));
+      columnsToShow = board.columns.map((col: BoardColumn) => columnKey(col.name));
     } else {
       const customColumns = args.filter((arg) => !arg.startsWith('--'));
       if (customColumns.length > 0) {
@@ -753,7 +753,9 @@ const handleList: CommandHandler = (args, context) =>
     const allTasks: any[] = [];
 
     for (const columnName of columnsToShow) {
-      const column = board.columns.find((col) => columnKey(col.name) === columnName);
+      const column = board.columns.find(
+        (col: BoardColumn) => columnKey(col.name) === columnName,
+      );
       if (!column) continue;
 
       const displayName = column.name;
@@ -782,7 +784,7 @@ const handleList: CommandHandler = (args, context) =>
 
       // Show tasks in this column
       if (column.tasks.length > 0) {
-        column.tasks.forEach((task) => {
+        column.tasks.forEach((task: BoardTask) => {
           const priority = task.priority ? ` [${task.priority}]` : '';
           const uuid = task.uuid.slice(0, 8);
           debug(`   • ${task.title}${priority} (${uuid}...)`);
@@ -803,11 +805,11 @@ const handleList: CommandHandler = (args, context) =>
     }
 
     // Show WIP limits summary
-    const limitedColumns = board.columns.filter((col) => col.limit);
+    const limitedColumns = board.columns.filter((col: BoardColumn) => Boolean(col.limit));
     if (limitedColumns.length > 0) {
       debug('');
       debug('📊 WIP Limits Summary:');
-      limitedColumns.forEach((col) => {
+      limitedColumns.forEach((col: BoardColumn) => {
         const percentage = col.limit ? Math.round((col.tasks.length / col.limit) * 100) : 0;
         const status = percentage > 100 ? '🚨' : percentage > 80 ? '⚠️' : '✅';
         debug(`   ${status} ${col.name}: ${col.tasks.length}/${col.limit} (${percentage}%)`);
@@ -849,11 +851,16 @@ const handleAudit: CommandHandler = (args, context) =>
     debug('🔍 Analyzing task state consistency...');
 
     // Collect all tasks for concurrent processing
-    const allTasks = board.columns.flatMap((column) => {
+    const allTasks = board.columns.flatMap((column: BoardColumn) => {
       if (columnFilter && columnKey(column.name) !== columnKey(columnFilter)) {
-        return [];
+        return [] as Array<{ task: BoardTask; columnName: string }>;
       }
-      return column.tasks.map((task) => ({ task, columnName: column.name }));
+      return column.tasks.map(
+        (task): { task: BoardTask; columnName: string } => ({
+          task,
+          columnName: column.name,
+        }),
+      );
     });
 
     const totalTasks = allTasks.length;
@@ -861,7 +868,7 @@ const handleAudit: CommandHandler = (args, context) =>
 
     // Process all tasks concurrently
     const taskAnalyses = await Promise.all(
-      allTasks.map(async ({ task, columnName }) => {
+      allTasks.map(async ({ task, columnName }: { task: BoardTask; columnName: string }) => {
         const [replayResult, taskFilePath] = await Promise.all([
           eventLogManager.replayTaskTransitions(task.uuid, task.status),
           findTaskFilePath(context.tasksDir, task.uuid),
