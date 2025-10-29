@@ -1109,6 +1109,16 @@ export const moveTask = async (
   delta: number,
   boardPath: string,
 ): Promise<{ uuid: string; column: string; rank: number } | undefined> => {
+  // Basic validation: ensure task exists before attempting move
+  const locatedTask = locateTask(board, uuid);
+  if (!locatedTask) {
+    throw new Error(`Task with UUID ${uuid} not found in board`);
+  }
+
+  // Note: moveTask only changes task order within a column, not status
+  // P0 security validation is not required for rank changes since they don't
+  // represent workflow transitions that could bypass security gates
+
   for (const col of board.columns) {
     const idx = col.tasks.findIndex((t) => t.uuid === uuid);
     if (idx >= 0) {
