@@ -606,28 +606,60 @@ export const evaluateCustomRule = async (
     // Load the Clojure DSL file
     const dslCode = await readFile(state.config.dslPath!, 'utf-8');
 
-    // Create a safe evaluation context with DSL loaded
+    // Create a safe evaluation context with Zod validation and proper data marshaling
     const clojureCode = `
       ${dslCode}
 
-      ;; Convert JavaScript objects to Clojure maps for evaluation
-      (def task-clj {:uuid "${task.uuid}"
-                     :title "${task.title}"
-                     :priority "${task.priority}"
-                     :content "${task.content || ''}"
-                     :status "${task.status}"
-                     :estimates {:complexity ${task.estimates?.complexity || 999}}
-                     :storyPoints ${task.storyPoints || 0}
-                     :labels [${(task.labels || []).map((l) => `"${l}"`).join(' ')}]})
+      ;; Import Zod for validation
+      (require '[zod :as z])
 
-      (def board-clj {:columns [${board.columns
-        .map((col) => `{:name "${col.name}" :limit ${col.limit || 0} :tasks []}`)
-        .join(' ')}]})
+      ;; Define validation schemas
+      (def TaskSchema 
+        (z/object 
+          {:uuid (z/string)
+           :title (z/string)
+           :priority (z/enum ["P0" "P1" "P2" "P3"])
+           :content (z/string)
+           :status (z/string)
+           :estimates (z/object {:complexity (z/number)})
+           :storyPoints (z/number)
+           :labels (z/array (z/string))}))
 
-      ;; Evaluate rule implementation with converted objects
-      (let [task task-clj
-            board board-clj]
-        ${ruleImpl.replace('kanban-transitions/evaluate-transition', 'evaluate-transition')})
+      (def BoardSchema
+        (z/object 
+          {:columns (z/array 
+                     (z/object 
+                       {:name (z/string)
+                        :limit (z/number)
+                        :tasks (z/array (z/string))}))}))
+
+      ;; Validate and parse JavaScript objects safely
+      (defn safe-parse-task [task-js]
+        (-> (.parseAsync TaskSchema task-js)
+             (.then #(:success %))
+             (.catch #(do 
+                      (js/console.error "Task validation failed:" %)
+                      false))))
+
+      (defn safe-parse-board [board-js]
+        (-> (.parseAsync BoardSchema board-js)
+             (.then #(:success %))
+             (.catch #(do 
+                      (js/console.error "Board validation failed:" %)
+                      false))))
+
+      ;; Evaluate rule implementation with validated objects
+      (let [task-raw (js/JSON.parse "${JSON.stringify(task).replace(/"/g, '\\"')}")
+            board-raw (js/JSON.parse "${JSON.stringify(board).replace(/"/g, '\\"')}")
+            task-valid? (safe-parse-task task-raw)
+            board-valid? (safe-parse-board board-raw)]
+        (if (and task-valid? board-valid?)
+          (let [task (js->clj task-raw)
+                board (js->clj board-raw)]
+            ${ruleImpl.replace('kanban-transitions/evaluate-transition', 'evaluate-transition')})
+          (do 
+            (js/console.error "Validation failed - rejecting transition")
+            false)))
     `;
 
     // @ts-ignore - nbb dynamic evaluation
