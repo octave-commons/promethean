@@ -24,7 +24,7 @@
     "monitoring"
   ],
   "author": "Promethean Team",
-  "license": "MIT",
+  "license": "GPL-3.0-only",
   "dependencies": {
     "dotenv": "^16.0.0"
   },
