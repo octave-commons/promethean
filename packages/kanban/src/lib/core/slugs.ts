@@ -34,6 +34,22 @@ export const ensureTaskFileBase = (task: Task): string => {
   return base;
 };
 
+export const resolveTaskSlug = (
+  task: Pick<Task, 'slug' | 'title' | 'uuid'>,
+  baseName: string,
+): string => {
+  const sanitizedBase = sanitizeFileNameBase(baseName);
+  const explicitSlug =
+    typeof task.slug === 'string' && task.slug.trim().length > 0 ? task.slug.trim() : undefined;
+  const fallbackSource = sanitizedBase.length > 0 ? sanitizedBase : (task.title ?? sanitizedBase);
+  const slugSource = explicitSlug ?? fallbackSource;
+  const normalized = sanitizeFileNameBase(slugSource ?? '');
+  if (normalized.length > 0) {
+    return normalized;
+  }
+  return fallbackFileBase(task.uuid);
+};
+
 export const slugMatchesSourcePath = (task: Task): boolean => {
   if (!task.sourcePath) {
     return false;
