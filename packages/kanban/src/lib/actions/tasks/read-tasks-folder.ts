@@ -1,4 +1,5 @@
 import { promises as fs } from 'node:fs';
+import type { Dirent } from 'node:fs';
 import path from 'node:path';
 import { parseFrontmatter as parseMarkdownFrontmatter } from '@promethean-os/markdown/frontmatter';
 
@@ -23,7 +24,7 @@ export type ReadTasksFolderInput = {
 export type ReadTasksFolderResult = Task[];
 
 type ReadTasksFolderScope = {
-  readonly readdir: typeof fs.readdir;
+  readonly readdir: (dir: string) => Promise<ReadonlyArray<Dirent>>;
   readonly readFile: typeof fs.readFile;
   readonly stat: typeof fs.stat;
   readonly parseFrontmatter: typeof parseMarkdownFrontmatter;
@@ -31,7 +32,7 @@ type ReadTasksFolderScope = {
 };
 
 const defaultScope: ReadTasksFolderScope = {
-  readdir: (dir: string) => fs.readdir(dir, { withFileTypes: true }),
+  readdir: async (dir: string) => fs.readdir(dir, { withFileTypes: true }),
   readFile: fs.readFile,
   stat: fs.stat,
   parseFrontmatter: parseMarkdownFrontmatter,
@@ -109,13 +110,16 @@ const taskFromFrontmatter = (
   const status = pickString(fm, ['status', 'state', 'column']) ?? String(fm.status ?? 'Todo');
   const priorityValue = pickString(fm, ['priority', 'prio']);
 
+  const createdAt =
+    coerceString(fm.created_at) ?? pickString(fm, ['created_at', 'created', 'txn']) ?? now();
+
   const task: Task = {
     uuid,
     title: finalTitle,
     status,
     priority: typeof fm.priority === 'number' ? fm.priority : priorityValue,
     labels: mergeLabels(fm.tags, fm.hashtags, fm.labels),
-    created_at: fm.created_at ?? pickString(fm, ['created_at', 'created', 'txn']) ?? now(),
+    created_at: createdAt,
     estimates: (fm.estimates as Task['estimates']) ?? {},
     content: body.trim() || undefined,
     slug: pickString(fm, ['slug']),
@@ -124,7 +128,7 @@ const taskFromFrontmatter = (
   return task;
 };
 
-const fallbackTaskFromRaw = (filePath: string, raw: string): Task | null => {
+const fallbackTaskFromRaw = (filePath: string, raw: string, now: () => string): Task | null => {
   if (!raw.startsWith('---')) {
     return null;
   }
@@ -181,7 +185,7 @@ const fallbackTaskFromRaw = (filePath: string, raw: string): Task | null => {
     status,
     priority,
     labels,
-    created_at: getValue('created_at') ?? NOW_ISO(),
+    created_at: getValue('created_at') ?? now(),
     estimates: {},
     content: bodyContent.trim(),
   };
@@ -303,7 +307,7 @@ export const readTasksFolder = async (
         console.warn(`Failed to parse frontmatter for ${file}:`, error);
       }
 
-      const fallback = fallbackTaskFromRaw(filePath, content);
+      const fallback = fallbackTaskFromRaw(filePath, content, scope.now);
       if (fallback) {
         const enriched = enrichSlug(
           ensureLabelsPresent(withSourcePath(fallback, filePath), fallback.content),
