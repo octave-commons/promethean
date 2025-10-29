@@ -80,7 +80,16 @@ export async function commit(cwd: string, message: string, signoff = false): Pro
 
   const args = ['commit', '-m', sanitizedMessage];
   if (signoff) args.push('--signoff');
-  await execa('git', args, { cwd });
+
+  try {
+    await execa('git', args, { cwd });
+  } catch (error: unknown) {
+    // Re-throw with more context for common git errors
+    if (error instanceof Error && error.message.includes('nothing to commit, working tree clean')) {
+      throw new Error(`nothing to commit, working tree clean`);
+    }
+    throw error;
+  }
 }
 
 /**

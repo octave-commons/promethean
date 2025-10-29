@@ -75,28 +75,28 @@ function categorizeError(err: unknown): string {
   ) {
     return 'LLM server error. Falling back.';
   }
-  
+
   // Handle different error types safely
   if (err instanceof Error) {
     // Only log the error message, not the full object
     return `LLM failed: ${err.message}. Falling back.`;
   }
-  
+
   if (typeof err === 'string') {
     return `LLM failed: ${err}. Falling back.`;
   }
-  
+
   // For objects, try to extract a meaningful message but limit size
   if (typeof err === 'object' && err !== null) {
     const errorObj = err as Record<string, unknown>;
     const message = errorObj.message || errorObj.error || 'Unknown error';
     const messageStr = typeof message === 'string' ? message : String(message);
-    
+
     // Truncate very long messages to prevent log spam
     const truncated = messageStr.length > 200 ? messageStr.substring(0, 200) + '...' : messageStr;
     return `LLM failed: ${truncated}. Falling back.`;
   }
-  
+
   return `LLM failed: Unknown error. Falling back.`;
 }
 
@@ -137,7 +137,7 @@ async function generateCommitMessage(
   }
 }
 
-async function performCommit(
+export async function performCommit(
   config: Config,
   root: string,
   log: (msg: string) => void,
@@ -146,8 +146,25 @@ async function performCommit(
   await addAll(root);
 
   if (!(await hasStagedChanges(root))) {
+    log('No changes to commit.');
     return;
+}
+
+  try {
+    await commit(root, message, config.signoff);
+    log(pc.green(`Committed ${files.length} file(s).`));
+  } catch (error: unknown) {
+    // Handle case where another process staged/committed changes while we were generating message
+    if (
+      error instanceof Error &&
+      error.message.includes('nothing to commit, working tree clean')
+    ) {
+      log('No changes to commit (another process may have committed them).');
+      return;
+    }
+    throw error;
   }
+}
 
   const files = await listChangedFiles(root);
   const summary = await repoSummary(root);
@@ -160,8 +177,17 @@ async function performCommit(
     return;
   }
 
-  await commit(root, message, config.signoff);
-  log(pc.green(`Committed ${files.length} file(s).`));
+  try {
+    await commit(root, message, config.signoff);
+    log(pc.green(`Committed ${files.length} file(s).`));
+  } catch (error: unknown) {
+    // Handle case where another process staged/committed changes while we were generating message
+    if (error instanceof Error && error.message.includes('nothing to commit, working tree clean')) {
+      log('No changes to commit (another process may have committed them).');
+      return;
+    }
+    throw error;
+  }
 }
 
 type WatcherCallbacks = {
@@ -246,7 +272,7 @@ function createScheduler(
  * @param repoPath - Path to the git repository to watch
  * @returns Object containing cleanup function
  */
-async function startSingleRepository(
+export async function startSingleRepository(
   config: Config,
   repoPath: string,
 ): Promise<{ close: () => void }> {
