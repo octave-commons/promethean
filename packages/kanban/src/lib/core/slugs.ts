@@ -101,5 +101,3 @@ export const ensureUniqueFileBase = (
   }
   return candidate;
 };
-
-export type { Task };
