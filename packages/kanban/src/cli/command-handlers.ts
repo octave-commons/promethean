@@ -2426,6 +2426,134 @@ const handleRebuildEventLog = createRebuildEventLogCommand(
   'docs/agile/tasks',
 ).execute;
 
+const handleAuditTask: CommandHandler = async (args, context) => {
+  if (args.length === 0) {
+    throw new CommandUsageError('audit-task requires a task UUID');
+  }
+
+  const taskUuid = requireArg(args[0], 'task UUID');
+  const verbose = args.includes('--verbose');
+  const fix = args.includes('--fix');
+
+  console.log(`🔍 Auditing task: ${taskUuid}`);
+  console.log(`   Mode: ${fix ? 'FIX' : 'DRY RUN'}`);
+  console.log('');
+
+  // Find task file
+  const taskFilePath = await findTaskFilePath(context.tasksDir, taskUuid);
+  if (!taskFilePath) {
+    throw new CommandUsageError(`Task with UUID ${taskUuid} not found`);
+  }
+
+  try {
+    // Read and parse task file
+    const { readTaskFile } = await import('../lib/task-content/parser.js');
+    const taskFile = await readTaskFile(taskFilePath);
+    
+    if (!taskFile.task) {
+      throw new Error('Invalid task file format');
+    }
+
+    // Load board for context
+    const board = await loadBoard(context.boardFile, context.tasksDir);
+    
+    // Use safe evaluation module for validation
+    const { validateTaskWithZod, validateBoardWithZod } = await import('../lib/safe-rule-evaluation.js');
+    
+    console.log('🔍 Validating task structure...');
+    const taskValidation = await validateTaskWithZod(taskFile.task);
+    
+    console.log('🔍 Validating board structure...');
+    const boardValidation = await validateBoardWithZod(board as Board);
+
+    // Collect all issues
+    const issues = [];
+    
+    if (!taskValidation.isValid) {
+      issues.push(...taskValidation.errors.map(err => ({ type: 'error', message: `Task validation: ${err}` })));
+    }
+    
+    if (!boardValidation.isValid) {
+      issues.push(...boardValidation.errors.map(err => ({ type: 'error', message: `Board validation: ${err}` })));
+    }
+
+    // Check for malformed YAML frontmatter
+    if (taskFile.rawContent) {
+      const yamlMatch = taskFile.rawContent.match(/^---\n([\s\S]*?)\n---/);
+      if (yamlMatch) {
+        try {
+          // Try to parse YAML to detect structural issues
+          const { parseYaml } = await import('../lib/task-content/parser.js');
+          // @ts-ignore - Dynamic import
+          const yamlContent = parseYaml(yamlMatch[1]);
+          
+          // Check for common issues
+          if (yamlContent.estimates && typeof yamlContent.estimates === 'object') {
+            if (yamlContent.estimates.complexity === undefined || yamlContent.estimates.complexity === null) {
+              issues.push({ type: 'error', message: 'Missing complexity in estimates' });
+            }
+          }
+          
+          if (yamlContent.storyPoints === undefined || yamlContent.storyPoints === null) {
+            issues.push({ type: 'error', message: 'Missing storyPoints' });
+          }
+          
+          if (!yamlContent.priority || !['P0', 'P1', 'P2', 'P3'].includes(yamlContent.priority)) {
+            issues.push({ type: 'error', message: 'Invalid or missing priority' });
+          }
+        } catch (yamlError) {
+          issues.push({ type: 'error', message: `YAML parsing error: ${yamlError}` });
+        }
+      }
+    }
+
+    // Output results
+    const errorCount = issues.filter(i => i.type === 'error').length;
+    const warningCount = issues.filter(i => i.type === 'warning').length;
+
+    console.log(`📊 AUDIT RESULTS:`);
+    console.log(`   Errors: ${errorCount}`);
+    console.log(`   Warnings: ${warningCount}`);
+    console.log('');
+
+    if (verbose || errorCount > 0) {
+      for (const issue of issues) {
+        const icon = issue.type === 'error' ? '❌' : '⚠️';
+        console.log(`${icon} ${issue.message}`);
+      }
+      console.log('');
+    }
+
+    if (errorCount === 0) {
+      console.log('✅ Task passed all validation checks');
+    } else if (fix) {
+      console.log('🔧 Auto-fix not yet implemented for individual task auditing');
+      console.log('   Use "kanban audit --fix" for board-wide corrections');
+    } else {
+      console.log('💡 Use --fix to attempt automatic corrections (when implemented)');
+    }
+
+    return {
+      taskUuid,
+      taskFilePath,
+      validation: {
+        task: taskValidation,
+        board: boardValidation,
+      },
+      issues,
+      summary: {
+        errors: errorCount,
+        warnings: warningCount,
+        isValid: errorCount === 0,
+      },
+    };
+
+  } catch (error) {
+    console.error(`❌ Audit failed: ${error instanceof Error ? error.message : String(error)}`);
+    throw error;
+  }
+};
+
 export const COMMAND_HANDLERS: Readonly<Record<string, CommandHandler>> = Object.freeze({
   heal: handleHeal,
   count: handleCount,
@@ -2474,7 +2602,9 @@ export const COMMAND_HANDLERS: Readonly<Record<string, CommandHandler>> = Object
   init: handleInit,
   // Event log commands
   'rebuild-event-log': handleRebuildEventLog,
-});
+  // Task audit commands
+  'audit-task': handleAuditTask,
+\});
 
 export const AVAILABLE_COMMANDS: ReadonlyArray<string> = Object.freeze(
   Object.keys(COMMAND_HANDLERS),

@@ -112,7 +112,8 @@ const HELP_TEXT =
   `  search   - Search tasks by content\n` +
   `  count    - Count tasks in columns\n\n` +
   `Advanced:\n` +
-  `  audit    - Audit board consistency\n` +
+  `  audit-task - Audit individual task for security and validation issues
+  audit    - Audit board consistency\n` +
   `  heal     - Heal board issues with git tag management\n` +
   `  ui       - Start web UI\n` +
   `  dev      - Start development server\n\n` +
