@@ -1925,7 +1925,7 @@ const handleCreateEpic: CommandHandler = (args, context) =>
     // Validate subtask UUIDs if provided
     if (epicArgs.subtaskUuids.length > 0) {
       for (const subtaskUuid of epicArgs.subtaskUuids) {
-        const subtask = findTaskById(mutableBoard, subtaskUuid);
+        const subtask = await findTaskById(mutableBoard, subtaskUuid);
         if (!subtask) {
           throw new CommandUsageError(`Subtask with UUID ${subtaskUuid} not found`);
         }
