@@ -10,65 +10,18 @@ export * from './index.js';
 export type { Task, ColumnData } from './types.js';
 
 // Legacy compatibility functions - map old API to new functional architecture
-import type { Board } from './actions/types/board.js';
 import { formatMarkdown } from './serializers/index.js';
-import { promises as fs } from 'fs';
-import path from 'path';
 
-// Legacy function wrappers - handle both Board types
-export const countTasks = (board: any): number => {
-  // Handle new functional Board type
-  if (board.columns && Array.isArray(board.columns) && board.columns.length > 0 && board.columns[0].cards) {
-    return board.columns.reduce((total: number, column: any) => total + column.cards.length, 0);
-  }
-  // Handle legacy Board type
-  if (board.columns && Array.isArray(board.columns) && board.columns.length > 0 && board.columns[0].tasks) {
-    return board.columns.reduce((total: number, column: any) => total + column.tasks.length, 0);
-  }
-  return 0;
-};
-  return board.columns.reduce((total, column) => total + column.cards.length, 0);
-};
+// Legacy compatibility functions - re-export from functional actions
+export { countTasks } from './actions/boards/count-tasks.js';
+export { getColumn } from './actions/columns/get-column.js';
+export { getTasksByColumn } from './actions/columns/get-tasks-by-column.js';
+export { findTaskById } from './actions/tasks/find-task-by-id.js';
+export { findTaskByTitle } from './actions/tasks/find-task-by-title.js';
+export { readTasksFolder } from './actions/tasks/read-tasks-folder.js';
 
-export const getColumn = (board: Board, columnName: string): Board['columns'][0] | undefined => {
-  return board.columns.find((col) => col.name === columnName);
-};
-
-export const getTasksByColumn = (
-  board: Board,
-  columnName: string,
-): Board['columns'][0]['cards'] => {
-  const column = board.columns.find((col) => col.name === columnName);
-  return column ? column.cards : [];
-};
-
-export const findTaskById = (
-  board: Board,
-  taskId: string,
-): Board['columns'][0]['cards'][0] | undefined => {
-  for (const column of board.columns) {
-    const card = column.cards.find((c) => c.id === taskId);
-    if (card) return card;
-  }
-  return undefined;
-};
-
-export const findTaskByTitle = (
-  board: Board,
-  title: string,
-): Board['columns'][0]['cards'][0] | undefined => {
-  for (const column of board.columns) {
-    const card = column.cards.find((c) => c.text === title);
-    if (card) return card;
-  }
-  return undefined;
-};
-
-// Add readTasksFolder function
-export const readTasksFolder = async (tasksPath?: string): Promise<any[]> => {
-  const { readTasksFolder: readTasksFolderFunc } = await import('./actions/tasks/index.js');
-  return readTasksFolderFunc({ tasksPath });
-};
+// Export createTask from tasks index (already aliased)
+export { createTask } from './actions/tasks/index.js';
 
 // Placeholder functions for missing exports
 export const pullFromTasks = async (): Promise<void> => {

@@ -33,7 +33,7 @@ export const readTasksFolder = async (
       try {
         const filePath = path.join(tasksPath, file);
         const content = await fs.readFile(filePath, 'utf8');
-        
+
         // Parse frontmatter and content
         const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
         if (!frontmatterMatch) {
@@ -42,17 +42,21 @@ export const readTasksFolder = async (
         }
 
         const [, frontmatterStr, taskContent] = frontmatterMatch;
-        
+
         // Simple YAML parsing for basic frontmatter
-        const frontmatter: Record<string, any> = {};
-        frontmatterStr.split('\n').forEach((line) => {
-          const match = line.match(/^(\w+):\s*(.+)$/);
-          if (match) {
-            const [, key, value] = match;
-            // Remove quotes if present
-            frontmatter[key] = value.replace(/^["']|["']$/g, '');
-          }
-        });
+        const frontmatter: Record<string, string> = {};
+        if (frontmatterStr) {
+          frontmatterStr.split('\n').forEach((line) => {
+            const match = line.match(/^(\w+):\s*(.+)$/);
+            if (match) {
+              const [, key, value] = match;
+              // Remove quotes if present
+              if (value !== undefined) {
+                frontmatter[key] = value.replace(/^["']|["']$/g, '');
+              }
+            }
+          });
+        }
 
         // Create Task object
         const task: Task = {
@@ -60,14 +64,9 @@ export const readTasksFolder = async (
           title: frontmatter.title || '',
           status: frontmatter.status || 'backlog',
           priority: frontmatter.priority || 'medium',
-          tags: frontmatter.tags ? frontmatter.tags.split(',').map((t: string) => t.trim()) : [],
-          content: taskContent.trim(),
+          labels: frontmatter.tags ? frontmatter.tags.split(',').map((t: string) => t.trim()) : [],
+          content: taskContent?.trim() || '',
           sourcePath: filePath,
-          metadata: {
-            created: frontmatter.created || new Date().toISOString(),
-            updated: frontmatter.updated || new Date().toISOString(),
-            ...frontmatter,
-          },
         };
 
         tasks.push(task);
@@ -79,6 +78,8 @@ export const readTasksFolder = async (
     return tasks;
   } catch (error) {
     console.error(`Failed to read tasks folder ${tasksPath}:`, error);
-    throw new Error(`Failed to read tasks folder: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    throw new Error(
+      `Failed to read tasks folder: ${error instanceof Error ? error.message : 'Unknown error'}`,
+    );
   }
 };
