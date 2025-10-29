@@ -214,6 +214,69 @@ export const createTask = async (
   return task;
 };
 
+export const archiveTask = async (
+  board: LegacyBoard,
+  uuid: string,
+  tasksDir: string,
+  boardPath: string,
+): Promise<LegacyTask | undefined> => {
+  const task = findTaskById(board, uuid);
+  if (!task) {
+    return undefined;
+  }
+
+  const sourceColumn = board.columns.find((column) =>
+    column.tasks.some((candidate) => candidate.uuid === uuid),
+  );
+  if (sourceColumn) {
+    sourceColumn.tasks = sourceColumn.tasks.filter((candidate) => candidate.uuid !== uuid);
+    sourceColumn.count = sourceColumn.tasks.length;
+  }
+
+  task.status = 'Archive';
+
+  let archiveColumn = board.columns.find((column) => column.name === 'Archive');
+  if (!archiveColumn) {
+    archiveColumn = {
+      name: 'Archive',
+      count: 0,
+      limit: null,
+      tasks: [],
+    };
+    board.columns.push(archiveColumn);
+  }
+
+  archiveColumn.tasks = [...archiveColumn.tasks, task];
+  archiveColumn.count = archiveColumn.tasks.length;
+
+  if (tasksDir) {
+    const taskFilePath = await findTaskFile(tasksDir, uuid);
+    if (taskFilePath) {
+      try {
+        const parsed = await readTaskFile(taskFilePath);
+        const frontmatter = { ...(parsed.frontmatter ?? {}), status: 'Archive', title: task.title };
+        if (task.labels && task.labels.length > 0) {
+          frontmatter.labels = task.labels;
+        }
+        const yamlContent = stringifyYaml(frontmatter).trimEnd();
+        const body = (parsed.body ?? '').trimEnd();
+        const rewritten = body.length > 0
+          ? `---\n${yamlContent}\n---\n\n${body}\n`
+          : `---\n${yamlContent}\n---\n`;
+        await fs.writeFile(taskFilePath, rewritten, 'utf8');
+      } catch (_) {
+        // Ignore file update failures to keep CLI resilient
+      }
+    }
+  }
+
+  if (boardPath) {
+    await writeBoard(boardPath, board);
+  }
+
+  return task;
+};
+
 // Legacy compatibility wrappers for functions with signature changes
 export const findTaskById = (board: LegacyBoard, uuid: string): LegacyTask | undefined => {
   for (const column of board.columns) {
