@@ -1,13 +1,11 @@
 /**
- * Git Event Reconstructor
+ * Git Event Reconstructor - DISABLED
  *
- * Reconstructs kanban event log from git history by analyzing task file changes
- * and extracting status transitions over time.
+ * All git functionality has been disabled. This module provides no-op stubs
+ * to maintain API compatibility while preventing any git operations.
  */
 
 import { randomUUID } from 'node:crypto';
-import path from 'node:path';
-import { execSync } from 'node:child_process';
 
 import type { TransitionEvent } from '../board/event-log/types.js';
 import type { KanbanConfig } from '../board/config/shared.js';
@@ -40,14 +38,17 @@ export interface ReconstructedEvent {
 export interface GitEventReconstructorOptions {
   repoRoot?: string;
   tasksDir: string;
-  since?: string; // Git date format: "2025-01-01"
+  since?: string;
   taskUuidFilter?: string;
   dryRun?: boolean;
   verbose?: boolean;
 }
 
 /**
- * Reconstructs kanban events from git history
+ * Reconstructs kanban events from git history - DISABLED VERSION
+ *
+ * All git operations have been disabled. This class provides no-op stubs
+ * to maintain API compatibility while preventing any git operations.
  */
 export class GitEventReconstructor {
   private readonly repoRoot: string;
@@ -64,160 +65,54 @@ export class GitEventReconstructor {
       tasksDir: options.tasksDir,
       since: options.since || '2020-01-01',
     };
+    console.warn('[kanban-dev] Git event reconstructor is DISABLED - no git operations will be performed');
   }
 
   /**
-   * Get all commits that modified task files
+   * Get all commits that modified task files - DISABLED
    */
   private getTaskCommits(): GitCommit[] {
-    const sinceFlag = this.options.since ? `--since="${this.options.since}"` : '';
-    const tasksPath = path.relative(this.repoRoot, this.tasksDir);
-
-    try {
-      // Build git command with proper quoting
-      const formatFlag = "'--pretty=format:%H|%ai|%ae|%s'";
-      const cmd = `git log ${sinceFlag} --name-only ${formatFlag} -- "${tasksPath}/*.md"`;
-
-      const output = execSync(cmd, {
-        cwd: this.repoRoot,
-        encoding: 'utf8',
-        maxBuffer: 50 * 1024 * 1024, // 50MB buffer
-      })
-        .toString()
-        .trim();
-
-      if (!output) return [];
-
-      const commits: GitCommit[] = [];
-      const lines = output.split('\n');
-      let currentCommit: Partial<GitCommit> | null = null;
-
-      for (const line of lines) {
-        if (line.includes('|')) {
-          // Commit header line
-          if (currentCommit) {
-            commits.push(currentCommit as GitCommit);
-          }
-
-          const [sha, timestamp, author, ...messageParts] = line.split('|');
-          currentCommit = {
-            sha,
-            timestamp,
-            author,
-            message: messageParts.join('|'),
-            files: [],
-          };
-        } else if (line.trim() && currentCommit) {
-          // File path line
-          const filePath = line.trim();
-          if (filePath.endsWith('.md') && filePath.includes(tasksPath)) {
-            currentCommit.files!.push(filePath);
-          }
-        }
-      }
-
-      if (currentCommit) {
-        commits.push(currentCommit as GitCommit);
-      }
-
-      return commits.reverse(); // Return in chronological order
-    } catch (error) {
-      console.warn('Warning: Failed to get git commits:', error);
-      return [];
-    }
+    console.warn('[kanban-dev] Git commit analysis skipped - functionality disabled');
+    return [];
   }
 
   /**
-   * Extract task UUID from file path or content
+   * Extract task UUID from file path or content - DISABLED
    */
   private extractTaskUuid(filePath: string, content?: string): string | null {
-    // Try to extract from filename first
-    const filename = path.basename(filePath, '.md');
-    if (filename.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/)) {
-      return filename;
-    }
-
-    // Try to extract from file content
-    if (content) {
-      const uuidMatch = content.match(
-        /uuid:\s*['"]?([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})['"]?/i,
-      );
-      if (uuidMatch?.[1]) {
-        return uuidMatch[1];
-      }
-    }
-
+    console.warn('[kanban-dev] Task UUID extraction skipped - git functionality disabled');
     return null;
   }
 
   /**
-   * Extract status from task file content
+   * Extract status from task file content - DISABLED
    */
   private extractTaskStatus(content: string): string | null {
-    const statusMatch = content.match(/status:\s*['"]?([^'"\n]+)['"]?/i);
-    return statusMatch?.[1]?.trim() || null;
+    console.warn('[kanban-dev] Task status extraction skipped - git functionality disabled');
+    return null;
   }
 
   /**
-   * Get task file content at specific commit
+   * Get task file content at specific commit - DISABLED
    */
   private getTaskContentAtCommit(filePath: string, commitSha: string): string | null {
-    try {
-      const cmd = `git show ${commitSha}:"${filePath}"`;
-      return execSync(cmd, {
-        cwd: this.repoRoot,
-        encoding: 'utf8',
-      });
-    } catch (error) {
-      // File might not exist at this commit
-      return null;
-    }
+    console.warn('[kanban-dev] Git content retrieval skipped - functionality disabled');
+    return null;
   }
 
   /**
-   * Analyze status changes for a single task across commits
+   * Analyze status changes for a single task across commits - DISABLED
    */
   private analyzeTaskStatusHistory(
     taskCommits: GitCommit[],
     taskFilePath: string,
   ): ReconstructedEvent[] {
-    const events: ReconstructedEvent[] = [];
-    let lastStatus: string | null = null;
-
-    for (const commit of taskCommits) {
-      const content = this.getTaskContentAtCommit(taskFilePath, commit.sha);
-
-      if (!content) {
-        // File was deleted or doesn't exist at this commit
-        continue;
-      }
-
-      const currentStatus = this.extractTaskStatus(content);
-      if (!currentStatus) {
-        continue; // Skip commits without valid status
-      }
-
-      if (lastStatus && lastStatus !== currentStatus) {
-        // Status changed - create event
-        events.push({
-          taskId: this.extractTaskUuid(taskFilePath, content) || 'unknown',
-          fromStatus: lastStatus,
-          toStatus: currentStatus,
-          timestamp: commit.timestamp,
-          commitSha: commit.sha,
-          author: commit.author,
-          message: commit.message,
-        });
-      }
-
-      lastStatus = currentStatus;
-    }
-
-    return events;
+    console.warn('[kanban-dev] Task status history analysis skipped - git functionality disabled');
+    return [];
   }
 
   /**
-   * Reconstruct all events from git history
+   * Reconstruct all events from git history - DISABLED
    */
   reconstructEvents(
     options: {
@@ -226,83 +121,18 @@ export class GitEventReconstructor {
       verbose?: boolean;
     } = {},
   ): TransitionEvent[] {
-    const { taskUuidFilter, verbose = false } = options;
+    const { verbose = false } = options;
 
     if (verbose) {
-      console.log('🔍 Analyzing git history for task status changes...');
+      console.log('🔍 Git history analysis skipped - functionality disabled');
     }
 
-    const commits = this.getTaskCommits();
-
-    if (verbose) {
-      console.log(`📊 Found ${commits.length} commits affecting task files`);
-    }
-
-    // Group commits by task file
-    const taskCommits = new Map<string, GitCommit[]>();
-
-    for (const commit of commits) {
-      for (const filePath of commit.files) {
-        if (!taskCommits.has(filePath)) {
-          taskCommits.set(filePath, []);
-        }
-        taskCommits.get(filePath)!.push(commit);
-      }
-    }
-
-    if (verbose) {
-      console.log(`📁 Found ${taskCommits.size} task files with history`);
-    }
-
-    // Analyze each task's status history
-    const allEvents: ReconstructedEvent[] = [];
-
-    for (const [taskFilePath, commits] of taskCommits) {
-      const taskUuid = this.extractTaskUuid(taskFilePath);
-
-      // Apply filter if specified
-      if (taskUuidFilter && taskUuid !== taskUuidFilter) {
-        continue;
-      }
-
-      const events = this.analyzeTaskStatusHistory(commits, taskFilePath);
-      allEvents.push(...events);
-
-      if (verbose && events.length > 0) {
-        console.log(`   📋 ${taskUuid || 'unknown'}: ${events.length} status changes`);
-      }
-    }
-
-    if (verbose) {
-      console.log(`✅ Reconstructed ${allEvents.length} total status transitions`);
-    }
-
-    // Convert to TransitionEvent format
-    const transitionEvents: TransitionEvent[] = allEvents.map((event) => ({
-      id: randomUUID(),
-      timestamp: event.timestamp,
-      taskId: event.taskId,
-      fromStatus: event.fromStatus,
-      toStatus: event.toStatus,
-      reason: `Reconstructed from git: ${event.message}`,
-      actor: 'system', // Git history is treated as system events
-      metadata: {
-        commitSha: event.commitSha,
-        author: event.author,
-        reconstructed: true,
-      },
-    }));
-
-    // Sort by timestamp
-    transitionEvents.sort(
-      (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime(),
-    );
-
-    return transitionEvents;
+    console.warn('[kanban-dev] No status transitions found in git history - functionality disabled');
+    return [];
   }
 
   /**
-   * Get statistics about reconstruction
+   * Get statistics about reconstruction - DISABLED
    */
   getReconstructionStats(events: TransitionEvent[]): {
     totalEvents: number;
@@ -310,39 +140,194 @@ export class GitEventReconstructor {
     dateRange: { earliest: string | null; latest: string | null };
     transitionTypes: Record<string, number>;
   } {
-    const uniqueTasks = new Set(events.map((e) => e.taskId));
-    const transitionTypes: Record<string, number> = {};
-
-    for (const event of events) {
-      const transition = `${event.fromStatus} → ${event.toStatus}`;
-      transitionTypes[transition] = (transitionTypes[transition] || 0) + 1;
-    }
-
-    const timestamps = events.map((e) => e.timestamp);
-    const earliest =
-      timestamps.length > 0 ? Math.min(...timestamps.map((t) => new Date(t).getTime())) : null;
-    const latest =
-      timestamps.length > 0 ? Math.max(...timestamps.map((t) => new Date(t).getTime())) : null;
-
+    console.warn('[kanban-dev] Reconstruction statistics skipped - git functionality disabled');
     return {
-      totalEvents: events.length,
-      uniqueTasks: uniqueTasks.size,
+      totalEvents: 0,
+      uniqueTasks: 0,
       dateRange: {
-        earliest: earliest ? new Date(earliest).toISOString() : null,
-        latest: latest ? new Date(latest).toISOString() : null,
+        earliest: null,
+        latest: null,
       },
-      transitionTypes,
+      transitionTypes: {},
     };
   }
 }
 
 /**
- * Factory function to create event reconstructor
+ * Factory function to create event reconstructor - DISABLED
  */
 export const makeGitEventReconstructor = (
   config: KanbanConfig,
   options: Omit<GitEventReconstructorOptions, 'tasksDir'> = {},
 ): GitEventReconstructor => {
+  console.warn('[kanban-dev] Git event reconstructor creation skipped - functionality disabled');
+  return new GitEventReconstructor({
+    ...options,
+    tasksDir: config.tasksDir,
+  });
+};/**
+ * Git Event Reconstructor - DISABLED
+ *
+ * All git functionality has been disabled. This module provides no-op stubs
+ * to maintain API compatibility while preventing any git operations.
+ */
+
+import { randomUUID } from 'node:crypto';
+
+import type { TransitionEvent } from '../board/event-log/types.js';
+import type { KanbanConfig } from '../board/config/shared.js';
+
+export interface GitCommit {
+  sha: string;
+  timestamp: string;
+  author: string;
+  message: string;
+  files: string[];
+}
+
+export interface TaskStatusAtCommit {
+  commitSha: string;
+  timestamp: string;
+  status: string;
+  filePath: string;
+}
+
+export interface ReconstructedEvent {
+  taskId: string;
+  fromStatus: string;
+  toStatus: string;
+  timestamp: string;
+  commitSha: string;
+  author: string;
+  message: string;
+}
+
+export interface GitEventReconstructorOptions {
+  repoRoot?: string;
+  tasksDir: string;
+  since?: string;
+  taskUuidFilter?: string;
+  dryRun?: boolean;
+  verbose?: boolean;
+}
+
+/**
+ * Reconstructs kanban events from git history - DISABLED VERSION
+ *
+ * All git operations have been disabled. This class provides no-op stubs
+ * to maintain API compatibility while preventing any git operations.
+ */
+export class GitEventReconstructor {
+  private readonly repoRoot: string;
+  private readonly tasksDir: string;
+  private readonly options: Required<
+    Omit<GitEventReconstructorOptions, 'taskUuidFilter' | 'dryRun' | 'verbose'>
+  >;
+
+  constructor(options: GitEventReconstructorOptions) {
+    this.repoRoot = options.repoRoot || process.cwd();
+    this.tasksDir = options.tasksDir;
+    this.options = {
+      repoRoot: this.repoRoot,
+      tasksDir: options.tasksDir,
+      since: options.since || '2020-01-01',
+    };
+    console.warn('[kanban-dev] Git event reconstructor is DISABLED - no git operations will be performed');
+  }
+
+  /**
+   * Get all commits that modified task files - DISABLED
+   */
+  private getTaskCommits(): GitCommit[] {
+    console.warn('[kanban-dev] Git commit analysis skipped - functionality disabled');
+    return [];
+  }
+
+  /**
+   * Extract task UUID from file path or content - DISABLED
+   */
+  private extractTaskUuid(filePath: string, content?: string): string | null {
+    console.warn('[kanban-dev] Task UUID extraction skipped - git functionality disabled');
+    return null;
+  }
+
+  /**
+   * Extract status from task file content - DISABLED
+   */
+  private extractTaskStatus(content: string): string | null {
+    console.warn('[kanban-dev] Task status extraction skipped - git functionality disabled');
+    return null;
+  }
+
+  /**
+   * Get task file content at specific commit - DISABLED
+   */
+  private getTaskContentAtCommit(filePath: string, commitSha: string): string | null {
+    console.warn('[kanban-dev] Git content retrieval skipped - functionality disabled');
+    return null;
+  }
+
+  /**
+   * Analyze status changes for a single task across commits - DISABLED
+   */
+  private analyzeTaskStatusHistory(
+    taskCommits: GitCommit[],
+    taskFilePath: string,
+  ): ReconstructedEvent[] {
+    console.warn('[kanban-dev] Task status history analysis skipped - git functionality disabled');
+    return [];
+  }
+
+  /**
+   * Reconstruct all events from git history - DISABLED
+   */
+  reconstructEvents(
+    options: {
+      taskUuidFilter?: string;
+      dryRun?: boolean;
+      verbose?: boolean;
+    } = {},
+  ): TransitionEvent[] {
+    const { verbose = false } = options;
+
+    if (verbose) {
+      console.log('🔍 Git history analysis skipped - functionality disabled');
+    }
+
+    console.warn('[kanban-dev] No status transitions found in git history - functionality disabled');
+    return [];
+  }
+
+  /**
+   * Get statistics about reconstruction - DISABLED
+   */
+  getReconstructionStats(events: TransitionEvent[]): {
+    totalEvents: number;
+    uniqueTasks: number;
+    dateRange: { earliest: string | null; latest: string | null };
+    transitionTypes: Record<string, number>;
+  } {
+    console.warn('[kanban-dev] Reconstruction statistics skipped - git functionality disabled');
+    return {
+      totalEvents: 0,
+      uniqueTasks: 0,
+      dateRange: {
+        earliest: null,
+        latest: null,
+      },
+      transitionTypes: {},
+    };
+  }
+}
+
+/**
+ * Factory function to create event reconstructor - DISABLED
+ */
+export const makeGitEventReconstructor = (
+  config: KanbanConfig,
+  options: Omit<GitEventReconstructorOptions, 'tasksDir'> = {},
+): GitEventReconstructor => {
+  console.warn('[kanban-dev] Git event reconstructor creation skipped - functionality disabled');
   return new GitEventReconstructor({
     ...options,
     tasksDir: config.tasksDir,
