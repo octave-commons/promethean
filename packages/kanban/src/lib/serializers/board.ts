@@ -1,10 +1,12 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 
-import type { Board, ColumnData, Task } from '../types.js';
+import type { Board, ColumnData, Task, EpicTask } from '../types.js';
 import { normalizeColumnDisplayName, columnKey } from '../utils/string-utils.js';
 import { ensureTaskFileBase } from '../core/slugs.js';
-import { serializeMarkdownBoard } from './markdown-serializer.js';
+import { mergeColumnsCaseInsensitive } from '../core/columns.ts';
+import { assignStableSlugs } from '../core/task-utils.ts';
+import { getEpicSubtasks, calculateEpicStatus } from '../epic.js';
 import { loadKanbanConfig } from '../board/config.js';
 import { refreshTaskIndex } from '../board/indexer.js';
 
