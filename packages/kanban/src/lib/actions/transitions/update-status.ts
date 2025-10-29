@@ -98,9 +98,14 @@ export const updateStatus = async (input: UpdateStatusInput): Promise<UpdateStat
   const backupPath =
     options?.createBackup && tasksDir ? await createTaskBackup(tasksDir, taskUuid) : undefined;
 
-  // Update task in board
-  const updatedTask = { ...task, status: newStatus };
-  column.tasks[index] = updatedTask;
+  // Remove from existing column
+  column.tasks.splice(index, 1);
+  column.count = column.tasks.length;
+
+  const targetColumn = ensureBoardColumn(board, newStatus);
+  const updatedTask: Task = { ...task, status: targetColumn.name };
+  targetColumn.tasks = [...targetColumn.tasks, updatedTask];
+  targetColumn.count = targetColumn.tasks.length;
 
   // Update task file if tasksDir provided
   if (tasksDir) {
