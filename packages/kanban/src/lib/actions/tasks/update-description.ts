@@ -1,8 +1,7 @@
 import { promises as fs } from 'fs';
+import { promises as fs } from 'fs';
 import path from 'path';
 import { stringify as yamlStringify } from 'yaml';
-import type { UpdateTaskOutput } from './types.js';
-import type { Task } from '../../types.js';
 import { readTaskFile, createBackup, generateDiff } from '../../task-content/parser.js';
 
 export type UpdateDescriptionInput = {
