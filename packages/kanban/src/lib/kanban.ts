@@ -2518,7 +2518,8 @@ export const analyzeTask = async (
 
     return result;
   } catch (error) {
-    error(`Failed to analyze task ${uuid}:`, error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error(`Failed to analyze task ${uuid}:`, errorMessage);
     return undefined;
   }
 };
@@ -2561,7 +2562,8 @@ export const rewriteTask = async (
 
     return result;
   } catch (error) {
-    error(`Failed to rewrite task ${uuid}:`, error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error(`Failed to rewrite task ${uuid}:`, errorMessage);
     return undefined;
   }
 };
@@ -2601,7 +2603,8 @@ export const breakdownTask = async (
 
     return result;
   } catch (error) {
-    error(`Failed to breakdown task ${uuid}:`, error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error(`Failed to breakdown task ${uuid}:`, errorMessage);
     return undefined;
   }
 };

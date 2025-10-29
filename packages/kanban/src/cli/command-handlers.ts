@@ -2553,7 +2553,8 @@ const handleAuditTask: CommandHandler = async (args, context) => {
       },
     };
   } catch (error) {
-    error(`❌ Audit failed: ${error instanceof Error ? error.message : String(error)}`);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error(`❌ Audit failed: ${errorMessage}`);
     throw error;
   }
 };
