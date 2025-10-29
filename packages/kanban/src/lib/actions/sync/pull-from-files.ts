@@ -16,16 +16,6 @@ export type PullFromFilesResult = {
   conflicting: string[];
 };
 
-const locateTask = (board: Board, uuid: string): { column: ColumnData; index: number } | undefined => {
-  for (const column of board.columns) {
-    const index = column.tasks.findIndex((task) => task.uuid === uuid);
-    if (index >= 0) {
-      return { column, index };
-    }
-  }
-  return undefined;
-};
-
 export const pullFromFiles = async (input: PullFromFilesInput): Promise<PullFromFilesResult> => {
   const { board, tasksDir, boardPath } = input;
 

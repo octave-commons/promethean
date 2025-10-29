@@ -1,6 +1,6 @@
-import { loadKanbanConfig } from '../../board/config.js';
-import { indexTasks, writeIndexFile, serializeTasks } from '../../board/indexer.js';
-import type { IndexTasksOptions } from '../../board/indexer.js';
+import { loadKanbanConfig } from '../../../board/config.js';
+import { indexTasks, writeIndexFile, serializeTasks } from '../../../board/indexer.js';
+import type { IndexTasksOptions } from '../../../board/indexer.js';
 
 export type IndexTasksInput = {
   argv?: ReadonlyArray<string>;

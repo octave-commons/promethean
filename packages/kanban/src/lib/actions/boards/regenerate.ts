@@ -1,4 +1,4 @@
-import { loadKanbanConfig } from '../../board/config.js';
+import { loadKanbanConfig } from '../../../board/config.js';
 import { readTasksFolder } from '../tasks/read-tasks-folder.js';
 import type { Board, ColumnData, Task } from '../../types.js';
 import { columnKey, normalizeColumnDisplayName } from '../../utils/string-utils.js';
@@ -36,9 +36,10 @@ export const regenerateBoard = async (
     }
   }
 
-  const configuredKeys = new Set(Array.from(config.statusValues).map(columnKey));
+  const statusValues = Array.from(config.statusValues) as string[];
+  const configuredKeys = new Set(statusValues.map((value) => columnKey(value)));
 
-  const configuredColumns: ColumnData[] = Array.from(config.statusValues).map((statusValue) => {
+  const configuredColumns: ColumnData[] = statusValues.map((statusValue) => {
     const displayName = normalizeColumnDisplayName(statusValue);
     const key = columnKey(statusValue);
     const group = statusGroups.get(key);
@@ -46,7 +47,7 @@ export const regenerateBoard = async (
       name: displayName,
       count: group?.tasks.length ?? 0,
       limit: config.wipLimits[statusValue] ?? null,
-      tasks: group?.tasks ?? [],
+      tasks: group ? [...group.tasks] : [],
     };
   });
 
@@ -56,7 +57,7 @@ export const regenerateBoard = async (
       name: group.name,
       count: group.tasks.length,
       limit: null,
-      tasks: group.tasks,
+      tasks: [...group.tasks],
     }));
 
   const board: Board = {

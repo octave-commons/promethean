@@ -1,6 +1,6 @@
 import path from 'node:path';
 
-import { loadKanbanConfig } from '../../board/config.js';
+import { loadKanbanConfig } from '../../../board/config.js';
 import { readTasksFolder } from '../tasks/read-tasks-folder.js';
 import type { ColumnData, Task } from '../../types.js';
 import { columnKey, normalizeColumnDisplayName } from '../../utils/string-utils.js';
@@ -45,7 +45,8 @@ export const generateBoardByTags = async (
     }
   }
 
-  const columns: ColumnData[] = Array.from(config.statusValues).map((statusValue) => {
+  const statusValues = Array.from(config.statusValues) as string[];
+  const columns: ColumnData[] = statusValues.map((statusValue) => {
     const displayName = normalizeColumnDisplayName(statusValue);
     const key = columnKey(statusValue);
     const group = statusGroups.get(key);
@@ -53,7 +54,7 @@ export const generateBoardByTags = async (
       name: displayName,
       count: group?.tasks.length ?? 0,
       limit: config.wipLimits[statusValue] ?? null,
-      tasks: group?.tasks ?? [],
+      tasks: group ? [...group.tasks] : [],
     };
   });
 

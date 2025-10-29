@@ -9,6 +9,7 @@ import { randomUUID } from 'node:crypto';
 
 import type { Task, Board, ColumnData } from '../../types.js';
 import { debug } from '../../utils/logger.js';
+import { processTemplateContent } from '../../serializers/template-serializer.js';
 
 export type CreateTaskInput = {
   title: string;
@@ -25,13 +26,11 @@ export type CreateTaskInput = {
   blocking?: string[];
   blockedBy?: string[];
 };
-import { processTemplateContent } from '../../serializers/template-serializer.js';
 import { sanitizeFileNameBase, generateAutoLabels } from '../../utils/string-utils.js';
 import { NOW_ISO, BLOCKED_BY_HEADING, BLOCKS_HEADING } from '../../core/constants.js';
 import { ensureUniqueFileBase, ensureTaskFileBase } from '../../core/slugs.js';
 import { readTasksFolder } from './read-tasks-folder.js';
 import {
-  applyTemplateReplacements,
   ensureSectionExists,
   setSectionItems,
   mergeSectionItems,
