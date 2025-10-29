@@ -1,8 +1,11 @@
-import { promises as fs } from 'fs';
-
-import path from 'path';
+import { promises as fs } from 'node:fs';
+import path from 'node:path';
 import { stringify as yamlStringify } from 'yaml';
+
 import { readTaskFile, createBackup, generateDiff } from '../../task-content/parser.js';
+import type { Board } from '../../types.js';
+import { writeBoard, maybeRefreshIndex } from '../../serializers/board.js';
+import { locateTask } from '../../core/task-utils.js';
 
 export type UpdateDescriptionInput = {
   tasksDir: string;
