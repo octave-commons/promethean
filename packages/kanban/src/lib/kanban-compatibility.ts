@@ -351,16 +351,13 @@ export const syncBoardAndTasks = async (
 ): Promise<{
   board: { added: number; moved: number };
   tasks: { added: number; moved: number; statusUpdated: number };
-  conflicting: Array<{ task: LegacyTask; issue: string }>;
+  conflicting: string[];
 }> => {
   const result = await syncBoardAndTasksAction({ board, tasksDir, boardPath });
   return {
     board: result.board,
     tasks: result.tasks,
-    conflicting: result.conflicting.map((uuid) => ({
-      task: ensureTask(board.columns.flatMap((col) => col.tasks).find((t) => t.uuid === uuid), 'syncBoardAndTasks'),
-      issue: 'conflict',
-    })),
+    conflicting: result.conflicting,
   };
 };
 
@@ -413,15 +410,13 @@ export const deleteTask = async (
   _tasksDir: string,
   _boardPath: string,
 ): Promise<boolean> => {
-  // Remove task from board
-  for (const column of board.columns) {
-    const taskIndex = column.tasks.findIndex((task) => task.uuid === uuid);
-    if (taskIndex !== -1) {
-      column.tasks.splice(taskIndex, 1);
-      return true;
-    }
-  }
-  return false;
+  const result = await deleteTaskAction({
+    board,
+    taskUuid: uuid,
+    tasksDir: _tasksDir,
+    boardPath: _boardPath,
+  });
+  return result.success;
 };
 
 export const updateTaskDescription = async (
@@ -431,15 +426,14 @@ export const updateTaskDescription = async (
   _tasksDir: string,
   _boardPath: string,
 ): Promise<LegacyTask | undefined> => {
-  // Find and update task
-  for (const column of board.columns) {
-    const task = column.tasks.find((t) => t.uuid === uuid);
-    if (task) {
-      task.content = description;
-      return task;
-    }
-  }
-  return undefined;
+  await updateTaskDescriptionAction({
+    board,
+    taskUuid: uuid,
+    newContent: description,
+    tasksDir: _tasksDir,
+    boardPath: _boardPath,
+  });
+  return board.columns.flatMap((col) => col.tasks).find((task) => task.uuid === uuid);
 };
 
 export const renameTask = async (
@@ -449,51 +443,16 @@ export const renameTask = async (
   _tasksDir: string,
   _boardPath: string,
 ): Promise<LegacyTask | undefined> => {
-  // Find and update task
-  for (const column of board.columns) {
-    const task = column.tasks.find((t) => t.uuid === uuid);
-    if (task) {
-      task.title = newTitle;
-      return task;
-    }
-  }
-  return undefined;
-};
-
-export const writeBoard = async (boardPath: string, board: LegacyBoard): Promise<void> => {
-  const { writeFile } = await import('node:fs/promises');
-
-  // Convert to markdown and write
-  const columns: ColumnState[] = board.columns.map((col) => ({
-    name: col.name,
-    cards: col.tasks.map((task): Card => {
-      const enhancedTask = task as LegacyTask & {
-        links?: readonly string[];
-        attrs?: Record<string, unknown>;
-      };
-      const attrs: Record<string, string> = enhancedTask.attrs
-        ? Object.fromEntries(
-            Object.entries(enhancedTask.attrs).map(([key, value]) => [key, String(value)]),
-          )
-        : {};
-      return {
-        id: task.uuid,
-        text: task.title,
-        done: task.status === 'done',
-        tags: task.labels ? [...task.labels] : [],
-        links: enhancedTask.links ? [...enhancedTask.links] : [],
-        attrs,
-      };
-    }),
-  }));
-
-  const markdown = formatMarkdown({
-    frontmatter: {},
-    settings: {},
-    columns,
+  await renameTaskAction({
+    board,
+    taskUuid: uuid,
+    newTitle,
+    tasksDir: _tasksDir,
+    boardPath: _boardPath,
   });
-  await writeFile(boardPath, markdown, 'utf8');
+  return board.columns.flatMap((col) => col.tasks).find((task) => task.uuid === uuid);
 };
+export { writeBoard } from './serializers/board.js';
 
 export const readTasksFolder = async (tasksDir: string): Promise<LegacyTask[]> => {
   const { readTasksFolder: readTasksFolderFunctional } = await import(
