@@ -284,6 +284,9 @@ export const createTaskAction = async (config: TaskCreationConfig): Promise<Task
   const taskFilePath = path.join(tasksDir, `${enrichedTask.slug ?? enrichedTask.uuid}.md`);
   await fs.writeFile(taskFilePath, toFrontmatter(enrichedTask), 'utf8');
 
+  const persistedTask: Task = { ...enrichedTask, sourcePath: taskFilePath };
+  targetColumn.tasks[targetColumn.tasks.length - 1] = persistedTask;
+
   await writeBoard(boardPath, board);
   await maybeRefreshIndex(tasksDir);
 
