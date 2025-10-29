@@ -169,7 +169,7 @@ export const apps = [
     args: [
       'autocommit',
       '--path',
-      '.',
+      '/home/err/devel/promethean',
       '--recursive',
       '--handle-subrepos',
       '--debounce-ms',
