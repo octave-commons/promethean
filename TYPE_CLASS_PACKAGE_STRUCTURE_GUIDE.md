@@ -1,6 +1,7 @@
 # Functional Organizational Pattern in src/
 
-This document outlines the functional programming organizational pattern used in the `src/` directory, which replaces object-oriented programming with functional equivalents.
+This document outlines the functional programming organizational pattern used in each packages `src/` 
+which replaces object-oriented programming with functional equivalents.
 
 ## Core Principles
 
