@@ -10,8 +10,7 @@ import type { P0ValidationResult } from './p0-security-validator.js';
 import { createScarRecord } from '../heal/type-guards.js';
 import { createScarHistoryManager } from '../heal/scar-history-manager.js';
 import { createEventLogEntry } from '../heal/type-guards.js';
-import type { ScarContext, HealingResult } from '../heal/scar-context-types.js';
-import * as path from 'node:path';
+import type { ScarContext } from '../heal/scar-context-types.js';
 
 export interface AuditScarGenerationOptions {
   /** Repository root directory */
@@ -52,12 +51,11 @@ export interface AuditScarContext {
 export class AuditScarGenerator {
   private scarHistoryManager: ReturnType<typeof createScarHistoryManager>;
   private repoRoot: string;
-  private tasksDir: string;
+
   private options: AuditScarGenerationOptions;
 
   constructor(options: AuditScarGenerationOptions = {}) {
     this.repoRoot = options.repoRoot || process.cwd();
-    this.tasksDir = options.tasksDir || path.join(this.repoRoot, 'docs/agile/tasks');
     this.options = options;
     this.scarHistoryManager = createScarHistoryManager(this.repoRoot);
   }
@@ -225,14 +223,13 @@ export class AuditScarGenerator {
       '',
     );
 
-    if (context.context && Object.keys(context.context).length > 0) {
+    if (this.options.context && Object.keys(this.options.context).length > 0) {
       lines.push(
         '## Additional Context',
         '',
         '```json',
-        JSON.stringify(context.context, null, 2),
+        JSON.stringify(this.options.context, null, 2),
         '```',
-        '',
       );
     }
 
