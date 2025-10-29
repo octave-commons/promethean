@@ -218,7 +218,8 @@ async function performFileChange(
       console.log(`  Git status in ${repoRelativePath || 'unknown'}:`);
       status.forEach((line) => {
         console.log(`    ${line}`);
-        statusChanges.push(`${relative(tempDir, repo)}: ${line}`);
+        const repoPath = relative(tempDir, repo);
+        statusChanges.push(`${repoPath || 'unknown'}: ${line}`);
       });
     }
   }
