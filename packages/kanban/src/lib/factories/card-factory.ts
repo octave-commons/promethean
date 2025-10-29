@@ -74,11 +74,11 @@ export const createCardFromTask = (
   return createCard(
     {
       id: task.uuid,
-      title: task.title,
-      content: task.content,
-      priority: task.priority,
-      labels: task.labels,
-      metadata: task.metadata,
+      text: task.content || task.title,
+      tags: task.labels || [],
+      attrs: task.metadata
+        ? Object.fromEntries(Object.entries(task.metadata).map(([k, v]) => [k, String(v)]))
+        : {},
     },
     dependencies,
   );
