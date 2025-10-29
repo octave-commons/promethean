@@ -77,8 +77,9 @@ async function createSubrepo(
   subrepoPath: string,
   remote: string,
 ): Promise<void> {
+  const subdir = relative(parentRepo, subrepoPath) || 'subrepo';
   const gitrepoContent = `
-subdir = ${relative(parentRepo, subrepoPath)}
+subdir = ${subdir}
 remote = ${remote}
 branch = main
 `.trim();
