@@ -50,13 +50,15 @@ export interface AuditScarContext {
  * providing traceability for security compliance and process improvements.
  */
 export class AuditScarGenerator {
-  private readonly repoRoot: string;
-  private readonly tasksDir: string;
-  private readonly scarHistoryManager: ReturnType<typeof createScarHistoryManager>;
+  private scarHistoryManager: ReturnType<typeof createScarHistoryManager>;
+  private repoRoot: string;
+  private tasksDir: string;
+  private options: AuditScarGenerationOptions;
 
   constructor(options: AuditScarGenerationOptions = {}) {
     this.repoRoot = options.repoRoot || process.cwd();
     this.tasksDir = options.tasksDir || path.join(this.repoRoot, 'docs/agile/tasks');
+    this.options = options;
     this.scarHistoryManager = createScarHistoryManager(this.repoRoot);
   }
 
