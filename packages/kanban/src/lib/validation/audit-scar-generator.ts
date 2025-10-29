@@ -10,6 +10,7 @@ import type { P0ValidationResult } from './p0-security-validator.js';
 import { createScarRecord } from '../heal/type-guards.js';
 import { createScarHistoryManager } from '../heal/scar-history-manager.js';
 import { createEventLogEntry } from '../heal/type-guards.js';
+import type { ScarContext, HealingResult } from '../heal/scar-context-types.js';
 import * as path from 'node:path';
 
 export interface AuditScarGenerationOptions {
@@ -125,7 +126,14 @@ export class AuditScarGenerator {
 
       const recordResult = await this.scarHistoryManager.recordHealingOperation(
         scarContext,
-        { success: true, repairedIssues: [context.validationResult.errors.join('; ')] },
+        {
+          status: 'completed',
+          summary: `P0 Security validation failure repaired: ${context.validationResult.errors.join('; ')}`,
+          tasksModified: 1,
+          filesChanged: 0,
+          errors: [],
+          completedAt: new Date(),
+        },
         'unknown', // startSha - not available in audit context
         'unknown', // endSha - not available in audit context
       );
