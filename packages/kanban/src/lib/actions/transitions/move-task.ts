@@ -68,8 +68,22 @@ export const moveTask = async (input: MoveTaskInput): Promise<MoveTaskResult> =>
 
   // Save board if boardPath provided
   if (boardPath && !options?.dryRun) {
-    const { serializeBoard } = await import('../../kanban.js');
-    const boardContent = serializeBoard(board);
+    const { formatMarkdown } = await import('../serializers/markdown-formatter.js');
+    const boardContent = formatMarkdown({
+      columns: board.columns.map(col => ({
+        name: col.name,
+        cards: col.tasks.map(task => ({
+          id: task.uuid,
+          text: task.title || '',
+          done: task.status === 'done',
+          tags: task.labels || [],
+          links: [],
+          attrs: {}
+        }))
+      })),
+      frontmatter: {},
+      settings: null
+    });
     await fs.writeFile(boardPath, boardContent, 'utf8');
   }
 

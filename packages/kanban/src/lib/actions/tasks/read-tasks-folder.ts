@@ -60,8 +60,8 @@ export const readTasksFolder = async (
 
         // Create Task object
         const task: Task = {
-          uuid: frontmatter.uuid || '',
-          title: frontmatter.title || '',
+          uuid: frontmatter.uuid || path.basename(file, '.md'),
+          title: frontmatter.title || path.basename(file, '.md'),
           status: frontmatter.status || 'backlog',
           priority: frontmatter.priority || 'medium',
           labels: frontmatter.tags ? frontmatter.tags.split(',').map((t: string) => t.trim()) : [],
