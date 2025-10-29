@@ -32,3 +32,12 @@ export {
   type AuditScarGenerationOptions,
   type AuditScarContext,
 } from './audit-scar-generator.js';
+
+export {
+  handleCreateTaskAuditScar,
+  handleUpdateStatusAuditScar,
+  handleValidationRepairScar,
+  shouldGenerateAuditScar,
+  DEFAULT_AUDIT_SCAR_OPTIONS,
+  type AuditScarIntegrationOptions,
+} from './audit-scar-integration.js';
