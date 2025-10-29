@@ -131,6 +131,30 @@ export class KanbanGitSync {
   }
 
   /**
+   * Auto push changes - DISABLED
+   */
+  async performAutoPush(message?: string): Promise<GitSyncStatus> {
+    console.warn(
+      `[KanbanGitSync] performAutoPush called with message "${message}" but git is disabled`,
+    );
+    return {
+      status: 'error',
+      error: 'Git functionality is disabled',
+    };
+  }
+
+  /**
+   * Auto pull changes - DISABLED
+   */
+  async performAutoPull(): Promise<GitSyncStatus> {
+    console.warn('[KanbanGitSync] performAutoPull called but git is disabled');
+    return {
+      status: 'error',
+      error: 'Git functionality is disabled',
+    };
+  }
+
+  /**
    * Check if sync is needed - DISABLED
    */
   async needsSync(): Promise<boolean> {
