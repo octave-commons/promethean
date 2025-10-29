@@ -8,10 +8,12 @@ import { writeBoard, maybeRefreshIndex } from '../../serializers/board.js';
 import { locateTask } from '../../core/task-utils.js';
 
 export type UpdateDescriptionInput = {
+  board: Board;
   tasksDir: string;
   taskUuid: string;
   newContent: string;
   options?: { createBackup?: boolean };
+  boardPath?: string;
 };
 
 export type UpdateDescriptionResult = {
