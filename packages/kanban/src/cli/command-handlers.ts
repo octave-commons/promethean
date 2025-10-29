@@ -1985,8 +1985,8 @@ const handleAddTask: CommandHandler = (args, context) =>
       throw new CommandUsageError(result.reason || 'Failed to add task to epic');
     }
 
-    const epic = findTaskById(mutableBoard, taskArgs.epicUuid);
-    const task = findTaskById(mutableBoard, taskArgs.taskUuid);
+    const epic = await findTaskById(mutableBoard, taskArgs.epicUuid);
+    const task = await findTaskById(mutableBoard, taskArgs.taskUuid);
 
     debug(`✅ Added task "${task?.title}" to epic "${epic?.title}"`);
     debug(`   Epic UUID: ${taskArgs.epicUuid.slice(0, 8)}...`);
@@ -2017,8 +2017,8 @@ const handleRemoveTask: CommandHandler = (args, context) =>
       throw new CommandUsageError(result.reason || 'Failed to remove task from epic');
     }
 
-    const epic = findTaskById(mutableBoard, taskArgs.epicUuid);
-    const task = findTaskById(mutableBoard, taskArgs.taskUuid);
+    const epic = await findTaskById(mutableBoard, taskArgs.epicUuid);
+    const task = await findTaskById(mutableBoard, taskArgs.taskUuid);
 
     debug(`✅ Removed task "${task?.title}" from epic "${epic?.title}"`);
     debug(`   Epic UUID: ${taskArgs.epicUuid.slice(0, 8)}...`);
@@ -2073,7 +2073,7 @@ const handleEpicStatus: CommandHandler = (args, context) =>
 
     const mutableBoard = board as unknown as Board;
     const epicUuid = requireArg(args[0], 'epic UUID');
-    const epic = findTaskById(mutableBoard, epicUuid);
+    const epic = await findTaskById(mutableBoard, epicUuid);
 
     if (!epic) {
       throw new CommandUsageError(`Epic with UUID ${epicUuid} not found`);

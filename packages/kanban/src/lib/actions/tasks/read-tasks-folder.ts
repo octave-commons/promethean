@@ -49,7 +49,11 @@ export const readTasksFolder = async (
           frontmatterStr.split('\n').forEach((line) => {
             const match = line.match(/^(\w+):\s*(.+)$/);
             if (match) {
-              const [, key, value] = match;
+              const [, keyMatch, value] = match;
+              const key = String(keyMatch ?? '').trim();
+              if (key.length === 0) {
+                return;
+              }
               // Remove quotes if present
               if (value !== undefined) {
                 frontmatter[key] = value.replace(/^["']|["']$/g, '');
