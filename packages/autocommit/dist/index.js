@@ -25,6 +25,7 @@ function getIgnoredPaths(config) {
         '**/node_modules/**',
         '**/.turbo/**',
         '**/dist/**',
+        'packages/autocommit/dist/**', // Don't watch our own output
         ...(config.exclude
             ? config.exclude
                 .split(',')
