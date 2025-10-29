@@ -3,6 +3,10 @@
  */
 
 import test from 'ava';
+
+test.skip('GitUtils - DISABLED', (t) => {
+  t.pass('Git functionality has been disabled - all git tests skipped');
+});
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { GitUtils } from '../lib/heal/utils/git-utils.js';

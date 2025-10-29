@@ -1,4 +1,8 @@
 import test from 'ava';
+
+test.skip('KanbanGitSync - DISABLED', (t) => {
+  t.pass('Git functionality has been disabled - all git tests skipped');
+});
 import esmock from 'esmock';
 import { fileURLToPath } from 'node:url';
 

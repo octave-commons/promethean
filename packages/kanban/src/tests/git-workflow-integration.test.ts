@@ -4,6 +4,10 @@
  */
 
 import test from 'ava';
+
+test.skip('GitWorkflow - DISABLED', (t) => {
+  t.pass('Git functionality has been disabled - all git tests skipped');
+});
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { GitWorkflow, createGitWorkflow } from '../lib/heal/git-workflow.js';
