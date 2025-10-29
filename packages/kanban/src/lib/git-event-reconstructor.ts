@@ -78,6 +78,20 @@ export class GitEventReconstructor {
     console.warn('[GitEventReconstructor] reconstructEvents called but git is disabled');
     return [];
   }
+
+  /**
+   * Get reconstruction stats - DISABLED
+   */
+  getReconstructionStats(): Record<string, unknown> {
+    console.warn('[GitEventReconstructor] getReconstructionStats called but git is disabled');
+    return {
+      totalEvents: 0,
+      reconstructedEvents: 0,
+      skippedEvents: 0,
+      errorEvents: 0,
+      status: 'disabled',
+    };
+  }
 }
 
 /**

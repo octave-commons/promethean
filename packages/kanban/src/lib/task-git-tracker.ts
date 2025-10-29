@@ -67,11 +67,16 @@ export class TaskGitTracker {
   /**
    * Analyze task status - DISABLED
    */
-  async analyzeTaskStatus(_taskFilePath: string): Promise<Record<string, unknown>> {
+  async analyzeTaskStatus(taskFilePath: string): Promise<Record<string, unknown>> {
     console.warn('[TaskGitTracker] analyzeTaskStatus called but git is disabled');
     return {
       status: 'disabled',
       message: 'Git functionality is disabled',
+      isTrulyOrphaned: false,
+      issues: [],
+      recommendations: ['Git functionality is disabled'],
+      isUntracked: false,
+      isHealthy: false,
     };
   }
 
@@ -85,6 +90,10 @@ export class TaskGitTracker {
       trackedFiles: 0,
       lastCommit: null,
       status: 'disabled',
+      total: 0,
+      withCommitTracking: 0,
+      orphaned: 0,
+      orphanageRate: 0,
     };
   }
 }

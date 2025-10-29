@@ -211,7 +211,9 @@ export class GitTagManager {
   async getCommitsBetweenTags(
     fromTag: string,
     toTag: string,
-  ): Promise<{ sha: string; message: string; author: string; date: Date }[]> {
+  ): Promise<
+    { sha: string; message: string; author: string; date: Date; timestamp: Date; files: string[] }[]
+  > {
     console.warn(
       `[GitTagManager] getCommitsBetweenTags called from ${fromTag} to ${toTag} but git is disabled`,
     );

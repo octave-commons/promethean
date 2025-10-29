@@ -496,7 +496,7 @@ export class KanbanDevServer {
       uptime: Date.now() - this.startTime,
       fileWatcherActive: this.fileWatcher?.isWatching() ?? false,
       gitSyncActive: this.gitSync !== null,
-      lastSyncTime: this.gitSync?.getStatus()?.lastSyncTime,
+      lastSyncTime: this.gitSync?.getStatus()?.lastSync,
       connectedClients: this.connectedClients.size,
       syncStatus: this.gitSync?.getStatus() ?? undefined,
     };

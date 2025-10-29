@@ -879,8 +879,7 @@ const handleAudit: CommandHandler = (args, context) =>
             findTaskFilePath(context.tasksDir, task.uuid),
           ]);
 
-          const statusAnalysis = gitTracker.analyzeTaskStatus(
-            task,
+          const statusAnalysis = await gitTracker.analyzeTaskStatus(
             taskFilePath || `${context.tasksDir}/${task.uuid}.md`,
           );
 
@@ -937,20 +936,20 @@ const handleAudit: CommandHandler = (args, context) =>
       if (statusAnalysis.isTrulyOrphaned) {
         results.orphanedTasks.push({
           task,
-          issues: statusAnalysis.issues,
-          recommendations: statusAnalysis.recommendations,
+          issues: (statusAnalysis.issues || []) as string[],
+          recommendations: (statusAnalysis.recommendations || []) as string[],
         });
       } else if (statusAnalysis.isUntracked) {
         results.untrackedTasks.push({
           task,
-          issues: statusAnalysis.issues,
-          recommendations: statusAnalysis.recommendations,
+          issues: (statusAnalysis.issues || []) as string[],
+          recommendations: (statusAnalysis.recommendations || []) as string[],
         });
       } else if (!statusAnalysis.isHealthy) {
         results.tasksWithIssues.push({
           task,
-          issues: statusAnalysis.issues,
-          recommendations: statusAnalysis.recommendations,
+          issues: (statusAnalysis.issues || []) as string[],
+          recommendations: (statusAnalysis.recommendations || []) as string[],
         });
       } else {
         results.healthyTasks++;
@@ -1261,23 +1260,25 @@ const handleCommitStats: CommandHandler = (_args, context) =>
     }
 
     // Get commit tracking statistics
-    const stats = gitTracker.getCommitTrackingStats(allTasks);
+    const stats = await gitTracker.getCommitTrackingStats();
 
     debug('📊 Kanban Commit Tracking Statistics');
     debug('');
-    debug(`Total tasks: ${stats.total}`);
-    debug(`Tasks with commit tracking: ${stats.withCommitTracking}`);
-    debug(`Orphaned tasks: ${stats.orphaned}`);
-    debug(`Tracking coverage: ${(100 - stats.orphanageRate).toFixed(1)}%`);
+    debug(`Total tasks: ${stats.total as number}`);
+    debug(`Tasks with commit tracking: ${stats.withCommitTracking as number}`);
+    debug(`Orphaned tasks: ${stats.orphaned as number}`);
+    debug(`Tracking coverage: ${(100 - (stats.orphanageRate as number)).toFixed(1)}%`);
     debug('');
 
-    if (stats.orphaned > 0) {
-      debug(`⚠️  Found ${stats.orphaned} orphaned task(s) lacking proper commit tracking`);
+    if ((stats.orphaned as number) > 0) {
+      debug(
+        `⚠️  Found ${stats.orphaned as number} orphaned task(s) lacking proper commit tracking`,
+      );
       debug('   Run "pnpm kanban audit --fix" to add commit tracking to these tasks');
       debug('');
     }
 
-    if (stats.withCommitTracking > 0) {
+    if ((stats.withCommitTracking as number) > 0) {
       debug('✅ Commit tracking is working for tracked tasks');
       debug('   Each task change creates a git commit with standardized messages');
       debug('   Task files include lastCommitSha and commitHistory fields');
