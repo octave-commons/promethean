@@ -59,10 +59,9 @@ export const moveTask = async (input: MoveTaskInput): Promise<MoveTaskResult> =>
 
   // Move task within column
   const newTasks = [...column.tasks];
-  const [movedTask] = newTasks.splice(index, 1);
-  if (movedTask) {
-    newTasks.splice(newIndex, 0, movedTask);
-  }
+  const [removedTask] = newTasks.splice(index, 1);
+  const taskToInsert = removedTask ?? task;
+  newTasks.splice(newIndex, 0, taskToInsert);
   column.tasks = newTasks;
 
   const toPosition = { column: column.name, index: newIndex };
@@ -87,9 +86,11 @@ export const moveTask = async (input: MoveTaskInput): Promise<MoveTaskResult> =>
     await fs.writeFile(boardPath, boardContent, 'utf8');
   }
 
+  const finalTask = column.tasks[newIndex] ?? taskToInsert;
+
   return {
     success: true,
-    task: movedTask,
+    task: finalTask,
     fromPosition,
     toPosition,
   };

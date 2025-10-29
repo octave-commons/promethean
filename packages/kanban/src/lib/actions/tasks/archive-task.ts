@@ -53,7 +53,7 @@ export const archiveTask = async (input: ArchiveTaskInput): Promise<ArchiveTaskR
     await createBackup(filePath);
   }
 
-  const newFront = updateTimestamp({ ...front, status: 'archived' });
+  const newFront = updateTimestamp({ ...front, status: 'Archive' });
   const yaml = (await import('yaml')).stringify(newFront).trim();
   const after = `---\n${yaml}\n---\n\n${body}`;
 
