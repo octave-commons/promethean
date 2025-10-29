@@ -311,7 +311,6 @@ kanban-plugin: board
 - [ ] [[phase-4-documentation-cross-platform-compatibility|Phase 4 - Documentation - Cross-Platform Compatibility]] #cross-platform #documentation #guides #compatibility #phase-4 prio:P1 (uuid:b2c3d4e5-6789-4567-8901-7890123def4b)
 - [ ] [[phase-4-integration-testing-cross-platform-compatibility|Phase 4 - Integration Testing - Cross-Platform Compatibility]] #cross-platform #integration-testing #quality-assurance #compatibility #phase-4 prio:P1 (uuid:a1b2c3d4-5678-4567-8901-6789012def3a)
 - [ ] [[Refactor existing board logic into BoardAdapter implementation]] #board #logic #boardadapter #existing prio:P0 (uuid:1c88185e-9bfb-42d0-9388-3ac4bf688960)
-- [ ] [[Standardize Health Check Utilities Across Services]] #refactoring #duplication #health #monitoring #web-utils #standardization prio:P1 (uuid:eeb1fc4d-26bc-4128-88c6-1c871c6f4bd0)
 - [ ] [[testing-validation-health-check-standardization|Testing and Validation for Health Check Standardization]] #health #monitoring #testing #validation #standardization prio:P1 (uuid:eeb1fc4d-subtask-004)
 - [ ] [[consolidate-agent-management-apis|Consolidate Agent Management APIs]] #agent-management #apis #consolidation #client-library #epic3 prio:P0 (uuid:39e76b22-6e98-47c0-baa7-f06fb6f18eaf)
 - [ ] [[consolidate-web-ui-components|Consolidate Web UI Components]] #web-ui #components #consolidation #frontend #epic4 prio:P2 (uuid:4e361de9-a61d-44df-bc9f-50ad3ab33724)
@@ -319,7 +318,6 @@ kanban-plugin: board
 - [ ] [[document-pantheon-llm-claude-package|Document pantheon-llm-claude Package to Gold Standard]] #pantheon #documentation #claude #jsdoc #medium-priority prio:P1 (uuid:std-doc-claude-001)
 - [ ] [[fix-jwt-security-issues-pantheon|Fix JWT Security Issues in Pantheon Packages]] #pantheon #security #jwt #authentication #critical prio:P0 (uuid:jwt-security-pantheon-001)
 - [ ] [[merge-session-messaging-systems|Merge Session and Messaging Systems]] #sessions #messaging #consolidation #communication #epic3 prio:P0 (uuid:bc67bd50-c96c-4eba-8832-fa459caa864c)
-- [ ] [[setup-unified-testing-framework|Set Up Unified Testing Framework]] #testing #framework #consolidation #quality #epic1 prio:P1 (uuid:bd317cc6-e645-4343-9f56-d927d9763cb1)
 - [ ] [[standardize-configuration-validation-pantheon|Standardize Configuration Validation Across Pantheon Packages]] #pantheon #configuration #validation #standardization #quality prio:P1 (uuid:config-validation-pantheon-001)
 
 ## blocked
@@ -364,6 +362,7 @@ kanban-plugin: board
 - [ ] [[phase-2-cli-epic-operations-kanban-board|Phase 2: CLI Epic Operations - Kanban Board]] #epic #cli #operations #kanban prio:P1 (uuid:07bc6e1c-phase2-001)
 - [ ] [[Resolve BuildFix Ollama resource limitations and OOM issues]] #buildfix #ollama #memory #high prio:P1 (uuid:5b15c395-fc63-457f-97cc-7d528c559e9b)
 - [ ] [[Secure BuildFix command execution]] #buildfix #security #high #provider prio:P1 (uuid:6dae395f-31aa-42c7-b9c8-2dc1d750ddc9)
+- [ ] [[Standardize Health Check Utilities Across Services]] #refactoring #duplication #health #monitoring #web-utils #standardization prio:P1 (uuid:eeb1fc4d-26bc-4128-88c6-1c871c6f4bd0)
 - [ ] [[Implement Configuration Validation Framework (Phase 1)]] #pantheon #configuration #validation #framework #zod prio:P1 (uuid:config-validation-framework-001)
 - [ ] [[Integrate Configuration Validation Across Pantheon Packages (Phase 3)]] #pantheon #configuration #integration #migration #validation prio:P1 (uuid:config-validation-integration-003)
 - [ ] [[Define Configuration Schemas for Pantheon Packages (Phase 2)]] #pantheon #configuration #schemas #zod #validation prio:P1 (uuid:config-validation-schemas-002)
@@ -382,6 +381,7 @@ kanban-plugin: board
 - [ ] [[kanban-mcp-integration-bridge|Kanban MCP Integration Bridge]] #kanban #health-monitoring #mcp-integration #healing #automation prio:P1 (uuid:kanban-health-mcp-004)
 - [ ] [[kanban-realtime-dashboard|Kanban Real-time Dashboard]] #kanban #health-monitoring #dashboard #real-time #ui #visualization prio:P1 (uuid:kanban-health-dashboard-006)
 - [ ] [[rewrite-shadow-conf-as-nbb|Rewrite @packages/shadow-conf/ as nbb script for program generation]] #migration #clojure #nbb #shadow-conf #program-generation prio:P1 (uuid:46d9372a-65f1-42b8-a024-3ce4449f67ec)
+- [ ] [[setup-unified-testing-framework|Set Up Unified Testing Framework]] #testing #framework #consolidation #quality #epic1 prio:P1 (uuid:bd317cc6-e645-4343-9f56-d927d9763cb1)
 
 ## todo
 

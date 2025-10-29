@@ -2,7 +2,7 @@
 uuid: 'bd317cc6-e645-4343-9f56-d927d9763cb1'
 title: 'Set Up Unified Testing Framework'
 slug: 'setup-unified-testing-framework'
-status: 'breakdown'
+status: 'ready'
 priority: 'P1'
 labels: ['testing', 'framework', 'consolidation', 'quality', 'epic1']
 created_at: '2025-10-18T00:00:00.000Z'
