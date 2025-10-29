@@ -15,8 +15,18 @@ import { formatMarkdown } from './serializers/index.js';
 import { promises as fs } from 'fs';
 import path from 'path';
 
-// Legacy function wrappers
-export const countTasks = (board: Board): number => {
+// Legacy function wrappers - handle both Board types
+export const countTasks = (board: any): number => {
+  // Handle new functional Board type
+  if (board.columns && Array.isArray(board.columns) && board.columns.length > 0 && board.columns[0].cards) {
+    return board.columns.reduce((total: number, column: any) => total + column.cards.length, 0);
+  }
+  // Handle legacy Board type
+  if (board.columns && Array.isArray(board.columns) && board.columns.length > 0 && board.columns[0].tasks) {
+    return board.columns.reduce((total: number, column: any) => total + column.tasks.length, 0);
+  }
+  return 0;
+};
   return board.columns.reduce((total, column) => total + column.cards.length, 0);
 };
 
@@ -52,6 +62,12 @@ export const findTaskByTitle = (
     if (card) return card;
   }
   return undefined;
+};
+
+// Add readTasksFolder function
+export const readTasksFolder = async (tasksPath?: string): Promise<any[]> => {
+  const { readTasksFolder: readTasksFolderFunc } = await import('./actions/tasks/index.js');
+  return readTasksFolderFunc({ tasksPath });
 };
 
 // Placeholder functions for missing exports

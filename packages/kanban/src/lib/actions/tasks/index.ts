@@ -17,5 +17,11 @@ export { archiveTask } from './archive-task.js';
 export { deleteTask } from './delete-task.js';
 export { mergeTasks } from './merge-tasks.js';
 
-// Utility/finder functions fall back to legacy kanban for now
-export { findTaskById, findTaskByTitle, readTasksFolder } from '../../kanban.js';
+// Export utility/finder functions
+export type { FindTaskByIdInput, FindTaskByIdResult } from './find-task-by-id.js';
+export type { FindTaskByTitleInput, FindTaskByTitleResult } from './find-task-by-title.js';
+export type { ReadTasksFolderInput, ReadTasksFolderResult } from './read-tasks-folder.js';
+
+export { findTaskById } from './find-task-by-id.js';
+export { findTaskByTitle } from './find-task-by-title.js';
+export { readTasksFolder } from './read-tasks-folder.js';
