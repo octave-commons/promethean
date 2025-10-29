@@ -288,8 +288,8 @@ export const searchTasks = async (board: LegacyBoard, term: string): Promise<Tas
 export const deleteTask = async (
   board: LegacyBoard,
   uuid: string,
-  tasksDir: string,
-  boardPath: string,
+  _tasksDir: string,
+  _boardPath: string,
 ): Promise<boolean> => {
   // Remove task from board
   for (const column of board.columns) {
@@ -306,8 +306,8 @@ export const updateTaskDescription = async (
   board: LegacyBoard,
   uuid: string,
   description: string,
-  tasksDir: string,
-  boardPath: string,
+  _tasksDir: string,
+  _boardPath: string,
 ): Promise<Task | undefined> => {
   // Find and update task
   for (const column of board.columns) {
@@ -324,8 +324,8 @@ export const renameTask = async (
   board: LegacyBoard,
   uuid: string,
   newTitle: string,
-  tasksDir: string,
-  boardPath: string,
+  _tasksDir: string,
+  _boardPath: string,
 ): Promise<Task | undefined> => {
   // Find and update task
   for (const column of board.columns) {
