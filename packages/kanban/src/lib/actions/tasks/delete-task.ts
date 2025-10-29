@@ -40,9 +40,8 @@ export const deleteTask = async (
   const filePath = await findTaskFile(tasksDir, taskUuid);
   if (!filePath) return false;
 
-  let backupPath: string | undefined;
   if (options?.createBackup) {
-    backupPath = await createBackup(filePath);
+    await createBackup(filePath);
   }
 
   try {

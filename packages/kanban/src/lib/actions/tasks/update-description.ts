@@ -1,5 +1,5 @@
 import { promises as fs } from 'fs';
-import { promises as fs } from 'fs';
+
 import path from 'path';
 import { stringify as yamlStringify } from 'yaml';
 import { readTaskFile, createBackup, generateDiff } from '../../task-content/parser.js';
