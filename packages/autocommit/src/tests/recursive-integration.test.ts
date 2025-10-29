@@ -5,8 +5,8 @@ import { mkdir, rm, writeFile } from 'fs/promises';
 import { join } from 'path';
 import { tmpdir } from 'os';
 
-import { Config } from '../config.js';
-import { start } from '../index.js';
+import { Config } from '../../dist/config.js';
+import { start } from '../../dist/index.js';
 
 // Helper to create unique temp directory names
 const getTempDir = () => {
