@@ -1,7 +1,23 @@
 # Functional Organizational Pattern in src/
 
-This document outlines the functional programming organizational pattern used in each packages `src/` 
+This document outlines the functional programming organizational pattern used in each packages `src/`
 which replaces object-oriented programming with functional equivalents.
+
+## Migration from OOP to Functional
+
+Not all packages have implemented the typeclass pattern yet.
+Following clean coding guidelines, we leave our code better than we found it.
+So we don't add new OOPies (get it?).
+
+| OOP Concept        | Functional Equivalent | Location                              |
+| ------------------ | --------------------- | ------------------------------------- |
+| Class              | Typeclass             | `src/actions/<typeclass>/`            |
+| Method             | Action function       | `src/actions/<typeclass>/<action>.ts` |
+| Constructor        | Factory function      | `src/factories/<entity>-factory.ts`   |
+| Property           | Input parameter       | Function parameters                   |
+| Inheritance        | Composition           | Function composition                  |
+| this keyword       | Explicit parameters   | Function scope parameter              |
+| Instance variables | Immutable data        | Input/output types                    |
 
 ## Core Principles
 
@@ -207,3 +223,13 @@ import { serializeJWTPayload } from '../serializers/jwt-tokens.js';
 ```
 
 ---
+
+
+## Benefits
+
+1. **Testability**: Pure functions are easy to test
+2. **Composability**: Functions can be easily combined
+3. **Type Safety**: Explicit contracts for all operations
+4. **No Hidden State**: All dependencies are explicit
+5. **Functional Programming**: Aligns with FP principles
+6. **Separation of Concerns**: Clear boundaries between different operations
