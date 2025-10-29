@@ -9,7 +9,7 @@ import { TaskGitTracker } from './task-git-tracker.js';
 import type { IndexTasksOptions } from '../board/indexer.js';
 import type { Board, ColumnData, Task, EpicTask } from './types.js';
 import { getEpicSubtasks, calculateEpicStatus } from './epic.js';
-import { debug, error, info, warn } from './utils/logger.js';
+import { debug, error, warn } from './utils/logger.js';
 
 // Re-export types for external use
 export type { Task } from './types.js';
@@ -984,9 +984,7 @@ export const updateStatus = async (
 
     // Log warnings if present
     if (wipValidation.violation && wipValidation.violation.severity === 'warning') {
-      warn(
-        `⚠️  WIP Limit Warning: ${wipValidation.violation.severity} violation in ${newStatus}`,
-      );
+      warn(`⚠️  WIP Limit Warning: ${wipValidation.violation.severity} violation in ${newStatus}`);
       if (wipValidation.suggestions && wipValidation.suggestions.length > 0) {
         warn('💡 Capacity Suggestions:');
         wipValidation.suggestions.forEach((suggestion) => {
@@ -2162,17 +2160,13 @@ export const syncBoardAndTasks = async (
     // Check for title conflicts
     if (fileTitle !== boardTitle) {
       conflicting.push(id);
-      debug(
-        `⚠️  Title conflict for task ${id}: board="${boardTitle}" vs file="${fileTitle}"`,
-      );
+      debug(`⚠️  Title conflict for task ${id}: board="${boardTitle}" vs file="${fileTitle}"`);
     }
 
     // Check for status conflicts
     if (fileStatus !== boardStatus) {
       conflicting.push(id);
-      debug(
-        `⚠️  Status conflict for task ${id}: board="${boardStatus}" vs file="${fileStatus}"`,
-      );
+      debug(`⚠️  Status conflict for task ${id}: board="${boardStatus}" vs file="${fileStatus}"`);
     }
   }
 

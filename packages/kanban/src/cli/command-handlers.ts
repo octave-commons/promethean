@@ -21,7 +21,7 @@ import {
   columnKey,
   writeBoard,
 } from '../lib/kanban.js';
-import { debug, error, info, warn } from '../lib/utils/logger.js';
+import { debug, error, warn } from '../lib/utils/logger.js';
 
 import {
   isEpic,
@@ -316,9 +316,7 @@ const handlePull: CommandHandler = (_args, context) =>
 
     // Enhanced logging for pull operation
     if (result.moved > 0) {
-      debug(
-        `📝 Pull completed: ${result.added} added, ${result.moved} status changes from files`,
-      );
+      debug(`📝 Pull completed: ${result.added} added, ${result.moved} status changes from files`);
     } else {
       debug(`📋 Pull completed: ${result.added} added, ${result.moved} moved`);
     }
@@ -1066,9 +1064,7 @@ const handleAudit: CommandHandler = (args, context) =>
           debug('');
         }
       } else {
-        debug(
-          `⚠️  Orphaned events: ${orphanedEvents.length} tasks have events but not in board`,
-        );
+        debug(`⚠️  Orphaned events: ${orphanedEvents.length} tasks have events but not in board`);
       }
     }
 
@@ -1114,9 +1110,7 @@ const handleAudit: CommandHandler = (args, context) =>
       }
 
       if (dryRun) {
-        debug(
-          '   💡 Run with --fix to apply these column normalization changes automatically',
-        );
+        debug('   💡 Run with --fix to apply these column normalization changes automatically');
       } else {
         const applied = applyColumnNormalization(board as Board, columnAnalysis);
         if (applied > 0) {
@@ -1293,9 +1287,7 @@ const handleEnforceWipLimits: CommandHandler = (args, context) =>
         totalViolations += violationCount;
 
         debug(`🚨 WIP VIOLATION: ${column.name}`);
-        debug(
-          `   Current: ${column.tasks.length}/${column.limit} (${violationCount} over limit)`,
-        );
+        debug(`   Current: ${column.tasks.length}/${column.limit} (${violationCount} over limit)`);
 
         // Sort tasks by priority (lower priority number = higher priority)
         const sortedTasks = [...column.tasks].sort((a, b) => {
@@ -2309,9 +2301,7 @@ const handleHeal: CommandHandler = (args, context) =>
         debug('');
         debug('🔝 Most Common Healing Reasons:');
         analysis.commonReasons.slice(0, 5).forEach((reason) => {
-          debug(
-            `   ${reason.reason}: ${reason.count} times (${reason.percentage.toFixed(1)}%)`,
-          );
+          debug(`   ${reason.reason}: ${reason.count} times (${reason.percentage.toFixed(1)}%)`);
         });
       }
 
