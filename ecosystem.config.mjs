@@ -169,10 +169,9 @@ export const apps = [
     args: [
       'autocommit',
       '--path',
-      '../',
-      '-r',
-      '--subrepo-strategy',
-      'separate',
+      '.',
+      '--recursive',
+      '--handle-subrepos',
       '--debounce-ms',
       '10000',
       '--model',
