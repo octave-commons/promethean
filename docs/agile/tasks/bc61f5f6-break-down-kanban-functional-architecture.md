@@ -2,7 +2,7 @@
 uuid: 'bc61f5f6-302a-4e58-b023-597430a8b5f2'
 title: 'Break down kanban.ts into functional architecture'
 slug: 'bc61f5f6-break-down-kanban-functional-architecture'
-status: 'incoming'
+status: 'in_progress'
 priority: 'P1'
 labels: ['refactoring', 'architecture', 'kanban', 'functional-programming', 'code-quality']
 created_at: '2025-10-28T00:00:00.000Z'
@@ -16,16 +16,68 @@ estimates:
 
 ## Executive Summary
 
-Refactor `@packages/markdown/src/kanban.ts` MarkdownBoard class into functional architecture following established patterns in the codebase. This will improve testability, maintainability, and alignment with functional programming principles.
+**🎯 UPDATE**: Functional architecture refactoring is **~60% complete** with solid foundation implemented. Need to complete missing actions and migrate integration points to fully replace legacy `kanban.ts` monolith with pure functional architecture.
+
+**✅ Completed**: Board, Card, Column actions + Serializers + Factories + Types  
+**🔄 Remaining**: Task lifecycle, Transition, Search actions + Integration migration  
+**📈 Impact**: Will complete migration to pure functional architecture with full type safety and testability.
 
 ## Current State Analysis
 
-The current `MarkdownBoard` class contains:
+### ✅ **Already Completed (~60% done)**
 
-- Mixed concerns (parsing, formatting, business logic)
-- Monolithic structure with all functionality in one class
-- Hard to test individual components
-- Tight coupling between operations
+The functional architecture refactoring is **substantially complete** with solid foundation:
+
+**Implemented Actions:**
+
+- **Board Actions**: `load-board.ts`, `save-board.ts`, `query-board.ts` ✅
+- **Column Actions**: `create-column.ts`, `remove-column.ts`, `list-columns.ts` ✅
+- **Card Actions**: `create-card.ts`, `remove-card.ts`, `move-card.ts`, `update-card.ts`, `find-cards.ts` ✅
+- **Task Actions**: `create-task.ts` (partial implementation) ✅
+
+**Supporting Infrastructure:**
+
+- **Serializers**: `markdown-formatter.ts`, template processing ✅
+- **Factories**: Board, Card, Column factories with dependency injection ✅
+- **Types**: Complete type definitions with input/output contracts ✅
+- **Utilities**: String utils, constants ✅
+
+### ❌ **Remaining Work (~40% needed)**
+
+**Missing Core Task Actions:**
+
+- `update-task-description.ts`
+- `rename-task.ts`
+- `archive-task.ts`
+- `delete-task.ts`
+- `merge-tasks.ts`
+
+**Missing Transition Actions:**
+
+- `update-status.ts` (different from card move)
+- `move-task.ts` (task-level transitions)
+
+**Missing Search Actions:**
+
+- `search-tasks.ts`
+- `index-for-search.ts`
+
+**Missing Utility Functions:**
+
+- `find-task-by-id.ts`
+- `find-task-by-title.ts`
+- `get-column.ts`
+- `get-tasks-by-column.ts`
+- `count-tasks.ts`
+
+**Missing Board Operations:**
+
+- `sync-board-tasks.ts`
+- `regenerate-board.ts`
+
+### 🔗 **Integration Gap**
+
+Main exports in `src/index.ts` still point to legacy `kanban.ts` functions instead of new functional actions. CLI command handlers also need updating.
 
 ## Target Architecture
 
@@ -55,29 +107,40 @@ The current `MarkdownBoard` class contains:
 
 ## Implementation Plan
 
-### Phase 1: Foundation (Day 1)
+### ✅ **Phase 1-4: COMPLETED** (Foundation + Core Actions + Factories)
 
-1. **Extract Types**: Move all type definitions to dedicated files
-2. **Create Serializers**: Extract markdown parsing/formatting functions
-3. **Extract Utilities**: Move shared utility functions
+All foundational work is complete:
 
-### Phase 2: Core Actions (Days 2-3)
+- Types extracted and organized ✅
+- Serializers implemented ✅
+- Core actions (boards, cards, columns) implemented ✅
+- Factories with dependency injection ✅
+- Barrel exports and clean imports ✅
 
-1. **Board Actions**: Implement load, save, and query operations
-2. **Column Actions**: Implement add, remove, and list operations
-3. **Card Actions**: Implement add, remove, move, update, and find operations
+### 🔄 **Phase 5: Complete Missing Actions** (Days 1-2)
 
-### Phase 3: Factories (Day 4)
+**Priority 1: Core Task Lifecycle**
 
-1. **Board Factory**: Create board with dependency injection
-2. **Column Factory**: Create column with validation
-3. **Card Factory**: Create card with ID generation
+1. **Task Actions**: `update-description`, `rename-task`, `archive-task`, `delete-task`, `merge-tasks`
+2. **Transition Actions**: `update-status`, `move-task`
 
-### Phase 4: Integration (Days 5-6)
+**Priority 2: Search & Utilities**  
+3. **Search Actions**: `search-tasks`, `index-for-search` 4. **Utility Functions**: `find-task-by-id`, `find-task-by-title`, `get-column`, etc.
 
-1. **Index Files**: Create barrel exports for clean imports
-2. **Migration**: Update existing code to use new structure
-3. **Testing**: Ensure all functionality works correctly
+**Priority 3: Board Operations** 5. **Board Actions**: `sync-board-tasks`, `regenerate-board`
+
+### 🔗 **Phase 6: Integration Migration** (Day 3)
+
+1. **Update Main Exports**: Point `src/index.ts` to functional actions instead of legacy `kanban.ts`
+2. **Update CLI Handlers**: Migrate command handlers to use new actions
+3. **Maintain Compatibility**: Ensure backward compatibility during transition
+
+### ✅ **Phase 7: Validation & Cleanup** (Day 4)
+
+1. **Comprehensive Testing**: Run full test suite with new architecture
+2. **Performance Validation**: Ensure no performance regression
+3. **Legacy Cleanup**: Remove deprecated code from `kanban.ts`
+4. **Documentation Update**: Update API docs and migration guide
 
 ## Technical Details
 
@@ -182,9 +245,11 @@ export const actionName = (input: ActionInput, scope: ActionScope): ActionOutput
 
 ## Timeline
 
-**Phase 1**: 1 day (Foundation)
-**Phase 2**: 2 days (Core Actions)
-**Phase 3**: 1 day (Factories)
-**Phase 4**: 2 days (Integration)
+**✅ Phases 1-4**: COMPLETED (Foundation + Core Actions + Factories)
+**🔄 Phase 5**: 2 days (Complete Missing Actions)
+**🔗 Phase 6**: 1 day (Integration Migration)  
+**✅ Phase 7**: 1 day (Validation & Cleanup)
 
-**Total Estimated Time**: 4-6 days
+**📊 Remaining Time**: 3-4 days (60% complete, 40% remaining)
+
+**🎯 Current Focus**: Complete missing task lifecycle and transition actions, then migrate integration points.
