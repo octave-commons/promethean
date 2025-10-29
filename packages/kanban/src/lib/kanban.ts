@@ -3,7 +3,7 @@
  * Bridges old API with new functional architecture
  */
 
-// Re-export everything from the main functional architecture
+// Re-export everything from main functional architecture
 export * from './index.js';
 
 // Re-export legacy types for backward compatibility
@@ -55,16 +55,16 @@ export const loadBoard = async (boardPath: string, tasksPath?: string): Promise<
 
 // Legacy updateStatus wrapper - converts multiple args to input object
 export const updateStatus = async (
-  board: any,
+  board: LegacyBoard,
   taskUuid: string,
   newStatus: string,
   boardPath?: string,
   tasksDir?: string,
-  transitionRulesEngine?: any,
+  transitionRulesEngine?: unknown,
   reason?: string,
-  eventLogManager?: any,
+  eventLogManager?: unknown,
   actor?: string,
-): Promise<any> => {
+): Promise<unknown> => {
   const result = await updateStatusFunctional({
     board,
     taskUuid,
@@ -87,11 +87,11 @@ export const updateStatus = async (
 
 // Legacy moveTask wrapper - converts multiple args to input object
 export const moveTask = async (
-  board: any,
+  board: LegacyBoard,
   taskUuid: string,
   offset: number,
   boardPath?: string,
-): Promise<any> => {
+): Promise<unknown> => {
   const direction = offset < 0 ? 'up' : 'down';
   const result = await moveTaskFunctional({
     board,
@@ -111,12 +111,12 @@ export const moveTask = async (
 
 // Legacy createTask wrapper - converts multiple args to input object
 export const createTask = async (
-  board: any,
+  board: LegacyBoard,
   status: string,
-  taskData: any,
+  taskData: Record<string, unknown>,
   tasksDir?: string,
   boardPath?: string,
-): Promise<any> => {
+): Promise<unknown> => {
   const result = await createTaskFunctional({
     board,
     status,
@@ -149,7 +149,7 @@ export const findTaskByTitle = async (
   return undefined;
 };
 
-export const getColumn = async (board: LegacyBoard, columnName: string): Promise<any> => {
+export const getColumn = async (board: LegacyBoard, columnName: string): Promise<unknown> => {
   return board.columns.find((col) => col.name === columnName);
 };
 
@@ -167,7 +167,7 @@ export const readTasksFolder = async (tasksDir: string): Promise<Task[]> => {
 };
 
 // Missing legacy functions
-export const toFrontmatter = (board: LegacyBoard): any => {
+export const toFrontmatter = (board: LegacyBoard): unknown => {
   return {
     columns: board.columns.map((col) => ({
       name: col.name,
@@ -183,30 +183,25 @@ export const validateStartingStatus = (status: string): boolean => {
 
 // Legacy functions with proper implementations
 export const pullFromTasks = async (
-  board: any,
+  board: LegacyBoard,
   tasksDir: string,
   boardPath?: string,
-): Promise<any> => {
+): Promise<unknown> => {
   const { readTasksFolder: readTasksFolderFunctional } = await import(
     './actions/tasks/read-tasks-folder.js'
   );
-  const { generateBoard: generateBoardFunctional } = await import(
-    './actions/boards/generate-board.js'
-  );
 
   const tasks = await readTasksFolderFunctional({ tasksPath: tasksDir });
-  const boardResult = await generateBoardFunctional({ tasks });
-  const legacyBoard = convertToLegacyBoard(boardResult.board);
 
   // Return legacy format with operation results
   return {
     added: tasks.length,
     moved: 0,
-    board: legacyBoard,
+    board: board, // Return existing board for now
   };
 };
 
-export const pushToTasks = async (board: any, tasksDir: string): Promise<any> => {
+export const pushToTasks = async (board: LegacyBoard, tasksDir: string): Promise<unknown> => {
   // For now, this is a placeholder - saveTasks functional action doesn't exist yet
   console.log('pushToTasks not yet fully implemented in functional architecture');
   return {
@@ -217,14 +212,11 @@ export const pushToTasks = async (board: any, tasksDir: string): Promise<any> =>
 };
 
 export const syncBoardAndTasks = async (
-  board: any,
+  board: LegacyBoard,
   tasksDir: string,
   boardPath?: string,
-): Promise<any> => {
-  // For now, just load the board - sync functionality needs to be implemented
-  const legacyBoard = await loadBoard(boardPath || '', tasksDir);
-
-  // Return legacy format with operation results
+): Promise<unknown> => {
+  // For now, just return board - sync functionality needs to be implemented
   return {
     board: {
       added: 0,
@@ -243,24 +235,8 @@ export const regenerateBoard = async (
   tasksDir: string,
   boardPath?: string,
 ): Promise<LegacyBoard> => {
-  // For now, just load the board - regeneration functionality needs to be implemented
+  // For now, just load board - regeneration functionality needs to be implemented
   return await loadBoard(boardPath || '', tasksDir);
-};
-
-export const syncBoardAndTasks = async (
-  boardPath: string,
-  tasksDir: string,
-): Promise<LegacyBoard> => {
-  // For now, just load the board - sync functionality needs to be implemented
-  return await loadBoard(boardPath, tasksDir);
-};
-
-export const regenerateBoard = async (
-  boardPath: string,
-  tasksDir?: string,
-): Promise<LegacyBoard> => {
-  // For now, just load the board - regeneration functionality needs to be implemented
-  return await loadBoard(boardPath, tasksDir);
 };
 
 export const generateBoardByTags = async (

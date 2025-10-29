@@ -194,23 +194,23 @@ const handleCount: CommandHandler = (args, context) =>
   });
 
 const handleGetColumn: CommandHandler = (args, context) =>
-  withBoard(context, (board) => {
+  withBoard(context, async (board) => {
     const mutableBoard = board as unknown as LoadedBoard;
-    const column = getColumn(mutableBoard, requireArg(args[0], 'column name'));
+    const column = await getColumn(mutableBoard, requireArg(args[0], 'column name'));
     return column;
   });
 
 const handleGetByColumn: CommandHandler = (args, context) =>
-  withBoard(context, (board) => {
+  withBoard(context, async (board) => {
     const mutableBoard = board as unknown as LoadedBoard;
-    const tasks = getTasksByColumn(mutableBoard, requireArg(args[0], 'column name'));
+    const tasks = await getTasksByColumn(mutableBoard, requireArg(args[0], 'column name'));
     return tasks;
   });
 
 const handleFind: CommandHandler = (args, context) =>
-  withBoard(context, (board) => {
+  withBoard(context, async (board) => {
     const mutableBoard = board as unknown as LoadedBoard;
-    const task = findTaskById(mutableBoard, requireArg(args[0], 'task id'));
+    const task = await findTaskById(mutableBoard, requireArg(args[0], 'task id'));
     if (task) {
       return task;
     }
@@ -218,10 +218,10 @@ const handleFind: CommandHandler = (args, context) =>
   });
 
 const handleFindByTitle: CommandHandler = (args, context) =>
-  withBoard(context, (board) => {
+  withBoard(context, async (board) => {
     const mutableBoard = board as unknown as LoadedBoard;
     const title = requireArg(args.join(' ').trim(), 'task title');
-    const task = findTaskByTitle(mutableBoard, title);
+    const task = await findTaskByTitle(mutableBoard, title);
     if (task) {
       return task;
     }
@@ -315,13 +315,16 @@ const handlePull: CommandHandler = (_args, context) =>
     const result = await pullFromTasks(mutableBoard, context.tasksDir, context.boardFile);
 
     // Enhanced logging for pull operation
-    if (result.moved > 0) {
-      debug(`📝 Pull completed: ${result.added} added, ${result.moved} status changes from files`);
+    const resultData = result as { added: number; moved: number; statusUpdated?: number };
+    if (resultData.moved > 0) {
+      debug(
+        `📝 Pull completed: ${resultData.added} added, ${resultData.moved} status changes from files`,
+      );
     } else {
-      debug(`📋 Pull completed: ${result.added} added, ${result.moved} moved`);
+      debug(`📋 Pull completed: ${resultData.added} added, ${resultData.moved} moved`);
     }
 
-    return result;
+    return resultData;
   });
 
 const handlePush: CommandHandler = (_args, context) =>
@@ -330,15 +333,16 @@ const handlePush: CommandHandler = (_args, context) =>
     const result = await pushToTasks(mutableBoard, context.tasksDir);
 
     // Enhanced logging for manual edit detection
-    if (result.statusUpdated > 0) {
+    const resultData = result as { added: number; moved: number; statusUpdated?: number };
+    if (resultData.statusUpdated > 0) {
       debug(
-        `📝 Push completed: ${result.added} added, ${result.moved} moved, ${result.statusUpdated} manual edits preserved`,
+        `📝 Push completed: ${resultData.added} added, ${resultData.moved} moved, ${resultData.statusUpdated} manual edits preserved`,
       );
     } else {
-      debug(`📋 Push completed: ${result.added} added, ${result.moved} moved`);
+      debug(`📋 Push completed: ${resultData.added} added, ${resultData.moved} moved`);
     }
 
-    return result;
+    return resultData;
   });
 
 const handleSync: CommandHandler = (_args, context) =>
@@ -370,11 +374,11 @@ const handleSync: CommandHandler = (_args, context) =>
     return result;
   });
 
-const handleRegenerate: CommandHandler = (_args, context) => {
-  return regenerateBoard(context.tasksDir, context.boardFile);
+const handleRegenerate: CommandHandler = async (_args, context) => {
+  return await regenerateBoard(context.tasksDir, context.boardFile);
 };
 
-const handleGenerateByTags: CommandHandler = (args, context) => {
+const handleGenerateByTags: CommandHandler = async (args, context) => {
   if (args.length === 0) {
     throw new CommandUsageError('generate-by-tags requires at least one tag');
   }
@@ -384,7 +388,7 @@ const handleGenerateByTags: CommandHandler = (args, context) => {
     throw new CommandUsageError('No valid tags provided');
   }
 
-  return generateBoardByTags(context.tasksDir, context.boardFile, tags);
+  return await generateBoardByTags(context.tasksDir, context.boardFile, tags);
 };
 
 const handleIndexForSearch: CommandHandler = (_args, context) => {
