@@ -101,8 +101,12 @@ test('TransitionRulesEngine validates transitions and applies rules', async (t) 
 
   const blocked = await engine.validateTransition('Todo', 'Review', sampleTask, board);
   t.false(blocked.allowed);
-  t.true(blocked.ruleViolations.some((violation) => violation.includes('Invalid transition')));
-  t.true(blocked.suggestions.some((suggestion) => suggestion.includes('Valid transitions')));
+  t.true(
+    blocked.ruleViolations.some((violation: string) => violation.includes('Invalid transition')),
+  );
+  t.true(
+    blocked.suggestions.some((suggestion: string) => suggestion.includes('Valid transitions')),
+  );
 });
 
 test('TransitionRulesEngine enforces WIP limits and custom checks', async (t) => {
@@ -121,7 +125,7 @@ test('TransitionRulesEngine enforces WIP limits and custom checks', async (t) =>
     overCapacityBoard,
   );
   t.false(result.allowed);
-  t.true(result.ruleViolations.some((violation) => violation.includes('WIP')));
+  t.true(result.ruleViolations.some((violation: string) => violation.includes('WIP')));
 
   const withoutPriority = { ...sampleTask, priority: undefined };
   const priorityCheck = await engine.validateTransition(
@@ -145,7 +149,7 @@ test('TransitionRulesEngine debugging and overview helpers', async (t) => {
   t.true(flow.includes('todo → inprogress'));
 
   const overview = engine.getTransitionsOverview();
-  t.true(overview.globalRules.some((rule) => rule.includes('WIP')));
+  t.true(overview.globalRules.some((rule: string) => rule.includes('WIP')));
 });
 
 test('createTransitionRulesEngine loads configuration from paths', async (t) => {
