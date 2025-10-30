@@ -204,10 +204,17 @@ const evaluateDirectFunctionCall = async (
   const fromStatus = functionMatch[2];
   const toStatus = functionMatch[3];
 
-  // Load the function from the DSL and call it directly with JS objects
-  const result: unknown = await loadString(ruleImpl, {
+  // Create a Clojure expression that calls the function with the actual task and board objects
+  // The objects are passed directly as JavaScript objects - no serialization needed
+  const clojureCall = `(${namespaceAndFunction} "${fromStatus}" "${toStatus}" task board)`;
+
+  // Define task and board symbols in the context, then evaluate the function call
+  const result: unknown = await loadString(clojureCall, {
     context: 'cljs.user',
     print: () => {},
+    // Pass the task and board objects directly to the evaluation context
+    task,
+    board,
   });
   return Boolean(result);
 };
