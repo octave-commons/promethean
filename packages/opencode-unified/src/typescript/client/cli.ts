@@ -29,7 +29,7 @@ program
       const health = await client.healthCheck();
       console.log('Server health:', health);
 
-      const info = await client.getInfo();
+      const info = await client.getNonExistentMethod();
       console.log('Server info:', info);
     } catch (error) {
       console.error('Failed to connect to server:', error);
