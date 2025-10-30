@@ -64,7 +64,7 @@ export interface PostOperationResult {
  */
 export class GitWorkflow {
   private readonly repoPath: string;
-  private readonly config: Required<GitWorkflowConfig>;
+  private readonly _config: Required<GitWorkflowConfig>;
   public gitUtils: Record<string, unknown>;
   public commitMessageGenerator: Record<string, unknown>;
   public scarFileManager: Record<string, unknown>;

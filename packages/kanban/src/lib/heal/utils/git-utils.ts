@@ -34,8 +34,9 @@ export interface GitOperationResult {
 export class GitUtils {
   private readonly repoPath: string;
 
-  constructor(repoPath: string) {
-    this.repoPath = repoPath;
+  constructor(_repoPath: string) {
+    console.warn('[GitUtils] Git functionality is disabled');
+  }
     console.warn('[kanban-dev] Git utils are DISABLED - no git operations will be performed');
   }
 
