@@ -10,7 +10,7 @@ import type { Task, Board } from './types.js';
 import type { Status } from '../board/types.js';
 import { runTestingTransition } from './testing-transition/index.js';
 import type { TestingTransitionConfig, TestCoverageRequest } from './testing-transition/types.js';
-import { safeEvaluateTransition } from '../clojure/safe_rule_evaluation.js';
+import { safeEvaluateTransition } from './safe-rule-evaluation.js';
 import type { TaskFM } from '../board/types.js';
 import { debug, error, warn } from './utils/logger.js';
 // Define types locally to avoid circular imports
