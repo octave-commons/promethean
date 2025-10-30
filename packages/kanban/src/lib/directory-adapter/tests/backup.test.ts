@@ -54,7 +54,7 @@ test('should create backup manager', (t) => {
   t.true(backupManager instanceof TaskBackupManager);
 });
 
-test.skip, async (t: any) => {
+test.skip('disabled test', async (t: any) => {
   const { testDir } = t.context;
   const config = (t.context as any).config;
   const backupManager = createBackupManager(config);
@@ -95,7 +95,7 @@ test.skip, async (t: any) => {
   t.is(metadata.operation, 'backup');
 });
 
-test.skip, async (t: any) => {
+test.skip('disabled test', async (t: any) => {
   const { testDir } = t.context;
   const config = (t.context as any).config;
   const backupManager = createBackupManager(config);
@@ -119,7 +119,7 @@ test.skip, async (t: any) => {
   t.is(restoredContent, originalContent);
 });
 
-test.skip, async (t: any) => {
+test.skip('disabled test', async (t: any) => {
   const { testDir } = t.context;
   const config = (t.context as any).config;
   const backupManager = createBackupManager(config);
@@ -150,7 +150,7 @@ test.skip, async (t: any) => {
   t.true(file1Metadata1.timestamp >= file1Metadata2.timestamp);
 });
 
-test.skip, async (t: any) => {
+test.skip('disabled test', async (t: any) => {
   const { testDir } = t.context;
   const config = (t.context as any).config;
   const shortRetentionConfig = { ...config, retentionDays: 0 }; // Everything is old
@@ -178,7 +178,7 @@ test.skip, async (t: any) => {
   t.is(backupsAfter.length, 0);
 });
 
-test.skip, async (t: any) => {
+test.skip('disabled test', async (t: any) => {
   const { testDir } = t.context;
   const config = (t.context as any).config;
   const backupManager = createBackupManager(config);
@@ -208,7 +208,7 @@ test.skip, async (t: any) => {
   t.is(stats.filesByOriginalPath[path.resolve(file2)], 1);
 });
 
-test.skip, async (t: any) => {
+test.skip('disabled test', async (t: any) => {
   const { testDir } = t.context;
   const config = (t.context as any).config;
   const backupManager = createBackupManager(config);
@@ -228,7 +228,7 @@ test.skip, async (t: any) => {
   });
 });
 
-test.skip, async (t: any) => {
+test.skip('disabled test', async (t: any) => {
   const { testDir } = t.context;
   const config = (t.context as any).config;
   const compressionConfig = { ...config, compressionEnabled: true };
@@ -253,7 +253,7 @@ test.skip, async (t: any) => {
   t.is(restoredContent, originalContent);
 });
 
-test.skip, async (t: any) => {
+test.skip('disabled test', async (t: any) => {
   const config = (t.context as any).config;
   const backupManager = createBackupManager(config);
 
@@ -272,7 +272,7 @@ test.skip, async (t: any) => {
   });
 });
 
-test.skip, async (t: any) => {
+test.skip('disabled test', async (t: any) => {
   const { testDir } = t.context;
   const config = (t.context as any).config;
   const backupManager = createBackupManager(config);
