@@ -115,36 +115,18 @@ export const validateTaskWithZod = async (task: TaskFM): Promise<ValidationResul
  */
 export const validateBoardWithZod = async (board: Board): Promise<ValidationResult> => {
   try {
-    const { loadString } = await import('nbb');
-    const fs = await import('fs');
-    const path = await import('path');
+    const { validateBoard } = await loadValidationFunctions();
 
-    // Read and load the Clojure validation file content
-    const validationPath = path.resolve('./src/clojure/validation.clj');
-    const validationContent = fs.readFileSync(validationPath, 'utf8');
+    const boardObj = {
+      columns: board.columns.map((col) => ({
+        name: col.name,
+        limit: col.limit === null ? null : (col.limit ?? 0),
+        tasks: col.tasks || [],
+        count: col.count ?? (col.tasks ? col.tasks.length : 0),
+      })),
+    };
 
-    await loadString(validationContent, {
-      context: 'cljs.user',
-      print: () => {},
-    });
-
-    // Convert board columns to Clojure format
-    const columnsClojure = board.columns
-      .map(
-        (col) =>
-          `#js {:name "${col.name}" :limit ${col.limit === null ? null : col.limit || 0} :tasks #js []}`,
-      )
-      .join(' ');
-
-    // Call the validation function with JS object syntax
-    const validationResult = await loadString(
-      '(promethean.kanban.validation/validate-board #js {:columns #js [' + columnsClojure + ']})',
-      {
-        context: 'cljs.user',
-        print: () => {},
-      },
-    );
-
+    const validationResult = validateBoard(boardObj);
     return normalizeValidationResult(validationResult);
   } catch (error) {
     return {
