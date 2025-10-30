@@ -193,10 +193,10 @@ const evaluateRule = async (
     const { evaluateTransitionRule } = await loadValidationFunctions();
 
     // Create a rule function from the ruleImpl string
-    const ruleFn = await loadString(`(${ruleImpl})`, {
+    const ruleFn = (await loadString(`(${ruleImpl})`, {
       context: 'cljs.user',
       print: () => {},
-    });
+    })) as Function;
 
     // Call the evaluateTransitionRule function with task, board, and rule function
     const result = evaluateTransitionRule(task, board, ruleFn);
