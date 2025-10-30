@@ -1,5 +1,5 @@
 import test from 'ava';
-import { validateStartingStatus } from '../../dist/lib/kanban-compatibility.js';
+import { validateStartingStatus } from '../lib/kanban-compatibility.js';
 
 // RED PHASE: These tests should initially fail because we need comprehensive validation
 
