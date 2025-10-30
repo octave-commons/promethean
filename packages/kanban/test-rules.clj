@@ -7,13 +7,9 @@
        (= from "todo")
        (= to "in-progress")))
 
-(defn test-eval [from to task-js board-js]
-  (test-eval from to task-js board-js))
-
-;; Also export with a different name for testing
 (defn test-eval-js [from to task-js board-js]
   (test-eval from to task-js board-js))
 
 ;; Export functions by returning a JS object
 #js {:test-eval test-eval
-     :test-eval-js test-eval}
+     :test-eval-js test-eval-js}
