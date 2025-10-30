@@ -45,7 +45,7 @@ export const validateTaskWithZod = async (task: TaskFM): Promise<ValidationResul
         (let [task (js->clj task-js :keywordize-keys true)
               valid? (s/valid? :task/map task)
               problems (when-not valid? (s/explain-data :task/map task))
-              errors (when problems (clj->js (map #(str (:pred %) " failed at " (:path %) " with value " (:val %)) (:clojure.spec.alpha/problems problems))))
+              errors (when problems ["Task validation failed - see debug info for details"])
               debug-info (when problems (pr-str problems))]
           {:isValid (boolean valid?) :errors (or errors ["No specific errors"]) :debugInfo debug-info}))
     `,
