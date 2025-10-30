@@ -617,6 +617,10 @@ export const evaluateCustomRule = async (
         : { complexity: 1, scale: 'medium' },
     };
 
+    // Debug: Log what we're actually validating
+    console.log('Debug - taskFM being validated:', JSON.stringify(taskFM, null, 2));
+    console.log('Debug - board being validated:', JSON.stringify(board, null, 2));
+
     // Use safe evaluation with Zod validation
     const result = await safeEvaluateTransition(taskFM, board, ruleImpl, state.config.dslPath!);
 
