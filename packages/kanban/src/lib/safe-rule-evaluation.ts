@@ -44,16 +44,18 @@ interface ValidationFunctions {
   evaluateTransitionRule: (task: unknown, board: unknown, ruleFn: Function) => boolean;
 }
 
-let validationFunctionsCache: ValidationFunctions | null = null;
+const validationFunctionsCache: { current: ValidationFunctions | null } = { current: null };
 
 const loadValidationFunctions = async (): Promise<ValidationFunctions> => {
-  if (validationFunctionsCache) return validationFunctionsCache;
+  if (validationFunctionsCache.current) return validationFunctionsCache.current;
 
   try {
     const { loadFile } = await import('nbb');
     const path = await import('path');
+    const url = await import('url');
 
-    const validationPath = path.resolve('./src/clojure/validation.clj');
+    const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+    const validationPath = path.resolve(__dirname, '../clojure/validation.clj');
     const functions = (await loadFile(validationPath)) as Record<string, Function>;
 
     if (
@@ -64,7 +66,7 @@ const loadValidationFunctions = async (): Promise<ValidationFunctions> => {
       throw new Error('Required validation functions not found in validation.clj');
     }
 
-    validationFunctionsCache = {
+    validationFunctionsCache.current = {
       validateTask: functions.validateTask as (task: unknown) => unknown,
       validateBoard: functions.validateBoard as (board: unknown) => unknown,
       evaluateTransitionRule: functions['evaluate-transition-rule'] as (
@@ -74,7 +76,7 @@ const loadValidationFunctions = async (): Promise<ValidationFunctions> => {
       ) => boolean,
     };
 
-    return validationFunctionsCache;
+    return validationFunctionsCache.current;
   } catch (error) {
     throw new Error(
       `Failed to load validation functions: ${error instanceof Error ? error.message : 'Unknown error'}`,
@@ -169,10 +171,12 @@ const evaluateRule = async (
   const { loadString } = await import('nbb');
   const fs = await import('fs');
   const path = await import('path');
+  const url = await import('url');
 
   try {
     // Load the validation file content first
-    const validationPath = path.resolve('./src/clojure/validation.clj');
+    const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+    const validationPath = path.resolve(__dirname, '../clojure/validation.clj');
     const validationContent = fs.readFileSync(validationPath, 'utf8');
 
     await loadString(validationContent, {
