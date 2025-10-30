@@ -2,9 +2,9 @@ import path from 'node:path';
 import { readFile, writeFile } from 'node:fs/promises';
 import type { ExecutionContext } from 'ava';
 
-import { executeCommand, type CliContext } from '../../cli/command-handlers.js';
-import { loadBoard } from '../../lib/kanban.js';
-import { withTempDir } from '../../test-utils/helpers.js';
+import { executeCommand, type CliContext } from '../cli/command-handlers.js';
+import { loadBoard } from '../lib/kanban.js';
+import { withTempDir } from './helpers.js';
 
 // Re-export withTempDir for test files
 export { withTempDir };
