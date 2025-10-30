@@ -141,7 +141,7 @@ const evaluateRule = async (
     });
 
     // Evaluate the rule with converted data in one step
-    const result = await loadString(
+    const result = (await loadString(
       `
       (let [task-js ${JSON.stringify(task)}
             board-js ${JSON.stringify(board)}
@@ -153,7 +153,7 @@ const evaluateRule = async (
         context: 'cljs.user',
         print: () => {},
       },
-    );
+    )) as unknown;
 
     return Boolean(result);
   } catch (error) {
