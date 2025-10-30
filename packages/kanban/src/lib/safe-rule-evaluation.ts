@@ -105,6 +105,51 @@ export const validateBoardWithZod = async (board: Board): Promise<ValidationResu
 /**
  * Safely evaluate transition rule with validated data
  */
+const loadAndValidateInputs = async (
+  task: TaskFM,
+  board: Board,
+): Promise<{ success: boolean; validationErrors: ReadonlyArray<string> }> => {
+  const [taskValidation, boardValidation] = await Promise.all([
+    validateTaskWithZod(task),
+    validateBoardWithZod(board),
+  ]);
+
+  if (!taskValidation.isValid || !boardValidation.isValid) {
+    return {
+      success: false,
+      validationErrors: [...taskValidation.errors, ...boardValidation.errors],
+    };
+  }
+
+  return { success: true, validationErrors: [] };
+};
+
+const evaluateRule = async (
+  task: TaskFM,
+  board: Board,
+  ruleImpl: string,
+  dslCode: string,
+): Promise<boolean> => {
+  const clojureCode = `
+    ${dslCode}
+
+    ;; Use validated data (no string interpolation vulnerabilities)
+    (let [task-js ${JSON.stringify(task)}
+          board-js ${JSON.stringify(board)}
+          task (js->clj task-js)
+          board (js->clj board-js)]
+      ${ruleImpl.replace('kanban-transitions/evaluate-transition', 'evaluate-transition')})
+  `;
+
+  const { loadString } = await import('nbb');
+  const result = (await loadString(clojureCode, {
+    context: 'cljs.user',
+    print: () => {}, // Suppress output
+  })) as boolean;
+
+  return Boolean(result);
+};
+
 export const safeEvaluateTransition = async (
   task: TaskFM,
   board: Board,
@@ -112,42 +157,20 @@ export const safeEvaluateTransition = async (
   dslPath: string,
 ): Promise<SafeEvaluationResult> => {
   try {
-    // Load DSL
     const dslCode = await readFile(dslPath, 'utf-8');
+    const validation = await loadAndValidateInputs(task, board);
 
-    // Validate inputs first
-    const [taskValidation, boardValidation] = await Promise.all([
-      validateTaskWithZod(task),
-      validateBoardWithZod(board),
-    ]);
-
-    if (!taskValidation.isValid || !boardValidation.isValid) {
+    if (!validation.success) {
       return {
         success: false,
-        validationErrors: [...taskValidation.errors, ...boardValidation.errors],
+        validationErrors: validation.validationErrors,
       };
     }
 
-    // Safe evaluation with validated data
-    const clojureCode = `
-      ${dslCode}
-
-      ;; Use validated data (no string interpolation vulnerabilities)
-      (let [task-js ${JSON.stringify(task)}
-            board-js ${JSON.stringify(board)}
-            task (js->clj task-js)
-            board (js->clj board-js)]
-        ${ruleImpl.replace('kanban-transitions/evaluate-transition', 'evaluate-transition')})
-    `;
-
-    const { loadString } = await import('nbb');
-    const result = (await loadString(clojureCode, {
-      context: 'cljs.user',
-      print: () => {}, // Suppress output
-    })) as boolean;
+    const result = await evaluateRule(task, board, ruleImpl, dslCode);
 
     return {
-      success: Boolean(result),
+      success: result,
       validationErrors: [],
     };
   } catch (error) {
