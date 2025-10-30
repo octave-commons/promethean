@@ -19,15 +19,19 @@ export const makeContextPort = (deps: ContextPortDeps): ContextPort => {
       const colls = await deps.getCollectionsFor(sources);
 
       // Dynamically import persistence to avoid circular deps
-      const { makeContextStore } = await import('@promethean-os/persistence');
-      const { compileContext } = makeContextStore({
-        getCollections: () => colls,
-        resolveRole: deps.resolveRole,
-        resolveDisplayName: deps.resolveName,
-        formatTime: deps.formatTime,
-      });
+      const { compileContext } = await import('@promethean-os/persistence');
 
-      return compileContext({ texts, recentLimit, queryLimit, limit });
+      return compileContext(
+        { texts, recentLimit, queryLimit, limit },
+        {
+          state: {
+            collections: new Map(),
+            formatTime: deps.formatTime,
+            assistantName: 'Pantheon',
+          },
+          getCollections: () => colls,
+        }
+      );
     },
   };
 };
