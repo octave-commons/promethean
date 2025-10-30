@@ -90,7 +90,17 @@ const createConfig = (dslPath: string): TransitionRulesConfig => ({
 test('TransitionRulesEngine validates transitions and applies rules', async (t) => {
   const tmp = await withTempDir(t);
   const dslPath = path.join(tmp, 'rules.cljs');
-  await writeFile(dslPath, ';; mock', 'utf8');
+  const dslContent = `
+(ns kanban-transitions
+  (:require [clojure.spec.alpha :as s]))
+
+(defn evaluate-transition [from to task board]
+  ;; Allow valid transitions, block invalid ones
+  (or (and (= from "Todo") (= to "In Progress"))
+      (and (= from "In Progress") (= to "Review"))
+      (and (= from "Review") (= to "Done"))))
+`;
+  await writeFile(dslPath, dslContent, 'utf8');
 
   const engine = new TransitionRulesEngine(createConfig(dslPath));
   await engine.initialize();
@@ -112,7 +122,15 @@ test('TransitionRulesEngine validates transitions and applies rules', async (t) 
 test('TransitionRulesEngine enforces WIP limits and custom checks', async (t) => {
   const tmp = await withTempDir(t);
   const dslPath = path.join(tmp, 'dsl.cljs');
-  await writeFile(dslPath, ';; mock', 'utf8');
+  const dslContent = `
+(ns kanban-transitions
+  (:require [clojure.spec.alpha :as s]))
+
+(defn evaluate-transition [from to task board]
+  ;; Allow all transitions for WIP testing
+  true)
+`;
+  await writeFile(dslPath, dslContent, 'utf8');
 
   const engine = new TransitionRulesEngine(createConfig(dslPath));
   await engine.initialize();
