@@ -200,18 +200,18 @@ const evaluateDirectFunctionCall = async (
     throw new Error('Invalid function call format');
   }
 
-  const functionName = functionMatch[1];
+  const namespaceAndFunction = functionMatch[1];
   const fromStatus = functionMatch[2];
   const toStatus = functionMatch[3];
 
-  // Create a Clojure call that uses the loaded validation functions
+  // Create a Clojure call that defines task and board symbols, then calls the function
   // The DSL file should already be loaded by loadClojureContext
   const clojureCall = `
     (let [task-js #js ${JSON.stringify(task)}
           board-js #js ${JSON.stringify(board)}
-          task-clj (js->clj task-js :keywordize-keys true)
-          board-clj (js->clj board-js :keywordize-keys true)]
-      (${functionName} "${fromStatus}" "${toStatus}" task-clj board-clj))
+          task (js->clj task-js :keywordize-keys true)
+          board (js->clj board-js :keywordize-keys true)]
+      (${namespaceAndFunction} "${fromStatus}" "${toStatus}" task board))
     `;
 
   const result: unknown = await loadString(clojureCall, {
