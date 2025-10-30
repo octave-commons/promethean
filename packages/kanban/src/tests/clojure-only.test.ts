@@ -150,7 +150,7 @@ test('Functional API fails fast without Clojure DSL', async (t) => {
         testingConfig: createTestingConfig(),
       }),
     {
-      message: /Clojure DSL is required/,
+      message: /Clojure DSL path is required/,
     },
   );
 });
@@ -173,7 +173,7 @@ test('Functional API requires Clojure DSL - throws error when DSL file not found
         testingConfig: createTestingConfig(),
       }),
     {
-      message: /Failed to load Clojure DSL/,
+      message: /Clojure DSL not found at/,
     },
   );
 });
