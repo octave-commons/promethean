@@ -192,6 +192,7 @@ const evaluateDirectFunctionCall = async (
   task: TaskFM,
   board: Board,
   ruleImpl: string,
+  dslPath: string,
 ): Promise<boolean> => {
   const { loadFile } = await import('nbb');
 
@@ -209,11 +210,6 @@ const evaluateDirectFunctionCall = async (
   }
 
   // Load the DSL file and call the function directly with JS objects
-  const path = await import('path');
-  const url = await import('url');
-
-  const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
-  const dslPath = path.resolve(__dirname, '../clojure/kanban-transitions.clj');
   const dslFunctions = (await loadFile(dslPath)) as Record<string, Function>;
 
   // Get the function from the loaded namespace (convert kebab-case to property access)
