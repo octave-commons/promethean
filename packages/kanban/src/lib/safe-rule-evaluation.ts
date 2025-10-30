@@ -193,18 +193,28 @@ const evaluateRule = async (
       });
     }
 
-    // Get evaluateTransitionRule function
-    const { evaluateTransitionRule } = await loadValidationFunctions();
+    // Check if ruleImpl is a direct function call (like "(evaluate-transition ...)")
+    // or a function definition (like "(fn [task board] ...)")
+    if (ruleImpl.trim().startsWith('(evaluate-transition')) {
+      // Direct function call - evaluate it directly
+      const result = await loadString(ruleImpl, {
+        context: 'cljs.user',
+        print: () => {},
+      });
+      return Boolean(result);
+    } else {
+      // Function definition - wrap it and call with evaluateTransitionRule
+      const { evaluateTransitionRule } = await loadValidationFunctions();
 
-    // Create a rule function from ruleImpl string
-    const ruleFn = (await loadString(`(${ruleImpl})`, {
-      context: 'cljs.user',
-      print: () => {},
-    })) as Function;
+      const ruleFn = (await loadString(`(${ruleImpl})`, {
+        context: 'cljs.user',
+        print: () => {},
+      })) as Function;
 
-    // Call evaluateTransitionRule function with task, board, and rule function
-    const result = evaluateTransitionRule(task, board, ruleFn);
-    return Boolean(result);
+      // Call evaluateTransitionRule function with task, board, and rule function
+      const result = evaluateTransitionRule(task, board, ruleFn);
+      return Boolean(result);
+    }
   } catch (error) {
     throw new Error(
       `Rule evaluation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
