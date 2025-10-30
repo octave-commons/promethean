@@ -37,9 +37,9 @@ export const validateTaskWithZod = async (task: TaskFM): Promise<ValidationResul
       (s/def :task/status string?)
       (s/def :task/estimates (s/keys :req-un [:estimates/complexity]))
       (s/def :estimates/complexity number?)
-      (s/def :task/storyPoints number?)
+      ;; (s/def :task/storyPoints number?) ; Optional field - commented out
       (s/def :task/labels (s/coll-of string? :kind vector?))
-      (s/def :task/map (s/keys :req-un [:task/uuid :task/title :task/priority :task/content :task/status :task/estimates :task/storyPoints :task/labels]))
+      (s/def :task/map (s/keys :req-un [:task/uuid :task/title :task/priority :task/content :task/status :task/estimates :task/labels]))
 
       (fn [task-js]
         (let [task (js->clj task-js :keywordize-keys true)
@@ -94,7 +94,7 @@ export const validateBoardWithZod = async (board: Board): Promise<ValidationResu
 
       (s/def :column/name string?)
       (s/def :column/limit number?)
-      (s/def :column/tasks (s/coll-of string? :kind vector?))
+      (s/def :column/tasks (s/coll-of any? :kind vector?))
       (s/def :column/map (s/keys :req-un [:column/name :column/limit :column/tasks]))
       (s/def :board/columns (s/coll-of :column/map :kind vector?))
       (s/def :board/map (s/keys :req-un [:board/columns]))
