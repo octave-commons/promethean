@@ -630,7 +630,8 @@ export const evaluateCustomRule = async (
       throw new Error('Safe evaluation failed for unknown reasons');
     }
 
-    return true;
+    // Return the actual evaluation result, not hardcoded true
+    return result.success;
   } catch (evalError) {
     error('Failed to evaluate Clojure rule safely:', evalError);
     throw new Error(
