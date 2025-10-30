@@ -64,7 +64,7 @@ export interface PostOperationResult {
  */
 export class GitWorkflow {
   private readonly repoPath: string;
-  private readonly _config: Required<GitWorkflowConfig>;
+  // private readonly _config: Required<GitWorkflowConfig>; // Unused since git is disabled
   public gitUtils: Record<string, unknown>;
   public commitMessageGenerator: Record<string, unknown>;
   public scarFileManager: Record<string, unknown>;
@@ -77,7 +77,7 @@ export class GitWorkflow {
     console.log(`Git workflow config: ${config.tagPrefix || 'default'}`);
 
     // Store config reference
-    this.config = config as Required<GitWorkflowConfig>;
+    // this.config = config as Required<GitWorkflowConfig>; // Unused since git is disabled
 
     // Initialize disabled stub objects
     this.gitUtils = { disabled: true };

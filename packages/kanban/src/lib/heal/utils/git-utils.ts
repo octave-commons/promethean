@@ -32,19 +32,15 @@ export interface GitOperationResult {
  * to maintain API compatibility while preventing any git operations.
  */
 export class GitUtils {
-  private readonly repoPath: string;
-
   constructor(_repoPath: string) {
     console.warn('[GitUtils] Git functionality is disabled');
-  }
-    console.warn('[kanban-dev] Git utils are DISABLED - no git operations will be performed');
   }
 
   /**
    * Get current repository state - DISABLED
    */
   async getCurrentState(): Promise<GitState> {
-    console.warn('[kanban-dev] Git state retrieval skipped - functionality disabled');
+    console.warn('[GitUtils] getCurrentState called but git is disabled');
     return {
       headSha: 'disabled',
       branch: 'main',
@@ -55,119 +51,125 @@ export class GitUtils {
   }
 
   /**
-   * Add files to staging area - DISABLED
+   * Add files to git - DISABLED
    */
-  async addFiles(filePaths: string[]): Promise<GitOperationResult> {
-    console.warn(
-      `[kanban-dev] Git add skipped for ${filePaths.length} files - functionality disabled`,
-    );
-    return { success: true, data: 'Git functionality disabled' };
+  async addFiles(_filePaths: string[]): Promise<GitOperationResult> {
+    console.warn('[GitUtils] addFiles called but git is disabled');
+    return {
+      success: false,
+      error: 'Git functionality is disabled',
+    };
   }
 
   /**
-   * Create a commit with message - DISABLED
+   * Commit changes - DISABLED
    */
-  async commit(message: string): Promise<GitOperationResult> {
-    console.warn(`[kanban-dev] Git commit skipped for "${message}" - functionality disabled`);
-    return { success: false, error: 'Git functionality disabled' };
+  async commit(_message: string): Promise<GitOperationResult> {
+    console.warn('[GitUtils] commit called but git is disabled');
+    return {
+      success: false,
+      error: 'Git functionality is disabled',
+    };
   }
 
   /**
    * Create a git tag - DISABLED
    */
-  async createTag(tag: string): Promise<GitOperationResult> {
-    console.warn(`[kanban-dev] Git tag creation skipped for ${tag} - functionality disabled`);
-    return { success: false, error: 'Git functionality disabled' };
+  async createTag(_tag: string): Promise<GitOperationResult> {
+    console.warn('[GitUtils] createTag called but git is disabled');
+    return {
+      success: false,
+      error: 'Git functionality is disabled',
+    };
   }
 
   /**
    * Delete a git tag - DISABLED
    */
-  async deleteTag(tag: string): Promise<GitOperationResult> {
-    console.warn(`[kanban-dev] Git tag deletion skipped for ${tag} - functionality disabled`);
-    return { success: false, error: 'Git functionality disabled' };
+  async deleteTag(_tag: string): Promise<GitOperationResult> {
+    console.warn('[GitUtils] deleteTag called but git is disabled');
+    return {
+      success: false,
+      error: 'Git functionality is disabled',
+    };
   }
 
   /**
-   * Get commit SHA for a ref - DISABLED
+   * Get commit SHA for ref - DISABLED
    */
-  async getCommitSha(ref: string): Promise<string | null> {
-    console.warn(`[kanban-dev] Commit SHA retrieval skipped for ${ref} - functionality disabled`);
+  async getCommitSha(_ref: string): Promise<string | null> {
+    console.warn('[GitUtils] getCommitSha called but git is disabled');
     return null;
   }
 
   /**
-   * Get diff between two commits - DISABLED
+   * Get diff between commits - DISABLED
    */
-  async getDiff(fromRef: string, toRef: string = 'HEAD'): Promise<string> {
-    console.warn(
-      `[kanban-dev] Git diff retrieval skipped (${fromRef}..${toRef}) - functionality disabled`,
-    );
+  async getDiff(_fromRef: string, _toRef: string): Promise<string> {
+    console.warn('[GitUtils] getDiff called but git is disabled');
     return '';
   }
 
   /**
-   * Get files changed between two commits - DISABLED
+   * Get changed files between commits - DISABLED
    */
-  async getChangedFiles(fromRef: string, toRef: string = 'HEAD'): Promise<string[]> {
-    console.warn(
-      `[kanban-dev] Changed files retrieval skipped (${fromRef}..${toRef}) - functionality disabled`,
-    );
+  async getChangedFiles(_fromRef: string, _toRef: string): Promise<string[]> {
+    console.warn('[GitUtils] getChangedFiles called but git is disabled');
     return [];
   }
 
   /**
    * Get commit history - DISABLED
    */
-  async getCommitHistory(): Promise<
-    Array<{ sha: string; message: string; author: string; date: Date }>
-  > {
-    console.warn('[kanban-dev] Commit history retrieval skipped - functionality disabled');
+  async getCommitHistory(
+    _fromRef?: string,
+    _toRef?: string,
+  ): Promise<{ sha: string; message: string; author: string; date: Date }[]> {
+    console.warn('[GitUtils] getCommitHistory called but git is disabled');
     return [];
   }
 
   /**
-   * Check if a ref exists - DISABLED
+   * Check if ref exists - DISABLED
    */
-  async refExists(ref: string): Promise<boolean> {
-    console.warn(
-      `[kanban-dev] Git ref existence check skipped for ${ref} - functionality disabled`,
-    );
+  async refExists(_ref: string): Promise<boolean> {
+    console.warn('[GitUtils] refExists called but git is disabled');
     return false;
   }
 
   /**
-   * Reset to a specific commit - DISABLED
+   * Reset to specific commit - DISABLED
    */
   async reset(
-    target: string,
-    mode: 'soft' | 'mixed' | 'hard' = 'mixed',
+    _target: string,
+    _mode: 'soft' | 'mixed' | 'hard' = 'mixed',
   ): Promise<GitOperationResult> {
-    console.warn(`[kanban-dev] Git reset skipped for ${target} (${mode}) - functionality disabled`);
-    return { success: false, error: 'Git functionality disabled' };
+    console.warn('[GitUtils] reset called but git is disabled');
+    return {
+      success: false,
+      error: 'Git functionality is disabled',
+    };
   }
 
   /**
-   * Stash current changes - DISABLED
+   * Stash changes - DISABLED
    */
   async stash(): Promise<GitOperationResult> {
-    console.warn('[kanban-dev] Git stash skipped - functionality disabled');
-    return { success: false, error: 'Git functionality disabled' };
+    console.warn('[GitUtils] stash called but git is disabled');
+    return {
+      success: false,
+      error: 'Git functionality is disabled',
+    };
   }
 
   /**
    * Pop stashed changes - DISABLED
    */
   async stashPop(): Promise<GitOperationResult> {
-    console.warn('[kanban-dev] Git stash pop skipped - functionality disabled');
-    return { success: false, error: 'Git functionality disabled' };
+    console.warn('[GitUtils] stashPop called but git is disabled');
+    return {
+      success: false,
+      error: 'Git functionality is disabled',
+    };
   }
-}
-
-/**
- * Create a GitUtils instance - DISABLED
- */
-export function createGitUtils(repoPath: string): GitUtils {
-  console.warn(`[kanban-dev] Git utils creation skipped for ${repoPath} - functionality disabled`);
-  return new GitUtils(repoPath);
 }
