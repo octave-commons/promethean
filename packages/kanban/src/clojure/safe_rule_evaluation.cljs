@@ -1,7 +1,8 @@
 (ns promethean.kanban.safe-rule-evaluation
   (:require ["fs" :as fs]
             ["path" :as path]
-            ["url" :as url]))
+            ["url" :as url]
+            [nbb.core :as nbb])))
 
 ;; Helper to normalize validation results
 (defn normalize-validation-result [raw]
@@ -21,7 +22,9 @@
 (defn load-validation-functions []
   (or @validation-functions-cache
       (try
-        (let [nbb (js/require "nbb")
+        (let [__dirname (path/dirname (.-fileURLToPath url))
+              validation-path (path/resolve __dirname "../clojure/validation.clj")
+              functions (nbb/load-file validation-path)]
               __dirname (path/dirname (.-fileURLToPath url))
               validation-path (path/resolve __dirname "../clojure/validation.clj")
               functions (.loadFile nbb validation-path)]
@@ -81,7 +84,13 @@
             :validationErrors (concat (.-errors task-validation) (.-errors board-validation))})))
 
 (defn load-clojure-context [dsl-path]
-  (let [nbb (js/require "nbb")
+  (let [__dirname (path/dirname (.-fileURLToPath url))
+          validation-path (path/resolve __dirname "../clojure/validation.clj")
+          validation-content (fs/readFileSync validation-path "utf8")]
+    (nbb/load-string validation-content #js {:context "cljs.user" :print (fn [])})
+    (when (and dsl-path (.existsSync fs dsl-path))
+      (let [dsl-content (fs/readFileSync dsl-path "utf8")]
+        (nbb/load-string dsl-content #js {:context "cljs.user" :print (fn [])}))))
         __dirname (path/dirname (.-fileURLToPath url))
         validation-path (path/resolve __dirname "../clojure/validation.clj")
         validation-content (fs/readFileSync validation-path "utf8")]
@@ -91,7 +100,6 @@
         (.loadString nbb dsl-content #js {:context "cljs.user" :print (fn [])})))))
 
 (defn evaluate-rule [task-fm board rule-impl dsl-path]
-  (let [nbb (js/require "nbb")]
     (try
       (load-clojure-context dsl-path)
       
