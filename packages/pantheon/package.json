@@ -37,6 +37,10 @@
     "./persistence": {
       "types": "./dist/persistence.d.ts",
       "import": "./dist/persistence.js"
+    },
+    "./workflow": {
+      "types": "./dist/workflow.d.ts",
+      "import": "./dist/workflow.js"
     }
   },
   "files": [

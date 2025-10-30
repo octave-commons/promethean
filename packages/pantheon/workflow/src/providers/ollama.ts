@@ -1,6 +1,7 @@
 /* eslint-disable import/order */
 import { randomUUID } from 'node:crypto';
 import {
+  assistant,
   type Model,
   type ModelProvider,
   type ModelRequest,
@@ -17,6 +18,7 @@ import {
   convertInputToMessages,
   convertTools,
   convertSettings,
+  toUsageComponents,
 } from './ollamaHelpers';
 
 // Defines compatible client interface
