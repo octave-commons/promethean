@@ -19,10 +19,10 @@ export interface TaskCommitEntry {
  * All methods return safe default values and log warnings about disabled git operations.
  */
 export class TaskGitTracker {
-  private repoRoot: string;
+  private _repoRoot: string;
 
   constructor(repoRoot: string) {
-    this.repoRoot = repoRoot;
+    this._repoRoot = repoRoot;
 
     console.warn(
       `[TaskGitTracker] Git functionality is disabled for repo ${repoRoot} - no git operations will be performed`,
@@ -67,7 +67,7 @@ export class TaskGitTracker {
   /**
    * Analyze task status - DISABLED
    */
-  async analyzeTaskStatus(taskFilePath: string): Promise<Record<string, unknown>> {
+  async analyzeTaskStatus(_taskFilePath: string): Promise<Record<string, unknown>> {
     console.warn('[TaskGitTracker] analyzeTaskStatus called but git is disabled');
     return {
       status: 'disabled',
