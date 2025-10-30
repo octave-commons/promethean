@@ -22,18 +22,18 @@ const makeBoard = (inProgressCount) => ({
     {
       name: 'Todo',
       limit: 2,
-      tasks: [sampleTask.uuid],
+      tasks: [sampleTask.uuid], // Board validation expects array of strings (task IDs)
       count: 1,
     },
     {
       name: 'In Progress',
       limit: 1,
-      tasks: [],
-      count: 0,
+      tasks: new Array(inProgressCount).fill(null).map((_, index) => `ip-${index}`), // Board validation expects array of strings
+      count: inProgressCount,
     },
     {
       name: 'Review',
-      limit: 0,
+      limit: 0, // Use 0 instead of null for validation
       tasks: [],
       count: 0,
     },

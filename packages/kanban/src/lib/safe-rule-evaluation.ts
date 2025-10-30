@@ -1,3 +1,4 @@
+import { readFile } from 'node:fs/promises';
 import type { TaskFM } from '../board/types.js';
 import type { Board } from '../lib/types.js';
 
@@ -21,39 +22,35 @@ export interface SafeEvaluationResult {
  * Validate task using clojure.spec.alpha schemas in NBB context
  */
 export const validateTaskWithZod = async (task: TaskFM): Promise<ValidationResult> => {
+  const clojureCode = `
+    (require '[clojure.spec.alpha :as s])
+
+    (s/def :task/uuid string?)
+    (s/def :task/title string?)
+    (s/def :task/priority #{"P0" "P1" "P2" "P3"})
+    (s/def :task/content string?)
+    (s/def :task/status string?)
+    (s/def :task/estimates (s/keys :req-un [:estimates/complexity]))
+    (s/def :estimates/complexity number?)
+    (s/def :task/storyPoints number?)
+    (s/def :task/labels (s/coll-of string? :kind vector?))
+    (s/def :task/map (s/keys :req-un [:task/uuid :task/title :task/priority :task/content :task/status :task/estimates :task/storyPoints :task/labels]))
+
+    (let [task-js ${JSON.stringify(task)}
+          task (js->clj task-js :keywordize-keys true)
+          valid? (s/valid? :task/map task)
+          problems (when-not valid? (s/explain-data :task/map task))
+          errors (when problems (map str (:clojure.spec.alpha/problems problems)))]
+      {:isValid (boolean valid?) :errors (or errors [])})
+  `;
+
   try {
     const { loadString } = await import('nbb');
+    const result = (await loadString(clojureCode, {
+      context: 'cljs.user',
+      print: () => {}, // Suppress output
+    })) as ValidationResult;
 
-    // Create validation function that takes task as JS object
-    const validationFn = (await loadString(
-      `
-      (require '[clojure.spec.alpha :as s])
-
-      (s/def :task/uuid string?)
-      (s/def :task/title string?)
-      (s/def :task/priority #{"P0" "P1" "P2" "P3"})
-      (s/def :task/content string?)
-      (s/def :task/status string?)
-      (s/def :task/estimates (s/keys :req-un [:estimates/complexity]))
-      (s/def :estimates/complexity number?)
-      (s/def :task/storyPoints number?)
-      (s/def :task/labels (s/coll-of string? :kind vector?))
-      (s/def :task/map (s/keys :req-un [:task/uuid :task/title :task/priority :task/content :task/status :task/estimates :task/storyPoints :task/labels]))
-
-      (fn [task-js]
-        (let [task (js->clj task-js :keywordize-keys true)
-              valid? (s/valid? :task/map task)
-              problems (when-not valid? (s/explain-data :task/map task))
-              errors (when problems (map str (:clojure.spec.alpha/problems problems)))]
-          {:isValid (boolean valid?) :errors (or errors [])}))
-    `,
-      {
-        context: 'cljs.user',
-        print: () => {}, // Suppress output
-      },
-    )) as (task: TaskFM) => ValidationResult;
-
-    const result = validationFn(task);
     return result;
   } catch (error) {
     return {
@@ -69,36 +66,31 @@ export const validateTaskWithZod = async (task: TaskFM): Promise<ValidationResul
  * Validate board using clojure.spec.alpha schemas in NBB context
  */
 export const validateBoardWithZod = async (board: Board): Promise<ValidationResult> => {
+  const clojureCode = `
+    (require '[clojure.spec.alpha :as s])
+
+    (s/def :column/name string?)
+    (s/def :column/limit number?)
+    (s/def :column/tasks (s/coll-of string? :kind vector?))
+    (s/def :column/map (s/keys :req-un [:column/name :column/limit :column/tasks]))
+    (s/def :board/columns (s/coll-of :column/map :kind vector?))
+    (s/def :board/map (s/keys :req-un [:board/columns]))
+
+    (let [board-js ${JSON.stringify(board)}
+          board (js->clj board-js :keywordize-keys true)
+          valid? (s/valid? :board/map board)
+          problems (when-not valid? (s/explain-data :board/map board))
+          errors (when problems (map str (:clojure.spec.alpha/problems problems)))]
+      {:isValid (boolean valid?) :errors (or errors [])})
+  `;
+
   try {
     const { loadString } = await import('nbb');
+    const result = (await loadString(clojureCode, {
+      context: 'cljs.user',
+      print: () => {}, // Suppress output
+    })) as ValidationResult;
 
-    // Create validation function that takes board as JS object
-    const validationFn = (await loadString(
-      `
-      (require '[clojure.spec.alpha :as s])
-
-      (s/def :column/name string?)
-      (s/def :column/limit number?)
-      (s/def :column/count number?)
-      (s/def :column/tasks (s/coll-of any? :kind vector?))
-      (s/def :column/map (s/keys :req-un [:column/name :column/limit :column/count :column/tasks]))
-      (s/def :board/columns (s/coll-of :column/map :kind vector?))
-      (s/def :board/map (s/keys :req-un [:board/columns]))
-
-      (fn [board-js]
-        (let [board (js->clj board-js :keywordize-keys true)
-              valid? (s/valid? :board/map board)
-              problems (when-not valid? (s/explain-data :board/map board))
-              errors (when problems (map str (:clojure.spec.alpha/problems problems)))]
-          {:isValid (boolean valid?) :errors (or errors [])}))
-    `,
-      {
-        context: 'cljs.user',
-        print: () => {}, // Suppress output
-      },
-    )) as (board: Board) => ValidationResult;
-
-    const result = validationFn(board);
     return result;
   } catch (error) {
     return {
@@ -136,38 +128,26 @@ const evaluateRule = async (
   task: TaskFM,
   board: Board,
   ruleImpl: string,
-  dslPath: string,
+  dslCode: string,
 ): Promise<boolean> => {
+  const clojureCode = `
+    ${dslCode}
+
+    ;; Use validated data (no string interpolation vulnerabilities)
+    (let [task-js ${JSON.stringify(task)}
+          board-js ${JSON.stringify(board)}
+          task (js->clj task-js)
+          board (js->clj board-js)]
+      ${ruleImpl.replace('kanban-transitions/evaluate-transition', 'evaluate-transition')})
+  `;
+
   const { loadString } = await import('nbb');
+  const result = (await loadString(clojureCode, {
+    context: 'cljs.user',
+    print: () => {}, // Suppress output
+  })) as boolean;
 
-  try {
-    // Load the DSL file first to make its functions available
-    await loadString(`(load-file "${dslPath}")`, {
-      context: 'cljs.user',
-      print: () => {},
-    });
-
-    // Create a function that takes task and board as JS objects
-    const ruleFunction = (await loadString(
-      `
-      (fn [task board]
-        ${ruleImpl.replace('kanban-transitions/evaluate-transition', 'evaluate-transition')})
-    `,
-      {
-        context: 'cljs.user',
-        print: () => {},
-      },
-    )) as unknown;
-
-    // Call the function with the JavaScript objects directly
-    const result = (ruleFunction as (task: TaskFM, board: Board) => unknown)(task, board);
-
-    return Boolean(result);
-  } catch (error) {
-    throw new Error(
-      `Rule evaluation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
-    );
-  }
+  return Boolean(result);
 };
 
 export const safeEvaluateTransition = async (
@@ -177,6 +157,7 @@ export const safeEvaluateTransition = async (
   dslPath: string,
 ): Promise<SafeEvaluationResult> => {
   try {
+    const dslCode = await readFile(dslPath, 'utf-8');
     const validation = await loadAndValidateInputs(task, board);
 
     if (!validation.success) {
@@ -186,7 +167,7 @@ export const safeEvaluateTransition = async (
       };
     }
 
-    const result = await evaluateRule(task, board, ruleImpl, dslPath);
+    const result = await evaluateRule(task, board, ruleImpl, dslCode);
 
     return {
       success: result,

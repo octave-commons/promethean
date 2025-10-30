@@ -621,7 +621,8 @@ export const evaluateCustomRule = async (
     const result = await safeEvaluateTransition(taskFM, board, ruleImpl, state.config.dslPath!);
 
     if (!result.success) {
-      if (result.validationErrors.length > 0) {
+      console.log('Debug - validation result:', JSON.stringify(result, null, 2));
+      if (result.validationErrors && result.validationErrors.length > 0) {
         throw new Error(`Validation failed: ${result.validationErrors.join(', ')}`);
       }
       if (result.evaluationError) {
