@@ -212,7 +212,7 @@ export const validateAndNormalizeStatus = async (inputStatus: string): Promise<v
   }
 
   // Reject statuses with special characters that aren't simple variations
-  if (!/^[a-zA-Z\s\-]+$/.test(inputStatus.trim())) {
+  if (!/^[a-zA-Z\s]+$/.test(inputStatus.trim())) {
     throw new Error(
       `Invalid starting status: "${inputStatus}". Tasks can only be created with starting statuses: icebox, incoming. Use --status flag to specify a valid starting status.`,
     );
