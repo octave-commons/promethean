@@ -162,6 +162,32 @@ const loadAndValidateInputs = async (
   return { success: true, validationErrors: [] };
 };
 
+const loadClojureContext = async (dslPath: string): Promise<void> => {
+  const { loadString } = await import('nbb');
+  const fs = await import('fs');
+  const path = await import('path');
+  const url = await import('url');
+
+  // Load the validation file content first
+  const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+  const validationPath = path.resolve(__dirname, '../clojure/validation.clj');
+  const validationContent = fs.readFileSync(validationPath, 'utf8');
+
+  await loadString(validationContent, {
+    context: 'cljs.user',
+    print: () => {},
+  });
+
+  // Load DSL file content if provided
+  if (dslPath && fs.existsSync(dslPath)) {
+    const dslContent = fs.readFileSync(dslPath, 'utf8');
+    await loadString(dslContent, {
+      context: 'cljs.user',
+      print: () => {},
+    });
+  }
+};
+
 const evaluateRule = async (
   task: TaskFM,
   board: Board,
@@ -169,32 +195,11 @@ const evaluateRule = async (
   dslPath: string,
 ): Promise<boolean> => {
   const { loadString } = await import('nbb');
-  const fs = await import('fs');
-  const path = await import('path');
-  const url = await import('url');
 
   try {
-    // Load the validation file content first
-    const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
-    const validationPath = path.resolve(__dirname, '../clojure/validation.clj');
-    const validationContent = fs.readFileSync(validationPath, 'utf8');
+    await loadClojureContext(dslPath);
 
-    await loadString(validationContent, {
-      context: 'cljs.user',
-      print: () => {},
-    });
-
-    // Load DSL file content if provided
-    if (dslPath && fs.existsSync(dslPath)) {
-      const dslContent = fs.readFileSync(dslPath, 'utf8');
-      await loadString(dslContent, {
-        context: 'cljs.user',
-        print: () => {},
-      });
-    }
-
-    // Check if ruleImpl is a direct function call (like "(evaluate-transition ...)")
-    // or a function definition (like "(fn [task board] ...)")
+    // Check if ruleImpl is a direct function call or a function definition
     if (ruleImpl.trim().startsWith('(evaluate-transition')) {
       // Direct function call - evaluate it directly
       const result = await loadString(ruleImpl, {
@@ -202,19 +207,19 @@ const evaluateRule = async (
         print: () => {},
       });
       return Boolean(result);
-    } else {
-      // Function definition - wrap it and call with evaluateTransitionRule
-      const { evaluateTransitionRule } = await loadValidationFunctions();
-
-      const ruleFn = (await loadString(`(${ruleImpl})`, {
-        context: 'cljs.user',
-        print: () => {},
-      })) as Function;
-
-      // Call evaluateTransitionRule function with task, board, and rule function
-      const result = evaluateTransitionRule(task, board, ruleFn);
-      return Boolean(result);
     }
+
+    // Function definition - wrap it and call with evaluateTransitionRule
+    const { evaluateTransitionRule } = await loadValidationFunctions();
+
+    const ruleFn = (await loadString(`(${ruleImpl})`, {
+      context: 'cljs.user',
+      print: () => {},
+    })) as Function;
+
+    // Call evaluateTransitionRule function with task, board, and rule function
+    const result = evaluateTransitionRule(task, board, ruleFn);
+    return Boolean(result);
   } catch (error) {
     throw new Error(
       `Rule evaluation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
