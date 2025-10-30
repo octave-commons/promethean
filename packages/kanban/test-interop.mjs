@@ -10,6 +10,8 @@ async function testClojureInterop() {
     // Load the test DSL file
     const dslFunctions = await loadFile('./test-rules.clj');
 
+    console.log('Available functions:', Object.keys(dslFunctions));
+
     if (!dslFunctions['test-eval']) {
       throw new Error('test-eval function not found');
     }
