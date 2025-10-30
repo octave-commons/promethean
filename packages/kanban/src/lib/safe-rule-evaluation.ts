@@ -164,31 +164,25 @@ const evaluateRule = async (
   task: TaskFM,
   board: Board,
   ruleImpl: string,
-  dslCode: string,
+  dslPath: string,
 ): Promise<boolean> => {
   const { loadString } = await import('nbb');
 
   try {
-    // Load the DSL code first
-    await loadString(dslCode, {
-      context: 'cljs.user',
-      print: () => {},
-    });
-
-    // Create a function that takes task and board as parameters
+    // Load the DSL file and get the rule function
     const ruleFunction = (await loadString(
       `
-      (fn [task board]
-        ${ruleImpl})
+      (load-file "${dslPath}")
+      ${ruleImpl}
     `,
       {
         context: 'cljs.user',
         print: () => {},
       },
-    )) as unknown;
+    )) as (task: TaskFM, board: Board) => boolean;
 
     // Call the function with the JavaScript objects directly
-    const result = await (ruleFunction as (task: TaskFM, board: Board) => unknown)(task, board);
+    const result = ruleFunction(task, board);
 
     return Boolean(result);
   } catch (error) {
