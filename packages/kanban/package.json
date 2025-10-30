@@ -50,6 +50,7 @@
   },
   "scripts": {
     "build": "tsc -b tsconfig.json --force",
+    "clean": "rm -rf ./dist tsconfig.tsbuildinfo",
     "build:cljs": "shadow-cljs release kanban-frontend",
     "build:docs": "typedoc --options typedoc.json",
     "dev:cljs": "shadow-cljs watch kanban-frontend",
