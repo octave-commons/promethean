@@ -195,21 +195,23 @@ const evaluateDirectFunctionCall = async (
 ): Promise<boolean> => {
   const { loadString } = await import('nbb');
 
-  const functionMatch = ruleImpl.match(/\(([^ ]+)/);
+  const functionMatch = ruleImpl.match(/\(([^ ]+)\s+"([^"]+)"\s+"([^"]+)"/);
   if (!functionMatch) {
     throw new Error('Invalid function call format');
   }
 
   const functionName = functionMatch[1];
+  const fromStatus = functionMatch[2];
+  const toStatus = functionMatch[3];
 
-  // Create a Clojure call that passes JavaScript objects as arguments
-  // We need to pass the actual JS objects, not try to inject them as symbols
+  // Create a Clojure call that uses the loaded validation functions
+  // The DSL file should already be loaded by loadClojureContext
   const clojureCall = `
-    (let [from-arg "Todo"
-          to-arg "In Progress"
-          task-obj #js ${JSON.stringify(task)}
-          board-obj #js ${JSON.stringify(board)}]
-        (${functionName} from-arg to-arg task-obj board-obj))
+    (let [task-js #js ${JSON.stringify(task)}
+          board-js #js ${JSON.stringify(board)}
+          task-clj (js->clj task-js :keywordize-keys true)
+          board-clj (js->clj board-js :keywordize-keys true)]
+      (${functionName} "${fromStatus}" "${toStatus}" task-clj board-clj))
     `;
 
   const result: unknown = await loadString(clojureCall, {
