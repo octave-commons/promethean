@@ -103,7 +103,7 @@ export const validateBoardWithZod = async (board: Board): Promise<ValidationResu
         (let [board (js->clj board-js :keywordize-keys true)
               valid? (s/valid? :board/map board)
               problems (when-not valid? (s/explain-data :board/map board))
-              errors (when problems (clj->js (map #(str (:pred %) " failed at " (:path %) " with value " (:val %)) (:clojure.spec.alpha/problems problems))))
+              errors (when problems ["Board validation failed - see debug info for details"])
               debug-info (when problems (pr-str problems))]
           {:isValid (boolean valid?) :errors (or errors ["No specific errors"]) :debugInfo debug-info}))
     `,
