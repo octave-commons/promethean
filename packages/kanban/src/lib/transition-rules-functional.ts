@@ -612,7 +612,7 @@ export const evaluateCustomRule = async (
       estimates: task.estimates
         ? {
             complexity: task.estimates.complexity || 1,
-            scale: task.estimates.scale?.toString() || 'medium',
+            ...(task.estimates.scale && { scale: task.estimates.scale.toString() }),
           }
         : { complexity: 1, scale: 'medium' },
     };
