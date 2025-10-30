@@ -179,7 +179,7 @@ const evaluateRule = async (
     const ruleFunction = (await loadString(
       `
       (fn [task board]
-        ${ruleImpl.replace('kanban-transitions/evaluate-transition', 'evaluate-transition')})
+        ${ruleImpl})
     `,
       {
         context: 'cljs.user',
