@@ -3,7 +3,7 @@ import type { TaskFM } from '../board/types.js';
 import type { Board } from '../lib/types.js';
 
 /**
- * Safe task and board validation using NBB + Zod
+ * Safe task and board validation using NBB + clojure.spec.alpha
  * Replaces unsafe string interpolation with proper validation
  */
 
@@ -19,42 +19,39 @@ export interface SafeEvaluationResult {
 }
 
 /**
- * Validate task using Zod schemas in NBB context
+ * Validate task using clojure.spec.alpha schemas in NBB context
  */
 export const validateTaskWithZod = async (task: TaskFM): Promise<ValidationResult> => {
   const clojureCode = `
-    (require '[zod :as z])
+    (require '[clojure.spec.alpha :as s])
 
-    (def TaskSchema 
-      (z/object 
-        {:uuid (z/string)
-         :title (z/string)
-         :priority (z/enum ["P0" "P1" "P2" "P3"])
-         :content (z/string)
-         :status (z/string)
-         :estimates (z/object {:complexity (z/number)})
-         :storyPoints (z/number)
-         :labels (z/array (z/string))}))
+    (s/def :task/uuid string?)
+    (s/def :task/title string?)
+    (s/def :task/priority #{"P0" "P1" "P2" "P3"})
+    (s/def :task/content string?)
+    (s/def :task/status string?)
+    (s/def :task/estimates (s/keys :req-un [:estimates/complexity]))
+    (s/def :estimates/complexity number?)
+    (s/def :task/storyPoints number?)
+    (s/def :task/labels (s/coll-of string? :kind vector?))
+    (s/def :task/map (s/keys :req-un [:task/uuid :task/title :task/priority :task/content :task/status :task/estimates :task/storyPoints :task/labels]))
 
     (let [task-js ${JSON.stringify(task)}
-          result (-> (.parseAsync TaskSchema task-js)
-                   (.then #(:success %))
-                   (.catch #(do 
-                            (js/console.error "Task validation failed:" %)
-                            {:isValid false :errors [%]})))]
-      (if (:isValid result)
-        {:isValid true :errors []}
-        result))
+          task (js->clj task-js :keywordize-keys true)
+          valid? (s/valid? :task/map task)
+          problems (when-not valid? (s/explain-data :task/map task))
+          errors (when problems (map str (:clojure.spec.alpha/problems problems)))]
+      {:isValid (boolean valid?) :errors (or errors [])})
   `;
 
   try {
     const { loadString } = await import('nbb');
-    const result = await loadString(clojureCode, {
+    const result = (await loadString(clojureCode, {
       context: 'cljs.user',
       print: () => {}, // Suppress output
-    });
+    })) as ValidationResult;
 
-    return result as ValidationResult;
+    return result;
   } catch (error) {
     return {
       isValid: false,
@@ -66,39 +63,35 @@ export const validateTaskWithZod = async (task: TaskFM): Promise<ValidationResul
 };
 
 /**
- * Validate board using Zod schemas in NBB context
+ * Validate board using clojure.spec.alpha schemas in NBB context
  */
 export const validateBoardWithZod = async (board: Board): Promise<ValidationResult> => {
   const clojureCode = `
-    (require '[zod :as z])
+    (require '[clojure.spec.alpha :as s])
 
-    (def BoardSchema
-      (z/object 
-        {:columns (z/array 
-                   (z/object 
-                     {:name (z/string)
-                      :limit (z/number)
-                      :tasks (z/array (z/string))}))}))
+    (s/def :column/name string?)
+    (s/def :column/limit number?)
+    (s/def :column/tasks (s/coll-of string? :kind vector?))
+    (s/def :column/map (s/keys :req-un [:column/name :column/limit :column/tasks]))
+    (s/def :board/columns (s/coll-of :column/map :kind vector?))
+    (s/def :board/map (s/keys :req-un [:board/columns]))
 
     (let [board-js ${JSON.stringify(board)}
-          result (-> (.parseAsync BoardSchema board-js)
-                   (.then #(:success %))
-                   (.catch #(do 
-                            (js/console.error "Board validation failed:" %)
-                            {:isValid false :errors [%]})))]
-      (if (:isValid result)
-        {:isValid true :errors []}
-        result))
+          board (js->clj board-js :keywordize-keys true)
+          valid? (s/valid? :board/map board)
+          problems (when-not valid? (s/explain-data :board/map board))
+          errors (when problems (map str (:clojure.spec.alpha/problems problems)))]
+      {:isValid (boolean valid?) :errors (or errors [])})
   `;
 
   try {
     const { loadString } = await import('nbb');
-    const result = await loadString(clojureCode, {
+    const result = (await loadString(clojureCode, {
       context: 'cljs.user',
       print: () => {}, // Suppress output
-    });
+    })) as ValidationResult;
 
-    return result as ValidationResult;
+    return result;
   } catch (error) {
     return {
       isValid: false,
@@ -148,10 +141,10 @@ export const safeEvaluateTransition = async (
     `;
 
     const { loadString } = await import('nbb');
-    const result = await loadString(clojureCode, {
+    const result = (await loadString(clojureCode, {
       context: 'cljs.user',
       print: () => {}, // Suppress output
-    });
+    })) as boolean;
 
     return {
       success: Boolean(result),
