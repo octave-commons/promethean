@@ -64,6 +64,7 @@
     "@promethean-os/utils": "workspace:*",
     "@promethean-os/pantheon": "workspace:*",
     "@promethean-os/pantheon-core": "workspace:*",
+    "@promethean-os/pantheon-llm-openai": "workspace:*",
     "chokidar": "^4.0.1",
     "globby": "^14.0.2",
     "gray-matter": "^4.0.3",
