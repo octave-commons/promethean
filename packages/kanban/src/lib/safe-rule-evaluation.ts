@@ -1,4 +1,3 @@
-import { readFile } from 'node:fs/promises';
 import type { TaskFM } from '../board/types.js';
 import type { Board } from '../lib/types.js';
 
@@ -141,7 +140,7 @@ const evaluateRule = async (
     });
 
     // Create a function that takes task and board as JS objects
-    const ruleFunction = await loadString(
+    const ruleFunction = (await loadString(
       `
       (fn [task board]
         ${ruleImpl.replace('kanban-transitions/evaluate-transition', 'evaluate-transition')})
@@ -150,7 +149,7 @@ const evaluateRule = async (
         context: 'cljs.user',
         print: () => {},
       },
-    );
+    )) as unknown;
 
     // Call the function with the JavaScript objects directly
     const result = (ruleFunction as (task: TaskFM, board: Board) => unknown)(task, board);
@@ -170,7 +169,6 @@ export const safeEvaluateTransition = async (
   dslPath: string,
 ): Promise<SafeEvaluationResult> => {
   try {
-    const dslCode = await readFile(dslPath, 'utf-8');
     const validation = await loadAndValidateInputs(task, board);
 
     if (!validation.success) {
@@ -180,7 +178,7 @@ export const safeEvaluateTransition = async (
       };
     }
 
-    const result = await evaluateRule(task, board, ruleImpl, dslCode);
+    const result = await evaluateRule(task, board, ruleImpl, dslPath);
 
     return {
       success: result,
