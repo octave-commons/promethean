@@ -201,8 +201,17 @@ const evaluateRule = async (
 
     // Check if ruleImpl is a direct function call or a function definition
     if (ruleImpl.trim().startsWith('(evaluate-transition')) {
-      // Direct function call - evaluate it directly
-      const result: unknown = await loadString(ruleImpl, {
+      // Direct function call - we need to inject task and board data
+      // Parse the function call to extract the function name and arguments
+      const taskStr = JSON.stringify(task);
+      const boardStr = JSON.stringify(board);
+
+      // Replace task and board symbols with actual data
+      const ruleWithData = ruleImpl
+        .replace(/\btask\b/, `#js ${taskStr}`)
+        .replace(/\bboard\b/, `#js ${boardStr}`);
+
+      const result: unknown = await loadString(ruleWithData, {
         context: 'cljs.user',
         print: () => {},
       });
