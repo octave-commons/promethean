@@ -129,26 +129,38 @@ const evaluateRule = async (
   task: TaskFM,
   board: Board,
   ruleImpl: string,
-  dslCode: string,
+  dslPath: string,
 ): Promise<boolean> => {
-  const clojureCode = `
-    ${dslCode}
-
-    ;; Use validated data (no string interpolation vulnerabilities)
-    (let [task-js ${JSON.stringify(task)}
-          board-js ${JSON.stringify(board)}
-          task (js->clj task-js)
-          board (js->clj board-js)]
-      ${ruleImpl.replace('kanban-transitions/evaluate-transition', 'evaluate-transition')})
-  `;
-
+  // Load the DSL file and evaluate the rule properly
   const { loadString } = await import('nbb');
-  const result = (await loadString(clojureCode, {
-    context: 'cljs.user',
-    print: () => {}, // Suppress output
-  })) as boolean;
 
-  return Boolean(result);
+  try {
+    // First, load the DSL to make its functions available
+    await loadString(`(load-file "${dslPath}")`, {
+      context: 'cljs.user',
+      print: () => {},
+    });
+
+    // Then evaluate the rule with converted data
+    const clojureCode = `
+      (let [task-js ${JSON.stringify(task)}
+            board-js ${JSON.stringify(board)}
+            task (js->clj task-js)
+            board (js->clj board-js)]
+        ${ruleImpl.replace('kanban-transitions/evaluate-transition', 'evaluate-transition')})
+    `;
+
+    const result = (await loadString(clojureCode, {
+      context: 'cljs.user',
+      print: () => {}, // Suppress output
+    })) as boolean;
+
+    return Boolean(result);
+  } catch (error) {
+    throw new Error(
+      `Rule evaluation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+    );
+  }
 };
 
 export const safeEvaluateTransition = async (
