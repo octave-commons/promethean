@@ -209,6 +209,8 @@ const evaluateRule = async (
       }
 
       const functionName = functionMatch[1];
+
+      // Convert JavaScript objects to EDN for proper Clojure interop
       const taskEdn = encode(task);
       const boardEdn = encode(board);
 
