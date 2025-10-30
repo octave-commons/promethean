@@ -153,7 +153,7 @@ const loadAndValidateInputs = async (
   if (!taskValidation.isValid || !boardValidation.isValid) {
     return {
       success: false,
-      validationErrors: [...taskValidation.errors, ...boardValidation.errors],
+      validationErrors: [...(taskValidation.errors ?? []), ...(boardValidation.errors ?? [])],
     };
   }
 
@@ -189,16 +189,16 @@ const evaluateRule = async (
       });
     }
 
-    // Get the evaluateTransitionRule function
+    // Get evaluateTransitionRule function
     const { evaluateTransitionRule } = await loadValidationFunctions();
 
-    // Create a rule function from the ruleImpl string
+    // Create a rule function from ruleImpl string
     const ruleFn = (await loadString(`(${ruleImpl})`, {
       context: 'cljs.user',
       print: () => {},
     })) as Function;
 
-    // Call the evaluateTransitionRule function with task, board, and rule function
+    // Call evaluateTransitionRule function with task, board, and rule function
     const result = evaluateTransitionRule(task, board, ruleFn);
     return Boolean(result);
   } catch (error) {
