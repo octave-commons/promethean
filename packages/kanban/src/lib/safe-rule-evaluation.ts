@@ -195,25 +195,27 @@ const evaluateRule = async (
   dslPath: string,
 ): Promise<boolean> => {
   const { loadString } = await import('nbb');
+  const { encode } = await import('jsedn');
 
   try {
     await loadClojureContext(dslPath);
 
     // Check if ruleImpl is a direct function call or a function definition
     if (ruleImpl.trim().startsWith('(evaluate-transition')) {
-      // Direct function call - extract function name and create proper call with data
-      // Parse the call to get the function name (e.g., "kanban-transitions/evaluate-transition")
+      // Direct function call - extract function name and create proper call with EDN data
       const functionMatch = ruleImpl.match(/\(([^ ]+)/);
       if (!functionMatch) {
         throw new Error('Invalid function call format');
       }
 
       const functionName = functionMatch[1];
+      const taskEdn = encode(task);
+      const boardEdn = encode(board);
 
-      // Create a proper Clojure call that passes JavaScript objects as parameters
+      // Create a proper Clojure call that passes EDN data as parameters
       const clojureCall = `
-        (let [task-obj #js ${JSON.stringify(task)}
-              board-obj #js ${JSON.stringify(board)}]
+        (let [task-obj ~taskEdn
+              board-obj ~boardEdn]
           (${functionName} "Todo" "In Progress" task-obj board-obj))
       `;
 
