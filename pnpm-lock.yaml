@@ -3645,6 +3645,9 @@ importers:
       '@promethean-os/pantheon-state':
         specifier: workspace:*
         version: link:state
+      '@promethean-os/pantheon-workflow':
+        specifier: workspace:*
+        version: link:workflow
       '@promethean-os/persistence':
         specifier: workspace:*
         version: link:../persistence

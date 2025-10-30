@@ -61,6 +61,7 @@
     "@promethean-os/pantheon-persistence": "workspace:*",
     "@promethean-os/pantheon-mcp": "workspace:*",
     "@promethean-os/pantheon-orchestrator": "workspace:*",
+    "@promethean-os/pantheon-workflow": "workspace:*",
     "@promethean-os/pantheon-llm-openai": "workspace:*",
     "commander": "^11.1.0",
     "jsonwebtoken": "^9.0.2",

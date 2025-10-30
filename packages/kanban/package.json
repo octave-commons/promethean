@@ -55,7 +55,8 @@
     "build:docs": "typedoc --options typedoc.json",
     "dev:cljs": "shadow-cljs watch kanban-frontend",
     "prepack": "pnpm run build && pnpm run build:cljs",
-    "test": "pnpm run build && ava",
+    "test": "pnpm run build:test && ava",
+    "build:test": "tsc -p tsconfig.test.json",
     "lint": "eslint . --ext .ts,.tsx",
     "typecheck": "tsc --noEmit"
   },
