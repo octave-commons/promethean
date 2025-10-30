@@ -201,17 +201,23 @@ const evaluateRule = async (
 
     // Check if ruleImpl is a direct function call or a function definition
     if (ruleImpl.trim().startsWith('(evaluate-transition')) {
-      // Direct function call - we need to inject task and board data
-      // Parse the function call to extract the function name and arguments
-      const taskStr = JSON.stringify(task);
-      const boardStr = JSON.stringify(board);
+      // Direct function call - extract function name and create proper call with data
+      // Parse the call to get the function name (e.g., "kanban-transitions/evaluate-transition")
+      const functionMatch = ruleImpl.match(/\(([^ ]+)/);
+      if (!functionMatch) {
+        throw new Error('Invalid function call format');
+      }
 
-      // Replace task and board symbols with actual data
-      const ruleWithData = ruleImpl
-        .replace(/\btask\b/, `#js ${taskStr}`)
-        .replace(/\bboard\b/, `#js ${boardStr}`);
+      const functionName = functionMatch[1];
 
-      const result: unknown = await loadString(ruleWithData, {
+      // Create a proper Clojure call that passes JavaScript objects as parameters
+      const clojureCall = `
+        (let [task-obj #js ${JSON.stringify(task)}
+              board-obj #js ${JSON.stringify(board)}]
+          (${functionName} "Todo" "In Progress" task-obj board-obj))
+      `;
+
+      const result: unknown = await loadString(clojureCall, {
         context: 'cljs.user',
         print: () => {},
       });
