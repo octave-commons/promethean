@@ -4,7 +4,7 @@
  */
 
 import { z } from 'zod';
-import { makeOpenAIAdapter, type OpenAIAdapterConfig } from '@promethean-os/pantheon';
+import { makeOpenAIAdapter, type OpenAIAdapterConfig } from '@promethean-os/pantheon-llm-openai';
 
 // Zod schema for validating AI responses
 const StatusNormalizationResponse = z.object({
