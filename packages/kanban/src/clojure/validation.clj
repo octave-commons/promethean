@@ -45,3 +45,8 @@
   (let [task (js->clj task-js :keywordize-keys true)
         board (js->clj board-js :keywordize-keys true)]
     (boolean (rule-fn task board))))
+
+;; Export functions for JavaScript usage
+#js {:validate-task validate-task
+     :validate-board validate-board
+     :evaluate-transition-rule evaluate-transition-rule}
