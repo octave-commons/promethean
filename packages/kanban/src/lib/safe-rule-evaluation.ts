@@ -264,7 +264,7 @@ const evaluateRule = async (
 
     // Check if ruleImpl is a direct function call or a function definition
     if (ruleImpl.trim().startsWith('(evaluate-transition')) {
-      return await evaluateDirectFunctionCall(task, board, ruleImpl);
+      return await evaluateDirectFunctionCall(task, board, ruleImpl, dslPath);
     }
 
     // Function definition - wrap it and call with evaluateTransitionRule
