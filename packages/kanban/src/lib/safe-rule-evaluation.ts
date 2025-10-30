@@ -29,19 +29,45 @@ export const validateTaskWithZod = async (task: TaskFM): Promise<ValidationResul
     // Read and load the Clojure validation file content
     const validationPath = path.resolve('./src/clojure/validation.clj');
     const validationContent = fs.readFileSync(validationPath, 'utf8');
-    
+
     await loadString(validationContent, {
       context: 'cljs.user',
       print: () => {},
     });
 
     // Call the validation function with JS object syntax
-    const validationResult = await loadString('(promethean.kanban.validation/validate-task #js {:title "' + task.title + '" :priority "' + task.priority + '" :status "' + task.status + '" :uuid "' + task.uuid + '" :estimates #js {:complexity ' + (task.estimates?.complexity || 0) + '} :labels #js [' + task.labels?.map(l => '"' + l + '"').join(' ') + ']})', {
-      context: 'cljs.user',
-      print: () => {},
-    });
+    const validationResult = await loadString(
+      '(promethean.kanban.validation/validate-task #js {:title "' +
+        task.title +
+        '" :priority "' +
+        task.priority +
+        '" :status "' +
+        task.status +
+        '" :uuid "' +
+        task.uuid +
+        '" :estimates #js {:complexity ' +
+        (task.estimates?.complexity || 0) +
+        '} :labels #js [' +
+        task.labels?.map((l) => '"' + l + '"').join(' ') +
+        ']})',
+      {
+        context: 'cljs.user',
+        print: () => {},
+      },
+    );
 
-    return validationResult as ValidationResult;
+    // Normalize to stable ValidationResult shape
+    const raw = validationResult as any;
+    const normalized: ValidationResult = {
+      isValid:
+        typeof raw === 'boolean' ? Boolean(raw) : Boolean(raw?.isValid ?? raw?.valid ?? true),
+      errors: Array.isArray(raw?.errors)
+        ? raw.errors.map(String)
+        : raw && typeof raw === 'string'
+          ? [raw]
+          : [],
+    };
+    return normalized;
   } catch (error) {
     return {
       isValid: false,
@@ -64,22 +90,25 @@ export const validateBoardWithZod = async (board: Board): Promise<ValidationResu
     // Read and load the Clojure validation file content
     const validationPath = path.resolve('./src/clojure/validation.clj');
     const validationContent = fs.readFileSync(validationPath, 'utf8');
-    
+
     await loadString(validationContent, {
       context: 'cljs.user',
       print: () => {},
     });
 
     // Convert board columns to Clojure format
-    const columnsClojure = board.columns.map(col => 
-      `#js {:name "${col.name}" :limit ${col.limit || 'null'} :tasks #js []}`
-    ).join(' ');
+    const columnsClojure = board.columns
+      .map((col) => `#js {:name "${col.name}" :limit ${col.limit || 'null'} :tasks #js []}`)
+      .join(' ');
 
     // Call the validation function with JS object syntax
-    const validationResult = await loadString('(promethean.kanban.validation/validate-board #js {:columns #js [' + columnsClojure + ']})', {
-      context: 'cljs.user',
-      print: () => {},
-    });
+    const validationResult = await loadString(
+      '(promethean.kanban.validation/validate-board #js {:columns #js [' + columnsClojure + ']})',
+      {
+        context: 'cljs.user',
+        print: () => {},
+      },
+    );
 
     return validationResult as ValidationResult;
   } catch (error) {
@@ -128,7 +157,7 @@ const evaluateRule = async (
     // Load the validation file content first
     const validationPath = path.resolve('./src/clojure/validation.clj');
     const validationContent = fs.readFileSync(validationPath, 'utf8');
-    
+
     await loadString(validationContent, {
       context: 'cljs.user',
       print: () => {},
@@ -144,11 +173,11 @@ const evaluateRule = async (
     }
 
     // Create task and board objects in Clojure format
-    const taskClojure = `#js {:title "${task.title}" :priority "${task.priority}" :status "${task.status}" :uuid "${task.uuid}" :estimates #js {:complexity ${task.estimates?.complexity || 0}} :labels #js [${task.labels?.map(l => '"' + l + '"').join(' ') || ''}]}`;
-    
-    const columnsClojure = board.columns.map(col => 
-      `#js {:name "${col.name}" :limit ${col.limit || 'null'} :tasks #js []}`
-    ).join(' ');
+    const taskClojure = `#js {:title "${task.title}" :priority "${task.priority}" :status "${task.status}" :uuid "${task.uuid}" :estimates #js {:complexity ${task.estimates?.complexity || 0}} :labels #js [${task.labels?.map((l) => '"' + l + '"').join(' ') || ''}]}`;
+
+    const columnsClojure = board.columns
+      .map((col) => `#js {:name "${col.name}" :limit ${col.limit || 'null'} :tasks #js []}`)
+      .join(' ');
     const boardClojure = `#js {:columns #js [${columnsClojure}]}`;
 
     // Evaluate the rule directly with the Clojure objects
