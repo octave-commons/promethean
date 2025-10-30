@@ -3636,6 +3636,9 @@ importers:
       '@promethean-os/pantheon-mcp':
         specifier: workspace:*
         version: link:mcp
+      '@promethean-os/pantheon-orchestrator':
+        specifier: workspace:*
+        version: link:orchestrator
       '@promethean-os/pantheon-persistence':
         specifier: workspace:*
         version: link:persistence
