@@ -23,22 +23,25 @@ export interface SafeEvaluationResult {
 export const validateTaskWithZod = async (task: TaskFM): Promise<ValidationResult> => {
   try {
     const { loadString } = await import('nbb');
+    const fs = await import('fs');
+    const path = await import('path');
 
-    // Load the Clojure validation module
-    await loadString('(load-file "./src/clojure/validation.clj")', {
+    // Read and load the Clojure validation file content
+    const validationPath = path.resolve('./src/clojure/validation.clj');
+    const validationContent = fs.readFileSync(validationPath, 'utf8');
+    
+    await loadString(validationContent, {
       context: 'cljs.user',
       print: () => {},
     });
 
-    // Call the validation function
-    const validateFn = (await loadString('promethean.kanban.validation/validate-task', {
+    // Call the validation function with JS object syntax
+    const validationResult = await loadString('(promethean.kanban.validation/validate-task #js {:title "' + task.title + '" :priority "' + task.priority + '" :status "' + task.status + '" :uuid "' + task.uuid + '" :estimates #js {:complexity ' + (task.estimates?.complexity || 0) + '} :labels #js [' + task.labels?.map(l => '"' + l + '"').join(' ') + ']})', {
       context: 'cljs.user',
       print: () => {},
-    })) as (task: TaskFM) => ValidationResult;
+    });
 
-    const result = validateFn(task);
-    console.log('Debug - task validation result:', JSON.stringify(result, null, 2));
-    return result;
+    return validationResult as ValidationResult;
   } catch (error) {
     return {
       isValid: false,
@@ -55,22 +58,30 @@ export const validateTaskWithZod = async (task: TaskFM): Promise<ValidationResul
 export const validateBoardWithZod = async (board: Board): Promise<ValidationResult> => {
   try {
     const { loadString } = await import('nbb');
+    const fs = await import('fs');
+    const path = await import('path');
 
-    // Load the Clojure validation module
-    await loadString('(load-file "./src/clojure/validation.clj")', {
+    // Read and load the Clojure validation file content
+    const validationPath = path.resolve('./src/clojure/validation.clj');
+    const validationContent = fs.readFileSync(validationPath, 'utf8');
+    
+    await loadString(validationContent, {
       context: 'cljs.user',
       print: () => {},
     });
 
-    // Call the validation function
-    const validateFn = (await loadString('promethean.kanban.validation/validate-board', {
+    // Convert board columns to Clojure format
+    const columnsClojure = board.columns.map(col => 
+      `#js {:name "${col.name}" :limit ${col.limit || 'null'} :tasks #js []}`
+    ).join(' ');
+
+    // Call the validation function with JS object syntax
+    const validationResult = await loadString('(promethean.kanban.validation/validate-board #js {:columns #js [' + columnsClojure + ']})', {
       context: 'cljs.user',
       print: () => {},
-    })) as (board: Board) => ValidationResult;
+    });
 
-    const result = validateFn(board);
-    console.log('Debug - board validation result:', JSON.stringify(result, null, 2));
-    return result;
+    return validationResult as ValidationResult;
   } catch (error) {
     return {
       isValid: false,
@@ -110,34 +121,41 @@ const evaluateRule = async (
   dslPath: string,
 ): Promise<boolean> => {
   const { loadString } = await import('nbb');
+  const fs = await import('fs');
+  const path = await import('path');
 
   try {
-    // Load the DSL file first to establish context
-    await loadString(`(load-file "${dslPath}")`, {
+    // Load the validation file content first
+    const validationPath = path.resolve('./src/clojure/validation.clj');
+    const validationContent = fs.readFileSync(validationPath, 'utf8');
+    
+    await loadString(validationContent, {
       context: 'cljs.user',
       print: () => {},
     });
 
-    // Load the validation module for rule evaluation
-    await loadString('(load-file "./src/clojure/validation.clj")', {
+    // Load DSL file content if provided
+    if (dslPath && fs.existsSync(dslPath)) {
+      const dslContent = fs.readFileSync(dslPath, 'utf8');
+      await loadString(dslContent, {
+        context: 'cljs.user',
+        print: () => {},
+      });
+    }
+
+    // Create task and board objects in Clojure format
+    const taskClojure = `#js {:title "${task.title}" :priority "${task.priority}" :status "${task.status}" :uuid "${task.uuid}" :estimates #js {:complexity ${task.estimates?.complexity || 0}} :labels #js [${task.labels?.map(l => '"' + l + '"').join(' ') || ''}]}`;
+    
+    const columnsClojure = board.columns.map(col => 
+      `#js {:name "${col.name}" :limit ${col.limit || 'null'} :tasks #js []}`
+    ).join(' ');
+    const boardClojure = `#js {:columns #js [${columnsClojure}]}`;
+
+    // Evaluate the rule directly with the Clojure objects
+    const result = await loadString(`(${ruleImpl} ${taskClojure} ${boardClojure})`, {
       context: 'cljs.user',
       print: () => {},
     });
-
-    // Evaluate the rule implementation to get the function
-    const ruleFunction = (await loadString(ruleImpl, {
-      context: 'cljs.user',
-      print: () => {},
-    })) as (task: TaskFM, board: Board) => boolean;
-
-    // Use the validation module's evaluate function
-    const evaluateFn = (await loadString('promethean.kanban.validation/evaluate-transition-rule', {
-      context: 'cljs.user',
-      print: () => {},
-    })) as (task: TaskFM, board: Board, ruleFn: (task: TaskFM, board: Board) => boolean) => boolean;
-
-    // Call the evaluation function with the JavaScript objects directly
-    const result = evaluateFn(task, board, ruleFunction);
 
     return Boolean(result);
   } catch (error) {

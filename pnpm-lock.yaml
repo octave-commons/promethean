@@ -3630,6 +3630,9 @@ importers:
       '@promethean-os/pantheon-core':
         specifier: workspace:*
         version: link:core
+      '@promethean-os/pantheon-ecs':
+        specifier: workspace:*
+        version: link:ecs
       '@promethean-os/pantheon-llm-openai':
         specifier: workspace:*
         version: link:llm-openai
@@ -3642,6 +3645,9 @@ importers:
       '@promethean-os/pantheon-persistence':
         specifier: workspace:*
         version: link:persistence
+      '@promethean-os/pantheon-protocol':
+        specifier: workspace:*
+        version: link:protocol
       '@promethean-os/pantheon-state':
         specifier: workspace:*
         version: link:state
