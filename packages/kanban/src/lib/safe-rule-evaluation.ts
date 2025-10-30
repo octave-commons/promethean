@@ -193,7 +193,7 @@ const evaluateDirectFunctionCall = async (
   board: Board,
   ruleImpl: string,
 ): Promise<boolean> => {
-  const { loadString } = await import('nbb');
+  const { loadFile } = await import('nbb');
 
   const functionMatch = ruleImpl.match(/\(([^ ]+)\s+"([^"]+)"\s+"([^"]+)"/);
   if (!functionMatch) {
@@ -201,21 +201,39 @@ const evaluateDirectFunctionCall = async (
   }
 
   const namespaceAndFunction = functionMatch[1];
-  const fromStatus = functionMatch[2];
-  const toStatus = functionMatch[3];
+  const fromStatus = functionMatch[2]!;
+  const toStatus = functionMatch[3]!;
 
-  // Create a Clojure expression that calls the function with the actual task and board objects
-  // The objects are passed directly as JavaScript objects - no serialization needed
-  const clojureCall = `(${namespaceAndFunction} "${fromStatus}" "${toStatus}" task board)`;
+  if (!namespaceAndFunction) {
+    throw new Error('Could not parse function name from rule implementation');
+  }
 
-  // Define task and board symbols in the context, then evaluate the function call
-  const result: unknown = await loadString(clojureCall, {
-    context: 'cljs.user',
-    print: () => {},
-    // Pass the task and board objects directly to the evaluation context
-    task,
-    board,
-  });
+  // Load the DSL file and call the function directly with JS objects
+  const path = await import('path');
+  const url = await import('url');
+
+  const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+  const dslPath = path.resolve(__dirname, '../clojure/kanban-transitions.clj');
+  const dslFunctions = (await loadFile(dslPath)) as Record<string, Function>;
+
+  // Get the function from the loaded namespace (convert kebab-case to property access)
+  const functionName = namespaceAndFunction.split('/').pop(); // Get just the function name
+
+  if (!functionName) {
+    throw new Error('Could not extract function name');
+  }
+
+  const evaluateFunction = dslFunctions[functionName];
+
+  if (!evaluateFunction) {
+    throw new Error(`Function ${functionName} not found in DSL`);
+  }
+
+  // Call the function directly with JavaScript objects
+  // The function signature is (from to task board)
+  const result = (
+    evaluateFunction as (from: string, to: string, task: TaskFM, board: Board) => boolean
+  )(fromStatus, toStatus, task, board);
   return Boolean(result);
 };
 
@@ -232,7 +250,10 @@ const evaluateFunctionDefinition = async (
     print: () => {},
   });
 
-  const result = evaluateTransitionRule(task, board, ruleFn as Function);
+  // Call the evaluateTransitionRule function directly with JavaScript objects
+  const result = (
+    evaluateTransitionRule as (task: TaskFM, board: Board, ruleFn: Function) => boolean
+  )(task, board, ruleFn as Function);
   return Boolean(result);
 };
 
