@@ -37,41 +37,68 @@ const normalizeValidationResult = (raw: unknown): ValidationResult => {
   return { isValid: false, errors: [] };
 };
 
+// Cache loaded validation functions
+interface ValidationFunctions {
+  validateTask: (task: unknown) => unknown;
+  validateBoard: (board: unknown) => unknown;
+  evaluateTransitionRule: (task: unknown, board: unknown, ruleFn: Function) => boolean;
+}
+
+let validationFunctionsCache: ValidationFunctions | null = null;
+
+const loadValidationFunctions = async (): Promise<ValidationFunctions> => {
+  if (validationFunctionsCache) return validationFunctionsCache;
+
+  try {
+    const { loadFile } = await import('nbb');
+    const path = await import('path');
+
+    const validationPath = path.resolve('./src/clojure/validation.clj');
+    const functions = (await loadFile(validationPath)) as Record<string, Function>;
+
+    if (
+      !functions.validateTask ||
+      !functions.validateBoard ||
+      !functions['evaluate-transition-rule']
+    ) {
+      throw new Error('Required validation functions not found in validation.clj');
+    }
+
+    validationFunctionsCache = {
+      validateTask: functions.validateTask as (task: unknown) => unknown,
+      validateBoard: functions.validateBoard as (board: unknown) => unknown,
+      evaluateTransitionRule: functions['evaluate-transition-rule'] as (
+        task: unknown,
+        board: unknown,
+        ruleFn: Function,
+      ) => boolean,
+    };
+
+    return validationFunctionsCache;
+  } catch (error) {
+    throw new Error(
+      `Failed to load validation functions: ${error instanceof Error ? error.message : 'Unknown error'}`,
+    );
+  }
+};
+
 /**
  * Load Clojure validation module and validate task
  */
 export const validateTaskWithZod = async (task: TaskFM): Promise<ValidationResult> => {
   try {
-    const { loadString } = await import('nbb');
-    const fs = await import('fs');
-    const path = await import('path');
+    const { validateTask } = await loadValidationFunctions();
 
-    // Read and load the Clojure validation file content
-    const validationPath = path.resolve('./src/clojure/validation.clj');
-    const validationContent = fs.readFileSync(validationPath, 'utf8');
-
-    await loadString(validationContent, {
-      context: 'cljs.user',
-      print: () => {},
-    });
-
-    // Call the validation function with JS object syntax
     const taskObj = {
       title: task.title,
       priority: task.priority,
       status: task.status,
       uuid: task.uuid,
-      estimates: { complexity: task.estimates?.complexity || 0 },
+      estimates: { complexity: task.estimates?.complexity ?? 0 },
       labels: task.labels || [],
     };
-    const validationResult = await loadString(
-      '(promethean.kanban.validation/validate-task taskObj)',
-      {
-        context: 'cljs.user',
-        print: () => {},
-      },
-    );
 
+    const validationResult = validateTask(taskObj);
     return normalizeValidationResult(validationResult);
   } catch (error) {
     return {
