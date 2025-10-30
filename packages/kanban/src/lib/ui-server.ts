@@ -3,7 +3,21 @@ import { createServer } from 'node:http';
 import path from 'node:path';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 
-import { escapeHtml } from '../frontend/render.js';
+// import { escapeHtml } from '../frontend/render.js';
+
+// Temporary escapeHtml function until frontend is built
+const escapeHtml = (str: string): string =>
+  str.replace(
+    /[&<>"']/g,
+    (char) =>
+      ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+      })[char] || char,
+  );
 
 import { loadBoard } from './kanban.js';
 import type { ColumnData } from './types.js';
