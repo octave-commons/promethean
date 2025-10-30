@@ -76,13 +76,13 @@ const createConfig = (dslPath: string): TransitionRulesConfig => ({
       name: 'wip-limits',
       description: 'Respect WIP limits',
       enabled: true,
-      impl: '',
+      impl: '(fn [from to task board] true)',
     },
     {
       name: 'task-existence',
       description: 'Task must exist in source column',
       enabled: true,
-      impl: '',
+      impl: '(fn [from to task board] true)',
     },
   ],
 });
