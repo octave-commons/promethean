@@ -131,29 +131,29 @@ const evaluateRule = async (
   ruleImpl: string,
   dslPath: string,
 ): Promise<boolean> => {
-  // Load the DSL file and evaluate the rule properly
   const { loadString } = await import('nbb');
 
   try {
-    // First, load the DSL to make its functions available
+    // Load the DSL file first to make its functions available
     await loadString(`(load-file "${dslPath}")`, {
       context: 'cljs.user',
       print: () => {},
     });
 
-    // Then evaluate the rule with converted data
-    const clojureCode = `
+    // Evaluate the rule with converted data in one step
+    const result = await loadString(
+      `
       (let [task-js ${JSON.stringify(task)}
             board-js ${JSON.stringify(board)}
-            task (js->clj task-js)
-            board (js->clj board-js)]
+            task (js->clj task-js :keywordize-keys true)
+            board (js->clj board-js :keywordize-keys true)]
         ${ruleImpl.replace('kanban-transitions/evaluate-transition', 'evaluate-transition')})
-    `;
-
-    const result = (await loadString(clojureCode, {
-      context: 'cljs.user',
-      print: () => {}, // Suppress output
-    })) as boolean;
+    `,
+      {
+        context: 'cljs.user',
+        print: () => {},
+      },
+    );
 
     return Boolean(result);
   } catch (error) {
