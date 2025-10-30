@@ -202,7 +202,7 @@ const evaluateRule = async (
     // Check if ruleImpl is a direct function call or a function definition
     if (ruleImpl.trim().startsWith('(evaluate-transition')) {
       // Direct function call - evaluate it directly
-      const result = await loadString(ruleImpl, {
+      const result: unknown = await loadString(ruleImpl, {
         context: 'cljs.user',
         print: () => {},
       });
@@ -212,13 +212,13 @@ const evaluateRule = async (
     // Function definition - wrap it and call with evaluateTransitionRule
     const { evaluateTransitionRule } = await loadValidationFunctions();
 
-    const ruleFn = (await loadString(`(${ruleImpl})`, {
+    const ruleFn: unknown = await loadString(`(${ruleImpl})`, {
       context: 'cljs.user',
       print: () => {},
-    })) as Function;
+    });
 
     // Call evaluateTransitionRule function with task, board, and rule function
-    const result = evaluateTransitionRule(task, board, ruleFn);
+    const result = evaluateTransitionRule(task, board, ruleFn as Function);
     return Boolean(result);
   } catch (error) {
     throw new Error(
