@@ -166,24 +166,36 @@ const evaluateRule = async (
   ruleImpl: string,
   dslCode: string,
 ): Promise<boolean> => {
-  const clojureCode = `
-    ${dslCode}
-
-    ;; Use validated data (no string interpolation vulnerabilities)
-    (let [task-js ${JSON.stringify(task)}
-          board-js ${JSON.stringify(board)}
-          task (js->clj task-js)
-          board (js->clj board-js)]
-      ${ruleImpl.replace('kanban-transitions/evaluate-transition', 'evaluate-transition')})
-  `;
-
   const { loadString } = await import('nbb');
-  const result = (await loadString(clojureCode, {
-    context: 'cljs.user',
-    print: () => {}, // Suppress output
-  })) as boolean;
 
-  return Boolean(result);
+  try {
+    // Load the DSL code first
+    await loadString(dslCode, {
+      context: 'cljs.user',
+      print: () => {},
+    });
+
+    // Create a function that takes task and board as parameters
+    const ruleFunction = (await loadString(
+      `
+      (fn [task board]
+        ${ruleImpl.replace('kanban-transitions/evaluate-transition', 'evaluate-transition')})
+    `,
+      {
+        context: 'cljs.user',
+        print: () => {},
+      },
+    )) as unknown;
+
+    // Call the function with the JavaScript objects directly
+    const result = await (ruleFunction as (task: TaskFM, board: Board) => unknown)(task, board);
+
+    return Boolean(result);
+  } catch (error) {
+    throw new Error(
+      `Rule evaluation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+    );
+  }
 };
 
 export const safeEvaluateTransition = async (
