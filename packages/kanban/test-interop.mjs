@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 // Simple test to verify ClojureScript interop is working
-const { loadFile } = require('nbb');
+import { loadFile } from 'nbb';
 
 async function testClojureInterop() {
   try {
