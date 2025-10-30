@@ -7,6 +7,7 @@ import test from 'ava';
 test.skip('GitUtils - DISABLED', (t) => {
   t.pass('Git functionality has been disabled - all git tests skipped');
 });
+
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { GitUtils } from '../lib/heal/utils/git-utils.js';
@@ -29,12 +30,12 @@ test.before(async (t) => {
   execSync('git add test.txt', { cwd: testDir });
   execSync('git commit -m "Initial commit"', { cwd: testDir });
 
-  (t.context as any).testDir = testDir;
+  (t.context as { testDir: string }).testDir = testDir;
 });
 
 test.after.always(async (t) => {
   // Clean up test directory
-  const testDir = (t.context as any).testDir as string;
+  const testDir = (t.context as { testDir: string }).testDir;
   try {
     await fs.rm(testDir, { recursive: true, force: true });
   } catch (error) {
