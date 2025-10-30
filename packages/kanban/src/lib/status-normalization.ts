@@ -19,7 +19,7 @@ const StatusNormalizationResponse = z.object({
     'blocked',
   ]),
   confidence: z.number().min(0).max(1),
-  reasoning: z.string().optional(),
+  reasoning: z.string().optional().default(''),
 });
 
 export type StatusNormalizationResult = z.infer<typeof StatusNormalizationResponse>;
