@@ -6,8 +6,8 @@ import {
   TransitionRulesEngine,
   createTransitionRulesEngine,
   type TransitionRulesConfig,
-} from '../lib/transition-rules.js';
-import type { Board, Task } from '../lib/types.js';
+} from '../../dist/lib/transition-rules.js';
+import type { Board, Task } from '../../dist/lib/types.js';
 import { withTempDir } from '../test-utils/helpers.js';
 
 const sampleTask: Task = {
