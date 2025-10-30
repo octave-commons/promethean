@@ -189,20 +189,17 @@ const evaluateRule = async (
       });
     }
 
-    // Create task and board objects in Clojure format
-    const taskClojure = `#js {:title "${task.title}" :priority "${task.priority}" :status "${task.status}" :uuid "${task.uuid}" :estimates #js {:complexity ${task.estimates?.complexity || 0}} :labels #js [${task.labels?.map((l) => '"' + l + '"').join(' ') || ''}]}`;
+    // Get the evaluateTransitionRule function
+    const { evaluateTransitionRule } = await loadValidationFunctions();
 
-    const columnsClojure = board.columns
-      .map((col) => `#js {:name "${col.name}" :limit ${col.limit || 'null'} :tasks #js []}`)
-      .join(' ');
-    const boardClojure = `#js {:columns #js [${columnsClojure}]}`;
-
-    // Evaluate the rule directly with the Clojure objects
-    const result = await loadString(`(${ruleImpl} ${taskClojure} ${boardClojure})`, {
+    // Create a rule function from the ruleImpl string
+    const ruleFn = await loadString(`(${ruleImpl})`, {
       context: 'cljs.user',
       print: () => {},
     });
 
+    // Call the evaluateTransitionRule function with task, board, and rule function
+    const result = evaluateTransitionRule(task, board, ruleFn);
     return Boolean(result);
   } catch (error) {
     throw new Error(
