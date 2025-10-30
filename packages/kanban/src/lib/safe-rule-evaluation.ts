@@ -59,16 +59,16 @@ const loadValidationFunctions = async (): Promise<ValidationFunctions> => {
     const functions = (await loadFile(validationPath)) as Record<string, Function>;
 
     if (
-      !functions.validateTask ||
-      !functions.validateBoard ||
+      !functions['validate-task'] ||
+      !functions['validate-board'] ||
       !functions['evaluate-transition-rule']
     ) {
       throw new Error('Required validation functions not found in validation.clj');
     }
 
     validationFunctionsCache.current = {
-      validateTask: functions.validateTask as (task: unknown) => unknown,
-      validateBoard: functions.validateBoard as (board: unknown) => unknown,
+      validateTask: functions['validate-task'] as (task: unknown) => unknown,
+      validateBoard: functions['validate-board'] as (board: unknown) => unknown,
       evaluateTransitionRule: functions['evaluate-transition-rule'] as (
         task: unknown,
         board: unknown,
