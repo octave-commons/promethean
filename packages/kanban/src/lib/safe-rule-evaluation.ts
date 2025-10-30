@@ -140,20 +140,20 @@ const evaluateRule = async (
       print: () => {},
     });
 
-    // Evaluate the rule with converted data in one step
-    const result = (await loadString(
+    // Create a function that takes task and board as JS objects
+    const ruleFunction = await loadString(
       `
-      (let [task-js ${JSON.stringify(task)}
-            board-js ${JSON.stringify(board)}
-            task (js->clj task-js :keywordize-keys true)
-            board (js->clj board-js :keywordize-keys true)]
+      (fn [task board]
         ${ruleImpl.replace('kanban-transitions/evaluate-transition', 'evaluate-transition')})
     `,
       {
         context: 'cljs.user',
         print: () => {},
       },
-    )) as unknown;
+    );
+
+    // Call the function with the JavaScript objects directly
+    const result = (ruleFunction as (task: TaskFM, board: Board) => unknown)(task, board);
 
     return Boolean(result);
   } catch (error) {
