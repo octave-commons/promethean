@@ -109,7 +109,7 @@ export const validateBoardWithZod = async (board: Board): Promise<ValidationResu
     const columnsClojure = board.columns
       .map(
         (col) =>
-          `#js {:name "${col.name}" :limit ${col.limit === null ? 'null' : col.limit || 'null'} :tasks #js []}`,
+          `#js {:name "${col.name}" :limit ${col.limit === null ? null : col.limit} :tasks #js []}`,
       )
       .join(' ');
 
