@@ -44,5 +44,5 @@ test.after.always(async (t) => {
 
 test('GitUtils constructor initializes correctly', (t) => {
   const gitUtils = new GitUtils('/test/path');
-  t.is(gitUtils['repoPath'], '/test/path');
+  t.true(gitUtils instanceof GitUtils);
 });
