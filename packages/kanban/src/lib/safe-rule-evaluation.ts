@@ -18,6 +18,26 @@ export interface SafeEvaluationResult {
 }
 
 /**
+ * Normalize raw Clojure validation result to stable ValidationResult shape
+ */
+const normalizeValidationResult = (raw: unknown): ValidationResult => {
+  if (typeof raw === 'boolean') {
+    return { isValid: raw, errors: [] };
+  }
+  if (typeof raw === 'string') {
+    return { isValid: false, errors: [raw] };
+  }
+  if (raw && typeof raw === 'object') {
+    const obj = raw as Record<string, unknown>;
+    const isValid = Boolean(obj.isValid ?? obj.valid ?? true);
+    const errors = Array.isArray(obj.errors) ? (obj.errors as unknown[]).map(String) : [];
+    return { isValid, errors };
+  }
+  // Fallback for unexpected types
+  return { isValid: false, errors: [] };
+};
+
+/**
  * Load Clojure validation module and validate task
  */
 export const validateTaskWithZod = async (task: TaskFM): Promise<ValidationResult> => {
@@ -56,18 +76,7 @@ export const validateTaskWithZod = async (task: TaskFM): Promise<ValidationResul
       },
     );
 
-    // Normalize to stable ValidationResult shape
-    const raw = validationResult as any;
-    const normalized: ValidationResult = {
-      isValid:
-        typeof raw === 'boolean' ? Boolean(raw) : Boolean(raw?.isValid ?? raw?.valid ?? true),
-      errors: Array.isArray(raw?.errors)
-        ? raw.errors.map(String)
-        : raw && typeof raw === 'string'
-          ? [raw]
-          : [],
-    };
-    return normalized;
+    return normalizeValidationResult(validationResult);
   } catch (error) {
     return {
       isValid: false,
@@ -110,7 +119,7 @@ export const validateBoardWithZod = async (board: Board): Promise<ValidationResu
       },
     );
 
-    return validationResult as ValidationResult;
+    return normalizeValidationResult(validationResult);
   } catch (error) {
     return {
       isValid: false,
