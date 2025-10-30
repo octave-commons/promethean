@@ -282,9 +282,8 @@ export const archiveTask = async (
         }
         const yamlContent = stringifyYaml(frontmatter).trimEnd();
         const body = (parsed.body ?? '').trimEnd();
-        const rewritten = body.length > 0
-          ? `---\n${yamlContent}\n---\n\n${body}\n`
-          : `---\n${yamlContent}\n---\n`;
+        const rewritten =
+          body.length > 0 ? `---\n${yamlContent}\n---\n\n${body}\n` : `---\n${yamlContent}\n---\n`;
         await fs.writeFile(taskFilePath, rewritten, 'utf8');
       } catch (_) {
         // Ignore file update failures to keep CLI resilient
@@ -318,10 +317,7 @@ export const findTaskByTitle = (board: LegacyBoard, title: string): LegacyTask |
 };
 
 // Additional wrapper functions needed by CLI
-export const getColumn = (
-  board: LegacyBoard,
-  columnName: string,
-): ColumnData => {
+export const getColumn = (board: LegacyBoard, columnName: string): ColumnData => {
   const found = board.columns.find(
     (column) => column.name.toLowerCase() === columnName.toLowerCase(),
   );
@@ -374,7 +370,10 @@ export const syncBoardAndTasks = async (
   };
 };
 
-export const regenerateBoard = async (tasksDir: string, boardPath: string): Promise<{
+export const regenerateBoard = async (
+  tasksDir: string,
+  boardPath: string,
+): Promise<{
   success: boolean;
   totalTasks: number;
 }> => {
@@ -404,10 +403,7 @@ export const indexForSearch = async (
   });
 };
 
-export const searchTasks = async (
-  board: LegacyBoard,
-  term: string,
-): Promise<SearchTasksResult> => {
+export const searchTasks = async (board: LegacyBoard, term: string): Promise<SearchTasksResult> => {
   return searchBoard({ board, term });
 };
 
@@ -493,9 +489,22 @@ export const toFrontmatter = (task: LegacyTask): string => {
   return `${header}\n${body}\n`;
 };
 
-export const validateStartingStatus = (status: string): boolean => {
-  const validStatuses = ['todo', 'in_progress', 'done', 'blocked'];
-  return validStatuses.includes(status);
+export const validateStartingStatus = (status: string): void => {
+  const validStartingStatuses = ['icebox', 'incoming'];
+
+  if (status === '' || status.trim() === '') {
+    throw new Error(
+      `Invalid starting status: "${status}". Tasks can only be created with starting statuses: icebox, incoming. Use --status flag to specify a valid starting status.`,
+    );
+  }
+
+  const normalizedStatus = status.toLowerCase().replace(/[^a-z0-9]/g, '_');
+
+  if (!validStartingStatuses.includes(normalizedStatus)) {
+    throw new Error(
+      `Invalid starting status: "${status}". Tasks can only be created with starting statuses: icebox, incoming. Use --status flag to specify a valid starting status.`,
+    );
+  }
 };
 
 export const columnKey = (name: string): string => {
