@@ -107,7 +107,10 @@ export const validateBoardWithZod = async (board: Board): Promise<ValidationResu
 
     // Convert board columns to Clojure format
     const columnsClojure = board.columns
-      .map((col) => `#js {:name "${col.name}" :limit ${col.limit || 'null'} :tasks #js []}`)
+      .map(
+        (col) =>
+          `#js {:name "${col.name}" :limit ${col.limit === null ? 'null' : col.limit || 'null'} :tasks #js []}`,
+      )
       .join(' ');
 
     // Call the validation function with JS object syntax
