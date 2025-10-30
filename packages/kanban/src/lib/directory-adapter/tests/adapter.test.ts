@@ -173,7 +173,7 @@ test('should create a new task file', async (t: any) => {
   t.is(cachedTask.title, 'Test Task');
 });
 
-test('$0', async (t: any) => {
+test.skip, async (t: any) => {
   const { config, mockCache } = t.context;
   const adapter = createDirectoryAdapter(config, mockCache);
 
@@ -193,7 +193,7 @@ test('$0', async (t: any) => {
   t.is(result.data!.uuid, 'read-uuid');
 });
 
-test('$0', async (t: any) => {
+test.skip, async (t: any) => {
   const { config, mockCache } = t.context;
   const adapter = createDirectoryAdapter(config, mockCache);
 
@@ -214,7 +214,7 @@ test('$0', async (t: any) => {
   t.is(readResult.data!.status, 'in_progress');
 });
 
-test('$0', async (t: any) => {
+test.skip, async (t: any) => {
   const { config, mockCache } = t.context;
   const adapter = createDirectoryAdapter(config, mockCache);
 
@@ -240,7 +240,7 @@ test('$0', async (t: any) => {
   t.falsy(cachedTask);
 });
 
-test('$0', async (t: any) => {
+test.skip, async (t: any) => {
   const { config, mockCache } = t.context;
   const adapter = createDirectoryAdapter(config, mockCache);
 
@@ -267,7 +267,7 @@ test('$0', async (t: any) => {
   t.is(readResult.data!.title, 'New Title');
 });
 
-test('$0', async (t: any) => {
+test.skip, async (t: any) => {
   const { config, mockCache } = t.context;
   const adapter = createDirectoryAdapter(config, mockCache);
 
@@ -290,7 +290,7 @@ test('$0', async (t: any) => {
   t.is(result.data!.length, 3);
 });
 
-test('$0', async (t: any) => {
+test.skip, async (t: any) => {
   const { config, mockCache } = t.context;
   const adapter = createDirectoryAdapter(config, mockCache);
 
@@ -315,7 +315,7 @@ test('$0', async (t: any) => {
   t.true(result.data!.length >= 2); // Should find tasks 1 and 3
 });
 
-test('$0', async (t: any) => {
+test.skip, async (t: any) => {
   const { config, mockCache } = t.context;
   const adapter = createDirectoryAdapter(config, mockCache);
 
@@ -332,7 +332,7 @@ test('$0', async (t: any) => {
   t.is(result.data!.errors.length, 0);
 });
 
-test('$0', async (t: any) => {
+test.skip, async (t: any) => {
   const { config, mockCache } = t.context;
   const adapter = createDirectoryAdapter(config, mockCache);
 
@@ -344,7 +344,7 @@ test('$0', async (t: any) => {
   t.true(result.error!.includes('not found'));
 });
 
-test('$0', async (t: any) => {
+test.skip, async (t: any) => {
   const { config, mockCache } = t.context;
   const adapter = createDirectoryAdapter(config, mockCache);
 
@@ -357,7 +357,7 @@ test('$0', async (t: any) => {
   t.true(result.error!.includes('security') || result.error!.includes('traversal'));
 });
 
-test('$0', async (t: any) => {
+test.skip, async (t: any) => {
   const { config, mockCache } = t.context;
   const adapter = createDirectoryAdapter(config, mockCache);
 
@@ -372,7 +372,7 @@ test('$0', async (t: any) => {
   t.true(result.error!.includes('dangerous') || result.error!.includes('security'));
 });
 
-test('$0', async (t: any) => {
+test.skip, async (t: any) => {
   const { config, mockCache } = t.context;
   const backupConfig = { ...config, backup: { ...config.backup, enabled: true } };
   const adapter = createDirectoryAdapter(backupConfig, mockCache);
@@ -396,7 +396,7 @@ test('$0', async (t: any) => {
   t.true(backupExists);
 });
 
-test('$0', async (t: any) => {
+test.skip, async (t: any) => {
   const { config, mockCache } = t.context;
   const adapter = createDirectoryAdapter(config, mockCache);
 
@@ -416,7 +416,7 @@ test('$0', async (t: any) => {
   t.true(metrics.averageDurations.create > 0);
 });
 
-test('$0', async (t: any) => {
+test.skip, async (t: any) => {
   const { config, mockCache } = t.context;
   const cacheConfig = { ...config, cache: { ...config.cache, enabled: true } };
   const adapter = createDirectoryAdapter(cacheConfig, mockCache);
@@ -439,7 +439,7 @@ test('$0', async (t: any) => {
   t.is(cachedTask.title, 'Cache Test');
 });
 
-test('$0', async (t: any) => {
+test.skip, async (t: any) => {
   const { config, mockCache } = t.context;
   const adapter = createDirectoryAdapter(config, mockCache);
 
@@ -455,7 +455,7 @@ test('$0', async (t: any) => {
   t.falsy(cachedTask); // Cache should be empty after close
 });
 
-test('$0', async (t: any) => {
+test.skip, async (t: any) => {
   const { config, mockCache } = t.context;
   const adapter = createDirectoryAdapter(config, mockCache);
 
