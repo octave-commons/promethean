@@ -211,9 +211,17 @@ export const validateAndNormalizeStatus = async (inputStatus: string): Promise<v
     );
   }
 
-  // Reject statuses with special characters that aren't simple variations
-  // Allow letters, spaces, and hyphens (for variations like "Ice Box", "In-Coming")
+  // Reject statuses with clearly invalid special characters
+  // Allow letters, spaces, and hyphens but reject other special characters
   if (!/^[a-zA-Z\s\-]+$/.test(inputStatus.trim())) {
+    throw new Error(
+      `Invalid starting status: "${inputStatus}". Tasks can only be created with starting statuses: icebox, incoming. Use --status flag to specify a valid starting status.`,
+    );
+  }
+
+  // Additional check for compound words with hyphens that might be invalid
+  // Reject patterns like "incoming-work" but allow "In-Coming"
+  if (inputStatus.includes('-') && !/^(In[-\s]?Coming|Ice[-\s]?Box)$/i.test(inputStatus.trim())) {
     throw new Error(
       `Invalid starting status: "${inputStatus}". Tasks can only be created with starting statuses: icebox, incoming. Use --status flag to specify a valid starting status.`,
     );
