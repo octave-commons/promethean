@@ -69,32 +69,36 @@ export const validateTaskWithZod = async (task: TaskFM): Promise<ValidationResul
  * Validate board using clojure.spec.alpha schemas in NBB context
  */
 export const validateBoardWithZod = async (board: Board): Promise<ValidationResult> => {
-  const clojureCode = `
-    (require '[clojure.spec.alpha :as s])
-
-    (s/def :column/name string?)
-    (s/def :column/limit number?)
-    (s/def :column/count number?)
-    (s/def :column/tasks (s/coll-of any? :kind vector?))
-    (s/def :column/map (s/keys :req-un [:column/name :column/limit :column/count :column/tasks]))
-    (s/def :board/columns (s/coll-of :column/map :kind vector?))
-    (s/def :board/map (s/keys :req-un [:board/columns]))
-
-    (let [board-js ${JSON.stringify(board)}
-          board (js->clj board-js :keywordize-keys true)
-          valid? (s/valid? :board/map board)
-          problems (when-not valid? (s/explain-data :board/map board))
-          errors (when problems (map str (:clojure.spec.alpha/problems problems)))]
-      {:isValid (boolean valid?) :errors (or errors [])})
-  `;
-
   try {
     const { loadString } = await import('nbb');
-    const result = (await loadString(clojureCode, {
-      context: 'cljs.user',
-      print: () => {}, // Suppress output
-    })) as ValidationResult;
 
+    // Create validation function that takes board as JS object
+    const validationFn = (await loadString(
+      `
+      (require '[clojure.spec.alpha :as s])
+
+      (s/def :column/name string?)
+      (s/def :column/limit number?)
+      (s/def :column/count number?)
+      (s/def :column/tasks (s/coll-of any? :kind vector?))
+      (s/def :column/map (s/keys :req-un [:column/name :column/limit :column/count :column/tasks]))
+      (s/def :board/columns (s/coll-of :column/map :kind vector?))
+      (s/def :board/map (s/keys :req-un [:board/columns]))
+
+      (fn [board-js]
+        (let [board (js->clj board-js :keywordize-keys true)
+              valid? (s/valid? :board/map board)
+              problems (when-not valid? (s/explain-data :board/map board))
+              errors (when problems (map str (:clojure.spec.alpha/problems problems)))]
+          {:isValid (boolean valid?) :errors (or errors [])}))
+    `,
+      {
+        context: 'cljs.user',
+        print: () => {}, // Suppress output
+      },
+    )) as (board: Board) => ValidationResult;
+
+    const result = validationFn(board);
     return result;
   } catch (error) {
     return {
