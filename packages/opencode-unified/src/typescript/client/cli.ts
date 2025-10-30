@@ -19,6 +19,7 @@ program
       const client = createClient({
         endpoint: options.endpoint,
         timeout: parseInt(options.timeout),
+        invalidProperty: 'this will cause a type error',
       });
 
       console.log('OpenCode client started');
