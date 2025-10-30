@@ -12,4 +12,4 @@ export {
   type InterAgentMessage,
   type SpawnAgentOptions,
   type AgentOrchestratorConfig,
-} from '@promethean-os/pantheon-orchestrator';
+} from '../orchestrator/dist/index.js';
