@@ -210,4 +210,11 @@ export const validateAndNormalizeStatus = async (inputStatus: string): Promise<v
       `Ambiguous starting status: "${inputStatus}". Please be more specific. Valid starting statuses: icebox, incoming. Use --status flag to specify a valid starting status.`,
     );
   }
+
+  // Reject statuses with special characters that aren't simple variations
+  if (!/^[a-zA-Z\s\-]+$/.test(inputStatus.trim())) {
+    throw new Error(
+      `Invalid starting status: "${inputStatus}". Tasks can only be created with starting statuses: icebox, incoming. Use --status flag to specify a valid starting status.`,
+    );
+  }
 };
