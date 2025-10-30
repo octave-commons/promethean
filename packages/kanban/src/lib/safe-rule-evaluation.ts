@@ -54,7 +54,19 @@ export const validateTaskWithZod = async (task: TaskFM): Promise<ValidationResul
       },
     )) as (task: TaskFM) => ValidationResult;
 
-    const result = validationFn(task);
+    // Convert ClojureScript result back to JavaScript
+    const cljResult = validationFn(task);
+    const jsResult = (await loadString(
+      `
+      (fn [result] (clj->js result))
+    `,
+      {
+        context: 'cljs.user',
+        print: () => {},
+      },
+    )) as (result: unknown) => ValidationResult;
+
+    const result = jsResult(cljResult);
     console.log('Debug - task validation result:', JSON.stringify(result, null, 2));
     return result;
   } catch (error) {
@@ -99,7 +111,19 @@ export const validateBoardWithZod = async (board: Board): Promise<ValidationResu
       },
     )) as (board: Board) => ValidationResult;
 
-    const result = validationFn(board);
+    // Convert ClojureScript result back to JavaScript
+    const cljResult = validationFn(board);
+    const jsResult = (await loadString(
+      `
+      (fn [result] (clj->js result))
+    `,
+      {
+        context: 'cljs.user',
+        print: () => {},
+      },
+    )) as (result: unknown) => ValidationResult;
+
+    const result = jsResult(cljResult);
     console.log('Debug - board validation result:', JSON.stringify(result, null, 2));
     return result;
   } catch (error) {
