@@ -2,7 +2,7 @@
   (:require ["fs" :as fs]
             ["path" :as path]
             ["url" :as url]
-            [nbb.core :as nbb])))
+            [nbb.core :as nbb]))
 
 ;; Helper to normalize validation results
 (defn normalize-validation-result [raw]
@@ -25,9 +25,6 @@
         (let [__dirname (path/dirname (.-fileURLToPath url))
               validation-path (path/resolve __dirname "../clojure/validation.clj")
               functions (nbb/load-file validation-path)]
-              __dirname (path/dirname (.-fileURLToPath url))
-              validation-path (path/resolve __dirname "../clojure/validation.clj")
-              functions (.loadFile nbb validation-path)]
           (if (and (.-validate-task functions)
                    (.-validate-board functions)
                    (.-evaluate-transition-rule functions))
@@ -85,35 +82,28 @@
 
 (defn load-clojure-context [dsl-path]
   (let [__dirname (path/dirname (.-fileURLToPath url))
-          validation-path (path/resolve __dirname "../clojure/validation.clj")
-          validation-content (fs/readFileSync validation-path "utf8")]
+        validation-path (path/resolve __dirname "../clojure/validation.clj")
+        validation-content (fs/readFileSync validation-path "utf8")]
     (nbb/load-string validation-content #js {:context "cljs.user" :print (fn [])})
     (when (and dsl-path (.existsSync fs dsl-path))
       (let [dsl-content (fs/readFileSync dsl-path "utf8")]
-        (nbb/load-string dsl-content #js {:context "cljs.user" :print (fn [])}))))
-        __dirname (path/dirname (.-fileURLToPath url))
-        validation-path (path/resolve __dirname "../clojure/validation.clj")
-        validation-content (fs/readFileSync validation-path "utf8")]
-    (.loadString nbb validation-content #js {:context "cljs.user" :print (fn [])})
-    (when (and dsl-path (.existsSync fs dsl-path))
-      (let [dsl-content (fs/readFileSync dsl-path "utf8")]
-        (.loadString nbb dsl-content #js {:context "cljs.user" :print (fn [])})))))
+        (nbb/load-string dsl-content #js {:context "cljs.user" :print (fn [])})))))
 
 (defn evaluate-rule [task-fm board rule-impl dsl-path]
-    (try
-      (load-clojure-context dsl-path)
-      
-      (if (.startsWith (.trim rule-impl) "(evaluate-transition")
-        ;; Direct function call
-        (let [result (.loadString nbb rule-impl #js {:context "cljs.user" :print (fn [])})]
-          (boolean result))
-        ;; Function definition - wrap and call with evaluateTransitionRule
-        (let [functions (load-validation-functions)
-              evaluate-transition-rule (.-evaluate-transition-rule functions)
-              rule-fn (.loadString nbb (str "(" rule-impl ")") #js {:context "cljs.user" :print (fn [])})]
-          (boolean (evaluate-transition-rule task-fm board rule-fn))))
-      (catch js/Error e
-        (throw (js/Error. (str "Rule evaluation failed: " (.-message e))))))))
+  (try
+    (load-clojure-context dsl-path)
+    
+    (if (.startsWith (.trim rule-impl) "(evaluate-transition")
+      ;; Direct function call
+      (let [result (nbb/load-string rule-impl #js {:context "cljs.user" :print (fn [])})]
+        (boolean result))
+      ;; Function definition - wrap and call with evaluateTransitionRule
+      (let [functions (load-validation-functions)
+            evaluate-transition-rule (.-evaluate-transition-rule functions)
+            rule-fn (nbb/load-string (str "(" rule-impl ")") #js {:context "cljs.user" :print (fn [])})]
+        (boolean (evaluate-transition-rule task-fm board rule-fn))))
+    (catch js/Error e
+      (throw (js/Error. (str "Rule evaluation failed: " (.-message e)))))))
 
 (defn safe-evaluate-transition [task-fm board rule-impl dsl-path]
   (try
