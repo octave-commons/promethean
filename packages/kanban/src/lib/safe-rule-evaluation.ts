@@ -45,8 +45,9 @@ export const validateTaskWithZod = async (task: TaskFM): Promise<ValidationResul
         (let [task (js->clj task-js :keywordize-keys true)
               valid? (s/valid? :task/map task)
               problems (when-not valid? (s/explain-data :task/map task))
-              errors (when problems (map str (:clojure.spec.alpha/problems problems)))]
-          {:isValid (boolean valid?) :errors (or errors [])}))
+              errors (when problems (map str (:clojure.spec.alpha/problems problems)))
+              debug-info (when problems (pr-str problems))]
+          {:isValid (boolean valid?) :errors (or errors ["No specific errors"]) :debugInfo debug-info}))
     `,
       {
         context: 'cljs.user',
@@ -102,8 +103,9 @@ export const validateBoardWithZod = async (board: Board): Promise<ValidationResu
         (let [board (js->clj board-js :keywordize-keys true)
               valid? (s/valid? :board/map board)
               problems (when-not valid? (s/explain-data :board/map board))
-              errors (when problems (map str (:clojure.spec.alpha/problems problems)))]
-          {:isValid (boolean valid?) :errors (or errors [])}))
+              errors (when problems (map str (:clojure.spec.alpha/problems problems)))
+              debug-info (when problems (pr-str problems))]
+          {:isValid (boolean valid?) :errors (or errors ["No specific errors"]) :debugInfo debug-info}))
     `,
       {
         context: 'cljs.user',

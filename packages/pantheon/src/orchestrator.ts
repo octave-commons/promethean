@@ -2,6 +2,7 @@
  * Agent Orchestrator exports for Pantheon
  */
 
+// Re-export from orchestrator subpackage
 export {
   AgentOrchestrator,
   type AgentTask,

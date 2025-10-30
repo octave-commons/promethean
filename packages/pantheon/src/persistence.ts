@@ -4,6 +4,7 @@
 
 export {
   makePantheonPersistenceAdapter,
-  type PantheonPersistenceAdapterConfig,
-  type PantheonPersistencePort,
+  type PersistenceAdapterDeps,
+  type CacheConfig,
+  type CacheMetrics,
 } from '../persistence/dist/index.js';
