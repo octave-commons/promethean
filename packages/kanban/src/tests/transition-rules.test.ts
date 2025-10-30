@@ -176,7 +176,18 @@ test('createTransitionRulesEngine loads configuration from paths', async (t) => 
   const config = {
     transitionRules: createConfig(path.join(tmp, 'dsl.cljs')),
   };
-  await writeFile(path.join(tmp, 'dsl.cljs'), ';; mock', 'utf8');
+  await writeFile(
+    path.join(tmp, 'dsl.cljs'),
+    `
+(ns kanban-transitions
+  (:require [clojure.spec.alpha :as s]))
+
+(defn evaluate-transition [from to task board]
+  ;; Allow all transitions for this test
+  true)
+`,
+    'utf8',
+  );
   await writeFile(configPath, JSON.stringify(config), 'utf8');
 
   const engine = await createTransitionRulesEngine([configPath, 'missing.json']);
