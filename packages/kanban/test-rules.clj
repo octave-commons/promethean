@@ -7,5 +7,5 @@
        (= from "todo")
        (= to "in-progress")))
 
-(defn ^:export test-eval-js [from to task-js board-js]
+(defn ^:export test-eval [from to task-js board-js]
   (test-eval from to task-js board-js))
