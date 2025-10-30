@@ -188,53 +188,70 @@ const loadClojureContext = async (dslPath: string): Promise<void> => {
   }
 };
 
+const evaluateDirectFunctionCall = async (
+  task: TaskFM,
+  board: Board,
+  ruleImpl: string,
+): Promise<boolean> => {
+  const { loadString } = await import('nbb');
+
+  const functionMatch = ruleImpl.match(/\(([^ ]+)/);
+  if (!functionMatch) {
+    throw new Error('Invalid function call format');
+  }
+
+  const functionName = functionMatch[1];
+
+  // Create a Clojure call that passes JavaScript objects as arguments
+  // We need to pass the actual JS objects, not try to inject them as symbols
+  const clojureCall = `
+    (let [from-arg "Todo"
+          to-arg "In Progress"
+          task-obj #js ${JSON.stringify(task)}
+          board-obj #js ${JSON.stringify(board)}]
+        (${functionName} from-arg to-arg task-obj board-obj))
+    `;
+
+  const result: unknown = await loadString(clojureCall, {
+    context: 'cljs.user',
+    print: () => {},
+  });
+  return Boolean(result);
+};
+
+const evaluateFunctionDefinition = async (
+  task: TaskFM,
+  board: Board,
+  ruleImpl: string,
+): Promise<boolean> => {
+  const { loadString } = await import('nbb');
+  const { evaluateTransitionRule } = await loadValidationFunctions();
+
+  const ruleFn: unknown = await loadString(`(${ruleImpl})`, {
+    context: 'cljs.user',
+    print: () => {},
+  });
+
+  const result = evaluateTransitionRule(task, board, ruleFn as Function);
+  return Boolean(result);
+};
+
 const evaluateRule = async (
   task: TaskFM,
   board: Board,
   ruleImpl: string,
   dslPath: string,
 ): Promise<boolean> => {
-  const { loadString } = await import('nbb');
-
   try {
     await loadClojureContext(dslPath);
 
     // Check if ruleImpl is a direct function call or a function definition
     if (ruleImpl.trim().startsWith('(evaluate-transition')) {
-      // Direct function call - extract function name and call it with JS objects
-      const functionMatch = ruleImpl.match(/\(([^ ]+)/);
-      if (!functionMatch) {
-        throw new Error('Invalid function call format');
-      }
-
-      const functionName = functionMatch[1];
-
-      // Create a Clojure call that passes JavaScript objects as arguments
-      // The JS objects will be available in the Clojure context
-      const clojureCall = `
-        (let [from-arg "Todo"
-              to-arg "In Progress"]
-          (${functionName} from-arg to-arg ~task ~board))
-      `;
-
-      const result: unknown = await loadString(clojureCall, {
-        context: 'cljs.user',
-        print: () => {},
-      });
-      return Boolean(result);
+      return await evaluateDirectFunctionCall(task, board, ruleImpl);
     }
 
     // Function definition - wrap it and call with evaluateTransitionRule
-    const { evaluateTransitionRule } = await loadValidationFunctions();
-
-    const ruleFn: unknown = await loadString(`(${ruleImpl})`, {
-      context: 'cljs.user',
-      print: () => {},
-    });
-
-    // Call evaluateTransitionRule function with task, board, and rule function
-    const result = evaluateTransitionRule(task, board, ruleFn as Function);
-    return Boolean(result);
+    return await evaluateFunctionDefinition(task, board, ruleImpl);
   } catch (error) {
     throw new Error(
       `Rule evaluation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
