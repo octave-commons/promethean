@@ -71,8 +71,9 @@ export const validateBoardWithZod = async (board: Board): Promise<ValidationResu
 
     (s/def :column/name string?)
     (s/def :column/limit number?)
-    (s/def :column/tasks (s/coll-of string? :kind vector?))
-    (s/def :column/map (s/keys :req-un [:column/name :column/limit :column/tasks]))
+    (s/def :column/count number?)
+    (s/def :column/tasks (s/coll-of any? :kind vector?))
+    (s/def :column/map (s/keys :req-un [:column/name :column/limit :column/count :column/tasks]))
     (s/def :board/columns (s/coll-of :column/map :kind vector?))
     (s/def :board/map (s/keys :req-un [:board/columns]))
 
