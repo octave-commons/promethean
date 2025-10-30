@@ -489,29 +489,12 @@ export const toFrontmatter = (task: LegacyTask): string => {
   return `${header}\n${body}\n`;
 };
 
-export const validateStartingStatus = (status: string): void => {
-  const validStartingStatuses = ['icebox', 'incoming'];
+export const validateStartingStatus = async (status: string): Promise<void> => {
+  const { validateAndNormalizeStatus } = await import('./status-normalization.js');
 
-  if (status === '' || status.trim() === '') {
-    throw new Error(
-      `Invalid starting status: "${status}". Tasks can only be created with starting statuses: icebox, incoming. Use --status flag to specify a valid starting status.`,
-    );
-  }
-
-  // Apply multiple normalization strategies to handle various input formats
-  const normalizedStatus = status.toLowerCase().replace(/[^a-z0-9]/g, '_');
-  const spaceRemovedStatus = status
-    .toLowerCase()
-    .replace(/\s+/g, '')
-    .replace(/[^a-z0-9]/g, '_');
-  const directStatus = status.toLowerCase();
-
-  // Check if any normalization matches a valid status
-  if (
-    !validStartingStatuses.includes(normalizedStatus) &&
-    !validStartingStatuses.includes(spaceRemovedStatus) &&
-    !validStartingStatuses.includes(directStatus)
-  ) {
+  try {
+    await validateAndNormalizeStatus(status);
+  } catch (error) {
     throw new Error(
       `Invalid starting status: "${status}". Tasks can only be created with starting statuses: icebox, incoming. Use --status flag to specify a valid starting status.`,
     );
