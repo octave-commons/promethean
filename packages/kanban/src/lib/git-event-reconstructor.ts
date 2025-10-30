@@ -14,15 +14,7 @@ import type { TransitionEvent } from '../board/event-log/types.js';
  * All methods return safe default values and log warnings about disabled git operations.
  */
 export class GitEventReconstructor {
-  private repoRoot: string;
-  private tasksDir: string;
-  private options: Record<string, unknown>;
-
-  constructor(repoRoot: string, tasksDir: string, options: Record<string, unknown> = {}) {
-    this.repoRoot = repoRoot;
-    this.tasksDir = tasksDir;
-    this.options = options;
-
+  constructor(_repoRoot: string, _tasksDir: string, _options: Record<string, unknown> = {}) {
     console.warn(
       '[GitEventReconstructor] Git functionality is disabled - no git operations will be performed',
     );
@@ -31,7 +23,7 @@ export class GitEventReconstructor {
   /**
    * Get task commits - DISABLED
    */
-  async getTaskCommits(taskUuid: string): Promise<TransitionEvent[]> {
+  async getTaskCommits(_taskUuid: string): Promise<TransitionEvent[]> {
     console.warn('[GitEventReconstructor] getTaskCommits called but git is disabled');
     return [];
   }
@@ -39,7 +31,7 @@ export class GitEventReconstructor {
   /**
    * Extract task UUID - DISABLED
    */
-  extractTaskUuid(filePath: string, content: string): string | null {
+  extractTaskUuid(_filePath: string, _content: string): string | null {
     console.warn('[GitEventReconstructor] extractTaskUuid called but git is disabled');
     return null;
   }
@@ -47,7 +39,7 @@ export class GitEventReconstructor {
   /**
    * Extract task status - DISABLED
    */
-  extractTaskStatus(content: string): string | null {
+  extractTaskStatus(_content: string): string | null {
     console.warn('[GitEventReconstructor] extractTaskStatus called but git is disabled');
     return null;
   }
@@ -55,7 +47,7 @@ export class GitEventReconstructor {
   /**
    * Get task content at commit - DISABLED
    */
-  async getTaskContentAtCommit(filePath: string, commitSha: string): Promise<string | null> {
+  async getTaskContentAtCommit(_filePath: string, _commitSha: string): Promise<string | null> {
     console.warn('[GitEventReconstructor] getTaskContentAtCommit called but git is disabled');
     return null;
   }
@@ -64,8 +56,8 @@ export class GitEventReconstructor {
    * Analyze task status history - DISABLED
    */
   async analyzeTaskStatusHistory(
-    taskCommits: TransitionEvent[],
-    taskFilePath: string,
+    _taskCommits: TransitionEvent[],
+    _taskFilePath: string,
   ): Promise<TransitionEvent[]> {
     console.warn('[GitEventReconstructor] analyzeTaskStatusHistory called but git is disabled');
     return [];
@@ -74,7 +66,7 @@ export class GitEventReconstructor {
   /**
    * Reconstruct events from git history - DISABLED
    */
-  async reconstructEvents(events: TransitionEvent[]): Promise<TransitionEvent[]> {
+  async reconstructEvents(_events: TransitionEvent[]): Promise<TransitionEvent[]> {
     console.warn('[GitEventReconstructor] reconstructEvents called but git is disabled');
     return [];
   }

@@ -44,15 +44,13 @@ export interface GitSyncCallbacks {
  * All methods return safe default values and log warnings about disabled git operations.
  */
 export class KanbanGitSync {
-  private repoRoot: string;
   private options: Required<GitSyncOptions>;
   private status: GitSyncStatus;
   private callbacks: GitSyncCallbacks;
   public autoPush: boolean;
   public autoPull: boolean;
 
-  constructor(repoRoot: string, options: GitSyncOptions = {}, callbacks: GitSyncCallbacks = {}) {
-    this.repoRoot = repoRoot;
+  constructor(_repoRoot: string, options: GitSyncOptions = {}, callbacks: GitSyncCallbacks = {}) {
     this.options = {
       autoPush: options.autoPush ?? false,
       autoPull: options.autoPull ?? false,
@@ -71,7 +69,7 @@ export class KanbanGitSync {
     }
 
     console.warn(
-      `[KanbanGitSync] Git functionality is disabled for repo ${repoRoot} - no git operations will be performed`,
+      `[KanbanGitSync] Git functionality is disabled for repo ${_repoRoot} - no git operations will be performed`,
     );
   }
 

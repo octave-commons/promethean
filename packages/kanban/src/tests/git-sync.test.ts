@@ -84,7 +84,7 @@ test('KanbanGitSync handles push, pull, and status flows', async (t) => {
     { autoPush: true, autoPull: true },
     {
       onSyncStart: () => starts.push('start'),
-      onSyncComplete: (status: any) => completes.push('complete'),
+      onSyncComplete: (_status: any) => completes.push('complete'),
     },
   );
 
