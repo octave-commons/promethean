@@ -195,14 +195,13 @@ const evaluateRule = async (
   dslPath: string,
 ): Promise<boolean> => {
   const { loadString } = await import('nbb');
-  const { encode } = await import('jsedn');
 
   try {
     await loadClojureContext(dslPath);
 
     // Check if ruleImpl is a direct function call or a function definition
     if (ruleImpl.trim().startsWith('(evaluate-transition')) {
-      // Direct function call - extract function name and create proper call with EDN data
+      // Direct function call - extract function name and call it with JS objects
       const functionMatch = ruleImpl.match(/\(([^ ]+)/);
       if (!functionMatch) {
         throw new Error('Invalid function call format');
@@ -210,15 +209,12 @@ const evaluateRule = async (
 
       const functionName = functionMatch[1];
 
-      // Convert JavaScript objects to EDN for proper Clojure interop
-      const taskEdn = encode(task);
-      const boardEdn = encode(board);
-
-      // Create a proper Clojure call that passes EDN data as parameters
+      // Create a Clojure call that passes JavaScript objects as arguments
+      // The JS objects will be available in the Clojure context
       const clojureCall = `
-        (let [task-obj ~taskEdn
-              board-obj ~boardEdn]
-          (${functionName} "Todo" "In Progress" task-obj board-obj))
+        (let [from-arg "Todo"
+              to-arg "In Progress"]
+          (${functionName} from-arg to-arg ~task ~board))
       `;
 
       const result: unknown = await loadString(clojureCall, {
