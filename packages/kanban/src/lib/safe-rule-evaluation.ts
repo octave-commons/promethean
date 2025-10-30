@@ -56,20 +56,16 @@ export const validateTaskWithZod = async (task: TaskFM): Promise<ValidationResul
     });
 
     // Call the validation function with JS object syntax
+    const taskObj = {
+      title: task.title,
+      priority: task.priority,
+      status: task.status,
+      uuid: task.uuid,
+      estimates: { complexity: task.estimates?.complexity || 0 },
+      labels: task.labels || [],
+    };
     const validationResult = await loadString(
-      '(promethean.kanban.validation/validate-task #js {:title "' +
-        task.title +
-        '" :priority "' +
-        task.priority +
-        '" :status "' +
-        task.status +
-        '" :uuid "' +
-        task.uuid +
-        '" :estimates #js {:complexity ' +
-        (task.estimates?.complexity || 0) +
-        '} :labels #js [' +
-        task.labels?.map((l) => '"' + l + '"').join(' ') +
-        ']})',
+      '(promethean.kanban.validation/validate-task taskObj)',
       {
         context: 'cljs.user',
         print: () => {},
