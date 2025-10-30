@@ -19,11 +19,7 @@ export interface TaskCommitEntry {
  * All methods return safe default values and log warnings about disabled git operations.
  */
 export class TaskGitTracker {
-  private _repoRoot: string;
-
   constructor(repoRoot: string) {
-    this._repoRoot = repoRoot;
-
     console.warn(
       `[TaskGitTracker] Git functionality is disabled for repo ${repoRoot} - no git operations will be performed`,
     );
