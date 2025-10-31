@@ -19,6 +19,9 @@ try {
 (defn evaluate-transition [from to task board]
   (println "evaluate-transition called with:" from to task board)
   true)
+
+(intern 'kanban-transitions 'kanban-transitions
+  #js {:evaluate-transition evaluate-transition})
 `;
 
   await writeFile(dslPath, dslContent, 'utf8');
