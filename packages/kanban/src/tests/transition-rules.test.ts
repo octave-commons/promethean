@@ -108,9 +108,11 @@ test('TransitionRulesEngine validates transitions and applies rules', async (t) 
 
   const board = makeBoard(0);
   const allowed = await engine.validateTransition('Todo', 'In Progress', sampleTask, board);
+  console.log('Allowed result:', allowed);
   t.true(allowed.allowed);
 
   const blocked = await engine.validateTransition('Todo', 'Review', sampleTask, board);
+  console.log('Blocked result:', blocked);
   t.false(blocked.allowed);
   t.true(
     blocked.ruleViolations.some((violation: string) => violation.includes('Invalid transition')),
