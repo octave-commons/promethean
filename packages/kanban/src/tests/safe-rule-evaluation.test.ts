@@ -52,6 +52,7 @@ test('safeEvaluateTransition returns validation errors when inputs are invalid',
     '/home/err/devel/promethean/packages/kanban/src/clojure/validation.clj',
   );
 
+  console.log('Invalid task result:', JSON.stringify(result, null, 2));
   t.false(result.success);
   t.true(result.validationErrors.length > 0);
   t.is(result.evaluationError, undefined);
