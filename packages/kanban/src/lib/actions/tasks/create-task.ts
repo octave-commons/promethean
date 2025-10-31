@@ -147,9 +147,9 @@ export const createTaskAction = async (config: TaskCreationConfig): Promise<Task
   });
 
   const taskContent1 = ensureSectionExists(contentFromTemplate, BLOCKED_BY_HEADING);
-  const taskContent = ensureSectionExists(taskContent1, BLOCKS_HEADING);
+  const taskContent2 = ensureSectionExists(taskContent1, BLOCKS_HEADING);
 
-  const baseTask = createBaseTask(title, targetColumn, input, uuid, taskContent);
+  const baseTask = createBaseTask(title, targetColumn, input, uuid, taskContent2);
 
   const usedSlugs = new Map<string, string>();
   board.columns.forEach((col) => {
@@ -189,8 +189,8 @@ export const createTaskAction = async (config: TaskCreationConfig): Promise<Task
     blockedByLinks.push(wikiLinkForTask(target));
   }
 
-  taskContent = setSectionItems(taskContent, BLOCKED_BY_HEADING, blockedByLinks);
-  taskContent = setSectionItems(taskContent, BLOCKS_HEADING, blockingLinks);
+  const taskContent3 = setSectionItems(taskContent2, BLOCKED_BY_HEADING, blockedByLinks);
+  const taskContent = setSectionItems(taskContent3, BLOCKS_HEADING, blockingLinks);
 
   const enrichedTask: Task = {
     ...taskWithSlug,
