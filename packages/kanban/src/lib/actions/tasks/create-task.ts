@@ -206,12 +206,7 @@ export const createTaskAction = async (config: TaskCreationConfig): Promise<Task
   const newTaskLink = wikiLinkForTask(enrichedTask);
 
   const updateLinkedTask = async (id: string, heading: string) => {
-    console.log(`DEBUG updateLinkedTask: looking for id=${id}, heading=${heading}`);
-    console.log(
-      `DEBUG updateLinkedTask: boardIndex has=${Array.from(boardIndex.keys()).join(', ')}`,
-    );
     const entry = boardIndex.get(id);
-    console.log(`DEBUG updateLinkedTask: entry=${entry ? 'found' : 'not found'}`);
     if (entry) {
       const fallback = existingById.get(id);
       const updatedContent = mergeSectionItems(ensureTaskContent(entry.task, fallback), heading, [
@@ -279,9 +274,6 @@ export const createTaskAction = async (config: TaskCreationConfig): Promise<Task
   targetColumn.count = targetColumn.tasks.length;
 
   // Debug logging before writeBoard
-  console.log('DEBUG createTask: board before writeBoard =', JSON.stringify(board, null, 2));
-  console.log('DEBUG createTask: targetColumn.tasks.length =', targetColumn.tasks.length);
-  console.log('DEBUG createTask: persistedTask =', persistedTask);
 
   await writeBoard(boardPath, board);
   await maybeRefreshIndex(tasksDir);
