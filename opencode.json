@@ -26,12 +26,11 @@
         }
       }
     },
-    "opencode":{"big-pickle": {
-        "glm-4.6": {
+    "opencode":{
+      "big-pickle": {
           "options": {
             "reasoningEffort":"high"
           }
-        },
       }
 
     },
