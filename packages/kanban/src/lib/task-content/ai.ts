@@ -7,6 +7,7 @@ import { promises as fs } from 'node:fs';
 import path from 'node:path';
 
 import type { Task } from '../types.js';
+import { warn, error } from '../utils/logger.js';
 
 import type {
   TaskAnalysisRequest,
@@ -53,7 +54,7 @@ export class TaskAIManager {
       const { execSync } = await import('child_process');
       execSync('pnpm kanban regenerate', { stdio: 'inherit', cwd: process.cwd() });
     } catch (error) {
-      console.warn('Failed to sync kanban board:', error);
+      warn('Failed to sync kanban board:', error);
     }
   }
 
