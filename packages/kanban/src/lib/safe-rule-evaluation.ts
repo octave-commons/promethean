@@ -299,6 +299,7 @@ export const safeEvaluateTransition = async (
       validationErrors: [],
     };
   } catch (error) {
+    console.error('Error in evaluateRule:', error);
     return {
       success: false,
       validationErrors: [],
