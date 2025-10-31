@@ -328,11 +328,20 @@ const handleUpdateStatus: CommandHandler = (args, context) =>
       'human',
     );
     await persistBoardWithHydratedTitles(mutableBoard, context);
+    const normalizedTask =
+      updated !== undefined
+        ? {
+            ...updated,
+            status: formatColumnNameForDisplay(typeof updated.status === 'string' ? updated.status : ''),
+          }
+        : undefined;
+    const normalizedPreviousStatus =
+      typeof previousStatus === 'string' ? formatColumnNameForDisplay(previousStatus) : previousStatus;
     return {
-      success: true,
-      previousStatus,
-      updatedStatus: updated?.status,
-      task: updated,
+      success: Boolean(updated),
+      previousStatus: normalizedPreviousStatus,
+      updatedStatus: normalizedTask?.status,
+      task: normalizedTask,
     };
   });
 
