@@ -192,7 +192,6 @@ const evaluateDirectFunctionCall = async (
   task: TaskFM,
   board: Board,
   ruleImpl: string,
-  dslPath: string,
 ): Promise<boolean> => {
   const { loadString } = await import('nbb');
   const { evaluateTransitionRule } = await loadValidationFunctions();
@@ -203,8 +202,6 @@ const evaluateDirectFunctionCall = async (
   }
 
   const namespaceAndFunction = functionMatch[1];
-  const fromStatus = functionMatch[2]!;
-  const toStatus = functionMatch[3]!;
 
   if (!namespaceAndFunction) {
     throw new Error('Could not parse function name from rule implementation');
@@ -213,17 +210,18 @@ const evaluateDirectFunctionCall = async (
   // Resolve the function inside the Clojure context and call it via evaluateTransitionRule
   // This ensures proper js->clj conversion and execution within Clojure runtime
   const resolveForm = `(resolve '${namespaceAndFunction}')`;
-  const ruleFn = await loadString(resolveForm, {
+  const resolveResult = await loadString(resolveForm, {
     context: 'cljs.user',
     print: () => {},
   });
 
-  if (!ruleFn) {
+  if (!resolveResult) {
     throw new Error(`Function ${namespaceAndFunction} not found in DSL`);
   }
 
   // Use the validation helper which properly converts JS objects to Clojure and calls the function
-  const result = evaluateTransitionRule(task, board, ruleFn as Function);
+  // The resolveResult should be a function reference from Clojure context
+  const result = evaluateTransitionRule(task, board, resolveResult as Function);
   return Boolean(result);
 };
 
@@ -260,7 +258,7 @@ const evaluateRule = async (
     // Check if ruleImpl is a direct function call or a function definition
     if (ruleImpl.trim().startsWith('(evaluate-transition')) {
       console.log('Using evaluateDirectFunctionCall path');
-      return await evaluateDirectFunctionCall(task, board, ruleImpl, dslPath);
+      return await evaluateDirectFunctionCall(task, board, ruleImpl);
     }
 
     // Function definition - wrap it and call with evaluateTransitionRule
