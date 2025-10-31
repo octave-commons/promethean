@@ -6,7 +6,7 @@ import {
   TransitionRulesEngine,
   createTransitionRulesEngine,
   type TransitionRulesConfig,
-} from '../lib/transition-rules.js';
+} from '../lib/transition-rules-functional.js';
 import type { Board, Task } from '../lib/types.js';
 import { withTempDir } from '../test-utils/helpers.js';
 
@@ -96,6 +96,8 @@ test('TransitionRulesEngine validates transitions and applies rules', async (t) 
   (or (and (= from "Todo") (= to "In Progress"))
       (and (= from "In Progress") (= to "Review"))
       (and (= from "Review") (= to "Done"))))
+
+#js {:evaluate-transition evaluate-transition}
 `;
   await writeFile(dslPath, dslContent, 'utf8');
 
@@ -123,6 +125,8 @@ test('TransitionRulesEngine enforces WIP limits and custom checks', async (t) =>
 (defn evaluate-transition [from to task board]
   ;; Allow all transitions for WIP testing
   true)
+
+#js {:evaluate-transition evaluate-transition}
 `;
   await writeFile(dslPath, dslContent, 'utf8');
 
@@ -156,6 +160,8 @@ test('TransitionRulesEngine debugging and overview helpers', async (t) => {
 (defn evaluate-transition [from to task board]
   ;; For testing: always allow Todo -> In Progress
   (and (= from "Todo") (= to "In Progress")))
+
+#js {:evaluate-transition evaluate-transition}
 `;
   await writeFile(dslPath, dslContent, 'utf8');
 
@@ -185,6 +191,8 @@ test('createTransitionRulesEngine loads configuration from paths', async (t) => 
 (defn evaluate-transition [from to task board]
   ;; Allow all transitions for this test
   true)
+
+#js {:evaluate-transition evaluate-transition}
 `,
     'utf8',
   );
