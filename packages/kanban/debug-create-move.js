@@ -68,15 +68,14 @@ kanban-plugin: board
     try {
       const moveResult = await executeCommand('move', [task2.uuid, 'In Progress'], context);
       console.log('Move result:', moveResult);
-      
+
       // Regenerate board again to see the updated state
       console.log('\nRegenerating board after move...');
       await executeCommand('regenerate', [], context);
-      
+
       const finalBoardContent = await readFile(boardPath, 'utf8');
       console.log('\nFinal board content after move:');
       console.log(finalBoardContent);
-      
     } catch (moveError) {
       console.error('Move failed:', moveError.message);
       console.error('Stack trace:', moveError.stack);
