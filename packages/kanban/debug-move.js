@@ -10,7 +10,25 @@ async function debug() {
   const tasksDir = path.join(tempDir, 'tasks');
 
   await mkdir(tasksDir, { recursive: true });
-  await writeFile(boardPath, '', 'utf8');
+
+  // Create a proper initial board with columns
+  const initialBoardContent = `---
+kanban-plugin: board
+---
+
+## Todo
+
+## In Progress
+
+## Done
+
+%% kanban:settings
+\`\`\`
+{"kanban-plugin":"board"}
+\`\`\`
+%%`;
+
+  await writeFile(boardPath, initialBoardContent, 'utf8');
 
   const context = {
     boardFile: boardPath,
