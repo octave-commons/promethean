@@ -156,17 +156,18 @@ test('WIPLimitEnforcement - validates WIP limits correctly', async (t) => {
 });
 
 test('WIPLimitEnforcement - intercepts status transitions', async (t) => {
-  // Create enforcement instance directly with mock config to avoid config loading issues
-  const mockConfig = {
-    wipLimits: {
-      todo: 5,
-      in_progress: 3,
-    },
-  } as any;
-  const enforcement = new WIPLimitEnforcement({ config: mockConfig });
+  // Create enforcement with minimal config to avoid validation issues
+  const enforcement = new WIPLimitEnforcement({
+    config: {
+      wipLimits: {
+        todo: 5,
+        in_progress: 3,
+      },
+    } as any,
+  });
   const board = createMockBoard();
 
-  // Test blocked transition
+  // Test blocked transition - in_progress column is at limit (4/3)
   const blockedResult = await enforcement.interceptStatusTransition(
     'task-1',
     'todo',
@@ -176,7 +177,7 @@ test('WIPLimitEnforcement - intercepts status transitions', async (t) => {
   t.true(blockedResult.blocked);
   t.true(blockedResult.reason?.includes('exceed WIP limit'));
 
-  // Test allowed transition
+  // Test allowed transition - moving from in_progress to done (no limit)
   const allowedResult = await enforcement.interceptStatusTransition(
     'task-4',
     'in_progress',
