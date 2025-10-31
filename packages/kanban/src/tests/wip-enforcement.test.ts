@@ -33,94 +33,99 @@ const createMockTask = (params: {
   created_at: `2024-01-0${params.uuid.split('-')[1]}T00:00:00Z`,
 });
 
+// Helper to create todo column
+const createTodoColumn = () => ({
+  name: 'todo',
+  count: 3,
+  limit: 5,
+  tasks: [
+    createMockTask({
+      uuid: 'task-1',
+      title: 'Task 1',
+      status: 'todo',
+      priority: 'P1',
+      labels: ['feature'],
+    }),
+    createMockTask({
+      uuid: 'task-2',
+      title: 'Task 2',
+      status: 'todo',
+      priority: 'P2',
+      labels: ['bug'],
+    }),
+    createMockTask({
+      uuid: 'task-3',
+      title: 'Task 3',
+      status: 'todo',
+      priority: 'P3',
+      labels: ['enhancement'],
+    }),
+  ],
+});
+
+// Helper to create in_progress column
+const createInProgressColumn = () => ({
+  name: 'in_progress',
+  count: 4,
+  limit: 3,
+  tasks: [
+    createMockTask({
+      uuid: 'task-4',
+      title: 'Task 4',
+      status: 'in_progress',
+      priority: 'P1',
+      labels: ['feature'],
+    }),
+    createMockTask({
+      uuid: 'task-5',
+      title: 'Task 5',
+      status: 'in_progress',
+      priority: 'P2',
+      labels: ['bug'],
+    }),
+    createMockTask({
+      uuid: 'task-6',
+      title: 'Task 6',
+      status: 'in_progress',
+      priority: 'P3',
+      labels: ['enhancement'],
+    }),
+    createMockTask({
+      uuid: 'task-7',
+      title: 'Task 7',
+      status: 'in_progress',
+      priority: 'P1',
+      labels: ['feature'],
+    }),
+  ],
+});
+
+// Helper to create done column
+const createDoneColumn = () => ({
+  name: 'done',
+  count: 2,
+  limit: null,
+  tasks: [
+    createMockTask({
+      uuid: 'task-8',
+      title: 'Task 8',
+      status: 'done',
+      priority: 'P1',
+      labels: ['feature'],
+    }),
+    createMockTask({
+      uuid: 'task-9',
+      title: 'Task 9',
+      status: 'done',
+      priority: 'P2',
+      labels: ['bug'],
+    }),
+  ],
+});
+
 // Mock board data for testing
 const createMockBoard = (overrides?: Partial<Board>): Board => ({
-  columns: [
-    {
-      name: 'todo',
-      count: 3,
-      limit: 5,
-      tasks: [
-        createMockTask({
-          uuid: 'task-1',
-          title: 'Task 1',
-          status: 'todo',
-          priority: 'P1',
-          labels: ['feature'],
-        }),
-        createMockTask({
-          uuid: 'task-2',
-          title: 'Task 2',
-          status: 'todo',
-          priority: 'P2',
-          labels: ['bug'],
-        }),
-        createMockTask({
-          uuid: 'task-3',
-          title: 'Task 3',
-          status: 'todo',
-          priority: 'P3',
-          labels: ['enhancement'],
-        }),
-      ],
-    },
-    {
-      name: 'in_progress',
-      count: 4,
-      limit: 3,
-      tasks: [
-        createMockTask({
-          uuid: 'task-4',
-          title: 'Task 4',
-          status: 'in_progress',
-          priority: 'P1',
-          labels: ['feature'],
-        }),
-        createMockTask({
-          uuid: 'task-5',
-          title: 'Task 5',
-          status: 'in_progress',
-          priority: 'P2',
-          labels: ['bug'],
-        }),
-        createMockTask({
-          uuid: 'task-6',
-          title: 'Task 6',
-          status: 'in_progress',
-          priority: 'P3',
-          labels: ['enhancement'],
-        }),
-        createMockTask({
-          uuid: 'task-7',
-          title: 'Task 7',
-          status: 'in_progress',
-          priority: 'P1',
-          labels: ['feature'],
-        }),
-      ],
-    },
-    {
-      name: 'done',
-      count: 2,
-      limit: null,
-      tasks: [
-        createMockTask({
-          uuid: 'task-8',
-          title: 'Task 8',
-          status: 'done',
-          priority: 'P1',
-          labels: ['feature'],
-        }),
-        createMockTask({
-          uuid: 'task-9',
-          title: 'Task 9',
-          status: 'done',
-          priority: 'P2',
-          labels: ['bug'],
-        }),
-      ],
-    },
-  ],
+  columns: [createTodoColumn(), createInProgressColumn(), createDoneColumn()],
   ...overrides,
 });
 
@@ -298,53 +303,53 @@ test('WIPLimitEnforcement - handles admin overrides', async (t) => {
   }
 });
 
+// Helper to create review column at 80% capacity
+const createReviewColumn = () => ({
+  name: 'review',
+  count: 4,
+  limit: 5, // 80% utilization
+  tasks: [
+    {
+      uuid: 'review-1',
+      title: 'Review Task 1',
+      status: 'review',
+      priority: 'P1',
+      labels: ['review'],
+      created_at: '2024-01-01T00:00:00Z',
+    },
+    {
+      uuid: 'review-2',
+      title: 'Review Task 2',
+      status: 'review',
+      priority: 'P2',
+      labels: ['review'],
+      created_at: '2024-01-02T00:00:00Z',
+    },
+    {
+      uuid: 'review-3',
+      title: 'Review Task 3',
+      status: 'review',
+      priority: 'P3',
+      labels: ['review'],
+      created_at: '2024-01-03T00:00:00Z',
+    },
+    {
+      uuid: 'review-4',
+      title: 'Review Task 4',
+      status: 'review',
+      priority: 'P1',
+      labels: ['review'],
+      created_at: '2024-01-04T00:00:00Z',
+    },
+  ],
+});
+
 test('WIPLimitEnforcement - warning threshold detection', async (t) => {
   const config = await loadKanbanConfig();
   const enforcement = await createWIPLimitEnforcement({ config: config.config });
 
-  // Create a board at 80% capacity
   const nearLimitBoard = createMockBoard({
-    columns: [
-      {
-        name: 'review',
-        count: 4,
-        limit: 5, // 80% utilization
-        tasks: [
-          {
-            uuid: 'review-1',
-            title: 'Review Task 1',
-            status: 'review',
-            priority: 'P1',
-            labels: ['review'],
-            created_at: '2024-01-01T00:00:00Z',
-          },
-          {
-            uuid: 'review-2',
-            title: 'Review Task 2',
-            status: 'review',
-            priority: 'P2',
-            labels: ['review'],
-            created_at: '2024-01-02T00:00:00Z',
-          },
-          {
-            uuid: 'review-3',
-            title: 'Review Task 3',
-            status: 'review',
-            priority: 'P3',
-            labels: ['review'],
-            created_at: '2024-01-03T00:00:00Z',
-          },
-          {
-            uuid: 'review-4',
-            title: 'Review Task 4',
-            status: 'review',
-            priority: 'P1',
-            labels: ['review'],
-            created_at: '2024-01-04T00:00:00Z',
-          },
-        ],
-      },
-    ],
+    columns: [createReviewColumn()],
   });
 
   const warningValidation = await enforcement.validateWIPLimits('review', +1, nearLimitBoard);
