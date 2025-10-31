@@ -156,7 +156,7 @@ test('TransitionRulesEngine enforces WIP limits and custom checks', async (t) =>
 });
 
 test('TransitionRulesEngine debugging and overview helpers', async (t) => {
-  const engine = new TransitionRulesEngine(createConfig('./src/clojure/transition-rules.cljs'));
+  const engine = new TransitionRulesEngine(createConfig('./src/clojure/safe_rule_evaluation.cljs'));
   await engine.initialize();
 
   const debug = await engine.debugTransition('Todo', 'Review', sampleTask, makeBoard(0));
