@@ -206,7 +206,12 @@ export const createTaskAction = async (config: TaskCreationConfig): Promise<Task
   const newTaskLink = wikiLinkForTask(enrichedTask);
 
   const updateLinkedTask = async (id: string, heading: string) => {
+    console.log(`DEBUG updateLinkedTask: looking for id=${id}, heading=${heading}`);
+    console.log(
+      `DEBUG updateLinkedTask: boardIndex has=${Array.from(boardIndex.keys()).join(', ')}`,
+    );
     const entry = boardIndex.get(id);
+    console.log(`DEBUG updateLinkedTask: entry=${entry ? 'found' : 'not found'}`);
     if (entry) {
       const fallback = existingById.get(id);
       const updatedContent = mergeSectionItems(ensureTaskContent(entry.task, fallback), heading, [
