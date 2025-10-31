@@ -26,6 +26,15 @@
         }
       }
     },
+    "opencode":{"api": """big-pickle": {
+        "glm-4.6": {
+          "options": {
+            "reasoningEffort":"high"
+          }
+        },
+      }
+
+    },
     "zai-coding-plan": {
       "models": {
         "glm-4.6": {
