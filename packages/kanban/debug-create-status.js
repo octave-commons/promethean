@@ -13,7 +13,7 @@ async function debugCreateAndStatus() {
   const tasksDir = join(tempDir, 'tasks');
   await mkdir(tasksDir, { recursive: true });
 
-  // Create a simple board
+  // Create a simple board with columns
   const boardContent = `# Test Board
 
 ## Todo
