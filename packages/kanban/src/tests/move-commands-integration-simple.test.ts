@@ -142,9 +142,8 @@ test('move operations - tasks across different columns', async (t) => {
   // Regenerate board to reflect the actual task statuses
   await executeCommand('regenerate', [], context);
 
-  // Debug: Check board state after regenerate
-  const boardState = await executeCommand('list', [], context);
-  console.log('Board after regenerate:', JSON.stringify(boardState, null, 2));
+  // Debug: Check what task we're trying to move
+  console.log('Progress task to move:', progress2.uuid, progress2);
 
   // Move tasks within each column
   const todoResult = (await executeCommand('move_up', [todo2.uuid], context)) as any;
