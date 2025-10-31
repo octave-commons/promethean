@@ -44,7 +44,7 @@ const mockBoard: Board = {
 };
 
 test('safeEvaluateTransition returns validation errors when inputs are invalid', async (t) => {
-  const invalidTask = { ...mockTask, title: '' }; // Empty title should fail validation
+  const invalidTask = { ...mockTask, priority: 'invalid-priority' as any }; // Invalid priority should fail validation
   const result = await safeEvaluateTransition(
     invalidTask,
     mockBoard,
@@ -52,6 +52,7 @@ test('safeEvaluateTransition returns validation errors when inputs are invalid',
     '/nonexistent/dsl.clj',
   );
 
+  console.log('Validation result:', result);
   t.false(result.success);
   t.true(result.validationErrors.length > 0);
   t.is(result.evaluationError, undefined);
