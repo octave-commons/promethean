@@ -146,8 +146,8 @@ export const createTaskAction = async (config: TaskCreationConfig): Promise<Task
     uuid,
   });
 
-  let taskContent = ensureSectionExists(contentFromTemplate, BLOCKED_BY_HEADING);
-  taskContent = ensureSectionExists(taskContent, BLOCKS_HEADING);
+  const taskContent1 = ensureSectionExists(contentFromTemplate, BLOCKED_BY_HEADING);
+  const taskContent = ensureSectionExists(taskContent1, BLOCKS_HEADING);
 
   const baseTask = createBaseTask(title, targetColumn, input, uuid, taskContent);
 
