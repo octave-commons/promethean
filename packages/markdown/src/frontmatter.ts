@@ -70,9 +70,8 @@ export const parseFrontmatter = <T extends Record<string, unknown> = Record<stri
             content: raw,
             excerpt: undefined,
             orig: raw,
-            path: undefined,
-            language: undefined,
-            matter: undefined,
+            language: '',
+            matter: '',
             stringify: (content: string, data: Record<string, unknown>) => matter.stringify(content, data),
         } as unknown as ParsedMarkdown<T>;
     }
