@@ -24,9 +24,17 @@ async function testCreateThenMove() {
   try {
     // Create tasks
     console.log('Creating tasks...');
-    await executeCommand('create', ['First task', '--status=Todo'], context);
+    console.log('Creating first task...');
+    const result1 = await executeCommand('create', ['First task', '--status=Todo'], context);
+    console.log('First task result:', result1);
+
+    console.log('Creating second task...');
     const task2 = await executeCommand('create', ['Second task', '--status=Todo'], context);
-    await executeCommand('create', ['Third task', '--status=Todo'], context);
+    console.log('Second task result:', task2);
+
+    console.log('Creating third task...');
+    const result3 = await executeCommand('create', ['Third task', '--status=Todo'], context);
+    console.log('Third task result:', result3);
 
     console.log('Created task 2 with UUID:', task2.uuid);
 
