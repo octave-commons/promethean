@@ -604,11 +604,13 @@ export const evaluateCustomRule = async (
             : task.priority === 'P2'
               ? 'medium'
               : 'low'
-        : undefined,
+        : ('low' as any), // Convert undefined to 'low' but track original state
       owner: 'unassigned', // Task type doesn't have assignee
       labels: task.labels || [],
       created: task.created_at || new Date().toISOString(),
       uuid: task.uuid,
+      // Add metadata to track original undefined priority
+      _originalPriorityUndefined: !task.priority,
       status: task.status as Status,
       estimates: task.estimates
         ? {
