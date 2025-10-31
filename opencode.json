@@ -27,11 +27,13 @@
       }
     },
     "opencode":{
+      "models":{
       "big-pickle": {
-          "options": {
-            "reasoningEffort":"high"
-          }
+        "options": {
+          "reasoningEffort": "high"
+        }
       }
+    }
 
     },
     "zai-coding-plan": {
