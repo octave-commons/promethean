@@ -50,32 +50,6 @@ const findTaskInBoard = (
 export const moveTask = async (input: MoveTaskInput): Promise<MoveTaskResult> => {
   const { board, taskUuid, direction, boardPath, options } = input;
 
-  // Reload board from filesystem to get latest state after any previous operations
-  const freshBoard: Board = boardPath
-    ? await (async () => {
-        const { readFileSync } = await import('node:fs');
-        const boardContent = readFileSync(boardPath, 'utf8');
-        const { parseMarkdown } = await import('../../serializers/index.js');
-        const { columns } = parseMarkdown({ markdown: boardContent });
-
-        // Convert ColumnState[] to ColumnData[] by mapping cards to tasks
-        const convertedColumns: ColumnData[] = columns.map((col) => ({
-          name: col.name,
-          count: col.cards.length,
-          tasks: col.cards.map((card) => ({
-            uuid: card.id,
-            title: card.text,
-            status: card.attrs.status || (card.done ? 'done' : 'todo'),
-            labels: [...card.tags],
-            frontmatter: {},
-            attrs: { ...card.attrs },
-          })),
-        }));
-
-        return { columns: convertedColumns };
-      })()
-    : board;
-
   const located = findTaskInBoard(freshBoard, taskUuid);
   if (!located) {
     return { success: false };
