@@ -194,7 +194,8 @@ const evaluateDirectFunctionCall = async (
   ruleImpl: string,
   dslPath: string,
 ): Promise<boolean> => {
-  const { loadFile } = await import('nbb');
+  const { loadString } = await import('nbb');
+  const { evaluateTransitionRule } = await loadValidationFunctions();
 
   const functionMatch = ruleImpl.match(/\(([^ ]+)\s+"([^"]+)"\s+"([^"]+)"/);
   if (!functionMatch) {
@@ -209,32 +210,20 @@ const evaluateDirectFunctionCall = async (
     throw new Error('Could not parse function name from rule implementation');
   }
 
-  // Load the DSL file and call the function directly with JS objects
-  const dslFunctions = (await loadFile(dslPath)) as Record<string, Function>;
-  console.log('Loaded DSL functions:', Object.keys(dslFunctions));
+  // Resolve the function inside the Clojure context and call it via evaluateTransitionRule
+  // This ensures proper js->clj conversion and execution within Clojure runtime
+  const resolveForm = `(resolve '${namespaceAndFunction}')`;
+  const ruleFn = await loadString(resolveForm, {
+    context: 'cljs.user',
+    print: () => {},
+  });
 
-  // Get the function from the loaded namespace (convert kebab-case to property access)
-  const functionName = namespaceAndFunction.split('/').pop(); // Get just the function name
-  console.log('Extracted function name:', functionName);
-
-  if (!functionName) {
-    throw new Error('Could not extract function name');
+  if (!ruleFn) {
+    throw new Error(`Function ${namespaceAndFunction} not found in DSL`);
   }
 
-  const evaluateFunction = dslFunctions[functionName];
-
-  if (!evaluateFunction) {
-    throw new Error(`Function ${functionName} not found in DSL`);
-  }
-
-  console.log('Found function:', typeof evaluateFunction);
-
-  // Call the function directly with JavaScript objects
-  // The function signature is (from to task board)
-  const result = (
-    evaluateFunction as (from: string, to: string, task: TaskFM, board: Board) => boolean
-  )(fromStatus, toStatus, task, board);
-  console.log('Function result:', result);
+  // Use the validation helper which properly converts JS objects to Clojure and calls the function
+  const result = evaluateTransitionRule(task, board, ruleFn as Function);
   return Boolean(result);
 };
 
