@@ -71,14 +71,18 @@ test('e2e - complete workflow with move operations', async (t) => {
   )) as any;
   const task5 = (await executeCommand('create', ['Done Task 1', '--status=Done'], context)) as any;
 
-  // Phase 4: Move tasks in different columns
-  const progressMove = (await executeCommand('move_up', [task4.uuid], context)) as any;
+  // Phase 4: Update task statuses (move_up is for reordering within columns)
+  const progressMove = (await executeCommand(
+    'update_status',
+    [task4.uuid, 'In Progress'],
+    context,
+  )) as any;
   t.truthy(progressMove);
-  t.is(progressMove.column, 'In Progress');
+  t.is(progressMove.task?.status, 'In Progress');
 
-  const doneMove = (await executeCommand('move_up', [task5.uuid], context)) as any;
+  const doneMove = (await executeCommand('update_status', [task5.uuid, 'Done'], context)) as any;
   t.truthy(doneMove);
-  t.is(doneMove.column, 'Done');
+  t.is(doneMove.task?.status, 'Done');
 
   // Phase 5: Verify final board state
   const finalBoardContent = await readFile(boardPath, 'utf8');
