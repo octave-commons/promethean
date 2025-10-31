@@ -67,6 +67,7 @@ test('e2e - complete workflow with move operations', async (t) => {
   // Phase 2: Move tasks around
   // Move task3 to top
   const move1Result = (await executeCommand('move_up', [task3.uuid], context)) as any;
+  console.log('DEBUG move1Result', move1Result);
   t.truthy(move1Result);
   t.is(move1Result.rank, 1);
 
