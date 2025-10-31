@@ -38,7 +38,7 @@ try {
 
   console.log('\nTrying to call evaluate-transition...');
   const result = await loadString(
-    '(evaluate-transition "Todo" "In Progress" {:title "test"} {:columns []})',
+    '(kanban-transitions/evaluate-transition "Todo" "In Progress" {:title "test"} {:columns []})',
     {
       context: 'cljs.user',
       print: console.log,
