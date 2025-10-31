@@ -311,17 +311,26 @@ const handleMove =
     withBoard(context, async (board) => {
       const mutableBoard = board as unknown as LoadedBoard;
       const id = requireArg(args[0], 'task id');
-      const result = await moveTask(mutableBoard, id, offset, context.boardFile);
 
-      // Transform result to match expected test format
-      if (result.success && result.task) {
-        return {
-          uuid: result.task.uuid,
-          column: result.task.status.charAt(0).toUpperCase() + result.task.status.slice(1),
-          rank: result.toPosition?.index ?? 0,
-        };
+      try {
+        const result = await moveTask(mutableBoard, id, offset, context.boardFile);
+
+        // Transform result to match expected test format
+        if (result.success && result.task) {
+          return {
+            uuid: result.task.uuid,
+            column: result.task.status.charAt(0).toUpperCase() + result.task.status.slice(1),
+            rank: result.toPosition?.index ?? 0,
+          };
+        }
+        return result;
+      } catch (error) {
+        // Return undefined for task not found errors (expected by tests)
+        if (error instanceof Error && error.message.includes('not found')) {
+          return undefined;
+        }
+        throw error;
       }
-      return result;
     });
 
 const handlePull: CommandHandler = (_args, context) =>
