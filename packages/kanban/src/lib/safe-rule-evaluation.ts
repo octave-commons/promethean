@@ -194,7 +194,7 @@ const evaluateDirectFunctionCall = async (
   ruleImpl: string,
 ): Promise<boolean> => {
   const { loadString } = await import('nbb');
-  const { evaluateTransitionRule } = await loadValidationFunctions();
+  const { evaluateResolvedFunction } = await loadValidationFunctions();
 
   const functionMatch = ruleImpl.match(/\(([^ ]+)\s+"([^"]+)"\s+"([^"]+)"/);
   if (!functionMatch) {
@@ -207,8 +207,7 @@ const evaluateDirectFunctionCall = async (
     throw new Error('Could not parse function name from rule implementation');
   }
 
-  // Resolve the function inside the Clojure context and call it via evaluateTransitionRule
-  // This ensures proper js->clj conversion and execution within Clojure runtime
+  // Resolve the function inside the Clojure context
   const resolveForm = `(resolve '${namespaceAndFunction}')`;
   const resolveResult: unknown = await loadString(resolveForm, {
     context: 'cljs.user',
@@ -219,9 +218,8 @@ const evaluateDirectFunctionCall = async (
     throw new Error(`Function ${namespaceAndFunction} not found in DSL`);
   }
 
-  // Use the validation helper which properly converts JS objects to Clojure and calls the function
-  // The resolveResult should be a function reference from Clojure context
-  const result = evaluateTransitionRule(task, board, resolveResult as Function);
+  // Use the new helper that properly handles resolved functions with dependency injection
+  const result = evaluateResolvedFunction(task, board, resolveResult as Function);
   return Boolean(result);
 };
 

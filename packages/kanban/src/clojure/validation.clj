@@ -46,7 +46,26 @@
         board (js->clj board-js :keywordize-keys true)]
     (boolean (rule-fn task board))))
 
+(defn evaluate-rule-string [task-js board-js rule-string]
+  (let [task (js->clj task-js :keywordize-keys true)
+        board (js->clj board-js :keywordize-keys true)]
+    (try
+      ;; Evaluate the rule string in a context where task and board are available
+      (eval (read-string (str "(fn [task board] " rule-string ")")))
+      (catch js/Error e
+        (throw (js/Error. (str "Failed to evaluate rule string: " (.-message e))))))))
+
+(defn evaluate-resolved-function [task-js board-js resolved-fn]
+  (let [task (js->clj task-js :keywordize-keys true)
+        board (js->clj board-js :keywordize-keys true)]
+    (try
+      (boolean (resolved-fn task board))
+      (catch js/Error e
+        (throw (js/Error. (str "Failed to call resolved function: " (.-message e))))))))
+
 ;; Export functions for JavaScript usage
 #js {:validate-task validate-task
      :validate-board validate-board
-     :evaluate-transition-rule evaluate-transition-rule}
+     :evaluate-transition-rule evaluate-transition-rule
+     :evaluate-rule-string evaluate-rule-string
+     :evaluate-resolved-function evaluate-resolved-function}
