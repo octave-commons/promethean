@@ -74,10 +74,10 @@ export class TaskAIManager {
       });
 
       return backupPath;
-    } catch (error) {
-      error('Task backup failed:', error);
+    } catch (err) {
+      error('Task backup failed:', err);
       throw new Error(
-        `Backup failed for task ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        `Backup failed for task ${uuid}: ${err instanceof Error ? err.message : 'Unknown error'}`,
       );
     }
   }
