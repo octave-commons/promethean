@@ -35,7 +35,7 @@ async function debugCreateAndStatus() {
   console.log('Created task:', task);
 
   console.log('\n=== Board content after creation ===');
-  const boardContentAfter = await executeCommand('get_board', [], context);
+  const boardContentAfter = await executeCommand('get-columns', [], context);
   console.log(JSON.stringify(boardContentAfter, null, 2));
 
   console.log('\n=== Updating task status to Todo ===');
@@ -43,7 +43,7 @@ async function debugCreateAndStatus() {
   console.log('Update result:', updateResult);
 
   console.log('\n=== Board content after status update ===');
-  const boardContentAfterUpdate = await executeCommand('get_board', [], context);
+  const boardContentAfterUpdate = await executeCommand('get-columns', [], context);
   console.log(JSON.stringify(boardContentAfterUpdate, null, 2));
 }
 
