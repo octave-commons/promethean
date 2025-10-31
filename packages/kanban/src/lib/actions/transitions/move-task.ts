@@ -48,10 +48,22 @@ const findTaskInBoard = (
   return undefined;
 };
 
-export const moveTask = async (input: MoveTaskInput): Promise<MoveTaskResult> => {
+export const export const moveTask = async (input: MoveTaskInput): Promise<MoveTaskResult> => {
   const { board, taskUuid, direction, boardPath, options } = input;
 
-  const located = findTaskInBoard(board, taskUuid);
+  // Reload board from filesystem to get latest state after any previous operations
+  let freshBoard: Board;
+  if (boardPath) {
+    const { readFileSync } = await import('node:fs');
+    const boardContent = readFileSync(boardPath, 'utf8');
+    const { parseMarkdown } = await import('../../serializers/index.js');
+    const { columns, frontmatter, settings } = parseMarkdown({ markdown: boardContent });
+    freshBoard = { columns, frontmatter, settings };
+  } else {
+    freshBoard = board;
+  }
+
+  const located = findTaskInBoard(freshBoard, taskUuid);
   if (!located) {
     return { success: false };
   }
@@ -79,8 +91,9 @@ export const moveTask = async (input: MoveTaskInput): Promise<MoveTaskResult> =>
 
   // Save board if boardPath provided
   if (boardPath && !options?.dryRun) {
+    const { formatMarkdown } = await import('../../serializers/index.js');
     const boardContent = formatMarkdown({
-      columns: board.columns.map((col) => ({
+      columns: freshBoard.columns.map((col) => ({
         name: col.name,
         cards: col.tasks.map((task) => ({
           id: task.uuid,
@@ -107,4 +120,4 @@ export const moveTask = async (input: MoveTaskInput): Promise<MoveTaskResult> =>
     fromPosition,
     toPosition,
   };
-};
+};;
