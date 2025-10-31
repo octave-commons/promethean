@@ -317,9 +317,17 @@ const handleMove =
 
         // Transform result to match expected test format
         if (result.success && result.task) {
+          // Convert status back to Title Case for tests (in_progress -> In Progress)
+          let column = result.task.status;
+          if (column === 'in_progress') {
+            column = 'In Progress';
+          } else {
+            column = column.charAt(0).toUpperCase() + column.slice(1);
+          }
+
           return {
             uuid: result.task.uuid,
-            column: result.task.status.charAt(0).toUpperCase() + result.task.status.slice(1),
+            column,
             rank: result.toPosition?.index ?? 0,
           };
         }
