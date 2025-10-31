@@ -56,7 +56,27 @@ const toTrimmed = (value: string) => value.trim();
 
 export const parseFrontmatter = <T extends Record<string, unknown> = Record<string, unknown>>(
     raw: string,
-): ParsedMarkdown<T> => matter(raw) as ParsedMarkdown<T>;
+): ParsedMarkdown<T> => {
+    try {
+        return matter(raw) as ParsedMarkdown<T>;
+    } catch (error) {
+        // If YAML parsing fails, return empty frontmatter and full content
+        console.warn(
+            'Failed to parse frontmatter, treating as plain content:',
+            error instanceof Error ? error.message : String(error),
+        );
+        return {
+            data: {} as T,
+            content: raw,
+            excerpt: undefined,
+            orig: raw,
+            path: undefined,
+            language: undefined,
+            matter: undefined,
+            stringify: (content: string, data: Record<string, unknown>) => matter.stringify(content, data),
+        } as unknown as ParsedMarkdown<T>;
+    }
+};
 
 export const stringifyFrontmatter = <T extends Record<string, unknown>>(
     content: string,
