@@ -42,6 +42,7 @@ interface ValidationFunctions {
   validateTask: (task: unknown) => unknown;
   validateBoard: (board: unknown) => unknown;
   evaluateTransitionRule: (task: unknown, board: unknown, ruleFn: Function) => boolean;
+  evaluateResolvedFunction: (task: unknown, board: unknown, resolvedFn: Function) => boolean;
 }
 
 const validationFunctionsCache: { current: ValidationFunctions | null } = { current: null };
@@ -61,7 +62,8 @@ const loadValidationFunctions = async (): Promise<ValidationFunctions> => {
     if (
       !functions['validate-task'] ||
       !functions['validate-board'] ||
-      !functions['evaluate-transition-rule']
+      !functions['evaluate-transition-rule'] ||
+      !functions['evaluate-resolved-function']
     ) {
       throw new Error('Required validation functions not found in validation.clj');
     }
@@ -73,6 +75,11 @@ const loadValidationFunctions = async (): Promise<ValidationFunctions> => {
         task: unknown,
         board: unknown,
         ruleFn: Function,
+      ) => boolean,
+      evaluateResolvedFunction: functions['evaluate-resolved-function'] as (
+        task: unknown,
+        board: unknown,
+        resolvedFn: Function,
       ) => boolean,
     };
 
