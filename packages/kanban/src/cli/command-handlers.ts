@@ -309,6 +309,9 @@ const handleUpdateStatus: CommandHandler = (args, context) =>
       );
     }
 
+    const existingTask = await findTaskById(mutableBoard, id);
+    const previousStatus = existingTask?.status;
+
     const updated = await updateStatus(
       mutableBoard,
       id,
@@ -321,7 +324,12 @@ const handleUpdateStatus: CommandHandler = (args, context) =>
       'human',
     );
     await persistBoardWithHydratedTitles(mutableBoard, context);
-    return updated;
+    return {
+      success: true,
+      previousStatus,
+      updatedStatus: updated?.status,
+      task: updated,
+    };
   });
 
 const hydrateTaskTitlesFromFiles = async (
