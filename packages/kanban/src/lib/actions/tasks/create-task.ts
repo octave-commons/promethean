@@ -262,6 +262,11 @@ export const createTaskAction = async (config: TaskCreationConfig): Promise<Task
   targetColumn.tasks = [...targetColumn.tasks, persistedTask];
   targetColumn.count = targetColumn.tasks.length;
 
+  // Debug logging before writeBoard
+  console.log('DEBUG createTask: board before writeBoard =', JSON.stringify(board, null, 2));
+  console.log('DEBUG createTask: targetColumn.tasks.length =', targetColumn.tasks.length);
+  console.log('DEBUG createTask: persistedTask =', persistedTask);
+
   await writeBoard(boardPath, board);
   await maybeRefreshIndex(tasksDir);
 
