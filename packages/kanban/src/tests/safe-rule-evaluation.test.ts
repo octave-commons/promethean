@@ -1,15 +1,18 @@
 import test from 'ava';
 import { safeEvaluateTransition } from '../lib/safe-rule-evaluation.js';
-import type { TaskFM, Board } from '../lib/types.js';
+import type { TaskFM } from '../board/types.js';
+import type { Board } from '../lib/types.js';
 
 // Minimal test fixtures
 const mockTask: TaskFM = {
-  uuid: 'test-uuid',
+  id: 'test-uuid',
   title: 'Test Task',
-  status: 'incoming',
+  status: 'open',
   priority: 'medium',
-  estimates: { complexity: 1 },
+  owner: 'test',
   labels: [],
+  created: new Date().toISOString(),
+  uuid: 'test-uuid',
 };
 
 const mockBoard: Board = {
