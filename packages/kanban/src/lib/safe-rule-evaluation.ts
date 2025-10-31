@@ -210,7 +210,7 @@ const evaluateDirectFunctionCall = async (
   // Resolve the function inside the Clojure context and call it via evaluateTransitionRule
   // This ensures proper js->clj conversion and execution within Clojure runtime
   const resolveForm = `(resolve '${namespaceAndFunction}')`;
-  const resolveResult = await loadString(resolveForm, {
+  const resolveResult: unknown = await loadString(resolveForm, {
     context: 'cljs.user',
     print: () => {},
   });
