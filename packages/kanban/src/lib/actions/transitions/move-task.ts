@@ -1,6 +1,5 @@
 import { promises as fs } from 'fs';
 import type { Board, Task, ColumnData } from '../../types.js';
-import { formatMarkdown } from '../../serializers/index.js';
 import { debug } from '../../utils/logger.js';
 
 export type MoveTaskInput = {
@@ -48,7 +47,7 @@ const findTaskInBoard = (
   return undefined;
 };
 
-export const export const moveTask = async (input: MoveTaskInput): Promise<MoveTaskResult> => {
+export const moveTask = async (input: MoveTaskInput): Promise<MoveTaskResult> => {
   const { board, taskUuid, direction, boardPath, options } = input;
 
   // Reload board from filesystem to get latest state after any previous operations
@@ -58,7 +57,7 @@ export const export const moveTask = async (input: MoveTaskInput): Promise<MoveT
     const boardContent = readFileSync(boardPath, 'utf8');
     const { parseMarkdown } = await import('../../serializers/index.js');
     const { columns, frontmatter, settings } = parseMarkdown({ markdown: boardContent });
-    freshBoard = { columns, frontmatter, settings };
+    freshBoard = { columns: frontmatter, settings } as Board;
   } else {
     freshBoard = board;
   }
@@ -120,4 +119,4 @@ export const export const moveTask = async (input: MoveTaskInput): Promise<MoveT
     fromPosition,
     toPosition,
   };
-};;
+};
