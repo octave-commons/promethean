@@ -264,7 +264,7 @@ export const validateTransition = async (
     try {
       const dslResult = await evaluateCustomRule(
         state,
-        `(kanban-transitions/evaluate-transition "${fromNormalized}" "${toNormalized}" task board)`,
+        `(evaluate-transition "${fromNormalized}" "${toNormalized}" task board)`,
         [],
         task,
         board,

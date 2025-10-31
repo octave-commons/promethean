@@ -69,7 +69,7 @@ async function testTransition() {
     const result = await safeEvaluateTransition(
       taskFM,
       board,
-      '(kanban-transitions/evaluate-transition "Todo" "In Progress" task board)',
+      '(evaluate-transition "Todo" "In Progress" task board)',
       dslPath,
     );
     console.log('Result:', result);
