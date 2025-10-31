@@ -27,7 +27,12 @@ async function debug() {
 
     // Check what's in the board file
     const boardContent = await readFile(boardPath, 'utf8');
-    console.log('Board content after task creation:', boardContent);
+    console.log('Board content after task creation:', boardContent || '(empty)');
+
+    // Try to read the board using the board reader
+    const { readBoard } = await import('./dist/lib/board-reader.js');
+    const board = await readBoard(boardPath);
+    console.log('Board structure after task creation:', JSON.stringify(board, null, 2));
 
     console.log('Trying to move task...');
     try {
