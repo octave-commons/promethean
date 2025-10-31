@@ -37,9 +37,7 @@ const createCardText = (card: Card): string => {
 export const formatCardLine = (card: Card): string => {
   const prefix = card.done ? '- [x]' : '- [ ]';
   const text = createCardText(card);
-  const attrsStr =
-    Object.keys(card.attrs || {}).length > 0 ? ` {${JSON.stringify(card.attrs)}}` : '';
-  const comment = `<!-- id: ${card.id}${attrsStr} -->`;
+  const comment = `<!-- id: ${card.id} -->`;
   return text.length > 0 ? `${prefix} ${text} ${comment}` : `${prefix} ${comment}`;
 };
 
