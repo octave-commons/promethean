@@ -5,7 +5,7 @@
   "_wip_note": "WIP limits are enforced by transitions - a move to a column fails if that column's WIP cap is full.",
 
   "tasksDir": "docs/agile/tasks",
-  "indexFile": "",
+  "indexFile": "docs/agile/boards/index.jsonl",
   "boardFile": "docs/agile/boards/generated.md",
   "cachePath": "docs/agile/boards/.cache",
   "exts": [".md"],
