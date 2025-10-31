@@ -609,8 +609,6 @@ export const evaluateCustomRule = async (
       labels: task.labels || [],
       created: task.created_at || new Date().toISOString(),
       uuid: task.uuid,
-      // Add metadata to track original undefined priority
-      _originalPriorityUndefined: !task.priority,
       status: task.status as Status,
       estimates: task.estimates
         ? {
