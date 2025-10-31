@@ -495,13 +495,19 @@ export const toFrontmatter = (task: LegacyTask): string => {
 };
 
 export const validateStartingStatus = async (status: string): Promise<void> => {
-  const { validateAndNormalizeStatus } = await import('./status-normalization.js');
-
-  try {
-    await validateAndNormalizeStatus(status);
-  } catch (error) {
+  // Use the same validation as create-task action
+  const validStartingStatuses = [
+    'icebox',
+    'incoming',
+    'ready',
+    'todo',
+    'in_progress',
+    'testing',
+    'done',
+  ];
+  if (!validStartingStatuses.includes(status.toLowerCase())) {
     throw new Error(
-      `Invalid starting status: "${status}". Tasks can only be created with starting statuses: icebox, incoming. Use --status flag to specify a valid starting status.`,
+      `Invalid starting status: ${status}. Must be one of: ${validStartingStatuses.join(', ')}`,
     );
   }
 };
