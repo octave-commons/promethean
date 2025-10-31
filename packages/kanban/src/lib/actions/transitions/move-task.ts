@@ -1,6 +1,7 @@
 import { promises as fs } from 'fs';
 import type { Board, Task, ColumnData } from '../../types.js';
 import { formatMarkdown } from '../../serializers/index.js';
+import { debug } from '../../utils/logger.js';
 
 export type MoveTaskInput = {
   board: Board;
@@ -21,9 +22,9 @@ const findTaskInBoard = (
   board: Board,
   uuid: string,
 ): { task: Task; column: ColumnData; index: number } | undefined => {
-  console.log(`DEBUG findTaskInBoard: looking for UUID ${uuid}`);
-  console.log(
-    `DEBUG findTaskInBoard: board columns:`,
+  debug(`findTaskInBoard: looking for UUID ${uuid}`);
+  debug(
+    `findTaskInBoard: board columns:`,
     board.columns.map((c) => ({ name: c.name, taskCount: c.tasks.length })),
   );
 
@@ -32,8 +33,8 @@ const findTaskInBoard = (
     if (taskIndex >= 0) {
       const task = column.tasks[taskIndex];
       if (task) {
-        console.log(
-          `DEBUG findTaskInBoard: found task ${task.title} in column ${column.name} at index ${taskIndex}`,
+        debug(
+          `findTaskInBoard: found task ${task.title} in column ${column.name} at index ${taskIndex}`,
         );
         return {
           task,
@@ -43,7 +44,7 @@ const findTaskInBoard = (
       }
     }
   }
-  console.log(`DEBUG findTaskInBoard: task ${uuid} not found`);
+  debug(`findTaskInBoard: task ${uuid} not found`);
   return undefined;
 };
 
