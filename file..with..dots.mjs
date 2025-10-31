@@ -4,12 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const apps = 
-[
-  {
-    "name": "app",
-    "cwd": "./....windowssystem32"
-  }
-];
+[];
 
 export const triggers = 
 [];
