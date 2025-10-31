@@ -21,11 +21,20 @@ const findTaskInBoard = (
   board: Board,
   uuid: string,
 ): { task: Task; column: ColumnData; index: number } | undefined => {
+  console.log(`DEBUG findTaskInBoard: looking for UUID ${uuid}`);
+  console.log(
+    `DEBUG findTaskInBoard: board columns:`,
+    board.columns.map((c) => ({ name: c.name, taskCount: c.tasks.length })),
+  );
+
   for (const column of board.columns || []) {
     const taskIndex = column.tasks.findIndex((t: Task) => t.uuid === uuid);
     if (taskIndex >= 0) {
       const task = column.tasks[taskIndex];
       if (task) {
+        console.log(
+          `DEBUG findTaskInBoard: found task ${task.title} in column ${column.name} at index ${taskIndex}`,
+        );
         return {
           task,
           column,
@@ -34,6 +43,7 @@ const findTaskInBoard = (
       }
     }
   }
+  console.log(`DEBUG findTaskInBoard: task ${uuid} not found`);
   return undefined;
 };
 
