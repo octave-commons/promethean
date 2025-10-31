@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import path from 'node:path';
-import { writeFile, mkdir } from 'node:fs/promises';
+import { writeFile, mkdir, readFile } from 'node:fs/promises';
 import { executeCommand } from './dist/cli/command-handlers.js';
 
 async function debug() {
@@ -24,6 +24,10 @@ async function debug() {
 
   if (task && typeof task === 'object' && 'uuid' in task) {
     console.log('Task UUID:', task.uuid);
+
+    // Check what's in the board file
+    const boardContent = await readFile(boardPath, 'utf8');
+    console.log('Board content after task creation:', boardContent);
 
     console.log('Trying to move task...');
     try {
