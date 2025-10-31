@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { executeCommand } from './dist/cli/command-executor.js';
+import { executeCommand } from './dist/cli/command-handlers.js';
 import { tmpdir } from 'os';
 import { join } from 'path';
 import { writeFile, mkdir } from 'fs/promises';
