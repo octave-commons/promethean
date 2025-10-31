@@ -157,10 +157,8 @@ test('TransitionRulesEngine debugging and overview helpers', async (t) => {
   const dslPath = path.join(tmp, 'debug-rules.cljs');
   const dslContent = `
 (defn evaluate-transition [from to task board]
-  ;; Allow valid transitions, block invalid ones
-  (or (and (= from "Todo") (= to "In Progress"))
-      (and (= from "In Progress") (= to "Review"))
-      (and (= from "Review") (= to "Done"))))
+  ;; For testing: always allow Todo -> In Progress
+  (and (= from "Todo") (= to "In Progress")))
 
 ;; Create namespace alias to match evaluation call
 (intern 'kanban-transitions 'evaluate-transition evaluate-transition)
