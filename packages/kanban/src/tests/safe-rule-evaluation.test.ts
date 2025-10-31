@@ -49,10 +49,9 @@ test('safeEvaluateTransition returns validation errors when inputs are invalid',
     invalidTask,
     mockBoard,
     '(fn [from to task board] true)', // Simple always-true rule
-    '/nonexistent/dsl.clj',
+    '/home/err/devel/promethean/packages/kanban/src/clojure/validation.clj',
   );
 
-  console.log('Validation result:', result);
   t.false(result.success);
   t.true(result.validationErrors.length > 0);
   t.is(result.evaluationError, undefined);
