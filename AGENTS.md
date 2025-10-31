@@ -80,6 +80,10 @@ pnpm --filter @promethean-os/<pkg> exec node ./dist/index.ts
 
 ### Docs
 
+Read these if you need to, all documents should be connected in a graph.
+Unconnected documents should have links added here or to another document.
+All documents must be reachable through a link somewhere.
+The documentation must be completely traversable .
 
 - [[docs/agile/kanban-cli-reference.md]]
 - [[docs/agile/process.md]]
@@ -100,3 +104,6 @@ All packages use:
 ```
 "license": "GPL-3.0-only"
 ```
+
+<!--  LocalWords:  traversable
+ -->
