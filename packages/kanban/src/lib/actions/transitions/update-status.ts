@@ -85,20 +85,8 @@ const updateTaskFile = async (
 export const updateStatus = async (input: UpdateStatusInput): Promise<UpdateStatusResult> => {
   const { board, taskUuid, newStatus, boardPath, tasksDir, options } = input;
 
-  // Debug: entry log
-  try {
-    // eslint-disable-next-line no-console
-    console.debug('[updateStatus] entry', { taskUuid, newStatus, boardPath, tasksDir });
-  } catch (_) {
-    // ignore
-  }
-
   const located = findTaskInBoard(board, taskUuid);
   if (!located) {
-    try {
-      // eslint-disable-next-line no-console
-      console.debug('[updateStatus] task not found', { taskUuid });
-    } catch (_) {}
     return { success: false };
   }
 
@@ -108,17 +96,7 @@ export const updateStatus = async (input: UpdateStatusInput): Promise<UpdateStat
   // Skip if status is already the same (compare canonical keys)
   const prevKey = previousStatus ? columnKey(String(previousStatus)) : '';
   const newKey = columnKey(String(newStatus));
-
-  try {
-    // eslint-disable-next-line no-console
-    console.debug('[updateStatus] status keys', { previousStatus, prevKey, newStatus, newKey });
-  } catch (_) {}
-
   if (prevKey === newKey) {
-    try {
-      // eslint-disable-next-line no-console
-      console.debug('[updateStatus] no-op: canonical keys equal');
-    } catch (_) {}
     return { success: true, task, previousStatus };
   }
 
@@ -131,26 +109,12 @@ export const updateStatus = async (input: UpdateStatusInput): Promise<UpdateStat
   column.count = column.tasks.length;
 
   const targetColumn = ensureBoardColumn(board, newStatus);
-
-  try {
-    // eslint-disable-next-line no-console
-    console.debug('[updateStatus] targetColumn', { name: targetColumn.name });
-  } catch (_) {}
-
   const updatedTask: Task = { ...task, status: targetColumn.name };
   targetColumn.tasks = [...targetColumn.tasks, updatedTask];
   targetColumn.count = targetColumn.tasks.length;
 
   // Update task file if tasksDir provided (write normalized display name)
   if (tasksDir) {
-    try {
-      // eslint-disable-next-line no-console
-      console.debug('[updateStatus] updating task file', {
-        tasksDir,
-        taskUuid,
-        statusToWrite: targetColumn.name,
-      });
-    } catch (_) {}
     await updateTaskFile(tasksDir, taskUuid, targetColumn.name, options?.dryRun);
   }
 
@@ -165,11 +129,6 @@ export const updateStatus = async (input: UpdateStatusInput): Promise<UpdateStat
   const diff = options?.createBackup
     ? generateDiff(JSON.stringify(task), JSON.stringify(updatedTask))
     : undefined;
-
-  try {
-    // eslint-disable-next-line no-console
-    console.debug('[updateStatus] result', { previousStatus, newStatus: targetColumn.name });
-  } catch (_) {}
 
   return {
     success: true,
