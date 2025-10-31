@@ -41,9 +41,12 @@ kanban-plugin: board
     const board = boardResult.board;
 
     console.log('Board loaded successfully');
+    console.log('Board structure:', JSON.stringify(board, null, 2));
     console.log(
       'Initial columns:',
-      board.columns.map((c) => ({ name: c.name, taskCount: c.tasks ? c.tasks.length : 0 })),
+      board.columns
+        ? board.columns.map((c) => ({ name: c.name, taskCount: c.tasks ? c.tasks.length : 0 }))
+        : 'NO COLUMNS',
     );
 
     // Create a task
