@@ -60,7 +60,7 @@ kanban-plugin: board
     console.log('BOARD CONTENT LENGTH:', boardContent.length);
 
     // Debug: Let's also check what's in the board object before writing
-    const boardForDebug = await loadBoard(boardPath, tasksDir);
+    const boardForDebug = await loadBoard(boardPath);
     console.log('\nBOARD OBJECT FOR DEBUG:');
     console.log(JSON.stringify(boardForDebug, null, 2));
 
