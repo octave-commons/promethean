@@ -132,6 +132,19 @@ export const updateStatus = async (
   tasksDir?: string,
   ..._deprecatedArgs: ReadonlyArray<unknown>
 ): Promise<LegacyTask> => {
+  // Debug: log inputs received by legacy wrapper
+  try {
+    // eslint-disable-next-line no-console
+    console.debug('[compat:updateStatus] called with', {
+      taskUuid,
+      newStatus,
+      boardPath,
+      tasksDir,
+    });
+  } catch (_) {
+    // ignore logging failures
+  }
+
   const result = await updateStatusFunctional({
     board,
     taskUuid,
@@ -143,6 +156,18 @@ export const updateStatus = async (
       dryRun: false,
     },
   });
+
+  // Debug: log result from functional action
+  try {
+    // eslint-disable-next-line no-console
+    console.debug('[compat:updateStatus] functional result', {
+      success: !!result.success,
+      previousStatus: result.previousStatus,
+      updatedStatus: (result.task as LegacyTask | undefined)?.status,
+    });
+  } catch (_) {
+    // ignore
+  }
 
   const task = ensureTask(result.task as LegacyTask | undefined, 'updateStatus');
 
