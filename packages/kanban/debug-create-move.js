@@ -11,7 +11,19 @@ async function testCreateThenMove() {
 
   await mkdir(tempDir, { recursive: true });
   await mkdir(tasksDir, { recursive: true });
-  await writeFile(boardPath, '', 'utf8');
+  const initialBoardContent = `---
+kanban-plugin: board
+---
+
+## Todo
+
+%% kanban:settings
+\`\`\`
+{"kanban-plugin":"board"}
+\`\`\`
+%%
+`;
+  await writeFile(boardPath, initialBoardContent, 'utf8');
 
   const context = {
     boardFile: boardPath,
