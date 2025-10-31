@@ -1,7 +1,7 @@
 import test from 'ava';
 import { safeEvaluateTransition } from '../lib/safe-rule-evaluation.js';
 import type { TaskFM } from '../board/types.js';
-import type { Board } from '../lib/types.js';
+import type { Board, Task } from '../lib/types.js';
 
 // Minimal test fixtures
 const mockTask: TaskFM = {
@@ -15,12 +15,23 @@ const mockTask: TaskFM = {
   uuid: 'test-uuid',
 };
 
+// Convert TaskFM to Task for Board compatibility
+const mockTaskForBoard: Task = {
+  uuid: 'test-uuid',
+  title: 'Test Task',
+  status: 'open',
+  priority: 'medium',
+  labels: [],
+  created_at: new Date().toISOString(),
+  estimates: { complexity: 1 },
+};
+
 const mockBoard: Board = {
   columns: [
     {
       name: 'incoming',
       limit: null,
-      tasks: [mockTask],
+      tasks: [mockTaskForBoard],
       count: 1,
     },
     {
