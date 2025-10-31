@@ -108,6 +108,23 @@ const requireArg = (value: string | undefined, label: string): string => {
   throw new CommandUsageError(`Missing required ${label}.`);
 };
 
+const formatColumnNameForDisplay = (raw: string | undefined): string => {
+  if (!raw) {
+    return 'Todo';
+  }
+  const normalized = raw.replace(/[_-]+/g, ' ').trim();
+  if (normalized.length === 0) {
+    return 'Todo';
+  }
+  const segments = normalized.split(/\s+/).filter((segment) => segment.length > 0);
+  if (segments.length === 0) {
+    return 'Todo';
+  }
+  return segments
+    .map((segment) => (segment.toUpperCase() === segment ? segment : segment[0]!.toUpperCase() + segment.slice(1)))
+    .join(' ');
+};
+
 /**
  * Find the actual task file path by searching for the UUID in file contents
  */
@@ -307,39 +324,50 @@ const handleUpdateStatus: CommandHandler = (args, context) =>
 
 const handleMove =
   (offset: number): CommandHandler =>
-  (args, context) =>
-    withBoard(context, async (board) => {
-      const mutableBoard = board as unknown as LoadedBoard;
-      const id = requireArg(args[0], 'task id');
+  async (args, context) => {
+    const id = requireArg(args[0], 'task id');
 
-      try {
-        const result = await moveTask(mutableBoard, id, offset, context.boardFile);
+    try {
+      return await withBoard(context, async (board) => {
+        const mutableBoard = board as unknown as LoadedBoard;
 
-        // Transform result to match expected test format
-        if (result.success && result.task) {
-          // Convert status back to Title Case for tests (in_progress -> In Progress)
-          let column = result.task.status;
-          if (column === 'in_progress') {
-            column = 'In Progress';
-          } else {
-            column = column.charAt(0).toUpperCase() + column.slice(1);
+        try {
+          const result = await moveTask(mutableBoard, id, offset, context.boardFile);
+
+          // Transform result to match expected test format
+          if (result.success && result.task) {
+            const columnSource =
+              result.toPosition?.column ?? result.task.status ?? result.fromPosition?.column ?? '';
+            const column = formatColumnNameForDisplay(columnSource);
+            const rank = result.toPosition?.index ?? result.fromPosition?.index ?? 0;
+
+            return {
+              uuid: result.task.uuid,
+              column,
+              rank,
+            };
           }
 
-          return {
-            uuid: result.task.uuid,
-            column,
-            rank: result.toPosition?.index ?? 0,
-          };
+          return result;
+        } catch (error) {
+          // Return undefined for task not found errors (expected by tests)
+          if (error instanceof Error && error.message.includes('not found')) {
+            return undefined;
+          }
+          throw error;
         }
-        return result;
-      } catch (error) {
-        // Return undefined for task not found errors (expected by tests)
-        if (error instanceof Error && error.message.includes('not found')) {
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        const message = error.message || '';
+        if (message.includes('Failed to load board') || message.includes('ENOENT')) {
+          warn(`move command skipped: unable to load board at ${context.boardFile}: ${message}`);
           return undefined;
         }
-        throw error;
       }
-    });
+      throw error;
+    }
+  };
 
 const handlePull: CommandHandler = (_args, context) =>
   withBoard(context, async (board) => {
