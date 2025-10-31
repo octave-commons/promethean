@@ -100,17 +100,17 @@ export const writeBoard = async (boardPath: string, board: Board): Promise<void>
 };
 
 export const maybeRefreshIndex = async (tasksDir: string): Promise<void> => {
-  try {
-    const { config } = await loadKanbanConfig();
-    const resolvedInput = path.resolve(tasksDir);
-    const resolvedConfig = path.resolve(config.tasksDir);
-    if (resolvedInput !== resolvedConfig) {
-      return;
-    }
-    await refreshTaskIndex(config);
-  } catch {
-    // ignore if config/index not available
+  // try {
+  const { config } = await loadKanbanConfig();
+  const resolvedInput = path.resolve(tasksDir);
+  const resolvedConfig = path.resolve(config.tasksDir);
+  if (resolvedInput !== resolvedConfig) {
+    return;
   }
+  await refreshTaskIndex(config);
+  // } catch {
+  //   // ignore if config/index not available
+  // }
 };
 
 export const ensureColumn = (board: Board, column: string): ColumnData => {
