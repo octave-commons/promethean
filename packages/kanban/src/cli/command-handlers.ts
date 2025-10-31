@@ -141,7 +141,11 @@ async function findTaskFilePath(tasksDir: string, taskUuid: string): Promise<str
       const filePath = path.join(tasksDir, file.name);
       try {
         const content = await readFile(filePath, 'utf8');
-        if (content.includes(`uuid: "${taskUuid}"`) || content.includes(`uuid: '${taskUuid}'`)) {
+        if (
+          content.includes(`uuid: "${taskUuid}"`) ||
+          content.includes(`uuid: '${taskUuid}'`) ||
+          content.includes(`uuid: ${taskUuid}`)
+        ) {
           return filePath;
         }
       } catch (error) {
