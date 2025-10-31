@@ -51,7 +51,23 @@ test('A task is created from the provided template', async (t) => {
   ].join('\n');
   const templatePath = await ensureTemplate(tempDir, template);
 
-  const board = makeBoard([{ name: 'incoming', count: 0, limit: null, tasks: [] }]);
+  // Create the task that will be blocked first
+  const blockedTask = makeTask({
+    uuid: 'blocked-2',
+    title: 'Task to be blocked',
+    status: 'incoming',
+    slug: 'task-to-be-blocked',
+    content: baseContent,
+  });
+  const board = makeBoard([
+    {
+      name: 'incoming',
+      count: 1,
+      limit: null,
+      tasks: [blockedTask],
+    },
+  ]);
+  await writeTaskFile(tasksDir, blockedTask, { content: baseContent });
 
   const created = await createTask(
     board,
