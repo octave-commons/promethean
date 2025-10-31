@@ -139,6 +139,9 @@ test('move operations - tasks across different columns', async (t) => {
   )) as any;
   const done1 = (await executeCommand('create', ['Done Task 1', '--status=Done'], context)) as any;
 
+  // Regenerate board to reflect the actual task statuses
+  await executeCommand('regenerate', [], context);
+
   // Move tasks within each column
   const todoResult = (await executeCommand('move_up', [todo2.uuid], context)) as any;
   t.truthy(todoResult);
