@@ -43,7 +43,7 @@ async function debugCreateAndStatus() {
   console.log('Update result:', updateResult);
 
   console.log('\n=== Board content after status update ===');
-  const boardContentAfterUpdate = await executeCommand('get-columns', [], context);
+  const boardContentAfterUpdate = await executeCommand('list', [], context);
   console.log(JSON.stringify(boardContentAfterUpdate, null, 2));
 }
 
