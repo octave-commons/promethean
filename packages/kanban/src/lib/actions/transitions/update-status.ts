@@ -8,7 +8,12 @@ import {
   updateTimestamp,
   generateDiff,
 } from '../../task-content/parser.js';
-import { writeBoard, maybeRefreshIndex, ensureColumn as ensureBoardColumn } from '../../serializers/board.js';
+import {
+  writeBoard,
+  maybeRefreshIndex,
+  ensureColumn as ensureBoardColumn,
+} from '../../serializers/board.js';
+import { columnKey } from '../../utils/string-utils.js';
 
 export type UpdateStatusInput = {
   board: Board;
