@@ -100,7 +100,7 @@ const convertToLegacyBoard = (functionalBoard: FunctionalBoard): LegacyBoard => 
       tasks: col.cards.map((card) => ({
         uuid: card.id,
         title: card.text,
-        status: card.done ? 'done' : 'todo',
+        status: card.attrs?.status || (card.done ? 'done' : 'todo'),
         labels: [...card.tags],
         links: [...card.links],
         attrs: { ...card.attrs },
