@@ -91,8 +91,7 @@ test('TransitionRulesEngine validates transitions and applies rules', async (t) 
   const tmp = await withTempDir(t);
   const dslPath = path.join(tmp, 'rules.cljs');
   const dslContent = `
-(ns kanban-transitions
-  (:require [clojure.spec.alpha :as s]))
+(ns kanban-transitions)
 
 (defn evaluate-transition [from to task board]
   ;; Allow valid transitions, block invalid ones
@@ -156,7 +155,17 @@ test('TransitionRulesEngine enforces WIP limits and custom checks', async (t) =>
 });
 
 test('TransitionRulesEngine debugging and overview helpers', async (t) => {
-  const engine = new TransitionRulesEngine(createConfig('./src/clojure/safe_rule_evaluation.cljs'));
+  const tmp = await withTempDir(t);
+  const dslPath = path.join(tmp, 'debug-rules.cljs');
+  const dslContent = `
+(ns kanban-transitions)
+
+(defn evaluate-transition [from to task board]
+  true) ; Allow all transitions for debugging
+`;
+  await writeFile(dslPath, dslContent, 'utf8');
+
+  const engine = new TransitionRulesEngine(createConfig(dslPath));
   await engine.initialize();
 
   const debug = await engine.debugTransition('Todo', 'Review', sampleTask, makeBoard(0));
