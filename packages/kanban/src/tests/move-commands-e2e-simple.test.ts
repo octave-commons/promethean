@@ -220,9 +220,26 @@ test('e2e - move operations across workflow transitions', async (t) => {
   const tempDir = await withTempDir(t);
   const boardPath = path.join(tempDir, 'board.md');
   const tasksDir = path.join(tempDir, 'tasks');
+  const configPath = path.join(tempDir, 'promethean.kanban.json');
 
   await mkdir(tasksDir, { recursive: true });
   await writeFile(boardPath, '', 'utf8');
+
+  // Copy test fixtures config to temp directory
+  const fixtureConfig = await readFile(
+    path.join(__dirname, 'fixtures/promethean.kanban.json'),
+    'utf8',
+  );
+  await writeFile(configPath, fixtureConfig, 'utf8');
+
+  // Copy Clojure DSL file to temp directory
+  const dslPath = path.join(tempDir, 'src/tests/fixtures/transition-rules-dsl.clj');
+  await mkdir(path.dirname(dslPath), { recursive: true });
+  const fixtureDsl = await readFile(
+    path.join(__dirname, 'fixtures/transition-rules-dsl.clj'),
+    'utf8',
+  );
+  await writeFile(dslPath, fixtureDsl, 'utf8');
 
   const context: CliContext = {
     boardFile: boardPath,
