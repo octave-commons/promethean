@@ -1,5 +1,5 @@
 import test from 'ava';
-import { createWIPLimitEnforcement } from '../lib/wip-enforcement.js';
+import { createWIPLimitEnforcement, WIPLimitEnforcement } from '../lib/wip-enforcement.js';
 import { loadKanbanConfig } from '../board/config.js';
 import type { Board } from '../lib/types.js';
 
@@ -156,23 +156,14 @@ test('WIPLimitEnforcement - validates WIP limits correctly', async (t) => {
 });
 
 test('WIPLimitEnforcement - intercepts status transitions', async (t) => {
-  // Create a mock config with WIP limits that match our test board
+  // Create enforcement instance directly with mock config to avoid config loading issues
   const mockConfig = {
-    repo: '/test',
-    tasksDir: '/test/tasks',
-    indexFile: '/test/index.md',
-    boardFile: '/test/board.md',
-    cachePath: '/test/cache',
-    exts: new Set(['.md']),
-    requiredFields: ['title'],
-    statusValues: new Set(['todo', 'in_progress', 'review', 'done']),
-    priorityValues: new Set(['P1', 'P2', 'P3']),
     wipLimits: {
       todo: 5,
       in_progress: 3,
     },
-  };
-  const enforcement = await createWIPLimitEnforcement({ config: mockConfig });
+  } as any;
+  const enforcement = new WIPLimitEnforcement({ config: mockConfig });
   const board = createMockBoard();
 
   // Test blocked transition
