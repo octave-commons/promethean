@@ -93,8 +93,10 @@ export const updateStatus = async (input: UpdateStatusInput): Promise<UpdateStat
   const { task, column, index } = located;
   const previousStatus = task.status;
 
-  // Skip if status is already the same
-  if (previousStatus === newStatus) {
+  // Skip if status is already the same (compare canonical keys)
+  const prevKey = previousStatus ? columnKey(String(previousStatus)) : '';
+  const newKey = columnKey(String(newStatus));
+  if (prevKey === newKey) {
     return { success: true, task, previousStatus };
   }
 
@@ -111,9 +113,9 @@ export const updateStatus = async (input: UpdateStatusInput): Promise<UpdateStat
   targetColumn.tasks = [...targetColumn.tasks, updatedTask];
   targetColumn.count = targetColumn.tasks.length;
 
-  // Update task file if tasksDir provided
+  // Update task file if tasksDir provided (write normalized display name)
   if (tasksDir) {
-    await updateTaskFile(tasksDir, taskUuid, newStatus, options?.dryRun);
+    await updateTaskFile(tasksDir, taskUuid, targetColumn.name, options?.dryRun);
   }
 
   // Save board if boardPath provided
