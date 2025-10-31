@@ -58,10 +58,9 @@ kanban-plugin: board
     console.log(boardContent);
     console.log('BOARD CONTENT LENGTH:', boardContent.length);
 
-    // Try to move the second task up
-    console.log('\nAttempting to move task up...');
-    const moveResult = await executeCommand('move_up', [task2.uuid], context);
-    console.log('Move result:', moveResult);
+    // Stop here to examine the board state
+    console.log('\nStopping here - not attempting move');
+    return;
   } catch (error) {
     console.error('Test failed:', error);
     console.error('Stack trace:', error.stack);
