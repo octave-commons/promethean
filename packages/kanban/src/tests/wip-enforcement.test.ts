@@ -134,8 +134,18 @@ test('WIPLimitEnforcement - validates WIP limits correctly', async (t) => {
 });
 
 test('WIPLimitEnforcement - intercepts status transitions', async (t) => {
-  const config = await loadKanbanConfig();
-  const enforcement = await createWIPLimitEnforcement({ config: config.config });
+  // Create a mock config with WIP limits that match our test board
+  const mockConfig = {
+    boardFile: '',
+    tasksDir: '',
+    wipLimits: {
+      todo: 5,
+      in_progress: 3,
+      review: null,
+      done: null,
+    },
+  };
+  const enforcement = await createWIPLimitEnforcement({ config: mockConfig });
   const board = createMockBoard();
 
   // Test blocked transition
