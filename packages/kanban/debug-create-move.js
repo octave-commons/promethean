@@ -59,10 +59,9 @@ kanban-plugin: board
     console.log(boardContent);
     console.log('BOARD CONTENT LENGTH:', boardContent.length);
 
-    // Debug: Let's also check what's in the board object before writing
-    const boardForDebug = await loadBoard(boardPath);
-    console.log('\nBOARD OBJECT FOR DEBUG:');
-    console.log(JSON.stringify(boardForDebug, null, 2));
+    // Debug: Let's manually check what should be in the board
+    console.log('\nExpected: Board should contain tasks but file shows empty Todo column');
+    console.log('This suggests writeBoard is not receiving the correct board object');
 
     // Stop here to examine the board state
     console.log('\nStopping here - not attempting move');
