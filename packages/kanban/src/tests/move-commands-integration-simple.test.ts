@@ -131,13 +131,13 @@ test('move operations - tasks across different columns', async (t) => {
   // Create tasks in different columns
   await executeCommand('create', ['Todo Task 1', '--status=Todo'], context);
   const todo2 = (await executeCommand('create', ['Todo Task 2', '--status=Todo'], context)) as any;
-  await executeCommand('create', ['Progress Task 1', '--status=In Progress'], context);
+  await executeCommand('create', ['Progress Task 1', '--status=in_progress'], context);
   const progress2 = (await executeCommand(
     'create',
-    ['Progress Task 2', '--status=In Progress'],
+    ['Progress Task 2', '--status=in_progress'],
     context,
   )) as any;
-  const done1 = (await executeCommand('create', ['Done Task 1', '--status=Done'], context)) as any;
+  const done1 = (await executeCommand('create', ['Done Task 1', '--status=done'], context)) as any;
 
   // Regenerate board to reflect the actual task statuses
   await executeCommand('regenerate', [], context);
