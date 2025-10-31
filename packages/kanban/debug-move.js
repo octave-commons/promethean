@@ -47,6 +47,18 @@ kanban-plugin: board
     const boardContent = await readFile(boardPath, 'utf8');
     console.log('Board content after task creation:', boardContent || '(empty)');
 
+    // Try to read the board back using the compatibility layer
+    const { loadBoard } = await import('./dist/lib/kanban-compatibility.js');
+    try {
+      const boardAfterCreate = await loadBoard(boardPath);
+      console.log(
+        'Board columns after creation:',
+        boardAfterCreate.columns.map((col) => ({ name: col.name, taskCount: col.tasks.length })),
+      );
+    } catch (error) {
+      console.log('Board load failed after creation:', error.message);
+    }
+
     // Try to read the board using the board reader
     const { readBoard } = await import('./dist/lib/board-reader.js');
     const board = await readBoard(boardPath);
