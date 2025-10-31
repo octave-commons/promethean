@@ -67,7 +67,9 @@ const validateStartingStatus = (column: string): void => {
     'done',
     'in progress', // Support space-separated version
   ];
-  if (!validStartingStatuses.includes(column.toLowerCase().replace(' ', '_'))) {
+  // Normalize column for validation (convert spaces to underscores for comparison)
+  const normalizedColumn = column.toLowerCase().replace(' ', '_');
+  if (!validStartingStatuses.includes(normalizedColumn)) {
     throw new Error(
       `Invalid starting status: ${column}. Must be one of: ${validStartingStatuses.join(', ')}`,
     );
