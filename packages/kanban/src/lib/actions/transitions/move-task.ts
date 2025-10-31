@@ -1,6 +1,6 @@
-import { promises as fs } from 'fs';
 import type { Board, Task, ColumnData } from '../../types.js';
 import { debug } from '../../utils/logger.js';
+import { writeBoard } from '../../serializers/board.js';
 
 export type MoveTaskInput = {
   board: Board;
@@ -64,42 +64,39 @@ export const moveTask = async (input: MoveTaskInput): Promise<MoveTaskResult> =>
 
   // Skip if no movement needed
   if (newIndex === index) {
-    return { success: true, task, fromPosition, toPosition: fromPosition };
+    const normalizedTask =
+      task.status === column.name ? task : ({ ...task, status: column.name } as Task);
+    if (normalizedTask !== task) {
+      column.tasks = [
+        ...column.tasks.slice(0, index),
+        normalizedTask,
+        ...column.tasks.slice(index + 1),
+      ];
+      column.count = column.tasks.length;
+    }
+    return { success: true, task: normalizedTask, fromPosition, toPosition: fromPosition };
   }
 
   // Move task within column
   const newTasks = [...column.tasks];
   const [removedTask] = newTasks.splice(index, 1);
   const taskToInsert = removedTask ?? task;
-  newTasks.splice(newIndex, 0, taskToInsert);
+  const taskWithUpdatedStatus: Task = {
+    ...taskToInsert,
+    status: column.name,
+  };
+  newTasks.splice(newIndex, 0, taskWithUpdatedStatus);
   column.tasks = newTasks;
+  column.count = column.tasks.length;
 
   const toPosition = { column: column.name, index: newIndex };
 
   // Save board if boardPath provided
   if (boardPath && !options?.dryRun) {
-    const { formatMarkdown } = await import('../../serializers/index.js');
-    const boardContent = formatMarkdown({
-      columns: board.columns.map((col) => ({
-        name: col.name,
-        cards: col.tasks.map((task) => ({
-          id: task.uuid,
-          text: task.title || '',
-          done: task.status === 'done',
-          tags: task.labels || [],
-          links: [],
-          attrs: {
-            status: task.status,
-          },
-        })),
-      })),
-      frontmatter: {},
-      settings: null,
-    });
-    await fs.writeFile(boardPath, boardContent, 'utf8');
+    await writeBoard(boardPath, board);
   }
 
-  const finalTask = column.tasks[newIndex] ?? taskToInsert;
+  const finalTask = column.tasks[newIndex] ?? taskWithUpdatedStatus;
 
   return {
     success: true,
