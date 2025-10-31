@@ -37,6 +37,7 @@ test('A task is created from the provided template', async (t) => {
   await mkdir(tasksDir, { recursive: true });
   await writeFile(boardPath, '', 'utf8');
 
+  const baseContent = `${BLOCKED_BY_HEADING}\n\nNothing\n\n${BLOCKS_HEADING}\n\nNothing\n`;
   const template = [
     '## Body',
     '',
