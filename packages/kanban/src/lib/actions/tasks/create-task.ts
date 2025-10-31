@@ -36,7 +36,11 @@ import {
   mergeSectionItems,
 } from '../../serializers/markdown-serializer.js';
 import { uniqueStrings, wikiLinkForTask, ensureTaskContent } from '../../utils/task-content.js';
-import { writeBoard, maybeRefreshIndex, ensureColumn as ensureBoardColumn } from '../../serializers/board.js';
+import {
+  writeBoard,
+  maybeRefreshIndex,
+  ensureColumn as ensureBoardColumn,
+} from '../../serializers/board.js';
 import { toFrontmatter } from '../../serializers/task-frontmatter.js';
 
 interface TaskCreationConfig {
@@ -53,7 +57,15 @@ interface TaskCreationResult {
 }
 
 const validateStartingStatus = (column: string): void => {
-  const validStartingStatuses = ['icebox', 'incoming', 'ready', 'todo', 'in_progress', 'testing', 'done'];
+  const validStartingStatuses = [
+    'icebox',
+    'incoming',
+    'ready',
+    'todo',
+    'in_progress',
+    'testing',
+    'done',
+  ];
   if (!validStartingStatuses.includes(column.toLowerCase())) {
     throw new Error(
       `Invalid starting status: ${column}. Must be one of: ${validStartingStatuses.join(', ')}`,
@@ -195,11 +207,9 @@ export const createTaskAction = async (config: TaskCreationConfig): Promise<Task
     const entry = boardIndex.get(id);
     if (entry) {
       const fallback = existingById.get(id);
-      const updatedContent = mergeSectionItems(
-        ensureTaskContent(entry.task, fallback),
-        heading,
-        [newTaskLink],
-      );
+      const updatedContent = mergeSectionItems(ensureTaskContent(entry.task, fallback), heading, [
+        newTaskLink,
+      ]);
       const nextTask: Task = {
         ...entry.task,
         content: updatedContent,
@@ -220,11 +230,9 @@ export const createTaskAction = async (config: TaskCreationConfig): Promise<Task
 
     const existing = existingById.get(id);
     if (!existing?.sourcePath) return;
-    const updatedContent = mergeSectionItems(
-      ensureTaskContent(existing, existing),
-      heading,
-      [newTaskLink],
-    );
+    const updatedContent = mergeSectionItems(ensureTaskContent(existing, existing), heading, [
+      newTaskLink,
+    ]);
     const nextTask: Task = {
       ...existing,
       content: updatedContent,
@@ -245,15 +253,14 @@ export const createTaskAction = async (config: TaskCreationConfig): Promise<Task
     await updateLinkedTask(id, BLOCKS_HEADING);
   }
 
-  targetColumn.tasks = [...targetColumn.tasks, enrichedTask];
-  targetColumn.count = targetColumn.tasks.length;
-
   await fs.mkdir(tasksDir, { recursive: true }).catch(() => {});
   const taskFilePath = path.join(tasksDir, `${enrichedTask.slug ?? enrichedTask.uuid}.md`);
   await fs.writeFile(taskFilePath, toFrontmatter(enrichedTask), 'utf8');
 
   const persistedTask: Task = { ...enrichedTask, sourcePath: taskFilePath };
-  targetColumn.tasks[targetColumn.tasks.length - 1] = persistedTask;
+
+  targetColumn.tasks = [...targetColumn.tasks, persistedTask];
+  targetColumn.count = targetColumn.tasks.length;
 
   await writeBoard(boardPath, board);
   await maybeRefreshIndex(tasksDir);
