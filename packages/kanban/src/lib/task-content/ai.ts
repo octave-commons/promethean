@@ -302,6 +302,7 @@ export class TaskAIManager {
     }
   }
 
+  // TODO: mock implementation - replace with real LLM calls using pantheon
   private generateTaskAnalysis(
     task: Task,
     analysisType: string,
