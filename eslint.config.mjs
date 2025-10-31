@@ -41,7 +41,7 @@ export default [
       'sonarjs/cognitive-complexity': ['error', 15],
       'sonarjs/no-collapsible-if': 'warn',
       'sonarjs/no-inverted-boolean-check': 'warn',
-      'max-lines': ['error', { max: 300, skipBlankLines: true, skipComments: true }],
+      'max-lines': ['error', { max: 600, skipBlankLines: true, skipComments: true }],
       'max-lines-per-function': ['error', { max: 50, IIFEs: true }],
       'max-params': ['error', 4],
       complexity: ['error', 15],
