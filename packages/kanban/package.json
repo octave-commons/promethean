@@ -56,7 +56,7 @@
     "dev:cljs": "shadow-cljs watch kanban-frontend",
     "prepack": "pnpm run build && pnpm run build:cljs",
     "test": "pnpm run build:test && ava",
-    "build:test": "pnpm clean && tsc -p tsconfig.json && cp -r src/clojure",
+    "build:test": "pnpm clean && tsc -p tsconfig.json && cp -r src/clojure dist/",
     "lint": "eslint . --ext .ts,.tsx",
     "typecheck": "tsc --noEmit"
   },
