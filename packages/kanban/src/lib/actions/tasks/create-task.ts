@@ -232,6 +232,15 @@ export const createTaskAction = async (config: TaskCreationConfig): Promise<Task
         index: entry.index,
         task: nextTask,
       });
+
+      // Write the updated task to file
+      if (nextTask.sourcePath) {
+        await fs.writeFile(
+          nextTask.sourcePath,
+          toFrontmatter({ ...nextTask, status: nextTask.status ?? 'Todo' }),
+          'utf8',
+        );
+      }
       return;
     }
 
