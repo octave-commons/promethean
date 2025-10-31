@@ -18,19 +18,19 @@ const getPriorityNumeric = (priority: string | number | undefined): number => {
 };
 
 // Helper to create mock tasks
-const createMockTask = (
-  uuid: string,
-  title: string,
-  status: string,
-  priority: string,
-  labels: string[],
-) => ({
-  uuid,
-  title,
-  status,
-  priority,
-  labels,
-  created_at: `2024-01-0${uuid.split('-')[1]}T00:00:00Z`,
+const createMockTask = (params: {
+  readonly uuid: string;
+  readonly title: string;
+  readonly status: string;
+  readonly priority: string;
+  readonly labels: string[];
+}) => ({
+  uuid: params.uuid,
+  title: params.title,
+  status: params.status,
+  priority: params.priority,
+  labels: params.labels,
+  created_at: `2024-01-0${params.uuid.split('-')[1]}T00:00:00Z`,
 });
 
 // Mock board data for testing
@@ -41,9 +41,27 @@ const createMockBoard = (overrides?: Partial<Board>): Board => ({
       count: 3,
       limit: 5,
       tasks: [
-        createMockTask('task-1', 'Task 1', 'todo', 'P1', ['feature']),
-        createMockTask('task-2', 'Task 2', 'todo', 'P2', ['bug']),
-        createMockTask('task-3', 'Task 3', 'todo', 'P3', ['enhancement']),
+        createMockTask({
+          uuid: 'task-1',
+          title: 'Task 1',
+          status: 'todo',
+          priority: 'P1',
+          labels: ['feature'],
+        }),
+        createMockTask({
+          uuid: 'task-2',
+          title: 'Task 2',
+          status: 'todo',
+          priority: 'P2',
+          labels: ['bug'],
+        }),
+        createMockTask({
+          uuid: 'task-3',
+          title: 'Task 3',
+          status: 'todo',
+          priority: 'P3',
+          labels: ['enhancement'],
+        }),
       ],
     },
     {
@@ -51,10 +69,34 @@ const createMockBoard = (overrides?: Partial<Board>): Board => ({
       count: 4,
       limit: 3,
       tasks: [
-        createMockTask('task-4', 'Task 4', 'in_progress', 'P1', ['feature']),
-        createMockTask('task-5', 'Task 5', 'in_progress', 'P2', ['bug']),
-        createMockTask('task-6', 'Task 6', 'in_progress', 'P3', ['enhancement']),
-        createMockTask('task-7', 'Task 7', 'in_progress', 'P1', ['feature']),
+        createMockTask({
+          uuid: 'task-4',
+          title: 'Task 4',
+          status: 'in_progress',
+          priority: 'P1',
+          labels: ['feature'],
+        }),
+        createMockTask({
+          uuid: 'task-5',
+          title: 'Task 5',
+          status: 'in_progress',
+          priority: 'P2',
+          labels: ['bug'],
+        }),
+        createMockTask({
+          uuid: 'task-6',
+          title: 'Task 6',
+          status: 'in_progress',
+          priority: 'P3',
+          labels: ['enhancement'],
+        }),
+        createMockTask({
+          uuid: 'task-7',
+          title: 'Task 7',
+          status: 'in_progress',
+          priority: 'P1',
+          labels: ['feature'],
+        }),
       ],
     },
     {
@@ -62,8 +104,20 @@ const createMockBoard = (overrides?: Partial<Board>): Board => ({
       count: 2,
       limit: null,
       tasks: [
-        createMockTask('task-8', 'Task 8', 'done', 'P1', ['feature']),
-        createMockTask('task-9', 'Task 9', 'done', 'P2', ['bug']),
+        createMockTask({
+          uuid: 'task-8',
+          title: 'Task 8',
+          status: 'done',
+          priority: 'P1',
+          labels: ['feature'],
+        }),
+        createMockTask({
+          uuid: 'task-9',
+          title: 'Task 9',
+          status: 'done',
+          priority: 'P2',
+          labels: ['bug'],
+        }),
       ],
     },
   ],
