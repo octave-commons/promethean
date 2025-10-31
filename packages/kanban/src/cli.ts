@@ -98,7 +98,7 @@ function setupHooks(program: Command): void {
     if (options.logLevel) {
       const validLevels: readonly string[] = ['silent', 'error', 'warn', 'info', 'debug'];
       if (validLevels.includes(options.logLevel)) {
-        setLogLevel(options.logLevel as 'silent' | 'error' | 'warn' | 'info' | 'debug');
+        setLogLevel(options.logLevel);
       } else {
         console.error(
           `Invalid log level: ${options.logLevel}. Valid levels are: ${validLevels.join(', ')}`,
