@@ -88,7 +88,9 @@ export const moveTask = async (input: MoveTaskInput): Promise<MoveTaskResult> =>
           done: task.status === 'done',
           tags: task.labels || [],
           links: [],
-          attrs: {},
+          attrs: {
+            status: task.status,
+          },
         })),
       })),
       frontmatter: {},
