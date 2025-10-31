@@ -99,7 +99,10 @@ test('Clojure DSL validation works with functional API', async (t) => {
 (defn evaluate-transition [from to task board]
   ;; Always block transitions for testing
   false)
-`;
+
+;; Export functions for JavaScript usage
+#js {:evaluate-transition evaluate-transition}
+  `;
   await writeFile(dslPath, dslContent, 'utf-8');
 
   const config: TransitionRulesConfig = {
