@@ -145,11 +145,9 @@ test('move operations - tasks across different columns', async (t) => {
   // Debug: Check what task we're trying to move
   console.log('Progress task created:', progress2.uuid, progress2.status, progress2.title);
 
-  // Check board state directly
-  const { loadBoard } = await import('../../lib/kanban.js');
-  const boardBeforeMove = await loadBoard(context.boardFile, context.tasksDir);
-  const progressColumn = boardBeforeMove.columns.find((col: any) => col.name === 'In Progress');
-  console.log('Board before move - In Progress column:', progressColumn?.tasks?.map((t: any) => ({ uuid: t.uuid, title: t.title, status: t.status })));
+  // Check board state using list command
+  const boardState = await executeCommand('list', [], context);
+  console.log('Board columns:', boardState);
 
   // Move tasks within each column
   const todoResult = (await executeCommand('move_up', [todo2.uuid], context)) as any;
