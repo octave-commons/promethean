@@ -66,7 +66,11 @@ kanban-plugin: board
     // Now test moving a task
     console.log('\nTesting move operation...');
     try {
-      const moveResult = await executeCommand('move', [task2.uuid, 'In Progress'], context);
+      const moveResult = await executeCommand(
+        'update-status',
+        [task2.uuid, 'In Progress'],
+        context,
+      );
       console.log('Move result:', moveResult);
 
       // Regenerate board again to see the updated state
