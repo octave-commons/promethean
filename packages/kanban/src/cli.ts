@@ -91,8 +91,8 @@ function setupBaseProgram(): Command {
 
 function setupHooks(program: Command): void {
   // Pre-action hook: initialize config and logging
-  program.hook('preAction', async (thisCommand) => {
-    const options = thisCommand.opts() as ProgramOptions;
+  program.hook('preAction', async (thisCommand: Command) => {
+    const options = thisCommand.opts();
 
     // Set log level with validation
     if (options.logLevel) {
@@ -204,7 +204,7 @@ function registerStandardCommands(program: Command): void {
     const cmd = program.command(commandName).allowUnknownOption(true);
 
     cmd.action(async (...args) => {
-      const options = program.opts() as ProgramOptions;
+      const options = program.opts();
       const context = await createContext(options);
 
       try {
@@ -213,7 +213,7 @@ function registerStandardCommands(program: Command): void {
           if (options.json) {
             printJSONL(result);
           } else {
-            printMarkdown(result, detectOutputType(commandName), { query: args[0] });
+            printMarkdown(result, detectOutputType(commandName), { query: args[0] as string });
           }
         }
       } catch (error: unknown) {
