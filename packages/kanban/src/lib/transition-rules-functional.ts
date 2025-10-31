@@ -619,14 +619,14 @@ export const evaluateCustomRule = async (
     };
 
     // Debug: Log what we're actually validating
-    console.log('Debug - taskFM being validated:', JSON.stringify(taskFM, null, 2));
-    console.log('Debug - board being validated:', JSON.stringify(board, null, 2));
+    debug('taskFM being validated:', JSON.stringify(taskFM, null, 2));
+    debug('board being validated:', JSON.stringify(board, null, 2));
 
     // Use safe evaluation with Zod validation
     const result = await safeEvaluateTransition(taskFM, board, ruleImpl, state.config.dslPath!);
 
     if (!result.success) {
-      console.log('Debug - validation result:', JSON.stringify(result, null, 2));
+      debug('validation result:', JSON.stringify(result, null, 2));
       if (result.validationErrors && result.validationErrors.length > 0) {
         throw new Error(`Validation failed: ${result.validationErrors.join(', ')}`);
       }
