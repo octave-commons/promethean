@@ -170,6 +170,11 @@ export const moveTask = async (
     boardPath,
   });
 
+  // Handle case where task is not found
+  if (!result.success && !result.task) {
+    throw new Error(`Task with UUID ${taskUuid} not found`);
+  }
+
   const task = ensureTask(result.task as LegacyTask | undefined, 'moveTask');
 
   // Return legacy format
