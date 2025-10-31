@@ -50,7 +50,7 @@ const findTaskInBoard = (
 export const moveTask = async (input: MoveTaskInput): Promise<MoveTaskResult> => {
   const { board, taskUuid, direction, boardPath, options } = input;
 
-  const located = findTaskInBoard(freshBoard, taskUuid);
+  const located = findTaskInBoard(board, taskUuid);
   if (!located) {
     return { success: false };
   }
