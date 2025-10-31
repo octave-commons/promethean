@@ -50,6 +50,7 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { readdir } from 'node:fs/promises';
+import { readTaskFile } from '../lib/task-content/parser.js';
 
 // Get the equivalent of __dirname in ES modules
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -322,6 +323,50 @@ const handleUpdateStatus: CommandHandler = (args, context) =>
     return updated;
   });
 
+const hydrateTaskTitlesFromFiles = async (
+  board: LoadedBoard,
+  tasksDir: string | undefined,
+): Promise<void> => {
+  if (!tasksDir) {
+    return;
+  }
+
+  const enrichments: Array<Promise<void>> = [];
+
+  for (const column of board.columns) {
+    for (const task of column.tasks) {
+      if (typeof task.title === 'string' && task.title.trim().length > 0) {
+        continue;
+      }
+
+      enrichments.push(
+        (async () => {
+          const filePath = await findTaskFilePath(tasksDir, task.uuid);
+          if (!filePath) {
+            return;
+          }
+          try {
+            const parsed = await readTaskFile(filePath);
+            const titleCandidate = parsed.frontmatter?.title;
+            if (typeof titleCandidate === 'string' && titleCandidate.trim().length > 0) {
+              task.title = titleCandidate.trim();
+            }
+          } catch (error) {
+            warn(
+              `Unable to hydrate task title for ${task.uuid}:`,
+              error instanceof Error ? error.message : String(error),
+            );
+          }
+        })(),
+      );
+    }
+  }
+
+  if (enrichments.length > 0) {
+    await Promise.all(enrichments);
+  }
+};
+
 const handleMove =
   (offset: number): CommandHandler =>
   async (args, context) => {
@@ -336,6 +381,9 @@ const handleMove =
 
           // Transform result to match expected test format
           if (result.success && result.task) {
+            await hydrateTaskTitlesFromFiles(mutableBoard, context.tasksDir);
+            await writeBoard(context.boardFile, mutableBoard);
+
             const columnSource =
               result.toPosition?.column ?? result.task.status ?? result.fromPosition?.column ?? '';
             const column = formatColumnNameForDisplay(columnSource);
