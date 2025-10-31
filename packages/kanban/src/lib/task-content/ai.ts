@@ -7,7 +7,7 @@ import { promises as fs } from 'node:fs';
 import path from 'node:path';
 
 import type { Task } from '../types.js';
-import { warn, error } from '../utils/logger.js';
+import { warn, error, info } from '../utils/logger.js';
 
 import type {
   TaskAnalysisRequest,
@@ -75,7 +75,7 @@ export class TaskAIManager {
 
       return backupPath;
     } catch (error) {
-      console.error('Task backup failed:', error);
+      error('Task backup failed:', error);
       throw new Error(
         `Backup failed for task ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
       );
@@ -106,10 +106,10 @@ export class TaskAIManager {
       const auditLine = JSON.stringify(auditEntry) + '\n';
       await fs.appendFile(auditFile, auditLine, 'utf8');
 
-      console.log('🔍 Audit Event logged:', auditEntry);
+      info('Audit Event logged:', auditEntry);
     } catch (error) {
-      console.warn('Failed to write audit log:', error);
-      console.log('🔍 Audit Event (fallback):', JSON.stringify(auditEntry, null, 2));
+      warn('Failed to write audit log:', error);
+      info('Audit Event (fallback):', JSON.stringify(auditEntry, null, 2));
     }
   }
 
