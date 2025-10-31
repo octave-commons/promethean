@@ -3,6 +3,7 @@
 import path from 'node:path';
 import { writeFile, mkdir, readFile } from 'node:fs/promises';
 import { executeCommand } from './dist/cli/command-handlers.js';
+import { loadBoard } from './dist/index.js';
 
 async function testCreateThenMove() {
   const tempDir = '/tmp/kanban-create-move-test';
