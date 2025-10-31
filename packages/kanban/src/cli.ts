@@ -92,7 +92,7 @@ function setupBaseProgram(): Command {
 function setupHooks(program: Command): void {
   // Pre-action hook: initialize config and logging
   program.hook('preAction', async (thisCommand) => {
-    const options = thisCommand.opts();
+    const options = thisCommand.opts() as ProgramOptions;
 
     // Set log level with validation
     if (options.logLevel) {
@@ -120,10 +120,10 @@ function registerInitCommand(program: Command): void {
     .description('Initialize kanban board and tasks directory')
     .allowUnknownOption(true)
     .action(async (...args) => {
-      const options = program.opts();
+      const options = program.opts() as ProgramOptions;
       const context: CliContext = {
-        boardFile: (options.kanban as string) || '',
-        tasksDir: (options.tasks as string) || '',
+        boardFile: options.kanban || '',
+        tasksDir: options.tasks || '',
         argv: process.argv.slice(2),
       };
 
@@ -164,7 +164,7 @@ function registerProcessCommands(program: Command): void {
     .command('doccheck')
     .description('Check documentation for PR')
     .argument('[pr]', 'PR number')
-    .action(async (pr) => {
+    .action(async (pr: string | undefined) => {
       await docguard({
         pr: pr || process.env.PR_NUMBER,
         owner: process.env.GITHUB_OWNER,
