@@ -67,7 +67,7 @@ const detectOutputType = (
   }
 };
 
-function createProgram(): Command {
+function setupBaseProgram(): Command {
   const program = new Command();
 
   program
@@ -86,6 +86,10 @@ function createProgram(): Command {
       'info',
     );
 
+  return program;
+}
+
+function setupHooks(program: Command): void {
   // Pre-action hook: initialize config and logging
   program.hook('preAction', async (thisCommand) => {
     const options = thisCommand.opts();
@@ -108,8 +112,9 @@ function createProgram(): Command {
   program.hook('postAction', async () => {
     // Cleanup can be added here if needed
   });
+}
 
-  // Special commands that don't use the standard handler pattern
+function registerSpecialCommands(program: Command): void {
   program
     .command('init')
     .description('Initialize kanban board and tasks directory')
@@ -165,24 +170,28 @@ function createProgram(): Command {
         token: process.env.GITHUB_TOKEN,
       });
     });
+}
 
-  // Register all standard commands from COMMAND_HANDLERS
+async function createContext(options: any): Promise<CliContext> {
+  // Load config for non-init commands
+  const { config } = await loadKanbanConfig({
+    argv: process.argv.slice(2),
+    env: applyLegacyEnv(process.env),
+  });
+
+  const boardFile = options.kanban || config.boardFile;
+  const tasksDir = options.tasks || config.tasksDir;
+
+  return { boardFile, tasksDir, argv: process.argv.slice(2) };
+}
+
+function registerStandardCommands(program: Command): void {
   for (const [commandName] of Object.entries(COMMAND_HANDLERS)) {
     const cmd = program.command(commandName).allowUnknownOption(true);
 
     cmd.action(async (...args) => {
       const options = program.opts();
-
-      // Load config for non-init commands
-      const { config } = await loadKanbanConfig({
-        argv: process.argv.slice(2),
-        env: applyLegacyEnv(process.env),
-      });
-
-      const boardFile = options.kanban || config.boardFile;
-      const tasksDir = options.tasks || config.tasksDir;
-
-      const context: CliContext = { boardFile, tasksDir, argv: process.argv.slice(2) };
+      const context = await createContext(options);
 
       try {
         const result = await executeCommand(commandName, args, context);
@@ -202,7 +211,13 @@ function createProgram(): Command {
       }
     });
   }
+}
 
+function createProgram(): Command {
+  const program = setupBaseProgram();
+  setupHooks(program);
+  registerSpecialCommands(program);
+  registerStandardCommands(program);
   return program;
 }
 
