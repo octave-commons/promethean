@@ -120,10 +120,10 @@ function registerInitCommand(program: Command): void {
     .description('Initialize kanban board and tasks directory')
     .allowUnknownOption(true)
     .action(async (...args) => {
-      const options = program.opts() as ProgramOptions;
+      const options = program.opts();
       const context: CliContext = {
-        boardFile: options.kanban || '',
-        tasksDir: options.tasks || '',
+        boardFile: (options.kanban as string) || '',
+        tasksDir: (options.tasks as string) || '',
         argv: process.argv.slice(2),
       };
 
@@ -133,7 +133,7 @@ function registerInitCommand(program: Command): void {
           if (options.json) {
             printJSONL(result);
           } else {
-            printMarkdown(result, detectOutputType('init'), { query: args[0] || '' });
+            printMarkdown(result, detectOutputType('init'), { query: (args[0] as string) || '' });
           }
         }
       } catch (error: unknown) {
