@@ -1,6 +1,10 @@
 import test from 'ava';
 import path from 'node:path';
 import { writeFile, mkdir, readFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 import { executeCommand, type CliContext } from '../cli/command-handlers.js';
 import { withTempDir } from '../test-utils/helpers.js';
