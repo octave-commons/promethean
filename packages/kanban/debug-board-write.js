@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import path from 'node:path';
-import { writeFile, mkdir } from 'node:fs/promises';
+import { writeFile, mkdir, readFile } from 'node:fs/promises';
 import { writeBoard } from './dist/lib/serializers/board.js';
 
 async function testBoardWrite() {
