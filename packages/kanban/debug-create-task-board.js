@@ -3,7 +3,7 @@
 import path from 'node:path';
 import { writeFile, mkdir, readFile } from 'node:fs/promises';
 import { createTaskAction } from './src/lib/actions/tasks/create-task.ts';
-import { loadBoardFunctional } from './src/lib/actions/boards/load-board.ts';
+import { loadBoard } from './src/lib/actions/boards/load-board.ts';
 
 async function testCreateTaskWithBoard() {
   const tempDir = '/tmp/kanban-create-test';
@@ -36,7 +36,8 @@ kanban-plugin: board
 
   try {
     // Load the board
-    const boardResult = await loadBoardFunctional({ boardPath });
+    const boardMarkdown = await readFile(boardPath, 'utf8');
+    const boardResult = loadBoard({ markdown: boardMarkdown });
     const board = boardResult.board;
 
     console.log('Board loaded successfully');
@@ -67,7 +68,8 @@ kanban-plugin: board
     console.log(updatedBoardContent);
 
     // Load board again to verify
-    const reloadedResult = await loadBoardFunctional({ boardPath });
+    const reloadedMarkdown = await readFile(boardPath, 'utf8');
+    const reloadedResult = loadBoard({ markdown: reloadedMarkdown });
     console.log(
       '\nReloaded board columns:',
       reloadedResult.board.columns.map((c) => ({ name: c.name, taskCount: c.tasks.length })),
