@@ -156,16 +156,14 @@ test('TransitionRulesEngine debugging and overview helpers', async (t) => {
   const tmp = await withTempDir(t);
   const dslPath = path.join(tmp, 'debug-rules.cljs');
   const dslContent = `
-(ns kanban-transitions)
-
 (defn evaluate-transition [from to task board]
   ;; Allow valid transitions, block invalid ones
   (or (and (= from "Todo") (= to "In Progress"))
       (and (= from "In Progress") (= to "Review"))
       (and (= from "Review") (= to "Done"))))
 
-;; Export for interop
-#js {:evaluate-transition evaluate-transition}
+;; Create namespace alias to match evaluation call
+(intern 'kanban-transitions 'evaluate-transition evaluate-transition)
 `;
   await writeFile(dslPath, dslContent, 'utf8');
 
