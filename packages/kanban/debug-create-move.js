@@ -51,21 +51,36 @@ kanban-plugin: board
 
     console.log('Created task 2 with UUID:', task2.uuid);
 
+    // Regenerate board from task files
+    console.log('\nRegenerating board from task files...');
+    await executeCommand('regenerate', [], context);
+
     // Read board content to see what was written
     const boardContent = await readFile(boardPath, 'utf8');
-    console.log('\nBoard content after task creation:');
+    console.log('\nBoard content after regeneration:');
     console.log('BOARD PATH:', boardPath);
     console.log('BOARD CONTENT:');
     console.log(boardContent);
     console.log('BOARD CONTENT LENGTH:', boardContent.length);
 
-    // Debug: Let's manually check what should be in the board
-    console.log('\nExpected: Board should contain tasks but file shows empty Todo column');
-    console.log('This suggests writeBoard is not receiving the correct board object');
-
-    // Stop here to examine the board state
-    console.log('\nStopping here - not attempting move');
-    return;
+    // Now test moving a task
+    console.log('\nTesting move operation...');
+    try {
+      const moveResult = await executeCommand('move', [task2.uuid, 'In Progress'], context);
+      console.log('Move result:', moveResult);
+      
+      // Regenerate board again to see the updated state
+      console.log('\nRegenerating board after move...');
+      await executeCommand('regenerate', [], context);
+      
+      const finalBoardContent = await readFile(boardPath, 'utf8');
+      console.log('\nFinal board content after move:');
+      console.log(finalBoardContent);
+      
+    } catch (moveError) {
+      console.error('Move failed:', moveError.message);
+      console.error('Stack trace:', moveError.stack);
+    }
   } catch (error) {
     console.error('Test failed:', error);
     console.error('Stack trace:', error.stack);
