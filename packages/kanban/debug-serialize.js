@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
-import { serializeMarkdownBoard } from './dist/lib/serializers/board.js';
+import { writeBoard } from './dist/lib/serializers/board.js';
+import { writeFile, mkdir, readFile } from 'node:fs/promises';
+import path from 'node:path';
 
 // Test board with tasks
 const testBoard = {
@@ -35,10 +37,23 @@ const testBoard = {
   ],
 };
 
-console.log('Testing serializeMarkdownBoard with test board...');
+console.log('Testing writeBoard with test board...');
 console.log('Input board:', JSON.stringify(testBoard, null, 2));
 
-const result = serializeMarkdownBoard(testBoard);
-console.log('\nSerialized output:');
-console.log(result);
-console.log('\nOutput length:', result.length);
+const testDir = '/tmp/kanban-serialize-test';
+const testBoardPath = path.join(testDir, 'test-board.md');
+
+await mkdir(testDir, { recursive: true });
+
+try {
+  await writeBoard(testBoardPath, testBoard);
+  console.log('\nBoard file written successfully to:', testBoardPath);
+
+  // Read back and display
+  const content = await readFile(testBoardPath, 'utf8');
+  console.log('\nBoard content:');
+  console.log(content);
+  console.log('\nContent length:', content.length);
+} catch (error) {
+  console.error('Error:', error);
+}
