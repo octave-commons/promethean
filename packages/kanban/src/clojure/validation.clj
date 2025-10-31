@@ -1,4 +1,4 @@
-(ns promethean.kanban.validation
+(ns validation
   (:require [clojure.spec.alpha :as s]))
 
 ;; Task validation specs
@@ -10,7 +10,7 @@
 (s/def :task/estimates (s/keys :req-un [:estimates/complexity]))
 (s/def :estimates/complexity number?)
 (s/def :task/labels (s/coll-of string? :kind vector?))
-(s/def :task/map (s/keys :req-un [:task/uuid :task/title :task/priority :task/status :task/estimates :task/labels] 
+(s/def :task/map (s/keys :req-un [:task/uuid :task/title :task/priority :task/status :task/estimates :task/labels]
                               :opt-un [:task/content :task/id :task/owner :task/created]))
 
 ;; Board validation specs
@@ -27,8 +27,8 @@
         problems (when-not valid? (s/explain-data :task/map task))
         errors (when problems ["Task validation failed"])
         debug-info (when problems (pr-str problems))]
-    {:isValid (boolean valid?) 
-     :errors (or errors ["No specific errors"]) 
+    {:isValid (boolean valid?)
+     :errors (or errors ["No specific errors"])
      :debugInfo debug-info}))
 
 (defn validate-board [board-js]
@@ -37,8 +37,8 @@
         problems (when-not valid? (s/explain-data :board/map board))
         errors (when problems ["Board validation failed"])
         debug-info (when problems (pr-str problems))]
-    {:isValid (boolean valid?) 
-     :errors (or errors ["No specific errors"]) 
+    {:isValid (boolean valid?)
+     :errors (or errors ["No specific errors"])
      :debugInfo debug-info}))
 
 (defn evaluate-transition-rule [task-js board-js rule-fn]
