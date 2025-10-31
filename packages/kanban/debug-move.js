@@ -36,15 +36,6 @@ kanban-plugin: board
     argv: [],
   };
 
-  // Check initial board state
-  const { loadBoard } = await import('./dist/lib/kanban.js');
-  try {
-    const initialBoard = await loadBoard({ boardPath: boardPath });
-    console.log('Initial board structure:', JSON.stringify(initialBoard.board, null, 2));
-  } catch (error) {
-    console.log('Initial board read failed:', error.message);
-  }
-
   console.log('Creating task...');
   const task = await executeCommand('create', ['Debug task', '--status=Todo'], context);
   console.log('Created task:', task);
