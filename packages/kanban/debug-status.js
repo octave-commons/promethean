@@ -23,7 +23,7 @@ console.log('Markdown line:', markdownLine);
 
 // Parse it back
 const parseResult = parseMarkdown({
-  content: markdownLine,
+  content: `## Test Column\n${markdownLine}\n`,
   filePath: 'test.md',
 });
 
