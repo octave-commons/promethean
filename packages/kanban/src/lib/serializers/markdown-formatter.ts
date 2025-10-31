@@ -63,7 +63,7 @@ export const formatMarkdown = (input: FormatMarkdownInput): string => {
   const { columns, frontmatter, settings } = input;
 
   // Format frontmatter
-  let frontmatterStr = '';
+  const frontmatterStr = '';
   if (Object.keys(frontmatter).length > 0) {
     frontmatterStr = '---\n';
     for (const [key, value] of Object.entries(frontmatter)) {
