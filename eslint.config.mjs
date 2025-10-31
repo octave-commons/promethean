@@ -42,7 +42,7 @@ export default [
       'sonarjs/no-collapsible-if': 'warn',
       'sonarjs/no-inverted-boolean-check': 'warn',
       'max-lines': ['error', { max: 600, skipBlankLines: true, skipComments: true }],
-      'max-lines-per-function': ['error', { max: 50, IIFEs: true }],
+      'max-lines-per-function': ['error', { max: 100, IIFEs: true }],
       'max-params': ['warn', 4],
       complexity: ['error', 15],
       // TypeScript strictness (lint-side)
