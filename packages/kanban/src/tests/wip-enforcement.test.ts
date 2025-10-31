@@ -17,6 +17,22 @@ const getPriorityNumeric = (priority: string | number | undefined): number => {
   return 3; // Default to low priority
 };
 
+// Helper to create mock tasks
+const createMockTask = (
+  uuid: string,
+  title: string,
+  status: string,
+  priority: string,
+  labels: string[],
+) => ({
+  uuid,
+  title,
+  status,
+  priority,
+  labels,
+  created_at: `2024-01-0${uuid.split('-')[1]}T00:00:00Z`,
+});
+
 // Mock board data for testing
 const createMockBoard = (overrides?: Partial<Board>): Board => ({
   columns: [
@@ -25,30 +41,9 @@ const createMockBoard = (overrides?: Partial<Board>): Board => ({
       count: 3,
       limit: 5,
       tasks: [
-        {
-          uuid: 'task-1',
-          title: 'Task 1',
-          status: 'todo',
-          priority: 'P1',
-          labels: ['feature'],
-          created_at: '2024-01-01T00:00:00Z',
-        },
-        {
-          uuid: 'task-2',
-          title: 'Task 2',
-          status: 'todo',
-          priority: 'P2',
-          labels: ['bug'],
-          created_at: '2024-01-02T00:00:00Z',
-        },
-        {
-          uuid: 'task-3',
-          title: 'Task 3',
-          status: 'todo',
-          priority: 'P3',
-          labels: ['enhancement'],
-          created_at: '2024-01-03T00:00:00Z',
-        },
+        createMockTask('task-1', 'Task 1', 'todo', 'P1', ['feature']),
+        createMockTask('task-2', 'Task 2', 'todo', 'P2', ['bug']),
+        createMockTask('task-3', 'Task 3', 'todo', 'P3', ['enhancement']),
       ],
     },
     {
@@ -56,52 +51,20 @@ const createMockBoard = (overrides?: Partial<Board>): Board => ({
       count: 4,
       limit: 3,
       tasks: [
-        {
-          uuid: 'task-4',
-          title: 'Task 4',
-          status: 'in_progress',
-          priority: 'P0',
-          labels: ['critical'],
-          created_at: '2024-01-04T00:00:00Z',
-        },
-        {
-          uuid: 'task-5',
-          title: 'Task 5',
-          status: 'in_progress',
-          priority: 'P1',
-          labels: ['feature'],
-          created_at: '2024-01-05T00:00:00Z',
-        },
-        {
-          uuid: 'task-6',
-          title: 'Task 6',
-          status: 'in_progress',
-          priority: 'P2',
-          labels: ['bug'],
-          created_at: '2024-01-06T00:00:00Z',
-        },
-        {
-          uuid: 'task-7',
-          title: 'Task 7',
-          status: 'in_progress',
-          priority: 'P3',
-          labels: ['enhancement'],
-          created_at: '2024-01-07T00:00:00Z',
-        },
+        createMockTask('task-4', 'Task 4', 'in_progress', 'P1', ['feature']),
+        createMockTask('task-5', 'Task 5', 'in_progress', 'P2', ['bug']),
+        createMockTask('task-6', 'Task 6', 'in_progress', 'P3', ['enhancement']),
+        createMockTask('task-7', 'Task 7', 'in_progress', 'P1', ['feature']),
       ],
     },
     {
       name: 'done',
-      count: 10,
-      limit: null, // No limit
-      tasks: Array.from({ length: 10 }, (_, i) => ({
-        uuid: `done-task-${i}`,
-        title: `Done Task ${i}`,
-        status: 'done',
-        priority: 'P2',
-        labels: ['completed'],
-        created_at: '2024-01-08T00:00:00Z',
-      })),
+      count: 2,
+      limit: null,
+      tasks: [
+        createMockTask('task-8', 'Task 8', 'done', 'P1', ['feature']),
+        createMockTask('task-9', 'Task 9', 'done', 'P2', ['bug']),
+      ],
     },
   ],
   ...overrides,
@@ -136,13 +99,18 @@ test('WIPLimitEnforcement - validates WIP limits correctly', async (t) => {
 test('WIPLimitEnforcement - intercepts status transitions', async (t) => {
   // Create a mock config with WIP limits that match our test board
   const mockConfig = {
-    boardFile: '',
-    tasksDir: '',
+    repo: '/test',
+    tasksDir: '/test/tasks',
+    indexFile: '/test/index.md',
+    boardFile: '/test/board.md',
+    cachePath: '/test/cache',
+    exts: new Set(['.md']),
+    requiredFields: ['title'],
+    statusValues: new Set(['todo', 'in_progress', 'review', 'done']),
+    priorityValues: new Set(['P1', 'P2', 'P3']),
     wipLimits: {
       todo: 5,
       in_progress: 3,
-      review: null,
-      done: null,
     },
   };
   const enforcement = await createWIPLimitEnforcement({ config: mockConfig });
@@ -343,7 +311,7 @@ test('WIPLimitEnforcement - priority-based task selection', async (t) => {
   if (moveSuggestion && moveSuggestion.tasks) {
     // Tasks should be sorted by priority (lowest priority first for moving)
     const tasks = moveSuggestion.tasks;
-    for (let i = 1; i < tasks.length; i++) {
+    for (const i of tasks.keys()) {
       const prevTask = tasks[i - 1];
       const currTask = tasks[i];
       if (prevTask && currTask) {
