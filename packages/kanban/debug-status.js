@@ -23,8 +23,7 @@ console.log('Markdown line:', markdownLine);
 
 // Parse it back
 const parseResult = parseMarkdown({
-  content: `## Test Column\n${markdownLine}\n`,
-  filePath: 'test.md',
+  markdown: `## Test Column\n${markdownLine}\n`,
 });
 
 console.log('Parsed card:', JSON.stringify(parseResult.columns[0].cards[0], null, 2));
