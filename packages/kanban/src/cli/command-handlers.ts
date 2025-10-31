@@ -320,6 +320,7 @@ const handleUpdateStatus: CommandHandler = (args, context) =>
       eventLogManager,
       'human',
     );
+    await persistBoardWithHydratedTitles(mutableBoard, context);
     return updated;
   });
 
@@ -367,6 +368,14 @@ const hydrateTaskTitlesFromFiles = async (
   }
 };
 
+const persistBoardWithHydratedTitles = async (
+  board: LoadedBoard,
+  context: CliContext,
+): Promise<void> => {
+  await hydrateTaskTitlesFromFiles(board, context.tasksDir);
+  await writeBoard(context.boardFile, board);
+};
+
 const handleMove =
   (offset: number): CommandHandler =>
   async (args, context) => {
@@ -381,8 +390,7 @@ const handleMove =
 
           // Transform result to match expected test format
           if (result.success && result.task) {
-            await hydrateTaskTitlesFromFiles(mutableBoard, context.tasksDir);
-            await writeBoard(context.boardFile, mutableBoard);
+            await persistBoardWithHydratedTitles(mutableBoard, context);
 
             const columnSource =
               result.toPosition?.column ?? result.task.status ?? result.fromPosition?.column ?? '';
@@ -1885,6 +1893,8 @@ const handleCreate: CommandHandler = (args, context) =>
     if (newTask.lastCommitSha) {
       debug(`   Commit: ${newTask.lastCommitSha.slice(0, 8)}...`);
     }
+
+    await persistBoardWithHydratedTitles(mutableBoard, context);
 
     return newTask;
   });
