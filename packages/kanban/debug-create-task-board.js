@@ -2,8 +2,8 @@
 
 import path from 'node:path';
 import { writeFile, mkdir, readFile } from 'node:fs/promises';
-import { createTaskAction } from './dist/lib/actions/tasks/create-task.js';
-import { loadBoardFunctional } from './dist/lib/actions/board/load-board-functional.js';
+import { createTaskAction } from './src/lib/actions/tasks/create-task.js';
+import { loadBoardFunctional } from './src/lib/actions/boards/load-board.js';
 
 async function testCreateTaskWithBoard() {
   const tempDir = '/tmp/kanban-create-test';
