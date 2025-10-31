@@ -59,6 +59,7 @@ test('A task is created from the provided template', async (t) => {
     status: 'incoming',
     slug: 'task-to-be-blocked',
     content: baseContent,
+    sourcePath: path.join(tasksDir, 'task-to-be-blocked.md'),
   });
   const board = makeBoard([
     {
@@ -105,6 +106,7 @@ test("When a task is created with a blocked by section, the blocking task's bloc
     status: 'incoming',
     slug: 'existing-helper',
     content: baseContent,
+    sourcePath: path.join(tasksDir, 'existing-helper.md'),
   });
   const board = makeBoard([
     {
