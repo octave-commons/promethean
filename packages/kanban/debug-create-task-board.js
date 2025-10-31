@@ -43,7 +43,7 @@ kanban-plugin: board
     console.log('Board loaded successfully');
     console.log(
       'Initial columns:',
-      board.columns.map((c) => ({ name: c.name, taskCount: c.tasks.length })),
+      board.columns.map((c) => ({ name: c.name, taskCount: c.tasks ? c.tasks.length : 0 })),
     );
 
     // Create a task
