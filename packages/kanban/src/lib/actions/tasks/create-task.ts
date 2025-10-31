@@ -99,6 +99,8 @@ const createBaseTask = (
 export const createTaskAction = async (config: TaskCreationConfig): Promise<TaskCreationResult> => {
   const { board, column, input, tasksDir, boardPath } = config;
 
+  console.log('*** createTaskAction called! ***');
+  console.log('*** createTask params:', { column, title: input.title }, '***');
   debug('createTask function started');
   debug('createTask params:', { column, title: input.title });
 
