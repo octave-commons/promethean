@@ -596,14 +596,15 @@ export const evaluateCustomRule = async (
     const taskFM: TaskFM = {
       id: task.uuid,
       title: task.title,
-      priority:
-        task.priority === 'P0'
+      priority: task.priority
+        ? task.priority === 'P0'
           ? 'critical'
           : task.priority === 'P1'
             ? 'high'
             : task.priority === 'P2'
               ? 'medium'
-              : 'low',
+              : 'low'
+        : undefined,
       owner: 'unassigned', // Task type doesn't have assignee
       labels: task.labels || [],
       created: task.created_at || new Date().toISOString(),
