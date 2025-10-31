@@ -80,7 +80,7 @@ export const moveTask = async (input: MoveTaskInput): Promise<MoveTaskResult> =>
   if (boardPath && !options?.dryRun) {
     const { formatMarkdown } = await import('../../serializers/index.js');
     const boardContent = formatMarkdown({
-      columns: freshBoard.columns.map((col) => ({
+      columns: board.columns.map((col) => ({
         name: col.name,
         cards: col.tasks.map((task) => ({
           id: task.uuid,
