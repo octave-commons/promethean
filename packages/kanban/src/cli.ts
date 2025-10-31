@@ -114,7 +114,7 @@ function setupHooks(program: Command): void {
   });
 }
 
-function registerSpecialCommands(program: Command): void {
+function registerInitCommand(program: Command): void {
   program
     .command('init')
     .description('Initialize kanban board and tasks directory')
@@ -122,8 +122,8 @@ function registerSpecialCommands(program: Command): void {
     .action(async (...args) => {
       const options = program.opts();
       const context: CliContext = {
-        boardFile: options.kanban || '',
-        tasksDir: options.tasks || '',
+        boardFile: (options.kanban as string) || '',
+        tasksDir: (options.tasks as string) || '',
         argv: process.argv.slice(2),
       };
 
@@ -144,7 +144,9 @@ function registerSpecialCommands(program: Command): void {
         throw error;
       }
     });
+}
 
+function registerProcessCommands(program: Command): void {
   program
     .command('process_sync')
     .description('Sync process documentation')
@@ -172,7 +174,19 @@ function registerSpecialCommands(program: Command): void {
     });
 }
 
-async function createContext(options: any): Promise<CliContext> {
+function registerSpecialCommands(program: Command): void {
+  registerInitCommand(program);
+  registerProcessCommands(program);
+}
+
+type ProgramOptions = {
+  kanban?: string;
+  tasks?: string;
+  json?: boolean;
+  logLevel?: string;
+};
+
+async function createContext(options: ProgramOptions): Promise<CliContext> {
   // Load config for non-init commands
   const { config } = await loadKanbanConfig({
     argv: process.argv.slice(2),
@@ -190,7 +204,7 @@ function registerStandardCommands(program: Command): void {
     const cmd = program.command(commandName).allowUnknownOption(true);
 
     cmd.action(async (...args) => {
-      const options = program.opts();
+      const options = program.opts() as ProgramOptions;
       const context = await createContext(options);
 
       try {
