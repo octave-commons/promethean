@@ -3,7 +3,7 @@
 import path from 'node:path';
 import { writeFile, mkdir, readFile } from 'node:fs/promises';
 import { createTaskAction } from './src/lib/actions/tasks/create-task.ts';
-import { loadBoard } from './src/lib/actions/boards/load-board.ts';
+import { loadBoard } from './src/lib/kanban-compatibility.ts';
 
 async function testCreateTaskWithBoard() {
   const tempDir = '/tmp/kanban-create-test';
@@ -35,10 +35,8 @@ kanban-plugin: board
   console.log('Testing create task with board persistence...');
 
   try {
-    // Load the board
-    const boardMarkdown = await readFile(boardPath, 'utf8');
-    const boardResult = loadBoard({ markdown: boardMarkdown });
-    const board = boardResult.board;
+    // Load the board using compatibility layer
+    const board = await loadBoard(boardPath);
 
     console.log('Board loaded successfully');
     console.log('Board structure:', JSON.stringify(board, null, 2));
@@ -71,14 +69,13 @@ kanban-plugin: board
     console.log(updatedBoardContent);
 
     // Load board again to verify
-    const reloadedMarkdown = await readFile(boardPath, 'utf8');
-    const reloadedResult = loadBoard({ markdown: reloadedMarkdown });
+    const reloadedBoard = await loadBoard(boardPath);
     console.log(
       '\nReloaded board columns:',
-      reloadedResult.board.columns.map((c) => ({ name: c.name, taskCount: c.tasks.length })),
+      reloadedBoard.columns.map((c) => ({ name: c.name, taskCount: c.tasks ? c.tasks.length : 0 })),
     );
 
-    const todoColumn = reloadedResult.board.columns.find((c) => c.name === 'Todo');
+    const todoColumn = reloadedBoard.columns.find((c) => c.name === 'Todo');
     if (todoColumn && todoColumn.tasks.length > 0) {
       console.log('SUCCESS: Task found in Todo column:', todoColumn.tasks[0].title);
     } else {
