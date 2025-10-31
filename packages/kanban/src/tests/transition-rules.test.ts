@@ -91,17 +91,11 @@ test('TransitionRulesEngine validates transitions and applies rules', async (t) 
   const tmp = await withTempDir(t);
   const dslPath = path.join(tmp, 'rules.cljs');
   const dslContent = `
-(ns kanban-transitions
-  (:require [clojure.spec.alpha :as s]))
-
 (defn evaluate-transition [from to task board]
   ;; Allow valid transitions, block invalid ones
   (or (and (= from "Todo") (= to "In Progress"))
       (and (= from "In Progress") (= to "Review"))
       (and (= from "Review") (= to "Done"))))
-
-(intern 'kanban-transitions 'kanban-transitions
-  #js {:evaluate-transition evaluate-transition})
 `;
   await writeFile(dslPath, dslContent, 'utf8');
 
@@ -126,9 +120,6 @@ test('TransitionRulesEngine enforces WIP limits and custom checks', async (t) =>
   const tmp = await withTempDir(t);
   const dslPath = path.join(tmp, 'dsl.cljs');
   const dslContent = `
-(ns kanban-transitions
-  (:require [clojure.spec.alpha :as s]))
-
 (defn evaluate-transition [from to task board]
   ;; Allow all transitions for WIP testing
   true)
@@ -165,9 +156,6 @@ test('TransitionRulesEngine debugging and overview helpers', async (t) => {
 (defn evaluate-transition [from to task board]
   ;; For testing: always allow Todo -> In Progress
   (and (= from "Todo") (= to "In Progress")))
-
-;; Create namespace alias to match evaluation call
-(intern 'kanban-transitions 'evaluate-transition evaluate-transition)
 `;
   await writeFile(dslPath, dslContent, 'utf8');
 
@@ -194,9 +182,6 @@ test('createTransitionRulesEngine loads configuration from paths', async (t) => 
   await writeFile(
     path.join(tmp, 'dsl.cljs'),
     `
-(ns kanban-transitions
-  (:require [clojure.spec.alpha :as s]))
-
 (defn evaluate-transition [from to task board]
   ;; Allow all transitions for this test
   true)
