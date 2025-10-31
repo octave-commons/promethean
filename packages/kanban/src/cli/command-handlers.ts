@@ -313,7 +313,7 @@ const handleMove =
       const id = requireArg(args[0], 'task id');
 
       try {
-        const result = await moveTask(mutableBoard, id, offset, context.boardFile);
+        const result = await moveTask(mutableBoard, id, offset, undefined);
 
         // Transform result to match expected test format
         if (result.success && result.task) {
