@@ -70,12 +70,13 @@ const parseCardLine = (
   const uuidMatch = body.match(/([\s\S]*)\(uuid:([A-Za-z0-9-]+)\)\s*$/u);
   const withoutComment = commentMatch ? (commentMatch[1] ?? '') : body;
   const withoutUuid = uuidMatch ? (uuidMatch[1] ?? '') : body;
+  const withoutIds = commentMatch ? withoutComment : uuidMatch ? withoutUuid : body;
   const inlineId = commentMatch?.[2] ?? uuidMatch?.[2];
-  const attrsMatch = withoutComment.match(/\{[^}]+\}\s*$/u);
+  const attrsMatch = withoutIds.match(/\{[^}]+\}\s*$/u);
   const attrs = parseAttrs(attrsMatch?.[0]);
   const withoutAttrs = attrsMatch
-    ? withoutComment.slice(0, attrsMatch.index).trim()
-    : withoutComment.trim();
+    ? withoutIds.slice(0, attrsMatch.index).trim()
+    : withoutIds.trim();
   const tags = Array.from(withoutAttrs.matchAll(TAG_PATTERN), (match) => match[2] ?? '').filter(
     (tag) => tag.length > 0,
   );
