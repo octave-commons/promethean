@@ -21,7 +21,7 @@ async function debug() {
   // Check initial board state
   const { loadBoard } = await import('./dist/lib/kanban.js');
   try {
-    const initialBoard = await loadBoard({ boardPath });
+    const initialBoard = await loadBoard({ boardPath: boardPath });
     console.log('Initial board structure:', JSON.stringify(initialBoard.board, null, 2));
   } catch (error) {
     console.log('Initial board read failed:', error.message);
