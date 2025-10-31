@@ -33,7 +33,10 @@ async function testCreateThenMove() {
     // Read board content to see what was written
     const boardContent = await readFile(boardPath, 'utf8');
     console.log('\nBoard content after task creation:');
+    console.log('BOARD PATH:', boardPath);
+    console.log('BOARD CONTENT:');
     console.log(boardContent);
+    console.log('BOARD CONTENT LENGTH:', boardContent.length);
 
     // Try to move the second task up
     console.log('\nAttempting to move task up...');
