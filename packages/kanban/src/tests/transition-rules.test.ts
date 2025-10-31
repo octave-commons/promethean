@@ -91,7 +91,13 @@ test('TransitionRulesEngine validates transitions and applies rules', async (t) 
   const tmp = await withTempDir(t);
   const dslPath = path.join(tmp, 'rules.cljs');
   const dslContent = `
-(evaluate-transition "Todo" "In Progress" task board)
+(ns kanban-transitions)
+
+(defn evaluate-transition [from to task board]
+  ;; Allow valid transitions, block invalid ones
+  (or (and (= from "Todo") (= to "In Progress"))
+      (and (= from "In Progress") (= to "Review"))
+      (and (= from "Review") (= to "Done"))))
 `;
   await writeFile(dslPath, dslContent, 'utf8');
 
