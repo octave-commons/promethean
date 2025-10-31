@@ -6,10 +6,11 @@ export type LogLevel = 'silent' | 'error' | 'warn' | 'info' | 'debug';
 
 // Initialize log level from environment or default to 'info'
 const initialLogLevel = process.env.LOG_LEVEL as LogLevel;
-let currentLogLevel: LogLevel =
+const defaultLogLevel: LogLevel =
   initialLogLevel && ['silent', 'error', 'warn', 'info', 'debug'].includes(initialLogLevel)
     ? initialLogLevel
     : 'info';
+var currentLogLevel: LogLevel = defaultLogLevel;
 
 /**
  * Set the current log level
