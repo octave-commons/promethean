@@ -211,9 +211,11 @@ const evaluateDirectFunctionCall = async (
 
   // Load the DSL file and call the function directly with JS objects
   const dslFunctions = (await loadFile(dslPath)) as Record<string, Function>;
+  console.log('Loaded DSL functions:', Object.keys(dslFunctions));
 
   // Get the function from the loaded namespace (convert kebab-case to property access)
   const functionName = namespaceAndFunction.split('/').pop(); // Get just the function name
+  console.log('Extracted function name:', functionName);
 
   if (!functionName) {
     throw new Error('Could not extract function name');
@@ -225,11 +227,14 @@ const evaluateDirectFunctionCall = async (
     throw new Error(`Function ${functionName} not found in DSL`);
   }
 
+  console.log('Found function:', typeof evaluateFunction);
+
   // Call the function directly with JavaScript objects
   // The function signature is (from to task board)
   const result = (
     evaluateFunction as (from: string, to: string, task: TaskFM, board: Board) => boolean
   )(fromStatus, toStatus, task, board);
+  console.log('Function result:', result);
   return Boolean(result);
 };
 
@@ -260,16 +265,20 @@ const evaluateRule = async (
   dslPath: string,
 ): Promise<boolean> => {
   try {
+    console.log('evaluateRule called with:', { ruleImpl, dslPath });
     await loadClojureContext(dslPath);
 
     // Check if ruleImpl is a direct function call or a function definition
     if (ruleImpl.trim().startsWith('(evaluate-transition')) {
+      console.log('Using evaluateDirectFunctionCall path');
       return await evaluateDirectFunctionCall(task, board, ruleImpl, dslPath);
     }
 
     // Function definition - wrap it and call with evaluateTransitionRule
+    console.log('Using evaluateFunctionDefinition path');
     return await evaluateFunctionDefinition(task, board, ruleImpl);
   } catch (error) {
+    console.error('Error in evaluateRule:', error);
     throw new Error(
       `Rule evaluation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
     );
