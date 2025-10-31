@@ -4,20 +4,42 @@
 
 export type LogLevel = 'silent' | 'error' | 'warn' | 'info' | 'debug';
 
-// Initialize log level from environment or default to 'info'
-const initialLogLevel = process.env.LOG_LEVEL as LogLevel;
-const defaultLogLevel: LogLevel =
-  initialLogLevel && ['silent', 'error', 'warn', 'info', 'debug'].includes(initialLogLevel)
-    ? initialLogLevel
-    : 'info';
-var currentLogLevel: LogLevel = defaultLogLevel;
+// Use a closure to store current log level
+const createLogger = () => {
+  // Initialize log level from environment or default to 'info'
+  const initialLogLevel = process.env.LOG_LEVEL as LogLevel;
+  let currentLogLevel: LogLevel =
+    initialLogLevel && ['silent', 'error', 'warn', 'info', 'debug'].includes(initialLogLevel)
+      ? initialLogLevel
+      : 'info';
+
+  return {
+    setLogLevel: (level: LogLevel): void => {
+      currentLogLevel = level;
+    },
+    getLogLevel: (): LogLevel => currentLogLevel,
+    isLogLevelEnabled: (level: LogLevel): boolean => {
+      const levels: LogLevel[] = ['silent', 'error', 'warn', 'info', 'debug'];
+      const currentLevelIndex = levels.indexOf(currentLogLevel);
+      const levelIndex = levels.indexOf(level);
+
+      // If current level is 'silent', no logs are enabled
+      if (currentLogLevel === 'silent') return false;
+
+      // Check if the level is enabled based on the current level
+      return levelIndex <= currentLevelIndex;
+    },
+  };
+};
+
+const logger = createLogger();
 
 /**
  * Set the current log level
  * @param level The log level to set
  */
 export function setLogLevel(level: LogLevel): void {
-  currentLogLevel = level;
+  logger.setLogLevel(level);
 }
 
 /**
@@ -25,7 +47,7 @@ export function setLogLevel(level: LogLevel): void {
  * @returns The current log level
  */
 export function getLogLevel(): LogLevel {
-  return currentLogLevel;
+  return logger.getLogLevel();
 }
 
 /**
@@ -34,15 +56,7 @@ export function getLogLevel(): LogLevel {
  * @returns Whether the log level is enabled
  */
 function isLogLevelEnabled(level: LogLevel): boolean {
-  const levels: LogLevel[] = ['silent', 'error', 'warn', 'info', 'debug'];
-  const currentLevelIndex = levels.indexOf(currentLogLevel);
-  const levelIndex = levels.indexOf(level);
-
-  // If current level is 'silent', no logs are enabled
-  if (currentLogLevel === 'silent') return false;
-
-  // Check if the level is enabled based on the current level
-  return levelIndex <= currentLevelIndex;
+  return logger.isLogLevelEnabled(level);
 }
 
 /**
@@ -50,7 +64,7 @@ function isLogLevelEnabled(level: LogLevel): boolean {
  * @param message The message to log
  * @param optionalParams Optional parameters to log
  */
-export function error(message: string, ...optionalParams: any[]): void {
+export function error(message: string, ...optionalParams: unknown[]): void {
   if (isLogLevelEnabled('error')) {
     console.error(`[ERROR] ${message}`, ...optionalParams);
   }
@@ -61,7 +75,7 @@ export function error(message: string, ...optionalParams: any[]): void {
  * @param message The message to log
  * @param optionalParams Optional parameters to log
  */
-export function warn(message: string, ...optionalParams: any[]): void {
+export function warn(message: string, ...optionalParams: unknown[]): void {
   if (isLogLevelEnabled('warn')) {
     console.warn(`[WARN] ${message}`, ...optionalParams);
   }
@@ -72,7 +86,7 @@ export function warn(message: string, ...optionalParams: any[]): void {
  * @param message The message to log
  * @param optionalParams Optional parameters to log
  */
-export function info(message: string, ...optionalParams: any[]): void {
+export function info(message: string, ...optionalParams: unknown[]): void {
   if (isLogLevelEnabled('info')) {
     console.info(`[INFO] ${message}`, ...optionalParams);
   }
@@ -83,7 +97,7 @@ export function info(message: string, ...optionalParams: any[]): void {
  * @param message The message to log
  * @param optionalParams Optional parameters to log
  */
-export function debug(message: string, ...optionalParams: any[]): void {
+export function debug(message: string, ...optionalParams: unknown[]): void {
   if (isLogLevelEnabled('debug')) {
     console.log(`[DEBUG] ${message}`, ...optionalParams);
   }
@@ -94,7 +108,7 @@ export function debug(message: string, ...optionalParams: any[]): void {
  * @param message The message to log
  * @param optionalParams Optional parameters to log
  */
-export function log(message: string, ...optionalParams: any[]): void {
+export function log(message: string, ...optionalParams: unknown[]): void {
   info(message, ...optionalParams);
 }
 
