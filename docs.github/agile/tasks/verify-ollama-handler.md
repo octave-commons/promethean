@@ -1,26 +1,9 @@
----
-uuid: 'verify-ollama-handler-001'
-title: 'Verify Ollama Chat Handler Integration'
-status: 'incoming'
-priority: 'P2'
-labels: ['verification', 'ollama', 'integration']
-created_at: '2025-10-31T00:00:00Z'
-estimates:
-  complexity: 5
-  scale: 'medium'
-  time_to_completion: '4 hours'
-storyPoints: 5
-content: 'Ensure the new Ollama-backed chat completion handler interoperates with a live Ollama instance and produces OpenAI-compatible responses.'
----
-
 # Task: Verify Ollama Chat Handler Integration
 
 ## Summary
-
 Ensure the new Ollama-backed chat completion handler interoperates with a live Ollama instance and produces OpenAI-compatible responses.
 
 ## Steps
-
 1. Provision or reuse an Ollama runtime with the target model already pulled (e.g. `ollama pull llama3`).
 2. Start the OpenAI-compliant server with the Ollama handler enabled. Create a short bootstrap script for example `scripts/openai-server/start-ollama.mjs` that imports `createOpenAICompliantServer` and `createOllamaChatCompletionHandler`, then listens on `0.0.0.0:3000`. Run it after building the package:
    ```bash
