@@ -6,7 +6,7 @@ import {
   TransitionRulesEngine,
   createTransitionRulesEngine,
   type TransitionRulesConfig,
-} from '../lib/transition-rules-functional.js';
+} from '../lib/transition-rules.js';
 import type { Board, Task } from '../lib/types.js';
 import { withTempDir } from '../test-utils/helpers.js';
 
