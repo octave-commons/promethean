@@ -13,7 +13,7 @@ async function testCreateTaskWithBoard() {
   await mkdir(tempDir, { recursive: true });
   await mkdir(tasksDir, { recursive: true });
 
-  // Create initial empty board
+  // Create initial empty board with task structure (not cards)
   const initialBoardContent = `---
 kanban-plugin: board
 ---
