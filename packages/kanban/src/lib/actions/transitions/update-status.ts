@@ -1,5 +1,6 @@
-import { promises as fs } from 'fs';
-import path from 'path';
+import { promises as fs } from 'node:fs';
+import path from 'node:path';
+
 import type { Board, Task, ColumnData } from '../../types.js';
 import {
   readTaskFile,
@@ -7,6 +8,12 @@ import {
   updateTimestamp,
   generateDiff,
 } from '../../task-content/parser.js';
+import {
+  writeBoard,
+  maybeRefreshIndex,
+  ensureColumn as ensureBoardColumn,
+} from '../../serializers/board.js';
+import { columnKey } from '../../utils/string-utils.js';
 
 export type UpdateStatusInput = {
   board: Board;
@@ -75,14 +82,6 @@ const updateTaskFile = async (
   }
 };
 
-const saveBoardToFile = async (board: Board, boardPath: string, dryRun = false): Promise<void> => {
-  if (dryRun) return;
-
-  const { serializeBoard } = await import('../../kanban.js');
-  const boardContent = serializeBoard(board);
-  await fs.writeFile(boardPath, boardContent, 'utf8');
-};
-
 export const updateStatus = async (input: UpdateStatusInput): Promise<UpdateStatusResult> => {
   const { board, taskUuid, newStatus, boardPath, tasksDir, options } = input;
 
@@ -94,8 +93,10 @@ export const updateStatus = async (input: UpdateStatusInput): Promise<UpdateStat
   const { task, column, index } = located;
   const previousStatus = task.status;
 
-  // Skip if status is already the same
-  if (previousStatus === newStatus) {
+  // Skip if status is already the same (compare canonical keys)
+  const prevKey = previousStatus ? columnKey(String(previousStatus)) : '';
+  const newKey = columnKey(String(newStatus));
+  if (prevKey === newKey) {
     return { success: true, task, previousStatus };
   }
 
@@ -103,18 +104,26 @@ export const updateStatus = async (input: UpdateStatusInput): Promise<UpdateStat
   const backupPath =
     options?.createBackup && tasksDir ? await createTaskBackup(tasksDir, taskUuid) : undefined;
 
-  // Update task in board
-  const updatedTask = { ...task, status: newStatus };
-  column.tasks[index] = updatedTask;
+  // Remove from existing column
+  column.tasks.splice(index, 1);
+  column.count = column.tasks.length;
 
-  // Update task file if tasksDir provided
+  const targetColumn = ensureBoardColumn(board, newStatus);
+  const updatedTask: Task = { ...task, status: targetColumn.name };
+  targetColumn.tasks = [...targetColumn.tasks, updatedTask];
+  targetColumn.count = targetColumn.tasks.length;
+
+  // Update task file if tasksDir provided (write normalized display name)
   if (tasksDir) {
-    await updateTaskFile(tasksDir, taskUuid, newStatus, options?.dryRun);
+    await updateTaskFile(tasksDir, taskUuid, targetColumn.name, options?.dryRun);
   }
 
   // Save board if boardPath provided
-  if (boardPath) {
-    await saveBoardToFile(board, boardPath, options?.dryRun);
+  if (boardPath && !options?.dryRun) {
+    await writeBoard(boardPath, board);
+    if (tasksDir) {
+      await maybeRefreshIndex(tasksDir);
+    }
   }
 
   const diff = options?.createBackup

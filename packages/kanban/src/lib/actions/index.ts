@@ -106,10 +106,12 @@ export { updateStatus, moveTask } from './transitions/index.js';
 
 // Search Actions
 export type {
-  SearchTasksInput,
-  SearchTasksResult,
-  IndexForSearchInput,
-  IndexForSearchResult,
+  SearchBoardInput,
+  SearchBoardResult,
+  IndexTasksInput,
+  IndexTasksResult,
+  GenerateBoardByTagsInput,
+  GenerateBoardByTagsResult,
 } from './search/index.js';
 
-export { searchTasks, indexForSearch } from './search/index.js';
+export { searchBoard, indexKanbanTasks, generateBoardByTags } from './search/index.js';

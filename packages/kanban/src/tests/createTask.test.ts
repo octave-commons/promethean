@@ -37,6 +37,7 @@ test('A task is created from the provided template', async (t) => {
   await mkdir(tasksDir, { recursive: true });
   await writeFile(boardPath, '', 'utf8');
 
+  const baseContent = `${BLOCKED_BY_HEADING}\n\nNothing\n\n${BLOCKS_HEADING}\n\nNothing\n`;
   const template = [
     '## Body',
     '',
@@ -51,7 +52,24 @@ test('A task is created from the provided template', async (t) => {
   ].join('\n');
   const templatePath = await ensureTemplate(tempDir, template);
 
-  const board = makeBoard([{ name: 'incoming', count: 0, limit: null, tasks: [] }]);
+  // Create the task that will be blocked first
+  const blockedTask = makeTask({
+    uuid: 'blocked-2',
+    title: 'Task to be blocked',
+    status: 'incoming',
+    slug: 'task-to-be-blocked',
+    content: baseContent,
+    sourcePath: path.join(tasksDir, 'task-to-be-blocked.md'),
+  });
+  const board = makeBoard([
+    {
+      name: 'incoming',
+      count: 1,
+      limit: null,
+      tasks: [blockedTask],
+    },
+  ]);
+  await writeTaskFile(tasksDir, blockedTask, { content: baseContent });
 
   const created = await createTask(
     board,
@@ -88,6 +106,7 @@ test("When a task is created with a blocked by section, the blocking task's bloc
     status: 'incoming',
     slug: 'existing-helper',
     content: baseContent,
+    sourcePath: path.join(tasksDir, 'existing-helper.md'),
   });
   const board = makeBoard([
     {

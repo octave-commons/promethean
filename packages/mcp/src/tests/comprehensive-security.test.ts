@@ -17,7 +17,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
 // Import MCP tools and security modules
-import { filesViewFile, filesWriteFileContent } from '../tools/files.js';
+import { filesViewFile, filesWriteFileContent } from '../tools/files-tools.js';
 import { filesSearch } from '../tools/search.js';
 import { validatePathSecurity } from '../validation/comprehensive.js';
 import { createSecurityMiddleware } from '../security/middleware.js';

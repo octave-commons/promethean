@@ -2,7 +2,7 @@
   "metadata": {
     "generatedBy": "clj-hacks"
   },
-  "version": "2025-06-18",
+  "version": "2024-10-01",
   "transport": "http",
   "tools": [
     "mcp.help",

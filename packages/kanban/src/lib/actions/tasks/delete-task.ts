@@ -1,12 +1,17 @@
-import { promises as fs } from 'fs';
-import path from 'path';
+import { promises as fs } from 'node:fs';
+import path from 'node:path';
+
 import { readTaskFile, createBackup } from '../../task-content/parser.js';
+import { writeBoard, maybeRefreshIndex } from '../../serializers/board.js';
+import type { Board } from '../../types.js';
+import { locateTask } from '../../core/task-utils.js';
 
 export type DeleteTaskInput = {
-  board: any;
+  board: Board;
   tasksDir: string;
   taskUuid: string;
   options?: { createBackup?: boolean };
+  boardPath?: string;
 };
 
 export type DeleteTaskResult = { success: boolean; taskPath?: string; backupPath?: string };
@@ -31,7 +36,7 @@ const findTaskFile = async (tasksDir: string, uuid: string): Promise<string | nu
 };
 
 export const deleteTask = async (input: DeleteTaskInput): Promise<DeleteTaskResult> => {
-  const { board, tasksDir, taskUuid, options } = input;
+  const { board, tasksDir, taskUuid, options, boardPath } = input;
   const filePath = await findTaskFile(tasksDir, taskUuid);
   if (!filePath) return { success: false };
 
@@ -47,16 +52,17 @@ export const deleteTask = async (input: DeleteTaskInput): Promise<DeleteTaskResu
   }
 
   // Remove from in-memory board if provided
-  try {
-    if (board && board.columns && Array.isArray(board.columns)) {
-      for (const col of board.columns) {
-        if (!col.tasks || !Array.isArray(col.tasks)) continue;
-        col.tasks = col.tasks.filter((t: any) => t.uuid !== taskUuid);
-      }
-    }
-  } catch (_) {
-    // ignore
+  const located = locateTask(board, taskUuid);
+  if (located) {
+    const { column, index } = located;
+    column.tasks.splice(index, 1);
+    column.count = column.tasks.length;
   }
+
+  if (boardPath) {
+    await writeBoard(boardPath, board);
+  }
+  await maybeRefreshIndex(tasksDir);
 
   return { success: true, taskPath: filePath, backupPath };
 };

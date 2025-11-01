@@ -177,7 +177,7 @@ export class HealCommand {
 
       // Push tags if requested
       if (options.pushTags && tagResult?.success) {
-        await this.gitTagManager.pushTags([tagResult.tag]);
+        await this.gitTagManager.pushTags();
       }
 
       const totalTime = Date.now() - startTime;

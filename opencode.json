@@ -26,6 +26,16 @@
         }
       }
     },
+    "opencode":{
+      "models":{
+      "big-pickle": {
+        "options": {
+          "reasoningEffort": "high"
+        }
+      }
+    }
+
+    },
     "zai-coding-plan": {
       "models": {
         "glm-4.6": {
@@ -54,6 +64,11 @@
     }
   },
   "mcp": {
+    "promethean-github":{
+      "type":"remote",
+      "url":"http://localhost:4321/github",
+      "enabled": true
+    },
     // "clj": {
     //   "type": "local",
     //   "command": ["clojure", "-X:mcp-shadow-dual"],

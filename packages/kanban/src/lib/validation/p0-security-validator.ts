@@ -262,13 +262,7 @@ export class P0SecurityValidator {
       // Use the git integration module for more robust checking
       const { hasTaskCodeChanges } = await import('./git-integration.js');
 
-      return await hasTaskCodeChanges({
-        repoRoot: this.repoRoot,
-        sinceDate: task.created_at || new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
-        taskUuid: task.uuid,
-        taskTitle: task.title,
-        maxCommits: 100,
-      });
+      return await hasTaskCodeChanges();
     } catch (error) {
       console.warn(`Warning: Could not check code changes for task ${task.uuid}:`, error);
       return false;

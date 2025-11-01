@@ -1,370 +1,234 @@
-import { simpleGit, SimpleGit } from 'simple-git';
-
 /**
- * Configuration options for git synchronization
- */
-export type GitSyncOptions = {
-  /** Working directory for git operations */
-  readonly workingDir: string;
-  /** Enable automatic push operations */
-  readonly autoPush?: boolean;
-  /** Enable automatic pull operations */
-  readonly autoPull?: boolean;
-  /** Debounce delay in milliseconds for sync operations */
-  readonly debounceMs?: number;
-  /** Git remote name (default: 'origin') */
-  readonly remoteName?: string;
-  /** Git branch name (default: 'main') */
-  readonly branchName?: string;
-};
-
-/**
- * Status information for git synchronization
- */
-export type GitSyncStatus = {
-  /** Whether the working directory is clean */
-  readonly isClean: boolean;
-  /** Whether there are uncommitted changes */
-  readonly hasChanges: boolean;
-  /** Whether there are changes available on remote */
-  readonly hasRemoteChanges: boolean;
-  /** Timestamp of last synchronization */
-  readonly lastSyncTime?: Date;
-  /** Current git branch name */
-  readonly currentBranch: string;
-  /** Number of commits ahead of remote */
-  readonly aheadCount: number;
-  /** Number of commits behind remote */
-  readonly behindCount: number;
-  /** Number of conflicted files */
-  readonly conflictCount: number;
-};
-
-/**
- * Callback functions for git synchronization events
- */
-export type GitSyncCallbacks = {
-  /** Called when a sync operation starts */
-  readonly onSyncStart?: (operation: 'push' | 'pull' | 'status') => void;
-  /** Called when a sync operation completes successfully */
-  readonly onSyncComplete?: (operation: 'push' | 'pull' | 'status', result: GitSyncStatus) => void;
-  /** Called when a sync operation encounters an error */
-  readonly onSyncError?: (operation: 'push' | 'pull' | 'status', error: Error) => void;
-  /** Called when git conflicts are detected */
-  readonly onConflict?: (conflictedFiles: ReadonlyArray<string>) => void;
-};
-
-/**
- * Git synchronization service for kanban development mode
+ * Git synchronization module - DISABLED
  *
- * Provides automatic git operations including push, pull, and conflict detection
- * with configurable debounce timing and comprehensive error handling.
+ * All git functionality has been disabled. This module provides no-op stubs
+ * to maintain API compatibility while preventing any git operations.
+ */
+
+/**
+ * Git sync status - DISABLED VERSION
+ */
+export interface GitSyncStatus {
+  status: 'idle' | 'syncing' | 'error';
+  lastSync?: Date;
+  lastSyncTime?: Date;
+  error?: string;
+  ahead?: number;
+  behind?: number;
+}
+
+/**
+ * Git sync options - DISABLED VERSION
+ */
+export interface GitSyncOptions {
+  autoPush?: boolean;
+  autoPull?: boolean;
+  remote?: string;
+  branch?: string;
+  syncInterval?: number;
+}
+
+/**
+ * Git sync callbacks - DISABLED VERSION
+ */
+export interface GitSyncCallbacks {
+  onSyncStart?: () => void;
+  onSyncComplete?: (status: GitSyncStatus) => void;
+  onSyncError?: (error: string) => void;
+}
+
+/**
+ * Kanban git sync manager - DISABLED
+ *
+ * This class provides no-op implementations of all git sync functionality.
+ * All methods return safe default values and log warnings about disabled git operations.
  */
 export class KanbanGitSync {
-  private readonly git: SimpleGit;
-  private readonly options: GitSyncOptions;
-  private readonly callbacks: GitSyncCallbacks;
+  private options: Required<GitSyncOptions>;
+  private status: GitSyncStatus;
+  private callbacks: GitSyncCallbacks;
+  public autoPush: boolean;
+  public autoPull: boolean;
 
-  private syncInProgress = false;
-  private lastStatus: GitSyncStatus | null = null;
-
-  /**
-   * Creates a new KanbanGitSync instance
-   * @param options - Configuration options for git synchronization
-   * @param callbacks - Event callback functions
-   */
-  constructor(options: GitSyncOptions, callbacks: GitSyncCallbacks = {}) {
-    const defaultOptions = {
-      autoPush: true,
-      autoPull: true,
-      debounceMs: 2000,
-      remoteName: 'origin',
-      branchName: 'main'
+  constructor(_repoRoot: string, options: GitSyncOptions = {}, callbacks: GitSyncCallbacks = {}) {
+    this.options = {
+      autoPush: options.autoPush ?? false,
+      autoPull: options.autoPull ?? false,
+      remote: options.remote ?? 'origin',
+      branch: options.branch ?? 'main',
+      syncInterval: options.syncInterval ?? 60000,
     };
-    this.options = { ...defaultOptions, ...options };
     this.callbacks = callbacks;
+    this.status = { status: 'idle' };
+    this.autoPush = this.options.autoPush;
+    this.autoPull = this.options.autoPull;
 
-    this.git = simpleGit(options.workingDir);
+    // Trigger callback if provided
+    if (this.callbacks.onSyncStart) {
+      this.callbacks.onSyncStart();
+    }
+
+    console.warn(
+      `[KanbanGitSync] Git functionality is disabled for repo ${_repoRoot} - no git operations will be performed`,
+    );
   }
 
   /**
-   * Initializes the git synchronization service
-   *
-   * Validates that we're in a git repository, checks for remote connectivity,
-   * and gets the initial status.
-   * @throws Error if not in a git repository or other initialization failures
+   * Start automatic sync - DISABLED
+   */
+  async startAutoSync(): Promise<void> {
+    console.warn('[KanbanGitSync] startAutoSync called but git is disabled');
+  }
+
+  /**
+   * Stop automatic sync - DISABLED
+   */
+  async stopAutoSync(): Promise<void> {
+    console.warn('[KanbanGitSync] stopAutoSync called but git is disabled');
+  }
+
+  /**
+   * Perform manual sync - DISABLED
+   */
+  async sync(): Promise<GitSyncStatus> {
+    console.warn('[KanbanGitSync] sync called but git is disabled');
+    return {
+      status: 'error',
+      error: 'Git functionality is disabled',
+    };
+  }
+
+  /**
+   * Get current sync status - DISABLED
+   */
+  getStatus(): GitSyncStatus {
+    console.warn('[KanbanGitSync] getStatus called but git is disabled');
+    return this.status;
+  }
+
+  /**
+   * Push changes to remote - DISABLED
+   */
+  async push(message?: string): Promise<GitSyncStatus> {
+    console.warn(`[KanbanGitSync] push called with message "${message}" but git is disabled`);
+    return {
+      status: 'error',
+      error: 'Git functionality is disabled',
+    };
+  }
+
+  /**
+   * Pull changes from remote - DISABLED
+   */
+  async pull(): Promise<GitSyncStatus> {
+    console.warn('[KanbanGitSync] pull called but git is disabled');
+    return {
+      status: 'error',
+      error: 'Git functionality is disabled',
+    };
+  }
+
+  /**
+   * Auto push changes - DISABLED
+   */
+  async performAutoPush(message?: string): Promise<GitSyncStatus> {
+    console.warn(
+      `[KanbanGitSync] performAutoPush called with message "${message}" but git is disabled`,
+    );
+    return {
+      status: 'error',
+      error: 'Git functionality is disabled',
+    };
+  }
+
+  /**
+   * Auto pull changes - DISABLED
+   */
+  async performAutoPull(): Promise<GitSyncStatus> {
+    console.warn('[KanbanGitSync] performAutoPull called but git is disabled');
+    return {
+      status: 'error',
+      error: 'Git functionality is disabled',
+    };
+  }
+
+  /**
+   * Check if sync is needed - DISABLED
+   */
+  async needsSync(): Promise<boolean> {
+    console.warn('[KanbanGitSync] needsSync called but git is disabled');
+    return false;
+  }
+
+  /**
+   * Initialize git sync - DISABLED
    */
   async initialize(): Promise<void> {
-    try {
-      // Check if we're in a git repository
-      const isRepo = await this.git.checkIsRepo();
-      if (!isRepo) {
-        throw new Error('Not in a git repository');
-      }
-
-      // Get current branch
-      const status = await this.git.status();
-      const currentBranch = status.current || 'main';
-
-      // Check if remote exists
-      try {
-        await this.git.listRemote([this.options.remoteName!]);
-      } catch (error) {
-        console.warn(`[kanban-dev] Remote '${this.options.remoteName}' not found, auto-sync disabled`);
-        // Note: can't modify readonly properties, so we'll handle this in the sync methods
-      }
-
-      console.log(`[kanban-dev] Git sync initialized on branch '${currentBranch}'`);
-      console.log(`[kanban-dev] Auto-push: ${this.options.autoPush}, Auto-pull: ${this.options.autoPull}`);
-
-      // Get initial status
-      await this.updateStatus();
-    } catch (error) {
-      console.error('[kanban-dev] Failed to initialize git sync:', error);
-      throw error;
-    }
-  }
-
-  async updateStatus(): Promise<GitSyncStatus> {
-    try {
-      const status = await this.git.status();
-
-      const hasChanges = status.files.length > 0;
-      const isClean = status.isClean();
-      const currentBranch = status.current || 'main';
-
-      // Get ahead/behind counts
-      const aheadCount = status.ahead || 0;
-      const behindCount = status.behind || 0;
-
-      // Count conflicts
-      const conflictCount = status.conflicted?.length || 0;
-
-      this.lastStatus = {
-        isClean,
-        hasChanges,
-        hasRemoteChanges: behindCount > 0,
-        currentBranch,
-        aheadCount,
-        behindCount,
-        conflictCount,
-        lastSyncTime: new Date()
-      };
-
-      return this.lastStatus;
-    } catch (error) {
-      console.error('[kanban-dev] Failed to update git status:', error);
-      throw error;
-    }
+    console.warn('[KanbanGitSync] initialize called but git is disabled');
   }
 
   /**
-   * Automatically pushes changes to remote repository
-   * @param message - Optional commit message
-   * @returns True if push was successful, false otherwise
+   * Sync with remote - DISABLED
    */
-  async autoPush(message?: string): Promise<boolean> {
-    if (!this.options.autoPush || this.syncInProgress) {
-      return false;
-    }
-
-    try {
-      this.syncInProgress = true;
-      this.callbacks.onSyncStart?.('push');
-
-      // Check if there are changes to push
-      const status = await this.updateStatus();
-      if (!status.hasChanges) {
-        console.log('[kanban-dev] No changes to push');
-        this.callbacks.onSyncComplete?.('push', status);
-        return true;
-      }
-
-      // Add all changes
-      await this.git.add(['-A']);
-
-      // Check for conflicts before committing
-      const postAddStatus = await this.updateStatus();
-      if (postAddStatus.conflictCount > 0) {
-        console.warn('[kanban-dev] Conflicts detected, skipping auto-push');
-        this.callbacks.onConflict?.(postAddStatus.conflictCount > 0 ? ['conflicts'] : []);
-        return false;
-      }
-
-      // Commit changes
-      const commitMessage = message || `Auto-sync kanban board (${new Date().toISOString()})`;
-      await this.git.commit(commitMessage, [], {
-        '--no-verify': null,
-        '--no-gpg-sign': null
-      });
-
-      // Push to remote
-      await this.git.push(this.options.remoteName!, this.options.branchName!);
-
-      console.log(`[kanban-dev] Auto-pushed changes: ${commitMessage}`);
-
-      const finalStatus = await this.updateStatus();
-      this.callbacks.onSyncComplete?.('push', finalStatus);
-      return true;
-
-    } catch (error) {
-      console.error('[kanban-dev] Auto-push failed:', error);
-      this.callbacks.onSyncError?.('push', error as Error);
-      return false;
-    } finally {
-      this.syncInProgress = false;
-    }
+  async syncWithRemote(): Promise<GitSyncStatus> {
+    console.warn('[KanbanGitSync] syncWithRemote called but git is disabled');
+    return {
+      status: 'error',
+      error: 'Git functionality is disabled',
+    };
   }
 
   /**
-   * Automatically pulls changes from remote repository
-   * @returns True if pull was successful, false otherwise
-   */
-  async autoPull(): Promise<boolean> {
-    if (!this.options.autoPull || this.syncInProgress) {
-      return false;
-    }
-
-    try {
-      this.syncInProgress = true;
-      this.callbacks.onSyncStart?.('pull');
-
-      // Check if there are remote changes
-      const status = await this.updateStatus();
-      if (!status.hasRemoteChanges) {
-        console.log('[kanban-dev] No remote changes to pull');
-        this.callbacks.onSyncComplete?.('pull', status);
-        return true;
-      }
-
-      // Fetch latest changes
-      await this.git.fetch(this.options.remoteName!);
-
-      // Check if we have local changes that need to be committed first
-      if (status.hasChanges) {
-        console.warn('[kanban-dev] Local changes detected, stashing before pull');
-        await this.git.stash(['push', '-m', 'Auto-stash before pull']);
-      }
-
-      // Pull changes
-      await this.git.pull(this.options.remoteName!, this.options.branchName!);
-
-      // Re-apply stashed changes if they existed
-      if (status.hasChanges) {
-        try {
-          const stashes = await this.git.stash(['list']);
-          if (stashes.length > 0) {
-            await this.git.stash(['pop']);
-            console.log('[kanban-dev] Re-applied stashed changes');
-          }
-        } catch (stashError) {
-          console.warn('[kanban-dev] Failed to re-apply stashed changes:', stashError);
-        }
-      }
-
-      console.log('[kanban-dev] Auto-pulled remote changes');
-
-      const finalStatus = await this.updateStatus();
-
-      // Check for conflicts after pull
-      if (finalStatus.conflictCount > 0) {
-        console.warn('[kanban-dev] Conflicts detected after pull');
-        this.callbacks.onConflict?.(['conflicts after pull']);
-        return false;
-      }
-
-      this.callbacks.onSyncComplete?.('pull', finalStatus);
-      return true;
-
-    } catch (error) {
-      console.error('[kanban-dev] Auto-pull failed:', error);
-      this.callbacks.onSyncError?.('pull', error as Error);
-      return false;
-    } finally {
-      this.syncInProgress = false;
-    }
-  }
-
-  async syncWithRemote(): Promise<boolean> {
-    try {
-      // First, pull any remote changes
-      const pullSuccess = await this.autoPull();
-
-      // Then push local changes if pull was successful
-      if (pullSuccess) {
-        return await this.autoPush();
-      }
-
-      return false;
-    } catch (error) {
-      console.error('[kanban-dev] Sync with remote failed:', error);
-      return false;
-    }
-  }
-
-  async checkForRemoteChanges(): Promise<boolean> {
-    try {
-      await this.git.fetch(this.options.remoteName!);
-      const status = await this.updateStatus();
-      return status.hasRemoteChanges;
-    } catch (error) {
-      console.error('[kanban-dev] Failed to check for remote changes:', error);
-      return false;
-    }
-  }
-
-  /**
-   * Gets the last known git status
-   * @returns GitSyncStatus or null if no status available
-   */
-  getStatus(): GitSyncStatus | null {
-    return this.lastStatus;
-  }
-
-  /**
-   * Checks if a sync operation is currently in progress
-   * @returns True if syncing, false otherwise
+   * Check if sync is in progress - DISABLED
    */
   isSyncInProgress(): boolean {
-    return this.syncInProgress;
+    console.warn('[KanbanGitSync] isSyncInProgress called but git is disabled');
+    return false;
   }
 
   /**
-   * Attempts to resolve git conflicts using the specified strategy
-   * @param strategy - Conflict resolution strategy
-   * @returns True if conflicts were resolved, false otherwise
+   * Check for remote changes - DISABLED
    */
-  async resolveConflicts(strategy: 'ours' | 'theirs' | 'manual'): Promise<boolean> {
-    try {
-      const status = await this.updateStatus();
-      if (status.conflictCount === 0) {
-        return true;
-      }
-
-      if (strategy === 'manual') {
-        console.log('[kanban-dev] Please resolve conflicts manually and run git add for resolved files');
-        return false;
-      }
-
-      // Auto-resolve conflicts using the specified strategy
-      const conflictedFiles = status.conflictCount > 0 ? ['--'] : [];
-
-      if (strategy === 'ours') {
-        await this.git.add(['-A', ...conflictedFiles]);
-        await this.git.commit('Auto-resolve conflicts: keep ours');
-      } else if (strategy === 'theirs') {
-        await this.git.checkout([`--theirs`, ...conflictedFiles]);
-        await this.git.add(['-A', ...conflictedFiles]);
-        await this.git.commit('Auto-resolve conflicts: keep theirs');
-      }
-
-      console.log(`[kanban-dev] Auto-resolved conflicts using '${strategy}' strategy`);
-      return true;
-    } catch (error) {
-      console.error('[kanban-dev] Failed to resolve conflicts:', error);
-      return false;
-    }
+  async checkForRemoteChanges(): Promise<boolean> {
+    console.warn('[KanbanGitSync] checkForRemoteChanges called but git is disabled');
+    return false;
   }
+
+  /**
+   * Resolve conflicts - DISABLED
+   */
+  async resolveConflicts(): Promise<GitSyncStatus> {
+    console.warn('[KanbanGitSync] resolveConflicts called but git is disabled');
+    return {
+      status: 'error',
+      error: 'Git functionality is disabled',
+    };
+  }
+}
+
+/**
+ * Default git sync options - DISABLED
+ */
+export const DEFAULT_GIT_SYNC_OPTIONS: Required<GitSyncOptions> = {
+  autoPush: false,
+  autoPull: false,
+  remote: 'origin',
+  branch: 'main',
+  syncInterval: 60000,
+};
+
+/**
+ * Convenience function to create git sync manager - DISABLED
+ */
+export function createKanbanGitSync(
+  repoRoot: string,
+  options: GitSyncOptions = {},
+  callbacks: GitSyncCallbacks = {},
+): KanbanGitSync {
+  console.warn(
+    '[createKanbanGitSync] Git functionality is disabled - returning no-op sync manager',
+  );
+  return new KanbanGitSync(repoRoot, options, callbacks);
 }
 
 export default KanbanGitSync;

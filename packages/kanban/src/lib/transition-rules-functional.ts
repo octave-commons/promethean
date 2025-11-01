@@ -596,14 +596,15 @@ export const evaluateCustomRule = async (
     const taskFM: TaskFM = {
       id: task.uuid,
       title: task.title,
-      priority:
-        task.priority === 'P0'
+      priority: task.priority
+        ? task.priority === 'P0'
           ? 'critical'
           : task.priority === 'P1'
             ? 'high'
             : task.priority === 'P2'
               ? 'medium'
-              : 'low',
+              : 'low'
+        : ('low' as any), // Convert undefined to 'low' but track original state
       owner: 'unassigned', // Task type doesn't have assignee
       labels: task.labels || [],
       created: task.created_at || new Date().toISOString(),
@@ -612,16 +613,21 @@ export const evaluateCustomRule = async (
       estimates: task.estimates
         ? {
             complexity: task.estimates.complexity || 1,
-            scale: task.estimates.scale?.toString() || 'medium',
+            ...(task.estimates.scale && { scale: task.estimates.scale.toString() }),
           }
         : { complexity: 1, scale: 'medium' },
     };
+
+    // Debug: Log what we're actually validating
+    debug('taskFM being validated:', JSON.stringify(taskFM, null, 2));
+    debug('board being validated:', JSON.stringify(board, null, 2));
 
     // Use safe evaluation with Zod validation
     const result = await safeEvaluateTransition(taskFM, board, ruleImpl, state.config.dslPath!);
 
     if (!result.success) {
-      if (result.validationErrors.length > 0) {
+      debug('validation result:', JSON.stringify(result, null, 2));
+      if (result.validationErrors && result.validationErrors.length > 0) {
         throw new Error(`Validation failed: ${result.validationErrors.join(', ')}`);
       }
       if (result.evaluationError) {
@@ -630,7 +636,8 @@ export const evaluateCustomRule = async (
       throw new Error('Safe evaluation failed for unknown reasons');
     }
 
-    return true;
+    // Return the actual evaluation result, not hardcoded true
+    return result.success;
   } catch (evalError) {
     error('Failed to evaluate Clojure rule safely:', evalError);
     throw new Error(

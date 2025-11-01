@@ -1,5 +1,6 @@
-import { promises as fs } from 'fs';
 import type { Board, Task, ColumnData } from '../../types.js';
+import { debug } from '../../utils/logger.js';
+import { writeBoard } from '../../serializers/board.js';
 
 export type MoveTaskInput = {
   board: Board;
@@ -20,11 +21,20 @@ const findTaskInBoard = (
   board: Board,
   uuid: string,
 ): { task: Task; column: ColumnData; index: number } | undefined => {
+  debug(`findTaskInBoard: looking for UUID ${uuid}`);
+  debug(
+    `findTaskInBoard: board columns:`,
+    board.columns.map((c) => ({ name: c.name, taskCount: c.tasks.length })),
+  );
+
   for (const column of board.columns || []) {
     const taskIndex = column.tasks.findIndex((t: Task) => t.uuid === uuid);
     if (taskIndex >= 0) {
       const task = column.tasks[taskIndex];
       if (task) {
+        debug(
+          `findTaskInBoard: found task ${task.title} in column ${column.name} at index ${taskIndex}`,
+        );
         return {
           task,
           column,
@@ -33,6 +43,7 @@ const findTaskInBoard = (
       }
     }
   }
+  debug(`findTaskInBoard: task ${uuid} not found`);
   return undefined;
 };
 
@@ -53,29 +64,43 @@ export const moveTask = async (input: MoveTaskInput): Promise<MoveTaskResult> =>
 
   // Skip if no movement needed
   if (newIndex === index) {
-    return { success: true, task, fromPosition, toPosition: fromPosition };
+    const normalizedTask =
+      task.status === column.name ? task : ({ ...task, status: column.name } as Task);
+    if (normalizedTask !== task) {
+      column.tasks = [
+        ...column.tasks.slice(0, index),
+        normalizedTask,
+        ...column.tasks.slice(index + 1),
+      ];
+      column.count = column.tasks.length;
+    }
+    return { success: true, task: normalizedTask, fromPosition, toPosition: fromPosition };
   }
 
   // Move task within column
   const newTasks = [...column.tasks];
-  const [movedTask] = newTasks.splice(index, 1);
-  if (movedTask) {
-    newTasks.splice(newIndex, 0, movedTask);
-  }
+  const [removedTask] = newTasks.splice(index, 1);
+  const taskToInsert = removedTask ?? task;
+  const taskWithUpdatedStatus: Task = {
+    ...taskToInsert,
+    status: column.name,
+  };
+  newTasks.splice(newIndex, 0, taskWithUpdatedStatus);
   column.tasks = newTasks;
+  column.count = column.tasks.length;
 
   const toPosition = { column: column.name, index: newIndex };
 
   // Save board if boardPath provided
   if (boardPath && !options?.dryRun) {
-    const { serializeBoard } = await import('../../kanban.js');
-    const boardContent = serializeBoard(board);
-    await fs.writeFile(boardPath, boardContent, 'utf8');
+    await writeBoard(boardPath, board);
   }
+
+  const finalTask = column.tasks[newIndex] ?? taskWithUpdatedStatus;
 
   return {
     success: true,
-    task: movedTask,
+    task: finalTask,
     fromPosition,
     toPosition,
   };

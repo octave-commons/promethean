@@ -41,11 +41,14 @@ export const createRebuildEventLogCommand = (_boardFile: string, _tasksDir: stri
     const eventLogManager = makeEventLogManager(configResult.config);
 
     // Initialize git event reconstructor
-    const gitReconstructor = makeGitEventReconstructor(configResult.config, {
-      repoRoot: process.cwd(),
-      since: options.since,
-      taskUuidFilter: options.taskUuid,
-    });
+    const gitReconstructor = makeGitEventReconstructor(
+      process.cwd(),
+      configResult.config.tasksDir,
+      {
+        since: options.since,
+        taskUuidFilter: options.taskUuid,
+      },
+    );
 
     // Check if event log already exists
     const existingStats = await eventLogManager.getLogStats();
@@ -61,10 +64,7 @@ export const createRebuildEventLogCommand = (_boardFile: string, _tasksDir: stri
     }
 
     // Reconstruct events from git history
-    const reconstructedEvents = gitReconstructor.reconstructEvents({
-      taskUuidFilter: options.taskUuid,
-      verbose: options.verbose,
-    });
+    const reconstructedEvents = await gitReconstructor.reconstructEvents([]);
 
     if (reconstructedEvents.length === 0) {
       console.log('ℹ️  No status transitions found in git history');
@@ -72,21 +72,23 @@ export const createRebuildEventLogCommand = (_boardFile: string, _tasksDir: stri
     }
 
     // Get reconstruction statistics
-    const stats = gitReconstructor.getReconstructionStats(reconstructedEvents);
+    const stats = gitReconstructor.getReconstructionStats();
 
     console.log('📊 Reconstruction Results:');
     console.log(`   Total events: ${stats.totalEvents}`);
     console.log(`   Unique tasks: ${stats.uniqueTasks}`);
+    const dateRange = (stats.dateRange as any) || { earliest: null, latest: null };
     console.log(
-      `   Date range: ${stats.dateRange.earliest ? new Date(stats.dateRange.earliest).toLocaleDateString() : 'N/A'} to ${stats.dateRange.latest ? new Date(stats.dateRange.latest).toLocaleDateString() : 'N/A'}`,
+      `   Date range: ${dateRange.earliest ? new Date(dateRange.earliest).toLocaleDateString() : 'N/A'} to ${dateRange.latest ? new Date(dateRange.latest).toLocaleDateString() : 'N/A'}`,
     );
     console.log('');
 
     // Show transition types
-    if (Object.keys(stats.transitionTypes).length > 0) {
+    const transitionTypes = (stats.transitionTypes as any) || {};
+    if (Object.keys(transitionTypes).length > 0) {
       console.log('🔄 Transition Types:');
-      const sortedTransitions = Object.entries(stats.transitionTypes)
-        .sort(([, a], [, b]) => b - a)
+      const sortedTransitions = Object.entries(transitionTypes)
+        .sort(([, a], [, b]) => (b as number) - (a as number))
         .slice(0, 10); // Top 10
 
       for (const [transition, count] of sortedTransitions) {
@@ -117,14 +119,19 @@ export const createRebuildEventLogCommand = (_boardFile: string, _tasksDir: stri
 
     for (const event of reconstructedEvents) {
       try {
-        await eventLogManager.logTransition(event.taskId, event.fromStatus, event.toStatus, {
-          actor: event.actor,
-          reason: event.reason,
-          metadata: event.metadata,
-        });
+        await eventLogManager.logTransition(
+          (event as any).taskId || 'unknown',
+          (event as any).fromStatus || 'unknown',
+          (event as any).toStatus || 'unknown',
+          {
+            actor: (event as any).actor,
+            reason: (event as any).reason,
+            metadata: (event as any).metadata,
+          },
+        );
         writtenCount++;
       } catch (error) {
-        console.warn(`⚠️  Failed to write event for task ${event.taskId}: ${error}`);
+        console.warn(`⚠️  Failed to write event for task ${(event as any).taskId}: ${error}`);
       }
     }
 

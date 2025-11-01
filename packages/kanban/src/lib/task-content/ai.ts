@@ -7,6 +7,7 @@ import { promises as fs } from 'node:fs';
 import path from 'node:path';
 
 import type { Task } from '../types.js';
+import { warn, error, info } from '../utils/logger.js';
 
 import type {
   TaskAnalysisRequest,
@@ -53,7 +54,7 @@ export class TaskAIManager {
       const { execSync } = await import('child_process');
       execSync('pnpm kanban regenerate', { stdio: 'inherit', cwd: process.cwd() });
     } catch (error) {
-      console.warn('Failed to sync kanban board:', error);
+      warn('Failed to sync kanban board:', error);
     }
   }
 
@@ -73,10 +74,10 @@ export class TaskAIManager {
       });
 
       return backupPath;
-    } catch (error) {
-      console.error('Task backup failed:', error);
+    } catch (err) {
+      error('Task backup failed:', err);
       throw new Error(
-        `Backup failed for task ${uuid}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        `Backup failed for task ${uuid}: ${err instanceof Error ? err.message : 'Unknown error'}`,
       );
     }
   }
@@ -105,10 +106,10 @@ export class TaskAIManager {
       const auditLine = JSON.stringify(auditEntry) + '\n';
       await fs.appendFile(auditFile, auditLine, 'utf8');
 
-      console.log('🔍 Audit Event logged:', auditEntry);
+      info('Audit Event logged:', auditEntry);
     } catch (error) {
-      console.warn('Failed to write audit log:', error);
-      console.log('🔍 Audit Event (fallback):', JSON.stringify(auditEntry, null, 2));
+      warn('Failed to write audit log:', error);
+      info('Audit Event (fallback):', JSON.stringify(auditEntry, null, 2));
     }
   }
 
@@ -302,6 +303,7 @@ export class TaskAIManager {
     }
   }
 
+  // TODO: mock implementation - replace with real LLM calls using pantheon
   private generateTaskAnalysis(
     task: Task,
     analysisType: string,

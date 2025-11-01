@@ -2556,6 +2556,9 @@ importers:
       js-yaml:
         specifier: ^4.1.0
         version: 4.1.0
+      jsedn:
+        specifier: 0.4.1
+        version: 0.4.1
       mongodb:
         specifier: ^6.18.0
         version: 6.18.0(@aws-sdk/credential-providers@3.906.0)(socks@2.8.7)
@@ -3630,18 +3633,30 @@ importers:
       '@promethean-os/pantheon-core':
         specifier: workspace:*
         version: link:core
+      '@promethean-os/pantheon-ecs':
+        specifier: workspace:*
+        version: link:ecs
       '@promethean-os/pantheon-llm-openai':
         specifier: workspace:*
         version: link:llm-openai
       '@promethean-os/pantheon-mcp':
         specifier: workspace:*
         version: link:mcp
+      '@promethean-os/pantheon-orchestrator':
+        specifier: workspace:*
+        version: link:orchestrator
       '@promethean-os/pantheon-persistence':
         specifier: workspace:*
         version: link:persistence
+      '@promethean-os/pantheon-protocol':
+        specifier: workspace:*
+        version: link:protocol
       '@promethean-os/pantheon-state':
         specifier: workspace:*
         version: link:state
+      '@promethean-os/pantheon-workflow':
+        specifier: workspace:*
+        version: link:workflow
       '@promethean-os/persistence':
         specifier: workspace:*
         version: link:../persistence

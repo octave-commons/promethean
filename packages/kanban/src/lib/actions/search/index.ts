@@ -3,8 +3,11 @@
  */
 
 // Search and indexing actions for Kanban system
-export type { SearchTasksInput, SearchTasksResult } from './search-tasks.js';
-export { searchTasks } from './search-tasks.js';
+export { searchBoard } from './search-board.js';
+export type { SearchBoardInput, SearchBoardResult } from './search-board.js';
 
-export type { IndexForSearchInput, IndexForSearchResult } from './index-for-search.js';
-export { indexForSearch } from './index-for-search.js';
+export { indexKanbanTasks } from './index-tasks.js';
+export type { IndexTasksInput, IndexTasksResult } from './index-tasks.js';
+
+export { generateBoardByTags } from './generate-board-by-tags.js';
+export type { GenerateBoardByTagsInput, GenerateBoardByTagsResult } from './generate-board-by-tags.js';

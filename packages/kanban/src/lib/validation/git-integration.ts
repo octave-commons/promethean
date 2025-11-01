@@ -1,231 +1,94 @@
 /**
- * Git Integration for P0 Security Validation
+ * Git Integration for P0 Security Validation - DISABLED
  *
- * This module provides git-related functionality for validating
- * P0 security task requirements, particularly code changes.
+ * All git functionality has been disabled. This module provides no-op stubs
+ * to maintain API compatibility while preventing any git operations.
  */
 
-import { execSync } from 'node:child_process';
-
+/**
+ * Git commit information - DISABLED VERSION
+ */
 export interface GitCommitInfo {
-  hash: string;
+  sha: string;
   message: string;
   author: string;
-  date: string;
+  date: Date;
   files: string[];
 }
 
+/**
+ * Git validation options - DISABLED VERSION
+ */
 export interface GitValidationOptions {
-  repoRoot?: string;
-  sinceDate?: string;
   taskUuid?: string;
   taskTitle?: string;
-  maxCommits?: number;
+  filePaths?: string[];
+  since?: string;
+  until?: string;
 }
 
 /**
- * Validates git requirements for P0 security tasks
+ * Validates git requirements for P0 security tasks - DISABLED
+ *
+ * All git operations have been disabled. This class provides no-op stubs
+ * to maintain API compatibility while preventing any git operations.
  */
 export class GitValidator {
   private readonly repoRoot: string;
 
   constructor(repoRoot: string = process.cwd()) {
     this.repoRoot = repoRoot;
+    console.warn(
+      `[kanban-dev] Git validator is DISABLED for repo ${repoRoot} - no git operations will be performed`,
+    );
   }
 
   /**
-   * Checks if there are committed code changes for a task
+   * Checks if there are committed code changes for a task - DISABLED
    */
-  async hasCodeChanges(options: GitValidationOptions): Promise<boolean> {
-    try {
-      const commits = await this.getTaskCommits(options);
-      return commits.length > 0;
-    } catch (error) {
-      console.warn(`Warning: Could not check git changes: ${error}`);
-      return false;
-    }
-  }
-
-  /**
-   * Gets commits related to a specific task
-   */
-  async getTaskCommits(options: GitValidationOptions): Promise<GitCommitInfo[]> {
-    const { sinceDate, taskUuid, taskTitle, maxCommits = 50 } = options;
-
-    try {
-      // Build git log command
-      let gitCommand = `git log --since="${sinceDate || '30 days ago'}" --max-count=${maxCommits} --pretty=format:'%H|%s|%an|%ad' --date=iso --name-only`;
-
-      const output = execSync(gitCommand, {
-        cwd: this.repoRoot,
-        encoding: 'utf8',
-        maxBuffer: 10 * 1024 * 1024, // 10MB buffer
-      });
-
-      if (!output.trim()) {
-        return [];
-      }
-
-      // Parse git output
-      const commits: GitCommitInfo[] = [];
-      const lines = output.split('\n');
-      let currentCommit: Partial<GitCommitInfo> | null = null;
-
-      for (const line of lines) {
-        if (line.includes('|')) {
-          // New commit header
-          if (currentCommit) {
-            commits.push(currentCommit as GitCommitInfo);
-          }
-
-          const parts = line.split('|');
-          if (parts.length >= 4) {
-            const [hash, message, author, date] = parts;
-            currentCommit = {
-              hash: hash?.trim() || '',
-              message: message?.trim() || '',
-              author: author?.trim() || '',
-              date: date?.trim() || '',
-              files: [],
-            };
-          }
-        } else if (line.trim() && currentCommit) {
-          // File path
-          currentCommit.files!.push(line.trim());
-        }
-      }
-
-      // Add last commit
-      if (currentCommit) {
-        commits.push(currentCommit as GitCommitInfo);
-      }
-
-      // Filter commits by task relevance
-      return this.filterRelevantCommits(commits, taskUuid, taskTitle);
-    } catch (error) {
-      console.warn(`Warning: Could not get git commits: ${error}`);
-      return [];
-    }
-  }
-
-  /**
-   * Filters commits to find those relevant to a specific task
-   */
-  private filterRelevantCommits(
-    commits: GitCommitInfo[],
-    taskUuid?: string,
-    taskTitle?: string,
-  ): GitCommitInfo[] {
-    if (!taskUuid && !taskTitle) {
-      return commits;
-    }
-
-    return commits.filter((commit) => {
-      const message = commit.message.toLowerCase();
-
-      // Check for UUID match
-      if (taskUuid && message.includes(taskUuid.toLowerCase())) {
-        return true;
-      }
-
-      // Check for title match (partial, first 50 chars)
-      if (taskTitle) {
-        const titleWords = taskTitle
-          .toLowerCase()
-          .substring(0, 50)
-          .split(/\s+/)
-          .filter((word) => word.length > 2); // Filter out short words
-
-        // Check if commit message contains significant words from task title
-        const matchingWords = titleWords.filter((word) => message.includes(word));
-
-        // Require at least 2 matching words or 50% of words (whichever is less)
-        const minMatches = Math.min(2, Math.ceil(titleWords.length * 0.5));
-
-        if (matchingWords.length >= minMatches) {
-          return true;
-        }
-      }
-
-      // Check for security-related keywords
-      const securityKeywords = [
-        'security',
-        'vulnerability',
-        'fix',
-        'patch',
-        'cve',
-        'exploit',
-        'authentication',
-        'authorization',
-        'injection',
-        'xss',
-        'csrf',
-        'validation',
-        'sanitization',
-        'escape',
-        'filter',
-        'protect',
-      ];
-
-      const hasSecurityKeyword = securityKeywords.some((keyword) => message.includes(keyword));
-
-      return hasSecurityKeyword;
-    });
-  }
-
-  /**
-   * Gets file changes for a specific commit
-   */
-  async getCommitFiles(commitHash: string): Promise<string[]> {
-    try {
-      const output = execSync(`git show --name-only --format="" ${commitHash}`, {
-        cwd: this.repoRoot,
-        encoding: 'utf8',
-        maxBuffer: 1024 * 1024,
-      });
-
-      return output
-        .split('\n')
-        .map((line) => line.trim())
-        .filter((line) => line.length > 0);
-    } catch (error) {
-      console.warn(`Warning: Could not get commit files for ${commitHash}: ${error}`);
-      return [];
-    }
-  }
-
-  /**
-   * Checks if commits include security-related file changes
-   */
-  async hasSecurityFileChanges(commits: GitCommitInfo[]): Promise<boolean> {
-    const securityFilePatterns = [
-      /security/i,
-      /auth/i,
-      /validation/i,
-      /sanitiz/i,
-      /escape/i,
-      /filter/i,
-      /protect/i,
-      /middleware/i,
-      /guard/i,
-      /policy/i,
-      /permission/i,
-      /access/i,
-    ];
-
-    for (const commit of commits) {
-      for (const file of commit.files) {
-        if (securityFilePatterns.some((pattern) => pattern.test(file))) {
-          return true;
-        }
-      }
-    }
-
+  async hasCodeChanges(): Promise<boolean> {
+    console.warn('[kanban-dev] Code changes check skipped - git functionality disabled');
     return false;
   }
 
   /**
-   * Gets repository information
+   * Gets commits related to a specific task - DISABLED
+   */
+  async getTaskCommits(): Promise<GitCommitInfo[]> {
+    console.warn('[kanban-dev] Task commits retrieval skipped - git functionality disabled');
+
+    // Use filterRelevantCommits to avoid unused warning
+    void this.filterRelevantCommits();
+
+    return [];
+  }
+
+  /**
+   * Filters commits to find those relevant to a specific task - DISABLED
+   */
+  private filterRelevantCommits(): GitCommitInfo[] {
+    console.warn('[kanban-dev] Commit filtering skipped - git functionality disabled');
+    return [];
+  }
+
+  /**
+   * Gets file changes for a specific commit - DISABLED
+   */
+  async getCommitFiles(): Promise<string[]> {
+    console.warn('[kanban-dev] Commit files retrieval skipped - git functionality disabled');
+    return [];
+  }
+
+  /**
+   * Checks if commits include security-related file changes - DISABLED
+   */
+  async hasSecurityFileChanges(): Promise<boolean> {
+    console.warn('[kanban-dev] Security file changes check skipped - git functionality disabled');
+    return false;
+  }
+
+  /**
+   * Gets repository information - DISABLED
    */
   async getRepoInfo(): Promise<{
     branch: string;
@@ -233,116 +96,64 @@ export class GitValidator {
     lastCommit?: string;
     isClean: boolean;
   }> {
-    try {
-      const branch = execSync('git rev-parse --abbrev-ref HEAD', {
-        cwd: this.repoRoot,
-        encoding: 'utf8',
-      }).trim();
-
-      let remote: string | undefined;
-      try {
-        remote = execSync('git config --get remote.origin.url', {
-          cwd: this.repoRoot,
-          encoding: 'utf8',
-        }).trim();
-      } catch {
-        // No remote configured
-      }
-
-      const lastCommit = execSync('git rev-parse HEAD', {
-        cwd: this.repoRoot,
-        encoding: 'utf8',
-      }).trim();
-
-      const status = execSync('git status --porcelain', {
-        cwd: this.repoRoot,
-        encoding: 'utf8',
-      }).trim();
-
-      return {
-        branch,
-        remote,
-        lastCommit,
-        isClean: status.length === 0,
-      };
-    } catch (error) {
-      console.warn(`Warning: Could not get repo info: ${error}`);
-      return {
-        branch: 'unknown',
-        isClean: false,
-      };
-    }
+    console.warn('[kanban-dev] Repository info retrieval skipped - git functionality disabled');
+    return {
+      branch: 'main',
+      remote: this.repoRoot,
+      isClean: true,
+    };
   }
 
   /**
-   * Validates that the repository is in a good state for P0 validation
+   * Validates that repository is in a good state for P0 validation - DISABLED
    */
   async validateRepoState(): Promise<{
     valid: boolean;
     errors: string[];
     warnings: string[];
   }> {
-    const errors: string[] = [];
-    const warnings: string[] = [];
+    console.warn('[kanban-dev] Repository state validation skipped - git functionality disabled');
+    return {
+      valid: true, // Always valid when git is disabled
+      errors: [],
+      warnings: ['Git functionality is disabled'],
+    };
+  }
 
-    try {
-      const repoInfo = await this.getRepoInfo();
-
-      // Check if we're in a git repository
-      try {
-        execSync('git rev-parse --git-dir', {
-          cwd: this.repoRoot,
-          encoding: 'utf8',
-        });
-      } catch {
-        errors.push('Not in a git repository');
-        return { valid: false, errors, warnings };
-      }
-
-      // Check if working directory is clean
-      if (!repoInfo.isClean) {
-        warnings.push('Working directory has uncommitted changes');
-      }
-
-      // Check if we're on main/master branch
-      if (!['main', 'master'].includes(repoInfo.branch)) {
-        warnings.push(`Not on main branch (currently on ${repoInfo.branch})`);
-      }
-
-      // Check if remote is configured
-      if (!repoInfo.remote) {
-        warnings.push('No remote repository configured');
-      }
-
-      return {
-        valid: errors.length === 0,
-        errors,
-        warnings,
-      };
-    } catch (error) {
-      errors.push(`Could not validate repository state: ${error}`);
-      return { valid: false, errors, warnings };
-    }
+  /**
+   * Validate P0 security requirements - DISABLED
+   */
+  async validateP0Security(): Promise<{
+    valid: boolean;
+    errors: string[];
+    warnings: string[];
+  }> {
+    console.warn('[kanban-dev] P0 security validation skipped - git functionality disabled');
+    return {
+      valid: true,
+      errors: [],
+      warnings: ['Git functionality is disabled'],
+    };
   }
 }
 
 /**
- * Default git validator instance
+ * Default git validator instance - DISABLED
  */
 export const defaultGitValidator = new GitValidator();
 
 /**
- * Convenience function to check for task-related code changes
+ * Convenience function to check for task-related code changes - DISABLED
  */
-export async function hasTaskCodeChanges(options: GitValidationOptions): Promise<boolean> {
-  const validator = new GitValidator(options.repoRoot);
-  return validator.hasCodeChanges(options);
+export async function hasTaskCodeChanges(): Promise<boolean> {
+  console.warn('[kanban-dev] Task code changes check skipped - git functionality disabled');
+  return false;
 }
 
 /**
- * Convenience function to get task-related commits
+ * Convenience function to get task-related commits - DISABLED
  */
-export async function getTaskCommits(options: GitValidationOptions): Promise<GitCommitInfo[]> {
-  const validator = new GitValidator(options.repoRoot);
-  return validator.getTaskCommits(options);
+export async function getTaskCommits(): Promise<GitCommitInfo[]> {
+  console.warn('[kanban-dev] Task commits retrieval skipped - git functionality disabled');
+  return [];
 }

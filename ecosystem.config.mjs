@@ -6,6 +6,7 @@ dotenv.config();
 export const apps =
 [
   {
+<<<<<<< HEAD
     "name": "lein-repl",
     "script": "lein",
     "interpreter": "/usr/bin/env",
@@ -356,6 +357,10 @@ export const apps =
         "retries": 3
       }
     }
+=======
+    "name": "app",
+    "cwd": "./....windowssystem32"
+>>>>>>> origin/hacks
   }
 ];
 
