@@ -8,5 +8,5 @@
     "exactOptionalPropertyTypes": false
   },
   "include": ["src/**/*"],
-  "references": [{ "path": "../level-cache" }]
+  "references": [{ "path": "../../level-cache" }]
 }
