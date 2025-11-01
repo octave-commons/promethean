@@ -37,8 +37,11 @@
 - **No test code in prod paths.** Ports/DI keeps boundaries explicit.
 - **Deterministic & parallel-friendly.** No shared module singletons leaking between tests.
 - **Easier refactors.** Adapters are the only place that knows Mongo/Chroma APIs.
-- **Right tool for each test level.** Fakes for unit speed; containers for realistic integration. The principle is well-established: mock _your_ interfaces, not vendor clients. ([Hynek Schlawack][3], [8th Light][2])
-- `esmock` provides native ESM import mocking and has examples for AVA. It avoids invasive "test hook" exports. ([NPM][5], [Skypack][6])
+- **Right tool for each test level.**
+  - Fakes for unit speed;
+  - containers for realistic integration.
+  - The principle is well-established: mock _your_ interfaces, not vendor clients.
+- `esmock` provides native ESM import mocking and has examples for AVA. It avoids invasive "test hook" exports.
 
 
 
