@@ -2,6 +2,10 @@ import { readFile } from 'node:fs/promises';
 import { extname } from 'node:path';
 import { listFiles } from '@promethean-os/fs';
 import { validateFileSystemPath } from './path-validation.js';
+import {
+  getDefaultIgnorePatterns,
+  shouldIgnoreFile,
+} from '@promethean-os/file-indexer/gitignore-utils.js';
 
 export type MaybePromise<T> = T | Promise<T>;
 
@@ -33,6 +37,14 @@ export type ScanFilesOptions = Readonly<{
   onBatch?: BatchHandler;
   onProgress?: (progress: ScanProgress) => void;
   signal?: Readonly<AbortSignal>;
+  /**
+   * If true, uses smart defaults for ignoring files:
+   * - Skips dotfiles (.env, .git, etc.)
+   * - Respects .gitignore patterns
+   * - Skips common build/cache directories
+   * @default true
+   */
+  useDefaultIgnores?: boolean;
 }>;
 
 export type ScanFilesResult = Readonly<{
