@@ -85,6 +85,7 @@ The documentation must be completely traversable .
 #### Development Patterns
 
 - [[docs/development/file-based-operations-pattern.md]] - Standard patterns for file scanning and operations
+- [[docs/documentation-to-code-linking-system.md]] - Documentation and code bridging system
 
 #### System Documentation
 
@@ -111,11 +112,26 @@ The documentation must be completely traversable .
 - [[docs/design/agent-os-api-specs.md]]
 - [[docs/MCP_AUTHORIZATION_ARCHITECTURE.md]]
 
+#### Design & Architecture
+
+- [[docs/design/overview.md]]
+- [[docs/design/enso.md]]
+- [[docs/design/nexus.md]]
+- [[docs/design/agent-os-architecture.md]]
+- [[docs/design/enso-protocol/index.md]]
+
 #### Package Documentation
 
 - [[docs/packages/cephalon/README.md]]
 - [[docs/packages/security/README.md]]
 - [[docs/packages/shadow-conf/README.md]]
+
+#### Operations & Git
+
+- [[docs/ops/versioning_policy.md]]
+- [[docs/ops/version_matrix.md]]
+- [[docs/git/branching.md]]
+- [[docs/git/rulesets.md]]
 
 ---
 
