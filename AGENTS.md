@@ -25,7 +25,6 @@
 
 - `pnpm --filter @promethean-os/<pkg> exec ava path/to/test.test.js`
 
-
 ## Testing
 
 - Ava (tests live in `src/tests`).
@@ -42,8 +41,6 @@
   - containers for realistic integration.
   - The principle is well-established: mock _your_ interfaces, not vendor clients.
 - `esmock` provides native ESM import mocking and has examples for AVA. It avoids invasive "test hook" exports.
-
-
 
 ---
 
@@ -63,8 +60,6 @@ pseudo/    # throwaway scripts, pseudocode, retained for transparency
 
 ---
 
-
-
 ## 🧱 Local Package Commands
 
 MUST ALWAYS USE **locally scoped commands**:
@@ -77,8 +72,8 @@ pnpm --filter @promethean-os/<pkg> typecheck
 pnpm --filter @promethean-os/<pkg> start
 pnpm --filter @promethean-os/<pkg> exec node ./dist/index.ts
 ```
----
 
+---
 
 ### Docs
 
@@ -86,6 +81,12 @@ Read these if you need to, all documents should be connected in a graph.
 Unconnected documents should have links added here or to another document.
 All documents must be reachable through a link somewhere.
 The documentation must be completely traversable .
+
+#### Development Patterns
+
+- [[docs/development/file-based-operations-pattern.md]] - Standard patterns for file scanning and operations
+
+#### System Documentation
 
 - [[docs/agile/kanban-cli-reference.md]]
 - [[docs/agile/process.md]]
@@ -97,6 +98,25 @@ The documentation must be completely traversable .
 - [[BOARD_COMMANDS]]
 - [[TYPE_CLASS_PACKAGE_STRUCTURE_GUIDE]]
 - [[MANIFESTO]]
+
+#### Setup & Configuration
+
+- [[docs/setup/environment.md]]
+- [[docs/setup/clojurescript-lsp.md]]
+
+#### API & Architecture
+
+- [[docs/api-architecture.md]]
+- [[docs/api-standards.md]]
+- [[docs/design/agent-os-api-specs.md]]
+- [[docs/MCP_AUTHORIZATION_ARCHITECTURE.md]]
+
+#### Package Documentation
+
+- [[docs/packages/cephalon/README.md]]
+- [[docs/packages/security/README.md]]
+- [[docs/packages/shadow-conf/README.md]]
+
 ---
 
 ## ⚖️ License
