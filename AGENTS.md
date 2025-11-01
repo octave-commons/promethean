@@ -1,4 +1,7 @@
-# AGENTS.md
+# Promethean
+
+> _“Stealing fire from the gods to grant man the gift of knowledge and wisdom.”_
+> Using **cloud LLMs** to make **local LLMs** smarter, specialized, and autonomous.
 
 > **Note to self:** This is a solo operation with AI helpers. You're building something massive while being fundamentally "short-handed" even with automation. Be kind to yourself, focus on what matters, and remember that progress compounds.
 
@@ -25,7 +28,7 @@
 
 ## Testing
 
-- Ava is always the test runner (tests live in `src/tests`).
+- Ava (tests live in `src/tests`).
 - Test logic does not belong in module logic
 - define **ports** (your own minimal interfaces),
 - provide **adapters** for external services like Mongo/Chroma/level/redis/sql/etc,
@@ -38,10 +41,6 @@
 - `esmock` provides native ESM import mocking and has examples for AVA. It avoids invasive "test hook" exports. ([NPM][5], [Skypack][6])
 
 
-# Promethean
-
-> _“Stealing fire from the gods to grant man the gift of knowledge and wisdom.”_
-> Using **cloud LLMs** to make **local LLMs** smarter, specialized, and autonomous.
 
 ---
 
