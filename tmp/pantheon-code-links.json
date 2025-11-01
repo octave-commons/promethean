@@ -682,6 +682,24 @@
         "totalLines": 28
       },
       {
+        "path": "core.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/core.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 4
+      },
+      {
+        "path": "ecs.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/ecs.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 4
+      },
+      {
         "path": "factories/actor-factory.ts",
         "fullPath": "/home/err/devel/promethean/packages/pantheon/src/factories/actor-factory.ts",
         "exports": [
@@ -769,7 +787,7 @@
         "classes": [],
         "functions": [],
         "interfaces": [],
-        "totalLines": 117
+        "totalLines": 120
       },
       {
         "path": "llm/openai.ts",
@@ -791,6 +809,42 @@
         ],
         "interfaces": [],
         "totalLines": 68
+      },
+      {
+        "path": "mcp.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/mcp.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 15
+      },
+      {
+        "path": "orchestrator.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/orchestrator.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 17
+      },
+      {
+        "path": "persistence.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/persistence.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 11
+      },
+      {
+        "path": "protocol.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/protocol.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 4
       },
       {
         "path": "serializers/index.ts",
@@ -861,6 +915,15 @@
         ],
         "interfaces": [],
         "totalLines": 90
+      },
+      {
+        "path": "state.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/state.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 4
       },
       {
         "path": "tests/core/actors.test.ts",
@@ -1275,6 +1338,15 @@
         "functions": [],
         "interfaces": [],
         "totalLines": 196
+      },
+      {
+        "path": "workflow.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/workflow.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 4
       }
     ],
     "mainEntry": {
@@ -1283,7 +1355,7 @@
       "classes": [],
       "functions": [],
       "interfaces": [],
-      "totalLines": 117
+      "totalLines": 120
     },
     "exports": [
       {
@@ -2433,6 +2505,16 @@
           "lineCount": 28
         },
         {
+          "name": "core.ts",
+          "link": "[src/core.ts](../../../packages/pantheon/src/core.ts)",
+          "lineCount": 4
+        },
+        {
+          "name": "ecs.ts",
+          "link": "[src/ecs.ts](../../../packages/pantheon/src/ecs.ts)",
+          "lineCount": 4
+        },
+        {
           "name": "factories/actor-factory.ts",
           "link": "[src/factories/actor-factory.ts](../../../packages/pantheon/src/factories/actor-factory.ts)",
           "lineCount": 70
@@ -2445,12 +2527,32 @@
         {
           "name": "index.ts",
           "link": "[src/index.ts](../../../packages/pantheon/src/index.ts)",
-          "lineCount": 117
+          "lineCount": 120
         },
         {
           "name": "llm/openai.ts",
           "link": "[src/llm/openai.ts](../../../packages/pantheon/src/llm/openai.ts)",
           "lineCount": 68
+        },
+        {
+          "name": "mcp.ts",
+          "link": "[src/mcp.ts](../../../packages/pantheon/src/mcp.ts)",
+          "lineCount": 15
+        },
+        {
+          "name": "orchestrator.ts",
+          "link": "[src/orchestrator.ts](../../../packages/pantheon/src/orchestrator.ts)",
+          "lineCount": 17
+        },
+        {
+          "name": "persistence.ts",
+          "link": "[src/persistence.ts](../../../packages/pantheon/src/persistence.ts)",
+          "lineCount": 11
+        },
+        {
+          "name": "protocol.ts",
+          "link": "[src/protocol.ts](../../../packages/pantheon/src/protocol.ts)",
+          "lineCount": 4
         },
         {
           "name": "serializers/index.ts",
@@ -2461,6 +2563,11 @@
           "name": "serializers/jwt-tokens.ts",
           "link": "[src/serializers/jwt-tokens.ts](../../../packages/pantheon/src/serializers/jwt-tokens.ts)",
           "lineCount": 90
+        },
+        {
+          "name": "state.ts",
+          "link": "[src/state.ts](../../../packages/pantheon/src/state.ts)",
+          "lineCount": 4
         },
         {
           "name": "tests/core/actors.test.ts",
@@ -2541,6 +2648,11 @@
           "name": "validation-test.ts",
           "link": "[src/validation-test.ts](../../../packages/pantheon/src/validation-test.ts)",
           "lineCount": 196
+        },
+        {
+          "name": "workflow.ts",
+          "link": "[src/workflow.ts](../../../packages/pantheon/src/workflow.ts)",
+          "lineCount": 4
         }
       ]
     },
