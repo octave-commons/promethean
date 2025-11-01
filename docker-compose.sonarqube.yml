@@ -10,3 +10,8 @@ services:
       - sonarqube_logs:/opt/sonarqube/logs
       - sonarqube_extensions:/opt/sonarqube/extensions
     restart: always
+
+volumnes:
+  sonarqube_data:
+  sonarqube_logs:
+  sonarqube_extensions:
