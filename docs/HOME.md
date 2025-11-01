@@ -78,13 +78,9 @@ The actions of every user of your system scrutinized
 
 Need a subsystem or SDK? Browse the catalog to jump directly to each package
 README for architecture notes, setup commands, and current usage guidance.
-```
 <!-- PACKAGE_CATALOG_START -->
-```
 | Package | Summary | Usage | README |
-```
 | --- | --- | --- | --- |
-```
 | @promethean-os/agent | (coming soon) | Usage details coming soon in package README. | [README]packages/agent/README.md |
 | @promethean-os/agent-ecs | (coming soon) | Usage details coming soon in package README. | [README]packages/agent-ecs/README.md |
 | @promethean-os/alias-rewrite | Deprecated: use @promethean-os/naming instead | Usage details pending in package README. | [README]packages/alias-rewrite/README.md |
@@ -168,6 +164,4 @@ README for architecture notes, setup commands, and current usage guidance.
 | Webcrawler Service | Polite Markdown-saving web crawler that respects `robots.txt` and persists fetched pages as Markdown files in a configurable output directory. | Usage details pending in package README. | [README]packages/webcrawler-service/README.md |
 | @promethean-os/worker | (coming soon) | Usage details coming soon in package README. | [README]packages/worker/README.md |
 | @promethean-os/ws | (coming soon) | Usage details coming soon in package README. | [README]packages/ws/README.md |
-```
 <!-- PACKAGE_CATALOG_END -->
-```
