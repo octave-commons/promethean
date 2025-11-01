@@ -1712,7 +1712,7 @@
           }
         ],
         "interfaces": [],
-        "totalLines": 13
+        "totalLines": 6
       },
       {
         "path": "ollama/either.ts",
@@ -2341,7 +2341,7 @@
         "classes": [],
         "functions": [],
         "interfaces": [],
-        "totalLines": 250
+        "totalLines": 242
       },
       {
         "path": "tests/files-tools-edgecases.test.ts",
@@ -2614,7 +2614,7 @@
         "classes": [],
         "functions": [],
         "interfaces": [],
-        "totalLines": 300
+        "totalLines": 244
       },
       {
         "path": "tests/serena-sdk-proxy.test.ts",
@@ -2781,8 +2781,8 @@
         "totalLines": 303
       },
       {
-        "path": "tools/files.ts",
-        "fullPath": "/home/err/devel/promethean/packages/mcp/src/tools/files.ts",
+        "path": "tools/files-tools.ts",
+        "fullPath": "/home/err/devel/promethean/packages/mcp/src/tools/files-tools.ts",
         "exports": [
           {
             "name": "filesListDirectory",
@@ -5085,31 +5085,31 @@
         "name": "filesListDirectory",
         "line": 17,
         "type": "function",
-        "file": "tools/files.ts"
+        "file": "tools/files-tools.ts"
       },
       {
         "name": "filesTreeDirectory",
         "line": 46,
         "type": "function",
-        "file": "tools/files.ts"
+        "file": "tools/files-tools.ts"
       },
       {
         "name": "filesViewFile",
         "line": 81,
         "type": "function",
-        "file": "tools/files.ts"
+        "file": "tools/files-tools.ts"
       },
       {
         "name": "filesWriteFileContent",
         "line": 110,
         "type": "function",
-        "file": "tools/files.ts"
+        "file": "tools/files-tools.ts"
       },
       {
         "name": "filesWriteFileLines",
         "line": 138,
         "type": "function",
-        "file": "tools/files.ts"
+        "file": "tools/files-tools.ts"
       },
       {
         "name": "inputSchema",
@@ -6709,31 +6709,31 @@
         "name": "filesListDirectory",
         "line": 17,
         "type": "function",
-        "file": "tools/files.ts"
+        "file": "tools/files-tools.ts"
       },
       {
         "name": "filesTreeDirectory",
         "line": 46,
         "type": "function",
-        "file": "tools/files.ts"
+        "file": "tools/files-tools.ts"
       },
       {
         "name": "filesViewFile",
         "line": 81,
         "type": "function",
-        "file": "tools/files.ts"
+        "file": "tools/files-tools.ts"
       },
       {
         "name": "filesWriteFileContent",
         "line": 110,
         "type": "function",
-        "file": "tools/files.ts"
+        "file": "tools/files-tools.ts"
       },
       {
         "name": "filesWriteFileLines",
         "line": 138,
         "type": "function",
-        "file": "tools/files.ts"
+        "file": "tools/files-tools.ts"
       },
       {
         "name": "inputSchema",
@@ -7697,7 +7697,7 @@
         {
           "name": "jsedn.d.ts",
           "link": "[src/jsedn.d.ts](../../../packages/mcp/src/jsedn.d.ts)",
-          "lineCount": 13
+          "lineCount": 6
         },
         {
           "name": "ollama/either.ts",
@@ -7842,7 +7842,7 @@
         {
           "name": "tests/files-security.test.ts",
           "link": "[src/tests/files-security.test.ts](../../../packages/mcp/src/tests/files-security.test.ts)",
-          "lineCount": 250
+          "lineCount": 242
         },
         {
           "name": "tests/files-tools-edgecases.test.ts",
@@ -7982,7 +7982,7 @@
         {
           "name": "tests/security.test.ts",
           "link": "[src/tests/security.test.ts](../../../packages/mcp/src/tests/security.test.ts)",
-          "lineCount": 300
+          "lineCount": 244
         },
         {
           "name": "tests/serena-sdk-proxy.test.ts",
@@ -8025,8 +8025,8 @@
           "lineCount": 303
         },
         {
-          "name": "tools/files.ts",
-          "link": "[src/tools/files.ts](../../../packages/mcp/src/tools/files.ts)",
+          "name": "tools/files-tools.ts",
+          "link": "[src/tools/files-tools.ts](../../../packages/mcp/src/tools/files-tools.ts)",
           "lineCount": 170
         },
         {
@@ -9124,32 +9124,32 @@
         },
         {
           "name": "filesListDirectory",
-          "link": "[filesListDirectory()](../../../packages/mcp/src/tools/files.ts#L17)",
-          "file": "tools/files.ts",
+          "link": "[filesListDirectory()](../../../packages/mcp/src/tools/files-tools.ts#L17)",
+          "file": "tools/files-tools.ts",
           "line": 17
         },
         {
           "name": "filesTreeDirectory",
-          "link": "[filesTreeDirectory()](../../../packages/mcp/src/tools/files.ts#L46)",
-          "file": "tools/files.ts",
+          "link": "[filesTreeDirectory()](../../../packages/mcp/src/tools/files-tools.ts#L46)",
+          "file": "tools/files-tools.ts",
           "line": 46
         },
         {
           "name": "filesViewFile",
-          "link": "[filesViewFile()](../../../packages/mcp/src/tools/files.ts#L81)",
-          "file": "tools/files.ts",
+          "link": "[filesViewFile()](../../../packages/mcp/src/tools/files-tools.ts#L81)",
+          "file": "tools/files-tools.ts",
           "line": 81
         },
         {
           "name": "filesWriteFileContent",
-          "link": "[filesWriteFileContent()](../../../packages/mcp/src/tools/files.ts#L110)",
-          "file": "tools/files.ts",
+          "link": "[filesWriteFileContent()](../../../packages/mcp/src/tools/files-tools.ts#L110)",
+          "file": "tools/files-tools.ts",
           "line": 110
         },
         {
           "name": "filesWriteFileLines",
-          "link": "[filesWriteFileLines()](../../../packages/mcp/src/tools/files.ts#L138)",
-          "file": "tools/files.ts",
+          "link": "[filesWriteFileLines()](../../../packages/mcp/src/tools/files-tools.ts#L138)",
+          "file": "tools/files-tools.ts",
           "line": 138
         },
         {

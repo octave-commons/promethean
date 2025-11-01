@@ -95,27 +95,27 @@
           },
           {
             "name": "stringifyFrontmatter",
-            "line": 61,
+            "line": 80,
             "type": "function"
           },
           {
             "name": "normalizeStringList",
-            "line": 66,
+            "line": 85,
             "type": "function"
           },
           {
             "name": "deriveFilenameFromPath",
-            "line": 76,
+            "line": 95,
             "type": "function"
           },
           {
             "name": "ensureBaselineFrontmatter",
-            "line": 112,
+            "line": 131,
             "type": "function"
           },
           {
             "name": "mergeFrontmatterWithGenerated",
-            "line": 161,
+            "line": 180,
             "type": "function"
           }
         ],
@@ -128,32 +128,32 @@
           },
           {
             "name": "stringifyFrontmatter",
-            "line": 61,
+            "line": 80,
             "type": "function"
           },
           {
             "name": "normalizeStringList",
-            "line": 66,
+            "line": 85,
             "type": "function"
           },
           {
             "name": "deriveFilenameFromPath",
-            "line": 76,
+            "line": 95,
             "type": "function"
           },
           {
             "name": "ensureBaselineFrontmatter",
-            "line": 112,
+            "line": 131,
             "type": "function"
           },
           {
             "name": "mergeFrontmatterWithGenerated",
-            "line": 161,
+            "line": 180,
             "type": "function"
           }
         ],
         "interfaces": [],
-        "totalLines": 198
+        "totalLines": 217
       },
       {
         "path": "index.ts",
@@ -812,31 +812,31 @@
       },
       {
         "name": "stringifyFrontmatter",
-        "line": 61,
+        "line": 80,
         "type": "function",
         "file": "frontmatter.ts"
       },
       {
         "name": "normalizeStringList",
-        "line": 66,
+        "line": 85,
         "type": "function",
         "file": "frontmatter.ts"
       },
       {
         "name": "deriveFilenameFromPath",
-        "line": 76,
+        "line": 95,
         "type": "function",
         "file": "frontmatter.ts"
       },
       {
         "name": "ensureBaselineFrontmatter",
-        "line": 112,
+        "line": 131,
         "type": "function",
         "file": "frontmatter.ts"
       },
       {
         "name": "mergeFrontmatterWithGenerated",
-        "line": 161,
+        "line": 180,
         "type": "function",
         "file": "frontmatter.ts"
       },
@@ -1164,31 +1164,31 @@
       },
       {
         "name": "stringifyFrontmatter",
-        "line": 61,
+        "line": 80,
         "type": "function",
         "file": "frontmatter.ts"
       },
       {
         "name": "normalizeStringList",
-        "line": 66,
+        "line": 85,
         "type": "function",
         "file": "frontmatter.ts"
       },
       {
         "name": "deriveFilenameFromPath",
-        "line": 76,
+        "line": 95,
         "type": "function",
         "file": "frontmatter.ts"
       },
       {
         "name": "ensureBaselineFrontmatter",
-        "line": 112,
+        "line": 131,
         "type": "function",
         "file": "frontmatter.ts"
       },
       {
         "name": "mergeFrontmatterWithGenerated",
-        "line": 161,
+        "line": 180,
         "type": "function",
         "file": "frontmatter.ts"
       },
@@ -1464,7 +1464,7 @@
         {
           "name": "frontmatter.ts",
           "link": "[src/frontmatter.ts](../../../packages/markdown/src/frontmatter.ts)",
-          "lineCount": 198
+          "lineCount": 217
         },
         {
           "name": "index.ts",
@@ -1608,33 +1608,33 @@
         },
         {
           "name": "stringifyFrontmatter",
-          "link": "[stringifyFrontmatter()](../../../packages/markdown/src/frontmatter.ts#L61)",
+          "link": "[stringifyFrontmatter()](../../../packages/markdown/src/frontmatter.ts#L80)",
           "file": "frontmatter.ts",
-          "line": 61
+          "line": 80
         },
         {
           "name": "normalizeStringList",
-          "link": "[normalizeStringList()](../../../packages/markdown/src/frontmatter.ts#L66)",
+          "link": "[normalizeStringList()](../../../packages/markdown/src/frontmatter.ts#L85)",
           "file": "frontmatter.ts",
-          "line": 66
+          "line": 85
         },
         {
           "name": "deriveFilenameFromPath",
-          "link": "[deriveFilenameFromPath()](../../../packages/markdown/src/frontmatter.ts#L76)",
+          "link": "[deriveFilenameFromPath()](../../../packages/markdown/src/frontmatter.ts#L95)",
           "file": "frontmatter.ts",
-          "line": 76
+          "line": 95
         },
         {
           "name": "ensureBaselineFrontmatter",
-          "link": "[ensureBaselineFrontmatter()](../../../packages/markdown/src/frontmatter.ts#L112)",
+          "link": "[ensureBaselineFrontmatter()](../../../packages/markdown/src/frontmatter.ts#L131)",
           "file": "frontmatter.ts",
-          "line": 112
+          "line": 131
         },
         {
           "name": "mergeFrontmatterWithGenerated",
-          "link": "[mergeFrontmatterWithGenerated()](../../../packages/markdown/src/frontmatter.ts#L161)",
+          "link": "[mergeFrontmatterWithGenerated()](../../../packages/markdown/src/frontmatter.ts#L180)",
           "file": "frontmatter.ts",
-          "line": 161
+          "line": 180
         },
         {
           "name": "STATUS_ORDER",

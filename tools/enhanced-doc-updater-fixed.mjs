@@ -182,26 +182,26 @@ function generateAPIReferenceSection(packageName, codeData) {
 function scanPackageCode(packageName) {
   try {
     const scannerPath = path.join(__dirname, 'code-scanner-fixed.mjs');
-    const result = execSync(`node "${scannerPath}" "${packageName}"`, { 
+    const result = execSync(`node "${scannerPath}" "${packageName}"`, {
       encoding: 'utf8',
-      cwd: rootDir 
+      cwd: rootDir,
     });
-    
+
     // Initialize code data structure
     const codeData = {
       files: [],
       classes: [],
       functions: [],
-      interfaces: []
+      interfaces: [],
     };
-    
+
     // Parse scanner output by sections
     const lines = result.split('\n');
     let currentSection = '';
-    
-    lines.forEach(line => {
+
+    lines.forEach((line) => {
       const trimmed = line.trim();
-      
+
       // Identify sections
       if (trimmed.startsWith('Files:')) {
         currentSection = 'files';
@@ -211,26 +211,31 @@ function scanPackageCode(packageName) {
         currentSection = 'functions';
       } else if (trimmed.startsWith('Interfaces:')) {
         currentSection = 'interfaces';
-      } else if (trimmed && !trimmed.includes('---') && !trimmed.includes('Scanning') && !trimmed.includes('Found')) {
+      } else if (
+        trimmed &&
+        !trimmed.includes('---') &&
+        !trimmed.includes('Scanning') &&
+        !trimmed.includes('Found')
+      ) {
         // Parse data within sections
         if (currentSection && trimmed.includes(':')) {
           const parts = trimmed.split(':');
           if (parts.length >= 2) {
             const name = parts[0].trim();
             const fileInfo = parts[1].trim();
-            
+
             // Extract file path and line number
             const fileMatch = fileInfo.match(/([^#]+)(?:#L(\d+))?/);
             if (fileMatch) {
               const filePath = fileMatch[1].trim();
               const lineNumber = fileMatch[2] ? parseInt(fileMatch[2]) : 1;
-              
+
               const item = {
                 name: name,
                 file: filePath,
-                line: lineNumber
+                line: lineNumber,
               };
-              
+
               // Add to appropriate section
               if (currentSection === 'files') {
                 codeData.files.push({ path: filePath });
@@ -241,24 +246,6 @@ function scanPackageCode(packageName) {
               } else if (currentSection === 'interfaces') {
                 codeData.interfaces.push(item);
               }
-            }
-          }
-        }
-      }
-    });
-    
-    return codeData;
-    
-  } catch (error) {
-    console.warn(`Warning: Could not scan code for ${packageName}:`, error.message);
-    return {
-      files: [],
-      classes: [],
-      functions: [],
-      interfaces: []
-    };
-  }
-}
             }
           }
         }
