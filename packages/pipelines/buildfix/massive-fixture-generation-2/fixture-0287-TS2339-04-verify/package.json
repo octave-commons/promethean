@@ -1,8 +1,0 @@
-{
-  "name": "buildfix-massive-fixture-fixture-0287-TS2339-04-verify",
-  "version": "1.0.0",
-  "type": "module",
-  "dependencies": {
-    "ts-morph": "^23.0.0"
-  }
-}
