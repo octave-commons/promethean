@@ -29,72 +29,38 @@ function scanPackageCode(packageName) {
       cwd: rootDir,
     });
 
-    // Initialize code data structure
-    const codeData = {
-      files: [],
-      classes: [],
-      functions: [],
-      interfaces: [],
-    };
+    // Parse the JSON output from the scanner
+    const outputPath = path.join(rootDir, 'tmp', `${packageName}-code-links.json`);
 
-    // Parse scanner output by sections
-    const lines = result.split('\n');
-    let currentSection = '';
+    if (fs.existsSync(outputPath)) {
+      const jsonData = JSON.parse(fs.readFileSync(outputPath, 'utf8'));
+      const { packageData, links } = jsonData;
 
-    lines.forEach((line) => {
-      const trimmed = line.trim();
+      // Convert to the format expected by SYMPKG enhancer
+      const codeData = {
+        files: packageData.files.map((f) => ({ path: f.path })),
+        classes: packageData.classes.map((c) => ({
+          name: c.name,
+          file: c.file,
+          line: c.line,
+        })),
+        functions: packageData.functions.map((f) => ({
+          name: f.name,
+          file: f.file,
+          line: f.line,
+        })),
+        interfaces: packageData.interfaces.map((i) => ({
+          name: i.name,
+          file: i.file,
+          line: i.line,
+        })),
+      };
 
-      // Identify sections
-      if (trimmed.startsWith('Files:')) {
-        currentSection = 'files';
-      } else if (trimmed.startsWith('Classes:')) {
-        currentSection = 'classes';
-      } else if (trimmed.startsWith('Functions:')) {
-        currentSection = 'functions';
-      } else if (trimmed.startsWith('Interfaces:')) {
-        currentSection = 'interfaces';
-      } else if (
-        trimmed &&
-        !trimmed.includes('---') &&
-        !trimmed.includes('Scanning') &&
-        !trimmed.includes('Found')
-      ) {
-        // Parse data within sections
-        if (currentSection && trimmed.includes(':')) {
-          const parts = trimmed.split(':');
-          if (parts.length >= 2) {
-            const name = parts[0].trim();
-            const fileInfo = parts[1].trim();
-
-            // Extract file path and line number
-            const fileMatch = fileInfo.match(/([^#]+)(?:#L(\d+))?/);
-            if (fileMatch) {
-              const filePath = fileMatch[1].trim();
-              const lineNumber = fileMatch[2] ? parseInt(fileMatch[2]) : 1;
-
-              const item = {
-                name: name,
-                file: filePath,
-                line: lineNumber,
-              };
-
-              // Add to appropriate section
-              if (currentSection === 'files') {
-                codeData.files.push({ path: filePath });
-              } else if (currentSection === 'classes') {
-                codeData.classes.push(item);
-              } else if (currentSection === 'functions') {
-                codeData.functions.push(item);
-              } else if (currentSection === 'interfaces') {
-                codeData.interfaces.push(item);
-              }
-            }
-          }
-        }
-      }
-    });
-
-    return codeData;
+      return codeData;
+    } else {
+      // Fallback: try to parse from console output (less reliable)
+      return parseScannerOutput(result);
+    }
   } catch (error) {
     console.warn(`Warning: Could not scan code for ${packageName}:`, error.message);
     return {
@@ -104,6 +70,78 @@ function scanPackageCode(packageName) {
       interfaces: [],
     };
   }
+}
+
+/**
+ * Parse scanner output from console (fallback method)
+ */
+function parseScannerOutput(result) {
+  const codeData = {
+    files: [],
+    classes: [],
+    functions: [],
+    interfaces: [],
+  };
+
+  const lines = result.split('\n');
+  let currentSection = '';
+
+  lines.forEach((line) => {
+    const trimmed = line.trim();
+
+    // Identify sections
+    if (trimmed.startsWith('Files:')) {
+      currentSection = 'files';
+    } else if (trimmed.startsWith('Classes:')) {
+      currentSection = 'classes';
+    } else if (trimmed.startsWith('Functions:')) {
+      currentSection = 'functions';
+    } else if (trimmed.startsWith('Interfaces:')) {
+      currentSection = 'interfaces';
+    } else if (
+      trimmed &&
+      !trimmed.includes('---') &&
+      !trimmed.includes('Scanning') &&
+      !trimmed.includes('Found') &&
+      !trimmed.includes('===') &&
+      !trimmed.includes('Package Structure')
+    ) {
+      // Parse data within sections
+      if (currentSection && trimmed.includes(':')) {
+        const parts = trimmed.split(':');
+        if (parts.length >= 2) {
+          const name = parts[0].trim();
+          const fileInfo = parts[1].trim();
+
+          // Extract file path and line number
+          const fileMatch = fileInfo.match(/([^#]+)(?:#L(\d+))?/);
+          if (fileMatch) {
+            const filePath = fileMatch[1].trim();
+            const lineNumber = fileMatch[2] ? parseInt(fileMatch[2]) : 1;
+
+            const item = {
+              name: name,
+              file: filePath,
+              line: lineNumber,
+            };
+
+            // Add to appropriate section
+            if (currentSection === 'files') {
+              codeData.files.push({ path: filePath });
+            } else if (currentSection === 'classes') {
+              codeData.classes.push(item);
+            } else if (currentSection === 'functions') {
+              codeData.functions.push(item);
+            } else if (currentSection === 'interfaces') {
+              codeData.interfaces.push(item);
+            }
+          }
+        }
+      }
+    }
+  });
+
+  return codeData;
 }
 
 /**
