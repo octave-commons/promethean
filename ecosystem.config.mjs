@@ -189,7 +189,7 @@ export const apps =
       "--debounce-ms",
       "10000",
       "--model",
-      "error/qwen3:4b-instruct-100k",
+      "gpt-oss:20b-cloud",
       "--base-url",
       "http://localhost:11434"
     ],

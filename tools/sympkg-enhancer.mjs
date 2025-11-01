@@ -29,14 +29,14 @@ function scanPackageCode(packageName) {
       cwd: rootDir,
     });
 
-    // Parse the JSON output from the scanner
+    // Parse JSON output from scanner
     const outputPath = path.join(rootDir, 'tmp', `${packageName}-code-links.json`);
 
     if (fs.existsSync(outputPath)) {
       const jsonData = JSON.parse(fs.readFileSync(outputPath, 'utf8'));
       const { packageData, links } = jsonData;
 
-      // Convert to the format expected by SYMPKG enhancer
+      // Convert to format expected by SYMPKG enhancer
       const codeData = {
         files: packageData.files.map((f) => ({ path: f.path })),
         classes: packageData.classes.map((c) => ({
@@ -70,6 +70,78 @@ function scanPackageCode(packageName) {
       interfaces: [],
     };
   }
+}
+
+/**
+ * Parse scanner output from console (fallback method)
+ */
+function parseScannerOutput(result) {
+  const codeData = {
+    files: [],
+    classes: [],
+    functions: [],
+    interfaces: [],
+  };
+
+  const lines = result.split('\n');
+  let currentSection = '';
+
+  lines.forEach((line) => {
+    const trimmed = line.trim();
+
+    // Identify sections
+    if (trimmed.startsWith('Files:')) {
+      currentSection = 'files';
+    } else if (trimmed.startsWith('Classes:')) {
+      currentSection = 'classes';
+    } else if (trimmed.startsWith('Functions:')) {
+      currentSection = 'functions';
+    } else if (trimmed.startsWith('Interfaces:')) {
+      currentSection = 'interfaces';
+    } else if (
+      trimmed &&
+      !trimmed.includes('---') &&
+      !trimmed.includes('Scanning') &&
+      !trimmed.includes('Found') &&
+      !trimmed.includes('===') &&
+      !trimmed.includes('Package Structure')
+    ) {
+      // Parse data within sections
+      if (currentSection && trimmed.includes(':')) {
+        const parts = trimmed.split(':');
+        if (parts.length >= 2) {
+          const name = parts[0].trim();
+          const fileInfo = parts[1].trim();
+
+          // Extract file path and line number
+          const fileMatch = fileInfo.match(/([^#]+)(?:#L(\d+))?/);
+          if (fileMatch) {
+            const filePath = fileMatch[1].trim();
+            const lineNumber = fileMatch[2] ? parseInt(fileMatch[2]) : 1;
+
+            const item = {
+              name: name,
+              file: filePath,
+              line: lineNumber,
+            };
+
+            // Add to appropriate section
+            if (currentSection === 'files') {
+              codeData.files.push({ path: filePath });
+            } else if (currentSection === 'classes') {
+              codeData.classes.push(item);
+            } else if (currentSection === 'functions') {
+              codeData.functions.push(item);
+            } else if (currentSection === 'interfaces') {
+              codeData.interfaces.push(item);
+            }
+          }
+        }
+      }
+    }
+  });
+
+  return codeData;
 }
 
 /**
