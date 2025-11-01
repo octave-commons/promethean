@@ -79,6 +79,14 @@ function scanPackageCode(packageName) {
       functions: [],
       interfaces: [],
     };
+  } catch (error) {
+    console.warn(`Warning: Could not scan code for ${packageName}:`, error.message);
+    return {
+      files: [],
+      classes: [],
+      functions: [],
+      interfaces: [],
+    };
   }
 }
 
