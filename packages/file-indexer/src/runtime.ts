@@ -1,7 +1,7 @@
-import { readFile } from "fs/promises";
+import { readFile } from 'fs/promises';
 
-import type { ReadonlyDeep } from "type-fest";
-import { listFilesRec } from "@promethean-os/utils";
+import type { ReadonlyDeep } from 'type-fest';
+import { listFilesRec } from '@promethean-os/utils';
 
 import {
   type IndexedFile,
@@ -9,8 +9,9 @@ import {
   type ScanFilesOptions,
   type ScanFilesResult,
   type ScanProgress,
-} from "./types.js";
-import { createIgnorePredicate, normalizeExtensions } from "./path-utils.js";
+} from './types.js';
+import { createIgnorePredicate, normalizeExtensions } from './path-utils.js';
+import { getDefaultIgnoreDirs, createDefaultIgnorePredicate } from './gitignore-utils.js';
 
 export type ProcessState = ReadonlyDeep<{
   processed: number;
@@ -24,10 +25,7 @@ export type ProcessDependencies = ReadonlyDeep<{
   shouldRead: (filePath: string) => Promise<boolean>;
   encoding: BufferEncoding;
   onFile?: (file: IndexedFile, progress: ScanProgress) => MaybePromise<void>;
-  onBatch?: (
-    batch: ReadonlyArray<IndexedFile>,
-    progress: ScanProgress,
-  ) => MaybePromise<void>;
+  onBatch?: (batch: ReadonlyArray<IndexedFile>, progress: ScanProgress) => MaybePromise<void>;
   onProgress?: (progress: ScanProgress) => void;
   total: number;
   signal?: Readonly<AbortSignal>;
@@ -38,9 +36,9 @@ type BuildDependenciesArgs = ReadonlyDeep<{
   normalizedBatchSize: number;
   shouldRead: (filePath: string) => Promise<boolean>;
   encoding: BufferEncoding;
-  onFile?: ProcessDependencies["onFile"];
-  onBatch?: ProcessDependencies["onBatch"];
-  onProgress?: ProcessDependencies["onProgress"];
+  onFile?: ProcessDependencies['onFile'];
+  onBatch?: ProcessDependencies['onBatch'];
+  onProgress?: ProcessDependencies['onProgress'];
   total: number;
   signal?: Readonly<AbortSignal>;
 }>;
@@ -55,7 +53,7 @@ type BuildResultArgs = ReadonlyDeep<{
 
 type FlushArgs = ReadonlyDeep<{
   batch: ReadonlyArray<IndexedFile>;
-  onBatch?: ProcessDependencies["onBatch"];
+  onBatch?: ProcessDependencies['onBatch'];
   progress: ScanProgress;
 }>;
 
@@ -85,9 +83,7 @@ export async function computeTargetFiles(
   return allFiles.filter((filePath) => !shouldIgnore(filePath));
 }
 
-export function buildDependencies(
-  args: BuildDependenciesArgs,
-): ProcessDependencies {
+export function buildDependencies(args: BuildDependenciesArgs): ProcessDependencies {
   return {
     shouldCollect: args.shouldCollect,
     normalizedBatchSize: args.normalizedBatchSize,
@@ -131,7 +127,7 @@ export function buildResult(args: BuildResultArgs): ScanFilesResult {
 export function createContentPredicate(
   readContent?: boolean | ((filePath: string) => MaybePromise<boolean>),
 ): (filePath: string) => Promise<boolean> {
-  if (typeof readContent === "function") {
+  if (typeof readContent === 'function') {
     return (filePath: string) =>
       Promise.resolve(readContent(filePath)).then((value) => Boolean(value));
   }
@@ -143,12 +139,12 @@ export function createContentPredicate(
 
 export function normalizeBatchSize(
   batchSize: number | undefined,
-  onBatch?: ScanFilesOptions["onBatch"],
+  onBatch?: ScanFilesOptions['onBatch'],
 ): number {
   if (!onBatch) {
     return 1;
   }
-  if (typeof batchSize === "number" && Number.isFinite(batchSize)) {
+  if (typeof batchSize === 'number' && Number.isFinite(batchSize)) {
     const floored = Math.floor(batchSize);
     if (floored > 0) {
       return floored;
@@ -176,16 +172,16 @@ function ensureSignalNotAborted(signal?: Readonly<AbortSignal>): void {
   if (!signal) {
     return;
   }
-  if (typeof signal.throwIfAborted === "function") {
+  if (typeof signal.throwIfAborted === 'function') {
     signal.throwIfAborted();
     return;
   }
   if (signal.aborted) {
-    const reason: unknown = signal.reason ?? "Aborted";
+    const reason: unknown = signal.reason ?? 'Aborted';
     if (reason instanceof Error) {
       throw reason;
     }
-    throw new Error(typeof reason === "string" ? reason : "Aborted");
+    throw new Error(typeof reason === 'string' ? reason : 'Aborted');
   }
 }
 
