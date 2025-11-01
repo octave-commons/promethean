@@ -1,0 +1,981 @@
+{
+  "packageData": {
+    "packageName": "event",
+    "files": [
+      {
+        "path": "config.ts",
+        "fullPath": "/home/err/devel/promethean/packages/event/src/config.ts",
+        "exports": [
+          {
+            "name": "TopicConfig",
+            "line": 1,
+            "type": "interface"
+          },
+          {
+            "name": "Topics",
+            "line": 7,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "Topics",
+            "line": 7,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "TopicConfig",
+            "line": 1,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 12
+      },
+      {
+        "path": "event.bus.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/event/src/event.bus.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 79
+      },
+      {
+        "path": "example.ts",
+        "fullPath": "/home/err/devel/promethean/packages/event/src/example.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 35
+      },
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/event/src/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 7
+      },
+      {
+        "path": "interfaces.ts",
+        "fullPath": "/home/err/devel/promethean/packages/event/src/interfaces.ts",
+        "exports": [
+          {
+            "name": "EventFilter",
+            "line": 7,
+            "type": "interface"
+          },
+          {
+            "name": "EventSubscription",
+            "line": 17,
+            "type": "interface"
+          },
+          {
+            "name": "EventSubscriptionOptions",
+            "line": 27,
+            "type": "interface"
+          },
+          {
+            "name": "EventDeliveryContext",
+            "line": 39,
+            "type": "interface"
+          },
+          {
+            "name": "EventCursor",
+            "line": 47,
+            "type": "interface"
+          },
+          {
+            "name": "EventStoreStats",
+            "line": 54,
+            "type": "interface"
+          },
+          {
+            "name": "EventBusMetrics",
+            "line": 62,
+            "type": "interface"
+          }
+        ],
+        "classes": [],
+        "functions": [],
+        "interfaces": [
+          {
+            "name": "EventFilter",
+            "line": 7,
+            "type": "interface"
+          },
+          {
+            "name": "EventSubscription",
+            "line": 17,
+            "type": "interface"
+          },
+          {
+            "name": "EventSubscriptionOptions",
+            "line": 27,
+            "type": "interface"
+          },
+          {
+            "name": "EventDeliveryContext",
+            "line": 39,
+            "type": "interface"
+          },
+          {
+            "name": "EventCursor",
+            "line": 47,
+            "type": "interface"
+          },
+          {
+            "name": "EventStoreStats",
+            "line": 54,
+            "type": "interface"
+          },
+          {
+            "name": "EventBusMetrics",
+            "line": 62,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 70
+      },
+      {
+        "path": "memory-functional.ts",
+        "fullPath": "/home/err/devel/promethean/packages/event/src/memory-functional.ts",
+        "exports": [
+          {
+            "name": "InMemoryEventBusState",
+            "line": 25,
+            "type": "interface"
+          },
+          {
+            "name": "Subscription",
+            "line": 33,
+            "type": "interface"
+          },
+          {
+            "name": "createInMemoryEventBusState",
+            "line": 48,
+            "type": "function"
+          },
+          {
+            "name": "ensureCursor",
+            "line": 56,
+            "type": "function"
+          },
+          {
+            "name": "publishEvent",
+            "line": 88,
+            "type": "function"
+          },
+          {
+            "name": "subscribeToTopic",
+            "line": 127,
+            "type": "function"
+          },
+          {
+            "name": "acknowledgeEvent",
+            "line": 173,
+            "type": "function"
+          },
+          {
+            "name": "negativeAcknowledgeEvent",
+            "line": 195,
+            "type": "function"
+          },
+          {
+            "name": "getCursor",
+            "line": 216,
+            "type": "function"
+          },
+          {
+            "name": "setCursor",
+            "line": 225,
+            "type": "function"
+          },
+          {
+            "name": "InMemoryStore",
+            "line": 304,
+            "type": "class"
+          },
+          {
+            "name": "InMemoryCursorStore",
+            "line": 335,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "InMemoryStore",
+            "line": 304,
+            "type": "class"
+          },
+          {
+            "name": "InMemoryCursorStore",
+            "line": 335,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "createInMemoryEventBusState",
+            "line": 48,
+            "type": "function"
+          },
+          {
+            "name": "ensureCursor",
+            "line": 56,
+            "type": "function"
+          },
+          {
+            "name": "publishEvent",
+            "line": 88,
+            "type": "function"
+          },
+          {
+            "name": "subscribeToTopic",
+            "line": 127,
+            "type": "function"
+          },
+          {
+            "name": "acknowledgeEvent",
+            "line": 173,
+            "type": "function"
+          },
+          {
+            "name": "negativeAcknowledgeEvent",
+            "line": 195,
+            "type": "function"
+          },
+          {
+            "name": "getCursor",
+            "line": 216,
+            "type": "function"
+          },
+          {
+            "name": "setCursor",
+            "line": 225,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "InMemoryEventBusState",
+            "line": 25,
+            "type": "interface"
+          },
+          {
+            "name": "Subscription",
+            "line": 33,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 350
+      },
+      {
+        "path": "memory.ts",
+        "fullPath": "/home/err/devel/promethean/packages/event/src/memory.ts",
+        "exports": [
+          {
+            "name": "InMemoryEventBus",
+            "line": 31,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "is",
+            "line": 29,
+            "type": "class"
+          },
+          {
+            "name": "InMemoryEventBus",
+            "line": 31,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 83
+      },
+      {
+        "path": "mongo.ts",
+        "fullPath": "/home/err/devel/promethean/packages/event/src/mongo.ts",
+        "exports": [
+          {
+            "name": "MongoEventStore",
+            "line": 6,
+            "type": "class"
+          },
+          {
+            "name": "MongoCursorStore",
+            "line": 46,
+            "type": "class"
+          },
+          {
+            "name": "MongoEventBus",
+            "line": 67,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "MongoEventStore",
+            "line": 6,
+            "type": "class"
+          },
+          {
+            "name": "MongoCursorStore",
+            "line": 46,
+            "type": "class"
+          },
+          {
+            "name": "MongoEventBus",
+            "line": 67,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 68
+      },
+      {
+        "path": "outbox.ts",
+        "fullPath": "/home/err/devel/promethean/packages/event/src/outbox.ts",
+        "exports": [
+          {
+            "name": "runOutboxDrainer",
+            "line": 9,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "runOutboxDrainer",
+            "line": 9,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 26
+      },
+      {
+        "path": "topics.ts",
+        "fullPath": "/home/err/devel/promethean/packages/event/src/topics.ts",
+        "exports": [
+          {
+            "name": "Topics",
+            "line": 1,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "Topics",
+            "line": 1,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 6
+      },
+      {
+        "path": "types.ts",
+        "fullPath": "/home/err/devel/promethean/packages/event/src/types.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 94
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [],
+      "classes": [],
+      "functions": [],
+      "interfaces": [],
+      "totalLines": 7
+    },
+    "exports": [
+      {
+        "name": "TopicConfig",
+        "line": 1,
+        "type": "interface",
+        "file": "config.ts"
+      },
+      {
+        "name": "Topics",
+        "line": 7,
+        "type": "function",
+        "file": "config.ts"
+      },
+      {
+        "name": "EventFilter",
+        "line": 7,
+        "type": "interface",
+        "file": "interfaces.ts"
+      },
+      {
+        "name": "EventSubscription",
+        "line": 17,
+        "type": "interface",
+        "file": "interfaces.ts"
+      },
+      {
+        "name": "EventSubscriptionOptions",
+        "line": 27,
+        "type": "interface",
+        "file": "interfaces.ts"
+      },
+      {
+        "name": "EventDeliveryContext",
+        "line": 39,
+        "type": "interface",
+        "file": "interfaces.ts"
+      },
+      {
+        "name": "EventCursor",
+        "line": 47,
+        "type": "interface",
+        "file": "interfaces.ts"
+      },
+      {
+        "name": "EventStoreStats",
+        "line": 54,
+        "type": "interface",
+        "file": "interfaces.ts"
+      },
+      {
+        "name": "EventBusMetrics",
+        "line": 62,
+        "type": "interface",
+        "file": "interfaces.ts"
+      },
+      {
+        "name": "InMemoryEventBusState",
+        "line": 25,
+        "type": "interface",
+        "file": "memory-functional.ts"
+      },
+      {
+        "name": "Subscription",
+        "line": 33,
+        "type": "interface",
+        "file": "memory-functional.ts"
+      },
+      {
+        "name": "createInMemoryEventBusState",
+        "line": 48,
+        "type": "function",
+        "file": "memory-functional.ts"
+      },
+      {
+        "name": "ensureCursor",
+        "line": 56,
+        "type": "function",
+        "file": "memory-functional.ts"
+      },
+      {
+        "name": "publishEvent",
+        "line": 88,
+        "type": "function",
+        "file": "memory-functional.ts"
+      },
+      {
+        "name": "subscribeToTopic",
+        "line": 127,
+        "type": "function",
+        "file": "memory-functional.ts"
+      },
+      {
+        "name": "acknowledgeEvent",
+        "line": 173,
+        "type": "function",
+        "file": "memory-functional.ts"
+      },
+      {
+        "name": "negativeAcknowledgeEvent",
+        "line": 195,
+        "type": "function",
+        "file": "memory-functional.ts"
+      },
+      {
+        "name": "getCursor",
+        "line": 216,
+        "type": "function",
+        "file": "memory-functional.ts"
+      },
+      {
+        "name": "setCursor",
+        "line": 225,
+        "type": "function",
+        "file": "memory-functional.ts"
+      },
+      {
+        "name": "InMemoryStore",
+        "line": 304,
+        "type": "class",
+        "file": "memory-functional.ts"
+      },
+      {
+        "name": "InMemoryCursorStore",
+        "line": 335,
+        "type": "class",
+        "file": "memory-functional.ts"
+      },
+      {
+        "name": "InMemoryEventBus",
+        "line": 31,
+        "type": "class",
+        "file": "memory.ts"
+      },
+      {
+        "name": "MongoEventStore",
+        "line": 6,
+        "type": "class",
+        "file": "mongo.ts"
+      },
+      {
+        "name": "MongoCursorStore",
+        "line": 46,
+        "type": "class",
+        "file": "mongo.ts"
+      },
+      {
+        "name": "MongoEventBus",
+        "line": 67,
+        "type": "class",
+        "file": "mongo.ts"
+      },
+      {
+        "name": "runOutboxDrainer",
+        "line": 9,
+        "type": "function",
+        "file": "outbox.ts"
+      },
+      {
+        "name": "Topics",
+        "line": 1,
+        "type": "function",
+        "file": "topics.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "InMemoryStore",
+        "line": 304,
+        "type": "class",
+        "file": "memory-functional.ts"
+      },
+      {
+        "name": "InMemoryCursorStore",
+        "line": 335,
+        "type": "class",
+        "file": "memory-functional.ts"
+      },
+      {
+        "name": "is",
+        "line": 29,
+        "type": "class",
+        "file": "memory.ts"
+      },
+      {
+        "name": "InMemoryEventBus",
+        "line": 31,
+        "type": "class",
+        "file": "memory.ts"
+      },
+      {
+        "name": "MongoEventStore",
+        "line": 6,
+        "type": "class",
+        "file": "mongo.ts"
+      },
+      {
+        "name": "MongoCursorStore",
+        "line": 46,
+        "type": "class",
+        "file": "mongo.ts"
+      },
+      {
+        "name": "MongoEventBus",
+        "line": 67,
+        "type": "class",
+        "file": "mongo.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "Topics",
+        "line": 7,
+        "type": "function",
+        "file": "config.ts"
+      },
+      {
+        "name": "createInMemoryEventBusState",
+        "line": 48,
+        "type": "function",
+        "file": "memory-functional.ts"
+      },
+      {
+        "name": "ensureCursor",
+        "line": 56,
+        "type": "function",
+        "file": "memory-functional.ts"
+      },
+      {
+        "name": "publishEvent",
+        "line": 88,
+        "type": "function",
+        "file": "memory-functional.ts"
+      },
+      {
+        "name": "subscribeToTopic",
+        "line": 127,
+        "type": "function",
+        "file": "memory-functional.ts"
+      },
+      {
+        "name": "acknowledgeEvent",
+        "line": 173,
+        "type": "function",
+        "file": "memory-functional.ts"
+      },
+      {
+        "name": "negativeAcknowledgeEvent",
+        "line": 195,
+        "type": "function",
+        "file": "memory-functional.ts"
+      },
+      {
+        "name": "getCursor",
+        "line": 216,
+        "type": "function",
+        "file": "memory-functional.ts"
+      },
+      {
+        "name": "setCursor",
+        "line": 225,
+        "type": "function",
+        "file": "memory-functional.ts"
+      },
+      {
+        "name": "runOutboxDrainer",
+        "line": 9,
+        "type": "function",
+        "file": "outbox.ts"
+      },
+      {
+        "name": "Topics",
+        "line": 1,
+        "type": "function",
+        "file": "topics.ts"
+      }
+    ],
+    "interfaces": [
+      {
+        "name": "TopicConfig",
+        "line": 1,
+        "type": "interface",
+        "file": "config.ts"
+      },
+      {
+        "name": "EventFilter",
+        "line": 7,
+        "type": "interface",
+        "file": "interfaces.ts"
+      },
+      {
+        "name": "EventSubscription",
+        "line": 17,
+        "type": "interface",
+        "file": "interfaces.ts"
+      },
+      {
+        "name": "EventSubscriptionOptions",
+        "line": 27,
+        "type": "interface",
+        "file": "interfaces.ts"
+      },
+      {
+        "name": "EventDeliveryContext",
+        "line": 39,
+        "type": "interface",
+        "file": "interfaces.ts"
+      },
+      {
+        "name": "EventCursor",
+        "line": 47,
+        "type": "interface",
+        "file": "interfaces.ts"
+      },
+      {
+        "name": "EventStoreStats",
+        "line": 54,
+        "type": "interface",
+        "file": "interfaces.ts"
+      },
+      {
+        "name": "EventBusMetrics",
+        "line": 62,
+        "type": "interface",
+        "file": "interfaces.ts"
+      },
+      {
+        "name": "InMemoryEventBusState",
+        "line": 25,
+        "type": "interface",
+        "file": "memory-functional.ts"
+      },
+      {
+        "name": "Subscription",
+        "line": 33,
+        "type": "interface",
+        "file": "memory-functional.ts"
+      }
+    ]
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "config.ts",
+          "link": "[src/config.ts](../../../packages/event/src/config.ts)",
+          "lineCount": 12
+        },
+        {
+          "name": "event.bus.test.ts",
+          "link": "[src/event.bus.test.ts](../../../packages/event/src/event.bus.test.ts)",
+          "lineCount": 79
+        },
+        {
+          "name": "example.ts",
+          "link": "[src/example.ts](../../../packages/event/src/example.ts)",
+          "lineCount": 35
+        },
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/event/src/index.ts)",
+          "lineCount": 7
+        },
+        {
+          "name": "interfaces.ts",
+          "link": "[src/interfaces.ts](../../../packages/event/src/interfaces.ts)",
+          "lineCount": 70
+        },
+        {
+          "name": "memory-functional.ts",
+          "link": "[src/memory-functional.ts](../../../packages/event/src/memory-functional.ts)",
+          "lineCount": 350
+        },
+        {
+          "name": "memory.ts",
+          "link": "[src/memory.ts](../../../packages/event/src/memory.ts)",
+          "lineCount": 83
+        },
+        {
+          "name": "mongo.ts",
+          "link": "[src/mongo.ts](../../../packages/event/src/mongo.ts)",
+          "lineCount": 68
+        },
+        {
+          "name": "outbox.ts",
+          "link": "[src/outbox.ts](../../../packages/event/src/outbox.ts)",
+          "lineCount": 26
+        },
+        {
+          "name": "topics.ts",
+          "link": "[src/topics.ts](../../../packages/event/src/topics.ts)",
+          "lineCount": 6
+        },
+        {
+          "name": "types.ts",
+          "link": "[src/types.ts](../../../packages/event/src/types.ts)",
+          "lineCount": 94
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "InMemoryStore",
+          "link": "[InMemoryStore](../../../packages/event/src/memory-functional.ts#L304)",
+          "file": "memory-functional.ts",
+          "line": 304
+        },
+        {
+          "name": "InMemoryCursorStore",
+          "link": "[InMemoryCursorStore](../../../packages/event/src/memory-functional.ts#L335)",
+          "file": "memory-functional.ts",
+          "line": 335
+        },
+        {
+          "name": "is",
+          "link": "[is](../../../packages/event/src/memory.ts#L29)",
+          "file": "memory.ts",
+          "line": 29
+        },
+        {
+          "name": "InMemoryEventBus",
+          "link": "[InMemoryEventBus](../../../packages/event/src/memory.ts#L31)",
+          "file": "memory.ts",
+          "line": 31
+        },
+        {
+          "name": "MongoEventStore",
+          "link": "[MongoEventStore](../../../packages/event/src/mongo.ts#L6)",
+          "file": "mongo.ts",
+          "line": 6
+        },
+        {
+          "name": "MongoCursorStore",
+          "link": "[MongoCursorStore](../../../packages/event/src/mongo.ts#L46)",
+          "file": "mongo.ts",
+          "line": 46
+        },
+        {
+          "name": "MongoEventBus",
+          "link": "[MongoEventBus](../../../packages/event/src/mongo.ts#L67)",
+          "file": "mongo.ts",
+          "line": 67
+        }
+      ],
+      "functions": [
+        {
+          "name": "Topics",
+          "link": "[Topics()](../../../packages/event/src/config.ts#L7)",
+          "file": "config.ts",
+          "line": 7
+        },
+        {
+          "name": "createInMemoryEventBusState",
+          "link": "[createInMemoryEventBusState()](../../../packages/event/src/memory-functional.ts#L48)",
+          "file": "memory-functional.ts",
+          "line": 48
+        },
+        {
+          "name": "ensureCursor",
+          "link": "[ensureCursor()](../../../packages/event/src/memory-functional.ts#L56)",
+          "file": "memory-functional.ts",
+          "line": 56
+        },
+        {
+          "name": "publishEvent",
+          "link": "[publishEvent()](../../../packages/event/src/memory-functional.ts#L88)",
+          "file": "memory-functional.ts",
+          "line": 88
+        },
+        {
+          "name": "subscribeToTopic",
+          "link": "[subscribeToTopic()](../../../packages/event/src/memory-functional.ts#L127)",
+          "file": "memory-functional.ts",
+          "line": 127
+        },
+        {
+          "name": "acknowledgeEvent",
+          "link": "[acknowledgeEvent()](../../../packages/event/src/memory-functional.ts#L173)",
+          "file": "memory-functional.ts",
+          "line": 173
+        },
+        {
+          "name": "negativeAcknowledgeEvent",
+          "link": "[negativeAcknowledgeEvent()](../../../packages/event/src/memory-functional.ts#L195)",
+          "file": "memory-functional.ts",
+          "line": 195
+        },
+        {
+          "name": "getCursor",
+          "link": "[getCursor()](../../../packages/event/src/memory-functional.ts#L216)",
+          "file": "memory-functional.ts",
+          "line": 216
+        },
+        {
+          "name": "setCursor",
+          "link": "[setCursor()](../../../packages/event/src/memory-functional.ts#L225)",
+          "file": "memory-functional.ts",
+          "line": 225
+        },
+        {
+          "name": "runOutboxDrainer",
+          "link": "[runOutboxDrainer()](../../../packages/event/src/outbox.ts#L9)",
+          "file": "outbox.ts",
+          "line": 9
+        },
+        {
+          "name": "Topics",
+          "link": "[Topics()](../../../packages/event/src/topics.ts#L1)",
+          "file": "topics.ts",
+          "line": 1
+        }
+      ],
+      "interfaces": [
+        {
+          "name": "TopicConfig",
+          "link": "[TopicConfig](../../../packages/event/src/config.ts#L1)",
+          "file": "config.ts",
+          "line": 1
+        },
+        {
+          "name": "EventFilter",
+          "link": "[EventFilter](../../../packages/event/src/interfaces.ts#L7)",
+          "file": "interfaces.ts",
+          "line": 7
+        },
+        {
+          "name": "EventSubscription",
+          "link": "[EventSubscription](../../../packages/event/src/interfaces.ts#L17)",
+          "file": "interfaces.ts",
+          "line": 17
+        },
+        {
+          "name": "EventSubscriptionOptions",
+          "link": "[EventSubscriptionOptions](../../../packages/event/src/interfaces.ts#L27)",
+          "file": "interfaces.ts",
+          "line": 27
+        },
+        {
+          "name": "EventDeliveryContext",
+          "link": "[EventDeliveryContext](../../../packages/event/src/interfaces.ts#L39)",
+          "file": "interfaces.ts",
+          "line": 39
+        },
+        {
+          "name": "EventCursor",
+          "link": "[EventCursor](../../../packages/event/src/interfaces.ts#L47)",
+          "file": "interfaces.ts",
+          "line": 47
+        },
+        {
+          "name": "EventStoreStats",
+          "link": "[EventStoreStats](../../../packages/event/src/interfaces.ts#L54)",
+          "file": "interfaces.ts",
+          "line": 54
+        },
+        {
+          "name": "EventBusMetrics",
+          "link": "[EventBusMetrics](../../../packages/event/src/interfaces.ts#L62)",
+          "file": "interfaces.ts",
+          "line": 62
+        },
+        {
+          "name": "InMemoryEventBusState",
+          "link": "[InMemoryEventBusState](../../../packages/event/src/memory-functional.ts#L25)",
+          "file": "memory-functional.ts",
+          "line": 25
+        },
+        {
+          "name": "Subscription",
+          "link": "[Subscription](../../../packages/event/src/memory-functional.ts#L33)",
+          "file": "memory-functional.ts",
+          "line": 33
+        }
+      ]
+    }
+  }
+}

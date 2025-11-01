@@ -1,0 +1,1674 @@
+{
+  "packageData": {
+    "packageName": "openai-server",
+    "files": [
+      {
+        "path": "auth/authMiddleware.ts",
+        "fullPath": "/home/err/devel/promethean/packages/openai-server/src/auth/authMiddleware.ts",
+        "exports": [
+          {
+            "name": "AuthMiddleware",
+            "line": 9,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "AuthMiddleware",
+            "line": 9,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 233
+      },
+      {
+        "path": "auth/jwtService.ts",
+        "fullPath": "/home/err/devel/promethean/packages/openai-server/src/auth/jwtService.ts",
+        "exports": [
+          {
+            "name": "jwtSign",
+            "line": 8,
+            "type": "function"
+          },
+          {
+            "name": "JWTService",
+            "line": 19,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "JWTService",
+            "line": 19,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "jwtSign",
+            "line": 8,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 155
+      },
+      {
+        "path": "auth/rbac.ts",
+        "fullPath": "/home/err/devel/promethean/packages/openai-server/src/auth/rbac.ts",
+        "exports": [
+          {
+            "name": "RBAC",
+            "line": 6,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "RBAC",
+            "line": 6,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 139
+      },
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/openai-server/src/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 40
+      },
+      {
+        "path": "openai/defaultHandler.ts",
+        "fullPath": "/home/err/devel/promethean/packages/openai-server/src/openai/defaultHandler.ts",
+        "exports": [
+          {
+            "name": "createDefaultChatCompletionHandler",
+            "line": 38,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createDefaultChatCompletionHandler",
+            "line": 38,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 73
+      },
+      {
+        "path": "openai/ollamaHandler.ts",
+        "fullPath": "/home/err/devel/promethean/packages/openai-server/src/openai/ollamaHandler.ts",
+        "exports": [
+          {
+            "name": "createOllamaChatCompletionHandler",
+            "line": 171,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createOllamaChatCompletionHandler",
+            "line": 171,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 190
+      },
+      {
+        "path": "openai/types.ts",
+        "fullPath": "/home/err/devel/promethean/packages/openai-server/src/openai/types.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 52
+      },
+      {
+        "path": "queue/state.ts",
+        "fullPath": "/home/err/devel/promethean/packages/openai-server/src/queue/state.ts",
+        "exports": [
+          {
+            "name": "createQueueStateController",
+            "line": 83,
+            "type": "function"
+          },
+          {
+            "name": "toSnapshot",
+            "line": 109,
+            "type": "function"
+          },
+          {
+            "name": "enqueueState",
+            "line": 131,
+            "type": "function"
+          },
+          {
+            "name": "completeState",
+            "line": 144,
+            "type": "function"
+          },
+          {
+            "name": "startNextState",
+            "line": 172,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createQueueStateController",
+            "line": 83,
+            "type": "function"
+          },
+          {
+            "name": "toSnapshot",
+            "line": 109,
+            "type": "function"
+          },
+          {
+            "name": "enqueueState",
+            "line": 131,
+            "type": "function"
+          },
+          {
+            "name": "completeState",
+            "line": 144,
+            "type": "function"
+          },
+          {
+            "name": "startNextState",
+            "line": 172,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 205
+      },
+      {
+        "path": "queue/taskQueue.ts",
+        "fullPath": "/home/err/devel/promethean/packages/openai-server/src/queue/taskQueue.ts",
+        "exports": [
+          {
+            "name": "createTaskQueue",
+            "line": 150,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createTaskQueue",
+            "line": 150,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 178
+      },
+      {
+        "path": "queue/types.ts",
+        "fullPath": "/home/err/devel/promethean/packages/openai-server/src/queue/types.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 48
+      },
+      {
+        "path": "security/config.ts",
+        "fullPath": "/home/err/devel/promethean/packages/openai-server/src/security/config.ts",
+        "exports": [
+          {
+            "name": "createSecurityConfig",
+            "line": 6,
+            "type": "function"
+          },
+          {
+            "name": "validateSecurityConfig",
+            "line": 64,
+            "type": "function"
+          },
+          {
+            "name": "getValidatedSecurityConfig",
+            "line": 113,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createSecurityConfig",
+            "line": 6,
+            "type": "function"
+          },
+          {
+            "name": "validateSecurityConfig",
+            "line": 64,
+            "type": "function"
+          },
+          {
+            "name": "getValidatedSecurityConfig",
+            "line": 113,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 122
+      },
+      {
+        "path": "security/contentSanitizer.ts",
+        "fullPath": "/home/err/devel/promethean/packages/openai-server/src/security/contentSanitizer.ts",
+        "exports": [
+          {
+            "name": "ContentSanitizer",
+            "line": 7,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "ContentSanitizer",
+            "line": 7,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 275
+      },
+      {
+        "path": "security/inputValidation.ts",
+        "fullPath": "/home/err/devel/promethean/packages/openai-server/src/security/inputValidation.ts",
+        "exports": [
+          {
+            "name": "InputValidationService",
+            "line": 49,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "InputValidationService",
+            "line": 49,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 320
+      },
+      {
+        "path": "security/rateLimiting.ts",
+        "fullPath": "/home/err/devel/promethean/packages/openai-server/src/security/rateLimiting.ts",
+        "exports": [
+          {
+            "name": "RateLimitingService",
+            "line": 58,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "MemoryStore",
+            "line": 7,
+            "type": "class"
+          },
+          {
+            "name": "RateLimitingService",
+            "line": 58,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 268
+      },
+      {
+        "path": "security/securityHeaders.ts",
+        "fullPath": "/home/err/devel/promethean/packages/openai-server/src/security/securityHeaders.ts",
+        "exports": [
+          {
+            "name": "SecurityHeadersService",
+            "line": 7,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "SecurityHeadersService",
+            "line": 7,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 100
+      },
+      {
+        "path": "server/chatCompletionRoute.ts",
+        "fullPath": "/home/err/devel/promethean/packages/openai-server/src/server/chatCompletionRoute.ts",
+        "exports": [
+          {
+            "name": "registerChatCompletionRoute",
+            "line": 88,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "registerChatCompletionRoute",
+            "line": 88,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 144
+      },
+      {
+        "path": "server/createServer.ts",
+        "fullPath": "/home/err/devel/promethean/packages/openai-server/src/server/createServer.ts",
+        "exports": [
+          {
+            "name": "createOpenAICompliantServer",
+            "line": 174,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createOpenAICompliantServer",
+            "line": 174,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 245
+      },
+      {
+        "path": "server/fastifyTypes.ts",
+        "fullPath": "/home/err/devel/promethean/packages/openai-server/src/server/fastifyTypes.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 37
+      },
+      {
+        "path": "server/queueRoutes.ts",
+        "fullPath": "/home/err/devel/promethean/packages/openai-server/src/server/queueRoutes.ts",
+        "exports": [
+          {
+            "name": "registerQueueRoutes",
+            "line": 83,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "registerQueueRoutes",
+            "line": 83,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 101
+      },
+      {
+        "path": "tests/helpers/test-utils.ts",
+        "fullPath": "/home/err/devel/promethean/packages/openai-server/src/tests/helpers/test-utils.ts",
+        "exports": [
+          {
+            "name": "TestUser",
+            "line": 6,
+            "type": "interface"
+          },
+          {
+            "name": "TestServerOptions",
+            "line": 12,
+            "type": "interface"
+          },
+          {
+            "name": "createTestServer",
+            "line": 32,
+            "type": "function"
+          },
+          {
+            "name": "createAuthenticatedUser",
+            "line": 47,
+            "type": "function"
+          },
+          {
+            "name": "createTestToken",
+            "line": 56,
+            "type": "function"
+          },
+          {
+            "name": "mockOpenAIResponse",
+            "line": 69,
+            "type": "function"
+          },
+          {
+            "name": "createTestServerWithAuth",
+            "line": 93,
+            "type": "function"
+          },
+          {
+            "name": "expectSecurityHeaders",
+            "line": 114,
+            "type": "function"
+          },
+          {
+            "name": "expectRateLimitHeaders",
+            "line": 145,
+            "type": "function"
+          },
+          {
+            "name": "expectCORSHeaders",
+            "line": 161,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createTestServer",
+            "line": 32,
+            "type": "function"
+          },
+          {
+            "name": "createAuthenticatedUser",
+            "line": 47,
+            "type": "function"
+          },
+          {
+            "name": "createTestToken",
+            "line": 56,
+            "type": "function"
+          },
+          {
+            "name": "mockOpenAIResponse",
+            "line": 69,
+            "type": "function"
+          },
+          {
+            "name": "createTestServerWithAuth",
+            "line": 93,
+            "type": "function"
+          },
+          {
+            "name": "expectSecurityHeaders",
+            "line": 114,
+            "type": "function"
+          },
+          {
+            "name": "expectRateLimitHeaders",
+            "line": 145,
+            "type": "function"
+          },
+          {
+            "name": "expectCORSHeaders",
+            "line": 161,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "TestUser",
+            "line": 6,
+            "type": "interface"
+          },
+          {
+            "name": "TestServerOptions",
+            "line": 12,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 178
+      },
+      {
+        "path": "tests/ollamaHandler.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/openai-server/src/tests/ollamaHandler.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 184
+      },
+      {
+        "path": "tests/security.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/openai-server/src/tests/security.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 304
+      },
+      {
+        "path": "tests/server.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/openai-server/src/tests/server.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 136
+      },
+      {
+        "path": "tests/taskQueue.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/openai-server/src/tests/taskQueue.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 78
+      },
+      {
+        "path": "tests/test-types.ts",
+        "fullPath": "/home/err/devel/promethean/packages/openai-server/src/tests/test-types.ts",
+        "exports": [
+          {
+            "name": "TestContext",
+            "line": 3,
+            "type": "interface"
+          }
+        ],
+        "classes": [],
+        "functions": [],
+        "interfaces": [
+          {
+            "name": "TestContext",
+            "line": 3,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 6
+      },
+      {
+        "path": "types/deepReadonly.ts",
+        "fullPath": "/home/err/devel/promethean/packages/openai-server/src/types/deepReadonly.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 14
+      },
+      {
+        "path": "types/security.ts",
+        "fullPath": "/home/err/devel/promethean/packages/openai-server/src/types/security.ts",
+        "exports": [
+          {
+            "name": "User",
+            "line": 5,
+            "type": "interface"
+          },
+          {
+            "name": "JWTPayload",
+            "line": 15,
+            "type": "interface"
+          },
+          {
+            "name": "AuthTokens",
+            "line": 24,
+            "type": "interface"
+          },
+          {
+            "name": "AuthConfig",
+            "line": 30,
+            "type": "interface"
+          },
+          {
+            "name": "RateLimitConfig",
+            "line": 38,
+            "type": "interface"
+          },
+          {
+            "name": "SecurityConfig",
+            "line": 46,
+            "type": "interface"
+          },
+          {
+            "name": "SecurityContext",
+            "line": 63,
+            "type": "interface"
+          },
+          {
+            "name": "AuthResult",
+            "line": 69,
+            "type": "interface"
+          },
+          {
+            "name": "InputValidationResult",
+            "line": 76,
+            "type": "interface"
+          },
+          {
+            "name": "SecurityHeaders",
+            "line": 85,
+            "type": "interface"
+          }
+        ],
+        "classes": [],
+        "functions": [],
+        "interfaces": [
+          {
+            "name": "User",
+            "line": 5,
+            "type": "interface"
+          },
+          {
+            "name": "JWTPayload",
+            "line": 15,
+            "type": "interface"
+          },
+          {
+            "name": "AuthTokens",
+            "line": 24,
+            "type": "interface"
+          },
+          {
+            "name": "AuthConfig",
+            "line": 30,
+            "type": "interface"
+          },
+          {
+            "name": "RateLimitConfig",
+            "line": 38,
+            "type": "interface"
+          },
+          {
+            "name": "SecurityConfig",
+            "line": 46,
+            "type": "interface"
+          },
+          {
+            "name": "SecurityContext",
+            "line": 63,
+            "type": "interface"
+          },
+          {
+            "name": "AuthResult",
+            "line": 69,
+            "type": "interface"
+          },
+          {
+            "name": "InputValidationResult",
+            "line": 76,
+            "type": "interface"
+          },
+          {
+            "name": "SecurityHeaders",
+            "line": 85,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 93
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [],
+      "classes": [],
+      "functions": [],
+      "interfaces": [],
+      "totalLines": 40
+    },
+    "exports": [
+      {
+        "name": "AuthMiddleware",
+        "line": 9,
+        "type": "class",
+        "file": "auth/authMiddleware.ts"
+      },
+      {
+        "name": "jwtSign",
+        "line": 8,
+        "type": "function",
+        "file": "auth/jwtService.ts"
+      },
+      {
+        "name": "JWTService",
+        "line": 19,
+        "type": "class",
+        "file": "auth/jwtService.ts"
+      },
+      {
+        "name": "RBAC",
+        "line": 6,
+        "type": "class",
+        "file": "auth/rbac.ts"
+      },
+      {
+        "name": "createDefaultChatCompletionHandler",
+        "line": 38,
+        "type": "function",
+        "file": "openai/defaultHandler.ts"
+      },
+      {
+        "name": "createOllamaChatCompletionHandler",
+        "line": 171,
+        "type": "function",
+        "file": "openai/ollamaHandler.ts"
+      },
+      {
+        "name": "createQueueStateController",
+        "line": 83,
+        "type": "function",
+        "file": "queue/state.ts"
+      },
+      {
+        "name": "toSnapshot",
+        "line": 109,
+        "type": "function",
+        "file": "queue/state.ts"
+      },
+      {
+        "name": "enqueueState",
+        "line": 131,
+        "type": "function",
+        "file": "queue/state.ts"
+      },
+      {
+        "name": "completeState",
+        "line": 144,
+        "type": "function",
+        "file": "queue/state.ts"
+      },
+      {
+        "name": "startNextState",
+        "line": 172,
+        "type": "function",
+        "file": "queue/state.ts"
+      },
+      {
+        "name": "createTaskQueue",
+        "line": 150,
+        "type": "function",
+        "file": "queue/taskQueue.ts"
+      },
+      {
+        "name": "createSecurityConfig",
+        "line": 6,
+        "type": "function",
+        "file": "security/config.ts"
+      },
+      {
+        "name": "validateSecurityConfig",
+        "line": 64,
+        "type": "function",
+        "file": "security/config.ts"
+      },
+      {
+        "name": "getValidatedSecurityConfig",
+        "line": 113,
+        "type": "function",
+        "file": "security/config.ts"
+      },
+      {
+        "name": "ContentSanitizer",
+        "line": 7,
+        "type": "class",
+        "file": "security/contentSanitizer.ts"
+      },
+      {
+        "name": "InputValidationService",
+        "line": 49,
+        "type": "class",
+        "file": "security/inputValidation.ts"
+      },
+      {
+        "name": "RateLimitingService",
+        "line": 58,
+        "type": "class",
+        "file": "security/rateLimiting.ts"
+      },
+      {
+        "name": "SecurityHeadersService",
+        "line": 7,
+        "type": "class",
+        "file": "security/securityHeaders.ts"
+      },
+      {
+        "name": "registerChatCompletionRoute",
+        "line": 88,
+        "type": "function",
+        "file": "server/chatCompletionRoute.ts"
+      },
+      {
+        "name": "createOpenAICompliantServer",
+        "line": 174,
+        "type": "function",
+        "file": "server/createServer.ts"
+      },
+      {
+        "name": "registerQueueRoutes",
+        "line": 83,
+        "type": "function",
+        "file": "server/queueRoutes.ts"
+      },
+      {
+        "name": "TestUser",
+        "line": 6,
+        "type": "interface",
+        "file": "tests/helpers/test-utils.ts"
+      },
+      {
+        "name": "TestServerOptions",
+        "line": 12,
+        "type": "interface",
+        "file": "tests/helpers/test-utils.ts"
+      },
+      {
+        "name": "createTestServer",
+        "line": 32,
+        "type": "function",
+        "file": "tests/helpers/test-utils.ts"
+      },
+      {
+        "name": "createAuthenticatedUser",
+        "line": 47,
+        "type": "function",
+        "file": "tests/helpers/test-utils.ts"
+      },
+      {
+        "name": "createTestToken",
+        "line": 56,
+        "type": "function",
+        "file": "tests/helpers/test-utils.ts"
+      },
+      {
+        "name": "mockOpenAIResponse",
+        "line": 69,
+        "type": "function",
+        "file": "tests/helpers/test-utils.ts"
+      },
+      {
+        "name": "createTestServerWithAuth",
+        "line": 93,
+        "type": "function",
+        "file": "tests/helpers/test-utils.ts"
+      },
+      {
+        "name": "expectSecurityHeaders",
+        "line": 114,
+        "type": "function",
+        "file": "tests/helpers/test-utils.ts"
+      },
+      {
+        "name": "expectRateLimitHeaders",
+        "line": 145,
+        "type": "function",
+        "file": "tests/helpers/test-utils.ts"
+      },
+      {
+        "name": "expectCORSHeaders",
+        "line": 161,
+        "type": "function",
+        "file": "tests/helpers/test-utils.ts"
+      },
+      {
+        "name": "TestContext",
+        "line": 3,
+        "type": "interface",
+        "file": "tests/test-types.ts"
+      },
+      {
+        "name": "User",
+        "line": 5,
+        "type": "interface",
+        "file": "types/security.ts"
+      },
+      {
+        "name": "JWTPayload",
+        "line": 15,
+        "type": "interface",
+        "file": "types/security.ts"
+      },
+      {
+        "name": "AuthTokens",
+        "line": 24,
+        "type": "interface",
+        "file": "types/security.ts"
+      },
+      {
+        "name": "AuthConfig",
+        "line": 30,
+        "type": "interface",
+        "file": "types/security.ts"
+      },
+      {
+        "name": "RateLimitConfig",
+        "line": 38,
+        "type": "interface",
+        "file": "types/security.ts"
+      },
+      {
+        "name": "SecurityConfig",
+        "line": 46,
+        "type": "interface",
+        "file": "types/security.ts"
+      },
+      {
+        "name": "SecurityContext",
+        "line": 63,
+        "type": "interface",
+        "file": "types/security.ts"
+      },
+      {
+        "name": "AuthResult",
+        "line": 69,
+        "type": "interface",
+        "file": "types/security.ts"
+      },
+      {
+        "name": "InputValidationResult",
+        "line": 76,
+        "type": "interface",
+        "file": "types/security.ts"
+      },
+      {
+        "name": "SecurityHeaders",
+        "line": 85,
+        "type": "interface",
+        "file": "types/security.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "AuthMiddleware",
+        "line": 9,
+        "type": "class",
+        "file": "auth/authMiddleware.ts"
+      },
+      {
+        "name": "JWTService",
+        "line": 19,
+        "type": "class",
+        "file": "auth/jwtService.ts"
+      },
+      {
+        "name": "RBAC",
+        "line": 6,
+        "type": "class",
+        "file": "auth/rbac.ts"
+      },
+      {
+        "name": "ContentSanitizer",
+        "line": 7,
+        "type": "class",
+        "file": "security/contentSanitizer.ts"
+      },
+      {
+        "name": "InputValidationService",
+        "line": 49,
+        "type": "class",
+        "file": "security/inputValidation.ts"
+      },
+      {
+        "name": "MemoryStore",
+        "line": 7,
+        "type": "class",
+        "file": "security/rateLimiting.ts"
+      },
+      {
+        "name": "RateLimitingService",
+        "line": 58,
+        "type": "class",
+        "file": "security/rateLimiting.ts"
+      },
+      {
+        "name": "SecurityHeadersService",
+        "line": 7,
+        "type": "class",
+        "file": "security/securityHeaders.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "jwtSign",
+        "line": 8,
+        "type": "function",
+        "file": "auth/jwtService.ts"
+      },
+      {
+        "name": "createDefaultChatCompletionHandler",
+        "line": 38,
+        "type": "function",
+        "file": "openai/defaultHandler.ts"
+      },
+      {
+        "name": "createOllamaChatCompletionHandler",
+        "line": 171,
+        "type": "function",
+        "file": "openai/ollamaHandler.ts"
+      },
+      {
+        "name": "createQueueStateController",
+        "line": 83,
+        "type": "function",
+        "file": "queue/state.ts"
+      },
+      {
+        "name": "toSnapshot",
+        "line": 109,
+        "type": "function",
+        "file": "queue/state.ts"
+      },
+      {
+        "name": "enqueueState",
+        "line": 131,
+        "type": "function",
+        "file": "queue/state.ts"
+      },
+      {
+        "name": "completeState",
+        "line": 144,
+        "type": "function",
+        "file": "queue/state.ts"
+      },
+      {
+        "name": "startNextState",
+        "line": 172,
+        "type": "function",
+        "file": "queue/state.ts"
+      },
+      {
+        "name": "createTaskQueue",
+        "line": 150,
+        "type": "function",
+        "file": "queue/taskQueue.ts"
+      },
+      {
+        "name": "createSecurityConfig",
+        "line": 6,
+        "type": "function",
+        "file": "security/config.ts"
+      },
+      {
+        "name": "validateSecurityConfig",
+        "line": 64,
+        "type": "function",
+        "file": "security/config.ts"
+      },
+      {
+        "name": "getValidatedSecurityConfig",
+        "line": 113,
+        "type": "function",
+        "file": "security/config.ts"
+      },
+      {
+        "name": "registerChatCompletionRoute",
+        "line": 88,
+        "type": "function",
+        "file": "server/chatCompletionRoute.ts"
+      },
+      {
+        "name": "createOpenAICompliantServer",
+        "line": 174,
+        "type": "function",
+        "file": "server/createServer.ts"
+      },
+      {
+        "name": "registerQueueRoutes",
+        "line": 83,
+        "type": "function",
+        "file": "server/queueRoutes.ts"
+      },
+      {
+        "name": "createTestServer",
+        "line": 32,
+        "type": "function",
+        "file": "tests/helpers/test-utils.ts"
+      },
+      {
+        "name": "createAuthenticatedUser",
+        "line": 47,
+        "type": "function",
+        "file": "tests/helpers/test-utils.ts"
+      },
+      {
+        "name": "createTestToken",
+        "line": 56,
+        "type": "function",
+        "file": "tests/helpers/test-utils.ts"
+      },
+      {
+        "name": "mockOpenAIResponse",
+        "line": 69,
+        "type": "function",
+        "file": "tests/helpers/test-utils.ts"
+      },
+      {
+        "name": "createTestServerWithAuth",
+        "line": 93,
+        "type": "function",
+        "file": "tests/helpers/test-utils.ts"
+      },
+      {
+        "name": "expectSecurityHeaders",
+        "line": 114,
+        "type": "function",
+        "file": "tests/helpers/test-utils.ts"
+      },
+      {
+        "name": "expectRateLimitHeaders",
+        "line": 145,
+        "type": "function",
+        "file": "tests/helpers/test-utils.ts"
+      },
+      {
+        "name": "expectCORSHeaders",
+        "line": 161,
+        "type": "function",
+        "file": "tests/helpers/test-utils.ts"
+      }
+    ],
+    "interfaces": [
+      {
+        "name": "TestUser",
+        "line": 6,
+        "type": "interface",
+        "file": "tests/helpers/test-utils.ts"
+      },
+      {
+        "name": "TestServerOptions",
+        "line": 12,
+        "type": "interface",
+        "file": "tests/helpers/test-utils.ts"
+      },
+      {
+        "name": "TestContext",
+        "line": 3,
+        "type": "interface",
+        "file": "tests/test-types.ts"
+      },
+      {
+        "name": "User",
+        "line": 5,
+        "type": "interface",
+        "file": "types/security.ts"
+      },
+      {
+        "name": "JWTPayload",
+        "line": 15,
+        "type": "interface",
+        "file": "types/security.ts"
+      },
+      {
+        "name": "AuthTokens",
+        "line": 24,
+        "type": "interface",
+        "file": "types/security.ts"
+      },
+      {
+        "name": "AuthConfig",
+        "line": 30,
+        "type": "interface",
+        "file": "types/security.ts"
+      },
+      {
+        "name": "RateLimitConfig",
+        "line": 38,
+        "type": "interface",
+        "file": "types/security.ts"
+      },
+      {
+        "name": "SecurityConfig",
+        "line": 46,
+        "type": "interface",
+        "file": "types/security.ts"
+      },
+      {
+        "name": "SecurityContext",
+        "line": 63,
+        "type": "interface",
+        "file": "types/security.ts"
+      },
+      {
+        "name": "AuthResult",
+        "line": 69,
+        "type": "interface",
+        "file": "types/security.ts"
+      },
+      {
+        "name": "InputValidationResult",
+        "line": 76,
+        "type": "interface",
+        "file": "types/security.ts"
+      },
+      {
+        "name": "SecurityHeaders",
+        "line": 85,
+        "type": "interface",
+        "file": "types/security.ts"
+      }
+    ]
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "auth/authMiddleware.ts",
+          "link": "[src/auth/authMiddleware.ts](../../../packages/openai-server/src/auth/authMiddleware.ts)",
+          "lineCount": 233
+        },
+        {
+          "name": "auth/jwtService.ts",
+          "link": "[src/auth/jwtService.ts](../../../packages/openai-server/src/auth/jwtService.ts)",
+          "lineCount": 155
+        },
+        {
+          "name": "auth/rbac.ts",
+          "link": "[src/auth/rbac.ts](../../../packages/openai-server/src/auth/rbac.ts)",
+          "lineCount": 139
+        },
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/openai-server/src/index.ts)",
+          "lineCount": 40
+        },
+        {
+          "name": "openai/defaultHandler.ts",
+          "link": "[src/openai/defaultHandler.ts](../../../packages/openai-server/src/openai/defaultHandler.ts)",
+          "lineCount": 73
+        },
+        {
+          "name": "openai/ollamaHandler.ts",
+          "link": "[src/openai/ollamaHandler.ts](../../../packages/openai-server/src/openai/ollamaHandler.ts)",
+          "lineCount": 190
+        },
+        {
+          "name": "openai/types.ts",
+          "link": "[src/openai/types.ts](../../../packages/openai-server/src/openai/types.ts)",
+          "lineCount": 52
+        },
+        {
+          "name": "queue/state.ts",
+          "link": "[src/queue/state.ts](../../../packages/openai-server/src/queue/state.ts)",
+          "lineCount": 205
+        },
+        {
+          "name": "queue/taskQueue.ts",
+          "link": "[src/queue/taskQueue.ts](../../../packages/openai-server/src/queue/taskQueue.ts)",
+          "lineCount": 178
+        },
+        {
+          "name": "queue/types.ts",
+          "link": "[src/queue/types.ts](../../../packages/openai-server/src/queue/types.ts)",
+          "lineCount": 48
+        },
+        {
+          "name": "security/config.ts",
+          "link": "[src/security/config.ts](../../../packages/openai-server/src/security/config.ts)",
+          "lineCount": 122
+        },
+        {
+          "name": "security/contentSanitizer.ts",
+          "link": "[src/security/contentSanitizer.ts](../../../packages/openai-server/src/security/contentSanitizer.ts)",
+          "lineCount": 275
+        },
+        {
+          "name": "security/inputValidation.ts",
+          "link": "[src/security/inputValidation.ts](../../../packages/openai-server/src/security/inputValidation.ts)",
+          "lineCount": 320
+        },
+        {
+          "name": "security/rateLimiting.ts",
+          "link": "[src/security/rateLimiting.ts](../../../packages/openai-server/src/security/rateLimiting.ts)",
+          "lineCount": 268
+        },
+        {
+          "name": "security/securityHeaders.ts",
+          "link": "[src/security/securityHeaders.ts](../../../packages/openai-server/src/security/securityHeaders.ts)",
+          "lineCount": 100
+        },
+        {
+          "name": "server/chatCompletionRoute.ts",
+          "link": "[src/server/chatCompletionRoute.ts](../../../packages/openai-server/src/server/chatCompletionRoute.ts)",
+          "lineCount": 144
+        },
+        {
+          "name": "server/createServer.ts",
+          "link": "[src/server/createServer.ts](../../../packages/openai-server/src/server/createServer.ts)",
+          "lineCount": 245
+        },
+        {
+          "name": "server/fastifyTypes.ts",
+          "link": "[src/server/fastifyTypes.ts](../../../packages/openai-server/src/server/fastifyTypes.ts)",
+          "lineCount": 37
+        },
+        {
+          "name": "server/queueRoutes.ts",
+          "link": "[src/server/queueRoutes.ts](../../../packages/openai-server/src/server/queueRoutes.ts)",
+          "lineCount": 101
+        },
+        {
+          "name": "tests/helpers/test-utils.ts",
+          "link": "[src/tests/helpers/test-utils.ts](../../../packages/openai-server/src/tests/helpers/test-utils.ts)",
+          "lineCount": 178
+        },
+        {
+          "name": "tests/ollamaHandler.test.ts",
+          "link": "[src/tests/ollamaHandler.test.ts](../../../packages/openai-server/src/tests/ollamaHandler.test.ts)",
+          "lineCount": 184
+        },
+        {
+          "name": "tests/security.test.ts",
+          "link": "[src/tests/security.test.ts](../../../packages/openai-server/src/tests/security.test.ts)",
+          "lineCount": 304
+        },
+        {
+          "name": "tests/server.test.ts",
+          "link": "[src/tests/server.test.ts](../../../packages/openai-server/src/tests/server.test.ts)",
+          "lineCount": 136
+        },
+        {
+          "name": "tests/taskQueue.test.ts",
+          "link": "[src/tests/taskQueue.test.ts](../../../packages/openai-server/src/tests/taskQueue.test.ts)",
+          "lineCount": 78
+        },
+        {
+          "name": "tests/test-types.ts",
+          "link": "[src/tests/test-types.ts](../../../packages/openai-server/src/tests/test-types.ts)",
+          "lineCount": 6
+        },
+        {
+          "name": "types/deepReadonly.ts",
+          "link": "[src/types/deepReadonly.ts](../../../packages/openai-server/src/types/deepReadonly.ts)",
+          "lineCount": 14
+        },
+        {
+          "name": "types/security.ts",
+          "link": "[src/types/security.ts](../../../packages/openai-server/src/types/security.ts)",
+          "lineCount": 93
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "AuthMiddleware",
+          "link": "[AuthMiddleware](../../../packages/openai-server/src/auth/authMiddleware.ts#L9)",
+          "file": "auth/authMiddleware.ts",
+          "line": 9
+        },
+        {
+          "name": "JWTService",
+          "link": "[JWTService](../../../packages/openai-server/src/auth/jwtService.ts#L19)",
+          "file": "auth/jwtService.ts",
+          "line": 19
+        },
+        {
+          "name": "RBAC",
+          "link": "[RBAC](../../../packages/openai-server/src/auth/rbac.ts#L6)",
+          "file": "auth/rbac.ts",
+          "line": 6
+        },
+        {
+          "name": "ContentSanitizer",
+          "link": "[ContentSanitizer](../../../packages/openai-server/src/security/contentSanitizer.ts#L7)",
+          "file": "security/contentSanitizer.ts",
+          "line": 7
+        },
+        {
+          "name": "InputValidationService",
+          "link": "[InputValidationService](../../../packages/openai-server/src/security/inputValidation.ts#L49)",
+          "file": "security/inputValidation.ts",
+          "line": 49
+        },
+        {
+          "name": "MemoryStore",
+          "link": "[MemoryStore](../../../packages/openai-server/src/security/rateLimiting.ts#L7)",
+          "file": "security/rateLimiting.ts",
+          "line": 7
+        },
+        {
+          "name": "RateLimitingService",
+          "link": "[RateLimitingService](../../../packages/openai-server/src/security/rateLimiting.ts#L58)",
+          "file": "security/rateLimiting.ts",
+          "line": 58
+        },
+        {
+          "name": "SecurityHeadersService",
+          "link": "[SecurityHeadersService](../../../packages/openai-server/src/security/securityHeaders.ts#L7)",
+          "file": "security/securityHeaders.ts",
+          "line": 7
+        }
+      ],
+      "functions": [
+        {
+          "name": "jwtSign",
+          "link": "[jwtSign()](../../../packages/openai-server/src/auth/jwtService.ts#L8)",
+          "file": "auth/jwtService.ts",
+          "line": 8
+        },
+        {
+          "name": "createDefaultChatCompletionHandler",
+          "link": "[createDefaultChatCompletionHandler()](../../../packages/openai-server/src/openai/defaultHandler.ts#L38)",
+          "file": "openai/defaultHandler.ts",
+          "line": 38
+        },
+        {
+          "name": "createOllamaChatCompletionHandler",
+          "link": "[createOllamaChatCompletionHandler()](../../../packages/openai-server/src/openai/ollamaHandler.ts#L171)",
+          "file": "openai/ollamaHandler.ts",
+          "line": 171
+        },
+        {
+          "name": "createQueueStateController",
+          "link": "[createQueueStateController()](../../../packages/openai-server/src/queue/state.ts#L83)",
+          "file": "queue/state.ts",
+          "line": 83
+        },
+        {
+          "name": "toSnapshot",
+          "link": "[toSnapshot()](../../../packages/openai-server/src/queue/state.ts#L109)",
+          "file": "queue/state.ts",
+          "line": 109
+        },
+        {
+          "name": "enqueueState",
+          "link": "[enqueueState()](../../../packages/openai-server/src/queue/state.ts#L131)",
+          "file": "queue/state.ts",
+          "line": 131
+        },
+        {
+          "name": "completeState",
+          "link": "[completeState()](../../../packages/openai-server/src/queue/state.ts#L144)",
+          "file": "queue/state.ts",
+          "line": 144
+        },
+        {
+          "name": "startNextState",
+          "link": "[startNextState()](../../../packages/openai-server/src/queue/state.ts#L172)",
+          "file": "queue/state.ts",
+          "line": 172
+        },
+        {
+          "name": "createTaskQueue",
+          "link": "[createTaskQueue()](../../../packages/openai-server/src/queue/taskQueue.ts#L150)",
+          "file": "queue/taskQueue.ts",
+          "line": 150
+        },
+        {
+          "name": "createSecurityConfig",
+          "link": "[createSecurityConfig()](../../../packages/openai-server/src/security/config.ts#L6)",
+          "file": "security/config.ts",
+          "line": 6
+        },
+        {
+          "name": "validateSecurityConfig",
+          "link": "[validateSecurityConfig()](../../../packages/openai-server/src/security/config.ts#L64)",
+          "file": "security/config.ts",
+          "line": 64
+        },
+        {
+          "name": "getValidatedSecurityConfig",
+          "link": "[getValidatedSecurityConfig()](../../../packages/openai-server/src/security/config.ts#L113)",
+          "file": "security/config.ts",
+          "line": 113
+        },
+        {
+          "name": "registerChatCompletionRoute",
+          "link": "[registerChatCompletionRoute()](../../../packages/openai-server/src/server/chatCompletionRoute.ts#L88)",
+          "file": "server/chatCompletionRoute.ts",
+          "line": 88
+        },
+        {
+          "name": "createOpenAICompliantServer",
+          "link": "[createOpenAICompliantServer()](../../../packages/openai-server/src/server/createServer.ts#L174)",
+          "file": "server/createServer.ts",
+          "line": 174
+        },
+        {
+          "name": "registerQueueRoutes",
+          "link": "[registerQueueRoutes()](../../../packages/openai-server/src/server/queueRoutes.ts#L83)",
+          "file": "server/queueRoutes.ts",
+          "line": 83
+        },
+        {
+          "name": "createTestServer",
+          "link": "[createTestServer()](../../../packages/openai-server/src/tests/helpers/test-utils.ts#L32)",
+          "file": "tests/helpers/test-utils.ts",
+          "line": 32
+        },
+        {
+          "name": "createAuthenticatedUser",
+          "link": "[createAuthenticatedUser()](../../../packages/openai-server/src/tests/helpers/test-utils.ts#L47)",
+          "file": "tests/helpers/test-utils.ts",
+          "line": 47
+        },
+        {
+          "name": "createTestToken",
+          "link": "[createTestToken()](../../../packages/openai-server/src/tests/helpers/test-utils.ts#L56)",
+          "file": "tests/helpers/test-utils.ts",
+          "line": 56
+        },
+        {
+          "name": "mockOpenAIResponse",
+          "link": "[mockOpenAIResponse()](../../../packages/openai-server/src/tests/helpers/test-utils.ts#L69)",
+          "file": "tests/helpers/test-utils.ts",
+          "line": 69
+        },
+        {
+          "name": "createTestServerWithAuth",
+          "link": "[createTestServerWithAuth()](../../../packages/openai-server/src/tests/helpers/test-utils.ts#L93)",
+          "file": "tests/helpers/test-utils.ts",
+          "line": 93
+        },
+        {
+          "name": "expectSecurityHeaders",
+          "link": "[expectSecurityHeaders()](../../../packages/openai-server/src/tests/helpers/test-utils.ts#L114)",
+          "file": "tests/helpers/test-utils.ts",
+          "line": 114
+        },
+        {
+          "name": "expectRateLimitHeaders",
+          "link": "[expectRateLimitHeaders()](../../../packages/openai-server/src/tests/helpers/test-utils.ts#L145)",
+          "file": "tests/helpers/test-utils.ts",
+          "line": 145
+        },
+        {
+          "name": "expectCORSHeaders",
+          "link": "[expectCORSHeaders()](../../../packages/openai-server/src/tests/helpers/test-utils.ts#L161)",
+          "file": "tests/helpers/test-utils.ts",
+          "line": 161
+        }
+      ],
+      "interfaces": [
+        {
+          "name": "TestUser",
+          "link": "[TestUser](../../../packages/openai-server/src/tests/helpers/test-utils.ts#L6)",
+          "file": "tests/helpers/test-utils.ts",
+          "line": 6
+        },
+        {
+          "name": "TestServerOptions",
+          "link": "[TestServerOptions](../../../packages/openai-server/src/tests/helpers/test-utils.ts#L12)",
+          "file": "tests/helpers/test-utils.ts",
+          "line": 12
+        },
+        {
+          "name": "TestContext",
+          "link": "[TestContext](../../../packages/openai-server/src/tests/test-types.ts#L3)",
+          "file": "tests/test-types.ts",
+          "line": 3
+        },
+        {
+          "name": "User",
+          "link": "[User](../../../packages/openai-server/src/types/security.ts#L5)",
+          "file": "types/security.ts",
+          "line": 5
+        },
+        {
+          "name": "JWTPayload",
+          "link": "[JWTPayload](../../../packages/openai-server/src/types/security.ts#L15)",
+          "file": "types/security.ts",
+          "line": 15
+        },
+        {
+          "name": "AuthTokens",
+          "link": "[AuthTokens](../../../packages/openai-server/src/types/security.ts#L24)",
+          "file": "types/security.ts",
+          "line": 24
+        },
+        {
+          "name": "AuthConfig",
+          "link": "[AuthConfig](../../../packages/openai-server/src/types/security.ts#L30)",
+          "file": "types/security.ts",
+          "line": 30
+        },
+        {
+          "name": "RateLimitConfig",
+          "link": "[RateLimitConfig](../../../packages/openai-server/src/types/security.ts#L38)",
+          "file": "types/security.ts",
+          "line": 38
+        },
+        {
+          "name": "SecurityConfig",
+          "link": "[SecurityConfig](../../../packages/openai-server/src/types/security.ts#L46)",
+          "file": "types/security.ts",
+          "line": 46
+        },
+        {
+          "name": "SecurityContext",
+          "link": "[SecurityContext](../../../packages/openai-server/src/types/security.ts#L63)",
+          "file": "types/security.ts",
+          "line": 63
+        },
+        {
+          "name": "AuthResult",
+          "link": "[AuthResult](../../../packages/openai-server/src/types/security.ts#L69)",
+          "file": "types/security.ts",
+          "line": 69
+        },
+        {
+          "name": "InputValidationResult",
+          "link": "[InputValidationResult](../../../packages/openai-server/src/types/security.ts#L76)",
+          "file": "types/security.ts",
+          "line": 76
+        },
+        {
+          "name": "SecurityHeaders",
+          "link": "[SecurityHeaders](../../../packages/openai-server/src/types/security.ts#L85)",
+          "file": "types/security.ts",
+          "line": 85
+        }
+      ]
+    }
+  }
+}

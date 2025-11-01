@@ -1,0 +1,1587 @@
+{
+  "packageData": {
+    "packageName": "monitoring",
+    "files": [
+      {
+        "path": "alerting.ts",
+        "fullPath": "/home/err/devel/promethean/packages/monitoring/src/alerting.ts",
+        "exports": [
+          {
+            "name": "NotificationChannel",
+            "line": 10,
+            "type": "interface"
+          },
+          {
+            "name": "AlertContext",
+            "line": 19,
+            "type": "interface"
+          },
+          {
+            "name": "AlertNotification",
+            "line": 27,
+            "type": "interface"
+          },
+          {
+            "name": "AlertingConfig",
+            "line": 43,
+            "type": "interface"
+          },
+          {
+            "name": "DEFAULT_ALERTING_CONFIG",
+            "line": 53,
+            "type": "function"
+          },
+          {
+            "name": "AlertingService",
+            "line": 72,
+            "type": "class"
+          },
+          {
+            "name": "getAlertingService",
+            "line": 557,
+            "type": "function"
+          },
+          {
+            "name": "destroyAlertingService",
+            "line": 570,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "AlertingService",
+            "line": 72,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "DEFAULT_ALERTING_CONFIG",
+            "line": 53,
+            "type": "function"
+          },
+          {
+            "name": "getAlertingService",
+            "line": 557,
+            "type": "function"
+          },
+          {
+            "name": "destroyAlertingService",
+            "line": 570,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "NotificationChannel",
+            "line": 10,
+            "type": "interface"
+          },
+          {
+            "name": "AlertContext",
+            "line": 19,
+            "type": "interface"
+          },
+          {
+            "name": "AlertNotification",
+            "line": 27,
+            "type": "interface"
+          },
+          {
+            "name": "AlertingConfig",
+            "line": 43,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 576
+      },
+      {
+        "path": "collection.ts",
+        "fullPath": "/home/err/devel/promethean/packages/monitoring/src/collection.ts",
+        "exports": [
+          {
+            "name": "CollectionServiceConfig",
+            "line": 16,
+            "type": "interface"
+          },
+          {
+            "name": "DEFAULT_COLLECTION_CONFIG",
+            "line": 24,
+            "type": "function"
+          },
+          {
+            "name": "MetricsCollectionService",
+            "line": 46,
+            "type": "class"
+          },
+          {
+            "name": "getMetricsCollectionService",
+            "line": 374,
+            "type": "function"
+          },
+          {
+            "name": "destroyMetricsCollectionService",
+            "line": 386,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "MetricsCollectionService",
+            "line": 46,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "DEFAULT_COLLECTION_CONFIG",
+            "line": 24,
+            "type": "function"
+          },
+          {
+            "name": "getMetricsCollectionService",
+            "line": 374,
+            "type": "function"
+          },
+          {
+            "name": "destroyMetricsCollectionService",
+            "line": 386,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "CollectionServiceConfig",
+            "line": 16,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 392
+      },
+      {
+        "path": "dashboard.ts",
+        "fullPath": "/home/err/devel/promethean/packages/monitoring/src/dashboard.ts",
+        "exports": [
+          {
+            "name": "DashboardConfig",
+            "line": 18,
+            "type": "interface"
+          },
+          {
+            "name": "WidgetConfig",
+            "line": 27,
+            "type": "interface"
+          },
+          {
+            "name": "DashboardData",
+            "line": 44,
+            "type": "interface"
+          },
+          {
+            "name": "WidgetData",
+            "line": 53,
+            "type": "interface"
+          },
+          {
+            "name": "DEFAULT_DASHBOARD_CONFIG",
+            "line": 62,
+            "type": "function"
+          },
+          {
+            "name": "MonitoringDashboard",
+            "line": 80,
+            "type": "class"
+          },
+          {
+            "name": "getMonitoringDashboard",
+            "line": 494,
+            "type": "function"
+          },
+          {
+            "name": "destroyMonitoringDashboard",
+            "line": 508,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "MonitoringDashboard",
+            "line": 80,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "DEFAULT_DASHBOARD_CONFIG",
+            "line": 62,
+            "type": "function"
+          },
+          {
+            "name": "getMonitoringDashboard",
+            "line": 494,
+            "type": "function"
+          },
+          {
+            "name": "destroyMonitoringDashboard",
+            "line": 508,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "DashboardConfig",
+            "line": 18,
+            "type": "interface"
+          },
+          {
+            "name": "WidgetConfig",
+            "line": 27,
+            "type": "interface"
+          },
+          {
+            "name": "DashboardData",
+            "line": 44,
+            "type": "interface"
+          },
+          {
+            "name": "WidgetData",
+            "line": 53,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 514
+      },
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/monitoring/src/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 12
+      },
+      {
+        "path": "limiter.ts",
+        "fullPath": "/home/err/devel/promethean/packages/monitoring/src/limiter.ts",
+        "exports": [
+          {
+            "name": "TokenBucket",
+            "line": 14,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "TokenBucket",
+            "line": 14,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 73
+      },
+      {
+        "path": "prom.ts",
+        "fullPath": "/home/err/devel/promethean/packages/monitoring/src/prom.ts",
+        "exports": [
+          {
+            "name": "metrics",
+            "line": 121,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "metrics",
+            "line": 121,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 133
+      },
+      {
+        "path": "schemas.ts",
+        "fullPath": "/home/err/devel/promethean/packages/monitoring/src/schemas.ts",
+        "exports": [
+          {
+            "name": "METRIC_SCHEMAS",
+            "line": 9,
+            "type": "function"
+          },
+          {
+            "name": "METRIC_SCHEMA_REGISTRY",
+            "line": 215,
+            "type": "function"
+          },
+          {
+            "name": "DEFAULT_LABELS",
+            "line": 220,
+            "type": "function"
+          },
+          {
+            "name": "validateMetricName",
+            "line": 229,
+            "type": "function"
+          },
+          {
+            "name": "validateLabels",
+            "line": 234,
+            "type": "function"
+          },
+          {
+            "name": "getMetricSchema",
+            "line": 241,
+            "type": "function"
+          },
+          {
+            "name": "isMetricSchemaValid",
+            "line": 245,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "METRIC_SCHEMAS",
+            "line": 9,
+            "type": "function"
+          },
+          {
+            "name": "METRIC_SCHEMA_REGISTRY",
+            "line": 215,
+            "type": "function"
+          },
+          {
+            "name": "DEFAULT_LABELS",
+            "line": 220,
+            "type": "function"
+          },
+          {
+            "name": "validateMetricName",
+            "line": 229,
+            "type": "function"
+          },
+          {
+            "name": "validateLabels",
+            "line": 234,
+            "type": "function"
+          },
+          {
+            "name": "getMetricSchema",
+            "line": 241,
+            "type": "function"
+          },
+          {
+            "name": "isMetricSchemaValid",
+            "line": 245,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 260
+      },
+      {
+        "path": "storage.ts",
+        "fullPath": "/home/err/devel/promethean/packages/monitoring/src/storage.ts",
+        "exports": [
+          {
+            "name": "StorageConfig",
+            "line": 15,
+            "type": "interface"
+          },
+          {
+            "name": "MetricQuery",
+            "line": 25,
+            "type": "interface"
+          },
+          {
+            "name": "QueryResult",
+            "line": 36,
+            "type": "interface"
+          },
+          {
+            "name": "StorageStats",
+            "line": 48,
+            "type": "interface"
+          },
+          {
+            "name": "DEFAULT_STORAGE_CONFIG",
+            "line": 58,
+            "type": "function"
+          },
+          {
+            "name": "PerformanceDataStorage",
+            "line": 70,
+            "type": "class"
+          },
+          {
+            "name": "getPerformanceDataStorage",
+            "line": 502,
+            "type": "function"
+          },
+          {
+            "name": "destroyPerformanceDataStorage",
+            "line": 514,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "PerformanceDataStorage",
+            "line": 70,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "DEFAULT_STORAGE_CONFIG",
+            "line": 58,
+            "type": "function"
+          },
+          {
+            "name": "getPerformanceDataStorage",
+            "line": 502,
+            "type": "function"
+          },
+          {
+            "name": "destroyPerformanceDataStorage",
+            "line": 514,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "StorageConfig",
+            "line": 15,
+            "type": "interface"
+          },
+          {
+            "name": "MetricQuery",
+            "line": 25,
+            "type": "interface"
+          },
+          {
+            "name": "QueryResult",
+            "line": 36,
+            "type": "interface"
+          },
+          {
+            "name": "StorageStats",
+            "line": 48,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 520
+      },
+      {
+        "path": "tests/limiter.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/monitoring/src/tests/limiter.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 78
+      },
+      {
+        "path": "tests/monitoring.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/monitoring/src/tests/monitoring.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 390
+      },
+      {
+        "path": "types.ts",
+        "fullPath": "/home/err/devel/promethean/packages/monitoring/src/types.ts",
+        "exports": [
+          {
+            "name": "MetricSchema",
+            "line": 6,
+            "type": "interface"
+          },
+          {
+            "name": "PerformanceMetric",
+            "line": 16,
+            "type": "interface"
+          },
+          {
+            "name": "AgentPerformanceMetrics",
+            "line": 25,
+            "type": "interface"
+          },
+          {
+            "name": "PipelinePerformanceMetrics",
+            "line": 37,
+            "type": "interface"
+          },
+          {
+            "name": "SystemResourceMetrics",
+            "line": 49,
+            "type": "interface"
+          },
+          {
+            "name": "AlertRule",
+            "line": 62,
+            "type": "interface"
+          },
+          {
+            "name": "AlertEvent",
+            "line": 76,
+            "type": "interface"
+          },
+          {
+            "name": "OptimizationSuggestion",
+            "line": 90,
+            "type": "interface"
+          },
+          {
+            "name": "PerformanceTrend",
+            "line": 108,
+            "type": "interface"
+          },
+          {
+            "name": "MonitoringConfig",
+            "line": 131,
+            "type": "interface"
+          },
+          {
+            "name": "HealthCheck",
+            "line": 148,
+            "type": "interface"
+          }
+        ],
+        "classes": [],
+        "functions": [],
+        "interfaces": [
+          {
+            "name": "MetricSchema",
+            "line": 6,
+            "type": "interface"
+          },
+          {
+            "name": "PerformanceMetric",
+            "line": 16,
+            "type": "interface"
+          },
+          {
+            "name": "AgentPerformanceMetrics",
+            "line": 25,
+            "type": "interface"
+          },
+          {
+            "name": "PipelinePerformanceMetrics",
+            "line": 37,
+            "type": "interface"
+          },
+          {
+            "name": "SystemResourceMetrics",
+            "line": 49,
+            "type": "interface"
+          },
+          {
+            "name": "AlertRule",
+            "line": 62,
+            "type": "interface"
+          },
+          {
+            "name": "AlertEvent",
+            "line": 76,
+            "type": "interface"
+          },
+          {
+            "name": "OptimizationSuggestion",
+            "line": 90,
+            "type": "interface"
+          },
+          {
+            "name": "PerformanceTrend",
+            "line": 108,
+            "type": "interface"
+          },
+          {
+            "name": "MonitoringConfig",
+            "line": 131,
+            "type": "interface"
+          },
+          {
+            "name": "HealthCheck",
+            "line": 148,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 159
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [],
+      "classes": [],
+      "functions": [],
+      "interfaces": [],
+      "totalLines": 12
+    },
+    "exports": [
+      {
+        "name": "NotificationChannel",
+        "line": 10,
+        "type": "interface",
+        "file": "alerting.ts"
+      },
+      {
+        "name": "AlertContext",
+        "line": 19,
+        "type": "interface",
+        "file": "alerting.ts"
+      },
+      {
+        "name": "AlertNotification",
+        "line": 27,
+        "type": "interface",
+        "file": "alerting.ts"
+      },
+      {
+        "name": "AlertingConfig",
+        "line": 43,
+        "type": "interface",
+        "file": "alerting.ts"
+      },
+      {
+        "name": "DEFAULT_ALERTING_CONFIG",
+        "line": 53,
+        "type": "function",
+        "file": "alerting.ts"
+      },
+      {
+        "name": "AlertingService",
+        "line": 72,
+        "type": "class",
+        "file": "alerting.ts"
+      },
+      {
+        "name": "getAlertingService",
+        "line": 557,
+        "type": "function",
+        "file": "alerting.ts"
+      },
+      {
+        "name": "destroyAlertingService",
+        "line": 570,
+        "type": "function",
+        "file": "alerting.ts"
+      },
+      {
+        "name": "CollectionServiceConfig",
+        "line": 16,
+        "type": "interface",
+        "file": "collection.ts"
+      },
+      {
+        "name": "DEFAULT_COLLECTION_CONFIG",
+        "line": 24,
+        "type": "function",
+        "file": "collection.ts"
+      },
+      {
+        "name": "MetricsCollectionService",
+        "line": 46,
+        "type": "class",
+        "file": "collection.ts"
+      },
+      {
+        "name": "getMetricsCollectionService",
+        "line": 374,
+        "type": "function",
+        "file": "collection.ts"
+      },
+      {
+        "name": "destroyMetricsCollectionService",
+        "line": 386,
+        "type": "function",
+        "file": "collection.ts"
+      },
+      {
+        "name": "DashboardConfig",
+        "line": 18,
+        "type": "interface",
+        "file": "dashboard.ts"
+      },
+      {
+        "name": "WidgetConfig",
+        "line": 27,
+        "type": "interface",
+        "file": "dashboard.ts"
+      },
+      {
+        "name": "DashboardData",
+        "line": 44,
+        "type": "interface",
+        "file": "dashboard.ts"
+      },
+      {
+        "name": "WidgetData",
+        "line": 53,
+        "type": "interface",
+        "file": "dashboard.ts"
+      },
+      {
+        "name": "DEFAULT_DASHBOARD_CONFIG",
+        "line": 62,
+        "type": "function",
+        "file": "dashboard.ts"
+      },
+      {
+        "name": "MonitoringDashboard",
+        "line": 80,
+        "type": "class",
+        "file": "dashboard.ts"
+      },
+      {
+        "name": "getMonitoringDashboard",
+        "line": 494,
+        "type": "function",
+        "file": "dashboard.ts"
+      },
+      {
+        "name": "destroyMonitoringDashboard",
+        "line": 508,
+        "type": "function",
+        "file": "dashboard.ts"
+      },
+      {
+        "name": "TokenBucket",
+        "line": 14,
+        "type": "class",
+        "file": "limiter.ts"
+      },
+      {
+        "name": "metrics",
+        "line": 121,
+        "type": "function",
+        "file": "prom.ts"
+      },
+      {
+        "name": "METRIC_SCHEMAS",
+        "line": 9,
+        "type": "function",
+        "file": "schemas.ts"
+      },
+      {
+        "name": "METRIC_SCHEMA_REGISTRY",
+        "line": 215,
+        "type": "function",
+        "file": "schemas.ts"
+      },
+      {
+        "name": "DEFAULT_LABELS",
+        "line": 220,
+        "type": "function",
+        "file": "schemas.ts"
+      },
+      {
+        "name": "validateMetricName",
+        "line": 229,
+        "type": "function",
+        "file": "schemas.ts"
+      },
+      {
+        "name": "validateLabels",
+        "line": 234,
+        "type": "function",
+        "file": "schemas.ts"
+      },
+      {
+        "name": "getMetricSchema",
+        "line": 241,
+        "type": "function",
+        "file": "schemas.ts"
+      },
+      {
+        "name": "isMetricSchemaValid",
+        "line": 245,
+        "type": "function",
+        "file": "schemas.ts"
+      },
+      {
+        "name": "StorageConfig",
+        "line": 15,
+        "type": "interface",
+        "file": "storage.ts"
+      },
+      {
+        "name": "MetricQuery",
+        "line": 25,
+        "type": "interface",
+        "file": "storage.ts"
+      },
+      {
+        "name": "QueryResult",
+        "line": 36,
+        "type": "interface",
+        "file": "storage.ts"
+      },
+      {
+        "name": "StorageStats",
+        "line": 48,
+        "type": "interface",
+        "file": "storage.ts"
+      },
+      {
+        "name": "DEFAULT_STORAGE_CONFIG",
+        "line": 58,
+        "type": "function",
+        "file": "storage.ts"
+      },
+      {
+        "name": "PerformanceDataStorage",
+        "line": 70,
+        "type": "class",
+        "file": "storage.ts"
+      },
+      {
+        "name": "getPerformanceDataStorage",
+        "line": 502,
+        "type": "function",
+        "file": "storage.ts"
+      },
+      {
+        "name": "destroyPerformanceDataStorage",
+        "line": 514,
+        "type": "function",
+        "file": "storage.ts"
+      },
+      {
+        "name": "MetricSchema",
+        "line": 6,
+        "type": "interface",
+        "file": "types.ts"
+      },
+      {
+        "name": "PerformanceMetric",
+        "line": 16,
+        "type": "interface",
+        "file": "types.ts"
+      },
+      {
+        "name": "AgentPerformanceMetrics",
+        "line": 25,
+        "type": "interface",
+        "file": "types.ts"
+      },
+      {
+        "name": "PipelinePerformanceMetrics",
+        "line": 37,
+        "type": "interface",
+        "file": "types.ts"
+      },
+      {
+        "name": "SystemResourceMetrics",
+        "line": 49,
+        "type": "interface",
+        "file": "types.ts"
+      },
+      {
+        "name": "AlertRule",
+        "line": 62,
+        "type": "interface",
+        "file": "types.ts"
+      },
+      {
+        "name": "AlertEvent",
+        "line": 76,
+        "type": "interface",
+        "file": "types.ts"
+      },
+      {
+        "name": "OptimizationSuggestion",
+        "line": 90,
+        "type": "interface",
+        "file": "types.ts"
+      },
+      {
+        "name": "PerformanceTrend",
+        "line": 108,
+        "type": "interface",
+        "file": "types.ts"
+      },
+      {
+        "name": "MonitoringConfig",
+        "line": 131,
+        "type": "interface",
+        "file": "types.ts"
+      },
+      {
+        "name": "HealthCheck",
+        "line": 148,
+        "type": "interface",
+        "file": "types.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "AlertingService",
+        "line": 72,
+        "type": "class",
+        "file": "alerting.ts"
+      },
+      {
+        "name": "MetricsCollectionService",
+        "line": 46,
+        "type": "class",
+        "file": "collection.ts"
+      },
+      {
+        "name": "MonitoringDashboard",
+        "line": 80,
+        "type": "class",
+        "file": "dashboard.ts"
+      },
+      {
+        "name": "TokenBucket",
+        "line": 14,
+        "type": "class",
+        "file": "limiter.ts"
+      },
+      {
+        "name": "PerformanceDataStorage",
+        "line": 70,
+        "type": "class",
+        "file": "storage.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "DEFAULT_ALERTING_CONFIG",
+        "line": 53,
+        "type": "function",
+        "file": "alerting.ts"
+      },
+      {
+        "name": "getAlertingService",
+        "line": 557,
+        "type": "function",
+        "file": "alerting.ts"
+      },
+      {
+        "name": "destroyAlertingService",
+        "line": 570,
+        "type": "function",
+        "file": "alerting.ts"
+      },
+      {
+        "name": "DEFAULT_COLLECTION_CONFIG",
+        "line": 24,
+        "type": "function",
+        "file": "collection.ts"
+      },
+      {
+        "name": "getMetricsCollectionService",
+        "line": 374,
+        "type": "function",
+        "file": "collection.ts"
+      },
+      {
+        "name": "destroyMetricsCollectionService",
+        "line": 386,
+        "type": "function",
+        "file": "collection.ts"
+      },
+      {
+        "name": "DEFAULT_DASHBOARD_CONFIG",
+        "line": 62,
+        "type": "function",
+        "file": "dashboard.ts"
+      },
+      {
+        "name": "getMonitoringDashboard",
+        "line": 494,
+        "type": "function",
+        "file": "dashboard.ts"
+      },
+      {
+        "name": "destroyMonitoringDashboard",
+        "line": 508,
+        "type": "function",
+        "file": "dashboard.ts"
+      },
+      {
+        "name": "metrics",
+        "line": 121,
+        "type": "function",
+        "file": "prom.ts"
+      },
+      {
+        "name": "METRIC_SCHEMAS",
+        "line": 9,
+        "type": "function",
+        "file": "schemas.ts"
+      },
+      {
+        "name": "METRIC_SCHEMA_REGISTRY",
+        "line": 215,
+        "type": "function",
+        "file": "schemas.ts"
+      },
+      {
+        "name": "DEFAULT_LABELS",
+        "line": 220,
+        "type": "function",
+        "file": "schemas.ts"
+      },
+      {
+        "name": "validateMetricName",
+        "line": 229,
+        "type": "function",
+        "file": "schemas.ts"
+      },
+      {
+        "name": "validateLabels",
+        "line": 234,
+        "type": "function",
+        "file": "schemas.ts"
+      },
+      {
+        "name": "getMetricSchema",
+        "line": 241,
+        "type": "function",
+        "file": "schemas.ts"
+      },
+      {
+        "name": "isMetricSchemaValid",
+        "line": 245,
+        "type": "function",
+        "file": "schemas.ts"
+      },
+      {
+        "name": "DEFAULT_STORAGE_CONFIG",
+        "line": 58,
+        "type": "function",
+        "file": "storage.ts"
+      },
+      {
+        "name": "getPerformanceDataStorage",
+        "line": 502,
+        "type": "function",
+        "file": "storage.ts"
+      },
+      {
+        "name": "destroyPerformanceDataStorage",
+        "line": 514,
+        "type": "function",
+        "file": "storage.ts"
+      }
+    ],
+    "interfaces": [
+      {
+        "name": "NotificationChannel",
+        "line": 10,
+        "type": "interface",
+        "file": "alerting.ts"
+      },
+      {
+        "name": "AlertContext",
+        "line": 19,
+        "type": "interface",
+        "file": "alerting.ts"
+      },
+      {
+        "name": "AlertNotification",
+        "line": 27,
+        "type": "interface",
+        "file": "alerting.ts"
+      },
+      {
+        "name": "AlertingConfig",
+        "line": 43,
+        "type": "interface",
+        "file": "alerting.ts"
+      },
+      {
+        "name": "CollectionServiceConfig",
+        "line": 16,
+        "type": "interface",
+        "file": "collection.ts"
+      },
+      {
+        "name": "DashboardConfig",
+        "line": 18,
+        "type": "interface",
+        "file": "dashboard.ts"
+      },
+      {
+        "name": "WidgetConfig",
+        "line": 27,
+        "type": "interface",
+        "file": "dashboard.ts"
+      },
+      {
+        "name": "DashboardData",
+        "line": 44,
+        "type": "interface",
+        "file": "dashboard.ts"
+      },
+      {
+        "name": "WidgetData",
+        "line": 53,
+        "type": "interface",
+        "file": "dashboard.ts"
+      },
+      {
+        "name": "StorageConfig",
+        "line": 15,
+        "type": "interface",
+        "file": "storage.ts"
+      },
+      {
+        "name": "MetricQuery",
+        "line": 25,
+        "type": "interface",
+        "file": "storage.ts"
+      },
+      {
+        "name": "QueryResult",
+        "line": 36,
+        "type": "interface",
+        "file": "storage.ts"
+      },
+      {
+        "name": "StorageStats",
+        "line": 48,
+        "type": "interface",
+        "file": "storage.ts"
+      },
+      {
+        "name": "MetricSchema",
+        "line": 6,
+        "type": "interface",
+        "file": "types.ts"
+      },
+      {
+        "name": "PerformanceMetric",
+        "line": 16,
+        "type": "interface",
+        "file": "types.ts"
+      },
+      {
+        "name": "AgentPerformanceMetrics",
+        "line": 25,
+        "type": "interface",
+        "file": "types.ts"
+      },
+      {
+        "name": "PipelinePerformanceMetrics",
+        "line": 37,
+        "type": "interface",
+        "file": "types.ts"
+      },
+      {
+        "name": "SystemResourceMetrics",
+        "line": 49,
+        "type": "interface",
+        "file": "types.ts"
+      },
+      {
+        "name": "AlertRule",
+        "line": 62,
+        "type": "interface",
+        "file": "types.ts"
+      },
+      {
+        "name": "AlertEvent",
+        "line": 76,
+        "type": "interface",
+        "file": "types.ts"
+      },
+      {
+        "name": "OptimizationSuggestion",
+        "line": 90,
+        "type": "interface",
+        "file": "types.ts"
+      },
+      {
+        "name": "PerformanceTrend",
+        "line": 108,
+        "type": "interface",
+        "file": "types.ts"
+      },
+      {
+        "name": "MonitoringConfig",
+        "line": 131,
+        "type": "interface",
+        "file": "types.ts"
+      },
+      {
+        "name": "HealthCheck",
+        "line": 148,
+        "type": "interface",
+        "file": "types.ts"
+      }
+    ]
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "alerting.ts",
+          "link": "[src/alerting.ts](../../../packages/monitoring/src/alerting.ts)",
+          "lineCount": 576
+        },
+        {
+          "name": "collection.ts",
+          "link": "[src/collection.ts](../../../packages/monitoring/src/collection.ts)",
+          "lineCount": 392
+        },
+        {
+          "name": "dashboard.ts",
+          "link": "[src/dashboard.ts](../../../packages/monitoring/src/dashboard.ts)",
+          "lineCount": 514
+        },
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/monitoring/src/index.ts)",
+          "lineCount": 12
+        },
+        {
+          "name": "limiter.ts",
+          "link": "[src/limiter.ts](../../../packages/monitoring/src/limiter.ts)",
+          "lineCount": 73
+        },
+        {
+          "name": "prom.ts",
+          "link": "[src/prom.ts](../../../packages/monitoring/src/prom.ts)",
+          "lineCount": 133
+        },
+        {
+          "name": "schemas.ts",
+          "link": "[src/schemas.ts](../../../packages/monitoring/src/schemas.ts)",
+          "lineCount": 260
+        },
+        {
+          "name": "storage.ts",
+          "link": "[src/storage.ts](../../../packages/monitoring/src/storage.ts)",
+          "lineCount": 520
+        },
+        {
+          "name": "tests/limiter.test.ts",
+          "link": "[src/tests/limiter.test.ts](../../../packages/monitoring/src/tests/limiter.test.ts)",
+          "lineCount": 78
+        },
+        {
+          "name": "tests/monitoring.test.ts",
+          "link": "[src/tests/monitoring.test.ts](../../../packages/monitoring/src/tests/monitoring.test.ts)",
+          "lineCount": 390
+        },
+        {
+          "name": "types.ts",
+          "link": "[src/types.ts](../../../packages/monitoring/src/types.ts)",
+          "lineCount": 159
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "AlertingService",
+          "link": "[AlertingService](../../../packages/monitoring/src/alerting.ts#L72)",
+          "file": "alerting.ts",
+          "line": 72
+        },
+        {
+          "name": "MetricsCollectionService",
+          "link": "[MetricsCollectionService](../../../packages/monitoring/src/collection.ts#L46)",
+          "file": "collection.ts",
+          "line": 46
+        },
+        {
+          "name": "MonitoringDashboard",
+          "link": "[MonitoringDashboard](../../../packages/monitoring/src/dashboard.ts#L80)",
+          "file": "dashboard.ts",
+          "line": 80
+        },
+        {
+          "name": "TokenBucket",
+          "link": "[TokenBucket](../../../packages/monitoring/src/limiter.ts#L14)",
+          "file": "limiter.ts",
+          "line": 14
+        },
+        {
+          "name": "PerformanceDataStorage",
+          "link": "[PerformanceDataStorage](../../../packages/monitoring/src/storage.ts#L70)",
+          "file": "storage.ts",
+          "line": 70
+        }
+      ],
+      "functions": [
+        {
+          "name": "DEFAULT_ALERTING_CONFIG",
+          "link": "[DEFAULT_ALERTING_CONFIG()](../../../packages/monitoring/src/alerting.ts#L53)",
+          "file": "alerting.ts",
+          "line": 53
+        },
+        {
+          "name": "getAlertingService",
+          "link": "[getAlertingService()](../../../packages/monitoring/src/alerting.ts#L557)",
+          "file": "alerting.ts",
+          "line": 557
+        },
+        {
+          "name": "destroyAlertingService",
+          "link": "[destroyAlertingService()](../../../packages/monitoring/src/alerting.ts#L570)",
+          "file": "alerting.ts",
+          "line": 570
+        },
+        {
+          "name": "DEFAULT_COLLECTION_CONFIG",
+          "link": "[DEFAULT_COLLECTION_CONFIG()](../../../packages/monitoring/src/collection.ts#L24)",
+          "file": "collection.ts",
+          "line": 24
+        },
+        {
+          "name": "getMetricsCollectionService",
+          "link": "[getMetricsCollectionService()](../../../packages/monitoring/src/collection.ts#L374)",
+          "file": "collection.ts",
+          "line": 374
+        },
+        {
+          "name": "destroyMetricsCollectionService",
+          "link": "[destroyMetricsCollectionService()](../../../packages/monitoring/src/collection.ts#L386)",
+          "file": "collection.ts",
+          "line": 386
+        },
+        {
+          "name": "DEFAULT_DASHBOARD_CONFIG",
+          "link": "[DEFAULT_DASHBOARD_CONFIG()](../../../packages/monitoring/src/dashboard.ts#L62)",
+          "file": "dashboard.ts",
+          "line": 62
+        },
+        {
+          "name": "getMonitoringDashboard",
+          "link": "[getMonitoringDashboard()](../../../packages/monitoring/src/dashboard.ts#L494)",
+          "file": "dashboard.ts",
+          "line": 494
+        },
+        {
+          "name": "destroyMonitoringDashboard",
+          "link": "[destroyMonitoringDashboard()](../../../packages/monitoring/src/dashboard.ts#L508)",
+          "file": "dashboard.ts",
+          "line": 508
+        },
+        {
+          "name": "metrics",
+          "link": "[metrics()](../../../packages/monitoring/src/prom.ts#L121)",
+          "file": "prom.ts",
+          "line": 121
+        },
+        {
+          "name": "METRIC_SCHEMAS",
+          "link": "[METRIC_SCHEMAS()](../../../packages/monitoring/src/schemas.ts#L9)",
+          "file": "schemas.ts",
+          "line": 9
+        },
+        {
+          "name": "METRIC_SCHEMA_REGISTRY",
+          "link": "[METRIC_SCHEMA_REGISTRY()](../../../packages/monitoring/src/schemas.ts#L215)",
+          "file": "schemas.ts",
+          "line": 215
+        },
+        {
+          "name": "DEFAULT_LABELS",
+          "link": "[DEFAULT_LABELS()](../../../packages/monitoring/src/schemas.ts#L220)",
+          "file": "schemas.ts",
+          "line": 220
+        },
+        {
+          "name": "validateMetricName",
+          "link": "[validateMetricName()](../../../packages/monitoring/src/schemas.ts#L229)",
+          "file": "schemas.ts",
+          "line": 229
+        },
+        {
+          "name": "validateLabels",
+          "link": "[validateLabels()](../../../packages/monitoring/src/schemas.ts#L234)",
+          "file": "schemas.ts",
+          "line": 234
+        },
+        {
+          "name": "getMetricSchema",
+          "link": "[getMetricSchema()](../../../packages/monitoring/src/schemas.ts#L241)",
+          "file": "schemas.ts",
+          "line": 241
+        },
+        {
+          "name": "isMetricSchemaValid",
+          "link": "[isMetricSchemaValid()](../../../packages/monitoring/src/schemas.ts#L245)",
+          "file": "schemas.ts",
+          "line": 245
+        },
+        {
+          "name": "DEFAULT_STORAGE_CONFIG",
+          "link": "[DEFAULT_STORAGE_CONFIG()](../../../packages/monitoring/src/storage.ts#L58)",
+          "file": "storage.ts",
+          "line": 58
+        },
+        {
+          "name": "getPerformanceDataStorage",
+          "link": "[getPerformanceDataStorage()](../../../packages/monitoring/src/storage.ts#L502)",
+          "file": "storage.ts",
+          "line": 502
+        },
+        {
+          "name": "destroyPerformanceDataStorage",
+          "link": "[destroyPerformanceDataStorage()](../../../packages/monitoring/src/storage.ts#L514)",
+          "file": "storage.ts",
+          "line": 514
+        }
+      ],
+      "interfaces": [
+        {
+          "name": "NotificationChannel",
+          "link": "[NotificationChannel](../../../packages/monitoring/src/alerting.ts#L10)",
+          "file": "alerting.ts",
+          "line": 10
+        },
+        {
+          "name": "AlertContext",
+          "link": "[AlertContext](../../../packages/monitoring/src/alerting.ts#L19)",
+          "file": "alerting.ts",
+          "line": 19
+        },
+        {
+          "name": "AlertNotification",
+          "link": "[AlertNotification](../../../packages/monitoring/src/alerting.ts#L27)",
+          "file": "alerting.ts",
+          "line": 27
+        },
+        {
+          "name": "AlertingConfig",
+          "link": "[AlertingConfig](../../../packages/monitoring/src/alerting.ts#L43)",
+          "file": "alerting.ts",
+          "line": 43
+        },
+        {
+          "name": "CollectionServiceConfig",
+          "link": "[CollectionServiceConfig](../../../packages/monitoring/src/collection.ts#L16)",
+          "file": "collection.ts",
+          "line": 16
+        },
+        {
+          "name": "DashboardConfig",
+          "link": "[DashboardConfig](../../../packages/monitoring/src/dashboard.ts#L18)",
+          "file": "dashboard.ts",
+          "line": 18
+        },
+        {
+          "name": "WidgetConfig",
+          "link": "[WidgetConfig](../../../packages/monitoring/src/dashboard.ts#L27)",
+          "file": "dashboard.ts",
+          "line": 27
+        },
+        {
+          "name": "DashboardData",
+          "link": "[DashboardData](../../../packages/monitoring/src/dashboard.ts#L44)",
+          "file": "dashboard.ts",
+          "line": 44
+        },
+        {
+          "name": "WidgetData",
+          "link": "[WidgetData](../../../packages/monitoring/src/dashboard.ts#L53)",
+          "file": "dashboard.ts",
+          "line": 53
+        },
+        {
+          "name": "StorageConfig",
+          "link": "[StorageConfig](../../../packages/monitoring/src/storage.ts#L15)",
+          "file": "storage.ts",
+          "line": 15
+        },
+        {
+          "name": "MetricQuery",
+          "link": "[MetricQuery](../../../packages/monitoring/src/storage.ts#L25)",
+          "file": "storage.ts",
+          "line": 25
+        },
+        {
+          "name": "QueryResult",
+          "link": "[QueryResult](../../../packages/monitoring/src/storage.ts#L36)",
+          "file": "storage.ts",
+          "line": 36
+        },
+        {
+          "name": "StorageStats",
+          "link": "[StorageStats](../../../packages/monitoring/src/storage.ts#L48)",
+          "file": "storage.ts",
+          "line": 48
+        },
+        {
+          "name": "MetricSchema",
+          "link": "[MetricSchema](../../../packages/monitoring/src/types.ts#L6)",
+          "file": "types.ts",
+          "line": 6
+        },
+        {
+          "name": "PerformanceMetric",
+          "link": "[PerformanceMetric](../../../packages/monitoring/src/types.ts#L16)",
+          "file": "types.ts",
+          "line": 16
+        },
+        {
+          "name": "AgentPerformanceMetrics",
+          "link": "[AgentPerformanceMetrics](../../../packages/monitoring/src/types.ts#L25)",
+          "file": "types.ts",
+          "line": 25
+        },
+        {
+          "name": "PipelinePerformanceMetrics",
+          "link": "[PipelinePerformanceMetrics](../../../packages/monitoring/src/types.ts#L37)",
+          "file": "types.ts",
+          "line": 37
+        },
+        {
+          "name": "SystemResourceMetrics",
+          "link": "[SystemResourceMetrics](../../../packages/monitoring/src/types.ts#L49)",
+          "file": "types.ts",
+          "line": 49
+        },
+        {
+          "name": "AlertRule",
+          "link": "[AlertRule](../../../packages/monitoring/src/types.ts#L62)",
+          "file": "types.ts",
+          "line": 62
+        },
+        {
+          "name": "AlertEvent",
+          "link": "[AlertEvent](../../../packages/monitoring/src/types.ts#L76)",
+          "file": "types.ts",
+          "line": 76
+        },
+        {
+          "name": "OptimizationSuggestion",
+          "link": "[OptimizationSuggestion](../../../packages/monitoring/src/types.ts#L90)",
+          "file": "types.ts",
+          "line": 90
+        },
+        {
+          "name": "PerformanceTrend",
+          "link": "[PerformanceTrend](../../../packages/monitoring/src/types.ts#L108)",
+          "file": "types.ts",
+          "line": 108
+        },
+        {
+          "name": "MonitoringConfig",
+          "link": "[MonitoringConfig](../../../packages/monitoring/src/types.ts#L131)",
+          "file": "types.ts",
+          "line": 131
+        },
+        {
+          "name": "HealthCheck",
+          "link": "[HealthCheck](../../../packages/monitoring/src/types.ts#L148)",
+          "file": "types.ts",
+          "line": 148
+        }
+      ]
+    }
+  }
+}

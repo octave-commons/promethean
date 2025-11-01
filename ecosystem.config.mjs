@@ -194,8 +194,8 @@ export const apps =
       "http://192.168.12.65:11434"
     ],
     "env": {
-      "OPENAI_BASE_URL": "http://192.168.12.65:11434",
-      "AUTOCOMMIT_MODEL": "error/qwen3:4b-instruct-100k",
+      "OPENAI_BASE_URL": "http://localhost:11434",
+      "AUTOCOMMIT_MODEL": "gpt-oss:20b-cloud",
       "NODE_ENV": "production"
     },
     "instances": 1,

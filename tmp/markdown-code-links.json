@@ -1,0 +1,1896 @@
+{
+  "packageData": {
+    "packageName": "markdown",
+    "files": [
+      {
+        "path": "anchors.ts",
+        "fullPath": "/home/err/devel/promethean/packages/markdown/src/anchors.ts",
+        "exports": [
+          {
+            "name": "anchorId",
+            "line": 59,
+            "type": "function"
+          },
+          {
+            "name": "relMdLink",
+            "line": 62,
+            "type": "function"
+          },
+          {
+            "name": "computeFenceMap",
+            "line": 67,
+            "type": "function"
+          },
+          {
+            "name": "injectAnchors",
+            "line": 70,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "anchorId",
+            "line": 59,
+            "type": "function"
+          },
+          {
+            "name": "relMdLink",
+            "line": 62,
+            "type": "function"
+          },
+          {
+            "name": "computeFenceMap",
+            "line": 67,
+            "type": "function"
+          },
+          {
+            "name": "injectAnchors",
+            "line": 70,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 121
+      },
+      {
+        "path": "chunking.ts",
+        "fullPath": "/home/err/devel/promethean/packages/markdown/src/chunking.ts",
+        "exports": [
+          {
+            "name": "sentenceSplit",
+            "line": 53,
+            "type": "function"
+          },
+          {
+            "name": "parseMarkdownChunks",
+            "line": 143,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "sentenceSplit",
+            "line": 53,
+            "type": "function"
+          },
+          {
+            "name": "parseMarkdownChunks",
+            "line": 143,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 160
+      },
+      {
+        "path": "frontmatter.ts",
+        "fullPath": "/home/err/devel/promethean/packages/markdown/src/frontmatter.ts",
+        "exports": [
+          {
+            "name": "parseFrontmatter",
+            "line": 57,
+            "type": "function"
+          },
+          {
+            "name": "stringifyFrontmatter",
+            "line": 61,
+            "type": "function"
+          },
+          {
+            "name": "normalizeStringList",
+            "line": 66,
+            "type": "function"
+          },
+          {
+            "name": "deriveFilenameFromPath",
+            "line": 76,
+            "type": "function"
+          },
+          {
+            "name": "ensureBaselineFrontmatter",
+            "line": 112,
+            "type": "function"
+          },
+          {
+            "name": "mergeFrontmatterWithGenerated",
+            "line": 161,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "parseFrontmatter",
+            "line": 57,
+            "type": "function"
+          },
+          {
+            "name": "stringifyFrontmatter",
+            "line": 61,
+            "type": "function"
+          },
+          {
+            "name": "normalizeStringList",
+            "line": 66,
+            "type": "function"
+          },
+          {
+            "name": "deriveFilenameFromPath",
+            "line": 76,
+            "type": "function"
+          },
+          {
+            "name": "ensureBaselineFrontmatter",
+            "line": 112,
+            "type": "function"
+          },
+          {
+            "name": "mergeFrontmatterWithGenerated",
+            "line": 161,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 198
+      },
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/markdown/src/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 19
+      },
+      {
+        "path": "kanban.ts",
+        "fullPath": "/home/err/devel/promethean/packages/markdown/src/kanban.ts",
+        "exports": [
+          {
+            "name": "MarkdownBoard",
+            "line": 242,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "MarkdownBoard",
+            "line": 242,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 456
+      },
+      {
+        "path": "statuses.ts",
+        "fullPath": "/home/err/devel/promethean/packages/markdown/src/statuses.ts",
+        "exports": [
+          {
+            "name": "STATUS_ORDER",
+            "line": 1,
+            "type": "function"
+          },
+          {
+            "name": "STATUS_SET",
+            "line": 16,
+            "type": "function"
+          },
+          {
+            "name": "headerToStatus",
+            "line": 79,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "STATUS_ORDER",
+            "line": 1,
+            "type": "function"
+          },
+          {
+            "name": "STATUS_SET",
+            "line": 16,
+            "type": "function"
+          },
+          {
+            "name": "headerToStatus",
+            "line": 79,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 86
+      },
+      {
+        "path": "sync.ts",
+        "fullPath": "/home/err/devel/promethean/packages/markdown/src/sync.ts",
+        "exports": [
+          {
+            "name": "stripHash",
+            "line": 13,
+            "type": "function"
+          },
+          {
+            "name": "firstWikiTarget",
+            "line": 31,
+            "type": "function"
+          },
+          {
+            "name": "ensureStatusInTags",
+            "line": 48,
+            "type": "function"
+          },
+          {
+            "name": "cardNeedsStatusUpdate",
+            "line": 53,
+            "type": "function"
+          },
+          {
+            "name": "cardNeedsLink",
+            "line": 61,
+            "type": "function"
+          },
+          {
+            "name": "ensureCardStatus",
+            "line": 67,
+            "type": "function"
+          },
+          {
+            "name": "ensureTaskFile",
+            "line": 75,
+            "type": "function"
+          },
+          {
+            "name": "ensureCardLink",
+            "line": 96,
+            "type": "function"
+          },
+          {
+            "name": "ensureTaskStatusForCard",
+            "line": 118,
+            "type": "function"
+          },
+          {
+            "name": "detectPendingChanges",
+            "line": 181,
+            "type": "function"
+          },
+          {
+            "name": "applyUpdates",
+            "line": 189,
+            "type": "function"
+          },
+          {
+            "name": "normalizeBoardInstance",
+            "line": 206,
+            "type": "function"
+          },
+          {
+            "name": "syncBoardStatuses",
+            "line": 212,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "stripHash",
+            "line": 13,
+            "type": "function"
+          },
+          {
+            "name": "firstWikiTarget",
+            "line": 31,
+            "type": "function"
+          },
+          {
+            "name": "ensureStatusInTags",
+            "line": 48,
+            "type": "function"
+          },
+          {
+            "name": "cardNeedsStatusUpdate",
+            "line": 53,
+            "type": "function"
+          },
+          {
+            "name": "cardNeedsLink",
+            "line": 61,
+            "type": "function"
+          },
+          {
+            "name": "ensureCardStatus",
+            "line": 67,
+            "type": "function"
+          },
+          {
+            "name": "ensureTaskFile",
+            "line": 75,
+            "type": "function"
+          },
+          {
+            "name": "ensureCardLink",
+            "line": 96,
+            "type": "function"
+          },
+          {
+            "name": "ensureTaskStatusForCard",
+            "line": 118,
+            "type": "function"
+          },
+          {
+            "name": "detectPendingChanges",
+            "line": 181,
+            "type": "function"
+          },
+          {
+            "name": "applyUpdates",
+            "line": 189,
+            "type": "function"
+          },
+          {
+            "name": "normalizeBoardInstance",
+            "line": 206,
+            "type": "function"
+          },
+          {
+            "name": "syncBoardStatuses",
+            "line": 212,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 219
+      },
+      {
+        "path": "system.ts",
+        "fullPath": "/home/err/devel/promethean/packages/markdown/src/system.ts",
+        "exports": [
+          {
+            "name": "parseSystemMarkdown",
+            "line": 729,
+            "type": "function"
+          },
+          {
+            "name": "summarizeSystemSections",
+            "line": 771,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "parseSystemMarkdown",
+            "line": 729,
+            "type": "function"
+          },
+          {
+            "name": "summarizeSystemSections",
+            "line": 771,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 781
+      },
+      {
+        "path": "task.ts",
+        "fullPath": "/home/err/devel/promethean/packages/markdown/src/task.ts",
+        "exports": [
+          {
+            "name": "MarkdownTask",
+            "line": 93,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "MarkdownTask",
+            "line": 93,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 187
+      },
+      {
+        "path": "template-enhanced.ts",
+        "fullPath": "/home/err/devel/promethean/packages/markdown/src/template-enhanced.ts",
+        "exports": [
+          {
+            "name": "TemplateContext",
+            "line": 9,
+            "type": "interface"
+          },
+          {
+            "name": "TemplateFilter",
+            "line": 16,
+            "type": "interface"
+          },
+          {
+            "name": "TemplateOptions",
+            "line": 24,
+            "type": "interface"
+          },
+          {
+            "name": "TemplateResult",
+            "line": 36,
+            "type": "interface"
+          },
+          {
+            "name": "processMarkdownTemplate",
+            "line": 525,
+            "type": "function"
+          },
+          {
+            "name": "processTextTemplate",
+            "line": 570,
+            "type": "function"
+          },
+          {
+            "name": "validateTemplate",
+            "line": 588,
+            "type": "function"
+          },
+          {
+            "name": "getBuiltinFilters",
+            "line": 660,
+            "type": "function"
+          },
+          {
+            "name": "registerFilter",
+            "line": 667,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "processMarkdownTemplate",
+            "line": 525,
+            "type": "function"
+          },
+          {
+            "name": "processTextTemplate",
+            "line": 570,
+            "type": "function"
+          },
+          {
+            "name": "validateTemplate",
+            "line": 588,
+            "type": "function"
+          },
+          {
+            "name": "getBuiltinFilters",
+            "line": 660,
+            "type": "function"
+          },
+          {
+            "name": "registerFilter",
+            "line": 667,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "TemplateContext",
+            "line": 9,
+            "type": "interface"
+          },
+          {
+            "name": "TemplateFilter",
+            "line": 16,
+            "type": "interface"
+          },
+          {
+            "name": "TemplateOptions",
+            "line": 24,
+            "type": "interface"
+          },
+          {
+            "name": "TemplateResult",
+            "line": 36,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 670
+      },
+      {
+        "path": "template-original.ts",
+        "fullPath": "/home/err/devel/promethean/packages/markdown/src/template-original.ts",
+        "exports": [
+          {
+            "name": "TemplateContext",
+            "line": 9,
+            "type": "interface"
+          },
+          {
+            "name": "TemplateOptions",
+            "line": 16,
+            "type": "interface"
+          },
+          {
+            "name": "TemplateResult",
+            "line": 27,
+            "type": "interface"
+          },
+          {
+            "name": "processMarkdownTemplate",
+            "line": 348,
+            "type": "function"
+          },
+          {
+            "name": "processTextTemplate",
+            "line": 393,
+            "type": "function"
+          },
+          {
+            "name": "validateTemplate",
+            "line": 411,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "processMarkdownTemplate",
+            "line": 348,
+            "type": "function"
+          },
+          {
+            "name": "processTextTemplate",
+            "line": 393,
+            "type": "function"
+          },
+          {
+            "name": "validateTemplate",
+            "line": 411,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "TemplateContext",
+            "line": 9,
+            "type": "interface"
+          },
+          {
+            "name": "TemplateOptions",
+            "line": 16,
+            "type": "interface"
+          },
+          {
+            "name": "TemplateResult",
+            "line": 27,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 460
+      },
+      {
+        "path": "template.ts",
+        "fullPath": "/home/err/devel/promethean/packages/markdown/src/template.ts",
+        "exports": [
+          {
+            "name": "TemplateContext",
+            "line": 9,
+            "type": "interface"
+          },
+          {
+            "name": "TemplateFilter",
+            "line": 16,
+            "type": "interface"
+          },
+          {
+            "name": "TemplateOptions",
+            "line": 24,
+            "type": "interface"
+          },
+          {
+            "name": "TemplateResult",
+            "line": 36,
+            "type": "interface"
+          },
+          {
+            "name": "processMarkdownTemplate",
+            "line": 525,
+            "type": "function"
+          },
+          {
+            "name": "processTextTemplate",
+            "line": 570,
+            "type": "function"
+          },
+          {
+            "name": "validateTemplate",
+            "line": 588,
+            "type": "function"
+          },
+          {
+            "name": "getBuiltinFilters",
+            "line": 660,
+            "type": "function"
+          },
+          {
+            "name": "registerFilter",
+            "line": 667,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "processMarkdownTemplate",
+            "line": 525,
+            "type": "function"
+          },
+          {
+            "name": "processTextTemplate",
+            "line": 570,
+            "type": "function"
+          },
+          {
+            "name": "validateTemplate",
+            "line": 588,
+            "type": "function"
+          },
+          {
+            "name": "getBuiltinFilters",
+            "line": 660,
+            "type": "function"
+          },
+          {
+            "name": "registerFilter",
+            "line": 667,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "TemplateContext",
+            "line": 9,
+            "type": "interface"
+          },
+          {
+            "name": "TemplateFilter",
+            "line": 16,
+            "type": "interface"
+          },
+          {
+            "name": "TemplateOptions",
+            "line": 24,
+            "type": "interface"
+          },
+          {
+            "name": "TemplateResult",
+            "line": 36,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 670
+      },
+      {
+        "path": "tests/anchors.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/markdown/src/tests/anchors.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 41
+      },
+      {
+        "path": "tests/chunking.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/markdown/src/tests/chunking.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 26
+      },
+      {
+        "path": "tests/frontmatter.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/markdown/src/tests/frontmatter.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 122
+      },
+      {
+        "path": "tests/kanban.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/markdown/src/tests/kanban.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 34
+      },
+      {
+        "path": "tests/system.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/markdown/src/tests/system.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 115
+      },
+      {
+        "path": "tests/template.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/markdown/src/tests/template.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 229
+      },
+      {
+        "path": "types.ts",
+        "fullPath": "/home/err/devel/promethean/packages/markdown/src/types.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 10
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [],
+      "classes": [],
+      "functions": [],
+      "interfaces": [],
+      "totalLines": 19
+    },
+    "exports": [
+      {
+        "name": "anchorId",
+        "line": 59,
+        "type": "function",
+        "file": "anchors.ts"
+      },
+      {
+        "name": "relMdLink",
+        "line": 62,
+        "type": "function",
+        "file": "anchors.ts"
+      },
+      {
+        "name": "computeFenceMap",
+        "line": 67,
+        "type": "function",
+        "file": "anchors.ts"
+      },
+      {
+        "name": "injectAnchors",
+        "line": 70,
+        "type": "function",
+        "file": "anchors.ts"
+      },
+      {
+        "name": "sentenceSplit",
+        "line": 53,
+        "type": "function",
+        "file": "chunking.ts"
+      },
+      {
+        "name": "parseMarkdownChunks",
+        "line": 143,
+        "type": "function",
+        "file": "chunking.ts"
+      },
+      {
+        "name": "parseFrontmatter",
+        "line": 57,
+        "type": "function",
+        "file": "frontmatter.ts"
+      },
+      {
+        "name": "stringifyFrontmatter",
+        "line": 61,
+        "type": "function",
+        "file": "frontmatter.ts"
+      },
+      {
+        "name": "normalizeStringList",
+        "line": 66,
+        "type": "function",
+        "file": "frontmatter.ts"
+      },
+      {
+        "name": "deriveFilenameFromPath",
+        "line": 76,
+        "type": "function",
+        "file": "frontmatter.ts"
+      },
+      {
+        "name": "ensureBaselineFrontmatter",
+        "line": 112,
+        "type": "function",
+        "file": "frontmatter.ts"
+      },
+      {
+        "name": "mergeFrontmatterWithGenerated",
+        "line": 161,
+        "type": "function",
+        "file": "frontmatter.ts"
+      },
+      {
+        "name": "MarkdownBoard",
+        "line": 242,
+        "type": "class",
+        "file": "kanban.ts"
+      },
+      {
+        "name": "STATUS_ORDER",
+        "line": 1,
+        "type": "function",
+        "file": "statuses.ts"
+      },
+      {
+        "name": "STATUS_SET",
+        "line": 16,
+        "type": "function",
+        "file": "statuses.ts"
+      },
+      {
+        "name": "headerToStatus",
+        "line": 79,
+        "type": "function",
+        "file": "statuses.ts"
+      },
+      {
+        "name": "stripHash",
+        "line": 13,
+        "type": "function",
+        "file": "sync.ts"
+      },
+      {
+        "name": "firstWikiTarget",
+        "line": 31,
+        "type": "function",
+        "file": "sync.ts"
+      },
+      {
+        "name": "ensureStatusInTags",
+        "line": 48,
+        "type": "function",
+        "file": "sync.ts"
+      },
+      {
+        "name": "cardNeedsStatusUpdate",
+        "line": 53,
+        "type": "function",
+        "file": "sync.ts"
+      },
+      {
+        "name": "cardNeedsLink",
+        "line": 61,
+        "type": "function",
+        "file": "sync.ts"
+      },
+      {
+        "name": "ensureCardStatus",
+        "line": 67,
+        "type": "function",
+        "file": "sync.ts"
+      },
+      {
+        "name": "ensureTaskFile",
+        "line": 75,
+        "type": "function",
+        "file": "sync.ts"
+      },
+      {
+        "name": "ensureCardLink",
+        "line": 96,
+        "type": "function",
+        "file": "sync.ts"
+      },
+      {
+        "name": "ensureTaskStatusForCard",
+        "line": 118,
+        "type": "function",
+        "file": "sync.ts"
+      },
+      {
+        "name": "detectPendingChanges",
+        "line": 181,
+        "type": "function",
+        "file": "sync.ts"
+      },
+      {
+        "name": "applyUpdates",
+        "line": 189,
+        "type": "function",
+        "file": "sync.ts"
+      },
+      {
+        "name": "normalizeBoardInstance",
+        "line": 206,
+        "type": "function",
+        "file": "sync.ts"
+      },
+      {
+        "name": "syncBoardStatuses",
+        "line": 212,
+        "type": "function",
+        "file": "sync.ts"
+      },
+      {
+        "name": "parseSystemMarkdown",
+        "line": 729,
+        "type": "function",
+        "file": "system.ts"
+      },
+      {
+        "name": "summarizeSystemSections",
+        "line": 771,
+        "type": "function",
+        "file": "system.ts"
+      },
+      {
+        "name": "MarkdownTask",
+        "line": 93,
+        "type": "class",
+        "file": "task.ts"
+      },
+      {
+        "name": "TemplateContext",
+        "line": 9,
+        "type": "interface",
+        "file": "template-enhanced.ts"
+      },
+      {
+        "name": "TemplateFilter",
+        "line": 16,
+        "type": "interface",
+        "file": "template-enhanced.ts"
+      },
+      {
+        "name": "TemplateOptions",
+        "line": 24,
+        "type": "interface",
+        "file": "template-enhanced.ts"
+      },
+      {
+        "name": "TemplateResult",
+        "line": 36,
+        "type": "interface",
+        "file": "template-enhanced.ts"
+      },
+      {
+        "name": "processMarkdownTemplate",
+        "line": 525,
+        "type": "function",
+        "file": "template-enhanced.ts"
+      },
+      {
+        "name": "processTextTemplate",
+        "line": 570,
+        "type": "function",
+        "file": "template-enhanced.ts"
+      },
+      {
+        "name": "validateTemplate",
+        "line": 588,
+        "type": "function",
+        "file": "template-enhanced.ts"
+      },
+      {
+        "name": "getBuiltinFilters",
+        "line": 660,
+        "type": "function",
+        "file": "template-enhanced.ts"
+      },
+      {
+        "name": "registerFilter",
+        "line": 667,
+        "type": "function",
+        "file": "template-enhanced.ts"
+      },
+      {
+        "name": "TemplateContext",
+        "line": 9,
+        "type": "interface",
+        "file": "template-original.ts"
+      },
+      {
+        "name": "TemplateOptions",
+        "line": 16,
+        "type": "interface",
+        "file": "template-original.ts"
+      },
+      {
+        "name": "TemplateResult",
+        "line": 27,
+        "type": "interface",
+        "file": "template-original.ts"
+      },
+      {
+        "name": "processMarkdownTemplate",
+        "line": 348,
+        "type": "function",
+        "file": "template-original.ts"
+      },
+      {
+        "name": "processTextTemplate",
+        "line": 393,
+        "type": "function",
+        "file": "template-original.ts"
+      },
+      {
+        "name": "validateTemplate",
+        "line": 411,
+        "type": "function",
+        "file": "template-original.ts"
+      },
+      {
+        "name": "TemplateContext",
+        "line": 9,
+        "type": "interface",
+        "file": "template.ts"
+      },
+      {
+        "name": "TemplateFilter",
+        "line": 16,
+        "type": "interface",
+        "file": "template.ts"
+      },
+      {
+        "name": "TemplateOptions",
+        "line": 24,
+        "type": "interface",
+        "file": "template.ts"
+      },
+      {
+        "name": "TemplateResult",
+        "line": 36,
+        "type": "interface",
+        "file": "template.ts"
+      },
+      {
+        "name": "processMarkdownTemplate",
+        "line": 525,
+        "type": "function",
+        "file": "template.ts"
+      },
+      {
+        "name": "processTextTemplate",
+        "line": 570,
+        "type": "function",
+        "file": "template.ts"
+      },
+      {
+        "name": "validateTemplate",
+        "line": 588,
+        "type": "function",
+        "file": "template.ts"
+      },
+      {
+        "name": "getBuiltinFilters",
+        "line": 660,
+        "type": "function",
+        "file": "template.ts"
+      },
+      {
+        "name": "registerFilter",
+        "line": 667,
+        "type": "function",
+        "file": "template.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "MarkdownBoard",
+        "line": 242,
+        "type": "class",
+        "file": "kanban.ts"
+      },
+      {
+        "name": "MarkdownTask",
+        "line": 93,
+        "type": "class",
+        "file": "task.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "anchorId",
+        "line": 59,
+        "type": "function",
+        "file": "anchors.ts"
+      },
+      {
+        "name": "relMdLink",
+        "line": 62,
+        "type": "function",
+        "file": "anchors.ts"
+      },
+      {
+        "name": "computeFenceMap",
+        "line": 67,
+        "type": "function",
+        "file": "anchors.ts"
+      },
+      {
+        "name": "injectAnchors",
+        "line": 70,
+        "type": "function",
+        "file": "anchors.ts"
+      },
+      {
+        "name": "sentenceSplit",
+        "line": 53,
+        "type": "function",
+        "file": "chunking.ts"
+      },
+      {
+        "name": "parseMarkdownChunks",
+        "line": 143,
+        "type": "function",
+        "file": "chunking.ts"
+      },
+      {
+        "name": "parseFrontmatter",
+        "line": 57,
+        "type": "function",
+        "file": "frontmatter.ts"
+      },
+      {
+        "name": "stringifyFrontmatter",
+        "line": 61,
+        "type": "function",
+        "file": "frontmatter.ts"
+      },
+      {
+        "name": "normalizeStringList",
+        "line": 66,
+        "type": "function",
+        "file": "frontmatter.ts"
+      },
+      {
+        "name": "deriveFilenameFromPath",
+        "line": 76,
+        "type": "function",
+        "file": "frontmatter.ts"
+      },
+      {
+        "name": "ensureBaselineFrontmatter",
+        "line": 112,
+        "type": "function",
+        "file": "frontmatter.ts"
+      },
+      {
+        "name": "mergeFrontmatterWithGenerated",
+        "line": 161,
+        "type": "function",
+        "file": "frontmatter.ts"
+      },
+      {
+        "name": "STATUS_ORDER",
+        "line": 1,
+        "type": "function",
+        "file": "statuses.ts"
+      },
+      {
+        "name": "STATUS_SET",
+        "line": 16,
+        "type": "function",
+        "file": "statuses.ts"
+      },
+      {
+        "name": "headerToStatus",
+        "line": 79,
+        "type": "function",
+        "file": "statuses.ts"
+      },
+      {
+        "name": "stripHash",
+        "line": 13,
+        "type": "function",
+        "file": "sync.ts"
+      },
+      {
+        "name": "firstWikiTarget",
+        "line": 31,
+        "type": "function",
+        "file": "sync.ts"
+      },
+      {
+        "name": "ensureStatusInTags",
+        "line": 48,
+        "type": "function",
+        "file": "sync.ts"
+      },
+      {
+        "name": "cardNeedsStatusUpdate",
+        "line": 53,
+        "type": "function",
+        "file": "sync.ts"
+      },
+      {
+        "name": "cardNeedsLink",
+        "line": 61,
+        "type": "function",
+        "file": "sync.ts"
+      },
+      {
+        "name": "ensureCardStatus",
+        "line": 67,
+        "type": "function",
+        "file": "sync.ts"
+      },
+      {
+        "name": "ensureTaskFile",
+        "line": 75,
+        "type": "function",
+        "file": "sync.ts"
+      },
+      {
+        "name": "ensureCardLink",
+        "line": 96,
+        "type": "function",
+        "file": "sync.ts"
+      },
+      {
+        "name": "ensureTaskStatusForCard",
+        "line": 118,
+        "type": "function",
+        "file": "sync.ts"
+      },
+      {
+        "name": "detectPendingChanges",
+        "line": 181,
+        "type": "function",
+        "file": "sync.ts"
+      },
+      {
+        "name": "applyUpdates",
+        "line": 189,
+        "type": "function",
+        "file": "sync.ts"
+      },
+      {
+        "name": "normalizeBoardInstance",
+        "line": 206,
+        "type": "function",
+        "file": "sync.ts"
+      },
+      {
+        "name": "syncBoardStatuses",
+        "line": 212,
+        "type": "function",
+        "file": "sync.ts"
+      },
+      {
+        "name": "parseSystemMarkdown",
+        "line": 729,
+        "type": "function",
+        "file": "system.ts"
+      },
+      {
+        "name": "summarizeSystemSections",
+        "line": 771,
+        "type": "function",
+        "file": "system.ts"
+      },
+      {
+        "name": "processMarkdownTemplate",
+        "line": 525,
+        "type": "function",
+        "file": "template-enhanced.ts"
+      },
+      {
+        "name": "processTextTemplate",
+        "line": 570,
+        "type": "function",
+        "file": "template-enhanced.ts"
+      },
+      {
+        "name": "validateTemplate",
+        "line": 588,
+        "type": "function",
+        "file": "template-enhanced.ts"
+      },
+      {
+        "name": "getBuiltinFilters",
+        "line": 660,
+        "type": "function",
+        "file": "template-enhanced.ts"
+      },
+      {
+        "name": "registerFilter",
+        "line": 667,
+        "type": "function",
+        "file": "template-enhanced.ts"
+      },
+      {
+        "name": "processMarkdownTemplate",
+        "line": 348,
+        "type": "function",
+        "file": "template-original.ts"
+      },
+      {
+        "name": "processTextTemplate",
+        "line": 393,
+        "type": "function",
+        "file": "template-original.ts"
+      },
+      {
+        "name": "validateTemplate",
+        "line": 411,
+        "type": "function",
+        "file": "template-original.ts"
+      },
+      {
+        "name": "processMarkdownTemplate",
+        "line": 525,
+        "type": "function",
+        "file": "template.ts"
+      },
+      {
+        "name": "processTextTemplate",
+        "line": 570,
+        "type": "function",
+        "file": "template.ts"
+      },
+      {
+        "name": "validateTemplate",
+        "line": 588,
+        "type": "function",
+        "file": "template.ts"
+      },
+      {
+        "name": "getBuiltinFilters",
+        "line": 660,
+        "type": "function",
+        "file": "template.ts"
+      },
+      {
+        "name": "registerFilter",
+        "line": 667,
+        "type": "function",
+        "file": "template.ts"
+      }
+    ],
+    "interfaces": [
+      {
+        "name": "TemplateContext",
+        "line": 9,
+        "type": "interface",
+        "file": "template-enhanced.ts"
+      },
+      {
+        "name": "TemplateFilter",
+        "line": 16,
+        "type": "interface",
+        "file": "template-enhanced.ts"
+      },
+      {
+        "name": "TemplateOptions",
+        "line": 24,
+        "type": "interface",
+        "file": "template-enhanced.ts"
+      },
+      {
+        "name": "TemplateResult",
+        "line": 36,
+        "type": "interface",
+        "file": "template-enhanced.ts"
+      },
+      {
+        "name": "TemplateContext",
+        "line": 9,
+        "type": "interface",
+        "file": "template-original.ts"
+      },
+      {
+        "name": "TemplateOptions",
+        "line": 16,
+        "type": "interface",
+        "file": "template-original.ts"
+      },
+      {
+        "name": "TemplateResult",
+        "line": 27,
+        "type": "interface",
+        "file": "template-original.ts"
+      },
+      {
+        "name": "TemplateContext",
+        "line": 9,
+        "type": "interface",
+        "file": "template.ts"
+      },
+      {
+        "name": "TemplateFilter",
+        "line": 16,
+        "type": "interface",
+        "file": "template.ts"
+      },
+      {
+        "name": "TemplateOptions",
+        "line": 24,
+        "type": "interface",
+        "file": "template.ts"
+      },
+      {
+        "name": "TemplateResult",
+        "line": 36,
+        "type": "interface",
+        "file": "template.ts"
+      }
+    ]
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "anchors.ts",
+          "link": "[src/anchors.ts](../../../packages/markdown/src/anchors.ts)",
+          "lineCount": 121
+        },
+        {
+          "name": "chunking.ts",
+          "link": "[src/chunking.ts](../../../packages/markdown/src/chunking.ts)",
+          "lineCount": 160
+        },
+        {
+          "name": "frontmatter.ts",
+          "link": "[src/frontmatter.ts](../../../packages/markdown/src/frontmatter.ts)",
+          "lineCount": 198
+        },
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/markdown/src/index.ts)",
+          "lineCount": 19
+        },
+        {
+          "name": "kanban.ts",
+          "link": "[src/kanban.ts](../../../packages/markdown/src/kanban.ts)",
+          "lineCount": 456
+        },
+        {
+          "name": "statuses.ts",
+          "link": "[src/statuses.ts](../../../packages/markdown/src/statuses.ts)",
+          "lineCount": 86
+        },
+        {
+          "name": "sync.ts",
+          "link": "[src/sync.ts](../../../packages/markdown/src/sync.ts)",
+          "lineCount": 219
+        },
+        {
+          "name": "system.ts",
+          "link": "[src/system.ts](../../../packages/markdown/src/system.ts)",
+          "lineCount": 781
+        },
+        {
+          "name": "task.ts",
+          "link": "[src/task.ts](../../../packages/markdown/src/task.ts)",
+          "lineCount": 187
+        },
+        {
+          "name": "template-enhanced.ts",
+          "link": "[src/template-enhanced.ts](../../../packages/markdown/src/template-enhanced.ts)",
+          "lineCount": 670
+        },
+        {
+          "name": "template-original.ts",
+          "link": "[src/template-original.ts](../../../packages/markdown/src/template-original.ts)",
+          "lineCount": 460
+        },
+        {
+          "name": "template.ts",
+          "link": "[src/template.ts](../../../packages/markdown/src/template.ts)",
+          "lineCount": 670
+        },
+        {
+          "name": "tests/anchors.test.ts",
+          "link": "[src/tests/anchors.test.ts](../../../packages/markdown/src/tests/anchors.test.ts)",
+          "lineCount": 41
+        },
+        {
+          "name": "tests/chunking.test.ts",
+          "link": "[src/tests/chunking.test.ts](../../../packages/markdown/src/tests/chunking.test.ts)",
+          "lineCount": 26
+        },
+        {
+          "name": "tests/frontmatter.test.ts",
+          "link": "[src/tests/frontmatter.test.ts](../../../packages/markdown/src/tests/frontmatter.test.ts)",
+          "lineCount": 122
+        },
+        {
+          "name": "tests/kanban.test.ts",
+          "link": "[src/tests/kanban.test.ts](../../../packages/markdown/src/tests/kanban.test.ts)",
+          "lineCount": 34
+        },
+        {
+          "name": "tests/system.test.ts",
+          "link": "[src/tests/system.test.ts](../../../packages/markdown/src/tests/system.test.ts)",
+          "lineCount": 115
+        },
+        {
+          "name": "tests/template.test.ts",
+          "link": "[src/tests/template.test.ts](../../../packages/markdown/src/tests/template.test.ts)",
+          "lineCount": 229
+        },
+        {
+          "name": "types.ts",
+          "link": "[src/types.ts](../../../packages/markdown/src/types.ts)",
+          "lineCount": 10
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "MarkdownBoard",
+          "link": "[MarkdownBoard](../../../packages/markdown/src/kanban.ts#L242)",
+          "file": "kanban.ts",
+          "line": 242
+        },
+        {
+          "name": "MarkdownTask",
+          "link": "[MarkdownTask](../../../packages/markdown/src/task.ts#L93)",
+          "file": "task.ts",
+          "line": 93
+        }
+      ],
+      "functions": [
+        {
+          "name": "anchorId",
+          "link": "[anchorId()](../../../packages/markdown/src/anchors.ts#L59)",
+          "file": "anchors.ts",
+          "line": 59
+        },
+        {
+          "name": "relMdLink",
+          "link": "[relMdLink()](../../../packages/markdown/src/anchors.ts#L62)",
+          "file": "anchors.ts",
+          "line": 62
+        },
+        {
+          "name": "computeFenceMap",
+          "link": "[computeFenceMap()](../../../packages/markdown/src/anchors.ts#L67)",
+          "file": "anchors.ts",
+          "line": 67
+        },
+        {
+          "name": "injectAnchors",
+          "link": "[injectAnchors()](../../../packages/markdown/src/anchors.ts#L70)",
+          "file": "anchors.ts",
+          "line": 70
+        },
+        {
+          "name": "sentenceSplit",
+          "link": "[sentenceSplit()](../../../packages/markdown/src/chunking.ts#L53)",
+          "file": "chunking.ts",
+          "line": 53
+        },
+        {
+          "name": "parseMarkdownChunks",
+          "link": "[parseMarkdownChunks()](../../../packages/markdown/src/chunking.ts#L143)",
+          "file": "chunking.ts",
+          "line": 143
+        },
+        {
+          "name": "parseFrontmatter",
+          "link": "[parseFrontmatter()](../../../packages/markdown/src/frontmatter.ts#L57)",
+          "file": "frontmatter.ts",
+          "line": 57
+        },
+        {
+          "name": "stringifyFrontmatter",
+          "link": "[stringifyFrontmatter()](../../../packages/markdown/src/frontmatter.ts#L61)",
+          "file": "frontmatter.ts",
+          "line": 61
+        },
+        {
+          "name": "normalizeStringList",
+          "link": "[normalizeStringList()](../../../packages/markdown/src/frontmatter.ts#L66)",
+          "file": "frontmatter.ts",
+          "line": 66
+        },
+        {
+          "name": "deriveFilenameFromPath",
+          "link": "[deriveFilenameFromPath()](../../../packages/markdown/src/frontmatter.ts#L76)",
+          "file": "frontmatter.ts",
+          "line": 76
+        },
+        {
+          "name": "ensureBaselineFrontmatter",
+          "link": "[ensureBaselineFrontmatter()](../../../packages/markdown/src/frontmatter.ts#L112)",
+          "file": "frontmatter.ts",
+          "line": 112
+        },
+        {
+          "name": "mergeFrontmatterWithGenerated",
+          "link": "[mergeFrontmatterWithGenerated()](../../../packages/markdown/src/frontmatter.ts#L161)",
+          "file": "frontmatter.ts",
+          "line": 161
+        },
+        {
+          "name": "STATUS_ORDER",
+          "link": "[STATUS_ORDER()](../../../packages/markdown/src/statuses.ts#L1)",
+          "file": "statuses.ts",
+          "line": 1
+        },
+        {
+          "name": "STATUS_SET",
+          "link": "[STATUS_SET()](../../../packages/markdown/src/statuses.ts#L16)",
+          "file": "statuses.ts",
+          "line": 16
+        },
+        {
+          "name": "headerToStatus",
+          "link": "[headerToStatus()](../../../packages/markdown/src/statuses.ts#L79)",
+          "file": "statuses.ts",
+          "line": 79
+        },
+        {
+          "name": "stripHash",
+          "link": "[stripHash()](../../../packages/markdown/src/sync.ts#L13)",
+          "file": "sync.ts",
+          "line": 13
+        },
+        {
+          "name": "firstWikiTarget",
+          "link": "[firstWikiTarget()](../../../packages/markdown/src/sync.ts#L31)",
+          "file": "sync.ts",
+          "line": 31
+        },
+        {
+          "name": "ensureStatusInTags",
+          "link": "[ensureStatusInTags()](../../../packages/markdown/src/sync.ts#L48)",
+          "file": "sync.ts",
+          "line": 48
+        },
+        {
+          "name": "cardNeedsStatusUpdate",
+          "link": "[cardNeedsStatusUpdate()](../../../packages/markdown/src/sync.ts#L53)",
+          "file": "sync.ts",
+          "line": 53
+        },
+        {
+          "name": "cardNeedsLink",
+          "link": "[cardNeedsLink()](../../../packages/markdown/src/sync.ts#L61)",
+          "file": "sync.ts",
+          "line": 61
+        },
+        {
+          "name": "ensureCardStatus",
+          "link": "[ensureCardStatus()](../../../packages/markdown/src/sync.ts#L67)",
+          "file": "sync.ts",
+          "line": 67
+        },
+        {
+          "name": "ensureTaskFile",
+          "link": "[ensureTaskFile()](../../../packages/markdown/src/sync.ts#L75)",
+          "file": "sync.ts",
+          "line": 75
+        },
+        {
+          "name": "ensureCardLink",
+          "link": "[ensureCardLink()](../../../packages/markdown/src/sync.ts#L96)",
+          "file": "sync.ts",
+          "line": 96
+        },
+        {
+          "name": "ensureTaskStatusForCard",
+          "link": "[ensureTaskStatusForCard()](../../../packages/markdown/src/sync.ts#L118)",
+          "file": "sync.ts",
+          "line": 118
+        },
+        {
+          "name": "detectPendingChanges",
+          "link": "[detectPendingChanges()](../../../packages/markdown/src/sync.ts#L181)",
+          "file": "sync.ts",
+          "line": 181
+        },
+        {
+          "name": "applyUpdates",
+          "link": "[applyUpdates()](../../../packages/markdown/src/sync.ts#L189)",
+          "file": "sync.ts",
+          "line": 189
+        },
+        {
+          "name": "normalizeBoardInstance",
+          "link": "[normalizeBoardInstance()](../../../packages/markdown/src/sync.ts#L206)",
+          "file": "sync.ts",
+          "line": 206
+        },
+        {
+          "name": "syncBoardStatuses",
+          "link": "[syncBoardStatuses()](../../../packages/markdown/src/sync.ts#L212)",
+          "file": "sync.ts",
+          "line": 212
+        },
+        {
+          "name": "parseSystemMarkdown",
+          "link": "[parseSystemMarkdown()](../../../packages/markdown/src/system.ts#L729)",
+          "file": "system.ts",
+          "line": 729
+        },
+        {
+          "name": "summarizeSystemSections",
+          "link": "[summarizeSystemSections()](../../../packages/markdown/src/system.ts#L771)",
+          "file": "system.ts",
+          "line": 771
+        },
+        {
+          "name": "processMarkdownTemplate",
+          "link": "[processMarkdownTemplate()](../../../packages/markdown/src/template-enhanced.ts#L525)",
+          "file": "template-enhanced.ts",
+          "line": 525
+        },
+        {
+          "name": "processTextTemplate",
+          "link": "[processTextTemplate()](../../../packages/markdown/src/template-enhanced.ts#L570)",
+          "file": "template-enhanced.ts",
+          "line": 570
+        },
+        {
+          "name": "validateTemplate",
+          "link": "[validateTemplate()](../../../packages/markdown/src/template-enhanced.ts#L588)",
+          "file": "template-enhanced.ts",
+          "line": 588
+        },
+        {
+          "name": "getBuiltinFilters",
+          "link": "[getBuiltinFilters()](../../../packages/markdown/src/template-enhanced.ts#L660)",
+          "file": "template-enhanced.ts",
+          "line": 660
+        },
+        {
+          "name": "registerFilter",
+          "link": "[registerFilter()](../../../packages/markdown/src/template-enhanced.ts#L667)",
+          "file": "template-enhanced.ts",
+          "line": 667
+        },
+        {
+          "name": "processMarkdownTemplate",
+          "link": "[processMarkdownTemplate()](../../../packages/markdown/src/template-original.ts#L348)",
+          "file": "template-original.ts",
+          "line": 348
+        },
+        {
+          "name": "processTextTemplate",
+          "link": "[processTextTemplate()](../../../packages/markdown/src/template-original.ts#L393)",
+          "file": "template-original.ts",
+          "line": 393
+        },
+        {
+          "name": "validateTemplate",
+          "link": "[validateTemplate()](../../../packages/markdown/src/template-original.ts#L411)",
+          "file": "template-original.ts",
+          "line": 411
+        },
+        {
+          "name": "processMarkdownTemplate",
+          "link": "[processMarkdownTemplate()](../../../packages/markdown/src/template.ts#L525)",
+          "file": "template.ts",
+          "line": 525
+        },
+        {
+          "name": "processTextTemplate",
+          "link": "[processTextTemplate()](../../../packages/markdown/src/template.ts#L570)",
+          "file": "template.ts",
+          "line": 570
+        },
+        {
+          "name": "validateTemplate",
+          "link": "[validateTemplate()](../../../packages/markdown/src/template.ts#L588)",
+          "file": "template.ts",
+          "line": 588
+        },
+        {
+          "name": "getBuiltinFilters",
+          "link": "[getBuiltinFilters()](../../../packages/markdown/src/template.ts#L660)",
+          "file": "template.ts",
+          "line": 660
+        },
+        {
+          "name": "registerFilter",
+          "link": "[registerFilter()](../../../packages/markdown/src/template.ts#L667)",
+          "file": "template.ts",
+          "line": 667
+        }
+      ],
+      "interfaces": [
+        {
+          "name": "TemplateContext",
+          "link": "[TemplateContext](../../../packages/markdown/src/template-enhanced.ts#L9)",
+          "file": "template-enhanced.ts",
+          "line": 9
+        },
+        {
+          "name": "TemplateFilter",
+          "link": "[TemplateFilter](../../../packages/markdown/src/template-enhanced.ts#L16)",
+          "file": "template-enhanced.ts",
+          "line": 16
+        },
+        {
+          "name": "TemplateOptions",
+          "link": "[TemplateOptions](../../../packages/markdown/src/template-enhanced.ts#L24)",
+          "file": "template-enhanced.ts",
+          "line": 24
+        },
+        {
+          "name": "TemplateResult",
+          "link": "[TemplateResult](../../../packages/markdown/src/template-enhanced.ts#L36)",
+          "file": "template-enhanced.ts",
+          "line": 36
+        },
+        {
+          "name": "TemplateContext",
+          "link": "[TemplateContext](../../../packages/markdown/src/template-original.ts#L9)",
+          "file": "template-original.ts",
+          "line": 9
+        },
+        {
+          "name": "TemplateOptions",
+          "link": "[TemplateOptions](../../../packages/markdown/src/template-original.ts#L16)",
+          "file": "template-original.ts",
+          "line": 16
+        },
+        {
+          "name": "TemplateResult",
+          "link": "[TemplateResult](../../../packages/markdown/src/template-original.ts#L27)",
+          "file": "template-original.ts",
+          "line": 27
+        },
+        {
+          "name": "TemplateContext",
+          "link": "[TemplateContext](../../../packages/markdown/src/template.ts#L9)",
+          "file": "template.ts",
+          "line": 9
+        },
+        {
+          "name": "TemplateFilter",
+          "link": "[TemplateFilter](../../../packages/markdown/src/template.ts#L16)",
+          "file": "template.ts",
+          "line": 16
+        },
+        {
+          "name": "TemplateOptions",
+          "link": "[TemplateOptions](../../../packages/markdown/src/template.ts#L24)",
+          "file": "template.ts",
+          "line": 24
+        },
+        {
+          "name": "TemplateResult",
+          "link": "[TemplateResult](../../../packages/markdown/src/template.ts#L36)",
+          "file": "template.ts",
+          "line": 36
+        }
+      ]
+    }
+  }
+}

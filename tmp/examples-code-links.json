@@ -1,0 +1,118 @@
+{
+  "packageData": {
+    "packageName": "examples",
+    "files": [
+      {
+        "path": "process/projector.ts",
+        "fullPath": "/home/err/devel/promethean/packages/examples/src/process/projector.ts",
+        "exports": [
+          {
+            "name": "startProcessProjector",
+            "line": 91,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "startProcessProjector",
+            "line": 91,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 131
+      },
+      {
+        "path": "process/types.ts",
+        "fullPath": "/home/err/devel/promethean/packages/examples/src/process/types.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 21
+      },
+      {
+        "path": "tests/process/projector.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/examples/src/tests/process/projector.test.ts",
+        "exports": [],
+        "classes": [
+          {
+            "name": "Deferred",
+            "line": 10,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 237
+      }
+    ],
+    "mainEntry": null,
+    "exports": [
+      {
+        "name": "startProcessProjector",
+        "line": 91,
+        "type": "function",
+        "file": "process/projector.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "Deferred",
+        "line": 10,
+        "type": "class",
+        "file": "tests/process/projector.test.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "startProcessProjector",
+        "line": 91,
+        "type": "function",
+        "file": "process/projector.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "process/projector.ts",
+          "link": "[src/process/projector.ts](../../../packages/examples/src/process/projector.ts)",
+          "lineCount": 131
+        },
+        {
+          "name": "process/types.ts",
+          "link": "[src/process/types.ts](../../../packages/examples/src/process/types.ts)",
+          "lineCount": 21
+        },
+        {
+          "name": "tests/process/projector.test.ts",
+          "link": "[src/tests/process/projector.test.ts](../../../packages/examples/src/tests/process/projector.test.ts)",
+          "lineCount": 237
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "Deferred",
+          "link": "[Deferred](../../../packages/examples/src/tests/process/projector.test.ts#L10)",
+          "file": "tests/process/projector.test.ts",
+          "line": 10
+        }
+      ],
+      "functions": [
+        {
+          "name": "startProcessProjector",
+          "link": "[startProcessProjector()](../../../packages/examples/src/process/projector.ts#L91)",
+          "file": "process/projector.ts",
+          "line": 91
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

@@ -10,7 +10,7 @@ Promethean is a comprehensive framework for building AI agents and orchestration
 
 - **🧠 Modular Architecture** - Independent services that communicate via message brokers
 - **⚡ Functional Programming** - Immutable data, pure functions, no side effects
-- **🔧 TypeScript Monorepo** - 70+ packages managed with Nx, AVA testing, and ESM modules
+- **🔧 TypeScript Monorepo** - 95+ packages managed with Nx, AVA testing, and ESM modules
 - **📋 Document-Driven Development** - All work tracked through kanban tasks
 - **🤖 AI-First Design** - Built from the ground up for AI agent development
 
@@ -188,7 +188,7 @@ pnpm exec prom llm start
 
 ## 📦 Package Ecosystem
 
-The workspace contains 70+ specialized packages organized by category:
+The workspace contains 95+ specialized packages organized by category:
 
 ### 🏗️ Core Infrastructure
 
@@ -255,13 +255,14 @@ Start shared infrastructure with PM2:
 
 ```bash
 # Start core services
-pm2 start system/daemons/ecosystem.config.js
+pm2 start system/daemons/services/unified-indexer.edn
 
 # Regenerate config after adding/removing services
 pnpm gen:ecosystem
 
-# Start individual agents
-pm2 start agents/duck/ecosystem.config.js
+# Start individual services (examples)
+pm2 start system/daemons/services/broker/ecosystem.edn
+pm2 start system/daemons/services/health/ecosystem.edn
 ```
 
 Install PM2 globally: `pnpm add -g pm2`
@@ -278,8 +279,8 @@ cp -r docs/vault-config/.obsidian docs/.obsidian
 
 - **Architecture**: `docs/architecture/` - System design and roadmaps
 - **Process**: `docs/agile/process.md` - Workflow and methodology
-- **Environment**: `docs/environment-variables.md` - Configuration options
-- **Nx Workspace**: `docs/nx-workspace.md` - Build tooling commands
+- **Environment**: `docs/setup/environment.md` - Configuration options
+- **Nx Workspace**: `docs/notes/automation/bb-nx-cli.md` - Build tooling commands
 
 ## 🤖 For AI Agents
 

@@ -2,7 +2,7 @@
 
 ## Overview
 
-TODO: Add service description.
+Markdown graph service that processes markdown documents to extract and analyze content relationships. Builds knowledge graphs from document structures, wikilinks, and metadata. Supports document indexing, semantic search, and graph traversal operations. Provides APIs for content discovery, relationship mapping, and knowledge base management. Designed to work with Obsidian vaults and documentation systems for enhanced content navigation.
 
 ## Paths
 

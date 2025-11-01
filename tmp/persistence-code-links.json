@@ -1,0 +1,4035 @@
+{
+  "packageData": {
+    "packageName": "persistence",
+    "files": [
+      {
+        "path": "actions/context-store/collectionInfo.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/actions/context-store/collectionInfo.ts",
+        "exports": [
+          {
+            "name": "collectionCount",
+            "line": 3,
+            "type": "function"
+          },
+          {
+            "name": "listCollectionNames",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "collectionCount",
+            "line": 3,
+            "type": "function"
+          },
+          {
+            "name": "listCollectionNames",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 8
+      },
+      {
+        "path": "actions/context-store/compileContext.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/actions/context-store/compileContext.ts",
+        "exports": [
+          {
+            "name": "compileContext",
+            "line": 30,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "compileContext",
+            "line": 30,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 59
+      },
+      {
+        "path": "actions/context-store/createCollection.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/actions/context-store/createCollection.ts",
+        "exports": [
+          {
+            "name": "createCollection",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createCollection",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 29
+      },
+      {
+        "path": "actions/context-store/getAllRelatedDocuments.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/actions/context-store/getAllRelatedDocuments.ts",
+        "exports": [
+          {
+            "name": "getAllRelatedDocuments",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "getAllRelatedDocuments",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 23
+      },
+      {
+        "path": "actions/context-store/getCollection.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/actions/context-store/getCollection.ts",
+        "exports": [
+          {
+            "name": "getCollection",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "getCollection",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 14
+      },
+      {
+        "path": "actions/context-store/getLatestDocuments.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/actions/context-store/getLatestDocuments.ts",
+        "exports": [
+          {
+            "name": "getLatestDocuments",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "getLatestDocuments",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 15
+      },
+      {
+        "path": "actions/context-store/getOrCreateCollection.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/actions/context-store/getOrCreateCollection.ts",
+        "exports": [
+          {
+            "name": "getOrCreateCollection",
+            "line": 10,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "getOrCreateCollection",
+            "line": 10,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 34
+      },
+      {
+        "path": "actions/context-store/index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/actions/context-store/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 11
+      },
+      {
+        "path": "actions/context-store/types.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/actions/context-store/types.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 70
+      },
+      {
+        "path": "actions/context-store/utils.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/actions/context-store/utils.ts",
+        "exports": [
+          {
+            "name": "formatMessage",
+            "line": 12,
+            "type": "function"
+          },
+          {
+            "name": "dedupeByText",
+            "line": 23,
+            "type": "function"
+          },
+          {
+            "name": "sortByTimestamp",
+            "line": 32,
+            "type": "function"
+          },
+          {
+            "name": "limitByCollectionCount",
+            "line": 35,
+            "type": "function"
+          },
+          {
+            "name": "toMessage",
+            "line": 45,
+            "type": "function"
+          },
+          {
+            "name": "getCollections",
+            "line": 69,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "formatMessage",
+            "line": 12,
+            "type": "function"
+          },
+          {
+            "name": "dedupeByText",
+            "line": 23,
+            "type": "function"
+          },
+          {
+            "name": "sortByTimestamp",
+            "line": 32,
+            "type": "function"
+          },
+          {
+            "name": "limitByCollectionCount",
+            "line": 35,
+            "type": "function"
+          },
+          {
+            "name": "toMessage",
+            "line": 45,
+            "type": "function"
+          },
+          {
+            "name": "getCollections",
+            "line": 69,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 71
+      },
+      {
+        "path": "actions/dual-store/addEntry.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/actions/dual-store/addEntry.ts",
+        "exports": [
+          {
+            "name": "addEntry",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "addEntry",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 10
+      },
+      {
+        "path": "actions/dual-store/checkConsistency.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/actions/dual-store/checkConsistency.ts",
+        "exports": [
+          {
+            "name": "checkConsistency",
+            "line": 6,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "checkConsistency",
+            "line": 6,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 40
+      },
+      {
+        "path": "actions/dual-store/cleanup.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/actions/dual-store/cleanup.ts",
+        "exports": [
+          {
+            "name": "cleanup",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "cleanup",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 18
+      },
+      {
+        "path": "actions/dual-store/get.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/actions/dual-store/get.ts",
+        "exports": [
+          {
+            "name": "get",
+            "line": 8,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "get",
+            "line": 8,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 25
+      },
+      {
+        "path": "actions/dual-store/getChromaQueueStats.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/actions/dual-store/getChromaQueueStats.ts",
+        "exports": [
+          {
+            "name": "getChromaQueueStats",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "getChromaQueueStats",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 8
+      },
+      {
+        "path": "actions/dual-store/getConsistencyReport.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/actions/dual-store/getConsistencyReport.ts",
+        "exports": [
+          {
+            "name": "getConsistencyReport",
+            "line": 4,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "getConsistencyReport",
+            "line": 4,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 65
+      },
+      {
+        "path": "actions/dual-store/getMostRecent.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/actions/dual-store/getMostRecent.ts",
+        "exports": [
+          {
+            "name": "getMostRecent",
+            "line": 8,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "getMostRecent",
+            "line": 8,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 49
+      },
+      {
+        "path": "actions/dual-store/getMostRelevant.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/actions/dual-store/getMostRelevant.ts",
+        "exports": [
+          {
+            "name": "getMostRelevant",
+            "line": 6,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "getMostRelevant",
+            "line": 6,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 60
+      },
+      {
+        "path": "actions/dual-store/index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/actions/dual-store/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 13
+      },
+      {
+        "path": "actions/dual-store/insert.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/actions/dual-store/insert.ts",
+        "exports": [
+          {
+            "name": "insert",
+            "line": 9,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "insert",
+            "line": 9,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 83
+      },
+      {
+        "path": "actions/dual-store/retryVectorWrite.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/actions/dual-store/retryVectorWrite.ts",
+        "exports": [
+          {
+            "name": "retryVectorWrite",
+            "line": 11,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "retryVectorWrite",
+            "line": 11,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 92
+      },
+      {
+        "path": "actions/dual-store/types.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/actions/dual-store/types.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 95
+      },
+      {
+        "path": "actions/dual-store/utils.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/actions/dual-store/utils.ts",
+        "exports": [
+          {
+            "name": "normaliseTimestamp",
+            "line": 5,
+            "type": "function"
+          },
+          {
+            "name": "normaliseMetadataValue",
+            "line": 22,
+            "type": "function"
+          },
+          {
+            "name": "buildChromaMetadata",
+            "line": 38,
+            "type": "function"
+          },
+          {
+            "name": "fromMongoDocument",
+            "line": 60,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "normaliseTimestamp",
+            "line": 5,
+            "type": "function"
+          },
+          {
+            "name": "normaliseMetadataValue",
+            "line": 22,
+            "type": "function"
+          },
+          {
+            "name": "buildChromaMetadata",
+            "line": 38,
+            "type": "function"
+          },
+          {
+            "name": "fromMongoDocument",
+            "line": 60,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 87
+      },
+      {
+        "path": "chroma-write-queue.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/chroma-write-queue.ts",
+        "exports": [
+          {
+            "name": "ChromaWriteQueue",
+            "line": 21,
+            "type": "class"
+          },
+          {
+            "name": "getOrCreateQueue",
+            "line": 204,
+            "type": "function"
+          },
+          {
+            "name": "shutdownAllQueues",
+            "line": 219,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "ChromaWriteQueue",
+            "line": 21,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "getOrCreateQueue",
+            "line": 204,
+            "type": "function"
+          },
+          {
+            "name": "shutdownAllQueues",
+            "line": 219,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 224
+      },
+      {
+        "path": "clients.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/clients.ts",
+        "exports": [
+          {
+            "name": "validateMongoConnection",
+            "line": 52,
+            "type": "function"
+          },
+          {
+            "name": "getMongoClient",
+            "line": 94,
+            "type": "function"
+          },
+          {
+            "name": "getChromaClient",
+            "line": 120,
+            "type": "function"
+          },
+          {
+            "name": "__setMongoClientForTests",
+            "line": 144,
+            "type": "function"
+          },
+          {
+            "name": "__setChromaClientForTests",
+            "line": 147,
+            "type": "function"
+          },
+          {
+            "name": "__resetPersistenceClientsForTests",
+            "line": 150,
+            "type": "function"
+          },
+          {
+            "name": "cleanupClients",
+            "line": 160,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "validateMongoConnection",
+            "line": 52,
+            "type": "function"
+          },
+          {
+            "name": "getMongoClient",
+            "line": 94,
+            "type": "function"
+          },
+          {
+            "name": "getChromaClient",
+            "line": 120,
+            "type": "function"
+          },
+          {
+            "name": "__setMongoClientForTests",
+            "line": 144,
+            "type": "function"
+          },
+          {
+            "name": "__setChromaClientForTests",
+            "line": 147,
+            "type": "function"
+          },
+          {
+            "name": "__resetPersistenceClientsForTests",
+            "line": 150,
+            "type": "function"
+          },
+          {
+            "name": "cleanupClients",
+            "line": 160,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 186
+      },
+      {
+        "path": "contextStore.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/contextStore.ts",
+        "exports": [
+          {
+            "name": "createContextStore",
+            "line": 82,
+            "type": "function"
+          },
+          {
+            "name": "createCollection",
+            "line": 91,
+            "type": "function"
+          },
+          {
+            "name": "getOrCreateCollection",
+            "line": 102,
+            "type": "function"
+          },
+          {
+            "name": "getCollection",
+            "line": 111,
+            "type": "function"
+          },
+          {
+            "name": "collectionCount",
+            "line": 114,
+            "type": "function"
+          },
+          {
+            "name": "listCollectionNames",
+            "line": 117,
+            "type": "function"
+          },
+          {
+            "name": "getAllRelatedDocuments",
+            "line": 120,
+            "type": "function"
+          },
+          {
+            "name": "getLatestDocuments",
+            "line": 130,
+            "type": "function"
+          },
+          {
+            "name": "compileContext",
+            "line": 136,
+            "type": "function"
+          },
+          {
+            "name": "ContextStore",
+            "line": 162,
+            "type": "class"
+          },
+          {
+            "name": "createContextStoreFactory",
+            "line": 226,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "ContextStore",
+            "line": 162,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "createContextStore",
+            "line": 82,
+            "type": "function"
+          },
+          {
+            "name": "createCollection",
+            "line": 91,
+            "type": "function"
+          },
+          {
+            "name": "getOrCreateCollection",
+            "line": 102,
+            "type": "function"
+          },
+          {
+            "name": "getCollection",
+            "line": 111,
+            "type": "function"
+          },
+          {
+            "name": "collectionCount",
+            "line": 114,
+            "type": "function"
+          },
+          {
+            "name": "listCollectionNames",
+            "line": 117,
+            "type": "function"
+          },
+          {
+            "name": "getAllRelatedDocuments",
+            "line": 120,
+            "type": "function"
+          },
+          {
+            "name": "getLatestDocuments",
+            "line": 130,
+            "type": "function"
+          },
+          {
+            "name": "compileContext",
+            "line": 136,
+            "type": "function"
+          },
+          {
+            "name": "createContextStoreFactory",
+            "line": 226,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 228
+      },
+      {
+        "path": "dualStore.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/dualStore.ts",
+        "exports": [
+          {
+            "name": "DualStoreManager",
+            "line": 90,
+            "type": "class"
+          },
+          {
+            "name": "createDualStoreManager",
+            "line": 236,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "DualStoreManager",
+            "line": 90,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "createDualStoreManager",
+            "line": 236,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 237
+      },
+      {
+        "path": "factories/contextStore.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/factories/contextStore.ts",
+        "exports": [
+          {
+            "name": "createContextStoreImplementation",
+            "line": 57,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createContextStoreImplementation",
+            "line": 57,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 107
+      },
+      {
+        "path": "factories/dualStore.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/factories/dualStore.ts",
+        "exports": [
+          {
+            "name": "createDualStoreImplementation",
+            "line": 130,
+            "type": "function"
+          },
+          {
+            "name": "registerPendingDualStoreConfig",
+            "line": 162,
+            "type": "function"
+          },
+          {
+            "name": "consumePendingDualStoreConfig",
+            "line": 168,
+            "type": "function"
+          },
+          {
+            "name": "resolveDualStoreResources",
+            "line": 193,
+            "type": "function"
+          },
+          {
+            "name": "createDualStore",
+            "line": 246,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createDualStoreImplementation",
+            "line": 130,
+            "type": "function"
+          },
+          {
+            "name": "registerPendingDualStoreConfig",
+            "line": 162,
+            "type": "function"
+          },
+          {
+            "name": "consumePendingDualStoreConfig",
+            "line": 168,
+            "type": "function"
+          },
+          {
+            "name": "resolveDualStoreResources",
+            "line": 193,
+            "type": "function"
+          },
+          {
+            "name": "createDualStore",
+            "line": 246,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 252
+      },
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 9
+      },
+      {
+        "path": "maintenance.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/maintenance.ts",
+        "exports": [
+          {
+            "name": "cleanupMongo",
+            "line": 8,
+            "type": "function"
+          },
+          {
+            "name": "cleanupChroma",
+            "line": 18,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "cleanupMongo",
+            "line": 8,
+            "type": "function"
+          },
+          {
+            "name": "cleanupChroma",
+            "line": 18,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 28
+      },
+      {
+        "path": "semantic-store/drivers/chromadb.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/semantic-store/drivers/chromadb.ts",
+        "exports": [
+          {
+            "name": "ChromaDriver",
+            "line": 11,
+            "type": "class"
+          },
+          {
+            "name": "ChromaDriverFactory",
+            "line": 237,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "ChromaDriver",
+            "line": 11,
+            "type": "class"
+          },
+          {
+            "name": "ChromaDriverFactory",
+            "line": 237,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 252
+      },
+      {
+        "path": "semantic-store/drivers/mongodb.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/semantic-store/drivers/mongodb.ts",
+        "exports": [
+          {
+            "name": "MongoDriver",
+            "line": 10,
+            "type": "class"
+          },
+          {
+            "name": "MongoDriverFactory",
+            "line": 167,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "MongoDriver",
+            "line": 10,
+            "type": "class"
+          },
+          {
+            "name": "MongoDriverFactory",
+            "line": 167,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 182
+      },
+      {
+        "path": "semantic-store/interfaces.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/semantic-store/interfaces.ts",
+        "exports": [
+          {
+            "name": "PrimaryDatabaseConfig",
+            "line": 9,
+            "type": "interface"
+          },
+          {
+            "name": "VectorSearchConfig",
+            "line": 19,
+            "type": "interface"
+          },
+          {
+            "name": "SemanticStoreConfig",
+            "line": 35,
+            "type": "interface"
+          },
+          {
+            "name": "PrimaryDatabaseDriver",
+            "line": 56,
+            "type": "interface"
+          },
+          {
+            "name": "VectorSearchDriver",
+            "line": 99,
+            "type": "interface"
+          },
+          {
+            "name": "QueueStats",
+            "line": 152,
+            "type": "interface"
+          },
+          {
+            "name": "ConsistencyReport",
+            "line": 167,
+            "type": "interface"
+          },
+          {
+            "name": "SemanticStoreError",
+            "line": 182,
+            "type": "class"
+          },
+          {
+            "name": "SemanticStoreEvent",
+            "line": 200,
+            "type": "interface"
+          },
+          {
+            "name": "DriverFactory",
+            "line": 211,
+            "type": "interface"
+          }
+        ],
+        "classes": [
+          {
+            "name": "SemanticStoreError",
+            "line": 182,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [
+          {
+            "name": "PrimaryDatabaseConfig",
+            "line": 9,
+            "type": "interface"
+          },
+          {
+            "name": "VectorSearchConfig",
+            "line": 19,
+            "type": "interface"
+          },
+          {
+            "name": "SemanticStoreConfig",
+            "line": 35,
+            "type": "interface"
+          },
+          {
+            "name": "PrimaryDatabaseDriver",
+            "line": 56,
+            "type": "interface"
+          },
+          {
+            "name": "VectorSearchDriver",
+            "line": 99,
+            "type": "interface"
+          },
+          {
+            "name": "QueueStats",
+            "line": 152,
+            "type": "interface"
+          },
+          {
+            "name": "ConsistencyReport",
+            "line": 167,
+            "type": "interface"
+          },
+          {
+            "name": "SemanticStoreEvent",
+            "line": 200,
+            "type": "interface"
+          },
+          {
+            "name": "DriverFactory",
+            "line": 211,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 216
+      },
+      {
+        "path": "serializers/pickTimestamp.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/serializers/pickTimestamp.ts",
+        "exports": [
+          {
+            "name": "pickTimestamp",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "pickTimestamp",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 11
+      },
+      {
+        "path": "serializers/toChromaMetadata.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/serializers/toChromaMetadata.ts",
+        "exports": [
+          {
+            "name": "toChromaMetadata",
+            "line": 21,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "toChromaMetadata",
+            "line": 21,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 28
+      },
+      {
+        "path": "serializers/toEpochMilliseconds.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/serializers/toEpochMilliseconds.ts",
+        "exports": [
+          {
+            "name": "toEpochMilliseconds",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "toEpochMilliseconds",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 9
+      },
+      {
+        "path": "serializers/withTimestampMetadata.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/serializers/withTimestampMetadata.ts",
+        "exports": [
+          {
+            "name": "withTimestampMetadata",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "withTimestampMetadata",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 12
+      },
+      {
+        "path": "test-support/simple-mocks.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/test-support/simple-mocks.ts",
+        "exports": [
+          {
+            "name": "createMockIndexableContent",
+            "line": 22,
+            "type": "function"
+          },
+          {
+            "name": "createMockSearchQuery",
+            "line": 49,
+            "type": "function"
+          },
+          {
+            "name": "createMockSearchResult",
+            "line": 64,
+            "type": "function"
+          },
+          {
+            "name": "createMockSearchResponse",
+            "line": 76,
+            "type": "function"
+          },
+          {
+            "name": "createMockIndexingStats",
+            "line": 91,
+            "type": "function"
+          },
+          {
+            "name": "createMockIndexingOptions",
+            "line": 128,
+            "type": "function"
+          },
+          {
+            "name": "createMockUnifiedIndexingConfig",
+            "line": 144,
+            "type": "function"
+          },
+          {
+            "name": "isValidIndexableContent",
+            "line": 179,
+            "type": "function"
+          },
+          {
+            "name": "isValidSearchQuery",
+            "line": 199,
+            "type": "function"
+          },
+          {
+            "name": "isValidSearchResult",
+            "line": 218,
+            "type": "function"
+          },
+          {
+            "name": "isValidSearchResponse",
+            "line": 229,
+            "type": "function"
+          },
+          {
+            "name": "isValidIndexingStats",
+            "line": 250,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createMockIndexableContent",
+            "line": 22,
+            "type": "function"
+          },
+          {
+            "name": "createMockSearchQuery",
+            "line": 49,
+            "type": "function"
+          },
+          {
+            "name": "createMockSearchResult",
+            "line": 64,
+            "type": "function"
+          },
+          {
+            "name": "createMockSearchResponse",
+            "line": 76,
+            "type": "function"
+          },
+          {
+            "name": "createMockIndexingStats",
+            "line": 91,
+            "type": "function"
+          },
+          {
+            "name": "createMockIndexingOptions",
+            "line": 128,
+            "type": "function"
+          },
+          {
+            "name": "createMockUnifiedIndexingConfig",
+            "line": 144,
+            "type": "function"
+          },
+          {
+            "name": "isValidIndexableContent",
+            "line": 179,
+            "type": "function"
+          },
+          {
+            "name": "isValidSearchQuery",
+            "line": 199,
+            "type": "function"
+          },
+          {
+            "name": "isValidSearchResult",
+            "line": 218,
+            "type": "function"
+          },
+          {
+            "name": "isValidSearchResponse",
+            "line": 229,
+            "type": "function"
+          },
+          {
+            "name": "isValidIndexingStats",
+            "line": 250,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 266
+      },
+      {
+        "path": "tests/chroma-write-queue.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/tests/chroma-write-queue.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 136
+      },
+      {
+        "path": "tests/contextStore.class.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/tests/contextStore.class.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 189
+      },
+      {
+        "path": "tests/dualStoreManager.class.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/tests/dualStoreManager.class.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 508
+      },
+      {
+        "path": "tests/regression.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/tests/regression.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 102
+      },
+      {
+        "path": "tests/types/simple-search-types.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/tests/types/simple-search-types.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 286
+      },
+      {
+        "path": "tests/types/simple-service-types.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/tests/types/simple-service-types.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 209
+      },
+      {
+        "path": "types.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/types.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 51
+      },
+      {
+        "path": "unified-content-model.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/unified-content-model.ts",
+        "exports": [
+          {
+            "name": "BaseContentMetadata",
+            "line": 32,
+            "type": "interface"
+          },
+          {
+            "name": "FileMetadata",
+            "line": 76,
+            "type": "interface"
+          },
+          {
+            "name": "MessageMetadata",
+            "line": 101,
+            "type": "interface"
+          },
+          {
+            "name": "EventMetadata",
+            "line": 129,
+            "type": "interface"
+          },
+          {
+            "name": "SessionMetadata",
+            "line": 150,
+            "type": "interface"
+          },
+          {
+            "name": "AttachmentMetadata",
+            "line": 173,
+            "type": "interface"
+          },
+          {
+            "name": "ThoughtMetadata",
+            "line": 197,
+            "type": "interface"
+          },
+          {
+            "name": "DocumentMetadata",
+            "line": 216,
+            "type": "interface"
+          },
+          {
+            "name": "TaskMetadata",
+            "line": 245,
+            "type": "interface"
+          },
+          {
+            "name": "BoardMetadata",
+            "line": 269,
+            "type": "interface"
+          },
+          {
+            "name": "IndexableContent",
+            "line": 305,
+            "type": "interface"
+          },
+          {
+            "name": "transformDualStoreEntry",
+            "line": 340,
+            "type": "function"
+          },
+          {
+            "name": "transformIndexedFile",
+            "line": 388,
+            "type": "function"
+          },
+          {
+            "name": "transformDiscordMessage",
+            "line": 422,
+            "type": "function"
+          },
+          {
+            "name": "transformOpenCodeSession",
+            "line": 488,
+            "type": "function"
+          },
+          {
+            "name": "transformOpenCodeMessage",
+            "line": 530,
+            "type": "function"
+          },
+          {
+            "name": "transformOpencodeEvent",
+            "line": 566,
+            "type": "function"
+          },
+          {
+            "name": "transformKanbanTask",
+            "line": 601,
+            "type": "function"
+          },
+          {
+            "name": "validateIndexableContent",
+            "line": 653,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "transformDualStoreEntry",
+            "line": 340,
+            "type": "function"
+          },
+          {
+            "name": "transformIndexedFile",
+            "line": 388,
+            "type": "function"
+          },
+          {
+            "name": "transformDiscordMessage",
+            "line": 422,
+            "type": "function"
+          },
+          {
+            "name": "transformOpenCodeSession",
+            "line": 488,
+            "type": "function"
+          },
+          {
+            "name": "transformOpenCodeMessage",
+            "line": 530,
+            "type": "function"
+          },
+          {
+            "name": "transformOpencodeEvent",
+            "line": 566,
+            "type": "function"
+          },
+          {
+            "name": "transformKanbanTask",
+            "line": 601,
+            "type": "function"
+          },
+          {
+            "name": "validateIndexableContent",
+            "line": 653,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "BaseContentMetadata",
+            "line": 32,
+            "type": "interface"
+          },
+          {
+            "name": "FileMetadata",
+            "line": 76,
+            "type": "interface"
+          },
+          {
+            "name": "MessageMetadata",
+            "line": 101,
+            "type": "interface"
+          },
+          {
+            "name": "EventMetadata",
+            "line": 129,
+            "type": "interface"
+          },
+          {
+            "name": "SessionMetadata",
+            "line": 150,
+            "type": "interface"
+          },
+          {
+            "name": "AttachmentMetadata",
+            "line": 173,
+            "type": "interface"
+          },
+          {
+            "name": "ThoughtMetadata",
+            "line": 197,
+            "type": "interface"
+          },
+          {
+            "name": "DocumentMetadata",
+            "line": 216,
+            "type": "interface"
+          },
+          {
+            "name": "TaskMetadata",
+            "line": 245,
+            "type": "interface"
+          },
+          {
+            "name": "BoardMetadata",
+            "line": 269,
+            "type": "interface"
+          },
+          {
+            "name": "IndexableContent",
+            "line": 305,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 729
+      },
+      {
+        "path": "unified-indexing-api.ts",
+        "fullPath": "/home/err/devel/promethean/packages/persistence/src/unified-indexing-api.ts",
+        "exports": [
+          {
+            "name": "SearchQuery",
+            "line": 13,
+            "type": "interface"
+          },
+          {
+            "name": "SearchResult",
+            "line": 40,
+            "type": "interface"
+          },
+          {
+            "name": "SearchResponse",
+            "line": 49,
+            "type": "interface"
+          },
+          {
+            "name": "IndexingStats",
+            "line": 59,
+            "type": "interface"
+          },
+          {
+            "name": "IndexingOptions",
+            "line": 74,
+            "type": "interface"
+          },
+          {
+            "name": "UnifiedIndexingClient",
+            "line": 92,
+            "type": "interface"
+          },
+          {
+            "name": "UnifiedIndexingConfig",
+            "line": 125,
+            "type": "interface"
+          },
+          {
+            "name": "createUnifiedIndexingClient",
+            "line": 166,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createUnifiedIndexingClient",
+            "line": 166,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "SearchQuery",
+            "line": 13,
+            "type": "interface"
+          },
+          {
+            "name": "SearchResult",
+            "line": 40,
+            "type": "interface"
+          },
+          {
+            "name": "SearchResponse",
+            "line": 49,
+            "type": "interface"
+          },
+          {
+            "name": "IndexingStats",
+            "line": 59,
+            "type": "interface"
+          },
+          {
+            "name": "IndexingOptions",
+            "line": 74,
+            "type": "interface"
+          },
+          {
+            "name": "UnifiedIndexingClient",
+            "line": 92,
+            "type": "interface"
+          },
+          {
+            "name": "UnifiedIndexingConfig",
+            "line": 125,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 172
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [],
+      "classes": [],
+      "functions": [],
+      "interfaces": [],
+      "totalLines": 9
+    },
+    "exports": [
+      {
+        "name": "collectionCount",
+        "line": 3,
+        "type": "function",
+        "file": "actions/context-store/collectionInfo.ts"
+      },
+      {
+        "name": "listCollectionNames",
+        "line": 5,
+        "type": "function",
+        "file": "actions/context-store/collectionInfo.ts"
+      },
+      {
+        "name": "compileContext",
+        "line": 30,
+        "type": "function",
+        "file": "actions/context-store/compileContext.ts"
+      },
+      {
+        "name": "createCollection",
+        "line": 5,
+        "type": "function",
+        "file": "actions/context-store/createCollection.ts"
+      },
+      {
+        "name": "getAllRelatedDocuments",
+        "line": 5,
+        "type": "function",
+        "file": "actions/context-store/getAllRelatedDocuments.ts"
+      },
+      {
+        "name": "getCollection",
+        "line": 3,
+        "type": "function",
+        "file": "actions/context-store/getCollection.ts"
+      },
+      {
+        "name": "getLatestDocuments",
+        "line": 5,
+        "type": "function",
+        "file": "actions/context-store/getLatestDocuments.ts"
+      },
+      {
+        "name": "getOrCreateCollection",
+        "line": 10,
+        "type": "function",
+        "file": "actions/context-store/getOrCreateCollection.ts"
+      },
+      {
+        "name": "formatMessage",
+        "line": 12,
+        "type": "function",
+        "file": "actions/context-store/utils.ts"
+      },
+      {
+        "name": "dedupeByText",
+        "line": 23,
+        "type": "function",
+        "file": "actions/context-store/utils.ts"
+      },
+      {
+        "name": "sortByTimestamp",
+        "line": 32,
+        "type": "function",
+        "file": "actions/context-store/utils.ts"
+      },
+      {
+        "name": "limitByCollectionCount",
+        "line": 35,
+        "type": "function",
+        "file": "actions/context-store/utils.ts"
+      },
+      {
+        "name": "toMessage",
+        "line": 45,
+        "type": "function",
+        "file": "actions/context-store/utils.ts"
+      },
+      {
+        "name": "getCollections",
+        "line": 69,
+        "type": "function",
+        "file": "actions/context-store/utils.ts"
+      },
+      {
+        "name": "addEntry",
+        "line": 5,
+        "type": "function",
+        "file": "actions/dual-store/addEntry.ts"
+      },
+      {
+        "name": "checkConsistency",
+        "line": 6,
+        "type": "function",
+        "file": "actions/dual-store/checkConsistency.ts"
+      },
+      {
+        "name": "cleanup",
+        "line": 3,
+        "type": "function",
+        "file": "actions/dual-store/cleanup.ts"
+      },
+      {
+        "name": "get",
+        "line": 8,
+        "type": "function",
+        "file": "actions/dual-store/get.ts"
+      },
+      {
+        "name": "getChromaQueueStats",
+        "line": 3,
+        "type": "function",
+        "file": "actions/dual-store/getChromaQueueStats.ts"
+      },
+      {
+        "name": "getConsistencyReport",
+        "line": 4,
+        "type": "function",
+        "file": "actions/dual-store/getConsistencyReport.ts"
+      },
+      {
+        "name": "getMostRecent",
+        "line": 8,
+        "type": "function",
+        "file": "actions/dual-store/getMostRecent.ts"
+      },
+      {
+        "name": "getMostRelevant",
+        "line": 6,
+        "type": "function",
+        "file": "actions/dual-store/getMostRelevant.ts"
+      },
+      {
+        "name": "insert",
+        "line": 9,
+        "type": "function",
+        "file": "actions/dual-store/insert.ts"
+      },
+      {
+        "name": "retryVectorWrite",
+        "line": 11,
+        "type": "function",
+        "file": "actions/dual-store/retryVectorWrite.ts"
+      },
+      {
+        "name": "normaliseTimestamp",
+        "line": 5,
+        "type": "function",
+        "file": "actions/dual-store/utils.ts"
+      },
+      {
+        "name": "normaliseMetadataValue",
+        "line": 22,
+        "type": "function",
+        "file": "actions/dual-store/utils.ts"
+      },
+      {
+        "name": "buildChromaMetadata",
+        "line": 38,
+        "type": "function",
+        "file": "actions/dual-store/utils.ts"
+      },
+      {
+        "name": "fromMongoDocument",
+        "line": 60,
+        "type": "function",
+        "file": "actions/dual-store/utils.ts"
+      },
+      {
+        "name": "ChromaWriteQueue",
+        "line": 21,
+        "type": "class",
+        "file": "chroma-write-queue.ts"
+      },
+      {
+        "name": "getOrCreateQueue",
+        "line": 204,
+        "type": "function",
+        "file": "chroma-write-queue.ts"
+      },
+      {
+        "name": "shutdownAllQueues",
+        "line": 219,
+        "type": "function",
+        "file": "chroma-write-queue.ts"
+      },
+      {
+        "name": "validateMongoConnection",
+        "line": 52,
+        "type": "function",
+        "file": "clients.ts"
+      },
+      {
+        "name": "getMongoClient",
+        "line": 94,
+        "type": "function",
+        "file": "clients.ts"
+      },
+      {
+        "name": "getChromaClient",
+        "line": 120,
+        "type": "function",
+        "file": "clients.ts"
+      },
+      {
+        "name": "__setMongoClientForTests",
+        "line": 144,
+        "type": "function",
+        "file": "clients.ts"
+      },
+      {
+        "name": "__setChromaClientForTests",
+        "line": 147,
+        "type": "function",
+        "file": "clients.ts"
+      },
+      {
+        "name": "__resetPersistenceClientsForTests",
+        "line": 150,
+        "type": "function",
+        "file": "clients.ts"
+      },
+      {
+        "name": "cleanupClients",
+        "line": 160,
+        "type": "function",
+        "file": "clients.ts"
+      },
+      {
+        "name": "createContextStore",
+        "line": 82,
+        "type": "function",
+        "file": "contextStore.ts"
+      },
+      {
+        "name": "createCollection",
+        "line": 91,
+        "type": "function",
+        "file": "contextStore.ts"
+      },
+      {
+        "name": "getOrCreateCollection",
+        "line": 102,
+        "type": "function",
+        "file": "contextStore.ts"
+      },
+      {
+        "name": "getCollection",
+        "line": 111,
+        "type": "function",
+        "file": "contextStore.ts"
+      },
+      {
+        "name": "collectionCount",
+        "line": 114,
+        "type": "function",
+        "file": "contextStore.ts"
+      },
+      {
+        "name": "listCollectionNames",
+        "line": 117,
+        "type": "function",
+        "file": "contextStore.ts"
+      },
+      {
+        "name": "getAllRelatedDocuments",
+        "line": 120,
+        "type": "function",
+        "file": "contextStore.ts"
+      },
+      {
+        "name": "getLatestDocuments",
+        "line": 130,
+        "type": "function",
+        "file": "contextStore.ts"
+      },
+      {
+        "name": "compileContext",
+        "line": 136,
+        "type": "function",
+        "file": "contextStore.ts"
+      },
+      {
+        "name": "ContextStore",
+        "line": 162,
+        "type": "class",
+        "file": "contextStore.ts"
+      },
+      {
+        "name": "createContextStoreFactory",
+        "line": 226,
+        "type": "function",
+        "file": "contextStore.ts"
+      },
+      {
+        "name": "DualStoreManager",
+        "line": 90,
+        "type": "class",
+        "file": "dualStore.ts"
+      },
+      {
+        "name": "createDualStoreManager",
+        "line": 236,
+        "type": "function",
+        "file": "dualStore.ts"
+      },
+      {
+        "name": "createContextStoreImplementation",
+        "line": 57,
+        "type": "function",
+        "file": "factories/contextStore.ts"
+      },
+      {
+        "name": "createDualStoreImplementation",
+        "line": 130,
+        "type": "function",
+        "file": "factories/dualStore.ts"
+      },
+      {
+        "name": "registerPendingDualStoreConfig",
+        "line": 162,
+        "type": "function",
+        "file": "factories/dualStore.ts"
+      },
+      {
+        "name": "consumePendingDualStoreConfig",
+        "line": 168,
+        "type": "function",
+        "file": "factories/dualStore.ts"
+      },
+      {
+        "name": "resolveDualStoreResources",
+        "line": 193,
+        "type": "function",
+        "file": "factories/dualStore.ts"
+      },
+      {
+        "name": "createDualStore",
+        "line": 246,
+        "type": "function",
+        "file": "factories/dualStore.ts"
+      },
+      {
+        "name": "cleanupMongo",
+        "line": 8,
+        "type": "function",
+        "file": "maintenance.ts"
+      },
+      {
+        "name": "cleanupChroma",
+        "line": 18,
+        "type": "function",
+        "file": "maintenance.ts"
+      },
+      {
+        "name": "ChromaDriver",
+        "line": 11,
+        "type": "class",
+        "file": "semantic-store/drivers/chromadb.ts"
+      },
+      {
+        "name": "ChromaDriverFactory",
+        "line": 237,
+        "type": "class",
+        "file": "semantic-store/drivers/chromadb.ts"
+      },
+      {
+        "name": "MongoDriver",
+        "line": 10,
+        "type": "class",
+        "file": "semantic-store/drivers/mongodb.ts"
+      },
+      {
+        "name": "MongoDriverFactory",
+        "line": 167,
+        "type": "class",
+        "file": "semantic-store/drivers/mongodb.ts"
+      },
+      {
+        "name": "PrimaryDatabaseConfig",
+        "line": 9,
+        "type": "interface",
+        "file": "semantic-store/interfaces.ts"
+      },
+      {
+        "name": "VectorSearchConfig",
+        "line": 19,
+        "type": "interface",
+        "file": "semantic-store/interfaces.ts"
+      },
+      {
+        "name": "SemanticStoreConfig",
+        "line": 35,
+        "type": "interface",
+        "file": "semantic-store/interfaces.ts"
+      },
+      {
+        "name": "PrimaryDatabaseDriver",
+        "line": 56,
+        "type": "interface",
+        "file": "semantic-store/interfaces.ts"
+      },
+      {
+        "name": "VectorSearchDriver",
+        "line": 99,
+        "type": "interface",
+        "file": "semantic-store/interfaces.ts"
+      },
+      {
+        "name": "QueueStats",
+        "line": 152,
+        "type": "interface",
+        "file": "semantic-store/interfaces.ts"
+      },
+      {
+        "name": "ConsistencyReport",
+        "line": 167,
+        "type": "interface",
+        "file": "semantic-store/interfaces.ts"
+      },
+      {
+        "name": "SemanticStoreError",
+        "line": 182,
+        "type": "class",
+        "file": "semantic-store/interfaces.ts"
+      },
+      {
+        "name": "SemanticStoreEvent",
+        "line": 200,
+        "type": "interface",
+        "file": "semantic-store/interfaces.ts"
+      },
+      {
+        "name": "DriverFactory",
+        "line": 211,
+        "type": "interface",
+        "file": "semantic-store/interfaces.ts"
+      },
+      {
+        "name": "pickTimestamp",
+        "line": 3,
+        "type": "function",
+        "file": "serializers/pickTimestamp.ts"
+      },
+      {
+        "name": "toChromaMetadata",
+        "line": 21,
+        "type": "function",
+        "file": "serializers/toChromaMetadata.ts"
+      },
+      {
+        "name": "toEpochMilliseconds",
+        "line": 3,
+        "type": "function",
+        "file": "serializers/toEpochMilliseconds.ts"
+      },
+      {
+        "name": "withTimestampMetadata",
+        "line": 3,
+        "type": "function",
+        "file": "serializers/withTimestampMetadata.ts"
+      },
+      {
+        "name": "createMockIndexableContent",
+        "line": 22,
+        "type": "function",
+        "file": "test-support/simple-mocks.ts"
+      },
+      {
+        "name": "createMockSearchQuery",
+        "line": 49,
+        "type": "function",
+        "file": "test-support/simple-mocks.ts"
+      },
+      {
+        "name": "createMockSearchResult",
+        "line": 64,
+        "type": "function",
+        "file": "test-support/simple-mocks.ts"
+      },
+      {
+        "name": "createMockSearchResponse",
+        "line": 76,
+        "type": "function",
+        "file": "test-support/simple-mocks.ts"
+      },
+      {
+        "name": "createMockIndexingStats",
+        "line": 91,
+        "type": "function",
+        "file": "test-support/simple-mocks.ts"
+      },
+      {
+        "name": "createMockIndexingOptions",
+        "line": 128,
+        "type": "function",
+        "file": "test-support/simple-mocks.ts"
+      },
+      {
+        "name": "createMockUnifiedIndexingConfig",
+        "line": 144,
+        "type": "function",
+        "file": "test-support/simple-mocks.ts"
+      },
+      {
+        "name": "isValidIndexableContent",
+        "line": 179,
+        "type": "function",
+        "file": "test-support/simple-mocks.ts"
+      },
+      {
+        "name": "isValidSearchQuery",
+        "line": 199,
+        "type": "function",
+        "file": "test-support/simple-mocks.ts"
+      },
+      {
+        "name": "isValidSearchResult",
+        "line": 218,
+        "type": "function",
+        "file": "test-support/simple-mocks.ts"
+      },
+      {
+        "name": "isValidSearchResponse",
+        "line": 229,
+        "type": "function",
+        "file": "test-support/simple-mocks.ts"
+      },
+      {
+        "name": "isValidIndexingStats",
+        "line": 250,
+        "type": "function",
+        "file": "test-support/simple-mocks.ts"
+      },
+      {
+        "name": "BaseContentMetadata",
+        "line": 32,
+        "type": "interface",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "FileMetadata",
+        "line": 76,
+        "type": "interface",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "MessageMetadata",
+        "line": 101,
+        "type": "interface",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "EventMetadata",
+        "line": 129,
+        "type": "interface",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "SessionMetadata",
+        "line": 150,
+        "type": "interface",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "AttachmentMetadata",
+        "line": 173,
+        "type": "interface",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "ThoughtMetadata",
+        "line": 197,
+        "type": "interface",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "DocumentMetadata",
+        "line": 216,
+        "type": "interface",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "TaskMetadata",
+        "line": 245,
+        "type": "interface",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "BoardMetadata",
+        "line": 269,
+        "type": "interface",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "IndexableContent",
+        "line": 305,
+        "type": "interface",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "transformDualStoreEntry",
+        "line": 340,
+        "type": "function",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "transformIndexedFile",
+        "line": 388,
+        "type": "function",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "transformDiscordMessage",
+        "line": 422,
+        "type": "function",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "transformOpenCodeSession",
+        "line": 488,
+        "type": "function",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "transformOpenCodeMessage",
+        "line": 530,
+        "type": "function",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "transformOpencodeEvent",
+        "line": 566,
+        "type": "function",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "transformKanbanTask",
+        "line": 601,
+        "type": "function",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "validateIndexableContent",
+        "line": 653,
+        "type": "function",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "SearchQuery",
+        "line": 13,
+        "type": "interface",
+        "file": "unified-indexing-api.ts"
+      },
+      {
+        "name": "SearchResult",
+        "line": 40,
+        "type": "interface",
+        "file": "unified-indexing-api.ts"
+      },
+      {
+        "name": "SearchResponse",
+        "line": 49,
+        "type": "interface",
+        "file": "unified-indexing-api.ts"
+      },
+      {
+        "name": "IndexingStats",
+        "line": 59,
+        "type": "interface",
+        "file": "unified-indexing-api.ts"
+      },
+      {
+        "name": "IndexingOptions",
+        "line": 74,
+        "type": "interface",
+        "file": "unified-indexing-api.ts"
+      },
+      {
+        "name": "UnifiedIndexingClient",
+        "line": 92,
+        "type": "interface",
+        "file": "unified-indexing-api.ts"
+      },
+      {
+        "name": "UnifiedIndexingConfig",
+        "line": 125,
+        "type": "interface",
+        "file": "unified-indexing-api.ts"
+      },
+      {
+        "name": "createUnifiedIndexingClient",
+        "line": 166,
+        "type": "function",
+        "file": "unified-indexing-api.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "ChromaWriteQueue",
+        "line": 21,
+        "type": "class",
+        "file": "chroma-write-queue.ts"
+      },
+      {
+        "name": "ContextStore",
+        "line": 162,
+        "type": "class",
+        "file": "contextStore.ts"
+      },
+      {
+        "name": "DualStoreManager",
+        "line": 90,
+        "type": "class",
+        "file": "dualStore.ts"
+      },
+      {
+        "name": "ChromaDriver",
+        "line": 11,
+        "type": "class",
+        "file": "semantic-store/drivers/chromadb.ts"
+      },
+      {
+        "name": "ChromaDriverFactory",
+        "line": 237,
+        "type": "class",
+        "file": "semantic-store/drivers/chromadb.ts"
+      },
+      {
+        "name": "MongoDriver",
+        "line": 10,
+        "type": "class",
+        "file": "semantic-store/drivers/mongodb.ts"
+      },
+      {
+        "name": "MongoDriverFactory",
+        "line": 167,
+        "type": "class",
+        "file": "semantic-store/drivers/mongodb.ts"
+      },
+      {
+        "name": "SemanticStoreError",
+        "line": 182,
+        "type": "class",
+        "file": "semantic-store/interfaces.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "collectionCount",
+        "line": 3,
+        "type": "function",
+        "file": "actions/context-store/collectionInfo.ts"
+      },
+      {
+        "name": "listCollectionNames",
+        "line": 5,
+        "type": "function",
+        "file": "actions/context-store/collectionInfo.ts"
+      },
+      {
+        "name": "compileContext",
+        "line": 30,
+        "type": "function",
+        "file": "actions/context-store/compileContext.ts"
+      },
+      {
+        "name": "createCollection",
+        "line": 5,
+        "type": "function",
+        "file": "actions/context-store/createCollection.ts"
+      },
+      {
+        "name": "getAllRelatedDocuments",
+        "line": 5,
+        "type": "function",
+        "file": "actions/context-store/getAllRelatedDocuments.ts"
+      },
+      {
+        "name": "getCollection",
+        "line": 3,
+        "type": "function",
+        "file": "actions/context-store/getCollection.ts"
+      },
+      {
+        "name": "getLatestDocuments",
+        "line": 5,
+        "type": "function",
+        "file": "actions/context-store/getLatestDocuments.ts"
+      },
+      {
+        "name": "getOrCreateCollection",
+        "line": 10,
+        "type": "function",
+        "file": "actions/context-store/getOrCreateCollection.ts"
+      },
+      {
+        "name": "formatMessage",
+        "line": 12,
+        "type": "function",
+        "file": "actions/context-store/utils.ts"
+      },
+      {
+        "name": "dedupeByText",
+        "line": 23,
+        "type": "function",
+        "file": "actions/context-store/utils.ts"
+      },
+      {
+        "name": "sortByTimestamp",
+        "line": 32,
+        "type": "function",
+        "file": "actions/context-store/utils.ts"
+      },
+      {
+        "name": "limitByCollectionCount",
+        "line": 35,
+        "type": "function",
+        "file": "actions/context-store/utils.ts"
+      },
+      {
+        "name": "toMessage",
+        "line": 45,
+        "type": "function",
+        "file": "actions/context-store/utils.ts"
+      },
+      {
+        "name": "getCollections",
+        "line": 69,
+        "type": "function",
+        "file": "actions/context-store/utils.ts"
+      },
+      {
+        "name": "addEntry",
+        "line": 5,
+        "type": "function",
+        "file": "actions/dual-store/addEntry.ts"
+      },
+      {
+        "name": "checkConsistency",
+        "line": 6,
+        "type": "function",
+        "file": "actions/dual-store/checkConsistency.ts"
+      },
+      {
+        "name": "cleanup",
+        "line": 3,
+        "type": "function",
+        "file": "actions/dual-store/cleanup.ts"
+      },
+      {
+        "name": "get",
+        "line": 8,
+        "type": "function",
+        "file": "actions/dual-store/get.ts"
+      },
+      {
+        "name": "getChromaQueueStats",
+        "line": 3,
+        "type": "function",
+        "file": "actions/dual-store/getChromaQueueStats.ts"
+      },
+      {
+        "name": "getConsistencyReport",
+        "line": 4,
+        "type": "function",
+        "file": "actions/dual-store/getConsistencyReport.ts"
+      },
+      {
+        "name": "getMostRecent",
+        "line": 8,
+        "type": "function",
+        "file": "actions/dual-store/getMostRecent.ts"
+      },
+      {
+        "name": "getMostRelevant",
+        "line": 6,
+        "type": "function",
+        "file": "actions/dual-store/getMostRelevant.ts"
+      },
+      {
+        "name": "insert",
+        "line": 9,
+        "type": "function",
+        "file": "actions/dual-store/insert.ts"
+      },
+      {
+        "name": "retryVectorWrite",
+        "line": 11,
+        "type": "function",
+        "file": "actions/dual-store/retryVectorWrite.ts"
+      },
+      {
+        "name": "normaliseTimestamp",
+        "line": 5,
+        "type": "function",
+        "file": "actions/dual-store/utils.ts"
+      },
+      {
+        "name": "normaliseMetadataValue",
+        "line": 22,
+        "type": "function",
+        "file": "actions/dual-store/utils.ts"
+      },
+      {
+        "name": "buildChromaMetadata",
+        "line": 38,
+        "type": "function",
+        "file": "actions/dual-store/utils.ts"
+      },
+      {
+        "name": "fromMongoDocument",
+        "line": 60,
+        "type": "function",
+        "file": "actions/dual-store/utils.ts"
+      },
+      {
+        "name": "getOrCreateQueue",
+        "line": 204,
+        "type": "function",
+        "file": "chroma-write-queue.ts"
+      },
+      {
+        "name": "shutdownAllQueues",
+        "line": 219,
+        "type": "function",
+        "file": "chroma-write-queue.ts"
+      },
+      {
+        "name": "validateMongoConnection",
+        "line": 52,
+        "type": "function",
+        "file": "clients.ts"
+      },
+      {
+        "name": "getMongoClient",
+        "line": 94,
+        "type": "function",
+        "file": "clients.ts"
+      },
+      {
+        "name": "getChromaClient",
+        "line": 120,
+        "type": "function",
+        "file": "clients.ts"
+      },
+      {
+        "name": "__setMongoClientForTests",
+        "line": 144,
+        "type": "function",
+        "file": "clients.ts"
+      },
+      {
+        "name": "__setChromaClientForTests",
+        "line": 147,
+        "type": "function",
+        "file": "clients.ts"
+      },
+      {
+        "name": "__resetPersistenceClientsForTests",
+        "line": 150,
+        "type": "function",
+        "file": "clients.ts"
+      },
+      {
+        "name": "cleanupClients",
+        "line": 160,
+        "type": "function",
+        "file": "clients.ts"
+      },
+      {
+        "name": "createContextStore",
+        "line": 82,
+        "type": "function",
+        "file": "contextStore.ts"
+      },
+      {
+        "name": "createCollection",
+        "line": 91,
+        "type": "function",
+        "file": "contextStore.ts"
+      },
+      {
+        "name": "getOrCreateCollection",
+        "line": 102,
+        "type": "function",
+        "file": "contextStore.ts"
+      },
+      {
+        "name": "getCollection",
+        "line": 111,
+        "type": "function",
+        "file": "contextStore.ts"
+      },
+      {
+        "name": "collectionCount",
+        "line": 114,
+        "type": "function",
+        "file": "contextStore.ts"
+      },
+      {
+        "name": "listCollectionNames",
+        "line": 117,
+        "type": "function",
+        "file": "contextStore.ts"
+      },
+      {
+        "name": "getAllRelatedDocuments",
+        "line": 120,
+        "type": "function",
+        "file": "contextStore.ts"
+      },
+      {
+        "name": "getLatestDocuments",
+        "line": 130,
+        "type": "function",
+        "file": "contextStore.ts"
+      },
+      {
+        "name": "compileContext",
+        "line": 136,
+        "type": "function",
+        "file": "contextStore.ts"
+      },
+      {
+        "name": "createContextStoreFactory",
+        "line": 226,
+        "type": "function",
+        "file": "contextStore.ts"
+      },
+      {
+        "name": "createDualStoreManager",
+        "line": 236,
+        "type": "function",
+        "file": "dualStore.ts"
+      },
+      {
+        "name": "createContextStoreImplementation",
+        "line": 57,
+        "type": "function",
+        "file": "factories/contextStore.ts"
+      },
+      {
+        "name": "createDualStoreImplementation",
+        "line": 130,
+        "type": "function",
+        "file": "factories/dualStore.ts"
+      },
+      {
+        "name": "registerPendingDualStoreConfig",
+        "line": 162,
+        "type": "function",
+        "file": "factories/dualStore.ts"
+      },
+      {
+        "name": "consumePendingDualStoreConfig",
+        "line": 168,
+        "type": "function",
+        "file": "factories/dualStore.ts"
+      },
+      {
+        "name": "resolveDualStoreResources",
+        "line": 193,
+        "type": "function",
+        "file": "factories/dualStore.ts"
+      },
+      {
+        "name": "createDualStore",
+        "line": 246,
+        "type": "function",
+        "file": "factories/dualStore.ts"
+      },
+      {
+        "name": "cleanupMongo",
+        "line": 8,
+        "type": "function",
+        "file": "maintenance.ts"
+      },
+      {
+        "name": "cleanupChroma",
+        "line": 18,
+        "type": "function",
+        "file": "maintenance.ts"
+      },
+      {
+        "name": "pickTimestamp",
+        "line": 3,
+        "type": "function",
+        "file": "serializers/pickTimestamp.ts"
+      },
+      {
+        "name": "toChromaMetadata",
+        "line": 21,
+        "type": "function",
+        "file": "serializers/toChromaMetadata.ts"
+      },
+      {
+        "name": "toEpochMilliseconds",
+        "line": 3,
+        "type": "function",
+        "file": "serializers/toEpochMilliseconds.ts"
+      },
+      {
+        "name": "withTimestampMetadata",
+        "line": 3,
+        "type": "function",
+        "file": "serializers/withTimestampMetadata.ts"
+      },
+      {
+        "name": "createMockIndexableContent",
+        "line": 22,
+        "type": "function",
+        "file": "test-support/simple-mocks.ts"
+      },
+      {
+        "name": "createMockSearchQuery",
+        "line": 49,
+        "type": "function",
+        "file": "test-support/simple-mocks.ts"
+      },
+      {
+        "name": "createMockSearchResult",
+        "line": 64,
+        "type": "function",
+        "file": "test-support/simple-mocks.ts"
+      },
+      {
+        "name": "createMockSearchResponse",
+        "line": 76,
+        "type": "function",
+        "file": "test-support/simple-mocks.ts"
+      },
+      {
+        "name": "createMockIndexingStats",
+        "line": 91,
+        "type": "function",
+        "file": "test-support/simple-mocks.ts"
+      },
+      {
+        "name": "createMockIndexingOptions",
+        "line": 128,
+        "type": "function",
+        "file": "test-support/simple-mocks.ts"
+      },
+      {
+        "name": "createMockUnifiedIndexingConfig",
+        "line": 144,
+        "type": "function",
+        "file": "test-support/simple-mocks.ts"
+      },
+      {
+        "name": "isValidIndexableContent",
+        "line": 179,
+        "type": "function",
+        "file": "test-support/simple-mocks.ts"
+      },
+      {
+        "name": "isValidSearchQuery",
+        "line": 199,
+        "type": "function",
+        "file": "test-support/simple-mocks.ts"
+      },
+      {
+        "name": "isValidSearchResult",
+        "line": 218,
+        "type": "function",
+        "file": "test-support/simple-mocks.ts"
+      },
+      {
+        "name": "isValidSearchResponse",
+        "line": 229,
+        "type": "function",
+        "file": "test-support/simple-mocks.ts"
+      },
+      {
+        "name": "isValidIndexingStats",
+        "line": 250,
+        "type": "function",
+        "file": "test-support/simple-mocks.ts"
+      },
+      {
+        "name": "transformDualStoreEntry",
+        "line": 340,
+        "type": "function",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "transformIndexedFile",
+        "line": 388,
+        "type": "function",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "transformDiscordMessage",
+        "line": 422,
+        "type": "function",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "transformOpenCodeSession",
+        "line": 488,
+        "type": "function",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "transformOpenCodeMessage",
+        "line": 530,
+        "type": "function",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "transformOpencodeEvent",
+        "line": 566,
+        "type": "function",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "transformKanbanTask",
+        "line": 601,
+        "type": "function",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "validateIndexableContent",
+        "line": 653,
+        "type": "function",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "createUnifiedIndexingClient",
+        "line": 166,
+        "type": "function",
+        "file": "unified-indexing-api.ts"
+      }
+    ],
+    "interfaces": [
+      {
+        "name": "PrimaryDatabaseConfig",
+        "line": 9,
+        "type": "interface",
+        "file": "semantic-store/interfaces.ts"
+      },
+      {
+        "name": "VectorSearchConfig",
+        "line": 19,
+        "type": "interface",
+        "file": "semantic-store/interfaces.ts"
+      },
+      {
+        "name": "SemanticStoreConfig",
+        "line": 35,
+        "type": "interface",
+        "file": "semantic-store/interfaces.ts"
+      },
+      {
+        "name": "PrimaryDatabaseDriver",
+        "line": 56,
+        "type": "interface",
+        "file": "semantic-store/interfaces.ts"
+      },
+      {
+        "name": "VectorSearchDriver",
+        "line": 99,
+        "type": "interface",
+        "file": "semantic-store/interfaces.ts"
+      },
+      {
+        "name": "QueueStats",
+        "line": 152,
+        "type": "interface",
+        "file": "semantic-store/interfaces.ts"
+      },
+      {
+        "name": "ConsistencyReport",
+        "line": 167,
+        "type": "interface",
+        "file": "semantic-store/interfaces.ts"
+      },
+      {
+        "name": "SemanticStoreEvent",
+        "line": 200,
+        "type": "interface",
+        "file": "semantic-store/interfaces.ts"
+      },
+      {
+        "name": "DriverFactory",
+        "line": 211,
+        "type": "interface",
+        "file": "semantic-store/interfaces.ts"
+      },
+      {
+        "name": "BaseContentMetadata",
+        "line": 32,
+        "type": "interface",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "FileMetadata",
+        "line": 76,
+        "type": "interface",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "MessageMetadata",
+        "line": 101,
+        "type": "interface",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "EventMetadata",
+        "line": 129,
+        "type": "interface",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "SessionMetadata",
+        "line": 150,
+        "type": "interface",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "AttachmentMetadata",
+        "line": 173,
+        "type": "interface",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "ThoughtMetadata",
+        "line": 197,
+        "type": "interface",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "DocumentMetadata",
+        "line": 216,
+        "type": "interface",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "TaskMetadata",
+        "line": 245,
+        "type": "interface",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "BoardMetadata",
+        "line": 269,
+        "type": "interface",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "IndexableContent",
+        "line": 305,
+        "type": "interface",
+        "file": "unified-content-model.ts"
+      },
+      {
+        "name": "SearchQuery",
+        "line": 13,
+        "type": "interface",
+        "file": "unified-indexing-api.ts"
+      },
+      {
+        "name": "SearchResult",
+        "line": 40,
+        "type": "interface",
+        "file": "unified-indexing-api.ts"
+      },
+      {
+        "name": "SearchResponse",
+        "line": 49,
+        "type": "interface",
+        "file": "unified-indexing-api.ts"
+      },
+      {
+        "name": "IndexingStats",
+        "line": 59,
+        "type": "interface",
+        "file": "unified-indexing-api.ts"
+      },
+      {
+        "name": "IndexingOptions",
+        "line": 74,
+        "type": "interface",
+        "file": "unified-indexing-api.ts"
+      },
+      {
+        "name": "UnifiedIndexingClient",
+        "line": 92,
+        "type": "interface",
+        "file": "unified-indexing-api.ts"
+      },
+      {
+        "name": "UnifiedIndexingConfig",
+        "line": 125,
+        "type": "interface",
+        "file": "unified-indexing-api.ts"
+      }
+    ]
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "actions/context-store/collectionInfo.ts",
+          "link": "[src/actions/context-store/collectionInfo.ts](../../../packages/persistence/src/actions/context-store/collectionInfo.ts)",
+          "lineCount": 8
+        },
+        {
+          "name": "actions/context-store/compileContext.ts",
+          "link": "[src/actions/context-store/compileContext.ts](../../../packages/persistence/src/actions/context-store/compileContext.ts)",
+          "lineCount": 59
+        },
+        {
+          "name": "actions/context-store/createCollection.ts",
+          "link": "[src/actions/context-store/createCollection.ts](../../../packages/persistence/src/actions/context-store/createCollection.ts)",
+          "lineCount": 29
+        },
+        {
+          "name": "actions/context-store/getAllRelatedDocuments.ts",
+          "link": "[src/actions/context-store/getAllRelatedDocuments.ts](../../../packages/persistence/src/actions/context-store/getAllRelatedDocuments.ts)",
+          "lineCount": 23
+        },
+        {
+          "name": "actions/context-store/getCollection.ts",
+          "link": "[src/actions/context-store/getCollection.ts](../../../packages/persistence/src/actions/context-store/getCollection.ts)",
+          "lineCount": 14
+        },
+        {
+          "name": "actions/context-store/getLatestDocuments.ts",
+          "link": "[src/actions/context-store/getLatestDocuments.ts](../../../packages/persistence/src/actions/context-store/getLatestDocuments.ts)",
+          "lineCount": 15
+        },
+        {
+          "name": "actions/context-store/getOrCreateCollection.ts",
+          "link": "[src/actions/context-store/getOrCreateCollection.ts](../../../packages/persistence/src/actions/context-store/getOrCreateCollection.ts)",
+          "lineCount": 34
+        },
+        {
+          "name": "actions/context-store/index.ts",
+          "link": "[src/actions/context-store/index.ts](../../../packages/persistence/src/actions/context-store/index.ts)",
+          "lineCount": 11
+        },
+        {
+          "name": "actions/context-store/types.ts",
+          "link": "[src/actions/context-store/types.ts](../../../packages/persistence/src/actions/context-store/types.ts)",
+          "lineCount": 70
+        },
+        {
+          "name": "actions/context-store/utils.ts",
+          "link": "[src/actions/context-store/utils.ts](../../../packages/persistence/src/actions/context-store/utils.ts)",
+          "lineCount": 71
+        },
+        {
+          "name": "actions/dual-store/addEntry.ts",
+          "link": "[src/actions/dual-store/addEntry.ts](../../../packages/persistence/src/actions/dual-store/addEntry.ts)",
+          "lineCount": 10
+        },
+        {
+          "name": "actions/dual-store/checkConsistency.ts",
+          "link": "[src/actions/dual-store/checkConsistency.ts](../../../packages/persistence/src/actions/dual-store/checkConsistency.ts)",
+          "lineCount": 40
+        },
+        {
+          "name": "actions/dual-store/cleanup.ts",
+          "link": "[src/actions/dual-store/cleanup.ts](../../../packages/persistence/src/actions/dual-store/cleanup.ts)",
+          "lineCount": 18
+        },
+        {
+          "name": "actions/dual-store/get.ts",
+          "link": "[src/actions/dual-store/get.ts](../../../packages/persistence/src/actions/dual-store/get.ts)",
+          "lineCount": 25
+        },
+        {
+          "name": "actions/dual-store/getChromaQueueStats.ts",
+          "link": "[src/actions/dual-store/getChromaQueueStats.ts](../../../packages/persistence/src/actions/dual-store/getChromaQueueStats.ts)",
+          "lineCount": 8
+        },
+        {
+          "name": "actions/dual-store/getConsistencyReport.ts",
+          "link": "[src/actions/dual-store/getConsistencyReport.ts](../../../packages/persistence/src/actions/dual-store/getConsistencyReport.ts)",
+          "lineCount": 65
+        },
+        {
+          "name": "actions/dual-store/getMostRecent.ts",
+          "link": "[src/actions/dual-store/getMostRecent.ts](../../../packages/persistence/src/actions/dual-store/getMostRecent.ts)",
+          "lineCount": 49
+        },
+        {
+          "name": "actions/dual-store/getMostRelevant.ts",
+          "link": "[src/actions/dual-store/getMostRelevant.ts](../../../packages/persistence/src/actions/dual-store/getMostRelevant.ts)",
+          "lineCount": 60
+        },
+        {
+          "name": "actions/dual-store/index.ts",
+          "link": "[src/actions/dual-store/index.ts](../../../packages/persistence/src/actions/dual-store/index.ts)",
+          "lineCount": 13
+        },
+        {
+          "name": "actions/dual-store/insert.ts",
+          "link": "[src/actions/dual-store/insert.ts](../../../packages/persistence/src/actions/dual-store/insert.ts)",
+          "lineCount": 83
+        },
+        {
+          "name": "actions/dual-store/retryVectorWrite.ts",
+          "link": "[src/actions/dual-store/retryVectorWrite.ts](../../../packages/persistence/src/actions/dual-store/retryVectorWrite.ts)",
+          "lineCount": 92
+        },
+        {
+          "name": "actions/dual-store/types.ts",
+          "link": "[src/actions/dual-store/types.ts](../../../packages/persistence/src/actions/dual-store/types.ts)",
+          "lineCount": 95
+        },
+        {
+          "name": "actions/dual-store/utils.ts",
+          "link": "[src/actions/dual-store/utils.ts](../../../packages/persistence/src/actions/dual-store/utils.ts)",
+          "lineCount": 87
+        },
+        {
+          "name": "chroma-write-queue.ts",
+          "link": "[src/chroma-write-queue.ts](../../../packages/persistence/src/chroma-write-queue.ts)",
+          "lineCount": 224
+        },
+        {
+          "name": "clients.ts",
+          "link": "[src/clients.ts](../../../packages/persistence/src/clients.ts)",
+          "lineCount": 186
+        },
+        {
+          "name": "contextStore.ts",
+          "link": "[src/contextStore.ts](../../../packages/persistence/src/contextStore.ts)",
+          "lineCount": 228
+        },
+        {
+          "name": "dualStore.ts",
+          "link": "[src/dualStore.ts](../../../packages/persistence/src/dualStore.ts)",
+          "lineCount": 237
+        },
+        {
+          "name": "factories/contextStore.ts",
+          "link": "[src/factories/contextStore.ts](../../../packages/persistence/src/factories/contextStore.ts)",
+          "lineCount": 107
+        },
+        {
+          "name": "factories/dualStore.ts",
+          "link": "[src/factories/dualStore.ts](../../../packages/persistence/src/factories/dualStore.ts)",
+          "lineCount": 252
+        },
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/persistence/src/index.ts)",
+          "lineCount": 9
+        },
+        {
+          "name": "maintenance.ts",
+          "link": "[src/maintenance.ts](../../../packages/persistence/src/maintenance.ts)",
+          "lineCount": 28
+        },
+        {
+          "name": "semantic-store/drivers/chromadb.ts",
+          "link": "[src/semantic-store/drivers/chromadb.ts](../../../packages/persistence/src/semantic-store/drivers/chromadb.ts)",
+          "lineCount": 252
+        },
+        {
+          "name": "semantic-store/drivers/mongodb.ts",
+          "link": "[src/semantic-store/drivers/mongodb.ts](../../../packages/persistence/src/semantic-store/drivers/mongodb.ts)",
+          "lineCount": 182
+        },
+        {
+          "name": "semantic-store/interfaces.ts",
+          "link": "[src/semantic-store/interfaces.ts](../../../packages/persistence/src/semantic-store/interfaces.ts)",
+          "lineCount": 216
+        },
+        {
+          "name": "serializers/pickTimestamp.ts",
+          "link": "[src/serializers/pickTimestamp.ts](../../../packages/persistence/src/serializers/pickTimestamp.ts)",
+          "lineCount": 11
+        },
+        {
+          "name": "serializers/toChromaMetadata.ts",
+          "link": "[src/serializers/toChromaMetadata.ts](../../../packages/persistence/src/serializers/toChromaMetadata.ts)",
+          "lineCount": 28
+        },
+        {
+          "name": "serializers/toEpochMilliseconds.ts",
+          "link": "[src/serializers/toEpochMilliseconds.ts](../../../packages/persistence/src/serializers/toEpochMilliseconds.ts)",
+          "lineCount": 9
+        },
+        {
+          "name": "serializers/withTimestampMetadata.ts",
+          "link": "[src/serializers/withTimestampMetadata.ts](../../../packages/persistence/src/serializers/withTimestampMetadata.ts)",
+          "lineCount": 12
+        },
+        {
+          "name": "test-support/simple-mocks.ts",
+          "link": "[src/test-support/simple-mocks.ts](../../../packages/persistence/src/test-support/simple-mocks.ts)",
+          "lineCount": 266
+        },
+        {
+          "name": "tests/chroma-write-queue.test.ts",
+          "link": "[src/tests/chroma-write-queue.test.ts](../../../packages/persistence/src/tests/chroma-write-queue.test.ts)",
+          "lineCount": 136
+        },
+        {
+          "name": "tests/contextStore.class.test.ts",
+          "link": "[src/tests/contextStore.class.test.ts](../../../packages/persistence/src/tests/contextStore.class.test.ts)",
+          "lineCount": 189
+        },
+        {
+          "name": "tests/dualStoreManager.class.test.ts",
+          "link": "[src/tests/dualStoreManager.class.test.ts](../../../packages/persistence/src/tests/dualStoreManager.class.test.ts)",
+          "lineCount": 508
+        },
+        {
+          "name": "tests/regression.test.ts",
+          "link": "[src/tests/regression.test.ts](../../../packages/persistence/src/tests/regression.test.ts)",
+          "lineCount": 102
+        },
+        {
+          "name": "tests/types/simple-search-types.test.ts",
+          "link": "[src/tests/types/simple-search-types.test.ts](../../../packages/persistence/src/tests/types/simple-search-types.test.ts)",
+          "lineCount": 286
+        },
+        {
+          "name": "tests/types/simple-service-types.test.ts",
+          "link": "[src/tests/types/simple-service-types.test.ts](../../../packages/persistence/src/tests/types/simple-service-types.test.ts)",
+          "lineCount": 209
+        },
+        {
+          "name": "types.ts",
+          "link": "[src/types.ts](../../../packages/persistence/src/types.ts)",
+          "lineCount": 51
+        },
+        {
+          "name": "unified-content-model.ts",
+          "link": "[src/unified-content-model.ts](../../../packages/persistence/src/unified-content-model.ts)",
+          "lineCount": 729
+        },
+        {
+          "name": "unified-indexing-api.ts",
+          "link": "[src/unified-indexing-api.ts](../../../packages/persistence/src/unified-indexing-api.ts)",
+          "lineCount": 172
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "ChromaWriteQueue",
+          "link": "[ChromaWriteQueue](../../../packages/persistence/src/chroma-write-queue.ts#L21)",
+          "file": "chroma-write-queue.ts",
+          "line": 21
+        },
+        {
+          "name": "ContextStore",
+          "link": "[ContextStore](../../../packages/persistence/src/contextStore.ts#L162)",
+          "file": "contextStore.ts",
+          "line": 162
+        },
+        {
+          "name": "DualStoreManager",
+          "link": "[DualStoreManager](../../../packages/persistence/src/dualStore.ts#L90)",
+          "file": "dualStore.ts",
+          "line": 90
+        },
+        {
+          "name": "ChromaDriver",
+          "link": "[ChromaDriver](../../../packages/persistence/src/semantic-store/drivers/chromadb.ts#L11)",
+          "file": "semantic-store/drivers/chromadb.ts",
+          "line": 11
+        },
+        {
+          "name": "ChromaDriverFactory",
+          "link": "[ChromaDriverFactory](../../../packages/persistence/src/semantic-store/drivers/chromadb.ts#L237)",
+          "file": "semantic-store/drivers/chromadb.ts",
+          "line": 237
+        },
+        {
+          "name": "MongoDriver",
+          "link": "[MongoDriver](../../../packages/persistence/src/semantic-store/drivers/mongodb.ts#L10)",
+          "file": "semantic-store/drivers/mongodb.ts",
+          "line": 10
+        },
+        {
+          "name": "MongoDriverFactory",
+          "link": "[MongoDriverFactory](../../../packages/persistence/src/semantic-store/drivers/mongodb.ts#L167)",
+          "file": "semantic-store/drivers/mongodb.ts",
+          "line": 167
+        },
+        {
+          "name": "SemanticStoreError",
+          "link": "[SemanticStoreError](../../../packages/persistence/src/semantic-store/interfaces.ts#L182)",
+          "file": "semantic-store/interfaces.ts",
+          "line": 182
+        }
+      ],
+      "functions": [
+        {
+          "name": "collectionCount",
+          "link": "[collectionCount()](../../../packages/persistence/src/actions/context-store/collectionInfo.ts#L3)",
+          "file": "actions/context-store/collectionInfo.ts",
+          "line": 3
+        },
+        {
+          "name": "listCollectionNames",
+          "link": "[listCollectionNames()](../../../packages/persistence/src/actions/context-store/collectionInfo.ts#L5)",
+          "file": "actions/context-store/collectionInfo.ts",
+          "line": 5
+        },
+        {
+          "name": "compileContext",
+          "link": "[compileContext()](../../../packages/persistence/src/actions/context-store/compileContext.ts#L30)",
+          "file": "actions/context-store/compileContext.ts",
+          "line": 30
+        },
+        {
+          "name": "createCollection",
+          "link": "[createCollection()](../../../packages/persistence/src/actions/context-store/createCollection.ts#L5)",
+          "file": "actions/context-store/createCollection.ts",
+          "line": 5
+        },
+        {
+          "name": "getAllRelatedDocuments",
+          "link": "[getAllRelatedDocuments()](../../../packages/persistence/src/actions/context-store/getAllRelatedDocuments.ts#L5)",
+          "file": "actions/context-store/getAllRelatedDocuments.ts",
+          "line": 5
+        },
+        {
+          "name": "getCollection",
+          "link": "[getCollection()](../../../packages/persistence/src/actions/context-store/getCollection.ts#L3)",
+          "file": "actions/context-store/getCollection.ts",
+          "line": 3
+        },
+        {
+          "name": "getLatestDocuments",
+          "link": "[getLatestDocuments()](../../../packages/persistence/src/actions/context-store/getLatestDocuments.ts#L5)",
+          "file": "actions/context-store/getLatestDocuments.ts",
+          "line": 5
+        },
+        {
+          "name": "getOrCreateCollection",
+          "link": "[getOrCreateCollection()](../../../packages/persistence/src/actions/context-store/getOrCreateCollection.ts#L10)",
+          "file": "actions/context-store/getOrCreateCollection.ts",
+          "line": 10
+        },
+        {
+          "name": "formatMessage",
+          "link": "[formatMessage()](../../../packages/persistence/src/actions/context-store/utils.ts#L12)",
+          "file": "actions/context-store/utils.ts",
+          "line": 12
+        },
+        {
+          "name": "dedupeByText",
+          "link": "[dedupeByText()](../../../packages/persistence/src/actions/context-store/utils.ts#L23)",
+          "file": "actions/context-store/utils.ts",
+          "line": 23
+        },
+        {
+          "name": "sortByTimestamp",
+          "link": "[sortByTimestamp()](../../../packages/persistence/src/actions/context-store/utils.ts#L32)",
+          "file": "actions/context-store/utils.ts",
+          "line": 32
+        },
+        {
+          "name": "limitByCollectionCount",
+          "link": "[limitByCollectionCount()](../../../packages/persistence/src/actions/context-store/utils.ts#L35)",
+          "file": "actions/context-store/utils.ts",
+          "line": 35
+        },
+        {
+          "name": "toMessage",
+          "link": "[toMessage()](../../../packages/persistence/src/actions/context-store/utils.ts#L45)",
+          "file": "actions/context-store/utils.ts",
+          "line": 45
+        },
+        {
+          "name": "getCollections",
+          "link": "[getCollections()](../../../packages/persistence/src/actions/context-store/utils.ts#L69)",
+          "file": "actions/context-store/utils.ts",
+          "line": 69
+        },
+        {
+          "name": "addEntry",
+          "link": "[addEntry()](../../../packages/persistence/src/actions/dual-store/addEntry.ts#L5)",
+          "file": "actions/dual-store/addEntry.ts",
+          "line": 5
+        },
+        {
+          "name": "checkConsistency",
+          "link": "[checkConsistency()](../../../packages/persistence/src/actions/dual-store/checkConsistency.ts#L6)",
+          "file": "actions/dual-store/checkConsistency.ts",
+          "line": 6
+        },
+        {
+          "name": "cleanup",
+          "link": "[cleanup()](../../../packages/persistence/src/actions/dual-store/cleanup.ts#L3)",
+          "file": "actions/dual-store/cleanup.ts",
+          "line": 3
+        },
+        {
+          "name": "get",
+          "link": "[get()](../../../packages/persistence/src/actions/dual-store/get.ts#L8)",
+          "file": "actions/dual-store/get.ts",
+          "line": 8
+        },
+        {
+          "name": "getChromaQueueStats",
+          "link": "[getChromaQueueStats()](../../../packages/persistence/src/actions/dual-store/getChromaQueueStats.ts#L3)",
+          "file": "actions/dual-store/getChromaQueueStats.ts",
+          "line": 3
+        },
+        {
+          "name": "getConsistencyReport",
+          "link": "[getConsistencyReport()](../../../packages/persistence/src/actions/dual-store/getConsistencyReport.ts#L4)",
+          "file": "actions/dual-store/getConsistencyReport.ts",
+          "line": 4
+        },
+        {
+          "name": "getMostRecent",
+          "link": "[getMostRecent()](../../../packages/persistence/src/actions/dual-store/getMostRecent.ts#L8)",
+          "file": "actions/dual-store/getMostRecent.ts",
+          "line": 8
+        },
+        {
+          "name": "getMostRelevant",
+          "link": "[getMostRelevant()](../../../packages/persistence/src/actions/dual-store/getMostRelevant.ts#L6)",
+          "file": "actions/dual-store/getMostRelevant.ts",
+          "line": 6
+        },
+        {
+          "name": "insert",
+          "link": "[insert()](../../../packages/persistence/src/actions/dual-store/insert.ts#L9)",
+          "file": "actions/dual-store/insert.ts",
+          "line": 9
+        },
+        {
+          "name": "retryVectorWrite",
+          "link": "[retryVectorWrite()](../../../packages/persistence/src/actions/dual-store/retryVectorWrite.ts#L11)",
+          "file": "actions/dual-store/retryVectorWrite.ts",
+          "line": 11
+        },
+        {
+          "name": "normaliseTimestamp",
+          "link": "[normaliseTimestamp()](../../../packages/persistence/src/actions/dual-store/utils.ts#L5)",
+          "file": "actions/dual-store/utils.ts",
+          "line": 5
+        },
+        {
+          "name": "normaliseMetadataValue",
+          "link": "[normaliseMetadataValue()](../../../packages/persistence/src/actions/dual-store/utils.ts#L22)",
+          "file": "actions/dual-store/utils.ts",
+          "line": 22
+        },
+        {
+          "name": "buildChromaMetadata",
+          "link": "[buildChromaMetadata()](../../../packages/persistence/src/actions/dual-store/utils.ts#L38)",
+          "file": "actions/dual-store/utils.ts",
+          "line": 38
+        },
+        {
+          "name": "fromMongoDocument",
+          "link": "[fromMongoDocument()](../../../packages/persistence/src/actions/dual-store/utils.ts#L60)",
+          "file": "actions/dual-store/utils.ts",
+          "line": 60
+        },
+        {
+          "name": "getOrCreateQueue",
+          "link": "[getOrCreateQueue()](../../../packages/persistence/src/chroma-write-queue.ts#L204)",
+          "file": "chroma-write-queue.ts",
+          "line": 204
+        },
+        {
+          "name": "shutdownAllQueues",
+          "link": "[shutdownAllQueues()](../../../packages/persistence/src/chroma-write-queue.ts#L219)",
+          "file": "chroma-write-queue.ts",
+          "line": 219
+        },
+        {
+          "name": "validateMongoConnection",
+          "link": "[validateMongoConnection()](../../../packages/persistence/src/clients.ts#L52)",
+          "file": "clients.ts",
+          "line": 52
+        },
+        {
+          "name": "getMongoClient",
+          "link": "[getMongoClient()](../../../packages/persistence/src/clients.ts#L94)",
+          "file": "clients.ts",
+          "line": 94
+        },
+        {
+          "name": "getChromaClient",
+          "link": "[getChromaClient()](../../../packages/persistence/src/clients.ts#L120)",
+          "file": "clients.ts",
+          "line": 120
+        },
+        {
+          "name": "__setMongoClientForTests",
+          "link": "[__setMongoClientForTests()](../../../packages/persistence/src/clients.ts#L144)",
+          "file": "clients.ts",
+          "line": 144
+        },
+        {
+          "name": "__setChromaClientForTests",
+          "link": "[__setChromaClientForTests()](../../../packages/persistence/src/clients.ts#L147)",
+          "file": "clients.ts",
+          "line": 147
+        },
+        {
+          "name": "__resetPersistenceClientsForTests",
+          "link": "[__resetPersistenceClientsForTests()](../../../packages/persistence/src/clients.ts#L150)",
+          "file": "clients.ts",
+          "line": 150
+        },
+        {
+          "name": "cleanupClients",
+          "link": "[cleanupClients()](../../../packages/persistence/src/clients.ts#L160)",
+          "file": "clients.ts",
+          "line": 160
+        },
+        {
+          "name": "createContextStore",
+          "link": "[createContextStore()](../../../packages/persistence/src/contextStore.ts#L82)",
+          "file": "contextStore.ts",
+          "line": 82
+        },
+        {
+          "name": "createCollection",
+          "link": "[createCollection()](../../../packages/persistence/src/contextStore.ts#L91)",
+          "file": "contextStore.ts",
+          "line": 91
+        },
+        {
+          "name": "getOrCreateCollection",
+          "link": "[getOrCreateCollection()](../../../packages/persistence/src/contextStore.ts#L102)",
+          "file": "contextStore.ts",
+          "line": 102
+        },
+        {
+          "name": "getCollection",
+          "link": "[getCollection()](../../../packages/persistence/src/contextStore.ts#L111)",
+          "file": "contextStore.ts",
+          "line": 111
+        },
+        {
+          "name": "collectionCount",
+          "link": "[collectionCount()](../../../packages/persistence/src/contextStore.ts#L114)",
+          "file": "contextStore.ts",
+          "line": 114
+        },
+        {
+          "name": "listCollectionNames",
+          "link": "[listCollectionNames()](../../../packages/persistence/src/contextStore.ts#L117)",
+          "file": "contextStore.ts",
+          "line": 117
+        },
+        {
+          "name": "getAllRelatedDocuments",
+          "link": "[getAllRelatedDocuments()](../../../packages/persistence/src/contextStore.ts#L120)",
+          "file": "contextStore.ts",
+          "line": 120
+        },
+        {
+          "name": "getLatestDocuments",
+          "link": "[getLatestDocuments()](../../../packages/persistence/src/contextStore.ts#L130)",
+          "file": "contextStore.ts",
+          "line": 130
+        },
+        {
+          "name": "compileContext",
+          "link": "[compileContext()](../../../packages/persistence/src/contextStore.ts#L136)",
+          "file": "contextStore.ts",
+          "line": 136
+        },
+        {
+          "name": "createContextStoreFactory",
+          "link": "[createContextStoreFactory()](../../../packages/persistence/src/contextStore.ts#L226)",
+          "file": "contextStore.ts",
+          "line": 226
+        },
+        {
+          "name": "createDualStoreManager",
+          "link": "[createDualStoreManager()](../../../packages/persistence/src/dualStore.ts#L236)",
+          "file": "dualStore.ts",
+          "line": 236
+        },
+        {
+          "name": "createContextStoreImplementation",
+          "link": "[createContextStoreImplementation()](../../../packages/persistence/src/factories/contextStore.ts#L57)",
+          "file": "factories/contextStore.ts",
+          "line": 57
+        },
+        {
+          "name": "createDualStoreImplementation",
+          "link": "[createDualStoreImplementation()](../../../packages/persistence/src/factories/dualStore.ts#L130)",
+          "file": "factories/dualStore.ts",
+          "line": 130
+        },
+        {
+          "name": "registerPendingDualStoreConfig",
+          "link": "[registerPendingDualStoreConfig()](../../../packages/persistence/src/factories/dualStore.ts#L162)",
+          "file": "factories/dualStore.ts",
+          "line": 162
+        },
+        {
+          "name": "consumePendingDualStoreConfig",
+          "link": "[consumePendingDualStoreConfig()](../../../packages/persistence/src/factories/dualStore.ts#L168)",
+          "file": "factories/dualStore.ts",
+          "line": 168
+        },
+        {
+          "name": "resolveDualStoreResources",
+          "link": "[resolveDualStoreResources()](../../../packages/persistence/src/factories/dualStore.ts#L193)",
+          "file": "factories/dualStore.ts",
+          "line": 193
+        },
+        {
+          "name": "createDualStore",
+          "link": "[createDualStore()](../../../packages/persistence/src/factories/dualStore.ts#L246)",
+          "file": "factories/dualStore.ts",
+          "line": 246
+        },
+        {
+          "name": "cleanupMongo",
+          "link": "[cleanupMongo()](../../../packages/persistence/src/maintenance.ts#L8)",
+          "file": "maintenance.ts",
+          "line": 8
+        },
+        {
+          "name": "cleanupChroma",
+          "link": "[cleanupChroma()](../../../packages/persistence/src/maintenance.ts#L18)",
+          "file": "maintenance.ts",
+          "line": 18
+        },
+        {
+          "name": "pickTimestamp",
+          "link": "[pickTimestamp()](../../../packages/persistence/src/serializers/pickTimestamp.ts#L3)",
+          "file": "serializers/pickTimestamp.ts",
+          "line": 3
+        },
+        {
+          "name": "toChromaMetadata",
+          "link": "[toChromaMetadata()](../../../packages/persistence/src/serializers/toChromaMetadata.ts#L21)",
+          "file": "serializers/toChromaMetadata.ts",
+          "line": 21
+        },
+        {
+          "name": "toEpochMilliseconds",
+          "link": "[toEpochMilliseconds()](../../../packages/persistence/src/serializers/toEpochMilliseconds.ts#L3)",
+          "file": "serializers/toEpochMilliseconds.ts",
+          "line": 3
+        },
+        {
+          "name": "withTimestampMetadata",
+          "link": "[withTimestampMetadata()](../../../packages/persistence/src/serializers/withTimestampMetadata.ts#L3)",
+          "file": "serializers/withTimestampMetadata.ts",
+          "line": 3
+        },
+        {
+          "name": "createMockIndexableContent",
+          "link": "[createMockIndexableContent()](../../../packages/persistence/src/test-support/simple-mocks.ts#L22)",
+          "file": "test-support/simple-mocks.ts",
+          "line": 22
+        },
+        {
+          "name": "createMockSearchQuery",
+          "link": "[createMockSearchQuery()](../../../packages/persistence/src/test-support/simple-mocks.ts#L49)",
+          "file": "test-support/simple-mocks.ts",
+          "line": 49
+        },
+        {
+          "name": "createMockSearchResult",
+          "link": "[createMockSearchResult()](../../../packages/persistence/src/test-support/simple-mocks.ts#L64)",
+          "file": "test-support/simple-mocks.ts",
+          "line": 64
+        },
+        {
+          "name": "createMockSearchResponse",
+          "link": "[createMockSearchResponse()](../../../packages/persistence/src/test-support/simple-mocks.ts#L76)",
+          "file": "test-support/simple-mocks.ts",
+          "line": 76
+        },
+        {
+          "name": "createMockIndexingStats",
+          "link": "[createMockIndexingStats()](../../../packages/persistence/src/test-support/simple-mocks.ts#L91)",
+          "file": "test-support/simple-mocks.ts",
+          "line": 91
+        },
+        {
+          "name": "createMockIndexingOptions",
+          "link": "[createMockIndexingOptions()](../../../packages/persistence/src/test-support/simple-mocks.ts#L128)",
+          "file": "test-support/simple-mocks.ts",
+          "line": 128
+        },
+        {
+          "name": "createMockUnifiedIndexingConfig",
+          "link": "[createMockUnifiedIndexingConfig()](../../../packages/persistence/src/test-support/simple-mocks.ts#L144)",
+          "file": "test-support/simple-mocks.ts",
+          "line": 144
+        },
+        {
+          "name": "isValidIndexableContent",
+          "link": "[isValidIndexableContent()](../../../packages/persistence/src/test-support/simple-mocks.ts#L179)",
+          "file": "test-support/simple-mocks.ts",
+          "line": 179
+        },
+        {
+          "name": "isValidSearchQuery",
+          "link": "[isValidSearchQuery()](../../../packages/persistence/src/test-support/simple-mocks.ts#L199)",
+          "file": "test-support/simple-mocks.ts",
+          "line": 199
+        },
+        {
+          "name": "isValidSearchResult",
+          "link": "[isValidSearchResult()](../../../packages/persistence/src/test-support/simple-mocks.ts#L218)",
+          "file": "test-support/simple-mocks.ts",
+          "line": 218
+        },
+        {
+          "name": "isValidSearchResponse",
+          "link": "[isValidSearchResponse()](../../../packages/persistence/src/test-support/simple-mocks.ts#L229)",
+          "file": "test-support/simple-mocks.ts",
+          "line": 229
+        },
+        {
+          "name": "isValidIndexingStats",
+          "link": "[isValidIndexingStats()](../../../packages/persistence/src/test-support/simple-mocks.ts#L250)",
+          "file": "test-support/simple-mocks.ts",
+          "line": 250
+        },
+        {
+          "name": "transformDualStoreEntry",
+          "link": "[transformDualStoreEntry()](../../../packages/persistence/src/unified-content-model.ts#L340)",
+          "file": "unified-content-model.ts",
+          "line": 340
+        },
+        {
+          "name": "transformIndexedFile",
+          "link": "[transformIndexedFile()](../../../packages/persistence/src/unified-content-model.ts#L388)",
+          "file": "unified-content-model.ts",
+          "line": 388
+        },
+        {
+          "name": "transformDiscordMessage",
+          "link": "[transformDiscordMessage()](../../../packages/persistence/src/unified-content-model.ts#L422)",
+          "file": "unified-content-model.ts",
+          "line": 422
+        },
+        {
+          "name": "transformOpenCodeSession",
+          "link": "[transformOpenCodeSession()](../../../packages/persistence/src/unified-content-model.ts#L488)",
+          "file": "unified-content-model.ts",
+          "line": 488
+        },
+        {
+          "name": "transformOpenCodeMessage",
+          "link": "[transformOpenCodeMessage()](../../../packages/persistence/src/unified-content-model.ts#L530)",
+          "file": "unified-content-model.ts",
+          "line": 530
+        },
+        {
+          "name": "transformOpencodeEvent",
+          "link": "[transformOpencodeEvent()](../../../packages/persistence/src/unified-content-model.ts#L566)",
+          "file": "unified-content-model.ts",
+          "line": 566
+        },
+        {
+          "name": "transformKanbanTask",
+          "link": "[transformKanbanTask()](../../../packages/persistence/src/unified-content-model.ts#L601)",
+          "file": "unified-content-model.ts",
+          "line": 601
+        },
+        {
+          "name": "validateIndexableContent",
+          "link": "[validateIndexableContent()](../../../packages/persistence/src/unified-content-model.ts#L653)",
+          "file": "unified-content-model.ts",
+          "line": 653
+        },
+        {
+          "name": "createUnifiedIndexingClient",
+          "link": "[createUnifiedIndexingClient()](../../../packages/persistence/src/unified-indexing-api.ts#L166)",
+          "file": "unified-indexing-api.ts",
+          "line": 166
+        }
+      ],
+      "interfaces": [
+        {
+          "name": "PrimaryDatabaseConfig",
+          "link": "[PrimaryDatabaseConfig](../../../packages/persistence/src/semantic-store/interfaces.ts#L9)",
+          "file": "semantic-store/interfaces.ts",
+          "line": 9
+        },
+        {
+          "name": "VectorSearchConfig",
+          "link": "[VectorSearchConfig](../../../packages/persistence/src/semantic-store/interfaces.ts#L19)",
+          "file": "semantic-store/interfaces.ts",
+          "line": 19
+        },
+        {
+          "name": "SemanticStoreConfig",
+          "link": "[SemanticStoreConfig](../../../packages/persistence/src/semantic-store/interfaces.ts#L35)",
+          "file": "semantic-store/interfaces.ts",
+          "line": 35
+        },
+        {
+          "name": "PrimaryDatabaseDriver",
+          "link": "[PrimaryDatabaseDriver](../../../packages/persistence/src/semantic-store/interfaces.ts#L56)",
+          "file": "semantic-store/interfaces.ts",
+          "line": 56
+        },
+        {
+          "name": "VectorSearchDriver",
+          "link": "[VectorSearchDriver](../../../packages/persistence/src/semantic-store/interfaces.ts#L99)",
+          "file": "semantic-store/interfaces.ts",
+          "line": 99
+        },
+        {
+          "name": "QueueStats",
+          "link": "[QueueStats](../../../packages/persistence/src/semantic-store/interfaces.ts#L152)",
+          "file": "semantic-store/interfaces.ts",
+          "line": 152
+        },
+        {
+          "name": "ConsistencyReport",
+          "link": "[ConsistencyReport](../../../packages/persistence/src/semantic-store/interfaces.ts#L167)",
+          "file": "semantic-store/interfaces.ts",
+          "line": 167
+        },
+        {
+          "name": "SemanticStoreEvent",
+          "link": "[SemanticStoreEvent](../../../packages/persistence/src/semantic-store/interfaces.ts#L200)",
+          "file": "semantic-store/interfaces.ts",
+          "line": 200
+        },
+        {
+          "name": "DriverFactory",
+          "link": "[DriverFactory](../../../packages/persistence/src/semantic-store/interfaces.ts#L211)",
+          "file": "semantic-store/interfaces.ts",
+          "line": 211
+        },
+        {
+          "name": "BaseContentMetadata",
+          "link": "[BaseContentMetadata](../../../packages/persistence/src/unified-content-model.ts#L32)",
+          "file": "unified-content-model.ts",
+          "line": 32
+        },
+        {
+          "name": "FileMetadata",
+          "link": "[FileMetadata](../../../packages/persistence/src/unified-content-model.ts#L76)",
+          "file": "unified-content-model.ts",
+          "line": 76
+        },
+        {
+          "name": "MessageMetadata",
+          "link": "[MessageMetadata](../../../packages/persistence/src/unified-content-model.ts#L101)",
+          "file": "unified-content-model.ts",
+          "line": 101
+        },
+        {
+          "name": "EventMetadata",
+          "link": "[EventMetadata](../../../packages/persistence/src/unified-content-model.ts#L129)",
+          "file": "unified-content-model.ts",
+          "line": 129
+        },
+        {
+          "name": "SessionMetadata",
+          "link": "[SessionMetadata](../../../packages/persistence/src/unified-content-model.ts#L150)",
+          "file": "unified-content-model.ts",
+          "line": 150
+        },
+        {
+          "name": "AttachmentMetadata",
+          "link": "[AttachmentMetadata](../../../packages/persistence/src/unified-content-model.ts#L173)",
+          "file": "unified-content-model.ts",
+          "line": 173
+        },
+        {
+          "name": "ThoughtMetadata",
+          "link": "[ThoughtMetadata](../../../packages/persistence/src/unified-content-model.ts#L197)",
+          "file": "unified-content-model.ts",
+          "line": 197
+        },
+        {
+          "name": "DocumentMetadata",
+          "link": "[DocumentMetadata](../../../packages/persistence/src/unified-content-model.ts#L216)",
+          "file": "unified-content-model.ts",
+          "line": 216
+        },
+        {
+          "name": "TaskMetadata",
+          "link": "[TaskMetadata](../../../packages/persistence/src/unified-content-model.ts#L245)",
+          "file": "unified-content-model.ts",
+          "line": 245
+        },
+        {
+          "name": "BoardMetadata",
+          "link": "[BoardMetadata](../../../packages/persistence/src/unified-content-model.ts#L269)",
+          "file": "unified-content-model.ts",
+          "line": 269
+        },
+        {
+          "name": "IndexableContent",
+          "link": "[IndexableContent](../../../packages/persistence/src/unified-content-model.ts#L305)",
+          "file": "unified-content-model.ts",
+          "line": 305
+        },
+        {
+          "name": "SearchQuery",
+          "link": "[SearchQuery](../../../packages/persistence/src/unified-indexing-api.ts#L13)",
+          "file": "unified-indexing-api.ts",
+          "line": 13
+        },
+        {
+          "name": "SearchResult",
+          "link": "[SearchResult](../../../packages/persistence/src/unified-indexing-api.ts#L40)",
+          "file": "unified-indexing-api.ts",
+          "line": 40
+        },
+        {
+          "name": "SearchResponse",
+          "link": "[SearchResponse](../../../packages/persistence/src/unified-indexing-api.ts#L49)",
+          "file": "unified-indexing-api.ts",
+          "line": 49
+        },
+        {
+          "name": "IndexingStats",
+          "link": "[IndexingStats](../../../packages/persistence/src/unified-indexing-api.ts#L59)",
+          "file": "unified-indexing-api.ts",
+          "line": 59
+        },
+        {
+          "name": "IndexingOptions",
+          "link": "[IndexingOptions](../../../packages/persistence/src/unified-indexing-api.ts#L74)",
+          "file": "unified-indexing-api.ts",
+          "line": 74
+        },
+        {
+          "name": "UnifiedIndexingClient",
+          "link": "[UnifiedIndexingClient](../../../packages/persistence/src/unified-indexing-api.ts#L92)",
+          "file": "unified-indexing-api.ts",
+          "line": 92
+        },
+        {
+          "name": "UnifiedIndexingConfig",
+          "link": "[UnifiedIndexingConfig](../../../packages/persistence/src/unified-indexing-api.ts#L125)",
+          "file": "unified-indexing-api.ts",
+          "line": 125
+        }
+      ]
+    }
+  }
+}

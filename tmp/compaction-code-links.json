@@ -1,0 +1,104 @@
+{
+  "packageData": {
+    "packageName": "compaction",
+    "files": [
+      {
+        "path": "compactor.ts",
+        "fullPath": "/home/err/devel/promethean/packages/compaction/src/compactor.ts",
+        "exports": [
+          {
+            "name": "startCompactor",
+            "line": 13,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "startCompactor",
+            "line": 13,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 48
+      },
+      {
+        "path": "tests/compactor.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/compaction/src/tests/compactor.test.ts",
+        "exports": [],
+        "classes": [
+          {
+            "name": "DeferredImpl",
+            "line": 37,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 158
+      }
+    ],
+    "mainEntry": null,
+    "exports": [
+      {
+        "name": "startCompactor",
+        "line": 13,
+        "type": "function",
+        "file": "compactor.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "DeferredImpl",
+        "line": 37,
+        "type": "class",
+        "file": "tests/compactor.test.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "startCompactor",
+        "line": 13,
+        "type": "function",
+        "file": "compactor.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "compactor.ts",
+          "link": "[src/compactor.ts](../../../packages/compaction/src/compactor.ts)",
+          "lineCount": 48
+        },
+        {
+          "name": "tests/compactor.test.ts",
+          "link": "[src/tests/compactor.test.ts](../../../packages/compaction/src/tests/compactor.test.ts)",
+          "lineCount": 158
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "DeferredImpl",
+          "link": "[DeferredImpl](../../../packages/compaction/src/tests/compactor.test.ts#L37)",
+          "file": "tests/compactor.test.ts",
+          "line": 37
+        }
+      ],
+      "functions": [
+        {
+          "name": "startCompactor",
+          "link": "[startCompactor()](../../../packages/compaction/src/compactor.ts#L13)",
+          "file": "compactor.ts",
+          "line": 13
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

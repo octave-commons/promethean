@@ -9,7 +9,6 @@ An operating environment in the age of AI.
 [[kanban]]
 [[generated]]
 
-
 Everything you thought you knew about operating systems is over.
 
 In promethean, AI is not an after thought
@@ -19,9 +18,6 @@ It's a conversations with your system.
 Inteligent event scheduling
 All actions idempotent
 No accidental destructive operations
-
-
-
 
 ## Document oriented workflows
 
@@ -54,10 +50,10 @@ And it also won't do anything you don't want it to do.
 
 You'll prioritize your tasks, you'll move it on through the board.
 If it is marked ready, it does it.
+
 ## Privacy
 
 ## Security
-
 
 ### Log analysis
 
@@ -66,11 +62,10 @@ No longer hidden in some obscure part of your system
 If it matters to you, you'll know.
 
 ### User management
+
 The actions of every user of your system scrutinized
 
 ### Network
-
-
 
 ## Core features
 
@@ -78,13 +73,17 @@ The actions of every user of your system scrutinized
 
 Need a subsystem or SDK? Browse the catalog to jump directly to each package
 README for architecture notes, setup commands, and current usage guidance.
+
 ```
 <!-- PACKAGE_CATALOG_START -->
 ```
+
 | Package | Summary | Usage | README |
+
 ```
 | --- | --- | --- | --- |
 ```
+
 | @promethean-os/agent | (coming soon) | Usage details coming soon in package README. | [README]packages/agent/README.md |
 | @promethean-os/agent-ecs | (coming soon) | Usage details coming soon in package README. | [README]packages/agent-ecs/README.md |
 | @promethean-os/alias-rewrite | Deprecated: use @promethean-os/naming instead | Usage details pending in package README. | [README]packages/alias-rewrite/README.md |
@@ -119,7 +118,7 @@ README for architecture notes, setup commands, and current usage guidance.
 | File Watcher Service | This service monitors the local kanban board and task files, and now also | Usage details coming soon in package README. | [README](packages/file-watcher/README.md) |
 | Frontend Service | Serves compiled frontend assets from Promethean packages under a single Fastify instance. | This will start a server on port `4500`. Each package that contains a `dist/frontend` or `static` directory is mounted under a path matching the package name. Example: `http://loc… | [README]packages/frontend-service/README.md |
 | @promethean-os/fs | (coming soon) | Usage details coming soon in package README. | [README]packages/fs/README.md |
-| Health Service | **Path**: `services/js/health/index.js` | Usage details pending in package README. | [README]packages/health/README.md |
+| Health Service | **Path**: `services/js/health/index.js`| Usage details pending in package README. | [README]packages/health/README.md |
 | Heartbeat Service (Node.js) | Tracks process heartbeats published on the message broker and terminates those that fail to report within a timeout. | Usage details pending in package README. | [README]packages/heartbeat/README.md |
 | @promethean-os/http | (coming soon) | Usage details coming soon in package README. | [README]packages/http/README.md |
 | @promethean-os/image-link-generator | (coming soon) | Usage details coming soon in package README. | [README]packages/image-link-generator/README.md |
@@ -127,8 +126,8 @@ README for architecture notes, setup commands, and current usage guidance.
 | @promethean-os/kanban-cli | This package bundles every automation entry point for the workspace kanban | Usage details pending in package README. | [README]packages/kanban/README.md |
 | Kanban Processor | Subscribes to file watcher events and keeps the kanban board and task files in sync. | Usage details coming soon in package README. | [README]packages/kanban-processor/README.md |
 | @promethean-os/legacy | (coming soon) | Usage details coming soon in package README. | [README]packages/legacy/README.md |
-| packages/level-cache/README.md | A tiny, embedded, **functional-style** cache on top of `level`: | Usage details coming soon in package README. | [README]packages/level-cache/README.md |
-| LLM Service | This service exposes HTTP and WebSocket endpoints for text generation through pluggable drivers. | Start the service with `./run.sh`, a symlink to the shared `services/ts/run.sh` script (requires `pnpm`; the script prints setup instructions if the package manager is missing): P… | [README]packages/llm/README.md |
+| packages/level-cache/README.md | A tiny, embedded, **functional-style** cache on top of`level`: | Usage details coming soon in package README. | [README]packages/level-cache/README.md |
+| LLM Service | This service exposes HTTP and WebSocket endpoints for text generation through pluggable drivers. | Start the service with `./run.sh`, a symlink to the shared `services/ts/run.sh`script (requires`pnpm`; the script prints setup instructions if the package manager is missing): P… | [README]packages/llm/README.md |
 | @promethean-os/markdown | (coming soon) | Usage details coming soon in package README. | [README]packages/markdown/README.md |
 | @promethean-os/markdown-graph | (coming soon) | Usage details coming soon in package README. | [README]packages/markdown-graph/README.md |
 | @promethean-os/mcp | Single MCP server module with composable, pure tools. ESM-only, Fastify HTTP transport + stdio. | Usage details pending in package README. | [README]packages/mcp/README.md |
@@ -139,11 +138,11 @@ README for architecture notes, setup commands, and current usage guidance.
 | @promethean-os/openai-server | A Fastify-based web server that exposes an OpenAI-compatible chat completions API. | Usage details pending in package README. | [README]packages/openai-server/README.md |
 | @promethean-os/parity | (coming soon) | Usage details coming soon in package README. | [README]packages/parity/README.md |
 | @promethean-os/persistence | (coming soon) | Usage details coming soon in package README. | [README]packages/persistence/README.md |
-| @promethean-os/piper | Piper is a lightweight pipeline runner. It reads a `pipelines.json` file and executes the steps it defines. | Usage details coming soon in package README. | [README]packages/piper/README.md |
+| @promethean-os/piper | Piper is a lightweight pipeline runner. It reads a `pipelines.json`file and executes the steps it defines. | Usage details coming soon in package README. | [README]packages/piper/README.md |
 | @promethean-os/platform | (coming soon) | Usage details coming soon in package README. | [README]packages/platform/README.md |
 | @promethean-os/pm2-helpers | (coming soon) | Usage details coming soon in package README. | [README]packages/pm2-helpers/README.md |
 | @promethean-os/projectors | (coming soon) | Usage details coming soon in package README. | [README]packages/projectors/README.md |
-| Promethean CLI | The Promethean CLI provides a thin wrapper around the workspace's `pnpm` scripts. | After installing dependencies run the build once so the distributable script is available: Once built you can execute the CLI via the repo-level binaries: The `--help` flag lists … | [README]packages/promethean-cli/README.md |
+| Promethean CLI | The Promethean CLI provides a thin wrapper around the workspace's`pnpm`scripts. | After installing dependencies run the build once so the distributable script is available: Once built you can execute the CLI via the repo-level binaries: The`--help`flag lists … | [README]packages/promethean-cli/README.md |
 | @promethean-os/providers | (coming soon) | Usage details coming soon in package README. | [README]packages/providers/README.md |
 | @promethean-os/readmeflow | (coming soon) | Usage details coming soon in package README. | [README]packages/readmeflow/README.md |
 | @promethean-os/report-forge | Create terse, actionable Markdown reports from GitHub issues using a **local LLM** (Ollama by default). | Usage details pending in package README. | [README]packages/report-forge/README.md |
@@ -151,7 +150,7 @@ README for architecture notes, setup commands, and current usage guidance.
 | @promethean-os/security | (coming soon) | Usage details coming soon in package README. | [README]packages/security/README.md |
 | @promethean-os/semverguard | (coming soon) | Usage details coming soon in package README. | [README]packages/semverguard/README.md |
 | @promethean-os/simtasks | (coming soon) | Usage details coming soon in package README. | [README]packages/simtask/README.md |
-| Promethean SmartGPT Bridge — Full | One service, one `/openapi.json`, many powers: | Usage details pending in package README. | [README]packages/smartgpt-bridge/README.md |
+| Promethean SmartGPT Bridge — Full | One service, one`/openapi.json`, many powers: | Usage details pending in package README. | [README]packages/smartgpt-bridge/README.md |
 | @promethean-os/snapshots | (coming soon) | Usage details coming soon in package README. | [README]packages/snapshots/README.md |
 | @promethean-os/sonarflow | (coming soon) | Usage details coming soon in package README. | [README]packages/sonarflow/README.md |
 | @promethean-os/stream | (coming soon) | Usage details coming soon in package README. | [README]packages/stream/README.md |
@@ -162,12 +161,35 @@ README for architecture notes, setup commands, and current usage guidance.
 | @promethean-os/timetravel | (coming soon) | Usage details coming soon in package README. | [README]packages/timetravel/README.md |
 | @promethean-os/ui-components | Design tokens and reusable Web Components for Promethean front-ends. | Usage details pending in package README. | [README]packages/ui-components/README.md |
 | @promethean-os/utils | (coming soon) | Usage details coming soon in package README. | [README]packages/utils/README.md |
-| Vision Service | Express-based service for capturing screenshots. It exposes a `/capture` HTTP | Install dependencies and start the service (pnpm required): #hashtags: #vision #service #promethean | [README]packages/vision/README.md |
+| Vision Service | Express-based service for capturing screenshots. It exposes a `/capture`HTTP | Install dependencies and start the service (pnpm required): #hashtags: #vision #service #promethean | [README]packages/vision/README.md |
 | Voice Service | Handles Discord voice connections, recording/transcription via the STT service and playback through the TTS service. | Usage details coming soon in package README. | [README]packages/voice/README.md |
 | @promethean-os/web-utils | (coming soon) | Usage details coming soon in package README. | [README]packages/web-utils/README.md |
-| Webcrawler Service | Polite Markdown-saving web crawler that respects `robots.txt` and persists fetched pages as Markdown files in a configurable output directory. | Usage details pending in package README. | [README]packages/webcrawler-service/README.md |
+| Webcrawler Service | Polite Markdown-saving web crawler that respects`robots.txt` and persists fetched pages as Markdown files in a configurable output directory. | Usage details pending in package README. | [README]packages/webcrawler-service/README.md |
 | @promethean-os/worker | (coming soon) | Usage details coming soon in package README. | [README]packages/worker/README.md |
 | @promethean-os/ws | (coming soon) | Usage details coming soon in package README. | [README]packages/ws/README.md |
+
 ```
 <!-- PACKAGE_CATALOG_END -->
 ```
+
+## Key Documentation
+
+### System Architecture & Design
+
+- **[[api-architecture]]** - Comprehensive API design and architecture guidelines
+- **[[architecture/index]]** - System architecture documentation and ADRs
+
+### Development & Operations
+
+- **[[CONTRIBUTOR-FRIENDLY-GITHUB-BOARDS]]** - GitHub sync system for contributors
+- **[[pm2-enhanced-usage]]** - PM2 ecosystem configuration and management
+
+### Security & Compliance
+
+- **[[security-risk-assessment]]** - Security analysis and threat modeling
+- **[[cross-platform-compatibility-requirements]]** - Platform compatibility specifications
+
+### Project Management
+
+- **[[kanban]]** - Task management and workflow tracking
+- **[[generated]]** - Generated project board and status

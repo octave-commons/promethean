@@ -1,0 +1,350 @@
+{
+  "packageData": {
+    "packageName": "intention",
+    "files": [
+      {
+        "path": "boot-local.ts",
+        "fullPath": "/home/err/devel/promethean/packages/intention/src/boot-local.ts",
+        "exports": [
+          {
+            "name": "loadLocalLLM",
+            "line": 19,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "loadLocalLLM",
+            "line": 19,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 38
+      },
+      {
+        "path": "cache.ts",
+        "fullPath": "/home/err/devel/promethean/packages/intention/src/cache.ts",
+        "exports": [
+          {
+            "name": "FileCacheLLM",
+            "line": 7,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "FileCacheLLM",
+            "line": 7,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 29
+      },
+      {
+        "path": "llm.ts",
+        "fullPath": "/home/err/devel/promethean/packages/intention/src/llm.ts",
+        "exports": [
+          {
+            "name": "DummyLLM",
+            "line": 5,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "DummyLLM",
+            "line": 5,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 16
+      },
+      {
+        "path": "ollama.ts",
+        "fullPath": "/home/err/devel/promethean/packages/intention/src/ollama.ts",
+        "exports": [
+          {
+            "name": "OllamaLLM",
+            "line": 17,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "OllamaLLM",
+            "line": 17,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 104
+      },
+      {
+        "path": "openai_compat.ts",
+        "fullPath": "/home/err/devel/promethean/packages/intention/src/openai_compat.ts",
+        "exports": [
+          {
+            "name": "OpenAICompatLLM",
+            "line": 3,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "OpenAICompatLLM",
+            "line": 3,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 48
+      },
+      {
+        "path": "router.ts",
+        "fullPath": "/home/err/devel/promethean/packages/intention/src/router.ts",
+        "exports": [
+          {
+            "name": "RouterLLM",
+            "line": 3,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "RouterLLM",
+            "line": 3,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 18
+      },
+      {
+        "path": "tests/dummy.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/intention/src/tests/dummy.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 6
+      },
+      {
+        "path": "utils.ts",
+        "fullPath": "/home/err/devel/promethean/packages/intention/src/utils.ts",
+        "exports": [
+          {
+            "name": "extractCode",
+            "line": 1,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "extractCode",
+            "line": 1,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 7
+      }
+    ],
+    "mainEntry": null,
+    "exports": [
+      {
+        "name": "loadLocalLLM",
+        "line": 19,
+        "type": "function",
+        "file": "boot-local.ts"
+      },
+      {
+        "name": "FileCacheLLM",
+        "line": 7,
+        "type": "class",
+        "file": "cache.ts"
+      },
+      {
+        "name": "DummyLLM",
+        "line": 5,
+        "type": "class",
+        "file": "llm.ts"
+      },
+      {
+        "name": "OllamaLLM",
+        "line": 17,
+        "type": "class",
+        "file": "ollama.ts"
+      },
+      {
+        "name": "OpenAICompatLLM",
+        "line": 3,
+        "type": "class",
+        "file": "openai_compat.ts"
+      },
+      {
+        "name": "RouterLLM",
+        "line": 3,
+        "type": "class",
+        "file": "router.ts"
+      },
+      {
+        "name": "extractCode",
+        "line": 1,
+        "type": "function",
+        "file": "utils.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "FileCacheLLM",
+        "line": 7,
+        "type": "class",
+        "file": "cache.ts"
+      },
+      {
+        "name": "DummyLLM",
+        "line": 5,
+        "type": "class",
+        "file": "llm.ts"
+      },
+      {
+        "name": "OllamaLLM",
+        "line": 17,
+        "type": "class",
+        "file": "ollama.ts"
+      },
+      {
+        "name": "OpenAICompatLLM",
+        "line": 3,
+        "type": "class",
+        "file": "openai_compat.ts"
+      },
+      {
+        "name": "RouterLLM",
+        "line": 3,
+        "type": "class",
+        "file": "router.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "loadLocalLLM",
+        "line": 19,
+        "type": "function",
+        "file": "boot-local.ts"
+      },
+      {
+        "name": "extractCode",
+        "line": 1,
+        "type": "function",
+        "file": "utils.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "boot-local.ts",
+          "link": "[src/boot-local.ts](../../../packages/intention/src/boot-local.ts)",
+          "lineCount": 38
+        },
+        {
+          "name": "cache.ts",
+          "link": "[src/cache.ts](../../../packages/intention/src/cache.ts)",
+          "lineCount": 29
+        },
+        {
+          "name": "llm.ts",
+          "link": "[src/llm.ts](../../../packages/intention/src/llm.ts)",
+          "lineCount": 16
+        },
+        {
+          "name": "ollama.ts",
+          "link": "[src/ollama.ts](../../../packages/intention/src/ollama.ts)",
+          "lineCount": 104
+        },
+        {
+          "name": "openai_compat.ts",
+          "link": "[src/openai_compat.ts](../../../packages/intention/src/openai_compat.ts)",
+          "lineCount": 48
+        },
+        {
+          "name": "router.ts",
+          "link": "[src/router.ts](../../../packages/intention/src/router.ts)",
+          "lineCount": 18
+        },
+        {
+          "name": "tests/dummy.test.ts",
+          "link": "[src/tests/dummy.test.ts](../../../packages/intention/src/tests/dummy.test.ts)",
+          "lineCount": 6
+        },
+        {
+          "name": "utils.ts",
+          "link": "[src/utils.ts](../../../packages/intention/src/utils.ts)",
+          "lineCount": 7
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "FileCacheLLM",
+          "link": "[FileCacheLLM](../../../packages/intention/src/cache.ts#L7)",
+          "file": "cache.ts",
+          "line": 7
+        },
+        {
+          "name": "DummyLLM",
+          "link": "[DummyLLM](../../../packages/intention/src/llm.ts#L5)",
+          "file": "llm.ts",
+          "line": 5
+        },
+        {
+          "name": "OllamaLLM",
+          "link": "[OllamaLLM](../../../packages/intention/src/ollama.ts#L17)",
+          "file": "ollama.ts",
+          "line": 17
+        },
+        {
+          "name": "OpenAICompatLLM",
+          "link": "[OpenAICompatLLM](../../../packages/intention/src/openai_compat.ts#L3)",
+          "file": "openai_compat.ts",
+          "line": 3
+        },
+        {
+          "name": "RouterLLM",
+          "link": "[RouterLLM](../../../packages/intention/src/router.ts#L3)",
+          "file": "router.ts",
+          "line": 3
+        }
+      ],
+      "functions": [
+        {
+          "name": "loadLocalLLM",
+          "link": "[loadLocalLLM()](../../../packages/intention/src/boot-local.ts#L19)",
+          "file": "boot-local.ts",
+          "line": 19
+        },
+        {
+          "name": "extractCode",
+          "link": "[extractCode()](../../../packages/intention/src/utils.ts#L1)",
+          "file": "utils.ts",
+          "line": 1
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

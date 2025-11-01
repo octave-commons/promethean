@@ -1,0 +1,4811 @@
+{
+  "packageData": {
+    "packageName": "cephalon",
+    "files": [
+      {
+        "path": "actions/forward-attachments.scope.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/actions/forward-attachments.scope.ts",
+        "exports": [
+          {
+            "name": "buildForwardAttachmentsScope",
+            "line": 14,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "buildForwardAttachmentsScope",
+            "line": 14,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 27
+      },
+      {
+        "path": "actions/forward-attachments.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/actions/forward-attachments.ts",
+        "exports": [
+          {
+            "name": "run",
+            "line": 9,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "run",
+            "line": 9,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 41
+      },
+      {
+        "path": "actions/leave-voice.scope.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/actions/leave-voice.scope.ts",
+        "exports": [
+          {
+            "name": "buildLeaveVoiceScope",
+            "line": 18,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "buildLeaveVoiceScope",
+            "line": 18,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 45
+      },
+      {
+        "path": "actions/leave-voice.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/actions/leave-voice.ts",
+        "exports": [
+          {
+            "name": "run",
+            "line": 10,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "run",
+            "line": 10,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 27
+      },
+      {
+        "path": "actions/ping.scope.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/actions/ping.scope.ts",
+        "exports": [
+          {
+            "name": "buildPingScope",
+            "line": 11,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "buildPingScope",
+            "line": 11,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 21
+      },
+      {
+        "path": "actions/ping.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/actions/ping.ts",
+        "exports": [
+          {
+            "name": "run",
+            "line": 6,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "run",
+            "line": 6,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 15
+      },
+      {
+        "path": "actions/record-speaker.scope.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/actions/record-speaker.scope.ts",
+        "exports": [
+          {
+            "name": "buildRecordSpeakerScope",
+            "line": 22,
+            "type": "function"
+          },
+          {
+            "name": "makeRecordActions",
+            "line": 34,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "buildRecordSpeakerScope",
+            "line": 22,
+            "type": "function"
+          },
+          {
+            "name": "makeRecordActions",
+            "line": 34,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 52
+      },
+      {
+        "path": "actions/register-llm-handler.scope.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/actions/register-llm-handler.scope.ts",
+        "exports": [
+          {
+            "name": "buildRegisterLlmHandlerScope",
+            "line": 14,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "buildRegisterLlmHandlerScope",
+            "line": 14,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 26
+      },
+      {
+        "path": "actions/register-llm-handler.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/actions/register-llm-handler.ts",
+        "exports": [
+          {
+            "name": "run",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "run",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 46
+      },
+      {
+        "path": "actions/set-capture-channel.scope.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/actions/set-capture-channel.scope.ts",
+        "exports": [
+          {
+            "name": "buildSetCaptureChannelScope",
+            "line": 10,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "buildSetCaptureChannelScope",
+            "line": 10,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 19
+      },
+      {
+        "path": "actions/set-capture-channel.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/actions/set-capture-channel.ts",
+        "exports": [
+          {
+            "name": "run",
+            "line": 14,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "run",
+            "line": 14,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 23
+      },
+      {
+        "path": "actions/set-desktop-channel.scope.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/actions/set-desktop-channel.scope.ts",
+        "exports": [
+          {
+            "name": "buildSetDesktopChannelScope",
+            "line": 10,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "buildSetDesktopChannelScope",
+            "line": 10,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 19
+      },
+      {
+        "path": "actions/set-desktop-channel.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/actions/set-desktop-channel.ts",
+        "exports": [
+          {
+            "name": "run",
+            "line": 14,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "run",
+            "line": 14,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 23
+      },
+      {
+        "path": "actions/start-dialog.scope.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/actions/start-dialog.scope.ts",
+        "exports": [
+          {
+            "name": "storeAgentMessage",
+            "line": 34,
+            "type": "function"
+          },
+          {
+            "name": "runStartDialog",
+            "line": 105,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "storeAgentMessage",
+            "line": 34,
+            "type": "function"
+          },
+          {
+            "name": "runStartDialog",
+            "line": 105,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 324
+      },
+      {
+        "path": "actions/transcribe-speaker.scope.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/actions/transcribe-speaker.scope.ts",
+        "exports": [
+          {
+            "name": "buildTranscribeSpeakerScope",
+            "line": 22,
+            "type": "function"
+          },
+          {
+            "name": "makeTranscribeActions",
+            "line": 34,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "buildTranscribeSpeakerScope",
+            "line": 22,
+            "type": "function"
+          },
+          {
+            "name": "makeTranscribeActions",
+            "line": 34,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 44
+      },
+      {
+        "path": "actions/tts.scope.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/actions/tts.scope.ts",
+        "exports": [
+          {
+            "name": "buildTtsScope",
+            "line": 20,
+            "type": "function"
+          },
+          {
+            "name": "makeTtsAction",
+            "line": 32,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "buildTtsScope",
+            "line": 20,
+            "type": "function"
+          },
+          {
+            "name": "makeTtsAction",
+            "line": 32,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 39
+      },
+      {
+        "path": "agent/index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/agent/index.ts",
+        "exports": [
+          {
+            "name": "AIAgent",
+            "line": 66,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "AIAgent",
+            "line": 66,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 393
+      },
+      {
+        "path": "agent/innerState.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/agent/innerState.ts",
+        "exports": [
+          {
+            "name": "generateInnerState",
+            "line": 15,
+            "type": "function"
+          },
+          {
+            "name": "think",
+            "line": 39,
+            "type": "function"
+          },
+          {
+            "name": "updateInnerState",
+            "line": 67,
+            "type": "function"
+          },
+          {
+            "name": "loadInnerState",
+            "line": 94,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "generateInnerState",
+            "line": 15,
+            "type": "function"
+          },
+          {
+            "name": "think",
+            "line": 39,
+            "type": "function"
+          },
+          {
+            "name": "updateInnerState",
+            "line": 67,
+            "type": "function"
+          },
+          {
+            "name": "loadInnerState",
+            "line": 94,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 115
+      },
+      {
+        "path": "agent/speech.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/agent/speech.ts",
+        "exports": [
+          {
+            "name": "speak",
+            "line": 22,
+            "type": "function"
+          },
+          {
+            "name": "storeAgentMessage",
+            "line": 49,
+            "type": "function"
+          },
+          {
+            "name": "generateVoiceResponse",
+            "line": 74,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "speak",
+            "line": 22,
+            "type": "function"
+          },
+          {
+            "name": "storeAgentMessage",
+            "line": 49,
+            "type": "function"
+          },
+          {
+            "name": "generateVoiceResponse",
+            "line": 74,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 137
+      },
+      {
+        "path": "agent/speechCoordinator.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/agent/speechCoordinator.ts",
+        "exports": [
+          {
+            "name": "SpeechArbiter",
+            "line": 19,
+            "type": "class"
+          },
+          {
+            "name": "TurnManager",
+            "line": 130,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "SpeechArbiter",
+            "line": 19,
+            "type": "class"
+          },
+          {
+            "name": "TurnManager",
+            "line": 130,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 140
+      },
+      {
+        "path": "agent/voiceContent.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/agent/voiceContent.ts",
+        "exports": [
+          {
+            "name": "generateVoiceContentFromSinglePrompt",
+            "line": 7,
+            "type": "function"
+          },
+          {
+            "name": "generateVoiceContentWithFormattedLatestmessage",
+            "line": 27,
+            "type": "function"
+          },
+          {
+            "name": "generateVoiceContentWithChoicePrompt",
+            "line": 53,
+            "type": "function"
+          },
+          {
+            "name": "generateVoiceContentWithSpecialQuery",
+            "line": 68,
+            "type": "function"
+          },
+          {
+            "name": "generateVoiceContentWithoutSpecialQuery",
+            "line": 87,
+            "type": "function"
+          },
+          {
+            "name": "generateVoiceContent",
+            "line": 101,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "generateVoiceContentFromSinglePrompt",
+            "line": 7,
+            "type": "function"
+          },
+          {
+            "name": "generateVoiceContentWithFormattedLatestmessage",
+            "line": 27,
+            "type": "function"
+          },
+          {
+            "name": "generateVoiceContentWithChoicePrompt",
+            "line": 53,
+            "type": "function"
+          },
+          {
+            "name": "generateVoiceContentWithSpecialQuery",
+            "line": 68,
+            "type": "function"
+          },
+          {
+            "name": "generateVoiceContentWithoutSpecialQuery",
+            "line": 87,
+            "type": "function"
+          },
+          {
+            "name": "generateVoiceContent",
+            "line": 101,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 104
+      },
+      {
+        "path": "agent.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/agent.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 2
+      },
+      {
+        "path": "annotate-image.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/annotate-image.ts",
+        "exports": [
+          {
+            "name": "annotateImage",
+            "line": 10,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "annotateImage",
+            "line": 10,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 34
+      },
+      {
+        "path": "audio-service.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/audio-service.ts",
+        "exports": [
+          {
+            "name": "AudioService",
+            "line": 13,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "AudioService",
+            "line": 13,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 59
+      },
+      {
+        "path": "audioProcessing/spectrogram.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/audioProcessing/spectrogram.ts",
+        "exports": [
+          {
+            "name": "generateSpectrogram",
+            "line": 6,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "generateSpectrogram",
+            "line": 6,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 51
+      },
+      {
+        "path": "audioProcessing/waveform.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/audioProcessing/waveform.ts",
+        "exports": [
+          {
+            "name": "renderWaveForm",
+            "line": 12,
+            "type": "function"
+          },
+          {
+            "name": "captureAndRenderWaveform",
+            "line": 52,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "renderWaveForm",
+            "line": 12,
+            "type": "function"
+          },
+          {
+            "name": "captureAndRenderWaveform",
+            "line": 52,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 68
+      },
+      {
+        "path": "bot/registerCommands.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/bot/registerCommands.ts",
+        "exports": [
+          {
+            "name": "registerNewStyleCommands",
+            "line": 20,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "registerNewStyleCommands",
+            "line": 20,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 43
+      },
+      {
+        "path": "bot.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/bot.ts",
+        "exports": [
+          {
+            "name": "Bot",
+            "line": 49,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "Bot",
+            "line": 49,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 313
+      },
+      {
+        "path": "collections.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/collections.ts",
+        "exports": [
+          {
+            "name": "discordMessages",
+            "line": 3,
+            "type": "function"
+          },
+          {
+            "name": "thoughts",
+            "line": 8,
+            "type": "function"
+          },
+          {
+            "name": "transcripts",
+            "line": 9,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "discordMessages",
+            "line": 3,
+            "type": "function"
+          },
+          {
+            "name": "thoughts",
+            "line": 8,
+            "type": "function"
+          },
+          {
+            "name": "transcripts",
+            "line": 9,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 14
+      },
+      {
+        "path": "commands/begin-recording.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/commands/begin-recording.ts",
+        "exports": [
+          {
+            "name": "data",
+            "line": 9,
+            "type": "function"
+          },
+          {
+            "name": "execute",
+            "line": 22,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "data",
+            "line": 9,
+            "type": "function"
+          },
+          {
+            "name": "execute",
+            "line": 22,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 35
+      },
+      {
+        "path": "commands/begin-transcribing.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/commands/begin-transcribing.ts",
+        "exports": [
+          {
+            "name": "data",
+            "line": 9,
+            "type": "function"
+          },
+          {
+            "name": "execute",
+            "line": 28,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "data",
+            "line": 9,
+            "type": "function"
+          },
+          {
+            "name": "execute",
+            "line": 28,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 46
+      },
+      {
+        "path": "commands/join-voice.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/commands/join-voice.ts",
+        "exports": [
+          {
+            "name": "data",
+            "line": 6,
+            "type": "function"
+          },
+          {
+            "name": "execute",
+            "line": 11,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "data",
+            "line": 6,
+            "type": "function"
+          },
+          {
+            "name": "execute",
+            "line": 11,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 41
+      },
+      {
+        "path": "commands/leave-voice.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/commands/leave-voice.ts",
+        "exports": [
+          {
+            "name": "data",
+            "line": 8,
+            "type": "function"
+          },
+          {
+            "name": "execute",
+            "line": 15,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "data",
+            "line": 8,
+            "type": "function"
+          },
+          {
+            "name": "execute",
+            "line": 15,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 31
+      },
+      {
+        "path": "commands/ping.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/commands/ping.ts",
+        "exports": [
+          {
+            "name": "data",
+            "line": 7,
+            "type": "function"
+          },
+          {
+            "name": "execute",
+            "line": 12,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "data",
+            "line": 7,
+            "type": "function"
+          },
+          {
+            "name": "execute",
+            "line": 12,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 22
+      },
+      {
+        "path": "commands/set-capture-channel.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/commands/set-capture-channel.ts",
+        "exports": [
+          {
+            "name": "data",
+            "line": 8,
+            "type": "function"
+          },
+          {
+            "name": "execute",
+            "line": 22,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "data",
+            "line": 8,
+            "type": "function"
+          },
+          {
+            "name": "execute",
+            "line": 22,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 40
+      },
+      {
+        "path": "commands/set-desktop-channel.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/commands/set-desktop-channel.ts",
+        "exports": [
+          {
+            "name": "data",
+            "line": 8,
+            "type": "function"
+          },
+          {
+            "name": "execute",
+            "line": 21,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "data",
+            "line": 8,
+            "type": "function"
+          },
+          {
+            "name": "execute",
+            "line": 21,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 39
+      },
+      {
+        "path": "commands/start-dialog.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/commands/start-dialog.ts",
+        "exports": [
+          {
+            "name": "data",
+            "line": 6,
+            "type": "function"
+          },
+          {
+            "name": "execute",
+            "line": 11,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "data",
+            "line": 6,
+            "type": "function"
+          },
+          {
+            "name": "execute",
+            "line": 11,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 23
+      },
+      {
+        "path": "commands/stop-recording.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/commands/stop-recording.ts",
+        "exports": [
+          {
+            "name": "data",
+            "line": 9,
+            "type": "function"
+          },
+          {
+            "name": "execute",
+            "line": 22,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "data",
+            "line": 9,
+            "type": "function"
+          },
+          {
+            "name": "execute",
+            "line": 22,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 39
+      },
+      {
+        "path": "commands/tts.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/commands/tts.ts",
+        "exports": [
+          {
+            "name": "data",
+            "line": 6,
+            "type": "function"
+          },
+          {
+            "name": "execute",
+            "line": 20,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "data",
+            "line": 6,
+            "type": "function"
+          },
+          {
+            "name": "execute",
+            "line": 20,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 32
+      },
+      {
+        "path": "converter.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/converter.ts",
+        "exports": [
+          {
+            "name": "convert",
+            "line": 6,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "convert",
+            "line": 6,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 23
+      },
+      {
+        "path": "desktop/desktopAudioCapture.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/desktop/desktopAudioCapture.ts",
+        "exports": [
+          {
+            "name": "captureAudio",
+            "line": 27,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "captureAudio",
+            "line": 27,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 81
+      },
+      {
+        "path": "desktop/desktopLoop.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/desktop/desktopLoop.ts",
+        "exports": [
+          {
+            "name": "captureScreen",
+            "line": 9,
+            "type": "function"
+          },
+          {
+            "name": "DesktopCaptureManager",
+            "line": 29,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "DesktopCaptureManager",
+            "line": 29,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "captureScreen",
+            "line": 9,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 100
+      },
+      {
+        "path": "enso/chat-agent.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/enso/chat-agent.ts",
+        "exports": [
+          {
+            "name": "EnsoChatAgent",
+            "line": 53,
+            "type": "class"
+          },
+          {
+            "name": "createEnsoChatAgent",
+            "line": 305,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "EnsoChatAgent",
+            "line": 53,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "createEnsoChatAgent",
+            "line": 305,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 307
+      },
+      {
+        "path": "enso/runner.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/enso/runner.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 59
+      },
+      {
+        "path": "enso/transcriber-enso.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/enso/transcriber-enso.ts",
+        "exports": [
+          {
+            "name": "ToPcm16kMono",
+            "line": 33,
+            "type": "class"
+          },
+          {
+            "name": "EnsoTranscriber",
+            "line": 108,
+            "type": "class"
+          },
+          {
+            "name": "createEnsoTranscriber",
+            "line": 237,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "ToPcm16kMono",
+            "line": 33,
+            "type": "class"
+          },
+          {
+            "name": "EnsoTranscriber",
+            "line": 108,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "createEnsoTranscriber",
+            "line": 237,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 240
+      },
+      {
+        "path": "events/transcriptEnd.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/events/transcriptEnd.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 2
+      },
+      {
+        "path": "factories/voice.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/factories/voice.ts",
+        "exports": [
+          {
+            "name": "makeDiscordVoiceAdapter",
+            "line": 10,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "makeDiscordVoiceAdapter",
+            "line": 10,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 54
+      },
+      {
+        "path": "get-current-date-time.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/get-current-date-time.ts",
+        "exports": [
+          {
+            "name": "getCurrentDateTime",
+            "line": 1,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "getCurrentDateTime",
+            "line": 1,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 17
+      },
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 31
+      },
+      {
+        "path": "interactions.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/interactions.ts",
+        "exports": [
+          {
+            "name": "interaction",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "interaction",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 26
+      },
+      {
+        "path": "llm-service.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/llm-service.ts",
+        "exports": [
+          {
+            "name": "LLMService",
+            "line": 27,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "LLMService",
+            "line": 27,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 94
+      },
+      {
+        "path": "messageThrottler.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/messageThrottler.ts",
+        "exports": [
+          {
+            "name": "initMessageThrottler",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "initMessageThrottler",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 27
+      },
+      {
+        "path": "mode.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/mode.ts",
+        "exports": [
+          {
+            "name": "getCephalonMode",
+            "line": 21,
+            "type": "function"
+          },
+          {
+            "name": "isClassicMode",
+            "line": 25,
+            "type": "function"
+          },
+          {
+            "name": "isEcsMode",
+            "line": 29,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "getCephalonMode",
+            "line": 21,
+            "type": "function"
+          },
+          {
+            "name": "isClassicMode",
+            "line": 25,
+            "type": "function"
+          },
+          {
+            "name": "isEcsMode",
+            "line": 29,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 32
+      },
+      {
+        "path": "prompts.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/prompts.ts",
+        "exports": [
+          {
+            "name": "defaultPrompt",
+            "line": 8,
+            "type": "function"
+          },
+          {
+            "name": "defaultState",
+            "line": 15,
+            "type": "function"
+          },
+          {
+            "name": "innerStateFormat",
+            "line": 34,
+            "type": "function"
+          },
+          {
+            "name": "generatePrompt",
+            "line": 85,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "defaultPrompt",
+            "line": 8,
+            "type": "function"
+          },
+          {
+            "name": "defaultState",
+            "line": 15,
+            "type": "function"
+          },
+          {
+            "name": "innerStateFormat",
+            "line": 34,
+            "type": "function"
+          },
+          {
+            "name": "generatePrompt",
+            "line": 85,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 110
+      },
+      {
+        "path": "security/llm-service-enhanced.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/security/llm-service-enhanced.ts",
+        "exports": [
+          {
+            "name": "LLMSecurityContext",
+            "line": 7,
+            "type": "interface"
+          },
+          {
+            "name": "LLMSecurityReport",
+            "line": 16,
+            "type": "interface"
+          },
+          {
+            "name": "SecureLLMService",
+            "line": 28,
+            "type": "class"
+          },
+          {
+            "name": "createSecureLLMService",
+            "line": 318,
+            "type": "function"
+          },
+          {
+            "name": "validateLLMPrompt",
+            "line": 331,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "SecureLLMService",
+            "line": 28,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "createSecureLLMService",
+            "line": 318,
+            "type": "function"
+          },
+          {
+            "name": "validateLLMPrompt",
+            "line": 331,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "LLMSecurityContext",
+            "line": 7,
+            "type": "interface"
+          },
+          {
+            "name": "LLMSecurityReport",
+            "line": 16,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 368
+      },
+      {
+        "path": "speaker.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/speaker.ts",
+        "exports": [
+          {
+            "name": "Speaker",
+            "line": 42,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "OpusSilenceFilter",
+            "line": 16,
+            "type": "class"
+          },
+          {
+            "name": "Speaker",
+            "line": 42,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 107
+      },
+      {
+        "path": "store/createStore.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/store/createStore.ts",
+        "exports": [
+          {
+            "name": "createStore",
+            "line": 4,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createStore",
+            "line": 4,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 22
+      },
+      {
+        "path": "store/effects/ping.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/store/effects/ping.ts",
+        "exports": [
+          {
+            "name": "registerPingEffects",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "registerPingEffects",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 17
+      },
+      {
+        "path": "store/effects/voice.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/store/effects/voice.ts",
+        "exports": [
+          {
+            "name": "registerVoiceEffects",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "registerVoiceEffects",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 30
+      },
+      {
+        "path": "store/events.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/store/events.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 44
+      },
+      {
+        "path": "store/reducer.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/store/reducer.ts",
+        "exports": [
+          {
+            "name": "initialState",
+            "line": 7,
+            "type": "function"
+          },
+          {
+            "name": "reducer",
+            "line": 11,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "initialState",
+            "line": 7,
+            "type": "function"
+          },
+          {
+            "name": "reducer",
+            "line": 11,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 22
+      },
+      {
+        "path": "store/storeInstance.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/store/storeInstance.ts",
+        "exports": [
+          {
+            "name": "store",
+            "line": 7,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "store",
+            "line": 7,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 9
+      },
+      {
+        "path": "tests/actions.leave-voice.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/tests/actions.leave-voice.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 50
+      },
+      {
+        "path": "tests/actions.ping.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/tests/actions.ping.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 47
+      },
+      {
+        "path": "tests/bot.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/tests/bot.test.ts",
+        "exports": [],
+        "classes": [
+          {
+            "name": "TestBot",
+            "line": 6,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 39
+      },
+      {
+        "path": "tests/capture_channel.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/tests/capture_channel.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 53
+      },
+      {
+        "path": "tests/commands.join-voice.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/tests/commands.join-voice.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 45
+      },
+      {
+        "path": "tests/commands.leave-voice.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/tests/commands.leave-voice.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 42
+      },
+      {
+        "path": "tests/commands.ping.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/tests/commands.ping.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 31
+      },
+      {
+        "path": "tests/converter.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/tests/converter.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 12
+      },
+      {
+        "path": "tests/desktop_channel.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/tests/desktop_channel.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 30
+      },
+      {
+        "path": "tests/embedding.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/tests/embedding.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 25
+      },
+      {
+        "path": "tests/enso/transcriber-enso.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/tests/enso/transcriber-enso.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 44
+      },
+      {
+        "path": "tests/enso-chat-agent.spec.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/tests/enso-chat-agent.spec.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 162
+      },
+      {
+        "path": "tests/enso-tool-rationale.spec.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/tests/enso-tool-rationale.spec.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 110
+      },
+      {
+        "path": "tests/enso-tools.spec.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/tests/enso-tools.spec.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 37
+      },
+      {
+        "path": "tests/image_forward.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/tests/image_forward.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 44
+      },
+      {
+        "path": "tests/integration.non-discord.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/tests/integration.non-discord.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 18
+      },
+      {
+        "path": "tests/llm-prompt-injection.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/tests/llm-prompt-injection.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 524
+      },
+      {
+        "path": "tests/llm_forward.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/tests/llm_forward.test.ts",
+        "exports": [],
+        "classes": [
+          {
+            "name": "StubBot",
+            "line": 20,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 62
+      },
+      {
+        "path": "tests/messageThrottler.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/tests/messageThrottler.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 37
+      },
+      {
+        "path": "tests/mode.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/tests/mode.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 36
+      },
+      {
+        "path": "tests/ping_effect.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/tests/ping_effect.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 24
+      },
+      {
+        "path": "tests/security-integration.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/tests/security-integration.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 393
+      },
+      {
+        "path": "tests/speechCoordinator.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/tests/speechCoordinator.test.ts",
+        "exports": [],
+        "classes": [
+          {
+            "name": "FakePlayer",
+            "line": 12,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 77
+      },
+      {
+        "path": "tests/store.effects.voice.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/tests/store.effects.voice.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 26
+      },
+      {
+        "path": "tests/tickrate.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/tests/tickrate.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 18
+      },
+      {
+        "path": "tests/transcriber.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/tests/transcriber.test.ts",
+        "exports": [],
+        "classes": [
+          {
+            "name": "DummyBroker",
+            "line": 8,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 50
+      },
+      {
+        "path": "tests/voice_session.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/tests/voice_session.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 27
+      },
+      {
+        "path": "tests/voice_session_artifacts.integration.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/tests/voice_session_artifacts.integration.test.ts",
+        "exports": [],
+        "classes": [
+          {
+            "name": "FakeBroker",
+            "line": 6,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 67
+      },
+      {
+        "path": "tokenizers.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/tokenizers.ts",
+        "exports": [
+          {
+            "name": "mergeShortFragments",
+            "line": 2,
+            "type": "function"
+          },
+          {
+            "name": "splitSentances",
+            "line": 39,
+            "type": "function"
+          },
+          {
+            "name": "classifyPause",
+            "line": 45,
+            "type": "function"
+          },
+          {
+            "name": "estimatePauseDuration",
+            "line": 73,
+            "type": "function"
+          },
+          {
+            "name": "extractParentheticals",
+            "line": 78,
+            "type": "function"
+          },
+          {
+            "name": "seperateSpeechFromThought",
+            "line": 110,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "mergeShortFragments",
+            "line": 2,
+            "type": "function"
+          },
+          {
+            "name": "splitSentances",
+            "line": 39,
+            "type": "function"
+          },
+          {
+            "name": "classifyPause",
+            "line": 45,
+            "type": "function"
+          },
+          {
+            "name": "estimatePauseDuration",
+            "line": 73,
+            "type": "function"
+          },
+          {
+            "name": "extractParentheticals",
+            "line": 78,
+            "type": "function"
+          },
+          {
+            "name": "seperateSpeechFromThought",
+            "line": 110,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 124
+      },
+      {
+        "path": "transcriber.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/transcriber.ts",
+        "exports": [
+          {
+            "name": "Transcriber",
+            "line": 36,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "Transcriber",
+            "line": 36,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 161
+      },
+      {
+        "path": "types.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/types.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 48
+      },
+      {
+        "path": "util.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/util.ts",
+        "exports": [
+          {
+            "name": "randomInt",
+            "line": 3,
+            "type": "function"
+          },
+          {
+            "name": "choice",
+            "line": 7,
+            "type": "function"
+          },
+          {
+            "name": "generatePromptChoice",
+            "line": 11,
+            "type": "function"
+          },
+          {
+            "name": "generateSpecialQuery",
+            "line": 30,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "randomInt",
+            "line": 3,
+            "type": "function"
+          },
+          {
+            "name": "choice",
+            "line": 7,
+            "type": "function"
+          },
+          {
+            "name": "generatePromptChoice",
+            "line": 11,
+            "type": "function"
+          },
+          {
+            "name": "generateSpecialQuery",
+            "line": 30,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 40
+      },
+      {
+        "path": "voice-recorder.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/voice-recorder.ts",
+        "exports": [
+          {
+            "name": "VoiceRecorder",
+            "line": 19,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "VoiceRecorder",
+            "line": 19,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 49
+      },
+      {
+        "path": "voice-session.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/voice-session.ts",
+        "exports": [
+          {
+            "name": "VoiceSession",
+            "line": 29,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "VoiceSession",
+            "line": 29,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 94
+      },
+      {
+        "path": "voice-synth.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/voice-synth.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 3
+      },
+      {
+        "path": "wav-decoder.d.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cephalon/src/wav-decoder.d.ts",
+        "exports": [
+          {
+            "name": "decode",
+            "line": 2,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "decode",
+            "line": 2,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 7
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [],
+      "classes": [],
+      "functions": [],
+      "interfaces": [],
+      "totalLines": 31
+    },
+    "exports": [
+      {
+        "name": "buildForwardAttachmentsScope",
+        "line": 14,
+        "type": "function",
+        "file": "actions/forward-attachments.scope.ts"
+      },
+      {
+        "name": "run",
+        "line": 9,
+        "type": "function",
+        "file": "actions/forward-attachments.ts"
+      },
+      {
+        "name": "buildLeaveVoiceScope",
+        "line": 18,
+        "type": "function",
+        "file": "actions/leave-voice.scope.ts"
+      },
+      {
+        "name": "run",
+        "line": 10,
+        "type": "function",
+        "file": "actions/leave-voice.ts"
+      },
+      {
+        "name": "buildPingScope",
+        "line": 11,
+        "type": "function",
+        "file": "actions/ping.scope.ts"
+      },
+      {
+        "name": "run",
+        "line": 6,
+        "type": "function",
+        "file": "actions/ping.ts"
+      },
+      {
+        "name": "buildRecordSpeakerScope",
+        "line": 22,
+        "type": "function",
+        "file": "actions/record-speaker.scope.ts"
+      },
+      {
+        "name": "makeRecordActions",
+        "line": 34,
+        "type": "function",
+        "file": "actions/record-speaker.scope.ts"
+      },
+      {
+        "name": "buildRegisterLlmHandlerScope",
+        "line": 14,
+        "type": "function",
+        "file": "actions/register-llm-handler.scope.ts"
+      },
+      {
+        "name": "run",
+        "line": 5,
+        "type": "function",
+        "file": "actions/register-llm-handler.ts"
+      },
+      {
+        "name": "buildSetCaptureChannelScope",
+        "line": 10,
+        "type": "function",
+        "file": "actions/set-capture-channel.scope.ts"
+      },
+      {
+        "name": "run",
+        "line": 14,
+        "type": "function",
+        "file": "actions/set-capture-channel.ts"
+      },
+      {
+        "name": "buildSetDesktopChannelScope",
+        "line": 10,
+        "type": "function",
+        "file": "actions/set-desktop-channel.scope.ts"
+      },
+      {
+        "name": "run",
+        "line": 14,
+        "type": "function",
+        "file": "actions/set-desktop-channel.ts"
+      },
+      {
+        "name": "storeAgentMessage",
+        "line": 34,
+        "type": "function",
+        "file": "actions/start-dialog.scope.ts"
+      },
+      {
+        "name": "runStartDialog",
+        "line": 105,
+        "type": "function",
+        "file": "actions/start-dialog.scope.ts"
+      },
+      {
+        "name": "buildTranscribeSpeakerScope",
+        "line": 22,
+        "type": "function",
+        "file": "actions/transcribe-speaker.scope.ts"
+      },
+      {
+        "name": "makeTranscribeActions",
+        "line": 34,
+        "type": "function",
+        "file": "actions/transcribe-speaker.scope.ts"
+      },
+      {
+        "name": "buildTtsScope",
+        "line": 20,
+        "type": "function",
+        "file": "actions/tts.scope.ts"
+      },
+      {
+        "name": "makeTtsAction",
+        "line": 32,
+        "type": "function",
+        "file": "actions/tts.scope.ts"
+      },
+      {
+        "name": "AIAgent",
+        "line": 66,
+        "type": "class",
+        "file": "agent/index.ts"
+      },
+      {
+        "name": "generateInnerState",
+        "line": 15,
+        "type": "function",
+        "file": "agent/innerState.ts"
+      },
+      {
+        "name": "think",
+        "line": 39,
+        "type": "function",
+        "file": "agent/innerState.ts"
+      },
+      {
+        "name": "updateInnerState",
+        "line": 67,
+        "type": "function",
+        "file": "agent/innerState.ts"
+      },
+      {
+        "name": "loadInnerState",
+        "line": 94,
+        "type": "function",
+        "file": "agent/innerState.ts"
+      },
+      {
+        "name": "speak",
+        "line": 22,
+        "type": "function",
+        "file": "agent/speech.ts"
+      },
+      {
+        "name": "storeAgentMessage",
+        "line": 49,
+        "type": "function",
+        "file": "agent/speech.ts"
+      },
+      {
+        "name": "generateVoiceResponse",
+        "line": 74,
+        "type": "function",
+        "file": "agent/speech.ts"
+      },
+      {
+        "name": "SpeechArbiter",
+        "line": 19,
+        "type": "class",
+        "file": "agent/speechCoordinator.ts"
+      },
+      {
+        "name": "TurnManager",
+        "line": 130,
+        "type": "class",
+        "file": "agent/speechCoordinator.ts"
+      },
+      {
+        "name": "generateVoiceContentFromSinglePrompt",
+        "line": 7,
+        "type": "function",
+        "file": "agent/voiceContent.ts"
+      },
+      {
+        "name": "generateVoiceContentWithFormattedLatestmessage",
+        "line": 27,
+        "type": "function",
+        "file": "agent/voiceContent.ts"
+      },
+      {
+        "name": "generateVoiceContentWithChoicePrompt",
+        "line": 53,
+        "type": "function",
+        "file": "agent/voiceContent.ts"
+      },
+      {
+        "name": "generateVoiceContentWithSpecialQuery",
+        "line": 68,
+        "type": "function",
+        "file": "agent/voiceContent.ts"
+      },
+      {
+        "name": "generateVoiceContentWithoutSpecialQuery",
+        "line": 87,
+        "type": "function",
+        "file": "agent/voiceContent.ts"
+      },
+      {
+        "name": "generateVoiceContent",
+        "line": 101,
+        "type": "function",
+        "file": "agent/voiceContent.ts"
+      },
+      {
+        "name": "annotateImage",
+        "line": 10,
+        "type": "function",
+        "file": "annotate-image.ts"
+      },
+      {
+        "name": "AudioService",
+        "line": 13,
+        "type": "class",
+        "file": "audio-service.ts"
+      },
+      {
+        "name": "generateSpectrogram",
+        "line": 6,
+        "type": "function",
+        "file": "audioProcessing/spectrogram.ts"
+      },
+      {
+        "name": "renderWaveForm",
+        "line": 12,
+        "type": "function",
+        "file": "audioProcessing/waveform.ts"
+      },
+      {
+        "name": "captureAndRenderWaveform",
+        "line": 52,
+        "type": "function",
+        "file": "audioProcessing/waveform.ts"
+      },
+      {
+        "name": "registerNewStyleCommands",
+        "line": 20,
+        "type": "function",
+        "file": "bot/registerCommands.ts"
+      },
+      {
+        "name": "Bot",
+        "line": 49,
+        "type": "class",
+        "file": "bot.ts"
+      },
+      {
+        "name": "discordMessages",
+        "line": 3,
+        "type": "function",
+        "file": "collections.ts"
+      },
+      {
+        "name": "thoughts",
+        "line": 8,
+        "type": "function",
+        "file": "collections.ts"
+      },
+      {
+        "name": "transcripts",
+        "line": 9,
+        "type": "function",
+        "file": "collections.ts"
+      },
+      {
+        "name": "data",
+        "line": 9,
+        "type": "function",
+        "file": "commands/begin-recording.ts"
+      },
+      {
+        "name": "execute",
+        "line": 22,
+        "type": "function",
+        "file": "commands/begin-recording.ts"
+      },
+      {
+        "name": "data",
+        "line": 9,
+        "type": "function",
+        "file": "commands/begin-transcribing.ts"
+      },
+      {
+        "name": "execute",
+        "line": 28,
+        "type": "function",
+        "file": "commands/begin-transcribing.ts"
+      },
+      {
+        "name": "data",
+        "line": 6,
+        "type": "function",
+        "file": "commands/join-voice.ts"
+      },
+      {
+        "name": "execute",
+        "line": 11,
+        "type": "function",
+        "file": "commands/join-voice.ts"
+      },
+      {
+        "name": "data",
+        "line": 8,
+        "type": "function",
+        "file": "commands/leave-voice.ts"
+      },
+      {
+        "name": "execute",
+        "line": 15,
+        "type": "function",
+        "file": "commands/leave-voice.ts"
+      },
+      {
+        "name": "data",
+        "line": 7,
+        "type": "function",
+        "file": "commands/ping.ts"
+      },
+      {
+        "name": "execute",
+        "line": 12,
+        "type": "function",
+        "file": "commands/ping.ts"
+      },
+      {
+        "name": "data",
+        "line": 8,
+        "type": "function",
+        "file": "commands/set-capture-channel.ts"
+      },
+      {
+        "name": "execute",
+        "line": 22,
+        "type": "function",
+        "file": "commands/set-capture-channel.ts"
+      },
+      {
+        "name": "data",
+        "line": 8,
+        "type": "function",
+        "file": "commands/set-desktop-channel.ts"
+      },
+      {
+        "name": "execute",
+        "line": 21,
+        "type": "function",
+        "file": "commands/set-desktop-channel.ts"
+      },
+      {
+        "name": "data",
+        "line": 6,
+        "type": "function",
+        "file": "commands/start-dialog.ts"
+      },
+      {
+        "name": "execute",
+        "line": 11,
+        "type": "function",
+        "file": "commands/start-dialog.ts"
+      },
+      {
+        "name": "data",
+        "line": 9,
+        "type": "function",
+        "file": "commands/stop-recording.ts"
+      },
+      {
+        "name": "execute",
+        "line": 22,
+        "type": "function",
+        "file": "commands/stop-recording.ts"
+      },
+      {
+        "name": "data",
+        "line": 6,
+        "type": "function",
+        "file": "commands/tts.ts"
+      },
+      {
+        "name": "execute",
+        "line": 20,
+        "type": "function",
+        "file": "commands/tts.ts"
+      },
+      {
+        "name": "convert",
+        "line": 6,
+        "type": "function",
+        "file": "converter.ts"
+      },
+      {
+        "name": "captureAudio",
+        "line": 27,
+        "type": "function",
+        "file": "desktop/desktopAudioCapture.ts"
+      },
+      {
+        "name": "captureScreen",
+        "line": 9,
+        "type": "function",
+        "file": "desktop/desktopLoop.ts"
+      },
+      {
+        "name": "DesktopCaptureManager",
+        "line": 29,
+        "type": "class",
+        "file": "desktop/desktopLoop.ts"
+      },
+      {
+        "name": "EnsoChatAgent",
+        "line": 53,
+        "type": "class",
+        "file": "enso/chat-agent.ts"
+      },
+      {
+        "name": "createEnsoChatAgent",
+        "line": 305,
+        "type": "function",
+        "file": "enso/chat-agent.ts"
+      },
+      {
+        "name": "ToPcm16kMono",
+        "line": 33,
+        "type": "class",
+        "file": "enso/transcriber-enso.ts"
+      },
+      {
+        "name": "EnsoTranscriber",
+        "line": 108,
+        "type": "class",
+        "file": "enso/transcriber-enso.ts"
+      },
+      {
+        "name": "createEnsoTranscriber",
+        "line": 237,
+        "type": "function",
+        "file": "enso/transcriber-enso.ts"
+      },
+      {
+        "name": "makeDiscordVoiceAdapter",
+        "line": 10,
+        "type": "function",
+        "file": "factories/voice.ts"
+      },
+      {
+        "name": "getCurrentDateTime",
+        "line": 1,
+        "type": "function",
+        "file": "get-current-date-time.ts"
+      },
+      {
+        "name": "interaction",
+        "line": 5,
+        "type": "function",
+        "file": "interactions.ts"
+      },
+      {
+        "name": "LLMService",
+        "line": 27,
+        "type": "class",
+        "file": "llm-service.ts"
+      },
+      {
+        "name": "initMessageThrottler",
+        "line": 5,
+        "type": "function",
+        "file": "messageThrottler.ts"
+      },
+      {
+        "name": "getCephalonMode",
+        "line": 21,
+        "type": "function",
+        "file": "mode.ts"
+      },
+      {
+        "name": "isClassicMode",
+        "line": 25,
+        "type": "function",
+        "file": "mode.ts"
+      },
+      {
+        "name": "isEcsMode",
+        "line": 29,
+        "type": "function",
+        "file": "mode.ts"
+      },
+      {
+        "name": "defaultPrompt",
+        "line": 8,
+        "type": "function",
+        "file": "prompts.ts"
+      },
+      {
+        "name": "defaultState",
+        "line": 15,
+        "type": "function",
+        "file": "prompts.ts"
+      },
+      {
+        "name": "innerStateFormat",
+        "line": 34,
+        "type": "function",
+        "file": "prompts.ts"
+      },
+      {
+        "name": "generatePrompt",
+        "line": 85,
+        "type": "function",
+        "file": "prompts.ts"
+      },
+      {
+        "name": "LLMSecurityContext",
+        "line": 7,
+        "type": "interface",
+        "file": "security/llm-service-enhanced.ts"
+      },
+      {
+        "name": "LLMSecurityReport",
+        "line": 16,
+        "type": "interface",
+        "file": "security/llm-service-enhanced.ts"
+      },
+      {
+        "name": "SecureLLMService",
+        "line": 28,
+        "type": "class",
+        "file": "security/llm-service-enhanced.ts"
+      },
+      {
+        "name": "createSecureLLMService",
+        "line": 318,
+        "type": "function",
+        "file": "security/llm-service-enhanced.ts"
+      },
+      {
+        "name": "validateLLMPrompt",
+        "line": 331,
+        "type": "function",
+        "file": "security/llm-service-enhanced.ts"
+      },
+      {
+        "name": "Speaker",
+        "line": 42,
+        "type": "class",
+        "file": "speaker.ts"
+      },
+      {
+        "name": "createStore",
+        "line": 4,
+        "type": "function",
+        "file": "store/createStore.ts"
+      },
+      {
+        "name": "registerPingEffects",
+        "line": 5,
+        "type": "function",
+        "file": "store/effects/ping.ts"
+      },
+      {
+        "name": "registerVoiceEffects",
+        "line": 5,
+        "type": "function",
+        "file": "store/effects/voice.ts"
+      },
+      {
+        "name": "initialState",
+        "line": 7,
+        "type": "function",
+        "file": "store/reducer.ts"
+      },
+      {
+        "name": "reducer",
+        "line": 11,
+        "type": "function",
+        "file": "store/reducer.ts"
+      },
+      {
+        "name": "store",
+        "line": 7,
+        "type": "function",
+        "file": "store/storeInstance.ts"
+      },
+      {
+        "name": "mergeShortFragments",
+        "line": 2,
+        "type": "function",
+        "file": "tokenizers.ts"
+      },
+      {
+        "name": "splitSentances",
+        "line": 39,
+        "type": "function",
+        "file": "tokenizers.ts"
+      },
+      {
+        "name": "classifyPause",
+        "line": 45,
+        "type": "function",
+        "file": "tokenizers.ts"
+      },
+      {
+        "name": "estimatePauseDuration",
+        "line": 73,
+        "type": "function",
+        "file": "tokenizers.ts"
+      },
+      {
+        "name": "extractParentheticals",
+        "line": 78,
+        "type": "function",
+        "file": "tokenizers.ts"
+      },
+      {
+        "name": "seperateSpeechFromThought",
+        "line": 110,
+        "type": "function",
+        "file": "tokenizers.ts"
+      },
+      {
+        "name": "Transcriber",
+        "line": 36,
+        "type": "class",
+        "file": "transcriber.ts"
+      },
+      {
+        "name": "randomInt",
+        "line": 3,
+        "type": "function",
+        "file": "util.ts"
+      },
+      {
+        "name": "choice",
+        "line": 7,
+        "type": "function",
+        "file": "util.ts"
+      },
+      {
+        "name": "generatePromptChoice",
+        "line": 11,
+        "type": "function",
+        "file": "util.ts"
+      },
+      {
+        "name": "generateSpecialQuery",
+        "line": 30,
+        "type": "function",
+        "file": "util.ts"
+      },
+      {
+        "name": "VoiceRecorder",
+        "line": 19,
+        "type": "class",
+        "file": "voice-recorder.ts"
+      },
+      {
+        "name": "VoiceSession",
+        "line": 29,
+        "type": "class",
+        "file": "voice-session.ts"
+      },
+      {
+        "name": "decode",
+        "line": 2,
+        "type": "function",
+        "file": "wav-decoder.d.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "AIAgent",
+        "line": 66,
+        "type": "class",
+        "file": "agent/index.ts"
+      },
+      {
+        "name": "SpeechArbiter",
+        "line": 19,
+        "type": "class",
+        "file": "agent/speechCoordinator.ts"
+      },
+      {
+        "name": "TurnManager",
+        "line": 130,
+        "type": "class",
+        "file": "agent/speechCoordinator.ts"
+      },
+      {
+        "name": "AudioService",
+        "line": 13,
+        "type": "class",
+        "file": "audio-service.ts"
+      },
+      {
+        "name": "Bot",
+        "line": 49,
+        "type": "class",
+        "file": "bot.ts"
+      },
+      {
+        "name": "DesktopCaptureManager",
+        "line": 29,
+        "type": "class",
+        "file": "desktop/desktopLoop.ts"
+      },
+      {
+        "name": "EnsoChatAgent",
+        "line": 53,
+        "type": "class",
+        "file": "enso/chat-agent.ts"
+      },
+      {
+        "name": "ToPcm16kMono",
+        "line": 33,
+        "type": "class",
+        "file": "enso/transcriber-enso.ts"
+      },
+      {
+        "name": "EnsoTranscriber",
+        "line": 108,
+        "type": "class",
+        "file": "enso/transcriber-enso.ts"
+      },
+      {
+        "name": "LLMService",
+        "line": 27,
+        "type": "class",
+        "file": "llm-service.ts"
+      },
+      {
+        "name": "SecureLLMService",
+        "line": 28,
+        "type": "class",
+        "file": "security/llm-service-enhanced.ts"
+      },
+      {
+        "name": "OpusSilenceFilter",
+        "line": 16,
+        "type": "class",
+        "file": "speaker.ts"
+      },
+      {
+        "name": "Speaker",
+        "line": 42,
+        "type": "class",
+        "file": "speaker.ts"
+      },
+      {
+        "name": "TestBot",
+        "line": 6,
+        "type": "class",
+        "file": "tests/bot.test.ts"
+      },
+      {
+        "name": "StubBot",
+        "line": 20,
+        "type": "class",
+        "file": "tests/llm_forward.test.ts"
+      },
+      {
+        "name": "FakePlayer",
+        "line": 12,
+        "type": "class",
+        "file": "tests/speechCoordinator.test.ts"
+      },
+      {
+        "name": "DummyBroker",
+        "line": 8,
+        "type": "class",
+        "file": "tests/transcriber.test.ts"
+      },
+      {
+        "name": "FakeBroker",
+        "line": 6,
+        "type": "class",
+        "file": "tests/voice_session_artifacts.integration.test.ts"
+      },
+      {
+        "name": "Transcriber",
+        "line": 36,
+        "type": "class",
+        "file": "transcriber.ts"
+      },
+      {
+        "name": "VoiceRecorder",
+        "line": 19,
+        "type": "class",
+        "file": "voice-recorder.ts"
+      },
+      {
+        "name": "VoiceSession",
+        "line": 29,
+        "type": "class",
+        "file": "voice-session.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "buildForwardAttachmentsScope",
+        "line": 14,
+        "type": "function",
+        "file": "actions/forward-attachments.scope.ts"
+      },
+      {
+        "name": "run",
+        "line": 9,
+        "type": "function",
+        "file": "actions/forward-attachments.ts"
+      },
+      {
+        "name": "buildLeaveVoiceScope",
+        "line": 18,
+        "type": "function",
+        "file": "actions/leave-voice.scope.ts"
+      },
+      {
+        "name": "run",
+        "line": 10,
+        "type": "function",
+        "file": "actions/leave-voice.ts"
+      },
+      {
+        "name": "buildPingScope",
+        "line": 11,
+        "type": "function",
+        "file": "actions/ping.scope.ts"
+      },
+      {
+        "name": "run",
+        "line": 6,
+        "type": "function",
+        "file": "actions/ping.ts"
+      },
+      {
+        "name": "buildRecordSpeakerScope",
+        "line": 22,
+        "type": "function",
+        "file": "actions/record-speaker.scope.ts"
+      },
+      {
+        "name": "makeRecordActions",
+        "line": 34,
+        "type": "function",
+        "file": "actions/record-speaker.scope.ts"
+      },
+      {
+        "name": "buildRegisterLlmHandlerScope",
+        "line": 14,
+        "type": "function",
+        "file": "actions/register-llm-handler.scope.ts"
+      },
+      {
+        "name": "run",
+        "line": 5,
+        "type": "function",
+        "file": "actions/register-llm-handler.ts"
+      },
+      {
+        "name": "buildSetCaptureChannelScope",
+        "line": 10,
+        "type": "function",
+        "file": "actions/set-capture-channel.scope.ts"
+      },
+      {
+        "name": "run",
+        "line": 14,
+        "type": "function",
+        "file": "actions/set-capture-channel.ts"
+      },
+      {
+        "name": "buildSetDesktopChannelScope",
+        "line": 10,
+        "type": "function",
+        "file": "actions/set-desktop-channel.scope.ts"
+      },
+      {
+        "name": "run",
+        "line": 14,
+        "type": "function",
+        "file": "actions/set-desktop-channel.ts"
+      },
+      {
+        "name": "storeAgentMessage",
+        "line": 34,
+        "type": "function",
+        "file": "actions/start-dialog.scope.ts"
+      },
+      {
+        "name": "runStartDialog",
+        "line": 105,
+        "type": "function",
+        "file": "actions/start-dialog.scope.ts"
+      },
+      {
+        "name": "buildTranscribeSpeakerScope",
+        "line": 22,
+        "type": "function",
+        "file": "actions/transcribe-speaker.scope.ts"
+      },
+      {
+        "name": "makeTranscribeActions",
+        "line": 34,
+        "type": "function",
+        "file": "actions/transcribe-speaker.scope.ts"
+      },
+      {
+        "name": "buildTtsScope",
+        "line": 20,
+        "type": "function",
+        "file": "actions/tts.scope.ts"
+      },
+      {
+        "name": "makeTtsAction",
+        "line": 32,
+        "type": "function",
+        "file": "actions/tts.scope.ts"
+      },
+      {
+        "name": "generateInnerState",
+        "line": 15,
+        "type": "function",
+        "file": "agent/innerState.ts"
+      },
+      {
+        "name": "think",
+        "line": 39,
+        "type": "function",
+        "file": "agent/innerState.ts"
+      },
+      {
+        "name": "updateInnerState",
+        "line": 67,
+        "type": "function",
+        "file": "agent/innerState.ts"
+      },
+      {
+        "name": "loadInnerState",
+        "line": 94,
+        "type": "function",
+        "file": "agent/innerState.ts"
+      },
+      {
+        "name": "speak",
+        "line": 22,
+        "type": "function",
+        "file": "agent/speech.ts"
+      },
+      {
+        "name": "storeAgentMessage",
+        "line": 49,
+        "type": "function",
+        "file": "agent/speech.ts"
+      },
+      {
+        "name": "generateVoiceResponse",
+        "line": 74,
+        "type": "function",
+        "file": "agent/speech.ts"
+      },
+      {
+        "name": "generateVoiceContentFromSinglePrompt",
+        "line": 7,
+        "type": "function",
+        "file": "agent/voiceContent.ts"
+      },
+      {
+        "name": "generateVoiceContentWithFormattedLatestmessage",
+        "line": 27,
+        "type": "function",
+        "file": "agent/voiceContent.ts"
+      },
+      {
+        "name": "generateVoiceContentWithChoicePrompt",
+        "line": 53,
+        "type": "function",
+        "file": "agent/voiceContent.ts"
+      },
+      {
+        "name": "generateVoiceContentWithSpecialQuery",
+        "line": 68,
+        "type": "function",
+        "file": "agent/voiceContent.ts"
+      },
+      {
+        "name": "generateVoiceContentWithoutSpecialQuery",
+        "line": 87,
+        "type": "function",
+        "file": "agent/voiceContent.ts"
+      },
+      {
+        "name": "generateVoiceContent",
+        "line": 101,
+        "type": "function",
+        "file": "agent/voiceContent.ts"
+      },
+      {
+        "name": "annotateImage",
+        "line": 10,
+        "type": "function",
+        "file": "annotate-image.ts"
+      },
+      {
+        "name": "generateSpectrogram",
+        "line": 6,
+        "type": "function",
+        "file": "audioProcessing/spectrogram.ts"
+      },
+      {
+        "name": "renderWaveForm",
+        "line": 12,
+        "type": "function",
+        "file": "audioProcessing/waveform.ts"
+      },
+      {
+        "name": "captureAndRenderWaveform",
+        "line": 52,
+        "type": "function",
+        "file": "audioProcessing/waveform.ts"
+      },
+      {
+        "name": "registerNewStyleCommands",
+        "line": 20,
+        "type": "function",
+        "file": "bot/registerCommands.ts"
+      },
+      {
+        "name": "discordMessages",
+        "line": 3,
+        "type": "function",
+        "file": "collections.ts"
+      },
+      {
+        "name": "thoughts",
+        "line": 8,
+        "type": "function",
+        "file": "collections.ts"
+      },
+      {
+        "name": "transcripts",
+        "line": 9,
+        "type": "function",
+        "file": "collections.ts"
+      },
+      {
+        "name": "data",
+        "line": 9,
+        "type": "function",
+        "file": "commands/begin-recording.ts"
+      },
+      {
+        "name": "execute",
+        "line": 22,
+        "type": "function",
+        "file": "commands/begin-recording.ts"
+      },
+      {
+        "name": "data",
+        "line": 9,
+        "type": "function",
+        "file": "commands/begin-transcribing.ts"
+      },
+      {
+        "name": "execute",
+        "line": 28,
+        "type": "function",
+        "file": "commands/begin-transcribing.ts"
+      },
+      {
+        "name": "data",
+        "line": 6,
+        "type": "function",
+        "file": "commands/join-voice.ts"
+      },
+      {
+        "name": "execute",
+        "line": 11,
+        "type": "function",
+        "file": "commands/join-voice.ts"
+      },
+      {
+        "name": "data",
+        "line": 8,
+        "type": "function",
+        "file": "commands/leave-voice.ts"
+      },
+      {
+        "name": "execute",
+        "line": 15,
+        "type": "function",
+        "file": "commands/leave-voice.ts"
+      },
+      {
+        "name": "data",
+        "line": 7,
+        "type": "function",
+        "file": "commands/ping.ts"
+      },
+      {
+        "name": "execute",
+        "line": 12,
+        "type": "function",
+        "file": "commands/ping.ts"
+      },
+      {
+        "name": "data",
+        "line": 8,
+        "type": "function",
+        "file": "commands/set-capture-channel.ts"
+      },
+      {
+        "name": "execute",
+        "line": 22,
+        "type": "function",
+        "file": "commands/set-capture-channel.ts"
+      },
+      {
+        "name": "data",
+        "line": 8,
+        "type": "function",
+        "file": "commands/set-desktop-channel.ts"
+      },
+      {
+        "name": "execute",
+        "line": 21,
+        "type": "function",
+        "file": "commands/set-desktop-channel.ts"
+      },
+      {
+        "name": "data",
+        "line": 6,
+        "type": "function",
+        "file": "commands/start-dialog.ts"
+      },
+      {
+        "name": "execute",
+        "line": 11,
+        "type": "function",
+        "file": "commands/start-dialog.ts"
+      },
+      {
+        "name": "data",
+        "line": 9,
+        "type": "function",
+        "file": "commands/stop-recording.ts"
+      },
+      {
+        "name": "execute",
+        "line": 22,
+        "type": "function",
+        "file": "commands/stop-recording.ts"
+      },
+      {
+        "name": "data",
+        "line": 6,
+        "type": "function",
+        "file": "commands/tts.ts"
+      },
+      {
+        "name": "execute",
+        "line": 20,
+        "type": "function",
+        "file": "commands/tts.ts"
+      },
+      {
+        "name": "convert",
+        "line": 6,
+        "type": "function",
+        "file": "converter.ts"
+      },
+      {
+        "name": "captureAudio",
+        "line": 27,
+        "type": "function",
+        "file": "desktop/desktopAudioCapture.ts"
+      },
+      {
+        "name": "captureScreen",
+        "line": 9,
+        "type": "function",
+        "file": "desktop/desktopLoop.ts"
+      },
+      {
+        "name": "createEnsoChatAgent",
+        "line": 305,
+        "type": "function",
+        "file": "enso/chat-agent.ts"
+      },
+      {
+        "name": "createEnsoTranscriber",
+        "line": 237,
+        "type": "function",
+        "file": "enso/transcriber-enso.ts"
+      },
+      {
+        "name": "makeDiscordVoiceAdapter",
+        "line": 10,
+        "type": "function",
+        "file": "factories/voice.ts"
+      },
+      {
+        "name": "getCurrentDateTime",
+        "line": 1,
+        "type": "function",
+        "file": "get-current-date-time.ts"
+      },
+      {
+        "name": "interaction",
+        "line": 5,
+        "type": "function",
+        "file": "interactions.ts"
+      },
+      {
+        "name": "initMessageThrottler",
+        "line": 5,
+        "type": "function",
+        "file": "messageThrottler.ts"
+      },
+      {
+        "name": "getCephalonMode",
+        "line": 21,
+        "type": "function",
+        "file": "mode.ts"
+      },
+      {
+        "name": "isClassicMode",
+        "line": 25,
+        "type": "function",
+        "file": "mode.ts"
+      },
+      {
+        "name": "isEcsMode",
+        "line": 29,
+        "type": "function",
+        "file": "mode.ts"
+      },
+      {
+        "name": "defaultPrompt",
+        "line": 8,
+        "type": "function",
+        "file": "prompts.ts"
+      },
+      {
+        "name": "defaultState",
+        "line": 15,
+        "type": "function",
+        "file": "prompts.ts"
+      },
+      {
+        "name": "innerStateFormat",
+        "line": 34,
+        "type": "function",
+        "file": "prompts.ts"
+      },
+      {
+        "name": "generatePrompt",
+        "line": 85,
+        "type": "function",
+        "file": "prompts.ts"
+      },
+      {
+        "name": "createSecureLLMService",
+        "line": 318,
+        "type": "function",
+        "file": "security/llm-service-enhanced.ts"
+      },
+      {
+        "name": "validateLLMPrompt",
+        "line": 331,
+        "type": "function",
+        "file": "security/llm-service-enhanced.ts"
+      },
+      {
+        "name": "createStore",
+        "line": 4,
+        "type": "function",
+        "file": "store/createStore.ts"
+      },
+      {
+        "name": "registerPingEffects",
+        "line": 5,
+        "type": "function",
+        "file": "store/effects/ping.ts"
+      },
+      {
+        "name": "registerVoiceEffects",
+        "line": 5,
+        "type": "function",
+        "file": "store/effects/voice.ts"
+      },
+      {
+        "name": "initialState",
+        "line": 7,
+        "type": "function",
+        "file": "store/reducer.ts"
+      },
+      {
+        "name": "reducer",
+        "line": 11,
+        "type": "function",
+        "file": "store/reducer.ts"
+      },
+      {
+        "name": "store",
+        "line": 7,
+        "type": "function",
+        "file": "store/storeInstance.ts"
+      },
+      {
+        "name": "mergeShortFragments",
+        "line": 2,
+        "type": "function",
+        "file": "tokenizers.ts"
+      },
+      {
+        "name": "splitSentances",
+        "line": 39,
+        "type": "function",
+        "file": "tokenizers.ts"
+      },
+      {
+        "name": "classifyPause",
+        "line": 45,
+        "type": "function",
+        "file": "tokenizers.ts"
+      },
+      {
+        "name": "estimatePauseDuration",
+        "line": 73,
+        "type": "function",
+        "file": "tokenizers.ts"
+      },
+      {
+        "name": "extractParentheticals",
+        "line": 78,
+        "type": "function",
+        "file": "tokenizers.ts"
+      },
+      {
+        "name": "seperateSpeechFromThought",
+        "line": 110,
+        "type": "function",
+        "file": "tokenizers.ts"
+      },
+      {
+        "name": "randomInt",
+        "line": 3,
+        "type": "function",
+        "file": "util.ts"
+      },
+      {
+        "name": "choice",
+        "line": 7,
+        "type": "function",
+        "file": "util.ts"
+      },
+      {
+        "name": "generatePromptChoice",
+        "line": 11,
+        "type": "function",
+        "file": "util.ts"
+      },
+      {
+        "name": "generateSpecialQuery",
+        "line": 30,
+        "type": "function",
+        "file": "util.ts"
+      },
+      {
+        "name": "decode",
+        "line": 2,
+        "type": "function",
+        "file": "wav-decoder.d.ts"
+      }
+    ],
+    "interfaces": [
+      {
+        "name": "LLMSecurityContext",
+        "line": 7,
+        "type": "interface",
+        "file": "security/llm-service-enhanced.ts"
+      },
+      {
+        "name": "LLMSecurityReport",
+        "line": 16,
+        "type": "interface",
+        "file": "security/llm-service-enhanced.ts"
+      }
+    ]
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "actions/forward-attachments.scope.ts",
+          "link": "[src/actions/forward-attachments.scope.ts](../../../packages/cephalon/src/actions/forward-attachments.scope.ts)",
+          "lineCount": 27
+        },
+        {
+          "name": "actions/forward-attachments.ts",
+          "link": "[src/actions/forward-attachments.ts](../../../packages/cephalon/src/actions/forward-attachments.ts)",
+          "lineCount": 41
+        },
+        {
+          "name": "actions/leave-voice.scope.ts",
+          "link": "[src/actions/leave-voice.scope.ts](../../../packages/cephalon/src/actions/leave-voice.scope.ts)",
+          "lineCount": 45
+        },
+        {
+          "name": "actions/leave-voice.ts",
+          "link": "[src/actions/leave-voice.ts](../../../packages/cephalon/src/actions/leave-voice.ts)",
+          "lineCount": 27
+        },
+        {
+          "name": "actions/ping.scope.ts",
+          "link": "[src/actions/ping.scope.ts](../../../packages/cephalon/src/actions/ping.scope.ts)",
+          "lineCount": 21
+        },
+        {
+          "name": "actions/ping.ts",
+          "link": "[src/actions/ping.ts](../../../packages/cephalon/src/actions/ping.ts)",
+          "lineCount": 15
+        },
+        {
+          "name": "actions/record-speaker.scope.ts",
+          "link": "[src/actions/record-speaker.scope.ts](../../../packages/cephalon/src/actions/record-speaker.scope.ts)",
+          "lineCount": 52
+        },
+        {
+          "name": "actions/register-llm-handler.scope.ts",
+          "link": "[src/actions/register-llm-handler.scope.ts](../../../packages/cephalon/src/actions/register-llm-handler.scope.ts)",
+          "lineCount": 26
+        },
+        {
+          "name": "actions/register-llm-handler.ts",
+          "link": "[src/actions/register-llm-handler.ts](../../../packages/cephalon/src/actions/register-llm-handler.ts)",
+          "lineCount": 46
+        },
+        {
+          "name": "actions/set-capture-channel.scope.ts",
+          "link": "[src/actions/set-capture-channel.scope.ts](../../../packages/cephalon/src/actions/set-capture-channel.scope.ts)",
+          "lineCount": 19
+        },
+        {
+          "name": "actions/set-capture-channel.ts",
+          "link": "[src/actions/set-capture-channel.ts](../../../packages/cephalon/src/actions/set-capture-channel.ts)",
+          "lineCount": 23
+        },
+        {
+          "name": "actions/set-desktop-channel.scope.ts",
+          "link": "[src/actions/set-desktop-channel.scope.ts](../../../packages/cephalon/src/actions/set-desktop-channel.scope.ts)",
+          "lineCount": 19
+        },
+        {
+          "name": "actions/set-desktop-channel.ts",
+          "link": "[src/actions/set-desktop-channel.ts](../../../packages/cephalon/src/actions/set-desktop-channel.ts)",
+          "lineCount": 23
+        },
+        {
+          "name": "actions/start-dialog.scope.ts",
+          "link": "[src/actions/start-dialog.scope.ts](../../../packages/cephalon/src/actions/start-dialog.scope.ts)",
+          "lineCount": 324
+        },
+        {
+          "name": "actions/transcribe-speaker.scope.ts",
+          "link": "[src/actions/transcribe-speaker.scope.ts](../../../packages/cephalon/src/actions/transcribe-speaker.scope.ts)",
+          "lineCount": 44
+        },
+        {
+          "name": "actions/tts.scope.ts",
+          "link": "[src/actions/tts.scope.ts](../../../packages/cephalon/src/actions/tts.scope.ts)",
+          "lineCount": 39
+        },
+        {
+          "name": "agent/index.ts",
+          "link": "[src/agent/index.ts](../../../packages/cephalon/src/agent/index.ts)",
+          "lineCount": 393
+        },
+        {
+          "name": "agent/innerState.ts",
+          "link": "[src/agent/innerState.ts](../../../packages/cephalon/src/agent/innerState.ts)",
+          "lineCount": 115
+        },
+        {
+          "name": "agent/speech.ts",
+          "link": "[src/agent/speech.ts](../../../packages/cephalon/src/agent/speech.ts)",
+          "lineCount": 137
+        },
+        {
+          "name": "agent/speechCoordinator.ts",
+          "link": "[src/agent/speechCoordinator.ts](../../../packages/cephalon/src/agent/speechCoordinator.ts)",
+          "lineCount": 140
+        },
+        {
+          "name": "agent/voiceContent.ts",
+          "link": "[src/agent/voiceContent.ts](../../../packages/cephalon/src/agent/voiceContent.ts)",
+          "lineCount": 104
+        },
+        {
+          "name": "agent.ts",
+          "link": "[src/agent.ts](../../../packages/cephalon/src/agent.ts)",
+          "lineCount": 2
+        },
+        {
+          "name": "annotate-image.ts",
+          "link": "[src/annotate-image.ts](../../../packages/cephalon/src/annotate-image.ts)",
+          "lineCount": 34
+        },
+        {
+          "name": "audio-service.ts",
+          "link": "[src/audio-service.ts](../../../packages/cephalon/src/audio-service.ts)",
+          "lineCount": 59
+        },
+        {
+          "name": "audioProcessing/spectrogram.ts",
+          "link": "[src/audioProcessing/spectrogram.ts](../../../packages/cephalon/src/audioProcessing/spectrogram.ts)",
+          "lineCount": 51
+        },
+        {
+          "name": "audioProcessing/waveform.ts",
+          "link": "[src/audioProcessing/waveform.ts](../../../packages/cephalon/src/audioProcessing/waveform.ts)",
+          "lineCount": 68
+        },
+        {
+          "name": "bot/registerCommands.ts",
+          "link": "[src/bot/registerCommands.ts](../../../packages/cephalon/src/bot/registerCommands.ts)",
+          "lineCount": 43
+        },
+        {
+          "name": "bot.ts",
+          "link": "[src/bot.ts](../../../packages/cephalon/src/bot.ts)",
+          "lineCount": 313
+        },
+        {
+          "name": "collections.ts",
+          "link": "[src/collections.ts](../../../packages/cephalon/src/collections.ts)",
+          "lineCount": 14
+        },
+        {
+          "name": "commands/begin-recording.ts",
+          "link": "[src/commands/begin-recording.ts](../../../packages/cephalon/src/commands/begin-recording.ts)",
+          "lineCount": 35
+        },
+        {
+          "name": "commands/begin-transcribing.ts",
+          "link": "[src/commands/begin-transcribing.ts](../../../packages/cephalon/src/commands/begin-transcribing.ts)",
+          "lineCount": 46
+        },
+        {
+          "name": "commands/join-voice.ts",
+          "link": "[src/commands/join-voice.ts](../../../packages/cephalon/src/commands/join-voice.ts)",
+          "lineCount": 41
+        },
+        {
+          "name": "commands/leave-voice.ts",
+          "link": "[src/commands/leave-voice.ts](../../../packages/cephalon/src/commands/leave-voice.ts)",
+          "lineCount": 31
+        },
+        {
+          "name": "commands/ping.ts",
+          "link": "[src/commands/ping.ts](../../../packages/cephalon/src/commands/ping.ts)",
+          "lineCount": 22
+        },
+        {
+          "name": "commands/set-capture-channel.ts",
+          "link": "[src/commands/set-capture-channel.ts](../../../packages/cephalon/src/commands/set-capture-channel.ts)",
+          "lineCount": 40
+        },
+        {
+          "name": "commands/set-desktop-channel.ts",
+          "link": "[src/commands/set-desktop-channel.ts](../../../packages/cephalon/src/commands/set-desktop-channel.ts)",
+          "lineCount": 39
+        },
+        {
+          "name": "commands/start-dialog.ts",
+          "link": "[src/commands/start-dialog.ts](../../../packages/cephalon/src/commands/start-dialog.ts)",
+          "lineCount": 23
+        },
+        {
+          "name": "commands/stop-recording.ts",
+          "link": "[src/commands/stop-recording.ts](../../../packages/cephalon/src/commands/stop-recording.ts)",
+          "lineCount": 39
+        },
+        {
+          "name": "commands/tts.ts",
+          "link": "[src/commands/tts.ts](../../../packages/cephalon/src/commands/tts.ts)",
+          "lineCount": 32
+        },
+        {
+          "name": "converter.ts",
+          "link": "[src/converter.ts](../../../packages/cephalon/src/converter.ts)",
+          "lineCount": 23
+        },
+        {
+          "name": "desktop/desktopAudioCapture.ts",
+          "link": "[src/desktop/desktopAudioCapture.ts](../../../packages/cephalon/src/desktop/desktopAudioCapture.ts)",
+          "lineCount": 81
+        },
+        {
+          "name": "desktop/desktopLoop.ts",
+          "link": "[src/desktop/desktopLoop.ts](../../../packages/cephalon/src/desktop/desktopLoop.ts)",
+          "lineCount": 100
+        },
+        {
+          "name": "enso/chat-agent.ts",
+          "link": "[src/enso/chat-agent.ts](../../../packages/cephalon/src/enso/chat-agent.ts)",
+          "lineCount": 307
+        },
+        {
+          "name": "enso/runner.ts",
+          "link": "[src/enso/runner.ts](../../../packages/cephalon/src/enso/runner.ts)",
+          "lineCount": 59
+        },
+        {
+          "name": "enso/transcriber-enso.ts",
+          "link": "[src/enso/transcriber-enso.ts](../../../packages/cephalon/src/enso/transcriber-enso.ts)",
+          "lineCount": 240
+        },
+        {
+          "name": "events/transcriptEnd.ts",
+          "link": "[src/events/transcriptEnd.ts](../../../packages/cephalon/src/events/transcriptEnd.ts)",
+          "lineCount": 2
+        },
+        {
+          "name": "factories/voice.ts",
+          "link": "[src/factories/voice.ts](../../../packages/cephalon/src/factories/voice.ts)",
+          "lineCount": 54
+        },
+        {
+          "name": "get-current-date-time.ts",
+          "link": "[src/get-current-date-time.ts](../../../packages/cephalon/src/get-current-date-time.ts)",
+          "lineCount": 17
+        },
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/cephalon/src/index.ts)",
+          "lineCount": 31
+        },
+        {
+          "name": "interactions.ts",
+          "link": "[src/interactions.ts](../../../packages/cephalon/src/interactions.ts)",
+          "lineCount": 26
+        },
+        {
+          "name": "llm-service.ts",
+          "link": "[src/llm-service.ts](../../../packages/cephalon/src/llm-service.ts)",
+          "lineCount": 94
+        },
+        {
+          "name": "messageThrottler.ts",
+          "link": "[src/messageThrottler.ts](../../../packages/cephalon/src/messageThrottler.ts)",
+          "lineCount": 27
+        },
+        {
+          "name": "mode.ts",
+          "link": "[src/mode.ts](../../../packages/cephalon/src/mode.ts)",
+          "lineCount": 32
+        },
+        {
+          "name": "prompts.ts",
+          "link": "[src/prompts.ts](../../../packages/cephalon/src/prompts.ts)",
+          "lineCount": 110
+        },
+        {
+          "name": "security/llm-service-enhanced.ts",
+          "link": "[src/security/llm-service-enhanced.ts](../../../packages/cephalon/src/security/llm-service-enhanced.ts)",
+          "lineCount": 368
+        },
+        {
+          "name": "speaker.ts",
+          "link": "[src/speaker.ts](../../../packages/cephalon/src/speaker.ts)",
+          "lineCount": 107
+        },
+        {
+          "name": "store/createStore.ts",
+          "link": "[src/store/createStore.ts](../../../packages/cephalon/src/store/createStore.ts)",
+          "lineCount": 22
+        },
+        {
+          "name": "store/effects/ping.ts",
+          "link": "[src/store/effects/ping.ts](../../../packages/cephalon/src/store/effects/ping.ts)",
+          "lineCount": 17
+        },
+        {
+          "name": "store/effects/voice.ts",
+          "link": "[src/store/effects/voice.ts](../../../packages/cephalon/src/store/effects/voice.ts)",
+          "lineCount": 30
+        },
+        {
+          "name": "store/events.ts",
+          "link": "[src/store/events.ts](../../../packages/cephalon/src/store/events.ts)",
+          "lineCount": 44
+        },
+        {
+          "name": "store/reducer.ts",
+          "link": "[src/store/reducer.ts](../../../packages/cephalon/src/store/reducer.ts)",
+          "lineCount": 22
+        },
+        {
+          "name": "store/storeInstance.ts",
+          "link": "[src/store/storeInstance.ts](../../../packages/cephalon/src/store/storeInstance.ts)",
+          "lineCount": 9
+        },
+        {
+          "name": "tests/actions.leave-voice.test.ts",
+          "link": "[src/tests/actions.leave-voice.test.ts](../../../packages/cephalon/src/tests/actions.leave-voice.test.ts)",
+          "lineCount": 50
+        },
+        {
+          "name": "tests/actions.ping.test.ts",
+          "link": "[src/tests/actions.ping.test.ts](../../../packages/cephalon/src/tests/actions.ping.test.ts)",
+          "lineCount": 47
+        },
+        {
+          "name": "tests/bot.test.ts",
+          "link": "[src/tests/bot.test.ts](../../../packages/cephalon/src/tests/bot.test.ts)",
+          "lineCount": 39
+        },
+        {
+          "name": "tests/capture_channel.test.ts",
+          "link": "[src/tests/capture_channel.test.ts](../../../packages/cephalon/src/tests/capture_channel.test.ts)",
+          "lineCount": 53
+        },
+        {
+          "name": "tests/commands.join-voice.test.ts",
+          "link": "[src/tests/commands.join-voice.test.ts](../../../packages/cephalon/src/tests/commands.join-voice.test.ts)",
+          "lineCount": 45
+        },
+        {
+          "name": "tests/commands.leave-voice.test.ts",
+          "link": "[src/tests/commands.leave-voice.test.ts](../../../packages/cephalon/src/tests/commands.leave-voice.test.ts)",
+          "lineCount": 42
+        },
+        {
+          "name": "tests/commands.ping.test.ts",
+          "link": "[src/tests/commands.ping.test.ts](../../../packages/cephalon/src/tests/commands.ping.test.ts)",
+          "lineCount": 31
+        },
+        {
+          "name": "tests/converter.ts",
+          "link": "[src/tests/converter.ts](../../../packages/cephalon/src/tests/converter.ts)",
+          "lineCount": 12
+        },
+        {
+          "name": "tests/desktop_channel.test.ts",
+          "link": "[src/tests/desktop_channel.test.ts](../../../packages/cephalon/src/tests/desktop_channel.test.ts)",
+          "lineCount": 30
+        },
+        {
+          "name": "tests/embedding.test.ts",
+          "link": "[src/tests/embedding.test.ts](../../../packages/cephalon/src/tests/embedding.test.ts)",
+          "lineCount": 25
+        },
+        {
+          "name": "tests/enso/transcriber-enso.test.ts",
+          "link": "[src/tests/enso/transcriber-enso.test.ts](../../../packages/cephalon/src/tests/enso/transcriber-enso.test.ts)",
+          "lineCount": 44
+        },
+        {
+          "name": "tests/enso-chat-agent.spec.ts",
+          "link": "[src/tests/enso-chat-agent.spec.ts](../../../packages/cephalon/src/tests/enso-chat-agent.spec.ts)",
+          "lineCount": 162
+        },
+        {
+          "name": "tests/enso-tool-rationale.spec.ts",
+          "link": "[src/tests/enso-tool-rationale.spec.ts](../../../packages/cephalon/src/tests/enso-tool-rationale.spec.ts)",
+          "lineCount": 110
+        },
+        {
+          "name": "tests/enso-tools.spec.ts",
+          "link": "[src/tests/enso-tools.spec.ts](../../../packages/cephalon/src/tests/enso-tools.spec.ts)",
+          "lineCount": 37
+        },
+        {
+          "name": "tests/image_forward.test.ts",
+          "link": "[src/tests/image_forward.test.ts](../../../packages/cephalon/src/tests/image_forward.test.ts)",
+          "lineCount": 44
+        },
+        {
+          "name": "tests/integration.non-discord.test.ts",
+          "link": "[src/tests/integration.non-discord.test.ts](../../../packages/cephalon/src/tests/integration.non-discord.test.ts)",
+          "lineCount": 18
+        },
+        {
+          "name": "tests/llm-prompt-injection.test.ts",
+          "link": "[src/tests/llm-prompt-injection.test.ts](../../../packages/cephalon/src/tests/llm-prompt-injection.test.ts)",
+          "lineCount": 524
+        },
+        {
+          "name": "tests/llm_forward.test.ts",
+          "link": "[src/tests/llm_forward.test.ts](../../../packages/cephalon/src/tests/llm_forward.test.ts)",
+          "lineCount": 62
+        },
+        {
+          "name": "tests/messageThrottler.test.ts",
+          "link": "[src/tests/messageThrottler.test.ts](../../../packages/cephalon/src/tests/messageThrottler.test.ts)",
+          "lineCount": 37
+        },
+        {
+          "name": "tests/mode.test.ts",
+          "link": "[src/tests/mode.test.ts](../../../packages/cephalon/src/tests/mode.test.ts)",
+          "lineCount": 36
+        },
+        {
+          "name": "tests/ping_effect.test.ts",
+          "link": "[src/tests/ping_effect.test.ts](../../../packages/cephalon/src/tests/ping_effect.test.ts)",
+          "lineCount": 24
+        },
+        {
+          "name": "tests/security-integration.test.ts",
+          "link": "[src/tests/security-integration.test.ts](../../../packages/cephalon/src/tests/security-integration.test.ts)",
+          "lineCount": 393
+        },
+        {
+          "name": "tests/speechCoordinator.test.ts",
+          "link": "[src/tests/speechCoordinator.test.ts](../../../packages/cephalon/src/tests/speechCoordinator.test.ts)",
+          "lineCount": 77
+        },
+        {
+          "name": "tests/store.effects.voice.test.ts",
+          "link": "[src/tests/store.effects.voice.test.ts](../../../packages/cephalon/src/tests/store.effects.voice.test.ts)",
+          "lineCount": 26
+        },
+        {
+          "name": "tests/tickrate.test.ts",
+          "link": "[src/tests/tickrate.test.ts](../../../packages/cephalon/src/tests/tickrate.test.ts)",
+          "lineCount": 18
+        },
+        {
+          "name": "tests/transcriber.test.ts",
+          "link": "[src/tests/transcriber.test.ts](../../../packages/cephalon/src/tests/transcriber.test.ts)",
+          "lineCount": 50
+        },
+        {
+          "name": "tests/voice_session.test.ts",
+          "link": "[src/tests/voice_session.test.ts](../../../packages/cephalon/src/tests/voice_session.test.ts)",
+          "lineCount": 27
+        },
+        {
+          "name": "tests/voice_session_artifacts.integration.test.ts",
+          "link": "[src/tests/voice_session_artifacts.integration.test.ts](../../../packages/cephalon/src/tests/voice_session_artifacts.integration.test.ts)",
+          "lineCount": 67
+        },
+        {
+          "name": "tokenizers.ts",
+          "link": "[src/tokenizers.ts](../../../packages/cephalon/src/tokenizers.ts)",
+          "lineCount": 124
+        },
+        {
+          "name": "transcriber.ts",
+          "link": "[src/transcriber.ts](../../../packages/cephalon/src/transcriber.ts)",
+          "lineCount": 161
+        },
+        {
+          "name": "types.ts",
+          "link": "[src/types.ts](../../../packages/cephalon/src/types.ts)",
+          "lineCount": 48
+        },
+        {
+          "name": "util.ts",
+          "link": "[src/util.ts](../../../packages/cephalon/src/util.ts)",
+          "lineCount": 40
+        },
+        {
+          "name": "voice-recorder.ts",
+          "link": "[src/voice-recorder.ts](../../../packages/cephalon/src/voice-recorder.ts)",
+          "lineCount": 49
+        },
+        {
+          "name": "voice-session.ts",
+          "link": "[src/voice-session.ts](../../../packages/cephalon/src/voice-session.ts)",
+          "lineCount": 94
+        },
+        {
+          "name": "voice-synth.ts",
+          "link": "[src/voice-synth.ts](../../../packages/cephalon/src/voice-synth.ts)",
+          "lineCount": 3
+        },
+        {
+          "name": "wav-decoder.d.ts",
+          "link": "[src/wav-decoder.d.ts](../../../packages/cephalon/src/wav-decoder.d.ts)",
+          "lineCount": 7
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "AIAgent",
+          "link": "[AIAgent](../../../packages/cephalon/src/agent/index.ts#L66)",
+          "file": "agent/index.ts",
+          "line": 66
+        },
+        {
+          "name": "SpeechArbiter",
+          "link": "[SpeechArbiter](../../../packages/cephalon/src/agent/speechCoordinator.ts#L19)",
+          "file": "agent/speechCoordinator.ts",
+          "line": 19
+        },
+        {
+          "name": "TurnManager",
+          "link": "[TurnManager](../../../packages/cephalon/src/agent/speechCoordinator.ts#L130)",
+          "file": "agent/speechCoordinator.ts",
+          "line": 130
+        },
+        {
+          "name": "AudioService",
+          "link": "[AudioService](../../../packages/cephalon/src/audio-service.ts#L13)",
+          "file": "audio-service.ts",
+          "line": 13
+        },
+        {
+          "name": "Bot",
+          "link": "[Bot](../../../packages/cephalon/src/bot.ts#L49)",
+          "file": "bot.ts",
+          "line": 49
+        },
+        {
+          "name": "DesktopCaptureManager",
+          "link": "[DesktopCaptureManager](../../../packages/cephalon/src/desktop/desktopLoop.ts#L29)",
+          "file": "desktop/desktopLoop.ts",
+          "line": 29
+        },
+        {
+          "name": "EnsoChatAgent",
+          "link": "[EnsoChatAgent](../../../packages/cephalon/src/enso/chat-agent.ts#L53)",
+          "file": "enso/chat-agent.ts",
+          "line": 53
+        },
+        {
+          "name": "ToPcm16kMono",
+          "link": "[ToPcm16kMono](../../../packages/cephalon/src/enso/transcriber-enso.ts#L33)",
+          "file": "enso/transcriber-enso.ts",
+          "line": 33
+        },
+        {
+          "name": "EnsoTranscriber",
+          "link": "[EnsoTranscriber](../../../packages/cephalon/src/enso/transcriber-enso.ts#L108)",
+          "file": "enso/transcriber-enso.ts",
+          "line": 108
+        },
+        {
+          "name": "LLMService",
+          "link": "[LLMService](../../../packages/cephalon/src/llm-service.ts#L27)",
+          "file": "llm-service.ts",
+          "line": 27
+        },
+        {
+          "name": "SecureLLMService",
+          "link": "[SecureLLMService](../../../packages/cephalon/src/security/llm-service-enhanced.ts#L28)",
+          "file": "security/llm-service-enhanced.ts",
+          "line": 28
+        },
+        {
+          "name": "OpusSilenceFilter",
+          "link": "[OpusSilenceFilter](../../../packages/cephalon/src/speaker.ts#L16)",
+          "file": "speaker.ts",
+          "line": 16
+        },
+        {
+          "name": "Speaker",
+          "link": "[Speaker](../../../packages/cephalon/src/speaker.ts#L42)",
+          "file": "speaker.ts",
+          "line": 42
+        },
+        {
+          "name": "TestBot",
+          "link": "[TestBot](../../../packages/cephalon/src/tests/bot.test.ts#L6)",
+          "file": "tests/bot.test.ts",
+          "line": 6
+        },
+        {
+          "name": "StubBot",
+          "link": "[StubBot](../../../packages/cephalon/src/tests/llm_forward.test.ts#L20)",
+          "file": "tests/llm_forward.test.ts",
+          "line": 20
+        },
+        {
+          "name": "FakePlayer",
+          "link": "[FakePlayer](../../../packages/cephalon/src/tests/speechCoordinator.test.ts#L12)",
+          "file": "tests/speechCoordinator.test.ts",
+          "line": 12
+        },
+        {
+          "name": "DummyBroker",
+          "link": "[DummyBroker](../../../packages/cephalon/src/tests/transcriber.test.ts#L8)",
+          "file": "tests/transcriber.test.ts",
+          "line": 8
+        },
+        {
+          "name": "FakeBroker",
+          "link": "[FakeBroker](../../../packages/cephalon/src/tests/voice_session_artifacts.integration.test.ts#L6)",
+          "file": "tests/voice_session_artifacts.integration.test.ts",
+          "line": 6
+        },
+        {
+          "name": "Transcriber",
+          "link": "[Transcriber](../../../packages/cephalon/src/transcriber.ts#L36)",
+          "file": "transcriber.ts",
+          "line": 36
+        },
+        {
+          "name": "VoiceRecorder",
+          "link": "[VoiceRecorder](../../../packages/cephalon/src/voice-recorder.ts#L19)",
+          "file": "voice-recorder.ts",
+          "line": 19
+        },
+        {
+          "name": "VoiceSession",
+          "link": "[VoiceSession](../../../packages/cephalon/src/voice-session.ts#L29)",
+          "file": "voice-session.ts",
+          "line": 29
+        }
+      ],
+      "functions": [
+        {
+          "name": "buildForwardAttachmentsScope",
+          "link": "[buildForwardAttachmentsScope()](../../../packages/cephalon/src/actions/forward-attachments.scope.ts#L14)",
+          "file": "actions/forward-attachments.scope.ts",
+          "line": 14
+        },
+        {
+          "name": "run",
+          "link": "[run()](../../../packages/cephalon/src/actions/forward-attachments.ts#L9)",
+          "file": "actions/forward-attachments.ts",
+          "line": 9
+        },
+        {
+          "name": "buildLeaveVoiceScope",
+          "link": "[buildLeaveVoiceScope()](../../../packages/cephalon/src/actions/leave-voice.scope.ts#L18)",
+          "file": "actions/leave-voice.scope.ts",
+          "line": 18
+        },
+        {
+          "name": "run",
+          "link": "[run()](../../../packages/cephalon/src/actions/leave-voice.ts#L10)",
+          "file": "actions/leave-voice.ts",
+          "line": 10
+        },
+        {
+          "name": "buildPingScope",
+          "link": "[buildPingScope()](../../../packages/cephalon/src/actions/ping.scope.ts#L11)",
+          "file": "actions/ping.scope.ts",
+          "line": 11
+        },
+        {
+          "name": "run",
+          "link": "[run()](../../../packages/cephalon/src/actions/ping.ts#L6)",
+          "file": "actions/ping.ts",
+          "line": 6
+        },
+        {
+          "name": "buildRecordSpeakerScope",
+          "link": "[buildRecordSpeakerScope()](../../../packages/cephalon/src/actions/record-speaker.scope.ts#L22)",
+          "file": "actions/record-speaker.scope.ts",
+          "line": 22
+        },
+        {
+          "name": "makeRecordActions",
+          "link": "[makeRecordActions()](../../../packages/cephalon/src/actions/record-speaker.scope.ts#L34)",
+          "file": "actions/record-speaker.scope.ts",
+          "line": 34
+        },
+        {
+          "name": "buildRegisterLlmHandlerScope",
+          "link": "[buildRegisterLlmHandlerScope()](../../../packages/cephalon/src/actions/register-llm-handler.scope.ts#L14)",
+          "file": "actions/register-llm-handler.scope.ts",
+          "line": 14
+        },
+        {
+          "name": "run",
+          "link": "[run()](../../../packages/cephalon/src/actions/register-llm-handler.ts#L5)",
+          "file": "actions/register-llm-handler.ts",
+          "line": 5
+        },
+        {
+          "name": "buildSetCaptureChannelScope",
+          "link": "[buildSetCaptureChannelScope()](../../../packages/cephalon/src/actions/set-capture-channel.scope.ts#L10)",
+          "file": "actions/set-capture-channel.scope.ts",
+          "line": 10
+        },
+        {
+          "name": "run",
+          "link": "[run()](../../../packages/cephalon/src/actions/set-capture-channel.ts#L14)",
+          "file": "actions/set-capture-channel.ts",
+          "line": 14
+        },
+        {
+          "name": "buildSetDesktopChannelScope",
+          "link": "[buildSetDesktopChannelScope()](../../../packages/cephalon/src/actions/set-desktop-channel.scope.ts#L10)",
+          "file": "actions/set-desktop-channel.scope.ts",
+          "line": 10
+        },
+        {
+          "name": "run",
+          "link": "[run()](../../../packages/cephalon/src/actions/set-desktop-channel.ts#L14)",
+          "file": "actions/set-desktop-channel.ts",
+          "line": 14
+        },
+        {
+          "name": "storeAgentMessage",
+          "link": "[storeAgentMessage()](../../../packages/cephalon/src/actions/start-dialog.scope.ts#L34)",
+          "file": "actions/start-dialog.scope.ts",
+          "line": 34
+        },
+        {
+          "name": "runStartDialog",
+          "link": "[runStartDialog()](../../../packages/cephalon/src/actions/start-dialog.scope.ts#L105)",
+          "file": "actions/start-dialog.scope.ts",
+          "line": 105
+        },
+        {
+          "name": "buildTranscribeSpeakerScope",
+          "link": "[buildTranscribeSpeakerScope()](../../../packages/cephalon/src/actions/transcribe-speaker.scope.ts#L22)",
+          "file": "actions/transcribe-speaker.scope.ts",
+          "line": 22
+        },
+        {
+          "name": "makeTranscribeActions",
+          "link": "[makeTranscribeActions()](../../../packages/cephalon/src/actions/transcribe-speaker.scope.ts#L34)",
+          "file": "actions/transcribe-speaker.scope.ts",
+          "line": 34
+        },
+        {
+          "name": "buildTtsScope",
+          "link": "[buildTtsScope()](../../../packages/cephalon/src/actions/tts.scope.ts#L20)",
+          "file": "actions/tts.scope.ts",
+          "line": 20
+        },
+        {
+          "name": "makeTtsAction",
+          "link": "[makeTtsAction()](../../../packages/cephalon/src/actions/tts.scope.ts#L32)",
+          "file": "actions/tts.scope.ts",
+          "line": 32
+        },
+        {
+          "name": "generateInnerState",
+          "link": "[generateInnerState()](../../../packages/cephalon/src/agent/innerState.ts#L15)",
+          "file": "agent/innerState.ts",
+          "line": 15
+        },
+        {
+          "name": "think",
+          "link": "[think()](../../../packages/cephalon/src/agent/innerState.ts#L39)",
+          "file": "agent/innerState.ts",
+          "line": 39
+        },
+        {
+          "name": "updateInnerState",
+          "link": "[updateInnerState()](../../../packages/cephalon/src/agent/innerState.ts#L67)",
+          "file": "agent/innerState.ts",
+          "line": 67
+        },
+        {
+          "name": "loadInnerState",
+          "link": "[loadInnerState()](../../../packages/cephalon/src/agent/innerState.ts#L94)",
+          "file": "agent/innerState.ts",
+          "line": 94
+        },
+        {
+          "name": "speak",
+          "link": "[speak()](../../../packages/cephalon/src/agent/speech.ts#L22)",
+          "file": "agent/speech.ts",
+          "line": 22
+        },
+        {
+          "name": "storeAgentMessage",
+          "link": "[storeAgentMessage()](../../../packages/cephalon/src/agent/speech.ts#L49)",
+          "file": "agent/speech.ts",
+          "line": 49
+        },
+        {
+          "name": "generateVoiceResponse",
+          "link": "[generateVoiceResponse()](../../../packages/cephalon/src/agent/speech.ts#L74)",
+          "file": "agent/speech.ts",
+          "line": 74
+        },
+        {
+          "name": "generateVoiceContentFromSinglePrompt",
+          "link": "[generateVoiceContentFromSinglePrompt()](../../../packages/cephalon/src/agent/voiceContent.ts#L7)",
+          "file": "agent/voiceContent.ts",
+          "line": 7
+        },
+        {
+          "name": "generateVoiceContentWithFormattedLatestmessage",
+          "link": "[generateVoiceContentWithFormattedLatestmessage()](../../../packages/cephalon/src/agent/voiceContent.ts#L27)",
+          "file": "agent/voiceContent.ts",
+          "line": 27
+        },
+        {
+          "name": "generateVoiceContentWithChoicePrompt",
+          "link": "[generateVoiceContentWithChoicePrompt()](../../../packages/cephalon/src/agent/voiceContent.ts#L53)",
+          "file": "agent/voiceContent.ts",
+          "line": 53
+        },
+        {
+          "name": "generateVoiceContentWithSpecialQuery",
+          "link": "[generateVoiceContentWithSpecialQuery()](../../../packages/cephalon/src/agent/voiceContent.ts#L68)",
+          "file": "agent/voiceContent.ts",
+          "line": 68
+        },
+        {
+          "name": "generateVoiceContentWithoutSpecialQuery",
+          "link": "[generateVoiceContentWithoutSpecialQuery()](../../../packages/cephalon/src/agent/voiceContent.ts#L87)",
+          "file": "agent/voiceContent.ts",
+          "line": 87
+        },
+        {
+          "name": "generateVoiceContent",
+          "link": "[generateVoiceContent()](../../../packages/cephalon/src/agent/voiceContent.ts#L101)",
+          "file": "agent/voiceContent.ts",
+          "line": 101
+        },
+        {
+          "name": "annotateImage",
+          "link": "[annotateImage()](../../../packages/cephalon/src/annotate-image.ts#L10)",
+          "file": "annotate-image.ts",
+          "line": 10
+        },
+        {
+          "name": "generateSpectrogram",
+          "link": "[generateSpectrogram()](../../../packages/cephalon/src/audioProcessing/spectrogram.ts#L6)",
+          "file": "audioProcessing/spectrogram.ts",
+          "line": 6
+        },
+        {
+          "name": "renderWaveForm",
+          "link": "[renderWaveForm()](../../../packages/cephalon/src/audioProcessing/waveform.ts#L12)",
+          "file": "audioProcessing/waveform.ts",
+          "line": 12
+        },
+        {
+          "name": "captureAndRenderWaveform",
+          "link": "[captureAndRenderWaveform()](../../../packages/cephalon/src/audioProcessing/waveform.ts#L52)",
+          "file": "audioProcessing/waveform.ts",
+          "line": 52
+        },
+        {
+          "name": "registerNewStyleCommands",
+          "link": "[registerNewStyleCommands()](../../../packages/cephalon/src/bot/registerCommands.ts#L20)",
+          "file": "bot/registerCommands.ts",
+          "line": 20
+        },
+        {
+          "name": "discordMessages",
+          "link": "[discordMessages()](../../../packages/cephalon/src/collections.ts#L3)",
+          "file": "collections.ts",
+          "line": 3
+        },
+        {
+          "name": "thoughts",
+          "link": "[thoughts()](../../../packages/cephalon/src/collections.ts#L8)",
+          "file": "collections.ts",
+          "line": 8
+        },
+        {
+          "name": "transcripts",
+          "link": "[transcripts()](../../../packages/cephalon/src/collections.ts#L9)",
+          "file": "collections.ts",
+          "line": 9
+        },
+        {
+          "name": "data",
+          "link": "[data()](../../../packages/cephalon/src/commands/begin-recording.ts#L9)",
+          "file": "commands/begin-recording.ts",
+          "line": 9
+        },
+        {
+          "name": "execute",
+          "link": "[execute()](../../../packages/cephalon/src/commands/begin-recording.ts#L22)",
+          "file": "commands/begin-recording.ts",
+          "line": 22
+        },
+        {
+          "name": "data",
+          "link": "[data()](../../../packages/cephalon/src/commands/begin-transcribing.ts#L9)",
+          "file": "commands/begin-transcribing.ts",
+          "line": 9
+        },
+        {
+          "name": "execute",
+          "link": "[execute()](../../../packages/cephalon/src/commands/begin-transcribing.ts#L28)",
+          "file": "commands/begin-transcribing.ts",
+          "line": 28
+        },
+        {
+          "name": "data",
+          "link": "[data()](../../../packages/cephalon/src/commands/join-voice.ts#L6)",
+          "file": "commands/join-voice.ts",
+          "line": 6
+        },
+        {
+          "name": "execute",
+          "link": "[execute()](../../../packages/cephalon/src/commands/join-voice.ts#L11)",
+          "file": "commands/join-voice.ts",
+          "line": 11
+        },
+        {
+          "name": "data",
+          "link": "[data()](../../../packages/cephalon/src/commands/leave-voice.ts#L8)",
+          "file": "commands/leave-voice.ts",
+          "line": 8
+        },
+        {
+          "name": "execute",
+          "link": "[execute()](../../../packages/cephalon/src/commands/leave-voice.ts#L15)",
+          "file": "commands/leave-voice.ts",
+          "line": 15
+        },
+        {
+          "name": "data",
+          "link": "[data()](../../../packages/cephalon/src/commands/ping.ts#L7)",
+          "file": "commands/ping.ts",
+          "line": 7
+        },
+        {
+          "name": "execute",
+          "link": "[execute()](../../../packages/cephalon/src/commands/ping.ts#L12)",
+          "file": "commands/ping.ts",
+          "line": 12
+        },
+        {
+          "name": "data",
+          "link": "[data()](../../../packages/cephalon/src/commands/set-capture-channel.ts#L8)",
+          "file": "commands/set-capture-channel.ts",
+          "line": 8
+        },
+        {
+          "name": "execute",
+          "link": "[execute()](../../../packages/cephalon/src/commands/set-capture-channel.ts#L22)",
+          "file": "commands/set-capture-channel.ts",
+          "line": 22
+        },
+        {
+          "name": "data",
+          "link": "[data()](../../../packages/cephalon/src/commands/set-desktop-channel.ts#L8)",
+          "file": "commands/set-desktop-channel.ts",
+          "line": 8
+        },
+        {
+          "name": "execute",
+          "link": "[execute()](../../../packages/cephalon/src/commands/set-desktop-channel.ts#L21)",
+          "file": "commands/set-desktop-channel.ts",
+          "line": 21
+        },
+        {
+          "name": "data",
+          "link": "[data()](../../../packages/cephalon/src/commands/start-dialog.ts#L6)",
+          "file": "commands/start-dialog.ts",
+          "line": 6
+        },
+        {
+          "name": "execute",
+          "link": "[execute()](../../../packages/cephalon/src/commands/start-dialog.ts#L11)",
+          "file": "commands/start-dialog.ts",
+          "line": 11
+        },
+        {
+          "name": "data",
+          "link": "[data()](../../../packages/cephalon/src/commands/stop-recording.ts#L9)",
+          "file": "commands/stop-recording.ts",
+          "line": 9
+        },
+        {
+          "name": "execute",
+          "link": "[execute()](../../../packages/cephalon/src/commands/stop-recording.ts#L22)",
+          "file": "commands/stop-recording.ts",
+          "line": 22
+        },
+        {
+          "name": "data",
+          "link": "[data()](../../../packages/cephalon/src/commands/tts.ts#L6)",
+          "file": "commands/tts.ts",
+          "line": 6
+        },
+        {
+          "name": "execute",
+          "link": "[execute()](../../../packages/cephalon/src/commands/tts.ts#L20)",
+          "file": "commands/tts.ts",
+          "line": 20
+        },
+        {
+          "name": "convert",
+          "link": "[convert()](../../../packages/cephalon/src/converter.ts#L6)",
+          "file": "converter.ts",
+          "line": 6
+        },
+        {
+          "name": "captureAudio",
+          "link": "[captureAudio()](../../../packages/cephalon/src/desktop/desktopAudioCapture.ts#L27)",
+          "file": "desktop/desktopAudioCapture.ts",
+          "line": 27
+        },
+        {
+          "name": "captureScreen",
+          "link": "[captureScreen()](../../../packages/cephalon/src/desktop/desktopLoop.ts#L9)",
+          "file": "desktop/desktopLoop.ts",
+          "line": 9
+        },
+        {
+          "name": "createEnsoChatAgent",
+          "link": "[createEnsoChatAgent()](../../../packages/cephalon/src/enso/chat-agent.ts#L305)",
+          "file": "enso/chat-agent.ts",
+          "line": 305
+        },
+        {
+          "name": "createEnsoTranscriber",
+          "link": "[createEnsoTranscriber()](../../../packages/cephalon/src/enso/transcriber-enso.ts#L237)",
+          "file": "enso/transcriber-enso.ts",
+          "line": 237
+        },
+        {
+          "name": "makeDiscordVoiceAdapter",
+          "link": "[makeDiscordVoiceAdapter()](../../../packages/cephalon/src/factories/voice.ts#L10)",
+          "file": "factories/voice.ts",
+          "line": 10
+        },
+        {
+          "name": "getCurrentDateTime",
+          "link": "[getCurrentDateTime()](../../../packages/cephalon/src/get-current-date-time.ts#L1)",
+          "file": "get-current-date-time.ts",
+          "line": 1
+        },
+        {
+          "name": "interaction",
+          "link": "[interaction()](../../../packages/cephalon/src/interactions.ts#L5)",
+          "file": "interactions.ts",
+          "line": 5
+        },
+        {
+          "name": "initMessageThrottler",
+          "link": "[initMessageThrottler()](../../../packages/cephalon/src/messageThrottler.ts#L5)",
+          "file": "messageThrottler.ts",
+          "line": 5
+        },
+        {
+          "name": "getCephalonMode",
+          "link": "[getCephalonMode()](../../../packages/cephalon/src/mode.ts#L21)",
+          "file": "mode.ts",
+          "line": 21
+        },
+        {
+          "name": "isClassicMode",
+          "link": "[isClassicMode()](../../../packages/cephalon/src/mode.ts#L25)",
+          "file": "mode.ts",
+          "line": 25
+        },
+        {
+          "name": "isEcsMode",
+          "link": "[isEcsMode()](../../../packages/cephalon/src/mode.ts#L29)",
+          "file": "mode.ts",
+          "line": 29
+        },
+        {
+          "name": "defaultPrompt",
+          "link": "[defaultPrompt()](../../../packages/cephalon/src/prompts.ts#L8)",
+          "file": "prompts.ts",
+          "line": 8
+        },
+        {
+          "name": "defaultState",
+          "link": "[defaultState()](../../../packages/cephalon/src/prompts.ts#L15)",
+          "file": "prompts.ts",
+          "line": 15
+        },
+        {
+          "name": "innerStateFormat",
+          "link": "[innerStateFormat()](../../../packages/cephalon/src/prompts.ts#L34)",
+          "file": "prompts.ts",
+          "line": 34
+        },
+        {
+          "name": "generatePrompt",
+          "link": "[generatePrompt()](../../../packages/cephalon/src/prompts.ts#L85)",
+          "file": "prompts.ts",
+          "line": 85
+        },
+        {
+          "name": "createSecureLLMService",
+          "link": "[createSecureLLMService()](../../../packages/cephalon/src/security/llm-service-enhanced.ts#L318)",
+          "file": "security/llm-service-enhanced.ts",
+          "line": 318
+        },
+        {
+          "name": "validateLLMPrompt",
+          "link": "[validateLLMPrompt()](../../../packages/cephalon/src/security/llm-service-enhanced.ts#L331)",
+          "file": "security/llm-service-enhanced.ts",
+          "line": 331
+        },
+        {
+          "name": "createStore",
+          "link": "[createStore()](../../../packages/cephalon/src/store/createStore.ts#L4)",
+          "file": "store/createStore.ts",
+          "line": 4
+        },
+        {
+          "name": "registerPingEffects",
+          "link": "[registerPingEffects()](../../../packages/cephalon/src/store/effects/ping.ts#L5)",
+          "file": "store/effects/ping.ts",
+          "line": 5
+        },
+        {
+          "name": "registerVoiceEffects",
+          "link": "[registerVoiceEffects()](../../../packages/cephalon/src/store/effects/voice.ts#L5)",
+          "file": "store/effects/voice.ts",
+          "line": 5
+        },
+        {
+          "name": "initialState",
+          "link": "[initialState()](../../../packages/cephalon/src/store/reducer.ts#L7)",
+          "file": "store/reducer.ts",
+          "line": 7
+        },
+        {
+          "name": "reducer",
+          "link": "[reducer()](../../../packages/cephalon/src/store/reducer.ts#L11)",
+          "file": "store/reducer.ts",
+          "line": 11
+        },
+        {
+          "name": "store",
+          "link": "[store()](../../../packages/cephalon/src/store/storeInstance.ts#L7)",
+          "file": "store/storeInstance.ts",
+          "line": 7
+        },
+        {
+          "name": "mergeShortFragments",
+          "link": "[mergeShortFragments()](../../../packages/cephalon/src/tokenizers.ts#L2)",
+          "file": "tokenizers.ts",
+          "line": 2
+        },
+        {
+          "name": "splitSentances",
+          "link": "[splitSentances()](../../../packages/cephalon/src/tokenizers.ts#L39)",
+          "file": "tokenizers.ts",
+          "line": 39
+        },
+        {
+          "name": "classifyPause",
+          "link": "[classifyPause()](../../../packages/cephalon/src/tokenizers.ts#L45)",
+          "file": "tokenizers.ts",
+          "line": 45
+        },
+        {
+          "name": "estimatePauseDuration",
+          "link": "[estimatePauseDuration()](../../../packages/cephalon/src/tokenizers.ts#L73)",
+          "file": "tokenizers.ts",
+          "line": 73
+        },
+        {
+          "name": "extractParentheticals",
+          "link": "[extractParentheticals()](../../../packages/cephalon/src/tokenizers.ts#L78)",
+          "file": "tokenizers.ts",
+          "line": 78
+        },
+        {
+          "name": "seperateSpeechFromThought",
+          "link": "[seperateSpeechFromThought()](../../../packages/cephalon/src/tokenizers.ts#L110)",
+          "file": "tokenizers.ts",
+          "line": 110
+        },
+        {
+          "name": "randomInt",
+          "link": "[randomInt()](../../../packages/cephalon/src/util.ts#L3)",
+          "file": "util.ts",
+          "line": 3
+        },
+        {
+          "name": "choice",
+          "link": "[choice()](../../../packages/cephalon/src/util.ts#L7)",
+          "file": "util.ts",
+          "line": 7
+        },
+        {
+          "name": "generatePromptChoice",
+          "link": "[generatePromptChoice()](../../../packages/cephalon/src/util.ts#L11)",
+          "file": "util.ts",
+          "line": 11
+        },
+        {
+          "name": "generateSpecialQuery",
+          "link": "[generateSpecialQuery()](../../../packages/cephalon/src/util.ts#L30)",
+          "file": "util.ts",
+          "line": 30
+        },
+        {
+          "name": "decode",
+          "link": "[decode()](../../../packages/cephalon/src/wav-decoder.d.ts#L2)",
+          "file": "wav-decoder.d.ts",
+          "line": 2
+        }
+      ],
+      "interfaces": [
+        {
+          "name": "LLMSecurityContext",
+          "link": "[LLMSecurityContext](../../../packages/cephalon/src/security/llm-service-enhanced.ts#L7)",
+          "file": "security/llm-service-enhanced.ts",
+          "line": 7
+        },
+        {
+          "name": "LLMSecurityReport",
+          "link": "[LLMSecurityReport](../../../packages/cephalon/src/security/llm-service-enhanced.ts#L16)",
+          "file": "security/llm-service-enhanced.ts",
+          "line": 16
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,1909 @@
+{
+  "packageData": {
+    "packageName": "benchmark",
+    "files": [
+      {
+        "path": "benchmark-optimized.ts",
+        "fullPath": "/home/err/devel/promethean/packages/benchmark/src/benchmark-optimized.ts",
+        "exports": [
+          {
+            "name": "OptimizedBenchmarkRunner",
+            "line": 36,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "OptimizedBenchmarkRunner",
+            "line": 36,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 535
+      },
+      {
+        "path": "benchmark.ts",
+        "fullPath": "/home/err/devel/promethean/packages/benchmark/src/benchmark.ts",
+        "exports": [
+          {
+            "name": "BenchmarkRunner",
+            "line": 13,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "BenchmarkRunner",
+            "line": 13,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 211
+      },
+      {
+        "path": "cache/advanced-cache.ts",
+        "fullPath": "/home/err/devel/promethean/packages/benchmark/src/cache/advanced-cache.ts",
+        "exports": [
+          {
+            "name": "CacheEntry",
+            "line": 7,
+            "type": "interface"
+          },
+          {
+            "name": "CacheStats",
+            "line": 18,
+            "type": "interface"
+          },
+          {
+            "name": "CacheConfig",
+            "line": 30,
+            "type": "interface"
+          },
+          {
+            "name": "AdvancedCache",
+            "line": 41,
+            "type": "class"
+          },
+          {
+            "name": "CacheFactory",
+            "line": 382,
+            "type": "class"
+          },
+          {
+            "name": "MultiLevelCache",
+            "line": 404,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "AdvancedCache",
+            "line": 41,
+            "type": "class"
+          },
+          {
+            "name": "CacheFactory",
+            "line": 382,
+            "type": "class"
+          },
+          {
+            "name": "MultiLevelCache",
+            "line": 404,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [
+          {
+            "name": "CacheEntry",
+            "line": 7,
+            "type": "interface"
+          },
+          {
+            "name": "CacheStats",
+            "line": 18,
+            "type": "interface"
+          },
+          {
+            "name": "CacheConfig",
+            "line": 30,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 475
+      },
+      {
+        "path": "cli.ts",
+        "fullPath": "/home/err/devel/promethean/packages/benchmark/src/cli.ts",
+        "exports": [],
+        "classes": [
+          {
+            "name": "BenchmarkCLI",
+            "line": 25,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 511
+      },
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/benchmark/src/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 11
+      },
+      {
+        "path": "load-testing/load-tester.ts",
+        "fullPath": "/home/err/devel/promethean/packages/benchmark/src/load-testing/load-tester.ts",
+        "exports": [
+          {
+            "name": "LoadTestConfig",
+            "line": 6,
+            "type": "interface"
+          },
+          {
+            "name": "LoadTestRequest",
+            "line": 15,
+            "type": "interface"
+          },
+          {
+            "name": "LoadTestResponse",
+            "line": 22,
+            "type": "interface"
+          },
+          {
+            "name": "LoadTestMetrics",
+            "line": 34,
+            "type": "interface"
+          },
+          {
+            "name": "UserSimulation",
+            "line": 52,
+            "type": "interface"
+          },
+          {
+            "name": "LoadTester",
+            "line": 60,
+            "type": "class"
+          },
+          {
+            "name": "LoadTestReporter",
+            "line": 356,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "LoadTester",
+            "line": 60,
+            "type": "class"
+          },
+          {
+            "name": "LoadTestReporter",
+            "line": 356,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [
+          {
+            "name": "LoadTestConfig",
+            "line": 6,
+            "type": "interface"
+          },
+          {
+            "name": "LoadTestRequest",
+            "line": 15,
+            "type": "interface"
+          },
+          {
+            "name": "LoadTestResponse",
+            "line": 22,
+            "type": "interface"
+          },
+          {
+            "name": "LoadTestMetrics",
+            "line": 34,
+            "type": "interface"
+          },
+          {
+            "name": "UserSimulation",
+            "line": 52,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 458
+      },
+      {
+        "path": "metrics/index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/benchmark/src/metrics/index.ts",
+        "exports": [
+          {
+            "name": "MetricsCalculator",
+            "line": 3,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "MetricsCalculator",
+            "line": 3,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 179
+      },
+      {
+        "path": "metrics/performance-monitor.ts",
+        "fullPath": "/home/err/devel/promethean/packages/benchmark/src/metrics/performance-monitor.ts",
+        "exports": [
+          {
+            "name": "PerformanceSnapshot",
+            "line": 6,
+            "type": "interface"
+          },
+          {
+            "name": "PerformanceAlert",
+            "line": 29,
+            "type": "interface"
+          },
+          {
+            "name": "PerformanceMonitor",
+            "line": 38,
+            "type": "class"
+          },
+          {
+            "name": "globalPerformanceMonitor",
+            "line": 338,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "PerformanceMonitor",
+            "line": 38,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "globalPerformanceMonitor",
+            "line": 338,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "PerformanceSnapshot",
+            "line": 6,
+            "type": "interface"
+          },
+          {
+            "name": "PerformanceAlert",
+            "line": 29,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 339
+      },
+      {
+        "path": "metrics/resource-manager.ts",
+        "fullPath": "/home/err/devel/promethean/packages/benchmark/src/metrics/resource-manager.ts",
+        "exports": [
+          {
+            "name": "ResourcePool",
+            "line": 4,
+            "type": "interface"
+          },
+          {
+            "name": "PoolStats",
+            "line": 11,
+            "type": "interface"
+          },
+          {
+            "name": "ResourceConfig",
+            "line": 20,
+            "type": "interface"
+          },
+          {
+            "name": "ResourceManager",
+            "line": 30,
+            "type": "class"
+          },
+          {
+            "name": "MemoryManager",
+            "line": 349,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "ResourceManager",
+            "line": 30,
+            "type": "class"
+          },
+          {
+            "name": "GenericResourcePool",
+            "line": 110,
+            "type": "class"
+          },
+          {
+            "name": "ResourceMonitor",
+            "line": 291,
+            "type": "class"
+          },
+          {
+            "name": "MemoryManager",
+            "line": 349,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [
+          {
+            "name": "ResourcePool",
+            "line": 4,
+            "type": "interface"
+          },
+          {
+            "name": "PoolStats",
+            "line": 11,
+            "type": "interface"
+          },
+          {
+            "name": "ResourceConfig",
+            "line": 20,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 406
+      },
+      {
+        "path": "optimization/integration.ts",
+        "fullPath": "/home/err/devel/promethean/packages/benchmark/src/optimization/integration.ts",
+        "exports": [
+          {
+            "name": "OptimizationConfig",
+            "line": 8,
+            "type": "interface"
+          },
+          {
+            "name": "OptimizedBuildFixSystem",
+            "line": 45,
+            "type": "class"
+          },
+          {
+            "name": "createOptimizedBuildFixSystem",
+            "line": 340,
+            "type": "function"
+          },
+          {
+            "name": "exampleUsage",
+            "line": 348,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "OptimizedBuildFixSystem",
+            "line": 45,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "createOptimizedBuildFixSystem",
+            "line": 340,
+            "type": "function"
+          },
+          {
+            "name": "exampleUsage",
+            "line": 348,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "OptimizationConfig",
+            "line": 8,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 416
+      },
+      {
+        "path": "providers/base.ts",
+        "fullPath": "/home/err/devel/promethean/packages/benchmark/src/providers/base.ts",
+        "exports": [
+          {
+            "name": "BaseProvider",
+            "line": 9,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "BaseProvider",
+            "line": 9,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 109
+      },
+      {
+        "path": "providers/buildfix-enhanced.ts",
+        "fullPath": "/home/err/devel/promethean/packages/benchmark/src/providers/buildfix-enhanced.ts",
+        "exports": [
+          {
+            "name": "EnhancedBuildFixTimeoutError",
+            "line": 82,
+            "type": "class"
+          },
+          {
+            "name": "EnhancedBuildFixProcessError",
+            "line": 93,
+            "type": "class"
+          },
+          {
+            "name": "EnhancedBuildFixCacheError",
+            "line": 105,
+            "type": "class"
+          },
+          {
+            "name": "EnhancedBuildFixProvider",
+            "line": 116,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "EnhancedBuildFixTimeoutError",
+            "line": 82,
+            "type": "class"
+          },
+          {
+            "name": "EnhancedBuildFixProcessError",
+            "line": 93,
+            "type": "class"
+          },
+          {
+            "name": "EnhancedBuildFixCacheError",
+            "line": 105,
+            "type": "class"
+          },
+          {
+            "name": "EnhancedBuildFixProvider",
+            "line": 116,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 903
+      },
+      {
+        "path": "providers/buildfix.ts",
+        "fullPath": "/home/err/devel/promethean/packages/benchmark/src/providers/buildfix.ts",
+        "exports": [
+          {
+            "name": "BuildFixTimeoutError",
+            "line": 25,
+            "type": "class"
+          },
+          {
+            "name": "BuildFixProcessError",
+            "line": 35,
+            "type": "class"
+          },
+          {
+            "name": "BuildFixResourceError",
+            "line": 46,
+            "type": "class"
+          },
+          {
+            "name": "BuildFixProvider",
+            "line": 128,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "BuildFixTimeoutError",
+            "line": 25,
+            "type": "class"
+          },
+          {
+            "name": "BuildFixProcessError",
+            "line": 35,
+            "type": "class"
+          },
+          {
+            "name": "BuildFixResourceError",
+            "line": 46,
+            "type": "class"
+          },
+          {
+            "name": "BuildFixProvider",
+            "line": 128,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 1021
+      },
+      {
+        "path": "providers/index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/benchmark/src/providers/index.ts",
+        "exports": [
+          {
+            "name": "createProvider",
+            "line": 14,
+            "type": "function"
+          },
+          {
+            "name": "getSupportedProviders",
+            "line": 29,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createProvider",
+            "line": 14,
+            "type": "function"
+          },
+          {
+            "name": "getSupportedProviders",
+            "line": 29,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 32
+      },
+      {
+        "path": "providers/ollama.ts",
+        "fullPath": "/home/err/devel/promethean/packages/benchmark/src/providers/ollama.ts",
+        "exports": [
+          {
+            "name": "OllamaProvider",
+            "line": 5,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "OllamaProvider",
+            "line": 5,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 91
+      },
+      {
+        "path": "providers/openai.ts",
+        "fullPath": "/home/err/devel/promethean/packages/benchmark/src/providers/openai.ts",
+        "exports": [
+          {
+            "name": "OpenAIProvider",
+            "line": 5,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "OpenAIProvider",
+            "line": 5,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 90
+      },
+      {
+        "path": "providers/path-utils.ts",
+        "fullPath": "/home/err/devel/promethean/packages/benchmark/src/providers/path-utils.ts",
+        "exports": [
+          {
+            "name": "findRepositoryRoot",
+            "line": 9,
+            "type": "function"
+          },
+          {
+            "name": "getBuildFixDirectories",
+            "line": 23,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "findRepositoryRoot",
+            "line": 9,
+            "type": "function"
+          },
+          {
+            "name": "getBuildFixDirectories",
+            "line": 23,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 35
+      },
+      {
+        "path": "providers/vllm.ts",
+        "fullPath": "/home/err/devel/promethean/packages/benchmark/src/providers/vllm.ts",
+        "exports": [
+          {
+            "name": "VLLMProvider",
+            "line": 4,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "VLLMProvider",
+            "line": 4,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 107
+      },
+      {
+        "path": "types/index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/benchmark/src/types/index.ts",
+        "exports": [
+          {
+            "name": "BenchmarkRequest",
+            "line": 3,
+            "type": "interface"
+          },
+          {
+            "name": "BenchmarkResponse",
+            "line": 10,
+            "type": "interface"
+          },
+          {
+            "name": "BenchmarkMetrics",
+            "line": 17,
+            "type": "interface"
+          },
+          {
+            "name": "ResourceMetrics",
+            "line": 26,
+            "type": "interface"
+          },
+          {
+            "name": "ProviderConfig",
+            "line": 38,
+            "type": "interface"
+          },
+          {
+            "name": "ProviderTypeSchema",
+            "line": 47,
+            "type": "function"
+          },
+          {
+            "name": "BenchmarkResult",
+            "line": 62,
+            "type": "interface"
+          },
+          {
+            "name": "BenchmarkSuite",
+            "line": 73,
+            "type": "interface"
+          },
+          {
+            "name": "BenchmarkReport",
+            "line": 81,
+            "type": "interface"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "ProviderTypeSchema",
+            "line": 47,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "BenchmarkRequest",
+            "line": 3,
+            "type": "interface"
+          },
+          {
+            "name": "BenchmarkResponse",
+            "line": 10,
+            "type": "interface"
+          },
+          {
+            "name": "BenchmarkMetrics",
+            "line": 17,
+            "type": "interface"
+          },
+          {
+            "name": "ResourceMetrics",
+            "line": 26,
+            "type": "interface"
+          },
+          {
+            "name": "ProviderConfig",
+            "line": 38,
+            "type": "interface"
+          },
+          {
+            "name": "BenchmarkResult",
+            "line": 62,
+            "type": "interface"
+          },
+          {
+            "name": "BenchmarkSuite",
+            "line": 73,
+            "type": "interface"
+          },
+          {
+            "name": "BenchmarkReport",
+            "line": 81,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 97
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [],
+      "classes": [],
+      "functions": [],
+      "interfaces": [],
+      "totalLines": 11
+    },
+    "exports": [
+      {
+        "name": "OptimizedBenchmarkRunner",
+        "line": 36,
+        "type": "class",
+        "file": "benchmark-optimized.ts"
+      },
+      {
+        "name": "BenchmarkRunner",
+        "line": 13,
+        "type": "class",
+        "file": "benchmark.ts"
+      },
+      {
+        "name": "CacheEntry",
+        "line": 7,
+        "type": "interface",
+        "file": "cache/advanced-cache.ts"
+      },
+      {
+        "name": "CacheStats",
+        "line": 18,
+        "type": "interface",
+        "file": "cache/advanced-cache.ts"
+      },
+      {
+        "name": "CacheConfig",
+        "line": 30,
+        "type": "interface",
+        "file": "cache/advanced-cache.ts"
+      },
+      {
+        "name": "AdvancedCache",
+        "line": 41,
+        "type": "class",
+        "file": "cache/advanced-cache.ts"
+      },
+      {
+        "name": "CacheFactory",
+        "line": 382,
+        "type": "class",
+        "file": "cache/advanced-cache.ts"
+      },
+      {
+        "name": "MultiLevelCache",
+        "line": 404,
+        "type": "class",
+        "file": "cache/advanced-cache.ts"
+      },
+      {
+        "name": "LoadTestConfig",
+        "line": 6,
+        "type": "interface",
+        "file": "load-testing/load-tester.ts"
+      },
+      {
+        "name": "LoadTestRequest",
+        "line": 15,
+        "type": "interface",
+        "file": "load-testing/load-tester.ts"
+      },
+      {
+        "name": "LoadTestResponse",
+        "line": 22,
+        "type": "interface",
+        "file": "load-testing/load-tester.ts"
+      },
+      {
+        "name": "LoadTestMetrics",
+        "line": 34,
+        "type": "interface",
+        "file": "load-testing/load-tester.ts"
+      },
+      {
+        "name": "UserSimulation",
+        "line": 52,
+        "type": "interface",
+        "file": "load-testing/load-tester.ts"
+      },
+      {
+        "name": "LoadTester",
+        "line": 60,
+        "type": "class",
+        "file": "load-testing/load-tester.ts"
+      },
+      {
+        "name": "LoadTestReporter",
+        "line": 356,
+        "type": "class",
+        "file": "load-testing/load-tester.ts"
+      },
+      {
+        "name": "MetricsCalculator",
+        "line": 3,
+        "type": "class",
+        "file": "metrics/index.ts"
+      },
+      {
+        "name": "PerformanceSnapshot",
+        "line": 6,
+        "type": "interface",
+        "file": "metrics/performance-monitor.ts"
+      },
+      {
+        "name": "PerformanceAlert",
+        "line": 29,
+        "type": "interface",
+        "file": "metrics/performance-monitor.ts"
+      },
+      {
+        "name": "PerformanceMonitor",
+        "line": 38,
+        "type": "class",
+        "file": "metrics/performance-monitor.ts"
+      },
+      {
+        "name": "globalPerformanceMonitor",
+        "line": 338,
+        "type": "function",
+        "file": "metrics/performance-monitor.ts"
+      },
+      {
+        "name": "ResourcePool",
+        "line": 4,
+        "type": "interface",
+        "file": "metrics/resource-manager.ts"
+      },
+      {
+        "name": "PoolStats",
+        "line": 11,
+        "type": "interface",
+        "file": "metrics/resource-manager.ts"
+      },
+      {
+        "name": "ResourceConfig",
+        "line": 20,
+        "type": "interface",
+        "file": "metrics/resource-manager.ts"
+      },
+      {
+        "name": "ResourceManager",
+        "line": 30,
+        "type": "class",
+        "file": "metrics/resource-manager.ts"
+      },
+      {
+        "name": "MemoryManager",
+        "line": 349,
+        "type": "class",
+        "file": "metrics/resource-manager.ts"
+      },
+      {
+        "name": "OptimizationConfig",
+        "line": 8,
+        "type": "interface",
+        "file": "optimization/integration.ts"
+      },
+      {
+        "name": "OptimizedBuildFixSystem",
+        "line": 45,
+        "type": "class",
+        "file": "optimization/integration.ts"
+      },
+      {
+        "name": "createOptimizedBuildFixSystem",
+        "line": 340,
+        "type": "function",
+        "file": "optimization/integration.ts"
+      },
+      {
+        "name": "exampleUsage",
+        "line": 348,
+        "type": "function",
+        "file": "optimization/integration.ts"
+      },
+      {
+        "name": "BaseProvider",
+        "line": 9,
+        "type": "class",
+        "file": "providers/base.ts"
+      },
+      {
+        "name": "EnhancedBuildFixTimeoutError",
+        "line": 82,
+        "type": "class",
+        "file": "providers/buildfix-enhanced.ts"
+      },
+      {
+        "name": "EnhancedBuildFixProcessError",
+        "line": 93,
+        "type": "class",
+        "file": "providers/buildfix-enhanced.ts"
+      },
+      {
+        "name": "EnhancedBuildFixCacheError",
+        "line": 105,
+        "type": "class",
+        "file": "providers/buildfix-enhanced.ts"
+      },
+      {
+        "name": "EnhancedBuildFixProvider",
+        "line": 116,
+        "type": "class",
+        "file": "providers/buildfix-enhanced.ts"
+      },
+      {
+        "name": "BuildFixTimeoutError",
+        "line": 25,
+        "type": "class",
+        "file": "providers/buildfix.ts"
+      },
+      {
+        "name": "BuildFixProcessError",
+        "line": 35,
+        "type": "class",
+        "file": "providers/buildfix.ts"
+      },
+      {
+        "name": "BuildFixResourceError",
+        "line": 46,
+        "type": "class",
+        "file": "providers/buildfix.ts"
+      },
+      {
+        "name": "BuildFixProvider",
+        "line": 128,
+        "type": "class",
+        "file": "providers/buildfix.ts"
+      },
+      {
+        "name": "createProvider",
+        "line": 14,
+        "type": "function",
+        "file": "providers/index.ts"
+      },
+      {
+        "name": "getSupportedProviders",
+        "line": 29,
+        "type": "function",
+        "file": "providers/index.ts"
+      },
+      {
+        "name": "OllamaProvider",
+        "line": 5,
+        "type": "class",
+        "file": "providers/ollama.ts"
+      },
+      {
+        "name": "OpenAIProvider",
+        "line": 5,
+        "type": "class",
+        "file": "providers/openai.ts"
+      },
+      {
+        "name": "findRepositoryRoot",
+        "line": 9,
+        "type": "function",
+        "file": "providers/path-utils.ts"
+      },
+      {
+        "name": "getBuildFixDirectories",
+        "line": 23,
+        "type": "function",
+        "file": "providers/path-utils.ts"
+      },
+      {
+        "name": "VLLMProvider",
+        "line": 4,
+        "type": "class",
+        "file": "providers/vllm.ts"
+      },
+      {
+        "name": "BenchmarkRequest",
+        "line": 3,
+        "type": "interface",
+        "file": "types/index.ts"
+      },
+      {
+        "name": "BenchmarkResponse",
+        "line": 10,
+        "type": "interface",
+        "file": "types/index.ts"
+      },
+      {
+        "name": "BenchmarkMetrics",
+        "line": 17,
+        "type": "interface",
+        "file": "types/index.ts"
+      },
+      {
+        "name": "ResourceMetrics",
+        "line": 26,
+        "type": "interface",
+        "file": "types/index.ts"
+      },
+      {
+        "name": "ProviderConfig",
+        "line": 38,
+        "type": "interface",
+        "file": "types/index.ts"
+      },
+      {
+        "name": "ProviderTypeSchema",
+        "line": 47,
+        "type": "function",
+        "file": "types/index.ts"
+      },
+      {
+        "name": "BenchmarkResult",
+        "line": 62,
+        "type": "interface",
+        "file": "types/index.ts"
+      },
+      {
+        "name": "BenchmarkSuite",
+        "line": 73,
+        "type": "interface",
+        "file": "types/index.ts"
+      },
+      {
+        "name": "BenchmarkReport",
+        "line": 81,
+        "type": "interface",
+        "file": "types/index.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "OptimizedBenchmarkRunner",
+        "line": 36,
+        "type": "class",
+        "file": "benchmark-optimized.ts"
+      },
+      {
+        "name": "BenchmarkRunner",
+        "line": 13,
+        "type": "class",
+        "file": "benchmark.ts"
+      },
+      {
+        "name": "AdvancedCache",
+        "line": 41,
+        "type": "class",
+        "file": "cache/advanced-cache.ts"
+      },
+      {
+        "name": "CacheFactory",
+        "line": 382,
+        "type": "class",
+        "file": "cache/advanced-cache.ts"
+      },
+      {
+        "name": "MultiLevelCache",
+        "line": 404,
+        "type": "class",
+        "file": "cache/advanced-cache.ts"
+      },
+      {
+        "name": "BenchmarkCLI",
+        "line": 25,
+        "type": "class",
+        "file": "cli.ts"
+      },
+      {
+        "name": "LoadTester",
+        "line": 60,
+        "type": "class",
+        "file": "load-testing/load-tester.ts"
+      },
+      {
+        "name": "LoadTestReporter",
+        "line": 356,
+        "type": "class",
+        "file": "load-testing/load-tester.ts"
+      },
+      {
+        "name": "MetricsCalculator",
+        "line": 3,
+        "type": "class",
+        "file": "metrics/index.ts"
+      },
+      {
+        "name": "PerformanceMonitor",
+        "line": 38,
+        "type": "class",
+        "file": "metrics/performance-monitor.ts"
+      },
+      {
+        "name": "ResourceManager",
+        "line": 30,
+        "type": "class",
+        "file": "metrics/resource-manager.ts"
+      },
+      {
+        "name": "GenericResourcePool",
+        "line": 110,
+        "type": "class",
+        "file": "metrics/resource-manager.ts"
+      },
+      {
+        "name": "ResourceMonitor",
+        "line": 291,
+        "type": "class",
+        "file": "metrics/resource-manager.ts"
+      },
+      {
+        "name": "MemoryManager",
+        "line": 349,
+        "type": "class",
+        "file": "metrics/resource-manager.ts"
+      },
+      {
+        "name": "OptimizedBuildFixSystem",
+        "line": 45,
+        "type": "class",
+        "file": "optimization/integration.ts"
+      },
+      {
+        "name": "BaseProvider",
+        "line": 9,
+        "type": "class",
+        "file": "providers/base.ts"
+      },
+      {
+        "name": "EnhancedBuildFixTimeoutError",
+        "line": 82,
+        "type": "class",
+        "file": "providers/buildfix-enhanced.ts"
+      },
+      {
+        "name": "EnhancedBuildFixProcessError",
+        "line": 93,
+        "type": "class",
+        "file": "providers/buildfix-enhanced.ts"
+      },
+      {
+        "name": "EnhancedBuildFixCacheError",
+        "line": 105,
+        "type": "class",
+        "file": "providers/buildfix-enhanced.ts"
+      },
+      {
+        "name": "EnhancedBuildFixProvider",
+        "line": 116,
+        "type": "class",
+        "file": "providers/buildfix-enhanced.ts"
+      },
+      {
+        "name": "BuildFixTimeoutError",
+        "line": 25,
+        "type": "class",
+        "file": "providers/buildfix.ts"
+      },
+      {
+        "name": "BuildFixProcessError",
+        "line": 35,
+        "type": "class",
+        "file": "providers/buildfix.ts"
+      },
+      {
+        "name": "BuildFixResourceError",
+        "line": 46,
+        "type": "class",
+        "file": "providers/buildfix.ts"
+      },
+      {
+        "name": "BuildFixProvider",
+        "line": 128,
+        "type": "class",
+        "file": "providers/buildfix.ts"
+      },
+      {
+        "name": "OllamaProvider",
+        "line": 5,
+        "type": "class",
+        "file": "providers/ollama.ts"
+      },
+      {
+        "name": "OpenAIProvider",
+        "line": 5,
+        "type": "class",
+        "file": "providers/openai.ts"
+      },
+      {
+        "name": "VLLMProvider",
+        "line": 4,
+        "type": "class",
+        "file": "providers/vllm.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "globalPerformanceMonitor",
+        "line": 338,
+        "type": "function",
+        "file": "metrics/performance-monitor.ts"
+      },
+      {
+        "name": "createOptimizedBuildFixSystem",
+        "line": 340,
+        "type": "function",
+        "file": "optimization/integration.ts"
+      },
+      {
+        "name": "exampleUsage",
+        "line": 348,
+        "type": "function",
+        "file": "optimization/integration.ts"
+      },
+      {
+        "name": "createProvider",
+        "line": 14,
+        "type": "function",
+        "file": "providers/index.ts"
+      },
+      {
+        "name": "getSupportedProviders",
+        "line": 29,
+        "type": "function",
+        "file": "providers/index.ts"
+      },
+      {
+        "name": "findRepositoryRoot",
+        "line": 9,
+        "type": "function",
+        "file": "providers/path-utils.ts"
+      },
+      {
+        "name": "getBuildFixDirectories",
+        "line": 23,
+        "type": "function",
+        "file": "providers/path-utils.ts"
+      },
+      {
+        "name": "ProviderTypeSchema",
+        "line": 47,
+        "type": "function",
+        "file": "types/index.ts"
+      }
+    ],
+    "interfaces": [
+      {
+        "name": "CacheEntry",
+        "line": 7,
+        "type": "interface",
+        "file": "cache/advanced-cache.ts"
+      },
+      {
+        "name": "CacheStats",
+        "line": 18,
+        "type": "interface",
+        "file": "cache/advanced-cache.ts"
+      },
+      {
+        "name": "CacheConfig",
+        "line": 30,
+        "type": "interface",
+        "file": "cache/advanced-cache.ts"
+      },
+      {
+        "name": "LoadTestConfig",
+        "line": 6,
+        "type": "interface",
+        "file": "load-testing/load-tester.ts"
+      },
+      {
+        "name": "LoadTestRequest",
+        "line": 15,
+        "type": "interface",
+        "file": "load-testing/load-tester.ts"
+      },
+      {
+        "name": "LoadTestResponse",
+        "line": 22,
+        "type": "interface",
+        "file": "load-testing/load-tester.ts"
+      },
+      {
+        "name": "LoadTestMetrics",
+        "line": 34,
+        "type": "interface",
+        "file": "load-testing/load-tester.ts"
+      },
+      {
+        "name": "UserSimulation",
+        "line": 52,
+        "type": "interface",
+        "file": "load-testing/load-tester.ts"
+      },
+      {
+        "name": "PerformanceSnapshot",
+        "line": 6,
+        "type": "interface",
+        "file": "metrics/performance-monitor.ts"
+      },
+      {
+        "name": "PerformanceAlert",
+        "line": 29,
+        "type": "interface",
+        "file": "metrics/performance-monitor.ts"
+      },
+      {
+        "name": "ResourcePool",
+        "line": 4,
+        "type": "interface",
+        "file": "metrics/resource-manager.ts"
+      },
+      {
+        "name": "PoolStats",
+        "line": 11,
+        "type": "interface",
+        "file": "metrics/resource-manager.ts"
+      },
+      {
+        "name": "ResourceConfig",
+        "line": 20,
+        "type": "interface",
+        "file": "metrics/resource-manager.ts"
+      },
+      {
+        "name": "OptimizationConfig",
+        "line": 8,
+        "type": "interface",
+        "file": "optimization/integration.ts"
+      },
+      {
+        "name": "BenchmarkRequest",
+        "line": 3,
+        "type": "interface",
+        "file": "types/index.ts"
+      },
+      {
+        "name": "BenchmarkResponse",
+        "line": 10,
+        "type": "interface",
+        "file": "types/index.ts"
+      },
+      {
+        "name": "BenchmarkMetrics",
+        "line": 17,
+        "type": "interface",
+        "file": "types/index.ts"
+      },
+      {
+        "name": "ResourceMetrics",
+        "line": 26,
+        "type": "interface",
+        "file": "types/index.ts"
+      },
+      {
+        "name": "ProviderConfig",
+        "line": 38,
+        "type": "interface",
+        "file": "types/index.ts"
+      },
+      {
+        "name": "BenchmarkResult",
+        "line": 62,
+        "type": "interface",
+        "file": "types/index.ts"
+      },
+      {
+        "name": "BenchmarkSuite",
+        "line": 73,
+        "type": "interface",
+        "file": "types/index.ts"
+      },
+      {
+        "name": "BenchmarkReport",
+        "line": 81,
+        "type": "interface",
+        "file": "types/index.ts"
+      }
+    ]
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "benchmark-optimized.ts",
+          "link": "[src/benchmark-optimized.ts](../../../packages/benchmark/src/benchmark-optimized.ts)",
+          "lineCount": 535
+        },
+        {
+          "name": "benchmark.ts",
+          "link": "[src/benchmark.ts](../../../packages/benchmark/src/benchmark.ts)",
+          "lineCount": 211
+        },
+        {
+          "name": "cache/advanced-cache.ts",
+          "link": "[src/cache/advanced-cache.ts](../../../packages/benchmark/src/cache/advanced-cache.ts)",
+          "lineCount": 475
+        },
+        {
+          "name": "cli.ts",
+          "link": "[src/cli.ts](../../../packages/benchmark/src/cli.ts)",
+          "lineCount": 511
+        },
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/benchmark/src/index.ts)",
+          "lineCount": 11
+        },
+        {
+          "name": "load-testing/load-tester.ts",
+          "link": "[src/load-testing/load-tester.ts](../../../packages/benchmark/src/load-testing/load-tester.ts)",
+          "lineCount": 458
+        },
+        {
+          "name": "metrics/index.ts",
+          "link": "[src/metrics/index.ts](../../../packages/benchmark/src/metrics/index.ts)",
+          "lineCount": 179
+        },
+        {
+          "name": "metrics/performance-monitor.ts",
+          "link": "[src/metrics/performance-monitor.ts](../../../packages/benchmark/src/metrics/performance-monitor.ts)",
+          "lineCount": 339
+        },
+        {
+          "name": "metrics/resource-manager.ts",
+          "link": "[src/metrics/resource-manager.ts](../../../packages/benchmark/src/metrics/resource-manager.ts)",
+          "lineCount": 406
+        },
+        {
+          "name": "optimization/integration.ts",
+          "link": "[src/optimization/integration.ts](../../../packages/benchmark/src/optimization/integration.ts)",
+          "lineCount": 416
+        },
+        {
+          "name": "providers/base.ts",
+          "link": "[src/providers/base.ts](../../../packages/benchmark/src/providers/base.ts)",
+          "lineCount": 109
+        },
+        {
+          "name": "providers/buildfix-enhanced.ts",
+          "link": "[src/providers/buildfix-enhanced.ts](../../../packages/benchmark/src/providers/buildfix-enhanced.ts)",
+          "lineCount": 903
+        },
+        {
+          "name": "providers/buildfix.ts",
+          "link": "[src/providers/buildfix.ts](../../../packages/benchmark/src/providers/buildfix.ts)",
+          "lineCount": 1021
+        },
+        {
+          "name": "providers/index.ts",
+          "link": "[src/providers/index.ts](../../../packages/benchmark/src/providers/index.ts)",
+          "lineCount": 32
+        },
+        {
+          "name": "providers/ollama.ts",
+          "link": "[src/providers/ollama.ts](../../../packages/benchmark/src/providers/ollama.ts)",
+          "lineCount": 91
+        },
+        {
+          "name": "providers/openai.ts",
+          "link": "[src/providers/openai.ts](../../../packages/benchmark/src/providers/openai.ts)",
+          "lineCount": 90
+        },
+        {
+          "name": "providers/path-utils.ts",
+          "link": "[src/providers/path-utils.ts](../../../packages/benchmark/src/providers/path-utils.ts)",
+          "lineCount": 35
+        },
+        {
+          "name": "providers/vllm.ts",
+          "link": "[src/providers/vllm.ts](../../../packages/benchmark/src/providers/vllm.ts)",
+          "lineCount": 107
+        },
+        {
+          "name": "types/index.ts",
+          "link": "[src/types/index.ts](../../../packages/benchmark/src/types/index.ts)",
+          "lineCount": 97
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "OptimizedBenchmarkRunner",
+          "link": "[OptimizedBenchmarkRunner](../../../packages/benchmark/src/benchmark-optimized.ts#L36)",
+          "file": "benchmark-optimized.ts",
+          "line": 36
+        },
+        {
+          "name": "BenchmarkRunner",
+          "link": "[BenchmarkRunner](../../../packages/benchmark/src/benchmark.ts#L13)",
+          "file": "benchmark.ts",
+          "line": 13
+        },
+        {
+          "name": "AdvancedCache",
+          "link": "[AdvancedCache](../../../packages/benchmark/src/cache/advanced-cache.ts#L41)",
+          "file": "cache/advanced-cache.ts",
+          "line": 41
+        },
+        {
+          "name": "CacheFactory",
+          "link": "[CacheFactory](../../../packages/benchmark/src/cache/advanced-cache.ts#L382)",
+          "file": "cache/advanced-cache.ts",
+          "line": 382
+        },
+        {
+          "name": "MultiLevelCache",
+          "link": "[MultiLevelCache](../../../packages/benchmark/src/cache/advanced-cache.ts#L404)",
+          "file": "cache/advanced-cache.ts",
+          "line": 404
+        },
+        {
+          "name": "BenchmarkCLI",
+          "link": "[BenchmarkCLI](../../../packages/benchmark/src/cli.ts#L25)",
+          "file": "cli.ts",
+          "line": 25
+        },
+        {
+          "name": "LoadTester",
+          "link": "[LoadTester](../../../packages/benchmark/src/load-testing/load-tester.ts#L60)",
+          "file": "load-testing/load-tester.ts",
+          "line": 60
+        },
+        {
+          "name": "LoadTestReporter",
+          "link": "[LoadTestReporter](../../../packages/benchmark/src/load-testing/load-tester.ts#L356)",
+          "file": "load-testing/load-tester.ts",
+          "line": 356
+        },
+        {
+          "name": "MetricsCalculator",
+          "link": "[MetricsCalculator](../../../packages/benchmark/src/metrics/index.ts#L3)",
+          "file": "metrics/index.ts",
+          "line": 3
+        },
+        {
+          "name": "PerformanceMonitor",
+          "link": "[PerformanceMonitor](../../../packages/benchmark/src/metrics/performance-monitor.ts#L38)",
+          "file": "metrics/performance-monitor.ts",
+          "line": 38
+        },
+        {
+          "name": "ResourceManager",
+          "link": "[ResourceManager](../../../packages/benchmark/src/metrics/resource-manager.ts#L30)",
+          "file": "metrics/resource-manager.ts",
+          "line": 30
+        },
+        {
+          "name": "GenericResourcePool",
+          "link": "[GenericResourcePool](../../../packages/benchmark/src/metrics/resource-manager.ts#L110)",
+          "file": "metrics/resource-manager.ts",
+          "line": 110
+        },
+        {
+          "name": "ResourceMonitor",
+          "link": "[ResourceMonitor](../../../packages/benchmark/src/metrics/resource-manager.ts#L291)",
+          "file": "metrics/resource-manager.ts",
+          "line": 291
+        },
+        {
+          "name": "MemoryManager",
+          "link": "[MemoryManager](../../../packages/benchmark/src/metrics/resource-manager.ts#L349)",
+          "file": "metrics/resource-manager.ts",
+          "line": 349
+        },
+        {
+          "name": "OptimizedBuildFixSystem",
+          "link": "[OptimizedBuildFixSystem](../../../packages/benchmark/src/optimization/integration.ts#L45)",
+          "file": "optimization/integration.ts",
+          "line": 45
+        },
+        {
+          "name": "BaseProvider",
+          "link": "[BaseProvider](../../../packages/benchmark/src/providers/base.ts#L9)",
+          "file": "providers/base.ts",
+          "line": 9
+        },
+        {
+          "name": "EnhancedBuildFixTimeoutError",
+          "link": "[EnhancedBuildFixTimeoutError](../../../packages/benchmark/src/providers/buildfix-enhanced.ts#L82)",
+          "file": "providers/buildfix-enhanced.ts",
+          "line": 82
+        },
+        {
+          "name": "EnhancedBuildFixProcessError",
+          "link": "[EnhancedBuildFixProcessError](../../../packages/benchmark/src/providers/buildfix-enhanced.ts#L93)",
+          "file": "providers/buildfix-enhanced.ts",
+          "line": 93
+        },
+        {
+          "name": "EnhancedBuildFixCacheError",
+          "link": "[EnhancedBuildFixCacheError](../../../packages/benchmark/src/providers/buildfix-enhanced.ts#L105)",
+          "file": "providers/buildfix-enhanced.ts",
+          "line": 105
+        },
+        {
+          "name": "EnhancedBuildFixProvider",
+          "link": "[EnhancedBuildFixProvider](../../../packages/benchmark/src/providers/buildfix-enhanced.ts#L116)",
+          "file": "providers/buildfix-enhanced.ts",
+          "line": 116
+        },
+        {
+          "name": "BuildFixTimeoutError",
+          "link": "[BuildFixTimeoutError](../../../packages/benchmark/src/providers/buildfix.ts#L25)",
+          "file": "providers/buildfix.ts",
+          "line": 25
+        },
+        {
+          "name": "BuildFixProcessError",
+          "link": "[BuildFixProcessError](../../../packages/benchmark/src/providers/buildfix.ts#L35)",
+          "file": "providers/buildfix.ts",
+          "line": 35
+        },
+        {
+          "name": "BuildFixResourceError",
+          "link": "[BuildFixResourceError](../../../packages/benchmark/src/providers/buildfix.ts#L46)",
+          "file": "providers/buildfix.ts",
+          "line": 46
+        },
+        {
+          "name": "BuildFixProvider",
+          "link": "[BuildFixProvider](../../../packages/benchmark/src/providers/buildfix.ts#L128)",
+          "file": "providers/buildfix.ts",
+          "line": 128
+        },
+        {
+          "name": "OllamaProvider",
+          "link": "[OllamaProvider](../../../packages/benchmark/src/providers/ollama.ts#L5)",
+          "file": "providers/ollama.ts",
+          "line": 5
+        },
+        {
+          "name": "OpenAIProvider",
+          "link": "[OpenAIProvider](../../../packages/benchmark/src/providers/openai.ts#L5)",
+          "file": "providers/openai.ts",
+          "line": 5
+        },
+        {
+          "name": "VLLMProvider",
+          "link": "[VLLMProvider](../../../packages/benchmark/src/providers/vllm.ts#L4)",
+          "file": "providers/vllm.ts",
+          "line": 4
+        }
+      ],
+      "functions": [
+        {
+          "name": "globalPerformanceMonitor",
+          "link": "[globalPerformanceMonitor()](../../../packages/benchmark/src/metrics/performance-monitor.ts#L338)",
+          "file": "metrics/performance-monitor.ts",
+          "line": 338
+        },
+        {
+          "name": "createOptimizedBuildFixSystem",
+          "link": "[createOptimizedBuildFixSystem()](../../../packages/benchmark/src/optimization/integration.ts#L340)",
+          "file": "optimization/integration.ts",
+          "line": 340
+        },
+        {
+          "name": "exampleUsage",
+          "link": "[exampleUsage()](../../../packages/benchmark/src/optimization/integration.ts#L348)",
+          "file": "optimization/integration.ts",
+          "line": 348
+        },
+        {
+          "name": "createProvider",
+          "link": "[createProvider()](../../../packages/benchmark/src/providers/index.ts#L14)",
+          "file": "providers/index.ts",
+          "line": 14
+        },
+        {
+          "name": "getSupportedProviders",
+          "link": "[getSupportedProviders()](../../../packages/benchmark/src/providers/index.ts#L29)",
+          "file": "providers/index.ts",
+          "line": 29
+        },
+        {
+          "name": "findRepositoryRoot",
+          "link": "[findRepositoryRoot()](../../../packages/benchmark/src/providers/path-utils.ts#L9)",
+          "file": "providers/path-utils.ts",
+          "line": 9
+        },
+        {
+          "name": "getBuildFixDirectories",
+          "link": "[getBuildFixDirectories()](../../../packages/benchmark/src/providers/path-utils.ts#L23)",
+          "file": "providers/path-utils.ts",
+          "line": 23
+        },
+        {
+          "name": "ProviderTypeSchema",
+          "link": "[ProviderTypeSchema()](../../../packages/benchmark/src/types/index.ts#L47)",
+          "file": "types/index.ts",
+          "line": 47
+        }
+      ],
+      "interfaces": [
+        {
+          "name": "CacheEntry",
+          "link": "[CacheEntry](../../../packages/benchmark/src/cache/advanced-cache.ts#L7)",
+          "file": "cache/advanced-cache.ts",
+          "line": 7
+        },
+        {
+          "name": "CacheStats",
+          "link": "[CacheStats](../../../packages/benchmark/src/cache/advanced-cache.ts#L18)",
+          "file": "cache/advanced-cache.ts",
+          "line": 18
+        },
+        {
+          "name": "CacheConfig",
+          "link": "[CacheConfig](../../../packages/benchmark/src/cache/advanced-cache.ts#L30)",
+          "file": "cache/advanced-cache.ts",
+          "line": 30
+        },
+        {
+          "name": "LoadTestConfig",
+          "link": "[LoadTestConfig](../../../packages/benchmark/src/load-testing/load-tester.ts#L6)",
+          "file": "load-testing/load-tester.ts",
+          "line": 6
+        },
+        {
+          "name": "LoadTestRequest",
+          "link": "[LoadTestRequest](../../../packages/benchmark/src/load-testing/load-tester.ts#L15)",
+          "file": "load-testing/load-tester.ts",
+          "line": 15
+        },
+        {
+          "name": "LoadTestResponse",
+          "link": "[LoadTestResponse](../../../packages/benchmark/src/load-testing/load-tester.ts#L22)",
+          "file": "load-testing/load-tester.ts",
+          "line": 22
+        },
+        {
+          "name": "LoadTestMetrics",
+          "link": "[LoadTestMetrics](../../../packages/benchmark/src/load-testing/load-tester.ts#L34)",
+          "file": "load-testing/load-tester.ts",
+          "line": 34
+        },
+        {
+          "name": "UserSimulation",
+          "link": "[UserSimulation](../../../packages/benchmark/src/load-testing/load-tester.ts#L52)",
+          "file": "load-testing/load-tester.ts",
+          "line": 52
+        },
+        {
+          "name": "PerformanceSnapshot",
+          "link": "[PerformanceSnapshot](../../../packages/benchmark/src/metrics/performance-monitor.ts#L6)",
+          "file": "metrics/performance-monitor.ts",
+          "line": 6
+        },
+        {
+          "name": "PerformanceAlert",
+          "link": "[PerformanceAlert](../../../packages/benchmark/src/metrics/performance-monitor.ts#L29)",
+          "file": "metrics/performance-monitor.ts",
+          "line": 29
+        },
+        {
+          "name": "ResourcePool",
+          "link": "[ResourcePool](../../../packages/benchmark/src/metrics/resource-manager.ts#L4)",
+          "file": "metrics/resource-manager.ts",
+          "line": 4
+        },
+        {
+          "name": "PoolStats",
+          "link": "[PoolStats](../../../packages/benchmark/src/metrics/resource-manager.ts#L11)",
+          "file": "metrics/resource-manager.ts",
+          "line": 11
+        },
+        {
+          "name": "ResourceConfig",
+          "link": "[ResourceConfig](../../../packages/benchmark/src/metrics/resource-manager.ts#L20)",
+          "file": "metrics/resource-manager.ts",
+          "line": 20
+        },
+        {
+          "name": "OptimizationConfig",
+          "link": "[OptimizationConfig](../../../packages/benchmark/src/optimization/integration.ts#L8)",
+          "file": "optimization/integration.ts",
+          "line": 8
+        },
+        {
+          "name": "BenchmarkRequest",
+          "link": "[BenchmarkRequest](../../../packages/benchmark/src/types/index.ts#L3)",
+          "file": "types/index.ts",
+          "line": 3
+        },
+        {
+          "name": "BenchmarkResponse",
+          "link": "[BenchmarkResponse](../../../packages/benchmark/src/types/index.ts#L10)",
+          "file": "types/index.ts",
+          "line": 10
+        },
+        {
+          "name": "BenchmarkMetrics",
+          "link": "[BenchmarkMetrics](../../../packages/benchmark/src/types/index.ts#L17)",
+          "file": "types/index.ts",
+          "line": 17
+        },
+        {
+          "name": "ResourceMetrics",
+          "link": "[ResourceMetrics](../../../packages/benchmark/src/types/index.ts#L26)",
+          "file": "types/index.ts",
+          "line": 26
+        },
+        {
+          "name": "ProviderConfig",
+          "link": "[ProviderConfig](../../../packages/benchmark/src/types/index.ts#L38)",
+          "file": "types/index.ts",
+          "line": 38
+        },
+        {
+          "name": "BenchmarkResult",
+          "link": "[BenchmarkResult](../../../packages/benchmark/src/types/index.ts#L62)",
+          "file": "types/index.ts",
+          "line": 62
+        },
+        {
+          "name": "BenchmarkSuite",
+          "link": "[BenchmarkSuite](../../../packages/benchmark/src/types/index.ts#L73)",
+          "file": "types/index.ts",
+          "line": 73
+        },
+        {
+          "name": "BenchmarkReport",
+          "link": "[BenchmarkReport](../../../packages/benchmark/src/types/index.ts#L81)",
+          "file": "types/index.ts",
+          "line": 81
+        }
+      ]
+    }
+  }
+}

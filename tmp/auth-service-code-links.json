@@ -1,0 +1,245 @@
+{
+  "packageData": {
+    "packageName": "auth-service",
+    "files": [
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/auth-service/src/index.ts",
+        "exports": [
+          {
+            "name": "buildServer",
+            "line": 308,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "buildServer",
+            "line": 308,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 360
+      },
+      {
+        "path": "keys.ts",
+        "fullPath": "/home/err/devel/promethean/packages/auth-service/src/keys.ts",
+        "exports": [
+          {
+            "name": "initKeys",
+            "line": 46,
+            "type": "function"
+          },
+          {
+            "name": "jwks",
+            "line": 107,
+            "type": "function"
+          },
+          {
+            "name": "signAccessToken",
+            "line": 112,
+            "type": "function"
+          },
+          {
+            "name": "verifyToken",
+            "line": 133,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "initKeys",
+            "line": 46,
+            "type": "function"
+          },
+          {
+            "name": "jwks",
+            "line": 107,
+            "type": "function"
+          },
+          {
+            "name": "signAccessToken",
+            "line": 112,
+            "type": "function"
+          },
+          {
+            "name": "verifyToken",
+            "line": 133,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 139
+      },
+      {
+        "path": "tests/oauth-flow.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/auth-service/src/tests/oauth-flow.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 118
+      },
+      {
+        "path": "tests/security.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/auth-service/src/tests/security.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 534
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [
+        {
+          "name": "buildServer",
+          "line": 308,
+          "type": "function"
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "buildServer",
+          "line": 308,
+          "type": "function"
+        }
+      ],
+      "interfaces": [],
+      "totalLines": 360
+    },
+    "exports": [
+      {
+        "name": "buildServer",
+        "line": 308,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "initKeys",
+        "line": 46,
+        "type": "function",
+        "file": "keys.ts"
+      },
+      {
+        "name": "jwks",
+        "line": 107,
+        "type": "function",
+        "file": "keys.ts"
+      },
+      {
+        "name": "signAccessToken",
+        "line": 112,
+        "type": "function",
+        "file": "keys.ts"
+      },
+      {
+        "name": "verifyToken",
+        "line": 133,
+        "type": "function",
+        "file": "keys.ts"
+      }
+    ],
+    "classes": [],
+    "functions": [
+      {
+        "name": "buildServer",
+        "line": 308,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "initKeys",
+        "line": 46,
+        "type": "function",
+        "file": "keys.ts"
+      },
+      {
+        "name": "jwks",
+        "line": 107,
+        "type": "function",
+        "file": "keys.ts"
+      },
+      {
+        "name": "signAccessToken",
+        "line": 112,
+        "type": "function",
+        "file": "keys.ts"
+      },
+      {
+        "name": "verifyToken",
+        "line": 133,
+        "type": "function",
+        "file": "keys.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/auth-service/src/index.ts)",
+          "lineCount": 360
+        },
+        {
+          "name": "keys.ts",
+          "link": "[src/keys.ts](../../../packages/auth-service/src/keys.ts)",
+          "lineCount": 139
+        },
+        {
+          "name": "tests/oauth-flow.test.ts",
+          "link": "[src/tests/oauth-flow.test.ts](../../../packages/auth-service/src/tests/oauth-flow.test.ts)",
+          "lineCount": 118
+        },
+        {
+          "name": "tests/security.test.ts",
+          "link": "[src/tests/security.test.ts](../../../packages/auth-service/src/tests/security.test.ts)",
+          "lineCount": 534
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [],
+      "functions": [
+        {
+          "name": "buildServer",
+          "link": "[buildServer()](../../../packages/auth-service/src/index.ts#L308)",
+          "file": "index.ts",
+          "line": 308
+        },
+        {
+          "name": "initKeys",
+          "link": "[initKeys()](../../../packages/auth-service/src/keys.ts#L46)",
+          "file": "keys.ts",
+          "line": 46
+        },
+        {
+          "name": "jwks",
+          "link": "[jwks()](../../../packages/auth-service/src/keys.ts#L107)",
+          "file": "keys.ts",
+          "line": 107
+        },
+        {
+          "name": "signAccessToken",
+          "link": "[signAccessToken()](../../../packages/auth-service/src/keys.ts#L112)",
+          "file": "keys.ts",
+          "line": 112
+        },
+        {
+          "name": "verifyToken",
+          "link": "[verifyToken()](../../../packages/auth-service/src/keys.ts#L133)",
+          "file": "keys.ts",
+          "line": 133
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

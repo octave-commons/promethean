@@ -1,0 +1,242 @@
+{
+  "packageData": {
+    "packageName": "http",
+    "files": [
+      {
+        "path": "hf.ts",
+        "fullPath": "/home/err/devel/promethean/packages/http/src/hf.ts",
+        "exports": [
+          {
+            "name": "HuggingFaceClient",
+            "line": 73,
+            "type": "class"
+          },
+          {
+            "name": "createHfClient",
+            "line": 103,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "HuggingFaceClient",
+            "line": 73,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "createHfClient",
+            "line": 103,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 104
+      },
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/http/src/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 4
+      },
+      {
+        "path": "publish.ts",
+        "fullPath": "/home/err/devel/promethean/packages/http/src/publish.ts",
+        "exports": [
+          {
+            "name": "startHttpPublisher",
+            "line": 61,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "startHttpPublisher",
+            "line": 61,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 102
+      },
+      {
+        "path": "replay.ts",
+        "fullPath": "/home/err/devel/promethean/packages/http/src/replay.ts",
+        "exports": [
+          {
+            "name": "startReplayAPI",
+            "line": 247,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "HttpError",
+            "line": 14,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "startReplayAPI",
+            "line": 247,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 266
+      },
+      {
+        "path": "tests/hf.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/http/src/tests/hf.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 66
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [],
+      "classes": [],
+      "functions": [],
+      "interfaces": [],
+      "totalLines": 4
+    },
+    "exports": [
+      {
+        "name": "HuggingFaceClient",
+        "line": 73,
+        "type": "class",
+        "file": "hf.ts"
+      },
+      {
+        "name": "createHfClient",
+        "line": 103,
+        "type": "function",
+        "file": "hf.ts"
+      },
+      {
+        "name": "startHttpPublisher",
+        "line": 61,
+        "type": "function",
+        "file": "publish.ts"
+      },
+      {
+        "name": "startReplayAPI",
+        "line": 247,
+        "type": "function",
+        "file": "replay.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "HuggingFaceClient",
+        "line": 73,
+        "type": "class",
+        "file": "hf.ts"
+      },
+      {
+        "name": "HttpError",
+        "line": 14,
+        "type": "class",
+        "file": "replay.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "createHfClient",
+        "line": 103,
+        "type": "function",
+        "file": "hf.ts"
+      },
+      {
+        "name": "startHttpPublisher",
+        "line": 61,
+        "type": "function",
+        "file": "publish.ts"
+      },
+      {
+        "name": "startReplayAPI",
+        "line": 247,
+        "type": "function",
+        "file": "replay.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "hf.ts",
+          "link": "[src/hf.ts](../../../packages/http/src/hf.ts)",
+          "lineCount": 104
+        },
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/http/src/index.ts)",
+          "lineCount": 4
+        },
+        {
+          "name": "publish.ts",
+          "link": "[src/publish.ts](../../../packages/http/src/publish.ts)",
+          "lineCount": 102
+        },
+        {
+          "name": "replay.ts",
+          "link": "[src/replay.ts](../../../packages/http/src/replay.ts)",
+          "lineCount": 266
+        },
+        {
+          "name": "tests/hf.test.ts",
+          "link": "[src/tests/hf.test.ts](../../../packages/http/src/tests/hf.test.ts)",
+          "lineCount": 66
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "HuggingFaceClient",
+          "link": "[HuggingFaceClient](../../../packages/http/src/hf.ts#L73)",
+          "file": "hf.ts",
+          "line": 73
+        },
+        {
+          "name": "HttpError",
+          "link": "[HttpError](../../../packages/http/src/replay.ts#L14)",
+          "file": "replay.ts",
+          "line": 14
+        }
+      ],
+      "functions": [
+        {
+          "name": "createHfClient",
+          "link": "[createHfClient()](../../../packages/http/src/hf.ts#L103)",
+          "file": "hf.ts",
+          "line": 103
+        },
+        {
+          "name": "startHttpPublisher",
+          "link": "[startHttpPublisher()](../../../packages/http/src/publish.ts#L61)",
+          "file": "publish.ts",
+          "line": 61
+        },
+        {
+          "name": "startReplayAPI",
+          "link": "[startReplayAPI()](../../../packages/http/src/replay.ts#L247)",
+          "file": "replay.ts",
+          "line": 247
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

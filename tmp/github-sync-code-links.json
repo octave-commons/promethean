@@ -1,0 +1,70 @@
+{
+  "packageData": {
+    "packageName": "github-sync",
+    "files": [
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/github-sync/src/index.ts",
+        "exports": [],
+        "classes": [
+          {
+            "name": "GitHubSync",
+            "line": 45,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 247
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [],
+      "classes": [
+        {
+          "name": "GitHubSync",
+          "line": 45,
+          "type": "class"
+        }
+      ],
+      "functions": [],
+      "interfaces": [],
+      "totalLines": 247
+    },
+    "exports": [],
+    "classes": [
+      {
+        "name": "GitHubSync",
+        "line": 45,
+        "type": "class",
+        "file": "index.ts"
+      }
+    ],
+    "functions": [],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/github-sync/src/index.ts)",
+          "lineCount": 247
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "GitHubSync",
+          "link": "[GitHubSync](../../../packages/github-sync/src/index.ts#L45)",
+          "file": "index.ts",
+          "line": 45
+        }
+      ],
+      "functions": [],
+      "interfaces": []
+    }
+  }
+}

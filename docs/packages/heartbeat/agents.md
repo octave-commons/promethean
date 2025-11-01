@@ -2,7 +2,7 @@
 
 ## Overview
 
-TODO: Add service description.
+Heartbeat service that provides periodic status signals for distributed system components. Generates and publishes heartbeat events to indicate service availability and health status. Supports configurable intervals, custom metadata inclusion, and failure detection. Integrates with monitoring systems to track service uptime, detect outages, and trigger automated recovery procedures for distributed applications.
 
 ## Broker Usage
 

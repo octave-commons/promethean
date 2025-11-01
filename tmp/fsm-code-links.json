@@ -1,0 +1,1979 @@
+{
+  "packageData": {
+    "packageName": "fsm",
+    "files": [
+      {
+        "path": "adapters.ts",
+        "fullPath": "/home/err/devel/promethean/packages/fsm/src/adapters.ts",
+        "exports": [
+          {
+            "name": "SystemConfig",
+            "line": 16,
+            "type": "interface"
+          },
+          {
+            "name": "StateConfig",
+            "line": 25,
+            "type": "interface"
+          },
+          {
+            "name": "TransitionConfig",
+            "line": 33,
+            "type": "interface"
+          },
+          {
+            "name": "UnifiedFSMEngine",
+            "line": 45,
+            "type": "class"
+          },
+          {
+            "name": "KanbanContext",
+            "line": 150,
+            "type": "interface"
+          },
+          {
+            "name": "WorkflowContext",
+            "line": 164,
+            "type": "interface"
+          },
+          {
+            "name": "PipelineContext",
+            "line": 179,
+            "type": "interface"
+          },
+          {
+            "name": "createKanbanFSM",
+            "line": 196,
+            "type": "function"
+          },
+          {
+            "name": "createAgentsWorkflowFSM",
+            "line": 200,
+            "type": "function"
+          },
+          {
+            "name": "createPiperFSM",
+            "line": 204,
+            "type": "function"
+          },
+          {
+            "name": "basicKanbanConfig",
+            "line": 210,
+            "type": "function"
+          },
+          {
+            "name": "basicWorkflowConfig",
+            "line": 230,
+            "type": "function"
+          },
+          {
+            "name": "basicPipelineConfig",
+            "line": 249,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "UnifiedFSMEngine",
+            "line": 45,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "createKanbanFSM",
+            "line": 196,
+            "type": "function"
+          },
+          {
+            "name": "createAgentsWorkflowFSM",
+            "line": 200,
+            "type": "function"
+          },
+          {
+            "name": "createPiperFSM",
+            "line": 204,
+            "type": "function"
+          },
+          {
+            "name": "basicKanbanConfig",
+            "line": 210,
+            "type": "function"
+          },
+          {
+            "name": "basicWorkflowConfig",
+            "line": 230,
+            "type": "function"
+          },
+          {
+            "name": "basicPipelineConfig",
+            "line": 249,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "SystemConfig",
+            "line": 16,
+            "type": "interface"
+          },
+          {
+            "name": "StateConfig",
+            "line": 25,
+            "type": "interface"
+          },
+          {
+            "name": "TransitionConfig",
+            "line": 33,
+            "type": "interface"
+          },
+          {
+            "name": "KanbanContext",
+            "line": 150,
+            "type": "interface"
+          },
+          {
+            "name": "WorkflowContext",
+            "line": 164,
+            "type": "interface"
+          },
+          {
+            "name": "PipelineContext",
+            "line": 179,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 264
+      },
+      {
+        "path": "core/types.ts",
+        "fullPath": "/home/err/devel/promethean/packages/fsm/src/core/types.ts",
+        "exports": [
+          {
+            "name": "CoreTransition",
+            "line": 22,
+            "type": "interface"
+          },
+          {
+            "name": "FSMSnapshot",
+            "line": 33,
+            "type": "interface"
+          },
+          {
+            "name": "StateActions",
+            "line": 47,
+            "type": "interface"
+          },
+          {
+            "name": "FSMError",
+            "line": 53,
+            "type": "interface"
+          },
+          {
+            "name": "MachineConfig",
+            "line": 63,
+            "type": "interface"
+          },
+          {
+            "name": "TransitionDefinition",
+            "line": 72,
+            "type": "interface"
+          },
+          {
+            "name": "StateDefinition",
+            "line": 82,
+            "type": "interface"
+          },
+          {
+            "name": "MachineDefinition",
+            "line": 93,
+            "type": "interface"
+          },
+          {
+            "name": "ValidationResult",
+            "line": 100,
+            "type": "interface"
+          },
+          {
+            "name": "MachineAnalysis",
+            "line": 107,
+            "type": "interface"
+          },
+          {
+            "name": "EventResult",
+            "line": 116,
+            "type": "interface"
+          },
+          {
+            "name": "MachineBuilder",
+            "line": 139,
+            "type": "interface"
+          },
+          {
+            "name": "SerializedMachine",
+            "line": 151,
+            "type": "interface"
+          },
+          {
+            "name": "SerializedTransition",
+            "line": 157,
+            "type": "interface"
+          },
+          {
+            "name": "Inspector",
+            "line": 171,
+            "type": "interface"
+          },
+          {
+            "name": "PerformanceMetrics",
+            "line": 181,
+            "type": "interface"
+          },
+          {
+            "name": "MachineSnapshot",
+            "line": 190,
+            "type": "interface"
+          },
+          {
+            "name": "MachineEvent",
+            "line": 192,
+            "type": "interface"
+          },
+          {
+            "name": "InitialContext",
+            "line": 197,
+            "type": "interface"
+          },
+          {
+            "name": "TransitionResult",
+            "line": 202,
+            "type": "interface"
+          }
+        ],
+        "classes": [],
+        "functions": [],
+        "interfaces": [
+          {
+            "name": "CoreTransition",
+            "line": 22,
+            "type": "interface"
+          },
+          {
+            "name": "FSMSnapshot",
+            "line": 33,
+            "type": "interface"
+          },
+          {
+            "name": "StateActions",
+            "line": 47,
+            "type": "interface"
+          },
+          {
+            "name": "FSMError",
+            "line": 53,
+            "type": "interface"
+          },
+          {
+            "name": "MachineConfig",
+            "line": 63,
+            "type": "interface"
+          },
+          {
+            "name": "TransitionDefinition",
+            "line": 72,
+            "type": "interface"
+          },
+          {
+            "name": "StateDefinition",
+            "line": 82,
+            "type": "interface"
+          },
+          {
+            "name": "MachineDefinition",
+            "line": 93,
+            "type": "interface"
+          },
+          {
+            "name": "ValidationResult",
+            "line": 100,
+            "type": "interface"
+          },
+          {
+            "name": "MachineAnalysis",
+            "line": 107,
+            "type": "interface"
+          },
+          {
+            "name": "EventResult",
+            "line": 116,
+            "type": "interface"
+          },
+          {
+            "name": "MachineBuilder",
+            "line": 139,
+            "type": "interface"
+          },
+          {
+            "name": "SerializedMachine",
+            "line": 151,
+            "type": "interface"
+          },
+          {
+            "name": "SerializedTransition",
+            "line": 157,
+            "type": "interface"
+          },
+          {
+            "name": "Inspector",
+            "line": 171,
+            "type": "interface"
+          },
+          {
+            "name": "PerformanceMetrics",
+            "line": 181,
+            "type": "interface"
+          },
+          {
+            "name": "MachineSnapshot",
+            "line": 190,
+            "type": "interface"
+          },
+          {
+            "name": "MachineEvent",
+            "line": 192,
+            "type": "interface"
+          },
+          {
+            "name": "InitialContext",
+            "line": 197,
+            "type": "interface"
+          },
+          {
+            "name": "TransitionResult",
+            "line": 202,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 214
+      },
+      {
+        "path": "graph/index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/fsm/src/graph/index.ts",
+        "exports": [
+          {
+            "name": "FSMConfig",
+            "line": 36,
+            "type": "interface"
+          },
+          {
+            "name": "FSMState",
+            "line": 47,
+            "type": "interface"
+          },
+          {
+            "name": "FSMTransition",
+            "line": 52,
+            "type": "interface"
+          },
+          {
+            "name": "FSMTransitionResult",
+            "line": 61,
+            "type": "interface"
+          },
+          {
+            "name": "FSMValidationResult",
+            "line": 70,
+            "type": "interface"
+          },
+          {
+            "name": "FSMGraph",
+            "line": 77,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "FSMGraph",
+            "line": 77,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [
+          {
+            "name": "FSMConfig",
+            "line": 36,
+            "type": "interface"
+          },
+          {
+            "name": "FSMState",
+            "line": 47,
+            "type": "interface"
+          },
+          {
+            "name": "FSMTransition",
+            "line": 52,
+            "type": "interface"
+          },
+          {
+            "name": "FSMTransitionResult",
+            "line": 61,
+            "type": "interface"
+          },
+          {
+            "name": "FSMValidationResult",
+            "line": 70,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 87
+      },
+      {
+        "path": "immutability.ts",
+        "fullPath": "/home/err/devel/promethean/packages/fsm/src/immutability.ts",
+        "exports": [
+          {
+            "name": "freezeArray",
+            "line": 3,
+            "type": "function"
+          },
+          {
+            "name": "freezeSnapshot",
+            "line": 7,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "freezeArray",
+            "line": 3,
+            "type": "function"
+          },
+          {
+            "name": "freezeSnapshot",
+            "line": 7,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 16
+      },
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/fsm/src/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 103
+      },
+      {
+        "path": "machine.ts",
+        "fullPath": "/home/err/devel/promethean/packages/fsm/src/machine.ts",
+        "exports": [
+          {
+            "name": "createMachine",
+            "line": 16,
+            "type": "function"
+          },
+          {
+            "name": "defineTransition",
+            "line": 28,
+            "type": "function"
+          },
+          {
+            "name": "createSnapshot",
+            "line": 36,
+            "type": "function"
+          },
+          {
+            "name": "transition",
+            "line": 185,
+            "type": "function"
+          },
+          {
+            "name": "availableTransitions",
+            "line": 203,
+            "type": "function"
+          },
+          {
+            "name": "canTransition",
+            "line": 213,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createMachine",
+            "line": 16,
+            "type": "function"
+          },
+          {
+            "name": "defineTransition",
+            "line": 28,
+            "type": "function"
+          },
+          {
+            "name": "createSnapshot",
+            "line": 36,
+            "type": "function"
+          },
+          {
+            "name": "transition",
+            "line": 185,
+            "type": "function"
+          },
+          {
+            "name": "availableTransitions",
+            "line": 203,
+            "type": "function"
+          },
+          {
+            "name": "canTransition",
+            "line": 213,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 231
+      },
+      {
+        "path": "sequence.ts",
+        "fullPath": "/home/err/devel/promethean/packages/fsm/src/sequence.ts",
+        "exports": [
+          {
+            "name": "transitionMany",
+            "line": 125,
+            "type": "function"
+          },
+          {
+            "name": "transitionManyFromParams",
+            "line": 135,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "transitionMany",
+            "line": 125,
+            "type": "function"
+          },
+          {
+            "name": "transitionManyFromParams",
+            "line": 135,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 148
+      },
+      {
+        "path": "simple/functional-core.ts",
+        "fullPath": "/home/err/devel/promethean/packages/fsm/src/simple/functional-core.ts",
+        "exports": [
+          {
+            "name": "SimpleStateConfig",
+            "line": 23,
+            "type": "interface"
+          },
+          {
+            "name": "SimpleTransitionConfig",
+            "line": 31,
+            "type": "interface"
+          },
+          {
+            "name": "SimpleMachineDefinition",
+            "line": 45,
+            "type": "interface"
+          },
+          {
+            "name": "createSimpleMachineState",
+            "line": 61,
+            "type": "function"
+          },
+          {
+            "name": "getCurrentSimpleState",
+            "line": 80,
+            "type": "function"
+          },
+          {
+            "name": "getCurrentSimpleContext",
+            "line": 83,
+            "type": "function"
+          },
+          {
+            "name": "canSimpleTransition",
+            "line": 87,
+            "type": "function"
+          },
+          {
+            "name": "simpleTransition",
+            "line": 116,
+            "type": "function"
+          },
+          {
+            "name": "resetSimpleMachine",
+            "line": 207,
+            "type": "function"
+          },
+          {
+            "name": "getSimpleAvailableTransitions",
+            "line": 224,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createSimpleMachineState",
+            "line": 61,
+            "type": "function"
+          },
+          {
+            "name": "getCurrentSimpleState",
+            "line": 80,
+            "type": "function"
+          },
+          {
+            "name": "getCurrentSimpleContext",
+            "line": 83,
+            "type": "function"
+          },
+          {
+            "name": "canSimpleTransition",
+            "line": 87,
+            "type": "function"
+          },
+          {
+            "name": "simpleTransition",
+            "line": 116,
+            "type": "function"
+          },
+          {
+            "name": "resetSimpleMachine",
+            "line": 207,
+            "type": "function"
+          },
+          {
+            "name": "getSimpleAvailableTransitions",
+            "line": 224,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "SimpleStateConfig",
+            "line": 23,
+            "type": "interface"
+          },
+          {
+            "name": "SimpleTransitionConfig",
+            "line": 31,
+            "type": "interface"
+          },
+          {
+            "name": "SimpleMachineDefinition",
+            "line": 45,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 356
+      },
+      {
+        "path": "simple/index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/fsm/src/simple/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 32
+      },
+      {
+        "path": "simple/legacy-wrapper.ts",
+        "fullPath": "/home/err/devel/promethean/packages/fsm/src/simple/legacy-wrapper.ts",
+        "exports": [
+          {
+            "name": "SimpleMachine",
+            "line": 35,
+            "type": "class"
+          },
+          {
+            "name": "createSimpleMachine",
+            "line": 202,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "SimpleMachine",
+            "line": 35,
+            "type": "class"
+          },
+          {
+            "name": "is",
+            "line": 43,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "createSimpleMachine",
+            "line": 202,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 207
+      },
+      {
+        "path": "simple/simple-machine.ts",
+        "fullPath": "/home/err/devel/promethean/packages/fsm/src/simple/simple-machine.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 33
+      },
+      {
+        "path": "tests/integration-fsm-architecture.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/fsm/src/tests/integration-fsm-architecture.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 871
+      },
+      {
+        "path": "tests/machine.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/fsm/src/tests/machine.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 312
+      },
+      {
+        "path": "types.ts",
+        "fullPath": "/home/err/devel/promethean/packages/fsm/src/types.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 128
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [],
+      "classes": [],
+      "functions": [],
+      "interfaces": [],
+      "totalLines": 103
+    },
+    "exports": [
+      {
+        "name": "SystemConfig",
+        "line": 16,
+        "type": "interface",
+        "file": "adapters.ts"
+      },
+      {
+        "name": "StateConfig",
+        "line": 25,
+        "type": "interface",
+        "file": "adapters.ts"
+      },
+      {
+        "name": "TransitionConfig",
+        "line": 33,
+        "type": "interface",
+        "file": "adapters.ts"
+      },
+      {
+        "name": "UnifiedFSMEngine",
+        "line": 45,
+        "type": "class",
+        "file": "adapters.ts"
+      },
+      {
+        "name": "KanbanContext",
+        "line": 150,
+        "type": "interface",
+        "file": "adapters.ts"
+      },
+      {
+        "name": "WorkflowContext",
+        "line": 164,
+        "type": "interface",
+        "file": "adapters.ts"
+      },
+      {
+        "name": "PipelineContext",
+        "line": 179,
+        "type": "interface",
+        "file": "adapters.ts"
+      },
+      {
+        "name": "createKanbanFSM",
+        "line": 196,
+        "type": "function",
+        "file": "adapters.ts"
+      },
+      {
+        "name": "createAgentsWorkflowFSM",
+        "line": 200,
+        "type": "function",
+        "file": "adapters.ts"
+      },
+      {
+        "name": "createPiperFSM",
+        "line": 204,
+        "type": "function",
+        "file": "adapters.ts"
+      },
+      {
+        "name": "basicKanbanConfig",
+        "line": 210,
+        "type": "function",
+        "file": "adapters.ts"
+      },
+      {
+        "name": "basicWorkflowConfig",
+        "line": 230,
+        "type": "function",
+        "file": "adapters.ts"
+      },
+      {
+        "name": "basicPipelineConfig",
+        "line": 249,
+        "type": "function",
+        "file": "adapters.ts"
+      },
+      {
+        "name": "CoreTransition",
+        "line": 22,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "FSMSnapshot",
+        "line": 33,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "StateActions",
+        "line": 47,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "FSMError",
+        "line": 53,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "MachineConfig",
+        "line": 63,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "TransitionDefinition",
+        "line": 72,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "StateDefinition",
+        "line": 82,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "MachineDefinition",
+        "line": 93,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "ValidationResult",
+        "line": 100,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "MachineAnalysis",
+        "line": 107,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "EventResult",
+        "line": 116,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "MachineBuilder",
+        "line": 139,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "SerializedMachine",
+        "line": 151,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "SerializedTransition",
+        "line": 157,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "Inspector",
+        "line": 171,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "PerformanceMetrics",
+        "line": 181,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "MachineSnapshot",
+        "line": 190,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "MachineEvent",
+        "line": 192,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "InitialContext",
+        "line": 197,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "TransitionResult",
+        "line": 202,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "FSMConfig",
+        "line": 36,
+        "type": "interface",
+        "file": "graph/index.ts"
+      },
+      {
+        "name": "FSMState",
+        "line": 47,
+        "type": "interface",
+        "file": "graph/index.ts"
+      },
+      {
+        "name": "FSMTransition",
+        "line": 52,
+        "type": "interface",
+        "file": "graph/index.ts"
+      },
+      {
+        "name": "FSMTransitionResult",
+        "line": 61,
+        "type": "interface",
+        "file": "graph/index.ts"
+      },
+      {
+        "name": "FSMValidationResult",
+        "line": 70,
+        "type": "interface",
+        "file": "graph/index.ts"
+      },
+      {
+        "name": "FSMGraph",
+        "line": 77,
+        "type": "class",
+        "file": "graph/index.ts"
+      },
+      {
+        "name": "freezeArray",
+        "line": 3,
+        "type": "function",
+        "file": "immutability.ts"
+      },
+      {
+        "name": "freezeSnapshot",
+        "line": 7,
+        "type": "function",
+        "file": "immutability.ts"
+      },
+      {
+        "name": "createMachine",
+        "line": 16,
+        "type": "function",
+        "file": "machine.ts"
+      },
+      {
+        "name": "defineTransition",
+        "line": 28,
+        "type": "function",
+        "file": "machine.ts"
+      },
+      {
+        "name": "createSnapshot",
+        "line": 36,
+        "type": "function",
+        "file": "machine.ts"
+      },
+      {
+        "name": "transition",
+        "line": 185,
+        "type": "function",
+        "file": "machine.ts"
+      },
+      {
+        "name": "availableTransitions",
+        "line": 203,
+        "type": "function",
+        "file": "machine.ts"
+      },
+      {
+        "name": "canTransition",
+        "line": 213,
+        "type": "function",
+        "file": "machine.ts"
+      },
+      {
+        "name": "transitionMany",
+        "line": 125,
+        "type": "function",
+        "file": "sequence.ts"
+      },
+      {
+        "name": "transitionManyFromParams",
+        "line": 135,
+        "type": "function",
+        "file": "sequence.ts"
+      },
+      {
+        "name": "SimpleStateConfig",
+        "line": 23,
+        "type": "interface",
+        "file": "simple/functional-core.ts"
+      },
+      {
+        "name": "SimpleTransitionConfig",
+        "line": 31,
+        "type": "interface",
+        "file": "simple/functional-core.ts"
+      },
+      {
+        "name": "SimpleMachineDefinition",
+        "line": 45,
+        "type": "interface",
+        "file": "simple/functional-core.ts"
+      },
+      {
+        "name": "createSimpleMachineState",
+        "line": 61,
+        "type": "function",
+        "file": "simple/functional-core.ts"
+      },
+      {
+        "name": "getCurrentSimpleState",
+        "line": 80,
+        "type": "function",
+        "file": "simple/functional-core.ts"
+      },
+      {
+        "name": "getCurrentSimpleContext",
+        "line": 83,
+        "type": "function",
+        "file": "simple/functional-core.ts"
+      },
+      {
+        "name": "canSimpleTransition",
+        "line": 87,
+        "type": "function",
+        "file": "simple/functional-core.ts"
+      },
+      {
+        "name": "simpleTransition",
+        "line": 116,
+        "type": "function",
+        "file": "simple/functional-core.ts"
+      },
+      {
+        "name": "resetSimpleMachine",
+        "line": 207,
+        "type": "function",
+        "file": "simple/functional-core.ts"
+      },
+      {
+        "name": "getSimpleAvailableTransitions",
+        "line": 224,
+        "type": "function",
+        "file": "simple/functional-core.ts"
+      },
+      {
+        "name": "SimpleMachine",
+        "line": 35,
+        "type": "class",
+        "file": "simple/legacy-wrapper.ts"
+      },
+      {
+        "name": "createSimpleMachine",
+        "line": 202,
+        "type": "function",
+        "file": "simple/legacy-wrapper.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "UnifiedFSMEngine",
+        "line": 45,
+        "type": "class",
+        "file": "adapters.ts"
+      },
+      {
+        "name": "FSMGraph",
+        "line": 77,
+        "type": "class",
+        "file": "graph/index.ts"
+      },
+      {
+        "name": "SimpleMachine",
+        "line": 35,
+        "type": "class",
+        "file": "simple/legacy-wrapper.ts"
+      },
+      {
+        "name": "is",
+        "line": 43,
+        "type": "class",
+        "file": "simple/legacy-wrapper.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "createKanbanFSM",
+        "line": 196,
+        "type": "function",
+        "file": "adapters.ts"
+      },
+      {
+        "name": "createAgentsWorkflowFSM",
+        "line": 200,
+        "type": "function",
+        "file": "adapters.ts"
+      },
+      {
+        "name": "createPiperFSM",
+        "line": 204,
+        "type": "function",
+        "file": "adapters.ts"
+      },
+      {
+        "name": "basicKanbanConfig",
+        "line": 210,
+        "type": "function",
+        "file": "adapters.ts"
+      },
+      {
+        "name": "basicWorkflowConfig",
+        "line": 230,
+        "type": "function",
+        "file": "adapters.ts"
+      },
+      {
+        "name": "basicPipelineConfig",
+        "line": 249,
+        "type": "function",
+        "file": "adapters.ts"
+      },
+      {
+        "name": "freezeArray",
+        "line": 3,
+        "type": "function",
+        "file": "immutability.ts"
+      },
+      {
+        "name": "freezeSnapshot",
+        "line": 7,
+        "type": "function",
+        "file": "immutability.ts"
+      },
+      {
+        "name": "createMachine",
+        "line": 16,
+        "type": "function",
+        "file": "machine.ts"
+      },
+      {
+        "name": "defineTransition",
+        "line": 28,
+        "type": "function",
+        "file": "machine.ts"
+      },
+      {
+        "name": "createSnapshot",
+        "line": 36,
+        "type": "function",
+        "file": "machine.ts"
+      },
+      {
+        "name": "transition",
+        "line": 185,
+        "type": "function",
+        "file": "machine.ts"
+      },
+      {
+        "name": "availableTransitions",
+        "line": 203,
+        "type": "function",
+        "file": "machine.ts"
+      },
+      {
+        "name": "canTransition",
+        "line": 213,
+        "type": "function",
+        "file": "machine.ts"
+      },
+      {
+        "name": "transitionMany",
+        "line": 125,
+        "type": "function",
+        "file": "sequence.ts"
+      },
+      {
+        "name": "transitionManyFromParams",
+        "line": 135,
+        "type": "function",
+        "file": "sequence.ts"
+      },
+      {
+        "name": "createSimpleMachineState",
+        "line": 61,
+        "type": "function",
+        "file": "simple/functional-core.ts"
+      },
+      {
+        "name": "getCurrentSimpleState",
+        "line": 80,
+        "type": "function",
+        "file": "simple/functional-core.ts"
+      },
+      {
+        "name": "getCurrentSimpleContext",
+        "line": 83,
+        "type": "function",
+        "file": "simple/functional-core.ts"
+      },
+      {
+        "name": "canSimpleTransition",
+        "line": 87,
+        "type": "function",
+        "file": "simple/functional-core.ts"
+      },
+      {
+        "name": "simpleTransition",
+        "line": 116,
+        "type": "function",
+        "file": "simple/functional-core.ts"
+      },
+      {
+        "name": "resetSimpleMachine",
+        "line": 207,
+        "type": "function",
+        "file": "simple/functional-core.ts"
+      },
+      {
+        "name": "getSimpleAvailableTransitions",
+        "line": 224,
+        "type": "function",
+        "file": "simple/functional-core.ts"
+      },
+      {
+        "name": "createSimpleMachine",
+        "line": 202,
+        "type": "function",
+        "file": "simple/legacy-wrapper.ts"
+      }
+    ],
+    "interfaces": [
+      {
+        "name": "SystemConfig",
+        "line": 16,
+        "type": "interface",
+        "file": "adapters.ts"
+      },
+      {
+        "name": "StateConfig",
+        "line": 25,
+        "type": "interface",
+        "file": "adapters.ts"
+      },
+      {
+        "name": "TransitionConfig",
+        "line": 33,
+        "type": "interface",
+        "file": "adapters.ts"
+      },
+      {
+        "name": "KanbanContext",
+        "line": 150,
+        "type": "interface",
+        "file": "adapters.ts"
+      },
+      {
+        "name": "WorkflowContext",
+        "line": 164,
+        "type": "interface",
+        "file": "adapters.ts"
+      },
+      {
+        "name": "PipelineContext",
+        "line": 179,
+        "type": "interface",
+        "file": "adapters.ts"
+      },
+      {
+        "name": "CoreTransition",
+        "line": 22,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "FSMSnapshot",
+        "line": 33,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "StateActions",
+        "line": 47,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "FSMError",
+        "line": 53,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "MachineConfig",
+        "line": 63,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "TransitionDefinition",
+        "line": 72,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "StateDefinition",
+        "line": 82,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "MachineDefinition",
+        "line": 93,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "ValidationResult",
+        "line": 100,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "MachineAnalysis",
+        "line": 107,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "EventResult",
+        "line": 116,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "MachineBuilder",
+        "line": 139,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "SerializedMachine",
+        "line": 151,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "SerializedTransition",
+        "line": 157,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "Inspector",
+        "line": 171,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "PerformanceMetrics",
+        "line": 181,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "MachineSnapshot",
+        "line": 190,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "MachineEvent",
+        "line": 192,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "InitialContext",
+        "line": 197,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "TransitionResult",
+        "line": 202,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "FSMConfig",
+        "line": 36,
+        "type": "interface",
+        "file": "graph/index.ts"
+      },
+      {
+        "name": "FSMState",
+        "line": 47,
+        "type": "interface",
+        "file": "graph/index.ts"
+      },
+      {
+        "name": "FSMTransition",
+        "line": 52,
+        "type": "interface",
+        "file": "graph/index.ts"
+      },
+      {
+        "name": "FSMTransitionResult",
+        "line": 61,
+        "type": "interface",
+        "file": "graph/index.ts"
+      },
+      {
+        "name": "FSMValidationResult",
+        "line": 70,
+        "type": "interface",
+        "file": "graph/index.ts"
+      },
+      {
+        "name": "SimpleStateConfig",
+        "line": 23,
+        "type": "interface",
+        "file": "simple/functional-core.ts"
+      },
+      {
+        "name": "SimpleTransitionConfig",
+        "line": 31,
+        "type": "interface",
+        "file": "simple/functional-core.ts"
+      },
+      {
+        "name": "SimpleMachineDefinition",
+        "line": 45,
+        "type": "interface",
+        "file": "simple/functional-core.ts"
+      }
+    ]
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "adapters.ts",
+          "link": "[src/adapters.ts](../../../packages/fsm/src/adapters.ts)",
+          "lineCount": 264
+        },
+        {
+          "name": "core/types.ts",
+          "link": "[src/core/types.ts](../../../packages/fsm/src/core/types.ts)",
+          "lineCount": 214
+        },
+        {
+          "name": "graph/index.ts",
+          "link": "[src/graph/index.ts](../../../packages/fsm/src/graph/index.ts)",
+          "lineCount": 87
+        },
+        {
+          "name": "immutability.ts",
+          "link": "[src/immutability.ts](../../../packages/fsm/src/immutability.ts)",
+          "lineCount": 16
+        },
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/fsm/src/index.ts)",
+          "lineCount": 103
+        },
+        {
+          "name": "machine.ts",
+          "link": "[src/machine.ts](../../../packages/fsm/src/machine.ts)",
+          "lineCount": 231
+        },
+        {
+          "name": "sequence.ts",
+          "link": "[src/sequence.ts](../../../packages/fsm/src/sequence.ts)",
+          "lineCount": 148
+        },
+        {
+          "name": "simple/functional-core.ts",
+          "link": "[src/simple/functional-core.ts](../../../packages/fsm/src/simple/functional-core.ts)",
+          "lineCount": 356
+        },
+        {
+          "name": "simple/index.ts",
+          "link": "[src/simple/index.ts](../../../packages/fsm/src/simple/index.ts)",
+          "lineCount": 32
+        },
+        {
+          "name": "simple/legacy-wrapper.ts",
+          "link": "[src/simple/legacy-wrapper.ts](../../../packages/fsm/src/simple/legacy-wrapper.ts)",
+          "lineCount": 207
+        },
+        {
+          "name": "simple/simple-machine.ts",
+          "link": "[src/simple/simple-machine.ts](../../../packages/fsm/src/simple/simple-machine.ts)",
+          "lineCount": 33
+        },
+        {
+          "name": "tests/integration-fsm-architecture.test.ts",
+          "link": "[src/tests/integration-fsm-architecture.test.ts](../../../packages/fsm/src/tests/integration-fsm-architecture.test.ts)",
+          "lineCount": 871
+        },
+        {
+          "name": "tests/machine.test.ts",
+          "link": "[src/tests/machine.test.ts](../../../packages/fsm/src/tests/machine.test.ts)",
+          "lineCount": 312
+        },
+        {
+          "name": "types.ts",
+          "link": "[src/types.ts](../../../packages/fsm/src/types.ts)",
+          "lineCount": 128
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "UnifiedFSMEngine",
+          "link": "[UnifiedFSMEngine](../../../packages/fsm/src/adapters.ts#L45)",
+          "file": "adapters.ts",
+          "line": 45
+        },
+        {
+          "name": "FSMGraph",
+          "link": "[FSMGraph](../../../packages/fsm/src/graph/index.ts#L77)",
+          "file": "graph/index.ts",
+          "line": 77
+        },
+        {
+          "name": "SimpleMachine",
+          "link": "[SimpleMachine](../../../packages/fsm/src/simple/legacy-wrapper.ts#L35)",
+          "file": "simple/legacy-wrapper.ts",
+          "line": 35
+        },
+        {
+          "name": "is",
+          "link": "[is](../../../packages/fsm/src/simple/legacy-wrapper.ts#L43)",
+          "file": "simple/legacy-wrapper.ts",
+          "line": 43
+        }
+      ],
+      "functions": [
+        {
+          "name": "createKanbanFSM",
+          "link": "[createKanbanFSM()](../../../packages/fsm/src/adapters.ts#L196)",
+          "file": "adapters.ts",
+          "line": 196
+        },
+        {
+          "name": "createAgentsWorkflowFSM",
+          "link": "[createAgentsWorkflowFSM()](../../../packages/fsm/src/adapters.ts#L200)",
+          "file": "adapters.ts",
+          "line": 200
+        },
+        {
+          "name": "createPiperFSM",
+          "link": "[createPiperFSM()](../../../packages/fsm/src/adapters.ts#L204)",
+          "file": "adapters.ts",
+          "line": 204
+        },
+        {
+          "name": "basicKanbanConfig",
+          "link": "[basicKanbanConfig()](../../../packages/fsm/src/adapters.ts#L210)",
+          "file": "adapters.ts",
+          "line": 210
+        },
+        {
+          "name": "basicWorkflowConfig",
+          "link": "[basicWorkflowConfig()](../../../packages/fsm/src/adapters.ts#L230)",
+          "file": "adapters.ts",
+          "line": 230
+        },
+        {
+          "name": "basicPipelineConfig",
+          "link": "[basicPipelineConfig()](../../../packages/fsm/src/adapters.ts#L249)",
+          "file": "adapters.ts",
+          "line": 249
+        },
+        {
+          "name": "freezeArray",
+          "link": "[freezeArray()](../../../packages/fsm/src/immutability.ts#L3)",
+          "file": "immutability.ts",
+          "line": 3
+        },
+        {
+          "name": "freezeSnapshot",
+          "link": "[freezeSnapshot()](../../../packages/fsm/src/immutability.ts#L7)",
+          "file": "immutability.ts",
+          "line": 7
+        },
+        {
+          "name": "createMachine",
+          "link": "[createMachine()](../../../packages/fsm/src/machine.ts#L16)",
+          "file": "machine.ts",
+          "line": 16
+        },
+        {
+          "name": "defineTransition",
+          "link": "[defineTransition()](../../../packages/fsm/src/machine.ts#L28)",
+          "file": "machine.ts",
+          "line": 28
+        },
+        {
+          "name": "createSnapshot",
+          "link": "[createSnapshot()](../../../packages/fsm/src/machine.ts#L36)",
+          "file": "machine.ts",
+          "line": 36
+        },
+        {
+          "name": "transition",
+          "link": "[transition()](../../../packages/fsm/src/machine.ts#L185)",
+          "file": "machine.ts",
+          "line": 185
+        },
+        {
+          "name": "availableTransitions",
+          "link": "[availableTransitions()](../../../packages/fsm/src/machine.ts#L203)",
+          "file": "machine.ts",
+          "line": 203
+        },
+        {
+          "name": "canTransition",
+          "link": "[canTransition()](../../../packages/fsm/src/machine.ts#L213)",
+          "file": "machine.ts",
+          "line": 213
+        },
+        {
+          "name": "transitionMany",
+          "link": "[transitionMany()](../../../packages/fsm/src/sequence.ts#L125)",
+          "file": "sequence.ts",
+          "line": 125
+        },
+        {
+          "name": "transitionManyFromParams",
+          "link": "[transitionManyFromParams()](../../../packages/fsm/src/sequence.ts#L135)",
+          "file": "sequence.ts",
+          "line": 135
+        },
+        {
+          "name": "createSimpleMachineState",
+          "link": "[createSimpleMachineState()](../../../packages/fsm/src/simple/functional-core.ts#L61)",
+          "file": "simple/functional-core.ts",
+          "line": 61
+        },
+        {
+          "name": "getCurrentSimpleState",
+          "link": "[getCurrentSimpleState()](../../../packages/fsm/src/simple/functional-core.ts#L80)",
+          "file": "simple/functional-core.ts",
+          "line": 80
+        },
+        {
+          "name": "getCurrentSimpleContext",
+          "link": "[getCurrentSimpleContext()](../../../packages/fsm/src/simple/functional-core.ts#L83)",
+          "file": "simple/functional-core.ts",
+          "line": 83
+        },
+        {
+          "name": "canSimpleTransition",
+          "link": "[canSimpleTransition()](../../../packages/fsm/src/simple/functional-core.ts#L87)",
+          "file": "simple/functional-core.ts",
+          "line": 87
+        },
+        {
+          "name": "simpleTransition",
+          "link": "[simpleTransition()](../../../packages/fsm/src/simple/functional-core.ts#L116)",
+          "file": "simple/functional-core.ts",
+          "line": 116
+        },
+        {
+          "name": "resetSimpleMachine",
+          "link": "[resetSimpleMachine()](../../../packages/fsm/src/simple/functional-core.ts#L207)",
+          "file": "simple/functional-core.ts",
+          "line": 207
+        },
+        {
+          "name": "getSimpleAvailableTransitions",
+          "link": "[getSimpleAvailableTransitions()](../../../packages/fsm/src/simple/functional-core.ts#L224)",
+          "file": "simple/functional-core.ts",
+          "line": 224
+        },
+        {
+          "name": "createSimpleMachine",
+          "link": "[createSimpleMachine()](../../../packages/fsm/src/simple/legacy-wrapper.ts#L202)",
+          "file": "simple/legacy-wrapper.ts",
+          "line": 202
+        }
+      ],
+      "interfaces": [
+        {
+          "name": "SystemConfig",
+          "link": "[SystemConfig](../../../packages/fsm/src/adapters.ts#L16)",
+          "file": "adapters.ts",
+          "line": 16
+        },
+        {
+          "name": "StateConfig",
+          "link": "[StateConfig](../../../packages/fsm/src/adapters.ts#L25)",
+          "file": "adapters.ts",
+          "line": 25
+        },
+        {
+          "name": "TransitionConfig",
+          "link": "[TransitionConfig](../../../packages/fsm/src/adapters.ts#L33)",
+          "file": "adapters.ts",
+          "line": 33
+        },
+        {
+          "name": "KanbanContext",
+          "link": "[KanbanContext](../../../packages/fsm/src/adapters.ts#L150)",
+          "file": "adapters.ts",
+          "line": 150
+        },
+        {
+          "name": "WorkflowContext",
+          "link": "[WorkflowContext](../../../packages/fsm/src/adapters.ts#L164)",
+          "file": "adapters.ts",
+          "line": 164
+        },
+        {
+          "name": "PipelineContext",
+          "link": "[PipelineContext](../../../packages/fsm/src/adapters.ts#L179)",
+          "file": "adapters.ts",
+          "line": 179
+        },
+        {
+          "name": "CoreTransition",
+          "link": "[CoreTransition](../../../packages/fsm/src/core/types.ts#L22)",
+          "file": "core/types.ts",
+          "line": 22
+        },
+        {
+          "name": "FSMSnapshot",
+          "link": "[FSMSnapshot](../../../packages/fsm/src/core/types.ts#L33)",
+          "file": "core/types.ts",
+          "line": 33
+        },
+        {
+          "name": "StateActions",
+          "link": "[StateActions](../../../packages/fsm/src/core/types.ts#L47)",
+          "file": "core/types.ts",
+          "line": 47
+        },
+        {
+          "name": "FSMError",
+          "link": "[FSMError](../../../packages/fsm/src/core/types.ts#L53)",
+          "file": "core/types.ts",
+          "line": 53
+        },
+        {
+          "name": "MachineConfig",
+          "link": "[MachineConfig](../../../packages/fsm/src/core/types.ts#L63)",
+          "file": "core/types.ts",
+          "line": 63
+        },
+        {
+          "name": "TransitionDefinition",
+          "link": "[TransitionDefinition](../../../packages/fsm/src/core/types.ts#L72)",
+          "file": "core/types.ts",
+          "line": 72
+        },
+        {
+          "name": "StateDefinition",
+          "link": "[StateDefinition](../../../packages/fsm/src/core/types.ts#L82)",
+          "file": "core/types.ts",
+          "line": 82
+        },
+        {
+          "name": "MachineDefinition",
+          "link": "[MachineDefinition](../../../packages/fsm/src/core/types.ts#L93)",
+          "file": "core/types.ts",
+          "line": 93
+        },
+        {
+          "name": "ValidationResult",
+          "link": "[ValidationResult](../../../packages/fsm/src/core/types.ts#L100)",
+          "file": "core/types.ts",
+          "line": 100
+        },
+        {
+          "name": "MachineAnalysis",
+          "link": "[MachineAnalysis](../../../packages/fsm/src/core/types.ts#L107)",
+          "file": "core/types.ts",
+          "line": 107
+        },
+        {
+          "name": "EventResult",
+          "link": "[EventResult](../../../packages/fsm/src/core/types.ts#L116)",
+          "file": "core/types.ts",
+          "line": 116
+        },
+        {
+          "name": "MachineBuilder",
+          "link": "[MachineBuilder](../../../packages/fsm/src/core/types.ts#L139)",
+          "file": "core/types.ts",
+          "line": 139
+        },
+        {
+          "name": "SerializedMachine",
+          "link": "[SerializedMachine](../../../packages/fsm/src/core/types.ts#L151)",
+          "file": "core/types.ts",
+          "line": 151
+        },
+        {
+          "name": "SerializedTransition",
+          "link": "[SerializedTransition](../../../packages/fsm/src/core/types.ts#L157)",
+          "file": "core/types.ts",
+          "line": 157
+        },
+        {
+          "name": "Inspector",
+          "link": "[Inspector](../../../packages/fsm/src/core/types.ts#L171)",
+          "file": "core/types.ts",
+          "line": 171
+        },
+        {
+          "name": "PerformanceMetrics",
+          "link": "[PerformanceMetrics](../../../packages/fsm/src/core/types.ts#L181)",
+          "file": "core/types.ts",
+          "line": 181
+        },
+        {
+          "name": "MachineSnapshot",
+          "link": "[MachineSnapshot](../../../packages/fsm/src/core/types.ts#L190)",
+          "file": "core/types.ts",
+          "line": 190
+        },
+        {
+          "name": "MachineEvent",
+          "link": "[MachineEvent](../../../packages/fsm/src/core/types.ts#L192)",
+          "file": "core/types.ts",
+          "line": 192
+        },
+        {
+          "name": "InitialContext",
+          "link": "[InitialContext](../../../packages/fsm/src/core/types.ts#L197)",
+          "file": "core/types.ts",
+          "line": 197
+        },
+        {
+          "name": "TransitionResult",
+          "link": "[TransitionResult](../../../packages/fsm/src/core/types.ts#L202)",
+          "file": "core/types.ts",
+          "line": 202
+        },
+        {
+          "name": "FSMConfig",
+          "link": "[FSMConfig](../../../packages/fsm/src/graph/index.ts#L36)",
+          "file": "graph/index.ts",
+          "line": 36
+        },
+        {
+          "name": "FSMState",
+          "link": "[FSMState](../../../packages/fsm/src/graph/index.ts#L47)",
+          "file": "graph/index.ts",
+          "line": 47
+        },
+        {
+          "name": "FSMTransition",
+          "link": "[FSMTransition](../../../packages/fsm/src/graph/index.ts#L52)",
+          "file": "graph/index.ts",
+          "line": 52
+        },
+        {
+          "name": "FSMTransitionResult",
+          "link": "[FSMTransitionResult](../../../packages/fsm/src/graph/index.ts#L61)",
+          "file": "graph/index.ts",
+          "line": 61
+        },
+        {
+          "name": "FSMValidationResult",
+          "link": "[FSMValidationResult](../../../packages/fsm/src/graph/index.ts#L70)",
+          "file": "graph/index.ts",
+          "line": 70
+        },
+        {
+          "name": "SimpleStateConfig",
+          "link": "[SimpleStateConfig](../../../packages/fsm/src/simple/functional-core.ts#L23)",
+          "file": "simple/functional-core.ts",
+          "line": 23
+        },
+        {
+          "name": "SimpleTransitionConfig",
+          "link": "[SimpleTransitionConfig](../../../packages/fsm/src/simple/functional-core.ts#L31)",
+          "file": "simple/functional-core.ts",
+          "line": 31
+        },
+        {
+          "name": "SimpleMachineDefinition",
+          "link": "[SimpleMachineDefinition](../../../packages/fsm/src/simple/functional-core.ts#L45)",
+          "file": "simple/functional-core.ts",
+          "line": 45
+        }
+      ]
+    }
+  }
+}

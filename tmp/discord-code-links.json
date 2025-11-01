@@ -1,0 +1,740 @@
+{
+  "packageData": {
+    "packageName": "discord",
+    "files": [
+      {
+        "path": "attachment-indexer/index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/discord/src/attachment-indexer/index.ts",
+        "exports": [
+          {
+            "name": "handleSocialMessageCreated",
+            "line": 4,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "handleSocialMessageCreated",
+            "line": 4,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 46
+      },
+      {
+        "path": "automod/automod.ts",
+        "fullPath": "/home/err/devel/promethean/packages/discord/src/automod/automod.ts",
+        "exports": [
+          {
+            "name": "DEFAULT_FUZZY_DISTANCE",
+            "line": 155,
+            "type": "function"
+          },
+          {
+            "name": "DEFAULT_MINIMUM_EXAMPLES",
+            "line": 156,
+            "type": "function"
+          },
+          {
+            "name": "toAutomodMessage",
+            "line": 158,
+            "type": "function"
+          },
+          {
+            "name": "containsSora",
+            "line": 230,
+            "type": "function"
+          },
+          {
+            "name": "hasFuzzyCode",
+            "line": 232,
+            "type": "function"
+          },
+          {
+            "name": "createAutomod",
+            "line": 273,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "TextNaiveBayes",
+            "line": 23,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "DEFAULT_FUZZY_DISTANCE",
+            "line": 155,
+            "type": "function"
+          },
+          {
+            "name": "DEFAULT_MINIMUM_EXAMPLES",
+            "line": 156,
+            "type": "function"
+          },
+          {
+            "name": "toAutomodMessage",
+            "line": 158,
+            "type": "function"
+          },
+          {
+            "name": "containsSora",
+            "line": 230,
+            "type": "function"
+          },
+          {
+            "name": "hasFuzzyCode",
+            "line": 232,
+            "type": "function"
+          },
+          {
+            "name": "createAutomod",
+            "line": 273,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 427
+      },
+      {
+        "path": "automod/index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/discord/src/automod/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 19
+      },
+      {
+        "path": "embedder/converter.ts",
+        "fullPath": "/home/err/devel/promethean/packages/discord/src/embedder/converter.ts",
+        "exports": [
+          {
+            "name": "convert",
+            "line": 1,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "convert",
+            "line": 1,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 4
+      },
+      {
+        "path": "embedder/index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/discord/src/embedder/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 98
+      },
+      {
+        "path": "gateway/gateway.ts",
+        "fullPath": "/home/err/devel/promethean/packages/discord/src/gateway/gateway.ts",
+        "exports": [
+          {
+            "name": "GatewayPublisher",
+            "line": 5,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "GatewayPublisher",
+            "line": 5,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 23
+      },
+      {
+        "path": "gateway/index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/discord/src/gateway/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 55
+      },
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/discord/src/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 8
+      },
+      {
+        "path": "message-embedder/index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/discord/src/message-embedder/index.ts",
+        "exports": [
+          {
+            "name": "embedMessage",
+            "line": 16,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "embedMessage",
+            "line": 16,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 55
+      },
+      {
+        "path": "message-indexer/index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/discord/src/message-indexer/index.ts",
+        "exports": [
+          {
+            "name": "handleSocialMessageCreated",
+            "line": 4,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "handleSocialMessageCreated",
+            "line": 4,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 57
+      },
+      {
+        "path": "rest/index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/discord/src/rest/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 43
+      },
+      {
+        "path": "rest/rest.ts",
+        "fullPath": "/home/err/devel/promethean/packages/discord/src/rest/rest.ts",
+        "exports": [
+          {
+            "name": "getChannelId",
+            "line": 12,
+            "type": "function"
+          },
+          {
+            "name": "DiscordRestProxy",
+            "line": 17,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "DiscordRestProxy",
+            "line": 17,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "getChannelId",
+            "line": 12,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 182
+      },
+      {
+        "path": "tests/attachments.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/discord/src/tests/attachments.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 26
+      },
+      {
+        "path": "tests/automod.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/discord/src/tests/automod.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 78
+      },
+      {
+        "path": "tests/converter.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/discord/src/tests/converter.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 10
+      },
+      {
+        "path": "tests/embedding.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/discord/src/tests/embedding.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 24
+      },
+      {
+        "path": "tests/flow.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/discord/src/tests/flow.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 77
+      },
+      {
+        "path": "tests/gateway.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/discord/src/tests/gateway.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 38
+      },
+      {
+        "path": "tests/message-embedder.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/discord/src/tests/message-embedder.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 33
+      },
+      {
+        "path": "tests/message-indexer.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/discord/src/tests/message-indexer.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 20
+      },
+      {
+        "path": "tests/rest.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/discord/src/tests/rest.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 69
+      },
+      {
+        "path": "tests/test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/discord/src/tests/test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 6
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [],
+      "classes": [],
+      "functions": [],
+      "interfaces": [],
+      "totalLines": 8
+    },
+    "exports": [
+      {
+        "name": "handleSocialMessageCreated",
+        "line": 4,
+        "type": "function",
+        "file": "attachment-indexer/index.ts"
+      },
+      {
+        "name": "DEFAULT_FUZZY_DISTANCE",
+        "line": 155,
+        "type": "function",
+        "file": "automod/automod.ts"
+      },
+      {
+        "name": "DEFAULT_MINIMUM_EXAMPLES",
+        "line": 156,
+        "type": "function",
+        "file": "automod/automod.ts"
+      },
+      {
+        "name": "toAutomodMessage",
+        "line": 158,
+        "type": "function",
+        "file": "automod/automod.ts"
+      },
+      {
+        "name": "containsSora",
+        "line": 230,
+        "type": "function",
+        "file": "automod/automod.ts"
+      },
+      {
+        "name": "hasFuzzyCode",
+        "line": 232,
+        "type": "function",
+        "file": "automod/automod.ts"
+      },
+      {
+        "name": "createAutomod",
+        "line": 273,
+        "type": "function",
+        "file": "automod/automod.ts"
+      },
+      {
+        "name": "convert",
+        "line": 1,
+        "type": "function",
+        "file": "embedder/converter.ts"
+      },
+      {
+        "name": "GatewayPublisher",
+        "line": 5,
+        "type": "class",
+        "file": "gateway/gateway.ts"
+      },
+      {
+        "name": "embedMessage",
+        "line": 16,
+        "type": "function",
+        "file": "message-embedder/index.ts"
+      },
+      {
+        "name": "handleSocialMessageCreated",
+        "line": 4,
+        "type": "function",
+        "file": "message-indexer/index.ts"
+      },
+      {
+        "name": "getChannelId",
+        "line": 12,
+        "type": "function",
+        "file": "rest/rest.ts"
+      },
+      {
+        "name": "DiscordRestProxy",
+        "line": 17,
+        "type": "class",
+        "file": "rest/rest.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "TextNaiveBayes",
+        "line": 23,
+        "type": "class",
+        "file": "automod/automod.ts"
+      },
+      {
+        "name": "GatewayPublisher",
+        "line": 5,
+        "type": "class",
+        "file": "gateway/gateway.ts"
+      },
+      {
+        "name": "DiscordRestProxy",
+        "line": 17,
+        "type": "class",
+        "file": "rest/rest.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "handleSocialMessageCreated",
+        "line": 4,
+        "type": "function",
+        "file": "attachment-indexer/index.ts"
+      },
+      {
+        "name": "DEFAULT_FUZZY_DISTANCE",
+        "line": 155,
+        "type": "function",
+        "file": "automod/automod.ts"
+      },
+      {
+        "name": "DEFAULT_MINIMUM_EXAMPLES",
+        "line": 156,
+        "type": "function",
+        "file": "automod/automod.ts"
+      },
+      {
+        "name": "toAutomodMessage",
+        "line": 158,
+        "type": "function",
+        "file": "automod/automod.ts"
+      },
+      {
+        "name": "containsSora",
+        "line": 230,
+        "type": "function",
+        "file": "automod/automod.ts"
+      },
+      {
+        "name": "hasFuzzyCode",
+        "line": 232,
+        "type": "function",
+        "file": "automod/automod.ts"
+      },
+      {
+        "name": "createAutomod",
+        "line": 273,
+        "type": "function",
+        "file": "automod/automod.ts"
+      },
+      {
+        "name": "convert",
+        "line": 1,
+        "type": "function",
+        "file": "embedder/converter.ts"
+      },
+      {
+        "name": "embedMessage",
+        "line": 16,
+        "type": "function",
+        "file": "message-embedder/index.ts"
+      },
+      {
+        "name": "handleSocialMessageCreated",
+        "line": 4,
+        "type": "function",
+        "file": "message-indexer/index.ts"
+      },
+      {
+        "name": "getChannelId",
+        "line": 12,
+        "type": "function",
+        "file": "rest/rest.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "attachment-indexer/index.ts",
+          "link": "[src/attachment-indexer/index.ts](../../../packages/discord/src/attachment-indexer/index.ts)",
+          "lineCount": 46
+        },
+        {
+          "name": "automod/automod.ts",
+          "link": "[src/automod/automod.ts](../../../packages/discord/src/automod/automod.ts)",
+          "lineCount": 427
+        },
+        {
+          "name": "automod/index.ts",
+          "link": "[src/automod/index.ts](../../../packages/discord/src/automod/index.ts)",
+          "lineCount": 19
+        },
+        {
+          "name": "embedder/converter.ts",
+          "link": "[src/embedder/converter.ts](../../../packages/discord/src/embedder/converter.ts)",
+          "lineCount": 4
+        },
+        {
+          "name": "embedder/index.ts",
+          "link": "[src/embedder/index.ts](../../../packages/discord/src/embedder/index.ts)",
+          "lineCount": 98
+        },
+        {
+          "name": "gateway/gateway.ts",
+          "link": "[src/gateway/gateway.ts](../../../packages/discord/src/gateway/gateway.ts)",
+          "lineCount": 23
+        },
+        {
+          "name": "gateway/index.ts",
+          "link": "[src/gateway/index.ts](../../../packages/discord/src/gateway/index.ts)",
+          "lineCount": 55
+        },
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/discord/src/index.ts)",
+          "lineCount": 8
+        },
+        {
+          "name": "message-embedder/index.ts",
+          "link": "[src/message-embedder/index.ts](../../../packages/discord/src/message-embedder/index.ts)",
+          "lineCount": 55
+        },
+        {
+          "name": "message-indexer/index.ts",
+          "link": "[src/message-indexer/index.ts](../../../packages/discord/src/message-indexer/index.ts)",
+          "lineCount": 57
+        },
+        {
+          "name": "rest/index.ts",
+          "link": "[src/rest/index.ts](../../../packages/discord/src/rest/index.ts)",
+          "lineCount": 43
+        },
+        {
+          "name": "rest/rest.ts",
+          "link": "[src/rest/rest.ts](../../../packages/discord/src/rest/rest.ts)",
+          "lineCount": 182
+        },
+        {
+          "name": "tests/attachments.test.ts",
+          "link": "[src/tests/attachments.test.ts](../../../packages/discord/src/tests/attachments.test.ts)",
+          "lineCount": 26
+        },
+        {
+          "name": "tests/automod.test.ts",
+          "link": "[src/tests/automod.test.ts](../../../packages/discord/src/tests/automod.test.ts)",
+          "lineCount": 78
+        },
+        {
+          "name": "tests/converter.test.ts",
+          "link": "[src/tests/converter.test.ts](../../../packages/discord/src/tests/converter.test.ts)",
+          "lineCount": 10
+        },
+        {
+          "name": "tests/embedding.test.ts",
+          "link": "[src/tests/embedding.test.ts](../../../packages/discord/src/tests/embedding.test.ts)",
+          "lineCount": 24
+        },
+        {
+          "name": "tests/flow.test.ts",
+          "link": "[src/tests/flow.test.ts](../../../packages/discord/src/tests/flow.test.ts)",
+          "lineCount": 77
+        },
+        {
+          "name": "tests/gateway.test.ts",
+          "link": "[src/tests/gateway.test.ts](../../../packages/discord/src/tests/gateway.test.ts)",
+          "lineCount": 38
+        },
+        {
+          "name": "tests/message-embedder.test.ts",
+          "link": "[src/tests/message-embedder.test.ts](../../../packages/discord/src/tests/message-embedder.test.ts)",
+          "lineCount": 33
+        },
+        {
+          "name": "tests/message-indexer.test.ts",
+          "link": "[src/tests/message-indexer.test.ts](../../../packages/discord/src/tests/message-indexer.test.ts)",
+          "lineCount": 20
+        },
+        {
+          "name": "tests/rest.test.ts",
+          "link": "[src/tests/rest.test.ts](../../../packages/discord/src/tests/rest.test.ts)",
+          "lineCount": 69
+        },
+        {
+          "name": "tests/test.ts",
+          "link": "[src/tests/test.ts](../../../packages/discord/src/tests/test.ts)",
+          "lineCount": 6
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "TextNaiveBayes",
+          "link": "[TextNaiveBayes](../../../packages/discord/src/automod/automod.ts#L23)",
+          "file": "automod/automod.ts",
+          "line": 23
+        },
+        {
+          "name": "GatewayPublisher",
+          "link": "[GatewayPublisher](../../../packages/discord/src/gateway/gateway.ts#L5)",
+          "file": "gateway/gateway.ts",
+          "line": 5
+        },
+        {
+          "name": "DiscordRestProxy",
+          "link": "[DiscordRestProxy](../../../packages/discord/src/rest/rest.ts#L17)",
+          "file": "rest/rest.ts",
+          "line": 17
+        }
+      ],
+      "functions": [
+        {
+          "name": "handleSocialMessageCreated",
+          "link": "[handleSocialMessageCreated()](../../../packages/discord/src/attachment-indexer/index.ts#L4)",
+          "file": "attachment-indexer/index.ts",
+          "line": 4
+        },
+        {
+          "name": "DEFAULT_FUZZY_DISTANCE",
+          "link": "[DEFAULT_FUZZY_DISTANCE()](../../../packages/discord/src/automod/automod.ts#L155)",
+          "file": "automod/automod.ts",
+          "line": 155
+        },
+        {
+          "name": "DEFAULT_MINIMUM_EXAMPLES",
+          "link": "[DEFAULT_MINIMUM_EXAMPLES()](../../../packages/discord/src/automod/automod.ts#L156)",
+          "file": "automod/automod.ts",
+          "line": 156
+        },
+        {
+          "name": "toAutomodMessage",
+          "link": "[toAutomodMessage()](../../../packages/discord/src/automod/automod.ts#L158)",
+          "file": "automod/automod.ts",
+          "line": 158
+        },
+        {
+          "name": "containsSora",
+          "link": "[containsSora()](../../../packages/discord/src/automod/automod.ts#L230)",
+          "file": "automod/automod.ts",
+          "line": 230
+        },
+        {
+          "name": "hasFuzzyCode",
+          "link": "[hasFuzzyCode()](../../../packages/discord/src/automod/automod.ts#L232)",
+          "file": "automod/automod.ts",
+          "line": 232
+        },
+        {
+          "name": "createAutomod",
+          "link": "[createAutomod()](../../../packages/discord/src/automod/automod.ts#L273)",
+          "file": "automod/automod.ts",
+          "line": 273
+        },
+        {
+          "name": "convert",
+          "link": "[convert()](../../../packages/discord/src/embedder/converter.ts#L1)",
+          "file": "embedder/converter.ts",
+          "line": 1
+        },
+        {
+          "name": "embedMessage",
+          "link": "[embedMessage()](../../../packages/discord/src/message-embedder/index.ts#L16)",
+          "file": "message-embedder/index.ts",
+          "line": 16
+        },
+        {
+          "name": "handleSocialMessageCreated",
+          "link": "[handleSocialMessageCreated()](../../../packages/discord/src/message-indexer/index.ts#L4)",
+          "file": "message-indexer/index.ts",
+          "line": 4
+        },
+        {
+          "name": "getChannelId",
+          "link": "[getChannelId()](../../../packages/discord/src/rest/rest.ts#L12)",
+          "file": "rest/rest.ts",
+          "line": 12
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

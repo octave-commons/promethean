@@ -2,7 +2,7 @@
 
 ## Overview
 
-TODO: Add service description.
+Cephalon service that serves as the primary Discord agent interface for the Promethean ecosystem. Provides voice channel management, text-to-speech capabilities, recording and transcription services, and LLM-driven dialog interactions. Integrates with Discord.js for bot functionality and supports ECS (Entity Component System) architecture for agent behavior. Includes evaluation guardrails and ENSO protocol integration for safe AI interactions.
 
 ## Broker Usage
 

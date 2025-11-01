@@ -17,12 +17,12 @@
   "license": "GPL-3.0-only",
   "repository": {
     "type": "git",
-    "url": "https://github.com/riatzukiza/kanban.git"
+    "url": "https://github.com/PrometheanAI/promethean.git"
   },
   "bugs": {
-    "url": "https://github.com/riatzukiza/promethean/issues"
+    "url": "https://github.com/PrometheanAI/promethean/issues"
   },
-  "homepage": "https://github.com/riatzukiza/promethean/tree/main/packages/kanban",
+  "homepage": "https://github.com/PrometheanAI/promethean/tree/main/packages/kanban",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",

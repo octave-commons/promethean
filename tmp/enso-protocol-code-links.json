@@ -1,0 +1,3104 @@
+{
+  "packageData": {
+    "packageName": "enso-protocol",
+    "files": [
+      {
+        "path": "adapter.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/adapter.ts",
+        "exports": [
+          {
+            "name": "McpMount",
+            "line": 11,
+            "type": "interface"
+          },
+          {
+            "name": "McpToolInvocationResult",
+            "line": 17,
+            "type": "interface"
+          },
+          {
+            "name": "McpError",
+            "line": 23,
+            "type": "class"
+          },
+          {
+            "name": "McpClientOptions",
+            "line": 62,
+            "type": "interface"
+          },
+          {
+            "name": "McpClient",
+            "line": 72,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "McpError",
+            "line": 23,
+            "type": "class"
+          },
+          {
+            "name": "McpClient",
+            "line": 72,
+            "type": "class"
+          },
+          {
+            "name": "HttpJsonRpcTransport",
+            "line": 205,
+            "type": "class"
+          },
+          {
+            "name": "StdioJsonRpcTransport",
+            "line": 256,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [
+          {
+            "name": "McpMount",
+            "line": 11,
+            "type": "interface"
+          },
+          {
+            "name": "McpToolInvocationResult",
+            "line": 17,
+            "type": "interface"
+          },
+          {
+            "name": "McpClientOptions",
+            "line": 62,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 446
+      },
+      {
+        "path": "audio.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/audio.ts",
+        "exports": [
+          {
+            "name": "AudioCapture",
+            "line": 5,
+            "type": "interface"
+          },
+          {
+            "name": "NodeAudioCaptureOptions",
+            "line": 10,
+            "type": "interface"
+          },
+          {
+            "name": "createNodeAudioCapture",
+            "line": 57,
+            "type": "function"
+          },
+          {
+            "name": "createStaticCapture",
+            "line": 119,
+            "type": "function"
+          },
+          {
+            "name": "pumpAudioFrames",
+            "line": 135,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createNodeAudioCapture",
+            "line": 57,
+            "type": "function"
+          },
+          {
+            "name": "createStaticCapture",
+            "line": 119,
+            "type": "function"
+          },
+          {
+            "name": "pumpAudioFrames",
+            "line": 135,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "AudioCapture",
+            "line": 5,
+            "type": "interface"
+          },
+          {
+            "name": "NodeAudioCaptureOptions",
+            "line": 10,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 143
+      },
+      {
+        "path": "cache.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/cache.ts",
+        "exports": [
+          {
+            "name": "CacheKey",
+            "line": 2,
+            "type": "interface"
+          },
+          {
+            "name": "CacheEntry",
+            "line": 7,
+            "type": "interface"
+          },
+          {
+            "name": "CacheRegistry",
+            "line": 18,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "CacheRegistry",
+            "line": 18,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [
+          {
+            "name": "CacheKey",
+            "line": 2,
+            "type": "interface"
+          },
+          {
+            "name": "CacheEntry",
+            "line": 7,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 33
+      },
+      {
+        "path": "cli.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/cli.ts",
+        "exports": [
+          {
+            "name": "CliDependencies",
+            "line": 26,
+            "type": "interface"
+          },
+          {
+            "name": "runCliCommand",
+            "line": 241,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "runCliCommand",
+            "line": 241,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "CliDependencies",
+            "line": 26,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 303
+      },
+      {
+        "path": "client.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/client.ts",
+        "exports": [
+          {
+            "name": "EnsoClient",
+            "line": 51,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "EnsoClient",
+            "line": 51,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 307
+      },
+      {
+        "path": "conversation.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/conversation.ts",
+        "exports": [
+          {
+            "name": "AgentMeta",
+            "line": 10,
+            "type": "interface"
+          },
+          {
+            "name": "ConversationCliOptions",
+            "line": 16,
+            "type": "interface"
+          },
+          {
+            "name": "parseConversationArgs",
+            "line": 30,
+            "type": "function"
+          },
+          {
+            "name": "parseMcpServers",
+            "line": 92,
+            "type": "function"
+          },
+          {
+            "name": "resolveConfigPath",
+            "line": 205,
+            "type": "function"
+          },
+          {
+            "name": "loadServerMetadata",
+            "line": 214,
+            "type": "function"
+          },
+          {
+            "name": "runTwoAgentConversation",
+            "line": 224,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "AgentSession",
+            "line": 158,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "parseConversationArgs",
+            "line": 30,
+            "type": "function"
+          },
+          {
+            "name": "parseMcpServers",
+            "line": 92,
+            "type": "function"
+          },
+          {
+            "name": "resolveConfigPath",
+            "line": 205,
+            "type": "function"
+          },
+          {
+            "name": "loadServerMetadata",
+            "line": 214,
+            "type": "function"
+          },
+          {
+            "name": "runTwoAgentConversation",
+            "line": 224,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "AgentMeta",
+            "line": 10,
+            "type": "interface"
+          },
+          {
+            "name": "ConversationCliOptions",
+            "line": 16,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 309
+      },
+      {
+        "path": "crypto.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/crypto.ts",
+        "exports": [
+          {
+            "name": "KeyUpdate",
+            "line": 1,
+            "type": "interface"
+          },
+          {
+            "name": "E2E",
+            "line": 7,
+            "type": "interface"
+          }
+        ],
+        "classes": [],
+        "functions": [],
+        "interfaces": [
+          {
+            "name": "KeyUpdate",
+            "line": 1,
+            "type": "interface"
+          },
+          {
+            "name": "E2E",
+            "line": 7,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 13
+      },
+      {
+        "path": "derive.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/derive.ts",
+        "exports": [
+          {
+            "name": "DerivePlan",
+            "line": 4,
+            "type": "interface"
+          },
+          {
+            "name": "derivedCid",
+            "line": 28,
+            "type": "function"
+          },
+          {
+            "name": "DeriveResult",
+            "line": 40,
+            "type": "interface"
+          },
+          {
+            "name": "derive",
+            "line": 47,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "derivedCid",
+            "line": 28,
+            "type": "function"
+          },
+          {
+            "name": "derive",
+            "line": 47,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "DerivePlan",
+            "line": 4,
+            "type": "interface"
+          },
+          {
+            "name": "DeriveResult",
+            "line": 40,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 69
+      },
+      {
+        "path": "flow.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/flow.ts",
+        "exports": [
+          {
+            "name": "FlowController",
+            "line": 53,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "FlowController",
+            "line": 53,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 136
+      },
+      {
+        "path": "guardrails.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/guardrails.ts",
+        "exports": [
+          {
+            "name": "GuardrailManager",
+            "line": 13,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "GuardrailManager",
+            "line": 13,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 118
+      },
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 19
+      },
+      {
+        "path": "policy.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/policy.ts",
+        "exports": [
+          {
+            "name": "retention",
+            "line": 1,
+            "type": "function"
+          },
+          {
+            "name": "cachePolicy",
+            "line": 12,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "retention",
+            "line": 1,
+            "type": "function"
+          },
+          {
+            "name": "cachePolicy",
+            "line": 12,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 19
+      },
+      {
+        "path": "registry.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/registry.ts",
+        "exports": [
+          {
+            "name": "ContextRegistry",
+            "line": 507,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "ContextRegistry",
+            "line": 507,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 937
+      },
+      {
+        "path": "router.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/router.ts",
+        "exports": [
+          {
+            "name": "RouteContext",
+            "line": 8,
+            "type": "interface"
+          },
+          {
+            "name": "Router",
+            "line": 13,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "Router",
+            "line": 13,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [
+          {
+            "name": "RouteContext",
+            "line": 8,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 35
+      },
+      {
+        "path": "server.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/server.ts",
+        "exports": [
+          {
+            "name": "EnsoServer",
+            "line": 80,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "EnsoServer",
+            "line": 80,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 348
+      },
+      {
+        "path": "signature.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/signature.ts",
+        "exports": [
+          {
+            "name": "canonicalEnvelope",
+            "line": 37,
+            "type": "function"
+          },
+          {
+            "name": "signEnvelope",
+            "line": 42,
+            "type": "function"
+          },
+          {
+            "name": "verifyEnvelopeSignature",
+            "line": 52,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "canonicalEnvelope",
+            "line": 37,
+            "type": "function"
+          },
+          {
+            "name": "signEnvelope",
+            "line": 42,
+            "type": "function"
+          },
+          {
+            "name": "verifyEnvelopeSignature",
+            "line": 52,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 68
+      },
+      {
+        "path": "store.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/store.ts",
+        "exports": [
+          {
+            "name": "AssetReadResult",
+            "line": 5,
+            "type": "interface"
+          },
+          {
+            "name": "AssetStore",
+            "line": 12,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "AssetStore",
+            "line": 12,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [
+          {
+            "name": "AssetReadResult",
+            "line": 5,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 62
+      },
+      {
+        "path": "tests/basic.spec.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/tests/basic.spec.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 872
+      },
+      {
+        "path": "tests/cli.spec.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/tests/cli.spec.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 199
+      },
+      {
+        "path": "tests/conversation.spec.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/tests/conversation.spec.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 63
+      },
+      {
+        "path": "tests/end-to-end.spec.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/tests/end-to-end.spec.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 115
+      },
+      {
+        "path": "tests/flow.spec.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/tests/flow.spec.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 46
+      },
+      {
+        "path": "tests/guardrails.spec.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/tests/guardrails.spec.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 88
+      },
+      {
+        "path": "tests/intents.spec.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/tests/intents.spec.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 19
+      },
+      {
+        "path": "tests/mcp-client.spec.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/tests/mcp-client.spec.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 308
+      },
+      {
+        "path": "tests/modules.spec.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/tests/modules.spec.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 308
+      },
+      {
+        "path": "tests/policy.spec.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/tests/policy.spec.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 25
+      },
+      {
+        "path": "tests/security.spec.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/tests/security.spec.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 53
+      },
+      {
+        "path": "tests/tools.spec.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/tests/tools.spec.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 57
+      },
+      {
+        "path": "tests/transport.spec.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/tests/transport.spec.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 191
+      },
+      {
+        "path": "tests/voice-transport.spec.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/tests/voice-transport.spec.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 299
+      },
+      {
+        "path": "tools.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/tools.ts",
+        "exports": [
+          {
+            "name": "ToolDefinition",
+            "line": 11,
+            "type": "interface"
+          },
+          {
+            "name": "ToolRegistry",
+            "line": 69,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "ToolRegistry",
+            "line": 69,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [
+          {
+            "name": "ToolDefinition",
+            "line": 11,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 183
+      },
+      {
+        "path": "transport.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/transport.ts",
+        "exports": [
+          {
+            "name": "WebSocketClientOptions",
+            "line": 36,
+            "type": "interface"
+          },
+          {
+            "name": "WebSocketConnectionHandle",
+            "line": 49,
+            "type": "interface"
+          },
+          {
+            "name": "LocalTransportOptions",
+            "line": 120,
+            "type": "interface"
+          },
+          {
+            "name": "LocalConnection",
+            "line": 132,
+            "type": "interface"
+          },
+          {
+            "name": "connectLocal",
+            "line": 148,
+            "type": "function"
+          },
+          {
+            "name": "connectWebSocket",
+            "line": 284,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "connectLocal",
+            "line": 148,
+            "type": "function"
+          },
+          {
+            "name": "connectWebSocket",
+            "line": 284,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "WebSocketClientOptions",
+            "line": 36,
+            "type": "interface"
+          },
+          {
+            "name": "WebSocketConnectionHandle",
+            "line": 49,
+            "type": "interface"
+          },
+          {
+            "name": "LocalTransportOptions",
+            "line": 120,
+            "type": "interface"
+          },
+          {
+            "name": "LocalConnection",
+            "line": 132,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 536
+      },
+      {
+        "path": "types/assets.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/types/assets.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 55
+      },
+      {
+        "path": "types/cache.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/types/cache.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 50
+      },
+      {
+        "path": "types/content.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/types/content.ts",
+        "exports": [
+          {
+            "name": "ChatMessage",
+            "line": 36,
+            "type": "interface"
+          }
+        ],
+        "classes": [],
+        "functions": [],
+        "interfaces": [
+          {
+            "name": "ChatMessage",
+            "line": 36,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 44
+      },
+      {
+        "path": "types/context.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/types/context.ts",
+        "exports": [
+          {
+            "name": "DataSourceId",
+            "line": 9,
+            "type": "interface"
+          },
+          {
+            "name": "DataSourceMeta",
+            "line": 36,
+            "type": "interface"
+          },
+          {
+            "name": "DataSourceInit",
+            "line": 48,
+            "type": "interface"
+          },
+          {
+            "name": "ContentPermissions",
+            "line": 60,
+            "type": "interface"
+          },
+          {
+            "name": "ContextEntry",
+            "line": 72,
+            "type": "interface"
+          },
+          {
+            "name": "Context",
+            "line": 81,
+            "type": "interface"
+          },
+          {
+            "name": "ContextInit",
+            "line": 92,
+            "type": "interface"
+          },
+          {
+            "name": "LlmView",
+            "line": 99,
+            "type": "interface"
+          },
+          {
+            "name": "ContextParticipant",
+            "line": 113,
+            "type": "interface"
+          },
+          {
+            "name": "ContextEnvironment",
+            "line": 120,
+            "type": "interface"
+          },
+          {
+            "name": "ApprovalRequest",
+            "line": 128,
+            "type": "interface"
+          },
+          {
+            "name": "AvailabilityResult",
+            "line": 137,
+            "type": "interface"
+          },
+          {
+            "name": "DeniedDataSource",
+            "line": 143,
+            "type": "interface"
+          },
+          {
+            "name": "ContextDiff",
+            "line": 148,
+            "type": "interface"
+          },
+          {
+            "name": "ContextApplication",
+            "line": 158,
+            "type": "interface"
+          },
+          {
+            "name": "ContextApplyOptions",
+            "line": 165,
+            "type": "interface"
+          }
+        ],
+        "classes": [],
+        "functions": [],
+        "interfaces": [
+          {
+            "name": "DataSourceId",
+            "line": 9,
+            "type": "interface"
+          },
+          {
+            "name": "DataSourceMeta",
+            "line": 36,
+            "type": "interface"
+          },
+          {
+            "name": "DataSourceInit",
+            "line": 48,
+            "type": "interface"
+          },
+          {
+            "name": "ContentPermissions",
+            "line": 60,
+            "type": "interface"
+          },
+          {
+            "name": "ContextEntry",
+            "line": 72,
+            "type": "interface"
+          },
+          {
+            "name": "Context",
+            "line": 81,
+            "type": "interface"
+          },
+          {
+            "name": "ContextInit",
+            "line": 92,
+            "type": "interface"
+          },
+          {
+            "name": "LlmView",
+            "line": 99,
+            "type": "interface"
+          },
+          {
+            "name": "ContextParticipant",
+            "line": 113,
+            "type": "interface"
+          },
+          {
+            "name": "ContextEnvironment",
+            "line": 120,
+            "type": "interface"
+          },
+          {
+            "name": "ApprovalRequest",
+            "line": 128,
+            "type": "interface"
+          },
+          {
+            "name": "AvailabilityResult",
+            "line": 137,
+            "type": "interface"
+          },
+          {
+            "name": "DeniedDataSource",
+            "line": 143,
+            "type": "interface"
+          },
+          {
+            "name": "ContextDiff",
+            "line": 148,
+            "type": "interface"
+          },
+          {
+            "name": "ContextApplication",
+            "line": 158,
+            "type": "interface"
+          },
+          {
+            "name": "ContextApplyOptions",
+            "line": 165,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 173
+      },
+      {
+        "path": "types/envelope.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/types/envelope.ts",
+        "exports": [
+          {
+            "name": "Envelope",
+            "line": 4,
+            "type": "interface"
+          }
+        ],
+        "classes": [],
+        "functions": [],
+        "interfaces": [
+          {
+            "name": "Envelope",
+            "line": 4,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 16
+      },
+      {
+        "path": "types/events.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/types/events.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 300
+      },
+      {
+        "path": "types/flow.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/types/flow.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 13
+      },
+      {
+        "path": "types/intents.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/types/intents.ts",
+        "exports": [
+          {
+            "name": "ACT_INTENT_DESCRIPTORS",
+            "line": 5,
+            "type": "function"
+          },
+          {
+            "name": "ALL_ACT_INTENT_DESCRIPTORS",
+            "line": 21,
+            "type": "function"
+          },
+          {
+            "name": "isActIntentDescriptor",
+            "line": 29,
+            "type": "function"
+          },
+          {
+            "name": "intentDescriptor",
+            "line": 39,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "ACT_INTENT_DESCRIPTORS",
+            "line": 5,
+            "type": "function"
+          },
+          {
+            "name": "ALL_ACT_INTENT_DESCRIPTORS",
+            "line": 21,
+            "type": "function"
+          },
+          {
+            "name": "isActIntentDescriptor",
+            "line": 29,
+            "type": "function"
+          },
+          {
+            "name": "intentDescriptor",
+            "line": 39,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 44
+      },
+      {
+        "path": "types/mcp.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/types/mcp.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 24
+      },
+      {
+        "path": "types/policy.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/types/policy.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 24
+      },
+      {
+        "path": "types/privacy.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/types/privacy.ts",
+        "exports": [
+          {
+            "name": "HelloCaps",
+            "line": 7,
+            "type": "interface"
+          },
+          {
+            "name": "DEFAULT_PRIVACY_PROFILE",
+            "line": 30,
+            "type": "function"
+          },
+          {
+            "name": "resolveHelloPrivacy",
+            "line": 32,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "DEFAULT_PRIVACY_PROFILE",
+            "line": 30,
+            "type": "function"
+          },
+          {
+            "name": "resolveHelloPrivacy",
+            "line": 32,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "HelloCaps",
+            "line": 7,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 42
+      },
+      {
+        "path": "types/streams.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/types/streams.ts",
+        "exports": [
+          {
+            "name": "StreamFrame",
+            "line": 1,
+            "type": "interface"
+          }
+        ],
+        "classes": [],
+        "functions": [],
+        "interfaces": [
+          {
+            "name": "StreamFrame",
+            "line": 1,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 10
+      },
+      {
+        "path": "types/tools.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/types/tools.ts",
+        "exports": [
+          {
+            "name": "ToolSchema",
+            "line": 5,
+            "type": "interface"
+          },
+          {
+            "name": "ToolResource",
+            "line": 10,
+            "type": "interface"
+          },
+          {
+            "name": "ToolAdvertisement",
+            "line": 16,
+            "type": "interface"
+          },
+          {
+            "name": "ToolCall",
+            "line": 23,
+            "type": "interface"
+          },
+          {
+            "name": "ToolResult",
+            "line": 32,
+            "type": "interface"
+          }
+        ],
+        "classes": [],
+        "functions": [],
+        "interfaces": [
+          {
+            "name": "ToolSchema",
+            "line": 5,
+            "type": "interface"
+          },
+          {
+            "name": "ToolResource",
+            "line": 10,
+            "type": "interface"
+          },
+          {
+            "name": "ToolAdvertisement",
+            "line": 16,
+            "type": "interface"
+          },
+          {
+            "name": "ToolCall",
+            "line": 23,
+            "type": "interface"
+          },
+          {
+            "name": "ToolResult",
+            "line": 32,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 39
+      },
+      {
+        "path": "types/voice.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/types/voice.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 8
+      },
+      {
+        "path": "types.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/types.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 15
+      },
+      {
+        "path": "ws-server.ts",
+        "fullPath": "/home/err/devel/promethean/packages/enso-protocol/src/ws-server.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 102
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [],
+      "classes": [],
+      "functions": [],
+      "interfaces": [],
+      "totalLines": 19
+    },
+    "exports": [
+      {
+        "name": "McpMount",
+        "line": 11,
+        "type": "interface",
+        "file": "adapter.ts"
+      },
+      {
+        "name": "McpToolInvocationResult",
+        "line": 17,
+        "type": "interface",
+        "file": "adapter.ts"
+      },
+      {
+        "name": "McpError",
+        "line": 23,
+        "type": "class",
+        "file": "adapter.ts"
+      },
+      {
+        "name": "McpClientOptions",
+        "line": 62,
+        "type": "interface",
+        "file": "adapter.ts"
+      },
+      {
+        "name": "McpClient",
+        "line": 72,
+        "type": "class",
+        "file": "adapter.ts"
+      },
+      {
+        "name": "AudioCapture",
+        "line": 5,
+        "type": "interface",
+        "file": "audio.ts"
+      },
+      {
+        "name": "NodeAudioCaptureOptions",
+        "line": 10,
+        "type": "interface",
+        "file": "audio.ts"
+      },
+      {
+        "name": "createNodeAudioCapture",
+        "line": 57,
+        "type": "function",
+        "file": "audio.ts"
+      },
+      {
+        "name": "createStaticCapture",
+        "line": 119,
+        "type": "function",
+        "file": "audio.ts"
+      },
+      {
+        "name": "pumpAudioFrames",
+        "line": 135,
+        "type": "function",
+        "file": "audio.ts"
+      },
+      {
+        "name": "CacheKey",
+        "line": 2,
+        "type": "interface",
+        "file": "cache.ts"
+      },
+      {
+        "name": "CacheEntry",
+        "line": 7,
+        "type": "interface",
+        "file": "cache.ts"
+      },
+      {
+        "name": "CacheRegistry",
+        "line": 18,
+        "type": "class",
+        "file": "cache.ts"
+      },
+      {
+        "name": "CliDependencies",
+        "line": 26,
+        "type": "interface",
+        "file": "cli.ts"
+      },
+      {
+        "name": "runCliCommand",
+        "line": 241,
+        "type": "function",
+        "file": "cli.ts"
+      },
+      {
+        "name": "EnsoClient",
+        "line": 51,
+        "type": "class",
+        "file": "client.ts"
+      },
+      {
+        "name": "AgentMeta",
+        "line": 10,
+        "type": "interface",
+        "file": "conversation.ts"
+      },
+      {
+        "name": "ConversationCliOptions",
+        "line": 16,
+        "type": "interface",
+        "file": "conversation.ts"
+      },
+      {
+        "name": "parseConversationArgs",
+        "line": 30,
+        "type": "function",
+        "file": "conversation.ts"
+      },
+      {
+        "name": "parseMcpServers",
+        "line": 92,
+        "type": "function",
+        "file": "conversation.ts"
+      },
+      {
+        "name": "resolveConfigPath",
+        "line": 205,
+        "type": "function",
+        "file": "conversation.ts"
+      },
+      {
+        "name": "loadServerMetadata",
+        "line": 214,
+        "type": "function",
+        "file": "conversation.ts"
+      },
+      {
+        "name": "runTwoAgentConversation",
+        "line": 224,
+        "type": "function",
+        "file": "conversation.ts"
+      },
+      {
+        "name": "KeyUpdate",
+        "line": 1,
+        "type": "interface",
+        "file": "crypto.ts"
+      },
+      {
+        "name": "E2E",
+        "line": 7,
+        "type": "interface",
+        "file": "crypto.ts"
+      },
+      {
+        "name": "DerivePlan",
+        "line": 4,
+        "type": "interface",
+        "file": "derive.ts"
+      },
+      {
+        "name": "derivedCid",
+        "line": 28,
+        "type": "function",
+        "file": "derive.ts"
+      },
+      {
+        "name": "DeriveResult",
+        "line": 40,
+        "type": "interface",
+        "file": "derive.ts"
+      },
+      {
+        "name": "derive",
+        "line": 47,
+        "type": "function",
+        "file": "derive.ts"
+      },
+      {
+        "name": "FlowController",
+        "line": 53,
+        "type": "class",
+        "file": "flow.ts"
+      },
+      {
+        "name": "GuardrailManager",
+        "line": 13,
+        "type": "class",
+        "file": "guardrails.ts"
+      },
+      {
+        "name": "retention",
+        "line": 1,
+        "type": "function",
+        "file": "policy.ts"
+      },
+      {
+        "name": "cachePolicy",
+        "line": 12,
+        "type": "function",
+        "file": "policy.ts"
+      },
+      {
+        "name": "ContextRegistry",
+        "line": 507,
+        "type": "class",
+        "file": "registry.ts"
+      },
+      {
+        "name": "RouteContext",
+        "line": 8,
+        "type": "interface",
+        "file": "router.ts"
+      },
+      {
+        "name": "Router",
+        "line": 13,
+        "type": "class",
+        "file": "router.ts"
+      },
+      {
+        "name": "EnsoServer",
+        "line": 80,
+        "type": "class",
+        "file": "server.ts"
+      },
+      {
+        "name": "canonicalEnvelope",
+        "line": 37,
+        "type": "function",
+        "file": "signature.ts"
+      },
+      {
+        "name": "signEnvelope",
+        "line": 42,
+        "type": "function",
+        "file": "signature.ts"
+      },
+      {
+        "name": "verifyEnvelopeSignature",
+        "line": 52,
+        "type": "function",
+        "file": "signature.ts"
+      },
+      {
+        "name": "AssetReadResult",
+        "line": 5,
+        "type": "interface",
+        "file": "store.ts"
+      },
+      {
+        "name": "AssetStore",
+        "line": 12,
+        "type": "class",
+        "file": "store.ts"
+      },
+      {
+        "name": "ToolDefinition",
+        "line": 11,
+        "type": "interface",
+        "file": "tools.ts"
+      },
+      {
+        "name": "ToolRegistry",
+        "line": 69,
+        "type": "class",
+        "file": "tools.ts"
+      },
+      {
+        "name": "WebSocketClientOptions",
+        "line": 36,
+        "type": "interface",
+        "file": "transport.ts"
+      },
+      {
+        "name": "WebSocketConnectionHandle",
+        "line": 49,
+        "type": "interface",
+        "file": "transport.ts"
+      },
+      {
+        "name": "LocalTransportOptions",
+        "line": 120,
+        "type": "interface",
+        "file": "transport.ts"
+      },
+      {
+        "name": "LocalConnection",
+        "line": 132,
+        "type": "interface",
+        "file": "transport.ts"
+      },
+      {
+        "name": "connectLocal",
+        "line": 148,
+        "type": "function",
+        "file": "transport.ts"
+      },
+      {
+        "name": "connectWebSocket",
+        "line": 284,
+        "type": "function",
+        "file": "transport.ts"
+      },
+      {
+        "name": "ChatMessage",
+        "line": 36,
+        "type": "interface",
+        "file": "types/content.ts"
+      },
+      {
+        "name": "DataSourceId",
+        "line": 9,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "DataSourceMeta",
+        "line": 36,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "DataSourceInit",
+        "line": 48,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "ContentPermissions",
+        "line": 60,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "ContextEntry",
+        "line": 72,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "Context",
+        "line": 81,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "ContextInit",
+        "line": 92,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "LlmView",
+        "line": 99,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "ContextParticipant",
+        "line": 113,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "ContextEnvironment",
+        "line": 120,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "ApprovalRequest",
+        "line": 128,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "AvailabilityResult",
+        "line": 137,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "DeniedDataSource",
+        "line": 143,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "ContextDiff",
+        "line": 148,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "ContextApplication",
+        "line": 158,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "ContextApplyOptions",
+        "line": 165,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "Envelope",
+        "line": 4,
+        "type": "interface",
+        "file": "types/envelope.ts"
+      },
+      {
+        "name": "ACT_INTENT_DESCRIPTORS",
+        "line": 5,
+        "type": "function",
+        "file": "types/intents.ts"
+      },
+      {
+        "name": "ALL_ACT_INTENT_DESCRIPTORS",
+        "line": 21,
+        "type": "function",
+        "file": "types/intents.ts"
+      },
+      {
+        "name": "isActIntentDescriptor",
+        "line": 29,
+        "type": "function",
+        "file": "types/intents.ts"
+      },
+      {
+        "name": "intentDescriptor",
+        "line": 39,
+        "type": "function",
+        "file": "types/intents.ts"
+      },
+      {
+        "name": "HelloCaps",
+        "line": 7,
+        "type": "interface",
+        "file": "types/privacy.ts"
+      },
+      {
+        "name": "DEFAULT_PRIVACY_PROFILE",
+        "line": 30,
+        "type": "function",
+        "file": "types/privacy.ts"
+      },
+      {
+        "name": "resolveHelloPrivacy",
+        "line": 32,
+        "type": "function",
+        "file": "types/privacy.ts"
+      },
+      {
+        "name": "StreamFrame",
+        "line": 1,
+        "type": "interface",
+        "file": "types/streams.ts"
+      },
+      {
+        "name": "ToolSchema",
+        "line": 5,
+        "type": "interface",
+        "file": "types/tools.ts"
+      },
+      {
+        "name": "ToolResource",
+        "line": 10,
+        "type": "interface",
+        "file": "types/tools.ts"
+      },
+      {
+        "name": "ToolAdvertisement",
+        "line": 16,
+        "type": "interface",
+        "file": "types/tools.ts"
+      },
+      {
+        "name": "ToolCall",
+        "line": 23,
+        "type": "interface",
+        "file": "types/tools.ts"
+      },
+      {
+        "name": "ToolResult",
+        "line": 32,
+        "type": "interface",
+        "file": "types/tools.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "McpError",
+        "line": 23,
+        "type": "class",
+        "file": "adapter.ts"
+      },
+      {
+        "name": "McpClient",
+        "line": 72,
+        "type": "class",
+        "file": "adapter.ts"
+      },
+      {
+        "name": "HttpJsonRpcTransport",
+        "line": 205,
+        "type": "class",
+        "file": "adapter.ts"
+      },
+      {
+        "name": "StdioJsonRpcTransport",
+        "line": 256,
+        "type": "class",
+        "file": "adapter.ts"
+      },
+      {
+        "name": "CacheRegistry",
+        "line": 18,
+        "type": "class",
+        "file": "cache.ts"
+      },
+      {
+        "name": "EnsoClient",
+        "line": 51,
+        "type": "class",
+        "file": "client.ts"
+      },
+      {
+        "name": "AgentSession",
+        "line": 158,
+        "type": "class",
+        "file": "conversation.ts"
+      },
+      {
+        "name": "FlowController",
+        "line": 53,
+        "type": "class",
+        "file": "flow.ts"
+      },
+      {
+        "name": "GuardrailManager",
+        "line": 13,
+        "type": "class",
+        "file": "guardrails.ts"
+      },
+      {
+        "name": "ContextRegistry",
+        "line": 507,
+        "type": "class",
+        "file": "registry.ts"
+      },
+      {
+        "name": "Router",
+        "line": 13,
+        "type": "class",
+        "file": "router.ts"
+      },
+      {
+        "name": "EnsoServer",
+        "line": 80,
+        "type": "class",
+        "file": "server.ts"
+      },
+      {
+        "name": "AssetStore",
+        "line": 12,
+        "type": "class",
+        "file": "store.ts"
+      },
+      {
+        "name": "ToolRegistry",
+        "line": 69,
+        "type": "class",
+        "file": "tools.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "createNodeAudioCapture",
+        "line": 57,
+        "type": "function",
+        "file": "audio.ts"
+      },
+      {
+        "name": "createStaticCapture",
+        "line": 119,
+        "type": "function",
+        "file": "audio.ts"
+      },
+      {
+        "name": "pumpAudioFrames",
+        "line": 135,
+        "type": "function",
+        "file": "audio.ts"
+      },
+      {
+        "name": "runCliCommand",
+        "line": 241,
+        "type": "function",
+        "file": "cli.ts"
+      },
+      {
+        "name": "parseConversationArgs",
+        "line": 30,
+        "type": "function",
+        "file": "conversation.ts"
+      },
+      {
+        "name": "parseMcpServers",
+        "line": 92,
+        "type": "function",
+        "file": "conversation.ts"
+      },
+      {
+        "name": "resolveConfigPath",
+        "line": 205,
+        "type": "function",
+        "file": "conversation.ts"
+      },
+      {
+        "name": "loadServerMetadata",
+        "line": 214,
+        "type": "function",
+        "file": "conversation.ts"
+      },
+      {
+        "name": "runTwoAgentConversation",
+        "line": 224,
+        "type": "function",
+        "file": "conversation.ts"
+      },
+      {
+        "name": "derivedCid",
+        "line": 28,
+        "type": "function",
+        "file": "derive.ts"
+      },
+      {
+        "name": "derive",
+        "line": 47,
+        "type": "function",
+        "file": "derive.ts"
+      },
+      {
+        "name": "retention",
+        "line": 1,
+        "type": "function",
+        "file": "policy.ts"
+      },
+      {
+        "name": "cachePolicy",
+        "line": 12,
+        "type": "function",
+        "file": "policy.ts"
+      },
+      {
+        "name": "canonicalEnvelope",
+        "line": 37,
+        "type": "function",
+        "file": "signature.ts"
+      },
+      {
+        "name": "signEnvelope",
+        "line": 42,
+        "type": "function",
+        "file": "signature.ts"
+      },
+      {
+        "name": "verifyEnvelopeSignature",
+        "line": 52,
+        "type": "function",
+        "file": "signature.ts"
+      },
+      {
+        "name": "connectLocal",
+        "line": 148,
+        "type": "function",
+        "file": "transport.ts"
+      },
+      {
+        "name": "connectWebSocket",
+        "line": 284,
+        "type": "function",
+        "file": "transport.ts"
+      },
+      {
+        "name": "ACT_INTENT_DESCRIPTORS",
+        "line": 5,
+        "type": "function",
+        "file": "types/intents.ts"
+      },
+      {
+        "name": "ALL_ACT_INTENT_DESCRIPTORS",
+        "line": 21,
+        "type": "function",
+        "file": "types/intents.ts"
+      },
+      {
+        "name": "isActIntentDescriptor",
+        "line": 29,
+        "type": "function",
+        "file": "types/intents.ts"
+      },
+      {
+        "name": "intentDescriptor",
+        "line": 39,
+        "type": "function",
+        "file": "types/intents.ts"
+      },
+      {
+        "name": "DEFAULT_PRIVACY_PROFILE",
+        "line": 30,
+        "type": "function",
+        "file": "types/privacy.ts"
+      },
+      {
+        "name": "resolveHelloPrivacy",
+        "line": 32,
+        "type": "function",
+        "file": "types/privacy.ts"
+      }
+    ],
+    "interfaces": [
+      {
+        "name": "McpMount",
+        "line": 11,
+        "type": "interface",
+        "file": "adapter.ts"
+      },
+      {
+        "name": "McpToolInvocationResult",
+        "line": 17,
+        "type": "interface",
+        "file": "adapter.ts"
+      },
+      {
+        "name": "McpClientOptions",
+        "line": 62,
+        "type": "interface",
+        "file": "adapter.ts"
+      },
+      {
+        "name": "AudioCapture",
+        "line": 5,
+        "type": "interface",
+        "file": "audio.ts"
+      },
+      {
+        "name": "NodeAudioCaptureOptions",
+        "line": 10,
+        "type": "interface",
+        "file": "audio.ts"
+      },
+      {
+        "name": "CacheKey",
+        "line": 2,
+        "type": "interface",
+        "file": "cache.ts"
+      },
+      {
+        "name": "CacheEntry",
+        "line": 7,
+        "type": "interface",
+        "file": "cache.ts"
+      },
+      {
+        "name": "CliDependencies",
+        "line": 26,
+        "type": "interface",
+        "file": "cli.ts"
+      },
+      {
+        "name": "AgentMeta",
+        "line": 10,
+        "type": "interface",
+        "file": "conversation.ts"
+      },
+      {
+        "name": "ConversationCliOptions",
+        "line": 16,
+        "type": "interface",
+        "file": "conversation.ts"
+      },
+      {
+        "name": "KeyUpdate",
+        "line": 1,
+        "type": "interface",
+        "file": "crypto.ts"
+      },
+      {
+        "name": "E2E",
+        "line": 7,
+        "type": "interface",
+        "file": "crypto.ts"
+      },
+      {
+        "name": "DerivePlan",
+        "line": 4,
+        "type": "interface",
+        "file": "derive.ts"
+      },
+      {
+        "name": "DeriveResult",
+        "line": 40,
+        "type": "interface",
+        "file": "derive.ts"
+      },
+      {
+        "name": "RouteContext",
+        "line": 8,
+        "type": "interface",
+        "file": "router.ts"
+      },
+      {
+        "name": "AssetReadResult",
+        "line": 5,
+        "type": "interface",
+        "file": "store.ts"
+      },
+      {
+        "name": "ToolDefinition",
+        "line": 11,
+        "type": "interface",
+        "file": "tools.ts"
+      },
+      {
+        "name": "WebSocketClientOptions",
+        "line": 36,
+        "type": "interface",
+        "file": "transport.ts"
+      },
+      {
+        "name": "WebSocketConnectionHandle",
+        "line": 49,
+        "type": "interface",
+        "file": "transport.ts"
+      },
+      {
+        "name": "LocalTransportOptions",
+        "line": 120,
+        "type": "interface",
+        "file": "transport.ts"
+      },
+      {
+        "name": "LocalConnection",
+        "line": 132,
+        "type": "interface",
+        "file": "transport.ts"
+      },
+      {
+        "name": "ChatMessage",
+        "line": 36,
+        "type": "interface",
+        "file": "types/content.ts"
+      },
+      {
+        "name": "DataSourceId",
+        "line": 9,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "DataSourceMeta",
+        "line": 36,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "DataSourceInit",
+        "line": 48,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "ContentPermissions",
+        "line": 60,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "ContextEntry",
+        "line": 72,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "Context",
+        "line": 81,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "ContextInit",
+        "line": 92,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "LlmView",
+        "line": 99,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "ContextParticipant",
+        "line": 113,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "ContextEnvironment",
+        "line": 120,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "ApprovalRequest",
+        "line": 128,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "AvailabilityResult",
+        "line": 137,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "DeniedDataSource",
+        "line": 143,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "ContextDiff",
+        "line": 148,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "ContextApplication",
+        "line": 158,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "ContextApplyOptions",
+        "line": 165,
+        "type": "interface",
+        "file": "types/context.ts"
+      },
+      {
+        "name": "Envelope",
+        "line": 4,
+        "type": "interface",
+        "file": "types/envelope.ts"
+      },
+      {
+        "name": "HelloCaps",
+        "line": 7,
+        "type": "interface",
+        "file": "types/privacy.ts"
+      },
+      {
+        "name": "StreamFrame",
+        "line": 1,
+        "type": "interface",
+        "file": "types/streams.ts"
+      },
+      {
+        "name": "ToolSchema",
+        "line": 5,
+        "type": "interface",
+        "file": "types/tools.ts"
+      },
+      {
+        "name": "ToolResource",
+        "line": 10,
+        "type": "interface",
+        "file": "types/tools.ts"
+      },
+      {
+        "name": "ToolAdvertisement",
+        "line": 16,
+        "type": "interface",
+        "file": "types/tools.ts"
+      },
+      {
+        "name": "ToolCall",
+        "line": 23,
+        "type": "interface",
+        "file": "types/tools.ts"
+      },
+      {
+        "name": "ToolResult",
+        "line": 32,
+        "type": "interface",
+        "file": "types/tools.ts"
+      }
+    ]
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "adapter.ts",
+          "link": "[src/adapter.ts](../../../packages/enso-protocol/src/adapter.ts)",
+          "lineCount": 446
+        },
+        {
+          "name": "audio.ts",
+          "link": "[src/audio.ts](../../../packages/enso-protocol/src/audio.ts)",
+          "lineCount": 143
+        },
+        {
+          "name": "cache.ts",
+          "link": "[src/cache.ts](../../../packages/enso-protocol/src/cache.ts)",
+          "lineCount": 33
+        },
+        {
+          "name": "cli.ts",
+          "link": "[src/cli.ts](../../../packages/enso-protocol/src/cli.ts)",
+          "lineCount": 303
+        },
+        {
+          "name": "client.ts",
+          "link": "[src/client.ts](../../../packages/enso-protocol/src/client.ts)",
+          "lineCount": 307
+        },
+        {
+          "name": "conversation.ts",
+          "link": "[src/conversation.ts](../../../packages/enso-protocol/src/conversation.ts)",
+          "lineCount": 309
+        },
+        {
+          "name": "crypto.ts",
+          "link": "[src/crypto.ts](../../../packages/enso-protocol/src/crypto.ts)",
+          "lineCount": 13
+        },
+        {
+          "name": "derive.ts",
+          "link": "[src/derive.ts](../../../packages/enso-protocol/src/derive.ts)",
+          "lineCount": 69
+        },
+        {
+          "name": "flow.ts",
+          "link": "[src/flow.ts](../../../packages/enso-protocol/src/flow.ts)",
+          "lineCount": 136
+        },
+        {
+          "name": "guardrails.ts",
+          "link": "[src/guardrails.ts](../../../packages/enso-protocol/src/guardrails.ts)",
+          "lineCount": 118
+        },
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/enso-protocol/src/index.ts)",
+          "lineCount": 19
+        },
+        {
+          "name": "policy.ts",
+          "link": "[src/policy.ts](../../../packages/enso-protocol/src/policy.ts)",
+          "lineCount": 19
+        },
+        {
+          "name": "registry.ts",
+          "link": "[src/registry.ts](../../../packages/enso-protocol/src/registry.ts)",
+          "lineCount": 937
+        },
+        {
+          "name": "router.ts",
+          "link": "[src/router.ts](../../../packages/enso-protocol/src/router.ts)",
+          "lineCount": 35
+        },
+        {
+          "name": "server.ts",
+          "link": "[src/server.ts](../../../packages/enso-protocol/src/server.ts)",
+          "lineCount": 348
+        },
+        {
+          "name": "signature.ts",
+          "link": "[src/signature.ts](../../../packages/enso-protocol/src/signature.ts)",
+          "lineCount": 68
+        },
+        {
+          "name": "store.ts",
+          "link": "[src/store.ts](../../../packages/enso-protocol/src/store.ts)",
+          "lineCount": 62
+        },
+        {
+          "name": "tests/basic.spec.ts",
+          "link": "[src/tests/basic.spec.ts](../../../packages/enso-protocol/src/tests/basic.spec.ts)",
+          "lineCount": 872
+        },
+        {
+          "name": "tests/cli.spec.ts",
+          "link": "[src/tests/cli.spec.ts](../../../packages/enso-protocol/src/tests/cli.spec.ts)",
+          "lineCount": 199
+        },
+        {
+          "name": "tests/conversation.spec.ts",
+          "link": "[src/tests/conversation.spec.ts](../../../packages/enso-protocol/src/tests/conversation.spec.ts)",
+          "lineCount": 63
+        },
+        {
+          "name": "tests/end-to-end.spec.ts",
+          "link": "[src/tests/end-to-end.spec.ts](../../../packages/enso-protocol/src/tests/end-to-end.spec.ts)",
+          "lineCount": 115
+        },
+        {
+          "name": "tests/flow.spec.ts",
+          "link": "[src/tests/flow.spec.ts](../../../packages/enso-protocol/src/tests/flow.spec.ts)",
+          "lineCount": 46
+        },
+        {
+          "name": "tests/guardrails.spec.ts",
+          "link": "[src/tests/guardrails.spec.ts](../../../packages/enso-protocol/src/tests/guardrails.spec.ts)",
+          "lineCount": 88
+        },
+        {
+          "name": "tests/intents.spec.ts",
+          "link": "[src/tests/intents.spec.ts](../../../packages/enso-protocol/src/tests/intents.spec.ts)",
+          "lineCount": 19
+        },
+        {
+          "name": "tests/mcp-client.spec.ts",
+          "link": "[src/tests/mcp-client.spec.ts](../../../packages/enso-protocol/src/tests/mcp-client.spec.ts)",
+          "lineCount": 308
+        },
+        {
+          "name": "tests/modules.spec.ts",
+          "link": "[src/tests/modules.spec.ts](../../../packages/enso-protocol/src/tests/modules.spec.ts)",
+          "lineCount": 308
+        },
+        {
+          "name": "tests/policy.spec.ts",
+          "link": "[src/tests/policy.spec.ts](../../../packages/enso-protocol/src/tests/policy.spec.ts)",
+          "lineCount": 25
+        },
+        {
+          "name": "tests/security.spec.ts",
+          "link": "[src/tests/security.spec.ts](../../../packages/enso-protocol/src/tests/security.spec.ts)",
+          "lineCount": 53
+        },
+        {
+          "name": "tests/tools.spec.ts",
+          "link": "[src/tests/tools.spec.ts](../../../packages/enso-protocol/src/tests/tools.spec.ts)",
+          "lineCount": 57
+        },
+        {
+          "name": "tests/transport.spec.ts",
+          "link": "[src/tests/transport.spec.ts](../../../packages/enso-protocol/src/tests/transport.spec.ts)",
+          "lineCount": 191
+        },
+        {
+          "name": "tests/voice-transport.spec.ts",
+          "link": "[src/tests/voice-transport.spec.ts](../../../packages/enso-protocol/src/tests/voice-transport.spec.ts)",
+          "lineCount": 299
+        },
+        {
+          "name": "tools.ts",
+          "link": "[src/tools.ts](../../../packages/enso-protocol/src/tools.ts)",
+          "lineCount": 183
+        },
+        {
+          "name": "transport.ts",
+          "link": "[src/transport.ts](../../../packages/enso-protocol/src/transport.ts)",
+          "lineCount": 536
+        },
+        {
+          "name": "types/assets.ts",
+          "link": "[src/types/assets.ts](../../../packages/enso-protocol/src/types/assets.ts)",
+          "lineCount": 55
+        },
+        {
+          "name": "types/cache.ts",
+          "link": "[src/types/cache.ts](../../../packages/enso-protocol/src/types/cache.ts)",
+          "lineCount": 50
+        },
+        {
+          "name": "types/content.ts",
+          "link": "[src/types/content.ts](../../../packages/enso-protocol/src/types/content.ts)",
+          "lineCount": 44
+        },
+        {
+          "name": "types/context.ts",
+          "link": "[src/types/context.ts](../../../packages/enso-protocol/src/types/context.ts)",
+          "lineCount": 173
+        },
+        {
+          "name": "types/envelope.ts",
+          "link": "[src/types/envelope.ts](../../../packages/enso-protocol/src/types/envelope.ts)",
+          "lineCount": 16
+        },
+        {
+          "name": "types/events.ts",
+          "link": "[src/types/events.ts](../../../packages/enso-protocol/src/types/events.ts)",
+          "lineCount": 300
+        },
+        {
+          "name": "types/flow.ts",
+          "link": "[src/types/flow.ts](../../../packages/enso-protocol/src/types/flow.ts)",
+          "lineCount": 13
+        },
+        {
+          "name": "types/intents.ts",
+          "link": "[src/types/intents.ts](../../../packages/enso-protocol/src/types/intents.ts)",
+          "lineCount": 44
+        },
+        {
+          "name": "types/mcp.ts",
+          "link": "[src/types/mcp.ts](../../../packages/enso-protocol/src/types/mcp.ts)",
+          "lineCount": 24
+        },
+        {
+          "name": "types/policy.ts",
+          "link": "[src/types/policy.ts](../../../packages/enso-protocol/src/types/policy.ts)",
+          "lineCount": 24
+        },
+        {
+          "name": "types/privacy.ts",
+          "link": "[src/types/privacy.ts](../../../packages/enso-protocol/src/types/privacy.ts)",
+          "lineCount": 42
+        },
+        {
+          "name": "types/streams.ts",
+          "link": "[src/types/streams.ts](../../../packages/enso-protocol/src/types/streams.ts)",
+          "lineCount": 10
+        },
+        {
+          "name": "types/tools.ts",
+          "link": "[src/types/tools.ts](../../../packages/enso-protocol/src/types/tools.ts)",
+          "lineCount": 39
+        },
+        {
+          "name": "types/voice.ts",
+          "link": "[src/types/voice.ts](../../../packages/enso-protocol/src/types/voice.ts)",
+          "lineCount": 8
+        },
+        {
+          "name": "types.ts",
+          "link": "[src/types.ts](../../../packages/enso-protocol/src/types.ts)",
+          "lineCount": 15
+        },
+        {
+          "name": "ws-server.ts",
+          "link": "[src/ws-server.ts](../../../packages/enso-protocol/src/ws-server.ts)",
+          "lineCount": 102
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "McpError",
+          "link": "[McpError](../../../packages/enso-protocol/src/adapter.ts#L23)",
+          "file": "adapter.ts",
+          "line": 23
+        },
+        {
+          "name": "McpClient",
+          "link": "[McpClient](../../../packages/enso-protocol/src/adapter.ts#L72)",
+          "file": "adapter.ts",
+          "line": 72
+        },
+        {
+          "name": "HttpJsonRpcTransport",
+          "link": "[HttpJsonRpcTransport](../../../packages/enso-protocol/src/adapter.ts#L205)",
+          "file": "adapter.ts",
+          "line": 205
+        },
+        {
+          "name": "StdioJsonRpcTransport",
+          "link": "[StdioJsonRpcTransport](../../../packages/enso-protocol/src/adapter.ts#L256)",
+          "file": "adapter.ts",
+          "line": 256
+        },
+        {
+          "name": "CacheRegistry",
+          "link": "[CacheRegistry](../../../packages/enso-protocol/src/cache.ts#L18)",
+          "file": "cache.ts",
+          "line": 18
+        },
+        {
+          "name": "EnsoClient",
+          "link": "[EnsoClient](../../../packages/enso-protocol/src/client.ts#L51)",
+          "file": "client.ts",
+          "line": 51
+        },
+        {
+          "name": "AgentSession",
+          "link": "[AgentSession](../../../packages/enso-protocol/src/conversation.ts#L158)",
+          "file": "conversation.ts",
+          "line": 158
+        },
+        {
+          "name": "FlowController",
+          "link": "[FlowController](../../../packages/enso-protocol/src/flow.ts#L53)",
+          "file": "flow.ts",
+          "line": 53
+        },
+        {
+          "name": "GuardrailManager",
+          "link": "[GuardrailManager](../../../packages/enso-protocol/src/guardrails.ts#L13)",
+          "file": "guardrails.ts",
+          "line": 13
+        },
+        {
+          "name": "ContextRegistry",
+          "link": "[ContextRegistry](../../../packages/enso-protocol/src/registry.ts#L507)",
+          "file": "registry.ts",
+          "line": 507
+        },
+        {
+          "name": "Router",
+          "link": "[Router](../../../packages/enso-protocol/src/router.ts#L13)",
+          "file": "router.ts",
+          "line": 13
+        },
+        {
+          "name": "EnsoServer",
+          "link": "[EnsoServer](../../../packages/enso-protocol/src/server.ts#L80)",
+          "file": "server.ts",
+          "line": 80
+        },
+        {
+          "name": "AssetStore",
+          "link": "[AssetStore](../../../packages/enso-protocol/src/store.ts#L12)",
+          "file": "store.ts",
+          "line": 12
+        },
+        {
+          "name": "ToolRegistry",
+          "link": "[ToolRegistry](../../../packages/enso-protocol/src/tools.ts#L69)",
+          "file": "tools.ts",
+          "line": 69
+        }
+      ],
+      "functions": [
+        {
+          "name": "createNodeAudioCapture",
+          "link": "[createNodeAudioCapture()](../../../packages/enso-protocol/src/audio.ts#L57)",
+          "file": "audio.ts",
+          "line": 57
+        },
+        {
+          "name": "createStaticCapture",
+          "link": "[createStaticCapture()](../../../packages/enso-protocol/src/audio.ts#L119)",
+          "file": "audio.ts",
+          "line": 119
+        },
+        {
+          "name": "pumpAudioFrames",
+          "link": "[pumpAudioFrames()](../../../packages/enso-protocol/src/audio.ts#L135)",
+          "file": "audio.ts",
+          "line": 135
+        },
+        {
+          "name": "runCliCommand",
+          "link": "[runCliCommand()](../../../packages/enso-protocol/src/cli.ts#L241)",
+          "file": "cli.ts",
+          "line": 241
+        },
+        {
+          "name": "parseConversationArgs",
+          "link": "[parseConversationArgs()](../../../packages/enso-protocol/src/conversation.ts#L30)",
+          "file": "conversation.ts",
+          "line": 30
+        },
+        {
+          "name": "parseMcpServers",
+          "link": "[parseMcpServers()](../../../packages/enso-protocol/src/conversation.ts#L92)",
+          "file": "conversation.ts",
+          "line": 92
+        },
+        {
+          "name": "resolveConfigPath",
+          "link": "[resolveConfigPath()](../../../packages/enso-protocol/src/conversation.ts#L205)",
+          "file": "conversation.ts",
+          "line": 205
+        },
+        {
+          "name": "loadServerMetadata",
+          "link": "[loadServerMetadata()](../../../packages/enso-protocol/src/conversation.ts#L214)",
+          "file": "conversation.ts",
+          "line": 214
+        },
+        {
+          "name": "runTwoAgentConversation",
+          "link": "[runTwoAgentConversation()](../../../packages/enso-protocol/src/conversation.ts#L224)",
+          "file": "conversation.ts",
+          "line": 224
+        },
+        {
+          "name": "derivedCid",
+          "link": "[derivedCid()](../../../packages/enso-protocol/src/derive.ts#L28)",
+          "file": "derive.ts",
+          "line": 28
+        },
+        {
+          "name": "derive",
+          "link": "[derive()](../../../packages/enso-protocol/src/derive.ts#L47)",
+          "file": "derive.ts",
+          "line": 47
+        },
+        {
+          "name": "retention",
+          "link": "[retention()](../../../packages/enso-protocol/src/policy.ts#L1)",
+          "file": "policy.ts",
+          "line": 1
+        },
+        {
+          "name": "cachePolicy",
+          "link": "[cachePolicy()](../../../packages/enso-protocol/src/policy.ts#L12)",
+          "file": "policy.ts",
+          "line": 12
+        },
+        {
+          "name": "canonicalEnvelope",
+          "link": "[canonicalEnvelope()](../../../packages/enso-protocol/src/signature.ts#L37)",
+          "file": "signature.ts",
+          "line": 37
+        },
+        {
+          "name": "signEnvelope",
+          "link": "[signEnvelope()](../../../packages/enso-protocol/src/signature.ts#L42)",
+          "file": "signature.ts",
+          "line": 42
+        },
+        {
+          "name": "verifyEnvelopeSignature",
+          "link": "[verifyEnvelopeSignature()](../../../packages/enso-protocol/src/signature.ts#L52)",
+          "file": "signature.ts",
+          "line": 52
+        },
+        {
+          "name": "connectLocal",
+          "link": "[connectLocal()](../../../packages/enso-protocol/src/transport.ts#L148)",
+          "file": "transport.ts",
+          "line": 148
+        },
+        {
+          "name": "connectWebSocket",
+          "link": "[connectWebSocket()](../../../packages/enso-protocol/src/transport.ts#L284)",
+          "file": "transport.ts",
+          "line": 284
+        },
+        {
+          "name": "ACT_INTENT_DESCRIPTORS",
+          "link": "[ACT_INTENT_DESCRIPTORS()](../../../packages/enso-protocol/src/types/intents.ts#L5)",
+          "file": "types/intents.ts",
+          "line": 5
+        },
+        {
+          "name": "ALL_ACT_INTENT_DESCRIPTORS",
+          "link": "[ALL_ACT_INTENT_DESCRIPTORS()](../../../packages/enso-protocol/src/types/intents.ts#L21)",
+          "file": "types/intents.ts",
+          "line": 21
+        },
+        {
+          "name": "isActIntentDescriptor",
+          "link": "[isActIntentDescriptor()](../../../packages/enso-protocol/src/types/intents.ts#L29)",
+          "file": "types/intents.ts",
+          "line": 29
+        },
+        {
+          "name": "intentDescriptor",
+          "link": "[intentDescriptor()](../../../packages/enso-protocol/src/types/intents.ts#L39)",
+          "file": "types/intents.ts",
+          "line": 39
+        },
+        {
+          "name": "DEFAULT_PRIVACY_PROFILE",
+          "link": "[DEFAULT_PRIVACY_PROFILE()](../../../packages/enso-protocol/src/types/privacy.ts#L30)",
+          "file": "types/privacy.ts",
+          "line": 30
+        },
+        {
+          "name": "resolveHelloPrivacy",
+          "link": "[resolveHelloPrivacy()](../../../packages/enso-protocol/src/types/privacy.ts#L32)",
+          "file": "types/privacy.ts",
+          "line": 32
+        }
+      ],
+      "interfaces": [
+        {
+          "name": "McpMount",
+          "link": "[McpMount](../../../packages/enso-protocol/src/adapter.ts#L11)",
+          "file": "adapter.ts",
+          "line": 11
+        },
+        {
+          "name": "McpToolInvocationResult",
+          "link": "[McpToolInvocationResult](../../../packages/enso-protocol/src/adapter.ts#L17)",
+          "file": "adapter.ts",
+          "line": 17
+        },
+        {
+          "name": "McpClientOptions",
+          "link": "[McpClientOptions](../../../packages/enso-protocol/src/adapter.ts#L62)",
+          "file": "adapter.ts",
+          "line": 62
+        },
+        {
+          "name": "AudioCapture",
+          "link": "[AudioCapture](../../../packages/enso-protocol/src/audio.ts#L5)",
+          "file": "audio.ts",
+          "line": 5
+        },
+        {
+          "name": "NodeAudioCaptureOptions",
+          "link": "[NodeAudioCaptureOptions](../../../packages/enso-protocol/src/audio.ts#L10)",
+          "file": "audio.ts",
+          "line": 10
+        },
+        {
+          "name": "CacheKey",
+          "link": "[CacheKey](../../../packages/enso-protocol/src/cache.ts#L2)",
+          "file": "cache.ts",
+          "line": 2
+        },
+        {
+          "name": "CacheEntry",
+          "link": "[CacheEntry](../../../packages/enso-protocol/src/cache.ts#L7)",
+          "file": "cache.ts",
+          "line": 7
+        },
+        {
+          "name": "CliDependencies",
+          "link": "[CliDependencies](../../../packages/enso-protocol/src/cli.ts#L26)",
+          "file": "cli.ts",
+          "line": 26
+        },
+        {
+          "name": "AgentMeta",
+          "link": "[AgentMeta](../../../packages/enso-protocol/src/conversation.ts#L10)",
+          "file": "conversation.ts",
+          "line": 10
+        },
+        {
+          "name": "ConversationCliOptions",
+          "link": "[ConversationCliOptions](../../../packages/enso-protocol/src/conversation.ts#L16)",
+          "file": "conversation.ts",
+          "line": 16
+        },
+        {
+          "name": "KeyUpdate",
+          "link": "[KeyUpdate](../../../packages/enso-protocol/src/crypto.ts#L1)",
+          "file": "crypto.ts",
+          "line": 1
+        },
+        {
+          "name": "E2E",
+          "link": "[E2E](../../../packages/enso-protocol/src/crypto.ts#L7)",
+          "file": "crypto.ts",
+          "line": 7
+        },
+        {
+          "name": "DerivePlan",
+          "link": "[DerivePlan](../../../packages/enso-protocol/src/derive.ts#L4)",
+          "file": "derive.ts",
+          "line": 4
+        },
+        {
+          "name": "DeriveResult",
+          "link": "[DeriveResult](../../../packages/enso-protocol/src/derive.ts#L40)",
+          "file": "derive.ts",
+          "line": 40
+        },
+        {
+          "name": "RouteContext",
+          "link": "[RouteContext](../../../packages/enso-protocol/src/router.ts#L8)",
+          "file": "router.ts",
+          "line": 8
+        },
+        {
+          "name": "AssetReadResult",
+          "link": "[AssetReadResult](../../../packages/enso-protocol/src/store.ts#L5)",
+          "file": "store.ts",
+          "line": 5
+        },
+        {
+          "name": "ToolDefinition",
+          "link": "[ToolDefinition](../../../packages/enso-protocol/src/tools.ts#L11)",
+          "file": "tools.ts",
+          "line": 11
+        },
+        {
+          "name": "WebSocketClientOptions",
+          "link": "[WebSocketClientOptions](../../../packages/enso-protocol/src/transport.ts#L36)",
+          "file": "transport.ts",
+          "line": 36
+        },
+        {
+          "name": "WebSocketConnectionHandle",
+          "link": "[WebSocketConnectionHandle](../../../packages/enso-protocol/src/transport.ts#L49)",
+          "file": "transport.ts",
+          "line": 49
+        },
+        {
+          "name": "LocalTransportOptions",
+          "link": "[LocalTransportOptions](../../../packages/enso-protocol/src/transport.ts#L120)",
+          "file": "transport.ts",
+          "line": 120
+        },
+        {
+          "name": "LocalConnection",
+          "link": "[LocalConnection](../../../packages/enso-protocol/src/transport.ts#L132)",
+          "file": "transport.ts",
+          "line": 132
+        },
+        {
+          "name": "ChatMessage",
+          "link": "[ChatMessage](../../../packages/enso-protocol/src/types/content.ts#L36)",
+          "file": "types/content.ts",
+          "line": 36
+        },
+        {
+          "name": "DataSourceId",
+          "link": "[DataSourceId](../../../packages/enso-protocol/src/types/context.ts#L9)",
+          "file": "types/context.ts",
+          "line": 9
+        },
+        {
+          "name": "DataSourceMeta",
+          "link": "[DataSourceMeta](../../../packages/enso-protocol/src/types/context.ts#L36)",
+          "file": "types/context.ts",
+          "line": 36
+        },
+        {
+          "name": "DataSourceInit",
+          "link": "[DataSourceInit](../../../packages/enso-protocol/src/types/context.ts#L48)",
+          "file": "types/context.ts",
+          "line": 48
+        },
+        {
+          "name": "ContentPermissions",
+          "link": "[ContentPermissions](../../../packages/enso-protocol/src/types/context.ts#L60)",
+          "file": "types/context.ts",
+          "line": 60
+        },
+        {
+          "name": "ContextEntry",
+          "link": "[ContextEntry](../../../packages/enso-protocol/src/types/context.ts#L72)",
+          "file": "types/context.ts",
+          "line": 72
+        },
+        {
+          "name": "Context",
+          "link": "[Context](../../../packages/enso-protocol/src/types/context.ts#L81)",
+          "file": "types/context.ts",
+          "line": 81
+        },
+        {
+          "name": "ContextInit",
+          "link": "[ContextInit](../../../packages/enso-protocol/src/types/context.ts#L92)",
+          "file": "types/context.ts",
+          "line": 92
+        },
+        {
+          "name": "LlmView",
+          "link": "[LlmView](../../../packages/enso-protocol/src/types/context.ts#L99)",
+          "file": "types/context.ts",
+          "line": 99
+        },
+        {
+          "name": "ContextParticipant",
+          "link": "[ContextParticipant](../../../packages/enso-protocol/src/types/context.ts#L113)",
+          "file": "types/context.ts",
+          "line": 113
+        },
+        {
+          "name": "ContextEnvironment",
+          "link": "[ContextEnvironment](../../../packages/enso-protocol/src/types/context.ts#L120)",
+          "file": "types/context.ts",
+          "line": 120
+        },
+        {
+          "name": "ApprovalRequest",
+          "link": "[ApprovalRequest](../../../packages/enso-protocol/src/types/context.ts#L128)",
+          "file": "types/context.ts",
+          "line": 128
+        },
+        {
+          "name": "AvailabilityResult",
+          "link": "[AvailabilityResult](../../../packages/enso-protocol/src/types/context.ts#L137)",
+          "file": "types/context.ts",
+          "line": 137
+        },
+        {
+          "name": "DeniedDataSource",
+          "link": "[DeniedDataSource](../../../packages/enso-protocol/src/types/context.ts#L143)",
+          "file": "types/context.ts",
+          "line": 143
+        },
+        {
+          "name": "ContextDiff",
+          "link": "[ContextDiff](../../../packages/enso-protocol/src/types/context.ts#L148)",
+          "file": "types/context.ts",
+          "line": 148
+        },
+        {
+          "name": "ContextApplication",
+          "link": "[ContextApplication](../../../packages/enso-protocol/src/types/context.ts#L158)",
+          "file": "types/context.ts",
+          "line": 158
+        },
+        {
+          "name": "ContextApplyOptions",
+          "link": "[ContextApplyOptions](../../../packages/enso-protocol/src/types/context.ts#L165)",
+          "file": "types/context.ts",
+          "line": 165
+        },
+        {
+          "name": "Envelope",
+          "link": "[Envelope](../../../packages/enso-protocol/src/types/envelope.ts#L4)",
+          "file": "types/envelope.ts",
+          "line": 4
+        },
+        {
+          "name": "HelloCaps",
+          "link": "[HelloCaps](../../../packages/enso-protocol/src/types/privacy.ts#L7)",
+          "file": "types/privacy.ts",
+          "line": 7
+        },
+        {
+          "name": "StreamFrame",
+          "link": "[StreamFrame](../../../packages/enso-protocol/src/types/streams.ts#L1)",
+          "file": "types/streams.ts",
+          "line": 1
+        },
+        {
+          "name": "ToolSchema",
+          "link": "[ToolSchema](../../../packages/enso-protocol/src/types/tools.ts#L5)",
+          "file": "types/tools.ts",
+          "line": 5
+        },
+        {
+          "name": "ToolResource",
+          "link": "[ToolResource](../../../packages/enso-protocol/src/types/tools.ts#L10)",
+          "file": "types/tools.ts",
+          "line": 10
+        },
+        {
+          "name": "ToolAdvertisement",
+          "link": "[ToolAdvertisement](../../../packages/enso-protocol/src/types/tools.ts#L16)",
+          "file": "types/tools.ts",
+          "line": 16
+        },
+        {
+          "name": "ToolCall",
+          "link": "[ToolCall](../../../packages/enso-protocol/src/types/tools.ts#L23)",
+          "file": "types/tools.ts",
+          "line": 23
+        },
+        {
+          "name": "ToolResult",
+          "link": "[ToolResult](../../../packages/enso-protocol/src/types/tools.ts#L32)",
+          "file": "types/tools.ts",
+          "line": 32
+        }
+      ]
+    }
+  }
+}

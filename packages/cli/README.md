@@ -1,10 +1,8 @@
 <!-- READMEFLOW:BEGIN -->
+
 # @promethean-os/cli
 
-
-
 [TOC]
-
 
 ## Install
 
@@ -12,12 +10,51 @@ pnpm add @promethean-os/cli
 
 ## Usage
 
-(coming soon)
+The CLI package provides Lisp language processing tools for compilation, execution, and transpilation.
+
+### Commands
+
+```bash
+# Compile Lisp to JavaScript
+prom-lisp compile --pretty -o out.js program.lisp
+
+# Run Lisp programs with imports
+prom-lisp run --import print=./runtime.js:print program.lisp
+
+# Convert JavaScript to Lisp
+prom-lisp js2lisp source.js > out.lisp
+
+# Convert TypeScript to Lisp
+prom-lisp ts2lisp --include-intermediate component.ts > out.lisp
+```
+
+### Examples
+
+```bash
+# Compile with pretty printing
+prom-lisp compile --pretty -o bundle.js src.lisp
+
+# Run with external dependencies
+prom-lisp run --import utils=./helpers.js:helperFunc program.lisp
+
+# Convert modern JS to Lisp
+prom-lisp js2lisp --import es-module.js > converted.lisp
+
+# TypeScript conversion with intermediate output
+prom-lisp ts2lisp --include-intermediate component.ts > full-conversion.lisp
+```
+
+### Features
+
+-   **Compilation**: Lisp to JavaScript with optional pretty printing
+-   **Execution**: Run Lisp programs with external module imports
+-   **Transpilation**: JavaScript/TypeScript to Lisp conversion
+-   **Import System**: Flexible module importing with named exports
+-   **Streaming**: Support for stdin/stdout operations
 
 ## License
 
 GPLv3
-
 
 ### Package graph
 

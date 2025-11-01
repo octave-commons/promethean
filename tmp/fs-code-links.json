@@ -1,0 +1,983 @@
+{
+  "packageData": {
+    "packageName": "fs",
+    "files": [
+      {
+        "path": "ecs.ts",
+        "fullPath": "/home/err/devel/promethean/packages/fs/src/ecs.ts",
+        "exports": [
+          {
+            "name": "registerFsComponents",
+            "line": 67,
+            "type": "function"
+          },
+          {
+            "name": "initFsEcs",
+            "line": 87,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "registerFsComponents",
+            "line": 67,
+            "type": "function"
+          },
+          {
+            "name": "initFsEcs",
+            "line": 87,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 236
+      },
+      {
+        "path": "ensureDir.ts",
+        "fullPath": "/home/err/devel/promethean/packages/fs/src/ensureDir.ts",
+        "exports": [
+          {
+            "name": "ensureDir",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "ensureDir",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 6
+      },
+      {
+        "path": "fileExplorer.ts",
+        "fullPath": "/home/err/devel/promethean/packages/fs/src/fileExplorer.ts",
+        "exports": [
+          {
+            "name": "listDir",
+            "line": 21,
+            "type": "function"
+          },
+          {
+            "name": "readFile",
+            "line": 33,
+            "type": "function"
+          },
+          {
+            "name": "searchFiles",
+            "line": 41,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "listDir",
+            "line": 21,
+            "type": "function"
+          },
+          {
+            "name": "readFile",
+            "line": 33,
+            "type": "function"
+          },
+          {
+            "name": "searchFiles",
+            "line": 41,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 46
+      },
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/fs/src/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 22
+      },
+      {
+        "path": "mirrorTransform.ts",
+        "fullPath": "/home/err/devel/promethean/packages/fs/src/mirrorTransform.ts",
+        "exports": [
+          {
+            "name": "mirrorTree",
+            "line": 75,
+            "type": "function"
+          },
+          {
+            "name": "mapLines",
+            "line": 268,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "mirrorTree",
+            "line": 75,
+            "type": "function"
+          },
+          {
+            "name": "mapLines",
+            "line": 268,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 283
+      },
+      {
+        "path": "mirrorWrite.ts",
+        "fullPath": "/home/err/devel/promethean/packages/fs/src/mirrorWrite.ts",
+        "exports": [
+          {
+            "name": "mirrorWithHandler",
+            "line": 100,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "mirrorWithHandler",
+            "line": 100,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 491
+      },
+      {
+        "path": "pathUtils.ts",
+        "fullPath": "/home/err/devel/promethean/packages/fs/src/pathUtils.ts",
+        "exports": [
+          {
+            "name": "normalizeRelative",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "normalizeRelative",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 7
+      },
+      {
+        "path": "snapshot.ts",
+        "fullPath": "/home/err/devel/promethean/packages/fs/src/snapshot.ts",
+        "exports": [
+          {
+            "name": "loadEntries",
+            "line": 15,
+            "type": "function"
+          },
+          {
+            "name": "normalizeEntry",
+            "line": 30,
+            "type": "function"
+          },
+          {
+            "name": "maybeLoadContents",
+            "line": 38,
+            "type": "function"
+          },
+          {
+            "name": "computeSnapshotHash",
+            "line": 72,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "loadEntries",
+            "line": 15,
+            "type": "function"
+          },
+          {
+            "name": "normalizeEntry",
+            "line": 30,
+            "type": "function"
+          },
+          {
+            "name": "maybeLoadContents",
+            "line": 38,
+            "type": "function"
+          },
+          {
+            "name": "computeSnapshotHash",
+            "line": 72,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 122
+      },
+      {
+        "path": "streamTree.ts",
+        "fullPath": "/home/err/devel/promethean/packages/fs/src/streamTree.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 198
+      },
+      {
+        "path": "streamTreeConcurrent.ts",
+        "fullPath": "/home/err/devel/promethean/packages/fs/src/streamTreeConcurrent.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 200
+      },
+      {
+        "path": "streamTreeGeneratorsConcurrent.ts",
+        "fullPath": "/home/err/devel/promethean/packages/fs/src/streamTreeGeneratorsConcurrent.ts",
+        "exports": [],
+        "classes": [
+          {
+            "name": "AsyncQueue",
+            "line": 48,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 267
+      },
+      {
+        "path": "tests/ecs.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/fs/src/tests/ecs.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 116
+      },
+      {
+        "path": "tests/ensureDir.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/fs/src/tests/ensureDir.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 15
+      },
+      {
+        "path": "tests/streamTreeConcurrent.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/fs/src/tests/streamTreeConcurrent.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 25
+      },
+      {
+        "path": "tree.ts",
+        "fullPath": "/home/err/devel/promethean/packages/fs/src/tree.ts",
+        "exports": [
+          {
+            "name": "buildTree",
+            "line": 167,
+            "type": "function"
+          },
+          {
+            "name": "flattenTree",
+            "line": 176,
+            "type": "function"
+          },
+          {
+            "name": "filterTree",
+            "line": 185,
+            "type": "function"
+          },
+          {
+            "name": "collapseSingleChildDirs",
+            "line": 201,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "buildTree",
+            "line": 167,
+            "type": "function"
+          },
+          {
+            "name": "flattenTree",
+            "line": 176,
+            "type": "function"
+          },
+          {
+            "name": "filterTree",
+            "line": 185,
+            "type": "function"
+          },
+          {
+            "name": "collapseSingleChildDirs",
+            "line": 201,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 222
+      },
+      {
+        "path": "util.ts",
+        "fullPath": "/home/err/devel/promethean/packages/fs/src/util.ts",
+        "exports": [
+          {
+            "name": "walkDir",
+            "line": 100,
+            "type": "function"
+          },
+          {
+            "name": "listFiles",
+            "line": 109,
+            "type": "function"
+          },
+          {
+            "name": "listDirs",
+            "line": 116,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "walkDir",
+            "line": 100,
+            "type": "function"
+          },
+          {
+            "name": "listFiles",
+            "line": 109,
+            "type": "function"
+          },
+          {
+            "name": "listDirs",
+            "line": 116,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 119
+      },
+      {
+        "path": "writeOperations.ts",
+        "fullPath": "/home/err/devel/promethean/packages/fs/src/writeOperations.ts",
+        "exports": [
+          {
+            "name": "applyOperationsSequentially",
+            "line": 14,
+            "type": "function"
+          },
+          {
+            "name": "applyOperation",
+            "line": 35,
+            "type": "function"
+          },
+          {
+            "name": "hashOperations",
+            "line": 62,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "applyOperationsSequentially",
+            "line": 14,
+            "type": "function"
+          },
+          {
+            "name": "applyOperation",
+            "line": 35,
+            "type": "function"
+          },
+          {
+            "name": "hashOperations",
+            "line": 62,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 75
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [],
+      "classes": [],
+      "functions": [],
+      "interfaces": [],
+      "totalLines": 22
+    },
+    "exports": [
+      {
+        "name": "registerFsComponents",
+        "line": 67,
+        "type": "function",
+        "file": "ecs.ts"
+      },
+      {
+        "name": "initFsEcs",
+        "line": 87,
+        "type": "function",
+        "file": "ecs.ts"
+      },
+      {
+        "name": "ensureDir",
+        "line": 3,
+        "type": "function",
+        "file": "ensureDir.ts"
+      },
+      {
+        "name": "listDir",
+        "line": 21,
+        "type": "function",
+        "file": "fileExplorer.ts"
+      },
+      {
+        "name": "readFile",
+        "line": 33,
+        "type": "function",
+        "file": "fileExplorer.ts"
+      },
+      {
+        "name": "searchFiles",
+        "line": 41,
+        "type": "function",
+        "file": "fileExplorer.ts"
+      },
+      {
+        "name": "mirrorTree",
+        "line": 75,
+        "type": "function",
+        "file": "mirrorTransform.ts"
+      },
+      {
+        "name": "mapLines",
+        "line": 268,
+        "type": "function",
+        "file": "mirrorTransform.ts"
+      },
+      {
+        "name": "mirrorWithHandler",
+        "line": 100,
+        "type": "function",
+        "file": "mirrorWrite.ts"
+      },
+      {
+        "name": "normalizeRelative",
+        "line": 3,
+        "type": "function",
+        "file": "pathUtils.ts"
+      },
+      {
+        "name": "loadEntries",
+        "line": 15,
+        "type": "function",
+        "file": "snapshot.ts"
+      },
+      {
+        "name": "normalizeEntry",
+        "line": 30,
+        "type": "function",
+        "file": "snapshot.ts"
+      },
+      {
+        "name": "maybeLoadContents",
+        "line": 38,
+        "type": "function",
+        "file": "snapshot.ts"
+      },
+      {
+        "name": "computeSnapshotHash",
+        "line": 72,
+        "type": "function",
+        "file": "snapshot.ts"
+      },
+      {
+        "name": "buildTree",
+        "line": 167,
+        "type": "function",
+        "file": "tree.ts"
+      },
+      {
+        "name": "flattenTree",
+        "line": 176,
+        "type": "function",
+        "file": "tree.ts"
+      },
+      {
+        "name": "filterTree",
+        "line": 185,
+        "type": "function",
+        "file": "tree.ts"
+      },
+      {
+        "name": "collapseSingleChildDirs",
+        "line": 201,
+        "type": "function",
+        "file": "tree.ts"
+      },
+      {
+        "name": "walkDir",
+        "line": 100,
+        "type": "function",
+        "file": "util.ts"
+      },
+      {
+        "name": "listFiles",
+        "line": 109,
+        "type": "function",
+        "file": "util.ts"
+      },
+      {
+        "name": "listDirs",
+        "line": 116,
+        "type": "function",
+        "file": "util.ts"
+      },
+      {
+        "name": "applyOperationsSequentially",
+        "line": 14,
+        "type": "function",
+        "file": "writeOperations.ts"
+      },
+      {
+        "name": "applyOperation",
+        "line": 35,
+        "type": "function",
+        "file": "writeOperations.ts"
+      },
+      {
+        "name": "hashOperations",
+        "line": 62,
+        "type": "function",
+        "file": "writeOperations.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "AsyncQueue",
+        "line": 48,
+        "type": "class",
+        "file": "streamTreeGeneratorsConcurrent.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "registerFsComponents",
+        "line": 67,
+        "type": "function",
+        "file": "ecs.ts"
+      },
+      {
+        "name": "initFsEcs",
+        "line": 87,
+        "type": "function",
+        "file": "ecs.ts"
+      },
+      {
+        "name": "ensureDir",
+        "line": 3,
+        "type": "function",
+        "file": "ensureDir.ts"
+      },
+      {
+        "name": "listDir",
+        "line": 21,
+        "type": "function",
+        "file": "fileExplorer.ts"
+      },
+      {
+        "name": "readFile",
+        "line": 33,
+        "type": "function",
+        "file": "fileExplorer.ts"
+      },
+      {
+        "name": "searchFiles",
+        "line": 41,
+        "type": "function",
+        "file": "fileExplorer.ts"
+      },
+      {
+        "name": "mirrorTree",
+        "line": 75,
+        "type": "function",
+        "file": "mirrorTransform.ts"
+      },
+      {
+        "name": "mapLines",
+        "line": 268,
+        "type": "function",
+        "file": "mirrorTransform.ts"
+      },
+      {
+        "name": "mirrorWithHandler",
+        "line": 100,
+        "type": "function",
+        "file": "mirrorWrite.ts"
+      },
+      {
+        "name": "normalizeRelative",
+        "line": 3,
+        "type": "function",
+        "file": "pathUtils.ts"
+      },
+      {
+        "name": "loadEntries",
+        "line": 15,
+        "type": "function",
+        "file": "snapshot.ts"
+      },
+      {
+        "name": "normalizeEntry",
+        "line": 30,
+        "type": "function",
+        "file": "snapshot.ts"
+      },
+      {
+        "name": "maybeLoadContents",
+        "line": 38,
+        "type": "function",
+        "file": "snapshot.ts"
+      },
+      {
+        "name": "computeSnapshotHash",
+        "line": 72,
+        "type": "function",
+        "file": "snapshot.ts"
+      },
+      {
+        "name": "buildTree",
+        "line": 167,
+        "type": "function",
+        "file": "tree.ts"
+      },
+      {
+        "name": "flattenTree",
+        "line": 176,
+        "type": "function",
+        "file": "tree.ts"
+      },
+      {
+        "name": "filterTree",
+        "line": 185,
+        "type": "function",
+        "file": "tree.ts"
+      },
+      {
+        "name": "collapseSingleChildDirs",
+        "line": 201,
+        "type": "function",
+        "file": "tree.ts"
+      },
+      {
+        "name": "walkDir",
+        "line": 100,
+        "type": "function",
+        "file": "util.ts"
+      },
+      {
+        "name": "listFiles",
+        "line": 109,
+        "type": "function",
+        "file": "util.ts"
+      },
+      {
+        "name": "listDirs",
+        "line": 116,
+        "type": "function",
+        "file": "util.ts"
+      },
+      {
+        "name": "applyOperationsSequentially",
+        "line": 14,
+        "type": "function",
+        "file": "writeOperations.ts"
+      },
+      {
+        "name": "applyOperation",
+        "line": 35,
+        "type": "function",
+        "file": "writeOperations.ts"
+      },
+      {
+        "name": "hashOperations",
+        "line": 62,
+        "type": "function",
+        "file": "writeOperations.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "ecs.ts",
+          "link": "[src/ecs.ts](../../../packages/fs/src/ecs.ts)",
+          "lineCount": 236
+        },
+        {
+          "name": "ensureDir.ts",
+          "link": "[src/ensureDir.ts](../../../packages/fs/src/ensureDir.ts)",
+          "lineCount": 6
+        },
+        {
+          "name": "fileExplorer.ts",
+          "link": "[src/fileExplorer.ts](../../../packages/fs/src/fileExplorer.ts)",
+          "lineCount": 46
+        },
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/fs/src/index.ts)",
+          "lineCount": 22
+        },
+        {
+          "name": "mirrorTransform.ts",
+          "link": "[src/mirrorTransform.ts](../../../packages/fs/src/mirrorTransform.ts)",
+          "lineCount": 283
+        },
+        {
+          "name": "mirrorWrite.ts",
+          "link": "[src/mirrorWrite.ts](../../../packages/fs/src/mirrorWrite.ts)",
+          "lineCount": 491
+        },
+        {
+          "name": "pathUtils.ts",
+          "link": "[src/pathUtils.ts](../../../packages/fs/src/pathUtils.ts)",
+          "lineCount": 7
+        },
+        {
+          "name": "snapshot.ts",
+          "link": "[src/snapshot.ts](../../../packages/fs/src/snapshot.ts)",
+          "lineCount": 122
+        },
+        {
+          "name": "streamTree.ts",
+          "link": "[src/streamTree.ts](../../../packages/fs/src/streamTree.ts)",
+          "lineCount": 198
+        },
+        {
+          "name": "streamTreeConcurrent.ts",
+          "link": "[src/streamTreeConcurrent.ts](../../../packages/fs/src/streamTreeConcurrent.ts)",
+          "lineCount": 200
+        },
+        {
+          "name": "streamTreeGeneratorsConcurrent.ts",
+          "link": "[src/streamTreeGeneratorsConcurrent.ts](../../../packages/fs/src/streamTreeGeneratorsConcurrent.ts)",
+          "lineCount": 267
+        },
+        {
+          "name": "tests/ecs.test.ts",
+          "link": "[src/tests/ecs.test.ts](../../../packages/fs/src/tests/ecs.test.ts)",
+          "lineCount": 116
+        },
+        {
+          "name": "tests/ensureDir.test.ts",
+          "link": "[src/tests/ensureDir.test.ts](../../../packages/fs/src/tests/ensureDir.test.ts)",
+          "lineCount": 15
+        },
+        {
+          "name": "tests/streamTreeConcurrent.test.ts",
+          "link": "[src/tests/streamTreeConcurrent.test.ts](../../../packages/fs/src/tests/streamTreeConcurrent.test.ts)",
+          "lineCount": 25
+        },
+        {
+          "name": "tree.ts",
+          "link": "[src/tree.ts](../../../packages/fs/src/tree.ts)",
+          "lineCount": 222
+        },
+        {
+          "name": "util.ts",
+          "link": "[src/util.ts](../../../packages/fs/src/util.ts)",
+          "lineCount": 119
+        },
+        {
+          "name": "writeOperations.ts",
+          "link": "[src/writeOperations.ts](../../../packages/fs/src/writeOperations.ts)",
+          "lineCount": 75
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "AsyncQueue",
+          "link": "[AsyncQueue](../../../packages/fs/src/streamTreeGeneratorsConcurrent.ts#L48)",
+          "file": "streamTreeGeneratorsConcurrent.ts",
+          "line": 48
+        }
+      ],
+      "functions": [
+        {
+          "name": "registerFsComponents",
+          "link": "[registerFsComponents()](../../../packages/fs/src/ecs.ts#L67)",
+          "file": "ecs.ts",
+          "line": 67
+        },
+        {
+          "name": "initFsEcs",
+          "link": "[initFsEcs()](../../../packages/fs/src/ecs.ts#L87)",
+          "file": "ecs.ts",
+          "line": 87
+        },
+        {
+          "name": "ensureDir",
+          "link": "[ensureDir()](../../../packages/fs/src/ensureDir.ts#L3)",
+          "file": "ensureDir.ts",
+          "line": 3
+        },
+        {
+          "name": "listDir",
+          "link": "[listDir()](../../../packages/fs/src/fileExplorer.ts#L21)",
+          "file": "fileExplorer.ts",
+          "line": 21
+        },
+        {
+          "name": "readFile",
+          "link": "[readFile()](../../../packages/fs/src/fileExplorer.ts#L33)",
+          "file": "fileExplorer.ts",
+          "line": 33
+        },
+        {
+          "name": "searchFiles",
+          "link": "[searchFiles()](../../../packages/fs/src/fileExplorer.ts#L41)",
+          "file": "fileExplorer.ts",
+          "line": 41
+        },
+        {
+          "name": "mirrorTree",
+          "link": "[mirrorTree()](../../../packages/fs/src/mirrorTransform.ts#L75)",
+          "file": "mirrorTransform.ts",
+          "line": 75
+        },
+        {
+          "name": "mapLines",
+          "link": "[mapLines()](../../../packages/fs/src/mirrorTransform.ts#L268)",
+          "file": "mirrorTransform.ts",
+          "line": 268
+        },
+        {
+          "name": "mirrorWithHandler",
+          "link": "[mirrorWithHandler()](../../../packages/fs/src/mirrorWrite.ts#L100)",
+          "file": "mirrorWrite.ts",
+          "line": 100
+        },
+        {
+          "name": "normalizeRelative",
+          "link": "[normalizeRelative()](../../../packages/fs/src/pathUtils.ts#L3)",
+          "file": "pathUtils.ts",
+          "line": 3
+        },
+        {
+          "name": "loadEntries",
+          "link": "[loadEntries()](../../../packages/fs/src/snapshot.ts#L15)",
+          "file": "snapshot.ts",
+          "line": 15
+        },
+        {
+          "name": "normalizeEntry",
+          "link": "[normalizeEntry()](../../../packages/fs/src/snapshot.ts#L30)",
+          "file": "snapshot.ts",
+          "line": 30
+        },
+        {
+          "name": "maybeLoadContents",
+          "link": "[maybeLoadContents()](../../../packages/fs/src/snapshot.ts#L38)",
+          "file": "snapshot.ts",
+          "line": 38
+        },
+        {
+          "name": "computeSnapshotHash",
+          "link": "[computeSnapshotHash()](../../../packages/fs/src/snapshot.ts#L72)",
+          "file": "snapshot.ts",
+          "line": 72
+        },
+        {
+          "name": "buildTree",
+          "link": "[buildTree()](../../../packages/fs/src/tree.ts#L167)",
+          "file": "tree.ts",
+          "line": 167
+        },
+        {
+          "name": "flattenTree",
+          "link": "[flattenTree()](../../../packages/fs/src/tree.ts#L176)",
+          "file": "tree.ts",
+          "line": 176
+        },
+        {
+          "name": "filterTree",
+          "link": "[filterTree()](../../../packages/fs/src/tree.ts#L185)",
+          "file": "tree.ts",
+          "line": 185
+        },
+        {
+          "name": "collapseSingleChildDirs",
+          "link": "[collapseSingleChildDirs()](../../../packages/fs/src/tree.ts#L201)",
+          "file": "tree.ts",
+          "line": 201
+        },
+        {
+          "name": "walkDir",
+          "link": "[walkDir()](../../../packages/fs/src/util.ts#L100)",
+          "file": "util.ts",
+          "line": 100
+        },
+        {
+          "name": "listFiles",
+          "link": "[listFiles()](../../../packages/fs/src/util.ts#L109)",
+          "file": "util.ts",
+          "line": 109
+        },
+        {
+          "name": "listDirs",
+          "link": "[listDirs()](../../../packages/fs/src/util.ts#L116)",
+          "file": "util.ts",
+          "line": 116
+        },
+        {
+          "name": "applyOperationsSequentially",
+          "link": "[applyOperationsSequentially()](../../../packages/fs/src/writeOperations.ts#L14)",
+          "file": "writeOperations.ts",
+          "line": 14
+        },
+        {
+          "name": "applyOperation",
+          "link": "[applyOperation()](../../../packages/fs/src/writeOperations.ts#L35)",
+          "file": "writeOperations.ts",
+          "line": 35
+        },
+        {
+          "name": "hashOperations",
+          "link": "[hashOperations()](../../../packages/fs/src/writeOperations.ts#L62)",
+          "file": "writeOperations.ts",
+          "line": 62
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

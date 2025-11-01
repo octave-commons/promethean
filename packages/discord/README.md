@@ -1,10 +1,8 @@
 <!-- READMEFLOW:BEGIN -->
+
 # @promethean-os/discord
 
-
-
 [TOC]
-
 
 ## Install
 
@@ -12,12 +10,83 @@ pnpm add @promethean-os/discord
 
 ## Usage
 
-(coming soon)
+The Discord package provides a comprehensive framework for building Discord bots with voice support, AI integration, and advanced features.
+
+### Basic Bot Setup
+
+```typescript
+import { createDiscordBot } from '@promethean-os/discord';
+
+const bot = createDiscordBot({
+  token: process.env.DISCORD_TOKEN,
+  intents: ['Guilds', 'GuildMessages', 'MessageContent'],
+});
+
+await bot.start();
+```
+
+### Voice Channel Integration
+
+```typescript
+import { joinVoiceChannel, createAudioPlayer } from '@promethean-os/discord';
+
+// Join a voice channel
+const connection = await joinVoiceChannel(bot, {
+  channelId: 'channel-id',
+  guildId: 'guild-id',
+  adapterCreator: channel.guild.voiceAdapterCreator,
+});
+
+// Create audio player for TTS
+const player = createAudioPlayer();
+connection.subscribe(player);
+```
+
+### AI-Powered Features
+
+```typescript
+import { createLLMBridge, setupVoiceRecognition } from '@promethean-os/discord';
+
+// Bridge with LLM service
+const llmBridge = createLLMBridge({
+  llmEndpoint: 'http://localhost:3000',
+  contextWindow: 4000,
+});
+
+// Voice recognition and transcription
+const transcriber = setupVoiceRecognition({
+  sttEndpoint: 'http://localhost:3001',
+  language: 'en-US',
+});
+```
+
+### Message Processing
+
+```typescript
+bot.on('messageCreate', async (message) => {
+  if (message.author.bot) return;
+
+  // Process with AI
+  const response = await llmBridge.process(message.content);
+
+  // Send response
+  await message.reply(response);
+});
+```
+
+### Features
+
+- **Voice Support**: Join/leave channels, recording, playback
+- **AI Integration**: LLM bridge for intelligent responses
+- **Speech Recognition**: Real-time voice transcription
+- **Text-to-Speech**: Voice message synthesis
+- **Security**: Role-based access control and validation
+- **Persistence**: MongoDB integration for data storage
+- **Monitoring**: Health checks and performance metrics
 
 ## License
 
 GPLv3
-
 
 ### Package graph
 

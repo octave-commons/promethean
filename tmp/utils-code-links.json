@@ -1,0 +1,1264 @@
+{
+  "packageData": {
+    "packageName": "utils",
+    "files": [
+      {
+        "path": "cosine.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/cosine.ts",
+        "exports": [
+          {
+            "name": "cosine",
+            "line": 1,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "cosine",
+            "line": 1,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 17
+      },
+      {
+        "path": "fileBackedRegistry.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/fileBackedRegistry.ts",
+        "exports": [
+          {
+            "name": "fileBackedRegistry",
+            "line": 18,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "fileBackedRegistry",
+            "line": 18,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 51
+      },
+      {
+        "path": "files.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/files.ts",
+        "exports": [
+          {
+            "name": "readText",
+            "line": 4,
+            "type": "function"
+          },
+          {
+            "name": "writeText",
+            "line": 8,
+            "type": "function"
+          },
+          {
+            "name": "readMaybe",
+            "line": 13,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "readText",
+            "line": 4,
+            "type": "function"
+          },
+          {
+            "name": "writeText",
+            "line": 8,
+            "type": "function"
+          },
+          {
+            "name": "readMaybe",
+            "line": 13,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 20
+      },
+      {
+        "path": "hash.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/hash.ts",
+        "exports": [
+          {
+            "name": "sha1",
+            "line": 6,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "sha1",
+            "line": 6,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 9
+      },
+      {
+        "path": "in-memory-chroma.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/in-memory-chroma.ts",
+        "exports": [
+          {
+            "name": "InMemoryChroma",
+            "line": 20,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "InMemoryChroma",
+            "line": 20,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 142
+      },
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 29
+      },
+      {
+        "path": "list-files-rec.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/list-files-rec.ts",
+        "exports": [
+          {
+            "name": "listFilesRec",
+            "line": 28,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "listFilesRec",
+            "line": 28,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 52
+      },
+      {
+        "path": "logger.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/logger.ts",
+        "exports": [
+          {
+            "name": "createLogger",
+            "line": 130,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createLogger",
+            "line": 130,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 156
+      },
+      {
+        "path": "ollama.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/ollama.ts",
+        "exports": [
+          {
+            "name": "OLLAMA_URL",
+            "line": 3,
+            "type": "function"
+          },
+          {
+            "name": "OllamaError",
+            "line": 5,
+            "type": "class"
+          },
+          {
+            "name": "ollamaEmbed",
+            "line": 57,
+            "type": "function"
+          },
+          {
+            "name": "ollamaJSON",
+            "line": 103,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "OllamaError",
+            "line": 5,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "OLLAMA_URL",
+            "line": 3,
+            "type": "function"
+          },
+          {
+            "name": "ollamaEmbed",
+            "line": 57,
+            "type": "function"
+          },
+          {
+            "name": "ollamaJSON",
+            "line": 103,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 158
+      },
+      {
+        "path": "parse-args.d.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/parse-args.d.ts",
+        "exports": [
+          {
+            "name": "parseArgs",
+            "line": 13,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "parseArgs",
+            "line": 13,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 17
+      },
+      {
+        "path": "parse-args.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/parse-args.ts",
+        "exports": [
+          {
+            "name": "parseArgs",
+            "line": 13,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "parseArgs",
+            "line": 13,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 42
+      },
+      {
+        "path": "path.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/path.ts",
+        "exports": [
+          {
+            "name": "relFromRepo",
+            "line": 7,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "relFromRepo",
+            "line": 7,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 13
+      },
+      {
+        "path": "retry.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/retry.ts",
+        "exports": [
+          {
+            "name": "retry",
+            "line": 39,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "retry",
+            "line": 39,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 55
+      },
+      {
+        "path": "sleep.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/sleep.ts",
+        "exports": [
+          {
+            "name": "sleep",
+            "line": 8,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "sleep",
+            "line": 8,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 13
+      },
+      {
+        "path": "slug.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/slug.ts",
+        "exports": [
+          {
+            "name": "slug",
+            "line": 47,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "slug",
+            "line": 47,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 58
+      },
+      {
+        "path": "strip-generated-sections.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/strip-generated-sections.ts",
+        "exports": [
+          {
+            "name": "START_MARK",
+            "line": 1,
+            "type": "function"
+          },
+          {
+            "name": "END_MARK",
+            "line": 2,
+            "type": "function"
+          },
+          {
+            "name": "stripGeneratedSections",
+            "line": 4,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "START_MARK",
+            "line": 1,
+            "type": "function"
+          },
+          {
+            "name": "END_MARK",
+            "line": 2,
+            "type": "function"
+          },
+          {
+            "name": "stripGeneratedSections",
+            "line": 4,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 14
+      },
+      {
+        "path": "tests/cosine.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/tests/cosine.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 9
+      },
+      {
+        "path": "tests/fileBackedRegistry.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/tests/fileBackedRegistry.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 32
+      },
+      {
+        "path": "tests/hash.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/tests/hash.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 8
+      },
+      {
+        "path": "tests/in-memory-chroma.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/tests/in-memory-chroma.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 87
+      },
+      {
+        "path": "tests/list-files-rec.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/tests/list-files-rec.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 44
+      },
+      {
+        "path": "tests/logger.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/tests/logger.test.ts",
+        "exports": [],
+        "classes": [
+          {
+            "name": "MemoryStream",
+            "line": 7,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 149
+      },
+      {
+        "path": "tests/ollama.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/tests/ollama.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 63
+      },
+      {
+        "path": "tests/parse-args.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/tests/parse-args.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 16
+      },
+      {
+        "path": "tests/rel-from-repo.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/tests/rel-from-repo.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 12
+      },
+      {
+        "path": "tests/retry.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/tests/retry.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 80
+      },
+      {
+        "path": "tests/slug.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/tests/slug.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 22
+      },
+      {
+        "path": "tests/strip-generated-sections.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/tests/strip-generated-sections.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 16
+      },
+      {
+        "path": "tests/ts-ast.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/tests/ts-ast.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 25
+      },
+      {
+        "path": "tests/uuid.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/tests/uuid.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 28
+      },
+      {
+        "path": "ts-ast.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/ts-ast.ts",
+        "exports": [
+          {
+            "name": "getJsDocText",
+            "line": 7,
+            "type": "function"
+          },
+          {
+            "name": "getNodeText",
+            "line": 21,
+            "type": "function"
+          },
+          {
+            "name": "posToLine",
+            "line": 28,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "getJsDocText",
+            "line": 7,
+            "type": "function"
+          },
+          {
+            "name": "getNodeText",
+            "line": 21,
+            "type": "function"
+          },
+          {
+            "name": "posToLine",
+            "line": 28,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 35
+      },
+      {
+        "path": "uuid.ts",
+        "fullPath": "/home/err/devel/promethean/packages/utils/src/uuid.ts",
+        "exports": [
+          {
+            "name": "randomUUID",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "randomUUID",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 6
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [],
+      "classes": [],
+      "functions": [],
+      "interfaces": [],
+      "totalLines": 29
+    },
+    "exports": [
+      {
+        "name": "cosine",
+        "line": 1,
+        "type": "function",
+        "file": "cosine.ts"
+      },
+      {
+        "name": "fileBackedRegistry",
+        "line": 18,
+        "type": "function",
+        "file": "fileBackedRegistry.ts"
+      },
+      {
+        "name": "readText",
+        "line": 4,
+        "type": "function",
+        "file": "files.ts"
+      },
+      {
+        "name": "writeText",
+        "line": 8,
+        "type": "function",
+        "file": "files.ts"
+      },
+      {
+        "name": "readMaybe",
+        "line": 13,
+        "type": "function",
+        "file": "files.ts"
+      },
+      {
+        "name": "sha1",
+        "line": 6,
+        "type": "function",
+        "file": "hash.ts"
+      },
+      {
+        "name": "InMemoryChroma",
+        "line": 20,
+        "type": "class",
+        "file": "in-memory-chroma.ts"
+      },
+      {
+        "name": "listFilesRec",
+        "line": 28,
+        "type": "function",
+        "file": "list-files-rec.ts"
+      },
+      {
+        "name": "createLogger",
+        "line": 130,
+        "type": "function",
+        "file": "logger.ts"
+      },
+      {
+        "name": "OLLAMA_URL",
+        "line": 3,
+        "type": "function",
+        "file": "ollama.ts"
+      },
+      {
+        "name": "OllamaError",
+        "line": 5,
+        "type": "class",
+        "file": "ollama.ts"
+      },
+      {
+        "name": "ollamaEmbed",
+        "line": 57,
+        "type": "function",
+        "file": "ollama.ts"
+      },
+      {
+        "name": "ollamaJSON",
+        "line": 103,
+        "type": "function",
+        "file": "ollama.ts"
+      },
+      {
+        "name": "parseArgs",
+        "line": 13,
+        "type": "function",
+        "file": "parse-args.d.ts"
+      },
+      {
+        "name": "parseArgs",
+        "line": 13,
+        "type": "function",
+        "file": "parse-args.ts"
+      },
+      {
+        "name": "relFromRepo",
+        "line": 7,
+        "type": "function",
+        "file": "path.ts"
+      },
+      {
+        "name": "retry",
+        "line": 39,
+        "type": "function",
+        "file": "retry.ts"
+      },
+      {
+        "name": "sleep",
+        "line": 8,
+        "type": "function",
+        "file": "sleep.ts"
+      },
+      {
+        "name": "slug",
+        "line": 47,
+        "type": "function",
+        "file": "slug.ts"
+      },
+      {
+        "name": "START_MARK",
+        "line": 1,
+        "type": "function",
+        "file": "strip-generated-sections.ts"
+      },
+      {
+        "name": "END_MARK",
+        "line": 2,
+        "type": "function",
+        "file": "strip-generated-sections.ts"
+      },
+      {
+        "name": "stripGeneratedSections",
+        "line": 4,
+        "type": "function",
+        "file": "strip-generated-sections.ts"
+      },
+      {
+        "name": "getJsDocText",
+        "line": 7,
+        "type": "function",
+        "file": "ts-ast.ts"
+      },
+      {
+        "name": "getNodeText",
+        "line": 21,
+        "type": "function",
+        "file": "ts-ast.ts"
+      },
+      {
+        "name": "posToLine",
+        "line": 28,
+        "type": "function",
+        "file": "ts-ast.ts"
+      },
+      {
+        "name": "randomUUID",
+        "line": 3,
+        "type": "function",
+        "file": "uuid.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "InMemoryChroma",
+        "line": 20,
+        "type": "class",
+        "file": "in-memory-chroma.ts"
+      },
+      {
+        "name": "OllamaError",
+        "line": 5,
+        "type": "class",
+        "file": "ollama.ts"
+      },
+      {
+        "name": "MemoryStream",
+        "line": 7,
+        "type": "class",
+        "file": "tests/logger.test.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "cosine",
+        "line": 1,
+        "type": "function",
+        "file": "cosine.ts"
+      },
+      {
+        "name": "fileBackedRegistry",
+        "line": 18,
+        "type": "function",
+        "file": "fileBackedRegistry.ts"
+      },
+      {
+        "name": "readText",
+        "line": 4,
+        "type": "function",
+        "file": "files.ts"
+      },
+      {
+        "name": "writeText",
+        "line": 8,
+        "type": "function",
+        "file": "files.ts"
+      },
+      {
+        "name": "readMaybe",
+        "line": 13,
+        "type": "function",
+        "file": "files.ts"
+      },
+      {
+        "name": "sha1",
+        "line": 6,
+        "type": "function",
+        "file": "hash.ts"
+      },
+      {
+        "name": "listFilesRec",
+        "line": 28,
+        "type": "function",
+        "file": "list-files-rec.ts"
+      },
+      {
+        "name": "createLogger",
+        "line": 130,
+        "type": "function",
+        "file": "logger.ts"
+      },
+      {
+        "name": "OLLAMA_URL",
+        "line": 3,
+        "type": "function",
+        "file": "ollama.ts"
+      },
+      {
+        "name": "ollamaEmbed",
+        "line": 57,
+        "type": "function",
+        "file": "ollama.ts"
+      },
+      {
+        "name": "ollamaJSON",
+        "line": 103,
+        "type": "function",
+        "file": "ollama.ts"
+      },
+      {
+        "name": "parseArgs",
+        "line": 13,
+        "type": "function",
+        "file": "parse-args.d.ts"
+      },
+      {
+        "name": "parseArgs",
+        "line": 13,
+        "type": "function",
+        "file": "parse-args.ts"
+      },
+      {
+        "name": "relFromRepo",
+        "line": 7,
+        "type": "function",
+        "file": "path.ts"
+      },
+      {
+        "name": "retry",
+        "line": 39,
+        "type": "function",
+        "file": "retry.ts"
+      },
+      {
+        "name": "sleep",
+        "line": 8,
+        "type": "function",
+        "file": "sleep.ts"
+      },
+      {
+        "name": "slug",
+        "line": 47,
+        "type": "function",
+        "file": "slug.ts"
+      },
+      {
+        "name": "START_MARK",
+        "line": 1,
+        "type": "function",
+        "file": "strip-generated-sections.ts"
+      },
+      {
+        "name": "END_MARK",
+        "line": 2,
+        "type": "function",
+        "file": "strip-generated-sections.ts"
+      },
+      {
+        "name": "stripGeneratedSections",
+        "line": 4,
+        "type": "function",
+        "file": "strip-generated-sections.ts"
+      },
+      {
+        "name": "getJsDocText",
+        "line": 7,
+        "type": "function",
+        "file": "ts-ast.ts"
+      },
+      {
+        "name": "getNodeText",
+        "line": 21,
+        "type": "function",
+        "file": "ts-ast.ts"
+      },
+      {
+        "name": "posToLine",
+        "line": 28,
+        "type": "function",
+        "file": "ts-ast.ts"
+      },
+      {
+        "name": "randomUUID",
+        "line": 3,
+        "type": "function",
+        "file": "uuid.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "cosine.ts",
+          "link": "[src/cosine.ts](../../../packages/utils/src/cosine.ts)",
+          "lineCount": 17
+        },
+        {
+          "name": "fileBackedRegistry.ts",
+          "link": "[src/fileBackedRegistry.ts](../../../packages/utils/src/fileBackedRegistry.ts)",
+          "lineCount": 51
+        },
+        {
+          "name": "files.ts",
+          "link": "[src/files.ts](../../../packages/utils/src/files.ts)",
+          "lineCount": 20
+        },
+        {
+          "name": "hash.ts",
+          "link": "[src/hash.ts](../../../packages/utils/src/hash.ts)",
+          "lineCount": 9
+        },
+        {
+          "name": "in-memory-chroma.ts",
+          "link": "[src/in-memory-chroma.ts](../../../packages/utils/src/in-memory-chroma.ts)",
+          "lineCount": 142
+        },
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/utils/src/index.ts)",
+          "lineCount": 29
+        },
+        {
+          "name": "list-files-rec.ts",
+          "link": "[src/list-files-rec.ts](../../../packages/utils/src/list-files-rec.ts)",
+          "lineCount": 52
+        },
+        {
+          "name": "logger.ts",
+          "link": "[src/logger.ts](../../../packages/utils/src/logger.ts)",
+          "lineCount": 156
+        },
+        {
+          "name": "ollama.ts",
+          "link": "[src/ollama.ts](../../../packages/utils/src/ollama.ts)",
+          "lineCount": 158
+        },
+        {
+          "name": "parse-args.d.ts",
+          "link": "[src/parse-args.d.ts](../../../packages/utils/src/parse-args.d.ts)",
+          "lineCount": 17
+        },
+        {
+          "name": "parse-args.ts",
+          "link": "[src/parse-args.ts](../../../packages/utils/src/parse-args.ts)",
+          "lineCount": 42
+        },
+        {
+          "name": "path.ts",
+          "link": "[src/path.ts](../../../packages/utils/src/path.ts)",
+          "lineCount": 13
+        },
+        {
+          "name": "retry.ts",
+          "link": "[src/retry.ts](../../../packages/utils/src/retry.ts)",
+          "lineCount": 55
+        },
+        {
+          "name": "sleep.ts",
+          "link": "[src/sleep.ts](../../../packages/utils/src/sleep.ts)",
+          "lineCount": 13
+        },
+        {
+          "name": "slug.ts",
+          "link": "[src/slug.ts](../../../packages/utils/src/slug.ts)",
+          "lineCount": 58
+        },
+        {
+          "name": "strip-generated-sections.ts",
+          "link": "[src/strip-generated-sections.ts](../../../packages/utils/src/strip-generated-sections.ts)",
+          "lineCount": 14
+        },
+        {
+          "name": "tests/cosine.test.ts",
+          "link": "[src/tests/cosine.test.ts](../../../packages/utils/src/tests/cosine.test.ts)",
+          "lineCount": 9
+        },
+        {
+          "name": "tests/fileBackedRegistry.test.ts",
+          "link": "[src/tests/fileBackedRegistry.test.ts](../../../packages/utils/src/tests/fileBackedRegistry.test.ts)",
+          "lineCount": 32
+        },
+        {
+          "name": "tests/hash.test.ts",
+          "link": "[src/tests/hash.test.ts](../../../packages/utils/src/tests/hash.test.ts)",
+          "lineCount": 8
+        },
+        {
+          "name": "tests/in-memory-chroma.test.ts",
+          "link": "[src/tests/in-memory-chroma.test.ts](../../../packages/utils/src/tests/in-memory-chroma.test.ts)",
+          "lineCount": 87
+        },
+        {
+          "name": "tests/list-files-rec.test.ts",
+          "link": "[src/tests/list-files-rec.test.ts](../../../packages/utils/src/tests/list-files-rec.test.ts)",
+          "lineCount": 44
+        },
+        {
+          "name": "tests/logger.test.ts",
+          "link": "[src/tests/logger.test.ts](../../../packages/utils/src/tests/logger.test.ts)",
+          "lineCount": 149
+        },
+        {
+          "name": "tests/ollama.test.ts",
+          "link": "[src/tests/ollama.test.ts](../../../packages/utils/src/tests/ollama.test.ts)",
+          "lineCount": 63
+        },
+        {
+          "name": "tests/parse-args.test.ts",
+          "link": "[src/tests/parse-args.test.ts](../../../packages/utils/src/tests/parse-args.test.ts)",
+          "lineCount": 16
+        },
+        {
+          "name": "tests/rel-from-repo.test.ts",
+          "link": "[src/tests/rel-from-repo.test.ts](../../../packages/utils/src/tests/rel-from-repo.test.ts)",
+          "lineCount": 12
+        },
+        {
+          "name": "tests/retry.test.ts",
+          "link": "[src/tests/retry.test.ts](../../../packages/utils/src/tests/retry.test.ts)",
+          "lineCount": 80
+        },
+        {
+          "name": "tests/slug.test.ts",
+          "link": "[src/tests/slug.test.ts](../../../packages/utils/src/tests/slug.test.ts)",
+          "lineCount": 22
+        },
+        {
+          "name": "tests/strip-generated-sections.test.ts",
+          "link": "[src/tests/strip-generated-sections.test.ts](../../../packages/utils/src/tests/strip-generated-sections.test.ts)",
+          "lineCount": 16
+        },
+        {
+          "name": "tests/ts-ast.test.ts",
+          "link": "[src/tests/ts-ast.test.ts](../../../packages/utils/src/tests/ts-ast.test.ts)",
+          "lineCount": 25
+        },
+        {
+          "name": "tests/uuid.test.ts",
+          "link": "[src/tests/uuid.test.ts](../../../packages/utils/src/tests/uuid.test.ts)",
+          "lineCount": 28
+        },
+        {
+          "name": "ts-ast.ts",
+          "link": "[src/ts-ast.ts](../../../packages/utils/src/ts-ast.ts)",
+          "lineCount": 35
+        },
+        {
+          "name": "uuid.ts",
+          "link": "[src/uuid.ts](../../../packages/utils/src/uuid.ts)",
+          "lineCount": 6
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "InMemoryChroma",
+          "link": "[InMemoryChroma](../../../packages/utils/src/in-memory-chroma.ts#L20)",
+          "file": "in-memory-chroma.ts",
+          "line": 20
+        },
+        {
+          "name": "OllamaError",
+          "link": "[OllamaError](../../../packages/utils/src/ollama.ts#L5)",
+          "file": "ollama.ts",
+          "line": 5
+        },
+        {
+          "name": "MemoryStream",
+          "link": "[MemoryStream](../../../packages/utils/src/tests/logger.test.ts#L7)",
+          "file": "tests/logger.test.ts",
+          "line": 7
+        }
+      ],
+      "functions": [
+        {
+          "name": "cosine",
+          "link": "[cosine()](../../../packages/utils/src/cosine.ts#L1)",
+          "file": "cosine.ts",
+          "line": 1
+        },
+        {
+          "name": "fileBackedRegistry",
+          "link": "[fileBackedRegistry()](../../../packages/utils/src/fileBackedRegistry.ts#L18)",
+          "file": "fileBackedRegistry.ts",
+          "line": 18
+        },
+        {
+          "name": "readText",
+          "link": "[readText()](../../../packages/utils/src/files.ts#L4)",
+          "file": "files.ts",
+          "line": 4
+        },
+        {
+          "name": "writeText",
+          "link": "[writeText()](../../../packages/utils/src/files.ts#L8)",
+          "file": "files.ts",
+          "line": 8
+        },
+        {
+          "name": "readMaybe",
+          "link": "[readMaybe()](../../../packages/utils/src/files.ts#L13)",
+          "file": "files.ts",
+          "line": 13
+        },
+        {
+          "name": "sha1",
+          "link": "[sha1()](../../../packages/utils/src/hash.ts#L6)",
+          "file": "hash.ts",
+          "line": 6
+        },
+        {
+          "name": "listFilesRec",
+          "link": "[listFilesRec()](../../../packages/utils/src/list-files-rec.ts#L28)",
+          "file": "list-files-rec.ts",
+          "line": 28
+        },
+        {
+          "name": "createLogger",
+          "link": "[createLogger()](../../../packages/utils/src/logger.ts#L130)",
+          "file": "logger.ts",
+          "line": 130
+        },
+        {
+          "name": "OLLAMA_URL",
+          "link": "[OLLAMA_URL()](../../../packages/utils/src/ollama.ts#L3)",
+          "file": "ollama.ts",
+          "line": 3
+        },
+        {
+          "name": "ollamaEmbed",
+          "link": "[ollamaEmbed()](../../../packages/utils/src/ollama.ts#L57)",
+          "file": "ollama.ts",
+          "line": 57
+        },
+        {
+          "name": "ollamaJSON",
+          "link": "[ollamaJSON()](../../../packages/utils/src/ollama.ts#L103)",
+          "file": "ollama.ts",
+          "line": 103
+        },
+        {
+          "name": "parseArgs",
+          "link": "[parseArgs()](../../../packages/utils/src/parse-args.d.ts#L13)",
+          "file": "parse-args.d.ts",
+          "line": 13
+        },
+        {
+          "name": "parseArgs",
+          "link": "[parseArgs()](../../../packages/utils/src/parse-args.ts#L13)",
+          "file": "parse-args.ts",
+          "line": 13
+        },
+        {
+          "name": "relFromRepo",
+          "link": "[relFromRepo()](../../../packages/utils/src/path.ts#L7)",
+          "file": "path.ts",
+          "line": 7
+        },
+        {
+          "name": "retry",
+          "link": "[retry()](../../../packages/utils/src/retry.ts#L39)",
+          "file": "retry.ts",
+          "line": 39
+        },
+        {
+          "name": "sleep",
+          "link": "[sleep()](../../../packages/utils/src/sleep.ts#L8)",
+          "file": "sleep.ts",
+          "line": 8
+        },
+        {
+          "name": "slug",
+          "link": "[slug()](../../../packages/utils/src/slug.ts#L47)",
+          "file": "slug.ts",
+          "line": 47
+        },
+        {
+          "name": "START_MARK",
+          "link": "[START_MARK()](../../../packages/utils/src/strip-generated-sections.ts#L1)",
+          "file": "strip-generated-sections.ts",
+          "line": 1
+        },
+        {
+          "name": "END_MARK",
+          "link": "[END_MARK()](../../../packages/utils/src/strip-generated-sections.ts#L2)",
+          "file": "strip-generated-sections.ts",
+          "line": 2
+        },
+        {
+          "name": "stripGeneratedSections",
+          "link": "[stripGeneratedSections()](../../../packages/utils/src/strip-generated-sections.ts#L4)",
+          "file": "strip-generated-sections.ts",
+          "line": 4
+        },
+        {
+          "name": "getJsDocText",
+          "link": "[getJsDocText()](../../../packages/utils/src/ts-ast.ts#L7)",
+          "file": "ts-ast.ts",
+          "line": 7
+        },
+        {
+          "name": "getNodeText",
+          "link": "[getNodeText()](../../../packages/utils/src/ts-ast.ts#L21)",
+          "file": "ts-ast.ts",
+          "line": 21
+        },
+        {
+          "name": "posToLine",
+          "link": "[posToLine()](../../../packages/utils/src/ts-ast.ts#L28)",
+          "file": "ts-ast.ts",
+          "line": 28
+        },
+        {
+          "name": "randomUUID",
+          "link": "[randomUUID()](../../../packages/utils/src/uuid.ts#L3)",
+          "file": "uuid.ts",
+          "line": 3
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

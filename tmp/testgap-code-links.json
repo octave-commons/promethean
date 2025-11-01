@@ -1,0 +1,350 @@
+{
+  "packageData": {
+    "packageName": "testgap",
+    "files": [
+      {
+        "path": "01-scan-exports.ts",
+        "fullPath": "/home/err/devel/promethean/packages/testgap/src/01-scan-exports.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 89
+      },
+      {
+        "path": "02-read-coverage.ts",
+        "fullPath": "/home/err/devel/promethean/packages/testgap/src/02-read-coverage.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 78
+      },
+      {
+        "path": "03-map-gaps.ts",
+        "fullPath": "/home/err/devel/promethean/packages/testgap/src/03-map-gaps.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 79
+      },
+      {
+        "path": "04-cookbook-cross.ts",
+        "fullPath": "/home/err/devel/promethean/packages/testgap/src/04-cookbook-cross.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 59
+      },
+      {
+        "path": "05-plan.ts",
+        "fullPath": "/home/err/devel/promethean/packages/testgap/src/05-plan.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 136
+      },
+      {
+        "path": "06-write.ts",
+        "fullPath": "/home/err/devel/promethean/packages/testgap/src/06-write.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 124
+      },
+      {
+        "path": "07-report.ts",
+        "fullPath": "/home/err/devel/promethean/packages/testgap/src/07-report.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 59
+      },
+      {
+        "path": "08-gate.ts",
+        "fullPath": "/home/err/devel/promethean/packages/testgap/src/08-gate.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 128
+      },
+      {
+        "path": "tests/utils.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/testgap/src/tests/utils.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 93
+      },
+      {
+        "path": "types.ts",
+        "fullPath": "/home/err/devel/promethean/packages/testgap/src/types.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 46
+      },
+      {
+        "path": "utils.ts",
+        "fullPath": "/home/err/devel/promethean/packages/testgap/src/utils.ts",
+        "exports": [
+          {
+            "name": "OLLAMA_URL",
+            "line": 4,
+            "type": "function"
+          },
+          {
+            "name": "writeJSON",
+            "line": 6,
+            "type": "function"
+          },
+          {
+            "name": "readJSON",
+            "line": 11,
+            "type": "function"
+          },
+          {
+            "name": "readMaybe",
+            "line": 16,
+            "type": "function"
+          },
+          {
+            "name": "ollamaJSON",
+            "line": 20,
+            "type": "function"
+          },
+          {
+            "name": "rel",
+            "line": 53,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "OLLAMA_URL",
+            "line": 4,
+            "type": "function"
+          },
+          {
+            "name": "writeJSON",
+            "line": 6,
+            "type": "function"
+          },
+          {
+            "name": "readJSON",
+            "line": 11,
+            "type": "function"
+          },
+          {
+            "name": "readMaybe",
+            "line": 16,
+            "type": "function"
+          },
+          {
+            "name": "ollamaJSON",
+            "line": 20,
+            "type": "function"
+          },
+          {
+            "name": "rel",
+            "line": 53,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 56
+      }
+    ],
+    "mainEntry": null,
+    "exports": [
+      {
+        "name": "OLLAMA_URL",
+        "line": 4,
+        "type": "function",
+        "file": "utils.ts"
+      },
+      {
+        "name": "writeJSON",
+        "line": 6,
+        "type": "function",
+        "file": "utils.ts"
+      },
+      {
+        "name": "readJSON",
+        "line": 11,
+        "type": "function",
+        "file": "utils.ts"
+      },
+      {
+        "name": "readMaybe",
+        "line": 16,
+        "type": "function",
+        "file": "utils.ts"
+      },
+      {
+        "name": "ollamaJSON",
+        "line": 20,
+        "type": "function",
+        "file": "utils.ts"
+      },
+      {
+        "name": "rel",
+        "line": 53,
+        "type": "function",
+        "file": "utils.ts"
+      }
+    ],
+    "classes": [],
+    "functions": [
+      {
+        "name": "OLLAMA_URL",
+        "line": 4,
+        "type": "function",
+        "file": "utils.ts"
+      },
+      {
+        "name": "writeJSON",
+        "line": 6,
+        "type": "function",
+        "file": "utils.ts"
+      },
+      {
+        "name": "readJSON",
+        "line": 11,
+        "type": "function",
+        "file": "utils.ts"
+      },
+      {
+        "name": "readMaybe",
+        "line": 16,
+        "type": "function",
+        "file": "utils.ts"
+      },
+      {
+        "name": "ollamaJSON",
+        "line": 20,
+        "type": "function",
+        "file": "utils.ts"
+      },
+      {
+        "name": "rel",
+        "line": 53,
+        "type": "function",
+        "file": "utils.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "01-scan-exports.ts",
+          "link": "[src/01-scan-exports.ts](../../../packages/testgap/src/01-scan-exports.ts)",
+          "lineCount": 89
+        },
+        {
+          "name": "02-read-coverage.ts",
+          "link": "[src/02-read-coverage.ts](../../../packages/testgap/src/02-read-coverage.ts)",
+          "lineCount": 78
+        },
+        {
+          "name": "03-map-gaps.ts",
+          "link": "[src/03-map-gaps.ts](../../../packages/testgap/src/03-map-gaps.ts)",
+          "lineCount": 79
+        },
+        {
+          "name": "04-cookbook-cross.ts",
+          "link": "[src/04-cookbook-cross.ts](../../../packages/testgap/src/04-cookbook-cross.ts)",
+          "lineCount": 59
+        },
+        {
+          "name": "05-plan.ts",
+          "link": "[src/05-plan.ts](../../../packages/testgap/src/05-plan.ts)",
+          "lineCount": 136
+        },
+        {
+          "name": "06-write.ts",
+          "link": "[src/06-write.ts](../../../packages/testgap/src/06-write.ts)",
+          "lineCount": 124
+        },
+        {
+          "name": "07-report.ts",
+          "link": "[src/07-report.ts](../../../packages/testgap/src/07-report.ts)",
+          "lineCount": 59
+        },
+        {
+          "name": "08-gate.ts",
+          "link": "[src/08-gate.ts](../../../packages/testgap/src/08-gate.ts)",
+          "lineCount": 128
+        },
+        {
+          "name": "tests/utils.test.ts",
+          "link": "[src/tests/utils.test.ts](../../../packages/testgap/src/tests/utils.test.ts)",
+          "lineCount": 93
+        },
+        {
+          "name": "types.ts",
+          "link": "[src/types.ts](../../../packages/testgap/src/types.ts)",
+          "lineCount": 46
+        },
+        {
+          "name": "utils.ts",
+          "link": "[src/utils.ts](../../../packages/testgap/src/utils.ts)",
+          "lineCount": 56
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [],
+      "functions": [
+        {
+          "name": "OLLAMA_URL",
+          "link": "[OLLAMA_URL()](../../../packages/testgap/src/utils.ts#L4)",
+          "file": "utils.ts",
+          "line": 4
+        },
+        {
+          "name": "writeJSON",
+          "link": "[writeJSON()](../../../packages/testgap/src/utils.ts#L6)",
+          "file": "utils.ts",
+          "line": 6
+        },
+        {
+          "name": "readJSON",
+          "link": "[readJSON()](../../../packages/testgap/src/utils.ts#L11)",
+          "file": "utils.ts",
+          "line": 11
+        },
+        {
+          "name": "readMaybe",
+          "link": "[readMaybe()](../../../packages/testgap/src/utils.ts#L16)",
+          "file": "utils.ts",
+          "line": 16
+        },
+        {
+          "name": "ollamaJSON",
+          "link": "[ollamaJSON()](../../../packages/testgap/src/utils.ts#L20)",
+          "file": "utils.ts",
+          "line": 20
+        },
+        {
+          "name": "rel",
+          "link": "[rel()](../../../packages/testgap/src/utils.ts#L53)",
+          "file": "utils.ts",
+          "line": 53
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

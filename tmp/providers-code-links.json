@@ -1,0 +1,244 @@
+{
+  "packageData": {
+    "packageName": "providers",
+    "files": [
+      {
+        "path": "discord/normalize.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/providers/src/discord/normalize.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 27
+      },
+      {
+        "path": "discord/normalize.ts",
+        "fullPath": "/home/err/devel/promethean/packages/providers/src/discord/normalize.ts",
+        "exports": [
+          {
+            "name": "normalizeDiscordMessage",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "normalizeDiscordMessage",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 22
+      },
+      {
+        "path": "discord/voice/gateway.ts",
+        "fullPath": "/home/err/devel/promethean/packages/providers/src/discord/voice/gateway.ts",
+        "exports": [
+          {
+            "name": "connectVoiceGateway",
+            "line": 2,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "connectVoiceGateway",
+            "line": 2,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 6
+      },
+      {
+        "path": "discord/voice/normalize.ts",
+        "fullPath": "/home/err/devel/promethean/packages/providers/src/discord/voice/normalize.ts",
+        "exports": [
+          {
+            "name": "normalizeRtpToPcm",
+            "line": 2,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "normalizeRtpToPcm",
+            "line": 2,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 10
+      },
+      {
+        "path": "discord/voice/rtp.ts",
+        "fullPath": "/home/err/devel/promethean/packages/providers/src/discord/voice/rtp.ts",
+        "exports": [
+          {
+            "name": "decodeOpusPacket",
+            "line": 2,
+            "type": "function"
+          },
+          {
+            "name": "encodeOpusFrame",
+            "line": 7,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "decodeOpusPacket",
+            "line": 2,
+            "type": "function"
+          },
+          {
+            "name": "encodeOpusFrame",
+            "line": 7,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 11
+      }
+    ],
+    "mainEntry": null,
+    "exports": [
+      {
+        "name": "normalizeDiscordMessage",
+        "line": 3,
+        "type": "function",
+        "file": "discord/normalize.ts"
+      },
+      {
+        "name": "connectVoiceGateway",
+        "line": 2,
+        "type": "function",
+        "file": "discord/voice/gateway.ts"
+      },
+      {
+        "name": "normalizeRtpToPcm",
+        "line": 2,
+        "type": "function",
+        "file": "discord/voice/normalize.ts"
+      },
+      {
+        "name": "decodeOpusPacket",
+        "line": 2,
+        "type": "function",
+        "file": "discord/voice/rtp.ts"
+      },
+      {
+        "name": "encodeOpusFrame",
+        "line": 7,
+        "type": "function",
+        "file": "discord/voice/rtp.ts"
+      }
+    ],
+    "classes": [],
+    "functions": [
+      {
+        "name": "normalizeDiscordMessage",
+        "line": 3,
+        "type": "function",
+        "file": "discord/normalize.ts"
+      },
+      {
+        "name": "connectVoiceGateway",
+        "line": 2,
+        "type": "function",
+        "file": "discord/voice/gateway.ts"
+      },
+      {
+        "name": "normalizeRtpToPcm",
+        "line": 2,
+        "type": "function",
+        "file": "discord/voice/normalize.ts"
+      },
+      {
+        "name": "decodeOpusPacket",
+        "line": 2,
+        "type": "function",
+        "file": "discord/voice/rtp.ts"
+      },
+      {
+        "name": "encodeOpusFrame",
+        "line": 7,
+        "type": "function",
+        "file": "discord/voice/rtp.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "discord/normalize.test.ts",
+          "link": "[src/discord/normalize.test.ts](../../../packages/providers/src/discord/normalize.test.ts)",
+          "lineCount": 27
+        },
+        {
+          "name": "discord/normalize.ts",
+          "link": "[src/discord/normalize.ts](../../../packages/providers/src/discord/normalize.ts)",
+          "lineCount": 22
+        },
+        {
+          "name": "discord/voice/gateway.ts",
+          "link": "[src/discord/voice/gateway.ts](../../../packages/providers/src/discord/voice/gateway.ts)",
+          "lineCount": 6
+        },
+        {
+          "name": "discord/voice/normalize.ts",
+          "link": "[src/discord/voice/normalize.ts](../../../packages/providers/src/discord/voice/normalize.ts)",
+          "lineCount": 10
+        },
+        {
+          "name": "discord/voice/rtp.ts",
+          "link": "[src/discord/voice/rtp.ts](../../../packages/providers/src/discord/voice/rtp.ts)",
+          "lineCount": 11
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [],
+      "functions": [
+        {
+          "name": "normalizeDiscordMessage",
+          "link": "[normalizeDiscordMessage()](../../../packages/providers/src/discord/normalize.ts#L3)",
+          "file": "discord/normalize.ts",
+          "line": 3
+        },
+        {
+          "name": "connectVoiceGateway",
+          "link": "[connectVoiceGateway()](../../../packages/providers/src/discord/voice/gateway.ts#L2)",
+          "file": "discord/voice/gateway.ts",
+          "line": 2
+        },
+        {
+          "name": "normalizeRtpToPcm",
+          "link": "[normalizeRtpToPcm()](../../../packages/providers/src/discord/voice/normalize.ts#L2)",
+          "file": "discord/voice/normalize.ts",
+          "line": 2
+        },
+        {
+          "name": "decodeOpusPacket",
+          "link": "[decodeOpusPacket()](../../../packages/providers/src/discord/voice/rtp.ts#L2)",
+          "file": "discord/voice/rtp.ts",
+          "line": 2
+        },
+        {
+          "name": "encodeOpusFrame",
+          "link": "[encodeOpusFrame()](../../../packages/providers/src/discord/voice/rtp.ts#L7)",
+          "file": "discord/voice/rtp.ts",
+          "line": 7
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

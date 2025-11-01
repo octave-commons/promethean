@@ -1,0 +1,459 @@
+{
+  "packageData": {
+    "packageName": "file-indexer",
+    "files": [
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/file-indexer/src/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 8
+      },
+      {
+        "path": "path-utils.ts",
+        "fullPath": "/home/err/devel/promethean/packages/file-indexer/src/path-utils.ts",
+        "exports": [
+          {
+            "name": "normalizeExtensions",
+            "line": 54,
+            "type": "function"
+          },
+          {
+            "name": "createIgnorePredicate",
+            "line": 68,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "normalizeExtensions",
+            "line": 54,
+            "type": "function"
+          },
+          {
+            "name": "createIgnorePredicate",
+            "line": 68,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 110
+      },
+      {
+        "path": "runtime.ts",
+        "fullPath": "/home/err/devel/promethean/packages/file-indexer/src/runtime.ts",
+        "exports": [
+          {
+            "name": "computeTargetFiles",
+            "line": 77,
+            "type": "function"
+          },
+          {
+            "name": "buildDependencies",
+            "line": 88,
+            "type": "function"
+          },
+          {
+            "name": "processFiles",
+            "line": 104,
+            "type": "function"
+          },
+          {
+            "name": "buildResult",
+            "line": 115,
+            "type": "function"
+          },
+          {
+            "name": "createContentPredicate",
+            "line": 131,
+            "type": "function"
+          },
+          {
+            "name": "normalizeBatchSize",
+            "line": 144,
+            "type": "function"
+          },
+          {
+            "name": "toProgress",
+            "line": 160,
+            "type": "function"
+          },
+          {
+            "name": "ensureNotAborted",
+            "line": 171,
+            "type": "function"
+          },
+          {
+            "name": "flushBatch",
+            "line": 192,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "computeTargetFiles",
+            "line": 77,
+            "type": "function"
+          },
+          {
+            "name": "buildDependencies",
+            "line": 88,
+            "type": "function"
+          },
+          {
+            "name": "processFiles",
+            "line": 104,
+            "type": "function"
+          },
+          {
+            "name": "buildResult",
+            "line": 115,
+            "type": "function"
+          },
+          {
+            "name": "createContentPredicate",
+            "line": 131,
+            "type": "function"
+          },
+          {
+            "name": "normalizeBatchSize",
+            "line": 144,
+            "type": "function"
+          },
+          {
+            "name": "toProgress",
+            "line": 160,
+            "type": "function"
+          },
+          {
+            "name": "ensureNotAborted",
+            "line": 171,
+            "type": "function"
+          },
+          {
+            "name": "flushBatch",
+            "line": 192,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 263
+      },
+      {
+        "path": "scan-files.ts",
+        "fullPath": "/home/err/devel/promethean/packages/file-indexer/src/scan-files.ts",
+        "exports": [
+          {
+            "name": "scanFiles",
+            "line": 20,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "scanFiles",
+            "line": 20,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 69
+      },
+      {
+        "path": "tests/scan-files.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/file-indexer/src/tests/scan-files.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 155
+      },
+      {
+        "path": "types.ts",
+        "fullPath": "/home/err/devel/promethean/packages/file-indexer/src/types.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 41
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [],
+      "classes": [],
+      "functions": [],
+      "interfaces": [],
+      "totalLines": 8
+    },
+    "exports": [
+      {
+        "name": "normalizeExtensions",
+        "line": 54,
+        "type": "function",
+        "file": "path-utils.ts"
+      },
+      {
+        "name": "createIgnorePredicate",
+        "line": 68,
+        "type": "function",
+        "file": "path-utils.ts"
+      },
+      {
+        "name": "computeTargetFiles",
+        "line": 77,
+        "type": "function",
+        "file": "runtime.ts"
+      },
+      {
+        "name": "buildDependencies",
+        "line": 88,
+        "type": "function",
+        "file": "runtime.ts"
+      },
+      {
+        "name": "processFiles",
+        "line": 104,
+        "type": "function",
+        "file": "runtime.ts"
+      },
+      {
+        "name": "buildResult",
+        "line": 115,
+        "type": "function",
+        "file": "runtime.ts"
+      },
+      {
+        "name": "createContentPredicate",
+        "line": 131,
+        "type": "function",
+        "file": "runtime.ts"
+      },
+      {
+        "name": "normalizeBatchSize",
+        "line": 144,
+        "type": "function",
+        "file": "runtime.ts"
+      },
+      {
+        "name": "toProgress",
+        "line": 160,
+        "type": "function",
+        "file": "runtime.ts"
+      },
+      {
+        "name": "ensureNotAborted",
+        "line": 171,
+        "type": "function",
+        "file": "runtime.ts"
+      },
+      {
+        "name": "flushBatch",
+        "line": 192,
+        "type": "function",
+        "file": "runtime.ts"
+      },
+      {
+        "name": "scanFiles",
+        "line": 20,
+        "type": "function",
+        "file": "scan-files.ts"
+      }
+    ],
+    "classes": [],
+    "functions": [
+      {
+        "name": "normalizeExtensions",
+        "line": 54,
+        "type": "function",
+        "file": "path-utils.ts"
+      },
+      {
+        "name": "createIgnorePredicate",
+        "line": 68,
+        "type": "function",
+        "file": "path-utils.ts"
+      },
+      {
+        "name": "computeTargetFiles",
+        "line": 77,
+        "type": "function",
+        "file": "runtime.ts"
+      },
+      {
+        "name": "buildDependencies",
+        "line": 88,
+        "type": "function",
+        "file": "runtime.ts"
+      },
+      {
+        "name": "processFiles",
+        "line": 104,
+        "type": "function",
+        "file": "runtime.ts"
+      },
+      {
+        "name": "buildResult",
+        "line": 115,
+        "type": "function",
+        "file": "runtime.ts"
+      },
+      {
+        "name": "createContentPredicate",
+        "line": 131,
+        "type": "function",
+        "file": "runtime.ts"
+      },
+      {
+        "name": "normalizeBatchSize",
+        "line": 144,
+        "type": "function",
+        "file": "runtime.ts"
+      },
+      {
+        "name": "toProgress",
+        "line": 160,
+        "type": "function",
+        "file": "runtime.ts"
+      },
+      {
+        "name": "ensureNotAborted",
+        "line": 171,
+        "type": "function",
+        "file": "runtime.ts"
+      },
+      {
+        "name": "flushBatch",
+        "line": 192,
+        "type": "function",
+        "file": "runtime.ts"
+      },
+      {
+        "name": "scanFiles",
+        "line": 20,
+        "type": "function",
+        "file": "scan-files.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/file-indexer/src/index.ts)",
+          "lineCount": 8
+        },
+        {
+          "name": "path-utils.ts",
+          "link": "[src/path-utils.ts](../../../packages/file-indexer/src/path-utils.ts)",
+          "lineCount": 110
+        },
+        {
+          "name": "runtime.ts",
+          "link": "[src/runtime.ts](../../../packages/file-indexer/src/runtime.ts)",
+          "lineCount": 263
+        },
+        {
+          "name": "scan-files.ts",
+          "link": "[src/scan-files.ts](../../../packages/file-indexer/src/scan-files.ts)",
+          "lineCount": 69
+        },
+        {
+          "name": "tests/scan-files.test.ts",
+          "link": "[src/tests/scan-files.test.ts](../../../packages/file-indexer/src/tests/scan-files.test.ts)",
+          "lineCount": 155
+        },
+        {
+          "name": "types.ts",
+          "link": "[src/types.ts](../../../packages/file-indexer/src/types.ts)",
+          "lineCount": 41
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [],
+      "functions": [
+        {
+          "name": "normalizeExtensions",
+          "link": "[normalizeExtensions()](../../../packages/file-indexer/src/path-utils.ts#L54)",
+          "file": "path-utils.ts",
+          "line": 54
+        },
+        {
+          "name": "createIgnorePredicate",
+          "link": "[createIgnorePredicate()](../../../packages/file-indexer/src/path-utils.ts#L68)",
+          "file": "path-utils.ts",
+          "line": 68
+        },
+        {
+          "name": "computeTargetFiles",
+          "link": "[computeTargetFiles()](../../../packages/file-indexer/src/runtime.ts#L77)",
+          "file": "runtime.ts",
+          "line": 77
+        },
+        {
+          "name": "buildDependencies",
+          "link": "[buildDependencies()](../../../packages/file-indexer/src/runtime.ts#L88)",
+          "file": "runtime.ts",
+          "line": 88
+        },
+        {
+          "name": "processFiles",
+          "link": "[processFiles()](../../../packages/file-indexer/src/runtime.ts#L104)",
+          "file": "runtime.ts",
+          "line": 104
+        },
+        {
+          "name": "buildResult",
+          "link": "[buildResult()](../../../packages/file-indexer/src/runtime.ts#L115)",
+          "file": "runtime.ts",
+          "line": 115
+        },
+        {
+          "name": "createContentPredicate",
+          "link": "[createContentPredicate()](../../../packages/file-indexer/src/runtime.ts#L131)",
+          "file": "runtime.ts",
+          "line": 131
+        },
+        {
+          "name": "normalizeBatchSize",
+          "link": "[normalizeBatchSize()](../../../packages/file-indexer/src/runtime.ts#L144)",
+          "file": "runtime.ts",
+          "line": 144
+        },
+        {
+          "name": "toProgress",
+          "link": "[toProgress()](../../../packages/file-indexer/src/runtime.ts#L160)",
+          "file": "runtime.ts",
+          "line": 160
+        },
+        {
+          "name": "ensureNotAborted",
+          "link": "[ensureNotAborted()](../../../packages/file-indexer/src/runtime.ts#L171)",
+          "file": "runtime.ts",
+          "line": 171
+        },
+        {
+          "name": "flushBatch",
+          "link": "[flushBatch()](../../../packages/file-indexer/src/runtime.ts#L192)",
+          "file": "runtime.ts",
+          "line": 192
+        },
+        {
+          "name": "scanFiles",
+          "link": "[scanFiles()](../../../packages/file-indexer/src/scan-files.ts#L20)",
+          "file": "scan-files.ts",
+          "line": 20
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

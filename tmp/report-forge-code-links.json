@@ -1,0 +1,251 @@
+{
+  "packageData": {
+    "packageName": "report-forge",
+    "files": [
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/report-forge/src/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 3
+      },
+      {
+        "path": "lib/generateReport.ts",
+        "fullPath": "/home/err/devel/promethean/packages/report-forge/src/lib/generateReport.ts",
+        "exports": [
+          {
+            "name": "generateReport",
+            "line": 10,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "generateReport",
+            "line": 10,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 41
+      },
+      {
+        "path": "lib/github.ts",
+        "fullPath": "/home/err/devel/promethean/packages/report-forge/src/lib/github.ts",
+        "exports": [
+          {
+            "name": "github",
+            "line": 21,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "github",
+            "line": 21,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 52
+      },
+      {
+        "path": "lib/ollama.ts",
+        "fullPath": "/home/err/devel/promethean/packages/report-forge/src/lib/ollama.ts",
+        "exports": [
+          {
+            "name": "ollamaClient",
+            "line": 26,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "ollamaClient",
+            "line": 26,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 54
+      },
+      {
+        "path": "lib/render.ts",
+        "fullPath": "/home/err/devel/promethean/packages/report-forge/src/lib/render.ts",
+        "exports": [
+          {
+            "name": "renderMarkdown",
+            "line": 41,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "renderMarkdown",
+            "line": 41,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 47
+      },
+      {
+        "path": "lib/types.ts",
+        "fullPath": "/home/err/devel/promethean/packages/report-forge/src/lib/types.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 42
+      },
+      {
+        "path": "tests/generate.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/report-forge/src/tests/generate.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 36
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [],
+      "classes": [],
+      "functions": [],
+      "interfaces": [],
+      "totalLines": 3
+    },
+    "exports": [
+      {
+        "name": "generateReport",
+        "line": 10,
+        "type": "function",
+        "file": "lib/generateReport.ts"
+      },
+      {
+        "name": "github",
+        "line": 21,
+        "type": "function",
+        "file": "lib/github.ts"
+      },
+      {
+        "name": "ollamaClient",
+        "line": 26,
+        "type": "function",
+        "file": "lib/ollama.ts"
+      },
+      {
+        "name": "renderMarkdown",
+        "line": 41,
+        "type": "function",
+        "file": "lib/render.ts"
+      }
+    ],
+    "classes": [],
+    "functions": [
+      {
+        "name": "generateReport",
+        "line": 10,
+        "type": "function",
+        "file": "lib/generateReport.ts"
+      },
+      {
+        "name": "github",
+        "line": 21,
+        "type": "function",
+        "file": "lib/github.ts"
+      },
+      {
+        "name": "ollamaClient",
+        "line": 26,
+        "type": "function",
+        "file": "lib/ollama.ts"
+      },
+      {
+        "name": "renderMarkdown",
+        "line": 41,
+        "type": "function",
+        "file": "lib/render.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/report-forge/src/index.ts)",
+          "lineCount": 3
+        },
+        {
+          "name": "lib/generateReport.ts",
+          "link": "[src/lib/generateReport.ts](../../../packages/report-forge/src/lib/generateReport.ts)",
+          "lineCount": 41
+        },
+        {
+          "name": "lib/github.ts",
+          "link": "[src/lib/github.ts](../../../packages/report-forge/src/lib/github.ts)",
+          "lineCount": 52
+        },
+        {
+          "name": "lib/ollama.ts",
+          "link": "[src/lib/ollama.ts](../../../packages/report-forge/src/lib/ollama.ts)",
+          "lineCount": 54
+        },
+        {
+          "name": "lib/render.ts",
+          "link": "[src/lib/render.ts](../../../packages/report-forge/src/lib/render.ts)",
+          "lineCount": 47
+        },
+        {
+          "name": "lib/types.ts",
+          "link": "[src/lib/types.ts](../../../packages/report-forge/src/lib/types.ts)",
+          "lineCount": 42
+        },
+        {
+          "name": "tests/generate.test.ts",
+          "link": "[src/tests/generate.test.ts](../../../packages/report-forge/src/tests/generate.test.ts)",
+          "lineCount": 36
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [],
+      "functions": [
+        {
+          "name": "generateReport",
+          "link": "[generateReport()](../../../packages/report-forge/src/lib/generateReport.ts#L10)",
+          "file": "lib/generateReport.ts",
+          "line": 10
+        },
+        {
+          "name": "github",
+          "link": "[github()](../../../packages/report-forge/src/lib/github.ts#L21)",
+          "file": "lib/github.ts",
+          "line": 21
+        },
+        {
+          "name": "ollamaClient",
+          "link": "[ollamaClient()](../../../packages/report-forge/src/lib/ollama.ts#L26)",
+          "file": "lib/ollama.ts",
+          "line": 26
+        },
+        {
+          "name": "renderMarkdown",
+          "link": "[renderMarkdown()](../../../packages/report-forge/src/lib/render.ts#L41)",
+          "file": "lib/render.ts",
+          "line": 41
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

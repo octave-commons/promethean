@@ -1,0 +1,267 @@
+{
+  "packageData": {
+    "packageName": "ui-components",
+    "files": [
+      {
+        "path": "chat-panel.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ui-components/src/chat-panel.ts",
+        "exports": [
+          {
+            "name": "UiChatPanel",
+            "line": 5,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "UiChatPanel",
+            "line": 5,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 22
+      },
+      {
+        "path": "design-tokens.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ui-components/src/design-tokens.ts",
+        "exports": [
+          {
+            "name": "designTokens",
+            "line": 1,
+            "type": "function"
+          },
+          {
+            "name": "applyDesignTokens",
+            "line": 13,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "designTokens",
+            "line": 1,
+            "type": "function"
+          },
+          {
+            "name": "applyDesignTokens",
+            "line": 13,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 24
+      },
+      {
+        "path": "file-explorer.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ui-components/src/file-explorer.ts",
+        "exports": [
+          {
+            "name": "UiFileExplorer",
+            "line": 5,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "UiFileExplorer",
+            "line": 5,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 15
+      },
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ui-components/src/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 5
+      },
+      {
+        "path": "register.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ui-components/src/register.ts",
+        "exports": [
+          {
+            "name": "registerUiComponents",
+            "line": 4,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "registerUiComponents",
+            "line": 4,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 13
+      },
+      {
+        "path": "tests/ui-components.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ui-components/src/tests/ui-components.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 43
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [],
+      "classes": [],
+      "functions": [],
+      "interfaces": [],
+      "totalLines": 5
+    },
+    "exports": [
+      {
+        "name": "UiChatPanel",
+        "line": 5,
+        "type": "class",
+        "file": "chat-panel.ts"
+      },
+      {
+        "name": "designTokens",
+        "line": 1,
+        "type": "function",
+        "file": "design-tokens.ts"
+      },
+      {
+        "name": "applyDesignTokens",
+        "line": 13,
+        "type": "function",
+        "file": "design-tokens.ts"
+      },
+      {
+        "name": "UiFileExplorer",
+        "line": 5,
+        "type": "class",
+        "file": "file-explorer.ts"
+      },
+      {
+        "name": "registerUiComponents",
+        "line": 4,
+        "type": "function",
+        "file": "register.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "UiChatPanel",
+        "line": 5,
+        "type": "class",
+        "file": "chat-panel.ts"
+      },
+      {
+        "name": "UiFileExplorer",
+        "line": 5,
+        "type": "class",
+        "file": "file-explorer.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "designTokens",
+        "line": 1,
+        "type": "function",
+        "file": "design-tokens.ts"
+      },
+      {
+        "name": "applyDesignTokens",
+        "line": 13,
+        "type": "function",
+        "file": "design-tokens.ts"
+      },
+      {
+        "name": "registerUiComponents",
+        "line": 4,
+        "type": "function",
+        "file": "register.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "chat-panel.ts",
+          "link": "[src/chat-panel.ts](../../../packages/ui-components/src/chat-panel.ts)",
+          "lineCount": 22
+        },
+        {
+          "name": "design-tokens.ts",
+          "link": "[src/design-tokens.ts](../../../packages/ui-components/src/design-tokens.ts)",
+          "lineCount": 24
+        },
+        {
+          "name": "file-explorer.ts",
+          "link": "[src/file-explorer.ts](../../../packages/ui-components/src/file-explorer.ts)",
+          "lineCount": 15
+        },
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/ui-components/src/index.ts)",
+          "lineCount": 5
+        },
+        {
+          "name": "register.ts",
+          "link": "[src/register.ts](../../../packages/ui-components/src/register.ts)",
+          "lineCount": 13
+        },
+        {
+          "name": "tests/ui-components.test.ts",
+          "link": "[src/tests/ui-components.test.ts](../../../packages/ui-components/src/tests/ui-components.test.ts)",
+          "lineCount": 43
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "UiChatPanel",
+          "link": "[UiChatPanel](../../../packages/ui-components/src/chat-panel.ts#L5)",
+          "file": "chat-panel.ts",
+          "line": 5
+        },
+        {
+          "name": "UiFileExplorer",
+          "link": "[UiFileExplorer](../../../packages/ui-components/src/file-explorer.ts#L5)",
+          "file": "file-explorer.ts",
+          "line": 5
+        }
+      ],
+      "functions": [
+        {
+          "name": "designTokens",
+          "link": "[designTokens()](../../../packages/ui-components/src/design-tokens.ts#L1)",
+          "file": "design-tokens.ts",
+          "line": 1
+        },
+        {
+          "name": "applyDesignTokens",
+          "link": "[applyDesignTokens()](../../../packages/ui-components/src/design-tokens.ts#L13)",
+          "file": "design-tokens.ts",
+          "line": 13
+        },
+        {
+          "name": "registerUiComponents",
+          "link": "[registerUiComponents()](../../../packages/ui-components/src/register.ts#L4)",
+          "file": "register.ts",
+          "line": 4
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

@@ -1,0 +1,199 @@
+{
+  "packageData": {
+    "packageName": "stream",
+    "files": [
+      {
+        "path": "tests/title.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/stream/src/tests/title.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 168
+      },
+      {
+        "path": "title.ts",
+        "fullPath": "/home/err/devel/promethean/packages/stream/src/title.ts",
+        "exports": [
+          {
+            "name": "MemoryTitleStore",
+            "line": 18,
+            "type": "class"
+          },
+          {
+            "name": "DiscordTranscriptSource",
+            "line": 35,
+            "type": "class"
+          },
+          {
+            "name": "generateTwitchStreamTitle",
+            "line": 89,
+            "type": "function"
+          },
+          {
+            "name": "generateAndStoreTitle",
+            "line": 112,
+            "type": "function"
+          },
+          {
+            "name": "watchContextAndGenerate",
+            "line": 125,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "MemoryTitleStore",
+            "line": 18,
+            "type": "class"
+          },
+          {
+            "name": "DiscordTranscriptSource",
+            "line": 35,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "generateTwitchStreamTitle",
+            "line": 89,
+            "type": "function"
+          },
+          {
+            "name": "generateAndStoreTitle",
+            "line": 112,
+            "type": "function"
+          },
+          {
+            "name": "watchContextAndGenerate",
+            "line": 125,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 137
+      }
+    ],
+    "mainEntry": null,
+    "exports": [
+      {
+        "name": "MemoryTitleStore",
+        "line": 18,
+        "type": "class",
+        "file": "title.ts"
+      },
+      {
+        "name": "DiscordTranscriptSource",
+        "line": 35,
+        "type": "class",
+        "file": "title.ts"
+      },
+      {
+        "name": "generateTwitchStreamTitle",
+        "line": 89,
+        "type": "function",
+        "file": "title.ts"
+      },
+      {
+        "name": "generateAndStoreTitle",
+        "line": 112,
+        "type": "function",
+        "file": "title.ts"
+      },
+      {
+        "name": "watchContextAndGenerate",
+        "line": 125,
+        "type": "function",
+        "file": "title.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "MemoryTitleStore",
+        "line": 18,
+        "type": "class",
+        "file": "title.ts"
+      },
+      {
+        "name": "DiscordTranscriptSource",
+        "line": 35,
+        "type": "class",
+        "file": "title.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "generateTwitchStreamTitle",
+        "line": 89,
+        "type": "function",
+        "file": "title.ts"
+      },
+      {
+        "name": "generateAndStoreTitle",
+        "line": 112,
+        "type": "function",
+        "file": "title.ts"
+      },
+      {
+        "name": "watchContextAndGenerate",
+        "line": 125,
+        "type": "function",
+        "file": "title.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "tests/title.test.ts",
+          "link": "[src/tests/title.test.ts](../../../packages/stream/src/tests/title.test.ts)",
+          "lineCount": 168
+        },
+        {
+          "name": "title.ts",
+          "link": "[src/title.ts](../../../packages/stream/src/title.ts)",
+          "lineCount": 137
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "MemoryTitleStore",
+          "link": "[MemoryTitleStore](../../../packages/stream/src/title.ts#L18)",
+          "file": "title.ts",
+          "line": 18
+        },
+        {
+          "name": "DiscordTranscriptSource",
+          "link": "[DiscordTranscriptSource](../../../packages/stream/src/title.ts#L35)",
+          "file": "title.ts",
+          "line": 35
+        }
+      ],
+      "functions": [
+        {
+          "name": "generateTwitchStreamTitle",
+          "link": "[generateTwitchStreamTitle()](../../../packages/stream/src/title.ts#L89)",
+          "file": "title.ts",
+          "line": 89
+        },
+        {
+          "name": "generateAndStoreTitle",
+          "link": "[generateAndStoreTitle()](../../../packages/stream/src/title.ts#L112)",
+          "file": "title.ts",
+          "line": 112
+        },
+        {
+          "name": "watchContextAndGenerate",
+          "link": "[watchContextAndGenerate()](../../../packages/stream/src/title.ts#L125)",
+          "file": "title.ts",
+          "line": 125
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

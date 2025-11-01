@@ -1,0 +1,1589 @@
+{
+  "packageData": {
+    "packageName": "autocommit",
+    "files": [
+      {
+        "path": "cli.ts",
+        "fullPath": "/home/err/devel/promethean/packages/autocommit/src/cli.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 65
+      },
+      {
+        "path": "config.ts",
+        "fullPath": "/home/err/devel/promethean/packages/autocommit/src/config.ts",
+        "exports": [
+          {
+            "name": "ConfigSchema",
+            "line": 46,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "ConfigSchema",
+            "line": 46,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 115
+      },
+      {
+        "path": "constants.ts",
+        "fullPath": "/home/err/devel/promethean/packages/autocommit/src/constants.ts",
+        "exports": [
+          {
+            "name": "MAX_FILES_LIST",
+            "line": 6,
+            "type": "function"
+          },
+          {
+            "name": "MAX_FALLBACK_FILES",
+            "line": 7,
+            "type": "function"
+          },
+          {
+            "name": "MAX_DIFF_LINES",
+            "line": 8,
+            "type": "function"
+          },
+          {
+            "name": "DEFAULT_DEBOUNCE_MS",
+            "line": 11,
+            "type": "function"
+          },
+          {
+            "name": "MIN_DEBOUNCE_MS",
+            "line": 12,
+            "type": "function"
+          },
+          {
+            "name": "MAX_DEBOUNCE_MS",
+            "line": 13,
+            "type": "function"
+          },
+          {
+            "name": "FILE_STABILITY_THRESHOLD",
+            "line": 14,
+            "type": "function"
+          },
+          {
+            "name": "FILE_POLL_INTERVAL",
+            "line": 15,
+            "type": "function"
+          },
+          {
+            "name": "DEFAULT_MAX_DIFF_BYTES",
+            "line": 18,
+            "type": "function"
+          },
+          {
+            "name": "MIN_MAX_DIFF_BYTES",
+            "line": 19,
+            "type": "function"
+          },
+          {
+            "name": "MAX_MAX_DIFF_BYTES",
+            "line": 20,
+            "type": "function"
+          },
+          {
+            "name": "MAX_COMMIT_MESSAGE_LENGTH",
+            "line": 21,
+            "type": "function"
+          },
+          {
+            "name": "MAX_COMMIT_MESSAGE_LINES",
+            "line": 22,
+            "type": "function"
+          },
+          {
+            "name": "GIT_SUBJECT_LINE_MAX",
+            "line": 23,
+            "type": "function"
+          },
+          {
+            "name": "DEFAULT_IGNORE_PATTERNS",
+            "line": 26,
+            "type": "function"
+          },
+          {
+            "name": "CODE_FILE_EXTENSIONS",
+            "line": 33,
+            "type": "function"
+          },
+          {
+            "name": "DEFAULT_TEMPERATURE",
+            "line": 36,
+            "type": "function"
+          },
+          {
+            "name": "MIN_TEMPERATURE",
+            "line": 37,
+            "type": "function"
+          },
+          {
+            "name": "MAX_TEMPERATURE",
+            "line": 38,
+            "type": "function"
+          },
+          {
+            "name": "DEFAULT_BASE_URL",
+            "line": 41,
+            "type": "function"
+          },
+          {
+            "name": "DEFAULT_MODEL",
+            "line": 42,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "MAX_FILES_LIST",
+            "line": 6,
+            "type": "function"
+          },
+          {
+            "name": "MAX_FALLBACK_FILES",
+            "line": 7,
+            "type": "function"
+          },
+          {
+            "name": "MAX_DIFF_LINES",
+            "line": 8,
+            "type": "function"
+          },
+          {
+            "name": "DEFAULT_DEBOUNCE_MS",
+            "line": 11,
+            "type": "function"
+          },
+          {
+            "name": "MIN_DEBOUNCE_MS",
+            "line": 12,
+            "type": "function"
+          },
+          {
+            "name": "MAX_DEBOUNCE_MS",
+            "line": 13,
+            "type": "function"
+          },
+          {
+            "name": "FILE_STABILITY_THRESHOLD",
+            "line": 14,
+            "type": "function"
+          },
+          {
+            "name": "FILE_POLL_INTERVAL",
+            "line": 15,
+            "type": "function"
+          },
+          {
+            "name": "DEFAULT_MAX_DIFF_BYTES",
+            "line": 18,
+            "type": "function"
+          },
+          {
+            "name": "MIN_MAX_DIFF_BYTES",
+            "line": 19,
+            "type": "function"
+          },
+          {
+            "name": "MAX_MAX_DIFF_BYTES",
+            "line": 20,
+            "type": "function"
+          },
+          {
+            "name": "MAX_COMMIT_MESSAGE_LENGTH",
+            "line": 21,
+            "type": "function"
+          },
+          {
+            "name": "MAX_COMMIT_MESSAGE_LINES",
+            "line": 22,
+            "type": "function"
+          },
+          {
+            "name": "GIT_SUBJECT_LINE_MAX",
+            "line": 23,
+            "type": "function"
+          },
+          {
+            "name": "DEFAULT_IGNORE_PATTERNS",
+            "line": 26,
+            "type": "function"
+          },
+          {
+            "name": "CODE_FILE_EXTENSIONS",
+            "line": 33,
+            "type": "function"
+          },
+          {
+            "name": "DEFAULT_TEMPERATURE",
+            "line": 36,
+            "type": "function"
+          },
+          {
+            "name": "MIN_TEMPERATURE",
+            "line": 37,
+            "type": "function"
+          },
+          {
+            "name": "MAX_TEMPERATURE",
+            "line": 38,
+            "type": "function"
+          },
+          {
+            "name": "DEFAULT_BASE_URL",
+            "line": 41,
+            "type": "function"
+          },
+          {
+            "name": "DEFAULT_MODEL",
+            "line": 42,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 43
+      },
+      {
+        "path": "git.ts",
+        "fullPath": "/home/err/devel/promethean/packages/autocommit/src/git.ts",
+        "exports": [
+          {
+            "name": "gitRoot",
+            "line": 5,
+            "type": "function"
+          },
+          {
+            "name": "hasRepo",
+            "line": 10,
+            "type": "function"
+          },
+          {
+            "name": "statusPorcelain",
+            "line": 19,
+            "type": "function"
+          },
+          {
+            "name": "listChangedFiles",
+            "line": 24,
+            "type": "function"
+          },
+          {
+            "name": "addAll",
+            "line": 34,
+            "type": "function"
+          },
+          {
+            "name": "hasStagedChanges",
+            "line": 38,
+            "type": "function"
+          },
+          {
+            "name": "stagedDiff",
+            "line": 47,
+            "type": "function"
+          },
+          {
+            "name": "repoSummary",
+            "line": 58,
+            "type": "function"
+          },
+          {
+            "name": "GIT_EMPTY_WORKING_TREE_PATTERNS",
+            "line": 74,
+            "type": "function"
+          },
+          {
+            "name": "isEmptyWorkingTreeError",
+            "line": 80,
+            "type": "function"
+          },
+          {
+            "name": "commit",
+            "line": 89,
+            "type": "function"
+          },
+          {
+            "name": "sanitizeCommitMessage",
+            "line": 116,
+            "type": "function"
+          },
+          {
+            "name": "hasSubrepo",
+            "line": 147,
+            "type": "function"
+          },
+          {
+            "name": "isSubrepoDir",
+            "line": 162,
+            "type": "function"
+          },
+          {
+            "name": "findSubrepos",
+            "line": 171,
+            "type": "function"
+          },
+          {
+            "name": "findGitRepositories",
+            "line": 212,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "gitRoot",
+            "line": 5,
+            "type": "function"
+          },
+          {
+            "name": "hasRepo",
+            "line": 10,
+            "type": "function"
+          },
+          {
+            "name": "statusPorcelain",
+            "line": 19,
+            "type": "function"
+          },
+          {
+            "name": "listChangedFiles",
+            "line": 24,
+            "type": "function"
+          },
+          {
+            "name": "addAll",
+            "line": 34,
+            "type": "function"
+          },
+          {
+            "name": "hasStagedChanges",
+            "line": 38,
+            "type": "function"
+          },
+          {
+            "name": "stagedDiff",
+            "line": 47,
+            "type": "function"
+          },
+          {
+            "name": "repoSummary",
+            "line": 58,
+            "type": "function"
+          },
+          {
+            "name": "GIT_EMPTY_WORKING_TREE_PATTERNS",
+            "line": 74,
+            "type": "function"
+          },
+          {
+            "name": "isEmptyWorkingTreeError",
+            "line": 80,
+            "type": "function"
+          },
+          {
+            "name": "commit",
+            "line": 89,
+            "type": "function"
+          },
+          {
+            "name": "sanitizeCommitMessage",
+            "line": 116,
+            "type": "function"
+          },
+          {
+            "name": "hasSubrepo",
+            "line": 147,
+            "type": "function"
+          },
+          {
+            "name": "isSubrepoDir",
+            "line": 162,
+            "type": "function"
+          },
+          {
+            "name": "findSubrepos",
+            "line": 171,
+            "type": "function"
+          },
+          {
+            "name": "findGitRepositories",
+            "line": 212,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 253
+      },
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/autocommit/src/index.ts",
+        "exports": [
+          {
+            "name": "performCommit",
+            "line": 142,
+            "type": "function"
+          },
+          {
+            "name": "startSingleRepository",
+            "line": 261,
+            "type": "function"
+          },
+          {
+            "name": "start",
+            "line": 308,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "performCommit",
+            "line": 142,
+            "type": "function"
+          },
+          {
+            "name": "startSingleRepository",
+            "line": 261,
+            "type": "function"
+          },
+          {
+            "name": "start",
+            "line": 308,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 352
+      },
+      {
+        "path": "llm.ts",
+        "fullPath": "/home/err/devel/promethean/packages/autocommit/src/llm.ts",
+        "exports": [
+          {
+            "name": "createSafeHeaders",
+            "line": 30,
+            "type": "function"
+          },
+          {
+            "name": "chatCompletion",
+            "line": 109,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createSafeHeaders",
+            "line": 30,
+            "type": "function"
+          },
+          {
+            "name": "chatCompletion",
+            "line": 109,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 137
+      },
+      {
+        "path": "messages.ts",
+        "fullPath": "/home/err/devel/promethean/packages/autocommit/src/messages.ts",
+        "exports": [
+          {
+            "name": "SYSTEM",
+            "line": 1,
+            "type": "function"
+          },
+          {
+            "name": "USER",
+            "line": 8,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "SYSTEM",
+            "line": 1,
+            "type": "function"
+          },
+          {
+            "name": "USER",
+            "line": 8,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 21
+      },
+      {
+        "path": "tests/autocommit.unit.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/autocommit/src/tests/autocommit.unit.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 17
+      },
+      {
+        "path": "tests/config.unit.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/autocommit/src/tests/config.unit.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 192
+      },
+      {
+        "path": "tests/deep-nested-integration.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/autocommit/src/tests/deep-nested-integration.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 382
+      },
+      {
+        "path": "tests/empty-staging.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/autocommit/src/tests/empty-staging.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 25
+      },
+      {
+        "path": "tests/git.unit.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/autocommit/src/tests/git.unit.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 156
+      },
+      {
+        "path": "tests/llm.unit.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/autocommit/src/tests/llm.unit.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 182
+      },
+      {
+        "path": "tests/recursive-integration.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/autocommit/src/tests/recursive-integration.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 156
+      },
+      {
+        "path": "tests/recursive.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/autocommit/src/tests/recursive.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 26
+      },
+      {
+        "path": "tests/simple-recursive.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/autocommit/src/tests/simple-recursive.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 60
+      },
+      {
+        "path": "tests/simple.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/autocommit/src/tests/simple.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 6
+      },
+      {
+        "path": "tests/subrepo.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/autocommit/src/tests/subrepo.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 97
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [
+        {
+          "name": "performCommit",
+          "line": 142,
+          "type": "function"
+        },
+        {
+          "name": "startSingleRepository",
+          "line": 261,
+          "type": "function"
+        },
+        {
+          "name": "start",
+          "line": 308,
+          "type": "function"
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "performCommit",
+          "line": 142,
+          "type": "function"
+        },
+        {
+          "name": "startSingleRepository",
+          "line": 261,
+          "type": "function"
+        },
+        {
+          "name": "start",
+          "line": 308,
+          "type": "function"
+        }
+      ],
+      "interfaces": [],
+      "totalLines": 352
+    },
+    "exports": [
+      {
+        "name": "ConfigSchema",
+        "line": 46,
+        "type": "function",
+        "file": "config.ts"
+      },
+      {
+        "name": "MAX_FILES_LIST",
+        "line": 6,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "MAX_FALLBACK_FILES",
+        "line": 7,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "MAX_DIFF_LINES",
+        "line": 8,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "DEFAULT_DEBOUNCE_MS",
+        "line": 11,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "MIN_DEBOUNCE_MS",
+        "line": 12,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "MAX_DEBOUNCE_MS",
+        "line": 13,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "FILE_STABILITY_THRESHOLD",
+        "line": 14,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "FILE_POLL_INTERVAL",
+        "line": 15,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "DEFAULT_MAX_DIFF_BYTES",
+        "line": 18,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "MIN_MAX_DIFF_BYTES",
+        "line": 19,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "MAX_MAX_DIFF_BYTES",
+        "line": 20,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "MAX_COMMIT_MESSAGE_LENGTH",
+        "line": 21,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "MAX_COMMIT_MESSAGE_LINES",
+        "line": 22,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "GIT_SUBJECT_LINE_MAX",
+        "line": 23,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "DEFAULT_IGNORE_PATTERNS",
+        "line": 26,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "CODE_FILE_EXTENSIONS",
+        "line": 33,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "DEFAULT_TEMPERATURE",
+        "line": 36,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "MIN_TEMPERATURE",
+        "line": 37,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "MAX_TEMPERATURE",
+        "line": 38,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "DEFAULT_BASE_URL",
+        "line": 41,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "DEFAULT_MODEL",
+        "line": 42,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "gitRoot",
+        "line": 5,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "hasRepo",
+        "line": 10,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "statusPorcelain",
+        "line": 19,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "listChangedFiles",
+        "line": 24,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "addAll",
+        "line": 34,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "hasStagedChanges",
+        "line": 38,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "stagedDiff",
+        "line": 47,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "repoSummary",
+        "line": 58,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "GIT_EMPTY_WORKING_TREE_PATTERNS",
+        "line": 74,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "isEmptyWorkingTreeError",
+        "line": 80,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "commit",
+        "line": 89,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "sanitizeCommitMessage",
+        "line": 116,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "hasSubrepo",
+        "line": 147,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "isSubrepoDir",
+        "line": 162,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "findSubrepos",
+        "line": 171,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "findGitRepositories",
+        "line": 212,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "performCommit",
+        "line": 142,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "startSingleRepository",
+        "line": 261,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "start",
+        "line": 308,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "createSafeHeaders",
+        "line": 30,
+        "type": "function",
+        "file": "llm.ts"
+      },
+      {
+        "name": "chatCompletion",
+        "line": 109,
+        "type": "function",
+        "file": "llm.ts"
+      },
+      {
+        "name": "SYSTEM",
+        "line": 1,
+        "type": "function",
+        "file": "messages.ts"
+      },
+      {
+        "name": "USER",
+        "line": 8,
+        "type": "function",
+        "file": "messages.ts"
+      }
+    ],
+    "classes": [],
+    "functions": [
+      {
+        "name": "ConfigSchema",
+        "line": 46,
+        "type": "function",
+        "file": "config.ts"
+      },
+      {
+        "name": "MAX_FILES_LIST",
+        "line": 6,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "MAX_FALLBACK_FILES",
+        "line": 7,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "MAX_DIFF_LINES",
+        "line": 8,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "DEFAULT_DEBOUNCE_MS",
+        "line": 11,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "MIN_DEBOUNCE_MS",
+        "line": 12,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "MAX_DEBOUNCE_MS",
+        "line": 13,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "FILE_STABILITY_THRESHOLD",
+        "line": 14,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "FILE_POLL_INTERVAL",
+        "line": 15,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "DEFAULT_MAX_DIFF_BYTES",
+        "line": 18,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "MIN_MAX_DIFF_BYTES",
+        "line": 19,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "MAX_MAX_DIFF_BYTES",
+        "line": 20,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "MAX_COMMIT_MESSAGE_LENGTH",
+        "line": 21,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "MAX_COMMIT_MESSAGE_LINES",
+        "line": 22,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "GIT_SUBJECT_LINE_MAX",
+        "line": 23,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "DEFAULT_IGNORE_PATTERNS",
+        "line": 26,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "CODE_FILE_EXTENSIONS",
+        "line": 33,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "DEFAULT_TEMPERATURE",
+        "line": 36,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "MIN_TEMPERATURE",
+        "line": 37,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "MAX_TEMPERATURE",
+        "line": 38,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "DEFAULT_BASE_URL",
+        "line": 41,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "DEFAULT_MODEL",
+        "line": 42,
+        "type": "function",
+        "file": "constants.ts"
+      },
+      {
+        "name": "gitRoot",
+        "line": 5,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "hasRepo",
+        "line": 10,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "statusPorcelain",
+        "line": 19,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "listChangedFiles",
+        "line": 24,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "addAll",
+        "line": 34,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "hasStagedChanges",
+        "line": 38,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "stagedDiff",
+        "line": 47,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "repoSummary",
+        "line": 58,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "GIT_EMPTY_WORKING_TREE_PATTERNS",
+        "line": 74,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "isEmptyWorkingTreeError",
+        "line": 80,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "commit",
+        "line": 89,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "sanitizeCommitMessage",
+        "line": 116,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "hasSubrepo",
+        "line": 147,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "isSubrepoDir",
+        "line": 162,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "findSubrepos",
+        "line": 171,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "findGitRepositories",
+        "line": 212,
+        "type": "function",
+        "file": "git.ts"
+      },
+      {
+        "name": "performCommit",
+        "line": 142,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "startSingleRepository",
+        "line": 261,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "start",
+        "line": 308,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "createSafeHeaders",
+        "line": 30,
+        "type": "function",
+        "file": "llm.ts"
+      },
+      {
+        "name": "chatCompletion",
+        "line": 109,
+        "type": "function",
+        "file": "llm.ts"
+      },
+      {
+        "name": "SYSTEM",
+        "line": 1,
+        "type": "function",
+        "file": "messages.ts"
+      },
+      {
+        "name": "USER",
+        "line": 8,
+        "type": "function",
+        "file": "messages.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "cli.ts",
+          "link": "[src/cli.ts](../../../packages/autocommit/src/cli.ts)",
+          "lineCount": 65
+        },
+        {
+          "name": "config.ts",
+          "link": "[src/config.ts](../../../packages/autocommit/src/config.ts)",
+          "lineCount": 115
+        },
+        {
+          "name": "constants.ts",
+          "link": "[src/constants.ts](../../../packages/autocommit/src/constants.ts)",
+          "lineCount": 43
+        },
+        {
+          "name": "git.ts",
+          "link": "[src/git.ts](../../../packages/autocommit/src/git.ts)",
+          "lineCount": 253
+        },
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/autocommit/src/index.ts)",
+          "lineCount": 352
+        },
+        {
+          "name": "llm.ts",
+          "link": "[src/llm.ts](../../../packages/autocommit/src/llm.ts)",
+          "lineCount": 137
+        },
+        {
+          "name": "messages.ts",
+          "link": "[src/messages.ts](../../../packages/autocommit/src/messages.ts)",
+          "lineCount": 21
+        },
+        {
+          "name": "tests/autocommit.unit.test.ts",
+          "link": "[src/tests/autocommit.unit.test.ts](../../../packages/autocommit/src/tests/autocommit.unit.test.ts)",
+          "lineCount": 17
+        },
+        {
+          "name": "tests/config.unit.test.ts",
+          "link": "[src/tests/config.unit.test.ts](../../../packages/autocommit/src/tests/config.unit.test.ts)",
+          "lineCount": 192
+        },
+        {
+          "name": "tests/deep-nested-integration.test.ts",
+          "link": "[src/tests/deep-nested-integration.test.ts](../../../packages/autocommit/src/tests/deep-nested-integration.test.ts)",
+          "lineCount": 382
+        },
+        {
+          "name": "tests/empty-staging.test.ts",
+          "link": "[src/tests/empty-staging.test.ts](../../../packages/autocommit/src/tests/empty-staging.test.ts)",
+          "lineCount": 25
+        },
+        {
+          "name": "tests/git.unit.test.ts",
+          "link": "[src/tests/git.unit.test.ts](../../../packages/autocommit/src/tests/git.unit.test.ts)",
+          "lineCount": 156
+        },
+        {
+          "name": "tests/llm.unit.test.ts",
+          "link": "[src/tests/llm.unit.test.ts](../../../packages/autocommit/src/tests/llm.unit.test.ts)",
+          "lineCount": 182
+        },
+        {
+          "name": "tests/recursive-integration.test.ts",
+          "link": "[src/tests/recursive-integration.test.ts](../../../packages/autocommit/src/tests/recursive-integration.test.ts)",
+          "lineCount": 156
+        },
+        {
+          "name": "tests/recursive.test.ts",
+          "link": "[src/tests/recursive.test.ts](../../../packages/autocommit/src/tests/recursive.test.ts)",
+          "lineCount": 26
+        },
+        {
+          "name": "tests/simple-recursive.test.ts",
+          "link": "[src/tests/simple-recursive.test.ts](../../../packages/autocommit/src/tests/simple-recursive.test.ts)",
+          "lineCount": 60
+        },
+        {
+          "name": "tests/simple.test.ts",
+          "link": "[src/tests/simple.test.ts](../../../packages/autocommit/src/tests/simple.test.ts)",
+          "lineCount": 6
+        },
+        {
+          "name": "tests/subrepo.test.ts",
+          "link": "[src/tests/subrepo.test.ts](../../../packages/autocommit/src/tests/subrepo.test.ts)",
+          "lineCount": 97
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [],
+      "functions": [
+        {
+          "name": "ConfigSchema",
+          "link": "[ConfigSchema()](../../../packages/autocommit/src/config.ts#L46)",
+          "file": "config.ts",
+          "line": 46
+        },
+        {
+          "name": "MAX_FILES_LIST",
+          "link": "[MAX_FILES_LIST()](../../../packages/autocommit/src/constants.ts#L6)",
+          "file": "constants.ts",
+          "line": 6
+        },
+        {
+          "name": "MAX_FALLBACK_FILES",
+          "link": "[MAX_FALLBACK_FILES()](../../../packages/autocommit/src/constants.ts#L7)",
+          "file": "constants.ts",
+          "line": 7
+        },
+        {
+          "name": "MAX_DIFF_LINES",
+          "link": "[MAX_DIFF_LINES()](../../../packages/autocommit/src/constants.ts#L8)",
+          "file": "constants.ts",
+          "line": 8
+        },
+        {
+          "name": "DEFAULT_DEBOUNCE_MS",
+          "link": "[DEFAULT_DEBOUNCE_MS()](../../../packages/autocommit/src/constants.ts#L11)",
+          "file": "constants.ts",
+          "line": 11
+        },
+        {
+          "name": "MIN_DEBOUNCE_MS",
+          "link": "[MIN_DEBOUNCE_MS()](../../../packages/autocommit/src/constants.ts#L12)",
+          "file": "constants.ts",
+          "line": 12
+        },
+        {
+          "name": "MAX_DEBOUNCE_MS",
+          "link": "[MAX_DEBOUNCE_MS()](../../../packages/autocommit/src/constants.ts#L13)",
+          "file": "constants.ts",
+          "line": 13
+        },
+        {
+          "name": "FILE_STABILITY_THRESHOLD",
+          "link": "[FILE_STABILITY_THRESHOLD()](../../../packages/autocommit/src/constants.ts#L14)",
+          "file": "constants.ts",
+          "line": 14
+        },
+        {
+          "name": "FILE_POLL_INTERVAL",
+          "link": "[FILE_POLL_INTERVAL()](../../../packages/autocommit/src/constants.ts#L15)",
+          "file": "constants.ts",
+          "line": 15
+        },
+        {
+          "name": "DEFAULT_MAX_DIFF_BYTES",
+          "link": "[DEFAULT_MAX_DIFF_BYTES()](../../../packages/autocommit/src/constants.ts#L18)",
+          "file": "constants.ts",
+          "line": 18
+        },
+        {
+          "name": "MIN_MAX_DIFF_BYTES",
+          "link": "[MIN_MAX_DIFF_BYTES()](../../../packages/autocommit/src/constants.ts#L19)",
+          "file": "constants.ts",
+          "line": 19
+        },
+        {
+          "name": "MAX_MAX_DIFF_BYTES",
+          "link": "[MAX_MAX_DIFF_BYTES()](../../../packages/autocommit/src/constants.ts#L20)",
+          "file": "constants.ts",
+          "line": 20
+        },
+        {
+          "name": "MAX_COMMIT_MESSAGE_LENGTH",
+          "link": "[MAX_COMMIT_MESSAGE_LENGTH()](../../../packages/autocommit/src/constants.ts#L21)",
+          "file": "constants.ts",
+          "line": 21
+        },
+        {
+          "name": "MAX_COMMIT_MESSAGE_LINES",
+          "link": "[MAX_COMMIT_MESSAGE_LINES()](../../../packages/autocommit/src/constants.ts#L22)",
+          "file": "constants.ts",
+          "line": 22
+        },
+        {
+          "name": "GIT_SUBJECT_LINE_MAX",
+          "link": "[GIT_SUBJECT_LINE_MAX()](../../../packages/autocommit/src/constants.ts#L23)",
+          "file": "constants.ts",
+          "line": 23
+        },
+        {
+          "name": "DEFAULT_IGNORE_PATTERNS",
+          "link": "[DEFAULT_IGNORE_PATTERNS()](../../../packages/autocommit/src/constants.ts#L26)",
+          "file": "constants.ts",
+          "line": 26
+        },
+        {
+          "name": "CODE_FILE_EXTENSIONS",
+          "link": "[CODE_FILE_EXTENSIONS()](../../../packages/autocommit/src/constants.ts#L33)",
+          "file": "constants.ts",
+          "line": 33
+        },
+        {
+          "name": "DEFAULT_TEMPERATURE",
+          "link": "[DEFAULT_TEMPERATURE()](../../../packages/autocommit/src/constants.ts#L36)",
+          "file": "constants.ts",
+          "line": 36
+        },
+        {
+          "name": "MIN_TEMPERATURE",
+          "link": "[MIN_TEMPERATURE()](../../../packages/autocommit/src/constants.ts#L37)",
+          "file": "constants.ts",
+          "line": 37
+        },
+        {
+          "name": "MAX_TEMPERATURE",
+          "link": "[MAX_TEMPERATURE()](../../../packages/autocommit/src/constants.ts#L38)",
+          "file": "constants.ts",
+          "line": 38
+        },
+        {
+          "name": "DEFAULT_BASE_URL",
+          "link": "[DEFAULT_BASE_URL()](../../../packages/autocommit/src/constants.ts#L41)",
+          "file": "constants.ts",
+          "line": 41
+        },
+        {
+          "name": "DEFAULT_MODEL",
+          "link": "[DEFAULT_MODEL()](../../../packages/autocommit/src/constants.ts#L42)",
+          "file": "constants.ts",
+          "line": 42
+        },
+        {
+          "name": "gitRoot",
+          "link": "[gitRoot()](../../../packages/autocommit/src/git.ts#L5)",
+          "file": "git.ts",
+          "line": 5
+        },
+        {
+          "name": "hasRepo",
+          "link": "[hasRepo()](../../../packages/autocommit/src/git.ts#L10)",
+          "file": "git.ts",
+          "line": 10
+        },
+        {
+          "name": "statusPorcelain",
+          "link": "[statusPorcelain()](../../../packages/autocommit/src/git.ts#L19)",
+          "file": "git.ts",
+          "line": 19
+        },
+        {
+          "name": "listChangedFiles",
+          "link": "[listChangedFiles()](../../../packages/autocommit/src/git.ts#L24)",
+          "file": "git.ts",
+          "line": 24
+        },
+        {
+          "name": "addAll",
+          "link": "[addAll()](../../../packages/autocommit/src/git.ts#L34)",
+          "file": "git.ts",
+          "line": 34
+        },
+        {
+          "name": "hasStagedChanges",
+          "link": "[hasStagedChanges()](../../../packages/autocommit/src/git.ts#L38)",
+          "file": "git.ts",
+          "line": 38
+        },
+        {
+          "name": "stagedDiff",
+          "link": "[stagedDiff()](../../../packages/autocommit/src/git.ts#L47)",
+          "file": "git.ts",
+          "line": 47
+        },
+        {
+          "name": "repoSummary",
+          "link": "[repoSummary()](../../../packages/autocommit/src/git.ts#L58)",
+          "file": "git.ts",
+          "line": 58
+        },
+        {
+          "name": "GIT_EMPTY_WORKING_TREE_PATTERNS",
+          "link": "[GIT_EMPTY_WORKING_TREE_PATTERNS()](../../../packages/autocommit/src/git.ts#L74)",
+          "file": "git.ts",
+          "line": 74
+        },
+        {
+          "name": "isEmptyWorkingTreeError",
+          "link": "[isEmptyWorkingTreeError()](../../../packages/autocommit/src/git.ts#L80)",
+          "file": "git.ts",
+          "line": 80
+        },
+        {
+          "name": "commit",
+          "link": "[commit()](../../../packages/autocommit/src/git.ts#L89)",
+          "file": "git.ts",
+          "line": 89
+        },
+        {
+          "name": "sanitizeCommitMessage",
+          "link": "[sanitizeCommitMessage()](../../../packages/autocommit/src/git.ts#L116)",
+          "file": "git.ts",
+          "line": 116
+        },
+        {
+          "name": "hasSubrepo",
+          "link": "[hasSubrepo()](../../../packages/autocommit/src/git.ts#L147)",
+          "file": "git.ts",
+          "line": 147
+        },
+        {
+          "name": "isSubrepoDir",
+          "link": "[isSubrepoDir()](../../../packages/autocommit/src/git.ts#L162)",
+          "file": "git.ts",
+          "line": 162
+        },
+        {
+          "name": "findSubrepos",
+          "link": "[findSubrepos()](../../../packages/autocommit/src/git.ts#L171)",
+          "file": "git.ts",
+          "line": 171
+        },
+        {
+          "name": "findGitRepositories",
+          "link": "[findGitRepositories()](../../../packages/autocommit/src/git.ts#L212)",
+          "file": "git.ts",
+          "line": 212
+        },
+        {
+          "name": "performCommit",
+          "link": "[performCommit()](../../../packages/autocommit/src/index.ts#L142)",
+          "file": "index.ts",
+          "line": 142
+        },
+        {
+          "name": "startSingleRepository",
+          "link": "[startSingleRepository()](../../../packages/autocommit/src/index.ts#L261)",
+          "file": "index.ts",
+          "line": 261
+        },
+        {
+          "name": "start",
+          "link": "[start()](../../../packages/autocommit/src/index.ts#L308)",
+          "file": "index.ts",
+          "line": 308
+        },
+        {
+          "name": "createSafeHeaders",
+          "link": "[createSafeHeaders()](../../../packages/autocommit/src/llm.ts#L30)",
+          "file": "llm.ts",
+          "line": 30
+        },
+        {
+          "name": "chatCompletion",
+          "link": "[chatCompletion()](../../../packages/autocommit/src/llm.ts#L109)",
+          "file": "llm.ts",
+          "line": 109
+        },
+        {
+          "name": "SYSTEM",
+          "link": "[SYSTEM()](../../../packages/autocommit/src/messages.ts#L1)",
+          "file": "messages.ts",
+          "line": 1
+        },
+        {
+          "name": "USER",
+          "link": "[USER()](../../../packages/autocommit/src/messages.ts#L8)",
+          "file": "messages.ts",
+          "line": 8
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}
