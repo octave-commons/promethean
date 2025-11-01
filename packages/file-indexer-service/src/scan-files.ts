@@ -5,7 +5,8 @@ import { validateFileSystemPath } from './path-validation.js';
 import {
   getDefaultIgnorePatterns,
   shouldIgnoreFile,
-} from '@promethean-os/file-indexer/gitignore-utils.js';
+  readGitignorePatterns,
+} from './gitignore-utils.js';
 
 export type MaybePromise<T> = T | Promise<T>;
 
@@ -67,6 +68,7 @@ export async function scanFiles(options: ScanFilesOptions): Promise<ScanFilesRes
     onProgress,
     signal,
     collect = true,
+    useDefaultIgnores = true,
   } = options;
 
   const startedAt = Date.now();
@@ -80,11 +82,25 @@ export async function scanFiles(options: ScanFilesOptions): Promise<ScanFilesRes
     maxDepth: undefined,
   });
 
-  // Filter by extensions if specified
+  // Get default ignore patterns if enabled
+  const defaultPatterns = useDefaultIgnores ? getDefaultIgnorePatterns() : [];
+  const gitignorePatterns = useDefaultIgnores ? await readGitignorePatterns(validatedRoot) : [];
+  const allIgnorePatterns = [...defaultPatterns, ...gitignorePatterns];
+
+  // Filter by extensions and ignore patterns
   const targetFiles = allEntries.filter((entry) => {
-    if (!exts) return true;
-    const fileExt = extname(entry.name).toLowerCase();
-    return Array.from(exts).includes(fileExt);
+    // Filter by extensions if specified
+    if (exts) {
+      const fileExt = extname(entry.name).toLowerCase();
+      if (!Array.from(exts).includes(fileExt)) return false;
+    }
+
+    // Filter by default ignore patterns
+    if (useDefaultIgnores && shouldIgnoreFile(entry.relative, allIgnorePatterns)) {
+      return false;
+    }
+
+    return true;
   });
 
   // Filter by ignore directories if specified
