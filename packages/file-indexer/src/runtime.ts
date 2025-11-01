@@ -11,7 +11,7 @@ import {
   type ScanProgress,
 } from './types.js';
 import { createIgnorePredicate, normalizeExtensions } from './path-utils.js';
-import { getDefaultIgnoreDirs, createDefaultIgnorePredicate } from './gitignore-utils.js';
+import { createDefaultIgnorePredicate } from './gitignore-utils.js';
 
 export type ProcessState = ReadonlyDeep<{
   processed: number;
