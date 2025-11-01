@@ -31,36 +31,46 @@ function scanPackageCode(packageName) {
 
     // Parse JSON output from scanner
     const outputPath = path.join(rootDir, 'tmp', `${packageName}-code-links.json`);
-
+    
     if (fs.existsSync(outputPath)) {
       const jsonData = JSON.parse(fs.readFileSync(outputPath, 'utf8'));
-      const { packageData, links } = jsonData;
-
+      const { packageData } = jsonData;
+      
       // Convert to format expected by SYMPKG enhancer
       const codeData = {
-        files: packageData.files.map((f) => ({ path: f.path })),
-        classes: packageData.classes.map((c) => ({
-          name: c.name,
-          file: c.file,
-          line: c.line,
+        files: packageData.files.map(f => ({ path: f.path })),
+        classes: packageData.classes.map(c => ({ 
+          name: c.name, 
+          file: c.file, 
+          line: c.line 
         })),
-        functions: packageData.functions.map((f) => ({
-          name: f.name,
-          file: f.file,
-          line: f.line,
+        functions: packageData.functions.map(f => ({ 
+          name: f.name, 
+          file: f.file, 
+          line: f.line 
         })),
-        interfaces: packageData.interfaces.map((i) => ({
-          name: i.name,
-          file: i.file,
-          line: i.line,
+        interfaces: packageData.interfaces.map(i => ({ 
+          name: i.name, 
+          file: i.file, 
+          line: i.line 
         })),
       };
-
+      
       return codeData;
     } else {
       // Fallback: try to parse from console output (less reliable)
       return parseScannerOutput(result);
     }
+  } catch (error) {
+    console.warn(`Warning: Could not scan code for ${packageName}:`, error.message);
+    return {
+      files: [],
+      classes: [],
+      functions: [],
+      interfaces: [],
+    };
+  }
+}
   } catch (error) {
     console.warn(`Warning: Could not scan code for ${packageName}:`, error.message);
     return {
