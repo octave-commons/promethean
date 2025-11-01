@@ -117,6 +117,7 @@ export async function runRename(
     root: ROOT,
     exts,
     readContent: true,
+    useDefaultIgnores: true, // Skip dotfiles and respect .gitignore
     onFile: async (file: IndexedFile, progress) => {
       const report = () => {
         processed += 1;

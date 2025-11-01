@@ -4,7 +4,7 @@ import { pathToFileURL } from 'url';
 
 import ts from 'typescript';
 import { openLevelCache } from '@promethean-os/level-cache';
-import { scanFiles } from '@promethean-os/file-indexer-service';
+import { scanFiles } from '@promethean-os/file-indexer';
 import { posToLine, getJsDocText, getNodeText, relFromRepo, parseArgs } from '@promethean-os/utils';
 
 import { makeProgram, sha1 } from './utils.js';
