@@ -8,18 +8,12 @@ import {
   normalizeBatchSize,
   processFiles,
   toProgress,
-} from "./runtime.js";
-import type { ScanFilesOptions, ScanFilesResult } from "./types.js";
+} from './runtime.js';
+import type { ScanFilesOptions, ScanFilesResult } from './types.js';
+import { getDefaultIgnoreDirs } from './gitignore-utils.js';
 
-export type {
-  IndexedFile,
-  ScanFilesOptions,
-  ScanFilesResult,
-  ScanProgress,
-} from "./types.js";
-export async function scanFiles(
-  options: ScanFilesOptions,
-): Promise<ScanFilesResult> {
+export type { IndexedFile, ScanFilesOptions, ScanFilesResult, ScanProgress } from './types.js';
+export async function scanFiles(options: ScanFilesOptions): Promise<ScanFilesResult> {
   const {
     root,
     exts,
@@ -32,13 +26,16 @@ export async function scanFiles(
     onProgress,
     signal,
     collect,
+    useDefaultIgnores = true,
   } = options;
 
-  if (!root) throw new Error("scanFiles requires a root directory");
+  if (!root) throw new Error('scanFiles requires a root directory');
   ensureNotAborted(signal);
-  const encoding = providedEncoding ?? "utf8";
+  const encoding = providedEncoding ?? 'utf8';
   const shouldCollect = collect ?? (!onFile && !onBatch);
-  const targetFiles = await computeTargetFiles(root, exts, ignoreDirs);
+  const effectiveIgnoreDirs =
+    useDefaultIgnores && !ignoreDirs ? getDefaultIgnoreDirs() : ignoreDirs;
+  const targetFiles = await computeTargetFiles(root, exts, effectiveIgnoreDirs);
   const total = targetFiles.length;
   const dependencies = buildDependencies({
     shouldCollect,

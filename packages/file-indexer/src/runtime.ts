@@ -79,7 +79,12 @@ export async function computeTargetFiles(
 ): Promise<ReadonlyArray<string>> {
   const extSet = new Set(normalizeExtensions(exts));
   const allFiles = await listFilesRec(root, extSet);
-  const shouldIgnore = createIgnorePredicate(root, ignoreDirs);
+
+  // Use default ignore predicate if none provided
+  const shouldIgnore = ignoreDirs
+    ? createIgnorePredicate(root, ignoreDirs)
+    : await createDefaultIgnorePredicate(root);
+
   return allFiles.filter((filePath) => !shouldIgnore(filePath));
 }
 
