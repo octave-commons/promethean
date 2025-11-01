@@ -1,18 +1,18 @@
 // packages/docops/src/02-embed.ts
-import * as path from "node:path";
-import { promises as fs } from "node:fs";
-import { createHash } from "node:crypto";
-import { pathToFileURL } from "node:url";
+import * as path from 'node:path';
+import { promises as fs } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { pathToFileURL } from 'node:url';
 
-import matter from "gray-matter";
-import { scanFiles } from "@promethean-os/file-indexer";
-import type { IndexedFile, ScanProgress } from "@promethean-os/file-indexer";
+import matter from 'gray-matter';
+import { scanFiles } from '@promethean-os/file-indexer';
+import type { IndexedFile, ScanProgress } from '@promethean-os/file-indexer';
 
-import { DBs } from "./db.js";
-import { parseArgs, parseMarkdownChunks } from "./utils.js";
-import { Chunk } from "./types.js";
-import { createOllamaClient } from "./lib/services.js";
-import { getChromaCollection } from "./lib/chroma.js";
+import { DBs } from './db.js';
+import { parseArgs, parseMarkdownChunks } from './utils.js';
+import { Chunk } from './types.js';
+import { createOllamaClient } from './lib/services.js';
+import { getChromaCollection } from './lib/chroma.js';
 // CLI entry
 
 type Front = { uuid?: string; filename?: string };
@@ -27,7 +27,7 @@ export type EmbedOptions = {
   files?: string[]; // limit to these files if provided
 };
 const dbg = (...xs: any[]) => {
-  if ((globalThis as any).__DOCOPS_DEBUG) console.log("[02-embed]", ...xs);
+  if ((globalThis as any).__DOCOPS_DEBUG) console.log('[02-embed]', ...xs);
 };
 
 // Minimal shape we use from Chroma
@@ -40,7 +40,7 @@ type ChromaCollection = {
   }): Promise<any>;
 };
 
-const sha256 = (s: string) => createHash("sha256").update(s).digest("hex");
+const sha256 = (s: string) => createHash('sha256').update(s).digest('hex');
 
 const withId =
   (uuid: string, fpath: string) =>
@@ -53,41 +53,28 @@ const withId =
     endLine: c.endLine,
     startCol: 0,
     endCol: 0,
-    kind: "text",
+    kind: 'text',
   });
 
-const chunkDoc = (
-  fpath: string,
-  uuid: string,
-  content: string,
-): readonly Chunk[] =>
+const chunkDoc = (fpath: string, uuid: string, content: string): readonly Chunk[] =>
   Object.freeze(parseMarkdownChunks(content).map(withId(uuid, fpath)));
 
-const fingerprint = (text: string, model: string) =>
-  sha256(`${model}::${text}`);
+const fingerprint = (text: string, model: string) => sha256(`${model}::${text}`);
 
 // Heuristic cleaners to avoid embedding frontmatter (already removed) and footer link dumps
-const REF_HEADING_RE =
-  /^(references|external links|see also|footnotes|sources|bibliography)$/i;
+const REF_HEADING_RE = /^(references|external links|see also|footnotes|sources|bibliography)$/i;
 const LINK_DEF_RE = /^\s*\[[^\]]+\]:\s*\S+/; // [label]: url
-const BARE_LINK_RE =
-  /^(?:[-*+]\s*)?(?:<https?:\/\/\S+>|https?:\/\/\S+|\[[^\]]+\]\([^)]*\))\s*$/i;
+const BARE_LINK_RE = /^(?:[-*+]\s*)?(?:<https?:\/\/\S+>|https?:\/\/\S+|\[[^\]]+\]\([^)]*\))\s*$/i;
 function cleanChunkText(c: Chunk): string {
   const title = (c as any).title as string | undefined;
-  if (title && REF_HEADING_RE.test(title.trim())) return "";
-  const lines = (c.text || "").split("\n");
-  const kept = lines.filter(
-    (L: string) => !(LINK_DEF_RE.test(L) || BARE_LINK_RE.test(L.trim())),
-  );
-  const s = kept.join("\n").trim();
+  if (title && REF_HEADING_RE.test(title.trim())) return '';
+  const lines = (c.text || '').split('\n');
+  const kept = lines.filter((L: string) => !(LINK_DEF_RE.test(L) || BARE_LINK_RE.test(L.trim())));
+  const s = kept.join('\n').trim();
   return s;
 }
 
-const changedIds = async (
-  fpDB: DBs["fp"],
-  chunks: readonly Chunk[],
-  model: string,
-) => {
+const changedIds = async (fpDB: DBs['fp'], chunks: readonly Chunk[], model: string) => {
   const pairs = await Promise.all(
     chunks.map(async (c) => {
       const text = cleanChunkText(c);
@@ -104,11 +91,7 @@ const changedIds = async (
   return pairs.filter((x): x is readonly [Chunk, string, string] => !!x);
 };
 
-const embedBatch = async (
-  model: string,
-  texts: string[],
-  timeoutMs = 120_000,
-) => {
+const embedBatch = async (model: string, texts: string[], timeoutMs = 120_000) => {
   if (texts.length === 0) return [] as number[][];
   const ollamaClient = createOllamaClient();
   // Official API uses `.embed({ model, input })`
@@ -118,18 +101,13 @@ const embedBatch = async (
       () => reject(new Error(`ollama.embed timeout after ${timeoutMs}ms`)),
       timeoutMs,
     );
-    p.then((v) => (clearTimeout(t), _resolve(v))).catch(
-      (e) => (clearTimeout(t), reject(e)),
-    );
+    p.then((v) => (clearTimeout(t), _resolve(v))).catch((e) => (clearTimeout(t), reject(e)));
   });
   const { embeddings } = await withTimeout;
   return embeddings as number[][];
 };
 
-const groupsOf = <T>(
-  n: number,
-  xs: readonly T[],
-): ReadonlyArray<readonly T[]> => {
+const groupsOf = <T>(n: number, xs: readonly T[]): ReadonlyArray<readonly T[]> => {
   const out: Array<readonly T[]> = [];
   for (let i = 0; i < xs.length; i += n) out.push(xs.slice(i, i + n));
   return out;
@@ -139,27 +117,18 @@ export async function runEmbed(
   opts: EmbedOptions,
   db: DBs,
   coll: ChromaCollection,
-  onProgress?: (p: {
-    step: "embed";
-    done: number;
-    total: number;
-    message?: string;
-  }) => void,
+  onProgress?: (p: { step: 'embed'; done: number; total: number; message?: string }) => void,
 ) {
   (globalThis as any).__DOCOPS_DEBUG = Boolean(opts.debug);
   const ROOT = path.resolve(opts.dir);
-  const EXTS = new Set(
-    (opts.exts ?? [".md", ".mdx", ".txt"]).map((s) => s.trim().toLowerCase()),
-  );
+  const EXTS = new Set((opts.exts ?? ['.md', '.mdx', '.txt']).map((s) => s.trim().toLowerCase()));
   const EMBED_MODEL = opts.embedModel;
   const BATCH = Math.max(1, Number(opts.batch ?? 128) | 0) || 128;
 
-  dbg("collection", opts.collection, "model", EMBED_MODEL, "batch", BATCH);
+  dbg('collection', opts.collection, 'model', EMBED_MODEL, 'batch', BATCH);
 
   const wanted =
-    opts.files && opts.files.length
-      ? new Set(opts.files.map((p) => path.resolve(p)))
-      : null;
+    opts.files && opts.files.length ? new Set(opts.files.map((p) => path.resolve(p))) : null;
   let totalChunks = 0;
   let totalDeltas = 0;
   let fileDone = 0;
@@ -168,12 +137,13 @@ export async function runEmbed(
     root: ROOT,
     exts: EXTS,
     readContent: true,
+    useDefaultIgnores: true, // Skip dotfiles and respect .gitignore
     onFile: async (file: IndexedFile, progress: ScanProgress) => {
       const abs = path.isAbsolute(file.path)
         ? path.resolve(file.path)
         : path.resolve(ROOT, file.path);
       if (wanted && !wanted.has(abs)) return;
-      const raw = file.content ?? (await fs.readFile(abs, "utf8"));
+      const raw = file.content ?? (await fs.readFile(abs, 'utf8'));
       const { data, content } = matter(raw);
       const fm = data as Front;
       if (!fm.uuid) return;
@@ -187,18 +157,9 @@ export async function runEmbed(
 
       const deltas = await changedIds(db.fp, chunks, EMBED_MODEL);
       const totalFiles = wanted ? wanted.size : progress.total;
-      dbg(
-        "file",
-        abs,
-        "uuid",
-        fm.uuid,
-        "chunks",
-        chunks.length,
-        "deltas",
-        deltas.length,
-      );
+      dbg('file', abs, 'uuid', fm.uuid, 'chunks', chunks.length, 'deltas', deltas.length);
       onProgress?.({
-        step: "embed",
+        step: 'embed',
         done: fileDone,
         total: totalFiles,
         message: `file ${fileDone + 1}/${totalFiles} ${path.basename(
@@ -209,7 +170,7 @@ export async function runEmbed(
       if (deltas.length === 0) {
         fileDone++;
         processedFiles++;
-        onProgress?.({ step: "embed", done: fileDone, total: totalFiles });
+        onProgress?.({ step: 'embed', done: fileDone, total: totalFiles });
         return;
       }
 
@@ -233,7 +194,7 @@ export async function runEmbed(
             metadatas: metas,
           });
         } catch (e) {
-          dbg("embed/upsert error", {
+          dbg('embed/upsert error', {
             file: abs,
             uuid: fm.uuid,
             group: gi + 1,
@@ -246,51 +207,48 @@ export async function runEmbed(
 
         const frac = (gi + 1) / groups.length;
         onProgress?.({
-          step: "embed",
+          step: 'embed',
           done: fileDone + frac,
           total: totalFiles,
-          message: `file ${fileDone + 1}/${totalFiles} group ${gi + 1}/${
-            groups.length
-          }`,
+          message: `file ${fileDone + 1}/${totalFiles} group ${gi + 1}/${groups.length}`,
         });
       }
       fileDone++;
       processedFiles++;
-      onProgress?.({ step: "embed", done: fileDone, total: totalFiles });
+      onProgress?.({ step: 'embed', done: fileDone, total: totalFiles });
     },
   });
 
-  dbg("totals", { files: processedFiles, totalChunks, totalDeltas });
-  console.log("02-embed: done (vectors in Chroma; KV in Level).");
+  dbg('totals', { files: processedFiles, totalChunks, totalDeltas });
+  console.log('02-embed: done (vectors in Chroma; KV in Level).');
 }
-const isDirect =
-  !!process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url;
+const isDirect = !!process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url;
 if (isDirect) {
   const args = parseArgs({
-    "--dir": "docs/unique",
-    "--ext": ".md,.mdx,.txt",
-    "--embed-model": "nomic-embed-text:latest",
-    "--collection": "docs",
-    "--batch": "128",
-    "--debug": "false",
+    '--dir': 'docs/unique',
+    '--ext': '.md,.mdx,.txt',
+    '--embed-model': 'nomic-embed-text:latest',
+    '--collection': 'docs',
+    '--batch': '128',
+    '--debug': 'false',
   });
   // CLI path builds its own DB+collection when invoked directly
-  const { openDB } = await import("./db.js");
+  const { openDB } = await import('./db.js');
   const db = await openDB();
-  const embedModel = args["--embed-model"] ?? "nomic-embed-text:latest";
-  const collection = args["--collection"] ?? "docs";
+  const embedModel = args['--embed-model'] ?? 'nomic-embed-text:latest';
+  const collection = args['--collection'] ?? 'docs';
   const { coll } = await getChromaCollection({
     collection,
     embedModel,
   });
-  const dir = args["--dir"] ?? "docs/unique";
-  const extsArg = args["--ext"] ?? ".md,.mdx,.txt";
-  const batch = Number(args["--batch"] ?? "128");
-  const debug = (args["--debug"] ?? "false") === "true";
+  const dir = args['--dir'] ?? 'docs/unique';
+  const extsArg = args['--ext'] ?? '.md,.mdx,.txt';
+  const batch = Number(args['--batch'] ?? '128');
+  const debug = (args['--debug'] ?? 'false') === 'true';
   runEmbed(
     {
       dir,
-      exts: extsArg.split(","),
+      exts: extsArg.split(','),
       embedModel,
       collection,
       batch,
