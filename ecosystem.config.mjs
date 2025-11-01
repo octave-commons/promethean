@@ -6,7 +6,6 @@ dotenv.config();
 export const apps =
 [
   {
-<<<<<<< HEAD
     "name": "lein-repl",
     "script": "lein",
     "interpreter": "/usr/bin/env",
@@ -192,7 +191,7 @@ export const apps =
       "--model",
       "error/qwen3:4b-instruct-100k",
       "--base-url",
-      "http://192.168.12.65:11434"
+      "http://localhost:11434"
     ],
     "env": {
       "OPENAI_BASE_URL": "http://localhost:11434",
@@ -351,16 +350,13 @@ export const apps =
       }
     },
     "startup_probe": {
-      "http_get": {
+      "http_get":
+{
         "url": "http://localhost:3000/health",
         "timeout": 30000,
         "retries": 3
       }
     }
-=======
-    "name": "app",
-    "cwd": "./....windowssystem32"
->>>>>>> origin/hacks
   }
 ];
 
