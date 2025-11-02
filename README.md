@@ -6,7 +6,7 @@ A modular cognitive architecture for building embodied AI agents with reasoning,
 ## 🚀 Quick Start
 
 ```bash
-git clone https://github.com/PrometheanAI/promethean.git
+git clone https://github.com/riatzukiza/promethean.git
 cd promethean
 
 # Enable pnpm 9 via Corepack (required)
