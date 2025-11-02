@@ -55,11 +55,13 @@
       (catch js/Error e
         (throw (js/Error. (str "Failed to evaluate rule string: " (.-message e))))))))
 
-(defn evaluate-resolved-function [task-js board-js resolved-fn]
-  (let [task (js->clj task-js :keywordize-keys true)
+(defn evaluate-resolved-function [from-js to-js task-js board-js resolved-fn]
+  (let [from (if (string? from-js) from-js (str from-js))
+        to (if (string? to-js) to-js (str to-js))
+        task (js->clj task-js :keywordize-keys true)
         board (js->clj board-js :keywordize-keys true)]
     (try
-      (boolean (resolved-fn task board))
+      (boolean (resolved-fn from to task board))
       (catch js/Error e
         (throw (js/Error. (str "Failed to call resolved function: " (.-message e))))))))
 

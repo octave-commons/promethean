@@ -5,6 +5,10 @@ import { parseFrontmatter as parseMarkdownFrontmatter } from '@promethean-os/mar
 
 import type { Task } from '../../types.js';
 import { NOW_ISO } from '../../core/constants.js';
+import { ensureBaselineFrontmatter } from '@promethean-os/markdown/frontmatter.js';
+import { generateSlugFromFilename } from '../../utils/string-utils.js';
+import { stat } from 'node:fs/promises';
+import { randomUUID } from 'node:crypto';
 import {
   sanitizeFileNameBase,
   generateAutoLabels,
@@ -133,18 +137,18 @@ const fallbackTaskFromRaw = (filePath: string, raw: string, now: () => string): 
     return null;
   }
 
-  let cursor = 3;
-  if (raw[cursor] === '\r') cursor += 1;
-  if (raw[cursor] === '\n') cursor += 1;
+  const cursor = 3;
+  const adjustedCursor = raw[cursor] === '\r' ? cursor + 1 : cursor;
+  const finalCursor = raw[adjustedCursor] === '\n' ? adjustedCursor + 1 : adjustedCursor;
 
-  const closingIndexLF = raw.indexOf('\n---', cursor);
-  const closingIndexCRLF = raw.indexOf('\r\n---', cursor);
-  let boundaryIndex = closingIndexLF;
-  let newlineLength = 1;
-  if (closingIndexCRLF !== -1 && (closingIndexLF === -1 || closingIndexCRLF < closingIndexLF)) {
-    boundaryIndex = closingIndexCRLF;
-    newlineLength = 2;
-  }
+  const closingIndexLF = raw.indexOf('\n---', finalCursor);
+  const closingIndexCRLF = raw.indexOf('\r\n---', finalCursor);
+  const boundaryIndex =
+    closingIndexCRLF !== -1 && (closingIndexLF === -1 || closingIndexCRLF < closingIndexLF)
+      ? closingIndexCRLF
+      : closingIndexLF;
+  const newlineLength =
+    closingIndexCRLF !== -1 && (closingIndexLF === -1 || closingIndexCRLF < closingIndexLF) ? 2 : 1;
 
   if (boundaryIndex === -1) {
     return null;
@@ -214,11 +218,7 @@ const withSourcePath = (task: Task, filePath: string): Task => ({
   sourcePath: filePath,
 });
 
-const enrichSlug = (
-  task: Task,
-  filePath: string,
-  usedSlugs: Map<string, string>,
-): Task => {
+const enrichSlug = (task: Task, filePath: string, usedSlugs: Map<string, string>): Task => {
   const baseName = path.basename(filePath, path.extname(filePath));
   const resolvedSlug = resolveTaskSlug(task, baseName);
   const slugged: Task = { ...task, slug: resolvedSlug };
@@ -231,6 +231,48 @@ const enrichSlug = (
 };
 
 const normalizeFrontmatter = (raw: string): string => raw;
+/**
+ * Ensure frontmatter has required fields with proper defaults
+ */
+const ensureFrontmatterDefaults = async (
+  frontmatter: FrontmatterRecord,
+  filePath: string,
+  content: string,
+): Promise<FrontmatterRecord> => {
+  const filename = path.basename(filePath);
+  const slugFromFilename = generateSlugFromFilename(filename);
+
+  // Get file stats for created_at if not present
+  let createdAt = coerceString(frontmatter.created_at);
+  if (!createdAt) {
+    try {
+      const fileStats = await stat(filePath);
+      createdAt = fileStats.birthtime.toISOString();
+    } catch {
+      createdAt = NOW_ISO();
+    }
+  }
+
+  // Use ensureBaselineFrontmatter from markdown package with custom defaults
+  const baselineFrontmatter = ensureBaselineFrontmatter(frontmatter, {
+    filePath,
+    content,
+    fallbackCreatedAt: createdAt,
+    fallbackTitle:
+      coerceString(frontmatter.title) || filename.replace(/\.md$/, '').replace(/[-_]/g, ' '),
+    uuidFactory: () => coerceString(frontmatter.uuid) || randomUUID(),
+    createdAtFactory: () => createdAt,
+    titleFactory: () =>
+      coerceString(frontmatter.title) || filename.replace(/\.md$/, '').replace(/[-_]/g, ' '),
+  });
+
+  // Apply additional defaults for status and slug
+  return {
+    ...baselineFrontmatter,
+    status: coerceString(frontmatter.status) || 'incoming',
+    slug: coerceString(frontmatter.slug) || slugFromFilename,
+  };
+};
 
 export const readTasksFolder = async (
   input: ReadTasksFolderInput = {},
@@ -293,7 +335,15 @@ export const readTasksFolder = async (
       try {
         const normalized = normalizeFrontmatter(content);
         const { data, content: body } = scope.parseFrontmatter<FrontmatterRecord>(normalized);
-        const parsed = taskFromFrontmatter(data ?? {}, body ?? '', scope.now);
+
+        // Apply frontmatter defaults
+        const frontmatterWithDefaults = await ensureFrontmatterDefaults(
+          data ?? ({} as FrontmatterRecord),
+          filePath,
+          body ?? '',
+        );
+
+        const parsed = taskFromFrontmatter(frontmatterWithDefaults, body ?? '', scope.now);
         if (parsed) {
           const enriched = enrichSlug(
             ensureLabelsPresent(withSourcePath(parsed, filePath), body ?? parsed.content),

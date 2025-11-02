@@ -77,11 +77,11 @@ kanban-plugin: board
 ## breakdown
 
 - [ ] [[Kanban System Health Monitoring & Alerting Framework]] #kanban #health-monitoring #automation #alerting #framework #mcp-integration #healing prio:P1 (uuid:3308ce11-0321-4bc2-a4be-bdf5e5e8701a)
-- [ ] [[Implement LLM-powered kanban explain command]] #llm #explain #command #kanban prio:P1 (uuid:6866f097-f4c8-485a-8c1d-78de260459d2)
+- [ ] [[docs/agile/tasks/Implement LLM-powered kanban explain command]] #llm #explain #command #kanban prio:P1 (uuid:6866f097-f4c8-485a-8c1d-78de260459d2)
 - [ ] [[Add Epic Functionality to Kanban Board]] #[epic #kanban #feature #implementation] prio:P0 (uuid:07bc6e1c-4f3f-49fe-8a21-088017cb17fa)
 - [ ] [[Create MCP-Kanban Integration Tests & Documentation]] #mcp #kanban #testing #documentation #integration #critical prio:P1 (uuid:bedd20cd-34c0-46a1-962f-71eeb36a278f)
 - [ ] [[Create Mermaid-to-FSM config generator for kanban workflows]] #mermaid #fsm #kanban #create prio:P1 (uuid:ecee2a47-d4dc-42da-95db-eb1359d00425)
-- [ ] [[Implement LLM-powered kanban explain command]] #llm #explain #command #kanban prio:P1 (uuid:6866f097-f4c8-485a-8c1d-78de260459d2)
+- [ ] [[docs/agile/tasks/Implement LLM-powered kanban explain command]] #llm #explain #command #kanban prio:P1 (uuid:6866f097-f4c8-485a-8c1d-78de260459d2)
 - [ ] [[Kanban System Health Monitoring & Alerting Framework]] #kanban #health-monitoring #automation #alerting #framework #mcp-integration #healing prio:P1 (uuid:3308ce11-0321-4bc2-a4be-bdf5e5e8701a)
 - [ ] [[Migrate @promethean kanban to ClojureScript|Migrate @promethean-os/kanban to ClojureScript]] #migration #clojurescript #typed-clojure #kanban #tooling prio:P2 (uuid:d9967354-205b-4682-87e1-678074cfe065)
 

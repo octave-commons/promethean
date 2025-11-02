@@ -1,7 +1,7 @@
 ---
 uuid: "f7a252c3-4cbb-49b9-ad2d-c0f08ce35165"
-title: "--title Add OAuth Authentication & User Management to MCP"
-slug: "--title Add OAuth Authentication & User Management to MCP"
+title: "Add OAuth Authentication & User Management to MCP"
+slug: "Add OAuth Authentication & User Management to MCP"
 status: "incoming"
 priority: "P0"
 labels: ["mcp", "security", "oauth", "user-management", "critical"]

@@ -1,3 +1,17 @@
+---
+uuid: "d8626473-6735-404d-826c-87b1d1abd611"
+title: "PCM16k Worklet Integration Test Evidence"
+slug: "pcm16k-worklet-integration-test-evidence"
+status: "incoming"
+priority: "P2"
+labels: ["task"]
+created_at: "2025-10-23T00:00:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
 # PCM16k Worklet Integration Test Evidence
 
 **Task**: PCM16k worklet + mic wiring fixes

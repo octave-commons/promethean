@@ -1,8 +1,20 @@
+---
+uuid: "8ead2451-527b-4562-966b-d42c4737c540"
+title: "Session Monitoring and Timeout Management"
+slug: "plugin-parity-006-session-monitoring"
+status: "todo"
+priority: "High"
+labels: ["task"]
+created_at: "2025-10-23T00:00:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
 # Session Monitoring and Timeout Management
 
-**Priority:** High  
 **Story Points:** 4  
-**Status:** todo
 
 ## Description
 

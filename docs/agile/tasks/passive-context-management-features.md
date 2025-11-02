@@ -1,3 +1,17 @@
+---
+uuid: "f9f6df14-3a79-4f90-b075-e91ef7df1819"
+title: "Passive Context Management Features"
+slug: "passive-context-management-features"
+status: "incoming"
+priority: "P2"
+labels: ["task"]
+created_at: "2025-10-23T00:00:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
 # Passive Context Management Features
 
 **UUID**: passive-context-features-003

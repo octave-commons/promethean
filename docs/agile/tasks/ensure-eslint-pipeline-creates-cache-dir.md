@@ -1,3 +1,17 @@
+---
+uuid: "6ed5aca5-5e11-4820-a2b9-a281d01706cb"
+title: "Duck Revival Epic"
+slug: "ensure-eslint-pipeline-creates-cache-dir"
+status: "incoming"
+priority: "P2"
+labels: ["task"]
+created_at: "2025-10-23T00:00:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
 ```
 uuid: e502a45a-eb4b-4cd9-92c0-6d1e86b532d4
 ```

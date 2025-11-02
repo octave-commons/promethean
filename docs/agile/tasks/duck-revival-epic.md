@@ -1,3 +1,17 @@
+---
+uuid: "8211600d-4e78-44e5-8043-69bd084ca7a9"
+title: "Duck Revival"
+slug: "duck-revival-epic"
+status: "incoming"
+priority: "P2"
+labels: ["task"]
+created_at: "2025-10-23T00:00:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
 # Duck Revival
 
 Goal: resurrect the voice assistant ("Duck") with a safer, faster media path:

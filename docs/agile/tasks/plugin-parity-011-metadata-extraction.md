@@ -1,8 +1,20 @@
+---
+uuid: "a22f2838-ba9b-4ff6-98ba-582d329d0b79"
+title: "Advanced Metadata Extraction for Events"
+slug: "plugin-parity-011-metadata-extraction"
+status: "todo"
+priority: "Medium"
+labels: ["task"]
+created_at: "2025-10-23T00:00:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
 # Advanced Metadata Extraction for Events
 
-**Priority:** Medium  
 **Story Points:** 3  
-**Status:** todo
 
 ## Description
 

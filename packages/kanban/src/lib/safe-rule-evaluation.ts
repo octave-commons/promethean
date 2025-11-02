@@ -1,5 +1,9 @@
 import type { TaskFM } from '../board/types.js';
 import type { Board } from '../lib/types.js';
+import { loadFile, loadString } from 'nbb';
+import * as fs from 'fs';
+import * as path from 'path';
+import { fileURLToPath } from 'url';
 
 /**
  * Safe task and board validation using NBB + clojure.spec.alpha
@@ -42,20 +46,24 @@ interface ValidationFunctions {
   validateTask: (task: unknown) => unknown;
   validateBoard: (board: unknown) => unknown;
   evaluateTransitionRule: (task: unknown, board: unknown, ruleFn: Function) => boolean;
-  evaluateResolvedFunction: (task: unknown, board: unknown, resolvedFn: Function) => boolean;
+  evaluateResolvedFunction: (
+    from: unknown,
+    to: unknown,
+    task: unknown,
+    board: unknown,
+    resolvedFn: Function,
+  ) => boolean;
 }
 
 const validationFunctionsCache: { current: ValidationFunctions | null } = { current: null };
+const dslExportsCache: { current: Record<string, Function> | null } = { current: null };
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const loadValidationFunctions = async (): Promise<ValidationFunctions> => {
   if (validationFunctionsCache.current) return validationFunctionsCache.current;
 
   try {
-    const { loadFile } = await import('nbb');
-    const path = await import('path');
-    const url = await import('url');
-
-    const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
     const validationPath = path.resolve(__dirname, '../clojure/validation.clj');
     const functions = (await loadFile(validationPath)) as Record<string, Function>;
 
@@ -77,6 +85,8 @@ const loadValidationFunctions = async (): Promise<ValidationFunctions> => {
         ruleFn: Function,
       ) => boolean,
       evaluateResolvedFunction: functions['evaluate-resolved-function'] as (
+        from: unknown,
+        to: unknown,
         task: unknown,
         board: unknown,
         resolvedFn: Function,
@@ -170,28 +180,17 @@ const loadAndValidateInputs = async (
 };
 
 const loadClojureContext = async (dslPath: string): Promise<void> => {
-  const { loadString } = await import('nbb');
-  const fs = await import('fs');
-  const path = await import('path');
-  const url = await import('url');
 
-  // Load the validation file content first
-  const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+
+  // Load validation file content first
   const validationPath = path.resolve(__dirname, '../clojure/validation.clj');
-  const validationContent = fs.readFileSync(validationPath, 'utf8');
-
-  await loadString(validationContent, {
-    context: 'cljs.user',
-    print: () => {},
-  });
+  await loadFile(validationPath);
 
   // Load DSL file content if provided
   if (dslPath && fs.existsSync(dslPath)) {
-    const dslContent = fs.readFileSync(dslPath, 'utf8');
-    await loadString(dslContent, {
-      context: 'cljs.user',
-      print: () => {},
-    });
+    const dslExport = await loadFile(dslPath) as Record<string, Function>;
+    console.log('DSL export loaded:', dslExport);
+    dslExportsCache.current = dslExport;
   }
 };
 
@@ -200,33 +199,42 @@ const evaluateDirectFunctionCall = async (
   board: Board,
   ruleImpl: string,
 ): Promise<boolean> => {
-  const { loadString } = await import('nbb');
   const { evaluateResolvedFunction } = await loadValidationFunctions();
 
-  const functionMatch = ruleImpl.match(/\(([^ ]+)\s+"([^"]+)"\s+"([^"]+)"/);
-  if (!functionMatch) {
+  const functionNameMatch = ruleImpl.match(/^\(([^ \t]+)\s+/);
+  const quotedArgs = ruleImpl.match(/"([^"]*)"/g) ?? [];
+
+  if (!functionNameMatch || quotedArgs.length < 2) {
     throw new Error('Invalid function call format');
   }
 
-  const namespaceAndFunction = functionMatch[1];
+  const functionName = functionNameMatch[1];
+  const fromValue = quotedArgs[0]?.slice(1, -1);
+  const toValue = quotedArgs[1]?.slice(1, -1);
 
-  if (!namespaceAndFunction) {
-    throw new Error('Could not parse function name from rule implementation');
+  if (!functionName || !fromValue || !toValue) {
+    throw new Error('Could not parse function name or arguments from rule implementation');
   }
 
-  // Resolve the function inside the Clojure context
-  const resolveForm = `(resolve '${namespaceAndFunction}')`;
-  const resolveResult: unknown = await loadString(resolveForm, {
-    context: 'cljs.user',
-    print: () => {},
-  });
-
-  if (!resolveResult) {
-    throw new Error(`Function ${namespaceAndFunction} not found in DSL`);
+  // Get function from cached DSL exports
+  if (!dslExportsCache.current || !dslExportsCache.current[functionName]) {
+    throw new Error(`Function ${functionName} not found in DSL`);
   }
 
-  // Use the new helper that properly handles resolved functions with dependency injection
-  const result = evaluateResolvedFunction(task, board, resolveResult as Function);
+  const dslFunction = dslExportsCache.current[functionName];
+  console.log('Found DSL function:', dslFunction);
+  console.log(
+    'Calling evaluateResolvedFunction with',
+    { from: fromValue, to: toValue },
+    'task:',
+    task,
+    'board:',
+    board,
+  );
+
+  // Use helper that properly handles resolved functions with dependency injection
+  const result = evaluateResolvedFunction(fromValue, toValue, task, board, dslFunction);
+  console.log('evaluateResolvedFunction result:', result);
   return Boolean(result);
 };
 
@@ -235,15 +243,11 @@ const evaluateFunctionDefinition = async (
   board: Board,
   ruleImpl: string,
 ): Promise<boolean> => {
-  const { loadString } = await import('nbb');
   const { evaluateTransitionRule } = await loadValidationFunctions();
 
-  const ruleFn: unknown = await loadString(`(${ruleImpl})`, {
-    context: 'cljs.user',
-    print: () => {},
-  });
+  const ruleFn: unknown = await loadString(`#js(${ruleImpl})`);
 
-  // Call the evaluateTransitionRule function directly with JavaScript objects
+  // Call evaluateTransitionRule function directly with JavaScript objects
   const result = (
     evaluateTransitionRule as (task: TaskFM, board: Board, ruleFn: Function) => boolean
   )(task, board, ruleFn as Function);

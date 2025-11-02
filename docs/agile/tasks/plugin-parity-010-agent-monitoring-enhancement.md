@@ -1,8 +1,20 @@
+---
+uuid: "91acd370-6883-4178-b72f-ac55c319c15a"
+title: "Agent Management Session Monitoring Enhancement"
+slug: "plugin-parity-010-agent-monitoring-enhancement"
+status: "todo"
+priority: "Medium"
+labels: ["task"]
+created_at: "2025-10-23T00:00:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
 # Agent Management Session Monitoring Enhancement
 
-**Priority:** Medium  
 **Story Points:** 3  
-**Status:** todo
 
 ## Description
 

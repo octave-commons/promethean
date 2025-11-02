@@ -1,3 +1,17 @@
+---
+uuid: "162238b6-6575-4977-881a-b982ebfadf96"
+title: "P0 Critical: Indexer Service Path Traversal Vulnerability Fix"
+slug: "p0-indexer-path-traversal-breakdown"
+status: "incoming"
+priority: "P2"
+labels: ["task"]
+created_at: "2025-10-23T00:00:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
 # P0 Critical: Indexer Service Path Traversal Vulnerability Fix
 
 **Task UUID**: `p0-indexer-path-traversal-fix`  

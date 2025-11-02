@@ -1,3 +1,17 @@
+---
+uuid: "a36ca331-c7e6-4d24-beb1-b0a36c8a4007"
+title: "Verify Ollama Handler"
+slug: "verify-openai-server-deployment"
+status: "incoming"
+priority: "P2"
+labels: ["task"]
+created_at: "2025-10-23T00:00:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
 ## 🛠️ Description
 
 Set up a staging deployment for `@promethean-os/openai-server` and validate it

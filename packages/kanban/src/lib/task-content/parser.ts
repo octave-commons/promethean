@@ -4,7 +4,9 @@
  */
 
 import { promises as fs } from 'fs';
-import { parse as parseYaml } from 'yaml';
+import { stat } from 'fs/promises';
+import { parse as parseYaml, stringify as stringifyYaml } from 'yaml';
+import { randomUUID } from 'crypto';
 export { parseYaml };
 
 // Read a task file from disk and return parsed pieces
@@ -12,12 +14,30 @@ export async function readTaskFile(filePath: string): Promise<{
   rawContent: string;
   frontmatter: Record<string, any> | null;
   body: string;
-  sections: any[];
+  sections: TaskSection[];
   task?: any;
 }> {
-  const raw = await fs.readFile(filePath, 'utf8');
-  const parsed = parseTaskContent(raw);
-  const task = parsed.frontmatter ? { ...parsed.frontmatter, content: parsed.body } : undefined;
+  let raw = await fs.readFile(filePath, 'utf8');
+  let parsed = parseTaskContent(raw);
+
+  // Generate frontmatter if missing
+  if (!parsed.frontmatter || Object.keys(parsed.frontmatter).length === 0) {
+    const generatedFrontmatter = await generateTaskFrontmatter(filePath, raw);
+    if (generatedFrontmatter) {
+      // Update the raw content with generated frontmatter
+      const frontmatterYaml = `---\n${stringifyYaml(generatedFrontmatter)}---\n`;
+      raw = frontmatterYaml + parsed.body;
+      parsed = parseTaskContent(raw);
+
+      // Write the updated content back to the file
+      await fs.writeFile(filePath, raw, 'utf8');
+    }
+  }
+
+  const task =
+    parsed.frontmatter && Object.keys(parsed.frontmatter).length > 0
+      ? { ...parsed.frontmatter, content: parsed.body }
+      : undefined;
   return {
     rawContent: raw,
     frontmatter: parsed.frontmatter,
@@ -48,7 +68,19 @@ export function parseTaskContent(content: string): {
       try {
         frontmatter = parseYaml(frontmatterText);
       } catch (error) {
-        console.warn('Failed to parse frontmatter:', error);
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        console.warn(`Failed to parse frontmatter YAML: ${errorMessage}`);
+        console.warn('Frontmatter text (first 200 chars):', frontmatterText.slice(0, 200));
+        // Try to provide more specific error information
+        if (errorMessage.includes('indentation')) {
+          console.warn('Hint: Check YAML indentation - YAML is sensitive to spaces');
+        } else if (errorMessage.includes('mapping values')) {
+          console.warn('Hint: Check for missing colons or malformed key-value pairs');
+        } else if (errorMessage.includes('block sequence')) {
+          console.warn('Hint: Check array/list formatting with dashes');
+        }
+        // Continue with empty frontmatter rather than failing completely
+        frontmatter = {};
       }
       body = content.slice(endIndex + 5);
     }
@@ -102,6 +134,61 @@ export function parseTaskContent(content: string): {
  */
 export function findSection(sections: TaskSection[], header: string): TaskSection | null {
   return sections.find((section) => section.header.toLowerCase() === header.toLowerCase()) || null;
+}
+
+/**
+ * Generate frontmatter for a task file that doesn't have any
+ */
+async function generateTaskFrontmatter(
+  filePath: string,
+  content: string,
+): Promise<Record<string, any> | null> {
+  try {
+    // Get file stats for created_at
+    const stats = await stat(filePath);
+    const createdAt = stats.birthtime.toISOString();
+
+    // Generate UUID
+    const uuid = randomUUID();
+
+    // Extract title from first heading or filename
+    const lines = content.split('\n');
+    let title = '';
+    for (const line of lines) {
+      const headingMatch = line.match(/^#\s+(.+)$/);
+      if (headingMatch) {
+        title = headingMatch[1]!.trim();
+        break;
+      }
+    }
+
+    // If no heading found, use filename
+    if (!title) {
+      const pathParts = filePath.split('/');
+      const filename = pathParts[pathParts.length - 1]!;
+      title = filename.replace(/\.md$/, '').replace(/[-_]/g, ' ');
+    }
+
+    // Generate basic frontmatter with all required TaskFM fields
+    const frontmatter: Record<string, any> = {
+      uuid,
+      id: uuid, // Use UUID as ID
+      created_at: createdAt,
+      created: createdAt,
+      title,
+      status: 'open', // Valid status
+      priority: 'medium', // Default priority
+      owner: '', // Empty owner
+      labels: ['task', 'auto-generated'],
+      description: `Task: ${title}`,
+      tags: ['task', 'auto-generated'],
+    };
+
+    return frontmatter;
+  } catch (error) {
+    console.warn(`Failed to generate frontmatter for ${filePath}:`, error);
+    return null;
+  }
 }
 
 /**

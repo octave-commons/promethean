@@ -1,8 +1,20 @@
+---
+uuid: "7bb17a2a-fcee-4eaa-9156-92737e9895b1"
+title: "Dual-Store Persistence Enhancement"
+slug: "plugin-parity-008-dual-store-enhancement"
+status: "todo"
+priority: "High"
+labels: ["task"]
+created_at: "2025-10-23T00:00:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
 # Dual-Store Persistence Enhancement
 
-**Priority:** High  
 **Story Points:** 4  
-**Status:** todo
 
 ## Description
 

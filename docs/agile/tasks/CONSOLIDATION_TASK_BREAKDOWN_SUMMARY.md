@@ -1,3 +1,17 @@
+---
+uuid: "fb5b3b36-ff4a-4b81-a4f3-c099a13b3a9c"
+title: "Package Consolidation Task Breakdown Summary"
+slug: "CONSOLIDATION_TASK_BREAKDOWN_SUMMARY"
+status: "incoming"
+priority: "P2"
+labels: ["task"]
+created_at: "2025-10-23T00:00:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
 # Package Consolidation Task Breakdown Summary
 
 ## 📋 Overview

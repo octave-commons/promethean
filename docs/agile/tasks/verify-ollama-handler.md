@@ -1,3 +1,17 @@
+---
+uuid: "99123e29-da30-479c-8a89-ceb972d62822"
+title: "Task: Verify Ollama Chat Handler Integration"
+slug: "verify-ollama-handler"
+status: "incoming"
+priority: "P2"
+labels: ["task"]
+created_at: "2025-10-23T00:00:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
 # Task: Verify Ollama Chat Handler Integration
 
 ## Summary

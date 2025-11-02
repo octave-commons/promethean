@@ -1,3 +1,17 @@
+---
+uuid: "04bed812-37fa-46fa-952d-b91adf75989a"
+title: "Standardize Context Management Across All Agents"
+slug: "standardize-context-management-across-agents"
+status: "incoming"
+priority: "P2"
+labels: ["task"]
+created_at: "2025-10-23T00:00:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
 # Standardize Context Management Across All Agents
 
 **UUID**: std-context-mgmt-001

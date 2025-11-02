@@ -1,0 +1,62 @@
+---
+uuid: "2c7e9d46-09b2-4670-a3ac-381cb4f0c21e"
+title: "prio:P1"
+slug: "prio P1"
+status: "icebox"
+priority: ""
+labels: ["bug", "cli", "config", "kanban"]
+created_at: "2025-10-13T06:32:03.263Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
+## Context
+
+The kanban CLI is failing to resolve config paths correctly from subdirectories. Currently it only searches for `promethean.kanban.json` in the directory tree, but should check multiple standard locations:
+
+- `docs/agile/tasks/promethean.kanban.json`
+- `docs/agile/promethean.kanban.json`
+- `docs/promethean.kanban.json`
+- `promethean.kanban.json`
+
+## Problem
+
+The `searchConfigUp()` function in `packages/kanban/src/board/config/sources.ts` only searches for `DEFAULT_CONFIG_BASENAME` ("promethean.kanban.json") in the directory tree. This causes failures when running kanban commands from subdirectories.
+
+Error message: "Failed to load transition rules config: ENOENT"
+
+## Solution
+
+1. Modify `findConfigPath()` function in `sources.ts` to search additional locations
+2. Update config resolution logic to try multiple config file locations in priority order
+3. Ensure backward compatibility with existing config locations
+4. Test config resolution from various subdirectories in the monorepo
+
+## Acceptance Criteria
+
+- [ ] Kanban commands work from any subdirectory in the repository
+- [ ] Config files are found in all standard locations
+- [ ] Backward compatibility maintained for existing setups
+- [ ] Error messages provide clear feedback when config not found
+- [ ] Tests cover config resolution from different starting directories
+
+## Technical Details
+
+**Files to modify:**
+
+- `packages/kanban/src/board/config/sources.ts` - Main config path resolution logic
+- `packages/kanban/src/board/config/shared.ts` - Update constants if needed
+
+**Key functions:**
+
+- `findConfigPath()` - Needs enhancement for multiple search patterns
+- `searchConfigUp()` - Current implementation only searches one basename
+
+**Search priority order:**
+
+1. `docs/agile/tasks/promethean.kanban.json` (task-specific config)
+2. `docs/agile/promethean.kanban.json` (agile directory config)
+3. `docs/promethean.kanban.json` (docs directory config)
+4. `promethean.kanban.json` (repo root config - current behavior)

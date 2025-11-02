@@ -1,9 +1,18 @@
-# Agent OS Core Message Protocol Design
+---
+uuid: '0c3189e4-0000-0000-0000-000000000000'
+title: 'Agent OS Core Message Protocol Design'
+slug: 'agent-os-core-message-protocol-design'
+status: 'done'
+priority: 'P0'
+labels: ['protocol', 'agent-os', 'core', 'messaging', 'architecture']
+created_at: '2025-10-23T00:00:00.000Z'
+estimates:
+  complexity: ''
+  scale: ''
+  time_to_completion: ''
+---
 
-**UUID:** 0c3189e4  
-**Priority:** P0  
-**Status:** implemented  
-**Tags:** protocol, agent-os, core, messaging, architecture
+# Agent OS Core Message Protocol Design
 
 ## Executive Summary
 

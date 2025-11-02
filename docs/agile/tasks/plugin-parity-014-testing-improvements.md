@@ -1,8 +1,20 @@
+---
+uuid: "54a34fb9-e0a7-4823-9ded-1b726068fbc7"
+title: "Comprehensive Testing Suite"
+slug: "plugin-parity-014-testing-improvements"
+status: "todo"
+priority: "Low"
+labels: ["task"]
+created_at: "2025-10-23T00:00:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
 # Comprehensive Testing Suite
 
-**Priority:** Low  
 **Story Points:** 2  
-**Status:** todo
 
 ## Description
 

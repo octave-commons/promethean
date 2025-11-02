@@ -60,11 +60,27 @@ export const parseFrontmatter = <T extends Record<string, unknown> = Record<stri
     try {
         return matter(raw) as ParsedMarkdown<T>;
     } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
         // If YAML parsing fails, return empty frontmatter and full content
-        console.warn(
-            'Failed to parse frontmatter, treating as plain content:',
-            error instanceof Error ? error.message : String(error),
-        );
+        console.warn('Failed to parse frontmatter, treating as plain content:', errorMessage);
+
+        // Try to extract frontmatter boundaries for better error reporting
+        if (raw.startsWith('---\n')) {
+            const endIndex = raw.indexOf('\n---\n', 4);
+            if (endIndex !== -1) {
+                const frontmatterText = raw.slice(4, endIndex);
+                console.warn('Frontmatter content (first 200 chars):', frontmatterText.slice(0, 200));
+                // Provide helpful hints based on common YAML errors
+                if (errorMessage.includes('indentation') || errorMessage.includes('indent')) {
+                    console.warn('Hint: Check YAML indentation - YAML requires consistent spacing');
+                } else if (errorMessage.includes('mapping') || errorMessage.includes('key')) {
+                    console.warn('Hint: Check for missing colons or malformed key-value pairs');
+                } else if (errorMessage.includes('sequence') || errorMessage.includes('array')) {
+                    console.warn('Hint: Check array/list formatting with dashes');
+                }
+            }
+        }
+
         return {
             data: {} as T,
             content: raw,

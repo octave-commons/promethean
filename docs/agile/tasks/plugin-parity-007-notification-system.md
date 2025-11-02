@@ -1,8 +1,20 @@
+---
+uuid: "39ab946f-4c87-4b6e-8341-37c610397924"
+title: "Multi-Channel Notification System"
+slug: "plugin-parity-007-notification-system"
+status: "todo"
+priority: "High"
+labels: ["task"]
+created_at: "2025-10-23T00:00:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
 # Multi-Channel Notification System
 
-**Priority:** High  
 **Story Points:** 4  
-**Status:** todo
 
 ## Description
 

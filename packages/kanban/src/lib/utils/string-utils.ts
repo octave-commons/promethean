@@ -17,6 +17,20 @@ export const sanitizeFileNameBase = (value: string): string => {
   const singleSpaced = normalized.replace(/\s{2,}/g, ' ');
   return singleSpaced.replace(/\.$/, '');
 };
+export const generateSlugFromFilename = (filename: string): string => {
+  // Remove .md extension if present
+  const nameWithoutExt = filename.replace(/\.md$/, '');
+
+  // Convert to lowercase and replace whitespace and underscores with hyphens
+  const slug = nameWithoutExt
+    .toLowerCase()
+    .replace(/[\s_]+/g, '-') // Replace any whitespace and underscores with hyphens
+    .replace(/[^a-z0-9-]/g, '') // Remove non-alphanumeric characters except hyphens
+    .replace(/-+/g, '-') // Replace multiple hyphens with single hyphen
+    .replace(/^-|-$/g, ''); // Remove leading/trailing hyphens
+
+  return slug || 'untitled';
+};
 
 export const stripTrailingCount = (value: string): string =>
   value.replace(/\s*\(\s*\d+\s*\)\s*$/g, '').trim();

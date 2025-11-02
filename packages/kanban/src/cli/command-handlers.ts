@@ -46,10 +46,9 @@ import { TransitionRulesEngine, createTransitionRulesEngine } from '../lib/trans
 import { TaskGitTracker } from '../lib/task-git-tracker.js';
 import { createWIPLimitEnforcement } from '../lib/wip-enforcement.js';
 import { createRebuildEventLogCommand } from '../lib/rebuild-event-log-command.js';
-import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import { readdir } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
 import { readTaskFile } from '../lib/task-content/parser.js';
 
 // Get the equivalent of __dirname in ES modules
@@ -122,7 +121,9 @@ const formatColumnNameForDisplay = (raw: string | undefined): string => {
     return 'Todo';
   }
   return segments
-    .map((segment) => (segment.toUpperCase() === segment ? segment : segment[0]!.toUpperCase() + segment.slice(1)))
+    .map((segment) =>
+      segment.toUpperCase() === segment ? segment : segment[0]!.toUpperCase() + segment.slice(1),
+    )
     .join(' ');
 };
 
@@ -332,11 +333,15 @@ const handleUpdateStatus: CommandHandler = (args, context) =>
       updated !== undefined
         ? {
             ...updated,
-            status: formatColumnNameForDisplay(typeof updated.status === 'string' ? updated.status : ''),
+            status: formatColumnNameForDisplay(
+              typeof updated.status === 'string' ? updated.status : '',
+            ),
           }
         : undefined;
     const normalizedPreviousStatus =
-      typeof previousStatus === 'string' ? formatColumnNameForDisplay(previousStatus) : previousStatus;
+      typeof previousStatus === 'string'
+        ? formatColumnNameForDisplay(previousStatus)
+        : previousStatus;
     return {
       success: Boolean(updated),
       previousStatus: normalizedPreviousStatus,
@@ -2264,107 +2269,7 @@ const handleEpicStatus: CommandHandler = (args, context) =>
     return { epic, subtasks };
   });
 
-const handleInit: CommandHandler = async (args, _context) => {
-  // Check both args and raw process.argv for --config flag
-  const rawConfigArg = process.argv.find((arg) => arg.startsWith('--config='));
-  const configPath =
-    rawConfigArg?.slice(9) ||
-    args.find((arg) => arg.startsWith('--config='))?.slice(9) ||
-    'promethean.kanban.json';
-  const force = args.includes('--force') || args.includes('-f');
-
-  // Check if config already exists
-  try {
-    await readFile(configPath, 'utf8');
-    if (!force) {
-      debug(`❌ Configuration file "${configPath}" already exists.`);
-      debug('   Use --force to overwrite existing configuration.');
-      return { created: false, reason: 'exists' };
-    }
-  } catch {
-    // File doesn't exist, which is what we want
-  }
-
-  // Simple starter configuration
-  const simpleConfig = {
-    _comment: 'Promethean Kanban Configuration - Simple starter config',
-    _description: 'Basic kanban configuration for new projects. Customize as needed.',
-    _usage: "Use 'kanban regenerate' to create the board from tasks.",
-
-    tasksDir: 'docs/agile/tasks',
-    indexFile: '',
-    boardFile: 'docs/agile/boards/generated.md',
-    cachePath: 'docs/agile/boards/.cache',
-    exts: ['.md'],
-
-    requiredFields: ['title', 'status', 'priority'],
-
-    statusValues: ['incoming', 'ready', 'todo', 'in_progress', 'review', 'done'],
-
-    priorityValues: ['P0', 'P1', 'P2', 'P3'],
-
-    wipLimits: {
-      incoming: 999,
-      ready: 10,
-      todo: 5,
-      in_progress: 3,
-      review: 3,
-      done: 999,
-    },
-
-    _starter_tasks: [
-      {
-        title: 'Set up development environment',
-        status: 'todo',
-        priority: 'P0',
-        content: 'Install dependencies, configure IDE, set up git hooks',
-      },
-      {
-        title: 'Create project documentation',
-        status: 'incoming',
-        priority: 'P1',
-        content: 'Add README, setup instructions, and project overview',
-      },
-      {
-        title: 'Implement core feature',
-        status: 'incoming',
-        priority: 'P2',
-        content: 'Build the main functionality for the project',
-      },
-    ],
-  };
-
-  try {
-    // Ensure directory exists
-    const configDir = path.dirname(configPath);
-    await mkdir(configDir, { recursive: true });
-
-    // Write configuration file
-    await writeFile(configPath, JSON.stringify(simpleConfig, null, 2), 'utf8');
-
-    debug(`✅ Created kanban configuration: ${configPath}`);
-    debug('');
-    debug('📋 Next steps:');
-    debug(`   1. Create tasks directory: mkdir -p ${simpleConfig.tasksDir}`);
-    debug(`   2. Add some task files to ${simpleConfig.tasksDir}/`);
-    debug(`   3. Generate board: kanban regenerate`);
-    debug('');
-    debug('💡 Example task file format:');
-    debug('---');
-    debug('title: "My Task"');
-    debug('status: "todo"');
-    debug('priority: "P1"');
-    debug('---');
-    debug('');
-    debug('Task description goes here...');
-
-    return { created: true, path: configPath };
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    console.error(`❌ Failed to create configuration: ${message}`);
-    return { created: false, reason: message };
-  }
-};
+// handleInit is implemented separately in registerInitCommand in cli.ts
 
 /**
  * Handle heal command for kanban board healing operations
@@ -2576,6 +2481,165 @@ const handleRebuildEventLog = createRebuildEventLogCommand(
   'docs/agile/tasks',
 ).execute;
 
+const handleValidateFrontmatter: CommandHandler = async (args, context) => {
+  const verbose = args.includes('--verbose');
+  const fix = args.includes('--fix');
+
+  debug(`🔍 Validating frontmatter for all task files`);
+  debug(`   Mode: ${fix ? 'FIX' : 'DRY RUN'}`);
+  debug('');
+
+  // Get all task files
+  const files = await readdir(context.tasksDir, { withFileTypes: true });
+  const taskFiles = files
+    .filter((file) => file.isFile() && file.name.endsWith('.md'))
+    .map((file) => path.join(context.tasksDir, file.name));
+  let totalFiles = 0;
+  let validFiles = 0;
+  let invalidFiles = 0;
+  const issues: Array<{ file: string; type: 'error' | 'warning'; message: string }> = [];
+
+  for (const taskFilePath of taskFiles) {
+    totalFiles++;
+    debug(`📄 Checking: ${taskFilePath}`);
+
+    try {
+      // Read raw content to check frontmatter
+      const { readFile } = await import('fs/promises');
+      const rawContent = await readFile(taskFilePath, 'utf8');
+
+      // Check for malformed YAML frontmatter
+      if (rawContent) {
+        const yamlMatch = rawContent.match(/^---\n([\s\S]*?)\n---/);
+        if (yamlMatch && yamlMatch[1]) {
+          try {
+            // Try to parse YAML to detect structural issues
+            const { parseYaml } = await import('../lib/task-content/parser.js');
+            const yamlContent = parseYaml(yamlMatch[1]);
+
+            // Basic validation
+            if (!yamlContent.uuid) {
+              issues.push({
+                file: taskFilePath,
+                type: 'error',
+                message: 'Missing required UUID in frontmatter',
+              });
+            }
+            if (!yamlContent.title) {
+              issues.push({
+                file: taskFilePath,
+                type: 'error',
+                message: 'Missing required title in frontmatter',
+              });
+            }
+            if (!yamlContent.status) {
+              issues.push({
+                file: taskFilePath,
+                type: 'warning',
+                message: 'Missing status in frontmatter',
+              });
+            }
+
+            // Check estimates structure
+            if (yamlContent.estimates && typeof yamlContent.estimates === 'object') {
+              if (
+                yamlContent.estimates.complexity === undefined ||
+                yamlContent.estimates.complexity === null
+              ) {
+                issues.push({
+                  file: taskFilePath,
+                  type: 'error',
+                  message: 'Missing complexity in estimates',
+                });
+              }
+            }
+
+            if (yamlContent.storyPoints === undefined || yamlContent.storyPoints === null) {
+              issues.push({ file: taskFilePath, type: 'error', message: 'Missing storyPoints' });
+            }
+
+            if (!yamlContent.priority || !['P0', 'P1', 'P2', 'P3'].includes(yamlContent.priority)) {
+              issues.push({
+                file: taskFilePath,
+                type: 'error',
+                message: 'Invalid or missing priority',
+              });
+            }
+
+            if (issues.filter((i) => i.file === taskFilePath).length === 0) {
+              validFiles++;
+            } else {
+              invalidFiles++;
+            }
+          } catch (yamlError) {
+            invalidFiles++;
+            const errorMessage = yamlError instanceof Error ? yamlError.message : String(yamlError);
+            let detailedMessage = `YAML parsing error: ${errorMessage}`;
+
+            // Add helpful context for common YAML errors
+            if (errorMessage.includes('indentation') || errorMessage.includes('indent')) {
+              detailedMessage += ' (check YAML indentation - YAML is sensitive to spaces and tabs)';
+            } else if (errorMessage.includes('mapping') || errorMessage.includes('key')) {
+              detailedMessage += ' (check for missing colons or malformed key-value pairs)';
+            } else if (errorMessage.includes('sequence') || errorMessage.includes('block')) {
+              detailedMessage += ' (check array/list formatting with dashes)';
+            } else if (errorMessage.includes('duplicate key')) {
+              detailedMessage += ' (remove duplicate keys in frontmatter)';
+            }
+
+            issues.push({ file: taskFilePath, type: 'error', message: detailedMessage });
+          }
+        } else {
+          issues.push({
+            file: taskFilePath,
+            type: 'warning',
+            message: 'No frontmatter found (missing --- delimiters)',
+          });
+          invalidFiles++;
+        }
+      }
+    } catch (error) {
+      invalidFiles++;
+      issues.push({ file: taskFilePath, type: 'error', message: `Failed to read file: ${error}` });
+    }
+  }
+
+  // Output results
+  const errorCount = issues.filter((i) => i.type === 'error').length;
+  const warningCount = issues.filter((i) => i.type === 'warning').length;
+
+  debug(`📊 FRONTMATTER VALIDATION RESULTS:`);
+  debug(`   Total files: ${totalFiles}`);
+  debug(`   Valid files: ${validFiles}`);
+  debug(`   Invalid files: ${invalidFiles}`);
+  debug(`   Errors: ${errorCount}`);
+  debug(`   Warnings: ${warningCount}`);
+  debug('');
+
+  if (verbose || errorCount > 0 || warningCount > 0) {
+    for (const issue of issues) {
+      const icon = issue.type === 'error' ? '❌' : '⚠️';
+      debug(`${icon} ${issue.file}: ${issue.message}`);
+    }
+    debug('');
+  }
+
+  if (errorCount === 0) {
+    debug('✅ All task files have valid frontmatter!');
+  } else {
+    debug('❌ Some task files have frontmatter issues that need to be fixed.');
+    if (!fix) {
+      debug('   Run with --fix to attempt automatic corrections (not yet implemented)');
+    }
+  }
+
+  return {
+    success: errorCount === 0,
+    message: `Validated ${totalFiles} task files: ${validFiles} valid, ${invalidFiles} invalid`,
+    data: { totalFiles, validFiles, invalidFiles, errorCount, warningCount, issues },
+  };
+};
+
 const handleAuditTask: CommandHandler = async (args, context) => {
   if (args.length === 0) {
     throw new CommandUsageError('audit-task requires a task UUID');
@@ -2667,7 +2731,21 @@ const handleAuditTask: CommandHandler = async (args, context) => {
             issues.push({ type: 'error', message: 'Invalid or missing priority' });
           }
         } catch (yamlError) {
-          issues.push({ type: 'error', message: `YAML parsing error: ${yamlError}` });
+          const errorMessage = yamlError instanceof Error ? yamlError.message : String(yamlError);
+          let detailedMessage = `YAML parsing error: ${errorMessage}`;
+
+          // Add helpful context for common YAML errors
+          if (errorMessage.includes('indentation') || errorMessage.includes('indent')) {
+            detailedMessage += ' (check YAML indentation - YAML is sensitive to spaces and tabs)';
+          } else if (errorMessage.includes('mapping') || errorMessage.includes('key')) {
+            detailedMessage += ' (check for missing colons or malformed key-value pairs)';
+          } else if (errorMessage.includes('sequence') || errorMessage.includes('block')) {
+            detailedMessage += ' (check array/list formatting with dashes)';
+          } else if (errorMessage.includes('duplicate key')) {
+            detailedMessage += ' (remove duplicate keys in frontmatter)';
+          }
+
+          issues.push({ type: 'error', message: detailedMessage });
         }
       }
     }
@@ -2763,12 +2841,12 @@ export const COMMAND_HANDLERS: Readonly<Record<string, CommandHandler>> = Object
   'remove-task': handleRemoveTask,
   'list-epics': handleListEpics,
   'epic-status': handleEpicStatus,
-  // Setup commands
-  init: handleInit,
+  // Setup commands (init is handled separately in registerInitCommand)
   // Event log commands
   'rebuild-event-log': handleRebuildEventLog,
   // Task audit commands
   'audit-task': handleAuditTask,
+  'validate-frontmatter': handleValidateFrontmatter,
 });
 
 export const AVAILABLE_COMMANDS: ReadonlyArray<string> = Object.freeze(

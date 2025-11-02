@@ -134,6 +134,9 @@ export const createTransitionRulesEngineState = (
   };
 };
 
+const escapeForClojureString = (value: string): string =>
+  value.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+
 // Initialize rules engine and check if Clojure DSL is available
 export const initializeTransitionRulesEngine = async (
   state: TransitionRulesEngineState,
@@ -184,6 +187,9 @@ export const validateTransition = async (
 
   const violations: string[] = [];
   const suggestions: string[] = [];
+  let pendingUndefinedTransitionViolation: string | null = null;
+  let pendingUndefinedTransitionSuggestion: string | null = null;
+  let shouldApplyPendingUndefinedTransition = false;
 
   // Normalize column names
   const fromNormalized = normalizeColumnName(from);
@@ -196,17 +202,22 @@ export const validateTransition = async (
     if (isBackwardTransition(fromNormalized, toNormalized)) {
       debug(`✅ Backward transition allowed: ${fromNormalized} → ${toNormalized}`);
     } else {
-      // If DSL is available, we'll let the DSL decide if the transition is valid
-      // This allows the DSL to be the sole authority on transition rules
-      if (!state.dslAvailable) {
-        violations.push(
-          `Invalid transition: ${fromNormalized} → ${toNormalized} is not a defined transition`,
-        );
+      shouldApplyPendingUndefinedTransition = true;
+      pendingUndefinedTransitionViolation = `Invalid transition: ${fromNormalized} → ${toNormalized} is not a defined transition`;
 
-        const validTargets = getValidTransitions(state.config, fromNormalized);
-        if (validTargets.length > 0) {
-          suggestions.push(`Valid transitions from ${fromNormalized}: ${validTargets.join(', ')}`);
+      const validTargets = getValidTransitions(state.config, fromNormalized);
+      if (validTargets.length > 0) {
+        pendingUndefinedTransitionSuggestion = `Valid transitions from ${fromNormalized}: ${validTargets.join(', ')}`;
+      }
+
+      if (!state.dslAvailable) {
+        if (pendingUndefinedTransitionViolation) {
+          violations.push(pendingUndefinedTransitionViolation);
         }
+        if (pendingUndefinedTransitionSuggestion) {
+          suggestions.push(pendingUndefinedTransitionSuggestion);
+        }
+        shouldApplyPendingUndefinedTransition = false;
       }
     }
   }
@@ -261,24 +272,55 @@ export const validateTransition = async (
 
   // Check 5: Evaluate Clojure DSL's evaluate-transition function
   if (state.dslAvailable) {
-    try {
-      const dslResult = await evaluateCustomRule(
-        state,
-        `(evaluate-transition "${fromNormalized}" "${toNormalized}" task board)`,
-        [],
-        task,
-        board,
-      );
-      if (!dslResult) {
+    const dslAttempts: Array<{ fromValue: string; toValue: string; label: string }> = [
+      { fromValue: from, toValue: to, label: 'original' },
+    ];
+
+    if (from !== fromNormalized || to !== toNormalized) {
+      dslAttempts.push({
+        fromValue: fromNormalized,
+        toValue: toNormalized,
+        label: 'normalized',
+      });
+    }
+
+    let dslAllowed = false;
+    let lastDslError: unknown;
+
+    for (const attempt of dslAttempts) {
+      try {
+        const expression = `(evaluate-transition "${escapeForClojureString(attempt.fromValue)}" "${escapeForClojureString(attempt.toValue)}" task board)`;
+        const attemptResult = await evaluateCustomRule(state, expression, [], task, board);
+        if (attemptResult) {
+          dslAllowed = true;
+          break;
+        }
+      } catch (error) {
+        lastDslError = error;
+        warn(
+          `Failed to evaluate Clojure DSL transition using ${attempt.label} column names:`,
+          error,
+        );
+      }
+    }
+
+    if (!dslAllowed) {
+      if (shouldApplyPendingUndefinedTransition && pendingUndefinedTransitionViolation) {
+        violations.push(pendingUndefinedTransitionViolation);
+        if (pendingUndefinedTransitionSuggestion) {
+          suggestions.push(pendingUndefinedTransitionSuggestion);
+        }
+      }
+
+      if (lastDslError) {
+        violations.push(
+          `Clojure DSL evaluation failed: ${lastDslError instanceof Error ? lastDslError.message : 'Unknown error'}`,
+        );
+      } else {
         violations.push(
           `Clojure DSL evaluation: transition ${fromNormalized} → ${toNormalized} is not allowed`,
         );
       }
-    } catch (error) {
-      warn(`Failed to evaluate Clojure DSL transition:`, error);
-      violations.push(
-        `Clojure DSL evaluation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
-      );
     }
   }
 
@@ -633,11 +675,10 @@ export const evaluateCustomRule = async (
       if (result.evaluationError) {
         throw new Error(`Evaluation failed: ${result.evaluationError}`);
       }
-      throw new Error('Safe evaluation failed for unknown reasons');
+      return false;
     }
 
-    // Return the actual evaluation result, not hardcoded true
-    return result.success;
+    return true;
   } catch (evalError) {
     error('Failed to evaluate Clojure rule safely:', evalError);
     throw new Error(

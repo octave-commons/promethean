@@ -90,7 +90,7 @@ const createBaseTask = (
 ): Task => ({
   uuid,
   title,
-  status: column.name,
+  status: column.name || 'incoming', // Default to 'incoming' if no column specified
   priority: input.priority,
   labels: input.labels && input.labels.length > 0 ? [...input.labels] : undefined,
   created_at: input.created_at ?? NOW_ISO(),

@@ -1,3 +1,17 @@
+---
+uuid: "a6a2a26b-6b63-4020-afcc-eb817155779e"
+title: "Plugin Parity 012 Code Cleanup"
+slug: "remove-hardcoded-paths-from-test-gap-pipeline"
+status: "incoming"
+priority: "P2"
+labels: ["task"]
+created_at: "2025-10-23T00:00:00.000Z"
+estimates:
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
+---
+
 ```
 uuid: 289210ba-0f7e-471f-88f1-703528a116ea
 ```
