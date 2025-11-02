@@ -327,7 +327,9 @@ kanban-plugin: board
 - [ ] [[fix-jwt-security-issues-pantheon|Fix JWT Security Issues in Pantheon Packages]] #pantheon #security #jwt #authentication #critical prio:P0 (uuid:jwt-security-pantheon-001)
 - [ ] [[merge-session-messaging-systems|Merge Session and Messaging Systems]] #sessions #messaging #consolidation #communication #epic3 prio:P0 (uuid:bc67bd50-c96c-4eba-8832-fa459caa864c)
 - [ ] [[standardize-configuration-validation-pantheon|Standardize Configuration Validation Across Pantheon Packages]] #pantheon #configuration #validation #standardization #quality prio:P1 (uuid:config-validation-pantheon-001)
+- [ ] [[Implement P0 Security Task Validation Gate]] #security-gates #automation #p0-validation #kanban-cli #process-compliance prio:P0 (uuid:dfa8c193-b745-41db-b360-b5fbf1d40f22)
 - [ ] [[Secure BuildFix command execution]] #buildfix #security #high #provider prio:P1 (uuid:6dae395f-31aa-42c7-b9c8-2dc1d750ddc9)
+- [ ] [[P0-Security-Task-Validation-Gate|Implement P0 Security Task Validation Gate]] #security #validation #gate #P0 #critical #tool:security-validator #env:production prio:P0 (uuid:2cd46676-ae6f-4c8d-9b3a-4c5d6e7f8a9b)
 
 
 ## blocked
@@ -344,8 +346,6 @@ kanban-plugin: board
 - [ ] [[MCP-Kanban Integration Healing & Enhancement]] #mcp #kanban #security #critical #healing #authorization #automation #integration prio:P0 (uuid:44d293b0-6d6b-4e85-8453-ea03be231c83)
 - [ ] [[fix-taskai-manager-environment-pollution|Fix TaskAIManager Environment Variable Pollution - Security Issue]] #critical #security #bugfix #ai-integration #environment prio:P0 (uuid:4c8575db-873a-4b28-839d-ac0ea609a8be)
 - [ ] [[Parallel Security Testing Pipeline]] #security #testing #critical #parallel #pipeline prio:P0 (uuid:40e07691-40bb-45c1-9eb8-aedc9433e9cc)
-- [ ] [[P0-Security-Task-Validation-Gate|Implement P0 Security Task Validation Gate]] #security #validation #gate #P0 #critical #tool:security-validator #env:production prio:P0 (uuid:2cd46676-ae6f-4c8d-9b3a-4c5d6e7f8a9b)
-- [ ] [[Implement P0 Security Task Validation Gate]] #security-gates #automation #p0-validation #kanban-cli #process-compliance prio:P0 (uuid:dfa8c193-b745-41db-b360-b5fbf1d40f22)
 - [ ] [[011f7e11-fix-pnpm-kanban-create-hanging-bug|Fix recurring pnpm kanban create hanging bug]] #bugfix #critical #kanban #hanging #file-io #git-tracking #duplicate-detection prio:P0 (uuid:011f7e11-b408-4651-92e1-33216ea80b89)
 - [ ] [[Kanban System Health Monitoring & Alerting Framework]] #kanban #health-monitoring #automation #alerting #framework #mcp-integration #healing prio:P1 (uuid:3308ce11-0321-4bc2-a4be-bdf5e5e8701a)
 - [ ] [[design-unified-api-architecture-2|Design Unified API Architecture and Standards]] #api #architecture #design #standards #versioning prio:P1 (uuid:448a4bac-0000-0000-0000-000000000000)
