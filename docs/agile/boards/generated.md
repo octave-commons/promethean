@@ -271,6 +271,7 @@ kanban-plugin: board
 - [ ] smart brancher
 - [ ] reclaim the board
 - [ ] Some tasks in the generated board have unresolvable links
+- [ ] Ensure the kanban tool handles human board file edits correctly
 
 
 ## accepted
