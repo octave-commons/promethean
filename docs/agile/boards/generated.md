@@ -267,6 +267,7 @@ kanban-plugin: board
 - [ ] [[test-malformed-yaml-detection|"Test Malformed YAML Detection"]] #test #validation prio:"P1" (uuid:"test-malformed-yaml-001")
 - [ ] [[unify-cli-tool-interfaces|Unify CLI and Tool Interfaces]] #cli #tools #interfaces #unification #epic3 prio:P1 (uuid:f3c311a0-de6a-44ba-90ac-ad8ab96f4699)
 - [ ] promethean git client
+- [ ] Some task duplication appears to be occuring.
 
 
 ## accepted
