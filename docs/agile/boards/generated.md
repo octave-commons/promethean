@@ -269,6 +269,7 @@ kanban-plugin: board
 - [ ] promethean git client
 - [ ] Some task duplication appears to be occuring.
 - [ ] smart brancher
+- [ ] reclaim the board
 
 
 ## accepted
