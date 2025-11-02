@@ -25,7 +25,7 @@ const options = {
 };
 
 const showUsage = (code = 0): never => {
-  console.log(`Usage: pnpm --filter @promethean/mcp proxy [options]
+  console.log(`Usage: pnpm --filter @promethean-os/mcp proxy [options]
 
 Options:
   -c, --config <path>   Path to mcp_servers.edn (default: ${DEFAULT_CONFIG})

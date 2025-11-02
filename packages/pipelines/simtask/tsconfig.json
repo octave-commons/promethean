@@ -1,11 +1,14 @@
 {
-    "extends": "../../config/tsconfig.base.json",
-    "compilerOptions": {
-        "rootDir": "src",
-        "outDir": "dist",
-        "composite": true,
-        "declaration": true
-    },
-    "include": ["src/**/*"],
-    "references": []
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "composite": true,
+    "declaration": true,
+    "target": "es2022",
+    "module": "NodeNext",
+    "esModuleInterop": true
+  },
+  "include": ["src/**/*"],
+  "references": []
 }

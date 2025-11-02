@@ -1,22 +1,23 @@
 ---
-uuid: "bc67bd50-c96c-4eba-8832-fa459caa864c"
-title: "Merge Session and Messaging Systems"
-slug: "merge-session-messaging-systems"
-status: "breakdown"
-priority: "P0"
-labels: ["sessions", "messaging", "consolidation", "communication", "epic3"]
-created_at: "2025-10-18T00:00:00.000Z"
+uuid: 'bc67bd50-c96c-4eba-8832-fa459caa864c'
+title: 'Merge Session and Messaging Systems'
+slug: 'merge-session-messaging-systems'
+status: 'breakdown'
+priority: 'P0'
+labels: ['sessions', 'messaging', 'consolidation', 'communication', 'epic3']
+created_at: '2025-10-18T00:00:00.000Z'
 estimates:
-  complexity: ""
-  scale: ""
-  time_to_completion: ""
+  complexity: '8'
+  scale: 'large'
+  time_to_completion: '4 sessions'
+storyPoints: 8
 ---
 
 ## 💬 Merge Session and Messaging Systems
 
 ### 📋 Description
 
-Merge the session and messaging systems from `@promethean/opencode-client` into a unified communication layer within the consolidated package. This involves consolidating session storage, message processing pipelines, event handling, and cache integration into a coherent, scalable system.
+Merge the session and messaging systems from `@promethean-os/opencode-client` into a unified communication layer within the consolidated package. This involves consolidating session storage, message processing pipelines, event handling, and cache integration into a coherent, scalable system.
 
 ### 🎯 Goals
 
@@ -122,7 +123,7 @@ src/typescript/client/communication/
 
 ### 📁 Files/Components to Migrate
 
-#### From `@promethean/opencode-client`:
+#### From `@promethean-os/opencode-client`:
 
 1. **Session System**
 

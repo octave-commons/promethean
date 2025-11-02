@@ -13,7 +13,7 @@
 - **UPPER_SNAKE_CASE** for environment variables and constants
 
 ## Import Patterns
-- **Workspace dependencies** using `@promethean/*` with `workspace:*` in package.json
+- **Workspace dependencies** using `@promethean-os/*` with `workspace:*` in package.json
 - **Explicit file extensions** (.js) required for ESM
 - **Path aliases** configured in tsconfig.json for cleaner imports
 

@@ -4,9 +4,9 @@ import {
 
 import matter from "gray-matter";
 import {
-  // syntax error openLevelCache } from "@promethean/level-cache";
+  // syntax error openLevelCache } from "@promethean-os/level-cache";
 import {
-  // syntax error parseArgs, writeText, readMaybe } from "@promethean/utils";
+  // syntax error parseArgs, writeText, readMaybe } from "@promethean-os/utils";
 
 import type {
   // syntax error ScanOut, OutlinesFile, Outline } from "./types.js";

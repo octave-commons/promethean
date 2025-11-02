@@ -1,4 +1,6 @@
 import { execa } from 'execa';
+import { readdir, readFile } from 'fs/promises';
+import { join, resolve } from 'path';
 
 export async function gitRoot(cwd: string): Promise<string> {
   const { stdout } = await execa('git', ['rev-parse', '--show-toplevel'], { cwd });
@@ -69,6 +71,21 @@ export async function repoSummary(cwd: string): Promise<string> {
  * @param signoff - Whether to add signoff flag
  * @throws Error if message is invalid after sanitization
  */
+export const GIT_EMPTY_WORKING_TREE_PATTERNS = [
+  'nothing to commit, working tree clean',
+  'nothing added to commit but untracked files present',
+  'nothing to commit',
+] as const;
+
+export function isEmptyWorkingTreeError(error: unknown): boolean {
+  return (
+    error instanceof Error &&
+    GIT_EMPTY_WORKING_TREE_PATTERNS.some((pattern) =>
+      error.message.toLowerCase().includes(pattern.toLowerCase()),
+    )
+  );
+}
+
 export async function commit(cwd: string, message: string, signoff = false): Promise<void> {
   // Sanitize message to prevent command injection
   const sanitizedMessage = sanitizeCommitMessage(message);
@@ -78,7 +95,16 @@ export async function commit(cwd: string, message: string, signoff = false): Pro
 
   const args = ['commit', '-m', sanitizedMessage];
   if (signoff) args.push('--signoff');
-  await execa('git', args, { cwd });
+
+  try {
+    await execa('git', args, { cwd });
+  } catch (error: unknown) {
+    // Re-throw with more context for common git errors
+    if (isEmptyWorkingTreeError(error)) {
+      throw new Error(`nothing to commit, working tree clean`);
+    }
+    throw error;
+  }
 }
 
 /**
@@ -93,7 +119,7 @@ export function sanitizeCommitMessage(message: string): string {
   }
 
   // Remove control characters (except newline and tab) and trim
-  let sanitized = message
+  const sanitized = message
     .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '') // Remove control chars except \t \n
     .trim();
 
@@ -109,10 +135,118 @@ export function sanitizeCommitMessage(message: string): string {
   const limitedLines = lines.slice(0, 50);
 
   // Also limit total length to prevent issues
-  sanitized = limitedLines.join('\n');
-  if (sanitized.length > 2000) {
-    sanitized = sanitized.substring(0, 2000);
+  const finalSanitized = limitedLines.join('\n');
+  return finalSanitized.length > 2000 ? finalSanitized.substring(0, 2000) : finalSanitized;
+}
+
+/**
+ * Checks if a directory contains a git subrepo (.gitrepo file).
+ * @param cwd - Directory path to check
+ * @returns True if directory is a subrepo
+ */
+export async function hasSubrepo(cwd: string): Promise<boolean> {
+  try {
+    const gitrepoPath = join(cwd, '.gitrepo');
+    await readFile(gitrepoPath, 'utf8');
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Determines if a directory is a subrepo (contains .gitrepo file).
+ * @param cwd - Directory path to check
+ * @returns True if directory is a subrepo
+ */
+export async function isSubrepoDir(cwd: string): Promise<boolean> {
+  return hasSubrepo(cwd);
+}
+
+/**
+ * Finds all git subrepos recursively within a directory.
+ * @param rootPath - Root directory to search for git subrepos
+ * @returns Array of absolute paths to subrepo directories
+ */
+export async function findSubrepos(rootPath: string): Promise<string[]> {
+  const subrepos: string[] = [];
+  const root = resolve(rootPath);
+
+  async function scanDirectory(dir: string): Promise<void> {
+    try {
+      const entries = await readdir(dir, { withFileTypes: true });
+
+      for (const entry of entries) {
+        const fullPath = join(dir, entry.name);
+
+        if (entry.isDirectory()) {
+          // Check if this directory contains a .gitrepo file
+          if (await hasSubrepo(fullPath)) {
+            subrepos.push(fullPath);
+            continue; // Don't scan inside subrepo directories
+          }
+
+          // Skip common non-repository directories for performance
+          if (entry.name === 'node_modules' || entry.name === 'dist' || entry.name === '.git') {
+            continue;
+          }
+
+          // Recursively scan subdirectories
+          await scanDirectory(fullPath);
+        }
+      }
+    } catch {
+      // Ignore directories we can't read
+    }
   }
 
-  return sanitized;
+  await scanDirectory(root);
+  return subrepos;
+}
+
+/**
+ * Finds all git repositories and subrepos recursively within a directory.
+ * @param rootPath - Root directory to search for git repositories and subrepos
+ * @returns Array of absolute paths to git repository roots and subrepo directories
+ */
+export async function findGitRepositories(rootPath: string): Promise<string[]> {
+  const repositories: string[] = [];
+  const root = resolve(rootPath);
+
+  async function scanDirectory(dir: string): Promise<void> {
+    try {
+      const entries = await readdir(dir, { withFileTypes: true });
+
+      for (const entry of entries) {
+        const fullPath = join(dir, entry.name);
+
+        if (entry.isDirectory()) {
+          // Check if this is a git repository
+          if (entry.name === '.git') {
+            repositories.push(dir);
+            continue; // Don't scan inside .git directories
+          }
+
+          // Check if this directory contains a .gitrepo file (subrepo)
+          if (await hasSubrepo(fullPath)) {
+            repositories.push(fullPath);
+            continue; // Don't scan inside subrepo directories
+          }
+
+          // Skip common non-repository directories for performance
+          if (entry.name === 'node_modules' || entry.name === 'dist' || entry.name === '.git') {
+            continue;
+          }
+
+          // Recursively scan subdirectories
+          await scanDirectory(fullPath);
+        }
+      }
+    } catch {
+      // Ignore directories we can't read
+    }
+  }
+
+  await scanDirectory(root);
+  return repositories;
 }

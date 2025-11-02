@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/apply-patch",
+  "name": "@promethean-os/apply-patch",
   "version": "0.0.1",
   "private": true,
   "type": "module",

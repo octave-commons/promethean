@@ -1,0 +1,973 @@
+{
+  "packageData": {
+    "packageName": "prompt-optimization",
+    "files": [
+      {
+        "path": "ab-testing.ts",
+        "fullPath": "/home/err/devel/promethean/packages/prompt-optimization/src/ab-testing.ts",
+        "exports": [
+          {
+            "name": "TestConfig",
+            "line": 8,
+            "type": "interface"
+          },
+          {
+            "name": "ControlGroup",
+            "line": 19,
+            "type": "interface"
+          },
+          {
+            "name": "TestGroup",
+            "line": 25,
+            "type": "interface"
+          },
+          {
+            "name": "SuccessCriteria",
+            "line": 33,
+            "type": "interface"
+          },
+          {
+            "name": "PerformanceMetrics",
+            "line": 40,
+            "type": "interface"
+          },
+          {
+            "name": "TestResult",
+            "line": 48,
+            "type": "interface"
+          },
+          {
+            "name": "TestStatistics",
+            "line": 63,
+            "type": "interface"
+          },
+          {
+            "name": "ABTestComparison",
+            "line": 75,
+            "type": "interface"
+          },
+          {
+            "name": "ABTestingFramework",
+            "line": 92,
+            "type": "class"
+          },
+          {
+            "name": "abTesting",
+            "line": 738,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "ABTestingFramework",
+            "line": 92,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "abTesting",
+            "line": 738,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "TestConfig",
+            "line": 8,
+            "type": "interface"
+          },
+          {
+            "name": "ControlGroup",
+            "line": 19,
+            "type": "interface"
+          },
+          {
+            "name": "TestGroup",
+            "line": 25,
+            "type": "interface"
+          },
+          {
+            "name": "SuccessCriteria",
+            "line": 33,
+            "type": "interface"
+          },
+          {
+            "name": "PerformanceMetrics",
+            "line": 40,
+            "type": "interface"
+          },
+          {
+            "name": "TestResult",
+            "line": 48,
+            "type": "interface"
+          },
+          {
+            "name": "TestStatistics",
+            "line": 63,
+            "type": "interface"
+          },
+          {
+            "name": "ABTestComparison",
+            "line": 75,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 739
+      },
+      {
+        "path": "adaptive-routing.ts",
+        "fullPath": "/home/err/devel/promethean/packages/prompt-optimization/src/adaptive-routing.ts",
+        "exports": [
+          {
+            "name": "ComplexityAnalysis",
+            "line": 6,
+            "type": "interface"
+          },
+          {
+            "name": "TemplateConfig",
+            "line": 13,
+            "type": "interface"
+          },
+          {
+            "name": "RoutingResult",
+            "line": 21,
+            "type": "interface"
+          },
+          {
+            "name": "AdaptiveRoutingSystem",
+            "line": 370,
+            "type": "class"
+          },
+          {
+            "name": "adaptiveRouting",
+            "line": 697,
+            "type": "function"
+          },
+          {
+            "name": "selectOptimalTemplate",
+            "line": 702,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "AdaptiveRoutingSystem",
+            "line": 370,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "adaptiveRouting",
+            "line": 697,
+            "type": "function"
+          },
+          {
+            "name": "selectOptimalTemplate",
+            "line": 702,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "ComplexityAnalysis",
+            "line": 6,
+            "type": "interface"
+          },
+          {
+            "name": "TemplateConfig",
+            "line": 13,
+            "type": "interface"
+          },
+          {
+            "name": "RoutingResult",
+            "line": 21,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 713
+      },
+      {
+        "path": "deploy.ts",
+        "fullPath": "/home/err/devel/promethean/packages/prompt-optimization/src/deploy.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 151
+      },
+      {
+        "path": "deployment-manager.ts",
+        "fullPath": "/home/err/devel/promethean/packages/prompt-optimization/src/deployment-manager.ts",
+        "exports": [
+          {
+            "name": "DeploymentConfig",
+            "line": 10,
+            "type": "interface"
+          },
+          {
+            "name": "DeploymentMetrics",
+            "line": 18,
+            "type": "interface"
+          },
+          {
+            "name": "DeploymentStatus",
+            "line": 31,
+            "type": "interface"
+          },
+          {
+            "name": "deploymentManager",
+            "line": 563,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "DeploymentManager",
+            "line": 40,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "deploymentManager",
+            "line": 563,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "DeploymentConfig",
+            "line": 10,
+            "type": "interface"
+          },
+          {
+            "name": "DeploymentMetrics",
+            "line": 18,
+            "type": "interface"
+          },
+          {
+            "name": "DeploymentStatus",
+            "line": 31,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 564
+      },
+      {
+        "path": "monitoring-dashboard.ts",
+        "fullPath": "/home/err/devel/promethean/packages/prompt-optimization/src/monitoring-dashboard.ts",
+        "exports": [
+          {
+            "name": "DashboardMetrics",
+            "line": 9,
+            "type": "interface"
+          },
+          {
+            "name": "OverallMetrics",
+            "line": 19,
+            "type": "interface"
+          },
+          {
+            "name": "TemplateMetrics",
+            "line": 28,
+            "type": "interface"
+          },
+          {
+            "name": "RoutingMetrics",
+            "line": 40,
+            "type": "interface"
+          },
+          {
+            "name": "PerformanceMetrics",
+            "line": 48,
+            "type": "interface"
+          },
+          {
+            "name": "Alert",
+            "line": 60,
+            "type": "interface"
+          },
+          {
+            "name": "TrendMetrics",
+            "line": 72,
+            "type": "interface"
+          },
+          {
+            "name": "TrendPoint",
+            "line": 80,
+            "type": "interface"
+          },
+          {
+            "name": "MonitoringDashboard",
+            "line": 89,
+            "type": "class"
+          },
+          {
+            "name": "monitoringDashboard",
+            "line": 749,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "MonitoringDashboard",
+            "line": 89,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "monitoringDashboard",
+            "line": 749,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "DashboardMetrics",
+            "line": 9,
+            "type": "interface"
+          },
+          {
+            "name": "OverallMetrics",
+            "line": 19,
+            "type": "interface"
+          },
+          {
+            "name": "TemplateMetrics",
+            "line": 28,
+            "type": "interface"
+          },
+          {
+            "name": "RoutingMetrics",
+            "line": 40,
+            "type": "interface"
+          },
+          {
+            "name": "PerformanceMetrics",
+            "line": 48,
+            "type": "interface"
+          },
+          {
+            "name": "Alert",
+            "line": 60,
+            "type": "interface"
+          },
+          {
+            "name": "TrendMetrics",
+            "line": 72,
+            "type": "interface"
+          },
+          {
+            "name": "TrendPoint",
+            "line": 80,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 750
+      }
+    ],
+    "mainEntry": null,
+    "exports": [
+      {
+        "name": "TestConfig",
+        "line": 8,
+        "type": "interface",
+        "file": "ab-testing.ts"
+      },
+      {
+        "name": "ControlGroup",
+        "line": 19,
+        "type": "interface",
+        "file": "ab-testing.ts"
+      },
+      {
+        "name": "TestGroup",
+        "line": 25,
+        "type": "interface",
+        "file": "ab-testing.ts"
+      },
+      {
+        "name": "SuccessCriteria",
+        "line": 33,
+        "type": "interface",
+        "file": "ab-testing.ts"
+      },
+      {
+        "name": "PerformanceMetrics",
+        "line": 40,
+        "type": "interface",
+        "file": "ab-testing.ts"
+      },
+      {
+        "name": "TestResult",
+        "line": 48,
+        "type": "interface",
+        "file": "ab-testing.ts"
+      },
+      {
+        "name": "TestStatistics",
+        "line": 63,
+        "type": "interface",
+        "file": "ab-testing.ts"
+      },
+      {
+        "name": "ABTestComparison",
+        "line": 75,
+        "type": "interface",
+        "file": "ab-testing.ts"
+      },
+      {
+        "name": "ABTestingFramework",
+        "line": 92,
+        "type": "class",
+        "file": "ab-testing.ts"
+      },
+      {
+        "name": "abTesting",
+        "line": 738,
+        "type": "function",
+        "file": "ab-testing.ts"
+      },
+      {
+        "name": "ComplexityAnalysis",
+        "line": 6,
+        "type": "interface",
+        "file": "adaptive-routing.ts"
+      },
+      {
+        "name": "TemplateConfig",
+        "line": 13,
+        "type": "interface",
+        "file": "adaptive-routing.ts"
+      },
+      {
+        "name": "RoutingResult",
+        "line": 21,
+        "type": "interface",
+        "file": "adaptive-routing.ts"
+      },
+      {
+        "name": "AdaptiveRoutingSystem",
+        "line": 370,
+        "type": "class",
+        "file": "adaptive-routing.ts"
+      },
+      {
+        "name": "adaptiveRouting",
+        "line": 697,
+        "type": "function",
+        "file": "adaptive-routing.ts"
+      },
+      {
+        "name": "selectOptimalTemplate",
+        "line": 702,
+        "type": "function",
+        "file": "adaptive-routing.ts"
+      },
+      {
+        "name": "DeploymentConfig",
+        "line": 10,
+        "type": "interface",
+        "file": "deployment-manager.ts"
+      },
+      {
+        "name": "DeploymentMetrics",
+        "line": 18,
+        "type": "interface",
+        "file": "deployment-manager.ts"
+      },
+      {
+        "name": "DeploymentStatus",
+        "line": 31,
+        "type": "interface",
+        "file": "deployment-manager.ts"
+      },
+      {
+        "name": "deploymentManager",
+        "line": 563,
+        "type": "function",
+        "file": "deployment-manager.ts"
+      },
+      {
+        "name": "DashboardMetrics",
+        "line": 9,
+        "type": "interface",
+        "file": "monitoring-dashboard.ts"
+      },
+      {
+        "name": "OverallMetrics",
+        "line": 19,
+        "type": "interface",
+        "file": "monitoring-dashboard.ts"
+      },
+      {
+        "name": "TemplateMetrics",
+        "line": 28,
+        "type": "interface",
+        "file": "monitoring-dashboard.ts"
+      },
+      {
+        "name": "RoutingMetrics",
+        "line": 40,
+        "type": "interface",
+        "file": "monitoring-dashboard.ts"
+      },
+      {
+        "name": "PerformanceMetrics",
+        "line": 48,
+        "type": "interface",
+        "file": "monitoring-dashboard.ts"
+      },
+      {
+        "name": "Alert",
+        "line": 60,
+        "type": "interface",
+        "file": "monitoring-dashboard.ts"
+      },
+      {
+        "name": "TrendMetrics",
+        "line": 72,
+        "type": "interface",
+        "file": "monitoring-dashboard.ts"
+      },
+      {
+        "name": "TrendPoint",
+        "line": 80,
+        "type": "interface",
+        "file": "monitoring-dashboard.ts"
+      },
+      {
+        "name": "MonitoringDashboard",
+        "line": 89,
+        "type": "class",
+        "file": "monitoring-dashboard.ts"
+      },
+      {
+        "name": "monitoringDashboard",
+        "line": 749,
+        "type": "function",
+        "file": "monitoring-dashboard.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "ABTestingFramework",
+        "line": 92,
+        "type": "class",
+        "file": "ab-testing.ts"
+      },
+      {
+        "name": "AdaptiveRoutingSystem",
+        "line": 370,
+        "type": "class",
+        "file": "adaptive-routing.ts"
+      },
+      {
+        "name": "DeploymentManager",
+        "line": 40,
+        "type": "class",
+        "file": "deployment-manager.ts"
+      },
+      {
+        "name": "MonitoringDashboard",
+        "line": 89,
+        "type": "class",
+        "file": "monitoring-dashboard.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "abTesting",
+        "line": 738,
+        "type": "function",
+        "file": "ab-testing.ts"
+      },
+      {
+        "name": "adaptiveRouting",
+        "line": 697,
+        "type": "function",
+        "file": "adaptive-routing.ts"
+      },
+      {
+        "name": "selectOptimalTemplate",
+        "line": 702,
+        "type": "function",
+        "file": "adaptive-routing.ts"
+      },
+      {
+        "name": "deploymentManager",
+        "line": 563,
+        "type": "function",
+        "file": "deployment-manager.ts"
+      },
+      {
+        "name": "monitoringDashboard",
+        "line": 749,
+        "type": "function",
+        "file": "monitoring-dashboard.ts"
+      }
+    ],
+    "interfaces": [
+      {
+        "name": "TestConfig",
+        "line": 8,
+        "type": "interface",
+        "file": "ab-testing.ts"
+      },
+      {
+        "name": "ControlGroup",
+        "line": 19,
+        "type": "interface",
+        "file": "ab-testing.ts"
+      },
+      {
+        "name": "TestGroup",
+        "line": 25,
+        "type": "interface",
+        "file": "ab-testing.ts"
+      },
+      {
+        "name": "SuccessCriteria",
+        "line": 33,
+        "type": "interface",
+        "file": "ab-testing.ts"
+      },
+      {
+        "name": "PerformanceMetrics",
+        "line": 40,
+        "type": "interface",
+        "file": "ab-testing.ts"
+      },
+      {
+        "name": "TestResult",
+        "line": 48,
+        "type": "interface",
+        "file": "ab-testing.ts"
+      },
+      {
+        "name": "TestStatistics",
+        "line": 63,
+        "type": "interface",
+        "file": "ab-testing.ts"
+      },
+      {
+        "name": "ABTestComparison",
+        "line": 75,
+        "type": "interface",
+        "file": "ab-testing.ts"
+      },
+      {
+        "name": "ComplexityAnalysis",
+        "line": 6,
+        "type": "interface",
+        "file": "adaptive-routing.ts"
+      },
+      {
+        "name": "TemplateConfig",
+        "line": 13,
+        "type": "interface",
+        "file": "adaptive-routing.ts"
+      },
+      {
+        "name": "RoutingResult",
+        "line": 21,
+        "type": "interface",
+        "file": "adaptive-routing.ts"
+      },
+      {
+        "name": "DeploymentConfig",
+        "line": 10,
+        "type": "interface",
+        "file": "deployment-manager.ts"
+      },
+      {
+        "name": "DeploymentMetrics",
+        "line": 18,
+        "type": "interface",
+        "file": "deployment-manager.ts"
+      },
+      {
+        "name": "DeploymentStatus",
+        "line": 31,
+        "type": "interface",
+        "file": "deployment-manager.ts"
+      },
+      {
+        "name": "DashboardMetrics",
+        "line": 9,
+        "type": "interface",
+        "file": "monitoring-dashboard.ts"
+      },
+      {
+        "name": "OverallMetrics",
+        "line": 19,
+        "type": "interface",
+        "file": "monitoring-dashboard.ts"
+      },
+      {
+        "name": "TemplateMetrics",
+        "line": 28,
+        "type": "interface",
+        "file": "monitoring-dashboard.ts"
+      },
+      {
+        "name": "RoutingMetrics",
+        "line": 40,
+        "type": "interface",
+        "file": "monitoring-dashboard.ts"
+      },
+      {
+        "name": "PerformanceMetrics",
+        "line": 48,
+        "type": "interface",
+        "file": "monitoring-dashboard.ts"
+      },
+      {
+        "name": "Alert",
+        "line": 60,
+        "type": "interface",
+        "file": "monitoring-dashboard.ts"
+      },
+      {
+        "name": "TrendMetrics",
+        "line": 72,
+        "type": "interface",
+        "file": "monitoring-dashboard.ts"
+      },
+      {
+        "name": "TrendPoint",
+        "line": 80,
+        "type": "interface",
+        "file": "monitoring-dashboard.ts"
+      }
+    ]
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "ab-testing.ts",
+          "link": "[src/ab-testing.ts](../../../packages/prompt-optimization/src/ab-testing.ts)",
+          "lineCount": 739
+        },
+        {
+          "name": "adaptive-routing.ts",
+          "link": "[src/adaptive-routing.ts](../../../packages/prompt-optimization/src/adaptive-routing.ts)",
+          "lineCount": 713
+        },
+        {
+          "name": "deploy.ts",
+          "link": "[src/deploy.ts](../../../packages/prompt-optimization/src/deploy.ts)",
+          "lineCount": 151
+        },
+        {
+          "name": "deployment-manager.ts",
+          "link": "[src/deployment-manager.ts](../../../packages/prompt-optimization/src/deployment-manager.ts)",
+          "lineCount": 564
+        },
+        {
+          "name": "monitoring-dashboard.ts",
+          "link": "[src/monitoring-dashboard.ts](../../../packages/prompt-optimization/src/monitoring-dashboard.ts)",
+          "lineCount": 750
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "ABTestingFramework",
+          "link": "[ABTestingFramework](../../../packages/prompt-optimization/src/ab-testing.ts#L92)",
+          "file": "ab-testing.ts",
+          "line": 92
+        },
+        {
+          "name": "AdaptiveRoutingSystem",
+          "link": "[AdaptiveRoutingSystem](../../../packages/prompt-optimization/src/adaptive-routing.ts#L370)",
+          "file": "adaptive-routing.ts",
+          "line": 370
+        },
+        {
+          "name": "DeploymentManager",
+          "link": "[DeploymentManager](../../../packages/prompt-optimization/src/deployment-manager.ts#L40)",
+          "file": "deployment-manager.ts",
+          "line": 40
+        },
+        {
+          "name": "MonitoringDashboard",
+          "link": "[MonitoringDashboard](../../../packages/prompt-optimization/src/monitoring-dashboard.ts#L89)",
+          "file": "monitoring-dashboard.ts",
+          "line": 89
+        }
+      ],
+      "functions": [
+        {
+          "name": "abTesting",
+          "link": "[abTesting()](../../../packages/prompt-optimization/src/ab-testing.ts#L738)",
+          "file": "ab-testing.ts",
+          "line": 738
+        },
+        {
+          "name": "adaptiveRouting",
+          "link": "[adaptiveRouting()](../../../packages/prompt-optimization/src/adaptive-routing.ts#L697)",
+          "file": "adaptive-routing.ts",
+          "line": 697
+        },
+        {
+          "name": "selectOptimalTemplate",
+          "link": "[selectOptimalTemplate()](../../../packages/prompt-optimization/src/adaptive-routing.ts#L702)",
+          "file": "adaptive-routing.ts",
+          "line": 702
+        },
+        {
+          "name": "deploymentManager",
+          "link": "[deploymentManager()](../../../packages/prompt-optimization/src/deployment-manager.ts#L563)",
+          "file": "deployment-manager.ts",
+          "line": 563
+        },
+        {
+          "name": "monitoringDashboard",
+          "link": "[monitoringDashboard()](../../../packages/prompt-optimization/src/monitoring-dashboard.ts#L749)",
+          "file": "monitoring-dashboard.ts",
+          "line": 749
+        }
+      ],
+      "interfaces": [
+        {
+          "name": "TestConfig",
+          "link": "[TestConfig](../../../packages/prompt-optimization/src/ab-testing.ts#L8)",
+          "file": "ab-testing.ts",
+          "line": 8
+        },
+        {
+          "name": "ControlGroup",
+          "link": "[ControlGroup](../../../packages/prompt-optimization/src/ab-testing.ts#L19)",
+          "file": "ab-testing.ts",
+          "line": 19
+        },
+        {
+          "name": "TestGroup",
+          "link": "[TestGroup](../../../packages/prompt-optimization/src/ab-testing.ts#L25)",
+          "file": "ab-testing.ts",
+          "line": 25
+        },
+        {
+          "name": "SuccessCriteria",
+          "link": "[SuccessCriteria](../../../packages/prompt-optimization/src/ab-testing.ts#L33)",
+          "file": "ab-testing.ts",
+          "line": 33
+        },
+        {
+          "name": "PerformanceMetrics",
+          "link": "[PerformanceMetrics](../../../packages/prompt-optimization/src/ab-testing.ts#L40)",
+          "file": "ab-testing.ts",
+          "line": 40
+        },
+        {
+          "name": "TestResult",
+          "link": "[TestResult](../../../packages/prompt-optimization/src/ab-testing.ts#L48)",
+          "file": "ab-testing.ts",
+          "line": 48
+        },
+        {
+          "name": "TestStatistics",
+          "link": "[TestStatistics](../../../packages/prompt-optimization/src/ab-testing.ts#L63)",
+          "file": "ab-testing.ts",
+          "line": 63
+        },
+        {
+          "name": "ABTestComparison",
+          "link": "[ABTestComparison](../../../packages/prompt-optimization/src/ab-testing.ts#L75)",
+          "file": "ab-testing.ts",
+          "line": 75
+        },
+        {
+          "name": "ComplexityAnalysis",
+          "link": "[ComplexityAnalysis](../../../packages/prompt-optimization/src/adaptive-routing.ts#L6)",
+          "file": "adaptive-routing.ts",
+          "line": 6
+        },
+        {
+          "name": "TemplateConfig",
+          "link": "[TemplateConfig](../../../packages/prompt-optimization/src/adaptive-routing.ts#L13)",
+          "file": "adaptive-routing.ts",
+          "line": 13
+        },
+        {
+          "name": "RoutingResult",
+          "link": "[RoutingResult](../../../packages/prompt-optimization/src/adaptive-routing.ts#L21)",
+          "file": "adaptive-routing.ts",
+          "line": 21
+        },
+        {
+          "name": "DeploymentConfig",
+          "link": "[DeploymentConfig](../../../packages/prompt-optimization/src/deployment-manager.ts#L10)",
+          "file": "deployment-manager.ts",
+          "line": 10
+        },
+        {
+          "name": "DeploymentMetrics",
+          "link": "[DeploymentMetrics](../../../packages/prompt-optimization/src/deployment-manager.ts#L18)",
+          "file": "deployment-manager.ts",
+          "line": 18
+        },
+        {
+          "name": "DeploymentStatus",
+          "link": "[DeploymentStatus](../../../packages/prompt-optimization/src/deployment-manager.ts#L31)",
+          "file": "deployment-manager.ts",
+          "line": 31
+        },
+        {
+          "name": "DashboardMetrics",
+          "link": "[DashboardMetrics](../../../packages/prompt-optimization/src/monitoring-dashboard.ts#L9)",
+          "file": "monitoring-dashboard.ts",
+          "line": 9
+        },
+        {
+          "name": "OverallMetrics",
+          "link": "[OverallMetrics](../../../packages/prompt-optimization/src/monitoring-dashboard.ts#L19)",
+          "file": "monitoring-dashboard.ts",
+          "line": 19
+        },
+        {
+          "name": "TemplateMetrics",
+          "link": "[TemplateMetrics](../../../packages/prompt-optimization/src/monitoring-dashboard.ts#L28)",
+          "file": "monitoring-dashboard.ts",
+          "line": 28
+        },
+        {
+          "name": "RoutingMetrics",
+          "link": "[RoutingMetrics](../../../packages/prompt-optimization/src/monitoring-dashboard.ts#L40)",
+          "file": "monitoring-dashboard.ts",
+          "line": 40
+        },
+        {
+          "name": "PerformanceMetrics",
+          "link": "[PerformanceMetrics](../../../packages/prompt-optimization/src/monitoring-dashboard.ts#L48)",
+          "file": "monitoring-dashboard.ts",
+          "line": 48
+        },
+        {
+          "name": "Alert",
+          "link": "[Alert](../../../packages/prompt-optimization/src/monitoring-dashboard.ts#L60)",
+          "file": "monitoring-dashboard.ts",
+          "line": 60
+        },
+        {
+          "name": "TrendMetrics",
+          "link": "[TrendMetrics](../../../packages/prompt-optimization/src/monitoring-dashboard.ts#L72)",
+          "file": "monitoring-dashboard.ts",
+          "line": 72
+        },
+        {
+          "name": "TrendPoint",
+          "link": "[TrendPoint](../../../packages/prompt-optimization/src/monitoring-dashboard.ts#L80)",
+          "file": "monitoring-dashboard.ts",
+          "line": 80
+        }
+      ]
+    }
+  }
+}

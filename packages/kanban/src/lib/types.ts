@@ -32,6 +32,22 @@ export type AIRoutingDecision = {
   timestamp: string;
 };
 
+export type CreateTaskInput = {
+  title: string;
+  content?: string;
+  body?: string;
+  labels?: string[];
+  priority?: Task['priority'];
+  estimates?: Task['estimates'];
+  created_at?: string;
+  uuid?: string;
+  slug?: string;
+  templatePath?: string;
+  defaultTemplatePath?: string;
+  blocking?: string[];
+  blockedBy?: string[];
+};
+
 export type Task = {
   uuid: string;
   title: string;

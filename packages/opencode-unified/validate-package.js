@@ -62,7 +62,7 @@ async function testPackageStructure() {
 }
 
 async function main() {
-  console.log('📦 Package: @promethean/opencode-unified');
+  console.log('📦 Package: @promethean-os/opencode-unified');
   console.log('🎯 Testing consolidated package functionality\n');
   
   const results = await Promise.all([

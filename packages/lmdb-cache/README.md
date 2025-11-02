@@ -1,11 +1,11 @@
-# @promethean/lmdb-cache
+# @promethean-os/lmdb-cache
 
-A high-performance, concurrency-optimized cache implementation using LMDB (Lightning Memory-Mapped Database) as a drop-in replacement for @promethean/level-cache.
+A high-performance, concurrency-optimized cache implementation using LMDB (Lightning Memory-Mapped Database) as a drop-in replacement for @promethean-os/level-cache.
 
 ## Features
 
 - **Enhanced Concurrency**: LMDB provides superior multi-threaded performance compared to LevelDB
-- **Drop-in Replacement**: API-compatible with @promethean/level-cache
+- **Drop-in Replacement**: API-compatible with @promethean-os/level-cache
 - **TTL Support**: Built-in time-to-live functionality with automatic expiry
 - **Namespace Support**: Logical key namespacing for data isolation
 - **Batch Operations**: Efficient batch put/delete operations
@@ -15,13 +15,13 @@ A high-performance, concurrency-optimized cache implementation using LMDB (Light
 ## Installation
 
 ```bash
-pnpm add @promethean/lmdb-cache
+pnpm add @promethean-os/lmdb-cache
 ```
 
 ## Usage
 
 ```typescript
-import { openLmdbCache } from '@promethean/lmdb-cache';
+import { openLmdbCache } from '@promethean-os/lmdb-cache';
 
 // Open a cache
 const cache = await openLmdbCache({
@@ -95,16 +95,16 @@ LMDB provides several advantages over LevelDB:
 4. **Compression**: Built-in compression reduces storage requirements
 5. **Transaction Safety**: ACID-compliant transactions with rollback support
 
-## Migration from @promethean/level-cache
+## Migration from @promethean-os/level-cache
 
 This package is designed as a drop-in replacement. Simply change your import:
 
 ```typescript
 // Before
-import { openLevelCache } from '@promethean/level-cache';
+import { openLevelCache } from '@promethean-os/level-cache';
 
 // After
-import { openLmdbCache } from '@promethean/lmdb-cache';
+import { openLmdbCache } from '@promethean-os/lmdb-cache';
 
 // The rest of your code remains the same
 const cache = await openLmdbCache(options);

@@ -1,0 +1,719 @@
+{
+  "packageData": {
+    "packageName": "apply-patch",
+    "files": [
+      {
+        "path": "cli.ts",
+        "fullPath": "/home/err/devel/promethean/packages/apply-patch/src/cli.ts",
+        "exports": [
+          {
+            "name": "runApplyPatch",
+            "line": 204,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "runApplyPatch",
+            "line": 204,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 256
+      },
+      {
+        "path": "diff.ts",
+        "fullPath": "/home/err/devel/promethean/packages/apply-patch/src/diff.ts",
+        "exports": [
+          {
+            "name": "parseUnifiedDiff",
+            "line": 263,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "parseUnifiedDiff",
+            "line": 263,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 274
+      },
+      {
+        "path": "github-response.ts",
+        "fullPath": "/home/err/devel/promethean/packages/apply-patch/src/github-response.ts",
+        "exports": [
+          {
+            "name": "buildSuccess",
+            "line": 16,
+            "type": "function"
+          },
+          {
+            "name": "handleGraphqlResponse",
+            "line": 154,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "buildSuccess",
+            "line": 16,
+            "type": "function"
+          },
+          {
+            "name": "handleGraphqlResponse",
+            "line": 154,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 189
+      },
+      {
+        "path": "github-types.ts",
+        "fullPath": "/home/err/devel/promethean/packages/apply-patch/src/github-types.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 24
+      },
+      {
+        "path": "github-utils.ts",
+        "fullPath": "/home/err/devel/promethean/packages/apply-patch/src/github-utils.ts",
+        "exports": [
+          {
+            "name": "summarizeFiles",
+            "line": 13,
+            "type": "function"
+          },
+          {
+            "name": "appendTrailers",
+            "line": 27,
+            "type": "function"
+          },
+          {
+            "name": "runGit",
+            "line": 36,
+            "type": "function"
+          },
+          {
+            "name": "computeAdditions",
+            "line": 112,
+            "type": "function"
+          },
+          {
+            "name": "computeDeletions",
+            "line": 123,
+            "type": "function"
+          },
+          {
+            "name": "ensureCheckSucceeds",
+            "line": 134,
+            "type": "function"
+          },
+          {
+            "name": "buildGraphqlPayload",
+            "line": 154,
+            "type": "function"
+          },
+          {
+            "name": "ensureDiffProvided",
+            "line": 187,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "summarizeFiles",
+            "line": 13,
+            "type": "function"
+          },
+          {
+            "name": "appendTrailers",
+            "line": 27,
+            "type": "function"
+          },
+          {
+            "name": "runGit",
+            "line": 36,
+            "type": "function"
+          },
+          {
+            "name": "computeAdditions",
+            "line": 112,
+            "type": "function"
+          },
+          {
+            "name": "computeDeletions",
+            "line": 123,
+            "type": "function"
+          },
+          {
+            "name": "ensureCheckSucceeds",
+            "line": 134,
+            "type": "function"
+          },
+          {
+            "name": "buildGraphqlPayload",
+            "line": 154,
+            "type": "function"
+          },
+          {
+            "name": "ensureDiffProvided",
+            "line": 187,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 205
+      },
+      {
+        "path": "github.ts",
+        "fullPath": "/home/err/devel/promethean/packages/apply-patch/src/github.ts",
+        "exports": [
+          {
+            "name": "DEFAULT_GITHUB_GRAPHQL_URL",
+            "line": 22,
+            "type": "function"
+          },
+          {
+            "name": "createGithubCommit",
+            "line": 186,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "DEFAULT_GITHUB_GRAPHQL_URL",
+            "line": 22,
+            "type": "function"
+          },
+          {
+            "name": "createGithubCommit",
+            "line": 186,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 224
+      },
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/apply-patch/src/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 22
+      },
+      {
+        "path": "json-edits.ts",
+        "fullPath": "/home/err/devel/promethean/packages/apply-patch/src/json-edits.ts",
+        "exports": [
+          {
+            "name": "applyJsonEdits",
+            "line": 154,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "applyJsonEdits",
+            "line": 154,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 170
+      },
+      {
+        "path": "sanitize.ts",
+        "fullPath": "/home/err/devel/promethean/packages/apply-patch/src/sanitize.ts",
+        "exports": [
+          {
+            "name": "sanitizeHeaderValue",
+            "line": 1,
+            "type": "function"
+          },
+          {
+            "name": "sanitizeHeaders",
+            "line": 11,
+            "type": "function"
+          },
+          {
+            "name": "sanitizeForLog",
+            "line": 26,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "sanitizeHeaderValue",
+            "line": 1,
+            "type": "function"
+          },
+          {
+            "name": "sanitizeHeaders",
+            "line": 11,
+            "type": "function"
+          },
+          {
+            "name": "sanitizeForLog",
+            "line": 26,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 53
+      },
+      {
+        "path": "tests/github.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/apply-patch/src/tests/github.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 288
+      },
+      {
+        "path": "tests/parse-plan.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/apply-patch/src/tests/parse-plan.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 20
+      },
+      {
+        "path": "types.ts",
+        "fullPath": "/home/err/devel/promethean/packages/apply-patch/src/types.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 105
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [],
+      "classes": [],
+      "functions": [],
+      "interfaces": [],
+      "totalLines": 22
+    },
+    "exports": [
+      {
+        "name": "runApplyPatch",
+        "line": 204,
+        "type": "function",
+        "file": "cli.ts"
+      },
+      {
+        "name": "parseUnifiedDiff",
+        "line": 263,
+        "type": "function",
+        "file": "diff.ts"
+      },
+      {
+        "name": "buildSuccess",
+        "line": 16,
+        "type": "function",
+        "file": "github-response.ts"
+      },
+      {
+        "name": "handleGraphqlResponse",
+        "line": 154,
+        "type": "function",
+        "file": "github-response.ts"
+      },
+      {
+        "name": "summarizeFiles",
+        "line": 13,
+        "type": "function",
+        "file": "github-utils.ts"
+      },
+      {
+        "name": "appendTrailers",
+        "line": 27,
+        "type": "function",
+        "file": "github-utils.ts"
+      },
+      {
+        "name": "runGit",
+        "line": 36,
+        "type": "function",
+        "file": "github-utils.ts"
+      },
+      {
+        "name": "computeAdditions",
+        "line": 112,
+        "type": "function",
+        "file": "github-utils.ts"
+      },
+      {
+        "name": "computeDeletions",
+        "line": 123,
+        "type": "function",
+        "file": "github-utils.ts"
+      },
+      {
+        "name": "ensureCheckSucceeds",
+        "line": 134,
+        "type": "function",
+        "file": "github-utils.ts"
+      },
+      {
+        "name": "buildGraphqlPayload",
+        "line": 154,
+        "type": "function",
+        "file": "github-utils.ts"
+      },
+      {
+        "name": "ensureDiffProvided",
+        "line": 187,
+        "type": "function",
+        "file": "github-utils.ts"
+      },
+      {
+        "name": "DEFAULT_GITHUB_GRAPHQL_URL",
+        "line": 22,
+        "type": "function",
+        "file": "github.ts"
+      },
+      {
+        "name": "createGithubCommit",
+        "line": 186,
+        "type": "function",
+        "file": "github.ts"
+      },
+      {
+        "name": "applyJsonEdits",
+        "line": 154,
+        "type": "function",
+        "file": "json-edits.ts"
+      },
+      {
+        "name": "sanitizeHeaderValue",
+        "line": 1,
+        "type": "function",
+        "file": "sanitize.ts"
+      },
+      {
+        "name": "sanitizeHeaders",
+        "line": 11,
+        "type": "function",
+        "file": "sanitize.ts"
+      },
+      {
+        "name": "sanitizeForLog",
+        "line": 26,
+        "type": "function",
+        "file": "sanitize.ts"
+      }
+    ],
+    "classes": [],
+    "functions": [
+      {
+        "name": "runApplyPatch",
+        "line": 204,
+        "type": "function",
+        "file": "cli.ts"
+      },
+      {
+        "name": "parseUnifiedDiff",
+        "line": 263,
+        "type": "function",
+        "file": "diff.ts"
+      },
+      {
+        "name": "buildSuccess",
+        "line": 16,
+        "type": "function",
+        "file": "github-response.ts"
+      },
+      {
+        "name": "handleGraphqlResponse",
+        "line": 154,
+        "type": "function",
+        "file": "github-response.ts"
+      },
+      {
+        "name": "summarizeFiles",
+        "line": 13,
+        "type": "function",
+        "file": "github-utils.ts"
+      },
+      {
+        "name": "appendTrailers",
+        "line": 27,
+        "type": "function",
+        "file": "github-utils.ts"
+      },
+      {
+        "name": "runGit",
+        "line": 36,
+        "type": "function",
+        "file": "github-utils.ts"
+      },
+      {
+        "name": "computeAdditions",
+        "line": 112,
+        "type": "function",
+        "file": "github-utils.ts"
+      },
+      {
+        "name": "computeDeletions",
+        "line": 123,
+        "type": "function",
+        "file": "github-utils.ts"
+      },
+      {
+        "name": "ensureCheckSucceeds",
+        "line": 134,
+        "type": "function",
+        "file": "github-utils.ts"
+      },
+      {
+        "name": "buildGraphqlPayload",
+        "line": 154,
+        "type": "function",
+        "file": "github-utils.ts"
+      },
+      {
+        "name": "ensureDiffProvided",
+        "line": 187,
+        "type": "function",
+        "file": "github-utils.ts"
+      },
+      {
+        "name": "DEFAULT_GITHUB_GRAPHQL_URL",
+        "line": 22,
+        "type": "function",
+        "file": "github.ts"
+      },
+      {
+        "name": "createGithubCommit",
+        "line": 186,
+        "type": "function",
+        "file": "github.ts"
+      },
+      {
+        "name": "applyJsonEdits",
+        "line": 154,
+        "type": "function",
+        "file": "json-edits.ts"
+      },
+      {
+        "name": "sanitizeHeaderValue",
+        "line": 1,
+        "type": "function",
+        "file": "sanitize.ts"
+      },
+      {
+        "name": "sanitizeHeaders",
+        "line": 11,
+        "type": "function",
+        "file": "sanitize.ts"
+      },
+      {
+        "name": "sanitizeForLog",
+        "line": 26,
+        "type": "function",
+        "file": "sanitize.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "cli.ts",
+          "link": "[src/cli.ts](../../../packages/apply-patch/src/cli.ts)",
+          "lineCount": 256
+        },
+        {
+          "name": "diff.ts",
+          "link": "[src/diff.ts](../../../packages/apply-patch/src/diff.ts)",
+          "lineCount": 274
+        },
+        {
+          "name": "github-response.ts",
+          "link": "[src/github-response.ts](../../../packages/apply-patch/src/github-response.ts)",
+          "lineCount": 189
+        },
+        {
+          "name": "github-types.ts",
+          "link": "[src/github-types.ts](../../../packages/apply-patch/src/github-types.ts)",
+          "lineCount": 24
+        },
+        {
+          "name": "github-utils.ts",
+          "link": "[src/github-utils.ts](../../../packages/apply-patch/src/github-utils.ts)",
+          "lineCount": 205
+        },
+        {
+          "name": "github.ts",
+          "link": "[src/github.ts](../../../packages/apply-patch/src/github.ts)",
+          "lineCount": 224
+        },
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/apply-patch/src/index.ts)",
+          "lineCount": 22
+        },
+        {
+          "name": "json-edits.ts",
+          "link": "[src/json-edits.ts](../../../packages/apply-patch/src/json-edits.ts)",
+          "lineCount": 170
+        },
+        {
+          "name": "sanitize.ts",
+          "link": "[src/sanitize.ts](../../../packages/apply-patch/src/sanitize.ts)",
+          "lineCount": 53
+        },
+        {
+          "name": "tests/github.test.ts",
+          "link": "[src/tests/github.test.ts](../../../packages/apply-patch/src/tests/github.test.ts)",
+          "lineCount": 288
+        },
+        {
+          "name": "tests/parse-plan.test.ts",
+          "link": "[src/tests/parse-plan.test.ts](../../../packages/apply-patch/src/tests/parse-plan.test.ts)",
+          "lineCount": 20
+        },
+        {
+          "name": "types.ts",
+          "link": "[src/types.ts](../../../packages/apply-patch/src/types.ts)",
+          "lineCount": 105
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [],
+      "functions": [
+        {
+          "name": "runApplyPatch",
+          "link": "[runApplyPatch()](../../../packages/apply-patch/src/cli.ts#L204)",
+          "file": "cli.ts",
+          "line": 204
+        },
+        {
+          "name": "parseUnifiedDiff",
+          "link": "[parseUnifiedDiff()](../../../packages/apply-patch/src/diff.ts#L263)",
+          "file": "diff.ts",
+          "line": 263
+        },
+        {
+          "name": "buildSuccess",
+          "link": "[buildSuccess()](../../../packages/apply-patch/src/github-response.ts#L16)",
+          "file": "github-response.ts",
+          "line": 16
+        },
+        {
+          "name": "handleGraphqlResponse",
+          "link": "[handleGraphqlResponse()](../../../packages/apply-patch/src/github-response.ts#L154)",
+          "file": "github-response.ts",
+          "line": 154
+        },
+        {
+          "name": "summarizeFiles",
+          "link": "[summarizeFiles()](../../../packages/apply-patch/src/github-utils.ts#L13)",
+          "file": "github-utils.ts",
+          "line": 13
+        },
+        {
+          "name": "appendTrailers",
+          "link": "[appendTrailers()](../../../packages/apply-patch/src/github-utils.ts#L27)",
+          "file": "github-utils.ts",
+          "line": 27
+        },
+        {
+          "name": "runGit",
+          "link": "[runGit()](../../../packages/apply-patch/src/github-utils.ts#L36)",
+          "file": "github-utils.ts",
+          "line": 36
+        },
+        {
+          "name": "computeAdditions",
+          "link": "[computeAdditions()](../../../packages/apply-patch/src/github-utils.ts#L112)",
+          "file": "github-utils.ts",
+          "line": 112
+        },
+        {
+          "name": "computeDeletions",
+          "link": "[computeDeletions()](../../../packages/apply-patch/src/github-utils.ts#L123)",
+          "file": "github-utils.ts",
+          "line": 123
+        },
+        {
+          "name": "ensureCheckSucceeds",
+          "link": "[ensureCheckSucceeds()](../../../packages/apply-patch/src/github-utils.ts#L134)",
+          "file": "github-utils.ts",
+          "line": 134
+        },
+        {
+          "name": "buildGraphqlPayload",
+          "link": "[buildGraphqlPayload()](../../../packages/apply-patch/src/github-utils.ts#L154)",
+          "file": "github-utils.ts",
+          "line": 154
+        },
+        {
+          "name": "ensureDiffProvided",
+          "link": "[ensureDiffProvided()](../../../packages/apply-patch/src/github-utils.ts#L187)",
+          "file": "github-utils.ts",
+          "line": 187
+        },
+        {
+          "name": "DEFAULT_GITHUB_GRAPHQL_URL",
+          "link": "[DEFAULT_GITHUB_GRAPHQL_URL()](../../../packages/apply-patch/src/github.ts#L22)",
+          "file": "github.ts",
+          "line": 22
+        },
+        {
+          "name": "createGithubCommit",
+          "link": "[createGithubCommit()](../../../packages/apply-patch/src/github.ts#L186)",
+          "file": "github.ts",
+          "line": 186
+        },
+        {
+          "name": "applyJsonEdits",
+          "link": "[applyJsonEdits()](../../../packages/apply-patch/src/json-edits.ts#L154)",
+          "file": "json-edits.ts",
+          "line": 154
+        },
+        {
+          "name": "sanitizeHeaderValue",
+          "link": "[sanitizeHeaderValue()](../../../packages/apply-patch/src/sanitize.ts#L1)",
+          "file": "sanitize.ts",
+          "line": 1
+        },
+        {
+          "name": "sanitizeHeaders",
+          "link": "[sanitizeHeaders()](../../../packages/apply-patch/src/sanitize.ts#L11)",
+          "file": "sanitize.ts",
+          "line": 11
+        },
+        {
+          "name": "sanitizeForLog",
+          "link": "[sanitizeForLog()](../../../packages/apply-patch/src/sanitize.ts#L26)",
+          "file": "sanitize.ts",
+          "line": 26
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

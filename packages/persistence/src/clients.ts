@@ -159,6 +159,14 @@ export const __resetPersistenceClientsForTests = (): void => {
 
 export const cleanupClients = async (): Promise<void> => {
     try {
+        // Shutdown all Chroma write queues
+        const { shutdownAllQueues } = await import('./chroma-write-queue.js');
+        await shutdownAllQueues();
+    } catch (error) {
+        // Ignore cleanup errors
+    }
+
+    try {
         const mongoClient = await mongoClientPromises.get('mongo');
         if (mongoClient) {
             await mongoClient.close();

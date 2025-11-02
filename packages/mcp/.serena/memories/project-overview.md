@@ -1,7 +1,7 @@
 # Promethean MCP Package Overview
 
 ## Purpose
-The @promethean/mcp package provides Model Context Protocol (MCP) server implementations with OAuth authentication, GitHub integration, and various AI tooling capabilities.
+The @promethean-os/mcp package provides Model Context Protocol (MCP) server implementations with OAuth authentication, GitHub integration, and various AI tooling capabilities.
 
 ## Tech Stack
 - **Language**: TypeScript

@@ -1,6 +1,6 @@
-# @promethean/shadow-conf npm Publishing Readiness Task Breakdown
+# @promethean-os/shadow-conf npm Publishing Readiness Task Breakdown
 
-## Epic: Prepare @promethean/shadow-conf for npm Publishing
+## Epic: Prepare @promethean-os/shadow-conf for npm Publishing
 
 **Estimated Total Story Points: 42**  
 **Target Release: v1.0.0**  

@@ -1,4 +1,4 @@
-import { makeDeterministicEmbedder as canonicalMakeDeterministicEmbedder, assertDim } from '@promethean/embedding';
+import { makeDeterministicEmbedder as canonicalMakeDeterministicEmbedder, assertDim } from '@promethean-os/embedding';
 
 export type EmbedderConfig = {
     modelId: string; // e.g., qwen2.5-embed:2025-08-01

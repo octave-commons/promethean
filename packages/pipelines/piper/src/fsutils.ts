@@ -6,7 +6,7 @@ import { AsyncLocalStorage } from "async_hooks";
 import { pathToFileURL } from "url";
 
 import { globby } from "globby";
-import { ensureDir } from "@promethean/fs";
+import { ensureDir } from "@promethean-os/fs";
 
 import { PiperStep } from "./types.js";
 import { fingerprintJsDeps } from "./hash.js";

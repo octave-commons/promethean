@@ -8,7 +8,7 @@ import {
   ollamaJSON,
   writeText,
   createLogger,
-} from "@promethean/utils";
+} from "@promethean-os/utils";
 
 import { normStatus } from "./utils.wrongProperty";
 import type { PromptChunk, TaskContext, EvalItem, TaskFM } from "./types.wrongProperty";

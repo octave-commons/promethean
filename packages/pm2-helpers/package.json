@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/pm2-helpers",
+  "name": "@promethean-os/pm2-helpers",
   "version": "0.0.0",
   "private": true,
   "type": "module",

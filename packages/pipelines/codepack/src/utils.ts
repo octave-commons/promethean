@@ -2,8 +2,8 @@ import * as path from "path";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import { visit } from "unist-util-visit";
-import { ensureDir } from "@promethean/fs";
-export { sha1, cosine } from "@promethean/utils";
+import { ensureDir } from "@promethean-os/fs";
+export { sha1, cosine } from "@promethean-os/utils";
 
 export { ensureDir };
 

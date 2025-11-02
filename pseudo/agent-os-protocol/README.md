@@ -14,7 +14,7 @@ A unified, robust messaging protocol designed to address fragmentation in existi
 ## Installation
 
 ```bash
-npm install @promethean/agent-os-protocol
+npm install @promethean-os/agent-os-protocol
 ```
 
 ## Quick Start
@@ -25,7 +25,7 @@ import {
   UniversalProtocolAdapter,
   CrisisMessageType,
   CrisisLevel,
-} from '@promethean/agent-os-protocol';
+} from '@promethean-os/agent-os-protocol';
 
 // Initialize crisis coordinator
 const coordinator = new CrisisCoordinator();
@@ -52,7 +52,7 @@ The protocol includes adapters for existing agent communication formats:
 ### Agent Bus Adapter
 
 ```typescript
-import { AgentBusAdapter } from '@promethean/agent-os-protocol';
+import { AgentBusAdapter } from '@promethean-os/agent-os-protocol';
 
 const adapter = new AgentBusAdapter();
 const coreMessage = adapter.toCoreMessage(agentBusMessage);
@@ -61,7 +61,7 @@ const coreMessage = adapter.toCoreMessage(agentBusMessage);
 ### Omni Protocol Adapter
 
 ```typescript
-import { OmniAdapter } from '@promethean/agent-os-protocol';
+import { OmniAdapter } from '@promethean-os/agent-os-protocol';
 
 const adapter = new OmniAdapter();
 const coreMessage = adapter.toCoreMessage(omniMessage);
@@ -70,7 +70,7 @@ const coreMessage = adapter.toCoreMessage(omniMessage);
 ### Enso Protocol Adapter
 
 ```typescript
-import { EnsoAdapter } from '@promethean/agent-os-protocol';
+import { EnsoAdapter } from '@promethean-os/agent-os-protocol';
 
 const adapter = new EnsoAdapter();
 const coreMessage = adapter.toCoreMessage(ensoMessage);
@@ -79,7 +79,7 @@ const coreMessage = adapter.toCoreMessage(ensoMessage);
 ### Universal Adapter
 
 ```typescript
-import { UniversalProtocolAdapter } from '@promethean/agent-os-protocol';
+import { UniversalProtocolAdapter } from '@promethean-os/agent-os-protocol';
 
 const adapter = new UniversalProtocolAdapter();
 const coreMessage = adapter.autoConvert(anyMessage); // Auto-detects protocol

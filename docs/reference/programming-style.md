@@ -19,9 +19,9 @@
 
 ### Import Strategy
 
-- Use `@promethean/<package>*` via `"workspace:*"`
+- Use `@promethean-os/<package>*` via `"workspace:*"`
 - **No relative imports** outside package root
-- Prefer `@promethean/level-cache` for caching needs
+- Prefer `@promethean-os/level-cache` for caching needs
 
 ### Development Workflow
 
@@ -66,13 +66,13 @@
 
 ```bash
 # Quick validation
-pnpm --filter @promethean/benchmark benchmark --providers buildfix-local --iterations 3
+pnpm --filter @promethean-os/benchmark benchmark --providers buildfix-local --iterations 3
 
 # Comprehensive testing
-pnpm --filter @promethean/benchmark benchmark --providers buildfix-local --suite buildfix-massive
+pnpm --filter @promethean-os/benchmark benchmark --providers buildfix-local --suite buildfix-massive
 
 # Model comparison
-pnpm --filter @promethean/benchmark benchmark --providers buildfix-local --models qwen3:8b,qwen3:14b
+pnpm --filter @promethean-os/benchmark benchmark --providers buildfix-local --models qwen3:8b,qwen3:14b
 ```
 
 ### BuildFix Workflows
@@ -84,7 +84,7 @@ pnpm --filter @promethean/benchmark benchmark --providers buildfix-local --model
 
 ### Best Practices
 
-- Use unified `@promethean/benchmark` CLI over direct scripts
+- Use unified `@promethean-os/benchmark` CLI over direct scripts
 - Monitor performance, compare models, track resource usage
 - Use both small and massive fixture sets
 

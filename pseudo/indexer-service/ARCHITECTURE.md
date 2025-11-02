@@ -1,10 +1,10 @@
 # Architecture Documentation
 
-This document describes the architecture, design patterns, and technical implementation details of the `@promethean/indexer-service` package.
+This document describes the architecture, design patterns, and technical implementation details of the `@promethean-os/indexer-service` package.
 
 ## System Overview
 
-The `@promethean/indexer-service` is a Fastify-based HTTP service that provides a REST API wrapper around the `@promethean/indexer-core` functionality. It follows a layered architecture pattern with clear separation of concerns.
+The `@promethean-os/indexer-service` is a Fastify-based HTTP service that provides a REST API wrapper around the `@promethean-os/indexer-core` functionality. It follows a layered architecture pattern with clear separation of concerns.
 
 ## Architecture Layers
 
@@ -24,7 +24,7 @@ The `@promethean/indexer-service` is a Fastify-based HTTP service that provides 
 └─────────────────────────────────────────────────────────────┘
 ┌─────────────────────────────────────────────────────────────┐
 │                  Core Layer                                 │
-│           @promethean/indexer-core                          │
+│           @promethean-os/indexer-core                          │
 └─────────────────────────────────────────────────────────────┘
 ┌─────────────────────────────────────────────────────────────┐
 │                Infrastructure Layer                         │
@@ -503,8 +503,8 @@ Architecture supports future enhancements:
 
 - **@fastify/rate-limit**: Rate limiting plugin
 - **@fastify/swagger**: OpenAPI documentation
-- **@promethean/indexer-core**: Core indexing functionality
-- **@promethean/utils**: Shared utilities
+- **@promethean-os/indexer-core**: Core indexing functionality
+- **@promethean-os/utils**: Shared utilities
 
 ### Development Tools
 

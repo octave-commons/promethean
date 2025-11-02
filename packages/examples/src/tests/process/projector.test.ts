@@ -1,6 +1,6 @@
 /* eslint-disable functional/immutable-data, functional/prefer-immutable-types, @typescript-eslint/prefer-readonly-parameter-types, max-lines-per-function */
 import test from 'ava';
-import { Topics } from '@promethean/event/topics.js';
+import { Topics } from '@promethean-os/event/topics.js';
 
 import { startProcessProjector } from '../../process/projector.js';
 import type { HeartbeatPayload, ProcessState } from '../../process/types.js';

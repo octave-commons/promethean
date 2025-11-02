@@ -3,7 +3,7 @@ import {
 import {
   // syntax error promisify } from 'util';
 import {
-  // syntax error createLogger, parseArgs, writeText } from '@promethean/utils';
+  // syntax error createLogger, parseArgs, writeText } from '@promethean-os/utils';
 import {
   // syntax error loadEvals } from './06-report.js';
 import type {

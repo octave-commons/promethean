@@ -1,4 +1,4 @@
-# @promethean/omni-service
+# @promethean-os/omni-service
 
 Unified service host for REST, GraphQL, WebSocket, and MCP adapters with shared authentication and context management.
 
@@ -16,7 +16,7 @@ Unified service host for REST, GraphQL, WebSocket, and MCP adapters with shared 
 ## 📦 Installation
 
 ```bash
-pnpm add @promethean/omni-service
+pnpm add @promethean-os/omni-service
 ```
 
 ## 🔧 Quick Start
@@ -24,14 +24,14 @@ pnpm add @promethean/omni-service
 ### Development Mode
 
 ```bash
-pnpm --filter @promethean/omni-service start:dev
+pnpm --filter @promethean-os/omni-service start:dev
 ```
 
 ### Production Mode
 
 ```bash
-pnpm --filter @promethean/omni-service build
-pnpm --filter @promethean/omni-service start
+pnpm --filter @promethean-os/omni-service build
+pnpm --filter @promethean-os/omni-service start
 ```
 
 ## ⚙️ Configuration
@@ -109,13 +109,13 @@ const headers = {
 
 ```bash
 # Run all tests
-pnpm --filter @promethean/omni-service test
+pnpm --filter @promethean-os/omni-service test
 
 # Run tests in watch mode
-pnpm --filter @promethean/omni-service test:watch
+pnpm --filter @promethean-os/omni-service test:watch
 
 # Run with coverage
-pnpm --filter @promethean/omni-service coverage
+pnpm --filter @promethean-os/omni-service coverage
 ```
 
 ## 🔧 Development
@@ -155,9 +155,9 @@ packages/omni-service/
 ## 🔗 Dependencies
 
 - **Fastify**: Fast and low-overhead web framework
-- **@promethean/omni-protocol**: Shared protocol definitions
-- **@promethean/security**: Security utilities and JWT handling
-- **@promethean/legacy**: Legacy utilities and helpers
+- **@promethean-os/omni-protocol**: Shared protocol definitions
+- **@promethean-os/security**: Security utilities and JWT handling
+- **@promethean-os/legacy**: Legacy utilities and helpers
 - **JWT**: JSON Web Token implementation
 - **Zod**: Runtime type validation and schema parsing
 

@@ -1,6 +1,6 @@
 /**
  * Client Module - OpenCode Client Library
- * Consolidated from @promethean/opencode-client
+ * Consolidated from @promethean-os/opencode-client
  */
 
 export const CLIENT_VERSION = '1.0.0';

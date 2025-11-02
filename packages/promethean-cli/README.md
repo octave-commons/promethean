@@ -11,7 +11,7 @@ After installing dependencies run the build once so the distributable script is
 available:
 
 ```sh
-pnpm --filter @promethean/promethean-cli run build
+pnpm --filter @promethean-os/promethean-cli run build
 ```
 
 Once built you can execute the CLI via the repo-level binaries:

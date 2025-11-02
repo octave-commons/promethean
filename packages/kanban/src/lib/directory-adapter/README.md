@@ -20,7 +20,7 @@ The DirectoryAdapter provides a secure, centralized interface for all task file 
 - **Restore Operations**: Full restore capabilities with verification
 
 ### ⚡ Performance
-- **Caching Integration**: Seamless integration with `@promethean/lmdb-cache`
+- **Caching Integration**: Seamless integration with `@promethean-os/lmdb-cache`
 - **Streaming Support**: Efficient handling of large result sets
 - **Batch Operations**: Optimized batch processing capabilities
 - **Metrics Tracking**: Detailed performance metrics and monitoring
@@ -36,8 +36,8 @@ The DirectoryAdapter provides a secure, centralized interface for all task file 
 ## Quick Start
 
 ```typescript
-import { createDirectoryAdapter, getConfig } from '@promethean/kanban/lib/directory-adapter';
-import { createTaskCache } from '@promethean/kanban/board/task-cache';
+import { createDirectoryAdapter, getConfig } from '@promethean-os/kanban/lib/directory-adapter';
+import { createTaskCache } from '@promethean-os/kanban/board/task-cache';
 
 // Get configuration for your environment
 const config = getConfig('development');
@@ -105,7 +105,7 @@ const config = {
 ### Environment-Specific Configurations
 
 ```typescript
-import { getConfig, createConfig } from '@promethean/kanban/lib/directory-adapter';
+import { getConfig, createConfig } from '@promethean-os/kanban/lib/directory-adapter';
 
 // Pre-configured environments
 const devConfig = getConfig('development');
@@ -293,7 +293,7 @@ import {
   SecurityValidationError,
   FileNotFoundError,
   FilePermissionError 
-} from '@promethean/kanban/lib/directory-adapter';
+} from '@promethean-os/kanban/lib/directory-adapter';
 
 try {
   const result = await adapter.readTaskFile('non-existent');
@@ -319,7 +319,7 @@ try {
 The DirectoryAdapter integrates seamlessly with the existing TaskCache:
 
 ```typescript
-import { createTaskCache } from '@promethean/kanban/board/task-cache';
+import { createTaskCache } from '@promethean-os/kanban/board/task-cache';
 
 const cache = await createTaskCache({
   path: './cache',
@@ -458,7 +458,7 @@ To migrate existing code to use DirectoryAdapter:
 Enable debug logging:
 
 ```typescript
-import { createLogger } from '@promethean/utils';
+import { createLogger } from '@promethean-os/utils';
 
 const logger = createLogger({ 
   service: 'directory-adapter',

@@ -1439,7 +1439,7 @@ Plugins can be registered programmatically or via configuration files.
 #### Programmatic Registration
 
 ```typescript
-import { PluginRegistry } from '@promethean/opencode-client';
+import { PluginRegistry } from '@promethean-os/opencode-client';
 
 const myPlugin: Plugin = {
   name: 'my-plugin',
@@ -1498,7 +1498,7 @@ Plugins follow a specific lifecycle:
 #### Example Plugin Implementation
 
 ```typescript
-import { Plugin, Tool } from '@promethean/opencode-client';
+import { Plugin, Tool } from '@promethean-os/opencode-client';
 
 class MyPlugin implements Plugin {
   name = 'my-plugin';

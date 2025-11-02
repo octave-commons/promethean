@@ -1,6 +1,10 @@
 import test from 'ava';
 import path from 'node:path';
 import { writeFile, mkdir, readFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 import { executeCommand, type CliContext } from '../cli/command-handlers.js';
 import { withTempDir } from '../test-utils/helpers.js';
@@ -97,9 +101,26 @@ test('move operations - tasks across different columns', async (t) => {
   const tempDir = await withTempDir(t);
   const boardPath = path.join(tempDir, 'board.md');
   const tasksDir = path.join(tempDir, 'tasks');
+  const configPath = path.join(tempDir, 'promethean.kanban.json');
 
   await mkdir(tasksDir, { recursive: true });
   await writeFile(boardPath, '', 'utf8');
+
+  // Copy test fixtures config to temp directory
+  const fixtureConfig = await readFile(
+    path.join(__dirname, 'fixtures/promethean.kanban.json'),
+    'utf8',
+  );
+  await writeFile(configPath, fixtureConfig, 'utf8');
+
+  // Copy Clojure DSL file to temp directory
+  const dslPath = path.join(tempDir, 'src/tests/fixtures/transition-rules-dsl.clj');
+  await mkdir(path.dirname(dslPath), { recursive: true });
+  const fixtureDsl = await readFile(
+    path.join(__dirname, 'fixtures/transition-rules-dsl.clj'),
+    'utf8',
+  );
+  await writeFile(dslPath, fixtureDsl, 'utf8');
 
   const context: CliContext = {
     boardFile: boardPath,
@@ -110,13 +131,23 @@ test('move operations - tasks across different columns', async (t) => {
   // Create tasks in different columns
   await executeCommand('create', ['Todo Task 1', '--status=Todo'], context);
   const todo2 = (await executeCommand('create', ['Todo Task 2', '--status=Todo'], context)) as any;
-  await executeCommand('create', ['Progress Task 1', '--status=In Progress'], context);
+  await executeCommand('create', ['Progress Task 1', '--status=in_progress'], context);
   const progress2 = (await executeCommand(
     'create',
-    ['Progress Task 2', '--status=In Progress'],
+    ['Progress Task 2', '--status=in_progress'],
     context,
   )) as any;
-  const done1 = (await executeCommand('create', ['Done Task 1', '--status=Done'], context)) as any;
+  const done1 = (await executeCommand('create', ['Done Task 1', '--status=done'], context)) as any;
+
+  // Regenerate board to reflect the actual task statuses
+  await executeCommand('regenerate', [], context);
+
+  // Debug: Check what task we're trying to move
+  console.log('Progress task created:', progress2.uuid, progress2.status, progress2.title);
+
+  // Check board state using list command
+  const boardState = await executeCommand('list', [], context);
+  console.log('Board columns:', boardState);
 
   // Move tasks within each column
   const todoResult = (await executeCommand('move_up', [todo2.uuid], context)) as any;

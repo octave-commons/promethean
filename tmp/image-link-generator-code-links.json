@@ -1,0 +1,165 @@
+{
+  "packageData": {
+    "packageName": "image-link-generator",
+    "files": [
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/image-link-generator/src/index.ts",
+        "exports": [
+          {
+            "name": "findBrokenImageLinks",
+            "line": 21,
+            "type": "function"
+          },
+          {
+            "name": "defaultImageGenerator",
+            "line": 60,
+            "type": "function"
+          },
+          {
+            "name": "fixBrokenImageLinks",
+            "line": 74,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "findBrokenImageLinks",
+            "line": 21,
+            "type": "function"
+          },
+          {
+            "name": "defaultImageGenerator",
+            "line": 60,
+            "type": "function"
+          },
+          {
+            "name": "fixBrokenImageLinks",
+            "line": 74,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 88
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [
+        {
+          "name": "findBrokenImageLinks",
+          "line": 21,
+          "type": "function"
+        },
+        {
+          "name": "defaultImageGenerator",
+          "line": 60,
+          "type": "function"
+        },
+        {
+          "name": "fixBrokenImageLinks",
+          "line": 74,
+          "type": "function"
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "findBrokenImageLinks",
+          "line": 21,
+          "type": "function"
+        },
+        {
+          "name": "defaultImageGenerator",
+          "line": 60,
+          "type": "function"
+        },
+        {
+          "name": "fixBrokenImageLinks",
+          "line": 74,
+          "type": "function"
+        }
+      ],
+      "interfaces": [],
+      "totalLines": 88
+    },
+    "exports": [
+      {
+        "name": "findBrokenImageLinks",
+        "line": 21,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "defaultImageGenerator",
+        "line": 60,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "fixBrokenImageLinks",
+        "line": 74,
+        "type": "function",
+        "file": "index.ts"
+      }
+    ],
+    "classes": [],
+    "functions": [
+      {
+        "name": "findBrokenImageLinks",
+        "line": 21,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "defaultImageGenerator",
+        "line": 60,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "fixBrokenImageLinks",
+        "line": 74,
+        "type": "function",
+        "file": "index.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/image-link-generator/src/index.ts)",
+          "lineCount": 88
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [],
+      "functions": [
+        {
+          "name": "findBrokenImageLinks",
+          "link": "[findBrokenImageLinks()](../../../packages/image-link-generator/src/index.ts#L21)",
+          "file": "index.ts",
+          "line": 21
+        },
+        {
+          "name": "defaultImageGenerator",
+          "link": "[defaultImageGenerator()](../../../packages/image-link-generator/src/index.ts#L60)",
+          "file": "index.ts",
+          "line": 60
+        },
+        {
+          "name": "fixBrokenImageLinks",
+          "link": "[fixBrokenImageLinks()](../../../packages/image-link-generator/src/index.ts#L74)",
+          "file": "index.ts",
+          "line": 74
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

@@ -1,0 +1,346 @@
+{
+  "packageData": {
+    "packageName": "worker",
+    "files": [
+      {
+        "path": "zero/layout.ts",
+        "fullPath": "/home/err/devel/promethean/packages/worker/src/zero/layout.ts",
+        "exports": [
+          {
+            "name": "canUseSAB",
+            "line": 29,
+            "type": "function"
+          },
+          {
+            "name": "allocColumns",
+            "line": 37,
+            "type": "function"
+          },
+          {
+            "name": "markChanged",
+            "line": 51,
+            "type": "function"
+          },
+          {
+            "name": "isChanged",
+            "line": 62,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "canUseSAB",
+            "line": 29,
+            "type": "function"
+          },
+          {
+            "name": "allocColumns",
+            "line": 37,
+            "type": "function"
+          },
+          {
+            "name": "markChanged",
+            "line": 51,
+            "type": "function"
+          },
+          {
+            "name": "isChanged",
+            "line": 62,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 73
+      },
+      {
+        "path": "zero/snapshot.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/worker/src/zero/snapshot.test.ts",
+        "exports": [],
+        "classes": [
+          {
+            "name": "MockWorld",
+            "line": 6,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 58
+      },
+      {
+        "path": "zero/snapshot.ts",
+        "fullPath": "/home/err/devel/promethean/packages/worker/src/zero/snapshot.ts",
+        "exports": [
+          {
+            "name": "buildSnapshot",
+            "line": 79,
+            "type": "function"
+          },
+          {
+            "name": "commitSnapshot",
+            "line": 117,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "buildSnapshot",
+            "line": 79,
+            "type": "function"
+          },
+          {
+            "name": "commitSnapshot",
+            "line": 117,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 125
+      },
+      {
+        "path": "zero/struct.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/worker/src/zero/struct.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 54
+      },
+      {
+        "path": "zero/struct.ts",
+        "fullPath": "/home/err/devel/promethean/packages/worker/src/zero/struct.ts",
+        "exports": [
+          {
+            "name": "S",
+            "line": 36,
+            "type": "function"
+          },
+          {
+            "name": "compileStruct",
+            "line": 147,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "S",
+            "line": 36,
+            "type": "function"
+          },
+          {
+            "name": "compileStruct",
+            "line": 147,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 334
+      }
+    ],
+    "mainEntry": null,
+    "exports": [
+      {
+        "name": "canUseSAB",
+        "line": 29,
+        "type": "function",
+        "file": "zero/layout.ts"
+      },
+      {
+        "name": "allocColumns",
+        "line": 37,
+        "type": "function",
+        "file": "zero/layout.ts"
+      },
+      {
+        "name": "markChanged",
+        "line": 51,
+        "type": "function",
+        "file": "zero/layout.ts"
+      },
+      {
+        "name": "isChanged",
+        "line": 62,
+        "type": "function",
+        "file": "zero/layout.ts"
+      },
+      {
+        "name": "buildSnapshot",
+        "line": 79,
+        "type": "function",
+        "file": "zero/snapshot.ts"
+      },
+      {
+        "name": "commitSnapshot",
+        "line": 117,
+        "type": "function",
+        "file": "zero/snapshot.ts"
+      },
+      {
+        "name": "S",
+        "line": 36,
+        "type": "function",
+        "file": "zero/struct.ts"
+      },
+      {
+        "name": "compileStruct",
+        "line": 147,
+        "type": "function",
+        "file": "zero/struct.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "MockWorld",
+        "line": 6,
+        "type": "class",
+        "file": "zero/snapshot.test.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "canUseSAB",
+        "line": 29,
+        "type": "function",
+        "file": "zero/layout.ts"
+      },
+      {
+        "name": "allocColumns",
+        "line": 37,
+        "type": "function",
+        "file": "zero/layout.ts"
+      },
+      {
+        "name": "markChanged",
+        "line": 51,
+        "type": "function",
+        "file": "zero/layout.ts"
+      },
+      {
+        "name": "isChanged",
+        "line": 62,
+        "type": "function",
+        "file": "zero/layout.ts"
+      },
+      {
+        "name": "buildSnapshot",
+        "line": 79,
+        "type": "function",
+        "file": "zero/snapshot.ts"
+      },
+      {
+        "name": "commitSnapshot",
+        "line": 117,
+        "type": "function",
+        "file": "zero/snapshot.ts"
+      },
+      {
+        "name": "S",
+        "line": 36,
+        "type": "function",
+        "file": "zero/struct.ts"
+      },
+      {
+        "name": "compileStruct",
+        "line": 147,
+        "type": "function",
+        "file": "zero/struct.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "zero/layout.ts",
+          "link": "[src/zero/layout.ts](../../../packages/worker/src/zero/layout.ts)",
+          "lineCount": 73
+        },
+        {
+          "name": "zero/snapshot.test.ts",
+          "link": "[src/zero/snapshot.test.ts](../../../packages/worker/src/zero/snapshot.test.ts)",
+          "lineCount": 58
+        },
+        {
+          "name": "zero/snapshot.ts",
+          "link": "[src/zero/snapshot.ts](../../../packages/worker/src/zero/snapshot.ts)",
+          "lineCount": 125
+        },
+        {
+          "name": "zero/struct.test.ts",
+          "link": "[src/zero/struct.test.ts](../../../packages/worker/src/zero/struct.test.ts)",
+          "lineCount": 54
+        },
+        {
+          "name": "zero/struct.ts",
+          "link": "[src/zero/struct.ts](../../../packages/worker/src/zero/struct.ts)",
+          "lineCount": 334
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "MockWorld",
+          "link": "[MockWorld](../../../packages/worker/src/zero/snapshot.test.ts#L6)",
+          "file": "zero/snapshot.test.ts",
+          "line": 6
+        }
+      ],
+      "functions": [
+        {
+          "name": "canUseSAB",
+          "link": "[canUseSAB()](../../../packages/worker/src/zero/layout.ts#L29)",
+          "file": "zero/layout.ts",
+          "line": 29
+        },
+        {
+          "name": "allocColumns",
+          "link": "[allocColumns()](../../../packages/worker/src/zero/layout.ts#L37)",
+          "file": "zero/layout.ts",
+          "line": 37
+        },
+        {
+          "name": "markChanged",
+          "link": "[markChanged()](../../../packages/worker/src/zero/layout.ts#L51)",
+          "file": "zero/layout.ts",
+          "line": 51
+        },
+        {
+          "name": "isChanged",
+          "link": "[isChanged()](../../../packages/worker/src/zero/layout.ts#L62)",
+          "file": "zero/layout.ts",
+          "line": 62
+        },
+        {
+          "name": "buildSnapshot",
+          "link": "[buildSnapshot()](../../../packages/worker/src/zero/snapshot.ts#L79)",
+          "file": "zero/snapshot.ts",
+          "line": 79
+        },
+        {
+          "name": "commitSnapshot",
+          "link": "[commitSnapshot()](../../../packages/worker/src/zero/snapshot.ts#L117)",
+          "file": "zero/snapshot.ts",
+          "line": 117
+        },
+        {
+          "name": "S",
+          "link": "[S()](../../../packages/worker/src/zero/struct.ts#L36)",
+          "file": "zero/struct.ts",
+          "line": 36
+        },
+        {
+          "name": "compileStruct",
+          "link": "[compileStruct()](../../../packages/worker/src/zero/struct.ts#L147)",
+          "file": "zero/struct.ts",
+          "line": 147
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

@@ -1,7 +1,7 @@
 # LMDB Cache Package Delegation Summary
 
 **Date**: 2025-10-12
-**Task**: Implement @promethean/lmdb-cache Package with Enhanced Concurrency
+**Task**: Implement @promethean-os/lmdb-cache Package with Enhanced Concurrency
 **Task UUID**: fdf1ea88-05d2-422a-9d42-9b6799c0f265
 **Status**: Delegated and in_progress
 
@@ -19,14 +19,14 @@
 - **Original Status**: incoming → ready → in_progress
 
 ### Key Requirements
-1. **Drop-in Replacement**: 100% API compatibility with @promethean/level-cache
+1. **Drop-in Replacement**: 100% API compatibility with @promethean-os/level-cache
 2. **Enhanced Concurrency**: Leverage LMDB's superior concurrent read performance
 3. **Multiprocess Safety**: Safe write operations across multiple processes
 4. **Performance Optimization**: Target 2x improvement in concurrent reads
 5. **Comprehensive Testing**: Include concurrency and multiprocess test scenarios
 
 ### Expected Deliverables
-- Complete @promethean/lmdb-cache package implementation
+- Complete @promethean-os/lmdb-cache package implementation
 - Enhanced concurrency support with proper locking
 - Comprehensive test suite with concurrency tests
 - Performance benchmarks vs level-cache
@@ -40,7 +40,7 @@
 
 ### Technical Context
 - **Package Location**: packages/lmdb-cache/
-- **Key Dependencies**: lmdb, @promethean/utils
+- **Key Dependencies**: lmdb, @promethean-os/utils
 - **Reference Implementation**: packages/level-cache/
 - **API Compatibility**: Must maintain identical TypeScript interface
 

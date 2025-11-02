@@ -48,7 +48,7 @@ const FRONTEND_DIST = path.resolve(
 
 const UI_COMPONENTS_DIST = path.resolve(
   path.dirname(url.fileURLToPath(import.meta.url)),
-  "../node_modules/@promethean/ui-components/dist",
+  "../node_modules/@promethean-os/ui-components/dist",
 );
 
 // async function loadConfig() {

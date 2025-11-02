@@ -1,7 +1,7 @@
 import { promises as fs } from "node:fs";
 import * as path from "node:path";
 
-import { slug } from "@promethean/utils";
+import { slug } from "@promethean-os/utils";
 
 export async function writeText(p: string, s: string): Promise<void> {
   await fs.mkdir(path.dirname(p), { recursive: true });

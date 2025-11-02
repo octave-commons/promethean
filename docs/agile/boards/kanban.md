@@ -250,9 +250,9 @@
 
 ## Incoming
 
-- [ ] Assemble unified @promethean/omni-service host #omni #service prio:P2 (uuid:5fb47630-6822-4ecf-a035-625ed0e733bf)
-- [ ] Author @promethean/omni-protocol package #omni #package #typescript prio:P1 (uuid:457fd7a3-bc99-4de6-b9f3-06ef6cf00d5e)
-- [ ] Extract shared services into @promethean/omni-core #omni #refactor prio:P1 (uuid:e0a6842d-031a-4d1c-bee1-563bbda8cf80)
+- [ ] Assemble unified @promethean-os/omni-service host #omni #service prio:P2 (uuid:5fb47630-6822-4ecf-a035-625ed0e733bf)
+- [ ] Author @promethean-os/omni-protocol package #omni #package #typescript prio:P1 (uuid:457fd7a3-bc99-4de6-b9f3-06ef6cf00d5e)
+- [ ] Extract shared services into @promethean-os/omni-core #omni #refactor prio:P1 (uuid:e0a6842d-031a-4d1c-bee1-563bbda8cf80)
 - [ ] Omni unified service specification and planning #omni #planning prio:P1 (uuid:90d0e75e-0f56-4e0e-b470-20e0145ad43d)
 - [ ] codex action build file contextualizer.
 - [ ] universal package manager

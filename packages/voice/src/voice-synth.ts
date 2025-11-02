@@ -3,7 +3,7 @@ import { EventEmitter } from "node:events";
 import { IncomingMessage, request } from "http";
 import { Readable, type Writable } from "stream";
 
-import { createLogger } from "@promethean/utils";
+import { createLogger } from "@promethean-os/utils";
 export type VoiceSynthOptions = {
   readonly host: string;
   readonly endpoint: string;

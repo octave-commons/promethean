@@ -87,7 +87,7 @@
 ### Phase 1: Emergency Stabilization (Day 1)
 ```bash
 # 1. Fix LMDB cache - immediate unblock
-pnpm --filter @promethean/lmdb-cache build
+pnpm --filter @promethean-os/lmdb-cache build
 # 2. Restore basic type checking
 pnpm typecheck:all
 # 3. Verify CI/CD pipeline

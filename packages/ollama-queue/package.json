@@ -1,0 +1,20 @@
+{
+  "name": "@promethean-os/ollama-queue",
+  "version": "0.1.0",
+  "description": "",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -w -p tsconfig.json",
+    "test": "echo \"No tests yet\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "GPL-3.0-only",
+  "dependencies": {
+    "@promethean-os/utils": "workspace:*",
+    "@promethean-os/lmdb-cache": "workspace:*"
+  }
+}

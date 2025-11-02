@@ -2,14 +2,14 @@
 
 ## Overview
 
-This guide provides comprehensive troubleshooting information for common issues encountered when working with the `@promethean/opencode-client` package and its Ollama queue integration.
+This guide provides comprehensive troubleshooting information for common issues encountered when working with the `@promethean-os/opencode-client` package and its Ollama queue integration.
 
 ## Quick Diagnosis Checklist
 
 Before diving into specific issues, run this quick diagnostic:
 
 ```typescript
-import { getQueueInfo } from '@promethean/opencode-client';
+import { getQueueInfo } from '@promethean-os/opencode-client';
 
 async function quickDiagnosis() {
   try {
@@ -60,7 +60,7 @@ clearProcessingInterval();
 
 **Symptoms:**
 ```
-error TS2305: Cannot find module '@promethean/ollama-queue' or its corresponding type declarations.
+error TS2305: Cannot find module '@promethean-os/ollama-queue' or its corresponding type declarations.
 ```
 
 **Solution:**
@@ -103,7 +103,7 @@ export const myTool: any = tool({  // Use 'any' for tool definitions
 
 **Diagnosis:**
 ```typescript
-import { getProcessingInterval, startQueueProcessor } from '@promethean/ollama-queue';
+import { getProcessingInterval, startQueueProcessor } from '@promethean-os/ollama-queue';
 
 const interval = getProcessingInterval();
 if (!interval) {
@@ -150,7 +150,7 @@ if (!interval) {
 
 **Diagnosis:**
 ```typescript
-import { getQueueInfo } from '@promethean/opencode-client';
+import { getQueueInfo } from '@promethean-os/opencode-client';
 
 async function monitorProcessor() {
   const info = await getQueueInfo.execute({});
@@ -195,7 +195,7 @@ Error: connect ECONNREFUSED 127.0.0.1:11434
 curl http://localhost:11434/api/tags
 
 # Or check with the client
-import { listModels } from '@promethean/opencode-client';
+import { listModels } from '@promethean-os/opencode-client';
 
 try {
   await listModels.execute({ detailed: false });
@@ -247,7 +247,7 @@ Error: model 'unknown-model' not found
 **Solution:**
 ```typescript
 // List available models first
-import { listModels } from '@promethean/opencode-client';
+import { listModels } from '@promethean-os/opencode-client';
 
 const models = await listModels.execute({ detailed: true });
 const modelData = JSON.parse(models);
@@ -268,7 +268,7 @@ const modelName = modelData.models[0].name;
 
 **Diagnosis:**
 ```typescript
-import { manageCache } from '@promethean/opencode-client';
+import { manageCache } from '@promethean-os/opencode-client';
 
 const stats = await manageCache.execute({ action: 'stats' });
 const data = JSON.parse(stats);
@@ -284,7 +284,7 @@ console.log(`Similarity threshold: ${data.similarityThreshold}`);
 1. **Check Embedding Generation:**
    ```typescript
    // Test embedding generation
-   import { getPromptEmbedding } from '@promethean/ollama-queue';
+   import { getPromptEmbedding } from '@promethean-os/ollama-queue';
    
    try {
      const embedding = await getPromptEmbedding('test prompt', 'llama2');
@@ -296,7 +296,7 @@ console.log(`Similarity threshold: ${data.similarityThreshold}`);
 
 2. **Verify Cache Initialization:**
    ```typescript
-   import { initializeCache } from '@promethean/ollama-queue';
+   import { initializeCache } from '@promethean-os/ollama-queue';
    
    const cache = await initializeCache('llama2');
    console.log('Cache initialized, size:', cache.size);
@@ -340,7 +340,7 @@ setInterval(manageMemory, 60000); // Check every minute
 
 **Diagnosis:**
 ```typescript
-import { getQueueInfo } from '@promethean/opencode-client';
+import { getQueueInfo } from '@promethean-os/opencode-client';
 
 async function diagnosePerformance() {
   const info = await getQueueInfo.execute({});
@@ -439,7 +439,7 @@ setInterval(monitorMemory, 30000);
 
 **Symptoms:**
 ```
-error TS2307: Cannot find module '@promethean/ollama-queue'
+error TS2307: Cannot find module '@promethean-os/ollama-queue'
 ```
 
 **Solution:**
@@ -490,7 +490,7 @@ process.env.DEBUG = 'ollama-queue:process,ollama-queue:cache';
 ### 2. Add Custom Logging
 
 ```typescript
-import { createLogger } from '@promethean/utils';
+import { createLogger } from '@promethean-os/utils';
 
 const logger = createLogger('opencode-client');
 
@@ -583,7 +583,7 @@ process.env.DEBUG = '*';
 process.env.NODE_ENV = 'development';
 
 // Log all queue operations
-import { jobQueue, activeJobs } from '@promethean/ollama-queue';
+import { jobQueue, activeJobs } from '@promethean-os/ollama-queue';
 
 setInterval(() => {
   console.log('Queue State:', {
@@ -601,7 +601,7 @@ When reporting issues, create a minimal example:
 
 ```typescript
 // minimal-reproduction.ts
-import { submitJob, getJobStatus } from '@promethean/opencode-client';
+import { submitJob, getJobStatus } from '@promethean-os/opencode-client';
 
 async function reproduceIssue() {
   try {
@@ -653,8 +653,8 @@ Include this information when reporting issues:
 ### 1. Clear All State
 
 ```typescript
-import { manageCache } from '@promethean/opencode-client';
-import { clearProcessingInterval } from '@promethean/ollama-queue';
+import { manageCache } from '@promethean-os/opencode-client';
+import { clearProcessingInterval } from '@promethean-os/ollama-queue';
 
 // Emergency reset
 async function emergencyReset() {

@@ -1,4 +1,4 @@
-# @promethean/mcp
+# @promethean-os/mcp
 
 Single MCP server module with composable, pure tools. ESM-only, Fastify HTTP transport + stdio.
 
@@ -10,7 +10,7 @@ The MCP system uses a sophisticated configuration loader that supports multiple 
 
 ### Unified configuration
 
-`@promethean/mcp` reads a single JSON manifest and optionally merges an EDN proxy catalog when the HTTP transport is active. The
+`@promethean-os/mcp` reads a single JSON manifest and optionally merges an EDN proxy catalog when the HTTP transport is active. The
 loader resolves configuration in the following order (highest precedence first):
 
 1. `--config` / `-c` CLI flag (path resolved from `cwd`).
@@ -53,7 +53,7 @@ touching `promethean.mcp.json` by hand:
 
 ```bash
 bb -m mk.mcp-cli push-all --edn config/mcp_servers.edn
-pnpm --filter @promethean/mcp dev -- --config ./promethean.mcp.json
+pnpm --filter @promethean-os/mcp dev -- --config ./promethean.mcp.json
 ```
 
 Each server will be available at `http://<host>:<port>/<name>/mcp` unless you set `:http-path` in the EDN entry. Use `--prefix` to prepend a base path (e.g., `/mcp`).
@@ -63,9 +63,9 @@ Each server will be available at `http://<host>:<port>/<name>/mcp` unless you se
 The HTTP transport exposes a Web Components Dev UI compiled with `shadow-cljs`. Build once before running the server (or use watch mode while iterating):
 
 ```bash
-pnpm --filter @promethean/mcp-dev-ui build
+pnpm --filter @promethean-os/mcp-dev-ui build
 # or
-pnpm --filter @promethean/mcp-dev-ui watch
+pnpm --filter @promethean-os/mcp-dev-ui watch
 ```
 
 The bundle is emitted to `packages/mcp/static/dev-ui` and served from `/ui/assets/main.js`.

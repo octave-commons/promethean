@@ -3,9 +3,24 @@ import { createServer } from 'node:http';
 import path from 'node:path';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 
-import { escapeHtml } from '../frontend/render.js';
+// import { escapeHtml } from '../frontend/render.js';
+
+// Temporary escapeHtml function until frontend is built
+const escapeHtml = (str: string): string =>
+  str.replace(
+    /[&<>"']/g,
+    (char) =>
+      ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+      })[char] || char,
+  );
 
 import { loadBoard } from './kanban.js';
+import type { ColumnData } from './types.js';
 type Primitive = string | number | boolean | symbol | null | undefined | bigint;
 
 type DeepReadonlyTuple<T extends ReadonlyArray<unknown>> = {
@@ -98,17 +113,17 @@ class RequestTooLargeError extends Error {
 const loadCommandModule = async () => import('../cli/command-handlers.js');
 
 const computeSummary = (board: ReadonlyLoadedBoard): ImmutableSummary => {
-  const columns = board.columns.map((column) => {
-    const count = Number.isFinite(column.count) ? column.count : column.tasks.length;
+  const columns = board.columns.map((column: DeepReadonly<ColumnData>) => {
+    const taskCount = Number.isFinite(column.count) ? column.count : column.tasks.length;
     const limit =
       typeof column.limit === 'number' && Number.isFinite(column.limit) ? column.limit : null;
     return {
       name: column.name,
-      count,
+      count: taskCount,
       limit,
     } satisfies SummaryColumn;
-  });
-  const totalTasks = columns.reduce((acc, column) => acc + column.count, 0);
+  }) as ReadonlyArray<SummaryColumn>;
+  const totalTasks = columns.reduce<number>((acc, column) => acc + column.count, 0);
   return { totalTasks, columns } satisfies ImmutableSummary;
 };
 

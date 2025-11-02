@@ -1,0 +1,3 @@
+Prompt-based versions of Kanban tasks.
+Each file here defines a current or proposed agent-facing job.
+Agents should write here when they generate new tasks for themselves.

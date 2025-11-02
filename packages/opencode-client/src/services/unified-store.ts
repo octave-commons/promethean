@@ -1,4 +1,4 @@
-import type { GenericEntry } from '@promethean/persistence';
+import type { GenericEntry } from '@promethean-os/persistence';
 import { sessionStore, eventStore, messageStore } from '../stores.js';
 
 export interface SearchOptions {

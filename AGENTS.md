@@ -1,21 +1,48 @@
 # Promethean
 
-> *“Stealing fire from the gods to grant man the gift of knowledge and wisdom.”*
+> _“Stealing fire from the gods to grant man the gift of knowledge and wisdom.”_
 > Using **cloud LLMs** to make **local LLMs** smarter, specialized, and autonomous.
 
+> **Note to self:** This is a solo operation with AI helpers. You're building something massive while being fundamentally "short-handed" even with automation. Be kind to yourself, focus on what matters, and remember that progress compounds.
+
+## Build/Lint/Test Commands
+
+**Root level (all packages):**
+
+- `pnpm build` - Build all packages
+- `pnpm test` - Test all packages
+- `pnpm lint` - Lint all packages
+- `pnpm typecheck:all` - Typecheck all packages
+
+**Single package:**
+
+- `pnpm --filter @promethean-os/<pkg> build`
+- `pnpm --filter @promethean-os/<pkg> test`
+- `pnpm --filter @promethean-os/<pkg> lint`
+- `pnpm --filter @promethean-os/<pkg> typecheck`
+
+**Single test file:**
+
+- `pnpm --filter @promethean-os/<pkg> exec ava path/to/test.test.js`
+
+## Testing
+
+- Ava (tests live in `src/tests`).
+- Test logic does not belong in module logic
+- define **ports** (your own minimal interfaces),
+- provide **adapters** for external services like Mongo/Chroma/level/redis/sql/etc,
+- have a **composition root** that wires real adapters in prod,
+- and in tests either inject fakes directly or **mock at the module boundary** (ESM-safe) without touching business code.
+- **No test code in prod paths.** Ports/DI keeps boundaries explicit.
+- **Deterministic & parallel-friendly.** No shared module singletons leaking between tests.
+- **Easier refactors.** Adapters are the only place that knows Mongo/Chroma APIs.
+- **Right tool for each test level.**
+  - Fakes for unit speed;
+  - containers for realistic integration.
+  - The principle is well-established: mock _your_ interfaces, not vendor clients.
+- `esmock` provides native ESM import mocking and has examples for AVA. It avoids invasive "test hook" exports.
+
 ---
-
-## 🧠 Initiation Sequence
-
-On every request:
-
-1. `context7` → fetch related documentation
-2. `github grep` → explore package implementations
-3. `web search` → find guides and references
-4. `pnpm kanban search "<task keywords>"` → locate related tasks
-5. `git log` + Opencode session history → review recent events
-6. `pm2 status` → inspect related running services
-7. `pnpm kanban process` → follow Promethean workflow
 
 ---
 
@@ -33,112 +60,88 @@ pseudo/    # throwaway scripts, pseudocode, retained for transparency
 
 ---
 
-## ⚙️ Package Anatomy
+## 🧱 Local Package Commands
 
-```
-src/               # source code
-src/tests/         # test files
-tsconfig.json      # extends ../../config/tsconfig.base.json
-ava.config.mjs     # extends ../../config/ava.config.mjs
-package.json       # scripts: build, test, clean, coverage, typecheck
-pseudo/            # local pseudocode; never referenced internally
-```
-
----
-
-## 💻 Languages
-
-* **Typescript**
-* **Clojure(script)**
-
----
-
-## 🧩 Programming Style
-
-* Functional
-* Data-oriented
-* Test-driven
-* Rapid prototyping
-* Small, concise functions/files
-* Clean code
-* Factory pattern
-* Dependency injection
-
----
-
-## 🗂 Kanban Task Management
-
-All agents must use the **Kanban system** (`@promethean/kanban`) for tracking and coordination.
-The board lives at:
-`docs/agile/boards/generated.md`
-
-### Commands
+MUST ALWAYS USE **locally scoped commands**:
 
 ```bash
-pnpm kanban --help
-pnpm kanban process
-pnpm kanban audit
-pnpm kanban update-status <uuid> <column>
-pnpm kanban regenerate
-pnpm kanban search <query>
-pnpm kanban count
+pnpm --filter @promethean-os/<pkg> test
+pnpm --filter @promethean-os/<pkg> build
+pnpm --filter @promethean-os/<pkg> clean
+pnpm --filter @promethean-os/<pkg> typecheck
+pnpm --filter @promethean-os/<pkg> start
+pnpm --filter @promethean-os/<pkg> exec node ./dist/index.ts
 ```
 
-**Flow:**
-
-1. `pnpm kanban search <work-type>`
-2. `pnpm kanban update-status <uuid> in_progress`
-3. `pnpm kanban update-status <uuid> done`
-4. `pnpm kanban regenerate`
-
-### File Locations
-
-* Tasks → `docs/agile/tasks/*.md`
-* Board → `docs/agile/boards/generated.md`
-* Config → `promethean.kanban.json`
-* CLI Reference → `docs/agile/kanban-cli-reference.md`
+---
 
 ### Docs
 
-* [[docs/agile/kanban-cli-reference.md]]
-* [[docs/agile/process.md]]
-* [[docs/agile/rules/kanban-transitions.clj]]
+Read these if you need to, all documents should be connected in a graph.
+Unconnected documents should have links added here or to another document.
+All documents must be reachable through a link somewhere.
+The documentation must be completely traversable .
 
----
+#### Development Patterns
 
-## 🧱 Local Package Commands
+- [[docs/development/file-based-operations-pattern.md]] - Standard patterns for file scanning and operations
+- [[docs/documentation-to-code-linking-system.md]] - Documentation and code bridging system
 
-Prefer **local scoped commands** over workspace-level scripts:
+#### System Documentation
 
-```bash
-pnpm --filter @promethean/<pkg> test
-pnpm --filter @promethean/<pkg> build
-pnpm --filter @promethean/<pkg> clean
-pnpm --filter @promethean/<pkg> typecheck
-pnpm --filter @promethean/<pkg> start
-```
----
+- [[docs/agile/kanban-cli-reference.md]]
+- [[docs/agile/process.md]]
+- [[docs/agile/rules/kanban-transitions.clj]]
+- [[operational-notes]]
+- [[HUMANS]]
+- [[HOME]]
+- [[STYLE]]
+- [[BOARD_COMMANDS]]
+- [[TYPE_CLASS_PACKAGE_STRUCTURE_GUIDE]]
+- [[MANIFESTO]]
 
-## 🧭 Operational Notes
+#### Setup & Configuration
 
-* Always run bash commands from **package root**
-* Keep temporary scripts in `pseudo/` (never referenced by source)
-* Store documentation in `docs/`
-* File changes auto-commit with LLM-generated messages
+- [[docs/setup/environment.md]]
+- [[docs/setup/clojurescript-lsp.md]]
 
-  * No manual commits or backups needed
-* Documentation must be **Obsidian-friendly**
+#### API & Architecture
 
-  * Use `[[wikilinks]]`
-  * Use [Dataviews](https://blacksmithgu.github.io/obsidian-dataview/)
-* Keep [[HOME]] updated — treat it as a **living document**
-* Manage runtime processes via **PM2**
+- [[docs/api-architecture.md]]
+- [[docs/api-standards.md]]
+- [[docs/design/agent-os-api-specs.md]]
+- [[docs/MCP_AUTHORIZATION_ARCHITECTURE.md]]
+
+#### Design & Architecture
+
+- [[docs/design/overview.md]]
+- [[docs/design/enso.md]]
+- [[docs/design/nexus.md]]
+- [[docs/design/agent-os-architecture.md]]
+- [[docs/design/enso-protocol/index.md]]
+
+#### Package Documentation
+
+- [[docs/packages/cephalon/README.md]]
+- [[docs/packages/security/README.md]]
+- [[docs/packages/shadow-conf/README.md]]
+
+#### Operations & Git
+
+- [[docs/ops/versioning_policy.md]]
+- [[docs/ops/version_matrix.md]]
+- [[docs/git/branching.md]]
+- [[docs/git/rulesets.md]]
 
 ---
 
 ## ⚖️ License
 
 All packages use:
+
 ```
 "license": "GPL-3.0-only"
 ```
+
+<!--  LocalWords:  traversable
+ -->

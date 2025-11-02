@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/build-monitoring",
+  "name": "@promethean-os/build-monitoring",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -31,7 +31,7 @@
   },
   "module": "dist/index.js",
   "dependencies": {
-    "@promethean/utils": "workspace:*",
+    "@promethean-os/utils": "workspace:*",
     "zod": "^3.25.76",
     "node-cron": "^3.0.3",
     "nodemailer": "^6.9.8",

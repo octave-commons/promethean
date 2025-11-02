@@ -18,7 +18,7 @@ test('integration: board operations do not create duplicate files', async (t) =>
   // Create several tasks
   const task1 = await createTask(
     board,
-    'todo',
+    'incoming',
     { title: 'Task 1', content: 'Content 1' },
     tasksDir,
     boardPath,
@@ -60,16 +60,17 @@ test('integration: board operations do not create duplicate files', async (t) =>
 
   // Verify original tasks still exist
   const regeneratedBoard = await loadBoard(boardPath, tasksDir);
-  const todoTasks = regeneratedBoard.columns.find((col: any) => col.name === 'todo')?.tasks || [];
+  const incomingTasks =
+    regeneratedBoard.columns.find((col: any) => col.name === 'incoming')?.tasks || [];
   const readyTasks = regeneratedBoard.columns.find((col: any) => col.name === 'ready')?.tasks || [];
   const inProgressTasks =
     regeneratedBoard.columns.find((col: any) => col.name === 'in-progress')?.tasks || [];
 
-  t.is(todoTasks.length, 1, 'Should have 1 todo task');
+  t.is(incomingTasks.length, 1, 'Should have 1 incoming task');
   t.is(readyTasks.length, 1, 'Should have 1 ready task');
   t.is(inProgressTasks.length, 1, 'Should have 1 in-progress task');
 
-  t.is(todoTasks[0]?.uuid, task1.uuid, 'Todo task UUID should be preserved');
+  t.is(incomingTasks[0]?.uuid, task1.uuid, 'Incoming task UUID should be preserved');
   t.is(readyTasks[0]?.uuid, task2.uuid, 'Ready task UUID should be preserved');
   t.is(inProgressTasks[0]?.uuid, task3.uuid, 'In-progress task UUID should be preserved');
 });
@@ -87,36 +88,22 @@ test('integration: concurrent task creation does not create duplicates', async (
   const concurrentTasks = await Promise.all([
     createTask(
       board,
-      'todo',
+      'incoming',
       { title: 'Concurrent Task', content: 'Version 1' },
       tasksDir,
       boardPath,
     ),
     createTask(
       board,
-      'todo',
+      'incoming',
       { title: 'Concurrent Task', content: 'Version 2' },
       tasksDir,
       boardPath,
     ),
     createTask(
       board,
-      'todo',
+      'incoming',
       { title: 'Concurrent Task', content: 'Version 3' },
-      tasksDir,
-      boardPath,
-    ),
-    createTask(
-      board,
-      'todo',
-      { title: 'Concurrent Task', content: 'Version 4' },
-      tasksDir,
-      boardPath,
-    ),
-    createTask(
-      board,
-      'todo',
-      { title: 'Concurrent Task', content: 'Version 5' },
       tasksDir,
       boardPath,
     ),
@@ -156,7 +143,7 @@ test('integration: mixed operations maintain data integrity', async (t) => {
   // Create tasks
   const taskA = await createTask(
     board,
-    'todo',
+    'incoming',
     { title: 'Task A', content: 'Content A' },
     tasksDir,
     boardPath,
@@ -175,7 +162,7 @@ test('integration: mixed operations maintain data integrity', async (t) => {
   // Try to create duplicate
   const duplicateTaskA = await createTask(
     board,
-    'todo',
+    'incoming',
     { title: 'Task A', content: 'New Content' },
     tasksDir,
     boardPath,
@@ -184,7 +171,7 @@ test('integration: mixed operations maintain data integrity', async (t) => {
   // Create new task
   const taskC = await createTask(
     board,
-    'todo',
+    'incoming',
     { title: 'Task C', content: 'Content C' },
     tasksDir,
     boardPath,
@@ -194,14 +181,14 @@ test('integration: mixed operations maintain data integrity', async (t) => {
   const finalBoard = await loadBoard(boardPath, tasksDir);
 
   // Verify data integrity
-  const todoTasks = finalBoard.columns.find((col: any) => col.name === 'todo')?.tasks || [];
+  const incomingTasks = finalBoard.columns.find((col: any) => col.name === 'incoming')?.tasks || [];
   const readyTasks = finalBoard.columns.find((col: any) => col.name === 'ready')?.tasks || [];
 
-  t.is(todoTasks.length, 2, 'Should have 2 todo tasks');
+  t.is(incomingTasks.length, 2, 'Should have 2 incoming tasks');
   t.is(readyTasks.length, 1, 'Should have 1 ready task');
 
-  const finalTaskA = todoTasks.find((task: any) => task.title === 'Task A');
-  const finalTaskC = todoTasks.find((task: any) => task.title === 'Task C');
+  const finalTaskA = incomingTasks.find((task: any) => task.title === 'Task A');
+  const finalTaskC = incomingTasks.find((task: any) => task.title === 'Task C');
   const finalTaskB = readyTasks.find((task: any) => task.title === 'Task B');
 
   t.truthy(finalTaskA, 'Task A should exist');
@@ -278,7 +265,7 @@ test('integration: file system reflects board state accurately', async (t) => {
   // Try to create duplicates
   await createTask(
     board,
-    'todo',
+    'incoming',
     { title: 'Todo Task 1', content: 'Duplicate' },
     tasksDir,
     boardPath,
@@ -340,7 +327,7 @@ test('integration: special characters in titles do not cause duplicates', async 
   for (const title of specialTitles) {
     const task = await createTask(
       board,
-      'todo',
+      'incoming',
       { title, content: `Content for ${title}` },
       tasksDir,
       boardPath,
@@ -353,7 +340,7 @@ test('integration: special characters in titles do not cause duplicates', async 
   for (const title of specialTitles) {
     const task = await createTask(
       board,
-      'todo',
+      'incoming',
       { title, content: `Duplicate content for ${title}` },
       tasksDir,
       boardPath,

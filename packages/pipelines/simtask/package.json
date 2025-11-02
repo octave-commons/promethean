@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/simtasks",
+  "name": "@promethean-os/simtasks",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -21,12 +21,12 @@
     "sim:all": "pnpm sim:01-scan && pnpm sim:02-embed && pnpm sim:03-cluster && pnpm sim:04-plan && pnpm sim:05-write"
   },
   "dependencies": {
-    "@promethean/level-cache": "workspace:*",
-    "@promethean/utils": "workspace:*",
+    "@promethean-os/level-cache": "workspace:*",
+    "@promethean-os/utils": "workspace:*",
     "gray-matter": "^4.0.3",
     "yaml": "^2.5.0",
     "zod": "^3.23.8",
-    "@promethean/file-indexer-service": "workspace:*"
+    "@promethean-os/file-indexer-service": "workspace:*"
   },
   "devDependencies": {
     "tsx": "^4.19.2"

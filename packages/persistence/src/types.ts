@@ -19,6 +19,9 @@ export type DualStoreMetadata = {
     readonly type?: string;
     readonly caption?: string;
     readonly timeStamp?: DualStoreTimestamp;
+    readonly vectorWriteSuccess?: boolean;
+    readonly vectorWriteError?: string;
+    readonly vectorWriteTimestamp?: number | null;
     readonly [key: string]: unknown;
 };
 

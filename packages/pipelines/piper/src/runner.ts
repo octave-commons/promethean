@@ -4,7 +4,7 @@ import { promises as fs } from "fs";
 import * as chokidar from "chokidar";
 import AjvModule from "ajv";
 import { globby } from "globby";
-import { slug } from "@promethean/utils";
+import { slug } from "@promethean-os/utils";
 import { parse as parseJSONC, type ParseError } from "jsonc-parser";
 
 import {

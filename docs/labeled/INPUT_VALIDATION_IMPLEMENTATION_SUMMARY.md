@@ -97,7 +97,7 @@ function validateBenchmarkInput(category, name) {
 
 ## 🔧 INTEGRATION POINTS
 
-### **@promethean/security Package**
+### **@promethean-os/security Package**
 
 - Enhanced `validatePath()` function
 - New `sanitizeFileName()` improvements

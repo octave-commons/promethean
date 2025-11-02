@@ -1,0 +1,1108 @@
+{
+  "packageData": {
+    "packageName": "shadow-conf",
+    "files": [
+      {
+        "path": "ai-security-evaluator.ts",
+        "fullPath": "/home/err/devel/promethean/packages/shadow-conf/src/ai-security-evaluator.ts",
+        "exports": [
+          {
+            "name": "SecurityThreatAssessment",
+            "line": 17,
+            "type": "interface"
+          },
+          {
+            "name": "AISecurityConfig",
+            "line": 46,
+            "type": "interface"
+          },
+          {
+            "name": "DEFAULT_AI_SECURITY_CONFIG",
+            "line": 64,
+            "type": "function"
+          },
+          {
+            "name": "createAISecurityEvaluator",
+            "line": 78,
+            "type": "function"
+          },
+          {
+            "name": "createOllamaAdapter",
+            "line": 323,
+            "type": "function"
+          },
+          {
+            "name": "createMockOpenCodeAdapter",
+            "line": 434,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "DEFAULT_AI_SECURITY_CONFIG",
+            "line": 64,
+            "type": "function"
+          },
+          {
+            "name": "createAISecurityEvaluator",
+            "line": 78,
+            "type": "function"
+          },
+          {
+            "name": "createOllamaAdapter",
+            "line": 323,
+            "type": "function"
+          },
+          {
+            "name": "createMockOpenCodeAdapter",
+            "line": 434,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "SecurityThreatAssessment",
+            "line": 17,
+            "type": "interface"
+          },
+          {
+            "name": "AISecurityConfig",
+            "line": 46,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 444
+      },
+      {
+        "path": "bin/shadow-conf-secure.ts",
+        "fullPath": "/home/err/devel/promethean/packages/shadow-conf/src/bin/shadow-conf-secure.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 234
+      },
+      {
+        "path": "bin/shadow-conf.ts",
+        "fullPath": "/home/err/devel/promethean/packages/shadow-conf/src/bin/shadow-conf.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 192
+      },
+      {
+        "path": "ecosystem-secure.ts",
+        "fullPath": "/home/err/devel/promethean/packages/shadow-conf/src/ecosystem-secure.ts",
+        "exports": [
+          {
+            "name": "DEFAULT_OUTPUT_FILE_NAME",
+            "line": 29,
+            "type": "function"
+          },
+          {
+            "name": "generateEcosystem",
+            "line": 164,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "DEFAULT_OUTPUT_FILE_NAME",
+            "line": 29,
+            "type": "function"
+          },
+          {
+            "name": "generateEcosystem",
+            "line": 164,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 494
+      },
+      {
+        "path": "ecosystem.ts",
+        "fullPath": "/home/err/devel/promethean/packages/shadow-conf/src/ecosystem.ts",
+        "exports": [
+          {
+            "name": "DEFAULT_OUTPUT_FILE_NAME",
+            "line": 38,
+            "type": "function"
+          },
+          {
+            "name": "generateEcosystem",
+            "line": 72,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "DEFAULT_OUTPUT_FILE_NAME",
+            "line": 38,
+            "type": "function"
+          },
+          {
+            "name": "generateEcosystem",
+            "line": 72,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 505
+      },
+      {
+        "path": "edn-fixed.ts",
+        "fullPath": "/home/err/devel/promethean/packages/shadow-conf/src/edn-fixed.ts",
+        "exports": [
+          {
+            "name": "loadEdnFile",
+            "line": 69,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "loadEdnFile",
+            "line": 69,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 128
+      },
+      {
+        "path": "edn-new.ts",
+        "fullPath": "/home/err/devel/promethean/packages/shadow-conf/src/edn-new.ts",
+        "exports": [
+          {
+            "name": "loadEdnFile",
+            "line": 60,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "loadEdnFile",
+            "line": 60,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 174
+      },
+      {
+        "path": "edn.ts",
+        "fullPath": "/home/err/devel/promethean/packages/shadow-conf/src/edn.ts",
+        "exports": [
+          {
+            "name": "loadEdnFile",
+            "line": 61,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "loadEdnFile",
+            "line": 61,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 175
+      },
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/shadow-conf/src/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 7
+      },
+      {
+        "path": "jsedn.d.ts",
+        "fullPath": "/home/err/devel/promethean/packages/shadow-conf/src/jsedn.d.ts",
+        "exports": [
+          {
+            "name": "parse",
+            "line": 12,
+            "type": "function"
+          },
+          {
+            "name": "stringify",
+            "line": 13,
+            "type": "function"
+          },
+          {
+            "name": "toJS",
+            "line": 14,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "parse",
+            "line": 12,
+            "type": "function"
+          },
+          {
+            "name": "stringify",
+            "line": 13,
+            "type": "function"
+          },
+          {
+            "name": "toJS",
+            "line": 14,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 22
+      },
+      {
+        "path": "security-utils.ts",
+        "fullPath": "/home/err/devel/promethean/packages/shadow-conf/src/security-utils.ts",
+        "exports": [
+          {
+            "name": "SecurityConfig",
+            "line": 22,
+            "type": "interface"
+          },
+          {
+            "name": "DEFAULT_SECURITY_CONFIG",
+            "line": 42,
+            "type": "function"
+          },
+          {
+            "name": "validateAndSanitizePath",
+            "line": 73,
+            "type": "function"
+          },
+          {
+            "name": "validateAndSanitizeFilename",
+            "line": 190,
+            "type": "function"
+          },
+          {
+            "name": "validatePathBoundaries",
+            "line": 264,
+            "type": "function"
+          },
+          {
+            "name": "validateRecursionDepth",
+            "line": 291,
+            "type": "function"
+          },
+          {
+            "name": "validateFileSize",
+            "line": 314,
+            "type": "function"
+          },
+          {
+            "name": "validateFileExtension",
+            "line": 336,
+            "type": "function"
+          },
+          {
+            "name": "sanitizeForJsonSerialization",
+            "line": 359,
+            "type": "function"
+          },
+          {
+            "name": "validateCliArguments",
+            "line": 417,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "DEFAULT_SECURITY_CONFIG",
+            "line": 42,
+            "type": "function"
+          },
+          {
+            "name": "validateAndSanitizePath",
+            "line": 73,
+            "type": "function"
+          },
+          {
+            "name": "validateAndSanitizeFilename",
+            "line": 190,
+            "type": "function"
+          },
+          {
+            "name": "validatePathBoundaries",
+            "line": 264,
+            "type": "function"
+          },
+          {
+            "name": "validateRecursionDepth",
+            "line": 291,
+            "type": "function"
+          },
+          {
+            "name": "validateFileSize",
+            "line": 314,
+            "type": "function"
+          },
+          {
+            "name": "validateFileExtension",
+            "line": 336,
+            "type": "function"
+          },
+          {
+            "name": "sanitizeForJsonSerialization",
+            "line": 359,
+            "type": "function"
+          },
+          {
+            "name": "validateCliArguments",
+            "line": 417,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "SecurityConfig",
+            "line": 22,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 430
+      },
+      {
+        "path": "tests/ai-security-evaluator.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/shadow-conf/src/tests/ai-security-evaluator.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 69
+      },
+      {
+        "path": "tests/ecosystem.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/shadow-conf/src/tests/ecosystem.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 179
+      },
+      {
+        "path": "tests/security-final.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/shadow-conf/src/tests/security-final.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 303
+      },
+      {
+        "path": "types/jsedn.d.ts",
+        "fullPath": "/home/err/devel/promethean/packages/shadow-conf/src/types/jsedn.d.ts",
+        "exports": [
+          {
+            "name": "parse",
+            "line": 2,
+            "type": "function"
+          },
+          {
+            "name": "stringify",
+            "line": 3,
+            "type": "function"
+          },
+          {
+            "name": "toJS",
+            "line": 4,
+            "type": "function"
+          },
+          {
+            "name": "EDN",
+            "line": 5,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "EDN",
+            "line": 5,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "parse",
+            "line": 2,
+            "type": "function"
+          },
+          {
+            "name": "stringify",
+            "line": 3,
+            "type": "function"
+          },
+          {
+            "name": "toJS",
+            "line": 4,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 10
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [],
+      "classes": [],
+      "functions": [],
+      "interfaces": [],
+      "totalLines": 7
+    },
+    "exports": [
+      {
+        "name": "SecurityThreatAssessment",
+        "line": 17,
+        "type": "interface",
+        "file": "ai-security-evaluator.ts"
+      },
+      {
+        "name": "AISecurityConfig",
+        "line": 46,
+        "type": "interface",
+        "file": "ai-security-evaluator.ts"
+      },
+      {
+        "name": "DEFAULT_AI_SECURITY_CONFIG",
+        "line": 64,
+        "type": "function",
+        "file": "ai-security-evaluator.ts"
+      },
+      {
+        "name": "createAISecurityEvaluator",
+        "line": 78,
+        "type": "function",
+        "file": "ai-security-evaluator.ts"
+      },
+      {
+        "name": "createOllamaAdapter",
+        "line": 323,
+        "type": "function",
+        "file": "ai-security-evaluator.ts"
+      },
+      {
+        "name": "createMockOpenCodeAdapter",
+        "line": 434,
+        "type": "function",
+        "file": "ai-security-evaluator.ts"
+      },
+      {
+        "name": "DEFAULT_OUTPUT_FILE_NAME",
+        "line": 29,
+        "type": "function",
+        "file": "ecosystem-secure.ts"
+      },
+      {
+        "name": "generateEcosystem",
+        "line": 164,
+        "type": "function",
+        "file": "ecosystem-secure.ts"
+      },
+      {
+        "name": "DEFAULT_OUTPUT_FILE_NAME",
+        "line": 38,
+        "type": "function",
+        "file": "ecosystem.ts"
+      },
+      {
+        "name": "generateEcosystem",
+        "line": 72,
+        "type": "function",
+        "file": "ecosystem.ts"
+      },
+      {
+        "name": "loadEdnFile",
+        "line": 69,
+        "type": "function",
+        "file": "edn-fixed.ts"
+      },
+      {
+        "name": "loadEdnFile",
+        "line": 60,
+        "type": "function",
+        "file": "edn-new.ts"
+      },
+      {
+        "name": "loadEdnFile",
+        "line": 61,
+        "type": "function",
+        "file": "edn.ts"
+      },
+      {
+        "name": "parse",
+        "line": 12,
+        "type": "function",
+        "file": "jsedn.d.ts"
+      },
+      {
+        "name": "stringify",
+        "line": 13,
+        "type": "function",
+        "file": "jsedn.d.ts"
+      },
+      {
+        "name": "toJS",
+        "line": 14,
+        "type": "function",
+        "file": "jsedn.d.ts"
+      },
+      {
+        "name": "SecurityConfig",
+        "line": 22,
+        "type": "interface",
+        "file": "security-utils.ts"
+      },
+      {
+        "name": "DEFAULT_SECURITY_CONFIG",
+        "line": 42,
+        "type": "function",
+        "file": "security-utils.ts"
+      },
+      {
+        "name": "validateAndSanitizePath",
+        "line": 73,
+        "type": "function",
+        "file": "security-utils.ts"
+      },
+      {
+        "name": "validateAndSanitizeFilename",
+        "line": 190,
+        "type": "function",
+        "file": "security-utils.ts"
+      },
+      {
+        "name": "validatePathBoundaries",
+        "line": 264,
+        "type": "function",
+        "file": "security-utils.ts"
+      },
+      {
+        "name": "validateRecursionDepth",
+        "line": 291,
+        "type": "function",
+        "file": "security-utils.ts"
+      },
+      {
+        "name": "validateFileSize",
+        "line": 314,
+        "type": "function",
+        "file": "security-utils.ts"
+      },
+      {
+        "name": "validateFileExtension",
+        "line": 336,
+        "type": "function",
+        "file": "security-utils.ts"
+      },
+      {
+        "name": "sanitizeForJsonSerialization",
+        "line": 359,
+        "type": "function",
+        "file": "security-utils.ts"
+      },
+      {
+        "name": "validateCliArguments",
+        "line": 417,
+        "type": "function",
+        "file": "security-utils.ts"
+      },
+      {
+        "name": "parse",
+        "line": 2,
+        "type": "function",
+        "file": "types/jsedn.d.ts"
+      },
+      {
+        "name": "stringify",
+        "line": 3,
+        "type": "function",
+        "file": "types/jsedn.d.ts"
+      },
+      {
+        "name": "toJS",
+        "line": 4,
+        "type": "function",
+        "file": "types/jsedn.d.ts"
+      },
+      {
+        "name": "EDN",
+        "line": 5,
+        "type": "class",
+        "file": "types/jsedn.d.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "EDN",
+        "line": 5,
+        "type": "class",
+        "file": "types/jsedn.d.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "DEFAULT_AI_SECURITY_CONFIG",
+        "line": 64,
+        "type": "function",
+        "file": "ai-security-evaluator.ts"
+      },
+      {
+        "name": "createAISecurityEvaluator",
+        "line": 78,
+        "type": "function",
+        "file": "ai-security-evaluator.ts"
+      },
+      {
+        "name": "createOllamaAdapter",
+        "line": 323,
+        "type": "function",
+        "file": "ai-security-evaluator.ts"
+      },
+      {
+        "name": "createMockOpenCodeAdapter",
+        "line": 434,
+        "type": "function",
+        "file": "ai-security-evaluator.ts"
+      },
+      {
+        "name": "DEFAULT_OUTPUT_FILE_NAME",
+        "line": 29,
+        "type": "function",
+        "file": "ecosystem-secure.ts"
+      },
+      {
+        "name": "generateEcosystem",
+        "line": 164,
+        "type": "function",
+        "file": "ecosystem-secure.ts"
+      },
+      {
+        "name": "DEFAULT_OUTPUT_FILE_NAME",
+        "line": 38,
+        "type": "function",
+        "file": "ecosystem.ts"
+      },
+      {
+        "name": "generateEcosystem",
+        "line": 72,
+        "type": "function",
+        "file": "ecosystem.ts"
+      },
+      {
+        "name": "loadEdnFile",
+        "line": 69,
+        "type": "function",
+        "file": "edn-fixed.ts"
+      },
+      {
+        "name": "loadEdnFile",
+        "line": 60,
+        "type": "function",
+        "file": "edn-new.ts"
+      },
+      {
+        "name": "loadEdnFile",
+        "line": 61,
+        "type": "function",
+        "file": "edn.ts"
+      },
+      {
+        "name": "parse",
+        "line": 12,
+        "type": "function",
+        "file": "jsedn.d.ts"
+      },
+      {
+        "name": "stringify",
+        "line": 13,
+        "type": "function",
+        "file": "jsedn.d.ts"
+      },
+      {
+        "name": "toJS",
+        "line": 14,
+        "type": "function",
+        "file": "jsedn.d.ts"
+      },
+      {
+        "name": "DEFAULT_SECURITY_CONFIG",
+        "line": 42,
+        "type": "function",
+        "file": "security-utils.ts"
+      },
+      {
+        "name": "validateAndSanitizePath",
+        "line": 73,
+        "type": "function",
+        "file": "security-utils.ts"
+      },
+      {
+        "name": "validateAndSanitizeFilename",
+        "line": 190,
+        "type": "function",
+        "file": "security-utils.ts"
+      },
+      {
+        "name": "validatePathBoundaries",
+        "line": 264,
+        "type": "function",
+        "file": "security-utils.ts"
+      },
+      {
+        "name": "validateRecursionDepth",
+        "line": 291,
+        "type": "function",
+        "file": "security-utils.ts"
+      },
+      {
+        "name": "validateFileSize",
+        "line": 314,
+        "type": "function",
+        "file": "security-utils.ts"
+      },
+      {
+        "name": "validateFileExtension",
+        "line": 336,
+        "type": "function",
+        "file": "security-utils.ts"
+      },
+      {
+        "name": "sanitizeForJsonSerialization",
+        "line": 359,
+        "type": "function",
+        "file": "security-utils.ts"
+      },
+      {
+        "name": "validateCliArguments",
+        "line": 417,
+        "type": "function",
+        "file": "security-utils.ts"
+      },
+      {
+        "name": "parse",
+        "line": 2,
+        "type": "function",
+        "file": "types/jsedn.d.ts"
+      },
+      {
+        "name": "stringify",
+        "line": 3,
+        "type": "function",
+        "file": "types/jsedn.d.ts"
+      },
+      {
+        "name": "toJS",
+        "line": 4,
+        "type": "function",
+        "file": "types/jsedn.d.ts"
+      }
+    ],
+    "interfaces": [
+      {
+        "name": "SecurityThreatAssessment",
+        "line": 17,
+        "type": "interface",
+        "file": "ai-security-evaluator.ts"
+      },
+      {
+        "name": "AISecurityConfig",
+        "line": 46,
+        "type": "interface",
+        "file": "ai-security-evaluator.ts"
+      },
+      {
+        "name": "SecurityConfig",
+        "line": 22,
+        "type": "interface",
+        "file": "security-utils.ts"
+      }
+    ]
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "ai-security-evaluator.ts",
+          "link": "[src/ai-security-evaluator.ts](../../../packages/shadow-conf/src/ai-security-evaluator.ts)",
+          "lineCount": 444
+        },
+        {
+          "name": "bin/shadow-conf-secure.ts",
+          "link": "[src/bin/shadow-conf-secure.ts](../../../packages/shadow-conf/src/bin/shadow-conf-secure.ts)",
+          "lineCount": 234
+        },
+        {
+          "name": "bin/shadow-conf.ts",
+          "link": "[src/bin/shadow-conf.ts](../../../packages/shadow-conf/src/bin/shadow-conf.ts)",
+          "lineCount": 192
+        },
+        {
+          "name": "ecosystem-secure.ts",
+          "link": "[src/ecosystem-secure.ts](../../../packages/shadow-conf/src/ecosystem-secure.ts)",
+          "lineCount": 494
+        },
+        {
+          "name": "ecosystem.ts",
+          "link": "[src/ecosystem.ts](../../../packages/shadow-conf/src/ecosystem.ts)",
+          "lineCount": 505
+        },
+        {
+          "name": "edn-fixed.ts",
+          "link": "[src/edn-fixed.ts](../../../packages/shadow-conf/src/edn-fixed.ts)",
+          "lineCount": 128
+        },
+        {
+          "name": "edn-new.ts",
+          "link": "[src/edn-new.ts](../../../packages/shadow-conf/src/edn-new.ts)",
+          "lineCount": 174
+        },
+        {
+          "name": "edn.ts",
+          "link": "[src/edn.ts](../../../packages/shadow-conf/src/edn.ts)",
+          "lineCount": 175
+        },
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/shadow-conf/src/index.ts)",
+          "lineCount": 7
+        },
+        {
+          "name": "jsedn.d.ts",
+          "link": "[src/jsedn.d.ts](../../../packages/shadow-conf/src/jsedn.d.ts)",
+          "lineCount": 22
+        },
+        {
+          "name": "security-utils.ts",
+          "link": "[src/security-utils.ts](../../../packages/shadow-conf/src/security-utils.ts)",
+          "lineCount": 430
+        },
+        {
+          "name": "tests/ai-security-evaluator.test.ts",
+          "link": "[src/tests/ai-security-evaluator.test.ts](../../../packages/shadow-conf/src/tests/ai-security-evaluator.test.ts)",
+          "lineCount": 69
+        },
+        {
+          "name": "tests/ecosystem.test.ts",
+          "link": "[src/tests/ecosystem.test.ts](../../../packages/shadow-conf/src/tests/ecosystem.test.ts)",
+          "lineCount": 179
+        },
+        {
+          "name": "tests/security-final.test.ts",
+          "link": "[src/tests/security-final.test.ts](../../../packages/shadow-conf/src/tests/security-final.test.ts)",
+          "lineCount": 303
+        },
+        {
+          "name": "types/jsedn.d.ts",
+          "link": "[src/types/jsedn.d.ts](../../../packages/shadow-conf/src/types/jsedn.d.ts)",
+          "lineCount": 10
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "EDN",
+          "link": "[EDN](../../../packages/shadow-conf/src/types/jsedn.d.ts#L5)",
+          "file": "types/jsedn.d.ts",
+          "line": 5
+        }
+      ],
+      "functions": [
+        {
+          "name": "DEFAULT_AI_SECURITY_CONFIG",
+          "link": "[DEFAULT_AI_SECURITY_CONFIG()](../../../packages/shadow-conf/src/ai-security-evaluator.ts#L64)",
+          "file": "ai-security-evaluator.ts",
+          "line": 64
+        },
+        {
+          "name": "createAISecurityEvaluator",
+          "link": "[createAISecurityEvaluator()](../../../packages/shadow-conf/src/ai-security-evaluator.ts#L78)",
+          "file": "ai-security-evaluator.ts",
+          "line": 78
+        },
+        {
+          "name": "createOllamaAdapter",
+          "link": "[createOllamaAdapter()](../../../packages/shadow-conf/src/ai-security-evaluator.ts#L323)",
+          "file": "ai-security-evaluator.ts",
+          "line": 323
+        },
+        {
+          "name": "createMockOpenCodeAdapter",
+          "link": "[createMockOpenCodeAdapter()](../../../packages/shadow-conf/src/ai-security-evaluator.ts#L434)",
+          "file": "ai-security-evaluator.ts",
+          "line": 434
+        },
+        {
+          "name": "DEFAULT_OUTPUT_FILE_NAME",
+          "link": "[DEFAULT_OUTPUT_FILE_NAME()](../../../packages/shadow-conf/src/ecosystem-secure.ts#L29)",
+          "file": "ecosystem-secure.ts",
+          "line": 29
+        },
+        {
+          "name": "generateEcosystem",
+          "link": "[generateEcosystem()](../../../packages/shadow-conf/src/ecosystem-secure.ts#L164)",
+          "file": "ecosystem-secure.ts",
+          "line": 164
+        },
+        {
+          "name": "DEFAULT_OUTPUT_FILE_NAME",
+          "link": "[DEFAULT_OUTPUT_FILE_NAME()](../../../packages/shadow-conf/src/ecosystem.ts#L38)",
+          "file": "ecosystem.ts",
+          "line": 38
+        },
+        {
+          "name": "generateEcosystem",
+          "link": "[generateEcosystem()](../../../packages/shadow-conf/src/ecosystem.ts#L72)",
+          "file": "ecosystem.ts",
+          "line": 72
+        },
+        {
+          "name": "loadEdnFile",
+          "link": "[loadEdnFile()](../../../packages/shadow-conf/src/edn-fixed.ts#L69)",
+          "file": "edn-fixed.ts",
+          "line": 69
+        },
+        {
+          "name": "loadEdnFile",
+          "link": "[loadEdnFile()](../../../packages/shadow-conf/src/edn-new.ts#L60)",
+          "file": "edn-new.ts",
+          "line": 60
+        },
+        {
+          "name": "loadEdnFile",
+          "link": "[loadEdnFile()](../../../packages/shadow-conf/src/edn.ts#L61)",
+          "file": "edn.ts",
+          "line": 61
+        },
+        {
+          "name": "parse",
+          "link": "[parse()](../../../packages/shadow-conf/src/jsedn.d.ts#L12)",
+          "file": "jsedn.d.ts",
+          "line": 12
+        },
+        {
+          "name": "stringify",
+          "link": "[stringify()](../../../packages/shadow-conf/src/jsedn.d.ts#L13)",
+          "file": "jsedn.d.ts",
+          "line": 13
+        },
+        {
+          "name": "toJS",
+          "link": "[toJS()](../../../packages/shadow-conf/src/jsedn.d.ts#L14)",
+          "file": "jsedn.d.ts",
+          "line": 14
+        },
+        {
+          "name": "DEFAULT_SECURITY_CONFIG",
+          "link": "[DEFAULT_SECURITY_CONFIG()](../../../packages/shadow-conf/src/security-utils.ts#L42)",
+          "file": "security-utils.ts",
+          "line": 42
+        },
+        {
+          "name": "validateAndSanitizePath",
+          "link": "[validateAndSanitizePath()](../../../packages/shadow-conf/src/security-utils.ts#L73)",
+          "file": "security-utils.ts",
+          "line": 73
+        },
+        {
+          "name": "validateAndSanitizeFilename",
+          "link": "[validateAndSanitizeFilename()](../../../packages/shadow-conf/src/security-utils.ts#L190)",
+          "file": "security-utils.ts",
+          "line": 190
+        },
+        {
+          "name": "validatePathBoundaries",
+          "link": "[validatePathBoundaries()](../../../packages/shadow-conf/src/security-utils.ts#L264)",
+          "file": "security-utils.ts",
+          "line": 264
+        },
+        {
+          "name": "validateRecursionDepth",
+          "link": "[validateRecursionDepth()](../../../packages/shadow-conf/src/security-utils.ts#L291)",
+          "file": "security-utils.ts",
+          "line": 291
+        },
+        {
+          "name": "validateFileSize",
+          "link": "[validateFileSize()](../../../packages/shadow-conf/src/security-utils.ts#L314)",
+          "file": "security-utils.ts",
+          "line": 314
+        },
+        {
+          "name": "validateFileExtension",
+          "link": "[validateFileExtension()](../../../packages/shadow-conf/src/security-utils.ts#L336)",
+          "file": "security-utils.ts",
+          "line": 336
+        },
+        {
+          "name": "sanitizeForJsonSerialization",
+          "link": "[sanitizeForJsonSerialization()](../../../packages/shadow-conf/src/security-utils.ts#L359)",
+          "file": "security-utils.ts",
+          "line": 359
+        },
+        {
+          "name": "validateCliArguments",
+          "link": "[validateCliArguments()](../../../packages/shadow-conf/src/security-utils.ts#L417)",
+          "file": "security-utils.ts",
+          "line": 417
+        },
+        {
+          "name": "parse",
+          "link": "[parse()](../../../packages/shadow-conf/src/types/jsedn.d.ts#L2)",
+          "file": "types/jsedn.d.ts",
+          "line": 2
+        },
+        {
+          "name": "stringify",
+          "link": "[stringify()](../../../packages/shadow-conf/src/types/jsedn.d.ts#L3)",
+          "file": "types/jsedn.d.ts",
+          "line": 3
+        },
+        {
+          "name": "toJS",
+          "link": "[toJS()](../../../packages/shadow-conf/src/types/jsedn.d.ts#L4)",
+          "file": "types/jsedn.d.ts",
+          "line": 4
+        }
+      ],
+      "interfaces": [
+        {
+          "name": "SecurityThreatAssessment",
+          "link": "[SecurityThreatAssessment](../../../packages/shadow-conf/src/ai-security-evaluator.ts#L17)",
+          "file": "ai-security-evaluator.ts",
+          "line": 17
+        },
+        {
+          "name": "AISecurityConfig",
+          "link": "[AISecurityConfig](../../../packages/shadow-conf/src/ai-security-evaluator.ts#L46)",
+          "file": "ai-security-evaluator.ts",
+          "line": 46
+        },
+        {
+          "name": "SecurityConfig",
+          "link": "[SecurityConfig](../../../packages/shadow-conf/src/security-utils.ts#L22)",
+          "file": "security-utils.ts",
+          "line": 22
+        }
+      ]
+    }
+  }
+}

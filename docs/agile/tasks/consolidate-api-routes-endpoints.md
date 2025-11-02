@@ -1,15 +1,16 @@
 ---
-uuid: "585294ed-b77b-4d36-bb77-8b0f6f1e6ac0"
-title: "Consolidate API Routes and Endpoints"
-slug: "consolidate-api-routes-endpoints"
-status: "breakdown"
-priority: "P0"
-labels: ["api", "routes", "consolidation", "endpoints", "epic2"]
-created_at: "2025-10-18T00:00:00.000Z"
+uuid: '585294ed-b77b-4d36-bb77-8b0f6f1e6ac0'
+title: 'Consolidate API Routes and Endpoints'
+slug: 'consolidate-api-routes-endpoints'
+status: 'ready'
+priority: 'P0'
+labels: ['api', 'routes', 'consolidation', 'endpoints', 'epic2']
+created_at: '2025-10-18T00:00:00.000Z'
 estimates:
-  complexity: ""
-  scale: ""
-  time_to_completion: ""
+  complexity: '3'
+  scale: 'medium'
+  time_to_completion: '1 session'
+storyPoints: 3
 ---
 
 ## 🛣️ Consolidate API Routes and Endpoints
@@ -41,14 +42,14 @@ Consolidate and unify all API routes and endpoints from the three packages into 
 
 #### API Structure to Consolidate:
 
-1. **From `@promethean/dualstore-http`**
+1. **From `@promethean-os/dualstore-http`**
 
    - Dual-store management endpoints
    - Collection CRUD operations
    - Data provider endpoints
    - Health and status endpoints
 
-2. **From `@promethean/opencode-client`**
+2. **From `@promethean-os/opencode-client`**
 
    - Agent management endpoints
    - Session management APIs

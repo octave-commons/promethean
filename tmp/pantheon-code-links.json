@@ -1,0 +1,3202 @@
+{
+  "packageData": {
+    "packageName": "pantheon",
+    "files": [
+      {
+        "path": "actions/actors/create-composite-actor.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/actions/actors/create-composite-actor.ts",
+        "exports": [
+          {
+            "name": "createCompositeActor",
+            "line": 132,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createCompositeActor",
+            "line": 132,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 149
+      },
+      {
+        "path": "actions/actors/create-llm-actor.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/actions/actors/create-llm-actor.ts",
+        "exports": [
+          {
+            "name": "createLLMActor",
+            "line": 86,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createLLMActor",
+            "line": 86,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 103
+      },
+      {
+        "path": "actions/actors/create-tool-actor.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/actions/actors/create-tool-actor.ts",
+        "exports": [
+          {
+            "name": "createToolActor",
+            "line": 93,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createToolActor",
+            "line": 93,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 110
+      },
+      {
+        "path": "actions/actors/index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/actions/actors/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 28
+      },
+      {
+        "path": "actors/index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/actors/index.ts",
+        "exports": [
+          {
+            "name": "createLLMActor",
+            "line": 24,
+            "type": "function"
+          },
+          {
+            "name": "createToolActor",
+            "line": 95,
+            "type": "function"
+          },
+          {
+            "name": "createCompositeActor",
+            "line": 156,
+            "type": "function"
+          },
+          {
+            "name": "createActorFromTemplate",
+            "line": 251,
+            "type": "function"
+          },
+          {
+            "name": "validateActorScript",
+            "line": 269,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createLLMActor",
+            "line": 24,
+            "type": "function"
+          },
+          {
+            "name": "createToolActor",
+            "line": 95,
+            "type": "function"
+          },
+          {
+            "name": "createCompositeActor",
+            "line": 156,
+            "type": "function"
+          },
+          {
+            "name": "createActorFromTemplate",
+            "line": 251,
+            "type": "function"
+          },
+          {
+            "name": "validateActorScript",
+            "line": 269,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 277
+      },
+      {
+        "path": "actors/llm-actor.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/actors/llm-actor.ts",
+        "exports": [
+          {
+            "name": "LLMActorConfig",
+            "line": 8,
+            "type": "interface"
+          },
+          {
+            "name": "makeLLMActorAdapter",
+            "line": 14,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "makeLLMActorAdapter",
+            "line": 14,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "LLMActorConfig",
+            "line": 8,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 122
+      },
+      {
+        "path": "adapters/index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/adapters/index.ts",
+        "exports": [
+          {
+            "name": "makeCompletePantheonSystem",
+            "line": 39,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "makeCompletePantheonSystem",
+            "line": 39,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 70
+      },
+      {
+        "path": "auth/auth-middleware.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/auth/auth-middleware.ts",
+        "exports": [
+          {
+            "name": "AuthenticatedRequest",
+            "line": 7,
+            "type": "interface"
+          },
+          {
+            "name": "AuthResponse",
+            "line": 17,
+            "type": "interface"
+          },
+          {
+            "name": "createCliAuthMiddleware",
+            "line": 27,
+            "type": "function"
+          },
+          {
+            "name": "CliAuthManager",
+            "line": 143,
+            "type": "class"
+          },
+          {
+            "name": "getDefaultCliAuthManager",
+            "line": 249,
+            "type": "function"
+          },
+          {
+            "name": "initializeCliAuthManager",
+            "line": 260,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "CliAuthManager",
+            "line": 143,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "createCliAuthMiddleware",
+            "line": 27,
+            "type": "function"
+          },
+          {
+            "name": "getDefaultCliAuthManager",
+            "line": 249,
+            "type": "function"
+          },
+          {
+            "name": "initializeCliAuthManager",
+            "line": 260,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "AuthenticatedRequest",
+            "line": 7,
+            "type": "interface"
+          },
+          {
+            "name": "AuthResponse",
+            "line": 17,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 264
+      },
+      {
+        "path": "auth/jwt-handler.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/auth/jwt-handler.ts",
+        "exports": [
+          {
+            "name": "JwtHandler",
+            "line": 86,
+            "type": "class"
+          },
+          {
+            "name": "getDefaultJwtHandler",
+            "line": 305,
+            "type": "function"
+          },
+          {
+            "name": "initializeJwtHandler",
+            "line": 325,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "MockTokenExpiredError",
+            "line": 12,
+            "type": "class"
+          },
+          {
+            "name": "MockJsonWebTokenError",
+            "line": 19,
+            "type": "class"
+          },
+          {
+            "name": "JwtHandler",
+            "line": 86,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "getDefaultJwtHandler",
+            "line": 305,
+            "type": "function"
+          },
+          {
+            "name": "initializeJwtHandler",
+            "line": 325,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 333
+      },
+      {
+        "path": "auth/session-manager.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/auth/session-manager.ts",
+        "exports": [
+          {
+            "name": "SessionManager",
+            "line": 15,
+            "type": "class"
+          },
+          {
+            "name": "getDefaultSessionManager",
+            "line": 279,
+            "type": "function"
+          },
+          {
+            "name": "initializeSessionManager",
+            "line": 295,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "SessionManager",
+            "line": 15,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "getDefaultSessionManager",
+            "line": 279,
+            "type": "function"
+          },
+          {
+            "name": "initializeSessionManager",
+            "line": 295,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 299
+      },
+      {
+        "path": "auth/types.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/auth/types.ts",
+        "exports": [
+          {
+            "name": "JwtPayloadSchema",
+            "line": 6,
+            "type": "function"
+          },
+          {
+            "name": "CredentialsSchema",
+            "line": 21,
+            "type": "function"
+          },
+          {
+            "name": "ApiKeyCredentialsSchema",
+            "line": 31,
+            "type": "function"
+          },
+          {
+            "name": "UserSchema",
+            "line": 40,
+            "type": "function"
+          },
+          {
+            "name": "SessionSchema",
+            "line": 56,
+            "type": "function"
+          },
+          {
+            "name": "AuthResultSchema",
+            "line": 71,
+            "type": "function"
+          },
+          {
+            "name": "SecurityContextSchema",
+            "line": 87,
+            "type": "function"
+          },
+          {
+            "name": "PERMISSIONS",
+            "line": 102,
+            "type": "function"
+          },
+          {
+            "name": "ROLE_PERMISSIONS",
+            "line": 134,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "JwtPayloadSchema",
+            "line": 6,
+            "type": "function"
+          },
+          {
+            "name": "CredentialsSchema",
+            "line": 21,
+            "type": "function"
+          },
+          {
+            "name": "ApiKeyCredentialsSchema",
+            "line": 31,
+            "type": "function"
+          },
+          {
+            "name": "UserSchema",
+            "line": 40,
+            "type": "function"
+          },
+          {
+            "name": "SessionSchema",
+            "line": 56,
+            "type": "function"
+          },
+          {
+            "name": "AuthResultSchema",
+            "line": 71,
+            "type": "function"
+          },
+          {
+            "name": "SecurityContextSchema",
+            "line": 87,
+            "type": "function"
+          },
+          {
+            "name": "PERMISSIONS",
+            "line": 102,
+            "type": "function"
+          },
+          {
+            "name": "ROLE_PERMISSIONS",
+            "line": 134,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 160
+      },
+      {
+        "path": "cli/index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/cli/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 390
+      },
+      {
+        "path": "core/actors.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/core/actors.ts",
+        "exports": [
+          {
+            "name": "makeActorAdapter",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "makeActorAdapter",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 41
+      },
+      {
+        "path": "core/context.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/core/context.ts",
+        "exports": [
+          {
+            "name": "makeContextAdapter",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "makeContextAdapter",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 33
+      },
+      {
+        "path": "core/orchestrator.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/core/orchestrator.ts",
+        "exports": [
+          {
+            "name": "OrchestratorDeps",
+            "line": 4,
+            "type": "interface"
+          },
+          {
+            "name": "makeOrchestrator",
+            "line": 10,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "makeOrchestrator",
+            "line": 10,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "OrchestratorDeps",
+            "line": 4,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 35
+      },
+      {
+        "path": "core/ports.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/core/ports.ts",
+        "exports": [
+          {
+            "name": "ToolPort",
+            "line": 1,
+            "type": "interface"
+          },
+          {
+            "name": "ContextPort",
+            "line": 5,
+            "type": "interface"
+          },
+          {
+            "name": "ActorPort",
+            "line": 11,
+            "type": "interface"
+          },
+          {
+            "name": "LlmPort",
+            "line": 17,
+            "type": "interface"
+          },
+          {
+            "name": "Message",
+            "line": 21,
+            "type": "interface"
+          },
+          {
+            "name": "Context",
+            "line": 26,
+            "type": "interface"
+          },
+          {
+            "name": "Actor",
+            "line": 34,
+            "type": "interface"
+          },
+          {
+            "name": "ActorConfig",
+            "line": 41,
+            "type": "interface"
+          }
+        ],
+        "classes": [],
+        "functions": [],
+        "interfaces": [
+          {
+            "name": "ToolPort",
+            "line": 1,
+            "type": "interface"
+          },
+          {
+            "name": "ContextPort",
+            "line": 5,
+            "type": "interface"
+          },
+          {
+            "name": "ActorPort",
+            "line": 11,
+            "type": "interface"
+          },
+          {
+            "name": "LlmPort",
+            "line": 17,
+            "type": "interface"
+          },
+          {
+            "name": "Message",
+            "line": 21,
+            "type": "interface"
+          },
+          {
+            "name": "Context",
+            "line": 26,
+            "type": "interface"
+          },
+          {
+            "name": "Actor",
+            "line": 34,
+            "type": "interface"
+          },
+          {
+            "name": "ActorConfig",
+            "line": 41,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 46
+      },
+      {
+        "path": "core/types.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/core/types.ts",
+        "exports": [
+          {
+            "name": "Actor",
+            "line": 1,
+            "type": "interface"
+          },
+          {
+            "name": "ActorConfig",
+            "line": 8,
+            "type": "interface"
+          },
+          {
+            "name": "Context",
+            "line": 14,
+            "type": "interface"
+          },
+          {
+            "name": "Message",
+            "line": 22,
+            "type": "interface"
+          }
+        ],
+        "classes": [],
+        "functions": [],
+        "interfaces": [
+          {
+            "name": "Actor",
+            "line": 1,
+            "type": "interface"
+          },
+          {
+            "name": "ActorConfig",
+            "line": 8,
+            "type": "interface"
+          },
+          {
+            "name": "Context",
+            "line": 14,
+            "type": "interface"
+          },
+          {
+            "name": "Message",
+            "line": 22,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 28
+      },
+      {
+        "path": "core.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/core.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 4
+      },
+      {
+        "path": "ecs.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/ecs.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 4
+      },
+      {
+        "path": "factories/actor-factory.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/factories/actor-factory.ts",
+        "exports": [
+          {
+            "name": "LLMActorDependencies",
+            "line": 13,
+            "type": "interface"
+          },
+          {
+            "name": "ToolActorDependencies",
+            "line": 18,
+            "type": "interface"
+          },
+          {
+            "name": "CompositeActorDependencies",
+            "line": 23,
+            "type": "interface"
+          },
+          {
+            "name": "createLLMActorWithDependencies",
+            "line": 29,
+            "type": "function"
+          },
+          {
+            "name": "createToolActorWithDependencies",
+            "line": 43,
+            "type": "function"
+          },
+          {
+            "name": "createCompositeActorWithDependencies",
+            "line": 57,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createLLMActorWithDependencies",
+            "line": 29,
+            "type": "function"
+          },
+          {
+            "name": "createToolActorWithDependencies",
+            "line": 43,
+            "type": "function"
+          },
+          {
+            "name": "createCompositeActorWithDependencies",
+            "line": 57,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "LLMActorDependencies",
+            "line": 13,
+            "type": "interface"
+          },
+          {
+            "name": "ToolActorDependencies",
+            "line": 18,
+            "type": "interface"
+          },
+          {
+            "name": "CompositeActorDependencies",
+            "line": 23,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 70
+      },
+      {
+        "path": "factories/index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/factories/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 14
+      },
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 120
+      },
+      {
+        "path": "llm/openai.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/llm/openai.ts",
+        "exports": [
+          {
+            "name": "makeOpenAIAdapter",
+            "line": 15,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "makeOpenAIAdapter",
+            "line": 15,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 68
+      },
+      {
+        "path": "mcp.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/mcp.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 15
+      },
+      {
+        "path": "orchestrator.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/orchestrator.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 17
+      },
+      {
+        "path": "persistence.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/persistence.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 11
+      },
+      {
+        "path": "protocol.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/protocol.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 4
+      },
+      {
+        "path": "serializers/index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/serializers/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 13
+      },
+      {
+        "path": "serializers/jwt-tokens.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/serializers/jwt-tokens.ts",
+        "exports": [
+          {
+            "name": "createMockTokenExpiredError",
+            "line": 9,
+            "type": "function"
+          },
+          {
+            "name": "createMockJsonWebTokenError",
+            "line": 15,
+            "type": "function"
+          },
+          {
+            "name": "serializeJWTPayload",
+            "line": 22,
+            "type": "function"
+          },
+          {
+            "name": "deserializeJWTPayload",
+            "line": 39,
+            "type": "function"
+          },
+          {
+            "name": "decodeJWTPayload",
+            "line": 81,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createMockTokenExpiredError",
+            "line": 9,
+            "type": "function"
+          },
+          {
+            "name": "createMockJsonWebTokenError",
+            "line": 15,
+            "type": "function"
+          },
+          {
+            "name": "serializeJWTPayload",
+            "line": 22,
+            "type": "function"
+          },
+          {
+            "name": "deserializeJWTPayload",
+            "line": 39,
+            "type": "function"
+          },
+          {
+            "name": "decodeJWTPayload",
+            "line": 81,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 90
+      },
+      {
+        "path": "state.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/state.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 4
+      },
+      {
+        "path": "tests/core/actors.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/tests/core/actors.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 162
+      },
+      {
+        "path": "tests/core/context.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/tests/core/context.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 103
+      },
+      {
+        "path": "tests/core/orchestrator.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/tests/core/orchestrator.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 174
+      },
+      {
+        "path": "tests/core/ports.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/tests/core/ports.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 193
+      },
+      {
+        "path": "tests/core/types.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/tests/core/types.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 92
+      },
+      {
+        "path": "tests/coverage-test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/tests/coverage-test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 14
+      },
+      {
+        "path": "tests/pantheon-system.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/tests/pantheon-system.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 59
+      },
+      {
+        "path": "tests/utils/actor-utils.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/tests/utils/actor-utils.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 137
+      },
+      {
+        "path": "tests/utils/async-utils.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/tests/utils/async-utils.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 155
+      },
+      {
+        "path": "tests/utils/config-utils.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/tests/utils/config-utils.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 151
+      },
+      {
+        "path": "tests/utils/context-utils.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/tests/utils/context-utils.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 125
+      },
+      {
+        "path": "tests/utils/error-utils.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/tests/utils/error-utils.test.ts",
+        "exports": [],
+        "classes": [
+          {
+            "name": "CustomPantheonError",
+            "line": 61,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 102
+      },
+      {
+        "path": "tests/utils/generators.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/tests/utils/generators.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 123
+      },
+      {
+        "path": "tests/utils/logging-utils.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/tests/utils/logging-utils.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 173
+      },
+      {
+        "path": "utils/index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/utils/index.ts",
+        "exports": [
+          {
+            "name": "generateId",
+            "line": 10,
+            "type": "function"
+          },
+          {
+            "name": "generateActorId",
+            "line": 14,
+            "type": "function"
+          },
+          {
+            "name": "createMessage",
+            "line": 27,
+            "type": "function"
+          },
+          {
+            "name": "createSystemMessage",
+            "line": 37,
+            "type": "function"
+          },
+          {
+            "name": "createUserMessage",
+            "line": 39,
+            "type": "function"
+          },
+          {
+            "name": "createAssistantMessage",
+            "line": 41,
+            "type": "function"
+          },
+          {
+            "name": "truncateMessages",
+            "line": 44,
+            "type": "function"
+          },
+          {
+            "name": "createContextSource",
+            "line": 82,
+            "type": "function"
+          },
+          {
+            "name": "mergeContextSources",
+            "line": 94,
+            "type": "function"
+          },
+          {
+            "name": "createActorSummary",
+            "line": 112,
+            "type": "function"
+          },
+          {
+            "name": "isActorActive",
+            "line": 121,
+            "type": "function"
+          },
+          {
+            "name": "isActorCompleted",
+            "line": 125,
+            "type": "function"
+          },
+          {
+            "name": "getActorAge",
+            "line": 129,
+            "type": "function"
+          },
+          {
+            "name": "getActorIdleTime",
+            "line": 133,
+            "type": "function"
+          },
+          {
+            "name": "mergeConfigs",
+            "line": 139,
+            "type": "function"
+          },
+          {
+            "name": "validateConfig",
+            "line": 149,
+            "type": "function"
+          },
+          {
+            "name": "PantheonError",
+            "line": 160,
+            "type": "class"
+          },
+          {
+            "name": "createError",
+            "line": 180,
+            "type": "function"
+          },
+          {
+            "name": "isError",
+            "line": 188,
+            "type": "function"
+          },
+          {
+            "name": "withTimeout",
+            "line": 194,
+            "type": "function"
+          },
+          {
+            "name": "retry",
+            "line": 208,
+            "type": "function"
+          },
+          {
+            "name": "Logger",
+            "line": 253,
+            "type": "interface"
+          },
+          {
+            "name": "createConsoleLogger",
+            "line": 260,
+            "type": "function"
+          },
+          {
+            "name": "createNullLogger",
+            "line": 298,
+            "type": "function"
+          },
+          {
+            "name": "createTimer",
+            "line": 307,
+            "type": "function"
+          },
+          {
+            "name": "measureAsync",
+            "line": 312,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "PantheonError",
+            "line": 160,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "generateId",
+            "line": 10,
+            "type": "function"
+          },
+          {
+            "name": "generateActorId",
+            "line": 14,
+            "type": "function"
+          },
+          {
+            "name": "createMessage",
+            "line": 27,
+            "type": "function"
+          },
+          {
+            "name": "createSystemMessage",
+            "line": 37,
+            "type": "function"
+          },
+          {
+            "name": "createUserMessage",
+            "line": 39,
+            "type": "function"
+          },
+          {
+            "name": "createAssistantMessage",
+            "line": 41,
+            "type": "function"
+          },
+          {
+            "name": "truncateMessages",
+            "line": 44,
+            "type": "function"
+          },
+          {
+            "name": "createContextSource",
+            "line": 82,
+            "type": "function"
+          },
+          {
+            "name": "mergeContextSources",
+            "line": 94,
+            "type": "function"
+          },
+          {
+            "name": "createActorSummary",
+            "line": 112,
+            "type": "function"
+          },
+          {
+            "name": "isActorActive",
+            "line": 121,
+            "type": "function"
+          },
+          {
+            "name": "isActorCompleted",
+            "line": 125,
+            "type": "function"
+          },
+          {
+            "name": "getActorAge",
+            "line": 129,
+            "type": "function"
+          },
+          {
+            "name": "getActorIdleTime",
+            "line": 133,
+            "type": "function"
+          },
+          {
+            "name": "mergeConfigs",
+            "line": 139,
+            "type": "function"
+          },
+          {
+            "name": "validateConfig",
+            "line": 149,
+            "type": "function"
+          },
+          {
+            "name": "createError",
+            "line": 180,
+            "type": "function"
+          },
+          {
+            "name": "isError",
+            "line": 188,
+            "type": "function"
+          },
+          {
+            "name": "withTimeout",
+            "line": 194,
+            "type": "function"
+          },
+          {
+            "name": "retry",
+            "line": 208,
+            "type": "function"
+          },
+          {
+            "name": "createConsoleLogger",
+            "line": 260,
+            "type": "function"
+          },
+          {
+            "name": "createNullLogger",
+            "line": 298,
+            "type": "function"
+          },
+          {
+            "name": "createTimer",
+            "line": 307,
+            "type": "function"
+          },
+          {
+            "name": "measureAsync",
+            "line": 312,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "Logger",
+            "line": 253,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 332
+      },
+      {
+        "path": "validation-test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/validation-test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 196
+      },
+      {
+        "path": "workflow.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pantheon/src/workflow.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 4
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [],
+      "classes": [],
+      "functions": [],
+      "interfaces": [],
+      "totalLines": 120
+    },
+    "exports": [
+      {
+        "name": "createCompositeActor",
+        "line": 132,
+        "type": "function",
+        "file": "actions/actors/create-composite-actor.ts"
+      },
+      {
+        "name": "createLLMActor",
+        "line": 86,
+        "type": "function",
+        "file": "actions/actors/create-llm-actor.ts"
+      },
+      {
+        "name": "createToolActor",
+        "line": 93,
+        "type": "function",
+        "file": "actions/actors/create-tool-actor.ts"
+      },
+      {
+        "name": "createLLMActor",
+        "line": 24,
+        "type": "function",
+        "file": "actors/index.ts"
+      },
+      {
+        "name": "createToolActor",
+        "line": 95,
+        "type": "function",
+        "file": "actors/index.ts"
+      },
+      {
+        "name": "createCompositeActor",
+        "line": 156,
+        "type": "function",
+        "file": "actors/index.ts"
+      },
+      {
+        "name": "createActorFromTemplate",
+        "line": 251,
+        "type": "function",
+        "file": "actors/index.ts"
+      },
+      {
+        "name": "validateActorScript",
+        "line": 269,
+        "type": "function",
+        "file": "actors/index.ts"
+      },
+      {
+        "name": "LLMActorConfig",
+        "line": 8,
+        "type": "interface",
+        "file": "actors/llm-actor.ts"
+      },
+      {
+        "name": "makeLLMActorAdapter",
+        "line": 14,
+        "type": "function",
+        "file": "actors/llm-actor.ts"
+      },
+      {
+        "name": "makeCompletePantheonSystem",
+        "line": 39,
+        "type": "function",
+        "file": "adapters/index.ts"
+      },
+      {
+        "name": "AuthenticatedRequest",
+        "line": 7,
+        "type": "interface",
+        "file": "auth/auth-middleware.ts"
+      },
+      {
+        "name": "AuthResponse",
+        "line": 17,
+        "type": "interface",
+        "file": "auth/auth-middleware.ts"
+      },
+      {
+        "name": "createCliAuthMiddleware",
+        "line": 27,
+        "type": "function",
+        "file": "auth/auth-middleware.ts"
+      },
+      {
+        "name": "CliAuthManager",
+        "line": 143,
+        "type": "class",
+        "file": "auth/auth-middleware.ts"
+      },
+      {
+        "name": "getDefaultCliAuthManager",
+        "line": 249,
+        "type": "function",
+        "file": "auth/auth-middleware.ts"
+      },
+      {
+        "name": "initializeCliAuthManager",
+        "line": 260,
+        "type": "function",
+        "file": "auth/auth-middleware.ts"
+      },
+      {
+        "name": "JwtHandler",
+        "line": 86,
+        "type": "class",
+        "file": "auth/jwt-handler.ts"
+      },
+      {
+        "name": "getDefaultJwtHandler",
+        "line": 305,
+        "type": "function",
+        "file": "auth/jwt-handler.ts"
+      },
+      {
+        "name": "initializeJwtHandler",
+        "line": 325,
+        "type": "function",
+        "file": "auth/jwt-handler.ts"
+      },
+      {
+        "name": "SessionManager",
+        "line": 15,
+        "type": "class",
+        "file": "auth/session-manager.ts"
+      },
+      {
+        "name": "getDefaultSessionManager",
+        "line": 279,
+        "type": "function",
+        "file": "auth/session-manager.ts"
+      },
+      {
+        "name": "initializeSessionManager",
+        "line": 295,
+        "type": "function",
+        "file": "auth/session-manager.ts"
+      },
+      {
+        "name": "JwtPayloadSchema",
+        "line": 6,
+        "type": "function",
+        "file": "auth/types.ts"
+      },
+      {
+        "name": "CredentialsSchema",
+        "line": 21,
+        "type": "function",
+        "file": "auth/types.ts"
+      },
+      {
+        "name": "ApiKeyCredentialsSchema",
+        "line": 31,
+        "type": "function",
+        "file": "auth/types.ts"
+      },
+      {
+        "name": "UserSchema",
+        "line": 40,
+        "type": "function",
+        "file": "auth/types.ts"
+      },
+      {
+        "name": "SessionSchema",
+        "line": 56,
+        "type": "function",
+        "file": "auth/types.ts"
+      },
+      {
+        "name": "AuthResultSchema",
+        "line": 71,
+        "type": "function",
+        "file": "auth/types.ts"
+      },
+      {
+        "name": "SecurityContextSchema",
+        "line": 87,
+        "type": "function",
+        "file": "auth/types.ts"
+      },
+      {
+        "name": "PERMISSIONS",
+        "line": 102,
+        "type": "function",
+        "file": "auth/types.ts"
+      },
+      {
+        "name": "ROLE_PERMISSIONS",
+        "line": 134,
+        "type": "function",
+        "file": "auth/types.ts"
+      },
+      {
+        "name": "makeActorAdapter",
+        "line": 3,
+        "type": "function",
+        "file": "core/actors.ts"
+      },
+      {
+        "name": "makeContextAdapter",
+        "line": 3,
+        "type": "function",
+        "file": "core/context.ts"
+      },
+      {
+        "name": "OrchestratorDeps",
+        "line": 4,
+        "type": "interface",
+        "file": "core/orchestrator.ts"
+      },
+      {
+        "name": "makeOrchestrator",
+        "line": 10,
+        "type": "function",
+        "file": "core/orchestrator.ts"
+      },
+      {
+        "name": "ToolPort",
+        "line": 1,
+        "type": "interface",
+        "file": "core/ports.ts"
+      },
+      {
+        "name": "ContextPort",
+        "line": 5,
+        "type": "interface",
+        "file": "core/ports.ts"
+      },
+      {
+        "name": "ActorPort",
+        "line": 11,
+        "type": "interface",
+        "file": "core/ports.ts"
+      },
+      {
+        "name": "LlmPort",
+        "line": 17,
+        "type": "interface",
+        "file": "core/ports.ts"
+      },
+      {
+        "name": "Message",
+        "line": 21,
+        "type": "interface",
+        "file": "core/ports.ts"
+      },
+      {
+        "name": "Context",
+        "line": 26,
+        "type": "interface",
+        "file": "core/ports.ts"
+      },
+      {
+        "name": "Actor",
+        "line": 34,
+        "type": "interface",
+        "file": "core/ports.ts"
+      },
+      {
+        "name": "ActorConfig",
+        "line": 41,
+        "type": "interface",
+        "file": "core/ports.ts"
+      },
+      {
+        "name": "Actor",
+        "line": 1,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "ActorConfig",
+        "line": 8,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "Context",
+        "line": 14,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "Message",
+        "line": 22,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "LLMActorDependencies",
+        "line": 13,
+        "type": "interface",
+        "file": "factories/actor-factory.ts"
+      },
+      {
+        "name": "ToolActorDependencies",
+        "line": 18,
+        "type": "interface",
+        "file": "factories/actor-factory.ts"
+      },
+      {
+        "name": "CompositeActorDependencies",
+        "line": 23,
+        "type": "interface",
+        "file": "factories/actor-factory.ts"
+      },
+      {
+        "name": "createLLMActorWithDependencies",
+        "line": 29,
+        "type": "function",
+        "file": "factories/actor-factory.ts"
+      },
+      {
+        "name": "createToolActorWithDependencies",
+        "line": 43,
+        "type": "function",
+        "file": "factories/actor-factory.ts"
+      },
+      {
+        "name": "createCompositeActorWithDependencies",
+        "line": 57,
+        "type": "function",
+        "file": "factories/actor-factory.ts"
+      },
+      {
+        "name": "makeOpenAIAdapter",
+        "line": 15,
+        "type": "function",
+        "file": "llm/openai.ts"
+      },
+      {
+        "name": "createMockTokenExpiredError",
+        "line": 9,
+        "type": "function",
+        "file": "serializers/jwt-tokens.ts"
+      },
+      {
+        "name": "createMockJsonWebTokenError",
+        "line": 15,
+        "type": "function",
+        "file": "serializers/jwt-tokens.ts"
+      },
+      {
+        "name": "serializeJWTPayload",
+        "line": 22,
+        "type": "function",
+        "file": "serializers/jwt-tokens.ts"
+      },
+      {
+        "name": "deserializeJWTPayload",
+        "line": 39,
+        "type": "function",
+        "file": "serializers/jwt-tokens.ts"
+      },
+      {
+        "name": "decodeJWTPayload",
+        "line": 81,
+        "type": "function",
+        "file": "serializers/jwt-tokens.ts"
+      },
+      {
+        "name": "generateId",
+        "line": 10,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "generateActorId",
+        "line": 14,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "createMessage",
+        "line": 27,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "createSystemMessage",
+        "line": 37,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "createUserMessage",
+        "line": 39,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "createAssistantMessage",
+        "line": 41,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "truncateMessages",
+        "line": 44,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "createContextSource",
+        "line": 82,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "mergeContextSources",
+        "line": 94,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "createActorSummary",
+        "line": 112,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "isActorActive",
+        "line": 121,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "isActorCompleted",
+        "line": 125,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "getActorAge",
+        "line": 129,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "getActorIdleTime",
+        "line": 133,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "mergeConfigs",
+        "line": 139,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "validateConfig",
+        "line": 149,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "PantheonError",
+        "line": 160,
+        "type": "class",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "createError",
+        "line": 180,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "isError",
+        "line": 188,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "withTimeout",
+        "line": 194,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "retry",
+        "line": 208,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "Logger",
+        "line": 253,
+        "type": "interface",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "createConsoleLogger",
+        "line": 260,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "createNullLogger",
+        "line": 298,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "createTimer",
+        "line": 307,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "measureAsync",
+        "line": 312,
+        "type": "function",
+        "file": "utils/index.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "CliAuthManager",
+        "line": 143,
+        "type": "class",
+        "file": "auth/auth-middleware.ts"
+      },
+      {
+        "name": "MockTokenExpiredError",
+        "line": 12,
+        "type": "class",
+        "file": "auth/jwt-handler.ts"
+      },
+      {
+        "name": "MockJsonWebTokenError",
+        "line": 19,
+        "type": "class",
+        "file": "auth/jwt-handler.ts"
+      },
+      {
+        "name": "JwtHandler",
+        "line": 86,
+        "type": "class",
+        "file": "auth/jwt-handler.ts"
+      },
+      {
+        "name": "SessionManager",
+        "line": 15,
+        "type": "class",
+        "file": "auth/session-manager.ts"
+      },
+      {
+        "name": "CustomPantheonError",
+        "line": 61,
+        "type": "class",
+        "file": "tests/utils/error-utils.test.ts"
+      },
+      {
+        "name": "PantheonError",
+        "line": 160,
+        "type": "class",
+        "file": "utils/index.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "createCompositeActor",
+        "line": 132,
+        "type": "function",
+        "file": "actions/actors/create-composite-actor.ts"
+      },
+      {
+        "name": "createLLMActor",
+        "line": 86,
+        "type": "function",
+        "file": "actions/actors/create-llm-actor.ts"
+      },
+      {
+        "name": "createToolActor",
+        "line": 93,
+        "type": "function",
+        "file": "actions/actors/create-tool-actor.ts"
+      },
+      {
+        "name": "createLLMActor",
+        "line": 24,
+        "type": "function",
+        "file": "actors/index.ts"
+      },
+      {
+        "name": "createToolActor",
+        "line": 95,
+        "type": "function",
+        "file": "actors/index.ts"
+      },
+      {
+        "name": "createCompositeActor",
+        "line": 156,
+        "type": "function",
+        "file": "actors/index.ts"
+      },
+      {
+        "name": "createActorFromTemplate",
+        "line": 251,
+        "type": "function",
+        "file": "actors/index.ts"
+      },
+      {
+        "name": "validateActorScript",
+        "line": 269,
+        "type": "function",
+        "file": "actors/index.ts"
+      },
+      {
+        "name": "makeLLMActorAdapter",
+        "line": 14,
+        "type": "function",
+        "file": "actors/llm-actor.ts"
+      },
+      {
+        "name": "makeCompletePantheonSystem",
+        "line": 39,
+        "type": "function",
+        "file": "adapters/index.ts"
+      },
+      {
+        "name": "createCliAuthMiddleware",
+        "line": 27,
+        "type": "function",
+        "file": "auth/auth-middleware.ts"
+      },
+      {
+        "name": "getDefaultCliAuthManager",
+        "line": 249,
+        "type": "function",
+        "file": "auth/auth-middleware.ts"
+      },
+      {
+        "name": "initializeCliAuthManager",
+        "line": 260,
+        "type": "function",
+        "file": "auth/auth-middleware.ts"
+      },
+      {
+        "name": "getDefaultJwtHandler",
+        "line": 305,
+        "type": "function",
+        "file": "auth/jwt-handler.ts"
+      },
+      {
+        "name": "initializeJwtHandler",
+        "line": 325,
+        "type": "function",
+        "file": "auth/jwt-handler.ts"
+      },
+      {
+        "name": "getDefaultSessionManager",
+        "line": 279,
+        "type": "function",
+        "file": "auth/session-manager.ts"
+      },
+      {
+        "name": "initializeSessionManager",
+        "line": 295,
+        "type": "function",
+        "file": "auth/session-manager.ts"
+      },
+      {
+        "name": "JwtPayloadSchema",
+        "line": 6,
+        "type": "function",
+        "file": "auth/types.ts"
+      },
+      {
+        "name": "CredentialsSchema",
+        "line": 21,
+        "type": "function",
+        "file": "auth/types.ts"
+      },
+      {
+        "name": "ApiKeyCredentialsSchema",
+        "line": 31,
+        "type": "function",
+        "file": "auth/types.ts"
+      },
+      {
+        "name": "UserSchema",
+        "line": 40,
+        "type": "function",
+        "file": "auth/types.ts"
+      },
+      {
+        "name": "SessionSchema",
+        "line": 56,
+        "type": "function",
+        "file": "auth/types.ts"
+      },
+      {
+        "name": "AuthResultSchema",
+        "line": 71,
+        "type": "function",
+        "file": "auth/types.ts"
+      },
+      {
+        "name": "SecurityContextSchema",
+        "line": 87,
+        "type": "function",
+        "file": "auth/types.ts"
+      },
+      {
+        "name": "PERMISSIONS",
+        "line": 102,
+        "type": "function",
+        "file": "auth/types.ts"
+      },
+      {
+        "name": "ROLE_PERMISSIONS",
+        "line": 134,
+        "type": "function",
+        "file": "auth/types.ts"
+      },
+      {
+        "name": "makeActorAdapter",
+        "line": 3,
+        "type": "function",
+        "file": "core/actors.ts"
+      },
+      {
+        "name": "makeContextAdapter",
+        "line": 3,
+        "type": "function",
+        "file": "core/context.ts"
+      },
+      {
+        "name": "makeOrchestrator",
+        "line": 10,
+        "type": "function",
+        "file": "core/orchestrator.ts"
+      },
+      {
+        "name": "createLLMActorWithDependencies",
+        "line": 29,
+        "type": "function",
+        "file": "factories/actor-factory.ts"
+      },
+      {
+        "name": "createToolActorWithDependencies",
+        "line": 43,
+        "type": "function",
+        "file": "factories/actor-factory.ts"
+      },
+      {
+        "name": "createCompositeActorWithDependencies",
+        "line": 57,
+        "type": "function",
+        "file": "factories/actor-factory.ts"
+      },
+      {
+        "name": "makeOpenAIAdapter",
+        "line": 15,
+        "type": "function",
+        "file": "llm/openai.ts"
+      },
+      {
+        "name": "createMockTokenExpiredError",
+        "line": 9,
+        "type": "function",
+        "file": "serializers/jwt-tokens.ts"
+      },
+      {
+        "name": "createMockJsonWebTokenError",
+        "line": 15,
+        "type": "function",
+        "file": "serializers/jwt-tokens.ts"
+      },
+      {
+        "name": "serializeJWTPayload",
+        "line": 22,
+        "type": "function",
+        "file": "serializers/jwt-tokens.ts"
+      },
+      {
+        "name": "deserializeJWTPayload",
+        "line": 39,
+        "type": "function",
+        "file": "serializers/jwt-tokens.ts"
+      },
+      {
+        "name": "decodeJWTPayload",
+        "line": 81,
+        "type": "function",
+        "file": "serializers/jwt-tokens.ts"
+      },
+      {
+        "name": "generateId",
+        "line": 10,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "generateActorId",
+        "line": 14,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "createMessage",
+        "line": 27,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "createSystemMessage",
+        "line": 37,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "createUserMessage",
+        "line": 39,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "createAssistantMessage",
+        "line": 41,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "truncateMessages",
+        "line": 44,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "createContextSource",
+        "line": 82,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "mergeContextSources",
+        "line": 94,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "createActorSummary",
+        "line": 112,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "isActorActive",
+        "line": 121,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "isActorCompleted",
+        "line": 125,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "getActorAge",
+        "line": 129,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "getActorIdleTime",
+        "line": 133,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "mergeConfigs",
+        "line": 139,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "validateConfig",
+        "line": 149,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "createError",
+        "line": 180,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "isError",
+        "line": 188,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "withTimeout",
+        "line": 194,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "retry",
+        "line": 208,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "createConsoleLogger",
+        "line": 260,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "createNullLogger",
+        "line": 298,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "createTimer",
+        "line": 307,
+        "type": "function",
+        "file": "utils/index.ts"
+      },
+      {
+        "name": "measureAsync",
+        "line": 312,
+        "type": "function",
+        "file": "utils/index.ts"
+      }
+    ],
+    "interfaces": [
+      {
+        "name": "LLMActorConfig",
+        "line": 8,
+        "type": "interface",
+        "file": "actors/llm-actor.ts"
+      },
+      {
+        "name": "AuthenticatedRequest",
+        "line": 7,
+        "type": "interface",
+        "file": "auth/auth-middleware.ts"
+      },
+      {
+        "name": "AuthResponse",
+        "line": 17,
+        "type": "interface",
+        "file": "auth/auth-middleware.ts"
+      },
+      {
+        "name": "OrchestratorDeps",
+        "line": 4,
+        "type": "interface",
+        "file": "core/orchestrator.ts"
+      },
+      {
+        "name": "ToolPort",
+        "line": 1,
+        "type": "interface",
+        "file": "core/ports.ts"
+      },
+      {
+        "name": "ContextPort",
+        "line": 5,
+        "type": "interface",
+        "file": "core/ports.ts"
+      },
+      {
+        "name": "ActorPort",
+        "line": 11,
+        "type": "interface",
+        "file": "core/ports.ts"
+      },
+      {
+        "name": "LlmPort",
+        "line": 17,
+        "type": "interface",
+        "file": "core/ports.ts"
+      },
+      {
+        "name": "Message",
+        "line": 21,
+        "type": "interface",
+        "file": "core/ports.ts"
+      },
+      {
+        "name": "Context",
+        "line": 26,
+        "type": "interface",
+        "file": "core/ports.ts"
+      },
+      {
+        "name": "Actor",
+        "line": 34,
+        "type": "interface",
+        "file": "core/ports.ts"
+      },
+      {
+        "name": "ActorConfig",
+        "line": 41,
+        "type": "interface",
+        "file": "core/ports.ts"
+      },
+      {
+        "name": "Actor",
+        "line": 1,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "ActorConfig",
+        "line": 8,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "Context",
+        "line": 14,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "Message",
+        "line": 22,
+        "type": "interface",
+        "file": "core/types.ts"
+      },
+      {
+        "name": "LLMActorDependencies",
+        "line": 13,
+        "type": "interface",
+        "file": "factories/actor-factory.ts"
+      },
+      {
+        "name": "ToolActorDependencies",
+        "line": 18,
+        "type": "interface",
+        "file": "factories/actor-factory.ts"
+      },
+      {
+        "name": "CompositeActorDependencies",
+        "line": 23,
+        "type": "interface",
+        "file": "factories/actor-factory.ts"
+      },
+      {
+        "name": "Logger",
+        "line": 253,
+        "type": "interface",
+        "file": "utils/index.ts"
+      }
+    ]
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "actions/actors/create-composite-actor.ts",
+          "link": "[src/actions/actors/create-composite-actor.ts](../../../packages/pantheon/src/actions/actors/create-composite-actor.ts)",
+          "lineCount": 149
+        },
+        {
+          "name": "actions/actors/create-llm-actor.ts",
+          "link": "[src/actions/actors/create-llm-actor.ts](../../../packages/pantheon/src/actions/actors/create-llm-actor.ts)",
+          "lineCount": 103
+        },
+        {
+          "name": "actions/actors/create-tool-actor.ts",
+          "link": "[src/actions/actors/create-tool-actor.ts](../../../packages/pantheon/src/actions/actors/create-tool-actor.ts)",
+          "lineCount": 110
+        },
+        {
+          "name": "actions/actors/index.ts",
+          "link": "[src/actions/actors/index.ts](../../../packages/pantheon/src/actions/actors/index.ts)",
+          "lineCount": 28
+        },
+        {
+          "name": "actors/index.ts",
+          "link": "[src/actors/index.ts](../../../packages/pantheon/src/actors/index.ts)",
+          "lineCount": 277
+        },
+        {
+          "name": "actors/llm-actor.ts",
+          "link": "[src/actors/llm-actor.ts](../../../packages/pantheon/src/actors/llm-actor.ts)",
+          "lineCount": 122
+        },
+        {
+          "name": "adapters/index.ts",
+          "link": "[src/adapters/index.ts](../../../packages/pantheon/src/adapters/index.ts)",
+          "lineCount": 70
+        },
+        {
+          "name": "auth/auth-middleware.ts",
+          "link": "[src/auth/auth-middleware.ts](../../../packages/pantheon/src/auth/auth-middleware.ts)",
+          "lineCount": 264
+        },
+        {
+          "name": "auth/jwt-handler.ts",
+          "link": "[src/auth/jwt-handler.ts](../../../packages/pantheon/src/auth/jwt-handler.ts)",
+          "lineCount": 333
+        },
+        {
+          "name": "auth/session-manager.ts",
+          "link": "[src/auth/session-manager.ts](../../../packages/pantheon/src/auth/session-manager.ts)",
+          "lineCount": 299
+        },
+        {
+          "name": "auth/types.ts",
+          "link": "[src/auth/types.ts](../../../packages/pantheon/src/auth/types.ts)",
+          "lineCount": 160
+        },
+        {
+          "name": "cli/index.ts",
+          "link": "[src/cli/index.ts](../../../packages/pantheon/src/cli/index.ts)",
+          "lineCount": 390
+        },
+        {
+          "name": "core/actors.ts",
+          "link": "[src/core/actors.ts](../../../packages/pantheon/src/core/actors.ts)",
+          "lineCount": 41
+        },
+        {
+          "name": "core/context.ts",
+          "link": "[src/core/context.ts](../../../packages/pantheon/src/core/context.ts)",
+          "lineCount": 33
+        },
+        {
+          "name": "core/orchestrator.ts",
+          "link": "[src/core/orchestrator.ts](../../../packages/pantheon/src/core/orchestrator.ts)",
+          "lineCount": 35
+        },
+        {
+          "name": "core/ports.ts",
+          "link": "[src/core/ports.ts](../../../packages/pantheon/src/core/ports.ts)",
+          "lineCount": 46
+        },
+        {
+          "name": "core/types.ts",
+          "link": "[src/core/types.ts](../../../packages/pantheon/src/core/types.ts)",
+          "lineCount": 28
+        },
+        {
+          "name": "core.ts",
+          "link": "[src/core.ts](../../../packages/pantheon/src/core.ts)",
+          "lineCount": 4
+        },
+        {
+          "name": "ecs.ts",
+          "link": "[src/ecs.ts](../../../packages/pantheon/src/ecs.ts)",
+          "lineCount": 4
+        },
+        {
+          "name": "factories/actor-factory.ts",
+          "link": "[src/factories/actor-factory.ts](../../../packages/pantheon/src/factories/actor-factory.ts)",
+          "lineCount": 70
+        },
+        {
+          "name": "factories/index.ts",
+          "link": "[src/factories/index.ts](../../../packages/pantheon/src/factories/index.ts)",
+          "lineCount": 14
+        },
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/pantheon/src/index.ts)",
+          "lineCount": 120
+        },
+        {
+          "name": "llm/openai.ts",
+          "link": "[src/llm/openai.ts](../../../packages/pantheon/src/llm/openai.ts)",
+          "lineCount": 68
+        },
+        {
+          "name": "mcp.ts",
+          "link": "[src/mcp.ts](../../../packages/pantheon/src/mcp.ts)",
+          "lineCount": 15
+        },
+        {
+          "name": "orchestrator.ts",
+          "link": "[src/orchestrator.ts](../../../packages/pantheon/src/orchestrator.ts)",
+          "lineCount": 17
+        },
+        {
+          "name": "persistence.ts",
+          "link": "[src/persistence.ts](../../../packages/pantheon/src/persistence.ts)",
+          "lineCount": 11
+        },
+        {
+          "name": "protocol.ts",
+          "link": "[src/protocol.ts](../../../packages/pantheon/src/protocol.ts)",
+          "lineCount": 4
+        },
+        {
+          "name": "serializers/index.ts",
+          "link": "[src/serializers/index.ts](../../../packages/pantheon/src/serializers/index.ts)",
+          "lineCount": 13
+        },
+        {
+          "name": "serializers/jwt-tokens.ts",
+          "link": "[src/serializers/jwt-tokens.ts](../../../packages/pantheon/src/serializers/jwt-tokens.ts)",
+          "lineCount": 90
+        },
+        {
+          "name": "state.ts",
+          "link": "[src/state.ts](../../../packages/pantheon/src/state.ts)",
+          "lineCount": 4
+        },
+        {
+          "name": "tests/core/actors.test.ts",
+          "link": "[src/tests/core/actors.test.ts](../../../packages/pantheon/src/tests/core/actors.test.ts)",
+          "lineCount": 162
+        },
+        {
+          "name": "tests/core/context.test.ts",
+          "link": "[src/tests/core/context.test.ts](../../../packages/pantheon/src/tests/core/context.test.ts)",
+          "lineCount": 103
+        },
+        {
+          "name": "tests/core/orchestrator.test.ts",
+          "link": "[src/tests/core/orchestrator.test.ts](../../../packages/pantheon/src/tests/core/orchestrator.test.ts)",
+          "lineCount": 174
+        },
+        {
+          "name": "tests/core/ports.test.ts",
+          "link": "[src/tests/core/ports.test.ts](../../../packages/pantheon/src/tests/core/ports.test.ts)",
+          "lineCount": 193
+        },
+        {
+          "name": "tests/core/types.test.ts",
+          "link": "[src/tests/core/types.test.ts](../../../packages/pantheon/src/tests/core/types.test.ts)",
+          "lineCount": 92
+        },
+        {
+          "name": "tests/coverage-test.ts",
+          "link": "[src/tests/coverage-test.ts](../../../packages/pantheon/src/tests/coverage-test.ts)",
+          "lineCount": 14
+        },
+        {
+          "name": "tests/pantheon-system.test.ts",
+          "link": "[src/tests/pantheon-system.test.ts](../../../packages/pantheon/src/tests/pantheon-system.test.ts)",
+          "lineCount": 59
+        },
+        {
+          "name": "tests/utils/actor-utils.test.ts",
+          "link": "[src/tests/utils/actor-utils.test.ts](../../../packages/pantheon/src/tests/utils/actor-utils.test.ts)",
+          "lineCount": 137
+        },
+        {
+          "name": "tests/utils/async-utils.test.ts",
+          "link": "[src/tests/utils/async-utils.test.ts](../../../packages/pantheon/src/tests/utils/async-utils.test.ts)",
+          "lineCount": 155
+        },
+        {
+          "name": "tests/utils/config-utils.test.ts",
+          "link": "[src/tests/utils/config-utils.test.ts](../../../packages/pantheon/src/tests/utils/config-utils.test.ts)",
+          "lineCount": 151
+        },
+        {
+          "name": "tests/utils/context-utils.test.ts",
+          "link": "[src/tests/utils/context-utils.test.ts](../../../packages/pantheon/src/tests/utils/context-utils.test.ts)",
+          "lineCount": 125
+        },
+        {
+          "name": "tests/utils/error-utils.test.ts",
+          "link": "[src/tests/utils/error-utils.test.ts](../../../packages/pantheon/src/tests/utils/error-utils.test.ts)",
+          "lineCount": 102
+        },
+        {
+          "name": "tests/utils/generators.test.ts",
+          "link": "[src/tests/utils/generators.test.ts](../../../packages/pantheon/src/tests/utils/generators.test.ts)",
+          "lineCount": 123
+        },
+        {
+          "name": "tests/utils/logging-utils.test.ts",
+          "link": "[src/tests/utils/logging-utils.test.ts](../../../packages/pantheon/src/tests/utils/logging-utils.test.ts)",
+          "lineCount": 173
+        },
+        {
+          "name": "utils/index.ts",
+          "link": "[src/utils/index.ts](../../../packages/pantheon/src/utils/index.ts)",
+          "lineCount": 332
+        },
+        {
+          "name": "validation-test.ts",
+          "link": "[src/validation-test.ts](../../../packages/pantheon/src/validation-test.ts)",
+          "lineCount": 196
+        },
+        {
+          "name": "workflow.ts",
+          "link": "[src/workflow.ts](../../../packages/pantheon/src/workflow.ts)",
+          "lineCount": 4
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "CliAuthManager",
+          "link": "[CliAuthManager](../../../packages/pantheon/src/auth/auth-middleware.ts#L143)",
+          "file": "auth/auth-middleware.ts",
+          "line": 143
+        },
+        {
+          "name": "MockTokenExpiredError",
+          "link": "[MockTokenExpiredError](../../../packages/pantheon/src/auth/jwt-handler.ts#L12)",
+          "file": "auth/jwt-handler.ts",
+          "line": 12
+        },
+        {
+          "name": "MockJsonWebTokenError",
+          "link": "[MockJsonWebTokenError](../../../packages/pantheon/src/auth/jwt-handler.ts#L19)",
+          "file": "auth/jwt-handler.ts",
+          "line": 19
+        },
+        {
+          "name": "JwtHandler",
+          "link": "[JwtHandler](../../../packages/pantheon/src/auth/jwt-handler.ts#L86)",
+          "file": "auth/jwt-handler.ts",
+          "line": 86
+        },
+        {
+          "name": "SessionManager",
+          "link": "[SessionManager](../../../packages/pantheon/src/auth/session-manager.ts#L15)",
+          "file": "auth/session-manager.ts",
+          "line": 15
+        },
+        {
+          "name": "CustomPantheonError",
+          "link": "[CustomPantheonError](../../../packages/pantheon/src/tests/utils/error-utils.test.ts#L61)",
+          "file": "tests/utils/error-utils.test.ts",
+          "line": 61
+        },
+        {
+          "name": "PantheonError",
+          "link": "[PantheonError](../../../packages/pantheon/src/utils/index.ts#L160)",
+          "file": "utils/index.ts",
+          "line": 160
+        }
+      ],
+      "functions": [
+        {
+          "name": "createCompositeActor",
+          "link": "[createCompositeActor()](../../../packages/pantheon/src/actions/actors/create-composite-actor.ts#L132)",
+          "file": "actions/actors/create-composite-actor.ts",
+          "line": 132
+        },
+        {
+          "name": "createLLMActor",
+          "link": "[createLLMActor()](../../../packages/pantheon/src/actions/actors/create-llm-actor.ts#L86)",
+          "file": "actions/actors/create-llm-actor.ts",
+          "line": 86
+        },
+        {
+          "name": "createToolActor",
+          "link": "[createToolActor()](../../../packages/pantheon/src/actions/actors/create-tool-actor.ts#L93)",
+          "file": "actions/actors/create-tool-actor.ts",
+          "line": 93
+        },
+        {
+          "name": "createLLMActor",
+          "link": "[createLLMActor()](../../../packages/pantheon/src/actors/index.ts#L24)",
+          "file": "actors/index.ts",
+          "line": 24
+        },
+        {
+          "name": "createToolActor",
+          "link": "[createToolActor()](../../../packages/pantheon/src/actors/index.ts#L95)",
+          "file": "actors/index.ts",
+          "line": 95
+        },
+        {
+          "name": "createCompositeActor",
+          "link": "[createCompositeActor()](../../../packages/pantheon/src/actors/index.ts#L156)",
+          "file": "actors/index.ts",
+          "line": 156
+        },
+        {
+          "name": "createActorFromTemplate",
+          "link": "[createActorFromTemplate()](../../../packages/pantheon/src/actors/index.ts#L251)",
+          "file": "actors/index.ts",
+          "line": 251
+        },
+        {
+          "name": "validateActorScript",
+          "link": "[validateActorScript()](../../../packages/pantheon/src/actors/index.ts#L269)",
+          "file": "actors/index.ts",
+          "line": 269
+        },
+        {
+          "name": "makeLLMActorAdapter",
+          "link": "[makeLLMActorAdapter()](../../../packages/pantheon/src/actors/llm-actor.ts#L14)",
+          "file": "actors/llm-actor.ts",
+          "line": 14
+        },
+        {
+          "name": "makeCompletePantheonSystem",
+          "link": "[makeCompletePantheonSystem()](../../../packages/pantheon/src/adapters/index.ts#L39)",
+          "file": "adapters/index.ts",
+          "line": 39
+        },
+        {
+          "name": "createCliAuthMiddleware",
+          "link": "[createCliAuthMiddleware()](../../../packages/pantheon/src/auth/auth-middleware.ts#L27)",
+          "file": "auth/auth-middleware.ts",
+          "line": 27
+        },
+        {
+          "name": "getDefaultCliAuthManager",
+          "link": "[getDefaultCliAuthManager()](../../../packages/pantheon/src/auth/auth-middleware.ts#L249)",
+          "file": "auth/auth-middleware.ts",
+          "line": 249
+        },
+        {
+          "name": "initializeCliAuthManager",
+          "link": "[initializeCliAuthManager()](../../../packages/pantheon/src/auth/auth-middleware.ts#L260)",
+          "file": "auth/auth-middleware.ts",
+          "line": 260
+        },
+        {
+          "name": "getDefaultJwtHandler",
+          "link": "[getDefaultJwtHandler()](../../../packages/pantheon/src/auth/jwt-handler.ts#L305)",
+          "file": "auth/jwt-handler.ts",
+          "line": 305
+        },
+        {
+          "name": "initializeJwtHandler",
+          "link": "[initializeJwtHandler()](../../../packages/pantheon/src/auth/jwt-handler.ts#L325)",
+          "file": "auth/jwt-handler.ts",
+          "line": 325
+        },
+        {
+          "name": "getDefaultSessionManager",
+          "link": "[getDefaultSessionManager()](../../../packages/pantheon/src/auth/session-manager.ts#L279)",
+          "file": "auth/session-manager.ts",
+          "line": 279
+        },
+        {
+          "name": "initializeSessionManager",
+          "link": "[initializeSessionManager()](../../../packages/pantheon/src/auth/session-manager.ts#L295)",
+          "file": "auth/session-manager.ts",
+          "line": 295
+        },
+        {
+          "name": "JwtPayloadSchema",
+          "link": "[JwtPayloadSchema()](../../../packages/pantheon/src/auth/types.ts#L6)",
+          "file": "auth/types.ts",
+          "line": 6
+        },
+        {
+          "name": "CredentialsSchema",
+          "link": "[CredentialsSchema()](../../../packages/pantheon/src/auth/types.ts#L21)",
+          "file": "auth/types.ts",
+          "line": 21
+        },
+        {
+          "name": "ApiKeyCredentialsSchema",
+          "link": "[ApiKeyCredentialsSchema()](../../../packages/pantheon/src/auth/types.ts#L31)",
+          "file": "auth/types.ts",
+          "line": 31
+        },
+        {
+          "name": "UserSchema",
+          "link": "[UserSchema()](../../../packages/pantheon/src/auth/types.ts#L40)",
+          "file": "auth/types.ts",
+          "line": 40
+        },
+        {
+          "name": "SessionSchema",
+          "link": "[SessionSchema()](../../../packages/pantheon/src/auth/types.ts#L56)",
+          "file": "auth/types.ts",
+          "line": 56
+        },
+        {
+          "name": "AuthResultSchema",
+          "link": "[AuthResultSchema()](../../../packages/pantheon/src/auth/types.ts#L71)",
+          "file": "auth/types.ts",
+          "line": 71
+        },
+        {
+          "name": "SecurityContextSchema",
+          "link": "[SecurityContextSchema()](../../../packages/pantheon/src/auth/types.ts#L87)",
+          "file": "auth/types.ts",
+          "line": 87
+        },
+        {
+          "name": "PERMISSIONS",
+          "link": "[PERMISSIONS()](../../../packages/pantheon/src/auth/types.ts#L102)",
+          "file": "auth/types.ts",
+          "line": 102
+        },
+        {
+          "name": "ROLE_PERMISSIONS",
+          "link": "[ROLE_PERMISSIONS()](../../../packages/pantheon/src/auth/types.ts#L134)",
+          "file": "auth/types.ts",
+          "line": 134
+        },
+        {
+          "name": "makeActorAdapter",
+          "link": "[makeActorAdapter()](../../../packages/pantheon/src/core/actors.ts#L3)",
+          "file": "core/actors.ts",
+          "line": 3
+        },
+        {
+          "name": "makeContextAdapter",
+          "link": "[makeContextAdapter()](../../../packages/pantheon/src/core/context.ts#L3)",
+          "file": "core/context.ts",
+          "line": 3
+        },
+        {
+          "name": "makeOrchestrator",
+          "link": "[makeOrchestrator()](../../../packages/pantheon/src/core/orchestrator.ts#L10)",
+          "file": "core/orchestrator.ts",
+          "line": 10
+        },
+        {
+          "name": "createLLMActorWithDependencies",
+          "link": "[createLLMActorWithDependencies()](../../../packages/pantheon/src/factories/actor-factory.ts#L29)",
+          "file": "factories/actor-factory.ts",
+          "line": 29
+        },
+        {
+          "name": "createToolActorWithDependencies",
+          "link": "[createToolActorWithDependencies()](../../../packages/pantheon/src/factories/actor-factory.ts#L43)",
+          "file": "factories/actor-factory.ts",
+          "line": 43
+        },
+        {
+          "name": "createCompositeActorWithDependencies",
+          "link": "[createCompositeActorWithDependencies()](../../../packages/pantheon/src/factories/actor-factory.ts#L57)",
+          "file": "factories/actor-factory.ts",
+          "line": 57
+        },
+        {
+          "name": "makeOpenAIAdapter",
+          "link": "[makeOpenAIAdapter()](../../../packages/pantheon/src/llm/openai.ts#L15)",
+          "file": "llm/openai.ts",
+          "line": 15
+        },
+        {
+          "name": "createMockTokenExpiredError",
+          "link": "[createMockTokenExpiredError()](../../../packages/pantheon/src/serializers/jwt-tokens.ts#L9)",
+          "file": "serializers/jwt-tokens.ts",
+          "line": 9
+        },
+        {
+          "name": "createMockJsonWebTokenError",
+          "link": "[createMockJsonWebTokenError()](../../../packages/pantheon/src/serializers/jwt-tokens.ts#L15)",
+          "file": "serializers/jwt-tokens.ts",
+          "line": 15
+        },
+        {
+          "name": "serializeJWTPayload",
+          "link": "[serializeJWTPayload()](../../../packages/pantheon/src/serializers/jwt-tokens.ts#L22)",
+          "file": "serializers/jwt-tokens.ts",
+          "line": 22
+        },
+        {
+          "name": "deserializeJWTPayload",
+          "link": "[deserializeJWTPayload()](../../../packages/pantheon/src/serializers/jwt-tokens.ts#L39)",
+          "file": "serializers/jwt-tokens.ts",
+          "line": 39
+        },
+        {
+          "name": "decodeJWTPayload",
+          "link": "[decodeJWTPayload()](../../../packages/pantheon/src/serializers/jwt-tokens.ts#L81)",
+          "file": "serializers/jwt-tokens.ts",
+          "line": 81
+        },
+        {
+          "name": "generateId",
+          "link": "[generateId()](../../../packages/pantheon/src/utils/index.ts#L10)",
+          "file": "utils/index.ts",
+          "line": 10
+        },
+        {
+          "name": "generateActorId",
+          "link": "[generateActorId()](../../../packages/pantheon/src/utils/index.ts#L14)",
+          "file": "utils/index.ts",
+          "line": 14
+        },
+        {
+          "name": "createMessage",
+          "link": "[createMessage()](../../../packages/pantheon/src/utils/index.ts#L27)",
+          "file": "utils/index.ts",
+          "line": 27
+        },
+        {
+          "name": "createSystemMessage",
+          "link": "[createSystemMessage()](../../../packages/pantheon/src/utils/index.ts#L37)",
+          "file": "utils/index.ts",
+          "line": 37
+        },
+        {
+          "name": "createUserMessage",
+          "link": "[createUserMessage()](../../../packages/pantheon/src/utils/index.ts#L39)",
+          "file": "utils/index.ts",
+          "line": 39
+        },
+        {
+          "name": "createAssistantMessage",
+          "link": "[createAssistantMessage()](../../../packages/pantheon/src/utils/index.ts#L41)",
+          "file": "utils/index.ts",
+          "line": 41
+        },
+        {
+          "name": "truncateMessages",
+          "link": "[truncateMessages()](../../../packages/pantheon/src/utils/index.ts#L44)",
+          "file": "utils/index.ts",
+          "line": 44
+        },
+        {
+          "name": "createContextSource",
+          "link": "[createContextSource()](../../../packages/pantheon/src/utils/index.ts#L82)",
+          "file": "utils/index.ts",
+          "line": 82
+        },
+        {
+          "name": "mergeContextSources",
+          "link": "[mergeContextSources()](../../../packages/pantheon/src/utils/index.ts#L94)",
+          "file": "utils/index.ts",
+          "line": 94
+        },
+        {
+          "name": "createActorSummary",
+          "link": "[createActorSummary()](../../../packages/pantheon/src/utils/index.ts#L112)",
+          "file": "utils/index.ts",
+          "line": 112
+        },
+        {
+          "name": "isActorActive",
+          "link": "[isActorActive()](../../../packages/pantheon/src/utils/index.ts#L121)",
+          "file": "utils/index.ts",
+          "line": 121
+        },
+        {
+          "name": "isActorCompleted",
+          "link": "[isActorCompleted()](../../../packages/pantheon/src/utils/index.ts#L125)",
+          "file": "utils/index.ts",
+          "line": 125
+        },
+        {
+          "name": "getActorAge",
+          "link": "[getActorAge()](../../../packages/pantheon/src/utils/index.ts#L129)",
+          "file": "utils/index.ts",
+          "line": 129
+        },
+        {
+          "name": "getActorIdleTime",
+          "link": "[getActorIdleTime()](../../../packages/pantheon/src/utils/index.ts#L133)",
+          "file": "utils/index.ts",
+          "line": 133
+        },
+        {
+          "name": "mergeConfigs",
+          "link": "[mergeConfigs()](../../../packages/pantheon/src/utils/index.ts#L139)",
+          "file": "utils/index.ts",
+          "line": 139
+        },
+        {
+          "name": "validateConfig",
+          "link": "[validateConfig()](../../../packages/pantheon/src/utils/index.ts#L149)",
+          "file": "utils/index.ts",
+          "line": 149
+        },
+        {
+          "name": "createError",
+          "link": "[createError()](../../../packages/pantheon/src/utils/index.ts#L180)",
+          "file": "utils/index.ts",
+          "line": 180
+        },
+        {
+          "name": "isError",
+          "link": "[isError()](../../../packages/pantheon/src/utils/index.ts#L188)",
+          "file": "utils/index.ts",
+          "line": 188
+        },
+        {
+          "name": "withTimeout",
+          "link": "[withTimeout()](../../../packages/pantheon/src/utils/index.ts#L194)",
+          "file": "utils/index.ts",
+          "line": 194
+        },
+        {
+          "name": "retry",
+          "link": "[retry()](../../../packages/pantheon/src/utils/index.ts#L208)",
+          "file": "utils/index.ts",
+          "line": 208
+        },
+        {
+          "name": "createConsoleLogger",
+          "link": "[createConsoleLogger()](../../../packages/pantheon/src/utils/index.ts#L260)",
+          "file": "utils/index.ts",
+          "line": 260
+        },
+        {
+          "name": "createNullLogger",
+          "link": "[createNullLogger()](../../../packages/pantheon/src/utils/index.ts#L298)",
+          "file": "utils/index.ts",
+          "line": 298
+        },
+        {
+          "name": "createTimer",
+          "link": "[createTimer()](../../../packages/pantheon/src/utils/index.ts#L307)",
+          "file": "utils/index.ts",
+          "line": 307
+        },
+        {
+          "name": "measureAsync",
+          "link": "[measureAsync()](../../../packages/pantheon/src/utils/index.ts#L312)",
+          "file": "utils/index.ts",
+          "line": 312
+        }
+      ],
+      "interfaces": [
+        {
+          "name": "LLMActorConfig",
+          "link": "[LLMActorConfig](../../../packages/pantheon/src/actors/llm-actor.ts#L8)",
+          "file": "actors/llm-actor.ts",
+          "line": 8
+        },
+        {
+          "name": "AuthenticatedRequest",
+          "link": "[AuthenticatedRequest](../../../packages/pantheon/src/auth/auth-middleware.ts#L7)",
+          "file": "auth/auth-middleware.ts",
+          "line": 7
+        },
+        {
+          "name": "AuthResponse",
+          "link": "[AuthResponse](../../../packages/pantheon/src/auth/auth-middleware.ts#L17)",
+          "file": "auth/auth-middleware.ts",
+          "line": 17
+        },
+        {
+          "name": "OrchestratorDeps",
+          "link": "[OrchestratorDeps](../../../packages/pantheon/src/core/orchestrator.ts#L4)",
+          "file": "core/orchestrator.ts",
+          "line": 4
+        },
+        {
+          "name": "ToolPort",
+          "link": "[ToolPort](../../../packages/pantheon/src/core/ports.ts#L1)",
+          "file": "core/ports.ts",
+          "line": 1
+        },
+        {
+          "name": "ContextPort",
+          "link": "[ContextPort](../../../packages/pantheon/src/core/ports.ts#L5)",
+          "file": "core/ports.ts",
+          "line": 5
+        },
+        {
+          "name": "ActorPort",
+          "link": "[ActorPort](../../../packages/pantheon/src/core/ports.ts#L11)",
+          "file": "core/ports.ts",
+          "line": 11
+        },
+        {
+          "name": "LlmPort",
+          "link": "[LlmPort](../../../packages/pantheon/src/core/ports.ts#L17)",
+          "file": "core/ports.ts",
+          "line": 17
+        },
+        {
+          "name": "Message",
+          "link": "[Message](../../../packages/pantheon/src/core/ports.ts#L21)",
+          "file": "core/ports.ts",
+          "line": 21
+        },
+        {
+          "name": "Context",
+          "link": "[Context](../../../packages/pantheon/src/core/ports.ts#L26)",
+          "file": "core/ports.ts",
+          "line": 26
+        },
+        {
+          "name": "Actor",
+          "link": "[Actor](../../../packages/pantheon/src/core/ports.ts#L34)",
+          "file": "core/ports.ts",
+          "line": 34
+        },
+        {
+          "name": "ActorConfig",
+          "link": "[ActorConfig](../../../packages/pantheon/src/core/ports.ts#L41)",
+          "file": "core/ports.ts",
+          "line": 41
+        },
+        {
+          "name": "Actor",
+          "link": "[Actor](../../../packages/pantheon/src/core/types.ts#L1)",
+          "file": "core/types.ts",
+          "line": 1
+        },
+        {
+          "name": "ActorConfig",
+          "link": "[ActorConfig](../../../packages/pantheon/src/core/types.ts#L8)",
+          "file": "core/types.ts",
+          "line": 8
+        },
+        {
+          "name": "Context",
+          "link": "[Context](../../../packages/pantheon/src/core/types.ts#L14)",
+          "file": "core/types.ts",
+          "line": 14
+        },
+        {
+          "name": "Message",
+          "link": "[Message](../../../packages/pantheon/src/core/types.ts#L22)",
+          "file": "core/types.ts",
+          "line": 22
+        },
+        {
+          "name": "LLMActorDependencies",
+          "link": "[LLMActorDependencies](../../../packages/pantheon/src/factories/actor-factory.ts#L13)",
+          "file": "factories/actor-factory.ts",
+          "line": 13
+        },
+        {
+          "name": "ToolActorDependencies",
+          "link": "[ToolActorDependencies](../../../packages/pantheon/src/factories/actor-factory.ts#L18)",
+          "file": "factories/actor-factory.ts",
+          "line": 18
+        },
+        {
+          "name": "CompositeActorDependencies",
+          "link": "[CompositeActorDependencies](../../../packages/pantheon/src/factories/actor-factory.ts#L23)",
+          "file": "factories/actor-factory.ts",
+          "line": 23
+        },
+        {
+          "name": "Logger",
+          "link": "[Logger](../../../packages/pantheon/src/utils/index.ts#L253)",
+          "file": "utils/index.ts",
+          "line": 253
+        }
+      ]
+    }
+  }
+}

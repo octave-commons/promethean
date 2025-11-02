@@ -2,7 +2,7 @@ import { EventEmitter } from "node:events";
 import { PassThrough } from "node:stream";
 
 import { User } from "discord.js";
-import { BrokerClient } from "@promethean/legacy/brokerClient.js";
+import { BrokerClient } from "@promethean-os/legacy/brokerClient.js";
 
 import { Speaker } from "./speaker.js";
 

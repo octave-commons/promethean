@@ -1,6 +1,6 @@
 {
-  "name": "@promethean/nlp-command-parser",
-  "version": "1.0.0",
+  "name": "@promethean-os/nlp-command-parser",
+  "version": "0.1.0",
   "description": "Natural language command parser for converting conversational input to structured commands",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -27,7 +27,7 @@
   "author": "Promethean Team",
   "license": "GPL-3.0-only",
   "dependencies": {
-    "@promethean/kanban": "workspace:*"
+    "@promethean-os/kanban": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

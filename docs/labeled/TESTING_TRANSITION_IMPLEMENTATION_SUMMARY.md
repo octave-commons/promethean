@@ -119,7 +119,7 @@ requirement-mappings: [{"requirementId": "REQ-001", "testIds": ["test1"]}]
 4. **AI Analysis Integration**
 
    - Placeholder implementation for future AI integration
-   - Structured interface for @promethean/agents-workflow
+   - Structured interface for @promethean-os/agents-workflow
    - Insight and recommendation generation
 
 5. **Report Generation**
@@ -153,7 +153,7 @@ requirement-mappings: [{"requirementId": "REQ-001", "testIds": ["test1"]}]
 
 - `xml2js` - Cobertura XML parsing
 - `js-yaml` - Frontmatter YAML processing
-- `@promethean/agents-workflow` - AI analysis integration
+- `@promethean-os/agents-workflow` - AI analysis integration
 
 ## 🚀 Deployment Status
 
@@ -193,7 +193,7 @@ requirement-mappings: [{"requirementId": "REQ-001", "testIds": ["test1"]}]
 
 ### Placeholder Implementations
 
-1. **AI Analysis**: Ready for @promethean/agents-workflow integration
+1. **AI Analysis**: Ready for @promethean-os/agents-workflow integration
 2. **Advanced Metrics**: Extensible scoring system
 3. **Custom Thresholds**: Configurable per-project settings
 

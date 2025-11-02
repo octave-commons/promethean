@@ -1,4 +1,4 @@
-// Type declarations for @promethean/eidolon-field
+// Type declarations for @promethean-os/eidolon-field
 
 export class VectorN {
   values: number[];

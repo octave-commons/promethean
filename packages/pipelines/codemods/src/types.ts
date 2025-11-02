@@ -1,4 +1,4 @@
-export type FnId = string; // from @promethean/simtasks FunctionInfo.id
+export type FnId = string; // from @promethean-os/simtasks FunctionInfo.id
 
 export type ModSpec = {
   clusterId: string;

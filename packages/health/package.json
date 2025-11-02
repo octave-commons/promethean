@@ -10,7 +10,7 @@
     "lint": "eslint -c ../eslint.config.js ."
   },
   "dependencies": {
-    "@promethean/legacy": "workspace:*",
+    "@promethean-os/legacy": "workspace:*",
     "express": "^4.18.2",
     "ws": "^8.17.0"
   },

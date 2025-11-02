@@ -1,0 +1,217 @@
+{
+  "packageData": {
+    "packageName": "pm2-helpers",
+    "files": [
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pm2-helpers/src/index.ts",
+        "exports": [
+          {
+            "name": "defineApp",
+            "line": 95,
+            "type": "function"
+          },
+          {
+            "name": "definePythonService",
+            "line": 110,
+            "type": "function"
+          },
+          {
+            "name": "defineNodeService",
+            "line": 121,
+            "type": "function"
+          },
+          {
+            "name": "defineAgent",
+            "line": 140,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "defineApp",
+            "line": 95,
+            "type": "function"
+          },
+          {
+            "name": "definePythonService",
+            "line": 110,
+            "type": "function"
+          },
+          {
+            "name": "defineNodeService",
+            "line": 121,
+            "type": "function"
+          },
+          {
+            "name": "defineAgent",
+            "line": 140,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 164
+      },
+      {
+        "path": "tests/pm2-helpers.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/pm2-helpers/src/tests/pm2-helpers.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 71
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [
+        {
+          "name": "defineApp",
+          "line": 95,
+          "type": "function"
+        },
+        {
+          "name": "definePythonService",
+          "line": 110,
+          "type": "function"
+        },
+        {
+          "name": "defineNodeService",
+          "line": 121,
+          "type": "function"
+        },
+        {
+          "name": "defineAgent",
+          "line": 140,
+          "type": "function"
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "defineApp",
+          "line": 95,
+          "type": "function"
+        },
+        {
+          "name": "definePythonService",
+          "line": 110,
+          "type": "function"
+        },
+        {
+          "name": "defineNodeService",
+          "line": 121,
+          "type": "function"
+        },
+        {
+          "name": "defineAgent",
+          "line": 140,
+          "type": "function"
+        }
+      ],
+      "interfaces": [],
+      "totalLines": 164
+    },
+    "exports": [
+      {
+        "name": "defineApp",
+        "line": 95,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "definePythonService",
+        "line": 110,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "defineNodeService",
+        "line": 121,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "defineAgent",
+        "line": 140,
+        "type": "function",
+        "file": "index.ts"
+      }
+    ],
+    "classes": [],
+    "functions": [
+      {
+        "name": "defineApp",
+        "line": 95,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "definePythonService",
+        "line": 110,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "defineNodeService",
+        "line": 121,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "defineAgent",
+        "line": 140,
+        "type": "function",
+        "file": "index.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/pm2-helpers/src/index.ts)",
+          "lineCount": 164
+        },
+        {
+          "name": "tests/pm2-helpers.test.ts",
+          "link": "[src/tests/pm2-helpers.test.ts](../../../packages/pm2-helpers/src/tests/pm2-helpers.test.ts)",
+          "lineCount": 71
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [],
+      "functions": [
+        {
+          "name": "defineApp",
+          "link": "[defineApp()](../../../packages/pm2-helpers/src/index.ts#L95)",
+          "file": "index.ts",
+          "line": 95
+        },
+        {
+          "name": "definePythonService",
+          "link": "[definePythonService()](../../../packages/pm2-helpers/src/index.ts#L110)",
+          "file": "index.ts",
+          "line": 110
+        },
+        {
+          "name": "defineNodeService",
+          "link": "[defineNodeService()](../../../packages/pm2-helpers/src/index.ts#L121)",
+          "file": "index.ts",
+          "line": 121
+        },
+        {
+          "name": "defineAgent",
+          "link": "[defineAgent()](../../../packages/pm2-helpers/src/index.ts#L140)",
+          "file": "index.ts",
+          "line": 140
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

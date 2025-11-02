@@ -1,0 +1,381 @@
+{
+  "packageData": {
+    "packageName": "file-watcher",
+    "files": [
+      {
+        "path": "board-watcher.ts",
+        "fullPath": "/home/err/devel/promethean/packages/file-watcher/src/board-watcher.ts",
+        "exports": [
+          {
+            "name": "createBoardWatcher",
+            "line": 9,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createBoardWatcher",
+            "line": 9,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 19
+      },
+      {
+        "path": "file-lock.ts",
+        "fullPath": "/home/err/devel/promethean/packages/file-watcher/src/file-lock.ts",
+        "exports": [
+          {
+            "name": "FileLocks",
+            "line": 3,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "FileLocks",
+            "line": 3,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 27
+      },
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/file-watcher/src/index.ts",
+        "exports": [
+          {
+            "name": "startFileWatcher",
+            "line": 19,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "startFileWatcher",
+            "line": 19,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 73
+      },
+      {
+        "path": "repo-watcher.ts",
+        "fullPath": "/home/err/devel/promethean/packages/file-watcher/src/repo-watcher.ts",
+        "exports": [
+          {
+            "name": "checkGitIgnored",
+            "line": 29,
+            "type": "function"
+          },
+          {
+            "name": "createRepoWatcher",
+            "line": 104,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "checkGitIgnored",
+            "line": 29,
+            "type": "function"
+          },
+          {
+            "name": "createRepoWatcher",
+            "line": 104,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 194
+      },
+      {
+        "path": "tasks-watcher.ts",
+        "fullPath": "/home/err/devel/promethean/packages/file-watcher/src/tasks-watcher.ts",
+        "exports": [
+          {
+            "name": "createTasksWatcher",
+            "line": 17,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createTasksWatcher",
+            "line": 17,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 33
+      },
+      {
+        "path": "tests/broker.unit.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/file-watcher/src/tests/broker.unit.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 64
+      },
+      {
+        "path": "tests/events.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/file-watcher/src/tests/events.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 58
+      },
+      {
+        "path": "tests/repo-watcher.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/file-watcher/src/tests/repo-watcher.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 49
+      },
+      {
+        "path": "token-client.ts",
+        "fullPath": "/home/err/devel/promethean/packages/file-watcher/src/token-client.ts",
+        "exports": [
+          {
+            "name": "createTokenProviderFromEnv",
+            "line": 41,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createTokenProviderFromEnv",
+            "line": 41,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 71
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [
+        {
+          "name": "startFileWatcher",
+          "line": 19,
+          "type": "function"
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "startFileWatcher",
+          "line": 19,
+          "type": "function"
+        }
+      ],
+      "interfaces": [],
+      "totalLines": 73
+    },
+    "exports": [
+      {
+        "name": "createBoardWatcher",
+        "line": 9,
+        "type": "function",
+        "file": "board-watcher.ts"
+      },
+      {
+        "name": "FileLocks",
+        "line": 3,
+        "type": "class",
+        "file": "file-lock.ts"
+      },
+      {
+        "name": "startFileWatcher",
+        "line": 19,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "checkGitIgnored",
+        "line": 29,
+        "type": "function",
+        "file": "repo-watcher.ts"
+      },
+      {
+        "name": "createRepoWatcher",
+        "line": 104,
+        "type": "function",
+        "file": "repo-watcher.ts"
+      },
+      {
+        "name": "createTasksWatcher",
+        "line": 17,
+        "type": "function",
+        "file": "tasks-watcher.ts"
+      },
+      {
+        "name": "createTokenProviderFromEnv",
+        "line": 41,
+        "type": "function",
+        "file": "token-client.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "FileLocks",
+        "line": 3,
+        "type": "class",
+        "file": "file-lock.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "createBoardWatcher",
+        "line": 9,
+        "type": "function",
+        "file": "board-watcher.ts"
+      },
+      {
+        "name": "startFileWatcher",
+        "line": 19,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "checkGitIgnored",
+        "line": 29,
+        "type": "function",
+        "file": "repo-watcher.ts"
+      },
+      {
+        "name": "createRepoWatcher",
+        "line": 104,
+        "type": "function",
+        "file": "repo-watcher.ts"
+      },
+      {
+        "name": "createTasksWatcher",
+        "line": 17,
+        "type": "function",
+        "file": "tasks-watcher.ts"
+      },
+      {
+        "name": "createTokenProviderFromEnv",
+        "line": 41,
+        "type": "function",
+        "file": "token-client.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "board-watcher.ts",
+          "link": "[src/board-watcher.ts](../../../packages/file-watcher/src/board-watcher.ts)",
+          "lineCount": 19
+        },
+        {
+          "name": "file-lock.ts",
+          "link": "[src/file-lock.ts](../../../packages/file-watcher/src/file-lock.ts)",
+          "lineCount": 27
+        },
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/file-watcher/src/index.ts)",
+          "lineCount": 73
+        },
+        {
+          "name": "repo-watcher.ts",
+          "link": "[src/repo-watcher.ts](../../../packages/file-watcher/src/repo-watcher.ts)",
+          "lineCount": 194
+        },
+        {
+          "name": "tasks-watcher.ts",
+          "link": "[src/tasks-watcher.ts](../../../packages/file-watcher/src/tasks-watcher.ts)",
+          "lineCount": 33
+        },
+        {
+          "name": "tests/broker.unit.test.ts",
+          "link": "[src/tests/broker.unit.test.ts](../../../packages/file-watcher/src/tests/broker.unit.test.ts)",
+          "lineCount": 64
+        },
+        {
+          "name": "tests/events.test.ts",
+          "link": "[src/tests/events.test.ts](../../../packages/file-watcher/src/tests/events.test.ts)",
+          "lineCount": 58
+        },
+        {
+          "name": "tests/repo-watcher.test.ts",
+          "link": "[src/tests/repo-watcher.test.ts](../../../packages/file-watcher/src/tests/repo-watcher.test.ts)",
+          "lineCount": 49
+        },
+        {
+          "name": "token-client.ts",
+          "link": "[src/token-client.ts](../../../packages/file-watcher/src/token-client.ts)",
+          "lineCount": 71
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "FileLocks",
+          "link": "[FileLocks](../../../packages/file-watcher/src/file-lock.ts#L3)",
+          "file": "file-lock.ts",
+          "line": 3
+        }
+      ],
+      "functions": [
+        {
+          "name": "createBoardWatcher",
+          "link": "[createBoardWatcher()](../../../packages/file-watcher/src/board-watcher.ts#L9)",
+          "file": "board-watcher.ts",
+          "line": 9
+        },
+        {
+          "name": "startFileWatcher",
+          "link": "[startFileWatcher()](../../../packages/file-watcher/src/index.ts#L19)",
+          "file": "index.ts",
+          "line": 19
+        },
+        {
+          "name": "checkGitIgnored",
+          "link": "[checkGitIgnored()](../../../packages/file-watcher/src/repo-watcher.ts#L29)",
+          "file": "repo-watcher.ts",
+          "line": 29
+        },
+        {
+          "name": "createRepoWatcher",
+          "link": "[createRepoWatcher()](../../../packages/file-watcher/src/repo-watcher.ts#L104)",
+          "file": "repo-watcher.ts",
+          "line": 104
+        },
+        {
+          "name": "createTasksWatcher",
+          "link": "[createTasksWatcher()](../../../packages/file-watcher/src/tasks-watcher.ts#L17)",
+          "file": "tasks-watcher.ts",
+          "line": 17
+        },
+        {
+          "name": "createTokenProviderFromEnv",
+          "link": "[createTokenProviderFromEnv()](../../../packages/file-watcher/src/token-client.ts#L41)",
+          "file": "token-client.ts",
+          "line": 41
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

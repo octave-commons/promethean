@@ -16,7 +16,7 @@ estimates:
 
 ### 📋 Description
 
-Create the unified `@promethean/opencode-unified` package structure that will house the consolidated functionality from `@promethean/opencode-client`, `opencode-cljs-electron`, and `@promethean/dualstore-http`. This involves designing the directory layout, package configuration, and build toolchain to support TypeScript, ClojureScript, and Electron components.
+Create the unified `@promethean-os/opencode-unified` package structure that will house the consolidated functionality from `@promethean-os/opencode-client`, `opencode-cljs-electron`, and `@promethean-os/dualstore-http`. This involves designing the directory layout, package configuration, and build toolchain to support TypeScript, ClojureScript, and Electron components.
 
 ### 🎯 Goals
 

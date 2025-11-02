@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { promises as fs } from 'fs';
 
-import { ollamaJSON } from '@promethean/utils';
+import { ollamaJSON } from '@promethean-os/utils';
 
 import { PlanSchema, type Plan } from './dsl.js';
 import { buildPrompt } from './prompt.js';

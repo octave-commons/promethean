@@ -1,4 +1,4 @@
-# Suggested Commands for @promethean/opencode-client Development
+# Suggested Commands for @promethean-os/opencode-client Development
 
 ## Essential Development Commands
 
@@ -139,11 +139,11 @@ find src -name "*.ts" -mtime -1
 ### Integration Testing
 ```bash
 # Test with local dependencies
-pnpm --filter @promethean/opencode-client test
+pnpm --filter @promethean-os/opencode-client test
 
 # Test integration with other packages
-pnpm --filter @promethean/persistence build
-pnpm --filter @promethean/ollama-queue build
+pnpm --filter @promethean-os/persistence build
+pnpm --filter @promethean-os/ollama-queue build
 pnpm test
 
 # End-to-end testing

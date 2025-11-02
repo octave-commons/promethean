@@ -1,12 +1,13 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
 import { createOpencodeClient } from '@opencode-ai/sdk';
+import { messageListSerializer } from '../../serializers/message.js';
 
 export const listMessagesCommand = new Command('list')
   .description('List messages for a session')
   .argument('<sessionId>', 'session ID')
   .option('-l, --limit <number>', 'limit number of messages', '10')
-  .option('-j, --json', 'output in JSON format')
+  .option('--format <format>', 'Output format (text|json|markdown)', 'text')
   .action(async (sessionId: string, options) => {
     try {
       console.log(chalk.blue(`📋 Listing messages for session: ${sessionId}`));
@@ -23,8 +24,25 @@ export const listMessagesCommand = new Command('list')
       const limit = parseInt(options.limit, 10);
       const limitedMessages = messages.slice(-limit);
 
-      if (options.json) {
+      if (options.format === 'json') {
         console.log(JSON.stringify(limitedMessages, null, 2));
+      } else if (options.format === 'markdown') {
+        const messageListResult = {
+          messages: limitedMessages.map((msg) => ({
+            id: msg.info?.id || 'unknown',
+            sessionId: sessionId,
+            role: msg.info?.role || 'unknown',
+            content:
+              msg.parts
+                ?.filter((part: any) => part.type === 'text')
+                .map((part: any) => part.text)
+                .join(' ') || '',
+            timestamp: msg.info?.time?.created,
+            parts: msg.parts,
+          })),
+          sessionId: sessionId,
+        };
+        console.log(messageListSerializer.serialize(messageListResult));
       } else {
         if (limitedMessages.length === 0) {
           console.log(chalk.yellow('No messages found for this session'));

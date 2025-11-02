@@ -1,7 +1,7 @@
 // integration
 import test from "ava";
 import WebSocket from "ws";
-import { sleep } from "@promethean/test-utils";
+import { sleep } from "@promethean-os/test-utils";
 import { start, stop } from "../index.js";
 
 // In restricted CI/sandboxes, listening on sockets may be disallowed.

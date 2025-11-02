@@ -1,15 +1,16 @@
 ---
-uuid: "1c88185e-9bfb-42d0-9388-3ac4bf688960"
-title: "Refactor existing board logic into BoardAdapter implementation"
-slug: "Refactor existing board logic into BoardAdapter implementation"
-status: "breakdown"
-priority: "P0"
-labels: ["board", "logic", "boardadapter", "existing"]
-created_at: "2025-10-13T08:05:36.050Z"
+uuid: '1c88185e-9bfb-42d0-9388-3ac4bf688960'
+title: 'Refactor existing board logic into BoardAdapter implementation'
+slug: 'Refactor existing board logic into BoardAdapter implementation'
+status: 'breakdown'
+priority: 'P0'
+labels: ['board', 'logic', 'boardadapter', 'existing']
+created_at: '2025-10-13T08:05:36.050Z'
 estimates:
-  complexity: ""
-  scale: ""
-  time_to_completion: ""
+  complexity: '5'
+  scale: 'medium'
+  time_to_completion: '3 sessions'
+storyPoints: 5
 ---
 
 ## 🔄 Critical: Refactor Board Logic into BoardAdapter

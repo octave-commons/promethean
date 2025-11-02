@@ -2,7 +2,7 @@
 
 ## Summary
 
-I was tasked to test every command in the `@promethean/opencode-client` package and validate they work with manual API calls.
+I was tasked to test every command in the `@promethean-os/opencode-client` package and validate they work with manual API calls.
 
 ## Build Issues Fixed
 

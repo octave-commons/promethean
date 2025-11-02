@@ -1,4 +1,4 @@
-import type { Cache } from '@promethean/level-cache';
+import type { Cache } from '@promethean-os/level-cache';
 
 /**
  * Clojure Cache Strategy

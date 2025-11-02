@@ -183,6 +183,51 @@ export function formatAuditResults(results: {
 }
 
 /**
+ * Format a value for table display, handling arrays and objects properly
+ */
+export function formatTableCell(value: any): string {
+  if (value === null || value === undefined) {
+    return '';
+  }
+
+  if (Array.isArray(value)) {
+    if (value.length === 0) {
+      return '[]';
+    }
+
+    // Check if this looks like an array of Task objects
+    if (value.length > 0 && typeof value[0] === 'object' && value[0] !== null) {
+      // Check for Task-like objects (has uuid, title, status)
+      if ('uuid' in value[0] && 'title' in value[0]) {
+        return value
+          .map((task: any) => {
+            let title = task.title || 'Untitled';
+            // Clean up title - remove extra flags and formatting
+            title = title
+              .replace(/^--title\s+/, '')
+              .replace(/\s*\)\s*$/, '')
+              .trim();
+            const uuid = task.uuid ? task.uuid.slice(0, 8) : 'unknown';
+            return `${title} (${uuid}...)`;
+          })
+          .join(', ');
+      }
+    }
+
+    // Handle other arrays
+    return value
+      .map((item) => (typeof item === 'object' ? JSON.stringify(item) : String(item)))
+      .join(', ');
+  }
+
+  if (typeof value === 'object') {
+    return JSON.stringify(value);
+  }
+
+  return String(value);
+}
+
+/**
  * Format generic data as markdown table
  */
 export function formatTable(data: Record<string, any>[], headers?: string[]): string {
@@ -200,7 +245,7 @@ export function formatTable(data: Record<string, any>[], headers?: string[]): st
 
   // Create data rows
   for (const row of data) {
-    output += '| ' + keys.map((key) => String(row[key] || '')).join(' | ') + ' |\n';
+    output += '| ' + keys.map((key) => formatTableCell(row[key])).join(' | ') + ' |\n';
   }
 
   return output;

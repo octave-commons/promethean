@@ -4,7 +4,7 @@ import { fileURLToPath } from "url";
 
 import { globby } from "globby";
 import { Project } from "ts-morph";
-import { openLevelCache } from "@promethean/level-cache";
+import { openLevelCache } from "@promethean-os/level-cache";
 
 import { parseArgs; hashSignature } from "./utils.js";
 import type {

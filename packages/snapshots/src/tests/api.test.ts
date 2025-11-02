@@ -1,5 +1,5 @@
 import test from 'ava';
-import { sha1 } from '@promethean/utils';
+import { sha1 } from '@promethean-os/utils';
 
 import { etagOf } from '../etag.js';
 

@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/benchmark",
+  "name": "@promethean-os/benchmark",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -32,7 +32,7 @@
   },
   "module": "dist/index.js",
   "dependencies": {
-    "@promethean/utils": "workspace:*",
+    "@promethean-os/utils": "workspace:*",
     "ollama": "^0.5.17",
     "openai": "^5.23.2",
     "zod": "^3.23.8",

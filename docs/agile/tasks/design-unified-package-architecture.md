@@ -1,22 +1,23 @@
 ---
-uuid: "5a7949c6-07c8-44bf-95e9-5ef4ded69ec6"
-title: "Design Unified Package Architecture"
-slug: "design-unified-package-architecture"
-status: "breakdown"
-priority: "P0"
-labels: ["architecture", "consolidation", "design", "foundation", "epic1"]
-created_at: "2025-10-18T00:00:00.000Z"
+uuid: '5a7949c6-07c8-44bf-95e9-5ef4ded69ec6'
+title: 'Design Unified Package Architecture'
+slug: 'design-unified-package-architecture'
+status: 'breakdown'
+priority: 'P0'
+labels: ['architecture', 'consolidation', 'design', 'foundation', 'epic1']
+created_at: '2025-10-18T00:00:00.000Z'
 estimates:
-  complexity: ""
-  scale: ""
-  time_to_completion: ""
+  complexity: '3'
+  scale: 'medium'
+  time_to_completion: '2 sessions'
+storyPoints: 3
 ---
 
 ## 🏗️ Design Unified Package Architecture
 
 ### 📋 Description
 
-Design the comprehensive architecture for consolidating `@promethean/opencode-client`, `opencode-cljs-electron`, and `@promethean/dualstore-http` into a unified `@promethean/opencode-unified` package. This architecture must support TypeScript, ClojureScript, and Electron components while maintaining clean separation of concerns and enabling seamless integration.
+Design the comprehensive architecture for consolidating `@promethean-os/opencode-client`, `opencode-cljs-electron`, and `@promethean-os/dualstore-http` into a unified `@promethean-os/opencode-unified` package. This architecture must support TypeScript, ClojureScript, and Electron components while maintaining clean separation of concerns and enabling seamless integration.
 
 ### 🎯 Goals
 

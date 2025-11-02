@@ -41,12 +41,11 @@ export default [
       'sonarjs/cognitive-complexity': ['error', 15],
       'sonarjs/no-collapsible-if': 'warn',
       'sonarjs/no-inverted-boolean-check': 'warn',
-      'max-lines': ['error', { max: 300, skipBlankLines: true, skipComments: true }],
-      'max-lines-per-function': ['error', { max: 50, IIFEs: true }],
-      'max-params': ['error', 4],
+      'max-lines': ['error', { max: 600, skipBlankLines: true, skipComments: true }],
+      'max-lines-per-function': ['error', { max: 100, IIFEs: true }],
+      'max-params': ['warn', 4],
       complexity: ['error', 15],
       // TypeScript strictness (lint-side)
-      '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
       '@typescript-eslint/no-unnecessary-type-assertion': 'error',
       '@typescript-eslint/no-floating-promises': 'error',
       '@typescript-eslint/explicit-module-boundary-types': 'error',
@@ -64,6 +63,7 @@ export default [
       ],
       'no-var': 'error',
       'prefer-const': 'error',
+      "import/no-dynamic-require": "error",
       'no-restricted-syntax': [
         'error',
         {

@@ -82,15 +82,15 @@ estimates:
       // Fallback for older Node.js: generate UUID v4 manually from crypto.randomBytes
       const bytes = crypto.randomBytes(16);
       // Per RFC 4122: set version and variant bits
-      bytes[6] = (bytes[6] & 0x0f) | 0x40;
-      bytes[8] = (bytes[8] & 0x3f) | 0x80;
-      const hex = [...bytes].map(b => b.toString(16).padStart(2, '0')).join('');
+      bytes[6] = (bytes[6]! & 0x0f) | 0x40;
+      bytes[8] = (bytes[8]! & 0x3f) | 0x80;
+      const hex = [...bytes].map((b) => b.toString(16).padStart(2, '0')).join('');
       return [
         hex.substring(0, 8),
         hex.substring(8, 12),
         hex.substring(12, 16),
         hex.substring(16, 20),
-        hex.substring(20, 32)
+        hex.substring(20, 32),
       ].join('-');
     }
   }

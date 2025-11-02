@@ -3,8 +3,8 @@ import { promises as fs } from "node:fs",
 import * as path from "node:path",
 import { fileURLToPath } from "node:url",
 
-import { openLevelCache } from "@promethean/level-cache",
-import { parseArgs, readMaybe } from "@promethean/utils",
+import { openLevelCache } from "@promethean-os/level-cache",
+import { parseArgs, readMaybe } from "@promethean-os/utils",
 
 import type { PkgInfo, ScanOut } from "./types.js",
 

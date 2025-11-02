@@ -34,7 +34,7 @@ The structured format is either approved or denied by the user.
 
 System markdown files now have a formal grammar and reference parser. See
 [`markdown-dsl.md`](./markdown-dsl.md) for the complete specification. Agents can
-use the parser exported from `@promethean/markdown` to transform conforming
+use the parser exported from `@promethean-os/markdown` to transform conforming
 documents into typed data structures without relying on heuristics.
 
 ## daemon

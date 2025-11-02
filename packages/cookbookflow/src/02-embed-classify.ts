@@ -1,7 +1,7 @@
 import { promises as fs } from "fs";
 import * as path from "path";
 
-import { ollamaEmbed, ollamaJSON } from "@promethean/utils";
+import { ollamaEmbed, ollamaJSON } from "@promethean-os/utils";
 
 import { parseArgs, writeJSON } from "./utils.js";
 import type { ScanOutput, ClassesFile, ClassEntry } from "./types.js";

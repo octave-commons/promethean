@@ -16,7 +16,7 @@ estimates:
 
 ### 📋 Description
 
-Integrate the dual-store management functionality from `@promethean/dualstore-http` into the unified package. This involves migrating the core dual-store logic, collection management, data provider integration, and ensuring seamless operation within the new architecture.
+Integrate the dual-store management functionality from `@promethean-os/dualstore-http` into the unified package. This involves migrating the core dual-store logic, collection management, data provider integration, and ensuring seamless operation within the new architecture.
 
 ### 🎯 Goals
 
@@ -93,7 +93,7 @@ src/typescript/server/dualstore/
 
 ### 📁 Files/Components to Migrate
 
-#### From `@promethean/dualstore-http`:
+#### From `@promethean-os/dualstore-http`:
 
 1. **Core Dual-Store Files**
 

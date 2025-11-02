@@ -1,0 +1,322 @@
+{
+  "packageData": {
+    "packageName": "cookbookflow",
+    "files": [
+      {
+        "path": "01-scan.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cookbookflow/src/01-scan.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 78
+      },
+      {
+        "path": "02-embed-classify.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cookbookflow/src/02-embed-classify.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 79
+      },
+      {
+        "path": "03-group.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cookbookflow/src/03-group.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 58
+      },
+      {
+        "path": "04-plan.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cookbookflow/src/04-plan.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 131
+      },
+      {
+        "path": "05-materialize.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cookbookflow/src/05-materialize.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 103
+      },
+      {
+        "path": "06-exec.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cookbookflow/src/06-exec.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 96
+      },
+      {
+        "path": "07-verify.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cookbookflow/src/07-verify.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 48
+      },
+      {
+        "path": "08-report.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cookbookflow/src/08-report.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 79
+      },
+      {
+        "path": "tests/utils.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cookbookflow/src/tests/utils.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 81
+      },
+      {
+        "path": "types.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cookbookflow/src/types.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 75
+      },
+      {
+        "path": "utils.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cookbookflow/src/utils.ts",
+        "exports": [
+          {
+            "name": "parseArgs",
+            "line": 11,
+            "type": "function"
+          },
+          {
+            "name": "readMaybe",
+            "line": 25,
+            "type": "function"
+          },
+          {
+            "name": "writeJSON",
+            "line": 32,
+            "type": "function"
+          },
+          {
+            "name": "writeText",
+            "line": 36,
+            "type": "function"
+          },
+          {
+            "name": "execShell",
+            "line": 43,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "parseArgs",
+            "line": 11,
+            "type": "function"
+          },
+          {
+            "name": "readMaybe",
+            "line": 25,
+            "type": "function"
+          },
+          {
+            "name": "writeJSON",
+            "line": 32,
+            "type": "function"
+          },
+          {
+            "name": "writeText",
+            "line": 36,
+            "type": "function"
+          },
+          {
+            "name": "execShell",
+            "line": 43,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 75
+      }
+    ],
+    "mainEntry": null,
+    "exports": [
+      {
+        "name": "parseArgs",
+        "line": 11,
+        "type": "function",
+        "file": "utils.ts"
+      },
+      {
+        "name": "readMaybe",
+        "line": 25,
+        "type": "function",
+        "file": "utils.ts"
+      },
+      {
+        "name": "writeJSON",
+        "line": 32,
+        "type": "function",
+        "file": "utils.ts"
+      },
+      {
+        "name": "writeText",
+        "line": 36,
+        "type": "function",
+        "file": "utils.ts"
+      },
+      {
+        "name": "execShell",
+        "line": 43,
+        "type": "function",
+        "file": "utils.ts"
+      }
+    ],
+    "classes": [],
+    "functions": [
+      {
+        "name": "parseArgs",
+        "line": 11,
+        "type": "function",
+        "file": "utils.ts"
+      },
+      {
+        "name": "readMaybe",
+        "line": 25,
+        "type": "function",
+        "file": "utils.ts"
+      },
+      {
+        "name": "writeJSON",
+        "line": 32,
+        "type": "function",
+        "file": "utils.ts"
+      },
+      {
+        "name": "writeText",
+        "line": 36,
+        "type": "function",
+        "file": "utils.ts"
+      },
+      {
+        "name": "execShell",
+        "line": 43,
+        "type": "function",
+        "file": "utils.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "01-scan.ts",
+          "link": "[src/01-scan.ts](../../../packages/cookbookflow/src/01-scan.ts)",
+          "lineCount": 78
+        },
+        {
+          "name": "02-embed-classify.ts",
+          "link": "[src/02-embed-classify.ts](../../../packages/cookbookflow/src/02-embed-classify.ts)",
+          "lineCount": 79
+        },
+        {
+          "name": "03-group.ts",
+          "link": "[src/03-group.ts](../../../packages/cookbookflow/src/03-group.ts)",
+          "lineCount": 58
+        },
+        {
+          "name": "04-plan.ts",
+          "link": "[src/04-plan.ts](../../../packages/cookbookflow/src/04-plan.ts)",
+          "lineCount": 131
+        },
+        {
+          "name": "05-materialize.ts",
+          "link": "[src/05-materialize.ts](../../../packages/cookbookflow/src/05-materialize.ts)",
+          "lineCount": 103
+        },
+        {
+          "name": "06-exec.ts",
+          "link": "[src/06-exec.ts](../../../packages/cookbookflow/src/06-exec.ts)",
+          "lineCount": 96
+        },
+        {
+          "name": "07-verify.ts",
+          "link": "[src/07-verify.ts](../../../packages/cookbookflow/src/07-verify.ts)",
+          "lineCount": 48
+        },
+        {
+          "name": "08-report.ts",
+          "link": "[src/08-report.ts](../../../packages/cookbookflow/src/08-report.ts)",
+          "lineCount": 79
+        },
+        {
+          "name": "tests/utils.test.ts",
+          "link": "[src/tests/utils.test.ts](../../../packages/cookbookflow/src/tests/utils.test.ts)",
+          "lineCount": 81
+        },
+        {
+          "name": "types.ts",
+          "link": "[src/types.ts](../../../packages/cookbookflow/src/types.ts)",
+          "lineCount": 75
+        },
+        {
+          "name": "utils.ts",
+          "link": "[src/utils.ts](../../../packages/cookbookflow/src/utils.ts)",
+          "lineCount": 75
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [],
+      "functions": [
+        {
+          "name": "parseArgs",
+          "link": "[parseArgs()](../../../packages/cookbookflow/src/utils.ts#L11)",
+          "file": "utils.ts",
+          "line": 11
+        },
+        {
+          "name": "readMaybe",
+          "link": "[readMaybe()](../../../packages/cookbookflow/src/utils.ts#L25)",
+          "file": "utils.ts",
+          "line": 25
+        },
+        {
+          "name": "writeJSON",
+          "link": "[writeJSON()](../../../packages/cookbookflow/src/utils.ts#L32)",
+          "file": "utils.ts",
+          "line": 32
+        },
+        {
+          "name": "writeText",
+          "link": "[writeText()](../../../packages/cookbookflow/src/utils.ts#L36)",
+          "file": "utils.ts",
+          "line": 36
+        },
+        {
+          "name": "execShell",
+          "link": "[execShell()](../../../packages/cookbookflow/src/utils.ts#L43)",
+          "file": "utils.ts",
+          "line": 43
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

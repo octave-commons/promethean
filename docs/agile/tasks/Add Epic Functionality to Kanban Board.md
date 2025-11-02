@@ -1,15 +1,16 @@
 ---
-uuid: "07bc6e1c-4f3f-49fe-8a21-088017cb17fa"
-title: "Add Epic Functionality to Kanban Board"
-slug: "Add Epic Functionality to Kanban Board"
-status: "breakdown"
-priority: "P0"
-labels: ["[epic", "kanban", "feature", "implementation]"]
-created_at: "2025-10-13T06:02:36.868Z"
+uuid: '07bc6e1c-4f3f-49fe-8a21-088017cb17fa'
+title: 'Add Epic Functionality to Kanban Board'
+slug: 'Add Epic Functionality to Kanban Board'
+status: 'breakdown'
+priority: 'P0'
+labels: ['[epic', 'kanban', 'feature', 'implementation]']
+created_at: '2025-10-13T06:02:36.868Z'
 estimates:
-  complexity: ""
-  scale: ""
-  time_to_completion: ""
+  complexity: '8'
+  scale: 'large'
+  time_to_completion: '4 sessions'
+storyPoints: 8
 ---
 
 ## 🎯 Epic: Epic Functionality for Kanban Board
@@ -100,3 +101,41 @@ Nothing
 ## ⛓️ Blocks
 
 Nothing
+
+---
+
+## 📝 Breakdown Assessment
+
+**⚠️ REQUIRES FURTHER BREAKDOWN** - Score: 8 (too large for implementation)
+
+This epic functionality task is too complex for single implementation:
+
+### Implementation Scope:
+
+- Epic-subtask data model and schema extensions
+- CLI operations and transition validation
+- Event log integration system
+- Board generation updates
+- Comprehensive testing and documentation
+
+### Required Subtasks:
+
+1. **Epic Data Model Design** (3 points)
+2. **CLI Epic Operations** (3 points)
+3. **Transition Validation System** (5 points)
+4. **Event Log Integration** (3 points)
+5. **Board Display Updates** (2 points)
+6. **Testing Suite** (3 points)
+
+### Current Status:
+
+- Comprehensive requirements defined ✅
+- Implementation phases planned ✅
+- Too large for single implementation ⚠️
+- Needs breakdown into implementable slices
+
+### Recommendation:
+
+Return to **accepted** column for breakdown into smaller, implementable tasks.
+
+---

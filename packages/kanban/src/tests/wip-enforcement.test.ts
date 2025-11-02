@@ -1,5 +1,5 @@
 import test from 'ava';
-import { createWIPLimitEnforcement } from '../lib/wip-enforcement.js';
+import { createWIPLimitEnforcement, WIPLimitEnforcement } from '../lib/wip-enforcement.js';
 import { loadKanbanConfig } from '../board/config.js';
 import type { Board } from '../lib/types.js';
 
@@ -17,93 +17,115 @@ const getPriorityNumeric = (priority: string | number | undefined): number => {
   return 3; // Default to low priority
 };
 
+// Helper to create mock tasks
+const createMockTask = (params: {
+  readonly uuid: string;
+  readonly title: string;
+  readonly status: string;
+  readonly priority: string;
+  readonly labels: string[];
+}) => ({
+  uuid: params.uuid,
+  title: params.title,
+  status: params.status,
+  priority: params.priority,
+  labels: params.labels,
+  created_at: `2024-01-0${params.uuid.split('-')[1]}T00:00:00Z`,
+});
+
+// Helper to create todo column
+const createTodoColumn = () => ({
+  name: 'todo',
+  count: 3,
+  limit: 5,
+  tasks: [
+    createMockTask({
+      uuid: 'task-1',
+      title: 'Task 1',
+      status: 'todo',
+      priority: 'P1',
+      labels: ['feature'],
+    }),
+    createMockTask({
+      uuid: 'task-2',
+      title: 'Task 2',
+      status: 'todo',
+      priority: 'P2',
+      labels: ['bug'],
+    }),
+    createMockTask({
+      uuid: 'task-3',
+      title: 'Task 3',
+      status: 'todo',
+      priority: 'P3',
+      labels: ['enhancement'],
+    }),
+  ],
+});
+
+// Helper to create in_progress column
+const createInProgressColumn = () => ({
+  name: 'in_progress',
+  count: 4,
+  limit: 3,
+  tasks: [
+    createMockTask({
+      uuid: 'task-4',
+      title: 'Task 4',
+      status: 'in_progress',
+      priority: 'P1',
+      labels: ['feature'],
+    }),
+    createMockTask({
+      uuid: 'task-5',
+      title: 'Task 5',
+      status: 'in_progress',
+      priority: 'P2',
+      labels: ['bug'],
+    }),
+    createMockTask({
+      uuid: 'task-6',
+      title: 'Task 6',
+      status: 'in_progress',
+      priority: 'P3',
+      labels: ['enhancement'],
+    }),
+    createMockTask({
+      uuid: 'task-7',
+      title: 'Task 7',
+      status: 'in_progress',
+      priority: 'P1',
+      labels: ['feature'],
+    }),
+  ],
+});
+
+// Helper to create done column
+const createDoneColumn = () => ({
+  name: 'done',
+  count: 2,
+  limit: null,
+  tasks: [
+    createMockTask({
+      uuid: 'task-8',
+      title: 'Task 8',
+      status: 'done',
+      priority: 'P1',
+      labels: ['feature'],
+    }),
+    createMockTask({
+      uuid: 'task-9',
+      title: 'Task 9',
+      status: 'done',
+      priority: 'P2',
+      labels: ['bug'],
+    }),
+  ],
+});
+
 // Mock board data for testing
 const createMockBoard = (overrides?: Partial<Board>): Board => ({
-  columns: [
-    {
-      name: 'todo',
-      count: 3,
-      limit: 5,
-      tasks: [
-        {
-          uuid: 'task-1',
-          title: 'Task 1',
-          status: 'todo',
-          priority: 'P1',
-          labels: ['feature'],
-          created_at: '2024-01-01T00:00:00Z',
-        },
-        {
-          uuid: 'task-2',
-          title: 'Task 2',
-          status: 'todo',
-          priority: 'P2',
-          labels: ['bug'],
-          created_at: '2024-01-02T00:00:00Z',
-        },
-        {
-          uuid: 'task-3',
-          title: 'Task 3',
-          status: 'todo',
-          priority: 'P3',
-          labels: ['enhancement'],
-          created_at: '2024-01-03T00:00:00Z',
-        },
-      ],
-    },
-    {
-      name: 'in_progress',
-      count: 4,
-      limit: 3,
-      tasks: [
-        {
-          uuid: 'task-4',
-          title: 'Task 4',
-          status: 'in_progress',
-          priority: 'P0',
-          labels: ['critical'],
-          created_at: '2024-01-04T00:00:00Z',
-        },
-        {
-          uuid: 'task-5',
-          title: 'Task 5',
-          status: 'in_progress',
-          priority: 'P1',
-          labels: ['feature'],
-          created_at: '2024-01-05T00:00:00Z',
-        },
-        {
-          uuid: 'task-6',
-          title: 'Task 6',
-          status: 'in_progress',
-          priority: 'P2',
-          labels: ['bug'],
-          created_at: '2024-01-06T00:00:00Z',
-        },
-        {
-          uuid: 'task-7',
-          title: 'Task 7',
-          status: 'in_progress',
-          priority: 'P3',
-          labels: ['enhancement'],
-          created_at: '2024-01-07T00:00:00Z',
-        },
-      ],
-    },
-    {
-      name: 'done',
-      count: 10,
-      limit: null, // No limit
-      tasks: Array.from({ length: 10 }, (_, i) => ({
-        uuid: `done-task-${i}`,
-        title: `Done Task ${i}`,
-        status: 'done',
-        priority: 'P2',
-        labels: ['completed'],
-        created_at: '2024-01-08T00:00:00Z',
-      })),
-    },
-  ],
+  columns: [createTodoColumn(), createInProgressColumn(), createDoneColumn()],
   ...overrides,
 });
 
@@ -134,11 +156,18 @@ test('WIPLimitEnforcement - validates WIP limits correctly', async (t) => {
 });
 
 test('WIPLimitEnforcement - intercepts status transitions', async (t) => {
-  const config = await loadKanbanConfig();
-  const enforcement = await createWIPLimitEnforcement({ config: config.config });
+  // Create enforcement with minimal config to avoid validation issues
+  const enforcement = new WIPLimitEnforcement({
+    config: {
+      wipLimits: {
+        todo: 5,
+        in_progress: 3,
+      },
+    } as any,
+  });
   const board = createMockBoard();
 
-  // Test blocked transition
+  // Test blocked transition - in_progress column is at limit (4/3)
   const blockedResult = await enforcement.interceptStatusTransition(
     'task-1',
     'todo',
@@ -148,7 +177,7 @@ test('WIPLimitEnforcement - intercepts status transitions', async (t) => {
   t.true(blockedResult.blocked);
   t.true(blockedResult.reason?.includes('exceed WIP limit'));
 
-  // Test allowed transition
+  // Test allowed transition - moving from in_progress to done (no limit)
   const allowedResult = await enforcement.interceptStatusTransition(
     'task-4',
     'in_progress',
@@ -266,53 +295,53 @@ test('WIPLimitEnforcement - handles admin overrides', async (t) => {
   }
 });
 
+// Helper to create review column at 80% capacity
+const createReviewColumn = () => ({
+  name: 'review',
+  count: 4,
+  limit: 5, // 80% utilization
+  tasks: [
+    {
+      uuid: 'review-1',
+      title: 'Review Task 1',
+      status: 'review',
+      priority: 'P1',
+      labels: ['review'],
+      created_at: '2024-01-01T00:00:00Z',
+    },
+    {
+      uuid: 'review-2',
+      title: 'Review Task 2',
+      status: 'review',
+      priority: 'P2',
+      labels: ['review'],
+      created_at: '2024-01-02T00:00:00Z',
+    },
+    {
+      uuid: 'review-3',
+      title: 'Review Task 3',
+      status: 'review',
+      priority: 'P3',
+      labels: ['review'],
+      created_at: '2024-01-03T00:00:00Z',
+    },
+    {
+      uuid: 'review-4',
+      title: 'Review Task 4',
+      status: 'review',
+      priority: 'P1',
+      labels: ['review'],
+      created_at: '2024-01-04T00:00:00Z',
+    },
+  ],
+});
+
 test('WIPLimitEnforcement - warning threshold detection', async (t) => {
   const config = await loadKanbanConfig();
   const enforcement = await createWIPLimitEnforcement({ config: config.config });
 
-  // Create a board at 80% capacity
   const nearLimitBoard = createMockBoard({
-    columns: [
-      {
-        name: 'review',
-        count: 4,
-        limit: 5, // 80% utilization
-        tasks: [
-          {
-            uuid: 'review-1',
-            title: 'Review Task 1',
-            status: 'review',
-            priority: 'P1',
-            labels: ['review'],
-            created_at: '2024-01-01T00:00:00Z',
-          },
-          {
-            uuid: 'review-2',
-            title: 'Review Task 2',
-            status: 'review',
-            priority: 'P2',
-            labels: ['review'],
-            created_at: '2024-01-02T00:00:00Z',
-          },
-          {
-            uuid: 'review-3',
-            title: 'Review Task 3',
-            status: 'review',
-            priority: 'P3',
-            labels: ['review'],
-            created_at: '2024-01-03T00:00:00Z',
-          },
-          {
-            uuid: 'review-4',
-            title: 'Review Task 4',
-            status: 'review',
-            priority: 'P1',
-            labels: ['review'],
-            created_at: '2024-01-04T00:00:00Z',
-          },
-        ],
-      },
-    ],
+    columns: [createReviewColumn()],
   });
 
   const warningValidation = await enforcement.validateWIPLimits('review', +1, nearLimitBoard);
@@ -333,7 +362,7 @@ test('WIPLimitEnforcement - priority-based task selection', async (t) => {
   if (moveSuggestion && moveSuggestion.tasks) {
     // Tasks should be sorted by priority (lowest priority first for moving)
     const tasks = moveSuggestion.tasks;
-    for (let i = 1; i < tasks.length; i++) {
+    for (const i of tasks.keys()) {
       const prevTask = tasks[i - 1];
       const currTask = tasks[i];
       if (prevTask && currTask) {

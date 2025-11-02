@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/platform-core",
+  "name": "@promethean-os/platform-core",
   "version": "0.1.0",
   "description": "Core infrastructure for cross-platform compatibility layer",
   "main": "dist/index.js",

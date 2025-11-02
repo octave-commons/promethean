@@ -1,0 +1,84 @@
+{
+  "packageData": {
+    "packageName": "projectors",
+    "files": [
+      {
+        "path": "tests/smoke.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/projectors/src/tests/smoke.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 8
+      },
+      {
+        "path": "transactional.ts",
+        "fullPath": "/home/err/devel/promethean/packages/projectors/src/transactional.ts",
+        "exports": [
+          {
+            "name": "startTransactionalProjector",
+            "line": 14,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "startTransactionalProjector",
+            "line": 14,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 52
+      }
+    ],
+    "mainEntry": null,
+    "exports": [
+      {
+        "name": "startTransactionalProjector",
+        "line": 14,
+        "type": "function",
+        "file": "transactional.ts"
+      }
+    ],
+    "classes": [],
+    "functions": [
+      {
+        "name": "startTransactionalProjector",
+        "line": 14,
+        "type": "function",
+        "file": "transactional.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "tests/smoke.test.ts",
+          "link": "[src/tests/smoke.test.ts](../../../packages/projectors/src/tests/smoke.test.ts)",
+          "lineCount": 8
+        },
+        {
+          "name": "transactional.ts",
+          "link": "[src/transactional.ts](../../../packages/projectors/src/transactional.ts)",
+          "lineCount": 52
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [],
+      "functions": [
+        {
+          "name": "startTransactionalProjector",
+          "link": "[startTransactionalProjector()](../../../packages/projectors/src/transactional.ts#L14)",
+          "file": "transactional.ts",
+          "line": 14
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

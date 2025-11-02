@@ -1,0 +1,216 @@
+{
+  "packageData": {
+    "packageName": "effects",
+    "files": [
+      {
+        "path": "chroma.ts",
+        "fullPath": "/home/err/devel/promethean/packages/effects/src/chroma.ts",
+        "exports": [
+          {
+            "name": "chromaForTenant",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "chromaForTenant",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 9
+      },
+      {
+        "path": "http.ts",
+        "fullPath": "/home/err/devel/promethean/packages/effects/src/http.ts",
+        "exports": [
+          {
+            "name": "httpFetch",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "httpFetch",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 6
+      },
+      {
+        "path": "mongo.ts",
+        "fullPath": "/home/err/devel/promethean/packages/effects/src/mongo.ts",
+        "exports": [
+          {
+            "name": "mongoForTenant",
+            "line": 6,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "mongoForTenant",
+            "line": 6,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 10
+      },
+      {
+        "path": "rest.ts",
+        "fullPath": "/home/err/devel/promethean/packages/effects/src/rest.ts",
+        "exports": [
+          {
+            "name": "restRequest",
+            "line": 11,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "restRequest",
+            "line": 11,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 78
+      },
+      {
+        "path": "tests/rest.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/effects/src/tests/rest.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 9
+      }
+    ],
+    "mainEntry": null,
+    "exports": [
+      {
+        "name": "chromaForTenant",
+        "line": 5,
+        "type": "function",
+        "file": "chroma.ts"
+      },
+      {
+        "name": "httpFetch",
+        "line": 3,
+        "type": "function",
+        "file": "http.ts"
+      },
+      {
+        "name": "mongoForTenant",
+        "line": 6,
+        "type": "function",
+        "file": "mongo.ts"
+      },
+      {
+        "name": "restRequest",
+        "line": 11,
+        "type": "function",
+        "file": "rest.ts"
+      }
+    ],
+    "classes": [],
+    "functions": [
+      {
+        "name": "chromaForTenant",
+        "line": 5,
+        "type": "function",
+        "file": "chroma.ts"
+      },
+      {
+        "name": "httpFetch",
+        "line": 3,
+        "type": "function",
+        "file": "http.ts"
+      },
+      {
+        "name": "mongoForTenant",
+        "line": 6,
+        "type": "function",
+        "file": "mongo.ts"
+      },
+      {
+        "name": "restRequest",
+        "line": 11,
+        "type": "function",
+        "file": "rest.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "chroma.ts",
+          "link": "[src/chroma.ts](../../../packages/effects/src/chroma.ts)",
+          "lineCount": 9
+        },
+        {
+          "name": "http.ts",
+          "link": "[src/http.ts](../../../packages/effects/src/http.ts)",
+          "lineCount": 6
+        },
+        {
+          "name": "mongo.ts",
+          "link": "[src/mongo.ts](../../../packages/effects/src/mongo.ts)",
+          "lineCount": 10
+        },
+        {
+          "name": "rest.ts",
+          "link": "[src/rest.ts](../../../packages/effects/src/rest.ts)",
+          "lineCount": 78
+        },
+        {
+          "name": "tests/rest.test.ts",
+          "link": "[src/tests/rest.test.ts](../../../packages/effects/src/tests/rest.test.ts)",
+          "lineCount": 9
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [],
+      "functions": [
+        {
+          "name": "chromaForTenant",
+          "link": "[chromaForTenant()](../../../packages/effects/src/chroma.ts#L5)",
+          "file": "chroma.ts",
+          "line": 5
+        },
+        {
+          "name": "httpFetch",
+          "link": "[httpFetch()](../../../packages/effects/src/http.ts#L3)",
+          "file": "http.ts",
+          "line": 3
+        },
+        {
+          "name": "mongoForTenant",
+          "link": "[mongoForTenant()](../../../packages/effects/src/mongo.ts#L6)",
+          "file": "mongo.ts",
+          "line": 6
+        },
+        {
+          "name": "restRequest",
+          "link": "[restRequest()](../../../packages/effects/src/rest.ts#L11)",
+          "file": "rest.ts",
+          "line": 11
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

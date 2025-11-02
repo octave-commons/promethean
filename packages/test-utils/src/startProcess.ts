@@ -1,6 +1,6 @@
 import { spawn } from 'child_process';
 
-import { sleep as wait } from '@promethean/utils';
+import { sleep as wait } from '@promethean-os/utils';
 
 import { ProcSpec, StartedProc } from './process.js';
 import { waitForHttp } from './waitForHttp.js';

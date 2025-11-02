@@ -1,0 +1,1210 @@
+{
+  "packageData": {
+    "packageName": "ai-learning",
+    "files": [
+      {
+        "path": "basic-test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ai-learning/src/basic-test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 16
+      },
+      {
+        "path": "eidolon-field-classifier.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ai-learning/src/eidolon-field-classifier.ts",
+        "exports": [
+          {
+            "name": "EidolonFieldClassifier",
+            "line": 10,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "EidolonFieldClassifier",
+            "line": 10,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 174
+      },
+      {
+        "path": "eidolon-field-types.d.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ai-learning/src/eidolon-field-types.d.ts",
+        "exports": [
+          {
+            "name": "VectorN",
+            "line": 3,
+            "type": "class"
+          },
+          {
+            "name": "FieldN",
+            "line": 25,
+            "type": "class"
+          },
+          {
+            "name": "FieldNode",
+            "line": 41,
+            "type": "class"
+          },
+          {
+            "name": "VectorFieldService",
+            "line": 51,
+            "type": "class"
+          },
+          {
+            "name": "start",
+            "line": 78,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "VectorN",
+            "line": 3,
+            "type": "class"
+          },
+          {
+            "name": "FieldN",
+            "line": 25,
+            "type": "class"
+          },
+          {
+            "name": "FieldNode",
+            "line": 41,
+            "type": "class"
+          },
+          {
+            "name": "VectorFieldService",
+            "line": 51,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "start",
+            "line": 78,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 79
+      },
+      {
+        "path": "eidolon-field-types.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ai-learning/src/eidolon-field-types.ts",
+        "exports": [
+          {
+            "name": "VectorN",
+            "line": 3,
+            "type": "interface"
+          },
+          {
+            "name": "VectorNConstructor",
+            "line": 15,
+            "type": "interface"
+          },
+          {
+            "name": "FieldN",
+            "line": 20,
+            "type": "interface"
+          },
+          {
+            "name": "FieldNode",
+            "line": 31,
+            "type": "interface"
+          },
+          {
+            "name": "VectorFieldService",
+            "line": 39,
+            "type": "interface"
+          },
+          {
+            "name": "start",
+            "line": 54,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "start",
+            "line": 54,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "VectorN",
+            "line": 3,
+            "type": "interface"
+          },
+          {
+            "name": "VectorNConstructor",
+            "line": 15,
+            "type": "interface"
+          },
+          {
+            "name": "FieldN",
+            "line": 20,
+            "type": "interface"
+          },
+          {
+            "name": "FieldNode",
+            "line": 31,
+            "type": "interface"
+          },
+          {
+            "name": "VectorFieldService",
+            "line": 39,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 55
+      },
+      {
+        "path": "eidolon-field.d.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ai-learning/src/eidolon-field.d.ts",
+        "exports": [
+          {
+            "name": "VectorN",
+            "line": 3,
+            "type": "class"
+          },
+          {
+            "name": "FieldN",
+            "line": 17,
+            "type": "class"
+          },
+          {
+            "name": "FieldNode",
+            "line": 29,
+            "type": "class"
+          },
+          {
+            "name": "VectorFieldService",
+            "line": 38,
+            "type": "class"
+          },
+          {
+            "name": "start",
+            "line": 54,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "VectorN",
+            "line": 3,
+            "type": "class"
+          },
+          {
+            "name": "FieldN",
+            "line": 17,
+            "type": "class"
+          },
+          {
+            "name": "FieldNode",
+            "line": 29,
+            "type": "class"
+          },
+          {
+            "name": "VectorFieldService",
+            "line": 38,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "start",
+            "line": 54,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 54
+      },
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ai-learning/src/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 14
+      },
+      {
+        "path": "learning-system.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ai-learning/src/learning-system.ts",
+        "exports": [
+          {
+            "name": "AILearningSystem",
+            "line": 19,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "AILearningSystem",
+            "line": 19,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 298
+      },
+      {
+        "path": "model-router.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ai-learning/src/model-router.ts",
+        "exports": [
+          {
+            "name": "ModelRouter",
+            "line": 14,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "ModelRouter",
+            "line": 14,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 362
+      },
+      {
+        "path": "performance-tracker.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ai-learning/src/performance-tracker.ts",
+        "exports": [
+          {
+            "name": "PerformanceTracker",
+            "line": 14,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "PerformanceTracker",
+            "line": 14,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 407
+      },
+      {
+        "path": "run-test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ai-learning/src/run-test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 12
+      },
+      {
+        "path": "task-classifier.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ai-learning/src/task-classifier.ts",
+        "exports": [
+          {
+            "name": "TaskClassifier",
+            "line": 6,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "TaskClassifier",
+            "line": 6,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 218
+      },
+      {
+        "path": "test-eidolon-integration.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ai-learning/src/test-eidolon-integration.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 38
+      },
+      {
+        "path": "types.d.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ai-learning/src/types.d.ts",
+        "exports": [
+          {
+            "name": "VectorN",
+            "line": 5,
+            "type": "class"
+          },
+          {
+            "name": "FieldN",
+            "line": 18,
+            "type": "class"
+          },
+          {
+            "name": "FieldNode",
+            "line": 30,
+            "type": "class"
+          },
+          {
+            "name": "VectorFieldService",
+            "line": 39,
+            "type": "class"
+          },
+          {
+            "name": "start",
+            "line": 54,
+            "type": "function"
+          },
+          {
+            "name": "TaskEmbedding",
+            "line": 57,
+            "type": "interface"
+          },
+          {
+            "name": "ClusterAttractor",
+            "line": 66,
+            "type": "interface"
+          },
+          {
+            "name": "EidolonClassificationResult",
+            "line": 75,
+            "type": "interface"
+          },
+          {
+            "name": "LearningStats",
+            "line": 87,
+            "type": "interface"
+          }
+        ],
+        "classes": [
+          {
+            "name": "VectorN",
+            "line": 5,
+            "type": "class"
+          },
+          {
+            "name": "FieldN",
+            "line": 18,
+            "type": "class"
+          },
+          {
+            "name": "FieldNode",
+            "line": 30,
+            "type": "class"
+          },
+          {
+            "name": "VectorFieldService",
+            "line": 39,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "start",
+            "line": 54,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "TaskEmbedding",
+            "line": 57,
+            "type": "interface"
+          },
+          {
+            "name": "ClusterAttractor",
+            "line": 66,
+            "type": "interface"
+          },
+          {
+            "name": "EidolonClassificationResult",
+            "line": 75,
+            "type": "interface"
+          },
+          {
+            "name": "LearningStats",
+            "line": 87,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 94
+      },
+      {
+        "path": "types.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ai-learning/src/types.ts",
+        "exports": [
+          {
+            "name": "TaskEmbedding",
+            "line": 151,
+            "type": "interface"
+          },
+          {
+            "name": "ClusterAttractor",
+            "line": 160,
+            "type": "interface"
+          },
+          {
+            "name": "EidolonClassificationResult",
+            "line": 169,
+            "type": "interface"
+          },
+          {
+            "name": "LearningStats",
+            "line": 181,
+            "type": "interface"
+          }
+        ],
+        "classes": [],
+        "functions": [],
+        "interfaces": [
+          {
+            "name": "TaskEmbedding",
+            "line": 151,
+            "type": "interface"
+          },
+          {
+            "name": "ClusterAttractor",
+            "line": 160,
+            "type": "interface"
+          },
+          {
+            "name": "EidolonClassificationResult",
+            "line": 169,
+            "type": "interface"
+          },
+          {
+            "name": "LearningStats",
+            "line": 181,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 188
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [],
+      "classes": [],
+      "functions": [],
+      "interfaces": [],
+      "totalLines": 14
+    },
+    "exports": [
+      {
+        "name": "EidolonFieldClassifier",
+        "line": 10,
+        "type": "class",
+        "file": "eidolon-field-classifier.ts"
+      },
+      {
+        "name": "VectorN",
+        "line": 3,
+        "type": "class",
+        "file": "eidolon-field-types.d.ts"
+      },
+      {
+        "name": "FieldN",
+        "line": 25,
+        "type": "class",
+        "file": "eidolon-field-types.d.ts"
+      },
+      {
+        "name": "FieldNode",
+        "line": 41,
+        "type": "class",
+        "file": "eidolon-field-types.d.ts"
+      },
+      {
+        "name": "VectorFieldService",
+        "line": 51,
+        "type": "class",
+        "file": "eidolon-field-types.d.ts"
+      },
+      {
+        "name": "start",
+        "line": 78,
+        "type": "function",
+        "file": "eidolon-field-types.d.ts"
+      },
+      {
+        "name": "VectorN",
+        "line": 3,
+        "type": "interface",
+        "file": "eidolon-field-types.ts"
+      },
+      {
+        "name": "VectorNConstructor",
+        "line": 15,
+        "type": "interface",
+        "file": "eidolon-field-types.ts"
+      },
+      {
+        "name": "FieldN",
+        "line": 20,
+        "type": "interface",
+        "file": "eidolon-field-types.ts"
+      },
+      {
+        "name": "FieldNode",
+        "line": 31,
+        "type": "interface",
+        "file": "eidolon-field-types.ts"
+      },
+      {
+        "name": "VectorFieldService",
+        "line": 39,
+        "type": "interface",
+        "file": "eidolon-field-types.ts"
+      },
+      {
+        "name": "start",
+        "line": 54,
+        "type": "function",
+        "file": "eidolon-field-types.ts"
+      },
+      {
+        "name": "VectorN",
+        "line": 3,
+        "type": "class",
+        "file": "eidolon-field.d.ts"
+      },
+      {
+        "name": "FieldN",
+        "line": 17,
+        "type": "class",
+        "file": "eidolon-field.d.ts"
+      },
+      {
+        "name": "FieldNode",
+        "line": 29,
+        "type": "class",
+        "file": "eidolon-field.d.ts"
+      },
+      {
+        "name": "VectorFieldService",
+        "line": 38,
+        "type": "class",
+        "file": "eidolon-field.d.ts"
+      },
+      {
+        "name": "start",
+        "line": 54,
+        "type": "function",
+        "file": "eidolon-field.d.ts"
+      },
+      {
+        "name": "AILearningSystem",
+        "line": 19,
+        "type": "class",
+        "file": "learning-system.ts"
+      },
+      {
+        "name": "ModelRouter",
+        "line": 14,
+        "type": "class",
+        "file": "model-router.ts"
+      },
+      {
+        "name": "PerformanceTracker",
+        "line": 14,
+        "type": "class",
+        "file": "performance-tracker.ts"
+      },
+      {
+        "name": "TaskClassifier",
+        "line": 6,
+        "type": "class",
+        "file": "task-classifier.ts"
+      },
+      {
+        "name": "VectorN",
+        "line": 5,
+        "type": "class",
+        "file": "types.d.ts"
+      },
+      {
+        "name": "FieldN",
+        "line": 18,
+        "type": "class",
+        "file": "types.d.ts"
+      },
+      {
+        "name": "FieldNode",
+        "line": 30,
+        "type": "class",
+        "file": "types.d.ts"
+      },
+      {
+        "name": "VectorFieldService",
+        "line": 39,
+        "type": "class",
+        "file": "types.d.ts"
+      },
+      {
+        "name": "start",
+        "line": 54,
+        "type": "function",
+        "file": "types.d.ts"
+      },
+      {
+        "name": "TaskEmbedding",
+        "line": 57,
+        "type": "interface",
+        "file": "types.d.ts"
+      },
+      {
+        "name": "ClusterAttractor",
+        "line": 66,
+        "type": "interface",
+        "file": "types.d.ts"
+      },
+      {
+        "name": "EidolonClassificationResult",
+        "line": 75,
+        "type": "interface",
+        "file": "types.d.ts"
+      },
+      {
+        "name": "LearningStats",
+        "line": 87,
+        "type": "interface",
+        "file": "types.d.ts"
+      },
+      {
+        "name": "TaskEmbedding",
+        "line": 151,
+        "type": "interface",
+        "file": "types.ts"
+      },
+      {
+        "name": "ClusterAttractor",
+        "line": 160,
+        "type": "interface",
+        "file": "types.ts"
+      },
+      {
+        "name": "EidolonClassificationResult",
+        "line": 169,
+        "type": "interface",
+        "file": "types.ts"
+      },
+      {
+        "name": "LearningStats",
+        "line": 181,
+        "type": "interface",
+        "file": "types.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "EidolonFieldClassifier",
+        "line": 10,
+        "type": "class",
+        "file": "eidolon-field-classifier.ts"
+      },
+      {
+        "name": "VectorN",
+        "line": 3,
+        "type": "class",
+        "file": "eidolon-field-types.d.ts"
+      },
+      {
+        "name": "FieldN",
+        "line": 25,
+        "type": "class",
+        "file": "eidolon-field-types.d.ts"
+      },
+      {
+        "name": "FieldNode",
+        "line": 41,
+        "type": "class",
+        "file": "eidolon-field-types.d.ts"
+      },
+      {
+        "name": "VectorFieldService",
+        "line": 51,
+        "type": "class",
+        "file": "eidolon-field-types.d.ts"
+      },
+      {
+        "name": "VectorN",
+        "line": 3,
+        "type": "class",
+        "file": "eidolon-field.d.ts"
+      },
+      {
+        "name": "FieldN",
+        "line": 17,
+        "type": "class",
+        "file": "eidolon-field.d.ts"
+      },
+      {
+        "name": "FieldNode",
+        "line": 29,
+        "type": "class",
+        "file": "eidolon-field.d.ts"
+      },
+      {
+        "name": "VectorFieldService",
+        "line": 38,
+        "type": "class",
+        "file": "eidolon-field.d.ts"
+      },
+      {
+        "name": "AILearningSystem",
+        "line": 19,
+        "type": "class",
+        "file": "learning-system.ts"
+      },
+      {
+        "name": "ModelRouter",
+        "line": 14,
+        "type": "class",
+        "file": "model-router.ts"
+      },
+      {
+        "name": "PerformanceTracker",
+        "line": 14,
+        "type": "class",
+        "file": "performance-tracker.ts"
+      },
+      {
+        "name": "TaskClassifier",
+        "line": 6,
+        "type": "class",
+        "file": "task-classifier.ts"
+      },
+      {
+        "name": "VectorN",
+        "line": 5,
+        "type": "class",
+        "file": "types.d.ts"
+      },
+      {
+        "name": "FieldN",
+        "line": 18,
+        "type": "class",
+        "file": "types.d.ts"
+      },
+      {
+        "name": "FieldNode",
+        "line": 30,
+        "type": "class",
+        "file": "types.d.ts"
+      },
+      {
+        "name": "VectorFieldService",
+        "line": 39,
+        "type": "class",
+        "file": "types.d.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "start",
+        "line": 78,
+        "type": "function",
+        "file": "eidolon-field-types.d.ts"
+      },
+      {
+        "name": "start",
+        "line": 54,
+        "type": "function",
+        "file": "eidolon-field-types.ts"
+      },
+      {
+        "name": "start",
+        "line": 54,
+        "type": "function",
+        "file": "eidolon-field.d.ts"
+      },
+      {
+        "name": "start",
+        "line": 54,
+        "type": "function",
+        "file": "types.d.ts"
+      }
+    ],
+    "interfaces": [
+      {
+        "name": "VectorN",
+        "line": 3,
+        "type": "interface",
+        "file": "eidolon-field-types.ts"
+      },
+      {
+        "name": "VectorNConstructor",
+        "line": 15,
+        "type": "interface",
+        "file": "eidolon-field-types.ts"
+      },
+      {
+        "name": "FieldN",
+        "line": 20,
+        "type": "interface",
+        "file": "eidolon-field-types.ts"
+      },
+      {
+        "name": "FieldNode",
+        "line": 31,
+        "type": "interface",
+        "file": "eidolon-field-types.ts"
+      },
+      {
+        "name": "VectorFieldService",
+        "line": 39,
+        "type": "interface",
+        "file": "eidolon-field-types.ts"
+      },
+      {
+        "name": "TaskEmbedding",
+        "line": 57,
+        "type": "interface",
+        "file": "types.d.ts"
+      },
+      {
+        "name": "ClusterAttractor",
+        "line": 66,
+        "type": "interface",
+        "file": "types.d.ts"
+      },
+      {
+        "name": "EidolonClassificationResult",
+        "line": 75,
+        "type": "interface",
+        "file": "types.d.ts"
+      },
+      {
+        "name": "LearningStats",
+        "line": 87,
+        "type": "interface",
+        "file": "types.d.ts"
+      },
+      {
+        "name": "TaskEmbedding",
+        "line": 151,
+        "type": "interface",
+        "file": "types.ts"
+      },
+      {
+        "name": "ClusterAttractor",
+        "line": 160,
+        "type": "interface",
+        "file": "types.ts"
+      },
+      {
+        "name": "EidolonClassificationResult",
+        "line": 169,
+        "type": "interface",
+        "file": "types.ts"
+      },
+      {
+        "name": "LearningStats",
+        "line": 181,
+        "type": "interface",
+        "file": "types.ts"
+      }
+    ]
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "basic-test.ts",
+          "link": "[src/basic-test.ts](../../../packages/ai-learning/src/basic-test.ts)",
+          "lineCount": 16
+        },
+        {
+          "name": "eidolon-field-classifier.ts",
+          "link": "[src/eidolon-field-classifier.ts](../../../packages/ai-learning/src/eidolon-field-classifier.ts)",
+          "lineCount": 174
+        },
+        {
+          "name": "eidolon-field-types.d.ts",
+          "link": "[src/eidolon-field-types.d.ts](../../../packages/ai-learning/src/eidolon-field-types.d.ts)",
+          "lineCount": 79
+        },
+        {
+          "name": "eidolon-field-types.ts",
+          "link": "[src/eidolon-field-types.ts](../../../packages/ai-learning/src/eidolon-field-types.ts)",
+          "lineCount": 55
+        },
+        {
+          "name": "eidolon-field.d.ts",
+          "link": "[src/eidolon-field.d.ts](../../../packages/ai-learning/src/eidolon-field.d.ts)",
+          "lineCount": 54
+        },
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/ai-learning/src/index.ts)",
+          "lineCount": 14
+        },
+        {
+          "name": "learning-system.ts",
+          "link": "[src/learning-system.ts](../../../packages/ai-learning/src/learning-system.ts)",
+          "lineCount": 298
+        },
+        {
+          "name": "model-router.ts",
+          "link": "[src/model-router.ts](../../../packages/ai-learning/src/model-router.ts)",
+          "lineCount": 362
+        },
+        {
+          "name": "performance-tracker.ts",
+          "link": "[src/performance-tracker.ts](../../../packages/ai-learning/src/performance-tracker.ts)",
+          "lineCount": 407
+        },
+        {
+          "name": "run-test.ts",
+          "link": "[src/run-test.ts](../../../packages/ai-learning/src/run-test.ts)",
+          "lineCount": 12
+        },
+        {
+          "name": "task-classifier.ts",
+          "link": "[src/task-classifier.ts](../../../packages/ai-learning/src/task-classifier.ts)",
+          "lineCount": 218
+        },
+        {
+          "name": "test-eidolon-integration.ts",
+          "link": "[src/test-eidolon-integration.ts](../../../packages/ai-learning/src/test-eidolon-integration.ts)",
+          "lineCount": 38
+        },
+        {
+          "name": "types.d.ts",
+          "link": "[src/types.d.ts](../../../packages/ai-learning/src/types.d.ts)",
+          "lineCount": 94
+        },
+        {
+          "name": "types.ts",
+          "link": "[src/types.ts](../../../packages/ai-learning/src/types.ts)",
+          "lineCount": 188
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "EidolonFieldClassifier",
+          "link": "[EidolonFieldClassifier](../../../packages/ai-learning/src/eidolon-field-classifier.ts#L10)",
+          "file": "eidolon-field-classifier.ts",
+          "line": 10
+        },
+        {
+          "name": "VectorN",
+          "link": "[VectorN](../../../packages/ai-learning/src/eidolon-field-types.d.ts#L3)",
+          "file": "eidolon-field-types.d.ts",
+          "line": 3
+        },
+        {
+          "name": "FieldN",
+          "link": "[FieldN](../../../packages/ai-learning/src/eidolon-field-types.d.ts#L25)",
+          "file": "eidolon-field-types.d.ts",
+          "line": 25
+        },
+        {
+          "name": "FieldNode",
+          "link": "[FieldNode](../../../packages/ai-learning/src/eidolon-field-types.d.ts#L41)",
+          "file": "eidolon-field-types.d.ts",
+          "line": 41
+        },
+        {
+          "name": "VectorFieldService",
+          "link": "[VectorFieldService](../../../packages/ai-learning/src/eidolon-field-types.d.ts#L51)",
+          "file": "eidolon-field-types.d.ts",
+          "line": 51
+        },
+        {
+          "name": "VectorN",
+          "link": "[VectorN](../../../packages/ai-learning/src/eidolon-field.d.ts#L3)",
+          "file": "eidolon-field.d.ts",
+          "line": 3
+        },
+        {
+          "name": "FieldN",
+          "link": "[FieldN](../../../packages/ai-learning/src/eidolon-field.d.ts#L17)",
+          "file": "eidolon-field.d.ts",
+          "line": 17
+        },
+        {
+          "name": "FieldNode",
+          "link": "[FieldNode](../../../packages/ai-learning/src/eidolon-field.d.ts#L29)",
+          "file": "eidolon-field.d.ts",
+          "line": 29
+        },
+        {
+          "name": "VectorFieldService",
+          "link": "[VectorFieldService](../../../packages/ai-learning/src/eidolon-field.d.ts#L38)",
+          "file": "eidolon-field.d.ts",
+          "line": 38
+        },
+        {
+          "name": "AILearningSystem",
+          "link": "[AILearningSystem](../../../packages/ai-learning/src/learning-system.ts#L19)",
+          "file": "learning-system.ts",
+          "line": 19
+        },
+        {
+          "name": "ModelRouter",
+          "link": "[ModelRouter](../../../packages/ai-learning/src/model-router.ts#L14)",
+          "file": "model-router.ts",
+          "line": 14
+        },
+        {
+          "name": "PerformanceTracker",
+          "link": "[PerformanceTracker](../../../packages/ai-learning/src/performance-tracker.ts#L14)",
+          "file": "performance-tracker.ts",
+          "line": 14
+        },
+        {
+          "name": "TaskClassifier",
+          "link": "[TaskClassifier](../../../packages/ai-learning/src/task-classifier.ts#L6)",
+          "file": "task-classifier.ts",
+          "line": 6
+        },
+        {
+          "name": "VectorN",
+          "link": "[VectorN](../../../packages/ai-learning/src/types.d.ts#L5)",
+          "file": "types.d.ts",
+          "line": 5
+        },
+        {
+          "name": "FieldN",
+          "link": "[FieldN](../../../packages/ai-learning/src/types.d.ts#L18)",
+          "file": "types.d.ts",
+          "line": 18
+        },
+        {
+          "name": "FieldNode",
+          "link": "[FieldNode](../../../packages/ai-learning/src/types.d.ts#L30)",
+          "file": "types.d.ts",
+          "line": 30
+        },
+        {
+          "name": "VectorFieldService",
+          "link": "[VectorFieldService](../../../packages/ai-learning/src/types.d.ts#L39)",
+          "file": "types.d.ts",
+          "line": 39
+        }
+      ],
+      "functions": [
+        {
+          "name": "start",
+          "link": "[start()](../../../packages/ai-learning/src/eidolon-field-types.d.ts#L78)",
+          "file": "eidolon-field-types.d.ts",
+          "line": 78
+        },
+        {
+          "name": "start",
+          "link": "[start()](../../../packages/ai-learning/src/eidolon-field-types.ts#L54)",
+          "file": "eidolon-field-types.ts",
+          "line": 54
+        },
+        {
+          "name": "start",
+          "link": "[start()](../../../packages/ai-learning/src/eidolon-field.d.ts#L54)",
+          "file": "eidolon-field.d.ts",
+          "line": 54
+        },
+        {
+          "name": "start",
+          "link": "[start()](../../../packages/ai-learning/src/types.d.ts#L54)",
+          "file": "types.d.ts",
+          "line": 54
+        }
+      ],
+      "interfaces": [
+        {
+          "name": "VectorN",
+          "link": "[VectorN](../../../packages/ai-learning/src/eidolon-field-types.ts#L3)",
+          "file": "eidolon-field-types.ts",
+          "line": 3
+        },
+        {
+          "name": "VectorNConstructor",
+          "link": "[VectorNConstructor](../../../packages/ai-learning/src/eidolon-field-types.ts#L15)",
+          "file": "eidolon-field-types.ts",
+          "line": 15
+        },
+        {
+          "name": "FieldN",
+          "link": "[FieldN](../../../packages/ai-learning/src/eidolon-field-types.ts#L20)",
+          "file": "eidolon-field-types.ts",
+          "line": 20
+        },
+        {
+          "name": "FieldNode",
+          "link": "[FieldNode](../../../packages/ai-learning/src/eidolon-field-types.ts#L31)",
+          "file": "eidolon-field-types.ts",
+          "line": 31
+        },
+        {
+          "name": "VectorFieldService",
+          "link": "[VectorFieldService](../../../packages/ai-learning/src/eidolon-field-types.ts#L39)",
+          "file": "eidolon-field-types.ts",
+          "line": 39
+        },
+        {
+          "name": "TaskEmbedding",
+          "link": "[TaskEmbedding](../../../packages/ai-learning/src/types.d.ts#L57)",
+          "file": "types.d.ts",
+          "line": 57
+        },
+        {
+          "name": "ClusterAttractor",
+          "link": "[ClusterAttractor](../../../packages/ai-learning/src/types.d.ts#L66)",
+          "file": "types.d.ts",
+          "line": 66
+        },
+        {
+          "name": "EidolonClassificationResult",
+          "link": "[EidolonClassificationResult](../../../packages/ai-learning/src/types.d.ts#L75)",
+          "file": "types.d.ts",
+          "line": 75
+        },
+        {
+          "name": "LearningStats",
+          "link": "[LearningStats](../../../packages/ai-learning/src/types.d.ts#L87)",
+          "file": "types.d.ts",
+          "line": 87
+        },
+        {
+          "name": "TaskEmbedding",
+          "link": "[TaskEmbedding](../../../packages/ai-learning/src/types.ts#L151)",
+          "file": "types.ts",
+          "line": 151
+        },
+        {
+          "name": "ClusterAttractor",
+          "link": "[ClusterAttractor](../../../packages/ai-learning/src/types.ts#L160)",
+          "file": "types.ts",
+          "line": 160
+        },
+        {
+          "name": "EidolonClassificationResult",
+          "link": "[EidolonClassificationResult](../../../packages/ai-learning/src/types.ts#L169)",
+          "file": "types.ts",
+          "line": 169
+        },
+        {
+          "name": "LearningStats",
+          "link": "[LearningStats](../../../packages/ai-learning/src/types.ts#L181)",
+          "file": "types.ts",
+          "line": 181
+        }
+      ]
+    }
+  }
+}

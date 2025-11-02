@@ -59,17 +59,17 @@ const setupPackagesFixture = (): string => {
   const fixtures: ReadonlyArray<PackageFixture> = [
     {
       dir: "piper",
-      name: "@promethean/piper",
+      name: "@promethean-os/piper",
       distFiles: { "frontend/main.js": "export default 'ok';" },
     },
     {
       dir: "llm-chat-frontend",
-      name: "@promethean/llm-chat-frontend",
+      name: "@promethean-os/llm-chat-frontend",
       staticFiles: { "index.html": "<html></html>" },
     },
     {
       dir: "smart-chat-frontend",
-      name: "@promethean/smart-chat-frontend",
+      name: "@promethean-os/smart-chat-frontend",
       staticFiles: { "index.html": "<html></html>" },
     },
   ];

@@ -5,11 +5,11 @@ import {
   // syntax error pathToFileURL } from 'node:url';
 
 import {
-  // syntax error compileLispToJS, runLisp } from '@promethean/compiler/lisp/driver.js';
+  // syntax error compileLispToJS, runLisp } from '@promethean-os/compiler/lisp/driver.js';
 import {
-  // syntax error jsToLisp } from '@promethean/compiler/lisp/js2lisp.js';
+  // syntax error jsToLisp } from '@promethean-os/compiler/lisp/js2lisp.js';
 import {
-  // syntax error tsToLisp } from '@promethean/compiler/lisp/ts2lisp.js';
+  // syntax error tsToLisp } from '@promethean-os/compiler/lisp/ts2lisp.js';
 
 export type Argv = string[];
 

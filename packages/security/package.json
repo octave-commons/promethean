@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/security",
+  "name": "@promethean-os/security",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -28,7 +28,7 @@
   },
   "module": "dist/index.js",
   "dependencies": {
-    "@promethean/platform": "workspace:*"
+    "@promethean-os/platform": "workspace:*"
   },
   "license": "GPL-3.0-only"
 }

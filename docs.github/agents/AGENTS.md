@@ -1,0 +1,149 @@
+
+# AGENTS.md
+
+## 🧱 Overview
+
+This repo defines the **Promethean Framework**, a modular cognitive architecture
+for running AI agents with embodied reasoning, perception-action loops, and
+emotionally mediated decision structures.
+
+---
+
+## 📂 Repository Structure
+
+```
+scripts/ # Build, test, deploy automation (depreciated)
+packages/ # JS/TS modules
+tests/ # Unit and integration test suites
+docs/ # System-level documentation and markdown exports
+sites/ # Frontend code for dashboards and chat UIs (depreciated)
+configs/ # All base config files live here
+pseudo/ # one off scripts, retained for transparency
+
+```
+
+---
+
+## Anatomy of a Package
+
+```
+./src # All source code goes here
+./src/tests # Tests go here
+./tsconfig.json # Extends "../../config/tsconfig.base.json"
+./ava.config.mjs # Extends "../../config/ava.config.mjs"
+./package.json # Has, or should have 'build', 'test', 'clean', 'coverage',
+'typecheck' etc. scripts
+./static # Any files that might be served from a webserver go here.
+pseudo/ # one off scripts, retained for transparency
+```
+
+Webservers should mount both `dist/frontend` and `static`.
+When working on a package, the best way to execute commands is with
+`pnpm --filter @promethean-os/<package-name> <command>`
+
+### Example package local commands
+
+Prefer local, well scoped commands to workspace scripts.
+
+`pnpm --filter @promethean-os/<packge-name> test`
+`pnpm --filter @promethean-os/<packge-name> test:unit`
+`pnpm --filter @promethean-os/<packge-name> test:integration`
+`pnpm --filter @promethean-os/<packge-name> test:e2e`
+`pnpm --filter @promethean-os/<packge-name> clean`
+`pnpm --filter @promethean-os/<packge-name> build`
+`pnpm --filter @promethean-os/<packge-name> typecheck`
+`pnpm --filter @promethean-os/<packge-name> start`
+`pnpm --filter @promethean-os/<packge-name> exec node ./psudo/temp-script.js`
+
+
+---
+
+# Stack
+
+- TypeScript for backend
+- shadow-cljs for frontend
+- nbb/bb scripting, and DSLs
+- Clojure for heavy work
+- MongoDB for main document store
+- LevelDB for caching
+- chroma for embedding based search
+- ESMODULEs
+- Prefer key-value caches via `@promethean-os/*-cache`; avoid JSON files for transient data
+
+# Programming Style
+
+- Functional preferred
+- TDD non-negotiable
+- Document-driven development
+- No relative module resolution outside of the package root.
+  - Depend on `@promethean-os/<package>*` via "workspace:\*".
+- Always use the eslint tool on each file you edit.
+
+# Working Style
+
+- Prefer small, auditable changes over grand rewrites.
+- Always wright tests
+- Prefer writing package level configs
+  Prefer code changes in the affected modules.
+- Add a summary of what you changed to a date string named file in `changelog.d` eg `changelog.d/<YYYY.MM.DD.hh.mm.ss>.md`
+  that documents the current state so the next agent has traction—never leave with only "couldn't finish".
+
+---
+
+## 📋 Kanban Task Management
+
+All agents must use the kanban system for task tracking and work management. The kanban board lives at `docs/agile/boards/generated.md` and is managed via the `@promethean-os/kanban` package.
+
+
+### 📍 Working with Kanban
+
+**✅ DO:**
+
+- Use kanban commands from **any directory** in the repository
+- Update task status via `pnpm kanban update-status <uuid> <column>`
+- Regenerate board after making task changes: `pnpm kanban regenerate`
+- Search tasks before creating new ones: `pnpm kanban search <query>`
+- Check task counts to understand workflow: `pnpm kanban count`
+
+**❌ DON'T:**
+
+- Manually edit the generated board file
+- Create tasks without checking for duplicates first
+- Forget to sync board changes back to task files
+
+### 🔄 Common Agent Workflows
+
+1. **Start work**: `pnpm kanban search <work-type>` → find relevant tasks
+2. **Update task**: `pnpm kanban update-status <uuid> in_progress`
+3. **Complete work**: `pnpm kanban update-status <uuid> done`
+4. **Generate board**: `pnpm kanban regenerate`
+
+### 📁 Task File Locations
+
+- Tasks live in: `docs/agile/tasks/*.md`
+- Generated board: `docs/agile/boards/generated.md`
+- Config file: `promethean.kanban.json`
+- CLI reference: `docs/agile/kanban-cli-reference.md`
+
+### 📚 Further Documentation
+
+- **Complete Kanban CLI Reference**: `docs/agile/kanban-cli-reference.md`
+- **Process Documentation**: `docs/agile/process.md`
+- **FSM Rules**: `docs/agile/rules/kanban-transitions.clj`
+
+---
+
+### Notes
+- It is a large repo, and your bash command doesn't remember when you use
+`cd` you're commands are *always* ran from the package root.
+- put temporary scripts in a `pseudo/` folder, retain them so the steps you take can be validated
+  - psuedo is never to be referenced inside of a package
+  - pseudo is pseudocode, I don't know if it works, but it communciated an intent
+- put markdown files in `docs/`
+- you are in a repository where file changes automaticly trigger a commit to be made with a message generated by an llm
+  - you don't need to commit your work
+  - you don't need to make backups
+- documentation should be obsidian friendly markdown
+  - use [wikilinks](wikilinks.md)
+  - make use of dataviews https://blacksmithgu.github.io/obsidian-dataview/
+  - Update the [HOME](../HOME.md) file with important information, treat it as a living document

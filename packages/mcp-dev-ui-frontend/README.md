@@ -1,11 +1,11 @@
-# @promethean/mcp-dev-ui-frontend
+# @promethean-os/mcp-dev-ui-frontend
 
 Frontend components for MCP Dev UI built with ClojureScript.
 
 ## Installation
 
 ```bash
-pnpm add @promethean/mcp-dev-ui-frontend
+pnpm add @promethean-os/mcp-dev-ui-frontend
 ```
 
 ## Development

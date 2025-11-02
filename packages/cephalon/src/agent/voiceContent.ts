@@ -1,20 +1,14 @@
-import { formatMessage } from "@promethean/persistence/contextStore.js";
+import { formatMessage } from '@promethean-os/persistence/contextStore.js';
 
-import { generatePromptChoice, generateSpecialQuery } from "../util.js";
+import { generatePromptChoice, generateSpecialQuery } from '../util.js';
 
-import type { AIAgent } from "./index.js";
+import type { AIAgent } from './index.js';
 
 export async function generateVoiceContentFromSinglePrompt(this: AIAgent) {
-  let content = "";
+  let content = '';
   let counter = 0;
-  const context = await this.context.compileContext(
-    [this.prompt],
-    this.historyLimit,
-    5,
-    5,
-    true,
-  );
-  const text = context.map((m: { content: string }) => m.content).join("\n");
+  const context = await this.context.compileContext([this.prompt], this.historyLimit, 5, 5, true);
+  const text = context.map((m: { content: string }) => m.content).join('\n');
 
   while (!content && counter < 5) {
     content = (await this.generateResponse({
@@ -30,20 +24,20 @@ ${text}
   return content;
 }
 
-export async function generateVoiceContentWithFormattedLatestmessage(
-  this: AIAgent,
-) {
-  let content = "";
+export async function generateVoiceContentWithFormattedLatestmessage(this: AIAgent) {
+  let content = '';
   let counter = 0;
-  const userCollection = this.context.getCollection("transcripts");
+  const userCollection = this.context.getCollection('transcripts');
   const latestUserMessage = (await userCollection.getMostRecent(1))[0];
-  const context = (
-    await this.context.compileContext([this.prompt], this.historyLimit)
-  ).filter((m: { content: string }) => m.content !== latestUserMessage?.text);
+  const context = (await this.context.compileContext([this.prompt], this.historyLimit)).filter(
+    (m: { content: string }) => m.content !== latestUserMessage?.text,
+  );
 
   context.push({
-    role: "user",
-    content: formatMessage(latestUserMessage),
+    role: 'user',
+    content: formatMessage(latestUserMessage, (epochMs: number) =>
+      new Date(epochMs).toLocaleString(),
+    ),
   });
 
   while (!content && counter < 5) {
@@ -57,12 +51,9 @@ export async function generateVoiceContentWithFormattedLatestmessage(
 }
 
 export async function generateVoiceContentWithChoicePrompt(this: AIAgent) {
-  let content = "";
+  let content = '';
   let counter = 0;
-  const context = await this.context.compileContext(
-    [this.prompt],
-    this.historyLimit,
-  );
+  const context = await this.context.compileContext([this.prompt], this.historyLimit);
   while (!content && counter < 5) {
     content = (await this.generateResponse({
       specialQuery: ` ${generatePromptChoice()} `,
@@ -75,19 +66,16 @@ export async function generateVoiceContentWithChoicePrompt(this: AIAgent) {
 }
 
 export async function generateVoiceContentWithSpecialQuery(this: AIAgent) {
-  let content = "";
+  let content = '';
   let counter = 0;
-  const userCollection = this.context.getCollection("transcripts");
+  const userCollection = this.context.getCollection('transcripts');
   const latestUserMessage = (await userCollection.getMostRecent(1))[0];
-  const context = (
-    await this.context.compileContext([this.prompt], this.historyLimit)
-  ).filter((m: { content: string }) => m.content !== latestUserMessage?.text);
+  const context = (await this.context.compileContext([this.prompt], this.historyLimit)).filter(
+    (m: { content: string }) => m.content !== latestUserMessage?.text,
+  );
   while (!content && counter < 5) {
     content = (await this.generateResponse({
-      specialQuery: generateSpecialQuery(
-        latestUserMessage,
-        generatePromptChoice(),
-      ),
+      specialQuery: generateSpecialQuery(latestUserMessage, generatePromptChoice()),
       context,
     })) as string;
     counter++;
@@ -97,12 +85,9 @@ export async function generateVoiceContentWithSpecialQuery(this: AIAgent) {
 }
 
 export async function generateVoiceContentWithoutSpecialQuery(this: AIAgent) {
-  let content = "";
+  let content = '';
   let counter = 0;
-  const context = await this.context.compileContext(
-    [this.prompt],
-    this.historyLimit,
-  );
+  const context = await this.context.compileContext([this.prompt], this.historyLimit);
   while (!content && counter < 5) {
     content = (await this.generateResponse({
       context,

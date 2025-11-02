@@ -1,9 +1,8 @@
+import baseConfig from '../../config/ava.config.mjs';
+
+// Override for opencode-client to silence console output during tests
 export default {
-  files: ['dist/tests/**/*.test.js'],
-  timeout: '30s',
-  concurrency: 1, // Run tests serially to avoid database conflicts
-  environmentVariables: {
-    NODE_ENV: 'test',
-  },
-  nodeArguments: ['--enable-source-maps'],
+  ...baseConfig,
+  require: [...(baseConfig.require || []), './dist/test-setup.js'],
+  files: ['dist/tests/**/*.test.js', '!dist/tests/helpers/**/*'],
 };

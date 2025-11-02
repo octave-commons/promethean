@@ -1,0 +1,1390 @@
+{
+  "packageData": {
+    "packageName": "security",
+    "files": [
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/security/src/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 6
+      },
+      {
+        "path": "path-validation.ts",
+        "fullPath": "/home/err/devel/promethean/packages/security/src/path-validation.ts",
+        "exports": [
+          {
+            "name": "PathSecurityConfig",
+            "line": 7,
+            "type": "interface"
+          },
+          {
+            "name": "PathValidationResult",
+            "line": 25,
+            "type": "interface"
+          },
+          {
+            "name": "validatePath",
+            "line": 131,
+            "type": "function"
+          },
+          {
+            "name": "sanitizeFileName",
+            "line": 383,
+            "type": "function"
+          },
+          {
+            "name": "createSecurePath",
+            "line": 412,
+            "type": "function"
+          },
+          {
+            "name": "isCrossPlatformSafe",
+            "line": 420,
+            "type": "function"
+          },
+          {
+            "name": "validatePaths",
+            "line": 457,
+            "type": "function"
+          },
+          {
+            "name": "createSecureTempPath",
+            "line": 472,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "validatePath",
+            "line": 131,
+            "type": "function"
+          },
+          {
+            "name": "sanitizeFileName",
+            "line": 383,
+            "type": "function"
+          },
+          {
+            "name": "createSecurePath",
+            "line": 412,
+            "type": "function"
+          },
+          {
+            "name": "isCrossPlatformSafe",
+            "line": 420,
+            "type": "function"
+          },
+          {
+            "name": "validatePaths",
+            "line": 457,
+            "type": "function"
+          },
+          {
+            "name": "createSecureTempPath",
+            "line": 472,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "PathSecurityConfig",
+            "line": 7,
+            "type": "interface"
+          },
+          {
+            "name": "PathValidationResult",
+            "line": 25,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 482
+      },
+      {
+        "path": "policy.ts",
+        "fullPath": "/home/err/devel/promethean/packages/security/src/policy.ts",
+        "exports": [
+          {
+            "name": "NotAllowedError",
+            "line": 1,
+            "type": "class"
+          },
+          {
+            "name": "makePolicy",
+            "line": 43,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "NotAllowedError",
+            "line": 1,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "makePolicy",
+            "line": 43,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 98
+      },
+      {
+        "path": "secure-file-operations.ts",
+        "fullPath": "/home/err/devel/promethean/packages/security/src/secure-file-operations.ts",
+        "exports": [
+          {
+            "name": "SecureFileOptions",
+            "line": 8,
+            "type": "interface"
+          },
+          {
+            "name": "SecureFileResult",
+            "line": 20,
+            "type": "interface"
+          },
+          {
+            "name": "secureReadFile",
+            "line": 40,
+            "type": "function"
+          },
+          {
+            "name": "secureWriteFile",
+            "line": 80,
+            "type": "function"
+          },
+          {
+            "name": "secureAppendFile",
+            "line": 146,
+            "type": "function"
+          },
+          {
+            "name": "secureDeleteFile",
+            "line": 199,
+            "type": "function"
+          },
+          {
+            "name": "secureListDirectory",
+            "line": 255,
+            "type": "function"
+          },
+          {
+            "name": "secureCreateDirectory",
+            "line": 313,
+            "type": "function"
+          },
+          {
+            "name": "secureCopyFile",
+            "line": 379,
+            "type": "function"
+          },
+          {
+            "name": "secureMoveFile",
+            "line": 460,
+            "type": "function"
+          },
+          {
+            "name": "secureBatchOperation",
+            "line": 502,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "secureReadFile",
+            "line": 40,
+            "type": "function"
+          },
+          {
+            "name": "secureWriteFile",
+            "line": 80,
+            "type": "function"
+          },
+          {
+            "name": "secureAppendFile",
+            "line": 146,
+            "type": "function"
+          },
+          {
+            "name": "secureDeleteFile",
+            "line": 199,
+            "type": "function"
+          },
+          {
+            "name": "secureListDirectory",
+            "line": 255,
+            "type": "function"
+          },
+          {
+            "name": "secureCreateDirectory",
+            "line": 313,
+            "type": "function"
+          },
+          {
+            "name": "secureCopyFile",
+            "line": 379,
+            "type": "function"
+          },
+          {
+            "name": "secureMoveFile",
+            "line": 460,
+            "type": "function"
+          },
+          {
+            "name": "secureBatchOperation",
+            "line": 502,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "SecureFileOptions",
+            "line": 8,
+            "type": "interface"
+          },
+          {
+            "name": "SecureFileResult",
+            "line": 20,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 525
+      },
+      {
+        "path": "testing/auth-testing.ts",
+        "fullPath": "/home/err/devel/promethean/packages/security/src/testing/auth-testing.ts",
+        "exports": [
+          {
+            "name": "AuthTester",
+            "line": 43,
+            "type": "interface"
+          },
+          {
+            "name": "JWTSecurityTester",
+            "line": 48,
+            "type": "class"
+          },
+          {
+            "name": "OAuthSecurityTester",
+            "line": 163,
+            "type": "class"
+          },
+          {
+            "name": "SessionSecurityTester",
+            "line": 332,
+            "type": "class"
+          },
+          {
+            "name": "RateLimitTester",
+            "line": 406,
+            "type": "class"
+          },
+          {
+            "name": "ReplayAttackTester",
+            "line": 498,
+            "type": "class"
+          },
+          {
+            "name": "quickAuthTest",
+            "line": 570,
+            "type": "function"
+          },
+          {
+            "name": "ComprehensiveAuthTester",
+            "line": 575,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "JWTSecurityTester",
+            "line": 48,
+            "type": "class"
+          },
+          {
+            "name": "OAuthSecurityTester",
+            "line": 163,
+            "type": "class"
+          },
+          {
+            "name": "SessionSecurityTester",
+            "line": 332,
+            "type": "class"
+          },
+          {
+            "name": "RateLimitTester",
+            "line": 406,
+            "type": "class"
+          },
+          {
+            "name": "ReplayAttackTester",
+            "line": 498,
+            "type": "class"
+          },
+          {
+            "name": "ComprehensiveAuthTester",
+            "line": 575,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "quickAuthTest",
+            "line": 570,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "AuthTester",
+            "line": 43,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 798
+      },
+      {
+        "path": "testing/fuzzing.ts",
+        "fullPath": "/home/err/devel/promethean/packages/security/src/testing/fuzzing.ts",
+        "exports": [
+          {
+            "name": "Fuzzer",
+            "line": 23,
+            "type": "class"
+          },
+          {
+            "name": "quickFuzzTest",
+            "line": 248,
+            "type": "function"
+          },
+          {
+            "name": "FuzzRunner",
+            "line": 259,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "Fuzzer",
+            "line": 23,
+            "type": "class"
+          },
+          {
+            "name": "FuzzRunner",
+            "line": 259,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "quickFuzzTest",
+            "line": 248,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 353
+      },
+      {
+        "path": "testing/index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/security/src/testing/index.ts",
+        "exports": [
+          {
+            "name": "SecurityTestFramework",
+            "line": 43,
+            "type": "class"
+          },
+          {
+            "name": "quickFuzzTest",
+            "line": 400,
+            "type": "function"
+          },
+          {
+            "name": "quickPromptInjectionTest",
+            "line": 411,
+            "type": "function"
+          },
+          {
+            "name": "quickAuthTest",
+            "line": 418,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "SecurityTestFramework",
+            "line": 43,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "quickFuzzTest",
+            "line": 400,
+            "type": "function"
+          },
+          {
+            "name": "quickPromptInjectionTest",
+            "line": 411,
+            "type": "function"
+          },
+          {
+            "name": "quickAuthTest",
+            "line": 418,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 421
+      },
+      {
+        "path": "testing/prompt-injection.ts",
+        "fullPath": "/home/err/devel/promethean/packages/security/src/testing/prompt-injection.ts",
+        "exports": [
+          {
+            "name": "PromptInjectionDetector",
+            "line": 48,
+            "type": "interface"
+          },
+          {
+            "name": "PromptInjectionTester",
+            "line": 54,
+            "type": "class"
+          },
+          {
+            "name": "quickPromptInjectionTest",
+            "line": 490,
+            "type": "function"
+          },
+          {
+            "name": "BasicPromptInjectionDetector",
+            "line": 497,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "PromptInjectionTester",
+            "line": 54,
+            "type": "class"
+          },
+          {
+            "name": "BasicPromptInjectionDetector",
+            "line": 497,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "quickPromptInjectionTest",
+            "line": 490,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "PromptInjectionDetector",
+            "line": 48,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 606
+      },
+      {
+        "path": "tests/comprehensive-security.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/security/src/tests/comprehensive-security.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 260
+      },
+      {
+        "path": "tests/fuzzing.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/security/src/tests/fuzzing.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 188
+      },
+      {
+        "path": "tests/integration-security-comprehensive.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/security/src/tests/integration-security-comprehensive.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 717
+      },
+      {
+        "path": "tests/path-validation.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/security/src/tests/path-validation.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 430
+      },
+      {
+        "path": "tests/policy.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/security/src/tests/policy.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 75
+      },
+      {
+        "path": "tests/prompt-injection.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/security/src/tests/prompt-injection.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 200
+      },
+      {
+        "path": "tests/secure-file-operations.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/security/src/tests/secure-file-operations.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 420
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [],
+      "classes": [],
+      "functions": [],
+      "interfaces": [],
+      "totalLines": 6
+    },
+    "exports": [
+      {
+        "name": "PathSecurityConfig",
+        "line": 7,
+        "type": "interface",
+        "file": "path-validation.ts"
+      },
+      {
+        "name": "PathValidationResult",
+        "line": 25,
+        "type": "interface",
+        "file": "path-validation.ts"
+      },
+      {
+        "name": "validatePath",
+        "line": 131,
+        "type": "function",
+        "file": "path-validation.ts"
+      },
+      {
+        "name": "sanitizeFileName",
+        "line": 383,
+        "type": "function",
+        "file": "path-validation.ts"
+      },
+      {
+        "name": "createSecurePath",
+        "line": 412,
+        "type": "function",
+        "file": "path-validation.ts"
+      },
+      {
+        "name": "isCrossPlatformSafe",
+        "line": 420,
+        "type": "function",
+        "file": "path-validation.ts"
+      },
+      {
+        "name": "validatePaths",
+        "line": 457,
+        "type": "function",
+        "file": "path-validation.ts"
+      },
+      {
+        "name": "createSecureTempPath",
+        "line": 472,
+        "type": "function",
+        "file": "path-validation.ts"
+      },
+      {
+        "name": "NotAllowedError",
+        "line": 1,
+        "type": "class",
+        "file": "policy.ts"
+      },
+      {
+        "name": "makePolicy",
+        "line": 43,
+        "type": "function",
+        "file": "policy.ts"
+      },
+      {
+        "name": "SecureFileOptions",
+        "line": 8,
+        "type": "interface",
+        "file": "secure-file-operations.ts"
+      },
+      {
+        "name": "SecureFileResult",
+        "line": 20,
+        "type": "interface",
+        "file": "secure-file-operations.ts"
+      },
+      {
+        "name": "secureReadFile",
+        "line": 40,
+        "type": "function",
+        "file": "secure-file-operations.ts"
+      },
+      {
+        "name": "secureWriteFile",
+        "line": 80,
+        "type": "function",
+        "file": "secure-file-operations.ts"
+      },
+      {
+        "name": "secureAppendFile",
+        "line": 146,
+        "type": "function",
+        "file": "secure-file-operations.ts"
+      },
+      {
+        "name": "secureDeleteFile",
+        "line": 199,
+        "type": "function",
+        "file": "secure-file-operations.ts"
+      },
+      {
+        "name": "secureListDirectory",
+        "line": 255,
+        "type": "function",
+        "file": "secure-file-operations.ts"
+      },
+      {
+        "name": "secureCreateDirectory",
+        "line": 313,
+        "type": "function",
+        "file": "secure-file-operations.ts"
+      },
+      {
+        "name": "secureCopyFile",
+        "line": 379,
+        "type": "function",
+        "file": "secure-file-operations.ts"
+      },
+      {
+        "name": "secureMoveFile",
+        "line": 460,
+        "type": "function",
+        "file": "secure-file-operations.ts"
+      },
+      {
+        "name": "secureBatchOperation",
+        "line": 502,
+        "type": "function",
+        "file": "secure-file-operations.ts"
+      },
+      {
+        "name": "AuthTester",
+        "line": 43,
+        "type": "interface",
+        "file": "testing/auth-testing.ts"
+      },
+      {
+        "name": "JWTSecurityTester",
+        "line": 48,
+        "type": "class",
+        "file": "testing/auth-testing.ts"
+      },
+      {
+        "name": "OAuthSecurityTester",
+        "line": 163,
+        "type": "class",
+        "file": "testing/auth-testing.ts"
+      },
+      {
+        "name": "SessionSecurityTester",
+        "line": 332,
+        "type": "class",
+        "file": "testing/auth-testing.ts"
+      },
+      {
+        "name": "RateLimitTester",
+        "line": 406,
+        "type": "class",
+        "file": "testing/auth-testing.ts"
+      },
+      {
+        "name": "ReplayAttackTester",
+        "line": 498,
+        "type": "class",
+        "file": "testing/auth-testing.ts"
+      },
+      {
+        "name": "quickAuthTest",
+        "line": 570,
+        "type": "function",
+        "file": "testing/auth-testing.ts"
+      },
+      {
+        "name": "ComprehensiveAuthTester",
+        "line": 575,
+        "type": "class",
+        "file": "testing/auth-testing.ts"
+      },
+      {
+        "name": "Fuzzer",
+        "line": 23,
+        "type": "class",
+        "file": "testing/fuzzing.ts"
+      },
+      {
+        "name": "quickFuzzTest",
+        "line": 248,
+        "type": "function",
+        "file": "testing/fuzzing.ts"
+      },
+      {
+        "name": "FuzzRunner",
+        "line": 259,
+        "type": "class",
+        "file": "testing/fuzzing.ts"
+      },
+      {
+        "name": "SecurityTestFramework",
+        "line": 43,
+        "type": "class",
+        "file": "testing/index.ts"
+      },
+      {
+        "name": "quickFuzzTest",
+        "line": 400,
+        "type": "function",
+        "file": "testing/index.ts"
+      },
+      {
+        "name": "quickPromptInjectionTest",
+        "line": 411,
+        "type": "function",
+        "file": "testing/index.ts"
+      },
+      {
+        "name": "quickAuthTest",
+        "line": 418,
+        "type": "function",
+        "file": "testing/index.ts"
+      },
+      {
+        "name": "PromptInjectionDetector",
+        "line": 48,
+        "type": "interface",
+        "file": "testing/prompt-injection.ts"
+      },
+      {
+        "name": "PromptInjectionTester",
+        "line": 54,
+        "type": "class",
+        "file": "testing/prompt-injection.ts"
+      },
+      {
+        "name": "quickPromptInjectionTest",
+        "line": 490,
+        "type": "function",
+        "file": "testing/prompt-injection.ts"
+      },
+      {
+        "name": "BasicPromptInjectionDetector",
+        "line": 497,
+        "type": "class",
+        "file": "testing/prompt-injection.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "NotAllowedError",
+        "line": 1,
+        "type": "class",
+        "file": "policy.ts"
+      },
+      {
+        "name": "JWTSecurityTester",
+        "line": 48,
+        "type": "class",
+        "file": "testing/auth-testing.ts"
+      },
+      {
+        "name": "OAuthSecurityTester",
+        "line": 163,
+        "type": "class",
+        "file": "testing/auth-testing.ts"
+      },
+      {
+        "name": "SessionSecurityTester",
+        "line": 332,
+        "type": "class",
+        "file": "testing/auth-testing.ts"
+      },
+      {
+        "name": "RateLimitTester",
+        "line": 406,
+        "type": "class",
+        "file": "testing/auth-testing.ts"
+      },
+      {
+        "name": "ReplayAttackTester",
+        "line": 498,
+        "type": "class",
+        "file": "testing/auth-testing.ts"
+      },
+      {
+        "name": "ComprehensiveAuthTester",
+        "line": 575,
+        "type": "class",
+        "file": "testing/auth-testing.ts"
+      },
+      {
+        "name": "Fuzzer",
+        "line": 23,
+        "type": "class",
+        "file": "testing/fuzzing.ts"
+      },
+      {
+        "name": "FuzzRunner",
+        "line": 259,
+        "type": "class",
+        "file": "testing/fuzzing.ts"
+      },
+      {
+        "name": "SecurityTestFramework",
+        "line": 43,
+        "type": "class",
+        "file": "testing/index.ts"
+      },
+      {
+        "name": "PromptInjectionTester",
+        "line": 54,
+        "type": "class",
+        "file": "testing/prompt-injection.ts"
+      },
+      {
+        "name": "BasicPromptInjectionDetector",
+        "line": 497,
+        "type": "class",
+        "file": "testing/prompt-injection.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "validatePath",
+        "line": 131,
+        "type": "function",
+        "file": "path-validation.ts"
+      },
+      {
+        "name": "sanitizeFileName",
+        "line": 383,
+        "type": "function",
+        "file": "path-validation.ts"
+      },
+      {
+        "name": "createSecurePath",
+        "line": 412,
+        "type": "function",
+        "file": "path-validation.ts"
+      },
+      {
+        "name": "isCrossPlatformSafe",
+        "line": 420,
+        "type": "function",
+        "file": "path-validation.ts"
+      },
+      {
+        "name": "validatePaths",
+        "line": 457,
+        "type": "function",
+        "file": "path-validation.ts"
+      },
+      {
+        "name": "createSecureTempPath",
+        "line": 472,
+        "type": "function",
+        "file": "path-validation.ts"
+      },
+      {
+        "name": "makePolicy",
+        "line": 43,
+        "type": "function",
+        "file": "policy.ts"
+      },
+      {
+        "name": "secureReadFile",
+        "line": 40,
+        "type": "function",
+        "file": "secure-file-operations.ts"
+      },
+      {
+        "name": "secureWriteFile",
+        "line": 80,
+        "type": "function",
+        "file": "secure-file-operations.ts"
+      },
+      {
+        "name": "secureAppendFile",
+        "line": 146,
+        "type": "function",
+        "file": "secure-file-operations.ts"
+      },
+      {
+        "name": "secureDeleteFile",
+        "line": 199,
+        "type": "function",
+        "file": "secure-file-operations.ts"
+      },
+      {
+        "name": "secureListDirectory",
+        "line": 255,
+        "type": "function",
+        "file": "secure-file-operations.ts"
+      },
+      {
+        "name": "secureCreateDirectory",
+        "line": 313,
+        "type": "function",
+        "file": "secure-file-operations.ts"
+      },
+      {
+        "name": "secureCopyFile",
+        "line": 379,
+        "type": "function",
+        "file": "secure-file-operations.ts"
+      },
+      {
+        "name": "secureMoveFile",
+        "line": 460,
+        "type": "function",
+        "file": "secure-file-operations.ts"
+      },
+      {
+        "name": "secureBatchOperation",
+        "line": 502,
+        "type": "function",
+        "file": "secure-file-operations.ts"
+      },
+      {
+        "name": "quickAuthTest",
+        "line": 570,
+        "type": "function",
+        "file": "testing/auth-testing.ts"
+      },
+      {
+        "name": "quickFuzzTest",
+        "line": 248,
+        "type": "function",
+        "file": "testing/fuzzing.ts"
+      },
+      {
+        "name": "quickFuzzTest",
+        "line": 400,
+        "type": "function",
+        "file": "testing/index.ts"
+      },
+      {
+        "name": "quickPromptInjectionTest",
+        "line": 411,
+        "type": "function",
+        "file": "testing/index.ts"
+      },
+      {
+        "name": "quickAuthTest",
+        "line": 418,
+        "type": "function",
+        "file": "testing/index.ts"
+      },
+      {
+        "name": "quickPromptInjectionTest",
+        "line": 490,
+        "type": "function",
+        "file": "testing/prompt-injection.ts"
+      }
+    ],
+    "interfaces": [
+      {
+        "name": "PathSecurityConfig",
+        "line": 7,
+        "type": "interface",
+        "file": "path-validation.ts"
+      },
+      {
+        "name": "PathValidationResult",
+        "line": 25,
+        "type": "interface",
+        "file": "path-validation.ts"
+      },
+      {
+        "name": "SecureFileOptions",
+        "line": 8,
+        "type": "interface",
+        "file": "secure-file-operations.ts"
+      },
+      {
+        "name": "SecureFileResult",
+        "line": 20,
+        "type": "interface",
+        "file": "secure-file-operations.ts"
+      },
+      {
+        "name": "AuthTester",
+        "line": 43,
+        "type": "interface",
+        "file": "testing/auth-testing.ts"
+      },
+      {
+        "name": "PromptInjectionDetector",
+        "line": 48,
+        "type": "interface",
+        "file": "testing/prompt-injection.ts"
+      }
+    ]
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/security/src/index.ts)",
+          "lineCount": 6
+        },
+        {
+          "name": "path-validation.ts",
+          "link": "[src/path-validation.ts](../../../packages/security/src/path-validation.ts)",
+          "lineCount": 482
+        },
+        {
+          "name": "policy.ts",
+          "link": "[src/policy.ts](../../../packages/security/src/policy.ts)",
+          "lineCount": 98
+        },
+        {
+          "name": "secure-file-operations.ts",
+          "link": "[src/secure-file-operations.ts](../../../packages/security/src/secure-file-operations.ts)",
+          "lineCount": 525
+        },
+        {
+          "name": "testing/auth-testing.ts",
+          "link": "[src/testing/auth-testing.ts](../../../packages/security/src/testing/auth-testing.ts)",
+          "lineCount": 798
+        },
+        {
+          "name": "testing/fuzzing.ts",
+          "link": "[src/testing/fuzzing.ts](../../../packages/security/src/testing/fuzzing.ts)",
+          "lineCount": 353
+        },
+        {
+          "name": "testing/index.ts",
+          "link": "[src/testing/index.ts](../../../packages/security/src/testing/index.ts)",
+          "lineCount": 421
+        },
+        {
+          "name": "testing/prompt-injection.ts",
+          "link": "[src/testing/prompt-injection.ts](../../../packages/security/src/testing/prompt-injection.ts)",
+          "lineCount": 606
+        },
+        {
+          "name": "tests/comprehensive-security.test.ts",
+          "link": "[src/tests/comprehensive-security.test.ts](../../../packages/security/src/tests/comprehensive-security.test.ts)",
+          "lineCount": 260
+        },
+        {
+          "name": "tests/fuzzing.test.ts",
+          "link": "[src/tests/fuzzing.test.ts](../../../packages/security/src/tests/fuzzing.test.ts)",
+          "lineCount": 188
+        },
+        {
+          "name": "tests/integration-security-comprehensive.test.ts",
+          "link": "[src/tests/integration-security-comprehensive.test.ts](../../../packages/security/src/tests/integration-security-comprehensive.test.ts)",
+          "lineCount": 717
+        },
+        {
+          "name": "tests/path-validation.test.ts",
+          "link": "[src/tests/path-validation.test.ts](../../../packages/security/src/tests/path-validation.test.ts)",
+          "lineCount": 430
+        },
+        {
+          "name": "tests/policy.test.ts",
+          "link": "[src/tests/policy.test.ts](../../../packages/security/src/tests/policy.test.ts)",
+          "lineCount": 75
+        },
+        {
+          "name": "tests/prompt-injection.test.ts",
+          "link": "[src/tests/prompt-injection.test.ts](../../../packages/security/src/tests/prompt-injection.test.ts)",
+          "lineCount": 200
+        },
+        {
+          "name": "tests/secure-file-operations.test.ts",
+          "link": "[src/tests/secure-file-operations.test.ts](../../../packages/security/src/tests/secure-file-operations.test.ts)",
+          "lineCount": 420
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "NotAllowedError",
+          "link": "[NotAllowedError](../../../packages/security/src/policy.ts#L1)",
+          "file": "policy.ts",
+          "line": 1
+        },
+        {
+          "name": "JWTSecurityTester",
+          "link": "[JWTSecurityTester](../../../packages/security/src/testing/auth-testing.ts#L48)",
+          "file": "testing/auth-testing.ts",
+          "line": 48
+        },
+        {
+          "name": "OAuthSecurityTester",
+          "link": "[OAuthSecurityTester](../../../packages/security/src/testing/auth-testing.ts#L163)",
+          "file": "testing/auth-testing.ts",
+          "line": 163
+        },
+        {
+          "name": "SessionSecurityTester",
+          "link": "[SessionSecurityTester](../../../packages/security/src/testing/auth-testing.ts#L332)",
+          "file": "testing/auth-testing.ts",
+          "line": 332
+        },
+        {
+          "name": "RateLimitTester",
+          "link": "[RateLimitTester](../../../packages/security/src/testing/auth-testing.ts#L406)",
+          "file": "testing/auth-testing.ts",
+          "line": 406
+        },
+        {
+          "name": "ReplayAttackTester",
+          "link": "[ReplayAttackTester](../../../packages/security/src/testing/auth-testing.ts#L498)",
+          "file": "testing/auth-testing.ts",
+          "line": 498
+        },
+        {
+          "name": "ComprehensiveAuthTester",
+          "link": "[ComprehensiveAuthTester](../../../packages/security/src/testing/auth-testing.ts#L575)",
+          "file": "testing/auth-testing.ts",
+          "line": 575
+        },
+        {
+          "name": "Fuzzer",
+          "link": "[Fuzzer](../../../packages/security/src/testing/fuzzing.ts#L23)",
+          "file": "testing/fuzzing.ts",
+          "line": 23
+        },
+        {
+          "name": "FuzzRunner",
+          "link": "[FuzzRunner](../../../packages/security/src/testing/fuzzing.ts#L259)",
+          "file": "testing/fuzzing.ts",
+          "line": 259
+        },
+        {
+          "name": "SecurityTestFramework",
+          "link": "[SecurityTestFramework](../../../packages/security/src/testing/index.ts#L43)",
+          "file": "testing/index.ts",
+          "line": 43
+        },
+        {
+          "name": "PromptInjectionTester",
+          "link": "[PromptInjectionTester](../../../packages/security/src/testing/prompt-injection.ts#L54)",
+          "file": "testing/prompt-injection.ts",
+          "line": 54
+        },
+        {
+          "name": "BasicPromptInjectionDetector",
+          "link": "[BasicPromptInjectionDetector](../../../packages/security/src/testing/prompt-injection.ts#L497)",
+          "file": "testing/prompt-injection.ts",
+          "line": 497
+        }
+      ],
+      "functions": [
+        {
+          "name": "validatePath",
+          "link": "[validatePath()](../../../packages/security/src/path-validation.ts#L131)",
+          "file": "path-validation.ts",
+          "line": 131
+        },
+        {
+          "name": "sanitizeFileName",
+          "link": "[sanitizeFileName()](../../../packages/security/src/path-validation.ts#L383)",
+          "file": "path-validation.ts",
+          "line": 383
+        },
+        {
+          "name": "createSecurePath",
+          "link": "[createSecurePath()](../../../packages/security/src/path-validation.ts#L412)",
+          "file": "path-validation.ts",
+          "line": 412
+        },
+        {
+          "name": "isCrossPlatformSafe",
+          "link": "[isCrossPlatformSafe()](../../../packages/security/src/path-validation.ts#L420)",
+          "file": "path-validation.ts",
+          "line": 420
+        },
+        {
+          "name": "validatePaths",
+          "link": "[validatePaths()](../../../packages/security/src/path-validation.ts#L457)",
+          "file": "path-validation.ts",
+          "line": 457
+        },
+        {
+          "name": "createSecureTempPath",
+          "link": "[createSecureTempPath()](../../../packages/security/src/path-validation.ts#L472)",
+          "file": "path-validation.ts",
+          "line": 472
+        },
+        {
+          "name": "makePolicy",
+          "link": "[makePolicy()](../../../packages/security/src/policy.ts#L43)",
+          "file": "policy.ts",
+          "line": 43
+        },
+        {
+          "name": "secureReadFile",
+          "link": "[secureReadFile()](../../../packages/security/src/secure-file-operations.ts#L40)",
+          "file": "secure-file-operations.ts",
+          "line": 40
+        },
+        {
+          "name": "secureWriteFile",
+          "link": "[secureWriteFile()](../../../packages/security/src/secure-file-operations.ts#L80)",
+          "file": "secure-file-operations.ts",
+          "line": 80
+        },
+        {
+          "name": "secureAppendFile",
+          "link": "[secureAppendFile()](../../../packages/security/src/secure-file-operations.ts#L146)",
+          "file": "secure-file-operations.ts",
+          "line": 146
+        },
+        {
+          "name": "secureDeleteFile",
+          "link": "[secureDeleteFile()](../../../packages/security/src/secure-file-operations.ts#L199)",
+          "file": "secure-file-operations.ts",
+          "line": 199
+        },
+        {
+          "name": "secureListDirectory",
+          "link": "[secureListDirectory()](../../../packages/security/src/secure-file-operations.ts#L255)",
+          "file": "secure-file-operations.ts",
+          "line": 255
+        },
+        {
+          "name": "secureCreateDirectory",
+          "link": "[secureCreateDirectory()](../../../packages/security/src/secure-file-operations.ts#L313)",
+          "file": "secure-file-operations.ts",
+          "line": 313
+        },
+        {
+          "name": "secureCopyFile",
+          "link": "[secureCopyFile()](../../../packages/security/src/secure-file-operations.ts#L379)",
+          "file": "secure-file-operations.ts",
+          "line": 379
+        },
+        {
+          "name": "secureMoveFile",
+          "link": "[secureMoveFile()](../../../packages/security/src/secure-file-operations.ts#L460)",
+          "file": "secure-file-operations.ts",
+          "line": 460
+        },
+        {
+          "name": "secureBatchOperation",
+          "link": "[secureBatchOperation()](../../../packages/security/src/secure-file-operations.ts#L502)",
+          "file": "secure-file-operations.ts",
+          "line": 502
+        },
+        {
+          "name": "quickAuthTest",
+          "link": "[quickAuthTest()](../../../packages/security/src/testing/auth-testing.ts#L570)",
+          "file": "testing/auth-testing.ts",
+          "line": 570
+        },
+        {
+          "name": "quickFuzzTest",
+          "link": "[quickFuzzTest()](../../../packages/security/src/testing/fuzzing.ts#L248)",
+          "file": "testing/fuzzing.ts",
+          "line": 248
+        },
+        {
+          "name": "quickFuzzTest",
+          "link": "[quickFuzzTest()](../../../packages/security/src/testing/index.ts#L400)",
+          "file": "testing/index.ts",
+          "line": 400
+        },
+        {
+          "name": "quickPromptInjectionTest",
+          "link": "[quickPromptInjectionTest()](../../../packages/security/src/testing/index.ts#L411)",
+          "file": "testing/index.ts",
+          "line": 411
+        },
+        {
+          "name": "quickAuthTest",
+          "link": "[quickAuthTest()](../../../packages/security/src/testing/index.ts#L418)",
+          "file": "testing/index.ts",
+          "line": 418
+        },
+        {
+          "name": "quickPromptInjectionTest",
+          "link": "[quickPromptInjectionTest()](../../../packages/security/src/testing/prompt-injection.ts#L490)",
+          "file": "testing/prompt-injection.ts",
+          "line": 490
+        }
+      ],
+      "interfaces": [
+        {
+          "name": "PathSecurityConfig",
+          "link": "[PathSecurityConfig](../../../packages/security/src/path-validation.ts#L7)",
+          "file": "path-validation.ts",
+          "line": 7
+        },
+        {
+          "name": "PathValidationResult",
+          "link": "[PathValidationResult](../../../packages/security/src/path-validation.ts#L25)",
+          "file": "path-validation.ts",
+          "line": 25
+        },
+        {
+          "name": "SecureFileOptions",
+          "link": "[SecureFileOptions](../../../packages/security/src/secure-file-operations.ts#L8)",
+          "file": "secure-file-operations.ts",
+          "line": 8
+        },
+        {
+          "name": "SecureFileResult",
+          "link": "[SecureFileResult](../../../packages/security/src/secure-file-operations.ts#L20)",
+          "file": "secure-file-operations.ts",
+          "line": 20
+        },
+        {
+          "name": "AuthTester",
+          "link": "[AuthTester](../../../packages/security/src/testing/auth-testing.ts#L43)",
+          "file": "testing/auth-testing.ts",
+          "line": 43
+        },
+        {
+          "name": "PromptInjectionDetector",
+          "link": "[PromptInjectionDetector](../../../packages/security/src/testing/prompt-injection.ts#L48)",
+          "file": "testing/prompt-injection.ts",
+          "line": 48
+        }
+      ]
+    }
+  }
+}

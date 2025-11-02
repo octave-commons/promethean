@@ -1,6 +1,6 @@
-# API Reference - @promethean/indexer-core
+# API Reference - @promethean-os/indexer-core
 
-This document provides detailed API reference for the `@promethean/indexer-core` package.
+This document provides detailed API reference for the `@promethean-os/indexer-core` package.
 
 ## Table of Contents
 
@@ -22,7 +22,7 @@ Creates a new instance of the IndexerManager class.
 
 **Example:**
 ```typescript
-import { createIndexerManager } from '@promethean/indexer-core';
+import { createIndexerManager } from '@promethean-os/indexer-core';
 
 const manager = createIndexerManager();
 ```
@@ -616,7 +616,7 @@ resetChroma();
 ### Logger Configuration
 
 ```typescript
-import { setIndexerLogger, createLogger } from '@promethean/utils';
+import { setIndexerLogger, createLogger } from '@promethean-os/utils';
 
 setIndexerLogger(createLogger({ 
   service: 'indexer-core', 

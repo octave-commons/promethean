@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import "../helpers/setup.js";
 import test from "ava";
-import { shutdown, startProcessWithPort } from "@promethean/test-utils";
+import { shutdown, startProcessWithPort } from "@promethean-os/test-utils";
 
 const PKG_ROOT = path.resolve(
   path.dirname(url.fileURLToPath(import.meta.url)),

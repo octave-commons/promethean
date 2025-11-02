@@ -1,4 +1,4 @@
-import { ContextStore } from '@promethean/persistence';
+import { ContextStore } from '@promethean-os/persistence';
 
 import {
   StoreNames,

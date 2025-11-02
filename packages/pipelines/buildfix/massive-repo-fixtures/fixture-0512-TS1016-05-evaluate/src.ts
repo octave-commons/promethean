@@ -11,7 +11,7 @@ import {
   ollamaJSON,
   writeText,
   createLogger,
-} from "@promethean/utils";
+} from "@promethean-os/utils";
 
 import {
   // syntax error normStatus } from "./utils.js";

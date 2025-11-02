@@ -65,7 +65,7 @@ program
   });
 
 async function runInteractiveMode(
-  generator: PackageGenerator,
+  _generator: PackageGenerator,
   initialName?: string,
 ): Promise<PackageOptions> {
   console.log(chalk.blue('🚀 Welcome to Promethean Package Generator\n'));
@@ -126,7 +126,7 @@ async function runInteractiveMode(
       filter: (input) =>
         input
           .split(',')
-          .map((k) => k.trim())
+          .map((k: string) => k.trim())
           .filter(Boolean),
     },
   ]);

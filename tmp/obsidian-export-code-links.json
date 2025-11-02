@@ -1,0 +1,112 @@
+{
+  "packageData": {
+    "packageName": "obsidian-export",
+    "files": [
+      {
+        "path": "cli.ts",
+        "fullPath": "/home/err/devel/promethean/packages/obsidian-export/src/cli.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 25
+      },
+      {
+        "path": "convert.ts",
+        "fullPath": "/home/err/devel/promethean/packages/obsidian-export/src/convert.ts",
+        "exports": [
+          {
+            "name": "convertVault",
+            "line": 8,
+            "type": "function"
+          },
+          {
+            "name": "convertMarkdown",
+            "line": 51,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "convertVault",
+            "line": 8,
+            "type": "function"
+          },
+          {
+            "name": "convertMarkdown",
+            "line": 51,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 194
+      }
+    ],
+    "mainEntry": null,
+    "exports": [
+      {
+        "name": "convertVault",
+        "line": 8,
+        "type": "function",
+        "file": "convert.ts"
+      },
+      {
+        "name": "convertMarkdown",
+        "line": 51,
+        "type": "function",
+        "file": "convert.ts"
+      }
+    ],
+    "classes": [],
+    "functions": [
+      {
+        "name": "convertVault",
+        "line": 8,
+        "type": "function",
+        "file": "convert.ts"
+      },
+      {
+        "name": "convertMarkdown",
+        "line": 51,
+        "type": "function",
+        "file": "convert.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "cli.ts",
+          "link": "[src/cli.ts](../../../packages/obsidian-export/src/cli.ts)",
+          "lineCount": 25
+        },
+        {
+          "name": "convert.ts",
+          "link": "[src/convert.ts](../../../packages/obsidian-export/src/convert.ts)",
+          "lineCount": 194
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [],
+      "functions": [
+        {
+          "name": "convertVault",
+          "link": "[convertVault()](../../../packages/obsidian-export/src/convert.ts#L8)",
+          "file": "convert.ts",
+          "line": 8
+        },
+        {
+          "name": "convertMarkdown",
+          "link": "[convertMarkdown()](../../../packages/obsidian-export/src/convert.ts#L51)",
+          "file": "convert.ts",
+          "line": 51
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

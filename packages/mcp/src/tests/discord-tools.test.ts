@@ -82,7 +82,7 @@ test('discord_send_message routes payloads via proxy', async (t) => {
   const modulePath = new URL('../tools/discord.js', import.meta.url).pathname;
   const proxy = createProxyStub();
   const mod = await esmock<typeof import('../tools/discord.js')>(modulePath, {
-    '@promethean/discord': {
+    '@promethean-os/discord': {
       DiscordRestProxy: class {
         constructor() {
           return proxy;
@@ -128,7 +128,7 @@ test('discord_list_messages supports env fallbacks and params', async (t) => {
   const modulePath = new URL('../tools/discord.js', import.meta.url).pathname;
   const proxy = createProxyStub();
   const mod = await esmock<typeof import('../tools/discord.js')>(modulePath, {
-    '@promethean/discord': {
+    '@promethean-os/discord': {
       DiscordRestProxy: class {
         constructor() {
           return proxy;

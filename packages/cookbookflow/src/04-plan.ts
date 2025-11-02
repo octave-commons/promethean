@@ -2,7 +2,7 @@ import { promises as fs } from "fs";
 import * as path from "path";
 
 import { z } from "zod";
-import { ollamaJSON } from "@promethean/utils";
+import { ollamaJSON } from "@promethean-os/utils";
 
 import { parseArgs, writeJSON, randomUUID } from "./utils.js";
 import type {
@@ -81,7 +81,7 @@ async function main() {
         difficulty: "easy",
         estimated_time: "5m",
         ingredients: [
-          meta.runtime.includes("node") ? "@promethean/piper" : "bash",
+          meta.runtime.includes("node") ? "@promethean-os/piper" : "bash",
         ],
         steps: ["Follow the code block", "Adjust paths as needed"],
         code_lang: meta.language || "bash",

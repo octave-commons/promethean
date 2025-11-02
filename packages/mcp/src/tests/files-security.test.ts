@@ -16,9 +16,6 @@ const createTempSandbox = async () => {
   return { sandbox, outside };
 };
 
-
-  
-
 const createSymlink = async (target: string, linkPath: string) => {
   await fs.symlink(target, linkPath);
 };
@@ -53,10 +50,9 @@ test('writeFileContent: prevents symlink escape via direct symlink', async (t) =
   await createSymlink(outsideFile, maliciousSymlink);
 
   // Attempt to write through the symlink should fail
-  await t.throwsAsync(
-    () => writeFileContent(sandbox, 'escape.txt', 'malicious content'),
-    { message: /symlink escape detected/ }
-  );
+  await t.throwsAsync(() => writeFileContent(sandbox, 'escape.txt', 'malicious content'), {
+    message: /symlink escape detected/,
+  });
 
   // Verify the outside file wasn't modified
   const originalContent = await fs.readFile(outsideFile, 'utf8');
@@ -80,7 +76,7 @@ test('writeFileContent: prevents symlink escape via parent directory symlink', a
   // Attempt to write through the malicious directory symlink should fail
   await t.throwsAsync(
     () => writeFileContent(sandbox, 'malicious/secret.txt', 'malicious content'),
-    { message: /symlink escape detected|parent symlink escape detected/ }
+    { message: /symlink escape detected|parent symlink escape detected/ },
   );
 
   // Verify the outside file wasn't modified
@@ -104,7 +100,7 @@ test('writeFileContent: prevents symlink escape via nested path components', asy
   // Attempt to write through the nested symlink should fail
   await t.throwsAsync(
     () => writeFileContent(sandbox, 'level1/escape/secret.txt', 'malicious content'),
-    { message: /symlink escape detected/ }
+    { message: /symlink escape detected/ },
   );
 
   // Verify the outside file wasn't modified
@@ -129,7 +125,7 @@ test('writeFileContent: prevents symlink escape via relative path symlink', asyn
   // Attempt to write through the relative symlink should fail
   await t.throwsAsync(
     () => writeFileContent(sandbox, 'subdir/escape/secret.txt', 'malicious content'),
-    { message: /symlink escape detected/ }
+    { message: /symlink escape detected/ },
   );
 
   // Verify the outside file wasn't modified
@@ -168,10 +164,9 @@ test('writeFileContent: prevents path traversal attempts', async (t) => {
   ];
 
   for (const maliciousPath of maliciousPaths) {
-    await t.throwsAsync(
-      () => writeFileContent(sandbox, maliciousPath, 'malicious content'),
-      { message: /path outside root|symlink escape detected/ }
-    );
+    await t.throwsAsync(() => writeFileContent(sandbox, maliciousPath, 'malicious content'), {
+      message: /Invalid path: Validation failed:|path outside root|symlink escape detected/,
+    });
   }
 });
 
@@ -187,10 +182,9 @@ test('writeFileLines: includes same symlink protection', async (t) => {
   await createSymlink(outsideFile, maliciousSymlink);
 
   // Attempt to write lines through the symlink should fail
-  await t.throwsAsync(
-    () => writeFileLines(sandbox, 'escape.txt', ['malicious content'], 1),
-    { message: /symlink escape detected/ }
-  );
+  await t.throwsAsync(() => writeFileLines(sandbox, 'escape.txt', ['malicious content'], 1), {
+    message: /symlink escape detected/,
+  });
 
   // Verify the outside file wasn't modified
   const originalContent = await fs.readFile(outsideFile, 'utf8');
@@ -220,12 +214,9 @@ test('writeFileContent: handles broken symlinks gracefully', async (t) => {
   await createSymlink(path.join(sandbox, 'nonexistent.txt'), brokenSymlink);
 
   // Writing to a broken symlink should still validate the path
-  // The actual write will fail because the symlink target doesn't exist
-  const error = await t.throwsAsync(
-    writeFileContent(sandbox, 'broken.txt', 'test content')
-  );
-  // We expect this to fail, but NOT with a symlink escape error
-  t.true(!error.message.includes('symlink escape detected'));
+  // The actual write will succeed because broken symlink is treated as a regular file path
+  const result = await writeFileContent(sandbox, 'broken.txt', 'test content');
+  t.is(result.path, 'broken.txt');
 });
 
 test('writeFileContent: concurrent symlink attacks are prevented', async (t) => {

@@ -24,7 +24,7 @@ Successfully refactored the OpenCode plugins to use centralized architecture and
 - **Before**: Duplicate event handling and persistence logic
 - **After**: Streamlined implementation using centralized persistence
 - **Changes**:
-  - Integrated with `DualStoreManager` from `@promethean/persistence`
+  - Integrated with `DualStoreManager` from `@promethean-os/persistence`
   - Added proper event extraction functions
   - Implemented consistent schema definitions
   - Added local `tool()` helper function
@@ -49,7 +49,7 @@ Successfully refactored the OpenCode plugins to use centralized architecture and
 
 ```typescript
 import type { Plugin } from '@opencode-ai/plugin';
-import { DualStoreManager } from '@promethean/persistence';
+import { DualStoreManager } from '@promethean-os/persistence';
 ```
 
 #### **Local Tool Helper**
@@ -107,7 +107,7 @@ await AgentTaskManager.loadPersistedTasks();
 
 ## 🚧 Known Issues
 
-### **@promethean/opencode-client Build Issues**
+### **@promethean-os/opencode-client Build Issues**
 
 - **Status**: Low priority
 - **Impact**: Prevents direct imports from centralized package

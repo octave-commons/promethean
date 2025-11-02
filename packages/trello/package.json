@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/trello",
+  "name": "@promethean-os/trello",
   "version": "0.1.0",
   "type": "module",
   "description": "Trello integration for Promethean kanban board synchronization",
@@ -14,8 +14,8 @@
     "sync:trello:dev": "tsx src/cli/sync-kanban-to-trello.ts"
   },
   "dependencies": {
-    "@promethean/kanban": "workspace:*",
-    "@promethean/utils": "workspace:*",
+    "@promethean-os/kanban": "workspace:*",
+    "@promethean-os/utils": "workspace:*",
     "dotenv": "^17.2.1"
   },
   "devDependencies": {

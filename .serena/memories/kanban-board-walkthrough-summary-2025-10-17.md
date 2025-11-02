@@ -32,7 +32,7 @@
   - Tasks to move: "Test Integration Task for Testing→Review Transition" (3 instances)
 
 ### 2. Task Inconsistencies (4 found)
-1. **Task**: "Fix @promethean/agent entrypoint/exports to match emitted build artifacts"
+1. **Task**: "Fix @promethean-os/agent entrypoint/exports to match emitted build artifacts"
    - Current: incoming → Expected: breakdown
    - ID: 3c306b0e-da10-4047-bbee-ef1df37f763f
 
@@ -46,7 +46,7 @@
    - ID: 9c8d7e6f-5a4b-3c2d-1e0f-9a8b7c6d5e4f
    - 🚨 ILLEGAL TRANSITION: incoming → accepted
 
-4. **Task**: "Eliminate All 'any' Type Usage in @promethean/simtasks"
+4. **Task**: "Eliminate All 'any' Type Usage in @promethean-os/simtasks"
    - Current: in_progress → Expected: accepted
    - ID: 84c230b5-be44-40b2-b210-cfd8635b7af8
 

@@ -2,7 +2,7 @@
 
 ## 🎯 Mission Accomplished!
 
-The @promethean/opencode-session-manager package has been successfully implemented and tested through Playwright. Here's a comprehensive summary of what was accomplished:
+The @promethean-os/opencode-session-manager package has been successfully implemented and tested through Playwright. Here's a comprehensive summary of what was accomplished:
 
 ## ✅ What Was Working
 
@@ -173,4 +173,4 @@ While the basic framework is working, here are recommended improvements:
 
 ## 📊 Package Status: **WORKING** ✅
 
-The @promethean/opencode-session-manager package is now functional and ready for further development. The core web component framework is in place and tested, providing a solid foundation for building out the full session management interface.
+The @promethean-os/opencode-session-manager package is now functional and ready for further development. The core web component framework is in place and tested, providing a solid foundation for building out the full session management interface.

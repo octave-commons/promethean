@@ -1,6 +1,6 @@
 # API Reference
 
-This document provides detailed API reference for the `@promethean/indexer-service` package, including both the HTTP REST API and the TypeScript client library.
+This document provides detailed API reference for the `@promethean-os/indexer-service` package, including both the HTTP REST API and the TypeScript client library.
 
 ## HTTP REST API
 
@@ -393,7 +393,7 @@ interface IndexerServiceClientConfig {
 **Example:**
 
 ```typescript
-import { IndexerServiceClient } from '@promethean/indexer-service/client';
+import { IndexerServiceClient } from '@promethean-os/indexer-service/client';
 
 const client = new IndexerServiceClient({
   baseUrl: 'http://localhost:4260',
@@ -583,7 +583,7 @@ function createIndexerServiceClient(config: IndexerServiceClientConfig): Indexer
 **Example:**
 
 ```typescript
-import { createIndexerServiceClient } from '@promethean/indexer-service/client';
+import { createIndexerServiceClient } from '@promethean-os/indexer-service/client';
 
 const client = createIndexerServiceClient({
   baseUrl: 'http://localhost:4260',
@@ -676,7 +676,7 @@ class IndexerServiceError extends Error {
 **Example:**
 
 ```typescript
-import { IndexerServiceError } from '@promethean/indexer-service/client';
+import { IndexerServiceError } from '@promethean-os/indexer-service/client';
 
 try {
   await client.search('test query');
@@ -696,7 +696,7 @@ try {
 ### Basic Client Usage
 
 ```typescript
-import { createIndexerServiceClient } from '@promethean/indexer-service/client';
+import { createIndexerServiceClient } from '@promethean-os/indexer-service/client';
 
 const client = createIndexerServiceClient({
   baseUrl: 'http://localhost:4260',
@@ -730,7 +730,7 @@ const client = createIndexerServiceClient({
 ### Error Handling
 
 ```typescript
-import { IndexerServiceError } from '@promethean/indexer-service/client';
+import { IndexerServiceError } from '@promethean-os/indexer-service/client';
 
 async function safeSearch(query: string) {
   try {

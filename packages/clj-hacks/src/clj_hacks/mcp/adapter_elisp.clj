@@ -35,13 +35,13 @@
         (throw (ex-info "Unterminated string literal" {:source s :index idx})))
       (let [ch (.charAt s i)]
         (cond
-          (= ch \"\\)
+          (= ch \\)
           (let [next (inc i)]
             (if (< next len)
               (recur (inc next))
               (throw (ex-info "Invalid escape sequence" {:source s :index i}))))
 
-          (= ch \"\")
+          (= ch \")
           (inc i)
 
           :else
@@ -52,7 +52,8 @@
     (when (>= idx len)
       (throw (ex-info "Unexpected end of input" {:source s :index idx})))
     (when-not (= \( (.charAt s idx))
-      (throw (ex-info "Expected '('" {:source s :index idx})))
+      (throw (ex-info "Expected '('"
+                      {:source s :index idx})))
     (loop [i idx depth 0]
       (when (>= i len)
         (throw (ex-info "Unbalanced parentheses" {:source s :index idx})))
@@ -67,7 +68,7 @@
               [(subs s idx (inc i)) (inc i)]
               (recur (inc i) next-depth)))
 
-          (= ch \"\")
+          (= ch \")
           (recur (skip-string s i) depth)
 
           :else
@@ -107,11 +108,18 @@
       (let [idx (skip-ws s (inc idx))
             [plist idx] (extract-paren s idx)
             props (parse-plist plist)
-            idx (skip-ws s idx)]
-        (when-not (= \) (.charAt s idx))
+            idx (skip-ws s idx)
+            len (.length s)]
+        (cond
+          (>= idx len)
+          [[(keyword name) props] idx]
+
+          (= \) (.charAt s idx))
+          [[(keyword name) props] (inc idx)]
+
+          :else
           (throw (ex-info "Expected entry to terminate with ')'"
-                          {:source s :index idx})))
-        [[(keyword name) props] (inc idx)]))))
+                          {:source s :index idx})))))))
 
 (defn- parse-hub-servers [s]
   (let [len (.length ^String s)

@@ -2,7 +2,7 @@ import { rmSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 
 import test from "ava";
-import { sleep } from "@promethean/utils";
+import { sleep } from "@promethean-os/utils";
 
 import { openLmdbCache } from "../index.js";
 

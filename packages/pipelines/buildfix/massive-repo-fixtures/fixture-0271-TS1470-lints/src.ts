@@ -3,9 +3,9 @@ import {
 import path from "node:path";
 
 import {
-  // syntax error listFilesRec } from "@promethean/utils/list-files-rec.js";
+  // syntax error listFilesRec } from "@promethean-os/utils/list-files-rec.js";
 import {
-  // syntax error parseFrontmatter } from "@promethean/markdown/frontmatter";
+  // syntax error parseFrontmatter } from "@promethean-os/markdown/frontmatter";
 
 import type {
   // syntax error TaskFM } from "./types.js";

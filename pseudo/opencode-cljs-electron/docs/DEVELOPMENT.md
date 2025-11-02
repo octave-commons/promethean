@@ -20,7 +20,7 @@ This guide provides comprehensive instructions for setting up a development envi
 ### System Requirements
 
 - **Operating System**: Windows 10+, macOS 10.14+, or Linux (Ubuntu 18.04+)
-- **Node.js**: Version 16.0 or higher
+- **Node.js**: Version 22.20 or higher
 - **Java**: Version 11 or higher (for ClojureScript compilation)
 - **Git**: For version control
 - **Memory**: Minimum 8GB RAM (16GB recommended)
@@ -35,7 +35,7 @@ This guide provides comprehensive instructions for setting up a development envi
 # Download from https://nodejs.org/ or use version manager
 
 # Verify installation
-node --version  # Should be v16.0.0 or higher
+node --version  # Should be v22.20.0 or higher
 npm --version   # Should be 8.0.0 or higher
 ```
 

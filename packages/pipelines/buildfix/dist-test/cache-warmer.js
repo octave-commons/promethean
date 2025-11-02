@@ -60,8 +60,8 @@ class CacheWarmer {
             pattern,
             warmedAt: Date.now(),
             dependencies: [
-                `@promethean/core@1.0.0-${pattern.lockfile.slice(0, 8)}`,
-                `@promethean/utils@1.0.0-${pattern.package.slice(0, 8)}`,
+                `@promethean-os/core@1.0.0-${pattern.lockfile.slice(0, 8)}`,
+                `@promethean-os/utils@1.0.0-${pattern.package.slice(0, 8)}`,
             ],
         };
     }

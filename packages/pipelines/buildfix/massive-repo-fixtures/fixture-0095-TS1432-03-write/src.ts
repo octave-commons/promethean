@@ -2,8 +2,8 @@ import * as path from "path";
 import { fileURLToPath } from "node:url";
 
 import matter from "gray-matter";
-import { openLevelCache } from "@promethean/level-cache";
-import { parseArgs, writeText, readMaybe } from "@promethean/utils";
+import { openLevelCache } from "@promethean-os/level-cache";
+import { parseArgs, writeText, readMaybe } from "@promethean-os/utils";
 
 import type { ScanOut, OutlinesFile, Outline } from "./types.js";
 

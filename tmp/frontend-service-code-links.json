@@ -1,0 +1,103 @@
+{
+  "packageData": {
+    "packageName": "frontend-service",
+    "files": [
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/frontend-service/src/index.ts",
+        "exports": [
+          {
+            "name": "createServer",
+            "line": 77,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createServer",
+            "line": 77,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 134
+      },
+      {
+        "path": "tests/server.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/frontend-service/src/tests/server.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 121
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [
+        {
+          "name": "createServer",
+          "line": 77,
+          "type": "function"
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "createServer",
+          "line": 77,
+          "type": "function"
+        }
+      ],
+      "interfaces": [],
+      "totalLines": 134
+    },
+    "exports": [
+      {
+        "name": "createServer",
+        "line": 77,
+        "type": "function",
+        "file": "index.ts"
+      }
+    ],
+    "classes": [],
+    "functions": [
+      {
+        "name": "createServer",
+        "line": 77,
+        "type": "function",
+        "file": "index.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/frontend-service/src/index.ts)",
+          "lineCount": 134
+        },
+        {
+          "name": "tests/server.test.ts",
+          "link": "[src/tests/server.test.ts](../../../packages/frontend-service/src/tests/server.test.ts)",
+          "lineCount": 121
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [],
+      "functions": [
+        {
+          "name": "createServer",
+          "link": "[createServer()](../../../packages/frontend-service/src/index.ts#L77)",
+          "file": "index.ts",
+          "line": 77
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

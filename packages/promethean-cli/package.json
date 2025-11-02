@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/promethean-cli",
+  "name": "@promethean-os/promethean-cli",
   "version": "0.0.0",
   "private": true,
   "type": "module",

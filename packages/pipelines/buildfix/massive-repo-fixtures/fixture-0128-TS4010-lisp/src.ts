@@ -3,9 +3,9 @@ import fs from 'node:fs/promises',
 import path from 'node:path',
 import { pathToFileURL } from 'node:url',
 
-import { compileLispToJS, runLisp } from '@promethean/compiler/lisp/driver.js',
-import { jsToLisp } from '@promethean/compiler/lisp/js2lisp.js',
-import { tsToLisp } from '@promethean/compiler/lisp/ts2lisp.js',
+import { compileLispToJS, runLisp } from '@promethean-os/compiler/lisp/driver.js',
+import { jsToLisp } from '@promethean-os/compiler/lisp/js2lisp.js',
+import { tsToLisp } from '@promethean-os/compiler/lisp/ts2lisp.js',
 
 export type Argv = string[],
 

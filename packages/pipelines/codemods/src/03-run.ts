@@ -4,7 +4,7 @@ import { pathToFileURL } from "node:url";
 
 import { Project, SyntaxKind } from "ts-morph";
 import { diffLines } from "diff";
-import { relFromRepo } from "@promethean/utils";
+import { relFromRepo } from "@promethean-os/utils";
 
 import { listCodeFiles } from "./utils.js";
 

@@ -5,12 +5,15 @@ import { Config } from './config.js';
 import {
   addAll,
   commit,
+  findGitRepositories,
   gitRoot,
   hasRepo,
   hasStagedChanges,
   listChangedFiles,
   repoSummary,
   stagedDiff,
+  isSubrepoDir,
+  isEmptyWorkingTreeError,
 } from './git.js';
 import { chatCompletion, ChatMessage } from './llm.js';
 import { SYSTEM, USER } from './messages.js';
@@ -18,19 +21,18 @@ import { SYSTEM, USER } from './messages.js';
 /**
  * Error types for better error handling
  */
-class AutocommitError extends Error {
-  public override readonly cause?: Error;
-
-  constructor(message: string, cause?: Error) {
-    super(message);
-    this.name = 'AutocommitError';
-    this.cause = cause;
+function createAutocommitError(message: string, cause?: Error): Error {
+  const error = new Error(message);
+  error.name = 'AutocommitError';
+  if (cause) {
+    error.cause = cause;
   }
+  return error;
 }
 
 function validateConfig(config: Config): void {
   if (!config || typeof config !== 'object') {
-    throw new AutocommitError('Invalid configuration provided');
+    throw createAutocommitError('Invalid configuration provided');
   }
 }
 
@@ -40,6 +42,7 @@ function getIgnoredPaths(config: Config): string[] {
     '**/node_modules/**',
     '**/.turbo/**',
     '**/dist/**',
+    'packages/autocommit/dist/**', // Don't watch our own output
     ...(config.exclude
       ? config.exclude
           .split(',')
@@ -49,9 +52,17 @@ function getIgnoredPaths(config: Config): string[] {
   ];
 }
 
-function createLogger(): { log: (s: string) => void; warn: (s: string) => void } {
-  const log = (s: string) => console.log(pc.dim(`[autocommit] ${s}`));
-  const warn = (s: string) => console.warn(pc.yellow(`[autocommit] ${s}`));
+function createLogger(config: Config): { log: (s: string) => void; warn: (s: string) => void } {
+  const log = (s: string) => {
+    if (!config.quiet) {
+      console.log(pc.dim(`[autocommit] ${s}`));
+    }
+  };
+  const warn = (s: string) => {
+    if (!config.quiet) {
+      console.warn(pc.yellow(`[autocommit] ${s}`));
+    }
+  };
   return { log, warn };
 }
 
@@ -66,8 +77,29 @@ function categorizeError(err: unknown): string {
   ) {
     return 'LLM server error. Falling back.';
   }
-  const errorMessage = err instanceof Error ? err.message : String(err);
-  return `LLM failed: ${errorMessage}. Falling back.`;
+
+  // Handle different error types safely
+  if (err instanceof Error) {
+    // Only log the error message, not the full object
+    return `LLM failed: ${err.message}. Falling back.`;
+  }
+
+  if (typeof err === 'string') {
+    return `LLM failed: ${err}. Falling back.`;
+  }
+
+  // For objects, try to extract a meaningful message but limit size
+  if (typeof err === 'object' && err !== null) {
+    const errorObj = err as Record<string, unknown>;
+    const message = errorObj.message || errorObj.error || 'Unknown error';
+    const messageStr = typeof message === 'string' ? message : String(message);
+
+    // Truncate very long messages to prevent log spam
+    const truncated = messageStr.length > 200 ? messageStr.substring(0, 200) + '...' : messageStr;
+    return `LLM failed: ${truncated}. Falling back.`;
+  }
+
+  return `LLM failed: Unknown error. Falling back.`;
 }
 
 function generateFallbackMessage(files: string[]): string {
@@ -107,7 +139,7 @@ async function generateCommitMessage(
   }
 }
 
-async function performCommit(
+export async function performCommit(
   config: Config,
   root: string,
   log: (msg: string) => void,
@@ -116,6 +148,7 @@ async function performCommit(
   await addAll(root);
 
   if (!(await hasStagedChanges(root))) {
+    log('No changes to commit.');
     return;
   }
 
@@ -130,8 +163,17 @@ async function performCommit(
     return;
   }
 
-  await commit(root, message, config.signoff);
-  log(pc.green(`Committed ${files.length} file(s).`));
+  try {
+    await commit(root, message, config.signoff);
+    log(pc.green(`Committed ${files.length} file(s).`));
+  } catch (error: unknown) {
+    // Handle case where another process staged/committed changes while we were generating message
+    if (isEmptyWorkingTreeError(error)) {
+      log('No changes to commit (another process may have committed them).');
+      return;
+    }
+    throw error;
+  }
 }
 
 type WatcherCallbacks = {
@@ -166,8 +208,6 @@ function setupWatcher(
     });
   });
 
-  callbacks.log(`Watching ${root}. Ignored: ${ignored.join(', ')}`);
-
   return {
     close: () => {
       void watcher.close();
@@ -181,6 +221,7 @@ function createScheduler(
   log: (msg: string) => void,
   warn: (msg: string) => void,
 ): { schedule: () => Promise<void>; cleanup: () => void } {
+  // eslint-disable-next-line functional/no-let
   let timer: NodeJS.Timeout | null = null;
 
   const cleanup = () => {
@@ -212,27 +253,43 @@ function createScheduler(
 }
 
 /**
- * Starts autocommit watcher for a git repository.
+ * Starts autocommit watcher for a single git repository.
  * @param config - Configuration object containing autocommit settings
+ * @param repoPath - Path to the git repository to watch
  * @returns Object containing cleanup function
- * @throws AutocommitError if the specified path is not a git repository
  */
-export async function start(config: Config): Promise<{ close: () => void }> {
+export async function startSingleRepository(
+  config: Config,
+  repoPath: string,
+): Promise<{ close: () => void }> {
   validateConfig(config);
 
-  const cwd = config.path;
-  if (!(await hasRepo(cwd))) {
-    throw new AutocommitError(`Not a git repo: ${cwd}`);
+  const isSubrepo = await isSubrepoDir(repoPath);
+  const isGitRepo = await hasRepo(repoPath);
+
+  if (!isSubrepo && !isGitRepo) {
+    throw createAutocommitError(`Not a git repo or subrepo: ${repoPath}`);
   }
 
-  const root = await gitRoot(cwd);
-  const { log, warn } = createLogger();
+  if (isSubrepo && !config.handleSubrepos) {
+    throw createAutocommitError(
+      `Subrepo detected but subrepo handling is disabled. Use --handle-subrepos to enable: ${repoPath}`,
+    );
+  }
+
+  // For subrepos, watch the repoPath directly
+  // For regular git repos, find the repository root
+  const root = isSubrepo ? repoPath : await gitRoot(repoPath);
+  const { log, warn } = createLogger(config);
   const ignored = getIgnoredPaths(config);
 
   const { schedule, cleanup } = createScheduler(config, root, log, warn);
   const watcherSetup = setupWatcher(root, ignored, { schedule, log, warn });
 
-  log(`Watching ${root} (debounce ${config.debounceMs}ms). Ignored: ${ignored.join(', ')}`);
+  const repoType = isSubrepo ? 'subrepo' : 'git repository';
+  log(
+    `Watching ${root} (${repoType}, debounce ${config.debounceMs}ms). Ignored: ${ignored.join(', ')}`,
+  );
 
   return {
     close: () => {
@@ -240,4 +297,55 @@ export async function start(config: Config): Promise<{ close: () => void }> {
       watcherSetup.close();
     },
   };
+}
+
+/**
+ * Starts autocommit watcher for git repositories.
+ * @param config - Configuration object containing autocommit settings
+ * @returns Object containing cleanup function
+ * @throws AutocommitError if no git repositories are found
+ */
+export async function start(config: Config): Promise<{ close: () => void }> {
+  validateConfig(config);
+
+  if (config.recursive) {
+    const repositories = await findGitRepositories(config.path);
+
+    if (repositories.length === 0) {
+      throw createAutocommitError(`No git repositories found in: ${config.path}`);
+    }
+
+    const { log } = createLogger(config);
+    log(`Found ${repositories.length} git repository(ies): ${repositories.join(', ')}`);
+
+    const cleanupFunctions: Array<() => void> = [];
+
+    for (const repoPath of repositories) {
+      try {
+        const repoWatcher = await startSingleRepository(config, repoPath);
+        cleanupFunctions.push(repoWatcher.close);
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        log(`Failed to start watcher for ${repoPath}: ${errorMessage}`);
+      }
+    }
+
+    if (cleanupFunctions.length === 0) {
+      throw createAutocommitError(`Failed to start watchers for any repositories`);
+    }
+
+    return {
+      close: () => {
+        cleanupFunctions.forEach((cleanup) => {
+          try {
+            cleanup();
+          } catch {
+            // Ignore cleanup errors
+          }
+        });
+      },
+    };
+  } else {
+    return startSingleRepository(config, config.path);
+  }
 }

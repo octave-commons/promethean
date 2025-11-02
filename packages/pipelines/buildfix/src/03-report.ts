@@ -2,7 +2,7 @@ import * as path from "path";
 import { promises as fs } from "fs";
 import { fileURLToPath } from "node:url";
 
-import { parseArgs } from "@promethean/utils";
+import { parseArgs } from "@promethean-os/utils";
 
 import { readJSON, resolveFromWorkspace, WORKSPACE_ROOT } from "./utils.js";
 import type { Summary, History } from "./types.js";

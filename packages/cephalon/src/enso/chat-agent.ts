@@ -4,16 +4,16 @@ import { randomUUID } from "node:crypto";
 import type {
   ActRationalePayload,
   ChatMessage,
-} from "@promethean/enso-protocol";
+} from "@promethean-os/enso-protocol";
 import {
   EnsoClient,
   EnsoServer,
   connectWebSocket,
   connectLocal,
   ToolRegistry,
-} from "@promethean/enso-protocol";
-import type { HelloCaps } from "@promethean/enso-protocol";
-import type { ToolCall } from "@promethean/enso-protocol/dist/types/tools.js";
+} from "@promethean-os/enso-protocol";
+import type { HelloCaps } from "@promethean-os/enso-protocol";
+import type { ToolCall } from "@promethean-os/enso-protocol/dist/types/tools.js";
 
 type ToolInvocationOptions = {
   provider: ToolCall["provider"];

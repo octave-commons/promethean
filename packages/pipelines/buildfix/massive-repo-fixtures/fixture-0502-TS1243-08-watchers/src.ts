@@ -6,7 +6,7 @@
 // import { EventEmitter } from "node:events";
 // import { join, relative, extname, basename } from "node:path";
 // import { existsSync, statSync } from "node:fs";
-// import { createLogger, type Logger } from "@promethean/utils";
+// import { createLogger, type Logger } from "@promethean-os/utils";
 
 export interface FileWatcherConfig {
   paths: string[];

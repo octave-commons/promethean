@@ -1,4 +1,4 @@
-import { Topics } from '@promethean/event/topics.js';
+import { Topics } from '@promethean-os/event/topics.js';
 import type { ReadonlyDeep } from 'type-fest';
 
 import type { HeartbeatPayload, ProcessState } from './types.js';

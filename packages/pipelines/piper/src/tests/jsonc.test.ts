@@ -2,7 +2,7 @@ import * as fs from "fs/promises";
 import * as path from "path";
 
 import test from "ava";
-import { sleep } from "@promethean/utils";
+import { sleep } from "@promethean-os/utils";
 
 import { runPipeline } from "../runner.js";
 

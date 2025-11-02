@@ -3,8 +3,8 @@ import * as path from 'path';
 import { pathToFileURL } from 'node:url';
 
 import matter from 'gray-matter';
-import { scanFiles } from '@promethean/file-indexer';
-import type { IndexedFile } from '@promethean/file-indexer';
+import { scanFiles } from '@promethean-os/file-indexer';
+import type { IndexedFile } from '@promethean-os/file-indexer';
 
 import { parseArgs, slugify, extnamePrefer } from './utils.js';
 import type { Front } from './types.js';
@@ -117,6 +117,7 @@ export async function runRename(
     root: ROOT,
     exts,
     readContent: true,
+    useDefaultIgnores: true, // Skip dotfiles and respect .gitignore
     onFile: async (file: IndexedFile, progress) => {
       const report = () => {
         processed += 1;

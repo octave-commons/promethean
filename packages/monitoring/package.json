@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/monitoring",
+  "name": "@promethean-os/monitoring",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -29,6 +29,6 @@
   "module": "dist/index.js",
   "dependencies": {
     "prom-client": "^15.1.0",
-    "@promethean/test-utils": "workspace:*"
+    "@promethean-os/test-utils": "workspace:*"
   }
 }

@@ -141,7 +141,10 @@
                     :rest {}}]
     (adapter/write-full path-out canonical)
     (let [{:keys [mcp]} (adapter/read-full path-out)]
-      (is (= {:foo {:command "echo"}} (:mcp-servers mcp)))
+      (is (= {:foo {:command "echo"
+                     :env {"NODE_ENV" "test"}
+                     :auto-approve ["files.write"]
+                     :disabled? false}} (:mcp-servers mcp)))
       (is (= (:http (:mcp canonical)) (:http mcp))))))
 
 (deftest write-full-skips-nil-servers

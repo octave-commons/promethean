@@ -42,7 +42,7 @@ export * from './policy.js';
 export * from './testing/index.js';
 export * from './path-validation.js';
 export * from './secure-file-operations.js';
-export { fileBackedRegistry } from '@promethean/platform';
+export { fileBackedRegistry } from '@promethean-os/platform';
 ```
 
 **Testing Framework Exports**:
@@ -73,7 +73,7 @@ All major interfaces are properly defined:
 #### Package Configuration
 - **Module Type**: ESM with CJS fallback
 - **Exports**: Proper dual-package exports with types
-- **Dependencies**: Minimal, only `@promethean/platform`
+- **Dependencies**: Minimal, only `@promethean-os/platform`
 
 ### Integration Test Results
 

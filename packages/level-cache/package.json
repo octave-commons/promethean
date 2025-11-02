@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/level-cache",
+  "name": "@promethean-os/level-cache",
   "version": "0.1.0",
   "type": "module",
   "main": "dist/index.js",
@@ -20,10 +20,10 @@
     "test": "pnpm build && ava"
   },
   "dependencies": {
-    "@promethean/utils": "workspace:*",
+    "@promethean-os/utils": "workspace:*",
     "level": "^9.0.0"
   },
   "devDependencies": {
-    "@promethean/test-utils": "workspace:*"
+    "@promethean-os/test-utils": "workspace:*"
   }
 }

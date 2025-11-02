@@ -3,7 +3,7 @@
 ## Module Resolution
 
 - Do not resolve modules via relative paths outside of a package's root.
-- Shared types must be provided by dependencies (e.g., `"@promethean/packagename": "workspace:*"`).
+- Shared types must be provided by dependencies (e.g., `"@promethean-os/packagename": "workspace:*"`).
 - "@node/types" is installed at package root.
 - node version is pinned by package.json
 
@@ -48,7 +48,7 @@ node versions are pinned to root `package.json` to prevent version drift.
 
 ### packages/hack/src/hack.ts
 ```typescript
-import {foo} from "@promethean/bar"
+import {foo} from "@promethean-os/bar"
 export function hack() {}
 ```
 ### packages/hack/src/index.ts
@@ -61,7 +61,7 @@ export * from "./hack.js"
 
 ```json
 {
-  "name": "@promethean/hack",
+  "name": "@promethean-os/hack",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -90,7 +90,7 @@ export * from "./hack.js"
     "format": "pnpm exec prettier --write ."
   }
   "dependencies":{
-  "@promethean/bar":"workspace:*"
+  "@promethean-os/bar":"workspace:*"
 
   },
   "devDependencies":{}

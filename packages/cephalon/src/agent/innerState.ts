@@ -1,13 +1,13 @@
 import { choice } from "../util.js";
 import { defaultState, innerStateFormat } from "../prompts.js";
-import { openLevelCache } from "@promethean/level-cache";
-import type { Cache } from "@promethean/level-cache";
+import { openLevelCache } from "@promethean-os/level-cache";
+import type { Cache } from "@promethean-os/level-cache";
 import type { AgentInnerState } from "../types.js";
 
 import type { AIAgent } from "./index.js";
 let AGENT_NAME = "Agent";
 try {
-  ({ AGENT_NAME } = await import("@promethean/legacy/env.js"));
+  ({ AGENT_NAME } = await import("@promethean-os/legacy/env.js"));
 } catch {}
 const DB_PATH = ".cache/cephalon.level";
 const STATE_KEY = `${AGENT_NAME}-inner-state`;

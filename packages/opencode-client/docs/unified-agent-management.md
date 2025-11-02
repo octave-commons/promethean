@@ -10,7 +10,7 @@ The Unified Agent Management API provides high-level abstractions for managing a
 import {
   createAgentSession,
   unifiedAgentManager
-} from '@promethean/opencode-client';
+} from '@promethean-os/opencode-client';
 ```
 
 ### Basic Usage
@@ -545,7 +545,7 @@ The following tools are provided via the `AgentManagementPlugin`:
 ### OpenCode Plugin Usage
 
 ```typescript
-import { AgentManagementPlugin } from '@promethean/opencode-client';
+import { AgentManagementPlugin } from '@promethean-os/opencode-client';
 
 // Plugin automatically includes all agent management tools
 // Tools are available as: agent.createSession, agent.sendMessage, etc.

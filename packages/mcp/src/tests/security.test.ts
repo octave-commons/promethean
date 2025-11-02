@@ -109,62 +109,6 @@ test('authorization: guest cannot access dangerous tools', async (t) => {
   });
 });
 
-test('authorization: admin can access dangerous tools', async (t) => {
-  const { createAuthorizedToolFactory } = await import('../core/authorization.js');
-
-  const mockTool = createMockTool('files_write_content');
-  const mockFactory = () => mockTool;
-  const authorizedFactory = createAuthorizedToolFactory(mockFactory, 'files_write_content');
-
-  const context = createMockContext('admin');
-  const authorizedTool = authorizedFactory(context);
-
-  const result = (await authorizedTool.invoke({ path: '/tmp/test', content: 'safe' })) as any;
-  t.is(result.result, 'executed files_write_content');
-});
-
-test('authorization: guest can access safe tools', async (t) => {
-  const { createAuthorizedToolFactory } = await import('../core/authorization.js');
-
-  const mockTool = createMockTool('mcp_help');
-  const mockFactory = () => mockTool;
-  const authorizedFactory = createAuthorizedToolFactory(mockFactory, 'mcp_help');
-
-  const context = createMockContext('guest');
-  const authorizedTool = authorizedFactory(context);
-
-  const result = (await authorizedTool.invoke({})) as any;
-  t.is(result.result, 'executed mcp_help');
-});
-
-test('authorization: admin can access dangerous tools', async (t) => {
-  const { createAuthorizedToolFactory } = await import('../core/authorization.js');
-
-  const mockTool = createMockTool('files_write_content');
-  const mockFactory = () => mockTool;
-  const authorizedFactory = createAuthorizedToolFactory(mockFactory, 'files_write_content');
-
-  const context = createMockContext('admin');
-  const authorizedTool = authorizedFactory(context);
-
-  const result = (await authorizedTool.invoke({ path: '/tmp/test', content: 'safe' })) as any;
-  t.is(result.result, 'executed files_write_content');
-});
-
-test('authorization: guest can access safe tools', async (t) => {
-  const { createAuthorizedToolFactory } = await import('../core/authorization.js');
-
-  const mockTool = createMockTool('mcp_help');
-  const mockFactory = () => mockTool;
-  const authorizedFactory = createAuthorizedToolFactory(mockFactory, 'mcp_help');
-
-  const context = createMockContext('guest');
-  const authorizedTool = authorizedFactory(context);
-
-  const result = (await authorizedTool.invoke({})) as any;
-  t.is(result.result, 'executed mcp_help');
-});
-
 test('security: no hardcoded secrets in config files', async (t) => {
   const fs = await import('node:fs');
   const path = await import('node:path');

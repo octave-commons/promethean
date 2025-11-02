@@ -1,8 +1,8 @@
-# @promethean/kanban npm Publication Task Breakdown
+# @promethean-os/kanban npm Publication Task Breakdown
 
 ## Epic Overview
 
-**Title**: Prepare @promethean/kanban for npm publication  
+**Title**: Prepare @promethean-os/kanban for npm publication  
 **Priority**: P0  
 **Estimated Effort**: 6-8 weeks  
 **Team Size**: 2-3 developers
@@ -429,4 +429,4 @@ The package is ready for npm publication when:
 
 ---
 
-_This task breakdown provides a comprehensive roadmap for preparing @promethean/kanban for npm publication. Adjust timelines and resource allocation based on team availability and specific project constraints._
+_This task breakdown provides a comprehensive roadmap for preparing @promethean-os/kanban for npm publication. Adjust timelines and resource allocation based on team availability and specific project constraints._

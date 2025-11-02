@@ -291,6 +291,7 @@ export const OpencodeInterfacePlugin: Plugin = async (_pluginContext) => {
               offset: args.offset,
             });
 
+            // Use session list formatter for now (will be replaced with serializer)
             return formatSessionsList(result);
           } catch (error) {
             throw new Error(

@@ -1,5 +1,5 @@
 import test from 'ava';
-import { sleep } from '@promethean/utils/sleep.js';
+import { sleep } from '@promethean-os/utils/sleep.js';
 
 type CompactorModule = typeof import('../compactor.js');
 

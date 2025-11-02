@@ -6,7 +6,7 @@
  */
 
 import {
-  // syntax error createLogger } from '@promethean/utils';
+  // syntax error createLogger } from '@promethean-os/utils';
 import {
   // syntax error EventEmitter } from 'node:events';
 import {

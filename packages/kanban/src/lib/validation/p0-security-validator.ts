@@ -222,16 +222,24 @@ export class P0SecurityValidator {
 
       // Check for implementation plan indicators
       const planIndicators = [
-        /implementation plan/i,
-        /implementation details/i,
-        /technical approach/i,
-        /solution design/i,
-        /## implementation/i,
-        /### implementation/i,
-        /## technical/i,
-        /### technical/i,
-        /## approach/i,
-        /### approach/i,
+        /## implementation plan\b/i,
+        /### implementation plan\b/i,
+        /# implementation plan\b/i,
+        /## implementation details\b/i,
+        /### implementation details\b/i,
+        /# implementation details\b/i,
+        /## technical approach\b/i,
+        /### technical approach\b/i,
+        /# technical approach\b/i,
+        /## solution design\b/i,
+        /### solution design\b/i,
+        /# solution design\b/i,
+        /## implementation\b/i,
+        /### implementation\b/i,
+        /## technical\b/i,
+        /### technical\b/i,
+        /## approach\b/i,
+        /### approach\b/i,
       ];
 
       return planIndicators.some((indicator) => indicator.test(content));
@@ -254,13 +262,7 @@ export class P0SecurityValidator {
       // Use the git integration module for more robust checking
       const { hasTaskCodeChanges } = await import('./git-integration.js');
 
-      return await hasTaskCodeChanges({
-        repoRoot: this.repoRoot,
-        sinceDate: task.created_at || new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
-        taskUuid: task.uuid,
-        taskTitle: task.title,
-        maxCommits: 100,
-      });
+      return await hasTaskCodeChanges();
     } catch (error) {
       console.warn(`Warning: Could not check code changes for task ${task.uuid}:`, error);
       return false;

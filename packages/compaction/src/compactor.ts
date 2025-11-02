@@ -1,6 +1,6 @@
 // Module types resolved at runtime; loosen compile-time types here
 
-import { sleep } from '@promethean/utils/sleep.js';
+import { sleep } from '@promethean-os/utils/sleep.js';
 
 export type CompactorOptions = {
     topic: string;

@@ -256,7 +256,7 @@ The Orchestrator is designed for concurrent operation:
 ### Basic Actor Execution
 
 ```typescript
-import { makeOrchestrator } from '@promethean/pantheon-core';
+import { makeOrchestrator } from '@promethean-os/pantheon-core';
 
 // Create orchestrator with dependencies
 const orchestrator = makeOrchestrator({

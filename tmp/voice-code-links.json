@@ -1,0 +1,370 @@
+{
+  "packageData": {
+    "packageName": "voice",
+    "files": [
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/voice/src/index.ts",
+        "exports": [
+          {
+            "name": "createVoiceService",
+            "line": 205,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createVoiceService",
+            "line": 205,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 254
+      },
+      {
+        "path": "speaker.ts",
+        "fullPath": "/home/err/devel/promethean/packages/voice/src/speaker.ts",
+        "exports": [
+          {
+            "name": "Speaker",
+            "line": 44,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "OpusSilenceFilter",
+            "line": 18,
+            "type": "class"
+          },
+          {
+            "name": "Speaker",
+            "line": 44,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 111
+      },
+      {
+        "path": "tests/dummy.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/voice/src/tests/dummy.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 6
+      },
+      {
+        "path": "tests/speaker.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/voice/src/tests/speaker.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 27
+      },
+      {
+        "path": "tests/voice-recorder.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/voice/src/tests/voice-recorder.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 50
+      },
+      {
+        "path": "transcriber.ts",
+        "fullPath": "/home/err/devel/promethean/packages/voice/src/transcriber.ts",
+        "exports": [
+          {
+            "name": "Transcriber",
+            "line": 41,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "Transcriber",
+            "line": 41,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 116
+      },
+      {
+        "path": "voice-recorder.ts",
+        "fullPath": "/home/err/devel/promethean/packages/voice/src/voice-recorder.ts",
+        "exports": [
+          {
+            "name": "VoiceRecorder",
+            "line": 27,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "VoiceRecorder",
+            "line": 27,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 70
+      },
+      {
+        "path": "voice-session.ts",
+        "fullPath": "/home/err/devel/promethean/packages/voice/src/voice-session.ts",
+        "exports": [
+          {
+            "name": "VoiceSession",
+            "line": 40,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "VoiceSession",
+            "line": 40,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 198
+      },
+      {
+        "path": "voice-synth.ts",
+        "fullPath": "/home/err/devel/promethean/packages/voice/src/voice-synth.ts",
+        "exports": [
+          {
+            "name": "VoiceSynth",
+            "line": 14,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "VoiceSynth",
+            "line": 14,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 118
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [
+        {
+          "name": "createVoiceService",
+          "line": 205,
+          "type": "function"
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "createVoiceService",
+          "line": 205,
+          "type": "function"
+        }
+      ],
+      "interfaces": [],
+      "totalLines": 254
+    },
+    "exports": [
+      {
+        "name": "createVoiceService",
+        "line": 205,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "Speaker",
+        "line": 44,
+        "type": "class",
+        "file": "speaker.ts"
+      },
+      {
+        "name": "Transcriber",
+        "line": 41,
+        "type": "class",
+        "file": "transcriber.ts"
+      },
+      {
+        "name": "VoiceRecorder",
+        "line": 27,
+        "type": "class",
+        "file": "voice-recorder.ts"
+      },
+      {
+        "name": "VoiceSession",
+        "line": 40,
+        "type": "class",
+        "file": "voice-session.ts"
+      },
+      {
+        "name": "VoiceSynth",
+        "line": 14,
+        "type": "class",
+        "file": "voice-synth.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "OpusSilenceFilter",
+        "line": 18,
+        "type": "class",
+        "file": "speaker.ts"
+      },
+      {
+        "name": "Speaker",
+        "line": 44,
+        "type": "class",
+        "file": "speaker.ts"
+      },
+      {
+        "name": "Transcriber",
+        "line": 41,
+        "type": "class",
+        "file": "transcriber.ts"
+      },
+      {
+        "name": "VoiceRecorder",
+        "line": 27,
+        "type": "class",
+        "file": "voice-recorder.ts"
+      },
+      {
+        "name": "VoiceSession",
+        "line": 40,
+        "type": "class",
+        "file": "voice-session.ts"
+      },
+      {
+        "name": "VoiceSynth",
+        "line": 14,
+        "type": "class",
+        "file": "voice-synth.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "createVoiceService",
+        "line": 205,
+        "type": "function",
+        "file": "index.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/voice/src/index.ts)",
+          "lineCount": 254
+        },
+        {
+          "name": "speaker.ts",
+          "link": "[src/speaker.ts](../../../packages/voice/src/speaker.ts)",
+          "lineCount": 111
+        },
+        {
+          "name": "tests/dummy.test.ts",
+          "link": "[src/tests/dummy.test.ts](../../../packages/voice/src/tests/dummy.test.ts)",
+          "lineCount": 6
+        },
+        {
+          "name": "tests/speaker.test.ts",
+          "link": "[src/tests/speaker.test.ts](../../../packages/voice/src/tests/speaker.test.ts)",
+          "lineCount": 27
+        },
+        {
+          "name": "tests/voice-recorder.test.ts",
+          "link": "[src/tests/voice-recorder.test.ts](../../../packages/voice/src/tests/voice-recorder.test.ts)",
+          "lineCount": 50
+        },
+        {
+          "name": "transcriber.ts",
+          "link": "[src/transcriber.ts](../../../packages/voice/src/transcriber.ts)",
+          "lineCount": 116
+        },
+        {
+          "name": "voice-recorder.ts",
+          "link": "[src/voice-recorder.ts](../../../packages/voice/src/voice-recorder.ts)",
+          "lineCount": 70
+        },
+        {
+          "name": "voice-session.ts",
+          "link": "[src/voice-session.ts](../../../packages/voice/src/voice-session.ts)",
+          "lineCount": 198
+        },
+        {
+          "name": "voice-synth.ts",
+          "link": "[src/voice-synth.ts](../../../packages/voice/src/voice-synth.ts)",
+          "lineCount": 118
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "OpusSilenceFilter",
+          "link": "[OpusSilenceFilter](../../../packages/voice/src/speaker.ts#L18)",
+          "file": "speaker.ts",
+          "line": 18
+        },
+        {
+          "name": "Speaker",
+          "link": "[Speaker](../../../packages/voice/src/speaker.ts#L44)",
+          "file": "speaker.ts",
+          "line": 44
+        },
+        {
+          "name": "Transcriber",
+          "link": "[Transcriber](../../../packages/voice/src/transcriber.ts#L41)",
+          "file": "transcriber.ts",
+          "line": 41
+        },
+        {
+          "name": "VoiceRecorder",
+          "link": "[VoiceRecorder](../../../packages/voice/src/voice-recorder.ts#L27)",
+          "file": "voice-recorder.ts",
+          "line": 27
+        },
+        {
+          "name": "VoiceSession",
+          "link": "[VoiceSession](../../../packages/voice/src/voice-session.ts#L40)",
+          "file": "voice-session.ts",
+          "line": 40
+        },
+        {
+          "name": "VoiceSynth",
+          "link": "[VoiceSynth](../../../packages/voice/src/voice-synth.ts#L14)",
+          "file": "voice-synth.ts",
+          "line": 14
+        }
+      ],
+      "functions": [
+        {
+          "name": "createVoiceService",
+          "link": "[createVoiceService()](../../../packages/voice/src/index.ts#L205)",
+          "file": "index.ts",
+          "line": 205
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto";
 
 import { createAudioResource, StreamType } from "@discordjs/voice";
-import { sleep } from "@promethean/utils";
+import { sleep } from "@promethean-os/utils";
 
 import {
   splitSentances,
@@ -16,7 +16,7 @@ import type { AIAgent } from "./index.js";
 
 let AGENT_NAME = "Agent";
 try {
-  ({ AGENT_NAME } = await import("@promethean/legacy/env.js"));
+  ({ AGENT_NAME } = await import("@promethean-os/legacy/env.js"));
 } catch {}
 
 export async function speak(this: AIAgent, text: string) {

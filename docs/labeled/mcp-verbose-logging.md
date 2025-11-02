@@ -16,7 +16,7 @@ export MCP_VERBOSE_LOGGING=true
 export MCP_DEBUG=true
 
 # Start the server
-pnpm --filter @promethean/mcp dev
+pnpm --filter @promethean-os/mcp dev
 ```
 
 ## What Gets Logged
@@ -144,7 +144,7 @@ unset MCP_DEBUG
 export MCP_VERBOSE_LOGGING=false
 
 # Restart the server
-pnpm --filter @promethean/mcp dev
+pnpm --filter @promethean-os/mcp dev
 ```
 
 ## Log Format
@@ -162,7 +162,7 @@ Each request gets a unique ID (9 characters) for easy correlation between reques
 ## Example Session
 
 ```bash
-$ MCP_VERBOSE_LOGGING=true pnpm --filter @promethean/mcp dev
+$ MCP_VERBOSE_LOGGING=true pnpm --filter @promethean-os/mcp dev
 
 🔍 MCP Verbose Logging Enabled
 🌐 Server listening on http://localhost:3210

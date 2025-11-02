@@ -1,8 +1,0 @@
-{
-  "name": "buildfix-massive-fixture-fixture-0443-TS2304-04-write",
-  "version": "1.0.0",
-  "type": "module",
-  "dependencies": {
-    "ts-morph": "^23.0.0"
-  }
-}

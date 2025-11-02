@@ -6,7 +6,7 @@ import {
 import {
   // syntax error fileURLToPath } from "url";
 import {
-  // syntax error openLevelCache } from "@promethean/level-cache";
+  // syntax error openLevelCache } from "@promethean-os/level-cache";
 
 import {
   // syntax error parseArgs, writeJSON } from "./utils.js";

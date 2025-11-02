@@ -1,0 +1,605 @@
+{
+  "packageData": {
+    "packageName": "llm",
+    "files": [
+      {
+        "path": "drivers/base.ts",
+        "fullPath": "/home/err/devel/promethean/packages/llm/src/drivers/base.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 14
+      },
+      {
+        "path": "drivers/huggingface.ts",
+        "fullPath": "/home/err/devel/promethean/packages/llm/src/drivers/huggingface.ts",
+        "exports": [
+          {
+            "name": "createHuggingFaceDriver",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createHuggingFaceDriver",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 30
+      },
+      {
+        "path": "drivers/index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/llm/src/drivers/index.ts",
+        "exports": [
+          {
+            "name": "loadDriver",
+            "line": 27,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "loadDriver",
+            "line": 27,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 37
+      },
+      {
+        "path": "drivers/ollama.ts",
+        "fullPath": "/home/err/devel/promethean/packages/llm/src/drivers/ollama.ts",
+        "exports": [
+          {
+            "name": "createOllamaDriver",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createOllamaDriver",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 25
+      },
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/llm/src/index.ts",
+        "exports": [
+          {
+            "name": "app",
+            "line": 34,
+            "type": "function"
+          },
+          {
+            "name": "loadModel",
+            "line": 36,
+            "type": "function"
+          },
+          {
+            "name": "setGenerateFn",
+            "line": 65,
+            "type": "function"
+          },
+          {
+            "name": "generate",
+            "line": 69,
+            "type": "function"
+          },
+          {
+            "name": "setBroker",
+            "line": 88,
+            "type": "function"
+          },
+          {
+            "name": "handleTask",
+            "line": 92,
+            "type": "function"
+          },
+          {
+            "name": "initBroker",
+            "line": 140,
+            "type": "function"
+          },
+          {
+            "name": "initHeartbeat",
+            "line": 173,
+            "type": "function"
+          },
+          {
+            "name": "initServer",
+            "line": 185,
+            "type": "function"
+          },
+          {
+            "name": "start",
+            "line": 210,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "app",
+            "line": 34,
+            "type": "function"
+          },
+          {
+            "name": "loadModel",
+            "line": 36,
+            "type": "function"
+          },
+          {
+            "name": "setGenerateFn",
+            "line": 65,
+            "type": "function"
+          },
+          {
+            "name": "generate",
+            "line": 69,
+            "type": "function"
+          },
+          {
+            "name": "setBroker",
+            "line": 88,
+            "type": "function"
+          },
+          {
+            "name": "handleTask",
+            "line": 92,
+            "type": "function"
+          },
+          {
+            "name": "initBroker",
+            "line": 140,
+            "type": "function"
+          },
+          {
+            "name": "initHeartbeat",
+            "line": 173,
+            "type": "function"
+          },
+          {
+            "name": "initServer",
+            "line": 185,
+            "type": "function"
+          },
+          {
+            "name": "start",
+            "line": 210,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 224
+      },
+      {
+        "path": "tests/smoke.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/llm/src/tests/smoke.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 8
+      },
+      {
+        "path": "tools.ts",
+        "fullPath": "/home/err/devel/promethean/packages/llm/src/tools.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 18
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [
+        {
+          "name": "app",
+          "line": 34,
+          "type": "function"
+        },
+        {
+          "name": "loadModel",
+          "line": 36,
+          "type": "function"
+        },
+        {
+          "name": "setGenerateFn",
+          "line": 65,
+          "type": "function"
+        },
+        {
+          "name": "generate",
+          "line": 69,
+          "type": "function"
+        },
+        {
+          "name": "setBroker",
+          "line": 88,
+          "type": "function"
+        },
+        {
+          "name": "handleTask",
+          "line": 92,
+          "type": "function"
+        },
+        {
+          "name": "initBroker",
+          "line": 140,
+          "type": "function"
+        },
+        {
+          "name": "initHeartbeat",
+          "line": 173,
+          "type": "function"
+        },
+        {
+          "name": "initServer",
+          "line": 185,
+          "type": "function"
+        },
+        {
+          "name": "start",
+          "line": 210,
+          "type": "function"
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "app",
+          "line": 34,
+          "type": "function"
+        },
+        {
+          "name": "loadModel",
+          "line": 36,
+          "type": "function"
+        },
+        {
+          "name": "setGenerateFn",
+          "line": 65,
+          "type": "function"
+        },
+        {
+          "name": "generate",
+          "line": 69,
+          "type": "function"
+        },
+        {
+          "name": "setBroker",
+          "line": 88,
+          "type": "function"
+        },
+        {
+          "name": "handleTask",
+          "line": 92,
+          "type": "function"
+        },
+        {
+          "name": "initBroker",
+          "line": 140,
+          "type": "function"
+        },
+        {
+          "name": "initHeartbeat",
+          "line": 173,
+          "type": "function"
+        },
+        {
+          "name": "initServer",
+          "line": 185,
+          "type": "function"
+        },
+        {
+          "name": "start",
+          "line": 210,
+          "type": "function"
+        }
+      ],
+      "interfaces": [],
+      "totalLines": 224
+    },
+    "exports": [
+      {
+        "name": "createHuggingFaceDriver",
+        "line": 5,
+        "type": "function",
+        "file": "drivers/huggingface.ts"
+      },
+      {
+        "name": "loadDriver",
+        "line": 27,
+        "type": "function",
+        "file": "drivers/index.ts"
+      },
+      {
+        "name": "createOllamaDriver",
+        "line": 5,
+        "type": "function",
+        "file": "drivers/ollama.ts"
+      },
+      {
+        "name": "app",
+        "line": 34,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "loadModel",
+        "line": 36,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "setGenerateFn",
+        "line": 65,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "generate",
+        "line": 69,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "setBroker",
+        "line": 88,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "handleTask",
+        "line": 92,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "initBroker",
+        "line": 140,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "initHeartbeat",
+        "line": 173,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "initServer",
+        "line": 185,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "start",
+        "line": 210,
+        "type": "function",
+        "file": "index.ts"
+      }
+    ],
+    "classes": [],
+    "functions": [
+      {
+        "name": "createHuggingFaceDriver",
+        "line": 5,
+        "type": "function",
+        "file": "drivers/huggingface.ts"
+      },
+      {
+        "name": "loadDriver",
+        "line": 27,
+        "type": "function",
+        "file": "drivers/index.ts"
+      },
+      {
+        "name": "createOllamaDriver",
+        "line": 5,
+        "type": "function",
+        "file": "drivers/ollama.ts"
+      },
+      {
+        "name": "app",
+        "line": 34,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "loadModel",
+        "line": 36,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "setGenerateFn",
+        "line": 65,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "generate",
+        "line": 69,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "setBroker",
+        "line": 88,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "handleTask",
+        "line": 92,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "initBroker",
+        "line": 140,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "initHeartbeat",
+        "line": 173,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "initServer",
+        "line": 185,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "start",
+        "line": 210,
+        "type": "function",
+        "file": "index.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "drivers/base.ts",
+          "link": "[src/drivers/base.ts](../../../packages/llm/src/drivers/base.ts)",
+          "lineCount": 14
+        },
+        {
+          "name": "drivers/huggingface.ts",
+          "link": "[src/drivers/huggingface.ts](../../../packages/llm/src/drivers/huggingface.ts)",
+          "lineCount": 30
+        },
+        {
+          "name": "drivers/index.ts",
+          "link": "[src/drivers/index.ts](../../../packages/llm/src/drivers/index.ts)",
+          "lineCount": 37
+        },
+        {
+          "name": "drivers/ollama.ts",
+          "link": "[src/drivers/ollama.ts](../../../packages/llm/src/drivers/ollama.ts)",
+          "lineCount": 25
+        },
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/llm/src/index.ts)",
+          "lineCount": 224
+        },
+        {
+          "name": "tests/smoke.test.ts",
+          "link": "[src/tests/smoke.test.ts](../../../packages/llm/src/tests/smoke.test.ts)",
+          "lineCount": 8
+        },
+        {
+          "name": "tools.ts",
+          "link": "[src/tools.ts](../../../packages/llm/src/tools.ts)",
+          "lineCount": 18
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [],
+      "functions": [
+        {
+          "name": "createHuggingFaceDriver",
+          "link": "[createHuggingFaceDriver()](../../../packages/llm/src/drivers/huggingface.ts#L5)",
+          "file": "drivers/huggingface.ts",
+          "line": 5
+        },
+        {
+          "name": "loadDriver",
+          "link": "[loadDriver()](../../../packages/llm/src/drivers/index.ts#L27)",
+          "file": "drivers/index.ts",
+          "line": 27
+        },
+        {
+          "name": "createOllamaDriver",
+          "link": "[createOllamaDriver()](../../../packages/llm/src/drivers/ollama.ts#L5)",
+          "file": "drivers/ollama.ts",
+          "line": 5
+        },
+        {
+          "name": "app",
+          "link": "[app()](../../../packages/llm/src/index.ts#L34)",
+          "file": "index.ts",
+          "line": 34
+        },
+        {
+          "name": "loadModel",
+          "link": "[loadModel()](../../../packages/llm/src/index.ts#L36)",
+          "file": "index.ts",
+          "line": 36
+        },
+        {
+          "name": "setGenerateFn",
+          "link": "[setGenerateFn()](../../../packages/llm/src/index.ts#L65)",
+          "file": "index.ts",
+          "line": 65
+        },
+        {
+          "name": "generate",
+          "link": "[generate()](../../../packages/llm/src/index.ts#L69)",
+          "file": "index.ts",
+          "line": 69
+        },
+        {
+          "name": "setBroker",
+          "link": "[setBroker()](../../../packages/llm/src/index.ts#L88)",
+          "file": "index.ts",
+          "line": 88
+        },
+        {
+          "name": "handleTask",
+          "link": "[handleTask()](../../../packages/llm/src/index.ts#L92)",
+          "file": "index.ts",
+          "line": 92
+        },
+        {
+          "name": "initBroker",
+          "link": "[initBroker()](../../../packages/llm/src/index.ts#L140)",
+          "file": "index.ts",
+          "line": 140
+        },
+        {
+          "name": "initHeartbeat",
+          "link": "[initHeartbeat()](../../../packages/llm/src/index.ts#L173)",
+          "file": "index.ts",
+          "line": 173
+        },
+        {
+          "name": "initServer",
+          "link": "[initServer()](../../../packages/llm/src/index.ts#L185)",
+          "file": "index.ts",
+          "line": 185
+        },
+        {
+          "name": "start",
+          "link": "[start()](../../../packages/llm/src/index.ts#L210)",
+          "file": "index.ts",
+          "line": 210
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

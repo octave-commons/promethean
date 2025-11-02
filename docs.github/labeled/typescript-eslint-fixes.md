@@ -1,0 +1,189 @@
+---
+uuid: e2aa54ae-0ad7-4400-b35f-91f4b874ba79
+created_at: '2025-09-30T11:42:46Z'
+title: 2025.09.30.11.42.46
+filename: TypeScript ESLint Fixes
+description: >-
+  This document highlights ESLint errors found in the Promethean project's
+  WebSocket client code. The issues include multiple instances of `any` type
+  usage, unsafe member accesses, and floating promises that need correction to
+  improve type safety and code reliability.
+tags:
+  - TypeScript
+  - ESLint
+  - code quality
+  - type safety
+  - promethean
+  - websocket
+  - error fixes
+---
+  
+  > node ../../tools/scripts/run-eslint.mjs . --paralell
+  
+  
+  /home/runner/work/promethean/promethean/packages/ws/src/client.ts
+     3:31  error    Unexpected any. Specify a different type                                                                                                                            @typescript-eslint/no-explicit-any
+     7:63  error    Unexpected any. Specify a different type                                                                                                                            @typescript-eslint/no-explicit-any
+    19:13  error    Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+    24:23  error    Unexpected any. Specify a different type                                                                                                                            @typescript-eslint/no-explicit-any
+    24:51  error    Unexpected any. Specify a different type                                                                                                                            @typescript-eslint/no-explicit-any
+    27:13  error    Unsafe member access .corr on an `any` value                                                                                                                        @typescript-eslint/no-unsafe-member-access
+    38:15  error    Unsafe assignment of an `any` value                                                                                                                                 @typescript-eslint/no-unsafe-assignment
+    39:17  error    Unsafe member access .op on an `any` value                                                                                                                          @typescript-eslint/no-unsafe-member-access
+    39:36  error    Unsafe member access .op on an `any` value                                                                                                                          @typescript-eslint/no-unsafe-member-access
+    40:41  error    Unsafe argument of type `any` assigned to a parameter of type `string`                                                                                              @typescript-eslint/no-unsafe-argument
+    40:45  error    Unsafe member access .corr on an `any` value                                                                                                                        @typescript-eslint/no-unsafe-member-access
+    42:37  error    Unsafe argument of type `any` assigned to a parameter of type `string`                                                                                              @typescript-eslint/no-unsafe-argument
+    42:41  error    Unsafe member access .corr on an `any` value                                                                                                                        @typescript-eslint/no-unsafe-member-access
+    43:31  error    Unsafe member access .op on an `any` value                                                                                                                          @typescript-eslint/no-unsafe-member-access
+    45:33  error    Unsafe argument of type `any` assigned to a parameter of type `string`                                                                                              @typescript-eslint/no-unsafe-argument
+    45:37  error    Unsafe member access .corr on an `any` value                                                                                                                        @typescript-eslint/no-unsafe-member-access
+    47:17  error    Unsafe member access .op on an `any` value                                                                                                                          @typescript-eslint/no-unsafe-member-access
+    48:32  error    Unsafe member access .topic on an `any` value                                                                                                                       @typescript-eslint/no-unsafe-member-access
+    48:46  error    Unsafe member access .group on an `any` value                                                                                                                       @typescript-eslint/no-unsafe-member-access
+    55:29  error    Unsafe member access .event on an `any` value                                                                                                                       @typescript-eslint/no-unsafe-member-access
+    55:36  error    Unsafe argument of type `any` assigned to a parameter of type `{ attempt: number; ack_deadline_ms: number; }`                                                       @typescript-eslint/no-unsafe-argument
+    55:40  error    Unsafe member access .ctx on an `any` value                                                                                                                         @typescript-eslint/no-unsafe-member-access
+    57:17  error    Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+    59:21  error    Unsafe assignment of an `any` value                                                                                                                                 @typescript-eslint/no-unsafe-assignment
+    59:32  error    Unsafe member access .topic on an `any` value                                                                                                                       @typescript-eslint/no-unsafe-member-access
+    60:21  error    Unsafe assignment of an `any` value                                                                                                                                 @typescript-eslint/no-unsafe-assignment
+    60:32  error    Unsafe member access .group on an `any` value                                                                                                                       @typescript-eslint/no-unsafe-member-access
+    61:21  error    Unsafe assignment of an `any` value                                                                                                                                 @typescript-eslint/no-unsafe-assignment
+    61:29  error    Unsafe member access .event on an `any` value                                                                                                                       @typescript-eslint/no-unsafe-member-access
+    63:25  error    Unexpected any. Specify a different type                                                                                                                            @typescript-eslint/no-explicit-any
+    64:17  error    Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+    66:21  error    Unsafe assignment of an `any` value                                                                                                                                 @typescript-eslint/no-unsafe-assignment
+    66:32  error    Unsafe member access .topic on an `any` value                                                                                                                       @typescript-eslint/no-unsafe-member-access
+    67:21  error    Unsafe assignment of an `any` value                                                                                                                                 @typescript-eslint/no-unsafe-assignment
+    67:32  error    Unsafe member access .group on an `any` value                                                                                                                       @typescript-eslint/no-unsafe-member-access
+    68:21  error    Unsafe assignment of an `any` value                                                                                                                                 @typescript-eslint/no-unsafe-assignment
+    68:29  error    Unsafe member access .event on an `any` value                                                                                                                       @typescript-eslint/no-unsafe-member-access
+    69:21  error    Unsafe assignment of an `any` value                                                                                                                                 @typescript-eslint/no-unsafe-assignment
+    69:31  error    Unsafe member access .message on an `any` value                                                                                                                     @typescript-eslint/no-unsafe-member-access
+    75:5   error    Missing return type on function                                                                                                                                     @typescript-eslint/explicit-module-boundary-types
+    75:34  error    Argument 'payload' should be typed with a non-any type                                                                                                              @typescript-eslint/explicit-module-boundary-types
+    75:43  error    Unexpected any. Specify a different type                                                                                                                            @typescript-eslint/no-explicit-any
+    75:48  error    Argument 'opts' should be typed with a non-any type                                                                                                                 @typescript-eslint/explicit-module-boundary-types
+    75:55  error    Unexpected any. Specify a different type                                                                                                                            @typescript-eslint/no-explicit-any
+    76:50  error    Unsafe assignment of an `any` value                                                                                                                                 @typescript-eslint/no-unsafe-assignment
+    76:59  error    Unsafe assignment of an `any` value                                                                                                                                 @typescript-eslint/no-unsafe-assignment
+    79:5   error    Missing return type on function                                                                                                                                     @typescript-eslint/explicit-module-boundary-types
+    79:69  error    Argument 'opts' should be typed with a non-any type                                                                                                                 @typescript-eslint/explicit-module-boundary-types
+    79:76  error    Unexpected any. Specify a different type                                                                                                                            @typescript-eslint/no-explicit-any
+    84:59  error    Unsafe assignment of an `any` value                                                                                                                                 @typescript-eslint/no-unsafe-assignment
+    87:5   error    Missing return type on function                                                                                                                                     @typescript-eslint/explicit-module-boundary-types
+    92:5   error    Missing return type on function                                                                                                                                     @typescript-eslint/explicit-module-boundary-types
+    93:9   error    Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  
+  /home/runner/work/promethean/promethean/packages/ws/src/server.rate.ts
+    3:8  error  Missing return type on function  @typescript-eslint/explicit-module-boundary-types
+    7:8  error  Missing return type on function  @typescript-eslint/explicit-module-boundary-types
+  
+  /home/runner/work/promethean/promethean/packages/ws/src/server.ts
+     10:26   error    Unexpected any. Specify a different type                                              @typescript-eslint/no-explicit-any
+     16:21   error    Unexpected any. Specify a different type                                              @typescript-eslint/no-explicit-any
+     19:8    error    Function 'startWSGateway' has too many lines (176). Maximum allowed is 50             max-lines-per-function
+     19:8    error    Missing return type on function                                                       @typescript-eslint/explicit-module-boundary-types
+     19:32   error    Argument 'bus' should be typed with a non-any type                                    @typescript-eslint/explicit-module-boundary-types
+     19:37   error    Unexpected any. Specify a different type                                              @typescript-eslint/no-explicit-any
+     33:26   error    Arrow function has too many lines (159). Maximum allowed is 50                        max-lines-per-function
+     34:9    error    Unexpected let, use const instead                                                     functional/no-let
+     38:47   error    Unexpected any. Specify a different type                                              @typescript-eslint/no-explicit-any
+     40:32   error    Unexpected any. Specify a different type                                              @typescript-eslint/no-explicit-any
+     59:26   error    Async arrow function has too many lines (126). Maximum allowed is 50                  max-lines-per-function
+     59:26   error    Async arrow function has a complexity of 33. Maximum allowed is 15                    complexity
+     59:38   error    Refactor this function to reduce its Cognitive Complexity from 45 to the 15 allowed   sonarjs/cognitive-complexity
+     60:13   error    Unexpected let, use const instead                                                     functional/no-let
+     60:22   error    Unexpected any. Specify a different type                                              @typescript-eslint/no-explicit-any
+     62:17   error    Unsafe assignment of an `any` value                                                   @typescript-eslint/no-unsafe-assignment
+     67:19   error    Unsafe assignment of an `any` value                                                   @typescript-eslint/no-unsafe-assignment
+     67:30   error    Unsafe member access .corr on an `any` value                                          @typescript-eslint/no-unsafe-member-access
+     68:90   error    Unsafe assignment of an `any` value                                                   @typescript-eslint/no-unsafe-assignment
+     71:21   error    Unsafe member access .op on an `any` value                                            @typescript-eslint/no-unsafe-member-access
+     72:58   error    Unsafe argument of type `any` assigned to a parameter of type `string | undefined`    @typescript-eslint/no-unsafe-argument
+     72:62   error    Unsafe member access .token on an `any` value                                         @typescript-eslint/no-unsafe-member-access
+     78:45   error    Unsafe assignment of an `any` value                                                   @typescript-eslint/no-unsafe-assignment
+     84:21   error    Unsafe member access .op on an `any` value                                            @typescript-eslint/no-unsafe-member-access
+     86:23   error    Unsafe assignment of an `any` value                                                   @typescript-eslint/no-unsafe-assignment
+     87:39   error    Unsafe argument of type `any` assigned to a parameter of type `string`                @typescript-eslint/no-unsafe-argument
+     87:43   error    Unsafe member access .topic on an `any` value                                         @typescript-eslint/no-unsafe-member-access
+     88:40   error    Unsafe argument of type `any` assigned to a parameter of type `string`                @typescript-eslint/no-unsafe-argument
+     88:44   error    Unsafe member access .topic on an `any` value                                         @typescript-eslint/no-unsafe-member-access
+     88:68   error    Unsafe argument of type `any` assigned to a parameter of type `string`                @typescript-eslint/no-unsafe-argument
+     88:72   error    Unsafe member access .topic on an `any` value                                         @typescript-eslint/no-unsafe-member-access
+     88:99   error    Unsafe argument of type `any` assigned to a parameter of type `string`                @typescript-eslint/no-unsafe-argument
+     88:103  error    Unsafe member access .topic on an `any` value                                         @typescript-eslint/no-unsafe-member-access
+     89:22   error    Unsafe call of a(n) `any` typed value                                                 @typescript-eslint/no-unsafe-call
+     89:25   error    Unsafe member access .tryConsume on an `any` value                                    @typescript-eslint/no-unsafe-member-access
+     91:27   error    Unsafe assignment of an `any` value                                                   @typescript-eslint/no-unsafe-assignment
+     91:39   error    Unsafe call of a(n) `any` typed value                                                 @typescript-eslint/no-unsafe-call
+     91:43   error    Unsafe member access .publish on an `any` value                                       @typescript-eslint/no-unsafe-member-access
+     91:55   error    Unsafe member access .topic on an `any` value                                         @typescript-eslint/no-unsafe-member-access
+     91:66   error    Unsafe member access .payload on an `any` value                                       @typescript-eslint/no-unsafe-member-access
+     91:79   error    Unsafe member access .opts on an `any` value                                          @typescript-eslint/no-unsafe-member-access
+     92:49   error    Unsafe assignment of an `any` value                                                   @typescript-eslint/no-unsafe-assignment
+     92:55   error    Unsafe assignment of an `any` value                                                   @typescript-eslint/no-unsafe-assignment
+     92:63   error    Unsafe member access .id on an `any` value                                            @typescript-eslint/no-unsafe-member-access
+     93:29   error    Unexpected any. Specify a different type                                              @typescript-eslint/no-explicit-any
+     94:50   error    Unsafe argument of type `any` assigned to a parameter of type `string`                @typescript-eslint/no-unsafe-argument
+     94:52   error    Unsafe member access .message on an `any` value                                       @typescript-eslint/no-unsafe-member-access
+     99:21   error    Unsafe member access .op on an `any` value                                            @typescript-eslint/no-unsafe-member-access
+    101:23   error    Unsafe assignment of an `any` value                                                   @typescript-eslint/no-unsafe-assignment
+    110:23   error    Unsafe assignment of an `any` value                                                   @typescript-eslint/no-unsafe-assignment
+    110:36   error    Unsafe call of a(n) `any` typed value                                                 @typescript-eslint/no-unsafe-call
+    110:40   error    Unsafe member access .subscribe on an `any` value                                     @typescript-eslint/no-unsafe-member-access
+    113:31   error    Unexpected any. Specify a different type                                              @typescript-eslint/no-explicit-any
+    113:41   error    Unexpected any. Specify a different type                                              @typescript-eslint/no-explicit-any
+    118:48   error    Unsafe argument of type `any` assigned to a parameter of type `string`                @typescript-eslint/no-unsafe-argument
+    118:50   error    Unsafe member access .id on an `any` value                                            @typescript-eslint/no-unsafe-member-access
+    120:31   error    Unsafe assignment of an `any` value                                                   @typescript-eslint/no-unsafe-assignment
+    120:64   error    Unsafe member access .ackTimeoutMs on an `any` value                                  @typescript-eslint/no-unsafe-member-access
+    121:44   error    Unsafe argument of type `any` assigned to a parameter of type `string`                @typescript-eslint/no-unsafe-argument
+    121:46   error    Unsafe member access .id on an `any` value                                            @typescript-eslint/no-unsafe-member-access
+    122:29   error    Unsafe assignment of an `any` value                                                   @typescript-eslint/no-unsafe-assignment
+    123:29   error    Unsafe assignment of an `any` value                                                   @typescript-eslint/no-unsafe-assignment
+    124:29   error    Unsafe assignment of an `any` value                                                   @typescript-eslint/no-unsafe-assignment
+    124:42   error    Unsafe member access .attempt on an `any` value                                       @typescript-eslint/no-unsafe-member-access
+    129:29   error    Unsafe assignment of an `any` value                                                   @typescript-eslint/no-unsafe-assignment
+    130:29   error    Unsafe assignment of an `any` value                                                   @typescript-eslint/no-unsafe-assignment
+    131:29   error    Unsafe assignment of an `any` value                                                   @typescript-eslint/no-unsafe-assignment
+    133:33   error    Unsafe assignment of an `any` value                                                   @typescript-eslint/no-unsafe-assignment
+    133:46   error    Unsafe member access .attempt on an `any` value                                       @typescript-eslint/no-unsafe-member-access
+    140:17   error    Unsafe assignment of an `any` value                                                   @typescript-eslint/no-unsafe-assignment
+    141:45   error    Unsafe assignment of an `any` value                                                   @typescript-eslint/no-unsafe-assignment
+    145:21   error    Unsafe member access .op on an `any` value                                            @typescript-eslint/no-unsafe-member-access
+    147:44   error    Unsafe member access .topic on an `any` value                                         @typescript-eslint/no-unsafe-member-access
+    147:58   error    Unsafe member access .group on an `any` value                                         @typescript-eslint/no-unsafe-member-access
+    152:45   error    Unsafe assignment of an `any` value                                                   @typescript-eslint/no-unsafe-assignment
+    156:21   error    Unsafe member access .op on an `any` value                                            @typescript-eslint/no-unsafe-member-access
+    156:41   error    Unsafe member access .op on an `any` value                                            @typescript-eslint/no-unsafe-member-access
+    156:62   error    Unsafe member access .op on an `any` value                                            @typescript-eslint/no-unsafe-member-access
+    158:44   error    Unsafe member access .topic on an `any` value                                         @typescript-eslint/no-unsafe-member-access
+    158:58   error    Unsafe member access .group on an `any` value                                         @typescript-eslint/no-unsafe-member-access
+    162:45   error    Unsafe argument of type `any` assigned to a parameter of type `string`                @typescript-eslint/no-unsafe-argument
+    162:49   error    Unsafe member access .id on an `any` value                                            @typescript-eslint/no-unsafe-member-access
+    164:29   error    Unsafe member access .op on an `any` value                                            @typescript-eslint/no-unsafe-member-access
+    166:49   error    Unsafe assignment of an `any` value                                                   @typescript-eslint/no-unsafe-assignment
+    169:25   error    Unsafe member access .op on an `any` value                                            @typescript-eslint/no-unsafe-member-access
+    170:76   error    Unsafe member access .extend_ms on an `any` value                                     @typescript-eslint/no-unsafe-member-access
+    171:49   error    Unsafe assignment of an `any` value                                                   @typescript-eslint/no-unsafe-assignment
+    175:35   error    Unsafe argument of type `any` assigned to a parameter of type `string`                @typescript-eslint/no-unsafe-argument
+    175:39   error    Unsafe member access .id on an `any` value                                            @typescript-eslint/no-unsafe-member-access
+    177:29   error    Unsafe member access .op on an `any` value                                            @typescript-eslint/no-unsafe-member-access
+    177:49   error    Unsafe call of a(n) `any` typed value                                                 @typescript-eslint/no-unsafe-call
+    177:53   error    Unsafe member access .ack on an `any` value                                           @typescript-eslint/no-unsafe-member-access
+    177:61   error    Unsafe member access .topic on an `any` value                                         @typescript-eslint/no-unsafe-member-access
+    177:72   error    Unsafe member access .group on an `any` value                                         @typescript-eslint/no-unsafe-member-access
+    177:83   error    Unsafe member access .id on an `any` value                                            @typescript-eslint/no-unsafe-member-access
+    178:32   error    Unsafe call of a(n) `any` typed value                                                 @typescript-eslint/no-unsafe-call
+    178:36   error    Unsafe member access .nack on an `any` value                                          @typescript-eslint/no-unsafe-member-access
+    178:45   error    Unsafe member access .topic on an `any` value                                         @typescript-eslint/no-unsafe-member-access
+    178:56   error    Unsafe member access .group on an `any` value                                         @typescript-eslint/no-unsafe-member-access
+    178:67   error    Unsafe member access .id on an `any` value                                            @typescript-eslint/no-unsafe-member-access
+    178:75   error    Unsafe member access .reason on an `any` value                                        @typescript-eslint/no-unsafe-member-access
+    179:42   error    Unsafe assignment of an `any` value                                                   @typescript-eslint/no-unsafe-assignment
+    180:29   error    Unexpected any. Specify a different type                                              @typescript-eslint/no-explicit-any
+    181:46   error    Unsafe argument of type `any` assigned to a parameter of type `string`                @typescript-eslint/no-unsafe-argument
+    181:48   error    Unsafe member access .message on an `any` value                                       @typescript-eslint/no-unsafe-member-access
+  

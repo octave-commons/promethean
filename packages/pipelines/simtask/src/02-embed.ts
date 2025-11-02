@@ -1,8 +1,8 @@
 import * as path from "path";
 import { pathToFileURL } from "url";
 
-import { openLevelCache } from "@promethean/level-cache";
-import { ollamaEmbed, parseArgs } from "@promethean/utils";
+import { openLevelCache } from "@promethean-os/level-cache";
+import { ollamaEmbed, parseArgs } from "@promethean-os/utils";
 
 import type { FunctionInfo } from "./types.js";
 

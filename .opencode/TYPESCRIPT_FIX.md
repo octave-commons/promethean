@@ -8,7 +8,7 @@ The original issue was that TypeScript module resolution for opencode plugins wa
 
 - The base TypeScript configuration (`config/tsconfig.base.json`) had `"baseUrl": "./config"`
 - When compiling opencode plugins, TypeScript was looking for modules relative to `/home/err/devel/promethean/config/` instead of `/home/err/devel/promethean/`
-- This caused module resolution failures for `@opencode-ai/plugin` and `@promethean/persistence`
+- This caused module resolution failures for `@opencode-ai/plugin` and `@promethean-os/persistence`
 - Additionally, the `.opencode/package.json` was missing `"type": "module"` causing ES module import issues
 
 ## Solution
@@ -23,7 +23,7 @@ Created a dedicated TypeScript configuration file at `.opencode/tsconfig.json` w
    "paths": {
      "@opencode-ai/plugin": ["./node_modules/@opencode-ai/plugin/dist/index.js"],
      "@opencode-ai/sdk": ["./node_modules/@opencode-ai/sdk/dist/index.js"],
-     "@promethean/persistence": ["../packages/persistence/dist/index.js"]
+     "@promethean-os/persistence": ["../packages/persistence/dist/index.js"]
    }
    ```
 5. **Relaxed settings**: Temporarily disabled strict checking to focus on module resolution
@@ -31,7 +31,7 @@ Created a dedicated TypeScript configuration file at `.opencode/tsconfig.json` w
 ## Verification
 
 - ✅ TypeScript compilation works without module resolution errors
-- ✅ Module resolution correctly finds `@opencode-ai/plugin` and `@promethean/persistence`
+- ✅ Module resolution correctly finds `@opencode-ai/plugin` and `@promethean-os/persistence`
 - ✅ Type definitions are properly loaded
 - ✅ Both IDE and command-line TypeScript compilation work
 - ✅ No more need for `@ts-ignore` workarounds for module imports

@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/buildfix",
+  "name": "@promethean-os/buildfix",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -13,6 +13,8 @@
     "build": "tsc -p tsconfig.json",
     "clean": "rimraf dist .cache && tsc -b --clean",
     "clean:benchmark-fixtures": "rimraf benchmark-fixtures",
+    "fixtures:generate": "tsx ./src/benchmark/massive-fixture-generator.ts --target-errors 1000",
+    "fixtures:clean": "rimraf massive-fixture-generation-2",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "bf:01-errors": "tsx ./src/01-errors.ts",
     "bf:02-iterate": "tsx ./src/02-iterate.ts",
@@ -27,7 +29,7 @@
     "doc:report": "pnpm build && node ./dist/03-report.js"
   },
   "dependencies": {
-    "@promethean/utils": "workspace:*",
+    "@promethean-os/utils": "workspace:*",
     "commander": "^12.1.0",
     "diff": "5.2.0",
     "globby": "14.0.2",

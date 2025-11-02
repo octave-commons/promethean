@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to @promethean/shadow-conf will be documented in this file.
+All notable changes to @promethean-os/shadow-conf will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -29,7 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.0.0] - 2024-01-XX
 
 ### Added
-- Initial release of @promethean/shadow-conf
+- Initial release of @promethean-os/shadow-conf
 - EDN to PM2 ecosystem configuration generation
 - CLI tool for command-line usage
 - TypeScript support with comprehensive type definitions
@@ -86,7 +86,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Dependencies
 - jsedn for EDN parsing
 - dotenv for environment variable support
-- @promethean/pm2-helpers for PM2 integration
+- @promethean-os/pm2-helpers for PM2 integration
 
 ---
 
@@ -285,7 +285,7 @@ Security updates will be documented in a separate SECURITY.md file and reference
 
 ### Contributors
 
-Thanks to everyone who has contributed to @promethean/shadow-conf:
+Thanks to everyone who has contributed to @promethean-os/shadow-conf:
 
 - Core team members
 - Community contributors

@@ -3,7 +3,7 @@ import {
   PCM48_TO_16_DECIMATION,
   averageStereoFrame,
   floatToPcm16,
-} from '@promethean/duck-audio';
+} from '@promethean-os/duck-audio';
 
 const $ = (sel: string, root: ParentNode = document) =>
   root.querySelector(sel) as HTMLElement | null;

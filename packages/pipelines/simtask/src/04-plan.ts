@@ -3,8 +3,8 @@ import * as path from 'path';
 import { pathToFileURL } from 'url';
 
 import { z } from 'zod';
-import { openLevelCache } from '@promethean/level-cache';
-import { ollamaJSON } from '@promethean/utils';
+import { openLevelCache } from '@promethean-os/level-cache';
+import { ollamaJSON } from '@promethean-os/utils';
 
 import { parseArgs } from './utils.js';
 import type { FunctionInfo, Cluster, Plan } from './types.js';

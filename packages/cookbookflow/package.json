@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/cookbookflow",
+  "name": "@promethean-os/cookbookflow",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -26,7 +26,7 @@
     "cb:all": "pnpm cb:01-scan && pnpm cb:02-embed-classify && pnpm cb:03-group && pnpm cb:04-plan && pnpm cb:05-materialize && pnpm cb:06-exec && pnpm cb:07-verify && pnpm cb:08-report"
   },
   "dependencies": {
-    "@promethean/utils": "workspace:*",
+    "@promethean-os/utils": "workspace:*",
     "globby": "^14.0.2",
     "gray-matter": "^4.0.3",
     "yaml": "^2.5.0",

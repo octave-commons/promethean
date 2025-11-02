@@ -1,5 +1,5 @@
-import { AGENT_NAME } from "@promethean/legacy/env.js";
-import { DualStoreManager as Dual } from "@promethean/persistence/dualStore.js";
+import { AGENT_NAME } from "@promethean-os/legacy/env.js";
+import { DualStoreManager as Dual } from "@promethean-os/persistence/dualStore.js";
 export const discordMessages = await Dual.create(
   `${AGENT_NAME}_discord_messages`,
   "content",

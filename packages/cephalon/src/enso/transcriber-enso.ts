@@ -14,7 +14,7 @@ import {
   type HelloCaps,
   type Envelope,
   type ChatMessage,
-} from "@promethean/enso-protocol";
+} from "@promethean-os/enso-protocol";
 import {
   PCM16_BYTES_PER_FRAME,
   PCM16_FRAME_DURATION_MS,
@@ -23,7 +23,7 @@ import {
   SAMPLES_PER_DECIMATED_OUTPUT,
   averageStereoFrame,
   clampPcm16,
-} from "@promethean/duck-audio";
+} from "@promethean-os/duck-audio";
 
 /**
  * Downmix 48k stereo PCM16LE to 16k mono PCM16LE using simple box filter decimation (3:1).

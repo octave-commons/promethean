@@ -1,10 +1,10 @@
-# @promethean/indexer-core
+# @promethean-os/indexer-core
 
 Core indexing functionality for the Promethean Framework, providing file scanning, embedding generation, and semantic search capabilities with ChromaDB integration.
 
 ## 🚀 Overview
 
-`@promethean/indexer-core` is the foundational package for file indexing and semantic search within the Promethean Framework. It provides:
+`@promethean-os/indexer-core` is the foundational package for file indexing and semantic search within the Promethean Framework. It provides:
 
 - **File Scanning**: Intelligent repository file discovery with glob patterns and exclusion rules
 - **Embedding Generation**: Integration with various embedding services (Ollama, OpenAI, etc.)
@@ -15,7 +15,7 @@ Core indexing functionality for the Promethean Framework, providing file scannin
 ## 📦 Installation
 
 ```bash
-pnpm add @promethean/indexer-core
+pnpm add @promethean-os/indexer-core
 ```
 
 ## 🏗️ Architecture
@@ -51,7 +51,7 @@ import {
   createIndexerManager, 
   setIndexerStateStore,
   createLevelCacheStateStore 
-} from '@promethean/indexer-core';
+} from '@promethean-os/indexer-core';
 
 // Configure state storage
 setIndexerStateStore(createLevelCacheStateStore('./.cache/indexer'));
@@ -68,7 +68,7 @@ while (manager.isBusy()) {
 }
 
 // Search the indexed content
-import { search } from '@promethean/indexer-core';
+import { search } from '@promethean-os/indexer-core';
 const results = await search('/path/to/repository', 'authentication logic');
 console.log(results);
 ```
@@ -223,7 +223,7 @@ pnpm lint
 ```typescript
 // Example test
 import test from 'ava';
-import { createIndexerManager, createMemoryStateStore } from '@promethean/indexer-core';
+import { createIndexerManager, createMemoryStateStore } from '@promethean-os/indexer-core';
 
 test('indexer processes files correctly', async (t) => {
   const manager = createIndexerManager();
@@ -237,7 +237,7 @@ test('indexer processes files correctly', async (t) => {
 
 ```typescript
 import { setChromaClient, ChromaClient } from 'chromadb';
-import { setChromaClient as setIndexerChroma } from '@promethean/indexer-core';
+import { setChromaClient as setIndexerChroma } from '@promethean-os/indexer-core';
 
 const chroma = new ChromaClient();
 setIndexerChroma(chroma);
@@ -246,7 +246,7 @@ setIndexerChroma(chroma);
 ### Custom Embedding Functions
 
 ```typescript
-import { setEmbeddingFactory } from '@promethean/indexer-core';
+import { setEmbeddingFactory } from '@promethean-os/indexer-core';
 
 setEmbeddingFactory(async () => {
   return {
@@ -261,7 +261,7 @@ setEmbeddingFactory(async () => {
 ### Custom State Store
 
 ```typescript
-import { setIndexerStateStore } from '@promethean/indexer-core';
+import { setIndexerStateStore } from '@promethean-os/indexer-core';
 
 const customStore = {
   async load(rootPath: string) { /* ... */ },
@@ -316,7 +316,7 @@ await chroma.heartbeat();
 ### Debug Logging
 
 ```typescript
-import { setIndexerLogger, createLogger } from '@promethean/utils';
+import { setIndexerLogger, createLogger } from '@promethean-os/utils';
 
 setIndexerLogger(createLogger({ 
   service: 'indexer-core', 
@@ -337,7 +337,7 @@ This package is part of the Promethean Framework. See the main project license f
 
 ## 🔗 Related Packages
 
-- `@promethean/indexer-service` - HTTP service wrapper
-- `@promethean/embedding` - Embedding service abstractions
-- `@promethean/file-indexer` - File scanning utilities
-- `@promethean/level-cache` - LevelDB caching utilities
+- `@promethean-os/indexer-service` - HTTP service wrapper
+- `@promethean-os/embedding` - Embedding service abstractions
+- `@promethean-os/file-indexer` - File scanning utilities
+- `@promethean-os/level-cache` - LevelDB caching utilities

@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/readmeflow",
+  "name": "@promethean-os/readmeflow",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -24,8 +24,8 @@
     "rm:all": "pnpm rm:01-scan && pnpm rm:02-outline && pnpm rm:03-write && pnpm rm:04-verify"
   },
   "dependencies": {
-    "@promethean/utils": "workspace:*",
-    "@promethean/level-cache": "workspace:*",
+    "@promethean-os/utils": "workspace:*",
+    "@promethean-os/level-cache": "workspace:*",
     "globby": "^14.0.2",
     "gray-matter": "^4.0.3",
     "yaml": "^2.5.0",

@@ -1,4 +1,4 @@
-# @promethean/report-forge
+# @promethean-os/report-forge
 
 Create terse, actionable Markdown reports from GitHub issues using a **local LLM** (Ollama by default).
 
@@ -10,7 +10,7 @@ Create terse, actionable Markdown reports from GitHub issues using a **local LLM
 ## Install
 
 ```sh
-pnpm -w add -D @promethean/report-forge
+pnpm -w add -D @promethean-os/report-forge
 ```
 
 ## CLI
@@ -24,9 +24,9 @@ Requires an Ollama server (default `http://127.0.0.1:11434`) and optional `GITHU
 ## API
 
 ```ts
-import { generateReport } from '@promethean/report-forge'
-import { ollama } from '@promethean/report-forge/dist/lib/ollama.js'
-import { github } from '@promethean/report-forge/dist/lib/github.js'
+import { generateReport } from '@promethean-os/report-forge'
+import { ollama } from '@promethean-os/report-forge/dist/lib/ollama.js'
+import { github } from '@promethean-os/report-forge/dist/lib/github.js'
 
 const gh = github(process.env.GITHUB_TOKEN)
 const issues = await gh.listIssues('riatzukiza/promethean', { state: 'all' })
@@ -42,7 +42,7 @@ const md = await generateReport({ repo: 'riatzukiza/promethean', issues }, { llm
 ## Tests
 
 ```sh
-pnpm --filter @promethean/report-forge test
+pnpm --filter @promethean-os/report-forge test
 ```
 
 ## Config

@@ -1,8 +1,0 @@
-{
-  "name": "buildfix-massive-fixture-fixture-0598-TS2564-runner",
-  "version": "1.0.0",
-  "type": "module",
-  "dependencies": {
-    "ts-morph": "^23.0.0"
-  }
-}

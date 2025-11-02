@@ -1,6 +1,10 @@
 import test from 'ava';
 import path from 'node:path';
 import { writeFile, mkdir, readFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 import { executeCommand, type CliContext } from '../cli/command-handlers.js';
 import { withTempDir } from '../test-utils/helpers.js';
@@ -9,9 +13,26 @@ test('e2e - complete workflow with move operations', async (t) => {
   const tempDir = await withTempDir(t);
   const boardPath = path.join(tempDir, 'board.md');
   const tasksDir = path.join(tempDir, 'tasks');
+  const configPath = path.join(tempDir, 'promethean.kanban.json');
 
   await mkdir(tasksDir, { recursive: true });
   await writeFile(boardPath, '', 'utf8');
+
+  // Copy test fixtures config to temp directory
+  const fixtureConfig = await readFile(
+    path.join(__dirname, 'fixtures/promethean.kanban.json'),
+    'utf8',
+  );
+  await writeFile(configPath, fixtureConfig, 'utf8');
+
+  // Copy Clojure DSL file to temp directory
+  const dslPath = path.join(tempDir, 'src/tests/fixtures/transition-rules-dsl.clj');
+  await mkdir(path.dirname(dslPath), { recursive: true });
+  const fixtureDsl = await readFile(
+    path.join(__dirname, 'fixtures/transition-rules-dsl.clj'),
+    'utf8',
+  );
+  await writeFile(dslPath, fixtureDsl, 'utf8');
 
   const context: CliContext = {
     boardFile: boardPath,
@@ -71,14 +92,18 @@ test('e2e - complete workflow with move operations', async (t) => {
   )) as any;
   const task5 = (await executeCommand('create', ['Done Task 1', '--status=Done'], context)) as any;
 
-  // Phase 4: Move tasks in different columns
-  const progressMove = (await executeCommand('move_up', [task4.uuid], context)) as any;
+  // Phase 4: Update task statuses (move_up is for reordering within columns)
+  const progressMove = (await executeCommand(
+    'update_status',
+    [task4.uuid, 'In Progress'],
+    context,
+  )) as any;
   t.truthy(progressMove);
-  t.is(progressMove.column, 'In Progress');
+  t.is(progressMove.task?.status, 'In Progress');
 
-  const doneMove = (await executeCommand('move_up', [task5.uuid], context)) as any;
+  const doneMove = (await executeCommand('update_status', [task5.uuid, 'Done'], context)) as any;
   t.truthy(doneMove);
-  t.is(doneMove.column, 'Done');
+  t.is(doneMove.task?.status, 'Done');
 
   // Phase 5: Verify final board state
   const finalBoardContent = await readFile(boardPath, 'utf8');
@@ -199,9 +224,26 @@ test('e2e - move operations across workflow transitions', async (t) => {
   const tempDir = await withTempDir(t);
   const boardPath = path.join(tempDir, 'board.md');
   const tasksDir = path.join(tempDir, 'tasks');
+  const configPath = path.join(tempDir, 'promethean.kanban.json');
 
   await mkdir(tasksDir, { recursive: true });
   await writeFile(boardPath, '', 'utf8');
+
+  // Copy test fixtures config to temp directory
+  const fixtureConfig = await readFile(
+    path.join(__dirname, 'fixtures/promethean.kanban.json'),
+    'utf8',
+  );
+  await writeFile(configPath, fixtureConfig, 'utf8');
+
+  // Copy Clojure DSL file to temp directory
+  const dslPath = path.join(tempDir, 'src/tests/fixtures/transition-rules-dsl.clj');
+  await mkdir(path.dirname(dslPath), { recursive: true });
+  const fixtureDsl = await readFile(
+    path.join(__dirname, 'fixtures/transition-rules-dsl.clj'),
+    'utf8',
+  );
+  await writeFile(dslPath, fixtureDsl, 'utf8');
 
   const context: CliContext = {
     boardFile: boardPath,

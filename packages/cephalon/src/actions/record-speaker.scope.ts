@@ -1,7 +1,7 @@
 import type * as discord from "discord.js";
-import { checkPermission } from "@promethean/legacy";
-import { makePolicy, type PolicyChecker } from "@promethean/security";
-import { createLogger, type Logger } from "@promethean/utils";
+import { checkPermission } from "@promethean-os/legacy";
+import { makePolicy, type PolicyChecker } from "@promethean-os/security";
+import { createLogger, type Logger } from "@promethean-os/utils";
 
 import type { Bot } from "../bot.js";
 

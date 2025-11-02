@@ -144,6 +144,9 @@ tree.txt
 # Benchmark fixtures
 benchmark-fixtures/
 
+# BuildFix massive fixtures (regenerate with: pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/massive-fixture-generator.ts)
+packages/pipelines/buildfix/massive-fixture-generation-2/
+
 # Generated kanban board files (should be regenerated, not committed)
 docs/agile/boards/generated.md
 
@@ -156,3 +159,7 @@ packages/kanban/kanban-test-*/
 
 # stryker temp files
 .stryker-tmp
+indexer-state.json
+test-data/test-git/
+
+packages/kanban/test-git-workflow-temp

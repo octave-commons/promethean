@@ -1,6 +1,6 @@
 import { promises as fs } from 'fs';
 import { join, dirname } from 'path';
-import { PackageTemplate, PackageOptions, GeneratorConfig } from './types.js';
+import { PackageOptions, GeneratorConfig } from './types.js';
 import { PACKAGE_TEMPLATES } from './templates.js';
 import { compile } from 'handlebars';
 
@@ -50,7 +50,7 @@ export class PackageGenerator {
       exports: options.exports || {},
       customVariables: options.customVariables || {},
       kebabCase: (str: string) => str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase(),
-      camelCase: (str: string) => str.replace(/-([a-z])/g, (g) => g[1].toUpperCase()),
+      camelCase: (str: string) => str.replace(/-([a-z])/g, (g) => g[1]?.toUpperCase() || ''),
       pascalCase: (str: string) =>
         str.replace(/(^|-)([a-z])/g, (g) => g.toUpperCase().replace('-', '')),
       year: now.getFullYear(),

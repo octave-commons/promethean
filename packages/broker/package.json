@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/broker",
+  "name": "@promethean-os/broker",
   "version": "0.0.1",
   "type": "module",
   "main": "index.js",
@@ -13,12 +13,12 @@
     "lint": "pnpm -w exec eslint ."
   },
   "dependencies": {
-    "@promethean/legacy": "workspace:*",
+    "@promethean-os/legacy": "workspace:*",
     "redis": "^4.6.7",
     "ws": "^8.18.0"
   },
   "devDependencies": {
-    "@promethean/pm2-helpers": "workspace:*",
+    "@promethean-os/pm2-helpers": "workspace:*",
     "ava": "^6.4.1",
     "c8": "^9.1.0"
   },

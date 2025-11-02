@@ -39,7 +39,7 @@ test('malformed markdown tasks still participate in complexity estimates', async
   const { estimateBatchComplexity } = await esmock<
     typeof import('../lib/task-complexity.js')
   >(modulePath, {
-    '@promethean/utils': {
+    '@promethean-os/utils': {
       createLogger: () => ({
         info() {},
         warn() {},

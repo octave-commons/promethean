@@ -82,8 +82,12 @@ export const createStateManager = (
     const stateToSave = {
       lastIndexedSessionId: state.lastIndexedSessionId,
       lastIndexedMessageId: state.lastIndexedMessageId,
+      lastEventTimestamp: state.lastEventTimestamp,
+      lastFullSyncTimestamp: state.lastFullSyncTimestamp,
+      subscriptionActive: state.subscriptionActive,
+      consecutiveErrors: state.consecutiveErrors,
       savedAt: Date.now(),
-    } as const;
+    };
 
     try {
       await writeFile(stateFile, JSON.stringify(stateToSave, null, 2));

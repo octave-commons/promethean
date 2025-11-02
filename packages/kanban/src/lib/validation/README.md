@@ -111,7 +111,7 @@ KANBAN_SKIP_FILE_CHECKS=true
 ### Programmatic Usage
 
 ```typescript
-import { createP0SecurityValidator } from '@promethean/kanban/validation';
+import { createP0SecurityValidator } from '@promethean-os/kanban/validation';
 
 const validator = createP0SecurityValidator({
   repoRoot: '/path/to/repo',

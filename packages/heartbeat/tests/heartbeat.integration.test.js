@@ -1,11 +1,11 @@
 // integration
 import test from 'ava';
-import { installInMemoryPersistence } from '@promethean/test-utils/persistence.js';
+import { installInMemoryPersistence } from '@promethean-os/test-utils/persistence.js';
 import { spawn } from 'child_process';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { BrokerClient } from '@promethean/legacy/brokerClient.js';
-import { sleep } from '@promethean/utils';
+import { BrokerClient } from '@promethean-os/legacy/brokerClient.js';
+import { sleep } from '@promethean-os/utils';
 import { start, stop } from '../index.js';
 
 let pers;

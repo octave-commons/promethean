@@ -3,7 +3,7 @@ import { promises as fs } from "fs";
 
 import matter from "gray-matter";
 import type { GrayMatterFile } from "gray-matter";
-import { parseArgs, randomUUID } from "@promethean/utils";
+import { parseArgs, randomUUID } from "@promethean-os/utils";
 
 import type { PlanFile } from "./types.js";
 

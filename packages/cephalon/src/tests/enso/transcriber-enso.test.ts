@@ -4,7 +4,7 @@ import {
   PCM16_MAX,
   PCM16_MIN,
   SAMPLES_PER_DECIMATED_OUTPUT,
-} from "@promethean/duck-audio";
+} from "@promethean-os/duck-audio";
 
 import { ToPcm16kMono } from "../../enso/transcriber-enso.js";
 

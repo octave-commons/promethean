@@ -2,8 +2,8 @@ import { promises as fs } from "fs";
 import * as path from "path";
 import { pathToFileURL } from "url";
 
-import { openLevelCache } from "@promethean/level-cache";
-import { cosine, parseArgs } from "@promethean/utils";
+import { openLevelCache } from "@promethean-os/level-cache";
+import { cosine, parseArgs } from "@promethean-os/utils";
 
 import type { FunctionInfo, Cluster } from "./types.js";
 

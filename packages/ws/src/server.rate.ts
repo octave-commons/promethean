@@ -1,4 +1,4 @@
-import { TokenBucket } from '@promethean/monitoring';
+import { TokenBucket } from '@promethean-os/monitoring';
 
 export function makeConnLimiter() {
     return new TokenBucket({ capacity: 200, refillPerSec: 200 }); // 200 msgs/sec burst

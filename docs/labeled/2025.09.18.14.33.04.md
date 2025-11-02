@@ -210,7 +210,7 @@ graph TD
 ```
 2. **Rename smartgpt-bridge → herald**
 ```
-   * Keep current entrypoints; just re-export them through `@promethean/herald` and **remove any “thinking”** from this package as you go (push it to labs or core).
+   * Keep current entrypoints; just re-export them through `@promethean-os/herald` and **remove any “thinking”** from this package as you go (push it to labs or core).
 
 3. **Wire a 30-line CLI** in Herald that runs the echo loop. Make it succeed visibly.
 

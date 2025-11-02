@@ -3,7 +3,7 @@ import * as path from "path";
 
 import type { ReadonlyDeep } from "type-fest";
 
-export { sha1 } from "@promethean/utils";
+export { sha1 } from "@promethean-os/utils";
 
 export function parseArgs(
   defaults: Readonly<Record<string, string>>,

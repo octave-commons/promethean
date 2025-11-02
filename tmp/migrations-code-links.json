@@ -1,0 +1,568 @@
+{
+  "packageData": {
+    "packageName": "migrations",
+    "files": [
+      {
+        "path": "cdc.ts",
+        "fullPath": "/home/err/devel/promethean/packages/migrations/src/cdc.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 265
+      },
+      {
+        "path": "checkpoints.ts",
+        "fullPath": "/home/err/devel/promethean/packages/migrations/src/checkpoints.ts",
+        "exports": [
+          {
+            "name": "MongoCheckpointStore",
+            "line": 22,
+            "type": "class"
+          },
+          {
+            "name": "makeCheckpointStore",
+            "line": 81,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "MongoCheckpointStore",
+            "line": 22,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "makeCheckpointStore",
+            "line": 81,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 92
+      },
+      {
+        "path": "chroma.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/migrations/src/chroma.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 27
+      },
+      {
+        "path": "chroma.ts",
+        "fullPath": "/home/err/devel/promethean/packages/migrations/src/chroma.ts",
+        "exports": [
+          {
+            "name": "makeChromaWrapper",
+            "line": 22,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "makeChromaWrapper",
+            "line": 22,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 42
+      },
+      {
+        "path": "contract.ts",
+        "fullPath": "/home/err/devel/promethean/packages/migrations/src/contract.ts",
+        "exports": [
+          {
+            "name": "validateMongoContract",
+            "line": 18,
+            "type": "function"
+          },
+          {
+            "name": "validateChromaContract",
+            "line": 40,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "validateMongoContract",
+            "line": 18,
+            "type": "function"
+          },
+          {
+            "name": "validateChromaContract",
+            "line": 40,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 48
+      },
+      {
+        "path": "cutover.ts",
+        "fullPath": "/home/err/devel/promethean/packages/migrations/src/cutover.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 5
+      },
+      {
+        "path": "embedder.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/migrations/src/embedder.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 26
+      },
+      {
+        "path": "embedder.ts",
+        "fullPath": "/home/err/devel/promethean/packages/migrations/src/embedder.ts",
+        "exports": [
+          {
+            "name": "makeDeterministicEmbedder",
+            "line": 17,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "makeDeterministicEmbedder",
+            "line": 17,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 20
+      },
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/migrations/src/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 88
+      },
+      {
+        "path": "integrity.ts",
+        "fullPath": "/home/err/devel/promethean/packages/migrations/src/integrity.ts",
+        "exports": [
+          {
+            "name": "sha256",
+            "line": 3,
+            "type": "function"
+          },
+          {
+            "name": "checksumFor",
+            "line": 15,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "sha256",
+            "line": 3,
+            "type": "function"
+          },
+          {
+            "name": "checksumFor",
+            "line": 15,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 31
+      },
+      {
+        "path": "migrations/001-labels-to-tags.ts",
+        "fullPath": "/home/err/devel/promethean/packages/migrations/src/migrations/001-labels-to-tags.ts",
+        "exports": [
+          {
+            "name": "id",
+            "line": 6,
+            "type": "function"
+          },
+          {
+            "name": "name",
+            "line": 7,
+            "type": "function"
+          },
+          {
+            "name": "up",
+            "line": 18,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "id",
+            "line": 6,
+            "type": "function"
+          },
+          {
+            "name": "name",
+            "line": 7,
+            "type": "function"
+          },
+          {
+            "name": "up",
+            "line": 18,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 45
+      },
+      {
+        "path": "migrations/002-agent-context-schema.ts",
+        "fullPath": "/home/err/devel/promethean/packages/migrations/src/migrations/002-agent-context-schema.ts",
+        "exports": [
+          {
+            "name": "migration",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "migration",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 163
+      },
+      {
+        "path": "rollback.ts",
+        "fullPath": "/home/err/devel/promethean/packages/migrations/src/rollback.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 4
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [],
+      "classes": [],
+      "functions": [],
+      "interfaces": [],
+      "totalLines": 88
+    },
+    "exports": [
+      {
+        "name": "MongoCheckpointStore",
+        "line": 22,
+        "type": "class",
+        "file": "checkpoints.ts"
+      },
+      {
+        "name": "makeCheckpointStore",
+        "line": 81,
+        "type": "function",
+        "file": "checkpoints.ts"
+      },
+      {
+        "name": "makeChromaWrapper",
+        "line": 22,
+        "type": "function",
+        "file": "chroma.ts"
+      },
+      {
+        "name": "validateMongoContract",
+        "line": 18,
+        "type": "function",
+        "file": "contract.ts"
+      },
+      {
+        "name": "validateChromaContract",
+        "line": 40,
+        "type": "function",
+        "file": "contract.ts"
+      },
+      {
+        "name": "makeDeterministicEmbedder",
+        "line": 17,
+        "type": "function",
+        "file": "embedder.ts"
+      },
+      {
+        "name": "sha256",
+        "line": 3,
+        "type": "function",
+        "file": "integrity.ts"
+      },
+      {
+        "name": "checksumFor",
+        "line": 15,
+        "type": "function",
+        "file": "integrity.ts"
+      },
+      {
+        "name": "id",
+        "line": 6,
+        "type": "function",
+        "file": "migrations/001-labels-to-tags.ts"
+      },
+      {
+        "name": "name",
+        "line": 7,
+        "type": "function",
+        "file": "migrations/001-labels-to-tags.ts"
+      },
+      {
+        "name": "up",
+        "line": 18,
+        "type": "function",
+        "file": "migrations/001-labels-to-tags.ts"
+      },
+      {
+        "name": "migration",
+        "line": 3,
+        "type": "function",
+        "file": "migrations/002-agent-context-schema.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "MongoCheckpointStore",
+        "line": 22,
+        "type": "class",
+        "file": "checkpoints.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "makeCheckpointStore",
+        "line": 81,
+        "type": "function",
+        "file": "checkpoints.ts"
+      },
+      {
+        "name": "makeChromaWrapper",
+        "line": 22,
+        "type": "function",
+        "file": "chroma.ts"
+      },
+      {
+        "name": "validateMongoContract",
+        "line": 18,
+        "type": "function",
+        "file": "contract.ts"
+      },
+      {
+        "name": "validateChromaContract",
+        "line": 40,
+        "type": "function",
+        "file": "contract.ts"
+      },
+      {
+        "name": "makeDeterministicEmbedder",
+        "line": 17,
+        "type": "function",
+        "file": "embedder.ts"
+      },
+      {
+        "name": "sha256",
+        "line": 3,
+        "type": "function",
+        "file": "integrity.ts"
+      },
+      {
+        "name": "checksumFor",
+        "line": 15,
+        "type": "function",
+        "file": "integrity.ts"
+      },
+      {
+        "name": "id",
+        "line": 6,
+        "type": "function",
+        "file": "migrations/001-labels-to-tags.ts"
+      },
+      {
+        "name": "name",
+        "line": 7,
+        "type": "function",
+        "file": "migrations/001-labels-to-tags.ts"
+      },
+      {
+        "name": "up",
+        "line": 18,
+        "type": "function",
+        "file": "migrations/001-labels-to-tags.ts"
+      },
+      {
+        "name": "migration",
+        "line": 3,
+        "type": "function",
+        "file": "migrations/002-agent-context-schema.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "cdc.ts",
+          "link": "[src/cdc.ts](../../../packages/migrations/src/cdc.ts)",
+          "lineCount": 265
+        },
+        {
+          "name": "checkpoints.ts",
+          "link": "[src/checkpoints.ts](../../../packages/migrations/src/checkpoints.ts)",
+          "lineCount": 92
+        },
+        {
+          "name": "chroma.test.ts",
+          "link": "[src/chroma.test.ts](../../../packages/migrations/src/chroma.test.ts)",
+          "lineCount": 27
+        },
+        {
+          "name": "chroma.ts",
+          "link": "[src/chroma.ts](../../../packages/migrations/src/chroma.ts)",
+          "lineCount": 42
+        },
+        {
+          "name": "contract.ts",
+          "link": "[src/contract.ts](../../../packages/migrations/src/contract.ts)",
+          "lineCount": 48
+        },
+        {
+          "name": "cutover.ts",
+          "link": "[src/cutover.ts](../../../packages/migrations/src/cutover.ts)",
+          "lineCount": 5
+        },
+        {
+          "name": "embedder.test.ts",
+          "link": "[src/embedder.test.ts](../../../packages/migrations/src/embedder.test.ts)",
+          "lineCount": 26
+        },
+        {
+          "name": "embedder.ts",
+          "link": "[src/embedder.ts](../../../packages/migrations/src/embedder.ts)",
+          "lineCount": 20
+        },
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/migrations/src/index.ts)",
+          "lineCount": 88
+        },
+        {
+          "name": "integrity.ts",
+          "link": "[src/integrity.ts](../../../packages/migrations/src/integrity.ts)",
+          "lineCount": 31
+        },
+        {
+          "name": "migrations/001-labels-to-tags.ts",
+          "link": "[src/migrations/001-labels-to-tags.ts](../../../packages/migrations/src/migrations/001-labels-to-tags.ts)",
+          "lineCount": 45
+        },
+        {
+          "name": "migrations/002-agent-context-schema.ts",
+          "link": "[src/migrations/002-agent-context-schema.ts](../../../packages/migrations/src/migrations/002-agent-context-schema.ts)",
+          "lineCount": 163
+        },
+        {
+          "name": "rollback.ts",
+          "link": "[src/rollback.ts](../../../packages/migrations/src/rollback.ts)",
+          "lineCount": 4
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "MongoCheckpointStore",
+          "link": "[MongoCheckpointStore](../../../packages/migrations/src/checkpoints.ts#L22)",
+          "file": "checkpoints.ts",
+          "line": 22
+        }
+      ],
+      "functions": [
+        {
+          "name": "makeCheckpointStore",
+          "link": "[makeCheckpointStore()](../../../packages/migrations/src/checkpoints.ts#L81)",
+          "file": "checkpoints.ts",
+          "line": 81
+        },
+        {
+          "name": "makeChromaWrapper",
+          "link": "[makeChromaWrapper()](../../../packages/migrations/src/chroma.ts#L22)",
+          "file": "chroma.ts",
+          "line": 22
+        },
+        {
+          "name": "validateMongoContract",
+          "link": "[validateMongoContract()](../../../packages/migrations/src/contract.ts#L18)",
+          "file": "contract.ts",
+          "line": 18
+        },
+        {
+          "name": "validateChromaContract",
+          "link": "[validateChromaContract()](../../../packages/migrations/src/contract.ts#L40)",
+          "file": "contract.ts",
+          "line": 40
+        },
+        {
+          "name": "makeDeterministicEmbedder",
+          "link": "[makeDeterministicEmbedder()](../../../packages/migrations/src/embedder.ts#L17)",
+          "file": "embedder.ts",
+          "line": 17
+        },
+        {
+          "name": "sha256",
+          "link": "[sha256()](../../../packages/migrations/src/integrity.ts#L3)",
+          "file": "integrity.ts",
+          "line": 3
+        },
+        {
+          "name": "checksumFor",
+          "link": "[checksumFor()](../../../packages/migrations/src/integrity.ts#L15)",
+          "file": "integrity.ts",
+          "line": 15
+        },
+        {
+          "name": "id",
+          "link": "[id()](../../../packages/migrations/src/migrations/001-labels-to-tags.ts#L6)",
+          "file": "migrations/001-labels-to-tags.ts",
+          "line": 6
+        },
+        {
+          "name": "name",
+          "link": "[name()](../../../packages/migrations/src/migrations/001-labels-to-tags.ts#L7)",
+          "file": "migrations/001-labels-to-tags.ts",
+          "line": 7
+        },
+        {
+          "name": "up",
+          "link": "[up()](../../../packages/migrations/src/migrations/001-labels-to-tags.ts#L18)",
+          "file": "migrations/001-labels-to-tags.ts",
+          "line": 18
+        },
+        {
+          "name": "migration",
+          "link": "[migration()](../../../packages/migrations/src/migrations/002-agent-context-schema.ts#L3)",
+          "file": "migrations/002-agent-context-schema.ts",
+          "line": 3
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

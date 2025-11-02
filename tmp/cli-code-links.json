@@ -1,0 +1,336 @@
+{
+  "packageData": {
+    "packageName": "cli",
+    "files": [
+      {
+        "path": "lisp.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cli/src/lisp.ts",
+        "exports": [
+          {
+            "name": "readInput",
+            "line": 12,
+            "type": "function"
+          },
+          {
+            "name": "parseFlag",
+            "line": 25,
+            "type": "function"
+          },
+          {
+            "name": "parseOption",
+            "line": 31,
+            "type": "function"
+          },
+          {
+            "name": "extractImportSpecs",
+            "line": 44,
+            "type": "function"
+          },
+          {
+            "name": "cmdCompile",
+            "line": 120,
+            "type": "function"
+          },
+          {
+            "name": "resolveImport",
+            "line": 140,
+            "type": "function"
+          },
+          {
+            "name": "cmdRun",
+            "line": 157,
+            "type": "function"
+          },
+          {
+            "name": "cmdJs2Lisp",
+            "line": 179,
+            "type": "function"
+          },
+          {
+            "name": "cmdTs2Lisp",
+            "line": 190,
+            "type": "function"
+          },
+          {
+            "name": "main",
+            "line": 203,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "readInput",
+            "line": 12,
+            "type": "function"
+          },
+          {
+            "name": "parseFlag",
+            "line": 25,
+            "type": "function"
+          },
+          {
+            "name": "parseOption",
+            "line": 31,
+            "type": "function"
+          },
+          {
+            "name": "extractImportSpecs",
+            "line": 44,
+            "type": "function"
+          },
+          {
+            "name": "cmdCompile",
+            "line": 120,
+            "type": "function"
+          },
+          {
+            "name": "resolveImport",
+            "line": 140,
+            "type": "function"
+          },
+          {
+            "name": "cmdRun",
+            "line": 157,
+            "type": "function"
+          },
+          {
+            "name": "cmdJs2Lisp",
+            "line": 179,
+            "type": "function"
+          },
+          {
+            "name": "cmdTs2Lisp",
+            "line": 190,
+            "type": "function"
+          },
+          {
+            "name": "main",
+            "line": 203,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 225
+      },
+      {
+        "path": "tests/lisp.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/cli/src/tests/lisp.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 137
+      }
+    ],
+    "mainEntry": null,
+    "exports": [
+      {
+        "name": "readInput",
+        "line": 12,
+        "type": "function",
+        "file": "lisp.ts"
+      },
+      {
+        "name": "parseFlag",
+        "line": 25,
+        "type": "function",
+        "file": "lisp.ts"
+      },
+      {
+        "name": "parseOption",
+        "line": 31,
+        "type": "function",
+        "file": "lisp.ts"
+      },
+      {
+        "name": "extractImportSpecs",
+        "line": 44,
+        "type": "function",
+        "file": "lisp.ts"
+      },
+      {
+        "name": "cmdCompile",
+        "line": 120,
+        "type": "function",
+        "file": "lisp.ts"
+      },
+      {
+        "name": "resolveImport",
+        "line": 140,
+        "type": "function",
+        "file": "lisp.ts"
+      },
+      {
+        "name": "cmdRun",
+        "line": 157,
+        "type": "function",
+        "file": "lisp.ts"
+      },
+      {
+        "name": "cmdJs2Lisp",
+        "line": 179,
+        "type": "function",
+        "file": "lisp.ts"
+      },
+      {
+        "name": "cmdTs2Lisp",
+        "line": 190,
+        "type": "function",
+        "file": "lisp.ts"
+      },
+      {
+        "name": "main",
+        "line": 203,
+        "type": "function",
+        "file": "lisp.ts"
+      }
+    ],
+    "classes": [],
+    "functions": [
+      {
+        "name": "readInput",
+        "line": 12,
+        "type": "function",
+        "file": "lisp.ts"
+      },
+      {
+        "name": "parseFlag",
+        "line": 25,
+        "type": "function",
+        "file": "lisp.ts"
+      },
+      {
+        "name": "parseOption",
+        "line": 31,
+        "type": "function",
+        "file": "lisp.ts"
+      },
+      {
+        "name": "extractImportSpecs",
+        "line": 44,
+        "type": "function",
+        "file": "lisp.ts"
+      },
+      {
+        "name": "cmdCompile",
+        "line": 120,
+        "type": "function",
+        "file": "lisp.ts"
+      },
+      {
+        "name": "resolveImport",
+        "line": 140,
+        "type": "function",
+        "file": "lisp.ts"
+      },
+      {
+        "name": "cmdRun",
+        "line": 157,
+        "type": "function",
+        "file": "lisp.ts"
+      },
+      {
+        "name": "cmdJs2Lisp",
+        "line": 179,
+        "type": "function",
+        "file": "lisp.ts"
+      },
+      {
+        "name": "cmdTs2Lisp",
+        "line": 190,
+        "type": "function",
+        "file": "lisp.ts"
+      },
+      {
+        "name": "main",
+        "line": 203,
+        "type": "function",
+        "file": "lisp.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "lisp.ts",
+          "link": "[src/lisp.ts](../../../packages/cli/src/lisp.ts)",
+          "lineCount": 225
+        },
+        {
+          "name": "tests/lisp.test.ts",
+          "link": "[src/tests/lisp.test.ts](../../../packages/cli/src/tests/lisp.test.ts)",
+          "lineCount": 137
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [],
+      "functions": [
+        {
+          "name": "readInput",
+          "link": "[readInput()](../../../packages/cli/src/lisp.ts#L12)",
+          "file": "lisp.ts",
+          "line": 12
+        },
+        {
+          "name": "parseFlag",
+          "link": "[parseFlag()](../../../packages/cli/src/lisp.ts#L25)",
+          "file": "lisp.ts",
+          "line": 25
+        },
+        {
+          "name": "parseOption",
+          "link": "[parseOption()](../../../packages/cli/src/lisp.ts#L31)",
+          "file": "lisp.ts",
+          "line": 31
+        },
+        {
+          "name": "extractImportSpecs",
+          "link": "[extractImportSpecs()](../../../packages/cli/src/lisp.ts#L44)",
+          "file": "lisp.ts",
+          "line": 44
+        },
+        {
+          "name": "cmdCompile",
+          "link": "[cmdCompile()](../../../packages/cli/src/lisp.ts#L120)",
+          "file": "lisp.ts",
+          "line": 120
+        },
+        {
+          "name": "resolveImport",
+          "link": "[resolveImport()](../../../packages/cli/src/lisp.ts#L140)",
+          "file": "lisp.ts",
+          "line": 140
+        },
+        {
+          "name": "cmdRun",
+          "link": "[cmdRun()](../../../packages/cli/src/lisp.ts#L157)",
+          "file": "lisp.ts",
+          "line": 157
+        },
+        {
+          "name": "cmdJs2Lisp",
+          "link": "[cmdJs2Lisp()](../../../packages/cli/src/lisp.ts#L179)",
+          "file": "lisp.ts",
+          "line": 179
+        },
+        {
+          "name": "cmdTs2Lisp",
+          "link": "[cmdTs2Lisp()](../../../packages/cli/src/lisp.ts#L190)",
+          "file": "lisp.ts",
+          "line": 190
+        },
+        {
+          "name": "main",
+          "link": "[main()](../../../packages/cli/src/lisp.ts#L203)",
+          "file": "lisp.ts",
+          "line": 203
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

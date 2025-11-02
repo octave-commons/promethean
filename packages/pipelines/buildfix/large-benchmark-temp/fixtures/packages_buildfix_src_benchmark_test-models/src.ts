@@ -1,4 +1,4 @@
-import { ollamaJSON } from '@promethean/utils';
+import { ollamaJSON } from '@promethean-os/utils';
 
 async function testModel(model: string) {
   console.log(`\n🧪 Testing model: ${model}`);

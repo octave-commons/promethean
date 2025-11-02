@@ -1,0 +1,233 @@
+{
+  "packageData": {
+    "packageName": "ws",
+    "files": [
+      {
+        "path": "client.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ws/src/client.ts",
+        "exports": [
+          {
+            "name": "EventClient",
+            "line": 5,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "EventClient",
+            "line": 5,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 96
+      },
+      {
+        "path": "server.rate.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ws/src/server.rate.ts",
+        "exports": [
+          {
+            "name": "makeConnLimiter",
+            "line": 3,
+            "type": "function"
+          },
+          {
+            "name": "makeTopicLimiter",
+            "line": 7,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "makeConnLimiter",
+            "line": 3,
+            "type": "function"
+          },
+          {
+            "name": "makeTopicLimiter",
+            "line": 7,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 10
+      },
+      {
+        "path": "server.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ws/src/server.ts",
+        "exports": [
+          {
+            "name": "MessageBus",
+            "line": 16,
+            "type": "interface"
+          },
+          {
+            "name": "startWSGateway",
+            "line": 51,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "startWSGateway",
+            "line": 51,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "MessageBus",
+            "line": 16,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 240
+      },
+      {
+        "path": "tests/server.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ws/src/tests/server.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 104
+      }
+    ],
+    "mainEntry": null,
+    "exports": [
+      {
+        "name": "EventClient",
+        "line": 5,
+        "type": "class",
+        "file": "client.ts"
+      },
+      {
+        "name": "makeConnLimiter",
+        "line": 3,
+        "type": "function",
+        "file": "server.rate.ts"
+      },
+      {
+        "name": "makeTopicLimiter",
+        "line": 7,
+        "type": "function",
+        "file": "server.rate.ts"
+      },
+      {
+        "name": "MessageBus",
+        "line": 16,
+        "type": "interface",
+        "file": "server.ts"
+      },
+      {
+        "name": "startWSGateway",
+        "line": 51,
+        "type": "function",
+        "file": "server.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "EventClient",
+        "line": 5,
+        "type": "class",
+        "file": "client.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "makeConnLimiter",
+        "line": 3,
+        "type": "function",
+        "file": "server.rate.ts"
+      },
+      {
+        "name": "makeTopicLimiter",
+        "line": 7,
+        "type": "function",
+        "file": "server.rate.ts"
+      },
+      {
+        "name": "startWSGateway",
+        "line": 51,
+        "type": "function",
+        "file": "server.ts"
+      }
+    ],
+    "interfaces": [
+      {
+        "name": "MessageBus",
+        "line": 16,
+        "type": "interface",
+        "file": "server.ts"
+      }
+    ]
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "client.ts",
+          "link": "[src/client.ts](../../../packages/ws/src/client.ts)",
+          "lineCount": 96
+        },
+        {
+          "name": "server.rate.ts",
+          "link": "[src/server.rate.ts](../../../packages/ws/src/server.rate.ts)",
+          "lineCount": 10
+        },
+        {
+          "name": "server.ts",
+          "link": "[src/server.ts](../../../packages/ws/src/server.ts)",
+          "lineCount": 240
+        },
+        {
+          "name": "tests/server.test.ts",
+          "link": "[src/tests/server.test.ts](../../../packages/ws/src/tests/server.test.ts)",
+          "lineCount": 104
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "EventClient",
+          "link": "[EventClient](../../../packages/ws/src/client.ts#L5)",
+          "file": "client.ts",
+          "line": 5
+        }
+      ],
+      "functions": [
+        {
+          "name": "makeConnLimiter",
+          "link": "[makeConnLimiter()](../../../packages/ws/src/server.rate.ts#L3)",
+          "file": "server.rate.ts",
+          "line": 3
+        },
+        {
+          "name": "makeTopicLimiter",
+          "link": "[makeTopicLimiter()](../../../packages/ws/src/server.rate.ts#L7)",
+          "file": "server.rate.ts",
+          "line": 7
+        },
+        {
+          "name": "startWSGateway",
+          "link": "[startWSGateway()](../../../packages/ws/src/server.ts#L51)",
+          "file": "server.ts",
+          "line": 51
+        }
+      ],
+      "interfaces": [
+        {
+          "name": "MessageBus",
+          "link": "[MessageBus](../../../packages/ws/src/server.ts#L16)",
+          "file": "server.ts",
+          "line": 16
+        }
+      ]
+    }
+  }
+}

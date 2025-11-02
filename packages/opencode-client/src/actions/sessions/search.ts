@@ -40,7 +40,10 @@ export async function search({
 
     const sessionEntries = storedSessions
       .filter(
-        (entry) => entry.id && entry.id.startsWith('session_') && !entry.id.includes(':messages'),
+        (entry) =>
+          entry.id &&
+          (entry.id.startsWith('session_') || entry.id.startsWith('session:')) &&
+          !entry.id.includes(':messages'),
       )
       .map((entry) => JSON.parse(entry.text));
 

@@ -238,7 +238,7 @@ packages/agents/pantheon/
 ### Package.json Structure
 ```json
 {
-  "name": "@promethean/pantheon",
+  "name": "@promethean-os/pantheon",
   "version": "1.0.0",
   "description": "Comprehensive agent framework with context, orchestration, transport, workflow, and UI components",
   "type": "module",
@@ -317,11 +317,11 @@ packages/agents/pantheon/
 
 ### Consolidated Dependencies
 - **Core**: zod, uuid, crypto for type validation and utilities
-- **Context**: @promethean/level-cache, jsonwebtoken, bcryptjs
+- **Context**: @promethean-os/level-cache, jsonwebtoken, bcryptjs
 - **Transport**: amqplib, ws, crypto
 - **Workflow**: @openai/agents, ollama, remark-parse, unified
 - **UI**: lit, chart.js, luxon, marked
-- **ECS**: @promethean/ds, chromadb, mongodb, ollama
+- **ECS**: @promethean-os/ds, chromadb, mongodb, ollama
 - **CLI**: cheshire, fs-extra, yaml (Clojure)
 
 ### Internal Dependencies

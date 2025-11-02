@@ -1,0 +1,1497 @@
+{
+  "packageData": {
+    "packageName": "compiler",
+    "files": [
+      {
+        "path": "ast.ts",
+        "fullPath": "/home/err/devel/promethean/packages/compiler/src/ast.ts",
+        "exports": [
+          {
+            "name": "name",
+            "line": 31,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "name",
+            "line": 31,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 34
+      },
+      {
+        "path": "common.ts",
+        "fullPath": "/home/err/devel/promethean/packages/compiler/src/common.ts",
+        "exports": [
+          {
+            "name": "Diag",
+            "line": 2,
+            "type": "class"
+          },
+          {
+            "name": "spanMerge",
+            "line": 10,
+            "type": "function"
+          },
+          {
+            "name": "assert",
+            "line": 13,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "Diag",
+            "line": 2,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "spanMerge",
+            "line": 10,
+            "type": "function"
+          },
+          {
+            "name": "assert",
+            "line": 13,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 17
+      },
+      {
+        "path": "compiler.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/compiler/src/compiler.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 10
+      },
+      {
+        "path": "driver.ts",
+        "fullPath": "/home/err/devel/promethean/packages/compiler/src/driver.ts",
+        "exports": [
+          {
+            "name": "compileAndRun",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "compileAndRun",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 16
+      },
+      {
+        "path": "ir.ts",
+        "fullPath": "/home/err/devel/promethean/packages/compiler/src/ir.ts",
+        "exports": [
+          {
+            "name": "gensym",
+            "line": 22,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "gensym",
+            "line": 22,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 25
+      },
+      {
+        "path": "jsgen.ts",
+        "fullPath": "/home/err/devel/promethean/packages/compiler/src/jsgen.ts",
+        "exports": [
+          {
+            "name": "emitJS",
+            "line": 9,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "emitJS",
+            "line": 9,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 65
+      },
+      {
+        "path": "lexer.ts",
+        "fullPath": "/home/err/devel/promethean/packages/compiler/src/lexer.ts",
+        "exports": [
+          {
+            "name": "lex",
+            "line": 9,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "lex",
+            "line": 9,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 129
+      },
+      {
+        "path": "lisp/driver.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/compiler/src/lisp/driver.test.ts",
+        "exports": [],
+        "classes": [
+          {
+            "name": "instantiation",
+            "line": 17,
+            "type": "class"
+          },
+          {
+            "name": "definition",
+            "line": 19,
+            "type": "class"
+          },
+          {
+            "name": "Point",
+            "line": 21,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 47
+      },
+      {
+        "path": "lisp/driver.ts",
+        "fullPath": "/home/err/devel/promethean/packages/compiler/src/lisp/driver.ts",
+        "exports": [
+          {
+            "name": "compileLispToJS",
+            "line": 8,
+            "type": "function"
+          },
+          {
+            "name": "runLisp",
+            "line": 23,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "compileLispToJS",
+            "line": 8,
+            "type": "function"
+          },
+          {
+            "name": "runLisp",
+            "line": 23,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 28
+      },
+      {
+        "path": "lisp/expand.ts",
+        "fullPath": "/home/err/devel/promethean/packages/compiler/src/lisp/expand.ts",
+        "exports": [
+          {
+            "name": "macroexpandAll",
+            "line": 4,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "macroexpandAll",
+            "line": 4,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 49
+      },
+      {
+        "path": "lisp/js-ast2lisp.ts",
+        "fullPath": "/home/err/devel/promethean/packages/compiler/src/lisp/js-ast2lisp.ts",
+        "exports": [
+          {
+            "name": "estreeProgramToLisp",
+            "line": 13,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "estreeProgramToLisp",
+            "line": 13,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 255
+      },
+      {
+        "path": "lisp/js2lisp.ts",
+        "fullPath": "/home/err/devel/promethean/packages/compiler/src/lisp/js2lisp.ts",
+        "exports": [
+          {
+            "name": "jsToLisp",
+            "line": 4,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "jsToLisp",
+            "line": 4,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 57
+      },
+      {
+        "path": "lisp/macros.ts",
+        "fullPath": "/home/err/devel/promethean/packages/compiler/src/lisp/macros.ts",
+        "exports": [
+          {
+            "name": "MacroEnv",
+            "line": 5,
+            "type": "class"
+          },
+          {
+            "name": "installCoreMacros",
+            "line": 19,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "MacroEnv",
+            "line": 5,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "installCoreMacros",
+            "line": 19,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 116
+      },
+      {
+        "path": "lisp/print.ts",
+        "fullPath": "/home/err/devel/promethean/packages/compiler/src/lisp/print.ts",
+        "exports": [
+          {
+            "name": "printS",
+            "line": 8,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "printS",
+            "line": 8,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 36
+      },
+      {
+        "path": "lisp/qq.ts",
+        "fullPath": "/home/err/devel/promethean/packages/compiler/src/lisp/qq.ts",
+        "exports": [
+          {
+            "name": "qq",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "qq",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 34
+      },
+      {
+        "path": "lisp/reader.ts",
+        "fullPath": "/home/err/devel/promethean/packages/compiler/src/lisp/reader.ts",
+        "exports": [
+          {
+            "name": "read",
+            "line": 10,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "read",
+            "line": 10,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 167
+      },
+      {
+        "path": "lisp/syntax.ts",
+        "fullPath": "/home/err/devel/promethean/packages/compiler/src/lisp/syntax.ts",
+        "exports": [
+          {
+            "name": "nil",
+            "line": 11,
+            "type": "function"
+          },
+          {
+            "name": "sym",
+            "line": 12,
+            "type": "function"
+          },
+          {
+            "name": "list",
+            "line": 17,
+            "type": "function"
+          },
+          {
+            "name": "num",
+            "line": 18,
+            "type": "function"
+          },
+          {
+            "name": "str",
+            "line": 19,
+            "type": "function"
+          },
+          {
+            "name": "bool",
+            "line": 20,
+            "type": "function"
+          },
+          {
+            "name": "gensym",
+            "line": 23,
+            "type": "function"
+          },
+          {
+            "name": "symName",
+            "line": 26,
+            "type": "function"
+          },
+          {
+            "name": "isSym",
+            "line": 29,
+            "type": "function"
+          },
+          {
+            "name": "isList",
+            "line": 30,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "nil",
+            "line": 11,
+            "type": "function"
+          },
+          {
+            "name": "sym",
+            "line": 12,
+            "type": "function"
+          },
+          {
+            "name": "list",
+            "line": 17,
+            "type": "function"
+          },
+          {
+            "name": "num",
+            "line": 18,
+            "type": "function"
+          },
+          {
+            "name": "str",
+            "line": 19,
+            "type": "function"
+          },
+          {
+            "name": "bool",
+            "line": 20,
+            "type": "function"
+          },
+          {
+            "name": "gensym",
+            "line": 23,
+            "type": "function"
+          },
+          {
+            "name": "symName",
+            "line": 26,
+            "type": "function"
+          },
+          {
+            "name": "isSym",
+            "line": 29,
+            "type": "function"
+          },
+          {
+            "name": "isList",
+            "line": 30,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 31
+      },
+      {
+        "path": "lisp/to-expr.ts",
+        "fullPath": "/home/err/devel/promethean/packages/compiler/src/lisp/to-expr.ts",
+        "exports": [
+          {
+            "name": "toExpr",
+            "line": 10,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "toExpr",
+            "line": 10,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 176
+      },
+      {
+        "path": "lisp/ts2lisp.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/compiler/src/lisp/ts2lisp.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 10
+      },
+      {
+        "path": "lisp/ts2lisp.ts",
+        "fullPath": "/home/err/devel/promethean/packages/compiler/src/lisp/ts2lisp.ts",
+        "exports": [
+          {
+            "name": "tsToLisp",
+            "line": 15,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "tsToLisp",
+            "line": 15,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 112
+      },
+      {
+        "path": "lower.ts",
+        "fullPath": "/home/err/devel/promethean/packages/compiler/src/lower.ts",
+        "exports": [
+          {
+            "name": "lower",
+            "line": 4,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "lower",
+            "line": 4,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 162
+      },
+      {
+        "path": "parser.ts",
+        "fullPath": "/home/err/devel/promethean/packages/compiler/src/parser.ts",
+        "exports": [
+          {
+            "name": "Parser",
+            "line": 12,
+            "type": "class"
+          },
+          {
+            "name": "parse",
+            "line": 214,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "Parser",
+            "line": 12,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "parse",
+            "line": 214,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 219
+      },
+      {
+        "path": "transform/transformer.ts",
+        "fullPath": "/home/err/devel/promethean/packages/compiler/src/transform/transformer.ts",
+        "exports": [
+          {
+            "name": "makeTransformer",
+            "line": 68,
+            "type": "function"
+          },
+          {
+            "name": "applyTransformer",
+            "line": 124,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "makeTransformer",
+            "line": 68,
+            "type": "function"
+          },
+          {
+            "name": "applyTransformer",
+            "line": 124,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 127
+      },
+      {
+        "path": "vm.ts",
+        "fullPath": "/home/err/devel/promethean/packages/compiler/src/vm.ts",
+        "exports": [
+          {
+            "name": "compileToBytecode",
+            "line": 14,
+            "type": "function"
+          },
+          {
+            "name": "runBytecode",
+            "line": 69,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "compileToBytecode",
+            "line": 14,
+            "type": "function"
+          },
+          {
+            "name": "runBytecode",
+            "line": 69,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 126
+      }
+    ],
+    "mainEntry": null,
+    "exports": [
+      {
+        "name": "name",
+        "line": 31,
+        "type": "function",
+        "file": "ast.ts"
+      },
+      {
+        "name": "Diag",
+        "line": 2,
+        "type": "class",
+        "file": "common.ts"
+      },
+      {
+        "name": "spanMerge",
+        "line": 10,
+        "type": "function",
+        "file": "common.ts"
+      },
+      {
+        "name": "assert",
+        "line": 13,
+        "type": "function",
+        "file": "common.ts"
+      },
+      {
+        "name": "compileAndRun",
+        "line": 5,
+        "type": "function",
+        "file": "driver.ts"
+      },
+      {
+        "name": "gensym",
+        "line": 22,
+        "type": "function",
+        "file": "ir.ts"
+      },
+      {
+        "name": "emitJS",
+        "line": 9,
+        "type": "function",
+        "file": "jsgen.ts"
+      },
+      {
+        "name": "lex",
+        "line": 9,
+        "type": "function",
+        "file": "lexer.ts"
+      },
+      {
+        "name": "compileLispToJS",
+        "line": 8,
+        "type": "function",
+        "file": "lisp/driver.ts"
+      },
+      {
+        "name": "runLisp",
+        "line": 23,
+        "type": "function",
+        "file": "lisp/driver.ts"
+      },
+      {
+        "name": "macroexpandAll",
+        "line": 4,
+        "type": "function",
+        "file": "lisp/expand.ts"
+      },
+      {
+        "name": "estreeProgramToLisp",
+        "line": 13,
+        "type": "function",
+        "file": "lisp/js-ast2lisp.ts"
+      },
+      {
+        "name": "jsToLisp",
+        "line": 4,
+        "type": "function",
+        "file": "lisp/js2lisp.ts"
+      },
+      {
+        "name": "MacroEnv",
+        "line": 5,
+        "type": "class",
+        "file": "lisp/macros.ts"
+      },
+      {
+        "name": "installCoreMacros",
+        "line": 19,
+        "type": "function",
+        "file": "lisp/macros.ts"
+      },
+      {
+        "name": "printS",
+        "line": 8,
+        "type": "function",
+        "file": "lisp/print.ts"
+      },
+      {
+        "name": "qq",
+        "line": 3,
+        "type": "function",
+        "file": "lisp/qq.ts"
+      },
+      {
+        "name": "read",
+        "line": 10,
+        "type": "function",
+        "file": "lisp/reader.ts"
+      },
+      {
+        "name": "nil",
+        "line": 11,
+        "type": "function",
+        "file": "lisp/syntax.ts"
+      },
+      {
+        "name": "sym",
+        "line": 12,
+        "type": "function",
+        "file": "lisp/syntax.ts"
+      },
+      {
+        "name": "list",
+        "line": 17,
+        "type": "function",
+        "file": "lisp/syntax.ts"
+      },
+      {
+        "name": "num",
+        "line": 18,
+        "type": "function",
+        "file": "lisp/syntax.ts"
+      },
+      {
+        "name": "str",
+        "line": 19,
+        "type": "function",
+        "file": "lisp/syntax.ts"
+      },
+      {
+        "name": "bool",
+        "line": 20,
+        "type": "function",
+        "file": "lisp/syntax.ts"
+      },
+      {
+        "name": "gensym",
+        "line": 23,
+        "type": "function",
+        "file": "lisp/syntax.ts"
+      },
+      {
+        "name": "symName",
+        "line": 26,
+        "type": "function",
+        "file": "lisp/syntax.ts"
+      },
+      {
+        "name": "isSym",
+        "line": 29,
+        "type": "function",
+        "file": "lisp/syntax.ts"
+      },
+      {
+        "name": "isList",
+        "line": 30,
+        "type": "function",
+        "file": "lisp/syntax.ts"
+      },
+      {
+        "name": "toExpr",
+        "line": 10,
+        "type": "function",
+        "file": "lisp/to-expr.ts"
+      },
+      {
+        "name": "tsToLisp",
+        "line": 15,
+        "type": "function",
+        "file": "lisp/ts2lisp.ts"
+      },
+      {
+        "name": "lower",
+        "line": 4,
+        "type": "function",
+        "file": "lower.ts"
+      },
+      {
+        "name": "Parser",
+        "line": 12,
+        "type": "class",
+        "file": "parser.ts"
+      },
+      {
+        "name": "parse",
+        "line": 214,
+        "type": "function",
+        "file": "parser.ts"
+      },
+      {
+        "name": "makeTransformer",
+        "line": 68,
+        "type": "function",
+        "file": "transform/transformer.ts"
+      },
+      {
+        "name": "applyTransformer",
+        "line": 124,
+        "type": "function",
+        "file": "transform/transformer.ts"
+      },
+      {
+        "name": "compileToBytecode",
+        "line": 14,
+        "type": "function",
+        "file": "vm.ts"
+      },
+      {
+        "name": "runBytecode",
+        "line": 69,
+        "type": "function",
+        "file": "vm.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "Diag",
+        "line": 2,
+        "type": "class",
+        "file": "common.ts"
+      },
+      {
+        "name": "instantiation",
+        "line": 17,
+        "type": "class",
+        "file": "lisp/driver.test.ts"
+      },
+      {
+        "name": "definition",
+        "line": 19,
+        "type": "class",
+        "file": "lisp/driver.test.ts"
+      },
+      {
+        "name": "Point",
+        "line": 21,
+        "type": "class",
+        "file": "lisp/driver.test.ts"
+      },
+      {
+        "name": "MacroEnv",
+        "line": 5,
+        "type": "class",
+        "file": "lisp/macros.ts"
+      },
+      {
+        "name": "Parser",
+        "line": 12,
+        "type": "class",
+        "file": "parser.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "name",
+        "line": 31,
+        "type": "function",
+        "file": "ast.ts"
+      },
+      {
+        "name": "spanMerge",
+        "line": 10,
+        "type": "function",
+        "file": "common.ts"
+      },
+      {
+        "name": "assert",
+        "line": 13,
+        "type": "function",
+        "file": "common.ts"
+      },
+      {
+        "name": "compileAndRun",
+        "line": 5,
+        "type": "function",
+        "file": "driver.ts"
+      },
+      {
+        "name": "gensym",
+        "line": 22,
+        "type": "function",
+        "file": "ir.ts"
+      },
+      {
+        "name": "emitJS",
+        "line": 9,
+        "type": "function",
+        "file": "jsgen.ts"
+      },
+      {
+        "name": "lex",
+        "line": 9,
+        "type": "function",
+        "file": "lexer.ts"
+      },
+      {
+        "name": "compileLispToJS",
+        "line": 8,
+        "type": "function",
+        "file": "lisp/driver.ts"
+      },
+      {
+        "name": "runLisp",
+        "line": 23,
+        "type": "function",
+        "file": "lisp/driver.ts"
+      },
+      {
+        "name": "macroexpandAll",
+        "line": 4,
+        "type": "function",
+        "file": "lisp/expand.ts"
+      },
+      {
+        "name": "estreeProgramToLisp",
+        "line": 13,
+        "type": "function",
+        "file": "lisp/js-ast2lisp.ts"
+      },
+      {
+        "name": "jsToLisp",
+        "line": 4,
+        "type": "function",
+        "file": "lisp/js2lisp.ts"
+      },
+      {
+        "name": "installCoreMacros",
+        "line": 19,
+        "type": "function",
+        "file": "lisp/macros.ts"
+      },
+      {
+        "name": "printS",
+        "line": 8,
+        "type": "function",
+        "file": "lisp/print.ts"
+      },
+      {
+        "name": "qq",
+        "line": 3,
+        "type": "function",
+        "file": "lisp/qq.ts"
+      },
+      {
+        "name": "read",
+        "line": 10,
+        "type": "function",
+        "file": "lisp/reader.ts"
+      },
+      {
+        "name": "nil",
+        "line": 11,
+        "type": "function",
+        "file": "lisp/syntax.ts"
+      },
+      {
+        "name": "sym",
+        "line": 12,
+        "type": "function",
+        "file": "lisp/syntax.ts"
+      },
+      {
+        "name": "list",
+        "line": 17,
+        "type": "function",
+        "file": "lisp/syntax.ts"
+      },
+      {
+        "name": "num",
+        "line": 18,
+        "type": "function",
+        "file": "lisp/syntax.ts"
+      },
+      {
+        "name": "str",
+        "line": 19,
+        "type": "function",
+        "file": "lisp/syntax.ts"
+      },
+      {
+        "name": "bool",
+        "line": 20,
+        "type": "function",
+        "file": "lisp/syntax.ts"
+      },
+      {
+        "name": "gensym",
+        "line": 23,
+        "type": "function",
+        "file": "lisp/syntax.ts"
+      },
+      {
+        "name": "symName",
+        "line": 26,
+        "type": "function",
+        "file": "lisp/syntax.ts"
+      },
+      {
+        "name": "isSym",
+        "line": 29,
+        "type": "function",
+        "file": "lisp/syntax.ts"
+      },
+      {
+        "name": "isList",
+        "line": 30,
+        "type": "function",
+        "file": "lisp/syntax.ts"
+      },
+      {
+        "name": "toExpr",
+        "line": 10,
+        "type": "function",
+        "file": "lisp/to-expr.ts"
+      },
+      {
+        "name": "tsToLisp",
+        "line": 15,
+        "type": "function",
+        "file": "lisp/ts2lisp.ts"
+      },
+      {
+        "name": "lower",
+        "line": 4,
+        "type": "function",
+        "file": "lower.ts"
+      },
+      {
+        "name": "parse",
+        "line": 214,
+        "type": "function",
+        "file": "parser.ts"
+      },
+      {
+        "name": "makeTransformer",
+        "line": 68,
+        "type": "function",
+        "file": "transform/transformer.ts"
+      },
+      {
+        "name": "applyTransformer",
+        "line": 124,
+        "type": "function",
+        "file": "transform/transformer.ts"
+      },
+      {
+        "name": "compileToBytecode",
+        "line": 14,
+        "type": "function",
+        "file": "vm.ts"
+      },
+      {
+        "name": "runBytecode",
+        "line": 69,
+        "type": "function",
+        "file": "vm.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "ast.ts",
+          "link": "[src/ast.ts](../../../packages/compiler/src/ast.ts)",
+          "lineCount": 34
+        },
+        {
+          "name": "common.ts",
+          "link": "[src/common.ts](../../../packages/compiler/src/common.ts)",
+          "lineCount": 17
+        },
+        {
+          "name": "compiler.test.ts",
+          "link": "[src/compiler.test.ts](../../../packages/compiler/src/compiler.test.ts)",
+          "lineCount": 10
+        },
+        {
+          "name": "driver.ts",
+          "link": "[src/driver.ts](../../../packages/compiler/src/driver.ts)",
+          "lineCount": 16
+        },
+        {
+          "name": "ir.ts",
+          "link": "[src/ir.ts](../../../packages/compiler/src/ir.ts)",
+          "lineCount": 25
+        },
+        {
+          "name": "jsgen.ts",
+          "link": "[src/jsgen.ts](../../../packages/compiler/src/jsgen.ts)",
+          "lineCount": 65
+        },
+        {
+          "name": "lexer.ts",
+          "link": "[src/lexer.ts](../../../packages/compiler/src/lexer.ts)",
+          "lineCount": 129
+        },
+        {
+          "name": "lisp/driver.test.ts",
+          "link": "[src/lisp/driver.test.ts](../../../packages/compiler/src/lisp/driver.test.ts)",
+          "lineCount": 47
+        },
+        {
+          "name": "lisp/driver.ts",
+          "link": "[src/lisp/driver.ts](../../../packages/compiler/src/lisp/driver.ts)",
+          "lineCount": 28
+        },
+        {
+          "name": "lisp/expand.ts",
+          "link": "[src/lisp/expand.ts](../../../packages/compiler/src/lisp/expand.ts)",
+          "lineCount": 49
+        },
+        {
+          "name": "lisp/js-ast2lisp.ts",
+          "link": "[src/lisp/js-ast2lisp.ts](../../../packages/compiler/src/lisp/js-ast2lisp.ts)",
+          "lineCount": 255
+        },
+        {
+          "name": "lisp/js2lisp.ts",
+          "link": "[src/lisp/js2lisp.ts](../../../packages/compiler/src/lisp/js2lisp.ts)",
+          "lineCount": 57
+        },
+        {
+          "name": "lisp/macros.ts",
+          "link": "[src/lisp/macros.ts](../../../packages/compiler/src/lisp/macros.ts)",
+          "lineCount": 116
+        },
+        {
+          "name": "lisp/print.ts",
+          "link": "[src/lisp/print.ts](../../../packages/compiler/src/lisp/print.ts)",
+          "lineCount": 36
+        },
+        {
+          "name": "lisp/qq.ts",
+          "link": "[src/lisp/qq.ts](../../../packages/compiler/src/lisp/qq.ts)",
+          "lineCount": 34
+        },
+        {
+          "name": "lisp/reader.ts",
+          "link": "[src/lisp/reader.ts](../../../packages/compiler/src/lisp/reader.ts)",
+          "lineCount": 167
+        },
+        {
+          "name": "lisp/syntax.ts",
+          "link": "[src/lisp/syntax.ts](../../../packages/compiler/src/lisp/syntax.ts)",
+          "lineCount": 31
+        },
+        {
+          "name": "lisp/to-expr.ts",
+          "link": "[src/lisp/to-expr.ts](../../../packages/compiler/src/lisp/to-expr.ts)",
+          "lineCount": 176
+        },
+        {
+          "name": "lisp/ts2lisp.test.ts",
+          "link": "[src/lisp/ts2lisp.test.ts](../../../packages/compiler/src/lisp/ts2lisp.test.ts)",
+          "lineCount": 10
+        },
+        {
+          "name": "lisp/ts2lisp.ts",
+          "link": "[src/lisp/ts2lisp.ts](../../../packages/compiler/src/lisp/ts2lisp.ts)",
+          "lineCount": 112
+        },
+        {
+          "name": "lower.ts",
+          "link": "[src/lower.ts](../../../packages/compiler/src/lower.ts)",
+          "lineCount": 162
+        },
+        {
+          "name": "parser.ts",
+          "link": "[src/parser.ts](../../../packages/compiler/src/parser.ts)",
+          "lineCount": 219
+        },
+        {
+          "name": "transform/transformer.ts",
+          "link": "[src/transform/transformer.ts](../../../packages/compiler/src/transform/transformer.ts)",
+          "lineCount": 127
+        },
+        {
+          "name": "vm.ts",
+          "link": "[src/vm.ts](../../../packages/compiler/src/vm.ts)",
+          "lineCount": 126
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "Diag",
+          "link": "[Diag](../../../packages/compiler/src/common.ts#L2)",
+          "file": "common.ts",
+          "line": 2
+        },
+        {
+          "name": "instantiation",
+          "link": "[instantiation](../../../packages/compiler/src/lisp/driver.test.ts#L17)",
+          "file": "lisp/driver.test.ts",
+          "line": 17
+        },
+        {
+          "name": "definition",
+          "link": "[definition](../../../packages/compiler/src/lisp/driver.test.ts#L19)",
+          "file": "lisp/driver.test.ts",
+          "line": 19
+        },
+        {
+          "name": "Point",
+          "link": "[Point](../../../packages/compiler/src/lisp/driver.test.ts#L21)",
+          "file": "lisp/driver.test.ts",
+          "line": 21
+        },
+        {
+          "name": "MacroEnv",
+          "link": "[MacroEnv](../../../packages/compiler/src/lisp/macros.ts#L5)",
+          "file": "lisp/macros.ts",
+          "line": 5
+        },
+        {
+          "name": "Parser",
+          "link": "[Parser](../../../packages/compiler/src/parser.ts#L12)",
+          "file": "parser.ts",
+          "line": 12
+        }
+      ],
+      "functions": [
+        {
+          "name": "name",
+          "link": "[name()](../../../packages/compiler/src/ast.ts#L31)",
+          "file": "ast.ts",
+          "line": 31
+        },
+        {
+          "name": "spanMerge",
+          "link": "[spanMerge()](../../../packages/compiler/src/common.ts#L10)",
+          "file": "common.ts",
+          "line": 10
+        },
+        {
+          "name": "assert",
+          "link": "[assert()](../../../packages/compiler/src/common.ts#L13)",
+          "file": "common.ts",
+          "line": 13
+        },
+        {
+          "name": "compileAndRun",
+          "link": "[compileAndRun()](../../../packages/compiler/src/driver.ts#L5)",
+          "file": "driver.ts",
+          "line": 5
+        },
+        {
+          "name": "gensym",
+          "link": "[gensym()](../../../packages/compiler/src/ir.ts#L22)",
+          "file": "ir.ts",
+          "line": 22
+        },
+        {
+          "name": "emitJS",
+          "link": "[emitJS()](../../../packages/compiler/src/jsgen.ts#L9)",
+          "file": "jsgen.ts",
+          "line": 9
+        },
+        {
+          "name": "lex",
+          "link": "[lex()](../../../packages/compiler/src/lexer.ts#L9)",
+          "file": "lexer.ts",
+          "line": 9
+        },
+        {
+          "name": "compileLispToJS",
+          "link": "[compileLispToJS()](../../../packages/compiler/src/lisp/driver.ts#L8)",
+          "file": "lisp/driver.ts",
+          "line": 8
+        },
+        {
+          "name": "runLisp",
+          "link": "[runLisp()](../../../packages/compiler/src/lisp/driver.ts#L23)",
+          "file": "lisp/driver.ts",
+          "line": 23
+        },
+        {
+          "name": "macroexpandAll",
+          "link": "[macroexpandAll()](../../../packages/compiler/src/lisp/expand.ts#L4)",
+          "file": "lisp/expand.ts",
+          "line": 4
+        },
+        {
+          "name": "estreeProgramToLisp",
+          "link": "[estreeProgramToLisp()](../../../packages/compiler/src/lisp/js-ast2lisp.ts#L13)",
+          "file": "lisp/js-ast2lisp.ts",
+          "line": 13
+        },
+        {
+          "name": "jsToLisp",
+          "link": "[jsToLisp()](../../../packages/compiler/src/lisp/js2lisp.ts#L4)",
+          "file": "lisp/js2lisp.ts",
+          "line": 4
+        },
+        {
+          "name": "installCoreMacros",
+          "link": "[installCoreMacros()](../../../packages/compiler/src/lisp/macros.ts#L19)",
+          "file": "lisp/macros.ts",
+          "line": 19
+        },
+        {
+          "name": "printS",
+          "link": "[printS()](../../../packages/compiler/src/lisp/print.ts#L8)",
+          "file": "lisp/print.ts",
+          "line": 8
+        },
+        {
+          "name": "qq",
+          "link": "[qq()](../../../packages/compiler/src/lisp/qq.ts#L3)",
+          "file": "lisp/qq.ts",
+          "line": 3
+        },
+        {
+          "name": "read",
+          "link": "[read()](../../../packages/compiler/src/lisp/reader.ts#L10)",
+          "file": "lisp/reader.ts",
+          "line": 10
+        },
+        {
+          "name": "nil",
+          "link": "[nil()](../../../packages/compiler/src/lisp/syntax.ts#L11)",
+          "file": "lisp/syntax.ts",
+          "line": 11
+        },
+        {
+          "name": "sym",
+          "link": "[sym()](../../../packages/compiler/src/lisp/syntax.ts#L12)",
+          "file": "lisp/syntax.ts",
+          "line": 12
+        },
+        {
+          "name": "list",
+          "link": "[list()](../../../packages/compiler/src/lisp/syntax.ts#L17)",
+          "file": "lisp/syntax.ts",
+          "line": 17
+        },
+        {
+          "name": "num",
+          "link": "[num()](../../../packages/compiler/src/lisp/syntax.ts#L18)",
+          "file": "lisp/syntax.ts",
+          "line": 18
+        },
+        {
+          "name": "str",
+          "link": "[str()](../../../packages/compiler/src/lisp/syntax.ts#L19)",
+          "file": "lisp/syntax.ts",
+          "line": 19
+        },
+        {
+          "name": "bool",
+          "link": "[bool()](../../../packages/compiler/src/lisp/syntax.ts#L20)",
+          "file": "lisp/syntax.ts",
+          "line": 20
+        },
+        {
+          "name": "gensym",
+          "link": "[gensym()](../../../packages/compiler/src/lisp/syntax.ts#L23)",
+          "file": "lisp/syntax.ts",
+          "line": 23
+        },
+        {
+          "name": "symName",
+          "link": "[symName()](../../../packages/compiler/src/lisp/syntax.ts#L26)",
+          "file": "lisp/syntax.ts",
+          "line": 26
+        },
+        {
+          "name": "isSym",
+          "link": "[isSym()](../../../packages/compiler/src/lisp/syntax.ts#L29)",
+          "file": "lisp/syntax.ts",
+          "line": 29
+        },
+        {
+          "name": "isList",
+          "link": "[isList()](../../../packages/compiler/src/lisp/syntax.ts#L30)",
+          "file": "lisp/syntax.ts",
+          "line": 30
+        },
+        {
+          "name": "toExpr",
+          "link": "[toExpr()](../../../packages/compiler/src/lisp/to-expr.ts#L10)",
+          "file": "lisp/to-expr.ts",
+          "line": 10
+        },
+        {
+          "name": "tsToLisp",
+          "link": "[tsToLisp()](../../../packages/compiler/src/lisp/ts2lisp.ts#L15)",
+          "file": "lisp/ts2lisp.ts",
+          "line": 15
+        },
+        {
+          "name": "lower",
+          "link": "[lower()](../../../packages/compiler/src/lower.ts#L4)",
+          "file": "lower.ts",
+          "line": 4
+        },
+        {
+          "name": "parse",
+          "link": "[parse()](../../../packages/compiler/src/parser.ts#L214)",
+          "file": "parser.ts",
+          "line": 214
+        },
+        {
+          "name": "makeTransformer",
+          "link": "[makeTransformer()](../../../packages/compiler/src/transform/transformer.ts#L68)",
+          "file": "transform/transformer.ts",
+          "line": 68
+        },
+        {
+          "name": "applyTransformer",
+          "link": "[applyTransformer()](../../../packages/compiler/src/transform/transformer.ts#L124)",
+          "file": "transform/transformer.ts",
+          "line": 124
+        },
+        {
+          "name": "compileToBytecode",
+          "link": "[compileToBytecode()](../../../packages/compiler/src/vm.ts#L14)",
+          "file": "vm.ts",
+          "line": 14
+        },
+        {
+          "name": "runBytecode",
+          "link": "[runBytecode()](../../../packages/compiler/src/vm.ts#L69)",
+          "file": "vm.ts",
+          "line": 69
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

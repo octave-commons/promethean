@@ -104,7 +104,7 @@ No changes required - the existing API continues to work:
 
 ```typescript
 // This still works exactly as before
-import { AgentTaskManager } from '@promethean/opencode-client';
+import { AgentTaskManager } from '@promethean-os/opencode-client';
 
 AgentTaskManager.initializeStores(sessionStore, agentTaskStore);
 const task = await AgentTaskManager.createTask('session-123', 'My task');
@@ -115,7 +115,7 @@ const task = await AgentTaskManager.createTask('session-123', 'My task');
 Use the action functions directly for better testability:
 
 ```typescript
-import { taskActions } from '@promethean/opencode-client/actions/tasks';
+import { taskActions } from '@promethean-os/opencode-client/actions/tasks';
 
 const context: TaskContext = {
   sessionStore,
@@ -214,7 +214,7 @@ interface MessagingContext {
 The new architecture makes testing much simpler:
 
 ```typescript
-import { taskActions } from '@promethean/opencode-client/actions/tasks';
+import { taskActions } from '@promethean-os/opencode-client/actions/tasks';
 
 describe('Task Actions', () => {
   it('should create a task', async () => {

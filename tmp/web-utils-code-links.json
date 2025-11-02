@@ -1,0 +1,647 @@
+{
+  "packageData": {
+    "packageName": "web-utils",
+    "files": [
+      {
+        "path": "core.ts",
+        "fullPath": "/home/err/devel/promethean/packages/web-utils/src/core.ts",
+        "exports": [
+          {
+            "name": "createHealthCheck",
+            "line": 34,
+            "type": "function"
+          },
+          {
+            "name": "registerHealthRoute",
+            "line": 44,
+            "type": "function"
+          },
+          {
+            "name": "registerDiagnosticsRoute",
+            "line": 55,
+            "type": "function"
+          },
+          {
+            "name": "createValidationHandler",
+            "line": 71,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createHealthCheck",
+            "line": 34,
+            "type": "function"
+          },
+          {
+            "name": "registerHealthRoute",
+            "line": 44,
+            "type": "function"
+          },
+          {
+            "name": "registerDiagnosticsRoute",
+            "line": 55,
+            "type": "function"
+          },
+          {
+            "name": "createValidationHandler",
+            "line": 71,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 78
+      },
+      {
+        "path": "crawler.ts",
+        "fullPath": "/home/err/devel/promethean/packages/web-utils/src/crawler.ts",
+        "exports": [
+          {
+            "name": "crawlPage",
+            "line": 60,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "crawlPage",
+            "line": 60,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 102
+      },
+      {
+        "path": "image-links.ts",
+        "fullPath": "/home/err/devel/promethean/packages/web-utils/src/image-links.ts",
+        "exports": [
+          {
+            "name": "findBrokenImageLinks",
+            "line": 85,
+            "type": "function"
+          },
+          {
+            "name": "defaultImageGenerator",
+            "line": 201,
+            "type": "function"
+          },
+          {
+            "name": "fixBrokenImageLinks",
+            "line": 212,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "findBrokenImageLinks",
+            "line": 85,
+            "type": "function"
+          },
+          {
+            "name": "defaultImageGenerator",
+            "line": 201,
+            "type": "function"
+          },
+          {
+            "name": "fixBrokenImageLinks",
+            "line": 212,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 245
+      },
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/web-utils/src/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 5
+      },
+      {
+        "path": "interfaces.ts",
+        "fullPath": "/home/err/devel/promethean/packages/web-utils/src/interfaces.ts",
+        "exports": [
+          {
+            "name": "ApiResponse",
+            "line": 5,
+            "type": "interface"
+          },
+          {
+            "name": "FetchOptions",
+            "line": 13,
+            "type": "interface"
+          },
+          {
+            "name": "ParsedUrl",
+            "line": 27,
+            "type": "interface"
+          },
+          {
+            "name": "LinkExtractor",
+            "line": 37,
+            "type": "interface"
+          },
+          {
+            "name": "CrawlMetrics",
+            "line": 45,
+            "type": "interface"
+          }
+        ],
+        "classes": [],
+        "functions": [],
+        "interfaces": [
+          {
+            "name": "ApiResponse",
+            "line": 5,
+            "type": "interface"
+          },
+          {
+            "name": "FetchOptions",
+            "line": 13,
+            "type": "interface"
+          },
+          {
+            "name": "ParsedUrl",
+            "line": 27,
+            "type": "interface"
+          },
+          {
+            "name": "LinkExtractor",
+            "line": 37,
+            "type": "interface"
+          },
+          {
+            "name": "CrawlMetrics",
+            "line": 45,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 53
+      },
+      {
+        "path": "tests/core.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/web-utils/src/tests/core.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 30
+      },
+      {
+        "path": "tests/crawler.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/web-utils/src/tests/crawler.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 28
+      },
+      {
+        "path": "tests/image-links.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/web-utils/src/tests/image-links.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 41
+      },
+      {
+        "path": "url.ts",
+        "fullPath": "/home/err/devel/promethean/packages/web-utils/src/url.ts",
+        "exports": [
+          {
+            "name": "canonicalUrl",
+            "line": 25,
+            "type": "function"
+          },
+          {
+            "name": "urlHash",
+            "line": 62,
+            "type": "function"
+          },
+          {
+            "name": "isUrlAllowed",
+            "line": 66,
+            "type": "function"
+          },
+          {
+            "name": "DEFAULT_DENY_PATTERNS",
+            "line": 79,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "canonicalUrl",
+            "line": 25,
+            "type": "function"
+          },
+          {
+            "name": "urlHash",
+            "line": 62,
+            "type": "function"
+          },
+          {
+            "name": "isUrlAllowed",
+            "line": 66,
+            "type": "function"
+          },
+          {
+            "name": "DEFAULT_DENY_PATTERNS",
+            "line": 79,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 86
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [],
+      "classes": [],
+      "functions": [],
+      "interfaces": [],
+      "totalLines": 5
+    },
+    "exports": [
+      {
+        "name": "createHealthCheck",
+        "line": 34,
+        "type": "function",
+        "file": "core.ts"
+      },
+      {
+        "name": "registerHealthRoute",
+        "line": 44,
+        "type": "function",
+        "file": "core.ts"
+      },
+      {
+        "name": "registerDiagnosticsRoute",
+        "line": 55,
+        "type": "function",
+        "file": "core.ts"
+      },
+      {
+        "name": "createValidationHandler",
+        "line": 71,
+        "type": "function",
+        "file": "core.ts"
+      },
+      {
+        "name": "crawlPage",
+        "line": 60,
+        "type": "function",
+        "file": "crawler.ts"
+      },
+      {
+        "name": "findBrokenImageLinks",
+        "line": 85,
+        "type": "function",
+        "file": "image-links.ts"
+      },
+      {
+        "name": "defaultImageGenerator",
+        "line": 201,
+        "type": "function",
+        "file": "image-links.ts"
+      },
+      {
+        "name": "fixBrokenImageLinks",
+        "line": 212,
+        "type": "function",
+        "file": "image-links.ts"
+      },
+      {
+        "name": "ApiResponse",
+        "line": 5,
+        "type": "interface",
+        "file": "interfaces.ts"
+      },
+      {
+        "name": "FetchOptions",
+        "line": 13,
+        "type": "interface",
+        "file": "interfaces.ts"
+      },
+      {
+        "name": "ParsedUrl",
+        "line": 27,
+        "type": "interface",
+        "file": "interfaces.ts"
+      },
+      {
+        "name": "LinkExtractor",
+        "line": 37,
+        "type": "interface",
+        "file": "interfaces.ts"
+      },
+      {
+        "name": "CrawlMetrics",
+        "line": 45,
+        "type": "interface",
+        "file": "interfaces.ts"
+      },
+      {
+        "name": "canonicalUrl",
+        "line": 25,
+        "type": "function",
+        "file": "url.ts"
+      },
+      {
+        "name": "urlHash",
+        "line": 62,
+        "type": "function",
+        "file": "url.ts"
+      },
+      {
+        "name": "isUrlAllowed",
+        "line": 66,
+        "type": "function",
+        "file": "url.ts"
+      },
+      {
+        "name": "DEFAULT_DENY_PATTERNS",
+        "line": 79,
+        "type": "function",
+        "file": "url.ts"
+      }
+    ],
+    "classes": [],
+    "functions": [
+      {
+        "name": "createHealthCheck",
+        "line": 34,
+        "type": "function",
+        "file": "core.ts"
+      },
+      {
+        "name": "registerHealthRoute",
+        "line": 44,
+        "type": "function",
+        "file": "core.ts"
+      },
+      {
+        "name": "registerDiagnosticsRoute",
+        "line": 55,
+        "type": "function",
+        "file": "core.ts"
+      },
+      {
+        "name": "createValidationHandler",
+        "line": 71,
+        "type": "function",
+        "file": "core.ts"
+      },
+      {
+        "name": "crawlPage",
+        "line": 60,
+        "type": "function",
+        "file": "crawler.ts"
+      },
+      {
+        "name": "findBrokenImageLinks",
+        "line": 85,
+        "type": "function",
+        "file": "image-links.ts"
+      },
+      {
+        "name": "defaultImageGenerator",
+        "line": 201,
+        "type": "function",
+        "file": "image-links.ts"
+      },
+      {
+        "name": "fixBrokenImageLinks",
+        "line": 212,
+        "type": "function",
+        "file": "image-links.ts"
+      },
+      {
+        "name": "canonicalUrl",
+        "line": 25,
+        "type": "function",
+        "file": "url.ts"
+      },
+      {
+        "name": "urlHash",
+        "line": 62,
+        "type": "function",
+        "file": "url.ts"
+      },
+      {
+        "name": "isUrlAllowed",
+        "line": 66,
+        "type": "function",
+        "file": "url.ts"
+      },
+      {
+        "name": "DEFAULT_DENY_PATTERNS",
+        "line": 79,
+        "type": "function",
+        "file": "url.ts"
+      }
+    ],
+    "interfaces": [
+      {
+        "name": "ApiResponse",
+        "line": 5,
+        "type": "interface",
+        "file": "interfaces.ts"
+      },
+      {
+        "name": "FetchOptions",
+        "line": 13,
+        "type": "interface",
+        "file": "interfaces.ts"
+      },
+      {
+        "name": "ParsedUrl",
+        "line": 27,
+        "type": "interface",
+        "file": "interfaces.ts"
+      },
+      {
+        "name": "LinkExtractor",
+        "line": 37,
+        "type": "interface",
+        "file": "interfaces.ts"
+      },
+      {
+        "name": "CrawlMetrics",
+        "line": 45,
+        "type": "interface",
+        "file": "interfaces.ts"
+      }
+    ]
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "core.ts",
+          "link": "[src/core.ts](../../../packages/web-utils/src/core.ts)",
+          "lineCount": 78
+        },
+        {
+          "name": "crawler.ts",
+          "link": "[src/crawler.ts](../../../packages/web-utils/src/crawler.ts)",
+          "lineCount": 102
+        },
+        {
+          "name": "image-links.ts",
+          "link": "[src/image-links.ts](../../../packages/web-utils/src/image-links.ts)",
+          "lineCount": 245
+        },
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/web-utils/src/index.ts)",
+          "lineCount": 5
+        },
+        {
+          "name": "interfaces.ts",
+          "link": "[src/interfaces.ts](../../../packages/web-utils/src/interfaces.ts)",
+          "lineCount": 53
+        },
+        {
+          "name": "tests/core.test.ts",
+          "link": "[src/tests/core.test.ts](../../../packages/web-utils/src/tests/core.test.ts)",
+          "lineCount": 30
+        },
+        {
+          "name": "tests/crawler.test.ts",
+          "link": "[src/tests/crawler.test.ts](../../../packages/web-utils/src/tests/crawler.test.ts)",
+          "lineCount": 28
+        },
+        {
+          "name": "tests/image-links.test.ts",
+          "link": "[src/tests/image-links.test.ts](../../../packages/web-utils/src/tests/image-links.test.ts)",
+          "lineCount": 41
+        },
+        {
+          "name": "url.ts",
+          "link": "[src/url.ts](../../../packages/web-utils/src/url.ts)",
+          "lineCount": 86
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [],
+      "functions": [
+        {
+          "name": "createHealthCheck",
+          "link": "[createHealthCheck()](../../../packages/web-utils/src/core.ts#L34)",
+          "file": "core.ts",
+          "line": 34
+        },
+        {
+          "name": "registerHealthRoute",
+          "link": "[registerHealthRoute()](../../../packages/web-utils/src/core.ts#L44)",
+          "file": "core.ts",
+          "line": 44
+        },
+        {
+          "name": "registerDiagnosticsRoute",
+          "link": "[registerDiagnosticsRoute()](../../../packages/web-utils/src/core.ts#L55)",
+          "file": "core.ts",
+          "line": 55
+        },
+        {
+          "name": "createValidationHandler",
+          "link": "[createValidationHandler()](../../../packages/web-utils/src/core.ts#L71)",
+          "file": "core.ts",
+          "line": 71
+        },
+        {
+          "name": "crawlPage",
+          "link": "[crawlPage()](../../../packages/web-utils/src/crawler.ts#L60)",
+          "file": "crawler.ts",
+          "line": 60
+        },
+        {
+          "name": "findBrokenImageLinks",
+          "link": "[findBrokenImageLinks()](../../../packages/web-utils/src/image-links.ts#L85)",
+          "file": "image-links.ts",
+          "line": 85
+        },
+        {
+          "name": "defaultImageGenerator",
+          "link": "[defaultImageGenerator()](../../../packages/web-utils/src/image-links.ts#L201)",
+          "file": "image-links.ts",
+          "line": 201
+        },
+        {
+          "name": "fixBrokenImageLinks",
+          "link": "[fixBrokenImageLinks()](../../../packages/web-utils/src/image-links.ts#L212)",
+          "file": "image-links.ts",
+          "line": 212
+        },
+        {
+          "name": "canonicalUrl",
+          "link": "[canonicalUrl()](../../../packages/web-utils/src/url.ts#L25)",
+          "file": "url.ts",
+          "line": 25
+        },
+        {
+          "name": "urlHash",
+          "link": "[urlHash()](../../../packages/web-utils/src/url.ts#L62)",
+          "file": "url.ts",
+          "line": 62
+        },
+        {
+          "name": "isUrlAllowed",
+          "link": "[isUrlAllowed()](../../../packages/web-utils/src/url.ts#L66)",
+          "file": "url.ts",
+          "line": 66
+        },
+        {
+          "name": "DEFAULT_DENY_PATTERNS",
+          "link": "[DEFAULT_DENY_PATTERNS()](../../../packages/web-utils/src/url.ts#L79)",
+          "file": "url.ts",
+          "line": 79
+        }
+      ],
+      "interfaces": [
+        {
+          "name": "ApiResponse",
+          "link": "[ApiResponse](../../../packages/web-utils/src/interfaces.ts#L5)",
+          "file": "interfaces.ts",
+          "line": 5
+        },
+        {
+          "name": "FetchOptions",
+          "link": "[FetchOptions](../../../packages/web-utils/src/interfaces.ts#L13)",
+          "file": "interfaces.ts",
+          "line": 13
+        },
+        {
+          "name": "ParsedUrl",
+          "link": "[ParsedUrl](../../../packages/web-utils/src/interfaces.ts#L27)",
+          "file": "interfaces.ts",
+          "line": 27
+        },
+        {
+          "name": "LinkExtractor",
+          "link": "[LinkExtractor](../../../packages/web-utils/src/interfaces.ts#L37)",
+          "file": "interfaces.ts",
+          "line": 37
+        },
+        {
+          "name": "CrawlMetrics",
+          "link": "[CrawlMetrics](../../../packages/web-utils/src/interfaces.ts#L45)",
+          "file": "interfaces.ts",
+          "line": 45
+        }
+      ]
+    }
+  }
+}

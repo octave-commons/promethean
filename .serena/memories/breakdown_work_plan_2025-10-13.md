@@ -30,7 +30,7 @@
 18. **ae67a6bb** - Kanban Healing Epic - Coordination & Integration
 
 #### P1 Tasks (Lower Priority)
-19. **b0ed3163** - Migrate Kanban Package to @promethean/lmdb-cache
+19. **b0ed3163** - Migrate Kanban Package to @promethean-os/lmdb-cache
 20. **864b2172** - Fix eslint-tasks pipeline missing dependency
 
 ### Breakdown Requirements

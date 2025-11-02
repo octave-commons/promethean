@@ -138,7 +138,7 @@ pnpm kanban enforce-wip-limits --column=in_progress --basis=count
 ## Dependencies
 
 ### Internal Dependencies
-- `@promethean/kanban` Board type and related interfaces
+- `@promethean-os/kanban` Board type and related interfaces
 - Event log manager for audit trail
 - Transition rules engine for workflow compliance
 - Configuration system for default settings

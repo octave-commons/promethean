@@ -1,10 +1,10 @@
-# @promethean/opencode-client
+# @promethean-os/opencode-client
 
 A comprehensive CLI client and unified agent management system for the Promethean Framework, providing seamless integration with OpenCode plugins, tools, and services through a powerful command-line interface and programmatic API.
 
 ## 🎯 Overview
 
-The `@promethean/opencode-client` package serves as the primary interface for interacting with the Promethean cognitive architecture, offering:
+The `@promethean-os/opencode-client` package serves as the primary interface for interacting with the Promethean cognitive architecture, offering:
 
 - **Unified Agent Management**: High-level abstractions for complete agent lifecycle management
 - **CLI Interface**: Comprehensive command-line tools for all Promethean operations
@@ -19,7 +19,7 @@ The `@promethean/opencode-client` package serves as the primary interface for in
 
 ```bash
 # Install from npm (when published)
-npm install -g @promethean/opencode-client
+npm install -g @promethean-os/opencode-client
 
 # Or build from source within the Promethean monorepo
 cd promethean/packages/opencode-client
@@ -61,7 +61,7 @@ import {
   unifiedAgentManager, 
   createAgentSession,
   sendMessageToAgent 
-} from '@promethean/opencode-client';
+} from '@promethean-os/opencode-client';
 
 // Create a new agent session with task
 const session = await createAgentSession(
@@ -89,7 +89,7 @@ console.log(`Session status: ${session.status}`);
 ### Core Components
 
 ```
-@promethean/opencode-client/
+@promethean-os/opencode-client/
 ├── UnifiedAgentManager     # High-level agent lifecycle management
 ├── AgentTaskManager        # Task creation and tracking
 ├── MessageProcessor       # Inter-agent communication
@@ -105,15 +105,15 @@ console.log(`Session status: ${session.status}`);
 2. **Task Management**: `AgentTaskManager` handles task lifecycle and status tracking
 3. **Message Processing**: `MessageProcessor` routes messages between agents
 4. **Event Handling**: `EventProcessor` manages system-wide events
-5. **Storage**: Dual-store persistence for sessions and tasks via `@promethean/persistence`
+5. **Storage**: Dual-store persistence for sessions and tasks via `@promethean-os/persistence`
 
 ### Integration with Promethean Ecosystem
 
 The opencode-client integrates seamlessly with other Promethean packages:
 
-- **`@promethean/persistence`**: Dual-store management for session and task persistence
-- **`@promethean/ollama-queue`**: Advanced LLM job queue with intelligent caching
-- **`@promethean/kanban`**: Task management and workflow integration
+- **`@promethean-os/persistence`**: Dual-store management for session and task persistence
+- **`@promethean-os/ollama-queue`**: Advanced LLM job queue with intelligent caching
+- **`@promethean-os/kanban`**: Task management and workflow integration
 - **MCP Server**: Model Context Protocol integration for enhanced tool access
 
 ## 📋 Features
@@ -122,7 +122,7 @@ The opencode-client integrates seamlessly with other Promethean packages:
 
 **High-Level Session Management**
 ```typescript
-import { unifiedAgentManager } from '@promethean/opencode-client';
+import { unifiedAgentManager } from '@promethean-os/opencode-client';
 
 // Create session with automatic task assignment
 const session = await unifiedAgentManager.createAgentSession(
@@ -179,7 +179,7 @@ opencode-client ollama cache clear-expired
 
 **Programmatic Job Control**
 ```typescript
-import { submitJob, getJobStatus, getJobResult } from '@promethean/opencode-client';
+import { submitJob, getJobStatus, getJobResult } from '@promethean-os/opencode-client';
 
 // Submit a job with advanced options
 const jobResult = await submitJob.execute({
@@ -227,7 +227,7 @@ opencode-client sessions list --status completed --limit 50
 
 **Programmatic Session Control**
 ```typescript
-import { SessionUtils } from '@promethean/opencode-client';
+import { SessionUtils } from '@promethean-os/opencode-client';
 
 // Create session with advanced options
 const session = await SessionUtils.createSession({
@@ -514,7 +514,7 @@ opencode-client sessions close <session-id>
 ### Programmatic Example: Multi-Agent Collaboration
 
 ```typescript
-import { unifiedAgentManager } from '@promethean/opencode-client';
+import { unifiedAgentManager } from '@promethean-os/opencode-client';
 
 // Create multiple specialized sessions
 const securitySession = await unifiedAgentManager.createAgentSession(
@@ -662,10 +662,10 @@ GPL-3.0-only - see LICENSE file for details.
 
 ## 🔗 Related Packages
 
-- **`@promethean/persistence`**: Dual-store persistence layer
-- **`@promethean/ollama-queue`**: Advanced LLM queue management
-- **`@promethean/kanban`**: Task management and workflow
-- **`@promethean/mcp`**: Model Context Protocol integration
+- **`@promethean-os/persistence`**: Dual-store persistence layer
+- **`@promethean-os/ollama-queue`**: Advanced LLM queue management
+- **`@promethean-os/kanban`**: Task management and workflow
+- **`@promethean-os/mcp`**: Model Context Protocol integration
 
 ## 📞 Support
 

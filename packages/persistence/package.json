@@ -1,10 +1,12 @@
 {
-    "name": "@promethean/persistence",
+    "name": "@promethean-os/persistence",
     "version": "0.0.1",
-    "private": true,
     "type": "module",
     "main": "dist/index.cjs",
     "types": "dist/index.d.ts",
+    "publishConfig": {
+        "access": "public"
+    },
     "exports": {
         ".": {
             "types": "./dist/index.d.ts",
@@ -19,21 +21,19 @@
     ],
     "scripts": {
         "build": "tsc",
-        "build:tests": "tsc -p tsconfig.test.json",
-        "clean": "rimraf dist",
+        "clean": "rimraf dist tsconfig.tsbuildinfo",
         "typecheck": "tsc -p tsconfig.json --noEmit",
-        "test": "pnpm run build:tests && ava --config ../../config/ava.config.mjs",
+        "test": "pnpm run clean && pnpm run build && ava --serial --config ../../config/ava.config.mjs",
         "lint": "pnpm exec eslint .",
         "lisp": "node dist/cli/lisp.js",
-        "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",
-        "test:markdown": "pnpm run build && ava --config ../../config/ava.config.mjs dist/tests/markdown.*.test.js",
+        "coverage": "pnpm run clean && pnpm run build && c8 ava --config ../../config/ava.config.mjs",
         "format": "pnpm exec prettier --write ."
     },
     "module": "dist/index.js",
     "dependencies": {
-        "@promethean/embedding": "workspace:*",
-        "@promethean/legacy": "workspace:*",
-        "@promethean/logger": "workspace:*",
+        "@promethean-os/embedding": "workspace:*",
+        "@promethean-os/legacy": "workspace:*",
+        "@promethean-os/logger": "workspace:*",
         "@types/javascript-time-ago": "^2.5.0",
         "@types/unist": "^3.0.3",
         "body-parser": "^1.20.2",
@@ -64,5 +64,9 @@
         "@types/estree": "^1.0.5",
         "@types/express": "^4.17.21",
         "@types/ws": "^8.5.9"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/riatzukiza/persistence.git"
     }
 }

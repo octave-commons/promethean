@@ -1,0 +1,2228 @@
+{
+  "packageData": {
+    "packageName": "ds",
+    "files": [
+      {
+        "path": "bst.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ds/src/bst.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 40
+      },
+      {
+        "path": "bst.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ds/src/bst.ts",
+        "exports": [
+          {
+            "name": "defaultCmp",
+            "line": 6,
+            "type": "function"
+          },
+          {
+            "name": "AVLTree",
+            "line": 82,
+            "type": "class"
+          },
+          {
+            "name": "BST",
+            "line": 389,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "with",
+            "line": 26,
+            "type": "class"
+          },
+          {
+            "name": "MutableContainer",
+            "line": 27,
+            "type": "class"
+          },
+          {
+            "name": "Node",
+            "line": 69,
+            "type": "class"
+          },
+          {
+            "name": "AVLTree",
+            "line": 82,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "defaultCmp",
+            "line": 6,
+            "type": "function"
+          },
+          {
+            "name": "BST",
+            "line": 389,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 390
+      },
+      {
+        "path": "command-buffer-functional.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ds/src/command-buffer-functional.ts",
+        "exports": [
+          {
+            "name": "CommandBufferState",
+            "line": 11,
+            "type": "interface"
+          },
+          {
+            "name": "createCommandBufferState",
+            "line": 17,
+            "type": "function"
+          },
+          {
+            "name": "createEntityCommand",
+            "line": 23,
+            "type": "function"
+          },
+          {
+            "name": "destroyEntityCommand",
+            "line": 42,
+            "type": "function"
+          },
+          {
+            "name": "addComponentCommand",
+            "line": 48,
+            "type": "function"
+          },
+          {
+            "name": "removeComponentCommand",
+            "line": 59,
+            "type": "function"
+          },
+          {
+            "name": "setComponentCommand",
+            "line": 69,
+            "type": "function"
+          },
+          {
+            "name": "flushCommands",
+            "line": 80,
+            "type": "function"
+          },
+          {
+            "name": "createEntityImmediate",
+            "line": 89,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "createCommandBufferState",
+            "line": 17,
+            "type": "function"
+          },
+          {
+            "name": "createEntityCommand",
+            "line": 23,
+            "type": "function"
+          },
+          {
+            "name": "destroyEntityCommand",
+            "line": 42,
+            "type": "function"
+          },
+          {
+            "name": "addComponentCommand",
+            "line": 48,
+            "type": "function"
+          },
+          {
+            "name": "removeComponentCommand",
+            "line": 59,
+            "type": "function"
+          },
+          {
+            "name": "setComponentCommand",
+            "line": 69,
+            "type": "function"
+          },
+          {
+            "name": "flushCommands",
+            "line": 80,
+            "type": "function"
+          },
+          {
+            "name": "createEntityImmediate",
+            "line": 89,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "CommandBufferState",
+            "line": 11,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 97
+      },
+      {
+        "path": "ecs.doublebuffer.behavior.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ds/src/ecs.doublebuffer.behavior.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 92
+      },
+      {
+        "path": "ecs.prefab.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ds/src/ecs.prefab.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 28
+      },
+      {
+        "path": "ecs.prefab.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ds/src/ecs.prefab.ts",
+        "exports": [
+          {
+            "name": "makeBlueprint",
+            "line": 14,
+            "type": "function"
+          },
+          {
+            "name": "spawn",
+            "line": 18,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "makeBlueprint",
+            "line": 14,
+            "type": "function"
+          },
+          {
+            "name": "spawn",
+            "line": 18,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 33
+      },
+      {
+        "path": "ecs.scheduler.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ds/src/ecs.scheduler.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 69
+      },
+      {
+        "path": "ecs.scheduler.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ds/src/ecs.scheduler.ts",
+        "exports": [
+          {
+            "name": "DEFAULT_STAGE_ORDER",
+            "line": 8,
+            "type": "function"
+          },
+          {
+            "name": "ResourceBag",
+            "line": 57,
+            "type": "class"
+          },
+          {
+            "name": "Scheduler",
+            "line": 77,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "ResourceBag",
+            "line": 57,
+            "type": "class"
+          },
+          {
+            "name": "Scheduler",
+            "line": 77,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "DEFAULT_STAGE_ORDER",
+            "line": 8,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 307
+      },
+      {
+        "path": "ecs.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ds/src/ecs.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 24
+      },
+      {
+        "path": "ecs.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ds/src/ecs.ts",
+        "exports": [
+          {
+            "name": "World",
+            "line": 93,
+            "type": "class"
+          },
+          {
+            "name": "CommandBuffer",
+            "line": 483,
+            "type": "class"
+          },
+          {
+            "name": "WorldWrapper",
+            "line": 568,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "Archetype",
+            "line": 36,
+            "type": "class"
+          },
+          {
+            "name": "World",
+            "line": 93,
+            "type": "class"
+          },
+          {
+            "name": "is",
+            "line": 481,
+            "type": "class"
+          },
+          {
+            "name": "CommandBuffer",
+            "line": 483,
+            "type": "class"
+          },
+          {
+            "name": "is",
+            "line": 566,
+            "type": "class"
+          },
+          {
+            "name": "WorldWrapper",
+            "line": 568,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 754
+      },
+      {
+        "path": "fsm-test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ds/src/fsm-test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 112
+      },
+      {
+        "path": "fsm.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ds/src/fsm.ts",
+        "exports": [
+          {
+            "name": "FSMGraph",
+            "line": 59,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "FSMGraph",
+            "line": 59,
+            "type": "class"
+          }
+        ],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 647
+      },
+      {
+        "path": "graph.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ds/src/graph.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 26
+      },
+      {
+        "path": "graph.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ds/src/graph.ts",
+        "exports": [
+          {
+            "name": "StateNodeData",
+            "line": 12,
+            "type": "interface"
+          },
+          {
+            "name": "TransitionEventData",
+            "line": 20,
+            "type": "interface"
+          },
+          {
+            "name": "Graph",
+            "line": 41,
+            "type": "class"
+          },
+          {
+            "name": "createFSMGraph",
+            "line": 343,
+            "type": "function"
+          },
+          {
+            "name": "validateFSMStructure",
+            "line": 352,
+            "type": "function"
+          },
+          {
+            "name": "graphToMermaid",
+            "line": 394,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "Graph",
+            "line": 41,
+            "type": "class"
+          },
+          {
+            "name": "MinHeap",
+            "line": 426,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "createFSMGraph",
+            "line": 343,
+            "type": "function"
+          },
+          {
+            "name": "validateFSMStructure",
+            "line": 352,
+            "type": "function"
+          },
+          {
+            "name": "graphToMermaid",
+            "line": 394,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "StateNodeData",
+            "line": 12,
+            "type": "interface"
+          },
+          {
+            "name": "TransitionEventData",
+            "line": 20,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 474
+      },
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ds/src/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 41
+      },
+      {
+        "path": "system.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ds/src/system.ts",
+        "exports": [
+          {
+            "name": "makeStrictSystem",
+            "line": 91,
+            "type": "function"
+          },
+          {
+            "name": "assertDisjointOwnership",
+            "line": 129,
+            "type": "function"
+          },
+          {
+            "name": "defineNumericComponent",
+            "line": 156,
+            "type": "function"
+          },
+          {
+            "name": "Pool",
+            "line": 165,
+            "type": "class"
+          },
+          {
+            "name": "EntityRef",
+            "line": 177,
+            "type": "class"
+          },
+          {
+            "name": "makeScheduler",
+            "line": 204,
+            "type": "function"
+          },
+          {
+            "name": "Spawnable",
+            "line": 212,
+            "type": "function"
+          },
+          {
+            "name": "Component",
+            "line": 214,
+            "type": "function"
+          },
+          {
+            "name": "System",
+            "line": 218,
+            "type": "function"
+          },
+          {
+            "name": "EntityGroup",
+            "line": 222,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "Pool",
+            "line": 165,
+            "type": "class"
+          },
+          {
+            "name": "EntityRef",
+            "line": 177,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "makeStrictSystem",
+            "line": 91,
+            "type": "function"
+          },
+          {
+            "name": "assertDisjointOwnership",
+            "line": 129,
+            "type": "function"
+          },
+          {
+            "name": "defineNumericComponent",
+            "line": 156,
+            "type": "function"
+          },
+          {
+            "name": "makeScheduler",
+            "line": 204,
+            "type": "function"
+          },
+          {
+            "name": "Spawnable",
+            "line": 212,
+            "type": "function"
+          },
+          {
+            "name": "Component",
+            "line": 214,
+            "type": "function"
+          },
+          {
+            "name": "System",
+            "line": 218,
+            "type": "function"
+          },
+          {
+            "name": "EntityGroup",
+            "line": 222,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 234
+      },
+      {
+        "path": "world-functional.ts",
+        "fullPath": "/home/err/devel/promethean/packages/ds/src/world-functional.ts",
+        "exports": [
+          {
+            "name": "createWorld",
+            "line": 11,
+            "type": "function"
+          },
+          {
+            "name": "defineComponentFunctional",
+            "line": 17,
+            "type": "function"
+          },
+          {
+            "name": "createEntityFunctional",
+            "line": 22,
+            "type": "function"
+          },
+          {
+            "name": "destroyEntityFunctional",
+            "line": 27,
+            "type": "function"
+          },
+          {
+            "name": "isAliveFunctional",
+            "line": 32,
+            "type": "function"
+          },
+          {
+            "name": "addComponentFunctional",
+            "line": 37,
+            "type": "function"
+          },
+          {
+            "name": "removeComponentFunctional",
+            "line": 47,
+            "type": "function"
+          },
+          {
+            "name": "getComponentFunctional",
+            "line": 52,
+            "type": "function"
+          },
+          {
+            "name": "setComponentFunctional",
+            "line": 61,
+            "type": "function"
+          },
+          {
+            "name": "setIfChangedFunctional",
+            "line": 71,
+            "type": "function"
+          },
+          {
+            "name": "hasComponentFunctional",
+            "line": 81,
+            "type": "function"
+          },
+          {
+            "name": "makeQueryFunctional",
+            "line": 86,
+            "type": "function"
+          },
+          {
+            "name": "iterateQueryFunctional",
+            "line": 99,
+            "type": "function"
+          },
+          {
+            "name": "beginTickFunctional",
+            "line": 110,
+            "type": "function"
+          },
+          {
+            "name": "endTickFunctional",
+            "line": 115,
+            "type": "function"
+          },
+          {
+            "name": "withEntity",
+            "line": 121,
+            "type": "function"
+          },
+          {
+            "name": "withComponent",
+            "line": 128,
+            "type": "function"
+          },
+          {
+            "name": "createEntityWithComponents",
+            "line": 141,
+            "type": "function"
+          },
+          {
+            "name": "findEntitiesByQuery",
+            "line": 152,
+            "type": "function"
+          },
+          {
+            "name": "findFirstEntityByQuery",
+            "line": 160,
+            "type": "function"
+          },
+          {
+            "name": "countEntitiesByQuery",
+            "line": 167,
+            "type": "function"
+          },
+          {
+            "name": "destroyEntitiesByQuery",
+            "line": 176,
+            "type": "function"
+          },
+          {
+            "name": "addComponentToEntitiesByQuery",
+            "line": 192,
+            "type": "function"
+          },
+          {
+            "name": "removeComponentFromEntitiesByQuery",
+            "line": 213,
+            "type": "function"
+          },
+          {
+            "name": "getEntityComponents",
+            "line": 234,
+            "type": "function"
+          },
+          {
+            "name": "duplicateEntity",
+            "line": 258,
+            "type": "function"
+          },
+          {
+            "name": "validateEntity",
+            "line": 273,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "dynamically",
+            "line": 12,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "createWorld",
+            "line": 11,
+            "type": "function"
+          },
+          {
+            "name": "defineComponentFunctional",
+            "line": 17,
+            "type": "function"
+          },
+          {
+            "name": "createEntityFunctional",
+            "line": 22,
+            "type": "function"
+          },
+          {
+            "name": "destroyEntityFunctional",
+            "line": 27,
+            "type": "function"
+          },
+          {
+            "name": "isAliveFunctional",
+            "line": 32,
+            "type": "function"
+          },
+          {
+            "name": "addComponentFunctional",
+            "line": 37,
+            "type": "function"
+          },
+          {
+            "name": "removeComponentFunctional",
+            "line": 47,
+            "type": "function"
+          },
+          {
+            "name": "getComponentFunctional",
+            "line": 52,
+            "type": "function"
+          },
+          {
+            "name": "setComponentFunctional",
+            "line": 61,
+            "type": "function"
+          },
+          {
+            "name": "setIfChangedFunctional",
+            "line": 71,
+            "type": "function"
+          },
+          {
+            "name": "hasComponentFunctional",
+            "line": 81,
+            "type": "function"
+          },
+          {
+            "name": "makeQueryFunctional",
+            "line": 86,
+            "type": "function"
+          },
+          {
+            "name": "iterateQueryFunctional",
+            "line": 99,
+            "type": "function"
+          },
+          {
+            "name": "beginTickFunctional",
+            "line": 110,
+            "type": "function"
+          },
+          {
+            "name": "endTickFunctional",
+            "line": 115,
+            "type": "function"
+          },
+          {
+            "name": "withEntity",
+            "line": 121,
+            "type": "function"
+          },
+          {
+            "name": "withComponent",
+            "line": 128,
+            "type": "function"
+          },
+          {
+            "name": "createEntityWithComponents",
+            "line": 141,
+            "type": "function"
+          },
+          {
+            "name": "findEntitiesByQuery",
+            "line": 152,
+            "type": "function"
+          },
+          {
+            "name": "findFirstEntityByQuery",
+            "line": 160,
+            "type": "function"
+          },
+          {
+            "name": "countEntitiesByQuery",
+            "line": 167,
+            "type": "function"
+          },
+          {
+            "name": "destroyEntitiesByQuery",
+            "line": 176,
+            "type": "function"
+          },
+          {
+            "name": "addComponentToEntitiesByQuery",
+            "line": 192,
+            "type": "function"
+          },
+          {
+            "name": "removeComponentFromEntitiesByQuery",
+            "line": 213,
+            "type": "function"
+          },
+          {
+            "name": "getEntityComponents",
+            "line": 234,
+            "type": "function"
+          },
+          {
+            "name": "duplicateEntity",
+            "line": 258,
+            "type": "function"
+          },
+          {
+            "name": "validateEntity",
+            "line": 273,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 289
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [],
+      "classes": [],
+      "functions": [],
+      "interfaces": [],
+      "totalLines": 41
+    },
+    "exports": [
+      {
+        "name": "defaultCmp",
+        "line": 6,
+        "type": "function",
+        "file": "bst.ts"
+      },
+      {
+        "name": "AVLTree",
+        "line": 82,
+        "type": "class",
+        "file": "bst.ts"
+      },
+      {
+        "name": "BST",
+        "line": 389,
+        "type": "function",
+        "file": "bst.ts"
+      },
+      {
+        "name": "CommandBufferState",
+        "line": 11,
+        "type": "interface",
+        "file": "command-buffer-functional.ts"
+      },
+      {
+        "name": "createCommandBufferState",
+        "line": 17,
+        "type": "function",
+        "file": "command-buffer-functional.ts"
+      },
+      {
+        "name": "createEntityCommand",
+        "line": 23,
+        "type": "function",
+        "file": "command-buffer-functional.ts"
+      },
+      {
+        "name": "destroyEntityCommand",
+        "line": 42,
+        "type": "function",
+        "file": "command-buffer-functional.ts"
+      },
+      {
+        "name": "addComponentCommand",
+        "line": 48,
+        "type": "function",
+        "file": "command-buffer-functional.ts"
+      },
+      {
+        "name": "removeComponentCommand",
+        "line": 59,
+        "type": "function",
+        "file": "command-buffer-functional.ts"
+      },
+      {
+        "name": "setComponentCommand",
+        "line": 69,
+        "type": "function",
+        "file": "command-buffer-functional.ts"
+      },
+      {
+        "name": "flushCommands",
+        "line": 80,
+        "type": "function",
+        "file": "command-buffer-functional.ts"
+      },
+      {
+        "name": "createEntityImmediate",
+        "line": 89,
+        "type": "function",
+        "file": "command-buffer-functional.ts"
+      },
+      {
+        "name": "makeBlueprint",
+        "line": 14,
+        "type": "function",
+        "file": "ecs.prefab.ts"
+      },
+      {
+        "name": "spawn",
+        "line": 18,
+        "type": "function",
+        "file": "ecs.prefab.ts"
+      },
+      {
+        "name": "DEFAULT_STAGE_ORDER",
+        "line": 8,
+        "type": "function",
+        "file": "ecs.scheduler.ts"
+      },
+      {
+        "name": "ResourceBag",
+        "line": 57,
+        "type": "class",
+        "file": "ecs.scheduler.ts"
+      },
+      {
+        "name": "Scheduler",
+        "line": 77,
+        "type": "class",
+        "file": "ecs.scheduler.ts"
+      },
+      {
+        "name": "World",
+        "line": 93,
+        "type": "class",
+        "file": "ecs.ts"
+      },
+      {
+        "name": "CommandBuffer",
+        "line": 483,
+        "type": "class",
+        "file": "ecs.ts"
+      },
+      {
+        "name": "WorldWrapper",
+        "line": 568,
+        "type": "class",
+        "file": "ecs.ts"
+      },
+      {
+        "name": "FSMGraph",
+        "line": 59,
+        "type": "class",
+        "file": "fsm.ts"
+      },
+      {
+        "name": "StateNodeData",
+        "line": 12,
+        "type": "interface",
+        "file": "graph.ts"
+      },
+      {
+        "name": "TransitionEventData",
+        "line": 20,
+        "type": "interface",
+        "file": "graph.ts"
+      },
+      {
+        "name": "Graph",
+        "line": 41,
+        "type": "class",
+        "file": "graph.ts"
+      },
+      {
+        "name": "createFSMGraph",
+        "line": 343,
+        "type": "function",
+        "file": "graph.ts"
+      },
+      {
+        "name": "validateFSMStructure",
+        "line": 352,
+        "type": "function",
+        "file": "graph.ts"
+      },
+      {
+        "name": "graphToMermaid",
+        "line": 394,
+        "type": "function",
+        "file": "graph.ts"
+      },
+      {
+        "name": "makeStrictSystem",
+        "line": 91,
+        "type": "function",
+        "file": "system.ts"
+      },
+      {
+        "name": "assertDisjointOwnership",
+        "line": 129,
+        "type": "function",
+        "file": "system.ts"
+      },
+      {
+        "name": "defineNumericComponent",
+        "line": 156,
+        "type": "function",
+        "file": "system.ts"
+      },
+      {
+        "name": "Pool",
+        "line": 165,
+        "type": "class",
+        "file": "system.ts"
+      },
+      {
+        "name": "EntityRef",
+        "line": 177,
+        "type": "class",
+        "file": "system.ts"
+      },
+      {
+        "name": "makeScheduler",
+        "line": 204,
+        "type": "function",
+        "file": "system.ts"
+      },
+      {
+        "name": "Spawnable",
+        "line": 212,
+        "type": "function",
+        "file": "system.ts"
+      },
+      {
+        "name": "Component",
+        "line": 214,
+        "type": "function",
+        "file": "system.ts"
+      },
+      {
+        "name": "System",
+        "line": 218,
+        "type": "function",
+        "file": "system.ts"
+      },
+      {
+        "name": "EntityGroup",
+        "line": 222,
+        "type": "function",
+        "file": "system.ts"
+      },
+      {
+        "name": "createWorld",
+        "line": 11,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "defineComponentFunctional",
+        "line": 17,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "createEntityFunctional",
+        "line": 22,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "destroyEntityFunctional",
+        "line": 27,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "isAliveFunctional",
+        "line": 32,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "addComponentFunctional",
+        "line": 37,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "removeComponentFunctional",
+        "line": 47,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "getComponentFunctional",
+        "line": 52,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "setComponentFunctional",
+        "line": 61,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "setIfChangedFunctional",
+        "line": 71,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "hasComponentFunctional",
+        "line": 81,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "makeQueryFunctional",
+        "line": 86,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "iterateQueryFunctional",
+        "line": 99,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "beginTickFunctional",
+        "line": 110,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "endTickFunctional",
+        "line": 115,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "withEntity",
+        "line": 121,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "withComponent",
+        "line": 128,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "createEntityWithComponents",
+        "line": 141,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "findEntitiesByQuery",
+        "line": 152,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "findFirstEntityByQuery",
+        "line": 160,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "countEntitiesByQuery",
+        "line": 167,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "destroyEntitiesByQuery",
+        "line": 176,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "addComponentToEntitiesByQuery",
+        "line": 192,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "removeComponentFromEntitiesByQuery",
+        "line": 213,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "getEntityComponents",
+        "line": 234,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "duplicateEntity",
+        "line": 258,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "validateEntity",
+        "line": 273,
+        "type": "function",
+        "file": "world-functional.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "with",
+        "line": 26,
+        "type": "class",
+        "file": "bst.ts"
+      },
+      {
+        "name": "MutableContainer",
+        "line": 27,
+        "type": "class",
+        "file": "bst.ts"
+      },
+      {
+        "name": "Node",
+        "line": 69,
+        "type": "class",
+        "file": "bst.ts"
+      },
+      {
+        "name": "AVLTree",
+        "line": 82,
+        "type": "class",
+        "file": "bst.ts"
+      },
+      {
+        "name": "ResourceBag",
+        "line": 57,
+        "type": "class",
+        "file": "ecs.scheduler.ts"
+      },
+      {
+        "name": "Scheduler",
+        "line": 77,
+        "type": "class",
+        "file": "ecs.scheduler.ts"
+      },
+      {
+        "name": "Archetype",
+        "line": 36,
+        "type": "class",
+        "file": "ecs.ts"
+      },
+      {
+        "name": "World",
+        "line": 93,
+        "type": "class",
+        "file": "ecs.ts"
+      },
+      {
+        "name": "is",
+        "line": 481,
+        "type": "class",
+        "file": "ecs.ts"
+      },
+      {
+        "name": "CommandBuffer",
+        "line": 483,
+        "type": "class",
+        "file": "ecs.ts"
+      },
+      {
+        "name": "is",
+        "line": 566,
+        "type": "class",
+        "file": "ecs.ts"
+      },
+      {
+        "name": "WorldWrapper",
+        "line": 568,
+        "type": "class",
+        "file": "ecs.ts"
+      },
+      {
+        "name": "FSMGraph",
+        "line": 59,
+        "type": "class",
+        "file": "fsm.ts"
+      },
+      {
+        "name": "Graph",
+        "line": 41,
+        "type": "class",
+        "file": "graph.ts"
+      },
+      {
+        "name": "MinHeap",
+        "line": 426,
+        "type": "class",
+        "file": "graph.ts"
+      },
+      {
+        "name": "Pool",
+        "line": 165,
+        "type": "class",
+        "file": "system.ts"
+      },
+      {
+        "name": "EntityRef",
+        "line": 177,
+        "type": "class",
+        "file": "system.ts"
+      },
+      {
+        "name": "dynamically",
+        "line": 12,
+        "type": "class",
+        "file": "world-functional.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "defaultCmp",
+        "line": 6,
+        "type": "function",
+        "file": "bst.ts"
+      },
+      {
+        "name": "BST",
+        "line": 389,
+        "type": "function",
+        "file": "bst.ts"
+      },
+      {
+        "name": "createCommandBufferState",
+        "line": 17,
+        "type": "function",
+        "file": "command-buffer-functional.ts"
+      },
+      {
+        "name": "createEntityCommand",
+        "line": 23,
+        "type": "function",
+        "file": "command-buffer-functional.ts"
+      },
+      {
+        "name": "destroyEntityCommand",
+        "line": 42,
+        "type": "function",
+        "file": "command-buffer-functional.ts"
+      },
+      {
+        "name": "addComponentCommand",
+        "line": 48,
+        "type": "function",
+        "file": "command-buffer-functional.ts"
+      },
+      {
+        "name": "removeComponentCommand",
+        "line": 59,
+        "type": "function",
+        "file": "command-buffer-functional.ts"
+      },
+      {
+        "name": "setComponentCommand",
+        "line": 69,
+        "type": "function",
+        "file": "command-buffer-functional.ts"
+      },
+      {
+        "name": "flushCommands",
+        "line": 80,
+        "type": "function",
+        "file": "command-buffer-functional.ts"
+      },
+      {
+        "name": "createEntityImmediate",
+        "line": 89,
+        "type": "function",
+        "file": "command-buffer-functional.ts"
+      },
+      {
+        "name": "makeBlueprint",
+        "line": 14,
+        "type": "function",
+        "file": "ecs.prefab.ts"
+      },
+      {
+        "name": "spawn",
+        "line": 18,
+        "type": "function",
+        "file": "ecs.prefab.ts"
+      },
+      {
+        "name": "DEFAULT_STAGE_ORDER",
+        "line": 8,
+        "type": "function",
+        "file": "ecs.scheduler.ts"
+      },
+      {
+        "name": "createFSMGraph",
+        "line": 343,
+        "type": "function",
+        "file": "graph.ts"
+      },
+      {
+        "name": "validateFSMStructure",
+        "line": 352,
+        "type": "function",
+        "file": "graph.ts"
+      },
+      {
+        "name": "graphToMermaid",
+        "line": 394,
+        "type": "function",
+        "file": "graph.ts"
+      },
+      {
+        "name": "makeStrictSystem",
+        "line": 91,
+        "type": "function",
+        "file": "system.ts"
+      },
+      {
+        "name": "assertDisjointOwnership",
+        "line": 129,
+        "type": "function",
+        "file": "system.ts"
+      },
+      {
+        "name": "defineNumericComponent",
+        "line": 156,
+        "type": "function",
+        "file": "system.ts"
+      },
+      {
+        "name": "makeScheduler",
+        "line": 204,
+        "type": "function",
+        "file": "system.ts"
+      },
+      {
+        "name": "Spawnable",
+        "line": 212,
+        "type": "function",
+        "file": "system.ts"
+      },
+      {
+        "name": "Component",
+        "line": 214,
+        "type": "function",
+        "file": "system.ts"
+      },
+      {
+        "name": "System",
+        "line": 218,
+        "type": "function",
+        "file": "system.ts"
+      },
+      {
+        "name": "EntityGroup",
+        "line": 222,
+        "type": "function",
+        "file": "system.ts"
+      },
+      {
+        "name": "createWorld",
+        "line": 11,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "defineComponentFunctional",
+        "line": 17,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "createEntityFunctional",
+        "line": 22,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "destroyEntityFunctional",
+        "line": 27,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "isAliveFunctional",
+        "line": 32,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "addComponentFunctional",
+        "line": 37,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "removeComponentFunctional",
+        "line": 47,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "getComponentFunctional",
+        "line": 52,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "setComponentFunctional",
+        "line": 61,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "setIfChangedFunctional",
+        "line": 71,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "hasComponentFunctional",
+        "line": 81,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "makeQueryFunctional",
+        "line": 86,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "iterateQueryFunctional",
+        "line": 99,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "beginTickFunctional",
+        "line": 110,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "endTickFunctional",
+        "line": 115,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "withEntity",
+        "line": 121,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "withComponent",
+        "line": 128,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "createEntityWithComponents",
+        "line": 141,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "findEntitiesByQuery",
+        "line": 152,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "findFirstEntityByQuery",
+        "line": 160,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "countEntitiesByQuery",
+        "line": 167,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "destroyEntitiesByQuery",
+        "line": 176,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "addComponentToEntitiesByQuery",
+        "line": 192,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "removeComponentFromEntitiesByQuery",
+        "line": 213,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "getEntityComponents",
+        "line": 234,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "duplicateEntity",
+        "line": 258,
+        "type": "function",
+        "file": "world-functional.ts"
+      },
+      {
+        "name": "validateEntity",
+        "line": 273,
+        "type": "function",
+        "file": "world-functional.ts"
+      }
+    ],
+    "interfaces": [
+      {
+        "name": "CommandBufferState",
+        "line": 11,
+        "type": "interface",
+        "file": "command-buffer-functional.ts"
+      },
+      {
+        "name": "StateNodeData",
+        "line": 12,
+        "type": "interface",
+        "file": "graph.ts"
+      },
+      {
+        "name": "TransitionEventData",
+        "line": 20,
+        "type": "interface",
+        "file": "graph.ts"
+      }
+    ]
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "bst.test.ts",
+          "link": "[src/bst.test.ts](../../../packages/ds/src/bst.test.ts)",
+          "lineCount": 40
+        },
+        {
+          "name": "bst.ts",
+          "link": "[src/bst.ts](../../../packages/ds/src/bst.ts)",
+          "lineCount": 390
+        },
+        {
+          "name": "command-buffer-functional.ts",
+          "link": "[src/command-buffer-functional.ts](../../../packages/ds/src/command-buffer-functional.ts)",
+          "lineCount": 97
+        },
+        {
+          "name": "ecs.doublebuffer.behavior.test.ts",
+          "link": "[src/ecs.doublebuffer.behavior.test.ts](../../../packages/ds/src/ecs.doublebuffer.behavior.test.ts)",
+          "lineCount": 92
+        },
+        {
+          "name": "ecs.prefab.test.ts",
+          "link": "[src/ecs.prefab.test.ts](../../../packages/ds/src/ecs.prefab.test.ts)",
+          "lineCount": 28
+        },
+        {
+          "name": "ecs.prefab.ts",
+          "link": "[src/ecs.prefab.ts](../../../packages/ds/src/ecs.prefab.ts)",
+          "lineCount": 33
+        },
+        {
+          "name": "ecs.scheduler.test.ts",
+          "link": "[src/ecs.scheduler.test.ts](../../../packages/ds/src/ecs.scheduler.test.ts)",
+          "lineCount": 69
+        },
+        {
+          "name": "ecs.scheduler.ts",
+          "link": "[src/ecs.scheduler.ts](../../../packages/ds/src/ecs.scheduler.ts)",
+          "lineCount": 307
+        },
+        {
+          "name": "ecs.test.ts",
+          "link": "[src/ecs.test.ts](../../../packages/ds/src/ecs.test.ts)",
+          "lineCount": 24
+        },
+        {
+          "name": "ecs.ts",
+          "link": "[src/ecs.ts](../../../packages/ds/src/ecs.ts)",
+          "lineCount": 754
+        },
+        {
+          "name": "fsm-test.ts",
+          "link": "[src/fsm-test.ts](../../../packages/ds/src/fsm-test.ts)",
+          "lineCount": 112
+        },
+        {
+          "name": "fsm.ts",
+          "link": "[src/fsm.ts](../../../packages/ds/src/fsm.ts)",
+          "lineCount": 647
+        },
+        {
+          "name": "graph.test.ts",
+          "link": "[src/graph.test.ts](../../../packages/ds/src/graph.test.ts)",
+          "lineCount": 26
+        },
+        {
+          "name": "graph.ts",
+          "link": "[src/graph.ts](../../../packages/ds/src/graph.ts)",
+          "lineCount": 474
+        },
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/ds/src/index.ts)",
+          "lineCount": 41
+        },
+        {
+          "name": "system.ts",
+          "link": "[src/system.ts](../../../packages/ds/src/system.ts)",
+          "lineCount": 234
+        },
+        {
+          "name": "world-functional.ts",
+          "link": "[src/world-functional.ts](../../../packages/ds/src/world-functional.ts)",
+          "lineCount": 289
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "with",
+          "link": "[with](../../../packages/ds/src/bst.ts#L26)",
+          "file": "bst.ts",
+          "line": 26
+        },
+        {
+          "name": "MutableContainer",
+          "link": "[MutableContainer](../../../packages/ds/src/bst.ts#L27)",
+          "file": "bst.ts",
+          "line": 27
+        },
+        {
+          "name": "Node",
+          "link": "[Node](../../../packages/ds/src/bst.ts#L69)",
+          "file": "bst.ts",
+          "line": 69
+        },
+        {
+          "name": "AVLTree",
+          "link": "[AVLTree](../../../packages/ds/src/bst.ts#L82)",
+          "file": "bst.ts",
+          "line": 82
+        },
+        {
+          "name": "ResourceBag",
+          "link": "[ResourceBag](../../../packages/ds/src/ecs.scheduler.ts#L57)",
+          "file": "ecs.scheduler.ts",
+          "line": 57
+        },
+        {
+          "name": "Scheduler",
+          "link": "[Scheduler](../../../packages/ds/src/ecs.scheduler.ts#L77)",
+          "file": "ecs.scheduler.ts",
+          "line": 77
+        },
+        {
+          "name": "Archetype",
+          "link": "[Archetype](../../../packages/ds/src/ecs.ts#L36)",
+          "file": "ecs.ts",
+          "line": 36
+        },
+        {
+          "name": "World",
+          "link": "[World](../../../packages/ds/src/ecs.ts#L93)",
+          "file": "ecs.ts",
+          "line": 93
+        },
+        {
+          "name": "is",
+          "link": "[is](../../../packages/ds/src/ecs.ts#L481)",
+          "file": "ecs.ts",
+          "line": 481
+        },
+        {
+          "name": "CommandBuffer",
+          "link": "[CommandBuffer](../../../packages/ds/src/ecs.ts#L483)",
+          "file": "ecs.ts",
+          "line": 483
+        },
+        {
+          "name": "is",
+          "link": "[is](../../../packages/ds/src/ecs.ts#L566)",
+          "file": "ecs.ts",
+          "line": 566
+        },
+        {
+          "name": "WorldWrapper",
+          "link": "[WorldWrapper](../../../packages/ds/src/ecs.ts#L568)",
+          "file": "ecs.ts",
+          "line": 568
+        },
+        {
+          "name": "FSMGraph",
+          "link": "[FSMGraph](../../../packages/ds/src/fsm.ts#L59)",
+          "file": "fsm.ts",
+          "line": 59
+        },
+        {
+          "name": "Graph",
+          "link": "[Graph](../../../packages/ds/src/graph.ts#L41)",
+          "file": "graph.ts",
+          "line": 41
+        },
+        {
+          "name": "MinHeap",
+          "link": "[MinHeap](../../../packages/ds/src/graph.ts#L426)",
+          "file": "graph.ts",
+          "line": 426
+        },
+        {
+          "name": "Pool",
+          "link": "[Pool](../../../packages/ds/src/system.ts#L165)",
+          "file": "system.ts",
+          "line": 165
+        },
+        {
+          "name": "EntityRef",
+          "link": "[EntityRef](../../../packages/ds/src/system.ts#L177)",
+          "file": "system.ts",
+          "line": 177
+        },
+        {
+          "name": "dynamically",
+          "link": "[dynamically](../../../packages/ds/src/world-functional.ts#L12)",
+          "file": "world-functional.ts",
+          "line": 12
+        }
+      ],
+      "functions": [
+        {
+          "name": "defaultCmp",
+          "link": "[defaultCmp()](../../../packages/ds/src/bst.ts#L6)",
+          "file": "bst.ts",
+          "line": 6
+        },
+        {
+          "name": "BST",
+          "link": "[BST()](../../../packages/ds/src/bst.ts#L389)",
+          "file": "bst.ts",
+          "line": 389
+        },
+        {
+          "name": "createCommandBufferState",
+          "link": "[createCommandBufferState()](../../../packages/ds/src/command-buffer-functional.ts#L17)",
+          "file": "command-buffer-functional.ts",
+          "line": 17
+        },
+        {
+          "name": "createEntityCommand",
+          "link": "[createEntityCommand()](../../../packages/ds/src/command-buffer-functional.ts#L23)",
+          "file": "command-buffer-functional.ts",
+          "line": 23
+        },
+        {
+          "name": "destroyEntityCommand",
+          "link": "[destroyEntityCommand()](../../../packages/ds/src/command-buffer-functional.ts#L42)",
+          "file": "command-buffer-functional.ts",
+          "line": 42
+        },
+        {
+          "name": "addComponentCommand",
+          "link": "[addComponentCommand()](../../../packages/ds/src/command-buffer-functional.ts#L48)",
+          "file": "command-buffer-functional.ts",
+          "line": 48
+        },
+        {
+          "name": "removeComponentCommand",
+          "link": "[removeComponentCommand()](../../../packages/ds/src/command-buffer-functional.ts#L59)",
+          "file": "command-buffer-functional.ts",
+          "line": 59
+        },
+        {
+          "name": "setComponentCommand",
+          "link": "[setComponentCommand()](../../../packages/ds/src/command-buffer-functional.ts#L69)",
+          "file": "command-buffer-functional.ts",
+          "line": 69
+        },
+        {
+          "name": "flushCommands",
+          "link": "[flushCommands()](../../../packages/ds/src/command-buffer-functional.ts#L80)",
+          "file": "command-buffer-functional.ts",
+          "line": 80
+        },
+        {
+          "name": "createEntityImmediate",
+          "link": "[createEntityImmediate()](../../../packages/ds/src/command-buffer-functional.ts#L89)",
+          "file": "command-buffer-functional.ts",
+          "line": 89
+        },
+        {
+          "name": "makeBlueprint",
+          "link": "[makeBlueprint()](../../../packages/ds/src/ecs.prefab.ts#L14)",
+          "file": "ecs.prefab.ts",
+          "line": 14
+        },
+        {
+          "name": "spawn",
+          "link": "[spawn()](../../../packages/ds/src/ecs.prefab.ts#L18)",
+          "file": "ecs.prefab.ts",
+          "line": 18
+        },
+        {
+          "name": "DEFAULT_STAGE_ORDER",
+          "link": "[DEFAULT_STAGE_ORDER()](../../../packages/ds/src/ecs.scheduler.ts#L8)",
+          "file": "ecs.scheduler.ts",
+          "line": 8
+        },
+        {
+          "name": "createFSMGraph",
+          "link": "[createFSMGraph()](../../../packages/ds/src/graph.ts#L343)",
+          "file": "graph.ts",
+          "line": 343
+        },
+        {
+          "name": "validateFSMStructure",
+          "link": "[validateFSMStructure()](../../../packages/ds/src/graph.ts#L352)",
+          "file": "graph.ts",
+          "line": 352
+        },
+        {
+          "name": "graphToMermaid",
+          "link": "[graphToMermaid()](../../../packages/ds/src/graph.ts#L394)",
+          "file": "graph.ts",
+          "line": 394
+        },
+        {
+          "name": "makeStrictSystem",
+          "link": "[makeStrictSystem()](../../../packages/ds/src/system.ts#L91)",
+          "file": "system.ts",
+          "line": 91
+        },
+        {
+          "name": "assertDisjointOwnership",
+          "link": "[assertDisjointOwnership()](../../../packages/ds/src/system.ts#L129)",
+          "file": "system.ts",
+          "line": 129
+        },
+        {
+          "name": "defineNumericComponent",
+          "link": "[defineNumericComponent()](../../../packages/ds/src/system.ts#L156)",
+          "file": "system.ts",
+          "line": 156
+        },
+        {
+          "name": "makeScheduler",
+          "link": "[makeScheduler()](../../../packages/ds/src/system.ts#L204)",
+          "file": "system.ts",
+          "line": 204
+        },
+        {
+          "name": "Spawnable",
+          "link": "[Spawnable()](../../../packages/ds/src/system.ts#L212)",
+          "file": "system.ts",
+          "line": 212
+        },
+        {
+          "name": "Component",
+          "link": "[Component()](../../../packages/ds/src/system.ts#L214)",
+          "file": "system.ts",
+          "line": 214
+        },
+        {
+          "name": "System",
+          "link": "[System()](../../../packages/ds/src/system.ts#L218)",
+          "file": "system.ts",
+          "line": 218
+        },
+        {
+          "name": "EntityGroup",
+          "link": "[EntityGroup()](../../../packages/ds/src/system.ts#L222)",
+          "file": "system.ts",
+          "line": 222
+        },
+        {
+          "name": "createWorld",
+          "link": "[createWorld()](../../../packages/ds/src/world-functional.ts#L11)",
+          "file": "world-functional.ts",
+          "line": 11
+        },
+        {
+          "name": "defineComponentFunctional",
+          "link": "[defineComponentFunctional()](../../../packages/ds/src/world-functional.ts#L17)",
+          "file": "world-functional.ts",
+          "line": 17
+        },
+        {
+          "name": "createEntityFunctional",
+          "link": "[createEntityFunctional()](../../../packages/ds/src/world-functional.ts#L22)",
+          "file": "world-functional.ts",
+          "line": 22
+        },
+        {
+          "name": "destroyEntityFunctional",
+          "link": "[destroyEntityFunctional()](../../../packages/ds/src/world-functional.ts#L27)",
+          "file": "world-functional.ts",
+          "line": 27
+        },
+        {
+          "name": "isAliveFunctional",
+          "link": "[isAliveFunctional()](../../../packages/ds/src/world-functional.ts#L32)",
+          "file": "world-functional.ts",
+          "line": 32
+        },
+        {
+          "name": "addComponentFunctional",
+          "link": "[addComponentFunctional()](../../../packages/ds/src/world-functional.ts#L37)",
+          "file": "world-functional.ts",
+          "line": 37
+        },
+        {
+          "name": "removeComponentFunctional",
+          "link": "[removeComponentFunctional()](../../../packages/ds/src/world-functional.ts#L47)",
+          "file": "world-functional.ts",
+          "line": 47
+        },
+        {
+          "name": "getComponentFunctional",
+          "link": "[getComponentFunctional()](../../../packages/ds/src/world-functional.ts#L52)",
+          "file": "world-functional.ts",
+          "line": 52
+        },
+        {
+          "name": "setComponentFunctional",
+          "link": "[setComponentFunctional()](../../../packages/ds/src/world-functional.ts#L61)",
+          "file": "world-functional.ts",
+          "line": 61
+        },
+        {
+          "name": "setIfChangedFunctional",
+          "link": "[setIfChangedFunctional()](../../../packages/ds/src/world-functional.ts#L71)",
+          "file": "world-functional.ts",
+          "line": 71
+        },
+        {
+          "name": "hasComponentFunctional",
+          "link": "[hasComponentFunctional()](../../../packages/ds/src/world-functional.ts#L81)",
+          "file": "world-functional.ts",
+          "line": 81
+        },
+        {
+          "name": "makeQueryFunctional",
+          "link": "[makeQueryFunctional()](../../../packages/ds/src/world-functional.ts#L86)",
+          "file": "world-functional.ts",
+          "line": 86
+        },
+        {
+          "name": "iterateQueryFunctional",
+          "link": "[iterateQueryFunctional()](../../../packages/ds/src/world-functional.ts#L99)",
+          "file": "world-functional.ts",
+          "line": 99
+        },
+        {
+          "name": "beginTickFunctional",
+          "link": "[beginTickFunctional()](../../../packages/ds/src/world-functional.ts#L110)",
+          "file": "world-functional.ts",
+          "line": 110
+        },
+        {
+          "name": "endTickFunctional",
+          "link": "[endTickFunctional()](../../../packages/ds/src/world-functional.ts#L115)",
+          "file": "world-functional.ts",
+          "line": 115
+        },
+        {
+          "name": "withEntity",
+          "link": "[withEntity()](../../../packages/ds/src/world-functional.ts#L121)",
+          "file": "world-functional.ts",
+          "line": 121
+        },
+        {
+          "name": "withComponent",
+          "link": "[withComponent()](../../../packages/ds/src/world-functional.ts#L128)",
+          "file": "world-functional.ts",
+          "line": 128
+        },
+        {
+          "name": "createEntityWithComponents",
+          "link": "[createEntityWithComponents()](../../../packages/ds/src/world-functional.ts#L141)",
+          "file": "world-functional.ts",
+          "line": 141
+        },
+        {
+          "name": "findEntitiesByQuery",
+          "link": "[findEntitiesByQuery()](../../../packages/ds/src/world-functional.ts#L152)",
+          "file": "world-functional.ts",
+          "line": 152
+        },
+        {
+          "name": "findFirstEntityByQuery",
+          "link": "[findFirstEntityByQuery()](../../../packages/ds/src/world-functional.ts#L160)",
+          "file": "world-functional.ts",
+          "line": 160
+        },
+        {
+          "name": "countEntitiesByQuery",
+          "link": "[countEntitiesByQuery()](../../../packages/ds/src/world-functional.ts#L167)",
+          "file": "world-functional.ts",
+          "line": 167
+        },
+        {
+          "name": "destroyEntitiesByQuery",
+          "link": "[destroyEntitiesByQuery()](../../../packages/ds/src/world-functional.ts#L176)",
+          "file": "world-functional.ts",
+          "line": 176
+        },
+        {
+          "name": "addComponentToEntitiesByQuery",
+          "link": "[addComponentToEntitiesByQuery()](../../../packages/ds/src/world-functional.ts#L192)",
+          "file": "world-functional.ts",
+          "line": 192
+        },
+        {
+          "name": "removeComponentFromEntitiesByQuery",
+          "link": "[removeComponentFromEntitiesByQuery()](../../../packages/ds/src/world-functional.ts#L213)",
+          "file": "world-functional.ts",
+          "line": 213
+        },
+        {
+          "name": "getEntityComponents",
+          "link": "[getEntityComponents()](../../../packages/ds/src/world-functional.ts#L234)",
+          "file": "world-functional.ts",
+          "line": 234
+        },
+        {
+          "name": "duplicateEntity",
+          "link": "[duplicateEntity()](../../../packages/ds/src/world-functional.ts#L258)",
+          "file": "world-functional.ts",
+          "line": 258
+        },
+        {
+          "name": "validateEntity",
+          "link": "[validateEntity()](../../../packages/ds/src/world-functional.ts#L273)",
+          "file": "world-functional.ts",
+          "line": 273
+        }
+      ],
+      "interfaces": [
+        {
+          "name": "CommandBufferState",
+          "link": "[CommandBufferState](../../../packages/ds/src/command-buffer-functional.ts#L11)",
+          "file": "command-buffer-functional.ts",
+          "line": 11
+        },
+        {
+          "name": "StateNodeData",
+          "link": "[StateNodeData](../../../packages/ds/src/graph.ts#L12)",
+          "file": "graph.ts",
+          "line": 12
+        },
+        {
+          "name": "TransitionEventData",
+          "link": "[TransitionEventData](../../../packages/ds/src/graph.ts#L20)",
+          "file": "graph.ts",
+          "line": 20
+        }
+      ]
+    }
+  }
+}

@@ -10,6 +10,11 @@ import path from 'node:path';
 
 import type { HealingStatus } from '../heal/scar-context-types.js';
 import type { HealCommandOptions, ExtendedHealingResult } from '../heal/heal-command.js';
+import {
+  runAgentOperations,
+  runAgentRecommendations,
+  type AgentOperationResult,
+} from './agent-integration.js';
 
 /**
  * Integration coordinator configuration
@@ -452,38 +457,34 @@ export class KanbanHealingCoordinator {
    * Execute agent operations
    */
   private async executeAgentOperations(
-    _request: HealingRequest,
-    _integrationStatus: IntegrationStatus,
-  ): Promise<any> {
-    // Mock agent operations for now
-    // This would be implemented when agent integration is properly set up
-    return {
-      agentsInvoked: ['kanban-board-enforcer'],
-      recommendations: [
-        'Monitor WIP limits more closely',
-        'Ensure proper task transitions',
-        'Check for stale tasks regularly',
-      ],
-      enforcements: ['WIP limits enforced', 'Workflow rules validated'],
-    };
+    request: HealingRequest,
+    integrationStatus: IntegrationStatus,
+  ): Promise<AgentOperationResult> {
+    this.logger('info', 'Executing Pantheon healing operations via agents', {
+      requestId: request.id,
+      reason: request.reason,
+      agentsAvailable: integrationStatus.agents.available,
+    });
+
+    return runAgentOperations(request, integrationStatus);
   }
 
   /**
    * Get agent-based recommendations
    */
   private async getAgentRecommendations(
-    _reason: string,
-    _integrationStatus: IntegrationStatus,
+    reason: string,
+    integrationStatus: IntegrationStatus,
   ): Promise<{ recommendations: string[]; criticalIssues: any[] }> {
-    // Mock agent recommendations for now
+    this.logger('info', 'Gathering Pantheon agent recommendations', {
+      reason,
+      agentsAvailable: integrationStatus.agents.available,
+    });
+
+    const result = await runAgentRecommendations(reason, integrationStatus);
     return {
-      recommendations: [
-        'Review WIP limits and adjust if necessary',
-        'Ensure all tasks follow proper workflow transitions',
-        'Check for and resolve any duplicate tasks',
-        'Validate task completeness before moving to review',
-      ],
-      criticalIssues: [],
+      recommendations: result.recommendations,
+      criticalIssues: result.criticalIssues,
     };
   }
 

@@ -2,7 +2,7 @@ import path from 'node:path';
 
 import { z } from 'zod';
 import type { ReadonlyDeep } from 'type-fest';
-import { fileBackedRegistry as makeFileBackedRegistry } from '@promethean/utils';
+import { fileBackedRegistry as makeFileBackedRegistry } from '@promethean-os/utils';
 
 // Define the schema first, then infer the TS type from it to
 // keep runtime validation and static types perfectly aligned.

@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/duck-utils",
+  "name": "@promethean-os/duck-utils",
   "version": "0.0.0",
   "main": "dist/promethean.duck_utils.flags.cjs",
   "module": "dist/promethean.duck_utils.flags.js",

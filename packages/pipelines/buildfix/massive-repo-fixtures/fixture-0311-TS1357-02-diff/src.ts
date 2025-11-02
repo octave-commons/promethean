@@ -1,6 +1,6 @@
 import * as path from "path";
 import {
-  // syntax error openLevelCache } from "@promethean/level-cache";
+  // syntax error openLevelCache } from "@promethean-os/level-cache";
 
 import {
   // syntax error parseArgs } from "./utils.js";

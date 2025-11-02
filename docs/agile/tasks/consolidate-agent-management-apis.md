@@ -1,22 +1,23 @@
 ---
-uuid: "39e76b22-6e98-47c0-baa7-f06fb6f18eaf"
-title: "Consolidate Agent Management APIs"
-slug: "consolidate-agent-management-apis"
-status: "breakdown"
-priority: "P0"
-labels: ["agent-management", "apis", "consolidation", "client-library", "epic3"]
-created_at: "2025-10-18T00:00:00.000Z"
+uuid: '39e76b22-6e98-47c0-baa7-f06fb6f18eaf'
+title: 'Consolidate Agent Management APIs'
+slug: 'consolidate-agent-management-apis'
+status: 'breakdown'
+priority: 'P0'
+labels: ['agent-management', 'apis', 'consolidation', 'client-library', 'epic3']
+created_at: '2025-10-18T00:00:00.000Z'
 estimates:
-  complexity: ""
-  scale: ""
-  time_to_completion: ""
+  complexity: '8'
+  scale: 'large'
+  time_to_completion: '4 sessions'
+storyPoints: 8
 ---
 
 ## 🤖 Consolidate Agent Management APIs
 
 ### 📋 Description
 
-Consolidate the agent management APIs from `@promethean/opencode-client` into the unified package, merging AgentTaskManager, process management, and inter-agent communication systems. This involves unifying complex agent lifecycle management, state synchronization, and ensuring seamless operation across the new architecture.
+Consolidate the agent management APIs from `@promethean-os/opencode-client` into the unified package, merging AgentTaskManager, process management, and inter-agent communication systems. This involves unifying complex agent lifecycle management, state synchronization, and ensuring seamless operation across the new architecture.
 
 ### 🎯 Goals
 
@@ -121,7 +122,7 @@ src/typescript/client/agents/
 
 ### 📁 Files/Components to Migrate
 
-#### From `@promethean/opencode-client`:
+#### From `@promethean-os/opencode-client`:
 
 1. **Agent Management Core**
 
@@ -211,6 +212,39 @@ src/typescript/client/agents/
 - State management consistent across components
 - Performance optimizations implemented
 - Comprehensive test coverage
+
+---
+
+## 📝 Breakdown Assessment
+
+**✅ BREAKDOWN COMPLETED** - Score: 8 (large but properly broken down)
+
+This consolidation task is large but has been properly broken down into implementable subtasks:
+
+### Implementation Scope:
+
+- AgentTaskManager consolidation (3 points)
+- Session handling consolidation (3 points)
+- Messaging systems integration (2 points)
+
+### Subtasks Ready for Implementation:
+
+1. **Merge AgentTaskManager** (3 points) - Task management logic migration
+2. **Consolidate Session Handling** (3 points) - Session system unification
+3. **Integrate Messaging Systems** (2 points) - Message bus consolidation
+
+### Current Status:
+
+- Technical specifications complete ✅
+- Architecture designed ✅
+- Files/components identified ✅
+- Subtasks defined with point estimates ✅
+- Testing requirements specified ✅
+- Dependencies documented ✅
+
+### Recommendation:
+
+Ready to move to **ready** column - properly broken down into implementable tasks.
 
 ---
 

@@ -3,7 +3,7 @@ import { mkdir, writeFile, readFile } from "node:fs/promises";
 
 import test from "ava";
 
-import { MarkdownBoard } from "@promethean/markdown/kanban.js";
+import { MarkdownBoard } from "@promethean-os/markdown/kanban.js";
 
 import { pullFromTasks } from "../lib/kanban.js";
 import {

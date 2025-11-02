@@ -1,7 +1,7 @@
 // Core type definitions for OpenCode Client
 // This file contains comprehensive TypeScript interfaces to eliminate 'any' type usage
 
-import type { DualStoreManager } from '@promethean/persistence';
+import type { DualStoreManager } from '@promethean-os/persistence';
 import type { OpencodeClient } from '@opencode-ai/sdk';
 
 export type Timestamp = string | number | Date;
@@ -458,4 +458,4 @@ export interface CacheExpiredResult {
 export type { OpencodeClient as EventClient } from '@opencode-ai/sdk';
 
 // Re-export DualStoreManager from persistence package
-export type { DualStoreManager } from '@promethean/persistence';
+export type { DualStoreManager } from '@promethean-os/persistence';

@@ -15,7 +15,7 @@ import {
   joinVoiceChannel,
 } from "@discordjs/voice";
 import * as discord from "discord.js";
-import { createLogger } from "@promethean/utils";
+import { createLogger } from "@promethean-os/utils";
 
 import { Speaker } from "./speaker.js";
 // import {Transcript} from "./transcript"

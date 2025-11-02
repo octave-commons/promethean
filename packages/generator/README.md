@@ -1,4 +1,4 @@
-# @promethean/generator
+# @promethean-os/generator
 
 Package generator for the Promethean Framework. Eliminates boilerplate duplication and ensures consistent package structure across the monorepo.
 
@@ -60,7 +60,7 @@ Complex package with adapters:
 ## Installation
 
 ```bash
-pnpm add -D @promethean/generator
+pnpm add -D @promethean-os/generator
 ```
 
 ## Usage
@@ -142,7 +142,7 @@ templates/
 ## API Usage
 
 ```typescript
-import { PackageGenerator } from '@promethean/generator';
+import { PackageGenerator } from '@promethean-os/generator';
 
 const generator = new PackageGenerator({
   templatesDir: './templates',
@@ -164,7 +164,7 @@ await generator.generatePackage({
 The generator includes built-in validation:
 
 ```typescript
-import { PackageValidator } from '@promethean/generator';
+import { PackageValidator } from '@promethean-os/generator';
 
 const validator = new PackageValidator(config);
 const result = await validator.validateGeneratedPackage('my-package');

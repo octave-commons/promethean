@@ -1,0 +1,1065 @@
+{
+  "packageData": {
+    "packageName": "platform-core",
+    "files": [
+      {
+        "path": "detection/runtime-detector.ts",
+        "fullPath": "/home/err/devel/promethean/packages/platform-core/src/detection/runtime-detector.ts",
+        "exports": [
+          {
+            "name": "RuntimeDetectionResult",
+            "line": 11,
+            "type": "interface"
+          },
+          {
+            "name": "detectRuntimeEnvironment",
+            "line": 29,
+            "type": "function"
+          },
+          {
+            "name": "detectNodeEnvironment",
+            "line": 67,
+            "type": "function"
+          },
+          {
+            "name": "detectDenoEnvironment",
+            "line": 90,
+            "type": "function"
+          },
+          {
+            "name": "detectBrowserEnvironment",
+            "line": 112,
+            "type": "function"
+          },
+          {
+            "name": "detectEdgeEnvironment",
+            "line": 135,
+            "type": "function"
+          },
+          {
+            "name": "getRuntimeGlobal",
+            "line": 317,
+            "type": "function"
+          },
+          {
+            "name": "supportsGlobalAPI",
+            "line": 345,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "detectRuntimeEnvironment",
+            "line": 29,
+            "type": "function"
+          },
+          {
+            "name": "detectNodeEnvironment",
+            "line": 67,
+            "type": "function"
+          },
+          {
+            "name": "detectDenoEnvironment",
+            "line": 90,
+            "type": "function"
+          },
+          {
+            "name": "detectBrowserEnvironment",
+            "line": 112,
+            "type": "function"
+          },
+          {
+            "name": "detectEdgeEnvironment",
+            "line": 135,
+            "type": "function"
+          },
+          {
+            "name": "getRuntimeGlobal",
+            "line": 317,
+            "type": "function"
+          },
+          {
+            "name": "supportsGlobalAPI",
+            "line": 345,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "RuntimeDetectionResult",
+            "line": 11,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 349
+      },
+      {
+        "path": "interfaces/IPlatform.ts",
+        "fullPath": "/home/err/devel/promethean/packages/platform-core/src/interfaces/IPlatform.ts",
+        "exports": [
+          {
+            "name": "IPlatform",
+            "line": 15,
+            "type": "interface"
+          }
+        ],
+        "classes": [],
+        "functions": [],
+        "interfaces": [
+          {
+            "name": "IPlatform",
+            "line": 15,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 59
+      },
+      {
+        "path": "models/Capabilities.ts",
+        "fullPath": "/home/err/devel/promethean/packages/platform-core/src/models/Capabilities.ts",
+        "exports": [
+          {
+            "name": "PlatformCapabilities",
+            "line": 10,
+            "type": "interface"
+          },
+          {
+            "name": "RuntimeCapabilities",
+            "line": 33,
+            "type": "interface"
+          },
+          {
+            "name": "FilesystemCapabilities",
+            "line": 77,
+            "type": "interface"
+          },
+          {
+            "name": "NetworkCapabilities",
+            "line": 115,
+            "type": "interface"
+          },
+          {
+            "name": "SecurityCapabilities",
+            "line": 153,
+            "type": "interface"
+          },
+          {
+            "name": "PerformanceCapabilities",
+            "line": 188,
+            "type": "interface"
+          },
+          {
+            "name": "PlatformSpecificCapabilities",
+            "line": 223,
+            "type": "interface"
+          },
+          {
+            "name": "NodeCapabilities",
+            "line": 240,
+            "type": "interface"
+          },
+          {
+            "name": "BrowserCapabilities",
+            "line": 275,
+            "type": "interface"
+          },
+          {
+            "name": "DenoCapabilities",
+            "line": 310,
+            "type": "interface"
+          },
+          {
+            "name": "EdgeCapabilities",
+            "line": 345,
+            "type": "interface"
+          },
+          {
+            "name": "FeatureResult",
+            "line": 380,
+            "type": "interface"
+          },
+          {
+            "name": "FeatureSet",
+            "line": 403,
+            "type": "interface"
+          }
+        ],
+        "classes": [],
+        "functions": [],
+        "interfaces": [
+          {
+            "name": "PlatformCapabilities",
+            "line": 10,
+            "type": "interface"
+          },
+          {
+            "name": "RuntimeCapabilities",
+            "line": 33,
+            "type": "interface"
+          },
+          {
+            "name": "FilesystemCapabilities",
+            "line": 77,
+            "type": "interface"
+          },
+          {
+            "name": "NetworkCapabilities",
+            "line": 115,
+            "type": "interface"
+          },
+          {
+            "name": "SecurityCapabilities",
+            "line": 153,
+            "type": "interface"
+          },
+          {
+            "name": "PerformanceCapabilities",
+            "line": 188,
+            "type": "interface"
+          },
+          {
+            "name": "PlatformSpecificCapabilities",
+            "line": 223,
+            "type": "interface"
+          },
+          {
+            "name": "NodeCapabilities",
+            "line": 240,
+            "type": "interface"
+          },
+          {
+            "name": "BrowserCapabilities",
+            "line": 275,
+            "type": "interface"
+          },
+          {
+            "name": "DenoCapabilities",
+            "line": 310,
+            "type": "interface"
+          },
+          {
+            "name": "EdgeCapabilities",
+            "line": 345,
+            "type": "interface"
+          },
+          {
+            "name": "FeatureResult",
+            "line": 380,
+            "type": "interface"
+          },
+          {
+            "name": "FeatureSet",
+            "line": 403,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 421
+      },
+      {
+        "path": "models/RuntimeInfo.ts",
+        "fullPath": "/home/err/devel/promethean/packages/platform-core/src/models/RuntimeInfo.ts",
+        "exports": [
+          {
+            "name": "RuntimeInfo",
+            "line": 22,
+            "type": "interface"
+          },
+          {
+            "name": "RuntimeMetadata",
+            "line": 46,
+            "type": "interface"
+          },
+          {
+            "name": "NodeMetadata",
+            "line": 66,
+            "type": "interface"
+          },
+          {
+            "name": "BrowserMetadata",
+            "line": 102,
+            "type": "interface"
+          },
+          {
+            "name": "DenoMetadata",
+            "line": 147,
+            "type": "interface"
+          },
+          {
+            "name": "EdgeMetadata",
+            "line": 178,
+            "type": "interface"
+          }
+        ],
+        "classes": [],
+        "functions": [],
+        "interfaces": [
+          {
+            "name": "RuntimeInfo",
+            "line": 22,
+            "type": "interface"
+          },
+          {
+            "name": "RuntimeMetadata",
+            "line": 46,
+            "type": "interface"
+          },
+          {
+            "name": "NodeMetadata",
+            "line": 66,
+            "type": "interface"
+          },
+          {
+            "name": "BrowserMetadata",
+            "line": 102,
+            "type": "interface"
+          },
+          {
+            "name": "DenoMetadata",
+            "line": 147,
+            "type": "interface"
+          },
+          {
+            "name": "EdgeMetadata",
+            "line": 178,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 206
+      },
+      {
+        "path": "registry/feature-registry.ts",
+        "fullPath": "/home/err/devel/promethean/packages/platform-core/src/registry/feature-registry.ts",
+        "exports": [
+          {
+            "name": "FeatureRegistryConfig",
+            "line": 17,
+            "type": "interface"
+          },
+          {
+            "name": "IFeatureRegistry",
+            "line": 31,
+            "type": "interface"
+          },
+          {
+            "name": "FeatureRegistry",
+            "line": 87,
+            "type": "class"
+          },
+          {
+            "name": "createFeatureRegistry",
+            "line": 266,
+            "type": "function"
+          },
+          {
+            "name": "globalFeatureRegistry",
+            "line": 275,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "FeatureRegistry",
+            "line": 87,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "createFeatureRegistry",
+            "line": 266,
+            "type": "function"
+          },
+          {
+            "name": "globalFeatureRegistry",
+            "line": 275,
+            "type": "function"
+          }
+        ],
+        "interfaces": [
+          {
+            "name": "FeatureRegistryConfig",
+            "line": 17,
+            "type": "interface"
+          },
+          {
+            "name": "IFeatureRegistry",
+            "line": 31,
+            "type": "interface"
+          }
+        ],
+        "totalLines": 276
+      },
+      {
+        "path": "tests/feature-registry.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/platform-core/src/tests/feature-registry.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 275
+      },
+      {
+        "path": "tests/runtime-detector.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/platform-core/src/tests/runtime-detector.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 124
+      }
+    ],
+    "mainEntry": null,
+    "exports": [
+      {
+        "name": "RuntimeDetectionResult",
+        "line": 11,
+        "type": "interface",
+        "file": "detection/runtime-detector.ts"
+      },
+      {
+        "name": "detectRuntimeEnvironment",
+        "line": 29,
+        "type": "function",
+        "file": "detection/runtime-detector.ts"
+      },
+      {
+        "name": "detectNodeEnvironment",
+        "line": 67,
+        "type": "function",
+        "file": "detection/runtime-detector.ts"
+      },
+      {
+        "name": "detectDenoEnvironment",
+        "line": 90,
+        "type": "function",
+        "file": "detection/runtime-detector.ts"
+      },
+      {
+        "name": "detectBrowserEnvironment",
+        "line": 112,
+        "type": "function",
+        "file": "detection/runtime-detector.ts"
+      },
+      {
+        "name": "detectEdgeEnvironment",
+        "line": 135,
+        "type": "function",
+        "file": "detection/runtime-detector.ts"
+      },
+      {
+        "name": "getRuntimeGlobal",
+        "line": 317,
+        "type": "function",
+        "file": "detection/runtime-detector.ts"
+      },
+      {
+        "name": "supportsGlobalAPI",
+        "line": 345,
+        "type": "function",
+        "file": "detection/runtime-detector.ts"
+      },
+      {
+        "name": "IPlatform",
+        "line": 15,
+        "type": "interface",
+        "file": "interfaces/IPlatform.ts"
+      },
+      {
+        "name": "PlatformCapabilities",
+        "line": 10,
+        "type": "interface",
+        "file": "models/Capabilities.ts"
+      },
+      {
+        "name": "RuntimeCapabilities",
+        "line": 33,
+        "type": "interface",
+        "file": "models/Capabilities.ts"
+      },
+      {
+        "name": "FilesystemCapabilities",
+        "line": 77,
+        "type": "interface",
+        "file": "models/Capabilities.ts"
+      },
+      {
+        "name": "NetworkCapabilities",
+        "line": 115,
+        "type": "interface",
+        "file": "models/Capabilities.ts"
+      },
+      {
+        "name": "SecurityCapabilities",
+        "line": 153,
+        "type": "interface",
+        "file": "models/Capabilities.ts"
+      },
+      {
+        "name": "PerformanceCapabilities",
+        "line": 188,
+        "type": "interface",
+        "file": "models/Capabilities.ts"
+      },
+      {
+        "name": "PlatformSpecificCapabilities",
+        "line": 223,
+        "type": "interface",
+        "file": "models/Capabilities.ts"
+      },
+      {
+        "name": "NodeCapabilities",
+        "line": 240,
+        "type": "interface",
+        "file": "models/Capabilities.ts"
+      },
+      {
+        "name": "BrowserCapabilities",
+        "line": 275,
+        "type": "interface",
+        "file": "models/Capabilities.ts"
+      },
+      {
+        "name": "DenoCapabilities",
+        "line": 310,
+        "type": "interface",
+        "file": "models/Capabilities.ts"
+      },
+      {
+        "name": "EdgeCapabilities",
+        "line": 345,
+        "type": "interface",
+        "file": "models/Capabilities.ts"
+      },
+      {
+        "name": "FeatureResult",
+        "line": 380,
+        "type": "interface",
+        "file": "models/Capabilities.ts"
+      },
+      {
+        "name": "FeatureSet",
+        "line": 403,
+        "type": "interface",
+        "file": "models/Capabilities.ts"
+      },
+      {
+        "name": "RuntimeInfo",
+        "line": 22,
+        "type": "interface",
+        "file": "models/RuntimeInfo.ts"
+      },
+      {
+        "name": "RuntimeMetadata",
+        "line": 46,
+        "type": "interface",
+        "file": "models/RuntimeInfo.ts"
+      },
+      {
+        "name": "NodeMetadata",
+        "line": 66,
+        "type": "interface",
+        "file": "models/RuntimeInfo.ts"
+      },
+      {
+        "name": "BrowserMetadata",
+        "line": 102,
+        "type": "interface",
+        "file": "models/RuntimeInfo.ts"
+      },
+      {
+        "name": "DenoMetadata",
+        "line": 147,
+        "type": "interface",
+        "file": "models/RuntimeInfo.ts"
+      },
+      {
+        "name": "EdgeMetadata",
+        "line": 178,
+        "type": "interface",
+        "file": "models/RuntimeInfo.ts"
+      },
+      {
+        "name": "FeatureRegistryConfig",
+        "line": 17,
+        "type": "interface",
+        "file": "registry/feature-registry.ts"
+      },
+      {
+        "name": "IFeatureRegistry",
+        "line": 31,
+        "type": "interface",
+        "file": "registry/feature-registry.ts"
+      },
+      {
+        "name": "FeatureRegistry",
+        "line": 87,
+        "type": "class",
+        "file": "registry/feature-registry.ts"
+      },
+      {
+        "name": "createFeatureRegistry",
+        "line": 266,
+        "type": "function",
+        "file": "registry/feature-registry.ts"
+      },
+      {
+        "name": "globalFeatureRegistry",
+        "line": 275,
+        "type": "function",
+        "file": "registry/feature-registry.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "FeatureRegistry",
+        "line": 87,
+        "type": "class",
+        "file": "registry/feature-registry.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "detectRuntimeEnvironment",
+        "line": 29,
+        "type": "function",
+        "file": "detection/runtime-detector.ts"
+      },
+      {
+        "name": "detectNodeEnvironment",
+        "line": 67,
+        "type": "function",
+        "file": "detection/runtime-detector.ts"
+      },
+      {
+        "name": "detectDenoEnvironment",
+        "line": 90,
+        "type": "function",
+        "file": "detection/runtime-detector.ts"
+      },
+      {
+        "name": "detectBrowserEnvironment",
+        "line": 112,
+        "type": "function",
+        "file": "detection/runtime-detector.ts"
+      },
+      {
+        "name": "detectEdgeEnvironment",
+        "line": 135,
+        "type": "function",
+        "file": "detection/runtime-detector.ts"
+      },
+      {
+        "name": "getRuntimeGlobal",
+        "line": 317,
+        "type": "function",
+        "file": "detection/runtime-detector.ts"
+      },
+      {
+        "name": "supportsGlobalAPI",
+        "line": 345,
+        "type": "function",
+        "file": "detection/runtime-detector.ts"
+      },
+      {
+        "name": "createFeatureRegistry",
+        "line": 266,
+        "type": "function",
+        "file": "registry/feature-registry.ts"
+      },
+      {
+        "name": "globalFeatureRegistry",
+        "line": 275,
+        "type": "function",
+        "file": "registry/feature-registry.ts"
+      }
+    ],
+    "interfaces": [
+      {
+        "name": "RuntimeDetectionResult",
+        "line": 11,
+        "type": "interface",
+        "file": "detection/runtime-detector.ts"
+      },
+      {
+        "name": "IPlatform",
+        "line": 15,
+        "type": "interface",
+        "file": "interfaces/IPlatform.ts"
+      },
+      {
+        "name": "PlatformCapabilities",
+        "line": 10,
+        "type": "interface",
+        "file": "models/Capabilities.ts"
+      },
+      {
+        "name": "RuntimeCapabilities",
+        "line": 33,
+        "type": "interface",
+        "file": "models/Capabilities.ts"
+      },
+      {
+        "name": "FilesystemCapabilities",
+        "line": 77,
+        "type": "interface",
+        "file": "models/Capabilities.ts"
+      },
+      {
+        "name": "NetworkCapabilities",
+        "line": 115,
+        "type": "interface",
+        "file": "models/Capabilities.ts"
+      },
+      {
+        "name": "SecurityCapabilities",
+        "line": 153,
+        "type": "interface",
+        "file": "models/Capabilities.ts"
+      },
+      {
+        "name": "PerformanceCapabilities",
+        "line": 188,
+        "type": "interface",
+        "file": "models/Capabilities.ts"
+      },
+      {
+        "name": "PlatformSpecificCapabilities",
+        "line": 223,
+        "type": "interface",
+        "file": "models/Capabilities.ts"
+      },
+      {
+        "name": "NodeCapabilities",
+        "line": 240,
+        "type": "interface",
+        "file": "models/Capabilities.ts"
+      },
+      {
+        "name": "BrowserCapabilities",
+        "line": 275,
+        "type": "interface",
+        "file": "models/Capabilities.ts"
+      },
+      {
+        "name": "DenoCapabilities",
+        "line": 310,
+        "type": "interface",
+        "file": "models/Capabilities.ts"
+      },
+      {
+        "name": "EdgeCapabilities",
+        "line": 345,
+        "type": "interface",
+        "file": "models/Capabilities.ts"
+      },
+      {
+        "name": "FeatureResult",
+        "line": 380,
+        "type": "interface",
+        "file": "models/Capabilities.ts"
+      },
+      {
+        "name": "FeatureSet",
+        "line": 403,
+        "type": "interface",
+        "file": "models/Capabilities.ts"
+      },
+      {
+        "name": "RuntimeInfo",
+        "line": 22,
+        "type": "interface",
+        "file": "models/RuntimeInfo.ts"
+      },
+      {
+        "name": "RuntimeMetadata",
+        "line": 46,
+        "type": "interface",
+        "file": "models/RuntimeInfo.ts"
+      },
+      {
+        "name": "NodeMetadata",
+        "line": 66,
+        "type": "interface",
+        "file": "models/RuntimeInfo.ts"
+      },
+      {
+        "name": "BrowserMetadata",
+        "line": 102,
+        "type": "interface",
+        "file": "models/RuntimeInfo.ts"
+      },
+      {
+        "name": "DenoMetadata",
+        "line": 147,
+        "type": "interface",
+        "file": "models/RuntimeInfo.ts"
+      },
+      {
+        "name": "EdgeMetadata",
+        "line": 178,
+        "type": "interface",
+        "file": "models/RuntimeInfo.ts"
+      },
+      {
+        "name": "FeatureRegistryConfig",
+        "line": 17,
+        "type": "interface",
+        "file": "registry/feature-registry.ts"
+      },
+      {
+        "name": "IFeatureRegistry",
+        "line": 31,
+        "type": "interface",
+        "file": "registry/feature-registry.ts"
+      }
+    ]
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "detection/runtime-detector.ts",
+          "link": "[src/detection/runtime-detector.ts](../../../packages/platform-core/src/detection/runtime-detector.ts)",
+          "lineCount": 349
+        },
+        {
+          "name": "interfaces/IPlatform.ts",
+          "link": "[src/interfaces/IPlatform.ts](../../../packages/platform-core/src/interfaces/IPlatform.ts)",
+          "lineCount": 59
+        },
+        {
+          "name": "models/Capabilities.ts",
+          "link": "[src/models/Capabilities.ts](../../../packages/platform-core/src/models/Capabilities.ts)",
+          "lineCount": 421
+        },
+        {
+          "name": "models/RuntimeInfo.ts",
+          "link": "[src/models/RuntimeInfo.ts](../../../packages/platform-core/src/models/RuntimeInfo.ts)",
+          "lineCount": 206
+        },
+        {
+          "name": "registry/feature-registry.ts",
+          "link": "[src/registry/feature-registry.ts](../../../packages/platform-core/src/registry/feature-registry.ts)",
+          "lineCount": 276
+        },
+        {
+          "name": "tests/feature-registry.test.ts",
+          "link": "[src/tests/feature-registry.test.ts](../../../packages/platform-core/src/tests/feature-registry.test.ts)",
+          "lineCount": 275
+        },
+        {
+          "name": "tests/runtime-detector.test.ts",
+          "link": "[src/tests/runtime-detector.test.ts](../../../packages/platform-core/src/tests/runtime-detector.test.ts)",
+          "lineCount": 124
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "FeatureRegistry",
+          "link": "[FeatureRegistry](../../../packages/platform-core/src/registry/feature-registry.ts#L87)",
+          "file": "registry/feature-registry.ts",
+          "line": 87
+        }
+      ],
+      "functions": [
+        {
+          "name": "detectRuntimeEnvironment",
+          "link": "[detectRuntimeEnvironment()](../../../packages/platform-core/src/detection/runtime-detector.ts#L29)",
+          "file": "detection/runtime-detector.ts",
+          "line": 29
+        },
+        {
+          "name": "detectNodeEnvironment",
+          "link": "[detectNodeEnvironment()](../../../packages/platform-core/src/detection/runtime-detector.ts#L67)",
+          "file": "detection/runtime-detector.ts",
+          "line": 67
+        },
+        {
+          "name": "detectDenoEnvironment",
+          "link": "[detectDenoEnvironment()](../../../packages/platform-core/src/detection/runtime-detector.ts#L90)",
+          "file": "detection/runtime-detector.ts",
+          "line": 90
+        },
+        {
+          "name": "detectBrowserEnvironment",
+          "link": "[detectBrowserEnvironment()](../../../packages/platform-core/src/detection/runtime-detector.ts#L112)",
+          "file": "detection/runtime-detector.ts",
+          "line": 112
+        },
+        {
+          "name": "detectEdgeEnvironment",
+          "link": "[detectEdgeEnvironment()](../../../packages/platform-core/src/detection/runtime-detector.ts#L135)",
+          "file": "detection/runtime-detector.ts",
+          "line": 135
+        },
+        {
+          "name": "getRuntimeGlobal",
+          "link": "[getRuntimeGlobal()](../../../packages/platform-core/src/detection/runtime-detector.ts#L317)",
+          "file": "detection/runtime-detector.ts",
+          "line": 317
+        },
+        {
+          "name": "supportsGlobalAPI",
+          "link": "[supportsGlobalAPI()](../../../packages/platform-core/src/detection/runtime-detector.ts#L345)",
+          "file": "detection/runtime-detector.ts",
+          "line": 345
+        },
+        {
+          "name": "createFeatureRegistry",
+          "link": "[createFeatureRegistry()](../../../packages/platform-core/src/registry/feature-registry.ts#L266)",
+          "file": "registry/feature-registry.ts",
+          "line": 266
+        },
+        {
+          "name": "globalFeatureRegistry",
+          "link": "[globalFeatureRegistry()](../../../packages/platform-core/src/registry/feature-registry.ts#L275)",
+          "file": "registry/feature-registry.ts",
+          "line": 275
+        }
+      ],
+      "interfaces": [
+        {
+          "name": "RuntimeDetectionResult",
+          "link": "[RuntimeDetectionResult](../../../packages/platform-core/src/detection/runtime-detector.ts#L11)",
+          "file": "detection/runtime-detector.ts",
+          "line": 11
+        },
+        {
+          "name": "IPlatform",
+          "link": "[IPlatform](../../../packages/platform-core/src/interfaces/IPlatform.ts#L15)",
+          "file": "interfaces/IPlatform.ts",
+          "line": 15
+        },
+        {
+          "name": "PlatformCapabilities",
+          "link": "[PlatformCapabilities](../../../packages/platform-core/src/models/Capabilities.ts#L10)",
+          "file": "models/Capabilities.ts",
+          "line": 10
+        },
+        {
+          "name": "RuntimeCapabilities",
+          "link": "[RuntimeCapabilities](../../../packages/platform-core/src/models/Capabilities.ts#L33)",
+          "file": "models/Capabilities.ts",
+          "line": 33
+        },
+        {
+          "name": "FilesystemCapabilities",
+          "link": "[FilesystemCapabilities](../../../packages/platform-core/src/models/Capabilities.ts#L77)",
+          "file": "models/Capabilities.ts",
+          "line": 77
+        },
+        {
+          "name": "NetworkCapabilities",
+          "link": "[NetworkCapabilities](../../../packages/platform-core/src/models/Capabilities.ts#L115)",
+          "file": "models/Capabilities.ts",
+          "line": 115
+        },
+        {
+          "name": "SecurityCapabilities",
+          "link": "[SecurityCapabilities](../../../packages/platform-core/src/models/Capabilities.ts#L153)",
+          "file": "models/Capabilities.ts",
+          "line": 153
+        },
+        {
+          "name": "PerformanceCapabilities",
+          "link": "[PerformanceCapabilities](../../../packages/platform-core/src/models/Capabilities.ts#L188)",
+          "file": "models/Capabilities.ts",
+          "line": 188
+        },
+        {
+          "name": "PlatformSpecificCapabilities",
+          "link": "[PlatformSpecificCapabilities](../../../packages/platform-core/src/models/Capabilities.ts#L223)",
+          "file": "models/Capabilities.ts",
+          "line": 223
+        },
+        {
+          "name": "NodeCapabilities",
+          "link": "[NodeCapabilities](../../../packages/platform-core/src/models/Capabilities.ts#L240)",
+          "file": "models/Capabilities.ts",
+          "line": 240
+        },
+        {
+          "name": "BrowserCapabilities",
+          "link": "[BrowserCapabilities](../../../packages/platform-core/src/models/Capabilities.ts#L275)",
+          "file": "models/Capabilities.ts",
+          "line": 275
+        },
+        {
+          "name": "DenoCapabilities",
+          "link": "[DenoCapabilities](../../../packages/platform-core/src/models/Capabilities.ts#L310)",
+          "file": "models/Capabilities.ts",
+          "line": 310
+        },
+        {
+          "name": "EdgeCapabilities",
+          "link": "[EdgeCapabilities](../../../packages/platform-core/src/models/Capabilities.ts#L345)",
+          "file": "models/Capabilities.ts",
+          "line": 345
+        },
+        {
+          "name": "FeatureResult",
+          "link": "[FeatureResult](../../../packages/platform-core/src/models/Capabilities.ts#L380)",
+          "file": "models/Capabilities.ts",
+          "line": 380
+        },
+        {
+          "name": "FeatureSet",
+          "link": "[FeatureSet](../../../packages/platform-core/src/models/Capabilities.ts#L403)",
+          "file": "models/Capabilities.ts",
+          "line": 403
+        },
+        {
+          "name": "RuntimeInfo",
+          "link": "[RuntimeInfo](../../../packages/platform-core/src/models/RuntimeInfo.ts#L22)",
+          "file": "models/RuntimeInfo.ts",
+          "line": 22
+        },
+        {
+          "name": "RuntimeMetadata",
+          "link": "[RuntimeMetadata](../../../packages/platform-core/src/models/RuntimeInfo.ts#L46)",
+          "file": "models/RuntimeInfo.ts",
+          "line": 46
+        },
+        {
+          "name": "NodeMetadata",
+          "link": "[NodeMetadata](../../../packages/platform-core/src/models/RuntimeInfo.ts#L66)",
+          "file": "models/RuntimeInfo.ts",
+          "line": 66
+        },
+        {
+          "name": "BrowserMetadata",
+          "link": "[BrowserMetadata](../../../packages/platform-core/src/models/RuntimeInfo.ts#L102)",
+          "file": "models/RuntimeInfo.ts",
+          "line": 102
+        },
+        {
+          "name": "DenoMetadata",
+          "link": "[DenoMetadata](../../../packages/platform-core/src/models/RuntimeInfo.ts#L147)",
+          "file": "models/RuntimeInfo.ts",
+          "line": 147
+        },
+        {
+          "name": "EdgeMetadata",
+          "link": "[EdgeMetadata](../../../packages/platform-core/src/models/RuntimeInfo.ts#L178)",
+          "file": "models/RuntimeInfo.ts",
+          "line": 178
+        },
+        {
+          "name": "FeatureRegistryConfig",
+          "link": "[FeatureRegistryConfig](../../../packages/platform-core/src/registry/feature-registry.ts#L17)",
+          "file": "registry/feature-registry.ts",
+          "line": 17
+        },
+        {
+          "name": "IFeatureRegistry",
+          "link": "[IFeatureRegistry](../../../packages/platform-core/src/registry/feature-registry.ts#L31)",
+          "file": "registry/feature-registry.ts",
+          "line": 31
+        }
+      ]
+    }
+  }
+}

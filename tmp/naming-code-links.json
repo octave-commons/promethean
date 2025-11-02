@@ -1,0 +1,261 @@
+{
+  "packageData": {
+    "packageName": "naming",
+    "files": [
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/naming/src/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 3
+      },
+      {
+        "path": "rewrite.ts",
+        "fullPath": "/home/err/devel/promethean/packages/naming/src/rewrite.ts",
+        "exports": [
+          {
+            "name": "mkAliasRewriter",
+            "line": 6,
+            "type": "function"
+          },
+          {
+            "name": "isRelative",
+            "line": 18,
+            "type": "function"
+          },
+          {
+            "name": "mkRelativeToJs",
+            "line": 32,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "mkAliasRewriter",
+            "line": 6,
+            "type": "function"
+          },
+          {
+            "name": "isRelative",
+            "line": 18,
+            "type": "function"
+          },
+          {
+            "name": "mkRelativeToJs",
+            "line": 32,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 45
+      },
+      {
+        "path": "rules.ts",
+        "fullPath": "/home/err/devel/promethean/packages/naming/src/rules.ts",
+        "exports": [
+          {
+            "name": "TOPIC_RE",
+            "line": 1,
+            "type": "function"
+          },
+          {
+            "name": "isValidTopic",
+            "line": 2,
+            "type": "function"
+          },
+          {
+            "name": "headerOk",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "TOPIC_RE",
+            "line": 1,
+            "type": "function"
+          },
+          {
+            "name": "isValidTopic",
+            "line": 2,
+            "type": "function"
+          },
+          {
+            "name": "headerOk",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 8
+      },
+      {
+        "path": "tests/rewrite.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/naming/src/tests/rewrite.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 35
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [],
+      "classes": [],
+      "functions": [],
+      "interfaces": [],
+      "totalLines": 3
+    },
+    "exports": [
+      {
+        "name": "mkAliasRewriter",
+        "line": 6,
+        "type": "function",
+        "file": "rewrite.ts"
+      },
+      {
+        "name": "isRelative",
+        "line": 18,
+        "type": "function",
+        "file": "rewrite.ts"
+      },
+      {
+        "name": "mkRelativeToJs",
+        "line": 32,
+        "type": "function",
+        "file": "rewrite.ts"
+      },
+      {
+        "name": "TOPIC_RE",
+        "line": 1,
+        "type": "function",
+        "file": "rules.ts"
+      },
+      {
+        "name": "isValidTopic",
+        "line": 2,
+        "type": "function",
+        "file": "rules.ts"
+      },
+      {
+        "name": "headerOk",
+        "line": 5,
+        "type": "function",
+        "file": "rules.ts"
+      }
+    ],
+    "classes": [],
+    "functions": [
+      {
+        "name": "mkAliasRewriter",
+        "line": 6,
+        "type": "function",
+        "file": "rewrite.ts"
+      },
+      {
+        "name": "isRelative",
+        "line": 18,
+        "type": "function",
+        "file": "rewrite.ts"
+      },
+      {
+        "name": "mkRelativeToJs",
+        "line": 32,
+        "type": "function",
+        "file": "rewrite.ts"
+      },
+      {
+        "name": "TOPIC_RE",
+        "line": 1,
+        "type": "function",
+        "file": "rules.ts"
+      },
+      {
+        "name": "isValidTopic",
+        "line": 2,
+        "type": "function",
+        "file": "rules.ts"
+      },
+      {
+        "name": "headerOk",
+        "line": 5,
+        "type": "function",
+        "file": "rules.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/naming/src/index.ts)",
+          "lineCount": 3
+        },
+        {
+          "name": "rewrite.ts",
+          "link": "[src/rewrite.ts](../../../packages/naming/src/rewrite.ts)",
+          "lineCount": 45
+        },
+        {
+          "name": "rules.ts",
+          "link": "[src/rules.ts](../../../packages/naming/src/rules.ts)",
+          "lineCount": 8
+        },
+        {
+          "name": "tests/rewrite.test.ts",
+          "link": "[src/tests/rewrite.test.ts](../../../packages/naming/src/tests/rewrite.test.ts)",
+          "lineCount": 35
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [],
+      "functions": [
+        {
+          "name": "mkAliasRewriter",
+          "link": "[mkAliasRewriter()](../../../packages/naming/src/rewrite.ts#L6)",
+          "file": "rewrite.ts",
+          "line": 6
+        },
+        {
+          "name": "isRelative",
+          "link": "[isRelative()](../../../packages/naming/src/rewrite.ts#L18)",
+          "file": "rewrite.ts",
+          "line": 18
+        },
+        {
+          "name": "mkRelativeToJs",
+          "link": "[mkRelativeToJs()](../../../packages/naming/src/rewrite.ts#L32)",
+          "file": "rewrite.ts",
+          "line": 32
+        },
+        {
+          "name": "TOPIC_RE",
+          "link": "[TOPIC_RE()](../../../packages/naming/src/rules.ts#L1)",
+          "file": "rules.ts",
+          "line": 1
+        },
+        {
+          "name": "isValidTopic",
+          "link": "[isValidTopic()](../../../packages/naming/src/rules.ts#L2)",
+          "file": "rules.ts",
+          "line": 2
+        },
+        {
+          "name": "headerOk",
+          "link": "[headerOk()](../../../packages/naming/src/rules.ts#L5)",
+          "file": "rules.ts",
+          "line": 5
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

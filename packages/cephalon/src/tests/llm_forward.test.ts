@@ -8,13 +8,13 @@ import test from "ava";
 // Use memory broker via BrokerClient
 // @ts-ignore dynamic import of JS modules
 
-const clientModule = await import("@promethean/legacy/brokerClient.js");
+const clientModule = await import("@promethean-os/legacy/brokerClient.js");
 const { BrokerClient } = clientModule;
 
 const { AIAgent } = await import("../agent/index.js");
 const { LLMService } = await import("../llm-service.js");
 const { ContextStore } = await import(
-  "@promethean/persistence/contextStore.js"
+  "@promethean-os/persistence/contextStore.js"
 );
 
 class StubBot extends EventEmitter {

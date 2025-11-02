@@ -8,7 +8,7 @@ Cephalon is the production Discord agent runner for Promethean. It brokers voice
 - **Discord.js** v14 for Discord integration
 - **@discordjs/voice** for voice capabilities
 - **Node.js** with audio processing (ffmpeg, wav-decoder)
-- **MongoDB** via @promethean/persistence for data storage
+- **MongoDB** via @promethean-os/persistence for data storage
 - **WebSocket** connections for broker communication
 - **ENSO protocol** for agent communication
 - **ECS (Entity Component System)** architecture for agent orchestration

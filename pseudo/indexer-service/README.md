@@ -1,10 +1,10 @@
-# @promethean/indexer-service
+# @promethean-os/indexer-service
 
 HTTP service wrapper for the Promethean indexer system, providing REST API endpoints for file indexing and semantic search operations.
 
 ## Overview
 
-The `@promethean/indexer-service` package exposes the functionality of `@promethean/indexer-core` through a Fastify-based HTTP service. It provides a complete REST API for managing file indexing operations and performing semantic searches across indexed content.
+The `@promethean-os/indexer-service` package exposes the functionality of `@promethean-os/indexer-core` through a Fastify-based HTTP service. It provides a complete REST API for managing file indexing operations and performing semantic searches across indexed content.
 
 ### Key Features
 
@@ -21,7 +21,7 @@ The `@promethean/indexer-service` package exposes the functionality of `@prometh
 ### Installation
 
 ```bash
-pnpm add @promethean/indexer-service
+pnpm add @promethean-os/indexer-service
 ```
 
 ### Basic Usage
@@ -40,7 +40,7 @@ pnpm indexer-service start
 #### Using the Client
 
 ```typescript
-import { createIndexerServiceClient } from '@promethean/indexer-service/client';
+import { createIndexerServiceClient } from '@promethean-os/indexer-service/client';
 
 const client = createIndexerServiceClient({
   baseUrl: 'http://localhost:4260',
@@ -153,7 +153,7 @@ CMD ["pnpm", "start"]
 
 ```typescript
 import express from 'express';
-import { createIndexerServiceClient } from '@promethean/indexer-service/client';
+import { createIndexerServiceClient } from '@promethean-os/indexer-service/client';
 
 const app = express();
 const indexerClient = createIndexerServiceClient({
@@ -223,8 +223,8 @@ export LOG_LEVEL=debug
 - **@fastify/rate-limit**: Request rate limiting
 - **@fastify/swagger**: OpenAPI documentation generation
 - **@fastify/swagger-ui**: Interactive API documentation
-- **@promethean/indexer-core**: Core indexing functionality
-- **@promethean/utils**: Shared utilities
+- **@promethean-os/indexer-core**: Core indexing functionality
+- **@promethean-os/utils**: Shared utilities
 - **fastify**: HTTP server framework
 
 ## Contributing

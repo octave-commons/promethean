@@ -1,7 +1,7 @@
 import { promises as fs } from 'node:fs',
 import { randomUUID } from 'node:crypto',
 import path from 'node:path',
-import { parseFrontmatter as parseMarkdownFrontmatter } from '@promethean/markdown/frontmatter',
+import { parseFrontmatter as parseMarkdownFrontmatter } from '@promethean-os/markdown/frontmatter',
 import { loadKanbanConfig } from '../board/config.js',
 import { refreshTaskIndex, indexTasks, writeIndexFile, serializeTasks } from '../board/indexer.js',
 import { EventLogManager } from '../board/event-log.js',

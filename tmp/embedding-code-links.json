@@ -1,0 +1,342 @@
+{
+  "packageData": {
+    "packageName": "embedding",
+    "files": [
+      {
+        "path": "attachment/index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/embedding/src/attachment/index.ts",
+        "exports": [
+          {
+            "name": "embedAttachments",
+            "line": 191,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "embedAttachments",
+            "line": 191,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 224
+      },
+      {
+        "path": "chroma.ts",
+        "fullPath": "/home/err/devel/promethean/packages/embedding/src/chroma.ts",
+        "exports": [
+          {
+            "name": "makeChromaWrapper",
+            "line": 46,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "StateRef",
+            "line": 22,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "makeChromaWrapper",
+            "line": 46,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 71
+      },
+      {
+        "path": "embedder.ts",
+        "fullPath": "/home/err/devel/promethean/packages/embedding/src/embedder.ts",
+        "exports": [
+          {
+            "name": "makeDeterministicEmbedder",
+            "line": 15,
+            "type": "function"
+          },
+          {
+            "name": "assertDim",
+            "line": 56,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "makeDeterministicEmbedder",
+            "line": 15,
+            "type": "function"
+          },
+          {
+            "name": "assertDim",
+            "line": 56,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 68
+      },
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/embedding/src/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 15
+      },
+      {
+        "path": "remote.ts",
+        "fullPath": "/home/err/devel/promethean/packages/embedding/src/remote.ts",
+        "exports": [
+          {
+            "name": "setEmbeddingOverride",
+            "line": 23,
+            "type": "function"
+          },
+          {
+            "name": "RemoteEmbeddingFunction",
+            "line": 117,
+            "type": "class"
+          }
+        ],
+        "classes": [
+          {
+            "name": "RemoteEmbeddingFunction",
+            "line": 117,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "setEmbeddingOverride",
+            "line": 23,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 194
+      },
+      {
+        "path": "tests/attachment.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/embedding/src/tests/attachment.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 49
+      },
+      {
+        "path": "tests/remote.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/embedding/src/tests/remote.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 26
+      },
+      {
+        "path": "tests/smoke.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/embedding/src/tests/smoke.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 6
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [],
+      "classes": [],
+      "functions": [],
+      "interfaces": [],
+      "totalLines": 15
+    },
+    "exports": [
+      {
+        "name": "embedAttachments",
+        "line": 191,
+        "type": "function",
+        "file": "attachment/index.ts"
+      },
+      {
+        "name": "makeChromaWrapper",
+        "line": 46,
+        "type": "function",
+        "file": "chroma.ts"
+      },
+      {
+        "name": "makeDeterministicEmbedder",
+        "line": 15,
+        "type": "function",
+        "file": "embedder.ts"
+      },
+      {
+        "name": "assertDim",
+        "line": 56,
+        "type": "function",
+        "file": "embedder.ts"
+      },
+      {
+        "name": "setEmbeddingOverride",
+        "line": 23,
+        "type": "function",
+        "file": "remote.ts"
+      },
+      {
+        "name": "RemoteEmbeddingFunction",
+        "line": 117,
+        "type": "class",
+        "file": "remote.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "StateRef",
+        "line": 22,
+        "type": "class",
+        "file": "chroma.ts"
+      },
+      {
+        "name": "RemoteEmbeddingFunction",
+        "line": 117,
+        "type": "class",
+        "file": "remote.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "embedAttachments",
+        "line": 191,
+        "type": "function",
+        "file": "attachment/index.ts"
+      },
+      {
+        "name": "makeChromaWrapper",
+        "line": 46,
+        "type": "function",
+        "file": "chroma.ts"
+      },
+      {
+        "name": "makeDeterministicEmbedder",
+        "line": 15,
+        "type": "function",
+        "file": "embedder.ts"
+      },
+      {
+        "name": "assertDim",
+        "line": 56,
+        "type": "function",
+        "file": "embedder.ts"
+      },
+      {
+        "name": "setEmbeddingOverride",
+        "line": 23,
+        "type": "function",
+        "file": "remote.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "attachment/index.ts",
+          "link": "[src/attachment/index.ts](../../../packages/embedding/src/attachment/index.ts)",
+          "lineCount": 224
+        },
+        {
+          "name": "chroma.ts",
+          "link": "[src/chroma.ts](../../../packages/embedding/src/chroma.ts)",
+          "lineCount": 71
+        },
+        {
+          "name": "embedder.ts",
+          "link": "[src/embedder.ts](../../../packages/embedding/src/embedder.ts)",
+          "lineCount": 68
+        },
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/embedding/src/index.ts)",
+          "lineCount": 15
+        },
+        {
+          "name": "remote.ts",
+          "link": "[src/remote.ts](../../../packages/embedding/src/remote.ts)",
+          "lineCount": 194
+        },
+        {
+          "name": "tests/attachment.test.ts",
+          "link": "[src/tests/attachment.test.ts](../../../packages/embedding/src/tests/attachment.test.ts)",
+          "lineCount": 49
+        },
+        {
+          "name": "tests/remote.test.ts",
+          "link": "[src/tests/remote.test.ts](../../../packages/embedding/src/tests/remote.test.ts)",
+          "lineCount": 26
+        },
+        {
+          "name": "tests/smoke.test.ts",
+          "link": "[src/tests/smoke.test.ts](../../../packages/embedding/src/tests/smoke.test.ts)",
+          "lineCount": 6
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "StateRef",
+          "link": "[StateRef](../../../packages/embedding/src/chroma.ts#L22)",
+          "file": "chroma.ts",
+          "line": 22
+        },
+        {
+          "name": "RemoteEmbeddingFunction",
+          "link": "[RemoteEmbeddingFunction](../../../packages/embedding/src/remote.ts#L117)",
+          "file": "remote.ts",
+          "line": 117
+        }
+      ],
+      "functions": [
+        {
+          "name": "embedAttachments",
+          "link": "[embedAttachments()](../../../packages/embedding/src/attachment/index.ts#L191)",
+          "file": "attachment/index.ts",
+          "line": 191
+        },
+        {
+          "name": "makeChromaWrapper",
+          "link": "[makeChromaWrapper()](../../../packages/embedding/src/chroma.ts#L46)",
+          "file": "chroma.ts",
+          "line": 46
+        },
+        {
+          "name": "makeDeterministicEmbedder",
+          "link": "[makeDeterministicEmbedder()](../../../packages/embedding/src/embedder.ts#L15)",
+          "file": "embedder.ts",
+          "line": 15
+        },
+        {
+          "name": "assertDim",
+          "link": "[assertDim()](../../../packages/embedding/src/embedder.ts#L56)",
+          "file": "embedder.ts",
+          "line": 56
+        },
+        {
+          "name": "setEmbeddingOverride",
+          "link": "[setEmbeddingOverride()](../../../packages/embedding/src/remote.ts#L23)",
+          "file": "remote.ts",
+          "line": 23
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

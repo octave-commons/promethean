@@ -367,7 +367,7 @@ package-name/
 
 ### Mounting Behavior
 
-- `@promethean/` packages use name after slash
+- `@promethean-os/` packages use name after slash
 - Other packages use full name
 - Both `dist/frontend` and `static` are mounted if they exist
 

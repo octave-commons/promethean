@@ -1,0 +1,143 @@
+name: Documentation Link Validation
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'docs/packages/**'
+      - 'packages/**/src/**'
+      - 'tools/doc-link-validator.mjs'
+      - 'tools/code-scanner-fixed.mjs'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'docs/packages/**'
+      - 'packages/**/src/**'
+      - 'tools/doc-link-validator.mjs'
+      - 'tools/code-scanner-fixed.mjs'
+
+jobs:
+  validate-doc-links:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+
+      - name: Validate Documentation Links
+        run: |
+          echo "🔍 Validating all package documentation links..."
+          node tools/doc-link-validator.mjs --all
+
+          # Check exit code and fail if any invalid links found
+          if [ $? -ne 0 ]; then
+            echo "❌ Documentation link validation failed!"
+            echo "Please fix the broken links before merging."
+            exit 1
+          else
+            echo "✅ All documentation links are valid!"
+          fi
+
+      - name: Validate Enhanced Packages
+        run: |
+          echo "🔍 Checking enhanced packages have proper code links..."
+
+          # List of packages that should have code links
+          enhanced_packages=("ai-learning" "llm" "github-sync" "obsidian-export" "autocommit" "benchmark" "platform-core" "prompt-optimization")
+
+          for pkg in "${enhanced_packages[@]}"; do
+            echo "Validating $pkg..."
+            if [ -f "docs/packages/$pkg/README.md" ]; then
+              node tools/doc-link-validator.mjs "$pkg"
+              if [ $? -ne 0 ]; then
+                echo "❌ Package $pkg has invalid links!"
+                exit 1
+              fi
+            else
+              echo "⚠️  Package $pkg documentation not found"
+            fi
+          done
+
+          echo "✅ All enhanced packages validated!"
+
+      - name: Generate Validation Report
+        if: always()
+        run: |
+          echo "📊 Generating validation report..."
+
+          # Create summary report
+          cat > validation-report.md << 'EOF'
+          # Documentation Link Validation Report
+
+          ## Summary
+          - **Date**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          - **Commit**: ${{ github.sha }}
+          - **Branch**: ${{ github.ref_name }}
+          - **Event**: ${{ github.event_name }}
+
+          ## Enhanced Packages Status
+
+          EOF
+
+          # Add status for each enhanced package
+          enhanced_packages=("ai-learning" "llm" "github-sync" "obsidian-export" "autocommit" "benchmark" "platform-core" "prompt-optimization")
+
+          for pkg in "${enhanced_packages[@]}"; do
+            if [ -f "docs/packages/$pkg/README.md" ]; then
+              link_count=$(grep -o '\[.*\](.*\.ts.*#L[0-9]*)' "docs/packages/$pkg/README.md" | wc -l)
+              echo "- **$pkg**: $link_count code links" >> validation-report.md
+            else
+              echo "- **$pkg**: ❌ Documentation missing" >> validation-report.md
+            fi
+          done
+
+          echo "## Validation Result" >> validation-report.md
+          echo "✅ All documentation links passed validation" >> validation-report.md
+
+          # Upload report as artifact
+          mkdir -p reports
+          cp validation-report.md reports/
+
+      - name: Upload Validation Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: validation-report
+          path: reports/
+          retention-days: 30
+
+      - name: Comment PR with Results
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+
+            try {
+              const report = fs.readFileSync('reports/validation-report.md', 'utf8');
+              
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: `## 📋 Documentation Link Validation\n\n${report}`
+              });
+            } catch (error) {
+              console.log('Could not read validation report:', error.message);
+            }

@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url';
 import { promises as fs } from 'node:fs';
 
 import test from 'ava';
-import { startProcessWithPort, shutdown, withPage, Deps } from '@promethean/test-utils';
+import { startProcessWithPort, shutdown, withPage, Deps } from '@promethean-os/test-utils';
 import type { ReadonlyDeep } from 'type-fest';
 import type { Page, Route, Response } from 'playwright';
 

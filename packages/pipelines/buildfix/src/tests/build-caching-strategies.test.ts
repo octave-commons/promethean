@@ -1,7 +1,7 @@
 import test from 'ava';
 import { rmSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
-import { openLevelCache } from '@promethean/level-cache';
+import { openLevelCache } from '@promethean-os/level-cache';
 
 // Import the strategies we're going to test
 // These will be dynamically imported to avoid module resolution issues

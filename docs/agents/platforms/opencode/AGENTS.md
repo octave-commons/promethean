@@ -21,7 +21,7 @@ it makes a folder named:
 `{core,context,orchestrator,protocol,workflow,os-protocol,generator,management-ui,shared,tests}`
 - all bash commands are ephemeral
 - you can't cd into a directory and expect to stay there.
-- prefer `pnpm --filter @promethean/<packagename> `
+- prefer `pnpm --filter @promethean-os/<packagename> `
 
 
 ## References

@@ -87,7 +87,7 @@ This document describes the integration points between the data collection syste
 
 ### Integration Point
 
-**Target**: `@promethean/kanban` CLI tool
+**Target**: `@promethean-os/kanban` CLI tool
 
 **API**: Command-line interface with JSON output
 

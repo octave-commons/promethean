@@ -7,7 +7,7 @@ This roadmap outlines the phased implementation of the cross-platform compatibil
 ## Phase 1: Foundation (Weeks 1-4)
 
 ### Week 1: Core Architecture Setup
-- [ ] Create `@promethean/platform-core` package
+- [ ] Create `@promethean-os/platform-core` package
 - [ ] Define core interfaces and types
 - [ ] Implement basic platform detection
 - [ ] Set up project structure and build pipeline
@@ -107,7 +107,7 @@ This roadmap outlines the phased implementation of the cross-platform compatibil
 ## Phase 3: Integration (Weeks 9-12)
 
 ### Week 9: Existing Platform Integration
-- [ ] Integrate with existing `@promethean/platform`
+- [ ] Integrate with existing `@promethean-os/platform`
 - [ ] Create compatibility adapters
 - [ ] Develop migration helpers
 - [ ] Add integration tests
@@ -267,7 +267,7 @@ This roadmap outlines the phased implementation of the cross-platform compatibil
 ## Dependencies
 
 ### Internal Dependencies
-- Existing `@promethean/platform` package
+- Existing `@promethean-os/platform` package
 - Core Promethean infrastructure
 - Build and testing systems
 - Package management system

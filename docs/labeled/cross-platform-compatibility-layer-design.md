@@ -474,10 +474,10 @@ packages/
 Integration with existing Promethean packages:
 
 ```typescript
-// Integration with @promethean/platform
+// Integration with @promethean-os/platform
 export class PrometheanPlatformAdapter implements IPlatform {
   constructor(
-    private existingPlatform: any, // Existing @promethean/platform
+    private existingPlatform: any, // Existing @promethean-os/platform
     private compatibilityLayer: CompatibilityLayer
   ) {}
   
@@ -536,7 +536,7 @@ Phase 2: Platform Implementations
 - Implement edge computing adapters
 
 Phase 3: Integration
-- Integrate with existing @promethean/platform
+- Integrate with existing @promethean-os/platform
 - Create migration tools
 - Update existing packages to use new layer
 - Add comprehensive testing

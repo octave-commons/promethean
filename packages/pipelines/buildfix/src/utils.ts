@@ -4,7 +4,7 @@ import * as path from 'path';
 import { pathToFileURL } from 'url';
 
 import { Project } from 'ts-morph';
-export { sha1 } from '@promethean/utils';
+export { sha1 } from '@promethean-os/utils';
 import { getWorkspaceRoot } from './path-resolution.js';
 
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? 'http://localhost:11434';
@@ -348,8 +348,8 @@ export async function callOllama(
       }
     }
 
-    // Fallback to existing HTTP implementation via @promethean/utils
-    const { ollamaJSON } = await import('@promethean/utils');
+    // Fallback to existing HTTP implementation via @promethean-os/utils
+    const { ollamaJSON } = await import('@promethean-os/utils');
     return ollamaJSON(model, prompt, options);
   }
 }

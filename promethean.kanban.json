@@ -5,7 +5,7 @@
   "_wip_note": "WIP limits are enforced by transitions - a move to a column fails if that column's WIP cap is full.",
 
   "tasksDir": "docs/agile/tasks",
-  "indexFile": "",
+  "indexFile": "docs/agile/boards/index.jsonl",
   "boardFile": "docs/agile/boards/generated.md",
   "cachePath": "docs/agile/boards/.cache",
   "exts": [".md"],
@@ -64,11 +64,11 @@
     "incoming": 9999,
     "archived": 9999
   },
-  "_wip_rationale": "Scaled for high-throughput multi-agent workflow: accepted(40), breakdown(50), blocked(15), ready(100), todo(75), in_progress(50), testing(40), review(40), document(40), done(500), rejected(9999); icebox/incoming/archived unbounded. Optimized for 30-50 AI agents working in parallel while preserving FSM integrity and preventing bottlenecks.",
+  "_wip_rationale": "Scaled for supportive multi-agent workflow: accepted(40), breakdown(50), blocked(15), ready(100), todo(75), in_progress(50), testing(40), review(40), document(40), done(500), rejected(9999); icebox/incoming/archived unbounded. Designed to support 30-50 AI agents working in parallel while maintaining flow and providing flexibility for work that happens outside formal processes.",
 
   "transitionRules": {
     "enabled": true,
-    "enforcement": "strict",
+    "enforcement": "supportive",
     "dslPath": "docs/agile/rules/kanban-transitions.clj",
     "rules": [
       {
@@ -272,5 +272,5 @@
     ]
   },
 
-  "_transition_rules_note": "See docs/agile/process.md for complete FSM transition rules. Key rules: Incoming→Accepted→Breakdown→Ready→Todo→In Progress→Testing→Review→Document→Done. Tasks with score >5 must cycle back through Breakdown until slice is small enough (≤5). Archived is a terminal state accessible from any status, preferred over deletion for historical preservation."
+  "_transition_rules_note": "See docs/agile/process.md for complete FSM transition rules. Key flow: Incoming→Accepted→Breakdown→Ready→Todo→In Progress→Testing→Review→Document→Done. Tasks with score >5 cycle back through Breakdown until slice is small enough (≤5). The board is a supportive map - when work happens outside the flow, we create retrospective cards to honor it and learn how to better support our natural workflow. Archived is a terminal state accessible from any status, preferred over deletion for historical preservation."
 }

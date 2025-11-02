@@ -1,0 +1,169 @@
+---
+uuid: 9a3102e4-4a7d-440a-89fc-352f862aba3d
+created_at: '2025-10-08T01:38:13Z'
+title: 2025.10.08.01.38.13
+filename: Local Model Grouping Guide
+description: >-
+  This guide groups local LLM and model links by functionality and size,
+  focusing on practical usage for resource-constrained environments. It
+  categorizes models into coding, vision, and general-purpose types with size
+  notes where applicable.
+tags:
+  - local models
+  - llm grouping
+  - resource constraints
+  - model categorization
+  - coding models
+  - vision models
+  - general purpose llms
+  - size constraints
+  - ollama
+  - unsloth
+---
+### Group these links based on their content.
+For model links, group them by ability and size.
+For everything else group by topic
+
+https://docs.unsloth.ai/new/how-to-train-llms-with-unsloth-and-docker
+https://cline.bot/blog/local-models-amd
+https://www.reddit.com/r/LocalLLaMA/comments/1o0ifyr/glm_46_air_is_coming/
+https://docs.unsloth.ai/new/gpt-oss-how-to-run-and-fine-tune
+https://docs.unsloth.ai/models/deepseek-v3.1-how-to-run-locally
+https://github.com/matt-c1/llama-3-quant-comparison?tab=readme-ov-file
+https://ollama.com/library/smollm2
+https://github.com/hendrycks/test
+https://github.com/unslothai/unsloth
+https://docs.unsloth.ai/models/gemma-3-how-to-run-and-fine-tune/gemma-3n-how-to-run-and-fine-tune
+https://ollama.com/library/gemma3n
+https://huggingface.co/BasedBase/Qwen3-Coder-30B-A3B-Instruct-480B-Distill-V2/discussions/1
+https://ollama.com/search?q=gemma3-tools
+https://huggingface.co/openbmb/MiniCPM-V-4_5-gguf
+https://ollama.com/openbmb/minicpm-v4.5
+https://github.com/OpenSQZ/MiniCPM-V-CookBook
+https://minicpm-o.readthedocs.io/en/latest/index.html
+https://media.discordapp.net/attachments/1128867684130508875/1425319710039212093/radar_minicpm_v45.png?ex=68e727ec&is=68e5d66c&hm=15f8e41dd88927df445b43867d28bb551d098b97275b160543a40f5def251a7c&=&format=webp&quality=lossless&width=1148&height=1081
+https://cdn.discordapp.com/attachments/1128867684130508875/1425319191015198720/image.png?ex=68e72770&is=68e5d5f0&hm=7e738df53d0345390045d965a649719229345f4f5e2fdea4af8a06fe0d91ee50&
+https://github.com/ollama/ollama/pull/12526
+https://www.ollama.com/library/qwen2.5vl
+https://www.ollama.com/library/granite3.2-vision
+https://www.ollama.com/library/granite3.3
+https://www.ollama.com/library/granite3.1-moe
+https://www.ollama.com/library/granite-code
+https://www.ollama.com/library/granite3.2
+https://www.ollama.com/library/granite3.1-dense
+https://www.ollama.com/library/granite-embedding
+https://www.ollama.com/library/granite4
+## Might barely fit in my gpu and run at an *okay spee*
+Probably only going to be useful for evaluation and  benchmarking
+https://www.ollama.com/library/qwen3-coder
+
+https://www.ollama.com/library/deepseek-r1
+https://www.ollama.com/goekdenizguelmez/JOSIEFIED-Qwen3
+https://www.ollama.com/huihui_ai/qwen3-abliterated
+https://github.com/Sumandora/remove-refusals-with-transformers
+https://github.com/TransformerLensOrg/TransformerLens
+https://distill.pub/2020/circuits/zoom-in/
+
+https://docs.ollama.com/web-search
+https://docs.ollama.com/cloud
+
+
+Here’s a concise grouping of the links.
+
+1) Model links (grouped by ability; sizes noted where explicit)
+
+- Coding / code generation models
+  - https://huggingface.co/BasedBase/Qwen3-Coder-30B-A3B-Instruct-480B-Distill-V2/discussions/1 (coding model, size 30B)
+  - https://www.ollama.com/library/qwen3-coder (Qwen3-Coder family page)
+  - https://www.ollama.com/library/granite-code (Granite code model)
+  - https://www.ollama.com/library/qwen2.5vl (Qwen2.5 variant)
+  - https://www.ollama.com/goekdenizguelmez/JOSIEFIED-Qwen3 (Qwen3 variant page)
+  - https://www.ollama.com/huihui_ai/qwen3-abliterated (Qwen3 variant)
+  - https://www.ollama.com/library/granite3.2-vision (vision, listed here for completeness of Granite family that includes coding variants elsewhere)
+
+- Vision / multimodal
+  - https://www.ollama.com/library/granite3.2-vision (vision model)
+  - https://www.ollama.com/library/granite3.2 (Granite family (multi-purpose))
+  - https://www.ollama.com/library/granite3.3
+  - https://www.ollama.com/library/granite3.1-moe
+  - https://www.ollama.com/library/granite4
+  - https://www.ollama.com/library/granite-embedding (embedding-focused, often used with vision)
+
+- General purpose LLMs / chatty models
+  - https://www.ollama.com/library/gemma3n (Gemma3N)
+  - https://ollama.com/library/gemma3n (Gemma3N)
+  - https://ollama.com/library/smollm2 (SmolLM v2)
+  - https://docs.unsloth.ai/models/deepseek-v3.1-how-to-run-locally (DeepSeek v3.1 docs; DeepSeek variants also appear below)
+  - https://ollama.com/openbmb/minicpm-v4.5 (MiniCPM V4.5)
+  - https://huggingface.co/openbmb/MiniCPM-V-4_5-gguf (MiniCPM V-4.5; size ~4.5B)
+  - https://ollama.com/openbmb/minicpm-v4.5 (alternative MiniCPM page)
+  - https://www.ollama.com/library/granite3.1-dense (Granite variant; dense config)
+  - https://www.ollama.com/library/granite3.2 (Granite 3.2 core)
+  - https://www.ollama.com/library/granite3.3 (Granite 3.3)
+  - https://www.ollama.com/library/granite3.1-moe (MoE variant)
+  - https://www.ollama.com/library/granite4 (Granite 4)
+
+- Embeddings / specialized
+  - https://www.ollama.com/library/granite-embedding (embedding-focused)
+  - https://www.ollama.com/library/qwen3-coder (Qwen3-Coder family page; often used with coding tasks)
+
+- Other model-related / ecosystem pages
+  - https://www.ollama.com/search?q=gemma3-tools (search results for Gemma tooling)
+  - https://www.ollama.com/goekdenizguelmez/JOSIEFIED-Qwen3 (Qwen3 variant)
+  - https://docs.unsloth.ai/models/gemma-3-how-to-run-and-fine-tune/gemma-3n-how-to-run-and-fine-tune (Gemma-3N guidance)
+  - https://docs.unsloth.ai/models/deepseek-v3.1-how-to-run-locally (DeepSeek local run)
+
+- Other model-level / cookbook
+  - https://github.com/OpenSQZ/MiniCPM-V-CookBook (MiniCPM cookbook)
+
+- Llama-3 quant / comparisons
+  - https://github.com/matt-c1/llama-3-quant-comparison?tab=readme-ov-file (LLaMA-3 quant comparison)
+
+2) Other content (grouped by topic)
+
+- Documentation / guides
+  - https://docs.unsloth.ai/new/how-to-train-llms-with-unsloth-and-docker
+  - https://docs.unsloth.ai/new/gpt-oss-how-to-run-and-fine-tune
+  - https://docs.unsloth.ai/models/deepseek-v3.1-how-to-run-locally
+  - https://docs.unsloth.ai/models/gemma-3-how-to-run-and-fine-tune/gemma-3n-how-to-run-and-fine-tune
+  - https://docs.ollama.com/web-search
+  - https://docs.ollama.com/cloud
+  - https://minicpm-o.readthedocs.io/en/latest/index.html
+
+- Blogs / discussions
+  - https://cline.bot/blog/local-models-amd
+
+- Reddit
+  - https://www.reddit.com/r/LocalLLaMA/comments/1o0ifyr/glm_46_air_is_coming/
+
+- GitHub repos (non-model-specific or tooling)
+  - https://github.com/hendrycks/test
+  - https://github.com/unslothai/unsloth
+  - https://github.com/Sumandora/remove-refusals-with-transformers
+  - https://github.com/TransformerLensOrg/TransformerLens
+  - https://github.com/OpenSQZ/MiniCPM-V-CookBook
+  - https://github.com/ollama/ollama/pull/12526
+  - https://github.com/Sumandora/remove-refusals-with-transformers (listed above)
+
+- Images / visuals
+  - https://media.discordapp.net/attachments/1128867684130508875/1425319710039212093/radar_minicpm_v45.png?ex=68e727ec&...&format=webp
+  - https://cdn.discordapp.com/attachments/1128867684130508875/1425319191015198720/image.png?ex=68e72770&...
+
+- Articles / papers
+  - https://distill.pub/2020/circuits/zoom-in/
+
+- Misc / other model pages
+  - https://www.ollama.com/openbmb/minicpm-v4.5
+  - https://www.ollama.com/library/granite-embedding
+  - https://www.ollama.com/library/granite4
+  - https://www.ollama.com/library/qwen2.5vl
+
+Notes and caveats
+- Several links are ecosystem pages (Ollama docs, search results, or library pages) rather than direct model downloads; I’ve tagged them by intent (coding, vision, embeddings, etc.) where possible.
+- Sizes are explicitly shown in some titles (e.g., 30B, 4_5). For many pages, the exact size isn’t indicated in the URL, so I marked those as size not specified.
+- I included images and non-model content under “Other content” as their content is not about a model per se.
+
+If you want, I can refine this into a categorized file or a table with columns: URL, title/intent, ability, size (if known).
+
+### 
+

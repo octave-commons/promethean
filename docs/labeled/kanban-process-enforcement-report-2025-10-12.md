@@ -76,7 +76,7 @@ Conducted comprehensive audit of kanban board focusing on P0 (critical) and P1 (
 - **Labels:** `tool:codex`, `cap:codegen`, `env:no-egress`, `role:engineer`, `enhancement`, `kanban`, `heal-command`, `scar-context`, `typescript`, `phase-1`
 - **Compliance Status:** ✅ Proper tool/env tags, successfully moved to execution queue
 
-#### 2. Author @promethean/omni-protocol package
+#### 2. Author @promethean-os/omni-protocol package
 
 - **UUID:** `457fd7a3-bc99-4de6-b9f3-06ef6cf00d5e`
 - **Current Status:** `todo` ✅ (moved from ready)
@@ -86,7 +86,7 @@ Conducted comprehensive audit of kanban board focusing on P0 (critical) and P1 (
 
 ### P1 Tasks Currently In Progress
 
-1. **Implement @promethean/lmdb-cache Package** (2 duplicate tasks) - `in_progress`
+1. **Implement @promethean-os/lmdb-cache Package** (2 duplicate tasks) - `in_progress`
 2. **Complete shared agent persistence migration** - `in_progress`
 3. **Duck-web throttled RTCDataChannel sender** - `in_progress`
 
@@ -217,14 +217,14 @@ To accommodate remaining P1 tasks, recommend moving these lower priority tasks t
 **Moved to Todo Column:**
 
 1. Implement Scar Context Core Types and Interfaces ✅
-2. Author @promethean/omni-protocol package ✅
+2. Author @promethean-os/omni-protocol package ✅
 3. Implement Scar Context Builder ✅
 4. Add continuous monitoring and real-time updates to boardrev ✅
 5. Add incremental updates to boardrev indexing ✅
 6. complete shared agent persistence migration ✅ (moved from in_progress)
 7. duck-web throttled RTCDataChannel sender ✅ (moved from in_progress)
 
-**Already In Progress:** 8. Implement @promethean/lmdb-cache Package (2 duplicate tasks) ✅
+**Already In Progress:** 8. Implement @promethean-os/lmdb-cache Package (2 duplicate tasks) ✅
 
 ### ✅ WIP Limit Management
 

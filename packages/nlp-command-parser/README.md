@@ -1,4 +1,4 @@
-# @promethean/nlp-command-parser
+# @promethean-os/nlp-command-parser
 
 A comprehensive natural language command parser for converting conversational input into structured commands for the Promethean kanban system and other CLI tools.
 
@@ -15,13 +15,13 @@ A comprehensive natural language command parser for converting conversational in
 ## Installation
 
 ```bash
-pnpm add @promethean/nlp-command-parser
+pnpm add @promethean-os/nlp-command-parser
 ```
 
 ## Quick Start
 
 ```typescript
-import { parseCommand } from '@promethean/nlp-command-parser';
+import { parseCommand } from '@promethean-os/nlp-command-parser';
 
 const result = parseCommand('create task Fix login bug with priority high');
 
@@ -169,8 +169,8 @@ parseCommand('creet task New feature'); // Typo in "create"
 The parser outputs structured commands that can be directly mapped to kanban operations:
 
 ```typescript
-import { parseCommand } from '@promethean/nlp-command-parser';
-import { updateTaskStatus } from '@promethean/kanban';
+import { parseCommand } from '@promethean-os/nlp-command-parser';
+import { updateTaskStatus } from '@promethean-os/kanban';
 
 function handleNaturalLanguageCommand(input: string) {
   const result = parseCommand(input);

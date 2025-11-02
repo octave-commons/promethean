@@ -5,7 +5,7 @@
  * Monitors file changes, git events, and scheduled runs to trigger boardrev updates
  */
 
-import { createLogger } from '@promethean/utils';
+import { createLogger } from '@promethean-os/utils';
 import { EventEmitter } from 'node:events';
 import { setInterval, clearInterval } from 'node:timers';
 import { existsSync, mkdirSync, writeFileSync, readFileSync } from 'node:fs';

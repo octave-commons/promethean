@@ -9,14 +9,14 @@ import {
   Routes,
   type RESTPutAPIApplicationCommandsJSONBody,
 } from 'discord.js';
-import { DESKTOP_CAPTURE_CHANNEL_ID } from '@promethean/legacy/env.js';
-import { ContextStore } from '@promethean/persistence/contextStore.js';
-import { createAgentWorld } from '@promethean/agent-ecs/world.js';
-import { AgentBus } from '@promethean/agent-ecs/bus.js';
-import { BrokerClient } from '@promethean/legacy/brokerClient.js';
-import { checkPermission } from '@promethean/legacy';
-import { cleanupChroma } from '@promethean/persistence/maintenance.js';
-import { pushVisionFrame } from '@promethean/agent-ecs';
+import { DESKTOP_CAPTURE_CHANNEL_ID } from '@promethean-os/legacy/env.js';
+import { ContextStore } from '@promethean-os/persistence/contextStore.js';
+import { createAgentWorld } from '@promethean-os/pantheon-ecs/world.js';
+import { AgentBus } from '@promethean-os/pantheon-ecs/bus.js';
+import { BrokerClient } from '@promethean-os/legacy/brokerClient.js';
+import { checkPermission } from '@promethean-os/legacy';
+import { cleanupChroma } from '@promethean-os/persistence/maintenance.js';
+import { pushVisionFrame } from '@promethean-os/pantheon-ecs/helpers/pushVision.js';
 
 import { type Interaction } from './interactions.js';
 import { DesktopCaptureManager } from './desktop/desktopLoop.js';
@@ -242,8 +242,8 @@ export class Bot extends EventEmitter {
   }
   async forwardAttachments(message: discord.Message) {
     if (message.author?.bot) return;
-    const imageAttachments = [...message.attachments.values()].filter(
-      (att) => att.contentType?.startsWith('image/'),
+    const imageAttachments = [...message.attachments.values()].filter((att) =>
+      att.contentType?.startsWith('image/'),
     );
     if (!imageAttachments.length) return;
 

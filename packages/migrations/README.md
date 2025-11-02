@@ -18,7 +18,7 @@ export const name = 'labels-to-tags';
 export async function up(ctx: Ctx): Promise<void> { /* ... */ }
 ```
 
-`Ctx` exposes utilities and shared libs (gray-matter/yaml via `@promethean/markdown/frontmatter`).
+`Ctx` exposes utilities and shared libs (gray-matter/yaml via `@promethean-os/markdown/frontmatter`).
 
 ## Running
 ```bash

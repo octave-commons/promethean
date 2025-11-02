@@ -1,5 +1,5 @@
 import test from 'ava';
-import { getMongoClient, getChromaClient } from '@promethean/persistence';
+import { getMongoClient, getChromaClient } from '@promethean-os/persistence';
 
 import { installInMemoryPersistence } from '../persistence.js';
 

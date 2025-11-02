@@ -1,0 +1,200 @@
+{
+  "packageData": {
+    "packageName": "dlq",
+    "files": [
+      {
+        "path": "replay.ts",
+        "fullPath": "/home/err/devel/promethean/packages/dlq/src/replay.ts",
+        "exports": [
+          {
+            "name": "replayDLQ",
+            "line": 4,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "replayDLQ",
+            "line": 4,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 24
+      },
+      {
+        "path": "subscribe.ts",
+        "fullPath": "/home/err/devel/promethean/packages/dlq/src/subscribe.ts",
+        "exports": [
+          {
+            "name": "withDLQ",
+            "line": 4,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "withDLQ",
+            "line": 4,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 38
+      },
+      {
+        "path": "tests/with-dlq.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/dlq/src/tests/with-dlq.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 113
+      },
+      {
+        "path": "types.ts",
+        "fullPath": "/home/err/devel/promethean/packages/dlq/src/types.ts",
+        "exports": [
+          {
+            "name": "DLQ_TOPIC_PREFIX",
+            "line": 9,
+            "type": "function"
+          },
+          {
+            "name": "dlqTopic",
+            "line": 10,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "DLQ_TOPIC_PREFIX",
+            "line": 9,
+            "type": "function"
+          },
+          {
+            "name": "dlqTopic",
+            "line": 10,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 11
+      }
+    ],
+    "mainEntry": null,
+    "exports": [
+      {
+        "name": "replayDLQ",
+        "line": 4,
+        "type": "function",
+        "file": "replay.ts"
+      },
+      {
+        "name": "withDLQ",
+        "line": 4,
+        "type": "function",
+        "file": "subscribe.ts"
+      },
+      {
+        "name": "DLQ_TOPIC_PREFIX",
+        "line": 9,
+        "type": "function",
+        "file": "types.ts"
+      },
+      {
+        "name": "dlqTopic",
+        "line": 10,
+        "type": "function",
+        "file": "types.ts"
+      }
+    ],
+    "classes": [],
+    "functions": [
+      {
+        "name": "replayDLQ",
+        "line": 4,
+        "type": "function",
+        "file": "replay.ts"
+      },
+      {
+        "name": "withDLQ",
+        "line": 4,
+        "type": "function",
+        "file": "subscribe.ts"
+      },
+      {
+        "name": "DLQ_TOPIC_PREFIX",
+        "line": 9,
+        "type": "function",
+        "file": "types.ts"
+      },
+      {
+        "name": "dlqTopic",
+        "line": 10,
+        "type": "function",
+        "file": "types.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "replay.ts",
+          "link": "[src/replay.ts](../../../packages/dlq/src/replay.ts)",
+          "lineCount": 24
+        },
+        {
+          "name": "subscribe.ts",
+          "link": "[src/subscribe.ts](../../../packages/dlq/src/subscribe.ts)",
+          "lineCount": 38
+        },
+        {
+          "name": "tests/with-dlq.test.ts",
+          "link": "[src/tests/with-dlq.test.ts](../../../packages/dlq/src/tests/with-dlq.test.ts)",
+          "lineCount": 113
+        },
+        {
+          "name": "types.ts",
+          "link": "[src/types.ts](../../../packages/dlq/src/types.ts)",
+          "lineCount": 11
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [],
+      "functions": [
+        {
+          "name": "replayDLQ",
+          "link": "[replayDLQ()](../../../packages/dlq/src/replay.ts#L4)",
+          "file": "replay.ts",
+          "line": 4
+        },
+        {
+          "name": "withDLQ",
+          "link": "[withDLQ()](../../../packages/dlq/src/subscribe.ts#L4)",
+          "file": "subscribe.ts",
+          "line": 4
+        },
+        {
+          "name": "DLQ_TOPIC_PREFIX",
+          "link": "[DLQ_TOPIC_PREFIX()](../../../packages/dlq/src/types.ts#L9)",
+          "file": "types.ts",
+          "line": 9
+        },
+        {
+          "name": "dlqTopic",
+          "link": "[dlqTopic()](../../../packages/dlq/src/types.ts#L10)",
+          "file": "types.ts",
+          "line": 10
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

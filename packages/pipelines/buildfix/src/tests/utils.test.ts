@@ -1,5 +1,5 @@
 import test from "ava";
-import { parseArgs } from "@promethean/utils";
+import { parseArgs } from "@promethean-os/utils";
 
 import { parseTsc, sanitizeBranch } from "../utils.js";
 

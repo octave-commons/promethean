@@ -1,7 +1,7 @@
 import WebSocket, { WebSocketServer } from "ws";
 import { randomUUID } from "crypto";
 import { EventEmitter } from "events";
-import { queueManager } from "@promethean/legacy/queueManager.js";
+import { queueManager } from "@promethean-os/legacy/queueManager.js";
 
 const rateLimitEnv = Number(process.env.BROKER_RATE_LIMIT_MS);
 if (rateLimitEnv > 0) {

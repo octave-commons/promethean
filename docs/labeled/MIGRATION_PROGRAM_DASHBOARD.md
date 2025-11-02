@@ -19,15 +19,15 @@
 ### Phase 2: Core Migration (P1) - Week 3-6
 | Package | Status | Priority | Start Date |
 |---------|--------|----------|------------|
-| @promethean/utils | 🔴 NOT STARTED | P1 | 2025-10-22 |
-| @promethean/level-cache | 🔴 NOT STARTED | P1 | 2025-10-22 |
-| @promethean/http | 🔴 NOT STARTED | P1 | 2025-10-23 |
-| @promethean/event | 🔴 NOT STARTED | P1 | 2025-10-23 |
-| @promethean/fsm | 🔴 NOT STARTED | P1 | 2025-10-24 |
-| @promethean/schema | 🔴 NOT STARTED | P1 | 2025-10-24 |
-| @promethean/ds | 🔴 NOT STARTED | P1 | 2025-10-25 |
-| @promethean/stream | 🔴 NOT STARTED | P1 | 2025-10-25 |
-| @promethean/persistence | 🔴 NOT STARTED | P1 | 2025-10-26 |
+| @promethean-os/utils | 🔴 NOT STARTED | P1 | 2025-10-22 |
+| @promethean-os/level-cache | 🔴 NOT STARTED | P1 | 2025-10-22 |
+| @promethean-os/http | 🔴 NOT STARTED | P1 | 2025-10-23 |
+| @promethean-os/event | 🔴 NOT STARTED | P1 | 2025-10-23 |
+| @promethean-os/fsm | 🔴 NOT STARTED | P1 | 2025-10-24 |
+| @promethean-os/schema | 🔴 NOT STARTED | P1 | 2025-10-24 |
+| @promethean-os/ds | 🔴 NOT STARTED | P1 | 2025-10-25 |
+| @promethean-os/stream | 🔴 NOT STARTED | P1 | 2025-10-25 |
+| @promethean-os/persistence | 🔴 NOT STARTED | P1 | 2025-10-26 |
 
 ## Migration Progress Metrics
 
@@ -89,7 +89,7 @@ Phase 1 (Infrastructure) → Phase 2 Core Utilities → Phase 2 Agent System →
 1. **Complete Typed ClojureScript Dependencies** - Extend existing configuration
 2. **Create Nx Template** - Use frontend-service as model
 3. **Setup packages/cljs Structure** - Organize new CLJS packages
-4. **Begin @promethean/utils Migration** - First core utility
+4. **Begin @promethean-os/utils Migration** - First core utility
 
 ### Next Week Priorities
 1. **Complete Infrastructure Phase** - All P0 tasks done

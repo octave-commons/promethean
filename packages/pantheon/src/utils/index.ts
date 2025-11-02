@@ -3,7 +3,7 @@
  * Common utility functions and helpers
  */
 
-import type { Actor, Message, ContextSource } from '@promethean/pantheon-core';
+import type { Actor, Message, ContextSource } from '@promethean-os/pantheon-core';
 
 // === ID Generation ===
 
@@ -14,7 +14,11 @@ export const generateId = (): string => {
 export const generateActorId = (name: string): string => {
   const timestamp = Date.now();
   const random = Math.random().toString(36).substring(2, 8);
-  const sanitizedName = name.toLowerCase().replace(/[^a-z0-9]/g, '-');
+  const sanitizedName = name
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
   return `actor_${sanitizedName}_${timestamp}_${random}`;
 };
 
@@ -146,7 +150,9 @@ export const validateConfig = <T extends Record<string, any>>(
   config: any,
   requiredKeys: (keyof T)[],
 ): config is T => {
-  return requiredKeys.every((key) => key in config);
+  return requiredKeys.every(
+    (key) => key in config && config[key] !== null && config[key] !== undefined,
+  );
 };
 
 // === Error Handling ===
@@ -159,6 +165,15 @@ export class PantheonError extends Error {
   ) {
     super(message);
     this.name = 'PantheonError';
+  }
+
+  toJSON(): Record<string, unknown> {
+    return {
+      name: this.name,
+      message: this.message,
+      code: this.code,
+      details: this.details,
+    };
   }
 }
 
@@ -196,27 +211,40 @@ export const retry = async <T>(
   delayMs: number = 1000,
   backoff: 'linear' | 'exponential' = 'exponential',
 ): Promise<T> => {
+  // Special case: maxRetries = 0 means try once with no retries
+  if (maxRetries === 0) {
+    return await fn();
+  }
+
   let lastError: Error;
 
-  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+  // Make exactly maxRetries attempts (not maxRetries + 1)
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
       return await fn();
     } catch (error) {
-      lastError = error instanceof Error ? error : new Error(String(error));
+      const originalError = error instanceof Error ? error : new Error(String(error));
+      lastError = originalError;
 
+      // If this is the last attempt, enhance error message with attempt count
       if (attempt === maxRetries) {
-        break;
+        // Only add attempt info if not already present in error message
+        const attemptPattern = /attempt \d+/;
+        if (attemptPattern.test(originalError.message)) {
+          throw originalError;
+        }
+        throw new Error(`${originalError.message}, attempt ${maxRetries}`);
       }
 
       const delay =
-        backoff === 'exponential' ? delayMs * Math.pow(2, attempt) : delayMs * (attempt + 1);
+        backoff === 'exponential' ? delayMs * Math.pow(2, attempt - 1) : delayMs * attempt;
 
       await new Promise((resolve) => setTimeout(resolve, delay));
     }
   }
 
   throw lastError!;
-};
+};;;
 
 // === Logging Utilities ===
 

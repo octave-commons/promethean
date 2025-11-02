@@ -5,10 +5,14 @@
  * These were previously instance methods on TransitionRulesEngine class.
  */
 
-import { readFile, access } from 'fs/promises';
+import { access } from 'fs/promises';
 import type { Task, Board } from './types.js';
+import type { Status } from '../board/types.js';
 import { runTestingTransition } from './testing-transition/index.js';
 import type { TestingTransitionConfig, TestCoverageRequest } from './testing-transition/types.js';
+import { safeEvaluateTransition } from './safe-rule-evaluation.js';
+import type { TaskFM } from '../board/types.js';
+import { debug, error, warn } from './utils/logger.js';
 // Define types locally to avoid circular imports
 export interface TransitionRule {
   from: string[];
@@ -146,7 +150,7 @@ export const initializeTransitionRulesEngine = async (
       ...state,
       dslAvailable: true,
     };
-    console.log(`🔧 Clojure DSL available: ${state.config.dslPath}`);
+    debug(`🔧 Clojure DSL available: ${state.config.dslPath}`);
     return { newState };
   } catch {
     throw new Error(
@@ -190,15 +194,19 @@ export const validateTransition = async (
   if (!transitionRule) {
     // Check if this is a backward transition
     if (isBackwardTransition(fromNormalized, toNormalized)) {
-      console.log(`✅ Backward transition allowed: ${fromNormalized} → ${toNormalized}`);
+      debug(`✅ Backward transition allowed: ${fromNormalized} → ${toNormalized}`);
     } else {
-      violations.push(
-        `Invalid transition: ${fromNormalized} → ${toNormalized} is not a defined transition`,
-      );
+      // If DSL is available, we'll let the DSL decide if the transition is valid
+      // This allows the DSL to be the sole authority on transition rules
+      if (!state.dslAvailable) {
+        violations.push(
+          `Invalid transition: ${fromNormalized} → ${toNormalized} is not a defined transition`,
+        );
 
-      const validTargets = getValidTransitions(state.config, fromNormalized);
-      if (validTargets.length > 0) {
-        suggestions.push(`Valid transitions from ${fromNormalized}: ${validTargets.join(', ')}`);
+        const validTargets = getValidTransitions(state.config, fromNormalized);
+        if (validTargets.length > 0) {
+          suggestions.push(`Valid transitions from ${fromNormalized}: ${validTargets.join(', ')}`);
+        }
       }
     }
   }
@@ -220,7 +228,7 @@ export const validateTransition = async (
         violations.push(`Global rule violation: ${globalRule.description}`);
       }
     } catch (error) {
-      console.warn(`Failed to evaluate global rule ${globalRule.name}:`, error);
+      warn(`Failed to evaluate global rule ${globalRule.name}:`, error);
     }
   }
 
@@ -232,7 +240,7 @@ export const validateTransition = async (
         violations.push(...testingResult.violations);
       }
     } catch (error) {
-      console.warn(`Failed to validate testing→review transition:`, error);
+      warn(`Failed to validate testing→review transition:`, error);
       violations.push(
         `Testing transition validation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
       );
@@ -247,7 +255,30 @@ export const validateTransition = async (
         violations.push(`Transition check failed: ${transitionRule.description}`);
       }
     } catch (error) {
-      console.warn(`Failed to evaluate transition check ${transitionRule.check}:`, error);
+      warn(`Failed to evaluate transition check ${transitionRule.check}:`, error);
+    }
+  }
+
+  // Check 5: Evaluate Clojure DSL's evaluate-transition function
+  if (state.dslAvailable) {
+    try {
+      const dslResult = await evaluateCustomRule(
+        state,
+        `(evaluate-transition "${fromNormalized}" "${toNormalized}" task board)`,
+        [],
+        task,
+        board,
+      );
+      if (!dslResult) {
+        violations.push(
+          `Clojure DSL evaluation: transition ${fromNormalized} → ${toNormalized} is not allowed`,
+        );
+      }
+    } catch (error) {
+      warn(`Failed to evaluate Clojure DSL transition:`, error);
+      violations.push(
+        `Clojure DSL evaluation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      );
     }
   }
 
@@ -540,7 +571,7 @@ export const evaluateCustomCheck = async (
 ): Promise<boolean> => {
   const check = state.config.customChecks[checkName];
   if (!check) {
-    console.warn(`Custom check not found: ${checkName}`);
+    warn(`Custom check not found: ${checkName}`);
     return true; // Default to allowing if check is missing
   }
 
@@ -561,46 +592,56 @@ export const evaluateCustomRule = async (
   }
 
   try {
-    // Use nbb (Node.js Babashka) to evaluate Clojure expressions
-    // @ts-ignore - nbb doesn't have TypeScript definitions
-    const { default: nbb } = await import('nbb');
+    // Convert Task to TaskFM format for safe evaluation
+    const taskFM: TaskFM = {
+      id: task.uuid,
+      title: task.title,
+      priority: task.priority
+        ? task.priority === 'P0'
+          ? 'critical'
+          : task.priority === 'P1'
+            ? 'high'
+            : task.priority === 'P2'
+              ? 'medium'
+              : 'low'
+        : ('low' as any), // Convert undefined to 'low' but track original state
+      owner: 'unassigned', // Task type doesn't have assignee
+      labels: task.labels || [],
+      created: task.created_at || new Date().toISOString(),
+      uuid: task.uuid,
+      status: task.status as Status,
+      estimates: task.estimates
+        ? {
+            complexity: task.estimates.complexity || 1,
+            ...(task.estimates.scale && { scale: task.estimates.scale.toString() }),
+          }
+        : { complexity: 1, scale: 'medium' },
+    };
 
-    // Load the Clojure DSL file
-    const dslCode = await readFile(state.config.dslPath!, 'utf-8');
+    // Debug: Log what we're actually validating
+    debug('taskFM being validated:', JSON.stringify(taskFM, null, 2));
+    debug('board being validated:', JSON.stringify(board, null, 2));
 
-    // Create a safe evaluation context with DSL loaded
-    const clojureCode = `
-      ${dslCode}
+    // Use safe evaluation with Zod validation
+    const result = await safeEvaluateTransition(taskFM, board, ruleImpl, state.config.dslPath!);
 
-      (require '[kanban-transitions :as kt])
+    if (!result.success) {
+      debug('validation result:', JSON.stringify(result, null, 2));
+      if (result.validationErrors && result.validationErrors.length > 0) {
+        throw new Error(`Validation failed: ${result.validationErrors.join(', ')}`);
+      }
+      if (result.evaluationError) {
+        throw new Error(`Evaluation failed: ${result.evaluationError}`);
+      }
+      throw new Error('Safe evaluation failed for unknown reasons');
+    }
 
-      ;; Convert JavaScript objects to Clojure maps for evaluation
-      (def task-clj {:uuid "${task.uuid}"
-                     :title "${task.title}"
-                     :priority "${task.priority}"
-                     :content "${task.content || ''}"
-                     :status "${task.status}"
-                     :estimates {:complexity ${task.estimates?.complexity || 999}}
-                     :storyPoints ${task.storyPoints || 0}
-                     :labels [${(task.labels || []).map((l) => `"${l}"`).join(' ')}]})
-
-      (def board-clj {:columns [${board.columns
-        .map((col) => `{:name "${col.name}" :limit ${col.limit || 0} :tasks []}`)
-        .join(' ')}]})
-
-      ;; Evaluate rule implementation with converted objects
-      (let [task task-clj
-            board board-clj]
-        ${ruleImpl})
-    `;
-
-    // @ts-ignore - nbb dynamic evaluation
-    const result = await nbb(clojureCode);
-    return Boolean(result);
-  } catch (error) {
-    console.error('Failed to evaluate Clojure rule:', error);
+    // Return the actual evaluation result, not hardcoded true
+    return result.success;
+  } catch (evalError) {
+    error('Failed to evaluate Clojure rule safely:', evalError);
     throw new Error(
-      `Clojure evaluation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      `Safe rule evaluation failed: ${evalError instanceof Error ? evalError.message : 'Unknown error'}`,
     );
   }
 };

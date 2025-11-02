@@ -1,4 +1,4 @@
-# @promethean/autocommit
+# @promethean-os/autocommit
 
 Watches your git repo and automatically stages + commits changes with LLM-generated messages.
 
@@ -11,9 +11,9 @@ Watches your git repo and automatically stages + commits changes with LLM-genera
 ## Install & Run (workspace)
 
 ```bash
-pnpm --filter @promethean/autocommit install
-pnpm --filter @promethean/autocommit build
-pnpm --filter @promethean/autocommit exec autocommit -- --dry-run
+pnpm --filter @promethean-os/autocommit install
+pnpm --filter @promethean-os/autocommit build
+pnpm --filter @promethean-os/autocommit exec autocommit -- --dry-run
 ```
 
 ## CLI
@@ -22,9 +22,37 @@ pnpm --filter @promethean/autocommit exec autocommit -- --dry-run
 autocommit --path . --debounce-ms 10000 --model llama3.1:8b --dry-run
 ```
 
+### Git Subrepo Support
+
+The package supports git-subrepo repositories alongside standard git repositories and submodules:
+
+```bash
+# Enable subrepo detection
+autocommit --handle-subrepos --subrepo-strategy integrated
+
+# Recursive mode with subrepo support
+autocommit --recursive --handle-subrepos --subrepo-strategy separate
+```
+
+**Subrepo Strategies:**
+
+- `integrated`: Treat subrepos as part of the parent repository (default)
+- `separate`: Process subrepos as independent repositories
+
+**Key Differences:**
+
+- Git submodules use `.gitmodules` and separate `.git` directories
+- Git subrepos use `.gitrepo` files with squashed history
+- Subrepos appear as regular directories but are detected via `.gitrepo` files
+
 ## Safety
 
 - Respects `.gitignore` plus `--exclude`.
 - Debounces to avoid noisy histories.
 - Caps diff bytes to protect tokens & context.
 - Falls back to deterministic messages when LLM unavailable.
+- Secure error handling prevents information leakage and log spam.
+
+## Error Handling
+
+The package includes robust error handling with safe message serialization and truncation. See [ERROR_HANDLING.md](./ERROR_HANDLING.md) for detailed documentation on error handling improvements and usage.

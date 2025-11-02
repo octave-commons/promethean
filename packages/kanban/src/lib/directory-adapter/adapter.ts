@@ -6,7 +6,7 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import { performance } from 'perf_hooks';
-import { createLogger, type LogFields } from '@promethean/utils';
+import { createLogger, type LogFields } from '@promethean-os/utils';
 import matter from 'gray-matter';
 import type { IndexedTask } from '../../board/types.js';
 import type { TaskCache } from '../../board/task-cache.js';

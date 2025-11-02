@@ -1,5 +1,5 @@
 {
-    "name": "@promethean/test-utils",
+    "name": "@promethean-os/test-utils",
     "version": "0.0.1",
     "private": true,
     "type": "module",
@@ -28,7 +28,7 @@
     },
     "module": "dist/index.js",
     "dependencies": {
-        "@promethean/persistence": "workspace:*",
+        "@promethean-os/persistence": "workspace:*",
         "@types/javascript-time-ago": "^2.5.0",
         "@types/unist": "^3.0.3",
         "body-parser": "^1.20.2",

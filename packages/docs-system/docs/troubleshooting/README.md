@@ -11,7 +11,7 @@ This guide covers common issues, error scenarios, and their solutions for the Pr
 **Symptoms:**
 
 ```
-Error: Cannot find module '@promethean/level-cache'
+Error: Cannot find module '@promethean-os/level-cache'
 ```
 
 **Solutions:**

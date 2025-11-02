@@ -1,4 +1,4 @@
-# @promethean/omni-protocol
+# @promethean-os/omni-protocol
 
 Unified protocol definitions and validation for the Promethean ecosystem.
 
@@ -16,7 +16,7 @@ The Omni protocol provides a standardized way for services, agents, and componen
 ## Installation
 
 ```bash
-pnpm add @promethean/omni-protocol
+pnpm add @promethean-os/omni-protocol
 ```
 
 ## Quick Start
@@ -24,7 +24,7 @@ pnpm add @promethean/omni-protocol
 ### Basic Message Creation and Validation
 
 ```typescript
-import { OmniMessage, validateOmniMessage } from "@promethean/omni-protocol";
+import { OmniMessage, validateOmniMessage } from "@promethean-os/omni-protocol";
 
 // Create a request message
 const request: OmniMessage = {
@@ -149,7 +149,7 @@ pnpm run coverage
 ### Service Implementation
 
 ```typescript
-import { OmniRequest, OmniResponse, validateOmniRequest } from "@promethean/omni-protocol";
+import { OmniRequest, OmniResponse, validateOmniRequest } from "@promethean-os/omni-protocol";
 
 class UserService {
   async handleRequest(rawMessage: unknown): Promise<OmniResponse> {
@@ -179,7 +179,7 @@ class UserService {
 ### Event Publishing
 
 ```typescript
-import { OmniEvent } from "@promethean/omni-protocol";
+import { OmniEvent } from "@promethean-os/omni-protocol";
 
 const event: OmniEvent = {
   id: generateId(),

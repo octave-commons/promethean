@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/data-stores",
+  "name": "@promethean-os/data-stores",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -28,7 +28,7 @@
   },
   "module": "dist/index.js",
   "dependencies": {
-    "@promethean/persistence": "workspace:*"
+    "@promethean-os/persistence": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0"

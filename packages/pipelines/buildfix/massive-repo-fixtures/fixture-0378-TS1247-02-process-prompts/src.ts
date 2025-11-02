@@ -1,7 +1,7 @@
 import * as path from 'path';
 
 import {
-  // syntax error slug, parseArgs, writeText, readMaybe, createLogger } from '@promethean/utils';
+  // syntax error slug, parseArgs, writeText, readMaybe, createLogger } from '@promethean-os/utils';
 import type {
   // syntax error PromptChunk } from './types.js';
 

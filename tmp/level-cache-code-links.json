@@ -1,0 +1,155 @@
+{
+  "packageData": {
+    "packageName": "level-cache",
+    "files": [
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/level-cache/src/index.ts",
+        "exports": [
+          {
+            "name": "openLevelCache",
+            "line": 239,
+            "type": "function"
+          },
+          {
+            "name": "defaultNamespace",
+            "line": 256,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "openLevelCache",
+            "line": 239,
+            "type": "function"
+          },
+          {
+            "name": "defaultNamespace",
+            "line": 256,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 264
+      },
+      {
+        "path": "tests/cache.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/level-cache/src/tests/cache.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 80
+      },
+      {
+        "path": "types.ts",
+        "fullPath": "/home/err/devel/promethean/packages/level-cache/src/types.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 40
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [
+        {
+          "name": "openLevelCache",
+          "line": 239,
+          "type": "function"
+        },
+        {
+          "name": "defaultNamespace",
+          "line": 256,
+          "type": "function"
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "openLevelCache",
+          "line": 239,
+          "type": "function"
+        },
+        {
+          "name": "defaultNamespace",
+          "line": 256,
+          "type": "function"
+        }
+      ],
+      "interfaces": [],
+      "totalLines": 264
+    },
+    "exports": [
+      {
+        "name": "openLevelCache",
+        "line": 239,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "defaultNamespace",
+        "line": 256,
+        "type": "function",
+        "file": "index.ts"
+      }
+    ],
+    "classes": [],
+    "functions": [
+      {
+        "name": "openLevelCache",
+        "line": 239,
+        "type": "function",
+        "file": "index.ts"
+      },
+      {
+        "name": "defaultNamespace",
+        "line": 256,
+        "type": "function",
+        "file": "index.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/level-cache/src/index.ts)",
+          "lineCount": 264
+        },
+        {
+          "name": "tests/cache.test.ts",
+          "link": "[src/tests/cache.test.ts](../../../packages/level-cache/src/tests/cache.test.ts)",
+          "lineCount": 80
+        },
+        {
+          "name": "types.ts",
+          "link": "[src/types.ts](../../../packages/level-cache/src/types.ts)",
+          "lineCount": 40
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [],
+      "functions": [
+        {
+          "name": "openLevelCache",
+          "link": "[openLevelCache()](../../../packages/level-cache/src/index.ts#L239)",
+          "file": "index.ts",
+          "line": 239
+        },
+        {
+          "name": "defaultNamespace",
+          "link": "[defaultNamespace()](../../../packages/level-cache/src/index.ts#L256)",
+          "file": "index.ts",
+          "line": 256
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

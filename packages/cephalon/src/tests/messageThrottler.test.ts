@@ -1,5 +1,5 @@
 import test from "ava";
-import { sleep } from "@promethean/utils";
+import { sleep } from "@promethean-os/utils";
 
 import { AIAgent } from "../agent.js";
 import type { Bot } from "../bot.js";
@@ -8,7 +8,7 @@ import { initMessageThrottler } from "../messageThrottler.js";
 process.env.DISABLE_AUDIO = "1";
 
 // @ts-ignore dynamic import of JS module without types
-const brokerModule = await import("@promethean/broker");
+const brokerModule = await import("@promethean-os/broker");
 const { start: startBroker, stop: stopBroker } = brokerModule;
 
 test.skip("throttles tick interval based on messages", async (t) => {

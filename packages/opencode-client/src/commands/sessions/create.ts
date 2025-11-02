@@ -2,6 +2,7 @@ import { Command } from 'commander';
 import chalk from 'chalk';
 import { create } from '../../actions/sessions/create.js';
 import { createOpencodeClient } from '@opencode-ai/sdk';
+import { sessionActionSerializer } from '../../serializers/session.js';
 
 export const createSessionCommand = new Command('create')
   .description('Create a new session')
@@ -10,6 +11,7 @@ export const createSessionCommand = new Command('create')
   .option('--title <title>', 'Session title')
   .option('--files <files>', 'Associated files (JSON array)')
   .option('--delegates <delegates>', 'Delegate agents (JSON array)')
+  .option('--format <format>', 'Output format (text|json|markdown)', 'text')
   .action(async (title, options) => {
     try {
       const sessionTitle = options.title || title || 'New Session';
@@ -46,18 +48,24 @@ export const createSessionCommand = new Command('create')
         client,
       });
 
-      console.log(chalk.green('✓ Session created successfully'));
-      console.log(`ID: ${result.session?.id}`);
-      console.log(`Title: ${result.session?.title}`);
-      console.log(`Type: ${options.agent ? 'Agent' : 'Regular'} Session`);
-      console.log(`Created: ${result.session?.createdAt}`);
+      if (options.format === 'json') {
+        console.log(JSON.stringify(result, null, 2));
+      } else if (options.format === 'markdown') {
+        console.log(sessionActionSerializer.serialize(result));
+      } else {
+        console.log(chalk.green('✓ Session created successfully'));
+        console.log(`ID: ${result.session?.id}`);
+        console.log(`Title: ${result.session?.title}`);
+        console.log(`Type: ${options.agent ? 'Agent' : 'Regular'} Session`);
+        console.log(`Created: ${result.session?.createdAt}`);
 
-      if (files && files.length > 0) {
-        console.log(`Files: ${files.join(', ')}`);
-      }
+        if (files && files.length > 0) {
+          console.log(`Files: ${files.join(', ')}`);
+        }
 
-      if (delegates && delegates.length > 0) {
-        console.log(`Delegates: ${delegates.join(', ')}`);
+        if (delegates && delegates.length > 0) {
+          console.log(`Delegates: ${delegates.join(', ')}`);
+        }
       }
 
       // Ensure process exits cleanly

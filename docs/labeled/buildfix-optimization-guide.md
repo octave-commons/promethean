@@ -31,7 +31,7 @@ The optimized BuildFix provider includes:
 The `PerformanceMonitor` class provides real-time monitoring of:
 
 ```typescript
-import { globalPerformanceMonitor } from '@promethean/benchmark/src/metrics/performance-monitor';
+import { globalPerformanceMonitor } from '@promethean-os/benchmark/src/metrics/performance-monitor';
 
 // Start monitoring
 globalPerformanceMonitor.startMonitoring();
@@ -67,7 +67,7 @@ globalPerformanceMonitor.exportMetrics('./performance-metrics.json');
 The `ResourceManager` provides intelligent resource pooling:
 
 ```typescript
-import { ResourceManager } from '@promethean/benchmark/src/metrics/resource-manager';
+import { ResourceManager } from '@promethean-os/benchmark/src/metrics/resource-manager';
 
 const resourceManager = new ResourceManager();
 
@@ -97,7 +97,7 @@ try {
 The `MemoryManager` provides memory monitoring and management:
 
 ```typescript
-import { MemoryManager } from '@promethean/benchmark/src/metrics/resource-manager';
+import { MemoryManager } from '@promethean-os/benchmark/src/metrics/resource-manager';
 
 const memoryManager = MemoryManager.getInstance();
 
@@ -123,7 +123,7 @@ memoryManager.setThresholds({
 The `AdvancedCache` provides comprehensive caching capabilities:
 
 ```typescript
-import { CacheFactory } from '@promethean/benchmark/src/cache/advanced-cache';
+import { CacheFactory } from '@promethean-os/benchmark/src/cache/advanced-cache';
 
 // Create LRU cache
 const lruCache = CacheFactory.createLRUCache({
@@ -168,7 +168,7 @@ const cached = await multiCache.get('buildfix:result');
 The `LoadTester` provides comprehensive load testing capabilities:
 
 ```typescript
-import { LoadTester, LoadTestReporter } from '@promethean/benchmark/src/load-testing/load-tester';
+import { LoadTester, LoadTestReporter } from '@promethean-os/benchmark/src/load-testing/load-tester';
 
 // Configure load test
 const config = {
@@ -233,7 +233,7 @@ The `EnhancedBuildFixProvider` includes:
 ### Usage
 
 ```typescript
-import { EnhancedBuildFixProvider } from '@promethean/benchmark/src/providers/buildfix-enhanced';
+import { EnhancedBuildFixProvider } from '@promethean-os/benchmark/src/providers/buildfix-enhanced';
 
 const provider = new EnhancedBuildFixProvider({
   name: 'buildfix-enhanced',

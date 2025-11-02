@@ -2,7 +2,7 @@ import test from "ava";
 import {
   RemoteEmbeddingFunction,
   setEmbeddingOverride,
-} from "@promethean/embedding";
+} from "@promethean-os/embedding";
 
 test.afterEach.always(() => {
   setEmbeddingOverride(null);

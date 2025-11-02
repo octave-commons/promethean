@@ -13,7 +13,7 @@ This Nx generator scaffolds new Promethean packages under `packages/<name>`.
 
 ### `ts-lib`
 
-Creates a TypeScript library aligned with `@promethean/utils`. The preset
+Creates a TypeScript library aligned with `@promethean-os/utils`. The preset
 includes:
 
 - Shared config (`ava.config.mjs`, `project.json`, `tsconfig.json`).
@@ -54,7 +54,7 @@ expects the following environment knobs at runtime:
 
 By default the service exposes:
 
-- `/health` and `/diagnostics` backed by `@promethean/web-utils`.
+- `/health` and `/diagnostics` backed by `@promethean-os/web-utils`.
 - Static assets from `dist/frontend` at `/<service-name>/` and from `static/` at
   `/<service-name>/static/`.
 - `/docs` serving Swagger UI and `/openapi.json` exposing the OpenAPI document.

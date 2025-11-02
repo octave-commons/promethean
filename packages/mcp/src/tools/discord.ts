@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { DiscordRestProxy } from '@promethean/discord';
+import { DiscordRestProxy } from '@promethean-os/discord';
 
 import type { Tool, ToolContext, ToolFactory, ToolSpec } from '../core/types.js';
 

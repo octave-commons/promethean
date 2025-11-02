@@ -1,9 +1,9 @@
 import {
   fileBackedRegistry,
   type ProviderRegistry,
-} from "@promethean/platform";
-import { makeChromaWrapper } from "@promethean/migrations/chroma.js";
-import { makeDeterministicEmbedder } from "@promethean/migrations/embedder.js";
+} from "@promethean-os/platform";
+import { makeChromaWrapper } from "@promethean-os/migrations/chroma.js";
+import { makeDeterministicEmbedder } from "@promethean-os/migrations/embedder.js";
 
 type EmbedMessageEvent = {
   readonly provider: string;

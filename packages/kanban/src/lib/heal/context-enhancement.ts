@@ -19,7 +19,7 @@ type GenerateFunction = (args: {
 // Dynamic import for LLM to avoid build issues
 async function getLLMGenerate(): Promise<GenerateFunction | null> {
   try {
-    const llmModule = await import('@promethean/llm');
+    const llmModule = await import('@promethean-os/llm');
     return llmModule.generate as GenerateFunction;
   } catch (error) {
     console.warn('LLM module not available, using fallback');

@@ -1,7 +1,7 @@
 import path from "node:path";
 
 import test from "ava";
-import { embedMessage } from "@promethean/discord";
+import { embedMessage } from "@promethean-os/discord";
 
 type EmbedEvt = {
   readonly provider: string;

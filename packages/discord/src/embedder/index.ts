@@ -1,7 +1,7 @@
 import { ObjectId, Collection } from 'mongodb';
-import { AGENT_NAME } from '@promethean/legacy/env.js';
-import { HeartbeatClient } from '@promethean/legacy/heartbeat/index.js';
-import { ContextStore, getMongoClient } from '@promethean/persistence';
+import { AGENT_NAME } from '@promethean-os/legacy/env.js';
+import { HeartbeatClient } from '@promethean-os/legacy/heartbeat/index.js';
+import { ContextStore, getMongoClient } from '@promethean-os/persistence';
 
 // Schema for raw discord messages awaiting embedding
 type DiscordMessage = {

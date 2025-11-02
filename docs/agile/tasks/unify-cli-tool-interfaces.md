@@ -16,7 +16,7 @@ estimates:
 
 ### 📋 Description
 
-Unify the CLI and tool interfaces from `@promethean/opencode-client` into a single, consistent command-line interface for the unified package. This involves consolidating command structures, standardizing help and documentation, and creating a cohesive user experience.
+Unify the CLI and tool interfaces from `@promethean-os/opencode-client` into a single, consistent command-line interface for the unified package. This involves consolidating command structures, standardizing help and documentation, and creating a cohesive user experience.
 
 ### 🎯 Goals
 
@@ -137,7 +137,7 @@ src/typescript/cli/
 
 ### 📁 Files/Components to Migrate
 
-#### From `@promethean/opencode-client`:
+#### From `@promethean-os/opencode-client`:
 
 1. **CLI Core**
 

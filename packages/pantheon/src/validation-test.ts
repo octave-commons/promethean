@@ -13,7 +13,7 @@ import {
   makeInMemoryMessageBusAdapter,
   makeInMemorySchedulerAdapter,
   makeInMemoryActorStateAdapter,
-} from '@promethean/pantheon-core';
+} from '@promethean-os/pantheon-core';
 
 import { generateId, createConsoleLogger, PantheonError } from './utils/index.js';
 import { createToolActor, createCompositeActor } from './actors/index.js';

@@ -1,0 +1,1160 @@
+{
+  "packageData": {
+    "packageName": "test-utils",
+    "files": [
+      {
+        "path": "broker.ts",
+        "fullPath": "/home/err/devel/promethean/packages/test-utils/src/broker.ts",
+        "exports": [
+          {
+            "name": "getMemoryBroker",
+            "line": 130,
+            "type": "function"
+          },
+          {
+            "name": "resetMemoryBroker",
+            "line": 135,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "MemoryBroker",
+            "line": 35,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "getMemoryBroker",
+            "line": 130,
+            "type": "function"
+          },
+          {
+            "name": "resetMemoryBroker",
+            "line": 135,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 144
+      },
+      {
+        "path": "browser.ts",
+        "fullPath": "/home/err/devel/promethean/packages/test-utils/src/browser.ts",
+        "exports": [
+          {
+            "name": "getBrowser",
+            "line": 11,
+            "type": "function"
+          },
+          {
+            "name": "newIsolatedPage",
+            "line": 13,
+            "type": "function"
+          },
+          {
+            "name": "shutdown",
+            "line": 28,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "getBrowser",
+            "line": 11,
+            "type": "function"
+          },
+          {
+            "name": "newIsolatedPage",
+            "line": 13,
+            "type": "function"
+          },
+          {
+            "name": "shutdown",
+            "line": 28,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 39
+      },
+      {
+        "path": "dummy-server.ts",
+        "fullPath": "/home/err/devel/promethean/packages/test-utils/src/dummy-server.ts",
+        "exports": [
+          {
+            "name": "startDummyServer",
+            "line": 10,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "startDummyServer",
+            "line": 10,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 32
+      },
+      {
+        "path": "e2e.ts",
+        "fullPath": "/home/err/devel/promethean/packages/test-utils/src/e2e.ts",
+        "exports": [
+          {
+            "name": "mkUrlBuilder",
+            "line": 17,
+            "type": "function"
+          },
+          {
+            "name": "withE2EContext",
+            "line": 22,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "mkUrlBuilder",
+            "line": 17,
+            "type": "function"
+          },
+          {
+            "name": "withE2EContext",
+            "line": 22,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 40
+      },
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/test-utils/src/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 7
+      },
+      {
+        "path": "page.ts",
+        "fullPath": "/home/err/devel/promethean/packages/test-utils/src/page.ts",
+        "exports": [
+          {
+            "name": "withPage",
+            "line": 18,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "withPage",
+            "line": 18,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 34
+      },
+      {
+        "path": "persistence.ts",
+        "fullPath": "/home/err/devel/promethean/packages/test-utils/src/persistence.ts",
+        "exports": [
+          {
+            "name": "InMemoryCollection",
+            "line": 19,
+            "type": "class"
+          },
+          {
+            "name": "FakeDb",
+            "line": 152,
+            "type": "class"
+          },
+          {
+            "name": "FakeMongoClient",
+            "line": 160,
+            "type": "class"
+          },
+          {
+            "name": "FakeChromaCollection",
+            "line": 176,
+            "type": "class"
+          },
+          {
+            "name": "FakeChromaClient",
+            "line": 186,
+            "type": "class"
+          },
+          {
+            "name": "installInMemoryPersistence",
+            "line": 192,
+            "type": "function"
+          }
+        ],
+        "classes": [
+          {
+            "name": "InMemoryCollection",
+            "line": 19,
+            "type": "class"
+          },
+          {
+            "name": "FakeDb",
+            "line": 152,
+            "type": "class"
+          },
+          {
+            "name": "FakeMongoClient",
+            "line": 160,
+            "type": "class"
+          },
+          {
+            "name": "FakeChromaCollection",
+            "line": 176,
+            "type": "class"
+          },
+          {
+            "name": "FakeChromaClient",
+            "line": 186,
+            "type": "class"
+          }
+        ],
+        "functions": [
+          {
+            "name": "installInMemoryPersistence",
+            "line": 192,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 209
+      },
+      {
+        "path": "port-pool.ts",
+        "fullPath": "/home/err/devel/promethean/packages/test-utils/src/port-pool.ts",
+        "exports": [
+          {
+            "name": "getFreePort",
+            "line": 6,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "getFreePort",
+            "line": 6,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 21
+      },
+      {
+        "path": "process.ts",
+        "fullPath": "/home/err/devel/promethean/packages/test-utils/src/process.ts",
+        "exports": [
+          {
+            "name": "registerProcForFile",
+            "line": 46,
+            "type": "function"
+          },
+          {
+            "name": "registerProcForFileWithPort",
+            "line": 71,
+            "type": "function"
+          },
+          {
+            "name": "startProcessWithPort",
+            "line": 102,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "registerProcForFile",
+            "line": 46,
+            "type": "function"
+          },
+          {
+            "name": "registerProcForFileWithPort",
+            "line": 71,
+            "type": "function"
+          },
+          {
+            "name": "startProcessWithPort",
+            "line": 102,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 137
+      },
+      {
+        "path": "startProcess.ts",
+        "fullPath": "/home/err/devel/promethean/packages/test-utils/src/startProcess.ts",
+        "exports": [
+          {
+            "name": "startProcess",
+            "line": 24,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "startProcess",
+            "line": 24,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 58
+      },
+      {
+        "path": "tests/broker.spec.ts",
+        "fullPath": "/home/err/devel/promethean/packages/test-utils/src/tests/broker.spec.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 89
+      },
+      {
+        "path": "tests/dummy-server-body.spec.ts",
+        "fullPath": "/home/err/devel/promethean/packages/test-utils/src/tests/dummy-server-body.spec.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 19
+      },
+      {
+        "path": "tests/dummy-server.spec.ts",
+        "fullPath": "/home/err/devel/promethean/packages/test-utils/src/tests/dummy-server.spec.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 19
+      },
+      {
+        "path": "tests/e2e-url.spec.ts",
+        "fullPath": "/home/err/devel/promethean/packages/test-utils/src/tests/e2e-url.spec.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 16
+      },
+      {
+        "path": "tests/page-title.spec.ts",
+        "fullPath": "/home/err/devel/promethean/packages/test-utils/src/tests/page-title.spec.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 12
+      },
+      {
+        "path": "tests/persistence-install.spec.ts",
+        "fullPath": "/home/err/devel/promethean/packages/test-utils/src/tests/persistence-install.spec.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 27
+      },
+      {
+        "path": "tests/persistence.spec.ts",
+        "fullPath": "/home/err/devel/promethean/packages/test-utils/src/tests/persistence.spec.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 71
+      },
+      {
+        "path": "tests/process-readiness.spec.ts",
+        "fullPath": "/home/err/devel/promethean/packages/test-utils/src/tests/process-readiness.spec.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 72
+      },
+      {
+        "path": "tests/process.spec.ts",
+        "fullPath": "/home/err/devel/promethean/packages/test-utils/src/tests/process.spec.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 116
+      },
+      {
+        "path": "tests/waits-cleanup.spec.ts",
+        "fullPath": "/home/err/devel/promethean/packages/test-utils/src/tests/waits-cleanup.spec.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 17
+      },
+      {
+        "path": "tests/waits.spec.ts",
+        "fullPath": "/home/err/devel/promethean/packages/test-utils/src/tests/waits.spec.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 112
+      },
+      {
+        "path": "tests/with-proc.spec.ts",
+        "fullPath": "/home/err/devel/promethean/packages/test-utils/src/tests/with-proc.spec.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 31
+      },
+      {
+        "path": "waitForHttp.ts",
+        "fullPath": "/home/err/devel/promethean/packages/test-utils/src/waitForHttp.ts",
+        "exports": [
+          {
+            "name": "waitForHttp",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "waitForHttp",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 21
+      },
+      {
+        "path": "waitForLog.ts",
+        "fullPath": "/home/err/devel/promethean/packages/test-utils/src/waitForLog.ts",
+        "exports": [
+          {
+            "name": "waitForLog",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "waitForLog",
+            "line": 3,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 26
+      },
+      {
+        "path": "waitForTcp.ts",
+        "fullPath": "/home/err/devel/promethean/packages/test-utils/src/waitForTcp.ts",
+        "exports": [
+          {
+            "name": "waitForTcp",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "waitForTcp",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 21
+      },
+      {
+        "path": "withPlaywrightContext.ts",
+        "fullPath": "/home/err/devel/promethean/packages/test-utils/src/withPlaywrightContext.ts",
+        "exports": [
+          {
+            "name": "withPlaywrightContext",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "withPlaywrightContext",
+            "line": 5,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 16
+      },
+      {
+        "path": "withProc.ts",
+        "fullPath": "/home/err/devel/promethean/packages/test-utils/src/withProc.ts",
+        "exports": [
+          {
+            "name": "withProc",
+            "line": 6,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "withProc",
+            "line": 6,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 17
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [],
+      "classes": [],
+      "functions": [],
+      "interfaces": [],
+      "totalLines": 7
+    },
+    "exports": [
+      {
+        "name": "getMemoryBroker",
+        "line": 130,
+        "type": "function",
+        "file": "broker.ts"
+      },
+      {
+        "name": "resetMemoryBroker",
+        "line": 135,
+        "type": "function",
+        "file": "broker.ts"
+      },
+      {
+        "name": "getBrowser",
+        "line": 11,
+        "type": "function",
+        "file": "browser.ts"
+      },
+      {
+        "name": "newIsolatedPage",
+        "line": 13,
+        "type": "function",
+        "file": "browser.ts"
+      },
+      {
+        "name": "shutdown",
+        "line": 28,
+        "type": "function",
+        "file": "browser.ts"
+      },
+      {
+        "name": "startDummyServer",
+        "line": 10,
+        "type": "function",
+        "file": "dummy-server.ts"
+      },
+      {
+        "name": "mkUrlBuilder",
+        "line": 17,
+        "type": "function",
+        "file": "e2e.ts"
+      },
+      {
+        "name": "withE2EContext",
+        "line": 22,
+        "type": "function",
+        "file": "e2e.ts"
+      },
+      {
+        "name": "withPage",
+        "line": 18,
+        "type": "function",
+        "file": "page.ts"
+      },
+      {
+        "name": "InMemoryCollection",
+        "line": 19,
+        "type": "class",
+        "file": "persistence.ts"
+      },
+      {
+        "name": "FakeDb",
+        "line": 152,
+        "type": "class",
+        "file": "persistence.ts"
+      },
+      {
+        "name": "FakeMongoClient",
+        "line": 160,
+        "type": "class",
+        "file": "persistence.ts"
+      },
+      {
+        "name": "FakeChromaCollection",
+        "line": 176,
+        "type": "class",
+        "file": "persistence.ts"
+      },
+      {
+        "name": "FakeChromaClient",
+        "line": 186,
+        "type": "class",
+        "file": "persistence.ts"
+      },
+      {
+        "name": "installInMemoryPersistence",
+        "line": 192,
+        "type": "function",
+        "file": "persistence.ts"
+      },
+      {
+        "name": "getFreePort",
+        "line": 6,
+        "type": "function",
+        "file": "port-pool.ts"
+      },
+      {
+        "name": "registerProcForFile",
+        "line": 46,
+        "type": "function",
+        "file": "process.ts"
+      },
+      {
+        "name": "registerProcForFileWithPort",
+        "line": 71,
+        "type": "function",
+        "file": "process.ts"
+      },
+      {
+        "name": "startProcessWithPort",
+        "line": 102,
+        "type": "function",
+        "file": "process.ts"
+      },
+      {
+        "name": "startProcess",
+        "line": 24,
+        "type": "function",
+        "file": "startProcess.ts"
+      },
+      {
+        "name": "waitForHttp",
+        "line": 5,
+        "type": "function",
+        "file": "waitForHttp.ts"
+      },
+      {
+        "name": "waitForLog",
+        "line": 3,
+        "type": "function",
+        "file": "waitForLog.ts"
+      },
+      {
+        "name": "waitForTcp",
+        "line": 5,
+        "type": "function",
+        "file": "waitForTcp.ts"
+      },
+      {
+        "name": "withPlaywrightContext",
+        "line": 5,
+        "type": "function",
+        "file": "withPlaywrightContext.ts"
+      },
+      {
+        "name": "withProc",
+        "line": 6,
+        "type": "function",
+        "file": "withProc.ts"
+      }
+    ],
+    "classes": [
+      {
+        "name": "MemoryBroker",
+        "line": 35,
+        "type": "class",
+        "file": "broker.ts"
+      },
+      {
+        "name": "InMemoryCollection",
+        "line": 19,
+        "type": "class",
+        "file": "persistence.ts"
+      },
+      {
+        "name": "FakeDb",
+        "line": 152,
+        "type": "class",
+        "file": "persistence.ts"
+      },
+      {
+        "name": "FakeMongoClient",
+        "line": 160,
+        "type": "class",
+        "file": "persistence.ts"
+      },
+      {
+        "name": "FakeChromaCollection",
+        "line": 176,
+        "type": "class",
+        "file": "persistence.ts"
+      },
+      {
+        "name": "FakeChromaClient",
+        "line": 186,
+        "type": "class",
+        "file": "persistence.ts"
+      }
+    ],
+    "functions": [
+      {
+        "name": "getMemoryBroker",
+        "line": 130,
+        "type": "function",
+        "file": "broker.ts"
+      },
+      {
+        "name": "resetMemoryBroker",
+        "line": 135,
+        "type": "function",
+        "file": "broker.ts"
+      },
+      {
+        "name": "getBrowser",
+        "line": 11,
+        "type": "function",
+        "file": "browser.ts"
+      },
+      {
+        "name": "newIsolatedPage",
+        "line": 13,
+        "type": "function",
+        "file": "browser.ts"
+      },
+      {
+        "name": "shutdown",
+        "line": 28,
+        "type": "function",
+        "file": "browser.ts"
+      },
+      {
+        "name": "startDummyServer",
+        "line": 10,
+        "type": "function",
+        "file": "dummy-server.ts"
+      },
+      {
+        "name": "mkUrlBuilder",
+        "line": 17,
+        "type": "function",
+        "file": "e2e.ts"
+      },
+      {
+        "name": "withE2EContext",
+        "line": 22,
+        "type": "function",
+        "file": "e2e.ts"
+      },
+      {
+        "name": "withPage",
+        "line": 18,
+        "type": "function",
+        "file": "page.ts"
+      },
+      {
+        "name": "installInMemoryPersistence",
+        "line": 192,
+        "type": "function",
+        "file": "persistence.ts"
+      },
+      {
+        "name": "getFreePort",
+        "line": 6,
+        "type": "function",
+        "file": "port-pool.ts"
+      },
+      {
+        "name": "registerProcForFile",
+        "line": 46,
+        "type": "function",
+        "file": "process.ts"
+      },
+      {
+        "name": "registerProcForFileWithPort",
+        "line": 71,
+        "type": "function",
+        "file": "process.ts"
+      },
+      {
+        "name": "startProcessWithPort",
+        "line": 102,
+        "type": "function",
+        "file": "process.ts"
+      },
+      {
+        "name": "startProcess",
+        "line": 24,
+        "type": "function",
+        "file": "startProcess.ts"
+      },
+      {
+        "name": "waitForHttp",
+        "line": 5,
+        "type": "function",
+        "file": "waitForHttp.ts"
+      },
+      {
+        "name": "waitForLog",
+        "line": 3,
+        "type": "function",
+        "file": "waitForLog.ts"
+      },
+      {
+        "name": "waitForTcp",
+        "line": 5,
+        "type": "function",
+        "file": "waitForTcp.ts"
+      },
+      {
+        "name": "withPlaywrightContext",
+        "line": 5,
+        "type": "function",
+        "file": "withPlaywrightContext.ts"
+      },
+      {
+        "name": "withProc",
+        "line": 6,
+        "type": "function",
+        "file": "withProc.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "broker.ts",
+          "link": "[src/broker.ts](../../../packages/test-utils/src/broker.ts)",
+          "lineCount": 144
+        },
+        {
+          "name": "browser.ts",
+          "link": "[src/browser.ts](../../../packages/test-utils/src/browser.ts)",
+          "lineCount": 39
+        },
+        {
+          "name": "dummy-server.ts",
+          "link": "[src/dummy-server.ts](../../../packages/test-utils/src/dummy-server.ts)",
+          "lineCount": 32
+        },
+        {
+          "name": "e2e.ts",
+          "link": "[src/e2e.ts](../../../packages/test-utils/src/e2e.ts)",
+          "lineCount": 40
+        },
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/test-utils/src/index.ts)",
+          "lineCount": 7
+        },
+        {
+          "name": "page.ts",
+          "link": "[src/page.ts](../../../packages/test-utils/src/page.ts)",
+          "lineCount": 34
+        },
+        {
+          "name": "persistence.ts",
+          "link": "[src/persistence.ts](../../../packages/test-utils/src/persistence.ts)",
+          "lineCount": 209
+        },
+        {
+          "name": "port-pool.ts",
+          "link": "[src/port-pool.ts](../../../packages/test-utils/src/port-pool.ts)",
+          "lineCount": 21
+        },
+        {
+          "name": "process.ts",
+          "link": "[src/process.ts](../../../packages/test-utils/src/process.ts)",
+          "lineCount": 137
+        },
+        {
+          "name": "startProcess.ts",
+          "link": "[src/startProcess.ts](../../../packages/test-utils/src/startProcess.ts)",
+          "lineCount": 58
+        },
+        {
+          "name": "tests/broker.spec.ts",
+          "link": "[src/tests/broker.spec.ts](../../../packages/test-utils/src/tests/broker.spec.ts)",
+          "lineCount": 89
+        },
+        {
+          "name": "tests/dummy-server-body.spec.ts",
+          "link": "[src/tests/dummy-server-body.spec.ts](../../../packages/test-utils/src/tests/dummy-server-body.spec.ts)",
+          "lineCount": 19
+        },
+        {
+          "name": "tests/dummy-server.spec.ts",
+          "link": "[src/tests/dummy-server.spec.ts](../../../packages/test-utils/src/tests/dummy-server.spec.ts)",
+          "lineCount": 19
+        },
+        {
+          "name": "tests/e2e-url.spec.ts",
+          "link": "[src/tests/e2e-url.spec.ts](../../../packages/test-utils/src/tests/e2e-url.spec.ts)",
+          "lineCount": 16
+        },
+        {
+          "name": "tests/page-title.spec.ts",
+          "link": "[src/tests/page-title.spec.ts](../../../packages/test-utils/src/tests/page-title.spec.ts)",
+          "lineCount": 12
+        },
+        {
+          "name": "tests/persistence-install.spec.ts",
+          "link": "[src/tests/persistence-install.spec.ts](../../../packages/test-utils/src/tests/persistence-install.spec.ts)",
+          "lineCount": 27
+        },
+        {
+          "name": "tests/persistence.spec.ts",
+          "link": "[src/tests/persistence.spec.ts](../../../packages/test-utils/src/tests/persistence.spec.ts)",
+          "lineCount": 71
+        },
+        {
+          "name": "tests/process-readiness.spec.ts",
+          "link": "[src/tests/process-readiness.spec.ts](../../../packages/test-utils/src/tests/process-readiness.spec.ts)",
+          "lineCount": 72
+        },
+        {
+          "name": "tests/process.spec.ts",
+          "link": "[src/tests/process.spec.ts](../../../packages/test-utils/src/tests/process.spec.ts)",
+          "lineCount": 116
+        },
+        {
+          "name": "tests/waits-cleanup.spec.ts",
+          "link": "[src/tests/waits-cleanup.spec.ts](../../../packages/test-utils/src/tests/waits-cleanup.spec.ts)",
+          "lineCount": 17
+        },
+        {
+          "name": "tests/waits.spec.ts",
+          "link": "[src/tests/waits.spec.ts](../../../packages/test-utils/src/tests/waits.spec.ts)",
+          "lineCount": 112
+        },
+        {
+          "name": "tests/with-proc.spec.ts",
+          "link": "[src/tests/with-proc.spec.ts](../../../packages/test-utils/src/tests/with-proc.spec.ts)",
+          "lineCount": 31
+        },
+        {
+          "name": "waitForHttp.ts",
+          "link": "[src/waitForHttp.ts](../../../packages/test-utils/src/waitForHttp.ts)",
+          "lineCount": 21
+        },
+        {
+          "name": "waitForLog.ts",
+          "link": "[src/waitForLog.ts](../../../packages/test-utils/src/waitForLog.ts)",
+          "lineCount": 26
+        },
+        {
+          "name": "waitForTcp.ts",
+          "link": "[src/waitForTcp.ts](../../../packages/test-utils/src/waitForTcp.ts)",
+          "lineCount": 21
+        },
+        {
+          "name": "withPlaywrightContext.ts",
+          "link": "[src/withPlaywrightContext.ts](../../../packages/test-utils/src/withPlaywrightContext.ts)",
+          "lineCount": 16
+        },
+        {
+          "name": "withProc.ts",
+          "link": "[src/withProc.ts](../../../packages/test-utils/src/withProc.ts)",
+          "lineCount": 17
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [
+        {
+          "name": "MemoryBroker",
+          "link": "[MemoryBroker](../../../packages/test-utils/src/broker.ts#L35)",
+          "file": "broker.ts",
+          "line": 35
+        },
+        {
+          "name": "InMemoryCollection",
+          "link": "[InMemoryCollection](../../../packages/test-utils/src/persistence.ts#L19)",
+          "file": "persistence.ts",
+          "line": 19
+        },
+        {
+          "name": "FakeDb",
+          "link": "[FakeDb](../../../packages/test-utils/src/persistence.ts#L152)",
+          "file": "persistence.ts",
+          "line": 152
+        },
+        {
+          "name": "FakeMongoClient",
+          "link": "[FakeMongoClient](../../../packages/test-utils/src/persistence.ts#L160)",
+          "file": "persistence.ts",
+          "line": 160
+        },
+        {
+          "name": "FakeChromaCollection",
+          "link": "[FakeChromaCollection](../../../packages/test-utils/src/persistence.ts#L176)",
+          "file": "persistence.ts",
+          "line": 176
+        },
+        {
+          "name": "FakeChromaClient",
+          "link": "[FakeChromaClient](../../../packages/test-utils/src/persistence.ts#L186)",
+          "file": "persistence.ts",
+          "line": 186
+        }
+      ],
+      "functions": [
+        {
+          "name": "getMemoryBroker",
+          "link": "[getMemoryBroker()](../../../packages/test-utils/src/broker.ts#L130)",
+          "file": "broker.ts",
+          "line": 130
+        },
+        {
+          "name": "resetMemoryBroker",
+          "link": "[resetMemoryBroker()](../../../packages/test-utils/src/broker.ts#L135)",
+          "file": "broker.ts",
+          "line": 135
+        },
+        {
+          "name": "getBrowser",
+          "link": "[getBrowser()](../../../packages/test-utils/src/browser.ts#L11)",
+          "file": "browser.ts",
+          "line": 11
+        },
+        {
+          "name": "newIsolatedPage",
+          "link": "[newIsolatedPage()](../../../packages/test-utils/src/browser.ts#L13)",
+          "file": "browser.ts",
+          "line": 13
+        },
+        {
+          "name": "shutdown",
+          "link": "[shutdown()](../../../packages/test-utils/src/browser.ts#L28)",
+          "file": "browser.ts",
+          "line": 28
+        },
+        {
+          "name": "startDummyServer",
+          "link": "[startDummyServer()](../../../packages/test-utils/src/dummy-server.ts#L10)",
+          "file": "dummy-server.ts",
+          "line": 10
+        },
+        {
+          "name": "mkUrlBuilder",
+          "link": "[mkUrlBuilder()](../../../packages/test-utils/src/e2e.ts#L17)",
+          "file": "e2e.ts",
+          "line": 17
+        },
+        {
+          "name": "withE2EContext",
+          "link": "[withE2EContext()](../../../packages/test-utils/src/e2e.ts#L22)",
+          "file": "e2e.ts",
+          "line": 22
+        },
+        {
+          "name": "withPage",
+          "link": "[withPage()](../../../packages/test-utils/src/page.ts#L18)",
+          "file": "page.ts",
+          "line": 18
+        },
+        {
+          "name": "installInMemoryPersistence",
+          "link": "[installInMemoryPersistence()](../../../packages/test-utils/src/persistence.ts#L192)",
+          "file": "persistence.ts",
+          "line": 192
+        },
+        {
+          "name": "getFreePort",
+          "link": "[getFreePort()](../../../packages/test-utils/src/port-pool.ts#L6)",
+          "file": "port-pool.ts",
+          "line": 6
+        },
+        {
+          "name": "registerProcForFile",
+          "link": "[registerProcForFile()](../../../packages/test-utils/src/process.ts#L46)",
+          "file": "process.ts",
+          "line": 46
+        },
+        {
+          "name": "registerProcForFileWithPort",
+          "link": "[registerProcForFileWithPort()](../../../packages/test-utils/src/process.ts#L71)",
+          "file": "process.ts",
+          "line": 71
+        },
+        {
+          "name": "startProcessWithPort",
+          "link": "[startProcessWithPort()](../../../packages/test-utils/src/process.ts#L102)",
+          "file": "process.ts",
+          "line": 102
+        },
+        {
+          "name": "startProcess",
+          "link": "[startProcess()](../../../packages/test-utils/src/startProcess.ts#L24)",
+          "file": "startProcess.ts",
+          "line": 24
+        },
+        {
+          "name": "waitForHttp",
+          "link": "[waitForHttp()](../../../packages/test-utils/src/waitForHttp.ts#L5)",
+          "file": "waitForHttp.ts",
+          "line": 5
+        },
+        {
+          "name": "waitForLog",
+          "link": "[waitForLog()](../../../packages/test-utils/src/waitForLog.ts#L3)",
+          "file": "waitForLog.ts",
+          "line": 3
+        },
+        {
+          "name": "waitForTcp",
+          "link": "[waitForTcp()](../../../packages/test-utils/src/waitForTcp.ts#L5)",
+          "file": "waitForTcp.ts",
+          "line": 5
+        },
+        {
+          "name": "withPlaywrightContext",
+          "link": "[withPlaywrightContext()](../../../packages/test-utils/src/withPlaywrightContext.ts#L5)",
+          "file": "withPlaywrightContext.ts",
+          "line": 5
+        },
+        {
+          "name": "withProc",
+          "link": "[withProc()](../../../packages/test-utils/src/withProc.ts#L6)",
+          "file": "withProc.ts",
+          "line": 6
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

@@ -133,6 +133,12 @@ export function validateAndSanitizePath(
       '\\..',
       '%2f..',
       '%5c..',
+      '%2e%2e%2f', // ../ encoded
+      '%2E%2E%2F', // ../ encoded (uppercase)
+      '%2e%2e%5c', // ..\ encoded
+      '%2E%2E%5C', // ..\ encoded (uppercase)
+      '....//....//....//', // obfuscated traversal
+      '....\\\\....\\\\....\\\\', // obfuscated traversal (Windows)
     ];
     if (traversalPatterns.some((pattern) => inputPath.toLowerCase().includes(pattern))) {
       return {
@@ -158,10 +164,11 @@ export function validateAndSanitizePath(
 
   // System directory access prevention
   const normalizedPath = path.normalize(inputPath);
-  for (const systemDir of config.blockedSystemDirs) {
+  const blockedDirs = Array.isArray(config.blockedSystemDirs) ? config.blockedSystemDirs : [];
+  for (const systemDir of blockedDirs) {
     if (
       normalizedPath.startsWith(systemDir) ||
-      normalizedPath.toLowerCase().startsWith(systemDir.toLowerCase())
+      normalizedPath.toLowerCase().startsWith((systemDir as string).toLowerCase())
     ) {
       return {
         success: false,
@@ -209,6 +216,31 @@ export function validateAndSanitizeFilename(
     };
   }
 
+  // Script injection prevention in filenames
+  const scriptInjectionPatterns = [
+    '<script',
+    'javascript:',
+    'eval(',
+    'expression(',
+    'Function(',
+    'setTimeout(',
+    'setInterval(',
+    'new Function',
+    '; DROP TABLE', // SQL injection
+    '$(', // Command injection
+    '`', // Command substitution
+    'CON', // Windows reserved
+    'PRN', // Windows reserved
+    'AUX', // Windows reserved
+  ];
+  const lowerFilename = filename.toLowerCase();
+  if (scriptInjectionPatterns.some((pattern) => lowerFilename.includes(pattern))) {
+    return {
+      success: false,
+      error: `Script injection detected in filename: ${filename}`,
+    };
+  }
+
   // Character validation (only allow safe filename characters)
   if (!/^[a-zA-Z0-9._-]+$/.test(filename)) {
     return {
@@ -238,6 +270,7 @@ export function validatePathBoundaries(
 
   // If relative path starts with '..', it escapes the base directory
   if (relativePath.startsWith('..') || path.relative(resolvedPath, basePath).startsWith('..')) {
+    console.error({ resolvedPath, basePath, relativePath }, path.relative(resolvedPath, basePath));
     return {
       success: false,
       error: `Path boundary violation in ${context}: ${resolvedPath} escapes ${basePath}`,
@@ -333,7 +366,7 @@ export function sanitizeForJsonSerialization(
 
   if (typeof data === 'string') {
     // Remove dangerous characters that could be used for injection
-    let sanitized = data
+    const sanitized = data
       .replace(/[\0\r\n]/g, '') // Remove null bytes and line breaks
       .replace(/<\/script/gi, '</scr\\\\ipt') // Break script tags
       .replace(/<script/gi, '<scr\\\\ipt') // Break script tags
@@ -342,7 +375,7 @@ export function sanitizeForJsonSerialization(
 
     // Additional sanitization in strict mode
     if (config.strictMode) {
-      sanitized = sanitized
+      return sanitized
         .replace(/eval\s*\(/gi, 'eval\\\\(')
         .replace(/Function\s*\(/gi, 'Function\\\\(')
         .replace(/setTimeout\s*\(/gi, 'setTimeout\\\\(')

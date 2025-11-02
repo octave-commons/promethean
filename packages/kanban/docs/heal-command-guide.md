@@ -283,7 +283,7 @@ jobs:
         with:
           node-version: '18'
       - name: Install kanban
-        run: npm install -g @promethean/kanban
+        run: npm install -g @promethean-os/kanban
       - name: Check board health
         run: kanban heal "CI health check" --recommendations
 ```

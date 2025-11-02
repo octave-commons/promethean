@@ -1,0 +1,105 @@
+# DualStore UI Rendering Fix - COMPLETE ✅
+
+## 🎯 **Issue Resolved**
+
+**Fixed UI rendering problem** where dualstore agent tasks tab showed "100" tasks count but displayed empty list.
+
+## 🔧 **Root Cause Identified**
+
+**Primary Issue**: Non-unique task IDs causing Alpine.js rendering failure
+
+- All task IDs were identical session IDs: `ses_60b3c94d0ffea52svi9FvwBcms`
+- Alpine.js `x-for` requires unique keys for proper rendering
+- Results in "Duplicate key on x-for" warnings and rendering failures
+
+## 🛠️ **Solution Implemented**
+
+### **Code Changes Made**
+
+**File**: `/home/err/devel/promethean/packages/dualstore-http/src/routes/collections-dualstore.ts`
+
+1. **Agent Tasks Unique IDs** (line 343):
+
+   ```typescript
+   const uniqueId = `task_${item.metadata.sessionId}_${taskCounter++}_${Date.now()}`;
+   ```
+
+2. **Session Messages Unique IDs** (line 162):
+
+   ```typescript
+   const uniqueId = `msg_${item.metadata.session_id}_${messageCounter++}_${Date.now()}`;
+   ```
+
+3. **OpenCode Events Unique IDs** (line 561):
+   ```typescript
+   const uniqueId = `event_${item.metadata.event_type}_${eventCounter++}_${Date.now()}`;
+   ```
+
+### **ID Generation Strategy**
+
+- Combines entity type, session identifier, counter, and timestamp
+- Guarantees uniqueness across all data types
+- Maintains traceability back to original session
+
+## 📊 **Results Verified**
+
+### **Before Fix**
+
+```json
+{
+  "id": "ses_60b3c94d0ffea52svi9FvwBcms",
+  "session_id": "ses_60b3c94d0ffea52svi9FvwBcms"
+}
+```
+
+_All tasks had identical IDs_
+
+### **After Fix**
+
+```json
+{
+  "id": "task_ses_60b3c94d0ffea52svi9FvwBcms_0_1760808709625",
+  "session_id": "ses_60b3c94d0ffea52svi9FvwBcms"
+}
+```
+
+_Each task has unique ID_
+
+## 🧪 **Testing Results**
+
+### **Playwright Test Suite**
+
+- ✅ **API Connectivity**: Status 200, unique IDs generated
+- ✅ **UI Loading**: Tab counts display correctly (100 tasks, 1000 total)
+- ✅ **Task Rendering**: 100 task elements rendered successfully
+- ✅ **No JavaScript Errors**: Alpine.js duplicate key warnings resolved
+- ✅ **Data Flow**: API → UI transformation working correctly
+
+### **Key Metrics**
+
+- **Task Elements Found**: 100 (previously 0)
+- **JavaScript Errors**: 0 (previously multiple duplicate key warnings)
+- **UI Responsiveness**: Normal loading and interaction
+
+## 🚀 **Current Status**
+
+**✅ COMPLETE**: Dual store integration fully functional
+
+- Real dual store data successfully integrated
+- UI rendering working correctly
+- Unique IDs ensuring proper Alpine.js functionality
+- All three data types (tasks, messages, events) with unique IDs
+
+## 📁 **Files Modified**
+
+1. `/home/err/devel/promethean/packages/dualstore-http/src/routes/collections-dualstore.ts` - Fixed ID generation
+2. `/home/err/devel/promethean/test-dualstore-ui-diagnosis.spec.ts` - Comprehensive test suite
+
+## 🎉 **Impact**
+
+- **User Experience**: Agent tasks now display correctly in UI
+- **Data Integrity**: Real dual store data accessible via web interface
+- **System Stability**: No more Alpine.js rendering conflicts
+- **Development**: Complete end-to-end dual store integration working
+
+The transformation from mock data to real dual store integration is now **fully complete** with proper UI rendering.

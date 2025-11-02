@@ -104,42 +104,42 @@ async function handleAuthorizeRoute(
 
 function extractClientCredentials(
   body: Record<string, string>,
-  req: Readonly<FastifyRequest>
+  req: Readonly<FastifyRequest>,
 ): readonly [string | undefined, string | undefined] {
   let client_id = body.client_id as string | undefined;
   let client_secret = body.client_secret as string | undefined;
   const auth = req.headers.authorization;
-  
+
   if ((!client_id || !client_secret) && auth?.startsWith('Basic ')) {
     const creds = Buffer.from(auth.slice(6), 'base64').toString('utf8');
     const [id, secret] = creds.split(':');
     client_id = client_id || id;
     client_secret = client_secret || secret;
   }
-  
+
   return [client_id, client_secret] as const;
 }
 
 function validateClient(
   client_id: string | undefined,
   client_secret: string | undefined,
-  clients: Readonly<Record<string, ClientDef>>
+  clients: Readonly<Record<string, ClientDef>>,
 ): ClientDef | null {
   if (!client_id || !client_secret) {
     return null;
   }
-  
+
   const client = clients[client_id];
   if (!client || client.client_secret !== client_secret) {
     return null;
   }
-  
+
   return client;
 }
 
 function calculateGrantedScopes(
   requestedScope: string | undefined,
-  clientScopes: string[] | undefined
+  clientScopes: string[] | undefined,
 ): string {
   const reqScopes = requestedScope?.split(/\s+/).filter(Boolean) || DEFAULT_SCOPES;
   const allowed = new Set((clientScopes || []).concat(DEFAULT_SCOPES));
@@ -151,11 +151,11 @@ async function handleClientCredentialsGrant(
   body: Record<string, string>,
   req: Readonly<FastifyRequest>,
   reply: Readonly<FastifyReply>,
-  clients: Readonly<Record<string, ClientDef>>
+  clients: Readonly<Record<string, ClientDef>>,
 ): Promise<void> {
   const [client_id, client_secret] = extractClientCredentials(body, req);
   const client = validateClient(client_id, client_secret, clients);
-  
+
   if (!client) {
     return reply.code(401).send({ error: 'invalid_client' });
   }
@@ -165,42 +165,12 @@ async function handleClientCredentialsGrant(
   const ttl = process.env.AUTH_TOKEN_TTL_SECONDS
     ? Number(process.env.AUTH_TOKEN_TTL_SECONDS)
     : 3600;
-    
+
   const access_token = await signAccessToken(
     { sub: client_id!, aud, scope: scopeStr, iss: ISSUER },
     { expiresIn: ttl },
   );
-  
-  return reply.send({
-    access_token,
-    token_type: 'Bearer',
-    expires_in: ttl,
-    scope: scopeStr,
-    issued_token_type: 'urn:ietf:params:oauth:token-type:access_token',
-  });
-}
-  if (!client_id || !client_secret) {
-    return reply.code(401).send({ error: 'invalid_client' });
-  }
-  const client = clients[client_id];
-  if (!client || client.client_secret !== client_secret) {
-    return reply.code(401).send({ error: 'invalid_client' });
-  }
 
-  const reqScopes =
-    (body.scope as string | undefined)?.split(/\s+/).filter(Boolean) || DEFAULT_SCOPES;
-  const allowed = new Set((client.scopes || []).concat(DEFAULT_SCOPES));
-  const granted = reqScopes.filter((s) => allowed.has(s));
-  const scopeStr = granted.join(' ');
-
-  const aud = body.aud || client.aud || process.env.AUTH_AUDIENCE;
-  const ttl = process.env.AUTH_TOKEN_TTL_SECONDS
-    ? Number(process.env.AUTH_TOKEN_TTL_SECONDS)
-    : 3600;
-  const access_token = await signAccessToken(
-    { sub: client_id, aud, scope: scopeStr, iss: ISSUER },
-    { expiresIn: ttl },
-  );
   return reply.send({
     access_token,
     token_type: 'Bearer',

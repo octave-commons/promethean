@@ -2,9 +2,15 @@ import test from 'ava';
 import sinon from 'sinon';
 import { subscribe } from '../../actions/events/subscribe.js';
 import type { EventClient } from '../../types/index.js';
+import { testUtils } from '../../test-setup.js';
 
-test.beforeEach(() => {
+test.beforeEach(async () => {
   sinon.restore();
+  await testUtils.beforeEach();
+});
+
+test.afterEach.always(async () => {
+  await testUtils.afterEach();
 });
 
 test.serial('subscribe returns success when client supports events', async (t) => {

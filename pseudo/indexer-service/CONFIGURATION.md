@@ -1,6 +1,6 @@
 # Configuration Guide
 
-This document provides comprehensive configuration information for the `@promethean/indexer-service` package, including environment variables, deployment options, and best practices.
+This document provides comprehensive configuration information for the `@promethean-os/indexer-service` package, including environment variables, deployment options, and best practices.
 
 ## Environment Variables
 
@@ -327,7 +327,7 @@ const { app, manager, config } = await buildServer({
 The TypeScript client can be configured with custom options:
 
 ```typescript
-import { createIndexerServiceClient } from '@promethean/indexer-service/client';
+import { createIndexerServiceClient } from '@promethean-os/indexer-service/client';
 
 const client = createIndexerServiceClient({
   baseUrl: 'https://indexer.example.com',

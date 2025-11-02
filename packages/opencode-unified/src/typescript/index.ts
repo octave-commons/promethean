@@ -28,7 +28,7 @@ export const VERSION = '1.0.0';
 
 // Main package metadata
 export const PACKAGE_INFO = {
-  name: '@promethean/opencode-unified',
+  name: '@promethean-os/opencode-unified',
   version: VERSION,
   description:
     'Unified OpenCode client combining TypeScript server, ClojureScript editor, and Electron integration',

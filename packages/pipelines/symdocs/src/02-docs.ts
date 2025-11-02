@@ -3,8 +3,8 @@ import * as path from "path";
 import { fileURLToPath } from "url";
 
 import { z } from "zod";
-import { ollamaJSON } from "@promethean/utils";
-import { openLevelCache, type Cache } from "@promethean/level-cache";
+import { ollamaJSON } from "@promethean-os/utils";
+import { openLevelCache, type Cache } from "@promethean-os/level-cache";
 
 import { parseArgs, sha1 } from "./utils.js";
 import type { DocDraft, SymbolInfo } from "./types.js";

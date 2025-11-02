@@ -16,7 +16,7 @@ estimates:
 
 ### 📋 Description
 
-Integrate the Ollama queue functionality from `@promethean/opencode-client` into the unified package, consolidating queue management, model inference, job processing, and performance monitoring into a cohesive AI inference system.
+Integrate the Ollama queue functionality from `@promethean-os/opencode-client` into the unified package, consolidating queue management, model inference, job processing, and performance monitoring into a cohesive AI inference system.
 
 ### 🎯 Goals
 
@@ -122,7 +122,7 @@ src/typescript/client/ollama/
 
 ### 📁 Files/Components to Migrate
 
-#### From `@promethean/opencode-client`:
+#### From `@promethean-os/opencode-client`:
 
 1. **Queue System**
 

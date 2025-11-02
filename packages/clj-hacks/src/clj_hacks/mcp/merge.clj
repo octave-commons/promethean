@@ -4,6 +4,7 @@
             [clj-hacks.mcp.adapter-codex-toml :as codex-toml]
             [clj-hacks.mcp.adapter-elisp :as elisp]
             [clj-hacks.mcp.adapter-mcp-json :as mcp-json]
+            [clj-hacks.mcp.adapter-opencode :as opencode]
             [clj-hacks.mcp.adapter-vscode-json :as vscode-json]
             [clj-hacks.mcp.core :as core]))
 
@@ -13,14 +14,16 @@
    ;; Promethean internal format (uses mcp-json adapter with format detection)
    :promethean.json {:read mcp-json/read-full   :write mcp-json/write-full   :rest-default {}}
    ;; Claude Code format (uses mcp-json adapter with format detection)
-   :claude-code.json {:read mcp-json/read-full   :write mcp-json/write-full   :rest-default {}}
+   :claude_code.json {:read mcp-json/read-full   :write mcp-json/write-full   :rest-default {}}
    ;; Back-compat alias so old calls keep working for now
    :codex.json       {:read mcp-json/read-full   :write mcp-json/write-full   :rest-default {}}
 
    ;; Vendor-specific
    :vscode.json {:read vscode-json/read-full :write vscode-json/write-full :rest-default {}}
    :codex.toml  {:read codex-toml/read-full  :write codex-toml/write-full  :rest-default ""}
-   :elisp       {:read elisp/read-full       :write elisp/write-full       :rest-default {:before "" :after ""}}})
+   :elisp       {:read elisp/read-full       :write elisp/write-full       :rest-default {:before "" :after ""}}
+   ;; Opencode configuration format
+   :opencode.json {:read opencode/read-full   :write opencode/write-full   :rest-default {}}})
 
 (defn- ensure-adapter! [schema]
   (when-not (contains? adapters schema)

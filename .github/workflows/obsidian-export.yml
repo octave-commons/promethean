@@ -1,0 +1,47 @@
+name: Obsidian → GitHub Markdown
+
+on:
+  push:
+    branches: ['main']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Build converter
+        run: npm run build
+
+      - name: Convert Obsidian → GitHub
+        run: |
+          node dist/cli.js \
+            --src docs \
+            --out docs.github
+
+      - name: Create PR with converted Markdown
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: chore/obsidian-export
+          title: 'Export Obsidian → GitHub-friendly Markdown'
+          commit-message: 'chore: export Obsidian docs to GitHub-friendly markdown [skip ci]'
+          body: |
+            This PR contains the auto-converted Markdown (wikilinks, callouts, embeds).
+            Source: `docs/` → Output: `docs.github/`.
+          author: 'github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>'
+          signoff: true

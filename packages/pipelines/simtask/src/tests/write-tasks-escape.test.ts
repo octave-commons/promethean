@@ -3,7 +3,7 @@ import * as os from "node:os";
 import * as path from "node:path";
 
 import test from "ava";
-import { openLevelCache } from "@promethean/level-cache";
+import { openLevelCache } from "@promethean-os/level-cache";
 
 import { writeTasks } from "../05-write.js";
 import type { Cluster, FunctionInfo, Plan } from "../types.js";

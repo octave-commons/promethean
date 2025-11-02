@@ -1,5 +1,5 @@
 {
-  "name": "@promethean/duck-audio",
+  "name": "@promethean-os/duck-audio",
   "version": "0.0.1",
   "private": true,
   "type": "module",

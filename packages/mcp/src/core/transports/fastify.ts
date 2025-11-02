@@ -1,5 +1,6 @@
 import fastifyCors from '@fastify/cors';
 import fastifyStatic from '@fastify/static';
+import fastifyCookie from '@fastify/cookie';
 import Fastify from 'fastify';
 import type { FastifyInstance, FastifyListenOptions, FastifyReply, FastifyRequest } from 'fastify';
 import crypto from 'node:crypto';
@@ -777,6 +778,9 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
       const descriptorsFromServer = normalizeServerInput(server);
       const { proxies: proxyList, ui } = parseStartOptions(optionsInput);
 
+      // Register cookie plugin for OAuth support
+      await app.register(fastifyCookie as any);
+
       const devUiDir = path.resolve(process.cwd(), 'packages/mcp/static/dev-ui');
       if (fs.existsSync(devUiDir)) {
         await app.register(fastifyStatic as any, {
@@ -787,7 +791,7 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
       } else {
         console.warn(
           `[mcp:http] dev-ui assets not found at ${devUiDir}. ` +
-            "Run 'pnpm --filter @promethean/mcp-dev-ui build' to generate the bundle.",
+            "Run 'pnpm --filter @promethean-os/mcp-dev-ui build' to generate the bundle.",
         );
       }
 

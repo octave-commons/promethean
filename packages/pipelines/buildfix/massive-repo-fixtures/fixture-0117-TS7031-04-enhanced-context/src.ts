@@ -3,14 +3,14 @@ import { exec } from "child_process";
 import { promisify } from "util";
 import { promises as fs } from "fs";
 import matter from "gray-matter";
-import { openLevelCache, type Cache } from "@promethean/level-cache";
+import { openLevelCache, type Cache } from "@promethean-os/level-cache";
 import {
   cosine,
   parseArgs,
   ollamaEmbed,
   writeText,
   createLogger,
-} from "@promethean/utils";
+} from "@promethean-os/utils";
 
 import { listTaskFiles } from "./utils.js";
 import type { RepoDoc, Embeddings, TaskContext } from "./types.js";
@@ -57,7 +57,7 @@ function extractFilePaths(taskContent: string): string[] {
   let packagePattern = /@promethean\/([a-z-]+)/g;
   let packageMatches = taskContent.match(packagePattern) || [];
   for (let pkg of packageMatches) {
-    filePaths.push(`packages/${pkg.replace('@promethean/', '')}`);
+    filePaths.push(`packages/${pkg.replace('@promethean-os/', '')}`);
   }
 
   // Pattern 3: Explicit file paths in text
@@ -88,7 +88,7 @@ async function runBuild(affectedFiles: string[]): Promise<BuildTestResult['build
       let packages = [...new Set(packageFiles.map(f => f.split('/')[1]))];
       for (let pkg of packages) {
         try {
-          let { stdout, stderr } = await execAsync(`pnpm --filter @promethean/${pkg} build`, {
+          let { stdout, stderr } = await execAsync(`pnpm --filter @promethean-os/${pkg} build`, {
             timeout: 60000,
             cwd: process.cwd()
           });
@@ -149,7 +149,7 @@ async function runTests(affectedFiles: string[]): Promise<BuildTestResult['testR
       let packages = [...new Set(packageFiles.map(f => f.split('/')[1]))];
       for (let pkg of packages) {
         try {
-          let { stdout, stderr } = await execAsync(`pnpm --filter @promethean/${pkg} test`, {
+          let { stdout, stderr } = await execAsync(`pnpm --filter @promethean-os/${pkg} test`, {
             timeout: 120000,
             cwd: process.cwd()
           });
@@ -214,7 +214,7 @@ async function runLint(affectedFiles: string[]): Promise<BuildTestResult['lintRe
       let packages = [...new Set(packageFiles.map(f => f.split('/')[1]))];
       for (let pkg of packages) {
         try {
-          let { stdout, stderr } = await execAsync(`pnpm --filter @promethean/${pkg} lint`, {
+          let { stdout, stderr } = await execAsync(`pnpm --filter @promethean-os/${pkg} lint`, {
             timeout: 60000,
             cwd: process.cwd()
           });

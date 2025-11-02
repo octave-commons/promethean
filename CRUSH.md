@@ -19,7 +19,7 @@ pnpm test:e2e
 - Immutable data
 - TDD non-negotiable
 - Document-driven development
-- Prefer key-value caches via `@promethean/level-cache`
+- Prefer key-value caches via `@promethean-os/level-cache`
 - No relative module resolution outside of the package root.
 - Always use the ts-lsp server to diagnose build errors.
 - Always use the eslint tool on each file you edit.

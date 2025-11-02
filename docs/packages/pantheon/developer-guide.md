@@ -17,20 +17,20 @@ This guide provides comprehensive information for developers working with the Pa
 
 ```bash
 # Install the core package
-pnpm add @promethean/pantheon-core
+pnpm add @promethean-os/pantheon-core
 
 # Install additional adapters as needed
-pnpm add @promethean/pantheon-persistence
-pnpm add @promethean/pantheon-llm-openai
-pnpm add @promethean/pantheon-llm-claude
+pnpm add @promethean-os/pantheon-persistence
+pnpm add @promethean-os/pantheon-llm-openai
+pnpm add @promethean-os/pantheon-llm-claude
 ```
 
 ### Basic Setup
 
 ```typescript
-import { makeOrchestrator } from '@promethean/pantheon-core';
-import { InMemoryContextAdapter } from '@promethean/pantheon-adapters';
-import { OpenAiAdapter } from '@promethean/pantheon-llm-openai';
+import { makeOrchestrator } from '@promethean-os/pantheon-core';
+import { InMemoryContextAdapter } from '@promethean-os/pantheon-adapters';
+import { OpenAiAdapter } from '@promethean-os/pantheon-llm-openai';
 
 // Create adapters
 const contextAdapter = new InMemoryContextAdapter();
@@ -56,7 +56,7 @@ const orchestrator = makeOrchestrator({
 Actors are the primary building blocks of the Pantheon Framework. Here's how to create a custom actor:
 
 ```typescript
-import type { Actor, ActorScript, Talent, Behavior } from '@promethean/pantheon-core';
+import type { Actor, ActorScript, Talent, Behavior } from '@promethean-os/pantheon-core';
 
 // Define custom talent
 const customerServiceTalent: Talent = {
@@ -242,7 +242,7 @@ const dataAnalysisBehavior = new CustomBehavior(
 Tools extend actor capabilities by providing external functionality:
 
 ```typescript
-import type { ToolSpec } from '@promethean/pantheon-core';
+import type { ToolSpec } from '@promethean-os/pantheon-core';
 
 interface WeatherToolArgs {
   location: string;
@@ -304,7 +304,7 @@ toolAdapter.register(new WeatherTool());
 Create custom adapters to integrate with external systems:
 
 ```typescript
-import type { ContextPort, Message, ContextSource } from '@promethean/pantheon-core';
+import type { ContextPort, Message, ContextSource } from '@promethean-os/pantheon-core';
 
 export class ElasticsearchContextAdapter implements ContextPort {
   private client: any; // Elasticsearch client
@@ -402,7 +402,7 @@ export class ElasticsearchContextAdapter implements ContextPort {
 
 ```typescript
 import { describe, it, expect, beforeEach } from 'test';
-import { MockContextAdapter, MockToolAdapter, MockLlmAdapter } from '@promethean/pantheon-test';
+import { MockContextAdapter, MockToolAdapter, MockLlmAdapter } from '@promethean-os/pantheon-test';
 
 describe('CustomerServiceActor', () => {
   let orchestrator: ReturnType<typeof makeOrchestrator>;

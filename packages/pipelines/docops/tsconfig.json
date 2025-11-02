@@ -18,10 +18,7 @@
       "path": "../../test-utils"
     },
     {
-      "path": "../../frontends/docops-frontend"
-    },
-    {
-      "path": "../../file-system/file-indexer"
+      "path": "../../file-indexer"
     },
     {
       "path": "../../markdown"

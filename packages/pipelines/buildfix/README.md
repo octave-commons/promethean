@@ -1,6 +1,6 @@
 # Buildfix
 
-> **🎉 Integration Complete**: BuildFix is now fully integrated into the unified benchmark CLI system! Use `pnpm --filter @promethean/benchmark benchmark --providers buildfix-local` to run BuildFix benchmarks. See the [Unified CLI Usage](#unified-cli-usage) section below for details.
+> **🎉 Integration Complete**: BuildFix is now fully integrated into the unified benchmark CLI system! Use `pnpm --filter @promethean-os/benchmark benchmark --providers buildfix-local` to run BuildFix benchmarks. See the [Unified CLI Usage](#unified-cli-usage) section below for details.
 
 Buildfix automates fixing TypeScript build errors using AI models. The system can detect TypeScript errors, generate fix plans using AI, and automatically apply code modifications.
 
@@ -30,16 +30,16 @@ The BuildFix provider is now integrated into the unified benchmark CLI system:
 
 ```bash
 # Quick BuildFix benchmark
-pnpm --filter @promethean/benchmark benchmark --providers buildfix-local --iterations 3
+pnpm --filter @promethean-os/benchmark benchmark --providers buildfix-local --iterations 3
 
 # BuildFix with massive fixture set
-pnpm --filter @promethean/benchmark benchmark --providers buildfix-local --suite buildfix-massive
+pnpm --filter @promethean-os/benchmark benchmark --providers buildfix-local --suite buildfix-massive
 
 # Compare BuildFix models
-pnpm --filter @promethean/benchmark benchmark --providers buildfix-local --models qwen3:8b,qwen3:14b
+pnpm --filter @promethean-os/benchmark benchmark --providers buildfix-local --models qwen3:8b,qwen3:14b
 
 # BuildFix with resource monitoring
-pnpm --filter @promethean/benchmark benchmark --providers buildfix-local --monitor-resources --verbose
+pnpm --filter @promethean-os/benchmark benchmark --providers buildfix-local --monitor-resources --verbose
 ```
 
 ### Direct BuildFix Usage (Legacy)
@@ -64,12 +64,12 @@ pnpm tsx src/benchmark/run-simple.ts --no-bail
 
 ```bash
 # Build the package first
-pnpm --filter @promethean/buildfix build
+pnpm --filter @promethean-os/buildfix build
 
 # Run the complete error fixing pipeline
-pnpm --filter @promethean/buildfix bf:01-errors
-pnpm --filter @promethean/buildfix bf:02-iterate
-pnpm --filter @promethean/buildfix bf:03-report
+pnpm --filter @promethean-os/buildfix bf:01-errors
+pnpm --filter @promethean-os/buildfix bf:02-iterate
+pnpm --filter @promethean-os/buildfix bf:03-report
 ```
 
 #### Option 4: Pipeline with Piper
@@ -150,7 +150,7 @@ workspace mode by passing `--root=false` (also accepts `--root=no` or
 `--root=0`) and provide `--tsconfig`:
 
 ```sh
-pnpm --filter @promethean/buildfix bf:01-errors --root=false --tsconfig path/to/tsconfig.json
+pnpm --filter @promethean-os/buildfix bf:01-errors --root=false --tsconfig path/to/tsconfig.json
 ```
 
 ## 📋 Pipeline Steps
@@ -166,13 +166,13 @@ See `pipelines.json` for the full configuration.
 ### Unit and Integration Tests
 
 ```sh
-pnpm --filter @promethean/buildfix test
+pnpm --filter @promethean-os/buildfix test
 ```
 
 ### Integration Tests Only
 
 ```sh
-pnpm --filter @promethean/buildfix test:integration
+pnpm --filter @promethean-os/buildfix test:integration
 ```
 
 ### Benchmark Testing
@@ -309,23 +309,23 @@ The BuildFix benchmark system now includes **intelligent automated analysis** po
 
 ```bash
 # Run benchmark and automatically analyze results
-pnpm --filter @promethean/buildfix exec tsx src/benchmark/benchmark-and-analyze.ts
+pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/benchmark-and-analyze.ts
 
 # Test specific models
-pnpm --filter @promethean/buildfix exec tsx src/benchmark/benchmark-and-analyze.ts --models "qwen3:8b,qwen3:14b"
+pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/benchmark-and-analyze.ts --models "qwen3:8b,qwen3:14b"
 
 # Force refresh and clear cache
-pnpm --filter @promethean/buildfix exec tsx src/benchmark/benchmark-and-analyze.ts --force-refresh --clear-cache
+pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/benchmark-and-analyze.ts --force-refresh --clear-cache
 ```
 
 ### **Analysis-Only Mode**
 
 ```bash
 # Analyze existing benchmark report
-pnpm --filter @promethean/buildfix exec tsx src/benchmark/benchmark-and-analyze.ts --analyze-only --report results.json
+pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/benchmark-and-analyze.ts --analyze-only --report results.json
 
 # Use different analysis model
-pnpm --filter @promethean/buildfix exec tsx src/benchmark/benchmark-and-analyze.ts --analyze-only --report results.json --analysis-model qwen3:14b
+pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/benchmark-and-analyze.ts --analyze-only --report results.json --analysis-model qwen3:14b
 ```
 
 ### **Generated Reports**
@@ -357,10 +357,10 @@ The AI analyzer identifies:
 
 ```bash
 # Generate large-scale test fixtures (1000+ errors)
-pnpm --filter @promethean/buildfix exec tsx src/benchmark/massive-fixture-generator.ts --target-errors 1000
+pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/massive-fixture-generator.ts --target-errors 1000
 
 # Generate specific error count
-pnpm --filter @promethean/buildfix exec tsx src/benchmark/massive-fixture-generator.ts --target-errors 100
+pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/massive-fixture-generator.ts --target-errors 100
 ```
 
 **Generated 794 real-world fixtures** from actual TypeScript codebases for comprehensive testing.
@@ -369,12 +369,12 @@ pnpm --filter @promethean/buildfix exec tsx src/benchmark/massive-fixture-genera
 
 ```bash
 # Run with intelligent caching
-pnpm --filter @promethean/buildfix exec tsx src/benchmark/run-memoized.ts
+pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/run-memoized.ts
 
 # Cache management
-pnpm --filter @promethean/buildfix exec tsx src/benchmark/run-memoized.ts --cache-info
-pnpm --filter @promethean/buildfix exec tsx src/benchmark/run-memoized.ts --clear-cache
-pnpm --filter @promethean/buildfix exec tsx src/benchmark/run-memoized.ts --export-cache backup.json
+pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/run-memoized.ts --cache-info
+pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/run-memoized.ts --clear-cache
+pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/run-memoized.ts --export-cache backup.json
 ```
 
 **Features:**
@@ -388,13 +388,13 @@ pnpm --filter @promethean/buildfix exec tsx src/benchmark/run-memoized.ts --expo
 
 ```bash
 # Analyze any benchmark report
-pnpm --filter @promethean/buildfix exec tsx src/benchmark/report-analyzer.ts --report memoized-benchmark-results-2025-10-15T06-48-01.json
+pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/report-analyzer.ts --report memoized-benchmark-results-2025-10-15T06-48-01.json
 
 # Custom output path
-pnpm --filter @promethean/buildfix exec tsx src/benchmark/report-analyzer.ts --report results.json --output custom-analysis.md
+pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/report-analyzer.ts --report results.json --output custom-analysis.md
 
 # Different analysis model
-pnpm --filter @promethean/buildfix exec tsx src/benchmark/report-analyzer.ts --report results.json --model qwen3:14b
+pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/report-analyzer.ts --report results.json --model qwen3:14b
 ```
 
 ### **Executive Summaries**
@@ -403,7 +403,7 @@ The orchestrator can generate executive summaries for stakeholders:
 
 ```bash
 # Full pipeline with executive summary
-pnpm --filter @promethean/buildfix exec tsx src/benchmark/benchmark-and-analyze.ts --models "qwen3:8b"
+pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/benchmark-and-analyze.ts --models "qwen3:8b"
 ```
 
 **Executive Summary Includes:**
@@ -429,7 +429,7 @@ The benchmark system is designed for automation:
 
 ```bash
 # CI/CD integration example
-pnpm --filter @promethean/buildfix exec tsx src/benchmark/benchmark-and-analyze.ts --models "qwen3:8b" --force-refresh
+pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/benchmark-and-analyze.ts --models "qwen3:8b" --force-refresh
 ```
 
 **Returns:**
@@ -470,22 +470,22 @@ packages/buildfix/
 ### **For Quick Validation** (2-5 minutes)
 
 ```bash
-pnpm --filter @promethean/buildfix tsx quick-test.js                    # Test AI integration
-pnpm --filter @promethean/buildfix tsx src/benchmark/run-simple.ts      # 3 fixtures, all models
+pnpm --filter @promethean-os/buildfix tsx quick-test.js                    # Test AI integration
+pnpm --filter @promethean-os/buildfix tsx src/benchmark/run-simple.ts      # 3 fixtures, all models
 ```
 
 ### **For Comprehensive Testing** (10-30 minutes)
 
 ```bash
-pnpm --filter @promethean/buildfix tsx src/benchmark/run.ts             # Full benchmark suite
-pnpm --filter @promethean/buildfix exec tsx src/benchmark/test-large-models.ts # Test all models thoroughly
+pnpm --filter @promethean-os/buildfix tsx src/benchmark/run.ts             # Full benchmark suite
+pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/test-large-models.ts # Test all models thoroughly
 ```
 
 ### **For Development** (5-15 minutes)
 
 ```bash
-pnpm --filter @promethean/buildfix exec tsx src/benchmark/focused.ts         # Test specific models/fixtures
-pnpm --filter @promethean/buildfix exec tsx src/benchmark/test-dsl.ts        # Test DSL generation
+pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/focused.ts         # Test specific models/fixtures
+pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/test-dsl.ts        # Test DSL generation
 ```
 
 ## 🔍 Troubleshooting
@@ -526,13 +526,13 @@ Recommended model performance:
 
 <!-- READMEFLOW:BEGIN -->
 
-# @promethean/buildfix
+# @promethean-os/buildfix
 
 [TOC]
 
 ## Install
 
-pnpm add @promethean/buildfix
+pnpm add @promethean-os/buildfix
 
 ## Usage
 
@@ -546,86 +546,86 @@ GPLv3
 
 ```mermaid
 flowchart LR
-  _promethean_agent["@promethean/agent\n0.0.1"]
-  _promethean_agent_ecs["@promethean/agent-ecs\n0.0.1"]
-  _promethean_alias_rewrite["@promethean/alias-rewrite\n0.1.0"]
-  _promethean_auth_service["@promethean/auth-service\n0.1.0"]
-  _promethean_ava_mcp["@promethean/ava-mcp\n0.0.1"]
-  _promethean_boardrev["@promethean/boardrev\n0.1.0"]
+  _promethean_agent["@promethean-os/agent\n0.0.1"]
+  _promethean_agent_ecs["@promethean-os/agent-ecs\n0.0.1"]
+  _promethean_alias_rewrite["@promethean-os/alias-rewrite\n0.1.0"]
+  _promethean_auth_service["@promethean-os/auth-service\n0.1.0"]
+  _promethean_ava_mcp["@promethean-os/ava-mcp\n0.0.1"]
+  _promethean_boardrev["@promethean-os/boardrev\n0.1.0"]
   broker_service["broker-service\n0.0.1"]
-  _promethean_buildfix["@promethean/buildfix\n0.1.0"]
-  _promethean_cephalon["@promethean/cephalon\n0.0.1"]
-  _promethean_changefeed["@promethean/changefeed\n0.0.1"]
-  _promethean_cli["@promethean/cli\n0.0.1"]
-  _promethean_codemods["@promethean/codemods\n0.1.0"]
-  _promethean_codepack["@promethean/codepack\n0.1.0"]
-  _promethean_codex_context["@promethean/codex-context\n0.1.0"]
-  _promethean_codex_orchestrator["@promethean/codex-orchestrator\n0.1.0"]
-  _promethean_compaction["@promethean/compaction\n0.0.1"]
-  _promethean_compiler["@promethean/compiler\n0.0.1"]
-  _promethean_contracts["@promethean/contracts\n0.0.1"]
-  _promethean_cookbookflow["@promethean/cookbookflow\n0.1.0"]
-  _promethean_dev["@promethean/dev\n0.0.1"]
-  _promethean_discord["@promethean/discord\n0.0.1"]
-  _promethean_dlq["@promethean/dlq\n0.0.1"]
-  _promethean_docops["@promethean/docops\n0.0.0"]
-  _promethean_docops_frontend["@promethean/docops-frontend\n0.0.0"]
-  _promethean_ds["@promethean/ds\n0.0.1"]
-  _promethean_effects["@promethean/effects\n0.0.1"]
-  _promethean_embedding["@promethean/embedding\n0.0.1"]
-  _promethean_event["@promethean/event\n0.0.1"]
-  _promethean_examples["@promethean/examples\n0.0.1"]
-  _promethean_file_watcher["@promethean/file-watcher\n0.1.0"]
-  _promethean_frontend_service["@promethean/frontend-service\n0.0.1"]
-  _promethean_fs["@promethean/fs\n0.0.1"]
-  _promethean_health_dashboard_frontend["@promethean/health-dashboard-frontend\n0.0.0"]
-  _promethean_http["@promethean/http\n0.0.1"]
-  _promethean_image_link_generator["@promethean/image-link-generator\n0.0.1"]
-  _promethean_intention["@promethean/intention\n0.0.1"]
-  _promethean_kanban_processor["@promethean/kanban-processor\n0.1.0"]
-  _promethean_legacy["@promethean/legacy\n0.0.0"]
-  _promethean_level_cache["@promethean/level-cache\n0.1.0"]
+  _promethean_buildfix["@promethean-os/buildfix\n0.1.0"]
+  _promethean_cephalon["@promethean-os/cephalon\n0.0.1"]
+  _promethean_changefeed["@promethean-os/changefeed\n0.0.1"]
+  _promethean_cli["@promethean-os/cli\n0.0.1"]
+  _promethean_codemods["@promethean-os/codemods\n0.1.0"]
+  _promethean_codepack["@promethean-os/codepack\n0.1.0"]
+  _promethean_codex_context["@promethean-os/codex-context\n0.1.0"]
+  _promethean_codex_orchestrator["@promethean-os/codex-orchestrator\n0.1.0"]
+  _promethean_compaction["@promethean-os/compaction\n0.0.1"]
+  _promethean_compiler["@promethean-os/compiler\n0.0.1"]
+  _promethean_contracts["@promethean-os/contracts\n0.0.1"]
+  _promethean_cookbookflow["@promethean-os/cookbookflow\n0.1.0"]
+  _promethean_dev["@promethean-os/dev\n0.0.1"]
+  _promethean_discord["@promethean-os/discord\n0.0.1"]
+  _promethean_dlq["@promethean-os/dlq\n0.0.1"]
+  _promethean_docops["@promethean-os/docops\n0.0.0"]
+  _promethean_docops_frontend["@promethean-os/docops-frontend\n0.0.0"]
+  _promethean_ds["@promethean-os/ds\n0.0.1"]
+  _promethean_effects["@promethean-os/effects\n0.0.1"]
+  _promethean_embedding["@promethean-os/embedding\n0.0.1"]
+  _promethean_event["@promethean-os/event\n0.0.1"]
+  _promethean_examples["@promethean-os/examples\n0.0.1"]
+  _promethean_file_watcher["@promethean-os/file-watcher\n0.1.0"]
+  _promethean_frontend_service["@promethean-os/frontend-service\n0.0.1"]
+  _promethean_fs["@promethean-os/fs\n0.0.1"]
+  _promethean_health_dashboard_frontend["@promethean-os/health-dashboard-frontend\n0.0.0"]
+  _promethean_http["@promethean-os/http\n0.0.1"]
+  _promethean_image_link_generator["@promethean-os/image-link-generator\n0.0.1"]
+  _promethean_intention["@promethean-os/intention\n0.0.1"]
+  _promethean_kanban_processor["@promethean-os/kanban-processor\n0.1.0"]
+  _promethean_legacy["@promethean-os/legacy\n0.0.0"]
+  _promethean_level_cache["@promethean-os/level-cache\n0.1.0"]
   lith["lith\n1.0.0"]
-  _promethean_llm["@promethean/llm\n0.0.1"]
-  _promethean_llm_chat_frontend["@promethean/llm-chat-frontend\n0.0.0"]
-  _promethean_markdown["@promethean/markdown\n0.0.1"]
-  _promethean_markdown_graph["@promethean/markdown-graph\n0.1.0"]
-  _promethean_markdown_graph_frontend["@promethean/markdown-graph-frontend\n0.0.0"]
+  _promethean_llm["@promethean-os/llm\n0.0.1"]
+  _promethean_llm_chat_frontend["@promethean-os/llm-chat-frontend\n0.0.0"]
+  _promethean_markdown["@promethean-os/markdown\n0.0.1"]
+  _promethean_markdown_graph["@promethean-os/markdown-graph\n0.1.0"]
+  _promethean_markdown_graph_frontend["@promethean-os/markdown-graph-frontend\n0.0.0"]
   mcp["mcp\n0.0.1"]
-  _promethean_migrations["@promethean/migrations\n0.0.1"]
-  _promethean_monitoring["@promethean/monitoring\n0.0.1"]
-  _promethean_naming["@promethean/naming\n0.0.1"]
-  _promethean_nitpack["@promethean/nitpack\n0.1.0"]
-  _promethean_parity["@promethean/parity\n0.0.1"]
-  _promethean_persistence["@promethean/persistence\n0.0.1"]
-  _promethean_piper["@promethean/piper\n0.1.0"]
-  _promethean_platform["@promethean/platform\n0.0.1"]
-  _promethean_pm2_helpers["@promethean/pm2-helpers\n0.0.0"]
-  _promethean_portfolio_frontend["@promethean/portfolio-frontend\n0.0.0"]
-  _promethean_projectors["@promethean/projectors\n0.0.1"]
-  _promethean_providers["@promethean/providers\n0.0.1"]
-  _promethean_readmeflow["@promethean/readmeflow\n0.1.0"]
-  _promethean_schema["@promethean/schema\n0.0.1"]
-  _promethean_security["@promethean/security\n0.0.1"]
-  _promethean_semverguard["@promethean/semverguard\n0.1.0"]
-  _promethean_simtasks["@promethean/simtasks\n0.1.0"]
-  _promethean_smart_chat_frontend["@promethean/smart-chat-frontend\n0.0.0"]
-  _promethean_smartgpt_bridge["@promethean/smartgpt-bridge\n1.0.0"]
-  _promethean_smartgpt_dashboard_frontend["@promethean/smartgpt-dashboard-frontend\n0.0.0"]
-  _promethean_snapshots["@promethean/snapshots\n0.0.1"]
-  _promethean_sonarflow["@promethean/sonarflow\n0.1.0"]
-  _promethean_stream["@promethean/stream\n0.0.1"]
-  _promethean_symdocs["@promethean/symdocs\n0.1.0"]
-  _promethean_test_utils["@promethean/test-utils\n0.0.1"]
-  _promethean_testgap["@promethean/testgap\n0.1.0"]
-  _promethean_tests["@promethean/tests\n0.0.1"]
-  _promethean_timetravel["@promethean/timetravel\n0.0.1"]
-  _promethean_ui_components["@promethean/ui-components\n0.0.0"]
-  _promethean_utils["@promethean/utils\n0.0.1"]
-  _promethean_voice_service["@promethean/voice-service\n0.0.1"]
-  _promethean_web_utils["@promethean/web-utils\n0.0.1"]
-  _promethean_worker["@promethean/worker\n0.0.1"]
-  _promethean_ws["@promethean/ws\n0.0.1"]
+  _promethean_migrations["@promethean-os/migrations\n0.0.1"]
+  _promethean_monitoring["@promethean-os/monitoring\n0.0.1"]
+  _promethean_naming["@promethean-os/naming\n0.0.1"]
+  _promethean_nitpack["@promethean-os/nitpack\n0.1.0"]
+  _promethean_parity["@promethean-os/parity\n0.0.1"]
+  _promethean_persistence["@promethean-os/persistence\n0.0.1"]
+  _promethean_piper["@promethean-os/piper\n0.1.0"]
+  _promethean_platform["@promethean-os/platform\n0.0.1"]
+  _promethean_pm2_helpers["@promethean-os/pm2-helpers\n0.0.0"]
+  _promethean_portfolio_frontend["@promethean-os/portfolio-frontend\n0.0.0"]
+  _promethean_projectors["@promethean-os/projectors\n0.0.1"]
+  _promethean_providers["@promethean-os/providers\n0.0.1"]
+  _promethean_readmeflow["@promethean-os/readmeflow\n0.1.0"]
+  _promethean_schema["@promethean-os/schema\n0.0.1"]
+  _promethean_security["@promethean-os/security\n0.0.1"]
+  _promethean_semverguard["@promethean-os/semverguard\n0.1.0"]
+  _promethean_simtasks["@promethean-os/simtasks\n0.1.0"]
+  _promethean_smart_chat_frontend["@promethean-os/smart-chat-frontend\n0.0.0"]
+  _promethean_smartgpt_bridge["@promethean-os/smartgpt-bridge\n1.0.0"]
+  _promethean_smartgpt_dashboard_frontend["@promethean-os/smartgpt-dashboard-frontend\n0.0.0"]
+  _promethean_snapshots["@promethean-os/snapshots\n0.0.1"]
+  _promethean_sonarflow["@promethean-os/sonarflow\n0.1.0"]
+  _promethean_stream["@promethean-os/stream\n0.0.1"]
+  _promethean_symdocs["@promethean-os/symdocs\n0.1.0"]
+  _promethean_test_utils["@promethean-os/test-utils\n0.0.1"]
+  _promethean_testgap["@promethean-os/testgap\n0.1.0"]
+  _promethean_tests["@promethean-os/tests\n0.0.1"]
+  _promethean_timetravel["@promethean-os/timetravel\n0.0.1"]
+  _promethean_ui_components["@promethean-os/ui-components\n0.0.0"]
+  _promethean_utils["@promethean-os/utils\n0.0.1"]
+  _promethean_voice_service["@promethean-os/voice-service\n0.0.1"]
+  _promethean_web_utils["@promethean-os/web-utils\n0.0.1"]
+  _promethean_worker["@promethean-os/worker\n0.0.1"]
+  _promethean_ws["@promethean-os/ws\n0.0.1"]
   _promethean_agent --> _promethean_security
   _promethean_agent_ecs --> _promethean_ds
   _promethean_agent_ecs --> _promethean_legacy
@@ -765,7 +765,7 @@ BuildFix is now fully integrated into the unified benchmark CLI system! The migr
 
 ### What's Integrated
 
-The following BuildFix components are now available via `@promethean/benchmark`:
+The following BuildFix components are now available via `@promethean-os/benchmark`:
 
 - ✅ **BuildFix Provider** - Full BuildFix integration as a benchmark provider
 - ✅ **Model Comparison** - Compare BuildFix performance across different AI models
@@ -790,13 +790,13 @@ The core buildfix functionality remains in this package:
 
 ```bash
 # Recommended: Use unified benchmark CLI
-pnpm --filter @promethean/benchmark benchmark --providers buildfix-local --iterations 3
+pnpm --filter @promethean-os/benchmark benchmark --providers buildfix-local --iterations 3
 
 # With massive fixture set
-pnpm --filter @promethean/benchmark benchmark --providers buildfix-local --suite buildfix-massive
+pnpm --filter @promethean-os/benchmark benchmark --providers buildfix-local --suite buildfix-massive
 
 # Compare models
-pnpm --filter @promethean/benchmark benchmark --providers buildfix-local --models qwen3:8b,qwen3:14b
+pnpm --filter @promethean-os/benchmark benchmark --providers buildfix-local --models qwen3:8b,qwen3:14b
 ```
 
 **Legacy Direct Usage (Still Supported):**
@@ -809,7 +809,7 @@ pnpm tsx src/benchmark/run-simple.ts --no-bail
 
 ### Recommended Usage
 
-1. **For Benchmarking**: Use `@promethean/benchmark` with BuildFix provider
+1. **For Benchmarking**: Use `@promethean-os/benchmark` with BuildFix provider
 2. **For Development**: Use direct BuildFix tools for testing and debugging
 3. **For CI/CD**: Use unified benchmark CLI for consistent automation
 
@@ -821,6 +821,6 @@ pnpm tsx src/benchmark/run-simple.ts --no-bail
 - **Improved Reporting**: Rich, detailed reports with BuildFix-specific metrics
 - **Easier Automation**: Consistent interface for CI/CD pipelines
 
-See `@promethean/benchmark` documentation for complete unified CLI usage.
+See `@promethean-os/benchmark` documentation for complete unified CLI usage.
 
 <!-- READMEFLOW:END -->

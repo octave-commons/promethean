@@ -6,11 +6,11 @@
 **Priority:** P0  
 **Estimated Story Points:** 58  
 **Timeline:** 2-3 sprints  
-**Package:** `@promethean/readmeflow`
+**Package:** `@promethean-os/readmeflow`
 
 ### Description
 
-Comprehensive security hardening, testing, and production-readiness implementation for the `@promethean/readmeflow` package to transform it from a prototype with security vulnerabilities into a secure, well-documented, and production-ready TypeScript package for README generation.
+Comprehensive security hardening, testing, and production-readiness implementation for the `@promethean-os/readmeflow` package to transform it from a prototype with security vulnerabilities into a secure, well-documented, and production-ready TypeScript package for README generation.
 
 ### Current State Assessment
 

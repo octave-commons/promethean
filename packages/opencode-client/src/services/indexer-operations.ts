@@ -2,7 +2,7 @@ import type { Session, Event } from '@opencode-ai/sdk';
 
 import { sessionStoreAccess, eventStoreAccess, messageStoreAccess } from './unified-store.js';
 import type { Message } from './indexer-types.js';
-import { eventToMarkdown, sessionToMarkdown, messageToMarkdown } from './indexer-formatters.js';
+import { eventToMarkdown, sessionToMarkdown } from './indexer-formatters.js';
 
 type EnhancedEvent = Event & {
   readonly properties?: {
@@ -35,12 +35,40 @@ const indexSession = async (session: Session): Promise<void> => {
   }
 };
 
+// Enhanced error type for better debugging
+export class IndexingError extends Error {
+  constructor(
+    message: string,
+    public readonly context: {
+      messageId?: string;
+      sessionId?: string;
+      originalError?: unknown;
+    },
+  ) {
+    super(message);
+  }
+}
+
 const indexMessage = async (message: Message, sessionId: string): Promise<void> => {
-  const markdown = messageToMarkdown(message);
+  // Validate input
+  if (!message) {
+    throw new IndexingError('Message is required', { sessionId });
+  }
+
+  if (!message.info?.id) {
+    throw new IndexingError('Message ID is required', { sessionId });
+  }
+
+  // Store the complete message as JSON (new format)
+  const messageText = JSON.stringify({
+    info: message.info,
+    parts: message.parts,
+  });
 
   try {
     await messageStoreAccess.insert({
-      text: markdown,
+      id: message.info?.id,
+      text: messageText,
       timestamp: message.info?.time?.created ?? Date.now(),
       metadata: {
         type: 'message',
@@ -50,7 +78,19 @@ const indexMessage = async (message: Message, sessionId: string): Promise<void> 
       },
     });
   } catch (error: unknown) {
-    console.error('❌ Error indexing message:', error);
+    const errorContext = {
+      messageId: message.info?.id,
+      sessionId,
+      originalError: error,
+    };
+
+    console.error('❌ Error indexing message:', {
+      message: error instanceof Error ? error.message : String(error),
+      context: errorContext,
+    });
+
+    // Re-throw with context for better debugging
+    throw new IndexingError(`Failed to index message ${message.info?.id}`, errorContext);
   }
 };
 

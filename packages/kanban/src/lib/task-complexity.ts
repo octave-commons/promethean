@@ -2,7 +2,7 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import type { Task } from './types.js';
-import { ollamaJSON, createLogger, type LogFields } from '@promethean/utils';
+import { ollamaJSON, createLogger, type LogFields } from '@promethean-os/utils';
 import { z } from 'zod';
 
 const logger = createLogger({ service: 'task-complexity-estimator' });

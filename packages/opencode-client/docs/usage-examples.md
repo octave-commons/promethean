@@ -5,9 +5,10 @@ This document provides comprehensive examples for using all commands in the Open
 ## Table of Contents
 
 - [Global Options](#global-options)
-- [Ollama Commands](#ollama-commands)
 - [Session Commands](#session-commands)
-- [PM2 Commands](#pm2-commands)
+- [Events Commands](#events-commands)
+- [Messages Commands](#messages-commands)
+- [Indexer Commands](#indexer-commands)
 - [Advanced Workflows](#advanced-workflows)
 - [Scripting Examples](#scripting-examples)
 
@@ -23,204 +24,26 @@ opencode-client --help
 opencode-client --version
 
 # Enable verbose output
-opencode-client --verbose ollama list
+opencode-client --verbose sessions list
 
 # Disable colored output
-opencode-client --no-color ollama list
+opencode-client --no-color sessions list
 ```
 
 ### Environment Setup
 
 ```bash
-# Set server URL
-export OPENCODE_SERVER_URL="https://api.opencode.com"
+# Set OpenCode server URL
+export OPENCODE_BASE_URL="http://localhost:4096"
 
 # Set authentication token
-export OPENCODE_AUTH_TOKEN="your-bearer-token"
+export OPENCODE_API_KEY="your-api-key"
 
-# Set default model
-export OPENCODE_DEFAULT_MODEL="llama2"
+# Set request timeout
+export OPENCODE_TIMEOUT="60000"
 
-# Use with custom configuration
-opencode-client --config /path/to/config.json ollama list
-```
-
-## Ollama Commands
-
-### Job Management
-
-#### Submit a Generation Job
-
-```bash
-# Basic generation job
-opencode-client ollama submit \
-  --model llama2 \
-  --prompt "Explain quantum computing in simple terms"
-
-# With custom options
-opencode-client ollama submit \
-  --model llama2 \
-  --prompt "Write a Python function to calculate factorial" \
-  --name "factorial-function" \
-  --priority high \
-  --temperature 0.7 \
-  --num-predict 500
-
-# With JSON output format
-opencode-client ollama submit \
-  --model llama2 \
-  --prompt "List 3 programming languages" \
-  --format json \
-  --name "language-list"
-```
-
-#### Submit a Chat Job
-
-```bash
-# Simple chat
-opencode-client ollama submit \
-  --model llama2 \
-  --job-type chat \
-  --messages '[{"role": "user", "content": "Hello, how are you?"}]'
-
-# Multi-turn conversation
-opencode-client ollama submit \
-  --model llama2 \
-  --job-type chat \
-  --messages '[
-    {"role": "user", "content": "What is TypeScript?"},
-    {"role": "assistant", "content": "TypeScript is a typed superset of JavaScript..."},
-    {"role": "user", "content": "What are its main benefits?"}
-  ]' \
-  --name "typescript-discussion"
-
-# Chat with system message
-opencode-client ollama submit \
-  --model llama2 \
-  --job-type chat \
-  --messages '[
-    {"role": "system", "content": "You are a helpful programming assistant."},
-    {"role": "user", "content": "Help me debug this code."}
-  ]'
-```
-
-#### Submit an Embedding Job
-
-```bash
-# Single text embedding
-opencode-client ollama submit \
-  --model all-minilm \
-  --job-type embedding \
-  --input "This is a sample text for embedding"
-
-# Multiple texts
-opencode-client ollama submit \
-  --model all-minilm \
-  --job-type embedding \
-  --input '["First text", "Second text", "Third text"]' \
-  --name "batch-embeddings"
-```
-
-#### List and Monitor Jobs
-
-```bash
-# List all jobs
-opencode-client ollama list
-
-# List pending jobs only
-opencode-client ollama list --status pending
-
-# List with limit
-opencode-client ollama list --limit 10
-
-# List non-agent jobs
-opencode-client ollama list --agent-only false
-
-# List with verbose output
-opencode-client --verbose ollama list
-```
-
-#### Check Job Status
-
-```bash
-# Check specific job
-opencode-client ollama status job_1234567890
-
-# Monitor job progress
-watch -n 5 "opencode-client ollama status job_1234567890"
-```
-
-#### Get Job Results
-
-```bash
-# Get result as JSON
-opencode-client ollama result job_1234567890
-
-# Get result and save to file
-opencode-client ollama result job_1234567890 > result.json
-
-# Pretty print JSON result
-opencode-client ollama result job_1234567890 | jq '.'
-```
-
-#### Cancel Jobs
-
-```bash
-# Cancel specific job
-opencode-client ollama cancel job_1234567890
-
-# Cancel all pending jobs
-opencode-client ollama list --status pending | jq -r '.[].id' | xargs -I {} opencode-client ollama cancel {}
-```
-
-### Model Management
-
-#### List Available Models
-
-```bash
-# Basic model list
-opencode-client ollama models
-
-# Detailed model information
-opencode-client ollama models --detailed
-
-# Filter models (if supported)
-opencode-client ollama models | grep llama
-```
-
-#### Model Information
-
-```bash
-# Get detailed info about a specific model
-opencode-client ollama models --detailed | jq '.[] | select(.name == "llama2")'
-```
-
-### Queue Management
-
-#### Queue Information
-
-```bash
-# Get queue status
-opencode-client ollama info
-
-# Monitor queue in real-time
-watch -n 2 "opencode-client ollama info"
-```
-
-#### Cache Management
-
-```bash
-# Get cache statistics
-opencode-client ollama cache stats
-
-# Clear expired cache entries
-opencode-client ollama cache clear-expired
-
-# Clear all cache
-opencode-client ollama cache clear
-
-# Performance analysis
-opencode-client ollama cache performance-analysis
+# Enable debug logging
+export DEBUG="opencode-client:*"
 ```
 
 ## Session Commands
@@ -236,8 +59,8 @@ opencode-client sessions list
 # List with pagination
 opencode-client sessions list --limit 10 --offset 20
 
-# List active sessions only
-opencode-client sessions list | jq '.[] | select(.activityStatus == "active")'
+# List with verbose output
+opencode-client --verbose sessions list
 ```
 
 #### Get Session Details
@@ -259,21 +82,14 @@ opencode-client sessions get sess_1234567890 | jq -r '.title'
 # Basic session
 opencode-client sessions create --title "Code Review Session"
 
-# Session with files
+# Session with initial message
 opencode-client sessions create \
   --title "Bug Investigation" \
-  --files '["src/main.ts", "src/utils.ts", "README.md"]'
+  --message "Investigate the authentication issue reported by users"
 
-# Session with agent delegates
-opencode-client sessions create \
-  --title "Security Audit" \
-  --delegates '["security-analyzer", "code-reviewer"]'
-
-# Full session creation
-opencode-client sessions create \
-  --title "Feature Development" \
-  --files '["src/feature.ts", "tests/feature.test.ts"]' \
-  --delegates '["developer", "tester"]'
+# Quick session creation with spawn
+opencode-client sessions spawn "Help me debug this TypeScript error" \
+  --title "Debug Session"
 ```
 
 #### Close Sessions
@@ -282,7 +98,7 @@ opencode-client sessions create \
 # Close specific session
 opencode-client sessions close sess_1234567890
 
-# Close multiple sessions
+# Close multiple sessions (using jq)
 opencode-client sessions list | jq -r '.[].id' | head -5 | xargs -I {} opencode-client sessions close {}
 ```
 
@@ -290,46 +106,116 @@ opencode-client sessions list | jq -r '.[].id' | head -5 | xargs -I {} opencode-
 
 ```bash
 # Search for sessions
-opencode-client sessions search --query "bug fix authentication"
+opencode-client sessions search "bug fix authentication"
 
 # Search with limited results
-opencode-client sessions search --query "performance optimization" --k 3
+opencode-client sessions search "performance optimization" --k 3
 
 # Search and extract titles
-opencode-client sessions search --query "code review" | jq -r '.[].title'
+opencode-client sessions search "code review" | jq -r '.[].title'
 ```
 
-## PM2 Commands
-
-### Process Management
-
-#### List Processes
+#### Diagnose Sessions
 
 ```bash
-# List all PM2 processes
-opencode-client pm2 list
+# Diagnose overall system
+opencode-client sessions diagnose
 
-# Get detailed process information
-opencode-client pm2 describe my-app
-
-# Monitor specific process
-watch -n 2 "opencode-client pm2 describe my-app"
+# Diagnose specific session
+opencode-client sessions diagnose sess_1234567890
 ```
 
-#### Log Management
+## Events Commands
+
+### Event Management
+
+#### List Events
 
 ```bash
-# Show recent logs
-opencode-client pm2 logs my-app --lines 100
+# List recent events
+opencode-client events list
 
-# Show error logs only
-opencode-client pm2 logs my-app --type error --lines 50
+# List events with filters
+opencode-client events list --eventType "message_sent" --k 20
 
-# Show combined logs
-opencode-client pm2 logs my-app --type combined --lines 200
+# List events for specific session
+opencode-client events list --sessionId sess_1234567890
 
-# Follow logs in real-time
-opencode-client pm2 logs my-app --lines 0 --follow
+# List events with query filter
+opencode-client events list --query "session_created" --k 10
+```
+
+#### Subscribe to Events
+
+```bash
+# Subscribe to all events
+opencode-client events subscribe
+
+# Subscribe to specific event type
+opencode-client events subscribe --eventType "message_sent"
+
+# Subscribe to session-specific events
+opencode-client events subscribe --sessionId sess_1234567890
+
+# Subscribe with query filter
+opencode-client events subscribe --query "session_updated"
+```
+
+## Messages Commands
+
+### Message Management
+
+#### List Messages
+
+```bash
+# List messages in a session
+opencode-client messages list sess_1234567890
+
+# List with limit
+opencode-client messages list sess_1234567890 --limit 20
+```
+
+#### Get Specific Message
+
+```bash
+# Get message details
+opencode-client messages get sess_1234567890 msg_0987654321
+
+# Extract message content
+opencode-client messages get sess_1234567890 msg_0987654321 | jq -r '.content'
+```
+
+#### Send Messages
+
+```bash
+# Send a simple message
+opencode-client messages send sess_1234567890 "Hello, can you help me with this code?"
+
+# Send a multi-line message
+opencode-client messages send sess_1234567890 "Here's the code I'm having trouble with:
+function calculateTotal(items) {
+  return items.reduce((sum, item) => sum + item.price, 0);
+}"
+```
+
+## Indexer Commands
+
+### Indexer Management
+
+#### Start Indexer Service
+
+```bash
+# Start indexer in foreground
+opencode-client indexer start
+
+# Start with verbose logging
+opencode-client indexer start --verbose
+
+# Start as PM2 daemon
+opencode-client indexer start --pm2
+
+# Start with custom server URL
+opencode-client indexer start --baseUrl "https://api.opencode.com"
 ```
 
 ## Advanced Workflows
@@ -343,112 +229,107 @@ opencode-client pm2 logs my-app --lines 0 --follow
 # 1. Create a session for code review
 SESSION_ID=$(opencode-client sessions create \
   --title "Code Review - $(date +%Y-%m-%d)" \
-  --files '["src/**/*.ts", "tests/**/*.ts"]' \
-  --delegates '["reviewer", "security-analyzer"]' | jq -r '.id')
+  --message "Starting code review session for the latest changes" | jq -r '.id')
 
 echo "Created session: $SESSION_ID"
 
-# 2. Submit security analysis job
-SECURITY_JOB=$(opencode-client ollama submit \
-  --model codellama \
-  --prompt "Analyze the following code for security vulnerabilities and potential issues" \
-  --name "security-analysis" \
-  --priority high | jq -r '.id')
+# 2. Send initial context
+opencode-client messages send "$SESSION_ID" "Please review the following changes:
+- Updated authentication logic
+- Added input validation
+- Improved error handling"
 
-echo "Submitted security job: $SECURITY_JOB"
+# 3. Monitor for responses
+echo "Monitoring for responses..."
+opencode-client events subscribe --sessionId "$SESSION_ID" &
+SUBSCRIBE_PID=$!
 
-# 3. Submit code quality analysis
-QUALITY_JOB=$(opencode-client ollama submit \
-  --model codellama \
-  --prompt "Review the code for best practices, performance, and maintainability" \
-  --name "quality-analysis" \
-  --priority medium | jq -r '.id')
+# 4. Wait for some time to collect responses
+sleep 30
 
-echo "Submitted quality job: $QUALITY_JOB"
+# 5. Kill the subscription process
+kill $SUBSCRIBE_PID 2>/dev/null
 
-# 4. Wait for jobs to complete
-echo "Waiting for jobs to complete..."
-for job_id in $SECURITY_JOB $QUALITY_JOB; do
-  while true; do
-    status=$(opencode-client ollama status $job_id | jq -r '.status')
-    if [[ "$status" == "completed" || "$status" == "failed" ]]; then
-      break
-    fi
-    sleep 5
-  done
-done
+# 6. Get final session state
+echo "Final session state:"
+opencode-client sessions get "$SESSION_ID"
 
-# 5. Get results
-echo "Getting results..."
-opencode-client ollama result $SECURITY_JOB > security-report.json
-opencode-client ollama result $QUALITY_JOB > quality-report.json
-
-# 6. Close session
-opencode-client sessions close $SESSION_ID
+# 7. Close session
+opencode-client sessions close "$SESSION_ID"
 
 echo "Code review workflow completed!"
-echo "Reports saved: security-report.json, quality-report.json"
 ```
 
-### Batch Processing Workflow
+### Session Analysis Workflow
 
 ```bash
 #!/bin/bash
-# batch-processing.sh
+# session-analysis.sh
 
-# Process multiple files with Ollama
-FILES=("src/app.ts" "src/utils.ts" "src/config.ts")
-MODEL="llama2"
-RESULTS_DIR="results/$(date +%Y%m%d_%H%M%S)"
+# Analyze recent sessions
+echo "Analyzing recent sessions..."
 
-mkdir -p "$RESULTS_DIR"
+# Get all sessions
+SESSIONS=$(opencode-client sessions list --limit 50)
 
-echo "Processing ${#FILES[@]} files..."
-JOB_IDS=()
+# Extract session IDs and analyze each
+echo "$SESSIONS" | jq -r '.[].id' | while read -r session_id; do
+  echo "Analyzing session: $session_id"
 
-# Submit jobs for each file
-for file in "${FILES[@]}"; do
-  echo "Processing $file..."
+  # Get session details
+  SESSION_DETAILS=$(opencode-client sessions get "$session_id")
 
-  job_id=$(opencode-client ollama submit \
-    --model "$MODEL" \
-    --prompt "Analyze the following TypeScript file and provide a summary: $(cat $file)" \
-    --name "analyze-$(basename $file)" \
-    --priority medium | jq -r '.id')
+  # Extract key information
+  TITLE=$(echo "$SESSION_DETAILS" | jq -r '.title // "Untitled"')
+  MESSAGE_COUNT=$(opencode-client messages list "$session_id" --limit 1000 | jq '. | length')
 
-  JOB_IDS+=("$job_id")
-  echo "Submitted job: $job_id"
+  echo "  Title: $TITLE"
+  echo "  Messages: $MESSAGE_COUNT"
+
+  # Get recent events
+  RECENT_EVENTS=$(opencode-client events list --sessionId "$session_id" --k 5)
+  echo "  Recent events: $(echo "$RECENT_EVENTS" | jq '. | length')"
+
+  echo "---"
 done
+```
 
-# Monitor all jobs
-echo "Monitoring ${#JOB_IDS[@]} jobs..."
-completed=0
+### Real-time Event Monitoring
 
-while [[ $completed -lt ${#JOB_IDS[@]} ]]; do
-  completed=0
-  for job_id in "${JOB_IDS[@]}"; do
-    status=$(opencode-client ollama status "$job_id" | jq -r '.status')
-    if [[ "$status" == "completed" || "$status" == "failed" ]]; then
-      ((completed++))
-    fi
-  done
+```bash
+#!/bin/bash
+# event-monitor.sh
 
-  echo "Progress: $completed/${#JOB_IDS[@]} jobs completed"
-  sleep 10
+echo "Starting real-time event monitoring..."
+echo "Press Ctrl+C to stop"
+
+# Subscribe to all events
+opencode-client events subscribe | while read -r event; do
+  # Parse event JSON
+  EVENT_TYPE=$(echo "$event" | jq -r '.type')
+  SESSION_ID=$(echo "$event" | jq -r '.sessionId // "global"')
+  TIMESTAMP=$(echo "$event" | jq -r '.timestamp')
+
+  # Format timestamp
+  FORMATTED_TIME=$(date -d "@$TIMESTAMP" '+%Y-%m-%d %H:%M:%S')
+
+  echo "[$FORMATTED_TIME] $EVENT_TYPE (Session: $SESSION_ID)"
+
+  # Show additional details for specific event types
+  case "$EVENT_TYPE" in
+    "session_created")
+      TITLE=$(echo "$event" | jq -r '.data.title // "Untitled"')
+      echo "  → New session: $TITLE"
+      ;;
+    "message_sent")
+      CONTENT=$(echo "$event" | jq -r '.data.content' | head -c 100)
+      echo "  → Message: $CONTENT..."
+      ;;
+    "session_closed")
+      echo "  → Session closed"
+      ;;
+  esac
 done
-
-# Collect results
-echo "Collecting results..."
-for i in "${!FILES[@]}"; do
-  file="${FILES[$i]}"
-  job_id="${JOB_IDS[$i]}"
-  filename=$(basename "$file")
-
-  opencode-client ollama result "$job_id" > "$RESULTS_DIR/${filename}.json"
-  echo "Saved result for $filename"
-done
-
-echo "Batch processing completed! Results saved to: $RESULTS_DIR"
 ```
 
 ### Interactive Session Management
@@ -460,17 +341,12 @@ echo "Batch processing completed! Results saved to: $RESULTS_DIR"
 # Create an interactive session
 echo "Creating new session..."
 read -p "Enter session title: " TITLE
-read -p "Enter files (comma-separated): " FILES
-read -p "Enter delegates (comma-separated): " DELEGATES
+read -p "Enter initial message: " MESSAGE
 
-# Convert to JSON arrays
-FILES_JSON=$(echo "$FILES" | sed 's/,/","/g' | sed 's/^/["/' | sed 's/$/"]/')
-DELEGATES_JSON=$(echo "$DELEGATES" | sed 's/,/","/g' | sed 's/^/["/' | sed 's/$/"]/')
-
+# Create session
 SESSION_ID=$(opencode-client sessions create \
   --title "$TITLE" \
-  --files "$FILES_JSON" \
-  --delegates "$DELEGATES_JSON" | jq -r '.id')
+  --message "$MESSAGE" | jq -r '.id')
 
 echo "Created session: $SESSION_ID"
 
@@ -478,43 +354,43 @@ echo "Created session: $SESSION_ID"
 while true; do
   echo
   echo "Session: $TITLE ($SESSION_ID)"
-  echo "1. Submit job"
-  echo "2. Check session status"
-  echo "3. List jobs"
-  echo "4. Search past sessions"
-  echo "5. Close session"
-  echo "6. Exit"
+  echo "1. Send message"
+  echo "2. List messages"
+  echo "3. Show session details"
+  echo "4. Search sessions"
+  echo "5. Monitor events"
+  echo "6. Close session"
+  echo "7. Exit"
   read -p "Choose an option: " CHOICE
 
   case $CHOICE in
     1)
-      read -p "Enter prompt: " PROMPT
-      read -p "Enter model (default: llama2): " MODEL
-      MODEL=${MODEL:-llama2}
-
-      JOB_ID=$(opencode-client ollama submit \
-        --model "$MODEL" \
-        --prompt "$PROMPT" \
-        --name "interactive-job" | jq -r '.id')
-
-      echo "Submitted job: $JOB_ID"
+      read -p "Enter your message: " MSG
+      opencode-client messages send "$SESSION_ID" "$MSG"
+      echo "Message sent."
       ;;
     2)
-      opencode-client sessions get "$SESSION_ID"
+      echo "Messages in session:"
+      opencode-client messages list "$SESSION_ID" --limit 10
       ;;
     3)
-      opencode-client ollama list --limit 10
+      echo "Session details:"
+      opencode-client sessions get "$SESSION_ID"
       ;;
     4)
       read -p "Enter search query: " QUERY
-      opencode-client sessions search --query "$QUERY"
+      opencode-client sessions search "$QUERY" --k 5
       ;;
     5)
+      echo "Monitoring events for 30 seconds..."
+      timeout 30 opencode-client events subscribe --sessionId "$SESSION_ID" || true
+      ;;
+    6)
       opencode-client sessions close "$SESSION_ID"
       echo "Session closed."
       exit 0
       ;;
-    6)
+    7)
       echo "Exiting..."
       exit 0
       ;;
@@ -530,15 +406,15 @@ done
 ### Node.js Script
 
 ```javascript
-// automated-analysis.js
+// automated-session-manager.js
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 
 class OpenCodeClient {
   constructor() {
-    this.serverUrl = process.env.OPENCODE_SERVER_URL || 'http://localhost:3000';
-    this.authToken = process.env.OPENCODE_AUTH_TOKEN;
+    this.baseUrl = process.env.OPENCODE_BASE_URL || 'http://localhost:4096';
+    this.apiKey = process.env.OPENCODE_API_KEY;
   }
 
   async runCommand(command) {
@@ -547,8 +423,8 @@ class OpenCodeClient {
         encoding: 'utf8',
         env: {
           ...process.env,
-          OPENCODE_SERVER_URL: this.serverUrl,
-          OPENCODE_AUTH_TOKEN: this.authToken,
+          OPENCODE_BASE_URL: this.baseUrl,
+          OPENCODE_API_KEY: this.apiKey,
         },
       });
       return JSON.parse(result);
@@ -558,125 +434,146 @@ class OpenCodeClient {
     }
   }
 
-  async analyzeCodebase(directory) {
-    console.log(`Analyzing codebase in ${directory}`);
+  async createSessionWithMessages(title, messages) {
+    console.log(`Creating session: ${title}`);
 
     // Create session
     const session = await this.runCommand(
-      `sessions create --title "Codebase Analysis" --files '["${directory}/**/*"]'`,
+      `sessions create --title "${title}" --message "${messages[0]}"`,
     );
 
     console.log(`Created session: ${session.id}`);
 
-    // Get all TypeScript files
-    const files = this.getFiles(directory, '.ts');
-    const jobIds = [];
-
-    // Submit analysis jobs
-    for (const file of files) {
-      const content = fs.readFileSync(file, 'utf8');
-      const prompt = `Analyze this TypeScript file for code quality, potential issues, and improvement suggestions:\n\n${content}`;
-
-      const job = await this.runCommand(
-        `ollama submit --model codellama --prompt "${prompt}" --name "analyze-${path.basename(file)}"`,
-      );
-
-      jobIds.push(job.id);
-      console.log(`Submitted job for ${file}: ${job.id}`);
+    // Send additional messages
+    for (let i = 1; i < messages.length; i++) {
+      await this.runCommand(`messages send ${session.id} "${messages[i]}"`);
+      console.log(`Sent message ${i + 1}/${messages.length}`);
     }
 
-    // Wait for completion
-    await this.waitForJobs(jobIds);
-
-    // Collect results
-    const results = {};
-    for (let i = 0; i < files.length; i++) {
-      const result = await this.runCommand(`ollama result ${jobIds[i]}`);
-      results[files[i]] = result;
-    }
-
-    // Close session
-    await this.runCommand(`sessions close ${session.id}`);
-
-    return results;
+    return session;
   }
 
-  getFiles(dir, extension) {
-    const files = [];
+  async analyzeSession(sessionId) {
+    console.log(`Analyzing session: ${sessionId}`);
 
-    function traverse(currentDir) {
-      const items = fs.readdirSync(currentDir);
+    // Get session details
+    const session = await this.runCommand(`sessions get ${sessionId}`);
 
-      for (const item of items) {
-        const fullPath = path.join(currentDir, item);
-        const stat = fs.statSync(fullPath);
+    // Get messages
+    const messages = await this.runCommand(`messages list ${sessionId} --limit 100`);
 
-        if (stat.isDirectory()) {
-          traverse(fullPath);
-        } else if (item.endsWith(extension)) {
-          files.push(fullPath);
-        }
-      }
-    }
+    // Get events
+    const events = await this.runCommand(`events list --sessionId ${sessionId} --k 50`);
 
-    traverse(dir);
-    return files;
+    return {
+      session,
+      messages,
+      events,
+      analysis: {
+        messageCount: messages.length,
+        eventCount: events.length,
+        duration: session.updatedAt - session.createdAt,
+        activityStatus: session.activityStatus,
+      },
+    };
   }
 
-  async waitForJobs(jobIds) {
-    console.log(`Waiting for ${jobIds.length} jobs to complete...`);
+  async monitorSession(sessionId, duration = 60000) {
+    console.log(`Monitoring session ${sessionId} for ${duration}ms...`);
 
-    while (true) {
-      const completed = jobIds.filter(async (id) => {
-        const status = await this.runCommand(`ollama status ${id}`);
-        return ['completed', 'failed'].includes(status.status);
+    return new Promise((resolve, reject) => {
+      const child = execSync(`opencode-client events subscribe --sessionId ${sessionId}`, {
+        encoding: 'utf8',
+        stdio: 'pipe',
       });
 
-      if (completed.length === jobIds.length) {
-        break;
-      }
+      // Process events as they come in
+      const events = child.split('\n').filter((line) => line.trim());
 
-      console.log(`Progress: ${completed.length}/${jobIds.length} completed`);
-      await new Promise((resolve) => setTimeout(resolve, 5000));
+      setTimeout(() => {
+        resolve(events);
+      }, duration);
+    });
+  }
+
+  async cleanupOldSessions(maxAge = 7 * 24 * 60 * 60 * 1000) {
+    // 7 days
+    console.log('Cleaning up old sessions...');
+
+    const sessions = await this.runCommand('sessions list --limit 1000');
+    const now = Date.now();
+    let cleaned = 0;
+
+    for (const session of sessions.sessions) {
+      if (now - session.createdAt > maxAge) {
+        await this.runCommand(`sessions close ${session.id}`);
+        cleaned++;
+        console.log(`Closed old session: ${session.id}`);
+      }
     }
+
+    console.log(`Cleaned up ${cleaned} old sessions`);
+    return cleaned;
   }
 }
 
-// Usage
-const client = new OpenCodeClient();
-const results = await client.analyzeCodebase('./src');
+// Usage examples
+async function main() {
+  const client = new OpenCodeClient();
 
-// Save results
-fs.writeFileSync('analysis-results.json', JSON.stringify(results, null, 2));
-console.log('Analysis completed! Results saved to analysis-results.json');
+  // Example 1: Create a session with multiple messages
+  const session = await client.createSessionWithMessages('Development Planning', [
+    'I need to plan the next sprint for our project.',
+    'We have 3 main features to implement.',
+    'Let me break down the tasks and estimate timelines.',
+  ]);
+
+  // Example 2: Analyze the session
+  const analysis = await client.analyzeSession(session.id);
+  console.log('Session analysis:', analysis.analysis);
+
+  // Example 3: Monitor for new events
+  console.log('Monitoring for new events...');
+  // await client.monitorSession(session.id, 30000); // 30 seconds
+
+  // Example 4: Cleanup old sessions
+  // await client.cleanupOldSessions();
+
+  // Close the session
+  await client.runCommand(`sessions close ${session.id}`);
+  console.log('Session workflow completed!');
+}
+
+main().catch(console.error);
 ```
 
 ### Python Script
 
 ```python
 #!/usr/bin/env python3
-# automated_session.py
+# session_analyzer.py
 
 import subprocess
 import json
 import time
 import os
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Optional
+from datetime import datetime
 
 class OpenCodeCLI:
     def __init__(self):
-        self.server_url = os.getenv('OPENCODE_SERVER_URL', 'http://localhost:3000')
-        self.auth_token = os.getenv('OPENCODE_AUTH_TOKEN')
+        self.base_url = os.getenv('OPENCODE_BASE_URL', 'http://localhost:4096')
+        self.api_key = os.getenv('OPENCODE_API_KEY')
 
     def run_command(self, command: str) -> Dict[str, Any]:
         """Run opencode-client command and return JSON result"""
         env = os.environ.copy()
-        env['OPENCODE_SERVER_URL'] = self.server_url
-        env['OPENCODE_AUTH_TOKEN'] = self.auth_token
+        env['OPENCODE_BASE_URL'] = self.base_url
+        env['OPENCODE_API_KEY'] = self.api_key
 
         try:
             result = subprocess.run(
-                ['opencode'] + command.split(),
+                ['opencode-client'] + command.split(),
                 capture_output=True,
                 text=True,
                 env=env
@@ -690,79 +587,174 @@ class OpenCodeCLI:
             print(f"Error running command '{command}': {e}")
             raise
 
-    def create_research_session(self, topic: str, queries: List[str]) -> str:
-        """Create a research session and submit queries"""
+    def create_research_session(self, topic: str, research_questions: List[str]) -> str:
+        """Create a research session and explore questions"""
         print(f"Creating research session for: {topic}")
 
-        # Create session
-        session = self.run_command(f'sessions create --title "Research: {topic}"')
+        # Create session with initial message
+        initial_message = f"I want to research {topic}. Here are my questions:\n" + \
+                         "\n".join([f"{i+1}. {q}" for i, q in enumerate(research_questions)])
+
+        session = self.run_command(f'sessions create --title "Research: {topic}" --message "{initial_message}"')
         session_id = session['id']
         print(f"Created session: {session_id}")
 
-        # Submit queries
-        job_ids = []
-        for i, query in enumerate(queries):
-            job = self.run_command(
-                f'ollama submit --model llama2 --prompt "{query}" --name "research-query-{i+1}"'
+        return session_id
+
+    def analyze_session_activity(self, session_id: str) -> Dict[str, Any]:
+        """Analyze activity patterns in a session"""
+        print(f"Analyzing activity for session: {session_id}")
+
+        # Get session details
+        session = self.run_command(f'sessions get {session_id}')
+
+        # Get all messages
+        messages = self.run_command(f'messages list {session_id} --limit 1000')
+
+        # Get all events
+        events = self.run_command(f'events list --sessionId {session_id} --k 1000')
+
+        # Analyze patterns
+        analysis = {
+            'session_id': session_id,
+            'title': session.get('title', 'Untitled'),
+            'created_at': datetime.fromtimestamp(session['createdAt']).isoformat(),
+            'updated_at': datetime.fromtimestamp(session['updatedAt']).isoformat(),
+            'duration_hours': (session['updatedAt'] - session['createdAt']) / 3600,
+            'message_count': len(messages),
+            'event_count': len(events),
+            'activity_status': session['activityStatus'],
+            'message_frequency': len(messages) / max(1, (session['updatedAt'] - session['createdAt']) / 3600),
+            'event_types': {}
+        }
+
+        # Count event types
+        for event in events:
+            event_type = event['type']
+            analysis['event_types'][event_type] = analysis['event_types'].get(event_type, 0) + 1
+
+        return analysis
+
+    def monitor_session_realtime(self, session_id: str, duration: int = 60):
+        """Monitor a session in real-time for specified duration"""
+        print(f"Monitoring session {session_id} for {duration} seconds...")
+
+        try:
+            # Start event subscription
+            process = subprocess.Popen(
+                ['opencode-client', 'events', 'subscribe', '--sessionId', session_id],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                env={**os.environ, 'OPENCODE_BASE_URL': self.base_url}
             )
-            job_ids.append(job['id'])
-            print(f"Submitted query {i+1}: {job['id']}")
 
-        # Wait for completion
-        self._wait_for_jobs(job_ids)
+            start_time = time.time()
+            events_received = []
 
-        # Collect results
-        results = {}
-        for i, job_id in enumerate(job_ids):
-            result = self.run_command(f'ollama result {job_id}')
-            results[f'query_{i+1}'] = {
-                'query': queries[i],
-                'result': result
-            }
+            while time.time() - start_time < duration:
+                try:
+                    # Read line with timeout
+                    output = process.stdout.readline()
+                    if output:
+                        event = json.loads(output.strip())
+                        events_received.append(event)
 
-        # Save results
-        output_file = f"research_{topic.replace(' ', '_')}.json"
-        with open(output_file, 'w') as f:
-            json.dump(results, f, indent=2)
+                        timestamp = datetime.fromtimestamp(event['timestamp']).strftime('%H:%M:%S')
+                        print(f"[{timestamp}] {event['type']}")
 
-        # Close session
-        self.run_command(f'sessions close {session_id}')
+                        if event['type'] == 'message_sent':
+                            content = event['data']['content'][:100] + "..." if len(event['data']['content']) > 100 else event['data']['content']
+                            print(f"  → {content}")
+                except json.JSONDecodeError:
+                    continue
+                except Exception as e:
+                    print(f"Error processing event: {e}")
 
-        print(f"Research completed! Results saved to: {output_file}")
-        return output_file
+                time.sleep(0.1)
 
-    def _wait_for_jobs(self, job_ids: List[str]):
-        """Wait for all jobs to complete"""
-        print(f"Waiting for {len(job_ids)} jobs to complete...")
+            # Terminate the process
+            process.terminate()
+            process.wait()
 
-        while True:
-            completed = 0
-            for job_id in job_ids:
-                status = self.run_command(f'ollama status {job_id}')
-                if status['status'] in ['completed', 'failed']:
-                    completed += 1
+            print(f"\nMonitoring complete. Received {len(events_received)} events.")
+            return events_received
 
-            print(f"Progress: {completed}/{len(job_ids)} completed")
+        except KeyboardInterrupt:
+            print("\nMonitoring interrupted by user.")
+            process.terminate()
+            process.wait()
+            return []
 
-            if completed == len(job_ids):
-                break
+    def generate_session_report(self, session_id: str) -> str:
+        """Generate a comprehensive report for a session"""
+        analysis = self.analyze_session_activity(session_id)
 
-            time.sleep(10)
+        report = f"""
+# Session Report: {analysis['title']}
+
+## Overview
+- **Session ID**: {analysis['session_id']}
+- **Created**: {analysis['created_at']}
+- **Last Updated**: {analysis['updated_at']}
+- **Duration**: {analysis['duration_hours']:.2f} hours
+- **Status**: {analysis['activity_status']}
+
+## Activity Summary
+- **Total Messages**: {analysis['message_count']}
+- **Total Events**: {analysis['event_count']}
+- **Message Frequency**: {analysis['message_frequency']:.2f} messages/hour
+
+## Event Breakdown
+"""
+
+        for event_type, count in analysis['event_types'].items():
+            report += f"- **{event_type}**: {count}\n"
+
+        report += f"""
+## Insights
+- Average session activity: {'High' if analysis['message_frequency'] > 5 else 'Medium' if analysis['message_frequency'] > 1 else 'Low'}
+- Most common event type: {max(analysis['event_types'], key=analysis['event_types'].get) if analysis['event_types'] else 'None'}
+- Session duration category: {'Long' if analysis['duration_hours'] > 2 else 'Medium' if analysis['duration_hours'] > 0.5 else 'Short'}
+"""
+
+        return report
 
 def main():
     cli = OpenCodeCLI()
 
-    # Example research session
-    topic = "Machine Learning Best Practices"
-    queries = [
-        "What are the best practices for data preprocessing in machine learning?",
-        "How to prevent overfitting in neural networks?",
-        "What evaluation metrics should be used for classification models?",
-        "How to handle imbalanced datasets in machine learning?"
+    # Example 1: Create a research session
+    topic = "Machine Learning Model Optimization"
+    questions = [
+        "What are the main techniques for model optimization?",
+        "How do quantization and pruning affect model performance?",
+        "What tools are available for automated optimization?"
     ]
 
-    result_file = cli.create_research_session(topic, queries)
-    print(f"Research session completed. Results in: {result_file}")
+    session_id = cli.create_research_session(topic, questions)
+
+    # Example 2: Analyze the session
+    analysis = cli.analyze_session_activity(session_id)
+    print("Session Analysis:")
+    print(json.dumps(analysis, indent=2))
+
+    # Example 3: Monitor for new activity (optional)
+    # print("Monitoring for new activity...")
+    # cli.monitor_session_realtime(session_id, 30)  # Monitor for 30 seconds
+
+    # Example 4: Generate report
+    report = cli.generate_session_report(session_id)
+
+    # Save report
+    report_file = f"session_report_{session_id}.md"
+    with open(report_file, 'w') as f:
+        f.write(report)
+
+    print(f"Report saved to: {report_file}")
+
+    # Clean up
+    cli.run_command(f'sessions close {session_id}')
+    print("Session closed.")
 
 if __name__ == "__main__":
     main()
@@ -771,78 +763,184 @@ if __name__ == "__main__":
 ### PowerShell Script
 
 ```powershell
-# automated-workflow.ps1
+# session-manager.ps1
 
 param(
-    [Parameter(Mandatory=$true)]
-    [string]$ProjectPath,
+    [Parameter(Mandatory=$false)]
+    [string]$BaseURL = "http://localhost:4096",
 
     [Parameter(Mandatory=$false)]
-    [string]$Model = "llama2",
-
-    [Parameter(Mandatory=$false)]
-    [string]$OutputDir = "analysis-results"
+    [string]$OutputDir = "session-reports"
 )
 
 # Create output directory
 New-Item -ItemType Directory -Force -Path $OutputDir | Out-Null
 
-Write-Host "Starting automated analysis for project: $ProjectPath"
+# Set environment variables
+$env:OPENCODE_BASE_URL = $BaseURL
 
-# Create session
-$session = opencode-client sessions create --title "Automated Project Analysis" | ConvertFrom-Json
-$sessionId = $session.id
-Write-Host "Created session: $sessionId"
+Write-Host "OpenCode Session Manager"
+Write-Host "======================="
 
-# Get all PowerShell and TypeScript files
-$files = Get-ChildItem -Path $ProjectPath -Include "*.ps1", "*.ts" -Recurse
-$jobIds = @()
+function Invoke-OpenCode {
+    param(
+        [string]$Command
+    )
 
-# Submit analysis jobs
-foreach ($file in $files) {
-    $content = Get-Content -Path $file.FullName -Raw
-    $prompt = "Analyze this script for best practices, security, and performance issues: `n`n$content"
-
-    $job = opencode-client ollama submit --model $Model --prompt $prompt --name "analyze-$($file.Name)" | ConvertFrom-Json
-    $jobIds += $job.id
-
-    Write-Host "Submitted analysis for $($file.Name): $($job.id)"
+    try {
+        $result = opencode-client $Command | ConvertFrom-Json
+        return $result
+    }
+    catch {
+        Write-Error "Command failed: $Command"
+        Write-Error $_.Exception.Message
+        throw
+    }
 }
 
-# Wait for jobs to complete
-Write-Host "Waiting for $($jobIds.Count) jobs to complete..."
-$completed = 0
+function New-AnalysisSession {
+    param(
+        [string]$Title,
+        [string[]]$Topics
+    )
 
-while ($completed -lt $jobIds.Count) {
-    $completed = 0
-    foreach ($jobId in $jobIds) {
-        $status = opencode-client ollama status $jobId | ConvertFrom-Json
-        if ($status.status -in @("completed", "failed")) {
-            $completed++
+    Write-Host "Creating analysis session: $Title"
+
+    $message = "I need to analyze the following topics:`n" + ($Topics -join "`n")
+
+    $session = Invoke-OpenCode "sessions create --title `"$Title`" --message `"$message`""
+
+    Write-Host "Created session: $($session.id)"
+    return $session
+}
+
+function Get-SessionInsights {
+    param(
+        [string]$SessionId
+    )
+
+    Write-Host "Gathering insights for session: $SessionId"
+
+    # Get session details
+    $session = Invoke-OpenCode "sessions get $SessionId"
+
+    # Get messages
+    $messages = Invoke-OpenCode "messages list $SessionId --limit 1000"
+
+    # Get events
+    $events = Invoke-OpenCode "events list --sessionId $SessionId --k 1000"
+
+    # Calculate insights
+    $duration = $session.updatedAt - $session.createdAt
+    $durationHours = $duration / 3600
+    $messageFrequency = if ($durationHours -gt 0) { $messages.Count / $durationHours } else { 0 }
+
+    $insights = @{
+        SessionId = $SessionId
+        Title = $session.title
+        Duration = [timespan]::FromMilliseconds($duration)
+        MessageCount = $messages.Count
+        EventCount = $events.Count
+        MessageFrequency = [math]::Round($messageFrequency, 2)
+        ActivityStatus = $session.activityStatus
+        EventTypes = @{}
+    }
+
+    # Count event types
+    foreach ($event in $events) {
+        $type = $event.type
+        if ($insights.EventTypes.ContainsKey($type)) {
+            $insights.EventTypes[$type]++
+        } else {
+            $insights.EventTypes[$type] = 1
         }
     }
 
-    Write-Host "Progress: $completed/$($jobIds.Count) completed"
-    Start-Sleep -Seconds 10
+    return $insights
 }
 
-# Collect results
-Write-Host "Collecting results..."
-for ($i = 0; $i -lt $files.Count; $i++) {
-    $file = $files[$i]
-    $jobId = $jobIds[$i]
+function Export-SessionReport {
+    param(
+        [object]$Insights,
+        [string]$OutputPath
+    )
 
-    $result = opencode-client ollama result $jobId | ConvertFrom-Json
-    $outputFile = Join-Path $OutputDir "$($file.BaseName)-analysis.json"
+    $report = @"
+# Session Analysis Report
 
-    $result | ConvertTo-Json -Depth 10 | Out-File -FilePath $outputFile
-    Write-Host "Saved analysis for $($file.Name) to $outputFile"
+## Session Information
+- **Session ID**: $($Insights.SessionId)
+- **Title**: $($Insights.Title)
+- **Duration**: $($Insights.Duration.ToString('hh\:mm\:ss'))
+- **Status**: $($Insights.ActivityStatus)
+
+## Activity Metrics
+- **Total Messages**: $($Insights.MessageCount)
+- **Total Events**: $($Insights.EventCount)
+- **Message Frequency**: $($Insights.MessageFrequency) messages/hour
+
+## Event Distribution
+"@
+
+    foreach ($eventType in $Insights.EventTypes.GetEnumerator()) {
+        $report += "- **$($eventType.Key)**: $($eventType.Value)`n"
+    }
+
+    $report += @"
+
+## Analysis Summary
+- Activity Level: $(if ($Insights.MessageFrequency -gt 5) { 'High' } elseif ($Insights.MessageFrequency -gt 1) { 'Medium' } else { 'Low' })
+- Most Common Event: $(($Insights.EventTypes.GetEnumerator() | Sort-Object Value -Descending | Select-Object -First 1).Key)
+- Session Length Category: $(if ($Insights.Duration.TotalHours -gt 2) { 'Long' } elseif ($Insights.Duration.TotalHours -gt 0.5) { 'Medium' } else { 'Short' })
+
+Generated on: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')
+"@
+
+    $report | Out-File -FilePath $OutputPath -Encoding UTF8
+    Write-Host "Report saved to: $OutputPath"
 }
 
-# Close session
-opencode-client sessions close $sessionId | Out-Null
+# Main workflow
+try {
+    # Example 1: Create a session for project analysis
+    $analysisTopics = @(
+        "Code quality and maintainability",
+        "Performance bottlenecks",
+        "Security vulnerabilities",
+        "Testing coverage and strategies"
+    )
 
-Write-Host "Automated analysis completed! Results saved to: $OutputDir"
+    $session = New-AnalysisSession -Title "Project Health Analysis" -Topics $analysisTopics
+
+    # Example 2: Wait a bit and analyze
+    Write-Host "Waiting 5 seconds before analysis..."
+    Start-Sleep -Seconds 5
+
+    $insights = Get-SessionInsights -SessionId $session.id
+
+    # Example 3: Generate and save report
+    $reportPath = Join-Path $OutputDir "session_$($session.id)_report.md"
+    Export-SessionReport -Insights $insights -OutputPath $reportPath
+
+    # Example 4: Display summary
+    Write-Host "`nSession Summary:" -ForegroundColor Green
+    Write-Host "  ID: $($insights.SessionId)"
+    Write-Host "  Title: $($insights.Title)"
+    Write-Host "  Duration: $($insights.Duration)"
+    Write-Host "  Messages: $($insights.MessageCount)"
+    Write-Host "  Events: $($insights.EventCount)"
+    Write-Host "  Frequency: $($insights.MessageFrequency) msg/hr"
+
+    # Example 5: Clean up
+    Invoke-OpenCode "sessions close $($session.id)" | Out-Null
+    Write-Host "Session closed."
+}
+catch {
+    Write-Error "An error occurred: $($_.Exception.Message)"
+    exit 1
+}
+
+Write-Host "`nSession management completed!" -ForegroundColor Green
 ```
 
-These examples demonstrate various ways to use the OpenCode CLI client, from simple command-line usage to complex automated workflows and scripting integrations.
+These examples demonstrate various ways to use the OpenCode CLI client, from simple command-line usage to complex automated workflows and scripting integrations for session management, event monitoring, and analysis.

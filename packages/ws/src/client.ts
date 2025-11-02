@@ -11,7 +11,7 @@ export class EventClient {
         // Prevent misuse of this client for the broker
         if (process.env.BROKER_WS_URL && url.startsWith(process.env.BROKER_WS_URL)) {
             throw new Error(
-                'Do not use ws/client to talk to the broker. Use @promethean/legacy/brokerClient.js (or AgentBus wrapping it).',
+                'Do not use ws/client to talk to the broker. Use @promethean-os/legacy/brokerClient.js (or AgentBus wrapping it).',
             );
         }
         this.ws = new WebSocket(url);

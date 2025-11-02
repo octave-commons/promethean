@@ -1,39 +1,18 @@
 #!/usr/bin/env node
+import { Command } from 'commander';
 import { loadKanbanConfig } from './board/config.js';
 import { printJSONL } from './lib/jsonl.js';
 import { printMarkdown } from './lib/markdown-output.js';
 import { processSync } from './process/sync.js';
 import { docguard } from './process/docguard.js';
 import {
-  AVAILABLE_COMMANDS,
   CommandNotFoundError,
   CommandUsageError,
   executeCommand,
+  COMMAND_HANDLERS,
   type CliContext,
 } from './cli/command-handlers.js';
-
-const LEGACY_FLAG_MAP = Object.freeze(
-  new Map<string, string>([
-    ['--kanban', '--board-file'],
-    ['--tasks', '--tasks-dir'],
-  ]),
-);
-
-const LEGACY_FLAG_ENTRIES = Array.from(LEGACY_FLAG_MAP.entries());
-
-const normalizeLegacyToken = (token: string): string =>
-  LEGACY_FLAG_ENTRIES.reduce((current, [legacy, mapped]) => {
-    if (current === legacy) {
-      return mapped;
-    }
-    if (current.startsWith(`${legacy}=`)) {
-      return `${mapped}=${current.slice(legacy.length + 1)}`;
-    }
-    return current;
-  }, token);
-
-const normalizeLegacyArgs = (args: ReadonlyArray<string>): ReadonlyArray<string> =>
-  args.map(normalizeLegacyToken);
+import { setLogLevel } from './lib/utils/logger.js';
 
 const LEGACY_ENV_MAPPINGS = Object.freeze([
   ['KANBAN_PATH', 'KANBAN_BOARD_FILE'],
@@ -59,8 +38,6 @@ const applyLegacyEnv = (env: Readonly<NodeJS.ProcessEnv>): Readonly<NodeJS.Proce
     ...Object.fromEntries(patches),
   };
 };
-
-const COMMAND_LIST = AVAILABLE_COMMANDS;
 
 /**
  * Detect the type of output based on command
@@ -89,98 +66,204 @@ const detectOutputType = (
       return 'table';
   }
 };
-const HELP_TEXT =
-  `Usage: kanban [--kanban path] [--tasks path] [--json] <subcommand> [args...]\n` +
-  `Subcommands: ${[...COMMAND_LIST, 'process_sync', 'doccheck'].join(', ')}\n\n` +
-  `Options:\n` +
-  `  --json   - Output in JSONL format (default: markdown)\n\n` +
-  `Core Operations:\n` +
-  `  push     - Push board state to task files (board → files)\n` +
-  `  pull     - Pull task file state to board (files → board)\n` +
-  `  sync     - Bidirectional sync with conflict detection\n` +
-  `  regenerate - Regenerate board from task files\n\n` +
-  `Task Management:\n` +
-  `  create   - Create new task\n` +
-  `  update   - Update existing task\n` +
-  `  delete   - Delete task\n` +
-  `  list     - List tasks with status\n\n` +
-  `Search & Navigation:\n` +
-  `  find     - Find task by UUID\n` +
-  `  search   - Search tasks by content\n` +
-  `  count    - Count tasks in columns\n\n` +
-  `Advanced:\n` +
-  `  audit    - Audit board consistency\n` +
-  `  heal     - Heal board issues with git tag management\n` +
-  `  ui       - Start web UI\n` +
-  `  dev      - Start development server\n\n` +
-  `WIP Management:\n` +
-  `  enforce-wip-limits - Enforce WIP limits and move excess tasks\n` +
-  `  wip-monitor       - Real-time capacity monitoring\n` +
-  `  wip-compliance    - Generate compliance reports\n` +
-  `  wip-violations    - View violation history\n` +
-  `  wip-suggestions  - Get capacity balancing suggestions`;
 
-async function main(): Promise<void> {
-  const rawArgs = process.argv.slice(2);
-  const normalizedArgs = normalizeLegacyArgs(rawArgs);
-  const helpRequested = normalizedArgs.includes('--help') || normalizedArgs.includes('-h');
-  const jsonRequested = normalizedArgs.includes('--json');
+function setupBaseProgram(): Command {
+  const program = new Command();
 
-  const { config, restArgs } = await loadKanbanConfig({
-    argv: normalizedArgs,
+  program
+    .name('kanban')
+    .description('Automation for local markdown kanban and process-as-code')
+    .version('0.2.0');
+
+  // Global options
+  program
+    .option('--kanban <path>', 'Path to kanban board file (legacy: --board-file)')
+    .option('--tasks <path>', 'Path to tasks directory (legacy: --tasks-dir)')
+    .option('--json', 'Output in JSONL format (default: markdown)')
+    .option(
+      '--log-level <level>',
+      'Set log level: silent, error, warn, info, debug (default: info)',
+      'info',
+    );
+
+  return program;
+}
+
+function setupHooks(program: Command): void {
+  // Pre-action hook: initialize config and logging
+  program.hook('preAction', async (thisCommand: Command) => {
+    const options = thisCommand.opts();
+
+    // Set log level with validation
+    if (options.logLevel) {
+      const validLevels: readonly string[] = ['silent', 'error', 'warn', 'info', 'debug'];
+      if (validLevels.includes(options.logLevel as string)) {
+        setLogLevel(options.logLevel as 'silent' | 'error' | 'warn' | 'info' | 'debug');
+      } else {
+        console.error(
+          `Invalid log level: ${options.logLevel}. Valid levels are: ${validLevels.join(', ')}`,
+        );
+        process.exit(2);
+      }
+    }
+  });
+
+  // Post-action hook: cleanup
+  program.hook('postAction', async () => {
+    // Cleanup can be added here if needed
+  });
+}
+
+function registerInitCommand(program: Command): void {
+  program
+    .command('init')
+    .description('Initialize kanban board and tasks directory')
+    .allowUnknownOption(true)
+    .action(async (...args) => {
+      const options = program.opts();
+      const context: CliContext = {
+        boardFile: (options.kanban as string) || '',
+        tasksDir: (options.tasks as string) || '',
+        argv: process.argv.slice(2),
+      };
+
+      try {
+        const result = await executeCommand('init', args, context);
+        if (typeof result !== 'undefined' && result !== null) {
+          if (options.json) {
+            printJSONL(result);
+          } else {
+            printMarkdown(result, detectOutputType('init'), { query: (args[0] as string) || '' });
+          }
+        }
+      } catch (error: unknown) {
+        if (error instanceof CommandUsageError || error instanceof CommandNotFoundError) {
+          console.error(error.message);
+          process.exit(2);
+        }
+        throw error;
+      }
+    });
+}
+
+function registerProcessCommands(program: Command): void {
+  program
+    .command('process_sync')
+    .description('Sync process documentation')
+    .action(async () => {
+      const res = await processSync({
+        processFile: process.env.KANBAN_PROCESS_FILE,
+        owner: process.env.GITHUB_OWNER,
+        repo: process.env.GITHUB_REPO,
+        token: process.env.GITHUB_TOKEN,
+      });
+      printJSONL(res);
+    });
+
+  program
+    .command('doccheck')
+    .description('Check documentation for PR')
+    .argument('[pr]', 'PR number')
+    .action(async (pr: string | undefined) => {
+      await docguard({
+        pr: pr || process.env.PR_NUMBER,
+        owner: process.env.GITHUB_OWNER,
+        repo: process.env.GITHUB_REPO,
+        token: process.env.GITHUB_TOKEN,
+      });
+    });
+}
+
+function registerSpecialCommands(program: Command): void {
+  registerInitCommand(program);
+  registerProcessCommands(program);
+}
+
+type ProgramOptions = {
+  kanban?: string;
+  tasks?: string;
+  json?: boolean;
+  logLevel?: string;
+};
+
+async function createContext(options: ProgramOptions): Promise<CliContext> {
+  // Load config for non-init commands
+  const { config } = await loadKanbanConfig({
+    argv: process.argv.slice(2),
     env: applyLegacyEnv(process.env),
   });
 
-  // Filter out --json flag from command arguments
-  const filteredArgs = restArgs.filter((arg) => arg !== '--json');
-  const [cmd, ...args] = filteredArgs;
-  const boardFile = config.boardFile;
-  const tasksDir = config.tasksDir;
+  const boardFile = options.kanban || config.boardFile;
+  const tasksDir = options.tasks || config.tasksDir;
 
-  if (helpRequested || !cmd) {
-    console.log(HELP_TEXT);
+  return { boardFile, tasksDir, argv: process.argv.slice(2) };
+}
+
+function registerStandardCommands(program: Command): void {
+  for (const [commandName] of Object.entries(COMMAND_HANDLERS)) {
+    const cmd = program.command(commandName).allowUnknownOption(true);
+
+    cmd.action(async (...args) => {
+      const options = program.opts();
+      const context = await createContext(options);
+
+      try {
+        const result = await executeCommand(commandName, args, context);
+        if (typeof result !== 'undefined' && result !== null) {
+          if (options.json) {
+            printJSONL(result);
+          } else {
+            printMarkdown(result, detectOutputType(commandName), { query: args[0] as string });
+          }
+        }
+      } catch (error: unknown) {
+        if (error instanceof CommandUsageError || error instanceof CommandNotFoundError) {
+          console.error(error.message);
+          process.exit(2);
+        }
+        throw error;
+      }
+    });
+  }
+}
+
+function createProgram(): Command {
+  const program = setupBaseProgram();
+  setupHooks(program);
+  registerSpecialCommands(program);
+  registerStandardCommands(program);
+  return program;
+}
+
+async function main(): Promise<void> {
+  const program = createProgram();
+
+  // Process-level error handling
+  process.on('uncaughtException', (error) => {
+    console.error('Uncaught Exception:', error);
+    process.exit(1);
+  });
+
+  process.on('unhandledRejection', (reason, promise) => {
+    console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+    process.exit(1);
+  });
+
+  // Graceful shutdown on SIGINT/SIGTERM
+  const shutdown = (signal: string) => {
+    console.log(`\nReceived ${signal}, shutting down gracefully...`);
     process.exit(0);
-  }
+  };
 
-  const context: CliContext = { boardFile, tasksDir, argv: normalizedArgs };
-
-  if (cmd === 'process_sync') {
-    const res = await processSync({
-      processFile: process.env.KANBAN_PROCESS_FILE,
-      owner: process.env.GITHUB_OWNER,
-      repo: process.env.GITHUB_REPO,
-      token: process.env.GITHUB_TOKEN,
-    });
-    printJSONL(res);
-    return;
-  }
-  if (cmd === 'doccheck') {
-    const pr = args[0] || process.env.PR_NUMBER;
-    await docguard({
-      pr,
-      owner: process.env.GITHUB_OWNER,
-      repo: process.env.GITHUB_REPO,
-      token: process.env.GITHUB_TOKEN,
-    });
-    return;
-  }
+  process.on('SIGINT', () => shutdown('SIGINT'));
+  process.on('SIGTERM', () => shutdown('SIGTERM'));
 
   try {
-    const result = await executeCommand(cmd, args, context);
-    if (typeof result !== 'undefined' && result !== null) {
-      if (jsonRequested) {
-        printJSONL(result);
-      } else {
-        // Default to markdown output
-        printMarkdown(result, detectOutputType(cmd), { query: args[0] });
-      }
-    }
-  } catch (error: unknown) {
-    if (error instanceof CommandUsageError || error instanceof CommandNotFoundError) {
-      console.error(error.message);
-      process.exit(2);
-    }
-    throw error;
+    await program.parseAsync(process.argv);
+  } catch (error) {
+    const message = error instanceof Error ? (error.stack ?? error.message) : String(error);
+    console.error(message);
+    process.exit(1);
   }
 }
 

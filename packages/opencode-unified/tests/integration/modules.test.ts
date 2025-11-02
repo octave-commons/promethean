@@ -31,7 +31,7 @@ test('main index exports all modules', async (t) => {
 test('package info is consistent', async (t) => {
   const { PACKAGE_INFO, VERSION } = await import('../../src/typescript');
 
-  t.is(PACKAGE_INFO.name, '@promethean/opencode-unified');
+  t.is(PACKAGE_INFO.name, '@promethean-os/opencode-unified');
   t.is(PACKAGE_INFO.version, VERSION);
   t.is(PACKAGE_INFO.author, 'Promethean Team');
   t.is(PACKAGE_INFO.license, 'GPL-3.0-only');

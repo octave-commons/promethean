@@ -1,5 +1,5 @@
 import type { IndexedTask } from "./types.js";
-import { openLmdbCache, type Cache } from "@promethean/lmdb-cache";
+import { openLmdbCache, type Cache } from "@promethean-os/lmdb-cache";
 
 /**
  * TaskCache interface for efficient task storage and retrieval

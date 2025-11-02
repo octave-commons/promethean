@@ -1,6 +1,6 @@
 import test from 'ava';
 import esmock from 'esmock';
-import { createHfClient as createFromIndex } from '@promethean/http';
+import { createHfClient as createFromIndex } from '@promethean-os/http';
 
 type EmbeddingResponse = ReadonlyArray<ReadonlyArray<number> | ReadonlyArray<ReadonlyArray<number>>>;
 

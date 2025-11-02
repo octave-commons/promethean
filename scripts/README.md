@@ -15,12 +15,12 @@ Use make targets or pnpm/python directly as indicated in subfolder READMEs.
 ### Markdown automation helpers
 
 Scripts that touch our kanban or task markdown should prefer the utilities in
-`@promethean/markdown`. The package exposes helpers for parsing and persisting
+`@promethean-os/markdown`. The package exposes helpers for parsing and persisting
 board and task structures (`MarkdownBoard`, `MarkdownTask`), manipulating
 frontmatter metadata, and chunking markdown bodies for downstream processing.
 
 ```ts
-import { MarkdownBoard } from '@promethean/markdown/kanban.js';
+import { MarkdownBoard } from '@promethean-os/markdown/kanban.js';
 
 const board = await MarkdownBoard.fromPath('docs/agile/boards/kanban.md');
 // ... mutate board.columns/tasks as needed ...

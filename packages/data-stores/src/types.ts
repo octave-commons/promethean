@@ -1,4 +1,4 @@
-import type { DualStoreManager, DualStoreEntry, DualStoreMetadata } from '@promethean/persistence';
+import type { DualStoreManager, DualStoreEntry, DualStoreMetadata } from '@promethean-os/persistence';
 
 /**
  * Store names for all centralized data stores

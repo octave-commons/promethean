@@ -3,14 +3,14 @@ import { fileURLToPath } from "url";
 import { promises as fs } from "fs";
 
 import matter from "gray-matter";
-import { openLevelCache, type Cache } from "@promethean/level-cache";
+import { openLevelCache, type Cache } from "@promethean-os/level-cache";
 import {
   cosine,
   parseArgs,
   ollamaEmbed,
   writeText,
   createLogger,
-} from "@promethean/utils";
+} from "@promethean-os/utils";
 
 import { listTaskFiles } from "./utils.js";
 import type { RepoDoc, Embeddings, TaskContext } from "./types.js";

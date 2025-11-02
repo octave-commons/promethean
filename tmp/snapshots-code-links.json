@@ -1,0 +1,212 @@
+{
+  "packageData": {
+    "packageName": "snapshots",
+    "files": [
+      {
+        "path": "api.ts",
+        "fullPath": "/home/err/devel/promethean/packages/snapshots/src/api.ts",
+        "exports": [
+          {
+            "name": "getSnap",
+            "line": 17,
+            "type": "function"
+          },
+          {
+            "name": "listSnaps",
+            "line": 37,
+            "type": "function"
+          },
+          {
+            "name": "headSnap",
+            "line": 52,
+            "type": "function"
+          },
+          {
+            "name": "startSnapshotApi",
+            "line": 71,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "getSnap",
+            "line": 17,
+            "type": "function"
+          },
+          {
+            "name": "listSnaps",
+            "line": 37,
+            "type": "function"
+          },
+          {
+            "name": "headSnap",
+            "line": 52,
+            "type": "function"
+          },
+          {
+            "name": "startSnapshotApi",
+            "line": 71,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 95
+      },
+      {
+        "path": "etag.ts",
+        "fullPath": "/home/err/devel/promethean/packages/snapshots/src/etag.ts",
+        "exports": [
+          {
+            "name": "etagOf",
+            "line": 48,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "etagOf",
+            "line": 48,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 52
+      },
+      {
+        "path": "tests/api.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/snapshots/src/tests/api.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 43
+      }
+    ],
+    "mainEntry": null,
+    "exports": [
+      {
+        "name": "getSnap",
+        "line": 17,
+        "type": "function",
+        "file": "api.ts"
+      },
+      {
+        "name": "listSnaps",
+        "line": 37,
+        "type": "function",
+        "file": "api.ts"
+      },
+      {
+        "name": "headSnap",
+        "line": 52,
+        "type": "function",
+        "file": "api.ts"
+      },
+      {
+        "name": "startSnapshotApi",
+        "line": 71,
+        "type": "function",
+        "file": "api.ts"
+      },
+      {
+        "name": "etagOf",
+        "line": 48,
+        "type": "function",
+        "file": "etag.ts"
+      }
+    ],
+    "classes": [],
+    "functions": [
+      {
+        "name": "getSnap",
+        "line": 17,
+        "type": "function",
+        "file": "api.ts"
+      },
+      {
+        "name": "listSnaps",
+        "line": 37,
+        "type": "function",
+        "file": "api.ts"
+      },
+      {
+        "name": "headSnap",
+        "line": 52,
+        "type": "function",
+        "file": "api.ts"
+      },
+      {
+        "name": "startSnapshotApi",
+        "line": 71,
+        "type": "function",
+        "file": "api.ts"
+      },
+      {
+        "name": "etagOf",
+        "line": 48,
+        "type": "function",
+        "file": "etag.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "api.ts",
+          "link": "[src/api.ts](../../../packages/snapshots/src/api.ts)",
+          "lineCount": 95
+        },
+        {
+          "name": "etag.ts",
+          "link": "[src/etag.ts](../../../packages/snapshots/src/etag.ts)",
+          "lineCount": 52
+        },
+        {
+          "name": "tests/api.test.ts",
+          "link": "[src/tests/api.test.ts](../../../packages/snapshots/src/tests/api.test.ts)",
+          "lineCount": 43
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [],
+      "functions": [
+        {
+          "name": "getSnap",
+          "link": "[getSnap()](../../../packages/snapshots/src/api.ts#L17)",
+          "file": "api.ts",
+          "line": 17
+        },
+        {
+          "name": "listSnaps",
+          "link": "[listSnaps()](../../../packages/snapshots/src/api.ts#L37)",
+          "file": "api.ts",
+          "line": 37
+        },
+        {
+          "name": "headSnap",
+          "link": "[headSnap()](../../../packages/snapshots/src/api.ts#L52)",
+          "file": "api.ts",
+          "line": 52
+        },
+        {
+          "name": "startSnapshotApi",
+          "link": "[startSnapshotApi()](../../../packages/snapshots/src/api.ts#L71)",
+          "file": "api.ts",
+          "line": 71
+        },
+        {
+          "name": "etagOf",
+          "link": "[etagOf()](../../../packages/snapshots/src/etag.ts#L48)",
+          "file": "etag.ts",
+          "line": 48
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

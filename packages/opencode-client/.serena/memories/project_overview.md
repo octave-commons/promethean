@@ -1,7 +1,7 @@
-# @promethean/opencode-client Project Overview
+# @promethean-os/opencode-client Project Overview
 
 ## Project Purpose
-The `@promethean/opencode-client` package serves as the primary CLI client and unified agent management system for the Promethean Framework. It provides seamless integration with OpenCode plugins, tools, and services through a powerful command-line interface and programmatic API.
+The `@promethean-os/opencode-client` package serves as the primary CLI client and unified agent management system for the Promethean Framework. It provides seamless integration with OpenCode plugins, tools, and services through a powerful command-line interface and programmatic API.
 
 ## Tech Stack
 - **Language**: TypeScript with strict type checking
@@ -11,8 +11,8 @@ The `@promethean/opencode-client` package serves as the primary CLI client and u
 - **Dependencies**:
   - @opencode-ai/plugin: ^0.15.7
   - @opencode-ai/sdk: ^0.15.7
-  - @promethean/ollama-queue: workspace:*
-  - @promethean/persistence: workspace:*
+  - @promethean-os/ollama-queue: workspace:*
+  - @promethean-os/persistence: workspace:*
   - Commander.js for CLI interface
   - Chalk for colored output
   - Inquirer for interactive prompts
@@ -78,9 +78,9 @@ src/
 6. **cli.ts**: Import ordering warnings (4 warnings)
 
 ## Integration Points
-- **@promethean/persistence**: Dual-store management for session and task persistence
-- **@promethean/ollama-queue**: Advanced LLM job queue with intelligent caching
-- **@promethean/kanban**: Task management and workflow integration
+- **@promethean-os/persistence**: Dual-store management for session and task persistence
+- **@promethean-os/ollama-queue**: Advanced LLM job queue with intelligent caching
+- **@promethean-os/kanban**: Task management and workflow integration
 - **MCP Server**: Model Context Protocol integration for enhanced tool access
 
 ## Development Guidelines

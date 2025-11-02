@@ -3,9 +3,9 @@ import * as path from 'path';
 import { pathToFileURL } from 'url';
 
 import ts from 'typescript';
-import { openLevelCache } from '@promethean/level-cache';
-import { scanFiles } from '@promethean/file-indexer-service';
-import { posToLine, getJsDocText, getNodeText, relFromRepo, parseArgs } from '@promethean/utils';
+import { openLevelCache } from '@promethean-os/level-cache';
+import { scanFiles } from '@promethean-os/file-indexer-service';
+import { posToLine, getJsDocText, getNodeText, relFromRepo, parseArgs } from '@promethean-os/utils';
 
 import { makeProgram, sha1 } from './utils.js';
 import type { FunctionInfo, FnKind } from './types.js';
@@ -23,6 +23,7 @@ export async function collectSourceFiles(root: string, exts: Set<string>): Promi
     root: resolvedRoot,
     exts,
     collect: true,
+    useDefaultIgnores: true, // Skip dotfiles and respect .gitignore
   });
   return (result.files ?? []).map((file) =>
     path.isAbsolute(file.path) ? path.resolve(file.path) : path.resolve(resolvedRoot, file.path),

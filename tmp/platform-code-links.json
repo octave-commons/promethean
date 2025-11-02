@@ -1,0 +1,333 @@
+{
+  "packageData": {
+    "packageName": "platform",
+    "files": [
+      {
+        "path": "events.ts",
+        "fullPath": "/home/err/devel/promethean/packages/platform/src/events.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 21
+      },
+      {
+        "path": "index.ts",
+        "fullPath": "/home/err/devel/promethean/packages/platform/src/index.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 6
+      },
+      {
+        "path": "provider-registry.ts",
+        "fullPath": "/home/err/devel/promethean/packages/platform/src/provider-registry.ts",
+        "exports": [
+          {
+            "name": "ProvidersFileSchema",
+            "line": 43,
+            "type": "function"
+          },
+          {
+            "name": "fileBackedRegistry",
+            "line": 46,
+            "type": "function"
+          },
+          {
+            "name": "expandEnv",
+            "line": 87,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "ProvidersFileSchema",
+            "line": 43,
+            "type": "function"
+          },
+          {
+            "name": "fileBackedRegistry",
+            "line": 46,
+            "type": "function"
+          },
+          {
+            "name": "expandEnv",
+            "line": 87,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 91
+      },
+      {
+        "path": "tests/provider-registry.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/platform/src/tests/provider-registry.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 23
+      },
+      {
+        "path": "tests/topic.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/platform/src/tests/topic.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 9
+      },
+      {
+        "path": "tests/urn.test.ts",
+        "fullPath": "/home/err/devel/promethean/packages/platform/src/tests/urn.test.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 11
+      },
+      {
+        "path": "topic.ts",
+        "fullPath": "/home/err/devel/promethean/packages/platform/src/topic.ts",
+        "exports": [
+          {
+            "name": "topic",
+            "line": 10,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "topic",
+            "line": 10,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 12
+      },
+      {
+        "path": "urn.ts",
+        "fullPath": "/home/err/devel/promethean/packages/platform/src/urn.ts",
+        "exports": [
+          {
+            "name": "toUrn",
+            "line": 1,
+            "type": "function"
+          },
+          {
+            "name": "fromUrn",
+            "line": 11,
+            "type": "function"
+          }
+        ],
+        "classes": [],
+        "functions": [
+          {
+            "name": "toUrn",
+            "line": 1,
+            "type": "function"
+          },
+          {
+            "name": "fromUrn",
+            "line": 11,
+            "type": "function"
+          }
+        ],
+        "interfaces": [],
+        "totalLines": 20
+      },
+      {
+        "path": "voice-events.ts",
+        "fullPath": "/home/err/devel/promethean/packages/platform/src/voice-events.ts",
+        "exports": [],
+        "classes": [],
+        "functions": [],
+        "interfaces": [],
+        "totalLines": 33
+      }
+    ],
+    "mainEntry": {
+      "path": "index.ts",
+      "exports": [],
+      "classes": [],
+      "functions": [],
+      "interfaces": [],
+      "totalLines": 6
+    },
+    "exports": [
+      {
+        "name": "ProvidersFileSchema",
+        "line": 43,
+        "type": "function",
+        "file": "provider-registry.ts"
+      },
+      {
+        "name": "fileBackedRegistry",
+        "line": 46,
+        "type": "function",
+        "file": "provider-registry.ts"
+      },
+      {
+        "name": "expandEnv",
+        "line": 87,
+        "type": "function",
+        "file": "provider-registry.ts"
+      },
+      {
+        "name": "topic",
+        "line": 10,
+        "type": "function",
+        "file": "topic.ts"
+      },
+      {
+        "name": "toUrn",
+        "line": 1,
+        "type": "function",
+        "file": "urn.ts"
+      },
+      {
+        "name": "fromUrn",
+        "line": 11,
+        "type": "function",
+        "file": "urn.ts"
+      }
+    ],
+    "classes": [],
+    "functions": [
+      {
+        "name": "ProvidersFileSchema",
+        "line": 43,
+        "type": "function",
+        "file": "provider-registry.ts"
+      },
+      {
+        "name": "fileBackedRegistry",
+        "line": 46,
+        "type": "function",
+        "file": "provider-registry.ts"
+      },
+      {
+        "name": "expandEnv",
+        "line": 87,
+        "type": "function",
+        "file": "provider-registry.ts"
+      },
+      {
+        "name": "topic",
+        "line": 10,
+        "type": "function",
+        "file": "topic.ts"
+      },
+      {
+        "name": "toUrn",
+        "line": 1,
+        "type": "function",
+        "file": "urn.ts"
+      },
+      {
+        "name": "fromUrn",
+        "line": 11,
+        "type": "function",
+        "file": "urn.ts"
+      }
+    ],
+    "interfaces": []
+  },
+  "links": {
+    "implementation": {
+      "coreFiles": [
+        {
+          "name": "events.ts",
+          "link": "[src/events.ts](../../../packages/platform/src/events.ts)",
+          "lineCount": 21
+        },
+        {
+          "name": "index.ts",
+          "link": "[src/index.ts](../../../packages/platform/src/index.ts)",
+          "lineCount": 6
+        },
+        {
+          "name": "provider-registry.ts",
+          "link": "[src/provider-registry.ts](../../../packages/platform/src/provider-registry.ts)",
+          "lineCount": 91
+        },
+        {
+          "name": "tests/provider-registry.test.ts",
+          "link": "[src/tests/provider-registry.test.ts](../../../packages/platform/src/tests/provider-registry.test.ts)",
+          "lineCount": 23
+        },
+        {
+          "name": "tests/topic.test.ts",
+          "link": "[src/tests/topic.test.ts](../../../packages/platform/src/tests/topic.test.ts)",
+          "lineCount": 9
+        },
+        {
+          "name": "tests/urn.test.ts",
+          "link": "[src/tests/urn.test.ts](../../../packages/platform/src/tests/urn.test.ts)",
+          "lineCount": 11
+        },
+        {
+          "name": "topic.ts",
+          "link": "[src/topic.ts](../../../packages/platform/src/topic.ts)",
+          "lineCount": 12
+        },
+        {
+          "name": "urn.ts",
+          "link": "[src/urn.ts](../../../packages/platform/src/urn.ts)",
+          "lineCount": 20
+        },
+        {
+          "name": "voice-events.ts",
+          "link": "[src/voice-events.ts](../../../packages/platform/src/voice-events.ts)",
+          "lineCount": 33
+        }
+      ]
+    },
+    "apiReference": {
+      "classes": [],
+      "functions": [
+        {
+          "name": "ProvidersFileSchema",
+          "link": "[ProvidersFileSchema()](../../../packages/platform/src/provider-registry.ts#L43)",
+          "file": "provider-registry.ts",
+          "line": 43
+        },
+        {
+          "name": "fileBackedRegistry",
+          "link": "[fileBackedRegistry()](../../../packages/platform/src/provider-registry.ts#L46)",
+          "file": "provider-registry.ts",
+          "line": 46
+        },
+        {
+          "name": "expandEnv",
+          "link": "[expandEnv()](../../../packages/platform/src/provider-registry.ts#L87)",
+          "file": "provider-registry.ts",
+          "line": 87
+        },
+        {
+          "name": "topic",
+          "link": "[topic()](../../../packages/platform/src/topic.ts#L10)",
+          "file": "topic.ts",
+          "line": 10
+        },
+        {
+          "name": "toUrn",
+          "link": "[toUrn()](../../../packages/platform/src/urn.ts#L1)",
+          "file": "urn.ts",
+          "line": 1
+        },
+        {
+          "name": "fromUrn",
+          "link": "[fromUrn()](../../../packages/platform/src/urn.ts#L11)",
+          "file": "urn.ts",
+          "line": 11
+        }
+      ],
+      "interfaces": []
+    }
+  }
+}

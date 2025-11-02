@@ -2,7 +2,7 @@ import * as path from "node:path";
 import { promises as fs } from "node:fs";
 
 import test from "ava";
-import { startProcessWithPort, shutdown } from "@promethean/test-utils";
+import { startProcessWithPort, shutdown } from "@promethean-os/test-utils";
 
 const PKG_ROOT = path.resolve(
   path.dirname(new URL(import.meta.url).pathname),
