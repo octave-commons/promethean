@@ -426,8 +426,6 @@ kanban-plugin: board
 - [ ] [[plugin-parity-002-multi-language-type-checker 2|Multi-Language Type-Checking Plugin]] #plugin #type-checking #multi-language #typescript #clojure #critical prio:P0 (uuid:d0fd5023-35f7-4e3b-aa65-e3a146ca31e4)
 - [ ] [[plugin-parity-002-multi-language-type-checker 3|Multi-Language Type-Checking Plugin]] #plugin #type-checking #multi-language #typescript #clojure #critical prio:P0 (uuid:9551a577-df60-4179-80a7-ee861d99459a)
 - [ ] [[plugin-parity-002-multi-language-type-checker|Multi-Language Type-Checking Plugin]] #plugin #type-checking #multi-language #typescript #clojure #critical prio:P0 (uuid:plugin-parity-002)
-- [ ] [[plugin-parity-004-security-interceptor 2|Security Interception System]] #plugin #security #interceptor #validation #critical prio:P0 (uuid:e7f53122-c7d5-46ba-af91-9ccb0fe1ac98)
-- [ ] [[plugin-parity-004-security-interceptor 3|Security Interception System]] #plugin #security #interceptor #validation #critical prio:P0 (uuid:9429f992-7217-47e3-a3e6-dab0b256c68f)
 - [ ] [[plugin-parity-004-security-interceptor|Security Interception System]] #plugin #security #interceptor #validation #critical prio:P0 (uuid:plugin-parity-004)
 - [ ] [[plugin-parity-005-enhanced-event-capture 2|Enhanced Event Capture with Semantic Search]] #plugin #event-capture #semantic-search #analytics #high prio:P1 (uuid:72c2551f-3a3f-46d5-9ecf-5f73d44dfe06)
 - [ ] [[plugin-parity-005-enhanced-event-capture 3|Enhanced Event Capture with Semantic Search]] #plugin #event-capture #semantic-search #analytics #high prio:P1 (uuid:724ddb30-21ca-47bf-b7e0-2f8b47ec53e9)
@@ -532,6 +530,8 @@ kanban-plugin: board
 
 ## rejected
 
+- [ ] [[plugin-parity-004-security-interceptor 3|Security Interception System]] #plugin #security #interceptor #validation #critical prio:P0 (uuid:9429f992-7217-47e3-a3e6-dab0b256c68f)
+- [ ] [[plugin-parity-004-security-interceptor 2|Security Interception System]] #plugin #security #interceptor #validation #critical prio:P0 (uuid:e7f53122-c7d5-46ba-af91-9ccb0fe1ac98)
 - [ ] [[security-gates-monitoring-coordination-status|Security Gates & Monitoring Integration - Coordination Status      )      )      )      )      )      )      )]] #coordination #security-gates #monitoring #integration-status prio:P0 (uuid:coord-status-$(date +%s))
 - [ ] [[security-gates-monitoring-coordination-status 2|Security Gates & Monitoring Integration - Coordination Status      )      )      )      )      )      )      )]] #coordination #security-gates #monitoring #integration-status prio:P0 (uuid:e15bd714-3833-418e-b0f6-18157f33523b)
 - [ ] [[0-why-these-building-blocks-quick-receipts|0) Why these building blocks (quick receipts)]] #docops #labeled prio:P3 (uuid:747260c6-3eb4-4fe8-b4e0-c576519c1df6)
