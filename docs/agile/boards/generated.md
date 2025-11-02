@@ -1,5 +1,7 @@
 ---
+
 kanban-plugin: board
+
 ---
 
 ## icebox
@@ -43,6 +45,7 @@ kanban-plugin: board
 - [ ] [[fix-test-gap-pipeline-timeout-configuration-for-tg-analysis-step-timeout-step-gap|Fix test-gap pipeline timeout configuration for tg-analysis step -gap]] #automation #pipeline #test-gap #timeout prio:P2 (uuid:89be3c4d-47d2-4815-aebf-adf7b7091403)
 - [ ] [[foobar is foobar]] #foobar #nothing #blocked #blocks (uuid:6948e490-e720-406d-9582-88e6683651fd)
 - [ ] [[report-generation-polish-testing-transition|Report Generation & Polish - Testing Transition Rule]] #kanban #transition-rules #testing-coverage #quality-gates #report-generation #documentation #frontmatter #polish prio:P0 (uuid:d4e5f6a7-b8c9-0123-def4-456789012345)
+
 
 ## incoming
 
@@ -265,6 +268,8 @@ kanban-plugin: board
 - [ ] [[test-malformed-yaml-detection|"Test Malformed YAML Detection"]] #test #validation prio:"P1" (uuid:"test-malformed-yaml-001")
 - [ ] [[testing]] #testing #nothing #blocked #blocks (uuid:fc52c605-7114-48a8-a75c-99788b0b1cc7)
 - [ ] [[unify-cli-tool-interfaces|Unify CLI and Tool Interfaces]] #cli #tools #interfaces #unification #epic3 prio:P1 (uuid:f3c311a0-de6a-44ba-90ac-ad8ab96f4699)
+- [ ] promethean git client
+
 
 ## accepted
 
@@ -293,6 +298,7 @@ kanban-plugin: board
 - [ ] [[resolve-todo-comments-technical-debt|Resolve TODO Comments and Technical Debt]] #technical-debt #todo-comments #cleanup #maintenance prio:P2 (uuid:e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8a9b)
 - [ ] [[standardize-documentation-pantheon-packages|Standardize Documentation Across Pantheon Packages]] #pantheon #documentation #standardization #quality #jsdoc prio:P1 (uuid:std-doc-pantheon-001)
 - [ ] [[standardize-error-handling-pantheon|Standardize Error Handling Across Pantheon Packages]] #pantheon #error-handling #standardization #quality #consistency prio:P1 (uuid:error-handling-pantheon-001)
+
 
 ## breakdown
 
@@ -324,7 +330,9 @@ kanban-plugin: board
 - [ ] [[merge-session-messaging-systems|Merge Session and Messaging Systems]] #sessions #messaging #consolidation #communication #epic3 prio:P0 (uuid:bc67bd50-c96c-4eba-8832-fa459caa864c)
 - [ ] [[standardize-configuration-validation-pantheon|Standardize Configuration Validation Across Pantheon Packages]] #pantheon #configuration #validation #standardization #quality prio:P1 (uuid:config-validation-pantheon-001)
 
+
 ## blocked
+
 
 
 ## ready
@@ -387,6 +395,7 @@ kanban-plugin: board
 - [ ] [[rewrite-shadow-conf-as-nbb|Rewrite @packages/shadow-conf/ as nbb script for program generation]] #migration #clojure #nbb #shadow-conf #program-generation prio:P1 (uuid:46d9372a-65f1-42b8-a024-3ce4449f67ec)
 - [ ] [[setup-unified-testing-framework|Set Up Unified Testing Framework]] #testing #framework #consolidation #quality #epic1 prio:P1 (uuid:bd317cc6-e645-4343-9f56-d927d9763cb1)
 
+
 ## todo
 
 - [ ] [[2025.10.16.06.00.46-agent-workflow-enhancement-healing-integration|Agent Workflow Enhancement & Healing Integration]] #agents #workflow #healing #automation #monitoring #coordination #kanban #integration prio:P1 (uuid:39e0890b-e7bd-45eb-88ff-292157d0cf54)
@@ -432,6 +441,7 @@ kanban-plugin: board
 - [ ] [[Process Healing Implementation for 53 Missing Tasks - P1 Priority]] #compliance #enforcement #process-healing #missing-tasks #synchronization prio:p1 (uuid:task-process-healing-implementation-p1)
 - [ ] [[WIP Limit Enforcement for AI Operations - P1 Priority]] #compliance #enforcement #wip-limits #ai-operations #monitoring prio:p1 (uuid:task-wip-limit-enforcement-p1)
 
+
 ## in_progress
 
 - [ ] [[Progress Update Scar Context Core Types and Interfaces (alternate read)|Progress Update: Scar Context Core Types and Interfaces (alternate read)]] #progress #kanban #scar-context prio:P1 (uuid:progress-Scar-Context-Types-Progress-20251025)
@@ -462,6 +472,7 @@ kanban-plugin: board
 - [ ] [[Progress Update Security Gates & Monitoring Coordination|Progress Update: Security Gates & Monitoring Coordination]] #progress #kanban #coordination prio:P0 (uuid:progress-security-coordination-20251025)
 - [ ] [[security-gates-monitoring-coordination-status|Security Gates & Monitoring Integration - Coordination Status      )      )      )      )      )      )      )]] #coordination #security-gates #monitoring #integration-status prio:P0 (uuid:coord-status-$(date +%s))
 
+
 ## testing
 
 - [ ] [[20251011235168|Implement Scar Context Builder]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #scar-context #context-builder #phase-1 prio:P1 (uuid:ca84477b-20d4-4d49-8457-96d3e9749b6a)
@@ -478,6 +489,7 @@ kanban-plugin: board
 - [ ] [[test-integration-task 3|Test Integration Task for Testing→Review Transition]] #testing #integration #coverage-validation prio:P0 (uuid:f350aee8-dc14-46d7-9ad2-69d16dedf36a)
 - [ ] [[test-integration-task|Test Integration Task for Testing→Review Transition]] #testing #integration #coverage-validation prio:P0 (uuid:test-integration-123)
 
+
 ## review
 
 - [ ] [[Address security vulnerabilities in @packages shadow-conf|Address security vulnerabilities in @packages/shadow-conf/]] #security #critical #shadow-conf #p0 #vulnerability #path-traversal prio:P0 (uuid:e3473da0-b7a0-4704-9a20-3b6adf3fa3f5)
@@ -487,10 +499,12 @@ kanban-plugin: board
 - [ ] [[Optimize build caching strategies]] #automation #buildfix #pipeline #cache prio:P1 (uuid:e134bc1d-222a-4e8c-9bbb-48f786986b5f)
 - [ ] [[Resolve ESLint violations in @packages shadow-conf|Resolve ESLint violations in @packages/shadow-conf/]] #code-quality #eslint #shadow-conf #p1 #linting prio:P1 (uuid:c76a82e5-758e-4585-880d-bf72c316695e)
 
+
 ## document
 
 - [ ] [[Design unified FSM architecture using existing foundations]] #fsm #packages #design #architecture #tool:analysis #env:no-egress prio:P0 (uuid:8b1add71-be76-4a34-8f24-b3f0eaac69d5)
 - [ ] [[resolve_biome_lint_errors_in_compiler|Resolve Biome lint errors in compiler package]] #biome #compiler #errors #lint prio:P3 (uuid:f758495c-717a-4455-9e08-8b3eae385e5e)
+
 
 ## done
 
@@ -519,16 +533,19 @@ kanban-plugin: board
 - [x] [[remove_any_types_across_packages|Remove `any` types across packages]] #any #packages #remove #types prio:P3 (uuid:fde8c516-a293-44e5-bab9-51a41ead5bb0)
 - [x] [[remove_commonjs_artifacts_repo_wide|Remove CommonJS artifacts from repository   -task -this   -task -this     -task -this         -task -this                 -task -this                                 -task -this]] #-task #-this #codex-task #doc-this prio:P2 (uuid:9c3d0d9f-6ac2-42ad-a999-b41c75b63969)
 
+
 ## rejected
 
 - [ ] [[0-why-these-building-blocks-quick-receipts|0) Why these building blocks (quick receipts)]] #docops #labeled prio:P3 (uuid:747260c6-3eb4-4fe8-b4e0-c576519c1df6)
 - [ ] [[design-agent-os-comprehensive-review-and-enhancement-5e6f7g8h|Agent OS Comprehensive Review and Enhancement]] #agent-os #comprehensive-review #enhancement #final-design #gaps-analysis prio:high (uuid:c0ab3f60-0a9c-4929-a1e6-f046db4aec06)
 - [ ] [[infrastructure-stability-cluster-build-system-type-safety-system|Infrastructure Stability Cluster - Build System & Type Safety -system]] #automation #build-system #cluster #infrastructure #typescript prio:P0 (uuid:b82a75e4-260b-4f20-ad06-94db01cd8eb2)
 
+
 ## archived
 
 - [ ] [[Coordinate Security Gates and Monitoring Integration]] #coordination #integration #security-gates #monitoring #project-management prio:P0 (uuid:89e4b7e6-feec-41c1-927c-c401ffa35f55)
 - [ ] [[implement-wip-limit-enforcement-gate|Implement WIP Limit Enforcement Gate]] #security-gates #wip-limits #automation #kanban-cli #capacity-management prio:P0 (uuid:f48b4765-bf7c-4d8e-9a3b-5d6e7f8a9b0c)
+
 
 ## in_review
 
@@ -537,6 +554,7 @@ kanban-plugin: board
 - [ ] [[Fix Kanban Column Underscore Normalization Bug]] #kanban #column #bug #fix prio:P0 (uuid:02c78938-cf9c-45a0-b5ff-6e7a212fb043)
 - [ ] [[cephalon_feature_flag_path_selection|cephalon feature flag path selection]] #cephalon #feature #flag #path prio:P3 (uuid:1bb6f2f2-bcca-4365-aa6f-7cab3cdf8269)
 
+
 ## superseded
 
 - [ ] [[enhance-kanban-process-validation|Enhance kanban process validation with acceptance criteria and Fibonacci scoring]] #automation #enhancement #kanban #process #superseded #validation prio:P2 (uuid:287b9607-3a44-409a-8194-58a1ed3d3a3f)
@@ -544,6 +562,9 @@ kanban-plugin: board
 - [ ] [[kanban-fsm-3]] #docops #labeled #superseded prio:P3 (uuid:35edb5ca-2996-4ea2-bd45-949fe6238035)
 - [ ] [[kanban-fsm-4]] #docops #labeled #superseded prio:P3 (uuid:c7706a26-441d-4921-84ce-00cf3c8e2682)
 - [ ] [[kanban-fsm]] #docops #labeled #superseded prio:P3 (uuid:ffe11354-b4c3-4376-beb2-5aba8fc24f14)
+
+
+
 
 %% kanban:settings
 ```
