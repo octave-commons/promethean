@@ -366,10 +366,7 @@ kanban-plugin: board
 - [ ] [[Fix misleading BuildFix error recovery]] #buildfix #critical #error-handling #provider prio:P0 (uuid:4fd0188e-177f-4f7a-8a12-4ec3178f6690)
 - [ ] [[Implement WIP Limit Enforcement Gate]] #security-gates #wip-limits #automation #kanban-cli #capacity-management prio:P0 (uuid:a666f910-5767-47b8-a8a8-d210411784f9)
 - [ ] [[Implement plugin hook types (plugin-parity-001)]] #plugin #event-driven #hooks prio:P0 (uuid:dd053a6b-201e-4dc4-b6d9-ce2c0436743d)
-- [ ] [[P0-Input-Validation-Integration-Subtasks 2|P0: Comprehensive Input Validation Integration - Subtask Breakdown]] #security #critical #input-validation #integration #framework #process-violation prio:P0 (uuid:21d9d487-815f-4763-a10a-0cec7988aef3)
-- [ ] [[P0-Input-Validation-Integration-Subtasks 3|P0: Comprehensive Input Validation Integration - Subtask Breakdown]] #security #critical #input-validation #integration #framework #process-violation prio:P0 (uuid:b680fc26-bd24-4c6f-985c-a111eba109f9)
 - [ ] [[P0-Input-Validation-Integration-Subtasks|P0: Comprehensive Input Validation Integration - Subtask Breakdown]] #security #critical #input-validation #integration #framework #process-violation prio:P0 (uuid:f44bbb50-subtask-001)
-- [ ] [[P0-MCP-Security-Hardening-Subtasks 2|P0: MCP Security Hardening & Validation - Subtask Breakdown]] #security #critical #mcp #hardening #validation #comprehensive prio:P0 (uuid:5ddebb05-0ca3-42a5-a282-9a5e75bb3e7a)
 - [ ] [[P0-MCP-Security-Hardening-Subtasks|P0: MCP Security Hardening & Validation - Subtask Breakdown]] #security #critical #mcp #hardening #validation #comprehensive prio:P0 (uuid:d794213f-subtask-001)
 - [ ] [[P0-Security-Implementation-Roadmap|P0 Security Implementation Roadmap & Coordination Plan]] #security #roadmap #coordination #implementation #critical prio:P0 (uuid:b6c5f483-roadmap)
 - [ ] [[phase-1-basic-feature-registry-cross-platform-compatibility|Phase 1: Basic Feature Registry - Cross-Platform Compatibility]] #cross-platform #feature-registry #foundation #compatibility prio:P1 (uuid:e0283b7a-phase1-003)
@@ -527,6 +524,9 @@ kanban-plugin: board
 
 ## rejected
 
+- [ ] [[P0-Input-Validation-Integration-Subtasks 2|P0: Comprehensive Input Validation Integration - Subtask Breakdown]] #security #critical #input-validation #integration #framework #process-violation prio:P0 (uuid:21d9d487-815f-4763-a10a-0cec7988aef3)
+- [ ] [[P0-Input-Validation-Integration-Subtasks 3|P0: Comprehensive Input Validation Integration - Subtask Breakdown]] #security #critical #input-validation #integration #framework #process-violation prio:P0 (uuid:b680fc26-bd24-4c6f-985c-a111eba109f9)
+- [ ] [[P0-MCP-Security-Hardening-Subtasks 2|P0: MCP Security Hardening & Validation - Subtask Breakdown]] #security #critical #mcp #hardening #validation #comprehensive prio:P0 (uuid:5ddebb05-0ca3-42a5-a282-9a5e75bb3e7a)
 - [ ] [[P0-MCP-Security-Hardening-Subtasks 3|P0: MCP Security Hardening & Validation - Subtask Breakdown]] #security #critical #mcp #hardening #validation #comprehensive prio:P0 (uuid:0a80a95e-82cd-42af-87a8-09fd35164eb6)
 - [ ] [[P0-Security-Implementation-Roadmap 2|P0 Security Implementation Roadmap & Coordination Plan]] #security #roadmap #coordination #implementation #critical prio:P0 (uuid:d13e399d-660d-4364-a989-ad38a25e84f3)
 - [ ] [[P0-Security-Implementation-Roadmap 3|P0 Security Implementation Roadmap & Coordination Plan]] #security #roadmap #coordination #implementation #critical prio:P0 (uuid:650faf58-6776-4fc4-bb75-0004a279d3f8)
