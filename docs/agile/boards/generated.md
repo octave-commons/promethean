@@ -355,7 +355,6 @@ kanban-plugin: board
 - [ ] [[Implement LLM-powered kanban explain command-2|Implement LLM-powered kanban explain command]] #llm #explain #command #kanban prio:P1 (uuid:6866f097-f4c8-485a-8c1d-78de260459d2)
 - [ ] [[Add @promethean autocommit package (LLM-generated commit messages) --tags framework-core,doc-this|Add @promethean-os/autocommit package (LLM-generated commit messages) --tags framework-core,doc-this]] #autocommit #package #llm #generated prio:P1 (uuid:afaec0f2-41a6-4676-a98e-1882d5a9ed4a)
 - [ ] [[Add BuildFix process timeout handling]] #buildfix #critical #timeout #provider prio:P0 (uuid:e02ca039-c992-431d-81ff-bdabddb2502d)
-- [ ] [[Add comprehensive input validation to indexer-core]] #security #validation #indexer-core #input-sanitization prio:P1 (uuid:275a6b80-0c0c-4c78-a6d0-bc3d9b098b40)
 - [ ] [[BuildFix Provider Optimization Epic]] #buildfix #epic #optimization #provider prio:P0 (uuid:8ec5fd9d-f58a-46a1-abd2-da4f56b2ffa7)
 - [ ] [[BuildFix Success Rate Improvement Epic]] #buildfix #epic #success-rate #functionality prio:P0 (uuid:6f392c81-d71b-48d9-ba68-1ff13ae8d0c4)
 - [ ] [[Comprehensive Kanban Board Analysis - Strategic Insights & Recommendations]] #analysis #governance #health-check #recommendations #strategy prio:P1 (uuid:bac7cd41-7bf8-4698-84b3-db6b31b966ed)
@@ -524,6 +523,7 @@ kanban-plugin: board
 
 ## rejected
 
+- [ ] [[Add comprehensive input validation to indexer-core]] #security #validation #indexer-core #input-sanitization prio:P1 (uuid:275a6b80-0c0c-4c78-a6d0-bc3d9b098b40)
 - [ ] [[P0-Input-Validation-Integration-Subtasks 2|P0: Comprehensive Input Validation Integration - Subtask Breakdown]] #security #critical #input-validation #integration #framework #process-violation prio:P0 (uuid:21d9d487-815f-4763-a10a-0cec7988aef3)
 - [ ] [[P0-Input-Validation-Integration-Subtasks 3|P0: Comprehensive Input Validation Integration - Subtask Breakdown]] #security #critical #input-validation #integration #framework #process-violation prio:P0 (uuid:b680fc26-bd24-4c6f-985c-a111eba109f9)
 - [ ] [[P0-MCP-Security-Hardening-Subtasks 2|P0: MCP Security Hardening & Validation - Subtask Breakdown]] #security #critical #mcp #hardening #validation #comprehensive prio:P0 (uuid:5ddebb05-0ca3-42a5-a282-9a5e75bb3e7a)
