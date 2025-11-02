@@ -370,7 +370,6 @@ kanban-plugin: board
 - [ ] [[P0-Input-Validation-Integration-Subtasks 3|P0: Comprehensive Input Validation Integration - Subtask Breakdown]] #security #critical #input-validation #integration #framework #process-violation prio:P0 (uuid:b680fc26-bd24-4c6f-985c-a111eba109f9)
 - [ ] [[P0-Input-Validation-Integration-Subtasks|P0: Comprehensive Input Validation Integration - Subtask Breakdown]] #security #critical #input-validation #integration #framework #process-violation prio:P0 (uuid:f44bbb50-subtask-001)
 - [ ] [[P0-MCP-Security-Hardening-Subtasks 2|P0: MCP Security Hardening & Validation - Subtask Breakdown]] #security #critical #mcp #hardening #validation #comprehensive prio:P0 (uuid:5ddebb05-0ca3-42a5-a282-9a5e75bb3e7a)
-- [ ] [[P0-MCP-Security-Hardening-Subtasks 3|P0: MCP Security Hardening & Validation - Subtask Breakdown]] #security #critical #mcp #hardening #validation #comprehensive prio:P0 (uuid:0a80a95e-82cd-42af-87a8-09fd35164eb6)
 - [ ] [[P0-MCP-Security-Hardening-Subtasks|P0: MCP Security Hardening & Validation - Subtask Breakdown]] #security #critical #mcp #hardening #validation #comprehensive prio:P0 (uuid:d794213f-subtask-001)
 - [ ] [[P0-Security-Implementation-Roadmap|P0 Security Implementation Roadmap & Coordination Plan]] #security #roadmap #coordination #implementation #critical prio:P0 (uuid:b6c5f483-roadmap)
 - [ ] [[phase-1-basic-feature-registry-cross-platform-compatibility|Phase 1: Basic Feature Registry - Cross-Platform Compatibility]] #cross-platform #feature-registry #foundation #compatibility prio:P1 (uuid:e0283b7a-phase1-003)
@@ -528,6 +527,7 @@ kanban-plugin: board
 
 ## rejected
 
+- [ ] [[P0-MCP-Security-Hardening-Subtasks 3|P0: MCP Security Hardening & Validation - Subtask Breakdown]] #security #critical #mcp #hardening #validation #comprehensive prio:P0 (uuid:0a80a95e-82cd-42af-87a8-09fd35164eb6)
 - [ ] [[P0-Security-Implementation-Roadmap 2|P0 Security Implementation Roadmap & Coordination Plan]] #security #roadmap #coordination #implementation #critical prio:P0 (uuid:d13e399d-660d-4364-a989-ad38a25e84f3)
 - [ ] [[P0-Security-Implementation-Roadmap 3|P0 Security Implementation Roadmap & Coordination Plan]] #security #roadmap #coordination #implementation #critical prio:P0 (uuid:650faf58-6776-4fc4-bb75-0004a279d3f8)
 - [ ] [[plugin-parity-004-security-interceptor 3|Security Interception System]] #plugin #security #interceptor #validation #critical prio:P0 (uuid:9429f992-7217-47e3-a3e6-dab0b256c68f)
