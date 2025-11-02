@@ -335,6 +335,15 @@ kanban-plugin: board
 
 ## ready
 
+- [ ] [[Complete breakdown for P0 security tasks]] #breakdown #tasks #complete #security prio:P0 (uuid:b6c5f483-0893-4144-a0cf-f97ffd2b6b74)
+- [ ] [[Implement MCP Authentication & Authorization Layer]] #mcp #kanban #security #authentication #authorization #critical prio:P0 (uuid:86765f2a-9539-4443-baa2-a0bd37195385)
+- [ ] [[Progress Update Security Gates & Monitoring Coordination|Progress Update: Security Gates & Monitoring Coordination]] #progress #kanban #coordination prio:P0 (uuid:progress-security-coordination-20251025)
+- [ ] [[security-gates-monitoring-coordination-status 3|Security Gates & Monitoring Integration - Coordination Status      )      )      )      )      )      )      )]] #coordination #security-gates #monitoring #integration-status prio:P0 (uuid:0b14701a-3163-488f-8df7-fc58e20795f1)
+- [ ] [[plugin-parity-004-security-interceptor|Security Interception System]] #plugin #security #interceptor #validation #critical prio:P0 (uuid:plugin-parity-004)
+- [ ] [[MCP-Kanban Integration Healing & Enhancement]] #mcp #kanban #security #critical #healing #authorization #automation #integration prio:P0 (uuid:44d293b0-6d6b-4e85-8453-ea03be231c83)
+- [ ] [[fix-taskai-manager-environment-pollution|Fix TaskAIManager Environment Variable Pollution - Security Issue]] #critical #security #bugfix #ai-integration #environment prio:P0 (uuid:4c8575db-873a-4b28-839d-ac0ea609a8be)
+- [ ] [[Parallel Security Testing Pipeline]] #security #testing #critical #parallel #pipeline prio:P0 (uuid:40e07691-40bb-45c1-9eb8-aedc9433e9cc)
+- [ ] [[P0-Security-Task-Validation-Gate|Implement P0 Security Task Validation Gate]] #security #validation #gate #P0 #critical #tool:security-validator #env:production prio:P0 (uuid:2cd46676-ae6f-4c8d-9b3a-4c5d6e7f8a9b)
 - [ ] [[Implement P0 Security Task Validation Gate]] #security-gates #automation #p0-validation #kanban-cli #process-compliance prio:P0 (uuid:dfa8c193-b745-41db-b360-b5fbf1d40f22)
 - [ ] [[011f7e11-fix-pnpm-kanban-create-hanging-bug|Fix recurring pnpm kanban create hanging bug]] #bugfix #critical #kanban #hanging #file-io #git-tracking #duplicate-detection prio:P0 (uuid:011f7e11-b408-4651-92e1-33216ea80b89)
 - [ ] [[Kanban System Health Monitoring & Alerting Framework]] #kanban #health-monitoring #automation #alerting #framework #mcp-integration #healing prio:P1 (uuid:3308ce11-0321-4bc2-a4be-bdf5e5e8701a)
@@ -402,7 +411,6 @@ kanban-plugin: board
 - [ ] [[2025.10.22.cross-platform-error-handling.md|Implement Cross-Platform Error Handling Framework]] #architecture #implementation #cross-platform #error-handling prio:P0 (uuid:e5f6g7h8-i9j0-1234-efgh-i567890123456)
 - [ ] [[20251011235236|Extend Git Sync for Heal Operations]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #git-workflow #git-sync #phase-1 prio:P1 (uuid:4e88db40-884c-4aed-8412-3de9fd78bd02)
 - [ ] [[create-taskai-manager-comprehensive-documentation|Create TaskAIManager Comprehensive Documentation Suite]] #documentation #ai-integration #kanban #developer-experience prio:P1 (uuid:28c0e516-42f3-4ec3-a9f1-c36fd3807c12)
-- [ ] [[fix-taskai-manager-environment-pollution|Fix TaskAIManager Environment Variable Pollution - Security Issue]] #critical #security #bugfix #ai-integration #environment prio:P0 (uuid:4c8575db-873a-4b28-839d-ac0ea609a8be)
 - [ ] [[fix-taskai-manager-mock-cache|Fix TaskAIManager Mock Cache Implementation - Critical Production Issue]] #critical #bugfix #ai-integration #kanban #production-ready prio:P0 (uuid:6859f9a9-8c1e-452d-9309-f653d339a641)
 - [ ] [[implement-taskai-manager-kanban-workflow-compliance|Implement TaskAIManager Kanban Workflow Compliance]] #critical #kanban #workflow #compliance #ai-integration prio:P0 (uuid:8c999b13-822a-460e-89e4-cc4dd1899f2b)
 - [ ] [[Add BuildFix JSDoc comments and documentation]] #buildfix #documentation #medium #provider prio:P2 (uuid:e9bc3b09-b31e-468a-9e0e-5257db68bb72)
@@ -415,7 +423,6 @@ kanban-plugin: board
 - [ ] [[Improve BuildFix error message consistency]] #buildfix #error-handling #medium #provider prio:P2 (uuid:8633270e-f36e-4e31-a9d1-2e53977f1633)
 - [ ] [[Investigate kanban estimates parsing issue]] #estimates #parsing #kanban #investigate prio:P1 (uuid:63170945-c1e5-488e-886a-9a38624274b5)
 - [ ] [[Kanban Healing Epic - Coordination & Integration]] #epic #kanban #healing #coordination #integration #automation #monitoring #quality prio:P0 (uuid:ae67a6bb-1192-4439-a1ce-347824ce7eb7)
-- [ ] [[MCP-Kanban Integration Healing & Enhancement]] #mcp #kanban #security #critical #healing #authorization #automation #integration prio:P0 (uuid:44d293b0-6d6b-4e85-8453-ea03be231c83)
 - [ ] [[Optimize kanban board flow and WIP limits]] #flow #board #wip #optimize prio:P1 (uuid:39880f3a-3ddb-4346-828d-40393d747687)
 - [ ] [[add-test-suite-pantheon-persistence|Add comprehensive test suite for pantheon-persistence]] #pantheon #persistence #testing #coverage #medium-priority prio:medium (uuid:35a4ad51-c90f-407c-88e0-29b66b0ad75f)
 - [ ] [[replace-taskai-manager-hardcoded-ai-generators|Replace TaskAIManager Hardcoded AI Generators with Real AI Integration]] #ai-integration #hardcoded #real-ai #llm #pantheon prio:P1 (uuid:bac4e967-de4a-49bd-999a-fec4a60bf572)
@@ -427,7 +434,6 @@ kanban-plugin: board
 - [ ] [[plugin-parity-002-multi-language-type-checker 2|Multi-Language Type-Checking Plugin]] #plugin #type-checking #multi-language #typescript #clojure #critical prio:P0 (uuid:d0fd5023-35f7-4e3b-aa65-e3a146ca31e4)
 - [ ] [[plugin-parity-002-multi-language-type-checker 3|Multi-Language Type-Checking Plugin]] #plugin #type-checking #multi-language #typescript #clojure #critical prio:P0 (uuid:9551a577-df60-4179-80a7-ee861d99459a)
 - [ ] [[plugin-parity-002-multi-language-type-checker|Multi-Language Type-Checking Plugin]] #plugin #type-checking #multi-language #typescript #clojure #critical prio:P0 (uuid:plugin-parity-002)
-- [ ] [[plugin-parity-004-security-interceptor|Security Interception System]] #plugin #security #interceptor #validation #critical prio:P0 (uuid:plugin-parity-004)
 - [ ] [[plugin-parity-005-enhanced-event-capture 2|Enhanced Event Capture with Semantic Search]] #plugin #event-capture #semantic-search #analytics #high prio:P1 (uuid:72c2551f-3a3f-46d5-9ecf-5f73d44dfe06)
 - [ ] [[plugin-parity-005-enhanced-event-capture 3|Enhanced Event Capture with Semantic Search]] #plugin #event-capture #semantic-search #analytics #high prio:P1 (uuid:724ddb30-21ca-47bf-b7e0-2f8b47ec53e9)
 - [ ] [[plugin-parity-005-enhanced-event-capture|Enhanced Event Capture with Semantic Search]] #plugin #event-capture #semantic-search #analytics #high prio:P1 (uuid:plugin-parity-005)
@@ -449,8 +455,6 @@ kanban-plugin: board
 - [ ] [[Design Agent OS Core Message Protocol]] #agent-os #protocol #messaging #core #design #critical prio:P0 (uuid:0c3189e4-4c58-4be4-b9b0-8e69474e0047)
 - [ ] [[Progress Update Implement Automated Compliance Monitoring System|Progress Update: Implement Automated Compliance Monitoring System]] #progress #kanban #compliance prio:P0 (uuid:progress-automated-compliance-20251025)
 - [ ] [[Implement Automated Compliance Monitoring System]] #monitoring #automation #compliance #real-time #alerting prio:P0 (uuid:fbc2b53d-0878-44f8-a6a3-96ee83f0b492)
-- [ ] [[P0-Security-Task-Validation-Gate|Implement P0 Security Task Validation Gate]] #security #validation #gate #P0 #critical #tool:security-validator #env:production prio:P0 (uuid:2cd46676-ae6f-4c8d-9b3a-4c5d6e7f8a9b)
-- [ ] [[Parallel Security Testing Pipeline]] #security #testing #critical #parallel #pipeline prio:P0 (uuid:40e07691-40bb-45c1-9eb8-aedc9433e9cc)
 - [ ] [[Progress Update Scar Context Core Types and Interfaces|Progress Update: Scar Context Core Types and Interfaces]] #progress #kanban #scar-context prio:P1 (uuid:progress-scar-context-20251025)
 - [ ] [[add-error-handling-pantheon-persistence|Add comprehensive error handling to pantheon-persistence]] #pantheon #persistence #error-handling #validation #high-priority prio:high (uuid:6f0f2c88-13ea-44c6-a4b9-20a12b8541bf)
 - [ ] [[bc61f5f6-break-down-kanban-functional-architecture|Break down kanban.ts into functional architecture]] #refactoring #architecture #kanban #functional-programming #code-quality prio:P1 (uuid:bc61f5f6-302a-4e58-b023-597430a8b5f2)
@@ -463,8 +467,6 @@ kanban-plugin: board
 - [ ] [[plugin-parity-001-event-driven-hooks 3|Event-Driven Plugin Hooks]] #plugin #event-driven #hooks #architecture #critical prio:P0 (uuid:2d37dbb7-daf1-47e2-a3f2-2eb328769b11)
 - [ ] [[Progress Update Event-Driven Plugin Hooks|Progress Update: Event-Driven Plugin Hooks]] #progress #kanban #plugin-hooks prio:P0 (uuid:progress-plugin-hooks-001)
 - [ ] [[plugin-parity-001-event-driven-hooks|Event-Driven Plugin Hooks]] #plugin #event-driven #hooks #architecture #critical prio:P0 (uuid:plugin-parity-001)
-- [ ] [[security-gates-monitoring-coordination-status 3|Security Gates & Monitoring Integration - Coordination Status      )      )      )      )      )      )      )]] #coordination #security-gates #monitoring #integration-status prio:P0 (uuid:0b14701a-3163-488f-8df7-fc58e20795f1)
-- [ ] [[Progress Update Security Gates & Monitoring Coordination|Progress Update: Security Gates & Monitoring Coordination]] #progress #kanban #coordination prio:P0 (uuid:progress-security-coordination-20251025)
 
 
 ## testing
@@ -472,9 +474,7 @@ kanban-plugin: board
 - [ ] [[20251011235168|Implement Scar Context Builder]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #scar-context #context-builder #phase-1 prio:P1 (uuid:ca84477b-20d4-4d49-8457-96d3e9749b6a)
 - [ ] [[20251011235189|Implement LLM Integration for Context Enhancement]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #scar-context #llm-integration #phase-1 prio:P1 (uuid:3ca4b85d-0c71-4e45-bf4a-01a16b990a70)
 - [ ] [[20251011235256|Implement Git Tag Management and Scar History]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #git-workflow #tag-management #scar-history #phase-1 prio:P1 (uuid:86e86422-5956-4df9-97f7-90a7256b744d)
-- [ ] [[Complete breakdown for P0 security tasks]] #breakdown #tasks #complete #security prio:P0 (uuid:b6c5f483-0893-4144-a0cf-f97ffd2b6b74)
 - [ ] [[Create MCP-Kanban Bridge API]] #mcp #kanban #api #bridge #synchronization #critical prio:P0 (uuid:07b10989-e06c-4c6b-87b9-80ce169b7660)
-- [ ] [[Implement MCP Authentication & Authorization Layer]] #mcp #kanban #security #authentication #authorization #critical prio:P0 (uuid:86765f2a-9539-4443-baa2-a0bd37195385)
 - [ ] [[Implement Natural Language Command Parser]] #agent-os #nlp #parser #commands #natural-language #critical prio:P0 (uuid:52c48585-42e1-47ce-bc2c-c46686c1ca53)
 - [ ] [[create-consolidated-package-structure|Create Consolidated Package Structure]] #package-structure #consolidation #setup #foundation #epic1 prio:P0 (uuid:4f276b91-5107-4a58-9499-e93424ba2edd)
 - [ ] [[infrastructure-stability-cluster|Infrastructure Stability Cluster - Build System & Type Safety]] #automation #build-system #cluster #infrastructure #typescript #delegated #devops-orchestrator prio:P0 (uuid:3716d59f-0ddf-47d4-a603-5b7620ca941f)
@@ -486,7 +486,6 @@ kanban-plugin: board
 
 ## review
 
-- [ ] [[Address security vulnerabilities in @packages shadow-conf|Address security vulnerabilities in @packages/shadow-conf/]] #security #critical #shadow-conf #p0 #vulnerability #path-traversal prio:P0 (uuid:e3473da0-b7a0-4704-9a20-3b6adf3fa3f5)
 - [ ] [[Create optimized build pipeline with parallel jobs]] #automation #buildfix #pipeline #parallel prio:P1 (uuid:2f160835-dd8b-4a25-a512-d5fde95bcd6c)
 - [ ] [[Fix TypeScript compilation errors in @packages shadow-conf|Fix TypeScript compilation errors in @packages/shadow-conf/]] #critical #typescript #compilation #shadow-conf #p0 #build-fix prio:P0 (uuid:530efcaa-d246-4a44-a27c-e66633216d7d)
 - [ ] [[Fix kanban created_at timestamp preservation during task operations]] #bugfix #critical #kanban #timestamp #data-integrity #typescript prio:P0 (uuid:07358cf3-317b-492d-a37e-51eb45ea8ec9)
@@ -502,6 +501,7 @@ kanban-plugin: board
 
 ## done
 
+- [ ] [[Address security vulnerabilities in @packages shadow-conf|Address security vulnerabilities in @packages/shadow-conf/]] #security #critical #shadow-conf #p0 #vulnerability #path-traversal prio:P0 (uuid:e3473da0-b7a0-4704-9a20-3b6adf3fa3f5)
 - [x] [[2025.10.08.16.00.00-create-omni-service-package|Task ad174e6a]] #fastify #omni #scaffolding #service prio:P2 (uuid:ad174e6a-d4bb-4292-9b32-8572e4eca8cb)
 - [x] [[2025.10.08.16.10.00-mount-omni-adapters|Task c04967e5]] #adapters #integration #omni #service prio:P2 (uuid:c04967e5-0295-4711-b8a3-6a1e5e104c17)
 - [x] [[2025.10.08.16.15.00-omni-service-integration-tests|Task 0e98fc4f]] #ci #deployment #omni #service #testing prio:P2 (uuid:0e98fc4f-3c53-4f86-8470-096437b4ff62)
@@ -566,6 +566,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,false,true,false,false,true,false,false,false,false,true,true,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","list-collapse":[false,false,true,false,false,false,false,false,false,false,true,true,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%
